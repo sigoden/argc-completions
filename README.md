@@ -1,6 +1,6 @@
 # Argc-Completions
 
-Easily create/use cross-shell completion scripts
+Easily create/use cross-shell completion scripts.
 
 ## How to use
 
@@ -45,7 +45,7 @@ if(Test-Path $HOME + "\.argc-completions\argc.ps1") {
 }
 ```
 
-> Windows need to install git-bash, and set `$ARGC_COMPLETIONS_GIT_BASH="C:\Program Files\Git\bin\bash.exe"`
+> Windows need to install git-bash, set `$ARGC_COMPLETIONS_GIT_BASH="C:\Program Files\Git\bin\bash.exe"`
 
 ## How to write
 
