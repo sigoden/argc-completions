@@ -6,38 +6,30 @@ Easily create/use cross-shell completion scripts.
 
 ### Install argc
 
-#### With cargo
+View the [argc installation guide](https://github.com/sigoden/argc#install).
 
-```
-cargo install argc
-```
-
-#### Binaries on macOS, Linux, Windows
-
-Download from [Github Releases](https://github.com/sigoden/argc/releases), unzip and add argc to your $PATH.
-
-### Add entryfile
+### Add to shell rcfile
 
 ```
 git clone https://github.com/sigoden/argc-completions $HOME/.argc-completions
 ```
 
-For bash, add following code to `.bashrc`
+For bash, add the following code to `.bashrc`.
 ```
 [[ -f "$HOME/.argc-completions/argc.bash" ]] && source "$HOME/.argc-completions/argc.bash" 
 ```
 
-For zsh, add following code to `.zsh`
+For zsh, add the following code to `.zshrc`.
 ```
 [[ -f "$HOME/.argc-completions/argc.zsh" ]] && source "$HOME/.argc-completions/argc.zsh" 
 ```
 
-For fish, add following code
+For fish, add the following code to `config.fish`.
 ```
 test -e "$HOME/.argc-completions/argc.fish" && source "$HOME/.argc-completions/argc.fish" 
 ```
 
-For powershell, add following code to `$PROFILE`
+For PowerShell, add the following code to `$PROFILE`.
 
 ```
 if(Test-Path $HOME + "\.argc-completions\argc.ps1") {
@@ -45,21 +37,40 @@ if(Test-Path $HOME + "\.argc-completions\argc.ps1") {
 }
 ```
 
+<<<<<<< HEAD
 > Windows need to install git-bash, set `$ARGC_COMPLETIONS_GIT_BASH="C:\Program Files\Git\bin\bash.exe"`
+=======
+> If you are using Windows, you need to install git-bash and set `$ARGC_COMPLETIONS_GIT_BASH="C:\Program Files\Git\bin\bash.exe"`.
+>>>>>>> feat-autogen
 
 ## How to write
 
-### Automatically generate with website
+### Automatically generate with GPT
 
+You need to install the [aichat](https://github.com/sigoden/aichat) tool to interact with GPT.
+
+If the command has subcommands:
+
+```
+./generate.sh with-subcmd mycmd
+```
+
+If the command has no subcommand:
+
+```
+./generate.sh no-subcmd mycmd
+```
+
+If successful, A completion script will be generated at `completions/mycmd.sh`.
 
 ### Manually write with argc
 
-View the [argc manual](https://github.com/sigoden/argc)
+View the [argc manual](https://github.com/sigoden/argc#comment-tags).
 
 ## License
 
 Copyright (c) 2022 sigoden.
 
-argc is made available under the terms of either the MIT License. 
+argc is made available under the terms of the MIT License. 
 
-See LICENSE file for license details.
+See the LICENSE file for license details.

@@ -3,9 +3,7 @@ set ARGC_COMPLETIONS_SCRIPTS (ls -1 "$ARGC_COMPELTIONS_BASE_DIR/completions" | s
 set -q ARGC_COMPLETIONS_GIT_BASH || set ARGC_COMPLETIONS_GIT_BASH bash
 
 function __fish_complete_argc_scripts
-    echo START > /tmp/file1
     set -l tokens (commandline -c | string trim -l | string split " " --)
-    printf "%s\n" $tokens[1] > /tmp/file1
     set -l bin (basename $tokens[1])
     set -l argcfile "$ARGC_COMPELTIONS_BASE_DIR/completions/$bin.sh"
     if test -z $argcfile

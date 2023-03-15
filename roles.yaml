@@ -1,0 +1,196 @@
+# AIchat roles file
+
+- name: has-subcmd-help
+  prompt: |
+    Extract all subcommands, options and positional arguments in the help text and translate it into json,
+    Purge description from the output json.
+    The short name of the option starts with a single dash followed by one character
+    The long name of the option starts with a double dash.
+    The value notation of the option are usually enclosed in [] or <> and placed between the option's long name and description.
+    ## Help Text 1
+    Command description
+    Usage: cmd1 [command] [flag]
+    Group name 1:
+          add                  Long subcommand description, split
+                               to multiple lines.
+      i, install               Description of subcommand install
+    Group name 2:
+          outdated             Description of subcommand outdated
+      t, test                  Description of subcommand test
+    Options:
+      -r, --recursive          Description of global option recursive
+    ## Translated JSON 1
+    {
+      "options": [
+        {
+          "long": "recursive",
+          "short": "r"
+        }
+      ],
+      "commands": [
+        {
+          "name": "add"
+        },
+        {
+          "name": "install",
+          "aliases": ["i"]
+        },
+        {
+          "name": "outdated",
+          "aliases": []
+        },
+        {
+          "name": "test",
+          "aliases": ["t"]
+        }
+      ]
+    }
+    ## Help Text 2
+    Command description
+    Usage: cargo [+toolchain] [OPTIONS] [COMMAND]
+    Options:
+        --list                 Description of global option list
+    -v, --verbose...           Description of global option verbose
+        --color <WHEN>         Values: auto, always, never
+    -q, --quiet                Description of global option quite
+    -a, --auth-method <value>  Description of global option auth method, [possible values: basic, digest]
+        --size [NUM]           Description of global option size
+    -p, --prompt <TEXT>        Description of global option prompt
+    Commands:
+      build, b       Description of subcommand build
+      bench          Description of subcommand bench
+    ## Translated JSON 2
+    {
+      "options": [
+        {
+          "long": "list",
+          "notation": null
+        },
+        {
+          "long": "verbose",
+          "notation": null,
+          "short": "v",
+          "multiple": true
+        },
+        {
+          "long": "color",
+          "notation": "<WHEN>",
+          "choices": ["auto", "always", "never"]
+        },
+        {
+          "long": "quiet",
+          "notation": null,
+          "short": "q"
+        },
+        {
+          "long": "auth-mothod",
+          "notation": null,
+          "short": "a",
+          "choices": ["basic", "digest"]
+        },
+        {
+          "long": "size",
+          "notation": "[NUM]"
+        },
+        {
+          "long": "prompt",
+          "notation": "<TEXT>",
+          "short": "p"
+        }
+      ],
+      "commands": [
+        {
+          "name": "build",
+          "aliases": ["b"]
+        },
+        {
+          "name": "bench"
+        }
+      ]
+    }
+    ## Help Text I provides
+    __INPUT__
+    ## Translated JSON you replys
+
+- name: no-subcmd-help
+  prompt: |
+    Extract all options and positional arguments in the help text and translate it into json,
+    Purge description from the output json.
+    The short name of the option starts with a single dash followed by one character
+    The long name of the option starts with a double dash.
+    The value notation of the option are usually enclosed in [] or <> and placed between the option's long name and description.
+    ## Help Text 1
+    ARGS:
+      [FILE1]         Description of positional argument 
+      <FILE2>         Description of positional argument 
+      [FILE3]...      Description of positional argument 
+      <FILE4>...      Description of positional argument
+    Options:
+        --list                 Description of global option list
+    -v, --verbose...           Description of global option verbose
+        --color <WHEN>         Values: auto, always, never
+    -q, --quiet                Description of global option quite
+    -a, --auth-method <value>  Description of global option auth method, [possible values: basic, digest]
+        --size [NUM]           Description of global option size
+    -p, --prompt <TEXT>        Description of global option prompt
+    ## Translated JSON 1
+    {
+      "options": [
+        {
+          "long": "list",
+          "notation": null
+        },
+        {
+          "long": "verbose",
+          "notation": null,
+          "short": "v",
+          "multiple": true
+        },
+        {
+          "long": "color",
+          "notation": "<WHEN>",
+          "choices": ["auto", "always", "never"]
+        },
+        {
+          "long": "quiet",
+          "notation": null,
+          "short": "q"
+        },
+        {
+          "long": "auth-mothod",
+          "notation": null,
+          "short": "a",
+          "choices": ["basic", "digest"]
+        },
+        {
+          "long": "size",
+          "notation": "[NUM]"
+        },
+        {
+          "long": "prompt",
+          "notation": "<TEXT>",
+          "short": "p"
+        }
+      ],
+      "arguments": [
+        {
+          "name": "FILE1",
+          "multiple": false
+        },
+        {
+          "name": "FILE2",
+          "multiple": false
+        },
+        {
+          "name": "FILE3",
+          "multiple": true
+        },
+        {
+          "name": "FILE4",
+          "multiple": true
+        }
+      ]
+    }
+    ## Help Text I provides
+    __INPUT__
+    ## Translated JSON you replys
