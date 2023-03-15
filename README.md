@@ -37,11 +37,7 @@ if(Test-Path $HOME + "\.argc-completions\argc.ps1") {
 }
 ```
 
-<<<<<<< HEAD
-> Windows need to install git-bash, set `$ARGC_COMPLETIONS_GIT_BASH="C:\Program Files\Git\bin\bash.exe"`
-=======
 > If you are using Windows, you need to install git-bash and set `$ARGC_COMPLETIONS_GIT_BASH="C:\Program Files\Git\bin\bash.exe"`.
->>>>>>> feat-autogen
 
 ## How to write
 
