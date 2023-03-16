@@ -79,12 +79,12 @@ handle_parameters() {
 handle_option() {
     local json=$(echo "$1" | base64 --decode)
     local line=""
-    local long=$(echo "$json" | jq -r '.long')
+    local name=$(echo "$json" | jq -r '.name')
     local short=$(echo "$json" | jq -r '.short')
     local multiple=$(echo "$json" | jq -r '.multiple')
     local notation=$(echo "$json" | jq -r '.notation')
     local choices=$(echo "$json" | jq -r '.choices[]?' | tr '\n' '|' | sed 's/|$//')
-    if [[ "$long" == "help" ]] || [[ "$long" == "version" ]]; then
+    if [[ "$name" == "help" ]] || [[ "$name" == "version" ]]; then
         return
     fi
     if [[ "$notation" != "null" ]] || [[ -n "$choices" ]]; then
@@ -93,7 +93,7 @@ handle_option() {
         if [[ "$short" != "null" ]] && [[ ${#short} -eq 1 ]]; then
             line="$line -$short"
         fi
-        line="$line --$long"
+        line="$line --$name"
 
         notation="$(sanitize_notation "$notation")"
         if [[ "$notation" == *'|'* ]] && [[ -z "$choices" ]]; then
@@ -105,9 +105,9 @@ handle_option() {
         elif [[ "$multiple" != "null" ]] && [[ "$multiple" != "false" ]]; then
             line="$line*"
         fi
-        local long_lc=$(echo "$long" | tr '[:upper:]' '[:lower:]')
+        local name_lc=$(echo "$name" | tr '[:upper:]' '[:lower:]')
         local notation_lc=$(echo "$notation" | tr '[:upper:]' '[:lower:]')
-        if [[ -n "$notation" ]] && [[  $long_lc != $notation_lc ]]; then
+        if [[ -n "$notation" ]] && [[  $name_lc != $notation_lc ]]; then
             line="$line <$notation>"
         fi
     else
@@ -115,7 +115,7 @@ handle_option() {
         if [[ "$short" != "null" ]]; then
             line="$line  -$short"
         fi
-        line="$line  --$long"
+        line="$line  --$name"
     fi
     echo "$line"
 }

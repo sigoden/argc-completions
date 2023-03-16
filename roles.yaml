@@ -3,8 +3,8 @@
 - name: generic
   prompt: |
     Extract all subcommands, options and positional arguments in the help text and translate it into json,
+    The name of the option parameter starts with a double dash.
     The short name of the option parameter starts with a single dash followed by one character
-    The long name of the option parameter starts with a double dash.
     The value notation of the option parameter never starts with a dash.
     Don't extract description.
     ## Help Text
@@ -13,6 +13,7 @@
       --flga, --other-flga          Description of flag a
       --flgb                        Description of flag b
       -c, --flgc                    Description of flag c
+      -D, --[no-]flgd               Description of flag d
       --opta <opta>                 Description of opt a
       --optb [bool]                 Description of opt b
       --optd, --other-optd <path>   Description of opt b
@@ -21,6 +22,10 @@
       -g, --optg, --optg2 <path>    Description of opt g
       --opth v1                     Description of opt h with choice v1
       --opth v2                     Description of opt h with choice v2
+      --opth v3                     Description of opt h with choice v3
+      --opti <o1>                   Description of opt i
+      --opti <o2>                   Description of opt j
+      --opti <o3>                   Description of opt k
       Commands:
          cmda                      Description of cmd a
       b, cmdb                      Description of cmd b
@@ -30,55 +35,70 @@
     {
       "options": [
         {
-          "long": "flga",
+          "name": "flga",
           "notation": null,
           "aliases": ["other-flga"]
         },
         {
-          "long": "flgb",
+          "name": "flgb",
           "notation": null
         },
         {
-          "long": "flgc",
+          "name": "flgc",
           "short": "c",
           "notation": null
         },
         {
-          "long": "opta",
+          "name": "flgd",
+          "short": "D",
+          "notation": null
+        },
+        {
+          "name": "no-flgd",
+          "short": null,
+          "notation": null
+        }
+        {
+          "name": "opta",
           "short": null,
           "notation": "<opta>"
         },
         {
-          "long": "optb",
+          "name": "optb",
           "short": null,
           "notation": "<bool>"
         },
         {
-          "long": "optd",
+          "name": "optd",
           "short": null,
           "notation": "<path>",
           "aliases": ["other-optd"]
         },
         {
-          "long": "opte",
+          "name": "opte",
           "short": "e",
           "notation": "<opte>"
         },
         {
-          "long": "optf",
+          "name": "optf",
           "short": null,
           "notation": "<boof>[:extra]"
         },
         {
-          "long": "optg",
+          "name": "optg",
           "short": "g",
           "notation": "<path>",
           "aliases": ["optg2"]
         },
         {
-          "long": "opth",
+          "name": "opth",
           "short": null,
-          "notation": "<v1|v2>"
+          "notation": "<v1|v2|v3>"
+        },
+        {
+          "name": "opti",
+          "short": null,
+          "notation": "<*>"
         }
       ],
       "commands": [
@@ -108,10 +128,10 @@
 - name: clap
   prompt: |
     Extract all subcommands, options and positional arguments in the help text and translate it into json,
+    The name of the option parameter starts with a double dash.
     The short name of the option parameter starts with a single dash followed by one character
-    The long name of the option parameter starts with a double dash.
     The value notation of the option parameter never starts with a dash.
-    Omit description field from the output json.
+    Purge description from the output json.
     ## Help Text
     Command description
     Usage: mycmd [OPTIONS] [COMMAND]
@@ -167,75 +187,75 @@
       ],
       "options": [
         {
-          "long": "flga",
+          "name": "flga",
           "short": "a",
           "notation": null,
           "multiple": false
         },
         {
-          "long": "flgb",
+          "name": "flgb",
           "short": null,
           "notation": null,
           "multiple": false
         },
         {
-          "long": "optc",
+          "name": "optc",
           "short": "c",
           "notation": "<OPTC>",
           "multiple": false
         },
         {
-          "long": "optd",
+          "name": "optd",
           "short": null,
           "notation": "<OPTD>",
           "multiple": false
         },
         {
-          "long": "opte",
+          "name": "opte",
           "short": "e",
           "notation": "<OPTE>",
           "multiple": true
         },
         {
-          "long": "optf",
+          "name": "optf",
           "short": null,
           "notation": "<OPTF>",
           "multiple": true
         },
         {
-          "long": "optg",
+          "name": "optg",
           "short": null,
           "notation": "<OPTG>",
           "multiple": false,
           "choices": ["abc", "def"]
         },
         {
-          "long": "opth",
+          "name": "opth",
           "short": null,
           "notation": "<OPTH>",
           "multiple": false,
           "choices": ["a", "b", "c"]
         },
         {
-          "long": "opti",
+          "name": "opti",
           "short": null,
           "multiple": false,
           "notation": "<OPTI>"
         },
         {
-          "long": "optj",
+          "name": "optj",
           "short": null,
           "multiple": false,
           "notation": "<FILE>"
         },
         {
-          "long": "optk",
+          "name": "optk",
           "short": null,
           "multiple": false,
           "notation": "<OPTK>"
         },
         {
-          "long": "optl",
+          "name": "optl",
           "short": null,
           "multiple": false,
           "notation": "<OPTL>"
