@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+set -eo pipefail
 shopt -s nullglob
 
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
@@ -9,7 +10,14 @@ TMP_DIR="$ROOT_DIR/tmp"
 export NO_COLOR=true
 export AICHAT_ROLES_FILE="$ROOT_DIR/roles.yaml"
 
-# @cmd Generate completion script for clap-like cli
+# @cmd Generate for a generic cli
+# @arg cmd! - Specify the command, must able to run locally
+generic() {
+    local jsonstr
+    run generic $argc_cmd
+}
+
+# @cmd Generate for a clap-based/rust cli
 # @arg cmd! - Specify the command, must able to run locally
 clap() {
     local jsonstr
@@ -33,18 +41,18 @@ handle_subcmds() {
     local bin=$2
     local json=$(echo "$3" | base64 --decode)
     if jq -e '.commands' <<<"$json" >/dev/null; then
-        for commmad in $(echo "$json" | jq -r '.commands[] | @base64'); do
-            local cmd_name=$(echo "$commmad" | base64 --decode | jq -r '.name')
-            if [[ "$cmd_name" != "help" ]]; then
+        for command in $(echo "$json" | jq -r '.commands[] | @base64'); do
+            local name=$(echo "$command" | base64 --decode | jq -r '.name')
+            if [[ "$name" != "help" ]] &&  [[ "$name" != *" "* ]]; then
                 echo
                 echo "# @cmd"
-                local cmd_jsonstr=$(fetch_json $type $bin $cmd_name)
-                handle_parameters $cmd_jsonstr
                 local aliases=$(echo "$command" | base64 --decode |  jq -r '.aliases[]?' | tr '\n' ',' | sed 's/,$//')
                 if [[ -n "$aliases" ]]; then
                     echo "# @alias $aliases"
                 fi
-                echo "$cmd_name() {"
+                local cmd_jsonstr=$(fetch_json $type $bin $name)
+                handle_parameters $cmd_jsonstr
+                echo "$name() {"
                 echo "    :;"
                 echo "}"
                 echo
@@ -75,24 +83,32 @@ handle_option() {
     local short=$(echo "$json" | jq -r '.short')
     local multiple=$(echo "$json" | jq -r '.multiple')
     local notation=$(echo "$json" | jq -r '.notation')
+    local choices=$(echo "$json" | jq -r '.choices[]?' | tr '\n' '|' | sed 's/|$//')
     if [[ "$long" == "help" ]] || [[ "$long" == "version" ]]; then
         return
     fi
-    if [[ "$notation" != "null" ]]; then
-        notation="$(echo "$notation" | sed 's/\[\(.*\)\]/<\1>/')"
+    if [[ "$notation" != "null" ]] || [[ -n "$choices" ]]; then
         line="$line# @option"
-        if [[ "$short" != "null" ]]; then
+        short=$(echo $short | sed 's/-//g')
+        if [[ "$short" != "null" ]] && [[ ${#short} -eq 1 ]]; then
             line="$line -$short"
         fi
         line="$line --$long"
-        local choices=$(echo "$json" | jq -r '.choices[]?' | tr '\n' '|' | sed 's/|$//')
+
+        notation="$(sanitize_notation "$notation")"
+        if [[ "$notation" == *'|'* ]] && [[ -z "$choices" ]]; then
+            choices=$notation
+            notation=""
+        fi
         if [[ -n "$choices" ]]; then
             line="$line[$choices]"
         elif [[ "$multiple" != "null" ]] && [[ "$multiple" != "false" ]]; then
             line="$line*"
         fi
-        if [[ $(echo "<$long>" | tr '[:upper:]' '[:lower:]') != $(echo "$notation" | tr '[:upper:]' '[:lower:]') ]]; then
-            line="$line $notation"
+        local long_lc=$(echo "$long" | tr '[:upper:]' '[:lower:]')
+        local notation_lc=$(echo "$notation" | tr '[:upper:]' '[:lower:]')
+        if [[ -n "$notation" ]] && [[  $long_lc != $notation_lc ]]; then
+            line="$line <$notation>"
         fi
     else
         line="# @flag"
@@ -109,7 +125,6 @@ handle_argument() {
     local line="# @arg"
     local name=$(echo "$json" | jq -r '.name')
     local multiple=$(echo "$json" | jq -r '.multiple')
-    local notation=$(echo "$json" | jq -r '.notation')
     local required=$(echo "$json" | jq -r '.required')
     name=$(echo $name | sed 's/\[\(.*\)\]/\1/' | sed 's/<\(.*\)>/\1/' | tr '[:upper:]' '[:lower:]')
     line="$line $name"
@@ -141,8 +156,21 @@ fetch_json() {
         cat "$path" | base64 -w 0
     else
         local json="$(echo "$text" | aichat -S -r $type)"
-        echo "$json" > "$path"
+        if jq -e . >/dev/null 2>&1 <<<"$json"; then
+            echo "$json" > "$path"
+        else
+            json="{}"
+        fi
         echo "$json" | base64 -w 0
+    fi
+}
+
+sanitize_notation() {
+    local notation=$1
+    if grep -q '<.*>' <<<"$notation"; then
+        echo $notation | sed 's/.*<\(.\+\)>.*/\1/' 
+    elif grep -q '\[.*\]' <<<"$notation"; then
+        echo $notation | sed 's/.*\[\(.\+\)\].*/\1/' 
     fi
 }
 

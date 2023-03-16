@@ -1,12 +1,117 @@
 # AIchat roles file
 
+- name: generic
+  prompt: |
+    Extract all subcommands, options and positional arguments in the help text and translate it into json,
+    The short name of the option parameter starts with a single dash followed by one character
+    The long name of the option parameter starts with a double dash.
+    The value notation of the option parameter never starts with a dash.
+    Don't extract description.
+    ## Help Text
+      Usage: mycmd [command] [options]
+      Options:
+      --flga, --other-flga          Description of flag a
+      --flgb                        Description of flag b
+      -c, --flgc                    Description of flag c
+      --opta <opta>                 Description of opt a
+      --optb [bool]                 Description of opt b
+      --optd, --other-optd <path>   Description of opt b
+      -e, --opte <opte>             Description of opt e
+      --optf <optf>[:extra]         Description of opt f
+      -g, --optg, --optg2 <path>    Description of opt g
+      --opth v1                     Description of opt h with choice v1
+      --opth v2                     Description of opt h with choice v2
+      Commands:
+         cmda                      Description of cmd a
+      b, cmdb                      Description of cmd b
+         cmdc sub1                 Description of cmd c with subcmd sub1
+         cmdc sub2                 Description of cmd c with subcmd sub2
+    ## Translated JSON
+    {
+      "options": [
+        {
+          "long": "flga",
+          "notation": null,
+          "aliases": ["other-flga"]
+        },
+        {
+          "long": "flgb",
+          "notation": null
+        },
+        {
+          "long": "flgc",
+          "short": "c",
+          "notation": null
+        },
+        {
+          "long": "opta",
+          "short": null,
+          "notation": "<opta>"
+        },
+        {
+          "long": "optb",
+          "short": null,
+          "notation": "<bool>"
+        },
+        {
+          "long": "optd",
+          "short": null,
+          "notation": "<path>",
+          "aliases": ["other-optd"]
+        },
+        {
+          "long": "opte",
+          "short": "e",
+          "notation": "<opte>"
+        },
+        {
+          "long": "optf",
+          "short": null,
+          "notation": "<boof>[:extra]"
+        },
+        {
+          "long": "optg",
+          "short": "g",
+          "notation": "<path>",
+          "aliases": ["optg2"]
+        },
+        {
+          "long": "opth",
+          "short": null,
+          "notation": "<v1|v2>"
+        }
+      ],
+      "commands": [
+        {
+          "name": "cmda",
+          "aliases": null
+        },
+        {
+          "name": "cmdb",
+          "aliases": ["b"]
+        },
+        {
+          "name": "cmdc",
+          "aliases": null,
+          "subcmds": [
+            "sub1",
+            "sub2"
+          ]
+        }
+      ]
+    }
+    ## Help Text I provides
+    __INPUT__
+    ## Translated JSON you replys
+
+
 - name: clap
   prompt: |
     Extract all subcommands, options and positional arguments in the help text and translate it into json,
-    Purge description from the output json.
-    The short name of the option starts with a single dash followed by one character
-    The long name of the option starts with a double dash.
-    The value notation of the option are usually enclosed in <> and placed between the long name and the description.
+    The short name of the option parameter starts with a single dash followed by one character
+    The long name of the option parameter starts with a double dash.
+    The value notation of the option parameter never starts with a dash.
+    Omit description field from the output json.
     ## Help Text
     Command description
     Usage: mycmd [OPTIONS] [COMMAND]
