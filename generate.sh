@@ -3,29 +3,56 @@
 shopt -s nullglob
 
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+TMP_DIR="$ROOT_DIR/tmp"
+[[ ! -d "$TMP_DIR" ]] && mkdir -p "$TMP_DIR"
+
 export NO_COLOR=true
 export AICHAT_ROLES_FILE="$ROOT_DIR/roles.yaml"
 
 # @cmd Generate completion script for clap-like cli
 # @arg cmd! - Specify the command, must able to run locally
 clap() {
-    local json="$($argc_cmd --help 2>&1 | aichat -S -r clap)"
-    local jsonstr=$(echo "$json" | base64 -w 0)
-    run clap $argc_cmd $jsonstr
+    local jsonstr
+    run clap $argc_cmd
 }
 
 run() {
     local type=$1
     local bin=$2
-    local jsonstr=$3
-    local target="$ROOT_DIR/completions/$bin.sh"
-    print_head $type $bin > $target
-    log_json $bin $jsonstr
-    handle_parameters $jsonstr >> $target
-    handle_subcmds $type $bin $jsonstr >> $target
+    local output="$ROOT_DIR/completions/$bin.sh"
+    local jsonstr=$(fetch_json $type $bin)
+    print_head $type $bin > $output
+    handle_parameters $jsonstr >> $output
+    handle_subcmds $type $bin $jsonstr >> $output
     apply_patches $bin
-    print_tail >> $target
+    print_tail >> $output
 }
+
+handle_subcmds() {
+    local type=$1
+    local bin=$2
+    local json=$(echo "$3" | base64 --decode)
+    if jq -e '.commands' <<<"$json" >/dev/null; then
+        for commmad in $(echo "$json" | jq -r '.commands[] | @base64'); do
+            local cmd_name=$(echo "$commmad" | base64 --decode | jq -r '.name')
+            if [[ "$cmd_name" != "help" ]]; then
+                echo
+                echo "# @cmd"
+                local cmd_jsonstr=$(fetch_json $type $bin $cmd_name)
+                handle_parameters $cmd_jsonstr
+                local aliases=$(echo "$command" | base64 --decode |  jq -r '.aliases[]?' | tr '\n' ',' | sed 's/,$//')
+                if [[ -n "$aliases" ]]; then
+                    echo "# @alias $aliases"
+                fi
+                echo "$cmd_name() {"
+                echo "    :;"
+                echo "}"
+                echo
+            fi
+        done
+    fi
+}
+
 
 handle_parameters() {
     local json=$(echo "$1" | base64 --decode)
@@ -37,31 +64,6 @@ handle_parameters() {
     if jq -e '.arguments' <<<"$json" >/dev/null; then
         for argument in $(echo "$json" | jq -r '.arguments[] | @base64'); do
             handle_argument $argument
-        done
-    fi
-}
-
-handle_subcmds() {
-    local type=$1
-    local bin=$2
-    local json=$(echo "$3" | base64 --decode)
-    if jq -e '.commands' <<<"$json" >/dev/null; then
-        for commmad in $(echo "$json" | jq -r '.commands[] | @base64'); do
-            local cmd_name=$(echo "$commmad" | base64 --decode | jq -r '.name')
-            echo
-            echo "# @cmd"
-            cmd_json="$($bin $cmd_name --help 2>&1 | aichat -S -r $type)"
-            cmd_jsonstr=$(echo "$cmd_json" | base64 -w 0)
-            log_json $bin-$cmd_name $cmd_jsonstr
-            handle_parameters $cmd_jsonstr
-            local aliases=$(echo "$command" | base64 --decode |  jq -r '.aliases[]?' | tr '\n' ',' | sed 's/,$//')
-            if [[ -n "$aliases" ]]; then
-                echo "# @alias $aliases"
-            fi
-            echo "$cmd_name() {"
-            echo "    :;"
-            echo "}"
-            echo
         done
     fi
 }
@@ -124,6 +126,26 @@ handle_argument() {
     echo "$line"
 }
 
+fetch_json() {
+    local type=$1
+    local cmd text path
+    if [[ $# -eq 2 ]]; then
+        cmd=$2
+        text="$($2 --help 2>&1)"
+    elif [[ $# -eq 3 ]]; then
+        cmd=$2-$3
+        text="$($2 $3 --help 2>&1)"
+    fi
+    path="$TMP_DIR/$cmd.json" 
+    if [[ -f "$path" ]]; then
+        cat "$path" | base64 -w 0
+    else
+        local json="$(echo "$text" | aichat -S -r $type)"
+        echo "$json" > "$path"
+        echo "$json" | base64 -w 0
+    fi
+}
+
 apply_patches() {
     bin=$1
     for patch_file in $ROOT_DIR/patches/${bin}__*; do
@@ -146,13 +168,5 @@ print_head() {
 print_tail() {
     printf "%s" "eval \"\$(argc \"\$0\" \"\$@\")\""
 }
-
-log_json() {
-    local name=$1
-    local data=$2
-    [[ ! -d $ROOT_DIR/tmp ]] && mkdir -p $ROOT_DIR/tmp
-    echo $data | base64 --decode > $ROOT_DIR/tmp/$name.json
-}
-
 
 eval "$(argc "$0" "$@")"
