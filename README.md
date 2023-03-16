@@ -45,16 +45,8 @@ if(Test-Path $HOME + "\.argc-completions\argc.ps1") {
 
 You need to install the [aichat](https://github.com/sigoden/aichat) tool to interact with GPT.
 
-If the command has subcommands:
-
 ```
-./generate.sh with-subcmd mycmd
-```
-
-If the command has no subcommand:
-
-```
-./generate.sh no-subcmd mycmd
+./generate.sh clap aichat
 ```
 
 If successful, A completion script will be generated at `completions/mycmd.sh`.

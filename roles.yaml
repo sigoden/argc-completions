@@ -1,193 +1,153 @@
 # AIchat roles file
 
-- name: has-subcmd-help
+- name: clap
   prompt: |
     Extract all subcommands, options and positional arguments in the help text and translate it into json,
     Purge description from the output json.
     The short name of the option starts with a single dash followed by one character
     The long name of the option starts with a double dash.
-    The value notation of the option are usually enclosed in [] or <> and placed between the option's long name and description.
-    ## Help Text 1
+    The value notation of the option are usually enclosed in <> and placed between the long name and the description.
+    ## Help Text
     Command description
-    Usage: cmd1 [command] [flag]
-    Group name 1:
-          add                  Long subcommand description, split
-                               to multiple lines.
-      i, install               Description of subcommand install
-    Group name 2:
-          outdated             Description of subcommand outdated
-      t, test                  Description of subcommand test
-    Options:
-      -r, --recursive          Description of global option recursive
-    ## Translated JSON 1
+    Usage: mycmd [OPTIONS] [COMMAND]
+    ARGS:
+        <ARGA>           Description of arg a
+        [ARGB]           Description of arg b
+        <ARGC>...        Description of arg c
+        [ARGD]...        Description of arg d
+    OPTIONS:
+    -a  --flga                 Description of flag a
+        --flgb                 Description of flag b 
+    -c  --optc <OPTC>          Description of option c
+        --optd <OPTD>          Description of option d
+    -e  --opte <OPTE>...       Description of option e
+        --optf [<OPTF>...]     Description of option f
+        --optg <OPTG>          Description of option g, [possible values: abc, def]
+        --opth <OPTH>          Description of option h, [default: a] [possible values: a, b, c]
+        --opti <OPTI>          Description of option i, [default: a]
+        --optj <FILE>          Description of option j
+        --optk [<OPTK>]        Description of option k
+        --optl[=<OPTL>]        Description of option l
+    COMMANDS:
+      cmda           Description of cmd a
+      cmdb           Description of cmd b, [aliases: b]
+      cmdc, c        Description of cmd c
+    ## Translated JSON
     {
-      "options": [
+      "arguments": [
         {
-          "long": "recursive",
-          "short": "r"
+          "name": "ARGA",
+          "notation": "<ARGA>",
+          "multiple": false,
+          "required": true
+        },
+        {
+          "name": "ARGB",
+          "notation": "[ARGB]",
+          "multiple": false,
+          "required": false
+        },
+        {
+          "name": "ARGC",
+          "notation": "<ARGC>",
+          "multiple": true,
+          "required": true
+        },
+        {
+          "name": "ARGD",
+          "notation": "[ARGD]",
+          "multiple": true,
+          "required": false
         }
       ],
-      "commands": [
-        {
-          "name": "add"
-        },
-        {
-          "name": "install",
-          "aliases": ["i"]
-        },
-        {
-          "name": "outdated",
-          "aliases": []
-        },
-        {
-          "name": "test",
-          "aliases": ["t"]
-        }
-      ]
-    }
-    ## Help Text 2
-    Command description
-    Usage: cargo [+toolchain] [OPTIONS] [COMMAND]
-    Options:
-        --list                 Description of global option list
-    -v, --verbose...           Description of global option verbose
-        --color <WHEN>         Values: auto, always, never
-    -q, --quiet                Description of global option quite
-    -a, --auth-method <value>  Description of global option auth method, [possible values: basic, digest]
-        --size [NUM]           Description of global option size
-    -p, --prompt <TEXT>        Description of global option prompt
-    Commands:
-      build, b       Description of subcommand build
-      bench          Description of subcommand bench
-    ## Translated JSON 2
-    {
       "options": [
         {
-          "long": "list",
-          "notation": null
+          "long": "flga",
+          "short": "a",
+          "notation": null,
+          "multiple": false
         },
         {
-          "long": "verbose",
+          "long": "flgb",
+          "short": null,
           "notation": null,
-          "short": "v",
+          "multiple": false
+        },
+        {
+          "long": "optc",
+          "short": "c",
+          "notation": "<OPTC>",
+          "multiple": false
+        },
+        {
+          "long": "optd",
+          "short": null,
+          "notation": "<OPTD>",
+          "multiple": false
+        },
+        {
+          "long": "opte",
+          "short": "e",
+          "notation": "<OPTE>",
           "multiple": true
         },
         {
-          "long": "color",
-          "notation": "<WHEN>",
-          "choices": ["auto", "always", "never"]
+          "long": "optf",
+          "short": null,
+          "notation": "<OPTF>",
+          "multiple": true
         },
         {
-          "long": "quiet",
-          "notation": null,
-          "short": "q"
+          "long": "optg",
+          "short": null,
+          "notation": "<OPTG>",
+          "multiple": false,
+          "choices": ["abc", "def"]
         },
         {
-          "long": "auth-mothod",
-          "notation": null,
-          "short": "a",
-          "choices": ["basic", "digest"]
+          "long": "opth",
+          "short": null,
+          "notation": "<OPTH>",
+          "multiple": false,
+          "choices": ["a", "b", "c"]
         },
         {
-          "long": "size",
-          "notation": "[NUM]"
+          "long": "opti",
+          "short": null,
+          "multiple": false,
+          "notation": "<OPTI>"
         },
         {
-          "long": "prompt",
-          "notation": "<TEXT>",
-          "short": "p"
+          "long": "optj",
+          "short": null,
+          "multiple": false,
+          "notation": "<FILE>"
+        },
+        {
+          "long": "optk",
+          "short": null,
+          "multiple": false,
+          "notation": "<OPTK>"
+        },
+        {
+          "long": "optl",
+          "short": null,
+          "multiple": false,
+          "notation": "<OPTL>"
         }
       ],
       "commands": [
         {
-          "name": "build",
+          "name": "cmda",
+          "aliases": null
+        },
+        {
+          "name": "cmdb",
           "aliases": ["b"]
         },
         {
-          "name": "bench"
-        }
-      ]
-    }
-    ## Help Text I provides
-    __INPUT__
-    ## Translated JSON you replys
-
-- name: no-subcmd-help
-  prompt: |
-    Extract all options and positional arguments in the help text and translate it into json,
-    Purge description from the output json.
-    The short name of the option starts with a single dash followed by one character
-    The long name of the option starts with a double dash.
-    The value notation of the option are usually enclosed in [] or <> and placed between the option's long name and description.
-    ## Help Text 1
-    ARGS:
-      [FILE1]         Description of positional argument 
-      <FILE2>         Description of positional argument 
-      [FILE3]...      Description of positional argument 
-      <FILE4>...      Description of positional argument
-    Options:
-        --list                 Description of global option list
-    -v, --verbose...           Description of global option verbose
-        --color <WHEN>         Values: auto, always, never
-    -q, --quiet                Description of global option quite
-    -a, --auth-method <value>  Description of global option auth method, [possible values: basic, digest]
-        --size [NUM]           Description of global option size
-    -p, --prompt <TEXT>        Description of global option prompt
-    ## Translated JSON 1
-    {
-      "options": [
-        {
-          "long": "list",
-          "notation": null
-        },
-        {
-          "long": "verbose",
-          "notation": null,
-          "short": "v",
-          "multiple": true
-        },
-        {
-          "long": "color",
-          "notation": "<WHEN>",
-          "choices": ["auto", "always", "never"]
-        },
-        {
-          "long": "quiet",
-          "notation": null,
-          "short": "q"
-        },
-        {
-          "long": "auth-mothod",
-          "notation": null,
-          "short": "a",
-          "choices": ["basic", "digest"]
-        },
-        {
-          "long": "size",
-          "notation": "[NUM]"
-        },
-        {
-          "long": "prompt",
-          "notation": "<TEXT>",
-          "short": "p"
-        }
-      ],
-      "arguments": [
-        {
-          "name": "FILE1",
-          "multiple": false
-        },
-        {
-          "name": "FILE2",
-          "multiple": false
-        },
-        {
-          "name": "FILE3",
-          "multiple": true
-        },
-        {
-          "name": "FILE4",
-          "multiple": true
+          "name": "cmdc",
+          "aliases": ["c"]
         }
       ]
     }
