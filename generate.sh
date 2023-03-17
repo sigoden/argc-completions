@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-set -eo pipefail
 shopt -s nullglob
 
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
@@ -11,6 +10,7 @@ export NO_COLOR=true
 export AICHAT_ROLES_FILE="$ROOT_DIR/roles.yaml"
 
 # @cmd Generate for a generic cli
+# @option -a --arg-help=--help Command argument to get help
 # @arg cmd! - Specify the command, must able to run locally
 generic() {
     local jsonstr
@@ -18,6 +18,7 @@ generic() {
 }
 
 # @cmd Generate for a clap-based/rust cli
+# @option -a --arg-help=--help Command argument to get help
 # @arg cmd! - Specify the command, must able to run locally
 clap() {
     local jsonstr
@@ -29,11 +30,13 @@ run() {
     local bin=$2
     local output="$ROOT_DIR/completions/$bin.sh"
     local jsonstr=$(fetch_json $type $bin)
-    print_head $type $bin > $output
-    handle_parameters $jsonstr >> $output
-    handle_subcmds $type $bin $jsonstr >> $output
-    apply_patches $bin
-    print_tail >> $output
+    if [[ -n "$jsonstr" ]]; then
+        print_head $type $bin > $output
+        handle_parameters $jsonstr >> $output
+        handle_subcmds $type $bin $jsonstr >> $output
+        apply_patches $bin
+        print_tail >> $output
+    fi
 }
 
 handle_subcmds() {
@@ -146,20 +149,24 @@ fetch_json() {
     local cmd text path
     if [[ $# -eq 2 ]]; then
         cmd=$2
-        text="$($2 --help 2>&1)"
+        text="$($2 $argc_arg_help 2>&1)"
     elif [[ $# -eq 3 ]]; then
         cmd=$2-$3
-        text="$($2 $3 --help 2>&1)"
+        text="$($2 $3 $argc_arg_help 2>&1)"
     fi
     path="$TMP_DIR/$cmd.json" 
     if [[ -f "$path" ]]; then
         cat "$path" | base64 -w 0
     else
         local json="$(echo "$text" | aichat -S -r $type)"
-        if jq -e . >/dev/null 2>&1 <<<"$json"; then
+        if [[ $(jq -r '.|type' 2>&1 <<<"$json") == "object" ]]; then
             echo "$json" > "$path"
         else
-            json="{}"
+            if [[ -z $3 ]]; then
+                return
+            else
+                json="{}"
+            fi
         fi
         echo "$json" | base64 -w 0
     fi
