@@ -2,280 +2,98 @@
 
 - name: generic
   prompt: |
-    Extract all subcommands, options and positional arguments in the help text and translate it into json,
-    The name of the option parameter starts with a double dash.
-    The short name of the option parameter starts with a single dash followed by one character
-    The value notation of the option parameter never starts with a dash.
-    Don't extract description.
+    Extract all subcommands, options and positional arguments in the help text and translate it into csv,
     ## Help Text
       Usage: mycmd [command] [options]
       Options:
-      --flga, --other-flga          Description of flag a
-      --flgb                        Description of flag b
-      -c, --flgc                    Description of flag c
-      -D, --[no-]flgd               Description of flag d
-      --opta <opta>                 Description of opt a
-      --optb [bool]                 Description of opt b
-      --optd, --other-optd <path>   Description of opt b
-      -e, --opte <opte>             Description of opt e
-      --optf <optf>[:extra]         Description of opt f
-      -g, --optg, --optg2 <path>    Description of opt g
-      --opth v1                     Description of opt h with choice v1
-      --opth v2                     Description of opt h with choice v2
-      --opth v3                     Description of opt h with choice v3
-      --opti <o1>                   Description of opt i
-      --opti <o2>                   Description of opt j
-      --opti <o3>                   Description of opt k
+      --flga, --other-flga          Desc
+      --flgb                        Desc
+      -c, --flgc                    Desc
+      -D, --[no-]flgd               Desc
+      --opta <opta>                 Desc
+      --optb [bool]                 Desc
+      --optd, --other-optd <path>   Desc
+      -e, --opte <opte>             Desc
+      --optf <optf>[:extra]         Desc
+      -g, --optg, --optg2 <path>    Desc
+      --opth v1                     Desc v1
+      --opth v2                     Desc v2
+      --opth v3                     Desc v3
+      --opti <o1>                   Desc
+      --opti <o2>                   Desc
+      --opti <o3>                   Desc
       Commands:
-         cmda                      Description of cmd a
-      b, cmdb                      Description of cmd b
-         cmdc sub1                 Description of cmd c with subcmd sub1
-         cmdc sub2                 Description of cmd c with subcmd sub2
-    ## Translated JSON
-    {
-      "options": [
-        {
-          "name": "flga",
-          "notation": null,
-          "aliases": ["other-flga"]
-        },
-        {
-          "name": "flgb",
-          "notation": null
-        },
-        {
-          "name": "flgc",
-          "short": "c",
-          "notation": null
-        },
-        {
-          "name": "flgd",
-          "short": "D",
-          "notation": null
-        },
-        {
-          "name": "no-flgd",
-          "short": null,
-          "notation": null
-        }
-        {
-          "name": "opta",
-          "short": null,
-          "notation": "<opta>"
-        },
-        {
-          "name": "optb",
-          "short": null,
-          "notation": "<bool>"
-        },
-        {
-          "name": "optd",
-          "short": null,
-          "notation": "<path>",
-          "aliases": ["other-optd"]
-        },
-        {
-          "name": "opte",
-          "short": "e",
-          "notation": "<opte>"
-        },
-        {
-          "name": "optf",
-          "short": null,
-          "notation": "<boof>[:extra]"
-        },
-        {
-          "name": "optg",
-          "short": "g",
-          "notation": "<path>",
-          "aliases": ["optg2"]
-        },
-        {
-          "name": "opth",
-          "short": null,
-          "notation": "<v1|v2|v3>"
-        },
-        {
-          "name": "opti",
-          "short": null,
-          "notation": "<*>"
-        }
-      ],
-      "commands": [
-        {
-          "name": "cmda",
-          "aliases": null
-        },
-        {
-          "name": "cmdb",
-          "aliases": ["b"]
-        },
-        {
-          "name": "cmdc",
-          "aliases": null,
-          "subcmds": [
-            "sub1",
-            "sub2"
-          ]
-        }
-      ]
-    }
+         cmda                      Desc 
+      b, cmdb                      Desc 
+         cmdc sub1                 Desc sub1
+         cmdc sub2                 Desc sub2
+    ## Translated CSV
+    |type|name|short|notation|multiple|choices|aliases|
+    |option|flga|||0||other-flga|
+    |option|flgb|||0|||
+    |option|flgc|c||0|||
+    |option|flgd|D||0|||
+    |option|flgd|D||0||no-flgd|
+    |option|opta||<opta>|0|||
+    |option|optb||[bool]|0|||
+    |option|optd||<path>|0||other-optd|
+    |option|opte|e|<opte>|0|||
+    |option|optf||<boof>[:extra]|0|||
+    |option|optg|g|<path>|0||optg2|
+    |option|opth|||0|v1,v2,v3||
+    |option|opti||<*>|0|||
+    |command|cmda||||||
+    |command|cmdb|||||b|
+    |command|cmdc||||||
     ## Help Text I provides
     __INPUT__
-    ## Translated JSON you replys
-
+    ## Translated CSV you replys
 
 - name: clap
   prompt: |
-    Extract all subcommands, options and positional arguments in the help text and translate it into json,
-    The name of the option parameter starts with a double dash.
-    The short name of the option parameter starts with a single dash followed by one character
-    The value notation of the option parameter never starts with a dash.
-    Purge description from the output json.
+    Extract all subcommands, options and positional arguments in the help text and translate it into csv,
     ## Help Text
-    Command description
-    Usage: mycmd [OPTIONS] [COMMAND]
     ARGS:
-        <ARGA>           Description of arg a
-        [ARGB]           Description of arg b
-        <ARGC>...        Description of arg c
-        [ARGD]...        Description of arg d
+        <ARGA>           Desc
+        [ARGB]           Desc
+        <ARGC>...        Desc
+        [ARGD]...        Desc
     OPTIONS:
-    -a  --flga                 Description of flag a
-        --flgb                 Description of flag b 
-    -c  --optc <OPTC>          Description of option c
-        --optd <OPTD>          Description of option d
-    -e  --opte <OPTE>...       Description of option e
-        --optf [<OPTF>...]     Description of option f
-        --optg <OPTG>          Description of option g, [possible values: abc, def]
-        --opth <OPTH>          Description of option h, [default: a] [possible values: a, b, c]
-        --opti <OPTI>          Description of option i, [default: a]
-        --optj <FILE>          Description of option j
-        --optk [<OPTK>]        Description of option k
-        --optl[=<OPTL>]        Description of option l
+    -a  --flga                 Desc
+        --flgb                 Desc
+    -c  --optc <OPTC>          Desc
+        --optd <OPTD>          Desc
+    -e  --opte <OPTE>...       Desc
+        --optf [<OPTF>...]     Desc
+        --optg <OPTG>          Desc, [possible values: abc, def]
+        --opth <OPTH>          Desc, [default: a] [possible values: a, b, c]
+        --opti <OPTI>          Desc, [default: a]
+        --optk [<OPTK>]        Desc
+        --optl[=<OPTL>]        Desc
     COMMANDS:
-      cmda           Description of cmd a
-      cmdb           Description of cmd b, [aliases: b]
-      cmdc, c        Description of cmd c
-    ## Translated JSON
-    {
-      "arguments": [
-        {
-          "name": "ARGA",
-          "notation": "<ARGA>",
-          "multiple": false,
-          "required": true
-        },
-        {
-          "name": "ARGB",
-          "notation": "[ARGB]",
-          "multiple": false,
-          "required": false
-        },
-        {
-          "name": "ARGC",
-          "notation": "<ARGC>",
-          "multiple": true,
-          "required": true
-        },
-        {
-          "name": "ARGD",
-          "notation": "[ARGD]",
-          "multiple": true,
-          "required": false
-        }
-      ],
-      "options": [
-        {
-          "name": "flga",
-          "short": "a",
-          "notation": null,
-          "multiple": false
-        },
-        {
-          "name": "flgb",
-          "short": null,
-          "notation": null,
-          "multiple": false
-        },
-        {
-          "name": "optc",
-          "short": "c",
-          "notation": "<OPTC>",
-          "multiple": false
-        },
-        {
-          "name": "optd",
-          "short": null,
-          "notation": "<OPTD>",
-          "multiple": false
-        },
-        {
-          "name": "opte",
-          "short": "e",
-          "notation": "<OPTE>",
-          "multiple": true
-        },
-        {
-          "name": "optf",
-          "short": null,
-          "notation": "<OPTF>",
-          "multiple": true
-        },
-        {
-          "name": "optg",
-          "short": null,
-          "notation": "<OPTG>",
-          "multiple": false,
-          "choices": ["abc", "def"]
-        },
-        {
-          "name": "opth",
-          "short": null,
-          "notation": "<OPTH>",
-          "multiple": false,
-          "choices": ["a", "b", "c"]
-        },
-        {
-          "name": "opti",
-          "short": null,
-          "multiple": false,
-          "notation": "<OPTI>"
-        },
-        {
-          "name": "optj",
-          "short": null,
-          "multiple": false,
-          "notation": "<FILE>"
-        },
-        {
-          "name": "optk",
-          "short": null,
-          "multiple": false,
-          "notation": "<OPTK>"
-        },
-        {
-          "name": "optl",
-          "short": null,
-          "multiple": false,
-          "notation": "<OPTL>"
-        }
-      ],
-      "commands": [
-        {
-          "name": "cmda",
-          "aliases": null
-        },
-        {
-          "name": "cmdb",
-          "aliases": ["b"]
-        },
-        {
-          "name": "cmdc",
-          "aliases": ["c"]
-        }
-      ]
-    }
+      cmda           Desc
+      cmdb           Desc, [aliases: b]
+      cmdc, c        Desc
+    ## Translated CSV 
+    |type|name|short|notation|multiple|choices|aliases|
+    |positional|ARGA||<ARGA>|0|||
+    |positional|ARGB||[ARGB]|0|||
+    |positional|ARGC||<ARGC>|1|||
+    |positional|ARGD||[ARGD]|1|||
+    |option|flga|a||0|||
+    |option|flgb|||0|||
+    |option|optc|c|<OPTC>|0|||
+    |option|optd||<OPTD>|0|||
+    |option|opte|e|<OPTE>|1|||
+    |option|optf||<OPTF>|1|||
+    |option|optg||<OPTG>|0|abc,def||
+    |option|opth||<OPTH>|0|a,b,c||
+    |option|opti||<OPTI>|0|||
+    |option|optk||<OPTK>|0|||
+    |option|optl||<OPTL>|0|||
+    |command|cmda||||||
+    |command|cmdb|||||b|
+    |command|cmdc|||||c|
     ## Help Text I provides
     __INPUT__
-    ## Translated JSON you replys
+    ## Translated CSV you replys

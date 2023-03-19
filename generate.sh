@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
-shopt -s nullglob
-
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 TMP_DIR="$ROOT_DIR/tmp"
+IFS=$'\n'
 [[ ! -d "$TMP_DIR" ]] && mkdir -p "$TMP_DIR"
 
 export NO_COLOR=true
@@ -13,7 +12,6 @@ export AICHAT_ROLES_FILE="$ROOT_DIR/roles.yaml"
 # @option -a --arg-help=--help Command argument to get help
 # @arg cmd! - Specify the command, must able to run locally
 generic() {
-    local jsonstr
     run generic $argc_cmd
 }
 
@@ -21,79 +19,91 @@ generic() {
 # @option -a --arg-help=--help Command argument to get help
 # @arg cmd! - Specify the command, must able to run locally
 clap() {
-    local jsonstr
     run clap $argc_cmd
 }
 
 run() {
     local type=$1
     local bin=$2
-    local output="$ROOT_DIR/completions/$bin.sh"
-    local jsonstr=$(fetch_json $type $bin)
-    if [[ -n "$jsonstr" ]]; then
-        print_head $type $bin > $output
-        handle_parameters $jsonstr >> $output
-        handle_subcmds $type $bin $jsonstr >> $output
-        apply_patches $bin
-        print_tail >> $output
-    fi
+    local target="$ROOT_DIR/completions/$bin.sh"
+    print_head $type $bin > $target
+    csv=( $(fetch_csv $type $bin) )
+    local names=""
+    for item in ${csv[@]}; do
+        local kind=$(echo "$item" | awk -F'|' '{print $2}')
+        local name=$(echo "$item" | awk -F'|' '{print $3}')
+        if [[ -n "$name" ]] && [[ "$names" != *"($kind:$name)"* ]]; then
+            names="$names ($kind:$name) "
+            if [[ "$kind" == "option" ]]; then
+                handle_option "$item" >> $target
+            elif [[ "$kind" == "positional" ]]; then
+                handle_positional "$item" >> $target
+            elif [[ "$kind" == "command" ]]; then
+                handle_subcmd "$item" $type $bin >> $target
+            fi
+        fi
+    done
+    apply_patches $bin
+    print_tail >> $target
 }
 
-handle_subcmds() {
-    local type=$1
-    local bin=$2
-    local json=$(echo "$3" | base64 --decode)
-    if jq -e '.commands' <<<"$json" >/dev/null; then
-        for command in $(echo "$json" | jq -r '.commands[] | @base64'); do
-            local name=$(echo "$command" | base64 --decode | jq -r '.name')
-            if [[ "$name" != "help" ]] &&  [[ "$name" != *" "* ]]; then
-                echo
-                echo "# @cmd"
-                local aliases=$(echo "$command" | base64 --decode |  jq -r '.aliases[]?' | tr '\n' ',' | sed 's/,$//')
-                if [[ -n "$aliases" ]]; then
-                    echo "# @alias $aliases"
+handle_subcmd() {
+    local input="$1"
+    local type=$2
+    local cmd="${@:3}"
+    local name=$(echo "$input" | awk -F'|' '{print $3}')
+    if [[ "$name" != "help" ]] &&  [[ "$name" != *" "* ]]; then
+        echo
+        echo "# @cmd"
+        local aliases=$(echo $input | awk -F'|' '{print $8}')
+        if [[ -n "$aliases" ]]; then
+            echo "# @alias $aliases"
+        fi
+        local subcmds=()
+        local subcmd_names=""
+        local csv=( $(fetch_csv $type $cmd $name) )
+        for item in ${csv[@]}; do
+            local kind=$(echo "$item" | awk -F'|' '{print $2}')
+            local subcmd_name=$(echo "$item" | awk -F'|' '{print $3}')
+            if [[ -n "$subcmd_name" ]] && [[ "$subcmd_names" != *"($kind:$subcmd_name)"* ]]; then
+                subcmd_names="$subcmd_names ($kind:$subcmd_name) "
+                if [[ "$kind" == "option" ]]; then
+                    handle_option "$item"
+                elif [[ "$kind" == "positional" ]]; then
+                    handle_positional "$item"
+                elif [[ "$kind" == "command" ]]; then
+                    if [[ "$subcmd_name" != "$name" ]]; then
+                        subcmds+=("$item")
+                    fi
                 fi
-                local cmd_jsonstr=$(fetch_json $type $bin $name)
-                handle_parameters $cmd_jsonstr
-                echo "$name() {"
-                echo "    :;"
-                echo "}"
-                echo
             fi
         done
-    fi
-}
-
-
-handle_parameters() {
-    local json=$(echo "$1" | base64 --decode)
-    if jq -e '.options' <<<"$json" >/dev/null; then
-        for option in $(echo "$json" | jq -r '.options[] | @base64'); do
-            handle_option $option
-        done
-    fi
-    if jq -e '.arguments' <<<"$json" >/dev/null; then
-        for argument in $(echo "$json" | jq -r '.arguments[] | @base64'); do
-            handle_argument $argument
+        echo "$name() {"
+        echo "    :;"
+        echo "}"
+        echo
+        for item in $subcmds; do
+            handle_subcmd "$item" $type $cmd $name
         done
     fi
 }
+
 
 handle_option() {
-    local json=$(echo "$1" | base64 --decode)
+    local input="$1"
+    local name=$(echo $input | awk -F'|' '{print $3}')
+    local short=$(echo $input | awk -F'|' '{print $4}')
+    local notation=$(echo $input | awk -F'|' '{print $5}')
+    local multiple=$(echo $input | awk -F'|' '{print $6}')
+    local choices="$(echo $input | awk -F'|' '{print $7}' | sed 's/, */|/g')"
     local line=""
-    local name=$(echo "$json" | jq -r '.name')
-    local short=$(echo "$json" | jq -r '.short')
-    local multiple=$(echo "$json" | jq -r '.multiple')
-    local notation=$(echo "$json" | jq -r '.notation')
-    local choices=$(echo "$json" | jq -r '.choices[]?' | tr '\n' '|' | sed 's/|$//')
     if [[ "$name" == "help" ]] || [[ "$name" == "version" ]]; then
         return
     fi
-    if [[ "$notation" != "null" ]] || [[ -n "$choices" ]]; then
-        line="$line# @option"
+    if [[ -n "$notation" ]] || [[ -n "$choices" ]]; then
+        line="# @option"
         short=$(echo $short | sed 's/-//g')
-        if [[ "$short" != "null" ]] && [[ ${#short} -eq 1 ]]; then
+        if [[ ${#short} -eq 1 ]]; then
             line="$line -$short"
         fi
         line="$line --$name"
@@ -104,8 +114,8 @@ handle_option() {
             notation=""
         fi
         if [[ -n "$choices" ]]; then
-            line="$line[$choices]"
-        elif [[ "$multiple" != "null" ]] && [[ "$multiple" != "false" ]]; then
+            line="$line["$choices"]"
+        elif [[ "$multiple" == "1" ]]; then
             line="$line*"
         fi
         local name_lc=$(echo "$name" | tr '[:upper:]' '[:lower:]')
@@ -115,7 +125,7 @@ handle_option() {
         fi
     else
         line="# @flag"
-        if [[ "$short" != "null" ]]; then
+        if [[ -n "$short" ]]; then
             line="$line  -$short"
         fi
         line="$line  --$name"
@@ -123,53 +133,37 @@ handle_option() {
     echo "$line"
 }
 
-handle_argument() {
-    local json=$(echo "$1" | base64 --decode)
-    local line="# @arg"
-    local name=$(echo "$json" | jq -r '.name')
-    local multiple=$(echo "$json" | jq -r '.multiple')
-    local required=$(echo "$json" | jq -r '.required')
-    name=$(echo $name | sed 's/\[\(.*\)\]/\1/' | sed 's/<\(.*\)>/\1/' | tr '[:upper:]' '[:lower:]')
-    line="$line $name"
-    local choices=$(echo "$json" | jq -r '.choices[]?' | tr '\n' '|' | sed 's/|$//')
+handle_positional() {
+    local input="$1"
+    local name=$(echo $input | awk -F'|' '{print $3}')
+    local multiple=$(echo $input | awk -F'|' '{print $6}')
+    local choices=$(echo $input | awk -F'|' '{print $7}' | sed 's/, */|/g')
+    local line="# @arg $(sanitize_name $name)"
     if [[ -n "$choices" ]]; then
         line="$line[$choices]"
-    elif [[ "$multiple" == "true" ]] && [[ "$required" == "true" ]]; then
-        line="$line+"
-    elif [[ "$multiple" != "true" ]] && [[ "$required" == "true" ]]; then
-        line="$line!"
-    elif [[ "$multiple" == "true" ]] && [[ "$required" != "true" ]]; then
+    elif [[ "$multiple" == "1" ]]; then
         line="$line*"
     fi
     echo "$line"
 }
 
-fetch_json() {
+fetch_csv() {
     local type=$1
-    local cmd text path
-    if [[ $# -eq 2 ]]; then
-        cmd=$2
-        text="$($2 $argc_arg_help 2>&1)"
-    elif [[ $# -eq 3 ]]; then
-        cmd=$2-$3
-        text="$($2 $3 $argc_arg_help 2>&1)"
-    fi
-    path="$TMP_DIR/$cmd.json" 
+    local cmd="${@:2}"
+    local name=$(echo $cmd | sed 's/ /-/g')
+    local path="$TMP_DIR/$name.csv" 
     if [[ -f "$path" ]]; then
-        cat "$path" | base64 -w 0
+        cat "$path" | sed -n '2,$ p' 
     else
-        local json="$(echo "$text" | aichat -S -r $type)"
-        if [[ $(jq -r '.|type' 2>&1 <<<"$json") == "object" ]]; then
-            echo "$json" > "$path"
-        else
-            if [[ -z $3 ]]; then
-                return
-            else
-                json="{}"
-            fi
-        fi
-        echo "$json" | base64 -w 0
+        local text="$($cmd $argc_arg_help 2>&1)"
+        local csv="$(echo "$text" | aichat -S -r $type)"
+        echo "$csv" > "$path"
+        echo "$csv" | sed -n '2,$ p' 
     fi
+}
+
+sanitize_name() {
+    echo $1 | sed 's/\[\(.*\)\]/\1/' | sed 's/<\(.*\)>/\1/' | tr '[:upper:]' '[:lower:]'
 }
 
 sanitize_notation() {
@@ -182,14 +176,15 @@ sanitize_notation() {
 }
 
 apply_patches() {
-    bin=$1
-    for patch_file in $ROOT_DIR/patches/${bin}__*; do
+    local bin=$1
+    local files=( $(ls -1 $ROOT_DIR/patches | grep "${bin}__") )
+    for patch_file in ${files[@]}; do
         name=$(basename $patch_file .sh | sed 's|'$bin'__||')
         name2=$(echo $name | tr '-' '_')
         target="$ROOT_DIR/completions/$bin.sh"
         sed -i 's/'$name'/'$name'[`__choice_'$name2'`]/' $target
         echo >> $target
-        cat $patch_file >> $target
+        cat $ROOT_DIR/patches/$patch_file >> $target
         echo -e "\n" >> $target
     done
 }
@@ -201,7 +196,7 @@ print_head() {
 }
 
 print_tail() {
-    printf "%s" "eval \"\$(argc \"\$0\" \"\$@\")\""
+    printf "\n%s" "eval \"\$(argc \"\$0\" \"\$@\")\""
 }
 
 eval "$(argc "$0" "$@")"

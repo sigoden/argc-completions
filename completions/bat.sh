@@ -12,17 +12,17 @@
 # @option --wrap <mode>
 # @option --terminal-width <width>
 # @flag  -n  --number
-# @option --color <when>
-# @option --italic-text <when>
-# @option --decorations <when>
+# @option --color[auto|never|always] <when>
+# @option --italic-text[always|never] <when>
+# @option --decorations[auto|never|always] <when>
 # @flag  -f  --force-colorization
-# @option --paging <when>
+# @option --paging[auto|never|always] <when>
 # @option --pager <command>
-# @option -m --map-syntax <glob:syntax>
+# @option --map-syntax <glob:syntax>
 # @option --ignored-suffix
 # @option --theme[`__choice___theme`]
 # @flag  --list-themes
-# @option --style <components>
+# @option --style[default|full|auto|plain|changes|header|header-filename|header-filesize|grid|rule|numbers|snip] <components>
 # @option -r --line-range <N:M>
 # @flag  -L  --list-languages
 # @flag  -u  --unbuffered
@@ -50,5 +50,6 @@ __choice___language() {
 __choice___theme() {
     bat --list-themes | cat
 }
+
 
 eval "$(argc "$0" "$@")"

@@ -23,4 +23,5 @@
 # @option --log-format <format>
 # @option --completions[bash|elvish|fish|powershell|zsh] <shell>
 # @arg root
+
 eval "$(argc "$0" "$@")"
