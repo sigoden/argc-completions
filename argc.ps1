@@ -20,15 +20,20 @@ $_argc_completions_scripts = {
     } else {
         $cmds = $tail
     }
-    $comps = (argc --compgen "$argcfile" "$cmds" 2>$null)
-    if ($comps -match '^`[^` ]+`$') {
-        $comps = (& $ARGC_COMPLETIONS_GIT_BASH "$argcfile" $comps.Substring(1, $comps.Length - 2) 2>$null)
-    } elseif ($comps -eq "<FILE>" -or $comps -eq "<PATH>" -or $comps -eq "<FILE>..." -or $comps -eq "<PATH>...") {
-        $comps = ("")
-    } elseif ($comps -eq "<DIR>" -or $comps -eq "<DIR>...") {
-        $comps = ("")
+    $opts = (argc --compgen "$argcfile" "$cmds" 2>$null).Split("`n")
+    $opts2 = @()
+    foreach ($opt in $opts) {
+        if ($opt -match '^`[^` ]+`$') {
+            $choices = (& $ARGC_COMPLETIONS_GIT_BASH "$argcfile" $opt.Substring(1, $opt.Length - 2) 2>$null).Split("`n")
+            $opts2 += $choices
+        } elseif ($opt -eq "<FILE>" -or $opt -eq "<PATH>" -or $opt -eq "<FILE>..." -or $opt -eq "<PATH>...") {
+        } elseif ($opt -eq "<DIR>" -or $opt -eq "<DIR>...") {
+        } else {
+            $opts2 += $opt
+        }
     }
-    $comps -split "`n" | 
+
+    $opts2 | 
         Where-Object { $_ -like "$wordToComplete*" } |
         ForEach-Object { 
             if ($_.StartsWith("-")) {
