@@ -3,10 +3,10 @@
 
 # @option -m --model
 # @option -p --prompt
-# @flag  -H  --no-highlight
-# @flag  -S  --no-stream
-# @flag  --list-roles
-# @flag  --list-models
+# @flag -H --no-highlight
+# @flag -S --no-stream
+# @flag --list-roles
+# @flag --list-models
 # @option -r --role[`__choice___role`]
 # @arg text*
 

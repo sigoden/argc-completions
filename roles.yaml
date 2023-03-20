@@ -3,8 +3,11 @@
 - name: generic
   prompt: |
     Extract all subcommands, options and positional arguments in the help text and translate it into csv,
+    Do not parse value notation from the description.
     ## Help Text
       Usage: mycmd [command] [options]
+      Arguments:
+        arga               Desc
       Options:
       --flga, --other-flga          Desc
       --flgb                        Desc
@@ -19,32 +22,30 @@
       --opth v1                     Desc v1
       --opth v2                     Desc v2
       --opth v3                     Desc v3
-      --opti <o1>                   Desc
-      --opti <o2>                   Desc
-      --opti <o3>                   Desc
       Commands:
-         cmda                      Desc 
-      b, cmdb                      Desc 
-         cmdc sub1                 Desc sub1
-         cmdc sub2                 Desc sub2
+          cmda                      Desc 
+       b, cmdb                      Desc 
+      cc, cmdc                      Desc 
+          cmde sub1                 Desc sub1
+          cmde sub2                 Desc sub2
+          cmde sub3                 Desc sub3
     ## Translated CSV
-    |type|name|short|notation|multiple|choices|aliases|
-    |option|flga|||0||other-flga|
-    |option|flgb|||0|||
-    |option|flgc|c||0|||
-    |option|flgd|D||0|||
-    |option|flgd|D||0||no-flgd|
-    |option|opta||<opta>|0|||
-    |option|optb||[bool]|0|||
-    |option|optd||<path>|0||other-optd|
-    |option|opte|e|<opte>|0|||
-    |option|optf||<boof>[:extra]|0|||
-    |option|optg|g|<path>|0||optg2|
-    |option|opth|||0|v1,v2,v3||
-    |option|opti||<*>|0|||
-    |command|cmda||||||
-    |command|cmdb|||||b|
-    |command|cmdc||||||
+    |type|name|aliases|value-notation|multiple|choices|
+    |argument|arga|||0||
+    |option|other-flga|flga||0||
+    |option|flgb|||0||
+    |option|flgc|c||0||
+    |option|[no-]flgd|D||0||
+    |option|opta||<opta>|0||
+    |option|optb||[bool]|0||
+    |option|other-optd|optd|<path>|0||
+    |option|opte|e|<opte>|0||
+    |option|optf||<optf>[:extra]|0||
+    |option|optg2|g,optg|<path>|0||
+    |option|opth|||0|v1,v2,v3|
+    |command|cmda|||||
+    |command|cmdb|b||||
+    |command|cmdc|cc||||
     ## Help Text I provides
     __INPUT__
     ## Translated CSV you replys
@@ -52,6 +53,7 @@
 - name: clap
   prompt: |
     Extract all subcommands, options and positional arguments in the help text and translate it into csv,
+    Do not parse value notation from the description.
     ## Help Text
     ARGS:
         <ARGA>           Desc
@@ -67,33 +69,39 @@
         --optf [<OPTF>...]     Desc
         --optg <OPTG>          Desc, [possible values: abc, def]
         --opth <OPTH>          Desc, [default: a] [possible values: a, b, c]
-        --opti <OPTI>          Desc, [default: a]
-        --optk [<OPTK>]        Desc
+        --opti <opti>          Desc, [default: a]
+        --optk [<M:N>]         Desc
         --optl[=<OPTL>]        Desc
+        --optm <OPTM>
+                Desc
+    -n  --optn <X:Y>
+                Desc
     COMMANDS:
       cmda           Desc
       cmdb           Desc, [aliases: b]
       cmdc, c        Desc
     ## Translated CSV 
-    |type|name|short|notation|multiple|choices|aliases|
-    |positional|ARGA||<ARGA>|0|||
-    |positional|ARGB||[ARGB]|0|||
-    |positional|ARGC||<ARGC>|1|||
-    |positional|ARGD||[ARGD]|1|||
-    |option|flga|a||0|||
-    |option|flgb|||0|||
-    |option|optc|c|<OPTC>|0|||
-    |option|optd||<OPTD>|0|||
-    |option|opte|e|<OPTE>|1|||
-    |option|optf||<OPTF>|1|||
-    |option|optg||<OPTG>|0|abc,def||
-    |option|opth||<OPTH>|0|a,b,c||
-    |option|opti||<OPTI>|0|||
-    |option|optk||<OPTK>|0|||
-    |option|optl||<OPTL>|0|||
-    |command|cmda||||||
-    |command|cmdb|||||b|
-    |command|cmdc|||||c|
+    |type|name|aliases|value-notation|multiple|choices|
+    |argument|ARGA||<ARGA>|0||
+    |argument|ARGB||[ARGB]|0||
+    |argument|ARGC||<ARGC>|1||
+    |argument|ARGD||[ARGD]|1||
+    |option|flga|a||0||
+    |option|flgb|||0||
+    |option|optc|c|<OPTC>|0||
+    |option|optd||<OPTD>|0||
+    |option|opte|e|<OPTE>|1||
+    |option|optf||<OPTF>|1||
+    |option|optg||<OPTG>|0|abc,def|
+    |option|opth||<OPTH>|0|a,b,c|
+    |option|opti||<opti>|0||
+    |option|optk||<M:N>|0||
+    |option|optl||<OPTL>|0||
+    |option|optm||<OPTM>|0||
+    |option|optn|n|<X:Y>|0||
+    |command|cmda|||||
+    |command|cmdb|b||||
+    |command|cmdc|c||||
     ## Help Text I provides
     __INPUT__
     ## Translated CSV you replys

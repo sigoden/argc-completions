@@ -30,14 +30,14 @@ run() {
     csv=( $(fetch_csv $type $bin) )
     local names=""
     for item in ${csv[@]}; do
-        local kind=$(echo "$item" | awk -F'|' '{print $2}')
-        local name=$(echo "$item" | awk -F'|' '{print $3}')
+        local kind=$(get_kind "$item")
+        local name=$(get_name "$item")
         if [[ -n "$name" ]] && [[ "$names" != *"($kind:$name)"* ]]; then
             names="$names ($kind:$name) "
             if [[ "$kind" == "option" ]]; then
                 handle_option "$item" >> $target
-            elif [[ "$kind" == "positional" ]]; then
-                handle_positional "$item" >> $target
+            elif [[ "$kind" == "argument" ]]; then
+                handle_argument "$item" >> $target
             elif [[ "$kind" == "command" ]]; then
                 handle_subcmd "$item" $type $bin >> $target
             fi
@@ -51,26 +51,26 @@ handle_subcmd() {
     local input="$1"
     local type=$2
     local cmd="${@:3}"
-    local name=$(echo "$input" | awk -F'|' '{print $3}')
+    local name=$(get_name "$input")
     if [[ "$name" != "help" ]] &&  [[ "$name" != *" "* ]]; then
         echo
         echo "# @cmd"
-        local aliases=$(echo $input | awk -F'|' '{print $8}')
+        local aliases=$(get_aliases "$input")
         if [[ -n "$aliases" ]]; then
-            echo "# @alias $aliases"
+            echo "# @alias $(echo $aliases | tr -d ' ')"
         fi
         local subcmds=()
         local subcmd_names=""
         local csv=( $(fetch_csv $type $cmd $name) )
         for item in ${csv[@]}; do
-            local kind=$(echo "$item" | awk -F'|' '{print $2}')
-            local subcmd_name=$(echo "$item" | awk -F'|' '{print $3}')
+            local kind=$(get_kind "$item")
+            local subcmd_name=$(get_name "$item")
             if [[ -n "$subcmd_name" ]] && [[ "$subcmd_names" != *"($kind:$subcmd_name)"* ]]; then
                 subcmd_names="$subcmd_names ($kind:$subcmd_name) "
                 if [[ "$kind" == "option" ]]; then
                     handle_option "$item"
-                elif [[ "$kind" == "positional" ]]; then
-                    handle_positional "$item"
+                elif [[ "$kind" == "argument" ]]; then
+                    handle_argument "$item"
                 elif [[ "$kind" == "command" ]]; then
                     if [[ "$subcmd_name" != "$name" ]]; then
                         subcmds+=("$item")
@@ -91,54 +91,60 @@ handle_subcmd() {
 
 handle_option() {
     local input="$1"
-    local name=$(echo $input | awk -F'|' '{print $3}')
-    local short=$(echo $input | awk -F'|' '{print $4}')
-    local notation=$(echo $input | awk -F'|' '{print $5}')
-    local multiple=$(echo $input | awk -F'|' '{print $6}')
-    local choices="$(echo $input | awk -F'|' '{print $7}' | sed 's/, */|/g')"
-    local line=""
+    local name=$(get_name "$input")
+    local aliases=$(get_aliases "$input")
+    local notation=$(get_notation "$input")
+    local multiple=$(get_multiple "$input")
+    local choices="$(get_choices "$input")"
+    local line tag_val short_val name_suffix notation_val
+    local name_aliases=()
+    if [[ -n "$aliases" ]]; then
+        local vals=( $(echo $aliases | sed 's/, */\n/g') )
+        for val in ${vals[@]}; do 
+            if [[ ${#val} -eq 1 ]]; then
+                short_val=" -$val"
+            else
+                name_aliases+=( "$val" )
+            fi
+        done
+    fi
+    if [[ "$name" =~ ^'[no-]'* ]]; then
+        name=${name:5}
+        name_aliases+=( "no-$name" )
+    fi
     if [[ "$name" == "help" ]] || [[ "$name" == "version" ]]; then
         return
     fi
     if [[ -n "$notation" ]] || [[ -n "$choices" ]]; then
-        line="# @option"
-        short=$(echo $short | sed 's/-//g')
-        if [[ ${#short} -eq 1 ]]; then
-            line="$line -$short"
-        fi
-        line="$line --$name"
+        tag_val="# @option"
 
         notation="$(sanitize_notation "$notation")"
-        if [[ "$notation" == *'|'* ]] && [[ -z "$choices" ]]; then
-            choices=$notation
-            notation=""
-        fi
         if [[ -n "$choices" ]]; then
-            line="$line["$choices"]"
+            name_suffix="["$choices"]"
         elif [[ "$multiple" == "1" ]]; then
-            line="$line*"
+            name_suffix="*"
         fi
-        local name_lc=$(echo "$name" | tr '[:upper:]' '[:lower:]')
-        local notation_lc=$(echo "$notation" | tr '[:upper:]' '[:lower:]')
-        if [[ -n "$notation" ]] && [[  $name_lc != $notation_lc ]]; then
-            line="$line <$notation>"
+        if [[ -n "$notation" ]]; then
+            if [[  "$(echo "$name" | tr '[:upper:]' '[:lower:]')" != "$(echo "$notation" | tr '[:upper:]' '[:lower:]')" ]]; then
+                notation_val=" <$notation>"
+            fi
         fi
     else
-        line="# @flag"
-        if [[ -n "$short" ]]; then
-            line="$line  -$short"
-        fi
-        line="$line  --$name"
+        tag_val="# @flag"
     fi
-    echo "$line"
+    echo "${tag_val}${short_val} --${name}${name_suffix}${notation_val}"
+    for val in ${name_aliases[@]}; do
+        echo "${tag_val} --${val}${name_suffix}${notation_val}"
+    done
 }
 
-handle_positional() {
+handle_argument() {
     local input="$1"
-    local name=$(echo $input | awk -F'|' '{print $3}')
-    local multiple=$(echo $input | awk -F'|' '{print $6}')
-    local choices=$(echo $input | awk -F'|' '{print $7}' | sed 's/, */|/g')
-    local line="# @arg $(sanitize_name $name)"
+    local name=$(get_name "$input")
+    local multiple=$(get_multiple "$input")
+    local choices=$(get_choices "$input")
+    local name=$(echo $name | sed 's/\[\(.*\)\]/\1/' | sed 's/<\(.*\)>/\1/' | tr '[:upper:]' '[:lower:]')
+    local line="# @arg $name"
     if [[ -n "$choices" ]]; then
         line="$line[$choices]"
     elif [[ "$multiple" == "1" ]]; then
@@ -162,10 +168,6 @@ fetch_csv() {
     fi
 }
 
-sanitize_name() {
-    echo $1 | sed 's/\[\(.*\)\]/\1/' | sed 's/<\(.*\)>/\1/' | tr '[:upper:]' '[:lower:]'
-}
-
 sanitize_notation() {
     local notation=$1
     if grep -q '<.*>' <<<"$notation"; then
@@ -173,6 +175,30 @@ sanitize_notation() {
     elif grep -q '\[.*\]' <<<"$notation"; then
         echo $notation | sed 's/.*\[\(.\+\)\].*/\1/' 
     fi
+}
+
+get_kind() {
+    echo "$1" | awk -F'|' '{print $2}'
+}
+
+get_name() {
+    echo "$1" | awk -F'|' '{print $3}' | sed 's/ .*//'
+}
+
+get_aliases() {
+    echo "$1" | awk -F'|' '{print $4}'
+}
+
+get_notation() {
+    echo "$1" | awk -F'|' '{print $5}'
+}
+
+get_multiple() {
+    echo "$1" | awk -F'|' '{print $6}'
+}
+
+get_choices() {
+    echo "$1" | awk -F'|' '{print $7}' | sed 's/, */|/g'
 }
 
 apply_patches() {
