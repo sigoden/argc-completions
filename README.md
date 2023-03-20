@@ -32,12 +32,14 @@ test -e "$HOME/.argc-completions/argc.fish" && source "$HOME/.argc-completions/a
 For PowerShell, add the following code to `$PROFILE`.
 
 ```
-if(Test-Path $HOME + "\.argc-completions\argc.ps1") {
-    . $HOME + "\.argc-completions\argc.ps1"
+$ARGC_COMPLETIONS_GIT_BASH="C:\Program Files\Git\bin\bash.exe"
+
+if(Test-Path ($env:USERPROFILE + "\.argc-completions\argc.ps1")) {
+    . ($env:USERPROFILE + "\.argc-completions\argc.ps1")
 }
 ```
 
-> If you are using Windows, you need to install git-bash and set `$ARGC_COMPLETIONS_GIT_BASH="C:\Program Files\Git\bin\bash.exe"`.
+> If you are using Windows, you need to install git-bash.
 
 ## How to write
 
