@@ -16,12 +16,12 @@ git clone https://github.com/sigoden/argc-completions $HOME/.argc-completions
 
 For bash, add the following code to `.bashrc`.
 ```
-[[ -f "$HOME/.argc-completions/argc.bash" ]] && source "$HOME/.argc-completions/argc.bash" 
+[ -f "$HOME/.argc-completions/argc.bash" ] && source "$HOME/.argc-completions/argc.bash" 
 ```
 
 For zsh, add the following code to `.zshrc`.
 ```
-[[ -f "$HOME/.argc-completions/argc.zsh" ]] && source "$HOME/.argc-completions/argc.zsh" 
+[ -f "$HOME/.argc-completions/argc.zsh" ] && source "$HOME/.argc-completions/argc.zsh" 
 ```
 
 For fish, add the following code to `config.fish`.
