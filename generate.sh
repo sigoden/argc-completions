@@ -92,10 +92,6 @@ handle_option() {
             fi
         done
     fi
-    if [[ "$name" =~ ^'[no-]'* ]]; then
-        name=${name:5}
-        name_aliases+=( "no-$name" )
-    fi
     if [[ "$name" == "help" ]] || [[ "$name" == "version" ]]; then
         return
     fi

@@ -208,7 +208,6 @@ init() {
 # @cmd
 # @arg dep_id*
 # @arg name
-# @arg name>@<version-req
 # @flag --no-default-features
 # @flag --default-features
 # @option -F --features
@@ -297,7 +296,7 @@ run() {
 # @cmd
 # @alias t
 # @arg testname
-# @arg args...*
+# @arg args*
 # @flag -q --quiet
 # @flag --lib
 # @option --bin <NAME>

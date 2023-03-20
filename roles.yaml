@@ -32,24 +32,24 @@
           cmde sub2                 Desc sub2
           cmde sub3                 Desc sub3
     ## Translated markdown table
-    | type     | name       | aliases | value-notation | choices  |
-    | -------- | ---------- | ------- | -------------- | -------- |
-    | argument | arga       |         |                |          |
-    | option   | other-flga | flga    |                |          |
-    | option   | flgb       |         |                |          |
-    | option   | flgc       | c       |                |          |
-    | option   | [no-]flgd  | D       |                |          |
-    | option   | [no-]flge  |         |                |          |
-    | option   | opta       |         | <opta>         |          |
-    | option   | optb       |         | [bool]         |          |
-    | option   | other-optd | optd    | <path>         |          |
-    | option   | opte       | e       | <opte>         |          |
-    | option   | optf       |         | <optf>[:extra] |          |
-    | option   | optg2      | g,optg  | <path>         |          |
-    | option   | opth       |         |                | v1,v2,v3 |
-    | command  | cmda       |         |                |          |
-    | command  | cmdb       | b       |                |          |
-    | command  | cmdc       | cc      |                |          |
+    | type     | name       | aliases    | value-notation | choices  |
+    | -------- | ---------- | ---------- | -------------- | -------- |
+    | argument | arga       |            |                |          |
+    | option   | other-flga | flga       |                |          |
+    | option   | flgb       |            |                |          |
+    | option   | flgc       | c          |                |          |
+    | option   | flgd       | D, no-flgd |                |          |
+    | option   | flge       | no-flge    |                |          |
+    | option   | opta       |            | <opta>         |          |
+    | option   | optb       |            | [bool]         |          |
+    | option   | other-optd | optd       | <path>         |          |
+    | option   | opte       | e          | <opte>         |          |
+    | option   | optf       |            | <optf>[:extra] |          |
+    | option   | optg2      | g,optg     | <path>         |          |
+    | option   | opth       |            |                | v1,v2,v3 |
+    | command  | cmda       |            |                |          |
+    | command  | cmdb       | b          |                |          |
+    | command  | cmdc       | cc         |                |          |
     ## Help Text I provides
     __INPUT__
     ## Translated markdown table you replys
