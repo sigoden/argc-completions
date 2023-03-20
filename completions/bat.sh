@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generated with `./generate.sh clap bat`. DON'T MODIFY IT
+# Generated with `./generate.sh --spec=clap bat`. DON'T MODIFY IT
 
 # @arg file*
 # @flag -A --show-all
@@ -19,7 +19,7 @@
 # @flag -f --force-colorization
 # @option --paging[auto|never|always] <when>
 # @option --pager <command>
-# @option -m --map-syntax* <glob:syntax>
+# @option -m --map-syntax <glob:syntax>
 # @option --ignored-suffix
 # @option --theme[`__choice___theme`]
 # @flag --list-themes

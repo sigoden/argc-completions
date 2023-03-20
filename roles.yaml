@@ -1,8 +1,9 @@
 # AIchat roles file
 
 - name: generic
+  temperature: 0.4
   prompt: |
-    Extract all subcommands, options and positional arguments in the help text and translate it into csv,
+    Extract all subcommands, options and positional arguments in the help text and translate it into markdown table,
     Do not parse value notation from the description.
     ## Help Text
       Usage: mycmd [command] [options]
@@ -13,6 +14,7 @@
       --flgb                        Desc
       -c, --flgc                    Desc
       -D, --[no-]flgd               Desc
+      --[no-]flge                   Desc
       --opta <opta>                 Desc
       --optb [bool]                 Desc
       --optd, --other-optd <path>   Desc
@@ -29,30 +31,33 @@
           cmde sub1                 Desc sub1
           cmde sub2                 Desc sub2
           cmde sub3                 Desc sub3
-    ## Translated CSV
-    |type|name|aliases|value-notation|multiple|choices|
-    |argument|arga|||0||
-    |option|other-flga|flga||0||
-    |option|flgb|||0||
-    |option|flgc|c||0||
-    |option|[no-]flgd|D||0||
-    |option|opta||<opta>|0||
-    |option|optb||[bool]|0||
-    |option|other-optd|optd|<path>|0||
-    |option|opte|e|<opte>|0||
-    |option|optf||<optf>[:extra]|0||
-    |option|optg2|g,optg|<path>|0||
-    |option|opth|||0|v1,v2,v3|
-    |command|cmda|||||
-    |command|cmdb|b||||
-    |command|cmdc|cc||||
+    ## Translated markdown table
+    | type     | name       | aliases | value-notation | choices  |
+    | -------- | ---------- | ------- | -------------- | -------- |
+    | argument | arga       |         |                |          |
+    | option   | other-flga | flga    |                |          |
+    | option   | flgb       |         |                |          |
+    | option   | flgc       | c       |                |          |
+    | option   | [no-]flgd  | D       |                |          |
+    | option   | [no-]flge  |         |                |          |
+    | option   | opta       |         | <opta>         |          |
+    | option   | optb       |         | [bool]         |          |
+    | option   | other-optd | optd    | <path>         |          |
+    | option   | opte       | e       | <opte>         |          |
+    | option   | optf       |         | <optf>[:extra] |          |
+    | option   | optg2      | g,optg  | <path>         |          |
+    | option   | opth       |         |                | v1,v2,v3 |
+    | command  | cmda       |         |                |          |
+    | command  | cmdb       | b       |                |          |
+    | command  | cmdc       | cc      |                |          |
     ## Help Text I provides
     __INPUT__
-    ## Translated CSV you replys
+    ## Translated markdown table you replys
 
 - name: clap
+  temperature: 0.4
   prompt: |
-    Extract all subcommands, options and positional arguments in the help text and translate it into csv,
+    Extract all subcommands, options and positional arguments in the help text and translate it into markdown table,
     Do not parse value notation from the description.
     ## Help Text
     ARGS:
@@ -68,9 +73,8 @@
     -e  --opte <OPTE>...       Desc
         --optf [<OPTF>...]     Desc
         --optg <OPTG>          Desc, [possible values: abc, def]
-        --opth <OPTH>          Desc, [default: a] [possible values: a, b, c]
-        --opti <opti>          Desc, [default: a]
-        --optk [<M:N>]         Desc
+    -h  --opth <OPTH>          Desc, [default: a] [possible values: a, b, c]
+    -k  --optk [<M:N>]         Desc
         --optl[=<OPTL>]        Desc
         --optm <OPTM>
                 Desc
@@ -80,28 +84,28 @@
       cmda           Desc
       cmdb           Desc, [aliases: b]
       cmdc, c        Desc
-    ## Translated CSV 
-    |type|name|aliases|value-notation|multiple|choices|
-    |argument|ARGA||<ARGA>|0||
-    |argument|ARGB||[ARGB]|0||
-    |argument|ARGC||<ARGC>|1||
-    |argument|ARGD||[ARGD]|1||
-    |option|flga|a||0||
-    |option|flgb|||0||
-    |option|optc|c|<OPTC>|0||
-    |option|optd||<OPTD>|0||
-    |option|opte|e|<OPTE>|1||
-    |option|optf||<OPTF>|1||
-    |option|optg||<OPTG>|0|abc,def|
-    |option|opth||<OPTH>|0|a,b,c|
-    |option|opti||<opti>|0||
-    |option|optk||<M:N>|0||
-    |option|optl||<OPTL>|0||
-    |option|optm||<OPTM>|0||
-    |option|optn|n|<X:Y>|0||
-    |command|cmda|||||
-    |command|cmdb|b||||
-    |command|cmdc|c||||
+    ## Translated markdown table 
+    | type     | name | aliases | value-notation | choices |
+    | -------- | ---- | ------- | -------------- | ------- |
+    | argument | ARGA |         | <ARGA>         |         |
+    | argument | ARGB |         | [ARGB]         |         |
+    | argument | ARGC |         | <ARGC>...      |         |
+    | argument | ARGD |         | [ARGD]...      |         |
+    | option   | flga | a       |                |         |
+    | option   | flgb |         |                |         |
+    | option   | optc | c       | <OPTC>         |         |
+    | option   | optd |         | <OPTD>         |         |
+    | option   | opte | e       | <OPTE>...      |         |
+    | option   | optf |         | <OPTF>...      |         |
+    | option   | optg |         | <OPTG>         | abc,def |
+    | option   | opth | h       | <OPTH>         | a,b,c   |
+    | option   | optk | k       | <M:N>          |         |
+    | option   | optl |         | <OPTL>         |         |
+    | option   | optm |         | <OPTM>         |         |
+    | option   | optn | n       | <X:Y>          |         |
+    | command  | cmda |         |                |         |
+    | command  | cmdb | b       |                |         |
+    | command  | cmdc | c       |                |         |
     ## Help Text I provides
     __INPUT__
-    ## Translated CSV you replys
+    ## Translated markdown table you replys

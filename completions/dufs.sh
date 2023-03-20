@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generated with `./generate.sh clap dufs`. DON'T MODIFY IT
+# Generated with `./generate.sh --spec=clap dufs`. DON'T MODIFY IT
 
 # @arg root
 # @option -b --bind <addrs>
