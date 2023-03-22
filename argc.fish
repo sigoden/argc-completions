@@ -17,9 +17,9 @@ function __fish_complete_argc_scripts
         if string match -qr '^`[^` ]+`' -- "$item"
             set -l name (string sub "$item" -s 2 -e -1)
             "$ARGC_COMPLETIONS_GIT_BASH" "$argcfile" $name 2>/dev/null
-        else if test "$item" = "<FILE>" || test "$item" = "<PATH>" || test "$item" = "<FILE>..." || test "$item" = "<PATH>..."
+        else if string match -qir '(file|path)>(\.\.\.)?' -- "$item"
             set comp_file 1
-        else if test "$item" = "<DIR>" || test "$item" = "<DIR>..."
+        else if string match -qir 'dir>(\.\.\.)?' -- "$item"
             set comp_dir 1
         else
             echo $item
