@@ -1,12 +1,12 @@
-ARGC_COMPELTIONS_DIR=${ARGC_COMPELTIONS_DIR:-"$( dirname "${BASH_SOURCE[0]}")/completions"}
-ARGC_COMPLETIONS_SCRIPTS=( $(ls -1 "$ARGC_COMPELTIONS_DIR" | sed 's/.sh$//' | tr '\n' ' ') )
+ARGC_COMPLETIONS_DIR=${ARGC_COMPLETIONS_DIR:-"$( dirname "${BASH_SOURCE[0]}")/completions"}
+ARGC_COMPLETIONS_SCRIPTS=( $(ls -1 "$ARGC_COMPLETIONS_DIR" | sed 's/.sh$//' | tr '\n' ' ') )
 ARGC_COMPLETIONS_GIT_BASH=${ARGC_COMPLETIONS_GIT_BASH:-bash}
 
 _argc_completions_scripts() {
     local argcfile cur opts opts2 line index IFS comp_file comp_dir
     cur="${COMP_WORDS[COMP_CWORD]}"
     COMPREPLY=()
-    argcfile="$ARGC_COMPELTIONS_DIR/${COMP_WORDS[0]}.sh"
+    argcfile="$ARGC_COMPLETIONS_DIR/${COMP_WORDS[0]}.sh"
     if [[ $? != 0 ]]; then
         return 0
     fi

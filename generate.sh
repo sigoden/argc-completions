@@ -5,7 +5,7 @@
 # @arg cmd!                         Specify the command, must able to run locally
 
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-COMPELTIONS_DIR=${ARGC_COMPELTIONS_DIR:-"$ROOT_DIR/completions"}
+COMPLETIONS_DIR=${ARGC_COMPLETIONS_DIR:-"$ROOT_DIR/completions"}
 CACHE_DIR="$ROOT_DIR/cache"
 IFS=$'\n'
 [[ ! -d "$CACHE_DIR" ]] && mkdir -p "$CACHE_DIR"
@@ -16,7 +16,7 @@ export AICHAT_ROLES_FILE="$ROOT_DIR/roles.yaml"
 command_line="$@"
 
 run() {
-    output_file="$COMPELTIONS_DIR/$argc_cmd.sh"
+    output_file="$COMPLETIONS_DIR/$argc_cmd.sh"
     print_head > $output_file
     handle_lines $argc_cmd
     apply_patches

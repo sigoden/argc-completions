@@ -1,11 +1,11 @@
-set -q ARGC_COMPELTIONS_DIR || set ARGC_COMPELTIONS_DIR (string join "" (cd (dirname (status -f)); and pwd)  "/completions")
-set ARGC_COMPLETIONS_SCRIPTS (ls -1 "$ARGC_COMPELTIONS_DIR" | sed 's/.sh$//')
+set -q ARGC_COMPLETIONS_DIR || set ARGC_COMPLETIONS_DIR (string join "" (cd (dirname (status -f)); and pwd)  "/completions")
+set ARGC_COMPLETIONS_SCRIPTS (ls -1 "$ARGC_COMPLETIONS_DIR" | sed 's/.sh$//')
 set -q ARGC_COMPLETIONS_GIT_BASH || set ARGC_COMPLETIONS_GIT_BASH bash
 
 function __fish_complete_argc_scripts
     set -l tokens (commandline -c | string trim -l | string split " " --)
     set -l bin (basename $tokens[1])
-    set -l argcfile "$ARGC_COMPELTIONS_DIR/$bin.sh"
+    set -l argcfile "$ARGC_COMPLETIONS_DIR/$bin.sh"
     if test -z $argcfile
         return 0
     end
