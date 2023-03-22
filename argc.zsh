@@ -1,12 +1,12 @@
-ARGC_COMPELTIONS_BASE_DIR=$(dirname $(readlink -f $0))
-ARGC_COMPLETIONS_SCRIPTS=( $(ls -1 "$ARGC_COMPELTIONS_BASE_DIR/completions" | sed 's/.sh$//' ) )
+ARGC_COMPELTIONS_DIR=${ARGC_COMPELTIONS_DIR:-"$( dirname $(readlink -f $0) )/completions"}
+ARGC_COMPLETIONS_SCRIPTS=( $(ls -1 "$ARGC_COMPELTIONS_DIR" | sed 's/.sh$//' ) )
 ARGC_COMPLETIONS_GIT_BASH=${ARGC_COMPLETIONS_GIT_BASH:-bash}
 
 _argc_completions_scripts()
 {
     local argcfile line opts opts2 comp_file comp_dir
     local bin=$(basename $words[1])
-    argcfile="$ARGC_COMPELTIONS_BASE_DIR/completions/$bin.sh"
+    argcfile="$ARGC_COMPELTIONS_DIR/$bin.sh"
     line="${words[2,-1]}"
     if [[ $? -ne 0 ]]; then
         return 0

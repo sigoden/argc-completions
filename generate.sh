@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 
-# @option -a --arg-help=--help Command argument to get help
-# @option --spec[=generic|clap] Choose a spec
-# @arg cmd! - Specify the command, must able to run locally
+# @option -a --arg-help=--help      Command argument to get help
+# @option --spec[=generic|clap]     Choose a spec
+# @arg cmd!                         Specify the command, must able to run locally
 
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-TMP_DIR="$ROOT_DIR/tmp"
+COMPELTIONS_DIR=${ARGC_COMPELTIONS_DIR:-"$ROOT_DIR/completions"}
+CACHE_DIR="$ROOT_DIR/cache"
 IFS=$'\n'
-[[ ! -d "$TMP_DIR" ]] && mkdir -p "$TMP_DIR"
+[[ ! -d "$CACHE_DIR" ]] && mkdir -p "$CACHE_DIR"
 
 export NO_COLOR=true
 export AICHAT_ROLES_FILE="$ROOT_DIR/roles.yaml"
@@ -15,7 +16,7 @@ export AICHAT_ROLES_FILE="$ROOT_DIR/roles.yaml"
 command_line="$@"
 
 run() {
-    local target="$ROOT_DIR/completions/$argc_cmd.sh"
+    local target="$COMPELTIONS_DIR/$argc_cmd.sh"
     print_head > $target
     csv=( $(fetch_csv $argc_cmd) )
     local names=""
@@ -134,8 +135,8 @@ handle_argument() {
 
 fetch_csv() {
     local name=$(echo $@ | sed 's/ /-/g')
-    local path="$TMP_DIR/$name.csv" 
-    if [[ -f "$path" ]]; then
+    local path="$CACHE_DIR/$name.csv" 
+    if [[ "$argc_force" != "1" ]] && [[ -f "$path" ]]; then
         cat "$path" | sed -n '3,$ p' 
     else
         local text="$($@ $argc_arg_help 2>&1)"

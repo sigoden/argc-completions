@@ -1,9 +1,10 @@
-$ARGC_COMPELTIONS_BASE_DIR = Split-Path -Parent $MyInvocation.MyCommand.Path
-$ARGC_COMPLETIONS_SCRIPTS = (Get-ChildItem $ARGC_COMPELTIONS_BASE_DIR\completions | ForEach-Object { $_.Name -replace '\.sh$' })
+$ARGC_COMPELTIONS_DIR = if ($ARGC_COMPELTIONS_DIR) { $ARGC_COMPELTIONS_DIR } else { (Split-Path -Parent $MyInvocation.MyCommand.Path) + "\completions" }
+$ARGC_COMPLETIONS_SCRIPTS = (Get-ChildItem $ARGC_COMPELTIONS_DIR | ForEach-Object { $_.Name -replace '\.sh$' })
+$ARGC_COMPLETIONS_GIT_BASH = if ($ARGC_COMPLETIONS_GIT_BASH) { $ARGC_COMPLETIONS_GIT_BASH } else { "C:\Program Files\Git\bin\bash.exe" }
 
 $_argc_completions_scripts = {
     param($wordToComplete, $commandAst, $cursorPosition)
-    $argcfile = ($ARGC_COMPELTIONS_BASE_DIR + "\completions\" + $commandAst.CommandElements[0] + ".sh")
+    $argcfile = ($ARGC_COMPELTIONS_DIR + $commandAst.CommandElements[0] + ".sh")
     if (!$argcfile) {
         $argcfile = $commandAst.CommandElements[0]
         if (-not(Test-Path -Path $argcfile -PathType Leaf)) {
