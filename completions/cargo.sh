@@ -164,7 +164,6 @@ doc() {
 
 
 # @cmd
-# @arg path
 # @flag -q --quiet
 # @option --registry
 # @option --vcs[git|hg|pijul|fossil|none]
@@ -179,13 +178,13 @@ doc() {
 # @flag --offline
 # @option --config <KEY=VALUE>
 # @option --Z <FLAG>
+# @arg path
 new() {
     :;
 }
 
 
 # @cmd
-# @arg path
 # @flag -q --quiet
 # @option --registry
 # @option --vcs[git|hg|pijul|fossil|none]
@@ -200,14 +199,13 @@ new() {
 # @flag --offline
 # @option --config <KEY=VALUE>
 # @option -Z --unstable <FLAG>
+# @arg path
 init() {
     :;
 }
 
 
 # @cmd
-# @arg dep_id*
-# @arg name
 # @flag --no-default-features
 # @flag --default-features
 # @option -F --features
@@ -234,13 +232,14 @@ init() {
 # @flag --dev
 # @flag --build
 # @option --target
+# @arg dep_id*
+# @arg name
 add() {
     :;
 }
 
 
 # @cmd
-# @arg dep_id*
 # @option -p --package <SPEC>
 # @option --manifest-path <PATH>
 # @flag -q --quiet
@@ -255,6 +254,7 @@ add() {
 # @flag --dev
 # @flag --build
 # @option --target
+# @arg dep_id*
 remove() {
     :;
 }
@@ -262,7 +262,6 @@ remove() {
 
 # @cmd
 # @alias r
-# @arg args*
 # @flag -q --quiet
 # @option --bin <NAME>
 # @option --example <NAME>
@@ -288,6 +287,7 @@ remove() {
 # @flag --unit-graph
 # @flag --ignore-rust-version
 # @option --timings[html|json] <FMTS>
+# @arg args*
 run() {
     :;
 }
@@ -295,8 +295,6 @@ run() {
 
 # @cmd
 # @alias t
-# @arg testname
-# @arg args*
 # @flag -q --quiet
 # @flag --lib
 # @option --bin <NAME>
@@ -337,14 +335,14 @@ run() {
 # @flag --unit-graph
 # @flag --future-incompat-report
 # @option --timings[html|json] <FMTS>
+# @arg testname
+# @arg args*
 test() {
     :;
 }
 
 
 # @cmd
-# @arg benchname
-# @arg args*
 # @flag -q --quiet
 # @flag --lib
 # @option --bin <NAME>
@@ -382,6 +380,8 @@ test() {
 # @flag --no-fail-fast
 # @flag --unit-graph
 # @option --timings[html|json] <FMTS>
+# @arg benchname
+# @arg args*
 bench() {
     :;
 }
@@ -408,7 +408,6 @@ update() {
 
 
 # @cmd
-# @arg query*
 # @flag -q --quiet
 # @option --index
 # @option --limit
@@ -420,6 +419,7 @@ update() {
 # @flag --offline
 # @option --config <KEY=VALUE>
 # @option --Z <FLAG>
+# @arg query*
 search() {
     :;
 }
@@ -454,7 +454,6 @@ publish() {
 
 
 # @cmd
-# @arg crate*
 # @flag -q --quiet
 # @option --git <URL>
 # @option --branch
@@ -489,13 +488,13 @@ publish() {
 # @option --registry
 # @option --message-format <FMT>
 # @option --timings <FMTS>
+# @arg crate*
 install() {
     :;
 }
 
 
 # @cmd
-# @arg spec*
 # @flag -q --quiet
 # @option -p --package <SPEC>
 # @option --bin <NAME>
@@ -507,6 +506,7 @@ install() {
 # @flag --offline
 # @option --config <KEY=VALUE>
 # @option --Z <FLAG>
+# @arg spec*
 uninstall() {
     :;
 }

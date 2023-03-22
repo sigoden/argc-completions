@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # Generated with `./generate.sh --spec=clap aichat`. DON'T MODIFY IT
 
-# @arg text*
 # @option -m --model
 # @option -p --prompt
 # @flag -H --no-highlight
@@ -11,6 +10,7 @@
 # @option -r --role[`__choice___role`]
 # @flag --info
 # @flag --dry-run
+# @arg text*
 
 __choice___role() {
     aichat --list-roles

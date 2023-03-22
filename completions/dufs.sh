@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # Generated with `./generate.sh --spec=clap dufs`. DON'T MODIFY IT
 
-# @arg root
 # @option -b --bind <addrs>
 # @option -p --port
 # @option --path-prefix <path>
@@ -23,5 +22,6 @@
 # @option --tls-key <path>
 # @option --log-format <format>
 # @option --completions[bash|elvish|fish|powershell|zsh] <shell>
+# @arg root
 
 eval "$(argc "$0" "$@")"

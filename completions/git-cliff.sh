@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 # Generated with `./generate.sh --spec=clap git-cliff`. DON'T MODIFY IT
 
+# @flag -v --verbose
+# @flag -i --init
+# @flag -l --latest
+# @flag --current
+# @flag -u --unreleased
+# @flag --topo-order
+# @flag --context
 # @option -c --config <PATH>
 # @option -w --workdir <PATH>
 # @option -r --repository* <PATH>

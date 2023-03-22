@@ -10,28 +10,28 @@ View the [argc installation guide](https://github.com/sigoden/argc#install).
 
 ### Add to shell rcfile
 
-```
+```sh
 git clone https://github.com/sigoden/argc-completions $HOME/.argc-completions
 ```
 
 For bash, add the following code to `.bashrc`.
-```
+```sh
 [ -f "$HOME/.argc-completions/argc.bash" ] && source "$HOME/.argc-completions/argc.bash" 
 ```
 
 For zsh, add the following code to `.zshrc`.
-```
+```sh
 [ -f "$HOME/.argc-completions/argc.zsh" ] && source "$HOME/.argc-completions/argc.zsh" 
 ```
 
 For fish, add the following code to `config.fish`.
-```
+```fish
 test -e "$HOME/.argc-completions/argc.fish" && source "$HOME/.argc-completions/argc.fish" 
 ```
 
 For PowerShell, add the following code to `$PROFILE`.
 
-```
+```ps1
 $ARGC_COMPLETIONS_GIT_BASH="C:\Program Files\Git\bin\bash.exe"
 
 if(Test-Path ($env:USERPROFILE + "\.argc-completions\argc.ps1")) {
@@ -56,7 +56,7 @@ If the cli is wirtten with clap, Use clap subcommand.
 ./generate.sh --spec=clap mycmd
 ```
 
-If successful, A completion script will be generated at `completions/mycmd.sh`.
+If successful, A completion script will be generated to `completions/mycmd.sh`.
 
 ### Manually write with argc
 

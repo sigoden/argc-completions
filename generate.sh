@@ -16,26 +16,50 @@ export AICHAT_ROLES_FILE="$ROOT_DIR/roles.yaml"
 command_line="$@"
 
 run() {
-    local target="$COMPELTIONS_DIR/$argc_cmd.sh"
-    print_head > $target
-    csv=( $(fetch_csv $argc_cmd) )
+    output_file="$COMPELTIONS_DIR/$argc_cmd.sh"
+    print_head > $output_file
+    handle_lines $argc_cmd
+    apply_patches
+    print_tail >> $output_file
+}
+
+handle_lines() {
+    csv=( $(fetch_csv $@) )
     local names=""
     for item in ${csv[@]}; do
         local kind=$(get_kind "$item")
-        local name=$(get_name "$item")
-        if [[ -n "$name" ]] && [[ "$names" != *"($kind:$name)"* ]]; then
-            names="$names ($kind:$name) "
-            if [[ "$kind" == "argument" ]]; then
-                handle_argument "$item" >> $target
-            elif [[ "$kind" == "command" ]]; then
-                handle_subcommand "$item" >> $target
-            else
-                handle_option "$item" >> $target
+        if [[ "$kind" != "command" ]] && [[ "$kind" != "argument" ]]; then
+            local name=$(get_name "$item")
+            if [[ -n "$name" ]] && [[ "$names" != *"($kind:$name)"* ]]; then
+                names="$names ($kind:$name) "
+                handle_option "$item" >> $output_file
             fi
         fi
     done
-    apply_patches
-    print_tail >> $target
+    names=""
+    for item in ${csv[@]}; do
+        local kind=$(get_kind "$item")
+        if [[ "$kind" == "argument" ]]; then
+            local name=$(get_name "$item")
+            if [[ -n "$name" ]] && [[ "$names" != *"($kind:$name)"* ]]; then
+                names="$names ($kind:$name) "
+                handle_argument "$item" >> $output_file
+            fi
+        fi
+    done
+    if [[ $# -eq 1 ]]; then
+        names=""
+        for item in ${csv[@]}; do
+            local kind=$(get_kind "$item")
+            if [[ "$kind" == "command" ]]; then
+                local name=$(get_name "$item")
+                if [[ -n "$name" ]] && [[ "$names" != *"($kind:$name)"* ]]; then
+                    names="$names ($kind:$name) "
+                    handle_subcommand "$item" $@ $name >> $output_file
+                fi
+            fi
+        done
+    fi
 }
 
 handle_subcommand() {
@@ -48,23 +72,7 @@ handle_subcommand() {
         if [[ -n "$aliases" ]]; then
             echo "# @alias $(echo $aliases | tr -d ' ')"
         fi
-        local subcmds=()
-        local subcmd_names=""
-        local csv=( $(fetch_csv $argc_cmd $name) )
-        for item in ${csv[@]}; do
-            local kind=$(get_kind "$item")
-            local subcmd_name=$(get_name "$item")
-            if [[ -n "$subcmd_name" ]] && [[ "$subcmd_names" != *"($kind:$subcmd_name)"* ]]; then
-                subcmd_names="$subcmd_names ($kind:$subcmd_name) "
-                if [[ "$kind" == "argument" ]]; then
-                    handle_argument "$item"
-                elif [[ "$kind" == "command" ]]; then
-                    :;
-                else
-                    handle_option "$item"
-                fi
-            fi
-        done
+        handle_lines ${@:2}
         echo "$name() {"
         echo "    :;"
         echo "}"
@@ -184,10 +192,10 @@ apply_patches() {
         name=$(basename $patch_file .sh | sed 's|'$argc_cmd'__||')
         name2=$(echo $name | tr '-' '_')
         target="$ROOT_DIR/completions/$argc_cmd.sh"
-        sed -i 's/'$name'/'$name'[`__choice_'$name2'`]/' $target
-        echo >> $target
-        cat $ROOT_DIR/patches/$patch_file >> $target
-        echo -e "\n" >> $target
+        sed -i 's/'$name'/'$name'[`__choice_'$name2'`]/' $output_file
+        echo >> $output_file
+        cat $ROOT_DIR/patches/$patch_file >> $output_file
+        echo -e "\n" >> $output_file
     done
 }
 

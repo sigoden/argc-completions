@@ -4,7 +4,6 @@
 # @flag -r --recursive
 
 # @cmd
-# @arg name
 # @flag --color
 # @flag --no-color
 # @flag -E --save-exact
@@ -34,6 +33,7 @@
 # @option --filter <pattern>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
+# @arg name
 add() {
     :;
 }
@@ -110,7 +110,6 @@ install-test() {
 
 # @cmd
 # @alias ln
-# @arg pkg
 # @flag --color
 # @flag --aggregate-output
 # @option -C --dir
@@ -119,6 +118,7 @@ install-test() {
 # @flag --stream
 # @flag --use-stderr
 # @flag -w --workspace-root
+# @arg pkg
 link() {
     :;
 }
@@ -164,7 +164,6 @@ rebuild() {
 
 # @cmd
 # @alias rm
-# @arg pkg*
 # @flag --color
 # @flag --no-color
 # @flag --aggregate-output
@@ -182,6 +181,7 @@ rebuild() {
 # @option --filter <pattern>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
+# @arg pkg*
 remove() {
     :;
 }
@@ -284,7 +284,6 @@ list() {
 
 
 # @cmd
-# @arg pkg
 # @flag --color
 # @flag --no-color
 # @flag --aggregate-output
@@ -305,6 +304,7 @@ list() {
 # @option --filter <pattern>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
+# @arg pkg
 outdated() {
     :;
 }
@@ -335,6 +335,7 @@ exec() {
 # @option --changed-files-ignore-pattern <pattern>
 # @option --filter <pattern>
 # @option --test-pattern <pattern>
+# @arg command[`__choice_command`]
 run() {
     :;
 }
@@ -366,7 +367,6 @@ pack() {
 
 
 # @cmd
-# @arg tarball
 # @option --access
 # @flag --dry-run
 # @flag --force
@@ -382,6 +382,7 @@ pack() {
 # @option --filter <pattern>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
+# @arg tarball
 publish() {
     :;
 }
@@ -399,5 +400,13 @@ root() {
 store() {
     :;
 }
+
+
+__choice_command() {
+    if [ -f "$(pwd)/package.json" ]; then
+        node -e "Object.keys(require('./package.json').scripts).forEach(v => console.log(v))"
+    fi
+}
+
 
 eval "$(argc "$0" "$@")"

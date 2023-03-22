@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # Generated with `./generate.sh --spec=clap bat`. DON'T MODIFY IT
 
-# @arg file*
 # @flag -A --show-all
 # @flag -p --plain
 # @option -l --language[`__choice___language`]
@@ -29,6 +28,7 @@
 # @flag -u --unbuffered
 # @flag --diagnostic
 # @flag --acknowledgements
+# @arg file*
 
 # @cmd
 # @flag -b --build
