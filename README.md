@@ -43,7 +43,7 @@ if(Test-Path ($env:USERPROFILE + "\.argc-completions\argc.ps1")) {
 
 ## How to write
 
-### Automatically generate with GPT
+### Automatically write with GPT
 
 You need to install the [aichat](https://github.com/sigoden/aichat) tool to interact with GPT.
 
@@ -51,7 +51,7 @@ You need to install the [aichat](https://github.com/sigoden/aichat) tool to inte
 ./generate.sh mycmd
 ```
 
-If the cli is wirtten with clap, Use clap subcommand.
+If the cli is wirtten with clap, use clap spec.
 ```
 ./generate.sh --spec=clap mycmd
 ```
