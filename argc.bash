@@ -7,7 +7,7 @@ _argc_completions_scripts() {
     cur="${COMP_WORDS[COMP_CWORD]}"
     COMPREPLY=()
     argcfile="$ARGC_COMPLETIONS_DIR/${COMP_WORDS[0]}.sh"
-    if [[ $? != 0 ]]; then
+    if [[ ! -f "$argcfile" ]]; then
         return 0
     fi
     line=${COMP_LINE:${#COMP_WORDS[0]}}
@@ -16,9 +16,11 @@ _argc_completions_scripts() {
     opts2=()
     for opt in ${opts[@]}; do
         if [[ "$opt" == '-'* ]]; then
-            opts2+=( "$opt" )
+            if [[ "$cur" == '-'* ]]; then
+                opts2+=( "$opt" )
+            fi
         elif [[ "$opt" == \`*\` ]]; then
-            local choices=($("$ARGC_COMPLETIONS_GIT_BASH" "$argcfile" "${opts:1:-1}" 2>/dev/null))
+            local choices=($("$ARGC_COMPLETIONS_GIT_BASH" "$argcfile" "${opt:1:-1}" 2>/dev/null))
             opts2=( "${opts2[@]}" "${choices[@]}" )
         elif [[ "$opt" == '<'* ]]; then
             if echo "$opt" | grep -qi '\(file\|path\)>\(\.\.\.\)\?'; then

@@ -6,16 +6,19 @@ function __fish_complete_argc_scripts
     set -l tokens (commandline -c | string trim -l | string split " " --)
     set -l bin (basename $tokens[1])
     set -l argcfile "$ARGC_COMPLETIONS_DIR/$bin.sh"
-    if test -z $argcfile
+    if not test -f $argcfile
         return 0
     end
+    set -l line "$tokens[2..]"
     set -l IFS '\n'
-    set -l opts (argc --compgen "$argcfile" "$tokens[2..]" 2>/dev/null)
+    set -l opts (argc --compgen "$argcfile" $line 2>/dev/null)
     set comp_file 0
     set comp_dir 0
     for opt in $opts
-        if string match -q -- '^-' "$opt"
-            echo $opt
+        if string match -qr -- '^-' "$opt"
+            if string match -qr -- '^-' "$tokens[-1]"
+                echo $opt
+            end
         else if string match -qr '^`[^` ]+`' -- "$opt"
             set -l name (string sub "$opt" -s 2 -e -1)
             "$ARGC_COMPLETIONS_GIT_BASH" "$argcfile" $name 2>/dev/null

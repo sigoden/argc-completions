@@ -17,15 +17,17 @@ $_argc_completions_scripts = {
         $tail = ""
     }
     if ($commandAst.CommandElements.Count -gt 1) {
-        $cmds = ($commandAst.CommandElements[1..($commandAst.CommandElements.Count - 1)] -join " ") + $tail
+        $line = ($commandAst.CommandElements[1..($commandAst.CommandElements.Count - 1)] -join " ") + $tail
     } else {
-        $cmds = $tail
+        $line = $tail
     }
-    $opts = (argc --compgen "$argcfile" "$cmds" 2>$null).Split("`n")
+    $opts = (argc --compgen "$argcfile" "$line" 2>$null).Split("`n")
     $opts2 = @()
     foreach ($opt in $opts) {
         if ($opt -match '^-') {
-            $opts2 += $opt
+            if ($commandAst.CommandElements[$commandAst.CommandElements.Count - 1] -match '^-') {
+                $opts2 += $opt
+            }
         } elseif ($opt -match '^`[^` ]+`$') {
             $choices = (& $ARGC_COMPLETIONS_GIT_BASH "$argcfile" $opt.Substring(1, $opt.Length - 2) 2>$null).Split("`n")
             $opts2 += $choices
