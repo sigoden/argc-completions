@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generated with `./generate.sh --spec=generic pnpm`. DON'T MODIFY IT
+# Generated with `./generate.sh pnpm`. DON'T MODIFY IT
 
 # @flag -r --recursive
 
@@ -335,7 +335,7 @@ exec() {
 # @option --changed-files-ignore-pattern <pattern>
 # @option --filter <pattern>
 # @option --test-pattern <pattern>
-# @arg command[`__choice_command`]
+# @arg scriptname[`__choice_scriptname`]
 run() {
     :;
 }
@@ -402,7 +402,7 @@ store() {
 }
 
 
-__choice_command() {
+__choice_scriptname() {
     if [ -f "$(pwd)/package.json" ]; then
         node -e "Object.keys(require('./package.json').scripts).forEach(v => console.log(v))"
     fi
