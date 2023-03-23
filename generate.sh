@@ -28,7 +28,7 @@ handle_lines() {
     local names=""
     for item in ${csv[@]}; do
         local kind=$(get_kind "$item")
-        if [[ "$kind" != "command" ]] && [[ "$kind" != "argument" ]]; then
+        if [[ -n "$kind" ]] && [[ "$kind" != "command" ]] && [[ "$kind" != "argument" ]]; then
             local name=$(get_name "$item")
             if [[ -n "$name" ]] && [[ "$names" != *"($kind:$name)"* ]]; then
                 names="$names ($kind:$name) "
