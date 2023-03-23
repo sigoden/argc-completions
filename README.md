@@ -1,6 +1,6 @@
 # Argc-Completions
 
-Easily create/use cross-shell completion scripts.
+Easily create/use cross-shell completion scripts, suppports bash/zsh/fish/powershell.
 
 ## How to use
 
@@ -8,7 +8,7 @@ Easily create/use cross-shell completion scripts.
 
 View the [argc installation guide](https://github.com/sigoden/argc#install).
 
-### Add to shell rcfile
+### Load completion scripts
 
 ```sh
 git clone https://github.com/sigoden/argc-completions $HOME/.argc-completions
@@ -43,9 +43,9 @@ if(Test-Path ($env:USERPROFILE + "\.argc-completions\argc.ps1")) {
 
 ## How to write
 
-### Automatically write with GPT
+### Automatically write with ChatGPT
 
-You need to install the [aichat](https://github.com/sigoden/aichat) tool to interact with GPT.
+You need to install the [aichat](https://github.com/sigoden/aichat) to interact with ChatGPT.
 
 ```
 ./generate.sh mycmd
