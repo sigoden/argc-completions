@@ -24,6 +24,8 @@
       --opth v1                     Desc v1
       --opth v2                     Desc v2
       --opth v3                     Desc v3
+      -i FOO, --opti=FOO            Desc
+      --optj[=FOO]                  Desc
       Commands:
           cmda                      Desc 
        b, cmdb                      Desc 
@@ -32,24 +34,26 @@
           cmde sub2                 Desc sub2
           cmde sub3                 Desc sub3
     ## Translated markdown table
-    | type     | name       | aliases    | value-notation | choices  |
-    | -------- | ---------- | ---------- | -------------- | -------- |
-    | argument | arga       |            |                |          |
-    | option   | other-flga | flga       |                |          |
-    | option   | flgb       |            |                |          |
-    | option   | flgc       | c          |                |          |
-    | option   | flgd       | D, no-flgd |                |          |
-    | option   | flge       | no-flge    |                |          |
-    | option   | opta       |            | <opta>         |          |
-    | option   | optb       |            | [bool]         |          |
-    | option   | other-optd | optd       | <path>         |          |
-    | option   | opte       | e          | <opte>         |          |
-    | option   | optf       |            | <optf>[:extra] |          |
-    | option   | optg2      | g,optg     | <path>         |          |
-    | option   | opth       |            |                | v1,v2,v3 |
-    | command  | cmda       |            |                |          |
-    | command  | cmdb       | b          |                |          |
-    | command  | cmdc       | cc         |                |          |
+    | type     | names               | value notation | choices         |
+    | -------- | ------------------- | -------------- | --------------- |
+    | argument | arga                |                |                 |
+    | option   | --flga,--other-flga |                |                 |
+    | option   | --flgb              |                |                 |
+    | option   | -c,--flgc           |                |                 |
+    | option   | -D,--flgd,--no-flgd |                |                 |
+    | option   | --flge,no-flge      |                |                 |
+    | option   | --opta              | <opta>         |                 |
+    | option   | --optb              | [bool]         |                 |
+    | option   | --optd,--other-optd | <path>         |                 |
+    | option   | -e,--opte           | <opte>         |                 |
+    | option   | --optf              | <optf>[:extra] |                 |
+    | option   | -g,--optg,--optg2   | <path>         |                 |
+    | option   | --opth              |                | v1,v2,v3        |
+    | option   | -i,--opti           | FOO            |                 |
+    | option   | --optj              | FOO            |                 |
+    | command  | cmda                |                |                 |
+    | command  | cmdb,b              |                |                 |
+    | command  | cmdc                |                | sub1,sub2,sub3  |
     ## Help Text I provides
     __INPUT__
     ## Translated markdown table you replys
@@ -69,7 +73,7 @@
     -a  --flga                 Desc
         --flgb                 Desc
     -c  --optc <OPTC>          Desc
-        --optd <OPTD>          Desc
+        --optd <OPTD>          Desc, (*a*, b, c)
     -e  --opte <OPTE>...       Desc
         --optf [<OPTF>...]     Desc
         --optg <OPTG>          Desc, [possible values: abc, def]
@@ -85,27 +89,27 @@
       cmdb           Desc, [aliases: b]
       cmdc, c        Desc
     ## Translated markdown table 
-    | type     | name | aliases | value-notation | choices |
-    | -------- | ---- | ------- | -------------- | ------- |
-    | argument | ARGA |         | <ARGA>         |         |
-    | argument | ARGB |         | [ARGB]         |         |
-    | argument | ARGC |         | <ARGC>...      |         |
-    | argument | ARGD |         | [ARGD]...      |         |
-    | option   | flga | a       |                |         |
-    | option   | flgb |         |                |         |
-    | option   | optc | c       | <OPTC>         |         |
-    | option   | optd |         | <OPTD>         |         |
-    | option   | opte | e       | <OPTE>...      |         |
-    | option   | optf |         | <OPTF>...      |         |
-    | option   | optg |         | <OPTG>         | abc,def |
-    | option   | opth | h       | <OPTH>         | a,b,c   |
-    | option   | optk | k       | <M:N>          |         |
-    | option   | optl |         | <OPTL>         |         |
-    | option   | optm |         | <OPTM>         |         |
-    | option   | optn | n       | <X:Y>          |         |
-    | command  | cmda |         |                |         |
-    | command  | cmdb | b       |                |         |
-    | command  | cmdc | c       |                |         |
+    | type     | names     | value notation | choices         |
+    | -------- | --------- | -------------- | --------------- |
+    | argument | <ARGA>    |                |                 |
+    | argument | [ARGB]    |                |                 |
+    | argument | <ARGC>... |                |                 |
+    | argument | [ARGD]... |                |                 |
+    | option   | -a,--flga |                |                 |
+    | option   | --flgb    |                |                 |
+    | option   | -c,--optc | <OPTC>         |                 |
+    | option   | --optd    | <OPTD>         | a,b,c           |
+    | option   | -e,--opte | <OPTE>...      |                 |
+    | option   | --optf    | <OPTF>...      |                 |
+    | option   | --optg    | <OPTG>         | abc,def         |
+    | option   | -h,--opth | <OPTH>         | a,b,c           |
+    | option   | -k,--optk | <M:N>          |                 |
+    | option   | --optl    | <OPTL>         |                 |
+    | option   | --optm    | <OPTM>         |                 |
+    | option   | -n,--optn | <X:Y>          |                 |
+    | command  | cmda      |                |                 |
+    | command  | cmdb,b    |                |                 |
+    | command  | cmdc,c    |                |                 |
     ## Help Text I provides
     __INPUT__
     ## Translated markdown table you replys
