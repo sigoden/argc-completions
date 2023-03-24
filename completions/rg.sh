@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generated with `./generate.sh -a=-h --spec=clap rg`. DON'T MODIFY IT
+# Generated with `./generate.sh --spec=clap rg`. DON'T MODIFY IT
 
 # @option -A --after-context <NUM>
 # @flag --auto-hybrid-regex
@@ -67,7 +67,7 @@
 # @flag --no-pcre2-unicode
 # @flag --no-require-git
 # @flag --no-unicode
-# @flag --null
+# @flag -0 --null
 # @flag --null-data
 # @flag --one-file-system
 # @flag -o --only-matching
@@ -75,7 +75,7 @@
 # @option --path-separator <SEPARATOR>
 # @flag -P --pcre2
 # @flag --pcre2-version
-# @option --pre <FILE>
+# @option --pre <COMMAND>
 # @option --pre-glob* <GLOB>
 # @flag -p --pretty
 # @flag -q --quiet
@@ -99,7 +99,7 @@
 # @flag --vimgrep
 # @flag -H --with-filename
 # @flag -w --word-regexp
-# @arg pattern
-# @arg path*
+# @arg PATTERN
+# @arg PATH*
 
 eval "$(argc "$0" "$@")"

@@ -10,7 +10,7 @@
 # @option -r --role[`__choice___role`]
 # @flag --info
 # @flag --dry-run
-# @arg text*
+# @arg TEXT*
 
 __choice___role() {
     aichat --list-roles

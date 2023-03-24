@@ -5,8 +5,8 @@
 # @cmd
 # @flag --theme
 # @flag --force
-# @option --title
-# @option --ignore[none|git]
+# @option --title <title>
+# @option --ignore[none|git] <ignore>
 # @arg dir
 init() {
     :;
@@ -14,7 +14,7 @@ init() {
 
 
 # @cmd
-# @option -d --dest-dir
+# @option -d --dest-dir <dest-dir>
 # @flag -o --open
 # @arg dir
 build() {
@@ -23,8 +23,8 @@ build() {
 
 
 # @cmd
-# @option -d --dest-dir
-# @option -c --chapter
+# @option -d --dest-dir <dest-dir>
+# @option -c --chapter <chapter>
 # @option -L --library-path <dir>
 # @arg dir
 test() {
@@ -33,22 +33,15 @@ test() {
 
 
 # @cmd
-# @option -d --dest-dir
-# @option --dir
+# @option -d --dest-dir <dest-dir>
+# @arg dir
 clean() {
     :;
 }
 
 
 # @cmd
-# @arg shell[bash|elvish|fish|powershell|zsh]
-completions() {
-    :;
-}
-
-
-# @cmd
-# @option -d --dest-dir
+# @option -d --dest-dir <dest-dir>
 # @flag -o --open
 # @arg dir
 watch() {
@@ -57,9 +50,9 @@ watch() {
 
 
 # @cmd
-# @option -d --dest-dir
-# @option -n --hostname
-# @option -p --port
+# @option -d --dest-dir <dest-dir>
+# @option -n --hostname <hostname>
+# @option -p --port <port>
 # @flag -o --open
 # @arg dir
 serve() {

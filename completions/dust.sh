@@ -3,9 +3,9 @@
 
 # @flag -b --no-percent-bars
 # @flag -c --no-colors
-# @option -d --depth
+# @option -d --depth <depth>
 # @flag -D --only-dir
-# @option -e --filter
+# @option -e --filter <filter>
 # @flag -f --filecount
 # @flag -F --only-file
 # @flag -H --si

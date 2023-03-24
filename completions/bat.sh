@@ -19,7 +19,7 @@
 # @option --paging[auto|never|always] <when>
 # @option --pager <command>
 # @option -m --map-syntax <glob:syntax>
-# @option --ignored-suffix
+# @option --ignored-suffix <ignored-suffix>
 # @option --theme[`__choice___theme`]
 # @flag --list-themes
 # @option --style[default|full|auto|plain|changes|header|header-filename|header-filesize|grid|rule|numbers|snip] <components>
@@ -28,19 +28,7 @@
 # @flag -u --unbuffered
 # @flag --diagnostic
 # @flag --acknowledgements
-# @arg file*
-
-# @cmd
-# @flag -b --build
-# @flag -c --clear
-# @option --source <dir>
-# @option --target <dir>
-# @flag --blank
-# @flag --acknowledgements
-cache() {
-    :;
-}
-
+# @arg FILE
 
 __choice___language() {
     bat --list-languages  | cut -d: -f1
