@@ -1,3 +1,3 @@
-__choice___role() {
+_choice_role() {
     aichat --list-roles
 }

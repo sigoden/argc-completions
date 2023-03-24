@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generated with `./generate.sh --spec=clap cargo`. DON'T MODIFY IT
+# Generated with `./generate.sh cargo`. DON'T MODIFY IT
 
 # @flag --list
 # @option --explain <CODE>
@@ -10,7 +10,7 @@
 # @flag --locked
 # @flag --offline
 # @option --config <KEY=VALUE>
-# @option ---Z <FLAG>
+# @option -Z <FLAG>
 
 # @cmd
 # @alias b
@@ -18,7 +18,7 @@
 # @option -p --package <SPEC>
 # @flag --workspace
 # @option --exclude <SPEC>
-# @flag -v --verbose
+# @flag -v --verbose*
 # @flag --all
 # @option --color[auto|always|never] <WHEN>
 # @option -j --jobs <N>
@@ -26,16 +26,16 @@
 # @flag --keep-going
 # @flag --lib
 # @flag --locked
-# @option --bin[`__choice___bin`]
+# @option --bin[`_choice_bin`] <NAME>
 # @flag --offline
 # @flag --bins
 # @option --config <KEY=VALUE>
-# @option --example[`__choice___example`]
-# @option --Z <FLAG>
+# @option --example[`_choice_example`] <NAME>
+# @option -Z <FLAG>
 # @flag --examples
-# @option --test[`__choice___test`]
+# @option --test[`_choice_test`] <NAME>
 # @flag --tests
-# @option --bench[`__choice___bench`]
+# @option --bench[`_choice_bench`] <NAME>
 # @flag --benches
 # @flag --all-targets
 # @flag -r --release
@@ -43,7 +43,7 @@
 # @option -F --features
 # @flag --all-features
 # @flag --no-default-features
-# @option --target[`__choice___target`]
+# @option --target[`_choice_target`] <TRIPLE>
 # @option --target-dir <DIRECTORY>
 # @option --out-dir <PATH>
 # @option --manifest-path <PATH>
@@ -52,7 +52,7 @@
 # @flag --build-plan
 # @flag --unit-graph
 # @flag --future-incompat-report
-# @option --timings[html|json] <FMTS>
+# @option --timings[html|json]
 build() {
     :;
 }
@@ -72,16 +72,16 @@ build() {
 # @flag --keep-going
 # @flag --lib
 # @flag --locked
-# @option --bin[`__choice___bin`]
+# @option --bin[`_choice_bin`] <NAME>
 # @flag --offline
 # @flag --bins
 # @option --config <KEY=VALUE>
-# @option --example[`__choice___example`]
-# @option --Z <FLAG>
+# @option --example[`_choice_example`] <NAME>
+# @option -Z <FLAG>
 # @flag --examples
-# @option --test[`__choice___test`]
+# @option --test[`_choice_test`] <NAME>
 # @flag --tests
-# @option --bench[`__choice___bench`]
+# @option --bench[`_choice_bench`] <NAME>
 # @flag --benches
 # @flag --all-targets
 # @flag -r --release
@@ -89,14 +89,14 @@ build() {
 # @option -F --features
 # @flag --all-features
 # @flag --no-default-features
-# @option --target[`__choice___target`]
+# @option --target[`_choice_target`] <TRIPLE>
 # @option --target-dir <DIRECTORY>
 # @option --manifest-path <PATH>
 # @flag --ignore-rust-version
 # @option --message-format <FMT>
 # @flag --unit-graph
 # @flag --future-incompat-report
-# @option --timings[html|json] <FMTS>
+# @option --timings[html|json]
 check() {
     :;
 }
@@ -106,8 +106,8 @@ check() {
 # @flag -q --quiet
 # @option -p --package <SPEC>
 # @option --manifest-path <PATH>
-# @option --target[`__choice___target`]
-# @flag -v --verbose
+# @option --target[`_choice_target`] <TRIPLE>
+# @flag -v --verbose*
 # @option --target-dir <DIRECTORY>
 # @option --color[auto|always|never] <WHEN>
 # @flag -r --release
@@ -117,7 +117,7 @@ check() {
 # @flag --locked
 # @flag --offline
 # @option --config <KEY=VALUE>
-# @option --Z <FLAG>
+# @option -Z <FLAG>
 clean() {
     :;
 }
@@ -128,7 +128,7 @@ clean() {
 # @flag -q --quiet
 # @flag --open
 # @option -p --package <SPEC>
-# @flag -v --verbose
+# @flag -v --verbose*
 # @flag --workspace
 # @option --exclude <SPEC>
 # @flag --all
@@ -142,22 +142,23 @@ clean() {
 # @option --config <KEY=VALUE>
 # @flag --keep-going
 # @flag --lib
-# @option --bin[`__choice___bin`]
+# @option -Z <FLAG>
+# @option --bin[`_choice_bin`] <NAME>
 # @flag --bins
-# @option --example[`__choice___example`]
+# @option --example[`_choice_example`] <NAME>
 # @flag --examples
 # @flag -r --release
 # @option --profile <PROFILE-NAME>
 # @option -F --features
 # @flag --all-features
 # @flag --no-default-features
-# @option --target[`__choice___target`]
+# @option --target[`_choice_target`] <TRIPLE>
 # @option --target-dir <DIRECTORY>
 # @option --manifest-path <PATH>
 # @option --message-format <FMT>
 # @flag --ignore-rust-version
 # @flag --unit-graph
-# @option --timings <FMTS>
+# @option --timings[html|json]
 doc() {
     :;
 }
@@ -168,7 +169,7 @@ doc() {
 # @option --registry
 # @option --vcs[git|hg|pijul|fossil|none]
 # @flag --bin
-# @flag -v --verbose
+# @flag -v --verbose*
 # @flag --lib
 # @option --color[auto|always|never] <WHEN>
 # @option --edition[2015|2018|2021] <YEAR>
@@ -177,7 +178,7 @@ doc() {
 # @flag --locked
 # @flag --offline
 # @option --config <KEY=VALUE>
-# @option --Z <FLAG>
+# @option -Z <FLAG>
 # @arg path
 new() {
     :;
@@ -189,7 +190,7 @@ new() {
 # @option --registry
 # @option --vcs[git|hg|pijul|fossil|none]
 # @flag --bin
-# @flag -v --verbose
+# @flag -v --verbose*
 # @flag --lib
 # @option --color[auto|always|never] <WHEN>
 # @option --edition[2015|2018|2021] <YEAR>
@@ -198,7 +199,7 @@ new() {
 # @flag --locked
 # @flag --offline
 # @option --config <KEY=VALUE>
-# @option -Z --unstable <FLAG>
+# @option -Z <FLAG>
 # @arg path
 init() {
     :;
@@ -222,7 +223,7 @@ init() {
 # @flag -q --quiet
 # @option --config <KEY=VALUE>
 # @flag --dry-run
-# @option --Z <FLAG>
+# @option -Z <FLAG>
 # @option --path
 # @option --git <URI>
 # @option --branch
@@ -231,8 +232,8 @@ init() {
 # @option --registry <NAME>
 # @flag --dev
 # @flag --build
-# @option --target[`__choice___target`]
-# @arg dep_id*
+# @option --target
+# @arg DEP_ID*
 add() {
     :;
 }
@@ -243,17 +244,17 @@ add() {
 # @option --manifest-path <PATH>
 # @flag -q --quiet
 # @flag --dry-run
-# @flag -v --verbose
+# @flag -v --verbose*
 # @option --color[auto|always|never] <WHEN>
 # @flag --frozen
 # @flag --locked
 # @flag --offline
 # @option --config <KEY=VALUE>
-# @option --Z <FLAG>
+# @option -Z <FLAG>
 # @flag --dev
 # @flag --build
-# @option --target[`__choice___target`]
-# @arg dep_id*
+# @option --target
+# @arg DEP_ID*
 remove() {
     :;
 }
@@ -262,30 +263,30 @@ remove() {
 # @cmd
 # @alias r
 # @flag -q --quiet
-# @option --bin[`__choice___bin`]
-# @option --example[`__choice___example`]
+# @option --bin[`_choice_bin`] <NAME>
+# @option --example[`_choice_example`] <NAME>
 # @option -p --package <SPEC>
-# @flag -v --verbose
+# @flag -v --verbose*
 # @option -j --jobs <N>
 # @option --color[auto|always|never] <WHEN>
 # @flag --keep-going
 # @flag --frozen
-# @flag --locked
 # @flag -r --release
+# @flag --locked
 # @option --profile <PROFILE-NAME>
 # @option -F --features
 # @flag --offline
 # @flag --all-features
 # @option --config <KEY=VALUE>
 # @flag --no-default-features
-# @option --Z <FLAG>
-# @option --target[`__choice___target`]
+# @option -Z <FLAG>
+# @option --target[`_choice_target`] <TRIPLE>
 # @option --target-dir <DIRECTORY>
 # @option --manifest-path <PATH>
 # @option --message-format <FMT>
 # @flag --unit-graph
 # @flag --ignore-rust-version
-# @option --timings[html|json] <FMTS>
+# @option --timings[html|json]
 # @arg args*
 run() {
     :;
@@ -296,22 +297,22 @@ run() {
 # @alias t
 # @flag -q --quiet
 # @flag --lib
-# @option --bin[`__choice___bin`]
+# @option --bin[`_choice_bin`] <NAME>
 # @flag --bins
-# @flag -v --verbose
-# @option --example[`__choice___example`]
+# @flag -v --verbose*
+# @option --example[`_choice_example`] <NAME>
 # @option --color[auto|always|never] <WHEN>
 # @flag --examples
 # @flag --frozen
-# @option --test[`__choice___test`]
+# @option --test[`_choice_test`] <NAME>
 # @flag --locked
 # @flag --tests
-# @option --bench[`__choice___bench`]
+# @option --bench[`_choice_bench`] <NAME>
 # @flag --offline
 # @flag --benches
 # @option --config <KEY=VALUE>
 # @flag --all-targets
-# @option --Z <FLAG>
+# @option -Z <FLAG>
 # @flag --doc
 # @flag --no-run
 # @flag --no-fail-fast
@@ -326,15 +327,15 @@ run() {
 # @option -F --features
 # @flag --all-features
 # @flag --no-default-features
-# @option --target[`__choice___target`]
+# @option --target[`_choice_target`] <TRIPLE>
 # @option --target-dir <DIRECTORY>
 # @option --manifest-path <PATH>
 # @flag --ignore-rust-version
 # @option --message-format <FMT>
 # @flag --unit-graph
 # @flag --future-incompat-report
-# @option --timings[html|json] <FMTS>
-# @arg testname
+# @option --timings[html|json]
+# @arg TESTNAME
 # @arg args*
 test() {
     :;
@@ -344,22 +345,22 @@ test() {
 # @cmd
 # @flag -q --quiet
 # @flag --lib
-# @option --bin[`__choice___bin`]
+# @option --bin[`_choice_bin`] <NAME>
 # @flag --bins
-# @flag -v --verbose
-# @option --example[`__choice___example`]
+# @flag -v --verbose*
+# @option --example[`_choice_example`] <NAME>
 # @option --color[auto|always|never] <WHEN>
 # @flag --examples
 # @flag --frozen
-# @option --test[`__choice___test`]
+# @option --test[`_choice_test`] <NAME>
 # @flag --locked
 # @flag --tests
-# @option --bench[`__choice___bench`]
+# @option --bench[`_choice_bench`] <NAME>
 # @flag --offline
 # @flag --benches
 # @option --config <KEY=VALUE>
 # @flag --all-targets
-# @option --Z <FLAG>
+# @option -Z <FLAG>
 # @flag --no-run
 # @option -p --package <SPEC>
 # @flag --workspace
@@ -371,15 +372,15 @@ test() {
 # @option -F --features
 # @flag --all-features
 # @flag --no-default-features
-# @option --target[`__choice___target`]
+# @option --target[`_choice_target`] <TRIPLE>
 # @option --target-dir <DIRECTORY>
 # @option --manifest-path <PATH>
 # @flag --ignore-rust-version
 # @option --message-format <FMT>
 # @flag --no-fail-fast
 # @flag --unit-graph
-# @option --timings[html|json] <FMTS>
-# @arg benchname
+# @option --timings[html|json]
+# @arg BENCHNAME
 # @arg args*
 bench() {
     :;
@@ -391,7 +392,7 @@ bench() {
 # @flag -w --workspace
 # @option -p --package <SPEC>
 # @flag --aggressive
-# @flag -v --verbose
+# @flag -v --verbose*
 # @flag --dry-run
 # @option --color[auto|always|never] <WHEN>
 # @option --precise
@@ -400,7 +401,7 @@ bench() {
 # @flag --locked
 # @flag --offline
 # @option --config <KEY=VALUE>
-# @option --Z <FLAG>
+# @option -Z <FLAG>
 update() {
     :;
 }
@@ -417,7 +418,7 @@ update() {
 # @flag --locked
 # @flag --offline
 # @option --config <KEY=VALUE>
-# @option --Z <FLAG>
+# @option -Z <FLAG>
 # @arg query*
 search() {
     :;
@@ -432,7 +433,7 @@ search() {
 # @flag -v --verbose
 # @flag --allow-dirty
 # @option --color[auto|always|never] <WHEN>
-# @option --target[`__choice___target`]
+# @option --target[`_choice_target`] <TRIPLE>
 # @flag --frozen
 # @option --target-dir <DIRECTORY>
 # @flag --locked
@@ -442,6 +443,7 @@ search() {
 # @option --config <KEY=VALUE>
 # @option -F --features
 # @flag --all-features
+# @option -Z <FLAG>
 # @flag --no-default-features
 # @option -j --jobs <N>
 # @flag --keep-going
@@ -456,7 +458,7 @@ publish() {
 # @flag -q --quiet
 # @option --git <URL>
 # @option --branch
-# @flag -v --verbose
+# @flag -v --verbose*
 # @option --tag
 # @option --color[auto|always|never] <WHEN>
 # @option --rev <SHA>
@@ -469,24 +471,24 @@ publish() {
 # @option --config <KEY=VALUE>
 # @flag --keep-going
 # @flag -f --force
-# @option ---Z <FLAG>
+# @option -Z <FLAG>
 # @flag --no-track
 # @option -F --features
 # @flag --all-features
 # @flag --no-default-features
 # @option --profile <PROFILE-NAME>
 # @flag --debug
-# @option --bin[`__choice___bin`]
+# @option --bin[`_choice_bin`] <NAME>
 # @flag --bins
-# @option --example[`__choice___example`]
+# @option --example[`_choice_example`] <NAME>
 # @flag --examples
-# @option --target[`__choice___target`]
+# @option --target[`_choice_target`] <TRIPLE>
 # @option --target-dir <DIRECTORY>
 # @option --root <DIR>
 # @option --index
 # @option --registry
 # @option --message-format <FMT>
-# @option --timings <FMTS>
+# @option --timings[html|json]
 # @arg crate*
 install() {
     :;
@@ -496,32 +498,36 @@ install() {
 # @cmd
 # @flag -q --quiet
 # @option -p --package <SPEC>
-# @option --bin[`__choice___bin`]
+# @option --bin[`_choice_bin`] <NAME>
 # @option --root <DIR>
-# @flag -v --verbose
+# @flag -v --verbose*
 # @option --color[auto|always|never] <WHEN>
 # @flag --frozen
 # @flag --locked
 # @flag --offline
 # @option --config <KEY=VALUE>
-# @option --Z <FLAG>
+# @option -Z <FLAG>
 # @arg spec*
 uninstall() {
     :;
 }
 
 
-__choice___bench() {
+_compgen() {
+	if [[ ${#argc__words[@]} -le 1 ]]; then
+		cargo --list 2>/dev/null | awk 'NR>1 {print $1}'
+	fi
+}
+
+_choice_bench() {
 	_get_names_from_array "bench"
 }
 
-
-__choice___bin() {
+_choice_bin() {
 	_get_names_from_array "bin"
 }
 
-
-__choice___example() {
+_choice_example() {
 	local manifest=$(_locate_manifest)
 	[ -z "$manifest" ] && return 0
 
@@ -536,6 +542,19 @@ __choice___example() {
 	fi
 }
 
+_choice_target() {
+	local targets=$(rustup target list)
+	while read line
+	do
+		if [[ "$line" =~ default|installed ]]; then
+			echo "${line%% *}"
+		fi
+	done <<< "$targets"
+}
+
+_choice_test() {
+	_get_names_from_array "test"
+}
 
 _locate_manifest(){
 	cargo locate-project --message-format plain 2>/dev/null
@@ -574,23 +593,6 @@ _get_names_from_array()
 
 		last_line=$line
 	done < $manifest
-}
-
-
-
-__choice___target() {
-	local targets=$(rustup target list)
-	while read line
-	do
-		if [[ "$line" =~ default|installed ]]; then
-			echo "${line%% *}"
-		fi
-	done <<< "$targets"
-}
-
-
-__choice___test() {
-	_get_names_from_array "test"
 }
 
 

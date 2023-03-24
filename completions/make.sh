@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generated with `./generate.sh --spec=clap make`. DON'T MODIFY IT
+# Generated with `./generate.sh make`. DON'T MODIFY IT
 
 # @flag -b
 # @flag -m
@@ -16,7 +16,9 @@
 # @option -I --include-dir
 # @option -j --jobs
 # @flag -k --keep-going
-# @option -l --load-average
+# @option -l
+# @option --load-average
+# @option --max-load
 # @flag -L --check-symlink-times
 # @flag -n
 # @flag --just-print
@@ -45,9 +47,10 @@
 # @option --what-if
 # @option --new-file
 # @option --assume-new
-# @arg target[`__choice_target`]
+# @flag --warn-undefined-variables
+# @arg target[`_choice_target`]
 
-__choice_target() {
+_choice_target() {
     if [[ -f Makefile ]]; then
         cat Makefile | awk -F':' '/^[a-zA-Z0-9][^$#\/\t=]*:([^=]|$)/ {split($1,A,/ /);for(i in A)print A[i]}'
     fi

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generated with `./generate.sh --spec=clap git-cliff`. DON'T MODIFY IT
+# Generated with `./generate.sh git-cliff`. DON'T MODIFY IT
 
 # @flag -v --verbose
 # @flag -i --init

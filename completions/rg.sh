@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generated with `./generate.sh --spec=clap rg`. DON'T MODIFY IT
+# Generated with `./generate.sh rg`. DON'T MODIFY IT
 
 # @option -A --after-context <NUM>
 # @flag --auto-hybrid-regex
@@ -8,8 +8,8 @@
 # @flag --block-buffered
 # @flag -b --byte-offset
 # @flag -s --case-sensitive
-# @option --color <WHEN>
-# @option --colors* <COLOR_SPEC>
+# @option --color[never|always|auto] <WHEN>
+# @option --colors[path|line|match] <COLOR_SPEC>
 # @flag --column
 # @option -C --context <NUM>
 # @option --context-separator <SEPARATOR>
@@ -19,7 +19,7 @@
 # @flag --debug
 # @option --dfa-size-limit <NUM+SUFFIX?>
 # @option -E --encoding
-# @option --engine
+# @option --engine[auto|pcre1|pcre2|rust]
 # @option --field-context-separator <SEPARATOR>
 # @option --field-match-separator <SEPARATOR>
 # @option -f --file* <PATTERNFILE>
@@ -84,8 +84,8 @@
 # @option -r --replace <REPLACEMENT_TEXT>
 # @flag -z --search-zip
 # @flag -S --smart-case
-# @option --sort <SORTBY>
-# @option --sortr <SORTBY>
+# @option --sort[path|modified|accessed|created|none] <SORTBY>
+# @option --sortr[path|modified|accessed|created|none] <SORTBY>
 # @flag --stats
 # @flag -a --text
 # @option -j --threads <NUM>

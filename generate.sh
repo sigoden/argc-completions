@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
 
 # @option -a --arg-help=--help      Command argument to get help
-# @option --spec[=generic|clap]     Choose a spec
+# @option --spec=generic            Choose a spec
 # @flag --force                     Ignore cache csv When running
 # @arg cmd!                         Specify the command, must able to run locally
 
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 COMPLETIONS_DIR=${ARGC_COMPLETIONS_DIR:-"$ROOT_DIR/completions"}
 CACHE_DIR="$ROOT_DIR/cache"
-IFS=$'\n'
 [[ ! -d "$CACHE_DIR" ]] && mkdir -p "$CACHE_DIR"
 
 export NO_COLOR=true
@@ -18,7 +17,7 @@ NO_COMMAND_NAMES=( "help" "command" "command" "subcommand" "completions" )
 NO_ARGUMENT_NAMES=( "flags" "options" )
 
 command_line="$@"
-store_command_names=""
+store_command_names=()
 
 run() {
     output_file="$COMPLETIONS_DIR/$argc_cmd.sh"
@@ -26,16 +25,18 @@ run() {
     handle_lines $argc_cmd
     apply_patches
     print_tail >> $output_file
+    bash $output_file
 }
 
 handle_lines() {
-    store_option_names=""
-    csv=( $(fetch_csv $@) )
+    store_option_names=()
+    local IFS=$'\n'
+    local csv=( $( fetch_csv $@ ) )
     for item in ${csv[@]}; do
         local kind=$(get_kind "$item")
         if [[ -n "$kind" ]] && [[ "$kind" != "command" ]] && [[ "$kind" != "argument" ]]; then
-            local names=$(get_names "$item")
-            if [[ -n "$names" ]]; then
+            local body=$(get_body "$item")
+            if [[ -n "$body" ]]; then
                 handle_option "$item" >> $output_file
             fi
         fi
@@ -43,8 +44,8 @@ handle_lines() {
     for item in ${csv[@]}; do
         local kind=$(get_kind "$item")
         if [[ "$kind" == "argument" ]]; then
-            local names=$(get_names "$item")
-            if [[ -n "$names" ]]; then
+            local body=$(get_body "$item")
+            if [[ -n "$body" ]]; then
                 handle_argument "$item" >> $output_file
             fi
         fi
@@ -53,8 +54,8 @@ handle_lines() {
         for item in ${csv[@]}; do
             local kind=$(get_kind "$item")
             if [[ "$kind" == "command" ]]; then
-                local names=$(get_names "$item")
-                if [[ -n "$names" ]]; then
+                local body=$(get_body "$item")
+                if [[ -n "$body" ]]; then
                     handle_subcommand "$item" $@ >> $output_file
                 fi
             fi
@@ -64,11 +65,12 @@ handle_lines() {
 
 handle_subcommand() {
     local input="$1"
-    local names=$(list_names "$input")
+    local IFS=' '
+    local names=( $( get_body "$input" | sed 's/,/ /g' ) )
     if [[ -z "$names" ]] || [[ "$names" == '<'* ]] || [[ "$names" == '['* ]] || grep -qwi -- "$names" <<<"${NO_COMMAND_NAMES[@]}"; then
         return
     fi
-    local -a dedup_names
+    local dedup_names=()
     for name in ${names[@]}; do
         if [[  ! " ${store_command_names[*]} " =~ " $name " ]]; then
             dedup_names+=( "$name" )
@@ -78,15 +80,16 @@ handle_subcommand() {
     if [[ ${#dedup_names[@]} -eq 0 ]]; then
         return
     fi
-    local aliases=( "${dedup_names[@]:1}" )
+    local cmd_name="$dedup_names"
+    local cmd_aliases=( "${dedup_names[@]:1}" )
 
     echo
     echo "# @cmd"
-    if [[ -n "$aliases" ]]; then
-        echo "# @alias $(echo $aliases | tr -d ' ')"
+    if [[ -n "$cmd_aliases" ]]; then
+        echo "# @alias $(echo $cmd_aliases | tr -d ' ')"
     fi
-    handle_lines ${@:2} $names
-    echo "$names() {"
+    handle_lines ${@:2} $cmd_name
+    echo "$cmd_name() {"
     echo "    :;"
     echo "}"
     echo
@@ -95,20 +98,34 @@ handle_subcommand() {
 
 handle_option() {
     local input="$1"
-    local names=( $(list_names "$input") )
-    local -a short_names
-    local -a long_names
+    local IFS=' '
+    local names=( $( get_body "$input" | sed 's/,/ /g' ) )
+    local short_names=()
+    local long_names=()
+    local name_suffix=""
+    local notation=""
     for name in ${names[@]}; do
         if [[ "$name" == "--help" ]] || [[ "$name" == "--version" ]]; then
             return
         fi
         if [[  ! " ${store_option_names[*]} " =~ " $name " ]]; then
             if [[ "$name" == '--'* ]]; then
+                if [[ "$name" == *'...' ]]; then
+                    name_suffix="*"
+                    name="${name::-3}"
+                elif [[ "$name" == *'='* ]]; then
+                    name=$(echo "$name" | tr -cd '[:alnum:]=_-')
+                    notation=${name#*=}
+                    name=${name%=*}
+                fi
                 long_names+=( "$name" )
                 store_option_names+=( "$name" )
             elif [[ "$name" == '-'* ]]; then
+                name=${name:0:2}
                 short_names+=( "$name" )
                 store_option_names+=( "$name" )
+            elif [[ -z "$annotation" ]]; then
+                notation="$name"
             fi
         fi
     done
@@ -116,9 +133,8 @@ handle_option() {
         return
     fi
     local notation_val
-    local notation=$(get_notation "$input")
     local choices="$(get_choices "$input")"
-    local tag_val short_val name_suffix
+    local tag_val short_val
     if [[ -n "$notation" ]]; then
         tag_val="# @option"
         if [[ -n "$choices" ]]; then
@@ -149,7 +165,10 @@ handle_option() {
 
 handle_argument() {
     local input="$1"
-    local name=( $(list_names "$input") )
+    local name=( $( get_body "$input" | sed 's/,/ /g' ) )
+    if [[ -z "$name" ]]; then
+        return
+    fi
     local sanitized_name=$(echo "$name" | tr -cd '[:alnum:]_-')
     if grep -qwi -- "$sanitized_name" <<<"${NO_ARGUMENT_NAMES[@]}"; then
         return
@@ -187,44 +206,31 @@ sanitize_notation() {
 }
 
 get_kind() {
-    echo "$1" | awk -F'|' '{print $2}' | xargs echo -n
+    echo "$1" | awk -F'|' '{print $2}' | awk '{$1=$1};1'
 }
 
-get_names() {
-    echo "$1" | awk -F'|' '{print $3}'
-}
-
-list_names() {
-    get_names "$1" | tr ',' '\n' | awk '{$1=$1};1'
-}
-
-get_notation() {
-    echo "$1" | awk -F'|' '{print $4}' | xargs echo -n
+get_body() {
+    echo "$1" | awk -F'|' '{print $3}' | awk '{$1=$1};1'
 }
 
 get_choices() {
-    choices=$(echo "$1" | awk -F'|' '{print $5}' | xargs echo -n | sed 's/, */|/g')
+    choices=$(echo "$1" | awk -F'|' '{print $4}' | awk '{$1=$1};1' | sed 's/, */|/g' | tr -d '*')
     if [[ "$choices" == *'|'* ]]; then
         echo "$choices"
     fi
 }
 
 apply_patches() {
-    local files=( $(ls -1 $ROOT_DIR/patches | grep "${argc_cmd}__") )
-    for patch_file in ${files[@]}; do
-        local name=$(basename $patch_file .sh | sed 's|'$argc_cmd'__||')
-        if [[ "$name" != '--' ]]; then
-            local name_underscore=$(echo $name | tr '-' '_')
-            if [[ "$name" == '-'* ]]; then
-                sed -i 's/'$name'\([+!*]\)\?\( <.*\)\?$/'$name'[`__choice_'$name_underscore'`]/' $output_file
-            else 
-                sed -i 's/'$name'\([+!*]\)\?\( <.*\)\?$/'$name'[`__choice_'$name_underscore'`]/' $output_file
-            fi
-        fi
+    local sed_file="$ROOT_DIR/patches/${argc_cmd}.sed"
+    if [[ -f "$sed_file" ]]; then
+        sed -i -f $sed_file $output_file
+    fi
+    local embed_file="$ROOT_DIR/patches/${argc_cmd}.sh"
+    if [[ -f "$embed_file" ]]; then
         echo >> $output_file
-        cat $ROOT_DIR/patches/$patch_file >> $output_file
-        echo -e "\n" >> $output_file
-    done
+        cat "$embed_file" >> $output_file
+        echo >> $output_file
+    fi
 }
 
 print_head() {

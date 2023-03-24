@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generated with `./generate.sh --spec=clap mdbook`. DON'T MODIFY IT
+# Generated with `./generate.sh mdbook`. DON'T MODIFY IT
 
 
 # @cmd

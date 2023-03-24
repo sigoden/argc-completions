@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generated with `./generate.sh --spec=clap dust`. DON'T MODIFY IT
+# Generated with `./generate.sh dust`. DON'T MODIFY IT
 
 # @flag -b --no-percent-bars
 # @flag -c --no-colors
@@ -24,6 +24,6 @@
 # @flag -x --limit-filesystem
 # @option -X --ignore-directory <ignore_directory>
 # @option -z --min-size <min_size>
-# @arg dir*
+# @arg dirs*
 
 eval "$(argc "$0" "$@")"

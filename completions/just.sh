@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generated with `./generate.sh --spec=clap just`. DON'T MODIFY IT
+# Generated with `./generate.sh just`. DON'T MODIFY IT
 
 # @flag --changelog
 # @flag --check
@@ -37,9 +37,9 @@
 # @option --shell-arg*
 # @option -s --show <RECIPE>
 # @option -d --working-directory
-# @arg recipe[`__choice_recipe`]
+# @arg recipe[`_choice_recipe`]
 
-__choice_recipe() {
+_choice_recipe() {
    just --summary 2> /dev/null | tr " " "\n" || echo ""
 }
 

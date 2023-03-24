@@ -51,11 +51,6 @@ You need to install the [aichat](https://github.com/sigoden/aichat) to interact 
 ./generate.sh mycmd
 ```
 
-If the cli is wirtten with clap, use clap spec.
-```
-./generate.sh --spec=clap mycmd
-```
-
 If successful, A completion script will be generated to `completions/mycmd.sh`.
 
 ### Manually write with argc

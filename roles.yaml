@@ -1,115 +1,26 @@
 # AIchat roles file
 
 - name: generic
-  temperature: 0.4
   prompt: |
-    Extract all subcommands, options and positional arguments in the help text and translate it into markdown table,
-    Do not parse value notation from the description.
+    Extract all subcommands, options and positional arguments in the help text and convert it into markdown table,
+    Choices are multiple words separated by commas.
+    In each column, type and body are required.
     ## Help Text
-      Usage: mycmd [command] [options]
-      Arguments:
-        arga               Desc
-      Options:
-      --flga, --other-flga          Desc
-      --flgb                        Desc
-      -c, --flgc                    Desc
-      -D, --[no-]flgd               Desc
-      --[no-]flge                   Desc
-      --opta <opta>                 Desc
-      --optb [bool]                 Desc
-      --optd, --other-optd <path>   Desc
-      -e, --opte <opte>             Desc
-      --optf <optf>[:extra]         Desc
-      -g, --optg, --optg2 <path>    Desc
-      --opth v1                     Desc v1
-      --opth v2                     Desc v2
-      --opth v3                     Desc v3
-      -i FOO, --opti=FOO            Desc
-      --optj[=FOO]                  Desc
-      Commands:
-          cmda                      Desc 
-       b, cmdb                      Desc 
-      cc, cmdc                      Desc 
-          cmde sub1                 Desc sub1
-          cmde sub2                 Desc sub2
-          cmde sub3                 Desc sub3
-    ## Translated markdown table
-    | type     | names               | value notation | choices         |
-    | -------- | ------------------- | -------------- | --------------- |
-    | argument | arga                |                |                 |
-    | option   | --flga,--other-flga |                |                 |
-    | option   | --flgb              |                |                 |
-    | option   | -c,--flgc           |                |                 |
-    | option   | -D,--flgd,--no-flgd |                |                 |
-    | option   | --flge,no-flge      |                |                 |
-    | option   | --opta              | <opta>         |                 |
-    | option   | --optb              | [bool]         |                 |
-    | option   | --optd,--other-optd | <path>         |                 |
-    | option   | -e,--opte           | <opte>         |                 |
-    | option   | --optf              | <optf>[:extra] |                 |
-    | option   | -g,--optg,--optg2   | <path>         |                 |
-    | option   | --opth              |                | v1,v2,v3        |
-    | option   | -i,--opti           | FOO            |                 |
-    | option   | --optj              | FOO            |                 |
-    | command  | cmda                |                |                 |
-    | command  | cmdb,b              |                |                 |
-    | command  | cmdc                |                | sub1,sub2,sub3  |
-    ## Help Text I provides
-    __INPUT__
-    ## Translated markdown table you replys
-
-- name: clap
-  temperature: 0.4
-  prompt: |
-    Extract all subcommands, options and positional arguments in the help text and translate it into markdown table,
-    Do not parse value notation from the description.
-    ## Help Text
-    ARGS:
-        <ARGA>           Desc
-        [ARGB]           Desc
-        <ARGC>...        Desc
-        [ARGD]...        Desc
-    OPTIONS:
-    -a  --flga                 Desc
-        --flgb                 Desc
-    -c  --optc <OPTC>          Desc
-        --optd <OPTD>          Desc, (*a*, b, c)
-    -e  --opte <OPTE>...       Desc
-        --optf [<OPTF>...]     Desc
-        --optg <OPTG>          Desc, [possible values: abc, def]
-    -h  --opth <OPTH>          Desc, [default: a] [possible values: a, b, c]
-    -k  --optk [<M:N>]         Desc
-        --optl[=<OPTL>]        Desc
-        --optm <OPTM>
-                Desc
-    -n  --optn <X:Y>
-                Desc
-    COMMANDS:
-      cmda           Desc
-      cmdb           Desc, [aliases: b]
-      cmdc, c        Desc
+    ARGUMENTS/ARGS:
+        ARG           Desc
+    OPTIONS/SECTIONS:
+        -s --long <VALUE>    Desc, [values: a, b, c]
+        -t --tag             Desc
+    COMMANDS/SUBCOMMANDS:
+        cmd, c
+    Ignore description
     ## Translated markdown table 
-    | type     | names     | value notation | choices         |
-    | -------- | --------- | -------------- | --------------- |
-    | argument | <ARGA>    |                |                 |
-    | argument | [ARGB]    |                |                 |
-    | argument | <ARGC>... |                |                 |
-    | argument | [ARGD]... |                |                 |
-    | option   | -a,--flga |                |                 |
-    | option   | --flgb    |                |                 |
-    | option   | -c,--optc | <OPTC>         |                 |
-    | option   | --optd    | <OPTD>         | a,b,c           |
-    | option   | -e,--opte | <OPTE>...      |                 |
-    | option   | --optf    | <OPTF>...      |                 |
-    | option   | --optg    | <OPTG>         | abc,def         |
-    | option   | -h,--opth | <OPTH>         | a,b,c           |
-    | option   | -k,--optk | <M:N>          |                 |
-    | option   | --optl    | <OPTL>         |                 |
-    | option   | --optm    | <OPTM>         |                 |
-    | option   | -n,--optn | <X:Y>          |                 |
-    | command  | cmda      |                |                 |
-    | command  | cmdb,b    |                |                 |
-    | command  | cmdc,c    |                |                 |
+    | type     | body               | choices |
+    | -------- | ------------------ | ------- |
+    | argument | ARG                |         |
+    | option   | -s  --long <VALUE> | a, b, c |
+    | option   | -t  --tag          |         |
+    | command  | cmd  c             |         |
     ## Help Text I provides
     __INPUT__
     ## Translated markdown table you replys

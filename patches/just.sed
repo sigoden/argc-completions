@@ -1,0 +1,1 @@
+s/@arg ARGUMENTS\*/@arg recipe[`_choice_recipe`]/
