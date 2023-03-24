@@ -22,6 +22,6 @@
 # @option --tls-key <path>
 # @option --log-format <format>
 # @option --completions[bash|elvish|fish|powershell|zsh] <shell>
-# @arg root
+# @arg dir
 
 eval "$(argc "$0" "$@")"

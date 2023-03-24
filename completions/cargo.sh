@@ -26,16 +26,16 @@
 # @flag --keep-going
 # @flag --lib
 # @flag --locked
-# @option --bin <NAME>
+# @option --bin[`__choice___bin`]
 # @flag --offline
 # @flag --bins
 # @option --config <KEY=VALUE>
-# @option --example <NAME>
+# @option --example[`__choice___example`]
 # @option --Z <FLAG>
 # @flag --examples
-# @option --test <NAME>
+# @option --test[`__choice___test`]
 # @flag --tests
-# @option --bench <NAME>
+# @option --bench[`__choice___bench`]
 # @flag --benches
 # @flag --all-targets
 # @flag -r --release
@@ -43,7 +43,7 @@
 # @option -F --features
 # @flag --all-features
 # @flag --no-default-features
-# @option --target <TRIPLE>
+# @option --target[`__choice___target`]
 # @option --target-dir <DIRECTORY>
 # @option --out-dir <PATH>
 # @option --manifest-path <PATH>
@@ -72,16 +72,16 @@ build() {
 # @flag --keep-going
 # @flag --lib
 # @flag --locked
-# @option --bin <NAME>
+# @option --bin[`__choice___bin`]
 # @flag --offline
 # @flag --bins
 # @option --config <KEY=VALUE>
-# @option --example <NAME>
+# @option --example[`__choice___example`]
 # @option --Z <FLAG>
 # @flag --examples
-# @option --test <NAME>
+# @option --test[`__choice___test`]
 # @flag --tests
-# @option --bench <NAME>
+# @option --bench[`__choice___bench`]
 # @flag --benches
 # @flag --all-targets
 # @flag -r --release
@@ -89,7 +89,7 @@ build() {
 # @option -F --features
 # @flag --all-features
 # @flag --no-default-features
-# @option --target <TRIPLE>
+# @option --target[`__choice___target`]
 # @option --target-dir <DIRECTORY>
 # @option --manifest-path <PATH>
 # @flag --ignore-rust-version
@@ -106,7 +106,7 @@ check() {
 # @flag -q --quiet
 # @option -p --package <SPEC>
 # @option --manifest-path <PATH>
-# @option --target <TRIPLE>
+# @option --target[`__choice___target`]
 # @flag -v --verbose
 # @option --target-dir <DIRECTORY>
 # @option --color[auto|always|never] <WHEN>
@@ -142,16 +142,16 @@ clean() {
 # @option --config <KEY=VALUE>
 # @flag --keep-going
 # @flag --lib
-# @option --bin <NAME>
+# @option --bin[`__choice___bin`]
 # @flag --bins
-# @option --example <NAME>
+# @option --example[`__choice___example`]
 # @flag --examples
 # @flag -r --release
 # @option --profile <PROFILE-NAME>
 # @option -F --features
 # @flag --all-features
 # @flag --no-default-features
-# @option --target <TRIPLE>
+# @option --target[`__choice___target`]
 # @option --target-dir <DIRECTORY>
 # @option --manifest-path <PATH>
 # @option --message-format <FMT>
@@ -231,9 +231,8 @@ init() {
 # @option --registry <NAME>
 # @flag --dev
 # @flag --build
-# @option --target
+# @option --target[`__choice___target`]
 # @arg dep_id*
-# @arg name
 add() {
     :;
 }
@@ -253,7 +252,7 @@ add() {
 # @option --Z <FLAG>
 # @flag --dev
 # @flag --build
-# @option --target
+# @option --target[`__choice___target`]
 # @arg dep_id*
 remove() {
     :;
@@ -263,8 +262,8 @@ remove() {
 # @cmd
 # @alias r
 # @flag -q --quiet
-# @option --bin <NAME>
-# @option --example <NAME>
+# @option --bin[`__choice___bin`]
+# @option --example[`__choice___example`]
 # @option -p --package <SPEC>
 # @flag -v --verbose
 # @option -j --jobs <N>
@@ -280,7 +279,7 @@ remove() {
 # @option --config <KEY=VALUE>
 # @flag --no-default-features
 # @option --Z <FLAG>
-# @option --target <TRIPLE>
+# @option --target[`__choice___target`]
 # @option --target-dir <DIRECTORY>
 # @option --manifest-path <PATH>
 # @option --message-format <FMT>
@@ -297,17 +296,17 @@ run() {
 # @alias t
 # @flag -q --quiet
 # @flag --lib
-# @option --bin <NAME>
+# @option --bin[`__choice___bin`]
 # @flag --bins
 # @flag -v --verbose
-# @option --example <NAME>
+# @option --example[`__choice___example`]
 # @option --color[auto|always|never] <WHEN>
 # @flag --examples
 # @flag --frozen
-# @option --test <NAME>
+# @option --test[`__choice___test`]
 # @flag --locked
 # @flag --tests
-# @option --bench <NAME>
+# @option --bench[`__choice___bench`]
 # @flag --offline
 # @flag --benches
 # @option --config <KEY=VALUE>
@@ -327,7 +326,7 @@ run() {
 # @option -F --features
 # @flag --all-features
 # @flag --no-default-features
-# @option --target <TRIPLE>
+# @option --target[`__choice___target`]
 # @option --target-dir <DIRECTORY>
 # @option --manifest-path <PATH>
 # @flag --ignore-rust-version
@@ -345,17 +344,17 @@ test() {
 # @cmd
 # @flag -q --quiet
 # @flag --lib
-# @option --bin <NAME>
+# @option --bin[`__choice___bin`]
 # @flag --bins
 # @flag -v --verbose
-# @option --example <NAME>
+# @option --example[`__choice___example`]
 # @option --color[auto|always|never] <WHEN>
 # @flag --examples
 # @flag --frozen
-# @option --test <NAME>
+# @option --test[`__choice___test`]
 # @flag --locked
 # @flag --tests
-# @option --bench <NAME>
+# @option --bench[`__choice___bench`]
 # @flag --offline
 # @flag --benches
 # @option --config <KEY=VALUE>
@@ -372,7 +371,7 @@ test() {
 # @option -F --features
 # @flag --all-features
 # @flag --no-default-features
-# @option --target <TRIPLE>
+# @option --target[`__choice___target`]
 # @option --target-dir <DIRECTORY>
 # @option --manifest-path <PATH>
 # @flag --ignore-rust-version
@@ -433,7 +432,7 @@ search() {
 # @flag -v --verbose
 # @flag --allow-dirty
 # @option --color[auto|always|never] <WHEN>
-# @option --target <TRIPLE>
+# @option --target[`__choice___target`]
 # @flag --frozen
 # @option --target-dir <DIRECTORY>
 # @flag --locked
@@ -477,11 +476,11 @@ publish() {
 # @flag --no-default-features
 # @option --profile <PROFILE-NAME>
 # @flag --debug
-# @option --bin <NAME>
+# @option --bin[`__choice___bin`]
 # @flag --bins
-# @option --example <NAME>
+# @option --example[`__choice___example`]
 # @flag --examples
-# @option --target <TRIPLE>
+# @option --target[`__choice___target`]
 # @option --target-dir <DIRECTORY>
 # @option --root <DIR>
 # @option --index
@@ -497,7 +496,7 @@ install() {
 # @cmd
 # @flag -q --quiet
 # @option -p --package <SPEC>
-# @option --bin <NAME>
+# @option --bin[`__choice___bin`]
 # @option --root <DIR>
 # @flag -v --verbose
 # @option --color[auto|always|never] <WHEN>
@@ -509,6 +508,89 @@ install() {
 # @arg spec*
 uninstall() {
     :;
+}
+
+
+__choice___bench() {
+	_get_names_from_array "bench"
+}
+
+
+__choice___bin() {
+	_get_names_from_array "bin"
+}
+
+
+__choice___example() {
+	local manifest=$(_locate_manifest)
+	[ -z "$manifest" ] && return 0
+
+	local files=("${manifest%/*}"/examples/*.rs)
+	local names=("${files[@]##*/}")
+	local names=("${names[@]%.*}")
+	# "*" means no examples found
+	if [[ "${names[@]}" != "*" ]]; then
+		for name in ${names[@]}; do
+			echo "$name"
+		done
+	fi
+}
+
+
+_locate_manifest(){
+	cargo locate-project --message-format plain 2>/dev/null
+}
+
+# Extracts the values of "name" from the array given in $1 and shows them as
+# command line options for completion
+_get_names_from_array()
+{
+	local manifest=$(_locate_manifest)
+	if [[ -z $manifest ]]; then
+		return 0
+	fi
+
+	local last_line
+	local in_block=false
+	local block_name=$1
+	while read line
+	do
+		if [[ $last_line == "[[$block_name]]" ]]; then
+			in_block=true
+		else
+			if [[ $last_line =~ .*\[\[.* ]]; then
+				in_block=false
+			fi
+		fi
+
+		if [[ $in_block == true ]]; then
+			if [[ $line =~ .*name.*\= ]]; then
+				line=${line##*=}
+				line=${line%%\"}
+				line=${line##*\"}
+				echo $line
+			fi
+		fi
+
+		last_line=$line
+	done < $manifest
+}
+
+
+
+__choice___target() {
+	local targets=$(rustup target list)
+	while read line
+	do
+		if [[ "$line" =~ default|installed ]]; then
+			echo "${line%% *}"
+		fi
+	done <<< "$targets"
+}
+
+
+__choice___test() {
+	_get_names_from_array "test"
 }
 
 
