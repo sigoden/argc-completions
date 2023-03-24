@@ -15,6 +15,7 @@ export AICHAT_ROLES_FILE="$ROOT_DIR/roles.yaml"
 
 NO_COMMAND_NAMES=( "help" "command" "command" "subcommand" "completions" )
 NO_ARGUMENT_NAMES=( "flags" "options" )
+_ARGC_UTILS_FILE="$ROOT_DIR/patches/_argc_utils.sh"
 
 command_line="$@"
 store_command_names=()
@@ -25,7 +26,7 @@ run() {
     handle_lines $argc_cmd
     apply_patches
     print_tail >> $output_file
-    bash $output_file
+    bash $output_file --help
 }
 
 handle_lines() {
@@ -230,6 +231,11 @@ apply_patches() {
         echo >> $output_file
         cat "$embed_file" >> $output_file
         echo >> $output_file
+        if grep -q _argc_utils_ "$embed_file"; then
+            echo >> $output_file
+            cat "$_ARGC_UTILS_FILE" >> $output_file
+            echo >> $output_file
+        fi
     fi
 }
 

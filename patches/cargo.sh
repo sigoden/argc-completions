@@ -42,7 +42,7 @@ _choice_test() {
 }
 
 _locate_manifest(){
-	cargo locate-project --message-format plain 2>/dev/null
+	_argc_utils_safe_path "$(cargo locate-project --message-format plain 2>/dev/null)"
 }
 
 # Extracts the values of "name" from the array given in $1 and shows them as
