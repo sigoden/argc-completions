@@ -189,10 +189,15 @@ get_choices() {
 apply_patches() {
     local files=( $(ls -1 $ROOT_DIR/patches | grep "${argc_cmd}__") )
     for patch_file in ${files[@]}; do
-        name=$(basename $patch_file .sh | sed 's|'$argc_cmd'__||')
-        name2=$(echo $name | tr '-' '_')
-        target="$ROOT_DIR/completions/$argc_cmd.sh"
-        sed -i 's/'$name'/'$name'[`__choice_'$name2'`]/' $output_file
+        local name=$(basename $patch_file .sh | sed 's|'$argc_cmd'__||')
+        if [[ "$name" != '--' ]]; then
+            local name_underscore=$(echo $name | tr '-' '_')
+            if [[ "$name" == '-'* ]]; then
+                sed -i 's/option '$name'\( <.*\)\?$/option '$name'[`__choice_'$name_underscore'`]/' $output_file
+            else 
+                sed -i 's/arg '$name'\( <.*\)\?$/arg '$name'[`__choice_'$name_underscore'`]/' $output_file
+            fi
+        fi
         echo >> $output_file
         cat $ROOT_DIR/patches/$patch_file >> $output_file
         echo -e "\n" >> $output_file
