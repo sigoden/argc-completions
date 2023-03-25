@@ -1,2 +1,3 @@
+.vscode
 cache
-completions/debug.sh
+tests/__test_debug*

@@ -1,0 +1,18 @@
+ |type     |body                                        |choices               |
+ |-------- |------------------------------------------- |--------------------- |
+ |option   |-a, -b                                      |                      |
+ |option   |-C  DIRECTORY, --directory=DIRECTORY        |                      |
+ |option   |-f  FILE, --file=FILE, --makefile=FILE      |                      |
+ |option   |-H  --no-highlight                          |                      |
+ |option   |-m  --model <MODEL>                         |                      |
+ |option   |-l [N], --load-average[=N], --max-load[=N]  |                      |
+ |option   |-n  --just-print, --dry-run, --recon        |                      |
+ |option   |-O[TYPE], --output-sync[=TYPE]              |                      |
+ |option   |-p, --package [<SPEC>]                      |                      |
+ |option   |-v, --verbose...                            |                      |
+ |option   |-., --hidden                                |                      |
+ |option   |--debug[=FLAGS]                             |                      |
+ |option   |--decorations <when>                        |*auto*, never, always |
+ |option   |--info                                      |                      |
+ |option   |--with-commit <MSG>...                      |                      |
+ |option   |--timings[=<FMTS>]                          |html, json            |

@@ -31,7 +31,7 @@
 # @option -g --glob*
 # @flag --glob-case-insensitive
 # @flag --heading
-# @flag --hidden
+# @flag -. --hidden
 # @option --iglob* <GLOB>
 # @flag -i --ignore-case
 # @option --ignore-file* <PATH>

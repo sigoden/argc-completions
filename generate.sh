@@ -21,12 +21,13 @@ command_line="$@"
 store_command_names=()
 
 run() {
+    maybe_test
     output_file="$COMPLETIONS_DIR/$argc_cmd.sh"
     print_head > $output_file
     handle_lines $argc_cmd
     apply_patches
     print_tail >> $output_file
-    bash $output_file --help
+    validate_script
 }
 
 handle_lines() {
@@ -116,7 +117,7 @@ handle_option() {
                     name="${name::-3}"
                 elif [[ "$name" == *'='* ]]; then
                     name=$(echo "$name" | tr -cd '[:alnum:]=_-')
-                    notation=${name#*=}
+                    notation="<${name#*=}>"
                     name=${name%=*}
                 fi
                 long_names+=( "$name" )
@@ -235,6 +236,23 @@ apply_patches() {
             echo >> $output_file
             cat "$_ARGC_UTILS_FILE" >> $output_file
             echo >> $output_file
+        fi
+    fi
+}
+
+validate_script() {
+    output=$(bash $output_file --help 2>&1)
+    if ! grep -q "USAGE:" <<<"$output"; then
+        echo $output
+    fi
+}
+
+maybe_test() {
+    if [[ "$argc_cmd" == '__test'* ]]; then
+        COMPLETIONS_DIR="$ROOT_DIR/tests"
+        CACHE_DIR="$ROOT_DIR/tests"
+        if [[ "$argc_cmd" == '__test_debug' ]]; then
+            set -x
         fi
     fi
 }
