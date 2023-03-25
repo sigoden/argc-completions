@@ -4,11 +4,14 @@
 # @option --spec=generic            Choose a spec
 # @flag --force                     Ignore cache csv When running
 # @arg cmd!                         Specify the command, must able to run locally
+# @arg subcmd                       Optional sub command
 
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 COMPLETIONS_DIR=${ARGC_COMPLETIONS_DIR:-"$ROOT_DIR/completions"}
 CACHE_DIR="$ROOT_DIR/cache"
+SUBCMDS_DIR="$ROOT_DIR/subcmds"
 [[ ! -d "$CACHE_DIR" ]] && mkdir -p "$CACHE_DIR"
+[[ ! -d "$SUBCMDS_DIR" ]] && mkdir -p "$SUBCMDS_DIR"
 
 export NO_COLOR=true
 export AICHAT_ROLES_FILE="$ROOT_DIR/roles.yaml"
@@ -21,10 +24,9 @@ command_line="$@"
 store_command_names=()
 
 run() {
-    maybe_test
-    output_file="$COMPLETIONS_DIR/$argc_cmd.sh"
+    set_globals
     print_head > $output_file
-    handle_lines $argc_cmd
+    handle_lines $argc_cmd $argc_subcmd
     apply_patches
     print_tail >> $output_file
     validate_script
@@ -86,15 +88,23 @@ handle_subcommand() {
     local cmd_aliases=( "${dedup_names[@]:1}" )
 
     echo
+    echo "# {{{ $argc_cmd $cmd_name"
     echo "# @cmd"
     if [[ -n "$cmd_aliases" ]]; then
         echo "# @alias $(echo $cmd_aliases | tr -d ' ')"
     fi
-    handle_lines ${@:2} $cmd_name
-    echo "$cmd_name() {"
-    echo "    :;"
-    echo "}"
-    echo
+    local subcmd_file="$SUBCMDS_DIR/$(concat_args ${@:2} $cmd_name).sh"
+    if [[ -f "$subcmd_file" ]]; then
+        cat "$subcmd_file" \
+            | sed 's/^\([^_][A-Za-z0-9_-]\+\)()/'$name'::\1()/' \
+            | sed -n '/eval.*(argc /{n;x;d;};x;1d;p;${x;p;}' \
+            | sed 's/# SUBCMD-PATCHES/'$name'() {\n    :;\n}/'
+    else
+        handle_lines ${@:2} $cmd_name
+        print_cmd_fn $cmd_name
+    fi
+    echo "# }}} $argc_cmd $cmd_name"
+    echo 
 }
 
 
@@ -113,6 +123,9 @@ handle_option() {
             name_suffix="*"
         fi
         local notation=$(normalize_notation "$name")
+        if [[ "$name_suffix" == '*' ]] && [[ "$notations" == "$notation" ]]; then
+            return
+        fi
         if [[ $dedup_notation -eq 1 ]]; then
             if [[ ! " ${notations[*]} " =~ " $notation " ]]; then
                 notations+=( "$notation" )
@@ -213,7 +226,7 @@ fetch_csv() {
 }
 
 normalize_notation() {
-    local notation=$(echo "$1" |  sed 's/\\//g')
+    local notation=$(echo "$1" |  sed 's/\\//g' | sed 's/\.\.\.//')
     local result
     if grep -q '<.*>' <<<"$notation"; then
         result=$(echo $notation | sed 's/.*<\(.\+\)>.*/\1/')
@@ -241,11 +254,14 @@ get_choices() {
 }
 
 apply_patches() {
-    local sed_file="$ROOT_DIR/patches/${argc_cmd}.sed"
+    if [[ -n "$argc_subcmd" ]]; then
+        echo "# SUBCMD-PATCHES" >> $output_file
+    fi
+    local sed_file="$ROOT_DIR/patches/${output_name}.sed"
     if [[ -f "$sed_file" ]]; then
         sed -i -f $sed_file $output_file
     fi
-    local embed_file="$ROOT_DIR/patches/${argc_cmd}.sh"
+    local embed_file="$ROOT_DIR/patches/${output_name}.sh"
     if [[ -f "$embed_file" ]]; then
         echo >> $output_file
         cat "$embed_file" >> $output_file
@@ -265,24 +281,42 @@ validate_script() {
     fi
 }
 
-maybe_test() {
-    if [[ "$argc_cmd" == '__test'* ]]; then
-        COMPLETIONS_DIR="$ROOT_DIR/tests"
+set_globals() {
+    output_name=$(concat_args $argc_cmd $argc_subcmd)
+    local output_dir="$COMPLETIONS_DIR"
+    if [[ "$output_name" == '__test'* ]]; then
         CACHE_DIR="$ROOT_DIR/tests"
-        if [[ "$argc_cmd" == '__test_debug' ]]; then
+        output_dir="$ROOT_DIR/tests"
+        if [[ "$output_name" == '__test_debug' ]]; then
             set -x
         fi
     fi
+    if [[ -n "$argc_subcmd" ]]; then
+        output_dir="$SUBCMDS_DIR"
+    fi
+    output_file="$output_dir/$output_name.sh"
+}
+
+concat_args() {
+    echo $@ | awk '{$1=$1};1' | tr ' ' '-'
 }
 
 print_head() {
-    printf "%s\n" "#!/usr/bin/env bash"
-    printf "%s\n" "# Generated with \`./generate.sh $command_line\`. DON'T MODIFY IT"
-    printf "\n"
+    if [[ -z "$argc_subcmd" ]]; then
+        printf "%s\n" "#!/usr/bin/env bash"
+        printf "%s\n" "# Generated with \`./generate.sh $command_line\`. DON'T MODIFY IT"
+        printf "\n"
+    fi
 }
 
 print_tail() {
     printf "\n%s" "eval \"\$(argc \"\$0\" \"\$@\")\""
+}
+
+print_cmd_fn() {
+    echo "$1() {"
+    echo "    :;"
+    echo "}"
 }
 
 eval "$(argc "$0" "$@")"
