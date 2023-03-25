@@ -3,7 +3,7 @@
 
 # @option --cache-folder <path>
 # @flag --check-files
-# @option --cwd
+# @option --cwd <cwd>
 # @flag --disable-pnp
 # @option --emoji <bool>
 # @flag --enable-pnp
@@ -37,7 +37,7 @@
 # @flag --prefer-offline
 # @option --preferred-cache-folder <path>
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @option --proxy <host>
 # @flag --pure-lockfile
 # @option --registry <url>
@@ -48,7 +48,9 @@
 # @flag --update-checksums
 # @option --use-yarnrc <path>
 # @flag --verbose
+# @arg cmd[`_choice_cmd`]
 
+# {{{ yarn access
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -71,7 +73,7 @@
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -85,7 +87,7 @@
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -101,7 +103,55 @@ access() {
     :;
 }
 
+# @cmd
+# @arg package
+access::public() {
+    :;
+}
 
+# @cmd
+# @arg package
+access::restricted() {
+    :;
+}
+
+# @cmd
+# @arg mode[read-only|read-write]
+# @arg scope-team
+# @arg package
+access::grant() {
+    :;
+}
+
+# @cmd
+# @arg scope-team
+# @arg package
+access::revoke() {
+    :;
+}
+
+# @cmd
+# @arg user-or-scope
+access::ls-packages() {
+    :;
+}
+
+# @cmd
+# @arg package
+# @arg user
+access::ls-collaborators() {
+    :;
+}
+
+# @cmd
+# @arg package
+access::edit() {
+    :;
+}
+# }}} yarn access
+
+
+# {{{ yarn add
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -124,7 +174,7 @@ access() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -138,7 +188,7 @@ access() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -161,8 +211,10 @@ access() {
 add() {
     :;
 }
+# }}} yarn add
 
 
+# {{{ yarn audit
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -185,7 +237,7 @@ add() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -199,7 +251,7 @@ add() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -212,13 +264,15 @@ add() {
 # @flag --focus
 # @option --otp <otpcode>
 # @flag --summary
-# @option --groups[devDependencies|dependencies|optionalDependencies] <group_name>
+# @option --groups*[devDependencies|dependencies|optionalDependencies] <group_name>
 # @option --level[info|low|moderate|high|critical] <severity>
 audit() {
     :;
 }
+# }}} yarn audit
 
 
+# {{{ yarn autoclean
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -241,7 +295,7 @@ audit() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -255,7 +309,7 @@ audit() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -268,11 +322,14 @@ audit() {
 # @flag --focus
 # @option --otp <otpcode>
 # @flag -I --init
+# @flag -F
 autoclean() {
     :;
 }
+# }}} yarn autoclean
 
 
+# {{{ yarn bin
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -295,7 +352,7 @@ autoclean() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -309,7 +366,7 @@ autoclean() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -321,12 +378,13 @@ autoclean() {
 # @flag --no-node-version-check
 # @flag --focus
 # @option --otp <otpcode>
-# @arg command
 bin() {
     :;
 }
+# }}} yarn bin
 
 
+# {{{ yarn cache
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -349,7 +407,7 @@ bin() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -363,7 +421,7 @@ bin() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -375,12 +433,31 @@ bin() {
 # @flag --no-node-version-check
 # @flag --focus
 # @option --otp <otpcode>
-# @option --pattern
+# @option --pattern <pattern>
 cache() {
     :;
 }
 
+# @cmd
+# @option --pattern
+cache::list() {
+    :;
+}
 
+# @cmd
+cache::dir() {
+    :;
+}
+
+# @cmd
+# @arg module_name*
+cache::clean() {
+    :;
+}
+# }}} yarn cache
+
+
+# {{{ yarn check
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -403,7 +480,7 @@ cache() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -417,7 +494,7 @@ cache() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -431,12 +508,13 @@ cache() {
 # @option --otp <otpcode>
 # @flag --integrity
 # @flag --verify-tree
-# @arg command
 check() {
     :;
 }
+# }}} yarn check
 
 
+# {{{ yarn config
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -459,7 +537,7 @@ check() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -473,7 +551,7 @@ check() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -489,7 +567,34 @@ config() {
     :;
 }
 
+# @cmd
+# @flag -g --global
+# @arg key[`_choice_config_key`]
+# @arg value
+config::set() {
+    :;
+}
 
+# @cmd
+# @arg key[`_choice_config_key`]
+config::get() {
+    :;
+}
+
+# @cmd
+# @arg key[`_choice_config_key`]
+config::delete() {
+    :;
+}
+
+# @cmd
+config::list() {
+    :;
+}
+# }}} yarn config
+
+
+# {{{ yarn create
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -512,7 +617,7 @@ config() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -526,7 +631,7 @@ config() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -538,12 +643,13 @@ config() {
 # @flag --no-node-version-check
 # @flag --focus
 # @option --otp <otpcode>
-# @arg command
 create() {
     :;
 }
+# }}} yarn create
 
 
+# {{{ yarn exec
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -566,7 +672,7 @@ create() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -580,7 +686,7 @@ create() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -595,8 +701,10 @@ create() {
 exec() {
     :;
 }
+# }}} yarn exec
 
 
+# {{{ yarn generate-lock-entry
 # @cmd
 # @alias generateLockEntry
 # @flag --no-default-rc
@@ -620,7 +728,7 @@ exec() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -634,7 +742,7 @@ exec() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -645,15 +753,16 @@ exec() {
 # @option --scripts-prepend-node-path <bool>
 # @flag --no-node-version-check
 # @flag --focus
-# @flag --otp
-# @flag --otpcode
+# @option --otp <otpcode>
 # @option --use-manifest <location>
-# @option --resolved
+# @option --resolved <resolved>
 generate-lock-entry() {
     :;
 }
+# }}} yarn generate-lock-entry
 
 
+# {{{ yarn global
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -676,7 +785,7 @@ generate-lock-entry() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -690,7 +799,7 @@ generate-lock-entry() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -702,13 +811,54 @@ generate-lock-entry() {
 # @flag --no-node-version-check
 # @flag --focus
 # @option --otp <otpcode>
-# @option --prefix
+# @option --prefix <prefix>
 # @flag --latest
 global() {
     :;
 }
 
+# @cmd
+# @option --prefix
+# @arg package
+global::add() {
+    :;
+}
 
+# @cmd
+# @option --prefix
+global::bin() {
+    :;
+}
+
+# @cmd
+# @option --prefix
+global::list() {
+    :;
+}
+
+# @cmd
+# @option --prefix
+# @arg packages*[`_choice_global_package`]
+global::remove() {
+    :;
+}
+
+# @cmd
+# @option --prefix
+# @arg packages*[`_choice_global_package`]
+global::upgrade() {
+    :;
+}
+
+# @cmd
+# @option --prefix
+global::upgrade-interactive() {
+    :;
+}
+# }}} yarn global
+
+
+# {{{ yarn import
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -731,7 +881,7 @@ global() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -745,7 +895,7 @@ global() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -753,16 +903,17 @@ global() {
 # @option --network-concurrency <number>
 # @option --network-timeout <milliseconds>
 # @flag --non-interactive
-# @option --scripts-prepend-node-path <bool>
+# @flag --scripts-prepend-node-path
 # @flag --no-node-version-check
 # @flag --focus
 # @option --otp <otpcode>
-# @arg command
 import() {
     :;
 }
+# }}} yarn import
 
 
+# {{{ yarn info
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -785,7 +936,7 @@ import() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -799,7 +950,7 @@ import() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -814,8 +965,10 @@ import() {
 info() {
     :;
 }
+# }}} yarn info
 
 
+# {{{ yarn init
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -838,7 +991,7 @@ info() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -852,7 +1005,7 @@ info() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -867,12 +1020,14 @@ info() {
 # @flag -y --yes
 # @flag -p --private
 # @option -i --install <value>
-# @flag --2
+# @flag -2
 init() {
     :;
 }
+# }}} yarn init
 
 
+# {{{ yarn install
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -895,7 +1050,7 @@ init() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -909,7 +1064,7 @@ init() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -920,8 +1075,7 @@ init() {
 # @option --scripts-prepend-node-path <bool>
 # @flag --no-node-version-check
 # @flag --focus
-# @flag --otp
-# @flag --otpcode
+# @option --otp <otpcode>
 # @flag -A --audit
 # @flag -g --global
 # @flag -S --save
@@ -933,8 +1087,10 @@ init() {
 install() {
     :;
 }
+# }}} yarn install
 
 
+# {{{ yarn licenses
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -957,7 +1113,7 @@ install() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -971,7 +1127,7 @@ install() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -986,8 +1142,10 @@ install() {
 licenses() {
     :;
 }
+# }}} yarn licenses
 
 
+# {{{ yarn link
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1010,7 +1168,7 @@ licenses() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -1024,7 +1182,7 @@ licenses() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -1039,8 +1197,10 @@ licenses() {
 link() {
     :;
 }
+# }}} yarn link
 
 
+# {{{ yarn list
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1063,7 +1223,7 @@ link() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -1077,7 +1237,7 @@ link() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -1089,13 +1249,15 @@ link() {
 # @flag --no-node-version-check
 # @flag --focus
 # @option --otp <otpcode>
-# @option --depth
-# @option --pattern
+# @option --depth <depth>
+# @option --pattern <pattern>
 list() {
     :;
 }
+# }}} yarn list
 
 
+# {{{ yarn login
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1118,7 +1280,7 @@ list() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -1132,7 +1294,7 @@ list() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -1147,8 +1309,10 @@ list() {
 login() {
     :;
 }
+# }}} yarn login
 
 
+# {{{ yarn logout
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1171,7 +1335,7 @@ login() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -1185,7 +1349,7 @@ login() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -1197,12 +1361,13 @@ login() {
 # @flag --no-node-version-check
 # @flag --focus
 # @option --otp <otpcode>
-# @flag --Visit
 logout() {
     :;
 }
+# }}} yarn logout
 
 
+# {{{ yarn node
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1225,7 +1390,7 @@ logout() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -1239,7 +1404,7 @@ logout() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -1255,8 +1420,10 @@ logout() {
 node() {
     :;
 }
+# }}} yarn node
 
 
+# {{{ yarn outdated
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1279,7 +1446,7 @@ node() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -1293,7 +1460,7 @@ node() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -1305,12 +1472,14 @@ node() {
 # @flag --no-node-version-check
 # @flag --focus
 # @option --otp <otpcode>
-# @arg packages
+# @arg packages*
 outdated() {
     :;
 }
+# }}} yarn outdated
 
 
+# {{{ yarn owner
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1333,7 +1502,7 @@ outdated() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -1347,7 +1516,7 @@ outdated() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -1363,61 +1532,29 @@ owner() {
     :;
 }
 
-
 # @cmd
-# @flag --no-default-rc
-# @option --use-yarnrc <path>
-# @flag --verbose
-# @flag --offline
-# @flag --prefer-offline
-# @flag --enable-pnp
-# @flag --pnp
-# @flag --disable-pnp
-# @flag --strict-semver
-# @flag --json
-# @flag --ignore-scripts
-# @flag --har
-# @flag --ignore-platform
-# @flag --ignore-engines
-# @flag --ignore-optional
-# @flag --force
-# @flag --skip-integrity-check
-# @flag --check-files
-# @flag --no-bin-links
-# @flag --flat
-# @flag --prod
-# @flag --production
-# @flag --no-lockfile
-# @flag --pure-lockfile
-# @flag --frozen-lockfile
-# @flag --update-checksums
-# @flag --link-duplicates
-# @option --link-folder <path>
-# @option --global-folder <path>
-# @option --modules-folder <path>
-# @option --preferred-cache-folder <path>
-# @option --cache-folder <path>
-# @option --mutex <type>
-# @option --emoji <bool>
-# @flag -s --silent
-# @option --cwd
-# @option --proxy <host>
-# @option --https-proxy <host>
-# @option --registry <url>
-# @flag --no-progress
-# @option --network-concurrency <number>
-# @option --network-timeout <milliseconds>
-# @flag --non-interactive
-# @option --scripts-prepend-node-path <bool>
-# @flag --no-node-version-check
-# @flag --focus
-# @option --otp <otpcode>
-# @option -f --filename
-pack() {
+# @arg package
+owner::list() {
     :;
 }
 
+# @cmd
+# @arg user
+# @arg package
+owner::add() {
+    :;
+}
 
+# @cmd
+# @arg user
+# @arg package
+owner::remove() {
+    :;
+}
+# }}} yarn owner
+
+
+# {{{ yarn pack
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1440,7 +1577,7 @@ pack() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -1454,7 +1591,7 @@ pack() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -1466,12 +1603,76 @@ pack() {
 # @flag --no-node-version-check
 # @flag --focus
 # @option --otp <otpcode>
-# @arg set-version
+# @option -f --filename <filename>
+pack() {
+    :;
+}
+# }}} yarn pack
+
+
+# {{{ yarn policies
+# @cmd
+# @flag --no-default-rc
+# @option --use-yarnrc <path>
+# @flag --verbose
+# @flag --offline
+# @flag --prefer-offline
+# @flag --enable-pnp
+# @flag --pnp
+# @flag --disable-pnp
+# @flag --strict-semver
+# @flag --json
+# @flag --ignore-scripts
+# @flag --har
+# @flag --ignore-platform
+# @flag --ignore-engines
+# @flag --ignore-optional
+# @flag --force
+# @flag --skip-integrity-check
+# @flag --check-files
+# @flag --no-bin-links
+# @flag --flat
+# @flag --prod
+# @option --production <prod>
+# @flag --no-lockfile
+# @flag --pure-lockfile
+# @flag --frozen-lockfile
+# @flag --update-checksums
+# @flag --link-duplicates
+# @option --link-folder <path>
+# @option --global-folder <path>
+# @option --modules-folder <path>
+# @option --preferred-cache-folder <path>
+# @option --cache-folder <path>
+# @option --mutex <type>
+# @option --emoji <bool>
+# @flag -s --silent
+# @option --cwd <cwd>
+# @option --proxy <host>
+# @option --https-proxy <host>
+# @option --registry <url>
+# @flag --no-progress
+# @option --network-concurrency <number>
+# @option --network-timeout <milliseconds>
+# @flag --non-interactive
+# @option --scripts-prepend-node-path <bool>
+# @flag --no-node-version-check
+# @flag --focus
+# @option --otp <otpcode>
 policies() {
     :;
 }
 
+# @cmd
+# @flag --rc
+# @arg version
+policies::set-version() {
+    :;
+}
+# }}} yarn policies
 
+
+# {{{ yarn publish
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1479,6 +1680,7 @@ policies() {
 # @flag --offline
 # @flag --prefer-offline
 # @flag --enable-pnp
+# @flag --pnp
 # @flag --disable-pnp
 # @flag --strict-semver
 # @flag --json
@@ -1493,7 +1695,7 @@ policies() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -1506,8 +1708,8 @@ policies() {
 # @option --cache-folder <path>
 # @option --mutex <type>
 # @option --emoji <bool>
-# @flag --silent
-# @option --cwd
+# @flag -s --silent
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -1527,18 +1729,20 @@ policies() {
 # @flag --preminor
 # @flag --prepatch
 # @flag --prerelease
-# @option --preid
-# @option --message
+# @option --preid <preid>
+# @option --message <message>
 # @flag --no-git-tag-version
 # @flag --no-commit-hooks
-# @option --access
-# @option --tag
-# @arg tarball
+# @option --access <access>
+# @option --tag <tag>
+# @arg tarball-folder
 publish() {
     :;
 }
+# }}} yarn publish
 
 
+# {{{ yarn remove
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1560,8 +1764,8 @@ publish() {
 # @flag --check-files
 # @flag --no-bin-links
 # @flag --flat
-# @option --prod
-# @option --production
+# @flag --prod
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -1575,7 +1779,7 @@ publish() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -1588,12 +1792,14 @@ publish() {
 # @flag --focus
 # @option --otp <otpcode>
 # @flag -W --ignore-workspace-root-check
-# @arg packages
+# @arg packages*[`_choice_package`]
 remove() {
     :;
 }
+# }}} yarn remove
 
 
+# {{{ yarn run
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1616,7 +1822,7 @@ remove() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -1630,7 +1836,7 @@ remove() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -1638,16 +1844,18 @@ remove() {
 # @option --network-concurrency <number>
 # @option --network-timeout <milliseconds>
 # @flag --non-interactive
-# @option --scripts-prepend-node-path <bool>
+# @flag --scripts-prepend-node-path
 # @flag --no-node-version-check
 # @flag --focus
 # @option --otp <otpcode>
-# @arg scriptname[`__choice_scriptname`]
+# @arg script[`_choice_script`]
 run() {
     :;
 }
+# }}} yarn run
 
 
+# {{{ yarn tag
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1670,7 +1878,7 @@ run() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -1684,7 +1892,7 @@ run() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -1699,8 +1907,10 @@ run() {
 tag() {
     :;
 }
+# }}} yarn tag
 
 
+# {{{ yarn team
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1723,7 +1933,7 @@ tag() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -1737,7 +1947,7 @@ tag() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -1753,7 +1963,41 @@ team() {
     :;
 }
 
+# @cmd
+# @arg scope-team
+team::create() {
+    :;
+}
 
+# @cmd
+# @arg scope-team
+team::destroy() {
+    :;
+}
+
+# @cmd
+# @arg scope-team
+# @arg user
+team::add() {
+    :;
+}
+
+# @cmd
+# @arg scope-team
+# @arg user
+team::remove() {
+    :;
+}
+
+# @cmd
+# @arg scope-or-scope-team
+team::list() {
+    :;
+}
+# }}} yarn team
+
+
+# {{{ yarn unlink
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1776,7 +2020,7 @@ team() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -1790,7 +2034,7 @@ team() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -1805,8 +2049,10 @@ team() {
 unlink() {
     :;
 }
+# }}} yarn unlink
 
 
+# {{{ yarn unplug
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1829,7 +2075,7 @@ unlink() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -1843,7 +2089,7 @@ unlink() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -1861,8 +2107,10 @@ unlink() {
 unplug() {
     :;
 }
+# }}} yarn unplug
 
 
+# {{{ yarn upgrade
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1885,7 +2133,7 @@ unplug() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -1899,7 +2147,7 @@ unplug() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -1911,18 +2159,21 @@ unplug() {
 # @flag --no-node-version-check
 # @flag --focus
 # @option --otp <otpcode>
-# @option -S --scope
+# @option -S --scope <scope>
 # @flag -L --latest
 # @flag -E --exact
-# @option -P --pattern
+# @option -P --pattern <pattern>
 # @flag -T --tilde
 # @flag -C --caret
 # @flag -A --audit
+# @arg packages*[`_choice_package`]
 upgrade() {
     :;
 }
+# }}} yarn upgrade
 
 
+# {{{ yarn upgrade-interactive
 # @cmd
 # @alias upgradeInteractive
 # @flag --no-default-rc
@@ -1945,8 +2196,8 @@ upgrade() {
 # @flag --check-files
 # @flag --no-bin-links
 # @flag --flat
-# @flag --production
 # @flag --prod
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -1960,7 +2211,7 @@ upgrade() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -1972,7 +2223,7 @@ upgrade() {
 # @flag --no-node-version-check
 # @flag --focus
 # @option --otp <otpcode>
-# @option -S --scope
+# @option -S --scope <scope>
 # @flag --latest
 # @flag -E --exact
 # @flag -T --tilde
@@ -1980,8 +2231,10 @@ upgrade() {
 upgrade-interactive() {
     :;
 }
+# }}} yarn upgrade-interactive
 
 
+# {{{ yarn version
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -2004,7 +2257,7 @@ upgrade-interactive() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -2018,7 +2271,7 @@ upgrade-interactive() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -2038,15 +2291,17 @@ upgrade-interactive() {
 # @flag --preminor
 # @flag --prepatch
 # @flag --prerelease
-# @option --preid
-# @option --message
+# @option --preid <preid>
+# @option --message <message>
 # @flag --no-git-tag-version
 # @flag --no-commit-hooks
 version() {
     :;
 }
+# }}} yarn version
 
 
+# {{{ yarn versions
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -2069,7 +2324,7 @@ version() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -2083,7 +2338,7 @@ version() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -2098,8 +2353,10 @@ version() {
 versions() {
     :;
 }
+# }}} yarn versions
 
 
+# {{{ yarn why
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -2122,7 +2379,7 @@ versions() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -2136,7 +2393,7 @@ versions() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -2151,8 +2408,10 @@ versions() {
 why() {
     :;
 }
+# }}} yarn why
 
 
+# {{{ yarn workspace
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -2175,7 +2434,7 @@ why() {
 # @flag --no-bin-links
 # @flag --flat
 # @flag --prod
-# @flag --production
+# @option --production <prod>
 # @flag --no-lockfile
 # @flag --pure-lockfile
 # @flag --frozen-lockfile
@@ -2189,7 +2448,7 @@ why() {
 # @option --mutex <type>
 # @option --emoji <bool>
 # @flag -s --silent
-# @option --cwd
+# @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
 # @option --registry <url>
@@ -2201,15 +2460,134 @@ why() {
 # @flag --no-node-version-check
 # @flag --focus
 # @option --otp <otpcode>
+# @arg workspace_name[`_choice_workspace`]
+# @arg script[`_choice_workspace_script`]
 workspace() {
     :;
 }
+# }}} yarn workspace
 
 
-__choice_scriptname() {
-    if [ -f "$(pwd)/package.json" ]; then
-        node -e "Object.keys(require('./package.json').scripts).forEach(v => console.log(v))"
+# {{{ yarn workspaces
+# @cmd
+# @flag --no-default-rc
+# @option --use-yarnrc <path>
+# @flag --verbose
+# @flag --offline
+# @flag --prefer-offline
+# @flag --enable-pnp
+# @flag --pnp
+# @flag --disable-pnp
+# @flag --strict-semver
+# @flag --json
+# @flag --ignore-scripts
+# @flag --har
+# @flag --ignore-platform
+# @flag --ignore-engines
+# @flag --ignore-optional
+# @flag --force
+# @flag --skip-integrity-check
+# @flag --check-files
+# @flag --no-bin-links
+# @flag --flat
+# @flag --prod
+# @option --production <prod>
+# @flag --no-lockfile
+# @flag --pure-lockfile
+# @flag --frozen-lockfile
+# @flag --update-checksums
+# @flag --link-duplicates
+# @option --link-folder <path>
+# @option --global-folder <path>
+# @option --modules-folder <path>
+# @option --preferred-cache-folder <path>
+# @option --cache-folder <path>
+# @option --mutex <type>
+# @option --emoji <bool>
+# @flag -s --silent
+# @option --cwd <cwd>
+# @option --proxy <host>
+# @option --https-proxy <host>
+# @option --registry <url>
+# @flag --no-progress
+# @option --network-concurrency <number>
+# @option --network-timeout <milliseconds>
+# @flag --non-interactive
+# @option --scripts-prepend-node-path <bool>
+# @flag --no-node-version-check
+# @flag --focus
+# @option --otp <otpcode>
+workspaces() {
+    :;
+}
+
+# @cmd
+# @flag --json
+workspaces::info() {
+    :;
+}
+
+# @cmd
+# @arg command
+workspaces::run() {
+    :;
+}
+# }}} yarn workspaces
+
+
+NODE=$(which node)
+
+_choice_cmd() {
+    _choice_script
+}
+
+_choice_script() {
+    project_dir="$(_locate_project)"
+    if [ -f "$project_dir/package.json" ]; then
+        (cd $project_dir && $NODE -e "var pkg=require('./package.json');Object.keys(pkg.scripts||{}).forEach(v => console.log(v))")
     fi
+}
+
+_choice_workspace_script() {
+    location=$(yarn workspaces info 2>/dev/null | sed -n '/"'$2'"/{n;p}' | awk '{print $2}' | sed 's/"\(.*\)".*/\1/')
+    project_dir="$(_locate_project)/$location"
+    if [ -f "$project_dir/package.json" ]; then
+        (cd $project_dir && $NODE -e "var pkg=require('./package.json');Object.keys(pkg.scripts||{}).forEach(v => console.log(v))")
+    fi
+}
+
+_choice_package() {
+    project_dir="$(_locate_project)"
+    if [ -f "$project_dir/package.json" ]; then
+        (cd $project_dir && $NODE -e "var pkg=require('./package.json');Object.keys({...(pkg.dependencies||{}),...(pkg.devDependencies||{}),...(pkg.optionalDependencies||{})}).forEach(v => console.log(v))")
+    fi
+}
+
+_choice_global_package() {
+    global_dir="$(_argc_utils_safe_path "$(yarn global dir 2>/dev/null)")"
+    if [ -f "$global_dir/package.json" ]; then
+        (cd $global_dir && $NODE -e "var pkg=require('./package.json');Object.keys({...(pkg.dependencies||{}),...(pkg.devDependencies||{}),...(pkg.optionalDependencies||{})}).forEach(v => console.log(v))")
+    fi
+}
+
+_choice_workspace() {
+    yarn workspaces info 2>/dev/null | sed -n 's/^  "\([^"]*\)":.*$/\1/p'
+}
+
+_choice_config_key() {
+    yarn config list | sed -n "s/^\s*'\(.*\)':.*$/\1/p"
+}
+
+_locate_project() {
+    echo "$(_argc_utils_safe_path "$(npm prefix)")"
+}
+
+_argc_utils_safe_path() {
+	if [[ -x "$(command -v cygpath)" ]]; then
+		cygpath "$1"
+	else
+		echo "$1"
+	fi
 }
 
 

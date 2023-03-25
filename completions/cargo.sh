@@ -11,7 +11,9 @@
 # @flag --offline
 # @option --config <KEY=VALUE>
 # @option -Z <FLAG>
+# @arg cmd[`_choice_cmd`]
 
+# {{{ cargo build
 # @cmd
 # @alias b
 # @flag -q --quiet
@@ -52,12 +54,14 @@
 # @flag --build-plan
 # @flag --unit-graph
 # @flag --future-incompat-report
-# @option --timings[html|json]
+# @option --timings[html|json] <FMTS>
 build() {
     :;
 }
+# }}} cargo build
 
 
+# {{{ cargo check
 # @cmd
 # @alias c
 # @flag -q --quiet
@@ -96,12 +100,14 @@ build() {
 # @option --message-format <FMT>
 # @flag --unit-graph
 # @flag --future-incompat-report
-# @option --timings[html|json]
+# @option --timings[html|json] <FMTS>
 check() {
     :;
 }
+# }}} cargo check
 
 
+# {{{ cargo clean
 # @cmd
 # @flag -q --quiet
 # @option -p --package <SPEC>
@@ -121,8 +127,10 @@ check() {
 clean() {
     :;
 }
+# }}} cargo clean
 
 
+# {{{ cargo doc
 # @cmd
 # @alias d
 # @flag -q --quiet
@@ -158,12 +166,14 @@ clean() {
 # @option --message-format <FMT>
 # @flag --ignore-rust-version
 # @flag --unit-graph
-# @option --timings[html|json]
+# @option --timings[html|json] <FMTS>
 doc() {
     :;
 }
+# }}} cargo doc
 
 
+# {{{ cargo new
 # @cmd
 # @flag -q --quiet
 # @option --registry
@@ -183,8 +193,10 @@ doc() {
 new() {
     :;
 }
+# }}} cargo new
 
 
+# {{{ cargo init
 # @cmd
 # @flag -q --quiet
 # @option --registry
@@ -204,8 +216,10 @@ new() {
 init() {
     :;
 }
+# }}} cargo init
 
 
+# {{{ cargo add
 # @cmd
 # @flag --no-default-features
 # @flag --default-features
@@ -237,8 +251,10 @@ init() {
 add() {
     :;
 }
+# }}} cargo add
 
 
+# {{{ cargo remove
 # @cmd
 # @option -p --package <SPEC>
 # @option --manifest-path <PATH>
@@ -258,8 +274,10 @@ add() {
 remove() {
     :;
 }
+# }}} cargo remove
 
 
+# {{{ cargo run
 # @cmd
 # @alias r
 # @flag -q --quiet
@@ -286,13 +304,15 @@ remove() {
 # @option --message-format <FMT>
 # @flag --unit-graph
 # @flag --ignore-rust-version
-# @option --timings[html|json]
+# @option --timings[html|json] <FMTS>
 # @arg args*
 run() {
     :;
 }
+# }}} cargo run
 
 
+# {{{ cargo test
 # @cmd
 # @alias t
 # @flag -q --quiet
@@ -334,14 +354,16 @@ run() {
 # @option --message-format <FMT>
 # @flag --unit-graph
 # @flag --future-incompat-report
-# @option --timings[html|json]
+# @option --timings[html|json] <FMTS>
 # @arg TESTNAME
 # @arg args*
 test() {
     :;
 }
+# }}} cargo test
 
 
+# {{{ cargo bench
 # @cmd
 # @flag -q --quiet
 # @flag --lib
@@ -379,14 +401,16 @@ test() {
 # @option --message-format <FMT>
 # @flag --no-fail-fast
 # @flag --unit-graph
-# @option --timings[html|json]
+# @option --timings[html|json] <FMTS>
 # @arg BENCHNAME
 # @arg args*
 bench() {
     :;
 }
+# }}} cargo bench
 
 
+# {{{ cargo update
 # @cmd
 # @flag -q --quiet
 # @flag -w --workspace
@@ -405,8 +429,10 @@ bench() {
 update() {
     :;
 }
+# }}} cargo update
 
 
+# {{{ cargo search
 # @cmd
 # @flag -q --quiet
 # @option --index
@@ -423,8 +449,10 @@ update() {
 search() {
     :;
 }
+# }}} cargo search
 
 
+# {{{ cargo publish
 # @cmd
 # @flag -q --quiet
 # @option --index
@@ -452,8 +480,10 @@ search() {
 publish() {
     :;
 }
+# }}} cargo publish
 
 
+# {{{ cargo install
 # @cmd
 # @flag -q --quiet
 # @option --git <URL>
@@ -488,13 +518,15 @@ publish() {
 # @option --index
 # @option --registry
 # @option --message-format <FMT>
-# @option --timings[html|json]
+# @option --timings[html|json] <FMTS>
 # @arg crate*
 install() {
     :;
 }
+# }}} cargo install
 
 
+# {{{ cargo uninstall
 # @cmd
 # @flag -q --quiet
 # @option -p --package <SPEC>
@@ -511,12 +543,11 @@ install() {
 uninstall() {
     :;
 }
+# }}} cargo uninstall
 
 
-_compgen() {
-	if [[ ${#argc__words[@]} -le 1 ]]; then
-		cargo --list 2>/dev/null | awk 'NR>1 {print $1}'
-	fi
+_choice_cmd() {
+	cargo --list 2>/dev/null | awk 'NR>1 {print $1}'
 }
 
 _choice_bench() {

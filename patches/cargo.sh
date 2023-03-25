@@ -1,7 +1,5 @@
-_compgen() {
-	if [[ ${#argc__words[@]} -le 1 ]]; then
-		cargo --list 2>/dev/null | awk 'NR>1 {print $1}'
-	fi
+_choice_cmd() {
+	cargo --list 2>/dev/null | awk 'NR>1 {print $1}'
 }
 
 _choice_bench() {
