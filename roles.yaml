@@ -5,22 +5,25 @@
     Extract all subcommands, options and positional arguments in the help text and convert it into markdown table,
     Choices are multiple words separated by commas.
     In each column, type and body are required.
+    Ignore foot description.
     ## Help Text
     ARGUMENTS/ARGS:
         ARG           Desc
     OPTIONS/SECTIONS:
         -s --long <VALUE>    Desc, [values: a, b, c]
         -t --tag             Desc
+        --level <severity>   Value: low|high|critical
     COMMANDS/SUBCOMMANDS:
         cmd, c
-    Ignore description
+    Footer description.
     ## Translated markdown table 
-    | type     | body               | choices |
-    | -------- | ------------------ | ------- |
-    | argument | ARG                |         |
-    | option   | -s  --long <VALUE> | a, b, c |
-    | option   | -t  --tag          |         |
-    | command  | cmd  c             |         |
+    | type     | body               | choices           |
+    | -------- | ------------------ | ----------------- |
+    | argument | ARG                |                   |
+    | option   | -s  --long <VALUE> | a, b, c           |
+    | option   | -t  --tag          |                   |
+    | option   | --level <severity> | low,high,critical |
+    | command  | cmd  c             |                   |
     ## Help Text I provides
     __INPUT__
     ## Translated markdown table you replys

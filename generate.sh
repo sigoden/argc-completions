@@ -13,8 +13,8 @@ CACHE_DIR="$ROOT_DIR/cache"
 export NO_COLOR=true
 export AICHAT_ROLES_FILE="$ROOT_DIR/roles.yaml"
 
-NO_COMMAND_NAMES=( "help" "command" "command" "subcommand" "completions" )
-NO_ARGUMENT_NAMES=( "flags" "options" )
+NO_COMMAND_NAMES=( "help" "command" "command" "subcommand" "completions" "none" "N/A" )
+NO_ARGUMENT_NAMES=( "flags" "options" "commands" "command" )
 _ARGC_UTILS_FILE="$ROOT_DIR/patches/_argc_utils.sh"
 
 command_line="$@"
@@ -68,7 +68,7 @@ handle_lines() {
 handle_subcommand() {
     local input="$1"
     local IFS=' '
-    local names=( $( get_body "$input" | sed 's/,/ /g' ) )
+    local names=( $( get_body "$input" | sed 's/\(,\|\/\)/ /g' ) )
     if [[ -z "$names" ]] || [[ "$names" == '<'* ]] || [[ "$names" == '['* ]] || grep -qwi -- "$names" <<<"${NO_COMMAND_NAMES[@]}"; then
         return
     fi
@@ -213,7 +213,7 @@ fetch_csv() {
 }
 
 normalize_notation() {
-    local notation=$1
+    local notation=$(echo "$1" |  sed 's/\\//g')
     local result
     if grep -q '<.*>' <<<"$notation"; then
         result=$(echo $notation | sed 's/.*<\(.\+\)>.*/\1/')
