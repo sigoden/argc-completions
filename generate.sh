@@ -20,15 +20,15 @@ NO_COMMAND_NAMES=( "help" "command" "command" "subcommand" "completions" "none" 
 NO_ARGUMENT_NAMES=( "flags" "options" "commands" "command" )
 _ARGC_UTILS_FILE="$ROOT_DIR/patches/_argc_utils.sh"
 
-command_line="$@"
+command_line="$*"
 store_command_names=()
 
 run() {
     set_globals
-    print_head > $output_file
+    print_head > "$output_file"
     handle_lines $argc_cmd $argc_subcmd
     apply_patches
-    print_tail >> $output_file
+    print_tail >> "$output_file"
     validate_script
 }
 
@@ -37,30 +37,30 @@ handle_lines() {
     local IFS=$'\n'
     local csv=( $( fetch_csv $@ ) )
     for item in ${csv[@]}; do
-        local kind=$(get_kind "$item")
+        local kind="$(get_kind "$item")"
         if [[ -n "$kind" ]] && [[ "$kind" != "command" ]] && [[ "$kind" != "argument" ]]; then
-            local body=$(get_body "$item")
+            local body="$(get_body "$item")"
             if [[ -n "$body" ]]; then
-                handle_option "$item" >> $output_file
+                handle_option "$item" >> "$output_file"
             fi
         fi
     done
     for item in ${csv[@]}; do
-        local kind=$(get_kind "$item")
+        local kind="$(get_kind "$item")"
         if [[ "$kind" == "argument" ]]; then
-            local body=$(get_body "$item")
+            local body="$(get_body "$item")"
             if [[ -n "$body" ]]; then
-                handle_argument "$item" >> $output_file
+                handle_argument "$item" >> "$output_file"
             fi
         fi
     done
     if [[ $# -eq 1 ]]; then
         for item in ${csv[@]}; do
-            local kind=$(get_kind "$item")
+            local kind="$(get_kind "$item")"
             if [[ "$kind" == "command" ]]; then
-                local body=$(get_body "$item")
+                local body="$(get_body "$item")"
                 if [[ -n "$body" ]]; then
-                    handle_subcommand "$item" $@ >> $output_file
+                    handle_subcommand "$item" $@ >> "$output_file"
                 fi
             fi
         done
@@ -91,14 +91,14 @@ handle_subcommand() {
     echo "# {{{ $argc_cmd $cmd_name"
     echo "# @cmd"
     if [[ -n "$cmd_aliases" ]]; then
-        echo "# @alias $(echo $cmd_aliases | tr -d ' ')"
+        echo "# @alias $(echo "$cmd_aliases" | tr -d ' ')"
     fi
     local subcmd_file="$SUBCMDS_DIR/$(concat_args ${@:2} $cmd_name).sh"
     if [[ -f "$subcmd_file" ]]; then
         cat "$subcmd_file" \
-            | sed 's/^\([^_][A-Za-z0-9_-]\+\)()/'$name'::\1()/' \
+            | sed 's/^\([^_][A-Za-z0-9_-]\+\)()/'"$name"'::\1()/' \
             | sed -n '/eval.*(argc /{n;x;d;};x;1d;p;${x;p;}' \
-            | sed 's/# SUBCMD-PATCHES/'$name'() {\n    :;\n}/'
+            | sed 's/# SUBCMD-PATCHES/'"$name"'() {\n    :;\n}/'
     else
         handle_lines ${@:2} $cmd_name
         print_cmd_fn $cmd_name
@@ -118,11 +118,11 @@ handle_option() {
     local notations=()
     local dedup_notation=0
     add_notation() {
-        local name=$1
+        local name="$1"
         if [[ "$name" == *'...'* ]]; then
             name_suffix="*"
         fi
-        local notation=$(normalize_notation "$name")
+        local notation="$(normalize_notation "$name")"
         if [[ "$name_suffix" == '*' ]] && [[ "$notations" == "$notation" ]]; then
             return
         fi
@@ -146,18 +146,18 @@ handle_option() {
                     name_suffix="*"
                     name="${name::-3}"
                 elif [[ "$name" == *'='* ]]; then
-                    name=$(echo "$name" | tr -cd '[:alnum:]=_-')
-                    add_notation ${name#*=}
-                    name=${name%=*}
+                    name="$(echo "$name" | tr -cd '[:alnum:]=_-')"
+                    add_notation "${name#*=}"
+                    name="${name%=*}"
                 fi
                 long_names+=( "$name" )
                 store_option_names+=( "$name" )
             elif [[ "$name" == '-'* ]]; then
-                name=${name:0:2}
+                name="${name:0:2}"
                 short_names+=( "$name" )
                 store_option_names+=( "$name" )
             else
-                add_notation $name
+                add_notation "$name"
             fi
         fi
     done
@@ -165,12 +165,12 @@ handle_option() {
         return
     fi
     local notations_val
+    local tag_val
     local choices="$(get_choices "$input")"
-    local tag_val short_val
     if [[ -n "$notations" ]]; then
         tag_val="# @option"
         if [[ -n "$choices" ]]; then
-            name_suffix="$name_suffix["$choices"]"
+            name_suffix="${name_suffix}[$choices]"
         fi
         if [[ -n "$notations" ]]; then
             if [[ ${#long_names[@]} -ne 1 ]] || [[ "<$(echo ${long_names:2} | tr '[:lower:]' '[:upper:]')>" != "${notations[*]}" ]]; then
@@ -198,14 +198,14 @@ handle_argument() {
     if [[ -z "$name" ]]; then
         return
     fi
-    local sanitized_name=$(echo "$name" | tr -cd '[:alnum:]_-')
+    local sanitized_name="$(echo "$name" | tr -cd '[:alnum:]_-')"
     if grep -qwi -- "$sanitized_name" <<<"${NO_ARGUMENT_NAMES[@]}"; then
         return
     fi
-    local choices=$(get_choices "$input")
+    local choices="$(get_choices "$input")"
     local line="# @arg $sanitized_name"
     if [[ -n "$choices" ]]; then
-        line="$line[$choices]"
+        line="${line}[$choices]"
     elif [[ "$name" == *'...' ]]; then
         line="$line*"
     fi
@@ -218,22 +218,22 @@ fetch_csv() {
     if [[ "$argc_force" != "1" ]] && [[ -f "$path" ]]; then
         cat "$path" | sed -n '3,$ p' 
     else
-        local text="$($@ $argc_arg_help 2>&1)"
-        local csv="$(echo "$text" | aichat -S -r $argc_spec)"
+        local text="$($@ "$argc_arg_help" 2>&1)"
+        local csv="$(echo "$text" | aichat -S -r "$argc_spec")"
         echo "$csv" > "$path"
         echo "$csv" | sed -n '3,$ p' 
     fi
 }
 
 normalize_notation() {
-    local notation=$(echo "$1" |  sed 's/\\//g' | sed 's/\.\.\.//')
+    local notation="$(echo "$1" |  sed 's/\\//g' | sed 's/\.\.\.//')"
     local result
     if grep -q '<.*>' <<<"$notation"; then
-        result=$(echo $notation | sed 's/.*<\(.\+\)>.*/\1/')
+        result=$(echo "$notation" | sed 's/.*<\(.\+\)>.*/\1/')
     elif grep -q '\[.*\]' <<<"$notation"; then
-        result=$(echo $notation | sed 's/.*\[\(.\+\)\].*/\1/')
+        result=$(echo "$notation" | sed 's/.*\[\(.\+\)\].*/\1/')
     else
-        result=$notation
+        result="$notation"
     fi
     echo "<$result>"
 }
@@ -255,34 +255,34 @@ get_choices() {
 
 apply_patches() {
     if [[ -n "$argc_subcmd" ]]; then
-        echo "# SUBCMD-PATCHES" >> $output_file
+        echo "# SUBCMD-PATCHES" >> "$output_file"
     fi
     local sed_file="$ROOT_DIR/patches/${output_name}.sed"
     if [[ -f "$sed_file" ]]; then
-        sed -i -f $sed_file $output_file
+        sed -i -f "$sed_file" "$output_file"
     fi
     local embed_file="$ROOT_DIR/patches/${output_name}.sh"
     if [[ -f "$embed_file" ]]; then
-        echo >> $output_file
-        cat "$embed_file" >> $output_file
-        echo >> $output_file
+        echo >> "$output_file"
+        cat "$embed_file" >> "$output_file"
+        echo >> "$output_file"
         if grep -q _argc_utils_ "$embed_file"; then
-            echo >> $output_file
-            cat "$_ARGC_UTILS_FILE" >> $output_file
-            echo >> $output_file
+            echo >> "$output_file"
+            cat "$_ARGC_UTILS_FILE" >> "$output_file"
+            echo >> "$output_file"
         fi
     fi
 }
 
 validate_script() {
-    output=$(bash $output_file --help 2>&1)
+    output=$(bash "$output_file" --help 2>&1)
     if ! grep -q "USAGE:" <<<"$output"; then
-        echo $output
+        echo "$output"
     fi
 }
 
 set_globals() {
-    output_name=$(concat_args $argc_cmd $argc_subcmd)
+    output_name="$(concat_args $argc_cmd $argc_subcmd)"
     local output_dir="$COMPLETIONS_DIR"
     if [[ "$output_name" == '__test'* ]]; then
         CACHE_DIR="$ROOT_DIR/tests"
