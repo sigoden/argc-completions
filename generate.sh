@@ -105,19 +105,36 @@ handle_option() {
     local short_names=()
     local long_names=()
     local name_suffix=""
-    local notation=""
+    local notations=()
+    local dedup_notation=0
+    add_notation() {
+        local name=$1
+        if [[ "$name" == *'...'* ]]; then
+            name_suffix="*"
+        fi
+        local notation=$(normalize_notation "$name")
+        if [[ $dedup_notation -eq 1 ]]; then
+            if [[ ! " ${notations[*]} " =~ " $notation " ]]; then
+                notations+=( "$notation" )
+            fi
+        else
+            notations+=( "$notation" )
+        fi
+        dedup_notation=0
+    }
     for name in ${names[@]}; do
         if [[ "$name" == "--help" ]] || [[ "$name" == "--version" ]]; then
             return
         fi
         if [[  ! " ${store_option_names[*]} " =~ " $name " ]]; then
             if [[ "$name" == '--'* ]]; then
+                dedup_notation=1
                 if [[ "$name" == *'...' ]]; then
                     name_suffix="*"
                     name="${name::-3}"
                 elif [[ "$name" == *'='* ]]; then
                     name=$(echo "$name" | tr -cd '[:alnum:]=_-')
-                    notation="<${name#*=}>"
+                    add_notation ${name#*=}
                     name=${name%=*}
                 fi
                 long_names+=( "$name" )
@@ -126,41 +143,38 @@ handle_option() {
                 name=${name:0:2}
                 short_names+=( "$name" )
                 store_option_names+=( "$name" )
-            elif [[ -z "$annotation" ]]; then
-                notation="$name"
+            else
+                add_notation $name
             fi
         fi
     done
     if [[ -z "$short_names" ]] && [[ -z "$long_names" ]]; then
         return
     fi
-    local notation_val
+    local notations_val
     local choices="$(get_choices "$input")"
     local tag_val short_val
-    if [[ -n "$notation" ]]; then
+    if [[ -n "$notations" ]]; then
         tag_val="# @option"
         if [[ -n "$choices" ]]; then
-            name_suffix="["$choices"]"
-        elif [[ "$notation" == *'...' ]]; then
-            name_suffix="*"
+            name_suffix="$name_suffix["$choices"]"
         fi
-        local sanitized_notation="$(sanitize_notation "$notation")"
-        if [[ -n "$sanitized_notation" ]]; then
-            if [[ ${#long_names[@]} -ne 1 ]] || [[ "$(echo $long_names | tr '[:lower:]' '[:upper:]')" != "--$sanitized_notation" ]]; then
-                notation_val=" <$sanitized_notation>"
+        if [[ -n "$notations" ]]; then
+            if [[ ${#long_names[@]} -ne 1 ]] || [[ "<$(echo ${long_names:2} | tr '[:lower:]' '[:upper:]')>" != "${notations[*]}" ]]; then
+                notations_val=" ${notations[*]}"
             fi
         fi
     else
         tag_val="# @flag"
     fi
     if [[ ${#short_names[@]} -eq 1 ]] && [[ ${#long_names[@]} -eq 1 ]]; then
-        echo "${tag_val} ${short_names} ${long_names}${name_suffix}${notation_val}"
+        echo "${tag_val} ${short_names} ${long_names}${name_suffix}${notations_val}"
     else
         for name in ${short_names[@]}; do
-            echo "${tag_val} ${name}${name_suffix}${notation_val}"
+            echo "${tag_val} ${name}${name_suffix}${notations_val}"
         done
         for name in ${long_names[@]}; do
-            echo "${tag_val} ${name}${name_suffix}${notation_val}"
+            echo "${tag_val} ${name}${name_suffix}${notations_val}"
         done
     fi
 }
@@ -198,13 +212,17 @@ fetch_csv() {
     fi
 }
 
-sanitize_notation() {
+normalize_notation() {
     local notation=$1
+    local result
     if grep -q '<.*>' <<<"$notation"; then
-        echo $notation | sed 's/\.\.\.//' | sed 's/.*<\(.\+\)>.*/\1/' 
+        result=$(echo $notation | sed 's/.*<\(.\+\)>.*/\1/')
     elif grep -q '\[.*\]' <<<"$notation"; then
-        echo $notation | sed 's/\.\.\.//' | sed 's/.*\[\(.\+\)\].*/\1/' 
+        result=$(echo $notation | sed 's/.*\[\(.\+\)\].*/\1/')
+    else
+        result=$notation
     fi
+    echo "<$result>"
 }
 
 get_kind() {

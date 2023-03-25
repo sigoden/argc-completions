@@ -4,6 +4,7 @@
 # @flag -a
 # @flag -b
 # @option -C --directory
+# @option -d --diff <file> <file>
 # @option -f <FILE>
 # @option --file <FILE>
 # @option --makefile <FILE>
