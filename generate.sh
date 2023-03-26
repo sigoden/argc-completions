@@ -18,7 +18,6 @@ export AICHAT_ROLES_FILE="$ROOT_DIR/roles.yaml"
 
 NO_COMMAND_NAMES=( "help" "command" "command" "subcommand" "completions" "none" "N/A" )
 NO_ARGUMENT_NAMES=( "flags" "options" "commands" "command" )
-_ARGC_UTILS_FILE="$ROOT_DIR/patches/_argc_utils.sh"
 
 command_line="$*"
 store_command_names=()
@@ -261,16 +260,23 @@ apply_patches() {
     if [[ -f "$sed_file" ]]; then
         sed -i -f "$sed_file" "$output_file"
     fi
-    local embed_file="$ROOT_DIR/patches/${output_name}.sh"
-    if [[ -f "$embed_file" ]]; then
+    local patch_file="$ROOT_DIR/patches/${output_name}.sh"
+    if [[ -f "$patch_file" ]]; then
         echo >> "$output_file"
-        cat "$embed_file" >> "$output_file"
+        cat "$patch_file" >> "$output_file"
         echo >> "$output_file"
-        if grep -q _argc_utils_ "$embed_file"; then
-            echo >> "$output_file"
-            cat "$_ARGC_UTILS_FILE" >> "$output_file"
-            echo >> "$output_file"
-        fi
+        local IFS=$'\n'
+        util_fns=( $(grep -o '_argc_util_[[:alnum:]_]*' "$patch_file" | uniq) )
+        for util_fn_name in ${util_fns[@]}; do
+            util_fn_file="$ROOT_DIR/utils/${util_fn_name}.sh"
+            if [ -f "$util_fn_file" ]; then
+                echo >> "$output_file"
+                cat "$util_fn_file" >> "$output_file"
+                echo >> "$output_file"
+            else
+                echo "Unknown util fn: $util_fn_name" >&2
+            fi
+        done
     fi
 }
 
