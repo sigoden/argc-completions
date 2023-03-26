@@ -17,7 +17,7 @@ SUBCMDS_DIR="$ROOT_DIR/subcmds"
 export NO_COLOR=true
 export AICHAT_ROLES_FILE="$ROOT_DIR/roles.yaml"
 
-NO_SUBCOMMAND_NAMES=( "help" "command" "command" "subcommand" "completions" "none" "N/A" )
+NO_SUBCOMMAND_NAMES=( "help" "command" "command" "subcommand" "none" "N/A" )
 NO_ARGUMENT_NAMES=( "flags" "options" "commands" "command" )
 NO_OPTION_KINDS=( "command" "subcommand" "argument" )
 

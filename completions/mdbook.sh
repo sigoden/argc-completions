@@ -48,6 +48,15 @@ clean() {
 # }} mdbook clean
 
 
+# {{ mdbook completions
+# @cmd
+# @arg SHELL[bash|elvish|fish|powershell|zsh]
+completions() {
+    :;
+}
+# }} mdbook completions
+
+
 # {{ mdbook watch
 # @cmd
 # @option -d --dest-dir <dest-dir>
