@@ -2,32 +2,37 @@ _choice_cmd() {
 	cargo --list 2>/dev/null | awk 'NR>1 {print $1}'
 }
 
+_choice_testname() {
+	cargo t -- --list | awk '/: test$/ { print substr($1, 1, length($1) - 1) }' 
+}
+
+_choice_depid() {
+	_get_package_json "$(_get_option_package)" | jq -r '.dependencies[].name'
+}
+
+_choice_package() {
+	cargo metadata --format-version 1 --no-deps | jq -r '.packages[].name'
+}
+
 _choice_bench() {
-	_get_names_from_array "bench"
+	_get_package_target bench "$(_get_option_package)"
 }
 
 _choice_bin() {
-	_get_names_from_array "bin"
+	_get_package_target bin "$(_get_option_package)"
+}
+
+_choice_test() {
+	_get_package_target test "$(_get_option_package)"
 }
 
 _choice_example() {
-	local manifest=$(_locate_manifest)
-	[ -z "$manifest" ] && return 0
-
-	local files=("${manifest%/*}"/examples/*.rs)
-	local names=("${files[@]##*/}")
-	local names=("${names[@]%.*}")
-	# "*" means no examples found
-	if [[ "${names[@]}" != "*" ]]; then
-		for name in ${names[@]}; do
-			echo "$name"
-		done
-	fi
+	_get_package_target example "$(_get_option_package)"
 }
 
 _choice_target() {
 	local targets=$(rustup target list)
-	while read line
+	while read -r line
 	do
 		if [[ "$line" =~ default|installed ]]; then
 			echo "${line%% *}"
@@ -35,45 +40,28 @@ _choice_target() {
 	done <<< "$targets"
 }
 
-_choice_test() {
-	_get_names_from_array "test"
+_get_option_package() {
+	echo "${argc_package:-"$argc_p"}"
 }
 
-_locate_manifest(){
-	_argc_utils_safe_path "$(cargo locate-project --message-format plain 2>/dev/null)"
+_get_package_target() {
+	target_kind="$1"
+	package_name="$2"
+	_get_package_json "$package_name" | jq -r '.targets[] | select( .kind[] | contains("'$target_kind'") ) | .name'
 }
 
-# Extracts the values of "name" from the array given in $1 and shows them as
-# command line options for completion
-_get_names_from_array()
-{
-	local manifest=$(_locate_manifest)
-	if [[ -z $manifest ]]; then
-		return 0
+_get_package_json() {
+	package_name="$1"
+	metadata_json="$(_get_metadata_json)"
+	if [[ -n "$package_name" ]]; then
+		echo "$metadata_json" | jq '.packages[] | select(.name == "'"$package_name"'")'
+	else
+		workspace_root="$(echo "$metadata_json" | jq -r '.workspace_root')"
+		manifest_path="$(echo "${workspace_root}$(_argc_util_path_sep)Cargo.toml" |  jq -R .)"
+		echo "$metadata_json" | jq '.packages[] | select(.manifest_path == '"$manifest_path"')'
 	fi
+}
 
-	local last_line
-	local in_block=false
-	local block_name=$1
-	while read line
-	do
-		if [[ $last_line == "[[$block_name]]" ]]; then
-			in_block=true
-		else
-			if [[ $last_line =~ .*\[\[.* ]]; then
-				in_block=false
-			fi
-		fi
-
-		if [[ $in_block == true ]]; then
-			if [[ $line =~ .*name.*\= ]]; then
-				line=${line##*=}
-				line=${line%%\"}
-				line=${line##*\"}
-				echo $line
-			fi
-		fi
-
-		last_line=$line
-	done < $manifest
+_get_metadata_json() {
+	cargo metadata --format-version 1 --no-deps
 }

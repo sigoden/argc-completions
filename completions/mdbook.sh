@@ -2,7 +2,7 @@
 # Generated with `./generate.sh mdbook`. DON'T MODIFY IT
 
 
-# {{{ mdbook init
+# {{ mdbook init
 # @cmd
 # @flag --theme
 # @flag --force
@@ -12,10 +12,10 @@
 init() {
     :;
 }
-# }}} mdbook init
+# }} mdbook init
 
 
-# {{{ mdbook build
+# {{ mdbook build
 # @cmd
 # @option -d --dest-dir <dest-dir>
 # @flag -o --open
@@ -23,10 +23,10 @@ init() {
 build() {
     :;
 }
-# }}} mdbook build
+# }} mdbook build
 
 
-# {{{ mdbook test
+# {{ mdbook test
 # @cmd
 # @option -d --dest-dir <dest-dir>
 # @option -c --chapter <chapter>
@@ -35,20 +35,20 @@ build() {
 test() {
     :;
 }
-# }}} mdbook test
+# }} mdbook test
 
 
-# {{{ mdbook clean
+# {{ mdbook clean
 # @cmd
 # @option -d --dest-dir <dest-dir>
 # @arg dir
 clean() {
     :;
 }
-# }}} mdbook clean
+# }} mdbook clean
 
 
-# {{{ mdbook watch
+# {{ mdbook watch
 # @cmd
 # @option -d --dest-dir <dest-dir>
 # @flag -o --open
@@ -56,10 +56,10 @@ clean() {
 watch() {
     :;
 }
-# }}} mdbook watch
+# }} mdbook watch
 
 
-# {{{ mdbook serve
+# {{ mdbook serve
 # @cmd
 # @option -d --dest-dir <dest-dir>
 # @option -n --hostname <hostname>
@@ -69,7 +69,7 @@ watch() {
 serve() {
     :;
 }
-# }}} mdbook serve
+# }} mdbook serve
 
 
 eval "$(argc "$0" "$@")"

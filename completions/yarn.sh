@@ -50,7 +50,7 @@
 # @flag --verbose
 # @arg cmd[`_choice_cmd`]
 
-# {{{ yarn access
+# {{ yarn access
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -148,10 +148,10 @@ access::ls-collaborators() {
 access::edit() {
     :;
 }
-# }}} yarn access
+# }} yarn access
 
 
-# {{{ yarn add
+# {{ yarn add
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -211,10 +211,10 @@ access::edit() {
 add() {
     :;
 }
-# }}} yarn add
+# }} yarn add
 
 
-# {{{ yarn audit
+# {{ yarn audit
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -269,10 +269,10 @@ add() {
 audit() {
     :;
 }
-# }}} yarn audit
+# }} yarn audit
 
 
-# {{{ yarn autoclean
+# {{ yarn autoclean
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -326,10 +326,10 @@ audit() {
 autoclean() {
     :;
 }
-# }}} yarn autoclean
+# }} yarn autoclean
 
 
-# {{{ yarn bin
+# {{ yarn bin
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -381,10 +381,10 @@ autoclean() {
 bin() {
     :;
 }
-# }}} yarn bin
+# }} yarn bin
 
 
-# {{{ yarn cache
+# {{ yarn cache
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -454,10 +454,10 @@ cache::dir() {
 cache::clean() {
     :;
 }
-# }}} yarn cache
+# }} yarn cache
 
 
-# {{{ yarn check
+# {{ yarn check
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -511,10 +511,10 @@ cache::clean() {
 check() {
     :;
 }
-# }}} yarn check
+# }} yarn check
 
 
-# {{{ yarn config
+# {{ yarn config
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -591,10 +591,10 @@ config::delete() {
 config::list() {
     :;
 }
-# }}} yarn config
+# }} yarn config
 
 
-# {{{ yarn create
+# {{ yarn create
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -646,10 +646,10 @@ config::list() {
 create() {
     :;
 }
-# }}} yarn create
+# }} yarn create
 
 
-# {{{ yarn exec
+# {{ yarn exec
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -701,10 +701,10 @@ create() {
 exec() {
     :;
 }
-# }}} yarn exec
+# }} yarn exec
 
 
-# {{{ yarn generate-lock-entry
+# {{ yarn generate-lock-entry
 # @cmd
 # @alias generateLockEntry
 # @flag --no-default-rc
@@ -759,10 +759,10 @@ exec() {
 generate-lock-entry() {
     :;
 }
-# }}} yarn generate-lock-entry
+# }} yarn generate-lock-entry
 
 
-# {{{ yarn global
+# {{ yarn global
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -855,10 +855,10 @@ global::upgrade() {
 global::upgrade-interactive() {
     :;
 }
-# }}} yarn global
+# }} yarn global
 
 
-# {{{ yarn import
+# {{ yarn import
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -910,10 +910,10 @@ global::upgrade-interactive() {
 import() {
     :;
 }
-# }}} yarn import
+# }} yarn import
 
 
-# {{{ yarn info
+# {{ yarn info
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -965,10 +965,10 @@ import() {
 info() {
     :;
 }
-# }}} yarn info
+# }} yarn info
 
 
-# {{{ yarn init
+# {{ yarn init
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1024,10 +1024,10 @@ info() {
 init() {
     :;
 }
-# }}} yarn init
+# }} yarn init
 
 
-# {{{ yarn install
+# {{ yarn install
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1087,10 +1087,10 @@ init() {
 install() {
     :;
 }
-# }}} yarn install
+# }} yarn install
 
 
-# {{{ yarn licenses
+# {{ yarn licenses
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1142,10 +1142,10 @@ install() {
 licenses() {
     :;
 }
-# }}} yarn licenses
+# }} yarn licenses
 
 
-# {{{ yarn link
+# {{ yarn link
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1197,10 +1197,10 @@ licenses() {
 link() {
     :;
 }
-# }}} yarn link
+# }} yarn link
 
 
-# {{{ yarn list
+# {{ yarn list
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1254,10 +1254,10 @@ link() {
 list() {
     :;
 }
-# }}} yarn list
+# }} yarn list
 
 
-# {{{ yarn login
+# {{ yarn login
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1309,10 +1309,10 @@ list() {
 login() {
     :;
 }
-# }}} yarn login
+# }} yarn login
 
 
-# {{{ yarn logout
+# {{ yarn logout
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1364,10 +1364,10 @@ login() {
 logout() {
     :;
 }
-# }}} yarn logout
+# }} yarn logout
 
 
-# {{{ yarn node
+# {{ yarn node
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1420,10 +1420,10 @@ logout() {
 node() {
     :;
 }
-# }}} yarn node
+# }} yarn node
 
 
-# {{{ yarn outdated
+# {{ yarn outdated
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1476,10 +1476,10 @@ node() {
 outdated() {
     :;
 }
-# }}} yarn outdated
+# }} yarn outdated
 
 
-# {{{ yarn owner
+# {{ yarn owner
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1551,10 +1551,10 @@ owner::add() {
 owner::remove() {
     :;
 }
-# }}} yarn owner
+# }} yarn owner
 
 
-# {{{ yarn pack
+# {{ yarn pack
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1607,10 +1607,10 @@ owner::remove() {
 pack() {
     :;
 }
-# }}} yarn pack
+# }} yarn pack
 
 
-# {{{ yarn policies
+# {{ yarn policies
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1669,10 +1669,10 @@ policies() {
 policies::set-version() {
     :;
 }
-# }}} yarn policies
+# }} yarn policies
 
 
-# {{{ yarn publish
+# {{ yarn publish
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1739,10 +1739,10 @@ policies::set-version() {
 publish() {
     :;
 }
-# }}} yarn publish
+# }} yarn publish
 
 
-# {{{ yarn remove
+# {{ yarn remove
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1796,10 +1796,10 @@ publish() {
 remove() {
     :;
 }
-# }}} yarn remove
+# }} yarn remove
 
 
-# {{{ yarn run
+# {{ yarn run
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1852,10 +1852,10 @@ remove() {
 run() {
     :;
 }
-# }}} yarn run
+# }} yarn run
 
 
-# {{{ yarn tag
+# {{ yarn tag
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1907,10 +1907,10 @@ run() {
 tag() {
     :;
 }
-# }}} yarn tag
+# }} yarn tag
 
 
-# {{{ yarn team
+# {{ yarn team
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -1994,10 +1994,10 @@ team::remove() {
 team::list() {
     :;
 }
-# }}} yarn team
+# }} yarn team
 
 
-# {{{ yarn unlink
+# {{ yarn unlink
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -2049,10 +2049,10 @@ team::list() {
 unlink() {
     :;
 }
-# }}} yarn unlink
+# }} yarn unlink
 
 
-# {{{ yarn unplug
+# {{ yarn unplug
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -2107,10 +2107,10 @@ unlink() {
 unplug() {
     :;
 }
-# }}} yarn unplug
+# }} yarn unplug
 
 
-# {{{ yarn upgrade
+# {{ yarn upgrade
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -2170,10 +2170,10 @@ unplug() {
 upgrade() {
     :;
 }
-# }}} yarn upgrade
+# }} yarn upgrade
 
 
-# {{{ yarn upgrade-interactive
+# {{ yarn upgrade-interactive
 # @cmd
 # @alias upgradeInteractive
 # @flag --no-default-rc
@@ -2231,10 +2231,10 @@ upgrade() {
 upgrade-interactive() {
     :;
 }
-# }}} yarn upgrade-interactive
+# }} yarn upgrade-interactive
 
 
-# {{{ yarn version
+# {{ yarn version
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -2298,10 +2298,10 @@ upgrade-interactive() {
 version() {
     :;
 }
-# }}} yarn version
+# }} yarn version
 
 
-# {{{ yarn versions
+# {{ yarn versions
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -2353,10 +2353,10 @@ version() {
 versions() {
     :;
 }
-# }}} yarn versions
+# }} yarn versions
 
 
-# {{{ yarn why
+# {{ yarn why
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -2408,10 +2408,10 @@ versions() {
 why() {
     :;
 }
-# }}} yarn why
+# }} yarn why
 
 
-# {{{ yarn workspace
+# {{ yarn workspace
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -2465,10 +2465,10 @@ why() {
 workspace() {
     :;
 }
-# }}} yarn workspace
+# }} yarn workspace
 
 
-# {{{ yarn workspaces
+# {{ yarn workspaces
 # @cmd
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
@@ -2532,10 +2532,10 @@ workspaces::info() {
 workspaces::run() {
     :;
 }
-# }}} yarn workspaces
+# }} yarn workspaces
 
 
-NODE=$(which node)
+NODE="$(which node)"
 
 _choice_cmd() {
     _choice_script
@@ -2544,7 +2544,7 @@ _choice_cmd() {
 _choice_script() {
     project_dir="$(_locate_project)"
     if [ -f "$project_dir/package.json" ]; then
-        (cd $project_dir && $NODE -e "var pkg=require('./package.json');Object.keys(pkg.scripts||{}).forEach(v => console.log(v))")
+        (cd "$project_dir" && "$NODE" -e "var pkg=require('./package.json');Object.keys(pkg.scripts||{}).forEach(v => console.log(v))")
     fi
 }
 
@@ -2552,21 +2552,21 @@ _choice_workspace_script() {
     location=$(yarn workspaces info 2>/dev/null | sed -n '/"'$2'"/{n;p}' | awk '{print $2}' | sed 's/"\(.*\)".*/\1/')
     project_dir="$(_locate_project)/$location"
     if [ -f "$project_dir/package.json" ]; then
-        (cd $project_dir && $NODE -e "var pkg=require('./package.json');Object.keys(pkg.scripts||{}).forEach(v => console.log(v))")
+        (cd "$project_dir" && "$NODE" -e "var pkg=require('./package.json');Object.keys(pkg.scripts||{}).forEach(v => console.log(v))")
     fi
 }
 
 _choice_package() {
     project_dir="$(_locate_project)"
     if [ -f "$project_dir/package.json" ]; then
-        (cd $project_dir && $NODE -e "var pkg=require('./package.json');Object.keys({...(pkg.dependencies||{}),...(pkg.devDependencies||{}),...(pkg.optionalDependencies||{})}).forEach(v => console.log(v))")
+        (cd "$project_dir" && "$NODE" -e "var pkg=require('./package.json');Object.keys({...(pkg.dependencies||{}),...(pkg.devDependencies||{}),...(pkg.optionalDependencies||{})}).forEach(v => console.log(v))")
     fi
 }
 
 _choice_global_package() {
-    global_dir="$(_argc_utils_safe_path "$(yarn global dir 2>/dev/null)")"
+    global_dir="$(_argc_util_safe_path "$(yarn global dir 2>/dev/null)")"
     if [ -f "$global_dir/package.json" ]; then
-        (cd $global_dir && $NODE -e "var pkg=require('./package.json');Object.keys({...(pkg.dependencies||{}),...(pkg.devDependencies||{}),...(pkg.optionalDependencies||{})}).forEach(v => console.log(v))")
+        (cd "$global_dir" && "$NODE" -e "var pkg=require('./package.json');Object.keys({...(pkg.dependencies||{}),...(pkg.devDependencies||{}),...(pkg.optionalDependencies||{})}).forEach(v => console.log(v))")
     fi
 }
 
@@ -2579,16 +2579,15 @@ _choice_config_key() {
 }
 
 _locate_project() {
-    echo "$(_argc_utils_safe_path "$(npm prefix)")"
+    echo "$(_argc_util_safe_path "$(npm prefix)")"
 }
 
-_argc_utils_safe_path() {
+_argc_util_safe_path() {
 	if [[ -x "$(command -v cygpath)" ]]; then
 		cygpath "$1"
 	else
 		echo "$1"
 	fi
 }
-
 
 eval "$(argc "$0" "$@")"

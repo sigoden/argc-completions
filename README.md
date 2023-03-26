@@ -4,9 +4,10 @@ Easily create/use cross-shell completion scripts, suppports bash/zsh/fish/powers
 
 ## How to use
 
-### Install argc
+### Install dependencies
 
-View the [argc installation guide](https://github.com/sigoden/argc#install).
+- [argc](https://github.com/sigoden/argc): completion engine
+- [jq](https://github.com/stedolan/jq): json processor
 
 ### Load completion scripts
 
