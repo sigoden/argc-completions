@@ -2,6 +2,7 @@
 
 # @option -a --arg-help=--help      Command argument to get help
 # @option --spec=generic            Choose a spec
+# @option --level=1                 Additonal subcommand level
 # @flag --force                     Ignore cache csv When running
 # @arg cmd!                         Specify the command, must able to run locally
 # @arg subcmd                       Optional sub command
@@ -16,8 +17,9 @@ SUBCMDS_DIR="$ROOT_DIR/subcmds"
 export NO_COLOR=true
 export AICHAT_ROLES_FILE="$ROOT_DIR/roles.yaml"
 
-NO_COMMAND_NAMES=( "help" "command" "command" "subcommand" "completions" "none" "N/A" )
+NO_SUBCOMMAND_NAMES=( "help" "command" "command" "subcommand" "completions" "none" "N/A" )
 NO_ARGUMENT_NAMES=( "flags" "options" "commands" "command" )
+NO_OPTION_KINDS=( "command" "subcommand" "argument" )
 
 command_line="$*"
 store_command_names=()
@@ -25,7 +27,7 @@ store_command_names=()
 run() {
     set_globals
     print_head > "$output_file"
-    handle_lines $argc_cmd $argc_subcmd
+    handle_lines ${args[@]}
     apply_patches
     print_tail >> "$output_file"
     validate_script
@@ -33,18 +35,17 @@ run() {
 
 handle_lines() {
     store_option_names=()
-    local IFS=$'\n'
-    local csv=( $( fetch_csv $@ ) )
-    for item in ${csv[@]}; do
+    local csv="$(fetch_csv $@)"
+    while read -r item; do
         local kind="$(get_kind "$item")"
-        if [[ -n "$kind" ]] && [[ "$kind" != "command" ]] && [[ "$kind" != "argument" ]]; then
+        if [[ -n "$kind" ]] && ! grep -qwi -- "$kind" <<<"${NO_OPTION_KINDS[@]}"; then
             local body="$(get_body "$item")"
             if [[ -n "$body" ]]; then
                 handle_option "$item" >> "$output_file"
             fi
         fi
-    done
-    for item in ${csv[@]}; do
+    done < <(echo "$csv")
+    while read -r item; do
         local kind="$(get_kind "$item")"
         if [[ "$kind" == "argument" ]]; then
             local body="$(get_body "$item")"
@@ -52,25 +53,27 @@ handle_lines() {
                 handle_argument "$item" >> "$output_file"
             fi
         fi
-    done
-    if [[ $# -eq 1 ]]; then
-        for item in ${csv[@]}; do
+    done < <(echo "$csv")
+    if [[ $# -gt 1 ]] && [[ ${#args[@]} -eq $# ]]; then
+        echo "# SUBCMD-PATCHES" >> "$output_file"
+    fi
+    if [[ $# -lt $(( ${#args[@]} + $argc_level )) ]]; then
+        while read -r item; do
             local kind="$(get_kind "$item")"
-            if [[ "$kind" == "command" ]]; then
+            if [[ "$kind" == "command" ]] || [[ "$kind" == "subcommand" ]]; then
                 local body="$(get_body "$item")"
                 if [[ -n "$body" ]]; then
                     handle_subcommand "$item" $@ >> "$output_file"
                 fi
             fi
-        done
+        done < <(echo "$csv")
     fi
 }
 
 handle_subcommand() {
     local input="$1"
-    local IFS=' '
     local names=( $( get_body "$input" | sed 's/\(,\|\/\)/ /g' ) )
-    if [[ -z "$names" ]] || [[ "$names" == '<'* ]] || [[ "$names" == '['* ]] || grep -qwi -- "$names" <<<"${NO_COMMAND_NAMES[@]}"; then
+    if [[ -z "$names" ]] || [[ "$names" == '<'* ]] || [[ "$names" == '['* ]] || grep -qwi -- "$names" <<<"${NO_SUBCOMMAND_NAMES[@]}"; then
         return
     fi
     local dedup_names=()
@@ -86,30 +89,31 @@ handle_subcommand() {
     local cmd_name="$dedup_names"
     local cmd_aliases=( "${dedup_names[@]:1}" )
 
+    local cmd_args=( "${args[@]}" "$cmd_name" )
+    local cmd_level=${#cmd_args[@]}
     echo
-    echo "# {{{ $argc_cmd $cmd_name"
+    echo "# $(repeat_string '{' $cmd_level) ${cmd_args[@]}"
     echo "# @cmd"
     if [[ -n "$cmd_aliases" ]]; then
         echo "# @alias $(echo "$cmd_aliases" | tr -d ' ')"
     fi
-    local subcmd_file="$SUBCMDS_DIR/$(concat_args ${@:2} $cmd_name).sh"
+    local subcmd_file="$SUBCMDS_DIR/$(concat_args ${cmd_args[@]}).sh"
     if [[ -f "$subcmd_file" ]]; then
         cat "$subcmd_file" \
             | sed 's/^\([^_][A-Za-z0-9_-]\+\)()/'"$name"'::\1()/' \
             | sed -n '/eval.*(argc /{n;x;d;};x;1d;p;${x;p;}' \
             | sed 's/# SUBCMD-PATCHES/'"$name"'() {\n    :;\n}/'
     else
-        handle_lines ${@:2} $cmd_name
+        handle_lines ${cmd_args[@]}
         print_cmd_fn $cmd_name
     fi
-    echo "# }}} $argc_cmd $cmd_name"
+    echo "# $(repeat_string '}' $cmd_level) ${cmd_args[@]}"
     echo 
 }
 
 
 handle_option() {
     local input="$1"
-    local IFS=' '
     local names=( $( get_body "$input" | sed 's/,/ /g' ) )
     local short_names=()
     local long_names=()
@@ -253,9 +257,6 @@ get_choices() {
 }
 
 apply_patches() {
-    if [[ -n "$argc_subcmd" ]]; then
-        echo "# SUBCMD-PATCHES" >> "$output_file"
-    fi
     local sed_file="$ROOT_DIR/patches/${output_name}.sed"
     if [[ -f "$sed_file" ]]; then
         sed -i -f "$sed_file" "$output_file"
@@ -265,9 +266,7 @@ apply_patches() {
         echo >> "$output_file"
         cat "$patch_file" >> "$output_file"
         echo >> "$output_file"
-        local IFS=$'\n'
-        util_fns=( $(grep -o '_argc_util_[[:alnum:]_]*' "$patch_file" | uniq) )
-        for util_fn_name in ${util_fns[@]}; do
+        while read -r util_fn_name; do
             util_fn_file="$ROOT_DIR/utils/${util_fn_name}.sh"
             if [ -f "$util_fn_file" ]; then
                 echo >> "$output_file"
@@ -276,7 +275,7 @@ apply_patches() {
             else
                 echo "Unknown util fn: $util_fn_name" >&2
             fi
-        done
+        done < <(grep -o '_argc_util_[[:alnum:]_]*' "$patch_file" | uniq)
     fi
 }
 
@@ -288,8 +287,10 @@ validate_script() {
 }
 
 set_globals() {
-    output_name="$(concat_args $argc_cmd $argc_subcmd)"
     local output_dir="$COMPLETIONS_DIR"
+    args=( $argc_cmd $argc_subcmd )
+    store_command_names+=( "$argc_cmd" )
+    output_name="$(concat_args ${args[@]})"
     if [[ "$output_name" == '__test'* ]]; then
         CACHE_DIR="$ROOT_DIR/tests"
         output_dir="$ROOT_DIR/tests"
@@ -305,6 +306,10 @@ set_globals() {
 
 concat_args() {
     echo $@ | awk '{$1=$1};1' | tr ' ' '-'
+}
+
+repeat_string() {
+    printf "%0.s$1" $(seq 1 $2)
 }
 
 print_head() {
