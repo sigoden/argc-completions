@@ -2,13 +2,17 @@
 
 - name: generic
   prompt: |
-    Extract all subcommands, options and positional arguments in the help text and convert it into markdown table,
+    Extract all subcommands, options and positional arguments in the help text and convert it into markdown table.
     Choices are multiple words separated by commas.
+    Don't escape body text.
     In each column, type and body are required.
+    If no ARGS group, pass arguments from usage.
     Ignore foot description.
     ## Help Text
+    Usage: app [OPTIONS] ARG ARG2...
     ARGUMENTS/ARGS:
         ARG           Desc
+        ARG2...       Desc
     OPTIONS/SECTIONS:
         -s --long <VALUE>    Desc, [values: a, b, c]
         -t --tag             Desc
@@ -20,6 +24,7 @@
     | type     | body               | choices           |
     | -------- | ------------------ | ----------------- |
     | argument | ARG                |                   |
+    | argument | ARG2...            |                   |
     | option   | -s  --long <VALUE> | a, b, c           |
     | option   | -t  --tag          |                   |
     | option   | --level <severity> | low,high,critical |

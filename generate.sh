@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-# @option -a --arg-help=--help      Command argument to get help
 # @option --spec=generic            Choose a spec
 # @option --level=1                 Additonal subcommand level
 # @flag --force                     Ignore cache csv When running
@@ -72,8 +71,15 @@ handle_lines() {
 
 handle_subcommand() {
     local input="$1"
-    local names=( $( get_body "$input" | sed 's/\(,\|\/\)/ /g' ) )
-    if [[ -z "$names" ]] || [[ "$names" == '<'* ]] || [[ "$names" == '['* ]] || grep -qwi -- "$names" <<<"${NO_SUBCOMMAND_NAMES[@]}"; then
+    local names=()
+    while read -r name; do
+        if [[ "$name" == '<'* ]] || [[ "$name" == '['* ]] || grep -qwi -- "$name" <<<"${NO_SUBCOMMAND_NAMES[@]}"; then
+            :;
+        else
+            names+=( "${name% *}" )
+        fi
+    done < <(get_body "$input" | sed 's/[\/,]/\n/g' | awk '{$1=$1};1')
+    if [[ ${#names[@]} -eq 0 ]]; then
         return
     fi
     local dedup_names=()
@@ -86,9 +92,19 @@ handle_subcommand() {
     if [[ ${#dedup_names[@]} -eq 0 ]]; then
         return
     fi
-    local cmd_name="$dedup_names"
-    local cmd_aliases=( "${dedup_names[@]:1}" )
-
+    local cmd_name
+    local cmd_aliases=()
+    for name in ${dedup_names[@]}; do
+        if [[ -z "$cmd_name" ]] && [[ ${#name} -gt 2 ]]; then
+            cmd_name="$name"
+        else
+            cmd_aliases+=( "$name" )
+        fi
+    done
+    if [[ -z "$cmd_name" ]]; then
+        cmd_name="${cmd_aliases[0]}"
+        cmd_aliases=( "${cmd_aliases[@]:1}" )
+    fi
     local cmd_args=( "${args[@]}" "$cmd_name" )
     local cmd_level=${#cmd_args[@]}
     echo
@@ -153,8 +169,14 @@ handle_option() {
                     add_notation "${name#*=}"
                     name="${name%=*}"
                 fi
-                long_names+=( "$name" )
-                store_option_names+=( "$name" )
+                if [[ "$name" == '--[no-]'* ]]; then
+                    local name="${name:7}"
+                    long_names+=( "--$name" "--no-$name" )
+                    store_option_names+=( "--$name" "--no-$name" )
+                else
+                    long_names+=( "$name" )
+                    store_option_names+=( "$name" )
+                fi
             elif [[ "$name" == '-'* ]]; then
                 name="${name:0:2}"
                 short_names+=( "$name" )
@@ -197,7 +219,8 @@ handle_option() {
 
 handle_argument() {
     local input="$1"
-    local name=( $( get_body "$input" | sed 's/,/ /g' ) )
+    local names=( $( get_body "$input" | sed 's/,/ /g' ) )
+    local name="${names[0]}"
     if [[ -z "$name" ]]; then
         return
     fi
@@ -221,7 +244,13 @@ fetch_csv() {
     if [[ "$argc_force" != "1" ]] && [[ -f "$path" ]]; then
         cat "$path" | sed -n '3,$ p' 
     else
-        local text="$($@ "$argc_arg_help" 2>&1)"
+        local text
+        text="$($@ --help 2>&1)"
+        if [[ $? -ne 0 ]]; then
+            local last="${!#}"
+            local rest=("${@:1:$#-1}")
+            text="$($rest help $last 2>&1)"
+        fi
         local csv="$(echo "$text" | aichat -S -r "$argc_spec")"
         echo "$csv" > "$path"
         echo "$csv" | sed -n '3,$ p' 
