@@ -18,6 +18,7 @@ export AICHAT_ROLES_FILE="$ROOT_DIR/roles.yaml"
 NO_SUBCOMMAND_NAMES=( "help" "command" "command" "subcommand" "none" "N/A" )
 NO_ARGUMENT_NAMES=( "flags" "options" "commands" "command" )
 NO_OPTION_KINDS=( "command" "subcommand" "argument" )
+NO_OPTION_NAMES=( "--help" "--version" )
 
 command_line="$*"
 store_command_names=()
@@ -61,30 +62,23 @@ handle_lines() {
 
 handle_subcommand() {
     local input="$1"
-    local names=()
+    local valid_names=()
     while read -r name; do
         if [[ "$name" == '<'* ]] || [[ "$name" == '['* ]] || grep -qwi -- "$name" <<<"${NO_SUBCOMMAND_NAMES[@]}"; then
             :;
         else
-            names+=( "${name% *}" )
+            if [[  ! " ${store_command_names[*]} " =~ " $name " ]]; then
+                valid_names+=( "$name" )
+                store_command_names+=( "$name" )
+            fi
         fi
-    done < <(get_body "$input" | sed 's/[\/,]/\n/g' | awk '{$1=$1};1')
-    if [[ ${#names[@]} -eq 0 ]]; then
-        return
-    fi
-    local dedup_names=()
-    for name in ${names[@]}; do
-        if [[  ! " ${store_command_names[*]} " =~ " $name " ]]; then
-            dedup_names+=( "$name" )
-            store_command_names+=( "$name" )
-        fi
-    done
-    if [[ ${#dedup_names[@]} -eq 0 ]]; then
+    done < <( parse_body "$( get_body "$input" )" )
+    if [[ ${#valid_names[@]} -eq 0 ]]; then
         return
     fi
     local cmd_name
     local cmd_aliases=()
-    for name in ${dedup_names[@]}; do
+    for name in ${valid_names[@]}; do
         if [[ -z "$cmd_name" ]] && [[ ${#name} -gt 2 ]]; then
             cmd_name="$name"
         else
@@ -120,12 +114,12 @@ handle_subcommand() {
 
 handle_option() {
     local input="$1"
-    local names=( $( get_body "$input" | sed 's/,/ /g' ) )
+    local name
     local short_names=()
     local long_names=()
     local name_suffix=""
     local notations=()
-    local dedup_notation=0
+    local should_dedup=0
     add_notation() {
         local name="$1"
         if [[ "$name" == *'...'* ]]; then
@@ -135,22 +129,31 @@ handle_option() {
         if [[ "$name_suffix" == '*' ]] && [[ "$notations" == "$notation" ]]; then
             return
         fi
-        if [[ $dedup_notation -eq 1 ]]; then
+        if [[ $should_dedup -eq 1 ]]; then
             if [[ ! " ${notations[*]} " =~ " $notation " ]]; then
                 notations+=( "$notation" )
             fi
         else
             notations+=( "$notation" )
         fi
-        dedup_notation=0
+        should_dedup=0
     }
-    for name in ${names[@]}; do
-        if [[ "$name" == "--help" ]] || [[ "$name" == "--version" ]]; then
-            return
+    local skip=false
+    while read -r name; do
+        local ok=true
+        if [[ "$skip" == "true" ]]; then
+            ok=false
         fi
-        if [[  ! " ${store_option_names[*]} " =~ " $name " ]]; then
+        if [[ " ${NO_OPTION_NAMES[*]} " =~ " $name " ]]; then
+            skip=true
+            ok=false
+        fi
+        if [[  " ${store_option_names[*]} " =~ " $name " ]]; then
+            ok=false
+        fi
+        if [[ "$ok" == true ]]; then
             if [[ "$name" == '--'* ]]; then
-                dedup_notation=1
+                should_dedup=1
                 if [[ "$name" == *'...' ]]; then
                     name_suffix="*"
                     name="${name::-3}"
@@ -175,7 +178,10 @@ handle_option() {
                 add_notation "$name"
             fi
         fi
-    done
+    done < <( parse_body "$( get_body "$input" )" )
+    if [[ "$skip" == "true" ]]; then
+        return
+    fi
     if [[ -z "$short_names" ]] && [[ -z "$long_names" ]]; then
         return
     fi
@@ -209,16 +215,33 @@ handle_option() {
 
 handle_argument() {
     local input="$1"
-    local names=( $( get_body "$input" | sed 's/,/ /g' ) )
-    local name="${names[0]}"
+    local name="$( parse_body "$( get_body "$input" )" | head -1 )"
     if [[ -z "$name" ]]; then
         return
     fi
     local name_suffix=""
-    if [[ "$name" == *'...'* ]]; then
-        name_suffix="*"
+    local required=false
+    local multiple=false
+    if [[ "$name" == '<'* ]] ; then
+        required=true
     fi
-    local arg_name="$(echo "$name" | tr -cd '[:alnum:]_')"
+    if [[ "$name" == *'...'* ]]; then
+        multiple=true
+    fi
+    case "$required:$multiple" in
+        "true:true")
+            name_suffix="+"
+            ;;
+        "false:true")
+            name_suffix="*"
+            ;;
+        "true:false")
+            name_suffix="!"
+            ;;
+        *)
+            ;;
+    esac
+    local arg_name="$(echo "$name" | tr -cd '[:alnum:]_-')"
     if grep -qwi -- "$arg_name" <<<"${NO_ARGUMENT_NAMES[@]}"; then
         return
     fi
@@ -323,17 +346,67 @@ set_globals() {
     [[ ! -d "$output_dir" ]] && mkdir -p "$output_dir"
     [[ ! -d "$subcmds_dir" ]] && mkdir -p "$subcmds_dir"
 
-    if [[ "$output_name" == '__test'* ]]; then
+    if [[ "$output_name" == '__'* ]]; then
         cache_dir="$ROOT_DIR/tests"
         output_dir="$ROOT_DIR/tests"
-        if [[ "$output_name" == '__test_debug' ]]; then
-            set -x
-        fi
     fi
     if [[ -n "$argc_subcmd" ]]; then
         output_dir="$subcmds_dir"
     fi
     output_file="$output_dir/$output_name.sh"
+}
+
+parse_body() {
+    local input="$*"
+    local balances=""
+    local word=""
+    local ch
+    for (( i=0; i<${#input}; i++ )); do
+        ch="${input:$i:1}"
+        if [[ "$ch" == " " ]]; then
+            if [[ -z "$balances" ]]; then
+                if [[ -n "$word" ]]; then
+                    printf "%s\n" "$word" 2>/dev/null
+                    word=""
+                fi
+            else
+                word="$word-"
+            fi
+        elif [[ "$ch" == "<" ]]; then
+            balances="$balances<"
+            word="$word$ch"
+        elif [[ "$ch" == "[" ]]; then
+            balances="$balances["
+            word="$word$ch"
+        elif [[ "$ch" == '>' ]]; then
+            if [[ "${balances: -1}" == '<' ]]; then
+                balances="${balances::-1}"
+            fi
+            word="$word$ch"
+        elif [[ "$ch" == ']' ]]; then
+            if [[ "${balances: -1}" == '[' ]]; then
+                balances="${balances::-1}"
+            fi
+            word="$word$ch"
+        elif [[ "$ch" == ',' ]] || [[ "$ch" == '/' ]]; then
+            if [[ -z "$balances" ]]; then
+                if [[ -n "$word" ]]; then
+                    printf "%s\n" "$word" 2>/dev/null
+                    word=""
+                fi
+            else
+                word="$word,"
+            fi
+        elif [[ "$ch" == '\' ]]; then
+            :;
+        else
+            word="$word$ch"
+        fi
+    done
+    if [[ -n "$word" ]]; then
+        printf "%s\n" "$word" 2>/dev/null
+        word=""
+    fi
 }
 
 concat_args() {

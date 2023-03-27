@@ -1,0 +1,9 @@
+ |type     |body                    |choices |
+ |-------- |----------------------  |------- |
+ |argument |<ARG1>                  |        |
+ |argument |<ARG2>...               |        |
+ |argument |[ARG3]                  |        |
+ |argument |[ARG4]...               |        |
+ |argument |ARG5...                 |        |
+ |argument |<deployed project name> |        |
+ |argument |\<pkg\> ...             |        |

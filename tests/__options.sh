@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generated with `./generate.sh __test_options`. DON'T MODIFY IT
+# Generated with `./generate.sh __options`. DON'T MODIFY IT
 
 # @flag -a
 # @flag -b
@@ -26,5 +26,12 @@
 # @flag --info
 # @option --with-commit* <MSG>
 # @option --timings[html|json] <FMTS>
+# @option --alt-svc <file-name>
+# @option --mutex <type>
+# @option --outdir <outdir>
+# @option --src <src>
+# @option --ciphers <list-of-ciphers>
+# @option --resolve* <[+]host:port:addr[,addr]>
+# @option --ftp-ssl-ccc-mode <active,passive>
 
 eval "$(argc "$0" "$@")"

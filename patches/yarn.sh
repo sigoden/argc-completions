@@ -53,7 +53,7 @@ _choice_workspace_args() {
 }
 
 _choice_config_key() {
-    yarn config list | sed -n "s/^\s*'\(.*\)':.*$/\1/p"
+    yarn config list --json | jq -r 'select(.type == "inspect") | .data | keys[]'
 }
 
 _list_module_bins() {

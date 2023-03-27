@@ -17,3 +17,10 @@
  |option   |--info                                      |                      |
  |option   |--with-commit <MSG>...                      |                      |
  |option   |--timings[=<FMTS>]                          |html, json            |
+ |option   |--alt-svc <file name>                       |                      |
+ |option   |--mutex <type>[:specifier]                  |                      |
+ |option   |--outdir \<outdir\>                         |                      |
+ |option   |--src \<src>                                |                      |
+ |option   |--ciphers <list of ciphers>                 |                      |
+ |option   |--resolve <[+]host:port:addr[,addr]...>     |                      |
+ |option   |--ftp-ssl-ccc-mode <active/passive>         |                      |
