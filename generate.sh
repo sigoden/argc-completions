@@ -224,18 +224,25 @@ handle_argument() {
     if [[ -z "$name" ]]; then
         return
     fi
-    local sanitized_name="$(echo "$name" | tr -cd '[:alnum:]_-')"
-    if grep -qwi -- "$sanitized_name" <<<"${NO_ARGUMENT_NAMES[@]}"; then
+    local name_suffix=""
+    if [[ "$name" == *'...'* ]]; then
+        name_suffix="*"
+    fi
+    local arg_name="$(echo "$name" | tr -cd '[:alnum:]_')"
+    if grep -qwi -- "$arg_name" <<<"${NO_ARGUMENT_NAMES[@]}"; then
         return
     fi
+    local notation="$(normalize_notation "$name")"
     local choices="$(get_choices "$input")"
-    local line="# @arg $sanitized_name"
-    if [[ -n "$choices" ]]; then
-        line="${line}[$choices]"
-    elif [[ "$name" == *'...' ]]; then
-        line="$line*"
+    if [[ "$notation" == "<$arg_name>" ]]; then
+        notation=""
+    else
+        notation=" $notation"
     fi
-    echo "$line"
+    if [[ -n "$choices" ]]; then
+        name_suffix="${name_suffix}[$choices]"
+    fi
+    echo "# @arg $arg_name$name_suffix$notation"
 }
 
 fetch_csv() {
