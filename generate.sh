@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# @describe Automaticlly generate completion script for the command
+
 # @option --spec=generic            Choose a spec
 # @option --level=1                 Additonal subcommand level
 # @flag --force                     Ignore cache csv When running
@@ -22,15 +24,6 @@ NO_OPTION_KINDS=( "command" "subcommand" "argument" )
 
 command_line="$*"
 store_command_names=()
-
-run() {
-    set_globals
-    print_head > "$output_file"
-    handle_lines ${args[@]}
-    apply_patches
-    print_tail >> "$output_file"
-    validate_script
-}
 
 handle_lines() {
     store_option_names=()
@@ -367,4 +360,10 @@ print_cmd_fn() {
 }
 
 eval "$(argc "$0" "$@")"
-run
+
+set_globals
+print_head > "$output_file"
+handle_lines ${args[@]}
+apply_patches
+print_tail >> "$output_file"
+validate_script

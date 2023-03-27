@@ -20,7 +20,7 @@ _choice_dependency() {
 }
 
 _choice_config_key() {
-    pnpm config list | sed 's/^\([^=]\+\)=.*/\1/'
+    pnpm config list --json | jq -r 'keys[]'
 }
 
 _choice_workspace() {
