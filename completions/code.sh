@@ -11,7 +11,7 @@
 # @flag --list-extensions
 # @flag --show-versions
 # @option --category <category>
-# @option --install-extension <<ext-id> <>
+# @option --install-extension <ext-id,path>
 # @option --uninstall-extension <ext-id>
 # @flag --verbose
 # @flag -s --status

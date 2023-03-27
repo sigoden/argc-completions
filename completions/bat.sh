@@ -28,7 +28,7 @@
 # @flag -u --unbuffered
 # @flag --diagnostic
 # @flag --acknowledgements
-# @arg FILE*
+# @arg FILE+
 
 _choice_language() {
     bat --list-languages  | cut -d: -f1

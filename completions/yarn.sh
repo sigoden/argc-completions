@@ -1735,7 +1735,7 @@ policies::set-version() {
 # @flag --no-commit-hooks
 # @option --access <access>
 # @option --tag <tag>
-# @arg tarballfolder <tarball-folder>
+# @arg tarball-folder!
 publish() {
     :;
 }
@@ -2460,7 +2460,7 @@ why() {
 # @flag --no-node-version-check
 # @flag --focus
 # @option --otp <otpcode>
-# @arg workspace_name[`_choice_workspace`]
+# @arg workspace_name![`_choice_workspace`]
 # @arg workspace_args*[`_choice_workspace_args`]
 workspace() {
     :;

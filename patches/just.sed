@@ -1,1 +1,1 @@
-s/@arg ARGUMENTS\*/@arg recipe[`_choice_recipe`]/
+s/@arg RECIPE/@arg RECIPE[`_choice_recipe`]/

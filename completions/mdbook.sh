@@ -50,7 +50,7 @@ clean() {
 
 # {{ mdbook completions
 # @cmd
-# @arg SHELL[bash|elvish|fish|powershell|zsh]
+# @arg SHELL![bash|elvish|fish|powershell|zsh]
 completions() {
     :;
 }

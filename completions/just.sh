@@ -32,12 +32,12 @@
 # @option -f --justfile
 # @option --list-heading <TEXT>
 # @option --list-prefix <TEXT>
-# @option --set <VALUE>
+# @option --set <VARIABLE> <VALUE>
 # @option --shell
 # @option --shell-arg*
 # @option -s --show <RECIPE>
 # @option -d --working-directory
-# @arg recipe[`_choice_recipe`]
+# @arg RECIPE[`_choice_recipe`]
 
 _choice_recipe() {
    just --summary 2> /dev/null | tr " " "\n" || echo ""

@@ -24,6 +24,6 @@
 # @flag -x --limit-filesystem
 # @option -X --ignore-directory <ignore_directory>
 # @option -z --min-size <min_size>
-# @arg dirs*
+# @arg dirs+
 
 eval "$(argc "$0" "$@")"

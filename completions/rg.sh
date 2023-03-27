@@ -9,7 +9,7 @@
 # @flag -b --byte-offset
 # @flag -s --case-sensitive
 # @option --color[never|always|auto] <WHEN>
-# @option --colors[path|line|match] <COLOR_SPEC>
+# @option --colors*[path|line|match] <COLOR_SPEC>
 # @flag --column
 # @option -C --context <NUM>
 # @option --context-separator <SEPARATOR>
@@ -99,7 +99,7 @@
 # @flag --vimgrep
 # @flag -H --with-filename
 # @flag -w --word-regexp
-# @arg PATTERN
-# @arg PATH*
+# @arg PATTERN!
+# @arg PATH+
 
 eval "$(argc "$0" "$@")"

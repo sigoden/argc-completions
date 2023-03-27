@@ -41,7 +41,7 @@
 # @option --filter[`_choice_workspace`] <selector>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
-# @arg name
+# @arg name!
 add() {
     :;
 }
@@ -135,7 +135,7 @@ install-test() {
 # @flag --stream
 # @flag --use-stderr
 # @flag -w --workspace-root
-# @arg pkg
+# @arg pkg!
 link() {
     :;
 }
@@ -205,7 +205,7 @@ rebuild() {
 # @option --filter[`_choice_workspace`] <selector>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
-# @arg pkgs*[`_choice_dependency`]
+# @arg pkgs+[`_choice_dependency`]
 remove() {
     :;
 }
@@ -223,7 +223,7 @@ remove() {
 # @flag --stream
 # @flag --use-stderr
 # @flag -w --workspace-root
-# @arg pkg*
+# @arg pkg+
 unlink() {
     :;
 }
@@ -255,7 +255,7 @@ unlink() {
 # @option --filter[`_choice_workspace`] <selector>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
-# @arg pkgs*[`_choice_dependency`]
+# @arg pkgs+[`_choice_dependency`]
 update() {
     :;
 }
@@ -316,7 +316,7 @@ licenses() {
 # @option --filter[`_choice_workspace`] <selector>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
-# @arg pkg
+# @arg pkg!
 list() {
     :;
 }
@@ -359,7 +359,7 @@ outdated() {
 # @flag --report-summary
 # @flag --resume-from
 # @flag -c --shell-mode
-# @arg exe[`_choice_exe`]
+# @arg exe![`_choice_exe`]
 # @arg args*
 exec() {
     :;
@@ -388,7 +388,7 @@ exec() {
 # @option --filter[`_choice_workspace`] <selector>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
-# @arg script[`_choice_script`]
+# @arg script![`_choice_script`]
 # @arg args*
 run() {
     :;
@@ -429,7 +429,7 @@ pack() {
 
 # {{ pnpm publish
 # @cmd
-# @option --access <<public>
+# @option --access[public|restricted] <mode>
 # @flag --dry-run
 # @flag --force
 # @flag --ignore-scripts
@@ -444,7 +444,7 @@ pack() {
 # @option --filter[`_choice_workspace`] <selector>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
-# @arg tarball <<tarball>
+# @arg tarballdir! <tarball,dir>
 publish() {
     :;
 }
@@ -539,7 +539,7 @@ dedup() {
 # @option --filter[`_choice_workspace`] <selector>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
-# @arg pkg*
+# @arg pkg+
 why() {
     :;
 }
@@ -561,10 +561,7 @@ dlx() {
 
 # {{ pnpm create
 # @cmd
-# @flag --
-# @arg name
-# @arg namewithoutcreate <name-without-create>
-# @arg scope <@scope>
+# @arg name!
 create() {
     :;
 }
@@ -575,8 +572,28 @@ create() {
 # @cmd
 # @flag -g --global
 # @flag --remote
-# @arg version
+# @arg version!
 env() {
+    :;
+}
+
+# @cmd
+# @flag -g --global
+env::use() {
+    :;
+}
+
+# @cmd
+# @flag -g --global
+# @alias rm
+env::remove() {
+    :;
+}
+
+# @cmd
+# @flag -g --global
+# @alias ls
+env::list() {
     :;
 }
 # }} pnpm env
@@ -660,8 +677,8 @@ init() {
 # @option --filter[`_choice_workspace`] <selector>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
-# @arg deployed <<deployed>
-# @arg target <<target>
+# @arg deployed-project-name!
+# @arg target-directory!
 deploy() {
     :;
 }
