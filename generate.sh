@@ -4,16 +4,13 @@
 
 # @option --spec=generic            Choose a spec
 # @option --level=1                 Additonal subcommand level
+# @option --cache-dir               Specify cache dir
+# @option --output-dir              Specify output dir
 # @flag --force                     Ignore cache csv When running
 # @arg cmd!                         Specify the command, must able to run locally
 # @arg subcmd                       Optional sub command
 
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-COMPLETIONS_DIR=${ARGC_COMPLETIONS_DIR:-"$ROOT_DIR/completions"}
-CACHE_DIR="$ROOT_DIR/cache"
-SUBCMDS_DIR="$ROOT_DIR/subcmds"
-[[ ! -d "$CACHE_DIR" ]] && mkdir -p "$CACHE_DIR"
-[[ ! -d "$SUBCMDS_DIR" ]] && mkdir -p "$SUBCMDS_DIR"
 
 export NO_COLOR=true
 export AICHAT_ROLES_FILE="$ROOT_DIR/roles.yaml"
@@ -106,7 +103,7 @@ handle_subcommand() {
     if [[ -n "$cmd_aliases" ]]; then
         echo "# @alias $(echo "$cmd_aliases" | tr -d ' ')"
     fi
-    local subcmd_file="$SUBCMDS_DIR/$(concat_args ${cmd_args[@]}).sh"
+    local subcmd_file="$subcmds_dir/$(concat_args ${cmd_args[@]}).sh"
     if [[ -f "$subcmd_file" ]]; then
         cat "$subcmd_file" \
             | sed 's/^\([^_][A-Za-z0-9_-]\+\)()/'"$name"'::\1()/' \
@@ -240,7 +237,7 @@ handle_argument() {
 
 fetch_csv() {
     local name=$(echo $@ | sed 's/ /-/g')
-    local path="$CACHE_DIR/$name.csv" 
+    local path="$cache_dir/$name.csv" 
     if [[ "$argc_force" != "1" ]] && [[ -f "$path" ]]; then
         cat "$path" | sed -n '3,$ p' 
     else
@@ -316,19 +313,25 @@ validate_script() {
 }
 
 set_globals() {
-    local output_dir="$COMPLETIONS_DIR"
     args=( $argc_cmd $argc_subcmd )
+    cache_dir="${argc_cache_dir:-"$ROOT_DIR/cache"}"
+    output_dir="${argc_output_dir:-"$ROOT_DIR/completions"}"
+    subcmds_dir="$ROOT_DIR/subcmds"
     store_command_names+=( "$argc_cmd" )
     output_name="$(concat_args ${args[@]})"
+    [[ ! -d "$cache_dir" ]] && mkdir -p "$cache_dir"
+    [[ ! -d "$output_dir" ]] && mkdir -p "$output_dir"
+    [[ ! -d "$subcmds_dir" ]] && mkdir -p "$subcmds_dir"
+
     if [[ "$output_name" == '__test'* ]]; then
-        CACHE_DIR="$ROOT_DIR/tests"
+        cache_dir="$ROOT_DIR/tests"
         output_dir="$ROOT_DIR/tests"
         if [[ "$output_name" == '__test_debug' ]]; then
             set -x
         fi
     fi
     if [[ -n "$argc_subcmd" ]]; then
-        output_dir="$SUBCMDS_DIR"
+        output_dir="$subcmds_dir"
     fi
     output_file="$output_dir/$output_name.sh"
 }
