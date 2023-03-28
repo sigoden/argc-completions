@@ -38,7 +38,7 @@ handle_lines() {
         fi
     done < <(echo "$csv" | grep -iE ' *\| *argument *\|')
     if [[ $# -gt 1 ]] && [[ ${#args[@]} -eq $# ]]; then
-        echo "# SUBCMD-PATCHES" >> "$output_file"
+        echo "# SUBCMD-INJECT" >> "$output_file"
     fi
     if [[ $# -lt $(( ${#args[@]} + $argc_level )) ]]; then
         while read -r item; do
@@ -92,7 +92,7 @@ handle_subcommand() {
         cat "$subcmd_file" \
             | sed 's/^\([^_][A-Za-z0-9_-]\+\)()/'"$name"'::\1()/' \
             | sed -n '/eval.*(argc /{n;x;d;};x;1d;p;${x;p;}' \
-            | sed 's/# SUBCMD-PATCHES/'"$name"'() {\n    :;\n}/'
+            | sed 's/# SUBCMD-INJECT/'"$name"'() {\n    :;\n}/'
     else
         handle_lines ${cmd_args[@]}
         print_cmd_fn $cmd_name
@@ -317,18 +317,18 @@ get_choices() {
     echo "${choices[*]}" | tr ' ' '|'
 }
 
-apply_patches() {
-    local sed_file="$ROOT_DIR/patches/${output_name}.sed"
+merge() {
+    local sed_file="$src_dir/${output_name}.sed"
     if [[ -f "$sed_file" ]]; then
         sed -i -f "$sed_file" "$output_file"
     fi
-    local patch_file="$ROOT_DIR/patches/${output_name}.sh"
-    if [[ -f "$patch_file" ]]; then
+    local src_file="$src_dir/${output_name}.sh"
+    if [[ -f "$src_file" ]]; then
         echo >> "$output_file"
-        cat "$patch_file" >> "$output_file"
+        cat "$src_file" >> "$output_file"
         echo >> "$output_file"
         while read -r util_fn_name; do
-            util_fn_file="$ROOT_DIR/utils/${util_fn_name}.sh"
+            util_fn_file="$utils_dir/${util_fn_name}.sh"
             if [ -f "$util_fn_file" ]; then
                 echo >> "$output_file"
                 cat "$util_fn_file" >> "$output_file"
@@ -336,7 +336,7 @@ apply_patches() {
             else
                 echo "Unknown util fn: $util_fn_name" >&2
             fi
-        done < <(grep -o '_argc_util_[[:alnum:]_]*' "$patch_file" | uniq)
+        done < <(grep -o '_argc_util_[[:alnum:]_]*' "$src_file" | uniq)
     fi
 }
 
@@ -352,6 +352,8 @@ set_globals() {
     cache_dir="${argc_cache_dir:-"$ROOT_DIR/cache"}"
     output_dir="${argc_output_dir:-"$ROOT_DIR/completions"}"
     subcmds_dir="$ROOT_DIR/subcmds"
+    src_dir="$ROOT_DIR/src"
+    utils_dir="$ROOT_DIR/utils"
     store_command_names+=( "$argc_cmd" )
     output_name="$(concat_args ${args[@]})"
     [[ ! -d "$cache_dir" ]] && mkdir -p "$cache_dir"
@@ -454,6 +456,6 @@ eval "$(argc "$0" "$@")"
 set_globals
 print_head > "$output_file"
 handle_lines ${args[@]}
-apply_patches
+merge
 print_tail >> "$output_file"
 validate_script
