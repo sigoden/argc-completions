@@ -6,13 +6,13 @@ _choice_cmd() {
 _choice_script() {
     _option_filter
     project_dir="$(_locate_project)"
-    jq -r '.scripts | keys[]' "$project_dir/package.json"
+    cat "$project_dir/package.json" | jq -r '.scripts | keys[]' 
 }
 
 _choice_dependency() {
     _option_filter
     project_dir="$(_locate_project)"
-    jq -r '.dependencies // {}, .devDependencies // {}, .optionalDependencies // {} | keys[]' "$project_dir/package.json"
+    cat  "$project_dir/package.json" | jq -r '.dependencies // {}, .devDependencies // {}, .optionalDependencies // {} | keys[]'
 }
 
 _choice_config_key() {

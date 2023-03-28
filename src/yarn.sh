@@ -5,17 +5,17 @@ _choice_cmd() {
 
 _choice_script() {
     project_dir="$(_locate_project)"
-    jq -r '.scripts | keys[]' "$project_dir/package.json"
+    cat "$project_dir/package.json" | jq -r '.scripts | keys[]' 
 }
 
 _choice_dependency() {
     project_dir="$(_locate_project)"
-    jq -r '.dependencies // {}, .devDependencies // {}, .optionalDependencies // {} | keys[]' "$project_dir/package.json"
+    cat  "$project_dir/package.json" | jq -r '.dependencies // {}, .devDependencies // {}, .optionalDependencies // {} | keys[]'
 }
 
 _choice_global_dependency() {
     global_dir="$(_argc_util_safe_path "$(yarn global dir)")"
-    jq -r '.dependencies // {}, .devDependencies // {}, .optionalDependencies // {} | keys[]' "$global_dir/package.json"
+    cat  "$global_dir/package.json" | jq -r '.dependencies // {}, .devDependencies // {}, .optionalDependencies // {} | keys[]'
 }
 
 _choice_workspace() {
