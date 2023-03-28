@@ -2535,8 +2535,6 @@ workspaces::run() {
 # }} yarn workspaces
 
 
-NODE="$(which node)"
-
 _choice_cmd() {
     _choice_script
     _list_module_bins
@@ -2544,23 +2542,17 @@ _choice_cmd() {
 
 _choice_script() {
     project_dir="$(_locate_project)"
-    if [ -f "$project_dir/package.json" ]; then
-        (cd "$project_dir" && "$NODE" -e "var pkg=require('./package.json');Object.keys(pkg.scripts||{}).forEach(v => console.log(v))")
-    fi
+    jq -r '.scripts | keys[]' "$project_dir/package.json"
 }
 
 _choice_dependency() {
     project_dir="$(_locate_project)"
-    if [ -f "$project_dir/package.json" ]; then
-        (cd "$project_dir" && "$NODE" -e "var pkg=require('./package.json');Object.keys({...(pkg.dependencies||{}),...(pkg.devDependencies||{}),...(pkg.optionalDependencies||{})}).forEach(v => console.log(v))")
-    fi
+    jq -r '.dependencies // {}, .devDependencies // {}, .optionalDependencies // {} | keys[]' "$project_dir/package.json"
 }
 
 _choice_global_dependency() {
     global_dir="$(_argc_util_safe_path "$(yarn global dir)")"
-    if [ -f "$global_dir/package.json" ]; then
-        (cd "$global_dir" && "$NODE" -e "var pkg=require('./package.json');Object.keys({...(pkg.dependencies||{}),...(pkg.devDependencies||{}),...(pkg.optionalDependencies||{})}).forEach(v => console.log(v))")
-    fi
+    jq -r '.dependencies // {}, .devDependencies // {}, .optionalDependencies // {} | keys[]' "$global_dir/package.json"
 }
 
 _choice_workspace() {
@@ -2601,6 +2593,13 @@ _list_module_bins() {
 }
 
 _locate_project() {
+    if [[ -z "$_project_dir" ]]; then
+        _project_dir="$(_locate_project_base)"
+    fi
+    echo "$_project_dir"
+}
+
+_locate_project_base() {
     if [[ -n "$workspace_dir" ]]; then
         echo "$workspace_dir" 
     elif [ -f package.json ]; then

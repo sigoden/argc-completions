@@ -1,22 +1,18 @@
-NODE="$(which node)"
-
 _choice_cmd() {
     _choice_script
     _choice_exe
 }
 
 _choice_script() {
+    _option_filter
     project_dir="$(_locate_project)"
-    if [ -f "$project_dir/package.json" ]; then
-        (cd "$project_dir" && "$NODE" -e "var pkg=require('./package.json');Object.keys(pkg.scripts||{}).forEach(v => console.log(v))")
-    fi
+    jq -r '.scripts | keys[]' "$project_dir/package.json"
 }
 
 _choice_dependency() {
+    _option_filter
     project_dir="$(_locate_project)"
-    if [ -f "$project_dir/package.json" ]; then
-        (cd "$project_dir" && "$NODE" -e "var pkg=require('./package.json');Object.keys({...(pkg.dependencies||{}),...(pkg.devDependencies||{}),...(pkg.optionalDependencies||{})}).forEach(v => console.log(v))")
-    fi
+    jq -r '.dependencies // {}, .devDependencies // {}, .optionalDependencies // {} | keys[]' "$project_dir/package.json"
 }
 
 _choice_config_key() {
@@ -24,7 +20,7 @@ _choice_config_key() {
 }
 
 _choice_workspace() {
-    pnpm recursive list --json | jq -r '.[].name'
+    pnpm recursive list --json | jq -r '.[].name // empty'
 }
 
 _choice_exe() {
@@ -34,15 +30,20 @@ _choice_exe() {
     fi
 }
 
-_locate_project() {
+_option_filter() {
     if [[ -n "$argc_filter" ]]; then
-        local path = jq -r '.[] | select(.name == "'"$argc_filter"'") | .path'
+        local path = "$(pnpm recursive list --json | jq -r '.[] | select(.name == "'"$argc_filter"'") | .path // empty')"
         if [[ -n "$path" ]]; then
-            _argc_util_safe_path "$(pnpm root)"
-            return
+            project_dir="$(_argc_util_safe_path "$path")"
         fi
     fi
-    _locate_project_base
+}
+
+_locate_project() {
+    if [[ -z "$_project_dir" ]]; then
+        _project_dir="$(_locate_project_base)"
+    fi
+    echo "$_project_dir"
 }
 
 _locate_project_base() {
