@@ -167,8 +167,11 @@ handle_option() {
             short_names+=( "$name" )
             store_option_names+=( "$name" )
         else
-            if [[ "$name" == '<'*'>' ]] && [[ -z "$choices" ]]; then
+            if [[ -z "$choices" ]] && ([[ "$name" == '<'*'>' ]] || [[ "$name" == '('*')' ]]); then
                 if grep -qE '<(\w+,)+(\w+)?>' <<<"$name"; then
+                    choices="$(echo "${name:1:-1}" | tr ',' '|')"
+                    continue
+                elif grep -qE '\((\w+,)+(\w+)?\)' <<<"$name"; then
                     choices="$(echo "${name:1:-1}" | tr ',' '|')"
                     continue
                 fi
@@ -381,11 +384,8 @@ parse_body() {
             else
                 word="$word-"
             fi
-        elif [[ "$ch" == "<" ]]; then
-            balances="$balances<"
-            word="$word$ch"
-        elif [[ "$ch" == "[" ]]; then
-            balances="$balances["
+        elif [[ "$ch" == "<" ]] || [[ "$ch" == "[" ]] || [[ "$ch" == "(" ]]; then
+            balances="$balances$ch"
             word="$word$ch"
         elif [[ "$ch" == '>' ]]; then
             if [[ "${balances: -1}" == '<' ]]; then
@@ -394,6 +394,11 @@ parse_body() {
             word="$word$ch"
         elif [[ "$ch" == ']' ]]; then
             if [[ "${balances: -1}" == '[' ]]; then
+                balances="${balances::-1}"
+            fi
+            word="$word$ch"
+        elif [[ "$ch" == ')' ]]; then
+            if [[ "${balances: -1}" == '(' ]]; then
                 balances="${balances::-1}"
             fi
             word="$word$ch"

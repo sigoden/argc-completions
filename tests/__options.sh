@@ -35,5 +35,6 @@
 # @option --ftp-ssl-ccc-mode[active|passive]
 # @flag --no-clobber
 # @option --stop-at <y-m-dTh:m>
+# @option --ansi[never|always|auto]
 
 eval "$(argc "$0" "$@")"
