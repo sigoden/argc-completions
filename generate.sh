@@ -147,7 +147,7 @@ handle_option() {
                 name_suffix="*"
                 name="${name::-3}"
             elif [[ "$name" == *'='* ]]; then
-                name="$(echo "$name" | tr -cd '[:alnum:]=_-')"
+                name="$(echo "$name" | tr -cd '[:alnum:]:=_-')"
                 add_notation "${name#*=}"
                 name="${name%=*}"
             fi

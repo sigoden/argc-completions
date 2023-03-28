@@ -34,5 +34,6 @@
 # @option --resolve* <[+]host:port:addr[,addr]>
 # @option --ftp-ssl-ccc-mode[active|passive]
 # @flag --no-clobber
+# @option --stop-at <y-m-dTh:m>
 
 eval "$(argc "$0" "$@")"
