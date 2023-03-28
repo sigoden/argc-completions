@@ -33,5 +33,6 @@
 # @option --ciphers <list-of-ciphers>
 # @option --resolve* <[+]host:port:addr[,addr]>
 # @option --ftp-ssl-ccc-mode[active|passive]
+# @flag --no-clobber
 
 eval "$(argc "$0" "$@")"

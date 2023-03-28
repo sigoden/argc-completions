@@ -160,6 +160,9 @@ handle_option() {
                 store_option_names+=( "$name" )
             fi
         elif [[ "$name" == '-'* ]]; then
+            if [[ "${name:2:1}" =~ [[:alnum:]] ]]; then
+                continue
+            fi
             name="${name:0:2}"
             short_names+=( "$name" )
             store_option_names+=( "$name" )
