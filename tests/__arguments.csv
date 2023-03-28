@@ -7,4 +7,7 @@
  |argument |ARG5...                 |        |
  |argument |<deployed project name> |        |
  |argument |\<arg6\> ...            |        |
- |argument |arg7 ..                  |        |
+ |argument |arg7 ..                 |        |
+ |argument |<branch,tag>            |        |
+ |argument |<mbox/maildir>          |        |
+ |argument |[<arg8>...]             |        |

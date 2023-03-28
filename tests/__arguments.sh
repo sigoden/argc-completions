@@ -9,5 +9,8 @@
 # @arg deployed-project-name!
 # @arg arg6+
 # @arg arg7*
+# @arg branch-tag! <branch,tag>
+# @arg mbox-maildir! <mbox,maildir>
+# @arg arg8*
 
 eval "$(argc "$0" "$@")"

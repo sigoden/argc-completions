@@ -3,6 +3,8 @@
 # @describe Automaticlly generate completion script for the command
 
 # @option --spec=generic            Choose a spec
+# @option --cmd-help='--help'       How to help text
+# @option --subcmd-help='--help'    How to help text of subcommand
 # @option --level=1                 Additonal subcommand level
 # @option --cache-dir               Specify cache dir
 # @option --output-dir              Specify output dir
@@ -25,12 +27,18 @@ handle_lines() {
     store_option_names=()
     local csv="$(fetch_csv $@)"
     while read -r item; do
+        if [[ "$item" == *'\|'* ]]; then
+            item=$(echo "$item" | sed 's/\\|/,/g')
+        fi
         local body="$(get_body "$item")"
         if [[ -n "$body" ]]; then
             handle_option "$item" >> "$output_file"
         fi
     done < <(echo "$csv" | grep -iE ' *\| *-.*\|')
     while read -r item; do
+        if [[ "$item" == *'\|'* ]]; then
+            item=$(echo "$item" | sed 's/\\|/,/g')
+        fi
         local body="$(get_body "$item")"
         if [[ -n "$body" ]]; then
             handle_argument "$item" >> "$output_file"
@@ -250,7 +258,7 @@ handle_argument() {
         *)
             ;;
     esac
-    local arg_name="$(echo "$name" | tr -cd '[:alnum:]_-')"
+    local arg_name="$(echo "$name" | sed 's/[,/]/-/g' |  tr -cd '[:alnum:]_-')"
     if grep -qwi -- "$arg_name" <<<"${NO_ARGUMENT_NAMES[@]}"; then
         return
     fi
@@ -274,11 +282,14 @@ fetch_csv() {
         cat "$path" | sed -n '3,$ p' 
     else
         local text
-        text="$($@ --help 2>&1)"
-        if [[ $? -ne 0 ]]; then
-            local last="${!#}"
-            local rest=("${@:1:$#-1}")
-            text="$($rest help $last 2>&1)"
+        if [[ $# -eq 1 ]]; then
+            text="$($@ "$argc_cmd_help" 2>&1)"
+        else
+            if [[ "$argc_subcmd_help" == '-'* ]]; then
+                text="$($@ "$argc_subcmd_help" 2>&1)"
+            else
+                text="$("${@:1:$#-1}" "$argc_subcmd_help" "${!#}" 2>&1)"
+            fi
         fi
         local csv="$(echo "$text" | aichat -S -r "$argc_spec")"
         echo "$csv" > "$path"
