@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generated with `./generate.sh curl`. DON'T MODIFY IT
+# Automatic generated, DON'T MODIFY IT.
 
 # @option --abstract-unix-socket <path>
 # @option --alt-svc <file-name>

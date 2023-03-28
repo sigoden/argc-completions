@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generated with `./generate.sh yarn`. DON'T MODIFY IT
+# Automatic generated, DON'T MODIFY IT.
 
 # @option --cache-folder <path>
 # @flag --check-files

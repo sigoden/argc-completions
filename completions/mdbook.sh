@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generated with `./generate.sh mdbook`. DON'T MODIFY IT
+# Automatic generated, DON'T MODIFY IT.
 
 
 # {{ mdbook init

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generated with `./generate.sh dust`. DON'T MODIFY IT
+# Automatic generated, DON'T MODIFY IT.
 
 # @flag -b --no-percent-bars
 # @flag -c --no-colors

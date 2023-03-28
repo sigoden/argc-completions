@@ -19,7 +19,6 @@ NO_SUBCOMMAND_NAMES=( "help" "command" "command" "subcommand" "none" "N/A" )
 NO_ARGUMENT_NAMES=( "flags" "options" "commands" "command" )
 NO_OPTION_NAMES=( "--help" "--version" )
 
-command_line="$*"
 store_command_names=()
 
 handle_lines() {
@@ -436,7 +435,7 @@ repeat_string() {
 print_head() {
     if [[ -z "$argc_subcmd" ]]; then
         printf "%s\n" "#!/usr/bin/env bash"
-        printf "%s\n" "# Generated with \`./generate.sh $command_line\`. DON'T MODIFY IT"
+        printf "%s\n" "# Automatic generated, DON'T MODIFY IT."
         printf "\n"
     fi
 }

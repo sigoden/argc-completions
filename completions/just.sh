@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generated with `./generate.sh just`. DON'T MODIFY IT
+# Automatic generated, DON'T MODIFY IT.
 
 # @flag --changelog
 # @flag --check

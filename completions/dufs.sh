@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generated with `./generate.sh dufs`. DON'T MODIFY IT
+# Automatic generated, DON'T MODIFY IT.
 
 # @option -b --bind <addrs>
 # @option -p --port <port>

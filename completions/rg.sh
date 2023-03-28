@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generated with `./generate.sh rg`. DON'T MODIFY IT
+# Automatic generated, DON'T MODIFY IT.
 
 # @option -A --after-context <NUM>
 # @flag --auto-hybrid-regex

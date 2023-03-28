@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generated with `./generate.sh rsync`. DON'T MODIFY IT
+# Automatic generated, DON'T MODIFY IT.
 
 # @flag -v --verbose
 # @option --info <FLAGS>

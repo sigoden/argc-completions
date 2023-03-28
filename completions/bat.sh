@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generated with `./generate.sh bat`. DON'T MODIFY IT
+# Automatic generated, DON'T MODIFY IT.
 
 # @flag -A --show-all
 # @flag -p --plain

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generated with `./generate.sh pnpm`. DON'T MODIFY IT
+# Automatic generated, DON'T MODIFY IT.
 
 # @flag -r --recursive
 # @option -C --dir <dir>

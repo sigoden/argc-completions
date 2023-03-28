@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generated with `./generate.sh aichat`. DON'T MODIFY IT
+# Automatic generated, DON'T MODIFY IT.
 
 # @option -m --model
 # @option -p --prompt

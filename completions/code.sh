@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generated with `./generate.sh code`. DON'T MODIFY IT
+# Automatic generated, DON'T MODIFY IT.
 
 # @option -d --diff <file> <file>
 # @option -m --merge <path1> <path2> <base> <result>

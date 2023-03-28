@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generated with `./generate.sh __arguments`. DON'T MODIFY IT
+# Automatic generated, DON'T MODIFY IT.
 
 # @arg ARG1!
 # @arg ARG2+
