@@ -17,7 +17,6 @@ export AICHAT_ROLES_FILE="$ROOT_DIR/roles.yaml"
 
 NO_SUBCOMMAND_NAMES=( "help" "command" "command" "subcommand" "none" "N/A" )
 NO_ARGUMENT_NAMES=( "flags" "options" "commands" "command" )
-NO_OPTION_KINDS=( "command" "subcommand" "argument" )
 NO_OPTION_NAMES=( "--help" "--version" )
 
 command_line="$*"
@@ -27,36 +26,27 @@ handle_lines() {
     store_option_names=()
     local csv="$(fetch_csv $@)"
     while read -r item; do
-        local kind="$(get_kind "$item")"
-        if [[ -n "$kind" ]] && ! grep -qwi -- "$kind" <<<"${NO_OPTION_KINDS[@]}"; then
-            local body="$(get_body "$item")"
-            if [[ -n "$body" ]]; then
-                handle_option "$item" >> "$output_file"
-            fi
+        local body="$(get_body "$item")"
+        if [[ -n "$body" ]]; then
+            handle_option "$item" >> "$output_file"
         fi
-    done < <(echo "$csv")
+    done < <(echo "$csv" | grep -iE ' *\| *-.*\|')
     while read -r item; do
-        local kind="$(get_kind "$item")"
-        if [[ "$kind" == "argument" ]]; then
-            local body="$(get_body "$item")"
-            if [[ -n "$body" ]]; then
-                handle_argument "$item" >> "$output_file"
-            fi
+        local body="$(get_body "$item")"
+        if [[ -n "$body" ]]; then
+            handle_argument "$item" >> "$output_file"
         fi
-    done < <(echo "$csv")
+    done < <(echo "$csv" | grep -iE ' *\| *argument *\|')
     if [[ $# -gt 1 ]] && [[ ${#args[@]} -eq $# ]]; then
         echo "# SUBCMD-PATCHES" >> "$output_file"
     fi
     if [[ $# -lt $(( ${#args[@]} + $argc_level )) ]]; then
         while read -r item; do
-            local kind="$(get_kind "$item")"
-            if [[ "$kind" == "command" ]] || [[ "$kind" == "subcommand" ]]; then
-                local body="$(get_body "$item")"
-                if [[ -n "$body" ]]; then
-                    handle_subcommand "$item" $@ >> "$output_file"
-                fi
+            local body="$(get_body "$item")"
+            if [[ -n "$body" ]]; then
+                handle_subcommand "$item" $@ >> "$output_file"
             fi
-        done < <(echo "$csv")
+        done < <(echo "$csv" | grep -iE ' *\| *(command|subcommand) *\|')
     fi
 }
 
@@ -119,6 +109,7 @@ handle_option() {
     local long_names=()
     local name_suffix=""
     local notations=()
+    local choices="$(get_choices "$input")"
     local should_dedup=0
     add_notation() {
         local name="$1"
@@ -140,43 +131,46 @@ handle_option() {
     }
     local skip=false
     while read -r name; do
-        local ok=true
         if [[ "$skip" == "true" ]]; then
-            ok=false
+            continue
         fi
         if [[ " ${NO_OPTION_NAMES[*]} " =~ " $name " ]]; then
             skip=true
-            ok=false
+            continue
         fi
         if [[  " ${store_option_names[*]} " =~ " $name " ]]; then
-            ok=false
+            continue
         fi
-        if [[ "$ok" == true ]]; then
-            if [[ "$name" == '--'* ]]; then
-                should_dedup=1
-                if [[ "$name" == *'...' ]]; then
-                    name_suffix="*"
-                    name="${name::-3}"
-                elif [[ "$name" == *'='* ]]; then
-                    name="$(echo "$name" | tr -cd '[:alnum:]=_-')"
-                    add_notation "${name#*=}"
-                    name="${name%=*}"
-                fi
-                if [[ "$name" == '--[no-]'* ]]; then
-                    local name="${name:7}"
-                    long_names+=( "--$name" "--no-$name" )
-                    store_option_names+=( "--$name" "--no-$name" )
-                else
-                    long_names+=( "$name" )
-                    store_option_names+=( "$name" )
-                fi
-            elif [[ "$name" == '-'* ]]; then
-                name="${name:0:2}"
-                short_names+=( "$name" )
-                store_option_names+=( "$name" )
-            else
-                add_notation "$name"
+        if [[ "$name" == '--'* ]]; then
+            should_dedup=1
+            if [[ "$name" == *'...' ]]; then
+                name_suffix="*"
+                name="${name::-3}"
+            elif [[ "$name" == *'='* ]]; then
+                name="$(echo "$name" | tr -cd '[:alnum:]=_-')"
+                add_notation "${name#*=}"
+                name="${name%=*}"
             fi
+            if [[ "$name" == '--[no-]'* ]]; then
+                local name="${name:7}"
+                long_names+=( "--$name" "--no-$name" )
+                store_option_names+=( "--$name" "--no-$name" )
+            else
+                long_names+=( "$name" )
+                store_option_names+=( "$name" )
+            fi
+        elif [[ "$name" == '-'* ]]; then
+            name="${name:0:2}"
+            short_names+=( "$name" )
+            store_option_names+=( "$name" )
+        else
+            if [[ "$name" == '<'*'>' ]] && [[ -z "$choices" ]]; then
+                if grep -qE '<(\w+,)+(\w+)?>' <<<"$name"; then
+                    choices="$(echo "${name:1:-1}" | tr ',' '|')"
+                    continue
+                fi
+            fi
+            add_notation "$name"
         fi
     done < <( parse_body "$( get_body "$input" )" )
     if [[ "$skip" == "true" ]]; then
@@ -187,8 +181,7 @@ handle_option() {
     fi
     local notations_val
     local tag_val
-    local choices="$(get_choices "$input")"
-    if [[ -n "$notations" ]]; then
+    if [[ -n "$notations" ]] || [[ -n "$choices" ]]; then
         tag_val="# @option"
         if [[ -n "$choices" ]]; then
             name_suffix="${name_suffix}[$choices]"
@@ -215,7 +208,18 @@ handle_option() {
 
 handle_argument() {
     local input="$1"
-    local name="$( parse_body "$( get_body "$input" )" | head -1 )"
+    local name=""
+    local index=0;
+    while read -r item; do
+        if [[ $index == 0 ]]; then
+            name="$item"
+        elif [[ $index == 1 ]]; then
+            if [[ "$item" == ".." ]] || [[ "$item" == "..." ]]; then
+                name="$name..."
+            fi
+        fi
+        index=$(( $index + 1))
+    done < <( parse_body "$( get_body "$input" )" )
     if [[ -z "$name" ]]; then
         return
     fi
@@ -225,7 +229,7 @@ handle_argument() {
     if [[ "$name" == '<'* ]] ; then
         required=true
     fi
-    if [[ "$name" == *'...'* ]]; then
+    if [[ "$name" == *'..'* ]]; then
         multiple=true
     fi
     case "$required:$multiple" in
@@ -290,19 +294,21 @@ normalize_notation() {
     echo "<$result>"
 }
 
-get_kind() {
-    echo "$1" | awk -F'|' '{print $2}' | awk '{$1=$1};1'
-}
-
 get_body() {
     echo "$1" | awk -F'|' '{print $3}' | awk '{$1=$1};1'
 }
 
 get_choices() {
-    choices=$(echo "$1" | awk -F'|' '{print $4}' | awk '{$1=$1};1' | sed 's/, */|/g' | tr -d '*')
-    if [[ "$choices" == *'|'* ]]; then
-        echo "$choices"
+    choices=$(echo "$1" | awk -F'|' '{print $4}' | awk '{$1=$1};1')
+    if [[ -z "$choices" ]]; then
+        return
     fi
+    commas=$(echo "$choices" | grep -o "," | wc -l)
+    choices=( $(echo "$choices" | sed 's/[,/]/ /g' | tr -d '*') )
+    if [[ ${#choices[@]} -le 1 ]] || [[ ${#choices[@]} -gt $(( $commas + 1 )) ]]; then
+        return
+    fi
+    echo "${choices[*]}" | tr ' ' '|'
 }
 
 apply_patches() {

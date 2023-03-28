@@ -330,7 +330,7 @@ clean() {
 # @flag --no-deps
 # @flag --fix
 # @option --explain <LINT>
-# @arg opts
+# @arg opts*
 clippy() {
     :;
 }
@@ -783,7 +783,7 @@ logout() {
 # @flag --no-default-features
 # @flag -v --verbose
 # @option --filter-platform <TRIPLE>
-# @option --color[Coloring: auto|always|never] <WHEN>
+# @option --color[auto|always|never] <WHEN>
 # @flag --no-deps
 # @flag --frozen
 # @option --manifest-path <PATH>
@@ -791,7 +791,7 @@ logout() {
 # @flag --locked
 # @flag --offline
 # @option --config <KEY=VALUE>
-# @option -Z[Unstable (nightly-only) flags to Cargo|see 'cargo -Z help' for details] <FLAG>
+# @option -Z <FLAG>
 metadata() {
     :;
 }
@@ -814,7 +814,7 @@ metadata() {
 # @flag --offline
 # @option --config <KEY=VALUE>
 # @option -Z <FLAG>
-# @arg path
+# @arg path!
 new() {
     :;
 }
@@ -1019,7 +1019,7 @@ read-manifest() {
 # @flag --dev
 # @flag --build
 # @option --target
-# @arg DEP_ID*[`_choice_depid`]
+# @arg DEP_ID+[`_choice_depid`]
 remove() {
     :;
 }

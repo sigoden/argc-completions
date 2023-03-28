@@ -32,6 +32,6 @@
 # @option --src <src>
 # @option --ciphers <list-of-ciphers>
 # @option --resolve* <[+]host:port:addr[,addr]>
-# @option --ftp-ssl-ccc-mode <active,passive>
+# @option --ftp-ssl-ccc-mode[active|passive]
 
 eval "$(argc "$0" "$@")"

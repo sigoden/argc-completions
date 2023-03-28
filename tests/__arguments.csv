@@ -6,4 +6,5 @@
  |argument |[ARG4]...               |        |
  |argument |ARG5...                 |        |
  |argument |<deployed project name> |        |
- |argument |\<pkg\> ...             |        |
+ |argument |\<arg6\> ...            |        |
+ |argument |arg7 ..                  |        |

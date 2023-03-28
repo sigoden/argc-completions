@@ -66,7 +66,7 @@
 # @flag --ftp-pret
 # @flag --ftp-skip-pasv-ip
 # @flag --ftp-ssl-ccc
-# @option --ftp-ssl-ccc-mode <active,passive>
+# @option --ftp-ssl-ccc-mode[active|passive]
 # @flag --ftp-ssl-control
 # @flag -G --get
 # @flag -g --globoff
@@ -97,7 +97,7 @@
 # @option --libcurl <file>
 # @option --limit-rate <speed>
 # @flag -l --list-only
-# @option --local-port <num,range>
+# @option --local-port <num-range>
 # @flag -L --location
 # @flag --location-trusted
 # @option --login-options <options>

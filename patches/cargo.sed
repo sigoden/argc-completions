@@ -6,4 +6,4 @@ s/@option --target /@option --target[`_choice_target`] /
 s/@option --test /@option --test[`_choice_test`] /
 s/@option -p --package /@option -p --package[`_choice_package`] /
 s/@arg TESTNAME/@arg TESTNAME[`_choice_testname`]/
-/{ cargo remove/, /} cargo remove/ s/@arg DEP_ID\*/@arg DEP_ID*[`_choice_depid`]/
+/{ cargo remove/, /} cargo remove/ s/@arg DEP_ID+/@arg DEP_ID+[`_choice_depid`]/

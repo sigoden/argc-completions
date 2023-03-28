@@ -7,6 +7,7 @@
 # @arg ARG4*
 # @arg ARG5*
 # @arg deployed-project-name!
-# @arg pkg!
+# @arg arg6+
+# @arg arg7*
 
 eval "$(argc "$0" "$@")"

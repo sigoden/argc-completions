@@ -99,7 +99,6 @@
 # @flag --vimgrep
 # @flag -H --with-filename
 # @flag -w --word-regexp
-# @arg PATTERN!
-# @arg PATH+
+# @arg PATH*
 
 eval "$(argc "$0" "$@")"

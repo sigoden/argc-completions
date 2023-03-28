@@ -264,7 +264,7 @@ update() {
 
 # {{ pnpm audit
 # @cmd
-# @flag --audit-level
+# @option --audit-level[low|moderate|high|critical]
 # @flag -D --dev
 # @flag --fix
 # @flag --ignore-registry-errors
@@ -316,7 +316,7 @@ licenses() {
 # @option --filter[`_choice_workspace`] <selector>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
-# @arg pkg!
+# @arg pkg+
 list() {
     :;
 }

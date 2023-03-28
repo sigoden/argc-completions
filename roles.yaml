@@ -4,19 +4,21 @@
   prompt: |
     Extract all subcommands, options and positional arguments in the help text and convert it into markdown table.
     Choices are multiple words separated by commas.
-    Don't escape body text.
+    If the body text contains vertical bars, replace them with commas.
     In each column, type and body are required.
-    If no ARGS group, pass arguments from usage.
+    If no ARGS group, extract arguments from usage.
     Ignore foot description.
     ## Help Text
     Usage: app [OPTIONS] ARG ARG2...
     ARGUMENTS/ARGS:
         ARG           Desc
         ARG2...       Desc
+        <A|B>         Desc
     OPTIONS/SECTIONS:
         -s --long <VALUE>    Desc, [values: a, b, c]
         -t --tag             Desc
         --level <severity>   Value: low|high|critical
+        --otp <Yes|No>       Desc
     COMMANDS/SUBCOMMANDS:
         cmd, c
     Footer description.
@@ -25,9 +27,11 @@
     | -------- | ------------------ | ----------------- |
     | argument | ARG                |                   |
     | argument | ARG2...            |                   |
+    | argument | <A,B>              |                   |
     | option   | -s  --long <VALUE> | a, b, c           |
     | option   | -t  --tag          |                   |
     | option   | --level <severity> | low,high,critical |
+    | option   | --otp <Yes,NO >    |                   |
     | command  | cmd  c             |                   |
     ## Help Text I provides
     __INPUT__
