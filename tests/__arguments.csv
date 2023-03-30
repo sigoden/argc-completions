@@ -1,13 +1,19 @@
- |type     |body                    |choices |
- |-------- |----------------------  |------- |
- |argument |<ARG1>                  |        |
- |argument |<ARG2>...               |        |
- |argument |[ARG3]                  |        |
- |argument |[ARG4]...               |        |
- |argument |ARG5...                 |        |
- |argument |<deployed project name> |        |
- |argument |\<arg6\> ...            |        |
- |argument |arg7 ..                 |        |
- |argument |<branch,tag>            |        |
- |argument |<mbox/maildir>          |        |
- |argument |[<arg8>...]             |        |
+|type     |body                         |choices |
+|-------- |---------------------------- |------- |
+|argument |<ARG1>                       |        |
+|argument |<ARG2>...                    |        |
+|argument |[ARG3]                       |        |
+|argument |[ARG4]...                    |        |
+|argument |ARG5...                      |        |
+|argument |<deployed project name>      |        |
+|argument |\<pkg\> ...                  |        |
+|argument |arg7 ..                      |        |
+|argument |<branch,tag>                 |        |
+|argument |[<arg8>...]                  |        |
+|argument |[<repository>]               |        |
+|argument |[<pathspecs>]...             |        |
+|argument |[<tarball>|<dir>]            |        |
+|argument |[(<mbox> | <Maildir>)...]    |        |
+|argument |<tarball file>               |        |
+|argument |[ARG9...]                    |        |
+|argument |[rustfmt_options]...         |        |

@@ -7,10 +7,16 @@
 # @arg ARG4*
 # @arg ARG5*
 # @arg deployed-project-name!
-# @arg arg6+
+# @arg pkg+
 # @arg arg7*
-# @arg branch-tag! <branch,tag>
-# @arg mbox-maildir! <mbox,maildir>
+# @arg branch-tag!
 # @arg arg8*
+# @arg repository
+# @arg pathspecs*
+# @arg tarball-dir <<tarball>|<dir>>
+# @arg mbox-Maildir* <<mbox> | <Maildir>>
+# @arg tarball-file!
+# @arg ARG9*
+# @arg rustfmt_options*
 
 eval "$(argc "$0" "$@")"
