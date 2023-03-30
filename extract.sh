@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-# @describe Dump csv from the completion script
+# @describe Extract csv(cli definitions table) from completion scripts
 
-# @arg script!          Sepcifiy the completion scripts
-# @arg outdir!          Save csv to
+# @arg script!          Sepcifiy the completion script
+# @arg outdir!          The directory to save the extracted csv to
 
 write-csv() {
     local json name output_file
@@ -28,13 +28,13 @@ write-csv() {
 }
 
 write-param() {
-    local json kind multiple required body short no_long name choices
+    local json values kind multiple required body short no_long name choices
     json="$(echo "$1" | base64 -d)"
     kind="$(echo "$json" | jq -r '.kind')"
     multiple="$(echo "$json" | jq -r '.multiple')"
     required="$(echo "$json" | jq -r '.required')"
     if [[ "$kind" == "Arg" ]]; then
-        body="$(echo "$json" | jq -r '.value_name | select(.!=null)')"
+        body="$(echo "$json" | jq -r '.value_name // empty')"
         if [[ -z "$body" ]]; then
             name="$(echo "$json" | jq -r '.name')"
             case "$multiple:$required" in
@@ -57,11 +57,11 @@ write-param() {
         set +x
     elif [[ "$kind" == "Flag" ]]; then
         body=""
-        short="$(echo "$json" | jq -r '.short | select(.!=null)')"
+        short="$(echo "$json" | jq -r '.short // empty')"
         if [[ -n "$short" ]]; then
             body="-$short"
         fi
-        no_long="$(echo "$json" | jq -r '.no_long | select(.!=null)')"
+        no_long="$(echo "$json" | jq -r '.no_long')"
         if [[ "$no_long" == "false" ]]; then
             name="$(echo "$json" | jq -r '.name')"
             body="$body --$name"
@@ -72,11 +72,11 @@ write-param() {
         echo "| option | $body | |"
     elif [[ "$kind" == "Option" ]]; then
         body=""
-        short="$(echo "$json" | jq -r '.short | select(.!=null)')"
+        short="$(echo "$json" | jq -r '.short // empty')"
         if [[ -n "$short" ]]; then
             body="-$short"
         fi
-        no_long="$(echo "$json" | jq -r '.no_long | select(.!=null)')"
+        no_long="$(echo "$json" | jq -r '.no_long')"
         if [[ "$no_long" == "false" ]]; then
             name="$(echo "$json" | jq -r '.name')"
             body="$body --$name"
@@ -109,7 +109,7 @@ get_choices() {
     echo "${out%??}"
 }
 
-eval "$(argc "$0" "$@")"
+eval "$(argc --argc-eval "$0" "$@")"
 
 log_exit() {
     echo $*
@@ -123,4 +123,4 @@ if [ ! -d "$argc_outdir" ]; then
     log_exit Outdir "'$argc_outdir'" not found.
 fi
 
-write-csv "$(argc --export $argc_script |  jq -r '@base64')" "$(basename $argc_script ".sh")"
+write-csv "$(argc --argc-export $argc_script |  jq -r '@base64')" "$(basename $argc_script ".sh")"

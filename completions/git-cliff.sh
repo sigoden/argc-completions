@@ -22,4 +22,4 @@
 # @option --sort[oldest|newest]
 # @arg RANGE!
 
-eval "$(argc "$0" "$@")"
+eval "$(argc --argc-eval "$0" "$@")"

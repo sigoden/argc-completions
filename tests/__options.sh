@@ -44,4 +44,4 @@
 # @option --filter <selector>
 # @option --regexp* <pattern>
 
-eval "$(argc "$0" "$@")"
+eval "$(argc --argc-eval "$0" "$@")"

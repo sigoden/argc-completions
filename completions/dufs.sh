@@ -24,4 +24,4 @@
 # @option --completions[bash|elvish|fish|powershell|zsh] <shell>
 # @arg root-dir
 
-eval "$(argc "$0" "$@")"
+eval "$(argc --argc-eval "$0" "$@")"

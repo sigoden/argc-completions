@@ -1470,4 +1470,4 @@ _argc_util_path_sep() {
 	fi
 }
 
-eval "$(argc "$0" "$@")"
+eval "$(argc --argc-eval "$0" "$@")"

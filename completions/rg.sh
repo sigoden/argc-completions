@@ -101,4 +101,4 @@
 # @flag -w --word-regexp
 # @arg PATH*
 
-eval "$(argc "$0" "$@")"
+eval "$(argc --argc-eval "$0" "$@")"

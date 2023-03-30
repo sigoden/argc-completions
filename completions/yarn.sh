@@ -2616,4 +2616,4 @@ _argc_util_safe_path() {
 	fi
 }
 
-eval "$(argc "$0" "$@")"
+eval "$(argc --argc-eval "$0" "$@")"

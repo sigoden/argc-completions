@@ -19,4 +19,4 @@
 # @arg ARG9*
 # @arg rustfmt_options*
 
-eval "$(argc "$0" "$@")"
+eval "$(argc --argc-eval "$0" "$@")"

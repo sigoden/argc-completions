@@ -26,4 +26,4 @@
 # @option -z --min-size <min_size>
 # @arg dirs+
 
-eval "$(argc "$0" "$@")"
+eval "$(argc --argc-eval "$0" "$@")"

@@ -69,4 +69,4 @@
 # @flag --default-page
 # @arg url*
 
-eval "$(argc "$0" "$@")"
+eval "$(argc --argc-eval "$0" "$@")"

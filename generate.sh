@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# @describe Automaticlly generate completion script for the command
+# @describe Automaticlly generate completion script for commands
 
 # @option --spec=generic            Choose a spec
 # @option --cmd-help='--help'       How to help text
@@ -9,7 +9,7 @@
 # @option --cache-dir               Specify cache dir
 # @option --output-dir              Specify output dir
 # @flag --force                     Ignore cache csv When running
-# @arg cmd!                         Specify the command, must able to run locally
+# @arg cmd!                         Specify the command, must be able to run locally
 # @arg subcmd                       Optional sub command
 
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
@@ -163,7 +163,7 @@ print_head() {
 }
 
 print_tail() {
-    printf "\n%s" "eval \"\$(argc \"\$0\" \"\$@\")\""
+    printf "\n%s" "eval \"\$(argc --argc-eval \"\$0\" \"\$@\")\""
 }
 
 print_cmd_fn() {
@@ -172,7 +172,7 @@ print_cmd_fn() {
     echo "}"
 }
 
-eval "$(argc "$0" "$@")"
+eval "$(argc --argc-eval "$0" "$@")"
 
 set_globals
 print_head > "$output_file"

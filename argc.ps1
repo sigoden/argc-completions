@@ -1,6 +1,5 @@
 $ARGC_COMPLETIONS_DIR = if ($ARGC_COMPLETIONS_DIR) { $ARGC_COMPLETIONS_DIR.TrimEnd('\') } else { (Split-Path -Parent $MyInvocation.MyCommand.Path) + "\completions" }
 $ARGC_COMPLETIONS_SCRIPTS = (Get-ChildItem $ARGC_COMPLETIONS_DIR | ForEach-Object { $_.Name -replace '\.sh$' })
-$ARGC_BASH = if ($ARGC_BASH) { $ARGC_BASH } else { "C:\Program Files\Git\bin\bash.exe" }
 
 $_argc_completions_scripts = {
     param($wordToComplete, $commandAst, $cursorPosition)
@@ -11,53 +10,19 @@ $_argc_completions_scripts = {
             return;
         }
     }
-    if ($wordToComplete.ToString() -eq "") {
-        $tail = " "
-    } else {
-        $tail = ""
-    }
+    $tail = if ($wordToComplete.ToString() -eq "") { " " } else { "" }
     if ($commandAst.CommandElements.Count -gt 1) {
         $line = ($commandAst.CommandElements[1..($commandAst.CommandElements.Count - 1)] -join " ") + $tail
     } else {
         $line = $tail
     }
-    $compgen_values = (argc --compgen "$scriptfile" "$line" 2>$null).Split("`n")
-    $candicates = @()
-    $arg_value = ""
-    foreach ($item in $compgen_values) {
-        if ($item -match '^-') {
-            $candicates += $item
-        } elseif ($item -match '^`[^` ]+`$') {
-            $choices = (& $ARGC_BASH "$scriptfile" $item.Substring(1, $item.Length - 2) "$line" 2>$null)
-            if ($choices) {
-                $choices = $choices.Split("`n")
-                if ($choices.Count -eq 1) {
-                    $value = $choices[0]
-                    if ($value -match '^[<|\[]') {
-                        $arg_value="$value"
-                    } else {
-                        $candicates += $value
-                    }
-                } else {
-                    $candicates += $choices
-                }
-            }
-        } elseif ($item -match '^[<|\[]') {
-            $arg_value = $item
-        } else {
-            $candicates += $item
+    $candicates = (argc --argc-compgen "$scriptfile" "$line" 2>$null).Split("`n")
+    if ($candicates.Count -eq 1) {
+        if ($candicates[0] -eq "__argc_comp:file") {
+            $candicates = (Get-ChildItem -Path "$wordToComplete*" | Select-Object -ExpandProperty Name)
+        } elseif ($candicates[0] -eq "__argc_comp:dir") {
+            $candicates = (Get-ChildItem -Attributes Directory -Path "$wordToComplete*" | Select-Object -ExpandProperty Name)
         }
-    }
-
-    $paths = @()
-    if ($candicates.Count -eq 0) {
-        if ($arg_value -imatch "file|path") {
-            $candicates += (Get-ChildItem -Path "$wordToComplete*" | Select-Object -ExpandProperty Name)
-        } elseif ($arg_value -imatch "dir") {
-            $candicates += (Get-ChildItem -Attributes Directory -Path "$wordToComplete*" | Select-Object -ExpandProperty Name)
-        }
-    } elseif ($arg_value) {
-        $candicates += $arg_value
     }
     $candicates | 
         Where-Object { $_ -like "$wordToComplete*" } |

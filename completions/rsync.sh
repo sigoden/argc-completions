@@ -141,4 +141,4 @@
 # @flag -6 --ipv6
 # @arg path*
 
-eval "$(argc "$0" "$@")"
+eval "$(argc --argc-eval "$0" "$@")"

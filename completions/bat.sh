@@ -39,4 +39,4 @@ _choice_theme() {
 }
 
 
-eval "$(argc "$0" "$@")"
+eval "$(argc --argc-eval "$0" "$@")"
