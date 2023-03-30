@@ -20,6 +20,6 @@
 # @option -b --body <TEMPLATE>
 # @option -s --strip[header|footer|all] <PART>
 # @option --sort[oldest|newest]
-# @arg RANGE
+# @arg RANGE!
 
 eval "$(argc "$0" "$@")"

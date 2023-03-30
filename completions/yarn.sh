@@ -23,7 +23,7 @@
 # @flag --link-duplicates
 # @option --link-folder <path>
 # @option --modules-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --network-concurrency <number>
 # @option --network-timeout <milliseconds>
 # @flag --no-bin-links
@@ -185,7 +185,7 @@ access::edit() {
 # @option --modules-folder <path>
 # @option --preferred-cache-folder <path>
 # @option --cache-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --emoji <bool>
 # @flag -s --silent
 # @option --cwd <cwd>
@@ -248,7 +248,7 @@ add() {
 # @option --modules-folder <path>
 # @option --preferred-cache-folder <path>
 # @option --cache-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --emoji <bool>
 # @flag -s --silent
 # @option --cwd <cwd>
@@ -289,7 +289,6 @@ audit() {
 # @flag --ignore-platform
 # @flag --ignore-engines
 # @flag --ignore-optional
-# @flag --force
 # @flag --skip-integrity-check
 # @flag --check-files
 # @flag --no-bin-links
@@ -306,7 +305,7 @@ audit() {
 # @option --modules-folder <path>
 # @option --preferred-cache-folder <path>
 # @option --cache-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --emoji <bool>
 # @flag -s --silent
 # @option --cwd <cwd>
@@ -322,7 +321,7 @@ audit() {
 # @flag --focus
 # @option --otp <otpcode>
 # @flag -I --init
-# @flag -F
+# @flag -F --force
 autoclean() {
     :;
 }
@@ -363,7 +362,7 @@ autoclean() {
 # @option --modules-folder <path>
 # @option --preferred-cache-folder <path>
 # @option --cache-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --emoji <bool>
 # @flag -s --silent
 # @option --cwd <cwd>
@@ -491,7 +490,7 @@ cache::clean() {
 # @option --modules-folder <path>
 # @option --preferred-cache-folder <path>
 # @option --cache-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --emoji <bool>
 # @flag -s --silent
 # @option --cwd <cwd>
@@ -628,7 +627,7 @@ config::list() {
 # @option --modules-folder <path>
 # @option --preferred-cache-folder <path>
 # @option --cache-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --emoji <bool>
 # @flag -s --silent
 # @option --cwd <cwd>
@@ -683,7 +682,7 @@ create() {
 # @option --modules-folder <path>
 # @option --preferred-cache-folder <path>
 # @option --cache-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --emoji <bool>
 # @flag -s --silent
 # @option --cwd <cwd>
@@ -739,13 +738,12 @@ exec() {
 # @option --modules-folder <path>
 # @option --preferred-cache-folder <path>
 # @option --cache-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --emoji <bool>
 # @flag -s --silent
 # @option --cwd <cwd>
 # @option --proxy <host>
 # @option --https-proxy <host>
-# @option --registry <url>
 # @flag --no-progress
 # @option --network-concurrency <number>
 # @option --network-timeout <milliseconds>
@@ -756,6 +754,7 @@ exec() {
 # @option --otp <otpcode>
 # @option --use-manifest <location>
 # @option --resolved <resolved>
+# @option --registry <registry>
 generate-lock-entry() {
     :;
 }
@@ -892,7 +891,7 @@ global::upgrade-interactive() {
 # @option --modules-folder <path>
 # @option --preferred-cache-folder <path>
 # @option --cache-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --emoji <bool>
 # @flag -s --silent
 # @option --cwd <cwd>
@@ -947,7 +946,7 @@ import() {
 # @option --modules-folder <path>
 # @option --preferred-cache-folder <path>
 # @option --cache-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --emoji <bool>
 # @flag -s --silent
 # @option --cwd <cwd>
@@ -1002,7 +1001,7 @@ info() {
 # @option --modules-folder <path>
 # @option --preferred-cache-folder <path>
 # @option --cache-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --emoji <bool>
 # @flag -s --silent
 # @option --cwd <cwd>
@@ -1061,7 +1060,7 @@ init() {
 # @option --modules-folder <path>
 # @option --preferred-cache-folder <path>
 # @option --cache-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --emoji <bool>
 # @flag -s --silent
 # @option --cwd <cwd>
@@ -1124,7 +1123,7 @@ install() {
 # @option --modules-folder <path>
 # @option --preferred-cache-folder <path>
 # @option --cache-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --emoji <bool>
 # @flag -s --silent
 # @option --cwd <cwd>
@@ -1179,7 +1178,7 @@ licenses() {
 # @option --modules-folder <path>
 # @option --preferred-cache-folder <path>
 # @option --cache-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --emoji <bool>
 # @flag -s --silent
 # @option --cwd <cwd>
@@ -1234,7 +1233,7 @@ link() {
 # @option --modules-folder <path>
 # @option --preferred-cache-folder <path>
 # @option --cache-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --emoji <bool>
 # @flag -s --silent
 # @option --cwd <cwd>
@@ -1291,7 +1290,7 @@ list() {
 # @option --modules-folder <path>
 # @option --preferred-cache-folder <path>
 # @option --cache-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --emoji <bool>
 # @flag -s --silent
 # @option --cwd <cwd>
@@ -1346,7 +1345,7 @@ login() {
 # @option --modules-folder <path>
 # @option --preferred-cache-folder <path>
 # @option --cache-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --emoji <bool>
 # @flag -s --silent
 # @option --cwd <cwd>
@@ -1401,7 +1400,7 @@ logout() {
 # @option --modules-folder <path>
 # @option --preferred-cache-folder <path>
 # @option --cache-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --emoji <bool>
 # @flag -s --silent
 # @option --cwd <cwd>
@@ -1457,7 +1456,7 @@ node() {
 # @option --modules-folder <path>
 # @option --preferred-cache-folder <path>
 # @option --cache-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --emoji <bool>
 # @flag -s --silent
 # @option --cwd <cwd>
@@ -1588,7 +1587,7 @@ owner::remove() {
 # @option --modules-folder <path>
 # @option --preferred-cache-folder <path>
 # @option --cache-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --emoji <bool>
 # @flag -s --silent
 # @option --cwd <cwd>
@@ -1706,7 +1705,7 @@ policies::set-version() {
 # @option --modules-folder <path>
 # @option --preferred-cache-folder <path>
 # @option --cache-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --emoji <bool>
 # @flag -s --silent
 # @option --cwd <cwd>
@@ -1776,7 +1775,7 @@ publish() {
 # @option --modules-folder <path>
 # @option --preferred-cache-folder <path>
 # @option --cache-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --emoji <bool>
 # @flag -s --silent
 # @option --cwd <cwd>
@@ -1833,7 +1832,7 @@ remove() {
 # @option --modules-folder <path>
 # @option --preferred-cache-folder <path>
 # @option --cache-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --emoji <bool>
 # @flag -s --silent
 # @option --cwd <cwd>
@@ -1889,7 +1888,7 @@ run() {
 # @option --modules-folder <path>
 # @option --preferred-cache-folder <path>
 # @option --cache-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --emoji <bool>
 # @flag -s --silent
 # @option --cwd <cwd>
@@ -2031,7 +2030,7 @@ team::list() {
 # @option --modules-folder <path>
 # @option --preferred-cache-folder <path>
 # @option --cache-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --emoji <bool>
 # @flag -s --silent
 # @option --cwd <cwd>
@@ -2086,7 +2085,7 @@ unlink() {
 # @option --modules-folder <path>
 # @option --preferred-cache-folder <path>
 # @option --cache-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --emoji <bool>
 # @flag -s --silent
 # @option --cwd <cwd>
@@ -2144,7 +2143,7 @@ unplug() {
 # @option --modules-folder <path>
 # @option --preferred-cache-folder <path>
 # @option --cache-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --emoji <bool>
 # @flag -s --silent
 # @option --cwd <cwd>
@@ -2208,7 +2207,7 @@ upgrade() {
 # @option --modules-folder <path>
 # @option --preferred-cache-folder <path>
 # @option --cache-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --emoji <bool>
 # @flag -s --silent
 # @option --cwd <cwd>
@@ -2268,7 +2267,7 @@ upgrade-interactive() {
 # @option --modules-folder <path>
 # @option --preferred-cache-folder <path>
 # @option --cache-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --emoji <bool>
 # @flag -s --silent
 # @option --cwd <cwd>
@@ -2335,7 +2334,7 @@ version() {
 # @option --modules-folder <path>
 # @option --preferred-cache-folder <path>
 # @option --cache-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --emoji <bool>
 # @flag -s --silent
 # @option --cwd <cwd>
@@ -2390,7 +2389,7 @@ versions() {
 # @option --modules-folder <path>
 # @option --preferred-cache-folder <path>
 # @option --cache-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --emoji <bool>
 # @flag -s --silent
 # @option --cwd <cwd>
@@ -2445,7 +2444,7 @@ why() {
 # @option --modules-folder <path>
 # @option --preferred-cache-folder <path>
 # @option --cache-folder <path>
-# @option --mutex <type>
+# @option --mutex <<type>[:specifier]>
 # @option --emoji <bool>
 # @flag -s --silent
 # @option --cwd <cwd>

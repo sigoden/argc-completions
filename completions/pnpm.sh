@@ -4,7 +4,7 @@
 # @flag -r --recursive
 # @option -C --dir <dir>
 # @flag -w --workspace-root
-# @option --filter[`_choice_workspace`] <selector>
+# @option --filter <selector>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
 # @arg cmd[`_choice_cmd`]
@@ -38,7 +38,7 @@
 # @flag --workspace
 # @flag -w --workspace-root
 # @option --changed-files-ignore-pattern <pattern>
-# @option --filter[`_choice_workspace`] <selector>
+# @option --filter*[`_choice_workspace`] <selector>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
 # @arg name!
@@ -85,7 +85,7 @@ import() {
 # @flag --no-lockfile
 # @flag --no-optional
 # @flag --offline
-# @option --package-import-method <auto>
+# @option --package-import-method[auto|clone|copy|hardlink] <kind>
 # @flag --prefer-frozen-lockfile
 # @flag --prefer-offline
 # @flag -P --prod
@@ -102,10 +102,10 @@ import() {
 # @flag --use-store-server
 # @option --virtual-store-dir <dir>
 # @flag -w --workspace-root
-# @option --reporter <append-only>
+# @option --reporter[append-only|default|ndjson]
 # @flag -s --silent
 # @option --changed-files-ignore-pattern <pattern>
-# @option --filter[`_choice_workspace`] <selector>
+# @option --filter*[`_choice_workspace`] <selector>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
 install() {
@@ -175,7 +175,7 @@ prune() {
 # @flag --use-stderr
 # @flag -w --workspace-root
 # @option --changed-files-ignore-pattern <pattern>
-# @option --filter[`_choice_workspace`] <selector>
+# @option --filter*[`_choice_workspace`] <selector>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
 # @arg pkg*
@@ -202,7 +202,7 @@ rebuild() {
 # @flag --use-stderr
 # @flag -w --workspace-root
 # @option --changed-files-ignore-pattern <pattern>
-# @option --filter[`_choice_workspace`] <selector>
+# @option --filter*[`_choice_workspace`] <selector>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
 # @arg pkgs+[`_choice_dependency`]
@@ -252,7 +252,7 @@ unlink() {
 # @flag --workspace
 # @flag -w --workspace-root
 # @option --changed-files-ignore-pattern <pattern>
-# @option --filter[`_choice_workspace`] <selector>
+# @option --filter*[`_choice_workspace`] <selector>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
 # @arg pkgs+[`_choice_dependency`]
@@ -296,7 +296,7 @@ licenses() {
 # @flag --color
 # @flag --no-color
 # @flag --aggregate-output
-# @flag -1 --depth
+# @option --depth <number>
 # @flag -D --dev
 # @option -C --dir <dir>
 # @flag -g --global
@@ -313,7 +313,7 @@ licenses() {
 # @flag --use-stderr
 # @flag -w --workspace-root
 # @option --changed-files-ignore-pattern <pattern>
-# @option --filter[`_choice_workspace`] <selector>
+# @option --filter*[`_choice_workspace`] <selector>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
 # @arg pkg+
@@ -342,7 +342,7 @@ list() {
 # @flag --use-stderr
 # @flag -w --workspace-root
 # @option --changed-files-ignore-pattern <pattern>
-# @option --filter[`_choice_workspace`] <selector>
+# @option --filter*[`_choice_workspace`] <selector>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
 # @arg pkg*
@@ -385,7 +385,7 @@ exec() {
 # @flag --use-stderr
 # @flag -w --workspace-root
 # @flag --changed-files-ignore-pattern
-# @option --filter[`_choice_workspace`] <selector>
+# @option --filter*[`_choice_workspace`] <selector>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
 # @arg script![`_choice_script`]
@@ -409,7 +409,7 @@ start() {
 # @alias t
 # @flag -r --recursive
 # @option --changed-files-ignore-pattern <pattern>
-# @option --filter[`_choice_workspace`] <selector>
+# @option --filter*[`_choice_workspace`] <selector>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
 test() {
@@ -441,10 +441,10 @@ pack() {
 # @flag --report-summary
 # @option --tag <tag>
 # @option --changed-files-ignore-pattern <pattern>
-# @option --filter[`_choice_workspace`] <selector>
+# @option --filter*[`_choice_workspace`] <selector>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
-# @arg tarballdir! <tarball,dir>
+# @arg tarball-dir!
 publish() {
     :;
 }
@@ -536,7 +536,7 @@ dedup() {
 # @flag --use-stderr
 # @flag -w --workspace-root
 # @option --changed-files-ignore-pattern <pattern>
-# @option --filter[`_choice_workspace`] <selector>
+# @option --filter*[`_choice_workspace`] <selector>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
 # @arg pkg+
@@ -550,8 +550,8 @@ why() {
 # @cmd
 # @flag --package
 # @flag -c --shell-mode
-# @option --reporter <append-only>
-# @option -s --silent <silent>
+# @option --reporter[append-only|default|ndjson|silent]
+# @flag -s --silent
 # @arg args*
 dlx() {
     :;
@@ -674,7 +674,7 @@ init() {
 # @flag --no-optional
 # @flag -P --prod
 # @option --changed-files-ignore-pattern <pattern>
-# @option --filter[`_choice_workspace`] <selector>
+# @option --filter*[`_choice_workspace`] <selector>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
 # @arg deployed-project-name!

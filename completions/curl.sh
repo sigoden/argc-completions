@@ -2,7 +2,7 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # @option --abstract-unix-socket <path>
-# @option --alt-svc <file-name>
+# @option --alt-svc <file name>
 # @flag --anyauth
 # @flag -a --append
 # @option --aws-sigv4 <provider1[:provider2[:region[:service]]]>
@@ -12,20 +12,20 @@
 # @option -E --cert <certificate[:password]>
 # @flag --cert-status
 # @option --cert-type <type>
-# @option --ciphers <list-of-ciphers>
+# @option --ciphers <list of ciphers>
 # @flag --compressed
 # @flag --compressed-ssh
 # @option -K --config <file>
-# @option --connect-timeout <fractional-seconds>
+# @option --connect-timeout <fractional seconds>
 # @option --connect-to <HOST1:PORT1:HOST2:PORT2>
 # @option -C --continue-at <offset>
-# @option -b --cookie <<data>
+# @option -b --cookie <data                                    |filename>
 # @option -c --cookie-jar <filename>
 # @flag --create-dirs
 # @option --create-file-mode <mode>
 # @flag --crlf
 # @option --crlfile <file>
-# @option --curves <algorithm-list>
+# @option --curves <algorithm list>
 # @option -d --data <data>
 # @option --data-ascii <data>
 # @option --data-binary <data>
@@ -73,10 +73,10 @@
 # @option --happy-eyeballs-timeout-ms <milliseconds>
 # @flag --haproxy-protocol
 # @flag -I --head
-# @option -H --header <header,@file>
+# @option -H --header <header/@file>
 # @option --hostpubmd5 <md5>
 # @option --hostpubsha256 <sha256>
-# @option --hsts <file-name>
+# @option --hsts <file name>
 # @flag --http0.9
 # @flag -0 --http1.0
 # @flag --http1.1
@@ -108,7 +108,7 @@
 # @flag -M --manual
 # @option --max-filesize <bytes>
 # @option --max-redirs <num>
-# @option -m --max-time <fractional-seconds>
+# @option -m --max-time <fractional seconds>
 # @flag --metalink
 # @flag --negotiate
 # @flag -n --netrc
@@ -136,12 +136,12 @@
 # @flag --post301
 # @flag --post302
 # @flag --post303
-# @option --preproxy <:port>
+# @option --preproxy <[protocol://]host[:port]>
 # @flag -# --progress-bar
 # @option --proto <protocols>
 # @option --proto-default <protocol>
 # @option --proto-redir <protocols>
-# @option -x --proxy <:port>
+# @option -x --proxy <[protocol://]host[:port]>
 # @flag --proxy-anyauth
 # @flag --proxy-basic
 # @option --proxy-cacert <file>
@@ -151,7 +151,7 @@
 # @option --proxy-ciphers <list>
 # @option --proxy-crlfile <file>
 # @flag --proxy-digest
-# @option --proxy-header <header,@file>
+# @option --proxy-header <header/@file>
 # @flag --proxy-insecure
 # @option --proxy-key <key>
 # @option --proxy-key-type <type>
@@ -162,7 +162,7 @@
 # @option --proxy-service-name <name>
 # @flag --proxy-ssl-allow-beast
 # @flag --proxy-ssl-auto-client-cert
-# @option --proxy-tls13-ciphers <ciphersuite-list>
+# @option --proxy-tls13-ciphers <ciphersuite list>
 # @option --proxy-tlsauthtype <type>
 # @option --proxy-tlspassword <string>
 # @option --proxy-tlsuser <name>
@@ -182,7 +182,7 @@
 # @flag -R --remote-time
 # @option -X --request <method>
 # @option --request-target <path>
-# @option --resolve* <[+]host:port:addr[,addr]>
+# @option --resolve <[+]host:port:addr[,addr]...>
 # @option --retry <num>
 # @flag --retry-all-errors
 # @flag --retry-connrefused
@@ -221,7 +221,7 @@
 # @flag --tftp-no-options
 # @option -z --time-cond <time>
 # @option --tls-max <VERSION>
-# @option --tls13-ciphers <ciphersuite-list>
+# @option --tls13-ciphers <ciphersuite list>
 # @option --tlsauthtype <type>
 # @option --tlspassword <string>
 # @option --tlsuser <name>

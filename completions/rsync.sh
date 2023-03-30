@@ -4,7 +4,7 @@
 # @flag -v --verbose
 # @option --info <FLAGS>
 # @option --debug <FLAGS>
-# @option --stderr[e|a|c]
+# @option --stderr <e,a,c>
 # @flag -q --quiet
 # @flag --no-motd
 # @flag -c --checksum
@@ -109,12 +109,12 @@
 # @option --files-from <FILE>
 # @flag -0 --from0
 # @flag -s --protect-args
-# @option --copy-as <USER:GROUP>
+# @option --copy-as <USER[:GROUP]>
 # @option --address
 # @option --port
 # @option --sockopts <OPTIONS>
 # @flag --blocking-io
-# @option --outbuf[N|L|B]
+# @option --outbuf <N,L,B>
 # @flag --stats
 # @flag -8 --8-bit-output
 # @flag -h --human-readable

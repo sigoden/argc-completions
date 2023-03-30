@@ -157,7 +157,7 @@ bench() {
 # @option -Z* <FLAG>
 # @flag --crates
 # @flag --time
-# @option --filter <<CRATE>
+# @option --filter <CRATE|REGEXP>
 # @flag --split-std
 # @option --symbols-section <NAME>
 # @flag --no-relative-size
@@ -489,14 +489,14 @@ fuzz() {
 # {{ cargo generate-lockfile
 # @cmd
 # @flag -q --quiet
-# @flag --manifest-path
+# @option --manifest-path <PATH>
 # @flag -v --verbose
-# @flag --color
+# @option --color <WHEN>
 # @flag --frozen
 # @flag --locked
 # @flag --offline
-# @flag --config
-# @flag -Z
+# @option --config <KEY=VALUE>
+# @option -Z <FLAG>
 # @arg generate-lockfile
 generate-lockfile() {
     :;
@@ -988,14 +988,14 @@ run() {
 # {{ cargo read-manifest
 # @cmd
 # @flag -q --quiet
-# @flag --manifest-path
-# @flag -v --verbose
-# @flag --color
+# @option --manifest-path <PATH>
+# @flag -v --verbose*
+# @option --color <WHEN>
 # @flag --frozen
 # @flag --locked
 # @flag --offline
-# @flag --config
-# @flag -Z
+# @option --config <EKY=VALUE>
+# @option -Z <FALG>
 read-manifest() {
     :;
 }
