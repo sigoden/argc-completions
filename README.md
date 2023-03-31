@@ -23,24 +23,24 @@ git clone https://github.com/sigoden/argc-completions $HOME/.argc-completions
 
 For bash, add the following code to `.bashrc`.
 ```sh
-[ -f "$HOME/.argc-completions/argc.bash" ] && source "$HOME/.argc-completions/argc.bash" 
+[ -f "$HOME/.argc-completions/argc.bash" ] && source "$HOME/.argc-completions/argc-completion.bash" 
 ```
 
 For zsh, add the following code to `.zshrc`.
 ```sh
-[ -f "$HOME/.argc-completions/argc.zsh" ] && source "$HOME/.argc-completions/argc.zsh" 
+[ -f "$HOME/.argc-completions/argc.zsh" ] && source "$HOME/.argc-completions/argc-completion.zsh" 
 ```
 
 For fish, add the following code to `config.fish`.
 ```fish
-test -e "$HOME/.argc-completions/argc.fish" && source "$HOME/.argc-completions/argc.fish" 
+test -e "$HOME/.argc-completions/argc.fish" && source "$HOME/.argc-completions/argc-completion.fish" 
 ```
 
 For PowerShell, add the following code to `$PROFILE`.
 
 ```ps1
-if(Test-Path ($env:USERPROFILE + "\.argc-completions\argc.ps1")) {
-    . ($env:USERPROFILE + "\.argc-completions\argc.ps1")
+if(Test-Path ($env:USERPROFILE + "\.argc-completions\argc-completion.ps1")) {
+    . ($env:USERPROFILE + "\.argc-completions\argc-completion.ps1")
 }
 ```
 
