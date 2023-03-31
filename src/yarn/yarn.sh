@@ -14,7 +14,7 @@ _choice_dependency() {
 }
 
 _choice_global_dependency() {
-    global_dir="$(_argc_util_safe_path "$(yarn global dir)")"
+    global_dir="$(_argc_util_unix_path "$(yarn global dir)")"
     cat  "$global_dir/package.json" | jq -r '.dependencies // {}, .devDependencies // {}, .optionalDependencies // {} | keys[]'
 }
 
@@ -68,6 +68,6 @@ _locate_project_base() {
     elif [ -f package.json ]; then
         pwd
     else
-        echo "$(_argc_util_safe_path "$(npm prefix)")"
+        echo "$(_argc_util_unix_path "$(npm prefix)")"
     fi
 }

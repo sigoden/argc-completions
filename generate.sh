@@ -86,31 +86,58 @@ fetch_csv() {
             fi
         fi
         local csv="$(echo "$text" | aichat -S -r "$argc_spec")"
+        mkdir -p "$(dirname "$path")"
         echo "$csv" > "$path"
         echo "$csv" | sed -n '3,$ p' 
     fi
 }
 
-merge() {
-    local sed_file="$src_dir/${output_name}.sed"
+merge_src() {
+    local name="$(slash_concat_args $@)"
+    local sed_file="$src_dir/$name.sed"
+    if [[ ! -f "$sed_file" ]] && [[ $# -eq 1 ]]; then
+        sed_file="$src_dir/$1/$1.sed"
+    fi
     if [[ -f "$sed_file" ]]; then
         sed -i -f "$sed_file" "$output_file"
     fi
-    local src_file="$src_dir/${output_name}.sh"
+    local src_file="$src_dir/$name.sh"
+    if [[ ! -f "$src_file" ]] && [[ $# -eq 1 ]]; then
+        src_file="$src_dir/$1/$1.sh"
+    fi
     if [[ -f "$src_file" ]]; then
         echo >> "$output_file"
         cat "$src_file" >> "$output_file"
         echo >> "$output_file"
-        while read -r util_fn_name; do
-            util_fn_file="$utils_dir/${util_fn_name}.sh"
-            if [ -f "$util_fn_file" ]; then
-                echo >> "$output_file"
-                cat "$util_fn_file" >> "$output_file"
-                echo >> "$output_file"
-            else
-                echo "Unknown util fn: $util_fn_name" >&2
-            fi
-        done < <(grep -o '_argc_util_[[:alnum:]_]*' "$src_file" | uniq)
+        inline_util_fns
+    fi
+}
+
+inline_util_fns() {
+    local ng=0
+    util_fns=( $(grep -o '_argc_util_[[:alnum:]_]*' "$output_file" | uniq | tr '\n' ' ') )
+    for util_fn_name  in ${util_fns[@]}; do
+        if [[ ! " ${global_utils_fns[*]} " =~ " $util_fn_name " ]]; then
+            load_util_fn $util_fn_name >> "$output_file"
+            global_utils_fns+=( "$util_fn_name" )
+            ng=1
+        fi
+    done
+    if [[ $ng -ne 0 ]]; then
+        inline_util_fns
+    fi
+}
+
+load_util_fn() {
+    util_fn_name="$1"
+    util_fn_file="$utils_dir/$util_fn_name.sh"
+    if [ -f "$util_fn_file" ]; then
+        echo
+        cat "$util_fn_file" 
+        echo
+        echo
+    else
+        echo "Unknown util fn: $util_fn_name" >&2
     fi
 }
 
@@ -130,19 +157,18 @@ set_globals() {
     parser_file="$ROOT_DIR/parser.awk"
     utils_dir="$ROOT_DIR/utils"
     command_names+=( "$argc_cmd" )
-    output_name="$(dash_concat_args ${args[@]})"
     [[ ! -d "$cache_dir" ]] && mkdir -p "$cache_dir"
     [[ ! -d "$output_dir" ]] && mkdir -p "$output_dir"
     [[ ! -d "$subcmds_dir" ]] && mkdir -p "$subcmds_dir"
 
-    if [[ "$output_name" == '__'* ]]; then
+    if [[ "$argc_cmd" == '__'* ]]; then
         cache_dir="$ROOT_DIR/tests"
         output_dir="$ROOT_DIR/tests"
     fi
     if [[ -n "$argc_subcmd" ]]; then
         output_dir="$subcmds_dir"
     fi
-    output_file="$output_dir/$output_name.sh"
+    output_file="$output_dir/$(dash_concat_args ${args[@]}).sh"
 }
 
 dash_concat_args() {
@@ -180,6 +206,6 @@ eval "$(argc --argc-eval "$0" "$@")"
 set_globals
 print_head > "$output_file"
 handle_lines ${args[@]}
-merge
+merge_src ${args[@]}
 print_tail >> "$output_file"
 validate_script

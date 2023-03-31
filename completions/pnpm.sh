@@ -764,7 +764,7 @@ _option_filter() {
     if [[ -n "$argc_filter" ]]; then
         local path = "$(pnpm recursive list --json | jq -r '.[] | select(.name == "'"$argc_filter"'") | .path // empty')"
         if [[ -n "$path" ]]; then
-            project_dir="$(_argc_util_safe_path "$path")"
+            project_dir="$(_argc_util_unix_path "$path")"
         fi
     fi
 }
@@ -780,16 +780,29 @@ _locate_project_base() {
     if [ -f package.json ]; then
         pwd
     else
-        echo "$(cd "$(_argc_util_safe_path "$(pnpm root)")/.." && pwd)"
+        echo "$(cd "$(_argc_util_unix_path "$(pnpm root)")/.." && pwd)"
     fi
 }
 
-_argc_util_safe_path() {
-	if [[ -x "$(command -v cygpath)" ]]; then
+_argc_util_unix_path() {
+	if _argc_util_exist_cygpath; then
 		cygpath "$1"
 	else
 		echo "$1"
 	fi
 }
+
+
+_argc_util_exist_cygpath() {
+    if [[ -z $_argc_var_exist_cygpath ]]; then
+        if [[ -x "$(command -v cygpath)" ]]; then
+            _argc_var_exist_cygpath=0
+        else
+            _argc_var_exist_cygpath=1
+        fi
+    fi
+    return $_argc_var_exist_cygpath
+}
+
 
 eval "$(argc --argc-eval "$0" "$@")"

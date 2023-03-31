@@ -14,8 +14,14 @@ write-csv() {
     > "$output_file"
     write-head "$output_file"
     while read -r param; do
-        write-param $param >> "$output_file"
-    done < <(echo "$json" | jq -r '.params[]? | @base64')
+        write-param $param flag >> "$output_file"
+    done < <(echo "$json" | jq -r '.flag_params[]? | @base64')
+    while read -r param; do
+        write-param $param option >> "$output_file"
+    done < <(echo "$json" | jq -r '.option_params[]? | @base64')
+    while read -r param; do
+        write-param $param positional >> "$output_file"
+    done < <(echo "$json" | jq -r '.positional_params[]? | @base64')
     while read -r subcmd; do
         local subcmd_json name aliases body
         subcmd_json="$(echo "$subcmd" | base64 -d)"
@@ -31,10 +37,10 @@ write-csv() {
 write-param() {
     local json values kind multiple required body short no_long name choices
     json="$(echo "$1" | base64 -d)"
-    kind="$(echo "$json" | jq -r '.kind')"
+    kind=$2
     multiple="$(echo "$json" | jq -r '.multiple')"
     required="$(echo "$json" | jq -r '.required')"
-    if [[ "$kind" == "Arg" ]]; then
+    if [[ "$kind" == "positional" ]]; then
         body="$(echo "$json" | jq -r '.value_name // empty')"
         if [[ -z "$body" ]]; then
             name="$(echo "$json" | jq -r '.name')"
@@ -56,7 +62,7 @@ write-param() {
         choices="$(get_choices $1)"
         echo "| argument | $body | $choices |"
         set +x
-    elif [[ "$kind" == "Flag" ]]; then
+    elif [[ "$kind" == "flag" ]]; then
         body=""
         short="$(echo "$json" | jq -r '.short // empty')"
         if [[ -n "$short" ]]; then
@@ -71,7 +77,7 @@ write-param() {
             fi
         fi
         echo "| option | $body | |"
-    elif [[ "$kind" == "Option" ]]; then
+    elif [[ "$kind" == "option" ]]; then
         body=""
         short="$(echo "$json" | jq -r '.short // empty')"
         if [[ -n "$short" ]]; then
