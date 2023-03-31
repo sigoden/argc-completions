@@ -53,7 +53,7 @@ handle_subcommand() {
     if [[ -n "$cmd_aliases" ]]; then
         echo "# @alias $cmd_aliases"
     fi
-    local subcmd_file="$subcmds_dir/$(concat_args ${cmd_args[@]}).sh"
+    local subcmd_file="$subcmds_dir/$(slash_concat_args ${cmd_args[@]}).sh"
     if [[ -f "$subcmd_file" ]]; then
         cat "$subcmd_file" \
             | sed 's/^\([^_][A-Za-z0-9_-]\+\)()/'"$cmd_name"'::\1()/' \
@@ -71,8 +71,7 @@ handle_subcommand() {
 
 
 fetch_csv() {
-    local name=$(echo $@ | sed 's/ /-/g')
-    local path="$cache_dir/$name.csv" 
+    local path="$cache_dir/$(slash_concat_args $@).csv" 
     if [[ "$argc_force" != "1" ]] && [[ -f "$path" ]]; then
         cat "$path" | sed -n '3,$ p' 
     else
@@ -131,7 +130,7 @@ set_globals() {
     parser_file="$ROOT_DIR/parser.awk"
     utils_dir="$ROOT_DIR/utils"
     command_names+=( "$argc_cmd" )
-    output_name="$(concat_args ${args[@]})"
+    output_name="$(dash_concat_args ${args[@]})"
     [[ ! -d "$cache_dir" ]] && mkdir -p "$cache_dir"
     [[ ! -d "$output_dir" ]] && mkdir -p "$output_dir"
     [[ ! -d "$subcmds_dir" ]] && mkdir -p "$subcmds_dir"
@@ -146,8 +145,12 @@ set_globals() {
     output_file="$output_dir/$output_name.sh"
 }
 
-concat_args() {
+dash_concat_args() {
     echo $@ | awk '{$1=$1};1' | tr ' ' '-'
+}
+
+slash_concat_args() {
+    echo $@ | awk '{$1=$1};1' | tr ' ' '/'
 }
 
 repeat_string() {

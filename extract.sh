@@ -8,8 +8,9 @@
 write-csv() {
     local json name output_file
     json="$(echo "$1" | base64 -d)"
-    name="$(echo ${@:2} | tr ' ' '-')"
+    name="$(echo ${@:2} | tr ' ' '/')"
     output_file="$argc_outdir/$name.csv"
+    mkdir -p "$(dirname "$output_file")"
     > "$output_file"
     write-head "$output_file"
     while read -r param; do
