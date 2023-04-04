@@ -22,6 +22,8 @@
 # @option --tls-key <path>
 # @option --log-format <format>
 # @option --completions[bash|elvish|fish|powershell|zsh] <shell>
+# @flag -h --help
+# @flag -V --version
 # @arg root-dir
 
 eval "$(argc --argc-eval "$0" "$@")"

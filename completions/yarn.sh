@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @arg cmd[`_choice_cmd`]
 # @option --cache-folder <path>
 # @flag --check-files
 # @option --cwd <cwd>
@@ -47,8 +48,9 @@
 # @flag --strict-semver
 # @flag --update-checksums
 # @option --use-yarnrc <path>
+# @flag -v --version
 # @flag --verbose
-# @arg cmd[`_choice_cmd`]
+# @flag -h --help
 
 # {{ yarn access
 # @cmd
@@ -153,6 +155,8 @@ access::edit() {
 
 # {{ yarn add
 # @cmd
+# @arg packages
+# @flag -v --version
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
 # @flag --verbose
@@ -207,7 +211,7 @@ access::edit() {
 # @flag -E --exact
 # @flag -T --tilde
 # @flag -A --audit
-# @arg packages
+# @flag -h --help
 add() {
     :;
 }
@@ -216,6 +220,7 @@ add() {
 
 # {{ yarn audit
 # @cmd
+# @flag -v --version
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
 # @flag --verbose
@@ -266,6 +271,7 @@ add() {
 # @flag --summary
 # @option --groups*[devDependencies|dependencies|optionalDependencies] <group_name>
 # @option --level[info|low|moderate|high|critical] <severity>
+# @flag -h --help
 audit() {
     :;
 }
@@ -274,6 +280,7 @@ audit() {
 
 # {{ yarn autoclean
 # @cmd
+# @flag -v --version
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
 # @flag --verbose
@@ -322,6 +329,7 @@ audit() {
 # @option --otp <otpcode>
 # @flag -I --init
 # @flag -F --force
+# @flag -h --help
 autoclean() {
     :;
 }
@@ -330,6 +338,7 @@ autoclean() {
 
 # {{ yarn bin
 # @cmd
+# @flag -v --version
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
 # @flag --verbose
@@ -377,6 +386,7 @@ autoclean() {
 # @flag --no-node-version-check
 # @flag --focus
 # @option --otp <otpcode>
+# @flag -h --help
 bin() {
     :;
 }
@@ -458,6 +468,7 @@ cache::clean() {
 
 # {{ yarn check
 # @cmd
+# @flag -v --version
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
 # @flag --verbose
@@ -507,6 +518,7 @@ cache::clean() {
 # @option --otp <otpcode>
 # @flag --integrity
 # @flag --verify-tree
+# @flag -h --help
 check() {
     :;
 }
@@ -595,6 +607,7 @@ config::list() {
 
 # {{ yarn create
 # @cmd
+# @flag -v --version
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
 # @flag --verbose
@@ -642,6 +655,7 @@ config::list() {
 # @flag --no-node-version-check
 # @flag --focus
 # @option --otp <otpcode>
+# @flag -h --help
 create() {
     :;
 }
@@ -650,6 +664,7 @@ create() {
 
 # {{ yarn exec
 # @cmd
+# @flag -v --version
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
 # @flag --verbose
@@ -697,6 +712,7 @@ create() {
 # @flag --no-node-version-check
 # @flag --focus
 # @option --otp <otpcode>
+# @flag -h --help
 exec() {
     :;
 }
@@ -706,6 +722,7 @@ exec() {
 # {{ yarn generate-lock-entry
 # @cmd
 # @alias generateLockEntry
+# @flag -v --version
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
 # @flag --verbose
@@ -755,6 +772,7 @@ exec() {
 # @option --use-manifest <location>
 # @option --resolved <resolved>
 # @option --registry <registry>
+# @flag -h --help
 generate-lock-entry() {
     :;
 }
@@ -859,6 +877,7 @@ global::upgrade-interactive() {
 
 # {{ yarn import
 # @cmd
+# @flag -v --version
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
 # @flag --verbose
@@ -906,6 +925,7 @@ global::upgrade-interactive() {
 # @flag --no-node-version-check
 # @flag --focus
 # @option --otp <otpcode>
+# @flag -h --help
 import() {
     :;
 }
@@ -914,6 +934,7 @@ import() {
 
 # {{ yarn info
 # @cmd
+# @flag -v --version
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
 # @flag --verbose
@@ -961,6 +982,7 @@ import() {
 # @flag --no-node-version-check
 # @flag --focus
 # @option --otp <otpcode>
+# @flag -h --help
 info() {
     :;
 }
@@ -969,6 +991,7 @@ info() {
 
 # {{ yarn init
 # @cmd
+# @flag -v --version
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
 # @flag --verbose
@@ -1020,6 +1043,7 @@ info() {
 # @flag -p --private
 # @option -i --install <value>
 # @flag -2
+# @flag -h --help
 init() {
     :;
 }
@@ -1028,6 +1052,7 @@ init() {
 
 # {{ yarn install
 # @cmd
+# @flag -v --version
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
 # @flag --verbose
@@ -1083,6 +1108,7 @@ init() {
 # @flag -O --save-optional
 # @flag -E --save-exact
 # @flag -T --save-tilde
+# @flag -h --help
 install() {
     :;
 }
@@ -1091,6 +1117,7 @@ install() {
 
 # {{ yarn licenses
 # @cmd
+# @flag -v --version
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
 # @flag --verbose
@@ -1138,6 +1165,7 @@ install() {
 # @flag --no-node-version-check
 # @flag --focus
 # @option --otp <otpcode>
+# @flag -h --help
 licenses() {
     :;
 }
@@ -1146,6 +1174,7 @@ licenses() {
 
 # {{ yarn link
 # @cmd
+# @flag -v --version
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
 # @flag --verbose
@@ -1193,6 +1222,7 @@ licenses() {
 # @flag --no-node-version-check
 # @flag --focus
 # @option --otp <otpcode>
+# @flag -h --help
 link() {
     :;
 }
@@ -1201,6 +1231,7 @@ link() {
 
 # {{ yarn list
 # @cmd
+# @flag -v --version
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
 # @flag --verbose
@@ -1250,6 +1281,7 @@ link() {
 # @option --otp <otpcode>
 # @option --depth <depth>
 # @option --pattern <pattern>
+# @flag -h --help
 list() {
     :;
 }
@@ -1258,6 +1290,7 @@ list() {
 
 # {{ yarn login
 # @cmd
+# @flag -v --version
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
 # @flag --verbose
@@ -1305,6 +1338,7 @@ list() {
 # @flag --no-node-version-check
 # @flag --focus
 # @option --otp <otpcode>
+# @flag -h --help
 login() {
     :;
 }
@@ -1313,6 +1347,7 @@ login() {
 
 # {{ yarn logout
 # @cmd
+# @flag -v --version
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
 # @flag --verbose
@@ -1360,6 +1395,7 @@ login() {
 # @flag --no-node-version-check
 # @flag --focus
 # @option --otp <otpcode>
+# @flag -h --help
 logout() {
     :;
 }
@@ -1368,6 +1404,7 @@ logout() {
 
 # {{ yarn node
 # @cmd
+# @flag -v --version
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
 # @flag --verbose
@@ -1416,6 +1453,7 @@ logout() {
 # @flag --focus
 # @option --otp <otpcode>
 # @option --into <path>
+# @flag -h --help
 node() {
     :;
 }
@@ -1424,6 +1462,8 @@ node() {
 
 # {{ yarn outdated
 # @cmd
+# @arg packages*
+# @flag -v --version
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
 # @flag --verbose
@@ -1471,7 +1511,7 @@ node() {
 # @flag --no-node-version-check
 # @flag --focus
 # @option --otp <otpcode>
-# @arg packages*
+# @flag -h --help
 outdated() {
     :;
 }
@@ -1555,6 +1595,7 @@ owner::remove() {
 
 # {{ yarn pack
 # @cmd
+# @flag -v --version
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
 # @flag --verbose
@@ -1603,6 +1644,7 @@ owner::remove() {
 # @flag --focus
 # @option --otp <otpcode>
 # @option -f --filename <filename>
+# @flag -h --help
 pack() {
     :;
 }
@@ -1673,6 +1715,8 @@ policies::set-version() {
 
 # {{ yarn publish
 # @cmd
+# @arg tarball-folder!
+# @flag -v --version
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
 # @flag --verbose
@@ -1734,7 +1778,7 @@ policies::set-version() {
 # @flag --no-commit-hooks
 # @option --access <access>
 # @option --tag <tag>
-# @arg tarball-folder!
+# @flag -h --help
 publish() {
     :;
 }
@@ -1743,6 +1787,8 @@ publish() {
 
 # {{ yarn remove
 # @cmd
+# @arg packages*[`_choice_dependency`]
+# @flag -v --version
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
 # @flag --verbose
@@ -1791,7 +1837,7 @@ publish() {
 # @flag --focus
 # @option --otp <otpcode>
 # @flag -W --ignore-workspace-root-check
-# @arg packages*[`_choice_dependency`]
+# @flag -h --help
 remove() {
     :;
 }
@@ -1800,6 +1846,8 @@ remove() {
 
 # {{ yarn run
 # @cmd
+# @arg script[`_choice_script`]
+# @flag -v --version
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
 # @flag --verbose
@@ -1847,7 +1895,7 @@ remove() {
 # @flag --no-node-version-check
 # @flag --focus
 # @option --otp <otpcode>
-# @arg script[`_choice_script`]
+# @flag -h --help
 run() {
     :;
 }
@@ -1856,6 +1904,7 @@ run() {
 
 # {{ yarn tag
 # @cmd
+# @flag -v --version
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
 # @flag --verbose
@@ -1903,6 +1952,7 @@ run() {
 # @flag --no-node-version-check
 # @flag --focus
 # @option --otp <otpcode>
+# @flag -h --help
 tag() {
     :;
 }
@@ -1998,6 +2048,7 @@ team::list() {
 
 # {{ yarn unlink
 # @cmd
+# @flag -v --version
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
 # @flag --verbose
@@ -2045,6 +2096,7 @@ team::list() {
 # @flag --no-node-version-check
 # @flag --focus
 # @option --otp <otpcode>
+# @flag -h --help
 unlink() {
     :;
 }
@@ -2053,6 +2105,8 @@ unlink() {
 
 # {{ yarn unplug
 # @cmd
+# @arg packages
+# @flag -v --version
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
 # @flag --verbose
@@ -2102,7 +2156,7 @@ unlink() {
 # @option --otp <otpcode>
 # @flag --clear
 # @flag --clear-all
-# @arg packages
+# @flag -h --help
 unplug() {
     :;
 }
@@ -2111,6 +2165,8 @@ unplug() {
 
 # {{ yarn upgrade
 # @cmd
+# @arg packages*[`_choice_dependency`]
+# @flag -v --version
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
 # @flag --verbose
@@ -2165,7 +2221,7 @@ unplug() {
 # @flag -T --tilde
 # @flag -C --caret
 # @flag -A --audit
-# @arg packages*[`_choice_dependency`]
+# @flag -h --help
 upgrade() {
     :;
 }
@@ -2175,6 +2231,7 @@ upgrade() {
 # {{ yarn upgrade-interactive
 # @cmd
 # @alias upgradeInteractive
+# @flag -v --version
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
 # @flag --verbose
@@ -2227,6 +2284,7 @@ upgrade() {
 # @flag -E --exact
 # @flag -T --tilde
 # @flag -C --caret
+# @flag -h --help
 upgrade-interactive() {
     :;
 }
@@ -2235,6 +2293,7 @@ upgrade-interactive() {
 
 # {{ yarn version
 # @cmd
+# @flag -v --version
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
 # @flag --verbose
@@ -2294,6 +2353,7 @@ upgrade-interactive() {
 # @option --message <message>
 # @flag --no-git-tag-version
 # @flag --no-commit-hooks
+# @flag -h --help
 version() {
     :;
 }
@@ -2302,6 +2362,7 @@ version() {
 
 # {{ yarn versions
 # @cmd
+# @flag -v --version
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
 # @flag --verbose
@@ -2349,6 +2410,7 @@ version() {
 # @flag --no-node-version-check
 # @flag --focus
 # @option --otp <otpcode>
+# @flag -h --help
 versions() {
     :;
 }
@@ -2357,6 +2419,7 @@ versions() {
 
 # {{ yarn why
 # @cmd
+# @flag -v --version
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
 # @flag --verbose
@@ -2404,6 +2467,7 @@ versions() {
 # @flag --no-node-version-check
 # @flag --focus
 # @option --otp <otpcode>
+# @flag -h --help
 why() {
     :;
 }
@@ -2412,6 +2476,9 @@ why() {
 
 # {{ yarn workspace
 # @cmd
+# @arg workspace_name![`_choice_workspace`]
+# @arg workspace_args*[`_choice_workspace_args`]
+# @flag -v --version
 # @flag --no-default-rc
 # @option --use-yarnrc <path>
 # @flag --verbose
@@ -2459,8 +2526,7 @@ why() {
 # @flag --no-node-version-check
 # @flag --focus
 # @option --otp <otpcode>
-# @arg workspace_name![`_choice_workspace`]
-# @arg workspace_args*[`_choice_workspace_args`]
+# @flag -h --help
 workspace() {
     :;
 }

@@ -1,4 +1,7 @@
-#!/usr/bin/env awk -f
+#!/usr/bin/awk -f 
+
+# Parse csv table, output argc script.
+
 BEGIN {
     PAIRS[">"] = "<";
     PAIRS["]"] = "[";
@@ -7,38 +10,83 @@ BEGIN {
     RE_SKIP_SBUCOMMAND =  "help|command|none|n\\/a"
     RE_REMOVE_NOTATION_PREFIX = "[=!]"
     EXISTS_SUBCOMMANDS = ",help,"
+    DESCRIPTION = ""
+    paramLineNum = 0
+    maxWidthParamLine = 0
+    split("", paramLines)
+    commandLineNum = 0
+    split("", commandLines)
+    numCols = 1
 }
 {
+    if (NR == 1) {
+        line=$0
+        numCols = count+=gsub(/\|/,"", line) - 1
+    }
     firstIndex = index($0, "|")
     part0 = substr($0, firstIndex + 1)
     secondIndex = index(part0, "|")
     part1 = substr(part0, secondIndex + 1)
     split("", words1)
     thirdIndex = splitWords(part1, words1)
-    dynKind = ""
-    if (!kind) {
-        partKind = substr(part0, 1, secondIndex - 1)
-        if (match(partKind, /option/)) {
-            dynKind = "option"
-        } else if (match(partKind, /argument/)) {
-            dynKind = "argument"
-        } else if (match(partKind, /command/)) {
-            dynKind = "command"
-        }
-    }
+    part2 = substr(part1, thirdIndex + 1)
     if (length(words1) > 0) {
-        part2 = substr(part1, thirdIndex + 1)
-        if (kind == "option" || dynKind == "option") {
+        kind = ""
+        partKind = substr(part0, 1, secondIndex - 1)
+        if (match(partKind, /option|flag/) || match(part1, /^ *(-[^- ]|--[^- ]+)/)) {
+            kind = "option"
+        } else if (match(partKind, /argument/)) {
+            kind = "argument"
+        } else if (match(partKind, /command/)) {
+            kind = "command"
+        }
+        if (kind == "option") {
             split("", words2)
-            splitChoices(part2, words2)
+            forthIndex = extractChoices(part2, words2)
+            part3 = substr(part2, forthIndex + 1)
+            if (numCols > 3) {
+                extractDescription(part3)
+            }
             parseOptions(words1, words2)
-        } else if (kind == "argument" || dynKind == "argument") {
+        } else if (kind == "argument") {
             split("", words2)
-            splitChoices(part2, words2)
+            forthIndex = extractChoices(part2, words2)
+            part3 = substr(part2, forthIndex + 1)
+            if (numCols > 3) {
+                extractDescription(part3)
+            }
             parseArgument(words1, words2)
-        } else if (kind == "command" || dynKind == "command") {
+        } else if (kind == "command") {
+            split("", words2)
+            forthIndex = splitWords(part2, words2)
+            part3 = substr(part2, forthIndex + 1)
+            if (numCols > 3) {
+                extractDescription(part3)
+            }
             parseCommand(words1)
         }
+    }
+}
+END {
+    if (numCols > 3) {
+        paramLineWidth = maxWidthParamLine + 2
+        if (paramLineWidth > 50) {
+            paramLineWidth  = 50
+        }
+        for (i = 1; i <= paramLineNum; i++) {
+            body = paramLines[i, 1]
+            description = "  " paramLines[i, 2]
+            printf "%*-s%s\n", paramLineWidth, body, description
+        }
+    } else {
+        for (i = 1; i <= paramLineNum; i++) {
+            print paramLines[i, 1]
+        }
+    }
+    for (i = 1; i <= commandLineNum; i++) {
+        body = commandLines[i, 1];
+        description = commandLines[i, 2];
+        print body "||" description
     }
 }
 
@@ -56,9 +104,6 @@ function parseOptions(words1, words2) {
         if (index(word, "--") == 1) {
             delete notations
             word = substr(word, 3)
-            if (word == "help" || word == "version")  {
-                return
-            }
             if (index(word, "[no-]")) {
                 word = substr(word, 6)
                 name = extractName(word)
@@ -113,25 +158,24 @@ function parseOptions(words1, words2) {
     if (choicesVal == "" && notationsVal == "") {
         kindVal = "# @flag "
     }
-
     if (shortsLen <= 1 && longsLen == 1) {
         tailVal = modifierVal choicesVal notationsVal
         if (" <" toupper(longs[1]) ">" == notationsVal) {
             tailVal = modifierVal choicesVal
         }
         if (shortsLen == 0) {
-            print kindVal "--" longs[1] tailVal
+            addParamLine(kindVal "--" longs[1] tailVal)
         } else {
-            print kindVal "-" shorts[1] " --" longs[1] tailVal
+            addParamLine(kindVal "-" shorts[1] " --" longs[1] tailVal)
         }
     }  else {
         tailVal = modifierVal choicesVal notationsVal
 
         for (i in shorts) {
-            print kindVal "-" shorts[i] tailVal
+            addParamLine(kindVal "-" shorts[i] tailVal)
         }
         for (i in longs) {
-            print kindVal "--" longs[i] tailVal
+            addParamLine(kindVal "--" longs[i] tailVal)
         }
     }
 }
@@ -170,7 +214,7 @@ function parseArgument(words1, words2) {
     if (notation != name && length(notation) != length(name)) {
         notationVal = " <"  notation ">"
     }
-    print "# @arg " name modifierVal choicesVal notationVal
+    addParamLine("# @arg " name modifierVal choicesVal notationVal)
 }
 
 function parseCommand(words1) {
@@ -203,7 +247,7 @@ function parseCommand(words1) {
         allNames[length(allNames) + 1] = shortNames[i]
     }
     if (length(allNames) > 0) {
-        print join(allNames, " ")
+        addCommandLine(join(allNames, " "))
     }
 }
 
@@ -296,6 +340,22 @@ function addChoices(item, array) {
     array[length(array) + 1] = item
 }
 
+function addParamLine(text) {
+    paramLineNum = paramLineNum + 1
+    paramLines[paramLineNum, 1] = text
+    paramLines[paramLineNum, 2] = DESCRIPTION
+    textLen = length(text)
+    if (maxWidthParamLine < textLen) {
+        maxWidthParamLine = textLen
+    }
+}
+
+function addCommandLine(text) {
+    commandLineNum = commandLineNum + 1
+    commandLines[commandLineNum, 1] = text
+    commandLines[commandLineNum, 2] = DESCRIPTION
+}
+
 function getArgName(input) {
     split(input, chars, "")
     split("", words)
@@ -324,7 +384,17 @@ function extractName(input,     result, len, idx, end, last) {
     }
 }
 
-function splitChoices(input, words) {
+function extractDescription(input) {
+    idx = index(input, "|")
+    if (idx > 0) {
+        text = substr(input, 0, idx - 1)
+        gsub(/^[[:space:]]+|[[:space:]]+$/, "", text)
+        DESCRIPTION = text
+    }
+    return idx
+}
+
+function extractChoices(input, words) {
     idx = splitWords(input, words)
     part = substr(input, 1, idx - 1)
     wordsLen = length(words)
@@ -340,6 +410,7 @@ function splitChoices(input, words) {
             delete words
         }
     }
+    return idx
 }
 
 function splitWords(input, words) {

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @arg FILE+
 # @flag -A --show-all
 # @flag -p --plain
 # @option -l --language[`_choice_language`] <language>
@@ -12,7 +13,7 @@
 # @option --wrap[auto|never|character] <mode>
 # @option --terminal-width <width>
 # @flag -n --number
-# @option --color[always|never|auto] <when>
+# @option --color[auto|never|always] <when>
 # @option --italic-text[always|never] <when>
 # @option --decorations[auto|never|always] <when>
 # @flag -f --force-colorization
@@ -28,7 +29,8 @@
 # @flag -u --unbuffered
 # @flag --diagnostic
 # @flag --acknowledgements
-# @arg FILE+
+# @flag -h --help
+# @flag -V --version
 
 _choice_language() {
     bat --list-languages  | cut -d: -f1

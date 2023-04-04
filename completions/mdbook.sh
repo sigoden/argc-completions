@@ -1,14 +1,18 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @flag -h --help
+# @flag -V --version
 
 # {{ mdbook init
 # @cmd
+# @arg dir
 # @flag --theme
 # @flag --force
 # @option --title <title>
 # @option --ignore[none|git] <ignore>
-# @arg dir
+# @flag -h --help
+# @flag -V --version
 init() {
     :;
 }
@@ -17,9 +21,11 @@ init() {
 
 # {{ mdbook build
 # @cmd
+# @arg dir
 # @option -d --dest-dir <dest-dir>
 # @flag -o --open
-# @arg dir
+# @flag -h --help
+# @flag -V --version
 build() {
     :;
 }
@@ -28,10 +34,12 @@ build() {
 
 # {{ mdbook test
 # @cmd
+# @arg dir
 # @option -d --dest-dir <dest-dir>
 # @option -c --chapter <chapter>
 # @option -L --library-path <dir>
-# @arg dir
+# @flag -h --help
+# @flag -V --version
 test() {
     :;
 }
@@ -40,8 +48,10 @@ test() {
 
 # {{ mdbook clean
 # @cmd
-# @option -d --dest-dir <dest-dir>
 # @arg dir
+# @option -d --dest-dir <dest-dir>
+# @flag -h --help
+# @flag -V --version
 clean() {
     :;
 }
@@ -51,6 +61,8 @@ clean() {
 # {{ mdbook completions
 # @cmd
 # @arg SHELL![bash|elvish|fish|powershell|zsh]
+# @flag -h --help
+# @flag -V --version
 completions() {
     :;
 }
@@ -61,6 +73,8 @@ completions() {
 # @cmd
 # @option -d --dest-dir <dest-dir>
 # @flag -o --open
+# @flag -h --help
+# @flag -V --version
 # @arg dir
 watch() {
     :;
@@ -70,11 +84,13 @@ watch() {
 
 # {{ mdbook serve
 # @cmd
+# @arg dir
 # @option -d --dest-dir <dest-dir>
 # @option -n --hostname <hostname>
 # @option -p --port <port>
 # @flag -o --open
-# @arg dir
+# @flag -h --help
+# @flag -V --version
 serve() {
     :;
 }

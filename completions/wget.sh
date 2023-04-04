@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @arg url*
+# @flag -V --version
+# @flag -h --help
 # @flag -b --background
 # @option -e --execute <COMMAND>
 # @option -o --output-file <FILE>
@@ -67,6 +70,5 @@
 # @option --http-password <PASS>
 # @flag --no-cache
 # @flag --default-page
-# @arg url*
 
 eval "$(argc --argc-eval "$0" "$@")"

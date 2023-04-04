@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @arg _url!
 # @option --abstract-unix-socket <path>
 # @option --alt-svc <file name>
 # @flag --anyauth
@@ -74,6 +75,7 @@
 # @flag --haproxy-protocol
 # @flag -I --head
 # @option -H --header <header/@file>
+# @flag -h --help
 # @option --hostpubmd5 <md5>
 # @option --hostpubsha256 <sha256>
 # @option --hsts <file name>
@@ -241,8 +243,8 @@
 # @option -u --user <user:password>
 # @option -A --user-agent <name>
 # @flag -v --verbose
+# @flag -V --version
 # @option -w --write-out <format>
 # @flag --xattr
-# @arg _url!
 
 eval "$(argc --argc-eval "$0" "$@")"

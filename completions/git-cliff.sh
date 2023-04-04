@@ -8,6 +8,8 @@
 # @flag -u --unreleased
 # @flag --topo-order
 # @flag --context
+# @flag -h --help
+# @flag -V --version
 # @option -c --config <PATH>
 # @option -w --workdir <PATH>
 # @option -r --repository* <PATH>

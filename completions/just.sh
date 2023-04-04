@@ -22,6 +22,8 @@
 # @flag --unstable
 # @flag --variables
 # @flag -v --verbose
+# @flag -h --help
+# @flag -V --version
 # @option --chooser
 # @option --color[auto|always|never]
 # @option -c --command

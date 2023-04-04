@@ -12,6 +12,7 @@
 # @option -f <FILE>
 # @option --file <FILE>
 # @option --makefile <FILE>
+# @flag -h --help
 # @flag -i --ignore-errors
 # @option -I --include-dir <DIRECTORY>
 # @option -j --jobs <N>
@@ -41,6 +42,7 @@
 # @flag --stop
 # @flag -t --touch
 # @flag --trace
+# @flag -v --version
 # @flag -w --print-directory
 # @flag --no-print-directory
 # @option -W <FILE>

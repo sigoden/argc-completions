@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @arg cmd[`_choice_cmd`]
+# @flag -V --version
 # @flag --list
 # @option --explain <CODE>
 # @flag -v --verbose
@@ -11,10 +13,11 @@
 # @flag --offline
 # @option --config <KEY=VALUE>
 # @option -Z <FLAG>
-# @arg cmd[`_choice_cmd`]
+# @flag -h --help
 
 # {{ cargo add
 # @cmd
+# @arg DEP_ID*
 # @flag --no-default-features
 # @flag --default-features
 # @option -F --features
@@ -32,6 +35,7 @@
 # @option --config <KEY=VALUE>
 # @flag --dry-run
 # @option -Z <FLAG>
+# @flag -h --help
 # @option --path
 # @option --git <URI>
 # @option --branch
@@ -41,7 +45,6 @@
 # @flag --dev
 # @flag --build
 # @option --target
-# @arg DEP_ID*
 add() {
     :;
 }
@@ -92,6 +95,8 @@ audit::bin() {
 
 # {{ cargo bench
 # @cmd
+# @arg BENCHNAME
+# @arg args*
 # @flag -q --quiet
 # @flag --lib
 # @option --bin[`_choice_bin`] <NAME>
@@ -129,8 +134,7 @@ audit::bin() {
 # @flag --no-fail-fast
 # @flag --unit-graph
 # @option --timings[html|json] <FMTS>
-# @arg BENCHNAME
-# @arg args*
+# @flag -h --help
 bench() {
     :;
 }
@@ -139,6 +143,8 @@ bench() {
 
 # {{ cargo bloat
 # @cmd
+# @flag -h --help
+# @flag -V --version
 # @flag --lib
 # @option --bin[`_choice_bin`] <NAME>
 # @option --example[`_choice_example`] <NAME>
@@ -213,6 +219,7 @@ bloat() {
 # @flag --unit-graph
 # @flag --future-incompat-report
 # @option --timings[html|json] <FMTS>
+# @flag -h --help
 build() {
     :;
 }
@@ -259,6 +266,7 @@ build() {
 # @flag --unit-graph
 # @flag --future-incompat-report
 # @option --timings[html|json] <FMTS>
+# @flag -h --help
 check() {
     :;
 }
@@ -282,6 +290,7 @@ check() {
 # @flag --offline
 # @option --config <KEY=VALUE>
 # @option -Z <FLAG>
+# @flag -h --help
 clean() {
     :;
 }
@@ -329,6 +338,8 @@ clean() {
 # @option --timings[html|json] <FMTS>
 # @flag --no-deps
 # @flag --fix
+# @flag -h --help
+# @flag -V --version
 # @option --explain <LINT>
 # @arg opts*
 clippy() {
@@ -346,6 +357,7 @@ clippy() {
 # @flag --offline
 # @option --config <KEY=VALUE>
 # @option -Z <FLAG>
+# @flag -h --help
 config() {
     :;
 }
@@ -389,6 +401,7 @@ config() {
 # @flag --ignore-rust-version
 # @flag --unit-graph
 # @option --timings[html|json] <FMTS>
+# @flag -h --help
 doc() {
     :;
 }
@@ -407,6 +420,7 @@ doc() {
 # @flag --offline
 # @option --config <KEY=VALUE>
 # @option -Z <FLAG>
+# @flag -h --help
 fetch() {
     :;
 }
@@ -456,6 +470,7 @@ fetch() {
 # @flag --allow-staged
 # @flag --ignore-rust-version
 # @option --timings[html|json] <FMTS>
+# @flag -h --help
 fix() {
     :;
 }
@@ -464,14 +479,16 @@ fix() {
 
 # {{ cargo fmt
 # @cmd
+# @arg rustfmt_options*
 # @flag --all
 # @flag --check
+# @flag -h --help
 # @option --manifest-path <manifest-path>
 # @option --message-format[short|json|human] <message-format>
 # @option -p --package* <package>
 # @flag -q --quiet
 # @flag -v --verbose
-# @arg rustfmt_options*
+# @flag --version
 fmt() {
     :;
 }
@@ -480,6 +497,8 @@ fmt() {
 
 # {{ cargo fuzz
 # @cmd
+# @flag -h --help
+# @flag -V --version
 fuzz() {
     :;
 }
@@ -497,6 +516,7 @@ fuzz() {
 # @flag --offline
 # @option --config <KEY=VALUE>
 # @option -Z <FLAG>
+# @flag -h --help
 # @arg generate-lockfile
 generate-lockfile() {
     :;
@@ -514,6 +534,7 @@ git-checkout() {
 
 # {{ cargo init
 # @cmd
+# @arg path
 # @flag -q --quiet
 # @option --registry
 # @option --vcs[git|hg|pijul|fossil|none]
@@ -528,7 +549,7 @@ git-checkout() {
 # @flag --offline
 # @option --config <KEY=VALUE>
 # @option -Z <FLAG>
-# @arg path
+# @flag -h --help
 init() {
     :;
 }
@@ -537,7 +558,9 @@ init() {
 
 # {{ cargo install
 # @cmd
+# @arg crate*
 # @flag -q --quiet
+# @option --version
 # @option --git <URL>
 # @option --branch
 # @flag -v --verbose*
@@ -571,7 +594,7 @@ init() {
 # @option --registry
 # @option --message-format <FMT>
 # @option --timings[html|json] <FMTS>
-# @arg crate*
+# @flag -h --help
 install() {
     :;
 }
@@ -731,6 +754,7 @@ insta::show() {
 # @flag --offline
 # @option --config <KEY=VALUE>
 # @option -Z <FLAG>
+# @flag -h --help
 locate-project() {
     :;
 }
@@ -739,6 +763,7 @@ locate-project() {
 
 # {{ cargo login
 # @cmd
+# @arg token
 # @flag -q --quiet
 # @option --registry
 # @flag --generate-keypair
@@ -751,7 +776,7 @@ locate-project() {
 # @flag --offline
 # @option --config <KEY=VALUE>
 # @option -Z <FLAG>
-# @arg token
+# @flag -h --help
 login() {
     :;
 }
@@ -769,6 +794,7 @@ login() {
 # @flag --offline
 # @option --config <KEY=VALUE>
 # @option -Z <FLAG>
+# @flag -h --help
 logout() {
     :;
 }
@@ -792,6 +818,7 @@ logout() {
 # @flag --offline
 # @option --config <KEY=VALUE>
 # @option -Z <FLAG>
+# @flag -h --help
 metadata() {
     :;
 }
@@ -800,6 +827,7 @@ metadata() {
 
 # {{ cargo new
 # @cmd
+# @arg path!
 # @flag -q --quiet
 # @option --registry
 # @option --vcs[git|hg|pijul|fossil|none]
@@ -814,7 +842,7 @@ metadata() {
 # @flag --offline
 # @option --config <KEY=VALUE>
 # @option -Z <FLAG>
-# @arg path!
+# @flag -h --help
 new() {
     :;
 }
@@ -830,6 +858,7 @@ new() {
 # @option --exit-code <NUM>
 # @option --features*
 # @option --format[List|Json]
+# @flag -h --help
 # @option -i --ignore* <DEPENDENCIES>
 # @flag -e --ignore-external-rel
 # @option -m --manifest-path <PATH>
@@ -838,6 +867,7 @@ new() {
 # @flag -q --quiet
 # @option -r --root
 # @flag -R --root-deps-only
+# @flag -V --version
 # @flag -v --verbose
 # @flag -w --workspace
 outdated() {
@@ -848,6 +878,7 @@ outdated() {
 
 # {{ cargo owner
 # @cmd
+# @arg crate
 # @flag -q --quiet
 # @option -a --add <LOGIN>
 # @option -r --remove <LOGIN>
@@ -862,7 +893,7 @@ outdated() {
 # @flag --offline
 # @option --config <KEY=VALUE>
 # @option -Z <FLAG>
-# @arg crate
+# @flag -h --help
 owner() {
     :;
 }
@@ -894,6 +925,7 @@ owner() {
 # @option --manifest-path <PATH>
 # @option -j --jobs <N>
 # @flag --keep-going
+# @flag -h --help
 package() {
     :;
 }
@@ -902,6 +934,7 @@ package() {
 
 # {{ cargo pkgid
 # @cmd
+# @arg spec
 # @flag -q --quiet
 # @option -p --package[`_choice_package`] <SPEC>
 # @option --manifest-path <PATH>
@@ -912,7 +945,6 @@ package() {
 # @flag --offline
 # @option --config <KEY=VALUE>
 # @option -Z <FLAG>
-# @arg spec
 pkgid() {
     :;
 }
@@ -944,6 +976,7 @@ pkgid() {
 # @flag --keep-going
 # @flag --dry-run
 # @option --registry
+# @flag -h --help
 publish() {
     :;
 }
@@ -953,6 +986,7 @@ publish() {
 # {{ cargo run
 # @cmd
 # @alias r
+# @arg args*
 # @flag -q --quiet
 # @option --bin[`_choice_bin`] <NAME>
 # @option --example[`_choice_example`] <NAME>
@@ -978,7 +1012,7 @@ publish() {
 # @flag --unit-graph
 # @flag --ignore-rust-version
 # @option --timings[html|json] <FMTS>
-# @arg args*
+# @flag -h --help
 run() {
     :;
 }
@@ -996,6 +1030,7 @@ run() {
 # @flag --offline
 # @option --config <EKY=VALUE>
 # @option -Z <FALG>
+# @flag -h --help
 read-manifest() {
     :;
 }
@@ -1005,6 +1040,7 @@ read-manifest() {
 # {{ cargo remove
 # @cmd
 # @alias rm
+# @arg DEP_ID+[`_choice_depid`]
 # @option -p --package[`_choice_package`] <SPEC>
 # @option --manifest-path <PATH>
 # @flag -q --quiet
@@ -1016,10 +1052,10 @@ read-manifest() {
 # @flag --offline
 # @option --config <KEY=VALUE>
 # @option -Z <FLAG>
+# @flag -h --help
 # @flag --dev
 # @flag --build
 # @option --target
-# @arg DEP_ID+[`_choice_depid`]
 remove() {
     :;
 }
@@ -1035,6 +1071,7 @@ remove() {
 # @flag --offline
 # @option --config <KEY=VALUE>
 # @option -Z <FLAG>
+# @flag -h --help
 report() {
     :;
 }
@@ -1043,6 +1080,7 @@ report() {
 
 # {{ cargo rustc
 # @cmd
+# @arg args*
 # @flag -q --quiet
 # @option -p --package[`_choice_package`] <SPEC>
 # @option -j --jobs <N>
@@ -1079,7 +1117,7 @@ report() {
 # @flag --ignore-rust-version
 # @flag --future-incompat-report
 # @option --timings[html|json] <FMTS>
-# @arg args*
+# @flag -h --help
 rustc() {
     :;
 }
@@ -1122,6 +1160,7 @@ rustc() {
 # @flag --unit-graph
 # @flag --ignore-rust-version
 # @option --timings[html|json] <FMTS>
+# @flag -h --help
 # @arg args*
 rustdoc() {
     :;
@@ -1131,6 +1170,7 @@ rustdoc() {
 
 # {{ cargo search
 # @cmd
+# @arg query*
 # @flag -q --quiet
 # @option --index
 # @option --limit
@@ -1142,7 +1182,7 @@ rustdoc() {
 # @flag --offline
 # @option --config <KEY=VALUE>
 # @option -Z <FLAG>
-# @arg query*
+# @flag -h --help
 search() {
     :;
 }
@@ -1152,6 +1192,8 @@ search() {
 # {{ cargo test
 # @cmd
 # @alias t
+# @arg TESTNAME[`_choice_testname`]
+# @arg args*
 # @flag -q --quiet
 # @flag --lib
 # @option --bin[`_choice_bin`] <NAME>
@@ -1192,8 +1234,7 @@ search() {
 # @flag --unit-graph
 # @flag --future-incompat-report
 # @option --timings[html|json] <FMTS>
-# @arg TESTNAME[`_choice_testname`]
-# @arg args*
+# @flag -h --help
 test() {
     :;
 }
@@ -1227,6 +1268,7 @@ test() {
 # @flag -d --duplicates
 # @option --charset[utf8|ascii]
 # @option -f --format
+# @flag -h --help
 tree() {
     :;
 }
@@ -1246,6 +1288,7 @@ tree() {
 # @flag --offline
 # @option --config <KEY=VALUE>
 # @option -Z <FLAG>
+# @flag -h --help
 # @arg spec*
 uninstall() {
     :;
@@ -1289,6 +1332,8 @@ uninstall() {
 # @option --backend[depinfo|save-analysis]
 # @flag --keep-going
 # @flag --show-unused-transitive
+# @flag -h --help
+# @flag -V --version
 # @arg SPEC
 udeps() {
     :;
@@ -1312,6 +1357,7 @@ udeps() {
 # @flag --offline
 # @option --config <KEY=VALUE>
 # @option -Z <FLAG>
+# @flag -h --help
 update() {
     :;
 }
@@ -1333,6 +1379,7 @@ update() {
 # @flag --offline
 # @option --config <KEY=VALUE>
 # @option -Z <FLAG>
+# @flag -h --help
 # @arg path
 vendor() {
     :;
@@ -1351,6 +1398,7 @@ vendor() {
 # @flag --offline
 # @option --config <KEY=VALUE>
 # @option -Z <FLAG>
+# @flag -h --help
 verify-project() {
     :;
 }
@@ -1367,6 +1415,7 @@ verify-project() {
 # @flag --offline
 # @option --config <KEY=VALUE>
 # @option -Z <FLAG>
+# @flag -h --help
 version() {
     :;
 }
@@ -1375,7 +1424,9 @@ version() {
 
 # {{ cargo yank
 # @cmd
+# @arg crate
 # @flag -q --quiet
+# @option --version
 # @flag --undo
 # @option --index
 # @flag -v --verbose
@@ -1387,7 +1438,7 @@ version() {
 # @flag --offline
 # @option --config <KEY=VALUE>
 # @option -Z <FLAG>
-# @arg crate
+# @flag -h --help
 yank() {
     :;
 }
@@ -1395,7 +1446,7 @@ yank() {
 
 
 _choice_cmd() {
-	cargo --list 2>/dev/null | awk 'NR>1 {print $1}'
+	cargo --list | awk 'NR>1 {print $1}'
 }
 
 _choice_testname() {
@@ -1469,5 +1520,6 @@ _argc_util_path_sep() {
 		echo '/'
 	fi
 }
+
 
 eval "$(argc --argc-eval "$0" "$@")"

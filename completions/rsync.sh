@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @arg path*
 # @flag -v --verbose
 # @option --info <FLAGS>
 # @option --debug <FLAGS>
@@ -139,6 +140,7 @@
 # @option --checksum-seed <NUM>
 # @flag -4 --ipv4
 # @flag -6 --ipv6
-# @arg path*
+# @flag -V --version
+# @flag --help
 
 eval "$(argc --argc-eval "$0" "$@")"

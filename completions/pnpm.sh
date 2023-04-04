@@ -11,6 +11,7 @@
 
 # {{ pnpm add
 # @cmd
+# @arg name!
 # @flag --color
 # @flag --no-color
 # @flag -E
@@ -22,6 +23,7 @@
 # @option -C --dir <dir>
 # @flag -g --global
 # @flag --global-dir
+# @flag -h --help
 # @flag --ignore-scripts
 # @option --loglevel[debug|info|warn|error|--silent] <level>
 # @flag --offline
@@ -41,7 +43,6 @@
 # @option --filter*[`_choice_workspace`] <selector>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
-# @arg name!
 add() {
     :;
 }
@@ -72,6 +73,7 @@ import() {
 # @flag --fix-lockfile
 # @flag --force
 # @flag --global-dir
+# @flag -h --help
 # @option --hoist-pattern <pattern>
 # @flag --ignore-pnpmfile
 # @flag --ignore-scripts
@@ -126,16 +128,17 @@ install-test() {
 # {{ pnpm link
 # @cmd
 # @alias ln
+# @arg pkg!
 # @flag --color
 # @flag --no-color
 # @flag --aggregate-output
 # @option -C --dir <dir>
 # @flag -g --global
+# @flag -h --help
 # @option --loglevel[debug|info|warn|error|silent] <level>
 # @flag --stream
 # @flag --use-stderr
 # @flag -w --workspace-root
-# @arg pkg!
 link() {
     :;
 }
@@ -148,6 +151,7 @@ link() {
 # @flag --no-color
 # @flag --aggregate-output
 # @option -C --dir <dir>
+# @flag -h --help
 # @option --loglevel[debug|info|warn|error|silent] <level>
 # @flag --no-optional
 # @flag --prod
@@ -163,10 +167,12 @@ prune() {
 # {{ pnpm rebuild
 # @cmd
 # @alias rb
+# @arg pkg*
 # @flag --color
 # @flag --no-color
 # @flag --aggregate-output
 # @option -C --dir <dir>
+# @flag -h --help
 # @option --loglevel[debug|info|warn|error|silent] <level>
 # @flag --pending
 # @flag -r --recursive
@@ -178,7 +184,6 @@ prune() {
 # @option --filter*[`_choice_workspace`] <selector>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
-# @arg pkg*
 rebuild() {
     :;
 }
@@ -188,11 +193,13 @@ rebuild() {
 # {{ pnpm remove
 # @cmd
 # @alias rm
+# @arg pkgs+[`_choice_dependency`]
 # @flag --color
 # @flag --no-color
 # @flag --aggregate-output
 # @option -C --dir <dir>
 # @flag --global-dir
+# @flag -h --help
 # @option --loglevel[debug|info|warn|error|silent] <level>
 # @flag -r --recursive
 # @flag -D --save-dev
@@ -205,7 +212,6 @@ rebuild() {
 # @option --filter*[`_choice_workspace`] <selector>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
-# @arg pkgs+[`_choice_dependency`]
 remove() {
     :;
 }
@@ -218,6 +224,7 @@ remove() {
 # @flag --no-color
 # @flag --aggregate-output
 # @option -C --dir <dir>
+# @flag -h --help
 # @option --loglevel[debug|info|warn|error|silent] <level>
 # @flag -r --recursive
 # @flag --stream
@@ -233,6 +240,7 @@ unlink() {
 # {{ pnpm update
 # @cmd
 # @alias up
+# @arg pkgs+[`_choice_dependency`]
 # @flag --color
 # @flag --no-color
 # @flag --aggregate-output
@@ -241,6 +249,7 @@ unlink() {
 # @option -C --dir <dir>
 # @flag -g --global
 # @flag --global-dir
+# @flag -h --help
 # @flag -i --interactive
 # @flag -L --latest
 # @option --loglevel[debug|info|warn|error|silent] <level>
@@ -255,7 +264,6 @@ unlink() {
 # @option --filter*[`_choice_workspace`] <selector>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
-# @arg pkgs+[`_choice_dependency`]
 update() {
     :;
 }
@@ -301,6 +309,7 @@ licenses() {
 # @option -C --dir <dir>
 # @flag -g --global
 # @flag --global-dir
+# @flag -h --help
 # @flag --json
 # @option --loglevel[debug|info|warn|error|silent] <level>
 # @flag --long
@@ -325,6 +334,7 @@ list() {
 
 # {{ pnpm outdated
 # @cmd
+# @arg pkg*
 # @flag --color
 # @flag --no-color
 # @flag --aggregate-output
@@ -332,6 +342,7 @@ list() {
 # @flag -D --dev
 # @option -C --dir <dir>
 # @flag --global-dir
+# @flag -h --help
 # @option --loglevel[debug|info|warn|error] <level>
 # @flag --long
 # @flag --no-optional
@@ -345,7 +356,6 @@ list() {
 # @option --filter*[`_choice_workspace`] <selector>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
-# @arg pkg*
 outdated() {
     :;
 }
@@ -369,10 +379,13 @@ exec() {
 
 # {{ pnpm run
 # @cmd
+# @arg script![`_choice_script`]
+# @arg args*
 # @flag --color
 # @flag --no-color
 # @flag --aggregate-output
 # @option -C --dir <dir>
+# @flag -h --help
 # @flag --if-present
 # @option --loglevel[debug|info|warn|error|silent] <level>
 # @flag --no-bail
@@ -388,8 +401,6 @@ exec() {
 # @option --filter*[`_choice_workspace`] <selector>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
-# @arg script![`_choice_script`]
-# @arg args*
 run() {
     :;
 }
@@ -429,6 +440,7 @@ pack() {
 
 # {{ pnpm publish
 # @cmd
+# @arg tarball-dir!
 # @option --access[public|restricted] <mode>
 # @flag --dry-run
 # @flag --force
@@ -444,7 +456,6 @@ pack() {
 # @option --filter*[`_choice_workspace`] <selector>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
-# @arg tarball-dir!
 publish() {
     :;
 }
@@ -475,6 +486,7 @@ store() {
 # @flag --aggregate-output
 # @flag --dev
 # @option -C --dir <dir>
+# @flag -h --help
 # @option --loglevel[debug|info|warn|error|silent] <level>
 # @flag --prod
 # @flag --stream
@@ -500,8 +512,8 @@ patch() {
 
 # {{ pnpm patch-commit
 # @cmd
-# @flag --patches-dir
 # @arg patchDir
+# @flag --patches-dir
 patch-commit() {
     :;
 }
@@ -518,6 +530,7 @@ dedup() {
 
 # {{ pnpm why
 # @cmd
+# @arg pkg+
 # @flag --color
 # @flag --no-color
 # @flag --aggregate-output
@@ -525,6 +538,7 @@ dedup() {
 # @option -C --dir <dir>
 # @flag -g --global
 # @flag --global-dir
+# @flag -h --help
 # @flag --json
 # @option --loglevel[debug|info|warn|error] <level>
 # @flag --long
@@ -539,7 +553,6 @@ dedup() {
 # @option --filter*[`_choice_workspace`] <selector>
 # @option --filter-prod <pattern>
 # @option --test-pattern <pattern>
-# @arg pkg+
 why() {
     :;
 }

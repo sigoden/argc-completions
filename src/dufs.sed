@@ -1,1 +1,1 @@
-s/@arg root/@arg root-dir/
+s/@arg root    /@arg root-dir/

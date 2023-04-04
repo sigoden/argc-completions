@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @arg PATH*
 # @option -A --after-context <NUM>
 # @flag --auto-hybrid-regex
 # @option -B --before-context <NUM>
@@ -30,6 +31,7 @@
 # @flag -L --follow
 # @option -g --glob*
 # @flag --glob-case-insensitive
+# @flag -h --help
 # @flag --heading
 # @flag -. --hidden
 # @option --iglob* <GLOB>
@@ -96,9 +98,9 @@
 # @flag --type-list
 # @option -T --type-not* <TYPE>
 # @flag -u --unrestricted
+# @flag -V --version
 # @flag --vimgrep
 # @flag -H --with-filename
 # @flag -w --word-regexp
-# @arg PATH*
 
 eval "$(argc --argc-eval "$0" "$@")"

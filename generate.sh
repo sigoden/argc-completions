@@ -13,17 +13,12 @@
 # @arg subcmd                       Optional sub command
 
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-
-export NO_COLOR=true
-export AICHAT_ROLES_FILE="$ROOT_DIR/roles.yaml"
-
 command_names=()
 
 handle_lines() {
     store_option_names=()
     local csv="$(fetch_csv $@)"
-    echo "$csv" | grep -iE ' *\| *(\w+)+ *\| *-.*\|' | awk -v kind=option -f "$parser_file" >> "$output_file"
-    echo "$csv" | grep -iE ' *\| *argument *\|' | awk -v kind=argument -f "$parser_file" >> "$output_file"
+    echo "$csv" | grep -i -E '(^ *\| *(\w+)+ *\| *-.*\|)|(^ *\| *argument *\|)' | awk -f "$parser_script" >> "$output_file"  
     if [[ $# -gt 1 ]] && [[ ${#args[@]} -eq $# ]]; then
         echo "# SUBCMD-INJECT" >> "$output_file"
     fi
@@ -32,12 +27,13 @@ handle_lines() {
             if [[ -n "$item" ]]; then
                 handle_subcommand "$item" $@ >> "$output_file"
             fi
-        done < <(echo "$csv" | grep -iE ' *\| *(command|subcommand) *\|' | awk -v kind=command -f "$parser_file")
+        done < <(echo "$csv" | grep -iE ' *\| *(command|subcommand) *\|' | awk -f "$parser_script")
     fi
 }
 
 handle_subcommand() {
-    local names=( $1 )
+    local names=( ${1%%||*} )
+    local description="${1##*||}"
     local cmd_name="${names[0]}"
     local cmd_aliases="$(echo "${names[@]:1}" | sed 's/ /,/g')"
     if [[  ! " ${command_names[*]} " =~ " $cmd_name " ]]; then
@@ -49,7 +45,11 @@ handle_subcommand() {
     local cmd_level=${#cmd_args[@]}
     echo
     echo "# $(repeat_string '{' $cmd_level) ${cmd_args[@]}"
-    echo "# @cmd"
+    if [[ -z "$description" ]]; then
+        echo "# @cmd"
+    else
+        echo "# @cmd $description"
+    fi
     if [[ -n "$cmd_aliases" ]]; then
         echo "# @alias $cmd_aliases"
     fi
@@ -73,7 +73,7 @@ handle_subcommand() {
 fetch_csv() {
     local path="$cache_dir/$(slash_concat_args $@).csv" 
     if [[ "$argc_force" != "1" ]] && [[ -f "$path" ]]; then
-        cat "$path" | sed -n '3,$ p' 
+        cat "$path" | awk -f "$format_script" | sed -n '3,$ p' 
     else
         local text
         if [[ $# -eq 1 ]]; then
@@ -85,10 +85,11 @@ fetch_csv() {
                 text="$("${@:1:$#-1}" "$argc_subcmd_help" "${!#}" 2>&1)"
             fi
         fi
-        local csv="$(echo "$text" | aichat -S -r "$argc_spec")"
+        local csv
+        csv="$(echo "$text" | "$scripts_dir/gpt.sh" | awk -f "$format_script")"
         mkdir -p "$(dirname "$path")"
         echo "$csv" > "$path"
-        echo "$csv" | sed -n '3,$ p' 
+        echo "$csv" | sed -n '3,$ p'
     fi
 }
 
@@ -153,8 +154,10 @@ set_globals() {
     cache_dir="${argc_cache_dir:-"$ROOT_DIR/cache"}"
     output_dir="${argc_output_dir:-"$ROOT_DIR/completions"}"
     subcmds_dir="$ROOT_DIR/subcmds"
+    scripts_dir="$ROOT_DIR/scripts"
+    parser_script="$scripts_dir/parser.awk"
+    format_script="$scripts_dir/format.awk"
     src_dir="$ROOT_DIR/src"
-    parser_file="$ROOT_DIR/parser.awk"
     utils_dir="$ROOT_DIR/utils"
     command_names+=( "$argc_cmd" )
     [[ ! -d "$cache_dir" ]] && mkdir -p "$cache_dir"
@@ -168,7 +171,8 @@ set_globals() {
     if [[ -n "$argc_subcmd" ]]; then
         output_dir="$subcmds_dir"
     fi
-    output_file="$output_dir/$(dash_concat_args ${args[@]}).sh"
+    output_file="$output_dir/$(slash_concat_args ${args[@]}).sh"
+    mkdir -p "$(dirname "$output_file")"
 }
 
 dash_concat_args() {

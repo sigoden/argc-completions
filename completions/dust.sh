@@ -8,6 +8,7 @@
 # @option -e --filter <filter>
 # @flag -f --filecount
 # @flag -F --only-file
+# @flag -h --help
 # @flag -H --si
 # @flag -i --ignore_hidden
 # @flag -L --dereference-links
@@ -20,6 +21,7 @@
 # @flag --skip-total
 # @flag -t --file_types
 # @option -v --invert-filter <invert_filter>
+# @flag -V --version
 # @option -w --terminal_width <width>
 # @flag -x --limit-filesystem
 # @option -X --ignore-directory <ignore_directory>

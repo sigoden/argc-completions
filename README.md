@@ -23,32 +23,30 @@ git clone https://github.com/sigoden/argc-completions $HOME/.argc-completions
 
 For bash, add the following code to `.bashrc`.
 ```sh
-[ -f "$HOME/.argc-completions/argc.bash" ] && source "$HOME/.argc-completions/argc-completion.bash" 
+&& source "$HOME/.argc-completions/shell/argc-completions.bash" 
 ```
 
 For zsh, add the following code to `.zshrc`.
 ```sh
-[ -f "$HOME/.argc-completions/argc.zsh" ] && source "$HOME/.argc-completions/argc-completion.zsh" 
+source "$HOME/.argc-completions/shell/argc-completions.zsh" 
 ```
 
 For fish, add the following code to `config.fish`.
 ```fish
-test -e "$HOME/.argc-completions/argc.fish" && source "$HOME/.argc-completions/argc-completion.fish" 
+source "$HOME/.argc-completions/shell/argc-completions.fish" 
 ```
 
 For PowerShell, add the following code to `$PROFILE`.
 
 ```ps1
-if(Test-Path ($env:USERPROFILE + "\.argc-completions\argc-completion.ps1")) {
-    . ($env:USERPROFILE + "\.argc-completions\argc-completion.ps1")
-}
+. "$env:USERPROFILE\.argc-completions\argc-completion.ps1"
 ```
 
 ## How to write
 
 ### Automatically write with ChatGPT
 
-You need to install the [aichat](https://github.com/sigoden/aichat) to interact with ChatGPT.
+You need create an account and get API Key at OPENAI, then set `OPENAI_API_KEY` enviroment variable.
 
 ```
 ./generate.sh mycmd
