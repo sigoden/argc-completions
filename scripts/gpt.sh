@@ -1,6 +1,7 @@
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 # @describe Use gpt to extract csv(cli definitions table) from help txt
+# @flag --with-description      Should extract description
 # @option --model=gpt-3.5-turbo Specific gpt model
 # @option --temperature=0.7     Specific temperature
 # @arg help-file                Specific help text file. if ommit, read from stdin
@@ -11,10 +12,11 @@ log_exit() {
 }
 
 prompt() {
+    if [[ "$argc_with_description" == "1" ]]; then
     cat <<-EOF
 Extract all subcommands, options and positional arguments in the help text and convert it into markdown table.
-Choices are multiple words separated by commas.
-If the body text contains vertical bars, replace them with commas.
+Only take the first sentence when extracting the description.
+Extract possible values from description and move them to the choices cell.
 In each column, type and body are required.
 If no ARGS group, extract arguments from usage.
 Ignore header and footer description.
@@ -27,7 +29,43 @@ ARGUMENTS/ARGS:
 OPTIONS/SECTIONS:
     -s --long <VALUE>    Desc, [values: a, b, c]
     -t --tag             Desc
-    --level <severity>   Value: low|high|critical
+    --level <severity>   Desc, Value: low|high|critical
+    --otp <Yes|No>       Desc
+COMMANDS/SUBCOMMANDS:
+    cmd, c
+Footer description.
+## Translated markdown table 
+| type     | body               | choices           | description |
+| -------- | ------------------ | ----------------- | ----------- |
+| argument | ARG                |                   | Desc        |
+| argument | ARG2...            |                   | Desc        |
+| argument | <A,B>              |                   | Desc        |
+| option   | -s  --long <VALUE> | a, b, c           | Desc        |
+| option   | -t  --tag          |                   | Desc        |
+| option   | --level <severity> | low,high,critical | Desc        |
+| option   | --otp <Yes,NO >    |                   | Desc        |
+| command  | cmd  c             |                   | Desc        |
+## Help Text I provides
+$*
+## Translated markdown table you replys
+EOF
+    else
+    cat <<-EOF
+Extract all subcommands, options and positional arguments in the help text and convert it into markdown table.
+Choices are multiple words separated by commas.
+In each column, type and body are required.
+If no ARGS group, extract arguments from usage.
+Ignore header and footer description.
+## Help Text
+Usage: app [OPTIONS] ARG ARG2...
+ARGUMENTS/ARGS:
+    ARG           Desc
+    ARG2...       Desc
+    <A|B>         Desc
+OPTIONS/SECTIONS:
+    -s --long <VALUE>    Desc, [values: a, b, c]
+    -t --tag             Desc
+    --level <severity>   Desc, Value: low|high|critical
     --otp <Yes|No>       Desc
 COMMANDS/SUBCOMMANDS:
     cmd, c
@@ -47,6 +85,7 @@ Footer description.
 $*
 ## Translated markdown table you replys
 EOF
+    fi
 }
 
 main() {

@@ -39,7 +39,7 @@ source "$HOME/.argc-completions/shell/argc-completions.fish"
 For PowerShell, add the following code to `$PROFILE`.
 
 ```ps1
-. "$env:USERPROFILE\.argc-completions\argc-completion.ps1"
+. "$env:USERPROFILE\.argc-completions\shell\argc-completions.ps1"
 ```
 
 ## How to write
