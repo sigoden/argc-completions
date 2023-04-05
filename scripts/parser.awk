@@ -12,7 +12,8 @@ BEGIN {
     EXISTS_SUBCOMMANDS = ",help,"
     DESCRIPTION = ""
     paramLineNum = 0
-    maxWidthParamLine = 0
+    paramLineWidth = 0
+    paramLineMaxWidth = 38
     split("", paramLines)
     commandLineNum = 0
     split("", commandLines)
@@ -69,14 +70,15 @@ BEGIN {
 }
 END {
     if (numCols > 3) {
-        paramLineWidth = maxWidthParamLine + 2
-        if (paramLineWidth > 50) {
-            paramLineWidth  = 50
-        }
+        paramLineWidth = paramLineWidth + 2
         for (i = 1; i <= paramLineNum; i++) {
             body = paramLines[i, 1]
             description = "  " paramLines[i, 2]
-            printf "%*-s%s\n", paramLineWidth, body, description
+            if (length(body) >= paramLineWidth) {
+                print body description
+            } else {
+                printf "%*-s%s\n", paramLineWidth, body, description
+            }
         }
     } else {
         for (i = 1; i <= paramLineNum; i++) {
@@ -345,8 +347,8 @@ function addParamLine(text) {
     paramLines[paramLineNum, 1] = text
     paramLines[paramLineNum, 2] = DESCRIPTION
     textLen = length(text)
-    if (maxWidthParamLine < textLen) {
-        maxWidthParamLine = textLen
+    if (textLen < paramLineMaxWidth && paramLineWidth < textLen) {
+        paramLineWidth = textLen
     }
 }
 

@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @flag -h --help
-# @flag -V --version
+# @flag -h --help       Print help information
+# @flag -V --version    Print version information
 
 # {{ mdbook init
-# @cmd
-# @arg dir
-# @flag --theme
-# @flag --force
-# @option --title <title>
-# @option --ignore[none|git] <ignore>
-# @flag -h --help
-# @flag -V --version
+# @cmd Creates the boilerplate structure and files for a new book
+# @arg dir                               Directory to create the book in
+# @flag --theme                          Copies the default theme into your source folder
+# @flag --force                          Skips confirmation prompts
+# @option --title <title>                Sets the book title
+# @option --ignore[none|git] <ignore>    Creates a VCS ignore file (i.e. .gitignore)
+# @flag -h --help                        Print help information
+# @flag -V --version                     Print version information
 init() {
     :;
 }
@@ -20,12 +20,12 @@ init() {
 
 
 # {{ mdbook build
-# @cmd
-# @arg dir
-# @option -d --dest-dir <dest-dir>
-# @flag -o --open
-# @flag -h --help
-# @flag -V --version
+# @cmd Builds a book from its markdown files
+# @option -d --dest-dir <dest-dir>    Output directory for the book. Relative paths are interpreted relative to the book's root directory.
+# @flag -o --open                     Opens the compiled book in a web browser.
+# @flag -h --help                     Print help information.
+# @flag -V --version                  Print version information.
+# @arg dir                            Root directory for the book. (Defaults to the current directory when omitted)
 build() {
     :;
 }
@@ -33,13 +33,13 @@ build() {
 
 
 # {{ mdbook test
-# @cmd
-# @arg dir
-# @option -d --dest-dir <dest-dir>
-# @option -c --chapter <chapter>
-# @option -L --library-path <dir>
-# @flag -h --help
-# @flag -V --version
+# @cmd Tests that a book's Rust code samples compile
+# @option -d --dest-dir <dest-dir>    Output directory for the book. Relative paths are interpreted relative to the book's root directory. If omitted, mdBook uses build.build-dir from book.toml or defaults to `./book`.
+# @option -c --chapter <chapter>      
+# @option -L --library-path <dir>     A comma-separated list of directories to add to the crate search path when building tests.
+# @flag -h --help                     Print help information.
+# @flag -V --version                  Print version information.
+# @arg dir                            Root directory for the book. Defaults to the current directory when omitted.
 test() {
     :;
 }
@@ -47,11 +47,11 @@ test() {
 
 
 # {{ mdbook clean
-# @cmd
-# @arg dir
-# @option -d --dest-dir <dest-dir>
-# @flag -h --help
-# @flag -V --version
+# @cmd Deletes a built book
+# @option -d --dest-dir <dest-dir>    Output directory for the book. Relative paths are interpreted relative to the book's root directory. If omitted, mdBook uses build.build-dir from book.toml or defaults to `./book`.
+# @flag -h --help                     Print help information.
+# @flag -V --version                  Print version information.
+# @arg dir                            Root directory for the book. (Defaults to the current directory when omitted)
 clean() {
     :;
 }
@@ -59,10 +59,10 @@ clean() {
 
 
 # {{ mdbook completions
-# @cmd
-# @arg SHELL![bash|elvish|fish|powershell|zsh]
-# @flag -h --help
-# @flag -V --version
+# @cmd Generate shell completions for your shell to stdout
+# @arg SHELL![bash|elvish|fish|powershell|zsh]  the shell to generate completions for
+# @flag -h --help       Print help information
+# @flag -V --version    Print version information
 completions() {
     :;
 }
@@ -70,12 +70,12 @@ completions() {
 
 
 # {{ mdbook watch
-# @cmd
-# @option -d --dest-dir <dest-dir>
-# @flag -o --open
-# @flag -h --help
-# @flag -V --version
-# @arg dir
+# @cmd Watches a book's files and rebuilds it on changes
+# @option -d --dest-dir <dest-dir>    Output directory for the book. Relative paths are interpreted relative to the book's root directory.
+# @flag -o --open                     Opens the compiled book in a web browser.
+# @flag -h --help                     Print help information.
+# @flag -V --version                  Print version information.
+# @arg dir                            Root directory for the book. Defaults to the current directory when omitted.
 watch() {
     :;
 }
@@ -83,14 +83,14 @@ watch() {
 
 
 # {{ mdbook serve
-# @cmd
-# @arg dir
-# @option -d --dest-dir <dest-dir>
-# @option -n --hostname <hostname>
-# @option -p --port <port>
-# @flag -o --open
-# @flag -h --help
-# @flag -V --version
+# @cmd Serves a book at http://localhost:3000, and rebuilds it on changes
+# @arg dir                            Root directory for the book. Defaults to the current directory when omitted.
+# @option -d --dest-dir <dest-dir>    Output directory for the book. Relative paths are interpreted relative to the book's root directory.
+# @option -n --hostname <hostname>    Hostname to listen on for HTTP connections.
+# @option -p --port <port>            Port to use for HTTP connections.
+# @flag -o --open                     Opens the compiled book in a web browser.
+# @flag -h --help                     Print help information.
+# @flag -V --version                  Print version information.
 serve() {
     :;
 }

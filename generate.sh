@@ -8,7 +8,8 @@
 # @option --level=1                 Additonal subcommand level
 # @option --cache-dir               Specify cache dir
 # @option --output-dir              Specify output dir
-# @flag --force                     Ignore cache csv When running
+# @flag --no-description            Not generate description
+# @flag --no-cache-csv              Not use cache csv
 # @arg cmd!                         Specify the command, must be able to run locally
 # @arg subcmd                       Optional sub command
 
@@ -72,7 +73,7 @@ handle_subcommand() {
 
 fetch_csv() {
     local path="$cache_dir/$(slash_concat_args $@).csv" 
-    if [[ "$argc_force" != "1" ]] && [[ -f "$path" ]]; then
+    if [[ -z "$argc_no_cache_csv" ]] && [[ -f "$path" ]]; then
         cat "$path" | awk -f "$format_script" | sed -n '3,$ p' 
     else
         local text
@@ -86,7 +87,11 @@ fetch_csv() {
             fi
         fi
         local csv
-        csv="$(echo "$text" | "$scripts_dir/gpt.sh" | awk -f "$format_script")"
+        local gpt_opts
+        if [[ "$argc_no_description" ]]; then
+            gpt_opts="$gpt_opts --no-description"
+        fi
+        csv="$(echo "$text" | "$scripts_dir/gpt.sh" $gpt_opts | awk -f "$format_script")"
         mkdir -p "$(dirname "$path")"
         echo "$csv" > "$path"
         echo "$csv" | sed -n '3,$ p'

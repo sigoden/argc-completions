@@ -1,7 +1,7 @@
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 # @describe Use gpt to extract csv(cli definitions table) from help txt
-# @flag --with-description      Should extract description
+# @flag --no-description        Not extract description
 # @option --model=gpt-3.5-turbo Specific gpt model
 # @option --temperature=0.7     Specific temperature
 # @arg help-file                Specific help text file. if ommit, read from stdin
@@ -12,11 +12,11 @@ log_exit() {
 }
 
 prompt() {
-    if [[ "$argc_with_description" == "1" ]]; then
+    if [[ -z "$argc_no_description" ]]; then
     cat <<-EOF
 Extract all subcommands, options and positional arguments in the help text and convert it into markdown table.
 Only take the first sentence when extracting the description.
-Extract possible values from description and move them to the choices cell.
+Extract the possible values from the description, concatenate them with commas, and put them into choices value.
 In each column, type and body are required.
 If no ARGS group, extract arguments from usage.
 Ignore header and footer description.
@@ -27,7 +27,7 @@ ARGUMENTS/ARGS:
     ARG2...       Desc
     <A|B>         Desc
 OPTIONS/SECTIONS:
-    -s --long <VALUE>    Desc, [values: a, b, c]
+    -s --long <VALUE>    Desc, [possible values: a, b, c]
     -t --tag             Desc
     --level <severity>   Desc, Value: low|high|critical
     --otp <Yes|No>       Desc
@@ -63,7 +63,7 @@ ARGUMENTS/ARGS:
     ARG2...       Desc
     <A|B>         Desc
 OPTIONS/SECTIONS:
-    -s --long <VALUE>    Desc, [values: a, b, c]
+    -s --long <VALUE>    Desc, [possible values: a, b, c]
     -t --tag             Desc
     --level <severity>   Desc, Value: low|high|critical
     --otp <Yes|No>       Desc
@@ -88,6 +88,39 @@ EOF
     fi
 }
 
+fetch() {
+    local index content result
+    index=$1
+    content=$(echo "$2" | jq -Rs '.')
+    result=$(curl -s https://api.openai.com/v1/chat/completions \
+        -H "Content-Type: application/json" \
+        -H "Authorization: Bearer $OPENAI_API_KEY" \
+        -d "{
+            \"model\": \"$argc_model\",
+            \"messages\": [{ \"role\": \"user\", \"content\": $content }],
+            \"temperature\": $argc_temperature
+        }" | jq -r '.choices[0].message.content')
+
+    if [[ $index -gt 0 ]]; then
+        echo -e "$result" | sed -n '3,$ p'
+    else 
+        echo -e "$result"
+    fi
+}
+
+split_text() {
+    local len max_tokens base_size
+    text_len=$1
+    max_tokens=4096
+    if [[ "$argc_model" == "gpt-4" ]]; then
+        max_tokens=8192
+    elif [[ "$argc_model" == "gpt-4-32k" ]]; then
+        max_tokens=32768
+    fi
+    base_size=$(( 2 * max_tokens - 800 ))
+    echo $(( text_len / base_size + 1 ))
+}
+
 main() {
     if [[ -z "$OPENAI_API_KEY" ]]; then
         log_exit "Miss OPENAI_API_KEY environment variable"
@@ -97,16 +130,25 @@ main() {
     else
         help_text="$(cat "$argc_help_file")"
     fi
-    query="$(prompt "$(echo "$help_text")" | tr  '\"' '`' | tr '\n' ' ')"
-    result=$(curl -s https://api.openai.com/v1/chat/completions \
-        -H "Content-Type: application/json" \
-        -H "Authorization: Bearer $OPENAI_API_KEY" \
-        -d "{
-            \"model\": \"$argc_model\",
-            \"messages\": [{ \"role\": \"user\", \"content\": \"$query\" }],
-            \"temperature\": $argc_temperature
-        }" | jq -r '.choices[0].message.content')
-    echo -e "$result"
+    
+    local num_parts=$(split_text ${#help_text})
+    local num_lines=$(echo "$help_text" | wc -l)
+
+    local part_size=$((num_lines / num_parts ))
+    local remainder=$((num_lines % num_parts ))  # calculate the remainder for the last part
+
+    local start end
+    for ((i=0; i<num_parts; i++)); do
+        start=$((i*part_size+1))
+        if [[ $i -eq $(( num_parts -1 )) ]]; then
+            end=$((start + part_size + remainder - 1))
+        else
+            end=$((start + part_size - 1))
+        fi
+
+        text="$(echo "$help_text" | sed -n "$start,$end p")"
+        fetch $i "$(prompt "$(echo "$text")")"
+    done
 }
 
 eval "$(argc --argc-eval "$0" "$@")"
