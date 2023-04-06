@@ -681,7 +681,7 @@ gc() {
 # @flag --overwrite-ignore
 # @flag --signoff
 # @flag --no-verify
-# @arg pathspecs*
+# @arg pathspecs*[`_choice_branch`]
 merge() {
     :;
 }
@@ -1763,7 +1763,7 @@ init() {
 # @option --negotiation-tip <revision>
 # @flag --show-forced-updates
 # @flag --set-upstream
-# @arg remote
+# @arg remote[`_choice_remote`]
 # @arg refspec[`_choice_remote_branch`]
 pull() {
     :;
@@ -1893,7 +1893,7 @@ instaweb() {
 # @flag -4 --ipv4
 # @flag -6 --ipv6
 # @arg remote![`_choice_remote`]
-# @arg refspec![`_choice_remote_branch`]
+# @arg refspec![`_choice_push`]
 push() {
     :;
 }
@@ -2069,7 +2069,7 @@ _choice_restore_file() {
     if [[ -n "$argc__staged" ]] || [[ -n "$argc__S" ]]; then
         _choice_staged_file
     else
-        _choice_unstaged_file
+        _choice_changed_file
     fi
 }
 
@@ -2126,6 +2126,16 @@ _choice_head() {
             echo $head
         fi
     done
+}
+
+_choice_push() {
+    if [[ -n "$argc_remote" ]]; then
+        if [[ "$argc_refspec" == *':'* ]]; then
+            _choice_remote_branch | sed 's/^/'"${argc_refspec%%:*}"':/'
+        else
+            _choice_ref
+        fi
+    fi
 }
 
 _choice_unique_remote_branch() {

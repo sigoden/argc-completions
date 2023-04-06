@@ -28,10 +28,11 @@
 /{ git range-diff/, /} git range-diff/ s/@arg base/@arg base[`_choice_branch`]/
 /{ git range-diff/, /} git range-diff/ s/@arg newbase/@arg newbase[`_choice_branch`]/
 /{ git push/, /} git push/ s/@arg remote!/@arg remote![`_choice_remote`]/
-/{ git push/, /} git push/ s/@arg refspec!/@arg refspec![`_choice_remote_branch`]/
-/{ git pull/, /} git pull/ s/@arg remote!/@arg remote![`_choice_remote`]/
+/{ git push/, /} git push/ s/@arg refspec!/@arg refspec![`_choice_push`]/
+/{ git pull/, /} git pull/ s/@arg remote/@arg remote[`_choice_remote`]/
 /{ git pull/, /} git pull/ s/@arg refspec/@arg refspec[`_choice_remote_branch`]/
 /{ git stash/, /} git stash/ s/@arg stash/@arg stash[`_choice_stash`]/
 /{ git remote/, /} git remote/ s/@arg name!/@arg name![`_choice_remote`]/
 /{ git remote/, /} git remote/ s/@arg old!/@arg old![`_choice_remote`]/
 /{ git remote/, /} git remote/ s/@arg new!/@arg new![`_choice_remote`]/
+/{ git merge/, /} git merge/ s/@arg pathspecs\*/@arg pathspecs\*[`_choice_branch`]/
