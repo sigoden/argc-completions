@@ -15,7 +15,7 @@ prompt() {
     if [[ -z "$argc_no_description" ]]; then
     cat <<-EOF
 Extract all subcommands, options and positional arguments in the help text and convert it into markdown table.
-Only take the first sentence when extracting the description.
+When extracting the description, take the first sentence, no more than 80 letters.
 Extract the possible values from the description, concatenate them with commas, and put them into choices value.
 In each column, type and body are required.
 If no ARGS group, extract arguments from usage.
@@ -30,6 +30,7 @@ OPTIONS/SECTIONS:
     -s --long <VALUE>    Desc, [possible values: a, b, c]
     -t --tag             Desc
     --level <severity>   Desc, Value: low|high|critical
+    --outdir <outdir>    Desc
     --otp <Yes|No>       Desc
 COMMANDS/SUBCOMMANDS:
     cmd, c
@@ -43,6 +44,7 @@ Footer description.
 | option   | -s  --long <VALUE> | a, b, c           | Desc        |
 | option   | -t  --tag          |                   | Desc        |
 | option   | --level <severity> | low,high,critical | Desc        |
+| option   | --outdir <outdir>  |                   | Desc        |
 | option   | --otp <Yes,NO >    |                   | Desc        |
 | command  | cmd  c             |                   | Desc        |
 ## Help Text I provides
@@ -66,6 +68,7 @@ OPTIONS/SECTIONS:
     -s --long <VALUE>    Desc, [possible values: a, b, c]
     -t --tag             Desc
     --level <severity>   Desc, Value: low|high|critical
+    --outdir <outdir>    Desc
     --otp <Yes|No>       Desc
 COMMANDS/SUBCOMMANDS:
     cmd, c
@@ -79,6 +82,7 @@ Footer description.
 | option   | -s  --long <VALUE> | a, b, c           |
 | option   | -t  --tag          |                   |
 | option   | --level <severity> | low,high,critical |
+| option   | --outdir <outdir>  |                   |
 | option   | --otp <Yes,NO >    |                   |
 | command  | cmd  c             |                   |
 ## Help Text I provides

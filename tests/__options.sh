@@ -43,5 +43,6 @@
 # @flag --http1.1
 # @option --filter <selector>
 # @option --regexp* <pattern>
+# @option --otp <Yes|No>
 
 eval "$(argc --argc-eval "$0" "$@")"
