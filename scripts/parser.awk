@@ -1,11 +1,9 @@
-#!/usr/bin/awk -f 
-
-# Parse csv table, output argc script.
-
 BEGIN {
     PAIRS[">"] = "<";
     PAIRS["]"] = "[";
     PAIRS[")"] = "(";
+    PAIRS_OPEN = "<[("
+    PAIRS_CLOSE = ">])"
     RE_SKIP_ARGUMENT = "^(flag|option|command|subcommand)"
     RE_SKIP_SBUCOMMAND =  "help|command|none|n\\/a"
     RE_REMOVE_NOTATION_PREFIX = "[=!]"
@@ -14,75 +12,42 @@ BEGIN {
     paramLineNum = 0
     paramLineWidth = 0
     paramLineMaxWidth = 38
+    DELIMITER = "#"
     split("", paramLines)
     commandLineNum = 0
     split("", commandLines)
-    numCols = 1
 }
 {
-    if (NR == 1) {
-        line=$0
-        numCols = count+=gsub(/\|/,"", line) - 1
-    }
-    firstIndex = index($0, "|")
-    part0 = substr($0, firstIndex + 1)
-    secondIndex = index(part0, "|")
-    part1 = substr(part0, secondIndex + 1)
+    index1 = index($0, DELIMITER)
+    part1 = substr($0, index1 + 1)
     split("", words1)
-    thirdIndex = splitWords(part1, words1)
-    part2 = substr(part1, thirdIndex + 1)
+    index2 = splitWords(part1, words1)
+    part2 = substr(part1, index2 + 1)
     if (length(words1) > 0) {
-        kind = ""
-        partKind = substr(part0, 1, secondIndex - 1)
-        if (match(partKind, /option|flag/) || match(part1, /^ *(-[^- ]|--[^- ]+)/)) {
-            kind = "option"
-        } else if (match(partKind, /argument/)) {
-            kind = "argument"
-        } else if (match(partKind, /command/)) {
-            kind = "command"
-        }
+        kind = substr($0, 1, index1 - 2)
         if (kind == "option") {
-            split("", words2)
-            forthIndex = extractChoices(part2, words2)
-            part3 = substr(part2, forthIndex + 1)
-            if (numCols > 3) {
-                extractDescription(part3)
-            }
-            parseOptions(words1, words2)
+            index3 = extractDesc(part2)
+            part3 = substr(part2, index3 + 1)
+            parseOptions(words1, trimSpaces(part3))
         } else if (kind == "argument") {
-            split("", words2)
-            forthIndex = extractChoices(part2, words2)
-            part3 = substr(part2, forthIndex + 1)
-            if (numCols > 3) {
-                extractDescription(part3)
-            }
-            parseArgument(words1, words2)
+            index3 = extractDesc(part2)
+            part3 = substr(part2, index3 + 1)
+            parseArgument(words1, trimSpaces(part3))
         } else if (kind == "command") {
-            split("", words2)
-            forthIndex = splitWords(part2, words2)
-            part3 = substr(part2, forthIndex + 1)
-            if (numCols > 3) {
-                extractDescription(part3)
-            }
+            index3 = extractDesc(part2)
             parseCommand(words1)
         }
     }
 }
 END {
-    if (numCols > 3) {
-        paramLineWidth = paramLineWidth + 2
-        for (i = 1; i <= paramLineNum; i++) {
-            body = paramLines[i, 1]
-            description = "  " paramLines[i, 2]
-            if (length(body) >= paramLineWidth) {
-                print body description
-            } else {
-                printf "%*-s%s\n", paramLineWidth, body, description
-            }
-        }
-    } else {
-        for (i = 1; i <= paramLineNum; i++) {
-            print paramLines[i, 1]
+    paramLineWidth = paramLineWidth + 2
+    for (i = 1; i <= paramLineNum; i++) {
+        body = paramLines[i, 1]
+        description = "  " paramLines[i, 2]
+        if (length(body) >= paramLineWidth) {
+            print body description
+        } else {
+            printf "%*-s%s\n", paramLineWidth, body, description
         }
     }
     for (i = 1; i <= commandLineNum; i++) {
@@ -92,11 +57,10 @@ END {
     }
 }
 
-function parseOptions(words1, words2) {
+function parseOptions(words1, choicesVal) {
     split("", shorts)
     split("", longs)
     split("", notations)
-    split("", choices)
     extra["multiple"] = 0
     notation = ""
     word = ""
@@ -136,10 +100,6 @@ function parseOptions(words1, words2) {
             addNotations(notation, notations, extra)
         }
     }
-    for (i in words2) {
-        addChoices(words2[i], choices)
-    }
-
     shortsLen = length(shorts)
     longsLen = length(longs)
 
@@ -148,10 +108,6 @@ function parseOptions(words1, words2) {
         modifierVal = "*"
     }
 
-    choicesVal = ""
-    if (length(choices) > 0) {
-        choicesVal = "[" join(choices, "|") "]"
-    }
     notationsVal = ""
     for (i in notations) {
         notationsVal = notationsVal " <" notations[i] ">"
@@ -182,7 +138,7 @@ function parseOptions(words1, words2) {
     }
 }
 
-function parseArgument(words1, words2) {
+function parseArgument(words1, choicesVal) {
     split("", choices)
     extra["multiple"] = 0
     extra["required"] = 0
@@ -197,9 +153,6 @@ function parseArgument(words1, words2) {
     if (length(name) == 0) {
         return
     }
-    for (i in words2) {
-        addChoices(words2[i], choices)
-    }
     modifierVal = ""
     if (extra["multiple"] == 1 && extra["required"] == 1) {
         modifierVal = "+"
@@ -207,10 +160,6 @@ function parseArgument(words1, words2) {
         modifierVal = "*"
     } else if (extra["multiple"] == 0 && extra["required"] == 1) {
         modifierVal = "!"
-    }
-    choicesVal = ""
-    if (length(choices) > 0) {
-        choicesVal = "[" join(choices, "|") "]"
     }
     notationVal = ""
     if (notation != name && length(notation) != length(name)) {
@@ -267,11 +216,11 @@ function addNotations(item, array, extra) {
     split("", pairs)
     for (i=1; i <= length(item); i++) {
         ch = chars[i]
-        if (index("<[(", ch) > 0) {
+        if (index(PAIRS_OPEN, ch) > 0) {
             balances = balances ch
             idx += 1
             balanceIndexes[idx] = i
-        } else if (index(">])", ch) > 0) {
+        } else if (index(PAIRS_CLOSE, ch) > 0) {
             if (substr(balances, length(balances), 1) == PAIRS[ch]) {
                 balances = substr(balances, 1, length(balances) - 1)
                 pairs[length(pairs) + 1] = balanceIndexes[idx] ":" i
@@ -326,20 +275,12 @@ function addNotations(item, array, extra) {
         }
     }
     if (length(item) > 0) {
+        item = trimSpaces(item)
+        if (match(item, /^<[^>]+>$/)) {
+            item = substr(item, 2, length(item) - 2)
+        }
         array[length(array) + 1] = item
     }
-}
-
-function addChoices(item, array) {
-    len = length(item)
-    first = substr(item, 1, 1) 
-    last = substr(item, len)
-    if (len > 2) {
-        if (first == "*" && last == "*") {
-            item = substr(item, 2, len - 2);
-        }
-    }
-    array[length(array) + 1] = item
 }
 
 function addParamLine(text) {
@@ -386,13 +327,13 @@ function extractName(input,     result, len, idx, end, last) {
     }
 }
 
-function extractDescription(input) {
-    idx = index(input, "|")
-    if (idx > 0) {
-        text = substr(input, 0, idx - 1)
-        gsub(/^[[:space:]]+|[[:space:]]+$/, "", text)
-        DESCRIPTION = text
+function extractDesc(input) {
+    idx = index(input, DELIMITER)
+    if (idx == 0) {
+        idx = length(input) + 1
     }
+    text = substr(input, 0, idx - 1)
+    DESCRIPTION = trimSpaces(text)
     return idx
 }
 
@@ -432,7 +373,7 @@ function splitWords(input, words) {
             } else {
                 word = word ch
             }
-        } else if (ch == "|") {
+        } else if (ch == DELIMITER && length(word) == 0) {
             if (length(balances) == 0) {
                 if (length(word) != 0) {
                     words[length(words)+1] = word;
@@ -442,21 +383,24 @@ function splitWords(input, words) {
             } else {
                 word = word ch
             }
-        } else if (index("<[(", ch) > 0) {
+        } else if (index(PAIRS_OPEN, ch) > 0) {
             balances = balances ch
             word = word ch
-        } else if (index(">])", ch) > 0) {
+        } else if (index(PAIRS_CLOSE, ch) > 0) {
             if (substr(balances, length(balances), 1) == PAIRS[ch]) {
                 balances = substr(balances, 1, length(balances) - 1)
-                word = word ch
-            } else {
-                word = word ch
             }
+            word = word ch
         } else if (ch == "\\") {
         } else {
             word = word ch
         }
     }
+    if (length(word) > 0) {
+        words[length(words)+1] = word;
+        word = ""
+    }
+    return length(input) + 1
 }
 
 function takeTailEllipsis(item, extra,    len, end, idx) {
@@ -496,4 +440,9 @@ function join(array, sep,  result, i) {
     for (i = 2; i <= length(array); i++)
         result = result sep array[i]
     return result
+}
+
+function trimSpaces(input) {
+    gsub(/^[[:space:]]+|[[:space:]]+$/,"",input)
+    return input
 }

@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @arg _url!                             
 # @option --abstract-unix-socket <path>  Connect via abstract Unix domain socket
 # @option --alt-svc <file name>          Enable alt-svc with this cache file
 # @flag --anyauth                        Pick any authentication method
@@ -26,7 +25,7 @@
 # @option --create-file-mode <mode>      File mode for created files
 # @flag --crlf                           Convert LF to CRLF in upload
 # @option --crlfile <file>               Use this CRL list
-# @option --curves <algorithm list>      (EC) TLS key exchange algorithm(s) to request
+# @option --curves <algorithm list>      TLS key exchange algorithm(s) to request
 # @option -d --data <data>               HTTP POST data
 # @option --data-ascii <data>            HTTP POST ASCII data
 # @option --data-binary <data>           HTTP POST binary data
@@ -67,7 +66,7 @@
 # @flag --ftp-pret                       Send PRET before PASV
 # @flag --ftp-skip-pasv-ip               Skip the IP address for PASV
 # @flag --ftp-ssl-ccc                    Send CCC after authenticating
-# @option --ftp-ssl-ccc-mode[active|passive]  Set CCC mode
+# @option --ftp-ssl-ccc-mode <active/passive>  Set CCC mode
 # @flag --ftp-ssl-control                Require SSL/TLS for FTP login, clear for transfer
 # @flag -G --get                         Put the post data in the URL and use GET
 # @flag -g --globoff                     Disable URL sequences and ranges using {} and []
@@ -100,7 +99,7 @@
 # @option --limit-rate <speed>           Limit transfer speed to RATE
 # @flag -l --list-only                   List only mode
 # @option --local-port <num/range>       Force use of RANGE for local port numbers
-# @flag --location                       Follow redirects
+# @flag -L --location                    Follow redirects
 # @flag --location-trusted               Like --location, and send auth to other hosts
 # @option --login-options <options>      Server login options
 # @option --mail-auth <address>          Originator address of the original email
@@ -134,7 +133,7 @@
 # @option --parallel-max <num>           Maximum concurrency for parallel transfers
 # @option --pass <phrase>                Pass phrase for the private key
 # @flag --path-as-is                     Do not squash .. sequences in URL path
-# @option --pinnedpubkey <hashes> <FILE> <HASHES>  Public key to verify peer against
+# @option --pinnedpubkey <hashes>        FILE/HASHES Public key to verify peer against
 # @flag --post301                        Do not switch to GET after following a 301
 # @flag --post302                        Do not switch to GET after following a 302
 # @flag --post303                        Do not switch to GET after following a 303
@@ -160,14 +159,14 @@
 # @flag --proxy-negotiate                Use HTTP Negotiate (SPNEGO) authentication on the proxy
 # @flag --proxy-ntlm                     Use NTLM authentication on the proxy
 # @option --proxy-pass <phrase>          Pass phrase for the private key for HTTPS proxy
-# @option --proxy-pinnedpubkey <hashes> <FILE> <HASHES>  public key to verify proxy with
+# @option --proxy-pinnedpubkey <hashes>  FILE/HASHES public key to verify proxy with
 # @option --proxy-service-name <name>    SPNEGO proxy service name
 # @flag --proxy-ssl-allow-beast          Allow security flaw for interop for HTTPS proxy
 # @flag --proxy-ssl-auto-client-cert     Use auto client certificate for proxy (Schannel)
 # @option --proxy-tls13-ciphers <ciphersuite list>  TLS 1.3 proxy cipher suites
 # @option --proxy-tlsauthtype <type>     TLS authentication type for HTTPS proxy
-# @option --proxy-tlsuser <name>         TLS username for HTTPS proxy
 # @option --proxy-tlspassword <string>   TLS password for HTTPS proxy
+# @option --proxy-tlsuser <name>         TLS username for HTTPS proxy
 # @flag --proxy-tlsv1                    Use TLSv1 for HTTPS proxy
 # @option -U --proxy-user <user:password>  Proxy user and password
 # @option --proxy1.0 <host[:port]>       Use HTTP/1.0 proxy on given port
@@ -246,5 +245,13 @@
 # @flag -V --version                     Show version number and quit
 # @option -w --write-out <format>        Use output FORMAT after completion
 # @flag --xattr                          Store metadata in extended file attributes
+# @arg _url!                             
+
+_patch_help() {
+    curl --help all | sed \
+        -e '/--curves/ c     --curves <algorithm list> TLS key exchange algorithm(s) to request' \
+        -e '/--help/ c -h, --help               Get help for commands' \
+        -e '/Usage:/ cUsage: curl [options...] <_url>'
+}
 
 eval "$(argc --argc-eval "$0" "$@")"

@@ -1,6 +1,0 @@
-| type     | body                                    | choices      |
-| -------- | --------------------------------------- | ------------ |
-| command  |  bloat                                  |              |
-| command  |  build, b                               |              |
-| command  | generate-lock-entry / generateLockEntry |              |
-| command  | t, test                                 |              |

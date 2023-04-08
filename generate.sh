@@ -2,14 +2,7 @@
 
 # @describe Automaticlly generate completion script for commands
 
-# @option --spec=generic            Choose a spec
-# @option --cmd-help='--help'       How to help text
-# @option --subcmd-help='--help'    How to help text of subcommand
-# @option --level=1                 Additonal subcommand level
-# @option --cache-dir               Specify cache dir
-# @option --output-dir              Specify output dir
-# @flag --no-description            Not generate description
-# @flag --no-cache-csv              Not use cache csv
+# @option -o --output <file>        Specify output file. If omitted, output to stdout
 # @arg cmd!                         Specify the command, must be able to run locally
 # @arg subcmd                       Optional sub command
 
@@ -17,19 +10,37 @@ ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 command_names=()
 
 handle_lines() {
-    store_option_names=()
-    local csv="$(fetch_csv $@)"
-    echo "$csv" | grep -i -E '(^ *\| *(\w+)+ *\| *-.*\|)|(^ *\| *argument *\|)' | awk -f "$parser_script" >> "$output_file"  
-    if [[ $# -gt 1 ]] && [[ ${#args[@]} -eq $# ]]; then
-        echo "# SUBCMD-INJECT" >> "$output_file"
+    local output table nest_fn_prefix command_output command_lines
+    table="$(get_table $@)"
+    output="$(echo "$table" | grep -v 'command #' | awk -f "$scripts_dir/parser.awk")"
+    if [[ -n "$output" ]]; then
+        output="$output"$'\n'
     fi
-    if [[ $# -lt $(( ${#args[@]} + $argc_level )) ]]; then
+    nest_fn_prefix="$(nest_cmd_prefix "${@:2}")"
+    if [[ $# -gt 1 ]]; then
+        output="$output$(print_cmd_fn "$nest_fn_prefix")"
+        local command_src="$src_dir/$(slash_concat_args $@).sh"
+        if [[ -f "$command_src" ]]; then
+            command_output=$'\n'"$(cat "$command_src" | sed 's/^\([^_][A-Za-z0-9_-]\+\)()/'"$nest_fn_prefix"'::\1()/')"
+        fi
+    fi
+    
+    if [[ -z "$command_output" ]]; then
         while read -r item; do
             if [[ -n "$item" ]]; then
-                handle_subcommand "$item" $@ >> "$output_file"
+                command_lines="$(handle_subcommand "$item" $@)"
+                if [[ -z "$command_output" ]]; then
+                    command_output="$command_lines"
+                else
+                    command_output="$command_output"$'\n'"$command_lines"
+                fi
             fi
-        done < <(echo "$csv" | grep -iE ' *\| *(command|subcommand) *\|' | awk -f "$parser_script")
+        done < <(echo "$table" | grep '^command #' | awk -f "$scripts_dir/parser.awk")
     fi
+    if [[ -n "$command_output" ]]; then
+        output="$output"$'\n'"$command_output"
+    fi
+    printf "%s\n" "$output"
 }
 
 handle_subcommand() {
@@ -42,7 +53,7 @@ handle_subcommand() {
     else 
         return
     fi
-    local cmd_args=( "${args[@]}" "$cmd_name" )
+    local cmd_args=( "${@:2}" "$cmd_name" )
     local cmd_level=${#cmd_args[@]}
     echo
     echo "# $(repeat_string '{' $cmd_level) ${cmd_args[@]}"
@@ -54,84 +65,49 @@ handle_subcommand() {
     if [[ -n "$cmd_aliases" ]]; then
         echo "# @alias $cmd_aliases"
     fi
-    local subcmd_file="$subcmds_dir/$(slash_concat_args ${cmd_args[@]}).sh"
-    if [[ -f "$subcmd_file" ]]; then
-        cat "$subcmd_file" \
-            | sed 's/^\([^_][A-Za-z0-9_-]\+\)()/'"$cmd_name"'::\1()/' \
-            | sed -n '/eval.*(argc /{n;x;d;};x;1d;p;${x;p;}' \
-            | sed 's/# SUBCMD-INJECT/'"$cmd_name"'() {\n    :;\n}/'
-    else
-        if [[ "${cmd_args[0]}" != "__"* ]]; then
-            handle_lines ${cmd_args[@]}
-        fi
-        print_cmd_fn $cmd_name
+    if [[ "${cmd_args[0]}" != "__"* ]]; then
+        handle_lines ${cmd_args[@]}
     fi
     echo "# $(repeat_string '}' $cmd_level) ${cmd_args[@]}"
     echo 
 }
 
-
-fetch_csv() {
-    local path="$cache_dir/$(slash_concat_args $@).csv" 
-    if [[ -z "$argc_no_cache_csv" ]] && [[ -f "$path" ]]; then
-        cat "$path" | awk -f "$format_script" | sed -n '3,$ p' 
+get_table() {
+    local path help_txt table
+    if [[ $(type -t _patch_help) = "function" ]]; then
+        help_txt="$(_patch_help $@)"
     else
-        local text
-        if [[ $# -eq 1 ]]; then
-            text="$($@ "$argc_cmd_help" 2>&1)"
-        else
-            if [[ "$argc_subcmd_help" == '-'* ]]; then
-                text="$($@ "$argc_subcmd_help" 2>&1)"
-            else
-                text="$("${@:1:$#-1}" "$argc_subcmd_help" "${!#}" 2>&1)"
-            fi
-        fi
-        local csv
-        local gpt_opts
-        if [[ "$argc_no_description" ]]; then
-            gpt_opts="$gpt_opts --no-description"
-        fi
-        csv="$(echo "$text" | "$scripts_dir/gpt.sh" $gpt_opts | awk -f "$format_script")"
-        mkdir -p "$(dirname "$path")"
-        echo "$csv" > "$path"
-        echo "$csv" | sed -n '3,$ p'
+        help_txt="$($@ --help 2>&1)"
     fi
+    table="$(echo "$help_txt" | awk -f "$scripts_dir/lexer.awk")"
+    if [[ $(type -t _patch_table) = "function" ]]; then
+        table="$(echo "$table" | _patch_table $@)"
+    fi
+    echo "$table"
 }
 
-merge_src() {
-    local name="$(slash_concat_args $@)"
-    local sed_file="$src_dir/$name.sed"
-    if [[ ! -f "$sed_file" ]] && [[ $# -eq 1 ]]; then
-        sed_file="$src_dir/$1/$1.sed"
-    fi
-    if [[ -f "$sed_file" ]]; then
-        sed -i -f "$sed_file" "$output_file"
-    fi
-    local src_file="$src_dir/$name.sh"
-    if [[ ! -f "$src_file" ]] && [[ $# -eq 1 ]]; then
+embed_script() {
+    local src_file="$src_dir/$(slash_concat_args $@).sh"
+    if [[ ! -f "$src_file" ]]; then
         src_file="$src_dir/$1/$1.sh"
     fi
     if [[ -f "$src_file" ]]; then
-        echo >> "$output_file"
-        cat "$src_file" >> "$output_file"
-        echo >> "$output_file"
-        inline_util_fns
+        echo 
+        echo 
+        cat "$src_file" | awk -f "$scripts_dir/remove-patch-fn.awk"
+        echo 
     fi
 }
 
-inline_util_fns() {
-    local ng=0
-    util_fns=( $(grep -o '_argc_util_[[:alnum:]_]*' "$output_file" | uniq | tr '\n' ' ') )
+embed_utils() {
+    util_fns=( $( cat | grep -o '_argc_util_[[:alnum:]_]*' | uniq | tr '\n' ' ') )
     for util_fn_name  in ${util_fns[@]}; do
         if [[ ! " ${global_utils_fns[*]} " =~ " $util_fn_name " ]]; then
-            load_util_fn $util_fn_name >> "$output_file"
             global_utils_fns+=( "$util_fn_name" )
-            ng=1
+            load_util_fn "$util_fn_name"
+            load_util_fn "$util_fn_name" | embed_utils
         fi
     done
-    if [[ $ng -ne 0 ]]; then
-        inline_util_fns
-    fi
 }
 
 load_util_fn() {
@@ -148,36 +124,36 @@ load_util_fn() {
 }
 
 validate_script() {
-    output=$(bash "$output_file" --help 2>&1)
-    if ! grep -q "USAGE:" <<<"$output"; then
-        echo "$output"
+    if [[ -f "$output_file" ]]; then
+        output=$(bash "$output_file" --help 2>&1)
+        if ! grep -q "USAGE:" <<<"$output"; then
+            echo "$output"
+        fi
     fi
 }
 
 set_globals() {
     args=( $argc_cmd $argc_subcmd )
-    cache_dir="${argc_cache_dir:-"$ROOT_DIR/cache"}"
-    output_dir="${argc_output_dir:-"$ROOT_DIR/completions"}"
-    subcmds_dir="$ROOT_DIR/subcmds"
     scripts_dir="$ROOT_DIR/scripts"
-    parser_script="$scripts_dir/parser.awk"
-    format_script="$scripts_dir/format.awk"
     src_dir="$ROOT_DIR/src"
     utils_dir="$ROOT_DIR/utils"
     command_names+=( "$argc_cmd" )
-    [[ ! -d "$cache_dir" ]] && mkdir -p "$cache_dir"
-    [[ ! -d "$output_dir" ]] && mkdir -p "$output_dir"
-    [[ ! -d "$subcmds_dir" ]] && mkdir -p "$subcmds_dir"
+
+    src_file="$src_dir/$argc_cmd.sh"
+    if [[ ! -f "$src_file" ]]; then
+        src_file="$src_dir/$argc_cmd/$argc_cmd.sh"
+    fi
+
+    if [[ -f "$argc_output" ]]; then
+        output_file="$argc_output"
+    elif [[ -d "$argc_output" ]]; then
+        output_file="$argc_output/$argc_cmd.sh"
+    fi
 
     if [[ "$argc_cmd" == '__'* ]]; then
-        cache_dir="$ROOT_DIR/tests"
-        output_dir="$ROOT_DIR/tests"
+        src_dir="$ROOT_DIR/tests/fixtures"
     fi
-    if [[ -n "$argc_subcmd" ]]; then
-        output_dir="$subcmds_dir"
-    fi
-    output_file="$output_dir/$(slash_concat_args ${args[@]}).sh"
-    mkdir -p "$(dirname "$output_file")"
+
 }
 
 dash_concat_args() {
@@ -193,15 +169,14 @@ repeat_string() {
 }
 
 print_head() {
-    if [[ -z "$argc_subcmd" ]]; then
-        printf "%s\n" "#!/usr/bin/env bash"
-        printf "%s\n" "# Automatic generated, DON'T MODIFY IT."
-        printf "\n"
-    fi
+    cat <<-'EOF'
+#!/usr/bin/env bash
+# Automatic generated, DON'T MODIFY IT.
+EOF
 }
 
 print_tail() {
-    printf "\n%s" "eval \"\$(argc --argc-eval \"\$0\" \"\$@\")\""
+    printf "\n\n%s" "eval \"\$(argc --argc-eval \"\$0\" \"\$@\")\""
 }
 
 print_cmd_fn() {
@@ -210,11 +185,29 @@ print_cmd_fn() {
     echo "}"
 }
 
+nest_cmd_prefix() {
+    echo "$@" | sed 's/ /::/g'
+}
+
+
 eval "$(argc --argc-eval "$0" "$@")"
 
 set_globals
-print_head > "$output_file"
-handle_lines ${args[@]}
-merge_src ${args[@]}
-print_tail >> "$output_file"
-validate_script
+
+if [[ -f "$src_file" ]]; then
+    source "$src_file"
+fi
+
+output_content="$(print_head)"
+output_content="$output_content"$'\n'$'\n'"$(handle_lines ${args[@]})"
+if [[ $(type -t _patch_script) = "function" ]]; then
+    output_content="$(echo "$output_content" | _patch_script)"
+fi
+output_content="$output_content$(embed_script ${args[@]})"
+output_content="$output_content"$'\n'"$(echo "$output_content" | embed_utils)"
+output_content="$output_content$(print_tail)"
+if [[ -n "$output_file" ]]; then
+    printf "%s" "$output_content" > "$output_file"
+else
+    printf "%s\n" "$output_content"
+fi

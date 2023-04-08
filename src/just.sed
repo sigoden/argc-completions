@@ -1,1 +1,0 @@
-s/@arg RECIPE/@arg RECIPE[`_choice_recipe`]/

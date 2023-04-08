@@ -1,1 +1,0 @@
-s/@arg inputs/@arg dirs/

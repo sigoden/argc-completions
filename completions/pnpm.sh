@@ -1,591 +1,600 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @flag -r --recursive
-# @option -C --dir <dir>
-# @flag -w --workspace-root
-# @option --filter <selector>
-# @option --filter-prod <pattern>
-# @option --test-pattern <pattern>
-# @arg cmd[`_choice_cmd`]
+# @flag -r --recursive                Run the command for each project in the workspace.
+# @option -C --dir <path>             Run as if pnpm was started in <path> instead of the current working directory.
+# @flag -w --workspace-root           Run as if pnpm was started in the root of the workspace instead of the current working directory.
+# @option --filter[`_choice_workspace`] <pattern>          Includes all direct and indirect dependents of the matched packages.
+# @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
+# @option --test-pattern <pattern>    Defines files related to tests.
+# @option --changed-files-ignore-pattern <pattern>  Allows to ignore changed files by glob patterns when filtering for changed projects since the specified commit/branch.
+# @arg cmd[`_choice_cmd`]             
+
 
 # {{ pnpm add
-# @cmd
-# @arg name!
-# @flag --color
-# @flag --no-color
-# @flag -E
-# @flag --save-exact
-# @flag --no-save-exact
-# @flag --save-workspace-protocol
-# @flag --no-save-workspace-protocol
-# @flag --aggregate-output
-# @option -C --dir <dir>
-# @flag -g --global
-# @flag --global-dir
-# @flag -h --help
-# @flag --ignore-scripts
-# @option --loglevel[debug|info|warn|error|--silent] <level>
-# @flag --offline
-# @flag --prefer-offline
-# @flag -r --recursive
-# @flag -D --save-dev
-# @flag -O --save-optional
-# @flag --save-peer
-# @flag -P --save-prod
-# @option --store-dir <dir>
-# @flag --stream
-# @flag --use-stderr
-# @option --virtual-store-dir <dir>
-# @flag --workspace
-# @flag -w --workspace-root
-# @option --changed-files-ignore-pattern <pattern>
-# @option --filter*[`_choice_workspace`] <selector>
-# @option --filter-prod <pattern>
-# @option --test-pattern <pattern>
+# @cmd Installs a package and any packages that it depends on.
+# @flag --color                         Controls colors in the output.
+# @flag --no-color                      Controls colors in the output.
+# @flag -E                              Install exact version
+# @flag --save-exact                    Install exact version
+# @flag --no-save-exact                 Install exact version
+# @flag --save-workspace-protocol       Save packages from the workspace with a "workspace:" protocol. True by default
+# @flag --no-save-workspace-protocol    Save packages from the workspace with a "workspace:" protocol. True by default
+# @flag --aggregate-output              Aggregate output from child processes that are run in parallel, and only print output when child process is finished.
+# @option -C --dir <dir>                Change to directory <dir> (default: /home/sigo/w/argc-completions)
+# @flag -g --global                     Install as a global package
+# @flag --global-dir                    Specify a custom directory to store global packages
+# @flag -h --help                       Output usage information
+# @flag --ignore-scripts                Don't run lifecycle scripts
+# @option --loglevel[debug|info|warn|error|silent] <level>  What level of logs to report.
+# @flag --offline                       Trigger an error if any required dependencies are not available in local store
+# @flag --prefer-offline                Skip staleness checks for cached data, but request missing data from the server
+# @flag -r --recursive                  Run installation recursively in every package found in subdirectories or in every workspace package, when executed inside a workspace.
+# @flag -D --save-dev                   Save package to your `devDependencies`
+# @flag -O --save-optional              Save package to your `optionalDependencies`
+# @flag --save-peer                     Save package to your `peerDependencies` and `devDependencies`
+# @flag -P --save-prod                  Save package to your `dependencies`. The default behavior
+# @option --store-dir <dir>             The directory in which all the packages are saved on the disk
+# @flag --stream                        Stream output from child processes immediately, prefixed with the originating package directory.
+# @flag --use-stderr                    Divert all output to stderr
+# @option --virtual-store-dir <dir>     The directory with links to the store (default is node_modules/.pnpm).
+# @flag --workspace                     Only adds the new dependency if it is found in the workspace
+# @flag -w --workspace-root             Run the command on the root workspace project
+# @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
+# @option --filter[`_choice_workspace`] <pattern>            Includes all direct and indirect dependents of the matched packages.
+# @option --filter-prod <pattern>       Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
+# @option --test-pattern <pattern>      Defines files related to tests.
+# @arg name!                            
 add() {
     :;
 }
 # }} pnpm add
 
-
 # {{ pnpm import
-# @cmd
+# @cmd Generates a pnpm-lock.yaml from an npm package-lock.json (or npm-shrinkwrap.json) file
+
 import() {
     :;
 }
 # }} pnpm import
 
-
 # {{ pnpm install
-# @cmd
+# @cmd Install all dependencies for a project
 # @alias i
-# @flag --color
-# @flag --no-color
-# @flag --frozen-lockfile
-# @flag --no-frozen-lockfile
-# @flag --verify-store-integrity
-# @flag --no-verify-store-integrity
-# @flag --aggregate-output
-# @option --child-concurrency <number>
-# @flag -D --dev
-# @option -C --dir <dir>
-# @flag --fix-lockfile
-# @flag --force
-# @flag --global-dir
-# @flag -h --help
-# @option --hoist-pattern <pattern>
-# @flag --ignore-pnpmfile
-# @flag --ignore-scripts
-# @option --lockfile-dir <dir>
-# @flag --lockfile-only
-# @option --loglevel[debug|info|warn|error|silent] <level>
-# @flag --merge-git-branch-lockfiles
-# @option --modules-dir <dir>
-# @option --network-concurrency <number>
-# @flag --no-hoist
-# @flag --no-lockfile
-# @flag --no-optional
-# @flag --offline
-# @option --package-import-method[auto|clone|copy|hardlink] <kind>
-# @flag --prefer-frozen-lockfile
-# @flag --prefer-offline
-# @flag -P --prod
-# @option --public-hoist-pattern <pattern>
-# @flag -r --recursive
-# @flag --shamefully-hoist
-# @flag --side-effects-cache
-# @flag --side-effects-cache-readonly
-# @option --store-dir <dir>
-# @flag --stream
-# @flag --strict-peer-dependencies
-# @flag --use-running-store-server
-# @flag --use-stderr
-# @flag --use-store-server
-# @option --virtual-store-dir <dir>
-# @flag -w --workspace-root
-# @option --reporter[append-only|default|ndjson]
-# @flag -s --silent
-# @option --changed-files-ignore-pattern <pattern>
-# @option --filter*[`_choice_workspace`] <selector>
-# @option --filter-prod <pattern>
-# @option --test-pattern <pattern>
+# @flag --color                          Controls colors in the output.
+# @flag --no-color                       Controls colors in the output.
+# @flag --frozen-lockfile                Don't generate a lockfile and fail if an update is needed.
+# @flag --no-frozen-lockfile             Don't generate a lockfile and fail if an update is needed.
+# @flag --verify-store-integrity         If false, doesn't check whether packages in the store were mutated
+# @flag --no-verify-store-integrity      If false, doesn't check whether packages in the store were mutated
+# @flag --aggregate-output               Aggregate output from child processes that are run in parallel, and only print output when child process is finished.
+# @option --child-concurrency <number>   Controls the number of child processes run parallelly to build node modules
+# @flag -D --dev                         Only `devDependencies` are installed regardless of the `NODE_ENV`
+# @option -C --dir <dir>                 Change to directory <dir> (default: /home/sigo/w/argc-completions)
+# @flag --fix-lockfile                   Fix broken lockfile entries automatically
+# @flag --force                          Force reinstall dependencies: refetch packages modified in store, recreate a lockfile and/or modules directory created by a non-compatible version of pnpm.
+# @flag --global-dir                     Specify a custom directory to store global packages
+# @flag -h --help                        Output usage information
+# @option --hoist-pattern <pattern>      Hoist all dependencies matching the pattern to `node_modules/.pnpm/node_modules`.
+# @flag --ignore-pnpmfile                Disable pnpm hooks defined in .pnpmfile.cjs
+# @flag --ignore-scripts                 Don't run lifecycle scripts
+# @option --lockfile-dir <dir>           The directory in which the pnpm-lock.yaml of the package will be created.
+# @flag --lockfile-only                  Dependencies are not downloaded. Only `pnpm-lock.yaml` is updated
+# @option --loglevel[debug|info|warn|error|silent] <level>  What level of logs to report.
+# @flag --merge-git-branch-lockfiles     Merge lockfiles were generated on git branch
+# @option --modules-dir <dir>            The directory in which dependencies will be installed (instead of node_modules)
+# @option --network-concurrency <number>  Maximum number of concurrent network requests
+# @flag --no-hoist                       Dependencies inside the modules directory will have access only to their listed dependencies
+# @flag --no-lockfile                    Don't read or generate a `pnpm-lock.yaml` file
+# @flag --no-optional                    `optionalDependencies` are not installed
+# @flag --offline                        Trigger an error if any required dependencies are not available in local store
+# @option --package-import-method[auto|clone|copy|hardlink] <method>  Import package from
+# @flag --prefer-frozen-lockfile         If the available `pnpm-lock.yaml` satisfies the `package.json` then perform a headless installation
+# @flag --prefer-offline                 Skip staleness checks for cached data, but request missing data from the server
+# @flag -P --prod                        Packages in `devDependencies` won't be installed
+# @option --public-hoist-pattern <pattern>  Hoist all dependencies matching the pattern to the root of the modules directory
+# @flag -r --recursive                   Run installation recursively in every package found in subdirectories.
+# @flag --shamefully-hoist               All the subdeps will be hoisted into the root node_modules.
+# @flag --side-effects-cache             Use or cache the results of (pre/post)install hooks
+# @flag --side-effects-cache-readonly    Only use the side effects cache if present, do not create it for new packages
+# @option --store-dir <dir>              The directory in which all the packages are saved on the disk
+# @flag --stream                         Stream output from child processes immediately, prefixed with the originating package directory.
+# @flag --strict-peer-dependencies       Fail on missing or invalid peer dependencies
+# @flag --use-running-store-server       Only allows installation with a store server.
+# @flag --use-stderr                     Divert all output to stderr
+# @flag --use-store-server               Starts a store server in the background.
+# @option --virtual-store-dir <dir>      The directory with links to the store (default is node_modules/.pnpm).
+# @flag -w --workspace-root              Run the command on the root workspace project
+# @option --reporter[append-only|default|ndjson|silent]  Secific the reporter
+# @flag -s --silent                      No output is logged to the console, except fatal errors
+# @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
+# @option --filter[`_choice_workspace`] <pattern>             Includes all direct and indirect dependents of the matched packages.
+# @option --filter-prod <pattern>        Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
+# @option --test-pattern <pattern>       Defines files related to tests.
 install() {
     :;
 }
 # }} pnpm install
 
-
 # {{ pnpm install-test
-# @cmd
+# @cmd Runs a pnpm install followed immediately by a pnpm test
 # @alias it
+# @arg install-test    
 install-test() {
     :;
 }
 # }} pnpm install-test
 
-
 # {{ pnpm link
-# @cmd
+# @cmd Connect the local project to another one
 # @alias ln
-# @arg pkg!
-# @flag --color
-# @flag --no-color
-# @flag --aggregate-output
-# @option -C --dir <dir>
-# @flag -g --global
-# @flag -h --help
-# @option --loglevel[debug|info|warn|error|silent] <level>
-# @flag --stream
-# @flag --use-stderr
-# @flag -w --workspace-root
+# @flag --color                Controls colors in the output.
+# @flag --no-color             Controls colors in the output.
+# @flag --aggregate-output     Aggregate output from child processes that are run in parallel, and only print output when child process is finished.
+# @option -C --dir <_dir>      Change to directory <dir> (default: /home/sigo/w/argc-completions)
+# @flag -g --global            Link package to/from global node_modules
+# @flag -h --help              Output usage information
+# @option --loglevel[debug|info|warn|error|silent] <level>  What level of logs to report.
+# @flag --stream               Stream output from child processes immediately, prefixed with the originating package directory.
+# @flag --use-stderr           Divert all output to stderr
+# @flag -w --workspace-root    Run the command on the root workspace project
+# @arg _dir!                   
 link() {
     :;
 }
 # }} pnpm link
 
-
 # {{ pnpm prune
-# @cmd
-# @flag --color
-# @flag --no-color
-# @flag --aggregate-output
-# @option -C --dir <dir>
-# @flag -h --help
-# @option --loglevel[debug|info|warn|error|silent] <level>
-# @flag --no-optional
-# @flag --prod
-# @flag --stream
-# @flag --use-stderr
-# @flag -w --workspace-root
+# @cmd Removes extraneous packages
+# @flag --color                Controls colors in the output.
+# @flag --no-color             Controls colors in the output.
+# @flag --aggregate-output     Aggregate output from child processes that are run in parallel, and only print output when child process is finished.
+# @option -C --dir <dir>       Change to directory <dir> (default: /home/sigo/w/argc-completions)
+# @flag -h --help              Output usage information
+# @option --loglevel[debug|info|warn|error|silent] <level>  What level of logs to report.
+# @flag --no-optional          Remove the packages specified in `optionalDependencies`
+# @flag --prod                 Remove the packages specified in `devDependencies`
+# @flag --stream               Stream output from child processes immediately, prefixed with the originating package directory.
+# @flag --use-stderr           Divert all output to stderr
+# @flag -w --workspace-root    Run the command on the root workspace project
 prune() {
     :;
 }
 # }} pnpm prune
 
-
 # {{ pnpm rebuild
-# @cmd
+# @cmd Rebuild a package
 # @alias rb
-# @arg pkg*
-# @flag --color
-# @flag --no-color
-# @flag --aggregate-output
-# @option -C --dir <dir>
-# @flag -h --help
-# @option --loglevel[debug|info|warn|error|silent] <level>
-# @flag --pending
-# @flag -r --recursive
-# @option --store-dir <dir>
-# @flag --stream
-# @flag --use-stderr
-# @flag -w --workspace-root
-# @option --changed-files-ignore-pattern <pattern>
-# @option --filter*[`_choice_workspace`] <selector>
-# @option --filter-prod <pattern>
-# @option --test-pattern <pattern>
+# @flag --color                       Controls colors in the output.
+# @flag --no-color                    Controls colors in the output.
+# @flag --aggregate-output            Aggregate output from child processes that are run in parallel, and only print output when child process is finished.
+# @option -C --dir <dir>              Change to directory <dir> (default: /home/sigo/w/argc-completions)
+# @flag -h --help                     Output usage information
+# @option --loglevel[debug|info|warn|error|silent] <level>  What level of logs to report.
+# @flag --pending                     Rebuild packages that were not build during installation.
+# @flag -r --recursive                Rebuild every package found in subdirectories or every workspace package, when executed inside a workspace.
+# @option --store-dir <dir>           The directory in which all the packages are saved on the disk
+# @flag --stream                      Stream output from child processes immediately, prefixed with the originating package directory.
+# @flag --use-stderr                  Divert all output to stderr
+# @flag -w --workspace-root           Run the command on the root workspace project
+# @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
+# @option --filter[`_choice_workspace`] <pattern>          Includes all direct and indirect dependents of the matched packages.
+# @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
+# @option --test-pattern <pattern>    Defines files related to tests.
+# @arg pkg*                           
 rebuild() {
     :;
 }
 # }} pnpm rebuild
 
-
 # {{ pnpm remove
-# @cmd
+# @cmd Removes packages from node_modules and from the project's package.json
 # @alias rm
-# @arg pkgs+[`_choice_dependency`]
-# @flag --color
-# @flag --no-color
-# @flag --aggregate-output
-# @option -C --dir <dir>
-# @flag --global-dir
-# @flag -h --help
-# @option --loglevel[debug|info|warn|error|silent] <level>
-# @flag -r --recursive
-# @flag -D --save-dev
-# @flag -O --save-optional
-# @flag -P --save-prod
-# @flag --stream
-# @flag --use-stderr
-# @flag -w --workspace-root
-# @option --changed-files-ignore-pattern <pattern>
-# @option --filter*[`_choice_workspace`] <selector>
-# @option --filter-prod <pattern>
-# @option --test-pattern <pattern>
+# @flag --color                       Controls colors in the output.
+# @flag --no-color                    Controls colors in the output.
+# @flag --aggregate-output            Aggregate output from child processes that are run in parallel, and only print output when child process is finished.
+# @option -C --dir <dir>              Change to directory <dir> (default: /home/sigo/w/argc-completions)
+# @flag --global-dir                  Specify a custom directory to store global packages
+# @flag -h --help                     Output usage information
+# @option --loglevel[debug|info|warn|error|silent] <level>  What level of logs to report.
+# @flag -r --recursive                Remove from every package found in subdirectories or from every workspace package, when executed inside a workspace.
+# @flag -D --save-dev                 Remove the dependency only from "devDependencies"
+# @flag -O --save-optional            Remove the dependency only from "optionalDependencies"
+# @flag -P --save-prod                Remove the dependency only from "dependencies"
+# @flag --stream                      Stream output from child processes immediately, prefixed with the originating package directory.
+# @flag --use-stderr                  Divert all output to stderr
+# @flag -w --workspace-root           Run the command on the root workspace project
+# @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
+# @option --filter[`_choice_workspace`] <pattern>          Includes all direct and indirect dependents of the matched packages.
+# @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
+# @option --test-pattern <pattern>    Defines files related to tests.
+# @arg pkg-version*[`_choice_dependency`] <<pkg>[@<version>]>  
 remove() {
     :;
 }
 # }} pnpm remove
 
-
 # {{ pnpm unlink
-# @cmd
-# @flag --color
-# @flag --no-color
-# @flag --aggregate-output
-# @option -C --dir <dir>
-# @flag -h --help
-# @option --loglevel[debug|info|warn|error|silent] <level>
-# @flag -r --recursive
-# @flag --stream
-# @flag --use-stderr
-# @flag -w --workspace-root
-# @arg pkg+
+# @cmd Unlinks a package.
+# @flag --color                Controls colors in the output.
+# @flag --no-color             Controls colors in the output.
+# @flag --aggregate-output     Aggregate output from child processes that are run in parallel, and only print output when child process is finished.
+# @option -C --dir <dir>       Change to directory <dir> (default: /home/sigo/w/argc-completions)
+# @flag -h --help              Output usage information
+# @option --loglevel[debug|info|warn|error|silent] <level>  What level of logs to report.
+# @flag -r --recursive         Unlink in every package found in subdirectories or in every workspace package, when executed inside a workspace.
+# @flag --stream               Stream output from child processes immediately, prefixed with the originating package directory.
+# @flag --use-stderr           Divert all output to stderr
+# @flag -w --workspace-root    Run the command on the root workspace project
+# @arg in-package-dir          
 unlink() {
     :;
 }
 # }} pnpm unlink
 
-
 # {{ pnpm update
-# @cmd
+# @cmd Updates packages to their latest version based on the specified range
 # @alias up
-# @arg pkgs+[`_choice_dependency`]
-# @flag --color
-# @flag --no-color
-# @flag --aggregate-output
-# @option --depth <number>
-# @flag -D --dev
-# @option -C --dir <dir>
-# @flag -g --global
-# @flag --global-dir
-# @flag -h --help
-# @flag -i --interactive
-# @flag -L --latest
-# @option --loglevel[debug|info|warn|error|silent] <level>
-# @flag --no-optional
-# @flag -P --prod
-# @flag -r --recursive
-# @flag --stream
-# @flag --use-stderr
-# @flag --workspace
-# @flag -w --workspace-root
-# @option --changed-files-ignore-pattern <pattern>
-# @option --filter*[`_choice_workspace`] <selector>
-# @option --filter-prod <pattern>
-# @option --test-pattern <pattern>
+# @flag --color                       Controls colors in the output.
+# @flag --no-color                    Controls colors in the output.
+# @flag --aggregate-output            Aggregate output from child processes that are run in parallel, and only print output when child process is finished.
+# @option --depth <number>            How deep should levels of dependencies be inspected.
+# @flag -D --dev                      Update packages only in "devDependencies"
+# @option -C --dir <dir>              Change to directory <dir> (default: /home/sigo/w/argc-completions)
+# @flag -g --global                   Update globally installed packages
+# @flag --global-dir                  Specify a custom directory to store global packages
+# @flag -h --help                     Output usage information
+# @flag -i --interactive              Show outdated dependencies and select which ones to update
+# @flag -L --latest                   Ignore version ranges in package.json
+# @option --loglevel[debug|info|warn|error|silent] <level>  What level of logs to report.
+# @flag --no-optional                 Don't update packages in "optionalDependencies"
+# @flag -P --prod                     Update packages only in "dependencies" and "optionalDependencies"
+# @flag -r --recursive                Update in every package found in subdirectories or every workspace package, when executed inside a workspace.
+# @flag --stream                      Stream output from child processes immediately, prefixed with the originating package directory.
+# @flag --use-stderr                  Divert all output to stderr
+# @flag --workspace                   Tries to link all packages from the workspace.
+# @flag -w --workspace-root           Run the command on the root workspace project
+# @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
+# @option --filter[`_choice_workspace`] <pattern>          Includes all direct and indirect dependents of the matched packages.
+# @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
+# @option --test-pattern <pattern>    Defines files related to tests.
+# @arg pkg*[`_choice_dependency`]     
 update() {
     :;
 }
 # }} pnpm update
 
-
 # {{ pnpm audit
-# @cmd
-# @option --audit-level[low|moderate|high|critical]
-# @flag -D --dev
-# @flag --fix
-# @flag --ignore-registry-errors
-# @flag --json
-# @flag --no-optional
-# @flag -P --prod
+# @cmd Checks for known security issues with the installed packages
+# @option --audit-level <severity>    Only print advisories with severity greater than or equal to one of the following: low|moderate|high|critical.
+# @flag -D --dev                      Only audit "devDependencies"
+# @flag --fix                         Add overrides to the package.json file in order to force non-vulnerable versions of the dependencies
+# @flag --ignore-registry-errors      Use exit code 0 if the registry responds with an error.
+# @flag --json                        Output audit report in JSON format
+# @flag --no-optional                 Don't audit "optionalDependencies"
+# @flag -P --prod                     Only audit "dependencies" and "optionalDependencies"
 audit() {
     :;
 }
 # }} pnpm audit
 
-
 # {{ pnpm licenses
-# @cmd
-# @flag -D --dev
-# @flag --json
-# @flag --long
-# @flag --no-optional
-# @flag -P --prod
+# @cmd Check licenses in consumed packages
+# @flag -D --dev         Check only "devDependencies"
+# @flag --json           Show information in JSON format
+# @flag --long           Show more details (such as a link to the repo) are not displayed.
+# @flag --no-optional    Don't check "optionalDependencies"
+# @flag -P --prod        Check only "dependencies" and "optionalDependencies"
 licenses() {
     :;
 }
 # }} pnpm licenses
 
-
 # {{ pnpm list
-# @cmd
+# @cmd Print all the versions of packages that are installed, as well as their dependencies, in a tree-structure
 # @alias ls
-# @flag --color
-# @flag --no-color
-# @flag --aggregate-output
-# @option --depth <number>
-# @flag -D --dev
-# @option -C --dir <dir>
-# @flag -g --global
-# @flag --global-dir
-# @flag -h --help
-# @flag --json
-# @option --loglevel[debug|info|warn|error|silent] <level>
-# @flag --long
-# @flag --no-optional
-# @flag --only-projects
-# @flag --parseable
-# @flag -P --prod
-# @flag -r --recursive
-# @flag --stream
-# @flag --use-stderr
-# @flag -w --workspace-root
-# @option --changed-files-ignore-pattern <pattern>
-# @option --filter*[`_choice_workspace`] <selector>
-# @option --filter-prod <pattern>
-# @option --test-pattern <pattern>
-# @arg pkg+
+# @flag --color                       Controls colors in the output.
+# @flag --no-color                    Controls colors in the output.
+# @flag --aggregate-output            Aggregate output from child processes that are run in parallel, and only print output when child process is finished.
+# @option --depth <number>            Max display depth of the dependency tree
+# @flag -D --dev                      Display only the dependency graph for packages in `devDependencies`
+# @option -C --dir <dir>              Change to directory <dir> (default: /home/sigo/w/argc-completions)
+# @flag -g --global                   List packages in the global install prefix instead of in the current project
+# @flag --global-dir                  Specify a custom directory to store global packages
+# @flag -h --help                     Output usage information
+# @flag --json                        Show information in JSON format
+# @option --loglevel[debug|info|warn|error|silent] <level>  What level of logs to report.
+# @flag --long                        Show extended information
+# @flag --no-optional                 Don't display packages from `optionalDependencies`
+# @flag --only-projects               Display only dependencies that are also projects within the workspace
+# @flag --parseable                   Show parseable output instead of tree view
+# @flag -P --prod                     Display only the dependency graph for packages in `dependencies` and `optionalDependencies`
+# @flag -r --recursive                Perform command on every package in subdirectories or on every workspace package, when executed inside a workspace.
+# @flag --stream                      Stream output from child processes immediately, prefixed with the originating package directory.
+# @flag --use-stderr                  Divert all output to stderr
+# @flag -w --workspace-root           Run the command on the root workspace project
+# @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
+# @option --filter[`_choice_workspace`] <pattern>          Includes all direct and indirect dependents of the matched packages.
+# @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
+# @option --test-pattern <pattern>    Defines files related to tests.
+# @arg pkg*                           
 list() {
     :;
 }
 # }} pnpm list
 
-
 # {{ pnpm outdated
-# @cmd
-# @arg pkg*
-# @flag --color
-# @flag --no-color
-# @flag --aggregate-output
-# @flag --compatible
-# @flag -D --dev
-# @option -C --dir <dir>
-# @flag --global-dir
-# @flag -h --help
-# @option --loglevel[debug|info|warn|error] <level>
-# @flag --long
-# @flag --no-optional
-# @flag --no-table
-# @flag -P --prod
-# @flag -r --recursive
-# @flag --stream
-# @flag --use-stderr
-# @flag -w --workspace-root
-# @option --changed-files-ignore-pattern <pattern>
-# @option --filter*[`_choice_workspace`] <selector>
-# @option --filter-prod <pattern>
-# @option --test-pattern <pattern>
+# @cmd Check for outdated packages
+# @flag --color                       Controls colors in the output.
+# @flag --no-color                    Controls colors in the output.
+# @flag --aggregate-output            Aggregate output from child processes that are run in parallel, and only print output when child process is finished.
+# @flag --compatible                  Print only versions that satisfy specs in package.json
+# @flag -D --dev                      Check only "devDependencies"
+# @option -C --dir <dir>              Change to directory <dir> (default: /home/sigo/w/argc-completions)
+# @flag --global-dir                  Specify a custom directory to store global packages
+# @flag -h --help                     Output usage information
+# @option --loglevel[debug|info|warn|error|silent] <level>  What level of logs to report.
+# @flag --long                        By default, details about the outdated packages (such as a link to the repo) are not displayed.
+# @flag --no-optional                 Don't check "optionalDependencies"
+# @flag --no-table                    Prints the outdated packages in a list. Good for small consoles
+# @flag -P --prod                     Check only "dependencies" and "optionalDependencies"
+# @flag -r --recursive                Check for outdated dependencies in every package found in subdirectories or in every workspace package, when executed inside a workspace.
+# @flag --stream                      Stream output from child processes immediately, prefixed with the originating package directory.
+# @flag --use-stderr                  Divert all output to stderr
+# @flag -w --workspace-root           Run the command on the root workspace project
+# @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
+# @option --filter[`_choice_workspace`] <pattern>          Includes all direct and indirect dependents of the matched packages.
+# @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
+# @option --test-pattern <pattern>    Defines files related to tests.
+# @arg pkg*                           
 outdated() {
     :;
 }
 # }} pnpm outdated
 
-
 # {{ pnpm exec
-# @cmd
-# @flag --parallel
-# @flag -r --recursive
-# @flag --report-summary
-# @flag --resume-from
-# @flag -c --shell-mode
-# @arg exe![`_choice_exe`]
-# @arg args*
+# @cmd Executes a shell command in scope of a project
+# @flag --parallel            Completely disregard concurrency and topological sorting, running a given script immediately in all matching packages with prefixed streaming output.
+# @flag -r --recursive        Run the shell command in every package found in subdirectories or every workspace package, when executed inside a workspace.
+# @flag --report-summary      Save the execution results of every package to "pnpm-exec-summary.json".
+# @flag --resume-from         Command executed from given package
+# @flag -c --shell-mode       If exist, runs file inside of a shell.
+# @arg exec[`_choice_bin`]    
+# @arg args*                  
 exec() {
     :;
 }
 # }} pnpm exec
 
-
 # {{ pnpm run
-# @cmd
-# @arg script![`_choice_script`]
-# @arg args*
-# @flag --color
-# @flag --no-color
-# @flag --aggregate-output
-# @option -C --dir <dir>
-# @flag -h --help
-# @flag --if-present
-# @option --loglevel[debug|info|warn|error|silent] <level>
-# @flag --no-bail
-# @flag --parallel
-# @flag -r --recursive
-# @flag --report-summary
-# @flag --resume-from
-# @flag --sequential
-# @flag --stream
-# @flag --use-stderr
-# @flag -w --workspace-root
-# @flag --changed-files-ignore-pattern
-# @option --filter*[`_choice_workspace`] <selector>
-# @option --filter-prod <pattern>
-# @option --test-pattern <pattern>
+# @cmd Runs a defined package script
+# @flag --color                       Controls colors in the output.
+# @flag --no-color                    Controls colors in the output.
+# @flag --aggregate-output            Aggregate output from child processes that are run in parallel, and only print output when child process is finished.
+# @option -C --dir <dir>              Change to directory <dir> (default: /home/sigo/w/argc-completions)
+# @flag -h --help                     Output usage information
+# @flag --if-present                  Avoid exiting with a non-zero exit code when the script is undefined
+# @option --loglevel[debug|info|warn|error|silent] <level>  What level of logs to report.
+# @flag --no-bail                     The command will exit with a 0 exit code even if the script fails
+# @flag --parallel                    Completely disregard concurrency and topological sorting, running a given script immediately in all matching packages with prefixed streaming output.
+# @flag -r --recursive                Run the defined package script in every package found in subdirectories or every workspace package, when executed inside a workspace.
+# @flag --report-summary              Save the execution results of every package to "pnpm-exec-summary.json".
+# @flag --resume-from                 Command executed from given package
+# @flag --sequential                  Run the specified scripts one by one
+# @flag --stream                      Stream output from child processes immediately, prefixed with the originating package directory.
+# @flag --use-stderr                  Divert all output to stderr
+# @flag -w --workspace-root           Run the command on the root workspace project
+# @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
+# @option --filter[`_choice_workspace`] <pattern>          Includes all direct and indirect dependents of the matched packages.
+# @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
+# @option --test-pattern <pattern>    Defines files related to tests.
+# @arg args*[`_choice_script`]        
 run() {
     :;
 }
 # }} pnpm run
 
-
 # {{ pnpm start
-# @cmd
+# @cmd Runs an arbitrary command specified in the package's "start" property of its "scripts" object
+
 start() {
     :;
 }
 # }} pnpm start
 
-
 # {{ pnpm test
-# @cmd
+# @cmd Runs a package's "test" script, if one was provided
 # @alias t
-# @flag -r --recursive
-# @option --changed-files-ignore-pattern <pattern>
-# @option --filter*[`_choice_workspace`] <selector>
-# @option --filter-prod <pattern>
-# @option --test-pattern <pattern>
+# @flag -r --recursive                Run the tests in every package found in subdirectories or every workspace package, when executed inside a workspace.
+# @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
+# @option --filter[`_choice_workspace`] <pattern>          Includes all direct and indirect dependents of the matched packages.
+# @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
+# @option --test-pattern <pattern>    Defines files related to tests.
 test() {
     :;
 }
 # }} pnpm test
 
-
 # {{ pnpm pack
 # @cmd
-# @option --pack-destination <dir>
+# @option --pack-destination <dir>    Directory in which `pnpm pack` will save tarballs.
 pack() {
     :;
 }
 # }} pnpm pack
 
-
 # {{ pnpm publish
-# @cmd
-# @arg tarball-dir!
-# @option --access[public|restricted] <mode>
-# @flag --dry-run
-# @flag --force
-# @flag --ignore-scripts
-# @flag --json
-# @flag --no-git-checks
-# @flag --otp
-# @flag --publish-branch
-# @flag -r --recursive
-# @flag --report-summary
-# @option --tag <tag>
-# @option --changed-files-ignore-pattern <pattern>
-# @option --filter*[`_choice_workspace`] <selector>
-# @option --filter-prod <pattern>
-# @option --test-pattern <pattern>
+# @cmd Publishes a package to the registry
+# @option --access <public|restricted>  Tells the registry whether this package should be published as public or restricted
+# @flag --dry-run                       Does everything a publish would do except actually publishing to the registry
+# @flag --force                         Packages are proceeded to be published even if their current version is already in the registry.
+# @flag --ignore-scripts                Ignores any publish related lifecycle scripts (prepublishOnly, postpublish, and the like)
+# @flag --json                          Show information in JSON format
+# @flag --no-git-checks                 Don't check if current branch is your publish branch, clean, and up to date
+# @flag --otp                           When publishing packages that require two-factor authentication, this option can specify a one-time password
+# @flag --publish-branch                Sets branch name to publish. Default is master
+# @flag -r --recursive                  Publish all packages from the workspace
+# @flag --report-summary                Save the list of the newly published packages to "pnpm-publish-summary.json".
+# @option --tag <tag>                   Registers the published package with the given tag.
+# @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
+# @option --filter[`_choice_workspace`] <pattern>            Includes all direct and indirect dependents of the matched packages.
+# @option --filter-prod <pattern>       Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
+# @option --test-pattern <pattern>      Defines files related to tests.
+# @arg tarball-dir <<tarball>|<dir>>    
 publish() {
     :;
 }
 # }} pnpm publish
 
-
 # {{ pnpm root
 # @cmd
-# @flag -g --global
+# @flag -g --global    Print the global `node_modules` directory
 root() {
     :;
 }
 # }} pnpm root
 
-
 # {{ pnpm store
-# @cmd
+# @cmd add            Adds new packages to the pnpm store directly.
+
 store() {
     :;
 }
+
+# {{{ pnpm store add
+# @cmd <pkg>...
+
+store::add() {
+    :;
+}
+# }}} pnpm store add
+
+# {{{ pnpm store path
+# @cmd Returns the path to the active store directory.
+
+store::path() {
+    :;
+}
+# }}} pnpm store path
+
+# {{{ pnpm store prune
+# @cmd Removes unreferenced (extraneous, orphan) packages from the store.
+
+store::prune() {
+    :;
+}
+# }}} pnpm store prune
+
+# {{{ pnpm store status
+# @cmd Checks for modified packages in the store.
+
+store::status() {
+    :;
+}
+# }}} pnpm store status
 # }} pnpm store
 
-
 # {{ pnpm fetch
-# @cmd
-# @flag --color
-# @flag --no-color
-# @flag --aggregate-output
-# @flag --dev
-# @option -C --dir <dir>
-# @flag -h --help
-# @option --loglevel[debug|info|warn|error|silent] <level>
-# @flag --prod
-# @flag --stream
-# @flag --use-stderr
-# @flag -w --workspace-root
-# @arg ARG
-# @arg ARG2*
+# @cmd Fetch packages from a lockfile into virtual store, package manifest is ignored.
+# @flag --color                Controls colors in the output.
+# @flag --no-color             Controls colors in the output.
+# @flag --aggregate-output     Aggregate output from child processes that are run in parallel, and only print output when child process is finished.
+# @flag --dev                  Only development packages will be fetched
+# @option -C --dir <dir>       Change to directory <dir> (default: /home/sigo/w/argc-completions)
+# @flag -h --help              Output usage information
+# @option --loglevel[debug|info|warn|error|silent] <level>  What level of logs to report.
+# @flag --prod                 Development packages will not be fetched
+# @flag --stream               Stream output from child processes immediately, prefixed with the originating package directory.
+# @flag --use-stderr           Divert all output to stderr
+# @flag -w --workspace-root    Run the command on the root workspace project
 fetch() {
     :;
 }
 # }} pnpm fetch
 
-
 # {{ pnpm patch
-# @cmd
-# @flag --edit-dir
-# @flag --ignore-existing
+# @cmd Prepare a package for patching.
+# @flag --edit-dir           The package that needs to be modified will be extracted to this directory
+# @flag --ignore-existing    Ignore existing patch files when patching
+# @arg pkg-name-version <<pkg name>@<version>>  
 patch() {
     :;
 }
 # }} pnpm patch
 
-
 # {{ pnpm patch-commit
-# @cmd
-# @arg patchDir
-# @flag --patches-dir
+# @cmd Generate a patch out of a directory.
+# @flag --patches-dir    The generated patch file will be saved to this directory
+# @arg patch-commit      
+# @arg patchDir!         
 patch-commit() {
     :;
 }
 # }} pnpm patch-commit
 
-
 # {{ pnpm dedup
-# @cmd
+# @cmd Perform an install removing older dependencies in the lockfile if a newer version can be used.
+
 dedup() {
     :;
 }
 # }} pnpm dedup
 
-
 # {{ pnpm why
-# @cmd
-# @arg pkg+
-# @flag --color
-# @flag --no-color
-# @flag --aggregate-output
-# @flag -D --dev
-# @option -C --dir <dir>
-# @flag -g --global
-# @flag --global-dir
-# @flag -h --help
-# @flag --json
-# @option --loglevel[debug|info|warn|error] <level>
-# @flag --long
-# @flag --no-optional
-# @flag --parseable
-# @flag -P --prod
-# @flag -r --recursive
-# @flag --stream
-# @flag --use-stderr
-# @flag -w --workspace-root
-# @option --changed-files-ignore-pattern <pattern>
-# @option --filter*[`_choice_workspace`] <selector>
-# @option --filter-prod <pattern>
-# @option --test-pattern <pattern>
+# @cmd Shows all packages that depend on the specified package.
+# @flag --color                       Controls colors in the output.
+# @flag --no-color                    Controls colors in the output.
+# @flag --aggregate-output            Aggregate output from child processes that are run in parallel, and only print output when child process is finished.
+# @flag -D --dev                      Display only the dependency graph for packages in `devDependencies`
+# @option -C --dir <dir>              Change to directory <dir> (default: /home/sigo/w/argc-completions)
+# @flag -g --global                   List packages in the global install prefix instead of in the current project
+# @flag --global-dir                  Specify a custom directory to store global packages
+# @flag -h --help                     Output usage information
+# @flag --json                        Show information in JSON format
+# @option --loglevel[debug|info|warn|error|silent] <level>  What level of logs to report.
+# @flag --long                        Show extended information
+# @flag --no-optional                 Don't display packages from `optionalDependencies`
+# @flag --parseable                   Show parseable output instead of tree view
+# @flag -P --prod                     Display only the dependency graph for packages in `dependencies` and `optionalDependencies`
+# @flag -r --recursive                Perform command on every package in subdirectories or on every workspace package, when executed inside a workspace.
+# @flag --stream                      Stream output from child processes immediately, prefixed with the originating package directory.
+# @flag --use-stderr                  Divert all output to stderr
+# @flag -w --workspace-root           Run the command on the root workspace project
+# @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
+# @option --filter[`_choice_workspace`] <pattern>          Includes all direct and indirect dependents of the matched packages.
+# @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
+# @option --test-pattern <pattern>    Defines files related to tests.
+# @arg pkg!                           
 why() {
     :;
 }
 # }} pnpm why
 
-
 # {{ pnpm dlx
-# @cmd
-# @flag --package
-# @flag -c --shell-mode
-# @option --reporter[append-only|default|ndjson|silent]
-# @flag -s --silent
-# @arg args*
+# @cmd Fetches a package from the registry without installing it as a dependency, hotloads it, and runs whatever default command binary it exposes.
+# @flag --package          The package to install before running the command
+# @flag -c --shell-mode    Runs the script inside of a shell.
+# @option --reporter[append-only|default|ndjson|silent]  Secific the reporter
+# @flag -s --silent        No output is logged to the console, except fatal errors
+# @arg args*               
 dlx() {
     :;
 }
 # }} pnpm dlx
 
-
 # {{ pnpm create
-# @cmd
-# @arg name!
+# @cmd Create a project from a create-* or @foo/create-* starter kit.
+# @arg name!    
 create() {
     :;
 }
 # }} pnpm create
 
-
 # {{ pnpm env
-# @cmd
-# @flag -g --global
-# @flag --remote
-# @arg version!
+# @cmd Manages the Node.js environment.
+# @flag -g --global    Manages Node.js versions globally
+# @flag --remote       List the remote versions of Node.js
+# @arg version!        
 env() {
     :;
 }
@@ -611,28 +620,28 @@ env::list() {
 }
 # }} pnpm env
 
-
 # {{ pnpm server
-# @cmd
-# @flag --color
-# @flag --no-color
-# @flag --lock
-# @flag --no-lock
-# @flag --verify-store-integrity
-# @flag --no-verify-store-integrity
-# @flag --aggregate-output
-# @flag --background
-# @option -C --dir <dir>
-# @flag --ignore-stop-requests
-# @flag --ignore-upload-requests
-# @option --loglevel <level>
-# @option --network-concurrency <number>
-# @option --port <number>
-# @option --protocol <<auto>
-# @option --store-dir <dir>
-# @flag --stream
-# @flag --use-stderr
-# @flag -w --workspace-root
+# @cmd Manage a store server.
+# @flag --color                        Controls colors in the output.
+# @flag --no-color                     Controls colors in the output.
+# @flag --lock                         
+# @flag --no-lock                      
+# @flag --verify-store-integrity       If false, doesn't check whether packages in the store were mutated
+# @flag --no-verify-store-integrity    If false, doesn't check whether packages in the store were mutated
+# @flag --aggregate-output             Aggregate output from child processes that are run in parallel, and only print output when child process is finished.
+# @flag --background                   Runs the server in the background
+# @option -C --dir <dir>               Change to directory <dir> (default: /home/sigo/w/argc-completions)
+# @flag -h --help                      Output usage information
+# @flag --ignore-stop-requests         Disallows stopping the server using `pnpm server stop`
+# @flag --ignore-upload-requests       Disallows creating new side effect cache during install
+# @option --loglevel[debug|info|warn|error|silent] <level>  What level of logs to report.
+# @option --network-concurrency <number>  Maximum number of concurrent network requests
+# @option --port <number>              The port number to use, when TCP is used for communication
+# @option --protocol <auto|tcp|ipc>    The communication protocol used by the server
+# @option --store-dir <dir>            The directory in which all the packages are saved on the disk
+# @flag --stream                       Stream output from child processes immediately, prefixed with the originating package directory.
+# @flag --use-stderr                   Divert all output to stderr
+# @flag -w --workspace-root            Run the command on the root workspace project
 server() {
     :;
 }
@@ -653,63 +662,61 @@ server::status() {
 }
 # }} pnpm server
 
-
 # {{ pnpm bin
-# @cmd
-# @flag -g
-# @flag --global
+# @cmd Prints the directory into which the executables of dependencies are linked.
+# @flag -g --global    Print the global executables directory
 bin() {
     :;
 }
 # }} pnpm bin
 
-
 # {{ pnpm setup
-# @cmd
-# @flag -f --force
+# @cmd This command is used by the standalone installation scripts of pnpm.
+# @flag -f --force    Override the PNPM_HOME env variable in case it already exists
 setup() {
     :;
 }
 # }} pnpm setup
 
-
 # {{ pnpm init
-# @cmd
+# @cmd Create a package.json file.
+
 init() {
     :;
 }
 # }} pnpm init
 
-
 # {{ pnpm deploy
-# @cmd
-# @flag -D --dev
-# @flag --no-optional
-# @flag -P --prod
-# @option --changed-files-ignore-pattern <pattern>
-# @option --filter*[`_choice_workspace`] <selector>
-# @option --filter-prod <pattern>
-# @option --test-pattern <pattern>
-# @arg deployed-project-name!
-# @arg target-directory!
+# @cmd Deploy a package from a workspace.
+# @flag -D --dev                      Only `devDependencies` are installed regardless of the `NODE_ENV`
+# @flag --no-optional                 `optionalDependencies` are not installed
+# @flag -P --prod                     Packages in `devDependencies` won't be installed
+# @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
+# @option --filter[`_choice_workspace`] <pattern>          Includes all direct and indirect dependents of the matched packages.
+# @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
+# @option --test-pattern <pattern>    Defines files related to tests.
+# @arg --filter-deployed-project-name <--filter=<deployed project name>>  
+# @arg deploy                         
+# @arg target-directory!              
 deploy() {
     :;
 }
 # }} pnpm deploy
 
+# {{ pnpm docker
+# @cmd Checks for known common issues with pnpm configuration.
 
-# {{ pnpm docter
-# @cmd
-docter() {
+docker() {
     :;
 }
-# }} pnpm docter
-
+# }} pnpm docker
 
 # {{ pnpm config
-# @cmd
-# @flag -g --global
-# @option --location <<project>
+# @cmd Manage the configuration files.
+# @flag -g --global                      Sets the configuration in the global config file
+# @option --location <project|global>    When set to "project", the .npmrc file at the nearest package.json will be used
+# @arg key![`_choice_config_key`]                              
+# @arg value!                            
 config() {
     :;
 }
@@ -740,21 +747,20 @@ config::list() {
 }
 # }} pnpm config
 
-
 _choice_cmd() {
     _choice_script
-    _choice_exe
+    _choice_bin
 }
 
 _choice_script() {
-    _option_filter
-    project_dir="$(_locate_project)"
+    _helper_apply_filter
+    project_dir="$(_helper_locate_project)"
     cat "$project_dir/package.json" | jq -r '.scripts | keys[]' 
 }
 
 _choice_dependency() {
-    _option_filter
-    project_dir="$(_locate_project)"
+    _helper_apply_filter
+    project_dir="$(_helper_locate_project)"
     cat  "$project_dir/package.json" | jq -r '.dependencies // {}, .devDependencies // {}, .optionalDependencies // {} | keys[]'
 }
 
@@ -766,14 +772,14 @@ _choice_workspace() {
     pnpm recursive list --json | jq -r '.[].name // empty'
 }
 
-_choice_exe() {
-    bin_dir="$(_locate_project)/node_modules/.bin"
+_choice_bin() {
+    bin_dir="$(_helper_locate_project)/node_modules/.bin"
     if [ -d "$bin_dir" ]; then
         ls -1 "$bin_dir" | sed -e 's/\..*$//' | uniq
     fi
 }
 
-_option_filter() {
+_helper_apply_filter() {
     if [[ -n "$argc_filter" ]]; then
         local path = "$(pnpm recursive list --json | jq -r '.[] | select(.name == "'"$argc_filter"'") | .path // empty')"
         if [[ -n "$path" ]]; then
@@ -782,14 +788,14 @@ _option_filter() {
     fi
 }
 
-_locate_project() {
+_helper_locate_project() {
     if [[ -z "$_project_dir" ]]; then
-        _project_dir="$(_locate_project_base)"
+        _project_dir="$(_helper_locate_base)"
     fi
     echo "$_project_dir"
 }
 
-_locate_project_base() {
+_helper_locate_base() {
     if [ -f package.json ]; then
         pwd
     else
@@ -799,12 +805,11 @@ _locate_project_base() {
 
 _argc_util_unix_path() {
 	if _argc_util_exist_cygpath; then
-		cygpath "$1"
+        cygpath "$1"
 	else
-		echo "$1"
+        echo "$1"
 	fi
 }
-
 
 _argc_util_exist_cygpath() {
     if [[ -z $_argc_var_exist_cygpath ]]; then
@@ -816,6 +821,5 @@ _argc_util_exist_cygpath() {
     fi
     return $_argc_var_exist_cygpath
 }
-
 
 eval "$(argc --argc-eval "$0" "$@")"

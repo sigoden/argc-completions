@@ -1,4 +1,3 @@
 .vscode
 cache/
 subcmds/
-tests/__debug*
