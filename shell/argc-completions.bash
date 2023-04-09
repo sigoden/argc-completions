@@ -24,4 +24,18 @@ _argc_completions() {
     fi
 }
 
+_argc_complete_path() {
+    if type _filedir >/dev/null 2>&1; then
+        _filedir ${1-}
+    else
+        if [[ ${1-} == "-d" ]]; then
+            compopt -o nospace -o plusdirs > /dev/null 2>&1
+            COMPREPLY=($(compgen -d -- "${cur}"))
+        else
+            compopt -o nospace -o plusdirs > /dev/null 2>&1
+            COMPREPLY=($(compgen -f -- "${cur}"))
+        fi
+    fi
+}
+
 complete -F _argc_completions ${ARGC_COMPLETIONS_SCRIPTS[@]}
