@@ -50,11 +50,7 @@ Automatically generate with:
 ./generate.sh mycmd
 ```
 
-> `mycmd` need to add to PATH enviroment variable
-
-### Manually write with argc
-
-View the [argc manual](https://github.com/sigoden/argc#comment-tags).
+> Command need to add to PATH enviroment variable.
 
 ## License
 

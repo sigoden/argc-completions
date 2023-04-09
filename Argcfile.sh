@@ -16,6 +16,11 @@ generate() {
 }
 
 # @cmd
+test() {
+    ./generate.sh __test
+}
+
+# @cmd
 # @option --kind[=table|help|script]
 # @arg cmd![`_choice_command`]
 # @arg args*
