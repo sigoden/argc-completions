@@ -2,12 +2,6 @@
 
 A multi-shell completion solution.
 
-## Features
-
-- Support bash/zsh/fish/powershell
-- Easy to write
-- Automaticlly generate
-
 ## How to use
 
 ### Install dependencies
@@ -15,7 +9,9 @@ A multi-shell completion solution.
 - [argc](https://github.com/sigoden/argc): completion engine
 - [jq](https://github.com/stedolan/jq): json processor
 
-### Load completion scripts
+### Setup shell
+
+Clone the repo.
 
 ```sh
 git clone https://github.com/sigoden/argc-completions $HOME/.argc-completions
@@ -23,7 +19,7 @@ git clone https://github.com/sigoden/argc-completions $HOME/.argc-completions
 
 For bash, add the following code to `.bashrc`.
 ```sh
-&& source "$HOME/.argc-completions/shell/argc-completions.bash" 
+source "$HOME/.argc-completions/shell/argc-completions.bash" 
 ```
 
 For zsh, add the following code to `.zshrc`.
