@@ -53,7 +53,7 @@ END {
     for (i = 1; i <= commandLineNum; i++) {
         body = commandLines[i, 1];
         description = commandLines[i, 2];
-        print body "||" description
+        print body "#" description
     }
 }
 

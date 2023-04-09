@@ -2,7 +2,7 @@
 
 set -e
 
-# @cmd Generate completion scripts
+# @cmd
 # @arg cmd[`_choice_command`]
 generate() {
     if [ $# -eq 0 ]; then
@@ -15,7 +15,21 @@ generate() {
     fi
 }
 
-# @cmd Print command help
+# @cmd
+# @option --kind[=table|help|script]
+# @arg cmd![`_choice_command`]
+# @arg args*
+print() {
+    if [[ "$argc_type" == "help" ]]; then
+        print-help $@
+    elif [[ "$argc_type" == "table" ]]; then
+        print-table $@
+    elif [[ "$argc_type" == "script" ]]; then
+        print-script $@
+    fi
+}
+
+# @cmd
 # @arg cmd![`_choice_command`]
 # @arg args*
 print-help() {
@@ -27,7 +41,7 @@ print-help() {
     fi
 }
 
-# @cmd Pirnt command table
+# @cmd
 # @arg cmd![`_choice_command`]
 # @arg args*
 print-table() {
@@ -41,10 +55,16 @@ print-table() {
 }
 
 # @cmd
-test() {
-    ./generate.sh -o tests __options
-    ./generate.sh -o tests __arguments
-    ./generate.sh -o tests __commands
+# @arg cmd![`_choice_command`]
+# @arg args*
+print-script() {
+    _help_source_src $1
+    table_text=$(print-table $@ | awk -f scripts/parser.awk)
+    if [[ $(type -t _patch_script) = "function" ]]; then
+        echo "$table_text" | _patch_script $@
+    else
+        echo "$table_text"
+    fi
 }
 
 _choice_command() {
@@ -55,10 +75,15 @@ _choice_command() {
 }
 
 _help_source_src() {
+    if [[ "$source_src" == "$1" ]]; then
+        return
+    fi
     if [[ -f src/$1.sh ]]; then
         . src/$1.sh
+        source_src="$1"
     elif [[ -f src/$1/$1.sh ]]; then
         . src/$1/$1.sh
+        source_src="$1"
     fi
 }
 

@@ -13,14 +13,13 @@ for util_file in "$ROOT_DIR/utils/"*; do
     . "$util_file"
 done
 
-source_file="$ROOT_DIR/src/$1.sh"
-
-if [[ ! -f "$source_file" ]]; then
-    echo "'$source_file' not found"
-    exit 1
+if [[ -f "$ROOT_DIR/src/$1.sh" ]]; then
+    . "$ROOT_DIR/src/$1.sh"
+elif [[ -f "$ROOT_DIR/src/$1/$1.sh" ]]; then
+    . "$ROOT_DIR/src/$1/$1.sh"
+else
+    echo "Not found $1.sh"
 fi
-
-. "$source_file"
 
 while read -r name; do
     echo "---------------- $name ----------------"

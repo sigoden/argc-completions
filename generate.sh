@@ -44,8 +44,8 @@ handle_lines() {
 }
 
 handle_subcommand() {
-    local names=( ${1%%||*} )
-    local description="${1##*||}"
+    local names=( ${1%%#*} )
+    local description="${1##*#}"
     local cmd_name="${names[0]}"
     local cmd_aliases="$(echo "${names[@]:1}" | sed 's/ /,/g')"
     if [[  ! " ${command_names[*]} " =~ " $cmd_name " ]]; then
@@ -65,9 +65,7 @@ handle_subcommand() {
     if [[ -n "$cmd_aliases" ]]; then
         echo "# @alias $cmd_aliases"
     fi
-    if [[ "${cmd_args[0]}" != "__"* ]]; then
-        handle_lines ${cmd_args[@]}
-    fi
+    handle_lines ${cmd_args[@]}
     echo "# $(repeat_string '}' $cmd_level) ${cmd_args[@]}"
     echo 
 }
