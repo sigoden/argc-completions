@@ -1,4 +1,4 @@
-# @cmd
+# @cmd reset bisect state and start bisection.
 # @option --term-new term
 # @option --term-bad term
 # @option --term-old term
@@ -9,76 +9,76 @@ start() {
     :;
 }
 
-# @cmd
+# @cmd mark <rev> bad revision after change in a given property.
 # @arg rev
 bad() {
     :;
 }
 
-# @cmd
+# @cmd mark <rev> new revision after change in a given property.
 # @arg rev
 new() {
     :;
 }
 
-# @cmd
+# @cmd mark <rev>... good revisions before change in a given property.
 # @arg rev*
 good() {
     :;
 }
 
-# @cmd
+# @cmd mark <rev>... old revisions before change in a given property.
 # @arg rev*
 old() {
     :;
 }
 
-# @cmd
+# @cmd show the terms used for old and new commits
 # @flag --term-good
 # @flag --term-bad
 terms() {
     :;
 }
 
-# @cmd
+# @cmd mark <rev>... untestable revisions.
 # @arg rev-range*
 skip() {
     :;
 }
 
-# @cmd
+# @cmd find next bisection to test and check it out.
 next() {
     :;
 }
 
-# @cmd
+# @cmd finish bisection search and go back to commit.
 # @arg commit
 reset() {
     :;
 }
 
-# @cmd
+# @cmd how bisect status in gitk.
 visualize() {
     :;
 }
 
-# @cmd
+# @cmd show bisect status in gitk.
 view() {
     :;
 }
 
-# @cmd
+# @cmd replay bisection log.
 # @arg logfile!
 replay() {
     :;
 }
 
-# @cmd
+# @cmd show bisect log.
 log() {
     :;
 }
 
-# @cmd
+# @cmd  use <cmd>... to automatically bisect.
 # @arg cmd*
 run() {
     :;

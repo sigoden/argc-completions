@@ -120,7 +120,7 @@ _patch_table() {
     elif [[ "$*" == "git pull" ]]; then
         sed '/argument # \[<repository>/ cargument # <remote> # # [`_choice_remote`]\nargument # <refspec>... # # [`_choice_remote_branch`]'
     elif [[ "$*" == "git merge" ]]; then
-        sed '/argument # \[<commit>...\]/ cargument # [commit]... # # [`_choice_branch`]'
+        sed '/argument # \[<commit>...\]/ cargument # [target]... # # [`_choice_branch`]'
     else
         cat
     fi
@@ -130,8 +130,8 @@ _patch_script() {
     sed \
         -e '/{ git stash/, /} git stash/ s/@arg stash\(!\)\?/@arg stash\1[`_choice_stash`]/' \
         -e '/{ git remote/, /} git remote/ s/@arg name\(!\)\?/@arg name\1[`_choice_remote`]/' \
-        -e '/{ git remote/, /} git remote/ s/@arg old\(!\)\?/@arg old\1[`_choice_remote`]/' \
-        -e '/{ git remote/, /} git remote/ s/@arg new\(!\)\?/@arg new\1[`_choice_remote`]/'
+        -e '/{ git remote/, /} git remote/ s/@arg old\b\(!\)\?/@arg old\1[`_choice_remote`]/' \
+        -e '/{ git remote/, /} git remote/ s/@arg new\b\(!\)\?/@arg new\1[`_choice_remote`]/'
 }
 
 _choice_cmd() {

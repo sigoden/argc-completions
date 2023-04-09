@@ -52,12 +52,12 @@ _patch_table() {
 
 _patch_script() {
 	sed \
-		-e 's/@option --bench /@option --bench[`_choice_bench`] /' \
-		-e 's/@option --bin /@option --bin[`_choice_bin`] /' \
-		-e 's/@option --example /@option --example[`_choice_example`] /' \
-		-e 's/@option --target /@option --target[`_choice_target`] /' \
-		-e 's/@option --test /@option --test[`_choice_test`] /' \
-		-e 's/@option -p --package /@option -p --package[`_choice_package`] /'
+		-e 's/@option --bench <NAME>\s\+/@option --bench[`_choice_bench`] <NAME>      /' \
+		-e 's/@option --bin <NAME>\s\+/@option --bin[`_choice_bin`] <NAME>          /' \
+		-e 's/@option --example <NAME>\s\+/@option --example[`_choice_example`] <NAME>  /' \
+		-e 's/@option --target <TRIPLE>\s\+/@option --target[`_choice_target`] <TRIPLE>  /' \
+		-e 's/@option --test <NAME>\s\+/@option --test[`_choice_test`] <NAME>        /' \
+		-e 's/@option -p --package <SPEC>\s\+/@option -p --package[`_choice_package`] <SPEC> /'
 }
 
 _choice_cmd() {

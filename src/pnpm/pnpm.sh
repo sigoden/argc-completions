@@ -71,7 +71,7 @@ _patch_table() {
 _patch_script() {
     sed \
         -e '/{ pnpm config/, /} pnpm config/ s/@arg key\(!\)\?/@arg key\1[`_choice_config_key`]/' \
-        -e 's/@option --filter /@option --filter[`_choice_workspace`] /'
+        -e 's/@option --filter <pattern>\s\+/@option --filter[`_choice_workspace`] <pattern>  /'
 }
 
 _choice_cmd() {

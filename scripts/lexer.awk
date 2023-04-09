@@ -124,10 +124,6 @@ function splitOption(input) {
                         return wordBreakAt
                     }
                 } else {
-                    prevWord = words[length(words)]
-                    if (match(prevWord, /^\w+$/)) {
-                        return wordBreakAt
-                    }
                     words[length(words) + 1] = word
                     word = ""
                     wordBreakAt = i - 1
@@ -144,6 +140,21 @@ function splitOption(input) {
             }
             word = word ch
         } else {
+            isBreak = 1
+            if (length(word) == 0 && length(words) > 0 && match(ch, /[A-Za-z0-9]/)) {
+                if (match(words[length(words)], /^-/)) {
+                    if (match(substr(input, i), /^\S+ -/)) {
+                        # make: -f FILE, --file=FILE, --makefile=FILE
+                        isBreak = 0
+                    } else if (match(substr(input, i), /^\S+  /)) {
+                        # pnpm install: --package-import-method auto
+                        isBreak = 0
+                    }
+                } 
+                if (isBreak == 1) {
+                    return wordBreakAt
+                }
+            }
             word = word ch
         }
     }

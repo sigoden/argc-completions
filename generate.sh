@@ -117,7 +117,6 @@ load_util_fn() {
         echo
         cat "$util_fn_file" 
         echo
-        echo
     else
         echo "Unknown util fn: $util_fn_name" >&2
     fi
@@ -204,10 +203,14 @@ if [[ $(type -t _patch_script) = "function" ]]; then
     output_content="$(echo "$output_content" | _patch_script)"
 fi
 output_content="$output_content$(embed_script ${args[@]})"
-output_content="$output_content"$'\n'"$(echo "$output_content" | embed_utils)"
+output_embed_utils="$(echo "$output_content" | embed_utils)"
+if [[ -n "$output_embed_utils" ]]; then
+    output_content="$output_content"$'\n'"$output_embed_utils"
+fi
 output_content="$output_content$(print_tail)"
 if [[ -n "$output_file" ]]; then
     printf "%s" "$output_content" > "$output_file"
+    validate_script
 else
     printf "%s\n" "$output_content"
 fi

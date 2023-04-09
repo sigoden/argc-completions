@@ -4,7 +4,7 @@
 # @flag -r --recursive                Run the command for each project in the workspace.
 # @option -C --dir <path>             Run as if pnpm was started in <path> instead of the current working directory.
 # @flag -w --workspace-root           Run as if pnpm was started in the root of the workspace instead of the current working directory.
-# @option --filter[`_choice_workspace`] <pattern>          Includes all direct and indirect dependents of the matched packages.
+# @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
 # @option --changed-files-ignore-pattern <pattern>  Allows to ignore changed files by glob patterns when filtering for changed projects since the specified commit/branch.
@@ -41,7 +41,7 @@
 # @flag --workspace                     Only adds the new dependency if it is found in the workspace
 # @flag -w --workspace-root             Run the command on the root workspace project
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
-# @option --filter[`_choice_workspace`] <pattern>            Includes all direct and indirect dependents of the matched packages.
+# @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
 # @option --filter-prod <pattern>       Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>      Defines files related to tests.
 # @arg name!                            
@@ -52,7 +52,6 @@ add() {
 
 # {{ pnpm import
 # @cmd Generates a pnpm-lock.yaml from an npm package-lock.json (or npm-shrinkwrap.json) file
-
 import() {
     :;
 }
@@ -61,56 +60,56 @@ import() {
 # {{ pnpm install
 # @cmd Install all dependencies for a project
 # @alias i
-# @flag --color                          Controls colors in the output.
-# @flag --no-color                       Controls colors in the output.
-# @flag --frozen-lockfile                Don't generate a lockfile and fail if an update is needed.
-# @flag --no-frozen-lockfile             Don't generate a lockfile and fail if an update is needed.
-# @flag --verify-store-integrity         If false, doesn't check whether packages in the store were mutated
-# @flag --no-verify-store-integrity      If false, doesn't check whether packages in the store were mutated
-# @flag --aggregate-output               Aggregate output from child processes that are run in parallel, and only print output when child process is finished.
-# @option --child-concurrency <number>   Controls the number of child processes run parallelly to build node modules
-# @flag -D --dev                         Only `devDependencies` are installed regardless of the `NODE_ENV`
-# @option -C --dir <dir>                 Change to directory <dir> (default: /home/sigo/w/argc-completions)
-# @flag --fix-lockfile                   Fix broken lockfile entries automatically
-# @flag --force                          Force reinstall dependencies: refetch packages modified in store, recreate a lockfile and/or modules directory created by a non-compatible version of pnpm.
-# @flag --global-dir                     Specify a custom directory to store global packages
-# @flag -h --help                        Output usage information
-# @option --hoist-pattern <pattern>      Hoist all dependencies matching the pattern to `node_modules/.pnpm/node_modules`.
-# @flag --ignore-pnpmfile                Disable pnpm hooks defined in .pnpmfile.cjs
-# @flag --ignore-scripts                 Don't run lifecycle scripts
-# @option --lockfile-dir <dir>           The directory in which the pnpm-lock.yaml of the package will be created.
-# @flag --lockfile-only                  Dependencies are not downloaded. Only `pnpm-lock.yaml` is updated
+# @flag --color                               Controls colors in the output.
+# @flag --no-color                            Controls colors in the output.
+# @flag --frozen-lockfile                     Don't generate a lockfile and fail if an update is needed.
+# @flag --no-frozen-lockfile                  Don't generate a lockfile and fail if an update is needed.
+# @flag --verify-store-integrity              If false, doesn't check whether packages in the store were mutated
+# @flag --no-verify-store-integrity           If false, doesn't check whether packages in the store were mutated
+# @flag --aggregate-output                    Aggregate output from child processes that are run in parallel, and only print output when child process is finished.
+# @option --child-concurrency <number>        Controls the number of child processes run parallelly to build node modules
+# @flag -D --dev                              Only `devDependencies` are installed regardless of the `NODE_ENV`
+# @option -C --dir <dir>                      Change to directory <dir> (default: /home/sigo/w/argc-completions)
+# @flag --fix-lockfile                        Fix broken lockfile entries automatically
+# @flag --force                               Force reinstall dependencies: refetch packages modified in store, recreate a lockfile and/or modules directory created by a non-compatible version of pnpm.
+# @flag --global-dir                          Specify a custom directory to store global packages
+# @flag -h --help                             Output usage information
+# @option --hoist-pattern <pattern>           Hoist all dependencies matching the pattern to `node_modules/.pnpm/node_modules`.
+# @flag --ignore-pnpmfile                     Disable pnpm hooks defined in .pnpmfile.cjs
+# @flag --ignore-scripts                      Don't run lifecycle scripts
+# @option --lockfile-dir <dir>                The directory in which the pnpm-lock.yaml of the package will be created.
+# @flag --lockfile-only                       Dependencies are not downloaded. Only `pnpm-lock.yaml` is updated
 # @option --loglevel[debug|info|warn|error|silent] <level>  What level of logs to report.
-# @flag --merge-git-branch-lockfiles     Merge lockfiles were generated on git branch
-# @option --modules-dir <dir>            The directory in which dependencies will be installed (instead of node_modules)
-# @option --network-concurrency <number>  Maximum number of concurrent network requests
-# @flag --no-hoist                       Dependencies inside the modules directory will have access only to their listed dependencies
-# @flag --no-lockfile                    Don't read or generate a `pnpm-lock.yaml` file
-# @flag --no-optional                    `optionalDependencies` are not installed
-# @flag --offline                        Trigger an error if any required dependencies are not available in local store
+# @flag --merge-git-branch-lockfiles          Merge lockfiles were generated on git branch
+# @option --modules-dir <dir>                 The directory in which dependencies will be installed (instead of node_modules)
+# @option --network-concurrency <number>      Maximum number of concurrent network requests
+# @flag --no-hoist                            Dependencies inside the modules directory will have access only to their listed dependencies
+# @flag --no-lockfile                         Don't read or generate a `pnpm-lock.yaml` file
+# @flag --no-optional                         `optionalDependencies` are not installed
+# @flag --offline                             Trigger an error if any required dependencies are not available in local store
 # @option --package-import-method[auto|clone|copy|hardlink] <method>  Import package from
-# @flag --prefer-frozen-lockfile         If the available `pnpm-lock.yaml` satisfies the `package.json` then perform a headless installation
-# @flag --prefer-offline                 Skip staleness checks for cached data, but request missing data from the server
-# @flag -P --prod                        Packages in `devDependencies` won't be installed
-# @option --public-hoist-pattern <pattern>  Hoist all dependencies matching the pattern to the root of the modules directory
-# @flag -r --recursive                   Run installation recursively in every package found in subdirectories.
-# @flag --shamefully-hoist               All the subdeps will be hoisted into the root node_modules.
-# @flag --side-effects-cache             Use or cache the results of (pre/post)install hooks
-# @flag --side-effects-cache-readonly    Only use the side effects cache if present, do not create it for new packages
-# @option --store-dir <dir>              The directory in which all the packages are saved on the disk
-# @flag --stream                         Stream output from child processes immediately, prefixed with the originating package directory.
-# @flag --strict-peer-dependencies       Fail on missing or invalid peer dependencies
-# @flag --use-running-store-server       Only allows installation with a store server.
-# @flag --use-stderr                     Divert all output to stderr
-# @flag --use-store-server               Starts a store server in the background.
-# @option --virtual-store-dir <dir>      The directory with links to the store (default is node_modules/.pnpm).
-# @flag -w --workspace-root              Run the command on the root workspace project
+# @flag --prefer-frozen-lockfile              If the available `pnpm-lock.yaml` satisfies the `package.json` then perform a headless installation
+# @flag --prefer-offline                      Skip staleness checks for cached data, but request missing data from the server
+# @flag -P --prod                             Packages in `devDependencies` won't be installed
+# @option --public-hoist-pattern <pattern>    Hoist all dependencies matching the pattern to the root of the modules directory
+# @flag -r --recursive                        Run installation recursively in every package found in subdirectories.
+# @flag --shamefully-hoist                    All the subdeps will be hoisted into the root node_modules.
+# @flag --side-effects-cache                  Use or cache the results of (pre/post)install hooks
+# @flag --side-effects-cache-readonly         Only use the side effects cache if present, do not create it for new packages
+# @option --store-dir <dir>                   The directory in which all the packages are saved on the disk
+# @flag --stream                              Stream output from child processes immediately, prefixed with the originating package directory.
+# @flag --strict-peer-dependencies            Fail on missing or invalid peer dependencies
+# @flag --use-running-store-server            Only allows installation with a store server.
+# @flag --use-stderr                          Divert all output to stderr
+# @flag --use-store-server                    Starts a store server in the background.
+# @option --virtual-store-dir <dir>           The directory with links to the store (default is node_modules/.pnpm).
+# @flag -w --workspace-root                   Run the command on the root workspace project
 # @option --reporter[append-only|default|ndjson|silent]  Secific the reporter
-# @flag -s --silent                      No output is logged to the console, except fatal errors
+# @flag -s --silent                           No output is logged to the console, except fatal errors
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
-# @option --filter[`_choice_workspace`] <pattern>             Includes all direct and indirect dependents of the matched packages.
-# @option --filter-prod <pattern>        Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
-# @option --test-pattern <pattern>       Defines files related to tests.
+# @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
+# @option --filter-prod <pattern>             Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
+# @option --test-pattern <pattern>            Defines files related to tests.
 install() {
     :;
 }
@@ -119,7 +118,6 @@ install() {
 # {{ pnpm install-test
 # @cmd Runs a pnpm install followed immediately by a pnpm test
 # @alias it
-# @arg install-test    
 install-test() {
     :;
 }
@@ -178,7 +176,7 @@ prune() {
 # @flag --use-stderr                  Divert all output to stderr
 # @flag -w --workspace-root           Run the command on the root workspace project
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
-# @option --filter[`_choice_workspace`] <pattern>          Includes all direct and indirect dependents of the matched packages.
+# @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
 # @arg pkg*                           
@@ -205,7 +203,7 @@ rebuild() {
 # @flag --use-stderr                  Divert all output to stderr
 # @flag -w --workspace-root           Run the command on the root workspace project
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
-# @option --filter[`_choice_workspace`] <pattern>          Includes all direct and indirect dependents of the matched packages.
+# @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
 # @arg pkg-version*[`_choice_dependency`] <<pkg>[@<version>]>  
@@ -255,7 +253,7 @@ unlink() {
 # @flag --workspace                   Tries to link all packages from the workspace.
 # @flag -w --workspace-root           Run the command on the root workspace project
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
-# @option --filter[`_choice_workspace`] <pattern>          Includes all direct and indirect dependents of the matched packages.
+# @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
 # @arg pkg*[`_choice_dependency`]     
@@ -314,7 +312,7 @@ licenses() {
 # @flag --use-stderr                  Divert all output to stderr
 # @flag -w --workspace-root           Run the command on the root workspace project
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
-# @option --filter[`_choice_workspace`] <pattern>          Includes all direct and indirect dependents of the matched packages.
+# @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
 # @arg pkg*                           
@@ -343,7 +341,7 @@ list() {
 # @flag --use-stderr                  Divert all output to stderr
 # @flag -w --workspace-root           Run the command on the root workspace project
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
-# @option --filter[`_choice_workspace`] <pattern>          Includes all direct and indirect dependents of the matched packages.
+# @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
 # @arg pkg*                           
@@ -385,7 +383,7 @@ exec() {
 # @flag --use-stderr                  Divert all output to stderr
 # @flag -w --workspace-root           Run the command on the root workspace project
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
-# @option --filter[`_choice_workspace`] <pattern>          Includes all direct and indirect dependents of the matched packages.
+# @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
 # @arg args*[`_choice_script`]        
@@ -396,7 +394,6 @@ run() {
 
 # {{ pnpm start
 # @cmd Runs an arbitrary command specified in the package's "start" property of its "scripts" object
-
 start() {
     :;
 }
@@ -407,7 +404,7 @@ start() {
 # @alias t
 # @flag -r --recursive                Run the tests in every package found in subdirectories or every workspace package, when executed inside a workspace.
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
-# @option --filter[`_choice_workspace`] <pattern>          Includes all direct and indirect dependents of the matched packages.
+# @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
 test() {
@@ -425,22 +422,22 @@ pack() {
 
 # {{ pnpm publish
 # @cmd Publishes a package to the registry
-# @option --access <public|restricted>  Tells the registry whether this package should be published as public or restricted
-# @flag --dry-run                       Does everything a publish would do except actually publishing to the registry
-# @flag --force                         Packages are proceeded to be published even if their current version is already in the registry.
-# @flag --ignore-scripts                Ignores any publish related lifecycle scripts (prepublishOnly, postpublish, and the like)
-# @flag --json                          Show information in JSON format
-# @flag --no-git-checks                 Don't check if current branch is your publish branch, clean, and up to date
-# @flag --otp                           When publishing packages that require two-factor authentication, this option can specify a one-time password
-# @flag --publish-branch                Sets branch name to publish. Default is master
-# @flag -r --recursive                  Publish all packages from the workspace
-# @flag --report-summary                Save the list of the newly published packages to "pnpm-publish-summary.json".
-# @option --tag <tag>                   Registers the published package with the given tag.
+# @option --access <public|restricted>    Tells the registry whether this package should be published as public or restricted
+# @flag --dry-run                         Does everything a publish would do except actually publishing to the registry
+# @flag --force                           Packages are proceeded to be published even if their current version is already in the registry.
+# @flag --ignore-scripts                  Ignores any publish related lifecycle scripts (prepublishOnly, postpublish, and the like)
+# @flag --json                            Show information in JSON format
+# @flag --no-git-checks                   Don't check if current branch is your publish branch, clean, and up to date
+# @flag --otp                             When publishing packages that require two-factor authentication, this option can specify a one-time password
+# @flag --publish-branch                  Sets branch name to publish. Default is master
+# @flag -r --recursive                    Publish all packages from the workspace
+# @flag --report-summary                  Save the list of the newly published packages to "pnpm-publish-summary.json".
+# @option --tag <tag>                     Registers the published package with the given tag.
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
-# @option --filter[`_choice_workspace`] <pattern>            Includes all direct and indirect dependents of the matched packages.
-# @option --filter-prod <pattern>       Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
-# @option --test-pattern <pattern>      Defines files related to tests.
-# @arg tarball-dir <<tarball>|<dir>>    
+# @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
+# @option --filter-prod <pattern>         Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
+# @option --test-pattern <pattern>        Defines files related to tests.
+# @arg tarball-dir <<tarball>|<dir>>      
 publish() {
     :;
 }
@@ -455,15 +452,13 @@ root() {
 # }} pnpm root
 
 # {{ pnpm store
-# @cmd add            Adds new packages to the pnpm store directly.
-
+# @cmd add Adds new packages to the pnpm store directly.
 store() {
     :;
 }
 
 # {{{ pnpm store add
 # @cmd <pkg>...
-
 store::add() {
     :;
 }
@@ -471,7 +466,6 @@ store::add() {
 
 # {{{ pnpm store path
 # @cmd Returns the path to the active store directory.
-
 store::path() {
     :;
 }
@@ -479,7 +473,6 @@ store::path() {
 
 # {{{ pnpm store prune
 # @cmd Removes unreferenced (extraneous, orphan) packages from the store.
-
 store::prune() {
     :;
 }
@@ -487,7 +480,6 @@ store::prune() {
 
 # {{{ pnpm store status
 # @cmd Checks for modified packages in the store.
-
 store::status() {
     :;
 }
@@ -514,9 +506,9 @@ fetch() {
 
 # {{ pnpm patch
 # @cmd Prepare a package for patching.
-# @flag --edit-dir           The package that needs to be modified will be extracted to this directory
-# @flag --ignore-existing    Ignore existing patch files when patching
-# @arg pkg-name-version <<pkg name>@<version>>  
+# @flag --edit-dir                                The package that needs to be modified will be extracted to this directory
+# @flag --ignore-existing                         Ignore existing patch files when patching
+# @arg pkg-name-version <<pkg name>@<version>>    
 patch() {
     :;
 }
@@ -525,7 +517,6 @@ patch() {
 # {{ pnpm patch-commit
 # @cmd Generate a patch out of a directory.
 # @flag --patches-dir    The generated patch file will be saved to this directory
-# @arg patch-commit      
 # @arg patchDir!         
 patch-commit() {
     :;
@@ -534,7 +525,6 @@ patch-commit() {
 
 # {{ pnpm dedup
 # @cmd Perform an install removing older dependencies in the lockfile if a newer version can be used.
-
 dedup() {
     :;
 }
@@ -561,7 +551,7 @@ dedup() {
 # @flag --use-stderr                  Divert all output to stderr
 # @flag -w --workspace-root           Run the command on the root workspace project
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
-# @option --filter[`_choice_workspace`] <pattern>          Includes all direct and indirect dependents of the matched packages.
+# @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
 # @arg pkg!                           
@@ -599,64 +589,64 @@ env() {
     :;
 }
 
-# @cmd
-# @flag -g --global
-env::use() {
+# @cmd List Node.js versions available locally or remotely
+# @flag --remote List the remote versions of Node.js
+# @alias ls
+env::list() {
     :;
 }
 
-# @cmd
-# @flag -g --global
+# @cmd Removes the specified version of Node.js.
+# @flag -g --global Manages Node.js versions globally
 # @alias rm
 env::remove() {
     :;
 }
 
-# @cmd
-# @flag -g --global
-# @alias ls
-env::list() {
+# @cmd Installs the specified version of Node.js. The npm CLI bundled with the given Node.js version gets installed as well.
+# @flag -g --global Manages Node.js versions globally
+env::use() {
     :;
 }
 # }} pnpm env
 
 # {{ pnpm server
 # @cmd Manage a store server.
-# @flag --color                        Controls colors in the output.
-# @flag --no-color                     Controls colors in the output.
-# @flag --lock                         
-# @flag --no-lock                      
-# @flag --verify-store-integrity       If false, doesn't check whether packages in the store were mutated
-# @flag --no-verify-store-integrity    If false, doesn't check whether packages in the store were mutated
-# @flag --aggregate-output             Aggregate output from child processes that are run in parallel, and only print output when child process is finished.
-# @flag --background                   Runs the server in the background
-# @option -C --dir <dir>               Change to directory <dir> (default: /home/sigo/w/argc-completions)
-# @flag -h --help                      Output usage information
-# @flag --ignore-stop-requests         Disallows stopping the server using `pnpm server stop`
-# @flag --ignore-upload-requests       Disallows creating new side effect cache during install
+# @flag --color                             Controls colors in the output.
+# @flag --no-color                          Controls colors in the output.
+# @flag --lock                              
+# @flag --no-lock                           
+# @flag --verify-store-integrity            If false, doesn't check whether packages in the store were mutated
+# @flag --no-verify-store-integrity         If false, doesn't check whether packages in the store were mutated
+# @flag --aggregate-output                  Aggregate output from child processes that are run in parallel, and only print output when child process is finished.
+# @flag --background                        Runs the server in the background
+# @option -C --dir <dir>                    Change to directory <dir> (default: /home/sigo/w/argc-completions)
+# @flag -h --help                           Output usage information
+# @flag --ignore-stop-requests              Disallows stopping the server using `pnpm server stop`
+# @flag --ignore-upload-requests            Disallows creating new side effect cache during install
 # @option --loglevel[debug|info|warn|error|silent] <level>  What level of logs to report.
-# @option --network-concurrency <number>  Maximum number of concurrent network requests
-# @option --port <number>              The port number to use, when TCP is used for communication
-# @option --protocol <auto|tcp|ipc>    The communication protocol used by the server
-# @option --store-dir <dir>            The directory in which all the packages are saved on the disk
-# @flag --stream                       Stream output from child processes immediately, prefixed with the originating package directory.
-# @flag --use-stderr                   Divert all output to stderr
-# @flag -w --workspace-root            Run the command on the root workspace project
+# @option --network-concurrency <number>    Maximum number of concurrent network requests
+# @option --port <number>                   The port number to use, when TCP is used for communication
+# @option --protocol <auto|tcp|ipc>         The communication protocol used by the server
+# @option --store-dir <dir>                 The directory in which all the packages are saved on the disk
+# @flag --stream                            Stream output from child processes immediately, prefixed with the originating package directory.
+# @flag --use-stderr                        Divert all output to stderr
+# @flag -w --workspace-root                 Run the command on the root workspace project
 server() {
     :;
 }
 
-# @cmd
+# @cmd Starts a service that does all interactions with the store. Other commands will delegate any store-related tasks to this service
 server::start() {
     :;
 }
 
-# @cmd
+# @cmd Prints information about the running server
 server::stop() {
     :;
 }
 
-# @cmd
+# @cmd Stops the store server
 server::status() {
     :;
 }
@@ -680,7 +670,6 @@ setup() {
 
 # {{ pnpm init
 # @cmd Create a package.json file.
-
 init() {
     :;
 }
@@ -692,7 +681,7 @@ init() {
 # @flag --no-optional                 `optionalDependencies` are not installed
 # @flag -P --prod                     Packages in `devDependencies` won't be installed
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
-# @option --filter[`_choice_workspace`] <pattern>          Includes all direct and indirect dependents of the matched packages.
+# @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
 # @arg --filter-deployed-project-name <--filter=<deployed project name>>  
@@ -705,7 +694,6 @@ deploy() {
 
 # {{ pnpm docker
 # @cmd Checks for known common issues with pnpm configuration.
-
 docker() {
     :;
 }
@@ -721,27 +709,29 @@ config() {
     :;
 }
 
-# @cmd
-# @flag -g --global
+# @cmd Set the config key to the value provided
+# @flag -g --global Sets the configuration in the global config file
 # @arg key[`_choice_config_key`]
 # @arg value
 config::set() {
     :;
 }
 
-# @cmd
+# @cmd Print the config value for the provided key
+# @flag -g --global Sets the configuration in the global config file
 # @arg key[`_choice_config_key`]
 config::get() {
     :;
 }
 
-# @cmd
+# @cmd Remove the config key from the config file
+# @flag -g --global Sets the configuration in the global config file
 # @arg key[`_choice_config_key`]
 config::delete() {
     :;
 }
 
-# @cmd
+# @cmd Show all the config settings
 config::list() {
     :;
 }

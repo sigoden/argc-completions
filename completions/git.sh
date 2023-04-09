@@ -1,71 +1,71 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @flag --version                  Prints the Git suite version that the git program came from.
-# @flag --help                     Prints the synopsis and a list of the most commonly used commands.
-# @option -C <path>                Run as if git was started in <path> instead of the current working directory.
-# @option -c <<name>=<value>>      Pass a configuration parameter to the command.
-# @option --config-env <<name>=<envvar>>  Pass a configuration parameter to the command, where value from enviroment variable
-# @option --exec-path <path>       Path to wherever your core Git programs are installed.
-# @flag --html-path                Print the path, without trailing slash, where Git’s HTML documentation is installed and exit.
-# @flag --man-path                 Print the manpath (see man(1)) for the man pages for this version of Git and exit.
-# @flag --info-path                Print the path where the Info files documenting this version of Git are installed and exit.
-# @flag -p --paginate              Pipe all output into less (or if set, PAGER) if standard output is a terminal.
-# @flag -P --no-pager              Do not pipe Git output into a pager.
-# @option --git-dir <path>         Set the path to the repository (".git" directory).
-# @option --work-tree <path>       Set the path to the working tree.
-# @option --namespace <name>       Set the Git namespace. See gitnamespaces(7) for more details.
-# @option --super-prefix <path>    Currently for internal use only.
-# @flag --bare                     Treat the repository as a bare repository.
-# @flag --no-replace-objects       Do not use replacement refs to replace Git objects.
-# @flag --literal-pathspecs        Treat pathspecs literally (i.e. no globbing, no pathspec magic).
-# @flag --glob-pathspecs           Add "glob" magic to all pathspec.
-# @flag --noglob-pathspecs         Add "literal" magic to all pathspec.
-# @flag --icase-pathspecs          Add "icase" magic to all pathspec.
-# @flag --no-optional-locks        Do not perform optional operations that require locks.
-# @option --list-cmds <group[,group...]>  List commands by group.
-# @arg cmd![`_choice_cmd`]         
-# @arg args*                       
+# @flag --version                           Prints the Git suite version that the git program came from.
+# @flag --help                              Prints the synopsis and a list of the most commonly used commands.
+# @option -C <path>                         Run as if git was started in <path> instead of the current working directory.
+# @option -c <<name>=<value>>               Pass a configuration parameter to the command.
+# @option --config-env <<name>=<envvar>>    Pass a configuration parameter to the command, where value from enviroment variable
+# @option --exec-path <path>                Path to wherever your core Git programs are installed.
+# @flag --html-path                         Print the path, without trailing slash, where Git’s HTML documentation is installed and exit.
+# @flag --man-path                          Print the manpath (see man(1)) for the man pages for this version of Git and exit.
+# @flag --info-path                         Print the path where the Info files documenting this version of Git are installed and exit.
+# @flag -p --paginate                       Pipe all output into less (or if set, PAGER) if standard output is a terminal.
+# @flag -P --no-pager                       Do not pipe Git output into a pager.
+# @option --git-dir <path>                  Set the path to the repository (".git" directory).
+# @option --work-tree <path>                Set the path to the working tree.
+# @option --namespace <name>                Set the Git namespace. See gitnamespaces(7) for more details.
+# @option --super-prefix <path>             Currently for internal use only.
+# @flag --bare                              Treat the repository as a bare repository.
+# @flag --no-replace-objects                Do not use replacement refs to replace Git objects.
+# @flag --literal-pathspecs                 Treat pathspecs literally (i.e. no globbing, no pathspec magic).
+# @flag --glob-pathspecs                    Add "glob" magic to all pathspec.
+# @flag --noglob-pathspecs                  Add "literal" magic to all pathspec.
+# @flag --icase-pathspecs                   Add "icase" magic to all pathspec.
+# @flag --no-optional-locks                 Do not perform optional operations that require locks.
+# @option --list-cmds <group[,group...]>    List commands by group.
+# @arg cmd![`_choice_cmd`]                  
+# @arg args*                                
 
 
 # {{ git clone
 # @cmd Clone a repository into a new directory
-# @flag -v --verbose                     be more verbose
-# @flag -q --quiet                       be more quiet
-# @flag --progress                       force progress reporting
-# @flag --reject-shallow                 don't clone shallow repository
-# @flag -n --no-checkout                 don't create a checkout
-# @flag --bare                           create a bare repository
-# @flag --mirror                         create a mirror repository (implies bare)
-# @flag -l --local                       to clone from a local repository
-# @flag --no-hardlinks                   don't use local hardlinks, always copy
-# @flag -s --shared                      setup as shared repository
-# @option --recurse-submodules <pathspec>  initialize submodules in the clone
-# @option --recursive <pathspec>         alias of --recurse-submodules
-# @option -j --jobs <n>                  number of submodules cloned in parallel
-# @option --template <template-directory>  directory from which templates will be used
-# @option --reference <repo>             reference repository
-# @option --reference-if-able <repo>     reference repository
-# @flag --dissociate                     use --reference only while cloning
-# @option -o --origin <name>             use <name> instead of 'origin' to track upstream
-# @option -b --branch <branch>           checkout <branch> instead of the remote's HEAD
-# @option -u --upload-pack <path>        path to git-upload-pack on the remote
-# @option --depth <depth>                create a shallow clone of that depth
-# @option --shallow-since <time>         create a shallow clone since a specific time
-# @option --shallow-exclude <revision>   deepen history of shallow clone, excluding rev
-# @flag --single-branch                  clone only one branch, HEAD or --branch
-# @flag --no-tags                        don't clone any tags, and make later fetches not to follow them
-# @flag --shallow-submodules             any cloned submodules will be shallow
-# @option --separate-git-dir <gitdir>    separate git dir from working tree
-# @option -c --config <key=value>        set config inside the new repository
-# @option --server-option <server-specific>  option to transmit
-# @flag -4 --ipv4                        use IPv4 addresses only
-# @flag -6 --ipv6                        use IPv6 addresses only
-# @option --filter <args>                object filtering
-# @flag --remote-submodules              any cloned submodules will use their remote-tracking branch
-# @flag --sparse                         initialize sparse-checkout file to include only files at root
-# @arg repo!                             
-# @arg dir                               
+# @flag -v --verbose                           be more verbose
+# @flag -q --quiet                             be more quiet
+# @flag --progress                             force progress reporting
+# @flag --reject-shallow                       don't clone shallow repository
+# @flag -n --no-checkout                       don't create a checkout
+# @flag --bare                                 create a bare repository
+# @flag --mirror                               create a mirror repository (implies bare)
+# @flag -l --local                             to clone from a local repository
+# @flag --no-hardlinks                         don't use local hardlinks, always copy
+# @flag -s --shared                            setup as shared repository
+# @option --recurse-submodules <pathspec>      initialize submodules in the clone
+# @option --recursive <pathspec>               alias of --recurse-submodules
+# @option -j --jobs <n>                        number of submodules cloned in parallel
+# @option --template <template-directory>      directory from which templates will be used
+# @option --reference <repo>                   reference repository
+# @option --reference-if-able <repo>           reference repository
+# @flag --dissociate                           use --reference only while cloning
+# @option -o --origin <name>                   use <name> instead of 'origin' to track upstream
+# @option -b --branch <branch>                 checkout <branch> instead of the remote's HEAD
+# @option -u --upload-pack <path>              path to git-upload-pack on the remote
+# @option --depth <depth>                      create a shallow clone of that depth
+# @option --shallow-since <time>               create a shallow clone since a specific time
+# @option --shallow-exclude <revision>         deepen history of shallow clone, excluding rev
+# @flag --single-branch                        clone only one branch, HEAD or --branch
+# @flag --no-tags                              don't clone any tags, and make later fetches not to follow them
+# @flag --shallow-submodules                   any cloned submodules will be shallow
+# @option --separate-git-dir <gitdir>          separate git dir from working tree
+# @option -c --config <key=value>              set config inside the new repository
+# @option --server-option <server-specific>    option to transmit
+# @flag -4 --ipv4                              use IPv4 addresses only
+# @flag -6 --ipv6                              use IPv6 addresses only
+# @option --filter <args>                      object filtering
+# @flag --remote-submodules                    any cloned submodules will use their remote-tracking branch
+# @flag --sparse                               initialize sparse-checkout file to include only files at root
+# @arg repo!                                   
+# @arg dir                                     
 clone() {
     :;
 }
@@ -73,14 +73,14 @@ clone() {
 
 # {{ git init
 # @cmd Create an empty Git repository or reinitialize an existing one
-# @option --template <template-directory>  directory from which templates will be used
-# @flag --bare                           create a bare repository
-# @option --shared <permissions>         specify that the git repository is to be shared amongst several users
-# @flag -q --quiet                       be quiet
-# @option --separate-git-dir <gitdir>    separate git dir from working tree
-# @option -b --initial-branch <name>     override the name of the initial branch
-# @option --object-format <hash>         specify the hash algorithm to use
-# @arg directory                         
+# @option --template <template-directory>    directory from which templates will be used
+# @flag --bare                               create a bare repository
+# @option --shared <permissions>             specify that the git repository is to be shared amongst several users
+# @flag -q --quiet                           be quiet
+# @option --separate-git-dir <gitdir>        separate git dir from working tree
+# @option -b --initial-branch <name>         override the name of the initial branch
+# @option --object-format <hash>             specify the hash algorithm to use
+# @arg directory                             
 init() {
     :;
 }
@@ -88,25 +88,25 @@ init() {
 
 # {{ git add
 # @cmd Add file contents to the index
-# @flag -n --dry-run                     dry run
-# @flag -v --verbose                     be verbose
-# @flag -i --interactive                 interactive picking
-# @flag -p --patch                       select hunks interactively
-# @flag -e --edit                        edit current diff and apply
-# @flag -f --force                       allow adding otherwise ignored files
-# @flag -u --update                      update tracked files
-# @flag --renormalize                    renormalize EOL of tracked files (implies -u)
-# @flag -N --intent-to-add               record only the fact that the path will be added later
-# @flag -A --all                         add changes from all tracked and untracked files
-# @flag --ignore-removal                 ignore paths removed in the working tree (same as --no-all)
-# @flag --refresh                        don't add, only refresh the index
-# @flag --ignore-errors                  just skip files which cannot be added because of errors
-# @flag --ignore-missing                 check if - even missing - files are ignored in dry run
-# @flag --sparse                         allow updating entries outside of the sparse-checkout cone
-# @option --chmod <(+|-)x>               override the executable bit of the listed files
-# @option --pathspec-from-file <file>    read pathspec from file
-# @flag --pathspec-file-nul              with --pathspec-from-file, pathspec elements are separated with NUL character
-# @arg pathspec+[`_choice_unstaged_file`]  
+# @flag -n --dry-run                         dry run
+# @flag -v --verbose                         be verbose
+# @flag -i --interactive                     interactive picking
+# @flag -p --patch                           select hunks interactively
+# @flag -e --edit                            edit current diff and apply
+# @flag -f --force                           allow adding otherwise ignored files
+# @flag -u --update                          update tracked files
+# @flag --renormalize                        renormalize EOL of tracked files (implies -u)
+# @flag -N --intent-to-add                   record only the fact that the path will be added later
+# @flag -A --all                             add changes from all tracked and untracked files
+# @flag --ignore-removal                     ignore paths removed in the working tree (same as --no-all)
+# @flag --refresh                            don't add, only refresh the index
+# @flag --ignore-errors                      just skip files which cannot be added because of errors
+# @flag --ignore-missing                     check if - even missing - files are ignored in dry run
+# @flag --sparse                             allow updating entries outside of the sparse-checkout cone
+# @option --chmod <(+|-)x>                   override the executable bit of the listed files
+# @option --pathspec-from-file <file>        read pathspec from file
+# @flag --pathspec-file-nul                  with --pathspec-from-file, pathspec elements are separated with NUL character
+# @arg pathspec+[`_choice_unstaged_file`]    
 add() {
     :;
 }
@@ -149,7 +149,7 @@ bisect() {
     :;
 }
 
-# @cmd
+# @cmd reset bisect state and start bisection.
 # @option --term-new term
 # @option --term-bad term
 # @option --term-old term
@@ -160,76 +160,76 @@ bisect::start() {
     :;
 }
 
-# @cmd
+# @cmd mark <rev> bad revision after change in a given property.
 # @arg rev
 bisect::bad() {
     :;
 }
 
-# @cmd
+# @cmd mark <rev> new revision after change in a given property.
 # @arg rev
 bisect::new() {
     :;
 }
 
-# @cmd
+# @cmd mark <rev>... good revisions before change in a given property.
 # @arg rev*
 bisect::good() {
     :;
 }
 
-# @cmd
+# @cmd mark <rev>... old revisions before change in a given property.
 # @arg rev*
 bisect::old() {
     :;
 }
 
-# @cmd
+# @cmd show the terms used for old and new commits
 # @flag --term-good
 # @flag --term-bad
 bisect::terms() {
     :;
 }
 
-# @cmd
+# @cmd mark <rev>... untestable revisions.
 # @arg rev-range*
 bisect::skip() {
     :;
 }
 
-# @cmd
+# @cmd find next bisection to test and check it out.
 bisect::next() {
     :;
 }
 
-# @cmd
+# @cmd finish bisection search and go back to commit.
 # @arg commit
 bisect::reset() {
     :;
 }
 
-# @cmd
+# @cmd how bisect status in gitk.
 bisect::visualize() {
     :;
 }
 
-# @cmd
+# @cmd show bisect status in gitk.
 bisect::view() {
     :;
 }
 
-# @cmd
+# @cmd replay bisection log.
 # @arg logfile!
 bisect::replay() {
     :;
 }
 
-# @cmd
+# @cmd show bisect log.
 bisect::log() {
     :;
 }
 
-# @cmd
+# @cmd  use <cmd>... to automatically bisect.
 # @arg cmd*
 bisect::run() {
     :;
@@ -246,7 +246,7 @@ bisect::run() {
 # @flag --numstat                      show numeric diffstat instead of patch.
 # @flag --patch-with-stat              output a patch and prepend its diffstat.
 # @flag --name-only                    show only names of changed files.
-# @option --name-status <show>         names and status of changed files.
+# @flag --name-status                  show names and status of changed files.
 # @flag --full-index                   show full object name on index lines.
 # @option --abbrev <n>                 abbreviate object names in diff-tree header and diff-raw.
 # @flag -R                             swap input file pairs.
@@ -267,55 +267,55 @@ diff() {
 
 # {{ git grep
 # @cmd Print lines matching a pattern
-# @flag --cached                     search in index instead of in the work tree
-# @flag --no-index                   find in contents not managed by git
-# @flag --untracked                  search in both tracked and untracked files
-# @flag --exclude-standard           ignore files specified via '.gitignore'
-# @flag --recurse-submodules         recursively search in each submodule
-# @flag -v --invert-match            show non-matching lines
-# @flag -i --ignore-case             case insensitive matching
-# @flag -w --word-regexp             match patterns only at word boundaries
-# @flag -a --text                    process binary files as text
-# @flag -I                           don't match patterns in binary files
-# @flag --textconv                   process binary files with textconv filters
-# @flag -r --recursive               search in subdirectories (default)
-# @option --max-depth <depth>        descend at most <depth> levels
-# @flag -E --extended-regexp         use extended POSIX regular expressions
-# @flag -G --basic-regexp            use basic POSIX regular expressions (default)
-# @flag -F --fixed-strings           interpret patterns as fixed strings
-# @flag -P --perl-regexp             use Perl-compatible regular expressions
-# @flag -n --line-number             show line numbers
-# @flag --column                     show column number of first match
-# @flag -h                           don't show filenames
-# @flag -H                           show filenames
-# @flag --full-name                  show filenames relative to top directory
-# @flag -l --files-with-matches      show only filenames instead of matching lines
-# @flag --name-only                  synonym for --files-with-matches
-# @flag -L --files-without-match     show only the names of files without match
-# @flag -z --null                    print NUL after filenames
-# @flag -o --only-matching           show only matching parts of a line
-# @flag -c --count                   show the number of matches instead of matching lines
-# @option --color <when>             highlight matches
-# @flag --break                      print empty line between matches from different files
-# @flag --heading                    show filename only once above matches from same file
-# @option -C --context <n>           show <n> context lines before and after matches
-# @option -B --before-context <n>    show <n> context lines before matches
-# @option -A --after-context <n>     show <n> context lines after matches
-# @option --threads <n>              use <n> worker threads
-# @flag -p --show-function           show a line with the function name before matches
-# @flag -W --function-context        show the surrounding function
-# @option -f <file>                  read patterns from file
-# @option -e <pattern>               match <pattern>
-# @flag --and                        combine patterns specified with -e
-# @flag --or                         
-# @flag --not                        
-# @flag -q --quiet                   indicate hit with exit status without output
-# @flag --all-match                  show only matches from files that match all patterns
-# @option -O --open-files-in-pager <pager>  show matching files in the pager
-# @flag --ext-grep                   allow calling of grep(1) (ignored by this build)
-# @arg pattern!                      
-# @arg rev*                          
-# @arg ---path <[--] <path>...>      
+# @flag --cached                              search in index instead of in the work tree
+# @flag --no-index                            find in contents not managed by git
+# @flag --untracked                           search in both tracked and untracked files
+# @flag --exclude-standard                    ignore files specified via '.gitignore'
+# @flag --recurse-submodules                  recursively search in each submodule
+# @flag -v --invert-match                     show non-matching lines
+# @flag -i --ignore-case                      case insensitive matching
+# @flag -w --word-regexp                      match patterns only at word boundaries
+# @flag -a --text                             process binary files as text
+# @flag -I                                    don't match patterns in binary files
+# @flag --textconv                            process binary files with textconv filters
+# @flag -r --recursive                        search in subdirectories (default)
+# @option --max-depth <depth>                 descend at most <depth> levels
+# @flag -E --extended-regexp                  use extended POSIX regular expressions
+# @flag -G --basic-regexp                     use basic POSIX regular expressions (default)
+# @flag -F --fixed-strings                    interpret patterns as fixed strings
+# @flag -P --perl-regexp                      use Perl-compatible regular expressions
+# @flag -n --line-number                      show line numbers
+# @flag --column                              show column number of first match
+# @flag -h                                    don't show filenames
+# @flag -H                                    show filenames
+# @flag --full-name                           show filenames relative to top directory
+# @flag -l --files-with-matches               show only filenames instead of matching lines
+# @flag --name-only                           synonym for --files-with-matches
+# @flag -L --files-without-match              show only the names of files without match
+# @flag -z --null                             print NUL after filenames
+# @flag -o --only-matching                    show only matching parts of a line
+# @flag -c --count                            show the number of matches instead of matching lines
+# @option --color <when>                      highlight matches
+# @flag --break                               print empty line between matches from different files
+# @flag --heading                             show filename only once above matches from same file
+# @option -C --context <n>                    show <n> context lines before and after matches
+# @option -B --before-context <n>             show <n> context lines before matches
+# @option -A --after-context <n>              show <n> context lines after matches
+# @option --threads <n>                       use <n> worker threads
+# @flag -p --show-function                    show a line with the function name before matches
+# @flag -W --function-context                 show the surrounding function
+# @option -f <file>                           read patterns from file
+# @option -e <pattern>                        match <pattern>
+# @flag --and                                 combine patterns specified with -e
+# @flag --or                                  
+# @flag --not                                 
+# @flag -q --quiet                            indicate hit with exit status without output
+# @flag --all-match                           show only matches from files that match all patterns
+# @option -O --open-files-in-pager <pager>    show matching files in the pager
+# @flag --ext-grep                            allow calling of grep(1) (ignored by this build)
+# @arg pattern!                               
+# @arg rev*                                   
+# @arg ---path <[--] <path>...>               
 grep() {
     :;
 }
@@ -323,15 +323,15 @@ grep() {
 
 # {{ git log
 # @cmd Show commit logs
-# @flag -q --quiet                     suppress diff output
-# @flag --source                       show source
-# @flag --use-mailmap                  use mail map file
-# @flag --mailmap                      alias of --use-mailmap
-# @option --decorate-refs <pattern>    only decorate refs that match <pattern>
-# @option --decorate-refs-exclude <pattern>  do not decorate refs that match <pattern>
-# @flag --decorate*                    decorate options
-# @option -L <range:file>              trace the evolution of line range <start>,<end> or function :<funcname> in <file>
-# @arg commit-path*[`_choice_log`]     
+# @flag -q --quiet                             suppress diff output
+# @flag --source                               show source
+# @flag --use-mailmap                          use mail map file
+# @flag --mailmap                              alias of --use-mailmap
+# @option --decorate-refs <pattern>            only decorate refs that match <pattern>
+# @option --decorate-refs-exclude <pattern>    do not decorate refs that match <pattern>
+# @flag --decorate*                            decorate options
+# @option -L <range:file>                      trace the evolution of line range <start>,<end> or function :<funcname> in <file>
+# @arg commit-path*[`_choice_log`]             
 log() {
     :;
 }
@@ -339,15 +339,15 @@ log() {
 
 # {{ git show
 # @cmd Show various types of objects
-# @flag -q --quiet                     suppress diff output
-# @flag --source                       show source
-# @flag --use-mailmap                  use mail map file
-# @flag --mailmap                      alias of --use-mailmap
-# @option --decorate-refs <pattern>    only decorate refs that match <pattern>
-# @option --decorate-refs-exclude <pattern>  do not decorate refs that match <pattern>
-# @flag --decorate*                    decorate options
-# @option -L <range:file>              trace the evolution of line range <start>,<end> or function :<funcname> in <file>
-# @arg commit-path*[`_choice_show`]    
+# @flag -q --quiet                             suppress diff output
+# @flag --source                               show source
+# @flag --use-mailmap                          use mail map file
+# @flag --mailmap                              alias of --use-mailmap
+# @option --decorate-refs <pattern>            only decorate refs that match <pattern>
+# @option --decorate-refs-exclude <pattern>    do not decorate refs that match <pattern>
+# @flag --decorate*                            decorate options
+# @option -L <range:file>                      trace the evolution of line range <start>,<end> or function :<funcname> in <file>
+# @arg commit-path*[`_choice_show`]            
 show() {
     :;
 }
@@ -377,43 +377,43 @@ status() {
 
 # {{ git commit
 # @cmd Record changes to the repository
-# @flag -q --quiet                       suppress summary after successful commit
-# @flag -v --verbose                     show diff in commit message template
-# @option -F --file <file>               read message from file
-# @option --author <author>              override author for commit
-# @option --date <date>                  override date for commit
-# @option -m --message <message>         commit message
-# @option -c --reedit-message <commit>   reuse and edit message from specified commit
-# @option -C --reuse-message <commit>    reuse message from specified commit
-# @option --fixup <[(amend|reword):]commit>  use autosquash formatted message to fixup or amend/reword specified commit
-# @option --squash <commit>              use autosquash formatted message to squash specified commit
-# @flag --reset-author                   the commit is authored by me now (used with -C/-c/--amend)
-# @option --trailer <trailer>            add custom trailer(s)
-# @flag -s --signoff                     add a Signed-off-by trailer
-# @option -t --template <file>           use specified template file
-# @flag -e --edit                        force edit of commit
-# @option --cleanupcomments from message <mode>  how to strip spaces and
-# @flag --status                         include status in commit message template
-# @option -S --gpg-sign <key-id>         GPG sign commit
-# @flag -a --all                         commit all changed files
-# @flag -i --include                     add specified files to index for commit
-# @flag --interactive                    interactively add files
-# @flag -p --patch                       interactively add changes
-# @flag -o --only                        commit only specified files
-# @flag -n --no-verify                   bypass pre-commit and commit-msg hooks
-# @flag --dry-run                        show what would be committed
-# @flag --short                          show status concisely
-# @flag --branch                         show branch information
-# @flag --ahead-behind                   compute full ahead/behind values
-# @flag --porcelain                      machine-readable output
-# @flag --long                           show status in long format (default)
-# @flag -z --null                        terminate entries with NUL
-# @flag --amend                          amend previous commit
-# @flag --no-post-rewrite                bypass post-rewrite hook
-# @option -u --untracked-files <mode>    show untracked files, optional modes: all, normal, no. (Default: all)
-# @option --pathspec-from-file <file>    read pathspec from file
-# @flag --pathspec-file-nul              with --pathspec-from-file, pathspec elements are separated with NUL character
-# @arg pathspec+                         
+# @flag -q --quiet                                 suppress summary after successful commit
+# @flag -v --verbose                               show diff in commit message template
+# @option -F --file <file>                         read message from file
+# @option --author <author>                        override author for commit
+# @option --date <date>                            override date for commit
+# @option -m --message <message>                   commit message
+# @option -c --reedit-message <commit>             reuse and edit message from specified commit
+# @option -C --reuse-message <commit>              reuse message from specified commit
+# @option --fixup <[(amend|reword):]commit>        use autosquash formatted message to fixup or amend/reword specified commit
+# @option --squash <commit>                        use autosquash formatted message to squash specified commit
+# @flag --reset-author                             the commit is authored by me now (used with -C/-c/--amend)
+# @option --trailer <trailer>                      add custom trailer(s)
+# @flag -s --signoff                               add a Signed-off-by trailer
+# @option -t --template <file>                     use specified template file
+# @flag -e --edit                                  force edit of commit
+# @option --cleanupcomments from message <mode>    how to strip spaces and
+# @flag --status                                   include status in commit message template
+# @option -S --gpg-sign <key-id>                   GPG sign commit
+# @flag -a --all                                   commit all changed files
+# @flag -i --include                               add specified files to index for commit
+# @flag --interactive                              interactively add files
+# @flag -p --patch                                 interactively add changes
+# @flag -o --only                                  commit only specified files
+# @flag -n --no-verify                             bypass pre-commit and commit-msg hooks
+# @flag --dry-run                                  show what would be committed
+# @flag --short                                    show status concisely
+# @flag --branch                                   show branch information
+# @flag --ahead-behind                             compute full ahead/behind values
+# @flag --porcelain                                machine-readable output
+# @flag --long                                     show status in long format (default)
+# @flag -z --null                                  terminate entries with NUL
+# @flag --amend                                    amend previous commit
+# @flag --no-post-rewrite                          bypass post-rewrite hook
+# @option -u --untracked-files <mode>              show untracked files, optional modes: all, normal, no. (Default: all)
+# @option --pathspec-from-file <file>              read pathspec from file
+# @flag --pathspec-file-nul                        with --pathspec-from-file, pathspec elements are separated with NUL character
+# @arg pathspec+                                   
 commit() {
     :;
 }
@@ -421,35 +421,35 @@ commit() {
 
 # {{ git merge
 # @cmd Join two or more development histories together
-# @flag -n                             do not show a diffstat at the end of the merge
-# @flag --stat                         show a diffstat at the end of the merge
-# @flag --summary                      (synonym to --stat)
-# @option --log <n>                    add (at most <n>) entries from shortlog to merge commit message
-# @flag --squash                       create a single commit instead of doing a merge
-# @flag --commit                       perform a commit if the merge succeeds (default)
-# @flag -e --edit                      edit message before committing
-# @option --cleanupcomments from message <mode>  how to strip spaces and
-# @flag --ff                           allow fast-forward (default)
-# @flag --ff-only                      abort if fast-forward is not possible
-# @flag --rerere-autoupdate            update the index with reused conflict resolution if possible
-# @flag --verify-signatures            verify that the named commit has a valid GPG signature
-# @option -s --strategy <strategy>     merge strategy to use
-# @option -X --strategy-option <option=value>  option for selected merge strategy
-# @option -m --message <message>       merge commit message (for a non-fast-forward merge)
-# @option -F --file <path>             read message from file
-# @flag -v --verbose                   be more verbose
-# @flag -q --quiet                     be more quiet
-# @flag --abort                        abort the current in-progress merge
-# @flag --quit                         --abort but leave index and working tree alone
-# @flag --continue                     continue the current in-progress merge
-# @flag --allow-unrelated-histories    allow merging unrelated histories
-# @flag --progress                     force progress reporting
-# @option -S --gpg-sign <key-id>       GPG sign commit
-# @flag --autostash                    automatically stash/stash pop before and after
-# @flag --overwrite-ignore             update ignored files (default)
-# @flag --signoff                      add a Signed-off-by trailer
-# @flag --no-verify                    bypass pre-merge-commit and commit-msg hooks
-# @arg commit*[`_choice_branch`]       
+# @flag -n                                         do not show a diffstat at the end of the merge
+# @flag --stat                                     show a diffstat at the end of the merge
+# @flag --summary                                  (synonym to --stat)
+# @option --log <n>                                add (at most <n>) entries from shortlog to merge commit message
+# @flag --squash                                   create a single commit instead of doing a merge
+# @flag --commit                                   perform a commit if the merge succeeds (default)
+# @flag -e --edit                                  edit message before committing
+# @option --cleanupcomments from message <mode>    how to strip spaces and
+# @flag --ff                                       allow fast-forward (default)
+# @flag --ff-only                                  abort if fast-forward is not possible
+# @flag --rerere-autoupdate                        update the index with reused conflict resolution if possible
+# @flag --verify-signatures                        verify that the named commit has a valid GPG signature
+# @option -s --strategy <strategy>                 merge strategy to use
+# @option -X --strategy-option <option=value>      option for selected merge strategy
+# @option -m --message <message>                   merge commit message (for a non-fast-forward merge)
+# @option -F --file <path>                         read message from file
+# @flag -v --verbose                               be more verbose
+# @flag -q --quiet                                 be more quiet
+# @flag --abort                                    abort the current in-progress merge
+# @flag --quit                                     --abort but leave index and working tree alone
+# @flag --continue                                 continue the current in-progress merge
+# @flag --allow-unrelated-histories                allow merging unrelated histories
+# @flag --progress                                 force progress reporting
+# @option -S --gpg-sign <key-id>                   GPG sign commit
+# @flag --autostash                                automatically stash/stash pop before and after
+# @flag --overwrite-ignore                         update ignored files (default)
+# @flag --signoff                                  add a Signed-off-by trailer
+# @flag --no-verify                                bypass pre-merge-commit and commit-msg hooks
+# @arg target*[`_choice_branch`]                   
 merge() {
     :;
 }
@@ -457,44 +457,44 @@ merge() {
 
 # {{ git rebase
 # @cmd Reapply commits on top of another base tip
-# @option --onto <revision>            rebase onto given branch instead of upstream
-# @flag --keep-base                    use the merge-base of upstream and branch as the current base
-# @flag --no-verify                    allow pre-rebase hook to run
-# @flag -q --quiet                     be quiet. implies --no-stat
-# @flag -v --verbose                   display a diffstat of what changed upstream
-# @flag -n --no-stat                   do not show diffstat of what changed upstream
-# @flag --signoff                      add a Signed-off-by trailer to each commit
-# @flag --committer-date-is-author-date  make committer date match author date
-# @flag --reset-author-date            ignore author date and use current date
-# @option -C <n>                       passed to 'git apply'
-# @flag --ignore-whitespace            ignore changes in whitespace
-# @option --whitespace <action>        passed to 'git apply'
-# @flag -f --force-rebase              cherry-pick all commits, even if unchanged
-# @flag --no-ff                        cherry-pick all commits, even if unchanged
-# @flag --continue                     continue
-# @flag --skip                         skip current patch and continue
-# @flag --abort                        abort and check out the original branch
-# @flag --quit                         abort but keep HEAD where it is
-# @flag --edit-todo                    edit the todo list during an interactive rebase
-# @flag --show-current-patch           show the patch file being applied or merged
-# @flag --apply                        use apply strategies to rebase
-# @flag -m --merge                     use merging strategies to rebase
-# @flag -i --interactive               let the user edit the list of commits to rebase
-# @flag --rerere-autoupdate            update the index with reused conflict resolution if possible
-# @option --empty <{drop,keep,ask}>    how to handle commits that become empty
-# @flag --autosquash                   move commits that begin with squash!/fixup! under -i
-# @option -S --gpg-sign <key-id>       GPG-sign commits
-# @flag --autostash                    automatically stash/stash pop before and after
-# @option -x --exec <exec>             add exec lines after each commit of the editable list
-# @option -r --rebase-merges <mode>    try to rebase merges instead of skipping them
-# @flag --fork-point                   use 'merge-base --fork-point' to refine upstream
-# @option -s --strategy <strategy>     use the given merge strategy
-# @option -X --strategy-option <option>  pass the argument through to the merge strategy
-# @flag --root                         rebase all reachable commits up to the root(s)
-# @flag --reschedule-failed-exec       automatically re-schedule any `exec` that fails
-# @flag --reapply-cherry-picks         apply all changes, even those already present upstream
-# @arg base![`_choice_branch`]         
-# @arg new![`_choice_branch`]          
+# @option --onto <revision>                rebase onto given branch instead of upstream
+# @flag --keep-base                        use the merge-base of upstream and branch as the current base
+# @flag --no-verify                        allow pre-rebase hook to run
+# @flag -q --quiet                         be quiet. implies --no-stat
+# @flag -v --verbose                       display a diffstat of what changed upstream
+# @flag -n --no-stat                       do not show diffstat of what changed upstream
+# @flag --signoff                          add a Signed-off-by trailer to each commit
+# @flag --committer-date-is-author-date    make committer date match author date
+# @flag --reset-author-date                ignore author date and use current date
+# @option -C <n>                           passed to 'git apply'
+# @flag --ignore-whitespace                ignore changes in whitespace
+# @option --whitespace <action>            passed to 'git apply'
+# @flag -f --force-rebase                  cherry-pick all commits, even if unchanged
+# @flag --no-ff                            cherry-pick all commits, even if unchanged
+# @flag --continue                         continue
+# @flag --skip                             skip current patch and continue
+# @flag --abort                            abort and check out the original branch
+# @flag --quit                             abort but keep HEAD where it is
+# @flag --edit-todo                        edit the todo list during an interactive rebase
+# @flag --show-current-patch               show the patch file being applied or merged
+# @flag --apply                            use apply strategies to rebase
+# @flag -m --merge                         use merging strategies to rebase
+# @flag -i --interactive                   let the user edit the list of commits to rebase
+# @flag --rerere-autoupdate                update the index with reused conflict resolution if possible
+# @option --empty <{drop,keep,ask}>        how to handle commits that become empty
+# @flag --autosquash                       move commits that begin with squash!/fixup! under -i
+# @option -S --gpg-sign <key-id>           GPG-sign commits
+# @flag --autostash                        automatically stash/stash pop before and after
+# @option -x --exec <exec>                 add exec lines after each commit of the editable list
+# @option -r --rebase-merges <mode>        try to rebase merges instead of skipping them
+# @flag --fork-point                       use 'merge-base --fork-point' to refine upstream
+# @option -s --strategy <strategy>         use the given merge strategy
+# @option -X --strategy-option <option>    pass the argument through to the merge strategy
+# @flag --root                             rebase all reachable commits up to the root(s)
+# @flag --reschedule-failed-exec           automatically re-schedule any `exec` that fails
+# @flag --reapply-cherry-picks             apply all changes, even those already present upstream
+# @arg base![`_choice_branch`]             
+# @arg new![`_choice_branch`]              
 rebase() {
     :;
 }
@@ -502,18 +502,18 @@ rebase() {
 
 # {{ git reset
 # @cmd Reset current HEAD to the specified state
-# @flag -q --quiet                       be quiet, only report errors
-# @flag --mixed                          reset HEAD and index
-# @flag --soft                           reset only HEAD
-# @flag --hard                           reset HEAD, index and working tree
-# @flag --merge                          reset HEAD, index and working tree
-# @flag --keep                           reset HEAD but keep local changes
-# @option --recurse-submodules <reset>   control recursive updating of submodules
-# @flag -p --patch                       select hunks interactively
-# @flag -N --intent-to-add               record only the fact that removed paths will be added later
-# @option --pathspec-from-file <file>    read pathspec from file
-# @flag --pathspec-file-nul              with --pathspec-from-file, pathspec elements are separated with NUL character
-# @arg commit*[`_choice_reset`]          
+# @flag -q --quiet                        be quiet, only report errors
+# @flag --mixed                           reset HEAD and index
+# @flag --soft                            reset only HEAD
+# @flag --hard                            reset HEAD, index and working tree
+# @flag --merge                           reset HEAD, index and working tree
+# @flag --keep                            reset HEAD but keep local changes
+# @option --recurse-submodules <reset>    control recursive updating of submodules
+# @flag -p --patch                        select hunks interactively
+# @flag -N --intent-to-add                record only the fact that removed paths will be added later
+# @option --pathspec-from-file <file>     read pathspec from file
+# @flag --pathspec-file-nul               with --pathspec-from-file, pathspec elements are separated with NUL character
+# @arg commit*[`_choice_reset`]           
 reset() {
     :;
 }
@@ -521,22 +521,22 @@ reset() {
 
 # {{ git switch
 # @cmd Switch branches
-# @option -c --create <branch>          create and switch to a new branch
-# @option -C --force-create <branch>    create/reset and switch to a branch
-# @flag --guess                         second guess 'git switch <no-such-branch>'
-# @flag --discard-changes               throw away local modifications
-# @flag -q --quiet                      suppress progress reporting
-# @option --recurse-submodules <checkout>  control recursive updating of submodules
-# @flag --progress                      force progress reporting
-# @flag -m --merge                      perform a 3-way merge with the new branch
-# @option --conflict <style>            conflict style (merge or diff3)
-# @flag -d --detach                     detach HEAD at named commit
-# @flag -t --track                      set upstream info for new branch
-# @flag -f --force                      force checkout (throw away local modifications)
-# @option --orphan <new-branch>         new unparented branch
-# @flag --overwrite-ignore              update ignored files (default)
-# @flag --ignore-other-worktrees        do not check if another worktree is holding the given ref
-# @arg branch[`_choice_branch`]         
+# @option -c --create <branch>               create and switch to a new branch
+# @option -C --force-create <branch>         create/reset and switch to a branch
+# @flag --guess                              second guess 'git switch <no-such-branch>'
+# @flag --discard-changes                    throw away local modifications
+# @flag -q --quiet                           suppress progress reporting
+# @option --recurse-submodules <checkout>    control recursive updating of submodules
+# @flag --progress                           force progress reporting
+# @flag -m --merge                           perform a 3-way merge with the new branch
+# @option --conflict <style>                 conflict style (merge or diff3)
+# @flag -d --detach                          detach HEAD at named commit
+# @flag -t --track                           set upstream info for new branch
+# @flag -f --force                           force checkout (throw away local modifications)
+# @option --orphan <new-branch>              new unparented branch
+# @flag --overwrite-ignore                   update ignored files (default)
+# @flag --ignore-other-worktrees             do not check if another worktree is holding the given ref
+# @arg branch[`_choice_branch`]              
 switch() {
     :;
 }
@@ -544,47 +544,47 @@ switch() {
 
 # {{ git fetch
 # @cmd Download objects and refs from another repository
-# @flag -v --verbose                 be more verbose
-# @flag -q --quiet                   be more quiet
-# @flag --all                        fetch from all remotes
-# @flag --set-upstream               set upstream for git pull/fetch
-# @flag -a --append                  append to .git/FETCH_HEAD instead of overwriting
-# @flag --atomic                     use atomic transaction to update references
-# @option --upload-pack <path>       path to upload pack on remote end
-# @flag -f --force                   force overwrite of local reference
-# @flag -m --multiple                fetch from multiple remotes
-# @flag -t --tags                    fetch all tags and associated objects
-# @flag -n                           do not fetch all tags (--no-tags)
-# @option -j --jobs <n>              number of submodules fetched in parallel
-# @flag --prefetch                   modify the refspec to place all refs within refs/prefetch/
-# @flag -p --prune                   prune remote-tracking branches no longer on remote
-# @flag -P --prune-tags              prune local tags no longer on remote and clobber changed tags
-# @option --recurse-submodules <on-demand>  control recursive fetching of submodules
-# @flag --dry-run                    dry run
-# @flag --write-fetch-head           write fetched references to the FETCH_HEAD file
-# @flag -k --keep                    keep downloaded pack
-# @flag -u --update-head-ok          allow updating of HEAD ref
-# @flag --progress                   force progress reporting
-# @option --depth <depth>            deepen history of shallow clone
-# @option --shallow-since <time>     deepen history of shallow repository based on time
-# @option --shallow-exclude <revision>  deepen history of shallow clone, excluding rev
-# @option --deepen <n>               deepen history of shallow clone
-# @flag --unshallow                  convert to a complete repository
-# @flag --update-shallow             accept refs that update .git/shallow
-# @option --refmap <refmap>          specify fetch refmap
-# @option -o --server-option <server-specific>  option to transmit
-# @flag -4 --ipv4                    use IPv4 addresses only
-# @flag -6 --ipv6                    use IPv6 addresses only
-# @option --negotiation-tip <revision>  report that we have only objects reachable from this object
-# @flag --negotiate-only             do not fetch a packfile; instead, print ancestors of negotiation tips
-# @option --filter <args>            object filtering
-# @flag --auto-maintenance           run 'maintenance --auto' after fetching
-# @flag --auto-gc                    run 'maintenance --auto' after fetching
-# @flag --show-forced-updates        check for forced-updates on all updated branches
-# @flag --write-commit-graph         write the commit-graph after fetching
-# @flag --stdin                      accept refspecs from stdin
-# @arg remote![`_choice_remote`]     
-# @arg refspec+[`_choice_branch`]    
+# @flag -v --verbose                              be more verbose
+# @flag -q --quiet                                be more quiet
+# @flag --all                                     fetch from all remotes
+# @flag --set-upstream                            set upstream for git pull/fetch
+# @flag -a --append                               append to .git/FETCH_HEAD instead of overwriting
+# @flag --atomic                                  use atomic transaction to update references
+# @option --upload-pack <path>                    path to upload pack on remote end
+# @flag -f --force                                force overwrite of local reference
+# @flag -m --multiple                             fetch from multiple remotes
+# @flag -t --tags                                 fetch all tags and associated objects
+# @flag -n                                        do not fetch all tags (--no-tags)
+# @option -j --jobs <n>                           number of submodules fetched in parallel
+# @flag --prefetch                                modify the refspec to place all refs within refs/prefetch/
+# @flag -p --prune                                prune remote-tracking branches no longer on remote
+# @flag -P --prune-tags                           prune local tags no longer on remote and clobber changed tags
+# @option --recurse-submodules <on-demand>        control recursive fetching of submodules
+# @flag --dry-run                                 dry run
+# @flag --write-fetch-head                        write fetched references to the FETCH_HEAD file
+# @flag -k --keep                                 keep downloaded pack
+# @flag -u --update-head-ok                       allow updating of HEAD ref
+# @flag --progress                                force progress reporting
+# @option --depth <depth>                         deepen history of shallow clone
+# @option --shallow-since <time>                  deepen history of shallow repository based on time
+# @option --shallow-exclude <revision>            deepen history of shallow clone, excluding rev
+# @option --deepen <n>                            deepen history of shallow clone
+# @flag --unshallow                               convert to a complete repository
+# @flag --update-shallow                          accept refs that update .git/shallow
+# @option --refmap <refmap>                       specify fetch refmap
+# @option -o --server-option <server-specific>    option to transmit
+# @flag -4 --ipv4                                 use IPv4 addresses only
+# @flag -6 --ipv6                                 use IPv6 addresses only
+# @option --negotiation-tip <revision>            report that we have only objects reachable from this object
+# @flag --negotiate-only                          do not fetch a packfile; instead, print ancestors of negotiation tips
+# @option --filter <args>                         object filtering
+# @flag --auto-maintenance                        run 'maintenance --auto' after fetching
+# @flag --auto-gc                                 run 'maintenance --auto' after fetching
+# @flag --show-forced-updates                     check for forced-updates on all updated branches
+# @flag --write-commit-graph                      write the commit-graph after fetching
+# @flag --stdin                                   accept refspecs from stdin
+# @arg remote![`_choice_remote`]                  
+# @arg refspec+[`_choice_branch`]                 
 fetch() {
     :;
 }
@@ -592,52 +592,52 @@ fetch() {
 
 # {{ git pull
 # @cmd Fetch from and integrate with another repository or a local branch
-# @flag -v --verbose                   be more verbose
-# @flag -q --quiet                     be more quiet
-# @flag --progress                     force progress reporting
-# @option --recurse-submodules <on-demand>  control for recursive fetching of submodules
+# @flag -v --verbose                               be more verbose
+# @flag -q --quiet                                 be more quiet
+# @flag --progress                                 force progress reporting
+# @option --recurse-submodules <on-demand>         control for recursive fetching of submodules
 # @option -r --rebase <false|true|merges|interactive>  incorporate changes by rebasing rather than merging
-# @flag -n                             do not show a diffstat at the end of the merge
-# @flag --stat                         show a diffstat at the end of the merge
-# @option --log <n>                    add (at most <n>) entries from shortlog to merge commit message
-# @flag --signoff*                     add a Signed-off-by trailer
-# @flag --squash                       create a single commit instead of doing a merge
-# @flag --commit                       perform a commit if the merge succeeds (default)
-# @flag --edit                         edit message before committing
-# @option --cleanupcomments from message <mode>  how to strip spaces and
-# @flag --ff                           allow fast-forward
-# @flag --ff-only                      abort if fast-forward is not possible
-# @flag --verify                       control use of pre-merge-commit and commit-msg hooks
-# @flag --verify-signatures            verify that the named commit has a valid GPG signature
-# @flag --autostash                    automatically stash/stash pop before and after
-# @option -s --strategy <strategy>     merge strategy to use
-# @option -X --strategy-option <option=value>  option for selected merge strategy
-# @option -S --gpg-sign <key-id>       GPG sign commit
-# @flag --allow-unrelated-histories    allow merging unrelated histories
-# @flag --all                          fetch from all remotes
-# @flag -a --append                    append to .git/FETCH_HEAD instead of overwriting
-# @option --upload-pack <path>         path to upload pack on remote end
-# @flag -f --force                     force overwrite of local branch
-# @flag -t --tags                      fetch all tags and associated objects
-# @flag -p --prune                     prune remote-tracking branches no longer on remote
-# @option -j --jobs <n>                number of submodules pulled in parallel
-# @flag --dry-run                      dry run
-# @flag -k --keep                      keep downloaded pack
-# @option --depth <depth>              deepen history of shallow clone
-# @option --shallow-since <time>       deepen history of shallow repository based on time
-# @option --shallow-exclude <revision>  deepen history of shallow clone, excluding rev
-# @option --deepen <n>                 deepen history of shallow clone
-# @flag --unshallow                    convert to a complete repository
-# @flag --update-shallow               accept refs that update .git/shallow
-# @option --refmap <refmap>            specify fetch refmap
-# @option -o --server-option <server-specific>  option to transmit
-# @flag -4 --ipv4                      use IPv4 addresses only
-# @flag -6 --ipv6                      use IPv6 addresses only
-# @option --negotiation-tip <revision>  report that we have only objects reachable from this object
-# @flag --show-forced-updates          check for forced-updates on all updated branches
-# @flag --set-upstream                 set upstream for git pull/fetch
-# @arg remote![`_choice_remote`]       
-# @arg refspec+[`_choice_remote_branch`]  
+# @flag -n                                         do not show a diffstat at the end of the merge
+# @flag --stat                                     show a diffstat at the end of the merge
+# @option --log <n>                                add (at most <n>) entries from shortlog to merge commit message
+# @flag --signoff*                                 add a Signed-off-by trailer
+# @flag --squash                                   create a single commit instead of doing a merge
+# @flag --commit                                   perform a commit if the merge succeeds (default)
+# @flag --edit                                     edit message before committing
+# @option --cleanupcomments from message <mode>    how to strip spaces and
+# @flag --ff                                       allow fast-forward
+# @flag --ff-only                                  abort if fast-forward is not possible
+# @flag --verify                                   control use of pre-merge-commit and commit-msg hooks
+# @flag --verify-signatures                        verify that the named commit has a valid GPG signature
+# @flag --autostash                                automatically stash/stash pop before and after
+# @option -s --strategy <strategy>                 merge strategy to use
+# @option -X --strategy-option <option=value>      option for selected merge strategy
+# @option -S --gpg-sign <key-id>                   GPG sign commit
+# @flag --allow-unrelated-histories                allow merging unrelated histories
+# @flag --all                                      fetch from all remotes
+# @flag -a --append                                append to .git/FETCH_HEAD instead of overwriting
+# @option --upload-pack <path>                     path to upload pack on remote end
+# @flag -f --force                                 force overwrite of local branch
+# @flag -t --tags                                  fetch all tags and associated objects
+# @flag -p --prune                                 prune remote-tracking branches no longer on remote
+# @option -j --jobs <n>                            number of submodules pulled in parallel
+# @flag --dry-run                                  dry run
+# @flag -k --keep                                  keep downloaded pack
+# @option --depth <depth>                          deepen history of shallow clone
+# @option --shallow-since <time>                   deepen history of shallow repository based on time
+# @option --shallow-exclude <revision>             deepen history of shallow clone, excluding rev
+# @option --deepen <n>                             deepen history of shallow clone
+# @flag --unshallow                                convert to a complete repository
+# @flag --update-shallow                           accept refs that update .git/shallow
+# @option --refmap <refmap>                        specify fetch refmap
+# @option -o --server-option <server-specific>     option to transmit
+# @flag -4 --ipv4                                  use IPv4 addresses only
+# @flag -6 --ipv6                                  use IPv6 addresses only
+# @option --negotiation-tip <revision>             report that we have only objects reachable from this object
+# @flag --show-forced-updates                      check for forced-updates on all updated branches
+# @flag --set-upstream                             set upstream for git pull/fetch
+# @arg remote![`_choice_remote`]                   
+# @arg refspec+[`_choice_remote_branch`]           
 pull() {
     :;
 }
@@ -645,34 +645,34 @@ pull() {
 
 # {{ git push
 # @cmd Update remote refs along with associated objects
-# @flag -v --verbose                    be more verbose
-# @flag -q --quiet                      be more quiet
-# @option --repo <repository>           repository
-# @flag --all                           push all refs
-# @flag --mirror                        mirror all refs
-# @flag -d --delete                     delete refs
-# @flag --tags                          push tags (can't be used with --all or --mirror)
-# @flag -n --dry-run                    dry run
-# @flag --porcelain                     machine-readable output
-# @flag -f --force                      force updates
+# @flag -v --verbose                            be more verbose
+# @flag -q --quiet                              be more quiet
+# @option --repo <repository>                   repository
+# @flag --all                                   push all refs
+# @flag --mirror                                mirror all refs
+# @flag -d --delete                             delete refs
+# @flag --tags                                  push tags (can't be used with --all or --mirror)
+# @flag -n --dry-run                            dry run
+# @flag --porcelain                             machine-readable output
+# @flag -f --force                              force updates
 # @option --force-with-lease <<refname>:<expect>>  require old value of ref to be at this value
-# @flag --force-if-includes             require remote updates to be integrated locally
+# @flag --force-if-includes                     require remote updates to be integrated locally
 # @option --recurse-submodules <check|on-demand|no>  control recursive pushing of submodules
-# @flag --thin                          use thin pack
-# @option --receive-pack <receive-pack>  receive pack program
-# @option --exec <receive-pack>         receive pack program
-# @flag -u --set-upstream               set upstream for git pull/status
-# @flag --progress                      force progress reporting
-# @flag --prune                         prune locally removed refs
-# @flag --no-verify                     bypass pre-push hook
-# @flag --follow-tags                   push missing but relevant tags
-# @option --signed <yes|no|if-asked>    GPG sign the push
-# @flag --atomic                        request atomic transaction on remote side
-# @option -o --push-option <server-specific>  option to transmit
-# @flag -4 --ipv4                       use IPv4 addresses only
-# @flag -6 --ipv6                       use IPv6 addresses only
-# @arg remote![`_choice_remote`]        
-# @arg refspec+[`_choice_push`]         
+# @flag --thin                                  use thin pack
+# @option --receive-pack <receive-pack>         receive pack program
+# @option --exec <receive-pack>                 receive pack program
+# @flag -u --set-upstream                       set upstream for git pull/status
+# @flag --progress                              force progress reporting
+# @flag --prune                                 prune locally removed refs
+# @flag --no-verify                             bypass pre-push hook
+# @flag --follow-tags                           push missing but relevant tags
+# @option --signed <yes|no|if-asked>            GPG sign the push
+# @flag --atomic                                request atomic transaction on remote side
+# @option -o --push-option <server-specific>    option to transmit
+# @flag -4 --ipv4                               use IPv4 addresses only
+# @flag -6 --ipv6                               use IPv6 addresses only
+# @arg remote![`_choice_remote`]                
+# @arg refspec+[`_choice_push`]                 
 push() {
     :;
 }
@@ -680,40 +680,40 @@ push() {
 
 # {{ git am
 # @cmd Apply a series of patches from a mailbox
-# @flag -i --interactive             run interactively
-# @flag -3 --3way                    allow fall back on 3way merging if needed
-# @flag -q --quiet                   be quiet
-# @flag -s --signoff                 add a Signed-off-by trailer to the commit message
-# @flag -u --utf8                    recode into utf8 (default)
-# @flag -k --keep                    pass -k flag to git-mailinfo
-# @flag --keep-non-patch             pass -b flag to git-mailinfo
-# @flag -m --message-id              pass -m flag to git-mailinfo
-# @flag --keep-cr                    pass --keep-cr flag to git-mailsplit for mbox format
-# @flag --no-keep-cr                 do not pass --keep-cr flag to git-mailsplit independent of am.keepcr
-# @flag -c --scissors                strip everything before a scissors line
-# @option --quoted-cr <action>       pass it through git-mailinfo
-# @option --whitespace <action>      pass it through git-apply
-# @flag --ignore-space-change        pass it through git-apply
-# @flag --ignore-whitespace          pass it through git-apply
-# @option --directory <root>         pass it through git-apply
-# @option --exclude <path>           pass it through git-apply
-# @option --include <path>           pass it through git-apply
-# @option -C <n>                     pass it through git-apply
-# @option -p <num>                   pass it through git-apply
-# @option --patch-format <format>    format the patch(es) are in
-# @flag --reject                     pass it through git-apply
-# @flag --resolvemsg*                override error message when patch failure occurs
-# @flag --continue                   continue applying patches after resolving a conflict
-# @flag -r --resolved                synonyms for --continue
-# @flag --skip                       skip the current patch
-# @flag --abort                      restore the original branch and abort the patching operation
-# @flag --quit                       abort the patching operation but keep HEAD where it is
-# @option --show-current-patch <diff|raw>  show the patch being applied
-# @flag --committer-date-is-author-date  lie about committer date
-# @flag --ignore-date                use current timestamp for author date
-# @flag --rerere-autoupdate          update the index with reused conflict resolution if possible
-# @option -S --gpg-sign <key-id>     GPG-sign commits
-# @arg mbox-Maildir* <<mbox> | <Maildir>>  
+# @flag -i --interactive                     run interactively
+# @flag -3 --3way                            allow fall back on 3way merging if needed
+# @flag -q --quiet                           be quiet
+# @flag -s --signoff                         add a Signed-off-by trailer to the commit message
+# @flag -u --utf8                            recode into utf8 (default)
+# @flag -k --keep                            pass -k flag to git-mailinfo
+# @flag --keep-non-patch                     pass -b flag to git-mailinfo
+# @flag -m --message-id                      pass -m flag to git-mailinfo
+# @flag --keep-cr                            pass --keep-cr flag to git-mailsplit for mbox format
+# @flag --no-keep-cr                         do not pass --keep-cr flag to git-mailsplit independent of am.keepcr
+# @flag -c --scissors                        strip everything before a scissors line
+# @option --quoted-cr <action>               pass it through git-mailinfo
+# @option --whitespace <action>              pass it through git-apply
+# @flag --ignore-space-change                pass it through git-apply
+# @flag --ignore-whitespace                  pass it through git-apply
+# @option --directory <root>                 pass it through git-apply
+# @option --exclude <path>                   pass it through git-apply
+# @option --include <path>                   pass it through git-apply
+# @option -C <n>                             pass it through git-apply
+# @option -p <num>                           pass it through git-apply
+# @option --patch-format <format>            format the patch(es) are in
+# @flag --reject                             pass it through git-apply
+# @flag --resolvemsg*                        override error message when patch failure occurs
+# @flag --continue                           continue applying patches after resolving a conflict
+# @flag -r --resolved                        synonyms for --continue
+# @flag --skip                               skip the current patch
+# @flag --abort                              restore the original branch and abort the patching operation
+# @flag --quit                               abort the patching operation but keep HEAD where it is
+# @option --show-current-patch <diff|raw>    show the patch being applied
+# @flag --committer-date-is-author-date      lie about committer date
+# @flag --ignore-date                        use current timestamp for author date
+# @flag --rerere-autoupdate                  update the index with reused conflict resolution if possible
+# @option -S --gpg-sign <key-id>             GPG-sign commits
+# @arg mbox-Maildir* <<mbox> | <Maildir>>    
 am() {
     :;
 }
@@ -721,35 +721,35 @@ am() {
 
 # {{ git apply
 # @cmd Apply a patch to files and/or to the index
-# @option --exclude <path>         don't apply changes matching the given path
-# @option --include <path>         apply changes matching the given path
-# @option -p <num>                 remove <num> leading slashes from traditional diff paths
-# @flag --no-add                   ignore additions made by the patch
-# @flag --stat                     instead of applying the patch, output diffstat for the input
-# @flag --numstat                  show number of added and deleted lines in decimal notation
-# @flag --summary                  instead of applying the patch, output a summary for the input
-# @flag --check                    instead of applying the patch, see if the patch is applicable
-# @flag --index                    make sure the patch is applicable to the current index
-# @flag -N --intent-to-add         mark new files with `git add --intent-to-add`
-# @flag --cached                   apply a patch without touching the working tree
-# @flag --unsafe-paths             accept a patch that touches outside the working area
-# @flag --apply                    also apply the patch (use with --stat/--summary/--check)
-# @flag -3 --3way                  attempt three-way merge, fall back on normal patch if that fails
-# @option --build-fake-ancestor <file>  build a temporary index based on embedded index information
-# @flag -z                         paths are separated with NUL character
-# @option -C <n>                   ensure at least <n> lines of context match
-# @option --whitespace <action>    detect new or modified lines that have whitespace errors
-# @flag --ignore-space-change      ignore changes in whitespace when finding context
-# @flag --ignore-whitespace        ignore changes in whitespace when finding context
-# @flag -R --reverse               apply the patch in reverse
-# @flag --unidiff-zero             don't expect at least one line of context
-# @flag --reject                   leave the rejected hunks in corresponding *.rej files
-# @flag --allow-overlap            allow overlapping hunks
-# @flag -v --verbose               be verbose
-# @flag --inaccurate-eof           tolerate incorrectly detected missing new-line at the end of file
-# @flag --recount                  do not trust the line counts in the hunk headers
-# @option --directory <root>       prepend <root> to all filenames
-# @arg patch*                      
+# @option --exclude <path>                don't apply changes matching the given path
+# @option --include <path>                apply changes matching the given path
+# @option -p <num>                        remove <num> leading slashes from traditional diff paths
+# @flag --no-add                          ignore additions made by the patch
+# @flag --stat                            instead of applying the patch, output diffstat for the input
+# @flag --numstat                         show number of added and deleted lines in decimal notation
+# @flag --summary                         instead of applying the patch, output a summary for the input
+# @flag --check                           instead of applying the patch, see if the patch is applicable
+# @flag --index                           make sure the patch is applicable to the current index
+# @flag -N --intent-to-add                mark new files with `git add --intent-to-add`
+# @flag --cached                          apply a patch without touching the working tree
+# @flag --unsafe-paths                    accept a patch that touches outside the working area
+# @flag --apply                           also apply the patch (use with --stat/--summary/--check)
+# @flag -3 --3way                         attempt three-way merge, fall back on normal patch if that fails
+# @option --build-fake-ancestor <file>    build a temporary index based on embedded index information
+# @flag -z                                paths are separated with NUL character
+# @option -C <n>                          ensure at least <n> lines of context match
+# @option --whitespace <action>           detect new or modified lines that have whitespace errors
+# @flag --ignore-space-change             ignore changes in whitespace when finding context
+# @flag --ignore-whitespace               ignore changes in whitespace when finding context
+# @flag -R --reverse                      apply the patch in reverse
+# @flag --unidiff-zero                    don't expect at least one line of context
+# @flag --reject                          leave the rejected hunks in corresponding *.rej files
+# @flag --allow-overlap                   allow overlapping hunks
+# @flag -v --verbose                      be verbose
+# @flag --inaccurate-eof                  tolerate incorrectly detected missing new-line at the end of file
+# @flag --recount                         do not trust the line counts in the hunk headers
+# @option --directory <root>              prepend <root> to all filenames
+# @arg patch*                             
 apply() {
     :;
 }
@@ -812,36 +812,36 @@ blame() {
 
 # {{ git branch
 # @cmd List, create, or delete branches
-# @flag -v --verbose                show hash and subject, give twice for upstream branch
-# @flag -q --quiet                  suppress informational messages
-# @flag -t --track                  set up tracking mode (see git-pull(1))
-# @option -u --set-upstream-to <upstream>  change the upstream info
-# @flag --unset-upstream            unset the upstream info
-# @option --color <when>            use colored output
-# @flag -r --remotes                act on remote-tracking branches
-# @option --contains <commit>       print only branches that contain the commit
-# @option --no-contains <commit>    print only branches that don't contain the commit
-# @option --abbrev <n>              use <n> digits to display object names
-# @flag -a --all                    list both remote-tracking and local branches
-# @flag -d --delete                 delete fully merged branch
-# @flag -D                          delete branch (even if not merged)
-# @flag -m --move                   move/rename a branch and its reflog
-# @flag -M                          move/rename a branch, even if target exists
-# @flag -c --copy                   copy a branch and its reflog
-# @flag -C                          copy a branch, even if target exists
-# @flag -l --list                   list branch names
-# @flag --show-current              show current branch name
-# @flag --create-reflog             create the branch's reflog
-# @flag --edit-description          edit the description for the branch
-# @flag -f --force                  force creation, move/rename, deletion
-# @option --merged <commit>         print only branches that are merged
-# @option --no-merged <commit>      print only branches that are not merged
-# @option --column <style>          list branches in columns
-# @option --sort <key>              field name to sort on
-# @option --points-at <object>      print only branches of the object
-# @flag -i --ignore-case            sorting and filtering are case insensitive
-# @option --format <format>         format to use for the output
-# @arg branch![`_choice_branch`]    
+# @flag -v --verbose                         show hash and subject, give twice for upstream branch
+# @flag -q --quiet                           suppress informational messages
+# @flag -t --track                           set up tracking mode (see git-pull(1))
+# @option -u --set-upstream-to <upstream>    change the upstream info
+# @flag --unset-upstream                     unset the upstream info
+# @option --color <when>                     use colored output
+# @flag -r --remotes                         act on remote-tracking branches
+# @option --contains <commit>                print only branches that contain the commit
+# @option --no-contains <commit>             print only branches that don't contain the commit
+# @option --abbrev <n>                       use <n> digits to display object names
+# @flag -a --all                             list both remote-tracking and local branches
+# @flag -d --delete                          delete fully merged branch
+# @flag -D                                   delete branch (even if not merged)
+# @flag -m --move                            move/rename a branch and its reflog
+# @flag -M                                   move/rename a branch, even if target exists
+# @flag -c --copy                            copy a branch and its reflog
+# @flag -C                                   copy a branch, even if target exists
+# @flag -l --list                            list branch names
+# @flag --show-current                       show current branch name
+# @flag --create-reflog                      create the branch's reflog
+# @flag --edit-description                   edit the description for the branch
+# @flag -f --force                           force creation, move/rename, deletion
+# @option --merged <commit>                  print only branches that are merged
+# @option --no-merged <commit>               print only branches that are not merged
+# @option --column <style>                   list branches in columns
+# @option --sort <key>                       field name to sort on
+# @option --points-at <object>               print only branches of the object
+# @flag -i --ignore-case                     sorting and filtering are case insensitive
+# @option --format <format>                  format to use for the output
+# @arg branch![`_choice_branch`]             
 branch() {
     :;
 }
@@ -849,29 +849,29 @@ branch() {
 
 # {{ git checkout
 # @cmd Switch branches or restore working tree files
-# @option -b <branch>                    create and checkout a new branch
-# @option -B <branch>                    create/reset and checkout a branch
-# @flag -l                               create reflog for new branch
-# @flag --guess                          second guess 'git checkout <no-such-branch>' (default)
-# @flag --overlay                        use overlay mode (default)
-# @flag -q --quiet                       suppress progress reporting
-# @option --recurse-submodules <checkout>  control recursive updating of submodules
-# @flag --progress                       force progress reporting
-# @flag -m --merge                       perform a 3-way merge with the new branch
-# @option --conflict <style>             conflict style (merge or diff3)
-# @flag -d --detach                      detach HEAD at named commit
-# @flag -t --track                       set upstream info for new branch
-# @flag -f --force                       force checkout (throw away local modifications)
-# @option --orphan <new-branch>          new unparented branch
-# @flag --overwrite-ignore               update ignored files (default)
-# @flag --ignore-other-worktrees         do not check if another worktree is holding the given ref
-# @flag -2 --ours                        checkout our version for unmerged files
-# @flag -3 --theirs                      checkout their version for unmerged files
-# @flag -p --patch                       select hunks interactively
-# @flag --ignore-skip-worktree-bits      do not limit pathspecs to sparse entries only
-# @option --pathspec-from-file <file>    read pathspec from file
-# @flag --pathspec-file-nul              with --pathspec-from-file, pathspec elements are separated with NUL character
-# @arg branch![`_choice_checkout`]       
+# @option -b <branch>                        create and checkout a new branch
+# @option -B <branch>                        create/reset and checkout a branch
+# @flag -l                                   create reflog for new branch
+# @flag --guess                              second guess 'git checkout <no-such-branch>' (default)
+# @flag --overlay                            use overlay mode (default)
+# @flag -q --quiet                           suppress progress reporting
+# @option --recurse-submodules <checkout>    control recursive updating of submodules
+# @flag --progress                           force progress reporting
+# @flag -m --merge                           perform a 3-way merge with the new branch
+# @option --conflict <style>                 conflict style (merge or diff3)
+# @flag -d --detach                          detach HEAD at named commit
+# @flag -t --track                           set upstream info for new branch
+# @flag -f --force                           force checkout (throw away local modifications)
+# @option --orphan <new-branch>              new unparented branch
+# @flag --overwrite-ignore                   update ignored files (default)
+# @flag --ignore-other-worktrees             do not check if another worktree is holding the given ref
+# @flag -2 --ours                            checkout our version for unmerged files
+# @flag -3 --theirs                          checkout their version for unmerged files
+# @flag -p --patch                           select hunks interactively
+# @flag --ignore-skip-worktree-bits          do not limit pathspecs to sparse entries only
+# @option --pathspec-from-file <file>        read pathspec from file
+# @flag --pathspec-file-nul                  with --pathspec-from-file, pathspec elements are separated with NUL character
+# @arg branch![`_choice_checkout`]           
 checkout() {
     :;
 }
@@ -889,25 +889,25 @@ cherry() {
 
 # {{ git cherry-pick
 # @cmd Apply the changes introduced by some existing commits
-# @flag --quit                         end revert or cherry-pick sequence
-# @flag --continue                     resume revert or cherry-pick sequence
-# @flag --abort                        cancel revert or cherry-pick sequence
-# @flag --skip                         skip current commit and continue
-# @option --cleanupcomments from message <mode>  how to strip spaces and
-# @flag -n --no-commit                 don't automatically commit
-# @flag -e --edit                      edit the commit message
-# @flag -s --signoff                   add a Signed-off-by trailer
-# @option -m --mainline <parent-number>  select mainline parent
-# @flag --rerere-autoupdate            update the index with reused conflict resolution if possible
-# @option --strategy <strategy>        merge strategy
-# @option -X --strategy-option <option>  option for merge strategy
-# @option -S --gpg-sign <key-id>       GPG sign commit
-# @flag -x                             append commit name
-# @flag --ff                           allow fast-forward
-# @flag --allow-empty                  preserve initially empty commits
-# @flag --allow-empty-message          allow commits with empty messages
-# @flag --keep-redundant-commits       keep redundant, empty commits
-# @arg commit-ish+[`_choice_range`]    
+# @flag --quit                                     end revert or cherry-pick sequence
+# @flag --continue                                 resume revert or cherry-pick sequence
+# @flag --abort                                    cancel revert or cherry-pick sequence
+# @flag --skip                                     skip current commit and continue
+# @option --cleanupcomments from message <mode>    how to strip spaces and
+# @flag -n --no-commit                             don't automatically commit
+# @flag -e --edit                                  edit the commit message
+# @flag -s --signoff                               add a Signed-off-by trailer
+# @option -m --mainline <parent-number>            select mainline parent
+# @flag --rerere-autoupdate                        update the index with reused conflict resolution if possible
+# @option --strategy <strategy>                    merge strategy
+# @option -X --strategy-option <option>            option for merge strategy
+# @option -S --gpg-sign <key-id>                   GPG sign commit
+# @flag -x                                         append commit name
+# @flag --ff                                       allow fast-forward
+# @flag --allow-empty                              preserve initially empty commits
+# @flag --allow-empty-message                      allow commits with empty messages
+# @flag --keep-redundant-commits                   keep redundant, empty commits
+# @arg commit-ish+[`_choice_range`]                
 cherry-pick() {
     :;
 }
@@ -915,15 +915,15 @@ cherry-pick() {
 
 # {{ git clean
 # @cmd Remove untracked files from the working tree
-# @flag -q --quiet                  do not print names of files removed
-# @flag -n --dry-run                dry run
-# @flag -f --force                  force
-# @flag -i --interactive            interactive cleaning
-# @flag -d                          remove whole directories
-# @option -e --exclude <pattern>    add <pattern> to ignore rules
-# @flag -x                          remove ignored files, too
-# @flag -X                          remove only ignored files
-# @arg paths+[`_choice_unstaged_file`]  
+# @flag -q --quiet                        do not print names of files removed
+# @flag -n --dry-run                      dry run
+# @flag -f --force                        force
+# @flag -i --interactive                  interactive cleaning
+# @flag -d                                remove whole directories
+# @option -e --exclude <pattern>          add <pattern> to ignore rules
+# @flag -x                                remove ignored files, too
+# @flag -X                                remove only ignored files
+# @arg paths+[`_choice_unstaged_file`]    
 clean() {
     :;
 }
@@ -995,17 +995,17 @@ describe() {
 
 # {{ git difftool
 # @cmd Show changes using common diff tools
-# @flag -g --gui                   use `diff.guitool` instead of `diff.tool`
-# @flag -d --dir-diff              perform a full-directory diff
-# @flag -y --no-prompt             do not prompt before launching a diff tool
-# @flag --symlinks                 use symlinks in dir-diff mode
-# @option -t --tool <tool>         use the specified diff tool
-# @flag --tool-help                print a list of diff tools that may be used with `--tool`
-# @flag --trust-exit-code          make 'git-difftool' exit when an invoked diff tool returns a non-zero exit code
-# @option -x --extcmd <command>    specify a custom command for viewing diffs
-# @flag --no-index                 passed to `diff`
-# @arg commit-commit <<commit> [<commit>]>  
-# @arg path*                       
+# @flag -g --gui                              use `diff.guitool` instead of `diff.tool`
+# @flag -d --dir-diff                         perform a full-directory diff
+# @flag -y --no-prompt                        do not prompt before launching a diff tool
+# @flag --symlinks                            use symlinks in dir-diff mode
+# @option -t --tool <tool>                    use the specified diff tool
+# @flag --tool-help                           print a list of diff tools that may be used with `--tool`
+# @flag --trust-exit-code                     make 'git-difftool' exit when an invoked diff tool returns a non-zero exit code
+# @option -x --extcmd <command>               specify a custom command for viewing diffs
+# @flag --no-index                            passed to `diff`
+# @arg commit-commit <<commit> [<commit>]>    
+# @arg path*                                  
 difftool() {
     :;
 }
@@ -1013,41 +1013,41 @@ difftool() {
 
 # {{ git format-patch
 # @cmd Prepare patches for e-mail submission
-# @flag -n --numbered                    use [PATCH n/m] even with a single patch
-# @flag -N --no-numbered                 use [PATCH] even with multiple patches
-# @flag -s --signoff                     add a Signed-off-by trailer
-# @flag --stdout                         print patches to standard out
-# @flag --cover-letter                   generate a cover letter
-# @flag --numbered-files                 use simple number sequence for output file names
-# @option --suffix <sfx>                 use <sfx> instead of '.patch'
-# @option --start-number <n>             start numbering patches at <n> instead of 1
-# @option -v --reroll-count <reroll-count>  mark the series as Nth re-roll
-# @option --filename-max-length <n>      max length of output filename
-# @flag --rfc                            use [RFC PATCH] instead of [PATCH]
+# @flag -n --numbered                         use [PATCH n/m] even with a single patch
+# @flag -N --no-numbered                      use [PATCH] even with multiple patches
+# @flag -s --signoff                          add a Signed-off-by trailer
+# @flag --stdout                              print patches to standard out
+# @flag --cover-letter                        generate a cover letter
+# @flag --numbered-files                      use simple number sequence for output file names
+# @option --suffix <sfx>                      use <sfx> instead of '.patch'
+# @option --start-number <n>                  start numbering patches at <n> instead of 1
+# @option -v --reroll-count <reroll-count>    mark the series as Nth re-roll
+# @option --filename-max-length <n>           max length of output filename
+# @flag --rfc                                 use [RFC PATCH] instead of [PATCH]
 # @option --cover-from-description <cover-from-description-mode>  generate parts of a cover letter based on a branch's description
-# @option --subject-prefix <prefix>      use [<prefix>] instead of [PATCH]
-# @option -o --output-directory <dir>    store resulting files in <dir>
-# @flag -k --keep-subject                don't strip/add [PATCH]
-# @flag --no-binary                      don't output binary diffs
-# @flag --zero-commit                    output all-zero hash in From header
-# @flag --ignore-if-in-upstream          don't include a patch matching a commit upstream
-# @flag -p --no-stat                     show patch format instead of default (patch + stat)
-# @option --add-header <header>          add email header
-# @option --to <email>                   add To: header
-# @option --cc <email>                   add Cc: header
-# @option --from <ident>                 set From address to <ident> (or committer ident if absent)
-# @option --in-reply-to <message-id>     make first mail a reply to <message-id>
-# @option --attach <boundary>            attach the patch
-# @option --inline <boundary>            inline the patch
-# @option --thread <style>               enable message threading, styles: shallow, deep
-# @option --signature <signature>        add a signature
-# @option --base <base-commit>           add prerequisite tree info to the patch series
-# @option --signature-file <file>        add a signature from a file
-# @flag -q --quiet                       don't print the patch filenames
-# @flag --progress                       show progress while generating patches
-# @option --interdiff <rev>              show changes against <rev> in cover letter or single patch
-# @option --range-diff <refspec>         show changes against <refspec> in cover letter or single patch
-# @option --creation-factor <n>          percentage by which creation is weighted
+# @option --subject-prefix <prefix>           use [<prefix>] instead of [PATCH]
+# @option -o --output-directory <dir>         store resulting files in <dir>
+# @flag -k --keep-subject                     don't strip/add [PATCH]
+# @flag --no-binary                           don't output binary diffs
+# @flag --zero-commit                         output all-zero hash in From header
+# @flag --ignore-if-in-upstream               don't include a patch matching a commit upstream
+# @flag -p --no-stat                          show patch format instead of default (patch + stat)
+# @option --add-header <header>               add email header
+# @option --to <email>                        add To: header
+# @option --cc <email>                        add Cc: header
+# @option --from <ident>                      set From address to <ident> (or committer ident if absent)
+# @option --in-reply-to <message-id>          make first mail a reply to <message-id>
+# @option --attach <boundary>                 attach the patch
+# @option --inline <boundary>                 inline the patch
+# @option --thread <style>                    enable message threading, styles: shallow, deep
+# @option --signature <signature>             add a signature
+# @option --base <base-commit>                add prerequisite tree info to the patch series
+# @option --signature-file <file>             add a signature from a file
+# @flag -q --quiet                            don't print the patch filenames
+# @flag --progress                            show progress while generating patches
+# @option --interdiff <rev>                   show changes against <rev> in cover letter or single patch
+# @option --range-diff <refspec>              show changes against <refspec> in cover letter or single patch
+# @option --creation-factor <n>               percentage by which creation is weighted
 # @arg since-revision-range <<since> | <revision-range>>  
 format-patch() {
     :;
@@ -1229,97 +1229,97 @@ prune() {
 
 # {{ git range-diff
 # @cmd Compare two commit ranges (e.g. two versions of a branch)
-# @option --creation-factor <n>          percentage by which creation is weighted
-# @flag --no-dual-color                  use simple diff colors
-# @option --notes <notes>                passed to 'git log'
-# @flag --left-only                      only emit output related to the first range
-# @flag --right-only                     only emit output related to the second range
-# @flag -p --patch                       generate patch
-# @flag -s --no-patch                    suppress diff output
-# @flag -u                               generate patch
-# @option -U --unified <n>               generate diffs with <n> lines context
-# @flag -W --function-context            generate diffs with <n> lines context
-# @flag --raw                            generate the diff in raw format
-# @flag --patch-with-raw                 synonym for '-p --raw'
-# @flag --patch-with-stat                synonym for '-p --stat'
-# @flag --numstat                        machine friendly --stat
-# @flag --shortstat                      output only the last line of --stat
-# @option -X --dirstat* <param1,param2>  output the distribution of relative amount of changes for each sub-directory
-# @flag --cumulative                     synonym for --dirstat=cumulative
-# @option --dirstat-by-file* <param1,param2>  synonym for --dirstat=files,param1,param2...
-# @flag --check                          warn if changes introduce conflict markers or whitespace errors
-# @flag --summary                        condensed summary such as creations, renames and mode changes
-# @flag --name-only                      show only names of changed files
-# @flag --name-status                    show only names and status of changed files
+# @option --creation-factor <n>                 percentage by which creation is weighted
+# @flag --no-dual-color                         use simple diff colors
+# @option --notes <notes>                       passed to 'git log'
+# @flag --left-only                             only emit output related to the first range
+# @flag --right-only                            only emit output related to the second range
+# @flag -p --patch                              generate patch
+# @flag -s --no-patch                           suppress diff output
+# @flag -u                                      generate patch
+# @option -U --unified <n>                      generate diffs with <n> lines context
+# @flag -W --function-context                   generate diffs with <n> lines context
+# @flag --raw                                   generate the diff in raw format
+# @flag --patch-with-raw                        synonym for '-p --raw'
+# @flag --patch-with-stat                       synonym for '-p --stat'
+# @flag --numstat                               machine friendly --stat
+# @flag --shortstat                             output only the last line of --stat
+# @option -X --dirstat* <param1,param2>         output the distribution of relative amount of changes for each sub-directory
+# @flag --cumulative                            synonym for --dirstat=cumulative
+# @option --dirstat-by-file* <param1,param2>    synonym for --dirstat=files,param1,param2...
+# @flag --check                                 warn if changes introduce conflict markers or whitespace errors
+# @flag --summary                               condensed summary such as creations, renames and mode changes
+# @flag --name-only                             show only names of changed files
+# @flag --name-status                           show only names and status of changed files
 # @option --stat <<width>[,<name-width>[,<count>]]>  generate diffstat
-# @option --stat-width <width>           generate diffstat with a given width
-# @option --stat-name-width <width>      generate diffstat with a given name width
-# @option --stat-graph-width <width>     generate diffstat with a given graph width
-# @option --stat-count <count>           generate diffstat with limited lines
-# @flag --compact-summary                generate compact summary in diffstat
-# @flag --binary                         output a binary diff that can be applied
-# @flag --full-index                     show full pre- and post-image object names on the "index" lines
-# @option --color <when>                 show colored diff
-# @option --ws-error-highlight <kind>    highlight whitespace errors in the 'context', 'old' or 'new' lines in the diff
-# @flag -z                               do not munge pathnames and use NULs as output field terminators in --raw or --numstat
-# @option --abbrev <n>                   use <n> digits to display object names
-# @option --src-prefix <prefix>          show the given source prefix instead of "a/"
-# @option --dst-prefix <prefix>          show the given destination prefix instead of "b/"
-# @option --line-prefix <prefix>         prepend an additional prefix to every line of output
-# @flag --no-prefix                      do not show any source or destination prefix
-# @option --inter-hunk-context <n>       show context between diff hunks up to the specified number of lines
-# @option --output-indicator-new <char>  specify the character to indicate a new line instead of '+'
-# @option --output-indicator-old <char>  specify the character to indicate an old line instead of '-'
-# @option --output-indicator-context <char>  specify the character to indicate a context instead of ' '
-# @option -B --break-rewrites <<n>[/<m>]>  break complete rewrite changes into pairs of delete and create
-# @option -M --find-renames <n>          detect renames
-# @flag -D --irreversible-delete         omit the preimage for deletes
-# @option -C --find-copies <n>           detect copies
-# @flag --find-copies-harder             use unmodified files as source to find copies
-# @flag --no-renames                     disable rename detection
-# @flag --rename-empty                   use empty blobs as rename source
-# @flag --follow                         continue listing the history of a file beyond renames
-# @option -l <n>                         prevent rename/copy detection if the number of rename/copy targets exceeds given limit
-# @flag --minimal                        produce the smallest possible diff
-# @flag -w --ignore-all-space            ignore whitespace when comparing lines
-# @flag -b --ignore-space-change         ignore changes in amount of whitespace
-# @flag --ignore-space-at-eol            ignore changes in whitespace at EOL
-# @flag --ignore-cr-at-eol               ignore carrier-return at the end of line
-# @flag --ignore-blank-lines             ignore changes whose lines are all blank
-# @option -I --ignore-matching-lines <regex>  ignore changes whose all lines match <regex>
-# @flag --indent-heuristic               heuristic to shift diff hunk boundaries for easy reading
-# @flag --patience                       generate diff using the "patience diff" algorithm
-# @flag --histogram                      generate diff using the "histogram diff" algorithm
-# @option --diff-algorithm <algorithm>   choose a diff algorithm
-# @option --anchored <text>              generate diff using the "anchored diff" algorithm
-# @option --word-diff <mode>             show word diff, using <mode> to delimit changed words
-# @option --word-diff-regex <regex>      use <regex> to decide what a word is
-# @option --color-words <regex>          equivalent to --word-diff=color --word-diff-regex=<regex>
-# @option --color-moved <mode>           moved lines of code are colored differently
-# @option --color-moved-ws <mode>        how white spaces are ignored in --color-moved
-# @option --relative <prefix>            when run from subdir, exclude changes outside and show relative paths
-# @flag -a --text                        treat all files as text
-# @flag -R                               swap two inputs, reverse the diff
-# @flag --exit-code                      exit with 1 if there were differences, 0 otherwise
-# @flag --quiet                          disable all output of the program
-# @flag --ext-diff                       allow an external diff helper to be executed
-# @flag --textconv                       run external text conversion filters when comparing binary files
-# @option --ignore-submodules <when>     ignore changes to submodules in the diff generation
-# @option --submodule <format>           specify how differences in submodules are shown
-# @flag --ita-invisible-in-index         hide 'git add -N' entries from the index
-# @flag --ita-visible-in-index           treat 'git add -N' entries as real in the index
-# @option -S <string>                    look for differences that change the number of occurrences of the specified string
-# @option -G <regex>                     look for differences that change the number of occurrences of the specified regex
-# @flag --pickaxe-all                    show all changes in the changeset with -S or -G
-# @flag --pickaxe-regex                  treat <string> in -S as extended POSIX regular expression
-# @option -O <file>                      control the order in which files appear in the output
-# @option --rotate-to <path>             show the change in the specified path first
-# @option --skip-to <path>               skip the output to the specified path
-# @option --find-object <object-id>      look for differences that change the number of occurrences of the specified object
+# @option --stat-width <width>                  generate diffstat with a given width
+# @option --stat-name-width <width>             generate diffstat with a given name width
+# @option --stat-graph-width <width>            generate diffstat with a given graph width
+# @option --stat-count <count>                  generate diffstat with limited lines
+# @flag --compact-summary                       generate compact summary in diffstat
+# @flag --binary                                output a binary diff that can be applied
+# @flag --full-index                            show full pre- and post-image object names on the "index" lines
+# @option --color <when>                        show colored diff
+# @option --ws-error-highlight <kind>           highlight whitespace errors in the 'context', 'old' or 'new' lines in the diff
+# @flag -z                                      do not munge pathnames and use NULs as output field terminators in --raw or --numstat
+# @option --abbrev <n>                          use <n> digits to display object names
+# @option --src-prefix <prefix>                 show the given source prefix instead of "a/"
+# @option --dst-prefix <prefix>                 show the given destination prefix instead of "b/"
+# @option --line-prefix <prefix>                prepend an additional prefix to every line of output
+# @flag --no-prefix                             do not show any source or destination prefix
+# @option --inter-hunk-context <n>              show context between diff hunks up to the specified number of lines
+# @option --output-indicator-new <char>         specify the character to indicate a new line instead of '+'
+# @option --output-indicator-old <char>         specify the character to indicate an old line instead of '-'
+# @option --output-indicator-context <char>     specify the character to indicate a context instead of ' '
+# @option -B --break-rewrites <<n>[/<m>]>       break complete rewrite changes into pairs of delete and create
+# @option -M --find-renames <n>                 detect renames
+# @flag -D --irreversible-delete                omit the preimage for deletes
+# @option -C --find-copies <n>                  detect copies
+# @flag --find-copies-harder                    use unmodified files as source to find copies
+# @flag --no-renames                            disable rename detection
+# @flag --rename-empty                          use empty blobs as rename source
+# @flag --follow                                continue listing the history of a file beyond renames
+# @option -l <n>                                prevent rename/copy detection if the number of rename/copy targets exceeds given limit
+# @flag --minimal                               produce the smallest possible diff
+# @flag -w --ignore-all-space                   ignore whitespace when comparing lines
+# @flag -b --ignore-space-change                ignore changes in amount of whitespace
+# @flag --ignore-space-at-eol                   ignore changes in whitespace at EOL
+# @flag --ignore-cr-at-eol                      ignore carrier-return at the end of line
+# @flag --ignore-blank-lines                    ignore changes whose lines are all blank
+# @option -I --ignore-matching-lines <regex>    ignore changes whose all lines match <regex>
+# @flag --indent-heuristic                      heuristic to shift diff hunk boundaries for easy reading
+# @flag --patience                              generate diff using the "patience diff" algorithm
+# @flag --histogram                             generate diff using the "histogram diff" algorithm
+# @option --diff-algorithm <algorithm>          choose a diff algorithm
+# @option --anchored <text>                     generate diff using the "anchored diff" algorithm
+# @option --word-diff <mode>                    show word diff, using <mode> to delimit changed words
+# @option --word-diff-regex <regex>             use <regex> to decide what a word is
+# @option --color-words <regex>                 equivalent to --word-diff=color --word-diff-regex=<regex>
+# @option --color-moved <mode>                  moved lines of code are colored differently
+# @option --color-moved-ws <mode>               how white spaces are ignored in --color-moved
+# @option --relative <prefix>                   when run from subdir, exclude changes outside and show relative paths
+# @flag -a --text                               treat all files as text
+# @flag -R                                      swap two inputs, reverse the diff
+# @flag --exit-code                             exit with 1 if there were differences, 0 otherwise
+# @flag --quiet                                 disable all output of the program
+# @flag --ext-diff                              allow an external diff helper to be executed
+# @flag --textconv                              run external text conversion filters when comparing binary files
+# @option --ignore-submodules <when>            ignore changes to submodules in the diff generation
+# @option --submodule <format>                  specify how differences in submodules are shown
+# @flag --ita-invisible-in-index                hide 'git add -N' entries from the index
+# @flag --ita-visible-in-index                  treat 'git add -N' entries as real in the index
+# @option -S <string>                           look for differences that change the number of occurrences of the specified string
+# @option -G <regex>                            look for differences that change the number of occurrences of the specified regex
+# @flag --pickaxe-all                           show all changes in the changeset with -S or -G
+# @flag --pickaxe-regex                         treat <string> in -S as extended POSIX regular expression
+# @option -O <file>                             control the order in which files appear in the output
+# @option --rotate-to <path>                    show the change in the specified path first
+# @option --skip-to <path>                      skip the output to the specified path
+# @option --find-object <object-id>             look for differences that change the number of occurrences of the specified object
 # @option --diff-filter <(A|C|D|M|R|T|U|X|B)...[*]>  select files by diff type
-# @option --output <file>                Output to a specific file
-# @arg base![`_choice_branch`]           
-# @arg new![`_choice_branch`]            
+# @option --output <file>                       Output to a specific file
+# @arg base![`_choice_branch`]                  
+# @arg new![`_choice_branch`]                   
 range-diff() {
     :;
 }
@@ -1460,8 +1460,8 @@ remote::get-url() {
 # @flag --add
 # @flag --delete
 # @arg name![`_choice_remote`]
-# @arg new[`_choice_remote`]url!
-# @arg old[`_choice_remote`]url
+# @arg newurl!
+# @arg oldurl
 remote::set-url() {
     :;
 }
@@ -1469,27 +1469,27 @@ remote::set-url() {
 
 # {{ git repack
 # @cmd Pack unpacked objects in a repository
-# @flag -a                           pack everything in a single pack
-# @flag -A                           same as -a, and turn unreachable objects loose
-# @flag -d                           remove redundant packs, and run git-prune-packed
-# @flag -f                           pass --no-reuse-delta to git-pack-objects
-# @flag -F                           pass --no-reuse-object to git-pack-objects
-# @flag -n                           do not run git-update-server-info
-# @flag -q --quiet                   be quiet
-# @flag -l --local                   pass --local to git-pack-objects
-# @flag -b --write-bitmap-index      write bitmap index
-# @flag -i --delta-islands           pass --delta-islands to git-pack-objects
-# @option --unpack-unreachable <approxidate>  with -A, do not loosen objects older than this
-# @flag -k --keep-unreachable        with -a, repack unreachable objects
-# @option --window <n>               size of the window used for delta compression
-# @option --window-memory <bytes>    same as the above, but limit memory size instead of entries count
-# @option --depth <n>                limits the maximum delta depth
-# @option --threads <n>              limits the maximum number of threads
-# @option --max-pack-size <bytes>    maximum size of each packfile
-# @flag --pack-kept-objects          repack objects in packs marked with .keep
-# @option --keep-pack <name>         do not repack this pack
-# @option -g --geometric <n>         find a geometric progression with factor <N>
-# @flag -m --write-midx              write a multi-pack index of the resulting packs
+# @flag -a                                      pack everything in a single pack
+# @flag -A                                      same as -a, and turn unreachable objects loose
+# @flag -d                                      remove redundant packs, and run git-prune-packed
+# @flag -f                                      pass --no-reuse-delta to git-pack-objects
+# @flag -F                                      pass --no-reuse-object to git-pack-objects
+# @flag -n                                      do not run git-update-server-info
+# @flag -q --quiet                              be quiet
+# @flag -l --local                              pass --local to git-pack-objects
+# @flag -b --write-bitmap-index                 write bitmap index
+# @flag -i --delta-islands                      pass --delta-islands to git-pack-objects
+# @option --unpack-unreachable <approxidate>    with -A, do not loosen objects older than this
+# @flag -k --keep-unreachable                   with -a, repack unreachable objects
+# @option --window <n>                          size of the window used for delta compression
+# @option --window-memory <bytes>               same as the above, but limit memory size instead of entries count
+# @option --depth <n>                           limits the maximum delta depth
+# @option --threads <n>                         limits the maximum number of threads
+# @option --max-pack-size <bytes>               maximum size of each packfile
+# @flag --pack-kept-objects                     repack objects in packs marked with .keep
+# @option --keep-pack <name>                    do not repack this pack
+# @option -g --geometric <n>                    find a geometric progression with factor <N>
+# @flag -m --write-midx                         write a multi-pack index of the resulting packs
 repack() {
     :;
 }
@@ -1525,23 +1525,23 @@ request-pull() {
 
 # {{ git restore
 # @cmd Restore working tree files
-# @option -s --source <tree-ish>         which tree-ish to checkout from
-# @flag -S --staged                      restore the index
-# @flag -W --worktree                    restore the working tree (default)
-# @flag --ignore-unmerged                ignore unmerged entries
-# @flag --overlay                        use overlay mode
-# @flag -q --quiet                       suppress progress reporting
-# @option --recurse-submodules <checkout>  control recursive updating of submodules
-# @flag --progress                       force progress reporting
-# @flag -m --merge                       perform a 3-way merge with the new branch
-# @option --conflict <style>             conflict style (merge or diff3)
-# @flag -2 --ours                        checkout our version for unmerged files
-# @flag -3 --theirs                      checkout their version for unmerged files
-# @flag -p --patch                       select hunks interactively
-# @flag --ignore-skip-worktree-bits      do not limit pathspecs to sparse entries only
-# @option --pathspec-from-file <file>    read pathspec from file
-# @flag --pathspec-file-nul              with --pathspec-from-file, pathspec elements are separated with NUL character
-# @arg file+[`_choice_restore_file`]     
+# @option -s --source <tree-ish>             which tree-ish to checkout from
+# @flag -S --staged                          restore the index
+# @flag -W --worktree                        restore the working tree (default)
+# @flag --ignore-unmerged                    ignore unmerged entries
+# @flag --overlay                            use overlay mode
+# @flag -q --quiet                           suppress progress reporting
+# @option --recurse-submodules <checkout>    control recursive updating of submodules
+# @flag --progress                           force progress reporting
+# @flag -m --merge                           perform a 3-way merge with the new branch
+# @option --conflict <style>                 conflict style (merge or diff3)
+# @flag -2 --ours                            checkout our version for unmerged files
+# @flag -3 --theirs                          checkout their version for unmerged files
+# @flag -p --patch                           select hunks interactively
+# @flag --ignore-skip-worktree-bits          do not limit pathspecs to sparse entries only
+# @option --pathspec-from-file <file>        read pathspec from file
+# @flag --pathspec-file-nul                  with --pathspec-from-file, pathspec elements are separated with NUL character
+# @arg file+[`_choice_restore_file`]         
 restore() {
     :;
 }
@@ -1549,20 +1549,20 @@ restore() {
 
 # {{ git revert
 # @cmd Revert some existing commits
-# @flag --quit                      end revert or cherry-pick sequence
-# @flag --continue                  resume revert or cherry-pick sequence
-# @flag --abort                     cancel revert or cherry-pick sequence
-# @flag --skip                      skip current commit and continue
-# @option --cleanupcomments from message <mode>  how to strip spaces and
-# @flag -n --no-commit              don't automatically commit
-# @flag -e --edit                   edit the commit message
-# @flag -s --signoff                add a Signed-off-by trailer
-# @option -m --mainline <parent-number>  select mainline parent
-# @flag --rerere-autoupdate         update the index with reused conflict resolution if possible
-# @option --strategy <strategy>     merge strategy
-# @option -X --strategy-option <option>  option for merge strategy
-# @option -S --gpg-sign <key-id>    GPG sign commit
-# @arg commit-ish+                  
+# @flag --quit                                     end revert or cherry-pick sequence
+# @flag --continue                                 resume revert or cherry-pick sequence
+# @flag --abort                                    cancel revert or cherry-pick sequence
+# @flag --skip                                     skip current commit and continue
+# @option --cleanupcomments from message <mode>    how to strip spaces and
+# @flag -n --no-commit                             don't automatically commit
+# @flag -e --edit                                  edit the commit message
+# @flag -s --signoff                               add a Signed-off-by trailer
+# @option -m --mainline <parent-number>            select mainline parent
+# @flag --rerere-autoupdate                        update the index with reused conflict resolution if possible
+# @option --strategy <strategy>                    merge strategy
+# @option -X --strategy-option <option>            option for merge strategy
+# @option -S --gpg-sign <key-id>                   GPG sign commit
+# @arg commit-ish+                                 
 revert() {
     :;
 }
@@ -1606,7 +1606,7 @@ show-branch() {
 
 # {{ git sparse-checkout
 # @cmd Initialize and modify the sparse-checkout configuration, which reduces the checkout to a set of
-# @arg init-list-set-add-reapply-disable  
+# @arg init-list-set-add-reapply-disable    
 sparse-checkout() {
     :;
 }
@@ -1822,30 +1822,30 @@ submodule::absorbgitdirs() {
 
 # {{ git tag
 # @cmd Create, list, delete or verify a tag object signed with GPG
-# @flag -l --list                     list tag names
-# @option -n <n>                      print <n> lines of each tag message
-# @flag -d --delete                   delete tags
-# @flag -v --verify                   verify tags
-# @flag -a --annotate                 annotated tag, needs a message
-# @option -m --message <message>      tag message
-# @option -F --file <file>            read message from file
-# @flag -e --edit                     force edit of tag message
-# @flag -s --sign                     annotated and GPG-signed tag
-# @option --cleanupcomments from message <mode>  how to strip spaces and
-# @option -u --local-user <key-id>    use another key to sign the tag
-# @flag -f --force                    replace the tag if exists
-# @flag --create-reflog               create a reflog
-# @option --column <style>            show tag list in columns
-# @option --contains <commit>         print only tags that contain the commit
-# @option --no-contains <commit>      print only tags that don't contain the commit
-# @option --merged <commit>           print only tags that are merged
-# @option --no-merged <commit>        print only tags that are not merged
-# @option --sort <key>                field name to sort on
-# @option --points-at <object>        print only tags of the object
-# @option --format <format>           format to use for the output
-# @option --color <when>              respect format colors
-# @flag -i --ignore-case              sorting and filtering are case insensitive
-# @arg tagname![`_choice_tag`]        
+# @flag -l --list                                  list tag names
+# @option -n <n>                                   print <n> lines of each tag message
+# @flag -d --delete                                delete tags
+# @flag -v --verify                                verify tags
+# @flag -a --annotate                              annotated tag, needs a message
+# @option -m --message <message>                   tag message
+# @option -F --file <file>                         read message from file
+# @flag -e --edit                                  force edit of tag message
+# @flag -s --sign                                  annotated and GPG-signed tag
+# @option --cleanupcomments from message <mode>    how to strip spaces and
+# @option -u --local-user <key-id>                 use another key to sign the tag
+# @flag -f --force                                 replace the tag if exists
+# @flag --create-reflog                            create a reflog
+# @option --column <style>                         show tag list in columns
+# @option --contains <commit>                      print only tags that contain the commit
+# @option --no-contains <commit>                   print only tags that don't contain the commit
+# @option --merged <commit>                        print only tags that are merged
+# @option --no-merged <commit>                     print only tags that are not merged
+# @option --sort <key>                             field name to sort on
+# @option --points-at <object>                     print only tags of the object
+# @option --format <format>                        format to use for the output
+# @option --color <when>                           respect format colors
+# @flag -i --ignore-case                           sorting and filtering are case insensitive
+# @arg tagname![`_choice_tag`]                     
 tag() {
     :;
 }
@@ -1853,16 +1853,16 @@ tag() {
 
 # {{ git whatchanged
 # @cmd Show logs with difference each commit introduces
-# @flag -q --quiet                     suppress diff output
-# @flag --source                       show source
-# @flag --use-mailmap                  use mail map file
-# @flag --mailmap                      alias of --use-mailmap
-# @option --decorate-refs <pattern>    only decorate refs that match <pattern>
-# @option --decorate-refs-exclude <pattern>  do not decorate refs that match <pattern>
-# @flag --decorate*                    decorate options
-# @option -L <range:file>              trace the evolution of line range <start>,<end> or function :<funcname> in <file>
-# @arg revision-range                  
-# @arg ---path <[--] <path>...>        
+# @flag -q --quiet                             suppress diff output
+# @flag --source                               show source
+# @flag --use-mailmap                          use mail map file
+# @flag --mailmap                              alias of --use-mailmap
+# @option --decorate-refs <pattern>            only decorate refs that match <pattern>
+# @option --decorate-refs-exclude <pattern>    do not decorate refs that match <pattern>
+# @flag --decorate*                            decorate options
+# @option -L <range:file>                      trace the evolution of line range <start>,<end> or function :<funcname> in <file>
+# @arg revision-range                          
+# @arg ---path <[--] <path>...>                
 whatchanged() {
     :;
 }
@@ -2102,7 +2102,6 @@ _argc_util_platform_path() {
 		echo "$path"
 	fi
 }
-
 
 _argc_util_exist_cygpath() {
     if [[ -z $_argc_var_exist_cygpath ]]; then

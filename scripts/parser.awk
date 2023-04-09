@@ -11,7 +11,7 @@ BEGIN {
     DESCRIPTION = ""
     paramLineNum = 0
     paramLineWidth = 0
-    paramLineMaxWidth = 38
+    paramLineMaxWidth = 48
     DELIMITER = "#"
     split("", paramLines)
     commandLineNum = 0
