@@ -127,7 +127,7 @@ function splitOption(input) {
         if (match(ch, /[[:space:]]/)) {
             if (length(balances) == 0) {
                 if (length(word) == 0) {
-                    if (i - wordBreakAt > 1) {
+                    if (i - wordBreakAt > 1 && substr(input, i + 1, 1) != "-") {
                         return wordBreakAt
                     }
                 } else {

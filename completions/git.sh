@@ -24,8 +24,8 @@
 # @flag --icase-pathspecs                   Add "icase" magic to all pathspec.
 # @flag --no-optional-locks                 Do not perform optional operations that require locks.
 # @option --list-cmds <group[,group...]>    List commands by group.
-# @arg cmd![`_choice_cmd`]                  
-# @arg args*                                
+# @arg cmd![`_choice_cmd`]
+# @arg args*
 
 
 # {{ git clone
@@ -64,8 +64,8 @@
 # @option --filter <args>                      object filtering
 # @flag --remote-submodules                    any cloned submodules will use their remote-tracking branch
 # @flag --sparse                               initialize sparse-checkout file to include only files at root
-# @arg repo!                                   
-# @arg dir                                     
+# @arg repo!
+# @arg dir
 clone() {
     :;
 }
@@ -80,7 +80,7 @@ clone() {
 # @option --separate-git-dir <gitdir>        separate git dir from working tree
 # @option -b --initial-branch <name>         override the name of the initial branch
 # @option --object-format <hash>             specify the hash algorithm to use
-# @arg directory                             
+# @arg directory
 init() {
     :;
 }
@@ -106,7 +106,7 @@ init() {
 # @option --chmod <(+|-)x>                   override the executable bit of the listed files
 # @option --pathspec-from-file <file>        read pathspec from file
 # @flag --pathspec-file-nul                  with --pathspec-from-file, pathspec elements are separated with NUL character
-# @arg pathspec+[`_choice_unstaged_file`]    
+# @arg pathspec+[`_choice_unstaged_file`]
 add() {
     :;
 }
@@ -119,8 +119,8 @@ add() {
 # @flag -f --force      force move/rename even if target exists
 # @flag -k              skip move/rename errors
 # @flag --sparse        allow updating entries outside of the sparse-checkout cone
-# @arg source+          
-# @arg destination!     
+# @arg source+
+# @arg destination!
 mv() {
     :;
 }
@@ -137,7 +137,7 @@ mv() {
 # @flag --sparse                         allow updating entries outside of the sparse-checkout cone
 # @option --pathspec-from-file <file>    read pathspec from file
 # @flag --pathspec-file-nul              with --pathspec-from-file, pathspec elements are separated with NUL character
-# @arg file+                             
+# @arg file+
 rm() {
     :;
 }
@@ -258,8 +258,8 @@ bisect::run() {
 # @option -O <file>                    reorder diffs according to the <file>.
 # @option -S <string>                  find filepair whose only one side contains the string.
 # @flag --pickaxe-all                  show all files diff when -S is used and hit is found.
-# @flag -a                             --text treat all files as text.
-# @arg commit-path*[`_choice_diff`]    
+# @flag -a --text                      treat all files as text.
+# @arg commit-path*[`_choice_diff`]
 diff() {
     :;
 }
@@ -307,15 +307,15 @@ diff() {
 # @option -f <file>                           read patterns from file
 # @option -e <pattern>                        match <pattern>
 # @flag --and                                 combine patterns specified with -e
-# @flag --or                                  
-# @flag --not                                 
+# @flag --or
+# @flag --not
 # @flag -q --quiet                            indicate hit with exit status without output
 # @flag --all-match                           show only matches from files that match all patterns
 # @option -O --open-files-in-pager <pager>    show matching files in the pager
 # @flag --ext-grep                            allow calling of grep(1) (ignored by this build)
-# @arg pattern!                               
-# @arg rev*                                   
-# @arg ---path <[--] <path>...>               
+# @arg pattern!
+# @arg rev*
+# @arg ---path <[--] <path>...>
 grep() {
     :;
 }
@@ -331,7 +331,7 @@ grep() {
 # @option --decorate-refs-exclude <pattern>    do not decorate refs that match <pattern>
 # @flag --decorate*                            decorate options
 # @option -L <range:file>                      trace the evolution of line range <start>,<end> or function :<funcname> in <file>
-# @arg commit-path*[`_choice_log`]             
+# @arg commit-path*[`_choice_log`]
 log() {
     :;
 }
@@ -347,7 +347,7 @@ log() {
 # @option --decorate-refs-exclude <pattern>    do not decorate refs that match <pattern>
 # @flag --decorate*                            decorate options
 # @option -L <range:file>                      trace the evolution of line range <start>,<end> or function :<funcname> in <file>
-# @arg commit-path*[`_choice_show`]            
+# @arg commit-path*[`_choice_show`]
 show() {
     :;
 }
@@ -369,7 +369,7 @@ show() {
 # @option --column <style>         list untracked files in columns
 # @flag --no-renames               do not detect renames
 # @option -M --find-renames <n>    detect renames, optionally set similarity index
-# @arg pathspec+                   
+# @arg pathspec+
 status() {
     :;
 }
@@ -413,7 +413,7 @@ status() {
 # @option -u --untracked-files[all|normal|no] <mode>  show untracked files, optional modes: all, normal, no. (Default: all)
 # @option --pathspec-from-file <file>              read pathspec from file
 # @flag --pathspec-file-nul                        with --pathspec-from-file, pathspec elements are separated with NUL character
-# @arg pathspec+                                   
+# @arg pathspec+
 commit() {
     :;
 }
@@ -449,7 +449,7 @@ commit() {
 # @flag --overwrite-ignore                         update ignored files (default)
 # @flag --signoff                                  add a Signed-off-by trailer
 # @flag --no-verify                                bypass pre-merge-commit and commit-msg hooks
-# @arg target*[`_choice_branch`]                   
+# @arg target*[`_choice_branch`]
 merge() {
     :;
 }
@@ -493,8 +493,8 @@ merge() {
 # @flag --root                             rebase all reachable commits up to the root(s)
 # @flag --reschedule-failed-exec           automatically re-schedule any `exec` that fails
 # @flag --reapply-cherry-picks             apply all changes, even those already present upstream
-# @arg base![`_choice_branch`]             
-# @arg new![`_choice_branch`]              
+# @arg base![`_choice_branch`]
+# @arg new![`_choice_branch`]
 rebase() {
     :;
 }
@@ -513,7 +513,7 @@ rebase() {
 # @flag -N --intent-to-add                record only the fact that removed paths will be added later
 # @option --pathspec-from-file <file>     read pathspec from file
 # @flag --pathspec-file-nul               with --pathspec-from-file, pathspec elements are separated with NUL character
-# @arg commit*[`_choice_reset`]           
+# @arg commit*[`_choice_reset`]
 reset() {
     :;
 }
@@ -536,7 +536,7 @@ reset() {
 # @option --orphan <new-branch>              new unparented branch
 # @flag --overwrite-ignore                   update ignored files (default)
 # @flag --ignore-other-worktrees             do not check if another worktree is holding the given ref
-# @arg branch[`_choice_branch`]              
+# @arg branch[`_choice_branch`]
 switch() {
     :;
 }
@@ -583,8 +583,8 @@ switch() {
 # @flag --show-forced-updates                     check for forced-updates on all updated branches
 # @flag --write-commit-graph                      write the commit-graph after fetching
 # @flag --stdin                                   accept refspecs from stdin
-# @arg remote![`_choice_remote`]                  
-# @arg refspec+[`_choice_branch`]                 
+# @arg remote![`_choice_remote`]
+# @arg refspec+[`_choice_branch`]
 fetch() {
     :;
 }
@@ -636,8 +636,8 @@ fetch() {
 # @option --negotiation-tip <revision>             report that we have only objects reachable from this object
 # @flag --show-forced-updates                      check for forced-updates on all updated branches
 # @flag --set-upstream                             set upstream for git pull/fetch
-# @arg remote![`_choice_remote`]                   
-# @arg refspec+[`_choice_remote_branch`]           
+# @arg remote![`_choice_remote`]
+# @arg refspec+[`_choice_remote_branch`]
 pull() {
     :;
 }
@@ -671,8 +671,8 @@ pull() {
 # @option -o --push-option <server-specific>    option to transmit
 # @flag -4 --ipv4                               use IPv4 addresses only
 # @flag -6 --ipv6                               use IPv6 addresses only
-# @arg remote![`_choice_remote`]                
-# @arg refspec+[`_choice_push`]                 
+# @arg remote![`_choice_remote`]
+# @arg refspec+[`_choice_push`]
 push() {
     :;
 }
@@ -713,7 +713,7 @@ push() {
 # @flag --ignore-date                        use current timestamp for author date
 # @flag --rerere-autoupdate                  update the index with reused conflict resolution if possible
 # @option -S --gpg-sign <key-id>             GPG-sign commits
-# @arg mbox-Maildir* <<mbox> | <Maildir>>    
+# @arg mbox-Maildir* <<mbox> | <Maildir>>
 am() {
     :;
 }
@@ -749,7 +749,7 @@ am() {
 # @flag --inaccurate-eof                  tolerate incorrectly detected missing new-line at the end of file
 # @flag --recount                         do not trust the line counts in the hunk headers
 # @option --directory <root>              prepend <root> to all filenames
-# @arg patch*                             
+# @arg patch*
 apply() {
     :;
 }
@@ -766,8 +766,8 @@ apply() {
 # @flag -l --list                list supported archive formats
 # @option --remote <repo>        retrieve the archive from remote repository <repo>
 # @option --exec <command>       path to the remote git-upload-archive command
-# @arg tree-ish!                 
-# @arg path*                     
+# @arg tree-ish!
+# @arg path*
 archive() {
     :;
 }
@@ -802,9 +802,9 @@ archive() {
 # @option -M <score>                   find line movements within and across files
 # @option -L <range>                   process only line range <start>,<end> or function :<funcname>
 # @option --abbrev <n>                 use <n> digits to display object names
-# @arg rev-opts                        
-# @arg rev                             
-# @arg file!                           
+# @arg rev-opts
+# @arg rev
+# @arg file!
 blame() {
     :;
 }
@@ -841,7 +841,7 @@ blame() {
 # @option --points-at <object>               print only branches of the object
 # @flag -i --ignore-case                     sorting and filtering are case insensitive
 # @option --format <format>                  format to use for the output
-# @arg branch![`_choice_branch`]             
+# @arg branch![`_choice_branch`]
 branch() {
     :;
 }
@@ -871,7 +871,7 @@ branch() {
 # @flag --ignore-skip-worktree-bits          do not limit pathspecs to sparse entries only
 # @option --pathspec-from-file <file>        read pathspec from file
 # @flag --pathspec-file-nul                  with --pathspec-from-file, pathspec elements are separated with NUL character
-# @arg branch![`_choice_checkout`]           
+# @arg branch![`_choice_checkout`]
 checkout() {
     :;
 }
@@ -881,7 +881,7 @@ checkout() {
 # @cmd Find commits yet to be applied to upstream
 # @option --abbrev <n>    use <n> digits to display object names
 # @flag -v --verbose      be verbose
-# @arg upstream-head-limit <<upstream> [<head> [<limit>]]>  
+# @arg upstream-head-limit <<upstream> [<head> [<limit>]]>
 cherry() {
     :;
 }
@@ -907,7 +907,7 @@ cherry() {
 # @flag --allow-empty                              preserve initially empty commits
 # @flag --allow-empty-message                      allow commits with empty messages
 # @flag --keep-redundant-commits                   keep redundant, empty commits
-# @arg commit-ish+[`_choice_range`]                
+# @arg commit-ish+[`_choice_range`]
 cherry-pick() {
     :;
 }
@@ -923,7 +923,7 @@ cherry-pick() {
 # @option -e --exclude <pattern>          add <pattern> to ignore rules
 # @flag -x                                remove ignored files, too
 # @flag -X                                remove only ignored files
-# @arg paths+[`_choice_unstaged_file`]    
+# @arg paths+[`_choice_unstaged_file`]
 clean() {
     :;
 }
@@ -965,7 +965,7 @@ clean() {
 # @flag --show-origin                show origin of config (file, standard input, blob, command line)
 # @option --show-scope[worktree|local|global|system|command]  show scope of config (worktree, local, global, system, command)
 # @option --default <value>          with --get, use default value when missing entry
-# @arg key![`_choice_config_key`]    
+# @arg key![`_choice_config_key`]
 config() {
     :;
 }
@@ -987,7 +987,7 @@ config() {
 # @flag --always                     show abbreviated commit object as fallback
 # @option --dirty <mark>             append <mark> on dirty working tree (default: "-dirty")
 # @option --broken <mark>            append <mark> on broken working tree (default: "-broken")
-# @arg commit-ish*[`_choice_ref`]    
+# @arg commit-ish*[`_choice_ref`]
 describe() {
     :;
 }
@@ -1004,8 +1004,8 @@ describe() {
 # @flag --trust-exit-code                     make 'git-difftool' exit when an invoked diff tool returns a non-zero exit code
 # @option -x --extcmd <command>               specify a custom command for viewing diffs
 # @flag --no-index                            passed to `diff`
-# @arg commit-commit <<commit> [<commit>]>    
-# @arg path*                                  
+# @arg commit-commit <<commit> [<commit>]>
+# @arg path*
 difftool() {
     :;
 }
@@ -1039,7 +1039,7 @@ difftool() {
 # @option --in-reply-to <message-id>          make first mail a reply to <message-id>
 # @option --attach <boundary>                 attach the patch
 # @option --inline <boundary>                 inline the patch
-# @option --thread <style>                    enable message threading, styles: shallow, deep
+# @option --thread[shallow|deep] <style>      enable message threading, styles: shallow, deep
 # @option --signature <signature>             add a signature
 # @option --base <base-commit>                add prerequisite tree info to the patch series
 # @option --signature-file <file>             add a signature from a file
@@ -1048,7 +1048,7 @@ difftool() {
 # @option --interdiff <rev>                   show changes against <rev> in cover letter or single patch
 # @option --range-diff <refspec>              show changes against <refspec> in cover letter or single patch
 # @option --creation-factor <n>               percentage by which creation is weighted
-# @arg since-revision-range <<since> | <revision-range>>  
+# @arg since-revision-range <<since> | <revision-range>>
 format-patch() {
     :;
 }
@@ -1069,7 +1069,7 @@ format-patch() {
 # @flag --lost-found           write dangling objects in .git/lost-found
 # @flag --progress             show progress
 # @flag --name-objects         show verbose names for reachable objects
-# @arg object*                 
+# @arg object*
 fsck() {
     :;
 }
@@ -1098,7 +1098,7 @@ gc() {
 # @flag --stop               stop the web server
 # @flag --start              start the web server
 # @flag --restart            restart the web server
-# @arg --start---stop---restart <--start | --stop | --restart>  
+# @arg --start---stop---restart <--start | --stop | --restart>
 instaweb() {
     :;
 }
@@ -1113,7 +1113,7 @@ maintenance() {
 
 # {{ git mergetool
 # @cmd Run merge conflict resolution tools to resolve merge conflicts
-# @arg file-to-merge    
+# @arg file-to-merge
 mergetool() {
     :;
 }
@@ -1122,7 +1122,7 @@ mergetool() {
 # {{ git notes
 # @cmd Add or inspect object notes
 # @option --ref <notes-ref>             use notes from <notes-ref>
-# @arg list-object <list [<object>]>    
+# @arg list-object <list [<object>]>
 notes() {
     :;
 }
@@ -1221,7 +1221,7 @@ notes::get-ref() {
 # @flag --progress                    show progress
 # @option --expire <expiry-date>      expire objects older than <time>
 # @flag --exclude-promisor-objects    limit traversal to objects outside promisor packfiles
-# @arg head*                          
+# @arg head*
 prune() {
     :;
 }
@@ -1318,8 +1318,8 @@ prune() {
 # @option --find-object <object-id>             look for differences that change the number of occurrences of the specified object
 # @option --diff-filter <(A|C|D|M|R|T|U|X|B)...[*]>  select files by diff type
 # @option --output <file>                       Output to a specific file
-# @arg base![`_choice_branch`]                  
-# @arg new![`_choice_branch`]                   
+# @arg base![`_choice_branch`]
+# @arg new![`_choice_branch`]
 range-diff() {
     :;
 }
@@ -1327,7 +1327,7 @@ range-diff() {
 
 # {{ git reflog
 # @cmd Manage reflog information
-# @arg show-expire-delete-exists <show | expire | delete | exists>  
+# @arg show-expire-delete-exists <show | expire | delete | exists>
 reflog() {
     :;
 }
@@ -1505,8 +1505,8 @@ repack() {
 # @flag -f --force              replace the ref if it exists
 # @flag --raw                   do not pretty-print contents for --edit
 # @option --format <format>     use this format
-# @arg object!                  
-# @arg replacement!             
+# @arg object!
+# @arg replacement!
 replace() {
     :;
 }
@@ -1515,9 +1515,9 @@ replace() {
 # {{ git request-pull
 # @cmd Generates a summary of pending changes
 # @flag -p      show patch text as well
-# @arg start    
-# @arg url      
-# @arg end      
+# @arg start
+# @arg url
+# @arg end
 request-pull() {
     :;
 }
@@ -1541,7 +1541,7 @@ request-pull() {
 # @flag --ignore-skip-worktree-bits          do not limit pathspecs to sparse entries only
 # @option --pathspec-from-file <file>        read pathspec from file
 # @flag --pathspec-file-nul                  with --pathspec-from-file, pathspec elements are separated with NUL character
-# @arg file+[`_choice_restore_file`]         
+# @arg file+[`_choice_restore_file`]
 restore() {
     :;
 }
@@ -1562,7 +1562,7 @@ restore() {
 # @option --strategy <strategy>                    merge strategy
 # @option -X --strategy-option <option>            option for merge strategy
 # @option -S --gpg-sign <key-id>                   GPG sign commit
-# @arg commit-ish+                                 
+# @arg commit-ish+
 revert() {
     :;
 }
@@ -1576,7 +1576,7 @@ revert() {
 # @flag -e --email                    show the email address of each author
 # @option -w <<w>[,<i1>[,<i2>]]>      linewrap output
 # @option --group <field>             group by field
-# @arg commit-path*[`_choice_log`]    
+# @arg commit-path*[`_choice_log`]
 shortlog() {
     :;
 }
@@ -1606,7 +1606,7 @@ show-branch() {
 
 # {{ git sparse-checkout
 # @cmd Initialize and modify the sparse-checkout configuration, which reduces the checkout to a set of
-# @arg init-list-set-add-reapply-disable    
+# @arg init-list-set-add-reapply-disable
 sparse-checkout() {
     :;
 }
@@ -1632,7 +1632,7 @@ sparse-checkout() {
 # @option --chmod <(+|-)x>               override the executable bit of the listed files
 # @option --pathspec-from-file <file>    read pathspec from file
 # @flag --pathspec-file-nul              with --pathspec-from-file, pathspec elements are separated with NUL character
-# @arg pathspec+                         
+# @arg pathspec+
 stage() {
     :;
 }
@@ -1845,7 +1845,7 @@ submodule::absorbgitdirs() {
 # @option --format <format>                        format to use for the output
 # @option --color <when>                           respect format colors
 # @flag -i --ignore-case                           sorting and filtering are case insensitive
-# @arg tagname![`_choice_tag`]                     
+# @arg tagname![`_choice_tag`]
 tag() {
     :;
 }
@@ -1861,8 +1861,8 @@ tag() {
 # @option --decorate-refs-exclude <pattern>    do not decorate refs that match <pattern>
 # @flag --decorate*                            decorate options
 # @option -L <range:file>                      trace the evolution of line range <start>,<end> or function :<funcname> in <file>
-# @arg revision-range                          
-# @arg ---path <[--] <path>...>                
+# @arg revision-range
+# @arg ---path <[--] <path>...>
 whatchanged() {
     :;
 }
@@ -1870,8 +1870,8 @@ whatchanged() {
 
 # {{ git worktree
 # @cmd Manage multiple working trees
-# @arg path!         
-# @arg commit-ish    
+# @arg path!
+# @arg commit-ish
 worktree() {
     :;
 }

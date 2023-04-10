@@ -7,17 +7,16 @@
 
 # {{ mdbook init
 # @cmd Creates the boilerplate structure and files for a new book
-# @flag --theme                Copies the default theme into your source folder
-# @flag --force                Skips confirmation prompts
-# @option --title <title>      Sets the book title
-# @option --ignore <ignore>    Creates a VCS ignore file (i.e. .gitignore) [possible values: none, git]
-# @flag -h --help              Print help information
-# @flag -V --version           Print version information
-# @arg dir                     Directory to create the book in (Defaults to the current directory when omitted)
+# @flag --theme                          Copies the default theme into your source folder
+# @flag --force                          Skips confirmation prompts
+# @option --title <title>                Sets the book title
+# @option --ignore[none|git] <ignore>    Creates a VCS ignore file (i.e. .gitignore) [possible values: none, git]
+# @flag -h --help                        Print help information
+# @flag -V --version                     Print version information
+# @arg dir                               Directory to create the book in (Defaults to the current directory when omitted)
 init() {
     :;
 }
-
 # }} mdbook init
 
 # {{ mdbook build
@@ -30,13 +29,12 @@ init() {
 build() {
     :;
 }
-
 # }} mdbook build
 
 # {{ mdbook test
 # @cmd Tests that a book's Rust code samples compile
 # @option -d --dest-dir <dest-dir>    Output directory for the book Relative paths are interpreted relative to the book's root directory.
-# @option -c --chapter <chapter>      
+# @option -c --chapter <chapter>
 # @option -L --library-path <dir>     A comma-separated list of directories to add to the crate search path when building tests
 # @flag -h --help                     Print help information
 # @flag -V --version                  Print version information
@@ -44,7 +42,6 @@ build() {
 test() {
     :;
 }
-
 # }} mdbook test
 
 # {{ mdbook clean
@@ -56,7 +53,6 @@ test() {
 clean() {
     :;
 }
-
 # }} mdbook clean
 
 # {{ mdbook completions
@@ -67,7 +63,6 @@ clean() {
 completions() {
     :;
 }
-
 # }} mdbook completions
 
 # {{ mdbook watch
@@ -80,7 +75,6 @@ completions() {
 watch() {
     :;
 }
-
 # }} mdbook watch
 
 # {{ mdbook serve
@@ -95,7 +89,6 @@ watch() {
 serve() {
     :;
 }
-
 # }} mdbook serve
 
 eval "$(argc --argc-eval "$0" "$@")"

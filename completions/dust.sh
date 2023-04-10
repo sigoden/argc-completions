@@ -26,6 +26,6 @@
 # @flag -x --limit-filesystem                   Only count the files and directories on the same filesystem as the supplied directory
 # @option -X --ignore-directory <ignore_directory>  Exclude any file or directory with this name
 # @option -z --min-size <min_size>              Minimum size file to include in output
-# @arg dir+                                     
+# @arg dir+
 
 eval "$(argc --argc-eval "$0" "$@")"

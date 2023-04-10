@@ -8,7 +8,7 @@
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
 # @option --changed-files-ignore-pattern <pattern>  Allows to ignore changed files by glob patterns when filtering for changed projects since the specified commit/branch.
-# @arg cmd[`_choice_cmd`]             
+# @arg cmd[`_choice_cmd`]
 
 
 # {{ pnpm add
@@ -44,7 +44,7 @@
 # @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
 # @option --filter-prod <pattern>       Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>      Defines files related to tests.
-# @arg name!                            
+# @arg name!
 add() {
     :;
 }
@@ -136,7 +136,7 @@ install-test() {
 # @flag --stream               Stream output from child processes immediately, prefixed with the originating package directory.
 # @flag --use-stderr           Divert all output to stderr
 # @flag -w --workspace-root    Run the command on the root workspace project
-# @arg _dir!                   
+# @arg _dir!
 link() {
     :;
 }
@@ -179,7 +179,7 @@ prune() {
 # @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
-# @arg pkg*                           
+# @arg pkg*
 rebuild() {
     :;
 }
@@ -206,7 +206,7 @@ rebuild() {
 # @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
-# @arg pkg-version*[`_choice_dependency`] <<pkg>[@<version>]>  
+# @arg pkg-version*[`_choice_dependency`] <<pkg>[@<version>]>
 remove() {
     :;
 }
@@ -224,7 +224,7 @@ remove() {
 # @flag --stream               Stream output from child processes immediately, prefixed with the originating package directory.
 # @flag --use-stderr           Divert all output to stderr
 # @flag -w --workspace-root    Run the command on the root workspace project
-# @arg in-package-dir          
+# @arg in-package-dir
 unlink() {
     :;
 }
@@ -256,7 +256,7 @@ unlink() {
 # @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
-# @arg pkg*[`_choice_dependency`]     
+# @arg pkg*[`_choice_dependency`]
 update() {
     :;
 }
@@ -315,7 +315,7 @@ licenses() {
 # @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
-# @arg pkg*                           
+# @arg pkg*
 list() {
     :;
 }
@@ -344,7 +344,7 @@ list() {
 # @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
-# @arg pkg*                           
+# @arg pkg*
 outdated() {
     :;
 }
@@ -357,8 +357,8 @@ outdated() {
 # @flag --report-summary      Save the execution results of every package to "pnpm-exec-summary.json".
 # @flag --resume-from         Command executed from given package
 # @flag -c --shell-mode       If exist, runs file inside of a shell.
-# @arg exec[`_choice_bin`]    
-# @arg args*                  
+# @arg exec[`_choice_bin`]
+# @arg args*
 exec() {
     :;
 }
@@ -386,7 +386,7 @@ exec() {
 # @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
-# @arg args*[`_choice_script`]        
+# @arg args*[`_choice_script`]
 run() {
     :;
 }
@@ -437,7 +437,7 @@ pack() {
 # @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
 # @option --filter-prod <pattern>         Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>        Defines files related to tests.
-# @arg tarball-dir <<tarball>|<dir>>      
+# @arg tarball-dir <<tarball>|<dir>>
 publish() {
     :;
 }
@@ -508,7 +508,7 @@ fetch() {
 # @cmd Prepare a package for patching.
 # @flag --edit-dir                                The package that needs to be modified will be extracted to this directory
 # @flag --ignore-existing                         Ignore existing patch files when patching
-# @arg pkg-name-version <<pkg name>@<version>>    
+# @arg pkg-name-version <<pkg name>@<version>>
 patch() {
     :;
 }
@@ -517,7 +517,7 @@ patch() {
 # {{ pnpm patch-commit
 # @cmd Generate a patch out of a directory.
 # @flag --patches-dir    The generated patch file will be saved to this directory
-# @arg patchDir!         
+# @arg patchDir!
 patch-commit() {
     :;
 }
@@ -554,7 +554,7 @@ dedup() {
 # @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
-# @arg pkg!                           
+# @arg pkg!
 why() {
     :;
 }
@@ -566,7 +566,7 @@ why() {
 # @flag -c --shell-mode    Runs the script inside of a shell.
 # @option --reporter[append-only|default|ndjson|silent]  Secific the reporter
 # @flag -s --silent        No output is logged to the console, except fatal errors
-# @arg args*               
+# @arg args*
 dlx() {
     :;
 }
@@ -574,7 +574,7 @@ dlx() {
 
 # {{ pnpm create
 # @cmd Create a project from a create-* or @foo/create-* starter kit.
-# @arg name!    
+# @arg name!
 create() {
     :;
 }
@@ -584,7 +584,7 @@ create() {
 # @cmd Manages the Node.js environment.
 # @flag -g --global    Manages Node.js versions globally
 # @flag --remote       List the remote versions of Node.js
-# @arg version!        
+# @arg version!
 env() {
     :;
 }
@@ -614,8 +614,8 @@ env::use() {
 # @cmd Manage a store server.
 # @flag --color                             Controls colors in the output.
 # @flag --no-color                          Controls colors in the output.
-# @flag --lock                              
-# @flag --no-lock                           
+# @flag --lock
+# @flag --no-lock
 # @flag --verify-store-integrity            If false, doesn't check whether packages in the store were mutated
 # @flag --no-verify-store-integrity         If false, doesn't check whether packages in the store were mutated
 # @flag --aggregate-output                  Aggregate output from child processes that are run in parallel, and only print output when child process is finished.
@@ -684,9 +684,9 @@ init() {
 # @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
-# @arg --filter-deployed-project-name <--filter=<deployed project name>>  
-# @arg deploy                         
-# @arg target-directory!              
+# @arg --filter-deployed-project-name <--filter=<deployed project name>>
+# @arg deploy
+# @arg target-directory!
 deploy() {
     :;
 }
@@ -703,8 +703,8 @@ docker() {
 # @cmd Manage the configuration files.
 # @flag -g --global                      Sets the configuration in the global config file
 # @option --location <project|global>    When set to "project", the .npmrc file at the nearest package.json will be used
-# @arg key![`_choice_config_key`]                              
-# @arg value!                            
+# @arg key![`_choice_config_key`]
+# @arg value!
 config() {
     :;
 }

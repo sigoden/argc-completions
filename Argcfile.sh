@@ -73,7 +73,7 @@ print-script() {
 }
 
 _choice_command() {
-    for f in src/*; do
+    for f in completions/*; do
         name=$(basename $f)
         echo "${name%.*}"
     done

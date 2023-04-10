@@ -245,6 +245,6 @@
 # @flag -V --version                               Show version number and quit
 # @option -w --write-out <format>                  Use output FORMAT after completion
 # @flag --xattr                                    Store metadata in extended file attributes
-# @arg _url!                                       
+# @arg _url!
 
 eval "$(argc --argc-eval "$0" "$@")"

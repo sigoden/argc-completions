@@ -42,7 +42,7 @@
 # @flag --blank               Create completely new syntax and theme sets (instead of appending to the default sets).
 # @flag --acknowledgements    Build acknowledgements.bin.
 # @flag -h --help             Print this help message.
-# @arg --build---clear!       
+# @arg --build---clear!
 cache() {
     :;
 }

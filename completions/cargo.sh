@@ -13,7 +13,7 @@
 # @option --config <KEY=VALUE>                 Override a configuration value
 # @option -Z <FLAG>                            Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
 # @flag -h --help                              Print help
-# @arg cmd![`_choice_cmd`]                     
+# @arg cmd![`_choice_cmd`]
 
 
 # {{ cargo build
@@ -193,7 +193,7 @@ doc() {
 # @option --config <KEY=VALUE>                 Override a configuration value
 # @option -Z <FLAG>                            Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
 # @flag -h --help                              Print help
-# @arg path!                                   
+# @arg path!
 new() {
     :;
 }
@@ -309,7 +309,7 @@ remove() {
 # @flag --ignore-rust-version                  Ignore `rust-version` specification in packages
 # @option --timings[html|json] <FMTS>          Timing output formats (unstable) (comma separated): html, json
 # @flag -h --help                              Print help
-# @arg args*                                   
+# @arg args*
 run() {
     :;
 }
@@ -449,7 +449,7 @@ update() {
 # @option --config <KEY=VALUE>                 Override a configuration value
 # @option -Z <FLAG>                            Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
 # @flag -h --help                              Print help
-# @arg query*                                  
+# @arg query*
 search() {
     :;
 }
@@ -524,7 +524,7 @@ publish() {
 # @option --message-format <FMT>               Error format
 # @option --timings[html|json] <FMTS>          Timing output formats (unstable) (comma separated): html, json
 # @flag -h --help                              Print help
-# @arg crate*                                  
+# @arg crate*
 install() {
     :;
 }
@@ -544,7 +544,7 @@ install() {
 # @option --config <KEY=VALUE>                 Override a configuration value
 # @option -Z <FLAG>                            Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
 # @flag -h --help                              Print help
-# @arg spec*                                   
+# @arg spec*
 uninstall() {
     :;
 }
@@ -639,7 +639,7 @@ bloat() {
 # @option -A --allow <OPT>     Set lint allowed
 # @option -D --deny <OPT>      Set lint denied
 # @option -F --forbid <OPT>    Set lint forbidden
-# @arg opts*                   
+# @arg opts*
 clippy() {
     :;
 }
@@ -968,7 +968,7 @@ locate-project() {
 # @option --config <KEY=VALUE>                 Override a configuration value
 # @option -Z <FLAG>                            Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
 # @flag -h --help                              Print help
-# @arg token                                   
+# @arg token
 login() {
     :;
 }
@@ -1057,7 +1057,7 @@ outdated() {
 # @option --config <KEY=VALUE>                 Override a configuration value
 # @option -Z <FLAG>                            Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
 # @flag -h --help                              Print help
-# @arg crate                                   
+# @arg crate
 owner() {
     :;
 }
@@ -1107,7 +1107,7 @@ package() {
 # @option --config <KEY=VALUE>                 Override a configuration value
 # @option -Z <FLAG>                            Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
 # @flag -h --help                              Print help
-# @arg spec                                    
+# @arg spec
 pkgid() {
     :;
 }
@@ -1244,7 +1244,7 @@ rustc() {
 # @flag --ignore-rust-version                  Ignore `rust-version` specification in packages
 # @option --timings[html|json] <FMTS>          Timing output formats (unstable) (comma separated): html, json
 # @flag -h --help                              Print help
-# @arg args*                                   
+# @arg args*
 rustdoc() {
     :;
 }
@@ -1397,7 +1397,7 @@ version() {
 # @option --config <KEY=VALUE>                 Override a configuration value
 # @option -Z <FLAG>                            Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
 # @flag -h --help                              Print help
-# @arg crate                                   
+# @arg crate
 yank() {
     :;
 }

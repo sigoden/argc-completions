@@ -14,7 +14,7 @@
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
 # @option --global-folder <path>                specify a custom folder to store global packages
 # @flag --har                                   save HAR output of network traffic
-# @option --https-proxy <host>                  
+# @option --https-proxy <host>
 # @flag --ignore-engines                        ignore engines check
 # @flag --ignore-optional                       ignore optional dependencies
 # @flag --ignore-platform                       ignore platform checks
@@ -36,21 +36,21 @@
 # @option --otp <otpcode>                       one-time password for two factor authentication
 # @flag --prefer-offline                        use network only if dependencies are not available in local cache
 # @option --preferred-cache-folder <path>       specify a custom folder to store the yarn cache if possible
-# @option --prod <prod>                         
-# @option --production <prod>                   
-# @option --proxy <host>                        
+# @option --prod <prod>
+# @option --production <prod>
+# @option --proxy <host>
 # @flag --pure-lockfile                         don't generate a lockfile
 # @option --registry <url>                      override configuration registry
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --scripts-prepend-node-path <bool>    prepend the node executable dir to the PATH in scripts
 # @flag --skip-integrity-check                  run install without checking if node_modules is installed
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --update-checksums                      update package checksums from current repository
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
 # @flag -v --version                            output the version number
 # @flag --verbose                               output verbose messages on internal operations
 # @flag -h --help                               output usage information
-# @arg cmd[`_choice_cmd`]                       
+# @arg cmd[`_choice_cmd`]
 
 
 # {{ yarn access
@@ -64,7 +64,7 @@
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -76,8 +76,8 @@
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -92,8 +92,8 @@
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -166,7 +166,7 @@ access::edit() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -178,8 +178,8 @@ access::edit() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -194,8 +194,8 @@ access::edit() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -213,7 +213,7 @@ access::edit() {
 # @flag -T --tilde                              install most recent release with the same minor version
 # @flag -A --audit                              Run vulnerability audit on installed packages
 # @flag -h --help                               output usage information
-# @arg packages*                                
+# @arg packages*
 add() {
     :;
 }
@@ -230,7 +230,7 @@ add() {
 # @flag --enable-pnp                             enable the Plug'n'Play installation
 # @flag --pnp                                    enable the Plug'n'Play installation
 # @flag --disable-pnp                            disable the Plug'n'Play installation
-# @flag --strict-semver                          
+# @flag --strict-semver
 # @flag --json                                   format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                         don't run lifecycle scripts
 # @flag --har                                    save HAR output of network traffic
@@ -242,8 +242,8 @@ add() {
 # @flag --check-files                            install will verify file tree of packages for consistency
 # @flag --no-bin-links                           don't generate bin links when setting up packages
 # @flag --flat                                   only allow one version of a package
-# @option --prod <prod>                          
-# @option --production <prod>                    
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                            don't read or generate a lockfile
 # @flag --pure-lockfile                          don't generate a lockfile
 # @flag --frozen-lockfile                        don't generate a lockfile and fail if an update is needed
@@ -258,8 +258,8 @@ add() {
 # @option --emoji <bool>                         enable emoji in output (default: false)
 # @flag -s --silent                              skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                            working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                         
-# @option --https-proxy <host>                   
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                       override configuration registry
 # @flag --no-progress                            disable progress bar
 # @option --network-concurrency <number>         maximum number of concurrent network requests
@@ -289,7 +289,7 @@ audit() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -300,8 +300,8 @@ audit() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -316,8 +316,8 @@ audit() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -346,7 +346,7 @@ autoclean() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -358,8 +358,8 @@ autoclean() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -374,8 +374,8 @@ autoclean() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -402,7 +402,7 @@ bin() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -414,8 +414,8 @@ bin() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -430,8 +430,8 @@ bin() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -443,7 +443,7 @@ bin() {
 # @option --otp <otpcode>                       one-time password for two factor authentication
 # @option --pattern <pattern>                   filter cached packages by pattern
 # @flag -h --help                               output usage information
-# @arg ls-list-clean-dir                        
+# @arg ls-list-clean-dir
 cache() {
     :;
 }
@@ -477,7 +477,7 @@ cache::clean() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -489,8 +489,8 @@ cache::clean() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -505,8 +505,8 @@ cache::clean() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -516,8 +516,8 @@ cache::clean() {
 # @flag --no-node-version-check                 do not warn when using a potentially unsupported Node version
 # @flag --focus                                 Focus on a single workspace by installing remote copies of its sibling workspaces.
 # @option --otp <otpcode>                       one-time password for two factor authentication
-# @flag --integrity                             
-# @flag --verify-tree                           
+# @flag --integrity
+# @flag --verify-tree
 # @flag -h --help                               output usage information
 check() {
     :;
@@ -535,7 +535,7 @@ check() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -547,8 +547,8 @@ check() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -563,8 +563,8 @@ check() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -616,7 +616,7 @@ config::list() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -628,8 +628,8 @@ config::list() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -644,8 +644,8 @@ config::list() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -672,7 +672,7 @@ create() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -684,8 +684,8 @@ create() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -700,8 +700,8 @@ create() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -729,7 +729,7 @@ exec() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -741,8 +741,8 @@ exec() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -757,8 +757,8 @@ exec() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -787,7 +787,7 @@ generate-lock-entry() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -799,8 +799,8 @@ generate-lock-entry() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -815,8 +815,8 @@ generate-lock-entry() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -829,7 +829,7 @@ generate-lock-entry() {
 # @option --prefix <prefix>                     bin prefix to use to install binaries
 # @flag --latest                                upgrade to the latest version of packages
 # @flag -h --help                               output usage information
-# @arg add-bin-dir-ls-list-remove-upgrade-upgrade-interactive  
+# @arg add-bin-dir-ls-list-remove-upgrade-upgrade-interactive
 global() {
     :;
 }
@@ -885,7 +885,7 @@ global::upgrade-interactive() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -897,8 +897,8 @@ global::upgrade-interactive() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -913,8 +913,8 @@ global::upgrade-interactive() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -941,7 +941,7 @@ import() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -953,8 +953,8 @@ import() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -969,8 +969,8 @@ import() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -997,7 +997,7 @@ info() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -1009,8 +1009,8 @@ info() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -1025,8 +1025,8 @@ info() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -1057,7 +1057,7 @@ init() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -1069,8 +1069,8 @@ init() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -1085,8 +1085,8 @@ init() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -1121,7 +1121,7 @@ install() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -1133,8 +1133,8 @@ install() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -1149,8 +1149,8 @@ install() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -1187,7 +1187,7 @@ licenses::generate-disclaime() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -1199,8 +1199,8 @@ licenses::generate-disclaime() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -1215,8 +1215,8 @@ licenses::generate-disclaime() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -1243,7 +1243,7 @@ link() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -1255,8 +1255,8 @@ link() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -1271,8 +1271,8 @@ link() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -1301,7 +1301,7 @@ list() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -1313,8 +1313,8 @@ list() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -1329,8 +1329,8 @@ list() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -1357,7 +1357,7 @@ login() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -1369,8 +1369,8 @@ login() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -1385,8 +1385,8 @@ login() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -1413,7 +1413,7 @@ logout() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -1425,8 +1425,8 @@ logout() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -1441,8 +1441,8 @@ logout() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -1454,7 +1454,7 @@ logout() {
 # @option --otp <otpcode>                       one-time password for two factor authentication
 # @option --into <path>                         Sets the cwd to the specified location
 # @flag -h --help                               output usage information
-# @arg args*                                    
+# @arg args*
 node() {
     :;
 }
@@ -1471,7 +1471,7 @@ node() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -1483,8 +1483,8 @@ node() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -1499,8 +1499,8 @@ node() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -1511,7 +1511,7 @@ node() {
 # @flag --focus                                 Focus on a single workspace by installing remote copies of its sibling workspaces.
 # @option --otp <otpcode>                       one-time password for two factor authentication
 # @flag -h --help                               output usage information
-# @arg packages*                                
+# @arg packages*
 outdated() {
     :;
 }
@@ -1528,7 +1528,7 @@ outdated() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -1540,8 +1540,8 @@ outdated() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -1556,8 +1556,8 @@ outdated() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -1604,7 +1604,7 @@ owner::remove() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -1616,8 +1616,8 @@ owner::remove() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -1632,8 +1632,8 @@ owner::remove() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -1661,7 +1661,7 @@ pack() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -1673,8 +1673,8 @@ pack() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -1689,8 +1689,8 @@ pack() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -1701,7 +1701,7 @@ pack() {
 # @flag --focus                                 Focus on a single workspace by installing remote copies of its sibling workspaces.
 # @option --otp <otpcode>                       one-time password for two factor authentication
 # @flag -h --help                               output usage information
-# @arg set-version                              
+# @arg set-version
 policies() {
     :;
 }
@@ -1725,7 +1725,7 @@ policies::set-version() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -1737,8 +1737,8 @@ policies::set-version() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -1753,8 +1753,8 @@ policies::set-version() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -1779,7 +1779,7 @@ policies::set-version() {
 # @option --access <access>                     access
 # @option --tag <tag>                           tag
 # @flag -h --help                               output usage information
-# @arg tarball-folder <<tarball>|<folder>>      
+# @arg tarball-folder <<tarball>|<folder>>
 publish() {
     :;
 }
@@ -1796,7 +1796,7 @@ publish() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -1808,8 +1808,8 @@ publish() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -1824,8 +1824,8 @@ publish() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -1837,7 +1837,7 @@ publish() {
 # @option --otp <otpcode>                       one-time password for two factor authentication
 # @flag -W --ignore-workspace-root-check        required to run yarn remove inside a workspace root
 # @flag -h --help                               output usage information
-# @arg packages*[`_choice_dependency`]          
+# @arg packages*[`_choice_dependency`]
 remove() {
     :;
 }
@@ -1854,7 +1854,7 @@ remove() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -1866,8 +1866,8 @@ remove() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -1882,8 +1882,8 @@ remove() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -1894,7 +1894,7 @@ remove() {
 # @flag --focus                                 Focus on a single workspace by installing remote copies of its sibling workspaces.
 # @option --otp <otpcode>                       one-time password for two factor authentication
 # @flag -h --help                               output usage information
-# @arg script[`_choice_script`]                 
+# @arg script[`_choice_script`]
 run() {
     :;
 }
@@ -1911,7 +1911,7 @@ run() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -1923,8 +1923,8 @@ run() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -1939,8 +1939,8 @@ run() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -1967,7 +1967,7 @@ tag() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -1979,8 +1979,8 @@ tag() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -1995,8 +1995,8 @@ tag() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -2055,7 +2055,7 @@ team::list() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -2067,8 +2067,8 @@ team::list() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -2083,8 +2083,8 @@ team::list() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -2111,7 +2111,7 @@ unlink() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -2123,8 +2123,8 @@ unlink() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -2139,8 +2139,8 @@ unlink() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -2153,7 +2153,7 @@ unlink() {
 # @flag --clear                                 Delete the selected packages
 # @flag --clear-all                             Delete all unplugged packages
 # @flag -h --help                               output usage information
-# @arg packages*                                
+# @arg packages*
 unplug() {
     :;
 }
@@ -2170,7 +2170,7 @@ unplug() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -2182,8 +2182,8 @@ unplug() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -2198,8 +2198,8 @@ unplug() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -2217,7 +2217,7 @@ unplug() {
 # @flag -C --caret                              install most recent release with the same major version.
 # @flag -A --audit                              Run vulnerability audit on installed packages
 # @flag -h --help                               output usage information
-# @arg packages*[`_choice_dependency`]          
+# @arg packages*[`_choice_dependency`]
 upgrade() {
     :;
 }
@@ -2235,7 +2235,7 @@ upgrade() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -2247,8 +2247,8 @@ upgrade() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -2263,8 +2263,8 @@ upgrade() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -2296,7 +2296,7 @@ upgrade-interactive() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -2308,8 +2308,8 @@ upgrade-interactive() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -2324,8 +2324,8 @@ upgrade-interactive() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -2364,7 +2364,7 @@ version() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -2376,8 +2376,8 @@ version() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -2392,8 +2392,8 @@ version() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -2420,7 +2420,7 @@ versions() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -2432,8 +2432,8 @@ versions() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -2448,8 +2448,8 @@ versions() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -2476,7 +2476,7 @@ why() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -2488,8 +2488,8 @@ why() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -2504,8 +2504,8 @@ why() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -2516,8 +2516,8 @@ why() {
 # @flag --focus                                 Focus on a single workspace by installing remote copies of its sibling workspaces.
 # @option --otp <otpcode>                       one-time password for two factor authentication
 # @flag -h --help                               output usage information
-# @arg workspace-name![`_choice_workspace`]     
-# @arg workspace-args*[`_choice_workspace_args`]  
+# @arg workspace-name![`_choice_workspace`]
+# @arg workspace-args*[`_choice_workspace_args`]
 workspace() {
     :;
 }
@@ -2534,7 +2534,7 @@ workspace() {
 # @flag --enable-pnp                            enable the Plug'n'Play installation
 # @flag --pnp                                   enable the Plug'n'Play installation
 # @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver                         
+# @flag --strict-semver
 # @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
 # @flag --ignore-scripts                        don't run lifecycle scripts
 # @flag --har                                   save HAR output of network traffic
@@ -2546,8 +2546,8 @@ workspace() {
 # @flag --check-files                           install will verify file tree of packages for consistency
 # @flag --no-bin-links                          don't generate bin links when setting up packages
 # @flag --flat                                  only allow one version of a package
-# @option --prod <prod>                         
-# @option --production <prod>                   
+# @option --prod <prod>
+# @option --production <prod>
 # @flag --no-lockfile                           don't read or generate a lockfile
 # @flag --pure-lockfile                         don't generate a lockfile
 # @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
@@ -2562,8 +2562,8 @@ workspace() {
 # @option --emoji <bool>                        enable emoji in output (default: false)
 # @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>                        
-# @option --https-proxy <host>                  
+# @option --proxy <host>
+# @option --https-proxy <host>
 # @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
@@ -2574,7 +2574,7 @@ workspace() {
 # @flag --focus                                 Focus on a single workspace by installing remote copies of its sibling workspaces.
 # @option --otp <otpcode>                       one-time password for two factor authentication
 # @flag -h --help                               output usage information
-# @arg info-run                                 
+# @arg info-run
 workspaces() {
     :;
 }

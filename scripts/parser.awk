@@ -43,11 +43,15 @@ END {
     paramLineWidth = paramLineWidth + 2
     for (i = 1; i <= paramLineNum; i++) {
         body = paramLines[i, 1]
-        description = "  " paramLines[i, 2]
-        if (length(body) >= paramLineWidth) {
-            print body description
+        description = paramLines[i, 2]
+        if (length(description) == 0) {
+            print body
         } else {
-            printf "%*-s%s\n", paramLineWidth, body, description
+            if (length(body) >= paramLineWidth) {
+                print body "  " description
+            } else {
+                printf "%*-s  %s\n", paramLineWidth, body, description
+            }
         }
     }
     for (i = 1; i <= commandLineNum; i++) {

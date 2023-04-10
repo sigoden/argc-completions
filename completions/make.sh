@@ -50,7 +50,7 @@
 # @option --new-file <FILE>               Consider FILE to be infinitely new.
 # @option --assume-new <FILE>             Consider FILE to be infinitely new.
 # @flag --warn-undefined-variables        Warn when an undefined variable is referenced.
-# @arg target*[`_choice_target`]          
+# @arg target*[`_choice_target`]
 
 _choice_target() {
     if [[ -f Makefile ]]; then
