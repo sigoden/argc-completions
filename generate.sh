@@ -126,6 +126,12 @@ set_globals() {
     if [[ "$argc_cmd" == '__test' ]]; then
         src_dir="$ROOT_DIR/tests/src"
         argc_output="$ROOT_DIR/tests/completions"
+    else
+        command -v $argc_cmd >/dev/null 2>&1
+        if [[ $? -eq 1 ]]; then
+            echo "error: $argc_cmd not found"
+            exit 1
+        fi
     fi
 
     src_file="$src_dir/$argc_cmd.sh"
