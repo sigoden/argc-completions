@@ -19,6 +19,7 @@
 # @flag --recon                                    Don't actually run any recipe; just print them.
 # @option -O --output-sync <TYPE>                  Synchronize output of parallel jobs by TYPE.
 # @option -p --package <SPEC>                      Package to modify
+# @option -w --workdir                             Working directory inside the container
 # @option -x --proxy <[protocol://]host[:port]>    Use this proxy
 # @flag -v --verbose*                              Use verbose output (-vv very verbose/build.rs output)
 # @flag -. --hidden                                Search hidden files and directories.
@@ -40,6 +41,7 @@
 # @option --packages* <packages>                   Packages to inspect for updates
 # @option --show-scope[worktree|local|global|system|command]  show scope of config (worktree, local, global, system, command)
 # @option --edition[2015|2018|2021] <YEAR>         Edition to set for the crate generated [possible values: 2015, 2018, 2021]
+# @option --color2[auto|always|never] <WHEN>       Coloring: auto, always, never
 # @arg ARG1!                                       
 # @arg ARG2+                                       
 # @arg ARG3                                        

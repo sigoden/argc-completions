@@ -34,6 +34,7 @@ Options:
     -O[TYPE], --output-sync[=TYPE]
                                 Synchronize output of parallel jobs by TYPE.
     -p, --package [<SPEC>]      Package to modify
+    -w, --workdir=""            Working directory inside the container
     -x, --proxy [protocol://]host[:port] Use this proxy
     -v, --verbose...            Use verbose output (-vv very verbose/build.rs output)
     -., --hidden                Search hidden files and directories.
@@ -55,7 +56,7 @@ Options:
     --packages [packages ...]   Packages to inspect for updates
     --show-scope                show scope of config (worktree, local, global, system, command)
     --edition <YEAR>            Edition to set for the crate generated [possible values: 2015, 2018, 2021]
-    --color <WHEN>              Coloring: auto, always, never
+    --color2 <WHEN>              Coloring: auto, always, never
 Commands:
     run
     build, b

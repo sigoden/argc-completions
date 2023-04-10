@@ -116,6 +116,9 @@ function parseOptions(words1, choicesVal) {
     if (choicesVal == "" && notationsVal == "") {
         kindVal = "# @flag "
     }
+    if (notationsVal == " <\"\">") {
+        notationsVal = ""
+    }
     if (shortsLen <= 1 && longsLen == 1) {
         tailVal = modifierVal choicesVal notationsVal
         if (" <" toupper(longs[1]) ">" == notationsVal) {
