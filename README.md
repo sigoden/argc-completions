@@ -7,32 +7,32 @@ A multi-shell completion solution.
 ### Install dependencies
 
 - [argc](https://github.com/sigoden/argc): completion engine
-- [jq](https://github.com/stedolan/jq): json processor
+- [jq](https://github.com/stedolan/jq): JSON processor
 
 ### Setup shell
 
-Clone the repo.
+Clone the repository.
 
 ```sh
 git clone https://github.com/sigoden/argc-completions $HOME/.argc-completions
 ```
 
-For bash, add the following code to `.bashrc`.
+For bash, add the following code to `.bashrc`:
 ```sh
 source "$HOME/.argc-completions/shell/argc-completions.bash" 
 ```
 
-For zsh, add the following code to `.zshrc`.
+For zsh, add the following code to `.zshrc`:
 ```sh
 source "$HOME/.argc-completions/shell/argc-completions.zsh" 
 ```
 
-For fish, add the following code to `config.fish`.
+For fish, add the following code to `config.fish`:
 ```fish
 source "$HOME/.argc-completions/shell/argc-completions.fish" 
 ```
 
-For PowerShell, add the following code to `$PROFILE`.
+For PowerShell, add the following code to `$PROFILE`:
 
 ```ps1
 . "$env:USERPROFILE\.argc-completions\shell\argc-completions.ps1"
@@ -40,13 +40,11 @@ For PowerShell, add the following code to `$PROFILE`.
 
 ## How to write
 
-Automatically generate with:
+Automatically generate the completion script with:
 
 ```
 ./generate.sh mycmd
 ```
-
-> Command need to add to PATH enviroment variable.
 
 ## License
 

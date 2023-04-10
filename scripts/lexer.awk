@@ -76,7 +76,14 @@ END {
         if (optionVal == "--") {
             continue
         }
-        print "option # " optionVal  " # " truncateDesc(substr(option, splitAt + 1))
+        descVal = truncateDesc(substr(option, splitAt + 1))
+        if (match(descVal, /(\(|\[|: )(([A-Za-za-z0-9_-]+, )+[A-Za-z0-9_-]+)(\]|\)|\.|$)/, arr)) {
+            choiceVal = arr[2]
+            gsub(/, /, "|", choiceVal)
+            print "option # " optionVal  " # " descVal " # [" choiceVal "]"
+        } else {
+            print "option # " optionVal  " # " descVal
+        }
     }
     if (length(arguments) == 0 && length(usage) > 0) {
         split("", words)

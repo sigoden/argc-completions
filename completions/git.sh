@@ -355,21 +355,21 @@ show() {
 
 # {{ git status
 # @cmd Show the working tree status
-# @flag -v --verbose                     be verbose
-# @flag -s --short                       show status concisely
-# @flag -b --branch                      show branch information
-# @flag --show-stash                     show stash information
-# @flag --ahead-behind                   compute full ahead/behind values
-# @option --porcelain <version>          machine-readable output
-# @flag --long                           show status in long format (default)
-# @flag -z --null                        terminate entries with NUL
-# @option -u --untracked-files <mode>    show untracked files, optional modes: all, normal, no. (Default: all)
-# @option --ignored <mode>               show ignored files, optional modes: traditional, matching, no.
-# @option --ignore-submodules <when>     ignore changes to submodules, optional when: all, dirty, untracked.
-# @option --column <style>               list untracked files in columns
-# @flag --no-renames                     do not detect renames
-# @option -M --find-renames <n>          detect renames, optionally set similarity index
-# @arg pathspec+                         
+# @flag -v --verbose               be verbose
+# @flag -s --short                 show status concisely
+# @flag -b --branch                show branch information
+# @flag --show-stash               show stash information
+# @flag --ahead-behind             compute full ahead/behind values
+# @option --porcelain <version>    machine-readable output
+# @flag --long                     show status in long format (default)
+# @flag -z --null                  terminate entries with NUL
+# @option -u --untracked-files[all|normal|no] <mode>  show untracked files, optional modes: all, normal, no. (Default: all)
+# @option --ignored[traditional|matching|no] <mode>  show ignored files, optional modes: traditional, matching, no.
+# @option --ignore-submodules[all|dirty|untracked] <when>  ignore changes to submodules, optional when: all, dirty, untracked.
+# @option --column <style>         list untracked files in columns
+# @flag --no-renames               do not detect renames
+# @option -M --find-renames <n>    detect renames, optionally set similarity index
+# @arg pathspec+                   
 status() {
     :;
 }
@@ -410,7 +410,7 @@ status() {
 # @flag -z --null                                  terminate entries with NUL
 # @flag --amend                                    amend previous commit
 # @flag --no-post-rewrite                          bypass post-rewrite hook
-# @option -u --untracked-files <mode>              show untracked files, optional modes: all, normal, no. (Default: all)
+# @option -u --untracked-files[all|normal|no] <mode>  show untracked files, optional modes: all, normal, no. (Default: all)
 # @option --pathspec-from-file <file>              read pathspec from file
 # @flag --pathspec-file-nul                        with --pathspec-from-file, pathspec elements are separated with NUL character
 # @arg pathspec+                                   
@@ -963,7 +963,7 @@ clean() {
 # @flag --name-only                  show variable names only
 # @flag --includes                   respect include directives on lookup
 # @flag --show-origin                show origin of config (file, standard input, blob, command line)
-# @flag --show-scope                 show scope of config (worktree, local, global, system, command)
+# @option --show-scope[worktree|local|global|system|command]  show scope of config (worktree, local, global, system, command)
 # @option --default <value>          with --get, use default value when missing entry
 # @arg key![`_choice_config_key`]    
 config() {

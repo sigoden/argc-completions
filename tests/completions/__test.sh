@@ -38,6 +38,8 @@
 # @option --filter1 <selector>                     
 # @option --filter2* <pattern>                     Includes all direct and indirect dependencies of the matched packages.
 # @option --packages* <packages>                   Packages to inspect for updates
+# @option --show-scope[worktree|local|global|system|command]  show scope of config (worktree, local, global, system, command)
+# @option --edition[2015|2018|2021] <YEAR>         Edition to set for the crate generated [possible values: 2015, 2018, 2021]
 # @arg ARG1!                                       
 # @arg ARG2+                                       
 # @arg ARG3                                        

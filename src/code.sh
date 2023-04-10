@@ -1,4 +1,3 @@
 _patch_table() {
-    cat
-    echo "argument # path #"
+    sed '$a\argument # path #'
 }

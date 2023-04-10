@@ -21,15 +21,15 @@ test() {
 }
 
 # @cmd
-# @option --kind[=table|help|script]
+# @option -k --kind[=table|help|script]
 # @arg cmd![`_choice_command`]
 # @arg args*
 print() {
-    if [[ "$argc_type" == "help" ]]; then
+    if [[ "$argc_kind" == "help" ]]; then
         print-help $@
-    elif [[ "$argc_type" == "table" ]]; then
+    elif [[ "$argc_kind" == "table" ]]; then
         print-table $@
-    elif [[ "$argc_type" == "script" ]]; then
+    elif [[ "$argc_kind" == "script" ]]; then
         print-script $@
     fi
 }

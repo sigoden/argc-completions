@@ -1,10 +1,5 @@
-_patch_help() {
-    make --help | sed \
-        -e '/Usage:/ cUsage: make [options] [target]...'
-}
-
 _patch_table() {
-    sed '/\[target\].../c argument # [target]... # # [`_choice_target`]'
+    sed '/argument # \[target\]/, /argument # \.\.\./ cargument # [target]... # # [`_choice_target`]'
 }
 
 _choice_target() {

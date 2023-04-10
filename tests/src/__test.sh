@@ -53,6 +53,9 @@ Options:
     --filter1 !<selector>       
     --filter2 ...<pattern>      Includes all direct and indirect dependencies of the matched packages. 
     --packages [packages ...]   Packages to inspect for updates
+    --show-scope                show scope of config (worktree, local, global, system, command)
+    --edition <YEAR>            Edition to set for the crate generated [possible values: 2015, 2018, 2021]
+    --color <WHEN>              Coloring: auto, always, never
 Commands:
     run
     build, b

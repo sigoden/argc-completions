@@ -38,15 +38,14 @@ EOF
 }
 
 _patch_table() {
-	table="$(cat | sed '/option # --color <WHEN>/ coption # --color <WHEN> # Coloring # [auto|always|never]')"
 	if [[ "$*" == "cargo" ]]; then
-		echo "$table" | sed '/argument #/ cargument # <cmd> # # [`_choice_cmd`]'
+		sed '/argument #/ cargument # <cmd> # # [`_choice_cmd`]'
 	elif [[ "$*" == "cargo test" ]]; then
-		echo "$table" | sed '/argument # \[TESTNAME\]/ s/$/ # [`_choice_testname`]/'
+		sed '/argument # \[TESTNAME\]/ s/$/ # [`_choice_testname`]/'
 	elif [[ "$*" == "cargo remove" ]]; then
-		echo "$table" | sed '/argument # <DEP_ID>/ s/$/ # [`_choice_depid`]/'
+		sed '/argument # <DEP_ID>/ s/$/ # [`_choice_depid`]/'
 	else
-		echo "$table"
+		cat
 	fi
 }
 

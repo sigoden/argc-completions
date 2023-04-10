@@ -24,12 +24,12 @@
 # @flag -h --help                              Print help information
 # @flag -V --version                           Print version information
 # @option --chooser                            Override binary invoked by `--choose`
-# @option --color[=auto|always|never]          Print colorful output [default: auto]
+# @option --color[auto|always|never]           Print colorful output [default: auto] [possible values: auto, always, never]
 # @option -c --command                         Run an arbitrary command with the working directory, `.env`, overrides, and exports set
-# @option --completions[zsh|bash|fish|powershell|elvish] <SHELL>  Print shell completion script for <SHELL>
+# @option --completions[zsh|bash|fish|powershell|elvish] <SHELL>  Print shell completion script for <SHELL> [possible values: zsh, bash, fish, powershell, elvish]
 # @option --dotenv-filename                    Search for environment file named <DOTENV-FILENAME> instead of `.env`
 # @option --dotenv-path                        Load environment file at <DOTENV-PATH> instead of searching for one
-# @option --dump-format[just|json] <FORMAT>    Dump justfile as <FORMAT> [default: just]
+# @option --dump-format[just|json] <FORMAT>    Dump justfile as <FORMAT> [default: just] [possible values: just, json]
 # @option -f --justfile                        Use <JUSTFILE> as justfile
 # @option --list-heading <TEXT>                Print <TEXT> before list
 # @option --list-prefix <TEXT>                 Print <TEXT> before each list item

@@ -6,7 +6,7 @@
 # @option --explain <CODE>                     Run `rustc --explain CODE`
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
 # @flag -q --quiet                             Do not print cargo log messages
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @flag --locked                               Require Cargo.lock is up to date
 # @flag --offline                              Run without accessing the network
@@ -25,7 +25,7 @@
 # @option --exclude <SPEC>                     Exclude packages from the build
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
 # @flag --all                                  Alias for --workspace (deprecated)
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @option -j --jobsof CPUs <N>                 Number of parallel jobs, defaults to
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @flag --keep-going                           Do not abort the build as soon as there is an error (unstable)
@@ -57,7 +57,7 @@
 # @flag --build-plan                           Output the build plan in JSON (unstable)
 # @flag --unit-graph                           Output build graph in JSON (unstable)
 # @flag --future-incompat-report               Outputs a future incompatibility report at the end of the build
-# @option --timings <FMTS>                     Timing output formats (unstable) (comma separated): html, json
+# @option --timings[html|json] <FMTS>          Timing output formats (unstable) (comma separated): html, json
 # @flag -h --help                              Print help
 build() {
     :;
@@ -73,7 +73,7 @@ build() {
 # @option --exclude <SPEC>                     Exclude packages from the check
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
 # @flag --all                                  Alias for --workspace (deprecated)
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @option -j --jobsof CPUs <N>                 Number of parallel jobs, defaults to
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @flag --keep-going                           Do not abort the build as soon as there is an error (unstable)
@@ -103,7 +103,7 @@ build() {
 # @option --message-format <FMT>               Error format
 # @flag --unit-graph                           Output build graph in JSON (unstable)
 # @flag --future-incompat-report               Outputs a future incompatibility report at the end of the build
-# @option --timings <FMTS>                     Timing output formats (unstable) (comma separated): html, json
+# @option --timings[html|json] <FMTS>          Timing output formats (unstable) (comma separated): html, json
 # @flag -h --help                              Print help
 check() {
     :;
@@ -118,7 +118,7 @@ check() {
 # @option --target[`_choice_target`] <TRIPLE>  Target triple to clean output for
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
 # @option --target-dir <DIRECTORY>             Directory for all generated artifacts
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @flag -r --release                           Whether or not to clean release artifacts
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @option --profile <PROFILE-NAME>             Clean artifacts of the specified profile
@@ -143,7 +143,7 @@ clean() {
 # @flag --workspace                            Document all packages in the workspace
 # @option --exclude <SPEC>                     Exclude packages from the build
 # @flag --all                                  Alias for --workspace (deprecated)
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @flag --no-deps                              Don't build documentation for dependencies
 # @flag --document-private-items               Document private items
@@ -169,7 +169,7 @@ clean() {
 # @option --message-format <FMT>               Error format
 # @flag --ignore-rust-version                  Ignore `rust-version` specification in packages
 # @flag --unit-graph                           Output build graph in JSON (unstable)
-# @option --timings <FMTS>                     Timing output formats (unstable) (comma separated): html, json
+# @option --timings[html|json] <FMTS>          Timing output formats (unstable) (comma separated): html, json
 # @flag -h --help                              Print help
 doc() {
     :;
@@ -184,8 +184,8 @@ doc() {
 # @flag --bin                                  Use a binary (application) template [default]
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
 # @flag --lib                                  Use a library template
-# @option --color[auto|always|never] <WHEN>    Coloring
-# @option --edition <YEAR>                     Edition to set for the crate generated [possible values: 2015, 2018, 2021]
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
+# @option --edition[2015|2018|2021] <YEAR>     Edition to set for the crate generated [possible values: 2015, 2018, 2021]
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @option --name                               Set the resulting package name, defaults to the directory name
 # @flag --locked                               Require Cargo.lock is up to date
@@ -207,8 +207,8 @@ new() {
 # @flag --bin                                  Use a binary (application) template [default]
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
 # @flag --lib                                  Use a library template
-# @option --color[auto|always|never] <WHEN>    Coloring
-# @option --edition <YEAR>                     Edition to set for the crate generated [possible values: 2015, 2018, 2021]
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
+# @option --edition[2015|2018|2021] <YEAR>     Edition to set for the crate generated [possible values: 2015, 2018, 2021]
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @option --name                               Set the resulting package name, defaults to the directory name
 # @flag --locked                               Require Cargo.lock is up to date
@@ -230,7 +230,7 @@ init() {
 # @flag --optional                             Mark the dependency as optional The package name will be exposed as feature of your crate.
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
 # @flag --no-optional                          Mark the dependency as required The package will be removed from your features.
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @option --rename <NAME>                      Rename the dependency Example uses: - Depending on multiple versions of a crate - Depend on crates with the same name from different registries
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @option --manifest-path <PATH>               Path to Cargo.toml
@@ -264,7 +264,7 @@ add() {
 # @flag -q --quiet                             Do not print cargo log messages
 # @flag --dry-run                              Don't actually write the manifest
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @flag --locked                               Require Cargo.lock is up to date
 # @flag --offline                              Run without accessing the network
@@ -289,7 +289,7 @@ remove() {
 # @option -p --package[`_choice_package`] <SPEC> Package with the target to run
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
 # @option -j --jobsof CPUs <N>                 Number of parallel jobs, defaults to
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @flag --keep-going                           Do not abort the build as soon as there is an error (unstable)
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @flag -r --release                           Build artifacts in release mode, with optimizations
@@ -307,7 +307,7 @@ remove() {
 # @option --message-format <FMT>               Error format
 # @flag --unit-graph                           Output build graph in JSON (unstable)
 # @flag --ignore-rust-version                  Ignore `rust-version` specification in packages
-# @option --timings <FMTS>                     Timing output formats (unstable) (comma separated): html, json
+# @option --timings[html|json] <FMTS>          Timing output formats (unstable) (comma separated): html, json
 # @flag -h --help                              Print help
 # @arg args*                                   
 run() {
@@ -324,7 +324,7 @@ run() {
 # @flag --bins                                 Test all binaries
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
 # @option --example[`_choice_example`] <NAME>  Test only the specified example
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @flag --examples                             Test all examples
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @option --test[`_choice_test`] <NAME>        Test only the specified test target
@@ -357,7 +357,7 @@ run() {
 # @option --message-format <FMT>               Error format
 # @flag --unit-graph                           Output build graph in JSON (unstable)
 # @flag --future-incompat-report               Outputs a future incompatibility report at the end of the build
-# @option --timings <FMTS>                     Timing output formats (unstable) (comma separated): html, json
+# @option --timings[html|json] <FMTS>          Timing output formats (unstable) (comma separated): html, json
 # @flag -h --help                              Print help
 # @arg TESTNAME[`_choice_testname`]            If specified, only run tests containing this string in their names
 # @arg args*                                   Arguments for the test binary
@@ -374,7 +374,7 @@ test() {
 # @flag --bins                                 Benchmark all binaries
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
 # @option --example[`_choice_example`] <NAME>  Benchmark only the specified example
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @flag --examples                             Benchmark all examples
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @option --test[`_choice_test`] <NAME>        Benchmark only the specified test target
@@ -404,7 +404,7 @@ test() {
 # @option --message-format <FMT>               Error format
 # @flag --no-fail-fast                         Run all benchmarks regardless of failure
 # @flag --unit-graph                           Output build graph in JSON (unstable)
-# @option --timings <FMTS>                     Timing output formats (unstable) (comma separated): html, json
+# @option --timings[html|json] <FMTS>          Timing output formats (unstable) (comma separated): html, json
 # @flag -h --help                              Print help
 # @arg BENCHNAME                               If specified, only run benches containing this string in their names
 # @arg args*                                   Arguments for the bench binary
@@ -421,7 +421,7 @@ bench() {
 # @flag --aggressive                           Force updating all dependencies of SPEC as well when used with -p
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
 # @flag --dry-run                              Don't actually write the lockfile
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @option --precise                            Update a single dependency to exactly PRECISE when used with -p
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @option --manifest-path <PATH>               Path to Cargo.toml
@@ -442,7 +442,7 @@ update() {
 # @option --limit                              Limit the number of results (default: 10, max: 100)
 # @option --registry                           Registry to use
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @flag --locked                               Require Cargo.lock is up to date
 # @flag --offline                              Run without accessing the network
@@ -463,7 +463,7 @@ search() {
 # @flag --no-verify                            Don't verify the contents by building them
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
 # @flag --allow-dirty                          Allow dirty working directories to be packaged
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @option --target[`_choice_target`] <TRIPLE>  Build for the target triple
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @option --target-dir <DIRECTORY>             Directory for all generated artifacts
@@ -494,7 +494,7 @@ publish() {
 # @option --branch                             Branch to use when installing from git
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
 # @option --tag                                Tag to use when installing from git
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @option --rev <SHA>                          Specific commit to use when installing from git
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @option --path                               Filesystem path to local crate to install
@@ -522,7 +522,7 @@ publish() {
 # @option --index                              Registry index to install from
 # @option --registry                           Registry to use
 # @option --message-format <FMT>               Error format
-# @option --timings <FMTS>                     Timing output formats (unstable) (comma separated): html, json
+# @option --timings[html|json] <FMTS>          Timing output formats (unstable) (comma separated): html, json
 # @flag -h --help                              Print help
 # @arg crate*                                  
 install() {
@@ -537,7 +537,7 @@ install() {
 # @option --bin[`_choice_bin`] <NAME>          Only uninstall the binary NAME
 # @option --root <DIR>                         Directory to uninstall packages from
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @flag --locked                               Require Cargo.lock is up to date
 # @flag --offline                              Run without accessing the network
@@ -595,34 +595,34 @@ audit::bin() {
 
 # {{ cargo bloat
 # @cmd Find out what takes most of the space in your executable
-# @flag -h --help                     Prints help information
-# @flag -V --version                  Prints version information
-# @flag --lib                         Build only this package's library
+# @flag -h --help                               Prints help information
+# @flag -V --version                            Prints version information
+# @flag --lib                                   Build only this package's library
 # @option --bin[`_choice_bin`] <NAME>          Build only the specified binary
 # @option --example[`_choice_example`] <NAME>  Build only the specified example
 # @option --test[`_choice_test`] <NAME>        Build only the specified test target
 # @option -p --package[`_choice_package`] <SPEC> Package to build
-# @flag --release                     Build artifacts in release mode, with optimizations
-# @option -j --jobsof CPUs <N>        Number of parallel jobs, defaults to
-# @option --features                  Space-separated list of features to activate
-# @flag --all-features                Activate all available features
-# @flag --no-default-features         Do not activate the `default` feature
-# @option --profile                   Build with the given profile.
-# @option --target                    Build for the target triple
-# @option --target-dir <DIRECTORY>    Directory for all generated artifacts
-# @flag --frozen                      Require Cargo.lock and cache are up to date
-# @flag --locked                      Require Cargo.lock is up to date
-# @option -Z* <FLAG>                  Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
-# @flag --crates                      Per crate bloatedness
-# @flag --time                        Per crate build time. Will run `cargo clean` first
-# @option --filter <CRATE|REGEXP>     Filter functions by crate
-# @flag --split-std                   Split the 'std' crate to original crates like core, alloc, etc.
-# @option --symbols-section <NAME>    Use custom symbols section (ELF-only) [default: .text]
-# @flag --no-relative-size            Hide 'File' and '.text' columns
-# @flag --full-fn                     Print full function name with hash values
-# @option -n <NUM>                    Number of lines to show, 0 to show all [default: 20]
-# @flag -w --wide                     Do not trim long function names
-# @option --message-format <FMT>      Output format [default: table] [possible values: table, json]
+# @flag --release                               Build artifacts in release mode, with optimizations
+# @option -j --jobsof CPUs <N>                  Number of parallel jobs, defaults to
+# @option --features                            Space-separated list of features to activate
+# @flag --all-features                          Activate all available features
+# @flag --no-default-features                   Do not activate the `default` feature
+# @option --profile                             Build with the given profile.
+# @option --target                              Build for the target triple
+# @option --target-dir <DIRECTORY>              Directory for all generated artifacts
+# @flag --frozen                                Require Cargo.lock and cache are up to date
+# @flag --locked                                Require Cargo.lock is up to date
+# @option -Z* <FLAG>                            Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
+# @flag --crates                                Per crate bloatedness
+# @flag --time                                  Per crate build time. Will run `cargo clean` first
+# @option --filter <CRATE|REGEXP>               Filter functions by crate
+# @flag --split-std                             Split the 'std' crate to original crates like core, alloc, etc.
+# @option --symbols-section <NAME>              Use custom symbols section (ELF-only) [default: .text]
+# @flag --no-relative-size                      Hide 'File' and '.text' columns
+# @flag --full-fn                               Print full function name with hash values
+# @option -n <NUM>                              Number of lines to show, 0 to show all [default: 20]
+# @flag -w --wide                               Do not trim long function names
+# @option --message-format[table|json] <FMT>    Output format [default: table] [possible values: table, json]
 bloat() {
     :;
 }
@@ -648,7 +648,7 @@ clippy() {
 # {{ cargo config
 # @cmd Inspect configuration values
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @flag --locked                               Require Cargo.lock is up to date
 # @flag --offline                              Run without accessing the network
@@ -661,11 +661,11 @@ config() {
 
 # {{{ cargo config get
 # @cmd
-# @option --format <format>                    Display format [default: toml] [possible values: toml, json, json-value]
+# @option --format[toml|json|json-value] <format>  Display format [default: toml] [possible values: toml, json, json-value]
 # @flag --show-origin                          Display where the config value is defined
-# @option --merged <merged>                    Whether or not to merge config values [default: yes] [possible values: yes, no]
+# @option --merged[yes|no] <merged>            Whether or not to merge config values [default: yes] [possible values: yes, no]
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @flag --locked                               Require Cargo.lock is up to date
 # @flag --offline                              Run without accessing the network
@@ -685,7 +685,7 @@ config::get() {
 # @option --manifest-path <PATH>               Path to Cargo.toml
 # @option --target[`_choice_target`] <TRIPLE>  Fetch dependencies for the target triple
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @flag --locked                               Require Cargo.lock is up to date
 # @flag --offline                              Run without accessing the network
@@ -705,7 +705,7 @@ fetch() {
 # @option --exclude <SPEC>                     Exclude packages from the fixes
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
 # @flag --all                                  Alias for --workspace (deprecated)
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @option -j --jobsof CPUs <N>                 Number of parallel jobs, defaults to
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @flag --keep-going                           Do not abort the build as soon as there is an error (unstable)
@@ -739,7 +739,7 @@ fetch() {
 # @flag --allow-dirty                          Fix code even if the working directory is dirty
 # @flag --allow-staged                         Fix code even if the working directory has staged changes
 # @flag --ignore-rust-version                  Ignore `rust-version` specification in packages
-# @option --timings <FMTS>                     Timing output formats (unstable) (comma separated): html, json
+# @option --timings[html|json] <FMTS>          Timing output formats (unstable) (comma separated): html, json
 # @flag -h --help                              Print help
 fix() {
     :;
@@ -768,7 +768,7 @@ fmt() {
 # @flag -q --quiet                             Do not print cargo log messages
 # @option --manifest-path <PATH>               Path to Cargo.toml
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @flag --locked                               Require Cargo.lock is up to date
 # @flag --offline                              Run without accessing the network
@@ -789,7 +789,7 @@ git-checkout() {
 
 # {{ cargo insta
 # @cmd A helper utility to work with insta snapshots
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring [default: auto] [possible values: auto, always, never]
 # @flag -h --help                              Prints help information
 # @flag -V --version                           Prints version information
 insta() {
@@ -807,7 +807,7 @@ insta() {
 # @flag --include-hidden                       Also include hidden paths
 # @option --snapshot* <snapshot-filter>        Limits the operation to one or more snapshots
 # @flag -q --quiet                             Do not print to stdout
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring [default: auto] [possible values: auto, always, never]
 # @flag -h --help                              Prints help information
 # @flag -V --version                           Prints version information
 insta::review() {
@@ -826,7 +826,7 @@ insta::review() {
 # @flag --include-hidden                       Also include hidden paths
 # @option --snapshot* <snapshot-filter>        Limits the operation to one or more snapshots
 # @flag -q --quiet                             Do not print to stdout
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring [default: auto] [possible values: auto, always, never]
 # @flag -h --help                              Prints help information
 # @flag -V --version                           Prints version information
 insta::reject() {
@@ -845,7 +845,7 @@ insta::reject() {
 # @flag --include-hidden                       Also include hidden paths
 # @option --snapshot* <snapshot-filter>        Limits the operation to one or more snapshots
 # @flag -q --quiet                             Do not print to stdout
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring [default: auto] [possible values: auto, always, never]
 # @flag -h --help                              Prints help information
 # @flag -V --version                           Prints version information
 insta::accept() {
@@ -884,11 +884,11 @@ insta::accept() {
 # @flag --check                                Instructs the test command to just assert
 # @flag --keep-pending                         Do not reject pending snapshots before run
 # @flag --force-update-snapshots               Update all snapshots even if they are still matching
-# @option --unreferenced <unreferenced>        Controls what happens with unreferenced snapshots [default: ignore] [possible values: ignore, warn, reject, delete, auto]
+# @option --unreferenced[ignore|warn|reject|delete|auto] <unreferenced>  Controls what happens with unreferenced snapshots [default: ignore] [possible values: ignore, warn, reject, delete, auto]
 # @option --glob-filter* <glob-filter>         Filters to apply to the insta glob feature
 # @flag -Q --no-quiet                          Do not pass the quiet flag (`-q`) to tests
-# @option --test-runner <test-runner>          Picks the test runner [default: auto] [possible values: auto, cargo-test, nextest]
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --test-runner[auto|cargo-test|nextest] <test-runner>  Picks the test runner [default: auto] [possible values: auto, cargo-test, nextest]
+# @option --color[auto|always|never] <WHEN>    Coloring [default: auto] [possible values: auto, always, never]
 # @flag -h --help                              Prints help information
 # @flag -V --version                           Prints version information
 # @arg CARGO_TEST_ARGS+                        Options passed to cargo test
@@ -907,7 +907,7 @@ insta::test() {
 # @flag --include-ignored                      Also walk into ignored paths
 # @flag --include-hidden                       Also include hidden paths
 # @flag --as-json                              Changes the output from human readable to JSON
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring [default: auto] [possible values: auto, always, never]
 # @flag -h --help                              Prints help information
 # @flag -V --version                           Prints version information
 insta::pending-snapshots() {
@@ -924,7 +924,7 @@ insta::pending-snapshots() {
 # @flag --all                                  Alias for --workspace (deprecated)
 # @flag --include-ignored                      Also walk into ignored paths
 # @flag --include-hidden                       Also include hidden paths
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring [default: auto] [possible values: auto, always, never]
 # @flag -h --help                              Prints help information
 # @flag -V --version                           Prints version information
 # @arg path!                                   The path to the snapshot file
@@ -936,18 +936,18 @@ insta::show() {
 
 # {{ cargo locate-project
 # @cmd Print a JSON representation of a Cargo.toml file's location
-# @flag -q --quiet                             Do not print cargo log messages
-# @option --manifest-path <PATH>               Path to Cargo.toml
-# @option --message-format <FMT>               Output representation [possible values: json, plain]
-# @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
-# @flag --workspace                            Locate Cargo.toml of the workspace root
-# @option --color[auto|always|never] <WHEN>    Coloring
-# @flag --frozen                               Require Cargo.lock and cache are up to date
-# @flag --locked                               Require Cargo.lock is up to date
-# @flag --offline                              Run without accessing the network
-# @option --config <KEY=VALUE>                 Override a configuration value
-# @option -Z <FLAG>                            Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
-# @flag -h --help                              Print help
+# @flag -q --quiet                              Do not print cargo log messages
+# @option --manifest-path <PATH>                Path to Cargo.toml
+# @option --message-format[json|plain] <FMT>    Output representation [possible values: json, plain]
+# @flag -v --verbose*                           Use verbose output (-vv very verbose/build.rs output)
+# @flag --workspace                             Locate Cargo.toml of the workspace root
+# @option --color[auto|always|never] <WHEN>     Coloring: auto, always, never
+# @flag --frozen                                Require Cargo.lock and cache are up to date
+# @flag --locked                                Require Cargo.lock is up to date
+# @flag --offline                               Run without accessing the network
+# @option --config <KEY=VALUE>                  Override a configuration value
+# @option -Z <FLAG>                             Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
+# @flag -h --help                               Print help
 locate-project() {
     :;
 }
@@ -961,7 +961,7 @@ locate-project() {
 # @flag --secret-key                           Prompt for secret key (unstable)
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
 # @option --key-subject <SUBJECT>              Set the key subject for this registry (unstable)
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @flag --locked                               Require Cargo.lock is up to date
 # @flag --offline                              Run without accessing the network
@@ -979,7 +979,7 @@ login() {
 # @flag -q --quiet                             Do not print cargo log messages
 # @option --registry                           Registry to use
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @flag --locked                               Require Cargo.lock is up to date
 # @flag --offline                              Run without accessing the network
@@ -999,7 +999,7 @@ logout() {
 # @flag --no-default-features                  Do not activate the `default` feature
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
 # @option --filter-platform <TRIPLE>           Only include resolve dependencies matching the given target-triple
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @flag --no-deps                              Output information only about the workspace members and don't fetch dependencies
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @option --manifest-path <PATH>               Path to Cargo.toml
@@ -1017,12 +1017,12 @@ metadata() {
 # {{ cargo outdated
 # @cmd Displays information about project dependency versions
 # @flag -a --aggressive                   Ignores channels for latest updates
-# @option --color                         Output coloring [default: auto] [possible values: Auto, Never, Always]
+# @option --color[Auto|Never|Always]      Output coloring [default: auto] [possible values: Auto, Never, Always]
 # @option -d --depth <NUM>                How deep in the dependency chain to search (Defaults to all dependencies when omitted)
 # @option -x --exclude* <DEPENDENCIES>    Dependencies to exclude from building (comma separated or one per '--exclude' argument)
 # @option --exit-code <NUM>               The exit code to return on new versions found [default: 0]
 # @option --features*                     Space-separated list of features
-# @option --format                        Output formatting [default: list] [possible values: List, Json]
+# @option --format[List|Json]             Output formatting [default: list] [possible values: List, Json]
 # @flag -h --help                         Prints help information
 # @option -i --ignore* <DEPENDENCIES>     Dependencies to not print in the output (comma separated or one per '--ignore' argument)
 # @flag -e --ignore-external-rel          Ignore relative dependencies external to workspace and check root dependencies only.
@@ -1048,7 +1048,7 @@ outdated() {
 # @flag -l --list                              List owners of a crate
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
 # @option --index                              Registry index to modify owners for
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @option --token                              API token to use when authenticating
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @option --registry                           Registry to use
@@ -1071,7 +1071,7 @@ owner() {
 # @flag --no-metadata                          Ignore warnings about a lack of human-usable metadata
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
 # @flag --allow-dirty                          Allow dirty working directories to be packaged
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @option --target[`_choice_target`] <TRIPLE>  Build for the target triple
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @option --target-dir <DIRECTORY>             Directory for all generated artifacts
@@ -1100,7 +1100,7 @@ package() {
 # @option -p --package[`_choice_package`] <SPEC> Argument to get the package ID specifier for
 # @option --manifest-path <PATH>               Path to Cargo.toml
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @flag --locked                               Require Cargo.lock is up to date
 # @flag --offline                              Run without accessing the network
@@ -1118,7 +1118,7 @@ pkgid() {
 # @flag -q --quiet                             Do not print cargo log messages
 # @option --manifest-path <PATH>               Path to Cargo.toml
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @flag --locked                               Require Cargo.lock is up to date
 # @flag --offline                              Run without accessing the network
@@ -1133,7 +1133,7 @@ read-manifest() {
 # {{ cargo report
 # @cmd Generate and display various kinds of reports
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @flag --locked                               Require Cargo.lock is up to date
 # @flag --offline                              Run without accessing the network
@@ -1149,7 +1149,7 @@ report() {
 # @option --id <id>                            identifier of the report generated by a Cargo command invocation
 # @option -p --package[`_choice_package`] <SPEC> Package to display a report for
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @flag --locked                               Require Cargo.lock is up to date
 # @flag --offline                              Run without accessing the network
@@ -1171,7 +1171,7 @@ report::future-incompatibilities() {
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
 # @flag --lib                                  Build only this package's library
 # @option --bin[`_choice_bin`] <NAME>          Build only the specified binary
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @flag --bins                                 Build all binaries
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @option --example[`_choice_example`] <NAME>  Build only the specified example
@@ -1199,7 +1199,7 @@ report::future-incompatibilities() {
 # @flag --unit-graph                           Output build graph in JSON (unstable)
 # @flag --ignore-rust-version                  Ignore `rust-version` specification in packages
 # @flag --future-incompat-report               Outputs a future incompatibility report at the end of the build
-# @option --timings <FMTS>                     Timing output formats (unstable) (comma separated): html, json
+# @option --timings[html|json] <FMTS>          Timing output formats (unstable) (comma separated): html, json
 # @flag -h --help                              Print help
 # @arg args*                                   Rustc flags
 rustc() {
@@ -1215,7 +1215,7 @@ rustc() {
 # @option -j --jobsof CPUs <N>                 Number of parallel jobs, defaults to
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
 # @flag --keep-going                           Do not abort the build as soon as there is an error (unstable)
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @flag --lib                                  Build only this package's library
 # @option --bin[`_choice_bin`] <NAME>          Build only the specified binary
 # @flag --frozen                               Require Cargo.lock and cache are up to date
@@ -1242,7 +1242,7 @@ rustc() {
 # @option --message-format <FMT>               Error format
 # @flag --unit-graph                           Output build graph in JSON (unstable)
 # @flag --ignore-rust-version                  Ignore `rust-version` specification in packages
-# @option --timings <FMTS>                     Timing output formats (unstable) (comma separated): html, json
+# @option --timings[html|json] <FMTS>          Timing output formats (unstable) (comma separated): html, json
 # @flag -h --help                              Print help
 # @arg args*                                   
 rustdoc() {
@@ -1258,7 +1258,7 @@ rustdoc() {
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
 # @flag --workspace                            Display the tree for all packages in the workspace
 # @option --exclude <SPEC>                     Exclude specific workspace members
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @option -F --features                        Space or comma separated list of features to activate
 # @flag --locked                               Require Cargo.lock is up to date
@@ -1268,14 +1268,14 @@ rustdoc() {
 # @flag --no-default-features                  Do not activate the `default` feature
 # @option --target[`_choice_target`] <TRIPLE>  Filter dependencies matching the given target-triple (default host platform).
 # @option -Z <FLAG>                            Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
-# @option -e --edges <KINDS>                   The kinds of dependencies to display (features, normal, build, dev, all, no-normal, no-build, no-dev, no-proc-macro)
+# @option -e --edges[features|normal|build|dev|all|no-normal|no-build|no-dev|no-proc-macro] <KINDS>  The kinds of dependencies to display (features, normal, build, dev, all, no-normal, no-build, no-dev, no-proc-macro)
 # @option -i --invert <SPEC>                   Invert the tree direction and focus on the given package
 # @option --prune <SPEC>                       Prune the given package from the display of the dependency tree
 # @option --depth                              Maximum display depth of the dependency tree
-# @option --prefix                             Change the prefix (indentation) of how each entry is displayed [default: indent] [possible values: depth, indent, none]
+# @option --prefix[depth|indent|none]          Change the prefix (indentation) of how each entry is displayed [default: indent] [possible values: depth, indent, none]
 # @flag --no-dedupe                            Do not de-duplicate (repeats all shared dependencies)
 # @flag -d --duplicates                        Show only dependencies which come in multiple versions (implies -i)
-# @option --charset                            Character set to use in output: utf8, ascii [default: utf8] [possible values: utf8, ascii]
+# @option --charset[utf8|ascii]                Character set to use in output: utf8, ascii [default: utf8] [possible values: utf8, ascii]
 # @option -f --format                          Format string used for printing dependencies [default: {p}]
 # @flag -h --help                              Print help
 tree() {
@@ -1309,14 +1309,14 @@ tree() {
 # @option --target[`_choice_target`] <TRIPLE>  [cargo] Check for the target triple
 # @option --target-dir <DIRECTORY>             [cargo] Directory for all generated artifacts
 # @option --manifest-path <PATH>               [cargo] Path to Cargo.toml
-# @option --message-format <FMT>               [cargo] Error format [default: human] [possible values: human, json, short]
+# @option --message-format[human|json|short] <FMT>  [cargo] Error format [default: human] [possible values: human, json, short]
 # @flag -v --verbose                           [cargo] Use verbose output (-vv very verbose/build.rs output)
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    [cargo] Coloring [possible values: auto, always, never]
 # @flag --frozen                               [cargo] Require Cargo.lock and cache are up to date
 # @flag --locked                               [cargo] Require Cargo.lock is up to date
 # @flag --offline                              [cargo] Run without accessing the network
-# @option --output                             Output format [default: human] [possible values: human, json]
-# @option --backend                            Backend to use for determining unused deps [default: depinfo] [possible values: save-analysis, depinfo]
+# @option --output[human|json]                 Output format [default: human] [possible values: human, json]
+# @option --backend[save-analysis|depinfo]     Backend to use for determining unused deps [default: depinfo] [possible values: save-analysis, depinfo]
 # @flag --keep-going                           Needed because the keep-going flag is asked about by cargo code
 # @flag --show-unused-transitive               Show unused dependencies that get used transitively by main dependencies.
 # @flag -h --help                              Print help information
@@ -1334,7 +1334,7 @@ udeps() {
 # @option -s --sync <TOML>                     Additional `Cargo.toml` to sync and vendor
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
 # @flag --respect-source-config                Respect `[source]` config in `.cargo/config`
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @flag --versioned-dirs                       Always include version in subdir name
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @flag --locked                               Require Cargo.lock is up to date
@@ -1353,7 +1353,7 @@ vendor() {
 # @flag -q --quiet                             Do not print cargo log messages
 # @option --manifest-path <PATH>               Path to Cargo.toml
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @flag --locked                               Require Cargo.lock is up to date
 # @flag --offline                              Run without accessing the network
@@ -1369,7 +1369,7 @@ verify-project() {
 # @cmd Show version information
 # @flag -q --quiet                             Do not print cargo log messages
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @flag --locked                               Require Cargo.lock is up to date
 # @flag --offline                              Run without accessing the network
@@ -1389,7 +1389,7 @@ version() {
 # @option --index                              Registry index to yank from
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
 # @option --token                              API token to use when authenticating
-# @option --color[auto|always|never] <WHEN>    Coloring
+# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @option --registry                           Registry to use
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @flag --locked                               Require Cargo.lock is up to date
