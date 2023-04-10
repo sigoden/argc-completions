@@ -275,7 +275,7 @@ function addNotations(item, array, extra) {
     item = takeHeadEllipsis(item, extra)
     extra2["multiple"] = 0
     item2 = takeTailEllipsis(item, extra2)
-    if (index(">])", substr(item2, length(item2))) == 0) {
+    if (index(PAIRS_CLOSE, substr(item2, length(item2))) == 0) {
         item = item2
         if (extra2["multiple"] == 1) {
             extra["multiple"] = 1
@@ -324,7 +324,9 @@ function getArgName(input) {
     if (word != "") {
         words[length(words) + 1] = word
     }
-    return join(words, "-")
+    value = join(words, "-")
+    gsub(/^-+|-+$/, "", value)
+    return value
 }
 
 function extractName(input,     result, len, idx, end, last) {

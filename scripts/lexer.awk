@@ -87,6 +87,8 @@ END {
     }
     if (length(arguments) == 0 && length(usage) > 0) {
         split("", words)
+        gsub(/ \| /, "|", usage)
+        gsub(/-- |\[--\] /, "", usage)
         splitUsage(usage, words)
         isCmd = 1
         for (i in words) {
@@ -95,7 +97,7 @@ END {
                 continue
             }
             isCmd = 0
-            if (match(word, /^\[-/)) {
+            if (match(word, /^(\[-|\(-|<-|-)/)) {
                 continue
             }
             if (match(tolower(word), /argument|option|flag|command/)) {
@@ -106,13 +108,21 @@ END {
     }
     for (i in arguments) {
         argument = arguments[i]
+        if (i < length(arguments) && extraArgName(argument) == extraArgName(arguments[i + 1])) {
+            continue
+        }
         splitAt = splitArgment(argument)
-        print "argument # " substr(argument, 1, splitAt) " # " truncateDesc(substr(argument, splitAt + 1))
+        argumentVal = substr(argument, 1, splitAt)
+        descVal = truncateDesc(substr(argument, splitAt + 1))
+        print "argument # " argumentVal " # " descVal
     }
     for (i in commands) {
         command = commands[i]
         splitAt = splitCommand(command)
-        print "command # " substr(command, 1, splitAt) " # " truncateDesc(substr(command, splitAt + 1))
+        commandVal = substr(command, 1, splitAt)
+        gsub(/^\*|\*$/, "", commandVal)
+        descVal = truncateDesc(substr(command, splitAt + 1))
+        print "command # " commandVal " # " descVal
     }
 }
 
@@ -290,6 +300,11 @@ function isUsage(input) {
 
 function isGroup(input) {
     return match(input, /^ {0,4}[A-Za-z0-9]+.*:$/)
+}
+
+function extraArgName(input) {
+    gsub(/[\[\]\.<>]/, "", input)
+    return input
 }
 
 function containsArguments(input) {

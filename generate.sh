@@ -112,7 +112,7 @@ validate_script() {
     if [[ -f "$output_file" ]]; then
         output=$(bash "$output_file" --help 2>&1)
         if ! grep -q "USAGE:" <<<"$output"; then
-            echo "$output"
+            echo "$output" >&2
         fi
     fi
 }
@@ -129,7 +129,7 @@ set_globals() {
     else
         command -v $argc_cmd >/dev/null 2>&1
         if [[ $? -eq 1 ]]; then
-            echo "error: $argc_cmd not found"
+            echo "error: $argc_cmd not found" >&2
             exit 1
         fi
     fi

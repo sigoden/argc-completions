@@ -407,6 +407,7 @@ start() {
 # @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
+# @arg args*
 test() {
     :;
 }
@@ -684,7 +685,6 @@ init() {
 # @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
-# @arg --filter-deployed-project-name <--filter=<deployed project name>>
 # @arg deploy
 # @arg target-directory!
 deploy() {

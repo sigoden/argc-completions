@@ -98,13 +98,13 @@ _patch_table() {
     elif [[ "$*" == "git fetch" ]]; then
         sed '/argument # \[<repository>/ cargument # <remote> # # [`_choice_remote`]\nargument # <refspec>... # # [`_choice_branch`]'
     elif [[ "$*" == "git log" ]]; then
-        sed '/argument # \[<revision-range>/, /argument # \[\[--/ cargument # [commit-path]... # # [`_choice_log`]'
+        sed '/argument # \[<revision-range>/, /argument # \[<path>/ cargument # [commit-path]... # # [`_choice_log`]'
     elif [[ "$*" == "git switch" ]]; then
         sed '/argument # \[<branch>\]/ cargument # [<branch>] # # [`_choice_branch`]'
     elif [[ "$*" == "git shortlog" ]]; then
-        sed '/argument # \[<revision-range>/, /argument # \[\[--/ cargument # [commit-path]... # # [`_choice_log`]'
+        sed '/argument # \[<revision-range>/, /argument # \[<path>/ cargument # [commit-path]... # # [`_choice_log`]'
     elif [[ "$*" == "git show" ]]; then
-        sed '/argument # \[<revision-range>/, /argument # \[\[--/ cargument # [commit-path]... # # [`_choice_show`]'
+        sed '/argument # \[<revision-range>/, /argument # \[<path>/ cargument # [commit-path]... # # [`_choice_show`]'
     elif [[ "$*" == "git restore" ]]; then
         sed '/argument # <file>.../ cargument # <file>... # # [`_choice_restore_file`]'
     elif [[ "$*" == "git reset" ]]; then

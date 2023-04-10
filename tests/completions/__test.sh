@@ -36,28 +36,28 @@
 # @flag --color                                    Controls colors in the output.
 # @flag --no-color                                 Controls colors in the output.
 # @flag --http1.1                                  Use HTTP 1.1
-# @option --filter1 <selector>                     
+# @option --filter1 <selector>
 # @option --filter2* <pattern>                     Includes all direct and indirect dependencies of the matched packages.
 # @option --packages* <packages>                   Packages to inspect for updates
 # @option --show-scope[worktree|local|global|system|command]  show scope of config (worktree, local, global, system, command)
 # @option --edition[2015|2018|2021] <YEAR>         Edition to set for the crate generated [possible values: 2015, 2018, 2021]
 # @option --color2[auto|always|never] <WHEN>       Coloring: auto, always, never
-# @arg ARG1!                                       
-# @arg ARG2+                                       
-# @arg ARG3                                        
-# @arg ARG4*                                       
-# @arg ARG5*                                       
-# @arg deployed-project-name!                      
-# @arg arg7*                                       
-# @arg branch-tag!                                 
-# @arg arg8*                                       
-# @arg repository                                  
-# @arg pathspecs*                                  
-# @arg tarball-dir <<tarball>|<dir>>               
-# @arg mbox-Maildir* <<mbox> | <Maildir>>          
-# @arg tarball-file!                               
-# @arg ARG9*                                       
-# @arg rustfmt_options*                            
+# @arg ARG1!
+# @arg ARG2+
+# @arg ARG3
+# @arg ARG4*
+# @arg ARG5*
+# @arg deployed-project-name!
+# @arg arg7*
+# @arg branch-tag!
+# @arg arg8*
+# @arg repository
+# @arg pathspecs*
+# @arg tarball-dir <<tarball>|<dir>>
+# @arg mbox-Maildir* <<mbox> | <Maildir>>
+# @arg tarball-file!
+# @arg ARG9*
+# @arg rustfmt_options*
 
 
 # {{ __test run
@@ -90,5 +90,22 @@ generate-lock-entry() {
     :;
 }
 # }} __test generate-lock-entry
+
+# {{ __test cmd1
+# @cmd
+cmd1() {
+    :;
+}
+# }} __test cmd1
+
+# {{ __test cmd2
+# @cmd
+# @arg pattern!
+# @arg rev*
+# @arg path*
+cmd2() {
+    :;
+}
+# }} __test cmd2
 
 eval "$(argc --argc-eval "$0" "$@")"

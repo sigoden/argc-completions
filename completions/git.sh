@@ -315,7 +315,7 @@ diff() {
 # @flag --ext-grep                            allow calling of grep(1) (ignored by this build)
 # @arg pattern!
 # @arg rev*
-# @arg ---path <[--] <path>...>
+# @arg path*
 grep() {
     :;
 }
@@ -713,7 +713,7 @@ push() {
 # @flag --ignore-date                        use current timestamp for author date
 # @flag --rerere-autoupdate                  update the index with reused conflict resolution if possible
 # @option -S --gpg-sign <key-id>             GPG-sign commits
-# @arg mbox-Maildir* <<mbox> | <Maildir>>
+# @arg mbox-Maildir* <<mbox>|<Maildir>>
 am() {
     :;
 }
@@ -1048,7 +1048,7 @@ difftool() {
 # @option --interdiff <rev>                   show changes against <rev> in cover letter or single patch
 # @option --range-diff <refspec>              show changes against <refspec> in cover letter or single patch
 # @option --creation-factor <n>               percentage by which creation is weighted
-# @arg since-revision-range <<since> | <revision-range>>
+# @arg since-revision-range <<since>|<revision-range>>
 format-patch() {
     :;
 }
@@ -1098,7 +1098,6 @@ gc() {
 # @flag --stop               stop the web server
 # @flag --start              start the web server
 # @flag --restart            restart the web server
-# @arg --start---stop---restart <--start | --stop | --restart>
 instaweb() {
     :;
 }
@@ -1327,7 +1326,7 @@ range-diff() {
 
 # {{ git reflog
 # @cmd Manage reflog information
-# @arg show-expire-delete-exists <show | expire | delete | exists>
+# @arg show-expire-delete-exists
 reflog() {
     :;
 }
@@ -1862,7 +1861,7 @@ tag() {
 # @flag --decorate*                            decorate options
 # @option -L <range:file>                      trace the evolution of line range <start>,<end> or function :<funcname> in <file>
 # @arg revision-range
-# @arg ---path <[--] <path>...>
+# @arg path*
 whatchanged() {
     :;
 }

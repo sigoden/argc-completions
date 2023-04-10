@@ -62,6 +62,12 @@ Commands:
     build, b
     t, test
     - generate-lock-entry / generateLockEntry
+    cmd1
+    cmd2
 EOF
+    elif [[ "$*" == "__test cmd1" ]]; then
+        echo "Usage: __test cmd1 [OPTIONS] <--build|--clear>"
+    elif [[ "$*" == "__test cmd2" ]]; then
+        echo "Usage: __test cmd2 [<options>] [-e] <pattern> [<rev>...] [[--] <path>...]"
     fi
 }
