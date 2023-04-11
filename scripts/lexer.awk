@@ -93,7 +93,7 @@ END {
         isCmd = 1
         for (i in words) {
             word = words[i]
-            if (isCmd && match(word, /^[A-Za-z1-9_-]+$/)) {
+            if (isCmd && match(word, /^[A-Za-z1-9_-]+$/) && toupper(word) != word) {
                 continue
             }
             isCmd = 0

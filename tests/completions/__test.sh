@@ -108,4 +108,12 @@ cmd2() {
 }
 # }} __test cmd2
 
+# {{ __test cmd3
+# @cmd
+# @arg CONTAINER*
+cmd3() {
+    :;
+}
+# }} __test cmd3
+
 eval "$(argc --argc-eval "$0" "$@")"
