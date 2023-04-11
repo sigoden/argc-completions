@@ -3186,7 +3186,7 @@ _choice_builder() {
 }
 
 _choice_container_cp() {
-    if [[ "${#argc__words[@]}" -gt 1 ]]; then
+    if [[ "$(_argc_util_positional_len)" -gt 1 ]]; then
         prev_arg="$(_argc_util_positional -2)"
         if [[ "$prev_arg" =~ ^[A-Za-z0-9_-]+: ]]; then
             echo "__argc_comp:file"
@@ -3215,7 +3215,7 @@ _choice_compose_service() {
 }
 
 _choice_compose_cp() {
-    if [[ "$(_argc_util_count_positional)" -gt 1 ]]; then
+    if [[ "$(_argc_util_positional_len)" -gt 1 ]]; then
         prev_arg="$(_argc_util_positional -2)"
         if [[ "$prev_arg" =~ ^[A-Za-z0-9_-]+: ]]; then
             echo "__argc_comp:file"
@@ -3417,19 +3417,19 @@ _argc_util_global_options() {
     echo "$opts"
 }
 
+_argc_util_positional_len() {
+    if [[ -z "$argc__words" ]]; then
+        echo 0
+    else
+        echo "${#argc__words[@]}"
+    fi
+}
+
 _argc_util_positional() {
     if [[ -z "$argc__words" ]]; then
         echo ""
     else
         echo "${argc__words[$1]:-}"
-    fi
-}
-
-_argc_util_count_positional() {
-    if [[ -z "$argc__words" ]]; then
-        echo 0
-    else
-        echo "${#argc__words[@]}"
     fi
 }
 

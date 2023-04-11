@@ -1,4 +1,4 @@
-_argc_util_count_positional() {
+_argc_util_positional_len() {
     if [[ -z "$argc__words" ]]; then
         echo 0
     else
