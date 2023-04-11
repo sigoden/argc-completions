@@ -116,4 +116,12 @@ cmd3() {
 }
 # }} __test cmd3
 
+# {{ __test cmd4
+# @cmd
+# @arg arg[foo|bar|baz]
+cmd4() {
+    :;
+}
+# }} __test cmd4
+
 eval "$(argc --argc-eval "$0" "$@")"

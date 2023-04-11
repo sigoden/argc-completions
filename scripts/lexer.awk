@@ -114,7 +114,11 @@ END {
         splitAt = splitArgment(argument)
         argumentVal = substr(argument, 1, splitAt)
         descVal = truncateDesc(substr(argument, splitAt + 1))
-        print "argument # " argumentVal " # " descVal
+        if (match(argumentVal, /^\(([A-Za-z0-9_-]+\|)+[A-Za-z0-9_-]+\)$/)) {
+            print "argument # value # " descVal " # [" substr(argumentVal, 2, length(argumentVal) -2) "]"
+        } else {
+            print "argument # " argumentVal " # " descVal
+        }
     }
     for (i in commands) {
         command = commands[i]

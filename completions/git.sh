@@ -1605,7 +1605,7 @@ show-branch() {
 
 # {{ git sparse-checkout
 # @cmd Initialize and modify the sparse-checkout configuration, which reduces the checkout to a set of
-# @arg init-list-set-add-reapply-disable
+# @arg value[init|list|set|add|reapply|disable]
 sparse-checkout() {
     :;
 }

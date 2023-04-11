@@ -65,6 +65,7 @@ Commands:
     cmd1
     cmd2
     cmd3
+    cmd4
 EOF
     elif [[ "$*" == "__test cmd1" ]]; then
         echo "Usage: __test cmd1 [OPTIONS] <--build|--clear>"
@@ -72,5 +73,7 @@ EOF
         echo "Usage: __test cmd2 [<options>] [-e] <pattern> [<rev>...] [[--] <path>...]"
     elif [[ "$*" == "__test cmd3" ]]; then
         echo "Usage: __test cmd3 [<OPTIONS>] CONTAINER [CONTAINER...]"
+    elif [[ "$*" == "__test cmd4" ]]; then
+        echo "Usage: __test cmd4 (foo|bar|baz)"
     fi
 }
