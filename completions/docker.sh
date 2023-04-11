@@ -3372,7 +3372,7 @@ _choice_event_filter() {
 _helper_container_path() {
     container="${1%%:*}"
     path="${1#*:}"
-    if [[ "$path" == '/' ]]; then
+    if [[ "$path" == '' ]] || [[ "$path" == '/' ]]; then
         search_path="/"
     elif [[ "$path" != *'/' ]]; then
         search_path="$(dirname "$path")"
@@ -3387,9 +3387,9 @@ _helper_container_path() {
 
 
 _helper_compose_service_path() {
-    container="${1%%:*}"
+    service="${1%%:*}"
     path="${1#*:}"
-    if [[ "$path" == '/' ]]; then
+    if [[ "$path" == '' ]] || [[ "$path" == '/' ]]; then
         search_path="/"
     elif [[ "$path" != *'/' ]]; then
         search_path="$(dirname "$path")"
@@ -3399,7 +3399,7 @@ _helper_compose_service_path() {
     else
         search_path="$path"
     fi
-    _docker exec "$container" ls -1 -p "$search_path" | xargs -I% echo "$container:$search_path%"
+    _docker compose exec "$service" ls -1 -p "$search_path" | xargs -I% echo "$service:$search_path%"
 }
 
 _argc_util_global_options() {
