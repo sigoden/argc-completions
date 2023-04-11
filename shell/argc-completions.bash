@@ -21,10 +21,12 @@ _argc_completions() {
         fi
     fi
 
-    _argc_complete_nospace "${candicates[@]}"
-
     if [[ ${#candicates[@]} -gt 0 ]]; then
-        COMPREPLY=(${candicates[@]})
+        if [[ ${#candicates[@]} -eq 1 ]] && [[ "${candicates[0]}" == "$cur" ]]; then
+            COMPREPLY=("$cur ")
+        else
+            COMPREPLY=(${candicates[@]})
+        fi
     fi
 }
 
@@ -33,31 +35,13 @@ _argc_complete_path() {
         _filedir ${1-}
     else
         if [[ ${1-} == "-d" ]]; then
-            compopt -o nospace -o plusdirs > /dev/null 2>&1
+            compopt -o plusdirs > /dev/null 2>&1
             COMPREPLY=($(compgen -d -- "${cur}"))
         else
-            compopt -o nospace -o plusdirs > /dev/null 2>&1
+            compopt -o plusdirs > /dev/null 2>&1
             COMPREPLY=($(compgen -f -- "${cur}"))
         fi
     fi
 }
 
-_argc_complete_nospace() {
-    if [[ $# -eq 0 ]]; then
-        return
-    fi
-    local nospace=1
-    local value last_char
-    for value in ${@}; do
-        last_char="${value: -1}"
-        if [[ ! "$COMP_WORDBREAKS" == *"$last_char"* ]]; then
-            nospace=0
-            break
-        fi
-    done
-    if [[ "$nospace" == "1" ]]; then
-        compopt -o nospace > /dev/null 2>&1
-    fi
-}
-
-complete -F _argc_completions ${ARGC_COMPLETIONS_SCRIPTS[@]}
+complete -o nospace -F _argc_completions ${ARGC_COMPLETIONS_SCRIPTS[@]}
