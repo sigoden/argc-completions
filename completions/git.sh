@@ -1937,16 +1937,20 @@ worktree::unlock() {
 }
 # }} git worktree
 
+_git() {
+    git $(_argc_util_global_options -C --git-dir --work-tree) "$@"
+}
+
 _choice_cmd() {
-    git config --get-regexp 'alias.*' | awk '{print substr($1, 7)}'
+    _git config --get-regexp 'alias.*' | awk '{print substr($1, 7)}'
 }
 
 _choice_config_key() {
-    git config --get-regexp '.*' | awk '{print $1}'
+    _git config --get-regexp '.*' | awk '{print $1}'
 }
 
 _choice_unstaged_file() {
-    git status --porcelain | awk '{
+    _git status --porcelain | awk '{
     if (substr($0, 2, 1) != " ") {
         print substr($0, 3)
     }
@@ -1954,7 +1958,7 @@ _choice_unstaged_file() {
 }
 
 _choice_staged_file() {
-    git status --porcelain | awk '{
+    _git status --porcelain | awk '{
     if (substr($0, 2, 1) == " ") {
         if (match($0, "->")) {
             print substr($0, RSTART + RLENGTH + 1)
@@ -1966,7 +1970,7 @@ _choice_staged_file() {
 }
 
 _choice_changed_file() {
-    git status --porcelain | awk '{
+    _git status --porcelain | awk '{
     if (match($0, "->")) {
         print substr($0, RSTART + RLENGTH + 1)
     } else {
@@ -2009,7 +2013,7 @@ _choice_diff() {
 
 _choice_log() {
     if [[ -n "$argc__dashdash" ]]; then
-        git ls-files | _argc_util_platform_path
+        _git ls-files | _argc_util_platform_path
     else
         _choice_branch
     fi
@@ -2017,7 +2021,7 @@ _choice_log() {
 
 _choice_show() {
     if [[ -n "$argc__dashdash" ]]; then
-        git ls-files
+        _git ls-files
     else
         _choice_branch
         _choice_tag
@@ -2025,12 +2029,12 @@ _choice_show() {
 }
 
 _choice_tag() {
-    git tag --sort=-creatordate
+    _git tag --sort=-creatordate
 }
 
 _choice_head() {
     local gitdir
-    gitdir="$(git rev-parse --git-dir)"
+    gitdir="$(_git rev-parse --git-dir)"
     for head in HEAD FETCH_HEAD ORIG_HEAD MERGE_HEAD; do
         if [[ -f "$gitdir/$head" ]]; then
             echo $head
@@ -2049,18 +2053,18 @@ _choice_push() {
 }
 
 _choice_unique_remote_branch() {
-    git for-each-ref --format="%(refname:strip=3)" \
+    _git for-each-ref --format="%(refname:strip=3)" \
         --sort="refname:strip=3" \
         "refs/remotes/*/$match*" "refs/remotes/*/*/**"  | uniq -u
 }
 
 _choice_branch() {
-    git for-each-ref --format='%(refname:strip=2)' --sort=-committerdate refs/heads/
-    git for-each-ref --format='%(refname:strip=2)' refs/remotes/
+    _git for-each-ref --format='%(refname:strip=2)' --sort=-committerdate refs/heads/
+    _git for-each-ref --format='%(refname:strip=2)' refs/remotes/
 }
 
 _choice_remote() {
-    git remote
+    _git remote
 }
 
 _choice_remote_branch() {
@@ -2076,7 +2080,7 @@ _choice_ref() {
 }
 
 _choice_range() {
-    last_arg="${argc__words[-1]}"
+    last_arg="$(_argc_util_positional -1)"
     if [[ "$last_arg" == *'..'* ]]; then
         ref1=${last_arg%%..*}
         ref2=${last_arg##*..}
@@ -2087,7 +2091,22 @@ _choice_range() {
 }
 
 _choice_stash() {
-    git stash list --format=%gd:%gs 2>/dev/null | sed 's/: /\t/'
+    _git stash list --format=%gd:%gs 2>/dev/null | sed 's/: /\t/'
+}
+
+_argc_util_global_options() {
+    local name var_name opts
+    for name in $@; do
+        var_name="argc_$(echo "$name" | sed 's/^-\+//' | tr '-' '_')"
+        if [[ -n "${!var_name}" ]]; then
+            if [[ "${!var_name}" -eq 1 ]]; then
+                opts="$opts $name"
+            else
+                opts="$opts $name ${!var_name}"
+            fi
+        fi
+    done
+    echo "$opts"
 }
 
 _argc_util_platform_path() {
@@ -2111,6 +2130,14 @@ _argc_util_exist_cygpath() {
         fi
     fi
     return $_argc_var_exist_cygpath
+}
+
+_argc_util_positional() {
+    if [[ -z "$argc__words" ]]; then
+        echo ""
+    else
+        echo "${argc__words[$1]:-}"
+    fi
 }
 
 eval "$(argc --argc-eval "$0" "$@")"
