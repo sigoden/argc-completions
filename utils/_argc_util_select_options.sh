@@ -1,4 +1,4 @@
-_argc_util_global_options() {
+_argc_util_select_options() {
     local name var_name opts
     for name in $@; do
         var_name="argc_$(echo "$name" | sed 's/^-\+//' | tr '-' '_')"

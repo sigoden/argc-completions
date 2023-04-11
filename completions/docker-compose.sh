@@ -306,14 +306,14 @@ version() {
 # }} docker-compose version
 
 _docker_compose() {
-    docker-compose $(_argc_util_global_options --file) "$@"
+    docker-compose $(_argc_util_select_options --file) "$@"
 }
 
 _choice_service() {
     _docker_compose config --services
 }
 
-_argc_util_global_options() {
+_argc_util_select_options() {
     local name var_name opts
     for name in $@; do
         var_name="argc_$(echo "$name" | sed 's/^-\+//' | tr '-' '_')"

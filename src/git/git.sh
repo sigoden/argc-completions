@@ -135,7 +135,7 @@ _patch_script() {
 }
 
 _git() {
-    git $(_argc_util_global_options -C --git-dir --work-tree) "$@"
+    git $(_argc_util_select_options -C --git-dir --work-tree) "$@"
 }
 
 _choice_cmd() {

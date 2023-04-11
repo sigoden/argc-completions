@@ -59,7 +59,7 @@ _patch_script() {
 }
 
 _docker() {
-    docker $(_argc_util_global_options --host --config --context) "$@"
+    docker $(_argc_util_select_options --host --config --context) "$@"
 }
 
 _choice_config() {

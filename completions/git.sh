@@ -1938,7 +1938,7 @@ worktree::unlock() {
 # }} git worktree
 
 _git() {
-    git $(_argc_util_global_options -C --git-dir --work-tree) "$@"
+    git $(_argc_util_select_options -C --git-dir --work-tree) "$@"
 }
 
 _choice_cmd() {
@@ -2094,7 +2094,7 @@ _choice_stash() {
     _git stash list --format=%gd:%gs 2>/dev/null | sed 's/: /\t/'
 }
 
-_argc_util_global_options() {
+_argc_util_select_options() {
     local name var_name opts
     for name in $@; do
         var_name="argc_$(echo "$name" | sed 's/^-\+//' | tr '-' '_')"

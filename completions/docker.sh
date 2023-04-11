@@ -3126,7 +3126,7 @@ stack::services() {
 # }} docker stack
 
 _docker() {
-    docker $(_argc_util_global_options --host --config --context) "$@"
+    docker $(_argc_util_select_options --host --config --context) "$@"
 }
 
 _choice_config() {
@@ -3402,7 +3402,7 @@ _helper_compose_service_path() {
     _docker compose exec "$service" ls -1 -p "$search_path" | xargs -I% echo "$service:$search_path%"
 }
 
-_argc_util_global_options() {
+_argc_util_select_options() {
     local name var_name opts
     for name in $@; do
         var_name="argc_$(echo "$name" | sed 's/^-\+//' | tr '-' '_')"
