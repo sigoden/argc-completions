@@ -61,7 +61,6 @@ Commands:
     run
     build, b
     t, test
-    - generate-lock-entry / generateLockEntry
     cmd1
     cmd2
     cmd3

@@ -83,14 +83,6 @@ test() {
 }
 # }} __test test
 
-# {{ __test generate-lock-entry
-# @cmd
-# @alias generateLockEntry
-generate-lock-entry() {
-    :;
-}
-# }} __test generate-lock-entry
-
 # {{ __test cmd1
 # @cmd
 cmd1() {
@@ -118,7 +110,7 @@ cmd3() {
 
 # {{ __test cmd4
 # @cmd
-# @arg arg[foo|bar|baz]
+# @arg value[foo|bar|baz]
 cmd4() {
     :;
 }

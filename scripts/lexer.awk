@@ -46,7 +46,7 @@ BEGIN {
             if (testLineBreakDesc($0)) {
                 commands[length(commands)] = commands[length(commands)] "   " trimStarts($0)
             } else {
-                trimed = trimCommand($0)
+                trimed = trimStarts($0)
                 if (length(trimed) > 0) {
                     commands[length(commands) + 1] = trimed
                 }
@@ -57,7 +57,7 @@ BEGIN {
             }
         } else if (prevLine == "group") {
             if (testCommand($0)) {
-                commands[length(commands) + 1] = trimCommand($0)
+                commands[length(commands) + 1] = trimStarts($0)
                 prevLine = "command"
             } else {
                 prevLine = "other"
@@ -278,14 +278,6 @@ function truncateDesc(input) {
     }
     if (match(input, /[.?!]\s/)) {
         return substr(input, 1, RSTART + 1)
-    }
-    return input
-}
-
-function trimCommand(input) {
-    input = trimStarts(input)
-    if (substr(input, 1, 1) == "-") {
-        input = trimStarts(substr(input, 2))
     }
     return input
 }
