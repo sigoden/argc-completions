@@ -835,8 +835,8 @@ _patch_script() {
         -e '/{ npm config/, /} npm config/ s/@arg key\(\*\)\?$/@arg key\1[`_choice_config_key`]/' \
         -e '/{ npm config/, /} npm config/ s/@arg key-value\(\*\)\?/@arg key-value\1[`_choice_config_key`]/' \
         -e '/{ npm run-script/, /} npm run-script/ s/@arg cmd\(!\)\?/@arg cmd\1[`_choice_script`]/'  \
-        -e '/{ npm uninstall/, /} npm uninstall/ s/@arg pkg\(+|*\)\?/@arg pkg\1[`_choice_package`]/'  \
-        -e '/{ npm update/, /} npm update/ s/@arg pkg\(+\|\*\)\?/@arg pkg\1[`_choice_package`]/'  \
+        -e '/{ npm uninstall/, /} npm uninstall/ s/@arg pkg\(+|*\)\?/@arg pkg\1[`_choice_dependency`]/'  \
+        -e '/{ npm update/, /} npm update/ s/@arg pkg\(+\|\*\)\?/@arg pkg\1[`_choice_dependency`]/'  \
         -e 's/--workspace <value>\s\+/--workspace[`_choice_workspace`] <value>  /'
 }
 
@@ -851,7 +851,7 @@ _choice_workspace() {
     fi
 }
 
-_choice_package() {
+_choice_dependency() {
     pkg_json_path=$(_helper_pkg_json_path)
     if [[ -n "$pkg_json_path" ]]; then
         cat "$pkg_json_path" | jq -r '.dependencies // {}, .devDependencies // {}, .optionalDependencies // {} | keys[]'| tr -d '\r'
@@ -861,7 +861,7 @@ _choice_package() {
 _choice_script() {
     pkg_json_path=$(_helper_pkg_json_path)
     if [[ -n "$pkg_json_path" ]]; then
-        cat "$pkg_json_path" | jq -r '.scripts // [] | .[]' | tr -d '\r'
+        cat "$pkg_json_path" | jq -r '.scripts // {} | keys[]' | tr -d '\r'
     fi
 }
 

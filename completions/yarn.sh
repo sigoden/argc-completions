@@ -50,7 +50,7 @@
 # @flag -v --version                            output the version number
 # @flag --verbose                               output verbose messages on internal operations
 # @flag -h --help                               output usage information
-# @arg cmd[`_choice_cmd`]
+# @arg cmd[`_choice_script`]
 
 
 # {{ yarn add
@@ -694,7 +694,7 @@ global() {
 # {{{ yarn global add
 # @cmd Installs packages and any packages that it depends on.
 # @option --prefix <prefix>    bin prefix
-# @arg packages+
+# @arg packages+[`_choice_global_dependency`]
 global::add() {
     :;
 }
@@ -711,7 +711,7 @@ global::bin() {
 # {{{ yarn global remove
 # @cmd Remove packages.
 # @option --prefix <prefix>    bin prefix
-# @arg packages+
+# @arg packages+[`_choice_global_dependency`]
 global::remove() {
     :;
 }
@@ -720,7 +720,7 @@ global::remove() {
 # {{{ yarn global upgrade
 # @cmd Upgrades packages to their latest version based on the specified range.
 # @option --prefix <prefix>    bin prefix
-# @arg packages+
+# @arg packages+[`_choice_global_dependency`]
 global::upgrade() {
     :;
 }
@@ -2456,7 +2456,6 @@ workspace() {
 # @flag --focus                                 Focus on a single workspace by installing remote copies of its sibling workspaces.
 # @option --otp <otpcode>                       one-time password for two factor authentication
 # @flag -h --help                               output usage information
-# @arg info-run
 workspaces() {
     :;
 }
@@ -2477,77 +2476,58 @@ workspaces::run() {
 # }}} yarn workspaces run
 # }} yarn workspaces
 
-_choice_cmd() {
-    _choice_script
-    _helper_bin
-}
-
-_choice_script() {
-    project_dir="$(_helper_locate_project)"
-    cat "$project_dir/package.json" | jq -r '.scripts | keys[]' 
-}
-
-_choice_dependency() {
-    project_dir="$(_helper_locate_project)"
-    cat  "$project_dir/package.json" | jq -r '.dependencies // {}, .devDependencies // {}, .optionalDependencies // {} | keys[]'
-}
-
-_choice_global_dependency() {
-    global_dir="$(_argc_util_unix_path "$(yarn global dir)")"
-    cat  "$global_dir/package.json" | jq -r '.dependencies // {}, .devDependencies // {}, .optionalDependencies // {} | keys[]'
-}
-
-_choice_workspace() {
-    yarn workspaces info | sed '1d;$d' | jq -r 'keys[]'
-}
-
-_choice_workspace_args() {
-    if [[ "$1" == workspace ]] && [[ -n "$2" ]]; then
-        project_dir="$(_helper_locate_project)"
-        location="$(yarn workspaces info | sed '1d;$d' | jq -r '."'$2'".location')"
-        if [[ -z "$location" ]]; then
-            return
-        fi
-        workspace_dir="$project_dir/$location"
-        line=" ${@:3}"
-        if [[ "$argc__line" =~ [[:space:]]$ ]]; then
-            line="$line "
-        fi
-        while read -r item; do
-            if [[ "$item" == \`*\` ]]; then
-                ${item:1:-1}
-            else
-                echo "$item"
-            fi
-        done < <(argc --compgen "${BASH_SOURCE[0]}" "$line")
-    fi
-}
-
 _choice_config_key() {
     yarn config list --json | jq -r 'select(.type == "inspect") | .data | keys[]'
 }
 
-_helper_bin() {
-    bin_dir="$(_helper_locate_project)/node_modules/.bin"
-    if [ -d "$bin_dir" ]; then
-        ls -1 "$bin_dir" | sed -e 's/\..*$//' | uniq
+_choice_dependency() {
+    pkg_json_path=$(_helper_pkg_json_path)
+    if [[ -n "$pkg_json_path" ]]; then
+        cat "$pkg_json_path" | jq -r '.dependencies // {}, .devDependencies // {}, .optionalDependencies // {} | keys[]'| tr -d '\r'
     fi
 }
 
-_helper_locate_project() {
-    if [[ -z "$_project_dir" ]]; then
-        _project_dir="$(_helper_locate_base)"
+_choice_script() {
+    pkg_json_path=$(_helper_pkg_json_path)
+    if [[ -n "$pkg_json_path" ]]; then
+        cat "$pkg_json_path" | jq -r '.scripts // {} | keys[]' | tr -d '\r'
     fi
-    echo "$_project_dir"
 }
 
-_helper_locate_base() {
-    if [[ -n "$workspace_dir" ]]; then
-        echo "$workspace_dir" 
-    elif [ -f package.json ]; then
-        pwd
+_choice_global_dependency() {
+    global_dir="$(_argc_util_unix_path "$(yarn global dir)")"
+    cat  "$global_dir/package.json" | jq -r '.dependencies // {}, .devDependencies // {}, .optionalDependencies // {} | keys[]' | tr -d '\r'
+}
+
+_choice_workspace() {
+    yarn workspaces info | sed '1d;$d' | jq -r 'keys[]' | tr -d '\r'
+}
+
+_choice_workspace_args() {
+    if [ ! package.json ]; then
+        return
+    fi
+    location="$(yarn workspaces info | sed '1d;$d' | jq -r '."'$1'".location // empty' | tr -d '\r')"
+    if [[ -z "$location" ]]; then
+        return
+    fi
+    pkg_json_path="$location/package.json"
+    if [[ ! -f "$pkg_json_path" ]]; then
+        return
+    fi
+    line=" ${@:2}"
+    if [[ "$argc__line" =~ [[:space:]]$ ]]; then
+        line="$line "
+    fi
+    argc --argc-compgen fish "${BASH_SOURCE[0]}" "$line"
+}
+
+_helper_pkg_json_path() {
+    if [[ -v pkg_json_path ]]; then
+        echo "$pkg_json_path"
     else
-        echo "$(_argc_util_unix_path "$(npm prefix)")"
+        pkg_json_path=$(_argc_util_find_recursive package.json)
+        echo "$pkg_json_path"
     fi
 }
 
@@ -2568,6 +2548,15 @@ _argc_util_exist_cygpath() {
         fi
     fi
     return $_argc_var_exist_cygpath
+}
+
+_argc_util_find_recursive() {
+    until [[ -f "$1" ]] || [[ $PWD = '/' ]]; do
+        cd ..
+    done
+    if [[ -f "$1" ]]; then
+        realpath $1
+    fi
 }
 
 eval "$(argc --argc-eval "$0" "$@")"

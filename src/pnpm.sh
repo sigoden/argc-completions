@@ -69,7 +69,7 @@ _patch_table() {
     )"
     if [[ "$*" == "pnpm" ]]; then
         echo "$table"
-        echo 'argument # cmd # # [`_choice_cmd`]'
+        echo 'argument # cmd # # [`_choice_script`]'
     elif [[ "$*" == "pnpm install" ]]; then
         echo "$table" | sed \
             -e '/option # --package-import-method auto/, /option # --package-import-method hardlink/ coption # --package-import-method <method> # Import package from # [auto|clone|copy|hardlink]' \
@@ -108,58 +108,54 @@ _patch_script() {
         -e 's/@option --filter <pattern>\s\+/@option --filter[`_choice_workspace`] <pattern>  /'
 }
 
-_choice_cmd() {
-    _choice_script
-    _choice_bin
-}
-
-_choice_script() {
-    _helper_apply_filter
-    project_dir="$(_helper_locate_project)"
-    cat "$project_dir/package.json" | jq -r '.scripts | keys[]' 
-}
-
-_choice_dependency() {
-    _helper_apply_filter
-    project_dir="$(_helper_locate_project)"
-    cat  "$project_dir/package.json" | jq -r '.dependencies // {}, .devDependencies // {}, .optionalDependencies // {} | keys[]'
+_choice_bin() {
+    pkg_json_path=$(_helper_pkg_json_path)
+    if [[ -f "$pkg_json_path" ]]; then
+        bin_dir="$(dirname "$pkg_json_path")/node_modules/.bin"
+        if [[ -d "$bin_dir" ]]; then
+            ls -1 "$bin_dir" | sed -e 's/\..*$//' | uniq
+        fi
+    fi
 }
 
 _choice_config_key() {
     pnpm config list --json | jq -r 'keys[]'
 }
 
-_choice_workspace() {
-    pnpm recursive list --json | jq -r '.[].name // empty'
+_choice_script() {
+    _helper_apply_filter
+    pkg_json_path=$(_helper_pkg_json_path)
+    if [[ -n "$pkg_json_path" ]]; then
+        cat "$pkg_json_path" | jq -r '.scripts // {} | keys[]' | tr -d '\r'
+    fi
 }
 
-_choice_bin() {
-    bin_dir="$(_helper_locate_project)/node_modules/.bin"
-    if [ -d "$bin_dir" ]; then
-        ls -1 "$bin_dir" | sed -e 's/\..*$//' | uniq
+_choice_dependency() {
+    _helper_apply_filter
+    pkg_json_path=$(_helper_pkg_json_path)
+    if [[ -n "$pkg_json_path" ]]; then
+        cat "$pkg_json_path" | jq -r '.dependencies // {}, .devDependencies // {}, .optionalDependencies // {} | keys[]'| tr -d '\r'
     fi
+}
+
+_choice_workspace() {
+    pnpm recursive list --json | jq -r '.[].name // empty'
 }
 
 _helper_apply_filter() {
     if [[ -n "$argc_filter" ]]; then
         local path = "$(pnpm recursive list --json | jq -r '.[] | select(.name == "'"$argc_filter"'") | .path // empty')"
         if [[ -n "$path" ]]; then
-            project_dir="$(_argc_util_unix_path "$path")"
+            pkg_json_path="$(_argc_util_unix_path "$path")/package.json"
         fi
     fi
 }
 
-_helper_locate_project() {
-    if [[ -z "$_project_dir" ]]; then
-        _project_dir="$(_helper_locate_base)"
-    fi
-    echo "$_project_dir"
-}
-
-_helper_locate_base() {
-    if [ -f package.json ]; then
-        pwd
+_helper_pkg_json_path() {
+    if [[ -v pkg_json_path ]]; then
+        echo "$pkg_json_path"
     else
-        echo "$(cd "$(_argc_util_unix_path "$(pnpm root)")/.." && pwd)"
+        pkg_json_path=$(_argc_util_find_recursive package.json)
+        echo "$pkg_json_path"
     fi
 }

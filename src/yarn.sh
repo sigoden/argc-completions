@@ -199,7 +199,7 @@ EOF
 _patch_table() {
     if [[ "$*" == "yarn" ]]; then
         cat
-        echo 'argument # cmd # # [`_choice_cmd`]'
+        echo 'argument # cmd # # [`_choice_script`]'
     elif [[ "$*" == "yarn run" ]]; then
         cat
         echo 'argument # script # # [`_choice_script`]'
@@ -212,6 +212,8 @@ _patch_table() {
         cat
         echo 'argument # <workspace-name> # # [`_choice_workspace`]'
         echo 'argument # [workspace-args]... # # [`_choice_workspace_args`]'
+    elif [[ "$*" == "yarn workspaces" ]]; then
+        sed '/argument/ d'
     elif [[ "$*" == "yarn generate-lock-entry" ]]; then
         sed '/option # --registry <registry>/ d'
     elif [[ "$*" == "yarn autoclean" ]]; then
@@ -224,79 +226,60 @@ _patch_table() {
 _patch_script() {
     sed \
         -e '/{ yarn config/, /} yarn config/ s/@arg key\(\!\)\?/@arg key\1[`_choice_config_key`]/' \
-        -e '/{ yarn global/, /} yarn global/ s/@arg packages\*/@arg packages*[`_choice_global_dependency`]/'
-}
-
-_choice_cmd() {
-    _choice_script
-    _helper_bin
-}
-
-_choice_script() {
-    project_dir="$(_helper_locate_project)"
-    cat "$project_dir/package.json" | jq -r '.scripts | keys[]' 
-}
-
-_choice_dependency() {
-    project_dir="$(_helper_locate_project)"
-    cat  "$project_dir/package.json" | jq -r '.dependencies // {}, .devDependencies // {}, .optionalDependencies // {} | keys[]'
-}
-
-_choice_global_dependency() {
-    global_dir="$(_argc_util_unix_path "$(yarn global dir)")"
-    cat  "$global_dir/package.json" | jq -r '.dependencies // {}, .devDependencies // {}, .optionalDependencies // {} | keys[]'
-}
-
-_choice_workspace() {
-    yarn workspaces info | sed '1d;$d' | jq -r 'keys[]'
-}
-
-_choice_workspace_args() {
-    if [[ "$1" == workspace ]] && [[ -n "$2" ]]; then
-        project_dir="$(_helper_locate_project)"
-        location="$(yarn workspaces info | sed '1d;$d' | jq -r '."'$2'".location')"
-        if [[ -z "$location" ]]; then
-            return
-        fi
-        workspace_dir="$project_dir/$location"
-        line=" ${@:3}"
-        if [[ "$argc__line" =~ [[:space:]]$ ]]; then
-            line="$line "
-        fi
-        while read -r item; do
-            if [[ "$item" == \`*\` ]]; then
-                ${item:1:-1}
-            else
-                echo "$item"
-            fi
-        done < <(argc --compgen "${BASH_SOURCE[0]}" "$line")
-    fi
+        -e '/{ yarn global/, /} yarn global/ s/@arg packages\(\*\|\+\)\?/@arg packages\1[`_choice_global_dependency`]/'
 }
 
 _choice_config_key() {
     yarn config list --json | jq -r 'select(.type == "inspect") | .data | keys[]'
 }
 
-_helper_bin() {
-    bin_dir="$(_helper_locate_project)/node_modules/.bin"
-    if [ -d "$bin_dir" ]; then
-        ls -1 "$bin_dir" | sed -e 's/\..*$//' | uniq
+_choice_dependency() {
+    pkg_json_path=$(_helper_pkg_json_path)
+    if [[ -n "$pkg_json_path" ]]; then
+        cat "$pkg_json_path" | jq -r '.dependencies // {}, .devDependencies // {}, .optionalDependencies // {} | keys[]'| tr -d '\r'
     fi
 }
 
-_helper_locate_project() {
-    if [[ -z "$_project_dir" ]]; then
-        _project_dir="$(_helper_locate_base)"
+_choice_script() {
+    pkg_json_path=$(_helper_pkg_json_path)
+    if [[ -n "$pkg_json_path" ]]; then
+        cat "$pkg_json_path" | jq -r '.scripts // {} | keys[]' | tr -d '\r'
     fi
-    echo "$_project_dir"
 }
 
-_helper_locate_base() {
-    if [[ -n "$workspace_dir" ]]; then
-        echo "$workspace_dir" 
-    elif [ -f package.json ]; then
-        pwd
+_choice_global_dependency() {
+    global_dir="$(_argc_util_unix_path "$(yarn global dir)")"
+    cat  "$global_dir/package.json" | jq -r '.dependencies // {}, .devDependencies // {}, .optionalDependencies // {} | keys[]' | tr -d '\r'
+}
+
+_choice_workspace() {
+    yarn workspaces info | sed '1d;$d' | jq -r 'keys[]' | tr -d '\r'
+}
+
+_choice_workspace_args() {
+    if [ ! package.json ]; then
+        return
+    fi
+    location="$(yarn workspaces info | sed '1d;$d' | jq -r '."'$1'".location // empty' | tr -d '\r')"
+    if [[ -z "$location" ]]; then
+        return
+    fi
+    pkg_json_path="$location/package.json"
+    if [[ ! -f "$pkg_json_path" ]]; then
+        return
+    fi
+    line=" ${@:2}"
+    if [[ "$argc__line" =~ [[:space:]]$ ]]; then
+        line="$line "
+    fi
+    argc --argc-compgen fish "${BASH_SOURCE[0]}" "$line"
+}
+
+_helper_pkg_json_path() {
+    if [[ -v pkg_json_path ]]; then
+        echo "$pkg_json_path"
     else
-        echo "$(_argc_util_unix_path "$(npm prefix)")"
+        pkg_json_path=$(_argc_util_find_recursive package.json)
+        echo "$pkg_json_path"
     fi
 }

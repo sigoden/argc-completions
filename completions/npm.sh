@@ -1000,7 +1000,7 @@ token::revoke() {
 # @flag --workspaces                Set to true to run the command in the context of all configured workspaces.
 # @flag --include-workspace-root    Include the workspace root when workspaces are enabled for a command.
 # @flag --install-links             When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
-# @arg pkg+[`_choice_package`]
+# @arg pkg+[`_choice_dependency`]
 uninstall() {
     :;
 }
@@ -1038,7 +1038,7 @@ unstar() {
 # @flag --workspaces                    Set to true to run the command in the context of all configured workspaces.
 # @flag --include-workspace-root        Include the workspace root when workspaces are enabled for a command.
 # @flag --install-links                 When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a sym‐
-# @arg pkg*[`_choice_package`]
+# @arg pkg*[`_choice_dependency`]
 update() {
     :;
 }
@@ -1098,7 +1098,7 @@ _choice_workspace() {
     fi
 }
 
-_choice_package() {
+_choice_dependency() {
     pkg_json_path=$(_helper_pkg_json_path)
     if [[ -n "$pkg_json_path" ]]; then
         cat "$pkg_json_path" | jq -r '.dependencies // {}, .devDependencies // {}, .optionalDependencies // {} | keys[]'| tr -d '\r'
@@ -1108,7 +1108,7 @@ _choice_package() {
 _choice_script() {
     pkg_json_path=$(_helper_pkg_json_path)
     if [[ -n "$pkg_json_path" ]]; then
-        cat "$pkg_json_path" | jq -r '.scripts // [] | .[]' | tr -d '\r'
+        cat "$pkg_json_path" | jq -r '.scripts // {} | keys[]' | tr -d '\r'
     fi
 }
 
