@@ -53,110 +53,8 @@
 # @arg cmd[`_choice_cmd`]
 
 
-# {{ yarn access
-# @cmd
-# @flag -v --version                            output the version number
-# @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
-# @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
-# @flag --verbose                               output verbose messages on internal operations
-# @flag --offline                               trigger an error if any required dependencies are not available in local cache
-# @flag --prefer-offline                        use network only if dependencies are not available in local cache
-# @flag --enable-pnp                            enable the Plug'n'Play installation
-# @flag --pnp                                   enable the Plug'n'Play installation
-# @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver
-# @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
-# @flag --ignore-scripts                        don't run lifecycle scripts
-# @flag --har                                   save HAR output of network traffic
-# @flag --ignore-platform                       ignore platform checks
-# @flag --ignore-engines                        ignore engines check
-# @flag --ignore-optional                       ignore optional dependencies
-# @flag --force                                 install and build packages even if they were built before, overwrite lockfile
-# @flag --skip-integrity-check                  run install without checking if node_modules is installed
-# @flag --check-files                           install will verify file tree of packages for consistency
-# @flag --no-bin-links                          don't generate bin links when setting up packages
-# @flag --flat                                  only allow one version of a package
-# @option --prod <prod>
-# @option --production <prod>
-# @flag --no-lockfile                           don't read or generate a lockfile
-# @flag --pure-lockfile                         don't generate a lockfile
-# @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
-# @flag --update-checksums                      update package checksums from current repository
-# @flag --link-duplicates                       create hardlinks to the repeated modules in node_modules
-# @option --link-folder <path>                  specify a custom folder to store global links
-# @option --global-folder <path>                specify a custom folder to store global packages
-# @option --modules-folder <path>               rather than installing modules into the node_modules folder relative to the cwd, output them here
-# @option --preferred-cache-folder <path>       specify a custom folder to store the yarn cache if possible
-# @option --cache-folder <path>                 specify a custom folder that must be used to store the yarn cache
-# @option --mutex <<type>[:specifier]>          use a mutex to ensure only one yarn instance is executing
-# @option --emoji <bool>                        enable emoji in output (default: false)
-# @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
-# @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>
-# @option --https-proxy <host>
-# @option --registry <url>                      override configuration registry
-# @flag --no-progress                           disable progress bar
-# @option --network-concurrency <number>        maximum number of concurrent network requests
-# @option --network-timeout <milliseconds>      TCP timeout for network requests
-# @flag --non-interactive                       do not show interactive prompts
-# @option --scripts-prepend-node-path <bool>    prepend the node executable dir to the PATH in scripts
-# @flag --no-node-version-check                 do not warn when using a potentially unsupported Node version
-# @flag --focus                                 Focus on a single workspace by installing remote copies of its sibling workspaces.
-# @option --otp <otpcode>                       one-time password for two factor authentication
-# @flag -h --help                               output usage information
-access() {
-    :;
-}
-
-# @cmd
-# @arg package
-access::public() {
-    :;
-}
-
-# @cmd
-# @arg package
-access::restricted() {
-    :;
-}
-
-# @cmd
-# @arg mode[read-only|read-write]
-# @arg scope-team
-# @arg package
-access::grant() {
-    :;
-}
-
-# @cmd
-# @arg scope-team
-# @arg package
-access::revoke() {
-    :;
-}
-
-# @cmd
-# @arg user-or-scope
-access::ls-packages() {
-    :;
-}
-
-# @cmd
-# @arg package
-# @arg user
-access::ls-collaborators() {
-    :;
-}
-
-# @cmd
-# @arg package
-access::edit() {
-    :;
-}
-# }} yarn access
-
 # {{ yarn add
-# @cmd
+# @cmd Installs a package and any packages that it depends on.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -220,7 +118,7 @@ add() {
 # }} yarn add
 
 # {{ yarn audit
-# @cmd
+# @cmd Perform a vulnerability audit against the installed packages.
 # @flag -v --version                             output the version number
 # @flag --no-default-rc                          prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                    specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -279,7 +177,7 @@ audit() {
 # }} yarn audit
 
 # {{ yarn autoclean
-# @cmd
+# @cmd Cleans and removes unnecessary files from package dependencies.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -336,7 +234,7 @@ autoclean() {
 # }} yarn autoclean
 
 # {{ yarn bin
-# @cmd
+# @cmd Displays the location of the yarn bin folder.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -392,7 +290,7 @@ bin() {
 # }} yarn bin
 
 # {{ yarn cache
-# @cmd
+# @cmd Manage yarn cache.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -448,26 +346,33 @@ cache() {
     :;
 }
 
-# @cmd
-# @option --pattern
+# {{{ yarn cache list
+# @cmd print out every cached package.
+# @alias ls
+# @option --pattern <pattern>
 cache::list() {
     :;
 }
+# }}} yarn cache list
 
-# @cmd
+# {{{ yarn cache dir
+# @cmd print out the path where yarn’s global cache is currently stored.
 cache::dir() {
     :;
 }
+# }}} yarn cache dir
 
-# @cmd
+# {{{ yarn cache clean
+# @cmd clear the global cache.
 # @arg module_name*
 cache::clean() {
     :;
 }
+# }}} yarn cache clean
 # }} yarn cache
 
 # {{ yarn check
-# @cmd
+# @cmd Verifies that versions of the package dependencies in the current project’s package.json match those in yarn’s lock file.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -525,7 +430,7 @@ check() {
 # }} yarn check
 
 # {{ yarn config
-# @cmd
+# @cmd Manages the yarn configuration files.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -579,34 +484,42 @@ config() {
     :;
 }
 
-# @cmd
+# {{{ yarn config set
+# @cmd Sets the config key to a certain value.
 # @flag -g --global
-# @arg key[`_choice_config_key`]
-# @arg value
+# @arg key![`_choice_config_key`]
+# @arg value!
 config::set() {
     :;
 }
+# }}} yarn config set
 
-# @cmd
-# @arg key[`_choice_config_key`]
+# {{{ yarn config get
+# @cmd Echoes the value for a given key to stdout.
+# @arg key![`_choice_config_key`]
 config::get() {
     :;
 }
+# }}} yarn config get
 
-# @cmd
-# @arg key[`_choice_config_key`]
+# {{{ yarn config delete
+# @cmd Deletes a given key from the config.
+# @arg key![`_choice_config_key`]
 config::delete() {
     :;
 }
+# }}} yarn config delete
 
-# @cmd
+# {{{ yarn config list
+# @cmd Displays the current configuration.
 config::list() {
     :;
 }
+# }}} yarn config list
 # }} yarn config
 
 # {{ yarn create
-# @cmd
+# @cmd Creates new projects from any create-* starter kits.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -661,64 +574,8 @@ create() {
 }
 # }} yarn create
 
-# {{ yarn exec
-# @cmd
-# @flag -v --version                            output the version number
-# @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
-# @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
-# @flag --verbose                               output verbose messages on internal operations
-# @flag --offline                               trigger an error if any required dependencies are not available in local cache
-# @flag --prefer-offline                        use network only if dependencies are not available in local cache
-# @flag --enable-pnp                            enable the Plug'n'Play installation
-# @flag --pnp                                   enable the Plug'n'Play installation
-# @flag --disable-pnp                           disable the Plug'n'Play installation
-# @flag --strict-semver
-# @flag --json                                  format Yarn log messages as lines of JSON (see jsonlines.org)
-# @flag --ignore-scripts                        don't run lifecycle scripts
-# @flag --har                                   save HAR output of network traffic
-# @flag --ignore-platform                       ignore platform checks
-# @flag --ignore-engines                        ignore engines check
-# @flag --ignore-optional                       ignore optional dependencies
-# @flag --force                                 install and build packages even if they were built before, overwrite lockfile
-# @flag --skip-integrity-check                  run install without checking if node_modules is installed
-# @flag --check-files                           install will verify file tree of packages for consistency
-# @flag --no-bin-links                          don't generate bin links when setting up packages
-# @flag --flat                                  only allow one version of a package
-# @option --prod <prod>
-# @option --production <prod>
-# @flag --no-lockfile                           don't read or generate a lockfile
-# @flag --pure-lockfile                         don't generate a lockfile
-# @flag --frozen-lockfile                       don't generate a lockfile and fail if an update is needed
-# @flag --update-checksums                      update package checksums from current repository
-# @flag --link-duplicates                       create hardlinks to the repeated modules in node_modules
-# @option --link-folder <path>                  specify a custom folder to store global links
-# @option --global-folder <path>                specify a custom folder to store global packages
-# @option --modules-folder <path>               rather than installing modules into the node_modules folder relative to the cwd, output them here
-# @option --preferred-cache-folder <path>       specify a custom folder to store the yarn cache if possible
-# @option --cache-folder <path>                 specify a custom folder that must be used to store the yarn cache
-# @option --mutex <<type>[:specifier]>          use a mutex to ensure only one yarn instance is executing
-# @option --emoji <bool>                        enable emoji in output (default: false)
-# @flag -s --silent                             skip Yarn console logs, other types of logs (script output) will be printed
-# @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
-# @option --proxy <host>
-# @option --https-proxy <host>
-# @option --registry <url>                      override configuration registry
-# @flag --no-progress                           disable progress bar
-# @option --network-concurrency <number>        maximum number of concurrent network requests
-# @option --network-timeout <milliseconds>      TCP timeout for network requests
-# @flag --non-interactive                       do not show interactive prompts
-# @option --scripts-prepend-node-path <bool>    prepend the node executable dir to the PATH in scripts
-# @flag --no-node-version-check                 do not warn when using a potentially unsupported Node version
-# @flag --focus                                 Focus on a single workspace by installing remote copies of its sibling workspaces.
-# @option --otp <otpcode>                       one-time password for two factor authentication
-# @flag -h --help                               output usage information
-exec() {
-    :;
-}
-# }} yarn exec
-
 # {{ yarn generate-lock-entry
-# @cmd
+# @cmd Generates a lock file entry.
 # @alias generateLockEntry
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
@@ -777,7 +634,7 @@ generate-lock-entry() {
 # }} yarn generate-lock-entry
 
 # {{ yarn global
-# @cmd
+# @cmd Install packages globally on your operating system.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -834,48 +691,44 @@ global() {
     :;
 }
 
-# @cmd
-# @option --prefix
-# @arg package
+# {{{ yarn global add
+# @cmd Installs packages and any packages that it depends on.
+# @option --prefix <prefix>    bin prefix
+# @arg packages+
 global::add() {
     :;
 }
+# }}} yarn global add
 
-# @cmd
-# @option --prefix
+# {{{ yarn global bin
+# @cmd Displays the location of the yarn bin folder.
+# @option --prefix <prefix>    bin prefix
 global::bin() {
     :;
 }
+# }}} yarn global bin
 
-# @cmd
-# @option --prefix
-global::list() {
-    :;
-}
-
-# @cmd
-# @option --prefix
-# @arg packages*[`_choice_global_dependency`]
+# {{{ yarn global remove
+# @cmd Remove packages.
+# @option --prefix <prefix>    bin prefix
+# @arg packages+
 global::remove() {
     :;
 }
+# }}} yarn global remove
 
-# @cmd
-# @option --prefix
-# @arg packages*[`_choice_global_dependency`]
+# {{{ yarn global upgrade
+# @cmd Upgrades packages to their latest version based on the specified range.
+# @option --prefix <prefix>    bin prefix
+# @arg packages+
 global::upgrade() {
     :;
 }
-
-# @cmd
-# @option --prefix
-global::upgrade-interactive() {
-    :;
-}
+# }}} yarn global upgrade
 # }} yarn global
 
 # {{ yarn import
-# @cmd
+# @cmd Generates yarn.lock from an npm package-lock.json file in the same location or an existing npm-installed node_modules folder.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -931,7 +784,7 @@ import() {
 # }} yarn import
 
 # {{ yarn info
-# @cmd
+# @cmd Show information about a package.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -987,7 +840,7 @@ info() {
 # }} yarn info
 
 # {{ yarn init
-# @cmd
+# @cmd Interactively creates or updates a package.json file.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -1047,7 +900,7 @@ init() {
 # }} yarn init
 
 # {{ yarn install
-# @cmd
+# @cmd Install all dependencies for a project.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -1111,7 +964,7 @@ install() {
 # }} yarn install
 
 # {{ yarn licenses
-# @cmd
+# @cmd List licenses for installed packages.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -1165,19 +1018,23 @@ licenses() {
     :;
 }
 
-# @cmd
+# {{{ yarn licenses list
+# @cmd List in alphabetical order all of the packages that were installed by yarn or yarn install, and give you the license.
 licenses::list() {
     :;
 }
+# }}} yarn licenses list
 
-# @cmd
-licenses::generate-disclaime() {
+# {{{ yarn licenses generate-disclaimer
+# @cmd Return a sorted list of licenses from all the packages you have installed to the stdout
+licenses::generate-disclaimer() {
     :;
 }
+# }}} yarn licenses generate-disclaimer
 # }} yarn licenses
 
 # {{ yarn link
-# @cmd
+# @cmd Symlink a package folder during development.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -1233,7 +1090,7 @@ link() {
 # }} yarn link
 
 # {{ yarn list
-# @cmd
+# @cmd List installed packages.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -1291,7 +1148,7 @@ list() {
 # }} yarn list
 
 # {{ yarn login
-# @cmd
+# @cmd Store registry username and email.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -1347,7 +1204,7 @@ login() {
 # }} yarn login
 
 # {{ yarn logout
-# @cmd
+# @cmd Clear registry username and email.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -1403,7 +1260,7 @@ logout() {
 # }} yarn logout
 
 # {{ yarn node
-# @cmd
+# @cmd Runs Node with the same version that the one used by Yarn itself, and by default from the project root.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -1461,7 +1318,7 @@ node() {
 # }} yarn node
 
 # {{ yarn outdated
-# @cmd
+# @cmd Checks for outdated package dependencies.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -1518,7 +1375,7 @@ outdated() {
 # }} yarn outdated
 
 # {{ yarn owner
-# @cmd
+# @cmd Manage package owners.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -1572,29 +1429,35 @@ owner() {
     :;
 }
 
-# @cmd
-# @arg package
+# {{{ yarn owner list
+# @cmd Lists all of the owners of a <package>.
+# @arg package!
 owner::list() {
     :;
 }
+# }}} yarn owner list
 
-# @cmd
-# @arg user
-# @arg package
+# {{{ yarn owner add
+# @cmd Adds the <user> as an owner of the <package>.
+# @arg user!
+# @arg package!
 owner::add() {
     :;
 }
+# }}} yarn owner add
 
-# @cmd
-# @arg user
-# @arg package
+# {{{ yarn owner remove
+# @cmd Removes the <user> as an owner of the <package>.
+# @arg user!
+# @arg package!
 owner::remove() {
     :;
 }
+# }}} yarn owner remove
 # }} yarn owner
 
 # {{ yarn pack
-# @cmd
+# @cmd Creates a compressed gzip archive of package dependencies.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -1651,7 +1514,7 @@ pack() {
 # }} yarn pack
 
 # {{ yarn policies
-# @cmd
+# @cmd Defines project-wide policies for your project.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -1706,16 +1569,18 @@ policies() {
     :;
 }
 
-# @cmd
-# @flag --rc
-# @arg version
+# {{{ yarn policies set-version
+# @cmd Enforcing Yarn’s version across your project.
+# @flag --rc    Use latest rc release
+# @arg ver!
 policies::set-version() {
     :;
 }
+# }}} yarn policies set-version
 # }} yarn policies
 
 # {{ yarn publish
-# @cmd
+# @cmd Publishes a package to the npm registry.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -1786,7 +1651,7 @@ publish() {
 # }} yarn publish
 
 # {{ yarn remove
-# @cmd
+# @cmd Remove the package named foo from your direct dependencies updating your package.json and yarn.lock files in the process.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -1844,7 +1709,7 @@ remove() {
 # }} yarn remove
 
 # {{ yarn run
-# @cmd
+# @cmd Runs a defined package script.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -1901,7 +1766,7 @@ run() {
 # }} yarn run
 
 # {{ yarn tag
-# @cmd
+# @cmd Add, remove, or list tags on a package.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -1957,7 +1822,7 @@ tag() {
 # }} yarn tag
 
 # {{ yarn team
-# @cmd
+# @cmd Maintain team memberships.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -2011,41 +1876,58 @@ team() {
     :;
 }
 
-# @cmd
-# @arg scope-team
+# {{{ yarn team create
+# @cmd Create a new team.
+# @arg scope-team!
 team::create() {
     :;
 }
+# }}} yarn team create
 
-# @cmd
-# @arg scope-team
+# {{{ yarn team destroy
+# @cmd Destroys an existing team.
+# @arg scope-team!
 team::destroy() {
     :;
 }
+# }}} yarn team destroy
 
-# @cmd
-# @arg scope-team
-# @arg user
+# {{{ yarn team add
+# @cmd Add a user to an existing team.
+# @arg scope-team!
+# @arg user!
 team::add() {
     :;
 }
+# }}} yarn team add
 
-# @cmd
-# @arg scope-team
-# @arg user
+# {{{ yarn team remove
+# @cmd Remove a user from a team they belong to.
+# @arg scope-team!
+# @arg user!
 team::remove() {
     :;
 }
+# }}} yarn team remove
 
-# @cmd
-# @arg scope-or-scope-team
+# {{{ yarn team list
+# @cmd List of existing teams under that organization.
+# @arg scope-team! <scope[:team]>
 team::list() {
     :;
 }
+# }}} yarn team list
 # }} yarn team
 
+# {{ yarn test
+# @cmd Runs the test script defined by the package.
+test() {
+    :;
+}
+# }} yarn test
+
 # {{ yarn unlink
-# @cmd
+# @cmd Unlink a previously created symlink for a package.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -2101,7 +1983,7 @@ unlink() {
 # }} yarn unlink
 
 # {{ yarn unplug
-# @cmd
+# @cmd Runs Node with the same version that the one used by Yarn itself, and by default from the project root.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -2160,7 +2042,7 @@ unplug() {
 # }} yarn unplug
 
 # {{ yarn upgrade
-# @cmd
+# @cmd Upgrades packages to their latest version based on the specified range.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -2224,7 +2106,7 @@ upgrade() {
 # }} yarn upgrade
 
 # {{ yarn upgrade-interactive
-# @cmd
+# @cmd Update outdated packages in interactive mode.
 # @alias upgradeInteractive
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
@@ -2286,7 +2168,7 @@ upgrade-interactive() {
 # }} yarn upgrade-interactive
 
 # {{ yarn version
-# @cmd
+# @cmd Updates the package version.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -2354,7 +2236,7 @@ version() {
 # }} yarn version
 
 # {{ yarn versions
-# @cmd
+# @cmd Displays version information of the currently installed Yarn, Node.js, and its dependencies.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -2410,7 +2292,7 @@ versions() {
 # }} yarn versions
 
 # {{ yarn why
-# @cmd
+# @cmd Show information about why a package is installed.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -2466,7 +2348,7 @@ why() {
 # }} yarn why
 
 # {{ yarn workspace
-# @cmd
+# @cmd Run the chosen Yarn command in the selected workspace.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -2524,7 +2406,7 @@ workspace() {
 # }} yarn workspace
 
 # {{ yarn workspaces
-# @cmd
+# @cmd Show information about your workspaces.
 # @flag -v --version                            output the version number
 # @flag --no-default-rc                         prevent Yarn from automatically detecting yarnrc and npmrc files
 # @option --use-yarnrc <path>                   specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
@@ -2579,17 +2461,20 @@ workspaces() {
     :;
 }
 
-# @cmd
+# {{{ yarn workspaces info
+# @cmd display the workspace dependency tree of your current project.
 # @flag --json
 workspaces::info() {
     :;
 }
+# }}} yarn workspaces info
 
-# @cmd
-# @arg command
+# {{{ yarn workspaces run
+# @cmd run the chosen Yarn command in each workspace.
 workspaces::run() {
     :;
 }
+# }}} yarn workspaces run
 # }} yarn workspaces
 
 _choice_cmd() {

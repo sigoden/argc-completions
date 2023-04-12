@@ -1120,8 +1120,7 @@ mergetool() {
 
 # {{ git notes
 # @cmd Add or inspect object notes
-# @option --ref <notes-ref>             use notes from <notes-ref>
-# @arg list-object <list [<object>]>
+# @option --ref <notes-ref>    use notes from <notes-ref>
 notes() {
     :;
 }
@@ -1326,7 +1325,6 @@ range-diff() {
 
 # {{ git reflog
 # @cmd Manage reflog information
-# @arg show-expire-delete-exists
 reflog() {
     :;
 }
@@ -1605,10 +1603,57 @@ show-branch() {
 
 # {{ git sparse-checkout
 # @cmd Initialize and modify the sparse-checkout configuration, which reduces the checkout to a set of
-# @arg value[init|list|set|add|reapply|disable]
 sparse-checkout() {
     :;
 }
+
+# {{{ git sparse-checkout init
+# @cmd
+# @flag --cone            initialize the sparse-checkout in cone mode
+# @flag --sparse-index    toggle the use of a sparse index
+sparse-checkout::init() {
+    :;
+}
+# }}} git sparse-checkout init
+
+# {{{ git sparse-checkout list
+# @cmd
+sparse-checkout::list() {
+    :;
+}
+# }}} git sparse-checkout list
+
+# {{{ git sparse-checkout set
+# @cmd
+# @flag --stdin    read patterns from standard in
+# @arg pattern!
+sparse-checkout::set() {
+    :;
+}
+# }}} git sparse-checkout set
+
+# {{{ git sparse-checkout add
+# @cmd
+# @flag --stdin    read patterns from standard in
+# @arg pattern!
+sparse-checkout::add() {
+    :;
+}
+# }}} git sparse-checkout add
+
+# {{{ git sparse-checkout reapply
+# @cmd
+sparse-checkout::reapply() {
+    :;
+}
+# }}} git sparse-checkout reapply
+
+# {{{ git sparse-checkout disable
+# @cmd
+sparse-checkout::disable() {
+    :;
+}
+# }}} git sparse-checkout disable
 # }} git sparse-checkout
 
 # {{ git stage
@@ -1719,6 +1764,8 @@ stash::save() {
 
 # {{ git submodule
 # @cmd Initialize, update or inspect submodules
+# @flag --quiet
+# @flag --cached
 submodule() {
     :;
 }
@@ -1869,8 +1916,6 @@ whatchanged() {
 
 # {{ git worktree
 # @cmd Manage multiple working trees
-# @arg path!
-# @arg commit-ish
 worktree() {
     :;
 }

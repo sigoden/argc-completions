@@ -83,6 +83,7 @@ _help_source_src() {
     if [[ "$source_src" == "$1" ]]; then
         return
     fi
+    . utils/_patch_utils.sh
     if [[ -f src/$1.sh ]]; then
         . src/$1.sh
         source_src="$1"

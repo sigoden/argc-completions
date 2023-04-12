@@ -69,8 +69,279 @@ $commands
    whatchanged      Show logs with difference each commit introduces 
    worktree         Manage multiple working trees 
 EOF
-    elif [[ "$*" == "git bisect" ]]; then
-        $@ -h 2>&1 | sed '/usage:/ cusage: git bisect'
+    elif [[ "$*" == "git bisect" ]] || [[ "$*" == "git bisect "* ]]; then
+        if [[ $# -eq 2 ]]; then
+            cat <<-'EOF'
+Usage: git bisect
+Commands:
+    start       reset bisect state and start bisection.
+    bad         mark <rev> bad revision after change in a given property.
+    new         mark <rev> new revision after change in a given property.
+    good        mark <rev>... good revisions before change in a given property.
+    old         mark <rev>... old revisions before change in a given property.
+    terms       show the terms used for old and new commits.
+    skip        mark <rev>... untestable revisions.
+    next        find next bisection to test and check it out.
+    reset       finish bisection search and go back to commit.
+    visualize   how bisect status in gitk.
+    view        show bisect status in gitk.
+    replay      replay bisection log.
+    log         show bisect log.
+    run         use <cmd>... to automatically bisect.
+EOF
+        else
+            cat <<-'EOF' | _patch_utils_extract_subcmd $@ 
+git bisect start
+options:
+    --term-new <term>
+    --term-bad <term>
+    --term-old <term>
+    --term-good <term>
+    --no-checkout
+    --first-parent
+git bisect bad [<rev>]
+git bisect new [<rev>]
+git bisect good [<rev>...]
+git bisect old [<rev>...]
+git bisect terms 
+options:
+    --term-good
+    --term-bad
+git bisect skip  [(<rev>|<range>)...]
+git bisect next
+git bisect reset [<commit>]
+git bisect visualize
+git bisect new
+git bisect replay <logfile>
+git bisect log
+git bisect run <cmd> 
+EOF
+        fi
+    elif [[ "$*" == "git notes" ]]; then
+        cat <<-'EOF'
+Options:
+    --ref <notes-ref>     use notes from <notes-ref>
+Commands:
+    list
+    add
+    copy
+    append
+    edit
+    show
+    merge
+    remove
+    prune
+    get-ref
+EOF
+    elif [[ "$*" == "git notes list" ]]; then
+        echo "usage: git notes list [<object>]"
+    elif [[ "$*" == "git reflog" ]] || [[ "$*" == "git reflog "* ]]; then
+        if [[ $# -eq 2 ]]; then
+            cat <<-'EOF'
+Commands:
+    show
+    expire
+    delete
+    exists
+EOF
+        elif [[ "$*" == "git reflog show" ]]; then
+            $@ -h 2>&1
+        else
+            cat <<-'EOF' | _patch_utils_extract_subcmd $@
+git reflog expire <refs>...
+options:
+    --expire <time>
+    --expire-unreachable <time>
+    --rewrite
+    --updateref
+    --stale-fix
+    -n --dry-run
+    --verbose
+    --all
+git reflog delete <refs>...
+options:
+    --rewrite
+    --updateref
+    -n --dry-run
+    --verbose
+git refloge exists <ref>
+EOF
+        fi
+    elif [[ "$*" == "git remote" ]]; then
+        cat <<-'EOF'
+Options:
+    -v --verbose      be verbose; must be placed before a subcommand
+Commands:
+   add
+   rename
+   remove
+   set-head
+   show
+   prune
+   update
+   set-branches
+   get-url
+   set-url
+EOF
+    elif [[ "$*" == "git remote remove" ]]; then
+        echo "usage:  git remote remove <name>"
+    elif [[ "$*" == "git sparse-checkout" ]]; then
+        cat <<-'EOF'
+Commands:
+    init
+    list
+    set
+    add
+    reapply
+    disable
+EOF
+    elif [[ "$*" == "git sparse-checkout set" ]] || [[ "$*" == "git sparse-checkout add" ]]; then
+        $@ -h 2>&1 | sed '/^usage:/ c\usage: git sparse-checkout set <pattern>'
+    elif [[ "$*" == "git stash" ]] || [[ "$*" == "git stash "* ]]; then
+        if [[ $# -eq 2 ]]; then
+            cat <<-'EOF'
+Commands:
+    list
+    show
+    drop
+    pop
+    apply
+    branch
+    clear
+    push
+    save
+EOF
+        else 
+            cat <<-'EOF' | _patch_utils_extract_subcmd $@ 
+git stash list
+git stash show <stash>
+git stash drop <stash>
+options:
+    -q --quiet
+git stash pop [<stash>]
+options:
+    --index
+    -q --quiet
+git stash apply [<stash>]
+options:
+    --index
+    -q --quiet
+git stash branch <branchname> [<stash>]
+git stash clear
+git stash push [<pathspec>...]
+options:
+    -p --patch
+    -k --keep-index
+    --no-keep-index
+    -q --quiet
+    -u --include-untracked
+    -a --all
+    -m --message <message>
+    --pathspec-from-file <file>
+    --pathspec-file-nul
+git stash save [<message>]
+options:
+    -p --patch
+    -k --keep-index
+    --no-keep-index
+    -q --quiet
+    -u --include-untracked
+    -a --all
+EOF
+        fi
+    elif [[ "$*" == "git submodule" ]] || [[ "$*" == "git submodule "* ]]; then
+        if [[ $# -eq 2 ]]; then
+            cat <<-'EOF'
+Options:
+    --quiet
+    --cached
+Commands:
+    add
+    status
+    init
+    deinit
+    update
+    set-branch
+    set-url
+    summary
+    foreach
+    sync
+    absorbgitdirs
+EOF
+        else
+            cat <<-'EOF' | _patch_utils_extract_subcmd $@ 
+git submodule add <repository> [<path>]
+options:
+    -b <branch>
+    -f --force
+    --name <name>
+    --reference <repository>
+git submodule status [<path>...]
+options:
+    --recursive
+git submodule init [<path>...]
+git submodule deinit [<path>...]
+options:
+    -f --force
+    --all
+git submodule update [<path>...]
+options:
+    --init
+    --remote
+    -N --no-fetch
+    -f --force
+    --checkout
+    --merge
+    --rebase
+    --recommend-shallow
+    --no-recommend-shallow
+    --reference <repository>
+    --single-branch
+    --no-single-branch
+git submodule set-branch <path>
+options:
+    --default
+    --branch <branch>
+git submodule set-url <path> <newurl>
+git submodule summary [commit] [<path>...]
+options:
+    --cached
+    --files
+    --summary-limit <n>
+git submodule foreach <cmd>
+options:
+    --recursive
+git submodule sync [<path>...]
+options:
+    --recursive
+git submodule absorbgitdirs [<path>...]
+EOF
+        fi
+    elif [[ "$*" == "git worktree" ]] || [[ "$*" == "git worktree "* ]]; then
+        if [[ $# -eq 2 ]]; then
+            cat <<-'EOF'
+Commands:   
+    add
+    list
+    lock
+    move
+    prune
+    remove
+    unlock
+EOF
+        else
+            cat <<-'EOF' | _patch_utils_extract_subcmd $@ 
+git worktree add [<options>] <path> [<commit-ish>]
+git worktree list [<options>]
+git worktree lock [<options>] <path>
+git worktree move <worktree> <new-path>
+git worktree prune [<options>]
+git worktree remove [<options>] <worktree>
+git worktree unlock <path>
+EOF
+            echo options:
+            $@ -h 2>&1 | sed -e '/^usage:/ d' -e '/^\s\+or:/ d'
+        fi
     else
         $@ -h 2>&1
     fi

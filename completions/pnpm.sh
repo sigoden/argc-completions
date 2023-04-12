@@ -459,7 +459,8 @@ store() {
 }
 
 # {{{ pnpm store add
-# @cmd <pkg>...
+# @cmd Adds new packages to the store.
+# @arg pkg+
 store::add() {
     :;
 }
@@ -585,30 +586,35 @@ create() {
 # @cmd Manages the Node.js environment.
 # @flag -g --global    Manages Node.js versions globally
 # @flag --remote       List the remote versions of Node.js
-# @arg version!
 env() {
     :;
 }
 
+# {{{ pnpm env list
 # @cmd List Node.js versions available locally or remotely
-# @flag --remote List the remote versions of Node.js
 # @alias ls
+# @flag --remote    List the remote versions of Node.js
 env::list() {
     :;
 }
+# }}} pnpm env list
 
+# {{{ pnpm env remove
 # @cmd Removes the specified version of Node.js.
-# @flag -g --global Manages Node.js versions globally
 # @alias rm
+# @flag -g --global    Manages Node.js versions globally
 env::remove() {
     :;
 }
+# }}} pnpm env remove
 
-# @cmd Installs the specified version of Node.js. The npm CLI bundled with the given Node.js version gets installed as well.
-# @flag -g --global Manages Node.js versions globally
+# {{{ pnpm env use
+# @cmd Installs the specified version of Node.js.
+# @flag -g --global    Manages Node.js versions globally
 env::use() {
     :;
 }
+# }}} pnpm env use
 # }} pnpm env
 
 # {{ pnpm server
@@ -637,20 +643,26 @@ server() {
     :;
 }
 
-# @cmd Starts a service that does all interactions with the store. Other commands will delegate any store-related tasks to this service
+# {{{ pnpm server start
+# @cmd Starts a service that does all interactions with the store.
 server::start() {
     :;
 }
+# }}} pnpm server start
 
+# {{{ pnpm server status
 # @cmd Prints information about the running server
-server::stop() {
-    :;
-}
-
-# @cmd Stops the store server
 server::status() {
     :;
 }
+# }}} pnpm server status
+
+# {{{ pnpm server stop
+# @cmd Stops the store server
+server::stop() {
+    :;
+}
+# }}} pnpm server stop
 # }} pnpm server
 
 # {{ pnpm bin
@@ -703,38 +715,41 @@ docker() {
 # @cmd Manage the configuration files.
 # @flag -g --global                      Sets the configuration in the global config file
 # @option --location <project|global>    When set to "project", the .npmrc file at the nearest package.json will be used
-# @arg key![`_choice_config_key`]
-# @arg value!
 config() {
     :;
 }
 
-# @cmd Set the config key to the value provided
-# @flag -g --global Sets the configuration in the global config file
-# @arg key[`_choice_config_key`]
-# @arg value
-config::set() {
-    :;
-}
-
-# @cmd Print the config value for the provided key
-# @flag -g --global Sets the configuration in the global config file
-# @arg key[`_choice_config_key`]
-config::get() {
-    :;
-}
-
+# {{{ pnpm config delete
 # @cmd Remove the config key from the config file
-# @flag -g --global Sets the configuration in the global config file
-# @arg key[`_choice_config_key`]
+# @arg key![`_choice_config_key`]
 config::delete() {
     :;
 }
+# }}} pnpm config delete
 
+# {{{ pnpm config get
+# @cmd Print the config value for the provided key
+# @arg key![`_choice_config_key`]
+config::get() {
+    :;
+}
+# }}} pnpm config get
+
+# {{{ pnpm config list
 # @cmd Show all the config settings
 config::list() {
     :;
 }
+# }}} pnpm config list
+
+# {{{ pnpm config set
+# @cmd Set the config key to the value provided
+# @arg key![`_choice_config_key`]
+# @arg value!
+config::set() {
+    :;
+}
+# }}} pnpm config set
 # }} pnpm config
 
 _choice_cmd() {

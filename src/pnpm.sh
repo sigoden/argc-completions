@@ -27,7 +27,37 @@ Miss commands:
       docker               Checks for known common issues with pnpm configuration.
       config               Manage the configuration files.
 EOF
-    elif [[ $# -eq 2 ]]; then
+    elif [[ "$*" == "pnpm config "* ]]; then
+        cat <<-'EOF' | _patch_utils_extract_subcmd $@
+pnpm config set <key> <value> 
+pnpm config get <key> 
+pnpm config delete <key> 
+pnpm config list
+EOF
+    elif [[ "$*" == "pnpm env "* ]]; then
+        cat <<-'EOF' | _patch_utils_extract_subcmd $@
+pnpm env list
+options:
+    --remote       List the remote versions of Node.js
+pnpm env remove
+options:
+    -g --global    Manages Node.js versions globally
+pnpm env use
+options:
+    -g --global    Manages Node.js versions globally
+EOF
+    elif [[ "$*" == "pnpm store" ]]; then
+        pnpm help store | sed 's/add <pkg>.../add         /'
+    elif [[ "$*" == "pnpm store "* ]]; then
+        cat <<-'EOF' | _patch_utils_extract_subcmd $@
+pnpm store add <pkg>...
+pnpm store path
+pnpm store prune
+pnpm store status
+EOF
+    elif [[ "$*" == "pnpm server "* ]]; then
+        :;
+    else 
         "${@:1:$#-1}" help "${!#}" 2>&1
     fi
 }
@@ -63,6 +93,10 @@ _patch_table() {
         echo "$table" | sed '/# <pkg>/ cargument # <pkg>[@<version>]... # # [`_choice_dependency`]'
     elif [[ "$*" == "pnpm update" ]]; then
         echo "$table" | sed '/# \[<pkg>...\]/ cargument # [<pkg>...] # # [`_choice_dependency`]'
+    elif [[ "$*" == "pnpm config" ]]; then
+        echo "$table" | sed '/argument/ d'
+    elif [[ "$*" == "pnpm env" ]]; then
+        echo "$table" | sed '/argument/ d'
     else
         echo "$table"
     fi

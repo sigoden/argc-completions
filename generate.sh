@@ -184,6 +184,7 @@ eval "$(argc --argc-eval "$0" "$@")"
 set_globals
 
 if [[ -f "$src_file" ]]; then
+    source "$utils_dir/_patch_utils.sh"
     source "$src_file"
 fi
 
