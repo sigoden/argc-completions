@@ -149,91 +149,118 @@ bisect() {
     :;
 }
 
+# {{{ git bisect start
 # @cmd reset bisect state and start bisection.
-# @option --term-new term
-# @option --term-bad term
-# @option --term-old term
-# @option --term-good term
+# @option --term-new <term>
+# @option --term-bad <term>
+# @option --term-old <term>
+# @option --term-good <term>
 # @flag --no-checkout
 # @flag --first-parent
 bisect::start() {
     :;
 }
+# }}} git bisect start
 
+# {{{ git bisect bad
 # @cmd mark <rev> bad revision after change in a given property.
 # @arg rev
 bisect::bad() {
     :;
 }
+# }}} git bisect bad
 
+# {{{ git bisect new
 # @cmd mark <rev> new revision after change in a given property.
-# @arg rev
 bisect::new() {
     :;
 }
+# }}} git bisect new
 
+# {{{ git bisect good
 # @cmd mark <rev>... good revisions before change in a given property.
 # @arg rev*
 bisect::good() {
     :;
 }
+# }}} git bisect good
 
+# {{{ git bisect old
 # @cmd mark <rev>... old revisions before change in a given property.
 # @arg rev*
 bisect::old() {
     :;
 }
+# }}} git bisect old
 
-# @cmd show the terms used for old and new commits
+# {{{ git bisect terms
+# @cmd show the terms used for old and new commits.
 # @flag --term-good
 # @flag --term-bad
 bisect::terms() {
     :;
 }
+# }}} git bisect terms
 
+# {{{ git bisect skip
 # @cmd mark <rev>... untestable revisions.
-# @arg rev-range*
+# @arg rev-range* <<rev>|<range>>
 bisect::skip() {
     :;
 }
+# }}} git bisect skip
 
+# {{{ git bisect next
 # @cmd find next bisection to test and check it out.
 bisect::next() {
     :;
 }
+# }}} git bisect next
 
+# {{{ git bisect reset
 # @cmd finish bisection search and go back to commit.
 # @arg commit
 bisect::reset() {
     :;
 }
+# }}} git bisect reset
 
+# {{{ git bisect visualize
 # @cmd how bisect status in gitk.
 bisect::visualize() {
     :;
 }
+# }}} git bisect visualize
 
+# {{{ git bisect view
 # @cmd show bisect status in gitk.
 bisect::view() {
     :;
 }
+# }}} git bisect view
 
+# {{{ git bisect replay
 # @cmd replay bisection log.
 # @arg logfile!
 bisect::replay() {
     :;
 }
+# }}} git bisect replay
 
+# {{{ git bisect log
 # @cmd show bisect log.
 bisect::log() {
     :;
 }
+# }}} git bisect log
 
-# @cmd  use <cmd>... to automatically bisect.
-# @arg cmd*
+# {{{ git bisect run
+# @cmd use <cmd>... to automatically bisect.
+# @arg cmd!
 bisect::run() {
     :;
 }
+# }}} git bisect run
 # }} git bisect
 
 # {{ git diff
@@ -1125,91 +1152,112 @@ notes() {
     :;
 }
 
+# {{{ git notes list
 # @cmd
+# @arg object
 notes::list() {
     :;
 }
+# }}} git notes list
 
+# {{{ git notes add
 # @cmd
-# @option -m --message <message>
-# @option -F --file <file>
-# @option -c --reedit-message <object>
-# @option -C --reuse-message <object>
-# @flag --allow-empty
-# @flag -f --force
+# @option -m --message <message>          note contents as a string
+# @option -F --file <file>                note contents in a file
+# @option -c --reedit-message <object>    reuse and edit specified note object
+# @option -C --reuse-message <object>     reuse specified note object
+# @flag --allow-empty                     allow storing empty note
+# @flag -f --force                        replace existing notes
 # @arg object
 notes::add() {
     :;
 }
+# }}} git notes add
 
+# {{{ git notes copy
 # @cmd
-# @flag -f --force
-# @flag --stdin
-# @option --for-rewrite <command>
+# @flag -f --force                   replace existing notes
+# @flag --stdin                      read objects from stdin
+# @option --for-rewrite <command>    load rewriting config for <command> (implies --stdin)
 # @arg from-object!
 # @arg to-object!
 notes::copy() {
     :;
 }
+# }}} git notes copy
 
+# {{{ git notes append
 # @cmd
-# @option -m --message <message>
-# @option -F --file <file>
-# @option -c --reedit-message <object>
-# @option -C --reuse-message <object>
-# @flag --allow-empty
+# @option -m --message <message>          note contents as a string
+# @option -F --file <file>                note contents in a file
+# @option -c --reedit-message <object>    reuse and edit specified note object
+# @option -C --reuse-message <object>     reuse specified note object
+# @flag --allow-empty                     allow storing empty note
 # @arg object
 notes::append() {
     :;
 }
+# }}} git notes append
 
+# {{{ git notes edit
 # @cmd
-# @option -m --message <message>
-# @option -F --file <file>
-# @option -c --reedit-message <object>
-# @option -C --reuse-message <object>
-# @flag --allow-empty
+# @option -m --message <message>          note contents as a string
+# @option -F --file <file>                note contents in a file
+# @option -c --reedit-message <object>    reuse and edit specified note object
+# @option -C --reuse-message <object>     reuse specified note object
+# @flag --allow-empty                     allow storing empty note
 # @arg object
 notes::edit() {
     :;
 }
+# }}} git notes edit
 
+# {{{ git notes show
 # @cmd
 # @arg object
 notes::show() {
     :;
 }
+# }}} git notes show
 
+# {{{ git notes merge
 # @cmd
-# @flag -v --verbose
-# @flag -q --quiet
-# @flag --commit
-# @flag --abort
-# @arg note-ref
+# @flag -v --verbose                  be more verbose
+# @flag -q --quiet                    be more quiet
+# @option -s --strategy <strategy>    resolve notes conflicts using the given strategy (manual/ours/theirs/union/cat_sort_uniq)
+# @flag --commit                      finalize notes merge by committing unmerged notes
+# @flag --abort                       abort notes merge
+# @arg notes-ref!
 notes::merge() {
     :;
 }
+# }}} git notes merge
 
-
+# {{{ git notes remove
 # @cmd
-# @flag --ignore-missing
-# @flag --stdin
+# @flag --ignore-missing    attempt to remove non-existent note is not an error
+# @flag --stdin             read object names from the standard input
 # @arg object
 notes::remove() {
     :;
 }
+# }}} git notes remove
 
+# {{{ git notes prune
 # @cmd
-# @flag -n --dry-run
-# @flag -v --verbose
+# @flag -n --dry-run    do not remove, show only
+# @flag -v --verbose    report pruned notes
 notes::prune() {
     :;
 }
+# }}} git notes prune
 
+# {{{ git notes get-ref
 # @cmd
 notes::get-ref() {
     :;
 }
+# }}} git notes get-ref
 # }} git notes
 
 # {{ git prune
@@ -1329,21 +1377,25 @@ reflog() {
     :;
 }
 
+# {{{ git reflog show
 # @cmd
-# @flag -q --quiet
-# @flag --source
-# @flag --use-mailmap
-# @flag --mailmap
-# @option --decorate-refs <pattern>
-# @option --decorate-refs-exclude <pattern>
-# @option --decorate*
-# @option -L <range:file>
+# @flag -q --quiet                             suppress diff output
+# @flag --source                               show source
+# @flag --use-mailmap                          use mail map file
+# @flag --mailmap                              alias of --use-mailmap
+# @option --decorate-refs <pattern>            only decorate refs that match <pattern>
+# @option --decorate-refs-exclude <pattern>    do not decorate refs that match <pattern>
+# @flag --decorate*                            decorate options
+# @option -L <range:file>                      trace the evolution of line range <start>,<end> or function :<funcname> in <file>
+# @arg revision-range
+# @arg path*
 reflog::show() {
     :;
 }
+# }}} git reflog show
 
+# {{{ git reflog expire
 # @cmd
-# @arg refs+
 # @option --expire <time>
 # @option --expire-unreachable <time>
 # @flag --rewrite
@@ -1352,25 +1404,30 @@ reflog::show() {
 # @flag -n --dry-run
 # @flag --verbose
 # @flag --all
+# @arg refs+
 reflog::expire() {
     :;
 }
+# }}} git reflog expire
 
+# {{{ git reflog delete
 # @cmd
-# @arg refs+
 # @flag --rewrite
 # @flag --updateref
 # @flag -n --dry-run
 # @flag --verbose
+# @arg refs+
 reflog::delete() {
     :;
 }
+# }}} git reflog delete
 
+# {{{ git reflog exists
 # @cmd
-# @arg ref!
 reflog::exists() {
     :;
 }
+# }}} git reflog exists
 # }} git reflog
 
 # {{ git remote
@@ -1380,88 +1437,106 @@ remote() {
     :;
 }
 
+# {{{ git remote add
 # @cmd
-# @flag -f --fetch
-# @flag --tags
-# @option -t --track <branch>
-# @option -m --master <branch>
-# @option --mirror <push,fetch>
+# @flag -f --fetch                 fetch the remote branches
+# @flag --tags                     import all tags and associated objects when fetching or do not fetch any tag at all (--no-tags)
+# @option -t --track <branch>      branch(es) to track
+# @option -m --master <branch>     master branch
+# @option --mirror <push|fetch>    set up remote as a mirror to push to or fetch from
 # @arg name![`_choice_remote`]
 # @arg url!
 remote::add() {
     :;
 }
+# }}} git remote add
 
+# {{{ git remote rename
 # @cmd
 # @arg old![`_choice_remote`]
 # @arg new![`_choice_remote`]
 remote::rename() {
     :;
 }
+# }}} git remote rename
 
+# {{{ git remote remove
 # @cmd
 # @arg name![`_choice_remote`]
 remote::remove() {
     :;
 }
+# }}} git remote remove
 
+# {{{ git remote set-head
 # @cmd
-# @flag -a --auto
-# @flag -d --delete
+# @flag -a --auto      set refs/remotes/<name>/HEAD according to remote
+# @flag -d --delete    delete refs/remotes/<name>/HEAD
 # @arg name![`_choice_remote`]
-# @arg branch
 remote::set-head() {
     :;
 }
+# }}} git remote set-head
 
+# {{{ git remote show
 # @cmd
-# @flag -n
+# @flag -n      do not query remotes
 # @arg name![`_choice_remote`]
 remote::show() {
     :;
 }
+# }}} git remote show
 
+# {{{ git remote prune
 # @cmd
-# @flag -n --dry-run
+# @flag -n --dry-run    dry run
 # @arg name![`_choice_remote`]
 remote::prune() {
     :;
 }
+# }}} git remote prune
 
-
+# {{{ git remote update
 # @cmd
-# @flag -p --prune
-# @arg remote*
+# @flag -p --prune                         prune remotes after fetching
+# @arg group-remote* <<group>|<remote>>
 remote::update() {
     :;
 }
+# }}} git remote update
 
+# {{{ git remote set-branches
 # @cmd
-# @flag --add
+# @flag --add     add branch
 # @arg name![`_choice_remote`]
 # @arg branch+
 remote::set-branches() {
     :;
 }
+# }}} git remote set-branches
 
+# {{{ git remote get-url
 # @cmd
-# @flag --push
-# @flag --all
+# @flag --push    query push URLs rather than fetch URLs
+# @flag --all     return all URLs
 # @arg name![`_choice_remote`]
 remote::get-url() {
     :;
 }
+# }}} git remote get-url
 
+# {{{ git remote set-url
 # @cmd
-# @flag --push
-# @flag --add
-# @flag --delete
+# @flag --push      manipulate push URLs
+# @flag --add       add URL
+# @flag --delete    delete URLs
 # @arg name![`_choice_remote`]
 # @arg newurl!
 # @arg oldurl
 remote::set-url() {
     :;
 }
+# }}} git remote set-url
 # }} git remote
 
 # {{ git repack
@@ -1688,52 +1763,67 @@ stash() {
     :;
 }
 
+# {{{ git stash list
 # @cmd
 stash::list() {
     :;
 }
+# }}} git stash list
 
+# {{{ git stash show
 # @cmd
-# @arg stash[`_choice_stash`]
+# @arg stash![`_choice_stash`]
 stash::show() {
     :;
 }
+# }}} git stash show
 
+# {{{ git stash drop
 # @cmd
 # @flag -q --quiet
-# @arg stash[`_choice_stash`]
+# @arg stash![`_choice_stash`]
 stash::drop() {
     :;
 }
+# }}} git stash drop
 
+# {{{ git stash pop
 # @cmd
+# @flag --index
 # @flag -q --quiet
-# @option --index
 # @arg stash[`_choice_stash`]
 stash::pop() {
     :;
 }
+# }}} git stash pop
 
+# {{{ git stash apply
 # @cmd
-# @flag -q --quiet
 # @flag --index
+# @flag -q --quiet
 # @arg stash[`_choice_stash`]
 stash::apply() {
     :;
 }
+# }}} git stash apply
 
+# {{{ git stash branch
 # @cmd
-# @arg branch!
+# @arg branchname!
 # @arg stash[`_choice_stash`]
 stash::branch() {
     :;
 }
+# }}} git stash branch
 
+# {{{ git stash clear
 # @cmd
 stash::clear() {
     :;
 }
+# }}} git stash clear
 
+# {{{ git stash push
 # @cmd
 # @flag -p --patch
 # @flag -k --keep-index
@@ -1748,7 +1838,9 @@ stash::clear() {
 stash::push() {
     :;
 }
+# }}} git stash push
 
+# {{{ git stash save
 # @cmd
 # @flag -p --patch
 # @flag -k --keep-index
@@ -1760,6 +1852,7 @@ stash::push() {
 stash::save() {
     :;
 }
+# }}} git stash save
 # }} git stash
 
 # {{ git submodule
@@ -1770,6 +1863,7 @@ submodule() {
     :;
 }
 
+# {{{ git submodule add
 # @cmd
 # @option -b <branch>
 # @flag -f --force
@@ -1780,20 +1874,26 @@ submodule() {
 submodule::add() {
     :;
 }
+# }}} git submodule add
 
+# {{{ git submodule status
 # @cmd
 # @flag --recursive
 # @arg path*
 submodule::status() {
     :;
 }
+# }}} git submodule status
 
+# {{{ git submodule init
 # @cmd
 # @arg path*
 submodule::init() {
     :;
 }
+# }}} git submodule init
 
+# {{{ git submodule deinit
 # @cmd
 # @flag -f --force
 # @flag --all
@@ -1801,7 +1901,9 @@ submodule::init() {
 submodule::deinit() {
     :;
 }
+# }}} git submodule deinit
 
+# {{{ git submodule update
 # @cmd
 # @flag --init
 # @flag --remote
@@ -1819,22 +1921,28 @@ submodule::deinit() {
 submodule::update() {
     :;
 }
+# }}} git submodule update
 
+# {{{ git submodule set-branch
 # @cmd
 # @flag --default
 # @option --branch <branch>
-# @arg path
+# @arg path!
 submodule::set-branch() {
     :;
 }
+# }}} git submodule set-branch
 
+# {{{ git submodule set-url
 # @cmd
 # @arg path!
 # @arg newurl!
 submodule::set-url() {
     :;
 }
+# }}} git submodule set-url
 
+# {{{ git submodule summary
 # @cmd
 # @flag --cached
 # @flag --files
@@ -1844,26 +1952,33 @@ submodule::set-url() {
 submodule::summary() {
     :;
 }
+# }}} git submodule summary
 
+# {{{ git submodule foreach
 # @cmd
 # @flag --recursive
-# @arg cmd
+# @arg cmd!
 submodule::foreach() {
     :;
 }
+# }}} git submodule foreach
 
+# {{{ git submodule sync
 # @cmd
 # @flag --recursive
 # @arg path*
 submodule::sync() {
     :;
 }
+# }}} git submodule sync
 
+# {{{ git submodule absorbgitdirs
 # @cmd
 # @arg path*
 submodule::absorbgitdirs() {
     :;
 }
+# }}} git submodule absorbgitdirs
 # }} git submodule
 
 # {{ git tag
@@ -1920,66 +2035,80 @@ worktree() {
     :;
 }
 
+# {{{ git worktree add
 # @cmd
+# @flag -f --force             checkout <branch> even if already checked out in other worktree
+# @option -b <branch>          create a new branch
+# @option -B <branch>          create or reset a branch
+# @flag -d --detach            detach HEAD at named commit
+# @flag --checkout             populate the new working tree
+# @flag --lock                 keep the new working tree locked
+# @option --reason <string>    reason for locking
+# @flag -q --quiet             suppress progress reporting
+# @flag --track                set up tracking mode (see git-branch(1))
+# @flag --guess-remote         try to match the new branch name with a remote-tracking branch
 # @arg path!
 # @arg commit-ish
-# @flag -f --force
-# @option -b <branch>
-# @option -B <branch>
-# @flag -d --detach
-# @flag --checkout
-# @flag --lock
-# @option --reason <string>
-# @flag -q --quiet
-# @flag --track
-# @flag --guess-remote
 worktree::add() {
     :;
 }
+# }}} git worktree add
 
+# {{{ git worktree list
 # @cmd
-# @flag --porcelain
-# @flag -v --verbose
-# @option --expire <expiry-date>
+# @flag --porcelain                 machine-readable output
+# @flag -v --verbose                show extended annotations and reasons, if available
+# @option --expire <expiry-date>    add 'prunable' annotation to worktrees older than <time>
 worktree::list() {
     :;
 }
+# }}} git worktree list
 
+# {{{ git worktree lock
 # @cmd
+# @option --reason <string>    reason for locking
 # @arg path!
-# @option --reason <string>
 worktree::lock() {
     :;
 }
+# }}} git worktree lock
 
+# {{{ git worktree move
 # @cmd
+# @flag -f --force    force move even if worktree is dirty or locked
 # @arg worktree!
 # @arg new-path!
-# @flag -f --force
 worktree::move() {
     :;
 }
+# }}} git worktree move
 
+# {{{ git worktree prune
 # @cmd
-# @flag -n --dry-run
-# @flag -v --verbose
-# @option --expire <expiry-date>
+# @flag -n --dry-run                do not remove, show only
+# @flag -v --verbose                report pruned working trees
+# @option --expire <expiry-date>    expire working trees older than <time>
 worktree::prune() {
     :;
 }
+# }}} git worktree prune
 
+# {{{ git worktree remove
 # @cmd
+# @flag -f --force    force removal even if worktree is dirty or locked
 # @arg worktree!
-# @flag -f --force
 worktree::remove() {
     :;
 }
+# }}} git worktree remove
 
+# {{{ git worktree unlock
 # @cmd
 # @arg path!
 worktree::unlock() {
     :;
 }
+# }}} git worktree unlock
 # }} git worktree
 
 _git() {

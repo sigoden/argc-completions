@@ -320,7 +320,7 @@ EOF
     elif [[ "$*" == "git worktree" ]] || [[ "$*" == "git worktree "* ]]; then
         if [[ $# -eq 2 ]]; then
             cat <<-'EOF'
-Commands:   
+Commands:
     add
     list
     lock
