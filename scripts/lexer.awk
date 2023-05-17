@@ -304,7 +304,7 @@ function extraArgName(input) {
 }
 
 function containsArguments(input) {
-    return index(tolower(input), "arguments") > 0 || index(tolower(input), "args") > 0
+    return match(tolower(input), /arguments|args|parameters/)
 }
 
 function containCommand(input) {

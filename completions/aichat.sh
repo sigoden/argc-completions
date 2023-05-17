@@ -8,7 +8,7 @@
 # @flag --list-roles                     List all roles
 # @flag --list-models                    List all models
 # @option -r --role[`_choice_role`]      Select a role
-# @flag --info                           Print information
+# @flag --info                           Print system-wide information
 # @flag --dry-run                        Run in dry run mode
 # @flag -h --help                        Print help
 # @flag -V --version                     Print version

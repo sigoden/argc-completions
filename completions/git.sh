@@ -329,6 +329,7 @@ diff() {
 # @option -B --before-context <n>             show <n> context lines before matches
 # @option -A --after-context <n>              show <n> context lines after matches
 # @option --threads <n>                       use <n> worker threads
+# @flag -NUM                                  shortcut for -C NUM
 # @flag -p --show-function                    show a line with the function name before matches
 # @flag -W --function-context                 show the surrounding function
 # @option -f <file>                           read patterns from file
@@ -790,6 +791,7 @@ apply() {
 # @option -o --output <file>     write the archive to this file
 # @flag --worktree-attributes    read .gitattributes in working directory
 # @flag -v --verbose             report archived files on stderr
+# @flag -NUM                     set compression level
 # @flag -l --list                list supported archive formats
 # @option --remote <repo>        retrieve the archive from remote repository <repo>
 # @option --exec <command>       path to the remote git-upload-archive command

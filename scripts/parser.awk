@@ -77,12 +77,12 @@ function parseOptions(words1, choicesVal) {
             if (index(word, "[no-]")) {
                 word = substr(word, 6)
                 name = extractName(word)
-                longs[length(longs) + 1] = name
-                longs[length(longs) + 1] = "no-" name
+                longs[length(longs) + 1] = "--" name
+                longs[length(longs) + 1] = "--no-" name
                 notation = substr(word, length(name) + 1)
             } else {
                 name = extractName(word)
-                longs[length(longs) + 1] = name
+                longs[length(longs) + 1] = "--" name
                 notation = substr(word, length(name) + 1)
             }
         } else if (index(word, "-") == 1) {
@@ -91,11 +91,13 @@ function parseOptions(words1, choicesVal) {
             if (length(word) > 1) {
                 name = extractName(word)
                 if (length(name) == 1) {
-                    shorts[length(shorts) + 1] = name
-                    notation = substr(word, length(name) + 1)
+                    shorts[length(shorts) + 1] = "-" name
+                } else {
+                    longs[length(longs) + 1] = "-" name
                 }
+                notation = substr(word, length(name) + 1)
             } else {
-                shorts[length(shorts) + 1] = word
+                shorts[length(shorts) + 1] = "-" word
             }
         } else {
             notation = word
@@ -125,22 +127,22 @@ function parseOptions(words1, choicesVal) {
     }
     if (shortsLen <= 1 && longsLen == 1) {
         tailVal = modifierVal choicesVal notationsVal
-        if (" <" toupper(longs[1]) ">" == notationsVal) {
+        if (" <" longNameToValueName(longs[1]) ">" == notationsVal) {
             tailVal = modifierVal choicesVal
         }
         if (shortsLen == 0) {
-            addParamLine(kindVal "--" longs[1] tailVal)
+            addParamLine(kindVal longs[1] tailVal)
         } else {
-            addParamLine(kindVal "-" shorts[1] " --" longs[1] tailVal)
+            addParamLine(kindVal shorts[1] " " longs[1] tailVal)
         }
     }  else {
         tailVal = modifierVal choicesVal notationsVal
 
         for (i in shorts) {
-            addParamLine(kindVal "-" shorts[i] tailVal)
+            addParamLine(kindVal shorts[i] tailVal)
         }
         for (i in longs) {
-            addParamLine(kindVal "--" longs[i] tailVal)
+            addParamLine(kindVal longs[i] tailVal)
         }
     }
 }
@@ -410,6 +412,11 @@ function splitWords(input, words) {
         word = ""
     }
     return length(input) + 1
+}
+
+function longNameToValueName(val) {
+    gsub(/^-{1,2}/, "", val)
+    return toupper(val)
 }
 
 function takeTailEllipsis(item, extra,    len, end, idx) {

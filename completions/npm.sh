@@ -16,8 +16,9 @@ access() {
 # {{ npm adduser
 # @cmd Add a registry user account
 # @alias add-user
-# @option --registry <url>    The base URL of the npm registry.
-# @option --scope <scope>     Associate an operation with a scope for a scoped registry.
+# @option --registry <url>                 The base URL of the npm registry.
+# @option --scope <scope>                  Associate an operation with a scope for a scoped registry.
+# @option -auth-type[web|legacy] <type>    What authentication strategy to use with login. (web, legacy)
 adduser() {
     :;
 }

@@ -10,6 +10,7 @@
 # @flag -d --debug                           print lots of debugging information
 # @flag -q --quiet                           quiet (no output)
 # @flag -v --verbose                         be verbose (this is the default)
+# @flag -nv                                  turn off verboseness, without being quiet
 # @flag --no-verbose                         turn off verboseness, without being quiet
 # @option --report-speed <TYPE>              output bandwidth as TYPE. TYPE can be bits
 # @option -i --input-file <FILE>             download URLs found in local or external FILE
@@ -22,6 +23,7 @@
 # @flag --retry-connrefused                  retry even if connection is refused
 # @option --retry-on-http-error <ERRORS>     comma-separated list of HTTP errors to retry
 # @option -O --output-document <FILE>        write documents to FILE
+# @flag -nc                                  skip downloads that would download to existing files (overwriting them)
 # @flag --no-clobber                         skip downloads that would download to existing files (overwriting them)
 # @flag --no-netrc                           don't try to obtain credentials from .netrc
 # @flag -c --continue                        resume getting a partially-downloaded file
@@ -59,8 +61,10 @@
 # @option --remote-encoding <ENC>            use ENC as the default remote encoding
 # @flag --unlink                             remove file before clobber
 # @flag --xattr                              turn on storage of metadata in extended file attributes
+# @flag -nd                                  don't create directories
 # @flag --no-directories                     don't create directories
 # @flag -x --force-directories               force creation of directories
+# @flag -nH                                  don't create host directories
 # @flag --no-host-directories                don't create host directories
 # @flag --protocol-directories               use protocol name in directories
 # @option -P --directory-prefix <PREFIX>     save files to PREFIX/..
@@ -152,6 +156,7 @@
 # @option -I --include-directories <LIST>    list of allowed directories
 # @flag --trust-server-names                 use the name specified by the redirection URL's last component
 # @option -X --exclude-directories <LIST>    list of excluded directories
+# @flag -np                                  don't ascend to the parent directory
 # @flag --no-parent                          don't ascend to the parent directory
 # @arg URL*
 

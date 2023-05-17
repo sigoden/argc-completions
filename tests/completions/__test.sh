@@ -31,6 +31,7 @@
 # @option --ciphers <list of ciphers>              SSL ciphers to use
 # @option --resolve <[+]host:port:addr[,addr]...>  Resolve the host+port to this address
 # @option --ftp-ssl-ccc-mode <active/passive>      Set CCC mode
+# @flag -nc                                        skip downloads that would download to
 # @flag --no-clobber                               skip downloads that would download to
 # @option --stop-at <y-m-dTh:m>                    Stop rsync at the specified point in time
 # @flag --color                                    Controls colors in the output.
