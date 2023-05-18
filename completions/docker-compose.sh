@@ -306,26 +306,26 @@ version() {
 # }} docker-compose version
 
 _docker_compose() {
-    docker-compose $(_argc_util_select_options --file) "$@"
+    docker-compose $(_argc_util_param_select_options --file) "$@"
 }
 
 _choice_service() {
     _docker_compose config --services
 }
 
-_argc_util_select_options() {
-    local name var_name opts
-    for name in $@; do
-        var_name="argc_$(echo "$name" | sed 's/^-\+//' | tr '-' '_')"
-        if [[ -n "${!var_name}" ]]; then
-            if [[ "${!var_name}" -eq 1 ]]; then
-                opts="$opts $name"
+_argc_util_param_select_options() {
+    local item argc_var argc_val
+    for item in $@; do
+        item_var="argc_$(echo "$item" | sed 's/^-\+//' | tr '-' '_')"
+        item_val="${!var_name}"
+        if [[ -n "$item_val" ]]; then
+            if [[ "$item_val" -eq 1 ]]; then
+                echo -n " $item"
             else
-                opts="$opts $name ${!var_name}"
+                echo -n " $item $item_val"
             fi
         fi
     done
-    echo "$opts"
 }
 
 eval "$(argc --argc-eval "$0" "$@")"

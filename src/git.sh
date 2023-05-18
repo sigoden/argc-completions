@@ -406,7 +406,7 @@ _patch_script() {
 }
 
 _git() {
-    git $(_argc_util_select_options -C --git-dir --work-tree) "$@"
+    git $(_argc_util_param_select_options -C --git-dir --work-tree) "$@"
 }
 
 _choice_cmd() {
@@ -422,7 +422,7 @@ _choice_unstaged_file() {
     if (substr($0, 2, 1) != " ") {
         print substr($0, 3)
     }
-}' | _argc_util_platform_path
+}' | _argc_util_path_to_platform
 }
 
 _choice_staged_file() {
@@ -434,7 +434,7 @@ _choice_staged_file() {
             print substr($0, 4)
         }
     }
-}' | _argc_util_platform_path
+}' | _argc_util_path_to_platform
 }
 
 _choice_changed_file() {
@@ -444,7 +444,7 @@ _choice_changed_file() {
     } else {
         print substr($0, 4)
     }
-}' | _argc_util_platform_path
+}' | _argc_util_path_to_platform
 }
 
 _choice_restore_file() {
@@ -481,7 +481,7 @@ _choice_diff() {
 
 _choice_log() {
     if [[ -n "$argc__dashdash" ]]; then
-        _git ls-files | _argc_util_platform_path
+        _git ls-files | _argc_util_path_to_platform
     else
         _choice_branch
     fi
@@ -548,7 +548,7 @@ _choice_ref() {
 }
 
 _choice_range() {
-    last_arg="$(_argc_util_positional -1)"
+    last_arg="$(_argc_util_param_get_positional -1)"
     if [[ "$last_arg" == *'..'* ]]; then
         ref1=${last_arg%%..*}
         ref2=${last_arg##*..}

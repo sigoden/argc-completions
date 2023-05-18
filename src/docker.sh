@@ -59,7 +59,7 @@ _patch_script() {
 }
 
 _docker() {
-    docker $(_argc_util_select_options --host --config --context) "$@"
+    docker $(_argc_util_param_select_options --host --config --context) "$@"
 }
 
 _choice_config() {
@@ -119,24 +119,23 @@ _choice_builder() {
 }
 
 _choice_container_cp() {
-    if [[ "$(_argc_util_positional_len)" -gt 1 ]]; then
-        prev_arg="$(_argc_util_positional -2)"
-        if [[ "$prev_arg" =~ ^[A-Za-z0-9_-]+: ]]; then
+    src="$(_argc_util_param_get_positional 0)"
+    dest="$(_argc_util_param_get_positional 1)"
+    if [ -n "$dest" ]]; then
+        if [[ "$src" =~ ^[A-Za-z0-9_-]+: ]]; then
             echo "__argc_comp:file"
         else
-            last_arg="$(_argc_util_positional -1)"
-            if [[ ! "$last_arg" =~ ^[A-Za-z0-9_-]+: ]]; then
+            if [[ ! "$dest" =~ ^[A-Za-z0-9_-]+: ]]; then
                 _choice_container_name
             else
-                _helper_container_path "$last_arg"
+                _helper_container_path "$dest"
             fi
         fi
     else
-        last_arg="$(_argc_util_positional -1)"
-        if [[ "$last_arg" == "" ]] || [[ "$last_arg" =~ ^[A-Za-z0-9_-]+$ ]]; then
+        if [[ "$src" =~ ^[A-Za-z0-9_-]+$ ]]; then
             _choice_container_name
-        elif [[ "$last_arg" =~ ^[A-Za-z0-9_-]+: ]]; then
-            _helper_container_path "$last_arg"
+        elif [[ "$src" =~ ^[A-Za-z0-9_-]+: ]]; then
+            _helper_container_path "$src"
         else
             echo "__argc_comp:file"
         fi
@@ -148,24 +147,23 @@ _choice_compose_service() {
 }
 
 _choice_compose_cp() {
-    if [[ "$(_argc_util_positional_len)" -gt 1 ]]; then
-        prev_arg="$(_argc_util_positional -2)"
-        if [[ "$prev_arg" =~ ^[A-Za-z0-9_-]+: ]]; then
+    src="$(_argc_util_param_get_positional 0)"
+    dest="$(_argc_util_param_get_positional 1)"
+    if [ -n "$dest" ]]; then
+        if [[ "$src" =~ ^[A-Za-z0-9_-]+: ]]; then
             echo "__argc_comp:file"
         else
-            last_arg="$(_argc_util_positional -1)"
-            if [[ ! "$last_arg" =~ ^[A-Za-z0-9_-]+: ]]; then
+            if [[ ! "$dest" =~ ^[A-Za-z0-9_-]+: ]]; then
                 _choice_compose_service
             else
-                _helper_compose_service_path "$last_arg"
+                _helper_compose_service_path "$dest"
             fi
         fi
     else
-        last_arg="$(_argc_util_positional -1)"
-        if [[ "$last_arg" == "" ]] || [[ "$last_arg" =~ ^[A-Za-z0-9_-]+$ ]]; then
+        if [[ "$src" =~ ^[A-Za-z0-9_-]+$ ]]; then
             _choice_compose_service
-        elif [[ "$last_arg" =~ ^[A-Za-z0-9_-]+: ]]; then
-            _helper_compose_service_path "$last_arg"
+        elif [[ "$src" =~ ^[A-Za-z0-9_-]+: ]]; then
+            _helper_compose_service_path "$src"
         else
             echo "__argc_comp:file"
         fi

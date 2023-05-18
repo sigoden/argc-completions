@@ -3,7 +3,7 @@ _patch_script() {
 }
 
 _docker_compose() {
-    docker-compose $(_argc_util_select_options --file) "$@"
+    docker-compose $(_argc_util_param_select_options --file) "$@"
 }
 
 _choice_service() {

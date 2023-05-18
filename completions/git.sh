@@ -2114,7 +2114,7 @@ worktree::unlock() {
 # }} git worktree
 
 _git() {
-    git $(_argc_util_select_options -C --git-dir --work-tree) "$@"
+    git $(_argc_util_param_select_options -C --git-dir --work-tree) "$@"
 }
 
 _choice_cmd() {
@@ -2130,7 +2130,7 @@ _choice_unstaged_file() {
     if (substr($0, 2, 1) != " ") {
         print substr($0, 3)
     }
-}' | _argc_util_platform_path
+}' | _argc_util_path_to_platform
 }
 
 _choice_staged_file() {
@@ -2142,7 +2142,7 @@ _choice_staged_file() {
             print substr($0, 4)
         }
     }
-}' | _argc_util_platform_path
+}' | _argc_util_path_to_platform
 }
 
 _choice_changed_file() {
@@ -2152,7 +2152,7 @@ _choice_changed_file() {
     } else {
         print substr($0, 4)
     }
-}' | _argc_util_platform_path
+}' | _argc_util_path_to_platform
 }
 
 _choice_restore_file() {
@@ -2189,7 +2189,7 @@ _choice_diff() {
 
 _choice_log() {
     if [[ -n "$argc__dashdash" ]]; then
-        _git ls-files | _argc_util_platform_path
+        _git ls-files | _argc_util_path_to_platform
     else
         _choice_branch
     fi
@@ -2256,7 +2256,7 @@ _choice_ref() {
 }
 
 _choice_range() {
-    last_arg="$(_argc_util_positional -1)"
+    last_arg="$(_argc_util_param_get_positional -1)"
     if [[ "$last_arg" == *'..'* ]]; then
         ref1=${last_arg%%..*}
         ref2=${last_arg##*..}
@@ -2270,49 +2270,41 @@ _choice_stash() {
     _git stash list --format=%gd:%gs 2>/dev/null | sed 's/: /\t/'
 }
 
-_argc_util_select_options() {
-    local name var_name opts
-    for name in $@; do
-        var_name="argc_$(echo "$name" | sed 's/^-\+//' | tr '-' '_')"
-        if [[ -n "${!var_name}" ]]; then
-            if [[ "${!var_name}" -eq 1 ]]; then
-                opts="$opts $name"
+_argc_util_param_select_options() {
+    local item argc_var argc_val
+    for item in $@; do
+        item_var="argc_$(echo "$item" | sed 's/^-\+//' | tr '-' '_')"
+        item_val="${!var_name}"
+        if [[ -n "$item_val" ]]; then
+            if [[ "$item_val" -eq 1 ]]; then
+                echo -n " $item"
             else
-                opts="$opts $name ${!var_name}"
+                echo -n " $item $item_val"
             fi
         fi
     done
-    echo "$opts"
 }
 
-_argc_util_platform_path() {
-	path="$1"
-	if [[ -z "$path" ]]; then
-		path="$(cat)"
-	fi
-	if _argc_util_exist_cygpath; then
-		cygpath -w "$path"
-	else
-		echo "$path"
-	fi
-}
-
-_argc_util_exist_cygpath() {
-    if [[ -z $_argc_var_exist_cygpath ]]; then
-        if [[ -x "$(command -v cygpath)" ]]; then
-            _argc_var_exist_cygpath=0
-        else
-            _argc_var_exist_cygpath=1
-        fi
+_argc_util_path_to_platform() {
+    local target="$1"
+    if [[ -z "$target" ]]; then
+        target="$(cat)"
     fi
-    return $_argc_var_exist_cygpath
+    if [[ "$OS" == "Windows_NT" ]]; then
+        cygpath -w "$target"
+    else
+        echo "$target"
+    fi
 }
 
-_argc_util_positional() {
-    if [[ -z "$argc__words" ]]; then
-        echo ""
+_argc_util_param_get_positional() {
+    local arg=$1
+    if [[ "$arg" == '-'* ]]; then
+        echo "${argc__args[@]: $arg:1}"
+    elif [[ "$arg" == 'len' ]]; then
+        echo "${#argc__args[@]}"
     else
-        echo "${argc__words[$1]:-}"
+        echo "${argc__args[$arg]}"
     fi
 }
 

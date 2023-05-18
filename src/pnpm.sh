@@ -146,7 +146,7 @@ _helper_apply_filter() {
     if [[ -n "$argc_filter" ]]; then
         local path = "$(pnpm recursive list --json | jq -r '.[] | select(.name == "'"$argc_filter"'") | .path // empty')"
         if [[ -n "$path" ]]; then
-            pkg_json_path="$(_argc_util_unix_path "$path")/package.json"
+            pkg_json_path="$(_argc_util_path_to_unix "$path")/package.json"
         fi
     fi
 }
@@ -155,7 +155,7 @@ _helper_pkg_json_path() {
     if [[ -v pkg_json_path ]]; then
         echo "$pkg_json_path"
     else
-        pkg_json_path=$(_argc_util_find_recursive package.json)
+        pkg_json_path=$(_argc_util_path_search_parent package.json)
         echo "$pkg_json_path"
     fi
 }

@@ -3126,7 +3126,7 @@ stack::services() {
 # }} docker stack
 
 _docker() {
-    docker $(_argc_util_select_options --host --config --context) "$@"
+    docker $(_argc_util_param_select_options --host --config --context) "$@"
 }
 
 _choice_config() {
@@ -3186,24 +3186,23 @@ _choice_builder() {
 }
 
 _choice_container_cp() {
-    if [[ "$(_argc_util_positional_len)" -gt 1 ]]; then
-        prev_arg="$(_argc_util_positional -2)"
-        if [[ "$prev_arg" =~ ^[A-Za-z0-9_-]+: ]]; then
+    src="$(_argc_util_param_get_positional 0)"
+    dest="$(_argc_util_param_get_positional 1)"
+    if [ -n "$dest" ]]; then
+        if [[ "$src" =~ ^[A-Za-z0-9_-]+: ]]; then
             echo "__argc_comp:file"
         else
-            last_arg="$(_argc_util_positional -1)"
-            if [[ ! "$last_arg" =~ ^[A-Za-z0-9_-]+: ]]; then
+            if [[ ! "$dest" =~ ^[A-Za-z0-9_-]+: ]]; then
                 _choice_container_name
             else
-                _helper_container_path "$last_arg"
+                _helper_container_path "$dest"
             fi
         fi
     else
-        last_arg="$(_argc_util_positional -1)"
-        if [[ "$last_arg" == "" ]] || [[ "$last_arg" =~ ^[A-Za-z0-9_-]+$ ]]; then
+        if [[ "$src" =~ ^[A-Za-z0-9_-]+$ ]]; then
             _choice_container_name
-        elif [[ "$last_arg" =~ ^[A-Za-z0-9_-]+: ]]; then
-            _helper_container_path "$last_arg"
+        elif [[ "$src" =~ ^[A-Za-z0-9_-]+: ]]; then
+            _helper_container_path "$src"
         else
             echo "__argc_comp:file"
         fi
@@ -3215,24 +3214,23 @@ _choice_compose_service() {
 }
 
 _choice_compose_cp() {
-    if [[ "$(_argc_util_positional_len)" -gt 1 ]]; then
-        prev_arg="$(_argc_util_positional -2)"
-        if [[ "$prev_arg" =~ ^[A-Za-z0-9_-]+: ]]; then
+    src="$(_argc_util_param_get_positional 0)"
+    dest="$(_argc_util_param_get_positional 1)"
+    if [ -n "$dest" ]]; then
+        if [[ "$src" =~ ^[A-Za-z0-9_-]+: ]]; then
             echo "__argc_comp:file"
         else
-            last_arg="$(_argc_util_positional -1)"
-            if [[ ! "$last_arg" =~ ^[A-Za-z0-9_-]+: ]]; then
+            if [[ ! "$dest" =~ ^[A-Za-z0-9_-]+: ]]; then
                 _choice_compose_service
             else
-                _helper_compose_service_path "$last_arg"
+                _helper_compose_service_path "$dest"
             fi
         fi
     else
-        last_arg="$(_argc_util_positional -1)"
-        if [[ "$last_arg" == "" ]] || [[ "$last_arg" =~ ^[A-Za-z0-9_-]+$ ]]; then
+        if [[ "$src" =~ ^[A-Za-z0-9_-]+$ ]]; then
             _choice_compose_service
-        elif [[ "$last_arg" =~ ^[A-Za-z0-9_-]+: ]]; then
-            _helper_compose_service_path "$last_arg"
+        elif [[ "$src" =~ ^[A-Za-z0-9_-]+: ]]; then
+            _helper_compose_service_path "$src"
         else
             echo "__argc_comp:file"
         fi
@@ -3402,34 +3400,29 @@ _helper_compose_service_path() {
     _docker compose exec "$service" ls -1 -p "$search_path" | xargs -I% echo "$service:$search_path%"
 }
 
-_argc_util_select_options() {
-    local name var_name opts
-    for name in $@; do
-        var_name="argc_$(echo "$name" | sed 's/^-\+//' | tr '-' '_')"
-        if [[ -n "${!var_name}" ]]; then
-            if [[ "${!var_name}" -eq 1 ]]; then
-                opts="$opts $name"
+_argc_util_param_select_options() {
+    local item argc_var argc_val
+    for item in $@; do
+        item_var="argc_$(echo "$item" | sed 's/^-\+//' | tr '-' '_')"
+        item_val="${!var_name}"
+        if [[ -n "$item_val" ]]; then
+            if [[ "$item_val" -eq 1 ]]; then
+                echo -n " $item"
             else
-                opts="$opts $name ${!var_name}"
+                echo -n " $item $item_val"
             fi
         fi
     done
-    echo "$opts"
 }
 
-_argc_util_positional_len() {
-    if [[ -z "$argc__words" ]]; then
-        echo 0
+_argc_util_param_get_positional() {
+    local arg=$1
+    if [[ "$arg" == '-'* ]]; then
+        echo "${argc__args[@]: $arg:1}"
+    elif [[ "$arg" == 'len' ]]; then
+        echo "${#argc__args[@]}"
     else
-        echo "${#argc__words[@]}"
-    fi
-}
-
-_argc_util_positional() {
-    if [[ -z "$argc__words" ]]; then
-        echo ""
-    else
-        echo "${argc__words[$1]:-}"
+        echo "${argc__args[$arg]}"
     fi
 }
 

@@ -1462,7 +1462,7 @@ _helper_package_json() {
 		echo "$metadata_json" | jq '.packages[] | select(.name == "'"$package_name"'")'
 	else
 		workspace_root="$(echo "$metadata_json" | jq -r '.workspace_root')"
-		manifest_path="$(echo "${workspace_root}$(_argc_util_path_sep)Cargo.toml" |  jq -R .)"
+		manifest_path="$(_argc_util_path_join "${workspace_root}" Cargo.toml |  jq -R .)"
 		echo "$metadata_json" | jq '.packages[] | select(.manifest_path == '"$manifest_path"')'
 	fi
 }
@@ -1471,12 +1471,16 @@ _helper_metadata_json() {
 	cargo metadata --format-version 1 --no-deps
 }
 
-_argc_util_path_sep() {
-	if [[ "$OS" == "Windows_NT" ]]; then
-		echo '\'
-	else
-		echo '/'
-	fi
+_argc_util_path_join() {
+    local sep="/"
+    if [[ "$OS" == "Windows_NT" ]]; then
+        sep="\\"
+    fi
+    local base="$1"
+    if [[ "$base" = *"$sep" ]]; then
+        base="${base::-1}"
+    fi
+    echo "$base$(printf "$sep%s" "${@:2}")"
 }
 
 eval "$(argc --argc-eval "$0" "$@")"

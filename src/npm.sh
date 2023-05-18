@@ -841,7 +841,7 @@ _patch_script() {
 }
 
 _choice_config_key() {
-    npm config list $(_argc_util_select_options --global) --json | jq -r 'keys[]' | tr -d '\r'
+    npm config list $(_argc_util_param_select_options --global) --json | jq -r 'keys[]' | tr -d '\r'
 }
 
 _choice_workspace() {
@@ -869,7 +869,7 @@ _helper_pkg_json_path() {
     if [[ -v pkg_json_path ]]; then
         echo "$pkg_json_path"
     else
-        pkg_json_path=$(_argc_util_find_recursive package.json)
+        pkg_json_path=$(_argc_util_path_search_parent package.json)
         echo "$pkg_json_path"
     fi
 }

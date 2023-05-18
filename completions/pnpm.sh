@@ -790,7 +790,7 @@ _helper_apply_filter() {
     if [[ -n "$argc_filter" ]]; then
         local path = "$(pnpm recursive list --json | jq -r '.[] | select(.name == "'"$argc_filter"'") | .path // empty')"
         if [[ -n "$path" ]]; then
-            pkg_json_path="$(_argc_util_unix_path "$path")/package.json"
+            pkg_json_path="$(_argc_util_path_to_unix "$path")/package.json"
         fi
     fi
 }
@@ -799,37 +799,43 @@ _helper_pkg_json_path() {
     if [[ -v pkg_json_path ]]; then
         echo "$pkg_json_path"
     else
-        pkg_json_path=$(_argc_util_find_recursive package.json)
+        pkg_json_path=$(_argc_util_path_search_parent package.json)
         echo "$pkg_json_path"
     fi
 }
 
-_argc_util_unix_path() {
-	if _argc_util_exist_cygpath; then
-        cygpath "$1"
-	else
-        echo "$1"
-	fi
-}
-
-_argc_util_exist_cygpath() {
-    if [[ -z $_argc_var_exist_cygpath ]]; then
-        if [[ -x "$(command -v cygpath)" ]]; then
-            _argc_var_exist_cygpath=0
-        else
-            _argc_var_exist_cygpath=1
-        fi
+_argc_util_path_to_unix() {
+    local target="$1"
+    if [[ -z "$target" ]]; then
+        target="$(cat)"
     fi
-    return $_argc_var_exist_cygpath
+    if [[ "$OS" == "Windows_NT" ]]; then
+        cygpath "$target"
+    else
+        echo "$target"
+    fi
 }
 
-_argc_util_find_recursive() {
-    until [[ -f "$1" ]] || [[ $PWD = '/' ]]; do
+_argc_util_path_join() {
+    local target="$1"
+    until [[ -f "$target" ]] || [[ $PWD = '/' ]]; do
         cd ..
     done
-    if [[ -f "$1" ]]; then
-        realpath $1
+    if [[ -f "$target" ]]; then
+        realpath "$target"
     fi
+}
+
+_argc_util_path_join() {
+    local sep="/"
+    if [[ "$OS" == "Windows_NT" ]]; then
+        sep="\\"
+    fi
+    local base="$1"
+    if [[ "$base" = *"$sep" ]]; then
+        base="${base::-1}"
+    fi
+    echo "$base$(printf "$sep%s" "${@:2}")"
 }
 
 eval "$(argc --argc-eval "$0" "$@")"

@@ -1089,7 +1089,7 @@ whoami() {
 # }} npm whoami
 
 _choice_config_key() {
-    npm config list $(_argc_util_select_options --global) --json | jq -r 'keys[]' | tr -d '\r'
+    npm config list $(_argc_util_param_select_options --global) --json | jq -r 'keys[]' | tr -d '\r'
 }
 
 _choice_workspace() {
@@ -1117,33 +1117,46 @@ _helper_pkg_json_path() {
     if [[ -v pkg_json_path ]]; then
         echo "$pkg_json_path"
     else
-        pkg_json_path=$(_argc_util_find_recursive package.json)
+        pkg_json_path=$(_argc_util_path_search_parent package.json)
         echo "$pkg_json_path"
     fi
 }
 
-_argc_util_select_options() {
-    local name var_name opts
-    for name in $@; do
-        var_name="argc_$(echo "$name" | sed 's/^-\+//' | tr '-' '_')"
-        if [[ -n "${!var_name}" ]]; then
-            if [[ "${!var_name}" -eq 1 ]]; then
-                opts="$opts $name"
+_argc_util_param_select_options() {
+    local item argc_var argc_val
+    for item in $@; do
+        item_var="argc_$(echo "$item" | sed 's/^-\+//' | tr '-' '_')"
+        item_val="${!var_name}"
+        if [[ -n "$item_val" ]]; then
+            if [[ "$item_val" -eq 1 ]]; then
+                echo -n " $item"
             else
-                opts="$opts $name ${!var_name}"
+                echo -n " $item $item_val"
             fi
         fi
     done
-    echo "$opts"
 }
 
-_argc_util_find_recursive() {
-    until [[ -f "$1" ]] || [[ $PWD = '/' ]]; do
+_argc_util_path_join() {
+    local target="$1"
+    until [[ -f "$target" ]] || [[ $PWD = '/' ]]; do
         cd ..
     done
-    if [[ -f "$1" ]]; then
-        realpath $1
+    if [[ -f "$target" ]]; then
+        realpath "$target"
     fi
+}
+
+_argc_util_path_join() {
+    local sep="/"
+    if [[ "$OS" == "Windows_NT" ]]; then
+        sep="\\"
+    fi
+    local base="$1"
+    if [[ "$base" = *"$sep" ]]; then
+        base="${base::-1}"
+    fi
+    echo "$base$(printf "$sep%s" "${@:2}")"
 }
 
 eval "$(argc --argc-eval "$0" "$@")"
