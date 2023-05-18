@@ -816,7 +816,7 @@ _argc_util_path_to_unix() {
     fi
 }
 
-_argc_util_path_join() {
+_argc_util_path_search_parent() {
     local target="$1"
     until [[ -f "$target" ]] || [[ $PWD = '/' ]]; do
         cd ..
@@ -824,18 +824,6 @@ _argc_util_path_join() {
     if [[ -f "$target" ]]; then
         realpath "$target"
     fi
-}
-
-_argc_util_path_join() {
-    local sep="/"
-    if [[ "$OS" == "Windows_NT" ]]; then
-        sep="\\"
-    fi
-    local base="$1"
-    if [[ "$base" = *"$sep" ]]; then
-        base="${base::-1}"
-    fi
-    echo "$base$(printf "$sep%s" "${@:2}")"
 }
 
 eval "$(argc --argc-eval "$0" "$@")"

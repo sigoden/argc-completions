@@ -1,4 +1,4 @@
-_argc_util_path_join() {
+_argc_util_path_search_parent() {
     local target="$1"
     until [[ -f "$target" ]] || [[ $PWD = '/' ]]; do
         cd ..
