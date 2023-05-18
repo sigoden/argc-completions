@@ -348,25 +348,6 @@ function extractDesc(input) {
     return idx
 }
 
-function extractChoices(input, words) {
-    idx = splitWords(input, words)
-    part = substr(input, 1, idx - 1)
-    wordsLen = length(words)
-    if (wordsLen > 2) {
-        if (index(part, "|") > 0) {
-            num = gsub("|", "|", input);
-        } else if (index(part, ",") > 0) {
-            num = gsub(",", ",", input);
-        } else {
-            num = 0
-        }
-        if (num < wordsLen - 2) {
-            delete words
-        }
-    }
-    return idx
-}
-
 function splitWords(input, words) {
     split(input, chars, "")
     balances = ""

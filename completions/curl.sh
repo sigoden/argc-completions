@@ -74,7 +74,7 @@
 # @flag --haproxy-protocol                         Send HAProxy PROXY protocol v1 header
 # @flag -I --head                                  Show document info only
 # @option -H --header <header/@file>               Pass custom header(s) to server
-# @flag -h --help                                  Get help for commands
+# @option -h --help <category>                     Get help for commands
 # @option --hostpubmd5 <md5>                       Acceptable MD5 hash of the host public key
 # @option --hostpubsha256 <sha256>                 Acceptable SHA256 hash of the host public key
 # @option --hsts <file name>                       Enable HSTS with this cache file
@@ -245,6 +245,6 @@
 # @flag -V --version                               Show version number and quit
 # @option -w --write-out <format>                  Use output FORMAT after completion
 # @flag --xattr                                    Store metadata in extended file attributes
-# @arg _url!
+# @arg url!
 
 eval "$(argc --argc-eval "$0" "$@")"

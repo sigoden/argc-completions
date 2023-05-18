@@ -3,7 +3,7 @@
 set -e
 
 # @cmd
-# @arg cmd[`_choice_command`]
+# @arg cmd[?`_choice_command`]
 generate() {
     if [ $# -eq 0 ]; then
         while read -r name; do
@@ -22,7 +22,7 @@ test() {
 
 # @cmd
 # @option -k --kind[=table|help|script]
-# @arg cmd![`_choice_command`]
+# @arg cmd![?`_choice_command`]
 # @arg args*
 print() {
     if [[ "$argc_kind" == "help" ]]; then
@@ -35,7 +35,7 @@ print() {
 }
 
 # @cmd
-# @arg cmd![`_choice_command`]
+# @arg cmd![?`_choice_command`]
 # @arg args*
 print-help() {
     _help_source_src $1
@@ -47,7 +47,7 @@ print-help() {
 }
 
 # @cmd
-# @arg cmd![`_choice_command`]
+# @arg cmd![?`_choice_command`]
 # @arg args*
 print-table() {
     _help_source_src $1
@@ -60,7 +60,7 @@ print-table() {
 }
 
 # @cmd
-# @arg cmd![`_choice_command`]
+# @arg cmd![?`_choice_command`]
 # @arg args*
 print-script() {
     _help_source_src $1
@@ -86,11 +86,12 @@ _help_source_src() {
     . utils/_patch_utils.sh
     if [[ -f src/$1.sh ]]; then
         . src/$1.sh
-        source_src="$1"
     elif [[ -f src/$1/$1.sh ]]; then
         . src/$1/$1.sh
-        source_src="$1"
+    elif [[ "$1" == "__test"* ]]; then
+        . tests/src/$1.sh
     fi
+    source_src="$1"
 }
 
 eval "$(argc --argc-eval "$0" "$@")"

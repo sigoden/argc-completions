@@ -56,7 +56,7 @@ Options:
     --packages [packages ...]   Packages to inspect for updates
     --show-scope                show scope of config (worktree, local, global, system, command)
     --edition <YEAR>            Edition to set for the crate generated [possible values: 2015, 2018, 2021]
-    --color2 <WHEN>              Coloring: auto, always, never
+    --color2 <WHEN>             Coloring: auto, always, never
 Commands:
     run
     build, b
