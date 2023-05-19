@@ -129,14 +129,14 @@ install-test() {
 # @flag --color                Controls colors in the output.
 # @flag --no-color             Controls colors in the output.
 # @flag --aggregate-output     Aggregate output from child processes that are run in parallel, and only print output when child process is finished.
-# @option -C --dir <_dir>      Change to directory <dir> (default: /home/sigo/w/argc-completions)
+# @option -C --dir <dir>       Change to directory <dir> (default: /home/sigo/w/argc-completions)
 # @flag -g --global            Link package to/from global node_modules
 # @flag -h --help              Output usage information
 # @option --loglevel[debug|info|warn|error|silent] <level>  What level of logs to report.
 # @flag --stream               Stream output from child processes immediately, prefixed with the originating package directory.
 # @flag --use-stderr           Divert all output to stderr
 # @flag -w --workspace-root    Run the command on the root workspace project
-# @arg _dir!
+# @arg dir!
 link() {
     :;
 }
@@ -352,11 +352,11 @@ outdated() {
 
 # {{ pnpm exec
 # @cmd Executes a shell command in scope of a project
-# @flag --parallel            Completely disregard concurrency and topological sorting, running a given script immediately in all matching packages with prefixed streaming output.
-# @flag -r --recursive        Run the shell command in every package found in subdirectories or every workspace package, when executed inside a workspace.
-# @flag --report-summary      Save the execution results of every package to "pnpm-exec-summary.json".
-# @flag --resume-from         Command executed from given package
-# @flag -c --shell-mode       If exist, runs file inside of a shell.
+# @flag --parallel          Completely disregard concurrency and topological sorting, running a given script immediately in all matching packages with prefixed streaming output.
+# @flag -r --recursive      Run the shell command in every package found in subdirectories or every workspace package, when executed inside a workspace.
+# @flag --report-summary    Save the execution results of every package to "pnpm-exec-summary.json".
+# @flag --resume-from       Command executed from given package
+# @flag -c --shell-mode     If exist, runs file inside of a shell.
 # @arg exec[`_choice_bin`]
 # @arg args*
 exec() {
@@ -508,8 +508,8 @@ fetch() {
 
 # {{ pnpm patch
 # @cmd Prepare a package for patching.
-# @flag --edit-dir                                The package that needs to be modified will be extracted to this directory
-# @flag --ignore-existing                         Ignore existing patch files when patching
+# @flag --edit-dir           The package that needs to be modified will be extracted to this directory
+# @flag --ignore-existing    Ignore existing patch files when patching
 # @arg pkg-name-version <<pkg name>@<version>>
 patch() {
     :;

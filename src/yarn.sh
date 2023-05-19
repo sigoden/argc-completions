@@ -53,7 +53,7 @@ Commands:
     clean     clear the global cache.
 EOF
         else
-            cat <<-'EOF' | _patch_utils_extract_subcmd $@ 
+            cat <<-'EOF' | _patch_util_extract_subcmd $@ 
 yarn cache list
 options:
     --pattern <pattern>
@@ -72,7 +72,7 @@ Commands:
     list    Displays the current configuration.
 EOF
         else
-            cat <<-'EOF' | _patch_utils_extract_subcmd $@ 
+            cat <<-'EOF' | _patch_util_extract_subcmd $@ 
 yarn config set <key> <value>
 options:
     -g --global
@@ -92,7 +92,7 @@ Commands:
     upgrade     Upgrades packages to their latest version based on the specified range.
 EOF
         else
-            cat <<-'EOF' | _patch_utils_extract_subcmd $@ 
+            cat <<-'EOF' | _patch_util_extract_subcmd $@ 
 yarn global add <packages>...
 options:
     --prefix <prefix>   bin prefix
@@ -117,7 +117,7 @@ Commands:
 
 EOF
         else
-            cat <<-'EOF' | _patch_utils_extract_subcmd $@ 
+            cat <<-'EOF' | _patch_util_extract_subcmd $@ 
 yarn licenses list
 yarn licenses generate-disclaimer
 EOF
@@ -132,7 +132,7 @@ Commands:
     remove  Removes the <user> as an owner of the <package>.
 EOF
         else
-            cat <<-'EOF' | _patch_utils_extract_subcmd $@ 
+            cat <<-'EOF' | _patch_util_extract_subcmd $@ 
 yarn owner list <package>
 yarn owner add <user> <package>
 yarn owner remove <user> <package>
@@ -146,7 +146,7 @@ Commands:
     set-version  Enforcing Yarn’s version across your project.
 EOF
         else
-            cat <<-'EOF' | _patch_utils_extract_subcmd $@ 
+            cat <<-'EOF' | _patch_util_extract_subcmd $@ 
 yarn policies set-version <ver>
 options:
     --rc   Use latest rc release
@@ -164,7 +164,7 @@ Commands:
     list        List of existing teams under that organization.
 EOF
         else
-            cat <<-'EOF' | _patch_utils_extract_subcmd $@ 
+            cat <<-'EOF' | _patch_util_extract_subcmd $@ 
 yarn team create <scope:team>
 yarn team destroy <scope:team>
 yarn team add <scope:team> <user>
@@ -181,7 +181,7 @@ Commands:
     run     run the chosen Yarn command in each workspace.
 EOF
         else
-            cat <<-'EOF' | _patch_utils_extract_subcmd $@ 
+            cat <<-'EOF' | _patch_util_extract_subcmd $@ 
 yarn workspaces info
 options:
     --json
@@ -198,22 +198,23 @@ EOF
 
 _patch_table() {
     if [[ "$*" == "yarn" ]]; then
-        cat
-        echo 'argument # cmd # # [`_choice_script`]'
+        _patch_util_replace_arguments 'cmd:_choice_script'
+    elif [[ "$*" == "yarn config "* ]]; then
+        _patch_util_bind_choices_fn 'key:_choice_config_key'
+    elif [[ "$*" == "yarn global "* ]]; then
+        _patch_util_bind_choices_fn 'packages:_choice_global_dependency'
     elif [[ "$*" == "yarn run" ]]; then
-        cat
-        echo 'argument # script # # [`_choice_script`]'
+        _patch_util_replace_arguments 'script:_choice_script'
     elif [[ "$*" == "yarn remove" ]]; then
-        sed '/argument # \[packages/ cargument # [packages]... # # [`_choice_dependency`]'
+        _patch_util_bind_choices_fn 'packages:_choice_dependency'
     elif [[ "$*" == "yarn upgrade" ]]; then
-        cat
-        echo 'argument # [packages]... # # [`_choice_dependency`]'
+        _patch_util_replace_arguments '[packages]...:_choice_dependency'
     elif [[ "$*" == "yarn workspace" ]]; then
-        cat
-        echo 'argument # <workspace-name> # # [`_choice_workspace`]'
-        echo 'argument # [workspace-args]... # # [`_choice_workspace_args`]'
+        _patch_util_replace_arguments \
+            '<workspace-name>:_choice_workspace' \
+            '[workspace-args]...:_choice_workspace_args'
     elif [[ "$*" == "yarn workspaces" ]]; then
-        sed '/argument/ d'
+        _patch_util_replace_arguments
     elif [[ "$*" == "yarn generate-lock-entry" ]]; then
         sed '/option # --registry <registry>/ d'
     elif [[ "$*" == "yarn autoclean" ]]; then
@@ -221,12 +222,6 @@ _patch_table() {
     else
         cat
     fi
-}
-
-_patch_script() {
-    sed \
-        -e '/{ yarn config/, /} yarn config/ s/@arg key\(\!\)\?/@arg key\1[`_choice_config_key`]/' \
-        -e '/{ yarn global/, /} yarn global/ s/@arg packages\(\*\|\+\)\?/@arg packages\1[`_choice_global_dependency`]/'
 }
 
 _choice_config_key() {

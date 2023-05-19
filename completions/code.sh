@@ -17,6 +17,6 @@
 # @flag -v --version                             Print version.
 # @flag --verbose                                Print verbose output (implies --wait).
 # @flag -s --status                              Print process usage and diagnostics information.
-# @arg path
+# @arg paths*
 
 eval "$(argc --argc-eval "$0" "$@")"

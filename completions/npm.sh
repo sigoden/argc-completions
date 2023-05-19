@@ -323,7 +323,7 @@ exec() {
 # {{ npm explain
 # @cmd Explain installed packages
 # @alias why
-# @flag --json                      Whether or not to output JSON data, rather than the normal output.
+# @flag --json    Whether or not to output JSON data, rather than the normal output.
 # @option -w --workspace[`_choice_workspace`] <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
 # @arg package-spec!
 explain() {
@@ -364,11 +364,11 @@ find-dupes() {
 
 # {{ npm fund
 # @cmd Retrieve funding information
-# @flag --json                      Whether or not to output JSON data, rather than the normal output.
-# @flag --browser                   The browser that is called by npm commands to open websites.
-# @flag --unicode                   When set to true, npm uses unicode characters in the tree output.
+# @flag --json               Whether or not to output JSON data, rather than the normal output.
+# @flag --browser            The browser that is called by npm commands to open websites.
+# @flag --unicode            When set to true, npm uses unicode characters in the tree output.
 # @option -w --workspace[`_choice_workspace`] <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
-# @option --which <value>           If there are multiple funding sources, which 1-indexed source URL to open.
+# @option --which <value>    If there are multiple funding sources, which 1-indexed source URL to open.
 # @arg package-spec
 fund() {
     :;
@@ -591,11 +591,11 @@ org::ls() {
 
 # {{ npm outdated
 # @cmd Check for outdated packages
-# @flag --all                       When running npm outdated and npm ls, setting --all will show all outdated or installed packages, rather than only
-# @flag --json                      Whether or not to output JSON data, rather than the normal output.
-# @flag --long                      Show extended information in ls, search, and help-search.
-# @flag --parseable                 Output parseable results from commands that write to standard output.
-# @flag -g --global                 Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
+# @flag --all          When running npm outdated and npm ls, setting --all will show all outdated or installed packages, rather than only
+# @flag --json         Whether or not to output JSON data, rather than the normal output.
+# @flag --long         Show extended information in ls, search, and help-search.
+# @flag --parseable    Output parseable results from commands that write to standard output.
+# @flag -g --global    Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
 # @option -w --workspace[`_choice_workspace`] <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
 # @arg package-spec*
 outdated() {
@@ -606,10 +606,10 @@ outdated() {
 # {{ npm owner
 # @cmd Manage package owners
 # @alias author
-# @option --registry <value>        The base URL of the npm registry.
-# @option --otp <value>             This is a one-time password from a two-factor authenticator.
+# @option --registry <value>    The base URL of the npm registry.
+# @option --otp <value>         This is a one-time password from a two-factor authenticator.
 # @option -w --workspace[`_choice_workspace`] <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
-# @flag --workspaces                Set to true to run the command in the context of all configured workspaces.
+# @flag --workspaces            Set to true to run the command in the context of all configured workspaces.
 owner() {
     :;
 }
@@ -658,10 +658,10 @@ pack() {
 
 # {{ npm pkg
 # @cmd Manages your package.json
-# @flag -f --force                  Removes various protections against unfortunate side effects, common mistakes, unnecessary performance degradation,
-# @flag --json                      Whether or not to output JSON data, rather than the normal output.
+# @flag -f --force      Removes various protections against unfortunate side effects, common mistakes, unnecessary performance degradation,
+# @flag --json          Whether or not to output JSON data, rather than the normal output.
 # @option -w --workspace[`_choice_workspace`] <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
-# @flag --workspaces                Set to true to run the command in the context of all configured workspaces.
+# @flag --workspaces    Set to true to run the command in the context of all configured workspaces.
 pkg() {
     :;
 }

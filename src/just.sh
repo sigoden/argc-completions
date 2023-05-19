@@ -1,6 +1,5 @@
 _patch_table() {
-   sed \
-      -e '/<ARGUMENTS>.../ cargument # <ARGUMENTS>... # Overrides and recipe(s) to run, defaulting to the first recipe in the justfile # [`_choice_recipe`]'
+   _patch_util_bind_choices_fn 'ARGUMENTS:_choice_recipe'
 }
 
 _choice_recipe() {

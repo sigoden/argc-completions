@@ -8,7 +8,6 @@ BEGIN {
     RE_SKIP_SBUCOMMAND =  "help|command|none|n\\/a"
     RE_REMOVE_NOTATION_PREFIX = "[=!]"
     EXISTS_SUBCOMMANDS = ",help,"
-    DESCRIPTION = ""
     paramLineNum = 0
     paramLineWidth = 0
     paramLineMaxWidth = 48
@@ -26,16 +25,19 @@ BEGIN {
     if (length(words1) > 0) {
         kind = substr($0, 1, index1 - 2)
         if (kind == "option") {
-            index3 = extractDesc(part2)
-            part3 = substr(part2, index3 + 1)
-            parseOptions(words1, trimSpaces(part3))
+            split("", descRet)
+            extractDesc(descRet, part2)
+            part3 = substr(part2, descRet[2] + 1)
+            parseOptions(words1, descRet[1], trimSpaces(part3))
         } else if (kind == "argument") {
-            index3 = extractDesc(part2)
-            part3 = substr(part2, index3 + 1)
-            parseArgument(words1, trimSpaces(part3))
+            split("", descRet)
+            extractDesc(descRet, part2)
+            part3 = substr(part2, descRet[2] + 1)
+            parseArgument(words1, descRet[1], trimSpaces(part3))
         } else if (kind == "command") {
-            index3 = extractDesc(part2)
-            parseCommand(words1)
+            split("", descRet)
+            extractDesc(descRet, part2)
+            parseCommand(words1, descRet[1])
         }
     }
 }
@@ -61,7 +63,7 @@ END {
     }
 }
 
-function parseOptions(words1, choicesVal) {
+function parseOptions(words1, descVal, choicesVal) {
     split("", shorts)
     split("", longs)
     split("", notations)
@@ -131,23 +133,23 @@ function parseOptions(words1, choicesVal) {
             tailVal = modifierVal choicesVal
         }
         if (shortsLen == 0) {
-            addParamLine(kindVal longs[1] tailVal)
+            addParamLine(kindVal longs[1] tailVal, descVal)
         } else {
-            addParamLine(kindVal shorts[1] " " longs[1] tailVal)
+            addParamLine(kindVal shorts[1] " " longs[1] tailVal, descVal)
         }
     }  else {
         tailVal = modifierVal choicesVal notationsVal
 
         for (i in shorts) {
-            addParamLine(kindVal shorts[i] tailVal)
+            addParamLine(kindVal shorts[i] tailVal, descVal)
         }
         for (i in longs) {
-            addParamLine(kindVal longs[i] tailVal)
+            addParamLine(kindVal longs[i] tailVal, descVal)
         }
     }
 }
 
-function parseArgument(words1, choicesVal) {
+function parseArgument(words1, descVal, choicesVal) {
     split("", choices)
     extra["multiple"] = 0
     extra["required"] = 0
@@ -174,10 +176,10 @@ function parseArgument(words1, choicesVal) {
     if (notation != name && length(notation) != length(name)) {
         notationVal = " <"  notation ">"
     }
-    addParamLine("# @arg " name modifierVal choicesVal notationVal)
+    addParamLine("# @arg " name modifierVal choicesVal notationVal, descVal)
 }
 
-function parseCommand(words1) {
+function parseCommand(words1, descVal) {
     split("", names)
     split("", shortNames)
     for (i in words1) {
@@ -207,7 +209,7 @@ function parseCommand(words1) {
         allNames[length(allNames) + 1] = shortNames[i]
     }
     if (length(allNames) > 0) {
-        addCommandLine(join(allNames, " "))
+        addCommandLine(join(allNames, " "), descVal)
     }
 }
 
@@ -292,20 +294,20 @@ function addNotations(item, array, extra) {
     }
 }
 
-function addParamLine(text) {
+function addParamLine(text, descVal) {
     paramLineNum = paramLineNum + 1
     paramLines[paramLineNum, 1] = text
-    paramLines[paramLineNum, 2] = DESCRIPTION
+    paramLines[paramLineNum, 2] = descVal
     textLen = length(text)
-    if (textLen < paramLineMaxWidth && paramLineWidth < textLen) {
+    if (length(descVal) > 0 && textLen < paramLineMaxWidth && paramLineWidth < textLen) {
         paramLineWidth = textLen
     }
 }
 
-function addCommandLine(text) {
+function addCommandLine(text, descVal) {
     commandLineNum = commandLineNum + 1
     commandLines[commandLineNum, 1] = text
-    commandLines[commandLineNum, 2] = DESCRIPTION
+    commandLines[commandLineNum, 2] = descVal
 }
 
 function getArgName(input) {
@@ -338,14 +340,14 @@ function extractName(input,     result, len, idx, end, last) {
     }
 }
 
-function extractDesc(input) {
+function extractDesc(result, input) {
     idx = index(input, DELIMITER)
     if (idx == 0) {
         idx = length(input) + 1
     }
     text = substr(input, 0, idx - 1)
-    DESCRIPTION = trimSpaces(text)
-    return idx
+    result[1] = trimSpaces(text)
+    result[2] = idx
 }
 
 function splitWords(input, words) {

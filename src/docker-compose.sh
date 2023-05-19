@@ -1,5 +1,5 @@
-_patch_script() {
-    sed 's/@arg SERVICE\(\*\)\?$/@arg SERVICE\1[`_choice_service`]/'
+_patch_table() {
+    _patch_util_bind_choices_fn 'SERVICE:_choice_service'
 }
 
 _docker_compose() {

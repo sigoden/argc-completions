@@ -1,7 +1,7 @@
 _patch_table() {
-    sed \
-        -e '/-l, --language/ s/$/ # [`_choice_language`]/' \
-        -e '/--theme/ s/$/ # [`_choice_theme`]/'
+    _patch_util_bind_choices_fn \
+        '--language:_choice_language' \
+        '--theme:_choice_theme'
 }
 
 _choice_language() {

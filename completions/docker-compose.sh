@@ -80,7 +80,7 @@ down() {
 
 # {{ docker-compose events
 # @cmd Receive real time events from containers
-# @flag --json     Output events as a stream of json objects
+# @flag --json    Output events as a stream of json objects
 # @arg SERVICE*[`_choice_service`]
 events() {
     :;
@@ -232,7 +232,7 @@ run() {
 # {{ docker-compose scale
 # @cmd Set number of containers for a service
 # @option -t --timeout    Specify a shutdown timeout in seconds. (default: 10)
-# @arg SERVICE-NUM*
+# @arg SERVICE-NUM*[`_choice_service`]
 scale() {
     :;
 }

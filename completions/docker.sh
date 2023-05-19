@@ -140,14 +140,14 @@ exec() {
 
 # {{ docker ps
 # @cmd List containers
-# @flag -a --all                  Show all containers (default shows just running)
+# @flag -a --all               Show all containers (default shows just running)
 # @option -f --filter[`_choice_container_ls_filter`] <filter>  Filter output based on conditions provided
-# @option --format <string>       Format output using a custom template: 'table': Print output in table format with column headers (default) 'table TEMPLATE': Print output in table format using the given Go template 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
-# @option -n --last <int>         Show n last created containers (includes all states) (default -1)
-# @flag -l --latest               Show the latest created container (includes all states)
-# @flag --no-trunc                Don't truncate output
-# @flag -q --quiet                Only display container IDs
-# @flag -s --size                 Display total file sizes
+# @option --format <string>    Format output using a custom template: 'table': Print output in table format with column headers (default) 'table TEMPLATE': Print output in table format using the given Go template 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option -n --last <int>      Show n last created containers (includes all states) (default -1)
+# @flag -l --latest            Show the latest created container (includes all states)
+# @flag --no-trunc             Don't truncate output
+# @flag -q --quiet             Only display container IDs
+# @flag -s --size              Display total file sizes
 ps() {
     :;
 }
@@ -194,10 +194,10 @@ build() {
 
 # {{ docker pull
 # @cmd Download an image from a registry
-# @flag -a --all-tags                          Download all tagged images in the repository
-# @flag --disable-content-trust                Skip image verification (default true)
-# @option --platform <string>                  Set platform if server is multi-platform capable
-# @flag -q --quiet                             Suppress verbose output
+# @flag -a --all-tags              Download all tagged images in the repository
+# @flag --disable-content-trust    Skip image verification (default true)
+# @option --platform <string>      Set platform if server is multi-platform capable
+# @flag -q --quiet                 Suppress verbose output
 # @arg NAME-TAG-DIGEST <NAME[:TAG|@DIGEST]>
 pull() {
     :;
@@ -217,12 +217,12 @@ push() {
 
 # {{ docker images
 # @cmd List images
-# @flag -a --all                            Show all images (default hides intermediate images)
-# @flag --digests                           Show digests
+# @flag -a --all               Show all images (default hides intermediate images)
+# @flag --digests              Show digests
 # @option -f --filter[`_choice_image_ls_filter`] <filter>  Filter output based on conditions provided
-# @option --format <string>                 Format output using a custom template: 'table': Print output in table format with column headers (default) 'table TEMPLATE': Print output in table format using the given Go template 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
-# @flag --no-trunc                          Don't truncate output
-# @flag -q --quiet                          Only show image IDs
+# @option --format <string>    Format output using a custom template: 'table': Print output in table format with column headers (default) 'table TEMPLATE': Print output in table format using the given Go template 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @flag --no-trunc             Don't truncate output
+# @flag -q --quiet             Only show image IDs
 # @arg REPOSITORY-TAG[`_choice_image_repo_tag`] <REPOSITORY[:TAG]>
 images() {
     :;
@@ -760,7 +760,7 @@ compose::down() {
 
 # {{{ docker compose events
 # @cmd Receive real time events from containers.
-# @flag --json     Output events as a stream of json objects
+# @flag --json    Output events as a stream of json objects
 # @arg SERVICE*[`_choice_compose_service`]
 compose::events() {
     :;
@@ -1024,10 +1024,10 @@ container::attach() {
 
 # {{{ docker container commit
 # @cmd Create a new image from a container's changes
-# @option -a --author <string>              Author (e.g., "John Hannibal Smith <hannibal@a-team.com>")
-# @option -c --change <list>                Apply Dockerfile instruction to the created image
-# @option -m --message <string>             Commit message
-# @flag -p --pause                          Pause container during commit (default true)
+# @option -a --author <string>     Author (e.g., "John Hannibal Smith <hannibal@a-team.com>")
+# @option -c --change <list>       Apply Dockerfile instruction to the created image
+# @option -m --message <string>    Commit message
+# @flag -p --pause                 Pause container during commit (default true)
 # @arg CONTAINER[`_choice_container_name`]
 # @arg REPOSITORY-TAG[`_choice_image_repo_tag`] <REPOSITORY[:TAG]>
 container::commit() {
@@ -1221,14 +1221,14 @@ container::logs() {
 # {{{ docker container list
 # @cmd List containers
 # @alias ls,ps
-# @flag -a --all                  Show all containers (default shows just running)
+# @flag -a --all               Show all containers (default shows just running)
 # @option -f --filter[`_choice_container_ls_filter`] <filter>  Filter output based on conditions provided
-# @option --format <string>       Format output using a custom template: 'table': Print output in table format with column headers (default) 'table TEMPLATE': Print output in table format using the given Go template 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
-# @option -n --last <int>         Show n last created containers (includes all states) (default -1)
-# @flag -l --latest               Show the latest created container (includes all states)
-# @flag --no-trunc                Don't truncate output
-# @flag -q --quiet                Only display container IDs
-# @flag -s --size                 Display total file sizes
+# @option --format <string>    Format output using a custom template: 'table': Print output in table format with column headers (default) 'table TEMPLATE': Print output in table format using the given Go template 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option -n --last <int>      Show n last created containers (includes all states) (default -1)
+# @flag -l --latest            Show the latest created container (includes all states)
+# @flag --no-trunc             Don't truncate output
+# @flag -q --quiet             Only display container IDs
+# @flag -s --size              Display total file sizes
 container::list() {
     :;
 }
@@ -1623,9 +1623,9 @@ image::history() {
 
 # {{{ docker image import
 # @cmd Import the contents from a tarball to create a filesystem image
-# @option -c --change <list>                Apply Dockerfile instruction to the created image
-# @option -m --message <string>             Set commit message for imported image
-# @option --platform <string>               Set platform if server is multi-platform capable
+# @option -c --change <list>       Apply Dockerfile instruction to the created image
+# @option -m --message <string>    Set commit message for imported image
+# @option --platform <string>      Set platform if server is multi-platform capable
 # @arg file-URL <file|URL|->
 # @arg REPOSITORY-TAG[`_choice_image_repo_tag`] <REPOSITORY[:TAG]>
 image::import() {
@@ -1654,12 +1654,12 @@ image::load() {
 # {{{ docker image list
 # @cmd List images
 # @alias ls
-# @flag -a --all                            Show all images (default hides intermediate images)
-# @flag --digests                           Show digests
+# @flag -a --all               Show all images (default hides intermediate images)
+# @flag --digests              Show digests
 # @option -f --filter[`_choice_image_ls_filter`] <filter>  Filter output based on conditions provided
-# @option --format <string>                 Format output using a custom template: 'table': Print output in table format with column headers (default) 'table TEMPLATE': Print output in table format using the given Go template 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
-# @flag --no-trunc                          Don't truncate output
-# @flag -q --quiet                          Only show image IDs
+# @option --format <string>    Format output using a custom template: 'table': Print output in table format with column headers (default) 'table TEMPLATE': Print output in table format using the given Go template 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @flag --no-trunc             Don't truncate output
+# @flag -q --quiet             Only show image IDs
 # @arg REPOSITORY-TAG[`_choice_image_repo_tag`] <REPOSITORY[:TAG]>
 image::list() {
     :;
@@ -1678,10 +1678,10 @@ image::prune() {
 
 # {{{ docker image pull
 # @cmd Download an image from a registry
-# @flag -a --all-tags                          Download all tagged images in the repository
-# @flag --disable-content-trust                Skip image verification (default true)
-# @option --platform <string>                  Set platform if server is multi-platform capable
-# @flag -q --quiet                             Suppress verbose output
+# @flag -a --all-tags              Download all tagged images in the repository
+# @flag --disable-content-trust    Skip image verification (default true)
+# @option --platform <string>      Set platform if server is multi-platform capable
+# @flag -q --quiet                 Suppress verbose output
 # @arg NAME-TAG-DIGEST <NAME[:TAG|@DIGEST]>
 image::pull() {
     :;
@@ -1750,8 +1750,8 @@ manifest::annotate() {
 
 # {{{ docker manifest create
 # @cmd Create a local manifest list for annotating and pushing to a registry
-# @flag -a --amend      Amend an existing manifest list
-# @flag --insecure      Allow communication with an insecure registry
+# @flag -a --amend    Amend an existing manifest list
+# @flag --insecure    Allow communication with an insecure registry
 # @arg MANIFEST_LIST
 # @arg MANIFEST*
 manifest::create() {
@@ -1772,8 +1772,8 @@ manifest::inspect() {
 
 # {{{ docker manifest push
 # @cmd Push a manifest list to a repository
-# @flag --insecure      Allow push to an insecure registry
-# @flag -p --purge      Remove the local manifest list after push
+# @flag --insecure    Allow push to an insecure registry
+# @flag -p --purge    Remove the local manifest list after push
 # @arg MANIFEST_LIST
 manifest::push() {
     :;
@@ -1892,7 +1892,7 @@ plugin() {
 
 # {{{ docker plugin create
 # @cmd Create a plugin from a rootfs and configuration.
-# @flag --compress        Compress the context using gzip
+# @flag --compress    Compress the context using gzip
 # @arg PLUGIN[`_choice_plugin`]
 # @arg PLUGIN-DATA-DIR
 plugin::create() {
@@ -1953,8 +1953,8 @@ plugin::ls() {
 
 # {{{ docker plugin push
 # @cmd Push a plugin to a registry
-# @flag --disable-content-trust     Skip image signing (default true)
-# @arg PLUGIN-TAG <PLUGIN[:TAG]>
+# @flag --disable-content-trust    Skip image signing (default true)
+# @arg PLUGIN-TAG[`_choice_plugin`] <PLUGIN[:TAG]>
 plugin::push() {
     :;
 }
@@ -2116,8 +2116,8 @@ trust::signer::remove() {
 
 # {{{ docker trust inspect
 # @cmd Return low-level information about keys and signatures
-# @flag --pretty                     Print the information in a human friendly format
-# @arg IMAGE-TAG <IMAGE[:TAG]...>
+# @flag --pretty    Print the information in a human friendly format
+# @arg IMAGE-TAG[`_choice_image_repo_tag`] # [`_choice_image_repo_tag`] <IMAGE[:TAG]...>
 trust::inspect() {
     :;
 }
@@ -2125,8 +2125,8 @@ trust::inspect() {
 
 # {{{ docker trust revoke
 # @cmd Remove trust for an image
-# @flag -y --yes                  Do not prompt for confirmation
-# @arg IMAGE-TAG <IMAGE[:TAG]>
+# @flag -y --yes    Do not prompt for confirmation
+# @arg IMAGE-TAG[`_choice_image_repo_tag`] # [`_choice_image_repo_tag`] <IMAGE[:TAG]>
 trust::revoke() {
     :;
 }
@@ -2134,8 +2134,8 @@ trust::revoke() {
 
 # {{{ docker trust sign
 # @cmd Sign an image
-# @flag --local     Sign a locally tagged image
-# @arg IMAGE-TAG[`_choice_image_repo_tag`]
+# @flag --local    Sign a locally tagged image
+# @arg IMAGE-TAG
 trust::sign() {
     :;
 }
@@ -2252,10 +2252,10 @@ attach() {
 
 # {{ docker commit
 # @cmd Create a new image from a container's changes
-# @option -a --author <string>              Author (e.g., "John Hannibal Smith <hannibal@a-team.com>")
-# @option -c --change <list>                Apply Dockerfile instruction to the created image
-# @option -m --message <string>             Commit message
-# @flag -p --pause                          Pause container during commit (default true)
+# @option -a --author <string>     Author (e.g., "John Hannibal Smith <hannibal@a-team.com>")
+# @option -c --change <list>       Apply Dockerfile instruction to the created image
+# @option -m --message <string>    Commit message
+# @flag -p --pause                 Pause container during commit (default true)
 # @arg CONTAINER[`_choice_container_name`]
 # @arg REPOSITORY-TAG[`_choice_image_repo_tag`] <REPOSITORY[:TAG]>
 commit() {
@@ -2389,9 +2389,9 @@ diff() {
 # {{ docker events
 # @cmd Get real time events from the server
 # @option -f --filter[`_choice_event_filter`] <filter>  Filter output based on conditions provided
-# @option --format <string>       Format the output using the given Go template
-# @option --since <string>        Show all events created since timestamp
-# @option --until <string>        Stream events until this timestamp
+# @option --format <string>    Format the output using the given Go template
+# @option --since <string>     Show all events created since timestamp
+# @option --until <string>     Stream events until this timestamp
 events() {
     :;
 }
@@ -2420,9 +2420,9 @@ history() {
 
 # {{ docker import
 # @cmd Import the contents from a tarball to create a filesystem image
-# @option -c --change <list>                Apply Dockerfile instruction to the created image
-# @option -m --message <string>             Set commit message for imported image
-# @option --platform <string>               Set platform if server is multi-platform capable
+# @option -c --change <list>       Apply Dockerfile instruction to the created image
+# @option -m --message <string>    Set commit message for imported image
+# @option --platform <string>      Set platform if server is multi-platform capable
 # @arg file-URL <file|URL|->
 # @arg REPOSITORY-TAG[`_choice_image_repo_tag`] <REPOSITORY[:TAG]>
 import() {
@@ -2953,7 +2953,7 @@ service::rollback() {
 
 # {{{ docker service scale
 # @cmd Scale one or multiple replicated services
-# @flag -d --detach         Exit immediately instead of waiting for the service to converge
+# @flag -d --detach    Exit immediately instead of waiting for the service to converge
 # @arg SERVICE-REPLICAS*[`_choice_service`]
 service::scale() {
     :;

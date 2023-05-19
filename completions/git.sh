@@ -88,24 +88,24 @@ init() {
 
 # {{ git add
 # @cmd Add file contents to the index
-# @flag -n --dry-run                         dry run
-# @flag -v --verbose                         be verbose
-# @flag -i --interactive                     interactive picking
-# @flag -p --patch                           select hunks interactively
-# @flag -e --edit                            edit current diff and apply
-# @flag -f --force                           allow adding otherwise ignored files
-# @flag -u --update                          update tracked files
-# @flag --renormalize                        renormalize EOL of tracked files (implies -u)
-# @flag -N --intent-to-add                   record only the fact that the path will be added later
-# @flag -A --all                             add changes from all tracked and untracked files
-# @flag --ignore-removal                     ignore paths removed in the working tree (same as --no-all)
-# @flag --refresh                            don't add, only refresh the index
-# @flag --ignore-errors                      just skip files which cannot be added because of errors
-# @flag --ignore-missing                     check if - even missing - files are ignored in dry run
-# @flag --sparse                             allow updating entries outside of the sparse-checkout cone
-# @option --chmod <(+|-)x>                   override the executable bit of the listed files
-# @option --pathspec-from-file <file>        read pathspec from file
-# @flag --pathspec-file-nul                  with --pathspec-from-file, pathspec elements are separated with NUL character
+# @flag -n --dry-run                     dry run
+# @flag -v --verbose                     be verbose
+# @flag -i --interactive                 interactive picking
+# @flag -p --patch                       select hunks interactively
+# @flag -e --edit                        edit current diff and apply
+# @flag -f --force                       allow adding otherwise ignored files
+# @flag -u --update                      update tracked files
+# @flag --renormalize                    renormalize EOL of tracked files (implies -u)
+# @flag -N --intent-to-add               record only the fact that the path will be added later
+# @flag -A --all                         add changes from all tracked and untracked files
+# @flag --ignore-removal                 ignore paths removed in the working tree (same as --no-all)
+# @flag --refresh                        don't add, only refresh the index
+# @flag --ignore-errors                  just skip files which cannot be added because of errors
+# @flag --ignore-missing                 check if - even missing - files are ignored in dry run
+# @flag --sparse                         allow updating entries outside of the sparse-checkout cone
+# @option --chmod <(+|-)x>               override the executable bit of the listed files
+# @option --pathspec-from-file <file>    read pathspec from file
+# @flag --pathspec-file-nul              with --pathspec-from-file, pathspec elements are separated with NUL character
 # @arg pathspec+[`_choice_unstaged_file`]
 add() {
     :;
@@ -265,27 +265,27 @@ bisect::run() {
 
 # {{ git diff
 # @cmd Show changes between commits, commit and working tree, etc
-# @flag -z                             output diff-raw with lines terminated with NUL.
-# @flag -p                             output patch format.
-# @flag -u                             synonym for -p.
-# @flag --patch-with-raw               output both a patch and the diff-raw format.
-# @flag --stat                         show diffstat instead of patch.
-# @flag --numstat                      show numeric diffstat instead of patch.
-# @flag --patch-with-stat              output a patch and prepend its diffstat.
-# @flag --name-only                    show only names of changed files.
-# @flag --name-status                  show names and status of changed files.
-# @flag --full-index                   show full object name on index lines.
-# @option --abbrev <n>                 abbreviate object names in diff-tree header and diff-raw.
-# @flag -R                             swap input file pairs.
-# @flag -B                             detect complete rewrites.
-# @flag -M                             detect renames.
-# @flag -C                             detect copies.
-# @flag --find-copies-harder           try unchanged files as candidate for copy detection.
-# @option -l <n>                       limit rename attempts up to <n> paths.
-# @option -O <file>                    reorder diffs according to the <file>.
-# @option -S <string>                  find filepair whose only one side contains the string.
-# @flag --pickaxe-all                  show all files diff when -S is used and hit is found.
-# @flag -a --text                      treat all files as text.
+# @flag -z                      output diff-raw with lines terminated with NUL.
+# @flag -p                      output patch format.
+# @flag -u                      synonym for -p.
+# @flag --patch-with-raw        output both a patch and the diff-raw format.
+# @flag --stat                  show diffstat instead of patch.
+# @flag --numstat               show numeric diffstat instead of patch.
+# @flag --patch-with-stat       output a patch and prepend its diffstat.
+# @flag --name-only             show only names of changed files.
+# @flag --name-status           show names and status of changed files.
+# @flag --full-index            show full object name on index lines.
+# @option --abbrev <n>          abbreviate object names in diff-tree header and diff-raw.
+# @flag -R                      swap input file pairs.
+# @flag -B                      detect complete rewrites.
+# @flag -M                      detect renames.
+# @flag -C                      detect copies.
+# @flag --find-copies-harder    try unchanged files as candidate for copy detection.
+# @option -l <n>                limit rename attempts up to <n> paths.
+# @option -O <file>             reorder diffs according to the <file>.
+# @option -S <string>           find filepair whose only one side contains the string.
+# @flag --pickaxe-all           show all files diff when -S is used and hit is found.
+# @flag -a --text               treat all files as text.
 # @arg commit-path*[`_choice_diff`]
 diff() {
     :;
@@ -477,7 +477,7 @@ commit() {
 # @flag --overwrite-ignore                         update ignored files (default)
 # @flag --signoff                                  add a Signed-off-by trailer
 # @flag --no-verify                                bypass pre-merge-commit and commit-msg hooks
-# @arg target*[`_choice_branch`]
+# @arg commit*[`_choice_branch`]
 merge() {
     :;
 }
@@ -944,14 +944,14 @@ cherry-pick() {
 
 # {{ git clean
 # @cmd Remove untracked files from the working tree
-# @flag -q --quiet                        do not print names of files removed
-# @flag -n --dry-run                      dry run
-# @flag -f --force                        force
-# @flag -i --interactive                  interactive cleaning
-# @flag -d                                remove whole directories
-# @option -e --exclude <pattern>          add <pattern> to ignore rules
-# @flag -x                                remove ignored files, too
-# @flag -X                                remove only ignored files
+# @flag -q --quiet                  do not print names of files removed
+# @flag -n --dry-run                dry run
+# @flag -f --force                  force
+# @flag -i --interactive            interactive cleaning
+# @flag -d                          remove whole directories
+# @option -e --exclude <pattern>    add <pattern> to ignore rules
+# @flag -x                          remove ignored files, too
+# @flag -X                          remove only ignored files
 # @arg paths+[`_choice_unstaged_file`]
 clean() {
     :;
@@ -960,41 +960,41 @@ clean() {
 
 # {{ git config
 # @cmd Get and set repository or global options
-# @flag --global                     use global config file
-# @flag --system                     use system config file
-# @flag --local                      use repository config file
-# @flag --worktree                   use per-worktree config file
-# @option -f --file <file>           use given config file
-# @option --blob <blob-id>           read config from given blob object
-# @flag --get                        get value: name [value-pattern]
-# @flag --get-all                    get all values: key [value-pattern]
-# @flag --get-regexp                 get values for regexp: name-regex [value-pattern]
-# @flag --get-urlmatch               get value specific for the URL: section[.var] URL
-# @flag --replace-all                replace all matching variables: name value [value-pattern]
-# @flag --add                        add a new variable: name value
-# @flag --unset                      remove a variable: name [value-pattern]
-# @flag --unset-all                  remove all matches: name [value-pattern]
-# @flag --rename-section             rename section: old-name new-name
-# @flag --remove-section             remove a section: name
-# @flag -l --list                    list all
-# @flag --fixed-value                use string equality when comparing values to 'value-pattern'
-# @flag -e --edit                    open an editor
-# @flag --get-color                  find the color configured: slot [default]
-# @flag --get-colorbool              find the color setting: slot [stdout-is-tty]
-# @flag -t --type                    value is given this type
-# @flag --bool                       value is "true" or "false"
-# @flag --int                        value is decimal number
-# @flag --bool-or-int                value is --bool or --int
-# @flag --bool-or-str                value is --bool or string
-# @flag --path                       value is a path (file or directory name)
-# @flag --expiry-date                value is an expiry date
-# @flag -z --null                    terminate values with NUL byte
-# @flag --name-only                  show variable names only
-# @flag --includes                   respect include directives on lookup
-# @flag --show-origin                show origin of config (file, standard input, blob, command line)
+# @flag --global               use global config file
+# @flag --system               use system config file
+# @flag --local                use repository config file
+# @flag --worktree             use per-worktree config file
+# @option -f --file <file>     use given config file
+# @option --blob <blob-id>     read config from given blob object
+# @flag --get                  get value: name [value-pattern]
+# @flag --get-all              get all values: key [value-pattern]
+# @flag --get-regexp           get values for regexp: name-regex [value-pattern]
+# @flag --get-urlmatch         get value specific for the URL: section[.var] URL
+# @flag --replace-all          replace all matching variables: name value [value-pattern]
+# @flag --add                  add a new variable: name value
+# @flag --unset                remove a variable: name [value-pattern]
+# @flag --unset-all            remove all matches: name [value-pattern]
+# @flag --rename-section       rename section: old-name new-name
+# @flag --remove-section       remove a section: name
+# @flag -l --list              list all
+# @flag --fixed-value          use string equality when comparing values to 'value-pattern'
+# @flag -e --edit              open an editor
+# @flag --get-color            find the color configured: slot [default]
+# @flag --get-colorbool        find the color setting: slot [stdout-is-tty]
+# @flag -t --type              value is given this type
+# @flag --bool                 value is "true" or "false"
+# @flag --int                  value is decimal number
+# @flag --bool-or-int          value is --bool or --int
+# @flag --bool-or-str          value is --bool or string
+# @flag --path                 value is a path (file or directory name)
+# @flag --expiry-date          value is an expiry date
+# @flag -z --null              terminate values with NUL byte
+# @flag --name-only            show variable names only
+# @flag --includes             respect include directives on lookup
+# @flag --show-origin          show origin of config (file, standard input, blob, command line)
 # @option --show-scope[worktree|local|global|system|command]  show scope of config (worktree, local, global, system, command)
-# @option --default <value>          with --get, use default value when missing entry
-# @arg key![`_choice_config_key`]
+# @option --default <value>    with --get, use default value when missing entry
+# @arg key[`_choice_config_key`]
 config() {
     :;
 }
@@ -1002,20 +1002,20 @@ config() {
 
 # {{ git describe
 # @cmd Give an object a human readable name based on an available ref
-# @flag --contains                   find the tag that comes after the commit
-# @flag --debug                      debug search strategy on stderr
-# @flag --all                        use any ref
-# @flag --tags                       use any tag, even unannotated
-# @flag --long                       always use long format
-# @flag --first-parent               only follow first parent
-# @option --abbrev <n>               use <n> digits to display object names
-# @flag --exact-match                only output exact matches
-# @option --candidates <n>           consider <n> most recent tags (default: 10)
-# @option --match <pattern>          only consider tags matching <pattern>
-# @option --exclude <pattern>        do not consider tags matching <pattern>
-# @flag --always                     show abbreviated commit object as fallback
-# @option --dirty <mark>             append <mark> on dirty working tree (default: "-dirty")
-# @option --broken <mark>            append <mark> on broken working tree (default: "-broken")
+# @flag --contains               find the tag that comes after the commit
+# @flag --debug                  debug search strategy on stderr
+# @flag --all                    use any ref
+# @flag --tags                   use any tag, even unannotated
+# @flag --long                   always use long format
+# @flag --first-parent           only follow first parent
+# @option --abbrev <n>           use <n> digits to display object names
+# @flag --exact-match            only output exact matches
+# @option --candidates <n>       consider <n> most recent tags (default: 10)
+# @option --match <pattern>      only consider tags matching <pattern>
+# @option --exclude <pattern>    do not consider tags matching <pattern>
+# @flag --always                 show abbreviated commit object as fallback
+# @option --dirty <mark>         append <mark> on dirty working tree (default: "-dirty")
+# @option --broken <mark>        append <mark> on broken working tree (default: "-broken")
 # @arg commit-ish*[`_choice_ref`]
 describe() {
     :;
@@ -1024,15 +1024,15 @@ describe() {
 
 # {{ git difftool
 # @cmd Show changes using common diff tools
-# @flag -g --gui                              use `diff.guitool` instead of `diff.tool`
-# @flag -d --dir-diff                         perform a full-directory diff
-# @flag -y --no-prompt                        do not prompt before launching a diff tool
-# @flag --symlinks                            use symlinks in dir-diff mode
-# @option -t --tool <tool>                    use the specified diff tool
-# @flag --tool-help                           print a list of diff tools that may be used with `--tool`
-# @flag --trust-exit-code                     make 'git-difftool' exit when an invoked diff tool returns a non-zero exit code
-# @option -x --extcmd <command>               specify a custom command for viewing diffs
-# @flag --no-index                            passed to `diff`
+# @flag -g --gui                   use `diff.guitool` instead of `diff.tool`
+# @flag -d --dir-diff              perform a full-directory diff
+# @flag -y --no-prompt             do not prompt before launching a diff tool
+# @flag --symlinks                 use symlinks in dir-diff mode
+# @option -t --tool <tool>         use the specified diff tool
+# @flag --tool-help                print a list of diff tools that may be used with `--tool`
+# @flag --trust-exit-code          make 'git-difftool' exit when an invoked diff tool returns a non-zero exit code
+# @option -x --extcmd <command>    specify a custom command for viewing diffs
+# @flag --no-index                 passed to `diff`
 # @arg commit-commit <<commit> [<commit>]>
 # @arg path*
 difftool() {
@@ -1482,7 +1482,7 @@ remote::set-head() {
 
 # {{{ git remote show
 # @cmd
-# @flag -n      do not query remotes
+# @flag -n    do not query remotes
 # @arg name![`_choice_remote`]
 remote::show() {
     :;
@@ -1500,7 +1500,7 @@ remote::prune() {
 
 # {{{ git remote update
 # @cmd
-# @flag -p --prune                         prune remotes after fetching
+# @flag -p --prune    prune remotes after fetching
 # @arg group-remote* <<group>|<remote>>
 remote::update() {
     :;
@@ -1509,7 +1509,7 @@ remote::update() {
 
 # {{{ git remote set-branches
 # @cmd
-# @flag --add     add branch
+# @flag --add    add branch
 # @arg name![`_choice_remote`]
 # @arg branch+
 remote::set-branches() {
@@ -1588,7 +1588,7 @@ replace() {
 
 # {{ git request-pull
 # @cmd Generates a summary of pending changes
-# @flag -p      show patch text as well
+# @flag -p    show patch text as well
 # @arg start
 # @arg url
 # @arg end
@@ -1644,12 +1644,12 @@ revert() {
 
 # {{ git shortlog
 # @cmd Summarize 'git log' output
-# @flag -c --committer                group by committer rather than author
-# @flag -n --numbered                 sort output according to the number of commits per author
-# @flag -s --summary                  suppress commit descriptions, only provides commit count
-# @flag -e --email                    show the email address of each author
-# @option -w <<w>[,<i1>[,<i2>]]>      linewrap output
-# @option --group <field>             group by field
+# @flag -c --committer              group by committer rather than author
+# @flag -n --numbered               sort output according to the number of commits per author
+# @flag -s --summary                suppress commit descriptions, only provides commit count
+# @flag -e --email                  show the email address of each author
+# @option -w <<w>[,<i1>[,<i2>]]>    linewrap output
+# @option --group <field>           group by field
 # @arg commit-path*[`_choice_log`]
 shortlog() {
     :;

@@ -22,40 +22,55 @@ EOF
     fi
 }
 
-_patch_script() {
-    sed \
-        -e '/{ docker config/, /} docker config/ s/@arg CONFIG\(\*\)\?/@arg CONFIG\1[`_choice_config`]/' \
-        -e '/{ docker container cp/, /} docker container cp/ s/@arg SRC\(\*\)\?/@arg SRC\1[`_choice_container_cp`]/' \
-        -e '/{ docker container cp/, /} docker container cp/ s/@arg DEST\(\*\)\?/@arg DEST\1[`_choice_container_cp`]/' \
-        -e '/{ docker container list/, /} docker container list/ s/--filter <filter>\s\+/--filter[`_choice_container_ls_filter`] <filter>  /' \
-        -e '/{ docker ps/, /} docker ps/ s/--filter <filter>\s\+/--filter[`_choice_container_ls_filter`] <filter>  /' \
-        -e '/{ docker image list/, /} docker image list/ s/--filter <filter>\s\+/--filter[`_choice_image_ls_filter`] <filter>  /' \
-        -e '/{ docker images/, /} docker images/ s/--filter <filter>\s\+/--filter[`_choice_image_ls_filter`] <filter>  /' \
-        -e '/{ docker events/, /} docker events/ s/--filter <filter>\s\+/--filter[`_choice_event_filter`] <filter>  /' \
-        -e '/{ docker cp/, /} docker cp/ s/@arg SRC\(\*\)\?/@arg SRC\1[`_choice_container_cp`]/' \
-        -e '/{ docker cp/, /} docker cp/ s/@arg DEST\(\*\)\?/@arg DEST\1[`_choice_container_cp`]/' \
-        -e '/{ docker buildx/, /} docker buildx/ s/@arg NAME\(\*\)\?$/@arg NAME\1[`_choice_builder`]/' \
-        -e '/{ docker builder/, /} docker builder/ s/@arg NAME\(\*\)\?$/@arg NAME\1[`_choice_builder`]/' \
-        -e '/{ docker network/, /} docker network/ s/@arg NETWORK\(\*\)\?$/@arg NETWORK\1[`_choice_network`]/' \
-        -e '/{ docker context/, /} docker context/ s/@arg CONTEXT\(\*\)\?$/@arg CONTEXT\1[`_choice_context`]/' \
-        -e '/{ docker node/, /} docker node/ s/@arg NODE\(\*\)\?$/@arg NODE\1[`_choice_node`]/' \
-        -e '/{ docker plugin/, /} docker plugin/ s/@arg PLUGIN\(\*\)\?$/@arg PLUGIN\1[`_choice_plugin`]/' \
-        -e '/{ docker secret/, /} docker secret/ s/@arg SECRET\(\*\)\?$/@arg SECRET\1[`_choice_secret`]/' \
-        -e '/{ docker service/, /} docker service/ s/@arg SERVICE\(\*\)\?$/@arg SERVICE\1[`_choice_service`]/' \
-        -e '/{ docker service/, /} docker service/ s/@arg SERVICE-TASK\(\*\)\?$/@arg SERVICE-TASK\1[`_choice_service`]/' \
-        -e '/{ docker service/, /} docker service/ s/@arg SERVICE-REPLICAS\(\*\)\?$/@arg SERVICE-REPLICAS\1[`_choice_service`]/' \
-        -e '/{ docker compose/, /} docker compose/ s/@arg SERVICE\(\*\)\?$/@arg SERVICE\1[`_choice_compose_service`]/' \
-        -e '/{ docker compose/, /} docker compose/ s/@arg SERVICES\(\*\)\?$/@arg SERVICES\1[`_choice_compose_service`]/' \
-        -e '/{ docker compose cp/, /} docker compose cp/ s/@arg SRC\(\*\)\?/@arg SRC\1[`_choice_compose_cp`]/' \
-        -e '/{ docker compose cp/, /} docker compose cp/ s/@arg DEST\(\*\)\?/@arg DEST\1[`_choice_compose_cp`]/' \
-        -e '/{ docker stack/, /} docker stack/ s/@arg STACK\(\*\)\?$/@arg STACK\1[`_choice_stack`]/' \
-        -e '/{ docker volume/, /} docker volume/ s/@arg VOLUME\(\*\)\?$/@arg VOLUME\1[`_choice_volume`]/' \
-        -e '/{ docker trust/, /} docker trust/ s/@arg REPOSITORY\(\*\)\?$/@arg REPOSITORY\1[`_choice_image_repo`]/' \
-        -e 's/@arg CONTAINER\(\*\)\?$/@arg CONTAINER\1[`_choice_container_name`]/' \
-        -e 's/@arg REPOSITORY-TAG\(\*\)\? /@arg REPOSITORY-TAG\1[`_choice_image_repo_tag`] /' \
-        -e 's/@arg IMAGE\(\*\)\?$/@arg IMAGE\1[`_choice_image_repo_tag`]/' \
-        -e 's/@arg IMAGE-TAG\(\*\)\?$/@arg IMAGE-TAG\1[`_choice_image_repo_tag`]/' \
-        -e 's/@arg \([A-Za-z0-9_-]\+\)IMAGE-TAG\(\*\)\? /@arg \1IMAGE-TAG\2[`_choice_image_repo_tag`] /'
+_patch_table() {
+    table="$(_patch_util_bind_choices_fn \
+        'CONTAINER:_choice_container_name' \
+        'REPOSITORY\[:TAG\]:_choice_image_repo_tag' \
+        'IMAGE:_choice_image_repo_tag' \
+    )"
+    if [[ "$*" == "docker config"* ]]; then
+        echo "$table" | _patch_util_bind_choices_fn 'CONFIG:_choice_config'
+    elif [[ "$*" == "docker compose cp"* ]]; then
+        echo "$table" | _patch_util_bind_choices_fn 'SRC:_choice_compose_cp' 'DEST:_choice_compose_cp'
+    elif [[ "$*" == "docker compose"* ]]; then
+        echo "$table" | _patch_util_bind_choices_fn 'SERVICE:_choice_compose_service' 'SERVICES:_choice_compose_service' 
+    elif [[ "$*" == "docker container cp"* ]] || [[ "$*" == "docker cp"* ]]; then
+        echo "$table" | _patch_util_bind_choices_fn 'SRC:_choice_container_cp' 'DEST:_choice_container_cp'
+    elif [[ "$*" == "docker container list"* ]]; then
+        echo "$table" | _patch_util_bind_choices_fn '--filter:_choice_container_ls_filter'
+    elif [[ "$*" == "docker ps"* ]]; then
+        echo "$table" | _patch_util_bind_choices_fn '--filter:_choice_container_ls_filter'
+    elif [[ "$*" == "docker image list"* ]] || [[ "$*" == "docker images"* ]]; then
+        echo "$table" | _patch_util_bind_choices_fn '--filter:_choice_image_ls_filter'
+    elif [[ "$*" == "docker image tag"* ]] || [[ "$*" == "docker tag"* ]]; then
+        echo "$table" | _patch_util_bind_choices_fn 'SOURCE_IMAGE:_choice_image_repo_tag' 'TARGET_IMAGE:_choice_image_repo_tag'
+    elif [[ "$*" == "docker events"* ]]; then
+        echo "$table" | _patch_util_bind_choices_fn '--filter:_choice_event_filter'
+    elif [[ "$*" == "docker buildx"* ]]; then
+        echo "$table" | _patch_util_bind_choices_fn 'NAME:_choice_builder'
+    elif [[ "$*" == "docker builder"* ]]; then
+        echo "$table" | _patch_util_bind_choices_fn 'NAME:_choice_builder'
+    elif [[ "$*" == "docker network"* ]]; then
+        echo "$table" | _patch_util_bind_choices_fn 'NETWORK:_choice_network'
+    elif [[ "$*" == "docker context"* ]]; then
+        echo "$table" | _patch_util_bind_choices_fn 'CONTEXT:_choice_context'
+    elif [[ "$*" == "docker node"* ]]; then
+        echo "$table" | _patch_util_bind_choices_fn 'NODE:_choice_node'
+    elif [[ "$*" == "docker plugin"* ]]; then
+        echo "$table" | _patch_util_bind_choices_fn 'PLUGIN:_choice_plugin'
+    elif [[ "$*" == "docker secret"* ]]; then
+        echo "$table" | _patch_util_bind_choices_fn 'SECRET:_choice_secret'
+    elif [[ "$*" == "docker service"* ]]; then
+        echo "$table" | _patch_util_bind_choices_fn 'SERVICE:_choice_service'
+    elif [[ "$*" == "docker stack"* ]]; then
+        echo "$table" | _patch_util_bind_choices_fn 'STACK:_choice_stack'
+    elif [[ "$*" == "docker volume"* ]]; then
+        echo "$table" | _patch_util_bind_choices_fn 'VOLUME:_choice_volume'
+    elif [[ "$*" == "docker trust"* ]]; then
+        echo "$table" | _patch_util_bind_choices_fn 'REPOSITORY:_choice_image_repo' 'IMAGE:_choice_image_repo_tag'
+    else
+        echo "$table"
+    fi
 }
 
 _docker() {

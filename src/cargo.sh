@@ -31,6 +31,8 @@ Miss commands:
     verify-project       Check correctness of crate manifest
     version              Show version information
     yank                 Remove a pushed crate from the index
+Args:
+    <cmd>
 EOF
 	else
 		$@ --help
@@ -38,25 +40,23 @@ EOF
 }
 
 _patch_table() {
+	table="$(_patch_util_bind_choices_fn \
+		'--bench:_choice_bench' \
+		'--bin:_choice_bin' \
+		'--example:_choice_example' \
+		'--target:_choice_target' \
+		'--test:_choice_test' \
+		'--package:_choice_package' \
+	)"
 	if [[ "$*" == "cargo" ]]; then
-		sed '/argument #/ cargument # <cmd> # # [`_choice_cmd`]'
+		echo "$table" | _patch_util_bind_choices_fn 'cmd:_choice_cmd'
 	elif [[ "$*" == "cargo test" ]]; then
-		sed '/argument # \[TESTNAME\]/ s/$/ # [`_choice_testname`]/'
+		echo "$table" | _patch_util_bind_choices_fn 'TESTNAME:_choice_testname'
 	elif [[ "$*" == "cargo remove" ]]; then
-		sed '/argument # <DEP_ID>/ s/$/ # [`_choice_depid`]/'
+		echo "$table" | _patch_util_bind_choices_fn 'DEP_ID:_choice_depid'
 	else
-		cat
+		echo "$table"
 	fi
-}
-
-_patch_script() {
-	sed \
-		-e 's/@option --bench <NAME>\s\+/@option --bench[`_choice_bench`] <NAME>      /' \
-		-e 's/@option --bin <NAME>\s\+/@option --bin[`_choice_bin`] <NAME>          /' \
-		-e 's/@option --example <NAME>\s\+/@option --example[`_choice_example`] <NAME>  /' \
-		-e 's/@option --target <TRIPLE>\s\+/@option --target[`_choice_target`] <TRIPLE>  /' \
-		-e 's/@option --test <NAME>\s\+/@option --test[`_choice_test`] <NAME>        /' \
-		-e 's/@option -p --package <SPEC>\s\+/@option -p --package[`_choice_package`] <SPEC> /'
 }
 
 _choice_cmd() {

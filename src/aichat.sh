@@ -1,7 +1,7 @@
 _patch_table() {
-    sed \
-        -e '/-m, --model/ s/$/ # [`_choice_model`]/' \
-        -e '/-r, --role/ s/$/ # [`_choice_role`]/'
+    _patch_util_bind_choices_fn \
+        '--model:_choice_model' \
+        '--role:_choice_role'
 }
 
 _choice_role() {

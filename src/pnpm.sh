@@ -28,14 +28,14 @@ Miss commands:
       config               Manage the configuration files.
 EOF
     elif [[ "$*" == "pnpm config "* ]]; then
-        cat <<-'EOF' | _patch_utils_extract_subcmd $@
+        cat <<-'EOF' | _patch_util_extract_subcmd $@
 pnpm config set <key> <value> 
 pnpm config get <key> 
 pnpm config delete <key> 
 pnpm config list
 EOF
     elif [[ "$*" == "pnpm env "* ]]; then
-        cat <<-'EOF' | _patch_utils_extract_subcmd $@
+        cat <<-'EOF' | _patch_util_extract_subcmd $@
 pnpm env list
 options:
     --remote       List the remote versions of Node.js
@@ -49,7 +49,7 @@ EOF
     elif [[ "$*" == "pnpm store" ]]; then
         pnpm help store | sed 's/add <pkg>.../add         /'
     elif [[ "$*" == "pnpm store "* ]]; then
-        cat <<-'EOF' | _patch_utils_extract_subcmd $@
+        cat <<-'EOF' | _patch_util_extract_subcmd $@
 pnpm store add <pkg>...
 pnpm store path
 pnpm store prune
@@ -66,10 +66,13 @@ _patch_table() {
     table="$(sed \
         -e '/option # --filter !<selector> /, /option # --filter <pattern>\^\.\.\./ coption # --filter <pattern> # Includes all direct and indirect dependents of the matched packages.' \
         -e '/option # --loglevel / coption # --loglevel <level> # What level of logs to report. # [debug|info|warn|error|silent]' \
-    )"
+        | _patch_util_bind_choices_fn '--filter:_choice_workspace')"
     if [[ "$*" == "pnpm" ]]; then
-        echo "$table"
-        echo 'argument # cmd # # [`_choice_script`]'
+        echo "$table" | _patch_util_replace_arguments 'cmd:_choice_script'
+    elif [[ "$*" == "pnpm config" ]]; then
+        echo "$table" | _patch_util_replace_arguments
+    elif [[ "$*" == "pnpm config "* ]]; then
+        echo "$table" | _patch_util_bind_choices_fn 'key:_choice_config_key'
     elif [[ "$*" == "pnpm install" ]]; then
         echo "$table" | sed \
             -e '/option # --package-import-method auto/, /option # --package-import-method hardlink/ coption # --package-import-method <method> # Import package from # [auto|clone|copy|hardlink]' \
@@ -81,31 +84,23 @@ _patch_table() {
             -e '/option # --reporter append-only/, /option # --reporter ndjson/ coption # --reporter # Secific the reporter # [append-only|default|ndjson|silent]' \
             -e '/option # --reporter <silent>/ d' \
             -e '/-s, --silent/ coption # -s, --silent # No output is logged to the console, except fatal errors'
-    elif [[ "$*" == "pnpm link" ]]; then
-        echo "$table" | sed 's/<dir>/<_dir>/'
     elif [[ "$*" == "pnpm list" ]]; then
         echo "$table" | sed '/option # --depth -1/, /option # --depth 0/ coption # --depth <number> # Max display depth of the dependency tree'
     elif [[ "$*" == "pnpm run" ]]; then
-        echo "$table" | sed '/<args>.../ cargument # [<args>...] #  # [`_choice_script`]'
+        echo "$table" | _patch_util_bind_choices_fn 'args:_choice_script'
     elif [[ "$*" == "pnpm exec" ]]; then
-        echo "$table" | sed '/# exec / cargument # exec # # [`_choice_bin`]'
+        echo "$table" | _patch_util_bind_choices_fn 'exec:_choice_bin'
     elif [[ "$*" == "pnpm remove" ]]; then
-        echo "$table" | sed '/# <pkg>/ cargument # <pkg>[@<version>]... # # [`_choice_dependency`]'
+        echo "$table" | _patch_util_bind_choices_fn 'pkg:_choice_dependency'
     elif [[ "$*" == "pnpm update" ]]; then
-        echo "$table" | sed '/# \[<pkg>...\]/ cargument # [<pkg>...] # # [`_choice_dependency`]'
+        echo "$table" | _patch_util_bind_choices_fn 'pkg:_choice_dependency'
     elif [[ "$*" == "pnpm config" ]]; then
-        echo "$table" | sed '/argument/ d'
+        echo "$table" | _patch_util_replace_arguments
     elif [[ "$*" == "pnpm env" ]]; then
-        echo "$table" | sed '/argument/ d'
+        echo "$table" | _patch_util_replace_arguments
     else
         echo "$table"
     fi
-}
-
-_patch_script() {
-    sed \
-        -e '/{ pnpm config/, /} pnpm config/ s/@arg key\(!\)\?/@arg key\1[`_choice_config_key`]/' \
-        -e 's/@option --filter <pattern>\s\+/@option --filter[`_choice_workspace`] <pattern>  /'
 }
 
 _choice_bin() {

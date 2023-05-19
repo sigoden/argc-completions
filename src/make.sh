@@ -1,5 +1,9 @@
+_patch_help() {
+    make --help | sed 's/\[target\] \.\.\./[target].../'
+}
+
 _patch_table() {
-    sed '/argument # \[target\]/, /argument # \.\.\./ cargument # [target]... # # [`_choice_target`]'
+    _patch_util_bind_choices_fn 'target:_choice_target'
 }
 
 _choice_target() {

@@ -90,7 +90,7 @@ Commands:
     run         use <cmd>... to automatically bisect.
 EOF
         else
-            cat <<-'EOF' | _patch_utils_extract_subcmd $@ 
+            cat <<-'EOF' | _patch_util_extract_subcmd $@ 
 git bisect start
 options:
     --term-new <term>
@@ -147,7 +147,7 @@ EOF
         elif [[ "$*" == "git reflog show" ]]; then
             $@ -h 2>&1
         else
-            cat <<-'EOF' | _patch_utils_extract_subcmd $@
+            cat <<-'EOF' | _patch_util_extract_subcmd $@
 git reflog expire <refs>...
 options:
     --expire <time>
@@ -212,7 +212,7 @@ Commands:
     save
 EOF
         else 
-            cat <<-'EOF' | _patch_utils_extract_subcmd $@ 
+            cat <<-'EOF' | _patch_util_extract_subcmd $@ 
 git stash list
 git stash show <stash>
 git stash drop <stash>
@@ -269,7 +269,7 @@ Commands:
     absorbgitdirs
 EOF
         else
-            cat <<-'EOF' | _patch_utils_extract_subcmd $@ 
+            cat <<-'EOF' | _patch_util_extract_subcmd $@ 
 git submodule add <repository> [<path>]
 options:
     -b <branch>
@@ -330,7 +330,7 @@ Commands:
     unlock
 EOF
         else
-            cat <<-'EOF' | _patch_utils_extract_subcmd $@ 
+            cat <<-'EOF' | _patch_util_extract_subcmd $@ 
 git worktree add [<options>] <path> [<commit-ish>]
 git worktree list [<options>]
 git worktree lock [<options>] <path>
@@ -349,60 +349,56 @@ EOF
 
 _patch_table() {
     if [[ "$*" == "git" ]]; then
-        sed '/argument # <cmd> # / cargument # <cmd> # # [`_choice_cmd`]'
+        _patch_util_bind_choices_fn 'cmd:_choice_cmd'
     elif [[ "$*" == "git add" ]]; then
-        sed '/argument # <pathspec>.../ cargument # <pathspec>... # # [`_choice_unstaged_file`]'
+        _patch_util_bind_choices_fn 'pathspec:_choice_unstaged_file'
     elif [[ "$*" == "git branch" ]]; then
-        sed '$a\argument # <branch> # # [`_choice_branch`]'
+        _patch_util_replace_arguments '<branch>:_choice_branch'
     elif [[ "$*" == "git checkout" ]]; then
-        sed '/argument # <branch>/ cargument # <branch> # # [`_choice_checkout`]'
+        _patch_util_bind_choices_fn 'branch:_choice_checkout'
     elif [[ "$*" == "git cherry-pick" ]]; then
-        sed '/argument # <commit-ish>.../ cargument # <commit-ish>... # # [`_choice_range`]'
+        _patch_util_bind_choices_fn 'commit-ish:_choice_range'
     elif [[ "$*" == "git clean" ]]; then
-        sed '/argument # <paths>.../ cargument # <paths>... # # [`_choice_unstaged_file`]'
+        _patch_util_bind_choices_fn 'paths:_choice_unstaged_file'
     elif [[ "$*" == "git config" ]]; then
-        sed '$a\argument # <key> # # [`_choice_config_key`]'
+        _patch_util_replace_arguments 'key:_choice_config_key'
     elif [[ "$*" == "git describe" ]]; then
-        sed '/argument # \[<commit-ish>...\]/ cargument # [commit-ish]... # # [`_choice_ref`]'
+        _patch_util_bind_choices_fn 'commit-ish:_choice_ref'
     elif [[ "$*" == "git diff" ]]; then
-        sed '/argument # \[<commit>\]/, /argument # \[<path>...\]/ cargument # [commit-path]... # # [`_choice_diff`]'
+        _patch_util_replace_arguments '[commit-path]...:_choice_diff'
     elif [[ "$*" == "git fetch" ]]; then
-        sed '/argument # \[<repository>/ cargument # <remote> # # [`_choice_remote`]\nargument # <refspec>... # # [`_choice_branch`]'
+        _patch_util_replace_arguments '<remote>:_choice_remote' '<refspec>...:_choice_branch'
     elif [[ "$*" == "git log" ]]; then
-        sed '/argument # \[<revision-range>/, /argument # \[<path>/ cargument # [commit-path]... # # [`_choice_log`]'
+        _patch_util_replace_arguments '[commit-path]...:_choice_log'
     elif [[ "$*" == "git switch" ]]; then
-        sed '/argument # \[<branch>\]/ cargument # [<branch>] # # [`_choice_branch`]'
+        _patch_util_bind_choices_fn 'branch:_choice_branch'
     elif [[ "$*" == "git shortlog" ]]; then
-        sed '/argument # \[<revision-range>/, /argument # \[<path>/ cargument # [commit-path]... # # [`_choice_log`]'
+        _patch_util_replace_arguments '[commit-path]...:_choice_log'
     elif [[ "$*" == "git show" ]]; then
-        sed '/argument # \[<revision-range>/, /argument # \[<path>/ cargument # [commit-path]... # # [`_choice_show`]'
+        _patch_util_replace_arguments '[commit-path]...:_choice_show'
     elif [[ "$*" == "git restore" ]]; then
-        sed '/argument # <file>.../ cargument # <file>... # # [`_choice_restore_file`]'
+        _patch_util_bind_choices_fn 'file:_choice_restore_file'
     elif [[ "$*" == "git reset" ]]; then
-        sed '/argument # \[<commit>\]/ cargument # [commit]... # # [`_choice_reset`]'
+        _patch_util_replace_arguments '[commit]...:_choice_reset'
     elif [[ "$*" == "git tag" ]]; then
-        sed '$a\argument # <tagname> # # [`_choice_tag`]'
+        _patch_util_replace_arguments '<tagname>:_choice_tag'
     elif [[ "$*" == "git rebase" ]]; then
-        sed '/argument # \[<upstream>/ cargument # <base> # # [`_choice_branch`]\nargument # <new> # # [`_choice_branch`]'
+        _patch_util_replace_arguments '<base>:_choice_branch' '<new>:_choice_branch'
     elif [[ "$*" == "git range-diff" ]]; then
-        sed '/argument # <old-base>/, /argument # <new-base>/ cargument # <base> # # [`_choice_branch`]\nargument # <new> # # [`_choice_branch`]'
+        _patch_util_replace_arguments '<base>:_choice_branch' '<new>:_choice_branch'
     elif [[ "$*" == "git push" ]]; then
-        sed '/argument # \[<repository>/ cargument # <remote> # # [`_choice_remote`]\nargument # <refspec>... # # [`_choice_push`]'
+        _patch_util_replace_arguments '<remote>:_choice_remote' '<refspec>...:_choice_push'
     elif [[ "$*" == "git pull" ]]; then
-        sed '/argument # \[<repository>/ cargument # <remote> # # [`_choice_remote`]\nargument # <refspec>... # # [`_choice_remote_branch`]'
+        _patch_util_replace_arguments '<remote>:_choice_remote' '<refspec>...:_choice_remote_branch'
     elif [[ "$*" == "git merge" ]]; then
-        sed '/argument # \[<commit>...\]/ cargument # [target]... # # [`_choice_branch`]'
+        _patch_util_bind_choices_fn 'commit:_choice_branch'
+    elif [[ "$*" == "git stash"* ]]; then
+        _patch_util_bind_choices_fn 'stash:_choice_stash'
+    elif [[ "$*" == "git remote"* ]]; then
+        _patch_util_bind_choices_fn 'name:_choice_remote' 'old:_choice_remote' 'new:_choice_remote'
     else
         cat
     fi
-}
-
-_patch_script() {
-    sed \
-        -e '/{ git stash/, /} git stash/ s/@arg stash\(!\)\?/@arg stash\1[`_choice_stash`]/' \
-        -e '/{ git remote/, /} git remote/ s/@arg name\(!\)\?/@arg name\1[`_choice_remote`]/' \
-        -e '/{ git remote/, /} git remote/ s/@arg old\b\(!\)\?/@arg old\1[`_choice_remote`]/' \
-        -e '/{ git remote/, /} git remote/ s/@arg new\b\(!\)\?/@arg new\1[`_choice_remote`]/'
 }
 
 _git() {

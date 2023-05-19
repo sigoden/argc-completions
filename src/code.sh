@@ -1,3 +1,3 @@
-_patch_table() {
-    sed '$a\argument # path #'
+_patch_help() {
+    code --help | sed 's/\[paths\.\.\.\]/ [paths...]/'
 }
