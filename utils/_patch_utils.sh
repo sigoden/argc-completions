@@ -20,7 +20,7 @@ _patch_util_bind_choices_fn() {
     eval sed $args
 }
 
-_patch_util_replace_arguments() {
+_patch_util_replace_positionals() {
     sed -e '/^argument #/d'
     for item in $@; do
         local name="${item%:*}"

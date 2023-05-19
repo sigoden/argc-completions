@@ -68,9 +68,9 @@ _patch_table() {
         -e '/option # --loglevel / coption # --loglevel <level> # What level of logs to report. # [debug|info|warn|error|silent]' \
         | _patch_util_bind_choices_fn '--filter:_choice_workspace')"
     if [[ "$*" == "pnpm" ]]; then
-        echo "$table" | _patch_util_replace_arguments 'cmd:_choice_script'
+        echo "$table" | _patch_util_replace_positionals 'cmd:_choice_script'
     elif [[ "$*" == "pnpm config" ]]; then
-        echo "$table" | _patch_util_replace_arguments
+        echo "$table" | _patch_util_replace_positionals
     elif [[ "$*" == "pnpm config "* ]]; then
         echo "$table" | _patch_util_bind_choices_fn 'key:_choice_config_key'
     elif [[ "$*" == "pnpm install" ]]; then
@@ -95,9 +95,9 @@ _patch_table() {
     elif [[ "$*" == "pnpm update" ]]; then
         echo "$table" | _patch_util_bind_choices_fn 'pkg:_choice_dependency'
     elif [[ "$*" == "pnpm config" ]]; then
-        echo "$table" | _patch_util_replace_arguments
+        echo "$table" | _patch_util_replace_positionals
     elif [[ "$*" == "pnpm env" ]]; then
-        echo "$table" | _patch_util_replace_arguments
+        echo "$table" | _patch_util_replace_positionals
     else
         echo "$table"
     fi

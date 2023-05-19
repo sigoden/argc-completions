@@ -198,23 +198,23 @@ EOF
 
 _patch_table() {
     if [[ "$*" == "yarn" ]]; then
-        _patch_util_replace_arguments 'cmd:_choice_script'
+        _patch_util_replace_positionals 'cmd:_choice_script'
     elif [[ "$*" == "yarn config "* ]]; then
         _patch_util_bind_choices_fn 'key:_choice_config_key'
     elif [[ "$*" == "yarn global "* ]]; then
         _patch_util_bind_choices_fn 'packages:_choice_global_dependency'
     elif [[ "$*" == "yarn run" ]]; then
-        _patch_util_replace_arguments 'script:_choice_script'
+        _patch_util_replace_positionals 'script:_choice_script'
     elif [[ "$*" == "yarn remove" ]]; then
         _patch_util_bind_choices_fn 'packages:_choice_dependency'
     elif [[ "$*" == "yarn upgrade" ]]; then
-        _patch_util_replace_arguments '[packages]...:_choice_dependency'
+        _patch_util_replace_positionals '[packages]...:_choice_dependency'
     elif [[ "$*" == "yarn workspace" ]]; then
-        _patch_util_replace_arguments \
+        _patch_util_replace_positionals \
             '<workspace-name>:_choice_workspace' \
             '[workspace-args]...:_choice_workspace_args'
     elif [[ "$*" == "yarn workspaces" ]]; then
-        _patch_util_replace_arguments
+        _patch_util_replace_positionals
     elif [[ "$*" == "yarn generate-lock-entry" ]]; then
         sed '/option # --registry <registry>/ d'
     elif [[ "$*" == "yarn autoclean" ]]; then
