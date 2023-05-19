@@ -1,5 +1,5 @@
 _patch_help() {
-    if [[ $# -eq 1 ]]; then
+    if [[ "$*" == "pnpm" ]]; then
         $1 help
         cat <<-'EOF'
 Miss options:
@@ -66,6 +66,9 @@ _patch_table() {
     table="$(sed \
         -e '/option # --filter !<selector> /, /option # --filter <pattern>\^\.\.\./ coption # --filter <pattern> # Includes all direct and indirect dependents of the matched packages.' \
         -e '/option # --loglevel / coption # --loglevel <level> # What level of logs to report. # [debug|info|warn|error|silent]' \
+        -e '/option # --reporter append-only/, /option # --reporter ndjson/ coption # --reporter # Secific the reporter # [append-only|default|ndjson|silent]' \
+        -e '/option # --reporter <silent>/ d' \
+        -e '/-s, --silent/ coption # -s, --silent # No output is logged to the console, except fatal errors' \
         | _patch_util_bind_choices_fn '--filter:_choice_workspace')"
     if [[ "$*" == "pnpm" ]]; then
         echo "$table" | _patch_util_replace_positionals 'cmd:_choice_script'
@@ -74,16 +77,7 @@ _patch_table() {
     elif [[ "$*" == "pnpm config "* ]]; then
         echo "$table" | _patch_util_bind_choices_fn 'key:_choice_config_key'
     elif [[ "$*" == "pnpm install" ]]; then
-        echo "$table" | sed \
-            -e '/option # --package-import-method auto/, /option # --package-import-method hardlink/ coption # --package-import-method <method> # Import package from # [auto|clone|copy|hardlink]' \
-            -e '/option # --reporter append-only/, /option # --reporter ndjson/ coption # --reporter # Secific the reporter # [append-only|default|ndjson|silent]' \
-            -e '/option # --reporter <silent>/ d' \
-            -e '/-s, --silent/ coption # -s, --silent # No output is logged to the console, except fatal errors'
-    elif [[ "$*" == "pnpm dlx" ]]; then
-        echo "$table" | sed \
-            -e '/option # --reporter append-only/, /option # --reporter ndjson/ coption # --reporter # Secific the reporter # [append-only|default|ndjson|silent]' \
-            -e '/option # --reporter <silent>/ d' \
-            -e '/-s, --silent/ coption # -s, --silent # No output is logged to the console, except fatal errors'
+        echo "$table" | sed '/option # --package-import-method auto/, /option # --package-import-method hardlink/ coption # --package-import-method <method> # Import package from # [auto|clone|copy|hardlink]'
     elif [[ "$*" == "pnpm list" ]]; then
         echo "$table" | sed '/option # --depth -1/, /option # --depth 0/ coption # --depth <number> # Max display depth of the dependency tree'
     elif [[ "$*" == "pnpm run" ]]; then

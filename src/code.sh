@@ -1,3 +1,3 @@
-_patch_help() {
-    code --help | sed 's/\[paths\.\.\.\]/ [paths...]/'
+_patch_table() {
+    _patch_util_replace_positionals '[paths...]'
 }

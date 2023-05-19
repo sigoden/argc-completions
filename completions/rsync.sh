@@ -19,7 +19,7 @@
 # @flag -u --update                    skip files that are newer on the receiver
 # @flag --inplace                      update destination files in-place
 # @flag --append                       append data onto shorter files
-# @flag --append-verify                append data in file checksum
+# @flag --append-verify                --append w/old data in file checksum
 # @flag -d --dirs                      transfer directories without recursing
 # @flag --mkpath                       create the destination's path component
 # @flag -l --links                     copy symlinks as symlinks

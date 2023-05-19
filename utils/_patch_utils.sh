@@ -23,9 +23,8 @@ _patch_util_bind_choices_fn() {
 _patch_util_replace_positionals() {
     sed -e '/^argument #/d'
     for item in $@; do
-        local name="${item%:*}"
-        local choices_fn="${item##*:}"
-        local tail
+        local name choices_fn tail
+        IFS=":" read -r name choices_fn <<< "$item"
         if [[ -n "$choices_fn" ]]; then
             tail=" # [\`$choices_fn\`]"
         fi

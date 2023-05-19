@@ -191,6 +191,10 @@ EOF
 
     elif [[ "$*" == "yarn test" ]]; then
         :;
+    elif [[ "$*" == "yarn autoclean" ]]; then
+        $@ --help | sed '/^\s*--force/d' 
+    elif [[ "$*" == "yarn generate-lock-entry" ]]; then
+        $@ --help | sed '/^\s* --registry <registry>/ d' 
     else
         $@ --help
     fi
@@ -215,10 +219,6 @@ _patch_table() {
             '[workspace-args]...:_choice_workspace_args'
     elif [[ "$*" == "yarn workspaces" ]]; then
         _patch_util_replace_positionals
-    elif [[ "$*" == "yarn generate-lock-entry" ]]; then
-        sed '/option # --registry <registry>/ d'
-    elif [[ "$*" == "yarn autoclean" ]]; then
-        sed '/option # --force/ d'
     else
         cat
     fi
