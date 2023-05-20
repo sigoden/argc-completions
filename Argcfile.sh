@@ -19,17 +19,22 @@ test() {
 }
 
 # @cmd
+# @option -C --dir
 # @arg cmd![`_choice_completion_or_src`]
 # @arg fn![`_choice_fn_name`]
 # @arg line
 run-choice-fn() {
+    argc_dir="${argc_dir:-`pwd`}"
     cmd_script="completions/$argc_cmd.sh"
     if [[ -n "$argc_line" ]] && [[ -f "$cmd_script" ]]; then
         argc_line=${argc_line#"$argc_cmd"} 
-        bash "$cmd_script" $argc_fn "$argc_line"
+        (cd $argc_dir && bash "$cmd_script" $argc_fn "$argc_line")
     else
+        for f in utils/_argc_util*; do
+            . "$f"
+        done
         . "src/$argc_cmd.sh"
-        $argc_fn
+        (cd $argc_dir && $argc_fn)
     fi
 }
 
