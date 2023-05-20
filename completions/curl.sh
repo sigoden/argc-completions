@@ -25,7 +25,7 @@
 # @option --create-file-mode <mode>                File mode for created files
 # @flag --crlf                                     Convert LF to CRLF in upload
 # @option --crlfile <file>                         Use this CRL list
-# @option --curves <algorithm list>                TLS key exchange algorithm(s) to request
+# @option --curves <algorithm list>                (EC) TLS key exchange algorithm(s) to request
 # @option -d --data <data>                         HTTP POST data
 # @option --data-ascii <data>                      HTTP POST ASCII data
 # @option --data-binary <data>                     HTTP POST binary data
