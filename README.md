@@ -38,14 +38,6 @@ For PowerShell, add the following code to `$PROFILE`:
 . "$env:USERPROFILE\.argc-completions\shell\argc-completions.ps1"
 ```
 
-## How to write
-
-Automatically generate the completion script with:
-
-```
-./generate.sh mycmd
-```
-
 ## License
 
 Copyright (c) 2022 sigoden.

@@ -1,24 +1,25 @@
 #!/usr/bin/env bash
 
-# @cmd
-# @arg cmd[?`_choice_completion`]
+# @cmd Automatically generate the completion script for <CMD>
+# @arg cmd![?`_choice_completion`]
 generate() {
-    if [ $# -eq 0 ]; then
-        while read -r name; do
-            echo Generate $name
-            argc generate $name
-        done < <(_choice_completion)
-    else
-        ./generate.sh -o completions $1
-    fi
+    ./generate.sh -o completions $1
 }
 
-# @cmd
+# @cmd Re-generate all completion scripts
+generate-all() {
+    while read -r name; do
+        echo Generate $name
+        argc generate $name
+    done < <(_choice_completion)
+}
+
+# @cmd Test generate.sh
 test() {
     ./generate.sh __test
 }
 
-# @cmd
+# @cmd Run a choice fn 
 # @option -C --dir
 # @arg cmd![`_choice_completion_or_src`]
 # @arg fn![`_choice_fn_name`]
@@ -38,27 +39,26 @@ run-choice-fn() {
     fi
 }
 
-# @cmd
+# @cmd A aggregation command, easy to switch print-table/help/script
 # @option -k --kind[=table|help|script]
 # @arg cmd![?`_choice_completion`]
-# @arg args*
-check() {
-    if [[ "$argc_kind" == "help" ]]; then
-        check-help $@
-    elif [[ "$argc_kind" == "table" ]]; then
-        check-table $@
+# @arg subcmds*
+print() {
+    if [[ "$argc_kind" == "table" ]]; then
+        print-table $@
+    elif [[ "$argc_kind" == "help" ]]; then
+        print-help $@
     elif [[ "$argc_kind" == "script" ]]; then
-        check-script $@
+        print-script $@
     fi
 }
 
-# @cmd
-# @flag -P --no-patch
+# @cmd Print the help text of the command
+# @flag -P --no-patch  Do not apply _patch_help fn
 # @arg cmd![?`_choice_completion`]
-# @arg args*
-check-help() {
-      ( set -o posix ; set ) | grep argc_
-    _source_src $1
+# @arg subcmds*
+print-help() {
+    _source_src_script $1
     if _test_patch_fn help; then
         _patch_help $@
     else
@@ -66,13 +66,13 @@ check-help() {
     fi
 }
 
-# @cmd
-# @flag -P --no-patch
+# @cmd Print the table generate by lexer for the command
+# @flag -P --no-patch  Do not apply _patch_table fn
 # @arg cmd![?`_choice_completion`]
-# @arg args*
-check-table() {
-    _source_src $1
-    help_text=$(check-help $@ | awk -f scripts/lexer.awk)
+# @arg subcmds*
+print-table() {
+    _source_src_script $1
+    help_text=$(print-help $@ | awk -f scripts/lexer.awk)
     if _test_patch_fn table; then
         echo "$help_text" | _patch_table $@
     else
@@ -80,13 +80,13 @@ check-table() {
     fi
 }
 
-# @cmd
-# @flag -P --no-patch
+# @cmd Print the generated completion script of the command
+# @flag -P --no-patch  Do not apply _patch_script fn
 # @arg cmd![?`_choice_completion`]
 # @arg args*
-check-script() {
-    _source_src $1
-    table_text=$(check-table $@ | awk -f scripts/parser.awk)
+print-script() {
+    _source_src_script $1
+    table_text=$(print-table $@ | awk -f scripts/parser.awk)
     if _test_patch_fn script; then
         echo "$table_text" | _patch_script $@
     else
@@ -113,7 +113,7 @@ _choice_fn_name() {
     fi
 }
 
-_source_src() {
+_source_src_script() {
     if [[ "$source_src" == "$1" ]]; then
         return
     fi
@@ -130,7 +130,7 @@ _source_src() {
 
 _test_patch_fn() {
     local target=$1
-    if [[ "$argc_no_patch" -eq 1 ]] && [[ "$argc__fn" == "check-$target" ]]; then
+    if [[ "$argc_no_patch" -eq 1 ]] && [[ "$argc__fn" == "print-$target" ]]; then
         return 1
     fi
     if [[ $(type -t _patch_$target) != "function" ]] ; then

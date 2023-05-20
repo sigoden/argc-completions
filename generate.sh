@@ -4,7 +4,7 @@
 
 # @option -o --output <file>        Specify output file. If omitted, output to stdout
 # @arg cmd!                         Specify the command, must be able to run locally
-# @arg subcmd                       Optional sub command
+# @arg subcmd                       Optional subcommand
 
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 command_names=()
