@@ -56,7 +56,9 @@ BEGIN {
                 usage = trimStarts($0)
             }
         } else if (prevLine == "group") {
-            if (testCommand($0)) {
+            if (testEnvVar($0)) {
+                prevLine = "other"
+            } else if (testCommand($0)) {
                 commands[length(commands) + 1] = trimStarts($0)
                 prevLine = "command"
             } else {
@@ -309,6 +311,10 @@ function containsArguments(input) {
 
 function containCommand(input) {
     return index(tolower(input), "command") > 0
+}
+
+function testEnvVar(input) {
+    return match(input, /^( +)?[A-Z0-9_]{2,}+/)
 }
 
 function testCommand(input) {
