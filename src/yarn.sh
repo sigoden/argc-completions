@@ -204,13 +204,13 @@ _patch_table() {
     if [[ "$*" == "yarn" ]]; then
         _patch_util_replace_positionals 'cmd:_choice_script'
     elif [[ "$*" == "yarn config "* ]]; then
-        _patch_util_bind_choices_fn 'key:_choice_config_key'
+        _patch_util_bind_choice_fn 'key:_choice_config_key'
     elif [[ "$*" == "yarn global "* ]]; then
-        _patch_util_bind_choices_fn 'packages:_choice_global_dependency'
+        _patch_util_bind_choice_fn 'packages:_choice_global_dependency'
     elif [[ "$*" == "yarn run" ]]; then
         _patch_util_replace_positionals 'script:_choice_script'
     elif [[ "$*" == "yarn remove" ]]; then
-        _patch_util_bind_choices_fn 'packages:_choice_dependency'
+        _patch_util_bind_choice_fn 'packages:_choice_dependency'
     elif [[ "$*" == "yarn upgrade" ]]; then
         _patch_util_replace_positionals '[packages]...:_choice_dependency'
     elif [[ "$*" == "yarn workspace" ]]; then

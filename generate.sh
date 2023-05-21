@@ -169,7 +169,7 @@ print_cmd_fn() {
 
 print_util_fn() {
     util_fn_name="$1"
-    util_fn_file="$utils_dir/$util_fn_name.sh"
+    util_fn_file="$utils_dir/_argc_utils/$util_fn_name.sh"
     if [ -f "$util_fn_file" ]; then
         echo
         cat "$util_fn_file" 

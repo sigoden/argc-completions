@@ -2130,7 +2130,7 @@ _choice_unstaged_file() {
     if (substr($0, 2, 1) != " ") {
         print substr($0, 3)
     }
-}' | _argc_util_path_to_platform
+}'
 }
 
 _choice_staged_file() {
@@ -2142,7 +2142,7 @@ _choice_staged_file() {
             print substr($0, 4)
         }
     }
-}' | _argc_util_path_to_platform
+}'
 }
 
 _choice_changed_file() {
@@ -2152,7 +2152,7 @@ _choice_changed_file() {
     } else {
         print substr($0, 4)
     }
-}' | _argc_util_path_to_platform
+}'
 }
 
 _choice_restore_file() {
@@ -2189,7 +2189,7 @@ _choice_diff() {
 
 _choice_log() {
     if [[ -n "$argc__dashdash" ]]; then
-        _git ls-files | _argc_util_path_to_platform
+        _git ls-files
     else
         _choice_branch
     fi
@@ -2283,18 +2283,6 @@ _argc_util_param_select_options() {
             fi
         fi
     done
-}
-
-_argc_util_path_to_platform() {
-    local target="$1"
-    if [[ -z "$target" ]]; then
-        target="$(cat)"
-    fi
-    if [[ "$OS" == "Windows_NT" ]]; then
-        cygpath -w "$target"
-    else
-        echo "$target"
-    fi
 }
 
 _argc_util_param_get_positional() {

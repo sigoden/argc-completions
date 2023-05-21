@@ -349,21 +349,21 @@ EOF
 
 _patch_table() {
     if [[ "$*" == "git" ]]; then
-        _patch_util_bind_choices_fn 'cmd:_choice_cmd'
+        _patch_util_bind_choice_fn 'cmd:_choice_cmd'
     elif [[ "$*" == "git add" ]]; then
-        _patch_util_bind_choices_fn 'pathspec:_choice_unstaged_file'
+        _patch_util_bind_choice_fn 'pathspec:_choice_unstaged_file'
     elif [[ "$*" == "git branch" ]]; then
         _patch_util_replace_positionals '<branch>:_choice_branch'
     elif [[ "$*" == "git checkout" ]]; then
-        _patch_util_bind_choices_fn 'branch:_choice_checkout'
+        _patch_util_bind_choice_fn 'branch:_choice_checkout'
     elif [[ "$*" == "git cherry-pick" ]]; then
-        _patch_util_bind_choices_fn 'commit-ish:_choice_range'
+        _patch_util_bind_choice_fn 'commit-ish:_choice_range'
     elif [[ "$*" == "git clean" ]]; then
-        _patch_util_bind_choices_fn 'paths:_choice_unstaged_file'
+        _patch_util_bind_choice_fn 'paths:_choice_unstaged_file'
     elif [[ "$*" == "git config" ]]; then
         _patch_util_replace_positionals 'key:_choice_config_key'
     elif [[ "$*" == "git describe" ]]; then
-        _patch_util_bind_choices_fn 'commit-ish:_choice_ref'
+        _patch_util_bind_choice_fn 'commit-ish:_choice_ref'
     elif [[ "$*" == "git diff" ]]; then
         _patch_util_replace_positionals '[commit-path]...:_choice_diff'
     elif [[ "$*" == "git fetch" ]]; then
@@ -371,13 +371,13 @@ _patch_table() {
     elif [[ "$*" == "git log" ]]; then
         _patch_util_replace_positionals '[commit-path]...:_choice_log'
     elif [[ "$*" == "git switch" ]]; then
-        _patch_util_bind_choices_fn 'branch:_choice_branch'
+        _patch_util_bind_choice_fn 'branch:_choice_branch'
     elif [[ "$*" == "git shortlog" ]]; then
         _patch_util_replace_positionals '[commit-path]...:_choice_log'
     elif [[ "$*" == "git show" ]]; then
         _patch_util_replace_positionals '[commit-path]...:_choice_show'
     elif [[ "$*" == "git restore" ]]; then
-        _patch_util_bind_choices_fn 'file:_choice_restore_file'
+        _patch_util_bind_choice_fn 'file:_choice_restore_file'
     elif [[ "$*" == "git reset" ]]; then
         _patch_util_replace_positionals '[commit]...:_choice_reset'
     elif [[ "$*" == "git tag" ]]; then
@@ -391,11 +391,11 @@ _patch_table() {
     elif [[ "$*" == "git pull" ]]; then
         _patch_util_replace_positionals '<remote>:_choice_remote' '<refspec>...:_choice_remote_branch'
     elif [[ "$*" == "git merge" ]]; then
-        _patch_util_bind_choices_fn 'commit:_choice_branch'
+        _patch_util_bind_choice_fn 'commit:_choice_branch'
     elif [[ "$*" == "git stash"* ]]; then
-        _patch_util_bind_choices_fn 'stash:_choice_stash'
+        _patch_util_bind_choice_fn 'stash:_choice_stash'
     elif [[ "$*" == "git remote"* ]]; then
-        _patch_util_bind_choices_fn 'name:_choice_remote' 'old:_choice_remote' 'new:_choice_remote'
+        _patch_util_bind_choice_fn 'name:_choice_remote' 'old:_choice_remote' 'new:_choice_remote'
     else
         cat
     fi
@@ -418,7 +418,7 @@ _choice_unstaged_file() {
     if (substr($0, 2, 1) != " ") {
         print substr($0, 3)
     }
-}' | _argc_util_path_to_platform
+}'
 }
 
 _choice_staged_file() {
@@ -430,7 +430,7 @@ _choice_staged_file() {
             print substr($0, 4)
         }
     }
-}' | _argc_util_path_to_platform
+}'
 }
 
 _choice_changed_file() {
@@ -440,7 +440,7 @@ _choice_changed_file() {
     } else {
         print substr($0, 4)
     }
-}' | _argc_util_path_to_platform
+}'
 }
 
 _choice_restore_file() {
@@ -477,7 +477,7 @@ _choice_diff() {
 
 _choice_log() {
     if [[ -n "$argc__dashdash" ]]; then
-        _git ls-files | _argc_util_path_to_platform
+        _git ls-files
     else
         _choice_branch
     fi

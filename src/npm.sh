@@ -831,15 +831,15 @@ EOF
 }
 
 _patch_table() {
-    table="$(_patch_util_bind_choices_fn '--workspace:_choice_workspace')"
+    table="$(_patch_util_bind_choice_fn '--workspace:_choice_workspace')"
     if [[ "$*" == "npm config "* ]]; then
-        echo "$table" | _patch_util_bind_choices_fn 'key:_choice_config_key' 'key-value:_choice_config_key'
+        echo "$table" | _patch_util_bind_choice_fn 'key:_choice_config_key' 'key-value:_choice_config_key'
     elif [[ "$*" == "npm run-script" ]]; then
-        echo "$table" | _patch_util_bind_choices_fn 'cmd:_choice_script'
+        echo "$table" | _patch_util_bind_choice_fn 'cmd:_choice_script'
     elif [[ "$*" == "npm uninstall" ]]; then
-        echo "$table" | _patch_util_bind_choices_fn 'pkg:_choice_dependency'
+        echo "$table" | _patch_util_bind_choice_fn 'pkg:_choice_dependency'
     elif [[ "$*" == "npm update" ]]; then
-        echo "$table" | _patch_util_bind_choices_fn 'pkg:_choice_dependency'
+        echo "$table" | _patch_util_bind_choice_fn 'pkg:_choice_dependency'
     else
         echo "$table"
     fi

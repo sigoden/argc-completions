@@ -1,5 +1,5 @@
 _patch_table() {
-    _patch_util_bind_choices_fn \
+    _patch_util_bind_choice_fn \
         '--language:_choice_language' \
         '--theme:_choice_theme'
 }

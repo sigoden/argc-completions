@@ -1,8 +1,10 @@
+# Used for provide help text for nested subcommand
 _patch_util_extract_subcmd() {
     awk -v v1="^$1 " -v v2="^$*" '$0 ~ v1 { x = 0; } $0 ~ v2 { x=1; print "Usage: " $0 } /^(options:|\s+-)/ && x == 1 { print $0 }'
 }
 
-_patch_util_bind_choices_fn() {
+# Bind choice_fn to option or positional argument.
+_patch_util_bind_choice_fn() {
     local args
     for item in $@; do
         local name="${item%:*}"
@@ -20,6 +22,7 @@ _patch_util_bind_choices_fn() {
     eval sed $args
 }
 
+# Purge exist positional arguments and add new positional arguments manully.
 _patch_util_replace_positionals() {
     sed -e '/^argument #/d'
     for item in $@; do

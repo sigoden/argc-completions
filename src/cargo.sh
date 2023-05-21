@@ -40,7 +40,7 @@ EOF
 }
 
 _patch_table() {
-	table="$(_patch_util_bind_choices_fn \
+	table="$(_patch_util_bind_choice_fn \
 		'--bench:_choice_bench' \
 		'--bin:_choice_bin' \
 		'--example:_choice_example' \
@@ -49,11 +49,11 @@ _patch_table() {
 		'--package:_choice_package' \
 	)"
 	if [[ "$*" == "cargo" ]]; then
-		echo "$table" | _patch_util_bind_choices_fn 'cmd:_choice_cmd'
+		echo "$table" | _patch_util_bind_choice_fn 'cmd:_choice_cmd'
 	elif [[ "$*" == "cargo test" ]]; then
-		echo "$table" | _patch_util_bind_choices_fn 'TESTNAME:_choice_testname'
+		echo "$table" | _patch_util_bind_choice_fn 'TESTNAME:_choice_testname'
 	elif [[ "$*" == "cargo remove" ]]; then
-		echo "$table" | _patch_util_bind_choices_fn 'DEP_ID:_choice_depid'
+		echo "$table" | _patch_util_bind_choice_fn 'DEP_ID:_choice_depid'
 	else
 		echo "$table"
 	fi
