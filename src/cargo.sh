@@ -3,10 +3,10 @@ _patch_help() {
 		cargo --help
 		cat <<-'EOF'
 Miss commands:
-	audit                Audit Cargo.lock files for vulnerable crates
-	bloat                Find out what takes most of the space in your executable
-	clippy 	             Checks a package to catch common mistakes and improve your Rust code.
-	config               Inspect configuration values
+    audit                Audit Cargo.lock files for vulnerable crates
+    bloat                Find out what takes most of the space in your executable
+    clippy 	             Checks a package to catch common mistakes and improve your Rust code.
+    config               Inspect configuration values
     fetch                Fetch dependencies of a package from the network
     fix                  Automatically fix lint warnings reported by rustc
     fmt                  Formats all bin and lib files of the current crate using rustfmt.
