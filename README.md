@@ -1,6 +1,6 @@
 # Argc-Completions
 
-A multi-shell multi-command argument completion solution.
+A multi-shell completion solution.
 
 Argc-Completions provides argument completion for multiple CLI commands ([full list](completions)), and works across multiple POSIX and non-POSIX shells.
 
@@ -20,34 +20,73 @@ Clone the repository.
 ```sh
 git clone https://github.com/sigoden/argc-completions $HOME/.argc-completions
 ```
+<details>
+<summary>bash</summary>
 
-For bash, add the following code to `.bashrc`:
+Add the following code to `~/.bashrc`:
+
 ```sh
 source "$HOME/.argc-completions/shell/argc-completions.bash" 
 ```
+</details>
 
-For zsh, add the following code to `.zshrc`:
+<details>
+<summary>zsh</summary>
+
+Add the following code to `~/.zshrc`:
+
 ```sh
 source "$HOME/.argc-completions/shell/argc-completions.zsh" 
 ```
+</details>
 
-For fish, add the following code to `config.fish`:
+<details>
+<summary>fish</summary>
+
+Add the following code to `~/.config/fish/config.fish`:
+
 ```fish
 source "$HOME/.argc-completions/shell/argc-completions.fish" 
 ```
+</details>
 
-For PowerShell, add the following code to `$PROFILE`:
+<details>
+<summary>powershell</summary>
+
+Add the following code to `$PROFILE`:
 
 ```ps1
 . "$env:USERPROFILE\.argc-completions\shell\argc-completions.ps1"
 ```
+</details>
+
+<details>
+<summary>nushell</summary>
+
+Add the following code to `$nu.env-path`:
+```nu
+let-env ARGC_COMPLETIONS_DIR = ~/.argc-completions/completions
+source ~/.argc-completions/shell/argc-completions.nu
+
+let-env config = {
+    # ... your config
+    completions: {
+        external: {
+            ...
+            completer: $argc_completer
+        }
+    }
+}
+```
+</details>
+
 
 ## Generate completion
 
 You can run `generate.sh` to automatically generate the completion script for your command:
 
 ```
-./generate.sh <cmd>
+./generate.sh <your-command>
 ```
 
 See [generate.md](docs/generate.md) if you run into problems.

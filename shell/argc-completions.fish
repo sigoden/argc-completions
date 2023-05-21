@@ -6,7 +6,7 @@ function __argc_completions
     set -l bin (basename $tokens[1])
     set -l scriptfile "$ARGC_COMPLETIONS_DIR/$bin.sh"
     if not test -f "$scriptfile"
-        return 0
+        return
     end
     set -l line "$tokens[2..]"
     set -l IFS '\n'

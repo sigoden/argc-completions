@@ -7,10 +7,12 @@ generate() {
 }
 
 # @cmd Re-generate all completion scripts
-generate-all() {
+re-generate-all() {
     while read -r name; do
-        echo Generate $name
-        argc generate $name
+        if command -v $name > /dev/null; then
+            echo Generate $name
+            argc generate $name
+        fi
     done < <(_choice_completion)
 }
 

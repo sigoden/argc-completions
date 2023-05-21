@@ -6,7 +6,7 @@ _argc_completions()
     local bin=$(basename $words[1])
     local scriptfile="$ARGC_COMPLETIONS_DIR/$bin.sh"
     if [[ ! -f "$scriptfile" ]]; then
-        return 0
+        return
     fi
     local line="${words[2,-1]}"
     local IFS=$'\n'

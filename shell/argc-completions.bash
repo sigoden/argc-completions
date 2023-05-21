@@ -4,7 +4,7 @@ ARGC_COMPLETIONS_SCRIPTS=( $(ls -1 "$ARGC_COMPLETIONS_DIR" | sed 's/.sh$//' | tr
 _argc_completions() {
     local scriptfile="$ARGC_COMPLETIONS_DIR/${COMP_WORDS[0]}.sh"
     if [[ ! -f "$scriptfile" ]]; then
-        return 0
+        return
     fi
     cur="${COMP_WORDS[COMP_CWORD]}"
     local line=${COMP_LINE:${#COMP_WORDS[0]}}

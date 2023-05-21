@@ -7,7 +7,7 @@ $_argc_completions = {
     if (!$scriptfile) {
         $scriptfile = $commandAst.CommandElements[0]
         if (-not(Test-Path -Path $scriptfile -PathType Leaf)) {
-            return;
+            return
         }
     }
     $tail = if ($wordToComplete.ToString() -eq "") { " " } else { "" }
