@@ -1,8 +1,12 @@
 # Argc-Completions
 
-A multi-shell completion solution.
+A multi-shell multi-command argument completion solution.
 
-## How to use
+Argc-Completions provides argument completion for multiple CLI commands ([full list](completions)), and works across multiple POSIX and non-POSIX shells.
+
+Argc-Completions also provides a tool (`generate.sh`) to automaticlly generate completion for the command.
+
+## Getting Started
 
 ### Install dependencies
 
@@ -38,9 +42,17 @@ For PowerShell, add the following code to `$PROFILE`:
 . "$env:USERPROFILE\.argc-completions\shell\argc-completions.ps1"
 ```
 
-## License
+## Generate completion
 
-Copyright (c) 2022 sigoden.
+You can run `generate.sh` to automatically generate the completion script for your command:
+
+```
+./generate.sh <cmd>
+```
+
+See [generate.md](docs/generate.md) if you run into problems.
+
+## License
 
 argc is made available under the terms of the MIT License. 
 
