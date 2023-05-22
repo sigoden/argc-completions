@@ -80,6 +80,15 @@ let-env config = {
 ```
 </details>
 
+<details>
+<summary>elvish</summary>
+
+Add the following code to `~/.config/elvish/rc.elv`:
+```elv
+set E:ARGC_COMPLETIONS_DIR = ~/.argc-completions/completions
+eval (slurp < ~/.argc-completions/shell/argc-completions.elv)
+```
+</details>
 
 ## Generate completion
 
