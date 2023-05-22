@@ -90,6 +90,15 @@ eval (slurp < ~/.argc-completions/shell/argc-completions.elv)
 ```
 </details>
 
+<details>
+<summary>xonsh</summary>
+
+Add the following code to `~/.config/xonsh/rc.xsh`:
+```xsh
+source ~/.argc-completions/shell/argc-completions.xsh
+```
+</details>
+
 ## Generate completion
 
 You can run `generate.sh` to automatically generate the completion script for your command:
