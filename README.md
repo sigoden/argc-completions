@@ -41,22 +41,22 @@ source "$HOME/.argc-completions/shell/argc-completions.zsh"
 </details>
 
 <details>
-<summary>fish</summary>
-
-Add the following code to `~/.config/fish/config.fish`:
-
-```fish
-source "$HOME/.argc-completions/shell/argc-completions.fish" 
-```
-</details>
-
-<details>
 <summary>powershell</summary>
 
 Add the following code to `$PROFILE`:
 
 ```ps1
 . "$env:USERPROFILE\.argc-completions\shell\argc-completions.ps1"
+```
+</details>
+
+<details>
+<summary>fish</summary>
+
+Add the following code to `~/.config/fish/config.fish`:
+
+```fish
+source "$HOME/.argc-completions/shell/argc-completions.fish" 
 ```
 </details>
 
@@ -68,12 +68,16 @@ Add the following code to `$nu.env-path`:
 let-env ARGC_COMPLETIONS_DIR = ~/.argc-completions/completions
 source ~/.argc-completions/shell/argc-completions.nu
 
+let external_completer = {|spans| 
+    argc_completions $spans
+}
+
 let-env config = {
     # ... your config
     completions: {
         external: {
-            ...
-            completer: $argc_completer
+            enable: true
+            completer: $external_completer
         }
     }
 }

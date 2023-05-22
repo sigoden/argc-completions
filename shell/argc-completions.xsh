@@ -2,6 +2,7 @@ import os
 from subprocess import Popen, PIPE
 from xonsh.completers.tools import RichCompletion
 from xonsh.completers.tools import *
+from xonsh.completers._aliases import _add_one_completer
 
 if 'ARGC_COMPLETIONS_DIR' in ${...}:
     _argc_completions_dir = os.path.expanduser($ARGC_COMPLETIONS_DIR)
@@ -33,5 +34,4 @@ def _argc_completions(context):
         result.add(RichCompletion(value, display=value, description=desc, prefix_len=len(context.raw_prefix), append_closing_quote=False))
     return result
     
-from xonsh.completers._aliases import _add_one_completer
 _add_one_completer('argc_completions', _argc_completions, 'start')
