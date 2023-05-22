@@ -18,16 +18,8 @@ $_argc_completions = {
     }
     $candicates = (argc --argc-compgen powershell "$scriptfile" "$line" 2>$null).Split("`n")
     if ($candicates.Count -eq 1) {
-        if ($candicates[0] -eq "__argc_comp:file") {
-            return (Get-ChildItem -Path "$wordToComplete*" | Select-Object -ExpandProperty Name) | 
-                ForEach-Object { 
-                    [CompletionResult]::new($_)
-                }
-        } elseif ($candicates[0] -eq "__argc_comp:dir") {
-            return (Get-ChildItem -Attributes Directory -Path "$wordToComplete*" | Select-Object -ExpandProperty Name) |
-                ForEach-Object { 
-                    [CompletionResult]::new($_)
-                }
+        if (($candicates[0] -eq "__argc_comp:file") -or ($candicates[0] -eq "__argc_comp:dir")) {
+            return
         } elseif ($candicates[0] -eq "") {
             return ""
         }
@@ -35,8 +27,8 @@ $_argc_completions = {
     $candicates | ForEach-Object { 
         $parts=($_ -split "`t")
         $value = $parts[0]
-        $description = if ($parts[1]) { $parts[1] } else { " " }
-        [CompletionResult]::new($parts[0], $parts[0], [CompletionResultType]::ParameterValue, $description)
+        $desc = if ($parts[1]) { $parts[1] } else { " " }
+        [CompletionResult]::new($value, $value, [CompletionResultType]::ParameterValue, $desc)
     }
 }
 
