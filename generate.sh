@@ -160,7 +160,7 @@ EOF
 }
 
 print_tail() {
-    printf "\n\n%s" "eval \"\$(argc --argc-eval \"\$0\" \"\$@\")\""
+    printf "\n\n%s" "command eval \"\$(argc --argc-eval \"\$0\" \"\$@\")\""
 }
 
 print_cmd_fn() {

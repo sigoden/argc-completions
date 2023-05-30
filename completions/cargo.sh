@@ -1483,4 +1483,4 @@ _argc_util_path_join() {
     echo "$base$(printf "$sep%s" "${@:2}")"
 }
 
-eval "$(argc --argc-eval "$0" "$@")"
+command eval "$(argc --argc-eval "$0" "$@")"

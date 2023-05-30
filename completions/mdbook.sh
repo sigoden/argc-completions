@@ -91,4 +91,4 @@ serve() {
 }
 # }} mdbook serve
 
-eval "$(argc --argc-eval "$0" "$@")"
+command eval "$(argc --argc-eval "$0" "$@")"

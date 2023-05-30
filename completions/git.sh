@@ -2296,4 +2296,4 @@ _argc_util_param_get_positional() {
     fi
 }
 
-eval "$(argc --argc-eval "$0" "$@")"
+command eval "$(argc --argc-eval "$0" "$@")"

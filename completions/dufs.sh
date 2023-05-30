@@ -26,4 +26,4 @@
 # @flag -V --version                             Print version
 # @arg DIR                                       Specific path to serve [default: .]
 
-eval "$(argc --argc-eval "$0" "$@")"
+command eval "$(argc --argc-eval "$0" "$@")"

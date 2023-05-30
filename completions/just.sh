@@ -44,4 +44,4 @@ _choice_recipe() {
    just --summary 2> /dev/null | tr " " "\n" || awk '{$1=$1};1'
 }
 
-eval "$(argc --argc-eval "$0" "$@")"
+command eval "$(argc --argc-eval "$0" "$@")"

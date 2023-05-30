@@ -55,4 +55,4 @@ _choice_theme() {
     bat --list-themes | cat
 }
 
-eval "$(argc --argc-eval "$0" "$@")"
+command eval "$(argc --argc-eval "$0" "$@")"

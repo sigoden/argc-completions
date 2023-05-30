@@ -2564,4 +2564,4 @@ _argc_util_path_search_parent() {
     cd "$cache_pwd"
 }
 
-eval "$(argc --argc-eval "$0" "$@")"
+command eval "$(argc --argc-eval "$0" "$@")"

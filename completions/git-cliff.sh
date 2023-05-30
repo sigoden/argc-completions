@@ -24,4 +24,4 @@
 # @option --sort[oldest|newest]                   Sets sorting of the commits inside sections [default: oldest] [possible values: oldest, newest]
 # @arg RANGE!                                     Sets the commit range to process
 
-eval "$(argc --argc-eval "$0" "$@")"
+command eval "$(argc --argc-eval "$0" "$@")"

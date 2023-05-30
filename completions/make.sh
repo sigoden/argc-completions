@@ -58,4 +58,4 @@ _choice_target() {
     fi
 }
 
-eval "$(argc --argc-eval "$0" "$@")"
+command eval "$(argc --argc-eval "$0" "$@")"

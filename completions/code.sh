@@ -19,4 +19,4 @@
 # @flag -s --status                              Print process usage and diagnostics information.
 # @arg paths*
 
-eval "$(argc --argc-eval "$0" "$@")"
+command eval "$(argc --argc-eval "$0" "$@")"

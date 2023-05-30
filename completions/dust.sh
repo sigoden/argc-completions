@@ -28,4 +28,4 @@
 # @option -z --min-size <min_size>              Minimum size file to include in output
 # @arg dir+
 
-eval "$(argc --argc-eval "$0" "$@")"
+command eval "$(argc --argc-eval "$0" "$@")"

@@ -160,4 +160,4 @@
 # @flag --no-parent                          don't ascend to the parent directory
 # @arg URL*
 
-eval "$(argc --argc-eval "$0" "$@")"
+command eval "$(argc --argc-eval "$0" "$@")"

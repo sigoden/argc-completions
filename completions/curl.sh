@@ -247,4 +247,4 @@
 # @flag --xattr                                    Store metadata in extended file attributes
 # @arg url!
 
-eval "$(argc --argc-eval "$0" "$@")"
+command eval "$(argc --argc-eval "$0" "$@")"

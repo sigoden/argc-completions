@@ -328,4 +328,4 @@ _argc_util_param_select_options() {
     done
 }
 
-eval "$(argc --argc-eval "$0" "$@")"
+command eval "$(argc --argc-eval "$0" "$@")"

@@ -104,4 +104,4 @@
 # @arg PATTERN!                                    A regular expression used for searching.
 # @arg PATH+                                       A file or directory to search.
 
-eval "$(argc --argc-eval "$0" "$@")"
+command eval "$(argc --argc-eval "$0" "$@")"

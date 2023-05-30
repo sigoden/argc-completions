@@ -144,4 +144,4 @@
 # @arg SRC*
 # @arg DEST
 
-eval "$(argc --argc-eval "$0" "$@")"
+command eval "$(argc --argc-eval "$0" "$@")"

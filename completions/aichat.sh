@@ -22,4 +22,4 @@ _choice_model() {
     aichat --list-models
 }
 
-eval "$(argc --argc-eval "$0" "$@")"
+command eval "$(argc --argc-eval "$0" "$@")"
