@@ -12,7 +12,7 @@ _patch_util_bind_choice_fn() {
         local prefix name2
         if [[ "$name" == '-'* ]]; then
             prefix='option #.*'
-            name2=" $name "
+            name2=" $name[= +*]"
         else
             prefix='argument #.*'
             name2="[ <[]$name[]>. [|=]"
