@@ -117,4 +117,13 @@ cmd4() {
 }
 # }} __test cmd4
 
+# {{ __test cmd5
+# @cmd
+# @arg source_file
+# @arg filter    Dot separated path to symbol
+cmd5() {
+    :;
+}
+# }} __test cmd5
+
 eval "$(argc --argc-eval "$0" "$@")"

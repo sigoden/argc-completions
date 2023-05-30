@@ -1,5 +1,6 @@
 BEGIN {
     prevLine = "other"
+    emptyNR = 0
     usage = ""
     split("", options)
     split("", arguments)
@@ -9,10 +10,11 @@ BEGIN {
     PAIRS[")"] = "(";
     PAIRS_OPEN = "<[("
     PAIRS_CLOSE = ">])"
+    DESC_NEWLINE = "    "
 }
 
 {
-    if (isOption($0)) {
+    if (isOption($0) && !(prevLine == "other" && match($0, /^-[A-Za-z0-9_-]+ \S/))) {
         options[length(options) + 1] = trimStarts($0)
         prevLine = "option"
     } else if (isUsage($0)) {
@@ -27,11 +29,14 @@ BEGIN {
             prevLine = "group"
         }
     } else if (IsEmpty($0)) {
-        prevLine = "empty"
+        emptyNR = NR
     } else {
+        if (emptyNR == NR - 1 && !match($0, /^[[:space:]]/)) {
+            prevLine = "other"
+        } 
         if (prevLine == "argument") {
             if (testLineBreakDesc($0)) {
-                arguments[length(arguments)] = arguments[length(arguments)] "  " trimStarts($0)
+                arguments[length(arguments)] = arguments[length(arguments)] DESC_NEWLINE trimStarts($0)
             } else {
                 trimed = trimStarts($0)
                 if (length(trimed) > 0) {
@@ -40,11 +45,11 @@ BEGIN {
             }
         } else if (prevLine == "option") {
             if (testLineBreakDesc($0)) {
-                options[length(options)] = options[length(options)] "  " trimStarts($0)
+                options[length(options)] = options[length(options)] DESC_NEWLINE trimStarts($0)
             }
         } else if (prevLine == "command") {
             if (testLineBreakDesc($0)) {
-                commands[length(commands)] = commands[length(commands)] "   " trimStarts($0)
+                commands[length(commands)] = commands[length(commands)] DESC_NEWLINE trimStarts($0)
             } else {
                 trimed = trimStarts($0)
                 if (length(trimed) > 0) {
@@ -289,7 +294,7 @@ function IsEmpty(input) {
 }
 
 function isOption(input) {
-    return match(input, /^ {0,10}-\S/)
+    return match(input, /^ {0,8}-\S/)
 }
 
 function isUsage(input) {

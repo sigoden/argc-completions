@@ -67,6 +67,7 @@ Commands:
     cmd2
     cmd3
     cmd4
+    cmd5
 EOF
     elif [[ "$*" == "__test cmd1" ]]; then
         echo "Usage: __test cmd1 [OPTIONS] <--build|--clear>"
@@ -76,5 +77,16 @@ EOF
         echo "Usage: __test cmd3 [<OPTIONS>] CONTAINER [CONTAINER...]"
     elif [[ "$*" == "__test cmd4" ]]; then
         echo "Usage: __test cmd4 (foo|bar|baz)"
+    elif [[ "$*" == "__test cmd5" ]]; then
+        cat <<-'EOF'
+Usage: deno doc [OPTIONS] [source_file] [filter]
+
+Arguments:
+  [source_file]
+          
+
+  [filter]
+          Dot separated path to symbol
+EOF
     fi
 }
