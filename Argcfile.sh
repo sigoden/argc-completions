@@ -33,7 +33,7 @@ run-choice-fn() {
         argc_line=${argc_line#"$argc_cmd"} 
         (cd $argc_dir && bash "$cmd_script" $argc_fn "$argc_line")
     else
-        for f in utils/_argc_util*; do
+        for f in utils/_argc_utils/*.sh; do
             . "$f"
         done
         . "src/$argc_cmd.sh"
