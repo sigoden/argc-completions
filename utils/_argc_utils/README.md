@@ -18,6 +18,7 @@ Search for a file by traversing the directory tree upwards starting from the cur
 
 ```sh
 _argc_util_path_search_parent package.json
+_argc_util_path_search_parent deno.json deno.jsonc
 ```
 
 ## `_argc_util_path_to_platform`
