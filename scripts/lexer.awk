@@ -123,6 +123,11 @@ END {
         descVal = truncateDesc(substr(argument, splitAt + 1))
         if (match(argumentVal, /^\(([A-Za-z0-9_-]+\|)+[A-Za-z0-9_-]+\)$/)) {
             print "argument # value # " descVal " # [" substr(argumentVal, 2, length(argumentVal) -2) "]"
+
+        } else if (match(descVal, /(\(|\[|: )(([A-Za-za-z0-9_-]+, )+[A-Za-z0-9_-]+)(\]|\)|\.|$)/, arr)) {
+            choiceVal = arr[2]
+            gsub(/, /, "|", choiceVal)
+            print "argument # " argumentVal " # " descVal " # [" choiceVal "]"
         } else {
             print "argument # " argumentVal " # " descVal
         }

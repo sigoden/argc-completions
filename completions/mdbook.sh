@@ -57,9 +57,9 @@ clean() {
 
 # {{ mdbook completions
 # @cmd Generate shell completions for your shell to stdout
-# @flag -h --help       Print help information
-# @flag -V --version    Print version information
-# @arg SHELL!           the shell to generate completions for [possible values: bash, elvish, fish, powershell, zsh]
+# @flag -h --help                                 Print help information
+# @flag -V --version                              Print version information
+# @arg SHELL![bash|elvish|fish|powershell|zsh]    the shell to generate completions for [possible values: bash, elvish, fish, powershell, zsh]
 completions() {
     :;
 }
