@@ -1,30 +1,53 @@
-use str
 use path
+use re
+use str
 
-fn argc-completions {|@arg|
-    var scriptfile = (path:join $E:ARGC_COMPLETIONS_DIR (echo $arg[0]'.sh') )
-    fn _filedir {|arg &is_dir=$false|
-        edit:complete-filename $arg | each {|c|
-            var x = $c[stem]
-            if (and $is_dir (not (path:is-dir $x))) {
-            } else {
-                put $x
+var ARGC_COMPLETIONS_SCRIPTS = [(ls -p -1 $E:ARGC_COMPLETIONS_DIR | grep -v '/' | sed 's/.sh$//')]
+var ARGC_COMPLETIONS_EXTEND_CMDS = [(ls -p -1 $E:ARGC_COMPLETIONS_DIR | grep '/$' | sed 's|/$||')]
+
+fn argc-completions-complete-path {|arg &is_dir=$false|
+    edit:complete-filename $arg | each {|c|
+        var x = $c[stem]
+        if (or (not $is_dir) (path:is-dir $x)) {
+            put $c
+        }
+    }
+}
+
+fn argc-completions-completer {|@words|
+    var word1 = (basename $words[0])
+    var extend = $false
+    var scriptfile
+    var line
+    if (and (> (count $words) (num 2)) (has-value $ARGC_COMPLETIONS_EXTEND_CMDS $word1)) {
+        var word2 = $words[1]
+        if (re:match '^[A-Za-z0-9]' $word2) {
+            set scriptfile = (path:join $E:ARGC_COMPLETIONS_DIR $word1 (printf "%s.sh" $word2))
+            if (path:is-regular $scriptfile) {
+                set extend = $true
             }
         }
     }
-    if (not (path:is-regular $scriptfile)) {
-        _filedir $arg[-1]
-        return
+    if $extend {
+        set line = (all $words[2..] | str:join ' ')
+    } else {
+        set scriptfile = (path:join $E:ARGC_COMPLETIONS_DIR (printf "%s.sh" $word1))
+        if (not (path:is-regular $scriptfile)) {
+            argc-completions-complete-path $words[-1]
+            return
+        }
+        set line = (all $words[1..] | str:join ' ')
     }
-    var line = (all $arg[1..] | str:join ' ')
-    var line = (if (eq $line '') { echo ' ' } else { echo $line })
-    var candicates = [(argc --argc-compgen fish $scriptfile $line)]
+    if (eq $line '') {
+        set line = ' '
+    }
+    var candicates = [(argc --argc-compgen elvish $scriptfile $line)]
     if (eq (count $candicates) (num 1)) {
         if (eq $candicates[0] '__argc_comp:file') {
-            _filedir $arg[-1]
+            argc-completions-complete-path $words[-1]
             return
         } elif (eq $candicates[0] '__argc_comp:dir') {
-            _filedir &is_dir=$true $arg[-1]
+            argc-completions-complete-path &is_dir=$true $words[-1]
             return
         }
     }
@@ -46,6 +69,6 @@ fn argc-completions {|@arg|
     }
 }
 
-ls -1 $E:ARGC_COMPLETIONS_DIR | sed 's/.sh$//' | each {|c| 
-    set edit:completion:arg-completer[$c] = $argc-completions~
+all $ARGC_COMPLETIONS_SCRIPTS | each {|c|         
+    set edit:completion:arg-completer[$c] = $argc-completions-completer~
 }

@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @flag -v --verbose                              Increases the logging verbosity
+# @flag -h --help                                 Prints help information
+# @flag -V --version                              Prints version information
+# @flag -v --verbose*                             Increases the logging verbosity
 # @flag -i --init                                 Writes the default configuration file to cliff.toml
 # @flag -l --latest                               Processes the commits starting from the latest tag
 # @flag --current                                 Processes the commits that belong to the current tag
 # @flag -u --unreleased                           Processes the commits that do not belong to a tag
 # @flag --topo-order                              Sorts the tags topologically
 # @flag --context                                 Prints changelog context as JSON
-# @flag -h --help                                 Prints help information
-# @flag -V --version                              Prints version information
 # @option -c --config <PATH>                      Sets the configuration file [env: GIT_CLIFF_CONFIG=] [default: cliff.toml]
 # @option -w --workdir <PATH>                     Sets the working directory [env: GIT_CLIFF_WORKDIR=]
 # @option -r --repository* <PATH>                 Sets the git repository [env: GIT_CLIFF_REPOSITORY=]
@@ -22,6 +22,6 @@
 # @option -b --body <TEMPLATE>                    Sets the template for the changelog body [env: GIT_CLIFF_TEMPLATE=]
 # @option -s --strip[header|footer|all] <PART>    Strips the given parts from the changelog [possible values: header, footer, all]
 # @option --sort[oldest|newest]                   Sets sorting of the commits inside sections [default: oldest] [possible values: oldest, newest]
-# @arg RANGE!                                     Sets the commit range to process
+# @arg RANGE                                      Sets the commit range to process
 
 command eval "$(argc --argc-eval "$0" "$@")"

@@ -3,26 +3,23 @@
 # @describe Automaticlly generate completion script for commands
 
 # @option -o --output <file>        Specify output file. If omitted, output to stdout
+# @flag -E --extend                 Mark subcmd as an extension command
 # @arg cmd!                         Specify the command, must be able to run locally
 # @arg subcmd                       Optional subcommand
 
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 command_names=()
 
-hande_cmd() {
-    local output table nest_fn_prefix command_output
+handle_cmd() {
+    local output table level nest_fn_prefix command_output
     table="$(get_table $@)"
+    nest_fn_prefix="$(echo "${@:$((1 + $cmds_level))}" | sed 's/ /::/g')"
     output="$(echo "$table" | grep -v 'command #' | awk -f "$scripts_dir/parser.awk")"
     if [[ -n "$output" ]]; then
         output="$output"$'\n'
     fi
-    nest_fn_prefix="$(echo "${@:2}" | sed 's/ /::/g')"
-    if [[ $# -gt 1 ]]; then
+    if [[ $# -gt $cmds_level ]]; then
         output="$output$(print_cmd_fn "$nest_fn_prefix")"
-        local subcmd_src_file="$src_dir/$(echo $@ | tr ' ' '/').sh"
-        if [[ -f "$subcmd_src_file" ]]; then
-            command_output=$'\n'"$(cat "$subcmd_src_file" | sed 's/^\([^_][A-Za-z0-9_-]\+\)()/'"$nest_fn_prefix"'::\1()/')"
-        fi
     fi
     
     if [[ -z "$command_output" ]]; then
@@ -44,19 +41,28 @@ hande_cmd() {
 }
 
 handle_subcmd() {
-    local names=( ${1%%#*} )
-    local description="${1##*#}"
+    local names description
+    if [[ "$1" == *'#'* ]]; then
+        names=( ${1%%#*} )
+        description="${1##*#}"
+    else
+        names="$1"
+    fi
     local cmd_name="${names[0]}"
     local cmd_aliases="$(echo "${names[@]:1}" | sed 's/ /,/g')"
-    if [[  ! " ${command_names[*]} " =~ " $cmd_name " ]]; then
-        command_names+=( "$cmd_name" )
+
+    local new_cmds=( "${@:2}" "$cmd_name" )
+    local new_cmds_level=$(( ${#new_cmds[@]} + 1 - $cmds_level ))
+
+    local cmd_full_name="$(printf "%s\n" ${new_cmds[@]} | uniq | tr '\n' ' ' | sed -e 's/ $//' -e 's/ /::/g')"
+    # echo handle $cmd_full_name >&2
+    if [[ "$cmd_name" != "$argc_cmd" ]] && [[  ! " ${command_names[*]} " =~ " $cmd_full_name " ]]; then
+        command_names+=( "$cmd_full_name" )
     else 
         return
     fi
-    local cmd_args=( "${@:2}" "$cmd_name" )
-    local cmd_level=${#cmd_args[@]}
     echo
-    echo "# $(repeat_string '{' $cmd_level) ${cmd_args[@]}"
+    echo "# $(repeat_string '{' $new_cmds_level) ${new_cmds[@]}"
     if [[ -z "$description" ]]; then
         echo "# @cmd"
     else
@@ -65,8 +71,8 @@ handle_subcmd() {
     if [[ -n "$cmd_aliases" ]]; then
         echo "# @alias $cmd_aliases"
     fi
-    hande_cmd ${cmd_args[@]}
-    echo "# $(repeat_string '}' $cmd_level) ${cmd_args[@]}"
+    handle_cmd ${new_cmds[@]}
+    echo "# $(repeat_string '}' $new_cmds_level) ${new_cmds[@]}"
     echo 
 }
 
@@ -85,12 +91,13 @@ get_table() {
 }
 
 embed_script() {
-    if [[ -f "$src_file" ]]; then
-        echo
-        echo 
-        cat "$src_file" | awk -f "$scripts_dir/remove-patch-fn.awk"
-        echo 
+    if [[ ! -f "$src_file" ]]; then
+        return
     fi
+    echo
+    echo 
+    cat "$src_file" | awk -f "$scripts_dir/remove-patch-fn.awk"
+    echo 
 }
 
 embed_utils() {
@@ -120,7 +127,7 @@ validate_script() {
 }
 
 set_globals() {
-    args=( $argc_cmd $argc_subcmd )
+    cmds=( $argc_cmd $argc_subcmd )
     scripts_dir="$ROOT_DIR/scripts"
     src_dir="$ROOT_DIR/src"
     utils_dir="$ROOT_DIR/utils"
@@ -136,15 +143,21 @@ set_globals() {
         fi
     fi
 
-    src_file="$src_dir/$argc_cmd.sh"
+    local cmds_path="$(echo "${cmds[@]}" | sed 's| |/|g').sh"
     if [[ ! -f "$src_file" ]]; then
-        src_file="$src_dir/$argc_cmd/$argc_cmd.sh"
+        src_file="$src_dir/$argc_cmd.sh"
     fi
 
     if [[ -f "$argc_output" ]]; then
         output_file="$argc_output"
     elif [[ -d "$argc_output" ]]; then
-        output_file="$argc_output/$argc_cmd.sh"
+        output_file="$argc_output/$cmds_path"
+    fi
+
+    if [[ "$argc_extend" == "1" &&  -n $argc_subcmd ]]; then
+        cmds_level=2
+    else
+        cmds_level=1
     fi
 }
 
@@ -191,14 +204,19 @@ if [[ -f "$src_file" ]]; then
 fi
 
 output_content="$(print_head)"
-output_content="$output_content"$'\n'$'\n'"$(hande_cmd ${args[@]})"
+output_content="$output_content"$'\n'$'\n'"$(handle_cmd ${cmds[@]})"
 if [[ $(type -t _patch_script) = "function" ]]; then
     output_content="$(echo "$output_content" | _patch_script)"
 fi
-output_content="$output_content$(embed_script ${args[@]})"
+if [[ -f "$src_file" ]]; then
+    if grep -q _choice_ <<<"$output_content"; then
+        output_content="$output_content$(embed_script ${cmds[@]})"
+    fi
+fi
 output_content="$output_content$(echo "$output_content" | embed_utils)"
 output_content="$output_content$(print_tail)"
 if [[ -n "$output_file" ]]; then
+    mkdir -p "$(dirname "$output_file")"
     printf "%s" "$output_content" > "$output_file"
     validate_script
 else

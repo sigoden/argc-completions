@@ -3,8 +3,6 @@ _patch_help() {
 		cargo --help
 		cat <<-'EOF'
 Miss commands:
-    audit                Audit Cargo.lock files for vulnerable crates
-    bloat                Find out what takes most of the space in your executable
     clippy 	             Checks a package to catch common mistakes and improve your Rust code.
     config               Inspect configuration values
     fetch                Fetch dependencies of a package from the network
@@ -12,12 +10,10 @@ Miss commands:
     fmt                  Formats all bin and lib files of the current crate using rustfmt.
     generate-lockfile    Generate the lockfile for a package
     git-checkout         This command has been removed
-    insta                A helper utility to work with insta snapshots
     locate-project       Print a JSON representation of a Cargo.toml file's location
     login                Save an api token from the registry locally. If token is not specified, it will be read from stdin.
     logout               Remove an API token from the registry locally
     metadata             Output the resolved dependencies of a package, the concrete used versions including overrides, in machine-readable format
-    outdated             Displays information about project dependency versions
     owner                Manage the owners of a crate on the registry
     package              Assemble the local package into a distributable tarball
     pkgid                Print a fully qualified package specification
@@ -26,7 +22,6 @@ Miss commands:
     rustc                Compile a package, and pass extra options to the compiler
     rustdoc              Build a package's documentation, using specified custom flags.
     tree                 Display a tree visualization of a dependency graph
-    udeps                Find unused dependencies in Cargo.toml
     vendor               Vendor all dependencies for a project locally
     verify-project       Check correctness of crate manifest
     version              Show version information
