@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
+# @version 0.17.5
 
 # @option -c --color                     color configuration: always, never (default: auto)
 # @option -d --db                        advisory database git repo path (default: ~/.cargo/advisory-db)

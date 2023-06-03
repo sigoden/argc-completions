@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
+# @version 1.34.1
 
 # @flag --unstable      Enable unstable features and APIs
 # @flag -q --quiet      Suppress diagnostic output

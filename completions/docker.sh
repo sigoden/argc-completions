@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
+# @version 23.0.0
 
 # @option --config <string>          Location of client config files (default "/home/sigo/.docker")
 # @option -c --context <string>      Name of the context to use to connect to the daemon (overrides DOCKER_HOST env var and default context set with "docker context use")

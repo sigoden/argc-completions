@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
+# @version 0.22.1
 
 # @flag -A --show-all                          Show non-printable characters like space, tab or newline.
 # @flag -p --plain                             Only show plain style, no decorations.

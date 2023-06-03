@@ -165,6 +165,28 @@ repeat_string() {
     printf "%0.s$1" $(seq 1 $2)
 }
 
+get_version() {
+    if [[ $(type -t _patch_version) = "function" ]]; then
+        _patch_version $@
+    else
+        local words word
+        words=( $($@ --version 2>/dev/null | head -n 1) )
+        for word in ${words[@]}; do
+            if [[ $word =~ [0-9]+\.[0-9]  ]]; then
+                echo $word | tr -d ',v'
+                return
+            fi
+        done
+    fi
+}
+
+print_version() {
+    local version=$(get_version $@)
+    if [[ -n $version ]]; then
+        printf "\n# @version %s" $version
+    fi
+}
+
 print_head() {
     cat <<-'EOF'
 #!/usr/bin/env bash
@@ -203,7 +225,7 @@ if [[ -f "$src_file" ]]; then
     source "$src_file"
 fi
 
-output_content="$(print_head)"
+output_content="$(print_head)$(print_version ${cmds[@]})"
 output_content="$output_content"$'\n'$'\n'"$(handle_cmd ${cmds[@]})"
 if [[ $(type -t _patch_script) = "function" ]]; then
     output_content="$(echo "$output_content" | _patch_script)"

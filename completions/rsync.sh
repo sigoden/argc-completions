@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
+# @version 3.2.3
 
 # @flag -v --verbose                   increase verbosity
 # @option --info <FLAGS>               fine-grained informational verbosity

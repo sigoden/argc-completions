@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
+# @version 0.8.4
 
 # @flag -b --no-percent-bars                    No percent bars or percentages will be displayed
 # @flag -c --no-colors                          No colors will be printed (Useful for commands like: watch)

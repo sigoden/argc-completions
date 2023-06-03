@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
+# @version 0.11.2
 
 # @flag -a --aggressive                   Ignores channels for latest updates
 # @option --color[Auto|Never|Always]      Output coloring [default: auto] [possible values: Auto, Never, Always]

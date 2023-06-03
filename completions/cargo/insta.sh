@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
+# @version 1.28.0
 
 # @option --color[auto|always|never] <WHEN>    Coloring [default: auto] [possible values: auto, always, never]
 # @flag -h --help                              Prints help information
