@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
+# @version 1.29.2
 
 # @option -f --file                       Specify an alternate compose file (default: docker-compose.yml)
 # @option -p --project-name <NAME>        Specify an alternate project name (default: directory name)

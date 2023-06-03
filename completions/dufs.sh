@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
+# @version 0.34.1
 
 # @option -b --bind <addrs>                      Specify bind address or unix socket
 # @option -p --port <port>                       Specify port to listen on [default: 5000]

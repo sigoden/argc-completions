@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
+# @version 1.21.2
 
 # @flag -V --version                         display the version of Wget and exit
 # @flag -h --help                            print this help

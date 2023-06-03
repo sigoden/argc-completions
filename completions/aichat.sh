@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
+# @version 0.8.0
 
 # @option -m --model[`_choice_model`]    Choose a model
 # @option -p --prompt                    Add a GPT prompt

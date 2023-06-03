@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
+# @version 0.1.35
 
 # @flag -q --quiet                               [cargo] No output printed to stdout
 # @option -p --package[`_choice_package`] <SPEC>  [cargo] Package(s) to check
