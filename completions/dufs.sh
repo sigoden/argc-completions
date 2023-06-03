@@ -5,7 +5,7 @@
 # @option -p --port <port>                       Specify port to listen on [default: 5000]
 # @option --path-prefix <path>                   Specify a path prefix
 # @option --hidden <value>                       Hide paths from directory listings, separated by `,`
-# @option -a --auth <rules>                      Add auth for path
+# @option -a --auth <rules>                      Add auth role
 # @option --auth-method[basic|digest] <value>    Select auth method [default: digest] [possible values: basic, digest]
 # @flag -A --allow-all                           Allow all operations
 # @flag --allow-upload                           Allow upload files/folders
@@ -24,6 +24,6 @@
 # @option --completions[bash|elvish|fish|powershell|zsh] <shell>  Print shell completion script for <shell> [possible values: bash, elvish, fish, powershell, zsh]
 # @flag -h --help                                Print help
 # @flag -V --version                             Print version
-# @arg DIR                                       Specific path to serve [default: .]
+# @arg serve_path                                Specific path to serve [default: .]
 
 command eval "$(argc --argc-eval "$0" "$@")"

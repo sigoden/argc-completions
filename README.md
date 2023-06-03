@@ -69,7 +69,7 @@ let-env ARGC_COMPLETIONS_DIR = ~/.argc-completions/completions
 source ~/.argc-completions/shell/argc-completions.nu
 
 let external_completer = {|spans| 
-    argc_completions $spans
+    _argc_completions_completer $spans
 }
 
 let-env config = {

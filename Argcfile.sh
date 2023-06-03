@@ -1,16 +1,33 @@
 #!/usr/bin/env bash
 
+set -e
+
 # @cmd Automatically generate the completion script for <CMD>
 # @arg cmd![?`_choice_completion`]
+# @arg subcmd
 generate() {
-    ./generate.sh -o completions $1
+    if [[ -n $argc_subcmd ]]; then
+        echo Generate $argc_cmd $argc_subcmd
+        ./generate.sh -E -o completions $argc_cmd $argc_subcmd
+    else
+        echo Generate $argc_cmd
+        ./generate.sh -o completions $argc_cmd
+        if [[ -d completions/$argc_cmd ]]; then
+            if [[ -d completions/$argc_cmd ]]; then
+                local child
+                for child in completions/$argc_cmd/*.sh; do
+                    child="$(basename "$child" .sh)"
+                    argc generate $argc_cmd $child
+                done
+            fi
+        fi
+    fi
 }
 
-# @cmd Re-generate all completion scripts
-re-generate-all() {
+# @cmd Regenerate all completion scripts
+regenerate() {
     while read -r name; do
         if command -v $name > /dev/null; then
-            echo Generate $name
             argc generate $name
         fi
     done < <(_choice_completion)
@@ -60,7 +77,7 @@ print() {
 # @arg cmd![?`_choice_completion`]
 # @arg subcmds*
 print-help() {
-    _source_src_script $1
+    _source_src_script $@
     if _test_patch_fn help; then
         _patch_help $@
     else
@@ -73,7 +90,7 @@ print-help() {
 # @arg cmd![?`_choice_completion`]
 # @arg subcmds*
 print-table() {
-    _source_src_script $1
+    _source_src_script $@
     help_text=$(print-help $@ | awk -f scripts/lexer.awk)
     if _test_patch_fn table; then
         echo "$help_text" | _patch_table $@
@@ -87,7 +104,7 @@ print-table() {
 # @arg cmd![?`_choice_completion`]
 # @arg args*
 print-script() {
-    _source_src_script $1
+    _source_src_script $@
     table_text=$(print-table $@ | awk -f scripts/parser.awk)
     if _test_patch_fn script; then
         echo "$table_text" | _patch_script $@
@@ -97,7 +114,7 @@ print-script() {
 }
 
 _choice_completion() {
-    ls -1 completions | xargs -I% basename % .sh
+    ls -p -1 completions | grep -v '/' | sed 's/.sh$//'
 }
 
 _choice_src() {
@@ -116,18 +133,18 @@ _choice_fn_name() {
 }
 
 _source_src_script() {
-    if [[ "$source_src" == "$1" ]]; then
+    if [[ $source_src -eq 1 ]]; then
         return
     fi
     . utils/_patch_utils.sh
-    if [[ -f src/$1.sh ]]; then
+    if [[ -n $2 ]] && [[ -f src/$1/$2.sh ]]; then
+        . src/$1/$2.sh
+    elif [[ -f src/$1.sh ]]; then
         . src/$1.sh
-    elif [[ -f src/$1/$1.sh ]]; then
-        . src/$1/$1.sh
     elif [[ "$1" == "__test"* ]]; then
         . tests/src/$1.sh
     fi
-    source_src="$1"
+    source_src=1
 }
 
 _test_patch_fn() {
