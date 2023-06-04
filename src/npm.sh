@@ -346,6 +346,30 @@ Options:
     --workspaces-update               If set to true, the npm cli will run an update after operations that may possibly change the workspaces  installed  to
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
 EOF
+    elif [[ "$*" == "npm install" ]]; then
+        cat <<-'EOF'
+Usage: npm install [package-spec]...
+Options:
+    -S --save                         Save installed packages to a package.json file as dependencies.
+    -E --save-exact                   Dependencies  saved  to  package.json  will be configured with an exact version rather than using npm's default semver
+    -g --global                       Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
+    --install-strategy <value>        Sets the strategy for installing packages in node_modules.  (hoisted, nested, shallow)
+    --legacy-bundling                 Instead of hoisting package installs in node_modules, install packages in the same manner that they are  depended  on.
+    --global-style                    Only install direct dependencies in the top level node_modules, but hoist  on  deeper  dependencies. 
+    --omit <value>                    Dependency types to omit from the installation tree on disk. (dev, optional, peer (can be set multiple times))
+    --strict-peer-deps                If set to true, and --legacy-peer-deps is not set, then any conflicting peerDependencies will be treated as an install
+    --package-lock                    If set to false, then ignore package-lock.json files when installing. 
+    --foreground-scripts              Run all build scripts (ie, preinstall, install, and postinstall) scripts for  installed  packages  in  the  foreground
+    --ignore-scripts                  If true, npm does not run scripts specified in package.json files.
+    --audit                           When  "true" submit audit reports alongside the current npm command to the default registry and all registries config‐
+    --bin-links                       Tells npm to create symlinks (or .cmd shims on Windows) for package executables.
+    --fund                            When  "true"  displays the message at the end of each npm install acknowledging the number of dependencies looking for
+    --dry-run                         Indicates that you don't want npm to make any changes and that it should only report what it would have done. 
+    -w --workspace <value>            Enable running a command in the context of the configured workspaces of the current project while filtering by running
+    --workspaces                      Set to true to run the command in the context of all configured workspaces.
+    --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
+    --install-links                   When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating  a  sym‐
+EOF
     elif [[ "$*" == "npm install-ci-test" ]]; then
         cat <<-'EOF'
 Options:
@@ -429,9 +453,9 @@ Options:
     --registry <value>  The base URL of the npm registry.
     --scope <value>     Associate an operation with a scope for a scoped registry.
 EOF
-    elif [[ "$*" == "npm ls" ]]; then
+    elif [[ "$*" == "npm list" ]]; then
         cat <<-'EOF'
-Usage: npm ls <package-spec>
+Usage: npm ls [package-spec]...
 Options:
     --all                             When  running  npm  outdated  and npm ls, setting --all will show all outdated or installed packages, rather than only
     --json                            Whether or not to output JSON data, rather than the normal output.
