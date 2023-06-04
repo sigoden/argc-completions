@@ -7,28 +7,28 @@ set -e
 # @arg subcmd
 generate() {
     if [[ -n $argc_subcmd ]]; then
-        echo Generate $argc_cmd $argc_subcmd
         ./scripts/generate.sh -E -o completions $argc_cmd $argc_subcmd
     else
-        echo Generate $argc_cmd
         ./scripts/generate.sh -o completions $argc_cmd
-        if [[ -d completions/$argc_cmd ]]; then
-            if [[ -d completions/$argc_cmd ]]; then
-                local child
-                for child in completions/$argc_cmd/*.sh; do
-                    child="$(basename "$child" .sh)"
-                    argc generate $argc_cmd $child
-                done
-            fi
-        fi
     fi
 }
 
 # @cmd Regenerate all completion scripts
 regenerate() {
-    while read -r name; do
-        if command -v $name > /dev/null; then
-            argc generate $name
+    while read -r cmd; do
+        if command -v $cmd > /dev/null; then
+            echo Generate $cmd
+            argc generate $cmd
+            if [[ -d completions/$cmd ]]; then
+                if [[ -d completions/$cmd ]]; then
+                    local child
+                    for child in completions/$cmd/*.sh; do
+                        child="$(basename "$child" .sh)"
+                        echo Generate $cmd $child
+                        argc generate $cmd $child
+                    done
+                fi
+            fi
         fi
     done < <(_choice_completion)
 }
@@ -49,7 +49,10 @@ test() {
 # @arg line Command line passed to argc for compgen
 choice-fn() {
     argc_dir="${argc_dir:-`pwd`}"
-    cmd_script="completions/$argc_cmd.sh"
+    cmd_script="$(realpath "completions/$argc_cmd.sh")"
+    if [[ "$OS" == "Windows_NT" ]]; then
+        cmd_script="$(cygpath -w "$cmd_script")"
+    fi
     if [[ -n "$argc_line" ]] && [[ -f "$cmd_script" ]]; then
         argc_line=${argc_line#"$argc_cmd"} 
         (cd $argc_dir && bash "$cmd_script" $argc_fn "$argc_line")
