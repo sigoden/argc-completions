@@ -11,7 +11,7 @@ Argc-Completions also provides a tool (`generate.sh`) to automaticlly generate c
 ### Install dependencies
 
 - [argc](https://github.com/sigoden/argc): completion engine
-- [jq](https://github.com/stedolan/jq): JSON processor
+- [yq](https://github.com/mikefarah/yq): YAML/JSON/XML/CSV/TOML processor
 
 ### Setup shell
 

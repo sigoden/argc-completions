@@ -764,14 +764,14 @@ _choice_bin() {
 }
 
 _choice_config_key() {
-    pnpm config list --json | jq -r 'keys[]'
+    pnpm config list --json | yq 'keys | .[]'
 }
 
 _choice_script() {
     _helper_apply_filter
     pkg_json_path=$(_helper_pkg_json_path)
     if [[ -n "$pkg_json_path" ]]; then
-        cat "$pkg_json_path" | jq -r '.scripts // {} | keys[]' | tr -d '\r'
+        cat "$pkg_json_path" | yq '.scripts // {} | keys | .[]'
     fi
 }
 
@@ -779,17 +779,17 @@ _choice_dependency() {
     _helper_apply_filter
     pkg_json_path=$(_helper_pkg_json_path)
     if [[ -n "$pkg_json_path" ]]; then
-        cat "$pkg_json_path" | jq -r '.dependencies // {}, .devDependencies // {}, .optionalDependencies // {} | keys[]'| tr -d '\r'
+        cat "$pkg_json_path" | yq '.dependecies // {} + .devDependencies // {} + .optionalDependencies // {} | keys | .[]' 
     fi
 }
 
 _choice_workspace() {
-    pnpm recursive list --json | jq -r '.[].name // empty'
+    pnpm recursive list --json | yq '.[] | .name'
 }
 
 _helper_apply_filter() {
     if [[ -n "$argc_filter" ]]; then
-        local path = "$(pnpm recursive list --json | jq -r '.[] | select(.name == "'"$argc_filter"'") | .path // empty')"
+        local path = "$(pnpm recursive list --json | yq '.[] | select(.name == "'"$argc_filter"'") | .path')"
         if [[ -n "$path" ]]; then
             pkg_json_path="$(_argc_util_path_to_unix "$path")/package.json"
         fi

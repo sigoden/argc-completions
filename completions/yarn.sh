@@ -2478,37 +2478,37 @@ workspaces::run() {
 # }} yarn workspaces
 
 _choice_config_key() {
-    yarn config list --json | jq -r 'select(.type == "inspect") | .data | keys[]'
+    yarn config list --json |  yq 'select(.type == "inspect") | .data | keys | .[]'
 }
 
 _choice_dependency() {
     pkg_json_path=$(_helper_pkg_json_path)
     if [[ -n "$pkg_json_path" ]]; then
-        cat "$pkg_json_path" | jq -r '.dependencies // {}, .devDependencies // {}, .optionalDependencies // {} | keys[]'| tr -d '\r'
+        cat "$pkg_json_path" |  yq '.dependencies // {} + .devDependencies // {} + .optionalDependencies // {} | keys | .[]'
     fi
 }
 
 _choice_script() {
     pkg_json_path=$(_helper_pkg_json_path)
     if [[ -n "$pkg_json_path" ]]; then
-        cat "$pkg_json_path" | jq -r '.scripts // {} | keys[]' | tr -d '\r'
+        cat "$pkg_json_path" | yq '.scripts // {} | keys | .[]'
     fi
 }
 
 _choice_global_dependency() {
     global_dir="$(_argc_util_path_to_unix "$(yarn global dir)")"
-    cat  "$global_dir/package.json" | jq -r '.dependencies // {}, .devDependencies // {}, .optionalDependencies // {} | keys[]' | tr -d '\r'
+    cat "$global_dir/package.json" | yq '.dependencies // {} + .devDependencies // {} + .optionalDependencies // {} | keys | .[]'
 }
 
 _choice_workspace() {
-    yarn workspaces info | sed '1d;$d' | jq -r 'keys[]' | tr -d '\r'
+    yarn workspaces info | sed '1d;$d' | yq 'keys | .[]' | tr -d '"'
 }
 
 _choice_workspace_args() {
     if [ ! package.json ]; then
         return
     fi
-    location="$(yarn workspaces info | sed '1d;$d' | jq -r '."'$1'".location // empty' | tr -d '\r')"
+    location="$(yarn workspaces info | sed '1d;$d' | yq '."'$1'".location // ""')"
     if [[ -z "$location" ]]; then
         return
     fi
