@@ -8,10 +8,10 @@ set -e
 generate() {
     if [[ -n $argc_subcmd ]]; then
         echo Generate $argc_cmd $argc_subcmd
-        ./generate.sh -E -o completions $argc_cmd $argc_subcmd
+        ./scripts/generate.sh -E -o completions $argc_cmd $argc_subcmd
     else
         echo Generate $argc_cmd
-        ./generate.sh -o completions $argc_cmd
+        ./scripts/generate.sh -o completions $argc_cmd
         if [[ -d completions/$argc_cmd ]]; then
             if [[ -d completions/$argc_cmd ]]; then
                 local child
@@ -35,7 +35,7 @@ regenerate() {
 
 # @cmd Test generate.sh
 test() {
-    ./generate.sh __test
+    ./scripts/generate.sh __test
 }
 
 # @cmd Run a choice fn 

@@ -107,8 +107,10 @@ source ~/.argc-completions/shell/argc-completions.xsh
 
 You can run `generate.sh` to automatically generate the completion script for your command:
 
-```
-./generate.sh <your-command>
+```sh
+./scripts/generate.sh your-command
+# or
+argc generate your-command
 ```
 
 See [generate.md](docs/generate.md) if you run into problems.
