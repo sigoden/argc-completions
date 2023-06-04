@@ -21,6 +21,7 @@ _argc_completions_completer()
     else
         scriptfile="$ARGC_COMPLETIONS_DIR/$word1.sh"
         if [[ ! -f "$scriptfile" ]]; then
+            _path_files
             return
         fi
         line="${words[2,$CURRENT]}"
@@ -29,11 +30,11 @@ _argc_completions_completer()
     local candicates=( $(argc --argc-compgen zsh "$scriptfile" "$line" 2>/dev/null) )
     if [[ ${#candicates[@]} -eq 1 ]]; then
         if [[ "$candicates[1]" == "__argc_comp:file" ]]; then
-            candicates=()
             _path_files
+            return
         elif [[ "$candicates[1]" == "__argc_comp:dir" ]]; then
-            candicates=()
             _path_files -/
+            return
         fi
     fi
     if [[ ${#candicates[@]} -gt 0 ]]; then

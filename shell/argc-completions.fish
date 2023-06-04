@@ -22,6 +22,7 @@ function __argc_completions_completer
     else
         set scriptfile "$ARGC_COMPLETIONS_DIR/$word1.sh"
         if not test -f "$scriptfile"
+            __fish_complete_path
             return
         end
         set line "$words[2..]"
@@ -29,11 +30,11 @@ function __argc_completions_completer
     set -l candicates (argc --argc-compgen fish $scriptfile $line 2>/dev/null)
     if test (count $candicates) -eq 1
         if [ "$candicates[1]" = "__argc_comp:file" ]
-            set candicates
             __fish_complete_path
+            return
         else if [ "$candicates[1]" = "__argc_comp:dir" ]
-            set candicates
             __fish_complete_directories 
+            return
         end
     end
     for item in $candicates
