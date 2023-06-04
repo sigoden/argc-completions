@@ -153,27 +153,27 @@ _choice_testname() {
 }
 
 _choice_depid() {
-	_helper_package_json "$(_helper_option_package)" | jq -r '.dependencies[].name'
+	_helper_package_json | yq '.dependencies[].name'
 }
 
 _choice_package() {
-	cargo metadata --format-version 1 --no-deps | jq -r '.packages[].name'
+	_helper_metadata_json | yq '.packages[].name'
 }
 
 _choice_bench() {
-	_helper_package_target bench "$(_helper_option_package)"
+	_helper_package_target bench
 }
 
 _choice_bin() {
-	_helper_package_target bin "$(_helper_option_package)"
+	_helper_package_target bin
 }
 
 _choice_test() {
-	_helper_package_target test "$(_helper_option_package)"
+	_helper_package_target test
 }
 
 _choice_example() {
-	_helper_package_target example "$(_helper_option_package)"
+	_helper_package_target example
 }
 
 _choice_target() {
@@ -186,25 +186,18 @@ _choice_target() {
 	done <<< "$targets"
 }
 
-_helper_option_package() {
-	echo "${argc_package:-"$argc_p"}"
-}
-
 _helper_package_target() {
-	target_kind="$1"
-	package_name="$2"
-	_helper_package_json "$package_name" | jq -r '.targets[] | select( .kind[] | contains("'$target_kind'") ) | .name'
+	_helper_package_json | yq '.targets[] | select( .kind[] | contains("'$1'") ) | .name'
 }
 
 _helper_package_json() {
-	package_name="$1"
 	metadata_json="$(_helper_metadata_json)"
-	if [[ -n "$package_name" ]]; then
-		echo "$metadata_json" | jq '.packages[] | select(.name == "'"$package_name"'")'
+	if [[ -n "$argc_package" ]]; then
+		echo "$metadata_json" | yq '.packages[] | select(.name == "'"$argc_package"'")'
 	else
-		workspace_root="$(echo "$metadata_json" | jq -r '.workspace_root')"
-		manifest_path="$(_argc_util_path_join "${workspace_root}" Cargo.toml |  jq -R .)"
-		echo "$metadata_json" | jq '.packages[] | select(.manifest_path == '"$manifest_path"')'
+		workspace_root="$(echo "$metadata_json" | yq '.workspace_root')"
+		manifest_path="$(_argc_util_path_join "${workspace_root}" Cargo.toml)"
+		echo "$metadata_json" | yq '.packages[] | select(.manifest_path == "'"$manifest_path"'")'
 	fi
 }
 

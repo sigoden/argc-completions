@@ -11,18 +11,13 @@ _patch_table() {
 }
 
 _choice_lint_rule() {
-    deno lint --rules --json | jq -r '
-def handle:
-    (.docs | split("\n") | .[0]) as $desc |
-    .code + "\t" + $desc;
-.[] | handle
-'
+    deno lint --rules --json | yq '.[] | (.docs | split("\n") | .0) as $desc | .code + "," + $desc' | sed 's/,/\t/' 
 }
 
 _choice_task() {
     local config_file=$(_helper_config_file)
     if [[ -f "$config_file" ]]; then
-        jq -r '.tasks | keys | .[]' 
+        cat "$config_file" | yq '.tasks | keys | .[]' 
     fi
 }
 

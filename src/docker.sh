@@ -158,7 +158,7 @@ _choice_container_cp() {
 }
 
 _choice_compose_service() {
-    _docker compose ls --format json | jq -r '.[] | .Name'
+    _docker compose ls --format json | yq '.[] | .Name'
 }
 
 _choice_compose_cp() {

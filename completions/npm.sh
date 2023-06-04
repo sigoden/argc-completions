@@ -1125,27 +1125,24 @@ whoami() {
 # }} npm whoami
 
 _choice_config_key() {
-    npm config list $(_argc_util_param_select_options --global) --json | jq -r 'keys[]' | tr -d '\r'
+    npm config list $(_argc_util_param_select_options --global) --json | yq 'keys | .[]'
 }
 
 _choice_workspace() {
-    pkg_json_path=$(_helper_pkg_json_path)
-    if [[ -n "$pkg_json_path" ]]; then
-        cat "$pkg_json_path" | jq -r '.workspaces // [] | .[]' | tr -d '\r'
-    fi
+    npm query .workspace | yq '.[].location'
 }
 
 _choice_dependency() {
     pkg_json_path=$(_helper_pkg_json_path)
     if [[ -n "$pkg_json_path" ]]; then
-        cat "$pkg_json_path" | jq -r '.dependencies // {}, .devDependencies // {}, .optionalDependencies // {} | keys[]'| tr -d '\r'
+        cat "$pkg_json_path" | yq '.dependencies // {} + .devDependencies // {} + .optionalDependencies // {} | keys | .[]'
     fi
 }
 
 _choice_script() {
-    pkg_json_path=$(_helper_pkg_json_path)
+    pkg_json_path="$(_helper_pkg_json_path)"
     if [[ -n "$pkg_json_path" ]]; then
-        cat "$pkg_json_path" | jq -r '.scripts // {} | keys[]' | tr -d '\r'
+        cat "$pkg_json_path" | yq '.scripts // {} | keys | .[]'
     fi
 }
 

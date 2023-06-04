@@ -38,12 +38,16 @@ test() {
     ./scripts/generate.sh __test
 }
 
-# @cmd Run a choice fn 
-# @option -C --dir
+# @cmd Debug a choice fn 
+#
+# For example:
+#   argc choice-fn git _choice_checkout 'checkout '
+#   argc choice-fn git _choice_checkout 'checkout -- '
+# @option -C --dir  Change current workdir to <DIR>
 # @arg cmd![`_choice_completion_or_src`]
 # @arg fn![`_choice_fn_name`]
-# @arg line
-run-choice-fn() {
+# @arg line Command line passed to argc for compgen
+choice-fn() {
     argc_dir="${argc_dir:-`pwd`}"
     cmd_script="completions/$argc_cmd.sh"
     if [[ -n "$argc_line" ]] && [[ -f "$cmd_script" ]]; then
