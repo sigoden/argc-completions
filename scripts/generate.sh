@@ -96,7 +96,26 @@ embed_script() {
     fi
     echo
     echo 
-    cat "$src_file" | awk -f "$scripts_dir/remove-patch-fn.awk"
+    cat "$src_file" | awk '
+BEGIN {
+    patch_fn_state = 0
+}
+{
+    if (patch_fn_state > 0) {
+        if (match($0, /^}/)) {
+            patch_fn_state = 1
+        } else if (patch_fn_state == 1 && match($0, /^\s*$/)) {
+            patch_fn_state = 0
+        }
+    } else {
+        if (match($0, /^_patch_\w+\(/)) {
+            patch_fn_state = 2
+        } else {
+            print $0
+        }
+    }
+}
+'
     echo 
 }
 
