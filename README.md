@@ -16,13 +16,13 @@ Argc-Completions provides argument completion for multiple CLI commands ([full l
 
 ## Install Completion Scripts
 
-1. clone the repository
+### 1. clone the repository
 
 ```
 git clone https://github.com/sigoden/argc-completions.git
 ```
 
-2. install the tools
+### 2. install the tools
 
 Argc-Completions requires the following tools:
 
@@ -37,7 +37,7 @@ bash ./scripts/download-tools.sh
 
 > On Windows OS, you may run it with git bash.
 
-3. setup shell
+### 3. setup shell
 
 Argc-Completions supports a lot of shells. Different shells have different configurations.
 
@@ -46,6 +46,8 @@ Run the following script to see how to setup shell:
 ```sh
 bash ./scripts/setup-shell.sh
 ```
+
+> On Windows OS, you may run it with git bash.
 
 ## Generate custom completion script
 
