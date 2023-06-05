@@ -44,7 +44,13 @@ Argc-Completions supports a lot of shells. Different shells need different confi
 Run the following script to see how to setup shell:
 
 ```sh
-bash ./scripts/setup-shell.sh
+bash ./scripts/setup-shell.sh bash
+bash ./scripts/setup-shell.sh elvish
+bash ./scripts/setup-shell.sh fish
+bash ./scripts/setup-shell.sh nushell
+bash ./scripts/setup-shell.sh powershell
+bash ./scripts/setup-shell.sh xonsh
+bash ./scripts/setup-shell.sh zsh
 ```
 
 ## Generate custom completion script
