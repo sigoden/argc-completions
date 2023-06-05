@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+export PATH="$(pwd)/bin:$PATH"
+
 set -e
 
 # @cmd Automatically generate the completion script for <CMD>
