@@ -23,7 +23,7 @@ fn argc-completions-completer {|@words|
         var word2 = $words[1]
         if (re:match '^[A-Za-z0-9]' $word2) {
             set scriptfile = (path:join $E:ARGC_COMPLETIONS_DIR $word1 (printf "%s.sh" $word2))
-            if (path:is-regular $scriptfile) {
+            if (path:is-regular &follow-symlink=$true $scriptfile) {
                 set extend = $true
             }
         }
@@ -32,7 +32,7 @@ fn argc-completions-completer {|@words|
         set line = (all $words[2..] | str:join ' ')
     } else {
         set scriptfile = (path:join $E:ARGC_COMPLETIONS_DIR (printf "%s.sh" $word1))
-        if (not (path:is-regular $scriptfile)) {
+        if (not (path:is-regular &follow-symlink=$true $scriptfile)) {
             argc-completions-complete-path $words[-1]
             return
         }

@@ -35,19 +35,17 @@ Run the following script to download the tools to `./bin` folder:
 bash ./scripts/download-tools.sh
 ```
 
-> On Windows OS, you may run it with git bash.
+> Run on git bash for Windows.
 
 ### 3. setup shell
 
-Argc-Completions supports a lot of shells. Different shells have different configurations.
+Argc-Completions supports a lot of shells. Different shells need different configurations.
 
-Run the following script to see how to setup shell: 
+Run the following script to see how to setup shell:
 
 ```sh
 bash ./scripts/setup-shell.sh
 ```
-
-> On Windows OS, you may run it with git bash.
 
 ## Generate custom completion script
 
