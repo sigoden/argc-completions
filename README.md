@@ -2,7 +2,9 @@
 
 A multi-shell completion solution.
 
-Argc-Completions provides argument completion for multiple CLI commands ([full list](completions)), and works across multiple POSIX and non-POSIX shells.
+Argc-completions provides argument completion for multiple CLI commands ([full list](completions)), and works across multiple POSIX and non-POSIX shells.
+
+Argc-completions also provide tool to automatically generate completion scripts from command help text.
 
 ## Supported shells:
 
@@ -24,7 +26,7 @@ git clone https://github.com/sigoden/argc-completions.git
 
 ### 2. install the tools
 
-Argc-Completions requires the following tools:
+Argc-completions requires the following tools:
 
 - [argc](https://github.com/sigoden/argc): completion engine
 - [yq](https://github.com/mikefarah/yq): YAML/JSON/XML/CSV/TOML processor
@@ -32,25 +34,23 @@ Argc-Completions requires the following tools:
 Run the following script to download the tools to `./bin` folder:
 
 ```sh
-bash ./scripts/download-tools.sh
+./scripts/download-tools.sh
 ```
 
 > Run on git bash for Windows.
 
 ### 3. setup shell
 
-Argc-Completions supports a lot of shells. Different shells need different configurations.
-
-Run the following script to see how to setup shell:
+Argc-completions supports a lot of shells. Different shells need different configurations.
 
 ```sh
-bash ./scripts/setup-shell.sh bash
-bash ./scripts/setup-shell.sh elvish
-bash ./scripts/setup-shell.sh fish
-bash ./scripts/setup-shell.sh nushell
-bash ./scripts/setup-shell.sh powershell
-bash ./scripts/setup-shell.sh xonsh
-bash ./scripts/setup-shell.sh zsh
+./scripts/setup-shell.sh bash
+./scripts/setup-shell.sh elvish
+./scripts/setup-shell.sh fish
+./scripts/setup-shell.sh nushell
+./scripts/setup-shell.sh powershell
+./scripts/setup-shell.sh xonsh
+./scripts/setup-shell.sh zsh
 ```
 
 ## Generate custom completion script
@@ -65,6 +65,6 @@ See [generate.md](docs/generate.md) for more details.
 
 ## License
 
-argc-completions is made available under the terms of the MIT License. 
+Argc-completions is made available under the terms of the MIT License. 
 
 See the LICENSE file for license details.

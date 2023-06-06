@@ -16,7 +16,7 @@ generate() {
 }
 
 # @cmd Regenerate all completion scripts
-regenerate() {
+generate:all() {
     while read -r cmd; do
         if command -v $cmd > /dev/null; then
             echo Generate $cmd
@@ -43,26 +43,25 @@ test() {
 # @cmd Debug a choice fn 
 #
 # For example:
-#   argc choice-fn git _choice_checkout 'checkout '
-#   argc choice-fn git _choice_checkout 'checkout -- '
+#   argc choice-fn ./src/git.sh _choice_checkout
+#   argc choice-fn ./completions/git.sh _choice_checkout git checkout -- '' 
 # @option -C --dir  Change current workdir to <DIR>
-# @arg cmd![`_choice_completion_or_src`]
+# @arg script_file!
 # @arg fn![`_choice_fn_name`]
-# @arg line Command line passed to argc for compgen
+# @arg line Command line args passed for compgen
 choice-fn() {
     argc_dir="${argc_dir:-`pwd`}"
-    cmd_script="$(realpath "completions/$argc_cmd.sh")"
-    if [[ "$OS" == "Windows_NT" ]]; then
-        cmd_script="$(cygpath -w "$cmd_script")"
-    fi
-    if [[ -n "$argc_line" ]] && [[ -f "$cmd_script" ]]; then
-        argc_line=${argc_line#"$argc_cmd"} 
-        (cd $argc_dir && bash "$cmd_script" $argc_fn "$argc_line")
+    script_file="$(realpath "$argc_script_file")"
+    if grep -q 'argc --argc-eval' "$script_file"; then
+        if [[ "$OS" == "Windows_NT" ]]; then
+            script_file="$(cygpath -w "$script_file")"
+        fi
+        cd $argc_dir && bash "$script_file" $argc_fn "$argc_line"
     else
         for f in utils/_argc_utils/*.sh; do
             . "$f"
         done
-        . "src/$argc_cmd.sh"
+        . "$script_file"
         (cd $argc_dir && $argc_fn)
     fi
 }
@@ -126,18 +125,9 @@ _choice_completion() {
     ls -p -1 completions | grep -v '/' | sed 's/.sh$//'
 }
 
-_choice_src() {
-    ls -1 src | xargs -I% basename % .sh
-}
-
-_choice_completion_or_src() {
-    { _choice_completion; _choice_src; } | sort | uniq
-}
-
 _choice_fn_name() {
-    cmd_script="src/$argc_cmd.sh" 
-    if [[ -f "$cmd_script" ]]; then
-        cat "$cmd_script" | grep ^_choice | sed 's/\(_choice\w\+\).*/\1/'
+    if [[ -f "$argc_script_file" ]]; then
+        cat "$argc_script_file" | grep ^_choice | sed 's/\(_choice\w\+\).*/\1/'
     fi
 }
 
