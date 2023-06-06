@@ -15,33 +15,29 @@ fn argc-completions-complete-path {|arg &is_dir=$false|
 }
 
 fn argc-completions-completer {|@words|
-    var word1 = (basename $words[0])
+    var cmd = (basename $words[0])
     var extend = $false
     var scriptfile
     var line
-    if (and (> (count $words) (num 2)) (has-value $ARGC_COMPLETIONS_EXTEND_CMDS $word1)) {
-        var word2 = $words[1]
-        if (re:match '^[A-Za-z0-9]' $word2) {
-            set scriptfile = (path:join $E:ARGC_COMPLETIONS_DIR $word1 (printf "%s.sh" $word2))
+    if (and (> (count $words) (num 2)) (has-value $ARGC_COMPLETIONS_EXTEND_CMDS $cmd)) {
+        var subcmd = $words[1]
+        if (re:match '^[A-Za-z0-9]' $subcmd) {
+            set scriptfile = (path:join $E:ARGC_COMPLETIONS_DIR $cmd (printf "%s.sh" $subcmd))
             if (path:is-regular &follow-symlink=$true $scriptfile) {
                 set extend = $true
             }
         }
     }
     if $extend {
-        set line = (all $words[2..] | str:join ' ')
+        set words = $words[1..]
     } else {
-        set scriptfile = (path:join $E:ARGC_COMPLETIONS_DIR (printf "%s.sh" $word1))
+        set scriptfile = (path:join $E:ARGC_COMPLETIONS_DIR (printf "%s.sh" $cmd))
         if (not (path:is-regular &follow-symlink=$true $scriptfile)) {
             argc-completions-complete-path $words[-1]
             return
         }
-        set line = (all $words[1..] | str:join ' ')
     }
-    if (eq $line '') {
-        set line = ' '
-    }
-    var candicates = [(argc --argc-compgen elvish $scriptfile $line)]
+    var candicates = [(try { argc --argc-compgen elvish $scriptfile (all $words) } catch e { echo '' })]
     if (eq (count $candicates) (num 1)) {
         if (eq $candicates[0] '__argc_comp:file') {
             argc-completions-complete-path $words[-1]

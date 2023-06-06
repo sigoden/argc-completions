@@ -10,35 +10,31 @@ $_argc_completions_completer = {
     if ($commandAst.CommandElements[-1].Extent.EndOffset -lt $cursorPosition) {
         $words += ''
     }
-    $word1 = $words[0]
-    if ($word1 -cmatch '([A-Za-z0-9_-]+)(\.[^.]+)?$') {
-        $word1 = $matches[1]
+    $cmd = $words[0]
+    if ($cmd -cmatch '([A-Za-z0-9_-]+)(\.[^.]+)?$') {
+        $cmd = $matches[1]
     }
     $extend = $false
     $scriptfile = ""
     $line = ""
-    if (($words.Count -gt 2) -and ($word1 -in $ARGC_COMPLETIONS_EXTEND_CMDS)) {
-        $word2 = $words[1]
-        if ($word2 -match '^[A-Za-z0-9]') {
-            $scriptfile = ($ARGC_COMPLETIONS_DIR + "\" + $word1 + "\" + $word2 + ".sh")
+    if (($words.Count -gt 2) -and ($cmd -in $ARGC_COMPLETIONS_EXTEND_CMDS)) {
+        $subcmd = $words[1]
+        if ($subcmd -match '^[A-Za-z0-9]') {
+            $scriptfile = ($ARGC_COMPLETIONS_DIR + "\" + $cmd + "\" + $subcmd + ".sh")
             if (Test-Path -Path $scriptfile -PathType Leaf) {
                 $extend = $true
             }
         }
     }
     if ($extend) {
-        $line = $words[2..($words.Count-1)] -join " "
+        $words = $words[1..($words.Count-1)]
     } else {
-        $scriptfile = ($ARGC_COMPLETIONS_DIR + "\" + $word1 + ".sh")
+        $scriptfile = ($ARGC_COMPLETIONS_DIR + "\" + $cmd + ".sh")
         if (-not(Test-Path -Path $scriptfile -PathType Leaf)) {
             return
         }
-        $line = $words[1..($words.Count-1)] -join " "
     }
-    if ($line -eq "") {
-        $line = " "
-    }
-    $candicates = @((argc --argc-compgen powershell $scriptfile $line 2>$null).Split("`n"))
+    $candicates = @((argc --argc-compgen powershell $scriptfile $words 2>$null).Split("`n"))
     if ($candicates.Count -eq 1) {
         if (($candicates[0] -eq "__argc_comp:file") -or ($candicates[0] -eq "__argc_comp:dir")) {
             return

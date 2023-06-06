@@ -16,18 +16,21 @@ _argc_completions_completer()
             fi
         fi
     fi
+    local cur="$words[$CURRENT]"
     if [[ $extend -eq 1 ]]; then
-        line="${words[3,$CURRENT]}"
+        words=( ${words[2,$CURRENT]} )
     else
         scriptfile="$ARGC_COMPLETIONS_DIR/$word1.sh"
         if [[ ! -f "$scriptfile" ]]; then
             _path_files
             return
         fi
-        line="${words[2,$CURRENT]}"
+    fi
+    if [[ "$cur" == "" ]]; then
+        words+=( $'\0' )
     fi
     local IFS=$'\n'
-    local candicates=( $(argc --argc-compgen zsh "$scriptfile" "$line" 2>/dev/null) )
+    local candicates=( $(argc --argc-compgen zsh "$scriptfile" $words 2>/dev/null) )
     if [[ ${#candicates[@]} -eq 1 ]]; then
         if [[ "$candicates[1]" == "__argc_comp:file" ]]; then
             _path_files

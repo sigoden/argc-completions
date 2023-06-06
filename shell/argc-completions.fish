@@ -3,31 +3,34 @@ set ARGC_COMPLETIONS_SCRIPTS (ls -p -1 "$ARGC_COMPLETIONS_DIR" | grep -v '/' | s
 set ARGC_COMPLETIONS_EXTEND_CMDS (ls -p -1 "$ARGC_COMPLETIONS_DIR" | grep '/$' | sed 's|/$||')
 
 function __argc_completions_completer
-    set -l words (commandline -c | string trim -l | string split " " --)
-    set -l word1 (basename $words[1])
+    set -l words (commandline -o)
+    set -l cmd (basename $words[1])
     set -l extend 0
     set -l scriptfile
     set -l line
-    if test (count $words) -gt 2; and contains $word1 $ARGC_COMPLETIONS_EXTEND_CMDS
-        set -l word2 $words[2]
-        if string match -q -r -- '^[A-Za-z0-9]' $word2
-            set scriptfile "$ARGC_COMPLETIONS_DIR/$word1/$word2.sh"
+    if test (count $words) -gt 2; and contains $cmd $ARGC_COMPLETIONS_EXTEND_CMDS
+        set -l subcmd $words[2]
+        if string match -q -r -- '^[A-Za-z0-9]' $subcmd
+            set scriptfile "$ARGC_COMPLETIONS_DIR/$cmd/$subcmd.sh"
             if test -f "$scriptfile"
                 set extend 1
             end
         end
     end
     if test $extend -eq 1
-        set line "$words[3..]"
+        set words $words[2..]
     else
-        set scriptfile "$ARGC_COMPLETIONS_DIR/$word1.sh"
+        set scriptfile "$ARGC_COMPLETIONS_DIR/$cmd.sh"
         if not test -f "$scriptfile"
             __fish_complete_path
             return
         end
-        set line "$words[2..]"
     end
-    set -l candicates (argc --argc-compgen fish $scriptfile $line 2>/dev/null)
+    set -l cur (commandline -t)
+    if [ $cur = "" ]
+        set -a words ''
+    end
+    set -l candicates (argc --argc-compgen fish $scriptfile $words 2>/dev/null)
     if test (count $candicates) -eq 1
         if [ "$candicates[1]" = "__argc_comp:file" ]
             __fish_complete_path

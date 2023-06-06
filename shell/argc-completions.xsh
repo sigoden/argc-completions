@@ -18,26 +18,23 @@ def _argc_completions_completer(context):
         return
     words = [v.value for v in context.args[0:context.arg_index]]
     words.append(context.prefix)
-    word1 = os.path.splitext(os.path.basename(words[0]))[0] 
+    cmd = os.path.splitext(os.path.basename(words[0]))[0] 
     expand = False
     scriptfile = ""
     line = ""
-    if len(words) > 2 && word1 in ARGC_COMPLETIONS_EXTEND_CMDS:
-        word2 = words[1]
-        if re.search('^[A-Za-z0-9]', word2) != None:
-            scriptfile = os.path.join(ARGC_COMPLETIONS_DIR, word1, word2 + '.sh')
+    if len(words) > 2 && cmd in ARGC_COMPLETIONS_EXTEND_CMDS:
+        subcmd = words[1]
+        if re.search('^[A-Za-z0-9]', subcmd) != None:
+            scriptfile = os.path.join(ARGC_COMPLETIONS_DIR, cmd, subcmd + '.sh')
             if os.path.exists(scriptfile):
                 expand = True
     if expand:
-        line = ' '.join(words[2:]) 
+        words = words[1:]
     else:
-        scriptfile = os.path.join(ARGC_COMPLETIONS_DIR, word1 + '.sh')
+        scriptfile = os.path.join(ARGC_COMPLETIONS_DIR, cmd + '.sh')
         if not os.path.exists(scriptfile):
             return
-        line = ' '.join(words[1:]) 
-    if line == '':
-        line = ' '
-    output, _ = Popen(['argc', '--argc-compgen', 'fish', scriptfile, line], stdout=PIPE, stderr=PIPE).communicate()
+    output, _ = Popen(['argc', '--argc-compgen', 'fish', scriptfile, *words], stdout=PIPE, stderr=PIPE).communicate()
     candicates = output.decode().split('\n')
     candicates.pop()
     result = set()
