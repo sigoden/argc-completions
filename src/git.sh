@@ -444,7 +444,7 @@ _choice_changed_file() {
 }
 
 _choice_restore_file() {
-    if [[ -n "$argc__staged" ]] || [[ -n "$argc__S" ]]; then
+    if [[ -n "$argc__staged" ]]; then
         _choice_staged_file
     else
         _choice_changed_file
@@ -548,7 +548,7 @@ _choice_range() {
     if [[ "$last_arg" == *'..'* ]]; then
         ref1=${last_arg%%..*}
         ref2=${last_arg##*..}
-        _choice_ref | grep "^$ref2" | sed 's/^/'"$ref1.."'/'
+        _choice_ref | command grep "^$ref2" | sed 's/^/'"$ref1.."'/'
     else
         _choice_ref
     fi

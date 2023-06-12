@@ -16,7 +16,7 @@ generate() {
 }
 
 # @cmd Regenerate all completion scripts
-generate:all() {
+regenerate() {
     while read -r cmd; do
         if command -v $cmd > /dev/null; then
             echo Generate $cmd
@@ -48,7 +48,7 @@ test() {
 # @option -C --dir  Change current workdir to <DIR>
 # @arg script_file!
 # @arg fn![`_choice_fn_name`]
-# @arg line Command line args passed for compgen
+# @arg args* Command line args passed for compgen
 choice-fn() {
     argc_dir="${argc_dir:-`pwd`}"
     script_file="$(realpath "$argc_script_file")"
@@ -56,7 +56,7 @@ choice-fn() {
         if [[ "$OS" == "Windows_NT" ]]; then
             script_file="$(cygpath -w "$script_file")"
         fi
-        cd $argc_dir && bash "$script_file" $argc_fn "$argc_line"
+        cd $argc_dir && bash "$script_file" $argc_fn ${argc_args[@]}
     else
         for f in utils/_argc_utils/*.sh; do
             . "$f"
