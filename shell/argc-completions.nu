@@ -48,7 +48,7 @@ def _argc_completions_completer [words: list<string>] {
             return (_argc_competions_complete_path ($words | last) false | _argc_competions_complete_list)
         }
     }
-    mut candicates = ((argc --argc-compgen nushell $scriptfile $words) | str trim | split row "\n")
+    mut candicates = ((argc --argc-compgen nushell $scriptfile $words) | split row "\n")
     if ($candicates | length) == 1  {
         if $candicates.0 == '__argc_comp:file' {
             $candicates = (_argc_competions_complete_path ($words | last) false)

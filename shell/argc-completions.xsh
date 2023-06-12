@@ -21,7 +21,6 @@ def _argc_completions_completer(context):
     cmd = os.path.splitext(os.path.basename(words[0]))[0] 
     expand = False
     scriptfile = ""
-    line = ""
     if len(words) > 2 && cmd in ARGC_COMPLETIONS_EXTEND_CMDS:
         subcmd = words[1]
         if re.search('^[A-Za-z0-9]', subcmd) != None:
@@ -34,17 +33,20 @@ def _argc_completions_completer(context):
         scriptfile = os.path.join(ARGC_COMPLETIONS_DIR, cmd + '.sh')
         if not os.path.exists(scriptfile):
             return
-    output, _ = Popen(['argc', '--argc-compgen', 'fish', scriptfile, *words], stdout=PIPE, stderr=PIPE).communicate()
+    output, _ = Popen(['argc', '--argc-compgen', 'xonsh', scriptfile, *words], stdout=PIPE, stderr=PIPE).communicate()
     candicates = output.decode().split('\n')
     candicates.pop()
     result = set()
+    if len(candicates) == 0:
+        return result
     if candicates[0] == '__argc_comp:file' or candicates[0] == '__argc_comp:dir':
         return
     for v in candicates:
         parts = v.split('\t')
         value = parts[0]
-        desc = '' if len(parts) == 1 else parts[1]
-        result.add(RichCompletion(value, display=value, description=desc, prefix_len=len(context.raw_prefix), append_closing_quote=False))
+        if parts[1] == "1":
+            value = value + " "
+        result.add(RichCompletion(value, display=parts[2], description=parts[3], prefix_len=len(context.raw_prefix), append_closing_quote=False))
     return result
     
 _add_one_completer('argc_completions', _argc_completions_completer, 'start')

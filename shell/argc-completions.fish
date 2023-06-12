@@ -8,6 +8,10 @@ function __argc_completions_completer
     set -l extend 0
     set -l scriptfile
     set -l line
+    set -l cur (commandline -t)
+    if [ $cur = "" ]
+        set -a words ''
+    end
     if test (count $words) -gt 2; and contains $cmd $ARGC_COMPLETIONS_EXTEND_CMDS
         set -l subcmd $words[2]
         if string match -q -r -- '^[A-Za-z0-9]' $subcmd
@@ -25,10 +29,6 @@ function __argc_completions_completer
             __fish_complete_path
             return
         end
-    end
-    set -l cur (commandline -t)
-    if [ $cur = "" ]
-        set -a words ''
     end
     set -l candicates (argc --argc-compgen fish $scriptfile $words 2>/dev/null)
     if test (count $candicates) -eq 1

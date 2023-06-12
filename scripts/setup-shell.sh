@@ -84,7 +84,7 @@ EOF
         ;;
     powershell)
         content=$(cat <<-'EOF'
-Manually add the following code to $env:PROFILE
+Manually add the following code to $PROFILE
 
 ```ps1
 [Environment]::SetEnvironmentVariable("PATH", "__BIN_DIR__;" + [Environment]::GetEnvironmentVariable("PATH"))
