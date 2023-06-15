@@ -57,6 +57,7 @@ Options:
     --show-scope                show scope of config (worktree, local, global, system, command)
     --edition <YEAR>            Edition to set for the crate generated [possible values: 2015, 2018, 2021]
     --color2 <WHEN>             Coloring: auto, always, never
+    -I pkcs11                   Specify the PKCS#11 shared library ssh should use to communicate with a PKCS#11 token providing keys for user authentication.
 Environment variables:
     NO_COLOR                    Disable ansi color.
 Commands:

@@ -11,13 +11,12 @@ BEGIN {
     paramLineNum = 0
     paramLineWidth = 0
     paramLineMaxWidth = 48
-    DELIMITER = "#"
     split("", paramLines)
     commandLineNum = 0
     split("", commandLines)
 }
 {
-    index1 = index($0, DELIMITER)
+    index1 = index($0, "#")
     part1 = substr($0, index1 + 1)
     split("", words1)
     index2 = splitWords(part1, words1)
@@ -341,13 +340,13 @@ function extractName(input,     result, len, idx, end, last) {
 }
 
 function extractDesc(result, input) {
-    idx = index(input, DELIMITER)
+    idx = index(input, " #")
     if (idx == 0) {
         idx = length(input) + 1
     }
-    text = substr(input, 0, idx - 1)
+    text = substr(input, 0, idx)
     result[1] = trimSpaces(text)
-    result[2] = idx
+    result[2] = idx + 1
 }
 
 function splitWords(input, words) {
@@ -367,7 +366,7 @@ function splitWords(input, words) {
             } else {
                 word = word ch
             }
-        } else if (ch == DELIMITER && length(word) == 0) {
+        } else if (ch == "#" && length(word) == 0) {
             if (length(balances) == 0) {
                 if (length(word) != 0) {
                     words[length(words)+1] = word;
