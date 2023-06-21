@@ -48,13 +48,13 @@ def _argc_completions_completer [words: list<string>] {
             return (_argc_competions_complete_path ($words | last) false | _argc_competions_complete_list)
         }
     }
-    mut candicates = ((argc --argc-compgen nushell $scriptfile $words) | split row "\n")
-    if ($candicates | length) == 1  {
-        if $candicates.0 == '__argc_comp:file' {
-            $candicates = (_argc_competions_complete_path ($words | last) false)
-        } else if $candicates.0 == '__argc_comp:dir' {
-            $candicates = (_argc_competions_complete_path ($words | last) true)
+    mut candidates = ((argc --argc-compgen nushell $scriptfile $words) | split row "\n")
+    if ($candidates | length) == 1  {
+        if $candidates.0 == '__argc_comp:file' {
+            $candidates = (_argc_competions_complete_path ($words | last) false)
+        } else if $candidates.0 == '__argc_comp:dir' {
+            $candidates = (_argc_competions_complete_path ($words | last) true)
         }
     }
-    $candicates | _argc_competions_complete_list
+    $candidates | _argc_competions_complete_list
 }

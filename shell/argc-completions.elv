@@ -37,18 +37,18 @@ fn argc-completions-completer {|@words|
             return
         }
     }
-    var candicates = [(try { argc --argc-compgen elvish $scriptfile (all $words) } catch e { echo '' })]
-    if (eq (count $candicates) (num 1)) {
-        if (eq $candicates[0] '__argc_comp:file') {
+    var candidates = [(try { argc --argc-compgen elvish $scriptfile (all $words) } catch e { echo '' })]
+    if (eq (count $candidates) (num 1)) {
+        if (eq $candidates[0] '__argc_comp:file') {
             argc-completions-complete-path $words[-1]
             return
-        } elif (eq $candicates[0] '__argc_comp:dir') {
+        } elif (eq $candidates[0] '__argc_comp:dir') {
             argc-completions-complete-path &is_dir=$true $words[-1]
             return
         }
     }
-    all $candicates | each {|candicate| 
-        var parts = [(str:split "\t" $candicate)]
+    all $candidates | each {|candidate| 
+        var parts = [(str:split "\t" $candidate)]
         var code-suffix = (if (eq $parts[1] 1) { echo ' ' } else { echo '' })
         if (eq $parts[3] '') {
             edit:complex-candidate $parts[0] &display=(styled $parts[2] 'default') &code-suffix=$code-suffix

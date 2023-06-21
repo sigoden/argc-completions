@@ -4,14 +4,14 @@ set ARGC_COMPLETIONS_EXTEND_CMDS (ls -p -1 "$ARGC_COMPLETIONS_DIR" | grep '/$' |
 
 function __argc_completions_completer
     set -l words (commandline -o)
-    set -l cmd (basename $words[1])
-    set -l extend 0
-    set -l scriptfile
-    set -l line
     set -l cur (commandline -t)
     if [ $cur = "" ]
         set -a words ''
     end
+    set -l cmd (basename $words[1])
+    set -l extend 0
+    set -l scriptfile
+    set -l line
     if test (count $words) -gt 2; and contains $cmd $ARGC_COMPLETIONS_EXTEND_CMDS
         set -l subcmd $words[2]
         if string match -q -r -- '^[A-Za-z0-9]' $subcmd
@@ -26,21 +26,21 @@ function __argc_completions_completer
     else
         set scriptfile "$ARGC_COMPLETIONS_DIR/$cmd.sh"
         if not test -f "$scriptfile"
-            __fish_complete_path
+            __fish_complete_path $cur
             return
         end
     end
-    set -l candicates (argc --argc-compgen fish $scriptfile $words 2>/dev/null)
-    if test (count $candicates) -eq 1
-        if [ "$candicates[1]" = "__argc_comp:file" ]
-            __fish_complete_path
+    set -l candidates (argc --argc-compgen fish $scriptfile $words 2>/dev/null)
+    if test (count $candidates) -eq 1
+        if [ "$candidates[1]" = "__argc_comp:file" ]
+            __fish_complete_path $cur
             return
-        else if [ "$candicates[1]" = "__argc_comp:dir" ]
-            __fish_complete_directories 
+        else if [ "$candidates[1]" = "__argc_comp:dir" ]
+            __fish_complete_directories $cur
             return
         end
     end
-    for item in $candicates
+    for item in $candidates
         echo "$item"
     end
 end
