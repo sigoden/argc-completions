@@ -416,9 +416,9 @@ _choice_config_key() {
 _choice_unstaged_file() {
     _git status --porcelain | awk '{
     if (substr($0, 2, 1) != " ") {
-        print substr($0, 3)
+        print substr($0, 4)
     }
-}'
+}' | _argc_util_comp_parts /
 }
 
 _choice_staged_file() {
@@ -430,7 +430,7 @@ _choice_staged_file() {
             print substr($0, 4)
         }
     }
-}'
+}' | _argc_util_comp_parts /
 }
 
 _choice_changed_file() {
@@ -440,7 +440,7 @@ _choice_changed_file() {
     } else {
         print substr($0, 4)
     }
-}'
+}' | _argc_util_comp_parts /
 }
 
 _choice_restore_file() {
@@ -477,7 +477,7 @@ _choice_diff() {
 
 _choice_log() {
     if [[ -n "$argc__dashdash" ]]; then
-        _git ls-files
+        _git ls-files | _argc_util_comp_parts /
     else
         _choice_branch
     fi

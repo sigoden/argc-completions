@@ -3419,11 +3419,11 @@ _argc_util_param_select_options() {
 _argc_util_param_get_positional() {
     local arg=$1
     if [[ "$arg" == '-'* ]]; then
-        echo "${argc__args[@]: $arg:1}"
+        echo "${argc__positionals[@]: $arg:1}"
     elif [[ "$arg" == 'len' ]]; then
-        echo "${#argc__args[@]}"
+        echo "${#argc__positionals[@]}"
     else
-        echo "${argc__args[$arg]}"
+        echo "${argc__positionals[$arg]}"
     fi
 }
 
