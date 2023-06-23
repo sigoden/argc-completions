@@ -1,10 +1,10 @@
 _patch_table() {
     if [[ "$*" == "deno uninstall" ]]; then
-        _patch_util_bind_choice_fn 'name:_choice_install_bin'
+        _patch_util_add_extra_column 'name:[`_choice_install_bin`]'
     elif [[ "$*" == "deno lint" ]]; then
-        _patch_util_bind_choice_fn '--rules-include:_choice_lint_rule' '--rules-exclude:_choice_lint_rule'
+        _patch_util_add_extra_column '--rules-include:[`_choice_lint_rule`]' '--rules-exclude:[`_choice_lint_rule`]'
     elif [[ "$*" == "deno task" ]]; then
-        _patch_util_bind_choice_fn 'TASK:_choice_task'
+        _patch_util_add_extra_column 'TASK:[`_choice_task`]'
     else
         cat
     fi

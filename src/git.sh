@@ -349,53 +349,53 @@ EOF
 
 _patch_table() {
     if [[ "$*" == "git" ]]; then
-        _patch_util_bind_choice_fn 'cmd:_choice_cmd'
+        _patch_util_add_extra_column 'cmd:[`_choice_cmd`]'
     elif [[ "$*" == "git add" ]]; then
-        _patch_util_bind_choice_fn 'pathspec:_choice_unstaged_file'
+        _patch_util_add_extra_column 'pathspec:[`_choice_unstaged_file`]'
     elif [[ "$*" == "git branch" ]]; then
-        _patch_util_replace_positionals '<branch>:_choice_branch'
+        _patch_util_replace_positionals '<branch>:[`_choice_branch`]'
     elif [[ "$*" == "git checkout" ]]; then
-        _patch_util_bind_choice_fn 'branch:_choice_checkout'
+        _patch_util_add_extra_column 'branch:[`_choice_checkout`]'
     elif [[ "$*" == "git cherry-pick" ]]; then
-        _patch_util_bind_choice_fn 'commit-ish:_choice_range'
+        _patch_util_add_extra_column 'commit-ish:[`_choice_range`]'
     elif [[ "$*" == "git clean" ]]; then
-        _patch_util_bind_choice_fn 'paths:_choice_unstaged_file'
+        _patch_util_add_extra_column 'paths:[`_choice_unstaged_file`]'
     elif [[ "$*" == "git config" ]]; then
-        _patch_util_replace_positionals 'key:_choice_config_key'
+        _patch_util_replace_positionals 'key:[`_choice_config_key`]'
     elif [[ "$*" == "git describe" ]]; then
-        _patch_util_bind_choice_fn 'commit-ish:_choice_ref'
+        _patch_util_add_extra_column 'commit-ish:[`_choice_ref`]'
     elif [[ "$*" == "git diff" ]]; then
-        _patch_util_replace_positionals '[commit-path]...:_choice_diff'
+        _patch_util_replace_positionals '[commit-path]...:[`_choice_diff`]'
     elif [[ "$*" == "git fetch" ]]; then
-        _patch_util_replace_positionals '<remote>:_choice_remote' '<refspec>...:_choice_branch'
+        _patch_util_replace_positionals '<remote>:[`_choice_remote`]' '<refspec>...:[`_choice_branch`]'
     elif [[ "$*" == "git log" ]]; then
-        _patch_util_replace_positionals '[commit-path]...:_choice_log'
+        _patch_util_replace_positionals '[commit-path]...:[`_choice_log`]'
     elif [[ "$*" == "git switch" ]]; then
-        _patch_util_bind_choice_fn 'branch:_choice_branch'
+        _patch_util_add_extra_column 'branch:[`_choice_branch`]'
     elif [[ "$*" == "git shortlog" ]]; then
-        _patch_util_replace_positionals '[commit-path]...:_choice_log'
+        _patch_util_replace_positionals '[commit-path]...:[`_choice_log`]'
     elif [[ "$*" == "git show" ]]; then
-        _patch_util_replace_positionals '[commit-path]...:_choice_show'
+        _patch_util_replace_positionals '[commit-path]...:[`_choice_show`]'
     elif [[ "$*" == "git restore" ]]; then
-        _patch_util_bind_choice_fn 'file:_choice_restore_file'
+        _patch_util_add_extra_column 'file:[`_choice_restore_file`]'
     elif [[ "$*" == "git reset" ]]; then
-        _patch_util_replace_positionals '[commit]...:_choice_reset'
+        _patch_util_replace_positionals '[commit]...:[`_choice_reset`]'
     elif [[ "$*" == "git tag" ]]; then
-        _patch_util_replace_positionals '<tagname>:_choice_tag'
+        _patch_util_replace_positionals '<tagname>:[`_choice_tag`]'
     elif [[ "$*" == "git rebase" ]]; then
-        _patch_util_replace_positionals '<base>:_choice_branch' '<new>:_choice_branch'
+        _patch_util_replace_positionals '<base>:[`_choice_branch`]' '<new>:[`_choice_branch`]'
     elif [[ "$*" == "git range-diff" ]]; then
-        _patch_util_replace_positionals '<base>:_choice_branch' '<new>:_choice_branch'
+        _patch_util_replace_positionals '<base>:[`_choice_branch`]' '<new>:[`_choice_branch`]'
     elif [[ "$*" == "git push" ]]; then
-        _patch_util_replace_positionals '<remote>:_choice_remote' '<refspec>...:_choice_push'
+        _patch_util_replace_positionals '<remote>:[`_choice_remote`]' '<refspec>...:[`_choice_push`]'
     elif [[ "$*" == "git pull" ]]; then
-        _patch_util_replace_positionals '<remote>:_choice_remote' '<refspec>...:_choice_remote_branch'
+        _patch_util_replace_positionals '<remote>:[`_choice_remote`]' '<refspec>...:[`_choice_remote_branch`]'
     elif [[ "$*" == "git merge" ]]; then
-        _patch_util_bind_choice_fn 'commit:_choice_branch'
+        _patch_util_add_extra_column 'commit:[`_choice_branch`]'
     elif [[ "$*" == "git stash"* ]]; then
-        _patch_util_bind_choice_fn 'stash:_choice_stash'
+        _patch_util_add_extra_column 'stash:[`_choice_stash`]'
     elif [[ "$*" == "git remote"* ]]; then
-        _patch_util_bind_choice_fn 'name:_choice_remote' 'old:_choice_remote' 'new:_choice_remote'
+        _patch_util_add_extra_column 'name:[`_choice_remote`]' 'old:[`_choice_remote`]' 'new:[`_choice_remote`]'
     else
         cat
     fi

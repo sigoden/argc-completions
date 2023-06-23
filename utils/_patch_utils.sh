@@ -3,12 +3,12 @@ _patch_util_extract_subcmd() {
     awk -v v1="^$1 " -v v2="^$*" '$0 ~ v1 { x = 0; } $0 ~ v2 { x=1; print "Usage: " $0 } /^(options:|\s+-)/ && x == 1 { print $0 }'
 }
 
-# Bind choice_fn to option or positional argument.
-_patch_util_bind_choice_fn() {
+# Add extra column for the table
+_patch_util_add_extra_column() {
     local args
     for item in $@; do
-        local name="${item%:*}"
-        local choices_fn="${item##*:}"
+        local name="${item%%:*}"
+        local value="${item#*:}"
         local prefix name2
         if [[ "$name" == '-'* ]]; then
             prefix='option #.*'
@@ -17,7 +17,7 @@ _patch_util_bind_choice_fn() {
             prefix='argument #.*'
             name2="[ <[]$name[]>. [|=]"
         fi
-        args="$args -e '/$prefix$name2/ s/$/ # [\`$choices_fn\`]/'"
+        args="$args -e '/$prefix$name2/ s/$/ # $value/'"
     done
     eval sed $args
 }
@@ -26,10 +26,12 @@ _patch_util_bind_choice_fn() {
 _patch_util_replace_positionals() {
     sed -e '/^argument #/d'
     for item in $@; do
-        local name choices_fn tail
-        IFS=":" read -r name choices_fn <<< "$item"
-        if [[ -n "$choices_fn" ]]; then
-            tail=" # [\`$choices_fn\`]"
+        local name tail
+        if [[ "$item" == *':'* ]]; then
+            name="${item%%:*}"
+            tail=" # ${item#*:}"
+        else
+            name="$item"
         fi
         echo "argument # $name #$tail"
     done

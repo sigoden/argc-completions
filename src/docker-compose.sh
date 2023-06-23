@@ -1,5 +1,5 @@
 _patch_table() {
-    _patch_util_bind_choice_fn 'SERVICE:_choice_service'
+    _patch_util_add_extra_column 'SERVICE:[`_choice_service`]'
 }
 
 _docker_compose() {

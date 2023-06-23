@@ -99,9 +99,9 @@ Let's also take `aichat` as an example.
 
 ```sh
 _patch_table() {
-    _patch_util_bind_choice_fn \
-        '--model:_choice_model' \
-        '--role:_choice_role'
+    _patch_util_add_extra_column \
+        '--model:[`_choice_model`]' \
+        '--role:[`_choice_role`]'
 }
 ```
 

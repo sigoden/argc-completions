@@ -111,7 +111,7 @@ function parseOptions(words1, descVal, choicesVal) {
     longsLen = length(longs)
 
     modifierVal = ""
-    if (extra["multiple"] == 1) {
+    if (extra["multiple"] == 1 && (choicesVal == "" || substr(choicesVal, 0, 1) == "[")) {
         modifierVal = "*"
     }
 
@@ -164,12 +164,14 @@ function parseArgument(words1, descVal, choicesVal) {
         return
     }
     modifierVal = ""
-    if (extra["multiple"] == 1 && extra["required"] == 1) {
-        modifierVal = "+"
-    } else if (extra["multiple"] == 1 && extra["required"] == 0) {
-        modifierVal = "*"
-    } else if (extra["multiple"] == 0 && extra["required"] == 1) {
-        modifierVal = "!"
+    if (choicesVal == "" || substr(choicesVal, 0, 1) == "[") {
+        if (extra["multiple"] == 1 && extra["required"] == 1) {
+            modifierVal = "+"
+        } else if (extra["multiple"] == 1 && extra["required"] == 0) {
+            modifierVal = "*"
+        } else if (extra["multiple"] == 0 && extra["required"] == 1) {
+            modifierVal = "!"
+        }
     }
     notationVal = ""
     if (notation != name && length(notation) != length(name)) {
