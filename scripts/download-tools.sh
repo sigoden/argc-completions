@@ -4,6 +4,8 @@
 
 set -e
 
+argc_version=${ARGC_VERSION:-v1.6.0}
+
 download() {
     install_dir="$1"
     if [[ -z "$install_dir" ]]; then
@@ -15,8 +17,6 @@ download() {
     _arch=$(_detect_arch)
     _curl="curl"
     os_arch="$_os-$_arch"
-
-    argc_version=$($_curl -fsSL https://api.github.com/repos/sigoden/argc/releases/latest | grep  '^  "tag_name": ' | awk '{print $2}' | tr -d '",')
     argc_url_prefix="${gh_proxy:-}https://github.com/sigoden/argc/releases/download/${argc_version}/argc-${argc_version}-"
     yq_url_prefix="${gh_proxy:-}https://github.com/mikefarah/yq/releases/latest/download/yq_"
     declare -A urls
