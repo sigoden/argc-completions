@@ -695,7 +695,7 @@ global() {
 # {{{ yarn global add
 # @cmd Installs packages and any packages that it depends on.
 # @option --prefix <prefix>    bin prefix
-# @arg packages+[`_choice_global_dependency`]
+# @arg packages+
 global::add() {
     :;
 }
@@ -2400,7 +2400,7 @@ why() {
 # @option --otp <otpcode>                       one-time password for two factor authentication
 # @flag -h --help                               output usage information
 # @arg workspace-name![`_choice_workspace`]
-# @arg workspace-args*[`_choice_workspace_args`]
+# @arg workspace-args~[`_choice_workspace_args`]
 workspace() {
     :;
 }
@@ -2516,11 +2516,7 @@ _choice_workspace_args() {
     if [[ ! -f "$pkg_json_path" ]]; then
         return
     fi
-    line=" ${@:2}"
-    if [[ "$argc__line" =~ [[:space:]]$ ]]; then
-        line="$line "
-    fi
-    argc --argc-compgen fish "${BASH_SOURCE[0]}" "$line"
+    _argc_util_comp_subcommand 1 yarn
 }
 
 _helper_pkg_json_path() {
@@ -2534,11 +2530,38 @@ _helper_pkg_json_path() {
 
 _argc_util_path_to_unix() {
     local target="$1"
-    if [[ -z "$target" ]]; then
+    if [[ -z "$target" ]] && [[ $# -eq 0 ]]; then
         target="$(cat)"
     fi
     if [[ "$OS" == "Windows_NT" ]]; then
         cygpath "$target"
+    else
+        echo "$target"
+    fi
+}
+
+_argc_util_comp_subcommand() {
+    local args=( "${@:2}" "${argc__positionals[@]:$1}" )
+    args[-1]="$ARGC_LAST_ARG"
+    local completions_dir="$( dirname "${BASH_SOURCE[0]}" )"
+    local scriptfile="$completions_dir/${args[0]}.sh"
+    if [[ ! -f "$scriptfile" ]]; then
+        scriptfile="$completions_dir/${args[0]}/${args[1]}.sh"
+        if [[ ! -f "$scriptfile" ]]; then
+            return
+        fi
+    fi
+    scriptfile="$(_argc_util_path_to_platform "$scriptfile")"
+    argc --argc-compgen generic "$scriptfile" "${args[@]}"
+}
+
+_argc_util_path_to_platform() {
+    local target="$1"
+    if [[ -z "$target" ]] && [[ $# -eq 0 ]]; then
+        target="$(cat)"
+    fi
+    if [[ "$OS" == "Windows_NT" ]]; then
+        cygpath -w "$target"
     else
         echo "$target"
     fi

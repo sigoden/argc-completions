@@ -205,7 +205,7 @@ _patch_table() {
         _patch_util_replace_positionals 'cmd:[`_choice_script`]'
     elif [[ "$*" == "yarn config "* ]]; then
         _patch_util_add_extra_column 'key:[`_choice_config_key`]'
-    elif [[ "$*" == "yarn global "* ]]; then
+    elif [[ "$*" == "yarn global remove" ]] || [[ "$*" == "yarn global upgrade" ]]; then
         _patch_util_add_extra_column 'packages:[`_choice_global_dependency`]'
     elif [[ "$*" == "yarn run" ]]; then
         _patch_util_replace_positionals 'script:[`_choice_script`]'
@@ -216,7 +216,7 @@ _patch_table() {
     elif [[ "$*" == "yarn workspace" ]]; then
         _patch_util_replace_positionals \
             '<workspace-name>:[`_choice_workspace`]' \
-            '[workspace-args]...:[`_choice_workspace_args`]'
+            '[workspace-args]...:~[`_choice_workspace_args`]'
     elif [[ "$*" == "yarn workspaces" ]]; then
         _patch_util_replace_positionals
     else
@@ -263,11 +263,7 @@ _choice_workspace_args() {
     if [[ ! -f "$pkg_json_path" ]]; then
         return
     fi
-    line=" ${@:2}"
-    if [[ "$argc__line" =~ [[:space:]]$ ]]; then
-        line="$line "
-    fi
-    argc --argc-compgen fish "${BASH_SOURCE[0]}" "$line"
+    _argc_util_comp_subcommand 1 yarn
 }
 
 _helper_pkg_json_path() {

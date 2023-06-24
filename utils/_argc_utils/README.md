@@ -92,3 +92,17 @@ qux=`_choice_fn2`
 EOF
 }
 ```
+
+### `_argc_util_comp_subcommand`
+
+Complete subcommand for something like `sudo`/`npx`.
+
+Usage: `_argc_util_comp_subcommand positionals_start_index [prepened-args...]`
+
+```sh
+# @arg cmd
+# @arg args~[`_choice_args`]
+_choice_args() {
+    _argc_util_comp_subcommand 0 
+}
+```

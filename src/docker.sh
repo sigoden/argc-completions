@@ -138,7 +138,7 @@ _choice_container_cp() {
     dest="$(_argc_util_param_get_positional 1)"
     if [ -n "$dest" ]]; then
         if [[ "$src" =~ ^[A-Za-z0-9_-]+: ]]; then
-            echo "__argc_comp:file"
+            echo "__argc_value:file"
         else
             if [[ ! "$dest" =~ ^[A-Za-z0-9_-]+: ]]; then
                 _choice_container_name
@@ -152,7 +152,7 @@ _choice_container_cp() {
         elif [[ "$src" =~ ^[A-Za-z0-9_-]+: ]]; then
             _helper_container_path "$src"
         else
-            echo "__argc_comp:file"
+            echo "__argc_value:file"
         fi
     fi
 }
@@ -166,7 +166,7 @@ _choice_compose_cp() {
     dest="$(_argc_util_param_get_positional 1)"
     if [ -n "$dest" ]]; then
         if [[ "$src" =~ ^[A-Za-z0-9_-]+: ]]; then
-            echo "__argc_comp:file"
+            echo "__argc_value:file"
         else
             if [[ ! "$dest" =~ ^[A-Za-z0-9_-]+: ]]; then
                 _choice_compose_service
@@ -180,7 +180,7 @@ _choice_compose_cp() {
         elif [[ "$src" =~ ^[A-Za-z0-9_-]+: ]]; then
             _helper_compose_service_path "$src"
         else
-            echo "__argc_comp:file"
+            echo "__argc_value:file"
         fi
     fi
 }
