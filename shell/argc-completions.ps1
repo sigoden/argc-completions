@@ -4,6 +4,32 @@ $ARGC_COMPLETIONS_DIR = if ($ARGC_COMPLETIONS_DIR) { $ARGC_COMPLETIONS_DIR.TrimE
 $ARGC_COMPLETIONS_SCRIPTS = (Get-ChildItem -File $ARGC_COMPLETIONS_DIR | ForEach-Object { $_.Name -replace '\.sh$' })
 $ARGC_COMPLETIONS_EXTEND_CMDS = (Get-ChildItem -Directory $ARGC_COMPLETIONS_DIR | ForEach-Object { $_.Name })
 
+function _argc_completions_complete_impl([array]$words) {
+    $candidates = @((argc --argc-compgen powershell $words 2>$null).Split("`n"))
+    if ($candidates.Count -eq 1) {
+        if (($candidates[0] -eq "__argc_value:file") -or ($candidates[0] -eq "__argc_value:dir")) {
+            return
+        } elseif ($candidates[0] -eq "") {
+            return ""
+        }
+    }
+    $candidates | ForEach-Object { 
+        $parts = ($_ -split "`t")
+        $value = $parts[0]
+        $description = ""
+        if ($parts[1] -eq "1") {
+            $value = $value + " "
+        }
+        if ($parts[3] -eq "") {
+            $description = $parts[2]
+        } else {
+            $description = $parts[2] + "$([char]0x1b)[38;5;238m (" + $parts[3] + ")$([char]0x1b)[0m"
+        }
+        [CompletionResult]::new($value, $description, [CompletionResultType]::ParameterValue, " ")
+    }
+}
+
+
 $_argc_completions_completer = {
     param($wordToComplete, $commandAst, $cursorPosition)
     $words = @($commandAst.CommandElements | Where { $_.Extent.StartOffset -lt $cursorPosition } | ForEach-Object { $_.ToString() })
@@ -16,7 +42,6 @@ $_argc_completions_completer = {
     }
     $extend = $false
     $scriptfile = ""
-    $line = ""
     if (($words.Count -gt 2) -and ($cmd -in $ARGC_COMPLETIONS_EXTEND_CMDS)) {
         $subcmd = $words[1]
         if ($subcmd -match '^[A-Za-z0-9]') {
@@ -34,28 +59,8 @@ $_argc_completions_completer = {
             return
         }
     }
-    $candidates = @((argc --argc-compgen powershell $scriptfile $words 2>$null).Split("`n"))
-    if ($candidates.Count -eq 1) {
-        if (($candidates[0] -eq "__argc_comp:file") -or ($candidates[0] -eq "__argc_comp:dir")) {
-            return
-        } elseif ($candidates[0] -eq "") {
-            return ""
-        }
-    }
-    $candidates | ForEach-Object { 
-        $parts = ($_ -split "`t")
-        $value = $parts[0]
-        $description = ""
-        if ($parts[1] -eq "1") {
-            $value = $value + " "
-        }
-        if ($parts[3] -eq "") {
-            $description = "$([char]0x1b)[92m" + $parts[2] + "$([char]0x1b)[0m"
-        } else {
-            $description = "$([char]0x1b)[92m" + $parts[2] + "$([char]0x1b)[0m" + "$([char]0x1b)[38;5;238m (" + $parts[3] + ")$([char]0x1b)[0m"
-        }
-        [CompletionResult]::new($value, $description, [CompletionResultType]::ParameterValue, " ")
-    }
+    $words = @($scriptfile) + $words
+    _argc_completions_complete_impl $words
 }
 
 Register-ArgumentCompleter -Native -ScriptBlock $_argc_completions_completer -CommandName $ARGC_COMPLETIONS_SCRIPTS

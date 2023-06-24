@@ -2,18 +2,35 @@ set -q ARGC_COMPLETIONS_DIR || set ARGC_COMPLETIONS_DIR (dirname (dirname (statu
 set ARGC_COMPLETIONS_SCRIPTS (ls -p -1 "$ARGC_COMPLETIONS_DIR" | grep -v '/' | sed 's/.sh$//')
 set ARGC_COMPLETIONS_EXTEND_CMDS (ls -p -1 "$ARGC_COMPLETIONS_DIR" | grep '/$' | sed 's|/$||')
 
+function _argc_completions_complete_impl
+    set -l cur $argv[-1]
+    set -l candidates (argc --argc-compgen fish $argv 2>/dev/null)
+    if test (count $candidates) -eq 1
+        if [ $candidates[1] = "__argc_value:file" ]
+            __fish_complete_path $cur
+            return
+        else if [ $candidates[1] = "__argc_value:dir" ]
+            __fish_complete_directories $cur
+            return
+        end
+    end
+    for item in $candidates
+        echo $item
+    end
+end
+
 function __argc_completions_completer
-    set -l words (commandline -o)
+    set -l args (commandline -o)
     set -l cur (commandline -t)
     if [ $cur = "" ]
-        set -a words ''
+        set -a args ''
     end
-    set -l cmd (basename $words[1])
+
+    set -l cmd (basename $args[1])
     set -l extend 0
     set -l scriptfile
-    set -l line
-    if test (count $words) -gt 2; and contains $cmd $ARGC_COMPLETIONS_EXTEND_CMDS
-        set -l subcmd $words[2]
+    if test (count $args) -gt 2; and contains $cmd $ARGC_COMPLETIONS_EXTEND_CMDS
+        set -l subcmd $args[2]
         if string match -q -r -- '^[A-Za-z0-9]' $subcmd
             set scriptfile "$ARGC_COMPLETIONS_DIR/$cmd/$subcmd.sh"
             if test -f "$scriptfile"
@@ -22,7 +39,7 @@ function __argc_completions_completer
         end
     end
     if test $extend -eq 1
-        set words $words[2..]
+        set args $args[2..]
     else
         set scriptfile "$ARGC_COMPLETIONS_DIR/$cmd.sh"
         if not test -f "$scriptfile"
@@ -30,19 +47,7 @@ function __argc_completions_completer
             return
         end
     end
-    set -l candidates (argc --argc-compgen fish $scriptfile $words 2>/dev/null)
-    if test (count $candidates) -eq 1
-        if [ "$candidates[1]" = "__argc_comp:file" ]
-            __fish_complete_path $cur
-            return
-        else if [ "$candidates[1]" = "__argc_comp:dir" ]
-            __fish_complete_directories $cur
-            return
-        end
-    end
-    for item in $candidates
-        echo "$item"
-    end
+    _argc_completions_complete_impl $scriptfile $args
 end
 
 for argc_script in $ARGC_COMPLETIONS_SCRIPTS

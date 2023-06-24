@@ -12,41 +12,46 @@ else:
 
 ARGC_COMPLETIONS_EXTEND_CMDS = list(filter(lambda c: not c.endswith(".sh"), os.listdir(ARGC_COMPLETIONS_DIR)))
 
-@contextual_command_completer
-def _argc_completions_completer(context):
-    if len(context.args) == 0:
-        return
-    words = [v.value for v in context.args[0:context.arg_index]]
-    words.append(context.raw_prefix)
-    cmd = os.path.splitext(os.path.basename(words[0]))[0] 
-    expand = False
-    scriptfile = ""
-    if len(words) > 2 && cmd in ARGC_COMPLETIONS_EXTEND_CMDS:
-        subcmd = words[1]
-        if re.search('^[A-Za-z0-9]', subcmd) != None:
-            scriptfile = os.path.join(ARGC_COMPLETIONS_DIR, cmd, subcmd + '.sh')
-            if os.path.exists(scriptfile):
-                expand = True
-    if expand:
-        words = words[1:]
-    else:
-        scriptfile = os.path.join(ARGC_COMPLETIONS_DIR, cmd + '.sh')
-        if not os.path.exists(scriptfile):
-            return
-    output, _ = Popen(['argc', '--argc-compgen', 'xonsh', scriptfile, *words], stdout=PIPE, stderr=PIPE).communicate()
+def _argc_completions_complete_impl(args):
+    output, _ = Popen(['argc', '--argc-compgen', 'xonsh', *args], stdout=PIPE, stderr=PIPE).communicate()
     candidates = output.decode().split('\n')
     candidates.pop()
     result = set()
     if len(candidates) == 0:
         return result
-    if candidates[0] == '__argc_comp:file' or candidates[0] == '__argc_comp:dir':
+    if candidates[0] == '__argc_value:file' or candidates[0] == '__argc_value:dir':
         return
     for v in candidates:
         parts = v.split('\t')
         value = parts[0]
         if parts[1] == "1":
             value = value + " "
-        result.add(RichCompletion(value, display=parts[2], description=parts[3], prefix_len=len(context.raw_prefix), append_closing_quote=False))
+        result.add(RichCompletion(value, display=parts[2], description=parts[3], prefix_len=len(args[-1]), append_closing_quote=False))
     return result
+
+@contextual_command_completer
+def _argc_completions_completer(context):
+    if len(context.args) == 0:
+        return
+    args = [v.value for v in context.args[0:context.arg_index]]
+    args.append(context.raw_prefix)
+    cmd = os.path.splitext(os.path.basename(args[0]))[0] 
+    expand = False
+    scriptfile = ""
+    if len(args) > 2 && cmd in ARGC_COMPLETIONS_EXTEND_CMDS:
+        subcmd = args[1]
+        if re.search('^[A-Za-z0-9]', subcmd) != None:
+            scriptfile = os.path.join(ARGC_COMPLETIONS_DIR, cmd, subcmd + '.sh')
+            if os.path.exists(scriptfile):
+                expand = True
+    if expand:
+        args = args[1:]
+    else:
+        scriptfile = os.path.join(ARGC_COMPLETIONS_DIR, cmd + '.sh')
+        if not os.path.exists(scriptfile):
+            return
+    args.insert(0, scriptfile)
+
+    return _argc_completions_complete_impl(args)
     
 _add_one_completer('argc_completions', _argc_completions_completer, 'start')

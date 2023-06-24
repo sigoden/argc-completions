@@ -2,40 +2,17 @@ ARGC_COMPLETIONS_DIR=${ARGC_COMPLETIONS_DIR:-"$(dirname $(dirname $(readlink -f 
 ARGC_COMPLETIONS_SCRIPTS=( $(ls -p -1 "$ARGC_COMPLETIONS_DIR" | grep -v '/' | sed 's/.sh$//' | tr '\n' ' ') )
 ARGC_COMPLETIONS_EXTEND_CMDS=( $(ls -p -1 "$ARGC_COMPLETIONS_DIR" | grep '/$' | sed 's|/$||' | tr '\n' ' ') )
 
-_argc_completions_completer()
-{
-    local word1="$(basename "$words[1]")"
-    local extend=0
-    local scriptfile line
-    if [[ $CURRENT -gt 2 ]] && [[ " ${ARGC_COMPLETIONS_EXTEND_CMDS[*]} " =~ " $word1 " ]]; then
-        local word2="$words[2]"
-        if [[ "$word2" =~ ^[A-Za-z0-9] ]]; then
-            scriptfile="$ARGC_COMPLETIONS_DIR/$word1/$word2.sh"
-            if [[ -f  "$scriptfile" ]]; then
-                extend=1
-            fi
-        fi
-    fi
-    local cur="$words[$CURRENT]"
-    if [[ $extend -eq 1 ]]; then
-        words=( ${words[2,$CURRENT]} )
-    else
-        scriptfile="$ARGC_COMPLETIONS_DIR/$word1.sh"
-        if [[ ! -f "$scriptfile" ]]; then
-            _path_files
-            return
-        fi
-    fi
-    if [[ "$cur" == "" ]]; then
-        words+=( $'\0' )
-    fi
-    local IFS=$'\n'
-    local candidates=( $(argc --argc-compgen zsh "$scriptfile" $words 2>/dev/null) )
+_argc_completions_complete_impl() {
+    local candidates=()
+    while IFS=$'\n' read -r line; do
+        if [[ "$line" == "" ]]; then line=$'\0'; fi
+        candidates+=( "$line" )
+    done < <(argc --argc-compgen zsh $@ 2>/dev/null)
     if [[ ${#candidates[@]} -eq 1 ]]; then
-        if [[ "$candidates[1]" == "__argc_comp:file" ]]; then
+        if [[ "$candidates[1]" == "__argc_value:file" ]]; then
             _path_files
             return
-        elif [[ "$candidates[1]" == "__argc_comp:dir" ]]; then
+        elif [[ "$candidates[1]" == "__argc_value:dir" ]]; then
             _path_files -/
             return
         fi
@@ -48,9 +25,39 @@ _argc_completions_completer()
             values+=( "$value" )
             displays+=( "$display" )
         done
-        zstyle ":completion:${curcontext}:*" list-colors "=(#b)(-- *)=0=2;37"
+        zstyle ":completion:${curcontext}:*" list-colors "=(#b)(-- *)=0=2;37:=(#b)(--[A-Za-z0-9_-]#)( * -- *)=0==2;37"
         _describe "" displays values -Q -S ''
     fi
+}
+
+_argc_completions_completer()
+{
+    local cur="$words[$CURRENT]"
+    if [[ "$cur" == "" ]]; then
+        words+=( $'\0' )
+    fi
+    local cmd="$(basename "$words[1]")"
+    local extend=0
+    local scriptfile
+    if [[ ${#words[@]} -gt 2 ]] && [[ " ${ARGC_COMPLETIONS_EXTEND_CMDS[*]} " =~ " $cmd " ]]; then
+        local subcmd="$words[2]"
+        if [[ "$subcmd" =~ ^[A-Za-z0-9] ]]; then
+            scriptfile="$ARGC_COMPLETIONS_DIR/$cmd/$subcmd.sh"
+            if [[ -f  "$scriptfile" ]]; then
+                extend=1
+            fi
+        fi
+    fi
+    if [[ $extend -eq 1 ]]; then
+        words=( ${words[2, -1]} )
+    else
+        scriptfile="$ARGC_COMPLETIONS_DIR/$cmd.sh"
+        if [[ ! -f "$scriptfile" ]]; then
+            _path_files
+            return
+        fi
+    fi
+    _argc_completions_complete_impl $scriptfile $words
 }
 
 compdef _argc_completions_completer ${ARGC_COMPLETIONS_SCRIPTS[@]}
