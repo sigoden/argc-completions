@@ -1,6 +1,6 @@
 _argc_util_comp_kv() {
     local prefix
-    local matcher="${2:-$ARGC_MATCHER}"
+    local matcher="${2-$ARGC_MATCHER}"
     if [[ "$matcher" == *$1* ]]; then
         prefix="${matcher%%$1*}"
         matcher="${matcher#*$1}"

@@ -2287,7 +2287,7 @@ _argc_util_param_select_options() {
 }
 
 _argc_util_comp_parts() {
-    awk -v SEP="$1" -v ARGC_MATCHER="${2:-$ARGC_MATCHER}" '
+    awk -v SEP="$1" -v ARGC_MATCHER="${2-$ARGC_MATCHER}" -v ARGC_PREFIX="${3}" '
 BEGIN {
     split("", VALUES)
     split("", DEDUPS)
@@ -2299,14 +2299,17 @@ BEGIN {
     for (i = 1; i < length(matchers); i++) 
         PREFIX = PREFIX matchers[i] SEP
     print "__argc_matcher:" MATCHER
-    print "__argc_prefix:" PREFIX
+    print "__argc_prefix:" ARGC_PREFIX PREFIX
 }
 {
     if (index($0, ARGC_MATCHER) == 1) {
         value = substr($0, length(PREFIX) + 1)
         if (COUNT == 0) {
             LINE = value
-        } 
+            if (substr(LINE, length(LINE)) == SEP) {
+                LINE = LINE "\0"
+            }
+        }
         COUNT = COUNT + 1
         idx = index(value, SEP)
         if (idx > 0) {
