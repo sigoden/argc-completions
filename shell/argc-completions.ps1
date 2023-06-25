@@ -5,12 +5,13 @@ $ARGC_COMPLETIONS_SCRIPTS = (Get-ChildItem -File $ARGC_COMPLETIONS_DIR | ForEach
 $ARGC_COMPLETIONS_EXTEND_CMDS = (Get-ChildItem -Directory $ARGC_COMPLETIONS_DIR | ForEach-Object { $_.Name })
 
 function _argc_completions_complete_impl([array]$words) {
-    $candidates = @((argc --argc-compgen powershell $words 2>$null).Split("`n"))
+    $candidates = @((argc --argc-compgen powershell $words 2>$null) -split "`n")
+    if ($candidates.Count -eq 0) {
+        return ""
+    }
     if ($candidates.Count -eq 1) {
         if (($candidates[0] -eq "__argc_value:file") -or ($candidates[0] -eq "__argc_value:dir")) {
             return
-        } elseif ($candidates[0] -eq "") {
-            return ""
         }
     }
     $candidates | ForEach-Object { 
