@@ -56,7 +56,16 @@ choice-fn() {
         if [[ "$OS" == "Windows_NT" ]]; then
             script_file="$(cygpath -w "$script_file")"
         fi
-        cd $argc_dir && bash "$script_file" $argc_fn ${argc_args[@]}
+        if [[ "${#argc_args[@]}" -gt 0 ]]; then
+            last_arg="${argc_args[-1]}"
+        fi
+        matcher="$last_arg"
+        if [[ "$last_arg" =~ ^'-' ]] && [[ "$last_arg" =~ '=' ]]; then
+            matcher="${matcher#*=}"
+        fi
+        (cd $argc_dir && \
+            ARGC_MATCHER="$matcher" ARGC_LAST_ARG="$last_arg" \
+            bash "$script_file" $argc_fn ${argc_args[@]})
     else
         for f in utils/_argc_utils/*.sh; do
             . "$f"
