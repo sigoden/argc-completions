@@ -6,8 +6,8 @@ from xonsh.completers.path import contextual_complete_path
 from xonsh.parsers.completion_context import *
 from xonsh.completers._aliases import _add_one_completer
 
-if 'ARGC_COMPLETIONS_DIR' in ${...}:
-    ARGC_COMPLETIONS_DIR = os.path.expanduser($ARGC_COMPLETIONS_DIR)
+if 'ARGC_COMPLETIONS_DIR' in globals():
+    ARGC_COMPLETIONS_DIR = os.path.expanduser(ARGC_COMPLETIONS_DIR)
 else:
     ARGC_COMPLETIONS_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'completions'))
 

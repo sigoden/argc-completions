@@ -1,4 +1,4 @@
-let ARGC_COMPLETIONS_EXTEND_CMDS = (ls $env.ARGC_COMPLETIONS_DIR | where type == dir | each {|it| $it.name | path basename })
+let-env ARGC_COMPLETIONS_EXTEND_CMDS = (ls $env.ARGC_COMPLETIONS_DIR | where type == dir | each {|it| $it.name | path basename })
 
 def _argc_completions_complete_path [name: string, is_dir: bool] {
     let sep = if $nu.os-info.family == "windows" {
@@ -51,7 +51,7 @@ def _argc_completions_completer [args: list<string>] {
     let cmd = ($args.0 | path parse | get stem)
     mut extend = false
     mut scriptfile = ""
-    if (($args | length) > 2) and ($cmd in $ARGC_COMPLETIONS_EXTEND_CMDS) {
+    if (($args | length) > 2) and ($cmd in $env.ARGC_COMPLETIONS_EXTEND_CMDS) {
         let subcmd = $args.1
         if $subcmd =~ ^[A-Za-z0-9] {
             $scriptfile = ($env.ARGC_COMPLETIONS_DIR | path join $cmd ($subcmd + '.sh') | path expand)

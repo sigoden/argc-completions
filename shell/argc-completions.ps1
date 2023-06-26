@@ -87,8 +87,12 @@ function _argc_completions_complete_impl([array]$words) {
 $_argc_completions_completer = {
     param($wordToComplete, $commandAst, $cursorPosition)
     $words = @($commandAst.CommandElements | Where { $_.Extent.StartOffset -lt $cursorPosition } | ForEach-Object { $_.ToString() })
+    $emptyS = ''
+    if ($PSVersionTable.PSVersion.Major -eq 5) {
+        $emptyS = '""'
+    }
     if ($commandAst.CommandElements[-1].Extent.EndOffset -lt $cursorPosition) {
-        $words += ''
+        $words += $emptyS
     }
     $cmd = $words[0]
     if ($cmd -cmatch '([A-Za-z0-9_-]+)(\.[^.]+)?$') {

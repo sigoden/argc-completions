@@ -15,7 +15,7 @@ fn argc-completions-complete-path {|arg &is_dir=$false|
 }
 
 fn argc-completions-complete-impl {|@args|
-    var candidates = [(try { argc --argc-compgen elvish (all $args) } catch e { echo '' })]
+    var candidates = [(try { argc --argc-compgen elvish (all $args) 2>/dev/null } catch e { echo '' })]
     var skip = (num 0)
     if (> (count $candidates) (num 0)) {
         if (eq $candidates[0] '__argc_value:file') {

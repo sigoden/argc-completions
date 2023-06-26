@@ -23,7 +23,7 @@ end
 function __argc_completions_completer
     set -l args (commandline -o)
     set -l cur (commandline -t)
-    if [ $cur = "" ]
+    if [ ! "$cur" ]
         set -a args ''
     end
 
