@@ -1,12 +1,12 @@
 let-env ARGC_COMPLETIONS_EXTEND_CMDS = (ls $env.ARGC_COMPLETIONS_DIR | where type == dir | each {|it| $it.name | path basename })
 
-def _argc_completions_complete_path [name: string, is_dir: bool] {
+def _argc_completions_complete_path [cur: string, is_dir: bool] {
     let sep = if $nu.os-info.family == "windows" {
         "\\"
     } else {
         "/"
     }
-    let paths = (try {ls ($name + '*')} catch { [] })
+    let paths = (try {ls ($cur + '*')} catch { [] })
     mut paths = if $is_dir {
         $paths | where type == dir
     } else {
@@ -20,9 +20,9 @@ def _argc_completions_complete_path [name: string, is_dir: bool] {
         } else {
             $it.name + ' '
         })
-        if ($name | str starts-with '~') {
+        if ($cur | str starts-with '~') {
             $value | str replace $homedir '~'
-        } else if ($name | str starts-with ('.' + $sep)) {
+        } else if ($cur | str starts-with ('.' + $sep)) {
             '.' + $sep + $value
         } else {
             $value
