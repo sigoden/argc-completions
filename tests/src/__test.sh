@@ -58,7 +58,11 @@ Options:
     --edition <YEAR>            Edition to set for the crate generated [possible values: 2015, 2018, 2021]
     --color2 <WHEN>             Coloring: auto, always, never
     -I pkcs11                   Specify the PKCS#11 shared library ssh should use to communicate with a PKCS#11 token providing keys for user authentication.
-     --jobs <N>                 Number of parallel jobs, defaults to # of CPUs
+    --jobs <N>                  Number of parallel jobs, defaults to # of CPUs
+	--bun                       Force a script or package to use Bun.js instead of Node.js (via symlinking node)
+
+-------
+
 Environment variables:
     NO_COLOR                    Disable ansi color.
 Commands:

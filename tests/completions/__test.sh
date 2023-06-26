@@ -45,6 +45,7 @@
 # @option --color2[auto|always|never] <WHEN>       Coloring: auto, always, never
 # @option -I <pkcs11>                              Specify the PKCS#11 shared library ssh should use to communicate with a PKCS#11 token providing keys for user authentication.
 # @option --jobs <N>                               Number of parallel jobs, defaults to ♯ of CPUs
+# @flag --bun                                      Force a script or package to use Bun.js instead of Node.js (via symlinking node)
 # @arg ARG1!
 # @arg ARG2+
 # @arg ARG3

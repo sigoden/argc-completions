@@ -300,7 +300,7 @@ function IsEmpty(input) {
 }
 
 function isOption(input) {
-    return match(input, /^ {0,8}-\S/)
+    return match(input, /^[ \t]{0,8}-{1,2}[^- \t]/)
 }
 
 function isUsage(input) {
