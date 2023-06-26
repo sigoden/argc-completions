@@ -1,12 +1,12 @@
 let ARGC_COMPLETIONS_EXTEND_CMDS = (ls $env.ARGC_COMPLETIONS_DIR | where type == dir | each {|it| $it.name | path basename })
 
-def _argc_competions_complete_path [name: string, is_dir: bool] {
+def _argc_completions_complete_path [name: string, is_dir: bool] {
     let sep = if $nu.os-info.family == "windows" {
         "\\"
     } else {
         "/"
     }
-    let paths = (ls ($name + '*'))
+    let paths = (try {ls ($name + '*')} catch { [] })
     mut paths = if $is_dir {
         $paths | where type == dir
     } else {
@@ -30,24 +30,21 @@ def _argc_competions_complete_path [name: string, is_dir: bool] {
     }
 }
 
-def _argc_competions_complete_list [] {
+def _argc_completions_complete_list [] {
     each { |line| $line | split column "\t" value description } | flatten 
 }
 
 def _argc_completions_complete_impl [args: list<string>] {
     let cur = ($args | last)
-    if not ($args.0 | path exists) {
-        return (_argc_competions_complete_path $cur false | _argc_competions_complete_list)
-    }
     mut candidates = ((do { argc --argc-compgen nushell $args } | complete | get stdout) | split row "\n" | range 0..-2)
-    if ($candidates | length) == 1  {
+    if ($candidates | length) > 0  {
         if $candidates.0 == '__argc_value:file' {
-            $candidates = (_argc_competions_complete_path $cur false)
+            $candidates = ($candidates | skip 1 | append (_argc_completions_complete_path $cur false))
         } else if $candidates.0 == '__argc_value:dir' {
-            $candidates = (_argc_competions_complete_path $cur true)
+            $candidates = ($candidates | skip 1 | append (_argc_completions_complete_path $cur true))
         }
     }
-    $candidates | _argc_competions_complete_list
+    $candidates | _argc_completions_complete_list
 }
 
 def _argc_completions_completer [args: list<string>] {
@@ -69,7 +66,7 @@ def _argc_completions_completer [args: list<string>] {
     } else {
         $scriptfile = ($env.ARGC_COMPLETIONS_DIR | path join ($cmd + '.sh') | path expand)
         if not ($scriptfile | path exists) {
-            return (_argc_competions_complete_path ($args | last) false | _argc_competions_complete_list)
+            return (_argc_completions_complete_path ($args | last) false | _argc_completions_complete_list)
         }
     }
     _argc_completions_complete_impl ($args | insert 0 $scriptfile)

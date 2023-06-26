@@ -5,16 +5,17 @@ set ARGC_COMPLETIONS_EXTEND_CMDS (ls -p -1 "$ARGC_COMPLETIONS_DIR" | grep '/$' |
 function _argc_completions_complete_impl
     set -l cur $argv[-1]
     set -l candidates (argc --argc-compgen fish $argv 2>/dev/null)
-    if test (count $candidates) -eq 1
+    set -l skip 0
+    if test (count $candidates) -gt 0
         if [ $candidates[1] = "__argc_value:file" ]
+            set skip 1
             __fish_complete_path $cur
-            return
         else if [ $candidates[1] = "__argc_value:dir" ]
+            set skip 1
             __fish_complete_directories $cur
-            return
         end
     end
-    for item in $candidates
+    for item in $candidates[(math $skip + 1)..]
         echo $item
     end
 end

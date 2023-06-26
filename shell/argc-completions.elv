@@ -16,16 +16,17 @@ fn argc-completions-complete-path {|arg &is_dir=$false|
 
 fn argc-completions-complete-impl {|@args|
     var candidates = [(try { argc --argc-compgen elvish (all $args) } catch e { echo '' })]
-    if (eq (count $candidates) (num 1)) {
+    var skip = (num 0)
+    if (> (count $candidates) (num 0)) {
         if (eq $candidates[0] '__argc_value:file') {
+            set skip = (num 1)
             argc-completions-complete-path $args[-1]
-            return
         } elif (eq $candidates[0] '__argc_value:dir') {
+            set skip = (num 1)
             argc-completions-complete-path &is_dir=$true $args[-1]
-            return
         }
     }
-    all $candidates | each {|candidate| 
+    all $candidates[$skip..] | each {|candidate| 
         var parts = [(str:split "\t" $candidate)]
         var code-suffix = (if (eq $parts[1] 1) { echo ' ' } else { echo '' })
         if (eq $parts[3] '') {
