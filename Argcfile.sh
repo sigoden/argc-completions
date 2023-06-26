@@ -48,7 +48,7 @@ test() {
 # @option -C --dir  Change current workdir to <DIR>
 # @arg script_file!
 # @arg fn![`_choice_fn_name`]
-# @arg args* Command line args passed for compgen
+# @arg args~ Command line args passed for compgen
 choice-fn() {
     argc_dir="${argc_dir:-`pwd`}"
     script_file="$(realpath "$argc_script_file")"
@@ -75,58 +75,18 @@ choice-fn() {
     fi
 }
 
-# @cmd A aggregation command, easy to switch print-table/help/script
+# @cmd Print generated help/table/script, used to debug patch fn
 # @option -k --kind[=table|help|script]
-# @arg cmd![?`_choice_completion`]
+# @flag -P --no-patch  Do not apply _patch_* fn
+# @arg cmd_or_help_file![?`_choice_print_target`]
 # @arg subcmds*
 print() {
     if [[ "$argc_kind" == "table" ]]; then
-        print-table $@
+        _helper_print_table $@
     elif [[ "$argc_kind" == "help" ]]; then
-        print-help $@
+        _helper_print_help $@
     elif [[ "$argc_kind" == "script" ]]; then
-        print-script $@
-    fi
-}
-
-# @cmd Print the help text of the command
-# @flag -P --no-patch  Do not apply _patch_help fn
-# @arg cmd![?`_choice_completion`]
-# @arg subcmds*
-print-help() {
-    _source_src_script $@
-    if _test_patch_fn help; then
-        _patch_help $@
-    else
-        $@ --help
-    fi
-}
-
-# @cmd Print the table generate by lexer for the command
-# @flag -P --no-patch  Do not apply _patch_table fn
-# @arg cmd![?`_choice_completion`]
-# @arg subcmds*
-print-table() {
-    _source_src_script $@
-    help_text=$(print-help $@ | awk -f scripts/lexer.awk)
-    if _test_patch_fn table; then
-        echo "$help_text" | _patch_table $@
-    else
-        echo "$help_text"
-    fi
-}
-
-# @cmd Print the generated completion script of the command
-# @flag -P --no-patch  Do not apply _patch_script fn
-# @arg cmd![?`_choice_completion`]
-# @arg args*
-print-script() {
-    _source_src_script $@
-    table_text=$(print-table $@ | awk -f scripts/parser.awk)
-    if _test_patch_fn script; then
-        echo "$table_text" | _patch_script $@
-    else
-        echo "$table_text"
+        _helper_print_script $@
     fi
 }
 
@@ -137,6 +97,46 @@ _choice_completion() {
 _choice_fn_name() {
     if [[ -f "$argc_script_file" ]]; then
         cat "$argc_script_file" | grep ^_choice | sed 's/\(_choice\w\+\).*/\1/'
+    fi
+}
+
+_choice_print_target() {
+    echo __argc_value:file
+    _choice_completion
+}
+
+_helper_print_help() {
+    _source_src_script $@
+    if [[ -e "$1" ]]; then
+        $1 --help
+    elif [[ -f "$1" ]]; then
+        cat $1
+    else
+        if _test_patch_fn help; then
+            _patch_help $@
+        else
+            $@ --help
+        fi
+    fi
+}
+
+_helper_print_table() {
+    _source_src_script $@
+    help_text=$(_helper_print_help $@ | awk -f scripts/lexer.awk)
+    if _test_patch_fn table; then
+        echo "$help_text" | _patch_table $@
+    else
+        echo "$help_text"
+    fi
+}
+
+_helper_print_script() {
+    _source_src_script $@
+    table_text=$(_helper_print_table $@ | awk -f scripts/parser.awk)
+    if _test_patch_fn script; then
+        echo "$table_text" | _patch_script $@
+    else
+        echo "$table_text"
     fi
 }
 
@@ -157,7 +157,7 @@ _source_src_script() {
 
 _test_patch_fn() {
     local target=$1
-    if [[ "$argc_no_patch" -eq 1 ]] && [[ "$argc__fn" == "print-$target" ]]; then
+    if [[ "$argc_no_patch" -eq 1 ]] && [[ "$argc_kind" == "$target" ]]; then
         return 1
     fi
     if [[ $(type -t _patch_$target) != "function" ]] ; then
