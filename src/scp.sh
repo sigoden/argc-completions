@@ -127,11 +127,9 @@ _choice_path() {
     local last_arg="$(_argc_util_param_get_positional -1)"
     if [[ "$last_arg" != *':'* ]]; then
         if [[ "$last_arg" =~ ^[A-Za-z0-9_-]*$ ]]; then
-            ls -a1dp * 2>/dev/null
             _helper_host | xargs printf "%s:\0\n"
-        else
-            echo __argc_value:file
         fi
+        echo __argc_value:file
         return
     fi
     local userhost="${last_arg%%:*}"
