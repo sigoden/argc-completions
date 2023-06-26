@@ -11,10 +11,10 @@ _patch_util_add_extra_column() {
         local value="${item#*:}"
         local prefix name2
         if [[ "$name" == '-'* ]]; then
-            prefix='option #.*'
+            prefix='option #[^#]*'
             name2=" $name[= +*]"
         else
-            prefix='argument #.*'
+            prefix='argument #[^#]*'
             name2="[ <[]$name[]>. [|=]"
         fi
         args="$args -e '/$prefix$name2/ s/$/ # $value/'"
