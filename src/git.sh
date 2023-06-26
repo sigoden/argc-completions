@@ -468,6 +468,7 @@ _choice_reset() {
         _choice_changed_file
     else
         _choice_branch
+        _choice_head
     fi
 }
 
@@ -497,13 +498,7 @@ _choice_tag() {
 }
 
 _choice_head() {
-    local gitdir
-    gitdir="$(_git rev-parse --git-dir)"
-    for head in HEAD FETCH_HEAD ORIG_HEAD MERGE_HEAD; do
-        if [[ -f "$gitdir/$head" ]]; then
-            echo $head
-        fi
-    done
+    echo HEAD
 }
 
 _choice_push() {
