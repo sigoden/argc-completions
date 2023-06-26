@@ -44,6 +44,7 @@
 # @option --edition[2015|2018|2021] <YEAR>         Edition to set for the crate generated [possible values: 2015, 2018, 2021]
 # @option --color2[auto|always|never] <WHEN>       Coloring: auto, always, never
 # @option -I <pkcs11>                              Specify the PKCS#11 shared library ssh should use to communicate with a PKCS#11 token providing keys for user authentication.
+# @option --jobs <N>                               Number of parallel jobs, defaults to ♯ of CPUs
 # @arg ARG1!
 # @arg ARG2+
 # @arg ARG3

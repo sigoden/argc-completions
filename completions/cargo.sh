@@ -27,7 +27,7 @@
 # @flag -v --verbose*                            Use verbose output (-vv very verbose/build.rs output)
 # @flag --all                                    Alias for --workspace (deprecated)
 # @option --color[auto|always|never] <WHEN>      Coloring: auto, always, never
-# @option -j --jobsof CPUs <N>                   Number of parallel jobs, defaults to
+# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs
 # @flag --frozen                                 Require Cargo.lock and cache are up to date
 # @flag --keep-going                             Do not abort the build as soon as there is an error (unstable)
 # @flag --lib                                    Build only this package's library
@@ -75,7 +75,7 @@ build() {
 # @flag -v --verbose*                            Use verbose output (-vv very verbose/build.rs output)
 # @flag --all                                    Alias for --workspace (deprecated)
 # @option --color[auto|always|never] <WHEN>      Coloring: auto, always, never
-# @option -j --jobsof CPUs <N>                   Number of parallel jobs, defaults to
+# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs
 # @flag --frozen                                 Require Cargo.lock and cache are up to date
 # @flag --keep-going                             Do not abort the build as soon as there is an error (unstable)
 # @flag --lib                                    Check only this package's library
@@ -149,7 +149,7 @@ clean() {
 # @flag --no-deps                                Don't build documentation for dependencies
 # @flag --document-private-items                 Document private items
 # @flag --locked                                 Require Cargo.lock is up to date
-# @option -j --jobsof CPUs <N>                   Number of parallel jobs, defaults to
+# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs
 # @flag --offline                                Run without accessing the network
 # @option --config <KEY=VALUE>                   Override a configuration value
 # @flag --keep-going                             Do not abort the build as soon as there is an error (unstable)
@@ -289,7 +289,7 @@ remove() {
 # @option --example[`_choice_example`] <NAME>    Name of the example target to run
 # @option -p --package[`_choice_package`] <SPEC>  Package with the target to run
 # @flag -v --verbose*                            Use verbose output (-vv very verbose/build.rs output)
-# @option -j --jobsof CPUs <N>                   Number of parallel jobs, defaults to
+# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs
 # @option --color[auto|always|never] <WHEN>      Coloring: auto, always, never
 # @flag --keep-going                             Do not abort the build as soon as there is an error (unstable)
 # @flag --frozen                                 Require Cargo.lock and cache are up to date
@@ -344,7 +344,7 @@ run() {
 # @flag --workspace                              Test all packages in the workspace
 # @option --exclude <SPEC>                       Exclude packages from the test
 # @flag --all                                    Alias for --workspace (deprecated)
-# @option -j --jobsof CPUs <N>                   Number of parallel jobs, defaults to
+# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs
 # @flag --keep-going                             Do not abort the build as soon as there is an error (unstable)
 # @flag -r --release                             Build artifacts in release mode, with optimizations
 # @option --profile <PROFILE-NAME>               Build artifacts with the specified profile
@@ -392,7 +392,7 @@ test() {
 # @flag --workspace                              Benchmark all packages in the workspace
 # @option --exclude <SPEC>                       Exclude packages from the benchmark
 # @flag --all                                    Alias for --workspace (deprecated)
-# @option -j --jobsof CPUs <N>                   Number of parallel jobs, defaults to
+# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs
 # @flag --keep-going                             Do not abort the build as soon as there is an error (unstable)
 # @option --profile <PROFILE-NAME>               Build artifacts with the specified profile
 # @option -F --features                          Space or comma separated list of features to activate
@@ -477,7 +477,7 @@ search() {
 # @flag --all-features                           Activate all available features
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
 # @flag --no-default-features                    Do not activate the `default` feature
-# @option -j --jobsof CPUs <N>                   Number of parallel jobs, defaults to
+# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs
 # @flag --keep-going                             Do not abort the build as soon as there is an error (unstable)
 # @flag --dry-run                                Perform all checks without uploading
 # @option --registry                             Registry to publish to
@@ -501,7 +501,7 @@ publish() {
 # @option --path                                 Filesystem path to local crate to install
 # @flag --list                                   list all installed packages and their versions
 # @flag --locked                                 Require Cargo.lock is up to date
-# @option -j --jobsof CPUs <N>                   Number of parallel jobs, defaults to
+# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs
 # @flag --offline                                Run without accessing the network
 # @option --config <KEY=VALUE>                   Override a configuration value
 # @flag --keep-going                             Do not abort the build as soon as there is an error (unstable)
@@ -629,7 +629,7 @@ fetch() {
 # @flag -v --verbose*                            Use verbose output (-vv very verbose/build.rs output)
 # @flag --all                                    Alias for --workspace (deprecated)
 # @option --color[auto|always|never] <WHEN>      Coloring: auto, always, never
-# @option -j --jobsof CPUs <N>                   Number of parallel jobs, defaults to
+# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs
 # @flag --frozen                                 Require Cargo.lock and cache are up to date
 # @flag --keep-going                             Do not abort the build as soon as there is an error (unstable)
 # @flag --lib                                    Fix only this package's library
@@ -836,7 +836,7 @@ owner() {
 # @flag --workspace                              Assemble all packages in the workspace
 # @option --exclude <SPEC>                       Don't assemble specified packages
 # @option --manifest-path <PATH>                 Path to Cargo.toml
-# @option -j --jobsof CPUs <N>                   Number of parallel jobs, defaults to
+# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs
 # @flag --keep-going                             Do not abort the build as soon as there is an error (unstable)
 # @flag -h --help                                Print help
 package() {
@@ -916,7 +916,7 @@ report::future-incompatibilities() {
 # @cmd Compile a package, and pass extra options to the compiler
 # @flag -q --quiet                               Do not print cargo log messages
 # @option -p --package[`_choice_package`] <SPEC>  Package to build
-# @option -j --jobsof CPUs <N>                   Number of parallel jobs, defaults to
+# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs
 # @flag --keep-going                             Do not abort the build as soon as there is an error (unstable)
 # @flag -v --verbose*                            Use verbose output (-vv very verbose/build.rs output)
 # @flag --lib                                    Build only this package's library
@@ -962,7 +962,7 @@ rustc() {
 # @flag -q --quiet                               Do not print cargo log messages
 # @flag --open                                   Opens the docs in a browser after the operation
 # @option -p --package[`_choice_package`] <SPEC>  Package to document
-# @option -j --jobsof CPUs <N>                   Number of parallel jobs, defaults to
+# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs
 # @flag -v --verbose*                            Use verbose output (-vv very verbose/build.rs output)
 # @flag --keep-going                             Do not abort the build as soon as there is an error (unstable)
 # @option --color[auto|always|never] <WHEN>      Coloring: auto, always, never

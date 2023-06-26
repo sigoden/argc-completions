@@ -284,6 +284,7 @@ function splitCommand(input) {
 
 function truncateDesc(input) {
     gsub(/\s{2,}/, " ", input)
+    gsub(/ #/, " ♯", input)
     input = trimStarts(input)
     if (length(input) < 80) {
         return input

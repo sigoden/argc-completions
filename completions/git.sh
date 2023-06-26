@@ -406,42 +406,42 @@ status() {
 
 # {{ git commit
 # @cmd Record changes to the repository
-# @flag -q --quiet                                 suppress summary after successful commit
-# @flag -v --verbose                               show diff in commit message template
-# @option -F --file <file>                         read message from file
-# @option --author <author>                        override author for commit
-# @option --date <date>                            override date for commit
-# @option -m --message <message>                   commit message
-# @option -c --reedit-message <commit>             reuse and edit message from specified commit
-# @option -C --reuse-message <commit>              reuse message from specified commit
-# @option --fixup <[(amend|reword):]commit>        use autosquash formatted message to fixup or amend/reword specified commit
-# @option --squash <commit>                        use autosquash formatted message to squash specified commit
-# @flag --reset-author                             the commit is authored by me now (used with -C/-c/--amend)
-# @option --trailer <trailer>                      add custom trailer(s)
-# @flag -s --signoff                               add a Signed-off-by trailer
-# @option -t --template <file>                     use specified template file
-# @flag -e --edit                                  force edit of commit
-# @option --cleanupcomments from message <mode>    how to strip spaces and
-# @flag --status                                   include status in commit message template
-# @option -S --gpg-sign <key-id>                   GPG sign commit
-# @flag -a --all                                   commit all changed files
-# @flag -i --include                               add specified files to index for commit
-# @flag --interactive                              interactively add files
-# @flag -p --patch                                 interactively add changes
-# @flag -o --only                                  commit only specified files
-# @flag -n --no-verify                             bypass pre-commit and commit-msg hooks
-# @flag --dry-run                                  show what would be committed
-# @flag --short                                    show status concisely
-# @flag --branch                                   show branch information
-# @flag --ahead-behind                             compute full ahead/behind values
-# @flag --porcelain                                machine-readable output
-# @flag --long                                     show status in long format (default)
-# @flag -z --null                                  terminate entries with NUL
-# @flag --amend                                    amend previous commit
-# @flag --no-post-rewrite                          bypass post-rewrite hook
+# @flag -q --quiet                             suppress summary after successful commit
+# @flag -v --verbose                           show diff in commit message template
+# @option -F --file <file>                     read message from file
+# @option --author <author>                    override author for commit
+# @option --date <date>                        override date for commit
+# @option -m --message <message>               commit message
+# @option -c --reedit-message <commit>         reuse and edit message from specified commit
+# @option -C --reuse-message <commit>          reuse message from specified commit
+# @option --fixup <[(amend|reword):]commit>    use autosquash formatted message to fixup or amend/reword specified commit
+# @option --squash <commit>                    use autosquash formatted message to squash specified commit
+# @flag --reset-author                         the commit is authored by me now (used with -C/-c/--amend)
+# @option --trailer <trailer>                  add custom trailer(s)
+# @flag -s --signoff                           add a Signed-off-by trailer
+# @option -t --template <file>                 use specified template file
+# @flag -e --edit                              force edit of commit
+# @option --cleanup <mode>                     how to strip spaces and ♯comments from message
+# @flag --status                               include status in commit message template
+# @option -S --gpg-sign <key-id>               GPG sign commit
+# @flag -a --all                               commit all changed files
+# @flag -i --include                           add specified files to index for commit
+# @flag --interactive                          interactively add files
+# @flag -p --patch                             interactively add changes
+# @flag -o --only                              commit only specified files
+# @flag -n --no-verify                         bypass pre-commit and commit-msg hooks
+# @flag --dry-run                              show what would be committed
+# @flag --short                                show status concisely
+# @flag --branch                               show branch information
+# @flag --ahead-behind                         compute full ahead/behind values
+# @flag --porcelain                            machine-readable output
+# @flag --long                                 show status in long format (default)
+# @flag -z --null                              terminate entries with NUL
+# @flag --amend                                amend previous commit
+# @flag --no-post-rewrite                      bypass post-rewrite hook
 # @option -u --untracked-files[all|normal|no] <mode>  show untracked files, optional modes: all, normal, no. (Default: all)
-# @option --pathspec-from-file <file>              read pathspec from file
-# @flag --pathspec-file-nul                        with --pathspec-from-file, pathspec elements are separated with NUL character
+# @option --pathspec-from-file <file>          read pathspec from file
+# @flag --pathspec-file-nul                    with --pathspec-from-file, pathspec elements are separated with NUL character
 # @arg pathspec+
 commit() {
     :;
@@ -450,34 +450,34 @@ commit() {
 
 # {{ git merge
 # @cmd Join two or more development histories together
-# @flag -n                                         do not show a diffstat at the end of the merge
-# @flag --stat                                     show a diffstat at the end of the merge
-# @flag --summary                                  (synonym to --stat)
-# @option --log <n>                                add (at most <n>) entries from shortlog to merge commit message
-# @flag --squash                                   create a single commit instead of doing a merge
-# @flag --commit                                   perform a commit if the merge succeeds (default)
-# @flag -e --edit                                  edit message before committing
-# @option --cleanupcomments from message <mode>    how to strip spaces and
-# @flag --ff                                       allow fast-forward (default)
-# @flag --ff-only                                  abort if fast-forward is not possible
-# @flag --rerere-autoupdate                        update the index with reused conflict resolution if possible
-# @flag --verify-signatures                        verify that the named commit has a valid GPG signature
-# @option -s --strategy <strategy>                 merge strategy to use
-# @option -X --strategy-option <option=value>      option for selected merge strategy
-# @option -m --message <message>                   merge commit message (for a non-fast-forward merge)
-# @option -F --file <path>                         read message from file
-# @flag -v --verbose                               be more verbose
-# @flag -q --quiet                                 be more quiet
-# @flag --abort                                    abort the current in-progress merge
-# @flag --quit                                     --abort but leave index and working tree alone
-# @flag --continue                                 continue the current in-progress merge
-# @flag --allow-unrelated-histories                allow merging unrelated histories
-# @flag --progress                                 force progress reporting
-# @option -S --gpg-sign <key-id>                   GPG sign commit
-# @flag --autostash                                automatically stash/stash pop before and after
-# @flag --overwrite-ignore                         update ignored files (default)
-# @flag --signoff                                  add a Signed-off-by trailer
-# @flag --no-verify                                bypass pre-merge-commit and commit-msg hooks
+# @flag -n                                       do not show a diffstat at the end of the merge
+# @flag --stat                                   show a diffstat at the end of the merge
+# @flag --summary                                (synonym to --stat)
+# @option --log <n>                              add (at most <n>) entries from shortlog to merge commit message
+# @flag --squash                                 create a single commit instead of doing a merge
+# @flag --commit                                 perform a commit if the merge succeeds (default)
+# @flag -e --edit                                edit message before committing
+# @option --cleanup <mode>                       how to strip spaces and ♯comments from message
+# @flag --ff                                     allow fast-forward (default)
+# @flag --ff-only                                abort if fast-forward is not possible
+# @flag --rerere-autoupdate                      update the index with reused conflict resolution if possible
+# @flag --verify-signatures                      verify that the named commit has a valid GPG signature
+# @option -s --strategy <strategy>               merge strategy to use
+# @option -X --strategy-option <option=value>    option for selected merge strategy
+# @option -m --message <message>                 merge commit message (for a non-fast-forward merge)
+# @option -F --file <path>                       read message from file
+# @flag -v --verbose                             be more verbose
+# @flag -q --quiet                               be more quiet
+# @flag --abort                                  abort the current in-progress merge
+# @flag --quit                                   --abort but leave index and working tree alone
+# @flag --continue                               continue the current in-progress merge
+# @flag --allow-unrelated-histories              allow merging unrelated histories
+# @flag --progress                               force progress reporting
+# @option -S --gpg-sign <key-id>                 GPG sign commit
+# @flag --autostash                              automatically stash/stash pop before and after
+# @flag --overwrite-ignore                       update ignored files (default)
+# @flag --signoff                                add a Signed-off-by trailer
+# @flag --no-verify                              bypass pre-merge-commit and commit-msg hooks
 # @arg commit*[`_choice_branch`]
 merge() {
     :;
@@ -621,50 +621,50 @@ fetch() {
 
 # {{ git pull
 # @cmd Fetch from and integrate with another repository or a local branch
-# @flag -v --verbose                               be more verbose
-# @flag -q --quiet                                 be more quiet
-# @flag --progress                                 force progress reporting
-# @option --recurse-submodules <on-demand>         control for recursive fetching of submodules
+# @flag -v --verbose                              be more verbose
+# @flag -q --quiet                                be more quiet
+# @flag --progress                                force progress reporting
+# @option --recurse-submodules <on-demand>        control for recursive fetching of submodules
 # @option -r --rebase <false|true|merges|interactive>  incorporate changes by rebasing rather than merging
-# @flag -n                                         do not show a diffstat at the end of the merge
-# @flag --stat                                     show a diffstat at the end of the merge
-# @option --log <n>                                add (at most <n>) entries from shortlog to merge commit message
-# @flag --signoff*                                 add a Signed-off-by trailer
-# @flag --squash                                   create a single commit instead of doing a merge
-# @flag --commit                                   perform a commit if the merge succeeds (default)
-# @flag --edit                                     edit message before committing
-# @option --cleanupcomments from message <mode>    how to strip spaces and
-# @flag --ff                                       allow fast-forward
-# @flag --ff-only                                  abort if fast-forward is not possible
-# @flag --verify                                   control use of pre-merge-commit and commit-msg hooks
-# @flag --verify-signatures                        verify that the named commit has a valid GPG signature
-# @flag --autostash                                automatically stash/stash pop before and after
-# @option -s --strategy <strategy>                 merge strategy to use
-# @option -X --strategy-option <option=value>      option for selected merge strategy
-# @option -S --gpg-sign <key-id>                   GPG sign commit
-# @flag --allow-unrelated-histories                allow merging unrelated histories
-# @flag --all                                      fetch from all remotes
-# @flag -a --append                                append to .git/FETCH_HEAD instead of overwriting
-# @option --upload-pack <path>                     path to upload pack on remote end
-# @flag -f --force                                 force overwrite of local branch
-# @flag -t --tags                                  fetch all tags and associated objects
-# @flag -p --prune                                 prune remote-tracking branches no longer on remote
-# @option -j --jobs <n>                            number of submodules pulled in parallel
-# @flag --dry-run                                  dry run
-# @flag -k --keep                                  keep downloaded pack
-# @option --depth <depth>                          deepen history of shallow clone
-# @option --shallow-since <time>                   deepen history of shallow repository based on time
-# @option --shallow-exclude <revision>             deepen history of shallow clone, excluding rev
-# @option --deepen <n>                             deepen history of shallow clone
-# @flag --unshallow                                convert to a complete repository
-# @flag --update-shallow                           accept refs that update .git/shallow
-# @option --refmap <refmap>                        specify fetch refmap
-# @option -o --server-option <server-specific>     option to transmit
-# @flag -4 --ipv4                                  use IPv4 addresses only
-# @flag -6 --ipv6                                  use IPv6 addresses only
-# @option --negotiation-tip <revision>             report that we have only objects reachable from this object
-# @flag --show-forced-updates                      check for forced-updates on all updated branches
-# @flag --set-upstream                             set upstream for git pull/fetch
+# @flag -n                                        do not show a diffstat at the end of the merge
+# @flag --stat                                    show a diffstat at the end of the merge
+# @option --log <n>                               add (at most <n>) entries from shortlog to merge commit message
+# @flag --signoff*                                add a Signed-off-by trailer
+# @flag --squash                                  create a single commit instead of doing a merge
+# @flag --commit                                  perform a commit if the merge succeeds (default)
+# @flag --edit                                    edit message before committing
+# @option --cleanup <mode>                        how to strip spaces and ♯comments from message
+# @flag --ff                                      allow fast-forward
+# @flag --ff-only                                 abort if fast-forward is not possible
+# @flag --verify                                  control use of pre-merge-commit and commit-msg hooks
+# @flag --verify-signatures                       verify that the named commit has a valid GPG signature
+# @flag --autostash                               automatically stash/stash pop before and after
+# @option -s --strategy <strategy>                merge strategy to use
+# @option -X --strategy-option <option=value>     option for selected merge strategy
+# @option -S --gpg-sign <key-id>                  GPG sign commit
+# @flag --allow-unrelated-histories               allow merging unrelated histories
+# @flag --all                                     fetch from all remotes
+# @flag -a --append                               append to .git/FETCH_HEAD instead of overwriting
+# @option --upload-pack <path>                    path to upload pack on remote end
+# @flag -f --force                                force overwrite of local branch
+# @flag -t --tags                                 fetch all tags and associated objects
+# @flag -p --prune                                prune remote-tracking branches no longer on remote
+# @option -j --jobs <n>                           number of submodules pulled in parallel
+# @flag --dry-run                                 dry run
+# @flag -k --keep                                 keep downloaded pack
+# @option --depth <depth>                         deepen history of shallow clone
+# @option --shallow-since <time>                  deepen history of shallow repository based on time
+# @option --shallow-exclude <revision>            deepen history of shallow clone, excluding rev
+# @option --deepen <n>                            deepen history of shallow clone
+# @flag --unshallow                               convert to a complete repository
+# @flag --update-shallow                          accept refs that update .git/shallow
+# @option --refmap <refmap>                       specify fetch refmap
+# @option -o --server-option <server-specific>    option to transmit
+# @flag -4 --ipv4                                 use IPv4 addresses only
+# @flag -6 --ipv6                                 use IPv6 addresses only
+# @option --negotiation-tip <revision>            report that we have only objects reachable from this object
+# @flag --show-forced-updates                     check for forced-updates on all updated branches
+# @flag --set-upstream                            set upstream for git pull/fetch
 # @arg remote![`_choice_remote`]
 # @arg refspec+[`_choice_remote_branch`]
 pull() {
@@ -919,24 +919,24 @@ cherry() {
 
 # {{ git cherry-pick
 # @cmd Apply the changes introduced by some existing commits
-# @flag --quit                                     end revert or cherry-pick sequence
-# @flag --continue                                 resume revert or cherry-pick sequence
-# @flag --abort                                    cancel revert or cherry-pick sequence
-# @flag --skip                                     skip current commit and continue
-# @option --cleanupcomments from message <mode>    how to strip spaces and
-# @flag -n --no-commit                             don't automatically commit
-# @flag -e --edit                                  edit the commit message
-# @flag -s --signoff                               add a Signed-off-by trailer
-# @option -m --mainline <parent-number>            select mainline parent
-# @flag --rerere-autoupdate                        update the index with reused conflict resolution if possible
-# @option --strategy <strategy>                    merge strategy
-# @option -X --strategy-option <option>            option for merge strategy
-# @option -S --gpg-sign <key-id>                   GPG sign commit
-# @flag -x                                         append commit name
-# @flag --ff                                       allow fast-forward
-# @flag --allow-empty                              preserve initially empty commits
-# @flag --allow-empty-message                      allow commits with empty messages
-# @flag --keep-redundant-commits                   keep redundant, empty commits
+# @flag --quit                             end revert or cherry-pick sequence
+# @flag --continue                         resume revert or cherry-pick sequence
+# @flag --abort                            cancel revert or cherry-pick sequence
+# @flag --skip                             skip current commit and continue
+# @option --cleanup <mode>                 how to strip spaces and ♯comments from message
+# @flag -n --no-commit                     don't automatically commit
+# @flag -e --edit                          edit the commit message
+# @flag -s --signoff                       add a Signed-off-by trailer
+# @option -m --mainline <parent-number>    select mainline parent
+# @flag --rerere-autoupdate                update the index with reused conflict resolution if possible
+# @option --strategy <strategy>            merge strategy
+# @option -X --strategy-option <option>    option for merge strategy
+# @option -S --gpg-sign <key-id>           GPG sign commit
+# @flag -x                                 append commit name
+# @flag --ff                               allow fast-forward
+# @flag --allow-empty                      preserve initially empty commits
+# @flag --allow-empty-message              allow commits with empty messages
+# @flag --keep-redundant-commits           keep redundant, empty commits
 # @arg commit-ish+[`_choice_range`]
 cherry-pick() {
     :;
@@ -1624,19 +1624,19 @@ restore() {
 
 # {{ git revert
 # @cmd Revert some existing commits
-# @flag --quit                                     end revert or cherry-pick sequence
-# @flag --continue                                 resume revert or cherry-pick sequence
-# @flag --abort                                    cancel revert or cherry-pick sequence
-# @flag --skip                                     skip current commit and continue
-# @option --cleanupcomments from message <mode>    how to strip spaces and
-# @flag -n --no-commit                             don't automatically commit
-# @flag -e --edit                                  edit the commit message
-# @flag -s --signoff                               add a Signed-off-by trailer
-# @option -m --mainline <parent-number>            select mainline parent
-# @flag --rerere-autoupdate                        update the index with reused conflict resolution if possible
-# @option --strategy <strategy>                    merge strategy
-# @option -X --strategy-option <option>            option for merge strategy
-# @option -S --gpg-sign <key-id>                   GPG sign commit
+# @flag --quit                             end revert or cherry-pick sequence
+# @flag --continue                         resume revert or cherry-pick sequence
+# @flag --abort                            cancel revert or cherry-pick sequence
+# @flag --skip                             skip current commit and continue
+# @option --cleanup <mode>                 how to strip spaces and ♯comments from message
+# @flag -n --no-commit                     don't automatically commit
+# @flag -e --edit                          edit the commit message
+# @flag -s --signoff                       add a Signed-off-by trailer
+# @option -m --mainline <parent-number>    select mainline parent
+# @flag --rerere-autoupdate                update the index with reused conflict resolution if possible
+# @option --strategy <strategy>            merge strategy
+# @option -X --strategy-option <option>    option for merge strategy
+# @option -S --gpg-sign <key-id>           GPG sign commit
 # @arg commit-ish+
 revert() {
     :;
@@ -1986,29 +1986,29 @@ submodule::absorbgitdirs() {
 
 # {{ git tag
 # @cmd Create, list, delete or verify a tag object signed with GPG
-# @flag -l --list                                  list tag names
-# @option -n <n>                                   print <n> lines of each tag message
-# @flag -d --delete                                delete tags
-# @flag -v --verify                                verify tags
-# @flag -a --annotate                              annotated tag, needs a message
-# @option -m --message <message>                   tag message
-# @option -F --file <file>                         read message from file
-# @flag -e --edit                                  force edit of tag message
-# @flag -s --sign                                  annotated and GPG-signed tag
-# @option --cleanupcomments from message <mode>    how to strip spaces and
-# @option -u --local-user <key-id>                 use another key to sign the tag
-# @flag -f --force                                 replace the tag if exists
-# @flag --create-reflog                            create a reflog
-# @option --column <style>                         show tag list in columns
-# @option --contains <commit>                      print only tags that contain the commit
-# @option --no-contains <commit>                   print only tags that don't contain the commit
-# @option --merged <commit>                        print only tags that are merged
-# @option --no-merged <commit>                     print only tags that are not merged
-# @option --sort <key>                             field name to sort on
-# @option --points-at <object>                     print only tags of the object
-# @option --format <format>                        format to use for the output
-# @option --color <when>                           respect format colors
-# @flag -i --ignore-case                           sorting and filtering are case insensitive
+# @flag -l --list                     list tag names
+# @option -n <n>                      print <n> lines of each tag message
+# @flag -d --delete                   delete tags
+# @flag -v --verify                   verify tags
+# @flag -a --annotate                 annotated tag, needs a message
+# @option -m --message <message>      tag message
+# @option -F --file <file>            read message from file
+# @flag -e --edit                     force edit of tag message
+# @flag -s --sign                     annotated and GPG-signed tag
+# @option --cleanup <mode>            how to strip spaces and ♯comments from message
+# @option -u --local-user <key-id>    use another key to sign the tag
+# @flag -f --force                    replace the tag if exists
+# @flag --create-reflog               create a reflog
+# @option --column <style>            show tag list in columns
+# @option --contains <commit>         print only tags that contain the commit
+# @option --no-contains <commit>      print only tags that don't contain the commit
+# @option --merged <commit>           print only tags that are merged
+# @option --no-merged <commit>        print only tags that are not merged
+# @option --sort <key>                field name to sort on
+# @option --points-at <object>        print only tags of the object
+# @option --format <format>           format to use for the output
+# @option --color <when>              respect format colors
+# @flag -i --ignore-case              sorting and filtering are case insensitive
 # @arg tagname![`_choice_tag`]
 tag() {
     :;
@@ -2291,7 +2291,7 @@ _argc_util_comp_parts() {
 BEGIN {
     split("", VALUES)
     split("", DEDUPS)
-    LINE = ""
+    ONLY_LINE = ""
     COUNT = 0
     split(ARGC_MATCHER, matchers, SEP)
     MATCHER = matchers[length(matchers)]
@@ -2305,9 +2305,9 @@ BEGIN {
     if (index($0, ARGC_MATCHER) == 1) {
         value = substr($0, length(PREFIX) + 1)
         if (COUNT == 0) {
-            LINE = value
-            if (substr(LINE, length(LINE)) == SEP) {
-                LINE = LINE "\0"
+            ONLY_LINE = value
+            if (substr(ONLY_LINE, length(ONLY_LINE)) == SEP) {
+                ONLY_LINE = ONLY_LINE "\0"
             }
         }
         COUNT = COUNT + 1
@@ -2324,7 +2324,7 @@ BEGIN {
 
 END {
     if (COUNT == 1) {
-        print LINE
+        print ONLY_LINE
     } else {
         for (i in VALUES) {
             print VALUES[i]

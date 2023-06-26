@@ -84,7 +84,7 @@ accept() {
 # @flag --no-force-pass                          Disable force-passing of snapshot tests
 # @flag --fail-fast                              Prevent running all tests regardless of failure
 # @option --features                             Space-separated list of features to activate
-# @option -j --jobsof CPUs <jobs>                Number of parallel jobs, defaults to
+# @option -j --jobs <jobs>                       Number of parallel jobs, defaults to ♯ of CPUs
 # @flag --release                                Build artifacts in release mode, with optimizations
 # @flag --all-features                           Activate all available features
 # @flag --no-default-features                    Do not activate the `default` feature

@@ -29,6 +29,8 @@ Miss commands:
 Args:
     <cmd>
 EOF
+	elif [[ "$*" == "cargo udeps" ]]; then
+		cargo udeps -h | sed 's/\[cargo\]//g'
 	else
 		$@ --help
 	fi

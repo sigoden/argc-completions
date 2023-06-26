@@ -9,7 +9,7 @@
 # @flag -B                                     Selects batch mode (prevents asking for passwords or passphrases).
 # @flag -C                                     Compression enable. Passes the -C flag to ssh(1) to enable compression.
 # @option -c*,[`_choice_cipher`] <cipher>      Selects the cipher to use for encrypting the data transfer.
-# @option -D <sftp_server_path>                When using the SFTP protocol support via -s, connect directly to a local SFTP server program rather than a re‐ mote one via ssh(1).
+# @option -D <sftp_server_path>                When using the SFTP protocol support via -s, connect directly to a local SFTP server program rather than a remote one via ssh(1).
 # @option -F <ssh_config>                      Specifies an alternative per-user configuration file for ssh.
 # @option -i <identity_file>                   Selects the file from which the identity (private key) for public key authentication is read.
 # @option -J <destination>                     Connect to the target host by first making an scp connection to the jump host described by destination and then establishing a TCP forwarding to the ultimate destination from there.
