@@ -1,0 +1,765 @@
+#!/usr/bin/env bash
+# Automatic generated, DON'T MODIFY IT.
+# @version 4.0.0
+
+# @flag -V --version                    Print version info and exit
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @flag -h --help                       Print help
+
+
+# {{ wasmer login
+# @cmd Login into a wasmer.io-like registry
+# @option --wasmer-dir <WASMER_DIR>     Set Wasmer's home directory [env: WASMER_DIR=/home/sigo/.wasmer] [default: /home/sigo/.wasmer]
+# @option --registry                    The registry to fetch packages from (inferred from the environment by default) [env: WASMER_REGISTRY=]
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @option --cache-dir <CACHE_DIR>       The directory cached artefacts are saved to [env: WASMER_CACHE_DIR=/home/sigo/.wasmer/cache]
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @flag -h --help                       Print help
+# @arg TOKEN                            The API token to use when communicating with the registry (inferred from the environment by default)
+login() {
+    :;
+}
+# }} wasmer login
+
+# {{ wasmer publish
+# @cmd Login into a wasmer.io-like registry
+# @option --wasmer-dir <WASMER_DIR>        Set Wasmer's home directory [env: WASMER_DIR=/home/sigo/.wasmer] [default: /home/sigo/.wasmer]
+# @option --registry                       The registry to fetch packages from (inferred from the environment by default) [env: WASMER_REGISTRY=]
+# @flag -v --verbose*                      Generate verbose output (repeat for more verbosity)
+# @option --cache-dir <CACHE_DIR>          The directory cached artefacts are saved to [env: WASMER_CACHE_DIR=/home/sigo/.wasmer/cache]
+# @option --color[auto|always|never]       When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --token                          The API token to use when communicating with the registry (inferred from the environment by default) [env: WASMER_TOKEN=]
+# @flag --dry-run                          Run the publish logic without sending anything to the registry server
+# @flag --quiet                            Run the publish command without any output
+# @option --package-name <PACKAGE_NAME>    Override the package of the uploaded package in the wasmer.toml
+# @option --version                        Override the package version of the uploaded package in the wasmer.toml
+# @flag --no-validate                      Skip validation of the uploaded package
+# @flag -h --help                          Print help (see a summary with '-h')
+# @arg PACKAGE_PATH                        Directory containing the `wasmer.toml`, or a custom *.toml manifest file.
+publish() {
+    :;
+}
+# }} wasmer publish
+
+# {{ wasmer cache
+# @cmd Wasmer cache
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @flag -h --help                       Print help
+cache() {
+    :;
+}
+
+# {{{ wasmer cache clean
+# @cmd Clear the cache
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @flag -h --help                       Print help
+cache::clean() {
+    :;
+}
+# }}} wasmer cache clean
+
+# {{{ wasmer cache dir
+# @cmd Display the location of the cache
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @flag -h --help                       Print help
+cache::dir() {
+    :;
+}
+# }}} wasmer cache dir
+# }} wasmer cache
+
+# {{ wasmer validate
+# @cmd Validate a WebAssembly binary
+# @flag --singlepass                           Use Singlepass compiler
+# @flag --cranelift                            Use Cranelift compiler
+# @flag -v --verbose*                          Generate verbose output (repeat for more verbosity)
+# @flag --llvm                                 Use LLVM compiler
+# @flag -q --quiet                             Do not print progress messages
+# @option --color[auto|always|never]           When to display colored output [default: auto] [possible values: auto, always, never]
+# @flag --enable-verifier                      Enable compiler internal verification
+# @option --llvm-debug-dir <LLVM_DEBUG_DIR>    LLVM debug directory, where IR and object files will be written to
+# @flag --enable-simd                          Enable support for the SIMD proposal
+# @flag --disable-threads                      Disable support for the threads proposal
+# @flag --enable-threads                       Deprecated, threads are enabled by default
+# @flag --enable-reference-types               Enable support for the reference types proposal
+# @flag --enable-multi-value                   Enable support for the multi value proposal
+# @flag --enable-bulk-memory                   Enable support for the bulk memory proposal
+# @flag --enable-all                           Enable support for all pre-standard proposals
+# @flag -h --help                              Print help
+# @arg FILE!                                   File to validate as WebAssembly
+validate() {
+    :;
+}
+# }} wasmer validate
+
+# {{ wasmer compile
+# @cmd Compile a WebAssembly binary
+# @option -o <OUTPUT PATH>                     Output file
+# @option --target <TARGET_TRIPLE>             Compilation Target triple
+# @flag -v --verbose*                          Generate verbose output (repeat for more verbosity)
+# @flag -q --quiet                             Do not print progress messages
+# @flag --singlepass                           Use Singlepass compiler
+# @option --color[auto|always|never]           When to display colored output [default: auto] [possible values: auto, always, never]
+# @flag --cranelift                            Use Cranelift compiler
+# @flag --llvm                                 Use LLVM compiler
+# @flag --enable-verifier                      Enable compiler internal verification
+# @option --llvm-debug-dir <LLVM_DEBUG_DIR>    LLVM debug directory, where IR and object files will be written to
+# @flag --enable-simd                          Enable support for the SIMD proposal
+# @flag --disable-threads                      Disable support for the threads proposal
+# @flag --enable-threads                       Deprecated, threads are enabled by default
+# @flag --enable-reference-types               Enable support for the reference types proposal
+# @flag --enable-multi-value                   Enable support for the multi value proposal
+# @flag --enable-bulk-memory                   Enable support for the bulk memory proposal
+# @flag --enable-all                           Enable support for all pre-standard proposals
+# @option -m <CPU_FEATURES>
+# @flag -h --help                              Print help
+# @arg FILE!                                   Input file
+compile() {
+    :;
+}
+# }} wasmer compile
+
+# {{ wasmer create-exe
+# @cmd Compile a WebAssembly binary into a native executable
+# @option -o <OUTPUT PATH>                         Output file
+# @option --debug-dir <DEBUG PATH>                 Optional directorey used for debugging: if present, will output the zig command for reproducing issues in a debug directory
+# @flag -v --verbose*                              Generate verbose output (repeat for more verbosity)
+# @option --precompiled-atom <FILE:PREFIX:PATH>    Prefix for every input file, e.g.
+# @flag -q --quiet                                 Do not print progress messages
+# @option --color[auto|always|never]               When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --target <TARGET_TRIPLE>                 Compilation Target triple Accepted target triple values must follow the ['target_lexicon'](https://crates.io/crates/target-lexicon) crate format.
+# @option --use-wasmer-release <URL_OR_RELEASE_VERSION>  Can specify either a release version (such as "3.0.1") or a URL to a tarball to use for linking.
+# @option -m --cpu-features <CPU_FEATURES>
+# @option -l --libraries                           Additional libraries to link against.
+# @flag --use-system-linker                        Use the system linker instead of zig instead of zig for linking
+# @option --library-path <LIBRARY_PATH>            Cross-compilation library path (path to libwasmer.a / wasmer.lib)
+# @option --tarball                                Cross-compilation tarball library path
+# @option --zig-binary-path <ZIG_BINARY_PATH>      Specify `zig` binary path (defaults to `zig` in $PATH if not present) [env: ZIG_BINARY_PATH=]
+# @flag --singlepass                               Use Singlepass compiler
+# @flag --cranelift                                Use Cranelift compiler
+# @flag --llvm                                     Use LLVM compiler
+# @flag --enable-verifier                          Enable compiler internal verification
+# @option --llvm-debug-dir <LLVM_DEBUG_DIR>        LLVM debug directory, where IR and object files will be written to
+# @flag --enable-simd                              Enable support for the SIMD proposal
+# @flag --disable-threads                          Disable support for the threads proposal
+# @flag --enable-threads                           Deprecated, threads are enabled by default
+# @flag --enable-reference-types                   Enable support for the reference types proposal
+# @flag --enable-multi-value                       Enable support for the multi value proposal
+# @flag --enable-bulk-memory                       Enable support for the bulk memory proposal
+# @flag --enable-all                               Enable support for all pre-standard proposals
+# @flag -h --help                                  Print help (see a summary with '-h')
+# @arg FILE!                                       Input file
+create-exe() {
+    :;
+}
+# }} wasmer create-exe
+
+# {{ wasmer create-obj
+# @cmd Compile a WebAssembly binary into an object file
+# @option -o <OUTPUT_PATH>                     Output file or directory if the input is a pirita file
+# @option --debug-dir <DEBUG PATH>             Optional directorey used for debugging: if present, will output the files to a debug instead of a temp directory
+# @flag -v --verbose*                          Generate verbose output (repeat for more verbosity)
+# @option --prefix                             Prefix for the function names in the input file in the compiled object file.
+# @flag -q --quiet                             Do not print progress messages
+# @option --atom                               Atom name to compile when compiling multi-atom pirita files
+# @option --color[auto|always|never]           When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --target <TARGET_TRIPLE>             Compilation Target triple Accepted target triple values must follow the ['target_lexicon'](https://crates.io/crates/target-lexicon) crate format.
+# @option -m --cpu-features <CPU_FEATURES>
+# @flag --singlepass                           Use Singlepass compiler
+# @flag --cranelift                            Use Cranelift compiler
+# @flag --llvm                                 Use LLVM compiler
+# @flag --enable-verifier                      Enable compiler internal verification
+# @option --llvm-debug-dir <LLVM_DEBUG_DIR>    LLVM debug directory, where IR and object files will be written to
+# @flag --enable-simd                          Enable support for the SIMD proposal
+# @flag --disable-threads                      Disable support for the threads proposal
+# @flag --enable-threads                       Deprecated, threads are enabled by default
+# @flag --enable-reference-types               Enable support for the reference types proposal
+# @flag --enable-multi-value                   Enable support for the multi value proposal
+# @flag --enable-bulk-memory                   Enable support for the bulk memory proposal
+# @flag --enable-all                           Enable support for all pre-standard proposals
+# @flag -h --help                              Print help (see a summary with '-h')
+# @arg FILE!                                   Input file
+create-obj() {
+    :;
+}
+# }} wasmer create-obj
+
+# {{ wasmer gen-c-header
+# @cmd Generate the C static_defs.h header file for the input .wasm module
+# @option --prefix                      Prefix hash (default: SHA256 of input .wasm file)
+# @option --atom                        For pirita files: optional atom name to compile
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @option -o <OUTPUT PATH>              Output file
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --target <TARGET_TRIPLE>      Compilation Target triple Accepted target triple values must follow the ['target_lexicon'](https://crates.io/crates/target-lexicon) crate format.
+# @option -m --cpu-features <CPU_FEATURES>
+# @flag -h --help                       Print help (see a summary with '-h')
+# @arg FILE!                            Input file
+gen-c-header() {
+    :;
+}
+# }} wasmer gen-c-header
+
+# {{ wasmer config
+# @cmd Get various configuration information needed to compile programs which use Wasmer
+# @option --wasmer-dir <WASMER_DIR>     Set Wasmer's home directory [env: WASMER_DIR=/home/sigo/.wasmer] [default: /home/sigo/.wasmer]
+# @option --registry                    The registry to fetch packages from (inferred from the environment by default) [env: WASMER_REGISTRY=]
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @option --cache-dir <CACHE_DIR>       The directory cached artefacts are saved to [env: WASMER_CACHE_DIR=/home/sigo/.wasmer/cache]
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --token                       The API token to use when communicating with the registry (inferred from the environment by default) [env: WASMER_TOKEN=]
+# @flag --prefix                        Print the installation prefix
+# @flag --bindir                        Directory containing Wasmer executables
+# @flag --includedir                    Directory containing Wasmer headers
+# @flag --libdir                        Directory containing Wasmer libraries
+# @flag --libs                          Libraries needed to link against Wasmer components
+# @flag --cflags                        C compiler flags for files that include Wasmer headers
+# @flag --config-path                   Print the path to the wasmer configuration file where all settings are stored
+# @flag --pkg-config                    Outputs the necessary details for compiling and linking a program to Wasmer, using the `pkg-config` format
+# @flag -h --help                       Print help
+config() {
+    :;
+}
+
+# {{{ wasmer config get
+# @cmd `wasmer config get $KEY`
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @flag -h --help                       Print help
+config::get() {
+    :;
+}
+
+# {{{{ wasmer config get registry.url
+# @cmd Print the registry URL of the currently active registry
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @flag -h --help                       Print help
+# @arg registry-url
+config::get::registry.url() {
+    :;
+}
+# }}}} wasmer config get registry.url
+
+# {{{{ wasmer config get registry.token
+# @cmd Print the token for the currently active registry or nothing if not logged in
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @flag -h --help                       Print help
+# @arg registry-token
+config::get::registry.token() {
+    :;
+}
+# }}}} wasmer config get registry.token
+
+# {{{{ wasmer config get telemetry.enabled
+# @cmd Print whether telemetry is currently enabled
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @flag -h --help                       Print help
+# @arg telemetry-enabled
+config::get::telemetry.enabled() {
+    :;
+}
+# }}}} wasmer config get telemetry.enabled
+
+# {{{{ wasmer config get update-notifications.enabled
+# @cmd Print whether update notifications are enabled
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @flag -h --help                       Print help
+# @arg update-notifications-enabled
+config::get::update-notifications.enabled() {
+    :;
+}
+# }}}} wasmer config get update-notifications.enabled
+
+# {{{{ wasmer config get proxy.url
+# @cmd Print the proxy URL
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @flag -h --help                       Print help
+# @arg proxy-url
+config::get::proxy.url() {
+    :;
+}
+# }}}} wasmer config get proxy.url
+# }}} wasmer config get
+
+# {{{ wasmer config set
+# @cmd `wasmer config set $KEY $VALUE`
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @flag -h --help                       Print help
+config::set() {
+    :;
+}
+
+# {{{{ wasmer config set registry.url
+# @cmd Set the registry URL of the currently active registry
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @flag -h --help                       Print help
+# @arg URL!                             Url of the registry
+config::set::registry.url() {
+    :;
+}
+# }}}} wasmer config set registry.url
+
+# {{{{ wasmer config set registry.token
+# @cmd Set the token for the currently active registry or nothing if not logged in
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @flag -h --help                       Print help
+# @arg TOKEN!                           Token to set
+config::set::registry.token() {
+    :;
+}
+# }}}} wasmer config set registry.token
+
+# {{{{ wasmer config set telemetry.enabled
+# @cmd Set whether telemetry is currently enabled
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @flag -h --help                       Print help (see a summary with '-h')
+# @arg ENABLED!                         Whether to enable telemetry ("true" | "false")
+config::set::telemetry.enabled() {
+    :;
+}
+# }}}} wasmer config set telemetry.enabled
+
+# {{{{ wasmer config set update-notifications.enabled
+# @cmd Set whether update notifications are enabled
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @flag -h --help                       Print help (see a summary with '-h')
+# @arg ENABLED!                         Whether to enable update notifications ("true" | "false")
+config::set::update-notifications.enabled() {
+    :;
+}
+# }}}} wasmer config set update-notifications.enabled
+
+# {{{{ wasmer config set proxy.url
+# @cmd Set the active proxy URL
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @flag -h --help                       Print help
+# @arg URL!                             Set if a proxy URL should be used (empty = unset proxy)
+config::set::proxy.url() {
+    :;
+}
+# }}}} wasmer config set proxy.url
+# }}} wasmer config set
+# }} wasmer config
+
+# {{ wasmer self-update
+# @cmd Update wasmer to the latest version
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @flag -h --help                       Print help
+self-update() {
+    :;
+}
+# }} wasmer self-update
+
+# {{ wasmer inspect
+# @cmd Inspect a WebAssembly file
+# @flag --singlepass                           Use Singlepass compiler
+# @flag --cranelift                            Use Cranelift compiler
+# @flag -v --verbose*                          Generate verbose output (repeat for more verbosity)
+# @flag --llvm                                 Use LLVM compiler
+# @flag -q --quiet                             Do not print progress messages
+# @option --color[auto|always|never]           When to display colored output [default: auto] [possible values: auto, always, never]
+# @flag --enable-verifier                      Enable compiler internal verification
+# @option --llvm-debug-dir <LLVM_DEBUG_DIR>    LLVM debug directory, where IR and object files will be written to
+# @flag --enable-simd                          Enable support for the SIMD proposal
+# @flag --disable-threads                      Disable support for the threads proposal
+# @flag --enable-threads                       Deprecated, threads are enabled by default
+# @flag --enable-reference-types               Enable support for the reference types proposal
+# @flag --enable-multi-value                   Enable support for the multi value proposal
+# @flag --enable-bulk-memory                   Enable support for the bulk memory proposal
+# @flag --enable-all                           Enable support for all pre-standard proposals
+# @flag -h --help                              Print help
+# @arg FILE!                                   File to validate as WebAssembly
+inspect() {
+    :;
+}
+# }} wasmer inspect
+
+# {{ wasmer init
+# @cmd Initializes a new wasmer.toml file
+# @option --wasmer-dir <WASMER_DIR>          Set Wasmer's home directory [env: WASMER_DIR=/home/sigo/.wasmer] [default: /home/sigo/.wasmer]
+# @option --registry                         The registry to fetch packages from (inferred from the environment by default) [env: WASMER_REGISTRY=]
+# @flag -v --verbose*                        Generate verbose output (repeat for more verbosity)
+# @option --cache-dir <CACHE_DIR>            The directory cached artefacts are saved to [env: WASMER_CACHE_DIR=/home/sigo/.wasmer/cache]
+# @option --color[auto|always|never]         When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --token                            The API token to use when communicating with the registry (inferred from the environment by default) [env: WASMER_TOKEN=]
+# @flag --lib                                Initialize wasmer.toml for a library package
+# @flag --bin                                Initialize wasmer.toml for a binary package
+# @flag --empty                              Initialize an empty wasmer.toml
+# @flag --overwrite                          Force overwriting the wasmer.toml, even if it already exists
+# @flag --quiet                              Don't display debug output
+# @option --namespace                        Namespace to init with, default = current logged in user or _
+# @option --package-name <PACKAGE_NAME>      Package name to init with, default = Cargo.toml name or current directory name
+# @option --version                          Version of the initialized package
+# @option --manifest-path <MANIFEST_PATH>    If the `manifest-path` is a Cargo.toml, use that file to initialize the wasmer.toml
+# @option --template                         Add default dependencies for common packages Possible values: - python: Add dependency on Python - js: Add dependency on JS
+# @option --include                          Include file paths into the target container filesystem
+# @flag -h --help                            Print help (see a summary with '-h')
+# @arg PACKAGE_PATH                          Directory of the output file name.
+init() {
+    :;
+}
+# }} wasmer init
+
+# {{ wasmer wast
+# @cmd Run spec testsuite
+# @flag --singlepass                           Use Singlepass compiler
+# @flag --cranelift                            Use Cranelift compiler
+# @flag -v --verbose*                          Generate verbose output (repeat for more verbosity)
+# @flag --llvm                                 Use LLVM compiler
+# @flag -q --quiet                             Do not print progress messages
+# @option --color[auto|always|never]           When to display colored output [default: auto] [possible values: auto, always, never]
+# @flag --enable-verifier                      Enable compiler internal verification
+# @option --llvm-debug-dir <LLVM_DEBUG_DIR>    LLVM debug directory, where IR and object files will be written to
+# @flag --enable-simd                          Enable support for the SIMD proposal
+# @flag --disable-threads                      Disable support for the threads proposal
+# @flag --enable-threads                       Deprecated, threads are enabled by default
+# @flag --enable-reference-types               Enable support for the reference types proposal
+# @flag --enable-multi-value                   Enable support for the multi value proposal
+# @flag --enable-bulk-memory                   Enable support for the bulk memory proposal
+# @flag --enable-all                           Enable support for all pre-standard proposals
+# @flag -f --fail-fast                         A flag to indicate wast stop at the first error or continue
+# @flag -h --help                              Print help
+# @arg FILE!                                   Wast file to run
+wast() {
+    :;
+}
+# }} wasmer wast
+
+# {{ wasmer binfmt
+# @cmd Unregister and/or register wasmer as binfmt interpreter
+# @option --binfmt-misc <BINFMT_MISC>    Mount point of binfmt_misc fs [default: /proc/sys/fs/binfmt_misc/]
+# @flag -v --verbose*                    Generate verbose output (repeat for more verbosity)
+# @flag -q --quiet                       Do not print progress messages
+# @option --color[auto|always|never]     When to display colored output [default: auto] [possible values: auto, always, never]
+# @flag -h --help                        Print help
+binfmt() {
+    :;
+}
+
+# {{{ wasmer binfmt register
+# @cmd Register wasmer as binfmt interpreter
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @flag -h --help                       Print help
+binfmt::register() {
+    :;
+}
+# }}} wasmer binfmt register
+
+# {{{ wasmer binfmt unregister
+# @cmd Unregister a binfmt interpreter for wasm32
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @flag -h --help                       Print help
+binfmt::unregister() {
+    :;
+}
+# }}} wasmer binfmt unregister
+
+# {{{ wasmer binfmt reregister
+# @cmd Soft unregister, and register
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @flag -h --help                       Print help
+binfmt::reregister() {
+    :;
+}
+# }}} wasmer binfmt reregister
+# }} wasmer binfmt
+
+# {{ wasmer whoami
+# @cmd Shows the current logged in user for the current active registry
+# @option --wasmer-dir <WASMER_DIR>     Set Wasmer's home directory [env: WASMER_DIR=/home/sigo/.wasmer] [default: /home/sigo/.wasmer]
+# @option --registry                    The registry to fetch packages from (inferred from the environment by default) [env: WASMER_REGISTRY=]
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @option --cache-dir <CACHE_DIR>       The directory cached artefacts are saved to [env: WASMER_CACHE_DIR=/home/sigo/.wasmer/cache]
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --token                       The API token to use when communicating with the registry (inferred from the environment by default) [env: WASMER_TOKEN=]
+# @flag -h --help                       Print help
+whoami() {
+    :;
+}
+# }} wasmer whoami
+
+# {{ wasmer add
+# @cmd Add a Wasmer package's bindings to your application
+# @option --wasmer-dir <WASMER_DIR>     Set Wasmer's home directory [env: WASMER_DIR=/home/sigo/.wasmer] [default: /home/sigo/.wasmer]
+# @option --registry                    The registry to fetch packages from (inferred from the environment by default) [env: WASMER_REGISTRY=]
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @option --cache-dir <CACHE_DIR>       The directory cached artefacts are saved to [env: WASMER_CACHE_DIR=/home/sigo/.wasmer/cache]
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --token                       The API token to use when communicating with the registry (inferred from the environment by default) [env: WASMER_TOKEN=]
+# @flag --npm                           Add the JavaScript bindings using "npm install"
+# @flag --yarn                          Add the JavaScript bindings using "yarn add"
+# @flag --dev                           Add the package as a dev-dependency
+# @flag --pip                           Add the Python bindings using "pip install"
+# @flag -h --help                       Print help
+# @arg PACKAGES*                        The packages to add (e.g. "wasmer/wasmer-pack@0.5.0" or "python/python")
+add() {
+    :;
+}
+# }} wasmer add
+
+# {{ wasmer run
+# @cmd Run a WebAssembly file or Wasmer container
+# @option --wasmer-dir <WASMER_DIR>            Set Wasmer's home directory [env: WASMER_DIR=/home/sigo/.wasmer] [default: /home/sigo/.wasmer]
+# @option --registry                           The registry to fetch packages from (inferred from the environment by default) [env: WASMER_REGISTRY=]
+# @flag -v --verbose*                          Generate verbose output (repeat for more verbosity)
+# @option --cache-dir <CACHE_DIR>              The directory cached artefacts are saved to [env: WASMER_CACHE_DIR=/home/sigo/.wasmer/cache]
+# @flag -q --quiet                             Do not print progress messages
+# @option --color[auto|always|never]           When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --token                              The API token to use when communicating with the registry (inferred from the environment by default) [env: WASMER_TOKEN=]
+# @flag --singlepass                           Use Singlepass compiler
+# @flag --cranelift                            Use Cranelift compiler
+# @flag --llvm                                 Use LLVM compiler
+# @flag --enable-verifier                      Enable compiler internal verification
+# @option --llvm-debug-dir <LLVM_DEBUG_DIR>    LLVM debug directory, where IR and object files will be written to
+# @flag --enable-simd                          Enable support for the SIMD proposal
+# @flag --disable-threads                      Disable support for the threads proposal
+# @flag --enable-threads                       Deprecated, threads are enabled by default
+# @flag --enable-reference-types               Enable support for the reference types proposal
+# @flag --enable-multi-value                   Enable support for the multi value proposal
+# @flag --enable-bulk-memory                   Enable support for the bulk memory proposal
+# @flag --enable-all                           Enable support for all pre-standard proposals
+# @option --dir                                WASI pre-opened directory
+# @option --mapdir <GUEST_DIR:HOST_DIR>        Map a host directory to a different location for the Wasm module
+# @option --env <KEY=VALUE>                    Pass custom environment variables
+# @flag --forward-host-env                     Forward all host env variables to the wcgi task [env: FORWARD_HOST_ENV=]
+# @option --use                                List of other containers this module depends on
+# @option --include-webc <WEBC>                List of webc packages that are explicitly included for execution Note: these packages will be used instead of those in the registry
+# @option --map-command <MAPCMD>               List of injected atoms
+# @flag --net                                  Enable networking with the host network.
+# @flag --no-tty                               Disables the TTY bridge
+# @flag --enable-async-threads                 Enables asynchronous threading
+# @flag --http-client                          Allow instances to send http requests. Access to domains is granted by default.
+# @flag --deny-multiple-wasi-versions          Require WASI modules to only import 1 version of WASI
+# @option -a --addr                            The address to serve on [env: ADDR=] [default: 127.0.0.1:8000]
+# @option --stack-size <STACK_SIZE>            Set the default stack size (default is 1048576)
+# @option -e --entrypoint                      The function or command to invoke
+# @flag --COREDUMP                             PATH <COREDUMP PATH> Generate a coredump at this path if a WebAssembly trap occurs
+# @flag -h --help                              Print help (see a summary with '-h')
+# @arg INPUT!                                  The file, URL, or package to run
+# @arg ARGS*                                   Command-line arguments passed to the package
+run() {
+    :;
+}
+# }} wasmer run
+
+# {{ wasmer deploy
+# @cmd Deploy apps to the Wasmer Edge
+# @option --token                       [env: WASMER_TOKEN=]
+# @option --registry
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @option -f --format[json|text]        Output format. (json, text) [default: yaml]
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @flag --no-validate                   Skip local schema validation
+# @flag --non-interactive               Do not prompt for user input
+# @flag --publish-package               Automatically publish the package referenced by this app.
+# @option --path                        The path to a YAML file
+# @flag -h --help                       Print help (see a summary with '-h')
+# @arg OWNER
+deploy() {
+    :;
+}
+# }} wasmer deploy
+
+# {{ wasmer app
+# @cmd Manage deployed apps
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @flag -h --help                       Print help
+app() {
+    :;
+}
+
+# {{{ wasmer app get
+# @cmd Show an app
+# @option --token                       [env: WASMER_TOKEN=]
+# @option --registry
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @option -f --format[json|text]        Output format. (json, text) [default: yaml]
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @flag -h --help                       Print help (see a summary with '-h')
+# @arg IDENT!                           Identifier of the app. Eg: - name (assumes current user) - namespace/name
+app::get() {
+    :;
+}
+# }}} wasmer app get
+
+# {{{ wasmer app list
+# @cmd List apps
+# @option -f --format[json|text]        Output format. (json, text) [default: table]
+# @option --token                       [env: WASMER_TOKEN=]
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @flag -q --quiet                      Do not print progress messages
+# @option --registry
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option -n --namespace                Get apps in a specific namespace.
+# @flag -a --all                        Get all apps that are accessible by the current user, including apps directly owned by the user and apps in namespaces the user can access
+# @flag -h --help                       Print help (see a summary with '-h')
+app::list() {
+    :;
+}
+# }}} wasmer app list
+
+# {{{ wasmer app logs
+# @cmd Show an app
+# @option --token                       [env: WASMER_TOKEN=]
+# @option --registry
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @option -f --format[json|text]        Output format. (json, text) [default: table]
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --from                        The date of the earliest log entry. Defaults to the last 10 minutes.
+# @option --until                       The date of the latest log entry
+# @option --max                         Maximum log lines to fetch. Defaults to 1000 [default: 1000]
+# @flag -h --help                       Print help (see a summary with '-h')
+# @arg IDENT!                           The name of the app.
+app::logs() {
+    :;
+}
+# }}} wasmer app logs
+
+# {{{ wasmer app create
+# @cmd Deploy an app
+# @option --token                       [env: WASMER_TOKEN=]
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @flag -q --quiet                      Do not print progress messages
+# @option --registry
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option -f --format[json|text]        Output format. (json, text) [default: yaml]
+# @flag --publish-package
+# @flag --no-validate                   Skip local schema validation
+# @flag --non-interactive               Do not prompt for user input
+# @option --owner                       The owner of the app
+# @option --name                        The name of the app (can be changed later)
+# @option --path                        The path to a YAML file the app config
+# @flag -h --help                       Print help
+# @arg PACKAGE                          The package path
+app::create() {
+    :;
+}
+
+# {{{{ wasmer app create static-site
+# @cmd Initialize a static site
+# @option --token                       [env: WASMER_TOKEN=]
+# @option --registry
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @option --name                        Name of the site
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --path                        Directory to initialize the static site in.
+# @flag --publish                       Publish the package and the app
+# @flag -h --help                       Print help (see a summary with '-h')
+# @arg PUBLIC_PATH                      Path to the public directory.
+app::create::static-site() {
+    :;
+}
+# }}}} wasmer app create static-site
+# }}} wasmer app create
+# }} wasmer app
+
+# {{ wasmer ssh
+# @cmd Create a dynamic on the Deploy Edge, and connect to it through SSH
+# @option --token                       [env: WASMER_TOKEN=]
+# @option --registry
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @flag -q --quiet                      Do not print progress messages
+# @option --ssh-port <SSH_PORT>         SSH port to use [default: 22]
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --host                        SSH Host [default: root.wasmer.network]
+# @option --map-port <MAP_PORT>         Local port mapping to the package that's running, this allows for instance a HTTP server to be tested remotely while giving instant logs over stderr channelled via SSH
+# @flag -p --print                      Prints the SSH command rather than executing it
+# @flag -h --help                       Print help
+# @arg RUN                              Package to run on the Deploy servers [default: sharrattj/bash]
+# @arg RUN_ARGS*                        Arguments to pass the package running on Deploy
+ssh() {
+    :;
+}
+# }} wasmer ssh
+
+# {{ wasmer namespace
+# @cmd Manage Wasmer namespaces
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @flag -h --help                       Print help
+namespace() {
+    :;
+}
+
+# {{{ wasmer namespace get
+# @cmd Show a namespace
+# @option -f --format[json|text]        Output format. (json, text) [default: yaml]
+# @option --token                       [env: WASMER_TOKEN=]
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @flag -q --quiet                      Do not print progress messages
+# @option --registry
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @flag -h --help                       Print help
+# @arg NAME!                            Name of the namespace
+namespace::get() {
+    :;
+}
+# }}} wasmer namespace get
+
+# {{{ wasmer namespace list
+# @cmd List namespaces
+# @option -f --format[json|text]        Output format. (json, text) [default: table]
+# @option --token                       [env: WASMER_TOKEN=]
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @flag -q --quiet                      Do not print progress messages
+# @option --registry
+# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @flag -h --help                       Print help
+namespace::list() {
+    :;
+}
+# }}} wasmer namespace list
+# }} wasmer namespace
+
+command eval "$(argc --argc-eval "$0" "$@")"
