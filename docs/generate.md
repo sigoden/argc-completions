@@ -11,8 +11,8 @@ You may check out the [src](https://github.com/sigoden/argc-completions/tree/mai
 `generate.sh` internally generates the completion script according to the following processing flow.
 
 ```
-                        lexer.awk                          parser.awk
-help-text(_patch_help) -----------> table(_patch_script) -------------> script
+                        parse-tab.awk                         parse-script.awk 
+help-text(_patch_help) ---------------> table(_patch_script) ------------------> script
               
 ```
 
@@ -42,7 +42,7 @@ Options:
   -V, --version          Print version
 ```
 
-2. table: `aichat --help | awk -f scripts/lexer.awk`
+2. table: `aichat --help | awk -f scripts/parse-table.awk`
 
 ```
 option # -m, --model <MODEL> # Choose a model
@@ -59,7 +59,7 @@ option # -V, --version # Print version
 argument # [TEXT]... # Input text
 ```
 
-3. script: `aichat --help | awk -f scripts/lexer.awk | awk -f scripts/parser.awk`
+3. script: `aichat --help | awk -f scripts/parse-table.awk | awk -f scripts/parse-script.awk`
 
 ```sh
 # @option -m --model         Choose a model

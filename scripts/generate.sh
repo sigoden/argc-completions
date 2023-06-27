@@ -16,7 +16,7 @@ handle_cmd() {
     local output table level nest_fn_prefix command_output
     table="$(get_table $@)"
     nest_fn_prefix="$(echo "${@:$((1 + $cmds_level))}" | sed 's/ /::/g')"
-    output="$(echo "$table" | grep -v 'command #' | awk -f "$scripts_dir/parser.awk")"
+    output="$(echo "$table" | grep -v 'command #' | awk -f "$scripts_dir/parse-script.awk")"
     if [[ -n "$output" ]]; then
         output="$output"$'\n'
     fi
@@ -29,7 +29,7 @@ handle_cmd() {
             if [[ -n "$line" ]]; then
                 subcmds+=( "$line" )
             fi
-        done < <(echo "$table" | grep '^command #' | awk -f "$scripts_dir/parser.awk")
+        done < <(echo "$table" | grep '^command #' | awk -f "$scripts_dir/parse-script.awk")
         for item in "${subcmds[@]}"; do
             if [[ -n "$item" ]]; then
                 local subcmd_output="$(handle_subcmd "$item" $@)"
@@ -90,7 +90,7 @@ get_table() {
     else
         help_txt="$($@ --help 2>&1)"
     fi
-    table="$(echo "$help_txt" | awk -f "$scripts_dir/lexer.awk")"
+    table="$(echo "$help_txt" | awk -f "$scripts_dir/parse-table.awk")"
     if [[ $(type -t _patch_table) = "function" ]]; then
         table="$(echo "$table" | _patch_table $@)"
     fi
