@@ -115,7 +115,7 @@ _choice_script() {
     _helper_apply_filter
     pkg_json_path=$(_helper_pkg_json_path)
     if [[ -n "$pkg_json_path" ]]; then
-        cat "$pkg_json_path" | yq '.scripts // {} | keys | .[]'
+        cat "$pkg_json_path" | yq '(.scripts // {}) | keys | .[]'
     fi
 }
 
@@ -123,7 +123,7 @@ _choice_dependency() {
     _helper_apply_filter
     pkg_json_path=$(_helper_pkg_json_path)
     if [[ -n "$pkg_json_path" ]]; then
-        cat "$pkg_json_path" | yq '.dependecies // {} + .devDependencies // {} + .optionalDependencies // {} | keys | .[]' 
+        cat "$pkg_json_path" | yq '(.dependencies // {}) + (.devDependencies // {}) + (.optionalDependencies // {}) | keys | .[]'
     fi
 }
 
