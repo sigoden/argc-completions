@@ -102,7 +102,6 @@
 # @flag --vimgrep                                  Show results with every match on its own line, including line numbers and column numbers.
 # @flag -H --with-filename                         Display the file path for matches.
 # @flag -w --word-regexp                           Only show matches surrounded by word boundaries.
-# @arg PATTERN!                                    A regular expression used for searching.
-# @arg PATH+                                       A file or directory to search.
+# @arg paths*
 
 command eval "$(argc --argc-eval "$0" "$@")"
