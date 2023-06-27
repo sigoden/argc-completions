@@ -37,7 +37,7 @@ add() {
 # @flag --no-default-features                    Build artifacts with default Cargo features disabled
 # @flag --all-features                           Build artifacts with all Cargo features enabled
 # @option --features                             Build artifacts with given Cargo feature enabled
-# @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer [default: address] [possible values: address, leak, memory, thread, none]
+# @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer
 # @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target [default: x86_64-unknown-linux-gnu]
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo
 # @option --target-dir <TARGET_DIR>              Target dir option to pass to cargo build
@@ -62,7 +62,7 @@ build() {
 # @flag --no-default-features                    Build artifacts with default Cargo features disabled
 # @flag --all-features                           Build artifacts with all Cargo features enabled
 # @option --features                             Build artifacts with given Cargo feature enabled
-# @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer [default: address] [possible values: address, leak, memory, thread, none]
+# @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer
 # @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target [default: x86_64-unknown-linux-gnu]
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo
 # @option --target-dir <TARGET_DIR>              Target dir option to pass to cargo build
@@ -87,7 +87,7 @@ check() {
 # @flag --no-default-features                    Build artifacts with default Cargo features disabled
 # @flag --all-features                           Build artifacts with all Cargo features enabled
 # @option --features                             Build artifacts with given Cargo feature enabled
-# @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer [default: address] [possible values: address, leak, memory, thread, none]
+# @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer
 # @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target [default: x86_64-unknown-linux-gnu]
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo
 # @option --target-dir <TARGET_DIR>              Target dir option to pass to cargo build
@@ -123,7 +123,7 @@ list() {
 # @flag --no-default-features                    Build artifacts with default Cargo features disabled
 # @flag --all-features                           Build artifacts with all Cargo features enabled
 # @option --features                             Build artifacts with given Cargo feature enabled
-# @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer [default: address] [possible values: address, leak, memory, thread, none]
+# @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer
 # @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target [default: x86_64-unknown-linux-gnu]
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo
 # @option --target-dir <TARGET_DIR>              Target dir option to pass to cargo build
@@ -151,7 +151,7 @@ run() {
 # @flag --no-default-features                    Build artifacts with default Cargo features disabled
 # @flag --all-features                           Build artifacts with all Cargo features enabled
 # @option --features                             Build artifacts with given Cargo feature enabled
-# @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer [default: address] [possible values: address, leak, memory, thread, none]
+# @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer
 # @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target [default: x86_64-unknown-linux-gnu]
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo
 # @option --target-dir <TARGET_DIR>              Target dir option to pass to cargo build
@@ -178,7 +178,7 @@ cmin() {
 # @flag --no-default-features                    Build artifacts with default Cargo features disabled
 # @flag --all-features                           Build artifacts with all Cargo features enabled
 # @option --features                             Build artifacts with given Cargo feature enabled
-# @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer [default: address] [possible values: address, leak, memory, thread, none]
+# @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer
 # @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target [default: x86_64-unknown-linux-gnu]
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo
 # @option --target-dir <TARGET_DIR>              Target dir option to pass to cargo build
@@ -206,7 +206,7 @@ tmin() {
 # @flag --no-default-features                    Build artifacts with default Cargo features disabled
 # @flag --all-features                           Build artifacts with all Cargo features enabled
 # @option --features                             Build artifacts with given Cargo feature enabled
-# @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer [default: address] [possible values: address, leak, memory, thread, none]
+# @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer
 # @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target [default: x86_64-unknown-linux-gnu]
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo
 # @option --target-dir <TARGET_DIR>              Target dir option to pass to cargo build

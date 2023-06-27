@@ -21,7 +21,7 @@
 # @flag --locked                                 Require Cargo.lock is up to date
 # @option -Z* <FLAG>                             Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
 # @flag --crates                                 Per crate bloatedness
-# @flag --time                                   Per crate build time. Will run `cargo clean` first
+# @flag --time                                   Per crate build time.
 # @option --filter <CRATE|REGEXP>                Filter functions by crate
 # @flag --split-std                              Split the 'std' crate to original crates like core, alloc, etc.
 # @option --symbols-section <NAME>               Use custom symbols section (ELF-only) [default: .text]
@@ -29,7 +29,7 @@
 # @flag --full-fn                                Print full function name with hash values
 # @option -n <NUM>                               Number of lines to show, 0 to show all [default: 20]
 # @flag -w --wide                                Do not trim long function names
-# @option --message-format[table|json] <FMT>     Output format [default: table] [possible values: table, json]
+# @option --message-format[table|json] <FMT>     Output format [default: table]
 
 _choice_cmd() {
 	cargo --list 2>/dev/null | awk 'NR>1 {print $1}'

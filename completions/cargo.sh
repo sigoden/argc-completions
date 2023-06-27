@@ -181,12 +181,12 @@ doc() {
 # @cmd Create a new cargo package
 # @flag -q --quiet                             Do not print cargo log messages
 # @option --registry                           Registry to use
-# @option --vcs                                Initialize a new repository for the given version control system (git, hg, pijul, or fossil) or do not initialize any version control at all (none), overriding a global configuration.
+# @option --vcs[git|hg|pijul|fossil|none]      Initialize a new repository for the given version control system (git, hg, pijul, or fossil) or do not initialize any version control at all (none), overriding a global configuration.
 # @option --bin[`_choice_bin`]                 Use a binary (application) template [default]
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
 # @flag --lib                                  Use a library template
 # @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
-# @option --edition[2015|2018|2021] <YEAR>     Edition to set for the crate generated [possible values: 2015, 2018, 2021]
+# @option --edition[2015|2018|2021] <YEAR>     Edition to set for the crate generated
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @option --name                               Set the resulting package name, defaults to the directory name
 # @flag --locked                               Require Cargo.lock is up to date
@@ -204,12 +204,12 @@ new() {
 # @cmd Create a new cargo package in an existing directory
 # @flag -q --quiet                             Do not print cargo log messages
 # @option --registry                           Registry to use
-# @option --vcs                                Initialize a new repository for the given version control system (git, hg, pijul, or fossil) or do not initialize any version control at all (none), overriding a global configuration.
+# @option --vcs[git|hg|pijul|fossil|none]      Initialize a new repository for the given version control system (git, hg, pijul, or fossil) or do not initialize any version control at all (none), overriding a global configuration.
 # @option --bin[`_choice_bin`]                 Use a binary (application) template [default]
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
 # @flag --lib                                  Use a library template
 # @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
-# @option --edition[2015|2018|2021] <YEAR>     Edition to set for the crate generated [possible values: 2015, 2018, 2021]
+# @option --edition[2015|2018|2021] <YEAR>     Edition to set for the crate generated
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @option --name                               Set the resulting package name, defaults to the directory name
 # @flag --locked                               Require Cargo.lock is up to date
@@ -488,7 +488,7 @@ publish() {
 # }} cargo publish
 
 # {{ cargo install
-# @cmd Install a Rust binary. Default location is $HOME/.cargo/bin
+# @cmd Install a Rust binary.
 # @flag -q --quiet                               Do not print cargo log messages
 # @option --version                              Specify a version to install
 # @option --git <URL>                            Git URL to install the specified crate from
@@ -554,7 +554,7 @@ uninstall() {
 # {{ cargo clippy
 # @cmd Checks a package to catch common mistakes and improve your Rust code.
 # @flag --no-deps              Run Clippy only on the given crate, without linting the dependencies
-# @flag --fix                  Automatically apply lint suggestions. This flag implies `--no-deps`
+# @flag --fix                  Automatically apply lint suggestions.
 # @flag -h --help              Print this message
 # @flag -V --version           Print version info and exit
 # @option --explain <LINT>     Print the documentation for a given lint
@@ -584,9 +584,9 @@ config() {
 
 # {{{ cargo config get
 # @cmd
-# @option --format[toml|json|json-value] <format>  Display format [default: toml] [possible values: toml, json, json-value]
+# @option --format[toml|json|json-value] <format>  Display format [default: toml]
 # @flag --show-origin                          Display where the config value is defined
-# @option --merged[yes|no] <merged>            Whether or not to merge config values [default: yes] [possible values: yes, no]
+# @option --merged[yes|no] <merged>            Whether or not to merge config values [default: yes]
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
 # @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @flag --frozen                               Require Cargo.lock and cache are up to date
@@ -714,7 +714,7 @@ git-checkout() {
 # @cmd Print a JSON representation of a Cargo.toml file's location
 # @flag -q --quiet                              Do not print cargo log messages
 # @option --manifest-path <PATH>                Path to Cargo.toml
-# @option --message-format[json|plain] <FMT>    Output representation [possible values: json, plain]
+# @option --message-format[json|plain] <FMT>    Output representation
 # @flag -v --verbose*                           Use verbose output (-vv very verbose/build.rs output)
 # @flag --workspace                             Locate Cargo.toml of the workspace root
 # @option --color[auto|always|never] <WHEN>     Coloring: auto, always, never
@@ -1018,14 +1018,14 @@ rustdoc() {
 # @flag --no-default-features                    Do not activate the `default` feature
 # @option --target[`_choice_target`] <TRIPLE>    Filter dependencies matching the given target-triple (default host platform).
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
-# @option -e --edges[features|normal|build|dev|all|no-normal|no-build|no-dev|no-proc-macro] <KINDS>  The kinds of dependencies to display (features, normal, build, dev, all, no-normal, no-build, no-dev, no-proc-macro)
+# @option -e --edges[features|normal|build|dev|all|no-normal|no-build|no-dev|no-proc-macro] <KINDS>  The kinds of dependencies to display
 # @option -i --invert <SPEC>                     Invert the tree direction and focus on the given package
 # @option --prune <SPEC>                         Prune the given package from the display of the dependency tree
 # @option --depth                                Maximum display depth of the dependency tree
-# @option --prefix[depth|indent|none]            Change the prefix (indentation) of how each entry is displayed [default: indent] [possible values: depth, indent, none]
+# @option --prefix[depth|indent|none]            Change the prefix (indentation) of how each entry is displayed [default: indent]
 # @flag --no-dedupe                              Do not de-duplicate (repeats all shared dependencies)
 # @flag -d --duplicates                          Show only dependencies which come in multiple versions (implies -i)
-# @option --charset[utf8|ascii]                  Character set to use in output: utf8, ascii [default: utf8] [possible values: utf8, ascii]
+# @option --charset[utf8|ascii]                  Character set to use in output: utf8, ascii [default: utf8]
 # @option -f --format                            Format string used for printing dependencies [default: {p}]
 # @flag -h --help                                Print help
 tree() {

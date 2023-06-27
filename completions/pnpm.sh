@@ -19,8 +19,8 @@
 # @flag -E                              Install exact version
 # @flag --save-exact                    Install exact version
 # @flag --no-save-exact                 Install exact version
-# @flag --save-workspace-protocol       Save packages from the workspace with a "workspace:" protocol. True by default
-# @flag --no-save-workspace-protocol    Save packages from the workspace with a "workspace:" protocol. True by default
+# @flag --save-workspace-protocol       Save packages from the workspace with a "workspace:" protocol.
+# @flag --no-save-workspace-protocol    Save packages from the workspace with a "workspace:" protocol.
 # @flag --aggregate-output              Aggregate output from child processes that are run in parallel, and only print output when child process is finished.
 # @option -C --dir <dir>                Change to directory <dir> (default: /home/sigo/w/argc-completions)
 # @flag -g --global                     Install as a global package
@@ -34,7 +34,7 @@
 # @flag -D --save-dev                   Save package to your `devDependencies`
 # @flag -O --save-optional              Save package to your `optionalDependencies`
 # @flag --save-peer                     Save package to your `peerDependencies` and `devDependencies`
-# @flag -P --save-prod                  Save package to your `dependencies`. The default behavior
+# @flag -P --save-prod                  Save package to your `dependencies`.
 # @option --store-dir <dir>             The directory in which all the packages are saved on the disk
 # @flag --stream                        Stream output from child processes immediately, prefixed with the originating package directory.
 # @flag --use-stderr                    Divert all output to stderr
@@ -72,14 +72,14 @@ import() {
 # @flag -D --dev                              Only `devDependencies` are installed regardless of the `NODE_ENV`
 # @option -C --dir <dir>                      Change to directory <dir> (default: /home/sigo/w/argc-completions)
 # @flag --fix-lockfile                        Fix broken lockfile entries automatically
-# @flag --force                               Force reinstall dependencies: refetch packages modified in store, recreate a lockfile and/or modules directory created by a non-compatible version of pnpm.
+# @option --force[cpu|os|arch]                Force reinstall dependencies: refetch packages modified in store, recreate a lockfile and/or modules directory created by a non-compatible version of pnpm.
 # @flag --global-dir                          Specify a custom directory to store global packages
 # @flag -h --help                             Output usage information
 # @option --hoist-pattern <pattern>           Hoist all dependencies matching the pattern to `node_modules/.pnpm/node_modules`.
 # @flag --ignore-pnpmfile                     Disable pnpm hooks defined in .pnpmfile.cjs
 # @flag --ignore-scripts                      Don't run lifecycle scripts
 # @option --lockfile-dir <dir>                The directory in which the pnpm-lock.yaml of the package will be created.
-# @flag --lockfile-only                       Dependencies are not downloaded. Only `pnpm-lock.yaml` is updated
+# @flag --lockfile-only                       Dependencies are not downloaded.
 # @option --loglevel[debug|info|warn|error|silent] <level>  What level of logs to report.
 # @flag --merge-git-branch-lockfiles          Merge lockfiles were generated on git branch
 # @option --modules-dir <dir>                 The directory in which dependencies will be installed (instead of node_modules)
@@ -335,7 +335,7 @@ list() {
 # @option --loglevel[debug|info|warn|error|silent] <level>  What level of logs to report.
 # @flag --long                        By default, details about the outdated packages (such as a link to the repo) are not displayed.
 # @flag --no-optional                 Don't check "optionalDependencies"
-# @flag --no-table                    Prints the outdated packages in a list. Good for small consoles
+# @flag --no-table                    Prints the outdated packages in a list.
 # @flag -P --prod                     Check only "dependencies" and "optionalDependencies"
 # @flag -r --recursive                Check for outdated dependencies in every package found in subdirectories or in every workspace package, when executed inside a workspace.
 # @flag --stream                      Stream output from child processes immediately, prefixed with the originating package directory.
@@ -431,7 +431,7 @@ pack() {
 # @flag --json                            Show information in JSON format
 # @flag --no-git-checks                   Don't check if current branch is your publish branch, clean, and up to date
 # @flag --otp                             When publishing packages that require two-factor authentication, this option can specify a one-time password
-# @flag --publish-branch                  Sets branch name to publish. Default is master
+# @flag --publish-branch                  Sets branch name to publish.
 # @flag -r --recursive                    Publish all packages from the workspace
 # @flag --report-summary                  Save the list of the newly published packages to "pnpm-publish-summary.json".
 # @option --tag <tag>                     Registers the published package with the given tag.
@@ -454,7 +454,7 @@ root() {
 # }} pnpm root
 
 # {{ pnpm store
-# @cmd add Adds new packages to the pnpm store directly.
+# @cmd add            Adds new packages to the pnpm store directly.
 store() {
     :;
 }

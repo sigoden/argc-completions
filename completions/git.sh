@@ -15,11 +15,11 @@
 # @flag -P --no-pager                       Do not pipe Git output into a pager.
 # @option --git-dir <path>                  Set the path to the repository (".git" directory).
 # @option --work-tree <path>                Set the path to the working tree.
-# @option --namespace <name>                Set the Git namespace. See gitnamespaces(7) for more details.
+# @option --namespace <name>                Set the Git namespace.
 # @option --super-prefix <path>             Currently for internal use only.
 # @flag --bare                              Treat the repository as a bare repository.
 # @flag --no-replace-objects                Do not use replacement refs to replace Git objects.
-# @flag --literal-pathspecs                 Treat pathspecs literally (i.e. no globbing, no pathspec magic).
+# @flag --literal-pathspecs                 Treat pathspecs literally (i.e.
 # @flag --glob-pathspecs                    Add "glob" magic to all pathspec.
 # @flag --noglob-pathspecs                  Add "literal" magic to all pathspec.
 # @flag --icase-pathspecs                   Add "icase" magic to all pathspec.
@@ -392,7 +392,7 @@ show() {
 # @option --porcelain <version>    machine-readable output
 # @flag --long                     show status in long format (default)
 # @flag -z --null                  terminate entries with NUL
-# @option -u --untracked-files[all|normal|no] <mode>  show untracked files, optional modes: all, normal, no. (Default: all)
+# @option -u --untracked-files[all|normal|no] <mode>  show untracked files, optional modes: all, normal, no.
 # @option --ignored[traditional|matching|no] <mode>  show ignored files, optional modes: traditional, matching, no.
 # @option --ignore-submodules[all|dirty|untracked] <when>  ignore changes to submodules, optional when: all, dirty, untracked.
 # @option --column <style>         list untracked files in columns
@@ -439,7 +439,7 @@ status() {
 # @flag -z --null                              terminate entries with NUL
 # @flag --amend                                amend previous commit
 # @flag --no-post-rewrite                      bypass post-rewrite hook
-# @option -u --untracked-files[all|normal|no] <mode>  show untracked files, optional modes: all, normal, no. (Default: all)
+# @option -u --untracked-files[all|normal|no] <mode>  show untracked files, optional modes: all, normal, no.
 # @option --pathspec-from-file <file>          read pathspec from file
 # @flag --pathspec-file-nul                    with --pathspec-from-file, pathspec elements are separated with NUL character
 # @arg pathspec+
@@ -489,7 +489,7 @@ merge() {
 # @option --onto <revision>                rebase onto given branch instead of upstream
 # @flag --keep-base                        use the merge-base of upstream and branch as the current base
 # @flag --no-verify                        allow pre-rebase hook to run
-# @flag -q --quiet                         be quiet. implies --no-stat
+# @flag -q --quiet                         be quiet.
 # @flag -v --verbose                       display a diffstat of what changed upstream
 # @flag -n --no-stat                       do not show diffstat of what changed upstream
 # @flag --signoff                          add a Signed-off-by trailer to each commit
@@ -993,7 +993,7 @@ clean() {
 # @flag --name-only            show variable names only
 # @flag --includes             respect include directives on lookup
 # @flag --show-origin          show origin of config (file, standard input, blob, command line)
-# @option --show-scope[worktree|local|global|system|command]  show scope of config (worktree, local, global, system, command)
+# @option --show-scope[worktree|local|global|system|command]  show scope of config
 # @option --default <value>    with --get, use default value when missing entry
 # @arg key[`_choice_config_key`]
 config() {
@@ -1277,7 +1277,7 @@ prune() {
 # }} git prune
 
 # {{ git range-diff
-# @cmd Compare two commit ranges (e.g. two versions of a branch)
+# @cmd Compare two commit ranges
 # @option --creation-factor <n>                 percentage by which creation is weighted
 # @flag --no-dual-color                         use simple diff colors
 # @option --notes <notes>                       passed to 'git log'

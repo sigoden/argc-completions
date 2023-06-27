@@ -11,7 +11,7 @@
 # @flag --theme                          Copies the default theme into your source folder
 # @flag --force                          Skips confirmation prompts
 # @option --title <title>                Sets the book title
-# @option --ignore[none|git] <ignore>    Creates a VCS ignore file (i.e. .gitignore) [possible values: none, git]
+# @option --ignore[none|git] <ignore>    Creates a VCS ignore file (i.e.
 # @flag -h --help                        Print help information
 # @flag -V --version                     Print version information
 # @arg dir                               Directory to create the book in (Defaults to the current directory when omitted)
@@ -60,7 +60,7 @@ clean() {
 # @cmd Generate shell completions for your shell to stdout
 # @flag -h --help                                 Print help information
 # @flag -V --version                              Print version information
-# @arg SHELL![bash|elvish|fish|powershell|zsh]    the shell to generate completions for [possible values: bash, elvish, fish, powershell, zsh]
+# @arg SHELL![bash|elvish|fish|powershell|zsh]    the shell to generate completions for
 completions() {
     :;
 }

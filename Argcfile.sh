@@ -17,22 +17,24 @@ generate() {
 
 # @cmd Regenerate all completion scripts
 regenerate() {
-    while read -r cmd; do
+    local IFS=$'\n'
+    local cmds=( "$(_choice_completion)" )
+    for cmd in ${cmds[@]}; do
         if command -v $cmd > /dev/null; then
             echo Generate $cmd
-            argc generate $cmd
+            ./scripts/generate.sh -o completions $cmd
             if [[ -d completions/$cmd ]]; then
                 if [[ -d completions/$cmd ]]; then
                     local child
                     for child in completions/$cmd/*.sh; do
                         child="$(basename "$child" .sh)"
                         echo Generate $cmd $child
-                        argc generate $cmd $child
+                        ./scripts/generate.sh -E -o completions $cmd $child
                     done
                 fi
             fi
         fi
-    done < <(_choice_completion)
+    done
 }
 
 # @cmd Test generate.sh
@@ -107,7 +109,7 @@ _choice_print_target() {
 
 _helper_print_help() {
     _source_src_script $@
-    if [[ -e "$1" ]]; then
+    if [[ -x "$1" ]]; then
         $1 --help
     elif [[ -f "$1" ]]; then
         cat $1

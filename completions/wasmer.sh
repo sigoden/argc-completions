@@ -5,7 +5,7 @@
 # @flag -V --version                    Print version info and exit
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @flag -q --quiet                      Do not print progress messages
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
 
 
@@ -16,7 +16,7 @@
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @option --cache-dir <CACHE_DIR>       The directory cached artefacts are saved to [env: WASMER_CACHE_DIR=/home/sigo/.wasmer/cache]
 # @flag -q --quiet                      Do not print progress messages
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
 # @arg TOKEN                            The API token to use when communicating with the registry (inferred from the environment by default)
 login() {
@@ -26,11 +26,11 @@ login() {
 
 # {{ wasmer publish
 # @cmd Login into a wasmer.io-like registry
-# @option --wasmer-dir <WASMER_DIR>        Set Wasmer's home directory [env: WASMER_DIR=/home/sigo/.wasmer] [default: /home/sigo/.wasmer]
+# @option --wasmer-dir <WASMER_DIR>        Set Wasmer's home directory
 # @option --registry                       The registry to fetch packages from (inferred from the environment by default) [env: WASMER_REGISTRY=]
 # @flag -v --verbose*                      Generate verbose output (repeat for more verbosity)
 # @option --cache-dir <CACHE_DIR>          The directory cached artefacts are saved to [env: WASMER_CACHE_DIR=/home/sigo/.wasmer/cache]
-# @option --color[auto|always|never]       When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]       When to display colored output
 # @option --token                          The API token to use when communicating with the registry (inferred from the environment by default) [env: WASMER_TOKEN=]
 # @flag --dry-run                          Run the publish logic without sending anything to the registry server
 # @flag --quiet                            Run the publish command without any output
@@ -48,7 +48,7 @@ publish() {
 # @cmd Wasmer cache
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @flag -q --quiet                      Do not print progress messages
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
 cache() {
     :;
@@ -58,7 +58,7 @@ cache() {
 # @cmd Clear the cache
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @flag -q --quiet                      Do not print progress messages
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
 cache::clean() {
     :;
@@ -69,7 +69,7 @@ cache::clean() {
 # @cmd Display the location of the cache
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @flag -q --quiet                      Do not print progress messages
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
 cache::dir() {
     :;
@@ -84,7 +84,7 @@ cache::dir() {
 # @flag -v --verbose*                          Generate verbose output (repeat for more verbosity)
 # @flag --llvm                                 Use LLVM compiler
 # @flag -q --quiet                             Do not print progress messages
-# @option --color[auto|always|never]           When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]           When to display colored output [default: auto]
 # @flag --enable-verifier                      Enable compiler internal verification
 # @option --llvm-debug-dir <LLVM_DEBUG_DIR>    LLVM debug directory, where IR and object files will be written to
 # @flag --enable-simd                          Enable support for the SIMD proposal
@@ -108,7 +108,7 @@ validate() {
 # @flag -v --verbose*                          Generate verbose output (repeat for more verbosity)
 # @flag -q --quiet                             Do not print progress messages
 # @flag --singlepass                           Use Singlepass compiler
-# @option --color[auto|always|never]           When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]           When to display colored output [default: auto]
 # @flag --cranelift                            Use Cranelift compiler
 # @flag --llvm                                 Use LLVM compiler
 # @flag --enable-verifier                      Enable compiler internal verification
@@ -135,7 +135,7 @@ compile() {
 # @flag -v --verbose*                              Generate verbose output (repeat for more verbosity)
 # @option --precompiled-atom <FILE:PREFIX:PATH>    Prefix for every input file, e.g.
 # @flag -q --quiet                                 Do not print progress messages
-# @option --color[auto|always|never]               When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]               When to display colored output
 # @option --target <TARGET_TRIPLE>                 Compilation Target triple Accepted target triple values must follow the ['target_lexicon'](https://crates.io/crates/target-lexicon) crate format.
 # @option --use-wasmer-release <URL_OR_RELEASE_VERSION>  Can specify either a release version (such as "3.0.1") or a URL to a tarball to use for linking.
 # @option -m --cpu-features <CPU_FEATURES>
@@ -171,7 +171,7 @@ create-exe() {
 # @option --prefix                             Prefix for the function names in the input file in the compiled object file.
 # @flag -q --quiet                             Do not print progress messages
 # @option --atom                               Atom name to compile when compiling multi-atom pirita files
-# @option --color[auto|always|never]           When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]           When to display colored output
 # @option --target <TARGET_TRIPLE>             Compilation Target triple Accepted target triple values must follow the ['target_lexicon'](https://crates.io/crates/target-lexicon) crate format.
 # @option -m --cpu-features <CPU_FEATURES>
 # @flag --singlepass                           Use Singlepass compiler
@@ -200,7 +200,7 @@ create-obj() {
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @option -o <OUTPUT PATH>              Output file
 # @flag -q --quiet                      Do not print progress messages
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output
 # @option --target <TARGET_TRIPLE>      Compilation Target triple Accepted target triple values must follow the ['target_lexicon'](https://crates.io/crates/target-lexicon) crate format.
 # @option -m --cpu-features <CPU_FEATURES>
 # @flag -h --help                       Print help (see a summary with '-h')
@@ -217,7 +217,7 @@ gen-c-header() {
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @option --cache-dir <CACHE_DIR>       The directory cached artefacts are saved to [env: WASMER_CACHE_DIR=/home/sigo/.wasmer/cache]
 # @flag -q --quiet                      Do not print progress messages
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output [default: auto]
 # @option --token                       The API token to use when communicating with the registry (inferred from the environment by default) [env: WASMER_TOKEN=]
 # @flag --prefix                        Print the installation prefix
 # @flag --bindir                        Directory containing Wasmer executables
@@ -236,7 +236,7 @@ config() {
 # @cmd `wasmer config get $KEY`
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @flag -q --quiet                      Do not print progress messages
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
 config::get() {
     :;
@@ -246,7 +246,7 @@ config::get() {
 # @cmd Print the registry URL of the currently active registry
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @flag -q --quiet                      Do not print progress messages
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
 # @arg registry-url
 config::get::registry.url() {
@@ -258,7 +258,7 @@ config::get::registry.url() {
 # @cmd Print the token for the currently active registry or nothing if not logged in
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @flag -q --quiet                      Do not print progress messages
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
 # @arg registry-token
 config::get::registry.token() {
@@ -270,7 +270,7 @@ config::get::registry.token() {
 # @cmd Print whether telemetry is currently enabled
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @flag -q --quiet                      Do not print progress messages
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
 # @arg telemetry-enabled
 config::get::telemetry.enabled() {
@@ -282,7 +282,7 @@ config::get::telemetry.enabled() {
 # @cmd Print whether update notifications are enabled
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @flag -q --quiet                      Do not print progress messages
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
 # @arg update-notifications-enabled
 config::get::update-notifications.enabled() {
@@ -294,7 +294,7 @@ config::get::update-notifications.enabled() {
 # @cmd Print the proxy URL
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @flag -q --quiet                      Do not print progress messages
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
 # @arg proxy-url
 config::get::proxy.url() {
@@ -307,7 +307,7 @@ config::get::proxy.url() {
 # @cmd `wasmer config set $KEY $VALUE`
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @flag -q --quiet                      Do not print progress messages
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
 config::set() {
     :;
@@ -317,7 +317,7 @@ config::set() {
 # @cmd Set the registry URL of the currently active registry
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @flag -q --quiet                      Do not print progress messages
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
 # @arg URL!                             Url of the registry
 config::set::registry.url() {
@@ -329,7 +329,7 @@ config::set::registry.url() {
 # @cmd Set the token for the currently active registry or nothing if not logged in
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @flag -q --quiet                      Do not print progress messages
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
 # @arg TOKEN!                           Token to set
 config::set::registry.token() {
@@ -341,9 +341,9 @@ config::set::registry.token() {
 # @cmd Set whether telemetry is currently enabled
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @flag -q --quiet                      Do not print progress messages
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output
 # @flag -h --help                       Print help (see a summary with '-h')
-# @arg ENABLED!                         Whether to enable telemetry ("true" | "false")
+# @arg ENABLED![true|false]             Whether to enable telemetry
 config::set::telemetry.enabled() {
     :;
 }
@@ -353,9 +353,9 @@ config::set::telemetry.enabled() {
 # @cmd Set whether update notifications are enabled
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @flag -q --quiet                      Do not print progress messages
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output
 # @flag -h --help                       Print help (see a summary with '-h')
-# @arg ENABLED!                         Whether to enable update notifications ("true" | "false")
+# @arg ENABLED![true|false]             Whether to enable update notifications
 config::set::update-notifications.enabled() {
     :;
 }
@@ -365,7 +365,7 @@ config::set::update-notifications.enabled() {
 # @cmd Set the active proxy URL
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @flag -q --quiet                      Do not print progress messages
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
 # @arg URL!                             Set if a proxy URL should be used (empty = unset proxy)
 config::set::proxy.url() {
@@ -379,7 +379,7 @@ config::set::proxy.url() {
 # @cmd Update wasmer to the latest version
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @flag -q --quiet                      Do not print progress messages
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
 self-update() {
     :;
@@ -393,7 +393,7 @@ self-update() {
 # @flag -v --verbose*                          Generate verbose output (repeat for more verbosity)
 # @flag --llvm                                 Use LLVM compiler
 # @flag -q --quiet                             Do not print progress messages
-# @option --color[auto|always|never]           When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]           When to display colored output [default: auto]
 # @flag --enable-verifier                      Enable compiler internal verification
 # @option --llvm-debug-dir <LLVM_DEBUG_DIR>    LLVM debug directory, where IR and object files will be written to
 # @flag --enable-simd                          Enable support for the SIMD proposal
@@ -412,11 +412,11 @@ inspect() {
 
 # {{ wasmer init
 # @cmd Initializes a new wasmer.toml file
-# @option --wasmer-dir <WASMER_DIR>          Set Wasmer's home directory [env: WASMER_DIR=/home/sigo/.wasmer] [default: /home/sigo/.wasmer]
+# @option --wasmer-dir <WASMER_DIR>          Set Wasmer's home directory
 # @option --registry                         The registry to fetch packages from (inferred from the environment by default) [env: WASMER_REGISTRY=]
 # @flag -v --verbose*                        Generate verbose output (repeat for more verbosity)
 # @option --cache-dir <CACHE_DIR>            The directory cached artefacts are saved to [env: WASMER_CACHE_DIR=/home/sigo/.wasmer/cache]
-# @option --color[auto|always|never]         When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]         When to display colored output
 # @option --token                            The API token to use when communicating with the registry (inferred from the environment by default) [env: WASMER_TOKEN=]
 # @flag --lib                                Initialize wasmer.toml for a library package
 # @flag --bin                                Initialize wasmer.toml for a binary package
@@ -427,7 +427,7 @@ inspect() {
 # @option --package-name <PACKAGE_NAME>      Package name to init with, default = Cargo.toml name or current directory name
 # @option --version                          Version of the initialized package
 # @option --manifest-path <MANIFEST_PATH>    If the `manifest-path` is a Cargo.toml, use that file to initialize the wasmer.toml
-# @option --template                         Add default dependencies for common packages Possible values: - python: Add dependency on Python - js: Add dependency on JS
+# @option --template                         Add default dependencies for common packages
 # @option --include                          Include file paths into the target container filesystem
 # @flag -h --help                            Print help (see a summary with '-h')
 # @arg PACKAGE_PATH                          Directory of the output file name.
@@ -443,7 +443,7 @@ init() {
 # @flag -v --verbose*                          Generate verbose output (repeat for more verbosity)
 # @flag --llvm                                 Use LLVM compiler
 # @flag -q --quiet                             Do not print progress messages
-# @option --color[auto|always|never]           When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]           When to display colored output [default: auto]
 # @flag --enable-verifier                      Enable compiler internal verification
 # @option --llvm-debug-dir <LLVM_DEBUG_DIR>    LLVM debug directory, where IR and object files will be written to
 # @flag --enable-simd                          Enable support for the SIMD proposal
@@ -466,7 +466,7 @@ wast() {
 # @option --binfmt-misc <BINFMT_MISC>    Mount point of binfmt_misc fs [default: /proc/sys/fs/binfmt_misc/]
 # @flag -v --verbose*                    Generate verbose output (repeat for more verbosity)
 # @flag -q --quiet                       Do not print progress messages
-# @option --color[auto|always|never]     When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]     When to display colored output [default: auto]
 # @flag -h --help                        Print help
 binfmt() {
     :;
@@ -476,7 +476,7 @@ binfmt() {
 # @cmd Register wasmer as binfmt interpreter
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @flag -q --quiet                      Do not print progress messages
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
 binfmt::register() {
     :;
@@ -487,7 +487,7 @@ binfmt::register() {
 # @cmd Unregister a binfmt interpreter for wasm32
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @flag -q --quiet                      Do not print progress messages
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
 binfmt::unregister() {
     :;
@@ -498,7 +498,7 @@ binfmt::unregister() {
 # @cmd Soft unregister, and register
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @flag -q --quiet                      Do not print progress messages
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
 binfmt::reregister() {
     :;
@@ -513,7 +513,7 @@ binfmt::reregister() {
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @option --cache-dir <CACHE_DIR>       The directory cached artefacts are saved to [env: WASMER_CACHE_DIR=/home/sigo/.wasmer/cache]
 # @flag -q --quiet                      Do not print progress messages
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output [default: auto]
 # @option --token                       The API token to use when communicating with the registry (inferred from the environment by default) [env: WASMER_TOKEN=]
 # @flag -h --help                       Print help
 whoami() {
@@ -528,14 +528,14 @@ whoami() {
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @option --cache-dir <CACHE_DIR>       The directory cached artefacts are saved to [env: WASMER_CACHE_DIR=/home/sigo/.wasmer/cache]
 # @flag -q --quiet                      Do not print progress messages
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output [default: auto]
 # @option --token                       The API token to use when communicating with the registry (inferred from the environment by default) [env: WASMER_TOKEN=]
 # @flag --npm                           Add the JavaScript bindings using "npm install"
 # @flag --yarn                          Add the JavaScript bindings using "yarn add"
 # @flag --dev                           Add the package as a dev-dependency
 # @flag --pip                           Add the Python bindings using "pip install"
 # @flag -h --help                       Print help
-# @arg PACKAGES*                        The packages to add (e.g. "wasmer/wasmer-pack@0.5.0" or "python/python")
+# @arg PACKAGES*                        The packages to add
 add() {
     :;
 }
@@ -543,12 +543,12 @@ add() {
 
 # {{ wasmer run
 # @cmd Run a WebAssembly file or Wasmer container
-# @option --wasmer-dir <WASMER_DIR>            Set Wasmer's home directory [env: WASMER_DIR=/home/sigo/.wasmer] [default: /home/sigo/.wasmer]
+# @option --wasmer-dir <WASMER_DIR>            Set Wasmer's home directory
 # @option --registry                           The registry to fetch packages from (inferred from the environment by default) [env: WASMER_REGISTRY=]
 # @flag -v --verbose*                          Generate verbose output (repeat for more verbosity)
 # @option --cache-dir <CACHE_DIR>              The directory cached artefacts are saved to [env: WASMER_CACHE_DIR=/home/sigo/.wasmer/cache]
 # @flag -q --quiet                             Do not print progress messages
-# @option --color[auto|always|never]           When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]           When to display colored output
 # @option --token                              The API token to use when communicating with the registry (inferred from the environment by default) [env: WASMER_TOKEN=]
 # @flag --singlepass                           Use Singlepass compiler
 # @flag --cranelift                            Use Cranelift compiler
@@ -572,9 +572,9 @@ add() {
 # @flag --net                                  Enable networking with the host network.
 # @flag --no-tty                               Disables the TTY bridge
 # @flag --enable-async-threads                 Enables asynchronous threading
-# @flag --http-client                          Allow instances to send http requests. Access to domains is granted by default.
+# @flag --http-client                          Allow instances to send http requests.
 # @flag --deny-multiple-wasi-versions          Require WASI modules to only import 1 version of WASI
-# @option -a --addr                            The address to serve on [env: ADDR=] [default: 127.0.0.1:8000]
+# @option -a --addr                            The address to serve on
 # @option --stack-size <STACK_SIZE>            Set the default stack size (default is 1048576)
 # @option -e --entrypoint                      The function or command to invoke
 # @flag --COREDUMP                             PATH <COREDUMP PATH> Generate a coredump at this path if a WebAssembly trap occurs
@@ -591,9 +591,9 @@ run() {
 # @option --token                       [env: WASMER_TOKEN=]
 # @option --registry
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
-# @option -f --format[json|text]        Output format. (json, text) [default: yaml]
+# @option -f --format[json|text]        Output format.
 # @flag -q --quiet                      Do not print progress messages
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output
 # @flag --no-validate                   Skip local schema validation
 # @flag --non-interactive               Do not prompt for user input
 # @flag --publish-package               Automatically publish the package referenced by this app.
@@ -609,7 +609,7 @@ deploy() {
 # @cmd Manage deployed apps
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @flag -q --quiet                      Do not print progress messages
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
 app() {
     :;
@@ -620,11 +620,11 @@ app() {
 # @option --token                       [env: WASMER_TOKEN=]
 # @option --registry
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
-# @option -f --format[json|text]        Output format. (json, text) [default: yaml]
+# @option -f --format[json|text]        Output format.
 # @flag -q --quiet                      Do not print progress messages
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output
 # @flag -h --help                       Print help (see a summary with '-h')
-# @arg IDENT!                           Identifier of the app. Eg: - name (assumes current user) - namespace/name
+# @arg IDENT!                           Identifier of the app.
 app::get() {
     :;
 }
@@ -632,12 +632,12 @@ app::get() {
 
 # {{{ wasmer app list
 # @cmd List apps
-# @option -f --format[json|text]        Output format. (json, text) [default: table]
+# @option -f --format[json|text]        Output format.
 # @option --token                       [env: WASMER_TOKEN=]
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @flag -q --quiet                      Do not print progress messages
 # @option --registry
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output
 # @option -n --namespace                Get apps in a specific namespace.
 # @flag -a --all                        Get all apps that are accessible by the current user, including apps directly owned by the user and apps in namespaces the user can access
 # @flag -h --help                       Print help (see a summary with '-h')
@@ -651,12 +651,12 @@ app::list() {
 # @option --token                       [env: WASMER_TOKEN=]
 # @option --registry
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
-# @option -f --format[json|text]        Output format. (json, text) [default: table]
+# @option -f --format[json|text]        Output format.
 # @flag -q --quiet                      Do not print progress messages
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
-# @option --from                        The date of the earliest log entry. Defaults to the last 10 minutes.
+# @option --color[auto|always|never]    When to display colored output
+# @option --from                        The date of the earliest log entry.
 # @option --until                       The date of the latest log entry
-# @option --max                         Maximum log lines to fetch. Defaults to 1000 [default: 1000]
+# @option --max                         Maximum log lines to fetch.
 # @flag -h --help                       Print help (see a summary with '-h')
 # @arg IDENT!                           The name of the app.
 app::logs() {
@@ -670,8 +670,8 @@ app::logs() {
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @flag -q --quiet                      Do not print progress messages
 # @option --registry
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
-# @option -f --format[json|text]        Output format. (json, text) [default: yaml]
+# @option --color[auto|always|never]    When to display colored output [default: auto]
+# @option -f --format[json|text]        Output format.
 # @flag --publish-package
 # @flag --no-validate                   Skip local schema validation
 # @flag --non-interactive               Do not prompt for user input
@@ -691,7 +691,7 @@ app::create() {
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @option --name                        Name of the site
 # @flag -q --quiet                      Do not print progress messages
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output
 # @option --path                        Directory to initialize the static site in.
 # @flag --publish                       Publish the package and the app
 # @flag -h --help                       Print help (see a summary with '-h')
@@ -710,7 +710,7 @@ app::create::static-site() {
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @flag -q --quiet                      Do not print progress messages
 # @option --ssh-port <SSH_PORT>         SSH port to use [default: 22]
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output [default: auto]
 # @option --host                        SSH Host [default: root.wasmer.network]
 # @option --map-port <MAP_PORT>         Local port mapping to the package that's running, this allows for instance a HTTP server to be tested remotely while giving instant logs over stderr channelled via SSH
 # @flag -p --print                      Prints the SSH command rather than executing it
@@ -726,7 +726,7 @@ ssh() {
 # @cmd Manage Wasmer namespaces
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @flag -q --quiet                      Do not print progress messages
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
 namespace() {
     :;
@@ -734,12 +734,12 @@ namespace() {
 
 # {{{ wasmer namespace get
 # @cmd Show a namespace
-# @option -f --format[json|text]        Output format. (json, text) [default: yaml]
+# @option -f --format[json|text]        Output format.
 # @option --token                       [env: WASMER_TOKEN=]
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @flag -q --quiet                      Do not print progress messages
 # @option --registry
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
 # @arg NAME!                            Name of the namespace
 namespace::get() {
@@ -749,12 +749,12 @@ namespace::get() {
 
 # {{{ wasmer namespace list
 # @cmd List namespaces
-# @option -f --format[json|text]        Output format. (json, text) [default: table]
+# @option -f --format[json|text]        Output format.
 # @option --token                       [env: WASMER_TOKEN=]
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @flag -q --quiet                      Do not print progress messages
 # @option --registry
-# @option --color[auto|always|never]    When to display colored output [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
 namespace::list() {
     :;

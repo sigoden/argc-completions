@@ -19,7 +19,7 @@ access() {
 # @alias add-user
 # @option --registry <url>                 The base URL of the npm registry.
 # @option --scope <scope>                  Associate an operation with a scope for a scoped registry.
-# @option -auth-type[web|legacy] <type>    What authentication strategy to use with login. (web, legacy)
+# @option -auth-type[web|legacy] <type>    What authentication strategy to use with login.
 adduser() {
     :;
 }
@@ -27,18 +27,18 @@ adduser() {
 
 # {{ npm audit
 # @cmd Run a security audit
-# @option --audit-level <value>     The minimum level of vulnerability for npm audit to exit with a non-zero exit code.
-# @flag --dry-run                   Indicates that you don't want npm to make any changes and that it should only report what it would have done
-# @flag -f --force                  Removes various protections against unfortunate side effects, common mistakes, unnecessary performance degradation, and malicious input.
-# @flag --json                      Whether or not to output JSON data, rather than the normal output.
-# @flag --package-lock-only         If set to true, the current operation will only use the package-lock.json, ignoring node_modules.
-# @flag --omit                      <value> Dependency types to omit from the installation tree on disk.
-# @flag --foreground-scripts        Run all build scripts (ie, preinstall, install, and postinstall) scripts for installed packages in the foreground process, sharing standard input, output, and error with the main npm process.
-# @flag --ignore-scripts            If true, npm does not run scripts specified in package.json files.
+# @option --audit-level[info|low|moderate|high|critical|none] <value>  The minimum level of vulnerability for npm audit to exit with a non-zero exit code.
+# @flag --dry-run                      Indicates that you don't want npm to make any changes and that it should only report what it would have done
+# @flag -f --force                     Removes various protections against unfortunate side effects, common mistakes, unnecessary performance degradation, and malicious input.
+# @flag --json                         Whether or not to output JSON data, rather than the normal output.
+# @flag --package-lock-only            If set to true, the current operation will only use the package-lock.json, ignoring node_modules.
+# @option --omit[dev|optional|peer]    <value>        Dependency types to omit from the installation tree on disk.
+# @flag --foreground-scripts           Run all build scripts (ie, preinstall, install, and postinstall) scripts for installed packages in the foreground process, sharing standard input, output, and error with the main npm process.
+# @flag --ignore-scripts               If true, npm does not run scripts specified in package.json files.
 # @option -w --workspace[`_choice_workspace`] <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running only the workspaces defined by this configuration option.
-# @flag --workspaces                Set to true to run the command in the context of all configured workspaces.
-# @flag --include-workspace-root    Include the workspace root when workspaces are enabled for a command.
-# @flag --install-links             When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
+# @flag --workspaces                   Set to true to run the command in the context of all configured workspaces.
+# @flag --include-workspace-root       Include the workspace root when workspaces are enabled for a command.
+# @flag --install-links                When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
 # @arg value[fix|signatures]
 audit() {
     :;
@@ -101,25 +101,25 @@ cache::verify() {
 # {{ npm clean-install
 # @cmd Clean install a project
 # @alias install-clean,isntall-clean,ci,ic
-# @flag -S --save                       Save installed packages to a package.json file as dependencies.
-# @flag -E --save-exact                 Dependencies saved to package.json will be configured with an exact version rather than using npm's default semver
-# @flag -g --global                     Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
-# @option --install-strategy <value>    Sets the strategy for installing packages in node_modules.
-# @flag --legacy-bundling               Instead of hoisting package installs in node_modules, install packages in the same manner that they are depended on.
-# @flag --global-style                  Only install direct dependencies in the top level node_modules, but hoist on deeper dependencies.
-# @option --omit <value>                Dependency types to omit from the installation tree on disk.
-# @flag --strict-peer-deps              If set to true, and --legacy-peer-deps is not set, then any conflicting peerDependencies will be treated as an install
-# @flag --package-lock                  If set to false, then ignore package-lock.json files when installing.
-# @flag --foreground-scripts            Run all build scripts (ie, preinstall, install, and postinstall) scripts for installed packages in the foreground
-# @flag --ignore-scripts                If true, npm does not run scripts specified in package.json files.
-# @flag --audit                         When "true" submit audit reports alongside the current npm command to the default registry and all registries config‐
-# @flag --bin-links                     Tells npm to create symlinks (or .cmd shims on Windows) for package executables.
-# @flag --fund                          When "true" displays the message at the end of each npm install acknowledging the number of dependencies looking for
-# @flag --dry-run                       Indicates that you don't want npm to make any changes and that it should only report what it would have done.
+# @flag -S --save                              Save installed packages to a package.json file as dependencies.
+# @flag -E --save-exact                        Dependencies  saved  to  package.json  will be configured with an exact version rather than using npm's default semver
+# @flag -g --global                            Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
+# @option --install-strategy[hoisted|nested|shallow] <value>  Sets the strategy for installing packages in node_modules.
+# @flag --legacy-bundling                      Instead of hoisting package installs in node_modules, install packages in the same manner that they are  depended  on.
+# @flag --global-style                         Only install direct dependencies in the top level node_modules, but hoist  on  deeper  dependencies.
+# @option --omit[dev|optional|peer] <value>    Dependency types to omit from the installation tree on disk.
+# @flag --strict-peer-deps                     If set to true, and --legacy-peer-deps is not set, then any conflicting peerDependencies will be treated as an install
+# @flag --package-lock                         If set to false, then ignore package-lock.json files when installing.
+# @flag --foreground-scripts                   Run all build scripts (ie, preinstall, install, and postinstall) scripts for  installed  packages  in  the  foreground
+# @flag --ignore-scripts                       If true, npm does not run scripts specified in package.json files.
+# @flag --audit                                When  "true" submit audit reports alongside the current npm command to the default registry and all registries config‐
+# @flag --bin-links                            Tells npm to create symlinks (or .cmd shims on Windows) for package executables.
+# @flag --fund                                 When  "true"  displays the message at the end of each npm install acknowledging the number of dependencies looking for
+# @flag --dry-run                              Indicates that you don't want npm to make any changes and that it should only report what it would have done.
 # @option -w --workspace[`_choice_workspace`] <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
-# @flag --workspaces                    Set to true to run the command in the context of all configured workspaces.
-# @flag --include-workspace-root        Include the workspace root when workspaces are enabled for a command.
-# @flag --install-links                 When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
+# @flag --workspaces                           Set to true to run the command in the context of all configured workspaces.
+# @flag --include-workspace-root               Include the workspace root when workspaces are enabled for a command.
+# @flag --install-links                        When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
 clean-install() {
     :;
 }
@@ -135,11 +135,11 @@ completion() {
 # {{ npm config
 # @cmd Manage the npm configuration files
 # @alias c
-# @flag --json                  Whether or not to output JSON data, rather than the normal output.
-# @flag -g --global             Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working directory.
-# @option --editor <value>      The command to run for npm edit and npm config edit.
-# @option --location <value>    When passed to npm config this refers to which config file to use.
-# @flag --long                  Show extended information in ls, search, and help-search.
+# @flag --json                Whether or not to output JSON data, rather than the normal output.
+# @flag -g --global           Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working directory.
+# @option --editor <value>    The command to run for npm edit and npm config edit.
+# @option --location[global|user|project] <value>  When passed to npm config this refers to which config file to use.
+# @flag --long                Show extended information in ls, search, and help-search.
 config() {
     :;
 }
@@ -184,7 +184,7 @@ config::edit() {
 # }}} npm config edit
 
 # {{{ npm config fix
-# @cmd Attempts to repair invalid configuration items.
+# @cmd Attempts  to  repair invalid configuration items.
 config::fix() {
     :;
 }
@@ -194,21 +194,21 @@ config::fix() {
 # {{ npm dedupe
 # @cmd Reduce duplication in the package tree
 # @alias ddp
-# @option --install-strategy <value>    Sets the strategy for installing packages in node_modules.
-# @flag --legacy-bundling               Instead of hoisting package installs in node_modules, install packages in the same manner that they are depended on.
-# @flag --global-style                  Only install direct dependencies in the top level node_modules, but hoist on deeper dependencies.
-# @flag --strict-peer-deps              If set to true, and --legacy-peer-deps is not set, then any conflicting peerDependencies will be treated as an install
-# @flag --package-lock                  If set to false, then ignore package-lock.json files when installing.
-# @option --omit <value>                Dependency types to omit from the installation tree on disk.
-# @flag --ignore-scripts                If true, npm does not run scripts specified in package.json files.
-# @flag --audit                         When "true" submit audit reports alongside the current npm command to the default registry and all registries config‐
-# @flag --bin-links                     Tells npm to create symlinks (or .cmd shims on Windows) for package executables.
-# @flag --fund                          When "true" displays the message at the end of each npm install acknowledging the number of dependencies looking for
-# @flag --dry-run                       Indicates that you don't want npm to make any changes and that it should only report what it would have done.
+# @option --install-strategy[hoisted|nested|shallow] <value>  Sets the strategy for installing packages in node_modules.
+# @flag --legacy-bundling           Instead  of  hoisting package installs in node_modules, install packages in the same manner that they are depended on.
+# @flag --global-style              Only  install  direct  dependencies  in  the top level node_modules, but hoist on deeper dependencies.
+# @flag --strict-peer-deps          If set to true, and --legacy-peer-deps is not set, then any conflicting peerDependencies will be treated as an install
+# @flag --package-lock              If set to false, then ignore package-lock.json files when installing.
+# @option --omit <value>            Dependency types to omit from the installation tree on disk.
+# @flag --ignore-scripts            If true, npm does not run scripts specified in package.json files.
+# @flag --audit                     When  "true" submit audit reports alongside the current npm command to the default registry and all registries config‐
+# @flag --bin-links                 Tells npm to create symlinks (or .cmd shims on Windows) for package executables.
+# @flag --fund                      When  "true"  displays the message at the end of each npm install acknowledging the number of dependencies looking for
+# @flag --dry-run                   Indicates that you don't want npm to make any changes and that it should only report what it would have done.
 # @option -w --workspace[`_choice_workspace`] <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
-# @flag --workspaces                    Set to true to run the command in the context of all configured workspaces.
-# @flag --include-workspace-root        Include the workspace root when workspaces are enabled for a command.
-# @flag --install-links                 When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
+# @flag --workspaces                Set to true to run the command in the context of all configured workspaces.
+# @flag --include-workspace-root    Include the workspace root when workspaces are enabled for a command.
+# @flag --install-links             When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
 dedupe() {
     :;
 }
@@ -310,7 +310,7 @@ edit() {
 # @cmd Run a command from a local or remote npm package
 # @alias x
 # @option --package <value>         The package or packages to install for npm help exec
-# @option --call <value>            Optional companion option for npm exec, npx that allows for specifying a custom command to be run along with the in‐
+# @option --call <value>            Optional  companion  option for npm exec, npx that allows for specifying a custom command to be run along with the in‐
 # @option -w --workspace[`_choice_workspace`] <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
 # @flag --workspaces                Set to true to run the command in the context of all configured workspaces.
 # @flag --include-workspace-root    Include the workspace root when workspaces are enabled for a command.
@@ -344,20 +344,20 @@ explore() {
 
 # {{ npm find-dupes
 # @cmd Find duplication in the package tree
-# @option --install-strategy <value>    Sets the strategy for installing packages in node_modules.
-# @flag --legacy-bundling               Instead of hoisting package installs in node_modules, install packages in the same manner that they are depended on.
-# @flag --global-style                  Only install direct dependencies in the top level node_modules, but hoist on deeper dependencies.
-# @flag --strict-peer-deps              If set to true, and --legacy-peer-deps is not set, then any conflicting peerDependencies will be treated as an install
-# @flag --package-lock                  If set to false, then ignore package-lock.json files when installing.
-# @option --omit <value>                Dependency types to omit from the installation tree on disk.
-# @flag --ignore-scripts                If true, npm does not run scripts specified in package.json files.
-# @flag --audit                         When "true" submit audit reports alongside the current npm command to the default registry and all registries config‐
-# @flag --bin-links                     Tells npm to create symlinks (or .cmd shims on Windows) for package executables.
-# @flag --fund                          When "true" displays the message at the end of each npm install acknowledging the number of dependencies looking for
+# @option --install-strategy[hoisted|nested|shallow] <value>  Sets the strategy for installing packages in node_modules.
+# @flag --legacy-bundling           Instead  of  hoisting package installs in node_modules, install packages in the same manner that they are depended on.
+# @flag --global-style              Only  install  direct  dependencies  in  the top level node_modules, but hoist on deeper dependencies.
+# @flag --strict-peer-deps          If set to true, and --legacy-peer-deps is not set, then any conflicting peerDependencies will be treated as an install
+# @flag --package-lock              If set to false, then ignore package-lock.json files when installing.
+# @option --omit <value>            Dependency types to omit from the installation tree on disk.
+# @flag --ignore-scripts            If true, npm does not run scripts specified in package.json files.
+# @flag --audit                     When  "true" submit audit reports alongside the current npm command to the default registry and all registries config‐
+# @flag --bin-links                 Tells npm to create symlinks (or .cmd shims on Windows) for package executables.
+# @flag --fund                      When  "true"  displays the message at the end of each npm install acknowledging the number of dependencies looking for
 # @option -w --workspace[`_choice_workspace`] <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
-# @flag --workspaces                    Set to true to run the command in the context of all configured workspaces.
-# @flag --include-workspace-root        Include the workspace root when workspaces are enabled for a command.
-# @flag --install-links                 When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
+# @flag --workspaces                Set to true to run the command in the context of all configured workspaces.
+# @flag --include-workspace-root    Include the workspace root when workspaces are enabled for a command.
+# @flag --install-links             When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
 find-dupes() {
     :;
 }
@@ -422,11 +422,11 @@ hook::update() {
 # @cmd Create a package.json file
 # @alias create,innit
 # @flag --yes                       Automatically answer "yes" to any prompts that npm might print on the command line.
-# @flag -f --force                  Removes various protections against unfortunate side effects, common mistakes, unnecessary performance degradation,
+# @flag -f --force                  Removes various protections against unfortunate side effects, common mistakes,  unnecessary  performance  degradation,
 # @option --scope <value>           Associate an operation with a scope for a scoped registry.
 # @option -w --workspace[`_choice_workspace`] <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
 # @flag --workspaces                Set to true to run the command in the context of all configured workspaces.
-# @flag --workspaces-update         If set to true, the npm cli will run an update after operations that may possibly change the workspaces installed to
+# @flag --workspaces-update         If set to true, the npm cli will run an update after operations that may possibly change the workspaces  installed  to
 # @flag --include-workspace-root    Include the workspace root when workspaces are enabled for a command.
 # @arg package-spec!
 init() {
@@ -437,25 +437,25 @@ init() {
 # {{ npm install
 # @cmd Install a package
 # @alias add,isnt,i,in
-# @flag -S --save                       Save installed packages to a package.json file as dependencies.
-# @flag -E --save-exact                 Dependencies saved to package.json will be configured with an exact version rather than using npm's default semver
-# @flag -g --global                     Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
-# @option --install-strategy <value>    Sets the strategy for installing packages in node_modules.
-# @flag --legacy-bundling               Instead of hoisting package installs in node_modules, install packages in the same manner that they are depended on.
-# @flag --global-style                  Only install direct dependencies in the top level node_modules, but hoist on deeper dependencies.
-# @option --omit <value>                Dependency types to omit from the installation tree on disk.
-# @flag --strict-peer-deps              If set to true, and --legacy-peer-deps is not set, then any conflicting peerDependencies will be treated as an install
-# @flag --package-lock                  If set to false, then ignore package-lock.json files when installing.
-# @flag --foreground-scripts            Run all build scripts (ie, preinstall, install, and postinstall) scripts for installed packages in the foreground
-# @flag --ignore-scripts                If true, npm does not run scripts specified in package.json files.
-# @flag --audit                         When "true" submit audit reports alongside the current npm command to the default registry and all registries config‐
-# @flag --bin-links                     Tells npm to create symlinks (or .cmd shims on Windows) for package executables.
-# @flag --fund                          When "true" displays the message at the end of each npm install acknowledging the number of dependencies looking for
-# @flag --dry-run                       Indicates that you don't want npm to make any changes and that it should only report what it would have done.
+# @flag -S --save                   Save installed packages to a package.json file as dependencies.
+# @flag -E --save-exact             Dependencies  saved  to  package.json  will be configured with an exact version rather than using npm's default semver
+# @flag -g --global                 Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
+# @option --install-strategy[hoisted|nested|shallow] <value>  Sets the strategy for installing packages in node_modules.
+# @flag --legacy-bundling           Instead of hoisting package installs in node_modules, install packages in the same manner that they are  depended  on.
+# @flag --global-style              Only install direct dependencies in the top level node_modules, but hoist  on  deeper  dependencies.
+# @option --omit <value>            Dependency types to omit from the installation tree on disk.
+# @flag --strict-peer-deps          If set to true, and --legacy-peer-deps is not set, then any conflicting peerDependencies will be treated as an install
+# @flag --package-lock              If set to false, then ignore package-lock.json files when installing.
+# @flag --foreground-scripts        Run all build scripts (ie, preinstall, install, and postinstall) scripts for  installed  packages  in  the  foreground
+# @flag --ignore-scripts            If true, npm does not run scripts specified in package.json files.
+# @flag --audit                     When  "true" submit audit reports alongside the current npm command to the default registry and all registries config‐
+# @flag --bin-links                 Tells npm to create symlinks (or .cmd shims on Windows) for package executables.
+# @flag --fund                      When  "true"  displays the message at the end of each npm install acknowledging the number of dependencies looking for
+# @flag --dry-run                   Indicates that you don't want npm to make any changes and that it should only report what it would have done.
 # @option -w --workspace[`_choice_workspace`] <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
-# @flag --workspaces                    Set to true to run the command in the context of all configured workspaces.
-# @flag --include-workspace-root        Include the workspace root when workspaces are enabled for a command.
-# @flag --install-links                 When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a sym‐
+# @flag --workspaces                Set to true to run the command in the context of all configured workspaces.
+# @flag --include-workspace-root    Include the workspace root when workspaces are enabled for a command.
+# @flag --install-links             When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating  a  sym‐
 # @arg package-spec*
 install() {
     :;
@@ -465,25 +465,25 @@ install() {
 # {{ npm install-ci-test
 # @cmd Install a project with a clean slate and run tests
 # @alias cit,clean-install-test,sit
-# @flag -S --save                       Save installed packages to a package.json file as dependencies.
-# @flag -E --save-exact                 Dependencies saved to package.json will be configured with an exact version rather than using npm's default semver
-# @flag -g --global                     Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
-# @option --install-strategy <value>    Sets the strategy for installing packages in node_modules.
-# @flag --legacy-bundling               Instead of hoisting package installs in node_modules, install packages in the same manner that they are depended on.
-# @flag --global-style                  Only install direct dependencies in the top level node_modules, but hoist on deeper dependencies.
-# @option --omit <value>                Dependency types to omit from the installation tree on disk.
-# @flag --strict-peer-deps              If set to true, and --legacy-peer-deps is not set, then any conflicting peerDependencies will be treated as an install
-# @flag --package-lock                  If set to false, then ignore package-lock.json files when installing.
-# @flag --foreground-scripts            Run all build scripts (ie, preinstall, install, and postinstall) scripts for installed packages in the foreground
-# @flag --ignore-scripts                If true, npm does not run scripts specified in package.json files.
-# @flag --audit                         When "true" submit audit reports alongside the current npm command to the default registry and all registries config‐
-# @flag --bin-links                     Tells npm to create symlinks (or .cmd shims on Windows) for package executables.
-# @flag --fund                          When "true" displays the message at the end of each npm install acknowledging the number of dependencies looking for
-# @flag --dry-run                       Indicates that you don't want npm to make any changes and that it should only report what it would have done.
+# @flag -S --save                   Save installed packages to a package.json file as dependencies.
+# @flag -E --save-exact             Dependencies  saved  to  package.json  will be configured with an exact version rather than using npm's default semver
+# @flag -g --global                 Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
+# @option --install-strategy[hoisted|nested|shallow] <value>  Sets the strategy for installing packages in node_modules.
+# @flag --legacy-bundling           Instead of hoisting package installs in node_modules, install packages in the same manner that they are  depended  on.
+# @flag --global-style              Only install direct dependencies in the top level node_modules, but hoist  on  deeper  dependencies.
+# @option --omit <value>            Dependency types to omit from the installation tree on disk.
+# @flag --strict-peer-deps          If set to true, and --legacy-peer-deps is not set, then any conflicting peerDependencies will be treated as an install
+# @flag --package-lock              If set to false, then ignore package-lock.json files when installing.
+# @flag --foreground-scripts        Run all build scripts (ie, preinstall, install, and postinstall) scripts for  installed  packages  in  the  foreground
+# @flag --ignore-scripts            If true, npm does not run scripts specified in package.json files.
+# @flag --audit                     When  "true" submit audit reports alongside the current npm command to the default registry and all registries config‐
+# @flag --bin-links                 Tells npm to create symlinks (or .cmd shims on Windows) for package executables.
+# @flag --fund                      When  "true"  displays the message at the end of each npm install acknowledging the number of dependencies looking for
+# @flag --dry-run                   Indicates that you don't want npm to make any changes and that it should only report what it would have done.
 # @option -w --workspace[`_choice_workspace`] <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
-# @flag --workspaces                    Set to true to run the command in the context of all configured workspaces.
-# @flag --include-workspace-root        Include the workspace root when workspaces are enabled for a command.
-# @flag --install-links                 When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
+# @flag --workspaces                Set to true to run the command in the context of all configured workspaces.
+# @flag --include-workspace-root    Include the workspace root when workspaces are enabled for a command.
+# @flag --install-links             When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
 install-ci-test() {
     :;
 }
@@ -492,25 +492,25 @@ install-ci-test() {
 # {{ npm install-test
 # @cmd Install package(s) and run tests
 # @alias it
-# @flag -S --save                       Save installed packages to a package.json file as dependencies.
-# @flag -E --save-exact                 Dependencies saved to package.json will be configured with an exact version rather than using npm's default semver
-# @flag -g --global                     Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
-# @option --install-strategy <value>    Sets the strategy for installing packages in node_modules.
-# @flag --legacy-bundling               Instead of hoisting package installs in node_modules, install packages in the same manner that they are depended on.
-# @flag --global-style                  Only install direct dependencies in the top level node_modules, but hoist on deeper dependencies.
-# @option --omit <value>                Dependency types to omit from the installation tree on disk.
-# @flag --strict-peer-deps              If set to true, and --legacy-peer-deps is not set, then any conflicting peerDependencies will be treated as an install
-# @flag --package-lock                  If set to false, then ignore package-lock.json files when installing.
-# @flag --foreground-scripts            Run all build scripts (ie, preinstall, install, and postinstall) scripts for installed packages in the foreground
-# @flag --ignore-scripts                If true, npm does not run scripts specified in package.json files.
-# @flag --audit                         When "true" submit audit reports alongside the current npm command to the default registry and all registries config‐
-# @flag --bin-links                     Tells npm to create symlinks (or .cmd shims on Windows) for package executables.
-# @flag --fund                          When "true" displays the message at the end of each npm install acknowledging the number of dependencies looking for
-# @flag --dry-run                       Indicates that you don't want npm to make any changes and that it should only report what it would have done.
+# @flag -S --save                   Save installed packages to a package.json file as dependencies.
+# @flag -E --save-exact             Dependencies saved to package.json will be configured with an exact version rather than  using  npm's  default  semver
+# @flag -g --global                 Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
+# @option --install-strategy[hoisted|nested|shallow] <value>  Sets the strategy for installing packages in node_modules.
+# @flag --legacy-bundling           Instead  of  hoisting package installs in node_modules, install packages in the same manner that they are depended on.
+# @flag --global-style              Only  install  direct  dependencies  in  the top level node_modules, but hoist on deeper dependencies.
+# @option --omit <value>            Dependency types to omit from the installation tree on disk.
+# @flag --strict-peer-deps          If set to true, and --legacy-peer-deps is not set, then any conflicting peerDependencies will be treated as an install
+# @flag --package-lock              If set to false, then ignore package-lock.json files when installing.
+# @flag --foreground-scripts        Run  all  build  scripts  (ie,  preinstall, install, and postinstall) scripts for installed packages in the foreground
+# @flag --ignore-scripts            If true, npm does not run scripts specified in package.json files.
+# @flag --audit                     When "true" submit audit reports alongside the current npm command to the default registry and all registries  config‐
+# @flag --bin-links                 Tells npm to create symlinks (or .cmd shims on Windows) for package executables.
+# @flag --fund                      When "true" displays the message at the end of each npm install acknowledging the number of dependencies  looking  for
+# @flag --dry-run                   Indicates that you don't want npm to make any changes and that it should only report what it would have done.
 # @option -w --workspace[`_choice_workspace`] <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
-# @flag --workspaces                    Set to true to run the command in the context of all configured workspaces.
-# @flag --include-workspace-root        Include the workspace root when workspaces are enabled for a command.
-# @flag --install-links                 When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
+# @flag --workspaces                Set to true to run the command in the context of all configured workspaces.
+# @flag --include-workspace-root    Include the workspace root when workspaces are enabled for a command.
+# @flag --install-links             When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
 # @arg package-spec*
 install-test() {
     :;
@@ -519,24 +519,24 @@ install-test() {
 
 # {{ npm link
 # @cmd Symlink a package folder
-# @flag -S --save                       Save installed packages to a package.json file as dependencies.
-# @flag -E --save-exact                 Dependencies saved to package.json will be configured with an exact version rather than using npm's default semver
-# @flag -g --global                     Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
-# @option --install-strategy <value>    Sets the strategy for installing packages in node_modules.
-# @flag --legacy-bundling               Instead of hoisting package installs in node_modules, install packages in the same manner that they are depended on.
-# @flag --global-style                  Only install direct dependencies in the top level node_modules, but hoist on deeper dependencies.
-# @flag --strict-peer-deps              If set to true, and --legacy-peer-deps is not set, then any conflicting peerDependencies will be treated as an install
-# @flag --package-lock                  If set to false, then ignore package-lock.json files when installing.
-# @option --omit <value>                Dependency types to omit from the installation tree on disk.
-# @flag --ignore-scripts                If true, npm does not run scripts specified in package.json files.
-# @flag --audit                         When "true" submit audit reports alongside the current npm command to the default registry and all registries config‐
-# @flag --bin-links                     Tells npm to create symlinks (or .cmd shims on Windows) for package executables.
-# @flag --fund                          When "true" displays the message at the end of each npm install acknowledging the number of dependencies looking for
-# @flag --dry-run                       Indicates that you don't want npm to make any changes and that it should only report what it would have done.
+# @flag -S --save                   Save installed packages to a package.json file as dependencies.
+# @flag -E --save-exact             Dependencies saved to package.json will be configured with an exact version rather than  using  npm's  default  semver
+# @flag -g --global                 Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
+# @option --install-strategy[hoisted|nested|shallow] <value>  Sets the strategy for installing packages in node_modules.
+# @flag --legacy-bundling           Instead  of  hoisting package installs in node_modules, install packages in the same manner that they are depended on.
+# @flag --global-style              Only  install  direct  dependencies  in  the top level node_modules, but hoist on deeper dependencies.
+# @flag --strict-peer-deps          If set to true, and --legacy-peer-deps is not set, then any conflicting peerDependencies will be treated as an install
+# @flag --package-lock              If set to false, then ignore package-lock.json files when installing.
+# @option --omit <value>            Dependency types to omit from the installation tree on disk.
+# @flag --ignore-scripts            If true, npm does not run scripts specified in package.json files.
+# @flag --audit                     When  "true" submit audit reports alongside the current npm command to the default registry and all registries config‐
+# @flag --bin-links                 Tells npm to create symlinks (or .cmd shims on Windows) for package executables.
+# @flag --fund                      When  "true"  displays the message at the end of each npm install acknowledging the number of dependencies looking for
+# @flag --dry-run                   Indicates that you don't want npm to make any changes and that it should only report what it would have done.
 # @option -w --workspace[`_choice_workspace`] <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
-# @flag --workspaces                    Set to true to run the command in the context of all configured workspaces.
-# @flag --include-workspace-root        Include the workspace root when workspaces are enabled for a command.
-# @flag --install-links                 When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
+# @flag --workspaces                Set to true to run the command in the context of all configured workspaces.
+# @flag --include-workspace-root    Include the workspace root when workspaces are enabled for a command.
+# @flag --install-links             When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
 # @arg package-spec
 link() {
     :;
@@ -565,7 +565,7 @@ logout() {
 # {{ npm list
 # @cmd List installed packages
 # @alias ls
-# @flag --all                       When running npm outdated and npm ls, setting --all will show all outdated or installed packages, rather than only
+# @flag --all                       When  running  npm  outdated  and npm ls, setting --all will show all outdated or installed packages, rather than only
 # @flag --json                      Whether or not to output JSON data, rather than the normal output.
 # @flag --long                      Show extended information in ls, search, and help-search.
 # @flag --parseable                 Output parseable results from commands that write to standard output.
@@ -578,7 +578,7 @@ logout() {
 # @option -w --workspace[`_choice_workspace`] <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
 # @flag --workspaces                Set to true to run the command in the context of all configured workspaces.
 # @flag --include-workspace-root    Include the workspace root when workspaces are enabled for a command.
-# @flag --install-links             When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
+# @flag --install-links             When  set  file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
 # @arg package-spec*
 list() {
     :;
@@ -627,7 +627,7 @@ org::ls() {
 
 # {{ npm outdated
 # @cmd Check for outdated packages
-# @flag --all          When running npm outdated and npm ls, setting --all will show all outdated or installed packages, rather than only
+# @flag --all          When  running  npm  outdated  and npm ls, setting --all will show all outdated or installed packages, rather than only
 # @flag --json         Whether or not to output JSON data, rather than the normal output.
 # @flag --long         Show extended information in ls, search, and help-search.
 # @flag --parseable    Output parseable results from commands that write to standard output.
@@ -643,7 +643,7 @@ outdated() {
 # @cmd Manage package owners
 # @alias author
 # @option --registry <value>    The base URL of the npm registry.
-# @option --otp <value>         This is a one-time password from a two-factor authenticator.
+# @option --otp <value>         This  is  a one-time password from a two-factor authenticator.
 # @option -w --workspace[`_choice_workspace`] <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
 # @flag --workspaces            Set to true to run the command in the context of all configured workspaces.
 owner() {
@@ -694,7 +694,7 @@ pack() {
 
 # {{ npm pkg
 # @cmd Manages your package.json
-# @flag -f --force      Removes various protections against unfortunate side effects, common mistakes, unnecessary performance degradation,
+# @flag -f --force      Removes various protections against unfortunate side effects, common mistakes,  unnecessary  performance  degradation,
 # @flag --json          Whether or not to output JSON data, rather than the normal output.
 # @option -w --workspace[`_choice_workspace`] <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
 # @flag --workspaces    Set to true to run the command in the context of all configured workspaces.
@@ -740,7 +740,7 @@ prefix() {
 # @option --registry <value>    The base URL of the npm registry.
 # @flag --json                  Whether or not to output JSON data, rather than the normal output.
 # @flag --parseable             Output parseable results from commands that write to standard output.
-# @option --otp <value>         This is a one-time password from a two-factor authenticator.
+# @option --otp <value>         This  is  a one-time password from a two-factor authenticator.
 profile() {
     :;
 }
@@ -783,12 +783,12 @@ profile::disable-2fa() {
 # @option --omit <value>            Dependency types to omit from the installation tree on disk.
 # @flag --dry-run                   Indicates that you don't want npm to make any changes and that it should only report what it would have done.
 # @flag --json                      Whether or not to output JSON data, rather than the normal output.
-# @flag --foreground-scripts        Run all build scripts (ie, preinstall, install, and postinstall) scripts for installed packages in the foreground
+# @flag --foreground-scripts        Run  all  build  scripts  (ie,  preinstall, install, and postinstall) scripts for installed packages in the foreground
 # @flag --ignore-scripts            If true, npm does not run scripts specified in package.json files.
 # @option -w --workspace[`_choice_workspace`] <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
 # @flag --workspaces                Set to true to run the command in the context of all configured workspaces.
 # @flag --include-workspace-root    Include the workspace root when workspaces are enabled for a command.
-# @flag --install-links             When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a sym‐
+# @flag --install-links             When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating  a  sym‐
 # @arg pkg*
 prune() {
     :;
@@ -798,7 +798,7 @@ prune() {
 # {{ npm publish
 # @cmd Publish a package
 # @option --tag <value>             If you ask npm to install a package and don't tell it a specific version, then it will install the specified tag.
-# @option --access <value>          If you do not want your scoped package to be publicly viewable (and installable) set --access=restricted.
+# @option --access[null|restricted|public] <value>  If you do not want your scoped package to be publicly viewable (and installable) set --access=restricted.
 # @flag --dry-run                   Indicates that you don't want npm to make any changes and that it should only report what it would have done.
 # @option --otp <value>             This is a one-time password from a two-factor authenticator.
 # @option -w --workspace[`_choice_workspace`] <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
@@ -827,12 +827,12 @@ query() {
 # @alias rb
 # @flag -g --global                 Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
 # @flag --bin-links                 Tells npm to create symlinks (or .cmd shims on Windows) for package executables.
-# @flag --foreground-scripts        Run all build scripts (ie, preinstall, install, and postinstall) scripts for installed packages in the foreground
+# @flag --foreground-scripts        Run all build scripts (ie, preinstall, install, and postinstall) scripts for  installed  packages  in  the  foreground
 # @flag --ignore-scripts            If true, npm does not run scripts specified in package.json files.
 # @option -w --workspace[`_choice_workspace`] <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
 # @flag --workspaces                Set to true to run the command in the context of all configured workspaces.
 # @flag --include-workspace-root    Include the workspace root when workspaces are enabled for a command.
-# @flag --install-links             When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
+# @flag --install-links             When  set  file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
 # @arg package-spec*
 rebuild() {
     :;
@@ -863,9 +863,9 @@ root() {
 # @option -w --workspace[`_choice_workspace`] <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
 # @flag --workspaces                Set to true to run the command in the context of all configured workspaces.
 # @flag --include-workspace-root    Include the workspace root when workspaces are enabled for a command.
-# @flag --if-present                If true, npm will not exit with an error code when run-script is invoked for a script that isn't defined in the
+# @flag --if-present                If  true,  npm  will  not  exit  with  an error code when run-script is invoked for a script that isn't defined in the
 # @flag --ignore-scripts            If true, npm does not run scripts specified in package.json files.
-# @flag --foreground-scripts        Run all build scripts (ie, preinstall, install, and postinstall) scripts for installed packages in the foreground
+# @flag --foreground-scripts        Run all build scripts (ie, preinstall, install, and postinstall) scripts for  installed  packages  in  the  foreground
 # @option --script-shell <value>    The shell to use for scripts run with the npm exec, npm run and npm init <package-spec> commands.
 # @arg cmd![`_choice_script`]
 # @arg args*
@@ -885,8 +885,8 @@ run-script() {
 # @option --searchopts <value>       Space-separated options that are always passed to search.
 # @option --searchexclude <value>    Space-separated options that limit the results from search.
 # @option --registry <value>         The base URL of the npm registry.
-# @flag --prefer-online              If true, staleness checks for cached data will be forced, making the CLI look for updates immediately even for fresh
-# @flag --prefer-offline             If true, staleness checks for cached data will be bypassed, but missing data will be requested from the server.
+# @flag --prefer-online              If true, staleness checks for cached data will be forced, making the CLI look for updates immediately even  for  fresh
+# @flag --prefer-offline             If  true,  staleness  checks  for cached data will be bypassed, but missing data will be requested from the server.
 # @flag --offline                    Force offline mode: no network requests will be done during install.
 # @arg terms*
 search() {
@@ -1036,7 +1036,7 @@ token::revoke() {
 # @option -w --workspace[`_choice_workspace`] <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
 # @flag --workspaces                Set to true to run the command in the context of all configured workspaces.
 # @flag --include-workspace-root    Include the workspace root when workspaces are enabled for a command.
-# @flag --install-links             When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
+# @flag --install-links             When  set  file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
 # @arg pkg+[`_choice_dependency`]
 uninstall() {
     :;
@@ -1047,7 +1047,7 @@ uninstall() {
 # @cmd Remove an item from your favorite packages
 # @option --registry <value>    The base URL of the npm registry.
 # @flag --unicode               When set to true, npm uses unicode characters in the tree output.
-# @option --otp <value>         This is a one-time password from a two-factor authenticator.
+# @option --otp <value>         This  is  a one-time password from a two-factor authenticator.
 # @arg package-spec*
 unstar() {
     :;
@@ -1057,24 +1057,24 @@ unstar() {
 # {{ npm update
 # @cmd Update packages
 # @alias upgrade,udpate,up
-# @flag -S --save                       Save installed packages to a package.json file as dependencies.
-# @flag -g --global                     Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
-# @option --install-strategy <value>    Sets the strategy for installing packages in node_modules.
-# @flag --legacy-bundling               Instead of hoisting package installs in node_modules, install packages in the same manner that they are depended on.
-# @flag --global-style                  Only install direct dependencies in the top level node_modules, but hoist on deeper dependencies.
-# @option --omit <value>                Dependency types to omit from the installation tree on disk.
-# @flag --strict-peer-deps              If set to true, and --legacy-peer-deps is not set, then any conflicting peerDependencies will be treated as an install
-# @flag --package-lock                  If set to false, then ignore package-lock.json files when installing.
-# @flag --foreground-scripts            Run all build scripts (ie, preinstall, install, and postinstall) scripts for installed packages in the foreground
-# @flag --ignore-scripts                If true, npm does not run scripts specified in package.json files.
-# @flag --audit                         When "true" submit audit reports alongside the current npm command to the default registry and all registries config‐
-# @flag --bin-links                     Tells npm to create symlinks (or .cmd shims on Windows) for package executables.
-# @flag --fund                          When "true" displays the message at the end of each npm install acknowledging the number of dependencies looking for
-# @flag --dry-run                       Indicates that you don't want npm to make any changes and that it should only report what it would have done.
+# @flag -S --save                   Save installed packages to a package.json file as dependencies.
+# @flag -g --global                 Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
+# @option --install-strategy[hoisted|nested|shallow] <value>  Sets the strategy for installing packages in node_modules.
+# @flag --legacy-bundling           Instead of hoisting package installs in node_modules, install packages in the same manner that they are  depended  on.
+# @flag --global-style              Only install direct dependencies in the top level node_modules, but hoist  on  deeper  dependencies.
+# @option --omit <value>            Dependency types to omit from the installation tree on disk.
+# @flag --strict-peer-deps          If set to true, and --legacy-peer-deps is not set, then any conflicting peerDependencies will be treated as an install
+# @flag --package-lock              If set to false, then ignore package-lock.json files when installing.
+# @flag --foreground-scripts        Run all build scripts (ie, preinstall, install, and postinstall) scripts for  installed  packages  in  the  foreground
+# @flag --ignore-scripts            If true, npm does not run scripts specified in package.json files.
+# @flag --audit                     When  "true" submit audit reports alongside the current npm command to the default registry and all registries config‐
+# @flag --bin-links                 Tells npm to create symlinks (or .cmd shims on Windows) for package executables.
+# @flag --fund                      When  "true"  displays the message at the end of each npm install acknowledging the number of dependencies looking for
+# @flag --dry-run                   Indicates that you don't want npm to make any changes and that it should only report what it would have done.
 # @option -w --workspace[`_choice_workspace`] <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
-# @flag --workspaces                    Set to true to run the command in the context of all configured workspaces.
-# @flag --include-workspace-root        Include the workspace root when workspaces are enabled for a command.
-# @flag --install-links                 When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a sym‐
+# @flag --workspaces                Set to true to run the command in the context of all configured workspaces.
+# @flag --include-workspace-root    Include the workspace root when workspaces are enabled for a command.
+# @flag --install-links             When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating  a  sym‐
 # @arg pkg*[`_choice_dependency`]
 update() {
     :;
@@ -1092,7 +1092,7 @@ update() {
 # @flag --sign-git-tag              If set to true, then the npm version command will tag the version using -s to add a signature.
 # @option -w --workspace[`_choice_workspace`] <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
 # @flag --workspaces                Set to true to run the command in the context of all configured workspaces.
-# @flag --workspaces-update         If set to true, the npm cli will run an update after operations that may possibly change the workspaces installed to
+# @flag --workspaces-update         If set to true, the npm cli will run an update after operations that may possibly change the workspaces  installed  to
 # @flag --include-workspace-root    Include the workspace root when workspaces are enabled for a command.
 # @option --Description <value>
 # @arg ver!

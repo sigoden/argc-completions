@@ -2,118 +2,118 @@
 # Automatic generated, DON'T MODIFY IT.
 # @version 23.0.0
 
-# @option --config <string>          Location of client config files (default "/home/sigo/.docker")
-# @option -c --context <string>      Name of the context to use to connect to the daemon (overrides DOCKER_HOST env var and default context set with "docker context use")
-# @flag -D --debug                   Enable debug mode
-# @option -H --host <list>           Daemon socket(s) to connect to
-# @option -l --log-level <string>    Set the logging level ("debug", "info", "warn", "error", "fatal") (default "info")
-# @flag --tls                        Use TLS; implied by --tlsverify
-# @option --tlscacert <string>       Trust certs signed only by this CA (default "/home/sigo/.docker/ca.pem")
-# @option --tlscert <string>         Path to TLS certificate file (default "/home/sigo/.docker/cert.pem")
-# @option --tlskey <string>          Path to TLS key file (default "/home/sigo/.docker/key.pem")
-# @flag --tlsverify                  Use TLS and verify the remote
-# @flag -v --version                 Print version information and quit
+# @option --config <string>        Location of client config files (default "/home/sigo/.docker")
+# @option -c --context <string>    Name of the context to use to connect to the daemon (overrides DOCKER_HOST env var and default context set with "docker context use")
+# @flag -D --debug                 Enable debug mode
+# @option -H --host <list>         Daemon socket(s) to connect to
+# @option -l --log-level[debug|info|warn|error|fatal] <string>  Set the logging level (default "info")
+# @flag --tls                      Use TLS; implied by --tlsverify
+# @option --tlscacert <string>     Trust certs signed only by this CA (default "/home/sigo/.docker/ca.pem")
+# @option --tlscert <string>       Path to TLS certificate file (default "/home/sigo/.docker/cert.pem")
+# @option --tlskey <string>        Path to TLS key file (default "/home/sigo/.docker/key.pem")
+# @flag --tlsverify                Use TLS and verify the remote
+# @flag -v --version               Print version information and quit
 
 
 # {{ docker run
 # @cmd Create and run a new container from an image
-# @option --add-host <list>                   Add a custom host-to-IP mapping (host:ip)
-# @option -a --attach <list>                  Attach to STDIN, STDOUT or STDERR
-# @option --blkio-weight <uint16>             Block IO (relative weight), between 10 and 1000, or 0 to disable (default 0)
-# @option --blkio-weight-device <list>        Block IO weight (relative device weight) (default [])
-# @option --cap-add <list>                    Add Linux capabilities
-# @option --cap-drop <list>                   Drop Linux capabilities
-# @option --cgroup-parent <string>            Optional parent cgroup for the container
-# @option --cgroupns <string>                 Cgroup namespace to use (host|private) 'host': Run the container in the Docker host's cgroup namespace 'private': Run the container in its own private cgroup namespace '': Use the cgroup namespace as configured by the default-cgroupns-mode option on the daemon (default)
-# @option --cidfile <string>                  Write the container ID to the file
-# @option --cpu-period <int>                  Limit CPU CFS (Completely Fair Scheduler) period
-# @option --cpu-quota <int>                   Limit CPU CFS (Completely Fair Scheduler) quota
-# @option --cpu-rt-period <int>               Limit CPU real-time period in microseconds
-# @option --cpu-rt-runtime <int>              Limit CPU real-time runtime in microseconds
-# @option -c --cpu-shares <int>               CPU shares (relative weight)
-# @option --cpus <decimal>                    Number of CPUs
-# @option --cpuset-cpus <string>              CPUs in which to allow execution (0-3, 0,1)
-# @option --cpuset-mems <string>              MEMs in which to allow execution (0-3, 0,1)
-# @flag -d --detach                           Run container in background and print container ID
-# @option --detach-keys <string>              Override the key sequence for detaching a container
-# @option --device <list>                     Add a host device to the container
-# @option --device-cgroup-rule <list>         Add a rule to the cgroup allowed devices list
-# @option --device-read-bps <list>            Limit read rate (bytes per second) from a device (default [])
-# @option --device-read-iops <list>           Limit read rate (IO per second) from a device (default [])
-# @option --device-write-bps <list>           Limit write rate (bytes per second) to a device (default [])
-# @option --device-write-iops <list>          Limit write rate (IO per second) to a device (default [])
-# @flag --disable-content-trust               Skip image verification (default true)
-# @option --dns <list>                        Set custom DNS servers
-# @option --dns-option <list>                 Set DNS options
-# @option --dns-search <list>                 Set custom DNS search domains
-# @option --domainname <string>               Container NIS domain name
-# @option --entrypoint <string>               Overwrite the default ENTRYPOINT of the image
-# @option -e --env <list>                     Set environment variables
-# @option --env-file <list>                   Read in a file of environment variables
-# @option --expose <list>                     Expose a port or a range of ports
-# @option --gpus <gpu-request>                GPU devices to add to the container ('all' to pass all GPUs)
-# @option --group-add <list>                  Add additional groups to join
-# @option --health-cmd <string>               Command to run to check health
-# @option --health-interval <duration>        Time between running the check (ms|s|m|h) (default 0s)
-# @option --health-retries <int>              Consecutive failures needed to report unhealthy
-# @option --health-start-period <duration>    Start period for the container to initialize before starting health-retries countdown (ms|s|m|h) (default 0s)
-# @option --health-timeout <duration>         Maximum time to allow one check to run (ms|s|m|h) (default 0s)
-# @flag --help                                Print usage
-# @option -h --hostname <string>              Container host name
-# @flag --init                                Run an init inside the container that forwards signals and reaps processes
-# @flag -i --interactive                      Keep STDIN open even if not attached
-# @option --ip <string>                       IPv4 address (e.g., 172.30.100.104)
-# @option --ip6 <string>                      IPv6 address (e.g., 2001:db8::33)
-# @option --ipc <string>                      IPC mode to use
-# @option --isolation <string>                Container isolation technology
-# @option --kernel-memory <bytes>             Kernel memory limit
-# @option -l --label <list>                   Set meta data on a container
-# @option --label-file <list>                 Read in a line delimited file of labels
-# @option --link <list>                       Add link to another container
-# @option --link-local-ip <list>              Container IPv4/IPv6 link-local addresses
-# @option --log-driver <string>               Logging driver for the container
-# @option --log-opt <list>                    Log driver options
-# @option --mac-address <string>              Container MAC address (e.g., 92:d0:c6:0a:29:33)
-# @option -m --memory <bytes>                 Memory limit
-# @option --memory-reservation <bytes>        Memory soft limit
-# @option --memory-swap <bytes>               Swap limit equal to memory plus swap: '-1' to enable unlimited swap
-# @option --memory-swappiness <int>           Tune container memory swappiness (0 to 100) (default -1)
-# @option --mount <mount>                     Attach a filesystem mount to the container
-# @option --name <string>                     Assign a name to the container
-# @option --network <network>                 Connect a container to a network
-# @option --network-alias <list>              Add network-scoped alias for the container
-# @flag --no-healthcheck                      Disable any container-specified HEALTHCHECK
-# @flag --oom-kill-disable                    Disable OOM Killer
-# @option --oom-score-adj <int>               Tune host's OOM preferences (-1000 to 1000)
-# @option --pid <string>                      PID namespace to use
-# @option --pids-limit <int>                  Tune container pids limit (set -1 for unlimited)
-# @option --platform <string>                 Set platform if server is multi-platform capable
-# @flag --privileged                          Give extended privileges to this container
-# @option -p --publish <list>                 Publish a container's port(s) to the host
-# @flag -P --publish-all                      Publish all exposed ports to random ports
-# @option --pull <string>                     Pull image before running ("always", "missing", "never") (default "missing")
-# @flag -q --quiet                            Suppress the pull output
-# @flag --read-only                           Mount the container's root filesystem as read only
-# @option --restart <string>                  Restart policy to apply when a container exits (default "no")
-# @flag --rm                                  Automatically remove the container when it exits
-# @option --runtime <string>                  Runtime to use for this container
-# @option --security-opt <list>               Security Options
-# @option --shm-size <bytes>                  Size of /dev/shm
-# @flag --sig-proxy                           Proxy received signals to the process (default true)
-# @option --stop-signal <string>              Signal to stop the container
-# @option --stop-timeout <int>                Timeout (in seconds) to stop a container
-# @option --storage-opt <list>                Storage driver options for the container
-# @option --sysctl <map>                      Sysctl options (default map[])
-# @option --tmpfs <list>                      Mount a tmpfs directory
-# @flag -t --tty                              Allocate a pseudo-TTY
-# @option --ulimit <ulimit>                   Ulimit options (default [])
-# @option -u --user <string>                  Username or UID (format: <name|uid>[:<group|gid>])
-# @option --userns <string>                   User namespace to use
-# @option --uts <string>                      UTS namespace to use
-# @option -v --volume <list>                  Bind mount a volume
-# @option --volume-driver <string>            Optional volume driver for the container
-# @option --volumes-from <list>               Mount volumes from the specified container(s)
-# @option -w --workdir <string>               Working directory inside the container
+# @option --add-host <list>                        Add a custom host-to-IP mapping (host:ip)
+# @option -a --attach <list>                       Attach to STDIN, STDOUT or STDERR
+# @option --blkio-weight <uint16>                  Block IO (relative weight), between 10 and 1000, or 0 to disable (default 0)
+# @option --blkio-weight-device <list>             Block IO weight (relative device weight) (default [])
+# @option --cap-add <list>                         Add Linux capabilities
+# @option --cap-drop <list>                        Drop Linux capabilities
+# @option --cgroup-parent <string>                 Optional parent cgroup for the container
+# @option --cgroupns <string>                      Cgroup namespace to use (host|private)
+# @option --cidfile <string>                       Write the container ID to the file
+# @option --cpu-period <int>                       Limit CPU CFS (Completely Fair Scheduler) period
+# @option --cpu-quota <int>                        Limit CPU CFS (Completely Fair Scheduler) quota
+# @option --cpu-rt-period <int>                    Limit CPU real-time period in microseconds
+# @option --cpu-rt-runtime <int>                   Limit CPU real-time runtime in microseconds
+# @option -c --cpu-shares <int>                    CPU shares (relative weight)
+# @option --cpus <decimal>                         Number of CPUs
+# @option --cpuset-cpus <string>                   CPUs in which to allow execution (0-3, 0,1)
+# @option --cpuset-mems <string>                   MEMs in which to allow execution (0-3, 0,1)
+# @flag -d --detach                                Run container in background and print container ID
+# @option --detach-keys <string>                   Override the key sequence for detaching a container
+# @option --device <list>                          Add a host device to the container
+# @option --device-cgroup-rule <list>              Add a rule to the cgroup allowed devices list
+# @option --device-read-bps <list>                 Limit read rate (bytes per second) from a device (default [])
+# @option --device-read-iops <list>                Limit read rate (IO per second) from a device (default [])
+# @option --device-write-bps <list>                Limit write rate (bytes per second) to a device (default [])
+# @option --device-write-iops <list>               Limit write rate (IO per second) to a device (default [])
+# @flag --disable-content-trust                    Skip image verification (default true)
+# @option --dns <list>                             Set custom DNS servers
+# @option --dns-option <list>                      Set DNS options
+# @option --dns-search <list>                      Set custom DNS search domains
+# @option --domainname <string>                    Container NIS domain name
+# @option --entrypoint <string>                    Overwrite the default ENTRYPOINT of the image
+# @option -e --env <list>                          Set environment variables
+# @option --env-file <list>                        Read in a file of environment variables
+# @option --expose <list>                          Expose a port or a range of ports
+# @option --gpus <gpu-request>                     GPU devices to add to the container ('all' to pass all GPUs)
+# @option --group-add <list>                       Add additional groups to join
+# @option --health-cmd <string>                    Command to run to check health
+# @option --health-interval <duration>             Time between running the check (ms|s|m|h) (default 0s)
+# @option --health-retries <int>                   Consecutive failures needed to report unhealthy
+# @option --health-start-period <duration>         Start period for the container to initialize before starting health-retries countdown (ms|s|m|h) (default 0s)
+# @option --health-timeout <duration>              Maximum time to allow one check to run (ms|s|m|h) (default 0s)
+# @flag --help                                     Print usage
+# @option -h --hostname <string>                   Container host name
+# @flag --init                                     Run an init inside the container that forwards signals and reaps processes
+# @flag -i --interactive                           Keep STDIN open even if not attached
+# @option --ip <string>                            IPv4 address (e.g., 172.30.100.104)
+# @option --ip6 <string>                           IPv6 address (e.g., 2001:db8::33)
+# @option --ipc <string>                           IPC mode to use
+# @option --isolation <string>                     Container isolation technology
+# @option --kernel-memory <bytes>                  Kernel memory limit
+# @option -l --label <list>                        Set meta data on a container
+# @option --label-file <list>                      Read in a line delimited file of labels
+# @option --link <list>                            Add link to another container
+# @option --link-local-ip <list>                   Container IPv4/IPv6 link-local addresses
+# @option --log-driver <string>                    Logging driver for the container
+# @option --log-opt <list>                         Log driver options
+# @option --mac-address <string>                   Container MAC address (e.g., 92:d0:c6:0a:29:33)
+# @option -m --memory <bytes>                      Memory limit
+# @option --memory-reservation <bytes>             Memory soft limit
+# @option --memory-swap <bytes>                    Swap limit equal to memory plus swap: '-1' to enable unlimited swap
+# @option --memory-swappiness <int>                Tune container memory swappiness (0 to 100) (default -1)
+# @option --mount <mount>                          Attach a filesystem mount to the container
+# @option --name <string>                          Assign a name to the container
+# @option --network <network>                      Connect a container to a network
+# @option --network-alias <list>                   Add network-scoped alias for the container
+# @flag --no-healthcheck                           Disable any container-specified HEALTHCHECK
+# @flag --oom-kill-disable                         Disable OOM Killer
+# @option --oom-score-adj <int>                    Tune host's OOM preferences (-1000 to 1000)
+# @option --pid <string>                           PID namespace to use
+# @option --pids-limit <int>                       Tune container pids limit (set -1 for unlimited)
+# @option --platform <string>                      Set platform if server is multi-platform capable
+# @flag --privileged                               Give extended privileges to this container
+# @option -p --publish <list>                      Publish a container's port(s) to the host
+# @flag -P --publish-all                           Publish all exposed ports to random ports
+# @option --pull[always|missing|never] <string>    Pull image before running (default "missing")
+# @flag -q --quiet                                 Suppress the pull output
+# @flag --read-only                                Mount the container's root filesystem as read only
+# @option --restart <string>                       Restart policy to apply when a container exits (default "no")
+# @flag --rm                                       Automatically remove the container when it exits
+# @option --runtime <string>                       Runtime to use for this container
+# @option --security-opt <list>                    Security Options
+# @option --shm-size <bytes>                       Size of /dev/shm
+# @flag --sig-proxy                                Proxy received signals to the process (default true)
+# @option --stop-signal <string>                   Signal to stop the container
+# @option --stop-timeout <int>                     Timeout (in seconds) to stop a container
+# @option --storage-opt <list>                     Storage driver options for the container
+# @option --sysctl <map>                           Sysctl options (default map[])
+# @option --tmpfs <list>                           Mount a tmpfs directory
+# @flag -t --tty                                   Allocate a pseudo-TTY
+# @option --ulimit <ulimit>                        Ulimit options (default [])
+# @option -u --user <string>                       Username or UID (format: <name|uid>[:<group|gid>])
+# @option --userns <string>                        User namespace to use
+# @option --uts <string>                           UTS namespace to use
+# @option -v --volume <list>                       Bind mount a volume
+# @option --volume-driver <string>                 Optional volume driver for the container
+# @option --volumes-from <list>                    Mount volumes from the specified container(s)
+# @option -w --workdir <string>                    Working directory inside the container
 # @arg IMAGE[`_choice_image_repo_tag`]
 # @arg ARG*
 run() {
@@ -143,7 +143,7 @@ exec() {
 # @cmd List containers
 # @flag -a --all               Show all containers (default shows just running)
 # @option -f --filter[`_choice_container_ls_filter`] <filter>  Filter output based on conditions provided
-# @option --format <string>    Format output using a custom template: 'table': Print output in table format with column headers (default) 'table TEMPLATE': Print output in table format using the given Go template 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option --format <string>    Format output using a custom template:
 # @option -n --last <int>      Show n last created containers (includes all states) (default -1)
 # @flag -l --latest            Show the latest created container (includes all states)
 # @flag --no-trunc             Don't truncate output
@@ -156,37 +156,37 @@ ps() {
 
 # {{ docker build
 # @cmd Build an image from a Dockerfile
-# @option --add-host <strings>               Add a custom host-to-IP mapping (format: "host:ip")
-# @option --allow <strings>                  Allow extra privileged entitlement (e.g., "network.host", "security.insecure")
-# @option --attest <stringArray>             Attestation parameters (format: "type=sbom,generator=image")
-# @option --build-arg <stringArray>          Set build-time variables
-# @option --build-context <stringArray>      Additional build contexts (e.g., name=path)
-# @option --builder <string>                 Override the configured builder instance (default "default")
-# @option --cache-from <stringArray>         External cache sources (e.g., "user/app:cache", "type=local,src=path/to/dir")
-# @option --cache-to <stringArray>           Cache export destinations (e.g., "user/app:cache", "type=local,dest=path/to/dir")
-# @option --cgroup-parent <string>           Optional parent cgroup for the container
-# @option -f --file <string>                 Name of the Dockerfile (default: "PATH/Dockerfile")
-# @option --iidfile <string>                 Write the image ID to the file
-# @option --label <stringArray>              Set metadata for an image
-# @flag --load                               Shorthand for "--output=type=docker"
-# @option --metadata-file <string>           Write build result metadata to the file
-# @option --network <string>                 Set the networking mode for the "RUN" instructions during build (default "default")
-# @flag --no-cache                           Do not use cache when building the image
-# @option --no-cache-filter <stringArray>    Do not cache specified stages
-# @option -o --output <stringArray>          Output destination (format: "type=local,dest=path")
-# @option --platform <stringArray>           Set target platform for build
-# @option --progress <string>                Set type of progress output ("auto", "plain", "tty").
-# @option --provenance <string>              Shortand for "--attest=type=provenance"
-# @flag --pull                               Always attempt to pull all referenced images
-# @flag --push                               Shorthand for "--output=type=registry"
-# @flag -q --quiet                           Suppress the build output and print image ID on success
-# @option --sbom <string>                    Shorthand for "--attest=type=sbom"
-# @option --secret <stringArray>             Secret to expose to the build (format: "id=mysecret[,src=/local/secret]")
-# @option --shm-size <bytes>                 Size of "/dev/shm"
-# @option --ssh <stringArray>                SSH agent socket or keys to expose to the build (format: "default|<id>[=<socket>|<key>[,<key>]]")
-# @option -t --tag <stringArray>             Name and optionally a tag (format: "name:tag")
-# @option --target <string>                  Set the target build stage to build
-# @option --ulimit <ulimit>                  Ulimit options (default [])
+# @option --add-host <strings>                   Add a custom host-to-IP mapping (format: "host:ip")
+# @option --allow <strings>                      Allow extra privileged entitlement (e.g., "network.host", "security.insecure")
+# @option --attest <stringArray>                 Attestation parameters (format: "type=sbom,generator=image")
+# @option --build-arg <stringArray>              Set build-time variables
+# @option --build-context <stringArray>          Additional build contexts (e.g., name=path)
+# @option --builder <string>                     Override the configured builder instance (default "default")
+# @option --cache-from <stringArray>             External cache sources (e.g., "user/app:cache", "type=local,src=path/to/dir")
+# @option --cache-to <stringArray>               Cache export destinations (e.g., "user/app:cache", "type=local,dest=path/to/dir")
+# @option --cgroup-parent <string>               Optional parent cgroup for the container
+# @option -f --file <string>                     Name of the Dockerfile (default: "PATH/Dockerfile")
+# @option --iidfile <string>                     Write the image ID to the file
+# @option --label <stringArray>                  Set metadata for an image
+# @flag --load                                   Shorthand for "--output=type=docker"
+# @option --metadata-file <string>               Write build result metadata to the file
+# @option --network <string>                     Set the networking mode for the "RUN" instructions during build (default "default")
+# @flag --no-cache                               Do not use cache when building the image
+# @option --no-cache-filter <stringArray>        Do not cache specified stages
+# @option -o --output <stringArray>              Output destination (format: "type=local,dest=path")
+# @option --platform <stringArray>               Set target platform for build
+# @option --progress[auto|plain|tty] <string>    Set type of progress output.
+# @option --provenance <string>                  Shortand for "--attest=type=provenance"
+# @flag --pull                                   Always attempt to pull all referenced images
+# @flag --push                                   Shorthand for "--output=type=registry"
+# @flag -q --quiet                               Suppress the build output and print image ID on success
+# @option --sbom <string>                        Shorthand for "--attest=type=sbom"
+# @option --secret <stringArray>                 Secret to expose to the build (format: "id=mysecret[,src=/local/secret]")
+# @option --shm-size <bytes>                     Size of "/dev/shm"
+# @option --ssh <stringArray>                    SSH agent socket or keys to expose to the build (format: "default|<id>[=<socket>|<key>[,<key>]]")
+# @option -t --tag <stringArray>                 Name and optionally a tag (format: "name:tag")
+# @option --target <string>                      Set the target build stage to build
+# @option --ulimit <ulimit>                      Ulimit options (default [])
 # @arg PATH-URL <PATH|URL|->
 build() {
     :;
@@ -221,7 +221,7 @@ push() {
 # @flag -a --all               Show all images (default hides intermediate images)
 # @flag --digests              Show digests
 # @option -f --filter[`_choice_image_ls_filter`] <filter>  Filter output based on conditions provided
-# @option --format <string>    Format output using a custom template: 'table': Print output in table format with column headers (default) 'table TEMPLATE': Print output in table format using the given Go template 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option --format <string>    Format output using a custom template:
 # @flag --no-trunc             Don't truncate output
 # @flag -q --quiet             Only show image IDs
 # @arg REPOSITORY-TAG[`_choice_image_repo_tag`] <REPOSITORY[:TAG]>
@@ -293,12 +293,12 @@ builder::imagetools() {
 
 # {{{{ docker builder imagetools create
 # @cmd Create a new image based on source images
-# @flag --append                     Append to existing manifest
-# @option --builder <string>         Override the configured builder instance (default "default")
-# @flag --dry-run                    Show final image instead of pushing
-# @option -f --file <stringArray>    Read source descriptor from file
-# @option --progress <string>        Set type of progress output ("auto", "plain", "tty").
-# @option -t --tag <stringArray>     Set reference for new image
+# @flag --append                                 Append to existing manifest
+# @option --builder <string>                     Override the configured builder instance (default "default")
+# @flag --dry-run                                Show final image instead of pushing
+# @option -f --file <stringArray>                Read source descriptor from file
+# @option --progress[auto|plain|tty] <string>    Set type of progress output.
+# @option -t --tag <stringArray>                 Set reference for new image
 # @arg SOURCE*
 builder::imagetools::create() {
     :;
@@ -319,18 +319,18 @@ builder::imagetools::inspect() {
 
 # {{{ docker builder bake
 # @cmd Build from a file
-# @option --builder <string>          Override the configured builder instance (default "default")
-# @option -f --file <stringArray>     Build definition file
-# @flag --load                        Shorthand for "--set=*.output=type=docker"
-# @option --metadata-file <string>    Write build result metadata to the file
-# @flag --no-cache                    Do not use cache when building the image
-# @flag --print                       Print the options without building
-# @option --progress <string>         Set type of progress output ("auto", "plain", "tty").
-# @option --provenance <string>       Shorthand for "--set=*.attest=type=provenance"
-# @flag --pull                        Always attempt to pull all referenced images
-# @flag --push                        Shorthand for "--set=*.output=type=registry"
-# @option --sbom <string>             Shorthand for "--set=*.attest=type=sbom"
-# @option --set <stringArray>         Override target value (e.g., "targetpattern.key=value")
+# @option --builder <string>                     Override the configured builder instance (default "default")
+# @option -f --file <stringArray>                Build definition file
+# @flag --load                                   Shorthand for "--set=*.output=type=docker"
+# @option --metadata-file <string>               Write build result metadata to the file
+# @flag --no-cache                               Do not use cache when building the image
+# @flag --print                                  Print the options without building
+# @option --progress[auto|plain|tty] <string>    Set type of progress output.
+# @option --provenance <string>                  Shorthand for "--set=*.attest=type=provenance"
+# @flag --pull                                   Always attempt to pull all referenced images
+# @flag --push                                   Shorthand for "--set=*.output=type=registry"
+# @option --sbom <string>                        Shorthand for "--set=*.attest=type=sbom"
+# @option --set <stringArray>                    Override target value (e.g., "targetpattern.key=value")
 # @arg TARGET*
 builder::bake() {
     :;
@@ -339,37 +339,37 @@ builder::bake() {
 
 # {{{ docker builder build
 # @cmd Start a build
-# @option --add-host <strings>               Add a custom host-to-IP mapping (format: "host:ip")
-# @option --allow <strings>                  Allow extra privileged entitlement (e.g., "network.host", "security.insecure")
-# @option --attest <stringArray>             Attestation parameters (format: "type=sbom,generator=image")
-# @option --build-arg <stringArray>          Set build-time variables
-# @option --build-context <stringArray>      Additional build contexts (e.g., name=path)
-# @option --builder <string>                 Override the configured builder instance (default "default")
-# @option --cache-from <stringArray>         External cache sources (e.g., "user/app:cache", "type=local,src=path/to/dir")
-# @option --cache-to <stringArray>           Cache export destinations (e.g., "user/app:cache", "type=local,dest=path/to/dir")
-# @option --cgroup-parent <string>           Optional parent cgroup for the container
-# @option -f --file <string>                 Name of the Dockerfile (default: "PATH/Dockerfile")
-# @option --iidfile <string>                 Write the image ID to the file
-# @option --label <stringArray>              Set metadata for an image
-# @flag --load                               Shorthand for "--output=type=docker"
-# @option --metadata-file <string>           Write build result metadata to the file
-# @option --network <string>                 Set the networking mode for the "RUN" instructions during build (default "default")
-# @flag --no-cache                           Do not use cache when building the image
-# @option --no-cache-filter <stringArray>    Do not cache specified stages
-# @option -o --output <stringArray>          Output destination (format: "type=local,dest=path")
-# @option --platform <stringArray>           Set target platform for build
-# @option --progress <string>                Set type of progress output ("auto", "plain", "tty").
-# @option --provenance <string>              Shortand for "--attest=type=provenance"
-# @flag --pull                               Always attempt to pull all referenced images
-# @flag --push                               Shorthand for "--output=type=registry"
-# @flag -q --quiet                           Suppress the build output and print image ID on success
-# @option --sbom <string>                    Shorthand for "--attest=type=sbom"
-# @option --secret <stringArray>             Secret to expose to the build (format: "id=mysecret[,src=/local/secret]")
-# @option --shm-size <bytes>                 Size of "/dev/shm"
-# @option --ssh <stringArray>                SSH agent socket or keys to expose to the build (format: "default|<id>[=<socket>|<key>[,<key>]]")
-# @option -t --tag <stringArray>             Name and optionally a tag (format: "name:tag")
-# @option --target <string>                  Set the target build stage to build
-# @option --ulimit <ulimit>                  Ulimit options (default [])
+# @option --add-host <strings>                   Add a custom host-to-IP mapping (format: "host:ip")
+# @option --allow <strings>                      Allow extra privileged entitlement (e.g., "network.host", "security.insecure")
+# @option --attest <stringArray>                 Attestation parameters (format: "type=sbom,generator=image")
+# @option --build-arg <stringArray>              Set build-time variables
+# @option --build-context <stringArray>          Additional build contexts (e.g., name=path)
+# @option --builder <string>                     Override the configured builder instance (default "default")
+# @option --cache-from <stringArray>             External cache sources (e.g., "user/app:cache", "type=local,src=path/to/dir")
+# @option --cache-to <stringArray>               Cache export destinations (e.g., "user/app:cache", "type=local,dest=path/to/dir")
+# @option --cgroup-parent <string>               Optional parent cgroup for the container
+# @option -f --file <string>                     Name of the Dockerfile (default: "PATH/Dockerfile")
+# @option --iidfile <string>                     Write the image ID to the file
+# @option --label <stringArray>                  Set metadata for an image
+# @flag --load                                   Shorthand for "--output=type=docker"
+# @option --metadata-file <string>               Write build result metadata to the file
+# @option --network <string>                     Set the networking mode for the "RUN" instructions during build (default "default")
+# @flag --no-cache                               Do not use cache when building the image
+# @option --no-cache-filter <stringArray>        Do not cache specified stages
+# @option -o --output <stringArray>              Output destination (format: "type=local,dest=path")
+# @option --platform <stringArray>               Set target platform for build
+# @option --progress[auto|plain|tty] <string>    Set type of progress output.
+# @option --provenance <string>                  Shortand for "--attest=type=provenance"
+# @flag --pull                                   Always attempt to pull all referenced images
+# @flag --push                                   Shorthand for "--output=type=registry"
+# @flag -q --quiet                               Suppress the build output and print image ID on success
+# @option --sbom <string>                        Shorthand for "--attest=type=sbom"
+# @option --secret <stringArray>                 Secret to expose to the build (format: "id=mysecret[,src=/local/secret]")
+# @option --shm-size <bytes>                     Size of "/dev/shm"
+# @option --ssh <stringArray>                    SSH agent socket or keys to expose to the build (format: "default|<id>[=<socket>|<key>[,<key>]]")
+# @option -t --tag <stringArray>                 Name and optionally a tag (format: "name:tag")
+# @option --target <string>                      Set the target build stage to build
+# @option --ulimit <ulimit>                      Ulimit options (default [])
 # @arg PATH-URL <PATH|URL|->
 builder::build() {
     :;
@@ -382,7 +382,7 @@ builder::build() {
 # @flag --bootstrap                     Boot builder after creation
 # @option --buildkitd-flags <string>    Flags for buildkitd daemon
 # @option --config <string>             BuildKit config file
-# @option --driver <string>             Driver to use (available: "docker-container", "kubernetes", "remote")
+# @option --driver[docker-container|kubernetes|remote] <string>  Driver to use
 # @option --driver-opt <stringArray>    Options for the driver
 # @flag --leave                         Remove a node from builder instead of changing it
 # @option --name <string>               Builder instance name
@@ -492,12 +492,12 @@ buildx::imagetools() {
 
 # {{{{ docker buildx imagetools create
 # @cmd Create a new image based on source images
-# @flag --append                     Append to existing manifest
-# @option --builder <string>         Override the configured builder instance
-# @flag --dry-run                    Show final image instead of pushing
-# @option -f --file <stringArray>    Read source descriptor from file
-# @option --progress <string>        Set type of progress output ("auto", "plain", "tty").
-# @option -t --tag <stringArray>     Set reference for new image
+# @flag --append                                 Append to existing manifest
+# @option --builder <string>                     Override the configured builder instance
+# @flag --dry-run                                Show final image instead of pushing
+# @option -f --file <stringArray>                Read source descriptor from file
+# @option --progress[auto|plain|tty] <string>    Set type of progress output.
+# @option -t --tag <stringArray>                 Set reference for new image
 # @arg SOURCE*
 buildx::imagetools::create() {
     :;
@@ -518,18 +518,18 @@ buildx::imagetools::inspect() {
 
 # {{{ docker buildx bake
 # @cmd Build from a file
-# @option --builder <string>          Override the configured builder instance
-# @option -f --file <stringArray>     Build definition file
-# @flag --load                        Shorthand for "--set=*.output=type=docker"
-# @option --metadata-file <string>    Write build result metadata to the file
-# @flag --no-cache                    Do not use cache when building the image
-# @flag --print                       Print the options without building
-# @option --progress <string>         Set type of progress output ("auto", "plain", "tty").
-# @option --provenance <string>       Shorthand for "--set=*.attest=type=provenance"
-# @flag --pull                        Always attempt to pull all referenced images
-# @flag --push                        Shorthand for "--set=*.output=type=registry"
-# @option --sbom <string>             Shorthand for "--set=*.attest=type=sbom"
-# @option --set <stringArray>         Override target value (e.g., "targetpattern.key=value")
+# @option --builder <string>                     Override the configured builder instance
+# @option -f --file <stringArray>                Build definition file
+# @flag --load                                   Shorthand for "--set=*.output=type=docker"
+# @option --metadata-file <string>               Write build result metadata to the file
+# @flag --no-cache                               Do not use cache when building the image
+# @flag --print                                  Print the options without building
+# @option --progress[auto|plain|tty] <string>    Set type of progress output.
+# @option --provenance <string>                  Shorthand for "--set=*.attest=type=provenance"
+# @flag --pull                                   Always attempt to pull all referenced images
+# @flag --push                                   Shorthand for "--set=*.output=type=registry"
+# @option --sbom <string>                        Shorthand for "--set=*.attest=type=sbom"
+# @option --set <stringArray>                    Override target value (e.g., "targetpattern.key=value")
 # @arg TARGET*
 buildx::bake() {
     :;
@@ -538,37 +538,37 @@ buildx::bake() {
 
 # {{{ docker buildx build
 # @cmd Start a build
-# @option --add-host <strings>               Add a custom host-to-IP mapping (format: "host:ip")
-# @option --allow <strings>                  Allow extra privileged entitlement (e.g., "network.host", "security.insecure")
-# @option --attest <stringArray>             Attestation parameters (format: "type=sbom,generator=image")
-# @option --build-arg <stringArray>          Set build-time variables
-# @option --build-context <stringArray>      Additional build contexts (e.g., name=path)
-# @option --builder <string>                 Override the configured builder instance
-# @option --cache-from <stringArray>         External cache sources (e.g., "user/app:cache", "type=local,src=path/to/dir")
-# @option --cache-to <stringArray>           Cache export destinations (e.g., "user/app:cache", "type=local,dest=path/to/dir")
-# @option --cgroup-parent <string>           Optional parent cgroup for the container
-# @option -f --file <string>                 Name of the Dockerfile (default: "PATH/Dockerfile")
-# @option --iidfile <string>                 Write the image ID to the file
-# @option --label <stringArray>              Set metadata for an image
-# @flag --load                               Shorthand for "--output=type=docker"
-# @option --metadata-file <string>           Write build result metadata to the file
-# @option --network <string>                 Set the networking mode for the "RUN" instructions during build (default "default")
-# @flag --no-cache                           Do not use cache when building the image
-# @option --no-cache-filter <stringArray>    Do not cache specified stages
-# @option -o --output <stringArray>          Output destination (format: "type=local,dest=path")
-# @option --platform <stringArray>           Set target platform for build
-# @option --progress <string>                Set type of progress output ("auto", "plain", "tty").
-# @option --provenance <string>              Shortand for "--attest=type=provenance"
-# @flag --pull                               Always attempt to pull all referenced images
-# @flag --push                               Shorthand for "--output=type=registry"
-# @flag -q --quiet                           Suppress the build output and print image ID on success
-# @option --sbom <string>                    Shorthand for "--attest=type=sbom"
-# @option --secret <stringArray>             Secret to expose to the build (format: "id=mysecret[,src=/local/secret]")
-# @option --shm-size <bytes>                 Size of "/dev/shm"
-# @option --ssh <stringArray>                SSH agent socket or keys to expose to the build (format: "default|<id>[=<socket>|<key>[,<key>]]")
-# @option -t --tag <stringArray>             Name and optionally a tag (format: "name:tag")
-# @option --target <string>                  Set the target build stage to build
-# @option --ulimit <ulimit>                  Ulimit options (default [])
+# @option --add-host <strings>                   Add a custom host-to-IP mapping (format: "host:ip")
+# @option --allow <strings>                      Allow extra privileged entitlement (e.g., "network.host", "security.insecure")
+# @option --attest <stringArray>                 Attestation parameters (format: "type=sbom,generator=image")
+# @option --build-arg <stringArray>              Set build-time variables
+# @option --build-context <stringArray>          Additional build contexts (e.g., name=path)
+# @option --builder <string>                     Override the configured builder instance
+# @option --cache-from <stringArray>             External cache sources (e.g., "user/app:cache", "type=local,src=path/to/dir")
+# @option --cache-to <stringArray>               Cache export destinations (e.g., "user/app:cache", "type=local,dest=path/to/dir")
+# @option --cgroup-parent <string>               Optional parent cgroup for the container
+# @option -f --file <string>                     Name of the Dockerfile (default: "PATH/Dockerfile")
+# @option --iidfile <string>                     Write the image ID to the file
+# @option --label <stringArray>                  Set metadata for an image
+# @flag --load                                   Shorthand for "--output=type=docker"
+# @option --metadata-file <string>               Write build result metadata to the file
+# @option --network <string>                     Set the networking mode for the "RUN" instructions during build (default "default")
+# @flag --no-cache                               Do not use cache when building the image
+# @option --no-cache-filter <stringArray>        Do not cache specified stages
+# @option -o --output <stringArray>              Output destination (format: "type=local,dest=path")
+# @option --platform <stringArray>               Set target platform for build
+# @option --progress[auto|plain|tty] <string>    Set type of progress output.
+# @option --provenance <string>                  Shortand for "--attest=type=provenance"
+# @flag --pull                                   Always attempt to pull all referenced images
+# @flag --push                                   Shorthand for "--output=type=registry"
+# @flag -q --quiet                               Suppress the build output and print image ID on success
+# @option --sbom <string>                        Shorthand for "--attest=type=sbom"
+# @option --secret <stringArray>                 Secret to expose to the build (format: "id=mysecret[,src=/local/secret]")
+# @option --shm-size <bytes>                     Size of "/dev/shm"
+# @option --ssh <stringArray>                    SSH agent socket or keys to expose to the build (format: "default|<id>[=<socket>|<key>[,<key>]]")
+# @option -t --tag <stringArray>                 Name and optionally a tag (format: "name:tag")
+# @option --target <string>                      Set the target build stage to build
+# @option --ulimit <ulimit>                      Ulimit options (default [])
 # @arg PATH-URL <PATH|URL|->
 buildx::build() {
     :;
@@ -581,7 +581,7 @@ buildx::build() {
 # @flag --bootstrap                     Boot builder after creation
 # @option --buildkitd-flags <string>    Flags for buildkitd daemon
 # @option --config <string>             BuildKit config file
-# @option --driver <string>             Driver to use (available: "docker-container", "kubernetes", "remote")
+# @option --driver[docker-container|kubernetes|remote] <string>  Driver to use
 # @option --driver-opt <stringArray>    Options for the driver
 # @flag --leave                         Remove a node from builder instead of changing it
 # @option --name <string>               Builder instance name
@@ -677,14 +677,14 @@ buildx::version() {
 
 # {{ docker compose
 # @cmd Docker Compose (Docker Inc., v2.15.1)
-# @option --ansi <string>                 Control when to print ANSI control characters ("never"|"always"|"auto") (default "auto")
-# @flag --compatibility                   Run compose in backward compatibility mode
-# @option --env-file <string>             Specify an alternate environment file.
-# @option -f --file <stringArray>         Compose configuration files
-# @option --parallel <int>                Control max parallelism, -1 for unlimited (default -1)
-# @option --profile <stringArray>         Specify a profile to enable
-# @option --project-directory <string>    Specify an alternate working directory (default: the path of the, first specified, Compose file)
-# @option -p --project-name <string>      Project name
+# @option --ansi[never|always|auto] <string>    Control when to print ANSI control characters (default "auto")
+# @flag --compatibility                         Run compose in backward compatibility mode
+# @option --env-file <string>                   Specify an alternate environment file.
+# @option -f --file <stringArray>               Compose configuration files
+# @option --parallel <int>                      Control max parallelism, -1 for unlimited (default -1)
+# @option --profile <stringArray>               Specify a profile to enable
+# @option --project-directory <string>          Specify an alternate working directory (default: the path of the, first specified, Compose file)
+# @option -p --project-name <string>            Project name
 compose() {
     :;
 }
@@ -693,7 +693,7 @@ compose() {
 # @cmd Build or rebuild services
 # @option --build-arg <stringArray>    Set build-time variables for services.
 # @flag --no-cache                     Do not use cache when building the image
-# @option --progress[auto|tty|plain|quiet] <string>  Set type of progress output (auto, tty, plain, quiet) (default "auto")
+# @option --progress[auto|tty|plain|quiet] <string>  Set type of progress output (default "auto")
 # @flag --pull                         Always attempt to pull a newer version of the image.
 # @flag -q --quiet                     Don't print anything to STDOUT
 # @option --ssh <string>               Set SSH authentications used when building service images.
@@ -705,7 +705,7 @@ compose::build() {
 
 # {{{ docker compose convert
 # @cmd Converts the compose file to platform's canonical format
-# @option --format <string>        Format the output. Values: [yaml | json] (default "yaml")
+# @option --format <string>        Format the output.
 # @option --hash <string>          Print the service config hash, one per line.
 # @flag --images                   Print the image names, one per line.
 # @flag --no-consistency           Don't check model consistency - warning: may produce invalid Compose output
@@ -737,11 +737,11 @@ compose::cp() {
 
 # {{{ docker compose create
 # @cmd Creates containers for a service.
-# @flag --build              Build images before starting containers.
-# @flag --force-recreate     Recreate containers even if their configuration and image haven't changed.
-# @flag --no-build           Don't build an image, even if it's missing.
-# @flag --no-recreate        If containers already exist, don't recreate them.
-# @option --pull <string>    Pull image before running ("always"|"missing"|"never") (default "missing")
+# @flag --build                                    Build images before starting containers.
+# @flag --force-recreate                           Recreate containers even if their configuration and image haven't changed.
+# @flag --no-build                                 Don't build an image, even if it's missing.
+# @flag --no-recreate                              If containers already exist, don't recreate them.
+# @option --pull[always|missing|never] <string>    Pull image before running (default "missing")
 # @arg SERVICE*[`_choice_compose_service`]
 compose::create() {
     :;
@@ -750,10 +750,10 @@ compose::create() {
 
 # {{{ docker compose down
 # @cmd Stop and remove containers, networks
-# @flag --remove-orphans            Remove containers for services not defined in the Compose file.
-# @option --rmi <string>            Remove images used by services.
-# @option -t --timeout <int>        Specify a shutdown timeout in seconds (default 10)
-# @option -v --volumes <volumes>    Remove named volumes declared in the volumes section of the Compose file and anonymous volumes attached to containers.
+# @flag --remove-orphans               Remove containers for services not defined in the Compose file.
+# @option --rmi[local|all] <string>    Remove images used by services.
+# @option -t --timeout <int>           Specify a shutdown timeout in seconds (default 10)
+# @option -v --volumes <volumes>       Remove named volumes declared in the volumes section of the Compose file and anonymous volumes attached to containers.
 compose::down() {
     :;
 }
@@ -773,7 +773,7 @@ compose::events() {
 # @flag -d --detach                 Detached mode: Run command in the background.
 # @option -e --env <stringArray>    Set environment variables
 # @option --index <int>             index of the container if there are multiple instances of a service [default: 1].
-# @flag -T --no-TTY                 docker compose exec Disable pseudo-TTY allocation.
+# @flag -T --no-TTY                 docker compose exec   Disable pseudo-TTY allocation.
 # @flag --privileged                Give extended privileges to the process.
 # @option -u --user <string>        Run the command as this user.
 # @option -w --workdir <string>     Path to workdir directory for this command.
@@ -786,7 +786,7 @@ compose::exec() {
 
 # {{{ docker compose images
 # @cmd List images used by the created containers
-# @option --format <string>    Format the output. Values: [table | json]. (default "table")
+# @option --format <string>    Format the output.
 # @flag -q --quiet             Only display IDs
 # @arg SERVICE*[`_choice_compose_service`]
 compose::images() {
@@ -797,7 +797,7 @@ compose::images() {
 # {{{ docker compose kill
 # @cmd Force stop service containers.
 # @flag --remove-orphans          Remove containers for services not defined in the Compose file.
-# @option -s --signal <string>    SIGNAL to send to the container. (default "SIGKILL")
+# @option -s --signal <string>    SIGNAL to send to the container.
 # @arg SERVICE*[`_choice_compose_service`]
 compose::kill() {
     :;
@@ -809,10 +809,10 @@ compose::kill() {
 # @flag -f --follow           Follow log output.
 # @flag --no-color            Produce monochrome output.
 # @flag --no-log-prefix       Don't print prefix in logs.
-# @option --since <string>    Show logs since timestamp (e.g.
+# @option --since <string>    Show logs since timestamp or relative (e.g.
 # @option --tail <string>     Number of lines to show from the end of the logs for each container.
 # @flag -t --timestamps       Show timestamps.
-# @option --until <string>    Show logs before a timestamp (e.g.
+# @option --until <string>    Show logs before a timestamp or relative (e.g.
 # @arg SERVICE*[`_choice_compose_service`]
 compose::logs() {
     :;
@@ -823,7 +823,7 @@ compose::logs() {
 # @cmd List running compose projects
 # @flag -a --all               Show all stopped Compose projects
 # @option --filter <filter>    Filter output based on conditions provided.
-# @option --format <string>    Format the output. Values: [table | json]. (default "table")
+# @option --format <string>    Format the output.
 # @flag -q --quiet             Only display IDs.
 compose::ls() {
     :;
@@ -853,7 +853,7 @@ compose::port() {
 # @cmd List containers
 # @flag -a --all                    Show all stopped containers (including those created by the run command)
 # @option --filter <string>         Filter services by a property (supported filters: status).
-# @option --format <string>         Format the output. Values: [table | json] (default "table")
+# @option --format <string>         Format the output.
 # @flag -q --quiet                  Only display IDs
 # @flag --services                  Display services
 # @option --status <stringArray>    Filter services by status.
@@ -912,10 +912,10 @@ compose::rm() {
 # @flag -d --detach                     Run container in background and print container ID
 # @option --entrypoint <string>         Override the entrypoint of the image
 # @option -e --env <stringArray>        Set environment variables
-# @flag -i --interactive                Keep STDIN open even if not attached. (default true)
+# @flag -i --interactive                Keep STDIN open even if not attached.
 # @option -l --label <stringArray>      Add or override a label
 # @option --name <string>               Assign a name to the container
-# @flag -T --no-TTY                     Disable pseudo-TTY allocation (default: auto-detected). (default true)
+# @flag -T --no-TTY                     Disable pseudo-TTY allocation (default: auto-detected).
 # @flag --no-deps                       Don't start linked services.
 # @option -p --publish <stringArray>    Publish a container's port(s) to the host.
 # @flag --quiet-pull                    Pull without printing progress information.
@@ -967,29 +967,29 @@ compose::unpause() {
 
 # {{{ docker compose up
 # @cmd Create and start containers
-# @flag --abort-on-container-exit      Stops all containers if any container was stopped. Incompatible with -d
-# @flag --always-recreate-deps         Recreate dependent containers. Incompatible with --no-recreate.
-# @option --attach <stringArray>       Attach to service output.
-# @flag --attach-dependencies          Attach to dependent containers.
-# @flag --build                        Build images before starting containers.
-# @flag -d --detach                    Detached mode: Run containers in the background
-# @option --exit-code-from <string>    Return the exit code of the selected service container.
-# @flag --force-recreate               Recreate containers even if their configuration and image haven't changed.
-# @option --no-attach <stringArray>    Don't attach to specified service.
-# @flag --no-build                     Don't build an image, even if it's missing.
-# @flag --no-color                     Produce monochrome output.
-# @flag --no-deps                      Don't start linked services.
-# @flag --no-log-prefix                Don't print prefix in logs.
-# @flag --no-recreate                  If containers already exist, don't recreate them.
-# @flag --no-start                     Don't start the services after creating them.
-# @option --pull <string>              Pull image before running ("always"|"missing"|"never") (default "missing")
-# @flag --quiet-pull                   Pull without printing progress information.
-# @flag --remove-orphans               Remove containers for services not defined in the Compose file.
-# @flag -V --renew-anon-volumes        Recreate anonymous volumes instead of retrieving data from the previous containers.
-# @option --scale <scale>              Scale SERVICE to NUM instances.
-# @option -t --timeout <int>           Use this timeout in seconds for container shutdown when attached or when containers are already running.
-# @flag --timestamps                   Show timestamps.
-# @flag --wait                         Wait for services to be running|healthy. Implies detached mode.
+# @flag --abort-on-container-exit                  Stops all containers if any container was stopped.
+# @flag --always-recreate-deps                     Recreate dependent containers.
+# @option --attach <stringArray>                   Attach to service output.
+# @flag --attach-dependencies                      Attach to dependent containers.
+# @flag --build                                    Build images before starting containers.
+# @flag -d --detach                                Detached mode: Run containers in the background
+# @option --exit-code-from <string>                Return the exit code of the selected service container.
+# @flag --force-recreate                           Recreate containers even if their configuration and image haven't changed.
+# @option --no-attach <stringArray>                Don't attach to specified service.
+# @flag --no-build                                 Don't build an image, even if it's missing.
+# @flag --no-color                                 Produce monochrome output.
+# @flag --no-deps                                  Don't start linked services.
+# @flag --no-log-prefix                            Don't print prefix in logs.
+# @flag --no-recreate                              If containers already exist, don't recreate them.
+# @flag --no-start                                 Don't start the services after creating them.
+# @option --pull[always|missing|never] <string>    Pull image before running (default "missing")
+# @flag --quiet-pull                               Pull without printing progress information.
+# @flag --remove-orphans                           Remove containers for services not defined in the Compose file.
+# @flag -V --renew-anon-volumes                    Recreate anonymous volumes instead of retrieving data from the previous containers.
+# @option --scale <scale>                          Scale SERVICE to NUM instances.
+# @option -t --timeout <int>                       Use this timeout in seconds for container shutdown when attached or when containers are already running.
+# @flag --timestamps                               Show timestamps.
+# @flag --wait                                     Wait for services to be running|healthy.
 # @arg SERVICE*[`_choice_compose_service`]
 compose::up() {
     :;
@@ -998,7 +998,7 @@ compose::up() {
 
 # {{{ docker compose version
 # @cmd Show the Docker Compose version information
-# @option -f --format <string>    Format the output. Values: [pretty | json]. (Default: pretty)
+# @option -f --format <string>    Format the output.
 # @flag --short                   Shows only Compose's version number.
 compose::version() {
     :;
@@ -1057,7 +1057,7 @@ container::cp() {
 # @option --cap-add <list>                    Add Linux capabilities
 # @option --cap-drop <list>                   Drop Linux capabilities
 # @option --cgroup-parent <string>            Optional parent cgroup for the container
-# @option --cgroupns <string>                 Cgroup namespace to use (host|private) 'host': Run the container in the Docker host's cgroup namespace 'private': Run the container in its own private cgroup namespace '': Use the cgroup namespace as configured by the default-cgroupns-mode option on the daemon (default)
+# @option --cgroupns <string>                 Cgroup namespace to use (host|private)
 # @option --cidfile <string>                  Write the container ID to the file
 # @option --cpu-period <int>                  Limit CPU CFS (Completely Fair Scheduler) period
 # @option --cpu-quota <int>                   Limit CPU CFS (Completely Fair Scheduler) quota
@@ -1188,7 +1188,7 @@ container::export() {
 
 # {{{ docker container inspect
 # @cmd Display detailed information on one or more containers
-# @option -f --format <string>    Format output using a custom template: 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option -f --format <string>    Format output using a custom template:
 # @flag -s --size                 Display total file sizes
 # @arg CONTAINER*[`_choice_container_name`]
 container::inspect() {
@@ -1209,10 +1209,10 @@ container::kill() {
 # @cmd Fetch the logs of a container
 # @flag --details               Show extra details provided to logs
 # @flag -f --follow             Follow log output
-# @option --since <string>      Show logs since timestamp (e.g.
+# @option --since <string>      Show logs since timestamp or relative (e.g.
 # @option -n --tail <string>    Number of lines to show from the end of the logs (default "all")
 # @flag -t --timestamps         Show timestamps
-# @option --until <string>      Show logs before a timestamp (e.g.
+# @option --until <string>      Show logs before a timestamp or relative (e.g.
 # @arg CONTAINER[`_choice_container_name`]
 container::logs() {
     :;
@@ -1224,7 +1224,7 @@ container::logs() {
 # @alias ls,ps
 # @flag -a --all               Show all containers (default shows just running)
 # @option -f --filter[`_choice_container_ls_filter`] <filter>  Filter output based on conditions provided
-# @option --format <string>    Format output using a custom template: 'table': Print output in table format with column headers (default) 'table TEMPLATE': Print output in table format using the given Go template 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option --format <string>    Format output using a custom template:
 # @option -n --last <int>      Show n last created containers (includes all states) (default -1)
 # @flag -l --latest            Show the latest created container (includes all states)
 # @flag --no-trunc             Don't truncate output
@@ -1254,7 +1254,7 @@ container::port() {
 
 # {{{ docker container prune
 # @cmd Remove all stopped containers
-# @option --filter <filter>    Provide filter values (e.g. "until=<timestamp>")
+# @option --filter <filter>    Provide filter values
 # @flag -f --force             Do not prompt for confirmation
 container::prune() {
     :;
@@ -1293,103 +1293,103 @@ container::rm() {
 
 # {{{ docker container run
 # @cmd Create and run a new container from an image
-# @option --add-host <list>                   Add a custom host-to-IP mapping (host:ip)
-# @option -a --attach <list>                  Attach to STDIN, STDOUT or STDERR
-# @option --blkio-weight <uint16>             Block IO (relative weight), between 10 and 1000, or 0 to disable (default 0)
-# @option --blkio-weight-device <list>        Block IO weight (relative device weight) (default [])
-# @option --cap-add <list>                    Add Linux capabilities
-# @option --cap-drop <list>                   Drop Linux capabilities
-# @option --cgroup-parent <string>            Optional parent cgroup for the container
-# @option --cgroupns <string>                 Cgroup namespace to use (host|private) 'host': Run the container in the Docker host's cgroup namespace 'private': Run the container in its own private cgroup namespace '': Use the cgroup namespace as configured by the default-cgroupns-mode option on the daemon (default)
-# @option --cidfile <string>                  Write the container ID to the file
-# @option --cpu-period <int>                  Limit CPU CFS (Completely Fair Scheduler) period
-# @option --cpu-quota <int>                   Limit CPU CFS (Completely Fair Scheduler) quota
-# @option --cpu-rt-period <int>               Limit CPU real-time period in microseconds
-# @option --cpu-rt-runtime <int>              Limit CPU real-time runtime in microseconds
-# @option -c --cpu-shares <int>               CPU shares (relative weight)
-# @option --cpus <decimal>                    Number of CPUs
-# @option --cpuset-cpus <string>              CPUs in which to allow execution (0-3, 0,1)
-# @option --cpuset-mems <string>              MEMs in which to allow execution (0-3, 0,1)
-# @flag -d --detach                           Run container in background and print container ID
-# @option --detach-keys <string>              Override the key sequence for detaching a container
-# @option --device <list>                     Add a host device to the container
-# @option --device-cgroup-rule <list>         Add a rule to the cgroup allowed devices list
-# @option --device-read-bps <list>            Limit read rate (bytes per second) from a device (default [])
-# @option --device-read-iops <list>           Limit read rate (IO per second) from a device (default [])
-# @option --device-write-bps <list>           Limit write rate (bytes per second) to a device (default [])
-# @option --device-write-iops <list>          Limit write rate (IO per second) to a device (default [])
-# @flag --disable-content-trust               Skip image verification (default true)
-# @option --dns <list>                        Set custom DNS servers
-# @option --dns-option <list>                 Set DNS options
-# @option --dns-search <list>                 Set custom DNS search domains
-# @option --domainname <string>               Container NIS domain name
-# @option --entrypoint <string>               Overwrite the default ENTRYPOINT of the image
-# @option -e --env <list>                     Set environment variables
-# @option --env-file <list>                   Read in a file of environment variables
-# @option --expose <list>                     Expose a port or a range of ports
-# @option --gpus <gpu-request>                GPU devices to add to the container ('all' to pass all GPUs)
-# @option --group-add <list>                  Add additional groups to join
-# @option --health-cmd <string>               Command to run to check health
-# @option --health-interval <duration>        Time between running the check (ms|s|m|h) (default 0s)
-# @option --health-retries <int>              Consecutive failures needed to report unhealthy
-# @option --health-start-period <duration>    Start period for the container to initialize before starting health-retries countdown (ms|s|m|h) (default 0s)
-# @option --health-timeout <duration>         Maximum time to allow one check to run (ms|s|m|h) (default 0s)
-# @flag --help                                Print usage
-# @option -h --hostname <string>              Container host name
-# @flag --init                                Run an init inside the container that forwards signals and reaps processes
-# @flag -i --interactive                      Keep STDIN open even if not attached
-# @option --ip <string>                       IPv4 address (e.g., 172.30.100.104)
-# @option --ip6 <string>                      IPv6 address (e.g., 2001:db8::33)
-# @option --ipc <string>                      IPC mode to use
-# @option --isolation <string>                Container isolation technology
-# @option --kernel-memory <bytes>             Kernel memory limit
-# @option -l --label <list>                   Set meta data on a container
-# @option --label-file <list>                 Read in a line delimited file of labels
-# @option --link <list>                       Add link to another container
-# @option --link-local-ip <list>              Container IPv4/IPv6 link-local addresses
-# @option --log-driver <string>               Logging driver for the container
-# @option --log-opt <list>                    Log driver options
-# @option --mac-address <string>              Container MAC address (e.g., 92:d0:c6:0a:29:33)
-# @option -m --memory <bytes>                 Memory limit
-# @option --memory-reservation <bytes>        Memory soft limit
-# @option --memory-swap <bytes>               Swap limit equal to memory plus swap: '-1' to enable unlimited swap
-# @option --memory-swappiness <int>           Tune container memory swappiness (0 to 100) (default -1)
-# @option --mount <mount>                     Attach a filesystem mount to the container
-# @option --name <string>                     Assign a name to the container
-# @option --network <network>                 Connect a container to a network
-# @option --network-alias <list>              Add network-scoped alias for the container
-# @flag --no-healthcheck                      Disable any container-specified HEALTHCHECK
-# @flag --oom-kill-disable                    Disable OOM Killer
-# @option --oom-score-adj <int>               Tune host's OOM preferences (-1000 to 1000)
-# @option --pid <string>                      PID namespace to use
-# @option --pids-limit <int>                  Tune container pids limit (set -1 for unlimited)
-# @option --platform <string>                 Set platform if server is multi-platform capable
-# @flag --privileged                          Give extended privileges to this container
-# @option -p --publish <list>                 Publish a container's port(s) to the host
-# @flag -P --publish-all                      Publish all exposed ports to random ports
-# @option --pull <string>                     Pull image before running ("always", "missing", "never") (default "missing")
-# @flag -q --quiet                            Suppress the pull output
-# @flag --read-only                           Mount the container's root filesystem as read only
-# @option --restart <string>                  Restart policy to apply when a container exits (default "no")
-# @flag --rm                                  Automatically remove the container when it exits
-# @option --runtime <string>                  Runtime to use for this container
-# @option --security-opt <list>               Security Options
-# @option --shm-size <bytes>                  Size of /dev/shm
-# @flag --sig-proxy                           Proxy received signals to the process (default true)
-# @option --stop-signal <string>              Signal to stop the container
-# @option --stop-timeout <int>                Timeout (in seconds) to stop a container
-# @option --storage-opt <list>                Storage driver options for the container
-# @option --sysctl <map>                      Sysctl options (default map[])
-# @option --tmpfs <list>                      Mount a tmpfs directory
-# @flag -t --tty                              Allocate a pseudo-TTY
-# @option --ulimit <ulimit>                   Ulimit options (default [])
-# @option -u --user <string>                  Username or UID (format: <name|uid>[:<group|gid>])
-# @option --userns <string>                   User namespace to use
-# @option --uts <string>                      UTS namespace to use
-# @option -v --volume <list>                  Bind mount a volume
-# @option --volume-driver <string>            Optional volume driver for the container
-# @option --volumes-from <list>               Mount volumes from the specified container(s)
-# @option -w --workdir <string>               Working directory inside the container
+# @option --add-host <list>                        Add a custom host-to-IP mapping (host:ip)
+# @option -a --attach <list>                       Attach to STDIN, STDOUT or STDERR
+# @option --blkio-weight <uint16>                  Block IO (relative weight), between 10 and 1000, or 0 to disable (default 0)
+# @option --blkio-weight-device <list>             Block IO weight (relative device weight) (default [])
+# @option --cap-add <list>                         Add Linux capabilities
+# @option --cap-drop <list>                        Drop Linux capabilities
+# @option --cgroup-parent <string>                 Optional parent cgroup for the container
+# @option --cgroupns <string>                      Cgroup namespace to use (host|private)
+# @option --cidfile <string>                       Write the container ID to the file
+# @option --cpu-period <int>                       Limit CPU CFS (Completely Fair Scheduler) period
+# @option --cpu-quota <int>                        Limit CPU CFS (Completely Fair Scheduler) quota
+# @option --cpu-rt-period <int>                    Limit CPU real-time period in microseconds
+# @option --cpu-rt-runtime <int>                   Limit CPU real-time runtime in microseconds
+# @option -c --cpu-shares <int>                    CPU shares (relative weight)
+# @option --cpus <decimal>                         Number of CPUs
+# @option --cpuset-cpus <string>                   CPUs in which to allow execution (0-3, 0,1)
+# @option --cpuset-mems <string>                   MEMs in which to allow execution (0-3, 0,1)
+# @flag -d --detach                                Run container in background and print container ID
+# @option --detach-keys <string>                   Override the key sequence for detaching a container
+# @option --device <list>                          Add a host device to the container
+# @option --device-cgroup-rule <list>              Add a rule to the cgroup allowed devices list
+# @option --device-read-bps <list>                 Limit read rate (bytes per second) from a device (default [])
+# @option --device-read-iops <list>                Limit read rate (IO per second) from a device (default [])
+# @option --device-write-bps <list>                Limit write rate (bytes per second) to a device (default [])
+# @option --device-write-iops <list>               Limit write rate (IO per second) to a device (default [])
+# @flag --disable-content-trust                    Skip image verification (default true)
+# @option --dns <list>                             Set custom DNS servers
+# @option --dns-option <list>                      Set DNS options
+# @option --dns-search <list>                      Set custom DNS search domains
+# @option --domainname <string>                    Container NIS domain name
+# @option --entrypoint <string>                    Overwrite the default ENTRYPOINT of the image
+# @option -e --env <list>                          Set environment variables
+# @option --env-file <list>                        Read in a file of environment variables
+# @option --expose <list>                          Expose a port or a range of ports
+# @option --gpus <gpu-request>                     GPU devices to add to the container ('all' to pass all GPUs)
+# @option --group-add <list>                       Add additional groups to join
+# @option --health-cmd <string>                    Command to run to check health
+# @option --health-interval <duration>             Time between running the check (ms|s|m|h) (default 0s)
+# @option --health-retries <int>                   Consecutive failures needed to report unhealthy
+# @option --health-start-period <duration>         Start period for the container to initialize before starting health-retries countdown (ms|s|m|h) (default 0s)
+# @option --health-timeout <duration>              Maximum time to allow one check to run (ms|s|m|h) (default 0s)
+# @flag --help                                     Print usage
+# @option -h --hostname <string>                   Container host name
+# @flag --init                                     Run an init inside the container that forwards signals and reaps processes
+# @flag -i --interactive                           Keep STDIN open even if not attached
+# @option --ip <string>                            IPv4 address (e.g., 172.30.100.104)
+# @option --ip6 <string>                           IPv6 address (e.g., 2001:db8::33)
+# @option --ipc <string>                           IPC mode to use
+# @option --isolation <string>                     Container isolation technology
+# @option --kernel-memory <bytes>                  Kernel memory limit
+# @option -l --label <list>                        Set meta data on a container
+# @option --label-file <list>                      Read in a line delimited file of labels
+# @option --link <list>                            Add link to another container
+# @option --link-local-ip <list>                   Container IPv4/IPv6 link-local addresses
+# @option --log-driver <string>                    Logging driver for the container
+# @option --log-opt <list>                         Log driver options
+# @option --mac-address <string>                   Container MAC address (e.g., 92:d0:c6:0a:29:33)
+# @option -m --memory <bytes>                      Memory limit
+# @option --memory-reservation <bytes>             Memory soft limit
+# @option --memory-swap <bytes>                    Swap limit equal to memory plus swap: '-1' to enable unlimited swap
+# @option --memory-swappiness <int>                Tune container memory swappiness (0 to 100) (default -1)
+# @option --mount <mount>                          Attach a filesystem mount to the container
+# @option --name <string>                          Assign a name to the container
+# @option --network <network>                      Connect a container to a network
+# @option --network-alias <list>                   Add network-scoped alias for the container
+# @flag --no-healthcheck                           Disable any container-specified HEALTHCHECK
+# @flag --oom-kill-disable                         Disable OOM Killer
+# @option --oom-score-adj <int>                    Tune host's OOM preferences (-1000 to 1000)
+# @option --pid <string>                           PID namespace to use
+# @option --pids-limit <int>                       Tune container pids limit (set -1 for unlimited)
+# @option --platform <string>                      Set platform if server is multi-platform capable
+# @flag --privileged                               Give extended privileges to this container
+# @option -p --publish <list>                      Publish a container's port(s) to the host
+# @flag -P --publish-all                           Publish all exposed ports to random ports
+# @option --pull[always|missing|never] <string>    Pull image before running (default "missing")
+# @flag -q --quiet                                 Suppress the pull output
+# @flag --read-only                                Mount the container's root filesystem as read only
+# @option --restart <string>                       Restart policy to apply when a container exits (default "no")
+# @flag --rm                                       Automatically remove the container when it exits
+# @option --runtime <string>                       Runtime to use for this container
+# @option --security-opt <list>                    Security Options
+# @option --shm-size <bytes>                       Size of /dev/shm
+# @flag --sig-proxy                                Proxy received signals to the process (default true)
+# @option --stop-signal <string>                   Signal to stop the container
+# @option --stop-timeout <int>                     Timeout (in seconds) to stop a container
+# @option --storage-opt <list>                     Storage driver options for the container
+# @option --sysctl <map>                           Sysctl options (default map[])
+# @option --tmpfs <list>                           Mount a tmpfs directory
+# @flag -t --tty                                   Allocate a pseudo-TTY
+# @option --ulimit <ulimit>                        Ulimit options (default [])
+# @option -u --user <string>                       Username or UID (format: <name|uid>[:<group|gid>])
+# @option --userns <string>                        User namespace to use
+# @option --uts <string>                           UTS namespace to use
+# @option -v --volume <list>                       Bind mount a volume
+# @option --volume-driver <string>                 Optional volume driver for the container
+# @option --volumes-from <list>                    Mount volumes from the specified container(s)
+# @option -w --workdir <string>                    Working directory inside the container
 # @arg IMAGE[`_choice_image_repo_tag`]
 # @arg ARG*
 container::run() {
@@ -1411,7 +1411,7 @@ container::start() {
 # {{{ docker container stats
 # @cmd Display a live stream of container(s) resource usage statistics
 # @flag -a --all               Show all containers (default shows just running)
-# @option --format <string>    Format output using a custom template: 'table': Print output in table format with column headers (default) 'table TEMPLATE': Print output in table format using the given Go template 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option --format <string>    Format output using a custom template:
 # @flag --no-stream            Disable streaming stats and only pull the first result
 # @flag --no-trunc             Do not truncate output
 # @arg CONTAINER*[`_choice_container_name`]
@@ -1514,7 +1514,7 @@ context::import() {
 
 # {{{ docker context inspect
 # @cmd Display detailed information on one or more contexts
-# @option -f --format <string>    Format output using a custom template: 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option -f --format <string>    Format output using a custom template:
 # @arg CONTEXT*[`_choice_context`]
 context::inspect() {
     :;
@@ -1523,7 +1523,7 @@ context::inspect() {
 
 # {{{ docker context ls
 # @cmd List contexts
-# @option --format <string>    Format output using a custom template: 'table': Print output in table format with column headers (default) 'table TEMPLATE': Print output in table format using the given Go template 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option --format <string>    Format output using a custom template:
 # @flag -q --quiet             Only show context names
 context::ls() {
     :;
@@ -1573,37 +1573,37 @@ image() {
 
 # {{{ docker image build
 # @cmd Build an image from a Dockerfile
-# @option --add-host <strings>               Add a custom host-to-IP mapping (format: "host:ip")
-# @option --allow <strings>                  Allow extra privileged entitlement (e.g., "network.host", "security.insecure")
-# @option --attest <stringArray>             Attestation parameters (format: "type=sbom,generator=image")
-# @option --build-arg <stringArray>          Set build-time variables
-# @option --build-context <stringArray>      Additional build contexts (e.g., name=path)
-# @option --builder <string>                 Override the configured builder instance (default "default")
-# @option --cache-from <stringArray>         External cache sources (e.g., "user/app:cache", "type=local,src=path/to/dir")
-# @option --cache-to <stringArray>           Cache export destinations (e.g., "user/app:cache", "type=local,dest=path/to/dir")
-# @option --cgroup-parent <string>           Optional parent cgroup for the container
-# @option -f --file <string>                 Name of the Dockerfile (default: "PATH/Dockerfile")
-# @option --iidfile <string>                 Write the image ID to the file
-# @option --label <stringArray>              Set metadata for an image
-# @flag --load                               Shorthand for "--output=type=docker"
-# @option --metadata-file <string>           Write build result metadata to the file
-# @option --network <string>                 Set the networking mode for the "RUN" instructions during build (default "default")
-# @flag --no-cache                           Do not use cache when building the image
-# @option --no-cache-filter <stringArray>    Do not cache specified stages
-# @option -o --output <stringArray>          Output destination (format: "type=local,dest=path")
-# @option --platform <stringArray>           Set target platform for build
-# @option --progress <string>                Set type of progress output ("auto", "plain", "tty").
-# @option --provenance <string>              Shortand for "--attest=type=provenance"
-# @flag --pull                               Always attempt to pull all referenced images
-# @flag --push                               Shorthand for "--output=type=registry"
-# @flag -q --quiet                           Suppress the build output and print image ID on success
-# @option --sbom <string>                    Shorthand for "--attest=type=sbom"
-# @option --secret <stringArray>             Secret to expose to the build (format: "id=mysecret[,src=/local/secret]")
-# @option --shm-size <bytes>                 Size of "/dev/shm"
-# @option --ssh <stringArray>                SSH agent socket or keys to expose to the build (format: "default|<id>[=<socket>|<key>[,<key>]]")
-# @option -t --tag <stringArray>             Name and optionally a tag (format: "name:tag")
-# @option --target <string>                  Set the target build stage to build
-# @option --ulimit <ulimit>                  Ulimit options (default [])
+# @option --add-host <strings>                   Add a custom host-to-IP mapping (format: "host:ip")
+# @option --allow <strings>                      Allow extra privileged entitlement (e.g., "network.host", "security.insecure")
+# @option --attest <stringArray>                 Attestation parameters (format: "type=sbom,generator=image")
+# @option --build-arg <stringArray>              Set build-time variables
+# @option --build-context <stringArray>          Additional build contexts (e.g., name=path)
+# @option --builder <string>                     Override the configured builder instance (default "default")
+# @option --cache-from <stringArray>             External cache sources (e.g., "user/app:cache", "type=local,src=path/to/dir")
+# @option --cache-to <stringArray>               Cache export destinations (e.g., "user/app:cache", "type=local,dest=path/to/dir")
+# @option --cgroup-parent <string>               Optional parent cgroup for the container
+# @option -f --file <string>                     Name of the Dockerfile (default: "PATH/Dockerfile")
+# @option --iidfile <string>                     Write the image ID to the file
+# @option --label <stringArray>                  Set metadata for an image
+# @flag --load                                   Shorthand for "--output=type=docker"
+# @option --metadata-file <string>               Write build result metadata to the file
+# @option --network <string>                     Set the networking mode for the "RUN" instructions during build (default "default")
+# @flag --no-cache                               Do not use cache when building the image
+# @option --no-cache-filter <stringArray>        Do not cache specified stages
+# @option -o --output <stringArray>              Output destination (format: "type=local,dest=path")
+# @option --platform <stringArray>               Set target platform for build
+# @option --progress[auto|plain|tty] <string>    Set type of progress output.
+# @option --provenance <string>                  Shortand for "--attest=type=provenance"
+# @flag --pull                                   Always attempt to pull all referenced images
+# @flag --push                                   Shorthand for "--output=type=registry"
+# @flag -q --quiet                               Suppress the build output and print image ID on success
+# @option --sbom <string>                        Shorthand for "--attest=type=sbom"
+# @option --secret <stringArray>                 Secret to expose to the build (format: "id=mysecret[,src=/local/secret]")
+# @option --shm-size <bytes>                     Size of "/dev/shm"
+# @option --ssh <stringArray>                    SSH agent socket or keys to expose to the build (format: "default|<id>[=<socket>|<key>[,<key>]]")
+# @option -t --tag <stringArray>                 Name and optionally a tag (format: "name:tag")
+# @option --target <string>                      Set the target build stage to build
+# @option --ulimit <ulimit>                      Ulimit options (default [])
 # @arg PATH-URL <PATH|URL|->
 image::build() {
     :;
@@ -1612,7 +1612,7 @@ image::build() {
 
 # {{{ docker image history
 # @cmd Show the history of an image
-# @option --format <string>    Format output using a custom template: 'table': Print output in table format with column headers (default) 'table TEMPLATE': Print output in table format using the given Go template 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option --format <string>    Format output using a custom template:
 # @flag -H --human             Print sizes and dates in human readable format (default true)
 # @flag --no-trunc             Don't truncate output
 # @flag -q --quiet             Only show image IDs
@@ -1636,7 +1636,7 @@ image::import() {
 
 # {{{ docker image inspect
 # @cmd Display detailed information on one or more images
-# @option -f --format <string>    Format output using a custom template: 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option -f --format <string>    Format output using a custom template:
 # @arg IMAGE*[`_choice_image_repo_tag`]
 image::inspect() {
     :;
@@ -1658,7 +1658,7 @@ image::load() {
 # @flag -a --all               Show all images (default hides intermediate images)
 # @flag --digests              Show digests
 # @option -f --filter[`_choice_image_ls_filter`] <filter>  Filter output based on conditions provided
-# @option --format <string>    Format output using a custom template: 'table': Print output in table format with column headers (default) 'table TEMPLATE': Print output in table format using the given Go template 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option --format <string>    Format output using a custom template:
 # @flag --no-trunc             Don't truncate output
 # @flag -q --quiet             Only show image IDs
 # @arg REPOSITORY-TAG[`_choice_image_repo_tag`] <REPOSITORY[:TAG]>
@@ -1670,7 +1670,7 @@ image::list() {
 # {{{ docker image prune
 # @cmd Remove unused images
 # @flag -a --all               Remove all unused images, not just dangling ones
-# @option --filter <filter>    Provide filter values (e.g. "until=<timestamp>")
+# @option --filter <filter>    Provide filter values
 # @flag -f --force             Do not prompt for confirmation
 image::prune() {
     :;
@@ -1847,7 +1847,7 @@ network::disconnect() {
 
 # {{{ docker network inspect
 # @cmd Display detailed information on one or more networks
-# @option -f --format <string>    Format output using a custom template: 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option -f --format <string>    Format output using a custom template:
 # @flag -v --verbose              Verbose output for diagnostics
 # @arg NETWORK*[`_choice_network`]
 network::inspect() {
@@ -1857,8 +1857,8 @@ network::inspect() {
 
 # {{{ docker network ls
 # @cmd List networks
-# @option -f --filter <filter>    Provide filter values (e.g. "driver=bridge")
-# @option --format <string>       Format output using a custom template: 'table': Print output in table format with column headers (default) 'table TEMPLATE': Print output in table format using the given Go template 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option -f --filter <filter>    Provide filter values
+# @option --format <string>       Format output using a custom template:
 # @flag --no-trunc                Do not truncate the output
 # @flag -q --quiet                Only display network IDs
 network::ls() {
@@ -1868,7 +1868,7 @@ network::ls() {
 
 # {{{ docker network prune
 # @cmd Remove all unused networks
-# @option --filter <filter>    Provide filter values (e.g. "until=<timestamp>")
+# @option --filter <filter>    Provide filter values
 # @flag -f --force             Do not prompt for confirmation
 network::prune() {
     :;
@@ -1921,7 +1921,7 @@ plugin::enable() {
 
 # {{{ docker plugin inspect
 # @cmd Display detailed information on one or more plugins
-# @option -f --format <string>    Format output using a custom template: 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option -f --format <string>    Format output using a custom template:
 # @arg PLUGIN*[`_choice_plugin`]
 plugin::inspect() {
     :;
@@ -1943,8 +1943,8 @@ plugin::install() {
 
 # {{{ docker plugin ls
 # @cmd List plugins
-# @option -f --filter <filter>    Provide filter values (e.g. "enabled=true")
-# @option --format <string>       Format output using a custom template: 'table': Print output in table format with column headers (default) 'table TEMPLATE': Print output in table format using the given Go template 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option -f --filter <filter>    Provide filter values
+# @option --format <string>       Format output using a custom template:
 # @flag --no-trunc                Don't truncate output
 # @flag -q --quiet                Only display plugin IDs
 plugin::ls() {
@@ -2019,7 +2019,7 @@ system() {
 
 # {{{ docker system df
 # @cmd Show docker disk usage
-# @option --format <string>    Format output using a custom template: 'table': Print output in table format with column headers (default) 'table TEMPLATE': Print output in table format using the given Go template 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option --format <string>    Format output using a custom template:
 # @flag -v --verbose           Show detailed information on space usage
 system::df() {
     :;
@@ -2048,7 +2048,7 @@ system::info() {
 # {{{ docker system prune
 # @cmd Remove unused data
 # @flag -a --all               Remove all unused images not just dangling ones
-# @option --filter <filter>    Provide filter values (e.g. "label=<key>=<value>")
+# @option --filter <filter>    Provide filter values
 # @flag -f --force             Do not prompt for confirmation
 # @flag --volumes              Prune volumes
 system::prune() {
@@ -2162,7 +2162,7 @@ volume::create() {
 
 # {{{ docker volume inspect
 # @cmd Display detailed information on one or more volumes
-# @option -f --format <string>    Format output using a custom template: 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option -f --format <string>    Format output using a custom template:
 # @arg VOLUME*[`_choice_volume`]
 volume::inspect() {
     :;
@@ -2171,8 +2171,8 @@ volume::inspect() {
 
 # {{{ docker volume ls
 # @cmd List volumes
-# @option -f --filter <filter>    Provide filter values (e.g. "dangling=true")
-# @option --format <string>       Format output using a custom template: 'table': Print output in table format with column headers (default) 'table TEMPLATE': Print output in table format using the given Go template 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option -f --filter <filter>    Provide filter values
+# @option --format <string>       Format output using a custom template:
 # @flag -q --quiet                Only display volume names
 volume::ls() {
     :;
@@ -2181,7 +2181,7 @@ volume::ls() {
 
 # {{{ docker volume prune
 # @cmd Remove all unused local volumes
-# @option --filter <filter>    Provide filter values (e.g. "label=<label>")
+# @option --filter <filter>    Provide filter values
 # @flag -f --force             Do not prompt for confirmation
 volume::prune() {
     :;
@@ -2208,7 +2208,7 @@ swarm() {
 # @cmd Initialize a swarm
 # @option --advertise-addr <string>            Advertised address (format: "<ip|interface>[:port]")
 # @flag --autolock                             Enable manager autolocking (requiring an unlock key to start a stopped manager)
-# @option --availability <string>              Availability of the node ("active", "pause", "drain") (default "active")
+# @option --availability[active|pause|drain] <string>  Availability of the node (default "active")
 # @option --cert-expiry <duration>             Validity period for node certificates (ns|us|ms|s|m|h) (default 2160h0m0s)
 # @option --data-path-addr <string>            Address or interface to use for data path traffic (format: "<ip|interface>")
 # @option --data-path-port <uint32>            Port number to use for data path traffic (1024 - 49151).
@@ -2229,7 +2229,7 @@ swarm::init() {
 # {{{ docker swarm join
 # @cmd Join a swarm as a node and/or manager
 # @option --advertise-addr <string>    Advertised address (format: "<ip|interface>[:port]")
-# @option --availability <string>      Availability of the node ("active", "pause", "drain") (default "active")
+# @option --availability[active|pause|drain] <string>  Availability of the node (default "active")
 # @option --data-path-addr <string>    Address or interface to use for data path traffic (format: "<ip|interface>")
 # @option --listen-addr <node-addr>    Listen address (format: "<ip|interface>[:port]") (default 0.0.0.0:2377)
 # @option --token <string>             Token for entry into the swarm
@@ -2285,7 +2285,7 @@ cp() {
 # @option --cap-add <list>                    Add Linux capabilities
 # @option --cap-drop <list>                   Drop Linux capabilities
 # @option --cgroup-parent <string>            Optional parent cgroup for the container
-# @option --cgroupns <string>                 Cgroup namespace to use (host|private) 'host': Run the container in the Docker host's cgroup namespace 'private': Run the container in its own private cgroup namespace '': Use the cgroup namespace as configured by the default-cgroupns-mode option on the daemon (default)
+# @option --cgroupns <string>                 Cgroup namespace to use (host|private)
 # @option --cidfile <string>                  Write the container ID to the file
 # @option --cpu-period <int>                  Limit CPU CFS (Completely Fair Scheduler) period
 # @option --cpu-quota <int>                   Limit CPU CFS (Completely Fair Scheduler) quota
@@ -2409,7 +2409,7 @@ export() {
 
 # {{ docker history
 # @cmd Show the history of an image
-# @option --format <string>    Format output using a custom template: 'table': Print output in table format with column headers (default) 'table TEMPLATE': Print output in table format using the given Go template 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option --format <string>    Format output using a custom template:
 # @flag -H --human             Print sizes and dates in human readable format (default true)
 # @flag --no-trunc             Don't truncate output
 # @flag -q --quiet             Only show image IDs
@@ -2433,7 +2433,7 @@ import() {
 
 # {{ docker inspect
 # @cmd Return low-level information on Docker objects
-# @option -f --format <string>    Format output using a custom template: 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option -f --format <string>    Format output using a custom template:
 # @flag -s --size                 Display total file sizes if the type is container
 # @option --type <string>         Return JSON for specified type
 # @arg NAME-ID*
@@ -2464,10 +2464,10 @@ load() {
 # @cmd Fetch the logs of a container
 # @flag --details               Show extra details provided to logs
 # @flag -f --follow             Follow log output
-# @option --since <string>      Show logs since timestamp (e.g.
+# @option --since <string>      Show logs since timestamp or relative (e.g.
 # @option -n --tail <string>    Number of lines to show from the end of the logs (default "all")
 # @flag -t --timestamps         Show timestamps
-# @option --until <string>      Show logs before a timestamp (e.g.
+# @option --until <string>      Show logs before a timestamp or relative (e.g.
 # @arg CONTAINER[`_choice_container_name`]
 logs() {
     :;
@@ -2554,7 +2554,7 @@ start() {
 # {{ docker stats
 # @cmd Display a live stream of container(s) resource usage statistics
 # @flag -a --all               Show all containers (default shows just running)
-# @option --format <string>    Format output using a custom template: 'table': Print output in table format with column headers (default) 'table TEMPLATE': Print output in table format using the given Go template 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option --format <string>    Format output using a custom template:
 # @flag --no-stream            Disable streaming stats and only pull the first result
 # @flag --no-trunc             Do not truncate output
 # @arg CONTAINER*[`_choice_container_name`]
@@ -2647,7 +2647,7 @@ config::create() {
 
 # {{{ docker config inspect
 # @cmd Display detailed information on one or more configs
-# @option -f --format <string>    Format output using a custom template: 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option -f --format <string>    Format output using a custom template:
 # @flag --pretty                  Print the information in a human friendly format
 # @arg CONFIG*[`_choice_config`]
 config::inspect() {
@@ -2658,7 +2658,7 @@ config::inspect() {
 # {{{ docker config ls
 # @cmd List configs
 # @option -f --filter <filter>    Filter output based on conditions provided
-# @option --format <string>       Format output using a custom template: 'table': Print output in table format with column headers (default) 'table TEMPLATE': Print output in table format using the given Go template 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option --format <string>       Format output using a custom template:
 # @flag -q --quiet                Only display IDs
 config::ls() {
     :;
@@ -2690,7 +2690,7 @@ node::demote() {
 
 # {{{ docker node inspect
 # @cmd Display detailed information on one or more nodes
-# @option -f --format <string>    Format output using a custom template: 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option -f --format <string>    Format output using a custom template:
 # @flag --pretty                  Print the information in a human friendly format
 # @arg self-NODE
 # @arg NODE*[`_choice_node`]
@@ -2702,7 +2702,7 @@ node::inspect() {
 # {{{ docker node ls
 # @cmd List nodes in the swarm
 # @option -f --filter <filter>    Filter output based on conditions provided
-# @option --format <string>       Format output using a custom template: 'table': Print output in table format with column headers (default) 'table TEMPLATE': Print output in table format using the given Go template 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option --format <string>       Format output using a custom template:
 # @flag -q --quiet                Only display IDs
 node::ls() {
     :;
@@ -2741,10 +2741,10 @@ node::rm() {
 
 # {{{ docker node update
 # @cmd Update a node
-# @option --availability <string>    Availability of the node ("active", "pause", "drain")
-# @option --label-add <list>         Add or update a node label ("key=value")
-# @option --label-rm <list>          Remove a node label if exists
-# @option --role <string>            Role of the node ("worker", "manager")
+# @option --availability[active|pause|drain] <string>  Availability of the node
+# @option --label-add <list>                 Add or update a node label ("key=value")
+# @option --label-rm <list>                  Remove a node label if exists
+# @option --role[worker|manager] <string>    Role of the node
 # @arg NODE[`_choice_node`]
 node::update() {
     :;
@@ -2772,7 +2772,7 @@ secret::create() {
 
 # {{{ docker secret inspect
 # @cmd Display detailed information on one or more secrets
-# @option -f --format <string>    Format output using a custom template: 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option -f --format <string>    Format output using a custom template:
 # @flag --pretty                  Print the information in a human friendly format
 # @arg SECRET*[`_choice_secret`]
 secret::inspect() {
@@ -2783,7 +2783,7 @@ secret::inspect() {
 # {{{ docker secret ls
 # @cmd List secrets
 # @option -f --filter <filter>    Filter output based on conditions provided
-# @option --format <string>       Format output using a custom template: 'table': Print output in table format with column headers (default) 'table TEMPLATE': Print output in table format using the given Go template 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option --format <string>       Format output using a custom template:
 # @flag -q --quiet                Only display IDs
 secret::ls() {
     :;
@@ -2838,7 +2838,7 @@ service() {
 # @option --log-driver <string>                   Logging driver for service
 # @option --log-opt <list>                        Logging driver options
 # @option --max-concurrent <uint>                 Number of job tasks to run concurrently (default equal to --replicas)
-# @option --mode <string>                         Service mode ("replicated", "global", "replicated-job", "global-job") (default "replicated")
+# @option --mode[replicated|global|replicated-job|global-job] <string>  Service mode (default "replicated")
 # @option --mount <mount>                         Attach a filesystem mount to the service
 # @option --name <string>                         Service name
 # @option --network <network>                     Network attachments
@@ -2852,15 +2852,15 @@ service() {
 # @option --replicas-max-per-node <uint>          Maximum number of tasks per node (default 0 = unlimited)
 # @option --reserve-cpu <decimal>                 Reserve CPUs
 # @option --reserve-memory <bytes>                Reserve Memory
-# @option --restart-condition <string>            Restart when condition is met ("none", "on-failure", "any") (default "any")
+# @option --restart-condition[none|on-failure|any] <string>  Restart when condition is met (default "any")
 # @option --restart-delay <duration>              Delay between restart attempts (ns|us|ms|s|m|h) (default 5s)
 # @option --restart-max-attempts <uint>           Maximum number of restarts before giving up
 # @option --restart-window <duration>             Window used to evaluate the restart policy (ns|us|ms|s|m|h)
 # @option --rollback-delay <duration>             Delay between task rollbacks (ns|us|ms|s|m|h) (default 0s)
-# @option --rollback-failure-action <string>      Action on rollback failure ("pause", "continue") (default "pause")
+# @option --rollback-failure-action[pause|continue] <string>  Action on rollback failure (default "pause")
 # @option --rollback-max-failure-ratio <float>    Failure rate to tolerate during a rollback (default 0)
 # @option --rollback-monitor <duration>           Duration after each task rollback to monitor for failure (ns|us|ms|s|m|h) (default 5s)
-# @option --rollback-order <string>               Rollback order ("start-first", "stop-first") (default "stop-first")
+# @option --rollback-order[start-first|stop-first] <string>  Rollback order (default "stop-first")
 # @option --rollback-parallelism <uint>           Maximum number of tasks rolled back simultaneously (0 to roll back all at once) (default 1)
 # @option --secret <secret>                       Specify secrets to expose to the service
 # @option --stop-grace-period <duration>          Time to wait before force killing a container (ns|us|ms|s|m|h) (default 10s)
@@ -2869,10 +2869,10 @@ service() {
 # @flag -t --tty                                  Allocate a pseudo-TTY
 # @option --ulimit <ulimit>                       Ulimit options (default [])
 # @option --update-delay <duration>               Delay between updates (ns|us|ms|s|m|h) (default 0s)
-# @option --update-failure-action <string>        Action on update failure ("pause", "continue", "rollback") (default "pause")
+# @option --update-failure-action[pause|continue|rollback] <string>  Action on update failure (default "pause")
 # @option --update-max-failure-ratio <float>      Failure rate to tolerate during an update (default 0)
 # @option --update-monitor <duration>             Duration after each task update to monitor for failure (ns|us|ms|s|m|h) (default 5s)
-# @option --update-order <string>                 Update order ("start-first", "stop-first") (default "stop-first")
+# @option --update-order[start-first|stop-first] <string>  Update order (default "stop-first")
 # @option --update-parallelism <uint>             Maximum number of tasks updated simultaneously (0 to update all at once) (default 1)
 # @option -u --user <string>                      Username or UID (format: <name|uid>[:<group|gid>])
 # @flag --with-registry-auth                      Send registry authentication details to swarm agents
@@ -2886,7 +2886,7 @@ service::create() {
 
 # {{{ docker service inspect
 # @cmd Display detailed information on one or more services
-# @option -f --format <string>    Format output using a custom template: 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option -f --format <string>    Format output using a custom template:
 # @flag --pretty                  Print the information in a human friendly format
 # @arg SERVICE*[`_choice_service`]
 service::inspect() {
@@ -2902,7 +2902,7 @@ service::inspect() {
 # @flag --no-task-ids           Do not include task IDs in output
 # @flag --no-trunc              Do not truncate output
 # @flag --raw                   Do not neatly format logs
-# @option --since <string>      Show logs since timestamp (e.g.
+# @option --since <string>      Show logs since timestamp or relative (e.g.
 # @option -n --tail <string>    Number of lines to show from the end of the logs (default "all")
 # @flag -t --timestamps         Show timestamps
 # @arg SERVICE-TASK[`_choice_service`]
@@ -2914,7 +2914,7 @@ service::logs() {
 # {{{ docker service ls
 # @cmd List services
 # @option -f --filter <filter>    Filter output based on conditions provided
-# @option --format <string>       Format output using a custom template: 'table': Print output in table format with column headers (default) 'table TEMPLATE': Print output in table format using the given Go template 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option --format <string>       Format output using a custom template:
 # @flag -q --quiet                Only display IDs
 service::ls() {
     :;
@@ -3022,16 +3022,16 @@ service::scale() {
 # @option --replicas-max-per-node <uint>          Maximum number of tasks per node (default 0 = unlimited)
 # @option --reserve-cpu <decimal>                 Reserve CPUs
 # @option --reserve-memory <bytes>                Reserve Memory
-# @option --restart-condition <string>            Restart when condition is met ("none", "on-failure", "any")
+# @option --restart-condition[none|on-failure|any] <string>  Restart when condition is met
 # @option --restart-delay <duration>              Delay between restart attempts (ns|us|ms|s|m|h)
 # @option --restart-max-attempts <uint>           Maximum number of restarts before giving up
 # @option --restart-window <duration>             Window used to evaluate the restart policy (ns|us|ms|s|m|h)
 # @flag --rollback                                Rollback to previous specification
 # @option --rollback-delay <duration>             Delay between task rollbacks (ns|us|ms|s|m|h)
-# @option --rollback-failure-action <string>      Action on rollback failure ("pause", "continue")
+# @option --rollback-failure-action[pause|continue] <string>  Action on rollback failure
 # @option --rollback-max-failure-ratio <float>    Failure rate to tolerate during a rollback
 # @option --rollback-monitor <duration>           Duration after each task rollback to monitor for failure (ns|us|ms|s|m|h)
-# @option --rollback-order <string>               Rollback order ("start-first", "stop-first")
+# @option --rollback-order[start-first|stop-first] <string>  Rollback order
 # @option --rollback-parallelism <uint>           Maximum number of tasks rolled back simultaneously (0 to roll back all at once)
 # @option --secret-add <secret>                   Add or update a secret on a service
 # @option --secret-rm <list>                      Remove a secret
@@ -3043,10 +3043,10 @@ service::scale() {
 # @option --ulimit-add <ulimit>                   Add or update a ulimit option (default [])
 # @option --ulimit-rm <list>                      Remove a ulimit option
 # @option --update-delay <duration>               Delay between updates (ns|us|ms|s|m|h)
-# @option --update-failure-action <string>        Action on update failure ("pause", "continue", "rollback")
+# @option --update-failure-action[pause|continue|rollback] <string>  Action on update failure
 # @option --update-max-failure-ratio <float>      Failure rate to tolerate during an update
 # @option --update-monitor <duration>             Duration after each task update to monitor for failure (ns|us|ms|s|m|h)
-# @option --update-order <string>                 Update order ("start-first", "stop-first")
+# @option --update-order[start-first|stop-first] <string>  Update order
 # @option --update-parallelism <uint>             Maximum number of tasks updated simultaneously (0 to update all at once)
 # @option -u --user <string>                      Username or UID (format: <name|uid>[:<group|gid>])
 # @flag --with-registry-auth                      Send registry authentication details to swarm agents
@@ -3077,7 +3077,7 @@ stack::config() {
 # @cmd Deploy a new stack or update an existing stack
 # @option -c --compose-file <strings>    Path to a Compose file, or "-" to read from stdin
 # @flag --prune                          Prune services that are no longer referenced
-# @option --resolve-image <string>       Query the registry to resolve image digest and supported platforms ("always", "changed", "never") (default "always")
+# @option --resolve-image[always|changed|never] <string>  Query the registry to resolve image digest and supported platforms (default "always")
 # @flag --with-registry-auth             Send registry authentication details to Swarm agents
 # @arg STACK[`_choice_stack`]
 stack::deploy() {
@@ -3087,7 +3087,7 @@ stack::deploy() {
 
 # {{{ docker stack ls
 # @cmd List stacks
-# @option --format <string>    Format output using a custom template: 'table': Print output in table format with column headers (default) 'table TEMPLATE': Print output in table format using the given Go template 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option --format <string>    Format output using a custom template:
 stack::ls() {
     :;
 }
@@ -3096,7 +3096,7 @@ stack::ls() {
 # {{{ docker stack ps
 # @cmd List the tasks in the stack
 # @option -f --filter <filter>    Filter output based on conditions provided
-# @option --format <string>       Format output using a custom template: 'table': Print output in table format with column headers (default) 'table TEMPLATE': Print output in table format using the given Go template 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option --format <string>       Format output using a custom template:
 # @flag --no-resolve              Do not map IDs to Names
 # @flag --no-trunc                Do not truncate output
 # @flag -q --quiet                Only display task IDs
@@ -3117,7 +3117,7 @@ stack::rm() {
 # {{{ docker stack services
 # @cmd List the services in the stack
 # @option -f --filter <filter>    Filter output based on conditions provided
-# @option --format <string>       Format output using a custom template: 'table': Print output in table format with column headers (default) 'table TEMPLATE': Print output in table format using the given Go template 'json': Print in JSON format 'TEMPLATE': Print output using the given Go template.
+# @option --format <string>       Format output using a custom template:
 # @flag -q --quiet                Only display IDs
 # @arg STACK[`_choice_stack`]
 stack::services() {

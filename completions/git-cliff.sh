@@ -21,8 +21,8 @@
 # @option -o --output <PATH>                      Writes output to the given file [env: GIT_CLIFF_OUTPUT=]
 # @option -t --tag                                Sets the tag for the latest version [env: GIT_CLIFF_TAG=]
 # @option -b --body <TEMPLATE>                    Sets the template for the changelog body [env: GIT_CLIFF_TEMPLATE=]
-# @option -s --strip[header|footer|all] <PART>    Strips the given parts from the changelog [possible values: header, footer, all]
-# @option --sort[oldest|newest]                   Sets sorting of the commits inside sections [default: oldest] [possible values: oldest, newest]
+# @option -s --strip[header|footer|all] <PART>    Strips the given parts from the changelog
+# @option --sort[oldest|newest]                   Sets sorting of the commits inside sections [default: oldest]
 # @arg RANGE                                      Sets the commit range to process
 
 command eval "$(argc --argc-eval "$0" "$@")"

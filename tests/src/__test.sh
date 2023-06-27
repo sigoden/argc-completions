@@ -56,20 +56,26 @@ Options:
     --packages [packages ...]   Packages to inspect for updates
     --show-scope                show scope of config (worktree, local, global, system, command)
     --edition <YEAR>            Edition to set for the crate generated [possible values: 2015, 2018, 2021]
-    --color2 <WHEN>             Coloring: auto, always, never
+    --set-color <WHEN>          Coloring: auto, always, never
     -I pkcs11                   Specify the PKCS#11 shared library ssh should use to communicate with a PKCS#11 token providing keys for user authentication.
     --jobs <N>                  Number of parallel jobs, defaults to # of CPUs
 	--bun                       Force a script or package to use Bun.js instead of Node.js (via symlinking node)
-
+    --install-strategy <value>  Sets the strategy for installing packages in node_modules.  (hoisted, nested, shallow)
+    --cgroupns string           Cgroup namespace to use (host|private)
+    --progress string           Set type of progress output ("auto", "plain", "tty").
+    --ansi string               Control when to print ANSI control characters ("never"|"always"|"auto")
+    --ignored                   Show ignored files, optional modes: traditional, matching, no. 
+    --driver string             Driver to use (available: "docker-container", "kubernetes", "remote")
+    --exclude =<regex>...       Exclude source files from the report [default: test\.(js|mjs|ts|jsx|tsx)$]
 -------
 
 Environment variables:
     NO_COLOR                    Disable ansi color.
 Commands:
-    run
+    run                         
     build, b
     t, test
-    cmd1
+    cmd1                        Compare two commit ranges (e.g. two versions of a branch) 
     cmd2
     cmd3
     cmd4

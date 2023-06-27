@@ -10,7 +10,7 @@ BEGIN {
     PAIRS[")"] = "(";
     PAIRS_OPEN = "<[("
     PAIRS_CLOSE = ">])"
-    DESC_NEWLINE = "    "
+    DESC_NEWLINE = "↵"
 }
 
 {
@@ -28,15 +28,19 @@ BEGIN {
         } else {
             prevLine = "group"
         }
-    } else if (IsEmpty($0)) {
+    } else if (isEmpty($0)) {
         emptyNR = NR
     } else {
-        if (emptyNR == NR - 1 && !match($0, /^[[:space:]]/)) {
-            prevLine = "other"
-        } 
+        newlines = DESC_NEWLINE
+        if (NR == emptyNR + 1) {
+            newlines = DESC_NEWLINE DESC_NEWLINE
+            if (!match($0, /^[[:space:]]/)) {
+                prevLine = "other"
+            }
+        }
         if (prevLine == "argument") {
             if (testLineBreakDesc($0)) {
-                arguments[length(arguments)] = arguments[length(arguments)] DESC_NEWLINE trimStarts($0)
+                arguments[length(arguments)] = arguments[length(arguments)] newlines $0
             } else {
                 trimed = trimStarts($0)
                 if (length(trimed) > 0) {
@@ -45,11 +49,11 @@ BEGIN {
             }
         } else if (prevLine == "option") {
             if (testLineBreakDesc($0)) {
-                options[length(options)] = options[length(options)] DESC_NEWLINE trimStarts($0)
+                options[length(options)] = options[length(options)] newlines $0
             }
         } else if (prevLine == "command") {
             if (testLineBreakDesc($0)) {
-                commands[length(commands)] = commands[length(commands)] DESC_NEWLINE trimStarts($0)
+                commands[length(commands)] = commands[length(commands)] newlines $0
             } else {
                 trimed = trimStarts($0)
                 if (length(trimed) > 0) {
@@ -83,13 +87,12 @@ END {
         if (optionVal == "--") {
             continue
         }
-        descVal = truncateDesc(substr(option, splitAt + 1))
-        if (match(descVal, /(\(|\[|: )(([A-Za-za-z0-9_-]+, )+[A-Za-z0-9_-]+)(\]|\)|\.|$)/, arr)) {
-            choiceVal = arr[2]
-            gsub(/, /, "|", choiceVal)
-            print "option # " optionVal  " # " descVal " # [" choiceVal "]"
+        split("", descValues)
+        parseDesc(substr(option, splitAt + 1), descValues, 1)
+        if (length(descValues[3]) > 0) {
+            print "option # " optionVal  " # " descValues[2] " # [" descValues[3] "]"
         } else {
-            print "option # " optionVal  " # " descVal
+            print "option # " optionVal  " # " descValues[2]
         }
     }
     if (length(arguments) == 0 && length(usage) > 0) {
@@ -120,16 +123,16 @@ END {
         }
         splitAt = splitArgment(argument)
         argumentVal = substr(argument, 1, splitAt)
-        descVal = truncateDesc(substr(argument, splitAt + 1))
+        split("", descValues)
+        parseDesc(substr(argument, splitAt + 1), descValues, 1)
         if (match(argumentVal, /^\(([A-Za-z0-9_-]+\|)+[A-Za-z0-9_-]+\)$/)) {
-            print "argument # value # " descVal " # [" substr(argumentVal, 2, length(argumentVal) -2) "]"
-
-        } else if (match(descVal, /(\(|\[|: )(([A-Za-za-z0-9_-]+, )+[A-Za-z0-9_-]+)(\]|\)|\.|$)/, arr)) {
-            choiceVal = arr[2]
-            gsub(/, /, "|", choiceVal)
-            print "argument # " argumentVal " # " descVal " # [" choiceVal "]"
+            print "argument # value # " descValues[2] " # [" substr(argumentVal, 2, length(argumentVal) -2) "]"
         } else {
-            print "argument # " argumentVal " # " descVal
+            if (length(descValues[3]) > 0) {
+                print "argument # " argumentVal " # " descValues[2] " # [" descValues[3] "]"
+            } else {
+                print "argument # " argumentVal " # " descValues[2]
+            }
         }
     }
     for (i in commands) {
@@ -137,8 +140,9 @@ END {
         splitAt = splitCommand(command)
         commandVal = substr(command, 1, splitAt)
         gsub(/^\*|\*$/, "", commandVal)
-        descVal = truncateDesc(substr(command, splitAt + 1))
-        print "command # " commandVal " # " descVal
+        split("", descValues)
+        parseDesc(substr(command, splitAt + 1), descValues, 0)
+        print "command # " commandVal " # " descValues[2]
     }
 }
 
@@ -164,6 +168,8 @@ function splitOption(input) {
             } else {
                 word = word ch
             }
+        } else if (index(DESC_NEWLINE, ch) > 0) {
+            return i - 1
         } else if (index(PAIRS_OPEN, ch) > 0) {
             balances = balances ch
             word = word ch
@@ -211,6 +217,8 @@ function splitUsage(input, words) {
             } else {
                 word = word ch
             }
+        } else if (index(DESC_NEWLINE, ch) > 0) {
+            return i - 1
         } else if (index(PAIRS_OPEN, ch) > 0) {
             balances = balances ch
             word = word ch
@@ -241,6 +249,8 @@ function splitArgment(input) {
                 }
                 return i - 1
             }
+        } else if (index(DESC_NEWLINE, ch) > 0) {
+            return i - 1
         } else if (index(PAIRS_OPEN, ch) > 0) {
             balances = balances ch
         } else if (index(PAIRS_CLOSE, ch) > 0) {
@@ -270,6 +280,8 @@ function splitCommand(input) {
                     eatWord = 0
                 }
             }
+        } else if (index(DESC_NEWLINE, ch) > 0) {
+            return i - 1
         } else {
             if (length(word) == 0 && eatWord == 0) {
                 if (ch != "/") {
@@ -282,20 +294,97 @@ function splitCommand(input) {
     return length(input)
 }
 
-function truncateDesc(input) {
-    gsub(/\s{2,}/, " ", input)
-    gsub(/ #/, " ♯", input)
-    input = trimStarts(input)
-    if (length(input) < 80) {
-        return input
+function parseDesc(descVal, output, extractChoice)  {
+    gsub(/^[[:space:]]+|[[:space:]]$/,"", descVal)
+    gsub(/ #/, " ♯", descVal)
+    split(descVal, lines, DESC_NEWLINE)
+    if (length(lines) == 0) {
+        return
     }
-    if (match(input, /[.?!]\s/)) {
-        return substr(input, 1, RSTART + 1)
+    spaces = 0
+    dropLines = 0
+    concatedDescVal = ""
+    for (i in lines) {
+        line = trimStarts(lines[i])
+        if (i == 1) {
+            concatedDescVal = line
+            output[1] = line
+        } else {
+            concatedDescVal = concatedDescVal " " line
+            if (dropLines == 0) {
+                if (length(line) == 0) {
+                    dropLines = 1
+                    continue
+                }
+                if (index(line, "--") == 1) {
+                    dropLines = 1
+                    continue
+                }
+                if (index(substr(line, 1, 20), ": ") > 0 && index(substr(trimStarts(lines[i + 1]), 1, 20), ": ") > 0) {
+                    dropLines = 1
+                    continue
+                }
+                spaces_ = length(lines[i]) - length(line)
+                if (spaces == 0) {
+                    spaces = spaces_
+                } else if (spaces != spaces_) {
+                    dropLines = 1
+                    continue
+                }
+                output[1] = output[1] " " line
+            }
+        }
     }
-    return input
+    if (match(output[1], / ?\(e\.g\. [^)]*\)/)) {
+        output[1] = replace(output[1], substr(output[1], RSTART, RLENGTH), "")
+    }
+    if (match(output[1], /[^.]\.(\s|$)/)) {
+        output[2] = substr(output[1], 1, RSTART + 1)
+    } else {
+        output[2] = output[1]
+    }
+    choiceVal = ""
+    matchVal = ""
+    if (extractChoice == 1) {
+        if (choiceVal == "" && index(concatedDescVal, "]") > 0) {
+            if (match(concatedDescVal, / ?\[possible values: (([A-Za-z0-9_-]+, )+[A-Za-z0-9_-]+)\]/, arr)) {
+                choiceVal = arr[1]
+                matchVal = arr[0]
+            }
+        }
+        if (choiceVal == "" && index(concatedDescVal, ")") > 0) {
+            if (match(concatedDescVal, / ?\(([^:]*: ?)?(([A-Za-z0-9_-]+,)+[A-Za-z0-9_-]+)\)/, arr)) {
+                choiceVal = arr[2]
+                matchVal = arr[0]
+            } else if (match(concatedDescVal, / ?\(([^:]*: ?)?(([A-Za-z0-9_-]+(, | \| ))+[A-Za-z0-9_-]+)\)/, arr)) {
+                choiceVal = arr[2]
+                matchVal = arr[0]
+            } else if (match(concatedDescVal, / ?\(([^:]*: ?)?(("([A-Za-z0-9_-]+)"(,|\|))+"([A-Za-z0-9_-]+)")\)/, arr)) {
+                choiceVal = arr[2]
+                matchVal = arr[0]
+            } else if (match(concatedDescVal, / ?\(([^:]*: ?)?(("([A-Za-z0-9_-]+)"(, | \| ))+"([A-Za-z0-9_-]+)")\)/, arr)) {
+                choiceVal = arr[2]
+                matchVal = arr[0]
+            }
+        }
+        if (choiceVal == "") {
+            if (match(concatedDescVal, /: (([A-Za-z0-9_-]+, )+[A-Za-z0-9_-]+)(\s*$|\.)/, arr)) {
+                choiceVal = arr[1]
+            }
+        }
+    }
+    if (choiceVal != "") {
+        matchIdx = index(concatedDescVal, matchVal)
+        if (matchIdx < 120 || length(concatedDescVal) - matchIdx < 120) {
+            gsub(/(,|, |\|| \| )/, "|", choiceVal)
+            gsub(/"/, "", choiceVal) # "
+            output[3] = choiceVal
+            output[2] = replace(output[2], matchVal, "")
+        }
+    }
 }
 
-function IsEmpty(input) {
+function isEmpty(input) {
     return length(input) == 0
 }
 
@@ -338,5 +427,13 @@ function testLineBreakDesc(input) {
 
 function trimStarts(input) {
     gsub(/^[[:space:]]+/,"",input)
+    return input
+}
+
+function replace(input, source, target, idx) {
+    idx = index(input, source)
+    if (idx > 0) {
+        return substr(input, 1, idx - 1) target substr(input, idx + length(source))
+    }
     return input
 }

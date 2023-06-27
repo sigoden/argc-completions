@@ -16,10 +16,10 @@
 # @flag --no-remote                         Do not resolve remote modules
 # @flag -q --quiet                          Suppress diagnostic output
 # @flag --no-npm                            Do not resolve npm modules
-# @option --node-modules-dir[true|false] <node-modules-dir>  Enables or disables the use of a local node_modules folder for npm packages [possible values: true, false]
+# @option --node-modules-dir[true|false] <node-modules-dir>  Enables or disables the use of a local node_modules folder for npm packages
 # @option -c --config <FILE>                The configuration file can be used to configure different aspects of deno including TypeScript, linting, and code formatting.
 # @flag --no-config                         Disable automatic loading of the configuration file.
-# @option -r --reload* <CACHE_BLOCKLIST>    Reload source code cache (recompile TypeScript) --reload Reload everything --reload=https://deno.land/std Reload only standard modules --reload=https://deno.land/std/fs/utils.ts,https://deno.land/std/fmt/colors.ts Reloads specific modules --reload=npm: Reload all npm modules --reload=npm:chalk Reload specific npm module
+# @option -r --reload* <CACHE_BLOCKLIST>    Reload source code cache (recompile TypeScript)
 # @option --lock <FILE>                     Check the specified lock file.
 # @flag --lock-write                        Force overwriting the lock file.
 # @flag --no-lock                           Disable auto discovery of the lock file.
@@ -62,10 +62,10 @@ bench() {
 # @flag --no-remote                         Do not resolve remote modules
 # @flag -q --quiet                          Suppress diagnostic output
 # @flag --no-npm                            Do not resolve npm modules
-# @option --node-modules-dir[true|false] <node-modules-dir>  Enables or disables the use of a local node_modules folder for npm packages [possible values: true, false]
+# @option --node-modules-dir[true|false] <node-modules-dir>  Enables or disables the use of a local node_modules folder for npm packages
 # @option -c --config <FILE>                The configuration file can be used to configure different aspects of deno including TypeScript, linting, and code formatting.
 # @flag --no-config                         Disable automatic loading of the configuration file.
-# @option -r --reload* <CACHE_BLOCKLIST>    Reload source code cache (recompile TypeScript) --reload Reload everything --reload=https://deno.land/std Reload only standard modules --reload=https://deno.land/std/fs/utils.ts,https://deno.land/std/fmt/colors.ts Reloads specific modules --reload=npm: Reload all npm modules --reload=npm:chalk Reload specific npm module
+# @option -r --reload* <CACHE_BLOCKLIST>    Reload source code cache (recompile TypeScript)
 # @option --lock <FILE>                     Check the specified lock file.
 # @flag --lock-write                        Force overwriting the lock file.
 # @flag --no-lock                           Disable auto discovery of the lock file.
@@ -85,10 +85,10 @@ cache() {
 # @flag --no-remote                         Do not resolve remote modules
 # @flag --no-npm                            Do not resolve npm modules
 # @flag -q --quiet                          Suppress diagnostic output
-# @option --node-modules-dir[true|false] <node-modules-dir>  Enables or disables the use of a local node_modules folder for npm packages [possible values: true, false]
+# @option --node-modules-dir[true|false] <node-modules-dir>  Enables or disables the use of a local node_modules folder for npm packages
 # @option -c --config <FILE>                The configuration file can be used to configure different aspects of deno including TypeScript, linting, and code formatting.
 # @flag --no-config                         Disable automatic loading of the configuration file.
-# @option -r --reload* <CACHE_BLOCKLIST>    Reload source code cache (recompile TypeScript) --reload Reload everything --reload=https://deno.land/std Reload only standard modules --reload=https://deno.land/std/fs/utils.ts,https://deno.land/std/fmt/colors.ts Reloads specific modules --reload=npm: Reload all npm modules --reload=npm:chalk Reload specific npm module
+# @option -r --reload* <CACHE_BLOCKLIST>    Reload source code cache (recompile TypeScript)
 # @option --lock <FILE>                     Check the specified lock file.
 # @flag --lock-write                        Force overwriting the lock file.
 # @flag --no-lock                           Disable auto discovery of the lock file.
@@ -109,10 +109,10 @@ check() {
 # @flag --no-remote                         Do not resolve remote modules
 # @flag -q --quiet                          Suppress diagnostic output
 # @flag --no-npm                            Do not resolve npm modules
-# @option --node-modules-dir[true|false] <node-modules-dir>  Enables or disables the use of a local node_modules folder for npm packages [possible values: true, false]
+# @option --node-modules-dir[true|false] <node-modules-dir>  Enables or disables the use of a local node_modules folder for npm packages
 # @option -c --config <FILE>                The configuration file can be used to configure different aspects of deno including TypeScript, linting, and code formatting.
 # @flag --no-config                         Disable automatic loading of the configuration file.
-# @option -r --reload* <CACHE_BLOCKLIST>    Reload source code cache (recompile TypeScript) --reload Reload everything --reload=https://deno.land/std Reload only standard modules --reload=https://deno.land/std/fs/utils.ts,https://deno.land/std/fmt/colors.ts Reloads specific modules --reload=npm: Reload all npm modules --reload=npm:chalk Reload specific npm module
+# @option -r --reload* <CACHE_BLOCKLIST>    Reload source code cache (recompile TypeScript)
 # @option --lock <FILE>                     Check the specified lock file.
 # @flag --lock-write                        Force overwriting the lock file.
 # @flag --no-lock                           Disable auto discovery of the lock file.
@@ -133,10 +133,10 @@ check() {
 # @option --v8-flags* <v8-flags>            To see a list of all available flags use --v8-flags=--help.
 # @option --seed <NUMBER>                   Set the random number generator seed
 # @option --check <CHECK_TYPE>              Set type-checking behavior.
-# @option --include <include>               Includes an additional module in the compiled executable's module graph.
+# @option --include <include>               Includes an additional module in the compiled executable's module
 # @option -o --output <output>              Output file (defaults to $PWD/<inferred-name>)
-# @option --target[x86_64-unknown-linux-gnu|x86_64-pc-windows-msvc|x86_64-apple-darwin|aarch64-apple-darwin] <target>  Target OS architecture [possible values: x86_64-unknown-linux-gnu, x86_64-pc-windows-msvc, x86_64-apple-darwin, aarch64-apple-darwin]
-# @option --ext[ts|tsx|js|jsx] <ext>        Set content type of the supplied file [possible values: ts, tsx, js, jsx]
+# @option --target[x86_64-unknown-linux-gnu|x86_64-pc-windows-msvc|x86_64-apple-darwin|aarch64-apple-darwin] <target>  Target OS architecture
+# @option --ext[ts|tsx|js|jsx] <ext>        Set content type of the supplied file
 # @flag -h --help                           Print help (see a summary with '-h')
 # @arg SCRIPT_ARG*                          Script arg
 compile() {
@@ -146,10 +146,10 @@ compile() {
 
 # {{ deno completions
 # @cmd Generate shell completions
-# @flag --unstable                             Enable unstable features and APIs
-# @flag -q --quiet                             Suppress diagnostic output
-# @flag -h --help                              Print help (see a summary with '-h')
-# @arg shell![bash|fish|powershell|zsh|fig]    [possible values: bash, fish, powershell, zsh, fig]
+# @flag --unstable    Enable unstable features and APIs
+# @flag -q --quiet    Suppress diagnostic output
+# @flag -h --help     Print help (see a summary with '-h')
+# @arg shell![bash|fish|powershell|zsh|fig]
 completions() {
     :;
 }
@@ -175,7 +175,7 @@ coverage() {
 # @cmd Show documentation for a module
 # @option --import-map <FILE>               Load import map file from local file or remote URL.
 # @flag --unstable                          Enable unstable features and APIs
-# @option -r --reload* <CACHE_BLOCKLIST>    Reload source code cache (recompile TypeScript) --reload Reload everything --reload=https://deno.land/std Reload only standard modules --reload=https://deno.land/std/fs/utils.ts,https://deno.land/std/fmt/colors.ts Reloads specific modules --reload=npm: Reload all npm modules --reload=npm:chalk Reload specific npm module
+# @option -r --reload* <CACHE_BLOCKLIST>    Reload source code cache (recompile TypeScript)
 # @option --lock <FILE>                     Check the specified lock file.
 # @flag -q --quiet                          Suppress diagnostic output
 # @flag --no-lock                           Disable auto discovery of the lock file.
@@ -199,10 +199,10 @@ doc() {
 # @flag --no-remote                         Do not resolve remote modules
 # @flag -q --quiet                          Suppress diagnostic output
 # @flag --no-npm                            Do not resolve npm modules
-# @option --node-modules-dir[true|false] <node-modules-dir>  Enables or disables the use of a local node_modules folder for npm packages [possible values: true, false]
+# @option --node-modules-dir[true|false] <node-modules-dir>  Enables or disables the use of a local node_modules folder for npm packages
 # @option -c --config <FILE>                The configuration file can be used to configure different aspects of deno including TypeScript, linting, and code formatting.
 # @flag --no-config                         Disable automatic loading of the configuration file.
-# @option -r --reload* <CACHE_BLOCKLIST>    Reload source code cache (recompile TypeScript) --reload Reload everything --reload=https://deno.land/std Reload only standard modules --reload=https://deno.land/std/fs/utils.ts,https://deno.land/std/fmt/colors.ts Reloads specific modules --reload=npm: Reload all npm modules --reload=npm:chalk Reload specific npm module
+# @option -r --reload* <CACHE_BLOCKLIST>    Reload source code cache (recompile TypeScript)
 # @option --lock <FILE>                     Check the specified lock file.
 # @flag --lock-write                        Force overwriting the lock file.
 # @flag --no-lock                           Disable auto discovery of the lock file.
@@ -215,7 +215,7 @@ doc() {
 # @option --v8-flags* <v8-flags>            To see a list of all available flags use --v8-flags=--help.
 # @option --seed <NUMBER>                   Set the random number generator seed
 # @option --check <CHECK_TYPE>              Enable type-checking.
-# @option --ext[ts|tsx|js|jsx] <ext>        Set content type of the supplied file [possible values: ts, tsx, js, jsx]
+# @option --ext[ts|tsx|js|jsx] <ext>        Set content type of the supplied file
 # @flag -p --print                          print result to stdout
 # @flag -h --help                           Print help (see a summary with '-h')
 # @arg CODE_ARG+                            Code arg
@@ -226,22 +226,22 @@ eval() {
 
 # {{ deno fmt
 # @cmd Format source files
-# @option -c --config <FILE>               The configuration file can be used to configure different aspects of deno including TypeScript, linting, and code formatting.
-# @flag --unstable                         Enable unstable features and APIs
-# @flag --no-config                        Disable automatic loading of the configuration file.
-# @flag --check                            Check if the source files are formatted
-# @flag -q --quiet                         Suppress diagnostic output
-# @option --ext[ts|tsx|js|jsx|md|json|jsonc] <ext>  Set content type of the supplied file [default: ts] [possible values: ts, tsx, js, jsx, md, json, jsonc]
-# @option --ignore* <ignore>               Ignore formatting particular source files
-# @flag --watch                            Watch for file changes and restart process automatically.
-# @flag --no-clear-screen                  Do not clear terminal screen when under watch mode
-# @option --use-tabs <use-tabs>            Use tabs instead of spaces for indentation.
-# @option --line-width <line-width>        Define maximum line width. Defaults to 80.
-# @option --indent-width <indent-width>    Define indentation width. Defaults to 2.
-# @option --single-quote[true|false] <single-quote>  Use single quotes. Defaults to false. [possible values: true, false]
-# @option --prose-wrap <prose-wrap>        Define how prose should be wrapped.
-# @option --no-semicolons[true|false] <no-semicolons>  Don't use semicolons except where necessary. [possible values: true, false]
-# @flag -h --help                          Print help (see a summary with '-h')
+# @option -c --config <FILE>                   The configuration file can be used to configure different aspects of deno including TypeScript, linting, and code formatting.
+# @flag --unstable                             Enable unstable features and APIs
+# @flag --no-config                            Disable automatic loading of the configuration file.
+# @flag --check                                Check if the source files are formatted
+# @flag -q --quiet                             Suppress diagnostic output
+# @option --ext[ts|tsx|js|jsx|md|json|jsonc] <ext>  Set content type of the supplied file
+# @option --ignore* <ignore>                   Ignore formatting particular source files
+# @flag --watch                                Watch for file changes and restart process automatically.
+# @flag --no-clear-screen                      Do not clear terminal screen when under watch mode
+# @option --use-tabs[true|false] <use-tabs>    Use tabs instead of spaces for indentation.
+# @option --line-width <line-width>            Define maximum line width.
+# @option --indent-width <indent-width>        Define indentation width.
+# @option --single-quote[true|false] <single-quote>  Use single quotes.
+# @option --prose-wrap[always|never|preserve] <prose-wrap>  Define how prose should be wrapped.
+# @option --no-semicolons[true|false] <no-semicolons>  Don't use semicolons except where necessary.
+# @flag -h --help                              Print help (see a summary with '-h')
 # @arg files*
 fmt() {
     :;
@@ -261,7 +261,7 @@ init() {
 
 # {{ deno info
 # @cmd Show info about cache or info related to source file
-# @option -r --reload* <CACHE_BLOCKLIST>    Reload source code cache (recompile TypeScript) --reload Reload everything --reload=https://deno.land/std Reload only standard modules --reload=https://deno.land/std/fs/utils.ts,https://deno.land/std/fmt/colors.ts Reloads specific modules --reload=npm: Reload all npm modules --reload=npm:chalk Reload specific npm module
+# @option -r --reload* <CACHE_BLOCKLIST>    Reload source code cache (recompile TypeScript)
 # @flag --unstable                          Enable unstable features and APIs
 # @option --cert <FILE>                     Load certificate authority from PEM encoded file
 # @option --location <HREF>                 Show files used for origin bound APIs like the Web Storage API when running a script with '--location=<HREF>'
@@ -273,7 +273,7 @@ init() {
 # @option --lock <FILE>                     Check the specified lock file.
 # @option -c --config <FILE>                The configuration file can be used to configure different aspects of deno including TypeScript, linting, and code formatting.
 # @option --import-map <FILE>               Load import map file from local file or remote URL.
-# @option --node-modules-dir[true|false] <node-modules-dir>  Enables or disables the use of a local node_modules folder for npm packages [possible values: true, false]
+# @option --node-modules-dir[true|false] <node-modules-dir>  Enables or disables the use of a local node_modules folder for npm packages
 # @flag --json                              UNSTABLE: Outputs the information in JSON format
 # @flag -h --help                           Print help (see a summary with '-h')
 # @arg file
@@ -290,10 +290,10 @@ info() {
 # @flag --no-remote                         Do not resolve remote modules
 # @flag -q --quiet                          Suppress diagnostic output
 # @flag --no-npm                            Do not resolve npm modules
-# @option --node-modules-dir[true|false] <node-modules-dir>  Enables or disables the use of a local node_modules folder for npm packages [possible values: true, false]
+# @option --node-modules-dir[true|false] <node-modules-dir>  Enables or disables the use of a local node_modules folder for npm packages
 # @option -c --config <FILE>                The configuration file can be used to configure different aspects of deno including TypeScript, linting, and code formatting.
 # @flag --no-config                         Disable automatic loading of the configuration file.
-# @option -r --reload* <CACHE_BLOCKLIST>    Reload source code cache (recompile TypeScript) --reload Reload everything --reload=https://deno.land/std Reload only standard modules --reload=https://deno.land/std/fs/utils.ts,https://deno.land/std/fmt/colors.ts Reloads specific modules --reload=npm: Reload all npm modules --reload=npm:chalk Reload specific npm module
+# @option -r --reload* <CACHE_BLOCKLIST>    Reload source code cache (recompile TypeScript)
 # @option --lock <FILE>                     Check the specified lock file.
 # @flag --lock-write                        Force overwriting the lock file.
 # @flag --no-lock                           Disable auto discovery of the lock file.
@@ -379,10 +379,10 @@ lint() {
 # @flag --no-remote                         Do not resolve remote modules
 # @flag -q --quiet                          Suppress diagnostic output
 # @flag --no-npm                            Do not resolve npm modules
-# @option --node-modules-dir[true|false] <node-modules-dir>  Enables or disables the use of a local node_modules folder for npm packages [possible values: true, false]
+# @option --node-modules-dir[true|false] <node-modules-dir>  Enables or disables the use of a local node_modules folder for npm packages
 # @option -c --config <FILE>                The configuration file can be used to configure different aspects of deno including TypeScript, linting, and code formatting.
 # @flag --no-config                         Disable automatic loading of the configuration file.
-# @option -r --reload* <CACHE_BLOCKLIST>    Reload source code cache (recompile TypeScript) --reload Reload everything --reload=https://deno.land/std Reload only standard modules --reload=https://deno.land/std/fs/utils.ts,https://deno.land/std/fmt/colors.ts Reloads specific modules --reload=npm: Reload all npm modules --reload=npm:chalk Reload specific npm module
+# @option -r --reload* <CACHE_BLOCKLIST>    Reload source code cache (recompile TypeScript)
 # @option --lock <FILE>                     Check the specified lock file.
 # @flag --lock-write                        Force overwriting the lock file.
 # @flag --no-lock                           Disable auto discovery of the lock file.
@@ -422,10 +422,10 @@ repl() {
 # @flag --no-remote                         Do not resolve remote modules
 # @flag -q --quiet                          Suppress diagnostic output
 # @flag --no-npm                            Do not resolve npm modules
-# @option --node-modules-dir[true|false] <node-modules-dir>  Enables or disables the use of a local node_modules folder for npm packages [possible values: true, false]
+# @option --node-modules-dir[true|false] <node-modules-dir>  Enables or disables the use of a local node_modules folder for npm packages
 # @option -c --config <FILE>                The configuration file can be used to configure different aspects of deno including TypeScript, linting, and code formatting.
 # @flag --no-config                         Disable automatic loading of the configuration file.
-# @option -r --reload* <CACHE_BLOCKLIST>    Reload source code cache (recompile TypeScript) --reload Reload everything --reload=https://deno.land/std Reload only standard modules --reload=https://deno.land/std/fs/utils.ts,https://deno.land/std/fmt/colors.ts Reloads specific modules --reload=npm: Reload all npm modules --reload=npm:chalk Reload specific npm module
+# @option -r --reload* <CACHE_BLOCKLIST>    Reload source code cache (recompile TypeScript)
 # @option --lock <FILE>                     Check the specified lock file.
 # @flag --lock-write                        Force overwriting the lock file.
 # @flag --no-lock                           Disable auto discovery of the lock file.
@@ -451,7 +451,7 @@ repl() {
 # @option --check <CHECK_TYPE>              Enable type-checking.
 # @option --watch* <FILES>                  Watch for file changes and restart process automatically.
 # @flag --no-clear-screen                   Do not clear terminal screen when under watch mode
-# @option --ext[ts|tsx|js|jsx] <ext>        Set content type of the supplied file [possible values: ts, tsx, js, jsx]
+# @option --ext[ts|tsx|js|jsx] <ext>        Set content type of the supplied file
 # @flag -h --help                           Print help (see a summary with '-h')
 # @arg SCRIPT_ARG*                          Script arg
 run() {
@@ -480,10 +480,10 @@ task() {
 # @flag --no-remote                         Do not resolve remote modules
 # @flag -q --quiet                          Suppress diagnostic output
 # @flag --no-npm                            Do not resolve npm modules
-# @option --node-modules-dir[true|false] <node-modules-dir>  Enables or disables the use of a local node_modules folder for npm packages [possible values: true, false]
+# @option --node-modules-dir[true|false] <node-modules-dir>  Enables or disables the use of a local node_modules folder for npm packages
 # @option -c --config <FILE>                The configuration file can be used to configure different aspects of deno including TypeScript, linting, and code formatting.
 # @flag --no-config                         Disable automatic loading of the configuration file.
-# @option -r --reload* <CACHE_BLOCKLIST>    Reload source code cache (recompile TypeScript) --reload Reload everything --reload=https://deno.land/std Reload only standard modules --reload=https://deno.land/std/fs/utils.ts,https://deno.land/std/fmt/colors.ts Reloads specific modules --reload=npm: Reload all npm modules --reload=npm:chalk Reload specific npm module
+# @option -r --reload* <CACHE_BLOCKLIST>    Reload source code cache (recompile TypeScript)
 # @option --lock <FILE>                     Check the specified lock file.
 # @flag --lock-write                        Force overwriting the lock file.
 # @flag --no-lock                           Disable auto discovery of the lock file.
@@ -511,7 +511,7 @@ task() {
 # @flag --no-run                            Cache test modules, but don't run tests
 # @flag --trace-ops                         Enable tracing of async ops.
 # @flag --doc                               Type-check code blocks in JSDoc and Markdown
-# @option --fail-fast <N>                   Stop after N errors. Defaults to stopping after first failure.
+# @option --fail-fast <N>                   Stop after N errors.
 # @flag --allow-none                        Don't return error code if no test files are found
 # @option --filter <filter>                 Run tests with this string or pattern in the test name
 # @option --shuffle <NUMBER>                Shuffle the order in which the tests are run
@@ -563,8 +563,8 @@ upgrade() {
 # @option -c --config <FILE>                The configuration file can be used to configure different aspects of deno including TypeScript, linting, and code formatting.
 # @option --import-map <FILE>               Load import map file from local file or remote URL.
 # @option --lock <FILE>                     Check the specified lock file.
-# @option --node-modules-dir[true|false] <node-modules-dir>  Enables or disables the use of a local node_modules folder for npm packages [possible values: true, false]
-# @option -r --reload* <CACHE_BLOCKLIST>    Reload source code cache (recompile TypeScript) --reload Reload everything --reload=https://deno.land/std Reload only standard modules --reload=https://deno.land/std/fs/utils.ts,https://deno.land/std/fmt/colors.ts Reloads specific modules --reload=npm: Reload all npm modules --reload=npm:chalk Reload specific npm module
+# @option --node-modules-dir[true|false] <node-modules-dir>  Enables or disables the use of a local node_modules folder for npm packages
+# @option -r --reload* <CACHE_BLOCKLIST>    Reload source code cache (recompile TypeScript)
 # @option --cert <FILE>                     Load certificate authority from PEM encoded file
 # @flag -h --help                           Print help (see a summary with '-h')
 # @arg specifiers+

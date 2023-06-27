@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
-# @version 0.34.1
+# @version 0.34.2
 
 # @option -b --bind <addrs>                      Specify bind address or unix socket
 # @option -p --port <port>                       Specify port to listen on [default: 5000]
 # @option --path-prefix <path>                   Specify a path prefix
 # @option --hidden <value>                       Hide paths from directory listings, separated by `,`
 # @option -a --auth <rules>                      Add auth role
-# @option --auth-method[basic|digest] <value>    Select auth method [default: digest] [possible values: basic, digest]
+# @option --auth-method[basic|digest] <value>    Select auth method [default: digest]
 # @flag -A --allow-all                           Allow all operations
 # @flag --allow-upload                           Allow upload files/folders
 # @flag --allow-delete                           Allow delete files/folders
@@ -22,7 +22,7 @@
 # @option --tls-cert <path>                      Path to an SSL/TLS certificate to serve with HTTPS
 # @option --tls-key <path>                       Path to the SSL/TLS certificate's private key
 # @option --log-format <format>                  Customize http log format
-# @option --completions[bash|elvish|fish|powershell|zsh] <shell>  Print shell completion script for <shell> [possible values: bash, elvish, fish, powershell, zsh]
+# @option --completions[bash|elvish|fish|powershell|zsh] <shell>  Print shell completion script for <shell>
 # @flag -h --help                                Print help
 # @flag -V --version                             Print version
 # @arg serve_path                                Specific path to serve [default: .]

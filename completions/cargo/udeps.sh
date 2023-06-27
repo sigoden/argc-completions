@@ -26,14 +26,14 @@
 # @option --target[`_choice_target`] <TRIPLE>    Check for the target triple
 # @option --target-dir <DIRECTORY>               Directory for all generated artifacts
 # @option --manifest-path <PATH>                 Path to Cargo.toml
-# @option --message-format[human|json|short] <FMT>  Error format [default: human] [possible values: human, json, short]
+# @option --message-format[human|json|short] <FMT>  Error format [default: human]
 # @flag -v --verbose                             Use verbose output (-vv very verbose/build.rs output)
-# @option --color[auto|always|never] <WHEN>      Coloring [possible values: auto, always, never]
+# @option --color[auto|always|never] <WHEN>      Coloring
 # @flag --frozen                                 Require Cargo.lock and cache are up to date
 # @flag --locked                                 Require Cargo.lock is up to date
 # @flag --offline                                Run without accessing the network
-# @option --output[human|json]                   Output format [default: human] [possible values: human, json]
-# @option --backend[save-analysis|depinfo]       Backend to use for determining unused deps [default: depinfo] [possible values: save-analysis, depinfo]
+# @option --output[human|json]                   Output format [default: human]
+# @option --backend[save-analysis|depinfo]       Backend to use for determining unused deps [default: depinfo]
 # @flag --keep-going                             Needed because the keep-going flag is asked about by cargo code
 # @flag --show-unused-transitive                 Show unused dependencies that get used transitively by main dependencies.
 # @flag -h --help                                Print help information

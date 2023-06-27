@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 # @describe Automaticlly generate completion script for commands
 
 # @option -o --output <file>        Specify output file. If omitted, output to stdout
@@ -21,9 +23,14 @@ handle_cmd() {
     if [[ $# -gt $cmds_level ]]; then
         output="$output$(print_cmd_fn "$nest_fn_prefix")"
     fi
-    
     if [[ -z "$command_output" ]]; then
-        while read -r item; do
+        local subcmds
+        while IFS=$'\n' read -r line; do
+            if [[ -n "$line" ]]; then
+                subcmds+=( "$line" )
+            fi
+        done < <(echo "$table" | grep '^command #' | awk -f "$scripts_dir/parser.awk")
+        for item in "${subcmds[@]}"; do
             if [[ -n "$item" ]]; then
                 local subcmd_output="$(handle_subcmd "$item" $@)"
                 if [[ -z "$command_output" ]]; then
@@ -32,7 +39,7 @@ handle_cmd() {
                     command_output="$command_output"$'\n'"$subcmd_output"
                 fi
             fi
-        done < <(echo "$table" | grep '^command #' | awk -f "$scripts_dir/parser.awk")
+        done
     fi
     if [[ -n "$command_output" ]]; then
         output="$output"$'\n'"$command_output"
@@ -102,7 +109,7 @@ BEGIN {
 }
 {
     if (patch_fn_state > 0) {
-        if (match($0, /^}/)) {
+        if (match($0, /^}$/)) {
             patch_fn_state = 1
         } else if (patch_fn_state == 1 && match($0, /^\s*$/)) {
             patch_fn_state = 0

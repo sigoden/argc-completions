@@ -40,12 +40,19 @@
 # @option --filter1 <selector>
 # @option --filter2* <pattern>                     Includes all direct and indirect dependencies of the matched packages.
 # @option --packages* <packages>                   Packages to inspect for updates
-# @option --show-scope[worktree|local|global|system|command]  show scope of config (worktree, local, global, system, command)
-# @option --edition[2015|2018|2021] <YEAR>         Edition to set for the crate generated [possible values: 2015, 2018, 2021]
-# @option --color2[auto|always|never] <WHEN>       Coloring: auto, always, never
+# @option --show-scope[worktree|local|global|system|command]  show scope of config
+# @option --edition[2015|2018|2021] <YEAR>         Edition to set for the crate generated
+# @option --set-color[auto|always|never] <WHEN>    Coloring: auto, always, never
 # @option -I <pkcs11>                              Specify the PKCS#11 shared library ssh should use to communicate with a PKCS#11 token providing keys for user authentication.
 # @option --jobs <N>                               Number of parallel jobs, defaults to ♯ of CPUs
 # @flag --bun                                      Force a script or package to use Bun.js instead of Node.js (via symlinking node)
+# @option --install-strategy[hoisted|nested|shallow] <value>  Sets the strategy for installing packages in node_modules.
+# @option --cgroupns <string>                      Cgroup namespace to use (host|private)
+# @option --progress[auto|plain|tty] <string>      Set type of progress output.
+# @option --ansi[never|always|auto] <string>       Control when to print ANSI control characters
+# @option --ignored[traditional|matching|no]       Show ignored files, optional modes: traditional, matching, no.
+# @option --driver[docker-container|kubernetes|remote] <string>  Driver to use
+# @option --exclude* <regex>                       Exclude source files from the report [default: test\.(js|mjs|ts|jsx|tsx)$]
 # @arg ARG1!
 # @arg ARG2+
 # @arg ARG3
@@ -88,7 +95,7 @@ test() {
 # }} __test test
 
 # {{ __test cmd1
-# @cmd
+# @cmd Compare two commit ranges
 cmd1() {
     :;
 }

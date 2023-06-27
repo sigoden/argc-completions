@@ -31,7 +31,7 @@
 # @flag -L --follow                                When this flag is enabled, ripgrep will follow symbolic links while traversing directories.
 # @option -g --glob*                               Include or exclude files and directories for searching that match the given glob.
 # @flag --glob-case-insensitive                    Process glob patterns given with the -g/--glob flag case insensitively.
-# @flag -h --help                                  Prints help information. Use --help for more details.
+# @flag -h --help                                  Prints help information.
 # @flag --heading                                  This flag prints the file path above clusters of matches from each file instead of printing the file path as a prefix for each matched line.
 # @flag -. --hidden                                Search hidden files and directories.
 # @option --iglob* <GLOB>                          Include or exclude files and directories for searching that match the given glob.
@@ -39,7 +39,7 @@
 # @option --ignore-file* <PATH>                    Specifies a path to one or more .gitignore format rules files.
 # @flag --ignore-file-case-insensitive             Process ignore files (.gitignore, .ignore, etc.) case insensitively.
 # @flag --include-zero                             When used with --count or --count-matches, print the number of matches for each file even if there were zero matches.
-# @flag -v --invert-match                          Invert matching. Show lines that do not match the given patterns.
+# @flag -v --invert-match                          Invert matching.
 # @flag --json                                     Enable printing results in a JSON Lines format.
 # @flag --line-buffered                            When enabled, ripgrep will use line buffering.
 # @flag -n --line-number                           Show line numbers (1-based).

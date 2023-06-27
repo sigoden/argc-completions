@@ -7,7 +7,7 @@
 # @option --profile <NAME>                Specify a profile to enable
 # @option -c --context <NAME>             Specify a context name
 # @flag --verbose                         Show more output
-# @option --log-level[DEBUG|INFO|WARNING|ERROR|CRITICAL] <LEVEL>  Set log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+# @option --log-level[DEBUG|INFO|WARNING|ERROR|CRITICAL] <LEVEL>  Set log level
 # @option --ansi <never|always|auto>      Control when to print ANSI control characters
 # @flag --no-ansi                         Do not print ANSI control characters (DEPRECATED)
 # @flag -v --version                      Print version and exit
@@ -33,7 +33,7 @@
 # @flag --no-cache                               Do not use cache when building the image.
 # @flag --no-rm                                  Do not remove intermediate containers after a successful build.
 # @flag --parallel                               Build images in parallel.
-# @option --progress[auto|plain|tty] <string>    Set type of progress output (auto, plain, tty).
+# @option --progress[auto|plain|tty] <string>    Set type of progress output.
 # @flag --pull                                   Always attempt to pull a newer version of the image.
 # @flag -q --quiet                               Don't print anything to STDOUT
 # @arg SERVICE*[`_choice_service`]
@@ -73,7 +73,7 @@ create() {
 # @option --rmi <type>      Remove images.
 # @flag -v --volumes        Remove named volumes declared in the `volumes` section of the Compose file and anonymous volumes attached to containers.
 # @flag --remove-orphans    Remove containers for services not defined in the Compose file
-# @option -t --timeout      Specify a shutdown timeout in seconds. (default: 10)
+# @option -t --timeout      Specify a shutdown timeout in seconds.
 down() {
     :;
 }
@@ -115,7 +115,7 @@ images() {
 
 # {{ docker-compose kill
 # @cmd Kill containers
-# @option -s <SIGNAL>    SIGNAL to send to the container. Default signal is SIGKILL.
+# @option -s <SIGNAL>    SIGNAL to send to the container.
 # @arg SERVICE*[`_choice_service`]
 kill() {
     :;
@@ -190,7 +190,7 @@ push() {
 
 # {{ docker-compose restart
 # @cmd Restart services
-# @option -t --timeout    Specify a shutdown timeout in seconds. (default: 10)
+# @option -t --timeout    Specify a shutdown timeout in seconds.
 # @arg SERVICE*[`_choice_service`]
 restart() {
     :;
@@ -218,12 +218,12 @@ rm() {
 # @option -l --label <KEY=VAL>    Add or override a label (can be used multiple times)
 # @option -u --user               Run as specified username or uid
 # @flag --no-deps                 Don't start linked services.
-# @flag --rm                      Remove container after run. Ignored in detached mode.
+# @flag --rm                      Remove container after run.
 # @flag -p --publish              Publish a container's port(s) to the host
 # @flag --service-ports           Run command with the service's ports enabled and mapped to the host.
 # @flag --use-aliases             Use the service's network aliases in the network(s) the container connects to.
 # @flag -v --volume               Bind mount a volume (default [])
-# @flag -T                        Disable pseudo-tty allocation. By default `docker-compose run` allocates a TTY.
+# @flag -T                        Disable pseudo-tty allocation.
 # @option -w --workdir            Working directory inside the container
 run() {
     :;
@@ -232,7 +232,7 @@ run() {
 
 # {{ docker-compose scale
 # @cmd Set number of containers for a service
-# @option -t --timeout    Specify a shutdown timeout in seconds. (default: 10)
+# @option -t --timeout    Specify a shutdown timeout in seconds.
 # @arg SERVICE-NUM*[`_choice_service`]
 scale() {
     :;
@@ -249,7 +249,7 @@ start() {
 
 # {{ docker-compose stop
 # @cmd Stop services
-# @option -t --timeout    Specify a shutdown timeout in seconds. (default: 10)
+# @option -t --timeout    Specify a shutdown timeout in seconds.
 # @arg SERVICE*[`_choice_service`]
 stop() {
     :;
@@ -279,12 +279,12 @@ unpause() {
 # @flag --quiet-pull                    Pull without printing progress information
 # @flag --no-deps                       Don't start linked services.
 # @flag --force-recreate                Recreate containers even if their configuration and image haven't changed.
-# @flag --always-recreate-deps          Recreate dependent containers. Incompatible with --no-recreate.
+# @flag --always-recreate-deps          Recreate dependent containers.
 # @flag --no-recreate                   If containers already exist, don't recreate them.
 # @flag --no-build                      Don't build an image, even if it's missing.
 # @flag --no-start                      Don't start the services after creating them.
 # @flag --build                         Build images before starting containers.
-# @flag --abort-on-container-exit       Stops all containers if any container was stopped. Incompatible with -d.
+# @flag --abort-on-container-exit       Stops all containers if any container was stopped.
 # @flag --attach-dependencies           Attach to dependent containers.
 # @option -t --timeout                  Use this timeout in seconds for container shutdown when attached or when containers are already running.
 # @flag -V --renew-anon-volumes         Recreate anonymous volumes instead of retrieving data from the previous containers.

@@ -2,8 +2,8 @@
 # Automatic generated, DON'T MODIFY IT.
 # @version 0.13.1
 
-# @option --format[list|json]            Output formatting [default: list] [possible values: list, json]
-# @option --color[auto|never|always]     Output coloring [default: auto] [possible values: auto, never, always]
+# @option --format[list|json]            Output formatting [default: list]
+# @option --color[auto|never|always]     Output coloring [default: auto]
 # @option --features                     Space-separated list of features
 # @option -i --ignore <DEPENDENCIES>     Dependencies to not print in the output (comma separated or one per '--ignore' argument)
 # @option -x --exclude <DEPENDENCIES>    Dependencies to exclude from building (comma separated or one per '--exclude' argument)

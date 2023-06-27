@@ -8,7 +8,7 @@
 # @flag -a                                        Disables forwarding of the authentication agent connection.
 # @option -B <bind_interface>                     Bind to the address of bind_interface before attempting to connect to the destination host.
 # @option -b <bind_address>                       Use bind_address on the local machine as the source address of the connection.
-# @flag -C                                        Requests compression of all data (including stdin, stdout, stderr, and data for forwarded X11, TCP and UNIX-domain connec‐ tions).
+# @flag -C                                        Requests compression of all data (including stdin, stdout, stderr, and data for forwarded X11, TCP and UNIX-domain connections).
 # @option -c*,[`_choice_cipher`] <cipher_spec>    Selects the cipher specification for encrypting the session.
 # @option -D <[bind_address:]port>                Specifies a local “dynamic” application-level port forwarding.
 # @option -E <log_file>                           Append debug logs to log_file instead of standard error.
@@ -31,8 +31,8 @@
 # @option -O[`_choice_ctl_cmd`] <ctl_cmd>         Control an active connection multiplexing master process.
 # @option -o[`_choice_option`] <option>           Can be used to give options in the format used in the configuration file.
 # @option -p <port>                               Port to connect to on the remote host.
-# @option -Q[`_choice_query`] <query_option>      Queries for the algorithms supported by one of the following features: cipher (supported symmetric ciphers), cipher-auth (sup‐ ported symmetric ciphers that support authenticated encryption), help (supported query terms for use with the -Q flag), mac (supported message integrity codes), kex (key exchange algorithms), kex-gss (GSSAPI key exchange algorithms), key (key types), key-cert (certificate key types), key-plain (non-certificate key types), key-sig (all key types and signature algorithms), protocol-version (supported SSH protocol versions), and sig (supported signature algorithms).
-# @flag -q                                        Quiet mode. Causes most warning and diagnostic messages to be suppressed.
+# @option -Q[`_choice_query`] <query_option>      Queries for the algorithms supported by one of the following features: cipher (supported symmetric ciphers), cipher-auth (supported symmetric ciphers that support authenticated encryption), help (supported query terms for use with the -Q flag), mac (supported message integrity codes), kex (key exchange algorithms), kex-gss (GSSAPI key exchange algorithms), key (key types), key-cert (certificate key types), key-plain (non-certificate key types), key-sig (all key types and signature algorithms), protocol-version (supported SSH protocol versions), and sig (supported signature algorithms).
+# @flag -q                                        Quiet mode.
 # @option -R <[bind_address:]port>                Specifies that connections to the given TCP port or Unix socket on the remote (server) host are to be forwarded to the local side.
 # @option -S <ctl_path>                           Specifies the location of a control socket for connection sharing, or the string “none” to disable connection sharing.
 # @flag -s                                        May be used to request invocation of a subsystem on the remote system.

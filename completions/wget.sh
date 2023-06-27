@@ -13,7 +13,7 @@
 # @flag -v --verbose                         be verbose (this is the default)
 # @flag -nv                                  turn off verboseness, without being quiet
 # @flag --no-verbose                         turn off verboseness, without being quiet
-# @option --report-speed <TYPE>              output bandwidth as TYPE. TYPE can be bits
+# @option --report-speed <TYPE>              output bandwidth as TYPE.
 # @option -i --input-file <FILE>             download URLs found in local or external FILE
 # @flag -F --force-html                      treat input file as HTML
 # @option -B --base <URL>                    resolves HTML input-file links (-i -F) relative to URL
@@ -56,7 +56,7 @@
 # @option --user                             set both ftp and http user to USER
 # @option --password <PASS>                  set both ftp and http password to PASS
 # @flag --ask-password                       prompt for passwords
-# @option --use-askpass <COMMAND>            specify credential handler for requesting username and password.
+# @option --use-askpass <COMMAND>            specify credential handler for requesting  username and password.
 # @flag --no-iri                             turn off IRI support
 # @option --local-encoding <ENC>             use ENC as the local encoding for IRIs
 # @option --remote-encoding <ENC>            use ENC as the default remote encoding
@@ -77,7 +77,7 @@
 # @flag -E --adjust-extension                save HTML/CSS documents with proper extensions
 # @flag --ignore-length                      ignore 'Content-Length' header field
 # @option --header <STRING>                  insert STRING among the headers
-# @option --compression <TYPE>               choose compression, one of auto, gzip and none. (default: none)
+# @option --compression <TYPE>               choose compression, one of auto, gzip and none.
 # @flag --max-redirect                       maximum redirections allowed per page
 # @option --proxy-user <USER>                set USER as proxy username
 # @option --proxy-password <PASS>            set PASS as proxy password
@@ -92,8 +92,8 @@
 # @option --post-data <STRING>               use the POST method; send STRING as the data
 # @option --post-file <FILE>                 use the POST method; send contents of FILE
 # @option --method <HTTPMethod>              use method "HTTPMethod" in the request
-# @option --body-data <STRING>               send STRING as data. --method MUST be set
-# @option --body-file <FILE>                 send contents of FILE. --method MUST be set
+# @option --body-data <STRING>               send STRING as data.
+# @option --body-file <FILE>                 send contents of FILE.
 # @flag --content-disposition                honor the Content-Disposition header when choosing local file names (EXPERIMENTAL)
 # @flag --content-on-error                   output the received content on server errors
 # @flag --auth-no-challenge                  send Basic HTTP authentication information without first waiting for the server's challenge
@@ -140,7 +140,7 @@
 # @option --backups <N>                      before writing file X, rotate up to N backup files
 # @flag -K --backup-converted                before converting file X, back up as X.orig
 # @flag -m --mirror                          shortcut for -N -r -l inf --no-remove-listing
-# @flag -p --page-requisites                 get all images, etc. needed to display HTML page
+# @flag -p --page-requisites                 get all images, etc.
 # @flag --strict-comments                    turn on strict (SGML) handling of HTML comments
 # @option -A --accept <LIST>                 comma-separated list of accepted extensions
 # @option -R --reject <LIST>                 comma-separated list of rejected extensions

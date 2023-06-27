@@ -2,7 +2,7 @@
 # Automatic generated, DON'T MODIFY IT.
 # @version 1.28.0
 
-# @option --color[auto|always|never] <WHEN>    Coloring [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never] <WHEN>    Coloring [default: auto]
 # @flag -h --help                              Prints help information
 # @flag -V --version                           Prints version information
 
@@ -11,14 +11,14 @@
 # @cmd Interactively review snapshots
 # @option --manifest-path <PATH>               Path to Cargo.toml
 # @option --workspace-root <PATH>              Explicit path to the workspace root
-# @option -e --extensions*                     Sets the extensions to consider. Defaults to `.snap`
+# @option -e --extensions*                     Sets the extensions to consider.
 # @flag --workspace                            Work on all packages in the workspace
 # @flag --all                                  Alias for --workspace (deprecated)
 # @flag --include-ignored                      Also walk into ignored paths
 # @flag --include-hidden                       Also include hidden paths
 # @option --snapshot* <snapshot-filter>        Limits the operation to one or more snapshots
 # @flag -q --quiet                             Do not print to stdout
-# @option --color[auto|always|never] <WHEN>    Coloring [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never] <WHEN>    Coloring [default: auto]
 # @flag -h --help                              Prints help information
 # @flag -V --version                           Prints version information
 review() {
@@ -30,14 +30,14 @@ review() {
 # @cmd Rejects all snapshots
 # @option --manifest-path <PATH>               Path to Cargo.toml
 # @option --workspace-root <PATH>              Explicit path to the workspace root
-# @option -e --extensions*                     Sets the extensions to consider. Defaults to `.snap`
+# @option -e --extensions*                     Sets the extensions to consider.
 # @flag --workspace                            Work on all packages in the workspace
 # @flag --all                                  Alias for --workspace (deprecated)
 # @flag --include-ignored                      Also walk into ignored paths
 # @flag --include-hidden                       Also include hidden paths
 # @option --snapshot* <snapshot-filter>        Limits the operation to one or more snapshots
 # @flag -q --quiet                             Do not print to stdout
-# @option --color[auto|always|never] <WHEN>    Coloring [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never] <WHEN>    Coloring [default: auto]
 # @flag -h --help                              Prints help information
 # @flag -V --version                           Prints version information
 reject() {
@@ -49,14 +49,14 @@ reject() {
 # @cmd Accept all snapshots
 # @option --manifest-path <PATH>               Path to Cargo.toml
 # @option --workspace-root <PATH>              Explicit path to the workspace root
-# @option -e --extensions*                     Sets the extensions to consider. Defaults to `.snap`
+# @option -e --extensions*                     Sets the extensions to consider.
 # @flag --workspace                            Work on all packages in the workspace
 # @flag --all                                  Alias for --workspace (deprecated)
 # @flag --include-ignored                      Also walk into ignored paths
 # @flag --include-hidden                       Also include hidden paths
 # @option --snapshot* <snapshot-filter>        Limits the operation to one or more snapshots
 # @flag -q --quiet                             Do not print to stdout
-# @option --color[auto|always|never] <WHEN>    Coloring [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never] <WHEN>    Coloring [default: auto]
 # @flag -h --help                              Prints help information
 # @flag -V --version                           Prints version information
 accept() {
@@ -68,7 +68,7 @@ accept() {
 # @cmd Run tests and then reviews
 # @option --manifest-path <PATH>                 Path to Cargo.toml
 # @option --workspace-root <PATH>                Explicit path to the workspace root
-# @option -e --extensions*                       Sets the extensions to consider. Defaults to `.snap`
+# @option -e --extensions*                       Sets the extensions to consider.
 # @flag --workspace                              Work on all packages in the workspace
 # @flag --all                                    Alias for --workspace (deprecated)
 # @flag --include-ignored                        Also walk into ignored paths
@@ -95,11 +95,11 @@ accept() {
 # @flag --check                                  Instructs the test command to just assert
 # @flag --keep-pending                           Do not reject pending snapshots before run
 # @flag --force-update-snapshots                 Update all snapshots even if they are still matching
-# @option --unreferenced[ignore|warn|reject|delete|auto] <unreferenced>  Controls what happens with unreferenced snapshots [default: ignore] [possible values: ignore, warn, reject, delete, auto]
+# @option --unreferenced[ignore|warn|reject|delete|auto] <unreferenced>  Controls what happens with unreferenced snapshots [default: ignore]
 # @option --glob-filter* <glob-filter>           Filters to apply to the insta glob feature
 # @flag -Q --no-quiet                            Do not pass the quiet flag (`-q`) to tests
-# @option --test-runner[auto|cargo-test|nextest] <test-runner>  Picks the test runner [default: auto] [possible values: auto, cargo-test, nextest]
-# @option --color[auto|always|never] <WHEN>      Coloring [default: auto] [possible values: auto, always, never]
+# @option --test-runner[auto|cargo-test|nextest] <test-runner>  Picks the test runner [default: auto]
+# @option --color[auto|always|never] <WHEN>      Coloring [default: auto]
 # @flag -h --help                                Prints help information
 # @flag -V --version                             Prints version information
 # @arg CARGO_TEST_ARGS+                          Options passed to cargo test
@@ -112,13 +112,13 @@ test() {
 # @cmd Print a summary of all pending snapshots
 # @option --manifest-path <PATH>               Path to Cargo.toml
 # @option --workspace-root <PATH>              Explicit path to the workspace root
-# @option -e --extensions*                     Sets the extensions to consider. Defaults to `.snap`
+# @option -e --extensions*                     Sets the extensions to consider.
 # @flag --workspace                            Work on all packages in the workspace
 # @flag --all                                  Alias for --workspace (deprecated)
 # @flag --include-ignored                      Also walk into ignored paths
 # @flag --include-hidden                       Also include hidden paths
 # @flag --as-json                              Changes the output from human readable to JSON
-# @option --color[auto|always|never] <WHEN>    Coloring [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never] <WHEN>    Coloring [default: auto]
 # @flag -h --help                              Prints help information
 # @flag -V --version                           Prints version information
 pending-snapshots() {
@@ -130,12 +130,12 @@ pending-snapshots() {
 # @cmd Shows a specific snapshot
 # @option --manifest-path <PATH>               Path to Cargo.toml
 # @option --workspace-root <PATH>              Explicit path to the workspace root
-# @option -e --extensions*                     Sets the extensions to consider. Defaults to `.snap`
+# @option -e --extensions*                     Sets the extensions to consider.
 # @flag --workspace                            Work on all packages in the workspace
 # @flag --all                                  Alias for --workspace (deprecated)
 # @flag --include-ignored                      Also walk into ignored paths
 # @flag --include-hidden                       Also include hidden paths
-# @option --color[auto|always|never] <WHEN>    Coloring [default: auto] [possible values: auto, always, never]
+# @option --color[auto|always|never] <WHEN>    Coloring [default: auto]
 # @flag -h --help                              Prints help information
 # @flag -V --version                           Prints version information
 # @arg path!                                   The path to the snapshot file
