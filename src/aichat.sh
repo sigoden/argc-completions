@@ -1,7 +1,7 @@
 _patch_table() {
-    _patch_util_add_extra_column \
-        '--model:[`_choice_model`]' \
-        '--role:[`_choice_role`]'
+    _patch_util_edit_table_option \
+        '--model;[`_choice_model`]' \
+        '--role;[`_choice_role`]'
 }
 
 _choice_role() {

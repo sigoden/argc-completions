@@ -68,6 +68,7 @@ Options:
     --driver string             Driver to use (available: "docker-container", "kubernetes", "remote")
     --exclude =<regex>...       Exclude source files from the report [default: test\.(js|mjs|ts|jsx|tsx)$]
     --backend <STR>             Platform-specific optimizations for installing dependencies. Possible values: "hardlink" (default), "symlink", "copyfile"
+    --unknown
 -------
 
 Environment variables:

@@ -82,15 +82,15 @@ EOF
 }
 
 _patch_table() {
-    table="$(sed 's/--cwd <STR>/--cwd <DIR>/')"
+    table="$(_patch_util_edit_table_option '--cwd(<DIR>)')"
     if [[ "$*" == "bun" ]]; then
         echo "$table" | \
-            _patch_util_add_extra_column '--target:[browser|bun|node]' | \
-            _patch_util_replace_positionals '[args]...:[`_choice_script_or_bin`]'
+            _patch_util_edit_table_option '--target;[browser|bun|node]' | \
+            _patch_util_edit_table_argument ';;' '[args]...;[`_choice_script_or_bin`]'
     elif [[ "$*" == "bun run" ]]; then
-        echo "$table" | _patch_util_replace_positionals 'script_or_bin:[`_choice_script_or_bin`]'
+        echo "$table" | _patch_util_edit_table_argument ';;' 'script_or_bin;[`_choice_script_or_bin`]'
     elif [[ "$*" == "bun remove" ]]; then
-        echo "$table" | _patch_util_replace_positionals 'pkg:[`_choice_dependency`]'
+        echo "$table" | _patch_util_edit_table_argument ';;' 'pkg;[`_choice_dependency`]'
     else
         echo "$table"
     fi

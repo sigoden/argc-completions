@@ -8,12 +8,10 @@ _patch_version() {
 }
 
 _patch_table() {
-    sed  -e  '/# -L \[/ d' -e '/# -L # / d' \
-        -e '/# -R \[bind_address:\]port:/ d' -e '/# -R #/ d' | \
-    _patch_util_add_extra_column \
-        '-o:[`_choice_option`]' \
-        '-c:*,[`_choice_cipher`]' \
-        'paths:[`_choice_path`]'
+    _patch_util_edit_table_option \
+        '-o;[`_choice_option`]' \
+        '-c;*,[`_choice_cipher`]' \ |
+    _patch_util_edit_table_argument 'paths;[`_choice_path`]'
 }
 
 _choice_option() {

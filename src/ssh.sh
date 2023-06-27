@@ -10,34 +10,41 @@ _patch_version() {
 _patch_table() {
     sed  -e  '/# -L \[/ d' -e '/# -L # / d' \
         -e '/# -R \[bind_address:\]port:/ d' -e '/# -R #/ d' | \
-    _patch_util_add_extra_column \
-        '-o:[`_choice_option`]' \
-        '-c:*,[`_choice_cipher`]' \
-        '-O:[`_choice_ctl_cmd`]' \
-        '-Q:[`_choice_query`]' \
-        'destination:[`_choice_destination`]'
+    _patch_util_edit_table_option \
+        '-L([bind_address:]port:host:hostport)' \
+        '-R([bind_address:]port:host:hostport)' \
+        '-o;[`_choice_option`]' \
+        '-c;*,[`_choice_cipher`]' \
+        '-O;[`_choice_ctl_cmd`]' \
+        '-Q;[`_choice_query`]' \ |
+    _patch_util_edit_table_argument \
+        'destination;[`_choice_destination`]'
 }
 
 _choice_query() {
-		echo -e "cipher\tsupported symmetric ciphers"
-		echo -e "cipher-auth\tsupported symmetric ciphers that support authenticated encryption"
-		echo -e "help\tsupported query terms for use with the -Q flag"
-		echo -e "mac\tsupported message integrity codes"
-		echo -e "kex\tkey exchange algorithms"
-		echo -e "key\tkey types"
-		echo -e "key-cert\tcertificate key types"
-		echo -e "key-plain\tnon-certificate key types"
-		echo -e "key-sig\tall key types and signature algorithms"
-		echo -e "protocol-version\tsupported SSH protocol versions"
-		echo -e "sig\tsupported signature algorithms"
+    cat <<-'EOF' | sed 's/: \+/\t/'
+cipher:             supported symmetric ciphers
+cipher-auth:        supported symmetric ciphers that support authenticated encryption
+help:               supported query terms for use with the -Q flag
+mac:                supported message integrity codes
+kex:                key exchange algorithms
+key:                key types
+key-cert:           certificate key types
+key-plain:          non-certificate key types
+key-sig:            all key types and signature algorithms
+protocol-version:   supported SSH protocol versions
+sig:                supported signature algorithms
+EOF
 }
 
 _choice_ctl_cmd() {
-    echo -e "check\tcheck that the master process is running"
-    echo -e "forward\trequest forwardings without command execution"
-    echo -e "cancel\tcancel forwardings"
-    echo -e "exit\trequest the master to exit"
-    echo -e "stop\trequest the master to stop accepting further multiplexing requests"
+    cat <<-'EOF' | sed 's/: \+/\t/'
+check:      check that the master process is running
+forward:    request forwardings without command execution
+cancel:     cancel forwardings
+exit:       request the master to exit
+stop:       request the master to stop accepting further multiplexing requests
+EOF
 }
 
 _choice_option() {

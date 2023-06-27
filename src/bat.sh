@@ -1,7 +1,7 @@
 _patch_table() {
-    _patch_util_add_extra_column \
-        '--language:[`_choice_language`]' \
-        '--theme:[`_choice_theme`]'
+    _patch_util_edit_table_option \
+        '--language;[`_choice_language`]' \
+        '--theme;[`_choice_theme`]'
 }
 
 _choice_language() {

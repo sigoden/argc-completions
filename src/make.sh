@@ -1,5 +1,5 @@
 _patch_table() {
-    _patch_util_replace_positionals '[target]...:[`_choice_target`]'
+    _patch_util_edit_table_argument  ';;' '[target]...;[`_choice_target`]'
 }
 
 _choice_target() {

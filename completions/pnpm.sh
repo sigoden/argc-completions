@@ -5,7 +5,7 @@
 # @flag -r --recursive                Run the command for each project in the workspace.
 # @option -C --dir <path>             Run as if pnpm was started in <path> instead of the current working directory.
 # @flag -w --workspace-root           Run as if pnpm was started in the root of the workspace instead of the current working directory.
-# @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
+# @option --filter[`_choice_workspace`] <pattern>  Filtering allows you to restrict commands to specific subsets of packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
 # @option --changed-files-ignore-pattern <pattern>  Allows to ignore changed files by glob patterns when filtering for changed projects since the specified commit/branch.
@@ -42,7 +42,7 @@
 # @flag --workspace                     Only adds the new dependency if it is found in the workspace
 # @flag -w --workspace-root             Run the command on the root workspace project
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
-# @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
+# @option --filter[`_choice_workspace`] <selector>  Filtering allows you to restrict commands to specific subsets of packages.
 # @option --filter-prod <pattern>       Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>      Defines files related to tests.
 # @arg name!
@@ -88,7 +88,7 @@ import() {
 # @flag --no-lockfile                         Don't read or generate a `pnpm-lock.yaml` file
 # @flag --no-optional                         `optionalDependencies` are not installed
 # @flag --offline                             Trigger an error if any required dependencies are not available in local store
-# @option --package-import-method[auto|clone|copy|hardlink] <method>  Import package from
+# @option --package-import-method[`_choice_pacakge_import_method`] <auto>  Import package method
 # @flag --prefer-frozen-lockfile              If the available `pnpm-lock.yaml` satisfies the `package.json` then perform a headless installation
 # @flag --prefer-offline                      Skip staleness checks for cached data, but request missing data from the server
 # @flag -P --prod                             Packages in `devDependencies` won't be installed
@@ -105,10 +105,10 @@ import() {
 # @flag --use-store-server                    Starts a store server in the background.
 # @option --virtual-store-dir <dir>           The directory with links to the store (default is node_modules/.pnpm).
 # @flag -w --workspace-root                   Run the command on the root workspace project
-# @option --reporter[append-only|default|ndjson|silent]  Secific the reporter
+# @option --reporter[`_choice_reporter`] <append-only>  Set reporter.
 # @flag -s --silent                           No output is logged to the console, except fatal errors
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
-# @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
+# @option --filter[`_choice_workspace`] <selector>  Filtering allows you to restrict commands to specific subsets of packages.
 # @option --filter-prod <pattern>             Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>            Defines files related to tests.
 install() {
@@ -177,7 +177,7 @@ prune() {
 # @flag --use-stderr                  Divert all output to stderr
 # @flag -w --workspace-root           Run the command on the root workspace project
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
-# @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
+# @option --filter[`_choice_workspace`] <selector>  Filtering allows you to restrict commands to specific subsets of packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
 # @arg pkg*
@@ -204,7 +204,7 @@ rebuild() {
 # @flag --use-stderr                  Divert all output to stderr
 # @flag -w --workspace-root           Run the command on the root workspace project
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
-# @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
+# @option --filter[`_choice_workspace`] <selector>  Filtering allows you to restrict commands to specific subsets of packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
 # @arg pkg-version*[`_choice_dependency`] <<pkg>[@<version>]>
@@ -254,7 +254,7 @@ unlink() {
 # @flag --workspace                   Tries to link all packages from the workspace.
 # @flag -w --workspace-root           Run the command on the root workspace project
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
-# @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
+# @option --filter[`_choice_workspace`] <selector>  Filtering allows you to restrict commands to specific subsets of packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
 # @arg pkg*[`_choice_dependency`]
@@ -313,7 +313,7 @@ licenses() {
 # @flag --use-stderr                  Divert all output to stderr
 # @flag -w --workspace-root           Run the command on the root workspace project
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
-# @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
+# @option --filter[`_choice_workspace`] <selector>  Filtering allows you to restrict commands to specific subsets of packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
 # @arg pkg*
@@ -342,7 +342,7 @@ list() {
 # @flag --use-stderr                  Divert all output to stderr
 # @flag -w --workspace-root           Run the command on the root workspace project
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
-# @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
+# @option --filter[`_choice_workspace`] <selector>  Filtering allows you to restrict commands to specific subsets of packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
 # @arg pkg*
@@ -384,7 +384,7 @@ exec() {
 # @flag --use-stderr                  Divert all output to stderr
 # @flag -w --workspace-root           Run the command on the root workspace project
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
-# @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
+# @option --filter[`_choice_workspace`] <selector>  Filtering allows you to restrict commands to specific subsets of packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
 # @arg args*[`_choice_script`]
@@ -405,7 +405,7 @@ start() {
 # @alias t
 # @flag -r --recursive                Run the tests in every package found in subdirectories or every workspace package, when executed inside a workspace.
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
-# @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
+# @option --filter[`_choice_workspace`] <selector>  Filtering allows you to restrict commands to specific subsets of packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
 # @arg args*
@@ -436,7 +436,7 @@ pack() {
 # @flag --report-summary                  Save the list of the newly published packages to "pnpm-publish-summary.json".
 # @option --tag <tag>                     Registers the published package with the given tag.
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
-# @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
+# @option --filter[`_choice_workspace`] <selector>  Filtering allows you to restrict commands to specific subsets of packages.
 # @option --filter-prod <pattern>         Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>        Defines files related to tests.
 # @arg tarball-dir <<tarball>|<dir>>
@@ -554,7 +554,7 @@ dedup() {
 # @flag --use-stderr                  Divert all output to stderr
 # @flag -w --workspace-root           Run the command on the root workspace project
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
-# @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
+# @option --filter[`_choice_workspace`] <selector>  Filtering allows you to restrict commands to specific subsets of packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
 # @arg pkg!
@@ -567,7 +567,7 @@ why() {
 # @cmd Fetches a package from the registry without installing it as a dependency, hotloads it, and runs whatever default command binary it exposes.
 # @flag --package          The package to install before running the command
 # @flag -c --shell-mode    Runs the script inside of a shell.
-# @option --reporter[append-only|default|ndjson|silent]  Secific the reporter
+# @option --reporter[`_choice_reporter`] <append-only>  Set reporter.
 # @flag -s --silent        No output is logged to the console, except fatal errors
 # @arg args*
 dlx() {
@@ -695,7 +695,7 @@ init() {
 # @flag --no-optional                 `optionalDependencies` are not installed
 # @flag -P --prod                     Packages in `devDependencies` won't be installed
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
-# @option --filter[`_choice_workspace`] <pattern>  Includes all direct and indirect dependents of the matched packages.
+# @option --filter[`_choice_workspace`] <selector>  Filtering allows you to restrict commands to specific subsets of packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
 # @arg deploy
@@ -773,6 +773,23 @@ _choice_script() {
     if [[ -n "$pkg_json_path" ]]; then
         cat "$pkg_json_path" | yq '(.scripts // {}) | keys | .[]'
     fi
+}
+_choice_reporter() {
+    cat <<-'EOF' | sed 's/: \+/\t/'
+append-only:     The output is always appended to the end. No cursor manipulations are performed"
+default:         The default reporter when the stdout is TTY"
+ndjson:          The most verbose reporter. Prints all logs in ndjson format"
+silent:          No output is logged to the console, except fatal errors"
+EOF
+}
+
+_choice_pacakge_import_method() {
+    cat <<-'EOF' | sed 's/: \+/\t/'
+auto:      Clones/hardlinks or copies packages. The selected method depends from the file system"
+clone:     Clone (aka copy-on-write) packages from the store"
+copy:      Copy packages from the store"
+hardlink:  Hardlink packages from the store"
+EOF
 }
 
 _choice_dependency() {

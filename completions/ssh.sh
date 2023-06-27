@@ -8,7 +8,7 @@
 # @flag -a                                        Disables forwarding of the authentication agent connection.
 # @option -B <bind_interface>                     Bind to the address of bind_interface before attempting to connect to the destination host.
 # @option -b <bind_address>                       Use bind_address on the local machine as the source address of the connection.
-# @flag -C                                        Requests compression of all data (including stdin, stdout, stderr, and data for forwarded X11, TCP and UNIX-domain connections).
+# @flag -C                                        Requests compression of all data (including stdin, stdout, stderr, and data for forwarded X11, TCP and UNIX-domain connec‐ tions).
 # @option -c*,[`_choice_cipher`] <cipher_spec>    Selects the cipher specification for encrypting the session.
 # @option -D <[bind_address:]port>                Specifies a local “dynamic” application-level port forwarding.
 # @option -E <log_file>                           Append debug logs to log_file instead of standard error.
@@ -22,7 +22,7 @@
 # @option -J <destination>                        Connect to the target host by first making a ssh connection to the jump host described by destination and then establishing a TCP forwarding to the ultimate destination from there.
 # @flag -K                                        Enables GSSAPI-based authentication and forwarding (delegation) of GSSAPI credentials to the server.
 # @flag -k                                        Disables forwarding (delegation) of GSSAPI credentials to the server.
-# @option -L <local_socket:remote_socket>         Specifies that connections to the given TCP port or Unix socket on the local (client) host are to be forwarded to the given host and port, or Unix socket, on the remote side.
+# @option -L <[bind_address:]port:host:hostport>  Specifies that connections to the given TCP port or Unix socket on the local (client) host are to be forwarded to the given host and port, or Unix socket, on the remote side.
 # @option -l <login_name>                         Specifies the user to log in as on the remote machine.
 # @flag -M                                        Places the ssh client into “master” mode for connection sharing.
 # @option -m <mac_spec>                           A comma-separated list of MAC (message authentication code) algorithms, specified in order of preference.
@@ -31,9 +31,9 @@
 # @option -O[`_choice_ctl_cmd`] <ctl_cmd>         Control an active connection multiplexing master process.
 # @option -o[`_choice_option`] <option>           Can be used to give options in the format used in the configuration file.
 # @option -p <port>                               Port to connect to on the remote host.
-# @option -Q[`_choice_query`] <query_option>      Queries for the algorithms supported by one of the following features: cipher (supported symmetric ciphers), cipher-auth (supported symmetric ciphers that support authenticated encryption), help (supported query terms for use with the -Q flag), mac (supported message integrity codes), kex (key exchange algorithms), kex-gss (GSSAPI key exchange algorithms), key (key types), key-cert (certificate key types), key-plain (non-certificate key types), key-sig (all key types and signature algorithms), protocol-version (supported SSH protocol versions), and sig (supported signature algorithms).
+# @option -Q[`_choice_query`] <query_option>      Queries for the algorithms supported by one of the following features: cipher (supported symmetric ciphers), cipher-auth (sup‐ ported symmetric ciphers that support authenticated encryption), help (supported query terms for use with the -Q flag), mac (supported message integrity codes), kex (key exchange algorithms), kex-gss (GSSAPI key exchange algorithms), key (key types), key-cert (certificate key types), key-plain (non-certificate key types), key-sig (all key types and signature algorithms), protocol-version (supported SSH protocol versions), and sig (supported signature algorithms).
 # @flag -q                                        Quiet mode.
-# @option -R <[bind_address:]port>                Specifies that connections to the given TCP port or Unix socket on the remote (server) host are to be forwarded to the local side.
+# @option -R <[bind_address:]port:host:hostport>  Specifies that connections to the given TCP port or Unix socket on the remote (server) host are to be forwarded to the local side.
 # @option -S <ctl_path>                           Specifies the location of a control socket for connection sharing, or the string “none” to disable connection sharing.
 # @flag -s                                        May be used to request invocation of a subsystem on the remote system.
 # @flag -T                                        Disable pseudo-terminal allocation.
@@ -50,25 +50,29 @@
 # @arg args*
 
 _choice_query() {
-		echo -e "cipher\tsupported symmetric ciphers"
-		echo -e "cipher-auth\tsupported symmetric ciphers that support authenticated encryption"
-		echo -e "help\tsupported query terms for use with the -Q flag"
-		echo -e "mac\tsupported message integrity codes"
-		echo -e "kex\tkey exchange algorithms"
-		echo -e "key\tkey types"
-		echo -e "key-cert\tcertificate key types"
-		echo -e "key-plain\tnon-certificate key types"
-		echo -e "key-sig\tall key types and signature algorithms"
-		echo -e "protocol-version\tsupported SSH protocol versions"
-		echo -e "sig\tsupported signature algorithms"
+    cat <<-'EOF' | sed 's/: \+/\t/'
+cipher:             supported symmetric ciphers
+cipher-auth:        supported symmetric ciphers that support authenticated encryption
+help:               supported query terms for use with the -Q flag
+mac:                supported message integrity codes
+kex:                key exchange algorithms
+key:                key types
+key-cert:           certificate key types
+key-plain:          non-certificate key types
+key-sig:            all key types and signature algorithms
+protocol-version:   supported SSH protocol versions
+sig:                supported signature algorithms
+EOF
 }
 
 _choice_ctl_cmd() {
-    echo -e "check\tcheck that the master process is running"
-    echo -e "forward\trequest forwardings without command execution"
-    echo -e "cancel\tcancel forwardings"
-    echo -e "exit\trequest the master to exit"
-    echo -e "stop\trequest the master to stop accepting further multiplexing requests"
+    cat <<-'EOF' | sed 's/: \+/\t/'
+check:      check that the master process is running
+forward:    request forwardings without command execution
+cancel:     cancel forwardings
+exit:       request the master to exit
+stop:       request the master to stop accepting further multiplexing requests
+EOF
 }
 
 _choice_option() {

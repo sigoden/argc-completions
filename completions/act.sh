@@ -22,7 +22,7 @@
 # @flag -n --dryrun                             dryrun mode
 # @option --env <stringArray>                   env to make available to actions with optional value
 # @option --env-file <file>                     environment file to read and use as env in the containers (default ".env")
-# @option -e --eventpath <string>               path to event JSON file
+# @option -e --eventpath <path>                 path to event JSON file
 # @option --github-instance <string>            GitHub instance to use.
 # @flag -g --graph                              draw workflows
 # @flag -h --help                               help for act

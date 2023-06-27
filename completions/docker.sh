@@ -2118,7 +2118,7 @@ trust::signer::remove() {
 # {{{ docker trust inspect
 # @cmd Return low-level information about keys and signatures
 # @flag --pretty    Print the information in a human friendly format
-# @arg IMAGE-TAG[`_choice_image_repo_tag`] # [`_choice_image_repo_tag`] <IMAGE[:TAG]...>
+# @arg IMAGE-TAG[`_choice_image_repo_tag`] <IMAGE[:TAG]...>
 trust::inspect() {
     :;
 }
@@ -2127,7 +2127,7 @@ trust::inspect() {
 # {{{ docker trust revoke
 # @cmd Remove trust for an image
 # @flag -y --yes    Do not prompt for confirmation
-# @arg IMAGE-TAG[`_choice_image_repo_tag`] # [`_choice_image_repo_tag`] <IMAGE[:TAG]>
+# @arg IMAGE-TAG[`_choice_image_repo_tag`] <IMAGE[:TAG]>
 trust::revoke() {
     :;
 }
@@ -2136,7 +2136,7 @@ trust::revoke() {
 # {{{ docker trust sign
 # @cmd Sign an image
 # @flag --local    Sign a locally tagged image
-# @arg IMAGE-TAG
+# @arg IMAGE-TAG[`_choice_image_repo_tag`]
 trust::sign() {
     :;
 }
@@ -2693,7 +2693,7 @@ node::demote() {
 # @option -f --format <string>    Format output using a custom template:
 # @flag --pretty                  Print the information in a human friendly format
 # @arg self-NODE
-# @arg NODE*[`_choice_node`]
+# @arg NODE*[`_choice_image_repo`]
 node::inspect() {
     :;
 }
@@ -2905,7 +2905,7 @@ service::inspect() {
 # @option --since <string>      Show logs since timestamp or relative (e.g.
 # @option -n --tail <string>    Number of lines to show from the end of the logs (default "all")
 # @flag -t --timestamps         Show timestamps
-# @arg SERVICE-TASK[`_choice_service`]
+# @arg SERVICE-TASK
 service::logs() {
     :;
 }

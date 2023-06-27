@@ -202,23 +202,23 @@ EOF
 
 _patch_table() {
     if [[ "$*" == "yarn" ]]; then
-        _patch_util_replace_positionals 'cmd:[`_choice_script`]'
+        _patch_util_edit_table_argument ';;' 'cmd;[`_choice_script`]'
     elif [[ "$*" == "yarn config "* ]]; then
-        _patch_util_add_extra_column 'key:[`_choice_config_key`]'
+        _patch_util_edit_table_argument 'key;[`_choice_config_key`]'
     elif [[ "$*" == "yarn global remove" ]] || [[ "$*" == "yarn global upgrade" ]]; then
-        _patch_util_add_extra_column 'packages:[`_choice_global_dependency`]'
+        _patch_util_edit_table_argument 'packages;[`_choice_global_dependency`]'
     elif [[ "$*" == "yarn run" ]]; then
-        _patch_util_replace_positionals 'script:[`_choice_script`]'
+        _patch_util_edit_table_argument ';;' 'script;[`_choice_script`]'
     elif [[ "$*" == "yarn remove" ]]; then
-        _patch_util_add_extra_column 'packages:[`_choice_dependency`]'
+        _patch_util_edit_table_argument 'packages;[`_choice_dependency`]'
     elif [[ "$*" == "yarn upgrade" ]]; then
-        _patch_util_replace_positionals '[packages]...:[`_choice_dependency`]'
+        _patch_util_edit_table_argument ';;' '[packages]...;[`_choice_dependency`]'
     elif [[ "$*" == "yarn workspace" ]]; then
-        _patch_util_replace_positionals \
-            '<workspace-name>:[`_choice_workspace`]' \
-            '[workspace-args]...:~[`_choice_workspace_args`]'
+        _patch_util_edit_table_argument ';;' \
+            '<workspace-name>;[`_choice_workspace`]' \
+            '[workspace-args]...;~[`_choice_workspace_args`]'
     elif [[ "$*" == "yarn workspaces" ]]; then
-        _patch_util_replace_positionals
+        _patch_util_edit_table_argument ';;'
     else
         cat
     fi

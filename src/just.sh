@@ -1,5 +1,5 @@
 _patch_table() {
-   _patch_util_add_extra_column 'ARGUMENTS:[`_choice_recipe`]'
+   _patch_util_edit_table_argument 'ARGUMENTS;[`_choice_recipe`]'
 }
 
 _choice_recipe() {

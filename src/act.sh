@@ -1,17 +1,16 @@
 _patch_table() {
-    sed \
-        -e 's/--artifact-server-path string/--artifact-server-path path/' \
-        -e 's/--cache-server-path string/--cache-server-path path/' \
-        -e 's/--workflows string/--workflows path/' \
-        -e 's/--directory string/--directory dir/'   \
-        -e 's/--env-file string/--env-file file/'  \
-        -e 's/--eventpath stirng/--eventpath path/' \
-        -e 's/--input-file string/--input-file file/' \
-        -e 's/--secret-file string/--secret-file file/' | \
-    _patch_util_replace_positionals 'event:[`_choice_event`]' | \
-    _patch_util_add_extra_column  \
-        '--job:[`_choice_job`]' \
-        '--container-architecture:[`_choice_container_platform`]'
+    _patch_util_edit_table_option  \
+        '--artifact-server-path(path)' \
+        '--cache-server-path(path)' \
+        '--workflows(path)' \
+        '--directory(dir)' \
+        '--env-file(file)' \
+        '--eventpath(path)' \
+        '--input-file(file)' \
+        '--secret-file(file)' \
+        '--job;[`_choice_job`]' \
+        '--container-architecture;[`_choice_container_platform`]'  | \
+    _patch_util_edit_table_argument ';;' 'event;[`_choice_event`]'
 }
 
 _choice_job() {

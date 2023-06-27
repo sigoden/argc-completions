@@ -64,34 +64,35 @@ EOF
 
 _patch_table() {
     table="$(sed \
-        -e '/option # --filter !<selector> /, /option # --filter <pattern>\^\.\.\./ coption # --filter <pattern> # Includes all direct and indirect dependents of the matched packages.' \
-        -e '/option # --loglevel / coption # --loglevel <level> # What level of logs to report. # [debug|info|warn|error|silent]' \
-        -e '/option # --reporter append-only/, /option # --reporter ndjson/ coption # --reporter # Secific the reporter # [append-only|default|ndjson|silent]' \
-        -e '/option # --reporter <silent>/ d' \
-        -e '/-s, --silent/ coption # -s, --silent # No output is logged to the console, except fatal errors' \
-        | _patch_util_add_extra_column '--filter:[`_choice_workspace`]')"
+        -e '/--depth -1/ d' \
+        -e 's/-s, --silent, --reporter silent/-s, --silent/' | \
+        _patch_util_edit_table_option \
+            '--loglevel;[debug|info|warn|error|silent]' \
+            '--filter;[`_choice_workspace`];Filtering allows you to restrict commands to specific subsets of packages.' \
+            '--reporter;[`_choice_reporter`];Set reporter.' \
+    )"
     if [[ "$*" == "pnpm" ]]; then
-        echo "$table" | _patch_util_replace_positionals 'cmd:[`_choice_script`]'
+        echo "$table" | _patch_util_edit_table_argument ';;' 'cmd;[`_choice_script`]'
     elif [[ "$*" == "pnpm config" ]]; then
-        echo "$table" | _patch_util_replace_positionals
+        echo "$table" | _patch_util_edit_table_argument ';;'
     elif [[ "$*" == "pnpm config "* ]]; then
-        echo "$table" | _patch_util_add_extra_column 'key:[`_choice_config_key`]'
+        echo "$table" | _patch_util_edit_table_argument 'key;[`_choice_config_key`]'
     elif [[ "$*" == "pnpm install" ]]; then
-        echo "$table" | sed '/option # --package-import-method auto/, /option # --package-import-method hardlink/ coption # --package-import-method <method> # Import package from # [auto|clone|copy|hardlink]'
+        echo "$table"| _patch_util_edit_table_option '--package-import-method;[`_choice_pacakge_import_method`];Import package method'
     elif [[ "$*" == "pnpm list" ]]; then
-        echo "$table" | sed '/option # --depth -1/, /option # --depth 0/ coption # --depth <number> # Max display depth of the dependency tree'
+        echo "$table"| _patch_util_edit_table_option '--depth(<number>)'
     elif [[ "$*" == "pnpm run" ]]; then
-        echo "$table" | _patch_util_add_extra_column 'args:[`_choice_script`]'
+        echo "$table" | _patch_util_edit_table_argument 'args;[`_choice_script`]'
     elif [[ "$*" == "pnpm exec" ]]; then
-        echo "$table" | _patch_util_add_extra_column 'exec:[`_choice_bin`]'
+        echo "$table" | _patch_util_edit_table_argument 'exec;[`_choice_bin`]'
     elif [[ "$*" == "pnpm remove" ]]; then
-        echo "$table" | _patch_util_add_extra_column 'pkg:[`_choice_dependency`]'
+        echo "$table" | _patch_util_edit_table_argument 'pkg;[`_choice_dependency`]'
     elif [[ "$*" == "pnpm update" ]]; then
-        echo "$table" | _patch_util_add_extra_column 'pkg:[`_choice_dependency`]'
+        echo "$table" | _patch_util_edit_table_argument 'pkg;[`_choice_dependency`]'
     elif [[ "$*" == "pnpm config" ]]; then
-        echo "$table" | _patch_util_replace_positionals
+        echo "$table" | _patch_util_edit_table_argument ';;'
     elif [[ "$*" == "pnpm env" ]]; then
-        echo "$table" | _patch_util_replace_positionals
+        echo "$table" | _patch_util_edit_table_argument ';;'
     else
         echo "$table"
     fi
@@ -117,6 +118,23 @@ _choice_script() {
     if [[ -n "$pkg_json_path" ]]; then
         cat "$pkg_json_path" | yq '(.scripts // {}) | keys | .[]'
     fi
+}
+_choice_reporter() {
+    cat <<-'EOF' | sed 's/: \+/\t/'
+append-only:     The output is always appended to the end. No cursor manipulations are performed"
+default:         The default reporter when the stdout is TTY"
+ndjson:          The most verbose reporter. Prints all logs in ndjson format"
+silent:          No output is logged to the console, except fatal errors"
+EOF
+}
+
+_choice_pacakge_import_method() {
+    cat <<-'EOF' | sed 's/: \+/\t/'
+auto:      Clones/hardlinks or copies packages. The selected method depends from the file system"
+clone:     Clone (aka copy-on-write) packages from the store"
+copy:      Copy packages from the store"
+hardlink:  Hardlink packages from the store"
+EOF
 }
 
 _choice_dependency() {
