@@ -53,6 +53,7 @@
 # @option --ignored[traditional|matching|no]       Show ignored files, optional modes: traditional, matching, no.
 # @option --driver[docker-container|kubernetes|remote] <string>  Driver to use
 # @option --exclude* <regex>                       Exclude source files from the report [default: test\.(js|mjs|ts|jsx|tsx)$]
+# @option --backend[hardlink|symlink|copyfile] <STR>  Platform-specific optimizations for installing dependencies.
 # @arg ARG1!
 # @arg ARG2+
 # @arg ARG3

@@ -89,10 +89,10 @@ END {
         }
         split("", descValues)
         parseDesc(substr(option, splitAt + 1), descValues, 1)
-        if (length(descValues[3]) > 0) {
-            print "option # " optionVal  " # " descValues[2] " # [" descValues[3] "]"
+        if (length(descValues[2]) > 0) {
+            print "option # " optionVal  " # " descValues[1] " # " descValues[2]
         } else {
-            print "option # " optionVal  " # " descValues[2]
+            print "option # " optionVal  " # " descValues[1]
         }
     }
     if (length(arguments) == 0 && length(usage) > 0) {
@@ -126,12 +126,12 @@ END {
         split("", descValues)
         parseDesc(substr(argument, splitAt + 1), descValues, 1)
         if (match(argumentVal, /^\(([A-Za-z0-9_-]+\|)+[A-Za-z0-9_-]+\)$/)) {
-            print "argument # value # " descValues[2] " # [" substr(argumentVal, 2, length(argumentVal) -2) "]"
+            print "argument # value # " descValues[1] " # [" substr(argumentVal, 2, length(argumentVal) -2) "]"
         } else {
-            if (length(descValues[3]) > 0) {
-                print "argument # " argumentVal " # " descValues[2] " # [" descValues[3] "]"
+            if (length(descValues[2]) > 0) {
+                print "argument # " argumentVal " # " descValues[1] " # " descValues[2]
             } else {
-                print "argument # " argumentVal " # " descValues[2]
+                print "argument # " argumentVal " # " descValues[1]
             }
         }
     }
@@ -142,7 +142,7 @@ END {
         gsub(/^\*|\*$/, "", commandVal)
         split("", descValues)
         parseDesc(substr(command, splitAt + 1), descValues, 0)
-        print "command # " commandVal " # " descValues[2]
+        print "command # " commandVal " # " descValues[1]
     }
 }
 
@@ -304,11 +304,12 @@ function parseDesc(descVal, output, extractChoice)  {
     spaces = 0
     dropLines = 0
     concatedDescVal = ""
+    truncatedDescVal = ""
     for (i in lines) {
         line = trimStarts(lines[i])
         if (i == 1) {
             concatedDescVal = line
-            output[1] = line
+            truncatedDescVal = line
         } else {
             concatedDescVal = concatedDescVal " " line
             if (dropLines == 0) {
@@ -331,20 +332,15 @@ function parseDesc(descVal, output, extractChoice)  {
                     dropLines = 1
                     continue
                 }
-                output[1] = output[1] " " line
+                truncatedDescVal = truncatedDescVal " " line
             }
         }
     }
-    if (match(output[1], / ?\(e\.g\. [^)]*\)/)) {
-        output[1] = replace(output[1], substr(output[1], RSTART, RLENGTH), "")
-    }
-    if (match(output[1], /[^.]\.(\s|$)/)) {
-        output[2] = substr(output[1], 1, RSTART + 1)
-    } else {
-        output[2] = output[1]
-    }
     choiceVal = ""
     matchVal = ""
+    if (match(concatedDescVal, / ?\(default\)/)) {
+        concatedDescVal = replace(concatedDescVal, substr(concatedDescVal, RSTART, RLENGTH), "")
+    }
     if (extractChoice == 1) {
         if (choiceVal == "" && index(concatedDescVal, "]") > 0) {
             if (match(concatedDescVal, / ?\[possible values: (([A-Za-z0-9_-]+, )+[A-Za-z0-9_-]+)\]/, arr)) {
@@ -370,6 +366,8 @@ function parseDesc(descVal, output, extractChoice)  {
         if (choiceVal == "") {
             if (match(concatedDescVal, /: (([A-Za-z0-9_-]+, )+[A-Za-z0-9_-]+)(\s*$|\.)/, arr)) {
                 choiceVal = arr[1]
+            } else if (match(concatedDescVal, /: (("([A-Za-z0-9_-]+)", )+"([A-Za-z0-9_-]+)")(\s*$|\.)/, arr)) {
+                choiceVal = arr[1]
             }
         }
     }
@@ -378,10 +376,17 @@ function parseDesc(descVal, output, extractChoice)  {
         if (matchIdx < 120 || length(concatedDescVal) - matchIdx < 120) {
             gsub(/(,|, |\|| \| )/, "|", choiceVal)
             gsub(/"/, "", choiceVal) # "
-            output[3] = choiceVal
-            output[2] = replace(output[2], matchVal, "")
+            truncatedDescVal = replace(truncatedDescVal, matchVal, "")
+            output[2] = "[" choiceVal "]"
         }
     }
+    if (match(truncatedDescVal, / ?\(e\.g\. [^)]*\)/)) {
+        truncatedDescVal = replace(truncatedDescVal, substr(truncatedDescVal, RSTART, RLENGTH), "")
+    }
+    if (match(truncatedDescVal, /[^.]\.(\s|$)/)) {
+        truncatedDescVal = substr(truncatedDescVal, 1, RSTART + 1)
+    }
+    output[1] = truncatedDescVal
 }
 
 function isEmpty(input) {
