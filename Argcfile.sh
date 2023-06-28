@@ -125,7 +125,15 @@ _helper_print_help() {
         if _test_patch_fn help; then
             _patch_help $@
         else
-            $@ --help 2>&1
+            help_text="$($@ --help 2>&1)"
+            if [[ $? -ne 0 ]]; then
+                if [[ $# -eq 1 ]]; then
+                    help_text="$($1 help 2>&1)"
+                else
+                    help_text="$(${@:1:$#-1} help ${!#} 2>&1)"
+                fi
+            fi
+            echo "$help_text"
         fi
     fi
 }

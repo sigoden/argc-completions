@@ -90,7 +90,23 @@ get_table() {
         log_info "$@: patch help"
         help_text="$(_patch_help $@)"
     else
-        help_text="$($@ --help 2>&1)"
+        if [[ $use_help_subcmd -ne 1 ]]; then
+            help_text="$($@ --help 2>&1)"
+            if [[ $? -ne 0 ]]; then
+                use_help_subcmd=1
+            fi
+        fi
+        if [[ $use_help_subcmd -eq 1 ]]; then
+            if [[ $# -eq 1 ]]; then
+                help_text="$($1 help 2>&1)"
+            else
+                help_text="$(${@:1:$#-1} help ${!#} 2>&1)"
+            fi
+            if [[ $? -ne 0 ]]; then
+                log_error "$@: can not get help"
+                return
+            fi
+        fi
     fi
     if [[ -n "$help_output_file" ]]; then
         if [[ $# -eq 1 ]]; then
@@ -190,6 +206,7 @@ set_globals() {
     scripts_dir="$ROOT_DIR/scripts"
     src_dir="$ROOT_DIR/src"
     utils_dir="$ROOT_DIR/utils"
+    use_help_subcmd=0
     command_names+=( "$argc_cmd" )
     if [[ "$argc_cmd" == '__test' ]]; then
         src_dir="$ROOT_DIR/tests/src"
@@ -264,7 +281,7 @@ log_info() {
 }
 
 log_error() {
-    echo "error: " $@ >&2
+    echo "[error] " $@ >&2
 }
 
 eval "$(argc --argc-eval "$0" "$@")"
