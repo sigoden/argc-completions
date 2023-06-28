@@ -25,7 +25,6 @@ BEGIN {
 }
 
 END {
-    LINES_LEN = length(LINES)
     split("", options)
     split("", arguments)
     split("", commands)
@@ -33,20 +32,22 @@ END {
     groupSpaces = 0
     prevSpaces = 0
     emptyNR = 0
+    spaces = 0
     usage = ""
     for (i = 1; i <= LINES_LEN; i ++) {
         line = LINES[i, 1]
         santizedLine = tolower(LINES[i, 2])
-        spaces = LINES[i, 3]
         if (length(santizedLine) == 0) {
             emptyNR = i
-            prevSpaces = 0
             continue
         }
+        prevSpaces = spaces
+        spaces = LINES[i, 3]
+
         isPrevEmpty = i == emptyNR + 1 || i == 1
         if (spaces <= 8) {
             if (match(santizedLine, /^-{1,2}[^- \t]/)) { # option
-                if (groupName == "option" || spaces > prevSpaces || substr(LINES[i+1, 2], 1, 2) == "-") {
+                if (groupName == "option" || spaces > prevSpaces || isPrevEmpty || substr(LINES[i+1, 2], 1, 2) == "-") {
                     options[length(options) + 1] = trimStarts(line)
                     groupName = "option"
                     continue
@@ -82,22 +83,25 @@ END {
                     continue
                 }
             } else if (spaces <= groupSpaces) {
-                nextLine = LINES[i+1, 2]
-                if (match(nextLine, /^[a-z0-9_-]+/)) {
-                    isCommand = 0
-                    if (match(nextLine, /\s{2,}\S/)) {
-                        isCommand = 1
-                    } else if (match(nextLine, /^[a-z0-9_-]+,?\s*$/)) {
-                        isCommand = 1
-                    } else if (match(nextLine, /(^[a-z0-9_-]+,\s*)+[a-z0-9_-]+.?\s*$/)) {
-                        isCommand = 1
-                    }
-                    if (isCommand == 1) {
-                        groupName = "command"
-                        groupSpaces = spaces
-                        continue
-                    }
-                } 
+                noneEmptyLineIndex = getNoneEmptyLine(i)
+                if (noneEmptyLineIndex > 0) {
+                    nextLine = LINES[noneEmptyLineIndex, 2]
+                    if (match(nextLine, /^[a-z0-9_-]+/)) {
+                        isCommand = 0
+                        if (match(nextLine, /\s{2,}\S/)) {
+                            isCommand = 1
+                        } else if (match(nextLine, /^[a-z0-9_-]+,?\s*$/)) {
+                            isCommand = 1
+                        } else if (match(nextLine, /(^[a-z0-9_-]+,\s*)+[a-z0-9_-]+.?\s*$/)) {
+                            isCommand = 1
+                        }
+                        if (isCommand == 1) {
+                            groupName = "command"
+                            groupSpaces = spaces
+                            continue
+                        }
+                    } 
+                }
                 groupName = ""
                 groupSpaces = 0
             }
@@ -488,6 +492,15 @@ function concateLine(value, line) {
         output = value " " line
     }
     return output
+}
+
+function getNoneEmptyLine(idx,      i) {
+    for (i = idx + 1; i <= LINES_LEN; i++) {
+        if (length(LINES[i, 2]) > 0) {
+            return i
+        }
+    }
+    return 0
 }
 
 function isEmpty(input) {

@@ -63,6 +63,8 @@
 # @flag --connection                               Requests compression of all data (including stdin, stdout, stderr, and data for forwarded X11, TCP and UNIX-domain connections).
 # @option --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer
 # @flag --unknown
+# @flag --incremental                              show blame entries as we find them, incrementally
+# @flag --line-porcelain                           show porcelain format with per-line commit information
 # @arg ARG1!
 # @arg ARG2+
 # @arg ARG3
@@ -147,6 +149,20 @@ cmd5() {
     :;
 }
 # }} __test cmd5
+
+# {{ __test bug
+# @cmd start a bug report
+bug() {
+    :;
+}
+# }} __test bug
+
+# {{ __test mod
+# @cmd module maintenance
+mod() {
+    :;
+}
+# }} __test mod
 
 # {{ __test add
 # @cmd Installs a package and any packages that it depends on.

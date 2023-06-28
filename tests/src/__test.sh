@@ -1,6 +1,6 @@
 _patch_help() {
     if [[ "$*" == "__test" ]]; then
-    cat <<-'EOF'
+    cat <<EOF
 Arguments:
     <ARG1>
     <ARG2>...
@@ -102,6 +102,11 @@ Options:
 
 -------
 
+Other:
+
+    --incremental         show blame entries as we find them, incrementally
+    --line-porcelain      show porcelain format with per-line commit information
+
 Environment variables:
 NO_COLOR                        Disable ansi color.
 NODE_DEBUG                      ','-separated list of core modules that should print debug information
@@ -117,6 +122,11 @@ Other:
     cmd3,
     cmd4, c
     cmd5, d,
+
+The commands are:
+
+	bug         start a bug report
+	mod         module maintenance
 
 Manage your dependencies:
       add                  Installs a package and any packages that it depends on. By default, any new package is installed as a

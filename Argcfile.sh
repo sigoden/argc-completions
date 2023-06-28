@@ -125,7 +125,7 @@ _helper_print_help() {
         if _test_patch_fn help; then
             _patch_help $@
         else
-            $@ --help
+            $@ --help 2>&1
         fi
     fi
 }
