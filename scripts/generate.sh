@@ -6,6 +6,7 @@ set -e
 
 # @option -o --output <file>        Specify output file. If omitted, output to stdout
 # @flag -E --extend                 Mark subcmd as an extension command
+# @flag -v --verbose                Show log
 # @arg cmd!                         Specify the command, must be able to run locally
 # @arg subcmd                       Optional subcommand
 
@@ -16,7 +17,7 @@ handle_cmd() {
     local output table level nest_fn_prefix command_output
     table="$(get_table $@)"
     nest_fn_prefix="$(echo "${@:$((1 + $cmds_level))}" | sed 's/ /::/g')"
-    output="$(echo "$table" | grep -v 'command #' | awk -f "$scripts_dir/parse-script.awk")"
+    output="$(echo "$table" | grep -v 'command #' | parse_script $@)"
     if [[ -n "$output" ]]; then
         output="$output"$'\n'
     fi
@@ -29,7 +30,7 @@ handle_cmd() {
             if [[ -n "$line" ]]; then
                 subcmds+=( "$line" )
             fi
-        done < <(echo "$table" | grep '^command #' | awk -f "$scripts_dir/parse-script.awk")
+        done < <(echo "$table" | grep '^command #' | parse_script $@)
         for item in "${subcmds[@]}"; do
             if [[ -n "$item" ]]; then
                 local subcmd_output="$(handle_subcmd "$item" $@)"
@@ -62,7 +63,6 @@ handle_subcmd() {
     local new_cmds_level=$(( ${#new_cmds[@]} + 1 - $cmds_level ))
 
     local cmd_full_name="$(printf "%s\n" ${new_cmds[@]} | uniq | tr '\n' ' ' | sed -e 's/ $//' -e 's/ /::/g')"
-    # echo handle $cmd_full_name >&2
     if [[ "$cmd_name" != "$argc_cmd" ]] && [[  ! " ${command_names[*]} " =~ " $cmd_full_name " ]]; then
         command_names+=( "$cmd_full_name" )
     else 
@@ -84,17 +84,25 @@ handle_subcmd() {
 }
 
 get_table() {
+    log_info "$@: start"
     local path help_text table
     if [[ $(type -t _patch_help) = "function" ]]; then
+        log_info "$@: patch help"
         help_text="$(_patch_help $@)"
     else
         help_text="$($@ --help 2>&1)"
     fi
     if [[ -d "$ARGC_COMPLETIONS_HELP_DIR" ]]; then
-        echo "$help_text" > "$ARGC_COMPLETIONS_HELP_DIR/$(echo "$@" | sed 's/ /-/g').txt"
+        mkdir -p "$ARGC_COMPLETIONS_HELP_DIR/$1"
+        if [[ $# -eq 1 ]]; then
+            echo "$help_text" > "$ARGC_COMPLETIONS_HELP_DIR/$1/$1.txt"
+        else
+            echo "$help_text" > "$ARGC_COMPLETIONS_HELP_DIR/$1/$(echo "$@" | sed 's/ /-/g').txt"
+        fi
     fi
-    table="$(echo "$help_text" | awk -f "$scripts_dir/parse-table.awk")"
+    table="$(echo "$help_text" | parse_table $@)"
     if [[ $(type -t _patch_table) = "function" ]]; then
+        log_info "$@: patch table"
         table="$(echo "$table" | _patch_table $@)"
     fi
     echo "$table"
@@ -146,10 +154,11 @@ embed_utils() {
 
 validate_script() {
     if [[ -f "$output_file" ]]; then
+        log_info ": validate script"
         output=$(bash "$output_file" --help 2>&1)
         if [[ -n "$output" ]]; then
             if ! grep -q "USAGE:" <<<"$output"; then
-                echo "$output" >&2
+                log_error "$output"
             fi
         fi
     fi
@@ -167,7 +176,7 @@ set_globals() {
     else
         command -v $argc_cmd >/dev/null 2>&1
         if [[ $? -eq 1 ]]; then
-            echo "error: $argc_cmd not found" >&2
+            log_error "$argc_cmd not found"
             exit 1
         fi
     fi
@@ -209,6 +218,24 @@ get_version() {
     fi
 }
 
+parse_table() {
+    if [[ "$argc_verbose" == "1" ]]; then
+        local prefix="$(echo "[info] $@" | sed 's/ /@/g')"
+        awk -v LOG_PREFIX="$prefix" -f "$scripts_dir/parse-table.awk"
+    else
+        awk -f "$scripts_dir/parse-table.awk"
+    fi
+}
+
+parse_script() {
+    if [[ "$argc_verbose" == "1" ]]; then
+        local prefix="$(echo "[info] $@" | sed 's/ /@/g')"
+        awk -v LOG_PREFIX="$prefix" -f "$scripts_dir/parse-script.awk"
+    else
+        awk -f "$scripts_dir/parse-script.awk"
+    fi
+}
+
 print_version() {
     local version=$(get_version $@)
     if [[ -n $version ]]; then
@@ -241,8 +268,18 @@ print_util_fn() {
         cat "$util_fn_file" 
         echo
     else
-        echo "Unknown util fn: $util_fn_name" >&2
+        log_error "Unknown util fn: $util_fn_name"
     fi
+}
+
+log_info() {
+    if [[ "$argc_verbose" -eq 1 ]]; then
+        echo "[info] $@" >&2
+    fi
+}
+
+log_error() {
+    echo "[error] $@" >&2
 }
 
 eval "$(argc --argc-eval "$0" "$@")"
@@ -257,10 +294,12 @@ fi
 output_content="$(print_head)$(print_version ${cmds[@]})"
 output_content="$output_content"$'\n'$'\n'"$(handle_cmd ${cmds[@]})"
 if [[ $(type -t _patch_script) = "function" ]]; then
+    log_info ": patch script"
     output_content="$(echo "$output_content" | _patch_script)"
 fi
 if [[ -f "$src_file" ]]; then
     if grep -q _choice_ <<<"$output_content"; then
+        log_info ": embemd argc util fns"
         output_content="$output_content$(embed_script ${cmds[@]})"
     fi
 fi

@@ -5,13 +5,32 @@ export PATH="$(pwd)/bin:$PATH"
 set -e
 
 # @cmd Automatically generate the completion script for <CMD>
+# @flag -E --with-extend-subcmds  Also regenerate extend subcommands
+# @flag -v --verbose                Show log
 # @arg cmd![?`_choice_completion`]
 # @arg subcmd
 generate() {
+    generate_sh_args=" -o completions"
+    if [[ "$argc_verbose" ]]; then
+        generate_sh_args="$generate_sh_args -v"
+    fi
     if [[ -n $argc_subcmd ]]; then
-        ./scripts/generate.sh -E -o completions $argc_cmd $argc_subcmd
+        echo Generate $argc_cmd $argc_subcmd
+        ./scripts/generate.sh $generate_sh_args -E $argc_cmd $argc_subcmd
     else
-        ./scripts/generate.sh -o completions $argc_cmd
+        echo Generate $argc_cmd
+        ./scripts/generate.sh $generate_sh_args $argc_cmd
+        if [[ "$argc_with_extend_subcmds" -eq 1 ]] && [[ -d completions/$argc_cmd ]]; then
+            if [[ -d completions/$argc_cmd ]]; then
+                local child
+                for child in completions/$argc_cmd/*.sh; do
+                    child="$(basename "$child" .sh)"
+                    echo Generate $argc_cmd $child
+                    ./scripts/generate.sh $generate_sh_args -E $argc_cmd $child
+                done
+            fi
+        fi
+
     fi
 }
 
@@ -21,18 +40,7 @@ regenerate() {
     local cmds=( "$(_choice_completion)" )
     for cmd in ${cmds[@]}; do
         if command -v $cmd > /dev/null; then
-            echo Generate $cmd
-            ./scripts/generate.sh -o completions $cmd
-            if [[ -d completions/$cmd ]]; then
-                if [[ -d completions/$cmd ]]; then
-                    local child
-                    for child in completions/$cmd/*.sh; do
-                        child="$(basename "$child" .sh)"
-                        echo Generate $cmd $child
-                        ./scripts/generate.sh -E -o completions $cmd $child
-                    done
-                fi
-            fi
+            argc generate $cmd -E
         fi
     done
 }

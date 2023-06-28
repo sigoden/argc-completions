@@ -2,6 +2,7 @@ BEGIN {
     prevLine = "other"
     emptyNR = 0
     usage = ""
+    gsub("@", " ", LOG_PREFIX)
     split("", options)
     split("", arguments)
     split("", commands)
@@ -88,7 +89,7 @@ END {
             continue
         }
         split("", descValues)
-        parseDesc(substr(option, splitAt + 1), descValues, 1)
+        parseDesc(substr(option, splitAt + 1), descValues, 1, "option `" optionVal "`")
         if (length(descValues[2]) > 0) {
             print "option # " optionVal  " # " descValues[1] " # " descValues[2]
         } else {
@@ -124,7 +125,7 @@ END {
         splitAt = splitArgment(argument)
         argumentVal = substr(argument, 1, splitAt)
         split("", descValues)
-        parseDesc(substr(argument, splitAt + 1), descValues, 1)
+        parseDesc(substr(argument, splitAt + 1), descValues, 1, "argument `" optionVal "`")
         if (match(argumentVal, /^\(([A-Za-z0-9_-]+\|)+[A-Za-z0-9_-]+\)$/)) {
             print "argument # value # " descValues[1] " # [" substr(argumentVal, 2, length(argumentVal) -2) "]"
         } else {
@@ -294,7 +295,7 @@ function splitCommand(input) {
     return length(input)
 }
 
-function parseDesc(descVal, output, extractChoice)  {
+function parseDesc(descVal, output, extractChoice, logPrefix)  {
     gsub(/^[[:space:]]+|[[:space:]]$/,"", descVal)
     gsub(/ #/, " ♯", descVal)
     split(descVal, lines, DESC_NEWLINE)
@@ -337,6 +338,7 @@ function parseDesc(descVal, output, extractChoice)  {
                 if (testValueDesc(line)) {
                     for (j = i + 1; j <= length(lines); j++) {
                         if (testValueDesc(trimStarts(lines[j]))) {
+                            generate_log(logPrefix " maybe have choices with description")
                             truncatedLen = length(concatedDescVal)
                             break
                         }
@@ -403,6 +405,12 @@ function parseDesc(descVal, output, extractChoice)  {
         truncatedDescVal = substr(truncatedDescVal, 1, RSTART + 1)
     }
     output[1] = truncatedDescVal
+}
+
+function generate_log(value) {
+    if (length(LOG_PREFIX) > 0) {
+        print LOG_PREFIX ": " value  > "/dev/stderr"
+    }
 }
 
 function concateLine(value, line) {
