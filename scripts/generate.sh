@@ -92,12 +92,15 @@ get_table() {
     else
         help_text="$($@ --help 2>&1)"
     fi
-    if [[ -d "$ARGC_COMPLETIONS_HELP_DIR" ]]; then
-        mkdir -p "$ARGC_COMPLETIONS_HELP_DIR/$1"
+    if [[ -n "$help_output_file" ]]; then
         if [[ $# -eq 1 ]]; then
-            echo "$help_text" > "$ARGC_COMPLETIONS_HELP_DIR/$1/$1.txt"
+            echo -e "########### $@ ###########\n" >> "$help_output_file"
+            echo "$help_text" >> "$help_output_file"
+            echo >> "$help_output_file"
         else
-            echo "$help_text" > "$ARGC_COMPLETIONS_HELP_DIR/$1/$(echo "$@" | sed 's/ /-/g').txt"
+            echo -e "########### $@ ###########\n" >> "$help_output_file"
+            echo "$help_text" >> "$help_output_file"
+            echo >> "$help_output_file"
         fi
     fi
     table="$(echo "$help_text" | parse_table $@)"
@@ -199,7 +202,6 @@ set_globals() {
         fi
     fi
 
-    local cmds_path="$(echo "${cmds[@]}" | sed 's| |/|g').sh"
     if [[ ! -f "$src_file" ]]; then
         src_file="$src_dir/$argc_cmd.sh"
     fi
@@ -207,10 +209,15 @@ set_globals() {
     if [[ -f "$argc_output" ]]; then
         output_file="$argc_output"
     elif [[ -d "$argc_output" ]]; then
-        output_file="$argc_output/$cmds_path"
+        output_file="$argc_output/$(echo "${cmds[@]}" | sed 's| |/|g').sh"
     fi
 
-    if [[ "$argc_extend" == "1" &&  -n $argc_subcmd ]]; then
+    if [[ -d "$ARGC_COMPLETIONS_HELP_DIR" ]]; then
+        help_output_file="$ARGC_COMPLETIONS_HELP_DIR/$(echo "${cmds[@]}" | sed 's/ /-/g').txt"
+        rm -rf "$help_output_file"
+    fi
+
+    if [[ "$argc_extend" == "1" ]] && [[ -n $argc_subcmd ]]; then
         cmds_level=2
     else
         cmds_level=1
