@@ -1,6 +1,6 @@
 _patch_help() {
     if [[ "$*" == "yarn" ]]; then
-        $@ --help | sed '/\s\+Commands:/, /^$/ d'
+        $@ --help | sed '/^  Commands:/, $ d'
         cat <<-'EOF'
 Commands:
     add             Installs a package and any packages that it depends on.

@@ -103,16 +103,42 @@ Options:
 -------
 
 Environment variables:
-    NO_COLOR                    Disable ansi color.
+NO_COLOR                        Disable ansi color.
+NODE_DEBUG                      ','-separated list of core modules that should print debug information
+
 Commands:
-    run                         
-    build, b
-    t, test
-    cmd1                        Compare two commit ranges (e.g. two versions of a branch) 
-    cmd2
+    run                         Run a binary or example of the local package 
+    build, b                    Compile the current package
+    t, test                     Run the tests
+
+Other:
+    cmd1
+    cmd2                        Compare two commit ranges (e.g. two versions of a branch) 
     cmd3,
-    cmd4
-    cmd5
+    cmd4, c
+    cmd5, d,
+
+Manage your dependencies:
+      add                  Installs a package and any packages that it depends on. By default, any new package is installed as a
+                           prod dependency
+      import               Generates a pnpm-lock.yaml from an npm package-lock.json (or npm-shrinkwrap.json) file
+   i, install              Install all dependencies for a project
+  it, install-test         Runs a pnpm install followed immediately by a pnpm test
+  ln, link                 Connect the local project to another one
+
+Other:
+  compile
+          UNSTABLE: Compile the script into a self contained executable
+  completions
+          Generate shell completions
+  coverage
+          Print coverage reports
+
+EXPERIMENTAL:
+  docker manifest is an experimental feature.
+  Experimental features provide early access to product functionality. 
+  These features may change between releases without warning, or can be removed from a future release.
+
 EOF
     elif [[ "$*" == "__test cmd1" ]]; then
         echo "Usage: __test cmd1 [OPTIONS] <--build|--clear>"

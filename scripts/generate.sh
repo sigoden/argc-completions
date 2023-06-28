@@ -264,7 +264,7 @@ log_info() {
 }
 
 log_error() {
-    echo "[error] $@" >&2
+    echo "error: " $@ >&2
 }
 
 eval "$(argc --argc-eval "$0" "$@")"

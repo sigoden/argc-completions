@@ -1,34 +1,10 @@
 _patch_help() {
     if [[ "$*" == "bun" ]]; then
-    echo "Options: "
-        bun --help | awk '
-BEGIN {
-    COMMANDS_ZONE=0
-    REPLACE_END=30
-}   
-{
-    if (match($0, /^bun: /)) {
-        COMMANDS_ZONE=1
-        print $0
-        print "commands:"
-    } else if (COMMANDS_ZONE == 1 && match($0, /  (\w+) /, head_arr)) {
-        spaceIdx = index(substr($0, 3), " ")
-        head = substr($0, 1, 3 + spaceIdx - 1)
-        SPACES = sprintf("%*s", REPLACE_END - spaceIdx, "")
-        tail = substr($0, REPLACE_END)
-        alias = ""
-        if (match(tail, / \(bun (\w+)\)/, tail_arr)) {
-            alias = ", " tail_arr[1]
-            tail = substr(tail, 1, length(tail) - length(tail_arr[0]))
-        }
-        if (alias != "") {
-            gsub(head_arr[1], head_arr[1] alias, head)
-        }
-        print head SPACES tail
-    } else {
-        print $0
-    }
-}'
+        echo "Options: "
+        bun --help | sed \
+            -e '/^-----/, $ s/  \(\w\+\) \s\{2,\}.*\s\{4,\}\(.*\)$/  \1     \2/' \
+            -e '/ (bun \w\+)$/ s/  \(\w\+\)\(.*\)(bun \(\w\+\))$/  \1, \3\2/'  \
+            -e '/^-----/, /^bun:/ c\Commands:' 
     elif [[ "$*" == "bun run" ]]; then
         echo "Usage: bun run [script_or_bin]..."
          $@ --help | sed '/----/,$ d'

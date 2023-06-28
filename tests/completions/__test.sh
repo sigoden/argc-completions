@@ -82,14 +82,14 @@
 
 
 # {{ __test run
-# @cmd
+# @cmd Run a binary or example of the local package
 run() {
     :;
 }
 # }} __test run
 
 # {{ __test build
-# @cmd
+# @cmd Compile the current package
 # @alias b
 build() {
     :;
@@ -97,7 +97,7 @@ build() {
 # }} __test build
 
 # {{ __test test
-# @cmd
+# @cmd Run the tests
 # @alias t
 test() {
     :;
@@ -105,14 +105,14 @@ test() {
 # }} __test test
 
 # {{ __test cmd1
-# @cmd Compare two commit ranges (e.g. two versions of a branch)
+# @cmd
 cmd1() {
     :;
 }
 # }} __test cmd1
 
 # {{ __test cmd2
-# @cmd
+# @cmd Compare two commit ranges (e.g. two versions of a branch)
 # @arg pattern!
 # @arg rev*
 # @arg path*
@@ -131,6 +131,7 @@ cmd3() {
 
 # {{ __test cmd4
 # @cmd
+# @alias c
 # @arg value[foo|bar|baz]
 cmd4() {
     :;
@@ -139,11 +140,71 @@ cmd4() {
 
 # {{ __test cmd5
 # @cmd
+# @alias d
 # @arg source_file
 # @arg filter    Dot separated path to symbol
 cmd5() {
     :;
 }
 # }} __test cmd5
+
+# {{ __test add
+# @cmd Installs a package and any packages that it depends on.
+add() {
+    :;
+}
+# }} __test add
+
+# {{ __test import
+# @cmd Generates a pnpm-lock.yaml from an npm package-lock.json (or npm-shrinkwrap.json) file
+import() {
+    :;
+}
+# }} __test import
+
+# {{ __test install
+# @cmd Install all dependencies for a project
+# @alias i
+install() {
+    :;
+}
+# }} __test install
+
+# {{ __test install-test
+# @cmd Runs a pnpm install followed immediately by a pnpm test
+# @alias it
+install-test() {
+    :;
+}
+# }} __test install-test
+
+# {{ __test link
+# @cmd Connect the local project to another one
+# @alias ln
+link() {
+    :;
+}
+# }} __test link
+
+# {{ __test compile
+# @cmd UNSTABLE: Compile the script into a self contained executable
+compile() {
+    :;
+}
+# }} __test compile
+
+# {{ __test completions
+# @cmd Generate shell completions
+completions() {
+    :;
+}
+# }} __test completions
+
+# {{ __test coverage
+# @cmd Print coverage reports
+coverage() {
+    :;
+}
+# }} __test coverage
 
 command eval "$(argc --argc-eval "$0" "$@")"

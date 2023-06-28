@@ -1,11 +1,7 @@
 BEGIN {
-    prevLine = "other"
-    emptyNR = 0
-    usage = ""
     gsub("@", " ", LOG_PREFIX)
-    split("", options)
-    split("", arguments)
-    split("", commands)
+    split("", LINES)
+    LINES_LEN = 0
     PAIRS[">"] = "<";
     PAIRS["]"] = "[";
     PAIRS[")"] = "(";
@@ -15,72 +11,116 @@ BEGIN {
 }
 
 {
-    if (isOption($0) && !(prevLine == "other" && match($0, /^-[A-Za-z0-9_-]+ \S/))) {
-        options[length(options) + 1] = trimStarts($0)
-        prevLine = "option"
-    } else if (isUsage($0)) {
-        prevLine = "usage"
-        usage = trimStarts(substr($0, index($0, ":") + 1))
-    } else if (isGroup($0)) {
-        if (containsArguments($0)) {
-            prevLine = "argument"
-        } else if (containCommand($0)) {
-            prevLine = "command"
-        } else {
-            prevLine = "group"
-        }
-    } else if (isEmpty($0)) {
-        emptyNR = NR
+    LINES_LEN = LINES_LEN + 1
+    line = $0
+    trimedLine = trim(line)
+    if (length(trimedLine) == 0) {
+        spaces = 0
     } else {
-        newlines = DESC_NEWLINE
-        if (NR == emptyNR + 1) {
-            newlines = DESC_NEWLINE DESC_NEWLINE
-            if (!match($0, /^[[:space:]]/)) {
-                prevLine = "other"
-            }
-        }
-        if (prevLine == "argument") {
-            if (testLineBreakDesc($0)) {
-                arguments[length(arguments)] = arguments[length(arguments)] newlines $0
-            } else {
-                trimed = trimStarts($0)
-                if (length(trimed) > 0) {
-                    arguments[length(arguments) + 1] = trimed
-                }
-            }
-        } else if (prevLine == "option") {
-            if (testLineBreakDesc($0)) {
-                options[length(options)] = options[length(options)] newlines $0
-            }
-        } else if (prevLine == "command") {
-            if (testLineBreakDesc($0)) {
-                commands[length(commands)] = commands[length(commands)] newlines $0
-            } else {
-                trimed = trimStarts($0)
-                if (length(trimed) > 0) {
-                    commands[length(commands) + 1] = trimed
-                }
-            }
-        } else if (prevLine == "usage") {
-            if (usage == "") {
-                usage = trimStarts($0)
-            }
-        } else if (prevLine == "group") {
-            if (testEnvVar($0)) {
-                prevLine = "other"
-            } else if (testCommand($0)) {
-                commands[length(commands) + 1] = trimStarts($0)
-                prevLine = "command"
-            } else {
-                prevLine = "other"
-            }
-        } else {
-            prevLine = "other"
-        }
+        spaces = index(line, trimedLine) - 1
     }
+    LINES[LINES_LEN, 1] = line
+    LINES[LINES_LEN, 2] = trimedLine
+    LINES[LINES_LEN, 3] = spaces
 }
 
 END {
+    LINES_LEN = length(LINES)
+    split("", options)
+    split("", arguments)
+    split("", commands)
+    groupName = ""
+    groupSpaces = 0
+    prevSpaces = 0
+    emptyNR = 0
+    usage = ""
+    for (i = 1; i <= LINES_LEN; i ++) {
+        line = LINES[i, 1]
+        santizedLine = tolower(LINES[i, 2])
+        spaces = LINES[i, 3]
+        if (length(santizedLine) == 0) {
+            emptyNR = i
+            prevSpaces = 0
+            continue
+        }
+        isPrevEmpty = i == emptyNR + 1 || i == 1
+        if (spaces <= 8) {
+            if (match(santizedLine, /^-{1,2}[^- \t]/)) { # option
+                if (groupName == "option" || spaces > prevSpaces || substr(LINES[i+1, 2], 1, 2) == "-") {
+                    options[length(options) + 1] = trimStarts(line)
+                    groupName = "option"
+                    continue
+                }
+            } else if (match(santizedLine, /^usage:/)) { # usage
+                usage = substr(line, spaces + 7)
+                groupName = "usage"
+                groupSpaces = spaces
+                continue
+            } else if (match(santizedLine, /\s*(flags|options)(:\s*$|$)/)) {
+                if (spaces < prevSpaces || isPrevEmpty || substr(LINES[i+1, 2], 1, 2) == "-") {
+                    groupName = "option"
+                    groupSpaces = spaces
+                    continue
+                }
+            } else if (match(santizedLine, /\s*(arguments|args)(:\s*$|$)/)) {
+                if (spaces < prevSpaces || isPrevEmpty || LINES[i+1, 3] > spaces) {
+                    groupName = "argument"
+                    groupSpaces = spaces
+                    continue
+                }
+            } else if (match(santizedLine, /\s*(commands|subcommands):\s*$/)) {
+                if (spaces < prevSpaces || isPrevEmpty || LINES[i+1, 3] > spaces) {
+                    groupName = "command"
+                    groupSpaces = spaces
+                    continue
+                }
+            } else if (match(santizedLine, /^(synopsis|description|discussion|environment|environment variables):\s*$/)) {
+                if (spaces < prevSpaces || isPrevEmpty || LINES[i+1, 3] > spaces) {
+                    groupName = "misc"
+                    groupSpaces = spaces
+                    continue
+                    continue
+                }
+            } else if (spaces <= groupSpaces) {
+                nextLine = LINES[i+1, 2]
+                if (match(nextLine, /^[a-z0-9_-]+/)) {
+                    isCommand = 0
+                    if (match(nextLine, /\s{2,}\S/)) {
+                        isCommand = 1
+                    } else if (match(nextLine, /^[a-z0-9_-]+,?\s*$/)) {
+                        isCommand = 1
+                    } else if (match(nextLine, /(^[a-z0-9_-]+,\s*)+[a-z0-9_-]+.?\s*$/)) {
+                        isCommand = 1
+                    }
+                    if (isCommand == 1) {
+                        groupName = "command"
+                        groupSpaces = spaces
+                        continue
+                    }
+                } 
+                groupName = ""
+                groupSpaces = 0
+            }
+        }
+        descLineSeps = DESC_NEWLINE
+        if (isPrevEmpty) {
+            descLineSeps = DESC_NEWLINE DESC_NEWLINE
+        }
+        if (groupName == "argument") {
+            addParameter(arguments, line, descLineSeps)
+        } else if (groupName == "option") {
+            if (testMultilineDesc(line)) {
+                options[length(options)] = options[length(options)] descLineSeps line
+            }
+        } else if (groupName == "command") {
+            addParameter(commands, line, descLineSeps)
+        } else if (groupName == "usage") {
+            if (usage == "") {
+                usage = trimStarts(line)
+            }
+        }
+    }
+
     for (i in options) {
         option = options[i]
         splitAt = splitOption(option)
@@ -144,6 +184,17 @@ END {
         split("", descValues)
         parseDesc(substr(command, splitAt + 1), descValues, 0)
         print "command # " commandVal " # " descValues[1]
+    }
+}
+
+function addParameter(arr, line, seps) {
+    if (testMultilineDesc(line)) {
+        arr[length(arr)] = arr[length(arr)] seps line
+    } else {
+        trimed = trimStarts(line)
+        if (length(trimed) > 0) {
+            arr[length(arr) + 1] = trimed
+        }
     }
 }
 
@@ -296,7 +347,7 @@ function splitCommand(input) {
 }
 
 function parseDesc(descVal, output, extractChoice, logPrefix)  {
-    gsub(/^[[:space:]]+|[[:space:]]$/,"", descVal)
+    descVal = trim(descVal)
     gsub(/ #/, " ♯", descVal)
     split(descVal, lines, DESC_NEWLINE)
     if (length(lines) == 0) {
@@ -338,7 +389,7 @@ function parseDesc(descVal, output, extractChoice, logPrefix)  {
                 if (testValueDesc(line)) {
                     for (j = i + 1; j <= length(lines); j++) {
                         if (testValueDesc(trimStarts(lines[j]))) {
-                            generate_log(logPrefix " maybe have choices with description")
+                            outputLog(logPrefix " maybe have choices with description")
                             truncatedLen = length(concatedDescVal)
                             break
                         }
@@ -420,7 +471,7 @@ function parseDesc(descVal, output, extractChoice, logPrefix)  {
     output[1] = truncatedDescVal
 }
 
-function generate_log(value) {
+function outputLog(value) {
     if (length(LOG_PREFIX) > 0) {
         print LOG_PREFIX ": " value  > "/dev/stderr"
     }
@@ -443,45 +494,23 @@ function isEmpty(input) {
     return match(input, /^\s*$/)
 }
 
-function isOption(input) {
-    return match(input, /^[ \t]{0,8}-{1,2}[^- \t]/)
-}
-
-function isUsage(input) {
-    return index(tolower(input), "usage:") > 0
-}
-
-function isGroup(input) {
-    return match(input, /^[ \t]{0,4}[A-Za-z0-9]+.*:(\s*)?$/)
-}
-
 function extraArgName(input) {
     gsub(/[\[\]\.<>]/, "", input)
     return input
 }
 
-function containsArguments(input) {
-    return match(tolower(input), /arguments|args|parameters/)
-}
 
-function containCommand(input) {
-    return index(tolower(input), "command") > 0
-}
-
-function testEnvVar(input) {
-    return match(input, /^( +)?[A-Z0-9_]{2,}+/)
-}
-
-function testCommand(input) {
-    return match(input, /^ {0,6}(\w+,\s?)*\w+(\s{2,}|$)/) || match(input, /^ +(\w+ )*\w+\s{2,}/)
-}
-
-function testLineBreakDesc(input) {
+function testMultilineDesc(input) {
     return match(input, /^ {8,}\S+/)
 }
 
 function testValueDesc(input) {
     return match(input, /(^--[A-Za-z0-9_-]+([=: ]|$)|^([-*]\s+)?[A-Za-z0-9_-]+\s*:|^([-*]\s+)?"([A-Za-z0-9_-]+)"\s*:|^([-*]\s+)?'([A-Za-z0-9_-]+)'\s*:)/)
+}
+
+function trim(input) {
+    gsub(/^[[:space:]]+|[[:space:]]+$/,"", input)
+    return input
 }
 
 function trimStarts(input) {
