@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
-# @version 7.81.0
 
 # @option --abstract-unix-socket <path>            Connect via abstract Unix domain socket
 # @option --alt-svc <file name>                    Enable alt-svc with this cache file

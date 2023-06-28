@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
-# @version 0.11.2
 
 # @flag -h --help       Print help
 # @flag -V --version    Print version

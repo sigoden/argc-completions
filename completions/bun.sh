@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
-# @version 0.6.9
 
 # @flag -h --help                             Display this help and exit.
 # @flag -b --bun                              Force a script or package to use Bun.js instead of Node.js (via symlinking node)

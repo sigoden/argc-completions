@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
-# @version 0.13.1
 
 # @option --format[list|json]            Output formatting [default: list]
 # @option --color[auto|never|always]     Output coloring [default: auto]

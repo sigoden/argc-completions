@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
-# @version 7.30.3
 
 # @flag -r --recursive                Run the command for each project in the workspace.
 # @option -C --dir <path>             Run as if pnpm was started in <path> instead of the current working directory.

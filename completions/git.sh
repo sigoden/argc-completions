@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
-# @version 2.34.1
 
 # @flag --version                           Prints the Git suite version that the git program came from.
 # @flag --help                              Prints the synopsis and a list of the most commonly used commands.

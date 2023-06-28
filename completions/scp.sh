@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
-# @version 3.0.2
 
 # @flag -3                                     Copies between two remote hosts are transferred through the local host.
 # @flag -4                                     Forces scp to use IPv4 addresses only.

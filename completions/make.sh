@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
-# @version 4.3
 
 # @flag -b                                Ignored for compatibility.
 # @flag -m                                Ignored for compatibility.

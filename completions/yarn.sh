@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
-# @version 1.22.19
 
 # @option --cache-folder <path>                 specify a custom folder that must be used to store the yarn cache
 # @flag --check-files                           install will verify file tree of packages for consistency

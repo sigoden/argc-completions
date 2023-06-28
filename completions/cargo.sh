@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
-# @version 1.68.0
 
 # @flag -V --version                           Print version info and exit
 # @flag --list                                 List installed commands

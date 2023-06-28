@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
-# @version 0.2.46
 
 # @option -a --actor <string>                   user that triggered the event (default "nektos/act")
 # @option --artifact-server-addr <string>       Defines the address to which the artifact server binds.

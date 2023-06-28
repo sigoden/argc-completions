@@ -3,10 +3,6 @@ _patch_help() {
     man ssh | sed '1,/DESCRIPTION/ d; /AUTHENTICATION/,$ d' 
 }
 
-_patch_version() {
-    ssh -V 2>&1 | sed 's/.*OpenSSL \([0-9.]\+\) .*/\1/'
-}
-
 _patch_table() {
     sed  -e  '/# -L \[/ d' -e '/# -L # / d' \
         -e '/# -R \[bind_address:\]port:/ d' -e '/# -R #/ d' | \

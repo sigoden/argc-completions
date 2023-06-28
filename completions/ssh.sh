@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
-# @version 3.0.2
 
 # @flag -4                                        Forces ssh to use IPv4 addresses only.
 # @flag -6                                        Forces ssh to use IPv6 addresses only.

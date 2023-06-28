@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
-# @version 13.0.0
 
 # @option -A --after-context <NUM>                 Show NUM lines after each match.
 # @flag --auto-hybrid-regex                        DEPRECATED.

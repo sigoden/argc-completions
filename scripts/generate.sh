@@ -137,6 +137,24 @@ BEGIN {
     echo 
 }
 
+parse_table() {
+    if [[ "$argc_verbose" == "1" ]]; then
+        local prefix="$(echo "[info] $@" | sed 's/ /@/g')"
+        awk -v LOG_PREFIX="$prefix" -f "$scripts_dir/parse-table.awk"
+    else
+        awk -f "$scripts_dir/parse-table.awk"
+    fi
+}
+
+parse_script() {
+    if [[ "$argc_verbose" == "1" ]]; then
+        local prefix="$(echo "[info] $@" | sed 's/ /@/g')"
+        awk -v LOG_PREFIX="$prefix" -f "$scripts_dir/parse-script.awk"
+    else
+        awk -f "$scripts_dir/parse-script.awk"
+    fi
+}
+
 embed_utils() {
     util_fns=( $( cat | grep -o '_argc_util_[[:alnum:]_]*' | uniq | tr '\n' ' ') )
     for util_fn_name  in ${util_fns[@]}; do
@@ -203,46 +221,6 @@ repeat_string() {
     printf "%0.s$1" $(seq 1 $2)
 }
 
-get_version() {
-    if [[ $(type -t _patch_version) = "function" ]]; then
-        _patch_version $@
-    else
-        local words word
-        words=( $($@ --version 2>/dev/null | head -n 1) )
-        for word in ${words[@]}; do
-            if [[ $word =~ [0-9]+\.[0-9]  ]]; then
-                echo $word | tr -d ',v'
-                return
-            fi
-        done
-    fi
-}
-
-parse_table() {
-    if [[ "$argc_verbose" == "1" ]]; then
-        local prefix="$(echo "[info] $@" | sed 's/ /@/g')"
-        awk -v LOG_PREFIX="$prefix" -f "$scripts_dir/parse-table.awk"
-    else
-        awk -f "$scripts_dir/parse-table.awk"
-    fi
-}
-
-parse_script() {
-    if [[ "$argc_verbose" == "1" ]]; then
-        local prefix="$(echo "[info] $@" | sed 's/ /@/g')"
-        awk -v LOG_PREFIX="$prefix" -f "$scripts_dir/parse-script.awk"
-    else
-        awk -f "$scripts_dir/parse-script.awk"
-    fi
-}
-
-print_version() {
-    local version=$(get_version $@)
-    if [[ -n $version ]]; then
-        printf "\n# @version %s" $version
-    fi
-}
-
 print_head() {
     cat <<-'EOF'
 #!/usr/bin/env bash
@@ -291,7 +269,7 @@ if [[ -f "$src_file" ]]; then
     source "$src_file"
 fi
 
-output_content="$(print_head)$(print_version ${cmds[@]})"
+output_content="$(print_head)"
 output_content="$output_content"$'\n'$'\n'"$(handle_cmd ${cmds[@]})"
 if [[ $(type -t _patch_script) = "function" ]]; then
     log_info ": patch script"

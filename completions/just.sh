@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
-# @version 1.13.0
 
 # @flag --changelog                            Print changelog
 # @flag --check                                Run `--fmt` in 'check' mode.

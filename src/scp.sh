@@ -3,10 +3,6 @@ _patch_help() {
     man scp | sed '1,/DESCRIPTION/ d; /AUTHENTICATION/,$ d' 
 }
 
-_patch_version() {
-    ssh -V 2>&1 | sed 's/.*OpenSSL \([0-9.]\+\) .*/\1/'
-}
-
 _patch_table() {
     _patch_util_edit_table_option \
         '-o;[`_choice_option`]' \
