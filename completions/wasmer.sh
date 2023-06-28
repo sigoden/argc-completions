@@ -133,7 +133,7 @@ compile() {
 # @option -o <OUTPUT PATH>                         Output file
 # @option --debug-dir <DEBUG PATH>                 Optional directorey used for debugging: if present, will output the zig command for reproducing issues in a debug directory
 # @flag -v --verbose*                              Generate verbose output (repeat for more verbosity)
-# @option --precompiled-atom <FILE:PREFIX:PATH>    Prefix for every input file, e.g.
+# @option --precompiled-atom <FILE:PREFIX:PATH>    Prefix for every input file, e.g. "wat2wasm:sha256abc123" would prefix every function in the wat2wasm input object with the "sha256abc123" hash
 # @flag -q --quiet                                 Do not print progress messages
 # @option --color[auto|always|never]               When to display colored output
 # @option --target <TARGET_TRIPLE>                 Compilation Target triple
@@ -535,7 +535,7 @@ whoami() {
 # @flag --dev                           Add the package as a dev-dependency
 # @flag --pip                           Add the Python bindings using "pip install"
 # @flag -h --help                       Print help
-# @arg PACKAGES*                        The packages to add
+# @arg PACKAGES*                        The packages to add (e.g. "wasmer/wasmer-pack@0.5.0" or "python/python")
 add() {
     :;
 }

@@ -5,7 +5,7 @@
 # @flag -h --help                             Display this help and exit.
 # @flag -b --bun                              Force a script or package to use Bun.js instead of Node.js (via symlinking node)
 # @option --cwd <DIR>                         Absolute path to resolve files & entry points from.
-# @option -c --config <<PATH>?>               Config file to load bun from (e.g.
+# @option -c --config <<PATH>?>               Config file to load bun from (e.g. -c bunfig.toml
 # @option --extension-order* <STR>            Defaults to: .tsx,.ts,.jsx,.js,.json
 # @option --jsx-factory <STR>                 Changes the function called when compiling JSX elements using the classic JSX runtime
 # @option --jsx-fragment <STR>                Changes the function called when compiling JSX fragments
@@ -16,9 +16,9 @@
 # @flag --no-summary                          Don't print a summary (when generating .bun)
 # @flag -v --version                          Print version and exit
 # @option --tsconfig-override <STR>           Load tsconfig from path instead of cwd/tsconfig.json
-# @option -d --define* <STR>                  Substitute K:V while parsing, e.g.
+# @option -d --define* <STR>                  Substitute K:V while parsing, e.g. --define process.env.NODE_ENV:"development".
 # @option -e --external* <STR>                Exclude module from transpilation (can use * wildcards).
-# @option -l --loader*[js|jsx|ts|tsx|json|toml|text|file|wasm|napi] <STR>  Parse files with .ext:loader, e.g.
+# @option -l --loader*[js|jsx|ts|tsx|json|toml|text|file|wasm|napi] <STR>  Parse files with .ext:loader, e.g. --loader .js:jsx.
 # @option -u --origin <STR>                   Rewrite import URLs to start with --origin.
 # @option -p --port <STR>                     Port to serve bun's dev server on.
 # @flag --minify                              Minify (experimental)
@@ -43,7 +43,7 @@
 # @flag -h --help                      Display this help and exit.
 # @flag -b --bun                       Force a script or package to use Bun.js instead of Node.js (via symlinking node)
 # @option --cwd <DIR>                  Absolute path to resolve files & entry points from.
-# @option -c --config <<PATH>?>        Config file to load bun from (e.g.
+# @option -c --config <<PATH>?>        Config file to load bun from (e.g. -c bunfig.toml
 # @option --extension-order* <STR>     Defaults to: .tsx,.ts,.jsx,.js,.json
 # @option --jsx-factory <STR>          Changes the function called when compiling JSX elements using the classic JSX runtime
 # @option --jsx-fragment <STR>         Changes the function called when compiling JSX fragments
@@ -54,9 +54,9 @@
 # @flag --no-summary                   Don't print a summary (when generating .bun)
 # @flag -v --version                   Print version and exit
 # @option --tsconfig-override <STR>    Load tsconfig from path instead of cwd/tsconfig.json
-# @option -d --define* <STR>           Substitute K:V while parsing, e.g.
+# @option -d --define* <STR>           Substitute K:V while parsing, e.g. --define process.env.NODE_ENV:"development".
 # @option -e --external* <STR>         Exclude module from transpilation (can use * wildcards).
-# @option -l --loader*[js|jsx|ts|tsx|json|toml|text|file|wasm|napi] <STR>  Parse files with .ext:loader, e.g.
+# @option -l --loader*[js|jsx|ts|tsx|json|toml|text|file|wasm|napi] <STR>  Parse files with .ext:loader, e.g. --loader .js:jsx.
 # @option -u --origin <STR>            Rewrite import URLs to start with --origin.
 # @option -p --port <STR>              Port to serve bun's dev server on.
 # @flag --minify                       Minify (experimental)
@@ -335,11 +335,11 @@ pm::cache::rm() {
 # @option --server-bunfile <STR>        Use a .server.bun file (default: node_modules.server.bun)
 # @option --public-dir <STR>            Top-level directory for .html files, fonts or anything external.
 # @flag --disable-hmr                   Disable Hot Module Reloading (disables fast refresh too) in bun dev
-# @option --use <STR>                   Choose a framework, e.g.
+# @option --use <STR>                   Choose a framework, e.g. "--use next".
 # @flag -h --help                       Display this help and exit.
 # @flag -b --bun                        Force a script or package to use Bun.js instead of Node.js (via symlinking node)
 # @option --cwd <DIR>                   Absolute path to resolve files & entry points from.
-# @option -c --config <<PATH>?>         Config file to load bun from (e.g.
+# @option -c --config <<PATH>?>         Config file to load bun from (e.g. -c bunfig.toml
 # @option --extension-order* <STR>      Defaults to: .tsx,.ts,.jsx,.js,.json
 # @option --jsx-factory <STR>           Changes the function called when compiling JSX elements using the classic JSX runtime
 # @option --jsx-fragment <STR>          Changes the function called when compiling JSX fragments
@@ -350,9 +350,9 @@ pm::cache::rm() {
 # @flag --no-summary                    Don't print a summary (when generating .bun)
 # @flag -v --version                    Print version and exit
 # @option --tsconfig-override <STR>     Load tsconfig from path instead of cwd/tsconfig.json
-# @option -d --define* <STR>            Substitute K:V while parsing, e.g.
+# @option -d --define* <STR>            Substitute K:V while parsing, e.g. --define process.env.NODE_ENV:"development".
 # @option -e --external* <STR>          Exclude module from transpilation (can use * wildcards).
-# @option -l --loader*[js|jsx|ts|tsx|json|toml|text|file|wasm|napi] <STR>  Parse files with .ext:loader, e.g.
+# @option -l --loader*[js|jsx|ts|tsx|json|toml|text|file|wasm|napi] <STR>  Parse files with .ext:loader, e.g. --loader .js:jsx.
 # @option -u --origin <STR>             Rewrite import URLs to start with --origin.
 # @option -p --port <STR>               Port to serve bun's dev server on.
 # @flag --minify                        Minify (experimental)

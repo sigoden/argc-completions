@@ -1277,7 +1277,7 @@ prune() {
 # }} git prune
 
 # {{ git range-diff
-# @cmd Compare two commit ranges
+# @cmd Compare two commit ranges (e.g. two versions of a branch)
 # @option --creation-factor <n>                 percentage by which creation is weighted
 # @flag --no-dual-color                         use simple diff colors
 # @option --notes <notes>                       passed to 'git log'

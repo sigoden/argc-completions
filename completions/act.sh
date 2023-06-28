@@ -12,31 +12,31 @@
 # @option --cache-server-path <path>            Defines the path where the cache server stores caches.
 # @option --cache-server-port <uint16>          Defines the port where the artifact server listens.
 # @option --container-architecture[`_choice_container_platform`] <string>  Architecture which should be used to run containers, e.g.: linux/amd64.
-# @option --container-cap-add <stringArray>     kernel capabilities to add to the workflow containers
-# @option --container-cap-drop <stringArray>    kernel capabilities to remove from the workflow containers
+# @option --container-cap-add <stringArray>     kernel capabilities to add to the workflow containers (e.g. --container-cap-add SYS_PTRACE)
+# @option --container-cap-drop <stringArray>    kernel capabilities to remove from the workflow containers (e.g. --container-cap-drop SYS_PTRACE)
 # @option --container-daemon-socket <string>    URI to Docker Engine socket (e.g.: unix://~/.docker/run/docker.sock or - to disable bind mounting the socket)
 # @option --container-options <string>          Custom docker container options for the job container without an options property in the job definition
 # @option --defaultbranch <string>              the name of the main branch
 # @flag --detect-event                          Use first event type from workflow as event that triggered the workflow
 # @option -C --directory <dir>                  working directory (default ".")
 # @flag -n --dryrun                             dryrun mode
-# @option --env <stringArray>                   env to make available to actions with optional value
+# @option --env <stringArray>                   env to make available to actions with optional value (e.g. --env myenv=foo or --env myenv)
 # @option --env-file <file>                     environment file to read and use as env in the containers (default ".env")
 # @option -e --eventpath <path>                 path to event JSON file
 # @option --github-instance <string>            GitHub instance to use.
 # @flag -g --graph                              draw workflows
 # @flag -h --help                               help for act
-# @option --input <stringArray>                 action input to make available to actions
+# @option --input <stringArray>                 action input to make available to actions (e.g. --input myinput=foo)
 # @option --input-file <file>                   input file to read and use as action input (default ".input")
 # @flag --insecure-secrets                      NOT RECOMMENDED! Doesn't hide secrets while printing logs.
 # @option -j --job[`_choice_job`] <string>      run a specific job ID
 # @flag --json                                  Output logs in json format
 # @flag -l --list                               list workflows
-# @option --matrix <stringArray>                specify which matrix configuration to include (e.g.
+# @option --matrix <stringArray>                specify which matrix configuration to include (e.g. --matrix java:13
 # @flag --no-cache-server                       Disable cache server
 # @flag --no-recurse                            Flag to disable running workflows from subdirectories of specified path in '--workflows'/'-W' flag
 # @flag --no-skip-checkout                      Do not skip actions/checkout
-# @option -P --platform <stringArray>           custom image to use per platform
+# @option -P --platform <stringArray>           custom image to use per platform (e.g. -P ubuntu-18.04=nektos/act-environments-ubuntu:18.04)
 # @flag --privileged                            use privileged mode
 # @flag -p --pull                               pull docker image(s) even if already present (default true)
 # @flag -q --quiet                              disable logging of output from steps
@@ -46,8 +46,8 @@
 # @option --replace-ghe-action-with-github-com <stringArray>  If you are using GitHub Enterprise Server and allow specified actions from GitHub (github.com), you can set actions on this.
 # @flag -r --reuse                              don't remove container(s) on successfully completed workflow(s) to maintain state between runs
 # @flag --rm                                    automatically remove container(s)/volume(s) after a workflow(s) failure
-# @option -s --secret <stringArray>             secret to make available to actions with optional value
-# @option --secret-file <file>                  file with list of secrets to read from (default ".secrets")
+# @option -s --secret <stringArray>             secret to make available to actions with optional value (e.g. -s mysecret=foo or -s mysecret)
+# @option --secret-file <file>                  file with list of secrets to read from (e.g. --secret-file .secrets) (default ".secrets")
 # @flag --use-gitignore                         Controls whether paths specified in .gitignore should be copied into container (default true)
 # @option --userns <string>                     user namespace to use
 # @flag -v --verbose                            verbose output

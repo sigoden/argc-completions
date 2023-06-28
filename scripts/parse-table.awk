@@ -398,12 +398,22 @@ function parseDesc(descVal, output, extractChoice, logPrefix)  {
             output[2] = "[" choiceVal "]"
         }
     }
-    if (match(truncatedDescVal, / ?\(e\.g\. [^)]*\)/)) {
-        truncatedDescVal = replace(truncatedDescVal, substr(truncatedDescVal, RSTART, RLENGTH), "")
+
+    trucatedAt = 0
+    while (trucatedAt < length(truncatedDescVal)) {
+        value = substr(truncatedDescVal, trucatedAt + 1)
+        if (match(value, /[^.]\.(\s|$)/)) {
+            trucatedAt = trucatedAt + RSTART + 1
+            if (substr(value, RSTART - 2, 4) == "e.g.") {
+            } else {
+                truncatedDescVal = substr(truncatedDescVal, 1, trucatedAt)
+                break
+            }
+        } else {
+            trucatedAt = trucatedAt + length(value)
+        }
     }
-    if (match(truncatedDescVal, /[^.]\.(\s|$)/)) {
-        truncatedDescVal = substr(truncatedDescVal, 1, RSTART + 1)
-    }
+
     output[1] = truncatedDescVal
 }
 

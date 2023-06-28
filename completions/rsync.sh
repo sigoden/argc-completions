@@ -10,7 +10,7 @@
 # @flag --no-motd                      suppress daemon-mode MOTD
 # @flag -c --checksum                  skip based on checksum, not mod-time & size
 # @flag -a --archive                   archive mode is -rlptgoD (no -A,-X,-U,-N,-H)
-# @flag --no-OPTION                    turn off an implied OPTION
+# @flag --no-OPTION                    turn off an implied OPTION (e.g. --no-D)
 # @flag -r --recursive                 recurse into directories
 # @flag -R --relative                  use relative path names
 # @flag --no-implied-dirs              don't send implied dirs with --relative

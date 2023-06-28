@@ -53,6 +53,10 @@
 # @option --driver[docker-container|kubernetes|remote] <string>  Driver to use
 # @option --exclude* <regex>                       Exclude source files from the report [default: test\.(js|mjs|ts|jsx|tsx)$]
 # @option --backend[hardlink|symlink|copyfile] <STR>  Platform-specific optimizations for installing dependencies.
+# @flag --container-cap-add                        stringArray kernel capabilities to add to the workflow containers (e.g. --container-cap-add SYS_PTRACE)
+# @option --since <string>                         Show logs since timestamp (e.g. 2013-01-02T13:23:37Z) or relative (e.g. 42m for 42 minutes)
+# @option --loader*[js|jsx|ts|tsx|json|toml|text|file|wasm|napi] <STR>  Parse files with .ext:loader, e.g. --loader .js:jsx.
+# @option --allow <strings>                        Allow extra privileged entitlement (e.g., "network.host", "security.insecure")
 # @option -r --reload* <CACHE_BLOCKLIST>           Reload source code cache (recompile TypeScript)
 # @option --cgroupns <string>                      Cgroup namespace to use (host|private)
 # @flag --connection                               Requests compression of all data (including stdin, stdout, stderr, and data for forwarded X11, TCP and UNIX-domain connections).
@@ -100,7 +104,7 @@ test() {
 # }} __test test
 
 # {{ __test cmd1
-# @cmd Compare two commit ranges
+# @cmd Compare two commit ranges (e.g. two versions of a branch)
 cmd1() {
     :;
 }

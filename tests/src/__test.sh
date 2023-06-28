@@ -67,6 +67,10 @@ Options:
     --driver string             Driver to use (available: "docker-container", "kubernetes", "remote")
     --exclude =<regex>...       Exclude source files from the report [default: test\.(js|mjs|ts|jsx|tsx)$]
     --backend <STR>             Platform-specific optimizations for installing dependencies. Possible values: "hardlink" (default), "symlink", "copyfile"
+    --container-cap-add stringArray kernel capabilities to add to the workflow containers (e.g. --container-cap-add SYS_PTRACE)
+    --since string              Show logs since timestamp (e.g. 2013-01-02T13:23:37Z) or relative (e.g. 42m for 42 minutes)
+    --loader <STR>...           Parse files with .ext:loader, e.g. --loader .js:jsx. Valid loaders: js, jsx, ts, tsx, json, toml, text, file, wasm, napi
+    --allow <strings>           Allow extra privileged entitlement (e.g., "network.host", "security.insecure")
     -r, --reload[=<CACHE_BLOCKLIST>...]
           Reload source code cache (recompile TypeScript)
           --reload
@@ -94,6 +98,7 @@ Options:
             [default: address]
             [possible values: address, leak, memory, thread, none]
     --unknown
+
 -------
 
 Environment variables:

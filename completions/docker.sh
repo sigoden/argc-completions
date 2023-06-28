@@ -809,10 +809,10 @@ compose::kill() {
 # @flag -f --follow           Follow log output.
 # @flag --no-color            Produce monochrome output.
 # @flag --no-log-prefix       Don't print prefix in logs.
-# @option --since <string>    Show logs since timestamp or relative (e.g.
+# @option --since <string>    Show logs since timestamp (e.g. 2013-01-02T13:23:37Z) or relative (e.g. 42m for 42 minutes)
 # @option --tail <string>     Number of lines to show from the end of the logs for each container.
 # @flag -t --timestamps       Show timestamps.
-# @option --until <string>    Show logs before a timestamp or relative (e.g.
+# @option --until <string>    Show logs before a timestamp (e.g. 2013-01-02T13:23:37Z) or relative (e.g. 42m for 42 minutes)
 # @arg SERVICE*[`_choice_compose_service`]
 compose::logs() {
     :;
@@ -1209,10 +1209,10 @@ container::kill() {
 # @cmd Fetch the logs of a container
 # @flag --details               Show extra details provided to logs
 # @flag -f --follow             Follow log output
-# @option --since <string>      Show logs since timestamp or relative (e.g.
+# @option --since <string>      Show logs since timestamp (e.g. "2013-01-02T13:23:37Z") or relative (e.g. "42m" for 42 minutes)
 # @option -n --tail <string>    Number of lines to show from the end of the logs (default "all")
 # @flag -t --timestamps         Show timestamps
-# @option --until <string>      Show logs before a timestamp or relative (e.g.
+# @option --until <string>      Show logs before a timestamp (e.g. "2013-01-02T13:23:37Z") or relative (e.g. "42m" for 42 minutes)
 # @arg CONTAINER[`_choice_container_name`]
 container::logs() {
     :;
@@ -1254,7 +1254,7 @@ container::port() {
 
 # {{{ docker container prune
 # @cmd Remove all stopped containers
-# @option --filter <filter>    Provide filter values
+# @option --filter <filter>    Provide filter values (e.g. "until=<timestamp>")
 # @flag -f --force             Do not prompt for confirmation
 container::prune() {
     :;
@@ -1670,7 +1670,7 @@ image::list() {
 # {{{ docker image prune
 # @cmd Remove unused images
 # @flag -a --all               Remove all unused images, not just dangling ones
-# @option --filter <filter>    Provide filter values
+# @option --filter <filter>    Provide filter values (e.g. "until=<timestamp>")
 # @flag -f --force             Do not prompt for confirmation
 image::prune() {
     :;
@@ -1857,7 +1857,7 @@ network::inspect() {
 
 # {{{ docker network ls
 # @cmd List networks
-# @option -f --filter <filter>    Provide filter values
+# @option -f --filter <filter>    Provide filter values (e.g. "driver=bridge")
 # @option --format <string>       Format output using a custom template:
 # @flag --no-trunc                Do not truncate the output
 # @flag -q --quiet                Only display network IDs
@@ -1868,7 +1868,7 @@ network::ls() {
 
 # {{{ docker network prune
 # @cmd Remove all unused networks
-# @option --filter <filter>    Provide filter values
+# @option --filter <filter>    Provide filter values (e.g. "until=<timestamp>")
 # @flag -f --force             Do not prompt for confirmation
 network::prune() {
     :;
@@ -1943,7 +1943,7 @@ plugin::install() {
 
 # {{{ docker plugin ls
 # @cmd List plugins
-# @option -f --filter <filter>    Provide filter values
+# @option -f --filter <filter>    Provide filter values (e.g. "enabled=true")
 # @option --format <string>       Format output using a custom template:
 # @flag --no-trunc                Don't truncate output
 # @flag -q --quiet                Only display plugin IDs
@@ -2048,7 +2048,7 @@ system::info() {
 # {{{ docker system prune
 # @cmd Remove unused data
 # @flag -a --all               Remove all unused images not just dangling ones
-# @option --filter <filter>    Provide filter values
+# @option --filter <filter>    Provide filter values (e.g. "label=<key>=<value>")
 # @flag -f --force             Do not prompt for confirmation
 # @flag --volumes              Prune volumes
 system::prune() {
@@ -2171,7 +2171,7 @@ volume::inspect() {
 
 # {{{ docker volume ls
 # @cmd List volumes
-# @option -f --filter <filter>    Provide filter values
+# @option -f --filter <filter>    Provide filter values (e.g. "dangling=true")
 # @option --format <string>       Format output using a custom template:
 # @flag -q --quiet                Only display volume names
 volume::ls() {
@@ -2181,7 +2181,7 @@ volume::ls() {
 
 # {{{ docker volume prune
 # @cmd Remove all unused local volumes
-# @option --filter <filter>    Provide filter values
+# @option --filter <filter>    Provide filter values (e.g. "label=<label>")
 # @flag -f --force             Do not prompt for confirmation
 volume::prune() {
     :;
@@ -2464,10 +2464,10 @@ load() {
 # @cmd Fetch the logs of a container
 # @flag --details               Show extra details provided to logs
 # @flag -f --follow             Follow log output
-# @option --since <string>      Show logs since timestamp or relative (e.g.
+# @option --since <string>      Show logs since timestamp (e.g. "2013-01-02T13:23:37Z") or relative (e.g. "42m" for 42 minutes)
 # @option -n --tail <string>    Number of lines to show from the end of the logs (default "all")
 # @flag -t --timestamps         Show timestamps
-# @option --until <string>      Show logs before a timestamp or relative (e.g.
+# @option --until <string>      Show logs before a timestamp (e.g. "2013-01-02T13:23:37Z") or relative (e.g. "42m" for 42 minutes)
 # @arg CONTAINER[`_choice_container_name`]
 logs() {
     :;
@@ -2902,7 +2902,7 @@ service::inspect() {
 # @flag --no-task-ids           Do not include task IDs in output
 # @flag --no-trunc              Do not truncate output
 # @flag --raw                   Do not neatly format logs
-# @option --since <string>      Show logs since timestamp or relative (e.g.
+# @option --since <string>      Show logs since timestamp (e.g. "2013-01-02T13:23:37Z") or relative (e.g. "42m" for 42 minutes)
 # @option -n --tail <string>    Number of lines to show from the end of the logs (default "all")
 # @flag -t --timestamps         Show timestamps
 # @arg SERVICE-TASK
