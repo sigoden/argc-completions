@@ -301,40 +301,56 @@ function parseDesc(descVal, output, extractChoice)  {
     if (length(lines) == 0) {
         return
     }
-    spaces = 0
-    dropLines = 0
+    spaces = ""
     concatedDescVal = ""
-    truncatedDescVal = ""
+    truncatedLen = 0
     for (i in lines) {
-        line = trimStarts(lines[i])
+        line = lines[i]
         if (i == 1) {
-            concatedDescVal = line
-            truncatedDescVal = line
+        } else if (i == 2) {
+            if (match(line, /\S/)) {
+                spaces = substr(line, 1, RSTART - 1)
+                line = substr(line, RSTART)
+            }
         } else {
-            concatedDescVal = concatedDescVal " " line
-            if (dropLines == 0) {
-                if (length(line) == 0) {
-                    dropLines = 1
-                    continue
-                }
-                if (index(line, "--") == 1) {
-                    dropLines = 1
-                    continue
-                }
-                if (index(substr(line, 1, 20), ": ") > 0 && index(substr(trimStarts(lines[i + 1]), 1, 20), ": ") > 0) {
-                    dropLines = 1
-                    continue
-                }
-                spaces_ = length(lines[i]) - length(line)
-                if (spaces == 0) {
-                    spaces = spaces_
-                } else if (spaces != spaces_) {
-                    dropLines = 1
-                    continue
-                }
-                truncatedDescVal = truncatedDescVal " " line
+            idx = index(line, spaces)
+            if (idx > 0) {
+                line = substr(line, idx + length(spaces))
+            } else {
+                line = trimStarts(line)
             }
         }
+        if (match(line, /^\s*$/)) {
+            line = ""
+        }
+        if (concatedDescVal == "") {
+            concatedDescVal = trimStarts(line)
+            continue
+        }
+        if (line == "" || match(line, /^\s/)) {
+            if (truncatedLen == 0) {
+                truncatedLen = length(concatedDescVal)
+            }
+            concatedDescVal = concatedDescVal "\n" trimStarts(line)
+        } else {
+            if (truncatedLen == 0) {
+                if (testValueDesc(line)) {
+                    for (j = i + 1; j <= length(lines); j++) {
+                        if (testValueDesc(trimStarts(lines[j]))) {
+                            truncatedLen = length(concatedDescVal)
+                            break
+                        }
+                    }
+                }
+            }
+            concatedDescVal = concateLine(concatedDescVal, line)
+        }
+    }
+    truncatedDescVal = ""
+    if (truncatedLen == 0) {
+        truncatedDescVal = concatedDescVal
+    } else {
+        truncatedDescVal = substr(concatedDescVal, 1, truncatedLen)
     }
     choiceVal = ""
     matchVal = ""
@@ -389,8 +405,21 @@ function parseDesc(descVal, output, extractChoice)  {
     output[1] = truncatedDescVal
 }
 
+function concateLine(value, line) {
+    valueLen = length(value)
+    valueLastChar = substr(value, valueLen)
+    if (valueLastChar == "‐") {
+        output = substr(value, 1, valueLen - 1) line
+    } else if (valueLastChar == " ") {
+        output = trimEnds(value) " " line
+    } else {
+        output = value " " line
+    }
+    return output
+}
+
 function isEmpty(input) {
-    return length(input) == 0
+    return match(input, /^\s*$/)
 }
 
 function isOption(input) {
@@ -402,7 +431,7 @@ function isUsage(input) {
 }
 
 function isGroup(input) {
-    return match(input, /^ {0,4}[A-Za-z0-9]+.*:$/)
+    return match(input, /^[ \t]{0,4}[A-Za-z0-9]+.*:(\s*)?$/)
 }
 
 function extraArgName(input) {
@@ -430,8 +459,17 @@ function testLineBreakDesc(input) {
     return match(input, /^ {8,}\S+/)
 }
 
+function testValueDesc(input) {
+    return match(input, /(^--[A-Za-z0-9_-]+([=: ]|$)|^([-*]\s+)?[A-Za-z0-9_-]+\s*:|^([-*]\s+)?"([A-Za-z0-9_-]+)"\s*:|^([-*]\s+)?'([A-Za-z0-9_-]+)'\s*:)/)
+}
+
 function trimStarts(input) {
     gsub(/^[[:space:]]+/,"",input)
+    return input
+}
+
+function trimEnds(input) {
+    gsub(/[[:space:]]+$/,"",input)
     return input
 }
 

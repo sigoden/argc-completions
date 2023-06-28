@@ -61,13 +61,38 @@ Options:
     --jobs <N>                  Number of parallel jobs, defaults to # of CPUs
 	--bun                       Force a script or package to use Bun.js instead of Node.js (via symlinking node)
     --install-strategy <value>  Sets the strategy for installing packages in node_modules.  (hoisted, nested, shallow)
-    --cgroupns string           Cgroup namespace to use (host|private)
     --progress string           Set type of progress output ("auto", "plain", "tty").
     --ansi string               Control when to print ANSI control characters ("never"|"always"|"auto")
     --ignored                   Show ignored files, optional modes: traditional, matching, no. 
     --driver string             Driver to use (available: "docker-container", "kubernetes", "remote")
     --exclude =<regex>...       Exclude source files from the report [default: test\.(js|mjs|ts|jsx|tsx)$]
     --backend <STR>             Platform-specific optimizations for installing dependencies. Possible values: "hardlink" (default), "symlink", "copyfile"
+    -r, --reload[=<CACHE_BLOCKLIST>...]
+          Reload source code cache (recompile TypeScript)
+          --reload
+            Reload everything
+          --reload=https://deno.land/std
+            Reload only standard modules
+          --reload=https://deno.land/std/fs/utils.ts,https://deno.land/std/fmt/colors.ts
+            Reloads specific modules
+          --reload=npm:
+            Reload all npm modules
+          --reload=npm:chalk
+            Reload specific npm module
+
+    --cgroupns string                Cgroup namespace to use (host|private)
+                                     'host':    Run the container in the Docker host's cgroup namespace
+                                     'private': Run the container in its own private cgroup namespace
+                                     '':        Use the cgroup namespace as configured by the
+                                                default-cgroupns-mode option on the daemon (default)
+
+    --connection      Requests compression of all data (including stdin, stdout, stderr, and data for forwarded X11, TCP and UNIX-domain connec‐
+                      tions).  The compression algorithm is the same used by gzip(1).
+    --sanitizer <SANITIZER>
+            Use a specific sanitizer
+            
+            [default: address]
+            [possible values: address, leak, memory, thread, none]
     --unknown
 -------
 
@@ -79,7 +104,7 @@ Commands:
     t, test
     cmd1                        Compare two commit ranges (e.g. two versions of a branch) 
     cmd2
-    cmd3
+    cmd3,
     cmd4
     cmd5
 EOF

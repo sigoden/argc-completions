@@ -47,13 +47,17 @@
 # @option --jobs <N>                               Number of parallel jobs, defaults to ♯ of CPUs
 # @flag --bun                                      Force a script or package to use Bun.js instead of Node.js (via symlinking node)
 # @option --install-strategy[hoisted|nested|shallow] <value>  Sets the strategy for installing packages in node_modules.
-# @option --cgroupns <string>                      Cgroup namespace to use (host|private)
 # @option --progress[auto|plain|tty] <string>      Set type of progress output.
 # @option --ansi[never|always|auto] <string>       Control when to print ANSI control characters
 # @option --ignored[traditional|matching|no]       Show ignored files, optional modes: traditional, matching, no.
 # @option --driver[docker-container|kubernetes|remote] <string>  Driver to use
 # @option --exclude* <regex>                       Exclude source files from the report [default: test\.(js|mjs|ts|jsx|tsx)$]
 # @option --backend[hardlink|symlink|copyfile] <STR>  Platform-specific optimizations for installing dependencies.
+# @option -r --reload* <CACHE_BLOCKLIST>           Reload source code cache (recompile TypeScript)
+# @option --cgroupns <string>                      Cgroup namespace to use (host|private)
+# @flag --connection                               Requests compression of all data (including stdin, stdout, stderr, and data for forwarded X11, TCP and UNIX-domain connections).
+# @option --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer
+# @flag --unknown
 # @arg ARG1!
 # @arg ARG2+
 # @arg ARG3

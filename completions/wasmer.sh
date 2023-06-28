@@ -27,11 +27,11 @@ login() {
 # {{ wasmer publish
 # @cmd Login into a wasmer.io-like registry
 # @option --wasmer-dir <WASMER_DIR>        Set Wasmer's home directory
-# @option --registry                       The registry to fetch packages from (inferred from the environment by default) [env: WASMER_REGISTRY=]
+# @option --registry                       The registry to fetch packages from (inferred from the environment by default)
 # @flag -v --verbose*                      Generate verbose output (repeat for more verbosity)
-# @option --cache-dir <CACHE_DIR>          The directory cached artefacts are saved to [env: WASMER_CACHE_DIR=/home/sigo/.wasmer/cache]
+# @option --cache-dir <CACHE_DIR>          The directory cached artefacts are saved to
 # @option --color[auto|always|never]       When to display colored output
-# @option --token                          The API token to use when communicating with the registry (inferred from the environment by default) [env: WASMER_TOKEN=]
+# @option --token                          The API token to use when communicating with the registry (inferred from the environment by default)
 # @flag --dry-run                          Run the publish logic without sending anything to the registry server
 # @flag --quiet                            Run the publish command without any output
 # @option --package-name <PACKAGE_NAME>    Override the package of the uploaded package in the wasmer.toml
@@ -136,14 +136,14 @@ compile() {
 # @option --precompiled-atom <FILE:PREFIX:PATH>    Prefix for every input file, e.g.
 # @flag -q --quiet                                 Do not print progress messages
 # @option --color[auto|always|never]               When to display colored output
-# @option --target <TARGET_TRIPLE>                 Compilation Target triple Accepted target triple values must follow the ['target_lexicon'](https://crates.io/crates/target-lexicon) crate format.
+# @option --target <TARGET_TRIPLE>                 Compilation Target triple
 # @option --use-wasmer-release <URL_OR_RELEASE_VERSION>  Can specify either a release version (such as "3.0.1") or a URL to a tarball to use for linking.
 # @option -m --cpu-features <CPU_FEATURES>
 # @option -l --libraries                           Additional libraries to link against.
 # @flag --use-system-linker                        Use the system linker instead of zig instead of zig for linking
 # @option --library-path <LIBRARY_PATH>            Cross-compilation library path (path to libwasmer.a / wasmer.lib)
 # @option --tarball                                Cross-compilation tarball library path
-# @option --zig-binary-path <ZIG_BINARY_PATH>      Specify `zig` binary path (defaults to `zig` in $PATH if not present) [env: ZIG_BINARY_PATH=]
+# @option --zig-binary-path <ZIG_BINARY_PATH>      Specify `zig` binary path (defaults to `zig` in $PATH if not present)
 # @flag --singlepass                               Use Singlepass compiler
 # @flag --cranelift                                Use Cranelift compiler
 # @flag --llvm                                     Use LLVM compiler
@@ -172,7 +172,7 @@ create-exe() {
 # @flag -q --quiet                             Do not print progress messages
 # @option --atom                               Atom name to compile when compiling multi-atom pirita files
 # @option --color[auto|always|never]           When to display colored output
-# @option --target <TARGET_TRIPLE>             Compilation Target triple Accepted target triple values must follow the ['target_lexicon'](https://crates.io/crates/target-lexicon) crate format.
+# @option --target <TARGET_TRIPLE>             Compilation Target triple
 # @option -m --cpu-features <CPU_FEATURES>
 # @flag --singlepass                           Use Singlepass compiler
 # @flag --cranelift                            Use Cranelift compiler
@@ -201,7 +201,7 @@ create-obj() {
 # @option -o <OUTPUT PATH>              Output file
 # @flag -q --quiet                      Do not print progress messages
 # @option --color[auto|always|never]    When to display colored output
-# @option --target <TARGET_TRIPLE>      Compilation Target triple Accepted target triple values must follow the ['target_lexicon'](https://crates.io/crates/target-lexicon) crate format.
+# @option --target <TARGET_TRIPLE>      Compilation Target triple
 # @option -m --cpu-features <CPU_FEATURES>
 # @flag -h --help                       Print help (see a summary with '-h')
 # @arg FILE!                            Input file
@@ -413,11 +413,11 @@ inspect() {
 # {{ wasmer init
 # @cmd Initializes a new wasmer.toml file
 # @option --wasmer-dir <WASMER_DIR>          Set Wasmer's home directory
-# @option --registry                         The registry to fetch packages from (inferred from the environment by default) [env: WASMER_REGISTRY=]
+# @option --registry                         The registry to fetch packages from (inferred from the environment by default)
 # @flag -v --verbose*                        Generate verbose output (repeat for more verbosity)
-# @option --cache-dir <CACHE_DIR>            The directory cached artefacts are saved to [env: WASMER_CACHE_DIR=/home/sigo/.wasmer/cache]
+# @option --cache-dir <CACHE_DIR>            The directory cached artefacts are saved to
 # @option --color[auto|always|never]         When to display colored output
-# @option --token                            The API token to use when communicating with the registry (inferred from the environment by default) [env: WASMER_TOKEN=]
+# @option --token                            The API token to use when communicating with the registry (inferred from the environment by default)
 # @flag --lib                                Initialize wasmer.toml for a library package
 # @flag --bin                                Initialize wasmer.toml for a binary package
 # @flag --empty                              Initialize an empty wasmer.toml
@@ -544,12 +544,12 @@ add() {
 # {{ wasmer run
 # @cmd Run a WebAssembly file or Wasmer container
 # @option --wasmer-dir <WASMER_DIR>            Set Wasmer's home directory
-# @option --registry                           The registry to fetch packages from (inferred from the environment by default) [env: WASMER_REGISTRY=]
+# @option --registry                           The registry to fetch packages from (inferred from the environment by default)
 # @flag -v --verbose*                          Generate verbose output (repeat for more verbosity)
-# @option --cache-dir <CACHE_DIR>              The directory cached artefacts are saved to [env: WASMER_CACHE_DIR=/home/sigo/.wasmer/cache]
+# @option --cache-dir <CACHE_DIR>              The directory cached artefacts are saved to
 # @flag -q --quiet                             Do not print progress messages
 # @option --color[auto|always|never]           When to display colored output
-# @option --token                              The API token to use when communicating with the registry (inferred from the environment by default) [env: WASMER_TOKEN=]
+# @option --token                              The API token to use when communicating with the registry (inferred from the environment by default)
 # @flag --singlepass                           Use Singlepass compiler
 # @flag --cranelift                            Use Cranelift compiler
 # @flag --llvm                                 Use LLVM compiler
@@ -565,7 +565,7 @@ add() {
 # @option --dir                                WASI pre-opened directory
 # @option --mapdir <GUEST_DIR:HOST_DIR>        Map a host directory to a different location for the Wasm module
 # @option --env <KEY=VALUE>                    Pass custom environment variables
-# @flag --forward-host-env                     Forward all host env variables to the wcgi task [env: FORWARD_HOST_ENV=]
+# @flag --forward-host-env                     Forward all host env variables to the wcgi task
 # @option --use                                List of other containers this module depends on
 # @option --include-webc <WEBC>                List of webc packages that are explicitly included for execution Note: these packages will be used instead of those in the registry
 # @option --map-command <MAPCMD>               List of injected atoms

@@ -228,11 +228,11 @@ init() {
 # @flag --no-default-features                  Disable the default features
 # @flag --default-features                     Re-enable the default features
 # @option -F --features                        Space or comma separated list of features to activate
-# @flag --optional                             Mark the dependency as optional The package name will be exposed as feature of your crate.
+# @flag --optional                             Mark the dependency as optional
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
-# @flag --no-optional                          Mark the dependency as required The package will be removed from your features.
+# @flag --no-optional                          Mark the dependency as required
 # @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
-# @option --rename <NAME>                      Rename the dependency Example uses: - Depending on multiple versions of a crate - Depend on crates with the same name from different registries
+# @option --rename <NAME>                      Rename the dependency
 # @flag --frozen                               Require Cargo.lock and cache are up to date
 # @option --manifest-path <PATH>               Path to Cargo.toml
 # @flag --locked                               Require Cargo.lock is up to date
@@ -244,15 +244,15 @@ init() {
 # @option -Z <FLAG>                            Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
 # @flag -h --help                              Print help (see a summary with '-h')
 # @option --path                               Filesystem path to local crate to add
-# @option --git <URI>                          Git repository location Without any other information, cargo will use latest commit on the main branch.
+# @option --git <URI>                          Git repository location
 # @option --branch                             Git branch to download the crate from
 # @option --tag                                Git tag to download the crate from
-# @option --rev                                Git reference to download the crate from This is the catch all, handling hashes to named references in remote repositories.
+# @option --rev                                Git reference to download the crate from
 # @option --registry <NAME>                    Package registry for this dependency
-# @flag --dev                                  Add as development dependency Dev-dependencies are not used when compiling a package for building, but are used for compiling tests, examples, and benchmarks.
-# @flag --build                                Add as build dependency Build-dependencies are the only dependencies available for use by build scripts (`build.rs` files).
+# @flag --dev                                  Add as development dependency
+# @flag --build                                Add as build dependency
 # @option --target[`_choice_target`]           Add as dependency to the given target platform
-# @arg DEP_ID*                                 Reference to a package to add as a dependency You can reference a package by: - `<name>`, like `cargo add serde` (latest version will be used) - `<name>@<version-req>`, like `cargo add serde@1` or `cargo add serde@=1.0.38`
+# @arg DEP_ID*                                 Reference to a package to add as a dependency
 add() {
     :;
 }

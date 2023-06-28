@@ -84,13 +84,16 @@ handle_subcmd() {
 }
 
 get_table() {
-    local path help_txt table
+    local path help_text table
     if [[ $(type -t _patch_help) = "function" ]]; then
-        help_txt="$(_patch_help $@)"
+        help_text="$(_patch_help $@)"
     else
-        help_txt="$($@ --help 2>&1)"
+        help_text="$($@ --help 2>&1)"
     fi
-    table="$(echo "$help_txt" | awk -f "$scripts_dir/parse-table.awk")"
+    if [[ -d "$ARGC_COMPLETIONS_HELP_DIR" ]]; then
+        echo "$help_text" > "$ARGC_COMPLETIONS_HELP_DIR/$(echo "$@" | sed 's/ /-/g').txt"
+    fi
+    table="$(echo "$help_text" | awk -f "$scripts_dir/parse-table.awk")"
     if [[ $(type -t _patch_table) = "function" ]]; then
         table="$(echo "$table" | _patch_table $@)"
     fi

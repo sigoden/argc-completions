@@ -159,8 +159,8 @@ completions() {
 # @cmd Print coverage reports
 # @option --ignore* <ignore>    Ignore coverage files
 # @flag --unstable              Enable unstable features and APIs
-# @option --include* <regex>    Include source files in the report [default: ^file:]
-# @option --exclude* <regex>    Exclude source files from the report [default: test\.(js|mjs|ts|jsx|tsx)$]
+# @option --include* <regex>    Include source files in the report
+# @option --exclude* <regex>    Exclude source files from the report
 # @flag -q --quiet              Suppress diagnostic output
 # @flag --lcov                  Output coverage report in lcov format
 # @option --output <output>     Exports the coverage report in lcov format to the given file.

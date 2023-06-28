@@ -23,11 +23,11 @@
 # @flag --locked                             This option will be passed through to all `cargo-install` invocations.
 # @flag --force                              Force a crate to be installed even if it is already installed
 # @option --min-tls-version <VERSION>        Require a minimum TLS version from remote endpoints.
-# @option --root-certificates <ROOT_CERTIFICATES>  Specify the root certificates to use for https connnections, in addition to default system-wide ones [env: BINSTALL_HTTPS_ROOT_CERTS=]
+# @option --root-certificates <ROOT_CERTIFICATES>  Specify the root certificates to use for https connnections, in addition to default system-wide ones
 # @flag --json-output                        Print logs in json format to be parsable
-# @option --github-token <GITHUB_TOKEN>      Provide the github token for accessing the restful API of api.github.com Fallback to environment variable `GITHUB_TOKEN` if this option is not specified (which is also shown by clap's auto generated doc below), or try environment variable `GH_TOKEN`, which is also used by `gh` cli.
+# @option --github-token <GITHUB_TOKEN>      Provide the github token for accessing the restful API of api.github.com
 # @flag -V                                   Print version information
-# @option --log-level <LEVEL>                Utility log level Set to `trace` to print very low priority, often extremely verbose information.
+# @option --log-level <LEVEL>                Utility log level
 # @flag -q --quiet                           Equivalent to setting `log_level` to `off`.
 # @arg crate-version* <crate[@version]>
 

@@ -56,7 +56,7 @@
 # @option --user                             set both ftp and http user to USER
 # @option --password <PASS>                  set both ftp and http password to PASS
 # @flag --ask-password                       prompt for passwords
-# @option --use-askpass <COMMAND>            specify credential handler for requesting  username and password.
+# @option --use-askpass <COMMAND>            specify credential handler for requesting username and password.
 # @flag --no-iri                             turn off IRI support
 # @option --local-encoding <ENC>             use ENC as the local encoding for IRIs
 # @option --remote-encoding <ENC>            use ENC as the default remote encoding

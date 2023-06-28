@@ -38,12 +38,12 @@ add() {
 # @flag --all-features                           Build artifacts with all Cargo features enabled
 # @option --features                             Build artifacts with given Cargo feature enabled
 # @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer
-# @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target [default: x86_64-unknown-linux-gnu]
+# @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo
 # @option --target-dir <TARGET_DIR>              Target dir option to pass to cargo build
 # @flag --strip-dead-code                        Dead code is linked by default to prevent a potential error with some optimized targets.
 # @flag --no-cfg-fuzzing                         By default the 'cfg(fuzzing)' compilation configuration is set.
-# @flag --no-trace-compares                      Don't build with the `sanitizer-coverage-trace-compares` LLVM argument Using this may improve fuzzer throughput at the cost of worse coverage accuracy.
+# @flag --no-trace-compares                      Don't build with the `sanitizer-coverage-trace-compares` LLVM argument
 # @option --fuzz-dir <FUZZ_DIR>                  The path to the fuzz project directory
 # @flag -h --help                                Print help (see a summary with '-h')
 # @flag -V --version                             Print version
@@ -63,12 +63,12 @@ build() {
 # @flag --all-features                           Build artifacts with all Cargo features enabled
 # @option --features                             Build artifacts with given Cargo feature enabled
 # @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer
-# @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target [default: x86_64-unknown-linux-gnu]
+# @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo
 # @option --target-dir <TARGET_DIR>              Target dir option to pass to cargo build
 # @flag --strip-dead-code                        Dead code is linked by default to prevent a potential error with some optimized targets.
 # @flag --no-cfg-fuzzing                         By default the 'cfg(fuzzing)' compilation configuration is set.
-# @flag --no-trace-compares                      Don't build with the `sanitizer-coverage-trace-compares` LLVM argument Using this may improve fuzzer throughput at the cost of worse coverage accuracy.
+# @flag --no-trace-compares                      Don't build with the `sanitizer-coverage-trace-compares` LLVM argument
 # @option --fuzz-dir <FUZZ_DIR>                  The path to the fuzz project directory
 # @flag -h --help                                Print help (see a summary with '-h')
 # @flag -V --version                             Print version
@@ -88,12 +88,12 @@ check() {
 # @flag --all-features                           Build artifacts with all Cargo features enabled
 # @option --features                             Build artifacts with given Cargo feature enabled
 # @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer
-# @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target [default: x86_64-unknown-linux-gnu]
+# @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo
 # @option --target-dir <TARGET_DIR>              Target dir option to pass to cargo build
 # @flag --strip-dead-code                        Dead code is linked by default to prevent a potential error with some optimized targets.
 # @flag --no-cfg-fuzzing                         By default the 'cfg(fuzzing)' compilation configuration is set.
-# @flag --no-trace-compares                      Don't build with the `sanitizer-coverage-trace-compares` LLVM argument Using this may improve fuzzer throughput at the cost of worse coverage accuracy.
+# @flag --no-trace-compares                      Don't build with the `sanitizer-coverage-trace-compares` LLVM argument
 # @option --fuzz-dir <FUZZ_DIR>                  The path to the fuzz project directory
 # @flag -h --help                                Print help (see a summary with '-h')
 # @flag -V --version                             Print version
@@ -124,14 +124,14 @@ list() {
 # @flag --all-features                           Build artifacts with all Cargo features enabled
 # @option --features                             Build artifacts with given Cargo feature enabled
 # @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer
-# @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target [default: x86_64-unknown-linux-gnu]
+# @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo
 # @option --target-dir <TARGET_DIR>              Target dir option to pass to cargo build
 # @flag --strip-dead-code                        Dead code is linked by default to prevent a potential error with some optimized targets.
 # @flag --no-cfg-fuzzing                         By default the 'cfg(fuzzing)' compilation configuration is set.
-# @flag --no-trace-compares                      Don't build with the `sanitizer-coverage-trace-compares` LLVM argument Using this may improve fuzzer throughput at the cost of worse coverage accuracy.
+# @flag --no-trace-compares                      Don't build with the `sanitizer-coverage-trace-compares` LLVM argument
 # @option --fuzz-dir <FUZZ_DIR>                  The path to the fuzz project directory
-# @option -j --jobs                              Number of concurrent jobs to run [default: 1]
+# @option -j --jobs                              Number of concurrent jobs to run
 # @flag -h --help                                Print help (see a summary with '-h')
 # @flag -V --version                             Print version
 # @arg TARGET!                                   Name of the fuzz target
@@ -152,12 +152,12 @@ run() {
 # @flag --all-features                           Build artifacts with all Cargo features enabled
 # @option --features                             Build artifacts with given Cargo feature enabled
 # @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer
-# @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target [default: x86_64-unknown-linux-gnu]
+# @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo
 # @option --target-dir <TARGET_DIR>              Target dir option to pass to cargo build
 # @flag --strip-dead-code                        Dead code is linked by default to prevent a potential error with some optimized targets.
 # @flag --no-cfg-fuzzing                         By default the 'cfg(fuzzing)' compilation configuration is set.
-# @flag --no-trace-compares                      Don't build with the `sanitizer-coverage-trace-compares` LLVM argument Using this may improve fuzzer throughput at the cost of worse coverage accuracy.
+# @flag --no-trace-compares                      Don't build with the `sanitizer-coverage-trace-compares` LLVM argument
 # @option --fuzz-dir <FUZZ_DIR>                  The path to the fuzz project directory
 # @flag -h --help                                Print help (see a summary with '-h')
 # @flag -V --version                             Print version
@@ -179,14 +179,14 @@ cmin() {
 # @flag --all-features                           Build artifacts with all Cargo features enabled
 # @option --features                             Build artifacts with given Cargo feature enabled
 # @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer
-# @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target [default: x86_64-unknown-linux-gnu]
+# @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo
 # @option --target-dir <TARGET_DIR>              Target dir option to pass to cargo build
 # @flag --strip-dead-code                        Dead code is linked by default to prevent a potential error with some optimized targets.
 # @flag --no-cfg-fuzzing                         By default the 'cfg(fuzzing)' compilation configuration is set.
-# @flag --no-trace-compares                      Don't build with the `sanitizer-coverage-trace-compares` LLVM argument Using this may improve fuzzer throughput at the cost of worse coverage accuracy.
+# @flag --no-trace-compares                      Don't build with the `sanitizer-coverage-trace-compares` LLVM argument
 # @option --fuzz-dir <FUZZ_DIR>                  The path to the fuzz project directory
-# @option -r --runs                              Number of minimization attempts to perform [default: 255]
+# @option -r --runs                              Number of minimization attempts to perform
 # @flag -h --help                                Print help (see a summary with '-h')
 # @flag -V --version                             Print version
 # @arg TARGET!                                   Name of the fuzz target
@@ -207,12 +207,12 @@ tmin() {
 # @flag --all-features                           Build artifacts with all Cargo features enabled
 # @option --features                             Build artifacts with given Cargo feature enabled
 # @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer
-# @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target [default: x86_64-unknown-linux-gnu]
+# @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo
 # @option --target-dir <TARGET_DIR>              Target dir option to pass to cargo build
 # @flag --strip-dead-code                        Dead code is linked by default to prevent a potential error with some optimized targets.
 # @flag --no-cfg-fuzzing                         By default the 'cfg(fuzzing)' compilation configuration is set.
-# @flag --no-trace-compares                      Don't build with the `sanitizer-coverage-trace-compares` LLVM argument Using this may improve fuzzer throughput at the cost of worse coverage accuracy.
+# @flag --no-trace-compares                      Don't build with the `sanitizer-coverage-trace-compares` LLVM argument
 # @option --fuzz-dir <FUZZ_DIR>                  The path to the fuzz project directory
 # @flag -h --help                                Print help (see a summary with '-h')
 # @flag -V --version                             Print version
