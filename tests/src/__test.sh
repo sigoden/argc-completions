@@ -71,6 +71,7 @@ Options:
     --since string              Show logs since timestamp (e.g. 2013-01-02T13:23:37Z) or relative (e.g. 42m for 42 minutes)
     --loader <STR>...           Parse files with .ext:loader, e.g. --loader .js:jsx. Valid loaders: js, jsx, ts, tsx, json, toml, text, file, wasm, napi
     --allow <strings>           Allow extra privileged entitlement (e.g., "network.host", "security.insecure")
+    --input-format string       [auto|a|yaml|y|props|p|xml|x|tsv|t|csv|c|toml] parse format for input. Note that json is a subset of yaml. (default "auto")
     -r, --reload[=<CACHE_BLOCKLIST>...]
           Reload source code cache (recompile TypeScript)
           --reload
