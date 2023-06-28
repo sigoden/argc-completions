@@ -1,5 +1,15 @@
 SCRIPTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../scripts" &> /dev/null && pwd )"
 
+# Run help subcommand to generate help
+# Scope: _patch_help
+_patch_util_run_help_subcmd() {
+    if [[ $# -eq 1 ]]; then
+        $1 help
+    else
+        ${@:1:$#-1} help ${!#} 2>&1
+    fi
+}
+
 # Provide help text for nested subcommand
 # Scope: _patch_help
 _patch_util_extract_subcmd() {
