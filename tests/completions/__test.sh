@@ -63,6 +63,7 @@
 # @flag --connection                               Requests compression of all data (including stdin, stdout, stderr, and data for forwarded X11, TCP and UNIX-domain connections).
 # @option --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer
 # @flag --unknown
+# @option -pkgdir <dir>
 # @flag --incremental                              show blame entries as we find them, incrementally
 # @flag --line-porcelain                           show porcelain format with per-line commit information
 # @arg ARG1!
@@ -222,5 +223,19 @@ coverage() {
     :;
 }
 # }} __test coverage
+
+# {{ __test pack
+# @cmd
+pack() {
+    :;
+}
+# }} __test pack
+
+# {{ __test publish
+# @cmd Publishes a package to the registry
+publish() {
+    :;
+}
+# }} __test publish
 
 command eval "$(argc --argc-eval "$0" "$@")"

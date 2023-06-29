@@ -1,6 +1,6 @@
 _patch_help() {
     if [[ "$*" == "__test" ]]; then
-    cat <<EOF
+    cat <<'EOF'
 Arguments:
     <ARG1>
     <ARG2>...
@@ -100,7 +100,13 @@ Options:
             [possible values: address, leak, memory, thread, none]
     --unknown
 
+	-pkgdir dir
+		install and load all packages from dir instead of the usual locations.
+
 -------
+
+Future runs of this module will trigger no downloads or compilation unless
+--reload is specified.
 
 Other:
 
@@ -143,6 +149,10 @@ Other:
           Generate shell completions
   coverage
           Print coverage reports
+
+Other:
+      pack
+      publish              Publishes a package to the registry
 
 EXPERIMENTAL:
   docker manifest is an experimental feature.

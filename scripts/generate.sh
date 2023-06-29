@@ -85,6 +85,10 @@ handle_subcmd() {
 
 get_table() {
     log_info "$@: start"
+    if [[ $# -gt 4 ]] && [[ " ${@:1:$#-1} " == *" ${!#} "* ]]; then
+        log_error "$@: dead loop"
+        return
+    fi
     local path help_text table
     if [[ $(type -t _patch_help) = "function" ]]; then
         log_info "$@: patch help"
@@ -103,7 +107,7 @@ get_table() {
                 help_text="$(${@:1:$#-1} help ${!#} 2>&1)"
             fi
             if [[ $? -ne 0 ]]; then
-                log_error "$@: can not get help"
+                log_error "$@: no help"
                 return
             fi
         fi
@@ -281,7 +285,7 @@ log_info() {
 }
 
 log_error() {
-    echo "[error] " $@ >&2
+    echo "[error] $@" >&2
 }
 
 eval "$(argc --argc-eval "$0" "$@")"
