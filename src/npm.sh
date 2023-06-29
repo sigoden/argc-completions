@@ -2,63 +2,63 @@ _patch_help() {
     if [[ "$*" == "npm" ]]; then
         cat <<-'EOF'
 Commands:
-    access           Set access level on published packages
-    adduser,add-user  Add a registry user account
-    audit            Run a security audit
-    bugs,issues      Report bugs for a package in a web browser
-    cache            Manipulates packages cache
-    ci,clean-install,ic,install-clean,isntall-clean  Clean install a project
-    completion       Tab Completion for npm
-    config,c         Manage the npm configuration files
-    dedupe,ddp       Reduce duplication in the package tree
-    deprecate        Deprecate a version of a package
-    diff             The registry diff command
-    dist-tag,dist-tags Modify package distribution tags
-    docs,home        Open documentation for a package in a web browser
-    edit             Edit an installed package
-    exec,x           Run a command from a local or remote npm package
-    explain,why      Explain installed packages
-    explore          Browse an installed package
-    find-dupes       Find duplication in the package tree
-    fund             Retrieve funding information
-    config           Manage the npm configuration files
-    hook             Manage registry hooks
-    init,create,innit  Create a package.json file
-    install,add,i,in,isnt  Install a package
-    install-ci-test,cit,clean-install-test,sit  Install a project with a clean slate and run tests
-    install-test,it  Install package(s) and run tests
-    link             Symlink a package folder
-    login            Login to a registry user account
-    logout           Log out of the registry
-    ls,list          List installed packages
-    org,ogr          Manage orgs
-    outdated         Check for outdated packages
-    owner,author     Manage package owners
-    pack             Create a tarball from a package
-    pkg              Manages your package.json
-    prefix           Display prefix
-    profile          Change settings on your registry profile
-    prune            Remove extraneous packages
-    publish          Publish a package
-    query            Dependency selector query
-    rebuild,rb       Rebuild a package
-    restart          Restart a package
-    root             Display npm root
-    run-script,run,rum,urn  Run arbitrary package scripts
-    search,find,s,se  Search for packages
-    shrinkwrap       Lock down dependency versions for publication
-    stars            View packages marked as favorites
-    start            Start a package
-    stop             Stop a package
-    team             Manage organization teams and team memberships
-    test,tst,t       Test a package
-    token            Manage your authentication tokens
-    uninstall,unlink,remove,rm,r,un  Remove a package
-    unstar           Remove an item from your favorite packages
-    update,up,upgrade,udpate  Update packages
-    version,verison  Bump a package version
-    view,info,show,v  View registry info
-    whoami           Display npm username
+    access                              Set access level on published packages
+    adduser, add-user                   Add a registry user account
+    audit                               Run a security audit
+    bugs, issues                        Report bugs for a package in a web browser
+    cache                               Manipulates packages cache
+    ci, clean-install, ic, install-clean, isntall-clean     Clean install a project
+    completion                          Tab Completion for npm
+    config, c                           Manage the npm configuration files
+    dedupe, ddp                         Reduce duplication in the package tree
+    deprecate                           Deprecate a version of a package
+    diff                                The registry diff command
+    dist-tag, dist-tags                 Modify package distribution tags
+    docs, home                          Open documentation for a package in a web browser
+    edit                                Edit an installed package
+    exec, x                             Run a command from a local or remote npm package
+    explain, why                        Explain installed packages
+    explore                             Browse an installed package
+    find-dupes                          Find duplication in the package tree
+    fund                                Retrieve funding information
+    config                              Manage the npm configuration files
+    hook                                Manage registry hooks
+    init, create, innit                 Create a package.json file
+    install, add, i, in, isnt           Install a package
+    install-ci-test, cit, clean-install-test, sit     Install a project with a clean slate and run tests
+    install-test, it                    Install package(s) and run tests
+    link                                Symlink a package folder
+    login                               Login to a registry user account
+    logout                              Log out of the registry
+    ls, list                            List installed packages
+    org, ogr                            Manage orgs
+    outdated                            Check for outdated packages
+    owner, author                       Manage package owners
+    pack                                Create a tarball from a package
+    pkg                                 Manages your package.json
+    prefix                              Display prefix
+    profile                             Change settings on your registry profile
+    prune                               Remove extraneous packages
+    publish                             Publish a package
+    query                               Dependency selector query
+    rebuild, rb                         Rebuild a package
+    restart                             Restart a package
+    root                                Display npm root
+    run-script, run, rum, urn           Run arbitrary package scripts
+    search, find, s, se                 Search for packages
+    shrinkwrap                          Lock down dependency versions for publication
+    stars                               View packages marked as favorites
+    start                               Start a package
+    stop                                Stop a package
+    team                                Manage organization teams and team memberships
+    test, tst, t                        Test a package
+    token                               Manage your authentication tokens
+    uninstall, unlink, remove, rm, r, un   Remove a package
+    unstar                              Remove an item from your favorite packages
+    update, up, upgrade, udpate         Update packages
+    version, verison                    Bump a package version
+    view, info, show, v                 View registry info
+    whoami                              Display npm username
 EOF
     elif [[ "$*" == "npm access" ]]; then
         cat <<-'EOF'
@@ -166,7 +166,7 @@ npm config set [<key>=<value>]...
 npm config get [key]...
 npm config list
 options:
-    --json Whether or not to output JSON data, rather than the normal output.
+    --json  Whether or not to output JSON data, rather than the normal output.
 npm config delete [key]...
 npm config edit
 npm config fix

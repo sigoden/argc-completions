@@ -85,6 +85,9 @@ Options:
           --reload=npm:chalk
             Reload specific npm module
 
+    -coverpkg pattern1,pattern2,pattern3
+          For a build that targets package 'main' 
+
     --cgroupns string                Cgroup namespace to use (host|private)
                                      'host':    Run the container in the Docker host's cgroup namespace
                                      'private': Run the container in its own private cgroup namespace
@@ -103,6 +106,8 @@ Options:
 	-pkgdir dir
 		install and load all packages from dir instead of the usual locations.
 
+	-ldflags '[pattern=]arg list'
+		arguments to pass on each go tool link invocation.
 -------
 
 Future runs of this module will trigger no downloads or compilation unless

@@ -45,11 +45,6 @@ regenerate() {
     done
 }
 
-# @cmd Test generate.sh
-test() {
-    ./scripts/generate.sh __test
-}
-
 # @cmd Debug a choice fn 
 #
 # For example:
@@ -94,11 +89,22 @@ print() {
     if [[ "$argc_kind" == "table" ]]; then
         _helper_print_table $@
     elif [[ "$argc_kind" == "help" ]]; then
-        _helper_print_help $@
+        echo "$(_helper_print_help $@)"
     elif [[ "$argc_kind" == "script" ]]; then
         _helper_print_script $@
     fi
 }
+
+# @cmd Test generate.sh
+# @option -k --kind[table|help|script]
+xtest() {
+    if [[ -z "$argc_kind" ]]; then
+        ./scripts/generate.sh __test
+    else
+        argc print __test -k "$argc_kind"
+    fi
+}
+
 
 _choice_completion() {
     ls -p -1 completions | grep -v '/' | sed 's/.sh$//'

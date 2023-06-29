@@ -59,11 +59,13 @@
 # @option --allow <strings>                        Allow extra privileged entitlement (e.g., "network.host", "security.insecure")
 # @option --input-format[auto|a|yaml|y|props|p|xml|x|tsv|t|csv|c|toml] <string>  parse format for input.
 # @option -r --reload* <CACHE_BLOCKLIST>           Reload source code cache (recompile TypeScript)
+# @option -coverpkg <pattern1,pattern2,pattern3>   For a build that targets package 'main'
 # @option --cgroupns <string>                      Cgroup namespace to use (host|private)
 # @flag --connection                               Requests compression of all data (including stdin, stdout, stderr, and data for forwarded X11, TCP and UNIX-domain connections).
 # @option --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer
 # @flag --unknown
-# @option -pkgdir <dir>
+# @option -pkgdir <dir>                            install and load all packages from dir instead of the usual locations.
+# @option -ldflags <[pattern=]arg list>            arguments to pass on each go tool link invocation.
 # @flag --incremental                              show blame entries as we find them, incrementally
 # @flag --line-porcelain                           show porcelain format with per-line commit information
 # @arg ARG1!

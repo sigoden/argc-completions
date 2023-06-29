@@ -77,23 +77,34 @@ function editOption(line,       i) {
         if (name == "") {
             continue
         }
-        if (optionName ~ " " name "[^A-Za-z0-9_-]") {
+        nameMatcher = " " name "[^A-Za-z0-9_-]"
+        if (optionName ~ nameMatcher) {
             notation = TABLE[i, 2]
             choice = TABLE[i, 3]
             desc = TABLE[i, 4]
             noDesc = desc == "" && trim(optionDesc) == ""
+            noChoice = choice == "" && trim(optionChoice) == ""
             for (j = LINE_INDEX + 1; j <= LINES_SIZE; j++) {
-                if (index(LINES[j], optionName) > 0) {
+                split("", parts2)
+                splitOption(LINES[j], parts2)
+                if (parts2[4] ~ nameMatcher) {
                     LINE_INDEX = j
                     if (noDesc) {
-                        split("", output2)
-                        splitOption(LINES[j], output2)
-                        optionDesc_ = output2[2]
+                        optionDesc_ = parts2[2]
                         if (trim(optionDesc_) != "") {
                             optionDesc = optionDesc_ 
                             noDesc = 0
                         }
                     }
+                    if (noChoice) {
+                        optionChoice_ = parts2[3]
+                        if (trim(optionChoice_) != "") {
+                            optionChoice = optionChoice_ 
+                            noChoice = 0
+                        }
+                    }
+                } else {
+                    break
                 }
             }
             if (notation == "" && choice == "" && desc == "") {

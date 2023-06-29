@@ -2,6 +2,7 @@ BEGIN {
     PAIRS[">"] = "<";
     PAIRS["]"] = "[";
     PAIRS[")"] = "(";
+    PAIRS["'"] = "'"
     PAIRS_OPEN = "<[("
     PAIRS_CLOSE = ">])"
     RE_SKIP_ARGUMENT = "^(flag|option|command|subcommand)"
@@ -216,8 +217,13 @@ function parseCommand(words1, descVal) {
 
 function addNotations(item, array, extra) {
     len = length(item)
-    if (len > 1 && match(substr(item, 1, 1), RE_REMOVE_NOTATION_PREFIX)) {
-        item = substr(item, 2)
+    if (len > 1) {
+        firstChar = substr(item, 1, 1)
+        if (firstChar == "'" && match(item, /^'[^']*'$/)) {
+            item = substr(item, 2, length(item) - 2)
+        } else if (match(firstChar, RE_REMOVE_NOTATION_PREFIX)) {
+            item = substr(item, 2)
+        }
     }
     item = takeHeadEllipsis(item, extra)
     item = takeTailEllipsis(item, extra)
@@ -357,7 +363,7 @@ function splitWords(input, words) {
     word = ""
     for (i=1; i <= length(input); i++) {
         ch = chars[i]
-        if (match(ch, /[[:space:],/]/)) {
+        if (match(ch, /[[:space:]]/)) {
             if (length(balances) == 0) {
                 if (length(word) == 0) {
                     continue
@@ -368,6 +374,8 @@ function splitWords(input, words) {
             } else {
                 word = word ch
             }
+        } else if (ch == "," && match(chars[i+1], /^(\s|$)/)) {
+
         } else if (ch == "#" && length(word) == 0) {
             if (length(balances) == 0) {
                 if (length(word) != 0) {
@@ -377,6 +385,16 @@ function splitWords(input, words) {
                 return i
             } else {
                 word = word ch
+            }
+        } else if (ch == "'") {
+            idx = index(substr(input, i + 1), "'")
+            if (idx > 0) {
+                word = word substr(input, i, idx + 1)
+                i = i + idx
+            } else {
+                words[length(words)+1] = word substr(input, i);
+                word = ""
+                return length(input) + 1
             }
         } else if (index(PAIRS_OPEN, ch) > 0) {
             balances = balances ch

@@ -132,7 +132,7 @@ check() {
 # @option --v8-flags* <v8-flags>            To see a list of all available flags use --v8-flags=--help.
 # @option --seed <NUMBER>                   Set the random number generator seed
 # @option --check <CHECK_TYPE>              Set type-checking behavior.
-# @option --include <include>               Includes an additional module in the compiled executable's module
+# @option --include <include>               Includes an additional module in the compiled executable's module graph.
 # @option -o --output <output>              Output file (defaults to $PWD/<inferred-name>)
 # @option --target[x86_64-unknown-linux-gnu|x86_64-pc-windows-msvc|x86_64-apple-darwin|aarch64-apple-darwin] <target>  Target OS architecture
 # @option --ext[ts|tsx|js|jsx] <ext>        Set content type of the supplied file

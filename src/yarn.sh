@@ -48,7 +48,7 @@ EOF
             $@ --help
             cat <<-'EOF'
 Commands:
-    list,ls   print out every cached package.
+    list, ls  print out every cached package.
     dir       print out the path where yarn’s global cache is currently stored.
     clean     clear the global cache.
 EOF

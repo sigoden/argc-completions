@@ -4,7 +4,7 @@
 # @flag -A --show-all                          Show non-printable characters like space, tab or newline.
 # @flag -p --plain                             Only show plain style, no decorations.
 # @option -l --language[`_choice_language`] <language>  Explicitly set the language for syntax highlighting.
-# @option -H --highlight-line <N:M>            Highlight the specified line ranges with a different background color For example:
+# @option -H --highlight-line <N:M>            Highlight the specified line ranges with a different background color For example: '--highlight-line 40' highlights line 40 '--highlight-line 30:40' highlights lines 30 to 40 '--highlight-line :40' highlights lines 1 to 40 '--highlight-line 40:' highlights lines 40 to the end of the file '--highlight-line 30:+10' highlights lines 30 to 40
 # @option --file-name <name>                   Specify the name to display for a file.
 # @flag -d --diff                              Only show lines that have been added/removed/modified with respect to the Git index.
 # @option --diff-context <N>                   Include N lines of context around added/removed/modified lines when using '--diff'.
