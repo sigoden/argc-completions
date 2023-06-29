@@ -1,8 +1,10 @@
 BEGIN {
     split(RAW_ARGS, args, "###")
+    split("", LINES)
     split("", TABLE)
     split("", EXIST_OPTION_NAMES)
     TABLE_SIZE = length(args)
+    LINES_SIZE = 0
     SEP_INDEX = 0
     for (i in args) {
         arg = args[i]
@@ -29,19 +31,26 @@ BEGIN {
     }
 }
 {
-    if (KIND == "option" && index($0, "option # ") == 1) {
-        if (SEP_INDEX > 1) {
-            editOption($0)
-        }
-    } else if (KIND == "argument" && index($0, "argument # ") == 1) {
-        if (SEP_INDEX > 1) {
-            editArgument($0)
-        }
-    } else {
-        print $0
-    }
+    LINES_SIZE = LINES_SIZE + 1
+    LINES[LINES_SIZE] = $0
 }
+
 END {
+    for (LINE_INDEX = 1; LINE_INDEX <= LINES_SIZE; LINE_INDEX++) {
+        line = LINES[LINE_INDEX]
+        if (KIND == "option" && index(line, "option # ") == 1) {
+            if (SEP_INDEX > 1) {
+                editOption(line)
+            }
+        } else if (KIND == "argument" && index(line, "argument # ") == 1) {
+            if (SEP_INDEX > 1) {
+                editArgument(line)
+            }
+        } else {
+            print line
+        }
+    }
+
     for (i = SEP_INDEX + 1; i <= TABLE_SIZE; i++) {
         name = TABLE[i, 1] 
         notation = TABLE[i, 2] 
@@ -56,13 +65,13 @@ END {
 }
 
 
-function editOption(line) {
-    option = substr(line, 9)
-    split(option, parts, " #")
-    optionBody = parts[1] " " 
-    optionDesc = parts[2] " " 
+function editOption(line,       i) {
+    split("", parts)
+    splitOption(line, parts)
+    optionBody = parts[1]
+    optionDesc = parts[2]
     optionChoice = parts[3]
-    optionName = extractOptionName(optionBody)
+    optionName = parts[4]
     for (i = 1; i < SEP_INDEX; i++) {
         name = TABLE[i, 1]
         if (name == "") {
@@ -72,6 +81,21 @@ function editOption(line) {
             notation = TABLE[i, 2]
             choice = TABLE[i, 3]
             desc = TABLE[i, 4]
+            noDesc = desc == "" && trim(optionDesc) == ""
+            for (j = LINE_INDEX + 1; j <= LINES_SIZE; j++) {
+                if (index(LINES[j], optionName) > 0) {
+                    LINE_INDEX = j
+                    if (noDesc) {
+                        split("", output2)
+                        splitOption(LINES[j], output2)
+                        optionDesc_ = output2[2]
+                        if (trim(optionDesc_) != "") {
+                            optionDesc = optionDesc_ 
+                            noDesc = 0
+                        }
+                    }
+                }
+            }
             if (notation == "" && choice == "" && desc == "") {
                 return
             }
@@ -95,11 +119,11 @@ function editOption(line) {
     print line
 }
 
-function editArgument(line) {
-    argument = substr(line, 11)
-    split(argument, parts, " #")
-    argumentName = parts[1] " " 
-    argumentDesc = parts[2] " " 
+function editArgument(line,     i) {
+    split("", parts)
+    splitArgument(line, parts)
+    argumentName = parts[1]
+    argumentDesc = parts[2]
     argumentChoice = parts[3]
     for (i = 1; i < SEP_INDEX; i++) {
         name = TABLE[i, 1]
@@ -133,6 +157,21 @@ function editArgument(line) {
     print line
 }
 
+function splitOption(line, output,      parts) {
+    split(substr(line, 9), parts, " #")
+    output[1] = parts[1] " " 
+    output[2] = parts[2] " " 
+    output[3] = parts[3]
+    output[4] = extractOptionName(output[1])
+}
+
+function splitArgument(line, output,     parts) {
+    split(substr(line, 11), parts, " #")
+    output[1] = parts[1] " " 
+    output[2] = parts[2] " " 
+    output[3] = parts[3]
+}
+
 function extractOptionName(optionBody) {
     split(optionBody, hyphenParts, " -")
     len = length(hyphenParts)
@@ -145,4 +184,9 @@ function extractOptionName(optionBody) {
         }
     }
     return substr(optionBody, 1, idx)
+}
+
+function trim(input) {
+    gsub(/^[[:space:]]+|[[:space:]]+$/,"", input)
+    return input
 }
