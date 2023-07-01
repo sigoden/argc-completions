@@ -218,18 +218,7 @@ function isOptionLine(idx) {
 
 function isCommandLine(idx) {
     santizedLine = tolower(LINES[idx, 2])
-    if (match(santizedLine, /^[a-z0-9_-]+/)) {
-        yes = 0
-        if (match(santizedLine, /\s{2,}\S/)) {
-            yes = 1
-        } else if (match(santizedLine, /(^[a-z0-9_-]+,\s*)+[a-z0-9_-]+(,)?\s*$/)) {
-            yes = 1
-        } else if (match(santizedLine, /^[a-z0-9_-]+(,)?\s*$/) && (LINES[idx+1, 3] > LINES[idx, 3] || isCommandLine(idx + 1))) {
-            yes = 1
-        }
-        return yes
-    }
-    return 0
+    return match(santizedLine, /^([a-z0-9_-]+,( )?){0,2}([a-z0-9_-]+)(,)?($|  +|\t)/)
 }
 
 function splitOption(input) {

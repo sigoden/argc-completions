@@ -18,28 +18,28 @@ _patch_table() {
 }
 
 _choice_query() {
-    cat <<-'EOF' | sed 's/: \+/\t/'
-cipher:             supported symmetric ciphers
-cipher-auth:        supported symmetric ciphers that support authenticated encryption
-help:               supported query terms for use with the -Q flag
-mac:                supported message integrity codes
-kex:                key exchange algorithms
-key:                key types
-key-cert:           certificate key types
-key-plain:          non-certificate key types
-key-sig:            all key types and signature algorithms
-protocol-version:   supported SSH protocol versions
-sig:                supported signature algorithms
+    cat <<-'EOF'
+cipher	supported symmetric ciphers
+cipher-auth	supported symmetric ciphers that support authenticated encryption
+help	supported query terms for use with the -Q flag
+mac	supported message integrity codes
+kex	key exchange algorithms
+key	key types
+key-cert	certificate key types
+key-plain	non-certificate key types
+key-sig	all key types and signature algorithms
+protocol-version	supported SSH protocol versions
+sig	supported signature algorithms
 EOF
 }
 
 _choice_ctl_cmd() {
-    cat <<-'EOF' | sed 's/: \+/\t/'
-check:      check that the master process is running
-forward:    request forwardings without command execution
-cancel:     cancel forwardings
-exit:       request the master to exit
-stop:       request the master to stop accepting further multiplexing requests
+    cat <<-'EOF'
+check	check that the master process is running
+forward	request forwardings without command execution
+cancel	cancel forwardings
+exit	request the master to exit
+stop	request the master to stop accepting further multiplexing requests
 EOF
 }
 

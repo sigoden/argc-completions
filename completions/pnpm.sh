@@ -453,7 +453,7 @@ root() {
 # }} pnpm root
 
 # {{ pnpm store
-# @cmd add            Adds new packages to the pnpm store directly.
+# @cmd Manage your store
 store() {
     :;
 }
@@ -774,20 +774,20 @@ _choice_script() {
     fi
 }
 _choice_reporter() {
-    cat <<-'EOF' | sed 's/: \+/\t/'
-append-only:     The output is always appended to the end. No cursor manipulations are performed"
-default:         The default reporter when the stdout is TTY"
-ndjson:          The most verbose reporter. Prints all logs in ndjson format"
-silent:          No output is logged to the console, except fatal errors"
+    cat <<-'EOF'
+append-only	The output is always appended to the end. No cursor manipulations are performed"
+default	The default reporter when the stdout is TTY"
+ndjson	The most verbose reporter. Prints all logs in ndjson format"
+silent	No output is logged to the console, except fatal errors"
 EOF
 }
 
 _choice_pacakge_import_method() {
-    cat <<-'EOF' | sed 's/: \+/\t/'
-auto:      Clones/hardlinks or copies packages. The selected method depends from the file system"
-clone:     Clone (aka copy-on-write) packages from the store"
-copy:      Copy packages from the store"
-hardlink:  Hardlink packages from the store"
+    cat <<-'EOF'
+auto	Clones/hardlinks or copies packages. The selected method depends from the file system"
+clone	Clone (aka copy-on-write) packages from the store"
+copy	Copy packages from the store"
+hardlink	Hardlink packages from the store"
 EOF
 }
 

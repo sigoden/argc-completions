@@ -381,21 +381,21 @@ _choice_installed_component() {
 }
 
 _choice_available_component() {
-    cat <<-'EOF' | sed 's/: \+/\t/'
-rustc: The Rust compiler.
-cargo: Cargo is a package manager and build tool.
-rustfmt: Rustfmt is a tool for automatically formatting code.
-rust-std: This is the Rust standard library.
-rust-docs: This is a local copy of the Rust documentation.
-rls: RLS is a language server
-rust-analyzer-preview: Rust anaylzer is a new language server.
-clippy: Clippy is a lint tool.
-miri: Miri is an experimental Rust interpreter.
-rust-src: This is a local copy of the source code of the Rust standard library.
-rust-analysis: Metadata about the standard library, used by tools like RLS.
-rust-mingw: This contains a linker and platform libraries.
-llvm-tools-preview: This contains a collection of LLVM tools.
-rustc-dev: This component contains the compiler as a library.
+    cat <<-'EOF'
+rustc	The Rust compiler.
+cargo	Cargo is a package manager and build tool.
+rustfmt	Rustfmt is a tool for automatically formatting code.
+rust-std	This is the Rust standard library.
+rust-docs	This is a local copy of the Rust documentation.
+rls	RLS is a language server
+rust-analyzer-preview	Rust anaylzer is a new language server.
+clippy	Clippy is a lint tool.
+miri	Miri is an experimental Rust interpreter.
+rust-src	This is a local copy of the source code of the Rust standard library.
+rust-analysis	Metadata about the standard library, used by tools like RLS.
+rust-mingw	This contains a linker and platform libraries.
+llvm-tools-preview	This contains a collection of LLVM tools.
+rustc-dev	This component contains the compiler as a library.
 EOF
 }
 

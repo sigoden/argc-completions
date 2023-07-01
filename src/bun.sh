@@ -27,7 +27,6 @@ Commands:
     hash-string  Print the string used to hash the lockfile
     hash-print   Print the hash stored in the current lockfile
     cache        Print the path to the cache folder
-    cache rm     Clear the cache
 EOF
     elif [[ "$*" == "bun pm cache" ]]; then
             cat <<-'EOF'
