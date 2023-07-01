@@ -197,6 +197,7 @@ _patch_table() {
             '-dropreplace;[`_choice_mod_dropreplace`]' \
             '-droprequire;[`_choice_mod_droprequire`]' \
             '-replace;[`_choice_mod_replace`]'
+            _patch_util_edit_table_argument ';;' 'file <file:go.mod>'
     elif [[ "$*" == "go mod why" ]]; then
         echo "$table" | _patch_util_edit_table_argument ';;' 'packages;*[`_choice_mod_why`]'
     elif [[ "$*" == "go run" ]]; then
@@ -208,7 +209,6 @@ _patch_table() {
             _patch_util_edit_table_argument ';;' 'target;*|[`_choice_test_target`]'
     elif [[ "$*" == "go tool" ]]; then
         echo "$table" | _patch_util_edit_table_argument ';;' 'name;[`_choice_tool`]' 'args...'
-
     elif [[ "$*" == "go work edit" ]]; then
         echo "$table" \ |
             _patch_util_edit_table_option \
@@ -272,11 +272,11 @@ _choice_mod_droprequire() {
 }
 
 _choice_mod_replace() {
-    if [[ $argc_replace != *'='* ]]; then
+    if [[ "$argc_replace" != *'='* ]]; then
         _choice_mod_no_version | xargs -I{} printf "%s\0\n" {} 
         echo __argc_suffix:=
     else
-        _helper_file_path $argc_replace
+        _helper_complete_file "$argc_replace" "$(_helper_root_file go.mod "$argc_file")"
     fi
 }
 
@@ -294,12 +294,15 @@ _choice_work_dropuse() {
 }
 
 _choice_work_replace() {
-    root="$(_helper_go_mod_root)" 
-    if [[ $argc_replace != *'='* ]]; then
-        _choice_work_dropuse
+    root_dir="$(_helper_root_file go.work "$argc_file")"
+    if [[ "$argc_replace" != *'='* ]]; then
+        while IFS=$'\n' read -r disk_path; do
+            mod_path="$(_argc_util_path_resolve "$root_dir" "$disk_path")"
+            (cd "$mod_path" && _choice_mod_no_version)
+        done < <(_choice_work_dropuse)
         echo __argc_suffix:=
     else
-        _helper_file_path $argc_replace
+        _helper_complete_file "$argc_replace" "$root_dir"
     fi
 }
 
@@ -315,20 +318,19 @@ _helper_list_imports() {
      go list -f "{{.ImportPath}}	{{.Doc}}" all
 }
 
-_helper_file_path() {
-    root="$(_helper_go_mod_root)"
-    if [[ -n "$root" ]]; then
-        echo "__argc_cd:$(echo "$root" | _argc_util_path_to_platform)"
+_helper_complete_file() {
+    if [[ -n "$2" ]]; then
+        echo "__argc_cd:$(_argc_util_path_resolve -p "$2")"
     fi
     echo "__argc_prefix:${1%%=*}="
     echo "__argc_matcher:${1#*=}"
     echo __argc_value:file
 }
 
-_helper_go_mod_root() {
-    go_mod_path="$(_argc_util_path_search_parent go.mod)"
-    if [[ -z "$go_mod_path" ]]; then
-        return
+_helper_root_file() {
+    if [[ -f "$2" ]]; then
+        realpath "$(dirname "$2")"
+    else
+        _argc_util_path_search_parent -p "$1"
     fi
-    echo "$(dirname "$go_mod_path")"
 }

@@ -9,6 +9,6 @@ _argc_util_comp_subcommand() {
             return
         fi
     fi
-    scriptfile="$(_argc_util_path_to_platform "$scriptfile")"
+    scriptfile="$(_argc_util_path_resolve -p "$scriptfile")"
     argc --argc-compgen generic "$scriptfile" "${args[@]}"
 }

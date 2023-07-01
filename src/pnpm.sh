@@ -153,7 +153,7 @@ _helper_apply_filter() {
     if [[ -n "$argc_filter" ]]; then
         local path = "$(pnpm recursive list --json | yq '.[] | select(.name == "'"$argc_filter"'") | .path')"
         if [[ -n "$path" ]]; then
-            pkg_json_path="$(_argc_util_path_to_unix "$path")/package.json"
+            pkg_json_path="$(_argc_util_path_resolve -u "$path" package.json)"
         fi
     fi
 }

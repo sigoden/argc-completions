@@ -1,20 +1,19 @@
 _argc_util_path_search_parent() {
-    local cache_pwd="$PWD"
+    local pwd_="$PWD"
+    local parent
+    if [[ "$1" == "-p" ]]; then parent=1; shift; fi
     _check() {
-        local item
-        for item in $@; do
-            if [[ -f "$item" ]]; then
-                realpath "$item"
+        local value target
+        for value in $@; do
+            if [[ -f "$value" ]]; then
+                target="$(realpath "$value")"
+                if [[ $parent == 1 ]]; then dirname "$target"; else echo "$target"; fi
                 return 0
             fi
         done
-        if [[ $PWD == "/"  ]]; then
-            return 0
-        fi
+        if [[ $PWD == "/"  ]]; then return 0; fi
         return 1
     }
-    until _check $@; do
-        cd ..
-    done
-    cd "$cache_pwd"
+    until _check $@; do cd ..; done
+    cd "$pwd_"
 }

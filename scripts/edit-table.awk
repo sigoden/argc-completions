@@ -1,5 +1,5 @@
 BEGIN {
-    split(RAW_ARGS, args, "###")
+    split(RAW_ARGS, args, "\n")
     split("", LINES)
     split("", TABLE)
     split("", EXIST_OPTION_NAMES)

@@ -243,8 +243,7 @@ _choice_script() {
 }
 
 _choice_global_dependency() {
-    global_dir="$(_argc_util_path_to_unix "$(yarn global dir)")"
-    cat "$global_dir/package.json" | yq '(.dependencies // {}) + (.devDependencies // {}) + (.optionalDependencies // {}) | keys | .[]'
+    cat "$(_argc_util_path_resolve "$(yarn global dir)" package.json)" | yq '(.dependencies // {}) + (.devDependencies // {}) + (.optionalDependencies // {}) | keys | .[]'
 }
 
 _choice_workspace() {

@@ -1,43 +1,35 @@
 # utility functions for `_choice_*`
 
 ## Path Utils
-### `_argc_util_path_join`
-
-It use `\` to join path in windows OS, use `/` to join path in none-windows OS.
-
-```sh
-# window os
-_argc_util_path_join C:\\Users\\alice dir file # C:\Users\alice\dir\file
-
-# other os
-_argc_util_path_join /home/alice dir file # /home/alice/dir/file
-```
-
 ### `_argc_util_path_search_parent`
 
 Search for a file by traversing the directory tree upwards starting from the current directory.
 
+Use `-p` to return the parent directory, not the file itself.
+
 ```sh
 _argc_util_path_search_parent package.json
 _argc_util_path_search_parent deno.json deno.jsonc
+_argc_util_path_search_parent -p package.json  # folder contains package.json
 ```
 
-### `_argc_util_path_to_platform`
+### `_argc_util_path_resolve`
 
-Convert a path to the appropriate form depends on platform kind.
+Resolve paths, including converting paths to specific formats, concatenating paths, cleaning paths.
 
-```sh
-pwd | _argc_util_path_to_platform
-_argc_util_path_to_platform $(pwd)
-```
+Args:
 
-### `_argc_util_path_to_unix`
-
-Convert a path to the unix form, since bash can only handle unix-form paths.
+- `-p`: Convert paths to windows format on windows and to unix format on unix.
+- `-u`: Convert path to unix format.
 
 ```sh
-npm root | _argc_util_path_join
-_argc_util_path_join $(npm root)
+_argc_util_path_resolve /home/alice gh/argc                 # /home/alice/gh/argc
+_argc_util_path_resolve C:\\Users\\alice gh\\argc           # C:\Users\alice\gh\argc
+_argc_util_path_resolve -u C:\\Users\\alice gh\\argc        # /c/Users/alice/gh/argc
+_argc_util_path_resolve -p /home/alice gh/argc              # C:\Users\alice\gh\argc (windows); /home/alice/gh/argc (non-windows)
+_argc_util_path_resolve argc/src ../tests                   # understand ..
+_argc_util_path_resolve argc/src .//tests/                  # cleaning extra / 
+pwd | _argc_util_path_resolve -p                            # accept pipe
 ```
 
 ## Param Utils

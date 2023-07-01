@@ -46,11 +46,8 @@ _patch_util_extract_subcmd() {
 #      ';;' \ |                                  # seperator, before it change the option, after it append the option.
 #      '--foo;;desc'                             # append a new option
 _patch_util_edit_table_option() {
-    local args=$1
-    for arg in "${@:2}"; do
-        args="$args###$arg"
-    done
-    awk -v "KIND=option" -v "RAW_ARGS=$args" -f "$SCRIPTS_DIR/edit-table.awk"
+    local args="$(printf "%s\n" "$@")"
+    awk -v KIND=option -v RAW_ARGS="$args" -f "$SCRIPTS_DIR/edit-table.awk"
 }
 
 # Edit argument
@@ -66,11 +63,8 @@ _patch_util_edit_table_option() {
 #      'foo' \ |                                # delete option
 #      'foo;;desc'                              # append a new option
 _patch_util_edit_table_argument() {
-    local args=$1
-    for arg in "${@:2}"; do
-        args="$args###$arg"
-    done
-    awk -v "KIND=argument" -v "RAW_ARGS=$args" -f "$SCRIPTS_DIR/edit-table.awk"
+    local args="$(printf "%s\n" "$@")"
+    awk -v KIND=argument -v RAW_ARGS="$args" -f "$SCRIPTS_DIR/edit-table.awk"
 }
 
 # Copy options from another command

@@ -108,7 +108,7 @@ _helper_package_json() {
 		echo "$metadata_json" | yq '.packages[] | select(.name == "'"$argc_package"'")'
 	else
 		workspace_root="$(echo "$metadata_json" | yq '.workspace_root')"
-		manifest_path="$(_argc_util_path_join "${workspace_root}" Cargo.toml)"
+		manifest_path="$(_argc_util_path_resolve -u "$workspace_root" Cargo.toml)"
 		echo "$metadata_json" | yq '.packages[] | select(.manifest_path == "'"$manifest_path"'")'
 	fi
 }

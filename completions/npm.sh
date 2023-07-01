@@ -1155,39 +1155,38 @@ _helper_pkg_json_path() {
 }
 
 _argc_util_param_select_options() {
-    local item argc_var argc_val
-    for item in $@; do
-        item_var="argc_$(echo "$item" | sed 's/^-\+//' | tr '-' '_')"
-        item_val="${!item_var}"
-        if [[ -n "$item_val" ]]; then
-            if [[ "$item_val" -eq 1 ]]; then
-                echo -n " $item"
+    local option option_var option_val
+    for option in "$@"; do
+        option_var="argc_$(echo "$option" | sed 's/^-\+//' | tr '-' '_')"
+        option_val="${!option_var}"
+        if [[ -n "$option_val" ]]; then
+            if [[ "$option_val" -eq 1 ]]; then
+                echo -n " $option"
             else
-                echo -n " $item $item_val"
+                echo -n " $option $option_val"
             fi
         fi
     done
 }
 
 _argc_util_path_search_parent() {
-    local cache_pwd="$PWD"
+    local pwd_="$PWD"
+    local parent
+    if [[ "$1" == "-p" ]]; then parent=1; shift; fi
     _check() {
-        local item
-        for item in $@; do
-            if [[ -f "$item" ]]; then
-                realpath "$item"
+        local value target
+        for value in $@; do
+            if [[ -f "$value" ]]; then
+                target="$(realpath "$value")"
+                if [[ $parent == 1 ]]; then dirname "$target"; else echo "$target"; fi
                 return 0
             fi
         done
-        if [[ $PWD == "/"  ]]; then
-            return 0
-        fi
+        if [[ $PWD == "/"  ]]; then return 0; fi
         return 1
     }
-    until _check $@; do
-        cd ..
-    done
-    cd "$cache_pwd"
+    until _check $@; do cd ..; done
+    cd "$pwd_"
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"
