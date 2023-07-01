@@ -11,7 +11,7 @@ _patch_table() {
 }
 
 _choice_lint_rule() {
-    deno lint --rules --json | yq '.[] | (.docs | split("\n") | .0) as $desc | .code + ":" + $desc' | sed 's/:/\t/' 
+    deno lint --rules --json | yq '.[] | (.docs | split("\n") | .0) as $desc | .code + "	" + $desc'
 }
 
 _choice_task() {
