@@ -540,7 +540,7 @@ function extraArgName(input) {
 
 
 function testMultilineDesc(input) {
-    return match(input, /^ {8,}\S+/) || match(input, /^\t{2,}\S+/)
+    return match(input, /^ {8,}\S+/) || match(input, /^\t{2,}\S+/) || match(input, /^\t {4,}\S+/)
 }
 
 function testValueDesc(input) {

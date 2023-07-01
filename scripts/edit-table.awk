@@ -59,7 +59,11 @@ END {
         if (KIND == "option") {
             print "option # " name " " notation " # " desc " # " choice
         } else if (KIND == "argument") {
-            print "argument # " name " # " desc " # " choice
+            body = name
+            if (length(notation) > 0) {
+                body = notation
+            }
+            print "argument # " body " # " desc " # " choice
         }
     }
 }

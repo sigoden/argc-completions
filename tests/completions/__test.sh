@@ -74,7 +74,6 @@
 # @arg ARG4*
 # @arg ARG5*
 # @arg deployed-project-name!
-# @arg arg7*
 # @arg branch-tag!
 # @arg arg8*
 # @arg repository

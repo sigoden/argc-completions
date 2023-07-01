@@ -153,7 +153,7 @@ function parseArgument(words1, descVal, choicesVal) {
     split("", choices)
     extra["multiple"] = 0
     extra["required"] = 0
-    value = words1[1] words1[2]
+    value = words1[1]
     split("", notations)
     addNotations(value, notations, extra)
     notation = notations[1]
@@ -175,7 +175,9 @@ function parseArgument(words1, descVal, choicesVal) {
         }
     }
     notationVal = ""
-    if (notation != name && length(notation) != length(name)) {
+    if (length(words1[2]) > 0) {
+        notationVal = " " words1[2]
+    } else if (notation != name && length(notation) != length(name)) {
         notationVal = " <"  notation ">"
     }
     addParamLine("# @arg " name modifierVal choicesVal notationVal, descVal)

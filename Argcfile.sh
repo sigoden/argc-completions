@@ -69,7 +69,7 @@ choice-fn() {
             matcher="${matcher#*=}"
         fi
         (cd $argc_dir && \
-            ARGC_MATCHER="$matcher" ARGC_LAST_ARG="$last_arg" \
+            ARGC_COMPGEN=1 ARGC_MATCHER="$matcher" ARGC_LAST_ARG="$last_arg" \
             bash "$script_file" $argc_fn ${argc_args[@]})
     else
         for f in utils/_argc_utils/*.sh; do
@@ -131,15 +131,7 @@ _helper_print_help() {
         if _test_patch_fn help; then
             _patch_help $@
         else
-            help_text="$($@ --help 2>&1)"
-            if [[ $? -ne 0 ]]; then
-                if [[ $# -eq 1 ]]; then
-                    help_text="$($1 help 2>&1)"
-                else
-                    help_text="$(${@:1:$#-1} help ${!#} 2>&1)"
-                fi
-            fi
-            echo "$help_text"
+            _patch_util_run_help $@
         fi
     fi
 }

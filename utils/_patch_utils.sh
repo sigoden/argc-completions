@@ -1,5 +1,22 @@
 SCRIPTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../scripts" &> /dev/null && pwd )"
 
+# Run help, first use --help flag, then use help subcmd
+# Scope: _patch_help
+_patch_util_run_help() {
+    local help_text help_text2
+    help_text="$($@ --help 2>&1)"
+    if [[ $? -eq 0 ]]; then
+        echo "$help_text"
+        return
+    fi
+    help_text2="$(_patch_util_run_help_subcmd $@ 2>&1)"
+    if [[ $? -eq 0 ]]; then
+        echo "$help_text2"
+        return
+    fi
+    echo "$help_text"
+}
+
 # Run help subcommand to generate help
 # Scope: _patch_help
 _patch_util_run_help_subcmd() {
@@ -56,37 +73,20 @@ _patch_util_edit_table_argument() {
     awk -v "KIND=argument" -v "RAW_ARGS=$args" -f "$SCRIPTS_DIR/edit-table.awk"
 }
 
+# Copy options from another command
+# Scope: _patch_table
+_patch_util_copy_table_option() {
+    cat
+    local help_text
+    if [[ $(type -t _patch_help) == "function" ]] ; then
+        help_text="$(_patch_help $@)"
+    else
+        help_text="$(_patch_util_run_help $@)"
+    fi
+    local table="$(echo "$help_text" | awk -f "$SCRIPTS_DIR/parse-table.awk")"
+    if [[ $(type -t _patch_table) == "function" ]] ; then
+        table="$(echo "$table" | _patch_table $@)"
+    fi
+    echo "$table" | grep "^option #"
 
-# Add extra column for the table
-_patch_util_add_extra_column() {
-    local args
-    for item in $@; do
-        local name="${item%%:*}"
-        local value="${item#*:}"
-        local prefix name2
-        if [[ "$name" == '-'* ]]; then
-            prefix='option #[^#]*'
-            name2=" $name[= +*]"
-        else
-            prefix='argument #[^#]*'
-            name2="[ <[]$name[]>. [|=]"
-        fi
-        args="$args -e '/$prefix$name2/ s/$/ # $value/'"
-    done
-    eval sed $args
-}
-
-# Purge exist positional arguments and add new positional arguments manully.
-_patch_util_replace_positionals() {
-    sed -e '/^argument #/d'
-    for item in $@; do
-        local name tail
-        if [[ "$item" == *':'* ]]; then
-            name="${item%%:*}"
-            tail=" # ${item#*:}"
-        else
-            name="$item"
-        fi
-        echo "argument # $name #$tail"
-    done
 }
