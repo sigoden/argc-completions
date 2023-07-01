@@ -122,13 +122,13 @@ _choice_print_target() {
 }
 
 _helper_print_help() {
-    _source_src_script $@
+    _helper_source_script $@
     if [[ -x "$1" ]]; then
         $1 --help
     elif [[ -f "$1" ]]; then
         cat $1
     else
-        if _test_patch_fn help; then
+        if _helper_test_fn help; then
             _patch_help $@
         else
             _patch_help_run $@
@@ -137,9 +137,9 @@ _helper_print_help() {
 }
 
 _helper_print_table() {
-    _source_src_script $@
+    _helper_source_script $@
     help_text=$(_helper_print_help $@ | awk -f scripts/parse-table.awk)
-    if _test_patch_fn table; then
+    if _helper_test_fn table; then
         echo "$help_text" | _patch_table $@
     else
         echo "$help_text"
@@ -147,16 +147,16 @@ _helper_print_table() {
 }
 
 _helper_print_script() {
-    _source_src_script $@
+    _helper_source_script $@
     table_text=$(_helper_print_table $@ | awk -f scripts/parse-script.awk)
-    if _test_patch_fn script; then
+    if _helper_test_fn script; then
         echo "$table_text" | _patch_script $@
     else
         echo "$table_text"
     fi
 }
 
-_source_src_script() {
+_helper_source_script() {
     if [[ $source_src -eq 1 ]]; then
         return
     fi
@@ -171,7 +171,7 @@ _source_src_script() {
     source_src=1
 }
 
-_test_patch_fn() {
+_helper_test_fn() {
     local target=$1
     if [[ "$argc_no_patch" -eq 1 ]] && [[ "$argc_kind" == "$target" ]]; then
         return 1
