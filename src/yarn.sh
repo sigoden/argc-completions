@@ -53,7 +53,7 @@ Commands:
     clean     clear the global cache.
 EOF
         else
-            cat <<-'EOF' | _patch_util_extract_subcmd $@ 
+            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
 yarn cache list
 options:
     --pattern <pattern>
@@ -72,7 +72,7 @@ Commands:
     list    Displays the current configuration.
 EOF
         else
-            cat <<-'EOF' | _patch_util_extract_subcmd $@ 
+            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
 yarn config set <key> <value>
 options:
     -g --global
@@ -92,7 +92,7 @@ Commands:
     upgrade     Upgrades packages to their latest version based on the specified range.
 EOF
         else
-            cat <<-'EOF' | _patch_util_extract_subcmd $@ 
+            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
 yarn global add <packages>...
 options:
     --prefix <prefix>   bin prefix
@@ -117,7 +117,7 @@ Commands:
 
 EOF
         else
-            cat <<-'EOF' | _patch_util_extract_subcmd $@ 
+            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
 yarn licenses list
 yarn licenses generate-disclaimer
 EOF
@@ -132,7 +132,7 @@ Commands:
     remove  Removes the <user> as an owner of the <package>.
 EOF
         else
-            cat <<-'EOF' | _patch_util_extract_subcmd $@ 
+            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
 yarn owner list <package>
 yarn owner add <user> <package>
 yarn owner remove <user> <package>
@@ -146,7 +146,7 @@ Commands:
     set-version  Enforcing Yarn’s version across your project.
 EOF
         else
-            cat <<-'EOF' | _patch_util_extract_subcmd $@ 
+            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
 yarn policies set-version <ver>
 options:
     --rc   Use latest rc release
@@ -164,7 +164,7 @@ Commands:
     list        List of existing teams under that organization.
 EOF
         else
-            cat <<-'EOF' | _patch_util_extract_subcmd $@ 
+            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
 yarn team create <scope:team>
 yarn team destroy <scope:team>
 yarn team add <scope:team> <user>
@@ -181,7 +181,7 @@ Commands:
     run     run the chosen Yarn command in each workspace.
 EOF
         else
-            cat <<-'EOF' | _patch_util_extract_subcmd $@ 
+            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
 yarn workspaces info
 options:
     --json
@@ -202,23 +202,23 @@ EOF
 
 _patch_table() {
     if [[ "$*" == "yarn" ]]; then
-        _patch_util_edit_table_argument ';;' 'cmd;[`_choice_script`]'
+        _patch_table_edit_arguments ';;' 'cmd;[`_choice_script`]'
     elif [[ "$*" == "yarn config "* ]]; then
-        _patch_util_edit_table_argument 'key;[`_choice_config_key`]'
+        _patch_table_edit_arguments 'key;[`_choice_config_key`]'
     elif [[ "$*" == "yarn global remove" ]] || [[ "$*" == "yarn global upgrade" ]]; then
-        _patch_util_edit_table_argument 'packages;[`_choice_global_dependency`]'
+        _patch_table_edit_arguments 'packages;[`_choice_global_dependency`]'
     elif [[ "$*" == "yarn run" ]]; then
-        _patch_util_edit_table_argument ';;' 'script;[`_choice_script`]'
+        _patch_table_edit_arguments ';;' 'script;[`_choice_script`]'
     elif [[ "$*" == "yarn remove" ]]; then
-        _patch_util_edit_table_argument 'packages;[`_choice_dependency`]'
+        _patch_table_edit_arguments 'packages;[`_choice_dependency`]'
     elif [[ "$*" == "yarn upgrade" ]]; then
-        _patch_util_edit_table_argument ';;' '[packages]...;[`_choice_dependency`]'
+        _patch_table_edit_arguments ';;' '[packages]...;[`_choice_dependency`]'
     elif [[ "$*" == "yarn workspace" ]]; then
-        _patch_util_edit_table_argument ';;' \
+        _patch_table_edit_arguments ';;' \
             '<workspace-name>;[`_choice_workspace`]' \
             '[workspace-args]...;~[`_choice_workspace_args`]'
     elif [[ "$*" == "yarn workspaces" ]]; then
-        _patch_util_edit_table_argument ';;'
+        _patch_table_edit_arguments ';;'
     else
         cat
     fi

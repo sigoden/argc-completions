@@ -37,7 +37,7 @@ Commands:
 EOF
 
     elif [[ "$*" == "bun pm "* ]]; then
-            cat <<-'EOF' | _patch_util_extract_subcmd $@ 
+            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
 bun pm bin
 options:
    -g, --global   Install globally
@@ -48,7 +48,7 @@ options:
 EOF
 
     else
-            cat <<-'EOF' | _patch_util_extract_subcmd $@ 
+            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
 bun build [file]...
 bun x <cmd> [args]...
 bun completions [dir]
@@ -58,15 +58,15 @@ EOF
 }
 
 _patch_table() {
-    table="$(_patch_util_edit_table_option '--cwd(<DIR>)')"
+    table="$(_patch_table_edit_options '--cwd(<DIR>)')"
     if [[ "$*" == "bun" ]]; then
         echo "$table" | \
-            _patch_util_edit_table_option '--target;[browser|bun|node]' | \
-            _patch_util_edit_table_argument ';;' '[args]...;[`_choice_script_or_bin`]'
+            _patch_table_edit_options '--target;[browser|bun|node]' | \
+            _patch_table_edit_arguments ';;' '[args]...;[`_choice_script_or_bin`]'
     elif [[ "$*" == "bun run" ]]; then
-        echo "$table" | _patch_util_edit_table_argument ';;' 'script_or_bin;[`_choice_script_or_bin`]'
+        echo "$table" | _patch_table_edit_arguments ';;' 'script_or_bin;[`_choice_script_or_bin`]'
     elif [[ "$*" == "bun remove" ]]; then
-        echo "$table" | _patch_util_edit_table_argument ';;' 'pkg;[`_choice_dependency`]'
+        echo "$table" | _patch_table_edit_arguments ';;' 'pkg;[`_choice_dependency`]'
     else
         echo "$table"
     fi

@@ -1,5 +1,5 @@
 _patch_table() {
-    _patch_util_edit_table_option  \
+    _patch_table_edit_options  \
         '--artifact-server-path(path)' \
         '--cache-server-path(path)' \
         '--workflows(path)' \
@@ -10,7 +10,7 @@ _patch_table() {
         '--secret-file(file)' \
         '--job;[`_choice_job`]' \
         '--container-architecture;[`_choice_container_platform`]'  | \
-    _patch_util_edit_table_argument ';;' 'event;[`_choice_event`]'
+    _patch_table_edit_arguments ';;' 'event;[`_choice_event`]'
 }
 
 _choice_job() {

@@ -4,10 +4,10 @@ _patch_help() {
 }
 
 _patch_table() {
-    _patch_util_edit_table_option \
+    _patch_table_edit_options \
         '-o;[`_choice_option`]' \
         '-c;*,[`_choice_cipher`]' \ |
-    _patch_util_edit_table_argument 'paths;[`_choice_path`]'
+    _patch_table_edit_arguments 'paths;[`_choice_path`]'
 }
 
 _choice_option() {

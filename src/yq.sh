@@ -9,9 +9,9 @@ _patch_help() {
 }
 
 _patch_table() {
-    _patch_util_edit_table_option \
+    _patch_table_edit_options \
         '--from-file(file)' \
         '--split-exp-file(file)' | \
-    _patch_util_edit_table_argument \
+    _patch_table_edit_arguments \
         'expression'
 }

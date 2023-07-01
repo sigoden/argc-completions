@@ -1,5 +1,5 @@
 _patch_table() {
-    _patch_util_edit_table_argument  ';;' '[target]...;[`_choice_target`]'
+    _patch_table_edit_arguments  ';;' '[target]...;[`_choice_target`]'
 }
 
 _choice_target() {

@@ -131,7 +131,7 @@ _helper_print_help() {
         if _test_patch_fn help; then
             _patch_help $@
         else
-            _patch_util_run_help $@
+            _patch_help_run $@
         fi
     fi
 }

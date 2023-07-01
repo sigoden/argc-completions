@@ -1,3 +1,3 @@
 _patch_table() {
-    _patch_util_edit_table_argument ';;' '<dir>...'
+    _patch_table_edit_arguments ';;' '<dir>...'
 }

@@ -90,7 +90,7 @@ Commands:
     run         use <cmd>... to automatically bisect.
 EOF
         else
-            cat <<-'EOF' | _patch_util_extract_subcmd $@ 
+            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
 git bisect start
 options:
     --term-new <term>
@@ -147,7 +147,7 @@ EOF
         elif [[ "$*" == "git reflog show" ]]; then
             $@ -h 2>&1
         else
-            cat <<-'EOF' | _patch_util_extract_subcmd $@
+            cat <<-'EOF' | _patch_help_extract_subcmds $@
 git reflog expire <refs>...
 options:
     --expire <time>
@@ -212,7 +212,7 @@ Commands:
     save
 EOF
         else 
-            cat <<-'EOF' | _patch_util_extract_subcmd $@ 
+            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
 git stash list
 git stash show <stash>
 git stash drop <stash>
@@ -269,7 +269,7 @@ Commands:
     absorbgitdirs
 EOF
         else
-            cat <<-'EOF' | _patch_util_extract_subcmd $@ 
+            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
 git submodule add <repository> [<path>]
 options:
     -b <branch>
@@ -330,7 +330,7 @@ Commands:
     unlock
 EOF
         else
-            cat <<-'EOF' | _patch_util_extract_subcmd $@ 
+            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
 git worktree add [<options>] <path> [<commit-ish>]
 git worktree list [<options>]
 git worktree lock [<options>] <path>
@@ -349,53 +349,53 @@ EOF
 
 _patch_table() {
     if [[ "$*" == "git" ]]; then
-        _patch_util_edit_table_argument 'cmd;[`_choice_cmd`]'
+        _patch_table_edit_arguments 'cmd;[`_choice_cmd`]'
     elif [[ "$*" == "git add" ]]; then
-        _patch_util_edit_table_argument 'pathspec;[`_choice_unstaged_file`]'
+        _patch_table_edit_arguments 'pathspec;[`_choice_unstaged_file`]'
     elif [[ "$*" == "git branch" ]]; then
-        _patch_util_edit_table_argument ';;' '<branch>;[`_choice_branch`]'
+        _patch_table_edit_arguments ';;' '<branch>;[`_choice_branch`]'
     elif [[ "$*" == "git checkout" ]]; then
-        _patch_util_edit_table_argument 'branch;[`_choice_checkout`]'
+        _patch_table_edit_arguments 'branch;[`_choice_checkout`]'
     elif [[ "$*" == "git cherry-pick" ]]; then
-        _patch_util_edit_table_argument 'commit-ish;[`_choice_range`]'
+        _patch_table_edit_arguments 'commit-ish;[`_choice_range`]'
     elif [[ "$*" == "git clean" ]]; then
-        _patch_util_edit_table_argument 'paths;[`_choice_unstaged_file`]'
+        _patch_table_edit_arguments 'paths;[`_choice_unstaged_file`]'
     elif [[ "$*" == "git config" ]]; then
-        _patch_util_edit_table_argument ';;' 'key;[`_choice_config_key`]'
+        _patch_table_edit_arguments ';;' 'key;[`_choice_config_key`]'
     elif [[ "$*" == "git describe" ]]; then
-        _patch_util_edit_table_argument 'commit-ish;[`_choice_ref`]'
+        _patch_table_edit_arguments 'commit-ish;[`_choice_ref`]'
     elif [[ "$*" == "git diff" ]]; then
-        _patch_util_edit_table_argument ';;' '[commit-path]...;[`_choice_diff`]'
+        _patch_table_edit_arguments ';;' '[commit-path]...;[`_choice_diff`]'
     elif [[ "$*" == "git fetch" ]]; then
-        _patch_util_edit_table_argument ';;' '<remote>;[`_choice_remote`]' '<refspec>...;[`_choice_branch`]'
+        _patch_table_edit_arguments ';;' '<remote>;[`_choice_remote`]' '<refspec>...;[`_choice_branch`]'
     elif [[ "$*" == "git log" ]]; then
-        _patch_util_edit_table_argument ';;' '[commit-path]...;[`_choice_log`]'
+        _patch_table_edit_arguments ';;' '[commit-path]...;[`_choice_log`]'
     elif [[ "$*" == "git switch" ]]; then
-        _patch_util_edit_table_argument 'branch;[`_choice_branch`]'
+        _patch_table_edit_arguments 'branch;[`_choice_branch`]'
     elif [[ "$*" == "git shortlog" ]]; then
-        _patch_util_edit_table_argument ';;' '[commit-path]...;[`_choice_log`]'
+        _patch_table_edit_arguments ';;' '[commit-path]...;[`_choice_log`]'
     elif [[ "$*" == "git show" ]]; then
-        _patch_util_edit_table_argument ';;' '[commit-path]...;[`_choice_show`]'
+        _patch_table_edit_arguments ';;' '[commit-path]...;[`_choice_show`]'
     elif [[ "$*" == "git restore" ]]; then
-        _patch_util_edit_table_argument 'file;[`_choice_restore_file`]'
+        _patch_table_edit_arguments 'file;[`_choice_restore_file`]'
     elif [[ "$*" == "git reset" ]]; then
-        _patch_util_edit_table_argument ';;' '[commit]...;[`_choice_reset`]'
+        _patch_table_edit_arguments ';;' '[commit]...;[`_choice_reset`]'
     elif [[ "$*" == "git tag" ]]; then
-        _patch_util_edit_table_argument ';;' '<tagname>;[`_choice_tag`]'
+        _patch_table_edit_arguments ';;' '<tagname>;[`_choice_tag`]'
     elif [[ "$*" == "git rebase" ]]; then
-        _patch_util_edit_table_argument ';;' '<base>;[`_choice_branch`]' '<new>;[`_choice_branch`]'
+        _patch_table_edit_arguments ';;' '<base>;[`_choice_branch`]' '<new>;[`_choice_branch`]'
     elif [[ "$*" == "git range-diff" ]]; then
-        _patch_util_edit_table_argument ';;' '<base>;[`_choice_branch`]' '<new>;[`_choice_branch`]'
+        _patch_table_edit_arguments ';;' '<base>;[`_choice_branch`]' '<new>;[`_choice_branch`]'
     elif [[ "$*" == "git push" ]]; then
-        _patch_util_edit_table_argument ';;' '<remote>;[`_choice_remote`]' '<refspec>...;[`_choice_push`]'
+        _patch_table_edit_arguments ';;' '<remote>;[`_choice_remote`]' '<refspec>...;[`_choice_push`]'
     elif [[ "$*" == "git pull" ]]; then
-        _patch_util_edit_table_argument ';;' '<remote>;[`_choice_remote`]' '<refspec>...;[`_choice_remote_branch`]'
+        _patch_table_edit_arguments ';;' '<remote>;[`_choice_remote`]' '<refspec>...;[`_choice_remote_branch`]'
     elif [[ "$*" == "git merge" ]]; then
-        _patch_util_edit_table_argument 'commit;[`_choice_branch`]'
+        _patch_table_edit_arguments 'commit;[`_choice_branch`]'
     elif [[ "$*" == "git stash"* ]]; then
-        _patch_util_edit_table_argument 'stash;[`_choice_stash`]'
+        _patch_table_edit_arguments 'stash;[`_choice_stash`]'
     elif [[ "$*" == "git remote"* ]]; then
-        _patch_util_edit_table_argument 'name;[`_choice_remote`]' 'old;[`_choice_remote`]' 'new;[`_choice_remote`]'
+        _patch_table_edit_arguments 'name;[`_choice_remote`]' 'old;[`_choice_remote`]' 'new;[`_choice_remote`]'
     else
         cat
     fi

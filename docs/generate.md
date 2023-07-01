@@ -99,7 +99,7 @@ Let's also take `aichat` as an example.
 
 ```sh
 _patch_table() {
-    _patch_util_edit_table_option \
+    _patch_table_edit_options \
         '--model:[`_choice_model`]' \
         '--role:[`_choice_role`]'
 }

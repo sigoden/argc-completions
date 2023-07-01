@@ -6,14 +6,14 @@ _patch_help() {
 _patch_table() {
     sed  -e  '/# -L \[/ d' -e '/# -L # / d' \
         -e '/# -R \[bind_address:\]port:/ d' -e '/# -R #/ d' | \
-    _patch_util_edit_table_option \
+    _patch_table_edit_options \
         '-L([bind_address:]port:host:hostport)' \
         '-R([bind_address:]port:host:hostport)' \
         '-o;[`_choice_option`]' \
         '-c;*,[`_choice_cipher`]' \
         '-O;[`_choice_ctl_cmd`]' \
         '-Q;[`_choice_query`]' \ |
-    _patch_util_edit_table_argument \
+    _patch_table_edit_arguments \
         'destination;[`_choice_destination`]'
 }
 

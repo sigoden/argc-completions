@@ -37,7 +37,7 @@ EOF
 }
 
 _patch_table() {
-	table="$(_patch_util_edit_table_option \
+	table="$(_patch_table_edit_options \
 		'--bench;[`_choice_bench`]' \
 		'--bin;[`_choice_bin`]' \
 		'--example;[`_choice_example`]' \
@@ -46,11 +46,11 @@ _patch_table() {
 		'--package;[`_choice_package`]' \
 	)"
 	if [[ "$*" == "cargo" ]]; then
-		echo "$table" | _patch_util_edit_table_argument 'cmd;[`_choice_cmd`]'
+		echo "$table" | _patch_table_edit_arguments 'cmd;[`_choice_cmd`]'
 	elif [[ "$*" == "cargo test" ]]; then
-		echo "$table" | _patch_util_edit_table_argument 'TESTNAME;[`_choice_testname`]'
+		echo "$table" | _patch_table_edit_arguments 'TESTNAME;[`_choice_testname`]'
 	elif [[ "$*" == "cargo remove" ]]; then
-		echo "$table" | _patch_util_edit_table_argument 'DEP_ID;[`_choice_depid`]'
+		echo "$table" | _patch_table_edit_arguments 'DEP_ID;[`_choice_depid`]'
 	else
 		echo "$table"
 	fi
