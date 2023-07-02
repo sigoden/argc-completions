@@ -60,16 +60,24 @@ choice-fn() {
     if grep -q 'argc --argc-eval' "$script_file"; then
         if [[ "$OS" == "Windows_NT" ]]; then
             script_file="$(cygpath -w "$script_file")"
+            os="windows"
+            sep="\\"
+        elif [[ "$(uname)" == "Darwin" ]]
+            os="macos"
+            sep="/"
+        else
+            os="linux"
+            sep="/"
         fi
         if [[ "${#argc_args[@]}" -gt 0 ]]; then
             last_arg="${argc_args[-1]}"
         fi
-        matcher="$last_arg"
+        filter="$last_arg"
         if [[ "$last_arg" =~ ^'-' ]] && [[ "$last_arg" =~ '=' ]]; then
-            matcher="${matcher#*=}"
+            filter="${filter#*=}"
         fi
         (cd $argc_dir && \
-            ARGC_COMPGEN=1 ARGC_MATCHER="$matcher" ARGC_LAST_ARG="$last_arg" \
+            ARGC_COMPGEN=1 ARGC_OS="$os" ARGC_PATH_SEP="$sep" ARGC_FILTER="$filter" ARGC_LAST_ARG="$last_arg" \
             bash "$script_file" $argc_fn ${argc_args[@]})
     else
         for f in utils/_argc_utils/*.sh; do

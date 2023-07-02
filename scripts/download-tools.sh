@@ -4,7 +4,7 @@
 
 set -e
 
-argc_version=${ARGC_VERSION:-v1.6.0}
+argc_version=${ARGC_VERSION:-v1.7.0}
 
 download() {
     install_dir="$1"

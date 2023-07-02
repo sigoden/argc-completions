@@ -2,35 +2,6 @@ ARGC_COMPLETIONS_DIR=${ARGC_COMPLETIONS_DIR:-"$(dirname $(dirname $(readlink -f 
 ARGC_COMPLETIONS_SCRIPTS=( $(ls -p -1 "$ARGC_COMPLETIONS_DIR" | grep -v '/' | sed 's/.sh$//' | tr '\n' ' ') )
 ARGC_COMPLETIONS_EXTEND_CMDS=( $(ls -p -1 "$ARGC_COMPLETIONS_DIR" | grep '/$' | sed 's|/$||' | tr '\n' ' ') )
 
-_argc_completions_complete_impl() {
-    local candidates=()
-    while IFS=$'\n' read -r line; do
-        if [[ "$line" == "" ]]; then line=$'\0'; fi
-        candidates+=( "$line" )
-    done < <(argc --argc-compgen zsh $@ 2>/dev/null)
-    local skip=0
-    if [[ ${#candidates[@]} -gt 0 ]]; then
-        if [[ "$candidates[1]" == "__argc_value:file" ]]; then
-            skip=1
-            _path_files
-        elif [[ "$candidates[1]" == "__argc_value:dir" ]]; then
-            skip=1
-            _path_files -/
-        fi
-    fi
-    if [[ ${#candidates[@]} -gt $skip ]]; then
-        local values=()
-        local displays=()
-        for candidate in ${candidates[@]:$skip}; do
-            IFS=$'\t' read -r value display <<< "$candidate"
-            values+=( "$value" )
-            displays+=( "$display" )
-        done
-        zstyle ":completion:${curcontext}:*" list-colors "=(#b)(-- *)=0=2;37:=(#b)(--[A-Za-z0-9_-]#)( * -- *)=0==2;37"
-        _describe "" displays values -Q -S ''
-    fi
-}
-
 _argc_completions_completer()
 {
     local cur="$words[$CURRENT]"
@@ -53,12 +24,24 @@ _argc_completions_completer()
         words=( ${words[2, -1]} )
     else
         scriptfile="$ARGC_COMPLETIONS_DIR/$cmd.sh"
-        if [[ ! -f "$scriptfile" ]]; then
-            _path_files
-            return
-        fi
     fi
-    _argc_completions_complete_impl $scriptfile $words
+
+    local candidates=()
+    while IFS=$'\n' read -r line; do
+        if [[ "$line" == "" ]]; then line=$'\0'; fi
+        candidates+=( "$line" )
+    done < <(argc --argc-compgen zsh $scriptfile $words 2>/dev/null)
+    local values=()
+    local displays=()
+    local colors
+    for candidate in ${candidates[@]}; do
+        IFS=$'\t' read -r value display display_value color <<< "$candidate"
+        colors="$colors:=(#b)($display_value)( * -- *)=0=$color=2;37:=(#b)($display_value)()=0=$color=2;37"
+        values+=( "${value}" )
+        displays+=( "$display" )
+    done
+    zstyle ":completion:${curcontext}:*" list-colors "${colors:1}:=(#b)(-- *)=0=2;37:=(#b)(--[A-Za-z0-9_-]#)( * -- *)=0==2;37"
+    _describe "" displays values -Q -S ''
 }
 
 compdef _argc_completions_completer ${ARGC_COMPLETIONS_SCRIPTS[@]}

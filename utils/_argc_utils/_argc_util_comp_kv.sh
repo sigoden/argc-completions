@@ -1,16 +1,16 @@
 _argc_util_comp_kv() {
     local prefix
-    local matcher="${2-$ARGC_MATCHER}"
-    if [[ "$matcher" == *$1* ]]; then
-        prefix="${matcher%%$1*}"
-        matcher="${matcher#*$1}"
+    local filter="${2-$ARGC_FILTER}"
+    if [[ "$filter" == *$1* ]]; then
+        prefix="${filter%%$1*}"
+        filter="${filter#*$1}"
     fi
     if [[ -n "$prefix" ]]; then
         echo __argc_prefix:$prefix$1
     else
         echo __argc_suffix:$1
     fi
-    echo __argc_matcher:$matcher
+    echo __argc_filter:$filter
     for line in $(cat); do
         if [[ -z "$prefix" ]]; then
             echo -e "${line%%=*}\0"

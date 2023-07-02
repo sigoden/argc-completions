@@ -2,24 +2,6 @@ set -q ARGC_COMPLETIONS_DIR || set ARGC_COMPLETIONS_DIR (dirname (dirname (statu
 set ARGC_COMPLETIONS_SCRIPTS (ls -p -1 "$ARGC_COMPLETIONS_DIR" | grep -v '/' | sed 's/.sh$//')
 set ARGC_COMPLETIONS_EXTEND_CMDS (ls -p -1 "$ARGC_COMPLETIONS_DIR" | grep '/$' | sed 's|/$||')
 
-function _argc_completions_complete_impl
-    set -l cur $argv[-1]
-    set -l candidates (argc --argc-compgen fish $argv 2>/dev/null)
-    set -l skip 0
-    if test (count $candidates) -gt 0
-        if [ $candidates[1] = "__argc_value:file" ]
-            set skip 1
-            __fish_complete_path $cur
-        else if [ $candidates[1] = "__argc_value:dir" ]
-            set skip 1
-            __fish_complete_directories $cur
-        end
-    end
-    for item in $candidates[(math $skip + 1)..]
-        echo $item
-    end
-end
-
 function __argc_completions_completer
     set -l args (commandline -o)
     set -l cur (commandline -t)
@@ -43,12 +25,8 @@ function __argc_completions_completer
         set args $args[2..]
     else
         set scriptfile "$ARGC_COMPLETIONS_DIR/$cmd.sh"
-        if not test -f "$scriptfile"
-            __fish_complete_path $cur
-            return
-        end
     end
-    _argc_completions_complete_impl $scriptfile $args
+    argc --argc-compgen fish "$scriptfile" $args
 end
 
 for argc_script in $ARGC_COMPLETIONS_SCRIPTS

@@ -128,9 +128,9 @@ _choice_path() {
     fi
     local userhost="${last_arg%%:*}"
     local path="${last_arg#*:}"
-    local matcher="$path"
+    local filter="$path"
     ssh -o 'Batchmode yes' "$userhost" command ls -a1dp "$path*" 2>/dev/null \
-        | _argc_util_comp_parts / "$matcher" "$userhost:"
+        | _argc_util_comp_parts / "$filter" "$userhost:"
 }
 
 _helper_host() {

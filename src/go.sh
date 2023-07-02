@@ -323,7 +323,7 @@ _helper_complete_file() {
         echo "__argc_cd:$(_argc_util_path_resolve -p "$2")"
     fi
     echo "__argc_prefix:${1%%=*}="
-    echo "__argc_matcher:${1#*=}"
+    echo "__argc_filter:${1#*=}"
     echo __argc_value:file
 }
 
