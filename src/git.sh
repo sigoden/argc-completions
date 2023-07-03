@@ -355,7 +355,7 @@ _patch_table() {
     elif [[ "$*" == "git branch" ]]; then
         _patch_table_edit_arguments ';;' '<branch>;[`_choice_branch`]'
     elif [[ "$*" == "git checkout" ]]; then
-        _patch_table_edit_arguments 'branch;[`_choice_checkout`]'
+        _patch_table_edit_arguments 'branch([branch-path]...);[`_choice_checkout`]'
     elif [[ "$*" == "git cherry-pick" ]]; then
         _patch_table_edit_arguments 'commit-ish;[`_choice_range`]'
     elif [[ "$*" == "git clean" ]]; then
@@ -444,7 +444,7 @@ _choice_changed_file() {
 }
 
 _choice_restore_file() {
-    if [[ -n "$argc__staged" ]]; then
+    if [[ -n "$argc_staged" ]]; then
         _choice_staged_file
     else
         _choice_changed_file
@@ -452,20 +452,32 @@ _choice_restore_file() {
 }
 
 _choice_checkout() {
-    if [[ -n "$argc__dashdash" ]]; then
-        _choice_changed_file
+    if [[ -n "$argc__dashes" ]]; then
+        if [[ "${argc__dashes[0]}" -gt 0 ]]; then
+            _helper_ref_change "${argc__positionals[0]}"
+        else
+            _choice_changed_file
+        fi
+    elif [[ ${#argc__positionals[@]} -gt 1 ]]; then
+        _helper_ref_change "${argc__positionals[0]}"
     else
-        _argc_util_parallel _choice_tag ::: _choice_head ::: _choice_unique_remote_branch ::: _choice_branch
+        _choice_ref
     fi
 }
 
 
 _choice_reset() {
-    if [[ -n "$argc__dashdash" ]]; then
+    if [[ -n "$argc__dashes" ]]; then
         _choice_changed_file
+    elif [[ ${#argc__positionals[@]} -gt 1 ]]; then
+        :;
     else
-        _argc_util_parallel _choice_branch ::: _choice_head
+        _choice_ref
     fi
+}
+
+_choice_branch() {
+    _argc_util_parallel _choice_tag ::: _choice_local_branch ::: _choice_remote_branch
 }
 
 _choice_diff() {
@@ -473,75 +485,65 @@ _choice_diff() {
 }
 
 _choice_log() {
-    if [[ -n "$argc__dashdash" ]]; then
+    if [[ -n "$argc_dashes" ]]; then
         _git ls-files | _argc_util_comp_parts /
     else
-        _choice_branch
+        _argc_util_mode_kv '..'
+        _choice_ref
     fi
 }
 
 _choice_show() {
-    if [[ -n "$argc__dashdash" ]]; then
-        _git ls-files
+    _argc_util_mode_kv ':'
+    if [[ -z "$argc__kv_prefix" ]]; then
+        _choice_ref
     else
-        _argc_util_parallel _choice_branch ::: _choice_tag
+        _git ls-files | _argc_util_comp_parts / "$argc__kv_filter" "$argc__kv_prefix"
     fi
 }
 
 _choice_tag() {
-    _git tag --sort=-creatordate
-}
-
-_choice_head() {
-    echo HEAD
+    git tag --sort=-creatordate --format "%(refname)	%(subject)" | sed 's|refs/tags/||' | head -n 100
 }
 
 _choice_push() {
-    if [[ -n "$argc_remote" ]]; then
-        if [[ "$argc_refspec" == *':'* ]]; then
-            _choice_remote_branch | sed 's/^/'"${argc_refspec%%:*}"':/'
-        else
-            _choice_ref
-        fi
-    fi
-}
-
-_choice_unique_remote_branch() {
-    _git for-each-ref --format="%(refname:strip=3)" \
-        --sort="refname:strip=3" \
-        "refs/remotes/*/$match*" "refs/remotes/*/*/**"  | uniq -u
-}
-
-_choice_branch() {
-    _git for-each-ref --format='%(refname:strip=2)' --sort=-committerdate refs/heads/
-    _git for-each-ref --format='%(refname:strip=2)' refs/remotes/
+    _argc_util_mode_kv ':'
+    _choice_branch
 }
 
 _choice_remote() {
     _git remote
 }
 
+_choice_local_branch() {
+    _git branch --format '%(refname:short)	%(subject)'
+}
+
 _choice_remote_branch() {
-    if [[ -n "$argc_remote" ]]; then
-        _choice_branch | command grep "^$argc_remote" | sed 's|'"${argc_remote}"'/||'
-    fi
+    _git branch --remote --sort=-creatordate --format '%(refname:short)	%(subject)' | head -n 100
+}
+
+_choice_head_commit() {
+    _git log --no-notes --pretty='tformat:%h	%<(64,trunc)%s' --max-count=100 | awk -F '\t' '{
+        if (NR == 1) { head="HEAD" } else { head=sprintf("HEAD~%02d", NR - 1) }
+        print $1 "\t" $2
+        print head "\t" $2
+    }'
 }
 
 _choice_ref() {
-    _argc_util_parallel _choice_branch ::: _choice_tag ::: _choice_head
+    _argc_util_parallel _choice_tag ::: _choice_head_commit ::: _choice_local_branch ::: _choice_remote_branch
 }
 
 _choice_range() {
-    last_arg="${argc__positionals[-1]}"
-    if [[ "$last_arg" == *'..'* ]]; then
-        ref1=${last_arg%%..*}
-        ref2=${last_arg##*..}
-        _choice_ref | command grep "^$ref2" | sed 's/^/'"$ref1.."'/'
-    else
-        _choice_ref
-    fi
+    _argc_util_mode_kv '..'
+    _choice_ref 
 }
 
 _choice_stash() {
-    _git stash list --format=%gd:%gs 2>/dev/null | sed 's/: /\t/'
+    _git stash list --format='%gd	%gs'
+}
+
+_helper_ref_change() {
+    _git diff-tree --name-only --no-commit-id -r "$1"
 }
