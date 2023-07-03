@@ -7,17 +7,21 @@ _patch_help() {
             -e '/^-----/, /^bun:/ c\Commands:' 
     elif [[ "$*" == "bun run" ]]; then
         echo "Usage: bun run [script_or_bin]..."
-         $@ --help | sed '/----/,$ d'
+        $@ --help | sed '/----/,$ d'
     elif [[ "$*" == "bun dev" ]]; then
         $@ --help | sed '/----/,$ d'
-    elif [[ "$*" == "bun add" ]] || [[ "$*" == "bun install" ]] || [[ "$*" == "bun remove" ]] || [[ "$*" == "bun link" ]] || [[ "$*" == "bun unlink" ]]; then
+    elif [[ "$*" == "bun add" ]] || \
+            [[ "$*" == "bun install" ]] || \
+            [[ "$*" == "bun remove" ]] || \
+            [[ "$*" == "bun link" ]] || \
+            [[ "$*" == "bun unlink" ]]; then
         echo "Usage: $* <pkg>"
         $@ --help
     elif [[ "$*" == "bun create" ]]; then
         echo "Usage: bun create <pkg> [args]..."
         $@ --help
     elif [[ "$*" == "bun pm" ]]; then
-            cat <<-'EOF'
+        cat <<-'EOF'
 Usage: bun pm
 
 Commands:
@@ -29,14 +33,14 @@ Commands:
     cache        Print the path to the cache folder
 EOF
     elif [[ "$*" == "bun pm cache" ]]; then
-            cat <<-'EOF'
+        cat <<-'EOF'
 Usage: bun pm cache
 Commands:
     rm        Clear Bun's global module cache
 EOF
 
     elif [[ "$*" == "bun pm "* ]]; then
-            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
+        cat <<-'EOF' | _patch_help_extract_subcmds $@ 
 bun pm bin
 options:
    -g, --global   Install globally
@@ -47,7 +51,7 @@ options:
 EOF
 
     else
-            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
+        cat <<-'EOF' | _patch_help_extract_subcmds $@ 
 bun build [file]...
 bun x <cmd> [args]...
 bun completions [dir]
@@ -72,7 +76,7 @@ _patch_table() {
 }
 
 _choice_script_or_bin() {
-    echo __argc_value:file
+    echo __argc_value=file
     _helper_script
 }
 
@@ -91,10 +95,5 @@ _helper_script() {
 }
 
 _helper_pkg_json_path() {
-    if [[ -v pkg_json_path ]]; then
-        echo "$pkg_json_path"
-    else
-        pkg_json_path=$(_argc_util_path_search_parent package.json)
-        echo "$pkg_json_path"
-    fi
+    _argc_util_path_search_parent package.json
 }

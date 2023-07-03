@@ -9,10 +9,6 @@ Miss Commands:
   service     Manage Swarm services
   stack       Manage Swarm stacks
 EOF
-    elif [[ "$*" == "docker container" ]]; then
-        $@ --help | sed 's/ls\s\+/ls, ps, list  /'
-    elif [[ "$*" == "docker image" ]]; then
-        $@ --help | sed 's/ls\s\+/ls, list  /'
     elif [[ "$*" == "docker container cp" ]] || [[ "$*" == "docker cp" ]]; then
         $@ --help | sed '/Usage:/ c\Usage:  docker cp [OPTIONS] SRC DEST'
     elif [[ "$*" == "docker compose cp" ]]; then
@@ -30,16 +26,25 @@ _patch_table() {
     )"
     if [[ "$*" == "docker config"* ]]; then
         echo "$table" | _patch_table_edit_arguments 'CONFIG;[`_choice_config`]'
-    elif [[ "$*" == "docker compose cp"* ]]; then
-        echo "$table" | _patch_table_edit_arguments 'SRC;[`_choice_compose_cp`]' 'DEST;[`_choice_compose_cp`]'
     elif [[ "$*" == "docker compose"* ]]; then
-        echo "$table" | _patch_table_edit_arguments 'SERVICE;[`_choice_compose_service`]' 'SERVICES;[`_choice_compose_service`]' 
+        table="$(echo "$table" | _patch_table_edit_arguments 'SERVICE;[`_choice_compose_service`]' 'SERVICES;[`_choice_compose_service`]')"
+        if [[ "$*" == "docker compose" ]]; then
+            echo "$table" | _patch_table_edit_commands 'convert(convert, config)'
+        elif [[ "$*" == "docker compose cp" ]]; then
+            echo "$table" | _patch_table_edit_arguments 'SRC;[`_choice_compose_cp`]' 'DEST;[`_choice_compose_cp`]'
+        else
+            echo "$table"
+        fi
+    elif [[ "$*" == "docker container" ]]; then
+        echo "$table" | _patch_table_edit_commands 'ls(ls, list, ps)'
     elif [[ "$*" == "docker container cp"* ]] || [[ "$*" == "docker cp"* ]]; then
         echo "$table" | _patch_table_edit_arguments 'SRC;[`_choice_container_cp`]' 'DEST;[`_choice_container_cp`]'
     elif [[ "$*" == "docker container list"* ]]; then
         echo "$table" | _patch_table_edit_options '--filter;[`_choice_container_ls_filter`]'
     elif [[ "$*" == "docker ps"* ]]; then
         echo "$table" | _patch_table_edit_options '--filter;[`_choice_container_ls_filter`]'
+    elif [[ "$*" == "docker image" ]]; then
+        echo "$table" | _patch_table_edit_commands 'ls(ls, list, ps)'
     elif [[ "$*" == "docker image list"* ]] || [[ "$*" == "docker images"* ]]; then
         echo "$table" | _patch_table_edit_options '--filter;[`_choice_image_ls_filter`]'
     elif [[ "$*" == "docker image tag"* ]] || [[ "$*" == "docker tag"* ]]; then
@@ -138,216 +143,110 @@ _choice_builder() {
 }
 
 _choice_container_cp() {
-    src="$(_argc_util_param_get_positional 0)"
-    dest="$(_argc_util_param_get_positional 1)"
-    if [ -n "$dest" ]]; then
-        if [[ "$src" =~ ^[A-Za-z0-9_-]+: ]]; then
-            echo "__argc_value:file"
-        else
-            if [[ ! "$dest" =~ ^[A-Za-z0-9_-]+: ]]; then
-                _choice_container_name
-            else
-                _helper_container_path "$dest"
+    _argc_util_mode_kv ':'
+    _complete_container_path() {
+        if [[ -z "$argc__kv_prefix" ]]; then
+            echo "__argc_value=file"
+            if ! _argc_util_is_path "$src"; then
+                _choice_container_name | _argc_util_transform suffix=: nospace
             fi
-        fi
-    else
-        if [[ "$src" =~ ^[A-Za-z0-9_-]+$ ]]; then
-            _choice_container_name
-        elif [[ "$src" =~ ^[A-Za-z0-9_-]+: ]]; then
-            _helper_container_path "$src"
         else
-            echo "__argc_value:file"
+            _argc_util_mode_parts '/' "$argc__kv_filter" "$argc__kv_prefix"
+            if [[ -z "$argc__kv_filter" ]]; then
+                echo -e "/\0"
+                return
+            fi
+            _docker exec "${argc__kv_key}" ls -1p "$argc__parts_local_prefix" | _argc_util_transform nospaceIfEnd=/
+        fi
+    }
+    if [[ ${#argc__positionals[@]} -eq 1 ]]; then
+        _complete_container_path
+    else
+        if [[ "${argc__positionals[0]}" == *':'* ]]; then
+            echo "__argc_value=file"
+        else
+            _complete_container_path
         fi
     fi
 }
 
 _choice_compose_service() {
-    _docker compose ls --format json | yq '.[] | .Name'
+    _docker compose convert --services
 }
 
 _choice_compose_cp() {
-    src="$(_argc_util_param_get_positional 0)"
-    dest="$(_argc_util_param_get_positional 1)"
-    if [ -n "$dest" ]]; then
-        if [[ "$src" =~ ^[A-Za-z0-9_-]+: ]]; then
-            echo "__argc_value:file"
-        else
-            if [[ ! "$dest" =~ ^[A-Za-z0-9_-]+: ]]; then
-                _choice_compose_service
-            else
-                _helper_compose_service_path "$dest"
+    _argc_util_mode_kv ':'
+    _complete_compose_service_path() {
+        if [[ -z "$argc__kv_prefix" ]]; then
+            echo "__argc_value=file"
+            if ! _argc_util_is_path "$src"; then
+                _choice_compose_service | _argc_util_transform suffix=: nospace
             fi
-        fi
-    else
-        if [[ "$src" =~ ^[A-Za-z0-9_-]+$ ]]; then
-            _choice_compose_service
-        elif [[ "$src" =~ ^[A-Za-z0-9_-]+: ]]; then
-            _helper_compose_service_path "$src"
         else
-            echo "__argc_value:file"
+            _argc_util_mode_parts '/' "$argc__kv_filter" "$argc__kv_prefix"
+            if [[ -z "$argc__kv_filter" ]]; then
+                echo -e "/\0"
+                return
+            fi
+            _docker compose exec "${argc__kv_key}" ls -1p "$argc__parts_local_prefix" | _argc_util_transform nospaceIfEnd=/
+        fi
+    }
+    if [[ ${#argc__positionals[@]} -eq 1 ]]; then
+        _complete_compose_service_path
+    else
+        if [[ "${argc__positionals[0]}" == *':'* ]]; then
+            echo "__argc_value=file"
+        else
+            _complete_compose_service_path
         fi
     fi
 }
 
 _choice_container_ls_filter() {
-    if [[ "$argc_filter" == *'='* ]]; then
-        name="${argc_filter%%=*}"
-        output="$(
-        case "${name}" in
-            ancestor)
-                _choice_image_repo_tag
-                ;;
-            before | since)
-                _choice_container_name
-                ;;
-            health)
-                health_opts=('healthy' 'none' 'starting' 'unhealthy')
-                printf "%s\n" "${health_opts[@]}"
-                ;;
-            id)
-                _choice_container_id
-                ;;
-            is-task)
-                bool_opts=('true' 'false')
-                printf "%s\n" "${bool_opts[@]}"
-                ;;
-            isolation)
-                isolation_opts=('default' 'process' 'hyperv')
-                printf "%s\n" "${isolation_opts[@]}"
-                ;;
-            name)
-                _choice_container_name
-                ;;
-            network)
-                _choice_network
-                ;;
-            status)
-                status_opts=('created' 'dead' 'exited' 'paused' 'restarting' 'running' 'removing')
-                printf "%s\n" "${status_opts[@]}"
-                ;;
-            volume)
-                _choice_volume
-                ;;
-            *)
-                ;;
-        esac
-        )"
-        echo "$output" | xargs -I% echo $name=%
-    else
-        opts=('ancestor' 'before' 'exited' 'expose' 'health' 'id' 'label' 'name' 'network' 'publish' 'since' 'status' 'volume')
-        printf "%s=\n" "${opts[@]}"
-    fi
+    cat <<-'EOF' | _argc_util_comp_kv =
+id=`_choice_container_id`
+name=`_choice_container_name`
+label
+exited
+status=created,dead,exited,paused,restarting,running,removing
+ancestor=`_choice_image_repo_tag`
+before=`_choice_container_name`
+since=`_choice_container_name`
+volume=`_choice_volume`
+network=`_choice_network`
+publish
+expose
+health=healthy,none,starting,unhealthy
+isolation=default,process,hyperv
+is-task=true,false
+EOF
 }
 
 _choice_image_ls_filter() {
-    if [[ "$argc_filter" == *'='* ]]; then
-        name="${argc_filter%%=*}"
-        output="$(
-        case "${name}" in
-            before|reference|since)
-                _choice_image_repo_tag
-                ;;
-            dangling)
-                bool_opts=('true' 'false')
-                printf "%s\n" "${bool_opts[@]}"
-                ;;
-            *)
-                ;;
-        esac
-        )"
-        echo "$output" | xargs -I% echo $name=%
-    else
-        opts=('before' 'dangling' 'label' 'reference' 'since')
-        printf "%s=\n" "${opts[@]}"
-    fi
+    cat <<-'EOF' | _argc_util_comp_kv =
+dangling=true,false
+label
+before=`_choice_image_repo_tag`
+since=`_choice_image_repo_tag`
+reference=`_choice_image_repo_tag`
+EOF
 }
 
 _choice_event_filter() {
-    if [[ "$argc_filter" == *'='* ]]; then
-        name="${argc_filter%%=*}"
-        output="$(
-        case "${name}" in
-            config)
-                _choice_config
-                ;;
-            container)
-                _choice_container_name
-                ;;
-            event)
-                event_opts=('attach' 'commit' 'connect' 'copy' 'create' 'delete' 'destroy' 'detach' 'die' 'disable' 'disconnect' 'enable' 'exec_create' 'exec_detach'
-                'exec_start' 'export' 'health_status' 'import' 'install' 'kill' 'load'  'mount' 'oom' 'pause' 'pull' 'push' 'reload' 'remove' 'rename' 'resize'
-                'restart' 'save' 'start' 'stop' 'tag' 'top' 'unmount' 'unpause' 'untag' 'update')
-                printf "%s\n" "${event_opts[@]}"
-                ;;
-            image)
-                _choice_image_repo_tag
-                ;;
-            network)
-                _choice_network
-                ;;
-            node)
-                _choice_node
-                ;;
-            plugin)
-                _choice_plugin
-                ;;
-            scope)
-                scope_opts=('local' 'swarm')
-                printf "%s\n" "${scope_opts[@]}"
-                ;;
-            secret)
-                _choice_secret
-                ;;
-            service)
-                _choice_service
-                ;;
-            type)
-                type_opts=('container' 'daemon' 'image' 'network' 'volume')
-                printf "%s\n" "${type_opts[@]}"
-                ;;
-            volume)
-                _choice_volume
-                ;;
-            *)
-                ;;
-        esac
-        )"
-        echo "$output" | xargs -I% echo $name=%
-    else
-        opts=('config' 'container' 'daemon' 'event' 'image' 'label' 'network' 'node' 'plugin' 'scope' 'secret' 'service' 'type' 'volume')
-        printf "%s=\n" "${opts[@]}"
-    fi
-}
-
-_helper_container_path() {
-    container="${1%%:*}"
-    path="${1#*:}"
-    if [[ "$path" == '' ]] || [[ "$path" == '/' ]]; then
-        search_path="/"
-    elif [[ "$path" != *'/' ]]; then
-        search_path="$(dirname "$path")"
-        if [[ "$search_path" != *'/' ]]; then
-            search_path="$search_path/"
-        fi
-    else
-        search_path="$path"
-    fi
-    _docker exec "$container" ls -1 -p "$search_path" | xargs -I% echo "$container:$search_path%"
-}
-
-
-_helper_compose_service_path() {
-    service="${1%%:*}"
-    path="${1#*:}"
-    if [[ "$path" == '' ]] || [[ "$path" == '/' ]]; then
-        search_path="/"
-    elif [[ "$path" != *'/' ]]; then
-        search_path="$(dirname "$path")"
-        if [[ "$search_path" != *'/' ]]; then
-            search_path="$search_path/"
-        fi
-    else
-        search_path="$path"
-    fi
-    _docker compose exec "$service" ls -1 -p "$search_path" | xargs -I% echo "$service:$search_path%"
+    cat <<-'EOF' | _argc_util_comp_kv =
+config=`_choice_config`
+container=`_choice_container_name`
+daemon
+event=attach,commit,connect,copy,create,delete,destroy,detach,die,disable,disconnect,enable,exec_create,exec_detach,exec_start,export,health_status,import,install,kill,load,mount,oom,pause,pull,push,reload,remove,rename,resize,restart,save,start,stop,tag,top,unmount,unpause,untag,update
+image=`_choice_image_repo_tag`
+label
+network=`_choice_network`
+node=`_choice_node`
+plugin=`_choice_plugin`
+scope=local,swarm
+secret=`_choice_secret`
+service=`_choice_service`
+type=container,daemon,image,network,volume
+volume=`_choice_volume`
+EOF
 }

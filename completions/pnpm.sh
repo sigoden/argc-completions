@@ -813,12 +813,7 @@ _helper_apply_filter() {
 }
 
 _helper_pkg_json_path() {
-    if [[ -v pkg_json_path ]]; then
-        echo "$pkg_json_path"
-    else
-        pkg_json_path=$(_argc_util_path_search_parent package.json)
-        echo "$pkg_json_path"
-    fi
+    _argc_util_path_search_parent package.json
 }
 
 _argc_util_path_resolve() {
@@ -865,7 +860,7 @@ _argc_util_path_resolve() {
 )"
     if [[ $? -ne 0 ]]; then exit $?;  fi
     if [[ -z "$value" ]]; then return; fi
-    if [[ "$value" =~ ^[A-Za-z]: ]]; then
+    if [[ "$value" == [A-Za-z]:* ]]; then
         if [[ "$format" -eq 2 ]] && [[ "$ARGC_OS" == "windows" ]]; then cygpath -u "$value"; else echo "$value"; fi
     else
         if [[ "$format" -eq 1 ]] && [[ "$ARGC_OS" == "windows" ]]; then cygpath -w "$value"; else echo "$value"; fi

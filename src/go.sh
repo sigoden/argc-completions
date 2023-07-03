@@ -197,7 +197,7 @@ _patch_table() {
             '-dropreplace;[`_choice_mod_dropreplace`]' \
             '-droprequire;[`_choice_mod_droprequire`]' \
             '-replace;[`_choice_mod_replace`]'
-            _patch_table_edit_arguments ';;' 'file <file:go.mod>'
+            _patch_table_edit_arguments ';;' 'modfile <file:go.mod>'
     elif [[ "$*" == "go mod why" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'packages;*[`_choice_mod_why`]'
     elif [[ "$*" == "go run" ]]; then
@@ -215,7 +215,7 @@ _patch_table() {
                 '-dropreplace;*|[`_choice_work_dropreplace`]' \
                 '-dropuse;*|[`_choice_work_dropuse`]' \
                 '-replace;*|[`_choice_work_replace`]' \ |
-            _patch_table_edit_arguments ';;' 'file <file:go.work>'
+            _patch_table_edit_arguments ';;' 'workfile <file:go.work>'
     else
         echo "$table"
     fi
@@ -272,17 +272,21 @@ _choice_mod_droprequire() {
 }
 
 _choice_mod_replace() {
-    if [[ "$argc_replace" != *'='* ]]; then
-        _choice_mod_no_version | xargs -I{} printf "%s\0\n" {} 
-        echo __argc_suffix:=
+    _argc_util_mode_kv =
+    if [[ -z "$argc__kv_prefix" ]]; then
+        _choice_mod_no_version | _argc_util_transform suffix== nospace
     else
-        _helper_complete_file "$argc_replace" "$(_helper_root_file go.mod "$argc_file")"
+        if [[ -f "$argc_modfile" ]]; then
+            chdir="$(dirname "$argc_modfile")"
+        else
+            chdir="$(_argc_util_path_search_parent -p go.mod)"
+        fi
+        _argc_util_comp_file -cd="$chdir" -filter="$argc__kv_filter"
     fi
 }
 
 _choice_mod_why() {
-    _choice_mod_no_version
-    _helper_list_imports
+    _argc_util_parallel _choice_mod_no_version ::: _helper_list_imports
 }
 
 _choice_work_dropreplace() {
@@ -294,43 +298,38 @@ _choice_work_dropuse() {
 }
 
 _choice_work_replace() {
-    root_dir="$(_helper_root_file go.work "$argc_file")"
-    if [[ "$argc_replace" != *'='* ]]; then
+    _argc_util_mode_kv =
+    if [[ -f "$argc_workfile" ]]; then
+        root_dir="$(dirname "$argc_workfile")"
+    else
+        root_dir="$(_argc_util_path_search_parent -p go.work)"
+    fi
+    if [[ -z "$argc__kv_prefix" ]]; then
         while IFS=$'\n' read -r disk_path; do
             mod_path="$(_argc_util_path_resolve "$root_dir" "$disk_path")"
-            (cd "$mod_path" && _choice_mod_no_version)
+            (cd "$mod_path" && _choice_mod_no_version | _argc_util_transform suffix==)
         done < <(_choice_work_dropuse)
-        echo __argc_suffix:=
     else
-        _helper_complete_file "$argc_replace" "$root_dir"
+        _argc_util_comp_file -cd="$root_dir" -filter="$argc__kv_filter"
     fi
 }
 
 _helper_mod_json() {
-    go mod edit -json $@ 2>/dev/null
+    local args=()
+    if [[ -f "$argc_modfile" ]]; then
+        args+=( "$argc_modfile" )
+    fi
+    go mod edit -json "${args[@]}" 2>/dev/null
 }
 
 _helper_work_json() {
-    go work edit -json $@ 2>/dev/null
+    local args=()
+    if [[ -f "$argc_workfile" ]]; then
+        args+=( "$argc_workfile" )
+    fi
+    go work edit -json "${args[@]}" 2>/dev/null
 }
 
 _helper_list_imports() {
      go list -f "{{.ImportPath}}	{{.Doc}}" all
-}
-
-_helper_complete_file() {
-    if [[ -n "$2" ]]; then
-        echo "__argc_cd:$(_argc_util_path_resolve -p "$2")"
-    fi
-    echo "__argc_prefix:${1%%=*}="
-    echo "__argc_filter:${1#*=}"
-    echo __argc_value:file
-}
-
-_helper_root_file() {
-    if [[ -f "$2" ]]; then
-        realpath "$(dirname "$2")"
-    else
-        _argc_util_path_search_parent -p "$1"
-    fi
 }

@@ -1,3 +1,7 @@
+# Complete multiple parts of words separated by a char
+# ```sh
+# git ls-files | _argc_util_comp_parts /
+# ```
 _argc_util_comp_parts() {
     awk -v SEP="$1" -v ARGC_FILTER="${2-$ARGC_FILTER}" -v ARGC_PREFIX="${3}" '
 BEGIN {
@@ -10,8 +14,8 @@ BEGIN {
     PREFIX = ""
     for (i = 1; i < length(filterParts); i++) 
         PREFIX = PREFIX filterParts[i] SEP
-    print "__argc_filter:" FILTER
-    print "__argc_prefix:" ARGC_PREFIX PREFIX
+    print "__argc_filter=" FILTER
+    print "__argc_prefix=" ARGC_PREFIX PREFIX
 }
 {
     if (index($0, ARGC_FILTER) == 1) {

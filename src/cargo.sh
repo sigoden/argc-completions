@@ -89,13 +89,7 @@ _choice_example() {
 }
 
 _choice_target() {
-	local targets=$(rustup target list)
-	while read -r line
-	do
-		if [[ "$line" =~ default|installed ]]; then
-			echo "${line%% *}"
-		fi
-	done <<< "$targets"
+	rustup target list --installed
 }
 
 _helper_package_target() {

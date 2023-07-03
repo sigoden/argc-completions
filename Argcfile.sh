@@ -62,7 +62,7 @@ choice-fn() {
             script_file="$(cygpath -w "$script_file")"
             os="windows"
             sep="\\"
-        elif [[ "$(uname)" == "Darwin" ]]
+        elif [[ "$(uname)" == "Darwin" ]]; then
             os="macos"
             sep="/"
         else
@@ -78,7 +78,7 @@ choice-fn() {
         fi
         (cd $argc_dir && \
             ARGC_COMPGEN=1 ARGC_OS="$os" ARGC_PATH_SEP="$sep" ARGC_FILTER="$filter" ARGC_LAST_ARG="$last_arg" \
-            bash "$script_file" $argc_fn ${argc_args[@]})
+            bash "$script_file" ___internal___ $argc_fn ${argc_args[@]})
     else
         for f in utils/_argc_utils/*.sh; do
             . "$f"

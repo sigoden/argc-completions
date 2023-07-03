@@ -455,10 +455,7 @@ _choice_checkout() {
     if [[ -n "$argc__dashdash" ]]; then
         _choice_changed_file
     else
-        _choice_tag
-        _choice_head
-        _choice_unique_remote_branch
-        _choice_branch
+        _argc_util_parallel _choice_tag ::: _choice_head ::: _choice_unique_remote_branch ::: _choice_branch
     fi
 }
 
@@ -467,8 +464,7 @@ _choice_reset() {
     if [[ -n "$argc__dashdash" ]]; then
         _choice_changed_file
     else
-        _choice_branch
-        _choice_head
+        _argc_util_parallel _choice_branch ::: _choice_head
     fi
 }
 
@@ -488,8 +484,7 @@ _choice_show() {
     if [[ -n "$argc__dashdash" ]]; then
         _git ls-files
     else
-        _choice_branch
-        _choice_tag
+        _argc_util_parallel _choice_branch ::: _choice_tag
     fi
 }
 
@@ -533,13 +528,11 @@ _choice_remote_branch() {
 }
 
 _choice_ref() {
-    _choice_branch
-    _choice_tag
-    _choice_head
+    _argc_util_parallel _choice_branch ::: _choice_tag ::: _choice_head
 }
 
 _choice_range() {
-    last_arg="$(_argc_util_param_get_positional -1)"
+    last_arg="${argc__positionals[-1]}"
     if [[ "$last_arg" == *'..'* ]]; then
         ref1=${last_arg%%..*}
         ref2=${last_arg##*..}

@@ -421,8 +421,8 @@ BEGIN {
     PREFIX = ""
     for (i = 1; i < length(filterParts); i++) 
         PREFIX = PREFIX filterParts[i] SEP
-    print "__argc_filter:" FILTER
-    print "__argc_prefix:" ARGC_PREFIX PREFIX
+    print "__argc_filter=" FILTER
+    print "__argc_prefix=" ARGC_PREFIX PREFIX
 }
 {
     if (index($0, ARGC_FILTER) == 1) {

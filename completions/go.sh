@@ -303,7 +303,7 @@ mod::download() {
 # @flag -print                print the final go.mod in its text format instead of writing back
 # @option -replace[`_choice_mod_replace`] <value>  add a module replacement
 # @option -require <value>    add a requirement
-# @arg file <file:go.mod>
+# @arg modfile <file:go.mod>
 mod::edit() {
     :;
 }
@@ -377,7 +377,7 @@ work() {
 # @flag -print            print the final go.work in its text format
 # @option -replace*|[`_choice_work_replace`] <value>  add a replacement
 # @option -use* <file>    add a use directive
-# @arg file <file:go.work>
+# @arg workfile <file:go.work>
 work::edit() {
     :;
 }
@@ -581,17 +581,21 @@ _choice_mod_droprequire() {
 }
 
 _choice_mod_replace() {
-    if [[ "$argc_replace" != *'='* ]]; then
-        _choice_mod_no_version | xargs -I{} printf "%s\0\n" {} 
-        echo __argc_suffix:=
+    _argc_util_mode_kv =
+    if [[ -z "$argc__kv_prefix" ]]; then
+        _choice_mod_no_version | _argc_util_transform suffix== nospace
     else
-        _helper_complete_file "$argc_replace" "$(_helper_root_file go.mod "$argc_file")"
+        if [[ -f "$argc_modfile" ]]; then
+            chdir="$(dirname "$argc_modfile")"
+        else
+            chdir="$(_argc_util_path_search_parent -p go.mod)"
+        fi
+        _argc_util_comp_file -cd="$chdir" -filter="$argc__kv_filter"
     fi
 }
 
 _choice_mod_why() {
-    _choice_mod_no_version
-    _helper_list_imports
+    _argc_util_parallel _choice_mod_no_version ::: _helper_list_imports
 }
 
 _choice_work_dropreplace() {
@@ -603,44 +607,203 @@ _choice_work_dropuse() {
 }
 
 _choice_work_replace() {
-    root_dir="$(_helper_root_file go.work "$argc_file")"
-    if [[ "$argc_replace" != *'='* ]]; then
+    _argc_util_mode_kv =
+    if [[ -f "$argc_workfile" ]]; then
+        root_dir="$(dirname "$argc_workfile")"
+    else
+        root_dir="$(_argc_util_path_search_parent -p go.work)"
+    fi
+    if [[ -z "$argc__kv_prefix" ]]; then
         while IFS=$'\n' read -r disk_path; do
             mod_path="$(_argc_util_path_resolve "$root_dir" "$disk_path")"
-            (cd "$mod_path" && _choice_mod_no_version)
+            (cd "$mod_path" && _choice_mod_no_version | _argc_util_transform suffix==)
         done < <(_choice_work_dropuse)
-        echo __argc_suffix:=
     else
-        _helper_complete_file "$argc_replace" "$root_dir"
+        _argc_util_comp_file -cd="$root_dir" -filter="$argc__kv_filter"
     fi
 }
 
 _helper_mod_json() {
-    go mod edit -json $@ 2>/dev/null
+    local args=()
+    if [[ -f "$argc_modfile" ]]; then
+        args+=( "$argc_modfile" )
+    fi
+    go mod edit -json "${args[@]}" 2>/dev/null
 }
 
 _helper_work_json() {
-    go work edit -json $@ 2>/dev/null
+    local args=()
+    if [[ -f "$argc_workfile" ]]; then
+        args+=( "$argc_workfile" )
+    fi
+    go work edit -json "${args[@]}" 2>/dev/null
 }
 
 _helper_list_imports() {
      go list -f "{{.ImportPath}}	{{.Doc}}" all
 }
 
-_helper_complete_file() {
-    if [[ -n "$2" ]]; then
-        echo "__argc_cd:$(_argc_util_path_resolve -p "$2")"
+_argc_util_mode_kv() {
+    local sep="$1"
+    local filter="${2-$ARGC_FILTER}"
+    if [[ "$filter" == *"$sep"* ]]; then
+        argc__kv_key="${filter%%$sep*}"
+        argc__kv_prefix="$argc__kv_key$sep"
+        argc__kv_filter="${filter#*$sep}"
+        echo "__argc_prefix=$argc__kv_prefix"
+        echo "__argc_filter=$argc__kv_filter"
+    else
+        argc__kv_filter="$filter"
+        echo "__argc_filter=$argc__kv_filter"
     fi
-    echo "__argc_prefix:${1%%=*}="
-    echo "__argc_filter:${1#*=}"
-    echo __argc_value:file
 }
 
-_helper_root_file() {
-    if [[ -f "$2" ]]; then
-        realpath "$(dirname "$2")"
+_argc_util_transform() {
+    local args
+    args="$(printf "%s\n" "$@")"
+    awk -v RAW_ARGS="$args" 'BEGIN {
+    split(RAW_ARGS, args, "\n"); argsLen = length(args)
+    start = 1; sep = "\t"
+    if (index(args[1], "format=") == 1) {
+        start = 2; sep = substr(args[1], 8)
+    }
+}{
+    description = ""
+    sepIdx = index($0, sep)
+    if (sepIdx > 0) {
+        value = substr($0, 1, sepIdx - 1)
+        description = substr($0, sepIdx + 1)
+    } else {
+        value = $0
+    }
+    valueLen = length(value)
+    nospace = 0
+    if (substr(value, valueLen) == "\0") {
+        nospace = 1; value = substr(value, 1, valueLen - 1)
+    }
+    for (i = start; i <= argsLen; i++) {
+        arg = args[i]
+        if (arg == "nospace") {
+            nospace = 1
+        } else if (arg == "space") {
+            nospace = 0
+        } else if (index(arg, "nospaceIfEnd=")) {
+            if (substr(value, length(value)) == substr(arg, 14)) {
+                nospace = 1
+            }
+        } else if (index(arg, "prefix=")) {
+            value = substr(arg, 8) value
+        } else if (index(arg, "suffix=")) {
+            value = value substr(arg, 8)
+        }
+    }
+    if (nospace == 1) { value = value "\0" }
+    if (description != "") { description = "\t" description }
+    print value description
+}'
+}
+
+_argc_util_path_search_parent() {
+    local pwd_="$PWD"
+    local parent
+    if [[ "$1" == "-p" ]]; then parent=1; shift; fi
+    _check() {
+        local value target
+        for value in $@; do
+            if [[ -f "$value" ]]; then
+                target="$(realpath "$value")"
+                if [[ $parent == 1 ]]; then dirname "$target"; else echo "$target"; fi
+                return 0
+            fi
+        done
+        if [[ $PWD == "/"  ]]; then return 0; fi
+        return 1
+    }
+    until _check $@; do cd ..; done
+    cd "$pwd_"
+}
+
+_argc_util_comp_file() {
+    local filter="$ARGC_FILTER"
+    local exts chdir prefix
+    for arg in "${@}"; do
+        case "$arg" in
+        -prefix=*)
+            prefix="${arg:8}"
+            ;;
+        -filter=*)
+            filter="${arg:8}"
+            ;;
+        -exts=*)
+            exts=":${arg:6}"
+            ;;
+        -cd=*)
+            chdir="${arg:4}"
+            ;;
+        esac
+    done
+    if [[ -n "$chdir" ]]; then
+        echo "__argc_cd=$chdir"
+    fi
+    if [[ -n "$prefix" ]]; then
+        echo "__argc_prefix=$prefix"
+    fi
+    echo "__argc_filter=$filter"
+    echo "__argc_value=file$exts"
+}
+
+_argc_util_parallel() {
+    argc --argc-parallel $(_argc_util_path_resolve $0) "$@"
+}
+
+_argc_util_path_resolve() {
+    local format args value
+    if [[ "$1" == "-p" ]]; then format=1; shift; fi # platform path
+    if [[ "$1" == "-u" ]]; then format=2; shift; fi # unix path
+    if [[ $# -eq 0 ]]; then args=( "$(cat)" ); else args=( "$@" ); fi
+    args="$(printf "%q\n" "${args[@]}")"
+    value="$(awk -v RAW_ARGS="$args" 'BEGIN {
+    split(RAW_ARGS, args, "\n"); split("", parts)
+    partsLen = 0; isWin = 0; sep = "/";
+    for (i in args) {
+        arg = args[i]
+        if (arg == "\x27\x27") continue
+        if (i == 1) {
+            if (match(arg, /^[A-Za-z]:/)) {
+                value = substr(arg, 1, 2) "\\"; arg = substr(arg, 3); isWin = 1; sep = "\\"; 
+            } else if (substr(arg, 1, 1) == "/") {
+                value = "/"; arg = substr(arg, 2)
+            }
+        }
+        if (isWin == 1) gsub("\\\\", "/", arg)
+        split(arg, pathParts, "/")
+        for (j in pathParts) {
+            pathPart = pathParts[j]
+            if (pathPart == "" || pathPart == ".") continue
+            if (pathPart == "..") {
+                if (partsLen == 0) exit 1
+                parts[partsLen] = ""; partsLen = partsLen - 1
+            } else {
+                partsLen = partsLen + 1; parts[partsLen] = pathPart
+            }
+        }
+    }
+    for (i = 1; i <= partsLen; i++) {
+        if (i == 1) {
+            value = value parts[i]
+        } else {
+            value = value sep parts[i]
+        }
+    }
+    print value
+}'
+)"
+    if [[ $? -ne 0 ]]; then exit $?;  fi
+    if [[ -z "$value" ]]; then return; fi
+    if [[ "$value" == [A-Za-z]:* ]]; then
+        if [[ "$format" -eq 2 ]] && [[ "$ARGC_OS" == "windows" ]]; then cygpath -u "$value"; else echo "$value"; fi
     else
-        _argc_util_path_search_parent -p "$1"
+        if [[ "$format" -eq 1 ]] && [[ "$ARGC_OS" == "windows" ]]; then cygpath -w "$value"; else echo "$value"; fi
     fi
 }
 
@@ -688,31 +851,11 @@ _argc_util_path_resolve() {
 )"
     if [[ $? -ne 0 ]]; then exit $?;  fi
     if [[ -z "$value" ]]; then return; fi
-    if [[ "$value" =~ ^[A-Za-z]: ]]; then
+    if [[ "$value" == [A-Za-z]:* ]]; then
         if [[ "$format" -eq 2 ]] && [[ "$ARGC_OS" == "windows" ]]; then cygpath -u "$value"; else echo "$value"; fi
     else
         if [[ "$format" -eq 1 ]] && [[ "$ARGC_OS" == "windows" ]]; then cygpath -w "$value"; else echo "$value"; fi
     fi
-}
-
-_argc_util_path_search_parent() {
-    local pwd_="$PWD"
-    local parent
-    if [[ "$1" == "-p" ]]; then parent=1; shift; fi
-    _check() {
-        local value target
-        for value in $@; do
-            if [[ -f "$value" ]]; then
-                target="$(realpath "$value")"
-                if [[ $parent == 1 ]]; then dirname "$target"; else echo "$target"; fi
-                return 0
-            fi
-        done
-        if [[ $PWD == "/"  ]]; then return 0; fi
-        return 1
-    }
-    until _check $@; do cd ..; done
-    cd "$pwd_"
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

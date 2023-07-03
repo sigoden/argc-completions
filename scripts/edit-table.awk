@@ -18,13 +18,11 @@ BEGIN {
             notation = substr(name, RSTART + 1, RLENGTH - 2)
             name = substr(name, 1, RSTART - 1)
         }
-        choice = argParts[2]
-        desc = argParts[3]
         split("", values)
         TABLE[i, 1] = name
         TABLE[i, 2] = notation
-        TABLE[i, 3] = choice
-        TABLE[i, 4] = desc
+        TABLE[i, 3] = argParts[2]
+        TABLE[i, 4] = argParts[3]
     }
     if (SEP_INDEX == 0)  {
         SEP_INDEX = TABLE_SIZE + 1
@@ -46,6 +44,10 @@ END {
             if (SEP_INDEX > 1) {
                 editArgument(line)
             }
+        } else if (KIND == "command" && index(line, "command # ") == 1) {
+            if (SEP_INDEX > 1) {
+                editCommand(line)
+            }
         } else {
             print line
         }
@@ -54,16 +56,20 @@ END {
     for (i = SEP_INDEX + 1; i <= TABLE_SIZE; i++) {
         name = TABLE[i, 1] 
         notation = TABLE[i, 2] 
-        choice = TABLE[i, 3] 
-        desc = TABLE[i, 4] 
         if (KIND == "option") {
-            print "option # " name " " notation " # " desc " # " choice
+            print "option # " name " " notation " # " TABLE[i, 4] " # " TABLE[i, 3]
         } else if (KIND == "argument") {
             body = name
             if (length(notation) > 0) {
                 body = notation
             }
-            print "argument # " body " # " desc " # " choice
+            print "argument # " body " # " TABLE[i, 4] " # " TABLE[i, 3]
+        } else if (KIND == "argument") {
+            body = name
+            if (length(notation) > 0) {
+                body = notation
+            }
+            print "command # " body " # " TABLE[i, 3] 
         }
     }
 }
@@ -156,6 +162,12 @@ function editArgument(line,     i) {
                     return
                 }
                 if (notation != "") {
+                    if (!match(notation, /^\s+/)) {
+                        notation = " " notation
+                    }
+                    if (!match(notation, /\s+$/)) {
+                        notation = notation " "
+                    }
                     argumentName = notation
                 }
                 if (desc != "") {
@@ -165,6 +177,45 @@ function editArgument(line,     i) {
                     argumentChoice = " " choice
                 }
                 print "argument #" argumentName "#" argumentDesc "#" argumentChoice
+                return
+            }
+        }
+    }
+    print line
+}
+
+function editCommand(line,     i) {
+    split("", parts)
+    splitCommand(line, parts)
+    commandName = parts[1]
+    commandDesc = parts[2]
+    for (i = 1; i < SEP_INDEX; i++) {
+        name = TABLE[i, 1]
+        if (name == "") {
+            continue
+        }
+        nameIdx = index(commandName, name)
+        if (nameIdx > 0) {
+            chekChars = substr(commandName, nameIdx - 1, 1) substr(commandName, nameIdx + length(name), 1)
+            if (!match(chekChars, /[A-Za-z0-9_\|-]/)) {
+                notation = TABLE[i, 2]
+                desc = TABLE[i, 3]
+                if (notation == "" && choice == "" && desc == "") {
+                    return
+                }
+                if (notation != "") {
+                    if (!match(notation, /^\s+/)) {
+                        notation = " " notation
+                    }
+                    if (!match(notation, /\s+$/)) {
+                        notation = notation " "
+                    }
+                    commandName = notation
+                }
+                if (desc != "") {
+                    commandDesc = " " desc " "
+                }
+                print "command #" commandName "#" commandDesc 
                 return
             }
         }
@@ -185,6 +236,12 @@ function splitArgument(line, output,     parts) {
     output[1] = parts[1] " " 
     output[2] = parts[2] " " 
     output[3] = parts[3]
+}
+
+function splitCommand(line, output,     parts) {
+    split(substr(line, 10), parts, " #")
+    output[1] = parts[1] " " 
+    output[2] = parts[2] " " 
 }
 
 function extractOptionName(optionBody) {

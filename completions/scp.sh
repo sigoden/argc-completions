@@ -38,7 +38,7 @@ CanonicalizeHostname=yes,no,always
 CanonicalizeMaxDots
 CanonicalizePermittedCNAMEs
 CASignatureAlgorithms
-CertificateFile=__argc_value:file
+CertificateFile=__argc_value=file
 CheckHostIP=yes,no
 Ciphers=`_choice_cipher`
 ClearAllForwardings=yes,no
@@ -58,7 +58,7 @@ ForwardX11=yes,no
 ForwardX11Timeout
 ForwardX11Trusted=yes,no
 GatewayPorts=yes,no
-GlobalKnownHostsFile=__argc_value:file
+GlobalKnownHostsFile=__argc_value=file
 GSSAPIAuthentication=yes,no
 GSSAPIKeyExchange
 GSSAPIClientIdentity
@@ -76,7 +76,7 @@ HostKeyAlias
 Hostname
 IdentitiesOnly=yes,no
 IdentityAgent
-IdentityFile=__argc_value:file
+IdentityFile=__argc_value=file
 IPQoS=af11,af12,af13,af21,af22,af23,af31,af32,af33,af41,af42,af43,cs0,cs1,cs2,cs3,cs4,cs5,cs6,cs7,ef,le,lowdelay,throughput,reliability,none
 KbdInteractiveAuthentication=yes,no
 KbdInteractiveDevices
@@ -118,10 +118,10 @@ Tunnel=yes,point-to-point,ethernet,no
 TunnelDevice
 UpdateHostKeys=yes,no,ask
 User
-UserKnownHostsFile=__argc_value:file
+UserKnownHostsFile=__argc_value=file
 VerifyHostKeyDNS=yes,no,ask
 VisualHostKey=yes,no
-XAuthLocation=__argc_value:file
+XAuthLocation=__argc_value=file
 EOF
 }
 
@@ -134,19 +134,14 @@ _choice_hostkeyalgorithms() {
 }
 
 _choice_path() {
-    local last_arg="$(_argc_util_param_get_positional -1)"
-    if [[ "$last_arg" != *':'* ]]; then
-        if [[ "$last_arg" =~ ^[A-Za-z0-9_-]*$ ]]; then
-            _helper_host | xargs printf "%s:\0\n"
-        fi
-        echo __argc_value:file
-        return
+    _argc_util_mode_kv ':'
+    if [[ -z "$argc__kv_prefix" ]]; then
+        _helper_host | _argc_util_transform suffix=: nospace
+        _argc_util_comp_file
+    else
+        ssh -o 'Batchmode yes' "$argc__kv_key" command ls -a1dp "$argc__kv_filter*" 2>/dev/null \
+            | _argc_util_comp_parts / "$argc__kv_filter" "$argc__kv_prefix" 
     fi
-    local userhost="${last_arg%%:*}"
-    local path="${last_arg#*:}"
-    local filter="$path"
-    ssh -o 'Batchmode yes' "$userhost" command ls -a1dp "$path*" 2>/dev/null \
-        | _argc_util_comp_parts / "$filter" "$userhost:"
 }
 
 _helper_host() {
@@ -154,25 +149,22 @@ _helper_host() {
 }
 
 _argc_util_comp_kv() {
-    local prefix
+    local sep="$1"
     local filter="${2-$ARGC_FILTER}"
-    if [[ "$filter" == *$1* ]]; then
-        prefix="${filter%%$1*}"
-        filter="${filter#*$1}"
+    local prefix 
+    if [[ "$filter" == *"$sep"* ]]; then
+        prefix="${filter%%$sep*}$sep"
+        filter="${filter#*$sep}"
+        echo "__argc_prefix=$prefix"
     fi
-    if [[ -n "$prefix" ]]; then
-        echo __argc_prefix:$prefix$1
-    else
-        echo __argc_suffix:$1
-    fi
-    echo __argc_filter:$filter
+    echo "__argc_filter=$filter"
     for line in $(cat); do
         if [[ -z "$prefix" ]]; then
-            echo -e "${line%%=*}\0"
+            echo -e "${line%%=*}$sep\0"
         else
-            if [[ "$line" =~ ^${prefix}= ]]; then
-                local value="${line#*=}"
-                if [[ "$value" =~ ^$'`' ]]; then
+            if [[ "$line" == "$prefix"* ]]; then
+                local value="${line#*$sep}"
+                if [[ "$value" == $'`'* ]]; then
                     eval "${value:1:-1}" 2>/dev/null
                 else
                     echo $value | tr ',' '\n'
@@ -182,15 +174,93 @@ _argc_util_comp_kv() {
     done
 }
 
-_argc_util_param_get_positional() {
-    local arg=$1
-    if [[ "$arg" == '-'* ]]; then
-        echo "${argc__positionals[@]: $arg:1}"
-    elif [[ "$arg" == 'len' ]]; then
-        echo "${#argc__positionals[@]}"
+_argc_util_mode_kv() {
+    local sep="$1"
+    local filter="${2-$ARGC_FILTER}"
+    if [[ "$filter" == *"$sep"* ]]; then
+        argc__kv_key="${filter%%$sep*}"
+        argc__kv_prefix="$argc__kv_key$sep"
+        argc__kv_filter="${filter#*$sep}"
+        echo "__argc_prefix=$argc__kv_prefix"
+        echo "__argc_filter=$argc__kv_filter"
     else
-        echo "${argc__positionals[$arg]}"
+        argc__kv_filter="$filter"
+        echo "__argc_filter=$argc__kv_filter"
     fi
+}
+
+_argc_util_transform() {
+    local args
+    args="$(printf "%s\n" "$@")"
+    awk -v RAW_ARGS="$args" 'BEGIN {
+    split(RAW_ARGS, args, "\n"); argsLen = length(args)
+    start = 1; sep = "\t"
+    if (index(args[1], "format=") == 1) {
+        start = 2; sep = substr(args[1], 8)
+    }
+}{
+    description = ""
+    sepIdx = index($0, sep)
+    if (sepIdx > 0) {
+        value = substr($0, 1, sepIdx - 1)
+        description = substr($0, sepIdx + 1)
+    } else {
+        value = $0
+    }
+    valueLen = length(value)
+    nospace = 0
+    if (substr(value, valueLen) == "\0") {
+        nospace = 1; value = substr(value, 1, valueLen - 1)
+    }
+    for (i = start; i <= argsLen; i++) {
+        arg = args[i]
+        if (arg == "nospace") {
+            nospace = 1
+        } else if (arg == "space") {
+            nospace = 0
+        } else if (index(arg, "nospaceIfEnd=")) {
+            if (substr(value, length(value)) == substr(arg, 14)) {
+                nospace = 1
+            }
+        } else if (index(arg, "prefix=")) {
+            value = substr(arg, 8) value
+        } else if (index(arg, "suffix=")) {
+            value = value substr(arg, 8)
+        }
+    }
+    if (nospace == 1) { value = value "\0" }
+    if (description != "") { description = "\t" description }
+    print value description
+}'
+}
+
+_argc_util_comp_file() {
+    local filter="$ARGC_FILTER"
+    local exts chdir prefix
+    for arg in "${@}"; do
+        case "$arg" in
+        -prefix=*)
+            prefix="${arg:8}"
+            ;;
+        -filter=*)
+            filter="${arg:8}"
+            ;;
+        -exts=*)
+            exts=":${arg:6}"
+            ;;
+        -cd=*)
+            chdir="${arg:4}"
+            ;;
+        esac
+    done
+    if [[ -n "$chdir" ]]; then
+        echo "__argc_cd=$chdir"
+    fi
+    if [[ -n "$prefix" ]]; then
+        echo "__argc_prefix=$prefix"
+    fi
+    echo "__argc_filter=$filter"
+    echo "__argc_value=file$exts"
 }
 
 _argc_util_comp_parts() {
@@ -205,8 +275,8 @@ BEGIN {
     PREFIX = ""
     for (i = 1; i < length(filterParts); i++) 
         PREFIX = PREFIX filterParts[i] SEP
-    print "__argc_filter:" FILTER
-    print "__argc_prefix:" ARGC_PREFIX PREFIX
+    print "__argc_filter=" FILTER
+    print "__argc_prefix=" ARGC_PREFIX PREFIX
 }
 {
     if (index($0, ARGC_FILTER) == 1) {

@@ -26,7 +26,6 @@ _argc_completions_completer() {
     else
         scriptfile="$ARGC_COMPLETIONS_DIR/$cmd.sh"
     fi
-    argc --argc-compgen bash "$scriptfile" "${words[@]}" > /tmp/file1
     export COMP_WORDBREAKS
     while IFS=$'\n' read -r line; do
         COMPREPLY+=( "$line" )

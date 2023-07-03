@@ -389,7 +389,7 @@ discord() {
 # }} bun discord
 
 _choice_script_or_bin() {
-    echo __argc_value:file
+    echo __argc_value=file
     _helper_script
 }
 
@@ -408,12 +408,7 @@ _helper_script() {
 }
 
 _helper_pkg_json_path() {
-    if [[ -v pkg_json_path ]]; then
-        echo "$pkg_json_path"
-    else
-        pkg_json_path=$(_argc_util_path_search_parent package.json)
-        echo "$pkg_json_path"
-    fi
+    _argc_util_path_search_parent package.json
 }
 
 _argc_util_path_search_parent() {

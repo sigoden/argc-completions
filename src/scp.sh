@@ -22,7 +22,7 @@ CanonicalizeHostname=yes,no,always
 CanonicalizeMaxDots
 CanonicalizePermittedCNAMEs
 CASignatureAlgorithms
-CertificateFile=__argc_value:file
+CertificateFile=__argc_value=file
 CheckHostIP=yes,no
 Ciphers=`_choice_cipher`
 ClearAllForwardings=yes,no
@@ -42,7 +42,7 @@ ForwardX11=yes,no
 ForwardX11Timeout
 ForwardX11Trusted=yes,no
 GatewayPorts=yes,no
-GlobalKnownHostsFile=__argc_value:file
+GlobalKnownHostsFile=__argc_value=file
 GSSAPIAuthentication=yes,no
 GSSAPIKeyExchange
 GSSAPIClientIdentity
@@ -60,7 +60,7 @@ HostKeyAlias
 Hostname
 IdentitiesOnly=yes,no
 IdentityAgent
-IdentityFile=__argc_value:file
+IdentityFile=__argc_value=file
 IPQoS=af11,af12,af13,af21,af22,af23,af31,af32,af33,af41,af42,af43,cs0,cs1,cs2,cs3,cs4,cs5,cs6,cs7,ef,le,lowdelay,throughput,reliability,none
 KbdInteractiveAuthentication=yes,no
 KbdInteractiveDevices
@@ -102,10 +102,10 @@ Tunnel=yes,point-to-point,ethernet,no
 TunnelDevice
 UpdateHostKeys=yes,no,ask
 User
-UserKnownHostsFile=__argc_value:file
+UserKnownHostsFile=__argc_value=file
 VerifyHostKeyDNS=yes,no,ask
 VisualHostKey=yes,no
-XAuthLocation=__argc_value:file
+XAuthLocation=__argc_value=file
 EOF
 }
 
@@ -118,19 +118,14 @@ _choice_hostkeyalgorithms() {
 }
 
 _choice_path() {
-    local last_arg="$(_argc_util_param_get_positional -1)"
-    if [[ "$last_arg" != *':'* ]]; then
-        if [[ "$last_arg" =~ ^[A-Za-z0-9_-]*$ ]]; then
-            _helper_host | xargs printf "%s:\0\n"
-        fi
-        echo __argc_value:file
-        return
+    _argc_util_mode_kv ':'
+    if [[ -z "$argc__kv_prefix" ]]; then
+        _helper_host | _argc_util_transform suffix=: nospace
+        _argc_util_comp_file
+    else
+        ssh -o 'Batchmode yes' "$argc__kv_key" command ls -a1dp "$argc__kv_filter*" 2>/dev/null \
+            | _argc_util_comp_parts / "$argc__kv_filter" "$argc__kv_prefix" 
     fi
-    local userhost="${last_arg%%:*}"
-    local path="${last_arg#*:}"
-    local filter="$path"
-    ssh -o 'Batchmode yes' "$userhost" command ls -a1dp "$path*" 2>/dev/null \
-        | _argc_util_comp_parts / "$filter" "$userhost:"
 }
 
 _helper_host() {

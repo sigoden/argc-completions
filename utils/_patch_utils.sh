@@ -63,6 +63,21 @@ _patch_table_edit_arguments() {
     awk -v KIND=argument -v RAW_ARGS="$args" -f "$SCRIPTS_DIR/edit-table.awk"
 }
 
+# Edit command
+# Example:
+#    cat | _patch_table_edit_commands \ |
+#      'foo;desc' \ |                          # change description
+#      'foo(bar);desc' \ |                     # rename command
+#      'foo(bar, baz)' \ |                     # rename command and add aliases
+#      'foo; ' \ |                             # use space to clear description
+#      'foo' \ |                               # delete command
+#      ';;' \ |                                # seperator, before it change the option, after it append the option.
+#      'foo;;desc'                             # append a new command
+_patch_table_edit_commands() {
+    local args="$(printf "%s\n" "$@")"
+    awk -v KIND=command -v RAW_ARGS="$args" -f "$SCRIPTS_DIR/edit-table.awk"
+}
+
 # Copy options from another command
 _patch_table_copy_options() {
     cat

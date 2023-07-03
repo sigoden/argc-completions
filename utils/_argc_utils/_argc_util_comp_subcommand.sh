@@ -1,3 +1,15 @@
+# Complete subcommand for something like `sudo`/`npx`.
+# Args:
+#   - `Index`:  Slice from positional args
+#   - `PrependArgs*`: Args to prepend to sliced positional args array
+# ```sh
+# @ description A sudo cli
+# # @arg cmd
+# # @arg args~[`_choice_args`]
+# _choice_args() {
+#     _argc_util_comp_subcommand 0 
+# }
+# ```
 _argc_util_comp_subcommand() {
     local args=( "${@:2}" "${argc__positionals[@]:$1}" )
     args[-1]="$ARGC_LAST_ARG"

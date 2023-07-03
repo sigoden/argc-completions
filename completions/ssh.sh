@@ -86,7 +86,7 @@ CanonicalizeHostname=yes,no,always
 CanonicalizeMaxDots
 CanonicalizePermittedCNAMEs
 CASignatureAlgorithms
-CertificateFile=__argc_value:file
+CertificateFile=__argc_value=file
 CheckHostIP=yes,no
 Ciphers=`_choice_cipher`
 ClearAllForwardings=yes,no
@@ -106,7 +106,7 @@ ForwardX11=yes,no
 ForwardX11Timeout
 ForwardX11Trusted=yes,no
 GatewayPorts=yes,no
-GlobalKnownHostsFile=__argc_value:file
+GlobalKnownHostsFile=__argc_value=file
 GSSAPIAuthentication=yes,no
 GSSAPIKeyExchange
 GSSAPIClientIdentity
@@ -124,7 +124,7 @@ HostKeyAlias
 Hostname
 IdentitiesOnly=yes,no
 IdentityAgent
-IdentityFile=__argc_value:file
+IdentityFile=__argc_value=file
 IPQoS=af11,af12,af13,af21,af22,af23,af31,af32,af33,af41,af42,af43,cs0,cs1,cs2,cs3,cs4,cs5,cs6,cs7,ef,le,lowdelay,throughput,reliability,none
 KbdInteractiveAuthentication=yes,no
 KbdInteractiveDevices
@@ -166,10 +166,10 @@ Tunnel=yes,point-to-point,ethernet,no
 TunnelDevice
 UpdateHostKeys=yes,no,ask
 User
-UserKnownHostsFile=__argc_value:file
+UserKnownHostsFile=__argc_value=file
 VerifyHostKeyDNS=yes,no,ask
 VisualHostKey=yes,no
-XAuthLocation=__argc_value:file
+XAuthLocation=__argc_value=file
 EOF
 }
 
@@ -186,25 +186,22 @@ _choice_destination() {
 }
 
 _argc_util_comp_kv() {
-    local prefix
+    local sep="$1"
     local filter="${2-$ARGC_FILTER}"
-    if [[ "$filter" == *$1* ]]; then
-        prefix="${filter%%$1*}"
-        filter="${filter#*$1}"
+    local prefix 
+    if [[ "$filter" == *"$sep"* ]]; then
+        prefix="${filter%%$sep*}$sep"
+        filter="${filter#*$sep}"
+        echo "__argc_prefix=$prefix"
     fi
-    if [[ -n "$prefix" ]]; then
-        echo __argc_prefix:$prefix$1
-    else
-        echo __argc_suffix:$1
-    fi
-    echo __argc_filter:$filter
+    echo "__argc_filter=$filter"
     for line in $(cat); do
         if [[ -z "$prefix" ]]; then
-            echo -e "${line%%=*}\0"
+            echo -e "${line%%=*}$sep\0"
         else
-            if [[ "$line" =~ ^${prefix}= ]]; then
-                local value="${line#*=}"
-                if [[ "$value" =~ ^$'`' ]]; then
+            if [[ "$line" == "$prefix"* ]]; then
+                local value="${line#*$sep}"
+                if [[ "$value" == $'`'* ]]; then
                     eval "${value:1:-1}" 2>/dev/null
                 else
                     echo $value | tr ',' '\n'

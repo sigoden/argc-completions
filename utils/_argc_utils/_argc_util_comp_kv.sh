@@ -1,23 +1,31 @@
+# Complete key value pairs
+# ```sh
+# _choice_fn() {
+#     cat <<-'EOF' | _argc_util_comp_kv =
+# foo=yes,no
+# bar=v1,v2,v3
+# baz=__argc_value=file
+# qux=`_choice_fn`
+# EOF
+# }
+# ```
 _argc_util_comp_kv() {
-    local prefix
+    local sep="$1"
     local filter="${2-$ARGC_FILTER}"
-    if [[ "$filter" == *$1* ]]; then
-        prefix="${filter%%$1*}"
-        filter="${filter#*$1}"
+    local prefix 
+    if [[ "$filter" == *"$sep"* ]]; then
+        prefix="${filter%%$sep*}$sep"
+        filter="${filter#*$sep}"
+        echo "__argc_prefix=$prefix"
     fi
-    if [[ -n "$prefix" ]]; then
-        echo __argc_prefix:$prefix$1
-    else
-        echo __argc_suffix:$1
-    fi
-    echo __argc_filter:$filter
+    echo "__argc_filter=$filter"
     for line in $(cat); do
         if [[ -z "$prefix" ]]; then
-            echo -e "${line%%=*}\0"
+            echo -e "${line%%=*}$sep\0"
         else
-            if [[ "$line" =~ ^${prefix}= ]]; then
-                local value="${line#*=}"
-                if [[ "$value" =~ ^$'`' ]]; then
+            if [[ "$line" == "$prefix"* ]]; then
+                local value="${line#*$sep}"
+                if [[ "$value" == $'`'* ]]; then
                     eval "${value:1:-1}" 2>/dev/null
                 else
                     echo $value | tr ',' '\n'

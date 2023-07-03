@@ -1,3 +1,11 @@
+# Search for a file by traversing the directory tree upwards starting from the current directory.
+# Args:
+# - `-p`: Return the parent directory, not the file itself.
+# ```sh
+#   _argc_util_path_search_parent package.json
+#   _argc_util_path_search_parent deno.json deno.jsonc
+#   _argc_util_path_search_parent -p package.json  # search folder contains package.json
+# ```
 _argc_util_path_search_parent() {
     local pwd_="$PWD"
     local parent

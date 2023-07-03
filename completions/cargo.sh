@@ -1142,13 +1142,7 @@ _choice_example() {
 }
 
 _choice_target() {
-	local targets=$(rustup target list)
-	while read -r line
-	do
-		if [[ "$line" =~ default|installed ]]; then
-			echo "${line%% *}"
-		fi
-	done <<< "$targets"
+	rustup target list --installed
 }
 
 _helper_package_target() {
@@ -1214,7 +1208,7 @@ _argc_util_path_resolve() {
 )"
     if [[ $? -ne 0 ]]; then exit $?;  fi
     if [[ -z "$value" ]]; then return; fi
-    if [[ "$value" =~ ^[A-Za-z]: ]]; then
+    if [[ "$value" == [A-Za-z]:* ]]; then
         if [[ "$format" -eq 2 ]] && [[ "$ARGC_OS" == "windows" ]]; then cygpath -u "$value"; else echo "$value"; fi
     else
         if [[ "$format" -eq 1 ]] && [[ "$ARGC_OS" == "windows" ]]; then cygpath -w "$value"; else echo "$value"; fi

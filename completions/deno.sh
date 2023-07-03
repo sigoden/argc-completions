@@ -578,7 +578,7 @@ _choice_lint_rule() {
 
 _choice_task() {
     local config_file=$(_helper_config_file)
-    if [[ -f "$config_file" ]]; then
+    if [[ -n "$config_file" ]]; then
         cat "$config_file" | yq '.tasks | keys | .[]' 
     fi
 }
@@ -588,11 +588,7 @@ _choice_install_bin() {
 }
 
 _helper_config_file() {
-    if [[ -n "$argc_config" ]]; then
-        echo "$argc_config"
-    else
-        _argc_util_path_search_parent deno.json deno.jsonc
-    fi
+    _argc_util_path_search_parent deno.json deno.jsonc
 }
 
 _argc_util_path_search_parent() {

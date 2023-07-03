@@ -63,7 +63,7 @@ handle_subcmd() {
     local new_cmds_level=$(( ${#new_cmds[@]} + 1 - $cmds_level ))
 
     local cmd_full_name="$(printf "%s\n" ${new_cmds[@]} | uniq | tr '\n' ' ' | sed -e 's/ $//' -e 's/ /::/g')"
-    if [[ "$cmd_name" != "$argc_cmd" ]] && [[  ! " ${command_names[*]} " =~ " $cmd_full_name " ]]; then
+    if [[ "$cmd_name" != "$argc_cmd" ]] && [[  ! " ${command_names[*]} " == *" $cmd_full_name "* ]]; then
         command_names+=( "$cmd_full_name" )
     else 
         return
@@ -160,6 +160,21 @@ BEGIN {
     echo 
 }
 
+embed_utils() {
+    util_fns=( $( cat | grep -o '_argc_util_[[:alnum:]_]*' | uniq | tr '\n' ' ') )
+    for util_fn_name  in ${util_fns[@]}; do
+        if [[ ! " ${global_utils_fns[*]} " == *" $util_fn_name "* ]]; then
+            if [[ -z "$global_utils_fns" ]]; then
+                echo
+            fi
+            global_utils_fns+=( "$util_fn_name" )
+            util_fn_output="$(print_util_fn "$util_fn_name")"
+            echo "$util_fn_output"
+            echo "$util_fn_output" | embed_utils
+        fi
+    done
+}
+
 parse_table() {
     if [[ "$argc_verbose" == "1" ]]; then
         local prefix="$(echo "[info] $@" | sed 's/ /@/g')"
@@ -176,21 +191,6 @@ parse_script() {
     else
         awk -f "$scripts_dir/parse-script.awk"
     fi
-}
-
-embed_utils() {
-    util_fns=( $( cat | grep -o '_argc_util_[[:alnum:]_]*' | uniq | tr '\n' ' ') )
-    for util_fn_name  in ${util_fns[@]}; do
-        if [[ ! " ${global_utils_fns[*]} " =~ " $util_fn_name " ]]; then
-            if [[ -z "$global_utils_fns" ]]; then
-                echo
-            fi
-            global_utils_fns+=( "$util_fn_name" )
-            util_fn_output="$(print_util_fn "$util_fn_name")"
-            echo "$util_fn_output"
-            echo "$util_fn_output" | embed_utils
-        fi
-    done
 }
 
 validate_script() {
@@ -271,7 +271,7 @@ print_util_fn() {
     util_fn_file="$utils_dir/_argc_utils/$util_fn_name.sh"
     if [ -f "$util_fn_file" ]; then
         echo
-        cat "$util_fn_file" 
+        cat "$util_fn_file"  | grep -v ^#
         echo
     else
         log_error "Unknown util fn: $util_fn_name"

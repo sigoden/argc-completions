@@ -1,3 +1,16 @@
+# Resolve paths, including converting paths to specific formats, concatenating paths, cleaning paths.
+# Args:
+# - `-p`: Convert paths to windows format on windows and to unix format on unix.
+# - `-u`: Convert path to unix format.
+# ```sh
+# _argc_util_path_resolve /home/alice gh/argc                 # /home/alice/gh/argc
+# _argc_util_path_resolve C:\\Users\\alice gh\\argc           # C:\Users\alice\gh\argc
+# _argc_util_path_resolve -u C:\\Users\\alice gh\\argc        # /c/Users/alice/gh/argc
+# _argc_util_path_resolve -p /home/alice gh/argc              # C:\Users\alice\gh\argc (windows); /home/alice/gh/argc (non-windows)
+# _argc_util_path_resolve argc/src ../tests                   # understand ..
+# _argc_util_path_resolve argc/src .//tests/                  # cleaning extra / 
+# pwd | _argc_util_path_resolve -p                            # accept pipe
+# ```
 _argc_util_path_resolve() {
     local format args value
     if [[ "$1" == "-p" ]]; then format=1; shift; fi # platform path
@@ -42,7 +55,7 @@ _argc_util_path_resolve() {
 )"
     if [[ $? -ne 0 ]]; then exit $?;  fi
     if [[ -z "$value" ]]; then return; fi
-    if [[ "$value" =~ ^[A-Za-z]: ]]; then
+    if [[ "$value" == [A-Za-z]:* ]]; then
         if [[ "$format" -eq 2 ]] && [[ "$ARGC_OS" == "windows" ]]; then cygpath -u "$value"; else echo "$value"; fi
     else
         if [[ "$format" -eq 1 ]] && [[ "$ARGC_OS" == "windows" ]]; then cygpath -w "$value"; else echo "$value"; fi

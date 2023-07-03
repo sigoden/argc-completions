@@ -1146,12 +1146,7 @@ _choice_script() {
 }
 
 _helper_pkg_json_path() {
-    if [[ -v pkg_json_path ]]; then
-        echo "$pkg_json_path"
-    else
-        pkg_json_path=$(_argc_util_path_search_parent package.json)
-        echo "$pkg_json_path"
-    fi
+    _argc_util_path_search_parent package.json
 }
 
 _argc_util_param_select_options() {

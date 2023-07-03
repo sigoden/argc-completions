@@ -251,9 +251,6 @@ _choice_workspace() {
 }
 
 _choice_workspace_args() {
-    if [ ! package.json ]; then
-        return
-    fi
     location="$(yarn workspaces info | sed '1d;$d' | yq '."'$1'".location // ""')"
     if [[ -z "$location" ]]; then
         return
@@ -262,14 +259,10 @@ _choice_workspace_args() {
     if [[ ! -f "$pkg_json_path" ]]; then
         return
     fi
-    _argc_util_comp_subcommand 1 yarn
+    (cd "$location" && _argc_util_comp_subcommand 1 yarn)
+    
 }
 
 _helper_pkg_json_path() {
-    if [[ -v pkg_json_path ]]; then
-        echo "$pkg_json_path"
-    else
-        pkg_json_path=$(_argc_util_path_search_parent package.json)
-        echo "$pkg_json_path"
-    fi
+    _argc_util_path_search_parent package.json
 }
