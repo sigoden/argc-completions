@@ -1,8 +1,8 @@
 # Enetr parts complete mode
 # Args:
-# - sep: key value seperator
-# - filter: The filter, defualt value is $ARGC_FILTER
-# - prefix: The prefix
+#   sep: key value seperator
+#   filter: The filter, defualt value is $ARGC_FILTER
+#   prefix: The prefix
 _argc_util_mode_parts() {
     local sep="$1"
     argc__parts_filter="${2-$ARGC_FILTER}" 

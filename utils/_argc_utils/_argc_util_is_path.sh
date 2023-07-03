@@ -1,4 +1,5 @@
 # Test value is a path
+#
 # ```sh
 # _argc_util_is_path ./      # yes
 # _argc_util_is_path /       # yes

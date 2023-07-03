@@ -1,7 +1,8 @@
 # Resolve paths, including converting paths to specific formats, concatenating paths, cleaning paths.
 # Args:
-# - `-p`: Convert paths to windows format on windows and to unix format on unix.
-# - `-u`: Convert path to unix format.
+#   -p: Convert paths to windows format on windows and to unix format on unix.
+#   -u: Convert path to unix format.
+#
 # ```sh
 # _argc_util_path_resolve /home/alice gh/argc                 # /home/alice/gh/argc
 # _argc_util_path_resolve C:\\Users\\alice gh\\argc           # C:\Users\alice\gh\argc

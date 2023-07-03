@@ -1,4 +1,5 @@
 # Run functions in parallel
+#
 # ```sh
 # _argc_util_parallel _choice_branch ::: _choice_tag ::: _choice_head
 # ```

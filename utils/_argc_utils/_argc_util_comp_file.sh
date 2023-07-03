@@ -1,9 +1,9 @@
 # Complete file
 # Args:
-# - `-prefix=`: Set __argc_prefix
-# - `-filter=`: Set __argc_filter, default value is ARGC_FILTER
-# - `-cd=`: Set __argc_cd
-# - `-exts=`: Set file's allowed exts. e.g. `-exts=.json,jsonc`
+#   `-prefix=`: Set __argc_prefix
+#   `-filter=`: Set __argc_filter, default value is ARGC_FILTER
+#   `-cd=`: Set __argc_cd
+#   `-exts=`: Set file's allowed exts. e.g. `-exts=.json,jsonc`
 _argc_util_comp_file() {
     local filter="$ARGC_FILTER"
     local exts chdir prefix

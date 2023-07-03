@@ -1,4 +1,5 @@
 # Complete multiple parts of words separated by a char
+#
 # ```sh
 # git ls-files | _argc_util_comp_parts /
 # ```

@@ -1,7 +1,8 @@
 # Complete subcommand for something like `sudo`/`npx`.
 # Args:
-#   - `Index`:  Slice from positional args
-#   - `PrependArgs*`: Args to prepend to sliced positional args array
+#   Index:  Slice from positional args
+#   PrependArgs*: Args to prepend to sliced positional args array
+#
 # ```sh
 # @ description A sudo cli
 # # @arg cmd

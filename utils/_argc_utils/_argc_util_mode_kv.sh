@@ -1,7 +1,8 @@
 # Enetr kv complete mode
 # Args:
-# - sep: key value seperator
-# - filter: The filter, defualt value is $ARGC_FILTER
+#   sep: key value seperator
+#   filter: the filter, defualt value is $ARGC_FILTER
+#
 # Explain:
 # Suppose we add `_argc_util_mode_kv :` to choice fn.
 # If the word is `local:w/argc`, we will get variabels:

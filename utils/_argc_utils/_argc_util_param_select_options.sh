@@ -1,4 +1,5 @@
 # Select global options from command line
+#
 # ```sh
 # _git() {
 #     git $(_argc_util_param_select_options -C --git-dir --work-tree) "$@"
