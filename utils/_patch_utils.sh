@@ -1,6 +1,6 @@
 SCRIPTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../scripts" &> /dev/null && pwd )"
 
-# Run help, first use --help flag, then use help subcmd
+# Run help, first with the --help flag, if that fails then use the help subcmd
 _patch_help_run() {
     local help_text help_text2
     help_text="$($@ --help 2>&1)"
@@ -25,12 +25,23 @@ _patch_help_run_subcmd() {
     fi
 }
 
-# Provide help text for nested subcommand
+# Provide help text for nested subcommands
+# Example:
+# ```
+# cat <<-'EOF' | _patch_help_extract_subcmds $@ 
+# yarn config set <key> <value>
+# options:
+#     -g --global   Use global config
+# yarn config get <key>
+# yarn config delete <key>
+# yarn config list
+# EOF
+# ```
 _patch_help_extract_subcmds() {
     awk -v v1="^$1 " -v v2="^$*" '$0 ~ v1 { x = 0; } $0 ~ v2 { x=1; print "Usage: " $0 } /^(options:|\s+-)/ && x == 1 { print $0 }'
 }
 
-# Edit option
+# Edit options
 # Example:
 #    cat | _patch_table_edit_options \ |
 #      '--foo;[`_choice_foo`]' \ |               # bind choice fn
@@ -46,7 +57,7 @@ _patch_table_edit_options() {
     awk -v KIND=option -v RAW_ARGS="$args" -f "$SCRIPTS_DIR/edit-table.awk"
 }
 
-# Edit argument
+# Edit arguments
 # Example:
 #    cat | _patch_table_edit_arguments \ |
 #      ';;' \ |                                 # seperator, before it change the argument, after it append the argument. if it's first, current arguments will be purged.
@@ -63,7 +74,7 @@ _patch_table_edit_arguments() {
     awk -v KIND=argument -v RAW_ARGS="$args" -f "$SCRIPTS_DIR/edit-table.awk"
 }
 
-# Edit command
+# Edit commands
 # Example:
 #    cat | _patch_table_edit_commands \ |
 #      'foo;desc' \ |                          # change description
@@ -79,6 +90,10 @@ _patch_table_edit_commands() {
 }
 
 # Copy options from another command
+# Example:
+# ```
+# echo "$table" | _patch_table_copy_options go build
+# ```
 _patch_table_copy_options() {
     cat
     local help_text

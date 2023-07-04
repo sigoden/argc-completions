@@ -2,7 +2,6 @@
 
 ## Multiple values
 
-If the number of values is not many
 ```sh
 _choice_fn() {
   echo abc
@@ -11,7 +10,6 @@ _choice_fn() {
 }
 ```
 
-If there is a large number of values
 ```sh
 _choice_fn() {
   cat <<-'EOF'
@@ -51,15 +49,18 @@ _choice_option() {
     cat <<-'EOF' | _argc_util_comp_kv =
 AddKeysToAgent=yes,ask,confirm,no
 AddressFamily=any,inet,inet6
-...
 CertificateFile=__argc_value=file
 HostKeyAlgorithms=`_choice_hostkeyalgorithms`
 EOF
 }
 ```
 
-```sh
-scp -o AddKeysToAgent=
+```
+$ scp -o <tab>
+AddKeysToAgent=   AddressFamily=    CertificateFile=    HostKeyAlgorithms=
+
+$ scp -o AddKeysToAgent=
+yes   ask   confirm   no
 ```
 
 ## Key value pairs, keys are dynamic
@@ -78,8 +79,12 @@ _choice_path() {
 }
 ```
 
-```sh
-scp local:w/argc/README
+```
+$ scp <tab>
+local:   macos:   README.md   License
+
+$ scp local:<tab>
+README.md   License
 ```
 
 ## Multi parts
@@ -94,10 +99,20 @@ _choice_unstaged_file() {
 }
 ```
 
-```sh
-git add completions/
+```
+$ git add completions/<tab>
+cargo   git.sh    go.sh   
 ```
 
+If you don't set multi parts. The completions will be
+
+```
+$ git add completions/<tab>
+completions/cargo/audit.sh
+completions/cargo/binstall.sh
+completions/git.sh
+completions/go.sh
+```
 
 ## Multi values seperated by a char
 
@@ -108,16 +123,31 @@ _choice_work_dropuse() {
 }
 ```
 
-```sh
-go work edit -dropuse './mymod1|./mymod2
+```
+$ go work edit -dropuse <tab>
+./mymod1  ./mymod2  ./mymod3
+
+$ go work edit -dropuse './mymod1|<tab>
+./mymod2  ./mymod3
 ```
 
 ## Sudo-like
 
 ```sh
-# @arg cmd
-# @arg args~[`_choice_args`]
-_choice_args() {
-    _argc_util_comp_subcommand 0 
+# @cmd Run the chosen Yarn command in the selected workspace.
+# @arg workspace-name
+# @arg workspace-args~[`_choice_workspace_args`]
+workspace() { :; }
+
+_choice_workspace_args() {
+    (cd "$workspace_location" && _argc_util_comp_subcommand 1 yarn)
 }
+```
+
+```
+$ yarn <tab>
+add   remove    ...
+
+$ yarn workspace react <tab>
+add   remove    ...
 ```

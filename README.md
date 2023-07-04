@@ -2,9 +2,9 @@
 
 A multi-shell completion solution.
 
-Argc-completions provides argument completion for multiple CLI commands ([full list](completions)), and works across multiple POSIX and non-POSIX shells.
+Argc-completions provides argument completion for multiple CLI commands, and works across multiple POSIX and non-POSIX shells.
 
-Argc-completions also provide tool to automatically generate completion scripts from command help text.
+Argc-completions also provide tool to automatically generate completion scripts for command.
 
 ## Supported shells:
 
@@ -16,7 +16,7 @@ Argc-completions also provide tool to automatically generate completion scripts 
 - [Xonsh](https://xon.sh/)
 - [Zsh](https://www.zsh.org/)
 
-## Install Completion Scripts
+## Setup
 
 ### 1. clone the repository
 
@@ -24,7 +24,7 @@ Argc-completions also provide tool to automatically generate completion scripts 
 git clone https://github.com/sigoden/argc-completions.git
 ```
 
-### 2. install the tools
+### 2. install required tools
 
 Argc-completions requires the following tools:
 
@@ -36,12 +36,13 @@ Run the following script to download the tools to `./bin` folder:
 ```sh
 ./scripts/download-tools.sh
 ```
-
-> Run on git bash for Windows.
+> Use Git Bash on Windows OS.
 
 ### 3. setup shell
 
 Argc-completions supports a lot of shells. Different shells need different configurations.
+
+Run `setup-shell.sh` to get code that loads argc-completions into your shell.
 
 ```sh
 ./scripts/setup-shell.sh bash
@@ -58,10 +59,8 @@ Argc-completions supports a lot of shells. Different shells need different confi
 You can run `generate.sh` to automatically generate the completion script for your command:
 
 ```sh
-argc generate <command> # or ./scripts/generate.sh <command>
+argc generate <your-command> # or ./scripts/generate.sh <your-command>
 ```
-
-See [generate.md](docs/generate.md) for more details.
 
 ## License
 
