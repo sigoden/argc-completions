@@ -1,14 +1,14 @@
 SCRIPTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../scripts" &> /dev/null && pwd )"
 
 # Run help, first with the --help flag, if that fails then use the help subcmd
-_patch_help_run() {
+_patch_help_run_help() {
     local help_text help_text2
     help_text="$($@ --help 2>&1)"
     if [[ $? -eq 0 ]]; then
         echo "$help_text"
         return
     fi
-    help_text2="$(_patch_help_run_subcmd $@ 2>&1)"
+    help_text2="$(_patch_help_run_help_subcmd $@ 2>&1)"
     if [[ $? -eq 0 ]]; then
         echo "$help_text2"
         return
@@ -16,8 +16,8 @@ _patch_help_run() {
     echo "$help_text"
 }
 
-# Run help subcommand to generate help
-_patch_help_run_subcmd() {
+# Run help subcommand to get help
+_patch_help_run_help_subcmd() {
     if [[ $# -eq 1 ]]; then
         $1 help
     else
@@ -100,7 +100,7 @@ _patch_table_copy_options() {
     if [[ $(type -t _patch_help) == "function" ]] ; then
         help_text="$(_patch_help $@)"
     else
-        help_text="$(_patch_help_run $@)"
+        help_text="$(_patch_help_run_help $@)"
     fi
     local table="$(echo "$help_text" | awk -f "$SCRIPTS_DIR/parse-table.awk")"
     if [[ $(type -t _patch_table) == "function" ]] ; then

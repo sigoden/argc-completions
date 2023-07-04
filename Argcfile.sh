@@ -139,7 +139,7 @@ _helper_print_help() {
         if _helper_test_fn help; then
             _patch_help $@
         else
-            _patch_help_run $@
+            _patch_help_run_help $@
         fi
     fi
 }

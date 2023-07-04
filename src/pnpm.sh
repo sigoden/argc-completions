@@ -59,7 +59,7 @@ EOF
     elif [[ "$*" == "pnpm server "* ]]; then
         :;
     else 
-        _patch_help_run_subcmd $@
+        _patch_help_run_help_subcmd $@
     fi
 }
 

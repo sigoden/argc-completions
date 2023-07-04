@@ -24,7 +24,7 @@ Options:
     -x              print commands as they are executed
 EOF
     elif [[ "$*" == "go generate" ]]; then
-        _patch_help_run_subcmd $@
+        _patch_help_run_help_subcmd $@
         cat <<-'EOF'
 Options:
     -n              print commands that would be executed
@@ -106,7 +106,7 @@ Options:
     -exec <xprog>   invoke the binary using xprog
 EOF
     elif [[ "$*" == "go test" ]]; then
-        _patch_help_run_subcmd $@
+        _patch_help_run_help_subcmd $@
         cat <<-'EOF'
 Options:
     -bench <value>          run only those benchmarks matching a regular expression
@@ -124,13 +124,13 @@ Options:
     -vet <value>            configure the invocation of "go vet" during "go test" to use the comma-separated list of vet check
 EOF
     elif [[ "$*" == "go tool" ]]; then
-        _patch_help_run_subcmd $@
+        _patch_help_run_help_subcmd $@
         cat <<-'EOF'
 Options:
     -n      only print the command that would be executed
 EOF
     elif [[ "$*" == "go version" ]]; then
-        _patch_help_run_subcmd $@
+        _patch_help_run_help_subcmd $@
         cat <<-'EOF'
 Options:
     -m      print each executable's embedded module version information
@@ -161,7 +161,7 @@ Options:
     -r                           recursively for modules in the argument directories
 EOF
     else
-        _patch_help_run_subcmd $@
+        _patch_help_run_help_subcmd $@
     fi
 }
 
