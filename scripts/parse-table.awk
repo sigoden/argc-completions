@@ -309,60 +309,31 @@ function splitUsage(input, words) {
 }
 
 function splitArgment(input) {
-    split(input, chars, "")
-    balances = ""
-    for (i=1; i <= length(input); i++) {
-        ch = chars[i]
-        if (ch == "\n") {
-            return i - 1
-        } else if (match(ch, /[[:space:]]/)) {
-            if (length(balances) == 0) {
-                if (match(substr(input, i + 1),  /^\.{2,}/)) {
-                    return i + 1 + RLENGTH
-                }
-                return i - 1
-            }
-        } else if (index(PAIRS_OPEN, ch) > 0) {
-            balances = balances ch
-        } else if (index(PAIRS_CLOSE, ch) > 0) {
-            if (substr(balances, length(balances), 1) == PAIRS[ch]) {
-                balances = substr(balances, 1, length(balances) - 1)
-            }
-        }
-    }
-    return length(input)
+    return nextWord(input)
 }
 
 function splitCommand(input) {
-    split(input, chars, "")
-    word = ""
-    eatWord = 1
-    wordBreakAt = 0
-    for (i=1; i <= length(input); i++) {
-        ch = chars[i]
-        if (match(ch, /[[:space:]]/)) {
-            if (length(word) > 0) {
-                last = substr(word, length(word))
-                word = ""
-                wordBreakAt = i - 1
-                if (last == "," || last == "/") {
-                    eatWord = 1
-                } else {
-                    eatWord = 0
-                }
-            }
-        } else if (ch == "\n") {
-            return i - 1
+    idx = 0
+    while (1) {
+        if (idx == 0) {
+            wordLen = nextWord(substr(input, 1))
         } else {
-            if (length(word) == 0 && eatWord == 0) {
-                if (ch != "/") {
-                    return wordBreakAt
-                }
+            wordLen = nextWord(substr(input, idx + 2))
+        }
+        if (wordLen == 0) {
+            return idx
+        }
+        if (match(substr(input, idx + 2, wordLen), /[a-z]/)) {
+            if (idx != 0 && substr(input, idx, 1) != ",") {
+                return idx
             }
-            word = word ch
+        }
+        if (idx == 0) {
+            idx = wordLen
+        } else {
+            idx = idx + 1 + wordLen
         }
     }
-    return length(input)
 }
 
 function parseDesc(descVal, output, extractChoice, logPrefix)  {
@@ -488,6 +459,28 @@ function parseDesc(descVal, output, extractChoice, logPrefix)  {
     }
 
     output[1] = truncatedDescVal
+}
+
+function nextWord(input,    i) {
+    split(input, chars, "")
+    balances = ""
+    for (i=1; i <= length(input); i++) {
+        ch = chars[i]
+        if (ch == "\n") {
+            return i - 1
+        } else if (match(ch, /[[:space:]]/)) {
+            if (length(balances) == 0) {
+                return i - 1
+            }
+        } else if (index(PAIRS_OPEN, ch) > 0) {
+            balances = balances ch
+        } else if (index(PAIRS_CLOSE, ch) > 0) {
+            if (substr(balances, length(balances), 1) == PAIRS[ch]) {
+                balances = substr(balances, 1, length(balances) - 1)
+            }
+        }
+    }
+    return length(input)
 }
 
 function outputLog(value) {

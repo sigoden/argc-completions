@@ -158,6 +158,11 @@ Other:
       pack
       publish              Publishes a package to the registry
 
+Systemctl Commands:
+  list-units [PATTERN...]             List units currently in memory
+  set-property UNIT PROPERTY=VALUE... Sets one or more properties of a unit
+  mount-image UNIT PATH [PATH [OPTS]] Mount an image from the host into a
+
 EXPERIMENTAL:
   docker manifest is an experimental feature.
   Experimental features provide early access to product functionality. 

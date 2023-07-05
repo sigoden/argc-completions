@@ -2,7 +2,6 @@ BEGIN {
     PAIRS[">"] = "<";
     PAIRS["]"] = "[";
     PAIRS[")"] = "(";
-    PAIRS["'"] = "'"
     PAIRS_OPEN = "<[("
     PAIRS_CLOSE = ">])"
     RE_SKIP_ARGUMENT = "^(flag|option|command|subcommand)"
@@ -188,9 +187,8 @@ function parseCommand(words1, descVal) {
     split("", shortNames)
     for (i in words1) {
         word = words1[i]
-        start = substr(word, 1, 1)
-        if (start == "<" || start == "[") {
-            return
+        if (!match(word, /[a-z]/)) {
+            break
         }
         if (match(tolower(word), RE_SKIP_ARGUMENT)) {
             return

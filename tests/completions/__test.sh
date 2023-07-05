@@ -239,4 +239,25 @@ publish() {
 }
 # }} __test publish
 
+# {{ __test list-units
+# @cmd List units currently in memory
+list-units() {
+    :;
+}
+# }} __test list-units
+
+# {{ __test set-property
+# @cmd Sets one or more properties of a unit
+set-property() {
+    :;
+}
+# }} __test set-property
+
+# {{ __test mount-image
+# @cmd Mount an image from the host into a
+mount-image() {
+    :;
+}
+# }} __test mount-image
+
 command eval "$(argc --argc-eval "$0" "$@")"
