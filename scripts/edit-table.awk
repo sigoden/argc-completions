@@ -1,3 +1,9 @@
+#/usr/bin/env awk
+
+# Edit table
+# ARGS:
+#   KIND: one of option|argument|command
+#   RAW_ARGS: op array joined with newline
 BEGIN {
     split(RAW_ARGS, args, "\n")
     split("", LINES)

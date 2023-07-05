@@ -1,6 +1,6 @@
 _patch_help() {
     echo "Usage: ssh [options] destination [args]..."
-    man ssh | sed '1,/DESCRIPTION/ d; /AUTHENTICATION/,$ d' 
+    man ssh | sed -n '/DESCRIPTION/, /AUTHENTICATION/ {//!p}'
 }
 
 _patch_table() {

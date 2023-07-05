@@ -39,39 +39,39 @@
 
 # {{ bun run
 # @cmd Run JavaScript with bun, a package.json script, or a bin
-# @flag -h --help                      Display this help and exit.
-# @flag -b --bun                       Force a script or package to use Bun.js instead of Node.js (via symlinking node)
-# @option --cwd <DIR>                  Absolute path to resolve files & entry points from.
-# @option -c --config <<PATH>?>        Config file to load bun from (e.g. -c bunfig.toml
-# @option --extension-order* <STR>     Defaults to: .tsx,.ts,.jsx,.js,.json
-# @option --jsx-factory <STR>          Changes the function called when compiling JSX elements using the classic JSX runtime
-# @option --jsx-fragment <STR>         Changes the function called when compiling JSX fragments
-# @option --jsx-import-source <STR>    Declares the module specifier to be used for importing the jsx and jsxs factory functions.
-# @option --jsx-runtime <STR>          "automatic" (default) or "classic"
-# @option -r --preload* <STR>          Import a module before other modules are loaded
-# @option --main-fields* <STR>         Main fields to lookup in package.json.
-# @flag --no-summary                   Don't print a summary (when generating .bun)
-# @flag -v --version                   Print version and exit
-# @option --tsconfig-override <STR>    Load tsconfig from path instead of cwd/tsconfig.json
-# @option -d --define* <STR>           Substitute K:V while parsing, e.g. --define process.env.NODE_ENV:"development".
-# @option -e --external* <STR>         Exclude module from transpilation (can use * wildcards).
+# @flag -h --help                             Display this help and exit.
+# @flag -b --bun                              Force a script or package to use Bun.js instead of Node.js (via symlinking node)
+# @option --cwd <DIR>                         Absolute path to resolve files & entry points from.
+# @option -c --config <<PATH>?>               Config file to load bun from (e.g. -c bunfig.toml
+# @option --extension-order* <STR>            Defaults to: .tsx,.ts,.jsx,.js,.json
+# @option --jsx-factory <STR>                 Changes the function called when compiling JSX elements using the classic JSX runtime
+# @option --jsx-fragment <STR>                Changes the function called when compiling JSX fragments
+# @option --jsx-import-source <STR>           Declares the module specifier to be used for importing the jsx and jsxs factory functions.
+# @option --jsx-runtime <STR>                 "automatic" (default) or "classic"
+# @option -r --preload* <STR>                 Import a module before other modules are loaded
+# @option --main-fields* <STR>                Main fields to lookup in package.json.
+# @flag --no-summary                          Don't print a summary (when generating .bun)
+# @flag -v --version                          Print version and exit
+# @option --tsconfig-override <STR>           Load tsconfig from path instead of cwd/tsconfig.json
+# @option -d --define* <STR>                  Substitute K:V while parsing, e.g. --define process.env.NODE_ENV:"development".
+# @option -e --external* <STR>                Exclude module from transpilation (can use * wildcards).
 # @option -l --loader*[js|jsx|ts|tsx|json|toml|text|file|wasm|napi] <STR>  Parse files with .ext:loader, e.g. --loader .js:jsx.
-# @option -u --origin <STR>            Rewrite import URLs to start with --origin.
-# @option -p --port <STR>              Port to serve bun's dev server on.
-# @flag --minify                       Minify (experimental)
-# @flag --minify-syntax                Minify syntax and inline data (experimental)
-# @flag --minify-whitespace            Minify whitespace (experimental)
-# @flag --minify-identifiers           Minify identifiers
-# @flag --no-macros                    Disable macros from being executed in the bundler, transpiler and runtime
-# @option --target <STR>               The intended execution environment for the bundle.
-# @flag --hot                          Enable auto reload in bun's JavaScript runtime
-# @flag --watch                        Automatically restart bun's JavaScript runtime on file change
-# @flag --no-install                   Disable auto install in bun's JavaScript runtime
-# @flag -i                             Automatically install dependencies and use global cache in bun's runtime, equivalent to --install=fallback
-# @option --install <STR>              Install dependencies automatically when no node_modules are present, default: "auto".
-# @flag --prefer-offline               Skip staleness checks for packages in bun's JavaScript runtime and resolve from disk
-# @flag --prefer-latest                Use the latest matching versions of packages in bun's JavaScript runtime, always checking npm
-# @flag --silent                       Don't repeat the command for bun run
+# @option -u --origin <STR>                   Rewrite import URLs to start with --origin.
+# @option -p --port <STR>                     Port to serve bun's dev server on.
+# @flag --minify                              Minify (experimental)
+# @flag --minify-syntax                       Minify syntax and inline data (experimental)
+# @flag --minify-whitespace                   Minify whitespace (experimental)
+# @flag --minify-identifiers                  Minify identifiers
+# @flag --no-macros                           Disable macros from being executed in the bundler, transpiler and runtime
+# @option --target[browser|bun|node] <STR>    The intended execution environment for the bundle.
+# @flag --hot                                 Enable auto reload in bun's JavaScript runtime
+# @flag --watch                               Automatically restart bun's JavaScript runtime on file change
+# @flag --no-install                          Disable auto install in bun's JavaScript runtime
+# @flag -i                                    Automatically install dependencies and use global cache in bun's runtime, equivalent to --install=fallback
+# @option --install <STR>                     Install dependencies automatically when no node_modules are present, default: "auto".
+# @flag --prefer-offline                      Skip staleness checks for packages in bun's JavaScript runtime and resolve from disk
+# @flag --prefer-latest                       Use the latest matching versions of packages in bun's JavaScript runtime, always checking npm
+# @flag --silent                              Don't repeat the command for bun run
 # @arg script_or_bin[`_choice_script_or_bin`]
 run() {
     :;
@@ -328,39 +328,39 @@ pm::cache::rm() {
 
 # {{ bun dev
 # @cmd Start a bun (frontend) Dev Server
-# @flag --disable-bun.js                Disable bun.js from loading in the dev server
-# @flag --disable-react-fast-refresh    Disable React Fast Refresh
-# @option --bunfile <STR>               Use a .bun file (default: node_modules.bun)
-# @option --server-bunfile <STR>        Use a .server.bun file (default: node_modules.server.bun)
-# @option --public-dir <STR>            Top-level directory for .html files, fonts or anything external.
-# @flag --disable-hmr                   Disable Hot Module Reloading (disables fast refresh too) in bun dev
-# @option --use <STR>                   Choose a framework, e.g. "--use next".
-# @flag -h --help                       Display this help and exit.
-# @flag -b --bun                        Force a script or package to use Bun.js instead of Node.js (via symlinking node)
-# @option --cwd <DIR>                   Absolute path to resolve files & entry points from.
-# @option -c --config <<PATH>?>         Config file to load bun from (e.g. -c bunfig.toml
-# @option --extension-order* <STR>      Defaults to: .tsx,.ts,.jsx,.js,.json
-# @option --jsx-factory <STR>           Changes the function called when compiling JSX elements using the classic JSX runtime
-# @option --jsx-fragment <STR>          Changes the function called when compiling JSX fragments
-# @option --jsx-import-source <STR>     Declares the module specifier to be used for importing the jsx and jsxs factory functions.
-# @option --jsx-runtime <STR>           "automatic" (default) or "classic"
-# @option -r --preload* <STR>           Import a module before other modules are loaded
-# @option --main-fields* <STR>          Main fields to lookup in package.json.
-# @flag --no-summary                    Don't print a summary (when generating .bun)
-# @flag -v --version                    Print version and exit
-# @option --tsconfig-override <STR>     Load tsconfig from path instead of cwd/tsconfig.json
-# @option -d --define* <STR>            Substitute K:V while parsing, e.g. --define process.env.NODE_ENV:"development".
-# @option -e --external* <STR>          Exclude module from transpilation (can use * wildcards).
+# @flag --disable-bun.js                      Disable bun.js from loading in the dev server
+# @flag --disable-react-fast-refresh          Disable React Fast Refresh
+# @option --bunfile <STR>                     Use a .bun file (default: node_modules.bun)
+# @option --server-bunfile <STR>              Use a .server.bun file (default: node_modules.server.bun)
+# @option --public-dir <STR>                  Top-level directory for .html files, fonts or anything external.
+# @flag --disable-hmr                         Disable Hot Module Reloading (disables fast refresh too) in bun dev
+# @option --use <STR>                         Choose a framework, e.g. "--use next".
+# @flag -h --help                             Display this help and exit.
+# @flag -b --bun                              Force a script or package to use Bun.js instead of Node.js (via symlinking node)
+# @option --cwd <DIR>                         Absolute path to resolve files & entry points from.
+# @option -c --config <<PATH>?>               Config file to load bun from (e.g. -c bunfig.toml
+# @option --extension-order* <STR>            Defaults to: .tsx,.ts,.jsx,.js,.json
+# @option --jsx-factory <STR>                 Changes the function called when compiling JSX elements using the classic JSX runtime
+# @option --jsx-fragment <STR>                Changes the function called when compiling JSX fragments
+# @option --jsx-import-source <STR>           Declares the module specifier to be used for importing the jsx and jsxs factory functions.
+# @option --jsx-runtime <STR>                 "automatic" (default) or "classic"
+# @option -r --preload* <STR>                 Import a module before other modules are loaded
+# @option --main-fields* <STR>                Main fields to lookup in package.json.
+# @flag --no-summary                          Don't print a summary (when generating .bun)
+# @flag -v --version                          Print version and exit
+# @option --tsconfig-override <STR>           Load tsconfig from path instead of cwd/tsconfig.json
+# @option -d --define* <STR>                  Substitute K:V while parsing, e.g. --define process.env.NODE_ENV:"development".
+# @option -e --external* <STR>                Exclude module from transpilation (can use * wildcards).
 # @option -l --loader*[js|jsx|ts|tsx|json|toml|text|file|wasm|napi] <STR>  Parse files with .ext:loader, e.g. --loader .js:jsx.
-# @option -u --origin <STR>             Rewrite import URLs to start with --origin.
-# @option -p --port <STR>               Port to serve bun's dev server on.
-# @flag --minify                        Minify (experimental)
-# @flag --minify-syntax                 Minify syntax and inline data (experimental)
-# @flag --minify-whitespace             Minify whitespace (experimental)
-# @flag --minify-identifiers            Minify identifiers
-# @flag --no-macros                     Disable macros from being executed in the bundler, transpiler and runtime
-# @option --target <STR>                The intended execution environment for the bundle.
-# @flag --dump-environment-variables    Dump environment variables from .env and process as JSON and quit.
+# @option -u --origin <STR>                   Rewrite import URLs to start with --origin.
+# @option -p --port <STR>                     Port to serve bun's dev server on.
+# @flag --minify                              Minify (experimental)
+# @flag --minify-syntax                       Minify syntax and inline data (experimental)
+# @flag --minify-whitespace                   Minify whitespace (experimental)
+# @flag --minify-identifiers                  Minify identifiers
+# @flag --no-macros                           Disable macros from being executed in the bundler, transpiler and runtime
+# @option --target[browser|bun|node] <STR>    The intended execution environment for the bundle.
+# @flag --dump-environment-variables          Dump environment variables from .env and process as JSON and quit.
 dev() {
     :;
 }

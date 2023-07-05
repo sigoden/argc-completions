@@ -2,7 +2,7 @@ _patch_help() {
     if [[ "$*" == "yq completion" ]]; then
         echo "Usage: yq completion (bash|zsh|fish|powershell)"
     elif [[ "$*" == "yq shell-completion" ]]; then
-        echo
+        :;
     else
         $@ --help
     fi

@@ -1,10 +1,9 @@
 _patch_help() {
     if [[ "$*" == "bun" ]]; then
         echo "Options: "
-        bun --help | sed \
-            -e '/^-----/, $ s/  \(\w\+\) \s\{2,\}.*\s\{4,\}\(.*\)$/  \1     \2/' \
-            -e '/ (bun \w\+)$/ s/  \(\w\+\)\(.*\)(bun \(\w\+\))$/  \1, \3\2/'  \
-            -e '/^-----/, /^bun:/ c\Commands:' 
+        bun --help \ |
+            _patch_help_clean_middle \ |
+            sed '/ (bun \w\+)$/ s/  \(\w\+\)\(.*\)(bun \(\w\+\))$/  \1, \3\2/'
     elif [[ "$*" == "bun run" ]]; then
         echo "Usage: bun run [script_or_bin]..."
         $@ --help | sed '/----/,$ d'
@@ -61,10 +60,9 @@ EOF
 }
 
 _patch_table() {
-    table="$(_patch_table_edit_options '--cwd(<DIR>)')"
+    table="$(_patch_table_edit_options '--cwd(<DIR>)' '--target;[browser|bun|node]')"
     if [[ "$*" == "bun" ]]; then
         echo "$table" | \
-            _patch_table_edit_options '--target;[browser|bun|node]' | \
             _patch_table_edit_arguments ';;' '[args]...;[`_choice_script_or_bin`]'
     elif [[ "$*" == "bun run" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'script_or_bin;[`_choice_script_or_bin`]'

@@ -25,6 +25,11 @@ _patch_help_run_help_subcmd() {
     fi
 }
 
+# Clean the middle text between command value and description
+_patch_help_clean_middle() {
+    awk -f  "$SCRIPTS_DIR/clean-middle.awk"
+}
+
 # Provide help text for nested subcommands
 # Example:
 # ```
