@@ -46,6 +46,28 @@ _patch_help_select_subcmd() {
     awk -v v1="^$1 " -v v2="^$*($| )" '$0 ~ v1 { x = 0; } $0 ~ v2 { x=1; print "Usage: " $0 } /^(options:|\s+-)/ && x == 1 { print $0 }'
 }
 
+# Split two option columns
+#
+# Turn text like below
+#  -p  extract files to pipe, no messages     -l  list files (short format)
+# Into normal option lines
+#  -p  extract files to pipe, no messages
+#  -l  list files (short format)
+_patch_help_split_option_columns() {
+    awk '{
+    printed = 0
+    if (match($0, /^\s+-\w{1,2}\s+/)) {
+        rLen1 = RLENGTH
+        if (match(substr($0, rLen1 + 1), /\s{2}-\w{1,2}\s+/)) {
+            printed = 1
+            print substr($0, 1, rLen1 + 1 + RSTART)
+            print substr($0, rLen1 + RSTART)
+        }
+    }
+    if (printed == 0) print $0
+}'
+}
+
 # Edit options
 # Example:
 #    cat | _patch_table_edit_options \ |
