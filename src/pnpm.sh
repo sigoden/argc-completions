@@ -29,14 +29,14 @@ Miss commands:
       config               Manage the configuration files.
 EOF
     elif [[ "$*" == "pnpm config "* ]]; then
-        cat <<-'EOF' | _patch_help_extract_subcmds $@
+        cat <<-'EOF' | _patch_help_select_subcmd $@
 pnpm config set <key> <value> 
 pnpm config get <key> 
 pnpm config delete <key> 
 pnpm config list
 EOF
     elif [[ "$*" == "pnpm env "* ]]; then
-        cat <<-'EOF' | _patch_help_extract_subcmds $@
+        cat <<-'EOF' | _patch_help_select_subcmd $@
 pnpm env list
 options:
     --remote       List the remote versions of Node.js
@@ -50,7 +50,7 @@ EOF
     elif [[ "$*" == "pnpm store" ]]; then
         pnpm help store | sed 's/add <pkg>.../add         /'
     elif [[ "$*" == "pnpm store "* ]]; then
-        cat <<-'EOF' | _patch_help_extract_subcmds $@
+        cat <<-'EOF' | _patch_help_select_subcmd $@
 pnpm store add <pkg>...
 pnpm store path
 pnpm store prune

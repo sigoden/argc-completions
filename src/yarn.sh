@@ -53,7 +53,7 @@ Commands:
     clean     clear the global cache.
 EOF
         else
-            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
+            cat <<-'EOF' | _patch_help_select_subcmd $@ 
 yarn cache list
 options:
     --pattern <pattern>
@@ -72,7 +72,7 @@ Commands:
     list    Displays the current configuration.
 EOF
         else
-            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
+            cat <<-'EOF' | _patch_help_select_subcmd $@ 
 yarn config set <key> <value>
 options:
     -g --global
@@ -92,7 +92,7 @@ Commands:
     upgrade     Upgrades packages to their latest version based on the specified range.
 EOF
         else
-            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
+            cat <<-'EOF' | _patch_help_select_subcmd $@ 
 yarn global add <packages>...
 options:
     --prefix <prefix>   bin prefix
@@ -117,7 +117,7 @@ Commands:
 
 EOF
         else
-            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
+            cat <<-'EOF' | _patch_help_select_subcmd $@ 
 yarn licenses list
 yarn licenses generate-disclaimer
 EOF
@@ -132,7 +132,7 @@ Commands:
     remove  Removes the <user> as an owner of the <package>.
 EOF
         else
-            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
+            cat <<-'EOF' | _patch_help_select_subcmd $@ 
 yarn owner list <package>
 yarn owner add <user> <package>
 yarn owner remove <user> <package>
@@ -146,7 +146,7 @@ Commands:
     set-version  Enforcing Yarn’s version across your project.
 EOF
         else
-            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
+            cat <<-'EOF' | _patch_help_select_subcmd $@ 
 yarn policies set-version <ver>
 options:
     --rc   Use latest rc release
@@ -164,7 +164,7 @@ Commands:
     list        List of existing teams under that organization.
 EOF
         else
-            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
+            cat <<-'EOF' | _patch_help_select_subcmd $@ 
 yarn team create <scope:team>
 yarn team destroy <scope:team>
 yarn team add <scope:team> <user>
@@ -181,7 +181,7 @@ Commands:
     run     run the chosen Yarn command in each workspace.
 EOF
         else
-            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
+            cat <<-'EOF' | _patch_help_select_subcmd $@ 
 yarn workspaces info
 options:
     --json

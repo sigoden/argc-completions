@@ -81,7 +81,7 @@ internal debugging:
  reconnect                kick connection from host side to force reconnect
 EOF
     else
-        cat <<-'EOF' | _patch_help_extract_subcmds $@
+        cat <<-'EOF' | _patch_help_select_subcmd $@
 adb devices
     -l                      long output
 adb connect HOST[:PORT]

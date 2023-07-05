@@ -90,7 +90,7 @@ Commands:
     run         use <cmd>... to automatically bisect.
 EOF
         else
-            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
+            cat <<-'EOF' | _patch_help_select_subcmd $@ 
 git bisect start
 options:
     --term-new <term>
@@ -147,7 +147,7 @@ EOF
         elif [[ "$*" == "git reflog show" ]]; then
             $@ -h 2>&1
         else
-            cat <<-'EOF' | _patch_help_extract_subcmds $@
+            cat <<-'EOF' | _patch_help_select_subcmd $@
 git reflog expire <refs>...
 options:
     --expire <time>
@@ -212,7 +212,7 @@ Commands:
     save
 EOF
         else 
-            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
+            cat <<-'EOF' | _patch_help_select_subcmd $@ 
 git stash list
 git stash show <stash>
 git stash drop <stash>
@@ -269,7 +269,7 @@ Commands:
     absorbgitdirs
 EOF
         else
-            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
+            cat <<-'EOF' | _patch_help_select_subcmd $@ 
 git submodule add <repository> [<path>]
 options:
     -b <branch>
@@ -330,7 +330,7 @@ Commands:
     unlock
 EOF
         else
-            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
+            cat <<-'EOF' | _patch_help_select_subcmd $@ 
 git worktree add [<options>] <path> [<commit-ish>]
 git worktree list [<options>]
 git worktree lock [<options>] <path>

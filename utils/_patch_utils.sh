@@ -30,10 +30,10 @@ _patch_help_clean_middle() {
     awk -f  "$SCRIPTS_DIR/clean-middle.awk"
 }
 
-# Provide help text for nested subcommands
+# Select help text
 # Example:
 # ```
-# cat <<-'EOF' | _patch_help_extract_subcmds $@ 
+# cat <<-'EOF' | _patch_help_select_subcmd $@ 
 # yarn config set <key> <value>
 # options:
 #     -g --global   Use global config
@@ -42,7 +42,7 @@ _patch_help_clean_middle() {
 # yarn config list
 # EOF
 # ```
-_patch_help_extract_subcmds() {
+_patch_help_select_subcmd() {
     awk -v v1="^$1 " -v v2="^$*($| )" '$0 ~ v1 { x = 0; } $0 ~ v2 { x=1; print "Usage: " $0 } /^(options:|\s+-)/ && x == 1 { print $0 }'
 }
 

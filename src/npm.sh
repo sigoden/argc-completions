@@ -113,7 +113,7 @@ Commands:
     verify     Verify the contents of the cache folder, garbage collecting any unneeded data, and verifying the integrity of the cache index and all cached data.
 EOF
         else
-            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
+            cat <<-'EOF' | _patch_help_select_subcmd $@ 
 npm cache add <package-spec>
 npm cache clean [key]
 npm cache ls [name@version]
@@ -161,7 +161,7 @@ Options:
     --long              Show extended information in ls, search, and help-search.
 EOF
         else
-            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
+            cat <<-'EOF' | _patch_help_select_subcmd $@ 
 npm config set [<key>=<value>]...
 npm config get [key]...
 npm config list
@@ -230,7 +230,7 @@ Options:
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
 EOF
         else
-            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
+            cat <<-'EOF' | _patch_help_select_subcmd $@ 
 npm dist-tag add <package-spec> <tag>
 npm dist-tag rm <package-spec> <tag>
 npm dist-tag ls [package-spec]
@@ -327,7 +327,7 @@ Options:
     --otp <value>       This is a one-time password from a two-factor authenticator. 
 EOF
         else
-            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
+            cat <<-'EOF' | _patch_help_select_subcmd $@ 
 npm hook add <pkg> <url> <secret>
 npm hook ls [pkg]
 npm hook rm <id>
@@ -486,7 +486,7 @@ Options:
     --parseable          Output parseable results from commands that write to standard output. 
 EOF
         else
-            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
+            cat <<-'EOF' | _patch_help_select_subcmd $@ 
 npm org set <orgname> <username> (developer|admin|owner)
 npm org rm <orgname> <username>
 npm org ls <orgname> [username]
@@ -517,7 +517,7 @@ Options:
     --workspaces          Set to true to run the command in the context of all configured workspaces.
 EOF
         else
-            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
+            cat <<-'EOF' | _patch_help_select_subcmd $@ 
 npm owner ls <package-spec>
 npm owner add <user> <package-spec>
 npm owner rm <user> <package-spec>
@@ -554,7 +554,7 @@ Options:
     --workspaces          Set to true to run the command in the context of all configured workspaces.
 EOF
         else
-            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
+            cat <<-'EOF' | _patch_help_select_subcmd $@ 
 npm pkg get <field>...
 npm pkg set <key=value>...
 npm pkg delete <field>...
@@ -580,7 +580,7 @@ Options:
     --otp <value>        This  is  a one-time password from a two-factor authenticator. 
 EOF
         else
-            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
+            cat <<-'EOF' | _patch_help_select_subcmd $@ 
 npm profile get [key]
 npm profile set <key> <value>
 npm profile enable-2fa (auth-only|auth-and-writes)
@@ -732,7 +732,7 @@ Options:
     --json               Whether or not to output JSON data, rather than the normal output.
 EOF
         else
-            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
+            cat <<-'EOF' | _patch_help_select_subcmd $@ 
 npm team create <scope:team>
 npm team destroy <scope:team>
 npm team add <scope:team> <user>
@@ -761,7 +761,7 @@ Options:
     --otp <value>        This is a one-time password from a two-factor authenticator. 
 EOF
         else
-            cat <<-'EOF' | _patch_help_extract_subcmds $@ 
+            cat <<-'EOF' | _patch_help_select_subcmd $@ 
 npm token list
 npm token revoke <id|token>
 npm token create

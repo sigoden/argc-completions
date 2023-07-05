@@ -39,7 +39,7 @@ Commands:
 EOF
 
     elif [[ "$*" == "bun pm "* ]]; then
-        cat <<-'EOF' | _patch_help_extract_subcmds $@ 
+        cat <<-'EOF' | _patch_help_select_subcmd $@ 
 bun pm bin
 options:
    -g, --global   Install globally
@@ -50,7 +50,7 @@ options:
 EOF
 
     else
-        cat <<-'EOF' | _patch_help_extract_subcmds $@ 
+        cat <<-'EOF' | _patch_help_select_subcmd $@ 
 bun build [file]...
 bun x <cmd> [args]...
 bun completions [dir]
