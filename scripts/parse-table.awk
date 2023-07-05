@@ -69,12 +69,12 @@ END {
                     groupName = "argument"
                     continue
                 }
-            } else if (match(santizedLine, /\s*(commands|subcommands):\s*$/)) {
+            } else if (match(santizedLine, /\s*(commands|subcommands)(:\s*$|$)/)) {
                 if (LINES[i+1, 3] > spaces) {
                     groupName = "command"
                     continue
                 }
-            } else if (match(santizedLine, /^(synopsis|description|discussion|environment|environment variables):\s*$/)) {
+            } else if (match(santizedLine, /^(synopsis|description|discussion|environment|environment variables|examples|learn more):\s*$/)) {
                 if (LINES[i+1, 3] > spaces) {
                     groupName = "misc"
                     continue
