@@ -1,6 +1,7 @@
 using namespace System.Management.Automation
 
-$ARGC_COMPLETIONS_DIR = if ($ARGC_COMPLETIONS_DIR) { $ARGC_COMPLETIONS_DIR.TrimEnd('\') } else {(Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)) + "\completions" }
+$ARGC_DIR_SEP_CHAR = [System.IO.Path]::DirectorySeparatorChar
+$ARGC_COMPLETIONS_DIR = if ($ARGC_COMPLETIONS_DIR) { $ARGC_COMPLETIONS_DIR.TrimEnd($ARGC_DIR_SEP_CHAR) } else {(Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)) + $ARGC_DIR_SEP_CHAR + "completions" }
 $ARGC_COMPLETIONS_SCRIPTS = (Get-ChildItem -File $ARGC_COMPLETIONS_DIR | ForEach-Object { $_.Name -replace '\.sh$' })
 $ARGC_COMPLETIONS_EXTEND_CMDS = (Get-ChildItem -Directory $ARGC_COMPLETIONS_DIR | ForEach-Object { $_.Name })
 
@@ -23,7 +24,7 @@ $_argc_completions_completer = {
     if (($words.Count -gt 2) -and ($cmd -in $ARGC_COMPLETIONS_EXTEND_CMDS)) {
         $subcmd = $words[1]
         if ($subcmd -match '^[A-Za-z0-9]') {
-            $scriptfile = ($ARGC_COMPLETIONS_DIR + "\" + $cmd + "\" + $subcmd + ".sh")
+            $scriptfile = ($ARGC_COMPLETIONS_DIR + $ARGC_DIR_SEP_CHAR + $cmd + $ARGC_DIR_SEP_CHAR + $subcmd + ".sh")
             if (Test-Path -Path $scriptfile -PathType Leaf) {
                 $extend = $true
             }
@@ -32,7 +33,7 @@ $_argc_completions_completer = {
     if ($extend) {
         $words = $words[1..($words.Count-1)]
     } else {
-        $scriptfile = ($ARGC_COMPLETIONS_DIR + "\" + $cmd + ".sh")
+        $scriptfile = ($ARGC_COMPLETIONS_DIR + $ARGC_DIR_SEP_CHAR + $cmd + ".sh")
     }
 
     @((argc --argc-compgen powershell $scriptfile $words) -split "`n") | ForEach-Object {
