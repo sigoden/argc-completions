@@ -125,7 +125,7 @@ _choice_socket_unit() {
 }
 
 _choice_unit_pid() {
-    _argc_util_parallel _choice_unit ::: _argc_util_share_pid
+    _argc_util_parallel _choice_unit ::: _argc_share_pid
 }
 
 _choice_unit_job() {

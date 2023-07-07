@@ -135,9 +135,8 @@ embed_script() {
     if [[ ! -f "$src_file" ]]; then
         return
     fi
-    echo
-    echo 
-    cat "$src_file" | awk '
+    embed_choice_fns() {
+        cat "$src_file" | awk '
 BEGIN {
     patch_fn_state = 0
 }
@@ -157,22 +156,23 @@ BEGIN {
     }
 }
 '
-    echo 
-}
-
-embed_utils() {
-    util_fns=( $( cat | grep -o '_argc_util_[[:alnum:]_]*' | uniq | tr '\n' ' ') )
-    for util_fn_name  in ${util_fns[@]}; do
-        if [[ ! " ${global_utils_fns[*]} " == *" $util_fn_name "* ]]; then
-            if [[ -z "$global_utils_fns" ]]; then
-                echo
-            fi
-            global_utils_fns+=( "$util_fn_name" )
-            util_fn_output="$(print_util_fn "$util_fn_name")"
-            echo "$util_fn_output"
-            echo "$util_fn_output" | embed_utils
-        fi
-    done
+    }
+    local embed_content source_content
+    embed_content="$(embed_choice_fns)"
+    if grep -q -o '_argc_util_[[:alnum:]_]*' <<<"$embed_content"; then
+        source_content="$source_content"'. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"'$'\n'
+    fi
+    if grep -q -o '_argc_share_[[:alnum:]_]*' <<<"$embed_content"; then
+        source_content="$source_content"'. "$ARGC_COMPLETIONS_ROOT/utils/_argc_shares.sh"'$'\n'
+    fi
+    if [[ -n "$source_content" ]]; then
+        printf "\n\n%s\n" "$source_content"
+    else
+        printf "\n\n"
+    fi
+    if [[ -n "$embed_content" ]]; then
+        echo "$embed_content"
+    fi
 }
 
 parse_table() {
@@ -266,18 +266,6 @@ print_cmd_fn() {
     echo "}"
 }
 
-print_util_fn() {
-    util_fn_name="$1"
-    util_fn_file="$utils_dir/_argc_utils/$util_fn_name.sh"
-    if [ -f "$util_fn_file" ]; then
-        echo
-        cat "$util_fn_file"  | grep -v ^#
-        echo
-    else
-        log_error "Unknown util fn: $util_fn_name"
-    fi
-}
-
 log_info() {
     if [[ "$argc_verbose" -eq 1 ]]; then
         echo "[info] $@" >&2
@@ -303,13 +291,7 @@ if [[ $(type -t _patch_script) = "function" ]]; then
     log_info ": patch script"
     output_content="$(echo "$output_content" | _patch_script)"
 fi
-if [[ -f "$src_file" ]]; then
-    if grep -q _choice_ <<<"$output_content"; then
-        log_info ": embemd argc util fns"
-        output_content="$output_content$(embed_script ${cmds[@]})"
-    fi
-fi
-output_content="$output_content$(echo "$output_content" | embed_utils)"
+output_content="$output_content$(embed_script)"
 output_content="$output_content$(print_tail)"
 if [[ -n "$output_file" ]]; then
     mkdir -p "$(dirname "$output_file")"

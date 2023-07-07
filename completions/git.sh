@@ -2113,6 +2113,8 @@ worktree::unlock() {
 # }}} git worktree unlock
 # }} git worktree
 
+. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
+
 _git() {
     git $(_argc_util_param_select_options -C --git-dir --work-tree) "$@"
 }
@@ -2258,138 +2260,6 @@ _choice_stash() {
 
 _helper_ref_change() {
     _git diff-tree --name-only --no-commit-id -r "$1"
-}
-
-_argc_util_param_select_options() {
-    local option option_var option_val
-    for option in "$@"; do
-        option_var="argc_$(echo "$option" | sed 's/^-\+//' | tr '-' '_')"
-        option_val="${!option_var}"
-        if [[ -n "$option_val" ]]; then
-            if [[ "$option_val" -eq 1 ]]; then
-                echo -n " $option"
-            else
-                echo -n " $option $option_val"
-            fi
-        fi
-    done
-}
-
-_argc_util_comp_parts() {
-    awk -v SEP="$1" -v ARGC_FILTER="${2-$ARGC_FILTER}" -v ARGC_PREFIX="${3}" '
-BEGIN {
-    split("", VALUES)
-    split("", DEDUPS)
-    ONLY_LINE = ""
-    COUNT = 0
-    split(ARGC_FILTER, filterParts, SEP)
-    FILTER = filterParts[length(filterParts)]
-    PREFIX = ""
-    for (i = 1; i < length(filterParts); i++) 
-        PREFIX = PREFIX filterParts[i] SEP
-    print "__argc_filter=" FILTER
-    print "__argc_prefix=" ARGC_PREFIX PREFIX
-}
-{
-    if (index($0, ARGC_FILTER) == 1) {
-        value = substr($0, length(PREFIX) + 1)
-        if (COUNT == 0) {
-            ONLY_LINE = value
-            if (substr(ONLY_LINE, length(ONLY_LINE)) == SEP) {
-                ONLY_LINE = ONLY_LINE "\0"
-            }
-        }
-        COUNT = COUNT + 1
-        idx = index(value, SEP)
-        if (idx > 0) {
-            value = substr(value, 1, idx) "\0"
-        }
-        if (!DEDUPS[value]) {
-            DEDUPS[value] = 1
-            VALUES[length(VALUES) + 1] = value
-        }
-    }
-}
-
-END {
-    if (COUNT == 1) {
-        print ONLY_LINE
-    } else {
-        for (i in VALUES) {
-            print VALUES[i]
-        }
-    }
-}'
-}
-
-_argc_util_parallel() {
-    argc --argc-parallel $(_argc_util_path_resolve $0) "$@"
-}
-
-_argc_util_path_resolve() {
-    local format args value
-    if [[ "$1" == "-p" ]]; then format=1; shift; fi # platform path
-    if [[ "$1" == "-u" ]]; then format=2; shift; fi # unix path
-    if [[ $# -eq 0 ]]; then args=( "$(cat)" ); else args=( "$@" ); fi
-    args="$(printf "%q\n" "${args[@]}")"
-    value="$(awk -v RAW_ARGS="$args" 'BEGIN {
-    split(RAW_ARGS, args, "\n"); split("", parts)
-    partsLen = 0; isWin = 0; sep = "/";
-    for (i in args) {
-        arg = args[i]
-        if (arg == "\x27\x27") continue
-        if (i == 1) {
-            if (match(arg, /^[A-Za-z]:/)) {
-                value = substr(arg, 1, 2) "\\"; arg = substr(arg, 3); isWin = 1; sep = "\\"; 
-            } else if (substr(arg, 1, 1) == "/") {
-                value = "/"; arg = substr(arg, 2)
-            }
-        }
-        if (isWin == 1) gsub("\\\\", "/", arg)
-        split(arg, pathParts, "/")
-        for (j in pathParts) {
-            pathPart = pathParts[j]
-            if (pathPart == "" || pathPart == ".") continue
-            if (pathPart == "..") {
-                if (partsLen == 0) exit 1
-                parts[partsLen] = ""; partsLen = partsLen - 1
-            } else {
-                partsLen = partsLen + 1; parts[partsLen] = pathPart
-            }
-        }
-    }
-    for (i = 1; i <= partsLen; i++) {
-        if (i == 1) {
-            value = value parts[i]
-        } else {
-            value = value sep parts[i]
-        }
-    }
-    print value
-}'
-)"
-    if [[ $? -ne 0 ]]; then exit $?;  fi
-    if [[ -z "$value" ]]; then return; fi
-    if [[ "$value" == [A-Za-z]:* ]]; then
-        if [[ "$format" -eq 2 ]] && [[ "$ARGC_OS" == "windows" ]]; then cygpath -u "$value"; else echo "$value"; fi
-    else
-        if [[ "$format" -eq 1 ]] && [[ "$ARGC_OS" == "windows" ]]; then cygpath -w "$value"; else echo "$value"; fi
-    fi
-}
-
-_argc_util_mode_kv() {
-    local sep="$1"
-    local filter="${2-$ARGC_FILTER}"
-    if [[ "$filter" == *"$sep"* ]]; then
-        argc__kv_key="${filter%%$sep*}"
-        argc__kv_prefix="$argc__kv_key$sep"
-        argc__kv_filter="${filter#*$sep}"
-        echo "__argc_prefix=$argc__kv_prefix"
-        echo "__argc_filter=$argc__kv_filter"
-    else
-        argc__kv_filter="$filter"
-        echo "__argc_filter=$argc__kv_filter"
-    fi
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

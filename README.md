@@ -59,7 +59,7 @@ Run `setup-shell.sh` to get code that loads argc-completions into your shell.
 You can run `generate.sh` to automatically generate the completion script for your command:
 
 ```sh
-argc generate <your-command> # or ./scripts/generate.sh <your-command>
+argc generate your-command # or ./scripts/generate.sh your-command
 ```
 
 ## License

@@ -3126,6 +3126,8 @@ stack::services() {
 # }}} docker stack services
 # }} docker stack
 
+. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
+
 _docker() {
     docker $(_argc_util_param_select_options --host --config --context) "$@"
 }
@@ -3293,128 +3295,6 @@ service=`_choice_service`
 type=container,daemon,image,network,volume
 volume=`_choice_volume`
 EOF
-}
-
-_argc_util_param_select_options() {
-    local option option_var option_val
-    for option in "$@"; do
-        option_var="argc_$(echo "$option" | sed 's/^-\+//' | tr '-' '_')"
-        option_val="${!option_var}"
-        if [[ -n "$option_val" ]]; then
-            if [[ "$option_val" -eq 1 ]]; then
-                echo -n " $option"
-            else
-                echo -n " $option $option_val"
-            fi
-        fi
-    done
-}
-
-_argc_util_mode_kv() {
-    local sep="$1"
-    local filter="${2-$ARGC_FILTER}"
-    if [[ "$filter" == *"$sep"* ]]; then
-        argc__kv_key="${filter%%$sep*}"
-        argc__kv_prefix="$argc__kv_key$sep"
-        argc__kv_filter="${filter#*$sep}"
-        echo "__argc_prefix=$argc__kv_prefix"
-        echo "__argc_filter=$argc__kv_filter"
-    else
-        argc__kv_filter="$filter"
-        echo "__argc_filter=$argc__kv_filter"
-    fi
-}
-
-_argc_util_is_path() {
-     if [[ "$1" == '.'* || "$1" == '/'* || "$1" == '~'* || "$1" == [A-Za-z]:*  ]]; then
-        return 0
-    else
-        return 1
-    fi
-}
-
-_argc_util_transform() {
-    local args
-    args="$(printf "%s\n" "$@")"
-    awk -v RAW_ARGS="$args" 'BEGIN {
-    split(RAW_ARGS, args, "\n"); argsLen = length(args)
-    start = 1; sep = "\t"
-    if (index(args[1], "format=") == 1) {
-        start = 2; sep = substr(args[1], 8)
-    }
-}{
-    description = ""
-    sepIdx = index($0, sep)
-    if (sepIdx > 0) {
-        value = substr($0, 1, sepIdx - 1)
-        description = substr($0, sepIdx + 1)
-    } else {
-        value = $0
-    }
-    valueLen = length(value)
-    nospace = 0
-    if (substr(value, valueLen) == "\0") {
-        nospace = 1; value = substr(value, 1, valueLen - 1)
-    }
-    for (i = start; i <= argsLen; i++) {
-        arg = args[i]
-        if (arg == "nospace") {
-            nospace = 1
-        } else if (arg == "space") {
-            nospace = 0
-        } else if (index(arg, "nospaceIfEnd=")) {
-            if (substr(value, length(value)) == substr(arg, 14)) {
-                nospace = 1
-            }
-        } else if (index(arg, "prefix=")) {
-            value = substr(arg, 8) value
-        } else if (index(arg, "suffix=")) {
-            value = value substr(arg, 8)
-        }
-    }
-    if (nospace == 1) { value = value "\0" }
-    if (description != "") { description = "\t" description }
-    print value description
-}'
-}
-
-_argc_util_mode_parts() {
-    local sep="$1"
-    argc__parts_filter="${2-$ARGC_FILTER}" 
-    argc__parts_prefix="${3}"
-    if [[ "$argc__parts_filter" == *"$sep"* ]]; then
-        argc__parts_local_prefix="${argc__parts_filter%$sep*}$sep"
-        argc__parts_filter="${argc__parts_filter##*$sep}"
-        argc__parts_prefix="$argc__parts_prefix$argc__parts_local_prefix"
-    fi
-    echo "__argc_prefix=$argc__parts_prefix"
-    echo "__argc_filter=$argc__parts_filter"
-}
-
-_argc_util_comp_kv() {
-    local sep="$1"
-    local filter="${2-$ARGC_FILTER}"
-    local prefix 
-    if [[ "$filter" == *"$sep"* ]]; then
-        prefix="${filter%%$sep*}$sep"
-        filter="${filter#*$sep}"
-        echo "__argc_prefix=$prefix"
-    fi
-    echo "__argc_filter=$filter"
-    for line in $(cat); do
-        if [[ -z "$prefix" ]]; then
-            echo -e "${line%%=*}$sep\0"
-        else
-            if [[ "$line" == "$prefix"* ]]; then
-                local value="${line#*$sep}"
-                if [[ "$value" == $'`'* ]]; then
-                    eval "${value:1:-1}" 2>/dev/null
-                else
-                    echo $value | tr ',' '\n'
-                fi
-            fi
-        fi
-    done
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

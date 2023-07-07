@@ -1,3 +1,7 @@
+#!/usr/bin/env awk
+
+# Parse help text to table
+
 BEGIN {
     gsub("@", " ", LOG_PREFIX)
     split("", LINES)

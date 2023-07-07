@@ -4040,6 +4040,9 @@ suspend-then-hibernate() {
 }
 # }} systemctl suspend-then-hibernate
 
+. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
+. "$ARGC_COMPLETIONS_ROOT/utils/_argc_shares.sh"
+
 _systemctl() {
     systemctl $(_argc_util_param_select_options --user) "$@"
 }
@@ -4061,7 +4064,7 @@ _choice_socket_unit() {
 }
 
 _choice_unit_pid() {
-    _argc_util_parallel _choice_unit ::: _argc_util_share_pid
+    _argc_util_parallel _choice_unit ::: _argc_share_pid
 }
 
 _choice_unit_job() {
@@ -4126,175 +4129,6 @@ _choice_set_environment() {
 
 _choice_environment() {
     _systemctl show-environment | _argc_util_transform format==
-}
-
-_argc_util_param_select_options() {
-    local option option_var option_val
-    for option in "$@"; do
-        option_var="argc_$(echo "$option" | sed 's/^-\+//' | tr '-' '_')"
-        option_val="${!option_var}"
-        if [[ -n "$option_val" ]]; then
-            if [[ "$option_val" -eq 1 ]]; then
-                echo -n " $option"
-            else
-                echo -n " $option $option_val"
-            fi
-        fi
-    done
-}
-
-_argc_util_parallel() {
-    argc --argc-parallel $(_argc_util_path_resolve $0) "$@"
-}
-
-_argc_util_path_resolve() {
-    local format args value
-    if [[ "$1" == "-p" ]]; then format=1; shift; fi # platform path
-    if [[ "$1" == "-u" ]]; then format=2; shift; fi # unix path
-    if [[ $# -eq 0 ]]; then args=( "$(cat)" ); else args=( "$@" ); fi
-    args="$(printf "%q\n" "${args[@]}")"
-    value="$(awk -v RAW_ARGS="$args" 'BEGIN {
-    split(RAW_ARGS, args, "\n"); split("", parts)
-    partsLen = 0; isWin = 0; sep = "/";
-    for (i in args) {
-        arg = args[i]
-        if (arg == "\x27\x27") continue
-        if (i == 1) {
-            if (match(arg, /^[A-Za-z]:/)) {
-                value = substr(arg, 1, 2) "\\"; arg = substr(arg, 3); isWin = 1; sep = "\\"; 
-            } else if (substr(arg, 1, 1) == "/") {
-                value = "/"; arg = substr(arg, 2)
-            }
-        }
-        if (isWin == 1) gsub("\\\\", "/", arg)
-        split(arg, pathParts, "/")
-        for (j in pathParts) {
-            pathPart = pathParts[j]
-            if (pathPart == "" || pathPart == ".") continue
-            if (pathPart == "..") {
-                if (partsLen == 0) exit 1
-                parts[partsLen] = ""; partsLen = partsLen - 1
-            } else {
-                partsLen = partsLen + 1; parts[partsLen] = pathPart
-            }
-        }
-    }
-    for (i = 1; i <= partsLen; i++) {
-        if (i == 1) {
-            value = value parts[i]
-        } else {
-            value = value sep parts[i]
-        }
-    }
-    print value
-}'
-)"
-    if [[ $? -ne 0 ]]; then exit $?;  fi
-    if [[ -z "$value" ]]; then return; fi
-    if [[ "$value" == [A-Za-z]:* ]]; then
-        if [[ "$format" -eq 2 ]] && [[ "$ARGC_OS" == "windows" ]]; then cygpath -u "$value"; else echo "$value"; fi
-    else
-        if [[ "$format" -eq 1 ]] && [[ "$ARGC_OS" == "windows" ]]; then cygpath -w "$value"; else echo "$value"; fi
-    fi
-}
-
-_argc_util_share_pid() {
-    if [[ "$ARGC_OS" == "macos" ]]; then
-        ps -eo pid,comm | tail -n +2 | awk '{split($2, arr, "/"); print $1 "\t" arr[length(arr)]}'
-    elif [[ "$ARGC_OS" == "windows" ]]; then
-        tasklist /nh /fo csv | awk -F ',' '{ gsub("\"", "", $2); gsub("\"", "", $1); print $2 "\t" $1 }'
-    else
-        ps -eo pid,comm | tail -n +2 | sed -e 's/^ \+//' -e 's/ /\t/' 
-    fi
-}
-
-_argc_util_mode_kv() {
-    local sep="$1"
-    local filter="${2-$ARGC_FILTER}"
-    if [[ "$filter" == *"$sep"* ]]; then
-        argc__kv_key="${filter%%$sep*}"
-        argc__kv_prefix="$argc__kv_key$sep"
-        argc__kv_filter="${filter#*$sep}"
-        echo "__argc_prefix=$argc__kv_prefix"
-        echo "__argc_filter=$argc__kv_filter"
-    else
-        argc__kv_filter="$filter"
-        echo "__argc_filter=$argc__kv_filter"
-    fi
-}
-
-_argc_util_transform() {
-    local args
-    args="$(printf "%s\n" "$@")"
-    awk -v RAW_ARGS="$args" 'BEGIN {
-    split(RAW_ARGS, args, "\n"); argsLen = length(args)
-    start = 1; sep = "\t"
-    if (index(args[1], "format=") == 1) {
-        start = 2; sep = substr(args[1], 8)
-    }
-}{
-    description = ""
-    sepIdx = index($0, sep)
-    if (sepIdx > 0) {
-        value = substr($0, 1, sepIdx - 1)
-        description = substr($0, sepIdx + 1)
-    } else {
-        value = $0
-    }
-    valueLen = length(value)
-    nospace = 0
-    if (substr(value, valueLen) == "\0") {
-        nospace = 1; value = substr(value, 1, valueLen - 1)
-    }
-    for (i = start; i <= argsLen; i++) {
-        arg = args[i]
-        if (arg == "nospace") {
-            nospace = 1
-        } else if (arg == "space") {
-            nospace = 0
-        } else if (index(arg, "nospaceIfEnd=")) {
-            if (substr(value, length(value)) == substr(arg, 14)) {
-                nospace = 1
-            }
-        } else if (index(arg, "prefix=")) {
-            value = substr(arg, 8) value
-        } else if (index(arg, "suffix=")) {
-            value = value substr(arg, 8)
-        }
-    }
-    if (nospace == 1) { value = value "\0" }
-    if (description != "") { description = "\t" description }
-    print value description
-}'
-}
-
-_argc_util_comp_file() {
-    local filter="$ARGC_FILTER"
-    local exts chdir prefix
-    for arg in "${@}"; do
-        case "$arg" in
-        -prefix=*)
-            prefix="${arg:8}"
-            ;;
-        -filter=*)
-            filter="${arg:8}"
-            ;;
-        -exts=*)
-            exts=":${arg:6}"
-            ;;
-        -cd=*)
-            chdir="${arg:4}"
-            ;;
-        esac
-    done
-    if [[ -n "$chdir" ]]; then
-        echo "__argc_cd=$chdir"
-    fi
-    if [[ -n "$prefix" ]]; then
-        echo "__argc_prefix=$prefix"
-    fi
-    echo "__argc_filter=$filter"
-    echo "__argc_value=file$exts"
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"
