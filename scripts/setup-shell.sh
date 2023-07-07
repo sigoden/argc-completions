@@ -140,15 +140,15 @@ EOF
 }
 
 _to_win_path() {
-    cygpath -w "$1"
+    cygpath -w "$1" | sed 's/\\/\\\\/g'
 }
 
 _appdata_join() {
-    cygpath -w "${APPDATA}/$1"
+    cygpath -w "${APPDATA}/$1" | sed 's/\\/\\\\/g'
 }
 
 _allusersprofile_join() {
-    cygpath -w "${ALLUSERSPROFILE}/$1"
+    cygpath -w "${ALLUSERSPROFILE}/$1" | sed 's/\\/\\\\/g'
 }
 
 _is_win() {
