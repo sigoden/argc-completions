@@ -123,11 +123,9 @@ _detect_arch() {
     if [[ "$s" == "x86_64" ]]; then
         echo amd64
     elif [[ "$s" == "i686" ]]; then
-        echo amd32
+        echo i686
     elif [[ "$s" == "aarch64" ]] || [[ "$s" == "arm64" ]]; then
-        echo arm64
-    elif [[ "$s" == "armv71" ]]; then
-        echo armv7
+        echo aarch64
     fi
 }
 
