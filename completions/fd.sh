@@ -49,6 +49,8 @@
 # @arg pattern                                     the search pattern which is either a regular expression (default) or a glob pattern (if --glob is used).
 # @arg path*                                       The directory where the filesystem search is rooted (optional).
 
+. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
+
 _choice_type() {
     cat <<-'EOF' | _argc_util_transform format=:
 f:regular files 
@@ -66,51 +68,6 @@ executable:executables
 e:empty files or directories
 empty:empty files or directories
 EOF
-}
-
-_argc_util_transform() {
-    local args
-    args="$(printf "%s\n" "$@")"
-    awk -v RAW_ARGS="$args" 'BEGIN {
-    split(RAW_ARGS, args, "\n"); argsLen = length(args)
-    start = 1; sep = "\t"
-    if (index(args[1], "format=") == 1) {
-        start = 2; sep = substr(args[1], 8)
-    }
-}{
-    description = ""
-    sepIdx = index($0, sep)
-    if (sepIdx > 0) {
-        value = substr($0, 1, sepIdx - 1)
-        description = substr($0, sepIdx + 1)
-    } else {
-        value = $0
-    }
-    valueLen = length(value)
-    nospace = 0
-    if (substr(value, valueLen) == "\0") {
-        nospace = 1; value = substr(value, 1, valueLen - 1)
-    }
-    for (i = start; i <= argsLen; i++) {
-        arg = args[i]
-        if (arg == "nospace") {
-            nospace = 1
-        } else if (arg == "space") {
-            nospace = 0
-        } else if (index(arg, "nospaceIfEnd=")) {
-            if (substr(value, length(value)) == substr(arg, 14)) {
-                nospace = 1
-            }
-        } else if (index(arg, "prefix=")) {
-            value = substr(arg, 8) value
-        } else if (index(arg, "suffix=")) {
-            value = value substr(arg, 8)
-        }
-    }
-    if (nospace == 1) { value = value "\0" }
-    if (description != "") { description = "\t" description }
-    print value description
-}'
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

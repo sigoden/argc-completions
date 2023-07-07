@@ -1,3 +1,7 @@
+#!/usr/bin/env awk
+
+# Parse table to script
+
 BEGIN {
     PAIRS[">"] = "<";
     PAIRS["]"] = "[";

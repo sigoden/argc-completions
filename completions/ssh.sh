@@ -48,6 +48,8 @@
 # @arg destination[`_choice_destination`]
 # @arg args*
 
+. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
+
 _choice_query() {
     cat <<-'EOF'
 cipher	supported symmetric ciphers
@@ -183,32 +185,6 @@ _choice_hostkeyalgorithms() {
 
 _choice_destination() {
     cat ~/.ssh/config | grep '^Host' | awk '{print $2}'
-}
-
-_argc_util_comp_kv() {
-    local sep="$1"
-    local filter="${2-$ARGC_FILTER}"
-    local prefix 
-    if [[ "$filter" == *"$sep"* ]]; then
-        prefix="${filter%%$sep*}$sep"
-        filter="${filter#*$sep}"
-        echo "__argc_prefix=$prefix"
-    fi
-    echo "__argc_filter=$filter"
-    for line in $(cat); do
-        if [[ -z "$prefix" ]]; then
-            echo -e "${line%%=*}$sep\0"
-        else
-            if [[ "$line" == "$prefix"* ]]; then
-                local value="${line#*$sep}"
-                if [[ "$value" == $'`'* ]]; then
-                    eval "${value:1:-1}" 2>/dev/null
-                else
-                    echo $value | tr ',' '\n'
-                fi
-            fi
-        fi
-    done
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

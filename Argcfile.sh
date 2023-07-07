@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 export PATH="$(pwd)/bin:$PATH"
+export ARGC_COMPLETIONS_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 set -e
 
@@ -80,9 +81,7 @@ choice-fn() {
             ARGC_COMPGEN=1 ARGC_OS="$os" ARGC_PATH_SEP="$sep" ARGC_FILTER="$filter" ARGC_LAST_ARG="$last_arg" \
             bash "$script_file" ___internal___ $argc_fn ${argc_args[@]})
     else
-        for f in utils/_argc_utils/*.sh; do
-            . "$f"
-        done
+        . utils/_argc_utils.sh
         . "$script_file"
         (cd $argc_dir && $argc_fn)
     fi
@@ -125,7 +124,7 @@ _choice_fn_name() {
 }
 
 _choice_print_target() {
-    echo __argc_value:file
+    echo __argc_value=file
     _choice_completion
 }
 

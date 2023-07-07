@@ -1123,6 +1123,8 @@ whoami() {
 }
 # }} npm whoami
 
+. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
+
 _choice_config_key() {
     npm config list $(_argc_util_param_select_options --global) --json | yq 'keys | .[]'
 }
@@ -1147,41 +1149,6 @@ _choice_script() {
 
 _helper_pkg_json_path() {
     _argc_util_path_search_parent package.json
-}
-
-_argc_util_param_select_options() {
-    local option option_var option_val
-    for option in "$@"; do
-        option_var="argc_$(echo "$option" | sed 's/^-\+//' | tr '-' '_')"
-        option_val="${!option_var}"
-        if [[ -n "$option_val" ]]; then
-            if [[ "$option_val" -eq 1 ]]; then
-                echo -n " $option"
-            else
-                echo -n " $option $option_val"
-            fi
-        fi
-    done
-}
-
-_argc_util_path_search_parent() {
-    local pwd_="$PWD"
-    local parent
-    if [[ "$1" == "-p" ]]; then parent=1; shift; fi
-    _check() {
-        local value target
-        for value in $@; do
-            if [[ -f "$value" ]]; then
-                target="$(realpath "$value")"
-                if [[ $parent == 1 ]]; then dirname "$target"; else echo "$target"; fi
-                return 0
-            fi
-        done
-        if [[ $PWD == "/"  ]]; then return 0; fi
-        return 1
-    }
-    until _check $@; do cd ..; done
-    cd "$pwd_"
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

@@ -1,7 +1,3 @@
-#/usr/bin/env awk
-
-# Clean middle text between command name and description
-
 BEGIN {
     lineNum = 0
     zoneStart = 1

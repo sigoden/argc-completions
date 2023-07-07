@@ -1,5 +1,5 @@
 # List pid
-_argc_util_share_pid() {
+_argc_share_pid() {
     if [[ "$ARGC_OS" == "macos" ]]; then
         ps -eo pid,comm | tail -n +2 | awk '{split($2, arr, "/"); print $1 "\t" arr[length(arr)]}'
     elif [[ "$ARGC_OS" == "windows" ]]; then
@@ -8,3 +8,4 @@ _argc_util_share_pid() {
         ps -eo pid,comm | tail -n +2 | sed -e 's/^ \+//' -e 's/ /\t/' 
     fi
 }
+
