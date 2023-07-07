@@ -30,7 +30,7 @@ _patch_help_clean_middle() {
     awk -f  "$ROOT_DIR/utils/_patch_utils/clean-middle.awk"
 }
 
-# Select help text
+# Select subcmd help text
 # Example:
 # ```
 # cat <<-'EOF' | _patch_help_select_subcmd $@ 
@@ -57,7 +57,7 @@ _patch_help_split_option_columns() {
     awk -f "$ROOT_DIR/utils/_patch_utils/split-option-columns.awk"
 }
 
-# Edit options
+# Edit table options
 # Example:
 #    cat | _patch_table_edit_options \ |
 #      '--foo;[`_choice_foo`]' \ |               # bind choice fn
@@ -73,7 +73,7 @@ _patch_table_edit_options() {
     awk -v KIND=option -v RAW_ARGS="$args" -f "$ROOT_DIR/utils/_patch_utils/edit-table.awk"
 }
 
-# Edit arguments
+# Edit table arguments
 # Example:
 #    cat | _patch_table_edit_arguments \ |
 #      ';;' \ |                                 # seperator, before it change the argument, after it append the argument. if it's first, current arguments will be purged.
@@ -90,7 +90,7 @@ _patch_table_edit_arguments() {
     awk -v KIND=argument -v RAW_ARGS="$args" -f "$ROOT_DIR/utils/_patch_utils/edit-table.awk"
 }
 
-# Edit commands
+# Edit table commands
 # Example:
 #    cat | _patch_table_edit_commands \ |
 #      'foo;desc' \ |                          # change description
