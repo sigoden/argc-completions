@@ -145,7 +145,7 @@ _helper_print_help() {
 
 _helper_print_table() {
     _helper_source_script $@
-    help_text=$(_helper_print_help $@ | awk -f scripts/parse-table.awk)
+    help_text=$(_helper_print_help $@ | gawk -f scripts/parse-table.awk)
     if _helper_test_fn table; then
         echo "$help_text" | _patch_table $@
     else
@@ -155,7 +155,7 @@ _helper_print_table() {
 
 _helper_print_script() {
     _helper_source_script $@
-    table_text=$(_helper_print_table $@ | awk -f scripts/parse-script.awk)
+    table_text=$(_helper_print_table $@ | gawk -f scripts/parse-script.awk)
     if _helper_test_fn script; then
         echo "$table_text" | _patch_script $@
     else

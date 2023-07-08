@@ -136,7 +136,7 @@ embed_script() {
         return
     fi
     embed_choice_fns() {
-        cat "$src_file" | awk '
+        cat "$src_file" | gawk '
 BEGIN {
     patch_fn_state = 0
 }
@@ -178,18 +178,18 @@ BEGIN {
 parse_table() {
     if [[ "$argc_verbose" == "1" ]]; then
         local prefix="$(echo "[info] $@" | sed 's/ /@/g')"
-        awk -v LOG_PREFIX="$prefix" -f "$scripts_dir/parse-table.awk"
+        gawk -v LOG_PREFIX="$prefix" -f "$scripts_dir/parse-table.awk"
     else
-        awk -f "$scripts_dir/parse-table.awk"
+        gawk -f "$scripts_dir/parse-table.awk"
     fi
 }
 
 parse_script() {
     if [[ "$argc_verbose" == "1" ]]; then
         local prefix="$(echo "[info] $@" | sed 's/ /@/g')"
-        awk -v LOG_PREFIX="$prefix" -f "$scripts_dir/parse-script.awk"
+        gawk -v LOG_PREFIX="$prefix" -f "$scripts_dir/parse-script.awk"
     else
-        awk -f "$scripts_dir/parse-script.awk"
+        gawk -f "$scripts_dir/parse-script.awk"
     fi
 }
 

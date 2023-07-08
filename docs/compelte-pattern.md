@@ -91,7 +91,7 @@ README.md   License
 
 ```sh
 _choice_unstaged_file() {
-    _git status --porcelain | awk '{
+    _git status --porcelain | gawk '{
     if (substr($0, 2, 1) != " ") {
         print substr($0, 4)
     }

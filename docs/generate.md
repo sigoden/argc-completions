@@ -42,7 +42,7 @@ Options:
   -V, --version          Print version
 ```
 
-2. table: `aichat --help | awk -f scripts/parse-table.awk`
+2. table: `aichat --help | gawk -f scripts/parse-table.awk`
 
 ```
 option # -m, --model <MODEL> # Choose a model
@@ -59,7 +59,7 @@ option # -V, --version # Print version
 argument # [TEXT]... # Input text
 ```
 
-3. script: `aichat --help | awk -f scripts/parse-table.awk | awk -f scripts/parse-script.awk`
+3. script: `aichat --help | gawk -f scripts/parse-table.awk | gawk -f scripts/parse-script.awk`
 
 ```sh
 # @option -m --model         Choose a model
