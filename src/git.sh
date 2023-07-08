@@ -406,15 +406,15 @@ _git() {
 }
 
 _choice_cmd() {
-    _git config --get-regexp 'alias.*' | awk '{print substr($1, 7)}'
+    _git config --get-regexp 'alias.*' | gawk '{print substr($1, 7)}'
 }
 
 _choice_config_key() {
-    _git config --get-regexp '.*' | awk '{print $1}'
+    _git config --get-regexp '.*' | gawk '{print $1}'
 }
 
 _choice_unstaged_file() {
-    _git status --porcelain | awk '{
+    _git status --porcelain | gawk '{
     if (substr($0, 2, 1) != " ") {
         print substr($0, 4)
     }
@@ -422,7 +422,7 @@ _choice_unstaged_file() {
 }
 
 _choice_staged_file() {
-    _git status --porcelain | awk '{
+    _git status --porcelain | gawk '{
     if (substr($0, 2, 1) == " ") {
         if (match($0, "->")) {
             print substr($0, RSTART + RLENGTH + 1)
@@ -434,7 +434,7 @@ _choice_staged_file() {
 }
 
 _choice_changed_file() {
-    _git status --porcelain | awk '{
+    _git status --porcelain | gawk '{
     if (match($0, "->")) {
         print substr($0, RSTART + RLENGTH + 1)
     } else {
@@ -524,7 +524,7 @@ _choice_remote_branch() {
 }
 
 _choice_head_commit() {
-    _git log --no-notes --pretty='tformat:%h	%<(64,trunc)%s' --max-count=100 | awk -F '\t' '{
+    _git log --no-notes --pretty='tformat:%h	%<(64,trunc)%s' --max-count=100 | gawk -F '\t' '{
         if (NR == 1) { head="HEAD" } else { head=sprintf("HEAD~%02d", NR - 1) }
         print $1 "\t" $2
         print head "\t" $2

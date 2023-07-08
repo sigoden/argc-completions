@@ -79,7 +79,7 @@ _argc_util_comp_kv() {
 # git ls-files | _argc_util_comp_parts /
 # ```
 _argc_util_comp_parts() {
-    awk -v SEP="$1" -v ARGC_FILTER="${2-$ARGC_FILTER}" -v ARGC_PREFIX="${3}" '
+    gawk -v SEP="$1" -v ARGC_FILTER="${2-$ARGC_FILTER}" -v ARGC_PREFIX="${3}" '
 BEGIN {
     split("", VALUES)
     split("", DEDUPS)
@@ -279,7 +279,7 @@ _argc_util_path_resolve() {
     if [[ "$1" == "-u" ]]; then format=2; shift; fi # unix path
     if [[ $# -eq 0 ]]; then args=( "$(cat)" ); else args=( "$@" ); fi
     args="$(printf "%q\n" "${args[@]}")"
-    value="$(awk -v RAW_ARGS="$args" 'BEGIN {
+    value="$(gawk -v RAW_ARGS="$args" 'BEGIN {
     split(RAW_ARGS, args, "\n"); split("", parts)
     partsLen = 0; isWin = 0; sep = "/";
     for (i in args) {
@@ -397,7 +397,7 @@ _argc_util_path_search_parent() {
 _argc_util_transform() {
     local args
     args="$(printf "%s\n" "$@")"
-    awk -v RAW_ARGS="$args" 'BEGIN {
+    gawk -v RAW_ARGS="$args" 'BEGIN {
     split(RAW_ARGS, args, "\n"); argsLen = length(args)
     start = 1; sep = "\t"
     if (index(args[1], "format=") == 1) {

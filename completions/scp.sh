@@ -147,7 +147,7 @@ _choice_path() {
 }
 
 _helper_host() {
-    cat ~/.ssh/config | grep '^Host' | awk '{print $2}'
+    cat ~/.ssh/config | grep '^Host' | gawk '{print $2}'
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

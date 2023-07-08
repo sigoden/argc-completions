@@ -42,11 +42,11 @@ bin() {
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
 _choice_cmd() {
-	cargo --list 2>/dev/null | awk 'NR>1 {print $1}'
+	cargo --list 2>/dev/null | gawk 'NR>1 {print $1}'
 }
 
 _choice_testname() {
-	cargo t -- --list | awk '/: test$/ { print substr($1, 1, length($1) - 1) }' 
+	cargo t -- --list | gawk '/: test$/ { print substr($1, 1, length($1) - 1) }' 
 }
 
 _choice_depid() {

@@ -14,7 +14,7 @@ _patch_table() {
 }
 
 _choice_job() {
-    act -l 2>/dev/null | tail +2 | awk '{print $2}'    
+    act -l 2>/dev/null | tail +2 | gawk '{print $2}'    
 }
 
 _choice_container_platform() {

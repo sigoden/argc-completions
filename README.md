@@ -36,7 +36,24 @@ Run the following script to download the tools to `./bin` folder:
 ```sh
 ./scripts/download-tools.sh
 ```
-> Use Git Bash on Windows OS.
+<details>
+<summary>For Macos</summary>
+
+- Bash and GNU awk
+
+```
+brew install bash gawk
+```
+
+</details>
+
+
+<details>
+<summary>For Windows</summary>
+
+- [Git-For-Windows](https://gitforwindows.org/): Bash and GNU tools
+
+</details>
 
 ### 3. setup shell
 

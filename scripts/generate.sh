@@ -243,6 +243,11 @@ set_globals() {
     else
         cmds_level=1
     fi
+
+    source "$utils_dir/_patch_utils.sh"
+    if [[ -f "$src_file" ]]; then
+        source "$src_file"
+    fi
 }
 
 repeat_string() {
@@ -279,11 +284,6 @@ log_error() {
 eval "$(argc --argc-eval "$0" "$@")"
 
 set_globals
-
-if [[ -f "$src_file" ]]; then
-    source "$utils_dir/_patch_utils.sh"
-    source "$src_file"
-fi
 
 output_content="$(print_head)"
 output_content="$output_content"$'\n'$'\n'"$(handle_cmd ${cmds[@]})"

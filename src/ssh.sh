@@ -151,5 +151,5 @@ _choice_hostkeyalgorithms() {
 }
 
 _choice_destination() {
-    cat ~/.ssh/config | grep '^Host' | awk '{print $2}'
+    cat ~/.ssh/config | grep '^Host' | gawk '{print $2}'
 }

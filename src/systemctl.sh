@@ -178,7 +178,7 @@ _choice_target() {
 }
 
 _choice_machine() {
-    _systemctl list-machines --no-pager -o json | yq '.[].name' | awk '{print $1}'
+    _systemctl list-machines --no-pager -o json | yq '.[].name' | gawk '{print $1}'
 }
 
 _choice_set_environment() {

@@ -139,7 +139,7 @@ _choice_volume() {
 }
 
 _choice_builder() {
-    _docker buildx ls | tail -n +2 | awk '{if (match($0, /^\w+/)) {print $1} }'
+    _docker buildx ls | tail -n +2 | gawk '{if (match($0, /^\w+/)) {print $1} }'
 }
 
 _choice_container_cp() {

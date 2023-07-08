@@ -27,7 +27,7 @@ _patch_help_run_help_subcmd() {
 
 # Clean the middle text between command value and description
 _patch_help_clean_middle() {
-    awk -f  "$ROOT_DIR/utils/_patch_utils/clean-middle.awk"
+    gawk -f  "$ROOT_DIR/utils/_patch_utils/clean-middle.awk"
 }
 
 # Select subcmd help text
@@ -43,7 +43,7 @@ _patch_help_clean_middle() {
 # EOF
 # ```
 _patch_help_select_subcmd() {
-    awk -v v1="^$1 " -v v2="^$*($| )" '$0 ~ v1 { x = 0; } $0 ~ v2 { x=1; print "Usage: " $0 } /^(options:|\s+-)/ && x == 1 { print $0 }'
+    gawk -v v1="^$1 " -v v2="^$*($| )" '$0 ~ v1 { x = 0; } $0 ~ v2 { x=1; print "Usage: " $0 } /^(options:|\s+-)/ && x == 1 { print $0 }'
 }
 
 # Split two option columns
@@ -54,7 +54,7 @@ _patch_help_select_subcmd() {
 #  -p  extract files to pipe, no messages
 #  -l  list files (short format)
 _patch_help_split_option_columns() {
-    awk -f "$ROOT_DIR/utils/_patch_utils/split-option-columns.awk"
+    gawk -f "$ROOT_DIR/utils/_patch_utils/split-option-columns.awk"
 }
 
 # Edit table options
@@ -70,7 +70,7 @@ _patch_help_split_option_columns() {
 #      '--foo;;desc'                             # append a new option
 _patch_table_edit_options() {
     local args="$(printf "%s\n" "$@")"
-    awk -v KIND=option -v RAW_ARGS="$args" -f "$ROOT_DIR/utils/_patch_utils/edit-table.awk"
+    gawk -v KIND=option -v RAW_ARGS="$args" -f "$ROOT_DIR/utils/_patch_utils/edit-table.awk"
 }
 
 # Edit table arguments
@@ -87,7 +87,7 @@ _patch_table_edit_options() {
 #      'foo;;desc'                              # append a new option
 _patch_table_edit_arguments() {
     local args="$(printf "%s\n" "$@")"
-    awk -v KIND=argument -v RAW_ARGS="$args" -f "$ROOT_DIR/utils/_patch_utils/edit-table.awk"
+    gawk -v KIND=argument -v RAW_ARGS="$args" -f "$ROOT_DIR/utils/_patch_utils/edit-table.awk"
 }
 
 # Edit table commands
@@ -102,7 +102,7 @@ _patch_table_edit_arguments() {
 #      'foo;;desc'                             # append a new command
 _patch_table_edit_commands() {
     local args="$(printf "%s\n" "$@")"
-    awk -v KIND=command -v RAW_ARGS="$args" -f "$ROOT_DIR/utils/_patch_utils/edit-table.awk"
+    gawk -v KIND=command -v RAW_ARGS="$args" -f "$ROOT_DIR/utils/_patch_utils/edit-table.awk"
 }
 
 # Copy options from another command
@@ -118,7 +118,7 @@ _patch_table_copy_options() {
     else
         help_text="$(_patch_help_run_help $@)"
     fi
-    local table="$(echo "$help_text" | awk -f "$ROOT_DIR/scripts/parse-table.awk")"
+    local table="$(echo "$help_text" | gawk -f "$ROOT_DIR/scripts/parse-table.awk")"
     if [[ $(type -t _patch_table) == "function" ]] ; then
         table="$(echo "$table" | _patch_table $@)"
     fi
