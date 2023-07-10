@@ -49,24 +49,22 @@
 # @arg pattern                                     the search pattern which is either a regular expression (default) or a glob pattern (if --glob is used).
 # @arg path*                                       The directory where the filesystem search is rooted (optional).
 
-. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
-
 _choice_type() {
-    cat <<-'EOF' | _argc_util_transform format=:
-f:regular files 
-file:regular files 
-d:directories 
-directory:directories 
-l:symbolic links 
-symlink:symbolic links 
-s:socket 
-socket:socket 
-p:named pipe (FIFO) 
-pipe:named pipe (FIFO) 
-x:executables
-executable:executables 
-e:empty files or directories
-empty:empty files or directories
+    cat <<-'EOF'
+f	regular files 
+file	regular files 
+d	directories 
+directory	directories 
+l	symbolic links 
+symlink	symbolic links 
+s	socket 
+socket	socket 
+p	named pipe (FIFO) 
+pipe	named pipe (FIFO) 
+x	executables
+executable	executables 
+e	empty files or directories
+empty	empty files or directories
 EOF
 }
 

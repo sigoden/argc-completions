@@ -148,23 +148,23 @@ _choice_service() {
 }
 
 _choice_log_level() {
-    cat <<-'EOF' | _argc_util_transform format=,
-0, system is unusable
-1, action must be taken immediately
-2, critical conditions
-3, error conditions
-4, warning conditions
-5, normal, but significant, condition
-6, informational message
-7, debug-level message
-emerg, system is unusable
-alert, action must be taken immediately
-crit, critical conditions
-err, error conditions
-warning, warning conditions
-notice, normal, but significant, condition
-info, informational message
-debug, debug-level message
+    command cat <<-'EOF'
+0	system is unusable
+1	action must be taken immediately
+2	critical conditions
+3	error conditions
+4	warning conditions
+5	normal, but significant, condition
+6	informational message
+7	debug-level message
+emerg	system is unusable
+alert	action must be taken immediately
+crit	critical conditions
+err	error conditions
+warning	warning conditions
+notice	normal, but significant, condition
+info	informational message
+debug	debug-level message
 EOF
 }
 
