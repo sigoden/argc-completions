@@ -125,7 +125,7 @@ _choice_socket_unit() {
 }
 
 _choice_unit_pid() {
-    _argc_util_parallel _choice_unit ::: _argc_share_pid
+    _argc_util_parallel _choice_unit ::: _helper_pid
 }
 
 _choice_unit_job() {
@@ -190,4 +190,14 @@ _choice_set_environment() {
 
 _choice_environment() {
     _systemctl show-environment | _argc_util_transform format==
+}
+
+_helper_pid() {
+    if [[ "$ARGC_OS" == "macos" ]]; then
+        ps -eo pid,comm | tail -n +2 | gawk '{split($2, arr, "/"); print $1 "\t" arr[length(arr)]}'
+    elif [[ "$ARGC_OS" == "windows" ]]; then
+        tasklist /nh /fo csv | gawk -F ',' '{ gsub("\"", "", $2); gsub("\"", "", $1); print $2 "\t" $1 }'
+    else
+        ps -eo pid,comm | tail -n +2 | sed -e 's/^ \+//' -e 's/ /\t/' 
+    fi
 }

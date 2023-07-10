@@ -162,9 +162,6 @@ BEGIN {
     if grep -q -o '_argc_util_[[:alnum:]_]*' <<<"$embed_content"; then
         source_content="$source_content"'. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"'$'\n'
     fi
-    if grep -q -o '_argc_share_[[:alnum:]_]*' <<<"$embed_content"; then
-        source_content="$source_content"'. "$ARGC_COMPLETIONS_ROOT/utils/_argc_shares.sh"'$'\n'
-    fi
     if [[ -n "$source_content" ]]; then
         printf "\n\n%s\n" "$source_content"
     else
