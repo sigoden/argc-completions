@@ -255,7 +255,9 @@ function extractOptionName(optionBody) {
             idx = idx + length(hyphenParts[i])
         }
     }
-    return substr(optionBody, 1, idx)
+    value = substr(optionBody, 1, idx)
+    gsub(/=\S+\s*$/, " ", value)
+    return value
 }
 
 function trim(input) {

@@ -202,9 +202,9 @@ function isOptionLine(idx) {
     santizedLine = tolower(LINES[idx, 2])
     if (match(santizedLine, /^-{1,2}[^- \t]/)) {
         yes = 0
-        if (match(santizedLine, /(  +|\t+)/)) {
+        if (match(santizedLine, /(  +|\t+)/) && !match(santizedLine, /^-{1,2}[^- \t]+( \w+){3,}/)) {
             yes = 1
-        } else if (LINES[idx+1, 3] == LINES[idx, 3]  && match(LINES[idx+1, 2], /^-{1,2}[^- \t]/)) {
+        } else if (LINES[idx+1, 3] == LINES[idx, 3] && match(LINES[idx+1, 2], /^-{1,2}[^- \t]/)) {
             yes = 1
         } else if (match(santizedLine, /^(-\S,? )?--[^-]\S* (\[|<)/)) {
             yes = 1

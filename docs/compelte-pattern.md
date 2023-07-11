@@ -4,9 +4,7 @@
 
 ```sh
 _choice_fn() {
-  echo abc
-  echo def
-  echo ijk
+  printf "%s\n" abc def ijk
 }
 ```
 
@@ -32,10 +30,10 @@ _choice_fn() {
 
 ```sh
 _choice_fn() {
-  cat <<-'EOF' | _argc_util_transform format=:
-value:          describe value"
-other value:    describe other value"
-another value:  describe another value"
+  cat <<-'EOF'
+value	describe value"
+other value	describe other value"
+another value	describe another value"
 ...
 EOF
 }
@@ -44,7 +42,6 @@ EOF
 ## Key value pairs, keys are constants
 
 ```sh
-_choice_container_ls_filter() {
 _choice_option() {
     cat <<-'EOF' | _argc_util_comp_kv =
 AddKeysToAgent=yes,ask,confirm,no
@@ -65,26 +62,24 @@ yes   ask   confirm   no
 
 ## Key value pairs, keys are dynamic
 
-choice fn for scp path
+choice fn for chown user:group
 ```sh
-_choice_path() {
+_choice_user_group() {
     _argc_util_mode_kv ':'
     if [[ -z "$argc__kv_prefix" ]]; then
-        _helper_host | _argc_util_transform suffix=: nospace
-        _argc_util_comp_file
+        _helper_user | _argc_util_transform suffix=: nospace
     else
-        ssh -o 'Batchmode yes' "$argc__kv_key" command ls -a1dp "$argc__kv_filter*" 2>/dev/null \
-            | _argc_util_comp_parts / "$argc__kv_filter" "$argc__kv_prefix" 
+        _helper_group
     fi
 }
 ```
 
 ```
 $ scp <tab>
-local:   macos:   README.md   License
+user1:    user2:    user3:
 
-$ scp local:<tab>
-README.md   License
+$ scp user1:<tab>
+group1    gruop2    group3
 ```
 
 ## Multi parts

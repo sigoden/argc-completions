@@ -35,33 +35,46 @@ _argc_util_comp_file() {
 
 
 # Complete key value pairs
+# Args:
+#   SEP: seperator
+#   FILTER: default value is ARGC_FILTER
 #
 # ```sh
 # _choice_fn() {
 #     cat <<-'EOF' | _argc_util_comp_kv =
-# foo=yes,no
-# bar=v1,v2,v3
-# baz=__argc_value=file
-# qux=`_choice_fn`
+# foo=yes,no;;desc foo
+# bar=v1,v2,v3;;desc bar
+# baz=__argc_value=file;;desc baz
+# qux=`_choice_fn`;;desc qux
+# quux;;desc qux
 # EOF
 # }
 # ```
 _argc_util_comp_kv() {
     local sep="$1"
     local filter="${2-$ARGC_FILTER}"
-    local prefix 
     if [[ "$filter" == *"$sep"* ]]; then
-        prefix="${filter%%$sep*}$sep"
-        filter="${filter#*$sep}"
-        echo "__argc_prefix=$prefix"
+        argc__kv_key="${filter%%$sep*}"
+        argc__kv_prefix="$argc__kv_key$sep"
+        argc__kv_filter="${filter#*$sep}"
+        echo "__argc_prefix=$argc__kv_prefix"
+        echo "__argc_filter=$argc__kv_filter"
+    else
+        argc__kv_filter="$filter"
+        echo "__argc_filter=$argc__kv_filter"
     fi
-    echo "__argc_filter=$filter"
+    local line desc
+    local IFS=$'\n'
     for line in $(cat); do
-        if [[ -z "$prefix" ]]; then
-            echo -e "${line%%=*}$sep\0"
+        if [[ "$line" == *";;"* ]]; then
+            desc=${line#*;;}
+            line=${line%%;;*}
+        fi
+        if [[ -z "$argc__kv_prefix" ]]; then
+            echo -e "${line%%=*}$sep\0\t$desc"
         else
-            if [[ "$line" == "$prefix"* ]]; then
-                local value="${line#*$sep}"
+            if [[ "$line" == "$argc__kv_key="* ]]; then
+                local value="${line#*=}"
                 if [[ "$value" == $'`'* ]]; then
                     eval "${value:1:-1}" 2>/dev/null
                 else
@@ -74,6 +87,10 @@ _argc_util_comp_kv() {
 
 
 # Complete multiple parts of words separated by a char
+# Args:
+#   SEP: seperator
+#   FILTER: default value is ARGC_FILTER
+#   PREFIX: argc prefix value
 #
 # ```sh
 # git ls-files | _argc_util_comp_parts /
@@ -125,6 +142,64 @@ END {
 }'
 }
 
+# Complete multi values seperated by SEP
+# Args:
+#   SEP: seperator
+#   KV_SEP: key value sperator
+#   PREFIX: argc prefix value
+_argc_util_comp_multi() {
+    local prefix="${3-$ARGC_FILTER}" 
+    local values filter
+    if [[ -n "$1" ]]; then
+        if [[ "$prefix" == *"$1"* ]]; then
+            filter="${prefix##*$1}"
+            prefix="${prefix%$1*}$1"
+        else
+            filter="$prefix"
+            prefix=""
+        fi
+    else
+        filter=""
+    fi
+    if [[ -n "$2" ]]; then
+        values="${prefix#*$2}"
+        filter="${filter#*$2}"
+    else
+        values="$prefix"
+    fi
+    echo "__argc_prefix=$prefix"
+    echo "__argc_filter=$filter"
+    gawk -v SEP="$1" -v RAW_VALUES="$values" -v FILTER="$filter" '
+BEGIN {
+    split(RAW_VALUES, VALUES, SEP)
+    split("", DEDUPS)
+    for (i in VALUES) {
+        DEDUPS[VALUES[i]] = 1
+    }
+}
+{
+    idx1 = index($0, "\t")
+    if (idx1 > 0) {
+        desc = substr($0, idx1 + 1)
+        value = substr($0, 1, idx1 - 1)
+    } else {
+        value = $0
+    }
+    if (substr(value, length(value)) == "\0")  {
+        value = substr(value, 1, length(value) - 1)
+    }
+    if (index(value, FILTER)) {
+        if (DEDUPS[value] != 1) {
+            if (desc != "") {
+                print value "\0" "\t" desc
+            } else {
+                print value "\0"
+            }
+        }
+    }
+}
+'
+}
 
 # Complete subcommand for something like `sudo`/`npx`.
 # Args:
@@ -380,7 +455,7 @@ _argc_util_path_search_parent() {
 # EOF
 # ```
 # 
-## `prefix=<value>`: append suffix to values
+## `prefix=<value>`: append prefix to values
 # ```sh
 # _choice_fn | _argc_util_transform prefix=/
 # ```
