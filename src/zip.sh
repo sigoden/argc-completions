@@ -1,5 +1,5 @@
 _patch_help() {
-    $@ --help | _patch_help_split_option_columns
+    $@ --help | sed 's/^  \(-\S\{1,2\} .*\) \(-\S\{1,2\} .*\)/  \1\n  \2/'
 }
 
 _patch_table() {

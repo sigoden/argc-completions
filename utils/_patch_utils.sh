@@ -46,17 +46,6 @@ _patch_help_select_subcmd() {
     gawk -v v1="^$1 " -v v2="^$*($| )" '$0 ~ v1 { x = 0; } $0 ~ v2 { x=1; print "Usage: " $0 } /^(options:|\s+-)/ && x == 1 { print $0 }'
 }
 
-# Split two option columns
-#
-# Turn text like below
-#  -p  extract files to pipe, no messages     -l  list files (short format)
-# Into normal option lines
-#  -p  extract files to pipe, no messages
-#  -l  list files (short format)
-_patch_help_split_option_columns() {
-    gawk -f "$ROOT_DIR/utils/_patch_utils/split-option-columns.awk"
-}
-
 # Edit table options
 # Example:
 #    cat | _patch_table_edit_options \ |
