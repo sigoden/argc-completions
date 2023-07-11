@@ -126,16 +126,14 @@ $ go work edit -dropuse './mymod1|<tab>
 ./mymod2  ./mymod3
 ```
 
-## Sudo-like
+## Sudo-like subcommands
 
 ```sh
-# @cmd Run the chosen Yarn command in the selected workspace.
-# @arg workspace-name
-# @arg workspace-args~[`_choice_workspace_args`]
-workspace() { :; }
+# @arg CMD
+# @arg ARGS~[`_choice_args`]
 
-_choice_workspace_args() {
-    (cd "$workspace_location" && _argc_util_comp_subcommand 1 yarn)
+_choice_args() {
+    _argc_util_comp_subcommand 0
 }
 ```
 
