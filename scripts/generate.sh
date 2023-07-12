@@ -94,23 +94,7 @@ get_table() {
         log_info "$@: patch help"
         help_text="$(_patch_help $@)"
     else
-        if [[ $use_help_subcmd -ne 1 ]]; then
-            help_text="$($@ --help 2>&1)"
-            if [[ $? -ne 0 ]]; then
-                use_help_subcmd=1
-            fi
-        fi
-        if [[ $use_help_subcmd -eq 1 ]]; then
-            if [[ $# -eq 1 ]]; then
-                help_text="$($1 help 2>&1)"
-            else
-                help_text="$(${@:1:$#-1} help ${!#} 2>&1)"
-            fi
-            if [[ $? -ne 0 ]]; then
-                log_error "$@: no help"
-                return
-            fi
-        fi
+        help_text="$(_patch_help_run_help $@)"
     fi
     if [[ -n "$help_output_file" ]]; then
         if [[ $# -eq 1 ]]; then
