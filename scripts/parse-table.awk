@@ -155,7 +155,10 @@ END {
         isCmd = 1
         for (i in words) {
             word = words[i]
-            if (isCmd && match(word, /^[A-Za-z1-9_-]+$/) && toupper(word) != word) {
+            if (i == 1 && match(word, /\/[A-Za-z1-9_-]+$/)) {
+                continue
+            }
+            if (isCmd && match(word, /^[A-Za-z1-9_-]+$/)) {
                 continue
             }
             isCmd = 0
@@ -260,11 +263,11 @@ function splitOption(input) {
         } else {
             isBreak = 1
             if (length(word) == 0 && length(words) > 0 && match(ch, /[A-Za-z0-9]/)) {
-                if (match(words[length(words)], /^-/)) {
-                    if (match(substr(input, i), /^\S+( -|  |\n|$)/)) {
-                        isBreak = 0
-                    }
-                } 
+                if (match(substr(input, i), /^\S+( -|  |\n|$)/)) {
+                    isBreak = 0
+                } else if (match(substr(input, i), /^(\w+ )+ /)) {
+                    isBreak = 0
+                }
                 if (isBreak == 1) {
                     return wordBreakAt
                 }
@@ -526,7 +529,7 @@ function extraArgName(input) {
 
 
 function testMultilineDesc(input) {
-    return match(input, /^ {8,}\S+/) || match(input, /^\t{2,}\S+/) || match(input, /^\t {4,}\S+/)
+    return match(input, /^ {8,}\S+/) || match(input, /^\t{2,}\S+/) || match(input, /^\t {4,}\S+/) || match(input, /^ {4,}\t\S+/)
 }
 
 function testValueDesc(input) {
