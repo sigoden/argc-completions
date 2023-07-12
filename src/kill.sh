@@ -13,7 +13,7 @@ EOF
 
 _patch_table() { 
     _patch_table_edit_options '--list;[`_choice_signal`]' '--signal;[`_choice_signal`]' | \
-    _patch_table_edit_arguments ';;' 'pidNames;*[`_choice_pid_name`]'
+    _patch_table_edit_arguments ';;' 'pidNames;*[`_choice_pid_proc`]'
 }
 
 _choice_signal() {
@@ -52,9 +52,8 @@ XFSZ	File size limit exceeded
 EOF
 }
 
-
-_choice_pid_name() {
-    _argc_util_parallel _choice_exe ::: _choice_pid
+_choice_pid_proc() {
+    _argc_util_parallel _choice_process ::: _choice_pid
 }
 
 _choice_pid() {
@@ -67,6 +66,6 @@ _choice_pid() {
     fi
 }
 
-_choice_exe() {
-    ps axc -o comm= | sed '/(.*)/ d'
+_choice_process() {
+    ps axc -o pid,comm= | gawk '{print $2 "\t" $1}'
 }

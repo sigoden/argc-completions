@@ -1,16 +1,16 @@
 _patch_help() {
     echo "Usage: scp [options] <paths>..."
-    man scp | sed '1,/DESCRIPTION/ d; /EXIT STATUS/,$ d' 
+    man scp | sed -n '/^DESCRIPTION/, /^EXIT STATUS/ {//!p}'
 }
 
 _patch_table() {
     _patch_table_edit_options \
-        '-o;[`_choice_option`]' \
+        '-o;[`_choice_ssh_option`]' \
         '-c;*,[`_choice_cipher`]' \ |
     _patch_table_edit_arguments 'paths;[`_choice_path`]'
 }
 
-_choice_option() {
+_choice_ssh_option() {
     cat <<-'EOF' | _argc_util_comp_kv =
 AddKeysToAgent=yes,ask,confirm,no
 AddressFamily=any,inet,inet6
@@ -120,7 +120,7 @@ _choice_hostkeyalgorithms() {
 _choice_path() {
     _argc_util_mode_kv ':'
     if [[ -z "$argc__kv_prefix" ]]; then
-        _helper_host | _argc_util_transform suffix=: nospace
+        _choice_ssh_host | _argc_util_transform suffix=: nospace
         _argc_util_comp_file
     else
         ssh -o 'Batchmode yes' "$argc__kv_key" command ls -a1dp "$argc__kv_filter*" 2>/dev/null \
@@ -128,6 +128,6 @@ _choice_path() {
     fi
 }
 
-_helper_host() {
+_choice_ssh_host() {
     cat ~/.ssh/config | grep '^Host' | gawk '{print $2}'
 }

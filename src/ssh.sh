@@ -1,6 +1,6 @@
 _patch_help() {
     echo "Usage: ssh [options] destination [args]..."
-    man ssh | sed -n '/DESCRIPTION/, /AUTHENTICATION/ {//!p}'
+    man ssh | sed -n '/^DESCRIPTION/, /^AUTHENTICATION/ {//!p}'
 }
 
 _patch_table() {
@@ -9,12 +9,12 @@ _patch_table() {
     _patch_table_edit_options \
         '-L([bind_address:]port:host:hostport)' \
         '-R([bind_address:]port:host:hostport)' \
-        '-o;[`_choice_option`]' \
+        '-o;[`_choice_ssh_option`]' \
         '-c;*,[`_choice_cipher`]' \
         '-O;[`_choice_ctl_cmd`]' \
         '-Q;[`_choice_query`]' \ |
     _patch_table_edit_arguments \
-        'destination;[`_choice_destination`]'
+        'destination;[`_choice_ssh_host`]'
 }
 
 _choice_query() {
@@ -43,7 +43,7 @@ stop	request the master to stop accepting further multiplexing requests
 EOF
 }
 
-_choice_option() {
+_choice_ssh_option() {
     cat <<-'EOF' | _argc_util_comp_kv =
 AddKeysToAgent=yes,ask,confirm,no
 AddressFamily=any,inet,inet6
@@ -150,6 +150,6 @@ _choice_hostkeyalgorithms() {
     ssh -Q hostkeyalgorithms
 }
 
-_choice_destination() {
+_choice_ssh_host() {
     cat ~/.ssh/config | grep '^Host' | gawk '{print $2}'
 }

@@ -8,10 +8,10 @@ _patch_table() {
         '--user;[`_choice_user`]' \
         '--other-user;[`_choice_user`]' \
         '--preserve-env;[`_choice_env_var`]' | \
-    _patch_table_edit_arguments ';;' 'CMD;[`_choice_cmd`]' 'ARGS;~[`_choice_args`]'
+    _patch_table_edit_arguments ';;' 'CMD;[`_choice_command`]' 'ARGS;~[`_choice_args`]'
 }
 
-_choice_cmd() {
+_choice_command() {
     if [[ "$ARGC_OS" != "windows" ]]; then
         compgen -c
     fi

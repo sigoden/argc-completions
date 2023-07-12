@@ -28,12 +28,12 @@
 # @option -u --user[`_choice_user`] <user>       run command (or edit file) as specified user name or ID
 # @flag -V --version                             display version information and exit
 # @flag -v --validate                            update user's timestamp without running a command
-# @arg CMD[`_choice_cmd`]
+# @arg CMD[`_choice_command`]
 # @arg ARGS~[`_choice_args`]
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_cmd() {
+_choice_command() {
     if [[ "$ARGC_OS" != "windows" ]]; then
         compgen -c
     fi

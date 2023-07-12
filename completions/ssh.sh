@@ -28,7 +28,7 @@
 # @flag -N                                        Do not execute a remote command.
 # @flag -n                                        Redirects stdin from /dev/null (actually, prevents reading from stdin).
 # @option -O[`_choice_ctl_cmd`] <ctl_cmd>         Control an active connection multiplexing master process.
-# @option -o[`_choice_option`] <option>           Can be used to give options in the format used in the configuration file.
+# @option -o[`_choice_ssh_option`] <option>       Can be used to give options in the format used in the configuration file.
 # @option -p <port>                               Port to connect to on the remote host.
 # @option -Q[`_choice_query`] <query_option>      Queries for the algorithms supported by one of the following features: cipher (supported symmetric ciphers), cipher-auth (supported symmetric ciphers that support authenticated encryption), help (supported query terms for use with the -Q flag), mac (supported message integrity codes), kex (key exchange algorithms), kex-gss (GSSAPI key exchange algorithms), key (key types), key-cert (certificate key types), key-plain (non-certificate key types), key-sig (all key types and signature algorithms), protocol-version (supported SSH protocol versions), and sig (supported signature algorithms).
 # @flag -q                                        Quiet mode.
@@ -45,7 +45,7 @@
 # @flag -x                                        Disables X11 forwarding.
 # @flag -Y                                        Enables trusted X11 forwarding.
 # @flag -y                                        Send log information using the syslog(3) system module.
-# @arg destination[`_choice_destination`]
+# @arg destination[`_choice_ssh_host`]
 # @arg args*
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
@@ -76,7 +76,7 @@ stop	request the master to stop accepting further multiplexing requests
 EOF
 }
 
-_choice_option() {
+_choice_ssh_option() {
     cat <<-'EOF' | _argc_util_comp_kv =
 AddKeysToAgent=yes,ask,confirm,no
 AddressFamily=any,inet,inet6
@@ -183,7 +183,7 @@ _choice_hostkeyalgorithms() {
     ssh -Q hostkeyalgorithms
 }
 
-_choice_destination() {
+_choice_ssh_host() {
     cat ~/.ssh/config | grep '^Host' | gawk '{print $2}'
 }
 

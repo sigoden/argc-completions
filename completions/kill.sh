@@ -8,7 +8,7 @@
 # @flag -p --pid                           Show resolved PID, don't send signal
 # @flag -q --queue                         Use sigqueue(2) rather than kill(2)
 # @flag --verbose                          Print PIDs and signals sent
-# @arg pidNames*[`_choice_pid_name`]
+# @arg pidNames*[`_choice_pid_proc`]
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
@@ -48,9 +48,8 @@ XFSZ	File size limit exceeded
 EOF
 }
 
-
-_choice_pid_name() {
-    _argc_util_parallel _choice_exe ::: _choice_pid
+_choice_pid_proc() {
+    _argc_util_parallel _choice_process ::: _choice_pid
 }
 
 _choice_pid() {
@@ -63,8 +62,8 @@ _choice_pid() {
     fi
 }
 
-_choice_exe() {
-    ps axc -o comm= | sed '/(.*)/ d'
+_choice_process() {
+    ps axc -o pid,comm= | gawk '{print $2 "\t" $1}'
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

@@ -1,34 +1,34 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @flag -3                                     Copies between two remote hosts are transferred through the local host.
-# @flag -4                                     Forces scp to use IPv4 addresses only.
-# @flag -6                                     Forces scp to use IPv6 addresses only.
-# @flag -A                                     Allows forwarding of ssh-agent(1) to the remote system.
-# @flag -B                                     Selects batch mode (prevents asking for passwords or passphrases).
-# @flag -C                                     Compression enable.
-# @option -c*,[`_choice_cipher`] <cipher>      Selects the cipher to use for encrypting the data transfer.
-# @option -D <sftp_server_path>                When using the SFTP protocol support via -s, connect directly to a local SFTP server program rather than a remote one via ssh(1).
-# @option -F <ssh_config>                      Specifies an alternative per-user configuration file for ssh.
-# @option -i <identity_file>                   Selects the file from which the identity (private key) for public key authentication is read.
-# @option -J <destination>                     Connect to the target host by first making an scp connection to the jump host described by destination and then establishing a TCP forwarding to the ultimate destination from there.
-# @option -l <limit>                           Limits the used bandwidth, specified in Kbit/s.
-# @flag -O                                     Use the original SCP protocol for file transfers instead of the SFTP protocol.
-# @option -o[`_choice_option`] <ssh_option>    Can be used to pass options to ssh in the format used in ssh_config(5).
-# @option -P <port>                            Specifies the port to connect to on the remote host.
-# @flag -p                                     Preserves modification times, access times, and file mode bits from the source file.
-# @flag -q                                     Quiet mode: disables the progress meter as well as warning and diagnostic messages from ssh(1).
-# @flag -R                                     Copies between two remote hosts are performed by connecting to the origin host and executing scp there.
-# @flag -r                                     Recursively copy entire directories.
-# @option -S <program>                         Name of program to use for the encrypted connection.
-# @flag -s                                     Use the SFTP protocol for transfers rather than the original scp protocol.
-# @flag -T                                     Disable strict filename checking.
-# @flag -v                                     Verbose mode.
+# @flag -3                                         Copies between two remote hosts are transferred through the local host.
+# @flag -4                                         Forces scp to use IPv4 addresses only.
+# @flag -6                                         Forces scp to use IPv6 addresses only.
+# @flag -A                                         Allows forwarding of ssh-agent(1) to the remote system.
+# @flag -B                                         Selects batch mode (prevents asking for passwords or passphrases).
+# @flag -C                                         Compression enable.
+# @option -c*,[`_choice_cipher`] <cipher>          Selects the cipher to use for encrypting the data transfer.
+# @option -D <sftp_server_path>                    When using the SFTP protocol support via -s, connect directly to a local SFTP server program rather than a remote one via ssh(1).
+# @option -F <ssh_config>                          Specifies an alternative per-user configuration file for ssh.
+# @option -i <identity_file>                       Selects the file from which the identity (private key) for public key authentication is read.
+# @option -J <destination>                         Connect to the target host by first making an scp connection to the jump host described by destination and then establishing a TCP forwarding to the ultimate destination from there.
+# @option -l <limit>                               Limits the used bandwidth, specified in Kbit/s.
+# @flag -O                                         Use the original SCP protocol for file transfers instead of the SFTP protocol.
+# @option -o[`_choice_ssh_option`] <ssh_option>    Can be used to pass options to ssh in the format used in ssh_config(5).
+# @option -P <port>                                Specifies the port to connect to on the remote host.
+# @flag -p                                         Preserves modification times, access times, and file mode bits from the source file.
+# @flag -q                                         Quiet mode: disables the progress meter as well as warning and diagnostic messages from ssh(1).
+# @flag -R                                         Copies between two remote hosts are performed by connecting to the origin host and executing scp there.
+# @flag -r                                         Recursively copy entire directories.
+# @option -S <program>                             Name of program to use for the encrypted connection.
+# @flag -s                                         Use the SFTP protocol for transfers rather than the original scp protocol.
+# @flag -T                                         Disable strict filename checking.
+# @flag -v                                         Verbose mode.
 # @arg paths+[`_choice_path`]
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_option() {
+_choice_ssh_option() {
     cat <<-'EOF' | _argc_util_comp_kv =
 AddKeysToAgent=yes,ask,confirm,no
 AddressFamily=any,inet,inet6
@@ -138,7 +138,7 @@ _choice_hostkeyalgorithms() {
 _choice_path() {
     _argc_util_mode_kv ':'
     if [[ -z "$argc__kv_prefix" ]]; then
-        _helper_host | _argc_util_transform suffix=: nospace
+        _choice_ssh_host | _argc_util_transform suffix=: nospace
         _argc_util_comp_file
     else
         ssh -o 'Batchmode yes' "$argc__kv_key" command ls -a1dp "$argc__kv_filter*" 2>/dev/null \
@@ -146,7 +146,7 @@ _choice_path() {
     fi
 }
 
-_helper_host() {
+_choice_ssh_host() {
     cat ~/.ssh/config | grep '^Host' | gawk '{print $2}'
 }
 
