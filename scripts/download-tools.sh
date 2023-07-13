@@ -17,8 +17,10 @@ download() {
     _arch=$(_detect_arch)
     _curl="curl"
     os_arch="$_os-$_arch"
+    sed_version="4.9.0-2"
     argc_url_prefix="${gh_proxy:-}https://github.com/sigoden/argc/releases/download/${argc_version}/argc-${argc_version}-"
     yq_url_prefix="${gh_proxy:-}https://github.com/mikefarah/yq/releases/latest/download/yq_"
+    sed_url_prefix="https://github.com/xpack-dev-tools/sed-xpack/releases/download/v${sed_version}/xpack-sed-${sed_version}-"
     declare -A urls
     case $os_arch in
     linux-amd64)
@@ -36,10 +38,12 @@ download() {
     macos-amd64)
         argc_file_suffix="x86_64-apple-darwin.tar.gz"
         yq_file_suffix="darwin_amd64.tar.gz"
+        sed_file_suffix="darwin-x64.tar.gz"
         ;;
     macos-aarch64)
         argc_file_suffix="aarch64-apple-darwin.tar.gz"
         yq_file_suffix="darwin_arm64.tar.gz"
+        sed_file_suffix="darwin-arm64.tar.gz"
         ;;
     windows-amd64)
         argc_file_suffix="x86_64-pc-windows-msvc.zip"
@@ -84,8 +88,6 @@ download() {
     fi
     echo Successfully installed argc to $argc_bin_file
 
-    echo
-
     yq_asset_file=/tmp/yq-$yq_file_suffix
     yq_unzip_dir=/tmp/yq
     yq_asset_url=${yq_url_prefix}${yq_file_suffix}
@@ -105,6 +107,20 @@ download() {
         chmod +x $yq_bin_file
     fi
     echo Successfully installed yq to $yq_bin_file
+
+    if [[ "$_os" == "macos" ]]; then
+        sed_asset_file=/tmp/sed-$sed_file_suffix
+        sed_unzip_dir=/tmp/sed
+        sed_asset_url=${sed_url_prefix}${sed_file_suffix}
+        echo Downloading sed from $sed_asset_url
+        $_curl --fail --location --progress-bar --output $sed_asset_file $sed_asset_url
+        mkdir -p $sed_unzip_dir
+        tar -C $sed_unzip_dir -xf $sed_asset_file 
+        sed_bin_file="$install_dir/sed"
+        cp -f $sed_unzip_dir/xpack-sed-$sed_version/bin/sed $sed_bin_file
+        chmod +x $sed_bin_file
+        echo Successfully installed sed to $sed_bin_file
+    fi
 }
 
 _detect_os() {
