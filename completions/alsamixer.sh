@@ -13,7 +13,7 @@
 # @option -a --abstraction[none|basic] <NAME>    mixer abstraction level: none/basic
 
 _choice_card() {
-    aplay -l | grep '^card [0-9]\+:' | sed 's/card \([0-9]\+\): \(.\+\) \[.*\].*/\1\t\2/'
+    aplay -l | grep '^card [0-9]\+' | sed 's/card \([0-9]\+\): \(.\+\) \[.*\].*/\1\t\2/'
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

@@ -21,7 +21,7 @@
 # @option -s <srcaddr>                          Uses srcaddr as the local IP address for all connections.
 # @flag -t                                      Enables packet tracing.
 # @option -T <direction,maximum[,increment]>    Set the maximum transfer rate for direction to maximum bytes/second, and if specified, the increment to increment bytes/second.
-# @flag -u                                      url file ... Upload files on the command line to url where url is one of the ‘ftp://’ URL types as supported by auto- fetch (with an optional target filename for single file uploads), and file is one or more local files to be uploaded.
+# @flag -u                                      url file ... Upload files on the command line to url where url is one of the ‘ftp://’ URL types as supported by auto-fetch (with an optional target filename for single file uploads), and file is one or more local files to be uploaded.
 # @flag -V                                      Disable verbose and progress, overriding the default of enabled when output is to a terminal.
 # @flag -v                                      Enable verbose and progress.
 # @option -x <xfersize>                         Set the size of the socket send and receive buffers to xfersize.

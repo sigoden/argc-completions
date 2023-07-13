@@ -770,13 +770,13 @@ compose::events() {
 
 # {{{ docker compose exec
 # @cmd Execute a command in a running container.
-# @flag -d --detach                 Detached mode: Run command in the background.
-# @option -e --env <stringArray>    Set environment variables
-# @option --index <int>             index of the container if there are multiple instances of a service [default: 1].
-# @flag -T --no-TTY                 docker compose exec   Disable pseudo-TTY allocation.
-# @flag --privileged                Give extended privileges to the process.
-# @option -u --user <string>        Run the command as this user.
-# @option -w --workdir <string>     Path to workdir directory for this command.
+# @flag -d --detach                                Detached mode: Run command in the background.
+# @option -e --env <stringArray>                   Set environment variables
+# @option --index <int>                            index of the container if there are multiple instances of a service [default: 1].
+# @option -T --no-TTY <docker> <compose> <exec>    Disable pseudo-TTY allocation.
+# @flag --privileged                               Give extended privileges to the process.
+# @option -u --user <string>                       Run the command as this user.
+# @option -w --workdir <string>                    Path to workdir directory for this command.
 # @arg SERVICE[`_choice_compose_service`]
 # @arg ARGS*
 compose::exec() {
@@ -2818,6 +2818,7 @@ service() {
 # @option --dns-option <list>                     Set DNS options
 # @option --dns-search <list>                     Set custom DNS search domains
 # @option --endpoint-mode <string>                Endpoint mode (vip or dnsrr) (default "vip")
+# @option --entrypoint <command>                  Overwrite the default ENTRYPOINT of the image
 # @option -e --env <list>                         Set environment variables
 # @option --env-file <list>                       Read in a file of environment variables
 # @option --generic-resource <list>               User defined resources
@@ -2963,6 +2964,7 @@ service::scale() {
 
 # {{{ docker service update
 # @cmd Update a service
+# @option --args <command>                        Service command args
 # @option --cap-add <list>                        Add Linux capabilities
 # @option --cap-drop <list>                       Drop Linux capabilities
 # @option --config-add <config>                   Add or update a config file on a service
@@ -2980,6 +2982,7 @@ service::scale() {
 # @option --dns-search-add <list>                 Add or update a custom DNS search domain
 # @option --dns-search-rm <list>                  Remove a DNS search domain
 # @option --endpoint-mode <string>                Endpoint mode (vip or dnsrr)
+# @option --entrypoint <command>                  Overwrite the default ENTRYPOINT of the image
 # @option --env-add <list>                        Add or update an environment variable
 # @option --env-rm <list>                         Remove an environment variable
 # @flag --force                                   Force update even if no changes require it

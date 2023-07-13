@@ -634,7 +634,7 @@ env::use() {
 # @option --loglevel[debug|info|warn|error|silent] <level>  What level of logs to report.
 # @option --network-concurrency <number>    Maximum number of concurrent network requests
 # @option --port <number>                   The port number to use, when TCP is used for communication
-# @option --protocol <auto|tcp|ipc>         The communication protocol used by the server
+# @option --protocol[auto|tcp|ipc]          The communication protocol used by the server
 # @option --store-dir <dir>                 The directory in which all the packages are saved on the disk
 # @flag --stream                            Stream output from child processes immediately, prefixed with the originating package directory.
 # @flag --use-stderr                        Divert all output to stderr

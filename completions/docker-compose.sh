@@ -7,7 +7,7 @@
 # @option -c --context <NAME>             Specify a context name
 # @flag --verbose                         Show more output
 # @option --log-level[DEBUG|INFO|WARNING|ERROR|CRITICAL] <LEVEL>  Set log level
-# @option --ansi <never|always|auto>      Control when to print ANSI control characters
+# @option --ansi[never|always|auto]       Control when to print ANSI control characters
 # @flag --no-ansi                         Do not print ANSI control characters (DEPRECATED)
 # @flag -v --version                      Print version and exit
 # @option -H --host                       Daemon socket to connect to

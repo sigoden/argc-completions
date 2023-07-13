@@ -29,7 +29,7 @@ _choice_user() {
 }
 
 _choice_tty() {
-    ps aux | gawk '{ if ($7 != "?" && NR > 1) {print $7} }'
+    ps aux | gawk '{ if ($7 != "?" && NR > 1) {print $7 "\t" $1} }'
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

@@ -43,7 +43,7 @@
 # @option -p --preprocessor <STRING>     STRING indicates which preprocessors to run: e - [n]eqn, p - pic, t - tbl,
 # @flag -t --troff                       use groff to format pages
 # @option -T --troff-device <DEVICE>     use groff with selected device
-# @option -H --html <BROWSER>            use /home/sigo/.vscode-server/bin/695af097c7bd098fbf017ce3ac85e09bbc5dda06/bin/helpers/browser.sh or BROWSER to display HTML output
+# @option -H --html <BROWSER>            use BROWSER to display HTML output
 # @option -X --gxditview <RESOLUTION>    use groff and display through gxditview (X11): -X = -TX75, -X100 = -TX100, -X100-12 = -TX100-12
 # @flag -Z --ditroff                     use groff and force it to produce ditroff
 # @flag -? --help                        give this help list

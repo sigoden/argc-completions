@@ -335,7 +335,7 @@ device::wifi() {
 
 # {{{{ nmcli device wifi list
 # @cmd List available Wi-Fi access points.
-# @option --rescan <auto|no|yes>    Trigger new Wi-Fi scan
+# @option --rescan[auto|no|yes]    Trigger new Wi-Fi scan
 # @arg args*[`_choice_device_wifi_list_args`]
 device::wifi::list() {
     :;

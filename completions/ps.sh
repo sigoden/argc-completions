@@ -38,7 +38,7 @@
 # @flag -c                                         show scheduling class with -l option
 # @flag -V --version                               display version information and exit
 # @flag -w                                         unlimited output width
-# @option --help <simple|list|output|threads|misc|all>  display help and exit
+# @option --help[simple|list|output|threads|misc|all]  display help and exit
 # @flag --forest                                   ascii art process tree
 # @option --sort*,[`_choice_column`]               specify sort order as: [+|-]key[,[+|-]key[,...]]
 # @flag --cumulative                               include some dead child process data

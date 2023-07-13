@@ -1,6 +1,6 @@
 _patch_help() { 
     echo "Usage: pandoc [options] files..."
-    man pandoc | sed -n '/^OPTIONS/,/^EXIT/ {//!p}'
+    man pandoc | sed -n '/^OPTIONS/,/^EXIT/ {//!p}' | sed -e 's/--reference-location = /--reference-location=/'
 }
 
 _patch_table() { 
@@ -13,6 +13,7 @@ _patch_table() {
         '-w;[`_choice_output_format`]' \
         '--to;[`_choice_output_format`]' \
         '--write;[`_choice_output_format`]' \
+        '--output;[docx|odt|epub2|epub3]' \
         '--highlight-style;[`_choice_highlight_style`]' \
         '--print-highlight-style;[`_choice_highlight_style`]' \
         '--list-extensions;[`_choice_format`]'

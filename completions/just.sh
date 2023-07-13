@@ -16,6 +16,7 @@
 # @flag --no-dotenv                            Don't load `.env` file
 # @flag --no-highlight                         Don't highlight echoed recipe lines in bold
 # @flag -q --quiet                             Suppress all output
+# @flag --shell-command                        Invoke <COMMAND> with the shell used to run recipe lines and backticks
 # @flag --summary                              List names of available recipes
 # @flag -u --unsorted                          Return list and summary entries in source order
 # @flag --unstable                             Enable unstable features

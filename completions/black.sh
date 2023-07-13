@@ -3,7 +3,7 @@
 
 # @option -c --code <TEXT>                  Format the code passed in as a string.
 # @option -l --line-length <INTEGER>        How many characters per line to allow.
-# @option -t --target-version <py33|py34|py35|py36|py37|py38|py39|py310|py311|py312>  Python versions that should be supported by Black's output.
+# @option -t --target-version[py33|py34|py35|py36|py37|py38|py39|py310|py311|py312]  Python versions that should be supported by Black's output.
 # @flag --pyi                               Format all input files like typing stubs regardless of file extension (useful when piping source on standard input).
 # @flag --ipynb                             Format all input files like Jupyter Notebooks regardless of file extension (useful when piping source on standard input).
 # @option --python-cell-magics[capture|prun|pypy|python|python3|time|timeit] <TEXT>  When processing Jupyter Notebooks, add the given magic to the list of known python- magics.

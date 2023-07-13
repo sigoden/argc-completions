@@ -1,5 +1,5 @@
 _patch_table() { 
-    _patch_table_edit_options '--pager(<PATH>)' | \
+    _patch_table_edit_options '--pager(<PATH>)' '--html;;use BROWSER to display HTML output' | \
     _patch_table_edit_arguments ';;' 'PAGES;*[`_choice_page`]'
 }
 

@@ -624,7 +624,7 @@ fetch() {
 # @flag -q --quiet                                be more quiet
 # @flag --progress                                force progress reporting
 # @option --recurse-submodules <on-demand>        control for recursive fetching of submodules
-# @option -r --rebase <false|true|merges|interactive>  incorporate changes by rebasing rather than merging
+# @option -r --rebase[false|true|merges|interactive]  incorporate changes by rebasing rather than merging
 # @flag -n                                        do not show a diffstat at the end of the merge
 # @flag --stat                                    show a diffstat at the end of the merge
 # @option --log <n>                               add (at most <n>) entries from shortlog to merge commit message
@@ -685,7 +685,7 @@ pull() {
 # @flag -f --force                              force updates
 # @option --force-with-lease <<refname>:<expect>>  require old value of ref to be at this value
 # @flag --force-if-includes                     require remote updates to be integrated locally
-# @option --recurse-submodules <check|on-demand|no>  control recursive pushing of submodules
+# @option --recurse-submodules[check|on-demand|no]  control recursive pushing of submodules
 # @flag --thin                                  use thin pack
 # @option --receive-pack <receive-pack>         receive pack program
 # @option --exec <receive-pack>                 receive pack program
@@ -694,7 +694,7 @@ pull() {
 # @flag --prune                                 prune locally removed refs
 # @flag --no-verify                             bypass pre-push hook
 # @flag --follow-tags                           push missing but relevant tags
-# @option --signed <yes|no|if-asked>            GPG sign the push
+# @option --signed[yes|no|if-asked]             GPG sign the push
 # @flag --atomic                                request atomic transaction on remote side
 # @option -o --push-option <server-specific>    option to transmit
 # @flag -4 --ipv4                               use IPv4 addresses only
