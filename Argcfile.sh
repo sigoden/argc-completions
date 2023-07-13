@@ -11,16 +11,20 @@ set -e
 # @arg cmd![?`_choice_completion`]
 # @arg subcmd
 generate() {
+    if ! command -v $argc_cmd > /dev/null; then
+        echo $argc_cmd not found
+        exit 1
+    fi
     generate_sh_args=" -o completions"
     if [[ "$argc_verbose" ]]; then
         generate_sh_args="$generate_sh_args -v"
     fi
     if [[ -n $argc_subcmd ]]; then
-        echo Generate $argc_cmd $argc_subcmd
         ./scripts/generate.sh $generate_sh_args -E $argc_cmd $argc_subcmd
+        echo Generated $argc_cmd $argc_subcmd
     else
-        echo Generate $argc_cmd
         ./scripts/generate.sh $generate_sh_args $argc_cmd
+        echo Generated $argc_cmd
         if [[ "$argc_with_extend_subcmds" -eq 1 ]] && [[ -d completions/$argc_cmd ]]; then
             if [[ -d completions/$argc_cmd ]]; then
                 local child
@@ -33,17 +37,6 @@ generate() {
         fi
 
     fi
-}
-
-# @cmd Regenerate all completion scripts
-regenerate() {
-    local IFS=$'\n'
-    local cmds=( "$(_choice_completion)" )
-    for cmd in ${cmds[@]}; do
-        if command -v $cmd > /dev/null; then
-            argc generate $cmd -E
-        fi
-    done
 }
 
 # @cmd Debug a choice fn 
