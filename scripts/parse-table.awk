@@ -402,51 +402,54 @@ function parseDesc(descVal, output, extractChoice, logPrefix)  {
     } else {
         truncatedDescVal = substr(concatedDescVal, 1, truncatedAt)
     }
-    choiceVal = ""
+    choicesVal = ""
     matchVal = ""
     if (match(concatedDescVal, / ?\(default\)/)) {
         concatedDescVal = replace(concatedDescVal, substr(concatedDescVal, RSTART, RLENGTH), "")
     }
     if (extractChoice == 1) {
-        if (choiceVal == "" && index(concatedDescVal, "]") > 0) {
+        if (choicesVal == "" && index(concatedDescVal, "]") > 0) {
             if (match(concatedDescVal, / ?\[possible values: (([A-Za-z0-9_-]+, )+[A-Za-z0-9_-]+)\]/, arr)) {
-                choiceVal = arr[1]
+                choicesVal = arr[1]
                 matchVal = arr[0]
             } else if (match(concatedDescVal, / ?\[(([A-Za-z0-9_-]+\|){2,}[A-Za-z0-9_-]+)\]/, arr)) {
-                choiceVal = arr[1]
+                choicesVal = arr[1]
                 matchVal = arr[0]
             }
         }
-        if (choiceVal == "" && index(concatedDescVal, ")") > 0) {
+        if (choicesVal == "" && index(concatedDescVal, ")") > 0) {
             if (match(concatedDescVal, / ?\(([^:]*: ?)?(([A-Za-z0-9_-]+,)+[A-Za-z0-9_-]+)\)/, arr)) {
-                choiceVal = arr[2]
+                choicesVal = arr[2]
                 matchVal = arr[0]
             } else if (match(concatedDescVal, / ?\(([^:]*: ?)?(([A-Za-z0-9_-]+(, | \| ))+[A-Za-z0-9_-]+)\)/, arr)) {
-                choiceVal = arr[2]
+                choicesVal = arr[2]
                 matchVal = arr[0]
             } else if (match(concatedDescVal, / ?\(([^:]*: ?)?(("([A-Za-z0-9_-]+)"(,|\|))+"([A-Za-z0-9_-]+)")\)/, arr)) {
-                choiceVal = arr[2]
+                choicesVal = arr[2]
                 matchVal = arr[0]
             } else if (match(concatedDescVal, / ?\(([^:]*: ?)?(("([A-Za-z0-9_-]+)"(, | \| ))+"([A-Za-z0-9_-]+)")\)/, arr)) {
-                choiceVal = arr[2]
+                choicesVal = arr[2]
                 matchVal = arr[0]
             }
         }
-        if (choiceVal == "") {
+        if (choicesVal == "") {
             if (match(concatedDescVal, /: (([A-Za-z0-9_-]+, )+[A-Za-z0-9_-]+)(\s*$|\.)/, arr)) {
-                choiceVal = arr[1]
+                choicesVal = arr[1]
             } else if (match(concatedDescVal, /: (("([A-Za-z0-9_-]+)", )+"([A-Za-z0-9_-]+)")(\s*$|\.)/, arr)) {
-                choiceVal = arr[1]
+                choicesVal = arr[1]
             }
         }
     }
-    if (choiceVal != "") {
+    if (choicesVal != "" && match(choicesVal, /^-/)) {
+        choicesVal = ""
+    }
+    if (choicesVal != "") {
         matchIdx = index(concatedDescVal, matchVal)
         if (matchIdx < 120 || length(concatedDescVal) - matchIdx < 120) {
-            gsub(/(,|, |\|| \| )/, "|", choiceVal)
-            gsub(/"/, "", choiceVal) # "
+            gsub(/(,|, |\|| \| )/, "|", choicesVal)
+            gsub(/"/, "", choicesVal) # "
             truncatedDescVal = replace(truncatedDescVal, matchVal, "")
-            output[2] = "[" choiceVal "]"
+            output[2] = "[" choicesVal "]"
         }
     }
 

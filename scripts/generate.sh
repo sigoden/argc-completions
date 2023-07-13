@@ -17,7 +17,7 @@ handle_cmd() {
     local output table level nest_fn_prefix command_output
     table="$(get_table $@)"
     nest_fn_prefix="$(echo "${@:$((1 + $cmds_level))}" | sed 's/ /::/g')"
-    output="$(echo "$table" | grep -v 'command #' | parse_script $@)"
+    output="$(echo "$table" | grep -v '^command #' | parse_script $@)"
     if [[ -n "$output" ]]; then
         output="$output"$'\n'
     fi

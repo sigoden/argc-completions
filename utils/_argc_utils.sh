@@ -221,6 +221,7 @@ _argc_util_comp_subcommand() {
     if [[ ! -f "$scriptfile" ]]; then
         scriptfile="$ARGC_COMPLETIONS_ROOT/completions/${args[0]}/${args[1]}.sh"
         if [[ ! -f "$scriptfile" ]]; then
+            _argc_util_comp_file
             return
         fi
     fi
@@ -229,7 +230,7 @@ _argc_util_comp_subcommand() {
 }
 
 
-# Test value is a path
+# Test value maybe a path
 #
 # ```sh
 # _argc_util_is_path ./      # yes
@@ -246,6 +247,14 @@ _argc_util_is_path() {
     fi
 }
 
+# Test value maybe a variable name
+_argc_util_is_variable() {
+    if [[ "$1" =~ ^[A-Za-z0-9_-]+$ ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
 
 # Enetr kv complete mode
 # Args:

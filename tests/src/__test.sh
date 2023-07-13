@@ -101,6 +101,8 @@ Options:
             
             [default: address]
             [possible values: address, leak, memory, thread, none]
+    --email-obfuscation=none|javascript|references        Specify a method for obfuscating mailto: links in HTML documents.
+    --top-level-division=[default|section|chapter|part]   Treat top-level headings as the given division type in LaTeX, ConTeXt, DocBook, and TEI output.
     --unknown
 
 	-pkgdir dir

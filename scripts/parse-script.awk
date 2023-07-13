@@ -120,8 +120,12 @@ function parseOptions(words1, descVal, choicesVal) {
     }
 
     notationsVal = ""
-    for (i in notations) {
-        notationsVal = notationsVal " <" notations[i] ">"
+    if (choicesVal == "" && length(notations) == 1 && match(notations[1], /^[a-z0-9][a-z0-9_-]+(\|[a-z0-9][a-z0-9_-]+){2,}$/)) {
+        choicesVal = "[" notations[1] "]"
+    } else {
+        for (i in notations) {
+            notationsVal = notationsVal " <" notations[i] ">"
+        }
     }
     kindVal = "# @option "
     if (choicesVal == "" && notationsVal == "") {
