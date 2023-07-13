@@ -19,6 +19,7 @@
 # @option -i --idle-time-limit <IDLE_TIME_LIMIT>  limit recorded idle time to given number of seconds
 # @flag -y --yes          answer "yes" to all prompts (e.g. upload confirmation)
 # @flag -q --quiet        be quiet, suppress all notices/warnings (implies -y)
+# @arg filename
 rec() {
     :;
 }

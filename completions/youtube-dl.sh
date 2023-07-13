@@ -76,7 +76,7 @@
 # @flag --write-description                        Write video description to a .description file
 # @flag --write-info-json                          Write video metadata to a .info.json file
 # @flag --write-annotations                        Write video annotations to a .annotations.xml file
-# @option --load-info-json <FILE>                  JSON file containing the video information (created with the "--write- info-json" option)
+# @option --load-info-json <FILE>                  JSON file containing the video information (created with the "--write-info-json" option)
 # @option --cookies <FILE>                         File to read cookies from and dump cookie jar in
 # @option --cache-dir <DIR>                        Location in the filesystem where youtube-dl can store some downloaded information permanently.
 # @flag --no-cache-dir                             Disable filesystem caching

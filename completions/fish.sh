@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @option -c --command                        Evaluate  the  specified  commands  instead  of reading from the commandline, passing additional positional arguments through $argv.
-# @option -C --init-command <COMMANDS>        Evaluate specified commands after reading the configuration but before executing command specified by -c or reading  interactive input.
+# @option -c --command                        Evaluate the specified commands instead of reading from the commandline, passing additional positional arguments through $argv.
+# @option -C --init-command <COMMANDS>        Evaluate specified commands after reading the configuration but before executing command specified by -c or reading interactive input.
 # @option -d --debug <DEBUG_CATEGORIES>       Enables debug output and specify a pattern for matching debug categories.
 # @option -o --debug-output <DEBUG_FILE>      Specifies a file path to receive the debug output, including categories and  fish_trace.
 # @flag -i --interactive                      The shell is interactive.
