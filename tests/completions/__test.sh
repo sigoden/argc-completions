@@ -67,6 +67,7 @@
 # @option --email-obfuscation[none|javascript|references]  Specify a method for obfuscating mailto: links in HTML documents.
 # @option --top-level-division[default|section|chapter|part]  Treat top-level headings as the given division type in LaTeX, ConTeXt, DocBook, and TEI output.
 # @flag --unknown
+# @option --trace-ascii <file>                     Like --trace, but without hex output
 # @option -pkgdir <dir>                            install and load all packages from dir instead of the usual locations.
 # @option -ldflags <[pattern=]arg list>            arguments to pass on each go tool link invocation.
 # @flag --incremental                              show blame entries as we find them, incrementally

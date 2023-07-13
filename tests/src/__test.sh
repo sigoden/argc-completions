@@ -104,6 +104,7 @@ Options:
     --email-obfuscation=none|javascript|references        Specify a method for obfuscating mailto: links in HTML documents.
     --top-level-division=[default|section|chapter|part]   Treat top-level headings as the given division type in LaTeX, ConTeXt, DocBook, and TEI output.
     --unknown
+    --trace-ascii <file> Like --trace, but without hex output
 
 	-pkgdir dir
 		install and load all packages from dir instead of the usual locations.
