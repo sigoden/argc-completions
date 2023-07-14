@@ -522,4 +522,34 @@ _argc_util_transform() {
 }'
 }
 
-
+# Use Cache 
+# Args:
+#   timeout_secs: Timeout in seconds
+#   choice_fn: Cache data from choice fn
+#   key: Additional cache key
+# ```
+# _argc_util_cache 86400 _choice_fn
+# ```
+_argc_util_cache() {
+    local cache_dir=/tmp/argc_completions_cache
+    local cache_key="$(printf "%s_" "${argc__args[@]:0:$(( $argc__index + 1 ))}")"
+    cache_key="${cache_key}_$2"
+    if [[ -n "$3" ]]; then
+        local key="$(echo "$3" | md5sum)"
+        key="${key%% *}"
+        cache_key="${cache_key}_$key"
+    fi
+    local cache_file="$cache_dir/$cache_key"
+    if [[ -f "$cache_file" ]]; then
+        mod_time=$(stat -c %Y "$cache_file")
+        now_time=$(date '+%s')
+        if (( $now_time - $mod_time < $1 )); then
+            cat $cache_file
+            return
+        fi
+    fi
+    if [ ! -d "$cache_dir" ]; then
+        mkdir -p "$cache_dir"
+    fi
+    $2 2>/dev/null | tee "$cache_file"
+}

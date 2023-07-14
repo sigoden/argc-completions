@@ -27,9 +27,13 @@ _choice_group() {
 _choice_files() {
     if [[ -n $argc_delete ]] || [[ -n $argc_list ]] || [[ -n $argc_extract ]]; then
         if [[ -n "$argc_file" ]]; then
-            tar --list --file  "$argc_file" | _argc_util_comp_parts /
+            _argc_util_cache 3600 _choice_ls_tar_file "$argc_file" | _argc_util_comp_parts /
             return
         fi
     fi
     _argc_util_comp_file
+}
+
+_choice_ls_tar_file() {
+    tar --list --file  "$argc_file"
 }
