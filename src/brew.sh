@@ -10,16 +10,26 @@ OPTIONS:
     --repository, --repo [tap ...]      Display where Homebrew´s git repository is located.
     --version, -v                       Print the version numbers of Homebrew
 EOF
-        echo "COMMANDS"
         _patch_help_run_man brew | \
-            sed -n '/^   install formula/,/^CUSTOM EXTERNAL COMMANDS/ p' | \
-            sed \
-                -e '/^\s\+-/ d' \
-                -e '/^              \S/ d' \
-                -e 's/^   \(\([a-z0-9-]\+, \)\+\([a-z0-9-]\+\)\) .*$/  \1/' \
-                -e 's/^   \([a-z0-9-]\+\) .*$/  \1/' \
-                -e 's/^   \([a-z0-9-]\+\), -.*$/  \1/' \
-                -e 's/^       \(\S\)/        \1/'
+            gawk '{
+                if (match($0, /^ESSENTIAL COMMANDS/)) {
+                    print "COMMANDS:"
+                    run = 1
+                } else if (match($0, /^CUSTOM EXTERNAL COMMANDS/)) {
+                    run = 0
+                } else if (run == 1) {
+                    if (match($0, /^   [a-z0-9][a-z0-9_-]+/)) {
+                        print " " substr($0, 1, RLENGTH)
+                        command = 1
+                    } else if(match($0, /^       \S/)) {
+                        if (command == 1) {
+                            print "  " $0
+                        }
+                    } else if (match($0, /^\s*$/)) {
+                        command = 0
+                    }
+                }
+            }'
     elif [[ "$*" == "brew rubocop" ]] || \
         [[ "$*" == "brew casks" ]] || \
         [[ "$*" == "brew formulae" ]] || \
