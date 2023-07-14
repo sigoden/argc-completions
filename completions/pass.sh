@@ -126,7 +126,7 @@ version() {
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
 _choice_gpg_id() {
-    gpg --list-keys --with-colons | grep '^pub\|^uid' | grep -A1 'pub' | awk -F: '/^pub:|^uid:/ {print $5 $10}'
+    gpg --list-keys --with-colons | grep '^pub\|^uid' | grep -A1 'pub' | gawk -F: '/^pub:|^uid:/ {print $5 $10}'
 }
 
 _choice_pass_dir() {

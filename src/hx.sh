@@ -5,5 +5,5 @@ _patch_table() {
 }
 
 _choice_health() {
-    hx --health | awk '{if ($1 == "Language" && $2 == "LSP") {p=1;next;}; if(p==1){print $1}}'
+    hx --health | gawk '{if ($1 == "Language" && $2 == "LSP") {p=1;next;}; if(p==1){print $1}}'
 }

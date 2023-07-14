@@ -36,7 +36,7 @@ _choice_model_cached() {
 }
 
 _choice_model() {
-    python -c "help('modules')" 2>/dev/null | awk '
+    python -c "help('modules')" 2>/dev/null | gawk '
 BEGIN {
     split("", LINES)
     LINES_LEN = 0
