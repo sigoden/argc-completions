@@ -195,7 +195,7 @@ function parseCommand(words1, descVal) {
     split("", shortNames)
     for (i in words1) {
         word = words1[i]
-        if (!match(word, /[a-z]/)) {
+        if (match(word, /^(\[|\(|<)/) || !match(word, /[a-z]/)) {
             break
         }
         if (match(tolower(word), RE_SKIP_ARGUMENT)) {

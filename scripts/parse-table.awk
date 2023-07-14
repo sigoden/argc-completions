@@ -121,8 +121,11 @@ END {
                 commands[length(commands)] = commands[length(commands)] lineSeps line
             } else {
                 trimed = trimStarts(line)
-                if (length(trimed) > 0 && match(trimed, /^[A-Za-z0-9_.-]+(\*)?($|\s|,)/)) {
-                    commands[length(commands) + 1] = trimed
+                if (length(trimed) > 0) {
+                    if (match(trimed, /^([^ .,[]]+ ){4, }/) && !match(trimed, /(  |\t)/)) {
+                    } if (match(trimed, /^[a-z0-9_][A-Za-z0-9_.-]*(\*)?($|\s|,)/)) {
+                        commands[length(commands) + 1] = trimed
+                    }
                 }
             }
         } else if (groupName == "usage") {
@@ -197,7 +200,9 @@ END {
         gsub(/^\*|\*$/, "", commandVal)
         split("", descValues)
         parseDesc(substr(command, splitAt + 1), descValues, 0)
-        print "command # " commandVal " # " descValues[1]
+        if (commandVal != "") {
+            print "command # " commandVal " # " descValues[1]
+        }
     }
 }
 
@@ -320,27 +325,25 @@ function splitArgment(input) {
 }
 
 function splitCommand(input) {
-    idx = 0
+    split("", words)
+    worsLen = 0
+    idx = 1
+    wordsLen = 0
     while (1) {
-        if (idx == 0) {
-            wordLen = nextWord(substr(input, 1))
-        } else {
-            wordLen = nextWord(substr(input, idx + 2))
+        wordSize = nextWord(substr(input, idx))
+        if (wordSize == 0) {
+            break
         }
-        if (wordLen == 0) {
-            return idx
+        word = substr(input, idx, wordSize)
+        if (wordsLen == 0 || match(words[wordsLen], /,$/) || match(word, /^(\[|\(|<)/) || !match(word, /[a-z]/)) {
+            idx = idx + wordSize + 1
+            wordsLen = wordsLen + 1
+            words[wordsLen] = word
+            continue
         }
-        if (match(substr(input, idx + 2, wordLen), /[a-z]/)) {
-            if (idx != 0 && substr(input, idx, 1) != ",") {
-                return idx
-            }
-        }
-        if (idx == 0) {
-            idx = wordLen
-        } else {
-            idx = idx + 1 + wordLen
-        }
+        break
     }
+    return idx - 2
 }
 
 function parseDesc(descVal, output, extractChoice, logPrefix)  {

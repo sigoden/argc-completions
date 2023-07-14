@@ -133,6 +133,7 @@ Commands:
     run                         Run a binary or example of the local package 
     build, b                    Compile the current package
     t, test                     Run the tests
+    x [cmd] [key] [value]       View or set your gatsby-cli configuration settings.   
 
 Other:
     cmd1

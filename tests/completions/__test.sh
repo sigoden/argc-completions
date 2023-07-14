@@ -115,6 +115,13 @@ test() {
 }
 # }} __test test
 
+# {{ __test x
+# @cmd View or set your gatsby-cli configuration settings.
+x() {
+    :;
+}
+# }} __test x
+
 # {{ __test cmd1
 # @cmd
 cmd1() {
