@@ -11,7 +11,7 @@
 # @option --capath <dir>                           CA directory to verify peer against
 # @option -E --cert <certificate[:password]>       Client certificate file and password
 # @flag --cert-status                              Verify the status of the server cert via OCSP-staple
-# @option --cert-type <type>                       Certificate type (DER/PEM/ENG)
+# @option --cert-type[DER|PEM|ENG] <type>          Certificate type (DER/PEM/ENG)
 # @option --ciphers <list of ciphers>              SSL ciphers to use
 # @flag --compressed                               Request compressed response
 # @flag --compressed-ssh                           Enable SSH compression
@@ -46,7 +46,7 @@
 # @option --doh-url <URL>                          Resolve host names over DoH
 # @option -D --dump-header <filename>              Write the received headers to <filename>
 # @option --egd-file <file>                        EGD socket path for random data
-# @option --engine <name>                          Crypto engine to use
+# @option --engine[`_choice_engine`] <name>        Crypto engine to use
 # @option --etag-compare <file>                    Pass an ETag from a file as a custom header
 # @option --etag-save <file>                       Parse ETag from a request and save it to a file
 # @option --expect100-timeout <seconds>            How long to wait for 100-continue
@@ -60,7 +60,7 @@
 # @option --ftp-account <data>                     Account data string
 # @option --ftp-alternative-to-user <command>      String to replace USER [name]
 # @flag --ftp-create-dirs                          Create the remote dirs if not present
-# @option --ftp-method <method>                    Control CWD usage
+# @option --ftp-method[`_choice_ftp_method`] <method>  Control CWD usage
 # @flag --ftp-pasv                                 Use PASV/EPSV instead of PORT
 # @option -P --ftp-port <address>                  Use PORT instead of PASV
 # @flag --ftp-pret                                 Send PRET before PASV
@@ -73,7 +73,7 @@
 # @option --happy-eyeballs-timeout-ms <milliseconds>  Time for IPv6 before trying IPv4
 # @flag --haproxy-protocol                         Send HAProxy PROXY protocol v1 header
 # @flag -I --head                                  Show document info only
-# @option -H --header <header/@file>               Pass custom header(s) to server
+# @option -H --header[`_choice_http_header`] <header/@file>  Pass custom header(s) to server
 # @option -h --help <category>                     Get help for commands
 # @option --hostpubmd5 <md5>                       Acceptable MD5 hash of the host public key
 # @option --hostpubsha256 <sha256>                 Acceptable SHA256 hash of the host public key
@@ -93,8 +93,8 @@
 # @flag -j --junk-session-cookies                  Ignore session cookies read from file
 # @option --keepalive-time <seconds>               Interval time for keepalive probes
 # @option --key <key>                              Private key file name
-# @option --key-type <type>                        Private key file type (DER/PEM/ENG)
-# @option --krb <level>                            Enable Kerberos with security <level>
+# @option --key-type[DER|PEM|ENG] <type>           Private key file type (DER/PEM/ENG)
+# @option --krb[clear|safe|confidential|private] <level>  Enable Kerberos with security <level>
 # @option --libcurl <file>                         Dump libcurl equivalent code of this command line
 # @option --limit-rate <speed>                     Limit transfer speed to RATE
 # @flag -l --list-only                             List only mode
@@ -148,7 +148,7 @@
 # @option --proxy-cacert <file>                    CA certificate to verify peer against for proxy
 # @option --proxy-capath <dir>                     CA directory to verify peer against for proxy
 # @option --proxy-cert <cert[:passwd]>             Set client certificate for proxy
-# @option --proxy-cert-type <type>                 Client certificate type for HTTPS proxy
+# @option --proxy-cert-type[DER|PEM|ENG] <type>    Client certificate type for HTTPS proxy
 # @option --proxy-ciphers <list>                   SSL ciphers to use for proxy
 # @option --proxy-crlfile <file>                   Set a CRL list for proxy
 # @flag --proxy-digest                             Use Digest authentication on the proxy
@@ -181,7 +181,7 @@
 # @flag -O --remote-name                           Write output to a file named as the remote file
 # @flag --remote-name-all                          Use the remote file name for all URLs
 # @flag -R --remote-time                           Set the remote file's time on the local output
-# @option -X --request <method>                    Specify request method to use
+# @option -X --request[`_choice_http_method`] <method>  Specify request method to use
 # @option --request-target <path>                  Specify the target for this request
 # @option --resolve <[+]host:port:addr[,addr]...>  Resolve the host+port to this address
 # @option --retry <num>                            Retry request if transient problems occur
@@ -246,5 +246,103 @@
 # @option -w --write-out <format>                  Use output FORMAT after completion
 # @flag --xattr                                    Store metadata in extended file attributes
 # @arg url!
+
+. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
+
+_choice_engine() {
+    curl --engine list | tail -n +2
+}
+
+_choice_ftp_method() {
+    cat <<-'EOF'
+multicwd	curl does a single CWD operation for each path part in the given URL
+nocwd	curl does no CWD at all
+singlecwd	curl does one CWD with the full target directory and then operates on the file 'normally'
+EOF
+}
+
+_choice_http_method() {
+    cat <<-'EOF'
+CONNECT	Establish a tunnel to the server identified by the target resource
+DELETE	Delete the specified resource
+GET	Request a representation of the specified resource
+HEAD	Identical to a GET request, but without the response body
+OPTIONS	Describe the communication options for the target resource
+PATCH	Apply partial modifications to a resource
+POST	Submit an entity to the specified resource
+PUT	Replace all current representations of the target resource
+TRACE	Perform a message loop-back test along the path to the target resource
+EOF
+}
+
+_choice_http_header() {
+    cat <<-'EOF' | _argc_util_comp_kv :
+Accept;;Media type(s) that is/are acceptable for the response. See Content negotiation.
+Accept-Encoding=`_choice_http_accept_encoding`;;List of acceptable encodings. See HTTP compression.
+Accept-Language;;List of acceptable human languages for response. See Content negotiation.
+Authorization;;Authentication credentials for HTTP authentication.
+Cache-Control=`_choice_http_cache_control`;;Used to specify directives that must be obeyed by all caching mechanisms along the request-response chain.
+Content-Type=`_choice_http_media_type`;;The Media type of the body of the request (used with POST and PUT requests).
+Cookie;;An HTTP cookie previously sent by the server with Set-Cookie (below).
+Proxy-Authorization;;Authorization credentials for connecting to a proxy.
+Max-Forwards;;Limit the number of times the message can be forwarded through proxies or gateways.
+Origin;;Initiates a request for cross-origin resource sharing (asks server for Access-Control-* response fields).
+Pragma;;Implementation-specific fields that may have various effects anywhere along the request-response chain.
+Referer;;This is the address of the previous web page from which a link to the currently requested page was followed.
+User-Agent;;The user agent string of the user agent.
+Via;;Informs the server of proxies through which the request was sent.
+EOF
+}
+
+_choice_http_accept_encoding() {
+    cat <<-'EOF'
+br	Brotli
+compress	UNIX 'compress' program method
+deflate	 compression based on the deflate algorithm
+exi	W3C Efficient XML Interchange
+gzip	GNU zip format
+identity	No transformation is used.
+pack200-gzip	Network Transfer Format for Java Archives
+zstd	Zstandard compression
+EOF
+}
+
+_choice_http_cache_control() {
+    cat <<-'EOF' | sed 's/=\t/=\0\t/'
+max-age=	The maximum amount of time a resource is considered fresh.
+max-stale	Indicates the client will accept a stale response.
+min-fresh=	Indicates the client wants a response that will still be fresh for at least the specified number of seconds.
+no-cache	The response may be stored by any cache, even if the response is normally non-cacheable.
+no-store	The response may not be stored in any cache.
+no-transform	An intermediate cache or proxy cannot edit the response body.
+only-if-cached	Set by the client to indicate \"do not use the network\" for the response.
+EOF
+}
+
+_choice_http_media_type() {
+    cat <<-'EOF'
+application/graphql
+application/javascript
+application/json
+application/msword
+application/pdf
+application/sql
+application/x-www-form-urlencoded
+application/xml
+application/zip
+audio/mpeg
+audio/ogg
+image/gif
+image/webp
+image/jpeg
+image/png
+multipart/form-data
+text/css
+text/csv
+text/html
+text/plain
+text/xml
+EOF
+}
 
 command eval "$(argc --argc-eval "$0" "$@")"
