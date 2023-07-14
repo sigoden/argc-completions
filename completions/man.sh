@@ -39,7 +39,8 @@
 # @option -E --encoding                  use selected output encoding
 # @flag --no-hyphenation                 turn off hyphenation
 # @flag --nh                             turn off hyphenation
-# @flag --no-justification               --nj   turn off justification
+# @flag --no-justification               turn off justification
+# @flag --nj                             turn off justification
 # @option -p --preprocessor <STRING>     STRING indicates which preprocessors to run: e - [n]eqn, p - pic, t - tbl,
 # @flag -t --troff                       use groff to format pages
 # @option -T --troff-device <DEVICE>     use groff with selected device

@@ -1,6 +1,6 @@
 _patch_help() { 
     echo "Usage: pandoc [options] files..."
-    man pandoc | sed -n '/^OPTIONS/,/^EXIT/ {//!p}' | sed -e 's/--reference-location = /--reference-location=/'
+    _patch_help_run_man pandoc | sed -n '/^OPTIONS/,/^EXIT/ {//!p}' | sed -e 's/--reference-location = /--reference-location=/'
 }
 
 _patch_table() { 

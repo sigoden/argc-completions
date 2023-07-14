@@ -1,6 +1,6 @@
 _patch_help() {
     echo "Usage: scp [options] <paths>..."
-    man scp | sed -n '/^DESCRIPTION/, /^EXIT STATUS/ {//!p}'
+    _patch_help_run_man scp | sed -n '/^DESCRIPTION/, /^EXIT STATUS/ {//!p}'
 }
 
 _patch_table() {

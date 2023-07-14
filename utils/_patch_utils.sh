@@ -25,6 +25,15 @@ _patch_help_run_help_subcmd() {
     fi
 }
 
+# Run man to get help
+_patch_help_run_man() {
+    if [[ "$(uname -s)" == "Darwin" ]]; then
+        man $@ | col -bx
+    else
+        man $@
+    fi
+}
+
 # Clean the middle text between command value and description
 _patch_help_clean_middle() {
     gawk -f  "$ROOT_DIR/utils/_patch_utils/clean-middle.awk"

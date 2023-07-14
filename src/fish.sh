@@ -1,6 +1,6 @@
 _patch_help() { 
     echo "Usage: fish [options] file args..."
-    man fish
+    _patch_help_run_man fish
 }
 
 _patch_table() { 

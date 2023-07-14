@@ -1,6 +1,6 @@
 _patch_help() { 
     echo "Usage: telnet [options] [host]"
-    man telnet | sed -n '/^DESCRIPTION/, /Protocol:/ {//!p}'
+    _patch_help_run_man telnet | sed -n '/^DESCRIPTION/, /Protocol:/ {//!p}'
 }
 
 _patch_table() { 

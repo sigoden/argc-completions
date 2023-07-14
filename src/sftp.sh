@@ -1,6 +1,6 @@
 _patch_help() {
     echo "Usage: sftp [options] destination"
-    man sftp | sed -n '/^DESCRIPTION/, /^INTERACTIVE COMMANDS/ {//!p}'
+    _patch_help_run_man sftp | sed -n '/^DESCRIPTION/, /^INTERACTIVE COMMANDS/ {//!p}'
 }
 
 _patch_table() {

@@ -30,8 +30,8 @@ generate() {
                 local child
                 for child in completions/$argc_cmd/*.sh; do
                     child="$(basename "$child" .sh)"
-                    echo Generate $argc_cmd $child
                     ./scripts/generate.sh $generate_sh_args -E $argc_cmd $child
+                    echo Generated $argc_cmd $child
                 done
             fi
         fi

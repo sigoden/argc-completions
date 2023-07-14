@@ -1,6 +1,6 @@
 _patch_help() { 
     if [[ "$*" == "nmcli" ]]; then
-        man nmcli | sed -n '/^OPTIONS/,/^GENERAL COMMANDS/ {//!p}' | sed -e 's/-\(\S\) | --/-\1, --/' -e 's/ {.*}/ <value>/'
+        _patch_help_run_man nmcli | sed -n '/^OPTIONS/,/^GENERAL COMMANDS/ {//!p}' | sed -e 's/-\(\S\) | --/-\1, --/' -e 's/ {.*}/ <value>/'
         cat <<-'EOF'
 Commands:
     general             Use this command to show NetworkManager status and permissions. 

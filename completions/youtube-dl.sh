@@ -3,6 +3,7 @@
 
 # @flag -h --help                                  Print this help text and exit
 # @flag --version                                  Print program version and exit
+# @flag -U --update                                Update this program to latest version.
 # @flag -i --ignore-errors                         Continue on download errors, for example to skip unavailable videos in a playlist
 # @flag --abort-on-error                           Abort downloading of further videos (in the playlist or the command line) if an error occurs
 # @flag --dump-user-agent                          Display the current browser identification

@@ -1,5 +1,5 @@
 _patch_help() { 
-    man netcat | sed -n '/^DESCRIPTION/, /^CLIENT/ {//!p}' 
+    _patch_help_run_man netcat | sed -n '/^DESCRIPTION/, /^CLIENT/ {//!p}' 
 }
 
 _patch_table() { 
