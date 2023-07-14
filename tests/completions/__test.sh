@@ -68,6 +68,9 @@
 # @option --top-level-division[default|section|chapter|part]  Treat top-level headings as the given division type in LaTeX, ConTeXt, DocBook, and TEI output.
 # @flag --unknown
 # @option --trace-ascii <file>                     Like --trace, but without hex output
+# @option --prepend <KEY> <VALUE>                  Add one configuration value to the beginning of a list key.
+# @option --add <KEY> <VALUE>                      Add one configuration value to the beginning of a list key.
+# @option --which* <PATH> <PATH>                   Given some file's PATH, print which conda package the file came from.
 # @option -pkgdir <dir>                            install and load all packages from dir instead of the usual locations.
 # @option -ldflags <[pattern=]arg list>            arguments to pass on each go tool link invocation.
 # @flag --incremental                              show blame entries as we find them, incrementally

@@ -105,6 +105,10 @@ Options:
     --top-level-division=[default|section|chapter|part]   Treat top-level headings as the given division type in LaTeX, ConTeXt, DocBook, and TEI output.
     --unknown
     --trace-ascii <file> Like --trace, but without hex output
+    --prepend --add KEY VALUE
+            Add one configuration value to the beginning of a list key.
+    --which PATH [PATH ...]
+            Given some file's PATH, print which conda package the file came from.
 
 	-pkgdir dir
 		install and load all packages from dir instead of the usual locations.

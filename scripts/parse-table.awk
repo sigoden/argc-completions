@@ -155,10 +155,10 @@ END {
         isCmd = 1
         for (i in words) {
             word = words[i]
-            if (i == 1 && match(word, /\/[a-z0-9][A-Za-z0-9_-]*$/)) {
+            if (i == 1 && match(word, /\/[a-z0-9_][A-Za-z0-9_-]*$/)) {
                 continue
             }
-            if (isCmd && match(word, /^[a-z0-9][A-Za-z0-9_-]*$/)) {
+            if (isCmd && match(word, /^[a-z0-9_][A-Za-z0-9_-]*$/)) {
                 continue
             }
             isCmd = 0
@@ -263,9 +263,9 @@ function splitOption(input) {
         } else {
             isBreak = 1
             if (length(word) == 0 && length(words) > 0 && match(ch, /[A-Za-z0-9]/)) {
-                if (match(words[length(words)], /^-/) && match(substr(input, i), /^\S+( -|  |\n|$)/)) {
+                if (match(words[length(words)], /^-/) && match(substr(input, i), /^\S+( -|  | \[|\n|$)/)) {
                     isBreak = 0
-                } else if (match(substr(input, i), /^(\w+ )+ /)) {
+                } else if (match(substr(input, i), /^[A-Z0-9]+( [A-Z0-9]+)*( -|  | \[|\n|$)/) || match(substr(input, i), /^[a-z0-9]+( [a-z0-9]+)*( -|  | \[|\n|$)/)) {
                     isBreak = 0
                 }
                 if (isBreak == 1) {
