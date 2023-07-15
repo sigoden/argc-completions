@@ -68,7 +68,7 @@ END {
                     groupName = "option"
                     continue
                 }
-            } else if (match(santizedLine, /\s*(arguments|args)(:\s*$|$)/)) {
+            } else if (match(santizedLine, /\s*(arguments|args|positionals)(:\s*$|$)/)) {
                 if (LINES[i+1, 3] > spaces) {
                     groupName = "argument"
                     continue

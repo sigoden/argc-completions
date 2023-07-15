@@ -198,7 +198,7 @@ function parseCommand(words1, descVal) {
         if (match(word, /^(\[|\(|<)/) || !match(word, /[a-z]/)) {
             break
         }
-        if (match(tolower(word), RE_SKIP_ARGUMENT)) {
+        if (match(tolower(word), RE_SKIP_SBUCOMMAND)) {
             return
         }
         if (index(EXISTS_SUBCOMMANDS, "," word ",") > 0) {

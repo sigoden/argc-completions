@@ -28,19 +28,14 @@ handle_cmd() {
         local subcmds
         while IFS=$'\n' read -r line; do
             if [[ -n "$line" ]]; then
-                subcmds+=( "$line" )
-            fi
-        done < <(echo "$table" | grep '^command #' | parse_script $@)
-        for item in "${subcmds[@]}"; do
-            if [[ -n "$item" ]]; then
-                local subcmd_output="$(handle_subcmd "$item" $@)"
+                local subcmd_output="$(handle_subcmd "$line" $@)"
                 if [[ -z "$command_output" ]]; then
                     command_output="$subcmd_output"
                 else
                     command_output="$command_output"$'\n'"$subcmd_output"
                 fi
             fi
-        done
+        done < <(echo "$table" | grep '^command #' | parse_script $@)
     fi
     if [[ -n "$command_output" ]]; then
         output="$output"$'\n'"$command_output"
