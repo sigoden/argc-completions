@@ -194,6 +194,7 @@ pub() {
 # @flag --no-precompile           Build executables in immediate dependencies.
 # @option -C --directory <dir>    Run this in the directory <dir>.
 # @arg section-package-descriptor <[<section>:]<package>[:descriptor]>
+# @arg section-package2-descriptor <[<section>:]<package2>[:descriptor]>
 pub::add() {
     :;
 }

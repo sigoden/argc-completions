@@ -46,7 +46,11 @@ _patch_table() {
         echo "$table" | _patch_table_edit_options '--upgrade-strategy;[only-if-needed|eager]'
     elif [[ "$*" == "pip config" ]]; then
         echo "$table" | _patch_table_edit_arguments 'key;[`_choice_config_key`]'
-    elif [[ "$*" == "pip freeze" ]] || [[ "$*" == "pip list" ]]; then
+    elif [[ "$*" == "pip freeze" ]]; then
+        echo "$table" | _patch_table_edit_options \
+            '--all;[distribute|setuptools|wheel|pip];Do not skip these packages in the output.' \
+            '--exclude;[`_choice_package`]'
+    elif [[ "$*" == "pip list" ]]; then
         echo "$table" | _patch_table_edit_options '--exclude;[`_choice_package`]'
     elif [[ "$*" == "pip hash" ]]; then
         echo "$table" | _patch_table_edit_options '--algorithm;[sha256|sha384|sha512]'

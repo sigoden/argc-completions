@@ -1,3 +1,7 @@
+_patch_help() {
+    $@ --help
+}
+
 _patch_table() { 
     _patch_table_edit_options \
         '--boots;[`_choice_boots`]' \

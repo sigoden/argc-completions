@@ -202,7 +202,7 @@ uninstall() {
 # @flag -l --local                                 If in a virtualenv that has global access, do not output globally-installed packages.
 # @flag --user                                     Only output packages installed in user-site.
 # @option --path <path>                            Restrict to the specified installation path for listing packages (can be used multiple times).
-# @option --all[distribute|setuptools|wheel|pip]   Do not skip these packages in the output: distribute, setuptools, wheel, pip
+# @option --all[distribute|setuptools|wheel|pip]   Do not skip these packages in the output.
 # @flag --exclude-editable                         Exclude editable package from output.
 # @option --exclude[`_choice_package`] <package>   Exclude specified package from the output
 # @flag -h --help                                  Show help.
