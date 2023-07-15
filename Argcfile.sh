@@ -8,7 +8,7 @@ set -e
 # @cmd Automatically generate the completion script for <CMD>
 # @flag -E --with-extend-subcmds  Also regenerate extend subcommands
 # @flag -v --verbose                Show log
-# @arg cmd![?`_choice_completion`]
+# @arg cmd![?`_choice_command`]
 # @arg subcmd
 generate() {
     if ! command -v $argc_cmd > /dev/null; then
@@ -37,6 +37,34 @@ generate() {
         fi
 
     fi
+}
+
+# @cmd Generate completions for list of commands
+# @arg cmds*[?`_choice_completion`]
+generate:multi() {
+    for cmd in ${argc_cmds[@]}; do
+        argc generate $cmd -E
+    done
+}
+
+# @cmd Generate completions for src changed commands
+generate:changed() {
+    mapfile -t cmds <<<"$(git status | awk '{if(match($2, /^src/)) {v=substr($2,5,length($2)-7); split(v, p, "/"); print p[1]}}')"
+    for cmd in ${cmds[@]}; do
+        argc generate $cmd -E
+    done
+}
+
+# @cmd Generate completions for all commands
+generate:all() {
+    for f in completions/*; do
+        if [ -f $f ]; then
+            cmd="$(basename $f .sh)"
+            if command -v $cmd > /dev/null; then
+                argc generate $cmd -E
+            fi
+        fi
+    done
 }
 
 # @cmd Debug a choice fn 
@@ -105,6 +133,13 @@ xtest() {
     fi
 }
 
+_choice_command() {
+    if [[ "$ARGC_OS" != "windows" ]]; then
+        compgen -c
+    else
+        _choice_completion
+    fi
+}
 
 _choice_completion() {
     ls -p -1 completions | grep -v '/' | sed 's/.sh$//'
