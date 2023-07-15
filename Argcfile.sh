@@ -8,7 +8,7 @@ set -e
 # @cmd Automatically generate the completion script for <CMD>
 # @flag -E --with-extend-subcmds  Also regenerate extend subcommands
 # @flag -v --verbose                Show log
-# @arg cmd![?`_choice_command`]
+# @arg cmd![?`_choice_completion`]
 # @arg subcmd
 generate() {
     if ! command -v $argc_cmd > /dev/null; then
@@ -130,14 +130,6 @@ xtest() {
         ./scripts/generate.sh __test
     else
         argc print __test -k "$argc_kind"
-    fi
-}
-
-_choice_command() {
-    if [[ "$ARGC_OS" != "windows" ]]; then
-        compgen -c
-    else
-        _choice_completion
     fi
 }
 
