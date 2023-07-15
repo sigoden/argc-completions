@@ -7,18 +7,18 @@
 
 _choice_args() {
     cat <<-'EOF' | _argc_util_comp_kv =
-bs;;read and write up to BYTES bytes at a time
-cbs;;convert BYTES bytes at a time
+bs=;;read and write up to BYTES bytes at a time
+cbs=;;convert BYTES bytes at a time
 conv=`_choice_conv`;;convert the file as per the comma separated symbol list
-count;;copy only N input blocks
-ibs;;read up to BYTES bytes at a time
+count=;;copy only N input blocks
+ibs=;;read up to BYTES bytes at a time
 if=__argc_value=file;;read from FILE instead of stdin
 iflag=`_choice_iflag`;;read as per the comma separated symbol list
-obs;;write BYTES bytes at a time
+obs=;;write BYTES bytes at a time
 of=__argc_value=file;;write to FILE instead of stdout
 oflag=`_choice_oflag`;;write as per the comma separated symbol list
-seek;;skip N obs-sized blocks at start of output
-skip;;skip N ibs-sized blocks at start of input
+seek=;;skip N obs-sized blocks at start of output
+skip=;;skip N ibs-sized blocks at start of input
 status=none,noxfer,progress;;The LEVEL of information to print to stderr
 EOF
 }

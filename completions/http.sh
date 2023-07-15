@@ -60,7 +60,7 @@ _choice_format_options() {
     cat <<-'EOF' | _argc_util_comp_kv =
 headers.sort=true,false
 json.format=true,false
-json.indent
+json.indent=
 json.sort_keys=true,false
 EOF
 }
@@ -148,20 +148,20 @@ EOF
 
 _choice_http_header() {
     cat <<-'EOF' | _argc_util_comp_kv :
-Accept;;Media type(s) that is/are acceptable for the response. See Content negotiation.
+Accept=;;Media type(s) that is/are acceptable for the response. See Content negotiation.
 Accept-Encoding=`_choice_http_accept_encoding`;;List of acceptable encodings. See HTTP compression.
-Accept-Language;;List of acceptable human languages for response. See Content negotiation.
-Authorization;;Authentication credentials for HTTP authentication.
+Accept-Language=;;List of acceptable human languages for response. See Content negotiation.
+Authorization=;;Authentication credentials for HTTP authentication.
 Cache-Control=`_choice_http_cache_control`;;Used to specify directives that must be obeyed by all caching mechanisms along the request-response chain.
 Content-Type=`_choice_http_media_type`;;The Media type of the body of the request (used with POST and PUT requests).
-Cookie;;An HTTP cookie previously sent by the server with Set-Cookie (below).
-Proxy-Authorization;;Authorization credentials for connecting to a proxy.
-Max-Forwards;;Limit the number of times the message can be forwarded through proxies or gateways.
-Origin;;Initiates a request for cross-origin resource sharing (asks server for Access-Control-* response fields).
-Pragma;;Implementation-specific fields that may have various effects anywhere along the request-response chain.
-Referer;;This is the address of the previous web page from which a link to the currently requested page was followed.
-User-Agent;;The user agent string of the user agent.
-Via;;Informs the server of proxies through which the request was sent.
+Cookie=;;An HTTP cookie previously sent by the server with Set-Cookie (below).
+Proxy-Authorization=;;Authorization credentials for connecting to a proxy.
+Max-Forwards=;;Limit the number of times the message can be forwarded through proxies or gateways.
+Origin=;;Initiates a request for cross-origin resource sharing (asks server for Access-Control-* response fields).
+Pragma=;;Implementation-specific fields that may have various effects anywhere along the request-response chain.
+Referer=;;This is the address of the previous web page from which a link to the currently requested page was followed.
+User-Agent=;;The user agent string of the user agent.
+Via=;;Informs the server of proxies through which the request was sent.
 EOF
 }
 

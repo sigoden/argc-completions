@@ -63,18 +63,25 @@ _argc_util_comp_kv() {
         argc__kv_filter="$filter"
         echo "__argc_filter=$argc__kv_filter"
     fi
-    local line desc
+    local line desc key key_value
     local IFS=$'\n'
     for line in $(cat); do
         if [[ "$line" == *";;"* ]]; then
-            desc=${line#*;;}
-            line=${line%%;;*}
-        fi
-        if [[ -z "$argc__kv_prefix" ]]; then
-            echo -e "${line%%=*}$sep\0\t$desc"
+            desc="${line#*;;}"
+            key_value=${line%%;;*}
         else
-            if [[ "$line" == "$argc__kv_key="* ]]; then
-                local value="${line#*=}"
+            key_value="$line"
+        fi
+        key="${key_value%%=*}"
+        if [[ -z "$argc__kv_prefix" ]]; then
+            if [[ "$key" == "$key_value" ]]; then
+                echo -e "$key\t$desc"
+            else
+                echo -e "$key$sep\0\t$desc"
+            fi
+        else
+            if [[ "$key" == "$argc__kv_key" ]]; then
+                local value="${key_value#*=}"
                 if [[ "$value" == $'`'* ]]; then
                     eval "${value:1:-1}" 2>/dev/null
                 else

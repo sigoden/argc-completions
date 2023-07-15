@@ -3255,7 +3255,7 @@ _choice_container_ls_filter() {
     cat <<-'EOF' | _argc_util_comp_kv =
 id=`_choice_container_id`
 name=`_choice_container_name`
-label
+label=
 exited
 status=created,dead,exited,paused,restarting,running,removing
 ancestor=`_choice_image_repo_tag`
@@ -3263,8 +3263,8 @@ before=`_choice_container_name`
 since=`_choice_container_name`
 volume=`_choice_volume`
 network=`_choice_network`
-publish
-expose
+publish=
+expose=
 health=healthy,none,starting,unhealthy
 isolation=default,process,hyperv
 is-task=true,false
@@ -3274,7 +3274,7 @@ EOF
 _choice_image_ls_filter() {
     cat <<-'EOF' | _argc_util_comp_kv =
 dangling=true,false
-label
+label=
 before=`_choice_image_repo_tag`
 since=`_choice_image_repo_tag`
 reference=`_choice_image_repo_tag`
@@ -3285,10 +3285,10 @@ _choice_event_filter() {
     cat <<-'EOF' | _argc_util_comp_kv =
 config=`_choice_config`
 container=`_choice_container_name`
-daemon
+daemon=
 event=attach,commit,connect,copy,create,delete,destroy,detach,die,disable,disconnect,enable,exec_create,exec_detach,exec_start,export,health_status,import,install,kill,load,mount,oom,pause,pull,push,reload,remove,rename,resize,restart,save,start,stop,tag,top,unmount,unpause,untag,update
 image=`_choice_image_repo_tag`
-label
+label=
 network=`_choice_network`
 node=`_choice_node`
 plugin=`_choice_plugin`

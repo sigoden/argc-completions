@@ -29,18 +29,18 @@ _choice_task() {
 
 _choice_system_prop() {
     cat <<-'EOF' | _argc_util_comp_kv =
-org.gradle.cache.reserved.mb;;Reserve Gradle Daemon memory for operations 
+org.gradle.cache.reserved.mb=;;Reserve Gradle Daemon memory for operations 
 org.gradle.caching;;Enable Gradle build cache 
 org.gradle.console=plain,auto,rich,verbose;;Set type of console output to generate
 org.gradle.daemon.debug;;Enable debug Gradle Daemon 
 org.gradle.daemon.idletimeout;;Kill Gradle Daemon after 
 org.gradle.debug;;Enable debug Gradle Client 
-org.gradle.jvmargs;;Set JVM arguments 
+org.gradle.jvmargs=;;Set JVM arguments 
 org.gradle.java.home=__argc_value=dir;;Set JDK home dir 
 org.gradle.logging.level=quiet,warn,lifecycle,info,debug;;Set default Gradle log level
 org.gradle.parallel;;Enable parallel project builds (incubating) 
 org.gradle.priority=low,normal;;Set priority for Gradle worker processes
 org.gradle.warning.mode=all,summary,fail,none;;Set types of warnings to log  
-org.gradle.workers.max;;Set the number of workers Gradle is allowed to use
+org.gradle.workers.max=;;Set the number of workers Gradle is allowed to use
 EOF
 }

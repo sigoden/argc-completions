@@ -27,9 +27,9 @@ EOF
 
 _choice_o() {
     cat <<-'EOF' | _argc_util_comp_kv =
-application;;Override the default FIDO application/origin string of `“ssh:`”
-challenge;;Specifies a path to a challenge string that will be passed to the FIDO token during key generation
-device;;Explicitly specify a fido device to use
+application=;;Override the default FIDO application/origin string of `“ssh:`”
+challenge=__argc_value=file;;Specifies a path to a challenge string that will be passed to the FIDO token during key generation
+device=;;Explicitly specify a fido device to use
 no-touch-required;;Indicate that the generated private key should not require touch events when making signatures
 resident;;Indicate that the key should be stored on the FIDO authenticator itself
 user=`_choice_user`;;A username to be associated with a resident key
@@ -37,7 +37,7 @@ verify-required;;Indicate that this private key should require user verification
 write-attestation;;Record the attestation data returned from FIDO tokens during key generation
 hashalg=sha256,sha512;;Selects the hash algorithm to use for hashing the message to be signed
 print-pubkey;;Print the full public key to standard output after signature verification
-verify-time;;Specifies a time to use when validating signatures instead of the current time
+verify-time=;;Specifies a time to use when validating signatures instead of the current time
 EOF
 
 }

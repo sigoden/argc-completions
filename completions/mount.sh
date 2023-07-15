@@ -108,7 +108,7 @@ LABEL=`_choice_label`;;specifies device by filesystem label
 UUID=`_choice_uuid`;;specifies device by filesystem UUID
 PARTLABEL=`_choice_partlabel`;;specifies device by partition label
 PARTUUID=`_choice_partuuid`;;specifies device by partition UUID
-ID;;specifies device by udev hardware ID
+ID;=;specifies device by udev hardware ID
 EOF
     fi
 }
