@@ -1,6 +1,5 @@
 _patch_help() { 
     if [[ "$*" == "pip config" ]] || [[ "$*" == "pip cache" ]]; then
-        # $@ --help | sed '/  Subcommands:/, +1 c\Commands:' | sed '/^Commands:/,/^$/ s/\s*-\s*\(\S\+\): /  \1   /'
         $@ --help | gawk '{
             if (match($0, /  Subcommands:/)) {
                 print "Commands:"

@@ -73,7 +73,7 @@ _choice_package() {
     if [[ -z  "$pubspec_path" ]]; then
         return
     fi
-    cat "$pubspec_path" | yq '(.dependencies // {}) + (.dev_dependencies // {})' | sed 's/: /\t/'
+    cat "$pubspec_path" | yq '(.dependencies // {}) + (.dev_dependencies // {}) | keys | .[]'
 }
 
 _helper_pubspec_yaml_path() {
