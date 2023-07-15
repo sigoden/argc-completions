@@ -10,8 +10,6 @@ set -e
 # @arg cmd!                         Specify the command, must be able to run locally
 # @arg subcmd                       Optional subcommand
 
-export COLUMNS=1000 TERM_WIDTH=1000 MANWIDTH=1000 NO_COLOR=true
-
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )"
 command_names=()
 

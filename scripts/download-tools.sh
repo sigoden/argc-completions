@@ -5,6 +5,9 @@
 set -e
 
 argc_version=${ARGC_VERSION:-v1.7.0}
+yq_version=v4.34.2
+sed_version=4.9.0-2
+fakepty_version=v1.2.0
 
 download() {
     install_dir="$1"
@@ -13,15 +16,19 @@ download() {
     fi
     mkdir -p "$install_dir"
 
+    tmp_dir=/tmp/argc-completions-bins
+    mkdir -p "$tmp_dir"
+
     _os=$(_detect_os)
     _arch=$(_detect_arch)
     _curl="curl"
     os_arch="$_os-$_arch"
-    sed_version="4.9.0-2"
-    argc_url_prefix="${gh_proxy:-}https://github.com/sigoden/argc/releases/download/${argc_version}/argc-${argc_version}-"
-    yq_url_prefix="${gh_proxy:-}https://github.com/mikefarah/yq/releases/latest/download/yq_"
+
+    argc_url_prefix="https://github.com/sigoden/argc/releases/download/${argc_version}/argc-${argc_version}-"
+    yq_url_prefix="https://github.com/mikefarah/yq/releases/download/${yq_version}/yq_"
     sed_url_prefix="https://github.com/xpack-dev-tools/sed-xpack/releases/download/v${sed_version}/xpack-sed-${sed_version}-"
-    declare -A urls
+    fakepty_url_prefix="https://github.com/sigoden/fakepty/releases/download/${fakepty_version}/fakepty-${fakepty_version}-"
+
     case $os_arch in
     linux-amd64)
         argc_file_suffix="x86_64-unknown-linux-musl.tar.gz"
@@ -69,58 +76,33 @@ download() {
         fi
     fi
 
-    argc_asset_file=/tmp/argc-$argc_file_suffix
-    argc_unzip_dir=/tmp/argc
-    argc_asset_url=${argc_url_prefix}${argc_file_suffix}
-    echo Downloading argc from $argc_asset_url
-    $_curl --fail --location --progress-bar --output $argc_asset_file $argc_asset_url
-    mkdir -p $argc_unzip_dir
-    if [[ "$_os" == "windows" ]]; then
-        unzip -o -d $argc_unzip_dir $argc_asset_file
-        argc_bin_file="$install_dir/argc.exe"
-        cp $argc_unzip_dir/argc.exe $argc_bin_file
-        argc_bin_file=$(cygpath -w $argc_bin_file)
-    else
-        tar -C $argc_unzip_dir -xf $argc_asset_file
-        argc_bin_file="$install_dir/argc"
-        cp $argc_unzip_dir/argc $argc_bin_file
-        chmod +x $argc_bin_file
-    fi
-    echo Successfully installed argc to $argc_bin_file
-
-    yq_asset_file=/tmp/yq-$yq_file_suffix
-    yq_unzip_dir=/tmp/yq
-    yq_asset_url=${yq_url_prefix}${yq_file_suffix}
-    yq_target=${yq_file_suffix%%.*}
-    echo Downloading yq from $yq_asset_url
-    $_curl --fail --location --progress-bar --output $yq_asset_file $yq_asset_url
-    mkdir -p $yq_unzip_dir
-    if [[ "$_os" == "windows" ]]; then
-        unzip -o -d $yq_unzip_dir $yq_asset_file
-        yq_bin_file="$install_dir/yq.exe"
-        cp -f $yq_unzip_dir/yq_${yq_target}.exe $yq_bin_file
-        yq_bin_file=$(cygpath -w $yq_bin_file)
-    else
-        tar -C $yq_unzip_dir -xf $yq_asset_file
-        yq_bin_file="$install_dir/yq"
-        cp -f $yq_unzip_dir/yq_${yq_target} $yq_bin_file
-        chmod +x $yq_bin_file
-    fi
-    echo Successfully installed yq to $yq_bin_file
-
+    _fetch argc "${argc_url_prefix}${argc_file_suffix}" argc
+    _fetch yq "${yq_url_prefix}${yq_file_suffix}" "yq_${yq_file_suffix%%.*}"
     if [[ "$_os" == "macos" ]]; then
-        sed_asset_file=/tmp/sed-$sed_file_suffix
-        sed_unzip_dir=/tmp/sed
-        sed_asset_url=${sed_url_prefix}${sed_file_suffix}
-        echo Downloading sed from $sed_asset_url
-        $_curl --fail --location --progress-bar --output $sed_asset_file $sed_asset_url
-        mkdir -p $sed_unzip_dir
-        tar -C $sed_unzip_dir -xf $sed_asset_file 
-        sed_bin_file="$install_dir/sed"
-        cp -f $sed_unzip_dir/xpack-sed-$sed_version/bin/sed $sed_bin_file
-        chmod +x $sed_bin_file
-        echo Successfully installed sed to $sed_bin_file
+        _fetch sed "${sed_url_prefix}${sed_file_suffix}" "xpack-sed-$sed_version/bin/sed"
     fi
+    _fetch fakepty "${fakepty_url_prefix}${argc_file_suffix}" fakepty
+}
+
+_fetch() {
+    bin_name=$1
+    url=$2
+    extract_file_path=$3
+
+    file_name=$(basename $url)
+    tmp_file=$tmp_dir/$file_name
+    echo Downloading $bin_name from $url
+    $_curl --fail --location --progress-bar --output $tmp_file ${gh_proxy:-}$url
+    if [[ "$_os" == "windows" ]]; then
+        install_path="$install_dir/$bin_name.exe"
+        unzip -o -d $tmp_dir $tmp_file
+        cp -f $tmp_dir/$extract_file_path.exe "$install_path"
+    else
+        install_path="$install_dir/$bin_name"
+        tar -C $tmp_dir -xf $tmp_file
+        cp -f $tmp_dir/$extract_file_path "$install_path"
+    fi
+    echo Successfully installed $bin_name to $install_path
 }
 
 _detect_os() {

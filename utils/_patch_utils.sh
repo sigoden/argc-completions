@@ -1,27 +1,42 @@
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )"
 
+export COLUMNS=1000 MANWIDTH=1000 NO_COLOR=true
+
 # Run help, first with the --help flag, if that fails then use the help subcmd
 _patch_help_run_help() {
     local help_text help_text2
-    help_text="$($@ --help 2>&1)"
-    if [[ $? -eq 0 ]]; then
+    help_text="$(_patch_help_run_help_flag $@)"
+    if [[ $? -eq 0 ]] || [[ $(echo "$help_text" | wc -l) -ge 10 ]]; then
         echo "$help_text"
         return
     fi
-    help_text2="$(_patch_help_run_help_subcmd $@ 2>&1)"
-    if [[ $? -eq 0 ]]; then
+    help_text2="$(_patch_help_run_help_subcmd $@)"
+    if [[ $? -eq 0 ]] || [[ $(echo "$help_text2" | wc -l) -ge 10 ]]; then
         echo "$help_text2"
         return
     fi
-    echo "$help_text"
+}
+
+# Run --help to get help
+_patch_help_run_help_flag() {
+    _patch_help_run_in_fakepty $@ --help
 }
 
 # Run help subcommand to get help
 _patch_help_run_help_subcmd() {
     if [[ $# -eq 1 ]]; then
-        $1 help
+       _patch_help_run_in_fakepty $1 help
     else
-        ${@:1:$#-1} help ${!#} 2>&1
+       _patch_help_run_in_fakepty ${@:1:$#-1} help ${!#}
+    fi
+}
+
+# Run command in a fake pty
+_patch_help_run_in_fakepty() {
+    if command -v fakepty >/dev/null; then
+        fakepty $@  | sed 's/\x1b\[\([0-3]\?[JK]\|[0-9]\+\(;[0-9]\+\)*m\|[=?][0-9]\+[hl]\)//g' 
+    else
+        $@ 2>&1
     fi
 }
 
