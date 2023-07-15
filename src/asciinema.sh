@@ -1,3 +1,4 @@
 _patch_help() { 
-    $@ --help | sed '/positional arguments:/,+1 c\Commands:'
+    COLUMNS=200
+    _patch_help_run_help $@ | sed '/positional arguments:/,+1 c\Commands:'
 }

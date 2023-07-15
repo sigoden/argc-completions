@@ -1,3 +1,8 @@
+_patch_help() {
+    COLUMNS=200
+    _patch_help_run_help $@
+}
+
 _patch_table() { 
     _patch_table_edit_options \
         '--audio-format;[best|aac|flac|mp3|m4a|opus|vorbis|wav]' \
