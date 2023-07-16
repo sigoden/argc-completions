@@ -50,11 +50,6 @@ build() {
 
 # {{ go clean
 # @cmd remove object files and cached files
-# @flag --cache                               remove the entire go build cache
-# @flag --i                                   remove the corresponding installed archive or binary
-# @flag --modcache                            remove the entire module download cache
-# @flag --r                                   apply recursively to all the dependencies
-# @flag --testcache                           expire all test results in the go build cache
 # @option -C <dir>                            Change to dir before running the command.
 # @flag -a                                    force rebuilding of packages that are already up-to-date.
 # @flag -n                                    print the commands but do not run them.
@@ -85,6 +80,11 @@ build() {
 # @option -tags <tag,list>                    a comma-separated list of additional build tags to consider satisfied during the build.
 # @flag -trimpath                             remove all file system paths from the resulting executable.
 # @option -toolexec <cmd args>                a program to use to invoke toolchain programs like vet and asm.
+# @flag --cache                               remove the entire go build cache
+# @flag --i                                   remove the corresponding installed archive or binary
+# @flag --modcache                            remove the entire module download cache
+# @flag --r                                   apply recursively to all the dependencies
+# @flag --testcache                           expire all test results in the go build cache
 clean() {
     :;
 }
@@ -148,10 +148,6 @@ generate() {
 
 # {{ go get
 # @cmd add dependencies to current module and install them
-# @flag -d                                    only download the source code needed to build
-# @flag -insecure                             permit using insecure schemes such as HTTP
-# @flag -t                                    consider modules needed to build tests
-# @flag -u                                    update modules providing dependencies
 # @option -C <dir>                            Change to dir before running the command.
 # @flag -a                                    force rebuilding of packages that are already up-to-date.
 # @flag -n                                    print the commands but do not run them.
@@ -182,6 +178,10 @@ generate() {
 # @option -tags <tag,list>                    a comma-separated list of additional build tags to consider satisfied during the build.
 # @flag -trimpath                             remove all file system paths from the resulting executable.
 # @option -toolexec <cmd args>                a program to use to invoke toolchain programs like vet and asm.
+# @flag -d                                    only download the source code needed to build
+# @flag -insecure                             permit using insecure schemes such as HTTP
+# @flag -t                                    consider modules needed to build tests
+# @flag -u                                    update modules providing dependencies
 get() {
     :;
 }
@@ -189,8 +189,6 @@ get() {
 
 # {{ go install
 # @cmd compile and install packages and dependencies
-# @flag -i                                    install the packages that are dependencies of the target
-# @option -o <file>                           set output file or directory
 # @option -C <dir>                            Change to dir before running the command.
 # @flag -a                                    force rebuilding of packages that are already up-to-date.
 # @flag -n                                    print the commands but do not run them.
@@ -221,6 +219,8 @@ get() {
 # @option -tags <tag,list>                    a comma-separated list of additional build tags to consider satisfied during the build.
 # @flag -trimpath                             remove all file system paths from the resulting executable.
 # @option -toolexec <cmd args>                a program to use to invoke toolchain programs like vet and asm.
+# @flag -i                                    install the packages that are dependencies of the target
+# @option -o <file>                           set output file or directory
 install() {
     :;
 }
@@ -228,6 +228,36 @@ install() {
 
 # {{ go list
 # @cmd list packages or modules
+# @option -C <dir>                            Change to dir before running the command.
+# @flag -a                                    force rebuilding of packages that are already up-to-date.
+# @flag -n                                    print the commands but do not run them.
+# @option -p <n>                              the number of programs, such as build commands or test binaries, that can be run in parallel.
+# @flag -race                                 enable data race detection.
+# @flag -msan                                 enable interoperation with memory sanitizer.
+# @flag -asan                                 enable interoperation with address sanitizer.
+# @flag -cover                                enable code coverage instrumentation (requires that GOEXPERIMENT=coverageredesign be set).
+# @option -coverpkg <pattern1,pattern2,pattern3>  For a build that targets package 'main' (e.g. building a Go executable), apply coverage analysis to each package matching the patterns.
+# @flag -v                                    print the names of packages as they are compiled.
+# @flag -work                                 print the name of the temporary work directory and do not delete it when exiting.
+# @flag -x                                    print the commands.
+# @option -asmflags <[pattern=]arg list>      arguments to pass on each go tool asm invocation.
+# @option -buildmode[`_choice_buildmode`] <mode>  build mode to use.
+# @option -buildvcs[true|false|auto]          Whether to stamp binaries with version control information ("true", "false", or "auto").
+# @option -compiler[gccgo|gc] <name>          name of compiler to use, as in runtime.Compiler (gccgo or gc).
+# @option -gccgoflags <[pattern=]arg list>    arguments to pass on each gccgo compiler/linker invocation.
+# @option -gcflags <[pattern=]arg list>       arguments to pass on each go tool compile invocation.
+# @option -installsuffix <suffix>             a suffix to use in the name of the package installation directory, in order to keep output separate from default builds.
+# @option -ldflags <[pattern=]arg list>       arguments to pass on each go tool link invocation.
+# @flag -linkshared                           build code that will be linked against shared libraries previously created with -buildmode=shared.
+# @option -mod[readonly|vendor|mod] <mode>    module download mode to use: readonly, vendor, or mod.
+# @flag -modcacherw                           leave newly-created directories in the module cache read-write instead of making them read-only.
+# @option -modfile <file>                     in module aware mode, read (and possibly write) an alternate go.mod file instead of the one in the module root directory.
+# @option -overlay <file:.json>               read a JSON config file that provides an overlay for build operations.
+# @option -pgo <file:.pgo>                    specify the file path of a profile for profile-guided optimization (PGO).
+# @option -pkgdir <dir>                       install and load all packages from dir instead of the usual locations.
+# @option -tags <tag,list>                    a comma-separated list of additional build tags to consider satisfied during the build.
+# @flag -trimpath                             remove all file system paths from the resulting executable.
+# @option -toolexec <cmd args>                a program to use to invoke toolchain programs like vet and asm.
 # @flag -compiled                             set CompiledGoFiles to the Go source files presented to the compiler
 # @flag -deps                                 iterate over not just the named packages but also all their dependencies
 # @flag -e                                    change the handling of erroneous packages
@@ -239,36 +269,6 @@ install() {
 # @flag -test                                 report not only the named packages but also their test binaries
 # @flag -u                                    add information about available upgrades
 # @flag -versions                             set the Module's Versions field to list of all known versions
-# @option -C <dir>                            Change to dir before running the command.
-# @flag -a                                    force rebuilding of packages that are already up-to-date.
-# @flag -n                                    print the commands but do not run them.
-# @option -p <n>                              the number of programs, such as build commands or test binaries, that can be run in parallel.
-# @flag -race                                 enable data race detection.
-# @flag -msan                                 enable interoperation with memory sanitizer.
-# @flag -asan                                 enable interoperation with address sanitizer.
-# @flag -cover                                enable code coverage instrumentation (requires that GOEXPERIMENT=coverageredesign be set).
-# @option -coverpkg <pattern1,pattern2,pattern3>  For a build that targets package 'main' (e.g. building a Go executable), apply coverage analysis to each package matching the patterns.
-# @flag -v                                    print the names of packages as they are compiled.
-# @flag -work                                 print the name of the temporary work directory and do not delete it when exiting.
-# @flag -x                                    print the commands.
-# @option -asmflags <[pattern=]arg list>      arguments to pass on each go tool asm invocation.
-# @option -buildmode[`_choice_buildmode`] <mode>  build mode to use.
-# @option -buildvcs[true|false|auto]          Whether to stamp binaries with version control information ("true", "false", or "auto").
-# @option -compiler[gccgo|gc] <name>          name of compiler to use, as in runtime.Compiler (gccgo or gc).
-# @option -gccgoflags <[pattern=]arg list>    arguments to pass on each gccgo compiler/linker invocation.
-# @option -gcflags <[pattern=]arg list>       arguments to pass on each go tool compile invocation.
-# @option -installsuffix <suffix>             a suffix to use in the name of the package installation directory, in order to keep output separate from default builds.
-# @option -ldflags <[pattern=]arg list>       arguments to pass on each go tool link invocation.
-# @flag -linkshared                           build code that will be linked against shared libraries previously created with -buildmode=shared.
-# @option -mod[readonly|vendor|mod] <mode>    module download mode to use: readonly, vendor, or mod.
-# @flag -modcacherw                           leave newly-created directories in the module cache read-write instead of making them read-only.
-# @option -modfile <file>                     in module aware mode, read (and possibly write) an alternate go.mod file instead of the one in the module root directory.
-# @option -overlay <file:.json>               read a JSON config file that provides an overlay for build operations.
-# @option -pgo <file:.pgo>                    specify the file path of a profile for profile-guided optimization (PGO).
-# @option -pkgdir <dir>                       install and load all packages from dir instead of the usual locations.
-# @option -tags <tag,list>                    a comma-separated list of additional build tags to consider satisfied during the build.
-# @flag -trimpath                             remove all file system paths from the resulting executable.
-# @option -toolexec <cmd args>                a program to use to invoke toolchain programs like vet and asm.
 list() {
     :;
 }
@@ -409,7 +409,6 @@ work::use() {
 
 # {{ go run
 # @cmd compile and run Go program
-# @option -exec <xprog>                       invoke the binary using xprog
 # @option -C <dir>                            Change to dir before running the command.
 # @flag -a                                    force rebuilding of packages that are already up-to-date.
 # @flag -n                                    print the commands but do not run them.
@@ -440,6 +439,7 @@ work::use() {
 # @option -tags <tag,list>                    a comma-separated list of additional build tags to consider satisfied during the build.
 # @flag -trimpath                             remove all file system paths from the resulting executable.
 # @option -toolexec <cmd args>                a program to use to invoke toolchain programs like vet and asm.
+# @option -exec <xprog>                       invoke the binary using xprog
 run() {
     :;
 }
@@ -447,6 +447,36 @@ run() {
 
 # {{ go test
 # @cmd test packages
+# @option -C <dir>                            Change to dir before running the command.
+# @flag -a                                    force rebuilding of packages that are already up-to-date.
+# @flag -n                                    print the commands but do not run them.
+# @option -p <n>                              the number of programs, such as build commands or test binaries, that can be run in parallel.
+# @flag -race                                 enable data race detection.
+# @flag -msan                                 enable interoperation with memory sanitizer.
+# @flag -asan                                 enable interoperation with address sanitizer.
+# @flag -cover                                enable code coverage instrumentation (requires that GOEXPERIMENT=coverageredesign be set).
+# @option -coverpkg <pattern1,pattern2,pattern3>  For a build that targets package 'main' (e.g. building a Go executable), apply coverage analysis to each package matching the patterns.
+# @flag -v                                    print the names of packages as they are compiled.
+# @flag -work                                 print the name of the temporary work directory and do not delete it when exiting.
+# @flag -x                                    print the commands.
+# @option -asmflags <[pattern=]arg list>      arguments to pass on each go tool asm invocation.
+# @option -buildmode[`_choice_buildmode`] <mode>  build mode to use.
+# @option -buildvcs[true|false|auto]          Whether to stamp binaries with version control information ("true", "false", or "auto").
+# @option -compiler[gccgo|gc] <name>          name of compiler to use, as in runtime.Compiler (gccgo or gc).
+# @option -gccgoflags <[pattern=]arg list>    arguments to pass on each gccgo compiler/linker invocation.
+# @option -gcflags <[pattern=]arg list>       arguments to pass on each go tool compile invocation.
+# @option -installsuffix <suffix>             a suffix to use in the name of the package installation directory, in order to keep output separate from default builds.
+# @option -ldflags <[pattern=]arg list>       arguments to pass on each go tool link invocation.
+# @flag -linkshared                           build code that will be linked against shared libraries previously created with -buildmode=shared.
+# @option -mod[readonly|vendor|mod] <mode>    module download mode to use: readonly, vendor, or mod.
+# @flag -modcacherw                           leave newly-created directories in the module cache read-write instead of making them read-only.
+# @option -modfile <file>                     in module aware mode, read (and possibly write) an alternate go.mod file instead of the one in the module root directory.
+# @option -overlay <file:.json>               read a JSON config file that provides an overlay for build operations.
+# @option -pgo <file:.pgo>                    specify the file path of a profile for profile-guided optimization (PGO).
+# @option -pkgdir <dir>                       install and load all packages from dir instead of the usual locations.
+# @option -tags <tag,list>                    a comma-separated list of additional build tags to consider satisfied during the build.
+# @flag -trimpath                             remove all file system paths from the resulting executable.
+# @option -toolexec <cmd args>                a program to use to invoke toolchain programs like vet and asm.
 # @flag -args                                 Pass the remainder of the command line (everything after -args) to the test binary, uninterpreted and unchanged.
 # @flag -c                                    Compile the test binary to pkg.test but do not run it (where pkg is the last element of the package's import path).
 # @option -exec <xprog>                       Run the test binary using xprog.
@@ -465,36 +495,6 @@ run() {
 # @flag -short                                tell long-running tests to shorten their run time
 # @option -timeout <value>                    if a test binary runs longer than duration d, panic
 # @option -vet <value>                        configure the invocation of "go vet" during "go test" to use the comma-separated list of vet check
-# @option -C <dir>                            Change to dir before running the command.
-# @flag -a                                    force rebuilding of packages that are already up-to-date.
-# @flag -n                                    print the commands but do not run them.
-# @option -p <n>                              the number of programs, such as build commands or test binaries, that can be run in parallel.
-# @flag -race                                 enable data race detection.
-# @flag -msan                                 enable interoperation with memory sanitizer.
-# @flag -asan                                 enable interoperation with address sanitizer.
-# @flag -cover                                enable code coverage instrumentation (requires that GOEXPERIMENT=coverageredesign be set).
-# @option -coverpkg <pattern1,pattern2,pattern3>  For a build that targets package 'main' (e.g. building a Go executable), apply coverage analysis to each package matching the patterns.
-# @flag -v                                    print the names of packages as they are compiled.
-# @flag -work                                 print the name of the temporary work directory and do not delete it when exiting.
-# @flag -x                                    print the commands.
-# @option -asmflags <[pattern=]arg list>      arguments to pass on each go tool asm invocation.
-# @option -buildmode[`_choice_buildmode`] <mode>  build mode to use.
-# @option -buildvcs[true|false|auto]          Whether to stamp binaries with version control information ("true", "false", or "auto").
-# @option -compiler[gccgo|gc] <name>          name of compiler to use, as in runtime.Compiler (gccgo or gc).
-# @option -gccgoflags <[pattern=]arg list>    arguments to pass on each gccgo compiler/linker invocation.
-# @option -gcflags <[pattern=]arg list>       arguments to pass on each go tool compile invocation.
-# @option -installsuffix <suffix>             a suffix to use in the name of the package installation directory, in order to keep output separate from default builds.
-# @option -ldflags <[pattern=]arg list>       arguments to pass on each go tool link invocation.
-# @flag -linkshared                           build code that will be linked against shared libraries previously created with -buildmode=shared.
-# @option -mod[readonly|vendor|mod] <mode>    module download mode to use: readonly, vendor, or mod.
-# @flag -modcacherw                           leave newly-created directories in the module cache read-write instead of making them read-only.
-# @option -modfile <file>                     in module aware mode, read (and possibly write) an alternate go.mod file instead of the one in the module root directory.
-# @option -overlay <file:.json>               read a JSON config file that provides an overlay for build operations.
-# @option -pgo <file:.pgo>                    specify the file path of a profile for profile-guided optimization (PGO).
-# @option -pkgdir <dir>                       install and load all packages from dir instead of the usual locations.
-# @option -tags <tag,list>                    a comma-separated list of additional build tags to consider satisfied during the build.
-# @flag -trimpath                             remove all file system paths from the resulting executable.
-# @option -toolexec <cmd args>                a program to use to invoke toolchain programs like vet and asm.
 # @arg target*|[`_choice_test_target`]
 test() {
     :;

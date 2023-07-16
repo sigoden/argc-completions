@@ -178,17 +178,21 @@ _patch_table() {
     elif [[ "$*" == "go doc" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;'
     elif [[ "$*" == "go clean" ]]; then
-        echo "$table" | _patch_table_copy_options go build
+        _patch_table_copy_options go build
+        echo "$table"
     elif [[ "$*" == "go env" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'env;*[`_choice_env`]'
     elif [[ "$*" == "go generate" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' '<file:.go>'
     elif [[ "$*" == "go get" ]]; then
-        echo "$table" | _patch_table_copy_options go build
+        _patch_table_copy_options go build
+        echo "$table"
     elif [[ "$*" == "go install" ]]; then
-        echo "$table" | _patch_table_copy_options go build
+        _patch_table_copy_options go build
+        echo "$table"
     elif [[ "$*" == "go list" ]]; then
-        echo "$table" | _patch_table_copy_options go build
+        _patch_table_copy_options go build
+        echo "$table"
     elif [[ "$*" == "go mod download" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'modules;*[`_choice_mod`]'
     elif [[ "$*" == "go mod edit" ]]; then
@@ -201,10 +205,11 @@ _patch_table() {
     elif [[ "$*" == "go mod why" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'packages;*[`_choice_mod_why`]'
     elif [[ "$*" == "go run" ]]; then
-        echo "$table" | _patch_table_copy_options go build
+        _patch_table_copy_options go build
+        echo "$table" 
     elif [[ "$*" == "go test" ]]; then
+        _patch_table_copy_options go build
         echo "$table" \ |
-            _patch_table_copy_options go build  \ |
             _patch_table_edit_options '-bench;*|[`_choice_bench_target`]' \ |
             _patch_table_edit_arguments ';;' 'target;*|[`_choice_test_target`]'
     elif [[ "$*" == "go tool" ]]; then

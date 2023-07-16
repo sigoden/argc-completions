@@ -121,10 +121,9 @@ _patch_table_edit_commands() {
 # Copy options from another command
 # Example:
 # ```
-# echo "$table" | _patch_table_copy_options go build
+# _patch_table_copy_options go build
 # ```
 _patch_table_copy_options() {
-    cat
     local help_text
     if [[ $(type -t _patch_help) == "function" ]] ; then
         help_text="$(_patch_help $@)"
@@ -136,5 +135,4 @@ _patch_table_copy_options() {
         table="$(echo "$table" | _patch_table $@)"
     fi
     echo "$table" | grep "^option #"
-
 }
