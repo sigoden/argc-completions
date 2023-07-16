@@ -616,7 +616,6 @@ create() {
 # @option --cwd <cwd>                           working directory to use (default: /home/sigo/w/argc-completions)
 # @option --proxy <host>
 # @option --https-proxy <host>
-# @option --registry <url>                      override configuration registry
 # @flag --no-progress                           disable progress bar
 # @option --network-concurrency <number>        maximum number of concurrent network requests
 # @option --network-timeout <milliseconds>      TCP timeout for network requests
@@ -627,6 +626,7 @@ create() {
 # @option --otp <otpcode>                       one-time password for two factor authentication
 # @option --use-manifest <location>             description
 # @option --resolved <resolved>                 description
+# @option --registry <registry>                 description
 # @flag -h --help                               output usage information
 generate-lock-entry() {
     :;

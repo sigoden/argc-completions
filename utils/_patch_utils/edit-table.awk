@@ -2,7 +2,7 @@ BEGIN {
     split(RAW_ARGS, args, "\n")
     split("", LINES)
     split("", TABLE)
-    split("", EXIST_OPTION_NAMES)
+    split("", TAKEN_ROWS)
     TABLE_SIZE = length(args)
     LINES_SIZE = 0
     SEP_INDEX = 0
@@ -83,12 +83,16 @@ function editOption(line,       i) {
     optionChoice = parts[3]
     optionName = parts[4]
     for (i = 1; i < SEP_INDEX; i++) {
+        if (TAKEN_ROWS[i] == 1) {
+            continue
+        }
         name = TABLE[i, 1]
         if (name == "") {
             continue
         }
         nameMatcher = " " name "[^A-Za-z0-9_-]"
         if (optionName ~ nameMatcher) {
+            TAKEN_ROWS[i] = 1
             notation = TABLE[i, 2]
             choice = TABLE[i, 3]
             desc = TABLE[i, 4]
@@ -120,9 +124,6 @@ function editOption(line,       i) {
             if (notation == "" && choice == "" && desc == "") {
                 return
             }
-            if (EXIST_OPTION_NAMES[optionName] == 1) {
-                return
-            }
             if (notation != "") {
                 optionBody = optionName notation " "
             }
@@ -133,7 +134,6 @@ function editOption(line,       i) {
                 optionChoice = " " choice
             }
             print "option #" optionBody "#" optionDesc "#" optionChoice
-            EXIST_OPTION_NAMES[optionName] = 1
             return
         }
     }
@@ -147,6 +147,9 @@ function editArgument(line,     i) {
     argumentDesc = parts[2]
     argumentChoice = parts[3]
     for (i = 1; i < SEP_INDEX; i++) {
+        if (TAKEN_ROWS[i] == 1) {
+            continue
+        }
         name = TABLE[i, 1]
         if (name == "") {
             continue
@@ -155,6 +158,7 @@ function editArgument(line,     i) {
         if (nameIdx > 0) {
             chekChars = substr(argumentName, nameIdx - 1, 1) substr(argumentName, nameIdx + length(name), 1)
             if (!match(chekChars, /[A-Za-z0-9_\|-]/)) {
+                TAKEN_ROWS[i] = 1
                 notation = TABLE[i, 2]
                 choice = TABLE[i, 3]
                 desc = TABLE[i, 4]
@@ -190,6 +194,9 @@ function editCommand(line,     i) {
     commandName = parts[1]
     commandDesc = parts[2]
     for (i = 1; i < SEP_INDEX; i++) {
+        if (TAKEN_ROWS[i] == 1) {
+            continue
+        }
         name = TABLE[i, 1]
         if (name == "") {
             continue
@@ -198,6 +205,7 @@ function editCommand(line,     i) {
         if (nameIdx > 0) {
             chekChars = substr(commandName, nameIdx - 1, 1) substr(commandName, nameIdx + length(name), 1)
             if (!match(chekChars, /[A-Za-z0-9_\|-]/)) {
+                TAKEN_ROWS[i] = 1
                 notation = TABLE[i, 2]
                 desc = TABLE[i, 3]
                 if (notation == "" && choice == "" && desc == "") {
@@ -244,7 +252,7 @@ function splitCommand(line, output,     parts) {
     output[2] = parts[2] " " 
 }
 
-function extractOptionName(optionBody) {
+function extractOptionName(optionBody,      len, idx, i) {
     split(optionBody, hyphenParts, " -")
     len = length(hyphenParts)
     idx = (len - 1) * 2

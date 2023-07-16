@@ -1,13 +1,15 @@
 _patch_help() { 
     $@ --help 2>/dev/null | sed \
         -e '/^Getting help:/,/^$/ d' \
-        -e '/^-?/,+1 c\-? -help topic      show hep' \
-        -e '/^Video options:/,/^-bits_per_raw_sample/{/^-bits_per_raw_sample/ d;}' \
-        -e '/^Audio options:/,/^-vol /{/^-vol / d;}' \
-        -e '/^Subtitle options:/,/^-s /{/^-s / d;}'
+        -e '/^-?/,+1 c\-? -help topic      show hep'
 }
 
 _patch_table() { 
+    _patch_table_dedup_options \
+        '-bits_per_raw_sample' \
+        '-vol' \
+        '-s' \
+    | \
     _patch_table_edit_options \
         '-ab;[16|32|64|128|192|256|320]' \
         '-acodec;[`_choice_codec`]' \

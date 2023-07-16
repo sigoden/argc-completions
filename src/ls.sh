@@ -1,5 +1,5 @@
 _patch_table() { 
-    sed '/--indicator-style=WORD/ d' | \
+    _patch_table_dedup_options --indicator-style | \
     _patch_table_edit_options \
         '--color;[`_choice_color`]' \
         '--format;[`_choice_format`]' \

@@ -86,6 +86,15 @@ _patch_table_edit_options() {
     gawk -v KIND=option -v RAW_ARGS="$args" -f "$ROOT_DIR/utils/_patch_utils/edit-table.awk"
 }
 
+# Deduplicate options
+# Example
+#    cat | _patch_table_dedup_options \ |
+#      '--foo'
+_patch_table_dedup_options() {
+    local args="$(printf "%s\n" "$@")"
+    gawk -v RAW_ARGS="$args" -f "$ROOT_DIR/utils/_patch_utils/dedup-options.awk"
+}
+
 # Edit table arguments
 # Example:
 #    cat | _patch_table_edit_arguments \ |

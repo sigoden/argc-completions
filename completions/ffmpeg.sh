@@ -35,8 +35,6 @@
 # @flag -filter_complex_threads                    number of threads for -filter_complex
 # @flag -stats                                     print progress report during encoding
 # @option -max_error_rate <maximum> <error> <rate>  ratio of decoding errors (0.0: no errors, 1.0: 100% errors) above which ffmpeg returns an error instead of success.
-# @option -bits_per_raw_sample <number>            set the number of bits per raw sample
-# @option -vol <volume>                            change audio volume (256=normal)
 # @option -f[`_choice_format`] <fmt>               force format
 # @option -c[`_choice_codec`] <codec>              codec name
 # @option -codec[`_choice_codec`] <codec>          codec name
@@ -62,8 +60,8 @@
 # @option -vframes <number>                        set the number of video frames to output
 # @option -r <rate>                                set frame rate (Hz value, fraction or abbreviation)
 # @option -fpsmax <rate>                           set max frame rate (Hz value, fraction or abbreviation)
-# @option -s <size>                                set frame size (WxH or abbreviation)
 # @option -aspect <aspect>                         set aspect ratio (4:3, 16:9 or 1.3333, 1.7777)
+# @option -bits_per_raw_sample <number>            set the number of bits per raw sample
 # @flag -vn                                        disable video
 # @option -vcodec[`_choice_codec`] <codec>         force video codec ('copy' to copy stream)
 # @option -timecode <hh:mm:ss[:;.]ff>              set initial TimeCode value.
@@ -78,7 +76,9 @@
 # @option -ac <channels>                           set number of audio channels
 # @flag -an                                        disable audio
 # @option -acodec[`_choice_codec`] <codec>         force audio codec ('copy' to copy stream)
+# @option -vol <volume>                            change audio volume (256=normal)
 # @option -af*[`_choice_filter_kv`] <filter_graph>  set audio filters
+# @option -s <size>                                set frame size (WxH or abbreviation)
 # @flag -sn                                        disable subtitle
 # @option -scodec[`_choice_codec`] <codec>         force subtitle codec ('copy' to copy stream)
 # @option -stag <fourcc/tag>                       force subtitle tag/fourcc

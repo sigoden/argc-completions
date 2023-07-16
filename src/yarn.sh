@@ -191,10 +191,6 @@ EOF
 
     elif [[ "$*" == "yarn test" ]]; then
         :;
-    elif [[ "$*" == "yarn autoclean" ]]; then
-        $@ --help | sed '/^\s*--force/d' 
-    elif [[ "$*" == "yarn generate-lock-entry" ]]; then
-        $@ --help | sed '/^\s* --registry <registry>/ d' 
     else
         $@ --help
     fi
@@ -203,8 +199,12 @@ EOF
 _patch_table() {
     if [[ "$*" == "yarn" ]]; then
         _patch_table_edit_arguments ';;' 'cmd;[`_choice_script`]'
+    elif [[ "$*" == "yarn autoclean" ]]; then
+        _patch_table_dedup_options --force
     elif [[ "$*" == "yarn config "* ]]; then
         _patch_table_edit_arguments 'key;[`_choice_config_key`]'
+    elif [[ "$*" == "yarn generate-lock-entry" ]]; then
+        _patch_table_dedup_options --registry
     elif [[ "$*" == "yarn global remove" ]] || [[ "$*" == "yarn global upgrade" ]]; then
         _patch_table_edit_arguments 'packages;[`_choice_global_dependency`]'
     elif [[ "$*" == "yarn run" ]]; then

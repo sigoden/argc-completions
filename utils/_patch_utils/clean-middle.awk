@@ -59,7 +59,7 @@ function indentLine(line) {
     return  RLENGTH
 }
 
-function indentDesc(line) {
+function indentDesc(line,       i) {
     gsub(/\s+$/, "", line)
     for (i = length(line) - 1; i >= 1; i--) {
         if (substr(line, i, 2) == "  ") {
@@ -71,7 +71,7 @@ function indentDesc(line) {
     return -1 
 }
 
-function repeatString(string, n) {
+function repeatString(string, n,        i) {
     repeatedString = ""
     for (i = 1; i <= n; i++) {
         repeatedString = repeatedString string

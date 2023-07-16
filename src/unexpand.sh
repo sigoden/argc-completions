@@ -1,3 +1,3 @@
 _patch_table() { 
-    sed '/--tabs=N/ d'
+    _patch_table_dedup_options --tabs
 }
