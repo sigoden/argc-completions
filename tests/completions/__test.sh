@@ -90,6 +90,9 @@
 # @arg tarball-file!
 # @arg ARG9*
 # @arg rustfmt_options*
+# @arg ARG10
+# @arg ARG11
+# @arg ARG12
 
 
 # {{ __test run

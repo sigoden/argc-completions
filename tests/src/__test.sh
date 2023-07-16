@@ -17,6 +17,9 @@ Arguments:
     <tarball file>
     [ARG9...]
     [rustfmt_options]...
+    (ARG10 | -f FILENAME)
+    [ARG11 | -l label]
+    (ARG12 | -l label | --all)
 Options:
     -a, -b                      Ignored for compatibility.
     -C DIRECTORY, --directory=DIRECTORY
