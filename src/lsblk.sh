@@ -7,7 +7,8 @@ _patch_table() {
         '--dedup;*,[`_choice_column`]' \
         '--output;*,[`_choice_column`]' \
         '--sort;[`_choice_column`]' \
-        '--tree;[`_choice_column`]' | \
+        '--tree;[`_choice_column`]' \
+    | \
     _patch_table_edit_arguments 'device;*[`_choice_block_device`]'
 }
 

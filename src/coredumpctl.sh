@@ -5,7 +5,10 @@ _patch_help() {
 }
 
 _patch_table() { 
-    _patch_table_edit_options '--debugger;[`_choice_debugger`]' '--json;[pretty|short|off]'
+    _patch_table_edit_options \
+        '--debugger;[`_choice_debugger`]' \
+        '--json;[pretty|short|off]' \
+
 }
 
 _choice_debugger() {

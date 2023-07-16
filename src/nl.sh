@@ -7,7 +7,8 @@ _patch_table() {
         '--body-numbering;[`_choice_numbering`]' \
         '--footer-numbering;[`_choice_numbering`]' \
         '--header-numbering;[`_choice_numbering`]' \
-        '--number-format;[`_choice_number_format`]'
+        '--number-format;[`_choice_number_format`]' \
+
 }
 
 _choice_numbering() {

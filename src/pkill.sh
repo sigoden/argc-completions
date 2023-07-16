@@ -1,6 +1,5 @@
 _patch_help() {
     $@ --help | sed 's/-<sig>, //'
-
 }
 
 _patch_table() {
@@ -14,7 +13,8 @@ _patch_table() {
         '--runstates;*,[`_choice_runstate`]' \
         '--session;*,[`_choice_sid`]' \
         '--terminal;*,[`_choice_tty`]' \
-        '--signal;*,[`_choice_signal`]' | \
+        '--signal;*,[`_choice_signal`]' \
+    | \
     _patch_table_edit_arguments ';;' 'pattern;[`_choice_process`]'
 }
 

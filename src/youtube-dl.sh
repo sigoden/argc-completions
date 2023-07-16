@@ -12,7 +12,8 @@ _patch_table() {
         '--recode-video;[mp4|flv|ogg|webm|mkv|avi]' \
         '--sub-format;*/[ass|srt|best]' \
         '--format;[`_choice_format`]' \
-        '--sub-lang;[`_choice_sub_lang`]'
+        '--sub-lang;[`_choice_sub_lang`]' \
+
 }
 
 _choice_fixup() {

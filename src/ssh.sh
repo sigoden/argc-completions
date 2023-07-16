@@ -4,17 +4,22 @@ _patch_help() {
 }
 
 _patch_table() {
-    sed  -e  '/# -L \[/ d' -e '/# -L # / d' \
-        -e '/# -R \[bind_address:\]port:/ d' -e '/# -R #/ d' | \
+    _patch_table_dedup_options \
+        -L \
+        -R \
+    | \
     _patch_table_edit_options \
         '-L([bind_address:]port:host:hostport)' \
         '-R([bind_address:]port:host:hostport)' \
         '-o;[`_choice_ssh_option`]' \
         '-c;*,[`_choice_cipher`]' \
         '-O;[`_choice_ctl_cmd`]' \
-        '-Q;[`_choice_query`]' \ |
+        '-Q;[`_choice_query`]' \
+        ';;' \
+    | \
     _patch_table_edit_arguments \
-        'destination;[`_choice_ssh_host`]'
+        'destination;[`_choice_ssh_host`]' \
+
 }
 
 _choice_query() {

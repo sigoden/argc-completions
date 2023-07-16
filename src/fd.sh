@@ -1,5 +1,9 @@
 _patch_table() {
-    _patch_table_edit_options '--type;*[`_choice_type`]' '--exec(<args>...)' '--exec-batch(<args>...)'
+    _patch_table_edit_options \
+        '--type;*[`_choice_type`]' \
+        '--exec(<args>...)' \
+        '--exec-batch(<args>...)' \
+
 }
 
 _choice_type() {

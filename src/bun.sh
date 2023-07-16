@@ -1,24 +1,30 @@
 _patch_help() {
     if [[ "$*" == "bun" ]]; then
         echo "Options: "
-        bun --help \ |
-            _patch_help_clean_middle \ |
-            sed '/ (bun \w\+)$/ s/  \(\w\+\)\(.*\)(bun \(\w\+\))$/  \1, \3\2/'
+        bun --help | \
+        _patch_help_clean_middle \ |
+        sed '/ (bun \w\+)$/ s/  \(\w\+\)\(.*\)(bun \(\w\+\))$/  \1, \3\2/'
+
     elif [[ "$*" == "bun run" ]]; then
         echo "Usage: bun run [script_or_bin]..."
         $@ --help | sed '/----/,$ d'
+
     elif [[ "$*" == "bun dev" ]]; then
         $@ --help | sed '/----/,$ d'
-    elif [[ "$*" == "bun add" ]] || \
-            [[ "$*" == "bun install" ]] || \
-            [[ "$*" == "bun remove" ]] || \
-            [[ "$*" == "bun link" ]] || \
-            [[ "$*" == "bun unlink" ]]; then
+
+    elif [[ "$*" == "bun add" ]] \
+      || [[ "$*" == "bun install" ]] \
+      || [[ "$*" == "bun remove" ]] \
+      || [[ "$*" == "bun link" ]] \
+      || [[ "$*" == "bun unlink" ]] \
+      ; then
         echo "Usage: $* <pkg>"
         $@ --help
+
     elif [[ "$*" == "bun create" ]]; then
         echo "Usage: bun create <pkg> [args]..."
         $@ --help
+
     elif [[ "$*" == "bun pm" ]]; then
         cat <<-'EOF'
 Usage: bun pm
@@ -60,10 +66,14 @@ EOF
 }
 
 _patch_table() {
-    table="$(_patch_table_edit_options '--cwd(<DIR>)' '--target;[browser|bun|node]')"
+    table="$( \
+        _patch_table_edit_options \
+            '--cwd(<DIR>)' \
+            '--target;[browser|bun|node]' \
+    )"
     if [[ "$*" == "bun" ]]; then
         echo "$table" | \
-            _patch_table_edit_arguments ';;' '[args]...;[`_choice_script_or_bin`]'
+        _patch_table_edit_arguments ';;' '[args]...;[`_choice_script_or_bin`]'
     elif [[ "$*" == "bun run" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'script_or_bin;[`_choice_script_or_bin`]'
     elif [[ "$*" == "bun remove" ]]; then

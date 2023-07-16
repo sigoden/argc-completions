@@ -14,7 +14,8 @@ _patch_table() {
         '-n;[`_choice_n`]' \
         '-s(<ca_key_file>)' \
         '-t;[dsa|ecdsa|ecdsa-sk|ed25519|ed25519-sk|rsa];Specifies the type of key to create' \
-        '-w(<provider_file>)'
+        '-w(<provider_file>)' \
+
 }
 
 

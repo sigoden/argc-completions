@@ -91,7 +91,8 @@ _patch_table() {
         '-user;[`_choice_user`]' \
         '-regextype;[`_choice_regextype`]' \
         '-type;[`_choice_type`]' \
-        '-xtype;[`_choice_type`]'
+        '-xtype;[`_choice_type`]' \
+
 }
 
 _choice_d() {

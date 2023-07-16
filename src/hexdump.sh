@@ -6,7 +6,8 @@ _patch_table() {
     _patch_table_edit_options \
         '--color;[auto|never|always]' \
         '--length;[`_choice_multi_suffixes`]' \
-        '--skip;[`_choice_multi_suffixes`]'
+        '--skip;[`_choice_multi_suffixes`]' \
+
 }
 
 _choice_multi_suffixes() {

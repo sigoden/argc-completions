@@ -1,5 +1,10 @@
 _patch_help() { 
-    ps --help all  | sed -e  '/^ -y/ d' -e 's/-M, Z/-M   /' -e 's/-w, w/-w   /'
+    ps --help all  | \
+    sed \
+        -e  '/^ -y/ d' \
+        -e 's/-M, Z/-M   /' \
+        -e 's/-w, w/-w   /' \
+    
     cat <<-'EOF'
 Miss Options:
     --forest         ascii art process tree
@@ -20,7 +25,8 @@ _patch_table() {
         '--quick-pid;*,[`_choice_pid`]' \
         '--sid;*,[`_choice_sid`]' \
         '--sort;*,[`_choice_column`]' \
-        '--tty;*,[`_choice_tty`]'
+        '--tty;*,[`_choice_tty`]' \
+
 }
 
 _choice_user() {

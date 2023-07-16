@@ -3,7 +3,8 @@ _patch_table() {
         '--add;[`_choice_user`]' \
         '--delete;[`_choice_user`]' \
         '--administrators;*,[`_choice_user`]' \
-        '--members;*,[`_choice_user`]' | \
+        '--members;*,[`_choice_user`]' \
+    | \
     _patch_table_edit_arguments ';;' 'GROUP;[`_choice_group`]'
     
 }

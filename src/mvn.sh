@@ -16,7 +16,8 @@ _patch_table() {
         '--settings(<file:.xml>)' \
         '--toolchains(<file:.xml>)' \
         '--projects;*,[`_choice_project`]' \
-        '--resume-from;[`_choice_project`]' | \
+        '--resume-from;[`_choice_project`]' \
+    | \
     _patch_table_edit_arguments ';;' 'goalAndPhase;*[`_choice_goal_phase`]'
 }
 

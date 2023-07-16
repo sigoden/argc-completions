@@ -3,7 +3,7 @@
 
 # @flag -L                                         show license
 # @option -h[`_choice_help_topic`] <topic>         show help
-# @option -? -help[`_choice_help_topic`] <topic>   show hep
+# @option -? -help[`_choice_help_topic`] <topic>   show help
 # @option --help[`_choice_help_topic`] <topic>     show help
 # @flag -version                                   show version
 # @flag -buildconf                                 show build configuration

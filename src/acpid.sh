@@ -10,7 +10,8 @@ _patch_table() {
         '--lockfile(<FILE>)' \
         '--pidfile(<FILE>)' \
         '--socketfile(<FILE>)' \
-        '--socketgroup;[`_choice_group`]'
+        '--socketgroup;[`_choice_group`]' \
+
 }
 
 _choice_group() {

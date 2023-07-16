@@ -11,29 +11,30 @@ OPTIONS:
     --version, -v                       Print the version numbers of Homebrew
 EOF
         _patch_help_run_man brew | \
-            gawk '{
-                if (match($0, /^ESSENTIAL COMMANDS/)) {
-                    print "COMMANDS:"
-                    run = 1
-                } else if (match($0, /^CUSTOM EXTERNAL COMMANDS/)) {
-                    run = 0
-                } else if (run == 1) {
-                    if (match($0, /^   [a-z0-9][a-z0-9_-]+/)) {
-                        print " " substr($0, 1, RLENGTH)
-                        command = 1
-                    } else if(match($0, /^       \S/)) {
-                        if (command == 1) {
-                            print "  " $0
-                        }
-                    } else if (match($0, /^\s*$/)) {
-                        command = 0
+        gawk '{
+            if (match($0, /^ESSENTIAL COMMANDS/)) {
+                print "COMMANDS:"
+                run = 1
+            } else if (match($0, /^CUSTOM EXTERNAL COMMANDS/)) {
+                run = 0
+            } else if (run == 1) {
+                if (match($0, /^   [a-z0-9][a-z0-9_-]+/)) {
+                    print " " substr($0, 1, RLENGTH)
+                    command = 1
+                } else if(match($0, /^       \S/)) {
+                    if (command == 1) {
+                        print "  " $0
                     }
+                } else if (match($0, /^\s*$/)) {
+                    command = 0
                 }
-            }'
-    elif [[ "$*" == "brew rubocop" ]] || \
-        [[ "$*" == "brew casks" ]] || \
-        [[ "$*" == "brew formulae" ]] || \
-        [[ "$*" == "brew shellenv" ]]; then
+            }
+        }'
+    elif [[ "$*" == "brew rubocop" ]] \
+      || [[ "$*" == "brew casks" ]] \
+      || [[ "$*" == "brew formulae" ]] \
+      || [[ "$*" == "brew shellenv" ]] \
+      ; then 
         :;
     elif [[ "$*" == "brew services" ]]; then
         $@ --help
@@ -101,7 +102,8 @@ _patch_table() {
     if [[ "$*" == "brew" ]]; then
         _patch_table_edit_options \
             '--cache;*[`_choice_suggest_formula_cask`]' \
-            '--cellar;*[`_choice_suggest_formula`]' | \
+            '--cellar;*[`_choice_suggest_formula`]' \
+        | \
         _patch_table_edit_commands \
             'uninstall(uninstall, remove, rm)' \
             'list(list, ls)' \
@@ -110,16 +112,20 @@ _patch_table() {
             'info(info, abv)' \
             'link(link, ls)' \
             'livecheck(livecheck, lc)' \
-            'typecheck(typecheck, tc)'
+            'typecheck(typecheck, tc)' \
+
     elif [[ "$*" == "brew outdated" ]]; then
         _patch_table_edit_arguments \
-            'formula|cask;[`_choice_outdated_formula_cask`]'
+            'formula|cask;[`_choice_outdated_formula_cask`]' \
+
     elif [[ "$*" == "brew bottle" ]]; then
         _patch_table_edit_arguments \
-            'installed_formula|file;[`_choice_installed_formula_file`]'
+            'installed_formula|file;[`_choice_installed_formula_file`]' \
+
     elif [[ "$*" == "brew style" ]]; then
         _patch_table_edit_arguments \
-            ';;' 'file|tap|formula|cask;*[`_choice_file_tap_formula_cask`]'
+            ';;' 'file|tap|formula|cask;*[`_choice_file_tap_formula_cask`]' \
+
     elif [[ "$*" == "brew "* ]]; then
         _patch_table_edit_arguments \
             'formula|cask;[`_choice_suggest_formula_cask`]' \
@@ -130,7 +136,8 @@ _patch_table() {
             'cask|tap;[`_choice_cask_tap`]' \
             'cask;[`_choice_suggest_cask`]' \
             'tap;[`_choice_tap`]' \
-            'diagnostic_check;[`_choice_suggest_diagnostic_check`]'
+            'diagnostic_check;[`_choice_suggest_diagnostic_check`]' \
+
     fi
 }
 

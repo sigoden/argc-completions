@@ -482,6 +482,22 @@ nodenv-sync() {
 }
 # }} brew nodenv-sync
 
+# {{ brew options
+# @cmd Show install options specific to formula.
+# @flag --compact       Show all options on a single line separated by spaces.
+# @flag --installed     Show options for formulae that are currently installed.
+# @flag --eval-all      Evaluate all available formulae and casks, whether installed or not, to show their options.
+# @flag --command       Show options for the specified command.
+# @flag -d --debug      Display any debugging information.
+# @flag -q --quiet      Make some output more quiet.
+# @flag -v --verbose    Make some output more verbose.
+# @flag -h --help       Show this message.
+# @arg formula*[`_choice_suggest_formula`]
+options() {
+    :;
+}
+# }} brew options
+
 # {{ brew outdated
 # @cmd List installed casks and formulae that have an updated version available.
 # @flag -q --quiet               List only the names of outdated kegs (takes precedence over --verbose).

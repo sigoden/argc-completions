@@ -2,26 +2,43 @@ _patch_help() {
     _common_edit() {
         sed '/^Usage:/,/^$/ {/^-h, --help / d;}'
     }
+
     if [[ "$*" == "flutter" ]]; then
         $@ --help | sed '1, /^Usage:/ d'
+
     elif [[ "$*" == "flutter assemble" ]]; then
-        $@ --help | _common_edit | sed 's/^-d, --define/    --define/'
+        $@ --help | \
+        _common_edit | \
+        sed 's/^-d, --define/    --define/'
+
     elif [[ "$*" == "flutter symbolize" ]]; then
-        $@ --help | _common_edit | sed 's/^-d, --debug-info/    --debug-info/'
-    elif [[ "$*" == "flutter pub downgrade" ]] || \
-        [[ "$*" == "flutter pub outdated" ]] || \
-        [[ "$*" == "flutter pub publish" ]] || \
-        [[ "$*" == "flutter pub run" ]]; then
-        (cd /tmp && touch pubspec.yaml && $@ --help | _common_edit)
+        $@ --help | \
+        _common_edit | \
+        sed 's/^-d, --debug-info/    --debug-info/'
+
+    elif [[ "$*" == "flutter pub downgrade" ]] \
+      || [[ "$*" == "flutter pub outdated" ]] \
+      || [[ "$*" == "flutter pub publish" ]] \
+      || [[ "$*" == "flutter pub run" ]] \
+      ; then
+        ( \
+            cd /tmp && \
+            touch pubspec.yaml && \
+            $@ --help | \
+            _common_edit \
+        )
+
     elif [[ "$*" == "flutter pub version" ]]; then
         :;
+
     else
         $@ --help | _common_edit
     fi
 }
 
 _patch_table() {
-    table="$(_patch_table_edit_options \
+    table="$( \
+        _patch_table_edit_options \
             '--device-id;[`_choice_device`]' \
             '--flavor(<value>)' \
             '--dart-define-from-file(<file:.json>)' \
@@ -31,15 +48,20 @@ _patch_table() {
             '--device-connection;[attached|both|wireless]' \
             '--dds-port(<port>)' \
     )"
+
     if [[ "$*" == "flutter channel" ]]; then
         echo "$table" | _patch_table_edit_arguments 'channel-name;[`_choice_channel`]'
+
     elif [[ "$*" == "flutter config" ]]; then
-        echo "$table" | _patch_table_edit_options \
+        echo "$table" | \
+        _patch_table_edit_options \
             '--android-sdk(<dir>)' \
             '--android-studio-dir(<dir>)' \
-            '--build-dir(<dir>)'
+            '--build-dir(<dir>)' \
+
     elif [[ "$*" == "flutter assemble" ]]; then
-        echo "$table" | _patch_table_edit_options \
+        echo "$table" | \
+        _patch_table_edit_options \
             '--input(<key=value>)' \
             '--depfile(<file>)' \
             '--build-inputs(<file>)' \
@@ -47,50 +69,72 @@ _patch_table() {
             '--code-size-directory(<dir>)' \
             '--resource-pool-size(<n>)' \
             '--asset-dir(<dir>)' \
-            '--output(<dir>)'
-    elif [[ "$*" == "flutter build"* ]]; then
-        table="$(echo "$table" | _patch_table_edit_options \
-            '--depfile(<file>)' \
             '--output(<dir>)' \
-            '--build-number(<value>)' \
-            '--android-project-arg(<value>)' \
-            )"
+
+    elif [[ "$*" == "flutter build"* ]]; then
+        table="$( \
+            echo "$table" | \
+            _patch_table_edit_options \
+                '--depfile(<file>)' \
+                '--output(<dir>)' \
+                '--build-number(<value>)' \
+                '--android-project-arg(<value>)' \
+        )"
+
         if [[ "$*" == "flutter build aar" ]]; then
-            echo "$table" | _patch_table_edit_options \
-                '--target-platform;[android-arm|android-arm64|android-x86|android-x64]' 
+            echo "$table" | \
+            _patch_table_edit_options \
+                '--target-platform;[android-arm|android-arm64|android-x86|android-x64]'  \
+
         elif [[ "$*" == "flutter build apk" ]]; then
-            echo "$table" | _patch_table_edit_options \
-                '--target-platform;[android-arm|android-arm64|android-x86|android-x64]'
+            echo "$table" | \
+            _patch_table_edit_options \
+                '--target-platform;[android-arm|android-arm64|android-x86|android-x64]' \
+
         elif [[ "$*" == "flutter build appbundle" ]]; then
-            echo "$table" | _patch_table_edit_options \
-                '--target-platform;[android-arm|android-arm64|android-x64]'
+            echo "$table" | \
+            _patch_table_edit_options \
+                '--target-platform;[android-arm|android-arm64|android-x64]' \
+
         elif [[ "$*" == "flutter build bundle" ]]; then
-            echo "$table" | _patch_table_edit_options \
-                '--target-platform;[android-arm|android-arm64|android-x64|ios|darwin|linux-x64|linux-arm64|windows-x64]'
+            echo "$table" | \
+            _patch_table_edit_options \
+                '--target-platform;[android-arm|android-arm64|android-x64|ios|darwin|linux-x64|linux-arm64|windows-x64]' \
+
         elif [[ "$*" == "flutter build linux" ]]; then
-            echo "$table" | _patch_table_edit_options \
+            echo "$table" | \
+            _patch_table_edit_options \
                 '--target-platform;[linux-x64|linux-arm64]' \
-                '--target-sysroot(<dir>)'
+                '--target-sysroot(<dir>)' \
+
         elif [[ "$*" == "flutter build web" ]]; then
-            echo "$table" | _patch_table_edit_options \
-                '--pwa-strategy;[none|offline-first]'
+            echo "$table" | \
+            _patch_table_edit_options \
+                '--pwa-strategy;[none|offline-first]' \
+
         else
             echo "$table"
         fi
+
     elif [[ "$*" == "flutter clean" ]]; then
-        echo "$table" | _patch_table_edit_options \
-            '--scheme(<value>)'
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--scheme(<value>)' \
+
     elif [[ "$*" == "flutter create" ]]; then
-        echo "$table" | _patch_table_edit_options \
+        echo "$table" | \
+        _patch_table_edit_options \
             '--description(<text>)' \
             '--org(<text>)' \
             '--roject-name(<text>)' \
             '--ios-language;[objc|swift]' \
             '--android-language;[java|kotlin]' \
             '--platforms;[ios|android|windows|linux|macos|web]' \
-            '--template;[`_choice_create_template`]'
+            '--template;[`_choice_create_template`]' \
+
     elif [[ "$*" == "flutter drive" ]]; then
-        echo "$table" | _patch_table_edit_options \
+        echo "$table" | \
+        _patch_table_edit_options \
             '--use-application-binary(<file:.apk>)' \
             '--route(<value>)' \
             '--dart-entrypoint-args(<value>)' \
@@ -99,9 +143,11 @@ _patch_table() {
             '--browser-name;[android-chrome|chrome|edge|firefox|ios-safari|safari]' \
             '--chrome-binary(<path>)' \
             '--test-arguments(<value>)' \
-            '--profile-memory(<file:.json>)'
+            '--profile-memory(<file:.json>)' \
+
     elif [[ "$*" == "flutter gen-l10n" ]]; then
-        echo "$table" | _patch_table_edit_options \
+        echo "$table" | \
+        _patch_table_edit_options \
             '--arb-dir(<dir>)' \
             '--output-dir(<dir>)' \
             '--template-arb-file(<file>)' \
@@ -109,51 +155,69 @@ _patch_table() {
             '--untranslated-messages-file(<file>)' \
             '--output-class(<value>)' \
             '--header(<value>)' \
-            '--header-file(<file>)' 
+            '--header-file(<file>)' \
+
     elif [[ "$*" == "flutter run" ]]; then
-        echo "$table" | _patch_table_edit_options \
+        echo "$table" | \
+        _patch_table_edit_options \
             '--use-application-binary(<path>)' \
             '--route(<value>)' \
             '--dart-entrypoint-args(<value>)' \
             '--web-launch-url(<url>)' \
             '--pid-file(<file>)' \
-            '--android-project-arg(<value)' 
+            '--android-project-arg(<value)' \
+
     elif [[ "$*" == "flutter test" ]]; then
-        echo "$table" | _patch_table_edit_options \
+        echo "$table" | \
+        _patch_table_edit_options \
             '--tags(<tag...>)' \
             '--exclude-tags(<tag...>)' \
             '--total-shards(<n>)'  \
             '--shard-index(<n>)'  \
             '--reporter;[`_choice_test_reporter`]' \
             '--test-randomize-ordering-seed(<value>)' \
-            '--timeout(<value>)'
+            '--timeout(<value>)' \
+
     elif [[ "$*" == "flutter attach" ]]; then
-        echo "$table" | _patch_table_edit_options \
+        echo "$table" | \
+        _patch_table_edit_options \
             '--debug-url(<url>)' \
             '--app-id(<url>)' \
-            '--pid-file(<file>)'
+            '--pid-file(<file>)' \
+
     elif [[ "$*" == "flutter emulators" ]]; then
-        echo "$table" | _patch_table_edit_options \
+        echo "$table" | \
+        _patch_table_edit_options \
             '--launch;[`_choice_emulator`]' \
-            '--name(<value>)'
+            '--name(<value>)' \
+
     elif [[ "$*" == "flutter screenshot" ]]; then
-        echo "$table" | _patch_table_edit_options \
-            '--type;[device|rasterizer|skia]'
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--type;[device|rasterizer|skia]' \
+
     elif [[ "$*" == "flutter symbolize" ]]; then
-        echo "$table" | _patch_table_edit_options \
+        echo "$table" | \
+        _patch_table_edit_options \
             '--debug-info(<file>)' \
             '--input(<path>)' \
-            '--output(<path>)'
+            '--output(<path>)' \
+
     elif [[ "$*" == "flutter pub global deactivate" ]]; then
         echo "$table" | _patch_table_edit_arguments 'package;[`_choice_gloal_package`]'
+
     elif [[ "$*" == "flutter pub global run" ]]; then
         echo "$table" | _patch_table_edit_arguments '<package>:<executable>;[`_choice_global_package_executable`]'
+
     elif [[ "$*" == "flutter pub deps" ]]; then
         echo "$table" | _patch_table_edit_options '--style;[=tree|compact|list]'
+
     elif [[ "$*" == "flutter pub downgrade" ]] || [[ "$*" == "flutter pub upgrade" ]]; then
         echo "$table" | _patch_table_edit_arguments 'dependencies;[`_choice_package`]'
+
     elif [[ "$*" == "flutter pub remove" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'packages;*[`_choice_package`]'
+
     else
         echo "$table"
     fi

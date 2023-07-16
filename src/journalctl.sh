@@ -13,7 +13,8 @@ _patch_table() {
         '--priority;[`_choice_priority`]' \
         '--unit;[`_choice_unit`]' \
         '--user-unit;[`_choice_user_unit`]' \
-        '--root(<DIR>)'
+        '--root(<DIR>)' \
+
 }
 
 _choice_boots() {

@@ -4,7 +4,8 @@ _patch_table() {
         '--compatibility;[dos|nondos]' \
         '--lock;[yes|no|nonblock]' \
         '--units;[cylinders|sectors]' \
-        '--wipe-partitions;[auto|never|always]' | \
+        '--wipe-partitions;[auto|never|always]' \
+    | \
     _patch_table_edit_arguments ';;' 'devices...;[_choice_disk]'
 }
 
@@ -14,5 +15,6 @@ _choice_disk() {
 }
 
 _choice_block_device() {
-    lsblk --json -o KNAME,LABEL,PARTLABEL,PARTUUID,PATH,SIZE,PARTTYPENAME,TYPE,UUID | yq '.blockdevices[] | .path + "	" + .size + " " + (.parttypename // "")'
+    lsblk --json -o KNAME,LABEL,PARTLABEL,PARTUUID,PATH,SIZE,PARTTYPENAME,TYPE,UUID | \
+    yq '.blockdevices[] | .path + "	" + .size + " " + (.parttypename // "")'
 }

@@ -8,7 +8,8 @@ _patch_table() {
         '--parent;*,[`_choice_pid`]' \
         '--runstates;*,[`_choice_runstate`]' \
         '--session;*,[`_choice_sid`]' \
-        '--terminal;*,[`_choice_tty`]' | \
+        '--terminal;*,[`_choice_tty`]' \
+    | \
     _patch_table_edit_arguments ';;' 'pattern;[`_choice_process`]'
 }
 

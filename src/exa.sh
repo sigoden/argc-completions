@@ -3,5 +3,7 @@ _patch_help() {
 }
 
 _patch_table() { 
-    _patch_table_edit_options '--sort;[name|Name|size|extension|Extension|modified|changed|accessed|created|inode|type|none]'
+    _patch_table_edit_options \
+        '--sort;[name|Name|size|extension|Extension|modified|changed|accessed|created|inode|type|none]' \
+
 }

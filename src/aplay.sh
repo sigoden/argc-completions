@@ -7,7 +7,8 @@ _patch_table() {
         '--device;[`_choice_card`]' \
         '--format;[`_choice_format`]' \
         '--file-type;[voc|wav|raw|au]' \
-        '--vumeter;[mono|stereo]'
+        '--vumeter;[mono|stereo]' \
+
 }
 
 _choice_format() {

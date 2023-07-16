@@ -3,6 +3,11 @@ _patch_help() {
 }
 
 _patch_table() {
-    _patch_table_edit_options '-n(<suffixes>)' ';;' '-b(<path>)' '-t(<mmddyyyy>)' | \
+    _patch_table_edit_options \
+        '-n(<suffixes>)' \
+        ';;' \
+        '-b(<path>)' \
+        '-t(<mmddyyyy>)' \
+    | \
     _patch_table_edit_arguments ';;' '<file>...'
 }

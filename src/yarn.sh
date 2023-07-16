@@ -43,36 +43,37 @@ Commands:
     workspace       Run the chosen Yarn command in the selected workspace.
     workspaces      Show information about your workspaces.
 EOF
-    elif [[ "$*" == "yarn cache" ]] || [[ "$*" == "yarn cache "* ]]; then
-        if [[ $# -eq 2 ]]; then
-            $@ --help
-            cat <<-'EOF'
+
+    elif [[ "$*" == "yarn cache" ]]; then
+        $@ --help
+        cat <<-'EOF'
 Commands:
     list, ls  print out every cached package.
     dir       print out the path where yarn’s global cache is currently stored.
     clean     clear the global cache.
 EOF
-        else
-            cat <<-'EOF' | _patch_help_select_subcmd $@ 
+
+    elif [[ "$*" == "yarn cache "* ]]; then
+        cat <<-'EOF' | _patch_help_select_subcmd $@ 
 yarn cache list
 options:
     --pattern <pattern>
 yarn cache dir
 yarn cache clean [<module_name>...]
 EOF
-        fi
-    elif [[ "$*" == "yarn config" ]] || [[ "$*" == "yarn config "* ]]; then
-        if [[ $# -eq 2 ]]; then
-            $@ --help
-            cat <<-'EOF'
+
+    elif [[ "$*" == "yarn config" ]]; then
+        $@ --help
+        cat <<-'EOF'
 Commands:
     set     Sets the config key to a certain value.
     get     Echoes the value for a given key to stdout.
     delete  Deletes a given key from the config.
     list    Displays the current configuration.
 EOF
-        else
-            cat <<-'EOF' | _patch_help_select_subcmd $@ 
+ 
+    elif [[ "$*" == "yarn config "* ]]; then
+        cat <<-'EOF' | _patch_help_select_subcmd $@ 
 yarn config set <key> <value>
 options:
     -g --global
@@ -80,19 +81,19 @@ yarn config get <key>
 yarn config delete <key>
 yarn config list
 EOF
-        fi
-    elif [[ "$*" == "yarn global" ]] || [[ "$*" == "yarn global "* ]]; then
-        if [[ $# -eq 2 ]]; then
-            $@ --help
-            cat <<-'EOF'
+
+    elif [[ "$*" == "yarn global" ]]; then
+        $@ --help
+        cat <<-'EOF'
 Commands:
     add         Installs packages and any packages that it depends on.
     bin         Displays the location of the yarn bin folder.
     remove      Remove packages.
     upgrade     Upgrades packages to their latest version based on the specified range.
 EOF
-        else
-            cat <<-'EOF' | _patch_help_select_subcmd $@ 
+
+    elif [[ "$*" == "yarn global "* ]]; then
+        cat <<-'EOF' | _patch_help_select_subcmd $@ 
 yarn global add <packages>...
 options:
     --prefix <prefix>   bin prefix
@@ -106,56 +107,55 @@ yarn global upgrade <packages>...
 options:
     --prefix <prefix>   bin prefix
 EOF
-        fi
-    elif [[ "$*" == "yarn licenses" ]] || [[ "$*" == "yarn licenses "* ]]; then
-        if [[ $# -eq 2 ]]; then
-            $@ --help
-            cat <<-'EOF'
+
+    elif [[ "$*" == "yarn licenses" ]]; then
+        $@ --help
+        cat <<-'EOF'
 Commands:
     list                    List in alphabetical order all of the packages that were installed by yarn or yarn install, and give you the license.
     generate-disclaimer     Return a sorted list of licenses from all the packages you have installed to the stdout
 
 EOF
-        else
-            cat <<-'EOF' | _patch_help_select_subcmd $@ 
+
+    elif [[ "$*" == "yarn licenses "* ]]; then
+        cat <<-'EOF' | _patch_help_select_subcmd $@ 
 yarn licenses list
 yarn licenses generate-disclaimer
 EOF
-        fi
-    elif [[ "$*" == "yarn owner" ]] || [[ "$*" == "yarn owner "* ]]; then
-        if [[ $# -eq 2 ]]; then
-            $@ --help
-            cat <<-'EOF'
+
+    elif [[ "$*" == "yarn owner" ]]; then
+        $@ --help
+        cat <<-'EOF'
 Commands:
     list    Lists all of the owners of a <package>.
     add     Adds the <user> as an owner of the <package>.
     remove  Removes the <user> as an owner of the <package>.
 EOF
-        else
-            cat <<-'EOF' | _patch_help_select_subcmd $@ 
+
+    elif [[ "$*" == "yarn owner "* ]]; then
+        cat <<-'EOF' | _patch_help_select_subcmd $@ 
 yarn owner list <package>
 yarn owner add <user> <package>
 yarn owner remove <user> <package>
 EOF
-        fi
-    elif [[ "$*" == "yarn policies" ]] || [[ "$*" == "yarn policies "* ]]; then
-        if [[ $# -eq 2 ]]; then
-            $@ --help
-            cat <<-'EOF'
+
+    elif [[ "$*" == "yarn policies" ]]; then
+        $@ --help
+        cat <<-'EOF'
 Commands:
     set-version  Enforcing Yarn’s version across your project.
 EOF
-        else
-            cat <<-'EOF' | _patch_help_select_subcmd $@ 
+
+    elif [[ "$*" == "yarn policies "* ]]; then
+        cat <<-'EOF' | _patch_help_select_subcmd $@ 
 yarn policies set-version <ver>
 options:
     --rc   Use latest rc release
 EOF
-        fi
-    elif [[ "$*" == "yarn team" ]] || [[ "$*" == "yarn team "* ]]; then
-        if [[ $# -eq 2 ]]; then
-            $@ --help
-            cat <<-'EOF'
+
+    elif [[ "$*" == "yarn team" ]]; then
+        $@ --help
+        cat <<-'EOF'
 Commands:
     create      Create a new team.
     destroy     Destroys an existing team.
@@ -163,34 +163,35 @@ Commands:
     remove      Remove a user from a team they belong to.
     list        List of existing teams under that organization.
 EOF
-        else
-            cat <<-'EOF' | _patch_help_select_subcmd $@ 
+
+    elif [[ "$*" == "yarn team "* ]]; then
+        cat <<-'EOF' | _patch_help_select_subcmd $@ 
 yarn team create <scope:team>
 yarn team destroy <scope:team>
 yarn team add <scope:team> <user>
 yarn team remove <scope:team> <user>
 yarn team list <scope[:team]>
 EOF
-        fi
-    elif [[ "$*" == "yarn workspaces" ]] || [[ "$*" == "yarn workspaces "* ]]; then
-        if [[ $# -eq 2 ]]; then
-            $@ --help
-            cat <<-'EOF'
+
+    elif [[ "$*" == "yarn workspaces" ]]; then
+        $@ --help
+        cat <<-'EOF'
 Commands:
     info    display the workspace dependency tree of your current project.
     run     run the chosen Yarn command in each workspace.
 EOF
-        else
-            cat <<-'EOF' | _patch_help_select_subcmd $@ 
+
+    elif [[ "$*" == "yarn workspaces "* ]]; then
+        cat <<-'EOF' | _patch_help_select_subcmd $@ 
 yarn workspaces info
 options:
     --json
 yarn workspace run <cmd>
 EOF
-        fi
 
     elif [[ "$*" == "yarn test" ]]; then
         :;
+
     else
         $@ --help
     fi

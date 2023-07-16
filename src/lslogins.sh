@@ -6,7 +6,8 @@ _patch_table() {
     _patch_table_edit_options \
         '--groups;*,[`_choice_group`]'  \
         '--logins;*,[`_choice_user`]' \
-        '--output;*,[`_choice_column`]' | \
+        '--output;*,[`_choice_column`]' \
+    | \
     _patch_table_edit_arguments 'username;*[`_choice_user`]'
 }
 

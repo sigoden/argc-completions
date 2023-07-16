@@ -1,5 +1,8 @@
 _patch_table() { 
-    _patch_table_edit_options '--follow;[name|descriptor]' '--pid;[`_choice_pid`]'
+    _patch_table_edit_options \
+        '--follow;[name|descriptor]' \
+        '--pid;[`_choice_pid`]' \
+
 }
 
 _choice_pid() {

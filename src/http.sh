@@ -1,5 +1,6 @@
 _patch_help() { 
-    $@ --help | sed \
+    $@ --help | \
+    sed \
         -e 's/^      /        /' \
         -e 's/^  \(--\w\+\) \(\S\+\), \(-\w\) \(\S\+\)/  \3, \1 \2/' \
         -e 's/^  \(--\w\+\), \(-\w\)/  \2, \1/' \
@@ -16,7 +17,8 @@ _patch_table() {
         '--format-options;[`_choice_format_options`]' \
         '--print;[`_choice_print_options`]' \
         '--style;[`_choice_style`]' \
-        '--verify;[yes|no]' | \
+        '--verify;[yes|no]' \
+    | \
     _patch_table_edit_arguments ';;' 'args;*[`_choice_args`]'
 }
 

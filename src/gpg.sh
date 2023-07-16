@@ -6,7 +6,8 @@ _patch_table() {
     _patch_table_edit_options \
         '--local-user;[`_choice_user`]' \
         '--recipient;[`_choice_user`]' \
-        '--tofu-policy;[auto|good|unknown|bad|ask]' | \
+        '--tofu-policy;[auto|good|unknown|bad|ask]' \
+    | \
     _patch_table_edit_arguments ';;' 'FILES...'
 }
 

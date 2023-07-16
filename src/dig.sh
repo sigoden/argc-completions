@@ -1,10 +1,12 @@
 _patch_help() { 
     echo "Options:"
-    $@ -h | sed -n '/q-opt    is one of/,/d-opt    is of/ {//!p}' | sed 's/^\s*//'
+    $@ -h | \
+    sed -n '/q-opt    is one of/,/d-opt    is of/ {//!p}' | \
+    sed 's/^\s*//'
 }
 
 _patch_table() { 
-    _patch_table_edit_options '-c;[`_choice_c`]'  | \
+    _patch_table_edit_options '-c;[`_choice_c`]' | \
     _patch_table_edit_arguments ';;' 'args;*[`_choice_args`]'
 }
 

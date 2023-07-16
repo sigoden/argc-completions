@@ -1,6 +1,11 @@
 _patch_table() { 
-    _patch_table_dedup_options --indicator-style | \
-    _patch_table_edit_options '--color;[`_choice_color`]' '--time;[`_choice_time`]' '--format;[`_choice_format`]'
+    _patch_table_dedup_options --indicator-style \
+    | \
+    _patch_table_edit_options \
+        '--color;[`_choice_color`]' \
+        '--time;[`_choice_time`]' \
+        '--format;[`_choice_format`]' \
+
 }
 
 _choice_color() {

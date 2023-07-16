@@ -1,7 +1,9 @@
 _patch_help() { 
-    $@ --help 2>/dev/null | sed \
+    $@ --help 2>/dev/null | \
+    sed \
         -e '/^Getting help:/,/^$/ d' \
-        -e '/^-?/,+1 c\-? -help topic      show hep'
+        -e '/^-?/,+1 c\-? -help topic      show help' \
+
 }
 
 _patch_table() { 
@@ -27,7 +29,8 @@ _patch_table() {
         '-sources;*,[`_choice_device`]' \
         '-scodec;[`_choice_codec`]' \
         '-vcodec;[`_choice_codec`]' \
-        '-vf;*[`_choice_filter_kv`]'
+        '-vf;*[`_choice_filter_kv`]' \
+
 }
 
 _choice_codec() {

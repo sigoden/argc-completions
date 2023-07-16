@@ -1,7 +1,8 @@
 _patch_table() { 
     _patch_table_edit_options \
         '--dir(<dir>)' \
-        '--taskfile;[`_choice_taskfile`]' | \
+        '--taskfile;[`_choice_taskfile`]' \
+    | \
     _patch_table_edit_arguments ';;' 'tasks;*[`_choice_task`]'
     
 }

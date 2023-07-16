@@ -3,7 +3,10 @@ _patch_help() {
 }
 
 _patch_table() { 
-    _patch_table_edit_options '-m;[`_choice_model_cached`]' '-X;[`_choice_opt`]' | \
+    _patch_table_edit_options \
+        '-m;[`_choice_model_cached`]' \
+        '-X;[`_choice_opt`]' \
+    | \
     _patch_table_edit_arguments ';;' 'file' 'args...'
 }
 

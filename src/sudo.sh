@@ -7,7 +7,8 @@ _patch_table() {
         '--group;[`_choice_group`]' \
         '--user;[`_choice_user`]' \
         '--other-user;[`_choice_user`]' \
-        '--preserve-env;[`_choice_env_var`]' | \
+        '--preserve-env;[`_choice_env_var`]' \
+    | \
     _patch_table_edit_arguments ';;' 'CMD;[`_choice_command`]' 'ARGS;~[`_choice_args`]'
 }
 

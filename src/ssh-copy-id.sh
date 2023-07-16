@@ -9,7 +9,8 @@ _patch_table() {
         '-o' \
         ';;' \
         '-o;[`_choice_ssh_option`];Can be used to pass options to ssh in the format used in ssh_config' \
-        '-p(<port>);;Port to connect to on the remote host.' | \
+        '-p(<port>);;Port to connect to on the remote host.' \
+    | \
     _patch_table_edit_arguments ';;' 'host;[`_choice_ssh_host`]'
 
 }

@@ -15,7 +15,8 @@ _patch_table() {
         '--priority;[normal|low]' \
         '--project-cache-dir(<dir>)' \
         '--warning-mode;[all|fail|summary|none]' \
-        '--exclude-task;[`_choice_task_cached`]' | \
+        '--exclude-task;[`_choice_task_cached`]' \
+    | \
     _patch_table_edit_arguments 'task;[`_choice_task_cached`]'
 }
 

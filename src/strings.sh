@@ -5,7 +5,8 @@ _patch_help() {
 _patch_table() {
     _patch_table_edit_options \
         '--encoding;[`_choice_encoding`]' \
-        '--radix;[`_choice_radix`]' | \
+        '--radix;[`_choice_radix`]' \
+    | \
     _patch_table_edit_arguments ';;' 'files...'
 }
 

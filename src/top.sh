@@ -30,7 +30,8 @@ _patch_table() {
         '-U;[`_choice_user`]' \
         '-u;[`_choice_user`]' \
         '-o;[`_choice_o`]' \
-        '-p;*,[`_choice_pid`]'
+        '-p;*,[`_choice_pid`]' \
+
 }
 
 _choice_e() {

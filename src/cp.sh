@@ -4,7 +4,8 @@ _patch_table() {
         '--no-preserve;[`_choice_preserve`]' \
         '--preserve;[`_choice_preserve`]' \
         '--reflink;[`_choice_reflink`]' \
-        '--sparse;[`_choice_sparse`]' \ |
+        '--sparse;[`_choice_sparse`]' \
+    | \
     _patch_table_edit_arguments ';;' 'PATHS...'
 }
 

@@ -7,12 +7,14 @@ _patch_table() {
         '--source;[`_choice_source`]' \
         '--target(<path>)' \
         '--types;*,[`_choice_fstype`]' \
-        '--uuid;[`_choice_uuid`]' | \
+        '--uuid;[`_choice_uuid`]' \
+    | \
     _patch_table_edit_arguments ';;' 'source;[`_choice_mount_source`]' 'target;[`_choice_mount_target`]'
 }
 
 _choice_label() {
-    lsblk --json -o KNAME,LABEL,PARTLABEL,PARTUUID,PATH,SIZE,PARTTYPENAME,TYPE,UUID | yq '.blockdevices[] | select(.label != null) | .label + "	"  + (.kname // "")'
+    lsblk --json -o KNAME,LABEL,PARTLABEL,PARTUUID,PATH,SIZE,PARTTYPENAME,TYPE,UUID | \
+    yq '.blockdevices[] | select(.label != null) | .label + "	"  + (.kname // "")'
 }
 
 _choice_options() {

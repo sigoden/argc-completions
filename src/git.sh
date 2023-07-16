@@ -69,9 +69,9 @@ $commands
    whatchanged      Show logs with difference each commit introduces 
    worktree         Manage multiple working trees 
 EOF
-    elif [[ "$*" == "git bisect" ]] || [[ "$*" == "git bisect "* ]]; then
-        if [[ $# -eq 2 ]]; then
-            cat <<-'EOF'
+
+    elif [[ "$*" == "git bisect" ]]; then
+        cat <<-'EOF'
 Usage: git bisect
 Commands:
     start       reset bisect state and start bisection.
@@ -89,8 +89,9 @@ Commands:
     log         show bisect log.
     run         use <cmd>... to automatically bisect.
 EOF
-        else
-            cat <<-'EOF' | _patch_help_select_subcmd $@ 
+
+    elif [[ "$*" == "git bisect "* ]]; then
+        cat <<-'EOF' | _patch_help_select_subcmd $@ 
 git bisect start
 options:
     --term-new <term>
@@ -116,7 +117,7 @@ git bisect replay <logfile>
 git bisect log
 git bisect run <cmd> 
 EOF
-        fi
+
     elif [[ "$*" == "git notes" ]]; then
         cat <<-'EOF'
 Options:
@@ -133,18 +134,22 @@ Commands:
     prune
     get-ref
 EOF
+
     elif [[ "$*" == "git notes list" ]]; then
         echo "usage: git notes list [<object>]"
-    elif [[ "$*" == "git reflog" ]] || [[ "$*" == "git reflog "* ]]; then
-        if [[ $# -eq 2 ]]; then
-            cat <<-'EOF'
+
+    elif [[ "$*" == "git reflog" ]]; then
+        cat <<-'EOF'
 Commands:
     show
     expire
     delete
     exists
 EOF
-        elif [[ "$*" == "git reflog show" ]]; then
+
+    elif [[ "$*" == "git reflog "* ]]; then
+
+        if [[ "$*" == "git reflog show" ]]; then
             $@ -h 2>&1
         else
             cat <<-'EOF' | _patch_help_select_subcmd $@
@@ -167,6 +172,7 @@ options:
 git refloge exists <ref>
 EOF
         fi
+
     elif [[ "$*" == "git remote" ]]; then
         cat <<-'EOF'
 Options:
@@ -183,8 +189,10 @@ Commands:
    get-url
    set-url
 EOF
+
     elif [[ "$*" == "git remote remove" ]]; then
         echo "usage:  git remote remove <name>"
+
     elif [[ "$*" == "git sparse-checkout" ]]; then
         cat <<-'EOF'
 Commands:
@@ -195,11 +203,14 @@ Commands:
     reapply
     disable
 EOF
-    elif [[ "$*" == "git sparse-checkout set" ]] || [[ "$*" == "git sparse-checkout add" ]]; then
+
+    elif [[ "$*" == "git sparse-checkout set" ]] \
+      || [[ "$*" == "git sparse-checkout add" ]] \
+      ; then
         $@ -h 2>&1 | sed '/^usage:/ c\usage: git sparse-checkout set <pattern>'
-    elif [[ "$*" == "git stash" ]] || [[ "$*" == "git stash "* ]]; then
-        if [[ $# -eq 2 ]]; then
-            cat <<-'EOF'
+
+    elif [[ "$*" == "git stash" ]]; then
+        cat <<-'EOF'
 Commands:
     list
     show
@@ -211,8 +222,9 @@ Commands:
     push
     save
 EOF
-        else 
-            cat <<-'EOF' | _patch_help_select_subcmd $@ 
+
+    elif [[ "$*" == "git stash "* ]]; then
+        cat <<-'EOF' | _patch_help_select_subcmd $@ 
 git stash list
 git stash show <stash>
 git stash drop <stash>
@@ -248,10 +260,9 @@ options:
     -u --include-untracked
     -a --all
 EOF
-        fi
-    elif [[ "$*" == "git submodule" ]] || [[ "$*" == "git submodule "* ]]; then
-        if [[ $# -eq 2 ]]; then
-            cat <<-'EOF'
+
+    elif [[ "$*" == "git submodule" ]]; then
+        cat <<-'EOF'
 Options:
     --quiet
     --cached
@@ -268,8 +279,9 @@ Commands:
     sync
     absorbgitdirs
 EOF
-        else
-            cat <<-'EOF' | _patch_help_select_subcmd $@ 
+
+    elif [[ "$*" == "git submodule "* ]]; then
+        cat <<-'EOF' | _patch_help_select_subcmd $@ 
 git submodule add <repository> [<path>]
 options:
     -b <branch>
@@ -316,10 +328,9 @@ options:
     --recursive
 git submodule absorbgitdirs [<path>...]
 EOF
-        fi
-    elif [[ "$*" == "git worktree" ]] || [[ "$*" == "git worktree "* ]]; then
-        if [[ $# -eq 2 ]]; then
-            cat <<-'EOF'
+
+    elif [[ "$*" == "git worktree" ]]; then
+        cat <<-'EOF'
 Commands:
     add
     list
@@ -329,8 +340,9 @@ Commands:
     remove
     unlock
 EOF
-        else
-            cat <<-'EOF' | _patch_help_select_subcmd $@ 
+
+    elif [[ "$*" == "git worktree "* ]]; then
+        cat <<-'EOF' | _patch_help_select_subcmd $@ 
 git worktree add [<options>] <path> [<commit-ish>]
 git worktree list [<options>]
 git worktree lock [<options>] <path>
@@ -339,9 +351,9 @@ git worktree prune [<options>]
 git worktree remove [<options>] <worktree>
 git worktree unlock <path>
 EOF
-            echo options:
-            $@ -h 2>&1 | sed -e '/^usage:/ d' -e '/^\s\+or:/ d'
-        fi
+        echo options:
+        $@ -h 2>&1 | sed -e '/^usage:/ d' -e '/^\s\+or:/ d'
+
     else
         $@ -h 2>&1
     fi
@@ -350,52 +362,76 @@ EOF
 _patch_table() {
     if [[ "$*" == "git" ]]; then
         _patch_table_edit_arguments 'cmd;[`_choice_cmd`]'
+
     elif [[ "$*" == "git add" ]]; then
         _patch_table_edit_arguments 'pathspec;[`_choice_unstaged_file`]'
+
     elif [[ "$*" == "git branch" ]]; then
         _patch_table_edit_arguments ';;' '<branch>;[`_choice_branch`]'
+
     elif [[ "$*" == "git checkout" ]]; then
         _patch_table_edit_arguments 'branch([branch-path]...);[`_choice_checkout`]'
+
     elif [[ "$*" == "git cherry-pick" ]]; then
         _patch_table_edit_arguments 'commit-ish;[`_choice_range`]'
+
     elif [[ "$*" == "git clean" ]]; then
         _patch_table_edit_arguments 'paths;[`_choice_unstaged_file`]'
+
     elif [[ "$*" == "git config" ]]; then
         _patch_table_edit_arguments ';;' 'key;[`_choice_config_key`]'
+
     elif [[ "$*" == "git describe" ]]; then
         _patch_table_edit_arguments 'commit-ish;[`_choice_ref`]'
+
     elif [[ "$*" == "git diff" ]]; then
         _patch_table_edit_arguments ';;' '[commit-path]...;[`_choice_diff`]'
+
     elif [[ "$*" == "git fetch" ]]; then
         _patch_table_edit_arguments ';;' '<remote>;[`_choice_remote`]' '<refspec>...;[`_choice_branch`]'
+
     elif [[ "$*" == "git log" ]]; then
         _patch_table_edit_arguments ';;' '[commit-path]...;[`_choice_log`]'
+
     elif [[ "$*" == "git switch" ]]; then
         _patch_table_edit_arguments 'branch;[`_choice_branch`]'
+
     elif [[ "$*" == "git shortlog" ]]; then
         _patch_table_edit_arguments ';;' '[commit-path]...;[`_choice_log`]'
+
     elif [[ "$*" == "git show" ]]; then
         _patch_table_edit_arguments ';;' '[commit-path]...;[`_choice_show`]'
+
     elif [[ "$*" == "git restore" ]]; then
         _patch_table_edit_arguments 'file;[`_choice_restore_file`]'
+
     elif [[ "$*" == "git reset" ]]; then
         _patch_table_edit_arguments ';;' '[commit]...;[`_choice_reset`]'
+
     elif [[ "$*" == "git tag" ]]; then
         _patch_table_edit_arguments ';;' '<tagname>;[`_choice_tag`]'
+
     elif [[ "$*" == "git rebase" ]]; then
         _patch_table_edit_arguments ';;' '<base>;[`_choice_branch`]' '<new>;[`_choice_branch`]'
+
     elif [[ "$*" == "git range-diff" ]]; then
         _patch_table_edit_arguments ';;' '<base>;[`_choice_branch`]' '<new>;[`_choice_branch`]'
+
     elif [[ "$*" == "git push" ]]; then
         _patch_table_edit_arguments ';;' '<remote>;[`_choice_remote`]' '<refspec>...;[`_choice_push`]'
+
     elif [[ "$*" == "git pull" ]]; then
         _patch_table_edit_arguments ';;' '<remote>;[`_choice_remote`]' '<refspec>...;[`_choice_remote_branch`]'
+
     elif [[ "$*" == "git merge" ]]; then
         _patch_table_edit_arguments 'commit;[`_choice_branch`]'
+
     elif [[ "$*" == "git stash"* ]]; then
         _patch_table_edit_arguments 'stash;[`_choice_stash`]'
+        
     elif [[ "$*" == "git remote"* ]]; then
         _patch_table_edit_arguments 'name;[`_choice_remote`]' 'old;[`_choice_remote`]' 'new;[`_choice_remote`]'
+
     else
         cat
     fi

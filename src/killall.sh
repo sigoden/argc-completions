@@ -3,7 +3,11 @@ _patch_help() {
 }
 
 _patch_table() {
-    _patch_table_edit_options '--ns;[`_choice_pid`]' '--signal;[`_choice_signal`]' '--user;[`_choice_user`]'
+    _patch_table_edit_options \
+        '--ns;[`_choice_pid`]' \
+        '--signal;[`_choice_signal`]' \
+        '--user;[`_choice_user`]' \
+
 }
 
 _choice_pid() {

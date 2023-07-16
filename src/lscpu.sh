@@ -5,7 +5,8 @@ _patch_help() {
 _patch_table() { 
     _patch_table_edit_options \
         '--caches;*,[`_choice_cache_column`]' \
-        '--extended;*,[`_choice_format_column`]'
+        '--extended;*,[`_choice_format_column`]' \
+
 }
 
 _choice_format_column() {

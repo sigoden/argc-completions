@@ -6,7 +6,8 @@ _patch_table() {
     _patch_table_edit_options \
         '--output;*,[`_choice_column`]' \
         '--task;[`_choice_pid`]' \
-        '--type;[mnt|net|ipc|user|pid|uts|cgroup|time]'
+        '--type;[mnt|net|ipc|user|pid|uts|cgroup|time]' \
+
 }
 
 _choice_column() {

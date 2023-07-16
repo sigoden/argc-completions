@@ -45,7 +45,8 @@
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
 _choice_label() {
-    lsblk --json -o KNAME,LABEL,PARTLABEL,PARTUUID,PATH,SIZE,PARTTYPENAME,TYPE,UUID | yq '.blockdevices[] | select(.label != null) | .label + "	"  + (.kname // "")'
+    lsblk --json -o KNAME,LABEL,PARTLABEL,PARTUUID,PATH,SIZE,PARTTYPENAME,TYPE,UUID | \
+    yq '.blockdevices[] | select(.label != null) | .label + "	"  + (.kname // "")'
 }
 
 _choice_options() {

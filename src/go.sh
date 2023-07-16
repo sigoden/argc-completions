@@ -8,6 +8,7 @@ Options:
     --r             apply recursively to all the dependencies
     --testcache     expire all test results in the go build cache
 EOF
+
     elif [[ "$*" == "go env" ]]; then
         cat <<-'EOF'
 Options:
@@ -15,6 +16,7 @@ Options:
     -u               unsets the default setting for the named environment variables
     -w <value>       changes the default settings of the named environment variables
 EOF
+
     elif [[ "$*" == "go fmt" ]]; then
         cat <<-'EOF'
 Usage: go fmt [path...]
@@ -23,6 +25,7 @@ Options:
     -n              print commands that would be executed
     -x              print commands as they are executed
 EOF
+
     elif [[ "$*" == "go generate" ]]; then
         _patch_help_run_help_subcmd $@
         cat <<-'EOF'
@@ -31,6 +34,7 @@ Options:
     -v              print the names of packages and files as they are processed
     -x              print commands as they are executed
 EOF
+
     elif [[ "$*" == "go get" ]]; then
         cat <<-'EOF'
 Options:
@@ -39,12 +43,14 @@ Options:
     -t              consider modules needed to build tests
     -u              update modules providing dependencies
 EOF
+
     elif [[ "$*" == "go install" ]]; then
         cat <<-'EOF'
 Options:
     -i              install the packages that are dependencies of the target
     -o <file>       set output file or directory
 EOF
+
     elif [[ "$*" == "go list" ]]; then
         cat <<-'EOF'
 Options:
@@ -66,6 +72,7 @@ EOF
     -json      print a sequence of JSON objects
     -x         print the commands download executes
 EOF
+
     elif [[ "$*" == "go mod edit" ]]; then
         cat <<-'EOF'
 Options:
@@ -81,6 +88,7 @@ Options:
     -replace <value>          add a module replacement
     -require <value>          add a requirement
 EOF
+
     elif [[ "$*" == "go mod tidy" ]]; then
         cat <<-'EOF'
 Options:
@@ -89,22 +97,26 @@ Options:
     -go <value>          update the 'go' directive to given version
     -v                   print information about removed modules
 EOF
+
     elif [[ "$*" == "go mod vendor" ]]; then
         cat <<-'EOF'
 Options:
     -v      print the names of vendored modules and packages
 EOF
+
     elif [[ "$*" == "go mod why" ]]; then
         cat <<-'EOF'
 Options:
     -m           treat arguments as a list of modules
     -vendor      exclude tests of dependencies
 EOF
+
     elif [[ "$*" == "go run" ]]; then
         cat <<-'EOF'
 Options:
     -exec <xprog>   invoke the binary using xprog
 EOF
+
     elif [[ "$*" == "go test" ]]; then
         _patch_help_run_help_subcmd $@
         cat <<-'EOF'
@@ -123,12 +135,14 @@ Options:
     -timeout <value>        if a test binary runs longer than duration d, panic
     -vet <value>            configure the invocation of "go vet" during "go test" to use the comma-separated list of vet check
 EOF
+
     elif [[ "$*" == "go tool" ]]; then
         _patch_help_run_help_subcmd $@
         cat <<-'EOF'
 Options:
     -n      only print the command that would be executed
 EOF
+
     elif [[ "$*" == "go version" ]]; then
         _patch_help_run_help_subcmd $@
         cat <<-'EOF'
@@ -136,12 +150,14 @@ Options:
     -m      print each executable's embedded module version information
     -v      report unrecognized files
 EOF
+
     elif [[ "$*" == "go vet" ]]; then
         cat <<-'EOF'
 Options:
     -n      print commands that would be executed
     -x      print commands as they are executed
 EOF
+
 
     elif [[ "$*" == "go work edit" ]]; then
         cat <<-'EOF'
@@ -155,72 +171,95 @@ Options:
     -replace <value>...          add a replacement
     -use <file>...               add a use directive
 EOF
+
     elif [[ "$*" == "go work use" ]]; then
         cat <<-'EOF'
 Options:
     -r                           recursively for modules in the argument directories
 EOF
+
     else
         _patch_help_run_help_subcmd $@
     fi
 }
 
 _patch_table() {
-    table="$(_patch_table_edit_options \
-        '-buildmode;[`_choice_buildmode`]' \
-        '-compiler;[gccgo|gc]' \
-        '-buildvcs;[true|false|auto]' \
-        '-overlay(<file:.json>)' \
-        '-pgo(<file:.pgo>)' \
-        '-mod;[readonly|vendor|mod]')"
+    table="$( \
+        _patch_table_edit_options \
+            '-buildmode;[`_choice_buildmode`]' \
+            '-compiler;[gccgo|gc]' \
+            '-buildvcs;[true|false|auto]' \
+            '-overlay(<file:.json>)' \
+            '-pgo(<file:.pgo>)' \
+            '-mod;[readonly|vendor|mod]' \
+    )"
+
     if [[ "$*" == "go build" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'path...'
+
     elif [[ "$*" == "go doc" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;'
+
     elif [[ "$*" == "go clean" ]]; then
         _patch_table_copy_options go build
         echo "$table"
+
     elif [[ "$*" == "go env" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'env;*[`_choice_env`]'
+
     elif [[ "$*" == "go generate" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' '<file:.go>'
+
     elif [[ "$*" == "go get" ]]; then
         _patch_table_copy_options go build
         echo "$table"
+
     elif [[ "$*" == "go install" ]]; then
         _patch_table_copy_options go build
         echo "$table"
+
     elif [[ "$*" == "go list" ]]; then
         _patch_table_copy_options go build
         echo "$table"
+
     elif [[ "$*" == "go mod download" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'modules;*[`_choice_mod`]'
+
     elif [[ "$*" == "go mod edit" ]]; then
-        echo "$table" | _patch_table_edit_options \
+        echo "$table" | \
+        _patch_table_edit_options \
             '-dropexclude;[`_choice_mod_dropexclude`]' \
             '-dropreplace;[`_choice_mod_dropreplace`]' \
             '-droprequire;[`_choice_mod_droprequire`]' \
-            '-replace;[`_choice_mod_replace`]'
-            _patch_table_edit_arguments ';;' 'modfile <file:go.mod>'
+            '-replace;[`_choice_mod_replace`]' \
+        | \
+        _patch_table_edit_arguments ';;' 'modfile <file:go.mod>'
+
     elif [[ "$*" == "go mod why" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'packages;*[`_choice_mod_why`]'
+
     elif [[ "$*" == "go run" ]]; then
         _patch_table_copy_options go build
         echo "$table" 
+
     elif [[ "$*" == "go test" ]]; then
         _patch_table_copy_options go build
         echo "$table" \ |
-            _patch_table_edit_options '-bench;*|[`_choice_bench_target`]' \ |
-            _patch_table_edit_arguments ';;' 'target;*|[`_choice_test_target`]'
+        _patch_table_edit_options '-bench;*|[`_choice_bench_target`]' \ |
+        _patch_table_edit_arguments ';;' 'target;*|[`_choice_test_target`]'
+
     elif [[ "$*" == "go tool" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'name;[`_choice_tool`]' 'args...'
+
     elif [[ "$*" == "go work edit" ]]; then
         echo "$table" \ |
-            _patch_table_edit_options \
-                '-dropreplace;*|[`_choice_work_dropreplace`]' \
-                '-dropuse;*|[`_choice_work_dropuse`]' \
-                '-replace;*|[`_choice_work_replace`]' \ |
-            _patch_table_edit_arguments ';;' 'workfile <file:go.work>'
+        _patch_table_edit_options \
+            '-dropreplace;*|[`_choice_work_dropreplace`]' \
+            '-dropuse;*|[`_choice_work_dropuse`]' \
+            '-replace;*|[`_choice_work_replace`]' \
+        | \
+        _patch_table_edit_arguments ';;' 'workfile <file:go.work>'
+
     else
         echo "$table"
     fi

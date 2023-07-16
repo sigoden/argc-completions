@@ -4,8 +4,7 @@ _patch_table() {
         '--color;[auto|never|always]' \
         '--colour;[auto|never|always]' \
         '--devices;[read|skip]' \
-        '--directories;[read|recurse|skip]' | \
+        '--directories;[read|recurse|skip]' \
+    | \
     _patch_table_edit_arguments ';;' 'FILES...'
 }
-
-

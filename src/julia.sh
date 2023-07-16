@@ -1,5 +1,6 @@
 _patch_help() { 
-    $@ --help | sed \
+    $@ --help | \
+    sed \
         -e '/\s*-/ s/\[=\(.*\)\]/\1/' \
         -e '/\s*-/ s/\[\(.*\)\]/\1/' \
         -e '/\s*-/ s/\(\w\)\*/\1/' \
@@ -10,7 +11,8 @@ _patch_help() {
 
 _patch_table() { 
     _patch_table_edit_options \
-        '--code-coverage;[`_choice_code_coverage`]' | \
+        '--code-coverage;[`_choice_code_coverage`]' \
+    | \
     _patch_table_edit_arguments ';;' 'file' 'args...'
 
 }

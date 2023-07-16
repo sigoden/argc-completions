@@ -1,5 +1,8 @@
 _patch_table() { 
-    _patch_table_edit_options '--color;[auto|never|always]' '--lock;[yes|no|nonblock]' | \
+    _patch_table_edit_options \
+        '--color;[auto|never|always]' \
+        '--lock;[yes|no|nonblock]' \
+    | \
     _patch_table_edit_arguments 'disk;[`_choice_disk`]'
 }
 

@@ -6,7 +6,8 @@ _patch_table() {
     _patch_table_edit_options \
         '--output;*,[`_choice_column`]' \
         '--split;*,[`_choice_column`]' \
-        '--summary;[never|always|only]'
+        '--summary;[never|always|only]' \
+
 }
 
 _choice_column() {

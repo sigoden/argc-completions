@@ -5,7 +5,8 @@ _patch_help() {
 _patch_table() { 
     _patch_table_edit_options \
         '--group;[`_choice_group`]' \
-        '--user;[`_choice_user`]' | \
+        '--user;[`_choice_user`]' \
+    | \
     _patch_table_edit_arguments ';;' 'files...'
 }
 

@@ -2,7 +2,8 @@ _patch_table() {
     _patch_table_edit_options \
         '--gid;[`_choice_group`]' \
         '--group;*,[`_choice_group`]' \
-        '--shell;*,[`_choice_shell`]' | \
+        '--shell;*,[`_choice_shell`]' \
+    | \
     _patch_table_edit_arguments ';;' 'LOGIN;[`_choice_user`]'
 }
 

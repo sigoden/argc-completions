@@ -3,7 +3,10 @@ _patch_help() {
 }
 
 _patch_table() {
-    _patch_table_edit_options '--rc;*,[`_choice_file`]' '--shell-type;[`_choice_shell_type`]' | \
+    _patch_table_edit_options \
+        '--rc;*,[`_choice_file`]' \
+        '--shell-type;[`_choice_shell_type`]' \
+    | \
     _patch_table_edit_arguments ';;' 'file' 'args...'
 }
 

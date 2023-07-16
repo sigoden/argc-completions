@@ -1,5 +1,8 @@
 _patch_table() { 
-    _patch_table_edit_options '--interpreter;[`_choice_interpreter`]' '--pid;[`_choice_pid`]' | \
+    _patch_table_edit_options \
+        '--interpreter;[`_choice_interpreter`]' \
+        '--pid;[`_choice_pid`]' \
+    | \
     _patch_table_edit_arguments ';;' 'FILES...' | \
     _patch_table_edit_commands ';;'
 }

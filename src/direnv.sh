@@ -1,20 +1,36 @@
 _patch_help() {
     if [[ "$*" == "direnv" ]]; then
-        $@ --help | sed -e 's/^  /        /' -e 's/^\(\w\+\).*:$/  \1/'  -e '/Available commands/,+1 c\Commands:' 
+        $@ --help | \
+        sed \
+            -e 's/^  /        /' \
+            -e 's/^\(\w\+\).*:$/  \1/' \
+            -e '/Available commands/,+1 c\Commands:' \
+
     fi
 }
 
 _patch_table() { 
     if [[ "$*" == "direnv" ]]; then
         _patch_table_edit_arguments ';;'
-    elif [[ "$*" == "direnv allow" ]] || [[ "$*" == "direnv deny" ]] || [[ "$*" == "direnv edit" ]]; then
+
+    elif [[ "$*" == "direnv allow" ]] \
+      || [[ "$*" == "direnv deny" ]] \
+      || [[ "$*" == "direnv edit" ]] \
+      ; then
         _patch_table_edit_arguments ';;' 'file;[`_choice_path_to_rc`]'
+
     elif [[ "$*" == "direnv exec" ]]; then
-        _patch_table_edit_arguments ';;' 'dir' 'cmd;[`_choice_cmd`]' 'args;~[`_choice_args`]'
+        _patch_table_edit_arguments \
+            ';;' \
+            'dir' 'cmd;[`_choice_cmd`]' \
+            'args;~[`_choice_args`]' \
+
     elif [[ "$*" == "direnv fetchurl" ]]; then
         _patch_table_edit_arguments ';;' 'urls...'
+
     elif [[ "$*" == "direnv hook" ]]; then
         _patch_table_edit_arguments ';;' 'shell;[`_choice_hook_shell`]'
+
     else
         cat
     fi

@@ -16,7 +16,8 @@ _patch_table() {
         '--tls-keylog(<file>)' \
         '--heapsnapshot-signal;[`_choice_signal`]' \
         '--unhandled-rejections;[strict|warn|none]' \
-        '--use-largepages;[off|on|silent]' | \
+        '--use-largepages;[off|on|silent]' \
+    | \
     _patch_table_edit_arguments ';;' 'file' 'args...'
 }
 

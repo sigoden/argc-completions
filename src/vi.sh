@@ -4,7 +4,12 @@ _patch_help() {
     else
         text="$($@ --help)"
    fi
-   echo "$text" | sed  -e '/-r (with file name)/ d' -e '/^ \+-s/ d'
+
+   echo "$text" | \
+   sed  \
+    -e '/-r (with file name)/ d' \
+    -e '/^ \+-s/ d' \
+
 }
 
 _patch_table() { 

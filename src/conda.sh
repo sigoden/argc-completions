@@ -1,19 +1,25 @@
 _patch_help() { 
     if [[ "$*" == "conda" ]]; then
-        $@ --help | sed '/^positional arguments:/,+1 c\commands:' | sed '/(legacy):/,/^$/ d'
+        $@ --help | \
+        sed '/^positional arguments:/,+1 c\commands:' | \
+        sed '/(legacy):/,/^$/ d'
+
     else
-        $@ --help | sed -e 's/^\(\s\+-\S\+\)\( \S\+\)\+, -/\1 -/' \
+        $@ --help | \
+        sed -e 's/^\(\s\+-\S\+\)\( \S\+\)\+, -/\1 -/' \
             -e 's/{\(\S\+\(,\S\+\)\+\)},\?/\1/' \
-            -e '/\S\+\(,\S\+\)\{1,\}/ s/,/|/g'
+            -e '/\S\+\(,\S\+\)\{1,\}/ s/,/|/g' \
+
     fi
 }
 
 _patch_table() { 
-    table="$(
-        _patch_table_edit_options '--name;[`_choice_env_var`]'
+    table="$( \
+        _patch_table_edit_options '--name;[`_choice_env_var`]' \
     )"
     if [[ "$*" == "conda config" ]]; then
-        echo "$table" | _patch_table_edit_options \
+        echo "$table" | \
+        _patch_table_edit_options \
             '--add;[`_choice_config_kv`]' \
             '--append;[`_choice_config_kv`]' \
             '--describe;[`_choice_config_key`]' \
@@ -22,7 +28,8 @@ _patch_table() {
             '--remove;[`_choice_config_kv`]' \
             '--remove-key;[`_choice_config_key`]' \
             '--set;[`_choice_config_kv`]' \
-            '--show;[`_choice_config_key`]'
+            '--show;[`_choice_config_key`]' \
+
     elif [[ "$*" == "conda config" ]]; then
         _patch_table_edit_arguments ';;' 'SHELLS;*[bash|fish|powershell|tcsh|xonsh|zsh]'
     elif [[ "$*" == "conda remove" ]] || [[ "$*" == "conda update" ]]; then

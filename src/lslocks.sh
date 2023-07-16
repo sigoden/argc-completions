@@ -1,5 +1,8 @@
 _patch_table() { 
-    _patch_table_edit_options '--output;*,[`_choice_column`]' '--pid;[`_choice_pid`]'
+    _patch_table_edit_options \
+        '--output;*,[`_choice_column`]' \
+        '--pid;[`_choice_pid`]' \
+
 }
 
 _choice_column() {

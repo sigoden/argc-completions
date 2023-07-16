@@ -28,6 +28,7 @@ Miss commands:
       docker               Checks for known common issues with pnpm configuration.
       config               Manage the configuration files.
 EOF
+
     elif [[ "$*" == "pnpm config "* ]]; then
         cat <<-'EOF' | _patch_help_select_subcmd $@
 pnpm config set <key> <value> 
@@ -35,6 +36,7 @@ pnpm config get <key>
 pnpm config delete <key> 
 pnpm config list
 EOF
+
     elif [[ "$*" == "pnpm env "* ]]; then
         cat <<-'EOF' | _patch_help_select_subcmd $@
 pnpm env list
@@ -47,8 +49,10 @@ pnpm env use
 options:
     -g --global    Manages Node.js versions globally
 EOF
+
     elif [[ "$*" == "pnpm store" ]]; then
         pnpm help store | sed 's/add <pkg>.../add         /'
+
     elif [[ "$*" == "pnpm store "* ]]; then
         cat <<-'EOF' | _patch_help_select_subcmd $@
 pnpm store add <pkg>...
@@ -56,44 +60,60 @@ pnpm store path
 pnpm store prune
 pnpm store status
 EOF
+
     elif [[ "$*" == "pnpm server "* ]]; then
         :;
+
     else 
         _patch_help_run_help_subcmd $@
     fi
 }
 
 _patch_table() {
-    table="$(sed \
-        -e '/--depth -1/ d' \
-        -e 's/-s, --silent, --reporter silent/-s, --silent/' | \
+    table="$( \
+        sed \
+            -e '/--depth -1/ d' \
+            -e 's/-s, --silent, --reporter silent/-s, --silent/' \
+        | \
         _patch_table_edit_options \
             '--loglevel;[debug|info|warn|error|silent]' \
             '--filter;[`_choice_workspace`];Filtering allows you to restrict commands to specific subsets of packages.' \
             '--reporter;[`_choice_reporter`];Set reporter.' \
     )"
+
     if [[ "$*" == "pnpm" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'cmd;[`_choice_script`]'
+
     elif [[ "$*" == "pnpm config" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;'
+
     elif [[ "$*" == "pnpm config "* ]]; then
         echo "$table" | _patch_table_edit_arguments 'key;[`_choice_config_key`]'
+
     elif [[ "$*" == "pnpm install" ]]; then
         echo "$table"| _patch_table_edit_options '--package-import-method;[`_choice_pacakge_import_method`];Import package method'
+
     elif [[ "$*" == "pnpm list" ]]; then
         echo "$table"| _patch_table_edit_options '--depth(<number>)'
+
     elif [[ "$*" == "pnpm run" ]]; then
         echo "$table" | _patch_table_edit_arguments 'args;[`_choice_script`]'
+
     elif [[ "$*" == "pnpm exec" ]]; then
         echo "$table" | _patch_table_edit_arguments 'exec;[`_choice_bin`]'
+
     elif [[ "$*" == "pnpm remove" ]]; then
         echo "$table" | _patch_table_edit_arguments 'pkg;[`_choice_dependency`]'
+
     elif [[ "$*" == "pnpm update" ]]; then
         echo "$table" | _patch_table_edit_arguments 'pkg;[`_choice_dependency`]'
+
     elif [[ "$*" == "pnpm config" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;'
+
     elif [[ "$*" == "pnpm env" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;'
+
     else
         echo "$table"
     fi

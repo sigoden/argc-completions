@@ -18,6 +18,7 @@ _patch_help() {
                 print $0
             }
         }'
+
     elif [[ "$*" == "pip config "* ]] || [[ "$*" == "pip cache "* ]]; then
         cat <<-'EOF' | _patch_help_select_subcmd $@
 pip config edit
@@ -29,32 +30,41 @@ pip cache list <pattern>
     --format human|abspath      Select the output format
 pip cache remove <pattern>
 EOF
+
     else
         $@ --help
     fi
 }
 
 _patch_table() { 
-    table="$(
+    table="$( \
         _patch_table_edit_options \
             '--exists-action;[`_choice_exists_action`]' \
             '--implementation;[pp|jy|cp|ip]' \
             '--progress-bar;[off|on|ascii|pretty|emoji]' \
     )"
+
     if [[ "$*" == "pip install" ]]; then
         echo "$table" | _patch_table_edit_options '--upgrade-strategy;[only-if-needed|eager]'
+
     elif [[ "$*" == "pip config" ]]; then
         echo "$table" | _patch_table_edit_arguments 'key;[`_choice_config_key`]'
+
     elif [[ "$*" == "pip freeze" ]]; then
-        echo "$table" | _patch_table_edit_options \
+        echo "$table" | \
+        _patch_table_edit_options \
             '--all;[distribute|setuptools|wheel|pip];Do not skip these packages in the output.' \
-            '--exclude;[`_choice_package`]'
+            '--exclude;[`_choice_package`]' \
+
     elif [[ "$*" == "pip list" ]]; then
         echo "$table" | _patch_table_edit_options '--exclude;[`_choice_package`]'
+
     elif [[ "$*" == "pip hash" ]]; then
         echo "$table" | _patch_table_edit_options '--algorithm;[sha256|sha384|sha512]'
+
     elif [[ "$*" == "pip show" ]] || [[ "$*" == "pip uninstall" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'package;[`_choice_package`]'
+
     else
         echo "$table"
     fi

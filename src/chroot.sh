@@ -1,5 +1,8 @@
 _patch_table() { 
-    _patch_table_edit_options '--userspec;[`_choice_user_group`]' '--groups;*,[`_choice_group`]'  | \
+    _patch_table_edit_options \
+        '--userspec;[`_choice_user_group`]' \
+        '--groups;*,[`_choice_group`]' \
+    | \
     _patch_table_edit_arguments 'NEWROOT(PATH)'
 }
 

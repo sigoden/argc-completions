@@ -1,7 +1,8 @@
 _patch_table() {
     _patch_table_edit_options \
         '--language;[`_choice_language`]' \
-        '--theme;[`_choice_theme`]'
+        '--theme;[`_choice_theme`]' \
+    
 }
 
 _choice_language() {

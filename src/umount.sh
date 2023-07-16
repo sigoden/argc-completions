@@ -1,7 +1,8 @@
 _patch_table() { 
     _patch_table_edit_options \
         '--test-opts;*,[`_choice_options`]' \
-        '--types;*,[`_choice_fstype`]' | \
+        '--types;*,[`_choice_fstype`]' \
+    | \
     _patch_table_edit_arguments ';;' 'source;[`_choice_umount_source`]'
 }
 

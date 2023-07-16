@@ -3,7 +3,8 @@ _patch_table() {
         '--block-signal;[`_choice_signal`]'  \
         '--default-signal;[`_choice_signal`]' \
         '--ignore-signal;[`_choice_signal`]' \
-        '--unset;[`_choice_env_var`]' | \
+        '--unset;[`_choice_env_var`]' \
+    | \
     _patch_table_edit_arguments ';;'
 }
 

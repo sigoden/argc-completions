@@ -9,7 +9,8 @@ _patch_table() {
         '--input-file(file)' \
         '--secret-file(file)' \
         '--job;[`_choice_job`]' \
-        '--container-architecture;[`_choice_container_platform`]'  | \
+        '--container-architecture;[`_choice_container_platform`]' \
+    | \
     _patch_table_edit_arguments ';;' 'event;[`_choice_event`]'
 }
 

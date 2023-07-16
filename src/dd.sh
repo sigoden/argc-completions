@@ -1,5 +1,5 @@
 _patch_help() {
-    echo
+    :;
 }
 
 _patch_table() { 

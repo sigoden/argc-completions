@@ -10,76 +10,102 @@ _patch_table() {
     else
         table="$(_patch_table_copy_options systemctl; cat)"
     fi
-    if  [[ "$*" == "systemctl list-units" ]] || \
-        [[ "$*" == "systemctl is-active" ]] || \
-        [[ "$*" == "systemctl is-failed" ]] || \
-        [[ "$*" == "systemctl cat" ]] || \
-        [[ "$*" == "systemctl list-dependencies" ]]  || \
-        [[ "$*" == "systemctl freeze" ]]  || \
-        [[ "$*" == "systemctl thaw" ]]  || \
-        [[ "$*" == "systemctl reset-failed" ]] || \
-        [[ "$*" == "systemctl list-unit-files" ]] \
-        ; then
+
+    if [[ "$*" == "systemctl" ]]; then
+        echo "$table"
+
+    elif [[ "$*" == "systemctl list-units" ]] \
+      || [[ "$*" == "systemctl is-active" ]] \
+      || [[ "$*" == "systemctl is-failed" ]] \
+      || [[ "$*" == "systemctl cat" ]] \
+      || [[ "$*" == "systemctl list-dependencies" ]] \
+      || [[ "$*" == "systemctl freeze" ]] \
+      || [[ "$*" == "systemctl thaw" ]] \
+      || [[ "$*" == "systemctl reset-failed" ]] \
+      || [[ "$*" == "systemctl list-unit-files" ]] \
+      ; then
         echo "$table" | _patch_table_edit_arguments ';;' 'pattern;*[`_choice_unit`]'
-    elif  [[ "$*" == "systemctl start" ]] || \
-        [[ "$*" == "systemctl stop" ]] || \
-        [[ "$*" == "systemctl restart" ]] || \
-        [[ "$*" == "systemctl reload" ]] || \
-        [[ "$*" == "systemctl try-restart" ]] || \
-        [[ "$*" == "systemctl reload-or-restart" ]] || \
-        [[ "$*" == "systemctl try-reload-or-restart" ]] || \
-        [[ "$*" == "systemctl kill" ]] || \
-        [[ "$*" == "systemctl clean" ]] || \
-        [[ "$*" == "systemctl disable" ]] || \
-        [[ "$*" == "systemctl reenable" ]] || \
-        [[ "$*" == "systemctl preset" ]] || \
-        [[ "$*" == "systemctl is-enabled" ]] || \
-        [[ "$*" == "systemctl mask" ]] || \
-        [[ "$*" == "systemctl unmask" ]] || \
-        [[ "$*" == "systemctl revert" ]] || \
-        [[ "$*" == "systemctl edit" ]] \
-        ; then
+
+    elif [[ "$*" == "systemctl start" ]] || \
+      || [[ "$*" == "systemctl stop" ]] \
+      || [[ "$*" == "systemctl restart" ]] \
+      || [[ "$*" == "systemctl reload" ]] \
+      || [[ "$*" == "systemctl try-restart" ]] \
+      || [[ "$*" == "systemctl reload-or-restart" ]] \
+      || [[ "$*" == "systemctl try-reload-or-restart" ]] \
+      || [[ "$*" == "systemctl kill" ]] \
+      || [[ "$*" == "systemctl clean" ]] \
+      || [[ "$*" == "systemctl disable" ]] \
+      || [[ "$*" == "systemctl reenable" ]] \
+      || [[ "$*" == "systemctl preset" ]] \
+      || [[ "$*" == "systemctl is-enabled" ]] \
+      || [[ "$*" == "systemctl mask" ]] \
+      || [[ "$*" == "systemctl unmask" ]] \
+      || [[ "$*" == "systemctl revert" ]] \
+      || [[ "$*" == "systemctl edit" ]] \
+      ; then
         echo "$table" | _patch_table_edit_arguments ';;' 'unit;*[`_choice_unit`]'
+
     elif [[ "$*" == "systemctl isolate" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'unit;[`_choice_unit`]'
+
     elif [[ "$*" == "systemctl list-sockets" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'pattern;*[`_choice_socket_unit`]'
+
     elif [[ "$*" == "systemctl list-timer" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'pattern;*[`_choice_timer_unit`]'
+
     elif [[ "$*" == "systemctl status" ]] || [[ "$*" == "systemctl help" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'pattern-pid;*[`_choice_unit_pid`]'
+
     elif [[ "$*" == "systemctl show" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'pattern-job;*[`_choice_unit_job`]'
+
     elif [[ "$*" == "systemctl set-property" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'unit;[`_choice_unit`]' 'property;[`_choice_perperty`]'
+
     elif [[ "$*" == "systemctl bind" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'unit;[`_choice_unit`]' 'path...'
+
     elif [[ "$*" == "systemctl mount-image" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'unit;[`_choice_unit`]' 'path...'
+
     elif [[ "$*" == "systemctl service-log-level" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'service;[`_choice_service`]' 'level;[`_choice_log_level`]'
+
     elif [[ "$*" == "systemctl service-log-target" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'service;[`_choice_service`]' 'target;[`_choice_target`]'
+
     elif [[ "$*" == "systemctl enable" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'unit-path;*[`_choice_unit_path`]'
+
     elif [[ "$*" == "systemctl link" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'path...'
+
     elif [[ "$*" == "systemctl add-wants" ]] || [[ "$*" == "systemctl add-requires" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'target:[`_choice_target`]' 'unit;*[`_choice_unit`]'
+
     elif [[ "$*" == "systemctl set-default" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'target:[`_choice_target`]'
+
     elif [[ "$*" == "systemctl list-machines" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'pattern;[`_choice_machine`]'
+
     elif [[ "$*" == "systemctl list-jobs" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'pattern;[`_choice_job`]'
+
     elif [[ "$*" == "systemctl set-environment" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'pattern;[`_choice_set_environment`]'
+
     elif [[ "$*" == "systemctl unset-environment" ]] || [[ "$*" == "systemctl import-environment" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'pattern;[`_choice_environment`]'
+
     elif [[ "$*" == "systemctl log-level" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'level;[`_choice_log_level`]'
+
     elif [[ "$*" == "systemctl log-target" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'target;[`_choice_target`]'
+
     else
         echo "$table" 
     fi

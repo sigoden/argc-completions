@@ -4,7 +4,8 @@ _patch_table() {
         '--user;[`_choice_user`]' \
         '--group;[`_choice_group`]' \
         '--except-interface;[`_choice_net_device`]' \
-        '--interface;[`_choice_net_device`]'
+        '--interface;[`_choice_net_device`]' \
+
 }
 
 _choice_user() {

@@ -1,7 +1,9 @@
 _patch_help() { 
-    $@ --help | sed \
+    $@ --help | \
+    sed \
         -e '/Mandatory or optional/,$ d' \
-        -e 's/--verbatim-files-from  -T/--verbatim-files-from  The -T/'
+        -e 's/--verbatim-files-from  -T/--verbatim-files-from  The -T/' \
+
 }
 
 _patch_table() { 
@@ -12,7 +14,8 @@ _patch_table() {
         '--quoting-style;[c|clocale|c-maybe|escape|literal|locale|shell|shell-always]' \
         '--owner;[`_choice_user`]' \
         '--file(<FILE>)' \
-        '--group;[`_choice_group`]' | \
+        '--group;[`_choice_group`]' \
+    | \
     _patch_table_edit_arguments ';;' 'FILES;*[`_choice_files`]'
 }
 

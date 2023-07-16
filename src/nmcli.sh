@@ -1,6 +1,8 @@
 _patch_help() { 
     if [[ "$*" == "nmcli" ]]; then
-        _patch_help_run_man nmcli | sed -n '/^OPTIONS/,/^GENERAL COMMANDS/ {//!p}' | sed -e 's/-\(\S\) | --/-\1, --/' -e 's/ {.*}/ <value>/'
+        _patch_help_run_man nmcli | \
+        sed -n '/^OPTIONS/,/^GENERAL COMMANDS/ {//!p}' | \
+        sed -e 's/-\(\S\) | --/-\1, --/' -e 's/ {.*}/ <value>/'
         cat <<-'EOF'
 Commands:
     general             Use this command to show NetworkManager status and permissions. 
@@ -11,6 +13,7 @@ Commands:
     device              Show and manage network interfaces.
     agent               Run nmcli as a NetworkManager secret agent, or polkit agent.
 EOF
+
     elif [[ "$*" == "nmcli general" ]]; then
         cat <<-'EOF'
 Commands:
@@ -20,12 +23,14 @@ Commands:
     logging             Get and change NetworkManager logging level and domains.
     reload              Reload NetworkManager's configuration and perform certain updates.
 EOF
+
     elif [[ "$*" == "nmcli general "* ]]; then
         cat <<-'EOF' | _patch_help_select_subcmd $@
 nmcli general hostname [hostname]
 nmcli general logging [args]...
 nmcli general reload [args]...
 EOF
+
     elif [[ "$*" == "nmcli networking" ]]; then
         cat <<-'EOF'
 Commands:
@@ -33,10 +38,12 @@ Commands:
     off                 Disable networking control by NetworkManager.
     connectivity        Get network connectivity state.
 EOF
+
     elif [[ "$*" == "nmcli networking "* ]]; then
         cat <<-'EOF' | _patch_help_select_subcmd $@
 nmcli networking connectivity [check]
 EOF
+
     elif [[ "$*" == "nmcli radio" ]]; then
         cat <<-'EOF'
 Commands:
@@ -44,12 +51,14 @@ Commands:
     wwan                Show or set status of WWAN (mobile broadband) in NetworkManager.
     all                 Show or set all previously mentioned radio switches at the same time.
 EOF
+
     elif [[ "$*" == "nmcli radio "* ]]; then
         cat <<-'EOF' | _patch_help_select_subcmd $@
 nmcli radio wiff (on|off)
 nmcli radio wwan (on|off)
 nmcli radio all (on|off)
 EOF
+
     elif [[ "$*" == "nmcli connection" ]]; then
         cat <<-'EOF'
 Commands:
@@ -67,6 +76,7 @@ Commands:
     import              Import an external/foreign configuration as a NetworkManager connection profile.
     export              Export a connection.
 EOF
+
     elif [[ "$*" == "nmcli connection "* ]]; then
         cat <<-'EOF' | _patch_help_select_subcmd $@
 nmcli connection show <id>...
@@ -88,6 +98,7 @@ nmcli connection import <file>
     --temporary         Whether temporary import
 nmcli connection export <id> [file]
 EOF
+
     elif [[ "$*" == "nmcli device" ]]; then
         cat <<-'EOF'
 Commands:
@@ -103,6 +114,7 @@ Commands:
     wifi                Manage wifi devices.
     lldp                Manage lldp devices.
 EOF
+
     elif [[ "$*" == "nmcli device wifi" ]]; then
         cat <<-'EOF'
 Commands:  
@@ -112,6 +124,7 @@ Commands:
     rescan              Request that NetworkManager immediately re-scan for available access points.
     show-password       Show the details of the active Wi-Fi networks, including the secrets.
 EOF
+
     elif [[ "$*" == "nmcli device wifi "* ]]; then
         cat <<-'EOF' | _patch_help_select_subcmd $@
 nmcli device wifi list <value>...
@@ -121,6 +134,7 @@ nmcli device wifi hostspot <value>...
 nmcli device wifi rescan <value>...
 nmcli device wifi show-password <value>...
 EOF
+
     elif [[ "$*" == "nmcli device "* ]]; then
         cat <<-'EOF' | _patch_help_select_subcmd $@
 nmcli device show [ifname]
@@ -132,6 +146,7 @@ nmcli device down <ifname>...
 nmcli device delete <ifname>...
 nmcli device monitor [ifname]...
 EOF
+
     elif [[ "$*" == "nmcli agent" ]]; then
         cat <<-'EOF'
 Commands:  
@@ -149,31 +164,44 @@ _patch_table() {
             '--escape;[yes|no]' \
             '--mode;[tabular|multiline]' \
             '--fields;[`_choice_field`]' \
-            '--get-values;[`_choice_field`]'
+            '--get-values;[`_choice_field`]' \
+
     elif [[ "$*" == "nmcli general logging" ]]; then
         _patch_table_edit_arguments ';;'  'args;*[`_choice_general_logging_args`]'
+
     elif [[ "$*" == "nmcli general reload" ]]; then
         _patch_table_edit_arguments ';;' 'args;*[`_choice_general_reload_args`]'
+
     elif [[ "$*" == "nmcli networking connectivity" ]]; then
         _patch_table_edit_arguments ';;' 'check;*[`_choice_connectivity_check`]'
+
     elif [[ "$*" == "nmcli connection"* ]]; then
         _patch_table_edit_arguments 'id;[`_choice_connection_id`]'
+
     elif [[ "$*" == "nmcli device"* ]]; then
         table="$(_patch_table_edit_arguments 'ifname;[`_choice_device_ifname`]')"
+
         if [[ "$*" == "nmcli device set" ]]; then
             echo "$table" | _patch_table_edit_arguments 'value;*[`_choice_device_set_values`]'
+
         elif [[ "$*" == "nmcli device wifi list" ]]; then
             echo "$table" | _patch_table_edit_arguments ';;' 'args;*[`_choice_device_wifi_list_args`]'
+
         elif [[ "$*" == "nmcli device wifi connect" ]]; then
             echo "$table" | _patch_table_edit_arguments ';;' 'ssid;[`_choice_wifi_ssid`]'
+
         elif [[ "$*" == "nmcli device wifi hotspot" ]]; then
             echo "$table" | _patch_table_edit_arguments ';;' 'args;*[`_choice_device_wifi_hotspot_args`]'
+
         elif [[ "$*" == "nmcli device wifi rescan" ]]; then
             echo "$table" | _patch_table_edit_arguments ';;' 'args;*[`_choice_device_wifi_rescan_args`]'
+
         elif [[ "$*" == "nmcli device wifi show-password" ]]; then
             echo "$table" | _patch_table_edit_arguments ';;' 'const;[ifname]' 'ifname;[`_choice_wifi_ifname`]'
+
         elif [[ "$*" == "nmcli device lldp" ]]; then
             echo "$table" | _patch_table_edit_arguments ';;' 'const1;[list]' 'const2;[ifname]' 'ifname;[`_choice_device_ifname`]'
+
         else
             echo "$table"
         fi

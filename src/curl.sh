@@ -1,6 +1,6 @@
 _patch_help() {
-    curl --help all | sed \
-        -e '/--curves/ s/<algorithm list> (EC)/<algorithm list>  (EC)/'
+    curl --help all | \
+    sed -e '/--curves/ s/<algorithm list> (EC)/<algorithm list>  (EC)/'
 }
 
 _patch_table() { 
@@ -12,7 +12,8 @@ _patch_table() {
         '--key-type;[DER|PEM|ENG]' \
         '--krb;[clear|safe|confidential|private]' \
         '--request;[`_choice_http_method`]' \
-        '--proxy-cert-type;[DER|PEM|ENG]'
+        '--proxy-cert-type;[DER|PEM|ENG]' \
+
 }
 
 _choice_engine() {

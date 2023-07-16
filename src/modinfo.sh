@@ -1,7 +1,8 @@
 _patch_table() { 
     _patch_table_edit_options \
         '--field;[author|description|license|parm|filename]' \
-        '--set-version;[`_choice_set_version`]' | \
+        '--set-version;[`_choice_set_version`]' \
+    | \
     _patch_table_edit_arguments ';;' 'mod;*[`_choice_mod`]'
 }
 

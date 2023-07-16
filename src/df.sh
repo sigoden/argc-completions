@@ -1,5 +1,9 @@
 _patch_table() { 
-    _patch_table_edit_options '--type;[`_choice_type`]'  '--exclude-type;[`_choice_type`]' '--output;[`_choice_output`]'
+    _patch_table_edit_options \
+        '--type;[`_choice_type`]' \
+        '--exclude-type;[`_choice_type`]' \
+        '--output;[`_choice_output`]' \
+
 }
 
 _choice_type() {

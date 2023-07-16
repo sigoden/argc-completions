@@ -1,5 +1,9 @@
 _patch_help() { 
-    $@ --help | sed -e 's/--terse is/The --terse is/'  -e 's/--terse --file-system is/The --terse --file-system is/'
+    $@ --help | \
+    sed \
+        -e 's/--terse is/The --terse is/'  \
+        -e 's/--terse --file-system is/The --terse --file-system is/' \
+
 }
 
 _patch_table() { 

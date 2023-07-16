@@ -6,7 +6,8 @@ _patch_table() {
     _patch_table_edit_options \
         '--group;[`_choice_group`]' \
         '--supp-group;[`_choice_group`]' \
-        '--shell;[`_choice_shell`]' | \
+        '--shell;[`_choice_shell`]' \
+    | \
     _patch_table_edit_arguments ';;' 'user;[`_choice_user`]' 'args...'
 }
 

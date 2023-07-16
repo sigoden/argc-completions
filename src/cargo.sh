@@ -1,9 +1,9 @@
 _patch_help() {
-	if [[ "$*" == "cargo" ]]; then
-		cargo --help
-		cat <<-'EOF'
+    if [[ "$*" == "cargo" ]]; then
+        cargo --help
+        cat <<-'EOF'
 Miss commands:
-    clippy 	             Checks a package to catch common mistakes and improve your Rust code.
+    clippy                  Checks a package to catch common mistakes and improve your Rust code.
     config               Inspect configuration values
     fetch                Fetch dependencies of a package from the network
     fix                  Automatically fix lint warnings reported by rustc
@@ -29,84 +29,85 @@ Miss commands:
 Args:
     <cmd>
 EOF
-	elif [[ "$*" == "cargo udeps" ]]; then
-		cargo udeps -h | sed 's/\[cargo\]//g'
-	else
-		$@ --help
-	fi
+    elif [[ "$*" == "cargo udeps" ]]; then
+        cargo udeps -h | sed 's/\[cargo\]//g'
+    else
+        $@ --help
+    fi
 }
 
 _patch_table() {
-	table="$(_patch_table_edit_options \
-		'--bench;[`_choice_bench`]' \
-		'--bin;[`_choice_bin`]' \
-		'--example;[`_choice_example`]' \
-		'--target;[`_choice_target`]' \
-		'--test;[`_choice_test`]' \
-		'--package;[`_choice_package`]' \
-	)"
-	if [[ "$*" == "cargo" ]]; then
-		echo "$table" | _patch_table_edit_arguments 'cmd;[`_choice_cmd`]'
-	elif [[ "$*" == "cargo test" ]]; then
-		echo "$table" | _patch_table_edit_arguments 'TESTNAME;[`_choice_testname`]'
-	elif [[ "$*" == "cargo remove" ]]; then
-		echo "$table" | _patch_table_edit_arguments 'DEP_ID;[`_choice_depid`]'
-	else
-		echo "$table"
-	fi
+    table="$( \
+        _patch_table_edit_options \
+            '--bench;[`_choice_bench`]' \
+            '--bin;[`_choice_bin`]' \
+            '--example;[`_choice_example`]' \
+            '--target;[`_choice_target`]' \
+            '--test;[`_choice_test`]' \
+            '--package;[`_choice_package`]' \
+    )"
+    if [[ "$*" == "cargo" ]]; then
+        echo "$table" | _patch_table_edit_arguments 'cmd;[`_choice_cmd`]'
+    elif [[ "$*" == "cargo test" ]]; then
+        echo "$table" | _patch_table_edit_arguments 'TESTNAME;[`_choice_testname`]'
+    elif [[ "$*" == "cargo remove" ]]; then
+        echo "$table" | _patch_table_edit_arguments 'DEP_ID;[`_choice_depid`]'
+    else
+        echo "$table"
+    fi
 }
 
 _choice_cmd() {
-	cargo --list 2>/dev/null | gawk 'NR>1 {print $1}'
+    cargo --list 2>/dev/null | gawk 'NR>1 {print $1}'
 }
 
 _choice_testname() {
-	cargo t -- --list | gawk '/: test$/ { print substr($1, 1, length($1) - 1) }' 
+    cargo t -- --list | gawk '/: test$/ { print substr($1, 1, length($1) - 1) }' 
 }
 
 _choice_depid() {
-	_helper_package_json | yq '.dependencies[].name'
+    _helper_package_json | yq '.dependencies[].name'
 }
 
 _choice_package() {
-	_helper_metadata_json | yq '.packages[].name'
+    _helper_metadata_json | yq '.packages[].name'
 }
 
 _choice_bench() {
-	_helper_package_target bench
+    _helper_package_target bench
 }
 
 _choice_bin() {
-	_helper_package_target bin
+    _helper_package_target bin
 }
 
 _choice_test() {
-	_helper_package_target test
+    _helper_package_target test
 }
 
 _choice_example() {
-	_helper_package_target example
+    _helper_package_target example
 }
 
 _choice_target() {
-	rustup target list --installed
+    rustup target list --installed
 }
 
 _helper_package_target() {
-	_helper_package_json | yq '.targets[] | select( .kind[] | contains("'$1'") ) | .name'
+    _helper_package_json | yq '.targets[] | select( .kind[] | contains("'$1'") ) | .name'
 }
 
 _helper_package_json() {
-	metadata_json="$(_helper_metadata_json)"
-	if [[ -n "$argc_package" ]]; then
-		echo "$metadata_json" | yq '.packages[] | select(.name == "'"$argc_package"'")'
-	else
-		workspace_root="$(echo "$metadata_json" | yq '.workspace_root')"
-		manifest_path="$(_argc_util_path_resolve -u "$workspace_root" Cargo.toml)"
-		echo "$metadata_json" | yq '.packages[] | select(.manifest_path == "'"$manifest_path"'")'
-	fi
+    metadata_json="$(_helper_metadata_json)"
+    if [[ -n "$argc_package" ]]; then
+        echo "$metadata_json" | yq '.packages[] | select(.name == "'"$argc_package"'")'
+    else
+        workspace_root="$(echo "$metadata_json" | yq '.workspace_root')"
+        manifest_path="$(_argc_util_path_resolve -u "$workspace_root" Cargo.toml)"
+        echo "$metadata_json" | yq '.packages[] | select(.manifest_path == "'"$manifest_path"'")'
+    fi
 }
 
 _helper_metadata_json() {
-	cargo metadata --format-version 1 --no-deps
+    cargo metadata --format-version 1 --no-deps
 }

@@ -1,27 +1,32 @@
 _patch_table() {
-    table="$(
+    table="$( \
         _patch_table_edit_options  \
             '--toolchain;[`_choice_toolchain`]' \
-            '--target;[`_choice_target`]' \ | 
-         _patch_table_edit_arguments \
+            '--target;[`_choice_target`]' \
+        | \
+        _patch_table_edit_arguments \
             'toolchain;[`_choice_toolchain`]' \
             'target;[`_choice_target`]' \
             'component;[`_choice_available_component`]' \
     )"
+
     if [[ "$*" == "rustup" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;'
+
     elif [[ "$*" == "rustup update" ]]; then
         echo "$table" | _patch_table_edit_arguments 'toolchain;[`_choice_channel`]'
+
     elif [[ "$*" == "rustup toolchain install" ]]; then
-        echo "$table" \ |
-            _patch_table_edit_options '--component;*,[`_choice_available_component`]'  \ |
+        echo "$table" | \
+            _patch_table_edit_options '--component;*,[`_choice_available_component`]' | \
             _patch_table_edit_arguments 'toolchain;[`_choice_channel`]'
+
     elif [[ "$*" == "rustup component remove" ]]; then
         echo "$table" | _patch_table_edit_arguments 'component;[`_choice_installed_component`]'
+
     else
         echo "$table"
     fi
-    
 }
 
 _choice_toolchain() {

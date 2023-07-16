@@ -2,7 +2,8 @@ _patch_table() {
     _patch_table_edit_options \
         '--pid;*,[`_choice_pid`]' \
         '--user;[`_choice_user`]' \
-        '--sort-key;[`_choice_sort_key`]'
+        '--sort-key;[`_choice_sort_key`]' \
+
 }
 
 _choice_user() {

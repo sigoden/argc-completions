@@ -12,7 +12,10 @@ EOF
 }
 
 _patch_table() { 
-    _patch_table_edit_options '--list;[`_choice_signal`]' '--signal;[`_choice_signal`]' | \
+    _patch_table_edit_options \
+        '--list;[`_choice_signal`]' \
+        '--signal;[`_choice_signal`]' \
+    | \
     _patch_table_edit_arguments ';;' 'pidNames;*[`_choice_pid_proc`]'
 }
 

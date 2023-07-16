@@ -8,7 +8,8 @@ _patch_table() {
         '--console-level;[`_choice_log_level`]' \
         '--level;[`_choice_level`]' \
         '--facility;[`_choice_facility`]' \
-        '--time-format;[delta|reltime|ctime|notime|iso]'
+        '--time-format;[delta|reltime|ctime|notime|iso]' \
+
 }
 
 _choice_log_level() {

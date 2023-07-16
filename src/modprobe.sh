@@ -2,12 +2,14 @@ _patch_help() {
     $@ --help | sed \
         -e 's/-i, --ignore-remove/    --ignore-remove/' \
         -e 's/-c, --show-config/    --show-config/' \
-        -e 's/-n, --show/    --show/'
+        -e 's/-n, --show/    --show/' \
+
 }
 
 _patch_table() { 
     _patch_table_edit_options \
-        '--set-version;[`_choice_set_version`]' | \
+        '--set-version;[`_choice_set_version`]' \
+    | \
     _patch_table_edit_arguments ';;' 'mod;*[`_choice_mod`]'
 }
 

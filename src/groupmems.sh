@@ -2,7 +2,8 @@ _patch_table() {
     _patch_table_edit_options \
         '--add;[`_choice_user`]' \
         '--delete;[`_choice_user`]' \
-        '--group;[`_choice_group`]'
+        '--group;[`_choice_group`]' \
+
 }
 
 _choice_user() {

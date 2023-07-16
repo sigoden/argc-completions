@@ -60,6 +60,7 @@ Commands:
     view, info, show, v                 View registry info
     whoami                              Display npm username
 EOF
+
     elif [[ "$*" == "npm access" ]]; then
         cat <<-'EOF'
 Options:
@@ -67,6 +68,7 @@ Options:
     --opt <value>     This is a one-time password from a two-factor authenticator.
     --registry <url>  The base URL of the npm registry.
 EOF
+
     elif [[ "$*" == "npm adduser" ]]; then
         cat <<-'EOF'
 Options:
@@ -74,6 +76,7 @@ Options:
     --scope <scope>   Associate an operation with a scope for a scoped registry.
     -auth-type <type> What authentication strategy to use with login. (web, legacy)
 EOF
+
     elif [[ "$*" == "npm audit" ]]; then
         cat <<-'EOF'
 Usage: npm audit (fix|signatures)
@@ -91,6 +94,7 @@ Options:
     --include-workspace-root  Include the workspace root when workspaces are enabled for a command.
     --install-links        When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
 EOF
+
     elif [[ "$*" == "npm bugs" ]]; then
         cat <<-'EOF'
 Usage: npm audit [pkgname]...
@@ -101,9 +105,9 @@ Options:
     --workspaces           Set to true to run the command in the context of all configured workspaces.
     --include-workspace-root  Include the workspace root when workspaces are enabled for a command.
 EOF
-    elif [[ "$*" == "npm cache" ]] || [[ "$*" == "npm cache "* ]]; then
-        if [[ "$#" == 2 ]]; then
-            cat <<-'EOF'
+
+    elif [[ "$*" == "npm cache" ]]; then
+        cat <<-'EOF'
 Options:
     --cache <value>    The location of npm's cache directory.
 Commands:
@@ -112,14 +116,15 @@ Commands:
     ls         List all cache.
     verify     Verify the contents of the cache folder, garbage collecting any unneeded data, and verifying the integrity of the cache index and all cached data.
 EOF
-        else
-            cat <<-'EOF' | _patch_help_select_subcmd $@ 
+
+    elif [[ "$*" == "npm cache "* ]]; then
+        cat <<-'EOF' | _patch_help_select_subcmd $@ 
 npm cache add <package-spec>
 npm cache clean [key]
 npm cache ls [name@version]
 npm cache verify
 EOF
-        fi
+
     elif [[ "$*" == "npm clean-install" ]]; then
         cat <<-'EOF'
 Options:
@@ -143,9 +148,9 @@ Options:
     --include-workspace-root    Include the workspace root when workspaces are enabled for a command.
     --install-links             When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
 EOF
-    elif [[ "$*" == "npm config" ]] || [[ "$*" == "npm config "* ]]; then
-        if [[ $# -eq 2 ]]; then
-            cat <<-'EOF'
+
+    elif [[ "$*" == "npm config" ]]; then
+        cat <<-'EOF'
 Commands:
     set     Sets each of the config keys to the value provided.
     get     Echo the config value(s) to stdout.
@@ -160,8 +165,9 @@ Options:
     --location <value>  When passed to npm config this refers to which config file to use. (global, user, project)
     --long              Show extended information in ls, search, and help-search.
 EOF
-        else
-            cat <<-'EOF' | _patch_help_select_subcmd $@ 
+
+    elif [[ "$*" == "npm config "* ]]; then
+        cat <<-'EOF' | _patch_help_select_subcmd $@ 
 npm config set [<key>=<value>]...
 npm config get [key]...
 npm config list
@@ -171,7 +177,7 @@ npm config delete [key]...
 npm config edit
 npm config fix
 EOF
-        fi
+
     elif [[ "$*" == "npm dedupe" ]]; then
         cat <<-'EOF'
 Options:
@@ -191,6 +197,7 @@ Options:
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
     --install-links                   When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
 EOF
+
     elif [[ "$*" == "npm deprecate" ]]; then
         cat <<-'EOF'
 Usage: npm deprecate <package-spec> <message>
@@ -198,6 +205,7 @@ Options:
     --registry <value>  The base URL of the npm registry.
     --otp <value>       This is a one-time password from a two-factor authenticator. 
 EOF
+
     elif [[ "$*" == "npm diff" ]]; then
         cat <<-'EOF'
 Usage: npm diff [paths]...
@@ -217,9 +225,8 @@ Options:
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
 EOF
 
-    elif [[ "$*" == "npm dist-tag" ]] || [[ "$*" == "npm dist-tag "* ]]; then
-        if [[ $# -eq 2 ]]; then
-            cat <<-'EOF'
+    elif [[ "$*" == "npm dist-tag" ]]; then
+        cat <<-'EOF'
 Commands:
     add      Tags the specified version of the package with the specified tag, or the --tag config if not specified.
     rm       Clear a tag that is no longer in use from the package.
@@ -229,13 +236,14 @@ Options:
     --workspaces                      Set to true to run the command in the context of all configured workspaces.
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
 EOF
-        else
-            cat <<-'EOF' | _patch_help_select_subcmd $@ 
+
+    elif [[ "$*" == "npm dist-tag "* ]]; then
+        cat <<-'EOF' | _patch_help_select_subcmd $@ 
 npm dist-tag add <package-spec> <tag>
 npm dist-tag rm <package-spec> <tag>
 npm dist-tag ls [package-spec]
 EOF
-        fi
+
     elif [[ "$*" == "npm docs" ]]; then
         cat <<-'EOF'
 Usage: npm docs [pkgname]...
@@ -246,17 +254,20 @@ Options:
     --workspaces                      Set to true to run the command in the context of all configured workspaces.
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
 EOF
+
     elif [[ "$*" == "npm doctor" ]]; then
         cat <<-'EOF'
 Options:
     --registry <value>  The base URL of the npm registry.
 EOF
+
     elif [[ "$*" == "npm edit" ]]; then
         cat <<-'EOF'
 Usage: npm edit <pkg>
 Options:
     --editor <value>  The command to run for npm edit and npm config edit.
 EOF
+
     elif [[ "$*" == "npm exec" ]]; then
         cat <<-'EOF'
 Usage: npm exec <cmd> [args]...
@@ -267,6 +278,7 @@ Options:
     --workspaces                      Set to true to run the command in the context of all configured workspaces.
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
 EOF
+
     elif [[ "$*" == "npm explain" ]]; then
         cat <<-'EOF'
 Usage: npm explain <package-spec>
@@ -274,12 +286,14 @@ Options:
     --json               Whether or not to output JSON data, rather than the normal output.
     -w --workspace <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
 EOF
+
     elif [[ "$*" == "npm explore" ]]; then
         cat <<-'EOF'
 Usage: npm explore <package> [args]...
 Options:
     --shell <value>  The shell to run for the npm explore command.
 EOF
+
     elif [[ "$*" == "npm find-dupes" ]]; then
         cat <<-'EOF'
 Options:
@@ -298,6 +312,7 @@ Options:
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
     --install-links                   When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
 EOF
+
     elif [[ "$*" == "npm fund" ]]; then
         cat <<-'EOF'
 Usage: npm fund [package-spec]
@@ -308,15 +323,16 @@ Options:
     -w --workspace <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
     --which <value>      If there are multiple funding sources, which 1-indexed source URL to open.
 EOF
+
     elif [[ "$*" == "npm help-search" ]]; then
         cat <<-'EOF'
 Usage: npm help-search <text>
 Options:
     --long          Show extended information in ls, search, and help-search.
 EOF
-    elif [[ "$*" == "npm hook" ]] || [[ "$*" == "npm hook "* ]]; then
-        if [[ $# -eq 2 ]]; then
-            cat <<-'EOF'
+
+    elif [[ "$*" == "npm hook" ]]; then
+        cat <<-'EOF'
 Commands:
     add      Add a hook
     ls       List hooks
@@ -326,14 +342,15 @@ Options:
     --registry <value>  The base URL of the npm registry.
     --otp <value>       This is a one-time password from a two-factor authenticator. 
 EOF
-        else
-            cat <<-'EOF' | _patch_help_select_subcmd $@ 
+
+    elif [[ "$*" == "npm hook "* ]]; then
+        cat <<-'EOF' | _patch_help_select_subcmd $@ 
 npm hook add <pkg> <url> <secret>
 npm hook ls [pkg]
 npm hook rm <id>
 npm hook udpate <id> <url> <secret>
 EOF
-        fi
+
     elif [[ "$*" == "npm init" ]]; then
         cat <<-'EOF'
 Usage: npm init <package-spec>
@@ -346,6 +363,7 @@ Options:
     --workspaces-update               If set to true, the npm cli will run an update after operations that may possibly change the workspaces  installed  to
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
 EOF
+
     elif [[ "$*" == "npm install" ]]; then
         cat <<-'EOF'
 Usage: npm install [package-spec]...
@@ -370,6 +388,7 @@ Options:
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
     --install-links                   When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating  a  sym‐
 EOF
+
     elif [[ "$*" == "npm install-ci-test" ]]; then
         cat <<-'EOF'
 Options:
@@ -393,6 +412,7 @@ Options:
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
     --install-links                   When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
 EOF
+
     elif [[ "$*" == "npm install-test" ]]; then
         cat <<-'EOF'
 Usage: npm install-test [package-spec]...
@@ -417,6 +437,7 @@ Options:
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
     --install-links                   When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
 EOF
+
     elif [[ "$*" == "npm link" ]]; then
         cat <<-'EOF'
 Usage: npm link [package-spec]
@@ -440,6 +461,7 @@ Options:
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
     --install-links                   When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
 EOF
+
     elif [[ "$*" == "npm login" ]]; then
         cat <<-'EOF'
 Options:
@@ -447,12 +469,14 @@ Options:
     --scope <value>      Associate an operation with a scope for a scoped registry.
     --auth-type <value>  What authentication strategy to use with login. 
 EOF
+
     elif [[ "$*" == "npm logout" ]]; then
         cat <<-'EOF'
 Options:
     --registry <value>  The base URL of the npm registry.
     --scope <value>     Associate an operation with a scope for a scoped registry.
 EOF
+
     elif [[ "$*" == "npm list" ]]; then
         cat <<-'EOF'
 Usage: npm ls [package-spec]...
@@ -472,9 +496,9 @@ Options:
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
     --install-links                   When  set  file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
 EOF
-    elif [[ "$*" == "npm org" ]] || [[ "$*" == "npm org "* ]]; then
-        if [[ $# -eq 2 ]]; then
-            cat <<-'EOF'
+
+    elif [[ "$*" == "npm org" ]]; then
+        cat <<-'EOF'
 Commands:
     set    Add user to org.
     rm     Remove a user from an org.
@@ -485,13 +509,13 @@ Options:
     --json               Whether or not to output JSON data, rather than the normal output.
     --parseable          Output parseable results from commands that write to standard output. 
 EOF
-        else
-            cat <<-'EOF' | _patch_help_select_subcmd $@ 
+    elif [[ "$*" == "npm org "* ]]; then
+        cat <<-'EOF' | _patch_help_select_subcmd $@ 
 npm org set <orgname> <username> (developer|admin|owner)
 npm org rm <orgname> <username>
 npm org ls <orgname> [username]
 EOF
-        fi
+
     elif [[ "$*" == "npm outdated" ]]; then
         cat <<-'EOF'
 Usage: npm outdated [package-spec]...
@@ -503,9 +527,9 @@ Options:
     -g --global          Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
     -w --workspace <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
 EOF
-    elif [[ "$*" == "npm owner" ]] || [[ "$*" == "npm owner "* ]]; then
-        if [[ $# -eq 2 ]]; then
-            cat <<-'EOF'
+
+    elif [[ "$*" == "npm owner" ]]; then
+        cat <<-'EOF'
 Commands:
     ls        List all the users who have access to modify a package and push new versions.
     add       Add a new user as a maintainer of a package. This user is enabled to modify metadata, publish new versions, and add other owners.
@@ -516,13 +540,14 @@ Options:
     -w --workspace <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
     --workspaces          Set to true to run the command in the context of all configured workspaces.
 EOF
-        else
-            cat <<-'EOF' | _patch_help_select_subcmd $@ 
+
+    elif [[ "$*" == "npm owner "* ]]; then
+        cat <<-'EOF' | _patch_help_select_subcmd $@ 
 npm owner ls <package-spec>
 npm owner add <user> <package-spec>
 npm owner rm <user> <package-spec>
 EOF
-        fi
+
     elif [[ "$*" == "npm pack" ]]; then
         cat <<-'EOF'
 Usage: npm pack <package-spec>
@@ -535,14 +560,16 @@ Options:
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
     --Description <value>             
 EOF
+
     elif [[ "$*" == "npm ping" ]]; then
         cat <<-'EOF'
 Options:
     --registry <value>  The base URL of the npm registry.
 EOF
-    elif [[ "$*" == "npm pkg" ]] || [[ "$*" == "npm pkg "* ]]; then
-        if [[ $# -eq 2 ]]; then
-            cat <<-'EOF'
+
+
+    elif [[ "$*" == "npm pkg" ]]; then
+        cat <<-'EOF'
 Commands:
     get       Retrieves a value key, defined in your package.json file.
     set       Sets a value in your package.json based on the field value.
@@ -553,21 +580,22 @@ Options:
     -w --workspace <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
     --workspaces          Set to true to run the command in the context of all configured workspaces.
 EOF
-        else
-            cat <<-'EOF' | _patch_help_select_subcmd $@ 
+
+    elif [[ "$*" == "npm pkg "* ]]; then
+        cat <<-'EOF' | _patch_help_select_subcmd $@ 
 npm pkg get <field>...
 npm pkg set <key=value>...
 npm pkg delete <field>...
 EOF
-        fi
+
     elif [[ "$*" == "npm prefix" ]]; then
         cat <<-'EOF'
 Options:
     -g --global       Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
 EOF
-    elif [[ "$*" == "npm profile" ]] || [[ "$*" == "npm profile "* ]]; then
-        if [[ $# -eq 2 ]]; then
-            cat <<-'EOF'
+
+    elif [[ "$*" == "npm profile" ]]; then
+        cat <<-'EOF'
 Commands:
     get          Display all of the properties of your profile, or one or more specific properties.
     set          Set the value of a profile property. You can set the following properties this way: email, fullname, homepage, freenode, twitter, github.
@@ -579,14 +607,15 @@ Options:
     --parseable          Output parseable results from commands that write to standard output. 
     --otp <value>        This  is  a one-time password from a two-factor authenticator. 
 EOF
-        else
-            cat <<-'EOF' | _patch_help_select_subcmd $@ 
+
+    elif [[ "$*" == "npm profile "* ]]; then
+        cat <<-'EOF' | _patch_help_select_subcmd $@ 
 npm profile get [key]
 npm profile set <key> <value>
 npm profile enable-2fa (auth-only|auth-and-writes)
 npm profile disable-2fa
 EOF
-        fi
+
     elif [[ "$*" == "npm prune" ]]; then
         cat <<-'EOF'
 Usage: npm prune [pkg]...
@@ -601,6 +630,7 @@ Options:
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
     --install-links                   When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating  a  sym‐
 EOF
+
     elif [[ "$*" == "npm publish" ]]; then
         cat <<-'EOF'
 Usage: npm publish <package-spec>
@@ -613,6 +643,7 @@ Options:
     --workspaces                      Set to true to run the command in the context of all configured workspaces.
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
 EOF
+
     elif [[ "$*" == "npm query" ]]; then
         cat <<-'EOF'
 Usage: npm query <selector>
@@ -622,6 +653,7 @@ Options:
     --workspaces                      Set to true to run the command in the context of all configured workspaces.
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
 EOF
+
     elif [[ "$*" == "npm rebuild" ]]; then
         cat <<-'EOF'
 Usage: npm prune [package-spec]...
@@ -635,6 +667,7 @@ Options:
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
     --install-links                   When  set  file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
 EOF
+
     elif [[ "$*" == "npm repo" ]]; then
         cat <<-'EOF'
 Usage: npm repo [pkgname]...
@@ -645,6 +678,7 @@ Options:
     --workspaces                      Set to true to run the command in the context of all configured workspaces.
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
 EOF
+
     elif [[ "$*" == "npm restart" ]]; then
         cat <<-'EOF'
 Usage: npm restart [args]...
@@ -652,11 +686,13 @@ Options:
     --ignore-scripts          If true, npm does not run scripts specified in package.json files.
     --script-shell <value>    The shell to use for scripts run with the npm exec, npm run and npm init <package-spec> commands.
 EOF
+
     elif [[ "$*" == "npm root" ]]; then
         cat <<-'EOF'
 Options:
     -g --global       Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
 EOF
+
     elif [[ "$*" == "npm run-script" ]]; then
         cat <<-'EOF'
 Usage: npm run-script <cmd> [args]...
@@ -669,6 +705,7 @@ Options:
     --foreground-scripts              Run all build scripts (ie, preinstall, install, and postinstall) scripts for  installed  packages  in  the  foreground
     --script-shell <value>            The shell to use for scripts run with the npm exec, npm run and npm init <package-spec> commands.
 EOF
+
     elif [[ "$*" == "npm search" ]]; then
         cat <<-'EOF'
 Usage: npm search [terms]...
@@ -685,9 +722,11 @@ Options:
     --prefer-offline          If  true,  staleness  checks  for cached data will be bypassed, but missing data will be requested from the server. 
     --offline                 Force offline mode: no network requests will be done during install. 
 EOF
+
     elif [[ "$*" == "npm shrinkwrap" ]]; then
         cat <<-'EOF'
 EOF
+
     elif [[ "$*" == "npm star" ]]; then
         cat <<-'EOF'
 Usage: npm star [package-spec]...
@@ -696,12 +735,14 @@ Options:
     --unicode           When set to true, npm uses unicode characters in the tree output. 
     --otp <value>       This  is  a one-time password from a two-factor authenticator. 
 EOF
+
     elif [[ "$*" == "npm stars" ]]; then
         cat <<-'EOF'
 Usage: npm stars [user]
 Options:
     --registry <value>  The base URL of the npm registry.
 EOF
+
     elif [[ "$*" == "npm start" ]]; then
         cat <<-'EOF'
 Usage: npm start [args]...
@@ -709,6 +750,7 @@ Options:
     --ignore-scripts          If true, npm does not run scripts specified in package.json files.
     --script-shell <value>    The shell to use for scripts run with the npm exec, npm run and npm init <package-spec> commands.
 EOF
+
     elif [[ "$*" == "npm stop" ]]; then
         cat <<-'EOF'
 Usage: npm stop [args]...
@@ -716,9 +758,9 @@ Options:
     --ignore-scripts          If true, npm does not run scripts specified in package.json files.
     --script-shell <value>    The shell to use for scripts run with the npm exec, npm run and npm init <package-spec> commands.
 EOF
-    elif [[ "$*" == "npm team" ]] || [[ "$*" == "npm team "* ]]; then
-        if [[ $# -eq 2 ]]; then
-            cat <<-'EOF'
+
+    elif [[ "$*" == "npm team" ]]; then
+        cat <<-'EOF'
 Commands:
     create    Create a new team.
     destroy   Destroy a team.
@@ -731,15 +773,16 @@ Options:
     --parseable          Output parseable results from commands that write to standard output. 
     --json               Whether or not to output JSON data, rather than the normal output.
 EOF
-        else
-            cat <<-'EOF' | _patch_help_select_subcmd $@ 
+
+    elif [[ "$*" == "npm team "* ]]; then
+        cat <<-'EOF' | _patch_help_select_subcmd $@ 
 npm team create <scope:team>
 npm team destroy <scope:team>
 npm team add <scope:team> <user>
 npm team rm <scope:team> <user>
 npm team ls <scope>
 EOF
-        fi
+
     elif [[ "$*" == "npm test" ]]; then
         cat <<-'EOF'
 Usage: npm test [args]...
@@ -747,9 +790,9 @@ Options:
     --ignore-scripts          If true, npm does not run scripts specified in package.json files.
     --script-shell <value>    The shell to use for scripts run with the npm exec, npm run and npm init <package-spec> commands.
 EOF
-    elif [[ "$*" == "npm token" ]] || [[ "$*" == "npm token "* ]]; then
-        if [[ $# -eq 2 ]]; then
-            cat <<-'EOF'
+
+    elif [[ "$*" == "npm token" ]]; then
+        cat <<-'EOF'
 Commands:
     list        Shows a table of all active authentication tokens
     create      Create a new authentication token.
@@ -760,8 +803,9 @@ Options:
     --registry <value>   The base URL of the npm registry.
     --otp <value>        This is a one-time password from a two-factor authenticator. 
 EOF
-        else
-            cat <<-'EOF' | _patch_help_select_subcmd $@ 
+
+    elif [[ "$*" == "npm token "* ]]; then
+        cat <<-'EOF' | _patch_help_select_subcmd $@ 
 npm token list
 npm token revoke <id|token>
 npm token create
@@ -769,7 +813,7 @@ options:
   --read-only
   --cidr <value>
 EOF
-        fi
+
     elif [[ "$*" == "npm uninstall" ]]; then
         cat <<-'EOF'
 Usage: npm uninstall <pkg>...
@@ -780,6 +824,7 @@ Options:
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
     --install-links                   When  set  file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
 EOF
+
     elif [[ "$*" == "npm unpublish" ]]; then
         cat <<-'EOF'
 Usage: npm unpublish [package-spec]
@@ -789,6 +834,7 @@ Options:
     -w --workspace <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
     --workspaces          Set to true to run the command in the context of all configured workspaces.
 EOF
+
     elif [[ "$*" == "npm unstar" ]]; then
         cat <<-'EOF'
 Usage: npm unstar [package-spec]...
@@ -797,6 +843,7 @@ Options:
     --unicode           When set to true, npm uses unicode characters in the tree output. 
     --otp <value>       This  is  a one-time password from a two-factor authenticator. 
 EOF
+
     elif [[ "$*" == "npm update" ]]; then
         cat <<-'EOF'
 Usage: npm update [pkg]...
@@ -820,6 +867,7 @@ Options:
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
     --install-links                   When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating  a  sym‐
 EOF
+
     elif [[ "$*" == "npm version" ]]; then
         cat <<-'EOF'
 Usage: npm version <ver>
@@ -836,6 +884,7 @@ Options:
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
     --Description <value>             
 EOF
+
     elif [[ "$*" == "npm view" ]]; then
         cat <<-'EOF'
 Usage: npm view <package-spec> <filed>
@@ -846,6 +895,7 @@ Options:
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
     --Output <value>                  
 EOF
+
     elif [[ "$*" == "npm whoami" ]]; then
         cat <<-'EOF'
 Options:
