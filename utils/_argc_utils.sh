@@ -1,30 +1,37 @@
 # Complete file
 # Args:
-#   `-prefix=`: Set __argc_prefix
-#   `-filter=`: Set __argc_filter, default value is ARGC_FILTER
-#   `-cd=`: Set __argc_cd
-#   `-exts=`: Set file's allowed exts. e.g. `-exts=.json,jsonc`
+#   `prefix=`: Set __argc_prefix
+#   `filter=`: Set __argc_filter, default value is ARGC_FILTER
+#   `cd=`: Set __argc_cd
+#   `suffix=`: Set __argc_suffix
+#   `exts=`: Set file's allowed exts. e.g. `-exts=.json,jsonc`
 _argc_util_comp_file() {
     local filter="$ARGC_FILTER"
-    local exts chdir prefix
+    local exts chdir prefix suffix
     for arg in "${@}"; do
         case "$arg" in
-        -prefix=*)
-            prefix="${arg:8}"
+        prefix=*)
+            prefix="${arg:7}"
             ;;
-        -filter=*)
-            filter="${arg:8}"
+        suffix=*)
+            suffix="${arg:7}"
             ;;
-        -exts=*)
-            exts=":${arg:6}"
+        filter=*)
+            filter="${arg:7}"
             ;;
-        -cd=*)
-            chdir="${arg:4}"
+        exts=*)
+            exts=":${arg:5}"
+            ;;
+        cd=*)
+            chdir="${arg:3}"
             ;;
         esac
     done
     if [[ -n "$chdir" ]]; then
         echo "__argc_cd=$chdir"
+    fi
+    if [[ -n "$suffix" ]]; then
+        echo -e "__argc_suffix=$suffix\0"
     fi
     if [[ -n "$prefix" ]]; then
         echo "__argc_prefix=$prefix"

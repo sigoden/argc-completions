@@ -592,7 +592,7 @@ _choice_mod_replace() {
         else
             chdir="$(_argc_util_path_search_parent -p go.mod)"
         fi
-        _argc_util_comp_file -cd="$chdir" -filter="$argc__kv_filter"
+        _argc_util_comp_file cd="$chdir" filter="$argc__kv_filter"
     fi
 }
 
@@ -621,7 +621,7 @@ _choice_work_replace() {
             (cd "$mod_path" && _choice_mod_no_version | _argc_util_transform suffix==)
         done < <(_choice_work_dropuse)
     else
-        _argc_util_comp_file -cd="$root_dir" -filter="$argc__kv_filter"
+        _argc_util_comp_file cd="$root_dir" filter="$argc__kv_filter"
     fi
 }
 

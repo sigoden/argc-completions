@@ -91,7 +91,7 @@ version() {
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
 _choice_path_to_rc() {
-    _argc_util_comp_file -exts=.envrc,.env
+    _argc_util_comp_file exts=.envrc,.env
 }
 
 _choice_cmd() {

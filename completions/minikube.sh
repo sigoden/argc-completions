@@ -714,7 +714,7 @@ _choice_vnpkit_sock() {
 _choice_mount_string() {
     _argc_util_mode_kv :
     if [[ -z "$argc__kv_prefix" ]]; then
-        _argc_util_comp_file
+        _argc_util_comp_file suffix=:
     else
         echo /minikube-host
     fi
@@ -755,7 +755,7 @@ EOF
 _choice_mount() {
     _argc_util_mode_kv :
     if [[ -z "$argc__kv_prefix" ]]; then
-        _argc_util_comp_file
+        _argc_util_comp_file suffix=:
     else
         _argc_util_mode_parts '/' "$argc__kv_filter" "$argc__kv_prefix"
         if [[ -z "$argc__kv_filter" ]]; then
