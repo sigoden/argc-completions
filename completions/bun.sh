@@ -392,25 +392,25 @@ discord() {
 
 _choice_script_or_bin() {
     echo __argc_value=file
-    _helper_script
+    _choice_script
 }
 
 _choice_dependency() {
-    pkg_json_path=$(_helper_pkg_json_path)
+    _helper_find_pkg_json_path
     if [[ -n "$pkg_json_path" ]]; then
         cat "$pkg_json_path" | yq '(.dependencies // {}) + (.devDependencies // {}) + (.optionalDependencies // {}) | keys | .[]'
     fi
 }
 
-_helper_script() {
-    pkg_json_path="$(_helper_pkg_json_path)"
+_choice_script() {
+    _helper_find_pkg_json_path
     if [[ -n "$pkg_json_path" ]]; then
         cat "$pkg_json_path" | yq '(.scripts // {}) | keys | .[]'
     fi
 }
 
-_helper_pkg_json_path() {
-    _argc_util_path_search_parent package.json
+_helper_find_pkg_json_path() {
+    pkg_json_path="$(_argc_util_path_search_parent package.json)"
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

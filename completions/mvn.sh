@@ -63,29 +63,29 @@
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
 _choice_profile() {
-    project_file="$(_helper_project_xml_path)"
-    if [[ ! -f "$project_file" ]]; then
+    _helper_find_pom_path
+    if [[ ! -f "$pom_path" ]]; then
         return
     fi
-    cat "$project_file" | yq -p xml  '.project.profiles[].[].id' 
+    cat "$pom_path" | yq -p xml  '.project.profiles[].[].id' 
 }
 
 _choice_project() {
-    project_file="$(_helper_project_xml_path)"
-    if [[ ! -f "$project_file" ]]; then
+    _helper_find_pom_path
+    if [[ ! -f "$pom_path" ]]; then
         return
     fi
-    mvn --file "$project_file" -Dexec.executable='echo' -Dexec.args='${project.artifactId}' exec:exec -q
+    mvn --file "$pom_path" -Dexec.executable='echo' -Dexec.args='${project.artifactId}' exec:exec -q
 }
 
 _choice_goal_phase() {
     _choice_default_goal_phase
-    project_file="$(_helper_project_xml_path)"
-    if [[ ! -f "$project_file" ]]; then
+    _helper_find_pom_path
+    if [[ ! -f "$pom_path" ]]; then
         return
     fi
     local IFS=$'\n'
-    for plugin_subpath in $(cat "$project_file" | yq -p xml '.project.build.plugins.plugin | .[] |  .groupId |= sub("\.", "/") | .groupId + "/" + .artifactId + "/" + .version + "/" + .artifactId + "-" + .version + ".jar"'); do
+    for plugin_subpath in $(cat "$pom_path" | yq -p xml '.project.build.plugins.plugin | .[] |  .groupId |= sub("\.", "/") | .groupId + "/" + .artifactId + "/" + .version + "/" + .artifactId + "-" + .version + ".jar"'); do
         plugin_path="$HOME/.m2/repository/$plugin_subpath" 
         if [[ -f "$plugin_path" ]]; then
             unzip -p "$plugin_path" META-INF/maven/plugin.xml |  yq -p xml '.plugin.goalPrefix as $prefix | .plugin.mojos[] | .[] | .description |= split("\n") | $prefix + ":" + .goal + "   " + .description[0]'
@@ -128,11 +128,11 @@ site-deploy	deploy the generated site documentation to the specified web server
 EOF
 }
 
-_helper_project_xml_path() {
+_helper_find_pom_path() {
     if [[ -n "$argc_file" ]]; then 
-        echo "$argc_file"
+        pom_path="$argc_file"
     else
-        _argc_util_path_search_parent pom.xml
+        pom_path="$(_argc_util_path_search_parent pom.xml)"
     fi
 }
 

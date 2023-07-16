@@ -11,7 +11,7 @@ _choice_user_group() {
     if [[ -z "$argc__kv_prefix" ]]; then
         _choice_user | _argc_util_transform suffix=: nospace
     else
-        _helper_group
+        _choice_group
     fi
 }
 

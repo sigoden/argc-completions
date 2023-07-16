@@ -130,29 +130,29 @@ _choice_gpg_id() {
 }
 
 _choice_pass_dir() {
-    root_dir="$(_helper_root_dir)"
+    _helper_find_root_dir
     command ls -a1dp "$root_dir$ARGC_FILTER"* | grep /$ | sed "s|$root_dir||" | _argc_util_comp_parts /
 }
 
 _choice_pass_name() {
-    root_dir="$(_helper_root_dir)"
+    _helper_find_root_dir
     command ls -a1dp "$root_dir$ARGC_FILTER"* | sed -e "s|$root_dir||" -e 's/\.gpg$//' | _argc_util_comp_parts /
 }
 
 _choice_git() {
-    root_dir="$(_helper_root_dir)"
+    _helper_find_root_dir
     (cd "$root_dir" && _argc_util_comp_subcommand 0 git)
 }
 
-_helper_root_dir() {
+_helper_find_root_dir() {
     if [[ -d "$PASSWORD_STORE_DIR" ]]; then
         if [[ "$PASSWORD_STORE_DIR" =~ "/"$ ]]; then
-            echo "$PASSWORD_STORE_DIR"
+            root_dir="$PASSWORD_STORE_DIR"
         else
-            echo "$PASSWORD_STORE_DIR/"
+            root_dir="$PASSWORD_STORE_DIR/"
         fi
     elif [[ -d "$HOME/.password-store" ]]; then
-        echo "$HOME/.password-store/"
+        root_dir="$HOME/.password-store/"
     fi
 }
 

@@ -755,7 +755,7 @@ config::set() {
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
 _choice_bin() {
-    pkg_json_path=$(_helper_pkg_json_path)
+    _helper_find_pkg_json_path
     if [[ -f "$pkg_json_path" ]]; then
         bin_dir="$(dirname "$pkg_json_path")/node_modules/.bin"
         if [[ -d "$bin_dir" ]]; then
@@ -770,7 +770,7 @@ _choice_config_key() {
 
 _choice_script() {
     _helper_apply_filter
-    pkg_json_path=$(_helper_pkg_json_path)
+    _helper_find_pkg_json_path
     if [[ -n "$pkg_json_path" ]]; then
         cat "$pkg_json_path" | yq '(.scripts // {}) | keys | .[]'
     fi
@@ -795,7 +795,7 @@ EOF
 
 _choice_dependency() {
     _helper_apply_filter
-    pkg_json_path=$(_helper_pkg_json_path)
+    _helper_find_pkg_json_path
     if [[ -n "$pkg_json_path" ]]; then
         cat "$pkg_json_path" | yq '(.dependencies // {}) + (.devDependencies // {}) + (.optionalDependencies // {}) | keys | .[]'
     fi
@@ -814,8 +814,8 @@ _helper_apply_filter() {
     fi
 }
 
-_helper_pkg_json_path() {
-    _argc_util_path_search_parent package.json
+_helper_find_pkg_json_path() {
+    pkg_json_path="$(_argc_util_path_search_parent package.json)"
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

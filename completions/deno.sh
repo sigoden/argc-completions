@@ -579,9 +579,9 @@ _choice_lint_rule() {
 }
 
 _choice_task() {
-    local config_file=$(_helper_config_file)
-    if [[ -n "$config_file" ]]; then
-        cat "$config_file" | yq '.tasks | keys | .[]' 
+    _helper_find_deno_json_path
+    if [[ -n "$deno_json_path" ]]; then
+        cat "$deno_json_path" | yq '.tasks | keys | .[]' 
     fi
 }
 
@@ -589,8 +589,8 @@ _choice_install_bin() {
     find ~/.deno/bin -maxdepth 1 -type f | xargs -I% basename % | grep -v '.cmd$\|^deno$'
 }
 
-_helper_config_file() {
-    _argc_util_path_search_parent deno.json deno.jsonc
+_helper_find_deno_json_path() {
+    deno_json_path="$(_argc_util_path_search_parent deno.json deno.jsonc)"
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

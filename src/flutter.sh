@@ -273,13 +273,13 @@ _choice_global_package_executable() {
 }
 
 _choice_package() {
-    pubspec_path="$(_helper_pubspec_yaml_path)"
-    if [[ -z  "$pubspec_path" ]]; then
+    _helper_find_pubspec_path
+    if [[ -z "$pubspec_path" ]]; then
         return
     fi
     cat "$pubspec_path" | yq '(.dependencies // {}) + (.dev_dependencies // {}) | keys | .[]'
 }
 
-_helper_pubspec_yaml_path() {
-    _argc_util_path_search_parent pubspec.yaml pubspec.yml
+_helper_find_pubspec_path() {
+    pubspec_path="$(_argc_util_path_search_parent pubspec.yaml pubspec.yml)"
 }
