@@ -26,7 +26,7 @@ _patch_table() {
       ; then
         echo "$table" | _patch_table_edit_arguments ';;' 'pattern;*[`_choice_unit`]'
 
-    elif [[ "$*" == "systemctl start" ]] || \
+    elif [[ "$*" == "systemctl start" ]] \
       || [[ "$*" == "systemctl stop" ]] \
       || [[ "$*" == "systemctl restart" ]] \
       || [[ "$*" == "systemctl reload" ]] \
