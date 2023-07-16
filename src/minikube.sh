@@ -5,7 +5,7 @@ _patch_help() {
         if (match($0, /^\s*$/)) {
             commandZone = 0
             optionZone = 0
-        } else if (match($0, /Available Commands:/)) {
+        } else if (match($0, /^Available Commands:/)) {
             commandZone = 1
         } else if (match($0, /    -.*:$/)) {
             optionZone = 1
@@ -18,7 +18,7 @@ _patch_help() {
                 line = substr(line, 1, length(line) - RLENGTH) " " arr[1]
             } else if (match(line, /=\[\]$/)) {
                 line = substr(line, 1, length(line) - RLENGTH) " <value...>"
-            } else if (match(line, /=\047\047$/)) {
+            } else if (match(line, /=(\047\047)?$/)) {
                 line = substr(line, 1, length(line) - RLENGTH) " <value>"
             } else if (match(line, /=\047(\S+)\047$/, arr)) {
                 line = substr(line, 1, length(line) - RLENGTH) " <" arr[1] ">"
@@ -38,15 +38,21 @@ _patch_help() {
 }
 
 _patch_table() { 
-    table="$(_patch_table_edit_options \
-        '--driver(<value>);[virtualbox|vmwarefusion|kvm2|qemu2|qemu|vmware|none|docker|podman|ssh|auto-detect]' \
-        '--output;[text|json]' \
-        '--node;[`_choice_node`]' \
-        '--namespace;[`_choice_namespace`]' \
-        '--file(<file>)' \
+    table="$( \
+        _patch_table_edit_options \
+            '--driver(<value>);[virtualbox|vmwarefusion|kvm2|qemu2|qemu|vmware|none|docker|podman|ssh|auto-detect]' \
+            '--output;[text|json]' \
+            '--node;[`_choice_node`]' \
+            '--namespace;[`_choice_namespace`]' \
+            '--file(<file>)' \
     )"
+
     if [[ "$*" == "minikube start" ]]; then
-        echo "$table" | _patch_table_edit_options \
+        echo "$table" | \
+        _patch_table_dedup_options --driver \
+        | \
+        _patch_table_edit_options \
+            '--driver(<value>);[virtualbox|vmwarefusion|kvm2|qemu2|qemu|vmware|none|docker|podman|ssh|auto-detect]' \
             '--iso-url(<url>);*,;Locations to fetch the minikube ISO from.' \
             '--addons;*,[`_choice_addon`]' \
             '--base-image;[`_choice_image_repo_tag`]' \
@@ -57,28 +63,42 @@ _patch_table() {
             '--hyperkit-vpnkit-sock;[`_choice_vnpkit_sock`]' \
             '--mount-string;[`_choice_mount_string`]' \
             '--nat-nic-type;[Am79C970A|Am79C973|82540EM|82543GC|82545EM|virtio]' \
-            '--ssh-key(<file>)'
+            '--ssh-key(<file>)' \
+
     elif [[ "$*" == "minikube docker-env" ]]; then
         echo "$table" | _patch_table_edit_options \
-            "--format(<value>)"
+            "--format(<value>)" \
+
     elif [[ "$*" == "minikube image load" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'image;[`_choice_load_image`]'
+
     elif [[ "$*" == "minikube image save" ]]; then
         echo "$table" | _patch_table_edit_arguments 'IMAGE;[`_choice_image`]' 'ARCHIVE|-(ARCHIVE <path>)'
+
     elif [[ "$*" == "minikube image"* ]]; then
         echo "$table" | _patch_table_edit_arguments 'IMAGE;[`_choice_image`]'
+
     elif [[ "$*" == "minikube addons"* ]]; then
         echo "$table" | _patch_table_edit_arguments 'ADDON_NAME;[`_choice_addon`]'
+
     elif [[ "$*" == "minikube config"* ]]; then
         echo "$table" | _patch_table_edit_arguments 'PROPERTY_NAME;[`_choice_property_name`]'
+
     elif [[ "$*" == "minikube profile" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'MINIKUBE_PROFILE_NAME'
+
     elif [[ "$*" == "minikube mount" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'src:dest;[`_choice_mount`]'
+
+    elif [[ "$*" == "minikube kubectl" ]]; then
+        echo "$table" | _patch_table_edit_arguments ';;' 'args;~[`_choice_kubectl`]'
+
     elif [[ "$*" == "minikube cp" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'SRC;[`_choice_cp`]' 'DEST;[`_choice_cp`]'
+
     elif [[ "$*" == "minikube license" ]]; then
         echo "$table" | _patch_table_edit_options '--dir(<dir>)'
+
     else
         echo "$table"
     fi
@@ -179,6 +199,10 @@ _choice_mount() {
         fi
         minikube ssh "ls -1 -p '$argc__parts_local_prefix'" | _argc_util_transform nospaceIfEnd=/
     fi
+}
+
+_choice_kubectl() {
+    _argc_util_comp_subcommand 0 kubectl
 }
 
 _choice_cp() {
