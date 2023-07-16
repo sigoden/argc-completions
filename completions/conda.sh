@@ -46,7 +46,7 @@ compare() {
 # @flag -v --verbose                            Use once for info, twice for debug, three times for trace.
 # @flag -q --quiet                              Do not display progress bar.
 # @flag --system                                Write to the system .condarc file at '/home/sigo/.miniconda3/.condarc'.
-# @flag --env                                   Write to the active conda environment .condarc file (/home/sigo/.miniconda3).
+# @flag --env                                   Write to the active conda environment .condarc file (<no active environment>).
 # @option --file                                Write to the given file.
 # @option --show*[`_choice_config_key`]         Display configuration values as calculated and compiled.
 # @flag --show-sources                          Display all identified configuration sources.
@@ -225,7 +225,7 @@ package() {
 # }} conda package
 
 # {{ conda remove
-# @cmd (uninstall) Remove a list of packages from a specified conda environment.
+# @cmd Remove a list of packages from a specified conda environment.
 # @arg package_name[`_choice_package`]
 remove() {
     :;
@@ -286,7 +286,7 @@ search() {
 # }} conda search
 
 # {{ conda update
-# @cmd (upgrade)  Updates conda packages to the latest compatible version.
+# @cmd Updates conda packages to the latest compatible version.
 # @arg package_name[`_choice_package`]
 update() {
     :;

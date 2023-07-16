@@ -3152,7 +3152,7 @@ _choice_image_repo() {
 }
 
 _choice_image_repo_tag() {
-    _docker image ls --format '{{.Repository}}:{{.Tag}}'
+    _docker image ls --format '{{.Repository}}:{{.Tag}}' | sed 's/:/=/' | _argc_util_comp_kv :
 }
 
 _choice_context() {

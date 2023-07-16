@@ -287,14 +287,14 @@ pub::global() {
 
 # {{{{ dart pub global activate
 # @cmd Make a package's executables globally available.
-# @flag -h --help           Print this usage information.
-# @flag -s --source         The source used to find the package.
-# @flag --git-path          Path of git package in repository
-# @flag --git-ref           Git branch or commit to be retrieved
-# @flag --no-executables    Do not put executables on PATH.
-# @flag -x --executable     Executable(s) to place on PATH.
-# @flag --overwrite         Overwrite executables from other packages with the same name.
-# @flag -u --hosted-url     A custom pub server URL for the package.
+# @flag -h --help                         Print this usage information.
+# @option -s --source[git|hosted|path]    The source used to find the package.
+# @flag --git-path                        Path of git package in repository
+# @flag --git-ref                         Git branch or commit to be retrieved
+# @flag --no-executables                  Do not put executables on PATH.
+# @flag -x --executable                   Executable(s) to place on PATH.
+# @flag --overwrite                       Overwrite executables from other packages with the same name.
+# @flag -u --hosted-url                   A custom pub server URL for the package.
 # @arg package!
 # @arg version-constraint
 pub::global::activate() {

@@ -503,6 +503,10 @@ _argc_util_transform() {
         value = $0
     }
     valueLen = length(value)
+    if (substr(value, valueLen) == "\r") {
+        value = substr(value, 1, valueLen - 1)
+        valueLen = valueLen - 1
+    }
     nospace = 0
     if (substr(value, valueLen) == "\0") {
         nospace = 1; value = substr(value, 1, valueLen - 1)
@@ -514,7 +518,7 @@ _argc_util_transform() {
         } else if (arg == "space") {
             nospace = 0
         } else if (index(arg, "nospaceIfEnd=")) {
-            if (substr(value, length(value)) == substr(arg, 14)) {
+            if (substr(value, valueLen) == substr(arg, 14)) {
                 nospace = 1
             }
         } else if (index(arg, "prefix=")) {
