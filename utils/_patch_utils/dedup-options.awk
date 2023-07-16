@@ -9,8 +9,11 @@ BEGIN {
     LINES_SIZE = LINES_SIZE + 1
     LINES[LINES_SIZE] = $0
     for (i in PATTERNS) {
-        optionName = extraOptionName($0)
         pattern = PATTERNS[i]
+        if (pattern == ";;") {
+            continue
+        }
+        optionName = extraOptionName($0)
         nameMatcher = " " pattern "[^A-Za-z0-9_-]"
         if (optionName ~ nameMatcher) {
             DUPS_SIZE[i] = DUPS_SIZE[i] + 1
@@ -21,10 +24,21 @@ BEGIN {
 
 END {
     split("", SKIP_LINES)
+    keepLast = 1
     for (i in PATTERNS) {
+        if (PATTERNS[i] == ";;") {
+            keepLast = 0
+            continue
+        }
         if (DUPS_SIZE[i] > 1) {
-            for (j = 1; j < DUPS_SIZE[i]; j++) {
-                SKIP_LINES[DUPS[i, j]] = 1
+            if (keepLast == 1) {
+                for (j = 1; j < DUPS_SIZE[i]; j++) {
+                    SKIP_LINES[DUPS[i, j]] = 1
+                }
+            } else {
+                for (j = DUPS_SIZE[i]; j > 1; j--) {
+                    SKIP_LINES[DUPS[i, j]] = 1
+                }
             }
         }
     }

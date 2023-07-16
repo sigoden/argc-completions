@@ -89,7 +89,9 @@ _patch_table_edit_options() {
 # Deduplicate options
 # Example
 #    cat | _patch_table_dedup_options \ |
-#      '--foo'
+#      '--foo'                                   # remove duplicated option, keep last
+#      ';;'                                      # seperator, before it keep last, after it keep first
+#      '--foo'                                   # remove duplicated option, keep first
 _patch_table_dedup_options() {
     local args="$(printf "%s\n" "$@")"
     gawk -v RAW_ARGS="$args" -f "$ROOT_DIR/utils/_patch_utils/dedup-options.awk"
