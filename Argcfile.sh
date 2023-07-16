@@ -20,18 +20,18 @@ generate() {
         generate_sh_args="$generate_sh_args -v"
     fi
     if [[ -n $argc_subcmd ]]; then
+        echo Generate $argc_cmd $argc_subcmd
         ./scripts/generate.sh $generate_sh_args -E $argc_cmd $argc_subcmd
-        echo Generated $argc_cmd $argc_subcmd
     else
+        echo Generate $argc_cmd
         ./scripts/generate.sh $generate_sh_args $argc_cmd
-        echo Generated $argc_cmd
         if [[ "$argc_with_extend_subcmds" -eq 1 ]] && [[ -d completions/$argc_cmd ]]; then
             if [[ -d completions/$argc_cmd ]]; then
                 local child
                 for child in completions/$argc_cmd/*.sh; do
                     child="$(basename "$child" .sh)"
+                    echo Generate $argc_cmd $child
                     ./scripts/generate.sh $generate_sh_args -E $argc_cmd $child
-                    echo Generated $argc_cmd $child
                 done
             fi
         fi
