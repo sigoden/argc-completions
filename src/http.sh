@@ -41,11 +41,83 @@ EOF
 }
 
 _choice_style() {
-    printf "%s\n" abap algol algol_nu arduino auto autumn borland bw colorful default dracula emacs friendly friendly_grayscale fruity github-dark gruvbox-dark gruvbox-light igor inkpot lilypond lovelace manni material monokai murphy native nord nord-darker one-dark paraiso-dark paraiso-light pastie perldoc pie pie-dark pie-light rainbow_dash rrt sas solarized solarized-dark solarized-light staroffice stata stata-dark stata-light tango trac vim vs xcode zenburn
+    cat <<-'EOF'
+abap
+algol
+algol_nu
+arduino
+auto
+autumn
+borland
+bw
+colorful
+default
+dracula
+emacs
+friendly
+friendly_grayscale
+fruity
+github-dark
+gruvbox-dark
+gruvbox-light
+igor
+inkpot
+lilypond
+lovelace
+manni
+material
+monokai
+murphy
+native
+nord
+nord-darker
+one-dark
+paraiso-dark
+paraiso-light
+pastie
+perldoc
+pie
+pie-dark
+pie-light
+rainbow_dash
+rrt
+sas
+solarized
+solarized-dark
+solarized-light
+staroffice
+stata
+stata-dark
+stata-light
+tango
+trac
+vim
+vs
+xcode
+zenburn
+EOF
 }
 
 _choice_cipher() {
-    printf "%s\n" TLS_AES_256_GCM_SHA384 TLS_CHACHA20_POLY1305_SHA256 TLS_AES_128_GCM_SHA256 ECDHE-ECDSA-AES256-GCM-SHA384 ECDHE-RSA-AES256-GCM-SHA384 ECDHE-ECDSA-AES128-GCM-SHA256 ECDHE-RSA-AES128-GCM-SHA256 ECDHE-ECDSA-CHACHA20-POLY1305 ECDHE-RSA-CHACHA20-POLY1305 ECDHE-ECDSA-AES256-SHA384 ECDHE-RSA-AES256-SHA384 ECDHE-ECDSA-AES128-SHA256 ECDHE-RSA-AES128-SHA256 DHE-RSA-AES256-GCM-SHA384 DHE-RSA-AES128-GCM-SHA256 DHE-RSA-AES256-SHA256 DHE-RSA-AES128-SHA256
+    cat <<-'EOF'
+TLS_AES_256_GCM_SHA384
+TLS_CHACHA20_POLY1305_SHA256
+TLS_AES_128_GCM_SHA256
+ECDHE-ECDSA-AES256-GCM-SHA384
+ECDHE-RSA-AES256-GCM-SHA384
+ECDHE-ECDSA-AES128-GCM-SHA256
+ECDHE-RSA-AES128-GCM-SHA256
+ECDHE-ECDSA-CHACHA20-POLY1305
+ECDHE-RSA-CHACHA20-POLY1305
+ECDHE-ECDSA-AES256-SHA384
+ECDHE-RSA-AES256-SHA384
+ECDHE-ECDSA-AES128-SHA256
+ECDHE-RSA-AES128-SHA256
+DHE-RSA-AES256-GCM-SHA384
+DHE-RSA-AES128-GCM-SHA256
+DHE-RSA-AES256-SHA256
+DHE-RSA-AES128-SHA256
+EOF
 }
 
 _choice_args() {

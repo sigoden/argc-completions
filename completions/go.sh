@@ -601,7 +601,8 @@ _choice_mod_why() {
 }
 
 _choice_work_dropreplace() {
-    _helper_work_json  | yq '.Replace | .[] | with(select(.New | has("Version")); .New.Path = .New.Path + "@" + .New.Version) | .Old.Path + "	" + .New.Path'
+    _helper_work_json  | \
+    yq '.Replace | .[] | with(select(.New | has("Version")); .New.Path = .New.Path + "@" + .New.Version) | .Old.Path + "	" + .New.Path'
 }
 
 _choice_work_dropuse() {

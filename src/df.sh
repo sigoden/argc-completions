@@ -7,7 +7,28 @@ _patch_table() {
 }
 
 _choice_type() {
-    printf "%s\n" adfs cgroup2 efivarfs hfs pipefs securityfs ufs autofs configfs ext2 hpfs proc sockfs vfat bdev cpuset ext3 hugetlbfs pstore swap
+    cat <<-'EOF'
+adfs
+cgroup2
+efivarfs
+hfs
+pipefs
+securityfs
+ufs
+autofs
+configfs
+ext2
+hpfs
+proc
+sockfs
+vfat
+bdev
+cpuset
+ext3
+hugetlbfs
+pstore
+swap
+EOF
 }
 
 _choice_output() {

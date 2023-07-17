@@ -414,7 +414,7 @@ _choice_context() {
 }
 
 _choice_namespace() {
-    kubectl get namespaces | tail -n +2 | awk '{print $1}'
+    kubectl get namespaces | tail -n +2 | gawk '{print $1}'
 }
 
 _choice_user() {

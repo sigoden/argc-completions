@@ -8,19 +8,12 @@ _patch_table() {
 
 _choice_type() {
     cat <<-'EOF'
-f	regular files 
 file	regular files 
-d	directories 
 directory	directories 
-l	symbolic links 
 symlink	symbolic links 
-s	socket 
 socket	socket 
-p	named pipe (FIFO) 
 pipe	named pipe (FIFO) 
-x	executables
 executable	executables 
-e	empty files or directories
 empty	empty files or directories
 EOF
 }

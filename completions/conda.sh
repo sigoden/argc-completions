@@ -317,25 +317,27 @@ _choice_config_key() {
 }
 
 _choice_config_kv() {
-    (set -o posix; set) | command grep argc_ > /tmp/argc-debug
-    printenv | command grep ARGC_ >> /tmp/argc-debug
-    if [[ "${#argc_add[@]}" -eq 2 ]] || \
-        [[ "${#argc_append[@]}" -eq 2 ]] || \
-        [[ "${#argc_prepend[@]}" -eq 2 ]] || \
-        [[ "${#argc_remove[@]}" -eq 2 ]] || \
-        [[ "${#argc_set[@]}" -eq 2 ]]; then
-        :;
-    elif [[ "${#argc_add[@]}" -eq 1 ]] || \
-        [[ "${#argc_append[@]}" -eq 1 ]] || \
-        [[ "${#argc_prepend[@]}" -eq 1 ]] || \
-        [[ "${#argc_remove[@]}" -eq 1 ]] || \
-        [[ "${#argc_set[@]}" -eq 1 ]]; then
+    if _helper_check_config_flag 1; then
         _choice_config_key
     fi
 }
 
 _choice_package() {
     conda $(_argc_util_param_select_options --prefix --name) list --json | yq '.[] | .name + "	" + .version'
+}
+
+_helper_check_config_flag() {
+    num="$1"
+    if [[ "${#argc_add[@]}" == "$num" ]] \
+    || [[ "${#argc_append[@]}" == "$num" ]] \
+    || [[ "${#argc_prepend[@]}" == "$num" ]] \
+    || [[ "${#argc_remove[@]}" == "$num" ]] \
+    || [[ "${#argc_set[@]}" == "$num" ]] \
+    ; then
+        return 0
+    else
+        return 1
+    fi
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

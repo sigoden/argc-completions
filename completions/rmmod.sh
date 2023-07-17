@@ -10,7 +10,8 @@
 
 _choice_mod() {
     version=`uname -r`
-    find "/lib/modules/$version/kernel/" -type f -name *.ko | gawk '{split($0, parts, "/"); v=parts[length(parts)]; gsub(/.ko$/, "", v); print v}'
+    find "/lib/modules/$version/kernel/" -type f -name *.ko | \
+    gawk '{split($0, parts, "/"); v=parts[length(parts)]; gsub(/.ko$/, "", v); print v}'
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

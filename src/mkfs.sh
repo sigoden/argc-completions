@@ -45,5 +45,6 @@ _choice_disk() {
 }
 
 _choice_block_device() {
-    lsblk --json -o KNAME,LABEL,PARTLABEL,PARTUUID,PATH,SIZE,PARTTYPENAME,TYPE,UUID | yq '.blockdevices[] | .path + "	" + .size + " " + (.parttypename // "")'
+    lsblk --json -o KNAME,LABEL,PARTLABEL,PARTUUID,PATH,SIZE,PARTTYPENAME,TYPE,UUID | \
+    yq '.blockdevices[] | .path + "	" + .size + " " + (.parttypename // "")'
 }

@@ -20,7 +20,8 @@ _choice_set_version() {
 
 _choice_mod() {
     version="${argc_set_version:-`uname -r`}"
-    find "$argc_basedir/lib/modules/$version/kernel/" -type f -name *.ko | gawk '{split($0, parts, "/"); v=parts[length(parts)]; gsub(/.ko$/, "", v); print v}'
+    find "$argc_basedir/lib/modules/$version/kernel/" -type f -name *.ko | \
+    gawk '{split($0, parts, "/"); v=parts[length(parts)]; gsub(/.ko$/, "", v); print v}'
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

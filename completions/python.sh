@@ -36,23 +36,23 @@ _choice_model_cached() {
 }
 
 _choice_model() {
-    python -c "help('modules')" 2>/dev/null | gawk '
-BEGIN {
-    split("", LINES)
-    LINES_LEN = 0
-}
-{
-    LINES_LEN = LINES_LEN + 1
-    LINES[LINES_LEN] = $0
-}
-END {
-    for (i in LINES) {
-        if (i > 3 && i < LINES_LEN - 3) {
-            gsub(/\s+/, "\n", LINES[i])
-            print LINES[i]
+    python -c "help('modules')" 2>/dev/null | \
+    gawk 'BEGIN {
+            split("", LINES)
+            LINES_LEN = 0
         }
-    }
-}'
+        {
+            LINES_LEN = LINES_LEN + 1
+            LINES[LINES_LEN] = $0
+        }
+        END {
+            for (i in LINES) {
+                if (i > 3 && i < LINES_LEN - 3) {
+                    gsub(/\s+/, "\n", LINES[i])
+                    print LINES[i]
+                }
+            }
+        }'
 }
 
 _choice_opt() {

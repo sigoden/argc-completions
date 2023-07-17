@@ -676,7 +676,7 @@ _choice_node() {
 }
 
 _choice_namespace() {
-    minikube kubectl get namespaces | tail -n +2 | awk '{print $1}'
+    minikube kubectl get namespaces | tail -n +2 | gawk '{print $1}'
 }
 
 _choice_load_image() {

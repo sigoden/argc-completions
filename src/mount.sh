@@ -115,19 +115,23 @@ EOF
 }
 
 _choice_block_device() {
-    lsblk --json -o KNAME,LABEL,PARTLABEL,PARTUUID,PATH,SIZE,PARTTYPENAME,TYPE,UUID | yq '.blockdevices[] | .path + "	" + .size + " " + (.parttypename // "")'
+    lsblk --json -o KNAME,LABEL,PARTLABEL,PARTUUID,PATH,SIZE,PARTTYPENAME,TYPE,UUID | \
+    yq '.blockdevices[] | .path + "	" + .size + " " + (.parttypename // "")'
 }
 
 _choice_uuid() {
-    lsblk --json -o KNAME,LABEL,PARTLABEL,PARTUUID,PATH,SIZE,PARTTYPENAME,TYPE,UUID | yq '.blockdevices[] | select(.uuid != null) | .uuid + "	" + (.kname // "")'
+    lsblk --json -o KNAME,LABEL,PARTLABEL,PARTUUID,PATH,SIZE,PARTTYPENAME,TYPE,UUID | \
+    yq '.blockdevices[] | select(.uuid != null) | .uuid + "	" + (.kname // "")'
 }
 
 _choice_partlabel() {
-    lsblk --json -o KNAME,LABEL,PARTLABEL,PARTUUID,PATH,SIZE,PARTTYPENAME,TYPE,UUID | yq '.blockdevices[] | select(.partlabel != null) | .partlabel + "	" + (.kname // "")'
+    lsblk --json -o KNAME,LABEL,PARTLABEL,PARTUUID,PATH,SIZE,PARTTYPENAME,TYPE,UUID | \
+    yq '.blockdevices[] | select(.partlabel != null) | .partlabel + "	" + (.kname // "")'
 }
 
 _choice_partuuid() {
-    lsblk --json -o KNAME,LABEL,PARTLABEL,PARTUUID,PATH,SIZE,PARTTYPENAME,TYPE,UUID | yq '.blockdevices[] | select(.partuuid != null) | .partuuid + "	" + (.kname // "")'
+    lsblk --json -o KNAME,LABEL,PARTLABEL,PARTUUID,PATH,SIZE,PARTTYPENAME,TYPE,UUID | \
+    yq '.blockdevices[] | select(.partuuid != null) | .partuuid + "	" + (.kname // "")'
 }
 
 _choice_mount_source() {

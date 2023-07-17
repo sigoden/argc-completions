@@ -2497,7 +2497,8 @@ _choice_script() {
 }
 
 _choice_global_dependency() {
-    cat "$(_argc_util_path_resolve "$(yarn global dir)" package.json)" | yq '(.dependencies // {}) + (.devDependencies // {}) + (.optionalDependencies // {}) | keys | .[]'
+    cat "$(_argc_util_path_resolve "$(yarn global dir)" package.json)" | \
+    yq '(.dependencies // {}) + (.devDependencies // {}) + (.optionalDependencies // {}) | keys | .[]'
 }
 
 _choice_workspace() {

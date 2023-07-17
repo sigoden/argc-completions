@@ -44,10 +44,12 @@ _choice_goal_phase() {
         return
     fi
     local IFS=$'\n'
-    for plugin_subpath in $(cat "$pom_path" | yq -p xml '.project.build.plugins.plugin | .[] |  .groupId |= sub("\.", "/") | .groupId + "/" + .artifactId + "/" + .version + "/" + .artifactId + "-" + .version + ".jar"'); do
+    plugin_paths=( $(cat "$pom_path" | yq -p xml '.project.build.plugins.plugin | .[] |  .groupId |= sub("\.", "/") | .groupId + "/" + .artifactId + "/" + .version + "/" + .artifactId + "-" + .version + ".jar"') )
+    for plugin_subpath in ${plugin_paths[@]}; do
         plugin_path="$HOME/.m2/repository/$plugin_subpath" 
         if [[ -f "$plugin_path" ]]; then
-            unzip -p "$plugin_path" META-INF/maven/plugin.xml |  yq -p xml '.plugin.goalPrefix as $prefix | .plugin.mojos[] | .[] | .description |= split("\n") | $prefix + ":" + .goal + "   " + .description[0]'
+            unzip -p "$plugin_path" META-INF/maven/plugin.xml | \
+            yq -p xml '.plugin.goalPrefix as $prefix | .plugin.mojos[] | .[] | .description |= split("\n") | $prefix + ":" + .goal + "   " + .description[0]'
         fi
     done
 }
