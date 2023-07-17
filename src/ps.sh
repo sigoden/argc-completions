@@ -16,25 +16,17 @@ EOF
 
 _patch_table() { 
     _patch_table_edit_options \
-        '--Group;*,[`_choice_group`]' \
-        '--group;*,[`_choice_group`]' \
-        '--user;*,[`_choice_user`]' \
+        '--Group;*,[`_module_os_group`]' \
+        '--group;*,[`_module_os_group`]' \
+        '--user;*,[`_module_os_user`]' \
         '--format;*,[`_choice_column`]' \
-        '--pid;*,[`_choice_pid`]' \
-        '--ppid;*,[`_choice_pid`]' \
-        '--quick-pid;*,[`_choice_pid`]' \
-        '--sid;*,[`_choice_sid`]' \
+        '--pid;*,[`_module_os_pid`]' \
+        '--ppid;*,[`_module_os_pid`]' \
+        '--quick-pid;*,[`_module_os_pid`]' \
+        '--sid;*,[`_module_os_sid`]' \
         '--sort;*,[`_choice_column`]' \
-        '--tty;*,[`_choice_tty`]' \
+        '--tty;*,[`_module_os_tty`]' \
 
-}
-
-_choice_user() {
-    cat /etc/passwd | gawk -F: '{split($5,descs,","); print $1 "\t" descs[1]}'
-}
-
-_choice_group() {
-    cat /etc/group | gawk -F: '{print $1 "\t" $4}'
 }
 
 _choice_column() {
@@ -166,22 +158,4 @@ vsize	see vsz
 vsz	virtual memory size of the process in KiB
 wchan	name of the kernel function in which the process is sleeping
 EOF
-}
-
-_choice_pid() {
-    if [[ "$ARGC_OS" == "macos" ]]; then
-        ps -eo pid,comm | tail -n +2 | gawk '{split($2, arr, "/"); print $1 "\t" arr[length(arr)]}'
-    elif [[ "$ARGC_OS" == "windows" ]]; then
-        tasklist /nh /fo csv | gawk -F ',' '{ gsub("\"", "", $2); gsub("\"", "", $1); print $2 "\t" $1 }'
-    else
-        ps -eo pid,comm | tail -n +2 | sed -e 's/^ \+//' -e 's/ /\t/' 
-    fi
-}
-
-_choice_sid() {
-    ps -A -o user,sess  | gawk '{print $2 "\t" $1}'
-}
-
-_choice_tty() {
-    ps aux | gawk '{ if ($7 != "?" && NR > 1) {print $7 "\t" $1} }'
 }

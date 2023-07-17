@@ -17,7 +17,6 @@
 # @option -u --url                       URL for advisory database git repo
 # @flag -V --version                     Print version information
 
-
 # {{ cargo audit bin
 # @cmd scan compiled binaries
 # @option -c --color                     color configuration: always, never (default: auto)

@@ -1,56 +1,48 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @flag -A                                         all processes
-# @flag -e                                         all processes
-# @flag -a                                         all with tty, except session leaders
-# @flag -d                                         all except session leaders
-# @flag -N --deselect                              negate selection
-# @option -C <command>                             command name
-# @option -G --Group*,[`_choice_group`] <GID>      real group id or name
-# @option -g --group*,[`_choice_group`] <group>    session or effective group name
-# @option -p --pid*,[`_choice_pid`]                process id
-# @option --ppid*,[`_choice_pid`] <PID>            parent process id
-# @option -q --quick-pid*,[`_choice_pid`] <PID>    process id (quick mode)
-# @option -s --sid*,[`_choice_sid`] <session>      session id
-# @option -t --tty*,[`_choice_tty`] <tty>          terminal
-# @option -u --user*,[`_choice_user`] <UID>        effective user id or name
-# @option -U --User <UID>                          real user id or name
-# @flag -F                                         extra full
-# @flag -f                                         full-format, including command lines
-# @flag -H                                         show process hierarchy
-# @flag -j                                         jobs format
-# @flag -l                                         long format
-# @flag -M                                         add security data (for SELinux)
-# @option -O <format>                              preloaded with default columns
+# @flag -A                                        all processes
+# @flag -e                                        all processes
+# @flag -a                                        all with tty, except session leaders
+# @flag -d                                        all except session leaders
+# @flag -N --deselect                             negate selection
+# @option -C <command>                            command name
+# @option -G --Group*,[`_module_os_group`] <GID>  real group id or name
+# @option -g --group*,[`_module_os_group`] <group>  session or effective group name
+# @option -p --pid*,[`_module_os_pid`]            process id
+# @option --ppid*,[`_module_os_pid`] <PID>        parent process id
+# @option -q --quick-pid*,[`_module_os_pid`] <PID>  process id (quick mode)
+# @option -s --sid*,[`_module_os_sid`] <session>  session id
+# @option -t --tty*,[`_module_os_tty`] <tty>      terminal
+# @option -u --user*,[`_module_os_user`] <UID>    effective user id or name
+# @option -U --User <UID>                         real user id or name
+# @flag -F                                        extra full
+# @flag -f                                        full-format, including command lines
+# @flag -H                                        show process hierarchy
+# @flag -j                                        jobs format
+# @flag -l                                        long format
+# @flag -M                                        add security data (for SELinux)
+# @option -O <format>                             preloaded with default columns
 # @option -o --format*,[`_choice_column`] <format>  user-defined format
-# @flag --context                                  display security context (for SELinux)
-# @flag --headers                                  repeat header lines, one per page
-# @flag --no-headers                               do not print header at all
-# @option --cols <num>                             set screen width
-# @option --columns <num>                          set screen width
-# @option --width <num>                            set screen width
-# @option --rows <num>                             set screen height
-# @option --lines <num>                            set screen height
-# @flag -L                                         possibly with LWP and NLWP columns
-# @option -m <m>                                   after processes
-# @flag -T                                         possibly with SPID column
-# @flag -c                                         show scheduling class with -l option
-# @flag -V --version                               display version information and exit
-# @flag -w                                         unlimited output width
+# @flag --context                                 display security context (for SELinux)
+# @flag --headers                                 repeat header lines, one per page
+# @flag --no-headers                              do not print header at all
+# @option --cols <num>                            set screen width
+# @option --columns <num>                         set screen width
+# @option --width <num>                           set screen width
+# @option --rows <num>                            set screen height
+# @option --lines <num>                           set screen height
+# @flag -L                                        possibly with LWP and NLWP columns
+# @option -m <m>                                  after processes
+# @flag -T                                        possibly with SPID column
+# @flag -c                                        show scheduling class with -l option
+# @flag -V --version                              display version information and exit
+# @flag -w                                        unlimited output width
 # @option --help[simple|list|output|threads|misc|all]  display help and exit
-# @flag --forest                                   ascii art process tree
-# @option --sort*,[`_choice_column`]               specify sort order as: [+|-]key[,[+|-]key[,...]]
-# @flag --cumulative                               include some dead child process data
-# @flag -y                                         do not show flags, show rss (only with -l)
-
-_choice_user() {
-    cat /etc/passwd | gawk -F: '{split($5,descs,","); print $1 "\t" descs[1]}'
-}
-
-_choice_group() {
-    cat /etc/group | gawk -F: '{print $1 "\t" $4}'
-}
+# @flag --forest                                  ascii art process tree
+# @option --sort*,[`_choice_column`]              specify sort order as: [+|-]key[,[+|-]key[,...]]
+# @flag --cumulative                              include some dead child process data
+# @flag -y                                        do not show flags, show rss (only with -l)
 
 _choice_column() {
     cat <<-'EOF'
@@ -183,22 +175,30 @@ wchan	name of the kernel function in which the process is sleeping
 EOF
 }
 
-_choice_pid() {
-    if [[ "$ARGC_OS" == "macos" ]]; then
-        ps -eo pid,comm | tail -n +2 | gawk '{split($2, arr, "/"); print $1 "\t" arr[length(arr)]}'
-    elif [[ "$ARGC_OS" == "windows" ]]; then
+_module_os_group() {
+    cat /etc/group | gawk -F: '{print $1 "\t" $4}'
+}
+
+_module_os_pid() {
+    if [[ "$ARGC_OS" == "windows" ]]; then
         tasklist /nh /fo csv | gawk -F ',' '{ gsub("\"", "", $2); gsub("\"", "", $1); print $2 "\t" $1 }'
+    elif [[ "$ARGC_OS" == "macos" ]]; then
+        ps -eo pid,comm | tail -n +2 | gawk '{split($2, arr, "/"); print $1 "\t" arr[length(arr)]}'
     else
         ps -eo pid,comm | tail -n +2 | sed -e 's/^ \+//' -e 's/ /\t/' 
     fi
 }
 
-_choice_sid() {
+_module_os_sid() {
     ps -A -o user,sess  | gawk '{print $2 "\t" $1}'
 }
 
-_choice_tty() {
+_module_os_tty() {
     ps aux | gawk '{ if ($7 != "?" && NR > 1) {print $7 "\t" $1} }'
+}
+
+_module_os_user() {
+    cat /etc/passwd | gawk -F: '{split($5,descs,","); print $1 "\t" descs[1]}'
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

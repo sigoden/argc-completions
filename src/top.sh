@@ -27,10 +27,10 @@ _patch_table() {
     _patch_table_edit_options \
         '-E;[`_choice_e`]' \
         '-e;[`_choice_e2`]' \
-        '-U;[`_choice_user`]' \
-        '-u;[`_choice_user`]' \
+        '-U;[`_module_os_user`]' \
+        '-u;[`_module_os_user`]' \
         '-o;[`_choice_o`]' \
-        '-p;*,[`_choice_pid`]' \
+        '-p;*,[`_module_os_pid`]' \
 
 }
 
@@ -45,10 +45,6 @@ e	exbibytes
 EOF
 }
 
-_choice_user() {
-    cat /etc/passwd | gawk -F: '{split($5,descs,","); print $1 "\t" descs[1]}'
-}
-
 _choice_e2() {
     cat <<-'EOF'
 k	kibibytes
@@ -57,16 +53,6 @@ g	gibibytes
 t	tebibytes
 p	pebibytes
 EOF
-}
-
-_choice_pid() {
-    if [[ "$ARGC_OS" == "macos" ]]; then
-        ps -eo pid,comm | tail -n +2 | gawk '{split($2, arr, "/"); print $1 "\t" arr[length(arr)]}'
-    elif [[ "$ARGC_OS" == "windows" ]]; then
-        tasklist /nh /fo csv | gawk -F ',' '{ gsub("\"", "", $2); gsub("\"", "", $1); print $2 "\t" $1 }'
-    else
-        ps -eo pid,comm | tail -n +2 | sed -e 's/^ \+//' -e 's/ /\t/' 
-    fi
 }
 
 _choice_o() {

@@ -27,7 +27,6 @@
 # @arg cmd![`_choice_cmd`]
 # @arg args*
 
-
 # {{ git clone
 # @cmd Clone a repository into a new directory
 # @flag -v --verbose                           be more verbose

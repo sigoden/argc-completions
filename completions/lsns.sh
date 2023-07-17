@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @flag -J --json                           use JSON output format
-# @flag -l --list                           use list format output
-# @flag -n --noheadings                     don't print headings
+# @flag -J --json                              use JSON output format
+# @flag -l --list                              use list format output
+# @flag -n --noheadings                        don't print headings
 # @option -o --output*,[`_choice_column`] <list>  define which output columns to use
-# @flag --output-all                        output all columns
-# @option -p --task[`_choice_pid`] <pid>    print process namespaces
-# @flag -r --raw                            use the raw output format
-# @flag -u --notruncate                     don't truncate text in columns
-# @flag -W --nowrap                         don't use multi-line representation
+# @flag --output-all                           output all columns
+# @option -p --task[`_module_os_pid`] <pid>    print process namespaces
+# @flag -r --raw                               use the raw output format
+# @flag -u --notruncate                        don't truncate text in columns
+# @flag -W --nowrap                            don't use multi-line representation
 # @option -t --type[mnt|net|ipc|user|pid|uts|cgroup|time] <name>  namespace type
-# @flag -h --help                           display this help
-# @flag -V --version                        display version
+# @flag -h --help                              display this help
+# @flag -V --version                           display version
 # @arg namespace
 
 _choice_column() {
@@ -33,11 +33,11 @@ ONS	owner namespace identifier (inode number)
 EOF
 }
 
-_choice_pid() {
-    if [[ "$ARGC_OS" == "macos" ]]; then
-        ps -eo pid,comm | tail -n +2 | gawk '{split($2, arr, "/"); print $1 "\t" arr[length(arr)]}'
-    elif [[ "$ARGC_OS" == "windows" ]]; then
+_module_os_pid() {
+    if [[ "$ARGC_OS" == "windows" ]]; then
         tasklist /nh /fo csv | gawk -F ',' '{ gsub("\"", "", $2); gsub("\"", "", $1); print $2 "\t" $1 }'
+    elif [[ "$ARGC_OS" == "macos" ]]; then
+        ps -eo pid,comm | tail -n +2 | gawk '{split($2, arr, "/"); print $1 "\t" arr[length(arr)]}'
     else
         ps -eo pid,comm | tail -n +2 | sed -e 's/^ \+//' -e 's/ /\t/' 
     fi

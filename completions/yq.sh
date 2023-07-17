@@ -32,7 +32,6 @@
 # @flag --xml-skip-proc-inst                 skip over process instructions (e.g. <?xml version="1"?>)
 # @flag --xml-strict-mode                    enables strict parsing of XML.
 
-
 # {{ yq completion
 # @cmd Generate the autocompletion script for the specified shell
 # @arg value[bash|zsh|fish|powershell]

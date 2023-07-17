@@ -7,9 +7,9 @@
 # @flag -C --compare                           compare each pair of source and destination files, and in some cases, do not modify the destination at all
 # @flag -d --directory                         treat all arguments as directory names; create all components of the specified directories
 # @flag -D                                     create all leading components of DEST except the last, or all components of --target-directory, then copy SOURCE to DEST
-# @option -g --group[`_choice_group`]          set group ownership, instead of process' current group
+# @option -g --group[`_module_os_group`]       set group ownership, instead of process' current group
 # @option -m --mode                            set permission mode (as in chmod), instead of rwxr-xr-x
-# @option -o --owner[`_choice_user`]           set ownership (super-user only)
+# @option -o --owner[`_module_os_user`]        set ownership (super-user only)
 # @flag -p --preserve-timestamps               apply access/modification times of SOURCE files to corresponding destination files
 # @flag -s --strip                             strip symbol tables
 # @option --strip-program <FILE>               program used to strip binaries
@@ -24,12 +24,12 @@
 # @flag --version                              output version information and exit
 # @arg FILES*
 
-_choice_user() {
-    cat /etc/passwd | gawk -F: '{split($5,descs,","); print $1 "\t" descs[1]}'
+_module_os_group() {
+    cat /etc/group | gawk -F: '{print $1 "\t" $4}'
 }
 
-_choice_group() {
-    cat /etc/group | gawk -F: '{print $1 "\t" $4}'
+_module_os_user() {
+    cat /etc/passwd | gawk -F: '{split($5,descs,","); print $1 "\t" descs[1]}'
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

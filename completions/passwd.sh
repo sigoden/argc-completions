@@ -16,9 +16,9 @@
 # @flag -u --unlock                    unlock the password of the named account
 # @option -w --warndays <WARN_DAYS>    set expiration warning days to WARN_DAYS
 # @option -x --maxdays <MAX_DAYS>      set maximum number of days before password change to MAX_DAYS
-# @arg LOGIN[`_choice_user`]
+# @arg LOGIN[`_module_os_user`]
 
-_choice_user() {
+_module_os_user() {
     cat /etc/passwd | gawk -F: '{split($5,descs,","); print $1 "\t" descs[1]}'
 }
 

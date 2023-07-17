@@ -6,7 +6,6 @@
 # @flag -h --help       Print help information
 # @flag -V --version    Print version information
 
-
 # {{ rustup show
 # @cmd Show the active and installed toolchains or profiles
 # @flag -v --verbose    Enable verbose output with rustc information for all installed toolchains

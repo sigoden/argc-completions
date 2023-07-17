@@ -41,14 +41,14 @@ generate() {
 
 # @cmd Generate completions for list of commands
 # @arg cmds*[?`_choice_completion`]
-generate:multi() {
+regenerate:multi() {
     for cmd in ${argc_cmds[@]}; do
         argc generate $cmd -E
     done
 }
 
 # @cmd Generate completions for src changed commands
-generate:changed() {
+regenerate:changed() {
     mapfile -t symlink_cmds <<<"$(find src -type l | sed -n 's|src/\([^/]\+\).sh|\1|p')"
     declare -A symlink_map
     for symlink_cmd in ${symlink_cmds[@]}; do
@@ -68,7 +68,7 @@ generate:changed() {
 }
 
 # @cmd Generate completions for all commands
-generate:all() {
+regenerate:all() {
     for f in completions/*; do
         if [ -f $f ]; then
             cmd="$(basename $f .sh)"
@@ -116,6 +116,9 @@ choice-fn() {
     else
         . utils/_argc_utils.sh
         . "$script_file"
+        for f in utils/_modules/*; do
+            . $f
+        done
         (cd $argc_dir && $argc_fn)
     fi
 }
@@ -215,7 +218,7 @@ _helper_test_fn() {
     if [[ "$argc_no_patch" -eq 1 ]] && [[ "$argc_kind" == "$target" ]]; then
         return 1
     fi
-    if [[ $(type -t _patch_$target) != "function" ]] ; then
+    if [[ $(type -t _patch_$target) != "function" ]]; then
         return 1
     fi
     return 0

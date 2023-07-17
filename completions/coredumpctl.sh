@@ -19,7 +19,6 @@
 # @option -D --directory <DIR>              Use journal files from directory
 # @flag -q --quiet                          Do not show info messages and privilege warning
 
-
 # {{ coredumpctl list
 # @cmd List available coredumps (default)
 list() {
@@ -52,10 +51,10 @@ debug() {
 
 _choice_debugger() {
     _argc_util_comp_file
-    _choice_command
+    _module_os_command
 }
 
-_choice_command() {
+_module_os_command() {
     if [[ "$ARGC_OS" != "windows" ]]; then
         compgen -c
     fi

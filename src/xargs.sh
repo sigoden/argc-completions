@@ -1,11 +1,5 @@
 _patch_table() { 
-    _patch_table_edit_arguments ';;' 'CMD;[`_choice_command`]' 'ARGS;~[`_choice_args`]'
-}
-
-_choice_command() {
-    if [[ "$ARGC_OS" != "windows" ]]; then
-        compgen -c
-    fi
+    _patch_table_edit_arguments ';;' 'CMD;[`_module_os_command`]' 'ARGS;~[`_choice_args`]'
 }
 
 _choice_args() {

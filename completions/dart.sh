@@ -8,7 +8,6 @@
 # @flag --suppress-analytics    Disallow analytics for this `dart *` run without changing the analytics configuration.
 # @flag -h --help               Print this usage information.
 
-
 # {{ dart analyze
 # @cmd Analyze Dart code in a directory.
 # @flag -h --help              Print this usage information.

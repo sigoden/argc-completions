@@ -10,10 +10,6 @@ _patch_table() {
         '--lockfile(<FILE>)' \
         '--pidfile(<FILE>)' \
         '--socketfile(<FILE>)' \
-        '--socketgroup;[`_choice_group`]' \
+        '--socketgroup;[`_module_os_group`]' \
 
-}
-
-_choice_group() {
-    cat /etc/group | gawk -F: '{print $1 "\t" $4}'
 }

@@ -4,7 +4,6 @@
 # @flag -h --help       Print help information
 # @flag -V --version    Print version information
 
-
 # {{ mdbook init
 # @cmd Creates the boilerplate structure and files for a new book
 # @flag --theme                          Copies the default theme into your source folder

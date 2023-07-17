@@ -6,7 +6,7 @@
 # @flag -F                             same as --follow=name --retry
 # @option -n --lines <[+]NUM>          output the last NUM lines, instead of the last 10; or use -n +NUM to output starting with line NUM
 # @option --max-unchanged-stats <N>    with --follow=name, reopen a FILE which has not changed size after N (default 5) iterations to see if it has been unlinked or renamed (this is the usual case of rotated log files); with inotify, this option is rarely useful
-# @option --pid[`_choice_pid`]         with -f, terminate after process ID, PID dies
+# @option --pid[`_module_os_pid`]      with -f, terminate after process ID, PID dies
 # @flag -q                             never output headers giving file names
 # @flag --quiet                        never output headers giving file names
 # @flag --silent                       never output headers giving file names
@@ -18,11 +18,11 @@
 # @flag --version                      output version information and exit
 # @arg FILE*
 
-_choice_pid() {
-    if [[ "$ARGC_OS" == "macos" ]]; then
-        ps -eo pid,comm | tail -n +2 | gawk '{split($2, arr, "/"); print $1 "\t" arr[length(arr)]}'
-    elif [[ "$ARGC_OS" == "windows" ]]; then
+_module_os_pid() {
+    if [[ "$ARGC_OS" == "windows" ]]; then
         tasklist /nh /fo csv | gawk -F ',' '{ gsub("\"", "", $2); gsub("\"", "", $1); print $2 "\t" $1 }'
+    elif [[ "$ARGC_OS" == "macos" ]]; then
+        ps -eo pid,comm | tail -n +2 | gawk '{split($2, arr, "/"); print $1 "\t" arr[length(arr)]}'
     else
         ps -eo pid,comm | tail -n +2 | sed -e 's/^ \+//' -e 's/ /\t/' 
     fi

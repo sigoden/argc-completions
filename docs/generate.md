@@ -12,7 +12,7 @@ You may check out the [src](https://github.com/sigoden/argc-completions/tree/mai
 
 ```
                         parse-tab.awk                         parse-script.awk 
-help-text(_patch_help) ---------------> table(_patch_script) ------------------> script
+help-text(_patch_help) ---------------> table(_patch_table) ------------------> script
               
 ```
 

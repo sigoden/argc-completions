@@ -10,7 +10,6 @@
 # @option --changed-files-ignore-pattern <pattern>  Allows to ignore changed files by glob patterns when filtering for changed projects since the specified commit/branch.
 # @arg cmd[`_choice_script`]
 
-
 # {{ pnpm add
 # @cmd Installs a package and any packages that it depends on.
 # @flag --color                         Controls colors in the output.

@@ -11,9 +11,9 @@
 # @flag -z --zero       delimit entries with NUL characters, not whitespace; not permitted in default format
 # @flag --help          display this help and exit
 # @flag --version       output version information and exit
-# @arg USER*[`_choice_user`]
+# @arg USER*[`_module_os_user`]
 
-_choice_user() {
+_module_os_user() {
     cat /etc/passwd | gawk -F: '{split($5,descs,","); print $1 "\t" descs[1]}'
 }
 

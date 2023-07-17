@@ -44,7 +44,6 @@
 # @flag -v --verbose                      verbose output
 # @flag -w --watch                        watch filesystem for changes and recreate as needed
 
-
 # {{ hugo completion
 # @cmd Generate the autocompletion script for the specified shell
 # @flag -h --help                         help for completion

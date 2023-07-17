@@ -8,7 +8,7 @@
 # @option -D --chdir <directory>                  change the working directory before running command
 # @option -E --preserve-env[`_choice_env_var`]    preserve user environment when running command
 # @flag -e --edit                                 edit files instead of running a command
-# @option -g --group[`_choice_group`] <group>     run command as the specified group name or ID
+# @option -g --group[`_module_os_group`] <group>  run command as the specified group name or ID
 # @flag -H --set-home                             set HOME variable to target user's home dir
 # @flag --help                                    display help message and exit
 # @option -h --host <host>                        run command on host (if supported by plugin)
@@ -25,35 +25,35 @@
 # @flag -s --shell                                run shell as the target user; a command may also be specified
 # @option -t --type <type>                        create SELinux security context with specified type
 # @option -T --command-timeout <timeout>          terminate command after the specified time limit
-# @option -U --other-user[`_choice_user`] <user>  in list mode, display privileges for user
-# @option -u --user[`_choice_user`] <user>        run command (or edit file) as specified user name or ID
+# @option -U --other-user[`_module_os_user`] <user>  in list mode, display privileges for user
+# @option -u --user[`_module_os_user`] <user>     run command (or edit file) as specified user name or ID
 # @flag -V --version                              display version information and exit
 # @flag -v --validate                             update user's timestamp without running a command
-# @arg CMD[`_choice_command`]
+# @arg CMD[`_module_os_command`]
 # @arg ARGS~[`_choice_args`]
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
-
-_choice_command() {
-    if [[ "$ARGC_OS" != "windows" ]]; then
-        compgen -c
-    fi
-}
 
 _choice_args() {
     _argc_util_comp_subcommand 0
 }
 
-_choice_user() {
-    cat /etc/passwd | gawk -F: '{split($5,descs,","); print $1 "\t" descs[1]}'
+_choice_env_var() {
+    env | _argc_util_transform format== | _argc_util_comp_multi ,
 }
 
-_choice_group() {
+_module_os_command() {
+    if [[ "$ARGC_OS" != "windows" ]]; then
+        compgen -c
+    fi
+}
+
+_module_os_group() {
     cat /etc/group | gawk -F: '{print $1 "\t" $4}'
 }
 
-_choice_env_var() {
-    env | _argc_util_transform format== | _argc_util_comp_multi ,
+_module_os_user() {
+    cat /etc/passwd | gawk -F: '{split($5,descs,","); print $1 "\t" descs[1]}'
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

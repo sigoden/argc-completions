@@ -6,7 +6,6 @@
 # @flag -v --version    Prints the current version of Volta
 # @flag -h --help       Prints help information
 
-
 # {{ volta fetch
 # @cmd Fetches a tool to the local machine
 # @flag --verbose                        Enables verbose diagnostics

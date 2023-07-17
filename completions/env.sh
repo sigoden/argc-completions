@@ -6,9 +6,9 @@
 # @option -u --unset[`_choice_env_var`] <NAME>    remove variable from the environment
 # @option -C --chdir <DIR>                        change working directory to DIR
 # @option -S --split-string <S>                   process and split S into separate arguments; used to pass multiple arguments on shebang lines
-# @option --block-signal[`_choice_signal`] <SIG>  block delivery of SIG signal(s) to COMMAND
-# @option --default-signal[`_choice_signal`] <SIG>  reset handling of SIG signal(s) to the default
-# @option --ignore-signal[`_choice_signal`] <SIG>  set handling of SIG signals(s) to do nothing
+# @option --block-signal[`_module_os_signal`] <SIG>  block delivery of SIG signal(s) to COMMAND
+# @option --default-signal[`_module_os_signal`] <SIG>  reset handling of SIG signal(s) to the default
+# @option --ignore-signal[`_module_os_signal`] <SIG>  set handling of SIG signals(s) to do nothing
 # @flag --list-signal-handling                    list non default signal handling to stderr
 # @flag -v --debug                                print verbose information for each processing step
 # @flag --help                                    display this help and exit
@@ -16,7 +16,11 @@
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_signal() {
+_choice_env_var() {
+    env | _argc_util_transform format==
+}
+
+_module_os_signal() {
     cat <<-'EOF'
 ABRT	Abnormal termination
 ALRM	Virtual alarm clock
@@ -50,10 +54,6 @@ WINCH	Window size change
 XCPU	CPU time limit exceeded
 XFSZ	File size limit exceeded
 EOF
-}
-
-_choice_env_var() {
-    env | _argc_util_transform format==
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

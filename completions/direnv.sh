@@ -96,13 +96,7 @@ _choice_path_to_rc() {
 
 _choice_cmd() {
     _argc_util_comp_file
-    _choice_command
-}
-
-_choice_command() {
-    if [[ "$ARGC_OS" != "windows" ]]; then
-        compgen -c
-    fi
+    _module_os_command
 }
 
 _choice_args() {
@@ -111,6 +105,12 @@ _choice_args() {
 
 _choice_hook_shell() {
     printf "%s" bash elvish fish tcsh zsh
+}
+
+_module_os_command() {
+    if [[ "$ARGC_OS" != "windows" ]]; then
+        compgen -c
+    fi
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

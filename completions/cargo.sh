@@ -16,7 +16,6 @@
 # @option -Z <FLAG>                            Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
 # @arg cmd![`_choice_cmd`]
 
-
 # {{ cargo build
 # @cmd Compile the current package
 # @alias b

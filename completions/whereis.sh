@@ -12,9 +12,9 @@
 # @flag -l              output effective lookup paths
 # @flag -h --help       display this help
 # @flag -V --version    display version
-# @arg cmd[`_choice_command`]
+# @arg cmd[`_module_os_command`]
 
-_choice_command() {
+_module_os_command() {
     if [[ "$ARGC_OS" != "windows" ]]; then
         compgen -c
     fi

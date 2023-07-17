@@ -5,7 +5,6 @@
 # @flag -h --help                              Prints help information
 # @flag -V --version                           Prints version information
 
-
 # {{ cargo insta review
 # @cmd Interactively review snapshots
 # @option --manifest-path <PATH>               Path to Cargo.toml

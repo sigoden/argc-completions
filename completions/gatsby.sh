@@ -8,7 +8,6 @@
 # @flag -h --help       Show help
 # @flag -v --version    Show the version of the Gatsby CLI and the Gatsby package in the current project
 
-
 # {{ gatsby develop
 # @cmd Start development server.
 # @flag --verbose                              Turn on verbose output

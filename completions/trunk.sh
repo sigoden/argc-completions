@@ -6,7 +6,6 @@
 # @flag -h --help            Print help
 # @flag -V --version         Print version
 
-
 # {{ trunk build
 # @cmd Build the Rust WASM app and all of its assets
 # @flag --release                      Build in release mode [default: false]

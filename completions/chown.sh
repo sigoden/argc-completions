@@ -34,18 +34,18 @@ _choice_owner_group() {
 _choice_user_group() {
     _argc_util_mode_kv ':'
     if [[ -z "$argc__kv_prefix" ]]; then
-        _choice_user | _argc_util_transform suffix=: nospace
+        _module_os_user | _argc_util_transform suffix=: nospace
     else
-        _choice_group
+        _module_os_group
     fi
 }
 
-_choice_user() {
-    cat /etc/passwd | gawk -F: '{split($5,descs,","); print $1 "\t" descs[1]}'
+_module_os_group() {
+    cat /etc/group | gawk -F: '{print $1 "\t" $4}'
 }
 
-_choice_group() {
-    cat /etc/group | gawk -F: '{print $1 "\t" $4}'
+_module_os_user() {
+    cat /etc/passwd | gawk -F: '{split($5,descs,","); print $1 "\t" descs[1]}'
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

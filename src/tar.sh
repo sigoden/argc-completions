@@ -12,19 +12,11 @@ _patch_table() {
         '--backup;[existing|never|nil|numbered|simple|t]' \
         '--format;[gnu|oldgnu|pax|posix|ustar|v7]' \
         '--quoting-style;[c|clocale|c-maybe|escape|literal|locale|shell|shell-always]' \
-        '--owner;[`_choice_user`]' \
+        '--owner;[`_module_os_user`]' \
         '--file(<FILE>)' \
-        '--group;[`_choice_group`]' \
+        '--group;[`_module_os_group`]' \
     | \
     _patch_table_edit_arguments ';;' 'FILES;*[`_choice_files`]'
-}
-
-_choice_user() {
-    cat /etc/passwd | gawk -F: '{split($5,descs,","); print $1 "\t" descs[1]}'
-}
-
-_choice_group() {
-    cat /etc/group | gawk -F: '{print $1 "\t" $4}'
 }
 
 _choice_files() {

@@ -6,9 +6,9 @@
 # @option -P --prefix <PREFIX_DIR>    prefix directory where are located the /etc/* files
 # @flag -f --force                    delete group even if it is the primary group of a user
 # @flag --extrausers                  Use the extra users database
-# @arg GROUP[`_choice_group`]
+# @arg GROUP[`_module_os_group`]
 
-_choice_group() {
+_module_os_group() {
     cat /etc/group | gawk -F: '{print $1 "\t" $4}'
 }
 

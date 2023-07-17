@@ -4,11 +4,11 @@ _patch_help() {
 
 _patch_table() { 
     _patch_table_edit_options \
-        '--groups;*,[`_choice_group`]'  \
-        '--logins;*,[`_choice_user`]' \
+        '--groups;*,[`_module_os_group`]'  \
+        '--logins;*,[`_module_os_user`]' \
         '--output;*,[`_choice_column`]' \
     | \
-    _patch_table_edit_arguments 'username;*[`_choice_user`]'
+    _patch_table_edit_arguments 'username;*[`_module_os_user`]'
 }
 
 _choice_column() {
@@ -26,12 +26,4 @@ PWD-EXPIR	password expiration date
 CONTEXT	the user's security context
 PROC	number of processes run by the user
 EOF
-}
-
-_choice_user() {
-    cat /etc/passwd | gawk -F: '{split($5,descs,","); print $1 "\t" descs[1]}'
-}
-
-_choice_group() {
-    cat /etc/group | gawk -F: '{print $1 "\t" $4}'
 }

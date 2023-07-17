@@ -11,7 +11,6 @@
 # @option -w --width <uint>      word-wrap at width
 # @arg SOURCE-DIR
 
-
 # {{ glow completion
 # @cmd Generate the autocompletion script for the specified shell
 # @flag -h --help              help for completion

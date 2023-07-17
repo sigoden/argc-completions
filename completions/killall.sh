@@ -1,35 +1,35 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @flag -e --exact                         require exact match for very long names
-# @flag -I --ignore-case                   case insensitive process name match
-# @flag -g --process-group                 kill process group instead of process
-# @flag -y --younger-than                  kill processes younger than TIME
-# @flag -o --older-than                    kill processes older than TIME
-# @flag -i --interactive                   ask for confirmation before killing
-# @flag -l --list                          list all known signal names
-# @flag -q --quiet                         don't print complaints
-# @flag -r --regexp                        interpret NAME as an extended regular expression
-# @option -s --signal[`_choice_signal`]    send this signal instead of SIGTERM
-# @option -u --user[`_choice_user`]        kill only process(es) running as USER
-# @flag -v --verbose                       report if the signal was successfully sent
-# @flag -V --version                       display version information
-# @flag -w --wait                          wait for processes to die
-# @option -n --ns[`_choice_pid`] <PID>     match processes that belong to the same namespaces as PID
-# @flag -Z --context                       REGEXP kill only process(es) having context (must precede other arguments)
+# @flag -e --exact                            require exact match for very long names
+# @flag -I --ignore-case                      case insensitive process name match
+# @flag -g --process-group                    kill process group instead of process
+# @flag -y --younger-than                     kill processes younger than TIME
+# @flag -o --older-than                       kill processes older than TIME
+# @flag -i --interactive                      ask for confirmation before killing
+# @flag -l --list                             list all known signal names
+# @flag -q --quiet                            don't print complaints
+# @flag -r --regexp                           interpret NAME as an extended regular expression
+# @option -s --signal[`_module_os_signal`]    send this signal instead of SIGTERM
+# @option -u --user[`_module_os_user`]        kill only process(es) running as USER
+# @flag -v --verbose                          report if the signal was successfully sent
+# @flag -V --version                          display version information
+# @flag -w --wait                             wait for processes to die
+# @option -n --ns[`_module_os_pid`] <PID>     match processes that belong to the same namespaces as PID
+# @flag -Z --context                          REGEXP kill only process(es) having context (must precede other arguments)
 # @arg NAME*
 
-_choice_pid() {
-    if [[ "$ARGC_OS" == "macos" ]]; then
-        ps -eo pid,comm | tail -n +2 | gawk '{split($2, arr, "/"); print $1 "\t" arr[length(arr)]}'
-    elif [[ "$ARGC_OS" == "windows" ]]; then
+_module_os_pid() {
+    if [[ "$ARGC_OS" == "windows" ]]; then
         tasklist /nh /fo csv | gawk -F ',' '{ gsub("\"", "", $2); gsub("\"", "", $1); print $2 "\t" $1 }'
+    elif [[ "$ARGC_OS" == "macos" ]]; then
+        ps -eo pid,comm | tail -n +2 | gawk '{split($2, arr, "/"); print $1 "\t" arr[length(arr)]}'
     else
         ps -eo pid,comm | tail -n +2 | sed -e 's/^ \+//' -e 's/ /\t/' 
     fi
 }
 
-_choice_signal() {
+_module_os_signal() {
     cat <<-'EOF'
 ABRT	Abnormal termination
 ALRM	Virtual alarm clock
@@ -65,7 +65,7 @@ XFSZ	File size limit exceeded
 EOF
 }
 
-_choice_user() {
+_module_os_user() {
     cat /etc/passwd | gawk -F: '{split($5,descs,","); print $1 "\t" descs[1]}'
 }
 

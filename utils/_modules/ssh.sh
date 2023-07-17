@@ -1,30 +1,3 @@
-#!/usr/bin/env bash
-# Automatic generated, DON'T MODIFY IT.
-
-# @option -i <identity_file>          Use only the key(s) contained in identity_file (rather than looking for identities via ssh-add(1) or in the default_ID_file).
-# @flag -f                            Forced mode: doesn't check if the keys are present on the remote server.
-# @flag -n                            do a dry-run.
-# @flag -s                            SFTP mode: usually the public keys are installed by executing commands on the remote side.
-# @flag -h                            Print Usage summary
-# @flag -?                            Print Usage summary
-# @option -o[`_module_ssh_option`]    Can be used to pass options to ssh in the format used in ssh_config
-# @option -p <port>                   Port to connect to on the remote host.
-# @arg host[`_module_ssh_host`]
-
-. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
-
-_module_ssh_cipher() {
-    ssh -Q cipher
-}
-
-_module_ssh_host() {
-    cat ~/.ssh/config | grep '^Host' | gawk '{print $2}'
-}
-
-_module_ssh_hostkeyalgorithms() {
-    ssh -Q hostkeyalgorithms
-}
-
 _module_ssh_option() {
     cat <<-'EOF' | _argc_util_comp_kv =
 AddKeysToAgent=yes,ask,confirm,no
@@ -124,4 +97,14 @@ XAuthLocation=__argc_value=file
 EOF
 }
 
-command eval "$(argc --argc-eval "$0" "$@")"
+_module_ssh_cipher() {
+    ssh -Q cipher
+}
+
+_module_ssh_hostkeyalgorithms() {
+    ssh -Q hostkeyalgorithms
+}
+
+_module_ssh_host() {
+    cat ~/.ssh/config | grep '^Host' | gawk '{print $2}'
+}

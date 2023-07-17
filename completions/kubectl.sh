@@ -29,7 +29,6 @@
 # @option --vmodule*, <value>                     comma-separated list of pattern=N settings for file-filtered logging (only works for the default text log format)
 # @flag --warnings-as-errors                      Treat warnings received from the server as errors and exit with a non-zero exit code
 
-
 # {{ kubectl create
 # @cmd Create a resource from a file or from stdin
 # @option --as <value>                            Username to impersonate for the operation.

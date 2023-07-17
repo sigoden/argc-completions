@@ -13,7 +13,7 @@
 # @flag -E --expand-hosts                          Expand simple names in /etc/hosts with domain-suffix.
 # @flag -f --filterwin2k                           Don't forward spurious DNS requests from Windows hosts.
 # @option -F --dhcp-range* <<ipaddr>,>             Enable DHCP in the range given with lease duration.
-# @option -g --group[`_choice_group`] <groupname>  Change to this group after startup (defaults to dip).
+# @option -g --group[`_module_os_group`] <groupname>  Change to this group after startup (defaults to dip).
 # @option -G --dhcp-host <hostspec>                Set address or hostname for a specified machine.
 # @option --dhcp-hostsfile <path>                  Read DHCP host specs from file.
 # @option --dhcp-optsfile <path>                   Read DHCP option specs from file.
@@ -60,7 +60,7 @@
 # @option --max-ttl <integer>                      Specify time-to-live in seconds for maximum TTL to send to clients.
 # @option --max-cache-ttl <integer>                Specify time-to-live ceiling for cache.
 # @option --min-cache-ttl <integer>                Specify time-to-live floor for cache.
-# @option -u --user[`_choice_user`] <username>     Change to this user after startup.
+# @option -u --user[`_module_os_user`] <username>  Change to this user after startup.
 # @option -U --dhcp-vendorclass <set:<tag>,<class>>  Map DHCP vendor class to tag.
 # @flag -v --version                               Display dnsmasq version and copyright information.
 # @option -V --alias <<ipaddr>,<ipaddr>,<netmask>>  Translate IPv4 addresses from upstream servers.
@@ -84,7 +84,7 @@
 # @flag -5 --no-ping                               Disable ICMP echo address checking in the DHCP server.
 # @option -6 --dhcp-script <path>                  Shell script to run on DHCP lease creation and destruction.
 # @option --dhcp-luascript <path>                  Lua script to run on DHCP lease creation and destruction.
-# @option --dhcp-scriptuser[`_choice_user`] <username>  Run lease-change scripts as this user.
+# @option --dhcp-scriptuser[`_module_os_user`] <username>  Run lease-change scripts as this user.
 # @flag --script-arp                               Call dhcp-script with changes to local ARP table.
 # @option -7 --conf-dir <path>                     Read configuration from all the files in this directory.
 # @option -8 --log-facility <<facility>|<file>>    Log to this syslog facility or file.
@@ -172,16 +172,16 @@
 # @option --umbrella <optspec>                     Send Cisco Umbrella identifiers including remote IP.
 # @flag --quiet-tftp                               Do not log routine TFTP.
 
-_choice_user() {
-    cat /etc/passwd | gawk -F: '{split($5,descs,","); print $1 "\t" descs[1]}'
+_choice_net_device() {
+    ifconfig | gawk '/^[0-9a-zA-Z]/ { split($0, arr, ":"); print arr[1] }'
 }
 
-_choice_group() {
+_module_os_group() {
     cat /etc/group | gawk -F: '{print $1 "\t" $4}'
 }
 
-_choice_net_device() {
-    ifconfig | gawk '/^[0-9a-zA-Z]/ { split($0, arr, ":"); print arr[1] }'
+_module_os_user() {
+    cat /etc/passwd | gawk -F: '{split($5,descs,","); print $1 "\t" descs[1]}'
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

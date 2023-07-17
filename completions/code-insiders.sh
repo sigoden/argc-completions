@@ -35,7 +35,6 @@
 # @flag --telemetry                              Shows all telemetry events which VS code collects.
 # @arg paths*
 
-
 # {{ code-insiders tunnel
 # @cmd Make the current machine accessible from vscode.dev or other machines through a secure tunnel
 # @flag -h --help                          Print help

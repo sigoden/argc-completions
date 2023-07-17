@@ -8,7 +8,6 @@
 # @flag --suppress-analytics                  Suppress analytics reporting for the current CLI invocation.
 # @flag --disable-telemetry                   Disable telemetry reporting when this command runs.
 
-
 # {{ flutter bash-completion
 # @cmd Output command line shell completion setup scripts.
 # @flag -h --help                             Print this usage information.
@@ -770,7 +769,6 @@ pub::outdated() {
     :;
 }
 # }}} flutter pub outdated
-
 
 # {{{ flutter pub publish
 # @cmd Publish the current package to pub.dartlang.org.

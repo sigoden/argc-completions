@@ -18,29 +18,30 @@ handle_cmd() {
     table="$(get_table $@)"
     nest_fn_prefix="$(echo "${@:$((1 + $cmds_level))}" | sed 's/ /::/g')"
     output="$(echo "$table" | grep -v '^command #' | parse_script $@)"
-    if [[ -n "$output" ]]; then
-        output="$output"$'\n'
-    fi
     if [[ $# -gt $cmds_level ]]; then
-        output="$output$(print_cmd_fn "$nest_fn_prefix")"
+        if [[ -z "$output" ]]; then
+            output="$(print_cmd_fn "$nest_fn_prefix")"
+        else
+            output="$output"$'\n'"$(print_cmd_fn "$nest_fn_prefix")"
+        fi
     fi
-    if [[ -z "$command_output" ]]; then
-        local subcmds
-        while IFS=$'\n' read -r line; do
-            if [[ -n "$line" ]]; then
-                local subcmd_output="$(handle_subcmd "$line" $@)"
-                if [[ -z "$command_output" ]]; then
-                    command_output="$subcmd_output"
-                else
-                    command_output="$command_output"$'\n'"$subcmd_output"
-                fi
+    while IFS=$'\n' read -r line; do
+        if [[ -n "$line" ]]; then
+            local subcmd_output="$(handle_subcmd "$line" $@)"
+            if [[ -z "$subcmd_output" ]]; then
+                continue
             fi
-        done < <(echo "$table" | grep '^command #' | parse_script $@)
-    fi
+            if [[ -z "$command_output" ]]; then
+                command_output="$subcmd_output"
+            else
+                command_output="$command_output"$'\n'"$subcmd_output"
+            fi
+        fi
+    done < <(echo "$table" | grep '^command #' | parse_script $@)
     if [[ -n "$command_output" ]]; then
         output="$output"$'\n'"$command_output"
     fi
-    printf "%s\n" "$output"
+    echo "$output"
 }
 
 handle_subcmd() {
@@ -75,7 +76,6 @@ handle_subcmd() {
     fi
     handle_cmd ${new_cmds[@]}
     echo "# $(repeat_string '}' $new_cmds_level) ${new_cmds[@]}"
-    echo 
 }
 
 get_table() {
@@ -114,41 +114,126 @@ embed_script() {
     if [[ ! -f "$src_file" ]]; then
         return
     fi
-    embed_choice_fns() {
-        cat "$src_file" | gawk '
-BEGIN {
-    patch_fn_state = 0
+
+    local mods_script="$(get_modules_script)"
+
+    local src_script="$(get_src_script)"
+
+    if grep -q -o -w '_argc_util_[[:alnum:]_]*' <<<"${src_script}"$\n"${mods_script}"; then
+        echo
+        echo '. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"'
+    fi
+
+    if [[ -n "$src_script" ]]; then
+        echo
+        echo "$src_script"
+    fi
+
+    if [[ -n "$mods_script" ]]; then
+        echo
+        echo "$mods_script"
+    fi
 }
-{
-    if (patch_fn_state > 0) {
-        if (match($0, /^}$/)) {
-            patch_fn_state = 1
-        } else if (patch_fn_state == 1 && match($0, /^\s*$/)) {
+
+get_modules_script() {
+    local module_fns module_names IFS
+    module_fns=( $(cat "$src_file" | grep -o -w '_module_[[:alnum:]_]*' | tr '\n' ' ') )
+    if [[ ${#module_fns[@]} -eq 0 ]]; then
+        return
+    fi
+    module_names=()
+    for mod_fn in ${module_fns[@]}; do
+        local value=${mod_fn:8}
+        value=${value%%_*}
+        if [[ " ${module_names[@]} " != *" $value "* ]]; then
+            module_names+=( $value )
+        fi
+    done
+
+    local mod mod_path mod_fns_script mod_fns_deps values fn_name
+    declare -A mod_fns_script
+    declare -A mod_fns_deps
+    IFS=";"
+    for mod in ${module_names[@]}; do
+        mod_path="$utils_dir/_modules/$mod.sh"
+        if [[ -f "$mod_path" ]]; then
+            while IFS=$'\n' read -r line; do
+                values=( $line )
+                fn_name=${values[0]}
+                mod_fns_script[$fn_name]="$(sed -n "${values[1]},${values[2]} p" "$mod_path")"
+                mod_fns_deps[$fn_name]="${values[3]}"
+            done < <(awk -f "$scripts_dir/analysis-module.awk" "$mod_path")
+        fi
+    done
+
+    local checked_mod_fns to_check_mod_fns embed_mod_fns
+    declare -A checked_mod_fns
+    embed_mod_fns=()
+    to_check_mod_fns=( ${module_fns[@]} )
+    IFS=" "
+    while [ ${#to_check_mod_fns[@]} -gt 0 ]; do
+        local dep_module_fns=()
+        for mod_fn in ${to_check_mod_fns[@]}; do
+            if [[ ${checked_mod_fns[$mod_fn]} -eq 1 ]]; then
+                continue
+            else
+                checked_mod_fns[$mod_fn]=1
+            fi
+            if [[ -v mod_fns_script[$mod_fn] ]]; then
+                dep_module_fns+=( ${mod_fns_deps[$mod_fn]} )
+                embed_mod_fns+=( $mod_fn )
+            else
+                continue
+            fi
+        done
+        to_check_mod_fns=()
+        for mod_fn in ${dep_module_fns[@]}; do
+            if [[ ${checked_mod_fns[$mod_fn]} -eq 1 ]]; then
+                continue
+            else
+                to_check_mod_fns+=( $mod_fn )
+            fi
+        done
+    done
+
+    if [[ ${#embed_mod_fns[@]} -gt 0 ]]; then
+        IFS=$'\n'
+        embed_mod_fns=( $(printf "%s\n" "${embed_mod_fns[@]}" | sort -n) )
+
+        local mods_script mod_fn_script
+        for mod_fn in ${embed_mod_fns[@]}; do
+            mod_fn_script="${mod_fns_script[$mod_fn]}"
+            if [[ -z "$mods_script" ]]; then
+                mods_script="$mod_fn_script"
+            else
+                mods_script="$mods_script"$'\n'$'\n'"$mod_fn_script"
+            fi
+        done
+
+        echo "$mods_script"
+    fi
+}
+
+get_src_script() {
+    cat "$src_file" | \
+    gawk 'BEGIN {
             patch_fn_state = 0
         }
-    } else {
-        if (match($0, /^_patch_\w+\(/)) {
-            patch_fn_state = 2
-        } else {
-            print $0
-        }
-    }
-}
-'
-    }
-    local embed_content source_content
-    embed_content="$(embed_choice_fns)"
-    if grep -q -o '_argc_util_[[:alnum:]_]*' <<<"$embed_content"; then
-        source_content="$source_content"'. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"'$'\n'
-    fi
-    if [[ -n "$source_content" ]]; then
-        printf "\n\n%s\n" "$source_content"
-    else
-        printf "\n\n"
-    fi
-    if [[ -n "$embed_content" ]]; then
-        echo "$embed_content"
-    fi
+        {
+            if (patch_fn_state > 0) {
+                if (match($0, /^}$/)) {
+                    patch_fn_state = 1
+                } else if (patch_fn_state == 1 && match($0, /^\s*$/)) {
+                    patch_fn_state = 0
+                }
+            } else {
+                if (match($0, /^_patch_\w+\(/)) {
+                    patch_fn_state = 2
+                } else {
+                    print $0
+                }
+            }
+        }'
 }
 
 parse_table() {
@@ -234,11 +319,13 @@ print_head() {
     cat <<-'EOF'
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
+
 EOF
 }
 
 print_tail() {
-    printf "\n\n%s" "command eval \"\$(argc --argc-eval \"\$0\" \"\$@\")\""
+    echo
+    echo 'command eval "$(argc --argc-eval "$0" "$@")"'
 }
 
 print_cmd_fn() {
@@ -261,14 +348,15 @@ eval "$(argc --argc-eval "$0" "$@")"
 
 set_globals
 
-output_content="$(print_head)"
-output_content="$output_content"$'\n'$'\n'"$(handle_cmd ${cmds[@]})"
-if [[ $(type -t _patch_script) = "function" ]]; then
-    log_info ": patch script"
-    output_content="$(echo "$output_content" | _patch_script)"
-fi
-output_content="$output_content$(embed_script)"
-output_content="$output_content$(print_tail)"
+gen() {
+    print_head
+    handle_cmd ${cmds[@]}
+    embed_script
+    print_tail
+}
+
+output_content="$(gen)"
+
 if [[ -n "$output_file" ]]; then
     mkdir -p "$(dirname "$output_file")"
     printf "%s" "$output_content" > "$output_file"

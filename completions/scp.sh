@@ -7,14 +7,14 @@
 # @flag -A                                         Allows forwarding of ssh-agent(1) to the remote system.
 # @flag -B                                         Selects batch mode (prevents asking for passwords or passphrases).
 # @flag -C                                         Compression enable.
-# @option -c*,[`_choice_cipher`] <cipher>          Selects the cipher to use for encrypting the data transfer.
+# @option -c*,[`_module_ssh_cipher`] <cipher>      Selects the cipher to use for encrypting the data transfer.
 # @option -D <sftp_server_path>                    When using the SFTP protocol support via -s, connect directly to a local SFTP server program rather than a remote one via ssh(1).
 # @option -F <ssh_config>                          Specifies an alternative per-user configuration file for ssh.
 # @option -i <identity_file>                       Selects the file from which the identity (private key) for public key authentication is read.
 # @option -J <destination>                         Connect to the target host by first making an scp connection to the jump host described by destination and then establishing a TCP forwarding to the ultimate destination from there.
 # @option -l <limit>                               Limits the used bandwidth, specified in Kbit/s.
 # @flag -O                                         Use the original SCP protocol for file transfers instead of the SFTP protocol.
-# @option -o[`_choice_ssh_option`] <ssh_option>    Can be used to pass options to ssh in the format used in ssh_config(5).
+# @option -o[`_module_ssh_option`] <ssh_option>    Can be used to pass options to ssh in the format used in ssh_config(5).
 # @option -P <port>                                Specifies the port to connect to on the remote host.
 # @flag -p                                         Preserves modification times, access times, and file mode bits from the source file.
 # @flag -q                                         Quiet mode: disables the progress meter as well as warning and diagnostic messages from ssh(1).
@@ -28,7 +28,30 @@
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_ssh_option() {
+_choice_path() {
+    _argc_util_mode_kv ':'
+    if [[ -z "$argc__kv_prefix" ]]; then
+        _module_ssh_host | _argc_util_transform suffix=: nospace
+        _argc_util_comp_file
+    else
+        ssh -o 'Batchmode yes' "$argc__kv_key" command ls -a1dp "$argc__kv_filter*" 2>/dev/null \
+            | _argc_util_comp_parts / "$argc__kv_filter" "$argc__kv_prefix" 
+    fi
+}
+
+_module_ssh_cipher() {
+    ssh -Q cipher
+}
+
+_module_ssh_host() {
+    cat ~/.ssh/config | grep '^Host' | gawk '{print $2}'
+}
+
+_module_ssh_hostkeyalgorithms() {
+    ssh -Q hostkeyalgorithms
+}
+
+_module_ssh_option() {
     cat <<-'EOF' | _argc_util_comp_kv =
 AddKeysToAgent=yes,ask,confirm,no
 AddressFamily=any,inet,inet6
@@ -42,7 +65,7 @@ CanonicalizePermittedCNAMEs=
 CASignatureAlgorithms=
 CertificateFile=__argc_value=file
 CheckHostIP=yes,no
-Ciphers=`_choice_cipher`
+Ciphers=`_module_ssh_cipher`
 ClearAllForwardings=yes,no
 Compression=yes,no
 ConnectionAttempts=
@@ -73,7 +96,7 @@ HashKnownHosts=yes,no
 Host=
 HostbasedAcceptedAlgorithms=
 HostbasedAuthentication=yes,no
-HostKeyAlgorithms=`_choice_hostkeyalgorithms`
+HostKeyAlgorithms=`_module_ssh_hostkeyalgorithms`
 HostKeyAlias=
 Hostname=
 IdentitiesOnly=yes,no
@@ -125,29 +148,6 @@ VerifyHostKeyDNS=yes,no,ask
 VisualHostKey=yes,no
 XAuthLocation=__argc_value=file
 EOF
-}
-
-_choice_cipher() {
-    ssh -Q cipher
-}
-
-_choice_hostkeyalgorithms() {
-    ssh -Q hostkeyalgorithms
-}
-
-_choice_path() {
-    _argc_util_mode_kv ':'
-    if [[ -z "$argc__kv_prefix" ]]; then
-        _choice_ssh_host | _argc_util_transform suffix=: nospace
-        _argc_util_comp_file
-    else
-        ssh -o 'Batchmode yes' "$argc__kv_key" command ls -a1dp "$argc__kv_filter*" 2>/dev/null \
-            | _argc_util_comp_parts / "$argc__kv_filter" "$argc__kv_prefix" 
-    fi
-}
-
-_choice_ssh_host() {
-    cat ~/.ssh/config | grep '^Host' | gawk '{print $2}'
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

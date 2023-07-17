@@ -52,7 +52,6 @@
 # @flag -h --help                               output usage information
 # @arg cmd[`_choice_script`]
 
-
 # {{ yarn add
 # @cmd Installs a package and any packages that it depends on.
 # @flag -v --version                            output the version number

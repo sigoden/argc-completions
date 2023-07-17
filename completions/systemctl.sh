@@ -52,7 +52,6 @@
 # @flag --mkdir                         Create directory before mounting, if missing
 # @flag --marked                        Restart/reload previously marked units
 
-
 # {{ systemctl list-units
 # @cmd List units currently in memory
 # @flag -h --help                       Show this help
@@ -4063,7 +4062,7 @@ _choice_socket_unit() {
 }
 
 _choice_unit_pid() {
-    _argc_util_parallel _choice_unit ::: _choice_pid
+    _argc_util_parallel _choice_unit ::: _module_os_pid
 }
 
 _choice_unit_job() {
@@ -4130,11 +4129,11 @@ _choice_environment() {
     _systemctl show-environment | _argc_util_transform format==
 }
 
-_choice_pid() {
-    if [[ "$ARGC_OS" == "macos" ]]; then
-        ps -eo pid,comm | tail -n +2 | gawk '{split($2, arr, "/"); print $1 "\t" arr[length(arr)]}'
-    elif [[ "$ARGC_OS" == "windows" ]]; then
+_module_os_pid() {
+    if [[ "$ARGC_OS" == "windows" ]]; then
         tasklist /nh /fo csv | gawk -F ',' '{ gsub("\"", "", $2); gsub("\"", "", $1); print $2 "\t" $1 }'
+    elif [[ "$ARGC_OS" == "macos" ]]; then
+        ps -eo pid,comm | tail -n +2 | gawk '{split($2, arr, "/"); print $1 "\t" arr[length(arr)]}'
     else
         ps -eo pid,comm | tail -n +2 | sed -e 's/^ \+//' -e 's/ /\t/' 
     fi

@@ -157,9 +157,9 @@ EOF
 _choice_args() {
     len="${#argc__positionals[@]}"
     if [[ $len -eq 1 ]]; then
-        _choice_http_method
+        _module_http_method
     elif [[ $len -eq 2 ]]; then
-        if _choice_http_method | grep -q "${argc__positionals[0]}"; then
+        if _module_http_method | grep -q "${argc__positionals[0]}"; then
             return
         else
             _choice_request_item
@@ -181,13 +181,13 @@ _choice_request_item() {
     done
     if [[ -z "$sep_used" ]]; then
         _choice_seperator | sed 's/^\(.*\)$/'$ARGC_FILTER'\1/'
-        _choice_http_header
+        _module_http_header
     else
         if [[ "$sep_used" == "=@" ]] || [[ "$sep_used" == ":=@" ]]; then
             _argc_util_mode_kv $sep_used
             _argc_util_comp_file filter=$argc__kv_filter
         elif [[ "$sep_used" == ":" ]]; then
-            _choice_http_header
+            _module_http_header
         fi
     fi
 }
@@ -204,40 +204,7 @@ _choice_seperator() {
 EOF
 }
 
-_choice_http_method() {
-    cat <<-'EOF'
-CONNECT	Establish a tunnel to the server identified by the target resource
-DELETE	Delete the specified resource
-GET	Request a representation of the specified resource
-HEAD	Identical to a GET request, but without the response body
-OPTIONS	Describe the communication options for the target resource
-PATCH	Apply partial modifications to a resource
-POST	Submit an entity to the specified resource
-PUT	Replace all current representations of the target resource
-TRACE	Perform a message loop-back test along the path to the target resource
-EOF
-}
-
-_choice_http_header() {
-    cat <<-'EOF' | _argc_util_comp_kv :
-Accept=;;Media type(s) that is/are acceptable for the response. See Content negotiation.
-Accept-Encoding=`_choice_http_accept_encoding`;;List of acceptable encodings. See HTTP compression.
-Accept-Language=;;List of acceptable human languages for response. See Content negotiation.
-Authorization=;;Authentication credentials for HTTP authentication.
-Cache-Control=`_choice_http_cache_control`;;Used to specify directives that must be obeyed by all caching mechanisms along the request-response chain.
-Content-Type=`_choice_http_media_type`;;The Media type of the body of the request (used with POST and PUT requests).
-Cookie=;;An HTTP cookie previously sent by the server with Set-Cookie (below).
-Proxy-Authorization=;;Authorization credentials for connecting to a proxy.
-Max-Forwards=;;Limit the number of times the message can be forwarded through proxies or gateways.
-Origin=;;Initiates a request for cross-origin resource sharing (asks server for Access-Control-* response fields).
-Pragma=;;Implementation-specific fields that may have various effects anywhere along the request-response chain.
-Referer=;;This is the address of the previous web page from which a link to the currently requested page was followed.
-User-Agent=;;The user agent string of the user agent.
-Via=;;Informs the server of proxies through which the request was sent.
-EOF
-}
-
-_choice_http_accept_encoding() {
+_module_http_accept_encoding() {
     cat <<-'EOF'
 br	Brotli
 compress	UNIX 'compress' program method
@@ -250,7 +217,7 @@ zstd	Zstandard compression
 EOF
 }
 
-_choice_http_cache_control() {
+_module_http_cache_control() {
     cat <<-'EOF' | sed 's/=\t/=\0\t/'
 max-age=	The maximum amount of time a resource is considered fresh.
 max-stale	Indicates the client will accept a stale response.
@@ -262,7 +229,26 @@ only-if-cached	Set by the client to indicate \"do not use the network\" for the 
 EOF
 }
 
-_choice_http_media_type() {
+_module_http_header() {
+    cat <<-'EOF' | _argc_util_comp_kv :
+Accept=;;Media type(s) that is/are acceptable for the response. See Content negotiation.
+Accept-Encoding=`_module_http_accept_encoding`;;List of acceptable encodings. See HTTP compression.
+Accept-Language=;;List of acceptable human languages for response. See Content negotiation.
+Authorization=;;Authentication credentials for HTTP authentication.
+Cache-Control=`_module_http_cache_control`;;Used to specify directives that must be obeyed by all caching mechanisms along the request-response chain.
+Content-Type=`_module_http_media_type`;;The Media type of the body of the request (used with POST and PUT requests).
+Cookie=;;An HTTP cookie previously sent by the server with Set-Cookie (below).
+Proxy-Authorization=;;Authorization credentials for connecting to a proxy.
+Max-Forwards=;;Limit the number of times the message can be forwarded through proxies or gateways.
+Origin=;;Initiates a request for cross-origin resource sharing (asks server for Access-Control-* response fields).
+Pragma=;;Implementation-specific fields that may have various effects anywhere along the request-response chain.
+Referer=;;This is the address of the previous web page from which a link to the currently requested page was followed.
+User-Agent=;;The user agent string of the user agent.
+Via=;;Informs the server of proxies through which the request was sent.
+EOF
+}
+
+_module_http_media_type() {
     cat <<-'EOF'
 application/graphql
 application/javascript
@@ -285,6 +271,20 @@ text/csv
 text/html
 text/plain
 text/xml
+EOF
+}
+
+_module_http_method() {
+    cat <<-'EOF'
+CONNECT	Establish a tunnel to the server identified by the target resource
+DELETE	Delete the specified resource
+GET	Request a representation of the specified resource
+HEAD	Identical to a GET request, but without the response body
+OPTIONS	Describe the communication options for the target resource
+PATCH	Apply partial modifications to a resource
+POST	Submit an entity to the specified resource
+PUT	Replace all current representations of the target resource
+TRACE	Perform a message loop-back test along the path to the target resource
 EOF
 }
 

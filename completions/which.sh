@@ -3,7 +3,7 @@
 
 # @flag -a    print all matching pathnames of each argument
 
-_choice_command() {
+_module_os_command() {
     if [[ "$ARGC_OS" != "windows" ]]; then
         compgen -c
     fi

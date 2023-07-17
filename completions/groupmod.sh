@@ -8,9 +8,9 @@
 # @option -p --password                change the password to this (encrypted) PASSWORD
 # @option -R --root <CHROOT_DIR>       directory to chroot into
 # @option -P --prefix <PREFIX_DIR>     prefix directory where are located the /etc/* files
-# @arg GROUP[`_choice_group`]
+# @arg GROUP[`_module_os_group`]
 
-_choice_group() {
+_module_os_group() {
     cat /etc/group | gawk -F: '{print $1 "\t" $4}'
 }
 

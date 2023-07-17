@@ -9,7 +9,6 @@
 # @option -M --machine <CONTAINER>    Operate on local container
 # @flag --no-convert                  Don't convert keyboard mappings
 
-
 # {{ localectl status
 # @cmd Show current locale settings
 status() {

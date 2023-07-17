@@ -43,8 +43,8 @@
 # @flag --server                 run in server mode
 # @option --tofu-policy[auto|good|unknown|bad|ask] <VALUE>  set the TOFU policy for a key
 # @flag -a --armor               create ascii armored output
-# @option -r --recipient[`_choice_user`] <USER-ID>  encrypt for USER-ID
-# @option -u --local-user[`_choice_user`] <USER-ID>  use USER-ID to sign or decrypt
+# @option -r --recipient[`_module_os_user`] <USER-ID>  encrypt for USER-ID
+# @option -u --local-user[`_module_os_user`] <USER-ID>  use USER-ID to sign or decrypt
 # @option -z <N>                 set compress level to N (0 disables)
 # @flag --textmode               use canonical text mode
 # @option -o --output <FILE>     write output to FILE
@@ -54,7 +54,7 @@
 # @flag --openpgp                use strict OpenPGP behavior
 # @arg FILES*
 
-_choice_user() {
+_module_os_user() {
     cat /etc/passwd | gawk -F: '{split($5,descs,","); print $1 "\t" descs[1]}'
 }
 

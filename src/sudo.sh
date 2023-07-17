@@ -4,30 +4,16 @@ _patch_help() {
 
 _patch_table() { 
     _patch_table_edit_options \
-        '--group;[`_choice_group`]' \
-        '--user;[`_choice_user`]' \
-        '--other-user;[`_choice_user`]' \
+        '--group;[`_module_os_group`]' \
+        '--user;[`_module_os_user`]' \
+        '--other-user;[`_module_os_user`]' \
         '--preserve-env;[`_choice_env_var`]' \
     | \
-    _patch_table_edit_arguments ';;' 'CMD;[`_choice_command`]' 'ARGS;~[`_choice_args`]'
-}
-
-_choice_command() {
-    if [[ "$ARGC_OS" != "windows" ]]; then
-        compgen -c
-    fi
+    _patch_table_edit_arguments ';;' 'CMD;[`_module_os_command`]' 'ARGS;~[`_choice_args`]'
 }
 
 _choice_args() {
     _argc_util_comp_subcommand 0
-}
-
-_choice_user() {
-    cat /etc/passwd | gawk -F: '{split($5,descs,","); print $1 "\t" descs[1]}'
-}
-
-_choice_group() {
-    cat /etc/group | gawk -F: '{print $1 "\t" $4}'
 }
 
 _choice_env_var() {

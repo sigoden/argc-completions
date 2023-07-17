@@ -11,7 +11,7 @@ _patch_table() {
         '-b;[`_choice_b`]' \
         '-m;[`_choice_m2`]' \
         '-Z;[`_choice_cipher`]' \
-        '-n;[`_choice_n`]' \
+        '-n;[`_module_os_user`]' \
         '-s(<ca_key_file>)' \
         '-t;[dsa|ecdsa|ecdsa-sk|ed25519|ed25519-sk|rsa];Specifies the type of key to create' \
         '-w(<provider_file>)' \
@@ -33,7 +33,7 @@ challenge=__argc_value=file;;Specifies a path to a challenge string that will be
 device=;;Explicitly specify a fido device to use
 no-touch-required;;Indicate that the generated private key should not require touch events when making signatures
 resident;;Indicate that the key should be stored on the FIDO authenticator itself
-user=`_choice_user`;;A username to be associated with a resident key
+user=`_module_os_user`;;A username to be associated with a resident key
 verify-required;;Indicate that this private key should require user verification for each signature
 write-attestation;;Record the attestation data returned from FIDO tokens during key generation
 hashalg=sha256,sha512;;Selects the hash algorithm to use for hashing the message to be signed
@@ -77,12 +77,4 @@ RFC4716	RFC 4716/SSH2 public or private key
 PKCS8	PKCS8 public or private key
 PEM	PEM public key
 EOF
-}
-
-_choice_n() {
-    _choice_user
-}
-
-_choice_user() {
-    cat /etc/passwd | gawk -F: '{split($5,descs,","); print $1 "\t" descs[1]}'
 }

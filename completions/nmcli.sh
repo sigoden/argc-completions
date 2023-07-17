@@ -15,7 +15,6 @@
 # @flag -v --version                              Show nmcli version.
 # @option -w --wait <seconds>                     This option sets a timeout period for which nmcli will wait for NetworkManager to finish operations.
 
-
 # {{ nmcli general
 # @cmd Use this command to show NetworkManager status and permissions.
 general() {

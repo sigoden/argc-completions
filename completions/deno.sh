@@ -6,7 +6,6 @@
 # @flag -h --help       Print help (see a summary with '-h')
 # @flag -V --version    Print version
 
-
 # {{ deno bench
 # @cmd Run benchmarks
 # @option --no-check <NO_CHECK_TYPE>        Skip type-checking.

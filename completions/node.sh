@@ -38,7 +38,7 @@
 # @option --heap-prof-interval <value>             specified sampling interval in bytes for the V8 heap profile generated with --heap-prof.
 # @option --heap-prof-name <value>                 specified file name of the V8 heap profile generated with --heap-prof
 # @option --heapsnapshot-near-heap-limit <value>   Generate heap snapshots whenever V8 is approaching the heap limit.
-# @option --heapsnapshot-signal[`_choice_signal`] <value>  Generate heap snapshot on specified signal
+# @option --heapsnapshot-signal[`_module_os_signal`] <value>  Generate heap snapshot on specified signal
 # @flag -h --help                                  print node command line options (currently set)
 # @flag --huge-max-old-generation-size             increase default maximum heap size on machines with 16GB memory or more
 # @option --icu-data-dir <dir>                     set ICU data load path to dir (overrides NODE_ICU_DATA) (note: linked-in ICU data is present)
@@ -123,7 +123,7 @@
 # @arg file
 # @arg args*
 
-_choice_signal() {
+_module_os_signal() {
     cat <<-'EOF'
 ABRT	Abnormal termination
 ALRM	Virtual alarm clock

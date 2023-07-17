@@ -87,8 +87,8 @@ _patch_table() {
     _patch_table_edit_options \
         '-D;[`_choice_d`]' \
         '-fstype;[`_choice_fstype`]' \
-        '-group;[`_choice_group`]' \
-        '-user;[`_choice_user`]' \
+        '-group;[`_module_os_group`]' \
+        '-user;[`_module_os_user`]' \
         '-regextype;[`_choice_regextype`]' \
         '-type;[`_choice_type`]' \
         '-xtype;[`_choice_type`]' \
@@ -138,14 +138,6 @@ vfat	is an extended FAT filesystem used by Microsoft Windows95 and Windows NT.
 xfs	is a journaling filesystem, developed by SGI.
 xiafs	was designed and implemented to be a stable, safe filesystem by  extending  the  Minix filesystem code.
 EOF
-}
-
-_choice_user() {
-    cat /etc/passwd | gawk -F: '{split($5,descs,","); print $1 "\t" descs[1]}'
-}
-
-_choice_group() {
-    cat /etc/group | gawk -F: '{print $1 "\t" $4}'
 }
 
 _choice_regextype() {

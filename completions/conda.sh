@@ -4,7 +4,6 @@
 # @flag -h --help       Show this help message and exit.
 # @flag -V --version    Show the conda version number and exit.
 
-
 # {{ conda clean
 # @cmd Remove unused packages and caches.
 # @flag -h --help               Show this help message and exit.

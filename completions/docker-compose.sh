@@ -22,7 +22,6 @@
 # @option --env-file <PATH>               Specify an alternate environment file
 # @arg ARGS*
 
-
 # {{ docker-compose build
 # @cmd Build or rebuild services
 # @option --build-arg <key=val>                  Set build-time variables for services.

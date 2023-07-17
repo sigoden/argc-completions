@@ -32,7 +32,6 @@
 # @flag -V --version                           Print version information
 # @arg FILE+                                   File(s) to print / concatenate.
 
-
 # {{ bat cache
 # @cmd Modify the syntax-definition and theme cache
 # @flag -b --build            Initialize (or update) the syntax/theme cache by loading from the source directory (default: the configuration directory).

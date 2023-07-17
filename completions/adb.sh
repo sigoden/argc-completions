@@ -10,7 +10,6 @@
 # @flag -P               port of adb server [default=5037]
 # @option -L <SOCKET>    listen on given socket for adb server [default=tcp:localhost:5037]
 
-
 # {{ adb devices
 # @cmd list connected devices (-l for long output)
 # @flag -l    long output

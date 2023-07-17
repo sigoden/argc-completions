@@ -7,7 +7,6 @@
 # @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
 
-
 # {{ wasmer login
 # @cmd Login into a wasmer.io-like registry
 # @option --wasmer-dir <WASMER_DIR>     Set Wasmer's home directory [env: WASMER_DIR=/home/sigo/.wasmer] [default: /home/sigo/.wasmer]

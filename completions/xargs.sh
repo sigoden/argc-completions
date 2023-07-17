@@ -22,19 +22,19 @@
 # @flag -x --exit                       exit if the size (see -s) is exceeded
 # @flag --help                          display this help and exit
 # @flag --version                       output version information and exit
-# @arg CMD[`_choice_command`]
+# @arg CMD[`_module_os_command`]
 # @arg ARGS~[`_choice_args`]
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_command() {
+_choice_args() {
+    _argc_util_comp_subcommand 0
+}
+
+_module_os_command() {
     if [[ "$ARGC_OS" != "windows" ]]; then
         compgen -c
     fi
-}
-
-_choice_args() {
-    _argc_util_comp_subcommand 0
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

@@ -1,19 +1,9 @@
-#!/usr/bin/env bash
-# Automatic generated, DON'T MODIFY IT.
+_module_os_user() {
+    cat /etc/passwd | gawk -F: '{split($5,descs,","); print $1 "\t" descs[1]}'
+}
 
-# @option -s --signal[`_module_os_signal`]    Signal to send
-# @option -l --list[`_module_os_signal`]      List signal names
-# @flag -L --table                            List signal names and their ♯s
-# @flag -a --all                              Resolve PIDs from other users' too
-# @flag -p --pid                              Show resolved PID, don't send signal
-# @flag -q --queue                            Use sigqueue(2) rather than kill(2)
-# @flag --verbose                             Print PIDs and signals sent
-# @arg pidNames*[`_choice_pid_proc`]
-
-. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
-
-_choice_pid_proc() {
-    _argc_util_parallel _module_os_process ::: _module_os_pid
+_module_os_group() {
+    cat /etc/group | gawk -F: '{print $1 "\t" $4}'
 }
 
 _module_os_pid() {
@@ -70,4 +60,20 @@ XFSZ	File size limit exceeded
 EOF
 }
 
-command eval "$(argc --argc-eval "$0" "$@")"
+_module_os_sid() {
+    ps -A -o user,sess  | gawk '{print $2 "\t" $1}'
+}
+
+_module_os_tty() {
+    ps aux | gawk '{ if ($7 != "?" && NR > 1) {print $7 "\t" $1} }'
+}
+
+_module_os_shell() {
+    cat /etc/shells | sed -n '/^\// p'   
+}
+
+_module_os_command() {
+    if [[ "$ARGC_OS" != "windows" ]]; then
+        compgen -c
+    fi
+}

@@ -27,7 +27,6 @@
 # @option --use-feature <feature>       Enable new functionality, that may be backward incompatible.
 # @option --use-deprecated <feature>    Enable deprecated functionality, that will be removed in the future.
 
-
 # {{ pip install
 # @cmd Install packages.
 # @option -r --requirement <file>                  Install from the given requirements file.
@@ -39,7 +38,7 @@
 # @option -t --target <dir>                        Install packages into <dir>.
 # @option --platform <platform>                    Only use wheels compatible with <platform>.
 # @option --python-version <python_version>        The Python interpreter version to use for wheel and "Requires-Python" compatibility checks.
-# @option --implementation[pp|jy|cp|ip] <implementation>  Only use wheels compatible with Python implementation <implementation>, e.g. 'pp', 'jy', 'cp',  or 'ip'.
+# @option --implementation[pp|jy|cp|ip] <implementation>  Only use wheels compatible with Python implementation <implementation>, e.g. 'pp', 'jy', 'cp', or 'ip'.
 # @option --abi <abi>                              Only use wheels compatible with Python abi <abi>, e.g. 'pypy_41'.
 # @flag --user                                     Install to the Python user install directory for your platform.
 # @option --root <dir>                             Install everything relative to this alternate root directory.
@@ -122,7 +121,7 @@ install() {
 # @option -d --dest <dir>                      Download packages into <dir>.
 # @option --platform <platform>                Only use wheels compatible with <platform>.
 # @option --python-version <python_version>    The Python interpreter version to use for wheel and "Requires-Python" compatibility checks.
-# @option --implementation[pp|jy|cp|ip] <implementation>  Only use wheels compatible with Python implementation <implementation>, e.g. 'pp', 'jy', 'cp',  or 'ip'.
+# @option --implementation[pp|jy|cp|ip] <implementation>  Only use wheels compatible with Python implementation <implementation>, e.g. 'pp', 'jy', 'cp', or 'ip'.
 # @option --abi <abi>                          Only use wheels compatible with Python abi <abi>, e.g. 'pypy_41'.
 # @flag --no-clean                             Don't clean up build directories.
 # @option -i --index-url <url>                 Base URL of the Python Package Index (default https://pypi.org/simple).
@@ -575,7 +574,7 @@ cache::purge() {
 # @cmd Inspect information available from package indexes.
 # @option --platform <platform>                Only use wheels compatible with <platform>.
 # @option --python-version <python_version>    The Python interpreter version to use for wheel and "Requires-Python" compatibility checks.
-# @option --implementation[pp|jy|cp|ip] <implementation>  Only use wheels compatible with Python implementation <implementation>, e.g. 'pp', 'jy', 'cp',  or 'ip'.
+# @option --implementation[pp|jy|cp|ip] <implementation>  Only use wheels compatible with Python implementation <implementation>, e.g. 'pp', 'jy', 'cp', or 'ip'.
 # @option --abi <abi>                          Only use wheels compatible with Python abi <abi>, e.g. 'pypy_41'.
 # @flag --ignore-requires-python               Ignore the Requires-Python information.
 # @flag --pre                                  Include pre-release and development versions.
@@ -746,7 +745,7 @@ completion() {
 # @cmd Show information useful for debugging.
 # @option --platform <platform>                Only use wheels compatible with <platform>.
 # @option --python-version <python_version>    The Python interpreter version to use for wheel and "Requires-Python" compatibility checks.
-# @option --implementation[pp|jy|cp|ip] <implementation>  Only use wheels compatible with Python implementation <implementation>, e.g. 'pp', 'jy', 'cp',  or 'ip'.
+# @option --implementation[pp|jy|cp|ip] <implementation>  Only use wheels compatible with Python implementation <implementation>, e.g. 'pp', 'jy', 'cp', or 'ip'.
 # @option --abi <abi>                          Only use wheels compatible with Python abi <abi>, e.g. 'pypy_41'.
 # @flag -h --help                              Show help.
 # @flag --debug                                Let unhandled exceptions propagate outside the main subroutine, instead of logging them to stderr.

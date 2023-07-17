@@ -36,7 +36,6 @@
 # @flag --silent                              Don't repeat the command for bun run
 # @arg args*[`_choice_script_or_bin`]
 
-
 # {{ bun run
 # @cmd Run JavaScript with bun, a package.json script, or a bin
 # @flag -h --help                             Display this help and exit.

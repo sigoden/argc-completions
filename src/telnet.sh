@@ -4,9 +4,5 @@ _patch_help() {
 }
 
 _patch_table() { 
-    _patch_table_edit_options '-l;[`_choice_user`]'
-}
-
-_choice_user() {
-    cat /etc/passwd | gawk -F: '{split($5,descs,","); print $1 "\t" descs[1]}'
+    _patch_table_edit_options '-l;[`_module_os_user`]'
 }

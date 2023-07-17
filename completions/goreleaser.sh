@@ -6,7 +6,6 @@
 # @flag --verbose       Enable verbose mode
 # @flag -v --version    version for goreleaser
 
-
 # {{ goreleaser build
 # @cmd Builds the current project
 # @flag --clean                     Remove the dist folder before building

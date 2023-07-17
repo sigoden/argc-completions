@@ -4,7 +4,6 @@
 # @flag -h --help       Print help
 # @flag -V --version    Print version
 
-
 # {{ cargo fuzz init
 # @cmd Initialize the fuzz directory
 # @option -t --target[`_choice_target`]    Name of the first fuzz target to create [default: fuzz_target_1]
