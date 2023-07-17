@@ -49,9 +49,21 @@ generate:multi() {
 
 # @cmd Generate completions for src changed commands
 generate:changed() {
+    mapfile -t symlink_cmds <<<"$(find src -type l | sed -n 's|src/\([^/]\+\).sh|\1|p')"
+    declare -A symlink_map
+    for symlink_cmd in ${symlink_cmds[@]}; do
+        cmd=$(basename $(realpath src/$symlink_cmd.sh) .sh)
+        symlink_map[$cmd]="${symlink_map[$cmd]} $symlink_cmd"
+    done
     mapfile -t cmds <<<"$(git status | awk '{if(match($2, /^src/)) {v=substr($2,5,length($2)-7); split(v, p, "/"); print p[1]}}')"
     for cmd in ${cmds[@]}; do
         argc generate $cmd -E
+        if [[ -n "${symlink_map[$cmd]}" ]]; then
+            symlink_cmds=( ${symlink_map[$cmd]} )
+            for symlink_cmd in ${symlink_cmds[@]}; do
+                argc generate $symlink_cmd -E
+            done
+        fi
     done
 }
 
@@ -187,7 +199,7 @@ _helper_source_script() {
     if [[ $source_src -eq 1 ]]; then
         return
     fi
-    . utils/_patch_utils.sh
+    . utils/_patch_utils/index.sh
     if [[ -n $2 ]] && [[ -f src/$1/$2.sh ]]; then
         . src/$1/$2.sh
     elif [[ -f src/$1.sh ]]; then

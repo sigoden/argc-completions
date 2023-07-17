@@ -220,7 +220,7 @@ set_globals() {
         cmds_level=1
     fi
 
-    source "$utils_dir/_patch_utils.sh"
+    source "$utils_dir/_patch_utils/index.sh"
     if [[ -f "$src_file" ]]; then
         source "$src_file"
     fi

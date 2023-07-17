@@ -1,4 +1,4 @@
-ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )"
+ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." &> /dev/null && pwd )"
 
 export COLUMNS=`tput cols` MANWIDTH=1000 NO_COLOR=true
 
@@ -51,7 +51,7 @@ _patch_help_run_man() {
 
 # Clean the middle text between command value and description
 _patch_help_clean_middle() {
-    gawk -f  "$ROOT_DIR/utils/_patch_utils/clean-middle.awk"
+    gawk -f "$ROOT_DIR/utils/_patch_utils/clean-middle.awk"
 }
 
 # Select subcmd help text
