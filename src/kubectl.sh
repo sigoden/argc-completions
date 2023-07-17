@@ -422,11 +422,11 @@ _choice_user() {
 }
 
 _choice_clusterrole() {
-    :;
+    kubectl get clusterrole | tail -n +2 | gawk '{print $1'}
 }
 
 _choice_serviceaccount() {
-    :;
+    kubectl get serviceaccounts | tail -n +2 |  gawk '{print $1'}
 }
 
 _choice_image_repo_tag() {

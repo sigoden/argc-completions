@@ -23,7 +23,7 @@ _choice_shell_type() {
 }
 
 _choice_file() {
-    _argc_util_comp_file
+    _argc_util_comp_path
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

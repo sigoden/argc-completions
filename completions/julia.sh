@@ -45,7 +45,7 @@
 
 _choice_code_coverage() {
     printf "%s\n" none user all
-    _argc_util_comp_file
+    _argc_util_comp_path
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

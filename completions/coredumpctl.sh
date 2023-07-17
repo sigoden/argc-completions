@@ -50,7 +50,7 @@ debug() {
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
 _choice_debugger() {
-    _argc_util_comp_file
+    _argc_util_comp_path
     _module_os_command
 }
 

@@ -1,15 +1,19 @@
-# Complete file
+# Complete path
 # Args:
+#   `dir`: Complete path is dir
 #   `prefix=`: Set __argc_prefix
 #   `filter=`: Set __argc_filter, default value is ARGC_FILTER
 #   `cd=`: Set __argc_cd
 #   `suffix=`: Set __argc_suffix
 #   `exts=`: Set file's allowed exts. e.g. `-exts=.json,jsonc`
-_argc_util_comp_file() {
+_argc_util_comp_path() {
     local filter="$ARGC_FILTER"
-    local exts chdir prefix suffix
+    local isdir prefix suffix exts chdir
     for arg in "${@}"; do
         case "$arg" in
+        dir)
+            isdir=1
+            ;;
         prefix=*)
             prefix="${arg:7}"
             ;;
@@ -37,7 +41,11 @@ _argc_util_comp_file() {
         echo "__argc_prefix=$prefix"
     fi
     echo "__argc_filter=$filter"
-    echo "__argc_value=file$exts"
+    if [[ "$isdir" -eq 1 ]]; then
+        echo "__argc_value=dir"
+    else
+        echo "__argc_value=file$exts"
+    fi
 }
 
 
@@ -235,7 +243,7 @@ _argc_util_comp_subcommand() {
     if [[ ! -f "$scriptfile" ]]; then
         scriptfile="$ARGC_COMPLETIONS_ROOT/completions/${args[0]}/${args[1]}.sh"
         if [[ ! -f "$scriptfile" ]]; then
-            _argc_util_comp_file
+            _argc_util_comp_path
             return
         fi
     fi
@@ -358,8 +366,9 @@ _argc_util_param_select_options() {
 
 # Resolve paths, including converting paths to specific formats, concatenating paths, cleaning paths.
 # Args:
-#   -p: Convert paths to windows format on windows and to unix format on unix.
-#   -u: Convert path to unix format.
+#   [flag]: A control flag
+#     -p: Convert paths to windows format on windows and to unix format on unix.
+#     -u: Convert path to unix format.
 #
 # ```sh
 # _argc_util_path_resolve /home/alice gh/argc                 # /home/alice/gh/argc
@@ -368,6 +377,8 @@ _argc_util_param_select_options() {
 # _argc_util_path_resolve -p /home/alice gh/argc              # C:\Users\alice\gh\argc (windows); /home/alice/gh/argc (non-windows)
 # _argc_util_path_resolve argc/src ../tests                   # understand ..
 # _argc_util_path_resolve argc/src .//tests/                  # cleaning extra / 
+# _argc_util_path_resolve CONFIG_DIR app/config.yaml         # platform $config_dir/app/config.yaml
+# _argc_util_path_resolve CACHE_DIR app/config.yaml          # platform $cache_dir/app/config.yaml
 # pwd | _argc_util_path_resolve -p                            # accept pipe
 # ```
 _argc_util_path_resolve() {
@@ -375,6 +386,26 @@ _argc_util_path_resolve() {
     if [[ "$1" == "-p" ]]; then format=1; shift; fi # platform path
     if [[ "$1" == "-u" ]]; then format=2; shift; fi # unix path
     if [[ $# -eq 0 ]]; then args=( "$(cat)" ); else args=( "$@" ); fi
+    case "${args[0]}::$ARG_OS" in
+        CONFIG_DIR::windows)
+            args[0]="$APPDATA"
+            ;;
+        CONFIG_DIR::macos)
+            args[0]="$HOME/Library/Application Support"
+            ;;
+        CONFIG_DIR:*)
+            args[0]="${XDG_CONFIG_HOME:-$HOME/.config}"
+            ;;
+        CACHE_DIR::windows)
+            args[0]="$LOCALAPPDATA"
+            ;;
+        CACHE_DIR::macos)
+            args[0]="$HOME/Library/Cache"
+            ;;
+        CACHE_DIR::*)
+            args[0]="${XDG_CACHE_HOME:-$HOME/.cache}"
+            ;;
+    esac
     args="$(printf "%q\n" "${args[@]}")"
     value="$(gawk -v RAW_ARGS="$args" 'BEGIN {
     split(RAW_ARGS, args, "\n"); split("", parts)
@@ -539,6 +570,56 @@ _argc_util_transform() {
     print value description
 }'
 }
+
+# Select columns from table
+# Args:
+#   cols: Select columns
+#   joins: Symols used to join cols
+# Example:
+#   docker images | _argc_util_transform_table 'IMAGE ID;REPOSITORY;TAG' '\t;:'
+_argc_util_transform_table() {
+    gawk -v RAW_COLS="$1" -v RAW_JOINS="$2" 'BEGIN {
+        split(RAW_COLS, COLS, ";")
+        split(RAW_JOINS, JOINS, ";")
+        split("", COLS_INDEX)
+        split("", COLS_LEN)
+    }
+    {
+        if(tableOn != 1) {
+            for (i in COLS) {
+                col = COLS[i]
+                colLen = length(col)
+                idx = index($0, col)
+                if (idx == 0) {
+                    next
+                }
+                remainLine = substr($0, idx + colLen)
+                COLS_INDEX[i] = idx
+                if (match(remainLine, /\s+\S/)) {
+                    COLS_LEN[i] = colLen + RLENGTH - 1
+                } else if (match(remainLine, /\s+$/)) {
+                    COLS_LEN[i] = colLen + RLENGTH
+                } else {
+                    next
+                }
+            }
+            tableOn = 1
+        } else {
+            line = ""
+            for (i in COLS) {
+                value = substr($0, COLS_INDEX[i], COLS_LEN[i])
+                gsub(/[[:space:]]+$/, "", value)
+                if (i == 1) {
+                    line = value
+                } else {
+                    line = line JOINS[i - 1] value
+                }
+            }
+            print line
+        }
+    }'
+}
+
 
 # Use Cache 
 # Args:

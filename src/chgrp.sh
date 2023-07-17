@@ -4,7 +4,7 @@ _patch_table() {
 
 _choice_group_value() {
     if [[ -n "$argc_reference" ]]; then
-        _argc_util_comp_file
+        _argc_util_comp_path
     else
         _module_os_group
     fi

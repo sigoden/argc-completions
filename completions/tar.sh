@@ -193,7 +193,7 @@ _choice_files() {
             return
         fi
     fi
-    _argc_util_comp_file
+    _argc_util_comp_path
 }
 
 _choice_ls_tar_file() {

@@ -171,12 +171,12 @@ _choice_cask_tap() {
 }
 
 _choice_installed_formula_file() {
-    _argc_util_comp_file
+    _argc_util_comp_path
     _choice_installed_formula
 }
 
 _choice_file_tap_formula_cask() {
-    _argc_util_comp_file
+    _argc_util_comp_path
     _argc_util_parallel _choice_suggest_cask ::: _choice_suggest_formula ::: _choice_tap
 }
 

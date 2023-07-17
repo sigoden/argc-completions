@@ -107,7 +107,7 @@ EOF
 
 _choice_source() {
     if _argc_util_is_path "$ARGC_FILTER"; then
-        _argc_util_comp_file
+        _argc_util_comp_path
         _choice_block_device
     else
         cat <<-'EOF' | _argc_util_comp_kv = 

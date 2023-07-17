@@ -34,7 +34,7 @@
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
 _choice_taskfile() {
-    _argc_util_comp_file exts=.yml,.yaml
+    _argc_util_comp_path exts=.yml,.yaml
 }
 
 _choice_task() {

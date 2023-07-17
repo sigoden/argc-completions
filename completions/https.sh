@@ -185,7 +185,7 @@ _choice_request_item() {
     else
         if [[ "$sep_used" == "=@" ]] || [[ "$sep_used" == ":=@" ]]; then
             _argc_util_mode_kv $sep_used
-            _argc_util_comp_file filter=$argc__kv_filter
+            _argc_util_comp_path filter=$argc__kv_filter
         elif [[ "$sep_used" == ":" ]]; then
             _module_http_header
         fi

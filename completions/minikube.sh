@@ -683,7 +683,7 @@ _choice_load_image() {
     if !_argc_util_is_path "$argc_image"; then
         _choice_image_repo_tag
     fi
-    _argc_util_comp_file
+    _argc_util_comp_path
 }
 
 _choice_image() {
@@ -698,7 +698,7 @@ _choice_cni() {
     if ! _argc_util_is_path "$argc_cni"; then
         printf "%s\n" auto bridge calico cilium flannel kindnet
     fi
-    _argc_util_comp_file
+    _argc_util_comp_path
 }
 
 _choice_image_repo_tag() {
@@ -709,13 +709,13 @@ _choice_vnpkit_sock() {
     if ! _argc_util_is_path "$argc_hyperkit_vpnkit_sock"; then
         printf "%s\n" auto
     fi
-    _argc_util_comp_file
+    _argc_util_comp_path
 }
 
 _choice_mount_string() {
     _argc_util_mode_kv :
     if [[ -z "$argc__kv_prefix" ]]; then
-        _argc_util_comp_file suffix=:
+        _argc_util_comp_path suffix=:
     else
         echo /minikube-host
     fi
@@ -756,7 +756,7 @@ EOF
 _choice_mount() {
     _argc_util_mode_kv :
     if [[ -z "$argc__kv_prefix" ]]; then
-        _argc_util_comp_file suffix=:
+        _argc_util_comp_path suffix=:
     else
         _argc_util_mode_parts '/' "$argc__kv_filter" "$argc__kv_prefix"
         if [[ -z "$argc__kv_filter" ]]; then

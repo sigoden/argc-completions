@@ -177,7 +177,7 @@ EOF
 
 _choice_unit_path() {
     _choice_unit
-    _argc_util_comp_file
+    _argc_util_comp_path
 }
 
 _choice_target() {

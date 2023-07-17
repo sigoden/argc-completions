@@ -40,7 +40,7 @@ EOF
 }
 
 _choice_disk() {
-    _argc_util_comp_file
+    _argc_util_comp_path
     _choice_block_device
 }
 

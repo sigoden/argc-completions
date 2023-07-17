@@ -3,6 +3,6 @@ _patch_table() {
 }
 
 _choice_value() {
-    _argc_util_comp_file
+    _argc_util_comp_path
     _module_os_command
 }
