@@ -187,7 +187,12 @@
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
 _choice_files() {
-    if [[ -n $argc_delete ]] || [[ -n $argc_list ]] || [[ -n $argc_extract ]]; then
+    if [[ -n $argc_delete ]] \
+    || [[ -n $argc_list ]] \
+    || [[ -n $argc_x ]] \
+    || [[ -n $argc_extract ]] \
+    || [[ -n $argc_get ]] \
+    ; then
         if [[ -n "$argc_file" ]]; then
             _argc_util_cache 3600 _choice_ls_tar_file "$argc_file" | _argc_util_comp_parts /
             return
