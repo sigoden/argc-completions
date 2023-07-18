@@ -75,25 +75,24 @@
 # @option -ldflags <[pattern=]arg list>            arguments to pass on each go tool link invocation.
 # @flag --incremental                              show blame entries as we find them, incrementally
 # @flag --line-porcelain                           show porcelain format with per-line commit information
-# @arg ARG1!
-# @arg ARG2+
-# @arg ARG3
-# @arg ARG4*
-# @arg ARG5*
-# @arg deployed-project-name!
-# @arg branch-tag!
+# @arg arg1!
+# @arg arg2+
+# @arg arg3
+# @arg arg4*
+# @arg arg5*
+# @arg deployed-project-name! <deployed project name>
+# @arg branch-tag! <branch,tag>
 # @arg arg8*
 # @arg repository
 # @arg pathspecs*
 # @arg tarball-dir <<tarball>|<dir>>
-# @arg mbox-Maildir* <<mbox> | <Maildir>>
-# @arg tarball-file!
-# @arg ARG9*
+# @arg mbox-maildir* <<mbox> | <Maildir>>
+# @arg tarball-file! <tarball file>
+# @arg arg9*
 # @arg rustfmt_options*
-# @arg ARG10
-# @arg ARG11
-# @arg ARG12
-
+# @arg arg10
+# @arg arg11
+# @arg arg12
 
 # {{ __test run
 # @cmd Run a binary or example of the local package
@@ -144,7 +143,7 @@ cmd2() {
 
 # {{ __test cmd3
 # @cmd
-# @arg CONTAINER*
+# @arg container*
 cmd3() {
     :;
 }

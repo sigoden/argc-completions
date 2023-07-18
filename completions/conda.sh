@@ -131,7 +131,7 @@ info() {
 # @flag --json          Report all output as json.
 # @flag -v --verbose    Use once for info, twice for debug, three times for trace.
 # @flag -q --quiet      Do not display progress bar.
-# @arg SHELLS           One or more shells to be initialized.
+# @arg shells           One or more shells to be initialized.
 init() {
     :;
 }

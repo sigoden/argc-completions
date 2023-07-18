@@ -13,6 +13,6 @@
 # @flag -w --wholename              search the entire path name (default; see -b)
 # @flag --help                      print this help
 # @flag --version                   print version information
-# @arg PATTERN*
+# @arg pattern*
 
 command eval "$(argc --argc-eval "$0" "$@")"

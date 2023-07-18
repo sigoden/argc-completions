@@ -158,6 +158,6 @@
 # @option -X --exclude-directories <LIST>    list of excluded directories
 # @flag -np                                  don't ascend to the parent directory
 # @flag --no-parent                          don't ascend to the parent directory
-# @arg URL*
+# @arg url*
 
 command eval "$(argc --argc-eval "$0" "$@")"

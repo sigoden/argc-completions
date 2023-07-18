@@ -347,6 +347,9 @@ _patch_table() {
             ';;' \
             'NAME;[`_choice_user`]' \
 
+    elif [[ "$*" == "kubectl config get-contexts" ]]; then
+        echo "$table" | _patch_table_edit_arguments ';;'
+
     elif [[ "$*" == "kubectl config rename-context" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments \

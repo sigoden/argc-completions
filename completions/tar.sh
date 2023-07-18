@@ -182,7 +182,7 @@
 # @flag --restrict                              disable use of some potentially harmful options
 # @flag --usage                                 give a short usage message
 # @flag --version                               print program version
-# @arg FILES*[`_choice_files`]
+# @arg files*[`_choice_files`]
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 

@@ -10,7 +10,7 @@
 # @option -M --members*,[`_module_os_user`] <USER,>  set the list of members of GROUP
 # @flag --extrausers                               use the extra users database
 # @option -A --administrators*,[`_module_os_user`] <ADMIN,>  set the list of administrators for GROUP
-# @arg GROUP[`_module_os_group`]
+# @arg group[`_module_os_group`]
 
 _module_os_group() {
     cat /etc/group | gawk -F: '{print $1 "\t" $4}'

@@ -6,7 +6,7 @@
 # @flag --skip-chdir    do not change working directory to '/'
 # @flag --help          display this help and exit
 # @flag --version       output version information and exit
-# @arg PATH
+# @arg path
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 

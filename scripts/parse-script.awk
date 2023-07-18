@@ -165,10 +165,10 @@ function parseArgument(words1, descVal, choicesVal) {
     addNotations(value, notations, extra)
     notation = notations[1]
     name = getArgName(notation)
-    if (match(tolower(name), RE_SKIP_ARGUMENT)) {
+    if (length(name) == 0) {
         return
     }
-    if (length(name) == 0) {
+    if (match(name, RE_SKIP_ARGUMENT)) {
         return
     }
     modifierVal = ""
@@ -184,7 +184,7 @@ function parseArgument(words1, descVal, choicesVal) {
     notationVal = ""
     if (length(words1[2]) > 0) {
         notationVal = " " words1[2]
-    } else if (notation != name && length(notation) != length(name)) {
+    } else if (tolower(notation) != name) {
         notationVal = " <"  notation ">"
     }
     addParamLine("# @arg " name modifierVal choicesVal notationVal, descVal)
@@ -345,7 +345,7 @@ function getArgName(input) {
     }
     value = join(words, "-")
     gsub(/^-+|-+$/, "", value)
-    return value
+    return tolower(value)
 }
 
 function extractName(input,     result, len, idx, end, last) {

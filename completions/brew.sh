@@ -648,7 +648,7 @@ shellenv() {
 # @flag -v --verbose              Make some output more verbose.
 # @flag -h --help                 Show this message.
 # @arg user-repo
-# @arg URL
+# @arg url
 tap() {
     :;
 }
@@ -1031,7 +1031,7 @@ contributions() {
 # @flag -q --quiet       Make some output more quiet.
 # @flag -v --verbose     Make some output more verbose.
 # @flag -h --help        Show this message.
-# @arg URL
+# @arg url
 create() {
     :;
 }

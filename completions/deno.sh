@@ -46,7 +46,7 @@
 # @flag --no-clear-screen                   Do not clear terminal screen when under watch mode
 # @flag -h --help                           Print help (see a summary with '-h')
 # @arg files*                               List of file names to run
-# @arg SCRIPT_ARG*                          Script arg
+# @arg script_arg*                          Script arg
 bench() {
     :;
 }
@@ -136,7 +136,7 @@ check() {
 # @option --target[x86_64-unknown-linux-gnu|x86_64-pc-windows-msvc|x86_64-apple-darwin|aarch64-apple-darwin] <target>  Target OS architecture
 # @option --ext[ts|tsx|js|jsx] <ext>        Set content type of the supplied file
 # @flag -h --help                           Print help (see a summary with '-h')
-# @arg SCRIPT_ARG*                          Script arg
+# @arg script_arg*                          Script arg
 compile() {
     :;
 }
@@ -216,7 +216,7 @@ doc() {
 # @option --ext[ts|tsx|js|jsx] <ext>        Set content type of the supplied file
 # @flag -p --print                          print result to stdout
 # @flag -h --help                           Print help (see a summary with '-h')
-# @arg CODE_ARG+                            Code arg
+# @arg code_arg+                            Code arg
 eval() {
     :;
 }
@@ -451,7 +451,7 @@ repl() {
 # @flag --no-clear-screen                   Do not clear terminal screen when under watch mode
 # @option --ext[ts|tsx|js|jsx] <ext>        Set content type of the supplied file
 # @flag -h --help                           Print help (see a summary with '-h')
-# @arg SCRIPT_ARG*                          Script arg
+# @arg script_arg*                          Script arg
 run() {
     :;
 }
@@ -464,7 +464,7 @@ run() {
 # @option --cwd <DIR>           Specify the directory to run the task in
 # @flag -q --quiet              Suppress diagnostic output
 # @flag -h --help               Print help (see a summary with '-h')
-# @arg TASK[`_choice_task`]
+# @arg task[`_choice_task`]
 task() {
     :;
 }
@@ -519,7 +519,7 @@ task() {
 # @flag --no-clear-screen                   Do not clear terminal screen when under watch mode
 # @flag -h --help                           Print help (see a summary with '-h')
 # @arg files*                               List of file names to run
-# @arg SCRIPT_ARG*                          Script arg
+# @arg script_arg*                          Script arg
 test() {
     :;
 }

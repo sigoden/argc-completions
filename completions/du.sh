@@ -29,7 +29,7 @@
 # @flag -x --one-file-system          skip directories on different file systems
 # @flag --help                        display this help and exit
 # @flag --version                     output version information and exit
-# @arg FILE*
+# @arg file*
 
 _choice_time() {
     printf "%s\n" access atime ctime status use

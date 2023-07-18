@@ -4,7 +4,7 @@
 # @flag -h --help                           display this help message and exit
 # @option -R --root <CHROOT_DIR>            directory to chroot into
 # @option -s --shell[`_module_os_shell`]    new login shell for the user account
-# @arg LOGIN[`_module_os_user`]
+# @arg login[`_module_os_user`]
 
 _module_os_shell() {
     cat /etc/shells | sed -n '/^\// p'   

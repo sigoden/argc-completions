@@ -50,7 +50,7 @@
 # @flag -? --help                        give this help list
 # @flag --usage                          give a short usage message
 # @flag -V --version                     print program version
-# @arg PAGES*[`_choice_page`]
+# @arg pages*[`_choice_page`]
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 

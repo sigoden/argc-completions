@@ -17,8 +17,8 @@
 # @flag -P                       do not traverse any symbolic links (default)
 # @flag --help                   display this help and exit
 # @flag --version                output version information and exit
-# @arg GROUP[`_choice_group_value`]
-# @arg FILE*
+# @arg group[`_choice_group_value`]
+# @arg file*
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 

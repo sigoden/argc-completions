@@ -17,7 +17,7 @@
 # @flag -w --wait                             wait for processes to die
 # @option -n --ns[`_module_os_pid`] <PID>     match processes that belong to the same namespaces as PID
 # @flag -Z --context                          REGEXP kill only process(es) having context (must precede other arguments)
-# @arg NAME*
+# @arg name*
 
 _module_os_pid() {
     if [[ "$ARGC_OS" == "windows" ]]; then

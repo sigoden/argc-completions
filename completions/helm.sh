@@ -156,7 +156,7 @@ completion::zsh() {
 # @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
 # @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
 # @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
-# @arg NAME
+# @arg name
 create() {
     :;
 }
@@ -206,7 +206,7 @@ dependency() {
 # @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
 # @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
 # @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
-# @arg CHART[`_choice_chart`]
+# @arg chart[`_choice_chart`]
 dependency::build() {
     :;
 }
@@ -231,7 +231,7 @@ dependency::build() {
 # @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
 # @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
 # @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
-# @arg CHART[`_choice_chart`]
+# @arg chart[`_choice_chart`]
 dependency::list() {
     :;
 }
@@ -258,7 +258,7 @@ dependency::list() {
 # @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
 # @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
 # @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
-# @arg CHART[`_choice_chart`]
+# @arg chart[`_choice_chart`]
 dependency::update() {
     :;
 }
@@ -330,7 +330,7 @@ get() {
 # @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
 # @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
 # @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
-# @arg RELEASE_NAME[`_choice_release`]
+# @arg release_name[`_choice_release`]
 get::all() {
     :;
 }
@@ -355,7 +355,7 @@ get::all() {
 # @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
 # @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
 # @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
-# @arg RELEASE_NAME[`_choice_release`]
+# @arg release_name[`_choice_release`]
 get::hooks() {
     :;
 }
@@ -380,7 +380,7 @@ get::hooks() {
 # @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
 # @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
 # @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
-# @arg RELEASE_NAME[`_choice_release`]
+# @arg release_name[`_choice_release`]
 get::manifest() {
     :;
 }
@@ -405,7 +405,7 @@ get::manifest() {
 # @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
 # @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
 # @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
-# @arg RELEASE_NAME[`_choice_release`]
+# @arg release_name[`_choice_release`]
 get::notes() {
     :;
 }
@@ -432,7 +432,7 @@ get::notes() {
 # @option --registry-config <path>                 path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
 # @option --repository-cache <path>                path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
 # @option --repository-config <path>               path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
-# @arg RELEASE_NAME[`_choice_release`]
+# @arg release_name[`_choice_release`]
 get::values() {
     :;
 }
@@ -460,7 +460,7 @@ get::values() {
 # @option --registry-config <path>                 path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
 # @option --repository-cache <path>                path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
 # @option --repository-config <path>               path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
-# @arg RELEASE_NAME[`_choice_release`]
+# @arg release_name[`_choice_release`]
 history() {
     :;
 }
@@ -522,8 +522,8 @@ history() {
 # @option --registry-config <path>                 path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
 # @option --repository-cache <path>                path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
 # @option --repository-config <path>               path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
-# @arg NAME
-# @arg CHART[`_choice_chart`]
+# @arg name
+# @arg chart[`_choice_chart`]
 install() {
     :;
 }
@@ -556,7 +556,7 @@ install() {
 # @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
 # @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
 # @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
-# @arg PATH
+# @arg path
 lint() {
     :;
 }
@@ -630,7 +630,7 @@ list() {
 # @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
 # @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
 # @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
-# @arg CHART_PATH
+# @arg chart_path
 package() {
     :;
 }
@@ -678,7 +678,7 @@ plugin() {
 # @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
 # @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
 # @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
-# @arg path-url+
+# @arg path-url+ <path|url>
 plugin::install() {
     :;
 }
@@ -822,7 +822,7 @@ pull() {
 # @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
 # @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
 # @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
-# @arg dir!
+# @arg dir![`_choice_chart`]
 # @arg remote
 push() {
     :;
@@ -958,8 +958,8 @@ repo() {
 # @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
 # @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
 # @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
-# @arg NAME
-# @arg URL
+# @arg name
+# @arg url
 repo::add() {
     :;
 }
@@ -985,7 +985,7 @@ repo::add() {
 # @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
 # @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
 # @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
-# @arg DIR
+# @arg dir
 repo::index() {
     :;
 }
@@ -1095,8 +1095,8 @@ repo::update() {
 # @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
 # @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
 # @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
-# @arg RELEASE![`_choice_release`]
-# @arg REVISION[`_choice_revision`]
+# @arg release![`_choice_release`]
+# @arg revision[`_choice_revision`]
 rollback() {
     :;
 }
@@ -1146,7 +1146,7 @@ search() {
 # @option --registry-config <path>                 path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
 # @option --repository-cache <path>                path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
 # @option --repository-config <path>               path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
-# @arg KEYWORD
+# @arg keyword
 search::hub() {
     :;
 }
@@ -1236,7 +1236,7 @@ show() {
 # @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
 # @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
 # @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
-# @arg CHART[`_choice_chart`]
+# @arg chart[`_choice_chart`]
 show::all() {
     :;
 }
@@ -1272,7 +1272,7 @@ show::all() {
 # @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
 # @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
 # @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
-# @arg CHART[`_choice_chart`]
+# @arg chart[`_choice_chart`]
 show::chart() {
     :;
 }
@@ -1308,7 +1308,7 @@ show::chart() {
 # @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
 # @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
 # @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
-# @arg CHART[`_choice_chart`]
+# @arg chart[`_choice_chart`]
 show::crds() {
     :;
 }
@@ -1344,7 +1344,7 @@ show::crds() {
 # @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
 # @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
 # @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
-# @arg CHART[`_choice_chart`]
+# @arg chart[`_choice_chart`]
 show::readme() {
     :;
 }
@@ -1381,7 +1381,7 @@ show::readme() {
 # @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
 # @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
 # @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
-# @arg CHART[`_choice_chart`]
+# @arg chart[`_choice_chart`]
 show::values() {
     :;
 }
@@ -1410,7 +1410,7 @@ show::values() {
 # @option --registry-config <path>                 path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
 # @option --repository-cache <path>                path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
 # @option --repository-config <path>               path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
-# @arg RELEASE_NAME[`_choice_release`]
+# @arg release_name[`_choice_release`]
 status() {
     :;
 }
@@ -1480,8 +1480,8 @@ status() {
 # @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
 # @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
 # @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
-# @arg NAME
-# @arg CHART[`_choice_chart`]
+# @arg name
+# @arg chart[`_choice_chart`]
 template() {
     :;
 }
@@ -1508,7 +1508,7 @@ template() {
 # @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
 # @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
 # @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
-# @arg RELEASE[`_choice_release`]
+# @arg release[`_choice_release`]
 test() {
     :;
 }
@@ -1540,7 +1540,7 @@ test() {
 # @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
 # @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
 # @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
-# @arg RELEASE_NAME[`_choice_release`]
+# @arg release_name[`_choice_release`]
 uninstall() {
     :;
 }
@@ -1604,8 +1604,8 @@ uninstall() {
 # @option --registry-config <path>                 path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
 # @option --repository-cache <path>                path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
 # @option --repository-config <path>               path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
-# @arg RELEASE[`_choice_release`]
-# @arg CHART[`_choice_chart`]
+# @arg release[`_choice_release`]
+# @arg chart[`_choice_chart`]
 upgrade() {
     :;
 }
@@ -1630,7 +1630,7 @@ upgrade() {
 # @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
 # @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
 # @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
-# @arg PATH
+# @arg path
 verify() {
     :;
 }

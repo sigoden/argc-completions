@@ -15,7 +15,7 @@
 # @flag -Z --context                              set SELinux security context of destination file to default type
 # @flag --help                                    display this help and exit
 # @flag --version                                 output version information and exit
-# @arg FILES*
+# @arg files*
 
 _choice_backup() {
     cat <<-'EOF'

@@ -3,7 +3,7 @@
 
 # @flag --help       display this help and exit
 # @flag --version    output version information and exit
-# @arg FILE1
-# @arg FILE2
+# @arg file1
+# @arg file2
 
 command eval "$(argc --argc-eval "$0" "$@")"

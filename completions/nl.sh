@@ -14,7 +14,7 @@
 # @option -w --number-width <NUMBER>            use NUMBER columns for line numbers
 # @flag --help                                  display this help and exit
 # @flag --version                               output version information and exit
-# @arg FILE*
+# @arg file*
 
 _choice_numbering() {
     cat <<-'EOF'

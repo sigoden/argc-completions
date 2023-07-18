@@ -12,7 +12,7 @@
 # @flag -q           omit the user's full name, remote host and idle time in short format
 # @flag --help       display this help and exit
 # @flag --version    output version information and exit
-# @arg USER*[`_module_os_user`]
+# @arg user*[`_module_os_user`]
 
 _module_os_user() {
     cat /etc/passwd | gawk -F: '{split($5,descs,","); print $1 "\t" descs[1]}'

@@ -16,8 +16,8 @@
 # @option -L --label                  use LABEL instead of file name (can be repeated up to three times)
 # @flag --help                        display this help and exit
 # @flag -v --version                  output version information and exit
-# @arg MYFILE
-# @arg OLDFILE
-# @arg YOURFILE
+# @arg myfile
+# @arg oldfile
+# @arg yourfile
 
 command eval "$(argc --argc-eval "$0" "$@")"

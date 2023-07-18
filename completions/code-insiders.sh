@@ -99,7 +99,7 @@ tunnel::status() {
 # @option --cli-data-dir <CLI_DATA_DIR>    Directory where CLI metadata should be stored [env: VSCODE_CLI_DATA_DIR=]
 # @flag --verbose                          Print verbose output (implies --wait)
 # @option --log[trace|debug|info|warn|error|critical|off] <level>  Log level to use
-# @arg NAME!                               The name you'd like to rename your machine to
+# @arg name!                               The name you'd like to rename your machine to
 tunnel::rename() {
     :;
 }

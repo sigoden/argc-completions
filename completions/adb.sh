@@ -27,7 +27,7 @@ version() {
 
 # {{ adb connect
 # @cmd connect to a device via TCP/IP [default port=5555]
-# @arg HOST-PORT <HOST[:PORT]>
+# @arg host-port <HOST[:PORT]>
 connect() {
     :;
 }
@@ -35,7 +35,7 @@ connect() {
 
 # {{ adb disconnect
 # @cmd disconnect from given TCP/IP device [default port=5555], or all
-# @arg HOST-PORT <HOST[:PORT]>
+# @arg host-port <HOST[:PORT]>
 disconnect() {
     :;
 }
@@ -47,8 +47,8 @@ disconnect() {
 # @flag --no-rebind           don't replace existing connection
 # @option --remove <LOCAL>    remove specific forward socket connection
 # @flag --remove-all          remove all forward socket connections
-# @arg LOCAL
-# @arg REMOTE
+# @arg local
+# @arg remote
 forward() {
     :;
 }
@@ -56,8 +56,8 @@ forward() {
 
 # {{ adb ppp
 # @cmd run PPP over USB
-# @arg TTY
-# @arg PARAMETER*
+# @arg tty
+# @arg parameter*
 ppp() {
     :;
 }
@@ -69,8 +69,8 @@ ppp() {
 # @flag --no-rebind            don't replace existing connection
 # @option --remove <REMOTE>    remove specific reverse socket connection
 # @flag --remove-all           remove all reverse socket connections from device
-# @arg LOCAL
-# @arg REMOTE
+# @arg local
+# @arg remote
 reverse() {
     :;
 }
@@ -79,8 +79,8 @@ reverse() {
 # {{ adb push
 # @cmd copy local files/directories to device
 # @flag --sync    only push files that are newer on the host than the device
-# @arg LOCAL*
-# @arg REMOTE
+# @arg local*
+# @arg remote
 push() {
     :;
 }
@@ -89,8 +89,8 @@ push() {
 # {{ adb pull
 # @cmd copy files/dirs from device
 # @flag -a    preserve file timestamp and mode
-# @arg REMOTE*
-# @arg LOCAL
+# @arg remote*
+# @arg local
 pull() {
     :;
 }
@@ -134,7 +134,7 @@ emu() {
 # @flag -p           partial application install (install-multiple only)
 # @flag -g           grant all runtime permissions
 # @flag --instant    cause the app to be installed as an ephemeral install app
-# @arg PACKAGE
+# @arg package
 install() {
     :;
 }
@@ -150,7 +150,7 @@ install() {
 # @flag -p           partial application install (install-multiple only)
 # @flag -g           grant all runtime permissions
 # @flag --instant    cause the app to be installed as an ephemeral install app
-# @arg PACKAGE*
+# @arg package*
 install-multiple() {
     :;
 }
@@ -172,7 +172,7 @@ install-multiple() {
 # @flag --date-check-agent       update deployment agent when local version is newer and using fast deploy
 # @flag --version-check-agent    update deployment agent when local version has different version code and using fast deploy
 # @flag --local-agent            locate agent files from local source build (instead of SDK location)
-# @arg PACKAGE*
+# @arg package*
 install-multi-package() {
     :;
 }
@@ -181,7 +181,7 @@ install-multi-package() {
 # {{ adb uninstall
 # @cmd remove this app package from the device
 # @flag -k    keep the data and cache directories
-# @arg PACKAGE
+# @arg package
 uninstall() {
     :;
 }
@@ -189,7 +189,7 @@ uninstall() {
 
 # {{ adb bugreport
 # @cmd write bugreport to given PATH
-# @arg PATH
+# @arg path
 bugreport() {
     :;
 }
@@ -225,7 +225,7 @@ enable-verity() {
 
 # {{ adb keygen
 # @cmd generate adb public/private key; private key stored in FILE,
-# @arg FILE
+# @arg file
 keygen() {
     :;
 }
@@ -396,7 +396,7 @@ reboot() {
 
 # {{ adb sideload
 # @cmd sideload the given full OTA package
-# @arg OTAPACKAGE
+# @arg otapackage
 sideload() {
     :;
 }
@@ -425,7 +425,7 @@ usb() {
 
 # {{ adb tcpip
 # @cmd restart adbd listening on TCP on PORT
-# @arg PORT
+# @arg port
 tcpip() {
     :;
 }
@@ -447,7 +447,7 @@ kill-server() {
 
 # {{ adb reconnect
 # @cmd kick connection from host side to force reconnect
-# @arg TYPE[`_choice_reconnect_type`]
+# @arg type[`_choice_reconnect_type`]
 reconnect() {
     :;
 }

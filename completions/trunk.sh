@@ -16,7 +16,7 @@
 # @option --features                   A comma-separated list of features to activate, must not be used with all-features [default: ""]
 # @option --filehash[true|false]       Whether to include hash values in the output file names [default: true]
 # @flag -h --help                      Print help
-# @arg TARGET                          The index HTML file to drive the bundling process [default: index.html]
+# @arg target                          The index HTML file to drive the bundling process [default: index.html]
 build() {
     :;
 }
@@ -34,7 +34,7 @@ build() {
 # @option -w --watch <path>            Watch specific file(s) or folder(s) [default: build target parent folder]
 # @option -i --ignore <path>           Paths to ignore [default: []]
 # @flag -h --help                      Print help
-# @arg TARGET                          The index HTML file to drive the bundling process [default: index.html]
+# @arg target                          The index HTML file to drive the bundling process [default: index.html]
 watch() {
     :;
 }
@@ -60,7 +60,7 @@ watch() {
 # @flag --proxy-insecure                     Configure the proxy to accept insecure requests [default: false]
 # @flag --no-autoreload                      Disable auto-reload of the web app [default: false]
 # @flag -h --help                            Print help
-# @arg TARGET                                The index HTML file to drive the bundling process [default: index.html]
+# @arg target                                The index HTML file to drive the bundling process [default: index.html]
 serve() {
     :;
 }

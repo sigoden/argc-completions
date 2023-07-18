@@ -39,7 +39,7 @@
 # @option --shell-arg*                         Invoke shell with <SHELL-ARG> as an argument
 # @option -s --show <RECIPE>                   Show information about <RECIPE>
 # @option -d --working-directory               Use <WORKING-DIRECTORY> as working directory.
-# @arg ARGUMENTS+[`_choice_recipe`]            Overrides and recipe(s) to run, defaulting to the first recipe in the justfile
+# @arg arguments+[`_choice_recipe`]            Overrides and recipe(s) to run, defaulting to the first recipe in the justfile
 
 _choice_recipe() {
    just --summary 2> /dev/null | tr " " "\n" || gawk '{$1=$1};1'

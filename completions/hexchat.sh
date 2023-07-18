@@ -14,6 +14,6 @@
 # @option --minimize <level>    Begin minimized.
 # @flag -v --version            Show version information
 # @option --display             X display to use
-# @arg URL
+# @arg url
 
 command eval "$(argc --argc-eval "$0" "$@")"

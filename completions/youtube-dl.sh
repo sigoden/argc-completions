@@ -157,7 +157,7 @@
 # @option --ffmpeg-location <PATH>                 Location of the ffmpeg/avconv binary; either the path to the binary or its containing directory.
 # @option --exec <CMD>                             Execute a command on the file after downloading and post-processing, similar to find's -exec syntax.
 # @option --convert-subs[srt|ass|vtt|lrc] <FORMAT>  Convert the subtitles to other format (currently supported: srt|ass|vtt|lrc)
-# @arg URL*
+# @arg url*
 
 _choice_fixup() {
     cat <<-'EOF'

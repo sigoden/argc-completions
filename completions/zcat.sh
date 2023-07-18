@@ -10,6 +10,6 @@
 # @flag -v --verbose           verbose mode
 # @flag --help                 display this help and exit
 # @flag --version              display version information and exit
-# @arg FILE*
+# @arg file*
 
 command eval "$(argc --argc-eval "$0" "$@")"

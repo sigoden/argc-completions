@@ -15,7 +15,7 @@
 # @flag -v --verbose               explain what is being done
 # @flag --help                     display this help and exit
 # @flag --version                  output version information and exit
-# @arg FILE*
+# @arg file*
 
 _choice_interactive() {
     cat <<-'EOF'

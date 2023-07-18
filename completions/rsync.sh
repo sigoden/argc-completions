@@ -141,7 +141,7 @@
 # @flag -6 --ipv6                      prefer IPv6
 # @flag -V --version                   print the version + other info and exit
 # @flag --help                         show this help (* -h is help only on its own)
-# @arg SRC*
-# @arg DEST
+# @arg src*
+# @arg dest
 
 command eval "$(argc --argc-eval "$0" "$@")"

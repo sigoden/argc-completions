@@ -7,7 +7,7 @@
 # @option --output-error[`_choice_output_error`] <MODE>  set behavior on write error.
 # @flag --help                    display this help and exit
 # @flag --version                 output version information and exit
-# @arg FILE*
+# @arg file*
 
 _choice_output_error() {
     cat <<-'EOF'

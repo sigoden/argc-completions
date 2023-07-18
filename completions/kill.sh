@@ -8,7 +8,7 @@
 # @flag -p --pid                              Show resolved PID, don't send signal
 # @flag -q --queue                            Use sigqueue(2) rather than kill(2)
 # @flag --verbose                             Print PIDs and signals sent
-# @arg pidNames*[`_choice_pid_proc`]
+# @arg pidnames*[`_choice_pid_proc`]
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 

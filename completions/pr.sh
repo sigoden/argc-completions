@@ -29,6 +29,6 @@
 # @option -W --page-width <PAGE_WIDTH>        set page width to PAGE_WIDTH (72) characters always, truncate lines, except -J option is set, no interference with -S or -s
 # @flag --help                                display this help and exit
 # @flag --version                             output version information and exit
-# @arg FILE*
+# @arg file*
 
 command eval "$(argc --argc-eval "$0" "$@")"

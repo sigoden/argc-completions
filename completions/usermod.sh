@@ -25,7 +25,7 @@
 # @option -w --add-subgids <FIRST-LAST>           add range of subordinate gids
 # @option -W --del-subgids <FIRST-LAST>           remove range of subordinate gids
 # @option -Z --selinux-user <SEUSER>              new SELinux user mapping for the user account
-# @arg LOGIN[`_module_os_user`]
+# @arg login[`_module_os_user`]
 
 _module_os_group() {
     cat /etc/group | gawk -F: '{print $1 "\t" $4}'

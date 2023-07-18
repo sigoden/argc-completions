@@ -58,7 +58,7 @@
 # @flag -v --version                               Display version information
 # @flag -V --show-version                          Display version information WITHOUT stopping build
 # @flag -X --debug                                 Produce execution debug output
-# @arg goalAndPhase*[`_choice_goal_phase`]
+# @arg goalandphase*[`_choice_goal_phase`]
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 

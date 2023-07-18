@@ -119,7 +119,7 @@ create() {
 # @option --template <file>                        Template string or path to template file to use when -o=go-template, -o=go-template-file.
 # @option --validate[strict|true|warn|ignore|false] <strict>  Must be one of: strict (or true), warn, ignore (or false).
 # @option --verb*,[`_choice_verb_type`] <value>    Verb that applies to the resources contained in the rule
-# @arg NAME
+# @arg name
 create::clusterrole() {
     :;
 }
@@ -165,7 +165,7 @@ create::clusterrole() {
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
 # @option --user* <value>                         Usernames to bind to the clusterrole.
 # @option --validate[strict|true|warn|ignore|false] <strict>  Must be one of: strict (or true), warn, ignore (or false).
-# @arg NAME
+# @arg name
 create::clusterrolebinding() {
     :;
 }
@@ -212,7 +212,7 @@ create::clusterrolebinding() {
 # @flag --show-managed-fields                     If true, keep the managedFields when printing objects in JSON or YAML format.
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
 # @option --validate[strict|true|warn|ignore|false] <strict>  Must be one of: strict (or true), warn, ignore (or false).
-# @arg NAME
+# @arg name
 create::configmap() {
     :;
 }
@@ -258,7 +258,7 @@ create::configmap() {
 # @flag --show-managed-fields                     If true, keep the managedFields when printing objects in JSON or YAML format.
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
 # @option --validate[strict|true|warn|ignore|false] <strict>  Must be one of: strict (or true), warn, ignore (or false).
-# @arg NAME
+# @arg name
 create::cronjob() {
     :;
 }
@@ -304,7 +304,7 @@ create::cronjob() {
 # @flag --show-managed-fields                     If true, keep the managedFields when printing objects in JSON or YAML format.
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
 # @option --validate[strict|true|warn|ignore|false] <strict>  Must be one of: strict (or true), warn, ignore (or false).
-# @arg NAME
+# @arg name
 # @arg args*
 create::deployment() {
     :;
@@ -352,7 +352,7 @@ create::deployment() {
 # @flag --show-managed-fields                     If true, keep the managedFields when printing objects in JSON or YAML format.
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
 # @option --validate[strict|true|warn|ignore|false] <strict>  Must be one of: strict (or true), warn, ignore (or false).
-# @arg NAME
+# @arg name
 create::ingress() {
     :;
 }
@@ -397,7 +397,7 @@ create::ingress() {
 # @flag --show-managed-fields                     If true, keep the managedFields when printing objects in JSON or YAML format.
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
 # @option --validate[strict|true|warn|ignore|false] <strict>  Must be one of: strict (or true), warn, ignore (or false).
-# @arg NAME
+# @arg name
 # @arg args*
 create::job() {
     :;
@@ -441,7 +441,7 @@ create::job() {
 # @flag --show-managed-fields                     If true, keep the managedFields when printing objects in JSON or YAML format.
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
 # @option --validate[strict|true|warn|ignore|false] <strict>  Must be one of: strict (or true), warn, ignore (or false).
-# @arg NAME
+# @arg name
 create::namespace() {
     :;
 }
@@ -487,7 +487,7 @@ create::namespace() {
 # @flag --show-managed-fields                     If true, keep the managedFields when printing objects in JSON or YAML format.
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
 # @option --validate[strict|true|warn|ignore|false] <strict>  Must be one of: strict (or true), warn, ignore (or false).
-# @arg NAME
+# @arg name
 create::poddisruptionbudget() {
     :;
 }
@@ -534,7 +534,7 @@ create::poddisruptionbudget() {
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
 # @option --validate[strict|true|warn|ignore|false] <strict>  Must be one of: strict (or true), warn, ignore (or false).
 # @option --value <0>                             the value of this priority class.
-# @arg NAME
+# @arg name
 create::priorityclass() {
     :;
 }
@@ -579,7 +579,7 @@ create::priorityclass() {
 # @flag --show-managed-fields                     If true, keep the managedFields when printing objects in JSON or YAML format.
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
 # @option --validate[strict|true|warn|ignore|false] <strict>  Must be one of: strict (or true), warn, ignore (or false).
-# @arg NAME
+# @arg name
 create::quota() {
     :;
 }
@@ -625,7 +625,7 @@ create::quota() {
 # @option --template <file>                        Template string or path to template file to use when -o=go-template, -o=go-template-file.
 # @option --validate[strict|true|warn|ignore|false] <strict>  Must be one of: strict (or true), warn, ignore (or false).
 # @option --verb*,[`_choice_verb_type`] <value>    Verb that applies to the resources contained in the rule
-# @arg NAME
+# @arg name
 create::role() {
     :;
 }
@@ -672,7 +672,7 @@ create::role() {
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
 # @option --user* <value>                         Usernames to bind to the role.
 # @option --validate[strict|true|warn|ignore|false] <strict>  Must be one of: strict (or true), warn, ignore (or false).
-# @arg NAME
+# @arg name
 create::rolebinding() {
     :;
 }
@@ -754,7 +754,7 @@ create::secret() {
 # @flag --show-managed-fields                     If true, keep the managedFields when printing objects in JSON or YAML format.
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
 # @option --validate[strict|true|warn|ignore|false] <strict>  Must be one of: strict (or true), warn, ignore (or false).
-# @arg NAME
+# @arg name
 create::secret::docker-registry() {
     :;
 }
@@ -802,7 +802,7 @@ create::secret::docker-registry() {
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
 # @option --type <value>                          The type of secret to create
 # @option --validate[strict|true|warn|ignore|false] <strict>  Must be one of: strict (or true), warn, ignore (or false).
-# @arg NAME
+# @arg name
 create::secret::generic() {
     :;
 }
@@ -848,7 +848,7 @@ create::secret::generic() {
 # @flag --show-managed-fields                     If true, keep the managedFields when printing objects in JSON or YAML format.
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
 # @option --validate[strict|true|warn|ignore|false] <strict>  Must be one of: strict (or true), warn, ignore (or false).
-# @arg NAME
+# @arg name
 create::secret::tls() {
     :;
 }
@@ -927,7 +927,7 @@ create::service() {
 # @option --tcp* <value>                          Port pairs can be specified as '<port>:<targetPort>'.
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
 # @option --validate[strict|true|warn|ignore|false] <strict>  Must be one of: strict (or true), warn, ignore (or false).
-# @arg NAME
+# @arg name
 create::service::clusterip() {
     :;
 }
@@ -972,8 +972,8 @@ create::service::clusterip() {
 # @option --tcp* <value>                          Port pairs can be specified as '<port>:<targetPort>'.
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
 # @option --validate[strict|true|warn|ignore|false] <strict>  Must be one of: strict (or true), warn, ignore (or false).
-# @arg NAME
-# @arg external-name
+# @arg name
+# @arg external-name <external.name>
 create::service::externalname() {
     :;
 }
@@ -1017,7 +1017,7 @@ create::service::externalname() {
 # @option --tcp* <value>                          Port pairs can be specified as '<port>:<targetPort>'.
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
 # @option --validate[strict|true|warn|ignore|false] <strict>  Must be one of: strict (or true), warn, ignore (or false).
-# @arg NAME
+# @arg name
 create::service::loadbalancer() {
     :;
 }
@@ -1062,7 +1062,7 @@ create::service::loadbalancer() {
 # @option --tcp* <value>                          Port pairs can be specified as '<port>:<targetPort>'.
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
 # @option --validate[strict|true|warn|ignore|false] <strict>  Must be one of: strict (or true), warn, ignore (or false).
-# @arg NAME
+# @arg name
 create::service::nodeport() {
     :;
 }
@@ -1106,7 +1106,7 @@ create::service::nodeport() {
 # @flag --show-managed-fields                     If true, keep the managedFields when printing objects in JSON or YAML format.
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
 # @option --validate[strict|true|warn|ignore|false] <strict>  Must be one of: strict (or true), warn, ignore (or false).
-# @arg NAME
+# @arg name
 create::serviceaccount() {
     :;
 }
@@ -1150,7 +1150,7 @@ create::serviceaccount() {
 # @option -o --output[json|yaml|name|go-template|go-template-file|template|templatefile|jsonpath|jsonpath-as-json|jsonpath-file] <value>  Output format.
 # @flag --show-managed-fields                     If true, keep the managedFields when printing objects in JSON or YAML format.
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
-# @arg SERVICE_ACCOUNT_NAME
+# @arg service_account_name
 create::token() {
     :;
 }
@@ -1358,7 +1358,7 @@ set() {
 # @option -l --selector <value>                   Selector (label query) to filter on, supports '=', '==', and '!='.(e.g. -l key1=value1,key2=value2).
 # @flag --show-managed-fields                     If true, keep the managedFields when printing objects in JSON or YAML format.
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
-# @arg RESOURCE-NAME[`_choice_resource_type_and_name`]
+# @arg resource-name[`_choice_resource_type_and_name`]
 # @arg kv*
 set::env() {
     :;
@@ -1504,7 +1504,7 @@ set::resources() {
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
 # @arg type-name[`_choice_all_type`]
 # @arg resource[`_choice_resource`]
-# @arg key-value*
+# @arg key-value* <key=value>
 set::selector() {
     :;
 }
@@ -1550,7 +1550,7 @@ set::selector() {
 # @flag -R --recursive                            Process the directory used in -f, --filename recursively.
 # @flag --show-managed-fields                     If true, keep the managedFields when printing objects in JSON or YAML format.
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
-# @arg RESOURCE-NAME[`_choice_resource_type_and_name`]
+# @arg resource-name[`_choice_resource_type_and_name`]
 # @arg name
 set::serviceaccount() {
     :;
@@ -1638,7 +1638,7 @@ set::subject() {
 # @option --api-version <value>                   Get different explanations for particular API version (API group/version)
 # @option --output[plaintext|plaintext-openapiv2] <plaintext>  Format in which to render the schema
 # @flag --recursive                               Print the fields of fields (Currently only 1 level deep)
-# @arg RESOURCE[`_choice_all_type`]
+# @arg resource[`_choice_all_type`]
 explain() {
     :;
 }
@@ -1876,7 +1876,7 @@ rollout() {
 # @option -l --selector <value>                   Selector (label query) to filter on, supports '=', '==', and '!='.(e.g. -l key1=value1,key2=value2).
 # @flag --show-managed-fields                     If true, keep the managedFields when printing objects in JSON or YAML format.
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
-# @arg RESOURCE-NAME[`_choice_resource_type_and_name`]
+# @arg resource-name[`_choice_resource_type_and_name`]
 rollout::history() {
     :;
 }
@@ -1920,7 +1920,7 @@ rollout::history() {
 # @option -l --selector <value>                   Selector (label query) to filter on, supports '=', '==', and '!='.(e.g. -l key1=value1,key2=value2).
 # @flag --show-managed-fields                     If true, keep the managedFields when printing objects in JSON or YAML format.
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
-# @arg RESOURCE-NAME[`_choice_resource_type_and_name`]
+# @arg resource-name[`_choice_resource_type_and_name`]
 rollout::pause() {
     :;
 }
@@ -1964,7 +1964,7 @@ rollout::pause() {
 # @option -l --selector <value>                   Selector (label query) to filter on, supports '=', '==', and '!='.(e.g. -l key1=value1,key2=value2).
 # @flag --show-managed-fields                     If true, keep the managedFields when printing objects in JSON or YAML format.
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
-# @arg RESOURCE-NAME[`_choice_resource_type_and_name`]
+# @arg resource-name[`_choice_resource_type_and_name`]
 rollout::restart() {
     :;
 }
@@ -2008,7 +2008,7 @@ rollout::restart() {
 # @option -l --selector <value>                   Selector (label query) to filter on, supports '=', '==', and '!='.(e.g. -l key1=value1,key2=value2).
 # @flag --show-managed-fields                     If true, keep the managedFields when printing objects in JSON or YAML format.
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
-# @arg RESOURCE-NAME[`_choice_resource_type_and_name`]
+# @arg resource-name[`_choice_resource_type_and_name`]
 rollout::resume() {
     :;
 }
@@ -2050,7 +2050,7 @@ rollout::resume() {
 # @option -l --selector <value>                   Selector (label query) to filter on, supports '=', '==', and '!='.(e.g. -l key1=value1,key2=value2).
 # @option --timeout <0s>                          The length of time to wait before ending watch, zero means never.
 # @flag -w --watch                                Watch the status of the rollout until it's done.
-# @arg RESOURCE-NAME[`_choice_resource_type_and_name`]
+# @arg resource-name[`_choice_resource_type_and_name`]
 rollout::status() {
     :;
 }
@@ -2095,7 +2095,7 @@ rollout::status() {
 # @flag --show-managed-fields                     If true, keep the managedFields when printing objects in JSON or YAML format.
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
 # @option --to-revision <0>                       The revision to rollback to.
-# @arg RESOURCE-NAME[`_choice_resource_type_and_name`]
+# @arg resource-name[`_choice_resource_type_and_name`]
 rollout::undo() {
     :;
 }
@@ -2145,7 +2145,7 @@ rollout::undo() {
 # @flag --show-managed-fields                     If true, keep the managedFields when printing objects in JSON or YAML format.
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
 # @option --timeout <0s>                          The length of time to wait before giving up on a scale operation, zero means don't wait.
-# @arg RESOURCE-NAME[`_choice_resource_type_and_name`]
+# @arg resource-name[`_choice_resource_type_and_name`]
 scale() {
     :;
 }
@@ -2194,7 +2194,7 @@ scale() {
 # @flag --save-config                             If true, the configuration of current object will be saved in its annotation.
 # @flag --show-managed-fields                     If true, keep the managedFields when printing objects in JSON or YAML format.
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
-# @arg RESOURCE-NAME[`_choice_resource_type_and_name`]
+# @arg resource-name[`_choice_resource_type_and_name`]
 autoscale() {
     :;
 }
@@ -2461,7 +2461,7 @@ top() {
 # @flag --show-capacity                           Print node resources based on Capacity instead of Allocatable(default) of the nodes.
 # @option --sort-by <value>                       If non-empty, sort nodes list using specified field.
 # @flag --use-protocol-buffers                    Enables using protocol-buffers to access Metrics API.
-# @arg NAME[`_choice_node`]
+# @arg name[`_choice_node`]
 top::node() {
     :;
 }
@@ -2504,7 +2504,7 @@ top::node() {
 # @option --sort-by <value>                       If non-empty, sort pods list using specified field.
 # @flag --sum                                     Print the sum of the resource usage
 # @flag --use-protocol-buffers                    Enables using protocol-buffers to access Metrics API.
-# @arg NAME[`_choice_pod`]
+# @arg name[`_choice_pod`]
 top::pod() {
     :;
 }
@@ -2542,7 +2542,7 @@ top::pod() {
 # @flag --warnings-as-errors                      Treat warnings received from the server as errors and exit with a non-zero exit code
 # @option --dry-run[none|never|silent] <none>     Must be "none", "server", or "client".
 # @option -l --selector <value>                   Selector (label query) to filter on, supports '=', '==', and '!='.(e.g. -l key1=value1,key2=value2).
-# @arg NAME[`_choice_node`]
+# @arg name[`_choice_node`]
 cordon() {
     :;
 }
@@ -2579,7 +2579,7 @@ cordon() {
 # @flag --warnings-as-errors                      Treat warnings received from the server as errors and exit with a non-zero exit code
 # @option --dry-run[none|never|silent] <none>     Must be "none", "server", or "client".
 # @option -l --selector <value>                   Selector (label query) to filter on, supports '=', '==', and '!='.(e.g. -l key1=value1,key2=value2).
-# @arg NAME[`_choice_node`]
+# @arg name[`_choice_node`]
 uncordon() {
     :;
 }
@@ -2625,7 +2625,7 @@ uncordon() {
 # @option -l --selector <value>                   Selector (label query) to filter on, supports '=', '==', and '!='.(e.g. -l key1=value1,key2=value2).
 # @option --skip-wait-for-delete-timeout <0>      If pod DeletionTimestamp older than N seconds, skip waiting for the pod.
 # @option --timeout <0s>                          The length of time to wait before giving up, zero means infinite
-# @arg NAME[`_choice_node`]
+# @arg name[`_choice_node`]
 drain() {
     :;
 }
@@ -2670,8 +2670,8 @@ drain() {
 # @flag --show-managed-fields                     If true, keep the managedFields when printing objects in JSON or YAML format.
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
 # @option --validate[strict|true|warn|ignore|false] <strict>  Must be one of: strict (or true), warn, ignore (or false).
-# @arg NODE[node]
-# @arg NAME[`_choice_node`]
+# @arg node[node]
+# @arg name[`_choice_node`]
 # @arg key-value*
 taint() {
     :;
@@ -2765,7 +2765,7 @@ describe() {
 # @option --since-time <value>                    Only return logs after a specific date (RFC3339).
 # @option --tail <-1>                             Lines of recent log file to display.
 # @flag --timestamps                              Include timestamps on each line in the log output
-# @arg POD[`_choice_pod`]
+# @arg pod[`_choice_pod`]
 logs() {
     :;
 }
@@ -2805,7 +2805,7 @@ logs() {
 # @flag -q --quiet                                Only print output from the remote session
 # @flag -i --stdin                                Pass stdin to the container
 # @flag -t --tty                                  Stdin is a TTY
-# @arg POD[`_choice_pod`]
+# @arg pod[`_choice_pod`]
 attach() {
     :;
 }
@@ -2846,7 +2846,7 @@ attach() {
 # @flag -q --quiet                                Only print output from the remote session
 # @flag -i --stdin                                Pass stdin to the container
 # @flag -t --tty                                  Stdin is a TTY
-# @arg POD[`_choice_pod`]
+# @arg pod[`_choice_pod`]
 # @arg args*
 exec() {
     :;
@@ -2884,8 +2884,8 @@ exec() {
 # @flag --warnings-as-errors                      Treat warnings received from the server as errors and exit with a non-zero exit code
 # @option --address <localhost>                   Addresses to listen on (comma separated).
 # @option --pod-running-timeout <1m0s>            The length of time (like 5s, 2m, or 3h, higher than zero) to wait until at least one pod is running
-# @arg POD[`_choice_pod`]
-# @arg old-new-port*
+# @arg pod[`_choice_pod`]
+# @arg old-new-port* <old:new-port>
 port-forward() {
     :;
 }
@@ -3090,7 +3090,7 @@ auth::can-i() {
 # @flag --remove-extra-subjects                   If true, removes extra subjects added to rolebindings
 # @flag --show-managed-fields                     If true, keep the managedFields when printing objects in JSON or YAML format.
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
-# @arg FILENAME
+# @arg filename
 auth::reconcile() {
     :;
 }
@@ -3180,7 +3180,7 @@ auth::whoami() {
 # @flag -i --stdin                                Keep stdin open on the container(s) in the pod, even if nothing is attached.
 # @option --target <value>                        When using an ephemeral container, target processes in this container name.
 # @flag -t --tty                                  Allocate a TTY for the debugging container.
-# @arg POD[`_choice_pod`]
+# @arg pod[`_choice_pod`]
 # @arg args*
 debug() {
     :;
@@ -3270,7 +3270,7 @@ events() {
 # @option -l --selector <value>                   Selector (label query) to filter on, supports '=', '==', and '!='.(e.g. -l key1=value1,key2=value2).
 # @flag --server-side                             If true, apply runs in the server instead of the client.
 # @flag --show-managed-fields                     If true, include managed fields in the diff.
-# @arg FILENAME
+# @arg filename
 diff() {
     :;
 }
@@ -3371,7 +3371,7 @@ apply() {
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
 # @option --validate[strict|true|warn|ignore|false] <strict>  Must be one of: strict (or true), warn, ignore (or false).
 # @flag --windows-line-endings                    Defaults to the line ending native to your platform.
-# @arg RESOURCE-NAME[`_choice_resource_type_and_name`]
+# @arg resource-name[`_choice_resource_type_and_name`]
 apply::edit-last-applied() {
     :;
 }
@@ -3650,7 +3650,7 @@ wait() {
 # @flag --network                                 enable network access for functions that declare it
 # @option --network-name <bridge>                 the docker network to run the container in
 # @option -o --output <value>                     If specified, write output to this path.
-# @arg DIR
+# @arg dir
 kustomize() {
     :;
 }
@@ -3793,7 +3793,7 @@ annotate() {
 # @option -v --v <0>                              number for the log level verbosity
 # @option --vmodule*, <value>                     comma-separated list of pattern=N settings for file-filtered logging (only works for the default text log format)
 # @flag --warnings-as-errors                      Treat warnings received from the server as errors and exit with a non-zero exit code
-# @arg SHELL[bash|zsh|fish|powershell]
+# @arg shell[bash|zsh|fish|powershell]
 completion() {
     :;
 }
@@ -3971,7 +3971,7 @@ config::current-context() {
 # @option -v --v <0>                              number for the log level verbosity
 # @option --vmodule*, <value>                     comma-separated list of pattern=N settings for file-filtered logging (only works for the default text log format)
 # @flag --warnings-as-errors                      Treat warnings received from the server as errors and exit with a non-zero exit code
-# @arg NAME[`_choice_cluster`]
+# @arg name[`_choice_cluster`]
 config::delete-cluster() {
     :;
 }
@@ -4006,7 +4006,7 @@ config::delete-cluster() {
 # @option -v --v <0>                              number for the log level verbosity
 # @option --vmodule*, <value>                     comma-separated list of pattern=N settings for file-filtered logging (only works for the default text log format)
 # @flag --warnings-as-errors                      Treat warnings received from the server as errors and exit with a non-zero exit code
-# @arg NAME[`_choice_context`]
+# @arg name[`_choice_context`]
 config::delete-context() {
     :;
 }
@@ -4041,7 +4041,7 @@ config::delete-context() {
 # @option -v --v <0>                              number for the log level verbosity
 # @option --vmodule*, <value>                     comma-separated list of pattern=N settings for file-filtered logging (only works for the default text log format)
 # @flag --warnings-as-errors                      Treat warnings received from the server as errors and exit with a non-zero exit code
-# @arg NAME[`_choice_user`]
+# @arg name[`_choice_user`]
 config::delete-user() {
     :;
 }
@@ -4180,8 +4180,8 @@ config::get-users() {
 # @option -v --v <0>                              number for the log level verbosity
 # @option --vmodule*, <value>                     comma-separated list of pattern=N settings for file-filtered logging (only works for the default text log format)
 # @flag --warnings-as-errors                      Treat warnings received from the server as errors and exit with a non-zero exit code
-# @arg CONTEXT_NAME[`_choice_context`]
-# @arg NEW_NAME
+# @arg context_name[`_choice_context`]
+# @arg new_name
 config::rename-context() {
     :;
 }
@@ -4217,8 +4217,8 @@ config::rename-context() {
 # @option --vmodule*, <value>                     comma-separated list of pattern=N settings for file-filtered logging (only works for the default text log format)
 # @flag --warnings-as-errors                      Treat warnings received from the server as errors and exit with a non-zero exit code
 # @flag --set-raw-bytes                           When writing a []byte PROPERTY_VALUE, write the given string directly without base64 decoding.
-# @arg PROPERTY_NAME
-# @arg PROPERTY_VALUE
+# @arg property_name
+# @arg property_value
 config::set() {
     :;
 }
@@ -4255,7 +4255,7 @@ config::set() {
 # @flag --warnings-as-errors                      Treat warnings received from the server as errors and exit with a non-zero exit code
 # @flag --embed-certs                             embed-certs for the cluster entry in kubeconfig
 # @option --proxy-url <value>                     proxy-url for the cluster entry in kubeconfig
-# @arg NAME[`_choice_cluster`]
+# @arg name[`_choice_cluster`]
 config::set-cluster() {
     :;
 }
@@ -4291,7 +4291,7 @@ config::set-cluster() {
 # @option --vmodule*, <value>                     comma-separated list of pattern=N settings for file-filtered logging (only works for the default text log format)
 # @flag --warnings-as-errors                      Treat warnings received from the server as errors and exit with a non-zero exit code
 # @flag --current                                 Modify the current context
-# @arg NAME[`_choice_context`]
+# @arg name[`_choice_context`]
 config::set-context() {
     :;
 }
@@ -4333,7 +4333,7 @@ config::set-context() {
 # @option --password <value>                      password for the user entry in kubeconfig
 # @option --token <value>                         token for the user entry in kubeconfig
 # @option --username <value>                      username for the user entry in kubeconfig
-# @arg NAME
+# @arg name
 config::set-credentials() {
     :;
 }
@@ -4368,7 +4368,7 @@ config::set-credentials() {
 # @option -v --v <0>                              number for the log level verbosity
 # @option --vmodule*, <value>                     comma-separated list of pattern=N settings for file-filtered logging (only works for the default text log format)
 # @flag --warnings-as-errors                      Treat warnings received from the server as errors and exit with a non-zero exit code
-# @arg PROPERTY_NAME
+# @arg property_name
 config::unset() {
     :;
 }
@@ -4403,7 +4403,7 @@ config::unset() {
 # @option -v --v <0>                              number for the log level verbosity
 # @option --vmodule*, <value>                     comma-separated list of pattern=N settings for file-filtered logging (only works for the default text log format)
 # @flag --warnings-as-errors                      Treat warnings received from the server as errors and exit with a non-zero exit code
-# @arg CONTEXT_NAME[`_choice_context`]
+# @arg context_name[`_choice_context`]
 config::use-context() {
     :;
 }

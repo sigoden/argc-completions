@@ -5,6 +5,6 @@
 # @flag -f --file-system    sync the file systems that contain the files
 # @flag --help              display this help and exit
 # @flag --version           output version information and exit
-# @arg FILE*
+# @arg file*
 
 command eval "$(argc --argc-eval "$0" "$@")"

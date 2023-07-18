@@ -20,7 +20,7 @@
 # @option --project-directory <PATH>      Specify an alternate working directory (default: the path of the Compose file)
 # @flag --compatibility                   If set, Compose will attempt to convert keys in v3 files to their non-Swarm equivalent (DEPRECATED)
 # @option --env-file <PATH>               Specify an alternate environment file
-# @arg ARGS*
+# @arg args*
 
 # {{ docker-compose build
 # @cmd Build or rebuild services
@@ -34,7 +34,7 @@
 # @option --progress[auto|plain|tty] <string>    Set type of progress output.
 # @flag --pull                                   Always attempt to pull a newer version of the image.
 # @flag -q --quiet                               Don't print anything to STDOUT
-# @arg SERVICE*[`_choice_service`]
+# @arg service*[`_choice_service`]
 build() {
     :;
 }
@@ -60,7 +60,7 @@ config() {
 # @flag --no-recreate       If containers already exist, don't recreate them.
 # @flag --no-build          Don't build an image, even if it's missing.
 # @flag --build             Build images before creating containers.
-# @arg SERVICE*[`_choice_service`]
+# @arg service*[`_choice_service`]
 create() {
     :;
 }
@@ -80,7 +80,7 @@ down() {
 # {{ docker-compose events
 # @cmd Receive real time events from containers
 # @flag --json    Output events as a stream of json objects
-# @arg SERVICE*[`_choice_service`]
+# @arg service*[`_choice_service`]
 events() {
     :;
 }
@@ -95,8 +95,8 @@ events() {
 # @option --index <index>    index of the container if there are multiple instances of a service [default: 1]
 # @flag -e --env             KEY=VAL Set environment variables (can be used multiple times, not supported in API < 1.25)
 # @flag -w --workdir         DIR Path to workdir directory for this command.
-# @arg SERVICE[`_choice_service`]
-# @arg ARGS*
+# @arg service[`_choice_service`]
+# @arg args*
 exec() {
     :;
 }
@@ -105,7 +105,7 @@ exec() {
 # {{ docker-compose images
 # @cmd List images
 # @flag -q --quiet    Only display IDs
-# @arg SERVICE*[`_choice_service`]
+# @arg service*[`_choice_service`]
 images() {
     :;
 }
@@ -114,7 +114,7 @@ images() {
 # {{ docker-compose kill
 # @cmd Kill containers
 # @option -s <SIGNAL>    SIGNAL to send to the container.
-# @arg SERVICE*[`_choice_service`]
+# @arg service*[`_choice_service`]
 kill() {
     :;
 }
@@ -127,7 +127,7 @@ kill() {
 # @flag -t --timestamps     Show timestamps.
 # @option --tail <"all">    Number of lines to show from the end of the logs for each container.
 # @flag --no-log-prefix     Don't print prefix in logs.
-# @arg SERVICE*[`_choice_service`]
+# @arg service*[`_choice_service`]
 logs() {
     :;
 }
@@ -135,7 +135,7 @@ logs() {
 
 # {{ docker-compose pause
 # @cmd Pause services
-# @arg SERVICE*[`_choice_service`]
+# @arg service*[`_choice_service`]
 pause() {
     :;
 }
@@ -145,8 +145,8 @@ pause() {
 # @cmd Print the public port for a port binding
 # @option --protocol <proto>    tcp or udp [default: tcp]
 # @option --index <index>       index of the container if there are multiple instances of a service [default: 1]
-# @arg SERVICE[`_choice_service`]
-# @arg PRIVATE_PORT
+# @arg service[`_choice_service`]
+# @arg private_port
 port() {
     :;
 }
@@ -158,7 +158,7 @@ port() {
 # @flag --services              Display services
 # @option --filter <KEY=VAL>    Filter services by a property
 # @flag -a --all                Show all stopped containers (including those created by the run command)
-# @arg SERVICE*[`_choice_service`]
+# @arg service*[`_choice_service`]
 ps() {
     :;
 }
@@ -171,7 +171,7 @@ ps() {
 # @flag --no-parallel             Disable parallel pulling.
 # @flag -q --quiet                Pull without printing progress information
 # @flag --include-deps            Also pull services declared as dependencies
-# @arg SERVICE*[`_choice_service`]
+# @arg service*[`_choice_service`]
 pull() {
     :;
 }
@@ -180,7 +180,7 @@ pull() {
 # {{ docker-compose push
 # @cmd Push service images
 # @flag --ignore-push-failures    Push what it can and ignores images with push failures.
-# @arg SERVICE*[`_choice_service`]
+# @arg service*[`_choice_service`]
 push() {
     :;
 }
@@ -189,7 +189,7 @@ push() {
 # {{ docker-compose restart
 # @cmd Restart services
 # @option -t --timeout    Specify a shutdown timeout in seconds.
-# @arg SERVICE*[`_choice_service`]
+# @arg service*[`_choice_service`]
 restart() {
     :;
 }
@@ -201,7 +201,7 @@ restart() {
 # @flag -s --stop     Stop the containers, if required, before removing
 # @flag -v            Remove any anonymous volumes attached to containers
 # @flag -a --all      Deprecated - no effect.
-# @arg SERVICE*[`_choice_service`]
+# @arg service*[`_choice_service`]
 rm() {
     :;
 }
@@ -231,7 +231,7 @@ run() {
 # {{ docker-compose scale
 # @cmd Set number of containers for a service
 # @option -t --timeout    Specify a shutdown timeout in seconds.
-# @arg SERVICE-NUM*[`_choice_service`]
+# @arg service-num*[`_choice_service`] <SERVICE=NUM>
 scale() {
     :;
 }
@@ -239,7 +239,7 @@ scale() {
 
 # {{ docker-compose start
 # @cmd Start services
-# @arg SERVICE*[`_choice_service`]
+# @arg service*[`_choice_service`]
 start() {
     :;
 }
@@ -248,7 +248,7 @@ start() {
 # {{ docker-compose stop
 # @cmd Stop services
 # @option -t --timeout    Specify a shutdown timeout in seconds.
-# @arg SERVICE*[`_choice_service`]
+# @arg service*[`_choice_service`]
 stop() {
     :;
 }
@@ -256,7 +256,7 @@ stop() {
 
 # {{ docker-compose top
 # @cmd Display the running processes
-# @arg SERVICE*[`_choice_service`]
+# @arg service*[`_choice_service`]
 top() {
     :;
 }
@@ -264,7 +264,7 @@ top() {
 
 # {{ docker-compose unpause
 # @cmd Unpause services
-# @arg SERVICE*[`_choice_service`]
+# @arg service*[`_choice_service`]
 unpause() {
     :;
 }
@@ -290,7 +290,7 @@ unpause() {
 # @option --exit-code-from <SERVICE>    Return the exit code of the selected service container.
 # @option --scale <SERVICE=NUM>         Scale SERVICE to NUM instances.
 # @flag --no-log-prefix                 Don't print prefix in logs.
-# @arg SERVICE*[`_choice_service`]
+# @arg service*[`_choice_service`]
 up() {
     :;
 }

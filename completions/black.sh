@@ -29,6 +29,6 @@
 # @flag --version                           Show the version and exit.
 # @option --config <FILE>                   Read configuration from FILE path.
 # @flag -h --help                           Show this message and exit.
-# @arg SRC_FILE
+# @arg src_file
 
 command eval "$(argc --argc-eval "$0" "$@")"

@@ -20,6 +20,6 @@
 # @flag -z --null-data                separate lines by NUL characters
 # @flag --help                        display this help and exit
 # @flag --version                     output version information and exit
-# @arg FILES*
+# @arg files*
 
 command eval "$(argc --argc-eval "$0" "$@")"

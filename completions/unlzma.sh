@@ -17,6 +17,6 @@
 # @flag -h --help               display this short help and exit
 # @flag -H --long-help          display the long help (lists also the advanced options)
 # @flag -V --version            display the version number and exit
-# @arg FILE*
+# @arg file*
 
 command eval "$(argc --argc-eval "$0" "$@")"

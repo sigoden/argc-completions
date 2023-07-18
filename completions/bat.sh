@@ -30,7 +30,7 @@
 # @flag --acknowledgements                     Show acknowledgements.
 # @flag -h --help                              Print this help message.
 # @flag -V --version                           Print version information
-# @arg FILE+                                   File(s) to print / concatenate.
+# @arg file+                                   File(s) to print / concatenate.
 
 # {{ bat cache
 # @cmd Modify the syntax-definition and theme cache

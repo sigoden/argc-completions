@@ -4,5 +4,5 @@ _patch_help() {
 
 _patch_table() { 
     _patch_table_edit_options '--lint;[fatal|invalid|no-ext]' | \
-    _patch_table_edit_arguments ';;' 'FILES...'
+    _patch_table_edit_arguments ';;' 'files...'
 }

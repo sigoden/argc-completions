@@ -9,7 +9,7 @@
 # @flag -? --help             Give this help list
 # @flag --usage               Give a short usage message
 # @flag -V --version          Print program version
-# @arg NAME[`_choice_locale`]
+# @arg name[`_choice_locale`]
 
 _choice_locale() {
     localectl list-locales

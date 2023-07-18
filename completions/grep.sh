@@ -52,6 +52,6 @@
 # @option --color[auto|never|always] <WHEN>
 # @option --colour[auto|never|always] <WHEN>    use markers to highlight the matching strings; WHEN is 'always', 'never', or 'auto'
 # @flag -U --binary                             do not strip CR characters at EOL (MSDOS/Windows)
-# @arg FILES*
+# @arg files*
 
 command eval "$(argc --argc-eval "$0" "$@")"

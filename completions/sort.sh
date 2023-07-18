@@ -31,7 +31,7 @@
 # @flag -z --zero-terminated                line delimiter is NUL, not newline
 # @flag --help                              display this help and exit
 # @flag --version                           output version information and exit
-# @arg FILE*
+# @arg file*
 
 
 _choice_check() {

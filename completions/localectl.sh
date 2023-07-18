@@ -18,7 +18,7 @@ status() {
 
 # {{ localectl set-locale
 # @cmd Set system locale
-# @arg LOACLE*[`_choice_locale`]
+# @arg loacle*[`_choice_locale`]
 set-locale() {
     :;
 }
@@ -33,7 +33,7 @@ list-locales() {
 
 # {{ localectl set-keymap
 # @cmd Set console and X11 keyboard mappings
-# @arg MAP*[`_choice_map`]
+# @arg map*[`_choice_map`]
 set-keymap() {
     :;
 }
@@ -48,9 +48,9 @@ list-keymaps() {
 
 # {{ localectl set-x11-keymap
 # @cmd Set X11 and console keyboard mappings
-# @arg LAYOUT[`_choice_x11_layout`]
-# @arg MODEL[`_choice_x11_model`]
-# @arg VARIANT[`_choice_x11_variant`]
+# @arg layout[`_choice_x11_layout`]
+# @arg model[`_choice_x11_model`]
+# @arg variant[`_choice_x11_variant`]
 set-x11-keymap() {
     :;
 }

@@ -6,8 +6,8 @@
 # @option --context <CTX>    like -Z, or if CTX is specified then set the SELinux or SMACK security context to CTX
 # @flag --help               display this help and exit
 # @flag --version            output version information and exit
-# @arg NAME
-# @arg TYPE[`_choice_type`]
+# @arg name
+# @arg type[`_choice_type`]
 
 _choice_type() {
     cat <<-'EOF'

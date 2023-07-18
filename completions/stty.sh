@@ -6,6 +6,6 @@
 # @option -F --file <DEVICE>    open and use the specified DEVICE instead of stdin
 # @flag --help                  display this help and exit
 # @flag --version               output version information and exit
-# @arg FILE
+# @arg file
 
 command eval "$(argc --argc-eval "$0" "$@")"

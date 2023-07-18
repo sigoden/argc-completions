@@ -40,7 +40,7 @@
 # @option -l <TIMEOUT>               Set timeout in seconds for remote debugging.
 # @option --cd <DIR>                 Change current directory to DIR.
 # @option -D --data-directory <DIR>
-# @arg FILES*
+# @arg files*
 
 _choice_interpreter() {
     cat <<-'EOF'

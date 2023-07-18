@@ -59,7 +59,7 @@
 # @flag -1                                     list one file per line.
 # @flag --help                                 display this help and exit
 # @flag --version                              output version information and exit
-# @arg FILE*
+# @arg file*
 
 _choice_color() {
     printf "%s\n" auto never always

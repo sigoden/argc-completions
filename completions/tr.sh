@@ -9,7 +9,7 @@
 # @flag -t --truncate-set1      first truncate SET1 to length of SET2
 # @flag --help                  display this help and exit
 # @flag --version               output version information and exit
-# @arg SET1
-# @arg SET2
+# @arg set1
+# @arg set2
 
 command eval "$(argc --argc-eval "$0" "$@")"

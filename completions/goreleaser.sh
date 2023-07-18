@@ -33,7 +33,7 @@ build() {
 # @flag -q --quiet    Quiet mode: no output
 # @flag --debug       Enable verbose mode
 # @flag --verbose     Enable verbose mode
-# @arg configuration-files
+# @arg configuration-files <configuration files>
 check() {
     :;
 }

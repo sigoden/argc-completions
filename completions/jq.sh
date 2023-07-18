@@ -17,7 +17,7 @@
 # @option --rawfile <a> <f>      set variable $a to a string consisting of the contents of <f>;
 # @flag --args                   remaining arguments are string arguments, not files;
 # @flag --jsonargs               remaining arguments are JSON arguments, not files;
-# @arg jq-filter!
+# @arg jq-filter! <jq filter>
 # @arg file*
 
 command eval "$(argc --argc-eval "$0" "$@")"

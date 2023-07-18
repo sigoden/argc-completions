@@ -83,7 +83,7 @@ cache::clean() {
 
 # {{{ npm cache ls
 # @cmd List all cache.
-# @arg name-version
+# @arg name-version <name@version>
 cache::ls() {
     :;
 }
@@ -711,7 +711,7 @@ pkg::get() {
 
 # {{{ npm pkg set
 # @cmd Sets a value in your package.json based on the field value.
-# @arg key-value+
+# @arg key-value+ <key=value>
 pkg::set() {
     :;
 }
@@ -941,7 +941,7 @@ team() {
 
 # {{{ npm team create
 # @cmd Create a new team.
-# @arg scope-team!
+# @arg scope-team! <scope:team>
 team::create() {
     :;
 }
@@ -949,7 +949,7 @@ team::create() {
 
 # {{{ npm team destroy
 # @cmd Destroy a team.
-# @arg scope-team!
+# @arg scope-team! <scope:team>
 team::destroy() {
     :;
 }
@@ -957,7 +957,7 @@ team::destroy() {
 
 # {{{ npm team add
 # @cmd Add a user to existing team.
-# @arg scope-team!
+# @arg scope-team! <scope:team>
 # @arg user!
 team::add() {
     :;
@@ -966,7 +966,7 @@ team::add() {
 
 # {{{ npm team rm
 # @cmd Using npm team rm you can also remove users from a team they belong to.
-# @arg scope-team!
+# @arg scope-team! <scope:team>
 # @arg user!
 team::rm() {
     :;
@@ -1021,7 +1021,7 @@ token::create() {
 
 # {{{ npm token revoke
 # @cmd Immediately removes an authentication token from the registry.
-# @arg id-token!
+# @arg id-token! <id|token>
 token::revoke() {
     :;
 }

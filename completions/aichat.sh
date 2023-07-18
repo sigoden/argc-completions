@@ -12,7 +12,7 @@
 # @flag --dry-run                        Run in dry run mode
 # @flag -h --help                        Print help
 # @flag -V --version                     Print version
-# @arg TEXT*                             Input text
+# @arg text*                             Input text
 
 _choice_role() {
     aichat --list-roles

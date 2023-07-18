@@ -252,7 +252,7 @@ init() {
 # @flag --dev                                  Add as development dependency
 # @flag --build                                Add as build dependency
 # @option --target[`_choice_target`]           Add as dependency to the given target platform
-# @arg DEP_ID*                                 Reference to a package to add as a dependency
+# @arg dep_id*                                 Reference to a package to add as a dependency
 add() {
     :;
 }
@@ -275,7 +275,7 @@ add() {
 # @flag --dev                                  Remove as development dependency
 # @flag --build                                Remove as build dependency
 # @option --target[`_choice_target`]           Remove as dependency from the given target platform
-# @arg DEP_ID+[`_choice_depid`]                Dependencies to be removed
+# @arg dep_id+[`_choice_depid`]                Dependencies to be removed
 remove() {
     :;
 }
@@ -360,7 +360,7 @@ run() {
 # @flag --offline                                Run without accessing the network
 # @option --config <KEY=VALUE>                   Override a configuration value
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
-# @arg TESTNAME[`_choice_testname`]              If specified, only run tests containing this string in their names
+# @arg testname[`_choice_testname`]              If specified, only run tests containing this string in their names
 # @arg args*                                     Arguments for the test binary
 test() {
     :;
@@ -407,7 +407,7 @@ test() {
 # @flag --offline                                Run without accessing the network
 # @option --config <KEY=VALUE>                   Override a configuration value
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
-# @arg BENCHNAME                                 If specified, only run benches containing this string in their names
+# @arg benchname                                 If specified, only run benches containing this string in their names
 # @arg args*                                     Arguments for the bench binary
 bench() {
     :;

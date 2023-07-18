@@ -22,6 +22,6 @@
 # @option -b --body <TEMPLATE>                    Sets the template for the changelog body [env: GIT_CLIFF_TEMPLATE=]
 # @option -s --strip[header|footer|all] <PART>    Strips the given parts from the changelog
 # @option --sort[oldest|newest]                   Sets sorting of the commits inside sections [default: oldest]
-# @arg RANGE                                      Sets the commit range to process
+# @arg range                                      Sets the commit range to process
 
 command eval "$(argc --argc-eval "$0" "$@")"

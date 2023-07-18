@@ -19,6 +19,6 @@
 # @flag -V --version           display version number
 # @flag -1 --fast              compress faster
 # @flag -9 --best              compress better
-# @arg FILE*
+# @arg file*
 
 command eval "$(argc --argc-eval "$0" "$@")"

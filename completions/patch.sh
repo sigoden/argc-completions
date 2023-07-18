@@ -41,7 +41,7 @@
 # @option --read-only[ignore|warn|fail] <BEHAVIOR>  How to handle read-only input files: 'ignore' that they are read-only, 'warn' (default), or 'fail'.
 # @flag -v --version                       Output version info.
 # @flag --help                             Output this help.
-# @arg ORIGINFILE
-# @arg PATCHFILE
+# @arg originfile
+# @arg patchfile
 
 command eval "$(argc --argc-eval "$0" "$@")"

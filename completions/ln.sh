@@ -19,7 +19,7 @@
 # @flag -v --verbose                              print name of each linked file
 # @flag --help                                    display this help and exit
 # @flag --version                                 output version information and exit
-# @arg FILES*
+# @arg files*
 
 _choice_backup() {
     cat <<-'EOF'

@@ -471,7 +471,7 @@ clean() {
 # @flag --empty                                 Specifies creating using an application template with a main.dart that is minimal, including no comments, as a starting point for a new application.
 # @flag --no-empty                              Specifies creating using an application template with a main.dart that is minimal, including no comments, as a starting point for a new application.
 # @option --list-samples <path>                 Specifies a JSON output file for a listing of Flutter code samples that can be created with "--sample".
-# @arg output-directory!
+# @arg output-directory! <output directory>
 create() {
     :;
 }

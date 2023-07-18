@@ -28,6 +28,6 @@
 # @flag -S --sandbox
 # @flag -t --lint-old
 # @flag -V --version
-# @arg FILES*
+# @arg files*
 
 command eval "$(argc --argc-eval "$0" "$@")"

@@ -20,7 +20,7 @@ init() {
 # @option --fuzz-dir <FUZZ_DIR>    The path to the fuzz project directory
 # @flag -h --help                  Print help
 # @flag -V --version               Print version
-# @arg TARGET!                     Name of the new fuzz target
+# @arg target!                     Name of the new fuzz target
 add() {
     :;
 }
@@ -45,7 +45,7 @@ add() {
 # @option --fuzz-dir <FUZZ_DIR>                  The path to the fuzz project directory
 # @flag -h --help                                Print help (see a summary with '-h')
 # @flag -V --version                             Print version
-# @arg TARGET                                    Name of the fuzz target to build, or build all targets if not supplied
+# @arg target                                    Name of the fuzz target to build, or build all targets if not supplied
 build() {
     :;
 }
@@ -70,7 +70,7 @@ build() {
 # @option --fuzz-dir <FUZZ_DIR>                  The path to the fuzz project directory
 # @flag -h --help                                Print help (see a summary with '-h')
 # @flag -V --version                             Print version
-# @arg TARGET                                    Name of the fuzz target to check, or check all targets if not supplied
+# @arg target                                    Name of the fuzz target to check, or check all targets if not supplied
 check() {
     :;
 }
@@ -95,8 +95,8 @@ check() {
 # @option --fuzz-dir <FUZZ_DIR>                  The path to the fuzz project directory
 # @flag -h --help                                Print help (see a summary with '-h')
 # @flag -V --version                             Print version
-# @arg TARGET!                                   Name of fuzz target
-# @arg INPUT!                                    Path to the input testcase to debug print
+# @arg target!                                   Name of fuzz target
+# @arg input!                                    Path to the input testcase to debug print
 fmt() {
     :;
 }
@@ -132,9 +132,9 @@ list() {
 # @option -j --jobs                              Number of concurrent jobs to run
 # @flag -h --help                                Print help (see a summary with '-h')
 # @flag -V --version                             Print version
-# @arg TARGET!                                   Name of the fuzz target
-# @arg CORPUS*                                   Custom corpus directories or artifact files
-# @arg ARGS*                                     Additional libFuzzer arguments passed through to the binary
+# @arg target!                                   Name of the fuzz target
+# @arg corpus*                                   Custom corpus directories or artifact files
+# @arg args*                                     Additional libFuzzer arguments passed through to the binary
 run() {
     :;
 }
@@ -159,9 +159,9 @@ run() {
 # @option --fuzz-dir <FUZZ_DIR>                  The path to the fuzz project directory
 # @flag -h --help                                Print help (see a summary with '-h')
 # @flag -V --version                             Print version
-# @arg TARGET!                                   Name of the fuzz target
-# @arg CORPUS                                    The corpus directory to minify into
-# @arg ARGS*                                     Additional libFuzzer arguments passed through to the binary
+# @arg target!                                   Name of the fuzz target
+# @arg corpus                                    The corpus directory to minify into
+# @arg args*                                     Additional libFuzzer arguments passed through to the binary
 cmin() {
     :;
 }
@@ -187,9 +187,9 @@ cmin() {
 # @option -r --runs                              Number of minimization attempts to perform
 # @flag -h --help                                Print help (see a summary with '-h')
 # @flag -V --version                             Print version
-# @arg TARGET!                                   Name of the fuzz target
-# @arg TEST_CASE!                                Path to the failing test case to be minimized
-# @arg ARGS*                                     Additional libFuzzer arguments passed through to the binary
+# @arg target!                                   Name of the fuzz target
+# @arg test_case!                                Path to the failing test case to be minimized
+# @arg args*                                     Additional libFuzzer arguments passed through to the binary
 tmin() {
     :;
 }
@@ -214,9 +214,9 @@ tmin() {
 # @option --fuzz-dir <FUZZ_DIR>                  The path to the fuzz project directory
 # @flag -h --help                                Print help (see a summary with '-h')
 # @flag -V --version                             Print version
-# @arg TARGET!                                   Name of the fuzz target
-# @arg CORPUS*                                   Custom corpus directories or artifact files
-# @arg ARGS*                                     Additional libFuzzer arguments passed through to the binary
+# @arg target!                                   Name of the fuzz target
+# @arg corpus*                                   Custom corpus directories or artifact files
+# @arg args*                                     Additional libFuzzer arguments passed through to the binary
 coverage() {
     :;
 }

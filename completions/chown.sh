@@ -18,8 +18,8 @@
 # @flag -P                       do not traverse any symbolic links (default)
 # @flag --help                   display this help and exit
 # @flag --version                output version information and exit
-# @arg OWNER-GROUP[`_choice_owner_group`]
-# @arg FILE*
+# @arg owner-group[`_choice_owner_group`] <OWNER:GROUP>
+# @arg file*
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 

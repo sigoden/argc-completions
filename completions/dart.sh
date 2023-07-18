@@ -121,7 +121,7 @@ create() {
 # @option --record-memory-profile <file>    Start devtools headlessly and write memory profiling samples to the indicated file.
 # @option --app-size-base <file>            Path to the base app size file used for app size debugging.
 # @flag -h --help                           Print this usage information.
-# @arg service-protocol-uri
+# @arg service-protocol-uri <service protocol uri>
 devtools() {
     :;
 }
@@ -156,7 +156,7 @@ fix() {
 # @flag -v --verbose                              Show all options and flags with --help.
 # @option -o --output[`_choice_format_output`]    Set where to write formatted output.
 # @flag --set-exit-if-changed                     Return exit code 1 if there are any formatting changes.
-# @arg files-or-directories+
+# @arg files-or-directories+ <files or directories>
 format() {
     :;
 }
@@ -469,7 +469,7 @@ pub::upgrade() {
 # @option --timeline-recorder[none|ring|endless|startup|systrace|file|callback] <recorder>  Selects the timeline recorder to use.
 # @option --verbosity[`_choice_log_verbosity`]    Sets the verbosity level of the compilation.
 # @option -D --define <key=value>                 Define an environment declaration.
-# @arg dart-file-package-target!
+# @arg dart-file-package-target! <dart-file|package-target>
 # @arg args*
 run() {
     :;

@@ -14,6 +14,6 @@
 # @flag --universal                print or set Coordinated Universal Time (UTC)
 # @flag --help                     display this help and exit
 # @flag --version                  output version information and exit
-# @arg FORMAT <+FORMAT>
+# @arg format <+FORMAT>
 
 command eval "$(argc --argc-eval "$0" "$@")"

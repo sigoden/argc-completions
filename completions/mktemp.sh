@@ -9,6 +9,6 @@
 # @flag -t                     interpret TEMPLATE as a single file name component, relative to a directory: $TMPDIR, if set; else the directory specified via -p; else /tmp [deprecated]
 # @flag --help                 display this help and exit
 # @flag --version              output version information and exit
-# @arg TEMPLATE
+# @arg template
 
 command eval "$(argc --argc-eval "$0" "$@")"

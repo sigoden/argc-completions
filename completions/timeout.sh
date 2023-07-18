@@ -8,7 +8,7 @@
 # @flag -v --verbose                    diagnose to stderr any signal sent upon timeout
 # @flag --help                          display this help and exit
 # @flag --version                       output version information and exit
-# @arg DURATION
-# @arg ARG*
+# @arg duration
+# @arg arg*
 
 command eval "$(argc --argc-eval "$0" "$@")"

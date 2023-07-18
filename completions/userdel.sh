@@ -8,7 +8,7 @@
 # @option -P --prefix <PREFIX_DIR>    prefix directory where are located the /etc/* files
 # @flag --extrausers                  Use the extra users database
 # @flag -Z --selinux-user             remove any SELinux user mapping for the user
-# @arg LOGIN[`_module_os_user`]
+# @arg login[`_module_os_user`]
 
 _module_os_user() {
     cat /etc/passwd | gawk -F: '{split($5,descs,","); print $1 "\t" descs[1]}'

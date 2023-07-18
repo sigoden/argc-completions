@@ -22,7 +22,7 @@
 # @option --context <CTX>                      like -Z, or if CTX is specified then set the SELinux or SMACK security context to CTX
 # @flag --help                                 display this help and exit
 # @flag --version                              output version information and exit
-# @arg FILES*
+# @arg files*
 
 _module_os_group() {
     cat /etc/group | gawk -F: '{print $1 "\t" $4}'

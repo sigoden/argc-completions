@@ -6,6 +6,6 @@
 # @option -w --width    use WIDTH columns instead of 80
 # @flag --help          display this help and exit
 # @flag --version       output version information and exit
-# @arg FILE*
+# @arg file*
 
 command eval "$(argc --argc-eval "$0" "$@")"

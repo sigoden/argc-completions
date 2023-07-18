@@ -29,8 +29,8 @@
 # @option -u --user[`_module_os_user`] <user>     run command (or edit file) as specified user name or ID
 # @flag -V --version                              display version information and exit
 # @flag -v --validate                             update user's timestamp without running a command
-# @arg CMD[`_module_os_command`]
-# @arg ARGS~[`_choice_args`]
+# @arg cmd[`_module_os_command`]
+# @arg args~[`_choice_args`]
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 

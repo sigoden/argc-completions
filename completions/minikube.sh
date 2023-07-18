@@ -243,7 +243,7 @@ image() {
 # @option -n --node[`_choice_node`] <value>    The node to build on.
 # @flag --push                                 Push the new image (requires tag)
 # @option -t --tag <value>                     Tag to apply to the new image (optional)
-# @arg PATH-URL <PATH|URL|->
+# @arg path-url <PATH|URL|->
 image::build() {
     :;
 }
@@ -285,7 +285,7 @@ image::push() {
 
 # {{{ minikube image rm
 # @cmd Remove one or more images
-# @arg IMAGE*[`_choice_image`]
+# @arg image*[`_choice_image`]
 image::rm() {
     :;
 }
@@ -295,8 +295,8 @@ image::rm() {
 # @cmd Save a image from minikube
 # @flag --daemon    Cache image to docker daemon
 # @flag --remote    Cache image to remote registry
-# @arg IMAGE[`_choice_image`]
-# @arg ARCHIVE <path>
+# @arg image[`_choice_image`]
+# @arg archive <path>
 image::save() {
     :;
 }
@@ -318,7 +318,7 @@ addons() {
 
 # {{{ minikube addons configure
 # @cmd Configures the addon w/ADDON_NAME within minikube (example: minikube addons configure registry-creds).
-# @arg ADDON_NAME[`_choice_addon`]
+# @arg addon_name[`_choice_addon`]
 addons::configure() {
     :;
 }
@@ -326,7 +326,7 @@ addons::configure() {
 
 # {{{ minikube addons disable
 # @cmd Disables the addon w/ADDON_NAME within minikube (example: minikube addons disable dashboard).
-# @arg ADDON_NAME[`_choice_addon`]
+# @arg addon_name[`_choice_addon`]
 addons::disable() {
     :;
 }
@@ -338,7 +338,7 @@ addons::disable() {
 # @option --images <value>        Images used by this addon.
 # @flag --refresh                 If true, pods might get deleted and restarted on addon enable
 # @option --registries <value>    Registries used by this addon.
-# @arg ADDON_NAME[`_choice_addon`]
+# @arg addon_name[`_choice_addon`]
 addons::enable() {
     :;
 }
@@ -346,7 +346,7 @@ addons::enable() {
 
 # {{{ minikube addons images
 # @cmd List image names the addon w/ADDON_NAME used.
-# @arg ADDON_NAME[`_choice_addon`]
+# @arg addon_name[`_choice_addon`]
 addons::images() {
     :;
 }
@@ -367,7 +367,7 @@ addons::list() {
 # @option --interval <1>    The time interval for each check that wait performs in seconds
 # @flag --url               Display the Kubernetes addons URL in the CLI instead of opening it in the default browser
 # @option --wait <2>        Amount of time to wait for service in seconds
-# @arg ADDON_NAME[`_choice_addon`]
+# @arg addon_name[`_choice_addon`]
 addons::open() {
     :;
 }
@@ -383,7 +383,7 @@ config() {
 # {{{ minikube config defaults
 # @cmd Lists all valid default values for PROPERTY_NAME
 # @option -o --output[text|json] <value>    Output format.
-# @arg PROPERTY_NAME[`_choice_property_name`]
+# @arg property_name[`_choice_property_name`]
 config::defaults() {
     :;
 }
@@ -391,7 +391,7 @@ config::defaults() {
 
 # {{{ minikube config get
 # @cmd Gets the value of PROPERTY_NAME from the minikube config file
-# @arg PROPERTY_NAME[`_choice_property_name`]
+# @arg property_name[`_choice_property_name`]
 config::get() {
     :;
 }
@@ -399,8 +399,8 @@ config::get() {
 
 # {{{ minikube config set
 # @cmd Sets an individual value in a minikube config file
-# @arg PROPERTY_NAME[`_choice_property_name`]
-# @arg PROPERTY_VALUE
+# @arg property_name[`_choice_property_name`]
+# @arg property_value
 config::set() {
     :;
 }
@@ -408,7 +408,7 @@ config::set() {
 
 # {{{ minikube config unset
 # @cmd unsets an individual value in a minikube config file
-# @arg PROPERTY_NAME[`_choice_property_name`]
+# @arg property_name[`_choice_property_name`]
 config::unset() {
     :;
 }
@@ -424,7 +424,7 @@ config::view() {
 
 # {{ minikube profile
 # @cmd Get or list the current profiles (clusters)
-# @arg MINIKUBE_PROFILE_NAME
+# @arg minikube_profile_name
 profile() {
     :;
 }
@@ -454,7 +454,7 @@ update-context() {
 # @option -n --namespace[`_choice_namespace`] <default>  The service namespace
 # @flag --url               Display the Kubernetes service URL in the CLI instead of opening it in the default browser
 # @option --wait <2>        Amount of time to wait for a service in seconds
-# @arg SERVICE
+# @arg service
 service() {
     :;
 }
@@ -489,7 +489,7 @@ tunnel() {
 # @option --port <0>                 Specify the port that the mount should be setup on, where 0 means any free port.
 # @option --type <9p>                Specify the mount filesystem type (supported types: 9p)
 # @option --uid <docker>             Default user id used for the mount
-# @arg src-dest[`_choice_mount`]
+# @arg src-dest[`_choice_mount`] <src:dest>
 mount() {
     :;
 }
@@ -561,8 +561,8 @@ node::stop() {
 
 # {{ minikube cp
 # @cmd Copy the specified file into minikube
-# @arg SRC[`_choice_cp`]
-# @arg DEST[`_choice_cp`]
+# @arg src[`_choice_cp`]
+# @arg dest[`_choice_cp`]
 cp() {
     :;
 }
@@ -633,7 +633,7 @@ options() {
 
 # {{ minikube completion
 # @cmd Generate command completion for a shell
-# @arg SHELL
+# @arg shell
 completion() {
     :;
 }

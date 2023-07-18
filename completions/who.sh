@@ -22,6 +22,6 @@
 # @flag --writable       same as -T
 # @flag --help           display this help and exit
 # @flag --version        output version information and exit
-# @arg FILE-ARG1-ARG2
+# @arg file-arg1-arg2 <FILE|ARG1 ARG2>
 
 command eval "$(argc --argc-eval "$0" "$@")"

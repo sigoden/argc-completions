@@ -12,7 +12,7 @@
 # @flag -z --zero                             add a final overwrite with zeros to hide shredding
 # @flag --help                                display this help and exit
 # @flag --version                             output version information and exit
-# @arg FILE*
+# @arg file*
 
 _choice_remove() {
     cat <<-'EOF'

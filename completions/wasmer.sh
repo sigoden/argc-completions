@@ -16,7 +16,7 @@
 # @flag -q --quiet                      Do not print progress messages
 # @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
-# @arg TOKEN                            The API token to use when communicating with the registry (inferred from the environment by default)
+# @arg token                            The API token to use when communicating with the registry (inferred from the environment by default)
 login() {
     :;
 }
@@ -36,7 +36,7 @@ login() {
 # @option --version                        Override the package version of the uploaded package in the wasmer.toml
 # @flag --no-validate                      Skip validation of the uploaded package
 # @flag -h --help                          Print help (see a summary with '-h')
-# @arg PACKAGE_PATH                        Directory containing the `wasmer.toml`, or a custom *.toml manifest file.
+# @arg package_path                        Directory containing the `wasmer.toml`, or a custom *.toml manifest file.
 publish() {
     :;
 }
@@ -93,7 +93,7 @@ cache::dir() {
 # @flag --enable-bulk-memory                   Enable support for the bulk memory proposal
 # @flag --enable-all                           Enable support for all pre-standard proposals
 # @flag -h --help                              Print help
-# @arg FILE!                                   File to validate as WebAssembly
+# @arg file!                                   File to validate as WebAssembly
 validate() {
     :;
 }
@@ -120,7 +120,7 @@ validate() {
 # @flag --enable-all                           Enable support for all pre-standard proposals
 # @option -m <CPU_FEATURES>
 # @flag -h --help                              Print help
-# @arg FILE!                                   Input file
+# @arg file!                                   Input file
 compile() {
     :;
 }
@@ -155,7 +155,7 @@ compile() {
 # @flag --enable-bulk-memory                       Enable support for the bulk memory proposal
 # @flag --enable-all                               Enable support for all pre-standard proposals
 # @flag -h --help                                  Print help (see a summary with '-h')
-# @arg FILE!                                       Input file
+# @arg file!                                       Input file
 create-exe() {
     :;
 }
@@ -185,7 +185,7 @@ create-exe() {
 # @flag --enable-bulk-memory                   Enable support for the bulk memory proposal
 # @flag --enable-all                           Enable support for all pre-standard proposals
 # @flag -h --help                              Print help (see a summary with '-h')
-# @arg FILE!                                   Input file
+# @arg file!                                   Input file
 create-obj() {
     :;
 }
@@ -202,7 +202,7 @@ create-obj() {
 # @option --target <TARGET_TRIPLE>      Compilation Target triple
 # @option -m --cpu-features <CPU_FEATURES>
 # @flag -h --help                       Print help (see a summary with '-h')
-# @arg FILE!                            Input file
+# @arg file!                            Input file
 gen-c-header() {
     :;
 }
@@ -246,7 +246,7 @@ config::get() {
 # @flag -q --quiet                      Do not print progress messages
 # @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
-# @arg registry-url
+# @arg registry-url <registry.url>
 config::get::registry.url() {
     :;
 }
@@ -258,7 +258,7 @@ config::get::registry.url() {
 # @flag -q --quiet                      Do not print progress messages
 # @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
-# @arg registry-token
+# @arg registry-token <registry.token>
 config::get::registry.token() {
     :;
 }
@@ -270,7 +270,7 @@ config::get::registry.token() {
 # @flag -q --quiet                      Do not print progress messages
 # @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
-# @arg telemetry-enabled
+# @arg telemetry-enabled <telemetry.enabled>
 config::get::telemetry.enabled() {
     :;
 }
@@ -282,7 +282,7 @@ config::get::telemetry.enabled() {
 # @flag -q --quiet                      Do not print progress messages
 # @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
-# @arg update-notifications-enabled
+# @arg update-notifications-enabled <update-notifications.enabled>
 config::get::update-notifications.enabled() {
     :;
 }
@@ -294,7 +294,7 @@ config::get::update-notifications.enabled() {
 # @flag -q --quiet                      Do not print progress messages
 # @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
-# @arg proxy-url
+# @arg proxy-url <proxy.url>
 config::get::proxy.url() {
     :;
 }
@@ -317,7 +317,7 @@ config::set() {
 # @flag -q --quiet                      Do not print progress messages
 # @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
-# @arg URL!                             Url of the registry
+# @arg url!                             Url of the registry
 config::set::registry.url() {
     :;
 }
@@ -329,7 +329,7 @@ config::set::registry.url() {
 # @flag -q --quiet                      Do not print progress messages
 # @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
-# @arg TOKEN!                           Token to set
+# @arg token!                           Token to set
 config::set::registry.token() {
     :;
 }
@@ -341,7 +341,7 @@ config::set::registry.token() {
 # @flag -q --quiet                      Do not print progress messages
 # @option --color[auto|always|never]    When to display colored output
 # @flag -h --help                       Print help (see a summary with '-h')
-# @arg ENABLED![true|false]             Whether to enable telemetry
+# @arg enabled![true|false]             Whether to enable telemetry
 config::set::telemetry.enabled() {
     :;
 }
@@ -353,7 +353,7 @@ config::set::telemetry.enabled() {
 # @flag -q --quiet                      Do not print progress messages
 # @option --color[auto|always|never]    When to display colored output
 # @flag -h --help                       Print help (see a summary with '-h')
-# @arg ENABLED![true|false]             Whether to enable update notifications
+# @arg enabled![true|false]             Whether to enable update notifications
 config::set::update-notifications.enabled() {
     :;
 }
@@ -365,7 +365,7 @@ config::set::update-notifications.enabled() {
 # @flag -q --quiet                      Do not print progress messages
 # @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
-# @arg URL!                             Set if a proxy URL should be used (empty = unset proxy)
+# @arg url!                             Set if a proxy URL should be used (empty = unset proxy)
 config::set::proxy.url() {
     :;
 }
@@ -402,7 +402,7 @@ self-update() {
 # @flag --enable-bulk-memory                   Enable support for the bulk memory proposal
 # @flag --enable-all                           Enable support for all pre-standard proposals
 # @flag -h --help                              Print help
-# @arg FILE!                                   File to validate as WebAssembly
+# @arg file!                                   File to validate as WebAssembly
 inspect() {
     :;
 }
@@ -428,7 +428,7 @@ inspect() {
 # @option --template                         Add default dependencies for common packages
 # @option --include                          Include file paths into the target container filesystem
 # @flag -h --help                            Print help (see a summary with '-h')
-# @arg PACKAGE_PATH                          Directory of the output file name.
+# @arg package_path                          Directory of the output file name.
 init() {
     :;
 }
@@ -453,7 +453,7 @@ init() {
 # @flag --enable-all                           Enable support for all pre-standard proposals
 # @flag -f --fail-fast                         A flag to indicate wast stop at the first error or continue
 # @flag -h --help                              Print help
-# @arg FILE!                                   Wast file to run
+# @arg file!                                   Wast file to run
 wast() {
     :;
 }
@@ -533,7 +533,7 @@ whoami() {
 # @flag --dev                           Add the package as a dev-dependency
 # @flag --pip                           Add the Python bindings using "pip install"
 # @flag -h --help                       Print help
-# @arg PACKAGES*                        The packages to add (e.g. "wasmer/wasmer-pack@0.5.0" or "python/python")
+# @arg packages*                        The packages to add (e.g. "wasmer/wasmer-pack@0.5.0" or "python/python")
 add() {
     :;
 }
@@ -577,8 +577,8 @@ add() {
 # @option -e --entrypoint                      The function or command to invoke
 # @flag --COREDUMP                             PATH <COREDUMP PATH> Generate a coredump at this path if a WebAssembly trap occurs
 # @flag -h --help                              Print help (see a summary with '-h')
-# @arg INPUT!                                  The file, URL, or package to run
-# @arg ARGS*                                   Command-line arguments passed to the package
+# @arg input!                                  The file, URL, or package to run
+# @arg args*                                   Command-line arguments passed to the package
 run() {
     :;
 }
@@ -597,7 +597,7 @@ run() {
 # @flag --publish-package               Automatically publish the package referenced by this app.
 # @option --path                        The path to a YAML file
 # @flag -h --help                       Print help (see a summary with '-h')
-# @arg OWNER
+# @arg owner
 deploy() {
     :;
 }
@@ -622,7 +622,7 @@ app() {
 # @flag -q --quiet                      Do not print progress messages
 # @option --color[auto|always|never]    When to display colored output
 # @flag -h --help                       Print help (see a summary with '-h')
-# @arg IDENT!                           Identifier of the app.
+# @arg ident!                           Identifier of the app.
 app::get() {
     :;
 }
@@ -656,7 +656,7 @@ app::list() {
 # @option --until                       The date of the latest log entry
 # @option --max                         Maximum log lines to fetch.
 # @flag -h --help                       Print help (see a summary with '-h')
-# @arg IDENT!                           The name of the app.
+# @arg ident!                           The name of the app.
 app::logs() {
     :;
 }
@@ -677,7 +677,7 @@ app::logs() {
 # @option --name                        The name of the app (can be changed later)
 # @option --path                        The path to a YAML file the app config
 # @flag -h --help                       Print help
-# @arg PACKAGE                          The package path
+# @arg package                          The package path
 app::create() {
     :;
 }
@@ -693,7 +693,7 @@ app::create() {
 # @option --path                        Directory to initialize the static site in.
 # @flag --publish                       Publish the package and the app
 # @flag -h --help                       Print help (see a summary with '-h')
-# @arg PUBLIC_PATH                      Path to the public directory.
+# @arg public_path                      Path to the public directory.
 app::create::static-site() {
     :;
 }
@@ -713,8 +713,8 @@ app::create::static-site() {
 # @option --map-port <MAP_PORT>         Local port mapping to the package that's running, this allows for instance a HTTP server to be tested remotely while giving instant logs over stderr channelled via SSH
 # @flag -p --print                      Prints the SSH command rather than executing it
 # @flag -h --help                       Print help
-# @arg RUN                              Package to run on the Deploy servers [default: sharrattj/bash]
-# @arg RUN_ARGS*                        Arguments to pass the package running on Deploy
+# @arg run                              Package to run on the Deploy servers [default: sharrattj/bash]
+# @arg run_args*                        Arguments to pass the package running on Deploy
 ssh() {
     :;
 }
@@ -739,7 +739,7 @@ namespace() {
 # @option --registry
 # @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
-# @arg NAME!                            Name of the namespace
+# @arg name!                            Name of the namespace
 namespace::get() {
     :;
 }

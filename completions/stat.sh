@@ -9,7 +9,7 @@
 # @flag -t --terse                             print the information in terse form
 # @flag --help                                 display this help and exit
 # @flag --version                              output version information and exit
-# @arg FILE*
+# @arg file*
 
 _choice_cached() {
     cat <<-'EOF'

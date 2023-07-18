@@ -18,6 +18,6 @@
 # @flag -? --help                    give this help list
 # @flag --usage                      give a short usage message
 # @flag -V --version                 print program version
-# @arg KEYWORD*
+# @arg keyword*
 
 command eval "$(argc --argc-eval "$0" "$@")"

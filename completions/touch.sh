@@ -12,7 +12,7 @@
 # @option --time[`_choice_time`] <WORD>    change the specified time: WORD is access, atime, or use: equivalent to -a WORD is modify or mtime: equivalent to -m
 # @flag --help                             display this help and exit
 # @flag --version                          output version information and exit
-# @arg FILE*
+# @arg file*
 
 _choice_time() {
     printf "%s\n" access atime modify mtime use

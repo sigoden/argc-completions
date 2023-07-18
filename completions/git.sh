@@ -740,7 +740,7 @@ push() {
 # @flag --ignore-date                        use current timestamp for author date
 # @flag --rerere-autoupdate                  update the index with reused conflict resolution if possible
 # @option -S --gpg-sign <key-id>             GPG-sign commits
-# @arg mbox-Maildir* <<mbox>|<Maildir>>
+# @arg mbox-maildir* <<mbox>|<Maildir>>
 am() {
     :;
 }
@@ -1140,7 +1140,7 @@ maintenance() {
 
 # {{ git mergetool
 # @cmd Run merge conflict resolution tools to resolve merge conflicts
-# @arg file-to-merge
+# @arg file-to-merge <file to merge>
 mergetool() {
     :;
 }

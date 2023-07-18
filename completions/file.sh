@@ -31,7 +31,7 @@
 # @flag -S --no-sandbox                          disable system call sandboxing
 # @flag -C --compile                             compile file specified by -m
 # @flag -d --debug                               print debugging messages
-# @arg FILE*
+# @arg file*
 
 _choice_test() {
     printf "%s\n" apptype ascii cdf compress csv elf encoding soft tar json text tokens

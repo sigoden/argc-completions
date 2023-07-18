@@ -223,7 +223,7 @@ remove() {
 # @flag --stream               Stream output from child processes immediately, prefixed with the originating package directory.
 # @flag --use-stderr           Divert all output to stderr
 # @flag -w --workspace-root    Run the command on the root workspace project
-# @arg in-package-dir
+# @arg in-package-dir <in package dir>
 unlink() {
     :;
 }
@@ -518,7 +518,7 @@ patch() {
 # {{ pnpm patch-commit
 # @cmd Generate a patch out of a directory.
 # @flag --patches-dir    The generated patch file will be saved to this directory
-# @arg patchDir!
+# @arg patchdir!
 patch-commit() {
     :;
 }
@@ -697,7 +697,7 @@ init() {
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
 # @arg deploy
-# @arg target-directory!
+# @arg target-directory! <target directory>
 deploy() {
     :;
 }

@@ -28,7 +28,7 @@
 # @flag -U --user-group                           create a group with the same name as the user
 # @option -Z --selinux-user <SEUSER>              use a specific SEUSER for the SELinux user mapping
 # @flag --extrausers                              Use the extra users database
-# @arg LOGIN[`_module_os_user`]
+# @arg login[`_module_os_user`]
 
 _module_os_group() {
     cat /etc/group | gawk -F: '{print $1 "\t" $4}'

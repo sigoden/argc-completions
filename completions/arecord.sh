@@ -39,7 +39,7 @@
 # @flag --use-strftime                             apply the strftime facility to the output file name
 # @flag --dump-hw-params                           dump hw_params of the device
 # @flag --fatal-errors                             treat all errors as fatal
-# @arg FILE*
+# @arg file*
 
 _choice_format() {
     cat <<-'EOF'

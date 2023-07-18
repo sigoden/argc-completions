@@ -22,7 +22,7 @@
 # @flag -o                                        same as -t o2, select octal 2-byte units
 # @flag -s                                        same as -t d2, select decimal 2-byte units
 # @flag -x                                        same as -t x2, select hexadecimal 2-byte units
-# @arg FILE*
+# @arg file*
 
 _choice_address_radix() {
     cat <<-'EOF'

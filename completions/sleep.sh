@@ -3,6 +3,6 @@
 
 # @flag --help       display this help and exit
 # @flag --version    output version information and exit
-# @arg NUMBER-SUFFIX* <NUMBER[SUFFIX]>
+# @arg number-suffix* <NUMBER[SUFFIX]>
 
 command eval "$(argc --argc-eval "$0" "$@")"

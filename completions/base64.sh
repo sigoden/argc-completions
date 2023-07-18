@@ -6,6 +6,6 @@
 # @option -w --wrap <COLS>     wrap encoded lines after COLS character (default 76).
 # @flag --help                 display this help and exit
 # @flag --version              output version information and exit
-# @arg FILE
+# @arg file
 
 command eval "$(argc --argc-eval "$0" "$@")"

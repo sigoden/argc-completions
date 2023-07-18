@@ -13,6 +13,6 @@
 # @flag --help                           display this help and exit
 # @flag --version                        output version information and exit
 # @flag -M                               from first to M'th (included) byte, character or field
-# @arg FILE*
+# @arg file*
 
 command eval "$(argc --argc-eval "$0" "$@")"

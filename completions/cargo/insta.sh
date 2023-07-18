@@ -100,7 +100,7 @@ accept() {
 # @option --color[auto|always|never] <WHEN>      Coloring [default: auto]
 # @flag -h --help                                Prints help information
 # @flag -V --version                             Prints version information
-# @arg CARGO_TEST_ARGS+                          Options passed to cargo test
+# @arg cargo_test_args+                          Options passed to cargo test
 test() {
     :;
 }

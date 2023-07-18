@@ -112,8 +112,8 @@
 # @option --volume-driver <string>                 Optional volume driver for the container
 # @option --volumes-from <list>                    Mount volumes from the specified container(s)
 # @option -w --workdir <string>                    Working directory inside the container
-# @arg IMAGE[`_choice_image_repo_tag`]
-# @arg ARG*
+# @arg image[`_choice_image_repo_tag`]
+# @arg arg*
 run() {
     :;
 }
@@ -130,8 +130,8 @@ run() {
 # @flag -t --tty                    Allocate a pseudo-TTY
 # @option -u --user <string>        Username or UID (format: "<name|uid>[:<group|gid>]")
 # @option -w --workdir <string>     Working directory inside the container
-# @arg CONTAINER[`_choice_container_name`]
-# @arg ARG*
+# @arg container[`_choice_container_name`]
+# @arg arg*
 exec() {
     :;
 }
@@ -185,7 +185,7 @@ ps() {
 # @option -t --tag <stringArray>                 Name and optionally a tag (format: "name:tag")
 # @option --target <string>                      Set the target build stage to build
 # @option --ulimit <ulimit>                      Ulimit options (default [])
-# @arg PATH-URL <PATH|URL|->
+# @arg path-url <PATH|URL|->
 build() {
     :;
 }
@@ -197,7 +197,7 @@ build() {
 # @flag --disable-content-trust    Skip image verification (default true)
 # @option --platform <string>      Set platform if server is multi-platform capable
 # @flag -q --quiet                 Suppress verbose output
-# @arg NAME-TAG-DIGEST <NAME[:TAG|@DIGEST]>
+# @arg name-tag-digest <NAME[:TAG|@DIGEST]>
 pull() {
     :;
 }
@@ -208,7 +208,7 @@ pull() {
 # @flag -a --all-tags              Push all tags of an image to the repository
 # @flag --disable-content-trust    Skip image signing (default true)
 # @flag -q --quiet                 Suppress verbose output
-# @arg NAME-TAG <NAME[:TAG]>
+# @arg name-tag <NAME[:TAG]>
 push() {
     :;
 }
@@ -222,7 +222,7 @@ push() {
 # @option --format <string>    Format output using a custom template:
 # @flag --no-trunc             Don't truncate output
 # @flag -q --quiet             Only show image IDs
-# @arg REPOSITORY-TAG[`_choice_image_repo_tag`] <REPOSITORY[:TAG]>
+# @arg repository-tag[`_choice_image_repo_tag`] <REPOSITORY[:TAG]>
 images() {
     :;
 }
@@ -233,7 +233,7 @@ images() {
 # @option -p --password <string>    Password
 # @flag --password-stdin            Take the password from stdin
 # @option -u --username <string>    Username
-# @arg SERVER
+# @arg server
 login() {
     :;
 }
@@ -241,7 +241,7 @@ login() {
 
 # {{ docker logout
 # @cmd Log out from a registry
-# @arg SERVER
+# @arg server
 logout() {
     :;
 }
@@ -253,7 +253,7 @@ logout() {
 # @option --format <string>       Pretty-print search using a Go template
 # @option --limit <int>           Max number of search results
 # @flag --no-trunc                Don't truncate output
-# @arg TERM
+# @arg term
 search() {
     :;
 }
@@ -297,7 +297,7 @@ builder::imagetools() {
 # @option -f --file <stringArray>                Read source descriptor from file
 # @option --progress[auto|plain|tty] <string>    Set type of progress output.
 # @option -t --tag <stringArray>                 Set reference for new image
-# @arg SOURCE*
+# @arg source*
 builder::imagetools::create() {
     :;
 }
@@ -308,7 +308,7 @@ builder::imagetools::create() {
 # @option --builder <string>    Override the configured builder instance (default "default")
 # @option --format <string>     Format the output using the given Go template
 # @flag --raw                   Show original, unformatted JSON manifest
-# @arg NAME[`_choice_builder`]
+# @arg name[`_choice_builder`]
 builder::imagetools::inspect() {
     :;
 }
@@ -329,7 +329,7 @@ builder::imagetools::inspect() {
 # @flag --push                                   Shorthand for "--set=*.output=type=registry"
 # @option --sbom <string>                        Shorthand for "--set=*.attest=type=sbom"
 # @option --set <stringArray>                    Override target value (e.g., "targetpattern.key=value")
-# @arg TARGET*
+# @arg target*
 builder::bake() {
     :;
 }
@@ -368,7 +368,7 @@ builder::bake() {
 # @option -t --tag <stringArray>                 Name and optionally a tag (format: "name:tag")
 # @option --target <string>                      Set the target build stage to build
 # @option --ulimit <ulimit>                      Ulimit options (default [])
-# @arg PATH-URL <PATH|URL|->
+# @arg path-url <PATH|URL|->
 builder::build() {
     :;
 }
@@ -387,7 +387,7 @@ builder::build() {
 # @option --node <string>               Create/modify node with given name
 # @option --platform <stringArray>      Fixed platforms for current node
 # @flag --use                           Set the current builder instance
-# @arg CONTEXT-ENDPOINT
+# @arg context-endpoint <CONTEXT|ENDPOINT>
 builder::create() {
     :;
 }
@@ -407,7 +407,7 @@ builder::du() {
 # @cmd Inspect current builder instance
 # @flag --bootstrap             Ensure builder has booted before inspecting
 # @option --builder <string>    Override the configured builder instance (default "default")
-# @arg NAME[`_choice_builder`]
+# @arg name[`_choice_builder`]
 builder::inspect() {
     :;
 }
@@ -440,7 +440,7 @@ builder::prune() {
 # @flag -f --force              Do not prompt for confirmation
 # @flag --keep-daemon           Keep the buildkitd daemon running
 # @flag --keep-state            Keep BuildKit state
-# @arg NAME[`_choice_builder`]
+# @arg name[`_choice_builder`]
 builder::rm() {
     :;
 }
@@ -449,7 +449,7 @@ builder::rm() {
 # {{{ docker builder stop
 # @cmd Stop builder instance
 # @option --builder <string>    Override the configured builder instance (default "default")
-# @arg NAME[`_choice_builder`]
+# @arg name[`_choice_builder`]
 builder::stop() {
     :;
 }
@@ -460,7 +460,7 @@ builder::stop() {
 # @option --builder <string>    Override the configured builder instance (default "default")
 # @flag --default               Set builder as default for current context
 # @flag --global                Builder persists context changes
-# @arg NAME[`_choice_builder`]
+# @arg name[`_choice_builder`]
 builder::use() {
     :;
 }
@@ -496,7 +496,7 @@ buildx::imagetools() {
 # @option -f --file <stringArray>                Read source descriptor from file
 # @option --progress[auto|plain|tty] <string>    Set type of progress output.
 # @option -t --tag <stringArray>                 Set reference for new image
-# @arg SOURCE*
+# @arg source*
 buildx::imagetools::create() {
     :;
 }
@@ -507,7 +507,7 @@ buildx::imagetools::create() {
 # @option --builder <string>    Override the configured builder instance
 # @option --format <string>     Format the output using the given Go template
 # @flag --raw                   Show original, unformatted JSON manifest
-# @arg NAME[`_choice_builder`]
+# @arg name[`_choice_builder`]
 buildx::imagetools::inspect() {
     :;
 }
@@ -528,7 +528,7 @@ buildx::imagetools::inspect() {
 # @flag --push                                   Shorthand for "--set=*.output=type=registry"
 # @option --sbom <string>                        Shorthand for "--set=*.attest=type=sbom"
 # @option --set <stringArray>                    Override target value (e.g., "targetpattern.key=value")
-# @arg TARGET*
+# @arg target*
 buildx::bake() {
     :;
 }
@@ -567,7 +567,7 @@ buildx::bake() {
 # @option -t --tag <stringArray>                 Name and optionally a tag (format: "name:tag")
 # @option --target <string>                      Set the target build stage to build
 # @option --ulimit <ulimit>                      Ulimit options (default [])
-# @arg PATH-URL <PATH|URL|->
+# @arg path-url <PATH|URL|->
 buildx::build() {
     :;
 }
@@ -586,7 +586,7 @@ buildx::build() {
 # @option --node <string>               Create/modify node with given name
 # @option --platform <stringArray>      Fixed platforms for current node
 # @flag --use                           Set the current builder instance
-# @arg CONTEXT-ENDPOINT
+# @arg context-endpoint <CONTEXT|ENDPOINT>
 buildx::create() {
     :;
 }
@@ -606,7 +606,7 @@ buildx::du() {
 # @cmd Inspect current builder instance
 # @flag --bootstrap             Ensure builder has booted before inspecting
 # @option --builder <string>    Override the configured builder instance
-# @arg NAME[`_choice_builder`]
+# @arg name[`_choice_builder`]
 buildx::inspect() {
     :;
 }
@@ -639,7 +639,7 @@ buildx::prune() {
 # @flag -f --force              Do not prompt for confirmation
 # @flag --keep-daemon           Keep the buildkitd daemon running
 # @flag --keep-state            Keep BuildKit state
-# @arg NAME[`_choice_builder`]
+# @arg name[`_choice_builder`]
 buildx::rm() {
     :;
 }
@@ -648,7 +648,7 @@ buildx::rm() {
 # {{{ docker buildx stop
 # @cmd Stop builder instance
 # @option --builder <string>    Override the configured builder instance
-# @arg NAME[`_choice_builder`]
+# @arg name[`_choice_builder`]
 buildx::stop() {
     :;
 }
@@ -659,7 +659,7 @@ buildx::stop() {
 # @option --builder <string>    Override the configured builder instance
 # @flag --default               Set builder as default for current context
 # @flag --global                Builder persists context changes
-# @arg NAME[`_choice_builder`]
+# @arg name[`_choice_builder`]
 buildx::use() {
     :;
 }
@@ -695,7 +695,7 @@ compose() {
 # @flag --pull                         Always attempt to pull a newer version of the image.
 # @flag -q --quiet                     Don't print anything to STDOUT
 # @option --ssh <string>               Set SSH authentications used when building service images.
-# @arg SERVICE*[`_choice_compose_service`]
+# @arg service*[`_choice_compose_service`]
 compose::build() {
     :;
 }
@@ -716,7 +716,7 @@ compose::build() {
 # @flag --resolve-image-digests    Pin image tags to digests.
 # @flag --services                 Print the service names, one per line.
 # @flag --volumes                  Print the volume names, one per line.
-# @arg SERVICE*[`_choice_compose_service`]
+# @arg service*[`_choice_compose_service`]
 compose::convert() {
     :;
 }
@@ -727,8 +727,8 @@ compose::convert() {
 # @flag -a --archive        Archive mode (copy all uid/gid information)
 # @flag -L --follow-link    Always follow symbol link in SRC_PATH
 # @option --index <int>     Index of the container if there are multiple instances of a service .
-# @arg SRC[`_choice_compose_cp`]
-# @arg DEST[`_choice_compose_cp`]
+# @arg src[`_choice_compose_cp`]
+# @arg dest[`_choice_compose_cp`]
 compose::cp() {
     :;
 }
@@ -741,7 +741,7 @@ compose::cp() {
 # @flag --no-build                                 Don't build an image, even if it's missing.
 # @flag --no-recreate                              If containers already exist, don't recreate them.
 # @option --pull[always|missing|never] <string>    Pull image before running (default "missing")
-# @arg SERVICE*[`_choice_compose_service`]
+# @arg service*[`_choice_compose_service`]
 compose::create() {
     :;
 }
@@ -761,7 +761,7 @@ compose::down() {
 # {{{ docker compose events
 # @cmd Receive real time events from containers.
 # @flag --json    Output events as a stream of json objects
-# @arg SERVICE*[`_choice_compose_service`]
+# @arg service*[`_choice_compose_service`]
 compose::events() {
     :;
 }
@@ -776,8 +776,8 @@ compose::events() {
 # @flag --privileged                               Give extended privileges to the process.
 # @option -u --user <string>                       Run the command as this user.
 # @option -w --workdir <string>                    Path to workdir directory for this command.
-# @arg SERVICE[`_choice_compose_service`]
-# @arg ARGS*
+# @arg service[`_choice_compose_service`]
+# @arg args*
 compose::exec() {
     :;
 }
@@ -787,7 +787,7 @@ compose::exec() {
 # @cmd List images used by the created containers
 # @option --format <string>    Format the output.
 # @flag -q --quiet             Only display IDs
-# @arg SERVICE*[`_choice_compose_service`]
+# @arg service*[`_choice_compose_service`]
 compose::images() {
     :;
 }
@@ -797,7 +797,7 @@ compose::images() {
 # @cmd Force stop service containers.
 # @flag --remove-orphans          Remove containers for services not defined in the Compose file.
 # @option -s --signal <string>    SIGNAL to send to the container.
-# @arg SERVICE*[`_choice_compose_service`]
+# @arg service*[`_choice_compose_service`]
 compose::kill() {
     :;
 }
@@ -812,7 +812,7 @@ compose::kill() {
 # @option --tail <string>     Number of lines to show from the end of the logs for each container.
 # @flag -t --timestamps       Show timestamps.
 # @option --until <string>    Show logs before a timestamp (e.g. 2013-01-02T13:23:37Z) or relative (e.g. 42m for 42 minutes)
-# @arg SERVICE*[`_choice_compose_service`]
+# @arg service*[`_choice_compose_service`]
 compose::logs() {
     :;
 }
@@ -831,7 +831,7 @@ compose::ls() {
 
 # {{{ docker compose pause
 # @cmd Pause services
-# @arg SERVICE*[`_choice_compose_service`]
+# @arg service*[`_choice_compose_service`]
 compose::pause() {
     :;
 }
@@ -841,8 +841,8 @@ compose::pause() {
 # @cmd Print the public port for a port binding.
 # @option --index <int>          index of the container if service has multiple replicas (default 1)
 # @option --protocol <string>    tcp or udp (default "tcp")
-# @arg SERVICE[`_choice_compose_service`]
-# @arg PRIVATE_PORT
+# @arg service[`_choice_compose_service`]
+# @arg private_port
 compose::port() {
     :;
 }
@@ -856,7 +856,7 @@ compose::port() {
 # @flag -q --quiet                  Only display IDs
 # @flag --services                  Display services
 # @option --status <stringArray>    Filter services by status.
-# @arg SERVICE*[`_choice_compose_service`]
+# @arg service*[`_choice_compose_service`]
 compose::ps() {
     :;
 }
@@ -868,7 +868,7 @@ compose::ps() {
 # @flag --ignore-pull-failures    Pull what it can and ignores images with pull failures.
 # @flag --include-deps            Also pull services declared as dependencies.
 # @flag -q --quiet                Pull without printing progress information.
-# @arg SERVICE*[`_choice_compose_service`]
+# @arg service*[`_choice_compose_service`]
 compose::pull() {
     :;
 }
@@ -879,7 +879,7 @@ compose::pull() {
 # @flag --ignore-push-failures    Push what it can and ignores images with push failures
 # @flag --include-deps            Also push images of services declared as dependencies
 # @flag -q --quiet                Push without printing progress information
-# @arg SERVICE*[`_choice_compose_service`]
+# @arg service*[`_choice_compose_service`]
 compose::push() {
     :;
 }
@@ -888,7 +888,7 @@ compose::push() {
 # {{{ docker compose restart
 # @cmd Restart service containers
 # @option -t --timeout <int>    Specify a shutdown timeout in seconds (default 10)
-# @arg SERVICE*[`_choice_compose_service`]
+# @arg service*[`_choice_compose_service`]
 compose::restart() {
     :;
 }
@@ -899,7 +899,7 @@ compose::restart() {
 # @flag -f --force      Don't ask to confirm removal
 # @flag -s --stop       Stop the containers, if required, before removing
 # @flag -v --volumes    Remove any anonymous volumes attached to containers
-# @arg SERVICE*[`_choice_compose_service`]
+# @arg service*[`_choice_compose_service`]
 compose::rm() {
     :;
 }
@@ -924,8 +924,8 @@ compose::rm() {
 # @option -u --user <string>            Run as specified username or uid
 # @option -v --volume <stringArray>     Bind mount a volume.
 # @option -w --workdir <string>         Working directory inside the container
-# @arg SERVICE[`_choice_compose_service`]
-# @arg ARGS*
+# @arg service[`_choice_compose_service`]
+# @arg args*
 compose::run() {
     :;
 }
@@ -933,7 +933,7 @@ compose::run() {
 
 # {{{ docker compose start
 # @cmd Start services
-# @arg SERVICE*[`_choice_compose_service`]
+# @arg service*[`_choice_compose_service`]
 compose::start() {
     :;
 }
@@ -942,7 +942,7 @@ compose::start() {
 # {{{ docker compose stop
 # @cmd Stop services
 # @option -t --timeout <int>    Specify a shutdown timeout in seconds (default 10)
-# @arg SERVICE*[`_choice_compose_service`]
+# @arg service*[`_choice_compose_service`]
 compose::stop() {
     :;
 }
@@ -950,7 +950,7 @@ compose::stop() {
 
 # {{{ docker compose top
 # @cmd Display the running processes
-# @arg SERVICES*[`_choice_compose_service`]
+# @arg services*[`_choice_compose_service`]
 compose::top() {
     :;
 }
@@ -958,7 +958,7 @@ compose::top() {
 
 # {{{ docker compose unpause
 # @cmd Unpause services
-# @arg SERVICE*[`_choice_compose_service`]
+# @arg service*[`_choice_compose_service`]
 compose::unpause() {
     :;
 }
@@ -989,7 +989,7 @@ compose::unpause() {
 # @option -t --timeout <int>                       Use this timeout in seconds for container shutdown when attached or when containers are already running.
 # @flag --timestamps                               Show timestamps.
 # @flag --wait                                     Wait for services to be running|healthy.
-# @arg SERVICE*[`_choice_compose_service`]
+# @arg service*[`_choice_compose_service`]
 compose::up() {
     :;
 }
@@ -1016,7 +1016,7 @@ container() {
 # @option --detach-keys <string>    Override the key sequence for detaching a container
 # @flag --no-stdin                  Do not attach STDIN
 # @flag --sig-proxy                 Proxy all received signals to the process (default true)
-# @arg CONTAINER[`_choice_container_name`]
+# @arg container[`_choice_container_name`]
 container::attach() {
     :;
 }
@@ -1028,8 +1028,8 @@ container::attach() {
 # @option -c --change <list>       Apply Dockerfile instruction to the created image
 # @option -m --message <string>    Commit message
 # @flag -p --pause                 Pause container during commit (default true)
-# @arg CONTAINER[`_choice_container_name`]
-# @arg REPOSITORY-TAG[`_choice_image_repo_tag`] <REPOSITORY[:TAG]>
+# @arg container[`_choice_container_name`]
+# @arg repository-tag[`_choice_image_repo_tag`] <REPOSITORY[:TAG]>
 container::commit() {
     :;
 }
@@ -1040,8 +1040,8 @@ container::commit() {
 # @flag -a --archive        Archive mode (copy all uid/gid information)
 # @flag -L --follow-link    Always follow symbol link in SRC_PATH
 # @flag -q --quiet          Suppress progress output during copy.
-# @arg SRC[`_choice_container_cp`]
-# @arg DEST[`_choice_container_cp`]
+# @arg src[`_choice_container_cp`]
+# @arg dest[`_choice_container_cp`]
 container::cp() {
     :;
 }
@@ -1143,8 +1143,8 @@ container::cp() {
 # @option --volume-driver <string>            Optional volume driver for the container
 # @option --volumes-from <list>               Mount volumes from the specified container(s)
 # @option -w --workdir <string>               Working directory inside the container
-# @arg IMAGE[`_choice_image_repo_tag`]
-# @arg ARG*
+# @arg image[`_choice_image_repo_tag`]
+# @arg arg*
 container::create() {
     :;
 }
@@ -1152,7 +1152,7 @@ container::create() {
 
 # {{{ docker container diff
 # @cmd Inspect changes to files or directories on a container's filesystem
-# @arg CONTAINER[`_choice_container_name`]
+# @arg container[`_choice_container_name`]
 container::diff() {
     :;
 }
@@ -1169,8 +1169,8 @@ container::diff() {
 # @flag -t --tty                    Allocate a pseudo-TTY
 # @option -u --user <string>        Username or UID (format: "<name|uid>[:<group|gid>]")
 # @option -w --workdir <string>     Working directory inside the container
-# @arg CONTAINER[`_choice_container_name`]
-# @arg ARG*
+# @arg container[`_choice_container_name`]
+# @arg arg*
 container::exec() {
     :;
 }
@@ -1179,7 +1179,7 @@ container::exec() {
 # {{{ docker container export
 # @cmd Export a container's filesystem as a tar archive
 # @option -o --output <string>    Write to a file, instead of STDOUT
-# @arg CONTAINER[`_choice_container_name`]
+# @arg container[`_choice_container_name`]
 container::export() {
     :;
 }
@@ -1189,7 +1189,7 @@ container::export() {
 # @cmd Display detailed information on one or more containers
 # @option -f --format <string>    Format output using a custom template:
 # @flag -s --size                 Display total file sizes
-# @arg CONTAINER*[`_choice_container_name`]
+# @arg container*[`_choice_container_name`]
 container::inspect() {
     :;
 }
@@ -1198,7 +1198,7 @@ container::inspect() {
 # {{{ docker container kill
 # @cmd Kill one or more running containers
 # @option -s --signal <string>    Signal to send to the container
-# @arg CONTAINER*[`_choice_container_name`]
+# @arg container*[`_choice_container_name`]
 container::kill() {
     :;
 }
@@ -1212,7 +1212,7 @@ container::kill() {
 # @option -n --tail <string>    Number of lines to show from the end of the logs (default "all")
 # @flag -t --timestamps         Show timestamps
 # @option --until <string>      Show logs before a timestamp (e.g. "2013-01-02T13:23:37Z") or relative (e.g. "42m" for 42 minutes)
-# @arg CONTAINER[`_choice_container_name`]
+# @arg container[`_choice_container_name`]
 container::logs() {
     :;
 }
@@ -1236,7 +1236,7 @@ container::list() {
 
 # {{{ docker container pause
 # @cmd Pause all processes within one or more containers
-# @arg CONTAINER*[`_choice_container_name`]
+# @arg container*[`_choice_container_name`]
 container::pause() {
     :;
 }
@@ -1244,8 +1244,8 @@ container::pause() {
 
 # {{{ docker container port
 # @cmd List port mappings or a specific mapping for the container
-# @arg CONTAINER[`_choice_container_name`]
-# @arg PRIVATE_PORT-PROTO <PRIVATE_PORT[/PROTO]>
+# @arg container[`_choice_container_name`]
+# @arg private_port-proto <PRIVATE_PORT[/PROTO]>
 container::port() {
     :;
 }
@@ -1262,8 +1262,8 @@ container::prune() {
 
 # {{{ docker container rename
 # @cmd Rename a container
-# @arg CONTAINER[`_choice_container_name`]
-# @arg NEW_NAME
+# @arg container[`_choice_container_name`]
+# @arg new_name
 container::rename() {
     :;
 }
@@ -1273,7 +1273,7 @@ container::rename() {
 # @cmd Restart one or more containers
 # @option -s --signal <string>    Signal to send to the container
 # @option -t --time <int>         Seconds to wait before killing the container
-# @arg CONTAINER*[`_choice_container_name`]
+# @arg container*[`_choice_container_name`]
 container::restart() {
     :;
 }
@@ -1284,7 +1284,7 @@ container::restart() {
 # @flag -f --force      Force the removal of a running container (uses SIGKILL)
 # @flag -l --link       Remove the specified link
 # @flag -v --volumes    Remove anonymous volumes associated with the container
-# @arg CONTAINER*[`_choice_container_name`]
+# @arg container*[`_choice_container_name`]
 container::rm() {
     :;
 }
@@ -1389,8 +1389,8 @@ container::rm() {
 # @option --volume-driver <string>                 Optional volume driver for the container
 # @option --volumes-from <list>                    Mount volumes from the specified container(s)
 # @option -w --workdir <string>                    Working directory inside the container
-# @arg IMAGE[`_choice_image_repo_tag`]
-# @arg ARG*
+# @arg image[`_choice_image_repo_tag`]
+# @arg arg*
 container::run() {
     :;
 }
@@ -1401,7 +1401,7 @@ container::run() {
 # @flag -a --attach                 Attach STDOUT/STDERR and forward signals
 # @option --detach-keys <string>    Override the key sequence for detaching a container
 # @flag -i --interactive            Attach container's STDIN
-# @arg CONTAINER*[`_choice_container_name`]
+# @arg container*[`_choice_container_name`]
 container::start() {
     :;
 }
@@ -1413,7 +1413,7 @@ container::start() {
 # @option --format <string>    Format output using a custom template:
 # @flag --no-stream            Disable streaming stats and only pull the first result
 # @flag --no-trunc             Do not truncate output
-# @arg CONTAINER*[`_choice_container_name`]
+# @arg container*[`_choice_container_name`]
 container::stats() {
     :;
 }
@@ -1423,7 +1423,7 @@ container::stats() {
 # @cmd Stop one or more running containers
 # @option -s --signal <string>    Signal to send to the container
 # @option -t --time <int>         Seconds to wait before killing the container
-# @arg CONTAINER*[`_choice_container_name`]
+# @arg container*[`_choice_container_name`]
 container::stop() {
     :;
 }
@@ -1431,7 +1431,7 @@ container::stop() {
 
 # {{{ docker container top
 # @cmd Display the running processes of a container
-# @arg CONTAINER[`_choice_container_name`]
+# @arg container[`_choice_container_name`]
 container::top() {
     :;
 }
@@ -1439,7 +1439,7 @@ container::top() {
 
 # {{{ docker container unpause
 # @cmd Unpause all processes within one or more containers
-# @arg CONTAINER*[`_choice_container_name`]
+# @arg container*[`_choice_container_name`]
 container::unpause() {
     :;
 }
@@ -1461,7 +1461,7 @@ container::unpause() {
 # @option --memory-swap <bytes>           Swap limit equal to memory plus swap: -1 to enable unlimited swap
 # @option --pids-limit <int>              Tune container pids limit (set -1 for unlimited)
 # @option --restart <string>              Restart policy to apply when a container exits
-# @arg CONTAINER*[`_choice_container_name`]
+# @arg container*[`_choice_container_name`]
 container::update() {
     :;
 }
@@ -1469,7 +1469,7 @@ container::update() {
 
 # {{{ docker container wait
 # @cmd Block until one or more containers stop, then print their exit codes
-# @arg CONTAINER*[`_choice_container_name`]
+# @arg container*[`_choice_container_name`]
 container::wait() {
     :;
 }
@@ -1487,7 +1487,7 @@ context() {
 # @option --description <string>       Description of the context
 # @option --docker <stringToString>    set the docker endpoint (default [])
 # @option --from <string>              create context from a named context
-# @arg CONTEXT[`_choice_context`]
+# @arg context[`_choice_context`]
 context::create() {
     :;
 }
@@ -1495,8 +1495,8 @@ context::create() {
 
 # {{{ docker context export
 # @cmd Export a context to a tar archive FILE or a tar stream on STDOUT.
-# @arg CONTEXT[`_choice_context`]
-# @arg FILE <FILE|->
+# @arg context[`_choice_context`]
+# @arg file <FILE|->
 context::export() {
     :;
 }
@@ -1504,8 +1504,8 @@ context::export() {
 
 # {{{ docker context import
 # @cmd Import a context from a tar or zip file
-# @arg CONTEXT[`_choice_context`]
-# @arg FILE <FILE|->
+# @arg context[`_choice_context`]
+# @arg file <FILE|->
 context::import() {
     :;
 }
@@ -1514,7 +1514,7 @@ context::import() {
 # {{{ docker context inspect
 # @cmd Display detailed information on one or more contexts
 # @option -f --format <string>    Format output using a custom template:
-# @arg CONTEXT*[`_choice_context`]
+# @arg context*[`_choice_context`]
 context::inspect() {
     :;
 }
@@ -1532,7 +1532,7 @@ context::ls() {
 # {{{ docker context rm
 # @cmd Remove one or more contexts
 # @flag -f --force    Force the removal of a context in use
-# @arg CONTEXT*[`_choice_context`]
+# @arg context*[`_choice_context`]
 context::rm() {
     :;
 }
@@ -1549,7 +1549,7 @@ context::show() {
 # @cmd Update a context
 # @option --description <string>       Description of the context
 # @option --docker <stringToString>    set the docker endpoint (default [])
-# @arg CONTEXT[`_choice_context`]
+# @arg context[`_choice_context`]
 context::update() {
     :;
 }
@@ -1557,7 +1557,7 @@ context::update() {
 
 # {{{ docker context use
 # @cmd Set the current docker context
-# @arg CONTEXT[`_choice_context`]
+# @arg context[`_choice_context`]
 context::use() {
     :;
 }
@@ -1603,7 +1603,7 @@ image() {
 # @option -t --tag <stringArray>                 Name and optionally a tag (format: "name:tag")
 # @option --target <string>                      Set the target build stage to build
 # @option --ulimit <ulimit>                      Ulimit options (default [])
-# @arg PATH-URL <PATH|URL|->
+# @arg path-url <PATH|URL|->
 image::build() {
     :;
 }
@@ -1615,7 +1615,7 @@ image::build() {
 # @flag -H --human             Print sizes and dates in human readable format (default true)
 # @flag --no-trunc             Don't truncate output
 # @flag -q --quiet             Only show image IDs
-# @arg IMAGE[`_choice_image_repo_tag`]
+# @arg image[`_choice_image_repo_tag`]
 image::history() {
     :;
 }
@@ -1626,8 +1626,8 @@ image::history() {
 # @option -c --change <list>       Apply Dockerfile instruction to the created image
 # @option -m --message <string>    Set commit message for imported image
 # @option --platform <string>      Set platform if server is multi-platform capable
-# @arg file-URL <file|URL|->
-# @arg REPOSITORY-TAG[`_choice_image_repo_tag`] <REPOSITORY[:TAG]>
+# @arg file-url <file|URL|->
+# @arg repository-tag[`_choice_image_repo_tag`] <REPOSITORY[:TAG]>
 image::import() {
     :;
 }
@@ -1636,7 +1636,7 @@ image::import() {
 # {{{ docker image inspect
 # @cmd Display detailed information on one or more images
 # @option -f --format <string>    Format output using a custom template:
-# @arg IMAGE*[`_choice_image_repo_tag`]
+# @arg image*[`_choice_image_repo_tag`]
 image::inspect() {
     :;
 }
@@ -1660,7 +1660,7 @@ image::load() {
 # @option --format <string>    Format output using a custom template:
 # @flag --no-trunc             Don't truncate output
 # @flag -q --quiet             Only show image IDs
-# @arg REPOSITORY-TAG[`_choice_image_repo_tag`] <REPOSITORY[:TAG]>
+# @arg repository-tag[`_choice_image_repo_tag`] <REPOSITORY[:TAG]>
 image::list() {
     :;
 }
@@ -1682,7 +1682,7 @@ image::prune() {
 # @flag --disable-content-trust    Skip image verification (default true)
 # @option --platform <string>      Set platform if server is multi-platform capable
 # @flag -q --quiet                 Suppress verbose output
-# @arg NAME-TAG-DIGEST <NAME[:TAG|@DIGEST]>
+# @arg name-tag-digest <NAME[:TAG|@DIGEST]>
 image::pull() {
     :;
 }
@@ -1693,7 +1693,7 @@ image::pull() {
 # @flag -a --all-tags              Push all tags of an image to the repository
 # @flag --disable-content-trust    Skip image signing (default true)
 # @flag -q --quiet                 Suppress verbose output
-# @arg NAME-TAG <NAME[:TAG]>
+# @arg name-tag <NAME[:TAG]>
 image::push() {
     :;
 }
@@ -1703,7 +1703,7 @@ image::push() {
 # @cmd Remove one or more images
 # @flag -f --force    Force removal of the image
 # @flag --no-prune    Do not delete untagged parents
-# @arg IMAGE*[`_choice_image_repo_tag`]
+# @arg image*[`_choice_image_repo_tag`]
 image::rm() {
     :;
 }
@@ -1712,7 +1712,7 @@ image::rm() {
 # {{{ docker image save
 # @cmd Save one or more images to a tar archive (streamed to STDOUT by default)
 # @option -o --output <string>    Write to a file, instead of STDOUT
-# @arg IMAGE*[`_choice_image_repo_tag`]
+# @arg image*[`_choice_image_repo_tag`]
 image::save() {
     :;
 }
@@ -1720,8 +1720,8 @@ image::save() {
 
 # {{{ docker image tag
 # @cmd Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
-# @arg SOURCE_IMAGE-TAG[`_choice_image_repo_tag`] <SOURCE_IMAGE[:TAG]>
-# @arg TARGET_IMAGE-TAG[`_choice_image_repo_tag`] <TARGET_IMAGE[:TAG]>
+# @arg source_image-tag[`_choice_image_repo_tag`] <SOURCE_IMAGE[:TAG]>
+# @arg target_image-tag[`_choice_image_repo_tag`] <TARGET_IMAGE[:TAG]>
 image::tag() {
     :;
 }
@@ -1741,8 +1741,8 @@ manifest() {
 # @option --os-features <strings>    Set operating system feature
 # @option --os-version <string>      Set operating system version
 # @option --variant <string>         Set architecture variant
-# @arg MANIFEST_LIST
-# @arg MANIFEST
+# @arg manifest_list
+# @arg manifest
 manifest::annotate() {
     :;
 }
@@ -1752,8 +1752,8 @@ manifest::annotate() {
 # @cmd Create a local manifest list for annotating and pushing to a registry
 # @flag -a --amend    Amend an existing manifest list
 # @flag --insecure    Allow communication with an insecure registry
-# @arg MANIFEST_LIST
-# @arg MANIFEST*
+# @arg manifest_list
+# @arg manifest*
 manifest::create() {
     :;
 }
@@ -1763,8 +1763,8 @@ manifest::create() {
 # @cmd Display an image manifest, or manifest list
 # @flag --insecure      Allow communication with an insecure registry
 # @flag -v --verbose    Output additional info including layers and platform
-# @arg MANIFEST_LIST
-# @arg MANIFEST
+# @arg manifest_list
+# @arg manifest
 manifest::inspect() {
     :;
 }
@@ -1774,7 +1774,7 @@ manifest::inspect() {
 # @cmd Push a manifest list to a repository
 # @flag --insecure    Allow push to an insecure registry
 # @flag -p --purge    Remove the local manifest list after push
-# @arg MANIFEST_LIST
+# @arg manifest_list
 manifest::push() {
     :;
 }
@@ -1782,7 +1782,7 @@ manifest::push() {
 
 # {{{ docker manifest rm
 # @cmd Delete one or more manifest lists from local storage
-# @arg MANIFEST_LIST*
+# @arg manifest_list*
 manifest::rm() {
     :;
 }
@@ -1803,8 +1803,8 @@ network() {
 # @option --ip6 <string>               IPv6 address (e.g., "2001:db8::33")
 # @option --link <list>                Add link to another container
 # @option --link-local-ip <strings>    Add a link-local address for the container
-# @arg NETWORK[`_choice_network`]
-# @arg CONTAINER[`_choice_container_name`]
+# @arg network[`_choice_network`]
+# @arg container[`_choice_container_name`]
 network::connect() {
     :;
 }
@@ -1828,7 +1828,7 @@ network::connect() {
 # @option -o --opt <map>            Set driver specific options (default map[])
 # @option --scope <string>          Control the network's scope
 # @option --subnet <strings>        Subnet in CIDR format that represents a network segment
-# @arg NETWORK[`_choice_network`]
+# @arg network[`_choice_network`]
 network::create() {
     :;
 }
@@ -1837,8 +1837,8 @@ network::create() {
 # {{{ docker network disconnect
 # @cmd Disconnect a container from a network
 # @flag -f --force    Force the container to disconnect from a network
-# @arg NETWORK[`_choice_network`]
-# @arg CONTAINER[`_choice_container_name`]
+# @arg network[`_choice_network`]
+# @arg container[`_choice_container_name`]
 network::disconnect() {
     :;
 }
@@ -1848,7 +1848,7 @@ network::disconnect() {
 # @cmd Display detailed information on one or more networks
 # @option -f --format <string>    Format output using a custom template:
 # @flag -v --verbose              Verbose output for diagnostics
-# @arg NETWORK*[`_choice_network`]
+# @arg network*[`_choice_network`]
 network::inspect() {
     :;
 }
@@ -1877,7 +1877,7 @@ network::prune() {
 # {{{ docker network rm
 # @cmd Remove one or more networks
 # @flag -f --force    Do not error if the network does not exist
-# @arg NETWORK*[`_choice_network`]
+# @arg network*[`_choice_network`]
 network::rm() {
     :;
 }
@@ -1893,8 +1893,8 @@ plugin() {
 # {{{ docker plugin create
 # @cmd Create a plugin from a rootfs and configuration.
 # @flag --compress    Compress the context using gzip
-# @arg PLUGIN[`_choice_plugin`]
-# @arg PLUGIN-DATA-DIR
+# @arg plugin[`_choice_plugin`]
+# @arg plugin-data-dir
 plugin::create() {
     :;
 }
@@ -1903,7 +1903,7 @@ plugin::create() {
 # {{{ docker plugin disable
 # @cmd Disable a plugin
 # @flag -f --force    Force the disable of an active plugin
-# @arg PLUGIN[`_choice_plugin`]
+# @arg plugin[`_choice_plugin`]
 plugin::disable() {
     :;
 }
@@ -1912,7 +1912,7 @@ plugin::disable() {
 # {{{ docker plugin enable
 # @cmd Enable a plugin
 # @option --timeout <int>    HTTP client timeout (in seconds) (default 30)
-# @arg PLUGIN[`_choice_plugin`]
+# @arg plugin[`_choice_plugin`]
 plugin::enable() {
     :;
 }
@@ -1921,7 +1921,7 @@ plugin::enable() {
 # {{{ docker plugin inspect
 # @cmd Display detailed information on one or more plugins
 # @option -f --format <string>    Format output using a custom template:
-# @arg PLUGIN*[`_choice_plugin`]
+# @arg plugin*[`_choice_plugin`]
 plugin::inspect() {
     :;
 }
@@ -1933,8 +1933,8 @@ plugin::inspect() {
 # @flag --disable                  Do not enable the plugin on install
 # @flag --disable-content-trust    Skip image verification (default true)
 # @flag --grant-all-permissions    Grant all permissions necessary to run the plugin
-# @arg PLUGIN[`_choice_plugin`]
-# @arg KEY-VALUE*
+# @arg plugin[`_choice_plugin`]
+# @arg key-value* <KEY=VALUE>
 plugin::install() {
     :;
 }
@@ -1954,7 +1954,7 @@ plugin::ls() {
 # {{{ docker plugin push
 # @cmd Push a plugin to a registry
 # @flag --disable-content-trust    Skip image signing (default true)
-# @arg PLUGIN-TAG[`_choice_plugin`] <PLUGIN[:TAG]>
+# @arg plugin-tag[`_choice_plugin`] <PLUGIN[:TAG]>
 plugin::push() {
     :;
 }
@@ -1963,7 +1963,7 @@ plugin::push() {
 # {{{ docker plugin rm
 # @cmd Remove one or more plugins
 # @flag -f --force    Force the removal of an active plugin
-# @arg PLUGIN*[`_choice_plugin`]
+# @arg plugin*[`_choice_plugin`]
 plugin::rm() {
     :;
 }
@@ -1971,8 +1971,8 @@ plugin::rm() {
 
 # {{{ docker plugin set
 # @cmd Change settings for a plugin
-# @arg PLUGIN[`_choice_plugin`]
-# @arg KEY-VALUE*
+# @arg plugin[`_choice_plugin`]
+# @arg key-value* <KEY=VALUE>
 plugin::set() {
     :;
 }
@@ -1983,8 +1983,8 @@ plugin::set() {
 # @flag --disable-content-trust    Skip image verification (default true)
 # @flag --grant-all-permissions    Grant all permissions necessary to run the plugin
 # @flag --skip-remote-check        Do not check if specified remote plugin matches existing plugin image
-# @arg PLUGIN[`_choice_plugin`]
-# @arg REMOTE
+# @arg plugin[`_choice_plugin`]
+# @arg remote
 plugin::upgrade() {
     :;
 }
@@ -2004,7 +2004,7 @@ plugin::upgrade() {
 # @option --severity <string>    Only report vulnerabilities of provided level or higher (low|medium|high)
 # @option --token <string>       Authentication token to login to the third party scanning provider
 # @flag --version                Display version of the scan plugin
-# @arg IMAGE[`_choice_image_repo_tag`]
+# @arg image[`_choice_image_repo_tag`]
 scan() {
     :;
 }
@@ -2071,7 +2071,7 @@ trust::key() {
 # {{{{ docker trust key generate
 # @cmd Generate and load a signing key-pair
 # @option --dir <string>    Directory to generate key in, defaults to current directory
-# @arg NAME
+# @arg name
 trust::key::generate() {
     :;
 }
@@ -2080,7 +2080,7 @@ trust::key::generate() {
 # {{{{ docker trust key load
 # @cmd Load a private key file for signing
 # @option --name <string>    Name for the loaded key (default "signer")
-# @arg KEYFILE
+# @arg keyfile
 trust::key::load() {
     :;
 }
@@ -2096,8 +2096,8 @@ trust::signer() {
 # {{{{ docker trust signer add
 # @cmd Add a signer
 # @option --key <list>    Path to the signer's public key file
-# @arg NAME
-# @arg REPOSITORY*[`_choice_image_repo`]
+# @arg name
+# @arg repository*[`_choice_image_repo`]
 trust::signer::add() {
     :;
 }
@@ -2106,8 +2106,8 @@ trust::signer::add() {
 # {{{{ docker trust signer remove
 # @cmd Remove a signer
 # @flag -f --force    Do not prompt for confirmation before removing the most recent signer
-# @arg NAME
-# @arg REPOSITORY*[`_choice_image_repo`]
+# @arg name
+# @arg repository*[`_choice_image_repo`]
 trust::signer::remove() {
     :;
 }
@@ -2117,7 +2117,7 @@ trust::signer::remove() {
 # {{{ docker trust inspect
 # @cmd Return low-level information about keys and signatures
 # @flag --pretty    Print the information in a human friendly format
-# @arg IMAGE-TAG[`_choice_image_repo_tag`] <IMAGE[:TAG]...>
+# @arg image-tag[`_choice_image_repo_tag`] <IMAGE[:TAG]...>
 trust::inspect() {
     :;
 }
@@ -2126,7 +2126,7 @@ trust::inspect() {
 # {{{ docker trust revoke
 # @cmd Remove trust for an image
 # @flag -y --yes    Do not prompt for confirmation
-# @arg IMAGE-TAG[`_choice_image_repo_tag`] <IMAGE[:TAG]>
+# @arg image-tag[`_choice_image_repo_tag`] <IMAGE[:TAG]>
 trust::revoke() {
     :;
 }
@@ -2135,7 +2135,7 @@ trust::revoke() {
 # {{{ docker trust sign
 # @cmd Sign an image
 # @flag --local    Sign a locally tagged image
-# @arg IMAGE-TAG[`_choice_image_repo_tag`]
+# @arg image-tag[`_choice_image_repo_tag`] <IMAGE:TAG>
 trust::sign() {
     :;
 }
@@ -2153,7 +2153,7 @@ volume() {
 # @option -d --driver <string>    Specify volume driver name (default "local")
 # @option --label <list>          Set metadata for a volume
 # @option -o --opt <map>          Set driver specific options (default map[])
-# @arg VOLUME[`_choice_volume`]
+# @arg volume[`_choice_volume`]
 volume::create() {
     :;
 }
@@ -2162,7 +2162,7 @@ volume::create() {
 # {{{ docker volume inspect
 # @cmd Display detailed information on one or more volumes
 # @option -f --format <string>    Format output using a custom template:
-# @arg VOLUME*[`_choice_volume`]
+# @arg volume*[`_choice_volume`]
 volume::inspect() {
     :;
 }
@@ -2190,7 +2190,7 @@ volume::prune() {
 # {{{ docker volume rm
 # @cmd Remove one or more volumes
 # @flag -f --force    Force the removal of one or more volumes
-# @arg VOLUME*[`_choice_volume`]
+# @arg volume*[`_choice_volume`]
 volume::rm() {
     :;
 }
@@ -2232,7 +2232,7 @@ swarm::init() {
 # @option --data-path-addr <string>    Address or interface to use for data path traffic (format: "<ip|interface>")
 # @option --listen-addr <node-addr>    Listen address (format: "<ip|interface>[:port]") (default 0.0.0.0:2377)
 # @option --token <string>             Token for entry into the swarm
-# @arg HOST-PORT
+# @arg host-port <HOST:PORT>
 swarm::join() {
     :;
 }
@@ -2244,7 +2244,7 @@ swarm::join() {
 # @option --detach-keys <string>    Override the key sequence for detaching a container
 # @flag --no-stdin                  Do not attach STDIN
 # @flag --sig-proxy                 Proxy all received signals to the process (default true)
-# @arg CONTAINER[`_choice_container_name`]
+# @arg container[`_choice_container_name`]
 attach() {
     :;
 }
@@ -2256,8 +2256,8 @@ attach() {
 # @option -c --change <list>       Apply Dockerfile instruction to the created image
 # @option -m --message <string>    Commit message
 # @flag -p --pause                 Pause container during commit (default true)
-# @arg CONTAINER[`_choice_container_name`]
-# @arg REPOSITORY-TAG[`_choice_image_repo_tag`] <REPOSITORY[:TAG]>
+# @arg container[`_choice_container_name`]
+# @arg repository-tag[`_choice_image_repo_tag`] <REPOSITORY[:TAG]>
 commit() {
     :;
 }
@@ -2268,8 +2268,8 @@ commit() {
 # @flag -a --archive        Archive mode (copy all uid/gid information)
 # @flag -L --follow-link    Always follow symbol link in SRC_PATH
 # @flag -q --quiet          Suppress progress output during copy.
-# @arg SRC[`_choice_container_cp`]
-# @arg DEST[`_choice_container_cp`]
+# @arg src[`_choice_container_cp`]
+# @arg dest[`_choice_container_cp`]
 cp() {
     :;
 }
@@ -2371,8 +2371,8 @@ cp() {
 # @option --volume-driver <string>            Optional volume driver for the container
 # @option --volumes-from <list>               Mount volumes from the specified container(s)
 # @option -w --workdir <string>               Working directory inside the container
-# @arg IMAGE[`_choice_image_repo_tag`]
-# @arg ARG*
+# @arg image[`_choice_image_repo_tag`]
+# @arg arg*
 create() {
     :;
 }
@@ -2380,7 +2380,7 @@ create() {
 
 # {{ docker diff
 # @cmd Inspect changes to files or directories on a container's filesystem
-# @arg CONTAINER[`_choice_container_name`]
+# @arg container[`_choice_container_name`]
 diff() {
     :;
 }
@@ -2400,7 +2400,7 @@ events() {
 # {{ docker export
 # @cmd Export a container's filesystem as a tar archive
 # @option -o --output <string>    Write to a file, instead of STDOUT
-# @arg CONTAINER[`_choice_container_name`]
+# @arg container[`_choice_container_name`]
 export() {
     :;
 }
@@ -2412,7 +2412,7 @@ export() {
 # @flag -H --human             Print sizes and dates in human readable format (default true)
 # @flag --no-trunc             Don't truncate output
 # @flag -q --quiet             Only show image IDs
-# @arg IMAGE[`_choice_image_repo_tag`]
+# @arg image[`_choice_image_repo_tag`]
 history() {
     :;
 }
@@ -2423,8 +2423,8 @@ history() {
 # @option -c --change <list>       Apply Dockerfile instruction to the created image
 # @option -m --message <string>    Set commit message for imported image
 # @option --platform <string>      Set platform if server is multi-platform capable
-# @arg file-URL <file|URL|->
-# @arg REPOSITORY-TAG[`_choice_image_repo_tag`] <REPOSITORY[:TAG]>
+# @arg file-url <file|URL|->
+# @arg repository-tag[`_choice_image_repo_tag`] <REPOSITORY[:TAG]>
 import() {
     :;
 }
@@ -2435,7 +2435,7 @@ import() {
 # @option -f --format <string>    Format output using a custom template:
 # @flag -s --size                 Display total file sizes if the type is container
 # @option --type <string>         Return JSON for specified type
-# @arg NAME-ID*
+# @arg name-id* <NAME|ID>
 inspect() {
     :;
 }
@@ -2444,7 +2444,7 @@ inspect() {
 # {{ docker kill
 # @cmd Kill one or more running containers
 # @option -s --signal <string>    Signal to send to the container
-# @arg CONTAINER*[`_choice_container_name`]
+# @arg container*[`_choice_container_name`]
 kill() {
     :;
 }
@@ -2467,7 +2467,7 @@ load() {
 # @option -n --tail <string>    Number of lines to show from the end of the logs (default "all")
 # @flag -t --timestamps         Show timestamps
 # @option --until <string>      Show logs before a timestamp (e.g. "2013-01-02T13:23:37Z") or relative (e.g. "42m" for 42 minutes)
-# @arg CONTAINER[`_choice_container_name`]
+# @arg container[`_choice_container_name`]
 logs() {
     :;
 }
@@ -2475,7 +2475,7 @@ logs() {
 
 # {{ docker pause
 # @cmd Pause all processes within one or more containers
-# @arg CONTAINER*[`_choice_container_name`]
+# @arg container*[`_choice_container_name`]
 pause() {
     :;
 }
@@ -2483,8 +2483,8 @@ pause() {
 
 # {{ docker port
 # @cmd List port mappings or a specific mapping for the container
-# @arg CONTAINER[`_choice_container_name`]
-# @arg PRIVATE_PORT-PROTO <PRIVATE_PORT[/PROTO]>
+# @arg container[`_choice_container_name`]
+# @arg private_port-proto <PRIVATE_PORT[/PROTO]>
 port() {
     :;
 }
@@ -2492,8 +2492,8 @@ port() {
 
 # {{ docker rename
 # @cmd Rename a container
-# @arg CONTAINER[`_choice_container_name`]
-# @arg NEW_NAME
+# @arg container[`_choice_container_name`]
+# @arg new_name
 rename() {
     :;
 }
@@ -2503,7 +2503,7 @@ rename() {
 # @cmd Restart one or more containers
 # @option -s --signal <string>    Signal to send to the container
 # @option -t --time <int>         Seconds to wait before killing the container
-# @arg CONTAINER*[`_choice_container_name`]
+# @arg container*[`_choice_container_name`]
 restart() {
     :;
 }
@@ -2514,7 +2514,7 @@ restart() {
 # @flag -f --force      Force the removal of a running container (uses SIGKILL)
 # @flag -l --link       Remove the specified link
 # @flag -v --volumes    Remove anonymous volumes associated with the container
-# @arg CONTAINER*[`_choice_container_name`]
+# @arg container*[`_choice_container_name`]
 rm() {
     :;
 }
@@ -2524,7 +2524,7 @@ rm() {
 # @cmd Remove one or more images
 # @flag -f --force    Force removal of the image
 # @flag --no-prune    Do not delete untagged parents
-# @arg IMAGE*[`_choice_image_repo_tag`]
+# @arg image*[`_choice_image_repo_tag`]
 rmi() {
     :;
 }
@@ -2533,7 +2533,7 @@ rmi() {
 # {{ docker save
 # @cmd Save one or more images to a tar archive (streamed to STDOUT by default)
 # @option -o --output <string>    Write to a file, instead of STDOUT
-# @arg IMAGE*[`_choice_image_repo_tag`]
+# @arg image*[`_choice_image_repo_tag`]
 save() {
     :;
 }
@@ -2544,7 +2544,7 @@ save() {
 # @flag -a --attach                 Attach STDOUT/STDERR and forward signals
 # @option --detach-keys <string>    Override the key sequence for detaching a container
 # @flag -i --interactive            Attach container's STDIN
-# @arg CONTAINER*[`_choice_container_name`]
+# @arg container*[`_choice_container_name`]
 start() {
     :;
 }
@@ -2556,7 +2556,7 @@ start() {
 # @option --format <string>    Format output using a custom template:
 # @flag --no-stream            Disable streaming stats and only pull the first result
 # @flag --no-trunc             Do not truncate output
-# @arg CONTAINER*[`_choice_container_name`]
+# @arg container*[`_choice_container_name`]
 stats() {
     :;
 }
@@ -2566,7 +2566,7 @@ stats() {
 # @cmd Stop one or more running containers
 # @option -s --signal <string>    Signal to send to the container
 # @option -t --time <int>         Seconds to wait before killing the container
-# @arg CONTAINER*[`_choice_container_name`]
+# @arg container*[`_choice_container_name`]
 stop() {
     :;
 }
@@ -2574,8 +2574,8 @@ stop() {
 
 # {{ docker tag
 # @cmd Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
-# @arg SOURCE_IMAGE-TAG[`_choice_image_repo_tag`] <SOURCE_IMAGE[:TAG]>
-# @arg TARGET_IMAGE-TAG[`_choice_image_repo_tag`] <TARGET_IMAGE[:TAG]>
+# @arg source_image-tag[`_choice_image_repo_tag`] <SOURCE_IMAGE[:TAG]>
+# @arg target_image-tag[`_choice_image_repo_tag`] <TARGET_IMAGE[:TAG]>
 tag() {
     :;
 }
@@ -2583,7 +2583,7 @@ tag() {
 
 # {{ docker top
 # @cmd Display the running processes of a container
-# @arg CONTAINER[`_choice_container_name`]
+# @arg container[`_choice_container_name`]
 top() {
     :;
 }
@@ -2591,7 +2591,7 @@ top() {
 
 # {{ docker unpause
 # @cmd Unpause all processes within one or more containers
-# @arg CONTAINER*[`_choice_container_name`]
+# @arg container*[`_choice_container_name`]
 unpause() {
     :;
 }
@@ -2613,7 +2613,7 @@ unpause() {
 # @option --memory-swap <bytes>           Swap limit equal to memory plus swap: -1 to enable unlimited swap
 # @option --pids-limit <int>              Tune container pids limit (set -1 for unlimited)
 # @option --restart <string>              Restart policy to apply when a container exits
-# @arg CONTAINER*[`_choice_container_name`]
+# @arg container*[`_choice_container_name`]
 update() {
     :;
 }
@@ -2621,7 +2621,7 @@ update() {
 
 # {{ docker wait
 # @cmd Block until one or more containers stop, then print their exit codes
-# @arg CONTAINER*[`_choice_container_name`]
+# @arg container*[`_choice_container_name`]
 wait() {
     :;
 }
@@ -2637,7 +2637,7 @@ config() {
 # @cmd Create a config from a file or STDIN
 # @option -l --label <list>             Config labels
 # @option --template-driver <string>    Template driver
-# @arg CONFIG[`_choice_config`]
+# @arg config[`_choice_config`]
 # @arg file <file|->
 config::create() {
     :;
@@ -2648,7 +2648,7 @@ config::create() {
 # @cmd Display detailed information on one or more configs
 # @option -f --format <string>    Format output using a custom template:
 # @flag --pretty                  Print the information in a human friendly format
-# @arg CONFIG*[`_choice_config`]
+# @arg config*[`_choice_config`]
 config::inspect() {
     :;
 }
@@ -2666,7 +2666,7 @@ config::ls() {
 
 # {{{ docker config rm
 # @cmd Remove one or more configs
-# @arg CONFIG*[`_choice_config`]
+# @arg config*[`_choice_config`]
 config::rm() {
     :;
 }
@@ -2681,7 +2681,7 @@ node() {
 
 # {{{ docker node demote
 # @cmd Demote one or more nodes from manager in the swarm
-# @arg NODE*[`_choice_node`]
+# @arg node*[`_choice_node`]
 node::demote() {
     :;
 }
@@ -2691,8 +2691,8 @@ node::demote() {
 # @cmd Display detailed information on one or more nodes
 # @option -f --format <string>    Format output using a custom template:
 # @flag --pretty                  Print the information in a human friendly format
-# @arg self-NODE
-# @arg NODE*[`_choice_image_repo`]
+# @arg self-node <self|NODE>
+# @arg node*[`_choice_image_repo`]
 node::inspect() {
     :;
 }
@@ -2710,7 +2710,7 @@ node::ls() {
 
 # {{{ docker node promote
 # @cmd Promote one or more nodes to manager in the swarm
-# @arg NODE*[`_choice_node`]
+# @arg node*[`_choice_node`]
 node::promote() {
     :;
 }
@@ -2723,7 +2723,7 @@ node::promote() {
 # @flag --no-resolve              Do not map IDs to Names
 # @flag --no-trunc                Do not truncate output
 # @flag -q --quiet                Only display task IDs
-# @arg NODE*[`_choice_node`]
+# @arg node*[`_choice_node`]
 node::ps() {
     :;
 }
@@ -2732,7 +2732,7 @@ node::ps() {
 # {{{ docker node rm
 # @cmd Remove one or more nodes from the swarm
 # @flag -f --force    Force remove a node from the swarm
-# @arg NODE*[`_choice_node`]
+# @arg node*[`_choice_node`]
 node::rm() {
     :;
 }
@@ -2744,7 +2744,7 @@ node::rm() {
 # @option --label-add <list>                 Add or update a node label ("key=value")
 # @option --label-rm <list>                  Remove a node label if exists
 # @option --role[worker|manager] <string>    Role of the node
-# @arg NODE[`_choice_node`]
+# @arg node[`_choice_node`]
 node::update() {
     :;
 }
@@ -2762,7 +2762,7 @@ secret() {
 # @option -d --driver <string>          Secret driver
 # @option -l --label <list>             Secret labels
 # @option --template-driver <string>    Template driver
-# @arg SECRET[`_choice_secret`]
+# @arg secret[`_choice_secret`]
 # @arg file <file|->
 secret::create() {
     :;
@@ -2773,7 +2773,7 @@ secret::create() {
 # @cmd Display detailed information on one or more secrets
 # @option -f --format <string>    Format output using a custom template:
 # @flag --pretty                  Print the information in a human friendly format
-# @arg SECRET*[`_choice_secret`]
+# @arg secret*[`_choice_secret`]
 secret::inspect() {
     :;
 }
@@ -2791,7 +2791,7 @@ secret::ls() {
 
 # {{{ docker secret rm
 # @cmd Remove one or more secrets
-# @arg SECRET*[`_choice_secret`]
+# @arg secret*[`_choice_secret`]
 secret::rm() {
     :;
 }
@@ -2877,8 +2877,8 @@ service() {
 # @option -u --user <string>                      Username or UID (format: <name|uid>[:<group|gid>])
 # @flag --with-registry-auth                      Send registry authentication details to swarm agents
 # @option -w --workdir <string>                   Working directory inside the container
-# @arg IMAGE[`_choice_image_repo_tag`]
-# @arg ARG*
+# @arg image[`_choice_image_repo_tag`]
+# @arg arg*
 service::create() {
     :;
 }
@@ -2888,7 +2888,7 @@ service::create() {
 # @cmd Display detailed information on one or more services
 # @option -f --format <string>    Format output using a custom template:
 # @flag --pretty                  Print the information in a human friendly format
-# @arg SERVICE*[`_choice_service`]
+# @arg service*[`_choice_service`]
 service::inspect() {
     :;
 }
@@ -2905,7 +2905,7 @@ service::inspect() {
 # @option --since <string>      Show logs since timestamp (e.g. "2013-01-02T13:23:37Z") or relative (e.g. "42m" for 42 minutes)
 # @option -n --tail <string>    Number of lines to show from the end of the logs (default "all")
 # @flag -t --timestamps         Show timestamps
-# @arg SERVICE-TASK
+# @arg service-task <SERVICE|TASK>
 service::logs() {
     :;
 }
@@ -2928,7 +2928,7 @@ service::ls() {
 # @flag --no-resolve              Do not map IDs to Names
 # @flag --no-trunc                Do not truncate output
 # @flag -q --quiet                Only display task IDs
-# @arg SERVICE*[`_choice_service`]
+# @arg service*[`_choice_service`]
 service::ps() {
     :;
 }
@@ -2936,7 +2936,7 @@ service::ps() {
 
 # {{{ docker service rm
 # @cmd Remove one or more services
-# @arg SERVICE*[`_choice_service`]
+# @arg service*[`_choice_service`]
 service::rm() {
     :;
 }
@@ -2946,7 +2946,7 @@ service::rm() {
 # @cmd Revert changes to a service's configuration
 # @flag -d --detach    Exit immediately instead of waiting for the service to converge
 # @flag -q --quiet     Suppress progress output
-# @arg SERVICE[`_choice_service`]
+# @arg service[`_choice_service`]
 service::rollback() {
     :;
 }
@@ -2955,7 +2955,7 @@ service::rollback() {
 # {{{ docker service scale
 # @cmd Scale one or multiple replicated services
 # @flag -d --detach    Exit immediately instead of waiting for the service to converge
-# @arg SERVICE-REPLICAS*[`_choice_service`]
+# @arg service-replicas*[`_choice_service`] <SERVICE=REPLICAS>
 service::scale() {
     :;
 }
@@ -3053,7 +3053,7 @@ service::scale() {
 # @option -u --user <string>                      Username or UID (format: <name|uid>[:<group|gid>])
 # @flag --with-registry-auth                      Send registry authentication details to swarm agents
 # @option -w --workdir <string>                   Working directory inside the container
-# @arg SERVICE[`_choice_service`]
+# @arg service[`_choice_service`]
 service::update() {
     :;
 }
@@ -3081,7 +3081,7 @@ stack::config() {
 # @flag --prune                          Prune services that are no longer referenced
 # @option --resolve-image[always|changed|never] <string>  Query the registry to resolve image digest and supported platforms (default "always")
 # @flag --with-registry-auth             Send registry authentication details to Swarm agents
-# @arg STACK[`_choice_stack`]
+# @arg stack[`_choice_stack`]
 stack::deploy() {
     :;
 }
@@ -3102,7 +3102,7 @@ stack::ls() {
 # @flag --no-resolve              Do not map IDs to Names
 # @flag --no-trunc                Do not truncate output
 # @flag -q --quiet                Only display task IDs
-# @arg STACK[`_choice_stack`]
+# @arg stack[`_choice_stack`]
 stack::ps() {
     :;
 }
@@ -3110,7 +3110,7 @@ stack::ps() {
 
 # {{{ docker stack rm
 # @cmd Remove one or more stacks
-# @arg STACK*[`_choice_stack`]
+# @arg stack*[`_choice_stack`]
 stack::rm() {
     :;
 }
@@ -3121,7 +3121,7 @@ stack::rm() {
 # @option -f --filter <filter>    Filter output based on conditions provided
 # @option --format <string>       Format output using a custom template:
 # @flag -q --quiet                Only display IDs
-# @arg STACK[`_choice_stack`]
+# @arg stack[`_choice_stack`]
 stack::services() {
     :;
 }

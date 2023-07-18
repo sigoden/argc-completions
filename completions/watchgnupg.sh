@@ -7,6 +7,6 @@
 # @flag --time-only    print only the time; not a full timestamp
 # @flag --version      print version of the program and exit
 # @flag --help         display this help and exit
-# @arg SOCKETNAME
+# @arg socketname
 
 command eval "$(argc --argc-eval "$0" "$@")"

@@ -32,7 +32,7 @@
 # @option --target-arch <TARGET_ARCH>    filter vulnerabilities by CPU (default: no filter)
 # @option --target-os <TARGET_OS>        filter vulnerabilities by OS (default: no filter)
 # @option -u --url                       URL for advisory database git repo
-# @arg BINARY_PATHS+                     Paths to the binaries to be scanned
+# @arg binary_paths+                     Paths to the binaries to be scanned
 bin() {
     :;
 }

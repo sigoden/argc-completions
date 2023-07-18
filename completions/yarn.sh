@@ -340,7 +340,7 @@ bin() {
 # @option --otp <otpcode>                       one-time password for two factor authentication
 # @option --pattern <pattern>                   filter cached packages by pattern
 # @flag -h --help                               output usage information
-# @arg ls-list-clean-dir
+# @arg ls-list-clean-dir <ls|list|clean|dir>
 cache() {
     :;
 }
@@ -685,7 +685,7 @@ generate-lock-entry() {
 # @option --prefix <prefix>                     bin prefix to use to install binaries
 # @flag --latest                                upgrade to the latest version of packages
 # @flag -h --help                               output usage information
-# @arg add-bin-dir-ls-list-remove-upgrade-upgrade-interactive
+# @arg add-bin-dir-ls-list-remove-upgrade-upgrade-interactive <add|bin|dir|ls|list|remove|upgrade|upgrade-interactive>
 global() {
     :;
 }
@@ -1877,7 +1877,7 @@ team() {
 
 # {{{ yarn team create
 # @cmd Create a new team.
-# @arg scope-team!
+# @arg scope-team! <scope:team>
 team::create() {
     :;
 }
@@ -1885,7 +1885,7 @@ team::create() {
 
 # {{{ yarn team destroy
 # @cmd Destroys an existing team.
-# @arg scope-team!
+# @arg scope-team! <scope:team>
 team::destroy() {
     :;
 }
@@ -1893,7 +1893,7 @@ team::destroy() {
 
 # {{{ yarn team add
 # @cmd Add a user to an existing team.
-# @arg scope-team!
+# @arg scope-team! <scope:team>
 # @arg user!
 team::add() {
     :;
@@ -1902,7 +1902,7 @@ team::add() {
 
 # {{{ yarn team remove
 # @cmd Remove a user from a team they belong to.
-# @arg scope-team!
+# @arg scope-team! <scope:team>
 # @arg user!
 team::remove() {
     :;

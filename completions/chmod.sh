@@ -12,8 +12,8 @@
 # @flag -R --recursive           change files and directories recursively
 # @flag --help                   display this help and exit
 # @flag --version                output version information and exit
-# @arg MODE[`_choice_mode`]
-# @arg FILE*
+# @arg mode[`_choice_mode`]
+# @arg file*
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 

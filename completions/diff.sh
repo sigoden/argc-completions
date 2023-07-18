@@ -55,6 +55,6 @@
 # @option --palette                            the colors to use when --color is active; PALETTE is a colon-separated list of terminfo capabilities
 # @flag --help                                 display this help and exit
 # @flag -v --version                           output version information and exit
-# @arg FILES*
+# @arg files*
 
 command eval "$(argc --argc-eval "$0" "$@")"

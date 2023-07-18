@@ -12,7 +12,7 @@
 # @option -I --include <DIR>             append directory DIR to search path
 # @option -t --trace <MACRO[:FORMAT]>    report the list of calls to MACRO
 # @flag -i --initialization              also trace Autoconf's initialization process
-# @arg TEMPLATE-FILE
+# @arg template-file
 
 _choice_warnings() {
     cat <<-'EOF'

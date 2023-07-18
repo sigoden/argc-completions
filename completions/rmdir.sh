@@ -6,6 +6,6 @@
 # @flag -v --verbose                  output a diagnostic for every directory processed
 # @flag --help                        display this help and exit
 # @flag --version                     output version information and exit
-# @arg DIRECTORY*
+# @arg directory*
 
 command eval "$(argc --argc-eval "$0" "$@")"

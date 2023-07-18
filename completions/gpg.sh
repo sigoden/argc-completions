@@ -52,7 +52,7 @@
 # @flag -n --dry-run             do not make any changes
 # @flag -i --interactive         prompt before overwriting
 # @flag --openpgp                use strict OpenPGP behavior
-# @arg FILES*
+# @arg files*
 
 _module_os_user() {
     cat /etc/passwd | gawk -F: '{split($5,descs,","); print $1 "\t" descs[1]}'
