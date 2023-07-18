@@ -287,7 +287,7 @@ EOF
 }
 
 _module_http_header() {
-    cat <<-'EOF' | _argc_util_comp_kv :
+    cat <<-'EOF' | _argc_util_comp_kv ${SEP:-:}
 Accept=;;Media type(s) that is/are acceptable for the response. See Content negotiation.
 Accept-Encoding=`_module_http_accept_encoding`;;List of acceptable encodings. See HTTP compression.
 Accept-Language=;;List of acceptable human languages for response. See Content negotiation.
