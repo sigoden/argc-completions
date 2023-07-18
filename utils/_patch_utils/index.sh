@@ -50,8 +50,13 @@ _patch_help_run_man() {
 }
 
 # Clean the middle text between command value and description
-_patch_help_clean_middle() {
+_patch_help_clean_middle_text() {
     gawk -f "$ROOT_DIR/utils/_patch_utils/clean-middle.awk"
+}
+
+# Split two columns of options
+_patch_help_split_two_columns() {
+    sed 's/^  \(-\S\{1,2\} .*\) \(-\S\{1,2\} .*\)/  \1\n  \2/'
 }
 
 # Select subcmd help text

@@ -2,7 +2,7 @@ _patch_help() {
     if [[ "$*" == "bun" ]]; then
         echo "Options: "
         bun --help | \
-        _patch_help_clean_middle \ |
+        _patch_help_clean_middle_text \ |
         sed '/ (bun \w\+)$/ s/  \(\w\+\)\(.*\)(bun \(\w\+\))$/  \1, \3\2/'
 
     elif [[ "$*" == "bun run" ]]; then
