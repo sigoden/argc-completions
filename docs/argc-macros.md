@@ -26,9 +26,16 @@ Add suffix to completeion
 echo -e "__argc_prefix=:\0"
 ```
 
-## __argc_value=file 
+## __argc_value=path
 
-Complete a file/path
+Complete a path
+
+```sh
+echo __argc_value=path
+echo __argc_value=path:.json,jsonc    # Accpet only json/jsonc file
+```
+
+If the path is obviously a file, use `__argc_value=file` in preference.
 
 ```sh
 echo __argc_value=file 

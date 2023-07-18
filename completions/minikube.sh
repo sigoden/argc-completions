@@ -775,7 +775,7 @@ _choice_cp() {
     _argc_util_mode_kv ':'
     _complete_node_path() {
         if [[ -z "$argc__kv_prefix" ]]; then
-            echo "__argc_value=file"
+            echo "__argc_value=path"
             if ! _argc_util_is_path "$src"; then
                 _choice_node | _argc_util_transform suffix=: nospace
             fi
@@ -792,7 +792,7 @@ _choice_cp() {
         _complete_node_path
     else
         if [[ "${argc__positionals[0]}" == *':'* ]]; then
-            echo "__argc_value=file"
+            echo "__argc_value=path"
         else
             _complete_node_path
         fi

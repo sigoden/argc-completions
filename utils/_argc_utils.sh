@@ -45,7 +45,7 @@ _argc_util_comp_path() {
     if [[ "$isdir" -eq 1 ]]; then
         echo "__argc_value=dir"
     else
-        echo "__argc_value=file$exts"
+        echo "__argc_value=path$exts"
     fi
 }
 
