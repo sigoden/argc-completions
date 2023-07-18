@@ -71,6 +71,9 @@
 # @option --prepend <KEY> <VALUE>                  Add one configuration value to the beginning of a list key.
 # @option --add <KEY> <VALUE>                      Add one configuration value to the beginning of a list key.
 # @option --which* <PATH> <PATH>                   Given some file's PATH, print which conda package the file came from.
+# @flag -backup                                    keep a backup of the modified files
+# @flag -keep                                      keep a backup of the modified files
+# @option --encoding[s|S|b|l|B|L]                  Select character size and endianness:
 # @option -pkgdir <dir>                            install and load all packages from dir instead of the usual locations.
 # @option -ldflags <[pattern=]arg list>            arguments to pass on each go tool link invocation.
 # @flag --incremental                              show blame entries as we find them, incrementally
@@ -90,9 +93,6 @@
 # @arg tarball-file! <tarball file>
 # @arg arg9*
 # @arg rustfmt_options*
-# @arg arg10
-# @arg arg11
-# @arg arg12
 
 # {{ __test run
 # @cmd Run a binary or example of the local package

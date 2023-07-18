@@ -17,9 +17,6 @@ Arguments:
     <tarball file>
     [ARG9...]
     [rustfmt_options]...
-    (ARG10 | -f FILENAME)
-    [ARG11 | -l label]
-    (ARG12 | -l label | --all)
 Options:
     -a, -b                      Ignored for compatibility.
     -C DIRECTORY, --directory=DIRECTORY
@@ -112,6 +109,8 @@ Options:
             Add one configuration value to the beginning of a list key.
     --which PATH [PATH ...]
             Given some file's PATH, print which conda package the file came from.
+    -backup, -keep	keep a backup of the modified files
+    --encoding={s,S,b,l,B,L}  Select character size and endianness:
 
 	-pkgdir dir
 		install and load all packages from dir instead of the usual locations.

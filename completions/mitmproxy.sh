@@ -20,7 +20,7 @@
 # @option -w --save-stream-file[`_choice_appendable_file`] <PATH> <PATH>  Stream flows to file as they arrive.
 # @flag --no-anticomp
 # @flag --anticomp                               Try to convince servers to send us un-compressed data.
-# @option --console-layout[horizontal|single|vertical] <{horizontal,single,vertical}>  Console layout.
+# @option --console-layout[horizontal|single|vertical]  Console layout.
 # @flag --no-console-layout-headers
 # @flag --console-layout-headers                 Show layout component headers
 # @option --listen-host <HOST>                   Address to bind proxy server(s) to (may be overridden for individual modes, see `mode`).

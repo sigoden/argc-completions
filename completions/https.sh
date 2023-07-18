@@ -28,7 +28,7 @@
 # @option --session <SESSION_NAME_OR_PATH>     Create, or reuse and update a session.
 # @option --session-read-only <SESSION_NAME_OR_PATH>  Create or read a session without updating it form the request/response exchange.
 # @flag --auth                                 USER[:PASS] | TOKEN, -a USER[:PASS] | TOKEN For username/password based authentication mechanisms (e.g basic auth or digest auth) if only the username is provided (-a username), HTTPie will prompt for the password.
-# @option -A --auth-type <basic|bearer|digest> <{basic|bearer|digest}>  The authentication mechanism to be used.
+# @option -A --auth-type[basic|bearer|digest] <basic|bearer|digest>  The authentication mechanism to be used.
 # @flag --ignore-netrc                         Ignore credentials from .netrc.
 # @flag --offline                              Build the request and print it but don’t actually send it.
 # @option --proxy <PROTOCOL:PROXY_URL>         String mapping protocol to the URL of the proxy (e.g. http:http://foo.bar:3128).

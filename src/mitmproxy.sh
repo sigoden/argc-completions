@@ -1,7 +1,6 @@
 _patch_table() { 
     _patch_table_edit_options \
         '--certs;*[`_choice_cert`]' \
-        '--console-layout;[horizontal|single|vertical]' \
         '--save-stream-file;[`_choice_appendable_file`]' \
         '--mode;[`_choice_mode`]' \
         '--set;*[`_choice_option`]' \

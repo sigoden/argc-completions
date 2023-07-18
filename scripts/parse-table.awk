@@ -147,7 +147,13 @@ END {
         if (length(descValues[2]) > 0) {
             print "option # " optionVal  " # " descValues[1] " # " descValues[2]
         } else {
-            print "option # " optionVal  " # " descValues[1]
+            if (match(optionVal, /=?\{(\w+(,\w+){2,})\},?\s*$/, arr) || match(optionVal, /=?\{(\w+(\|\w+){2,})\},?\s*$/, arr)) {
+                optionVal = substr(optionVal, 1, RSTART - 1)
+                gsub(",", "|", arr[1])
+                print "option # " optionVal  " # " descValues[1] " # [" arr[1] "]"
+            } else {
+                print "option # " optionVal  " # " descValues[1]
+            }
         }
     }
     if (length(arguments) == 0 && length(usage) > 0) {
@@ -253,6 +259,9 @@ function splitOption(input) {
                     words[length(words) + 1] = word
                     word = ""
                     wordBreakAt = i - 1
+                    if (ch == "\t") {
+                        return wordBreakAt
+                    }
                 }
             } else {
                 word = word ch
