@@ -1,4 +1,4 @@
-# generate.sh guide
+# How generate.sh works
 
 `generate.sh` can directly generate completion scripts for most commands.
 
@@ -99,8 +99,9 @@ Let's also take `aichat` as an example.
 ```sh
 _patch_table() {
     _patch_table_edit_options \
-        '--model:[`_choice_model`]' \
-        '--role:[`_choice_role`]'
+        '--model;[`_choice_model`]' \
+        '--role;[`_choice_role`]' \
+
 }
 ```
 
@@ -132,6 +133,15 @@ Let's also take `aichat` as an example.
 
 Suppose you are typing `aichat --role <tab>`, when `<tab>` is pressed, `_choice_role` bound to `--role` will run and provide completion data.
 
-In `_choice*` function, you can use `argc_*` variables to easily access option/positional value.
+In `_choice*` function, you can use `argc_*` variables to easily access option/positional value. see [argc-variables](./argc-variables.md) for more details.
 
-We also privode some [utility functions](https://github.com/sigoden/argc-completions/blob/main/utils/_argc_utils/) to make it easier to write `_choice*` function.
+We also privode some [utility functions](https://github.com/sigoden/argc-completions/blob/main/utils/_argc_utils.sh) to make it easier to write `_choice*` function.
+
+```sh
+_choice_fn() {
+    echo     abc                              # value only,
+    echo -e "def\0"                           # value only, no space
+    echo -e "ijk\tWith Description"           # value with description
+    echo -e "nop\0\tWith Description 2"       # value with description, no space
+}
+```
