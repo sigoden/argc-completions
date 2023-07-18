@@ -489,6 +489,7 @@ prune() {
 # @option --summarize[true|false]             Generate a summary of the turbo run
 # @option --log-prefix[auto|none|task] <LOG_PREFIX>  Use "none" to remove prefixes from task logs.
 # @flag -h --help                             Print help (see a summary with '-h')
+# @arg task*[`_choice_task`]
 run() {
     :;
 }
@@ -530,6 +531,9 @@ _choice_task() {
 }
 
 _helper_find_turbo_json_path() {
+    if [[ -d "$argc_cwd" ]]; then
+        cd "$argc_cwd"
+    fi
     turo_json_path="$(_argc_util_path_search_parent turbo.json)"
 }
 
