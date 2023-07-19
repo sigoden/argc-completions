@@ -111,6 +111,7 @@ completions/go.sh
 
 ## Multi values seperated by a char
 
+### Use argc modifier
 ```sh
 # @option -dropuse*|[`_choice_work_dropuse`]
 _choice_work_dropuse() {
@@ -126,6 +127,33 @@ $ go work edit -dropuse './mymod1|<tab>
 ./mymod2  ./mymod3
 ```
 
+## Use _argc_util_comp_multi
+
+```sh
+# @option -type[`_choice_type`] <c>             File is of type c
+_choice_type() {
+    cat <<-'EOF' | _argc_util_comp_multi ,
+b	block (buffered) special
+c	character (unbuffered) special
+d	directory
+p	named pipe (FIFO)
+f	regular file
+l	symbolic link
+s	socket
+D	door (Solaris)
+EOF
+}
+```
+
+```
+$ find . -type <tab>
+b   c   d   ..
+
+
+$ find . -type f,<tab>
+b   c   d   ..
+```
+
 ## Sudo-like subcommands
 
 ```sh
@@ -134,6 +162,22 @@ $ go work edit -dropuse './mymod1|<tab>
 
 _choice_args() {
     _argc_util_comp_subcommand 0
+}
+```
+
+```
+$ sudo ls --
+```
+
+```sh
+# @arg workspace-name![`_choice_workspace`]
+# @arg workspace-args~[`_choice_workspace_args`]
+workspace() {
+    :;
+}
+
+_choice_workspace_args() {
+    (cd "$workspace" && _argc_util_comp_subcommand 1 yarn)
 }
 ```
 
