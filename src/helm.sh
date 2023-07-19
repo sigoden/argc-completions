@@ -1,32 +1,18 @@
 _patch_help() { 
-    _common_edit() {
-        sed \
-            -e '/-\S, --\S\+ stringArray / s/ stringArray / string...' \
-
-    }
-
     if [[ "$*" == "helm" ]]; then
-        $@ --help | sed '1,/^Usage:/ d'
+        $@ --help | _patch_help_preprocess_cobra | sed '1,/^Usage:/ d'
     else
-        $@ --help
+        $@ --help | _patch_help_preprocess_cobra
     fi
 }
 
 _patch_table() { 
     table="$( \
         _patch_table_edit_options \
-            '--kube-ca-file(<file>)' \
             '--kube-context;[`_choice_kube_context`]' \
-            '--kubeconfig(<file>)' \
             '--namespace;[`_choice_kube_namespace`]' \
-            '--registry-config(<path>)' \
-            '--repository-cache(<path>)' \
-            '--repository-config(<path>)' \
             '--keyring(<file>)' \
             '--output;[table|json|yaml]' \
-            '--ca-file(<file>)' \
-            '--cert-file(<file>)' \
-            '--key-file(<file>)' \
         | \
         _patch_table_edit_arguments \
             'CHART;[`_choice_chart`]' \
@@ -45,29 +31,18 @@ _patch_table() {
             'show(show, inspect)' \
             'uninstall(uninstall, del, delete, un)' \
 
-    elif [[ "$*" == "helm create" ]]; then
-        echo "$table" | \
-        _patch_table_edit_options \
-            '--starter(<file>)' \
 
     elif [[ "$*" == "helm install" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
             '--set-file;*,[`_choice_set_file`]' \
             '--values(<file...>)' \
-            '--post-renderer(<path>)' \
 
     elif [[ "$*" == "helm lint" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
             '--set-file;*,[`_choice_set_file`]' \
             '--values(<file...>)' \
-
-    elif [[ "$*" == "helm package" ]]; then
-        echo "$table" | \
-        _patch_table_edit_options \
-            '--destination(<dir>)' \
-            '--passphrase-file(<file>)' \
 
     elif [[ "$*" == "helm plugin" ]]; then
         echo "$table" | \
@@ -86,10 +61,6 @@ _patch_table() {
 
     elif [[ "$*" == "helm pull" ]]; then
         echo "$table" | \
-        _patch_table_edit_options \
-            '--destination(<dir>)' \
-            '--untardir(<dir>)' \
-        | \
         _patch_table_edit_arguments \
             ';;' \
             'chart;[`_choice_repo_chart`]' \

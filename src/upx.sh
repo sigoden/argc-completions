@@ -1,6 +1,6 @@
 _patch_help() { 
     $@ --help | \
-    _patch_help_split_two_columns | \
+    _patch_help_preprocess_2cols | \
     sed 's/-oFILE/-o FILE /'
 }
 

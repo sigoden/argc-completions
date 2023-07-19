@@ -12,7 +12,7 @@
 # @option -f --config <file>        Load configuration from file
 # @flag -h --help                   help for build
 # @option --id* <value>             Builds only the specified build ids
-# @option -o --output <file>        Copy the binary to the path after the build.
+# @option -o --output <path>        Copy the binary to the path after the build.
 # @option -p --parallelism <int>    Amount tasks to run concurrently (default: number of CPUs)
 # @flag --single-target             Builds only for current GOOS and GOARCH, regardless of what's set in the configuration file
 # @flag --skip-before               Skips global before hooks

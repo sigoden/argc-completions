@@ -1,13 +1,9 @@
+_patch_help() {
+    $@ --help | _patch_help_preprocess_cobra
+}
+
 _patch_table() {
     _patch_table_edit_options  \
-        '--artifact-server-path(path)' \
-        '--cache-server-path(path)' \
-        '--workflows(path)' \
-        '--directory(dir)' \
-        '--env-file(file)' \
-        '--eventpath(path)' \
-        '--input-file(file)' \
-        '--secret-file(file)' \
         '--job;[`_choice_job`]' \
         '--container-architecture;[`_choice_container_platform`]' \
     | \

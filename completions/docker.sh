@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @option --config <string>        Location of client config files (default "/home/sigo/.docker")
+# @option --config <file>          Location of client config files (default "/home/sigo/.docker")
 # @option -c --context <string>    Name of the context to use to connect to the daemon (overrides DOCKER_HOST env var and default context set with "docker context use")
 # @flag -D --debug                 Enable debug mode
 # @option -H --host <list>         Daemon socket(s) to connect to
 # @option -l --log-level[debug|info|warn|error|fatal] <string>  Set the logging level (default "info")
 # @flag --tls                      Use TLS; implied by --tlsverify
 # @option --tlscacert <string>     Trust certs signed only by this CA (default "/home/sigo/.docker/ca.pem")
-# @option --tlscert <string>       Path to TLS certificate file (default "/home/sigo/.docker/cert.pem")
-# @option --tlskey <string>        Path to TLS key file (default "/home/sigo/.docker/key.pem")
+# @option --tlscert <file>         Path to TLS certificate file (default "/home/sigo/.docker/cert.pem")
+# @option --tlskey <file>          Path to TLS key file (default "/home/sigo/.docker/key.pem")
 # @flag --tlsverify                Use TLS and verify the remote
 # @flag -v --version               Print version information and quit
 
@@ -23,7 +23,7 @@
 # @option --cap-drop <list>                        Drop Linux capabilities
 # @option --cgroup-parent <string>                 Optional parent cgroup for the container
 # @option --cgroupns <string>                      Cgroup namespace to use (host|private)
-# @option --cidfile <string>                       Write the container ID to the file
+# @option --cidfile <file>                         Write the container ID to the file
 # @option --cpu-period <int>                       Limit CPU CFS (Completely Fair Scheduler) period
 # @option --cpu-quota <int>                        Limit CPU CFS (Completely Fair Scheduler) quota
 # @option --cpu-rt-period <int>                    Limit CPU real-time period in microseconds
@@ -111,7 +111,7 @@
 # @option -v --volume <list>                       Bind mount a volume
 # @option --volume-driver <string>                 Optional volume driver for the container
 # @option --volumes-from <list>                    Mount volumes from the specified container(s)
-# @option -w --workdir <string>                    Working directory inside the container
+# @option -w --workdir <dir>                       Working directory inside the container
 # @arg image[`_choice_image_repo_tag`]
 # @arg arg*
 run() {
@@ -129,7 +129,7 @@ run() {
 # @flag --privileged                Give extended privileges to the command
 # @flag -t --tty                    Allocate a pseudo-TTY
 # @option -u --user <string>        Username or UID (format: "<name|uid>[:<group|gid>]")
-# @option -w --workdir <string>     Working directory inside the container
+# @option -w --workdir <dir>        Working directory inside the container
 # @arg container[`_choice_container_name`]
 # @arg arg*
 exec() {
@@ -156,33 +156,33 @@ ps() {
 # @cmd Build an image from a Dockerfile
 # @option --add-host <strings>                   Add a custom host-to-IP mapping (format: "host:ip")
 # @option --allow <strings>                      Allow extra privileged entitlement (e.g., "network.host", "security.insecure")
-# @option --attest <stringArray>                 Attestation parameters (format: "type=sbom,generator=image")
-# @option --build-arg <stringArray>              Set build-time variables
-# @option --build-context <stringArray>          Additional build contexts (e.g., name=path)
+# @option --attest* <string>                     Attestation parameters (format: "type=sbom,generator=image")
+# @option --build-arg* <string>                  Set build-time variables
+# @option --build-context* <string>              Additional build contexts (e.g., name=path)
 # @option --builder <string>                     Override the configured builder instance (default "default")
-# @option --cache-from <stringArray>             External cache sources (e.g., "user/app:cache", "type=local,src=path/to/dir")
-# @option --cache-to <stringArray>               Cache export destinations (e.g., "user/app:cache", "type=local,dest=path/to/dir")
+# @option --cache-from* <string>                 External cache sources (e.g., "user/app:cache", "type=local,src=path/to/dir")
+# @option --cache-to* <path>                     Cache export destinations (e.g., "user/app:cache", "type=local,dest=path/to/dir")
 # @option --cgroup-parent <string>               Optional parent cgroup for the container
-# @option -f --file <string>                     Name of the Dockerfile (default: "PATH/Dockerfile")
-# @option --iidfile <string>                     Write the image ID to the file
-# @option --label <stringArray>                  Set metadata for an image
+# @option -f --file <file>                       Name of the Dockerfile (default: "PATH/Dockerfile")
+# @option --iidfile <file>                       Write the image ID to the file
+# @option --label* <string>                      Set metadata for an image
 # @flag --load                                   Shorthand for "--output=type=docker"
-# @option --metadata-file <string>               Write build result metadata to the file
+# @option --metadata-file <file>                 Write build result metadata to the file
 # @option --network <string>                     Set the networking mode for the "RUN" instructions during build (default "default")
 # @flag --no-cache                               Do not use cache when building the image
-# @option --no-cache-filter <stringArray>        Do not cache specified stages
-# @option -o --output <stringArray>              Output destination (format: "type=local,dest=path")
-# @option --platform <stringArray>               Set target platform for build
+# @option --no-cache-filter* <string>            Do not cache specified stages
+# @option -o --output* <path>                    Output destination (format: "type=local,dest=path")
+# @option --platform* <string>                   Set target platform for build
 # @option --progress[auto|plain|tty] <string>    Set type of progress output.
 # @option --provenance <string>                  Shortand for "--attest=type=provenance"
 # @flag --pull                                   Always attempt to pull all referenced images
 # @flag --push                                   Shorthand for "--output=type=registry"
 # @flag -q --quiet                               Suppress the build output and print image ID on success
 # @option --sbom <string>                        Shorthand for "--attest=type=sbom"
-# @option --secret <stringArray>                 Secret to expose to the build (format: "id=mysecret[,src=/local/secret]")
+# @option --secret* <string>                     Secret to expose to the build (format: "id=mysecret[,src=/local/secret]")
 # @option --shm-size <bytes>                     Size of "/dev/shm"
-# @option --ssh <stringArray>                    SSH agent socket or keys to expose to the build (format: "default|<id>[=<socket>|<key>[,<key>]]")
-# @option -t --tag <stringArray>                 Name and optionally a tag (format: "name:tag")
+# @option --ssh* <string>                        SSH agent socket or keys to expose to the build (format: "default|<id>[=<socket>|<key>[,<key>]]")
+# @option -t --tag* <string>                     Name and optionally a tag (format: "name:tag")
 # @option --target <string>                      Set the target build stage to build
 # @option --ulimit <ulimit>                      Ulimit options (default [])
 # @arg path-url <PATH|URL|->
@@ -294,9 +294,9 @@ builder::imagetools() {
 # @flag --append                                 Append to existing manifest
 # @option --builder <string>                     Override the configured builder instance (default "default")
 # @flag --dry-run                                Show final image instead of pushing
-# @option -f --file <stringArray>                Read source descriptor from file
+# @option -f --file* <file>                      Read source descriptor from file
 # @option --progress[auto|plain|tty] <string>    Set type of progress output.
-# @option -t --tag <stringArray>                 Set reference for new image
+# @option -t --tag* <string>                     Set reference for new image
 # @arg source*
 builder::imagetools::create() {
     :;
@@ -318,9 +318,9 @@ builder::imagetools::inspect() {
 # {{{ docker builder bake
 # @cmd Build from a file
 # @option --builder <string>                     Override the configured builder instance (default "default")
-# @option -f --file <stringArray>                Build definition file
+# @option -f --file* <file>                      Build definition file
 # @flag --load                                   Shorthand for "--set=*.output=type=docker"
-# @option --metadata-file <string>               Write build result metadata to the file
+# @option --metadata-file <file>                 Write build result metadata to the file
 # @flag --no-cache                               Do not use cache when building the image
 # @flag --print                                  Print the options without building
 # @option --progress[auto|plain|tty] <string>    Set type of progress output.
@@ -328,7 +328,7 @@ builder::imagetools::inspect() {
 # @flag --pull                                   Always attempt to pull all referenced images
 # @flag --push                                   Shorthand for "--set=*.output=type=registry"
 # @option --sbom <string>                        Shorthand for "--set=*.attest=type=sbom"
-# @option --set <stringArray>                    Override target value (e.g., "targetpattern.key=value")
+# @option --set* <string>                        Override target value (e.g., "targetpattern.key=value")
 # @arg target*
 builder::bake() {
     :;
@@ -339,33 +339,33 @@ builder::bake() {
 # @cmd Start a build
 # @option --add-host <strings>                   Add a custom host-to-IP mapping (format: "host:ip")
 # @option --allow <strings>                      Allow extra privileged entitlement (e.g., "network.host", "security.insecure")
-# @option --attest <stringArray>                 Attestation parameters (format: "type=sbom,generator=image")
-# @option --build-arg <stringArray>              Set build-time variables
-# @option --build-context <stringArray>          Additional build contexts (e.g., name=path)
+# @option --attest* <string>                     Attestation parameters (format: "type=sbom,generator=image")
+# @option --build-arg* <string>                  Set build-time variables
+# @option --build-context* <string>              Additional build contexts (e.g., name=path)
 # @option --builder <string>                     Override the configured builder instance (default "default")
-# @option --cache-from <stringArray>             External cache sources (e.g., "user/app:cache", "type=local,src=path/to/dir")
-# @option --cache-to <stringArray>               Cache export destinations (e.g., "user/app:cache", "type=local,dest=path/to/dir")
+# @option --cache-from* <string>                 External cache sources (e.g., "user/app:cache", "type=local,src=path/to/dir")
+# @option --cache-to* <path>                     Cache export destinations (e.g., "user/app:cache", "type=local,dest=path/to/dir")
 # @option --cgroup-parent <string>               Optional parent cgroup for the container
-# @option -f --file <string>                     Name of the Dockerfile (default: "PATH/Dockerfile")
-# @option --iidfile <string>                     Write the image ID to the file
-# @option --label <stringArray>                  Set metadata for an image
+# @option -f --file <file>                       Name of the Dockerfile (default: "PATH/Dockerfile")
+# @option --iidfile <file>                       Write the image ID to the file
+# @option --label* <string>                      Set metadata for an image
 # @flag --load                                   Shorthand for "--output=type=docker"
-# @option --metadata-file <string>               Write build result metadata to the file
+# @option --metadata-file <file>                 Write build result metadata to the file
 # @option --network <string>                     Set the networking mode for the "RUN" instructions during build (default "default")
 # @flag --no-cache                               Do not use cache when building the image
-# @option --no-cache-filter <stringArray>        Do not cache specified stages
-# @option -o --output <stringArray>              Output destination (format: "type=local,dest=path")
-# @option --platform <stringArray>               Set target platform for build
+# @option --no-cache-filter* <string>            Do not cache specified stages
+# @option -o --output* <path>                    Output destination (format: "type=local,dest=path")
+# @option --platform* <string>                   Set target platform for build
 # @option --progress[auto|plain|tty] <string>    Set type of progress output.
 # @option --provenance <string>                  Shortand for "--attest=type=provenance"
 # @flag --pull                                   Always attempt to pull all referenced images
 # @flag --push                                   Shorthand for "--output=type=registry"
 # @flag -q --quiet                               Suppress the build output and print image ID on success
 # @option --sbom <string>                        Shorthand for "--attest=type=sbom"
-# @option --secret <stringArray>                 Secret to expose to the build (format: "id=mysecret[,src=/local/secret]")
+# @option --secret* <string>                     Secret to expose to the build (format: "id=mysecret[,src=/local/secret]")
 # @option --shm-size <bytes>                     Size of "/dev/shm"
-# @option --ssh <stringArray>                    SSH agent socket or keys to expose to the build (format: "default|<id>[=<socket>|<key>[,<key>]]")
-# @option -t --tag <stringArray>                 Name and optionally a tag (format: "name:tag")
+# @option --ssh* <string>                        SSH agent socket or keys to expose to the build (format: "default|<id>[=<socket>|<key>[,<key>]]")
+# @option -t --tag* <string>                     Name and optionally a tag (format: "name:tag")
 # @option --target <string>                      Set the target build stage to build
 # @option --ulimit <ulimit>                      Ulimit options (default [])
 # @arg path-url <PATH|URL|->
@@ -379,13 +379,13 @@ builder::build() {
 # @flag --append                        Append a node to builder instead of changing it
 # @flag --bootstrap                     Boot builder after creation
 # @option --buildkitd-flags <string>    Flags for buildkitd daemon
-# @option --config <string>             BuildKit config file
+# @option --config <file>               BuildKit config file
 # @option --driver[docker-container|kubernetes|remote] <string>  Driver to use
-# @option --driver-opt <stringArray>    Options for the driver
+# @option --driver-opt* <string>        Options for the driver
 # @flag --leave                         Remove a node from builder instead of changing it
 # @option --name <string>               Builder instance name
 # @option --node <string>               Create/modify node with given name
-# @option --platform <stringArray>      Fixed platforms for current node
+# @option --platform* <string>          Fixed platforms for current node
 # @flag --use                           Set the current builder instance
 # @arg context-endpoint <CONTEXT|ENDPOINT>
 builder::create() {
@@ -493,9 +493,9 @@ buildx::imagetools() {
 # @flag --append                                 Append to existing manifest
 # @option --builder <string>                     Override the configured builder instance
 # @flag --dry-run                                Show final image instead of pushing
-# @option -f --file <stringArray>                Read source descriptor from file
+# @option -f --file* <file>                      Read source descriptor from file
 # @option --progress[auto|plain|tty] <string>    Set type of progress output.
-# @option -t --tag <stringArray>                 Set reference for new image
+# @option -t --tag* <string>                     Set reference for new image
 # @arg source*
 buildx::imagetools::create() {
     :;
@@ -517,9 +517,9 @@ buildx::imagetools::inspect() {
 # {{{ docker buildx bake
 # @cmd Build from a file
 # @option --builder <string>                     Override the configured builder instance
-# @option -f --file <stringArray>                Build definition file
+# @option -f --file* <file>                      Build definition file
 # @flag --load                                   Shorthand for "--set=*.output=type=docker"
-# @option --metadata-file <string>               Write build result metadata to the file
+# @option --metadata-file <file>                 Write build result metadata to the file
 # @flag --no-cache                               Do not use cache when building the image
 # @flag --print                                  Print the options without building
 # @option --progress[auto|plain|tty] <string>    Set type of progress output.
@@ -527,7 +527,7 @@ buildx::imagetools::inspect() {
 # @flag --pull                                   Always attempt to pull all referenced images
 # @flag --push                                   Shorthand for "--set=*.output=type=registry"
 # @option --sbom <string>                        Shorthand for "--set=*.attest=type=sbom"
-# @option --set <stringArray>                    Override target value (e.g., "targetpattern.key=value")
+# @option --set* <string>                        Override target value (e.g., "targetpattern.key=value")
 # @arg target*
 buildx::bake() {
     :;
@@ -538,33 +538,33 @@ buildx::bake() {
 # @cmd Start a build
 # @option --add-host <strings>                   Add a custom host-to-IP mapping (format: "host:ip")
 # @option --allow <strings>                      Allow extra privileged entitlement (e.g., "network.host", "security.insecure")
-# @option --attest <stringArray>                 Attestation parameters (format: "type=sbom,generator=image")
-# @option --build-arg <stringArray>              Set build-time variables
-# @option --build-context <stringArray>          Additional build contexts (e.g., name=path)
+# @option --attest* <string>                     Attestation parameters (format: "type=sbom,generator=image")
+# @option --build-arg* <string>                  Set build-time variables
+# @option --build-context* <string>              Additional build contexts (e.g., name=path)
 # @option --builder <string>                     Override the configured builder instance
-# @option --cache-from <stringArray>             External cache sources (e.g., "user/app:cache", "type=local,src=path/to/dir")
-# @option --cache-to <stringArray>               Cache export destinations (e.g., "user/app:cache", "type=local,dest=path/to/dir")
+# @option --cache-from* <string>                 External cache sources (e.g., "user/app:cache", "type=local,src=path/to/dir")
+# @option --cache-to* <path>                     Cache export destinations (e.g., "user/app:cache", "type=local,dest=path/to/dir")
 # @option --cgroup-parent <string>               Optional parent cgroup for the container
-# @option -f --file <string>                     Name of the Dockerfile (default: "PATH/Dockerfile")
-# @option --iidfile <string>                     Write the image ID to the file
-# @option --label <stringArray>                  Set metadata for an image
+# @option -f --file <file>                       Name of the Dockerfile (default: "PATH/Dockerfile")
+# @option --iidfile <file>                       Write the image ID to the file
+# @option --label* <string>                      Set metadata for an image
 # @flag --load                                   Shorthand for "--output=type=docker"
-# @option --metadata-file <string>               Write build result metadata to the file
+# @option --metadata-file <file>                 Write build result metadata to the file
 # @option --network <string>                     Set the networking mode for the "RUN" instructions during build (default "default")
 # @flag --no-cache                               Do not use cache when building the image
-# @option --no-cache-filter <stringArray>        Do not cache specified stages
-# @option -o --output <stringArray>              Output destination (format: "type=local,dest=path")
-# @option --platform <stringArray>               Set target platform for build
+# @option --no-cache-filter* <string>            Do not cache specified stages
+# @option -o --output* <path>                    Output destination (format: "type=local,dest=path")
+# @option --platform* <string>                   Set target platform for build
 # @option --progress[auto|plain|tty] <string>    Set type of progress output.
 # @option --provenance <string>                  Shortand for "--attest=type=provenance"
 # @flag --pull                                   Always attempt to pull all referenced images
 # @flag --push                                   Shorthand for "--output=type=registry"
 # @flag -q --quiet                               Suppress the build output and print image ID on success
 # @option --sbom <string>                        Shorthand for "--attest=type=sbom"
-# @option --secret <stringArray>                 Secret to expose to the build (format: "id=mysecret[,src=/local/secret]")
+# @option --secret* <string>                     Secret to expose to the build (format: "id=mysecret[,src=/local/secret]")
 # @option --shm-size <bytes>                     Size of "/dev/shm"
-# @option --ssh <stringArray>                    SSH agent socket or keys to expose to the build (format: "default|<id>[=<socket>|<key>[,<key>]]")
-# @option -t --tag <stringArray>                 Name and optionally a tag (format: "name:tag")
+# @option --ssh* <string>                        SSH agent socket or keys to expose to the build (format: "default|<id>[=<socket>|<key>[,<key>]]")
+# @option -t --tag* <string>                     Name and optionally a tag (format: "name:tag")
 # @option --target <string>                      Set the target build stage to build
 # @option --ulimit <ulimit>                      Ulimit options (default [])
 # @arg path-url <PATH|URL|->
@@ -578,13 +578,13 @@ buildx::build() {
 # @flag --append                        Append a node to builder instead of changing it
 # @flag --bootstrap                     Boot builder after creation
 # @option --buildkitd-flags <string>    Flags for buildkitd daemon
-# @option --config <string>             BuildKit config file
+# @option --config <file>               BuildKit config file
 # @option --driver[docker-container|kubernetes|remote] <string>  Driver to use
-# @option --driver-opt <stringArray>    Options for the driver
+# @option --driver-opt* <string>        Options for the driver
 # @flag --leave                         Remove a node from builder instead of changing it
 # @option --name <string>               Builder instance name
 # @option --node <string>               Create/modify node with given name
-# @option --platform <stringArray>      Fixed platforms for current node
+# @option --platform* <string>          Fixed platforms for current node
 # @flag --use                           Set the current builder instance
 # @arg context-endpoint <CONTEXT|ENDPOINT>
 buildx::create() {
@@ -677,11 +677,11 @@ buildx::version() {
 # @cmd Docker Compose (Docker Inc., v2.15.1)
 # @option --ansi[never|always|auto] <string>    Control when to print ANSI control characters (default "auto")
 # @flag --compatibility                         Run compose in backward compatibility mode
-# @option --env-file <string>                   Specify an alternate environment file.
-# @option -f --file <stringArray>               Compose configuration files
+# @option --env-file <file>                     Specify an alternate environment file.
+# @option -f --file* <file>                     Compose configuration files
 # @option --parallel <int>                      Control max parallelism, -1 for unlimited (default -1)
-# @option --profile <stringArray>               Specify a profile to enable
-# @option --project-directory <string>          Specify an alternate working directory (default: the path of the, first specified, Compose file)
+# @option --profile* <file>                     Specify a profile to enable
+# @option --project-directory <dir>             Specify an alternate working directory (default: the path of the, first specified, Compose file)
 # @option -p --project-name <string>            Project name
 compose() {
     :;
@@ -689,12 +689,12 @@ compose() {
 
 # {{{ docker compose build
 # @cmd Build or rebuild services
-# @option --build-arg <stringArray>    Set build-time variables for services.
-# @flag --no-cache                     Do not use cache when building the image
+# @option --build-arg* <string>    Set build-time variables for services.
+# @flag --no-cache                 Do not use cache when building the image
 # @option --progress[auto|tty|plain|quiet] <string>  Set type of progress output (default "auto")
-# @flag --pull                         Always attempt to pull a newer version of the image.
-# @flag -q --quiet                     Don't print anything to STDOUT
-# @option --ssh <string>               Set SSH authentications used when building service images.
+# @flag --pull                     Always attempt to pull a newer version of the image.
+# @flag -q --quiet                 Don't print anything to STDOUT
+# @option --ssh <string>           Set SSH authentications used when building service images.
 # @arg service*[`_choice_compose_service`]
 compose::build() {
     :;
@@ -710,7 +710,7 @@ compose::build() {
 # @flag --no-consistency           Don't check model consistency - warning: may produce invalid Compose output
 # @flag --no-interpolate           Don't interpolate environment variables.
 # @flag --no-normalize             Don't normalize compose model.
-# @option -o --output <string>     Save to file (default to stdout)
+# @option -o --output <file>       Save to file (default to stdout)
 # @flag --profiles                 Print the profile names, one per line.
 # @flag -q --quiet                 Only validate the configuration, don't print anything.
 # @flag --resolve-image-digests    Pin image tags to digests.
@@ -770,12 +770,12 @@ compose::events() {
 # {{{ docker compose exec
 # @cmd Execute a command in a running container.
 # @flag -d --detach                                Detached mode: Run command in the background.
-# @option -e --env <stringArray>                   Set environment variables
+# @option -e --env* <string>                       Set environment variables
 # @option --index <int>                            index of the container if there are multiple instances of a service [default: 1].
 # @option -T --no-TTY <docker> <compose> <exec>    Disable pseudo-TTY allocation.
 # @flag --privileged                               Give extended privileges to the process.
 # @option -u --user <string>                       Run the command as this user.
-# @option -w --workdir <string>                    Path to workdir directory for this command.
+# @option -w --workdir <dir>                       Path to workdir directory for this command.
 # @arg service[`_choice_compose_service`]
 # @arg args*
 compose::exec() {
@@ -850,12 +850,12 @@ compose::port() {
 
 # {{{ docker compose ps
 # @cmd List containers
-# @flag -a --all                    Show all stopped containers (including those created by the run command)
-# @option --filter <string>         Filter services by a property (supported filters: status).
-# @option --format <string>         Format the output.
-# @flag -q --quiet                  Only display IDs
-# @flag --services                  Display services
-# @option --status <stringArray>    Filter services by status.
+# @flag -a --all                Show all stopped containers (including those created by the run command)
+# @option --filter <string>     Filter services by a property (supported filters: status).
+# @option --format <string>     Format the output.
+# @flag -q --quiet              Only display IDs
+# @flag --services              Display services
+# @option --status* <string>    Filter services by status.
 # @arg service*[`_choice_compose_service`]
 compose::ps() {
     :;
@@ -907,23 +907,23 @@ compose::rm() {
 
 # {{{ docker compose run
 # @cmd Run a one-off command on a service.
-# @flag --build                         Build image before starting container.
-# @flag -d --detach                     Run container in background and print container ID
-# @option --entrypoint <string>         Override the entrypoint of the image
-# @option -e --env <stringArray>        Set environment variables
-# @flag -i --interactive                Keep STDIN open even if not attached.
-# @option -l --label <stringArray>      Add or override a label
-# @option --name <string>               Assign a name to the container
-# @flag -T --no-TTY                     Disable pseudo-TTY allocation (default: auto-detected).
-# @flag --no-deps                       Don't start linked services.
-# @option -p --publish <stringArray>    Publish a container's port(s) to the host.
-# @flag --quiet-pull                    Pull without printing progress information.
-# @flag --rm                            Automatically remove the container when it exits
-# @flag --service-ports                 Run command with the service's ports enabled and mapped to the host.
-# @flag --use-aliases                   Use the service's network useAliases in the network(s) the container connects to.
-# @option -u --user <string>            Run as specified username or uid
-# @option -v --volume <stringArray>     Bind mount a volume.
-# @option -w --workdir <string>         Working directory inside the container
+# @flag --build                     Build image before starting container.
+# @flag -d --detach                 Run container in background and print container ID
+# @option --entrypoint <string>     Override the entrypoint of the image
+# @option -e --env* <string>        Set environment variables
+# @flag -i --interactive            Keep STDIN open even if not attached.
+# @option -l --label* <string>      Add or override a label
+# @option --name <string>           Assign a name to the container
+# @flag -T --no-TTY                 Disable pseudo-TTY allocation (default: auto-detected).
+# @flag --no-deps                   Don't start linked services.
+# @option -p --publish* <string>    Publish a container's port(s) to the host.
+# @flag --quiet-pull                Pull without printing progress information.
+# @flag --rm                        Automatically remove the container when it exits
+# @flag --service-ports             Run command with the service's ports enabled and mapped to the host.
+# @flag --use-aliases               Use the service's network useAliases in the network(s) the container connects to.
+# @option -u --user <string>        Run as specified username or uid
+# @option -v --volume* <string>     Bind mount a volume.
+# @option -w --workdir <dir>        Working directory inside the container
 # @arg service[`_choice_compose_service`]
 # @arg args*
 compose::run() {
@@ -968,13 +968,13 @@ compose::unpause() {
 # @cmd Create and start containers
 # @flag --abort-on-container-exit                  Stops all containers if any container was stopped.
 # @flag --always-recreate-deps                     Recreate dependent containers.
-# @option --attach <stringArray>                   Attach to service output.
+# @option --attach* <string>                       Attach to service output.
 # @flag --attach-dependencies                      Attach to dependent containers.
 # @flag --build                                    Build images before starting containers.
 # @flag -d --detach                                Detached mode: Run containers in the background
 # @option --exit-code-from <string>                Return the exit code of the selected service container.
 # @flag --force-recreate                           Recreate containers even if their configuration and image haven't changed.
-# @option --no-attach <stringArray>                Don't attach to specified service.
+# @option --no-attach* <string>                    Don't attach to specified service.
 # @flag --no-build                                 Don't build an image, even if it's missing.
 # @flag --no-color                                 Produce monochrome output.
 # @flag --no-deps                                  Don't start linked services.
@@ -1057,7 +1057,7 @@ container::cp() {
 # @option --cap-drop <list>                   Drop Linux capabilities
 # @option --cgroup-parent <string>            Optional parent cgroup for the container
 # @option --cgroupns <string>                 Cgroup namespace to use (host|private)
-# @option --cidfile <string>                  Write the container ID to the file
+# @option --cidfile <file>                    Write the container ID to the file
 # @option --cpu-period <int>                  Limit CPU CFS (Completely Fair Scheduler) period
 # @option --cpu-quota <int>                   Limit CPU CFS (Completely Fair Scheduler) quota
 # @option --cpu-rt-period <int>               Limit CPU real-time period in microseconds
@@ -1142,7 +1142,7 @@ container::cp() {
 # @option -v --volume <list>                  Bind mount a volume
 # @option --volume-driver <string>            Optional volume driver for the container
 # @option --volumes-from <list>               Mount volumes from the specified container(s)
-# @option -w --workdir <string>               Working directory inside the container
+# @option -w --workdir <dir>                  Working directory inside the container
 # @arg image[`_choice_image_repo_tag`]
 # @arg arg*
 container::create() {
@@ -1168,7 +1168,7 @@ container::diff() {
 # @flag --privileged                Give extended privileges to the command
 # @flag -t --tty                    Allocate a pseudo-TTY
 # @option -u --user <string>        Username or UID (format: "<name|uid>[:<group|gid>]")
-# @option -w --workdir <string>     Working directory inside the container
+# @option -w --workdir <dir>        Working directory inside the container
 # @arg container[`_choice_container_name`]
 # @arg arg*
 container::exec() {
@@ -1178,7 +1178,7 @@ container::exec() {
 
 # {{{ docker container export
 # @cmd Export a container's filesystem as a tar archive
-# @option -o --output <string>    Write to a file, instead of STDOUT
+# @option -o --output <file>    Write to a file, instead of STDOUT
 # @arg container[`_choice_container_name`]
 container::export() {
     :;
@@ -1300,7 +1300,7 @@ container::rm() {
 # @option --cap-drop <list>                        Drop Linux capabilities
 # @option --cgroup-parent <string>                 Optional parent cgroup for the container
 # @option --cgroupns <string>                      Cgroup namespace to use (host|private)
-# @option --cidfile <string>                       Write the container ID to the file
+# @option --cidfile <file>                         Write the container ID to the file
 # @option --cpu-period <int>                       Limit CPU CFS (Completely Fair Scheduler) period
 # @option --cpu-quota <int>                        Limit CPU CFS (Completely Fair Scheduler) quota
 # @option --cpu-rt-period <int>                    Limit CPU real-time period in microseconds
@@ -1388,7 +1388,7 @@ container::rm() {
 # @option -v --volume <list>                       Bind mount a volume
 # @option --volume-driver <string>                 Optional volume driver for the container
 # @option --volumes-from <list>                    Mount volumes from the specified container(s)
-# @option -w --workdir <string>                    Working directory inside the container
+# @option -w --workdir <dir>                       Working directory inside the container
 # @arg image[`_choice_image_repo_tag`]
 # @arg arg*
 container::run() {
@@ -1574,33 +1574,33 @@ image() {
 # @cmd Build an image from a Dockerfile
 # @option --add-host <strings>                   Add a custom host-to-IP mapping (format: "host:ip")
 # @option --allow <strings>                      Allow extra privileged entitlement (e.g., "network.host", "security.insecure")
-# @option --attest <stringArray>                 Attestation parameters (format: "type=sbom,generator=image")
-# @option --build-arg <stringArray>              Set build-time variables
-# @option --build-context <stringArray>          Additional build contexts (e.g., name=path)
+# @option --attest* <string>                     Attestation parameters (format: "type=sbom,generator=image")
+# @option --build-arg* <string>                  Set build-time variables
+# @option --build-context* <string>              Additional build contexts (e.g., name=path)
 # @option --builder <string>                     Override the configured builder instance (default "default")
-# @option --cache-from <stringArray>             External cache sources (e.g., "user/app:cache", "type=local,src=path/to/dir")
-# @option --cache-to <stringArray>               Cache export destinations (e.g., "user/app:cache", "type=local,dest=path/to/dir")
+# @option --cache-from* <string>                 External cache sources (e.g., "user/app:cache", "type=local,src=path/to/dir")
+# @option --cache-to* <path>                     Cache export destinations (e.g., "user/app:cache", "type=local,dest=path/to/dir")
 # @option --cgroup-parent <string>               Optional parent cgroup for the container
-# @option -f --file <string>                     Name of the Dockerfile (default: "PATH/Dockerfile")
-# @option --iidfile <string>                     Write the image ID to the file
-# @option --label <stringArray>                  Set metadata for an image
+# @option -f --file <file>                       Name of the Dockerfile (default: "PATH/Dockerfile")
+# @option --iidfile <file>                       Write the image ID to the file
+# @option --label* <string>                      Set metadata for an image
 # @flag --load                                   Shorthand for "--output=type=docker"
-# @option --metadata-file <string>               Write build result metadata to the file
+# @option --metadata-file <file>                 Write build result metadata to the file
 # @option --network <string>                     Set the networking mode for the "RUN" instructions during build (default "default")
 # @flag --no-cache                               Do not use cache when building the image
-# @option --no-cache-filter <stringArray>        Do not cache specified stages
-# @option -o --output <stringArray>              Output destination (format: "type=local,dest=path")
-# @option --platform <stringArray>               Set target platform for build
+# @option --no-cache-filter* <string>            Do not cache specified stages
+# @option -o --output* <path>                    Output destination (format: "type=local,dest=path")
+# @option --platform* <string>                   Set target platform for build
 # @option --progress[auto|plain|tty] <string>    Set type of progress output.
 # @option --provenance <string>                  Shortand for "--attest=type=provenance"
 # @flag --pull                                   Always attempt to pull all referenced images
 # @flag --push                                   Shorthand for "--output=type=registry"
 # @flag -q --quiet                               Suppress the build output and print image ID on success
 # @option --sbom <string>                        Shorthand for "--attest=type=sbom"
-# @option --secret <stringArray>                 Secret to expose to the build (format: "id=mysecret[,src=/local/secret]")
+# @option --secret* <string>                     Secret to expose to the build (format: "id=mysecret[,src=/local/secret]")
 # @option --shm-size <bytes>                     Size of "/dev/shm"
-# @option --ssh <stringArray>                    SSH agent socket or keys to expose to the build (format: "default|<id>[=<socket>|<key>[,<key>]]")
-# @option -t --tag <stringArray>                 Name and optionally a tag (format: "name:tag")
+# @option --ssh* <string>                        SSH agent socket or keys to expose to the build (format: "default|<id>[=<socket>|<key>[,<key>]]")
+# @option -t --tag* <string>                     Name and optionally a tag (format: "name:tag")
 # @option --target <string>                      Set the target build stage to build
 # @option --ulimit <ulimit>                      Ulimit options (default [])
 # @arg path-url <PATH|URL|->
@@ -1644,8 +1644,8 @@ image::inspect() {
 
 # {{{ docker image load
 # @cmd Load an image from a tar archive or STDIN
-# @option -i --input <string>    Read from tar archive file, instead of STDIN
-# @flag -q --quiet               Suppress the load output
+# @option -i --input <file>    Read from tar archive file, instead of STDIN
+# @flag -q --quiet             Suppress the load output
 image::load() {
     :;
 }
@@ -1711,7 +1711,7 @@ image::rm() {
 
 # {{{ docker image save
 # @cmd Save one or more images to a tar archive (streamed to STDOUT by default)
-# @option -o --output <string>    Write to a file, instead of STDOUT
+# @option -o --output <file>    Write to a file, instead of STDOUT
 # @arg image*[`_choice_image_repo_tag`]
 image::save() {
     :;
@@ -1996,7 +1996,7 @@ plugin::upgrade() {
 # @flag --accept-license         Accept using a third party scanning provider
 # @flag --dependency-tree        Show dependency tree with scan results
 # @flag --exclude-base           Exclude base image from vulnerability scanning (requires --file)
-# @option -f --file <string>     Dockerfile associated with image, provides more detailed results
+# @option -f --file <file>       Dockerfile associated with image, provides more detailed results
 # @flag --group-issues           Aggregate duplicated vulnerabilities and group them to a single one (requires --json)
 # @flag --json                   Output results in JSON format
 # @flag --login                  Authenticate to the scan provider using an optional token (with --token), or web base token if empty
@@ -2070,7 +2070,7 @@ trust::key() {
 
 # {{{{ docker trust key generate
 # @cmd Generate and load a signing key-pair
-# @option --dir <string>    Directory to generate key in, defaults to current directory
+# @option --dir <dir>    Directory to generate key in, defaults to current directory
 # @arg name
 trust::key::generate() {
     :;
@@ -2209,7 +2209,7 @@ swarm() {
 # @flag --autolock                             Enable manager autolocking (requiring an unlock key to start a stopped manager)
 # @option --availability[active|pause|drain] <string>  Availability of the node (default "active")
 # @option --cert-expiry <duration>             Validity period for node certificates (ns|us|ms|s|m|h) (default 2160h0m0s)
-# @option --data-path-addr <string>            Address or interface to use for data path traffic (format: "<ip|interface>")
+# @option --data-path-addr <path>              Address or interface to use for data path traffic (format: "<ip|interface>")
 # @option --data-path-port <uint32>            Port number to use for data path traffic (1024 - 49151).
 # @option --default-addr-pool <ipNetSlice>     default address pool in CIDR format (default [])
 # @option --default-addr-pool-mask-length <uint32>  default address pool subnet mask length (default 24)
@@ -2229,7 +2229,7 @@ swarm::init() {
 # @cmd Join a swarm as a node and/or manager
 # @option --advertise-addr <string>    Advertised address (format: "<ip|interface>[:port]")
 # @option --availability[active|pause|drain] <string>  Availability of the node (default "active")
-# @option --data-path-addr <string>    Address or interface to use for data path traffic (format: "<ip|interface>")
+# @option --data-path-addr <path>      Address or interface to use for data path traffic (format: "<ip|interface>")
 # @option --listen-addr <node-addr>    Listen address (format: "<ip|interface>[:port]") (default 0.0.0.0:2377)
 # @option --token <string>             Token for entry into the swarm
 # @arg host-port <HOST:PORT>
@@ -2285,7 +2285,7 @@ cp() {
 # @option --cap-drop <list>                   Drop Linux capabilities
 # @option --cgroup-parent <string>            Optional parent cgroup for the container
 # @option --cgroupns <string>                 Cgroup namespace to use (host|private)
-# @option --cidfile <string>                  Write the container ID to the file
+# @option --cidfile <file>                    Write the container ID to the file
 # @option --cpu-period <int>                  Limit CPU CFS (Completely Fair Scheduler) period
 # @option --cpu-quota <int>                   Limit CPU CFS (Completely Fair Scheduler) quota
 # @option --cpu-rt-period <int>               Limit CPU real-time period in microseconds
@@ -2370,7 +2370,7 @@ cp() {
 # @option -v --volume <list>                  Bind mount a volume
 # @option --volume-driver <string>            Optional volume driver for the container
 # @option --volumes-from <list>               Mount volumes from the specified container(s)
-# @option -w --workdir <string>               Working directory inside the container
+# @option -w --workdir <dir>                  Working directory inside the container
 # @arg image[`_choice_image_repo_tag`]
 # @arg arg*
 create() {
@@ -2399,7 +2399,7 @@ events() {
 
 # {{ docker export
 # @cmd Export a container's filesystem as a tar archive
-# @option -o --output <string>    Write to a file, instead of STDOUT
+# @option -o --output <file>    Write to a file, instead of STDOUT
 # @arg container[`_choice_container_name`]
 export() {
     :;
@@ -2452,8 +2452,8 @@ kill() {
 
 # {{ docker load
 # @cmd Load an image from a tar archive or STDIN
-# @option -i --input <string>    Read from tar archive file, instead of STDIN
-# @flag -q --quiet               Suppress the load output
+# @option -i --input <file>    Read from tar archive file, instead of STDIN
+# @flag -q --quiet             Suppress the load output
 load() {
     :;
 }
@@ -2532,7 +2532,7 @@ rmi() {
 
 # {{ docker save
 # @cmd Save one or more images to a tar archive (streamed to STDOUT by default)
-# @option -o --output <string>    Write to a file, instead of STDOUT
+# @option -o --output <file>    Write to a file, instead of STDOUT
 # @arg image*[`_choice_image_repo_tag`]
 save() {
     :;
@@ -2876,7 +2876,7 @@ service() {
 # @option --update-parallelism <uint>             Maximum number of tasks updated simultaneously (0 to update all at once) (default 1)
 # @option -u --user <string>                      Username or UID (format: <name|uid>[:<group|gid>])
 # @flag --with-registry-auth                      Send registry authentication details to swarm agents
-# @option -w --workdir <string>                   Working directory inside the container
+# @option -w --workdir <dir>                      Working directory inside the container
 # @arg image[`_choice_image_repo_tag`]
 # @arg arg*
 service::create() {
@@ -3052,7 +3052,7 @@ service::scale() {
 # @option --update-parallelism <uint>             Maximum number of tasks updated simultaneously (0 to update all at once)
 # @option -u --user <string>                      Username or UID (format: <name|uid>[:<group|gid>])
 # @flag --with-registry-auth                      Send registry authentication details to swarm agents
-# @option -w --workdir <string>                   Working directory inside the container
+# @option -w --workdir <dir>                      Working directory inside the container
 # @arg service[`_choice_service`]
 service::update() {
     :;
@@ -3068,8 +3068,8 @@ stack() {
 
 # {{{ docker stack config
 # @cmd Outputs the final config file, after doing merges and interpolations
-# @option -c --compose-file <strings>    Path to a Compose file, or "-" to read from stdin
-# @flag --skip-interpolation             Skip interpolation and output only merged config
+# @option -c --compose-file <files>    Path to a Compose file, or "-" to read from stdin
+# @flag --skip-interpolation           Skip interpolation and output only merged config
 stack::config() {
     :;
 }
@@ -3077,10 +3077,10 @@ stack::config() {
 
 # {{{ docker stack deploy
 # @cmd Deploy a new stack or update an existing stack
-# @option -c --compose-file <strings>    Path to a Compose file, or "-" to read from stdin
-# @flag --prune                          Prune services that are no longer referenced
+# @option -c --compose-file <files>    Path to a Compose file, or "-" to read from stdin
+# @flag --prune                        Prune services that are no longer referenced
 # @option --resolve-image[always|changed|never] <string>  Query the registry to resolve image digest and supported platforms (default "always")
-# @flag --with-registry-auth             Send registry authentication details to Swarm agents
+# @flag --with-registry-auth           Send registry authentication details to Swarm agents
 # @arg stack[`_choice_stack`]
 stack::deploy() {
     :;

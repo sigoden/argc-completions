@@ -5,7 +5,7 @@
 # @flag --debug                              enable verbose output
 # @flag -h --help                            help for helm
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -14,9 +14,9 @@
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 
 # {{ helm completion
 # @cmd generate autocompletion scripts for the specified shell
@@ -24,7 +24,7 @@
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -33,9 +33,9 @@
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 completion() {
     :;
 }
@@ -47,7 +47,7 @@ completion() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -56,9 +56,9 @@ completion() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 completion::bash() {
     :;
 }
@@ -71,7 +71,7 @@ completion::bash() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -80,9 +80,9 @@ completion::bash() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 completion::fish() {
     :;
 }
@@ -95,7 +95,7 @@ completion::fish() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -104,9 +104,9 @@ completion::fish() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 completion::powershell() {
     :;
 }
@@ -119,7 +119,7 @@ completion::powershell() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -128,9 +128,9 @@ completion::powershell() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 completion::zsh() {
     :;
 }
@@ -140,11 +140,11 @@ completion::zsh() {
 # {{ helm create
 # @cmd create a new chart with the given name
 # @flag -h --help                            help for create
-# @option -p --starter <file>                the name or absolute path to Helm starter scaffold
+# @option -p --starter <path>                the name or absolute path to Helm starter scaffold
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -153,9 +153,9 @@ completion::zsh() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg name
 create() {
     :;
@@ -169,7 +169,7 @@ create() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -178,9 +178,9 @@ create() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 dependency() {
     :;
 }
@@ -194,7 +194,7 @@ dependency() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -203,9 +203,9 @@ dependency() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg chart[`_choice_chart`]
 dependency::build() {
     :;
@@ -219,7 +219,7 @@ dependency::build() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -228,9 +228,9 @@ dependency::build() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg chart[`_choice_chart`]
 dependency::list() {
     :;
@@ -246,7 +246,7 @@ dependency::list() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -255,9 +255,9 @@ dependency::list() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg chart[`_choice_chart`]
 dependency::update() {
     :;
@@ -271,7 +271,7 @@ dependency::update() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -280,9 +280,9 @@ dependency::update() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 env() {
     :;
 }
@@ -294,7 +294,7 @@ env() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -303,9 +303,9 @@ env() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 get() {
     :;
 }
@@ -318,7 +318,7 @@ get() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -327,9 +327,9 @@ get() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg release_name[`_choice_release`]
 get::all() {
     :;
@@ -343,7 +343,7 @@ get::all() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -352,9 +352,9 @@ get::all() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg release_name[`_choice_release`]
 get::hooks() {
     :;
@@ -368,7 +368,7 @@ get::hooks() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -377,9 +377,9 @@ get::hooks() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg release_name[`_choice_release`]
 get::manifest() {
     :;
@@ -393,7 +393,7 @@ get::manifest() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -402,9 +402,9 @@ get::manifest() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg release_name[`_choice_release`]
 get::notes() {
     :;
@@ -420,7 +420,7 @@ get::notes() {
 # @option --burst-limit <int>                      client-side default throttling limit (default 100)
 # @flag --debug                                    enable verbose output
 # @option --kube-apiserver <string>                the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>            group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>                group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>                  username to impersonate for the operation
 # @option --kube-ca-file <file>                    the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -429,9 +429,9 @@ get::notes() {
 # @option --kube-token <string>                    bearer token used for authentication
 # @option --kubeconfig <file>                      path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>                 path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>                path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>               path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>                 path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>                path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>               path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg release_name[`_choice_release`]
 get::values() {
     :;
@@ -448,7 +448,7 @@ get::values() {
 # @option --burst-limit <int>                      client-side default throttling limit (default 100)
 # @flag --debug                                    enable verbose output
 # @option --kube-apiserver <string>                the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>            group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>                group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>                  username to impersonate for the operation
 # @option --kube-ca-file <file>                    the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -457,9 +457,9 @@ get::values() {
 # @option --kube-token <string>                    bearer token used for authentication
 # @option --kubeconfig <file>                      path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>                 path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>                path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>               path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>                 path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>                path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>               path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg release_name[`_choice_release`]
 history() {
     :;
@@ -494,11 +494,11 @@ history() {
 # @flag --render-subchart-notes                    if set, render subchart notes along with the parent
 # @flag --replace                                  re-use the given name, only if that name is a deleted release which remains in the history.
 # @option --repo <string>                          chart repository url where to locate the requested chart
-# @option --set <stringArray>                      set values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2)
-# @option --set-file*,[`_choice_set_file`] <stringArray>  set values from respective files specified via the command line (can specify multiple or separate values with commas: key1=path1,key2=path2)
-# @option --set-json <stringArray>                 set JSON values on the command line (can specify multiple or separate values with commas: key1=jsonval1,key2=jsonval2)
-# @option --set-literal <stringArray>              set a literal STRING value on the command line
-# @option --set-string <stringArray>               set STRING values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2)
+# @option --set* <string>                          set values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2)
+# @option --set-file*,[`_choice_set_file`] <file>  set values from respective files specified via the command line (can specify multiple or separate values with commas: key1=path1,key2=path2)
+# @option --set-json* <string>                     set JSON values on the command line (can specify multiple or separate values with commas: key1=jsonval1,key2=jsonval2)
+# @option --set-literal* <string>                  set a literal STRING value on the command line
+# @option --set-string* <string>                   set STRING values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2)
 # @flag --skip-crds                                if set, no CRDs will be installed.
 # @option --timeout <duration>                     time to wait for any individual Kubernetes operation (like Jobs for hooks) (default 5m0s)
 # @option --username <string>                      chart repository username where to locate the requested chart
@@ -510,7 +510,7 @@ history() {
 # @option --burst-limit <int>                      client-side default throttling limit (default 100)
 # @flag --debug                                    enable verbose output
 # @option --kube-apiserver <string>                the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>            group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>                group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>                  username to impersonate for the operation
 # @option --kube-ca-file <file>                    the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -519,9 +519,9 @@ history() {
 # @option --kube-token <string>                    bearer token used for authentication
 # @option --kubeconfig <file>                      path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>                 path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>                path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>               path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>                 path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>                path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>               path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg name
 # @arg chart[`_choice_chart`]
 install() {
@@ -533,18 +533,18 @@ install() {
 # @cmd examine a chart for possible issues
 # @flag -h --help                            help for lint
 # @flag --quiet                              print only warnings and errors
-# @option --set <stringArray>                set values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2)
-# @option --set-file*,[`_choice_set_file`] <stringArray>  set values from respective files specified via the command line (can specify multiple or separate values with commas: key1=path1,key2=path2)
-# @option --set-json <stringArray>           set JSON values on the command line (can specify multiple or separate values with commas: key1=jsonval1,key2=jsonval2)
-# @option --set-literal <stringArray>        set a literal STRING value on the command line
-# @option --set-string <stringArray>         set STRING values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2)
+# @option --set* <string>                    set values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2)
+# @option --set-file*,[`_choice_set_file`] <file>  set values from respective files specified via the command line (can specify multiple or separate values with commas: key1=path1,key2=path2)
+# @option --set-json* <string>               set JSON values on the command line (can specify multiple or separate values with commas: key1=jsonval1,key2=jsonval2)
+# @option --set-literal* <string>            set a literal STRING value on the command line
+# @option --set-string* <string>             set STRING values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2)
 # @flag --strict                             fail on lint warnings
 # @option -f --values* <file>                specify values in a YAML file or a URL (can specify multiple)
 # @flag --with-subcharts                     lint dependent charts
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -553,9 +553,9 @@ install() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg path
 lint() {
     :;
@@ -587,7 +587,7 @@ lint() {
 # @option --burst-limit <int>                      client-side default throttling limit (default 100)
 # @flag --debug                                    enable verbose output
 # @option --kube-apiserver <string>                the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>            group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>                group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>                  username to impersonate for the operation
 # @option --kube-ca-file <file>                    the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -596,9 +596,9 @@ lint() {
 # @option --kube-token <string>                    bearer token used for authentication
 # @option --kubeconfig <file>                      path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>                 path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>                path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>               path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>                 path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>                path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>               path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 list() {
     :;
 }
@@ -608,7 +608,7 @@ list() {
 # @cmd package a chart directory into a chart archive
 # @option --app-version <string>             set the appVersion on the chart to this version
 # @flag -u --dependency-update               update dependencies from "Chart.yaml" to dir "charts/" before packaging
-# @option -d --destination <dir>             location to write the chart.
+# @option -d --destination <path>            location to write the chart.
 # @flag -h --help                            help for package
 # @option --key <string>                     name of the key to use when signing.
 # @option --keyring <file>                   location of a public keyring (default "/home/sigo/.gnupg/pubring.gpg")
@@ -618,7 +618,7 @@ list() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -627,9 +627,9 @@ list() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg chart_path
 package() {
     :;
@@ -642,7 +642,7 @@ package() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -651,9 +651,9 @@ package() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 plugin() {
     :;
 }
@@ -666,7 +666,7 @@ plugin() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -675,9 +675,9 @@ plugin() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg path-url+ <path|url>
 plugin::install() {
     :;
@@ -691,7 +691,7 @@ plugin::install() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -700,9 +700,9 @@ plugin::install() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 plugin::list() {
     :;
 }
@@ -715,7 +715,7 @@ plugin::list() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -724,9 +724,9 @@ plugin::list() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg plugin+[`_choice_plugin`]
 plugin::uninstall() {
     :;
@@ -740,7 +740,7 @@ plugin::uninstall() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -749,9 +749,9 @@ plugin::uninstall() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg plugin+[`_choice_plugin`]
 plugin::update() {
     :;
@@ -782,7 +782,7 @@ plugin::update() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -791,9 +791,9 @@ plugin::update() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg chart[`_choice_repo_chart`]
 pull() {
     :;
@@ -810,7 +810,7 @@ pull() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -819,9 +819,9 @@ pull() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg dir![`_choice_chart`]
 # @arg remote
 push() {
@@ -835,7 +835,7 @@ push() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -844,9 +844,9 @@ push() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 registry() {
     :;
 }
@@ -864,7 +864,7 @@ registry() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -873,9 +873,9 @@ registry() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg host
 registry::login() {
     :;
@@ -888,7 +888,7 @@ registry::login() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -897,9 +897,9 @@ registry::login() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg host
 registry::logout() {
     :;
@@ -913,7 +913,7 @@ registry::logout() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -922,9 +922,9 @@ registry::logout() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 repo() {
     :;
 }
@@ -946,7 +946,7 @@ repo() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -955,9 +955,9 @@ repo() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg name
 # @arg url
 repo::add() {
@@ -973,7 +973,7 @@ repo::add() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -982,9 +982,9 @@ repo::add() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg dir
 repo::index() {
     :;
@@ -999,7 +999,7 @@ repo::index() {
 # @option --burst-limit <int>                      client-side default throttling limit (default 100)
 # @flag --debug                                    enable verbose output
 # @option --kube-apiserver <string>                the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>            group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>                group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>                  username to impersonate for the operation
 # @option --kube-ca-file <file>                    the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -1008,9 +1008,9 @@ repo::index() {
 # @option --kube-token <string>                    bearer token used for authentication
 # @option --kubeconfig <file>                      path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>                 path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>                path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>               path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>                 path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>                path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>               path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 repo::list() {
     :;
 }
@@ -1023,7 +1023,7 @@ repo::list() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -1032,9 +1032,9 @@ repo::list() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg name*[`_choice_repo_name`]
 repo::remove() {
     :;
@@ -1049,7 +1049,7 @@ repo::remove() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -1058,9 +1058,9 @@ repo::remove() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg name*[`_choice_repo_name`]
 repo::update() {
     :;
@@ -1083,7 +1083,7 @@ repo::update() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -1092,9 +1092,9 @@ repo::update() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg release![`_choice_release`]
 # @arg revision[`_choice_revision`]
 rollback() {
@@ -1108,7 +1108,7 @@ rollback() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -1117,9 +1117,9 @@ rollback() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 search() {
     :;
 }
@@ -1134,7 +1134,7 @@ search() {
 # @option --burst-limit <int>                      client-side default throttling limit (default 100)
 # @flag --debug                                    enable verbose output
 # @option --kube-apiserver <string>                the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>            group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>                group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>                  username to impersonate for the operation
 # @option --kube-ca-file <file>                    the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -1143,9 +1143,9 @@ search() {
 # @option --kube-token <string>                    bearer token used for authentication
 # @option --kubeconfig <file>                      path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>                 path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>                path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>               path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>                 path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>                path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>               path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg keyword
 search::hub() {
     :;
@@ -1164,7 +1164,7 @@ search::hub() {
 # @option --burst-limit <int>                      client-side default throttling limit (default 100)
 # @flag --debug                                    enable verbose output
 # @option --kube-apiserver <string>                the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>            group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>                group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>                  username to impersonate for the operation
 # @option --kube-ca-file <file>                    the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -1173,9 +1173,9 @@ search::hub() {
 # @option --kube-token <string>                    bearer token used for authentication
 # @option --kubeconfig <file>                      path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>                 path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>                path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>               path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>                 path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>                path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>               path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg keyword
 search::repo() {
     :;
@@ -1190,7 +1190,7 @@ search::repo() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -1199,9 +1199,9 @@ search::repo() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 show() {
     :;
 }
@@ -1224,7 +1224,7 @@ show() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -1233,9 +1233,9 @@ show() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg chart[`_choice_chart`]
 show::all() {
     :;
@@ -1260,7 +1260,7 @@ show::all() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -1269,9 +1269,9 @@ show::all() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg chart[`_choice_chart`]
 show::chart() {
     :;
@@ -1296,7 +1296,7 @@ show::chart() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -1305,9 +1305,9 @@ show::chart() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg chart[`_choice_chart`]
 show::crds() {
     :;
@@ -1332,7 +1332,7 @@ show::crds() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -1341,9 +1341,9 @@ show::crds() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg chart[`_choice_chart`]
 show::readme() {
     :;
@@ -1357,7 +1357,7 @@ show::readme() {
 # @flag --devel                              use development versions, too.
 # @flag -h --help                            help for values
 # @flag --insecure-skip-tls-verify           skip tls certificate checks for the chart download
-# @option --jsonpath <string>                supply a JSONPath expression to filter the output
+# @option --jsonpath <path>                  supply a JSONPath expression to filter the output
 # @option --key-file <file>                  identify HTTPS client using this SSL key file
 # @option --keyring <file>                   location of public keys used for verification (default "/home/sigo/.gnupg/pubring.gpg")
 # @flag --pass-credentials                   pass credentials to all domains
@@ -1369,7 +1369,7 @@ show::readme() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -1378,9 +1378,9 @@ show::readme() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg chart[`_choice_chart`]
 show::values() {
     :;
@@ -1398,7 +1398,7 @@ show::values() {
 # @option --burst-limit <int>                      client-side default throttling limit (default 100)
 # @flag --debug                                    enable verbose output
 # @option --kube-apiserver <string>                the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>            group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>                group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>                  username to impersonate for the operation
 # @option --kube-ca-file <file>                    the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -1407,9 +1407,9 @@ show::values() {
 # @option --kube-token <string>                    bearer token used for authentication
 # @option --kubeconfig <file>                      path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>                 path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>                path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>               path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>                 path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>                path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>               path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg release_name[`_choice_release`]
 status() {
     :;
@@ -1440,7 +1440,7 @@ status() {
 # @option --kube-version <string>            Kubernetes version used for Capabilities.KubeVersion
 # @option --name-template <string>           specify template used to name the release
 # @flag --no-hooks                           prevent hooks from running during install
-# @option --output-dir <string>              writes the executed templates to files in output-dir instead of stdout
+# @option --output-dir <dir>                 writes the executed templates to files in output-dir instead of stdout
 # @flag --pass-credentials                   pass credentials to all domains
 # @option --password <string>                chart repository password where to locate the requested chart
 # @option --post-renderer <path>             the path to an executable to be used for post rendering.
@@ -1449,12 +1449,12 @@ status() {
 # @flag --render-subchart-notes              if set, render subchart notes along with the parent
 # @flag --replace                            re-use the given name, only if that name is a deleted release which remains in the history.
 # @option --repo <string>                    chart repository url where to locate the requested chart
-# @option --set <stringArray>                set values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2)
-# @option --set-file*,[`_choice_set_file`] <stringArray>  set values from respective files specified via the command line (can specify multiple or separate values with commas: key1=path1,key2=path2)
-# @option --set-json <stringArray>           set JSON values on the command line (can specify multiple or separate values with commas: key1=jsonval1,key2=jsonval2)
-# @option --set-literal <stringArray>        set a literal STRING value on the command line
-# @option --set-string <stringArray>         set STRING values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2)
-# @option -s --show-only <stringArray>       only show manifests rendered from the given templates
+# @option --set* <string>                    set values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2)
+# @option --set-file*,[`_choice_set_file`] <file>  set values from respective files specified via the command line (can specify multiple or separate values with commas: key1=path1,key2=path2)
+# @option --set-json* <string>               set JSON values on the command line (can specify multiple or separate values with commas: key1=jsonval1,key2=jsonval2)
+# @option --set-literal* <string>            set a literal STRING value on the command line
+# @option --set-string* <string>             set STRING values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2)
+# @option -s --show-only* <string>           only show manifests rendered from the given templates
 # @flag --skip-crds                          if set, no CRDs will be installed.
 # @flag --skip-tests                         skip tests from templated output
 # @option --timeout <duration>               time to wait for any individual Kubernetes operation (like Jobs for hooks) (default 5m0s)
@@ -1468,7 +1468,7 @@ status() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -1477,9 +1477,9 @@ status() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg name
 # @arg chart[`_choice_chart`]
 template() {
@@ -1496,7 +1496,7 @@ template() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -1505,9 +1505,9 @@ template() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg release[`_choice_release`]
 test() {
     :;
@@ -1528,7 +1528,7 @@ test() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -1537,9 +1537,9 @@ test() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg release_name[`_choice_release`]
 uninstall() {
     :;
@@ -1576,11 +1576,11 @@ uninstall() {
 # @option --repo <string>                          chart repository url where to locate the requested chart
 # @flag --reset-values                             when upgrading, reset the values to the ones built into the chart
 # @flag --reuse-values                             when upgrading, reuse the last release's values and merge in any overrides from the command line via --set and -f.
-# @option --set <stringArray>                      set values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2)
-# @option --set-file*,[`_choice_set_file`] <stringArray>  set values from respective files specified via the command line (can specify multiple or separate values with commas: key1=path1,key2=path2)
-# @option --set-json <stringArray>                 set JSON values on the command line (can specify multiple or separate values with commas: key1=jsonval1,key2=jsonval2)
-# @option --set-literal <stringArray>              set a literal STRING value on the command line
-# @option --set-string <stringArray>               set STRING values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2)
+# @option --set* <string>                          set values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2)
+# @option --set-file*,[`_choice_set_file`] <file>  set values from respective files specified via the command line (can specify multiple or separate values with commas: key1=path1,key2=path2)
+# @option --set-json* <string>                     set JSON values on the command line (can specify multiple or separate values with commas: key1=jsonval1,key2=jsonval2)
+# @option --set-literal* <string>                  set a literal STRING value on the command line
+# @option --set-string* <string>                   set STRING values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2)
 # @flag --skip-crds                                if set, no CRDs will be installed when an upgrade is performed with install flag enabled.
 # @option --timeout <duration>                     time to wait for any individual Kubernetes operation (like Jobs for hooks) (default 5m0s)
 # @option --username <string>                      chart repository username where to locate the requested chart
@@ -1592,7 +1592,7 @@ uninstall() {
 # @option --burst-limit <int>                      client-side default throttling limit (default 100)
 # @flag --debug                                    enable verbose output
 # @option --kube-apiserver <string>                the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>            group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>                group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>                  username to impersonate for the operation
 # @option --kube-ca-file <file>                    the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -1601,9 +1601,9 @@ uninstall() {
 # @option --kube-token <string>                    bearer token used for authentication
 # @option --kubeconfig <file>                      path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>                 path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>                path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>               path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>                 path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>                path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>               path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg release[`_choice_release`]
 # @arg chart[`_choice_chart`]
 upgrade() {
@@ -1618,7 +1618,7 @@ upgrade() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -1627,9 +1627,9 @@ upgrade() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 # @arg path
 verify() {
     :;
@@ -1644,7 +1644,7 @@ verify() {
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
-# @option --kube-as-group <stringArray>      group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-group* <string>          group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --kube-as-user <string>            username to impersonate for the operation
 # @option --kube-ca-file <file>              the certificate authority file for the Kubernetes API server connection
 # @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
@@ -1653,9 +1653,9 @@ verify() {
 # @option --kube-token <string>              bearer token used for authentication
 # @option --kubeconfig <file>                path to the kubeconfig file
 # @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
-# @option --registry-config <path>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
-# @option --repository-cache <path>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
-# @option --repository-config <path>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @option --registry-config <file>           path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>          path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>         path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
 version() {
     :;
 }

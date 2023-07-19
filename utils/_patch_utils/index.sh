@@ -34,7 +34,7 @@ _patch_help_run_help_subcmd() {
 # Run command in a fake pty
 _patch_help_run_with_fakepty() {
     if command -v fakepty >/dev/null; then
-        fakepty $@  | sed 's/\x1b\[\([0-3]\?[JK]\|[0-9]\+\(;[0-9]\+\)*m\|[=?][0-9]\+[hl]\)//g' 
+        fakepty $@  | _patch_help_preprocess_color
     else
         $@ 2>&1
     fi
@@ -47,16 +47,6 @@ _patch_help_run_man() {
     else
         man $@
     fi
-}
-
-# Clean the middle text between command value and description
-_patch_help_clean_middle_text() {
-    gawk -f "$ROOT_DIR/utils/_patch_utils/clean-middle.awk"
-}
-
-# Split two columns of options
-_patch_help_split_two_columns() {
-    sed 's/^  \(-\S\{1,2\} .*\) \(-\S\{1,2\} .*\)/  \1\n  \2/'
 }
 
 # Select subcmd help text
@@ -73,6 +63,35 @@ _patch_help_split_two_columns() {
 # ```
 _patch_help_select_subcmd() {
     gawk -v v1="^$1 " -v v2="^$*($| )" '$0 ~ v1 { x = 0; } $0 ~ v2 { x=1; print "Usage: " $0 } /^(options:|\s+-)/ && x == 1 { print $0 }'
+}
+
+# Clean the middle text between command value and description
+_patch_help_clean_middle_text() {
+    gawk -f "$ROOT_DIR/utils/_patch_utils/clean-middle.awk"
+}
+
+# Preprocess commands whose help text has 2-column options
+# Such as:
+# ```
+# -p  extract files to pipe, no messages     -l  list files (short format)
+# ```
+_patch_help_preprocess_2cols() {
+    sed 's/^  \(-\S\{1,2\} .*\) \(-\S\{1,2\} .*\)/  \1\n  \2/'
+}
+
+# Preprocess cobra-based commands
+_patch_help_preprocess_cobra() {
+    sed \
+        -e '/^\s*\(-\S, \)\?--\S\+ stringArray\( \|$\)/ s/ stringArray / string.../' \
+        -e '/dir/ s/\(^\s*\(-\S, \)\?--\S\+\) \S*[sS]tring/\1 dir/' \
+        -e '/file/ s/\(^\s*\(-\S, \)\?--\S\+\) \S*[sS]tring/\1 file/' \
+        -e '/path\|location\|destination/ s/\(^\s*\(-\S, \)\?--\S\+\) \S*[sS]tring/\1 path/' \
+
+}
+
+# Preprocess commands whose help text has ascii color.
+_patch_help_preprocess_color() {
+    sed 's/\x1b\[\([0-3]\?[JK]\|[0-9]\+\(;[0-9]\+\)*m\|[=?][0-9]\+[hl]\)//g' 
 }
 
 # Edit table options
