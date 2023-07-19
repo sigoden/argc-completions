@@ -1,5 +1,5 @@
 _module_oci_docker_image() {
-    docker image ls --format '{{.Repository}}:{{.Tag}}' | sed 's/:/=/' | _argc_util_comp_kv :
+    docker image ls --format '{{.Repository}}={{.Tag}}' | _argc_util_comp_kv :
 }
 
 _module_oci_docker_platform() {
@@ -12,4 +12,8 @@ linux/386
 linux/arm/v7
 linux/arm/v6
 EOF
+}
+
+_module_oci_podman_image() {
+    podman image ls --format '{{.Repository}}={{.Tag}}' | _argc_util_comp_kv :
 }
