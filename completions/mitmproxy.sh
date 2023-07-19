@@ -209,16 +209,29 @@ _helper_three_parts_mode() {
             split(VALUE, arr, sep)
             arrLen = length(arr)
             if (arrLen > 4) {
-                arrLen = 4
+                count = 3
+            } else {
+                count = arrLen - 1
             }
-            print arrLen - 1
+            print count
             print sep
-            for (i = 1; i < arrLen; i++) {
+            for (i = 1; i <= count; i++) {
                 out = out arr[i] sep
             }
             print out
             for (i = 2; i <= arrLen; i++) {
-                print arr[i]
+                if (i <= count) {
+                    print arr[i]
+                } else {
+                    if (last == "") {
+                        last = arr[i]
+                    } else {
+                        last = last sep arr[i]
+                    }
+                }
+            }
+            if (last != "") {
+                print last
             }
         }
     }') )
