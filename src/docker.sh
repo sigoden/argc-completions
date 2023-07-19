@@ -30,6 +30,7 @@ _patch_table() {
     _patch_table_edit_arguments \
         'CONTAINER;[`_choice_container_name`]' \
         'REPOSITORY[:TAG];[`_module_oci_docker_image`]' \
+        'IMAGE:TAG;[`_module_oci_docker_image`]' \
         'IMAGE;[`_module_oci_docker_image`]' \
     )"
 
@@ -100,11 +101,7 @@ _patch_table() {
         echo "$table" | _patch_table_edit_arguments 'CONTEXT;[`_choice_context`]'
 
     elif [[ "$*" == "docker node"* ]]; then
-        if [[ "$*" == "docker node inspect" ]]; then
-            echo "$table" | _patch_table_edit_arguments "" 'NODE;*[`_choice_image_repo`]'
-        else
-            echo "$table" | _patch_table_edit_arguments 'NODE;[`_choice_node`]'
-        fi
+        echo "$table" | _patch_table_edit_arguments 'NODE;[`_choice_node`]'
 
     elif [[ "$*" == "docker plugin"* ]]; then
         echo "$table" | _patch_table_edit_arguments 'PLUGIN;[`_choice_plugin`]'
@@ -122,7 +119,7 @@ _patch_table() {
         echo "$table" | _patch_table_edit_arguments 'VOLUME;[`_choice_volume`]'
 
     elif [[ "$*" == "docker trust"* ]]; then
-        echo "$table" | _patch_table_edit_arguments 'REPOSITORY;[`_choice_image_repo`]'
+        echo "$table" | _patch_table_edit_arguments 'REPOSITORY;[`_docker_repository`]'
 
     else
         echo "$table"
@@ -145,7 +142,7 @@ _choice_container_id() {
     _docker ps --format '{{.ID}}\t{{.Image}} ({{.Status}})'
 }
 
-_choice_image_repo() {
+_docker_repository() {
     _docker image ls --format '{{.Repository}}'
 }
 
@@ -174,11 +171,11 @@ _choice_service() {
 }
 
 _choice_stack() {
-    _docker stack list --format '{{.Name}}\t{{.Driver}}'
+    _docker stack list --format '{{.Name}}\t{{.Services}} on {{.Orchestrator}}'
 }
 
 _choice_volume() {
-    _docker volume list --format '{{.Name}}\t{{.Services}} on {{.Orchestrator}}'
+    _docker volume list --format '{{.Name}}\t{{.Driver}}'
 }
 
 _choice_builder() {

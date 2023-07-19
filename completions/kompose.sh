@@ -42,7 +42,7 @@ completion() {
 # @option --service-group-mode <label>      Group multiple service to create single workload by label(`kompose.service.group`) or `volume`(shared volumes)
 # @option --service-group-name <string>     Using with --service-group-mode=volume to specific a final service name for the group
 # @flag --stdout                            Print converted objects to stdout
-# @option --volumes[persistentVolumeClaim|emptyDir|hostPath|configMap] <string>  Volumes to be generated ("persistentVolumeClaim"|"emptyDir"|"hostPath" | "configMap") (default "persistentVolumeClaim")
+# @option --volumes[persistentVolumeClaim|emptyDir|hostPath|configMap] <path>  Volumes to be generated ("persistentVolumeClaim"|"emptyDir"|"hostPath" | "configMap") (default "persistentVolumeClaim")
 # @flag --with-kompose-annotation           Add kompose annotations to generated resource (default true)
 # @flag --error-on-warning                  Treat any warning as an error
 # @option -f --file* <file>                 Specify an alternative compose file

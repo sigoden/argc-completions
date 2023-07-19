@@ -78,7 +78,7 @@ END {
                     groupName = "command"
                     continue
                 }
-            } else if (match(santizedLine, /^(synopsis|description|discussion|environment|environment variables|examples|learn more):\s*$/)) {
+            } else if (match(santizedLine, /^(aliases|synopsis|description|discussion|environment|environment variables|examples|learn more):\s*$/)) {
                 if (LINES[i+1, 3] > spaces) {
                     groupName = "misc"
                     continue
@@ -206,7 +206,7 @@ END {
         gsub(/^\*|\*$/, "", commandVal)
         split("", descValues)
         parseDesc(substr(command, splitAt + 1), descValues, 0)
-        if (commandVal != "") {
+        if (commandVal != "" && !match(commandVal, /^[0-9]+$/)) {
             print "command # " commandVal " # " descValues[1]
         }
     }

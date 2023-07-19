@@ -163,6 +163,6 @@ _patch_table_detect_value_type() {
         -e 's/^\(option # -\S\+\( -\S\+\)*\) stringArray/\1 string.../' \
         -e '/dir/ s/^\(option # -\S\+\( -\S\+\)*\) \S*[Ss]tring/\1 dir/' \
         -e '/file/ s/^\(option # -\S\+\( -\S\+\)*\) \S*[Ss]tring/\1 file/' \
-        -e '/path\|location\|destination/ s/^\(option # -\S\+\( -\S\+\)*\) \S*[Ss]tring/\1 path/' \
+        -e '/[Pp]ath\|\blocation\b\|[Dd]estination\|save/ s/^\(option # -\S\+\( -\S\+\)*\) \S*[Ss]tring/\1 path/' \
 
 }

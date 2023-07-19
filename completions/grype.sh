@@ -184,7 +184,7 @@ _choice_podman_image() {
 }
 
 _module_oci_docker_image() {
-    docker image ls --format '{{.Repository}}:{{.Tag}}' | sed 's/:/=/' | _argc_util_comp_kv :
+    docker image ls --format '{{.Repository}}={{.Tag}}' | _argc_util_comp_kv :
 }
 
 _module_oci_docker_platform() {
@@ -200,7 +200,7 @@ EOF
 }
 
 _module_oci_podman_image() {
-    podman image ls --format '{{.Repository}}:{{.Tag}}' | sed 's/:/=/' | _argc_util_comp_kv :
+    podman image ls --format '{{.Repository}}={{.Tag}}' | _argc_util_comp_kv :
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

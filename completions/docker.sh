@@ -2097,7 +2097,7 @@ trust::signer() {
 # @cmd Add a signer
 # @option --key <list>    Path to the signer's public key file
 # @arg name
-# @arg repository*[`_choice_image_repo`]
+# @arg repository*[`_docker_repository`]
 trust::signer::add() {
     :;
 }
@@ -2107,7 +2107,7 @@ trust::signer::add() {
 # @cmd Remove a signer
 # @flag -f --force    Do not prompt for confirmation before removing the most recent signer
 # @arg name
-# @arg repository*[`_choice_image_repo`]
+# @arg repository*[`_docker_repository`]
 trust::signer::remove() {
     :;
 }
@@ -2692,7 +2692,7 @@ node::demote() {
 # @option -f --format <string>    Format output using a custom template:
 # @flag --pretty                  Print the information in a human friendly format
 # @arg self-node <self|NODE>
-# @arg node*[`_choice_image_repo`]
+# @arg node*[`_choice_node`]
 node::inspect() {
     :;
 }
@@ -3146,7 +3146,7 @@ _choice_container_id() {
     _docker ps --format '{{.ID}}\t{{.Image}} ({{.Status}})'
 }
 
-_choice_image_repo() {
+_docker_repository() {
     _docker image ls --format '{{.Repository}}'
 }
 
@@ -3175,11 +3175,11 @@ _choice_service() {
 }
 
 _choice_stack() {
-    _docker stack list --format '{{.Name}}\t{{.Driver}}'
+    _docker stack list --format '{{.Name}}\t{{.Services}} on {{.Orchestrator}}'
 }
 
 _choice_volume() {
-    _docker volume list --format '{{.Name}}\t{{.Services}} on {{.Orchestrator}}'
+    _docker volume list --format '{{.Name}}\t{{.Driver}}'
 }
 
 _choice_builder() {
@@ -3296,7 +3296,7 @@ EOF
 }
 
 _module_oci_docker_image() {
-    docker image ls --format '{{.Repository}}:{{.Tag}}' | sed 's/:/=/' | _argc_util_comp_kv :
+    docker image ls --format '{{.Repository}}={{.Tag}}' | _argc_util_comp_kv :
 }
 
 _module_oci_docker_platform() {

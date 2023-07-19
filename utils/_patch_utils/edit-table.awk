@@ -158,7 +158,7 @@ function editArgument(line,     i) {
         nameIdx = index(argumentNameLower, tolower(name))
         if (nameIdx > 0) {
             chekChars = substr(argumentNameLower, nameIdx - 1, 1) substr(argumentNameLower, nameIdx + length(name), 1)
-            if (!match(chekChars, /[a-z0-9_\|-]/)) {
+            if (!match(chekChars, /[a-z0-9_\|:-]/)) {
                 TAKEN_ROWS[i] = 1
                 notation = TABLE[i, 2]
                 choice = TABLE[i, 3]

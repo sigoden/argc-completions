@@ -4688,7 +4688,7 @@ _helper_find_resource_by_type() {
 }
 
 _module_oci_docker_image() {
-    docker image ls --format '{{.Repository}}:{{.Tag}}' | sed 's/:/=/' | _argc_util_comp_kv :
+    docker image ls --format '{{.Repository}}={{.Tag}}' | _argc_util_comp_kv :
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"
