@@ -24,10 +24,13 @@ EOF
 _patch_table() {
     table="$( \
     _patch_table_detect_value_type | \
+    _patch_table_edit_options \
+        '--platform;[`_module_oci_docker_platform`]' \
+    | \
     _patch_table_edit_arguments \
         'CONTAINER;[`_choice_container_name`]' \
-        'REPOSITORY[:TAG];[`_choice_image_repo_tag`]' \
-        'IMAGE;[`_choice_image_repo_tag`]' \
+        'REPOSITORY[:TAG];[`_module_oci_docker_image`]' \
+        'IMAGE;[`_module_oci_docker_image`]' \
     )"
 
     if [[ "$*" == "docker config"* ]]; then
@@ -78,8 +81,8 @@ _patch_table() {
     elif [[ "$*" == "docker image tag"* ]] || [[ "$*" == "docker tag"* ]]; then
         echo "$table" | \
         _patch_table_edit_arguments \
-            'SOURCE_IMAGE;[`_choice_image_repo_tag`]' \
-            'TARGET_IMAGE;[`_choice_image_repo_tag`]' \
+            'SOURCE_IMAGE;[`_module_oci_docker_image`]' \
+            'TARGET_IMAGE;[`_module_oci_docker_image`]' \
 
     elif [[ "$*" == "docker events"* ]]; then
         echo "$table" | _patch_table_edit_options '--filter;[`_choice_event_filter`]'
@@ -144,10 +147,6 @@ _choice_container_id() {
 
 _choice_image_repo() {
     _docker image ls --format '{{.Repository}}'
-}
-
-_choice_image_repo_tag() {
-    _docker image ls --format '{{.Repository}}:{{.Tag}}' | sed 's/:/=/' | _argc_util_comp_kv :
 }
 
 _choice_context() {
@@ -253,7 +252,7 @@ name=`_choice_container_name`
 label=
 exited
 status=created,dead,exited,paused,restarting,running,removing
-ancestor=`_choice_image_repo_tag`
+ancestor=`_module_oci_docker_image`
 before=`_choice_container_name`
 since=`_choice_container_name`
 volume=`_choice_volume`
@@ -270,9 +269,9 @@ _choice_image_ls_filter() {
     cat <<-'EOF' | _argc_util_comp_kv =
 dangling=true,false
 label=
-before=`_choice_image_repo_tag`
-since=`_choice_image_repo_tag`
-reference=`_choice_image_repo_tag`
+before=`_module_oci_docker_image`
+since=`_module_oci_docker_image`
+reference=`_module_oci_docker_image`
 EOF
 }
 
@@ -282,7 +281,7 @@ config=`_choice_config`
 container=`_choice_container_name`
 daemon=
 event=attach,commit,connect,copy,create,delete,destroy,detach,die,disable,disconnect,enable,exec_create,exec_detach,exec_start,export,health_status,import,install,kill,load,mount,oom,pause,pull,push,reload,remove,rename,resize,restart,save,start,stop,tag,top,unmount,unpause,untag,update
-image=`_choice_image_repo_tag`
+image=`_module_oci_docker_image`
 label=
 network=`_choice_network`
 node=`_choice_node`

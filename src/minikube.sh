@@ -55,7 +55,7 @@ _patch_table() {
             '--driver(<value>);[virtualbox|vmwarefusion|kvm2|qemu2|qemu|vmware|none|docker|podman|ssh|auto-detect]' \
             '--iso-url(<url>);*,;Locations to fetch the minikube ISO from.' \
             '--addons;*,[`_choice_addon`]' \
-            '--base-image;[`_choice_image_repo_tag`]' \
+            '--base-image;[`_module_oci_docker_image`]' \
             '--cni;[`_choice_cni`]' \
             '--container-runtime;[docker|cri-o|containerd]' \
             '--cri-socket(<file>)' \
@@ -115,7 +115,7 @@ _choice_namespace() {
 
 _choice_load_image() {
     if !_argc_util_is_path "$argc_image"; then
-        _choice_image_repo_tag
+        _module_oci_docker_image
     fi
     _argc_util_comp_path
 }
@@ -133,10 +133,6 @@ _choice_cni() {
         printf "%s\n" auto bridge calico cilium flannel kindnet
     fi
     _argc_util_comp_path
-}
-
-_choice_image_repo_tag() {
-    docker image ls --format '{{.Repository}}:{{.Tag}}' | sed 's/:/=/' | _argc_util_comp_kv :
 }
 
 _choice_vnpkit_sock() {

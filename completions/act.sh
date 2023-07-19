@@ -10,7 +10,7 @@
 # @option --cache-server-addr <string>          Defines the address to which the cache server binds.
 # @option --cache-server-path <path>            Defines the path where the cache server stores caches.
 # @option --cache-server-port <uint16>          Defines the port where the artifact server listens.
-# @option --container-architecture[`_choice_container_platform`] <string>  Architecture which should be used to run containers, e.g.: linux/amd64.
+# @option --container-architecture[`_module_oci_docker_platform`] <string>  Architecture which should be used to run containers, e.g.: linux/amd64.
 # @option --container-cap-add* <string>         kernel capabilities to add to the workflow containers (e.g. --container-cap-add SYS_PTRACE)
 # @option --container-cap-drop* <string>        kernel capabilities to remove from the workflow containers (e.g. --container-cap-drop SYS_PTRACE)
 # @option --container-daemon-socket <string>    URI to Docker Engine socket (e.g.: unix://~/.docker/run/docker.sock or - to disable bind mounting the socket)
@@ -59,18 +59,6 @@ _choice_job() {
     act -l 2>/dev/null | tail +2 | gawk '{print $2}'    
 }
 
-_choice_container_platform() {
-    cat <<-'EOF'
-linux/amd64
-linux/arm64
-linux/ppc64le
-linux/s390x
-linux/386
-linux/arm/v7
-linux/arm/v6
-EOF
-}
-
 _choice_event() {
     cat <<-'EOF'
 branch_protection_rule
@@ -109,6 +97,18 @@ watch
 workflow_call
 workflow_dispatch
 workflow_run
+EOF
+}
+
+_module_oci_docker_platform() {
+    cat <<-'EOF'
+linux/amd64
+linux/arm64
+linux/ppc64le
+linux/s390x
+linux/386
+linux/arm/v7
+linux/arm/v6
 EOF
 }
 

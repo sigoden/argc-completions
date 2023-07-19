@@ -11,7 +11,7 @@
 # @option --apiserver-names* <value>             A set of apiserver names which are used in the generated certificate for kubernetes.
 # @option --apiserver-port <8443>                The apiserver listening port
 # @flag --auto-update-drivers                    If set, automatically updates drivers to the latest version.
-# @option --base-image[`_choice_image_repo_tag`] <'gcr.io/k8s-minikube/kicbase:v0.0.39@sha256:bf2d9f1e9d837d8deea073611d2605405b6be904647d97ebd9b12045ddfe1106':>
+# @option --base-image[`_module_oci_docker_image`] <'gcr.io/k8s-minikube/kicbase:v0.0.39@sha256:bf2d9f1e9d837d8deea073611d2605405b6be904647d97ebd9b12045ddfe1106':>
 # @option --binary-mirror <value>                Location to fetch kubectl, kubelet, & kubeadm binaries from.
 # @flag --cache-images                           If true, cache docker images for the current bootstrapper and load them into the machine.
 # @option --cert-expiration <26280h0m0s>         Duration until minikube certificate expiration, defaults to three years (26280h).
@@ -681,7 +681,7 @@ _choice_namespace() {
 
 _choice_load_image() {
     if !_argc_util_is_path "$argc_image"; then
-        _choice_image_repo_tag
+        _module_oci_docker_image
     fi
     _argc_util_comp_path
 }
@@ -699,10 +699,6 @@ _choice_cni() {
         printf "%s\n" auto bridge calico cilium flannel kindnet
     fi
     _argc_util_comp_path
-}
-
-_choice_image_repo_tag() {
-    docker image ls --format '{{.Repository}}:{{.Tag}}' | sed 's/:/=/' | _argc_util_comp_kv :
 }
 
 _choice_vnpkit_sock() {
@@ -797,6 +793,10 @@ _choice_cp() {
             _complete_node_path
         fi
     fi
+}
+
+_module_oci_docker_image() {
+    docker image ls --format '{{.Repository}}:{{.Tag}}' | sed 's/:/=/' | _argc_util_comp_kv :
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

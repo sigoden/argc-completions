@@ -1253,7 +1253,7 @@ expose() {
 # @option --env* <value>                          Environment variables to set in the container.
 # @flag --expose                                  If true, create a ClusterIP service associated with the pod.
 # @option --field-manager <kubectl-run>           Name of the manager used to track field ownership.
-# @option --image[`_choice_image_repo_tag`] <value>  The image for the container to run.
+# @option --image[`_module_oci_docker_image`] <value>  The image for the container to run.
 # @option --image-pull-policy <value>             The image pull policy for the container.
 # @option -l --labels <value>                     Comma separated labels to apply to the pod.
 # @flag --leave-stdin-open                        If the pod is started in interactive mode or with stdin, leave stdin open after the first attach completes.
@@ -3169,7 +3169,7 @@ auth::whoami() {
 # @option --copy-to <value>                       Create a copy of the target Pod with this name.
 # @option --env* <value>                          Environment variables to set in the container.
 # @option -f --filename <file>                    identifying the resource to debug
-# @option --image[`_choice_image_repo_tag`] <value>  Container image to use for debug container.
+# @option --image[`_module_oci_docker_image`] <value>  Container image to use for debug container.
 # @option --image-pull-policy <value>             The image pull policy for the container.
 # @option --profile[legacy|general|baseline|netadmin|restricted] <legacy>  Debugging profile.
 # @flag -q --quiet                                If true, suppress informational messages.
@@ -4587,10 +4587,6 @@ _choice_serviceaccount() {
     kubectl get serviceaccounts | tail -n +2 |  gawk '{print $1'}
 }
 
-_choice_image_repo_tag() {
-    docker image ls --format '{{.Repository}}:{{.Tag}}' | sed 's/:/=/' | _argc_util_comp_kv :
-}
-
 _choice_all_type() {
     kubectl api-resources --output=name --cached | gawk -F. '{print $1}'
 }
@@ -4633,7 +4629,7 @@ _choice_container_image() {
     if [[ -z "$argc__kv_prefix" ]]; then
         _choice_container | _argc_util_transform suffix== nospace
     else
-        _choice_image_repo_tag
+        _module_oci_docker_image
     fi
 }
 
@@ -4689,6 +4685,10 @@ _choice_cp() {
 
 _helper_find_resource_by_type() {
     _kubectl get $1 -o go-template --template="$(echo -e "{{range .items}}{{.metadata.name}}\t{{.kind}}\n{{end}}")" 
+}
+
+_module_oci_docker_image() {
+    docker image ls --format '{{.Repository}}:{{.Tag}}' | sed 's/:/=/' | _argc_util_comp_kv :
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

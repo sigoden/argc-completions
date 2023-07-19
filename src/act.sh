@@ -2,25 +2,13 @@ _patch_table() {
     _patch_table_detect_value_type \ |
     _patch_table_edit_options  \
         '--job;[`_choice_job`]' \
-        '--container-architecture;[`_choice_container_platform`]' \
+        '--container-architecture;[`_module_oci_docker_platform`]' \
     | \
     _patch_table_edit_arguments ';;' 'event;[`_choice_event`]'
 }
 
 _choice_job() {
     act -l 2>/dev/null | tail +2 | gawk '{print $2}'    
-}
-
-_choice_container_platform() {
-    cat <<-'EOF'
-linux/amd64
-linux/arm64
-linux/ppc64le
-linux/s390x
-linux/386
-linux/arm/v7
-linux/arm/v6
-EOF
 }
 
 _choice_event() {

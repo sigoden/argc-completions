@@ -85,7 +85,7 @@
 # @option --oom-score-adj <int>                    Tune host's OOM preferences (-1000 to 1000)
 # @option --pid <string>                           PID namespace to use
 # @option --pids-limit <int>                       Tune container pids limit (set -1 for unlimited)
-# @option --platform <string>                      Set platform if server is multi-platform capable
+# @option --platform[`_module_oci_docker_platform`] <string>  Set platform if server is multi-platform capable
 # @flag --privileged                               Give extended privileges to this container
 # @option -p --publish <list>                      Publish a container's port(s) to the host
 # @flag -P --publish-all                           Publish all exposed ports to random ports
@@ -112,7 +112,7 @@
 # @option --volume-driver <string>                 Optional volume driver for the container
 # @option --volumes-from <list>                    Mount volumes from the specified container(s)
 # @option -w --workdir <dir>                       Working directory inside the container
-# @arg image[`_choice_image_repo_tag`]
+# @arg image[`_module_oci_docker_image`]
 # @arg arg*
 run() {
     :;
@@ -172,7 +172,7 @@ ps() {
 # @flag --no-cache                               Do not use cache when building the image
 # @option --no-cache-filter* <string>            Do not cache specified stages
 # @option -o --output* <path>                    Output destination (format: "type=local,dest=path")
-# @option --platform* <string>                   Set target platform for build
+# @option --platform*[`_module_oci_docker_platform`] <string>  Set target platform for build
 # @option --progress[auto|plain|tty] <string>    Set type of progress output.
 # @option --provenance <string>                  Shortand for "--attest=type=provenance"
 # @flag --pull                                   Always attempt to pull all referenced images
@@ -195,7 +195,7 @@ build() {
 # @cmd Download an image from a registry
 # @flag -a --all-tags              Download all tagged images in the repository
 # @flag --disable-content-trust    Skip image verification (default true)
-# @option --platform <string>      Set platform if server is multi-platform capable
+# @option --platform[`_module_oci_docker_platform`] <string>  Set platform if server is multi-platform capable
 # @flag -q --quiet                 Suppress verbose output
 # @arg name-tag-digest <NAME[:TAG|@DIGEST]>
 pull() {
@@ -222,7 +222,7 @@ push() {
 # @option --format <string>    Format output using a custom template:
 # @flag --no-trunc             Don't truncate output
 # @flag -q --quiet             Only show image IDs
-# @arg repository-tag[`_choice_image_repo_tag`] <REPOSITORY[:TAG]>
+# @arg repository-tag[`_module_oci_docker_image`] <REPOSITORY[:TAG]>
 images() {
     :;
 }
@@ -355,7 +355,7 @@ builder::bake() {
 # @flag --no-cache                               Do not use cache when building the image
 # @option --no-cache-filter* <string>            Do not cache specified stages
 # @option -o --output* <path>                    Output destination (format: "type=local,dest=path")
-# @option --platform* <string>                   Set target platform for build
+# @option --platform*[`_module_oci_docker_platform`] <string>  Set target platform for build
 # @option --progress[auto|plain|tty] <string>    Set type of progress output.
 # @option --provenance <string>                  Shortand for "--attest=type=provenance"
 # @flag --pull                                   Always attempt to pull all referenced images
@@ -385,7 +385,7 @@ builder::build() {
 # @flag --leave                         Remove a node from builder instead of changing it
 # @option --name <string>               Builder instance name
 # @option --node <string>               Create/modify node with given name
-# @option --platform* <string>          Fixed platforms for current node
+# @option --platform*[`_module_oci_docker_platform`] <string>  Fixed platforms for current node
 # @flag --use                           Set the current builder instance
 # @arg context-endpoint <CONTEXT|ENDPOINT>
 builder::create() {
@@ -554,7 +554,7 @@ buildx::bake() {
 # @flag --no-cache                               Do not use cache when building the image
 # @option --no-cache-filter* <string>            Do not cache specified stages
 # @option -o --output* <path>                    Output destination (format: "type=local,dest=path")
-# @option --platform* <string>                   Set target platform for build
+# @option --platform*[`_module_oci_docker_platform`] <string>  Set target platform for build
 # @option --progress[auto|plain|tty] <string>    Set type of progress output.
 # @option --provenance <string>                  Shortand for "--attest=type=provenance"
 # @flag --pull                                   Always attempt to pull all referenced images
@@ -584,7 +584,7 @@ buildx::build() {
 # @flag --leave                         Remove a node from builder instead of changing it
 # @option --name <string>               Builder instance name
 # @option --node <string>               Create/modify node with given name
-# @option --platform* <string>          Fixed platforms for current node
+# @option --platform*[`_module_oci_docker_platform`] <string>  Fixed platforms for current node
 # @flag --use                           Set the current builder instance
 # @arg context-endpoint <CONTEXT|ENDPOINT>
 buildx::create() {
@@ -1029,7 +1029,7 @@ container::attach() {
 # @option -m --message <string>    Commit message
 # @flag -p --pause                 Pause container during commit (default true)
 # @arg container[`_choice_container_name`]
-# @arg repository-tag[`_choice_image_repo_tag`] <REPOSITORY[:TAG]>
+# @arg repository-tag[`_module_oci_docker_image`] <REPOSITORY[:TAG]>
 container::commit() {
     :;
 }
@@ -1117,7 +1117,7 @@ container::cp() {
 # @option --oom-score-adj <int>               Tune host's OOM preferences (-1000 to 1000)
 # @option --pid <string>                      PID namespace to use
 # @option --pids-limit <int>                  Tune container pids limit (set -1 for unlimited)
-# @option --platform <string>                 Set platform if server is multi-platform capable
+# @option --platform[`_module_oci_docker_platform`] <string>  Set platform if server is multi-platform capable
 # @flag --privileged                          Give extended privileges to this container
 # @option -p --publish <list>                 Publish a container's port(s) to the host
 # @flag -P --publish-all                      Publish all exposed ports to random ports
@@ -1143,7 +1143,7 @@ container::cp() {
 # @option --volume-driver <string>            Optional volume driver for the container
 # @option --volumes-from <list>               Mount volumes from the specified container(s)
 # @option -w --workdir <dir>                  Working directory inside the container
-# @arg image[`_choice_image_repo_tag`]
+# @arg image[`_module_oci_docker_image`]
 # @arg arg*
 container::create() {
     :;
@@ -1362,7 +1362,7 @@ container::rm() {
 # @option --oom-score-adj <int>                    Tune host's OOM preferences (-1000 to 1000)
 # @option --pid <string>                           PID namespace to use
 # @option --pids-limit <int>                       Tune container pids limit (set -1 for unlimited)
-# @option --platform <string>                      Set platform if server is multi-platform capable
+# @option --platform[`_module_oci_docker_platform`] <string>  Set platform if server is multi-platform capable
 # @flag --privileged                               Give extended privileges to this container
 # @option -p --publish <list>                      Publish a container's port(s) to the host
 # @flag -P --publish-all                           Publish all exposed ports to random ports
@@ -1389,7 +1389,7 @@ container::rm() {
 # @option --volume-driver <string>                 Optional volume driver for the container
 # @option --volumes-from <list>                    Mount volumes from the specified container(s)
 # @option -w --workdir <dir>                       Working directory inside the container
-# @arg image[`_choice_image_repo_tag`]
+# @arg image[`_module_oci_docker_image`]
 # @arg arg*
 container::run() {
     :;
@@ -1590,7 +1590,7 @@ image() {
 # @flag --no-cache                               Do not use cache when building the image
 # @option --no-cache-filter* <string>            Do not cache specified stages
 # @option -o --output* <path>                    Output destination (format: "type=local,dest=path")
-# @option --platform* <string>                   Set target platform for build
+# @option --platform*[`_module_oci_docker_platform`] <string>  Set target platform for build
 # @option --progress[auto|plain|tty] <string>    Set type of progress output.
 # @option --provenance <string>                  Shortand for "--attest=type=provenance"
 # @flag --pull                                   Always attempt to pull all referenced images
@@ -1615,7 +1615,7 @@ image::build() {
 # @flag -H --human             Print sizes and dates in human readable format (default true)
 # @flag --no-trunc             Don't truncate output
 # @flag -q --quiet             Only show image IDs
-# @arg image[`_choice_image_repo_tag`]
+# @arg image[`_module_oci_docker_image`]
 image::history() {
     :;
 }
@@ -1625,9 +1625,9 @@ image::history() {
 # @cmd Import the contents from a tarball to create a filesystem image
 # @option -c --change <list>       Apply Dockerfile instruction to the created image
 # @option -m --message <string>    Set commit message for imported image
-# @option --platform <string>      Set platform if server is multi-platform capable
+# @option --platform[`_module_oci_docker_platform`] <string>  Set platform if server is multi-platform capable
 # @arg file-url <file|URL|->
-# @arg repository-tag[`_choice_image_repo_tag`] <REPOSITORY[:TAG]>
+# @arg repository-tag[`_module_oci_docker_image`] <REPOSITORY[:TAG]>
 image::import() {
     :;
 }
@@ -1636,7 +1636,7 @@ image::import() {
 # {{{ docker image inspect
 # @cmd Display detailed information on one or more images
 # @option -f --format <string>    Format output using a custom template:
-# @arg image*[`_choice_image_repo_tag`]
+# @arg image*[`_module_oci_docker_image`]
 image::inspect() {
     :;
 }
@@ -1660,7 +1660,7 @@ image::load() {
 # @option --format <string>    Format output using a custom template:
 # @flag --no-trunc             Don't truncate output
 # @flag -q --quiet             Only show image IDs
-# @arg repository-tag[`_choice_image_repo_tag`] <REPOSITORY[:TAG]>
+# @arg repository-tag[`_module_oci_docker_image`] <REPOSITORY[:TAG]>
 image::list() {
     :;
 }
@@ -1680,7 +1680,7 @@ image::prune() {
 # @cmd Download an image from a registry
 # @flag -a --all-tags              Download all tagged images in the repository
 # @flag --disable-content-trust    Skip image verification (default true)
-# @option --platform <string>      Set platform if server is multi-platform capable
+# @option --platform[`_module_oci_docker_platform`] <string>  Set platform if server is multi-platform capable
 # @flag -q --quiet                 Suppress verbose output
 # @arg name-tag-digest <NAME[:TAG|@DIGEST]>
 image::pull() {
@@ -1703,7 +1703,7 @@ image::push() {
 # @cmd Remove one or more images
 # @flag -f --force    Force removal of the image
 # @flag --no-prune    Do not delete untagged parents
-# @arg image*[`_choice_image_repo_tag`]
+# @arg image*[`_module_oci_docker_image`]
 image::rm() {
     :;
 }
@@ -1712,7 +1712,7 @@ image::rm() {
 # {{{ docker image save
 # @cmd Save one or more images to a tar archive (streamed to STDOUT by default)
 # @option -o --output <file>    Write to a file, instead of STDOUT
-# @arg image*[`_choice_image_repo_tag`]
+# @arg image*[`_module_oci_docker_image`]
 image::save() {
     :;
 }
@@ -1720,8 +1720,8 @@ image::save() {
 
 # {{{ docker image tag
 # @cmd Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
-# @arg source_image-tag[`_choice_image_repo_tag`] <SOURCE_IMAGE[:TAG]>
-# @arg target_image-tag[`_choice_image_repo_tag`] <TARGET_IMAGE[:TAG]>
+# @arg source_image-tag[`_module_oci_docker_image`] <SOURCE_IMAGE[:TAG]>
+# @arg target_image-tag[`_module_oci_docker_image`] <TARGET_IMAGE[:TAG]>
 image::tag() {
     :;
 }
@@ -2004,7 +2004,7 @@ plugin::upgrade() {
 # @option --severity <string>    Only report vulnerabilities of provided level or higher (low|medium|high)
 # @option --token <string>       Authentication token to login to the third party scanning provider
 # @flag --version                Display version of the scan plugin
-# @arg image[`_choice_image_repo_tag`]
+# @arg image[`_module_oci_docker_image`]
 scan() {
     :;
 }
@@ -2117,7 +2117,7 @@ trust::signer::remove() {
 # {{{ docker trust inspect
 # @cmd Return low-level information about keys and signatures
 # @flag --pretty    Print the information in a human friendly format
-# @arg image-tag[`_choice_image_repo_tag`] <IMAGE[:TAG]...>
+# @arg image-tag[`_module_oci_docker_image`] <IMAGE[:TAG]...>
 trust::inspect() {
     :;
 }
@@ -2126,7 +2126,7 @@ trust::inspect() {
 # {{{ docker trust revoke
 # @cmd Remove trust for an image
 # @flag -y --yes    Do not prompt for confirmation
-# @arg image-tag[`_choice_image_repo_tag`] <IMAGE[:TAG]>
+# @arg image-tag[`_module_oci_docker_image`] <IMAGE[:TAG]>
 trust::revoke() {
     :;
 }
@@ -2135,7 +2135,7 @@ trust::revoke() {
 # {{{ docker trust sign
 # @cmd Sign an image
 # @flag --local    Sign a locally tagged image
-# @arg image-tag[`_choice_image_repo_tag`] <IMAGE:TAG>
+# @arg image-tag[`_module_oci_docker_image`] <IMAGE:TAG>
 trust::sign() {
     :;
 }
@@ -2257,7 +2257,7 @@ attach() {
 # @option -m --message <string>    Commit message
 # @flag -p --pause                 Pause container during commit (default true)
 # @arg container[`_choice_container_name`]
-# @arg repository-tag[`_choice_image_repo_tag`] <REPOSITORY[:TAG]>
+# @arg repository-tag[`_module_oci_docker_image`] <REPOSITORY[:TAG]>
 commit() {
     :;
 }
@@ -2345,7 +2345,7 @@ cp() {
 # @option --oom-score-adj <int>               Tune host's OOM preferences (-1000 to 1000)
 # @option --pid <string>                      PID namespace to use
 # @option --pids-limit <int>                  Tune container pids limit (set -1 for unlimited)
-# @option --platform <string>                 Set platform if server is multi-platform capable
+# @option --platform[`_module_oci_docker_platform`] <string>  Set platform if server is multi-platform capable
 # @flag --privileged                          Give extended privileges to this container
 # @option -p --publish <list>                 Publish a container's port(s) to the host
 # @flag -P --publish-all                      Publish all exposed ports to random ports
@@ -2371,7 +2371,7 @@ cp() {
 # @option --volume-driver <string>            Optional volume driver for the container
 # @option --volumes-from <list>               Mount volumes from the specified container(s)
 # @option -w --workdir <dir>                  Working directory inside the container
-# @arg image[`_choice_image_repo_tag`]
+# @arg image[`_module_oci_docker_image`]
 # @arg arg*
 create() {
     :;
@@ -2412,7 +2412,7 @@ export() {
 # @flag -H --human             Print sizes and dates in human readable format (default true)
 # @flag --no-trunc             Don't truncate output
 # @flag -q --quiet             Only show image IDs
-# @arg image[`_choice_image_repo_tag`]
+# @arg image[`_module_oci_docker_image`]
 history() {
     :;
 }
@@ -2422,9 +2422,9 @@ history() {
 # @cmd Import the contents from a tarball to create a filesystem image
 # @option -c --change <list>       Apply Dockerfile instruction to the created image
 # @option -m --message <string>    Set commit message for imported image
-# @option --platform <string>      Set platform if server is multi-platform capable
+# @option --platform[`_module_oci_docker_platform`] <string>  Set platform if server is multi-platform capable
 # @arg file-url <file|URL|->
-# @arg repository-tag[`_choice_image_repo_tag`] <REPOSITORY[:TAG]>
+# @arg repository-tag[`_module_oci_docker_image`] <REPOSITORY[:TAG]>
 import() {
     :;
 }
@@ -2524,7 +2524,7 @@ rm() {
 # @cmd Remove one or more images
 # @flag -f --force    Force removal of the image
 # @flag --no-prune    Do not delete untagged parents
-# @arg image*[`_choice_image_repo_tag`]
+# @arg image*[`_module_oci_docker_image`]
 rmi() {
     :;
 }
@@ -2533,7 +2533,7 @@ rmi() {
 # {{ docker save
 # @cmd Save one or more images to a tar archive (streamed to STDOUT by default)
 # @option -o --output <file>    Write to a file, instead of STDOUT
-# @arg image*[`_choice_image_repo_tag`]
+# @arg image*[`_module_oci_docker_image`]
 save() {
     :;
 }
@@ -2574,8 +2574,8 @@ stop() {
 
 # {{ docker tag
 # @cmd Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
-# @arg source_image-tag[`_choice_image_repo_tag`] <SOURCE_IMAGE[:TAG]>
-# @arg target_image-tag[`_choice_image_repo_tag`] <TARGET_IMAGE[:TAG]>
+# @arg source_image-tag[`_module_oci_docker_image`] <SOURCE_IMAGE[:TAG]>
+# @arg target_image-tag[`_module_oci_docker_image`] <TARGET_IMAGE[:TAG]>
 tag() {
     :;
 }
@@ -2877,7 +2877,7 @@ service() {
 # @option -u --user <string>                      Username or UID (format: <name|uid>[:<group|gid>])
 # @flag --with-registry-auth                      Send registry authentication details to swarm agents
 # @option -w --workdir <dir>                      Working directory inside the container
-# @arg image[`_choice_image_repo_tag`]
+# @arg image[`_module_oci_docker_image`]
 # @arg arg*
 service::create() {
     :;
@@ -3150,10 +3150,6 @@ _choice_image_repo() {
     _docker image ls --format '{{.Repository}}'
 }
 
-_choice_image_repo_tag() {
-    _docker image ls --format '{{.Repository}}:{{.Tag}}' | sed 's/:/=/' | _argc_util_comp_kv :
-}
-
 _choice_context() {
     _docker context list --format '{{.Name}}\t{{.Description}}'
 }
@@ -3257,7 +3253,7 @@ name=`_choice_container_name`
 label=
 exited
 status=created,dead,exited,paused,restarting,running,removing
-ancestor=`_choice_image_repo_tag`
+ancestor=`_module_oci_docker_image`
 before=`_choice_container_name`
 since=`_choice_container_name`
 volume=`_choice_volume`
@@ -3274,9 +3270,9 @@ _choice_image_ls_filter() {
     cat <<-'EOF' | _argc_util_comp_kv =
 dangling=true,false
 label=
-before=`_choice_image_repo_tag`
-since=`_choice_image_repo_tag`
-reference=`_choice_image_repo_tag`
+before=`_module_oci_docker_image`
+since=`_module_oci_docker_image`
+reference=`_module_oci_docker_image`
 EOF
 }
 
@@ -3286,7 +3282,7 @@ config=`_choice_config`
 container=`_choice_container_name`
 daemon=
 event=attach,commit,connect,copy,create,delete,destroy,detach,die,disable,disconnect,enable,exec_create,exec_detach,exec_start,export,health_status,import,install,kill,load,mount,oom,pause,pull,push,reload,remove,rename,resize,restart,save,start,stop,tag,top,unmount,unpause,untag,update
-image=`_choice_image_repo_tag`
+image=`_module_oci_docker_image`
 label=
 network=`_choice_network`
 node=`_choice_node`
@@ -3296,6 +3292,22 @@ secret=`_choice_secret`
 service=`_choice_service`
 type=container,daemon,image,network,volume
 volume=`_choice_volume`
+EOF
+}
+
+_module_oci_docker_image() {
+    docker image ls --format '{{.Repository}}:{{.Tag}}' | sed 's/:/=/' | _argc_util_comp_kv :
+}
+
+_module_oci_docker_platform() {
+    cat <<-'EOF'
+linux/amd64
+linux/arm64
+linux/ppc64le
+linux/s390x
+linux/386
+linux/arm/v7
+linux/arm/v6
 EOF
 }
 

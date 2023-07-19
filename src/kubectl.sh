@@ -122,7 +122,7 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_options \
             '--override-type;[json|merge|strategic]' \
-            '--image;[`_choice_image_repo_tag`]' \
+            '--image;[`_module_oci_docker_image`]' \
         | \
         _patch_table_edit_arguments 'NAME' 'args...'
 
@@ -273,7 +273,7 @@ _patch_table() {
         | \
         _patch_table_edit_options \
             '--container;[`_choice_filtered_container`]' \
-            '--image;[`_choice_image_repo_tag`]' \
+            '--image;[`_module_oci_docker_image`]' \
             '--profile;[legacy|general|baseline|netadmin|restricted]' \
         | \
         _patch_table_edit_arguments \
@@ -432,10 +432,6 @@ _choice_serviceaccount() {
     kubectl get serviceaccounts | tail -n +2 |  gawk '{print $1'}
 }
 
-_choice_image_repo_tag() {
-    docker image ls --format '{{.Repository}}:{{.Tag}}' | sed 's/:/=/' | _argc_util_comp_kv :
-}
-
 _choice_all_type() {
     kubectl api-resources --output=name --cached | gawk -F. '{print $1}'
 }
@@ -478,7 +474,7 @@ _choice_container_image() {
     if [[ -z "$argc__kv_prefix" ]]; then
         _choice_container | _argc_util_transform suffix== nospace
     else
-        _choice_image_repo_tag
+        _module_oci_docker_image
     fi
 }
 
