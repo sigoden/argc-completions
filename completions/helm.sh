@@ -764,7 +764,7 @@ plugin::update() {
 # @alias fetch
 # @option --ca-file <file>                   verify certificates of HTTPS-enabled servers using this CA bundle
 # @option --cert-file <file>                 identify HTTPS client using this SSL certificate file
-# @option -d --destination <dir>             location to write the chart.
+# @option -d --destination <path>            location to write the chart.
 # @flag --devel                              use development versions, too.
 # @flag -h --help                            help for pull
 # @flag --insecure-skip-tls-verify           skip tls certificate checks for the chart download

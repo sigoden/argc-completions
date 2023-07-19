@@ -65,23 +65,13 @@ _patch_help_select_subcmd() {
     gawk -v v1="^$1 " -v v2="^$*($| )" '$0 ~ v1 { x = 0; } $0 ~ v2 { x=1; print "Usage: " $0 } /^(options:|\s+-)/ && x == 1 { print $0 }'
 }
 
-# Preprocess commands whose help text has 2-column options
+# Split 2-column options
 # Such as:
 # ```
 # -p  extract files to pipe, no messages     -l  list files (short format)
 # ```
 _patch_help_preprocess_2cols() {
     sed 's/^  \(-\S\{1,2\} .*\) \(-\S\{1,2\} .*\)/  \1\n  \2/'
-}
-
-# Preprocess cobra-based commands
-_patch_help_preprocess_cobra() {
-    sed \
-        -e '/^\s*\(-\S, \)\?--\S\+ stringArray\( \|$\)/ s/ stringArray / string.../' \
-        -e '/dir/ s/\(^\s*\(-\S, \)\?--\S\+\) \S*[sS]tring/\1 dir/' \
-        -e '/file/ s/\(^\s*\(-\S, \)\?--\S\+\) \S*[sS]tring/\1 file/' \
-        -e '/path\|location\|destination/ s/\(^\s*\(-\S, \)\?--\S\+\) \S*[sS]tring/\1 path/' \
-
 }
 
 # Preprocess commands whose help text has ascii color.
@@ -165,4 +155,14 @@ _patch_table_copy_options() {
         table="$(echo "$table" | _patch_table $@)"
     fi
     echo "$table" | grep "^option #"
+}
+
+# Detect value type
+_patch_table_detect_value_type() {
+    sed \
+        -e 's/^\(option # -\S\+\( -\S\+\)*\) stringArray/\1 string.../' \
+        -e '/dir/ s/^\(option # -\S\+\( -\S\+\)*\) \S*[Ss]tring/\1 dir/' \
+        -e '/file/ s/^\(option # -\S\+\( -\S\+\)*\) \S*[Ss]tring/\1 file/' \
+        -e '/path\|location\|destination/ s/^\(option # -\S\+\( -\S\+\)*\) \S*[Ss]tring/\1 path/' \
+
 }

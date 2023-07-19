@@ -1,8 +1,5 @@
-_patch_help() {
-    $@ --help | _patch_help_preprocess_cobra
-}
-
 _patch_table() {
+    _patch_table_detect_value_type \ |
     _patch_table_edit_options  \
         '--job;[`_choice_job`]' \
         '--container-architecture;[`_choice_container_platform`]' \

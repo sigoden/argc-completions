@@ -158,10 +158,10 @@ ps() {
 # @option --allow <strings>                      Allow extra privileged entitlement (e.g., "network.host", "security.insecure")
 # @option --attest* <string>                     Attestation parameters (format: "type=sbom,generator=image")
 # @option --build-arg* <string>                  Set build-time variables
-# @option --build-context* <string>              Additional build contexts (e.g., name=path)
+# @option --build-context* <path>                Additional build contexts (e.g., name=path)
 # @option --builder <string>                     Override the configured builder instance (default "default")
-# @option --cache-from* <string>                 External cache sources (e.g., "user/app:cache", "type=local,src=path/to/dir")
-# @option --cache-to* <path>                     Cache export destinations (e.g., "user/app:cache", "type=local,dest=path/to/dir")
+# @option --cache-from* <dir>                    External cache sources (e.g., "user/app:cache", "type=local,src=path/to/dir")
+# @option --cache-to* <dir>                      Cache export destinations (e.g., "user/app:cache", "type=local,dest=path/to/dir")
 # @option --cgroup-parent <string>               Optional parent cgroup for the container
 # @option -f --file <file>                       Name of the Dockerfile (default: "PATH/Dockerfile")
 # @option --iidfile <file>                       Write the image ID to the file
@@ -341,10 +341,10 @@ builder::bake() {
 # @option --allow <strings>                      Allow extra privileged entitlement (e.g., "network.host", "security.insecure")
 # @option --attest* <string>                     Attestation parameters (format: "type=sbom,generator=image")
 # @option --build-arg* <string>                  Set build-time variables
-# @option --build-context* <string>              Additional build contexts (e.g., name=path)
+# @option --build-context* <path>                Additional build contexts (e.g., name=path)
 # @option --builder <string>                     Override the configured builder instance (default "default")
-# @option --cache-from* <string>                 External cache sources (e.g., "user/app:cache", "type=local,src=path/to/dir")
-# @option --cache-to* <path>                     Cache export destinations (e.g., "user/app:cache", "type=local,dest=path/to/dir")
+# @option --cache-from* <dir>                    External cache sources (e.g., "user/app:cache", "type=local,src=path/to/dir")
+# @option --cache-to* <dir>                      Cache export destinations (e.g., "user/app:cache", "type=local,dest=path/to/dir")
 # @option --cgroup-parent <string>               Optional parent cgroup for the container
 # @option -f --file <file>                       Name of the Dockerfile (default: "PATH/Dockerfile")
 # @option --iidfile <file>                       Write the image ID to the file
@@ -540,10 +540,10 @@ buildx::bake() {
 # @option --allow <strings>                      Allow extra privileged entitlement (e.g., "network.host", "security.insecure")
 # @option --attest* <string>                     Attestation parameters (format: "type=sbom,generator=image")
 # @option --build-arg* <string>                  Set build-time variables
-# @option --build-context* <string>              Additional build contexts (e.g., name=path)
+# @option --build-context* <path>                Additional build contexts (e.g., name=path)
 # @option --builder <string>                     Override the configured builder instance
-# @option --cache-from* <string>                 External cache sources (e.g., "user/app:cache", "type=local,src=path/to/dir")
-# @option --cache-to* <path>                     Cache export destinations (e.g., "user/app:cache", "type=local,dest=path/to/dir")
+# @option --cache-from* <dir>                    External cache sources (e.g., "user/app:cache", "type=local,src=path/to/dir")
+# @option --cache-to* <dir>                      Cache export destinations (e.g., "user/app:cache", "type=local,dest=path/to/dir")
 # @option --cgroup-parent <string>               Optional parent cgroup for the container
 # @option -f --file <file>                       Name of the Dockerfile (default: "PATH/Dockerfile")
 # @option --iidfile <file>                       Write the image ID to the file
@@ -1576,10 +1576,10 @@ image() {
 # @option --allow <strings>                      Allow extra privileged entitlement (e.g., "network.host", "security.insecure")
 # @option --attest* <string>                     Attestation parameters (format: "type=sbom,generator=image")
 # @option --build-arg* <string>                  Set build-time variables
-# @option --build-context* <string>              Additional build contexts (e.g., name=path)
+# @option --build-context* <path>                Additional build contexts (e.g., name=path)
 # @option --builder <string>                     Override the configured builder instance (default "default")
-# @option --cache-from* <string>                 External cache sources (e.g., "user/app:cache", "type=local,src=path/to/dir")
-# @option --cache-to* <path>                     Cache export destinations (e.g., "user/app:cache", "type=local,dest=path/to/dir")
+# @option --cache-from* <dir>                    External cache sources (e.g., "user/app:cache", "type=local,src=path/to/dir")
+# @option --cache-to* <dir>                      Cache export destinations (e.g., "user/app:cache", "type=local,dest=path/to/dir")
 # @option --cgroup-parent <string>               Optional parent cgroup for the container
 # @option -f --file <file>                       Name of the Dockerfile (default: "PATH/Dockerfile")
 # @option --iidfile <file>                       Write the image ID to the file

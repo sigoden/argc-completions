@@ -1,13 +1,14 @@
 _patch_help() { 
     if [[ "$*" == "helm" ]]; then
-        $@ --help | _patch_help_preprocess_cobra | sed '1,/^Usage:/ d'
+        $@ --help | sed '1,/^Usage:/ d'
     else
-        $@ --help | _patch_help_preprocess_cobra
+        $@ --help
     fi
 }
 
 _patch_table() { 
     table="$( \
+        _patch_table_detect_value_type | \
         _patch_table_edit_options \
             '--kube-context;[`_choice_kube_context`]' \
             '--namespace;[`_choice_kube_namespace`]' \
@@ -35,13 +36,13 @@ _patch_table() {
     elif [[ "$*" == "helm install" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '--set-file;*,[`_choice_set_file`]' \
+            '--set-file(<file>);*,[`_choice_set_file`]' \
             '--values(<file...>)' \
 
     elif [[ "$*" == "helm lint" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '--set-file;*,[`_choice_set_file`]' \
+            '--set-file(<file>);*,[`_choice_set_file`]' \
             '--values(<file...>)' \
 
     elif [[ "$*" == "helm plugin" ]]; then
@@ -94,7 +95,7 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_options \
             '--post-renderer(<path>)' \
-            '--set-file;*,[`_choice_set_file`]' \
+            '--set-file(<file>);*,[`_choice_set_file`]' \
             '--values(<file...>)' \
 
     elif [[ "$*" == "helm uninstall" ]]; then
@@ -106,7 +107,7 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_options \
             '--post-renderer(<path>)' \
-            '--set-file;*,[`_choice_set_file`]' \
+            '--set-file(<file>);*,[`_choice_set_file`]' \
             '--values(<file...>)' \
 
     else

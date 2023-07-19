@@ -1,6 +1,6 @@
 _patch_help() {
     if [[ "$*" == "docker" ]]; then
-        $@ --help | _patch_help_preprocess_cobra
+        $@ --help
         cat <<-'EOF'
 Miss Commands:
   config      Manage Swarm configs
@@ -11,18 +11,19 @@ Miss Commands:
 EOF
 
     elif [[ "$*" == "docker container cp" ]] || [[ "$*" == "docker cp" ]]; then
-        $@ --help | _patch_help_preprocess_cobra |  sed '/Usage:/ c\Usage:  docker cp [OPTIONS] SRC DEST'
+        $@ --help |  sed '/Usage:/ c\Usage:  docker cp [OPTIONS] SRC DEST'
 
     elif [[ "$*" == "docker compose cp" ]]; then
-        $@ --help | _patch_help_preprocess_cobra | sed '/Usage:/ c\Usage:  docker compose cp [OPTIONS] SRC DEST'
+        $@ --help | sed '/Usage:/ c\Usage:  docker compose cp [OPTIONS] SRC DEST'
 
     else
-        $@ --help | _patch_help_preprocess_cobra
+        $@ --help
     fi
 }
 
 _patch_table() {
     table="$( \
+    _patch_table_detect_value_type | \
     _patch_table_edit_arguments \
         'CONTAINER;[`_choice_container_name`]' \
         'REPOSITORY[:TAG];[`_choice_image_repo_tag`]' \
