@@ -65,11 +65,6 @@ _patch_help_select_subcmd() {
     gawk -v v1="^$1 " -v v2="^$*($| )" '$0 ~ v1 { x = 0; } $0 ~ v2 { x=1; print "Usage: " $0 } /^(options:|\s+-)/ && x == 1 { print $0 }'
 }
 
-# Clean the middle text between command value and description
-_patch_help_clean_middle_text() {
-    gawk -f "$ROOT_DIR/utils/_patch_utils/clean-middle.awk"
-}
-
 # Preprocess commands whose help text has 2-column options
 # Such as:
 # ```

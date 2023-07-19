@@ -2,8 +2,9 @@ _patch_help() {
     if [[ "$*" == "bun" ]]; then
         echo "Options: "
         bun --help | \
-        _patch_help_clean_middle_text \ |
-        sed '/ (bun \w\+)$/ s/  \(\w\+\)\(.*\)(bun \(\w\+\))$/  \1, \3\2/'
+        sed \
+            -e 's/^  \(\S\+\).\{20\}\(.*\)$/  \1 \2/' \
+            -e '/ (bun \w\+)$/ s/  \(\w\+\)\(.*\)(bun \(\w\+\))$/  \1, \3\2/' \
 
     elif [[ "$*" == "bun run" ]]; then
         echo "Usage: bun run [script_or_bin]..."
