@@ -2,7 +2,7 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # @option -A --address-radix[`_choice_address_radix`] <RADIX>  output format for file offsets; RADIX is one of [doxn], for Decimal, Octal, Hex or None
-# @option --endian[big|little] <{big|little}>     swap input bytes according the specified order
+# @option --endian[big|little] <big|little>       swap input bytes according the specified order
 # @option -j --skip-bytes <BYTES>                 skip BYTES input bytes first
 # @option -N --read-bytes <BYTES>                 limit dump to BYTES input bytes
 # @option -S --strings <BYTES>                    output strings of at least BYTES graphic chars; 3 is implied when BYTES is not specified

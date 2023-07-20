@@ -77,3 +77,7 @@ _module_os_command() {
         compgen -c
     fi
 }
+
+_module_os_network_interface() {
+    ifconfig -s | gawk '{if (NR>1) { print $1 }}'
+}

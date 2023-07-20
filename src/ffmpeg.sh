@@ -30,7 +30,8 @@ _patch_table() {
         '-scodec;[`_choice_codec`]' \
         '-vcodec;[`_choice_codec`]' \
         '-vf;*[`_choice_filter_kv`]' \
-
+    | \
+    _patch_table_edit_arguments ';;' 'outfile...'
 }
 
 _choice_codec() {

@@ -25,11 +25,7 @@ _patch_table() {
 
 _choice_interface() {
     _argc_util_comp_path
-    _choice_device_ifname
-}
-
-_choice_device_ifname() {
-    nmcli --terse --fields device,type device status | gawk -F: '{print $1 "\t" $2}'
+    _module_os_network_interface
 }
 
 _choice_socket_owner() {

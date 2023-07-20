@@ -871,7 +871,7 @@ pub::upgrade() {
 # @cmd Manage uploaders for a package on pub.dev.
 # @flag --package                 The package whose uploaders will be modified.
 # @option -C --directory <dir>    Run this in the directory <dir>.
-# @arg add-remove <{add/remove}>
+# @arg add-remove <add/remove>
 # @arg email!
 pub::uploader() {
     :;
@@ -1047,7 +1047,7 @@ custom-devices() {
 # @flag --disable-telemetry                   Disable telemetry reporting when this command runs.
 # @flag --check                               Make sure the config actually works.
 # @flag --no-check                            Make sure the config actually works.
-# @option --json <{"id": "pi" ...}>           Add the custom device described by this JSON-encoded string to the list of custom-devices instead of using the normal, interactive way of configuring.
+# @option --json* <"id": "pi">                Add the custom device described by this JSON-encoded string to the list of custom-devices instead of using the normal, interactive way of configuring.
 # @flag --ssh                                 Add a ssh-device.
 custom-devices::add() {
     :;

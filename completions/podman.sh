@@ -957,7 +957,7 @@ create() {
 # @cmd Display the changes to the object's file system
 # @option --format <string>    Change the output format (json)
 # @flag -l --latest            Act on the latest container podman is aware of Not supported with the "--remote" flag
-# @arg container-image <{CONTAINER|IMAGE}>
+# @arg container-image <CONTAINER|IMAGE>
 diff() {
     :;
 }
@@ -1012,7 +1012,7 @@ generate() {
 # @cmd Generate Kubernetes YAML from containers, pods or volumes.
 # @option -f --filename <file>    Write output to the specified path
 # @flag -s --service              Generate YAML for a Kubernetes service object
-# @arg container-pod-volume[`_choice_container`] <{CONTAINER...|POD...|VOLUME...}>
+# @arg container-pod-volume*[`_choice_container`] <CONTAINER...|POD...|VOLUME>
 generate::kube() {
     :;
 }
@@ -1030,7 +1030,7 @@ generate::kube() {
 # @option --restart-policy <string>      Systemd restart-policy (default "on-failure")
 # @option --separator <string>           Systemd unit name separator between name/id and prefix (default "-")
 # @option -t --time <uint>               Stop timeout override (default 10)
-# @arg container-pod <{CONTAINER|POD}>
+# @arg container-pod <CONTAINER|POD>
 generate::systemd() {
     :;
 }
@@ -1213,7 +1213,7 @@ image::inspect() {
 # @flag --no-trunc                 Do not truncate output
 # @flag -n --noheading             Do not print column headings
 # @flag -q --quiet                 Display only image IDs
-# @option --sort <string>          Sort by created, id, repository, size, tag (default "created")
+# @option --sort <string>          Sort by id, repository, size, tag, created (default "created")
 # @arg image[`_module_oci_podman_image`]
 image::list() {
     :;
@@ -1467,7 +1467,7 @@ init() {
 # @flag -l --latest               Act on the latest container podman is aware of Not supported with the "--remote" flag
 # @flag -s --size                 Display total file size
 # @option -t --type <string>      Specify inspect-object type ("image", "container" or "all") (default "all")
-# @arg container-image-pod-network-volume <{CONTAINER|IMAGE|POD|NETWORK|VOLUME}>
+# @arg container-image-pod-network-volume <CONTAINER|IMAGE|POD|NETWORK|VOLUME>
 inspect() {
     :;
 }

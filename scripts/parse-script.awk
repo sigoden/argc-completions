@@ -6,8 +6,9 @@ BEGIN {
     PAIRS[">"] = "<";
     PAIRS["]"] = "[";
     PAIRS[")"] = "(";
-    PAIRS_OPEN = "<[("
-    PAIRS_CLOSE = ">])"
+    PAIRS["}"] = "{";
+    PAIRS_OPEN = "<[({"
+    PAIRS_CLOSE = ">])}"
     RE_SKIP_ARGUMENT = "^(flag|option|command|subcommand)"
     RE_SKIP_SBUCOMMAND =  "help|command|none|n\\/a"
     RE_REMOVE_NOTATION_PREFIX = "[=!]"

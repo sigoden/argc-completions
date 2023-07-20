@@ -54,7 +54,7 @@ EOF
 _choice_set_var() {
     _argc_util_mode_kv =
     if [[ -z "$argc__kv_prefix" ]]; then
-        tesseract --print-parameters | tail -n +2 | awk -F'\t' '{print $1 "=\x00\t" $3}'
+        tesseract --print-parameters | tail -n +2 | gawk -F'\t' '{print $1 "=\x00\t" $3}'
     else
         tesseract --print-parameters | grep "\\$argc__kv_key" | awk -F'\t' '{print $2}'
     fi

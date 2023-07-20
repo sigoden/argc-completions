@@ -4,7 +4,7 @@
 # @flag -v --version                            Display version information
 # @flag -h --help                               Print this message (--help-hidden for more)
 # @flag --help-hidden                           Uncommon options not shown by `-h`
-# @option --project <{<dir>|@.}>                Set <dir> as the home project/environment
+# @option --project <<dir>|@.>                  Set <dir> as the home project/environment
 # @option -J --sysimage <file>                  Start up with the given system image file
 # @option -H --home <dir>                       Set location of `julia` executable
 # @option --startup-file <yes|no>               Load `JULIA_DEPOT_PATH/config/startup.jl`; if `JULIA_DEPOT_PATH` environment variable is unset, load `~/.julia/config/startup.jl`
@@ -15,8 +15,8 @@
 # @option -e --eval <expr>                      Evaluate <expr>
 # @option -E --print <expr>                     Evaluate <expr> and display the result
 # @option -L --load <file>                      Load <file> immediately on all processors
-# @option -t --threads <{auto|N,auto|M}>        Enable N[+M] threads; N threads are assigned to the `default` threadpool, and if M is specified, M threads are assigned to the `interactive` threadpool; "auto" tries to infer a useful default number of threads to use but the exact behavior might change in the future.
-# @option -p --procs <{N|auto}>                 Integer value N launches N additional local worker processes "auto" launches as many workers as the number of local CPU threads (logical cores)
+# @option -t --threads <auto|N,auto|M>          Enable N[+M] threads; N threads are assigned to the `default` threadpool, and if M is specified, M threads are assigned to the `interactive` threadpool; "auto" tries to infer a useful default number of threads to use but the exact behavior might change in the future.
+# @option -p --procs <N|auto>                   Integer value N launches N additional local worker processes "auto" launches as many workers as the number of local CPU threads (logical cores)
 # @option --machine-file <file>                 Run processes on hosts listed in <file>
 # @flag -i --interactive                        Interactive mode; REPL runs and `isinteractive()` is true
 # @flag -q --quiet                              Quiet startup: no banner, suppress REPL warnings

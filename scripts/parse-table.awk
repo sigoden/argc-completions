@@ -9,8 +9,9 @@ BEGIN {
     PAIRS[">"] = "<";
     PAIRS["]"] = "[";
     PAIRS[")"] = "(";
-    PAIRS_OPEN = "<[('"
-    PAIRS_CLOSE = ">])'"
+    PAIRS["}"] = "{";
+    PAIRS_OPEN = "<[({'"
+    PAIRS_CLOSE = ">])}'"
 }
 
 {
@@ -192,6 +193,9 @@ END {
         if (match(argumentVal, /^\(([A-Za-z0-9_-]+\|)+[A-Za-z0-9_-]+\)$/)) {
             print "argument # value # " descValues[1] " # [" substr(argumentVal, 2, length(argumentVal) -2) "]"
         } else {
+            while (match(argumentVal, /\|\s*-\S+( [<>A-Za-z0-9_-]+)*\s*[)}\|\]]/)) {
+                argumentVal = substr(argumentVal, 1, RSTART - 1) substr(argumentVal, RSTART + RLENGTH - 1)
+            }
             if (length(descValues[2]) > 0) {
                 print "argument # " argumentVal " # " descValues[1] " # " descValues[2]
             } else {

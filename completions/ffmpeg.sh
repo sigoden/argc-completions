@@ -85,7 +85,7 @@
 # @flag -fix_sub_duration                          fix subtitles duration
 # @option -canvas_size <size>                      set canvas size (WxH or abbreviation)
 # @option -spre <preset>                           set the subtitle options to the indicated preset
-# @arg outfile* <outfile}>
+# @arg outfile*
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
