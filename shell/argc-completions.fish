@@ -30,5 +30,5 @@ function __argc_completions_completer
 end
 
 for argc_script in $ARGC_COMPLETIONS_SCRIPTS
-    complete -x -c $argc_script -a "(__argc_completions_completer)"
+    complete -x -k -c $argc_script -a "(__argc_completions_completer)"
 end

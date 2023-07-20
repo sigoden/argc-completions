@@ -32,4 +32,4 @@ _argc_completions_completer() {
     done < <(argc --argc-compgen bash "$scriptfile" "${words[@]}" 2>/dev/null)
 }
 
-complete -F _argc_completions_completer -o nospace ${ARGC_COMPLETIONS_SCRIPTS[@]}
+complete -F _argc_completions_completer -o nospace -o nosort ${ARGC_COMPLETIONS_SCRIPTS[@]}
