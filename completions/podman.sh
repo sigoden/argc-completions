@@ -1213,7 +1213,7 @@ image::inspect() {
 # @flag --no-trunc                 Do not truncate output
 # @flag -n --noheading             Do not print column headings
 # @flag -q --quiet                 Display only image IDs
-# @option --sort <string>          Sort by id, repository, size, tag, created (default "created")
+# @option --sort <string>          Sort by created, id, repository, size, tag (default "created")
 # @arg image[`_module_oci_podman_image`]
 image::list() {
     :;
@@ -1570,7 +1570,7 @@ machine::list() {
 # @flag --save-ignition    Do not delete ignition file
 # @flag --save-image       Do not delete the image file
 # @flag --save-keys        Do not delete SSH keys
-# @arg machine
+# @arg machine[`_choice_machine`]
 machine::rm() {
     :;
 }
@@ -1586,7 +1586,7 @@ machine::ssh() {
 
 # {{{ podman machine start
 # @cmd Start an existing machine
-# @arg machine
+# @arg machine[`_choice_machine`]
 machine::start() {
     :;
 }
@@ -1594,7 +1594,7 @@ machine::start() {
 
 # {{{ podman machine stop
 # @cmd Stop an existing machine
-# @arg machine
+# @arg machine[`_choice_machine`]
 machine::stop() {
     :;
 }
@@ -2719,6 +2719,10 @@ _choice_container() {
 
 _choice_pod() {
     podman pod list --format json | yq '.[].Name'
+}
+
+_choice_machine() {
+    podman machine list | gawk '{ if (NR > 1) { gsub(/\*$/, "", $1); print $1}}'
 }
 
 _choice_volume() {

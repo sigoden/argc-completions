@@ -1,4 +1,4 @@
-_patch_table() {
+_patch_table() { 
     _extract_choices() {
         gawk '{
             if (match($0, /\[(\S+( \S+)+)\]/, arr)) {
@@ -8,24 +8,40 @@ _patch_table() {
             } else { print }
         }'
     }
-
     table="$( \
         _patch_table_detect_value_type | \
         _extract_choices | \
         _patch_table_edit_options \
             '--platform;[`_module_oci_docker_platform`]' \
     )"
-
-    if [[ "$*" == "grype" ]]; then
+    
+    if [[ "$*" == "syft" ]] \
+    || [[ "$*" == "syft attest" ]] \
+    || [[ "$*" == "syft package" ]] \
+    ; then
         echo "$table" | \
-        _patch_table_edit_arguments 'image;[`_choice_image`]'
+        _patch_table_edit_arguments ';;' 'SOURCE;[`_choice_source`]'
+
+    elif [[ "$*" == "syft convert" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments ';;' 'SOURCE-SBOM-FILE'  'FORMAT;[`_chocie_convert_format`]'
 
     else
         echo "$table"
     fi
 }
 
-_choice_image() {
+_chocie_convert_format() {
+    _argc_util_mode_kv =
+    if [[ -z "$argc__kv_prefix" ]]; then
+        printf "%s=\n" spdx-json cyclonedx-json syft-json
+    else
+        _argc_util_comp_path
+    fi
+}
+
+
+_choice_source() {
     if [[ $ARGC_FILTER != *':'* ]]; then
         _argc_util_comp_path
     fi
@@ -34,16 +50,15 @@ _choice_image() {
 
 _choice_provider() {
     cat <<-'EOF' | _argc_util_comp_kv :
-podman=`_choice_podman_image`;;use the Podman daemon
 docker=`_choice_docker_image`;;use the Docker daemon
+podman=`_choice_podman_image`;;use the Podman daemon
+registry=;;pull image directly from a registry
 docker-archive=__argc_value=file;;use a tarball from disk for archives created from "docker save"
 oci-archive=__argc_value=file;;use a tarball from disk for OCI archives (from Podman or otherwise)
 oci-dir=__argc_value=file;;read directly from a path on disk for OCI layout directories (from Skopeo or otherwise)
 singularity=__argc_value=file;;read directly from a Singularity Image Format (SIF) container on disk
 dir=__argc_value=dir;;read directly from a path on disk (any directory)
-sbom=__argc_value=file;;read Syft JSON from path on disk
-registry=;;pull image directly from a registry
-purl=__argc_value=file;;read a newline separated file of purls from a path on disk
+file=__argc_value=file;;read directly from a path on disk (any single file)
 EOF
 }
 

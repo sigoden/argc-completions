@@ -156,7 +156,7 @@ docker-archive=__argc_value=file;;use a tarball from disk for archives created f
 oci-archive=__argc_value=file;;use a tarball from disk for OCI archives (from Podman or otherwise)
 oci-dir=__argc_value=file;;read directly from a path on disk for OCI layout directories (from Skopeo or otherwise)
 singularity=__argc_value=file;;read directly from a Singularity Image Format (SIF) container on disk
-dir=__argc_value=file;;read directly from a path on disk (any directory)
+dir=__argc_value=dir;;read directly from a path on disk (any directory)
 sbom=__argc_value=file;;read Syft JSON from path on disk
 registry=;;pull image directly from a registry
 purl=__argc_value=file;;read a newline separated file of purls from a path on disk

@@ -7,6 +7,7 @@ _patch_table() {
         _patch_table_edit_arguments \
             'container;[`_choice_container`]' \
             'image;[`_module_oci_podman_image`]' \
+            'machine;[`_choice_machine`]' \
     )"
 
     if [[ "$*" == "podman" ]]; then
@@ -126,6 +127,10 @@ _choice_container() {
 
 _choice_pod() {
     podman pod list --format json | yq '.[].Name'
+}
+
+_choice_machine() {
+    podman machine list | gawk '{ if (NR > 1) { gsub(/\*$/, "", $1); print $1}}'
 }
 
 _choice_volume() {
