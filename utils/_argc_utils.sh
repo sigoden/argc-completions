@@ -3,17 +3,19 @@
 #   `dir`: Complete path is dir
 #   `prefix=`: Set __argc_prefix
 #   `filter=`: Set __argc_filter
-#   `cd=`: Set __argc_cd
+#   `cd=`: Set __argc_path_cd
 #   `suffix=`: Set __argc_suffix
 #   `exts=`: Set file's allowed exts. e.g. `-exts=.json,jsonc`
 _argc_util_comp_path() {
-    local isdir prefix suffix filter exts chdir
+    local isdir suffix filter exts chdir prefix with_prefix
+    local filter="$ARGC_FILTER"
     for arg in "${@}"; do
         case "$arg" in
         dir)
             isdir=1
             ;;
         prefix=*)
+            with_prefix=1
             prefix="${arg:7}"
             ;;
         suffix=*)
@@ -36,12 +38,10 @@ _argc_util_comp_path() {
     if [[ -n "$suffix" ]]; then
         echo -e "__argc_suffix=$suffix\0"
     fi
-    if [[ -n "$prefix" ]]; then
+    if [[ "$with_prefix" -eq 1 ]]; then
         echo "__argc_prefix=$prefix"
     fi
-    if [[ -n "$filter" ]]; then
-        echo "__argc_filter=$filter"
-    fi
+    echo "__argc_filter=$filter"
     if [[ "$isdir" -eq 1 ]]; then
         echo "__argc_value=dir"
     else
@@ -83,7 +83,7 @@ _argc_util_comp_kv() {
     fi
     local line desc key key_value
     local IFS=$'\n'
-    for line in $(cat); do
+    for line in $(command cat); do
         if [[ "$line" == *";;"* ]]; then
             desc="${line#*;;}"
             key_value=${line%%;;*}
@@ -103,7 +103,7 @@ _argc_util_comp_kv() {
                 if [[ "$value" == $'`'* ]]; then
                     eval "${value:1:-1}" 2>/dev/null
                 else
-                    echo $value | tr ',' '\n'
+                    echo $value | command tr ',' '\n'
                 fi
             fi
         fi
@@ -115,39 +115,52 @@ _argc_util_comp_kv() {
 # Args:
 #   SEP: seperator
 #   FILTER: default value is ARGC_FILTER
-#   PREFIX: argc prefix value
+#   PREFIX: additional prefix
 #
 # ```sh
 # git ls-files | _argc_util_comp_parts /
 # ```
 _argc_util_comp_parts() {
-    gawk -v SEP="$1" -v ARGC_FILTER="${2-$ARGC_FILTER}" -v ARGC_PREFIX="${3}" '
+    local sep="$1"
+    local filter="${2-$ARGC_FILTER}"
+    local prefix="${3}"
+    if [[ "$filter" == *"$sep"* ]]; then
+        argc__parts_local_prefix="${filter%$sep*}$sep"
+        argc__parts_filter="${filter##*$sep}"
+        argc__parts_prefix="$prefix$argc__parts_local_prefix"
+    else
+        argc__parts_local_prefix=""
+        argc__parts_filter="$filter"
+        argc__parts_prefix="$prefix"
+    fi
+    echo "__argc_prefix=$argc__parts_prefix"
+    echo "__argc_filter=$argc__parts_filter"
+
+    gawk -v SEP="$sep" -v FILTER="$argc__parts_filter" -v PREFIX="$argc__parts_local_prefix" '
 BEGIN {
     split("", VALUES)
     split("", DEDUPS)
     ONLY_LINE = ""
     COUNT = 0
-    split(ARGC_FILTER, filterParts, SEP)
-    FILTER = filterParts[length(filterParts)]
-    PREFIX = ""
-    for (i = 1; i < length(filterParts); i++) 
-        PREFIX = PREFIX filterParts[i] SEP
-    print "__argc_filter=" FILTER
-    print "__argc_prefix=" ARGC_PREFIX PREFIX
+    PREFIX_LEN = length(PREFIX)
+    FILTER_LEN = length(FILTER)
 }
 {
-    if (index($0, ARGC_FILTER) == 1) {
-        value = substr($0, length(PREFIX) + 1)
+    if (PREFIX == "" || substr($0, 1, PREFIX_LEN) == PREFIX) {
+        value = substr($0, PREFIX_LEN + 1)
         if (COUNT == 0) {
             ONLY_LINE = value
-            if (substr(ONLY_LINE, length(ONLY_LINE)) == SEP) {
-                ONLY_LINE = ONLY_LINE "\0"
+            if (substr(value, length(value)) == SEP) {
+                ONLY_LINE = value "\0"
             }
         }
         COUNT = COUNT + 1
         idx = index(value, SEP)
         if (idx > 0) {
             value = substr(value, 1, idx) "\0"
+        }
+        if (FILTER_LEN > 0 && substr(value, 1, FILTER_LEN) != FILTER) {
+            next
         }
         if (!DEDUPS[value]) {
             DEDUPS[value] = 1
@@ -169,35 +182,35 @@ END {
 
 # Complete multi values seperated by SEP
 # Args:
-#   SEP: seperator
-#   KV_SEP: key value sperator
-#   PREFIX: argc prefix value
+#   SEP: seperator, can be empty string
+#   FILTER: filter value, defualt is $ARGC_FILTER
+#   PREFIX: The additional prefix
 _argc_util_comp_multi() {
-    local prefix="${3-$ARGC_FILTER}" 
-    local values filter
-    if [[ -n "$1" ]]; then
-        if [[ "$prefix" == *"$1"* ]]; then
-            filter="${prefix##*$1}"
-            prefix="${prefix%$1*}$1"
+    set -x
+    local sep="$1"
+    local filter="${2-$ARGC_FILTER}" 
+    local prefix="$3"
+
+    if [[ -n "$sep" ]]; then
+        if [[ "$filter" == *"$sep"* ]]; then
+            argc__multi_local_prefix="${filter%$sep*}$sep"
+            argc__multi_filter="${filter##*$sep}"
         else
-            filter="$prefix"
-            prefix=""
+            argc__multi_local_prefix=""
+            argc__multi_filter="$filter"
         fi
     else
-        filter=""
+        argc__multi_local_prefix="$filter"
+        argc__multi_filter=""
     fi
-    if [[ -n "$2" ]]; then
-        values="${prefix#*$2}"
-        filter="${filter#*$2}"
-    else
-        values="$prefix"
-    fi
-    echo "__argc_prefix=$prefix"
-    echo "__argc_filter=$filter"
-    gawk -v SEP="$1" -v RAW_VALUES="$values" -v FILTER="$filter" '
+    argc__multi_prefix="$prefix$argc__multi_local_prefix"
+    echo "__argc_prefix=$argc__multi_prefix"
+    echo "__argc_filter=$argc__multi_filter"
+    gawk -v SEP="$sep" -v RAW_VALUES="$argc__multi_local_prefix" -v FILTER="$argc__multi_filter" '
 BEGIN {
     split(RAW_VALUES, VALUES, SEP)
     split("", DEDUPS)
+    FILTER_LEN = length(FILTER)
     for (i in VALUES) {
         DEDUPS[VALUES[i]] = 1
     }
@@ -213,7 +226,7 @@ BEGIN {
     if (substr(value, length(value)) == "\0")  {
         value = substr(value, 1, length(value) - 1)
     }
-    if (index(value, FILTER)) {
+    if (FILTER_LEN == 0 || substr(value, 1, FILTER_LEN) == FILTER) {
         if (DEDUPS[value] != 1) {
             if (desc != "") {
                 print value "\0" "\t" desc
@@ -228,8 +241,8 @@ BEGIN {
 
 # Complete subcommand for something like `sudo`/`npx`.
 # Args:
-#   Index:  Slice from positional args
-#   PrependArgs*: Args to prepend to sliced positional args array
+#   INDEX:  Slice from positional args
+#   PREPENDARGS*: Args to prepend to sliced positional args array
 #
 # ```sh
 # @ description A sudo cli
@@ -246,7 +259,6 @@ _argc_util_comp_subcommand() {
     if [[ ! -f "$scriptfile" ]]; then
         scriptfile="$ARGC_COMPLETIONS_ROOT/completions/${args[0]}/${args[1]}.sh"
         if [[ ! -f "$scriptfile" ]]; then
-            _argc_util_comp_path
             return
         fi
     fi
@@ -255,26 +267,17 @@ _argc_util_comp_subcommand() {
 }
 
 
-# Test value maybe a path
+# Checks if given string has a path prefix.
 #
 # ```sh
-# _argc_util_is_path ./      # yes
-# _argc_util_is_path /       # yes
-# _argc_util_is_path ~       # yes
-# _argc_util_is_path C:\\    # yes
-# _argc_util_is_path README  # no
+# _argc_util_has_path_prefix ./      # yes
+# _argc_util_has_path_prefix /       # yes
+# _argc_util_has_path_prefix ~       # yes
+# _argc_util_has_path_prefix C:\\    # yes
+# _argc_util_has_path_prefix README  # no
 # ```
-_argc_util_is_path() {
-     if [[ "$1" == '.'* || "$1" == '/'* || "$1" == '~'* || "$1" == [A-Za-z]:*  ]]; then
-        return 0
-    else
-        return 1
-    fi
-}
-
-# Test value maybe a variable name
-_argc_util_is_variable() {
-    if [[ "$1" =~ ^[A-Za-z0-9_-]+$ ]]; then
+_argc_util_has_path_prefix() {
+     if [[ $1 == '.'* || $1 == '/'* || $1 == '~'* ]] || [[ $1 =~ ^[A-Za-z]: ]]; then
         return 0
     else
         return 1
@@ -283,8 +286,8 @@ _argc_util_is_variable() {
 
 # Enetr kv complete mode
 # Args:
-#   sep: key value seperator
-#   filter: the filter, defualt value is $ARGC_FILTER
+#   SEP: key value seperator
+#   FILTER: filter value, defualt is $ARGC_FILTER
 #
 # Explain:
 # Suppose we add `_argc_util_mode_kv :` to choice fn.
@@ -299,6 +302,7 @@ _argc_util_is_variable() {
 _argc_util_mode_kv() {
     local sep="$1"
     local filter="${2-$ARGC_FILTER}"
+
     if [[ "$filter" == *"$sep"* ]]; then
         argc__kv_key="${filter%%$sep*}"
         argc__kv_prefix="$argc__kv_key$sep"
@@ -306,6 +310,8 @@ _argc_util_mode_kv() {
         echo "__argc_prefix=$argc__kv_prefix"
         echo "__argc_filter=$argc__kv_filter"
     else
+        argc__kv_key=""
+        argc__kv_prefix=""
         argc__kv_filter="$filter"
         echo "__argc_filter=$argc__kv_filter"
     fi
@@ -314,18 +320,22 @@ _argc_util_mode_kv() {
 
 # Enetr parts complete mode
 # Args:
-#   sep: key value seperator
-#   filter: The filter, defualt value is $ARGC_FILTER
-#   prefix: The prefix
+#   SEP: key value seperator
+#   FILTER: filter value, defualt is $ARGC_FILTER
+#   PREFIX: The additional prefix
 _argc_util_mode_parts() {
     local sep="$1"
-    argc__parts_filter="${2-$ARGC_FILTER}" 
-    argc__parts_prefix="${3}"
-    argc__parts_local_prefix=""
-    if [[ "$argc__parts_filter" == *"$sep"* ]]; then
-        argc__parts_local_prefix="${argc__parts_filter%$sep*}$sep"
-        argc__parts_filter="${argc__parts_filter##*$sep}"
-        argc__parts_prefix="$argc__parts_prefix$argc__parts_local_prefix"
+    local filter="${2-$ARGC_FILTER}" 
+    local prefix="${3}"
+
+    if [[ "$filter" == *"$sep"* ]]; then
+        argc__parts_local_prefix="${filter%$sep*}$sep"
+        argc__parts_filter="${filter##*$sep}"
+        argc__parts_prefix="$prefix$argc__parts_local_prefix"
+    else
+        argc__parts_local_prefix=""
+        argc__parts_filter="$filter"
+        argc__parts_prefix="$prefix"
     fi
     echo "__argc_prefix=$argc__parts_prefix"
     echo "__argc_filter=$argc__parts_filter"
@@ -353,9 +363,17 @@ _argc_util_parallel() {
 # }
 # ```
 _argc_util_param_select_options() {
-    local option option_var option_val
+    local option option_name option_var option_val
     for option in "$@"; do
-        option_var="argc_$(echo "$option" | sed 's/^-\+//' | tr '-' '_')"
+        if [[ "$option" == '--'* ]]; then
+            option_name="${option#*--}"
+        elif [[ "$option" == '-'* ]]; then
+            option_name="${option#*-}"
+        else
+            continue
+        fi
+        option_name="${option_name//-/_}"
+        option_var="argc_$option_name"
         option_val="${!option_var}"
         if [[ -n "$option_val" ]]; then
             if [[ "$option_val" -eq 1 ]]; then
@@ -389,7 +407,7 @@ _argc_util_path_resolve() {
     local format args value
     if [[ "$1" == "-p" ]]; then format=1; shift; fi # platform path
     if [[ "$1" == "-u" ]]; then format=2; shift; fi # unix path
-    if [[ $# -eq 0 ]]; then args=( "$(cat)" ); else args=( "$@" ); fi
+    if [[ $# -eq 0 ]]; then args=( "$(command cat)" ); else args=( "$@" ); fi
     case "${args[0]}::$ARG_OS" in
         CONFIG_DIR::windows)
             args[0]="$APPDATA"
@@ -644,15 +662,15 @@ _argc_util_cache() {
     fi
     local cache_file="$cache_dir/$cache_key"
     if [[ -f "$cache_file" ]]; then
-        mod_time=$(stat -c %Y "$cache_file")
+        mod_time=$(command stat -c %Y "$cache_file")
         now_time=$(date '+%s')
         if (( $now_time - $mod_time < $1 )); then
-            cat $cache_file
+            command cat $cache_file
             return
         fi
     fi
     if [ ! -d "$cache_dir" ]; then
         mkdir -p "$cache_dir"
     fi
-    $2 2>/dev/null | tee "$cache_file"
+    $2 2>/dev/null | command tee "$cache_file"
 }

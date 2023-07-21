@@ -19,7 +19,7 @@
 # @option -N --namespace <ns>                      perform umount in another namespace
 # @flag -h --help                                  display this help
 # @flag -V --version                               display version
-# @arg source[`_choice_umount_source`]
+# @arg umount-source[`_choice_umount_source`]
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
@@ -106,18 +106,18 @@ EOF
 }
 
 _choice_source() {
-    if _argc_util_is_path "$ARGC_FILTER"; then
-        _argc_util_comp_path
+    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
         _choice_block_device
-    else
-        cat <<-'EOF' | _argc_util_comp_kv = 
+        _argc_util_comp_path
+        return
+    fi
+    cat <<-'EOF' | _argc_util_comp_kv = 
 LABEL=`_choice_label`;;specifies device by filesystem label
 UUID=`_choice_uuid`;;specifies device by filesystem UUID
 PARTLABEL=`_choice_partlabel`;;specifies device by partition label
 PARTUUID=`_choice_partuuid`;;specifies device by partition UUID
 ID=;;specifies device by udev hardware ID
 EOF
-    fi
 }
 
 _choice_block_device() {
@@ -126,7 +126,10 @@ _choice_block_device() {
 }
 
 _choice_umount_source() {
-    _argc_util_parallel _choice_mount_point ::: _choice_source
+    if [[ -n "$argc_all" ]]; then
+        return
+    fi
+    _argc_util_parallel _choice_source ::: _choice_mount_point 
 }
 
 _choice_mount_point() {

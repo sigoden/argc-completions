@@ -48,8 +48,8 @@
 # @flag --server-replay-nopop                    Don't remove flows from server replay state after use.
 # @flag --no-server-replay-refresh
 # @flag --server-replay-refresh                  Refresh server replay responses by adjusting date, expires and last-modified headers, as well as adjusting cookie expiration.
-# @option -M --map-remote <PATTERN> <PATTERN>    Map remote resources to another remote URL using a pattern of the form "[/flow-filter]/url- regex/replacement", where the separator can be any character.
-# @option --map-local <PATTERN>                  Map remote resources to a local file using a pattern of the form "[/flow-filter]/url-regex/file-or- directory-path", where the separator can be any character.
+# @option -M --map-remote <PATTERN> <PATTERN>    Map remote resources to another remote URL using a pattern of the form "[/flow-filter]/url-regex/replacement", where the separator can be any character.
+# @option --map-local <PATTERN>                  Map remote resources to a local file using a pattern of the form "[/flow-filter]/url-regex/file-or-directory-path", where the separator can be any character.
 # @option -B --modify-body*[`_choice_modify_body`] <PATTERN> <PATTERN>  Replacement pattern of the form "[/flow-filter]/regex/[@]replacement", where the separator can be any character.
 # @option -H --modify-headers*[`_choice_modify_headers`] <PATTERN> <PATTERN>  Header modify pattern of the form "[/flow-filter]/header-name/[@]header-value", where the separator can be any character.
 # @option --intercept <FILTER>                   Intercept filter expression.
@@ -133,7 +133,7 @@ _choice_modify_body() {
             _choice_flow_filter | _argc_util_transform nospace
         fi
     elif [[ "${argc__3p_filter:0:1}" == "@" ]]; then
-        _argc_util_comp_path prefix="${argc__3p_perix}@" filter="${argc__3p_filter:1}"
+        _argc_util_comp_path prefix="${argc__3p_prefix}@" filter="${argc__3p_filter:1}"
     fi
 }
 
@@ -153,7 +153,7 @@ _choice_modify_headers() {
         echo __argc_prefix="${argc__3p_prefix}"
     else
         if [[ "${argc__3p_filter:0:1}" == "@" ]]; then
-            _argc_util_comp_path prefix="${argc__3p_perix}@" filter="${argc__3p_filter:1}"
+            _argc_util_comp_path prefix="${argc__3p_prefix}@" filter="${argc__3p_filter:1}"
         else
             ARGC_FILTER="${argc__3p_parts[1]}$argc__3p_sep$argc__3p_filter" SEP="$argc__3p_sep" _module_http_header 
             echo __argc_prefix="${argc__3p_prefix}"

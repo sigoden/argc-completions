@@ -1,3 +1,8 @@
+_patch_help() { 
+    COLUMNS=200
+    _patch_help_run_help $@
+}
+
 _patch_table() { 
     _patch_table_edit_options \
         '--certs;*[`_choice_cert`]' \
@@ -85,7 +90,7 @@ _choice_modify_body() {
             _choice_flow_filter | _argc_util_transform nospace
         fi
     elif [[ "${argc__3p_filter:0:1}" == "@" ]]; then
-        _argc_util_comp_path prefix="${argc__3p_perix}@" filter="${argc__3p_filter:1}"
+        _argc_util_comp_path prefix="${argc__3p_prefix}@" filter="${argc__3p_filter:1}"
     fi
 }
 
@@ -105,7 +110,7 @@ _choice_modify_headers() {
         echo __argc_prefix="${argc__3p_prefix}"
     else
         if [[ "${argc__3p_filter:0:1}" == "@" ]]; then
-            _argc_util_comp_path prefix="${argc__3p_perix}@" filter="${argc__3p_filter:1}"
+            _argc_util_comp_path prefix="${argc__3p_prefix}@" filter="${argc__3p_filter:1}"
         else
             ARGC_FILTER="${argc__3p_parts[1]}$argc__3p_sep$argc__3p_filter" SEP="$argc__3p_sep" _module_http_header 
             echo __argc_prefix="${argc__3p_prefix}"

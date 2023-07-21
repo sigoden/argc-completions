@@ -25,7 +25,7 @@ EOF
 }
 
 _choice_conv() {
-    cat <<-'EOF' | _argc_util_comp_multi , =
+    cat <<-'EOF' | _argc_util_comp_multi , "$argc__kv_filter" "$argc__kv_prefix"
 ascii	from EBCDIC to ASCII
 ebcdic	from ASCII to EBCDIC
 ibm	from ASCII to alternate EBCDIC
@@ -46,7 +46,7 @@ EOF
 }
 
 _choice_iflag() {
-    cat <<-'EOF' | _argc_util_comp_multi , =
+    cat <<-'EOF' | _argc_util_comp_multi , "$argc__kv_filter" "$argc__kv_prefix"
 append	append mode
 direct	use direct I/O for data
 directory	fail unless a directory

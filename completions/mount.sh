@@ -39,8 +39,8 @@
 # @flag --make-rslave                              recursively mark a whole subtree as slave
 # @flag --make-rprivate                            recursively mark a whole subtree as private
 # @flag --make-runbindable                         recursively mark a whole subtree as unbindable
-# @arg source[`_choice_mount_source`]
-# @arg target[`_choice_mount_target`]
+# @arg mount-source[`_choice_mount_source`]
+# @arg mount-target[`_choice_mount_target`]
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
@@ -100,18 +100,18 @@ EOF
 }
 
 _choice_source() {
-    if _argc_util_is_path "$ARGC_FILTER"; then
-        _argc_util_comp_path
+    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
         _choice_block_device
-    else
-        cat <<-'EOF' | _argc_util_comp_kv = 
+        _argc_util_comp_path
+        return
+    fi
+    cat <<-'EOF' | _argc_util_comp_kv = 
 LABEL=`_choice_label`;;specifies device by filesystem label
 UUID=`_choice_uuid`;;specifies device by filesystem UUID
 PARTLABEL=`_choice_partlabel`;;specifies device by partition label
 PARTUUID=`_choice_partuuid`;;specifies device by partition UUID
-ID;=;specifies device by udev hardware ID
+ID=;;specifies device by udev hardware ID
 EOF
-    fi
 }
 
 _choice_fstype() {
@@ -169,39 +169,35 @@ _choice_partuuid() {
 _choice_mount_source() {
     if [[ -n "$argc_all" ]]; then
         return
-    elif [[ -n "$argc_bind" ]] ||
-		[[ -n "$argc_move" ]] ||
-		[[ -n "$argc_rbind" ]] ||
-		[[ -n "$argc_make_shared" ]] ||
-		[[ -n "$argc_make_slave" ]] ||
-		[[ -n "$argc_make_private" ]] ||
-		[[ -n "$argc_make_unbindable" ]] ||
-		[[ -n "$argc_make_rshared" ]] ||
-		[[ -n "$argc_make_rslave" ]] ||
-		[[ -n "$argc_make_rprivate" ]]; then
+    fi
+    if helper_is_operation; then
         _choice_mount_point
         return
-    elif [[ -n "$argc_source" ]]; then
+    fi
+    if [[ -n "$argc_source" ]]; then
         if [[ -n "$argc_target" ]]; then
             return
-        else
-            echo __argc_value=dir
-            return
         fi
-    else
-        _choice_source
+        echo __argc_value=dir
+        return
     fi
+    _choice_source
 }
 
 _choice_mount_target() {
     if [[ -n "$argc_all" ]]; then
         return
-    elif [[ -n "$argc_bind" ]] ||
-		[[ -n "$argc_move" ]] ||
-		[[ -n "$argc_rbind" ]]; then
-        echo __argc_value=dir
-        return
-    elif [[ -z "$argc_source" ]] && [[ -z "$argc_target" ]]; then
+    fi
+    if helper_is_operation; then
+        if [[ -n "$argc_bind" ]] \
+        || [[ -n "$argc_move" ]] \
+        || [[ -n "$argc_rbind" ]] \
+        ; then
+            echo __argc_value=dir
+            return
+        fi
+    fi
+    if [[ -z "$argc_source" ]] && [[ -z "$argc_target" ]]; then
         echo __argc_value=dir
         return
     fi
@@ -209,6 +205,24 @@ _choice_mount_target() {
 
 _choice_mount_point() {
     cat /proc/mounts | gawk '{print $2 "\t" $1}' 
+}
+
+helper_is_operation() {
+    if [[ -n "$argc_bind" ]] \
+    || [[ -n "$argc_move" ]] \
+    || [[ -n "$argc_rbind" ]] \
+    || [[ -n "$argc_make_shared" ]] \
+    || [[ -n "$argc_make_slave" ]] \
+    || [[ -n "$argc_make_private" ]] \
+    || [[ -n "$argc_make_unbindable" ]] \
+    || [[ -n "$argc_make_rshared" ]] \
+    || [[ -n "$argc_make_rslave" ]] \
+    || [[ -n "$argc_make_rprivate" ]] \
+    ; then
+        return 0
+    else
+        return 1
+    fi
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

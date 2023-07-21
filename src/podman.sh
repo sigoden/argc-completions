@@ -146,13 +146,14 @@ _choice_secret() {
 }
 
 _choice_container_cp() {
-    _argc_util_mode_kv ':'
     _complete_container_path() {
+        _argc_util_mode_kv ':'
         if [[ -z "$argc__kv_prefix" ]]; then
-            echo "__argc_value=path"
-            if ! _argc_util_is_path "$src"; then
-                _choice_container | _argc_util_transform suffix=: nospace
+            if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+                echo "__argc_value=path"
+                return
             fi
+            _choice_container | _argc_util_transform suffix=: nospace
         else
             _argc_util_mode_parts '/' "$argc__kv_filter" "$argc__kv_prefix"
             if [[ -z "$argc__kv_filter" ]]; then

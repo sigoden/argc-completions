@@ -680,10 +680,11 @@ _choice_namespace() {
 }
 
 _choice_load_image() {
-    if !_argc_util_is_path "$argc_image"; then
-        _module_oci_docker_image
+    if _argc_util_has_path_prefix "$argc_image"; then
+        _argc_util_comp_path
+        return
     fi
-    _argc_util_comp_path
+    _module_oci_docker_image
 }
 
 _choice_image() {
@@ -695,17 +696,19 @@ _choice_addon() {
 }
 
 _choice_cni() {
-    if ! _argc_util_is_path "$argc_cni"; then
-        printf "%s\n" auto bridge calico cilium flannel kindnet
+    if _argc_util_has_path_prefix "$argc_cni"; then
+        _argc_util_comp_path
+        return
     fi
-    _argc_util_comp_path
+    printf "%s\n" auto bridge calico cilium flannel kindnet
 }
 
 _choice_vnpkit_sock() {
-    if ! _argc_util_is_path "$argc_hyperkit_vpnkit_sock"; then
-        printf "%s\n" auto
+    if _argc_util_has_path_prefix "$argc_hyperkit_vpnkit_sock"; then
+        _argc_util_comp_path
+        return
     fi
-    _argc_util_comp_path
+    printf "%s\n" auto
 }
 
 _choice_mount_string() {
@@ -768,13 +771,14 @@ _choice_kubectl() {
 }
 
 _choice_cp() {
-    _argc_util_mode_kv ':'
     _complete_node_path() {
+        _argc_util_mode_kv ':'
         if [[ -z "$argc__kv_prefix" ]]; then
-            echo "__argc_value=path"
-            if ! _argc_util_is_path "$src"; then
-                _choice_node | _argc_util_transform suffix=: nospace
+            if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+                echo "__argc_value=path"
+                return
             fi
+            _choice_node | _argc_util_transform suffix=: nospace
         else
             _argc_util_mode_parts '/' "$argc__kv_filter" "$argc__kv_prefix"
             if [[ -z "$argc__kv_filter" ]]; then
