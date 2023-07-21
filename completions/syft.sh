@@ -234,7 +234,7 @@ _module_oci_docker_image() {
 }
 
 _module_oci_docker_platform() {
-    cat <<-'EOF'
+    command cat <<-'EOF'
 linux/amd64
 linux/arm64
 linux/ppc64le

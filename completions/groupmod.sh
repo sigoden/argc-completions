@@ -11,7 +11,7 @@
 # @arg group[`_module_os_group`]
 
 _module_os_group() {
-    cat /etc/group | gawk -F: '{print $1 "\t" $4}'
+    command cat /etc/group | gawk -F: '{print $1 "\t" $4}'
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

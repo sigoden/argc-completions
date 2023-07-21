@@ -48,7 +48,7 @@ EOF
 }
 
 _module_os_shell() {
-    cat /etc/shells | sed -n '/^\// p'   
+    command cat /etc/shells | sed -n '/^\// p'   
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

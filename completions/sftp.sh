@@ -42,7 +42,7 @@ _module_ssh_hostkeyalgorithms() {
 }
 
 _module_ssh_option() {
-    cat <<-'EOF' | _argc_util_comp_kv =
+    command cat <<-'EOF' | _argc_util_comp_kv =
 AddKeysToAgent=yes,ask,confirm,no
 AddressFamily=any,inet,inet6
 BatchMode=yes,no

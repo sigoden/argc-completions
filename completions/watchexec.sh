@@ -42,11 +42,11 @@
 # @option --completions[bash|elvish|fish|nu|powershell|zsh]  Generate a shell completions script
 
 _module_os_shell() {
-    cat /etc/shells | sed -n '/^\// p'   
+    command cat /etc/shells | sed -n '/^\// p'   
 }
 
 _module_os_signal() {
-    cat <<-'EOF'
+    command cat <<-'EOF'
 ABRT	Abnormal termination
 ALRM	Virtual alarm clock
 BUS	BUS error

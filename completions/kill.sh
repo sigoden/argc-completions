@@ -20,9 +20,9 @@ _module_os_pid() {
     if [[ "$ARGC_OS" == "windows" ]]; then
         tasklist /nh /fo csv | gawk -F ',' '{ gsub("\"", "", $2); gsub("\"", "", $1); print $2 "\t" $1 }'
     elif [[ "$ARGC_OS" == "macos" ]]; then
-        ps -eo pid,comm | tail -n +2 | gawk '{split($2, arr, "/"); print $1 "\t" arr[length(arr)]}'
+        command ps -eo pid,comm | tail -n +2 | gawk '{split($2, arr, "/"); print $1 "\t" arr[length(arr)]}'
     else
-        ps -eo pid,comm | tail -n +2 | sed -e 's/^ \+//' -e 's/ /\t/' 
+        command ps -eo pid,comm | tail -n +2 | sed -e 's/^ \+//' -e 's/ /\t/' 
     fi
 }
 
@@ -30,12 +30,12 @@ _module_os_process() {
     if [[ "$ARGC_OS" == "windows" ]]; then
         tasklist /nh /fo csv | gawk -F ',' '{ gsub("\"", "", $2); gsub("\"", "", $1); print $1 "\t" $2 }'
     else
-        ps axc -o pid,comm= | gawk '{print $2 "\t" $1}'
+        command ps axc -o pid,comm= | gawk '{print $2 "\t" $1}'
     fi
 }
 
 _module_os_signal() {
-    cat <<-'EOF'
+    command cat <<-'EOF'
 ABRT	Abnormal termination
 ALRM	Virtual alarm clock
 BUS	BUS error

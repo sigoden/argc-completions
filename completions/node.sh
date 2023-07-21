@@ -124,7 +124,7 @@
 # @arg args*
 
 _module_os_signal() {
-    cat <<-'EOF'
+    command cat <<-'EOF'
 ABRT	Abnormal termination
 ALRM	Virtual alarm clock
 BUS	BUS error

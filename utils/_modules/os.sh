@@ -1,18 +1,18 @@
 _module_os_user() {
-    cat /etc/passwd | gawk -F: '{split($5,descs,","); print $1 "\t" descs[1]}'
+    command cat /etc/passwd | gawk -F: '{split($5,descs,","); print $1 "\t" descs[1]}'
 }
 
 _module_os_group() {
-    cat /etc/group | gawk -F: '{print $1 "\t" $4}'
+    command cat /etc/group | gawk -F: '{print $1 "\t" $4}'
 }
 
 _module_os_pid() {
     if [[ "$ARGC_OS" == "windows" ]]; then
         tasklist /nh /fo csv | gawk -F ',' '{ gsub("\"", "", $2); gsub("\"", "", $1); print $2 "\t" $1 }'
     elif [[ "$ARGC_OS" == "macos" ]]; then
-        ps -eo pid,comm | tail -n +2 | gawk '{split($2, arr, "/"); print $1 "\t" arr[length(arr)]}'
+        command ps -eo pid,comm | tail -n +2 | gawk '{split($2, arr, "/"); print $1 "\t" arr[length(arr)]}'
     else
-        ps -eo pid,comm | tail -n +2 | sed -e 's/^ \+//' -e 's/ /\t/' 
+        command ps -eo pid,comm | tail -n +2 | sed -e 's/^ \+//' -e 's/ /\t/' 
     fi
 }
 
@@ -20,12 +20,12 @@ _module_os_process() {
     if [[ "$ARGC_OS" == "windows" ]]; then
         tasklist /nh /fo csv | gawk -F ',' '{ gsub("\"", "", $2); gsub("\"", "", $1); print $1 "\t" $2 }'
     else
-        ps axc -o pid,comm= | gawk '{print $2 "\t" $1}'
+        command ps axc -o pid,comm= | gawk '{print $2 "\t" $1}'
     fi
 }
 
 _module_os_signal() {
-    cat <<-'EOF'
+    command cat <<-'EOF'
 ABRT	Abnormal termination
 ALRM	Virtual alarm clock
 BUS	BUS error
@@ -61,15 +61,15 @@ EOF
 }
 
 _module_os_sid() {
-    ps -A -o user,sess  | gawk '{print $2 "\t" $1}'
+    command ps -A -o user,sess  | gawk '{print $2 "\t" $1}'
 }
 
 _module_os_tty() {
-    ps aux | gawk '{ if ($7 != "?" && NR > 1) {print $7 "\t" $1} }'
+    command ps aux | gawk '{ if ($7 != "?" && NR > 1) {print $7 "\t" $1} }'
 }
 
 _module_os_shell() {
-    cat /etc/shells | sed -n '/^\// p'   
+    command cat /etc/shells | sed -n '/^\// p'   
 }
 
 _module_os_command() {

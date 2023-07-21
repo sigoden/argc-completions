@@ -262,7 +262,7 @@ EOF
 }
 
 _module_http_accept_encoding() {
-    cat <<-'EOF'
+    command cat <<-'EOF'
 br	Brotli
 compress	UNIX 'compress' program method
 deflate	 compression based on the deflate algorithm
@@ -275,7 +275,7 @@ EOF
 }
 
 _module_http_cache_control() {
-    cat <<-'EOF' | sed 's/=\t/=\0\t/'
+    command cat <<-'EOF' | sed 's/=\t/=\0\t/'
 max-age=	The maximum amount of time a resource is considered fresh.
 max-stale	Indicates the client will accept a stale response.
 min-fresh=	Indicates the client wants a response that will still be fresh for at least the specified number of seconds.
@@ -287,7 +287,7 @@ EOF
 }
 
 _module_http_header() {
-    cat <<-'EOF' | _argc_util_comp_kv ${SEP:-:}
+    command cat <<-'EOF' | _argc_util_comp_kv ${SEP:-:}
 Accept=;;Media type(s) that is/are acceptable for the response. See Content negotiation.
 Accept-Encoding=`_module_http_accept_encoding`;;List of acceptable encodings. See HTTP compression.
 Accept-Language=;;List of acceptable human languages for response. See Content negotiation.
@@ -315,7 +315,7 @@ EOF
 }
 
 _module_http_media_type() {
-    cat <<-'EOF'
+    command cat <<-'EOF'
 application/graphql
 application/javascript
 application/json
@@ -341,7 +341,7 @@ EOF
 }
 
 _module_http_method() {
-    cat <<-'EOF'
+    command cat <<-'EOF'
 CONNECT	Establish a tunnel to the server identified by the target resource
 DELETE	Delete the specified resource
 GET	Request a representation of the specified resource
