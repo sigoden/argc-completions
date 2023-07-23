@@ -1,7 +1,8 @@
 _patch_help() { 
     COLUMNS=200
     _common_edit() {
-        sed -e 's/^  \(\(-\S\+\)\( -\S\+\)*\)\(.*\)\[string\].*/  \1 <string> \4/' -e  's/^  \(\(-\S\+\)\( -\S\+\)*\)\(.*\)\[boolean\].*/  \1 \4/' \
+        sed -e 's/^  \(\(-\S\+\)\( -\S\+\)*\)\(.*\)\[string\].*/  \1 <string> \4/' \
+            -e  's/^  \(\(-\S\+\)\( -\S\+\)*\)\(.*\)\[boolean\].*/  \1 \4/' \
             -e '/^  -.*-file <string>/ s/<string>/<file>/' \
 
     }

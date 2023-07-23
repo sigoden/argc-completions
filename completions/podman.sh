@@ -7,7 +7,7 @@
 # @option -c --connection <string>     Connection to use for remote Podman service (default "podman-machine-default")
 # @option --events-backend[file|journald|none] <file>  Events backend to use (default "journald")
 # @flag --help                         Help for podman
-# @option --hooks-dir <dirs>           Set the OCI hooks directory path (may be set multiple times) (default [/usr/share/containers/oci/hooks.d])
+# @option --hooks-dir* <dir>           Set the OCI hooks directory path (may be set multiple times) (default [/usr/share/containers/oci/hooks.d])
 # @option --identity <file>            path to SSH identity file, (CONTAINER_SSHKEY) (default "/home/sigo/.ssh/podman-machine-default")
 # @option --log-level[trace|debug|info|warn|warning|error|fatal|panic] <string>  Log messages above specified level (default "warn")
 # @option --namespace <string>         Set the libpod namespace, used to create separate views of the containers and pods on the system
@@ -55,8 +55,8 @@ auto-update() {
 # @option --authfile <file>                      path of the authentication file.
 # @option --build-arg <argument=value>           argument=value to supply to the builder
 # @option --cache-from <string>                  Images to utilise as potential cache sources.
-# @option --cap-add <strings>                    add the specified capability when running (default [])
-# @option --cap-drop <strings>                   drop the specified capability when running (default [])
+# @option --cap-add* <string>                    add the specified capability when running (default [])
+# @option --cap-drop* <string>                   drop the specified capability when running (default [])
 # @option --cert-dir <dir>                       use certificates at the specified path to access the registry
 # @option --cgroup-parent <string>               optional parent cgroup for the container
 # @option --cni-plugin-path <path>               path of CNI network plugins (default "/usr/lib/cni:/usr/libexec/cni:/opt/cni/bin")
@@ -67,13 +67,13 @@ auto-update() {
 # @option --cpuset-cpus <string>                 CPUs in which to allow execution (0-3, 0,1)
 # @option --cpuset-mems <string>                 memory nodes (MEMs) in which to allow execution (0-3, 0,1).
 # @option --creds <username[:password]>          use [username[:password]] for accessing the registry
-# @option --decryption-key <strings>             key needed to decrypt the image
+# @option --decryption-key* <string>             key needed to decrypt the image
 # @option --device* <string>                     Additional devices to be used within containers (default [])
 # @flag -D --disable-compression                 don't compress layers by default (default true)
 # @flag --disable-content-trust                  This is a Docker specific option and is a NOOP
 # @option --dns </etc/resolv.conf>               Set custom DNS servers or disable it completely by setting it to 'none', which prevents the automatic creation of /etc/resolv.conf.
-# @option --dns-option <strings>                 Set custom DNS options
-# @option --dns-search <strings>                 Set custom DNS search domains
+# @option --dns-option* <string>                 Set custom DNS options
+# @option --dns-search* <string>                 Set custom DNS search domains
 # @flag -f --file                                pathname or URL                         pathname or URL of a Dockerfile
 # @flag --force-rm                               Always remove intermediate containers after a build, even if the build is unsuccessful.
 # @option --format <format>                      format of the built image's manifest and metadata.
@@ -112,7 +112,7 @@ auto-update() {
 # @option --target <string>                      set the target build stage to build
 # @option --timestamp <int>                      set created timestamp to the specified epoch seconds to allow for deterministic builds, defaults to current time
 # @flag --tls-verify                             require HTTPS and verify certificates when accessing the registry (default true)
-# @option --ulimit <strings>                     ulimit options
+# @option --ulimit* <string>                     ulimit options
 # @option --userns <path>                        'container', path of user namespace to join, or 'host'
 # @option --userns-gid-map <containerGID:hostGID:length>  containerGID:hostGID:length GID mapping to use in user namespace
 # @option --userns-gid-map-group <name>          name of entries from /etc/subgid to use to set user namespace GID mapping
@@ -223,16 +223,16 @@ container::cp() {
 
 # {{{ podman container create
 # @cmd Create but do not start a container
-# @option --add-host <strings>                     Add a custom host-to-IP mapping (host:ip) (default [])
-# @option --annotation <strings>                   Add annotations to container (key:value)
+# @option --add-host* <string>                     Add a custom host-to-IP mapping (host:ip) (default [])
+# @option --annotation* <string>                   Add annotations to container (key:value)
 # @option --arch                                   use ARCH instead of the architecture of the machine for choosing images
-# @option -a --attach <strings>                    Attach to STDIN, STDOUT or STDERR
+# @option -a --attach* <string>                    Attach to STDIN, STDOUT or STDERR
 # @option --authfile <file>                        Path of the authentication file.
 # @option --blkio-weight <string>                  Block IO weight (relative weight) accepts a weight value between 10 and 1000.
 # @option --blkio-weight-device <DEVICE_NAME:WEIGHT>  Block IO weight (relative device weight, format: DEVICE_NAME:WEIGHT)
-# @option --cap-add <strings>                      Add capabilities to the container
-# @option --cap-drop <strings>                     Drop capabilities from the container
-# @option --cgroup-conf <strings>                  Configure cgroup v2 (key=value)
+# @option --cap-add* <string>                      Add capabilities to the container
+# @option --cap-drop* <string>                     Drop capabilities from the container
+# @option --cgroup-conf* <string>                  Configure cgroup v2 (key=value)
 # @option --cgroup-parent <string>                 Optional parent cgroup for the container
 # @option --cgroupns <string>                      cgroup namespace to use
 # @option --cgroups[enabled|disabled|no-conmon|split] <string>  control container cgroup configuration (default "enabled")
@@ -246,23 +246,23 @@ container::cp() {
 # @option --cpus <float>                           Number of CPUs.
 # @option --cpuset-cpus <string>                   CPUs in which to allow execution (0-3, 0,1)
 # @option --cpuset-mems <string>                   Memory nodes (MEMs) in which to allow execution (0-3, 0,1).
-# @option --device <strings>                       Add a host device to the container
-# @option --device-cgroup-rule <strings>           Add a rule to the cgroup allowed devices list
-# @option --device-read-bps <strings>              Limit read rate (bytes per second) from a device (e.g. --device-read-bps=/dev/sda:1mb)
-# @option --device-read-iops <strings>             Limit read rate (IO per second) from a device (e.g. --device-read-iops=/dev/sda:1000)
-# @option --device-write-bps <strings>             Limit write rate (bytes per second) to a device (e.g. --device-write-bps=/dev/sda:1mb)
-# @option --device-write-iops <strings>            Limit write rate (IO per second) to a device (e.g. --device-write-iops=/dev/sda:1000)
+# @option --device* <string>                       Add a host device to the container
+# @option --device-cgroup-rule* <string>           Add a rule to the cgroup allowed devices list
+# @option --device-read-bps* <string>              Limit read rate (bytes per second) from a device (e.g. --device-read-bps=/dev/sda:1mb)
+# @option --device-read-iops* <string>             Limit read rate (IO per second) from a device (e.g. --device-read-iops=/dev/sda:1000)
+# @option --device-write-bps* <string>             Limit write rate (bytes per second) to a device (e.g. --device-write-bps=/dev/sda:1mb)
+# @option --device-write-iops* <string>            Limit write rate (IO per second) to a device (e.g. --device-write-iops=/dev/sda:1000)
 # @flag --disable-content-trust                    This is a Docker specific option and is a NOOP
-# @option --dns <strings>                          Set custom DNS servers
-# @option --dns-opt <strings>                      Set custom DNS options
-# @option --dns-search <strings>                   Set custom DNS search domains
+# @option --dns* <string>                          Set custom DNS servers
+# @option --dns-opt* <string>                      Set custom DNS options
+# @option --dns-search* <string>                   Set custom DNS search domains
 # @option --entrypoint <string>                    Overwrite the default ENTRYPOINT of the image
 # @option -e --env* <string>                       Set environment variables in container (default [PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin,TERM=xterm])
-# @option --env-file <files>                       Read in a file of environment variables
+# @option --env-file* <file>                       Read in a file of environment variables
 # @flag --env-host                                 Use all current host environment variables in container
-# @option --expose <strings>                       Expose a port or a range of ports
-# @option --gidmap <strings>                       GID map to use for the user namespace
-# @option --group-add <strings>                    Add additional groups to the primary container process.
+# @option --expose* <string>                       Expose a port or a range of ports
+# @option --gidmap* <string>                       GID map to use for the user namespace
+# @option --group-add* <string>                    Add additional groups to the primary container process.
 # @option --health-cmd <string>                    set a healthcheck command for the container ('none' disables the existing healthcheck)
 # @option --health-interval <string>               set an interval for the healthchecks (a value of disable results in no automatic timer setup) (default "30s")
 # @option --health-retries <uint>                  the number of retries allowed before a healthcheck is considered to be unhealthy (default 3)
@@ -279,9 +279,9 @@ container::cp() {
 # @option --ipc <string>                           IPC namespace to use
 # @option --kernel-memory <<number>[<unit>]>       Kernel memory limit (format: <number>[<unit>], where unit = b (bytes), k (kilobytes), m (megabytes), or g (gigabytes))
 # @option -l --label* <string>                     Set metadata on container
-# @option --label-file <files>                     Read in a line delimited file of labels
+# @option --label-file* <file>                     Read in a line delimited file of labels
 # @option --log-driver <string>                    Logging driver for the container (default "journald")
-# @option --log-opt <strings>                      Logging driver options
+# @option --log-opt* <string>                      Logging driver options
 # @option --mac-address <string>                   Container MAC address (e.g. 92:d0:c6:0a:29:33)
 # @option -m --memory <<number>[<unit>]>           Memory limit (format: <number>[<unit>], where unit = b (bytes), k (kilobytes), m (megabytes), or g (gigabytes))
 # @option --memory-reservation <<number>[<unit>]>  Memory soft limit (format: <number>[<unit>], where unit = b (bytes), k (kilobytes), m (megabytes), or g (gigabytes))
@@ -290,7 +290,7 @@ container::cp() {
 # @option --mount* <file>                          Attach a filesystem mount to the container
 # @option --name <string>                          Assign a name to the container
 # @option --network[`_choice_network`] <string>    Connect a container to a network
-# @option --network-alias <strings>                Add network-scoped alias for the container
+# @option --network-alias* <string>                Add network-scoped alias for the container
 # @flag --no-healthcheck                           Disable healthchecks on container
 # @flag --no-hosts                                 Do not create /etc/hosts within the container, instead use the version from the image
 # @flag --oom-kill-disable                         Disable OOM Killer
@@ -304,14 +304,14 @@ container::cp() {
 # @option --pod <string>                           Run container in an existing pod
 # @option --pod-id-file <file>                     Read the pod ID from the file
 # @flag --privileged                               Give extended privileges to container
-# @option -p --publish <strings>                   Publish a container's port, or a range of ports, to the host (default [])
+# @option -p --publish* <string>                   Publish a container's port, or a range of ports, to the host (default [])
 # @flag -P --publish-all                           Publish all exposed ports to random ports on the host interface
 # @option --pull[always|missing|never] <string>    Pull image before creating (default "missing")
 # @flag -q --quiet                                 Suppress output information when pulling images
 # @flag --read-only                                Make containers root filesystem read-only
 # @flag --read-only-tmpfs                          When running containers in read-only mode mount a read-write tmpfs on /run, /tmp and /var/tmp (default true)
 # @flag --replace                                  If a container with the same name exists, replace it
-# @option --requires <strings>                     Add one or more requirement containers that must be started before this container will start
+# @option --requires* <string>                     Add one or more requirement containers that must be started before this container will start
 # @option --restart[always|no|on-failure|unless-stopped] <string>  Restart policy to apply when a container exits
 # @flag --rm                                       Remove container (and pod if created) after exit
 # @flag --rootfs                                   The first argument is not an image but the rootfs to the exploded container
@@ -324,15 +324,15 @@ container::cp() {
 # @option --stop-timeout <uint>                    Timeout (in seconds) that containers stopped by user command have to exit.
 # @option --subgidname <string>                    Name of range listed in /etc/subgid for use in user namespace
 # @option --subuidname <string>                    Name of range listed in /etc/subuid for use in user namespace
-# @option --sysctl <strings>                       Sysctl options
+# @option --sysctl* <string>                       Sysctl options
 # @option --systemd[true|false|always] <string>    Run container in systemd mode (default "true")
 # @option --timeout <uint>                         Maximum length of time a container is allowed to run.
 # @flag --tls-verify                               Require HTTPS and verify certificates when contacting registries for pulling images
 # @option --tmpfs <tmpfs>                          Mount a temporary filesystem (tmpfs) into a container
 # @flag -t --tty                                   Allocate a pseudo-TTY for container
 # @option --tz <string>                            Set timezone in container
-# @option --uidmap <strings>                       UID map to use for the user namespace
-# @option --ulimit <strings>                       Ulimit options
+# @option --uidmap* <string>                       UID map to use for the user namespace
+# @option --ulimit* <string>                       Ulimit options
 # @option --umask <string>                         Set umask in container (default "0022")
 # @option -u --user <string>                       Username or UID (format: <name|uid>[:<group|gid>])
 # @option --userns <string>                        User namespace to use
@@ -362,7 +362,7 @@ container::diff() {
 # @flag -d --detach                 Run the exec session in detached mode (backgrounded)
 # @option --detach-keys <string>    Select the key sequence for detaching a container.
 # @option -e --env* <string>        Set environment variables
-# @option --env-file <files>        Read in a file of environment variables
+# @option --env-file* <file>        Read in a file of environment variables
 # @flag -i --interactive            Keep STDIN open even if not attached
 # @flag -l --latest                 Act on the latest container podman is aware of Not supported with the "--remote" flag
 # @option --preserve-fds <uint>     Pass N additional file descriptors to the container
@@ -432,7 +432,7 @@ container::kill() {
 # @alias ls
 # @flag -a --all                   Show all the containers, default is only running containers
 # @flag --external                 Show containers in storage not controlled by Podman
-# @option -f --filter <strings>    Filter output based on conditions given
+# @option -f --filter* <string>    Filter output based on conditions given
 # @option --format <string>        Pretty-print containers to JSON or using a Go template
 # @option -n --last <int>          Print the n last created containers (all states) (default -1)
 # @flag -l --latest                Act on the latest container podman is aware of Not supported with the "--remote" flag
@@ -510,7 +510,7 @@ container::prune() {
 # @cmd List containers
 # @flag -a --all                   Show all the containers, default is only running containers
 # @flag --external                 Show containers in storage not controlled by Podman
-# @option -f --filter <strings>    Filter output based on conditions given
+# @option -f --filter* <string>    Filter output based on conditions given
 # @option --format <string>        Pretty-print containers to JSON or using a Go template
 # @option -n --last <int>          Print the n last created containers (all states) (default -1)
 # @flag -l --latest                Act on the latest container podman is aware of Not supported with the "--remote" flag
@@ -562,7 +562,7 @@ container::restart() {
 # @flag -l --latest                     Act on the latest container podman is aware of Not supported with the "--remote" flag
 # @option -n --name <string>            Specify new name for container restored from exported checkpoint (only works with --import)
 # @option --pod <string>                Restore container into existing Pod (only works with --import)
-# @option -p --publish <strings>        Publish a container's port, or a range of ports, to the host (default [])
+# @option -p --publish* <string>        Publish a container's port, or a range of ports, to the host (default [])
 # @flag --tcp-established               Restore a container with established TCP connections
 # @arg container*[`_choice_container`]
 container::restore() {
@@ -586,16 +586,16 @@ container::rm() {
 
 # {{{ podman container run
 # @cmd Run a command in a new container
-# @option --add-host <strings>                     Add a custom host-to-IP mapping (host:ip) (default [])
-# @option --annotation <strings>                   Add annotations to container (key:value)
+# @option --add-host* <string>                     Add a custom host-to-IP mapping (host:ip) (default [])
+# @option --annotation* <string>                   Add annotations to container (key:value)
 # @option --arch                                   use ARCH instead of the architecture of the machine for choosing images
-# @option -a --attach <strings>                    Attach to STDIN, STDOUT or STDERR
+# @option -a --attach* <string>                    Attach to STDIN, STDOUT or STDERR
 # @option --authfile <file>                        Path of the authentication file.
 # @option --blkio-weight <string>                  Block IO weight (relative weight) accepts a weight value between 10 and 1000.
 # @option --blkio-weight-device <DEVICE_NAME:WEIGHT>  Block IO weight (relative device weight, format: DEVICE_NAME:WEIGHT)
-# @option --cap-add <strings>                      Add capabilities to the container
-# @option --cap-drop <strings>                     Drop capabilities from the container
-# @option --cgroup-conf <strings>                  Configure cgroup v2 (key=value)
+# @option --cap-add* <string>                      Add capabilities to the container
+# @option --cap-drop* <string>                     Drop capabilities from the container
+# @option --cgroup-conf* <string>                  Configure cgroup v2 (key=value)
 # @option --cgroup-parent <string>                 Optional parent cgroup for the container
 # @option --cgroupns <string>                      cgroup namespace to use
 # @option --cgroups[enabled|disabled|no-conmon|split] <string>  control container cgroup configuration (default "enabled")
@@ -611,23 +611,23 @@ container::rm() {
 # @option --cpuset-mems <string>                   Memory nodes (MEMs) in which to allow execution (0-3, 0,1).
 # @flag -d --detach                                Run container in background and print container ID
 # @option --detach-keys <a-Z>                      Override the key sequence for detaching a container.
-# @option --device <strings>                       Add a host device to the container
-# @option --device-cgroup-rule <strings>           Add a rule to the cgroup allowed devices list
-# @option --device-read-bps <strings>              Limit read rate (bytes per second) from a device (e.g. --device-read-bps=/dev/sda:1mb)
-# @option --device-read-iops <strings>             Limit read rate (IO per second) from a device (e.g. --device-read-iops=/dev/sda:1000)
-# @option --device-write-bps <strings>             Limit write rate (bytes per second) to a device (e.g. --device-write-bps=/dev/sda:1mb)
-# @option --device-write-iops <strings>            Limit write rate (IO per second) to a device (e.g. --device-write-iops=/dev/sda:1000)
+# @option --device* <string>                       Add a host device to the container
+# @option --device-cgroup-rule* <string>           Add a rule to the cgroup allowed devices list
+# @option --device-read-bps* <string>              Limit read rate (bytes per second) from a device (e.g. --device-read-bps=/dev/sda:1mb)
+# @option --device-read-iops* <string>             Limit read rate (IO per second) from a device (e.g. --device-read-iops=/dev/sda:1000)
+# @option --device-write-bps* <string>             Limit write rate (bytes per second) to a device (e.g. --device-write-bps=/dev/sda:1mb)
+# @option --device-write-iops* <string>            Limit write rate (IO per second) to a device (e.g. --device-write-iops=/dev/sda:1000)
 # @flag --disable-content-trust                    This is a Docker specific option and is a NOOP
-# @option --dns <strings>                          Set custom DNS servers
-# @option --dns-opt <strings>                      Set custom DNS options
-# @option --dns-search <strings>                   Set custom DNS search domains
+# @option --dns* <string>                          Set custom DNS servers
+# @option --dns-opt* <string>                      Set custom DNS options
+# @option --dns-search* <string>                   Set custom DNS search domains
 # @option --entrypoint <string>                    Overwrite the default ENTRYPOINT of the image
 # @option -e --env* <string>                       Set environment variables in container (default [PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin,TERM=xterm])
-# @option --env-file <files>                       Read in a file of environment variables
+# @option --env-file* <file>                       Read in a file of environment variables
 # @flag --env-host                                 Use all current host environment variables in container
-# @option --expose <strings>                       Expose a port or a range of ports
-# @option --gidmap <strings>                       GID map to use for the user namespace
-# @option --group-add <strings>                    Add additional groups to the primary container process.
+# @option --expose* <string>                       Expose a port or a range of ports
+# @option --gidmap* <string>                       GID map to use for the user namespace
+# @option --group-add* <string>                    Add additional groups to the primary container process.
 # @option --health-cmd <string>                    set a healthcheck command for the container ('none' disables the existing healthcheck)
 # @option --health-interval <string>               set an interval for the healthchecks (a value of disable results in no automatic timer setup) (default "30s")
 # @option --health-retries <uint>                  the number of retries allowed before a healthcheck is considered to be unhealthy (default 3)
@@ -643,9 +643,9 @@ container::rm() {
 # @option --ipc <string>                           IPC namespace to use
 # @option --kernel-memory <<number>[<unit>]>       Kernel memory limit (format: <number>[<unit>], where unit = b (bytes), k (kilobytes), m (megabytes), or g (gigabytes))
 # @option -l --label* <string>                     Set metadata on container
-# @option --label-file <files>                     Read in a line delimited file of labels
+# @option --label-file* <file>                     Read in a line delimited file of labels
 # @option --log-driver <string>                    Logging driver for the container (default "journald")
-# @option --log-opt <strings>                      Logging driver options
+# @option --log-opt* <string>                      Logging driver options
 # @option --mac-address <string>                   Container MAC address (e.g. 92:d0:c6:0a:29:33)
 # @option -m --memory <<number>[<unit>]>           Memory limit (format: <number>[<unit>], where unit = b (bytes), k (kilobytes), m (megabytes), or g (gigabytes))
 # @option --memory-reservation <<number>[<unit>]>  Memory soft limit (format: <number>[<unit>], where unit = b (bytes), k (kilobytes), m (megabytes), or g (gigabytes))
@@ -654,7 +654,7 @@ container::rm() {
 # @option --mount* <file>                          Attach a filesystem mount to the container
 # @option --name <string>                          Assign a name to the container
 # @option --network[`_choice_network`] <string>    Connect a container to a network
-# @option --network-alias <strings>                Add network-scoped alias for the container
+# @option --network-alias* <string>                Add network-scoped alias for the container
 # @flag --no-healthcheck                           Disable healthchecks on container
 # @flag --no-hosts                                 Do not create /etc/hosts within the container, instead use the version from the image
 # @flag --oom-kill-disable                         Disable OOM Killer
@@ -669,14 +669,14 @@ container::rm() {
 # @option --pod-id-file <file>                     Read the pod ID from the file
 # @option --preserve-fds <uint>                    Pass a number of additional file descriptors into the container
 # @flag --privileged                               Give extended privileges to container
-# @option -p --publish <strings>                   Publish a container's port, or a range of ports, to the host (default [])
+# @option -p --publish* <string>                   Publish a container's port, or a range of ports, to the host (default [])
 # @flag -P --publish-all                           Publish all exposed ports to random ports on the host interface
 # @option --pull[always|missing|never] <string>    Pull image before creating (default "missing")
 # @flag -q --quiet                                 Suppress output information when pulling images
 # @flag --read-only                                Make containers root filesystem read-only
 # @flag --read-only-tmpfs                          When running containers in read-only mode mount a read-write tmpfs on /run, /tmp and /var/tmp (default true)
 # @flag --replace                                  If a container with the same name exists, replace it
-# @option --requires <strings>                     Add one or more requirement containers that must be started before this container will start
+# @option --requires* <string>                     Add one or more requirement containers that must be started before this container will start
 # @option --restart[always|no|on-failure|unless-stopped] <string>  Restart policy to apply when a container exits
 # @flag --rm                                       Remove container (and pod if created) after exit
 # @flag --rmi                                      Remove container image unless used by other containers
@@ -691,15 +691,15 @@ container::rm() {
 # @option --stop-timeout <uint>                    Timeout (in seconds) that containers stopped by user command have to exit.
 # @option --subgidname <string>                    Name of range listed in /etc/subgid for use in user namespace
 # @option --subuidname <string>                    Name of range listed in /etc/subuid for use in user namespace
-# @option --sysctl <strings>                       Sysctl options
+# @option --sysctl* <string>                       Sysctl options
 # @option --systemd[true|false|always] <string>    Run container in systemd mode (default "true")
 # @option --timeout <uint>                         Maximum length of time a container is allowed to run.
 # @flag --tls-verify                               Require HTTPS and verify certificates when contacting registries for pulling images
 # @option --tmpfs <tmpfs>                          Mount a temporary filesystem (tmpfs) into a container
 # @flag -t --tty                                   Allocate a pseudo-TTY for container
 # @option --tz <string>                            Set timezone in container
-# @option --uidmap <strings>                       UID map to use for the user namespace
-# @option --ulimit <strings>                       Ulimit options
+# @option --uidmap* <string>                       UID map to use for the user namespace
+# @option --ulimit* <string>                       Ulimit options
 # @option --umask <string>                         Set umask in container (default "0022")
 # @option -u --user <string>                       Username or UID (format: <name|uid>[:<group|gid>])
 # @option --userns <string>                        User namespace to use
@@ -737,7 +737,7 @@ container::runlabel() {
 # @flag --all                      Start all containers regardless of their state or configuration
 # @flag -a --attach                Attach container's STDOUT and STDERR
 # @option --detach-keys <a-Z>      Select the key sequence for detaching a container.
-# @option -f --filter <strings>    Filter output based on conditions given
+# @option -f --filter* <string>    Filter output based on conditions given
 # @flag -i --interactive           Keep STDIN open even if not attached
 # @flag -l --latest                Act on the latest container podman is aware of Not supported with the "--remote" flag
 # @flag --sig-proxy                Proxy received signals to the process (default true if attaching, false otherwise)
@@ -829,16 +829,16 @@ cp() {
 
 # {{ podman create
 # @cmd Create but do not start a container
-# @option --add-host <strings>                     Add a custom host-to-IP mapping (host:ip) (default [])
-# @option --annotation <strings>                   Add annotations to container (key:value)
+# @option --add-host* <string>                     Add a custom host-to-IP mapping (host:ip) (default [])
+# @option --annotation* <string>                   Add annotations to container (key:value)
 # @option --arch                                   use ARCH instead of the architecture of the machine for choosing images
-# @option -a --attach <strings>                    Attach to STDIN, STDOUT or STDERR
+# @option -a --attach* <string>                    Attach to STDIN, STDOUT or STDERR
 # @option --authfile <file>                        Path of the authentication file.
 # @option --blkio-weight <string>                  Block IO weight (relative weight) accepts a weight value between 10 and 1000.
 # @option --blkio-weight-device <DEVICE_NAME:WEIGHT>  Block IO weight (relative device weight, format: DEVICE_NAME:WEIGHT)
-# @option --cap-add <strings>                      Add capabilities to the container
-# @option --cap-drop <strings>                     Drop capabilities from the container
-# @option --cgroup-conf <strings>                  Configure cgroup v2 (key=value)
+# @option --cap-add* <string>                      Add capabilities to the container
+# @option --cap-drop* <string>                     Drop capabilities from the container
+# @option --cgroup-conf* <string>                  Configure cgroup v2 (key=value)
 # @option --cgroup-parent <string>                 Optional parent cgroup for the container
 # @option --cgroupns <string>                      cgroup namespace to use
 # @option --cgroups[enabled|disabled|no-conmon|split] <string>  control container cgroup configuration (default "enabled")
@@ -852,23 +852,23 @@ cp() {
 # @option --cpus <float>                           Number of CPUs.
 # @option --cpuset-cpus <string>                   CPUs in which to allow execution (0-3, 0,1)
 # @option --cpuset-mems <string>                   Memory nodes (MEMs) in which to allow execution (0-3, 0,1).
-# @option --device <strings>                       Add a host device to the container
-# @option --device-cgroup-rule <strings>           Add a rule to the cgroup allowed devices list
-# @option --device-read-bps <strings>              Limit read rate (bytes per second) from a device (e.g. --device-read-bps=/dev/sda:1mb)
-# @option --device-read-iops <strings>             Limit read rate (IO per second) from a device (e.g. --device-read-iops=/dev/sda:1000)
-# @option --device-write-bps <strings>             Limit write rate (bytes per second) to a device (e.g. --device-write-bps=/dev/sda:1mb)
-# @option --device-write-iops <strings>            Limit write rate (IO per second) to a device (e.g. --device-write-iops=/dev/sda:1000)
+# @option --device* <string>                       Add a host device to the container
+# @option --device-cgroup-rule* <string>           Add a rule to the cgroup allowed devices list
+# @option --device-read-bps* <string>              Limit read rate (bytes per second) from a device (e.g. --device-read-bps=/dev/sda:1mb)
+# @option --device-read-iops* <string>             Limit read rate (IO per second) from a device (e.g. --device-read-iops=/dev/sda:1000)
+# @option --device-write-bps* <string>             Limit write rate (bytes per second) to a device (e.g. --device-write-bps=/dev/sda:1mb)
+# @option --device-write-iops* <string>            Limit write rate (IO per second) to a device (e.g. --device-write-iops=/dev/sda:1000)
 # @flag --disable-content-trust                    This is a Docker specific option and is a NOOP
-# @option --dns <strings>                          Set custom DNS servers
-# @option --dns-opt <strings>                      Set custom DNS options
-# @option --dns-search <strings>                   Set custom DNS search domains
+# @option --dns* <string>                          Set custom DNS servers
+# @option --dns-opt* <string>                      Set custom DNS options
+# @option --dns-search* <string>                   Set custom DNS search domains
 # @option --entrypoint <string>                    Overwrite the default ENTRYPOINT of the image
 # @option -e --env* <string>                       Set environment variables in container (default [PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin,TERM=xterm])
-# @option --env-file <files>                       Read in a file of environment variables
+# @option --env-file* <file>                       Read in a file of environment variables
 # @flag --env-host                                 Use all current host environment variables in container
-# @option --expose <strings>                       Expose a port or a range of ports
-# @option --gidmap <strings>                       GID map to use for the user namespace
-# @option --group-add <strings>                    Add additional groups to the primary container process.
+# @option --expose* <string>                       Expose a port or a range of ports
+# @option --gidmap* <string>                       GID map to use for the user namespace
+# @option --group-add* <string>                    Add additional groups to the primary container process.
 # @option --health-cmd <string>                    set a healthcheck command for the container ('none' disables the existing healthcheck)
 # @option --health-interval <string>               set an interval for the healthchecks (a value of disable results in no automatic timer setup) (default "30s")
 # @option --health-retries <uint>                  the number of retries allowed before a healthcheck is considered to be unhealthy (default 3)
@@ -885,9 +885,9 @@ cp() {
 # @option --ipc <string>                           IPC namespace to use
 # @option --kernel-memory <<number>[<unit>]>       Kernel memory limit (format: <number>[<unit>], where unit = b (bytes), k (kilobytes), m (megabytes), or g (gigabytes))
 # @option -l --label* <string>                     Set metadata on container
-# @option --label-file <files>                     Read in a line delimited file of labels
+# @option --label-file* <file>                     Read in a line delimited file of labels
 # @option --log-driver <string>                    Logging driver for the container (default "journald")
-# @option --log-opt <strings>                      Logging driver options
+# @option --log-opt* <string>                      Logging driver options
 # @option --mac-address <string>                   Container MAC address (e.g. 92:d0:c6:0a:29:33)
 # @option -m --memory <<number>[<unit>]>           Memory limit (format: <number>[<unit>], where unit = b (bytes), k (kilobytes), m (megabytes), or g (gigabytes))
 # @option --memory-reservation <<number>[<unit>]>  Memory soft limit (format: <number>[<unit>], where unit = b (bytes), k (kilobytes), m (megabytes), or g (gigabytes))
@@ -896,7 +896,7 @@ cp() {
 # @option --mount* <file>                          Attach a filesystem mount to the container
 # @option --name <string>                          Assign a name to the container
 # @option --network[`_choice_network`] <string>    Connect a container to a network
-# @option --network-alias <strings>                Add network-scoped alias for the container
+# @option --network-alias* <string>                Add network-scoped alias for the container
 # @flag --no-healthcheck                           Disable healthchecks on container
 # @flag --no-hosts                                 Do not create /etc/hosts within the container, instead use the version from the image
 # @flag --oom-kill-disable                         Disable OOM Killer
@@ -910,14 +910,14 @@ cp() {
 # @option --pod <string>                           Run container in an existing pod
 # @option --pod-id-file <file>                     Read the pod ID from the file
 # @flag --privileged                               Give extended privileges to container
-# @option -p --publish <strings>                   Publish a container's port, or a range of ports, to the host (default [])
+# @option -p --publish* <string>                   Publish a container's port, or a range of ports, to the host (default [])
 # @flag -P --publish-all                           Publish all exposed ports to random ports on the host interface
 # @option --pull[always|missing|never] <string>    Pull image before creating (default "missing")
 # @flag -q --quiet                                 Suppress output information when pulling images
 # @flag --read-only                                Make containers root filesystem read-only
 # @flag --read-only-tmpfs                          When running containers in read-only mode mount a read-write tmpfs on /run, /tmp and /var/tmp (default true)
 # @flag --replace                                  If a container with the same name exists, replace it
-# @option --requires <strings>                     Add one or more requirement containers that must be started before this container will start
+# @option --requires* <string>                     Add one or more requirement containers that must be started before this container will start
 # @option --restart[always|no|on-failure|unless-stopped] <string>  Restart policy to apply when a container exits
 # @flag --rm                                       Remove container (and pod if created) after exit
 # @flag --rootfs                                   The first argument is not an image but the rootfs to the exploded container
@@ -930,15 +930,15 @@ cp() {
 # @option --stop-timeout <uint>                    Timeout (in seconds) that containers stopped by user command have to exit.
 # @option --subgidname <string>                    Name of range listed in /etc/subgid for use in user namespace
 # @option --subuidname <string>                    Name of range listed in /etc/subuid for use in user namespace
-# @option --sysctl <strings>                       Sysctl options
+# @option --sysctl* <string>                       Sysctl options
 # @option --systemd[true|false|always] <string>    Run container in systemd mode (default "true")
 # @option --timeout <uint>                         Maximum length of time a container is allowed to run.
 # @flag --tls-verify                               Require HTTPS and verify certificates when contacting registries for pulling images
 # @option --tmpfs <tmpfs>                          Mount a temporary filesystem (tmpfs) into a container
 # @flag -t --tty                                   Allocate a pseudo-TTY for container
 # @option --tz <string>                            Set timezone in container
-# @option --uidmap <strings>                       UID map to use for the user namespace
-# @option --ulimit <strings>                       Ulimit options
+# @option --uidmap* <string>                       UID map to use for the user namespace
+# @option --ulimit* <string>                       Ulimit options
 # @option --umask <string>                         Set umask in container (default "0022")
 # @option -u --user <string>                       Username or UID (format: <name|uid>[:<group|gid>])
 # @option --userns <string>                        User namespace to use
@@ -979,7 +979,7 @@ events() {
 # @flag -d --detach                 Run the exec session in detached mode (backgrounded)
 # @option --detach-keys <string>    Select the key sequence for detaching a container.
 # @option -e --env* <string>        Set environment variables
-# @option --env-file <files>        Read in a file of environment variables
+# @option --env-file* <file>        Read in a file of environment variables
 # @flag -i --interactive            Keep STDIN open even if not attached
 # @flag -l --latest                 Act on the latest container podman is aware of Not supported with the "--remote" flag
 # @option --preserve-fds <uint>     Pass N additional file descriptors to the container
@@ -1079,8 +1079,8 @@ image() {
 # @option --authfile <file>                path of the authentication file.
 # @option --build-arg <argument=value>     argument=value to supply to the builder
 # @option --cache-from <string>            Images to utilise as potential cache sources.
-# @option --cap-add <strings>              add the specified capability when running (default [])
-# @option --cap-drop <strings>             drop the specified capability when running (default [])
+# @option --cap-add* <string>              add the specified capability when running (default [])
+# @option --cap-drop* <string>             drop the specified capability when running (default [])
 # @option --cert-dir <dir>                 use certificates at the specified path to access the registry
 # @option --cgroup-parent <string>         optional parent cgroup for the container
 # @option --cni-plugin-path <path>         path of CNI network plugins (default "/usr/lib/cni:/usr/libexec/cni:/opt/cni/bin")
@@ -1091,13 +1091,13 @@ image() {
 # @option --cpuset-cpus <string>           CPUs in which to allow execution (0-3, 0,1)
 # @option --cpuset-mems <string>           memory nodes (MEMs) in which to allow execution (0-3, 0,1).
 # @option --creds <username[:password]>    use [username[:password]] for accessing the registry
-# @option --decryption-key <strings>       key needed to decrypt the image
+# @option --decryption-key* <string>       key needed to decrypt the image
 # @option --device* <string>               Additional devices to be used within containers (default [])
 # @flag -D --disable-compression           don't compress layers by default (default true)
 # @flag --disable-content-trust            This is a Docker specific option and is a NOOP
 # @option --dns </etc/resolv.conf>         Set custom DNS servers or disable it completely by setting it to 'none', which prevents the automatic creation of /etc/resolv.conf.
-# @option --dns-option <strings>           Set custom DNS options
-# @option --dns-search <strings>           Set custom DNS search domains
+# @option --dns-option* <string>           Set custom DNS options
+# @option --dns-search* <string>           Set custom DNS search domains
 # @flag -f --file                          pathname or URL                         pathname or URL of a Dockerfile
 # @flag --force-rm                         Always remove intermediate containers after a build, even if the build is unsuccessful.
 # @option --format <format>                format of the built image's manifest and metadata.
@@ -1136,7 +1136,7 @@ image() {
 # @option --target <string>                set the target build stage to build
 # @option --timestamp <int>                set created timestamp to the specified epoch seconds to allow for deterministic builds, defaults to current time
 # @flag --tls-verify                       require HTTPS and verify certificates when accessing the registry (default true)
-# @option --ulimit <strings>               ulimit options
+# @option --ulimit* <string>               ulimit options
 # @option --userns <path>                  'container', path of user namespace to join, or 'host'
 # @option --userns-gid-map <containerGID:hostGID:length>  containerGID:hostGID:length GID mapping to use in user namespace
 # @option --userns-gid-map-group <name>    name of entries from /etc/subgid to use to set user namespace GID mapping
@@ -1207,13 +1207,13 @@ image::inspect() {
 # @alias ls
 # @flag -a --all                   Show all images (default hides intermediate images)
 # @flag --digests                  Show digests
-# @option -f --filter <strings>    Filter output based on conditions provided (default [])
+# @option -f --filter* <string>    Filter output based on conditions provided (default [])
 # @option --format <string>        Change the output format to JSON or a Go template
 # @flag --history                  Display the image name history
 # @flag --no-trunc                 Do not truncate output
 # @flag -n --noheading             Do not print column headings
 # @flag -q --quiet                 Display only image IDs
-# @option --sort <string>          Sort by created, id, repository, size, tag (default "created")
+# @option --sort <string>          Sort by size, tag, created, id, repository (default "created")
 # @arg image[`_module_oci_podman_image`]
 image::list() {
     :;
@@ -1324,7 +1324,7 @@ image::scp() {
 # {{{ podman image search
 # @cmd Search registry for image
 # @option --authfile <file>        Path of the authentication file.
-# @option -f --filter <strings>    Filter output based on conditions provided (default [])
+# @option -f --filter* <string>    Filter output based on conditions provided (default [])
 # @option --format <string>        Change the output format to JSON or a Go template
 # @option --limit <int>            Limit the number of results
 # @flag --list-tags                List the tags of the input registry
@@ -1374,7 +1374,7 @@ image::trust() {
 
 # {{{{ podman image trust set
 # @cmd Set default trust policy or a new trust policy for a registry
-# @option -f --pubkeysfile <files>    Path of installed public key(s) to trust for TARGET.
+# @option -f --pubkeysfile* <file>    Path of installed public key(s) to trust for TARGET.
 # @option -t --type <string>          Trust type, accept values: signedBy(default), accept, reject (default "signedBy")
 # @arg registry
 image::trust::set() {
@@ -1417,13 +1417,13 @@ image::untag() {
 # @cmd List images in local storage
 # @flag -a --all                   Show all images (default hides intermediate images)
 # @flag --digests                  Show digests
-# @option -f --filter <strings>    Filter output based on conditions provided (default [])
+# @option -f --filter* <string>    Filter output based on conditions provided (default [])
 # @option --format <string>        Change the output format to JSON or a Go template
 # @flag --history                  Display the image name history
 # @flag --no-trunc                 Do not truncate output
 # @flag -n --noheading             Do not print column headings
 # @flag -q --quiet                 Display only image IDs
-# @option --sort <string>          Sort by tag, created, id, repository, size (default "created")
+# @option --sort <string>          Sort by size, tag, created, id, repository (default "created")
 # @arg image[`_module_oci_podman_image`]
 images() {
     :;
@@ -1726,7 +1726,7 @@ network() {
 
 # {{{ podman network connect
 # @cmd network connect
-# @option --alias <strings>    network scoped alias for container
+# @option --alias* <string>    network scoped alias for container
 # @arg network[`_choice_network`]
 # @arg container[`_choice_container`]
 network::connect() {
@@ -1845,7 +1845,7 @@ play() {
 # @flag --down                                     Stop pods defined in the YAML file
 # @option --ip <ipSlice>                           Static IP addresses to assign to the pods (default [])
 # @option --log-driver <string>                    Logging driver for the container
-# @option --mac-address <strings>                  Static MAC addresses to assign to the pods
+# @option --mac-address* <string>                  Static MAC addresses to assign to the pods
 # @option --network[`_choice_network`] <string>    Connect pod to CNI network(s)
 # @flag -q --quiet                                 Suppress output information when pulling images
 # @option --seccomp-profile-root <file>            Directory path for seccomp profiles (default "/var/lib/kubelet/seccomp")
@@ -1866,12 +1866,12 @@ pod() {
 
 # {{{ podman pod create
 # @cmd Create a new empty pod
-# @option --add-host <strings>                     Add a custom host-to-IP mapping (host:ip) (default [])
+# @option --add-host* <string>                     Add a custom host-to-IP mapping (host:ip) (default [])
 # @option --cgroup-parent <string>                 Optional parent cgroup for the container
-# @option --dns <strings>                          Set custom DNS servers
-# @option --dns-opt <strings>                      Set custom DNS options
-# @option --dns-search <strings>                   Set custom DNS search domains
-# @option --gidmap <strings>                       GID map to use for the user namespace
+# @option --dns* <string>                          Set custom DNS servers
+# @option --dns-opt* <string>                      Set custom DNS options
+# @option --dns-search* <string>                   Set custom DNS search domains
+# @option --gidmap* <string>                       GID map to use for the user namespace
 # @option -h --hostname <string>                   Set container hostname
 # @flag --infra                                    Create an infra container associated with the pod to share namespaces with (default true)
 # @option --infra-command <string>                 Overwrite the default ENTRYPOINT of the image
@@ -1880,20 +1880,20 @@ pod() {
 # @option --infra-name <string>                    Assign a name to the container
 # @option --ip <string>                            Specify a static IPv4 address for the container
 # @option -l --label* <string>                     Set metadata on container
-# @option --label-file <files>                     Read in a line delimited file of labels
+# @option --label-file* <file>                     Read in a line delimited file of labels
 # @option --mac-address <string>                   Container MAC address (e.g. 92:d0:c6:0a:29:33)
 # @option -n --name <string>                       Assign a name to the pod
 # @option --network[`_choice_network`] <string>    Connect a container to a network
-# @option --network-alias <strings>                Add network-scoped alias for the container
+# @option --network-alias* <string>                Add network-scoped alias for the container
 # @flag --no-hosts                                 Do not create /etc/hosts within the container, instead use the version from the image
 # @option --pid <string>                           PID namespace to use
 # @option --pod-id-file <file>                     Write the pod ID to the file
-# @option -p --publish <strings>                   Publish a container's port, or a range of ports, to the host (default [])
+# @option -p --publish* <string>                   Publish a container's port, or a range of ports, to the host (default [])
 # @flag --replace                                  If a pod with the same name exists, replace it
 # @option --share <string>                         A comma delimited list of kernel namespaces the pod will share (default "cgroup,ipc,net,uts")
 # @option --subgidname <string>                    Name of range listed in /etc/subgid for use in user namespace
 # @option --subuidname <string>                    Name of range listed in /etc/subuid for use in user namespace
-# @option --uidmap <strings>                       UID map to use for the user namespace
+# @option --uidmap* <string>                       UID map to use for the user namespace
 # @option --userns <string>                        User namespace to use
 pod::create() {
     :;
@@ -1968,7 +1968,7 @@ pod::prune() {
 # @flag --ctr-ids                  Display the container UUIDs.
 # @flag --ctr-names                Display the container names
 # @flag --ctr-status               Display the container status
-# @option -f --filter <strings>    Filter output based on conditions given
+# @option -f --filter* <string>    Filter output based on conditions given
 # @option --format <string>        Pretty-print pods to JSON or using a Go template
 # @flag -l --latest                Act on the latest container podman is aware of Not supported with the "--remote" flag
 # @flag --no-trunc                 Do not truncate pod and container IDs
@@ -2077,7 +2077,7 @@ port() {
 # @cmd List containers
 # @flag -a --all                   Show all the containers, default is only running containers
 # @flag --external                 Show containers in storage not controlled by Podman
-# @option -f --filter <strings>    Filter output based on conditions given
+# @option -f --filter* <string>    Filter output based on conditions given
 # @option --format <string>        Pretty-print containers to JSON or using a Go template
 # @option -n --last <int>          Print the n last created containers (all states) (default -1)
 # @flag -l --latest                Act on the latest container podman is aware of Not supported with the "--remote" flag
@@ -2181,16 +2181,16 @@ rmi() {
 
 # {{ podman run
 # @cmd Run a command in a new container
-# @option --add-host <strings>                     Add a custom host-to-IP mapping (host:ip) (default [])
-# @option --annotation <strings>                   Add annotations to container (key:value)
+# @option --add-host* <string>                     Add a custom host-to-IP mapping (host:ip) (default [])
+# @option --annotation* <string>                   Add annotations to container (key:value)
 # @option --arch                                   use ARCH instead of the architecture of the machine for choosing images
-# @option -a --attach <strings>                    Attach to STDIN, STDOUT or STDERR
+# @option -a --attach* <string>                    Attach to STDIN, STDOUT or STDERR
 # @option --authfile <file>                        Path of the authentication file.
 # @option --blkio-weight <string>                  Block IO weight (relative weight) accepts a weight value between 10 and 1000.
 # @option --blkio-weight-device <DEVICE_NAME:WEIGHT>  Block IO weight (relative device weight, format: DEVICE_NAME:WEIGHT)
-# @option --cap-add <strings>                      Add capabilities to the container
-# @option --cap-drop <strings>                     Drop capabilities from the container
-# @option --cgroup-conf <strings>                  Configure cgroup v2 (key=value)
+# @option --cap-add* <string>                      Add capabilities to the container
+# @option --cap-drop* <string>                     Drop capabilities from the container
+# @option --cgroup-conf* <string>                  Configure cgroup v2 (key=value)
 # @option --cgroup-parent <string>                 Optional parent cgroup for the container
 # @option --cgroupns <string>                      cgroup namespace to use
 # @option --cgroups[enabled|disabled|no-conmon|split] <string>  control container cgroup configuration (default "enabled")
@@ -2206,23 +2206,23 @@ rmi() {
 # @option --cpuset-mems <string>                   Memory nodes (MEMs) in which to allow execution (0-3, 0,1).
 # @flag -d --detach                                Run container in background and print container ID
 # @option --detach-keys <a-Z>                      Override the key sequence for detaching a container.
-# @option --device <strings>                       Add a host device to the container
-# @option --device-cgroup-rule <strings>           Add a rule to the cgroup allowed devices list
-# @option --device-read-bps <strings>              Limit read rate (bytes per second) from a device (e.g. --device-read-bps=/dev/sda:1mb)
-# @option --device-read-iops <strings>             Limit read rate (IO per second) from a device (e.g. --device-read-iops=/dev/sda:1000)
-# @option --device-write-bps <strings>             Limit write rate (bytes per second) to a device (e.g. --device-write-bps=/dev/sda:1mb)
-# @option --device-write-iops <strings>            Limit write rate (IO per second) to a device (e.g. --device-write-iops=/dev/sda:1000)
+# @option --device* <string>                       Add a host device to the container
+# @option --device-cgroup-rule* <string>           Add a rule to the cgroup allowed devices list
+# @option --device-read-bps* <string>              Limit read rate (bytes per second) from a device (e.g. --device-read-bps=/dev/sda:1mb)
+# @option --device-read-iops* <string>             Limit read rate (IO per second) from a device (e.g. --device-read-iops=/dev/sda:1000)
+# @option --device-write-bps* <string>             Limit write rate (bytes per second) to a device (e.g. --device-write-bps=/dev/sda:1mb)
+# @option --device-write-iops* <string>            Limit write rate (IO per second) to a device (e.g. --device-write-iops=/dev/sda:1000)
 # @flag --disable-content-trust                    This is a Docker specific option and is a NOOP
-# @option --dns <strings>                          Set custom DNS servers
-# @option --dns-opt <strings>                      Set custom DNS options
-# @option --dns-search <strings>                   Set custom DNS search domains
+# @option --dns* <string>                          Set custom DNS servers
+# @option --dns-opt* <string>                      Set custom DNS options
+# @option --dns-search* <string>                   Set custom DNS search domains
 # @option --entrypoint <string>                    Overwrite the default ENTRYPOINT of the image
 # @option -e --env* <string>                       Set environment variables in container (default [PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin,TERM=xterm])
-# @option --env-file <files>                       Read in a file of environment variables
+# @option --env-file* <file>                       Read in a file of environment variables
 # @flag --env-host                                 Use all current host environment variables in container
-# @option --expose <strings>                       Expose a port or a range of ports
-# @option --gidmap <strings>                       GID map to use for the user namespace
-# @option --group-add <strings>                    Add additional groups to the primary container process.
+# @option --expose* <string>                       Expose a port or a range of ports
+# @option --gidmap* <string>                       GID map to use for the user namespace
+# @option --group-add* <string>                    Add additional groups to the primary container process.
 # @option --health-cmd <string>                    set a healthcheck command for the container ('none' disables the existing healthcheck)
 # @option --health-interval <string>               set an interval for the healthchecks (a value of disable results in no automatic timer setup) (default "30s")
 # @option --health-retries <uint>                  the number of retries allowed before a healthcheck is considered to be unhealthy (default 3)
@@ -2238,9 +2238,9 @@ rmi() {
 # @option --ipc <string>                           IPC namespace to use
 # @option --kernel-memory <<number>[<unit>]>       Kernel memory limit (format: <number>[<unit>], where unit = b (bytes), k (kilobytes), m (megabytes), or g (gigabytes))
 # @option -l --label* <string>                     Set metadata on container
-# @option --label-file <files>                     Read in a line delimited file of labels
+# @option --label-file* <file>                     Read in a line delimited file of labels
 # @option --log-driver <string>                    Logging driver for the container (default "journald")
-# @option --log-opt <strings>                      Logging driver options
+# @option --log-opt* <string>                      Logging driver options
 # @option --mac-address <string>                   Container MAC address (e.g. 92:d0:c6:0a:29:33)
 # @option -m --memory <<number>[<unit>]>           Memory limit (format: <number>[<unit>], where unit = b (bytes), k (kilobytes), m (megabytes), or g (gigabytes))
 # @option --memory-reservation <<number>[<unit>]>  Memory soft limit (format: <number>[<unit>], where unit = b (bytes), k (kilobytes), m (megabytes), or g (gigabytes))
@@ -2249,7 +2249,7 @@ rmi() {
 # @option --mount* <file>                          Attach a filesystem mount to the container
 # @option --name <string>                          Assign a name to the container
 # @option --network[`_choice_network`] <string>    Connect a container to a network
-# @option --network-alias <strings>                Add network-scoped alias for the container
+# @option --network-alias* <string>                Add network-scoped alias for the container
 # @flag --no-healthcheck                           Disable healthchecks on container
 # @flag --no-hosts                                 Do not create /etc/hosts within the container, instead use the version from the image
 # @flag --oom-kill-disable                         Disable OOM Killer
@@ -2264,14 +2264,14 @@ rmi() {
 # @option --pod-id-file <file>                     Read the pod ID from the file
 # @option --preserve-fds <uint>                    Pass a number of additional file descriptors into the container
 # @flag --privileged                               Give extended privileges to container
-# @option -p --publish <strings>                   Publish a container's port, or a range of ports, to the host (default [])
+# @option -p --publish* <string>                   Publish a container's port, or a range of ports, to the host (default [])
 # @flag -P --publish-all                           Publish all exposed ports to random ports on the host interface
 # @option --pull[always|missing|never] <string>    Pull image before creating (default "missing")
 # @flag -q --quiet                                 Suppress output information when pulling images
 # @flag --read-only                                Make containers root filesystem read-only
 # @flag --read-only-tmpfs                          When running containers in read-only mode mount a read-write tmpfs on /run, /tmp and /var/tmp (default true)
 # @flag --replace                                  If a container with the same name exists, replace it
-# @option --requires <strings>                     Add one or more requirement containers that must be started before this container will start
+# @option --requires* <string>                     Add one or more requirement containers that must be started before this container will start
 # @option --restart[always|no|on-failure|unless-stopped] <string>  Restart policy to apply when a container exits
 # @flag --rm                                       Remove container (and pod if created) after exit
 # @flag --rmi                                      Remove container image unless used by other containers
@@ -2286,15 +2286,15 @@ rmi() {
 # @option --stop-timeout <uint>                    Timeout (in seconds) that containers stopped by user command have to exit.
 # @option --subgidname <string>                    Name of range listed in /etc/subgid for use in user namespace
 # @option --subuidname <string>                    Name of range listed in /etc/subuid for use in user namespace
-# @option --sysctl <strings>                       Sysctl options
+# @option --sysctl* <string>                       Sysctl options
 # @option --systemd[true|false|always] <string>    Run container in systemd mode (default "true")
 # @option --timeout <uint>                         Maximum length of time a container is allowed to run.
 # @flag --tls-verify                               Require HTTPS and verify certificates when contacting registries for pulling images
 # @option --tmpfs <tmpfs>                          Mount a temporary filesystem (tmpfs) into a container
 # @flag -t --tty                                   Allocate a pseudo-TTY for container
 # @option --tz <string>                            Set timezone in container
-# @option --uidmap <strings>                       UID map to use for the user namespace
-# @option --ulimit <strings>                       Ulimit options
+# @option --uidmap* <string>                       UID map to use for the user namespace
+# @option --ulimit* <string>                       Ulimit options
 # @option --umask <string>                         Set umask in container (default "0022")
 # @option -u --user <string>                       Username or UID (format: <name|uid>[:<group|gid>])
 # @option --userns <string>                        User namespace to use
@@ -2325,7 +2325,7 @@ save() {
 # {{ podman search
 # @cmd Search registry for image
 # @option --authfile <file>        Path of the authentication file.
-# @option -f --filter <strings>    Filter output based on conditions provided (default [])
+# @option -f --filter* <string>    Filter output based on conditions provided (default [])
 # @option --format <string>        Change the output format to JSON or a Go template
 # @option --limit <int>            Limit the number of results
 # @flag --list-tags                List the tags of the input registry
@@ -2389,7 +2389,7 @@ secret::rm() {
 # @flag --all                      Start all containers regardless of their state or configuration
 # @flag -a --attach                Attach container's STDOUT and STDERR
 # @option --detach-keys <a-Z>      Select the key sequence for detaching a container.
-# @option -f --filter <strings>    Filter output based on conditions given
+# @option -f --filter* <string>    Filter output based on conditions given
 # @flag -i --interactive           Keep STDIN open even if not attached
 # @flag -l --latest                Act on the latest container podman is aware of Not supported with the "--remote" flag
 # @flag --sig-proxy                Proxy received signals to the process (default true if attaching, false otherwise)
@@ -2623,7 +2623,7 @@ volume() {
 # {{{ podman volume create
 # @cmd Create a new volume
 # @option --driver <string>       Specify volume driver name (default "local")
-# @option -l --label <strings>    Set metadata for a volume (default [])
+# @option -l --label* <string>    Set metadata for a volume (default [])
 # @option -o --opt* <string>      Set driver specific options (default [])
 # @arg name
 volume::create() {
@@ -2670,7 +2670,7 @@ volume::inspect() {
 # {{{ podman volume list
 # @cmd List volumes
 # @alias ls
-# @option -f --filter <strings>    Filter volume output
+# @option -f --filter* <string>    Filter volume output
 # @option --format <string>        Format volume output using Go template (default "{{.Driver}}\t{{.Name}}\n")
 # @flag --noheading                Do not print headers
 # @flag -q --quiet                 Print volume output in quiet mode

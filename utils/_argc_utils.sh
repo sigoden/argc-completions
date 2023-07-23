@@ -539,6 +539,11 @@ _argc_util_path_search_parent() {
 # ```sh
 # _choice_fn | _argc_util_transform suffix==
 # ```
+
+## `color=<value>`: append suffix to values
+# ```
+# _choice_fn | _argc_util_transform color=green,bold
+# ```
 # 
 # Note: The transformer can be combined:
 # ```sh
@@ -585,11 +590,14 @@ _argc_util_transform() {
             value = substr(arg, 8) value
         } else if (index(arg, "suffix=")) {
             value = value substr(arg, 8)
+        } else if (index(arg, "color=")) {
+            color = substr(arg, 7)
         }
     }
     if (nospace == 1) { value = value "\0" }
+    if (color != "") { color = "\t/color:" color }
     if (description != "") { description = "\t" description }
-    print value description
+    print value color description
 }'
 }
 

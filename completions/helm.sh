@@ -1418,7 +1418,7 @@ status() {
 
 # {{ helm template
 # @cmd locally render templates
-# @option -a --api-versions <strings>        Kubernetes api versions used for Capabilities.APIVersions
+# @option -a --api-versions* <string>        Kubernetes api versions used for Capabilities.APIVersions
 # @flag --atomic                             if set, the installation process deletes the installation on failure.
 # @option --ca-file <file>                   verify certificates of HTTPS-enabled servers using this CA bundle
 # @option --cert-file <file>                 identify HTTPS client using this SSL certificate file
@@ -1489,7 +1489,7 @@ template() {
 
 # {{ helm test
 # @cmd run tests for a release
-# @option --filter <strings>                 specify tests by attribute (currently "name") using attribute=value syntax or '!attribute=value' to exclude a test (can specify multiple or separate values with commas: name=test1,name=test2)
+# @option --filter* <string>                 specify tests by attribute (currently "name") using attribute=value syntax or '!attribute=value' to exclude a test (can specify multiple or separate values with commas: name=test1,name=test2)
 # @flag -h --help                            help for test
 # @flag --logs                               dump the logs from test pods (this runs after all tests are complete, but before any cleanup)
 # @option --timeout <duration>               time to wait for any individual Kubernetes operation (like Jobs for hooks) (default 5m0s)

@@ -423,8 +423,8 @@ function parseDesc(descVal, output, extractChoice, logPrefix)  {
     if (match(concatedDescVal, / ?\(default\)/)) {
         concatedDescVal = replace(concatedDescVal, substr(concatedDescVal, RSTART, RLENGTH), "")
     }
-    if (extractChoice == 1) {
-        if (choicesVal == "" && index(concatedDescVal, "]") > 0) {
+    if (extractChoice == 1 && choicesVal == "" ) {
+        if (index(concatedDescVal, "]") > 0) {
             if (match(concatedDescVal, / ?\[possible values: (([A-Za-z0-9_-]+, )+[A-Za-z0-9_-]+)\]/, arr)) {
                 choicesVal = arr[1]
                 matchVal = arr[0]
@@ -433,7 +433,7 @@ function parseDesc(descVal, output, extractChoice, logPrefix)  {
                 matchVal = arr[0]
             }
         }
-        if (choicesVal == "" && index(concatedDescVal, ")") > 0) {
+        if (index(concatedDescVal, ")") > 0) {
             if (match(concatedDescVal, / ?\(([^:]*: ?)?(([A-Za-z0-9_-]+,)+[A-Za-z0-9_-]+)\)/, arr)) {
                 choicesVal = arr[2]
                 matchVal = arr[0]
@@ -445,6 +445,12 @@ function parseDesc(descVal, output, extractChoice, logPrefix)  {
                 matchVal = arr[0]
             } else if (match(concatedDescVal, / ?\(([^:]*: ?)?(("([A-Za-z0-9_-]+)"(, | \| ))+"([A-Za-z0-9_-]+)")\)/, arr)) {
                 choicesVal = arr[2]
+                matchVal = arr[0]
+            }
+        }
+        if (index(concatedDescVal, "}") > 0) {
+            if(match(concatedDescVal, /\{(([A-Za-z0-9_-]+\|)+[A-Za-z0-9_-]+)\}/, arr)) {
+                choicesVal = arr[1]
                 matchVal = arr[0]
             }
         }

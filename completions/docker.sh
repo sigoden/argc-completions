@@ -154,8 +154,8 @@ ps() {
 
 # {{ docker build
 # @cmd Build an image from a Dockerfile
-# @option --add-host <strings>                   Add a custom host-to-IP mapping (format: "host:ip")
-# @option --allow <strings>                      Allow extra privileged entitlement (e.g., "network.host", "security.insecure")
+# @option --add-host* <string>                   Add a custom host-to-IP mapping (format: "host:ip")
+# @option --allow* <string>                      Allow extra privileged entitlement (e.g., "network.host", "security.insecure")
 # @option --attest* <string>                     Attestation parameters (format: "type=sbom,generator=image")
 # @option --build-arg* <string>                  Set build-time variables
 # @option --build-context* <path>                Additional build contexts (e.g., name=path)
@@ -337,8 +337,8 @@ builder::bake() {
 
 # {{{ docker builder build
 # @cmd Start a build
-# @option --add-host <strings>                   Add a custom host-to-IP mapping (format: "host:ip")
-# @option --allow <strings>                      Allow extra privileged entitlement (e.g., "network.host", "security.insecure")
+# @option --add-host* <string>                   Add a custom host-to-IP mapping (format: "host:ip")
+# @option --allow* <string>                      Allow extra privileged entitlement (e.g., "network.host", "security.insecure")
 # @option --attest* <string>                     Attestation parameters (format: "type=sbom,generator=image")
 # @option --build-arg* <string>                  Set build-time variables
 # @option --build-context* <path>                Additional build contexts (e.g., name=path)
@@ -536,8 +536,8 @@ buildx::bake() {
 
 # {{{ docker buildx build
 # @cmd Start a build
-# @option --add-host <strings>                   Add a custom host-to-IP mapping (format: "host:ip")
-# @option --allow <strings>                      Allow extra privileged entitlement (e.g., "network.host", "security.insecure")
+# @option --add-host* <string>                   Add a custom host-to-IP mapping (format: "host:ip")
+# @option --allow* <string>                      Allow extra privileged entitlement (e.g., "network.host", "security.insecure")
 # @option --attest* <string>                     Attestation parameters (format: "type=sbom,generator=image")
 # @option --build-arg* <string>                  Set build-time variables
 # @option --build-context* <path>                Additional build contexts (e.g., name=path)
@@ -1572,8 +1572,8 @@ image() {
 
 # {{{ docker image build
 # @cmd Build an image from a Dockerfile
-# @option --add-host <strings>                   Add a custom host-to-IP mapping (format: "host:ip")
-# @option --allow <strings>                      Allow extra privileged entitlement (e.g., "network.host", "security.insecure")
+# @option --add-host* <string>                   Add a custom host-to-IP mapping (format: "host:ip")
+# @option --allow* <string>                      Allow extra privileged entitlement (e.g., "network.host", "security.insecure")
 # @option --attest* <string>                     Attestation parameters (format: "type=sbom,generator=image")
 # @option --build-arg* <string>                  Set build-time variables
 # @option --build-context* <path>                Additional build contexts (e.g., name=path)
@@ -1738,7 +1738,7 @@ manifest() {
 # @cmd Add additional information to a local image manifest
 # @option --arch <string>            Set architecture
 # @option --os <string>              Set operating system
-# @option --os-features <strings>    Set operating system feature
+# @option --os-features* <string>    Set operating system feature
 # @option --os-version <string>      Set operating system version
 # @option --variant <string>         Set architecture variant
 # @arg manifest_list
@@ -1797,12 +1797,12 @@ network() {
 
 # {{{ docker network connect
 # @cmd Connect a container to a network
-# @option --alias <strings>            Add network-scoped alias for the container
-# @option --driver-opt <strings>       driver options for the network
+# @option --alias* <string>            Add network-scoped alias for the container
+# @option --driver-opt* <string>       driver options for the network
 # @option --ip <string>                IPv4 address (e.g., "172.30.100.104")
 # @option --ip6 <string>               IPv6 address (e.g., "2001:db8::33")
 # @option --link <list>                Add link to another container
-# @option --link-local-ip <strings>    Add a link-local address for the container
+# @option --link-local-ip* <string>    Add a link-local address for the container
 # @arg network[`_choice_network`]
 # @arg container[`_choice_container_name`]
 network::connect() {
@@ -1817,17 +1817,17 @@ network::connect() {
 # @option --config-from <string>    The network from which to copy the configuration
 # @flag --config-only               Create a configuration only network
 # @option -d --driver <string>      Driver to manage the Network (default "bridge")
-# @option --gateway <strings>       IPv4 or IPv6 Gateway for the master subnet
+# @option --gateway* <string>       IPv4 or IPv6 Gateway for the master subnet
 # @flag --ingress                   Create swarm routing-mesh network
 # @flag --internal                  Restrict external access to the network
-# @option --ip-range <strings>      Allocate container ip from a sub-range
+# @option --ip-range* <string>      Allocate container ip from a sub-range
 # @option --ipam-driver <string>    IP Address Management Driver (default "default")
 # @option --ipam-opt <map>          Set IPAM driver specific options (default map[])
 # @flag --ipv6                      Enable IPv6 networking
 # @option --label <list>            Set metadata on a network
 # @option -o --opt <map>            Set driver specific options (default map[])
 # @option --scope <string>          Control the network's scope
-# @option --subnet <strings>        Subnet in CIDR format that represents a network segment
+# @option --subnet* <string>        Subnet in CIDR format that represents a network segment
 # @arg network[`_choice_network`]
 network::create() {
     :;
@@ -3068,7 +3068,7 @@ stack() {
 
 # {{{ docker stack config
 # @cmd Outputs the final config file, after doing merges and interpolations
-# @option -c --compose-file <files>    Path to a Compose file, or "-" to read from stdin
+# @option -c --compose-file* <file>    Path to a Compose file, or "-" to read from stdin
 # @flag --skip-interpolation           Skip interpolation and output only merged config
 stack::config() {
     :;
@@ -3077,7 +3077,7 @@ stack::config() {
 
 # {{{ docker stack deploy
 # @cmd Deploy a new stack or update an existing stack
-# @option -c --compose-file <files>    Path to a Compose file, or "-" to read from stdin
+# @option -c --compose-file* <file>    Path to a Compose file, or "-" to read from stdin
 # @flag --prune                        Prune services that are no longer referenced
 # @option --resolve-image[always|changed|never] <string>  Query the registry to resolve image digest and supported platforms (default "always")
 # @flag --with-registry-auth           Send registry authentication details to Swarm agents

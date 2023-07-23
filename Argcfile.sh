@@ -86,7 +86,7 @@ regenerate:all() {
 #   argc choice-fn ./completions/git.sh _choice_checkout git checkout -- '' 
 # @option -C --dir  Change current workdir to <DIR>
 # @arg script_file!
-# @arg fn![`_choice_fn_name`]
+# @arg fn![?`_choice_fn_name`]
 # @arg args~ Command line args passed for compgen
 choice-fn() {
     argc_dir="${argc_dir:-`pwd`}"
@@ -112,14 +112,14 @@ choice-fn() {
         fi
         (cd $argc_dir && \
             ARGC_COMPGEN=1 ARGC_OS="$os" ARGC_PATH_SEP="$sep" ARGC_FILTER="$filter" ARGC_LAST_ARG="$last_arg" \
-            bash "$script_file" ___internal___ $argc_fn ${argc_args[@]})
+            bash "$script_file" ___internal___ $argc_fn "${argc_args[@]}")
     else
         . utils/_argc_utils.sh
         . "$script_file"
         for f in utils/_modules/*; do
             . $f
         done
-        (cd $argc_dir && $argc_fn)
+        (cd $argc_dir && $argc_fn "${argc_args[@]}")
     fi
 }
 

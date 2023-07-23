@@ -72,6 +72,7 @@ Options:
     --allow <strings>           Allow extra privileged entitlement (e.g., "network.host", "security.insecure")
     --input-format string       [auto|a|yaml|y|props|p|xml|x|tsv|t|csv|c|toml] parse format for input. Note that json is a subset of yaml. (default "auto")
     --argjson a v               set variable $a to JSON value <v>;
+    --git-protocol <string>     The protocol to use for git operations: {ssh|https}
     -r, --reload[=<CACHE_BLOCKLIST>...]
           Reload source code cache (recompile TypeScript)
           --reload
