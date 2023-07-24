@@ -142,6 +142,7 @@ BEGIN {
     split("", DEDUPS)
     ONLY_LINE = ""
     COUNT = 0
+    SEP_LEN = length(SEP)
     PREFIX_LEN = length(PREFIX)
     FILTER_LEN = length(FILTER)
 }
@@ -150,14 +151,14 @@ BEGIN {
         value = substr($0, PREFIX_LEN + 1)
         if (COUNT == 0) {
             ONLY_LINE = value
-            if (substr(value, length(value)) == SEP) {
+            if (substr(value, length(value) - SEP_LEN + 1) == SEP) {
                 ONLY_LINE = value "\0"
             }
         }
         COUNT = COUNT + 1
         idx = index(value, SEP)
         if (idx > 0) {
-            value = substr(value, 1, idx) "\0"
+            value = substr(value, 1, idx + SEP_LEN - 1) "\0"
         }
         if (FILTER_LEN > 0 && substr(value, 1, FILTER_LEN) != FILTER) {
             next
