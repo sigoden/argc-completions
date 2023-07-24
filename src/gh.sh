@@ -27,6 +27,7 @@ _patch_table() {
             '--repo;[`_choice_search_repo`]' \
             '--repo-owner;[`_choice_owner`]' \
             '--branch;[`_choice_branch`]' \
+            '--org;[`_choice_org`]' \
     )"
     if [[ "$*" == "gh auth"* ]]; then
         table="$( \
@@ -41,6 +42,8 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_options \
             '--codespace;[`_choice_codespace`]' \
+            '--user;[`_choice_search_user`]' \
+            '--json;[`_choice_codespace_field`]' \
 
     elif [[ "$*" == "gh gist"* ]]; then
         table="$(
@@ -79,9 +82,9 @@ _patch_table() {
                 '--assignee;*,[`_choice_assignee`]' \
                 '--author;[`_choice_search_user`]' \
                 '--label;*,[`_choice_label`]' \
-                '--milestone;*,[`_choice_milestone`]' \
-                '--project;*,[`_choice_repo_project`]' \
-                '--template;*,[`_choice_issue_template`]' \
+                '--milestone;[`_choice_milestone`]' \
+                '--project;[`_choice_repo_project`]' \
+                '--template;[`_choice_issue_template`]' \
                 '--mention;[`_choice_mention`]' \
                 '--json;*,[`_choice_issue_field`]' \
         )"
@@ -120,7 +123,8 @@ _patch_table() {
                 '--add-label;*,[`_choice_label`]' \
                 '--add-project;*,[`_choice_repo_project`]' \
                 '--remove-assignee;*,[`_choice_issue_assignee`]' \
-                '--remove-label;*,[`_choice_label`]' \
+                '--remove-label;*,[`_choice_issue_label`]' \
+                '--remove-project;*,[`_choice_issue_project`]' \
             | \
             _patch_table_edit_arguments \
                 ';;' \
@@ -149,9 +153,9 @@ _patch_table() {
     elif [[ "$*" == "gh project"* ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '--owner;*,[`_choice_owner`]' \
-            '--source-owner;*,[`_choice_owner`]' \
-            '--target-owner;*,[`_choice_owner`]' \
+            '--owner;[`_choice_owner`]' \
+            '--source-owner;[`_choice_owner`]' \
+            '--target-owner;[`_choice_owner`]' \
             '--format;[json]' \
         | \
         _patch_table_edit_arguments \
@@ -166,10 +170,9 @@ _patch_table() {
                 '--base;[`_choice_branch`]' \
                 '--head;[`_choice_branch`]' \
                 '--label;*,[`_choice_label`]' \
-                '--milestone;*,[`_choice_milestone`]' \
+                '--milestone;[`_choice_milestone`]' \
                 '--project;*,[`_choice_repo_project`]' \
                 '--reviewer;*,[`_choice_assignee`]' \
-                '--template;*,[`_choice_pr_template`]' \
                 '--json;*,[`_choice_pr_field`]' \
         )"
 
@@ -196,8 +199,9 @@ _patch_table() {
                 '--add-project;*,[`_choice_repo_project`]' \
                 '--add-reviewer;*,[`_choice_assignee`]' \
                 '--remove-assignee;*,[`_choice_pr_assignee`]' \
-                '--remove-label;*,[`_choice_label`]' \
+                '--remove-label;*,[`_choice_pr_label`]' \
                 '--remove-reviewer;*,[`_choice_pr_reviewer`]' \
+                '--remove-project;*,[`_choice_pr_project`]' \
             | \
             _patch_table_edit_arguments ';;'  'pr;[`_choice_open_pr`]' \
 
@@ -263,7 +267,7 @@ _patch_table() {
         elif [[ "$*" == "gh repo deploy-key delete"* ]]; then
             echo "$table" | \
             _patch_table_edit_arguments \
-                'key-id;[`_choice_repo_deploy_key`]' \
+                'key-id;[`_choice_repo_key`]' \
 
         elif [[ "$*" == "gh repo edit"* ]]; then
             echo "$table" | \
@@ -442,39 +446,39 @@ _choice_hostname() {
 
 _choice_auth_scope() {
     cat <<-'EOF'
-admin:gpg_key	Fully manage GPG keys.
-admin:org	Fully manage the organization and its teams, projects, and memberships.
-admin:org_hook	Grants read, write, ping, and delete access to organization hooks.
-admin:public_key	Fully manage public keys.
-admin:repo_hook	Grants read, write, ping, and delete access to repository hooks in public and private repositories.
-codespace	Full control of codespaces
-delete:packages	Grants access to delete packages from GitHub Packages.
-delete_repo	Grants access to delete adminable repositories.
-gist	Grants write access to gists.
-notifications	Grants read access to a user's notifications
-public_repo	Limits access to public repositories.
-read:discussion	Allows read access for team discussions.
-read:gpg_key	List and view details for GPG keys.
-read:org	Read-only access to organization membership, organization projects, and team membership.
-read:packages	Grants access to download or install packages from GitHub Packages.
-read:public_key	List and view details for public keys.
-read:repo_hook	Grants read and ping access to hooks in public or private repositories.
-read:user	Grants access to read a user's profile data.
 repo	Grants full access to private and public repositories.
-repo:invite	Grants accept/decline abilities for invitations to collaborate on a repository.
 repo:status	Grants read/write access to public and private repository commit statuses.
 repo_deployment	Grants access to deployment statuses for public and private repositories.
+public_repo	Limits access to public repositories.
+repo:invite	Grants accept/decline abilities for invitations to collaborate on a repository.
 security_events	Grants read and write access to security events in the code scanning API.
+admin:repo_hook	Grants read, write, ping, and delete access to repository hooks in public and private repositories.
+read:repo_hook	Grants read and ping access to hooks in public or private repositories.
+write:repo_hook	Grants read, write, and ping access to hooks in public or private repositories.
+admin:org	Fully manage the organization and its teams, projects, and memberships.
+write:org	Read and write access to organization membership, organization projects, and team membership.
+read:org	Read-only access to organization membership, organization projects, and team membership.
+admin:public_key	Fully manage public keys.
+write:public_key	Create, list, and view details for public keys.
+read:public_key	List and view details for public keys.
+admin:org_hook	Grants read, write, ping, and delete access to organization hooks.
+gist	Grants write access to gists.
+notifications	Grants read access to a user's notifications
 user	Grants read/write access to profile info only.
+read:user	Grants access to read a user's profile data.
 user:email	Grants read access to a user's email addresses.
 user:follow	Grants access to follow or unfollow other users.
-workflow	Grants the ability to add and update GitHub Actions workflow files.
-write:discussion	Allows read and write access for team discussions.
-write:gpg_key	Create, list, and view details for GPG keys.
-write:org	Read and write access to organization membership, organization projects, and team membership.
+project	Grants read/write access to user and organization projects.
+read:project	Grants read only access to user and organization projects.
+delete_repo	Grants access to delete adminable repositories.
 write:packages	Grants access to upload or publish a package in GitHub Packages.
-write:public_key	Create, list, and view details for public keys.
-write:repo_hook	Grants read, write, and ping access to hooks in public or private repositories.
+read:packages	Grants access to download or install packages from GitHub Packages.
+delete:packages	Grants access to delete packages from GitHub Packages.
+admin:gpg_key	Fully manage GPG keys.
+write:gpg_key	Create, list, and view details for GPG keys.
+read:gpg_key	List and view details for GPG keys.
+codespace	Full control of codespaces
+workflow	Grants the ability to add and update GitHub Actions workflow files.
 EOF
 }
 
@@ -498,7 +502,11 @@ _choice_owner() {
 
 _choice_codespace() {
     gh codespace list --json name,owner,repository,state | \
-    yq '.[] | .name + "	" + .owner + "- " + .repository + " - " + .state'
+    yq '.[] | .name + "	" + .owner + " • " + .repository + " • " + .state'
+}
+
+_choice_codespace_field() {
+    gh codespace list --json 2>&1 | tail -n +2
 }
 
 _choice_search_user() {
@@ -513,6 +521,10 @@ _choice_search_user() {
             }
         }' | \
     yq '.data.search.edges[].node | .login + "	" + (.name // "")'
+}
+
+_choice_org() {
+    gh api user/orgs | yq '.[] | .login + "	" + (.description // "")'
 }
 
 _choice_search_org() {
@@ -535,9 +547,6 @@ _choice_gist() {
 }
 
 _choice_gist_file() {
-    if [[ -z "$argc_gist" ]]; then
-        return
-    fi
     _helper_user_query 'gist(name:"'$argc_gist'") { files { name } }' | \
     yq '.data.user.gist.files[].name'
 }
@@ -553,17 +562,17 @@ _choice_label() {
 }
 
 _choice_milestone() {
-    _helper_repo_query 'milestones(first: 100) { nodes { title, description } }' | \
-    yq '.data.repository.labels.nodes[] | .title + "	" + (.description // "")'
+    _helper_repo_query 'milestones(first: 100, states: OPEN) { nodes { title, description } }' | \
+    yq '.data.repository.milestones.nodes[] | .title + "	" + (.description // "")'
 }
 
 _choice_repo_project() {
-    _helper_repo_query 'projects(first: 100, states: OPEN, orderBy: {direction: DESC, field: UPDATED_AT}) { nodes { name, body } }' | \
-    yq '.data.repository.projects.nodes[] | .name + "	" + (.body // "")'
+    _helper_repo_query 'projectsV2(first: 100, orderBy: {direction: DESC, field: UPDATED_AT}) { nodes {  number title } }' | \
+    yq '.data.repository.projectsV2.nodes[] | .number + "	" + .title'
 }
 
 _choice_issue_template() {
-    _helper_repo_query 'issueTemplates { about, name }' | \
+    _helper_repo_query 'issueTemplates { name, about }' | \
     yq '.data.repository.issueTemplates[] | .name + "	" + (.about // "")'
 }
 
@@ -592,25 +601,7 @@ _choice_mention() {
 }
 
 _choice_issue_field() {
-    cat <<-'EOF'
-assignees
-author
-body
-closed
-comments
-createdAt
-closedAt
-id
-labels
-milestone
-number
-projectCards
-reactionGroups
-state
-title
-updatedAt
-url
-EOF
+    gh issue list --json 2>&1 | tail -n +2
 }
 
 _choice_open_issue() {
@@ -627,23 +618,31 @@ _choice_all_issue() {
 
 _choice_pin_issue() {
     _helper_repo_query 'pinnedIssues(first: 3) { nodes { issue { number, title, state } } }' | \
-    yq '.data.repository.pinnedIssues.nodes[] | .number + "	" + .title'
+    yq '.data.repository.pinnedIssues.nodes[].issue | .number + "	" + .title'
 }
 
 _choice_issue_assignee() {
     if [[ -z "$argc_issue" ]]; then
         return
     fi
-    _helper_repo_query 'issue(number: '$argc_issue') { assignees(first: 100) { edges { node { login, name } } }' | \
-    yq '.data.repository.issue.assignees.edges[].node | .login + "	" + (.name // "")'
+    _helper_repo_query 'issue(number: '$argc_issue') { assignees(first: 100) { nodes { login, name } } }' | \
+    yq '.data.repository.issue.assignees.nodes[]| .login + "	" + (.name // "")'
 }
 
-_choice_label() {
+_choice_issue_label() {
     if [[ -z "$argc_issue" ]]; then
         return
     fi
-    _helper_repo_query 'issue(number: '$argc_issue') { labels(first: 100) { edges { node { name, description } } }' | \
-    yq '.data.repository.issue.labels.edges[].node | .name + "	" + (.description // "")'
+    _helper_repo_query 'issue(number: '$argc_issue') { labels(first: 100) { nodes { name, description } } }' | \
+    yq '.data.repository.issue.labels.nodes[] | .name + "	" + (.description // "")'
+}
+
+_choice_issue_project() {
+    if [[ -z "$argc_issue" ]]; then
+        return
+    fi
+    _helper_repo_query 'issue(number: '$argc_issue') { projectsV2(first:100) { nodes { number title } } }' | \
+    yq '.data.repository.issue.projectsV2.nodes[] | .number + "	" + .title'
 }
 
 _choice_open_pr() {
@@ -668,51 +667,39 @@ _choice_pr_checks() {
 }
 
 _choice_pr_field() {
-    cat <<-'EOF'
-additions
-baseRefName
-changedFiles
-commits
-deletions
-files
-headRefName
-headRepository
-headRepositoryOwner
-isCrossRepository
-isDraft
-maintainerCanModify
-mergeable
-mergeCommit
-mergedAt
-mergedBy
-mergeStateStatus
-potentialMergeCommit
-reviewDecision
-reviewRequests
-reviews
-statusCheckRollup
-EOF
-}
-
-_choice_pr_template() {
-    _helper_repo_query 'pullRequestTemplates { body, filename }' | \
-    yq '.data.repository.pullRequestTemplates[] | .filename + "	" + .body'
+    gh pr list --json 2>&1 | tail -n +2
 }
 
 _choice_pr_assignee() {
     if [[ -z "$argc_pr" ]]; then
         return
     fi
-    _helper_repo_query 'pullRequest(number: '$argc_pr') { assignees(first: 100) { edges { node { login, name } } }' | \
-    yq '.data.repository.pullRequest.assignees.edges[].node | .login + "	" + (.name // "")'
+    _helper_repo_query 'pullRequest(number: '$argc_pr') { assignees(first: 100) { nodes { login, name } } }' | \
+    yq '.data.repository.pullRequest.assignees.nodes[] | .login + "	" + (.name // "")'
+}
+
+_choice_pr_label() {
+    if [[ -z "$argc_pr" ]]; then
+        return
+    fi
+    _helper_repo_query 'pullRequest(number: '$argc_pr') { labels(first: 100) { nodes { name, description } } }' | \
+    yq '.data.repository.pullRequest.labels.nodes[] | .name + "	" + (.description // "")'
+}
+
+_choice_pr_project() {
+    if [[ -z "$argc_pr" ]]; then
+        return
+    fi
+    _helper_repo_query 'pullRequest(number: '$argc_pr') { projectsV2(first:100) { nodes { number title } } }' | \
+    yq '.data.repository.pullRequest.projectsV2.nodes[] | .number + "	" + .title'
 }
 
 _choice_pr_reviewer() {
     if [[ -z "$argc_pr" ]]; then
         return
     fi
-    _helper_repo_curl pulls/$argc_pr/requested_reviewers | \
-    yq '.users[].login'
+    _helper_repo_query 'pullRequest(number: '$argc_pr') { latestReviews(first:100) { nodes { author { login } } } }' | \
+    yq '.data.repository.pullRequest.latestReviews.nodes[].author.login'
 }
 
 _choice_pr_commit() {
@@ -724,12 +711,16 @@ _choice_pr_commit() {
 }
 
 _choice_project() {
-    owner_val="${argc_owner:-$(_helper_get_user)}"
-    if [[ -z "$owner_val" ]]; then
-        return
+    if [[ -n "$argc_owner" ]]; then
+        gh api graphql -f query='query { organization(login: "'$argc_owner'") { projectsV2(first: 100) { nodes { number title } } } }' | \
+        yq '.data.organization.projectsV2.nodes[] | .number + "	" + .title'
+    else
+        user_val="$(_helper_get_user)"
+        if [[ -n "$user_val" ]]; then
+            gh api graphql -f query='query { user(login: "'$user_val'") { projectsV2(first: 100) { nodes { number title } } } }' | \
+            yq '.data.user.projectsV2.nodes[] | .number + "	" + .title'
+        fi
     fi
-    gh api graphql -f query='query { user(login: "'$user_val'") { projectsV2(first: 100) { nodes { id title } } } }' | \
-    yq '.data.search.user.projectsV2.nodes[] | .id + "	" + .title'
 }
 
 _choice_gitignore() {
@@ -741,76 +732,11 @@ _choice_license() {
 }
 
 _choice_repo_field() {
-    cat <<-'EOF'
-id
-name
-nameWithOwner
-owner
-parent
-templateRepository
-description
-homepageUrl
-openGraphImageUrl
-usesCustomOpenGraphImage
-url
-sshUrl
-mirrorUrl
-securityPolicyUrl
-createdAt
-pushedAt
-updatedAt
-isBlankIssuesEnabled
-isSecurityPolicyEnabled
-hasIssuesEnabled
-hasProjectsEnabled
-hasWikiEnabled
-mergeCommitAllowed
-squashMergeAllowed
-rebaseMergeAllowed
-forkCount
-stargazerCount
-watchers
-issues
-pullRequests
-codeOfConduct
-contactLinks
-defaultBranchRef
-deleteBranchOnMerge
-diskUsage
-fundingLinks
-isArchived
-isEmpty
-isFork
-isInOrganization
-isMirror
-isPrivate
-isTemplate
-isUserConfigurationRepository
-licenseInfo
-viewerCanAdminister
-viewerDefaultCommitEmail
-viewerDefaultMergeMethod
-viewerHasStarred
-viewerPermission
-viewerPossibleCommitEmails
-viewerSubscription
-repositoryTopics
-primaryLanguage
-languages
-issueTemplates
-pullRequestTemplates
-labels
-milestones
-latestRelease
-assignableUsers
-mentionableUsers
-projects
-EOF
+    gh repo list --json 2>&1 | tail -n +2
 }
 
-_choice_repo_deploy_key() {
-    _helper_repo_query 'deployKeys(first: 100) { nodes { id title } }' | \
-    yq '.data.repository.deployKeys.nodes[] | .id + "	" + .title'
+_choice_repo_key() {
+    _helper_repo_curl keys | yq '.[] | .id + "	" + .title'
 }
 
 _choice_search_topic() {
@@ -822,7 +748,7 @@ _choice_search_topic() {
 
 _choice_repo_topic() {
     _helper_repo_query 'repositoryTopics(first:100) { nodes { topic { name } } }' | \
-    yq '.data.repository.repositoryTopics.nodes[].name'
+    yq '.data.repository.repositoryTopics.nodes[].topic.name'
 }
 
 _choice_inprogress_run() {
@@ -841,33 +767,17 @@ _choice_all_run() {
 }
 
 _choice_run_field() {
-    cat <<-'EOF'
-name
-displayTitle
-headBranch
-headSha
-createdAt
-updatedAt
-startedAt
-status
-conclusion
-event
-number
-databaseId
-workflowDatabaseId
-workflowName
-url
-EOF
+    gh run list --json 2>&1 | tail -n +2
 }
 
 _choice_artifact_name() {
     local path
     if [[ -z "$argc_run_id" ]]; then
-        path="/actions/artifacts"
+        path="actions/artifacts"
     else
-        path="/actions/runs/$argc_run_id/artifacts"
+        path="actions/runs/$argc_run_id/artifacts"
     fi
-    _helper_repo_query "$path" | \
+    _helper_repo_curl "$path" | \
     yq '.artifacts[].name'
 }
 
@@ -915,12 +825,12 @@ _choice_run_job() {
     if [[ -z "$argc_run_id" ]]; then
         return
     fi
-    _helper_repo_query "/actions/runs/$argc_run_id/jobs" | \
+    _helper_repo_curl "actions/runs/$argc_run_id/jobs" | \
     yq '.jobs[] | .id + "	" + .name'
 }
 
 _choice_workflow() {
-    _helper_repo_query "/actions/workflows" | \
+    _helper_repo_curl "actions/workflows" | \
     yq '.workflows[] | .id + "	" + .name'
 }
 
@@ -950,16 +860,7 @@ _choice_gpg_key() {
 }
 
 _choice_commit_field() {
-    cat <<-'EOF'
-author
-commit
-committer
-sha
-id
-parents
-repository
-url
-EOF
+    gh search commits --json 2>&1 | tail -n +2
 }
 
 _choice_secret() {
@@ -967,13 +868,13 @@ _choice_secret() {
 }
 
 _choice_ssh_key() {
-    gh api /user/keys | \
+    gh api user/keys | \
     yq '.[] | .id + "	" + .title'
 }
 
 _choice_env() {
     _helper_repo_curl 'environments' |
-    yq  '.environments[] | .id + "	" + .name'
+    yq  '.environments[].name'
 }
 
 _choice_variable() {
@@ -993,7 +894,7 @@ _helper_search_repo() {
                 edges { node { ... on Repository { name description } } } 
             }
         }' | \
-    yq '.data.search.edges[].node | .name + "	" + .description'
+    yq '.data.search.edges[].node | .name + "	" + (.description // "")'
 }
 
 _helper_query_issue() {
@@ -1035,7 +936,7 @@ _helper_repo_curl() {
     if [[ -z "$owner_val" ]] || [[ -z "$repo_val" ]]; then
         return
     fi
-    gh api "repos/$owner_val/$repo_val/$1/"
+    gh api "repos/$owner_val/$repo_val/$1"
 }
 
 _helper_retrieve_owner_repo_vals() {
@@ -1046,9 +947,11 @@ _helper_retrieve_owner_repo_vals() {
         local raw_values="$( \
             git remote -v | \
             gawk '{
-                if (match($0, /^origin\thttps:\/\/[^\/]+\/([^\/]+)\/([^\/]+)\.git \(fetch\)/, arr)) {
+                if (match($0, /^origin\thttps:\/\/[^\/]+\/([^\/]+)\/([^\/]+) \(fetch\)/, arr)) {
+                    gsub(".git", "", arr[2])
                     print arr[1] " " arr[2]
-                } else if (match($0, /^origin\t[^:]+:([^\/]+)\/([^\/]+)\.git \(fetch\)/, arr)) {
+                } else if (match($0, /^origin\t[^:]+:([^\/]+)\/([^\/]+) \(fetch\)/, arr)) {
+                    gsub(".git", "", arr[2])
                     print arr[1] " " arr[2]
                 }
             }' \

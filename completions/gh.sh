@@ -148,15 +148,15 @@ codespace::create() {
 
 # {{{ gh codespace delete
 # @cmd Delete codespaces
-# @flag --all                     Delete all codespaces
+# @flag --all                                Delete all codespaces
 # @option -c --codespace[`_choice_codespace`] <string>  Name of the codespace
-# @option --days <N>              Delete codespaces older than N days
-# @flag -f --force                Skip confirmation for codespaces that contain unsaved changes
-# @option -o --org <login>        The login handle of the organization (admin-only)
+# @option --days <N>                         Delete codespaces older than N days
+# @flag -f --force                           Skip confirmation for codespaces that contain unsaved changes
+# @option -o --org[`_choice_org`] <login>    The login handle of the organization (admin-only)
 # @option -R --repo[`_choice_search_repo`] <string>  Filter codespace selection by repository name (user/repo)
 # @option --repo-owner[`_choice_owner`] <string>  Filter codespace selection by repository owner (username or org)
-# @option -u --user <username>    The username to delete codespaces for (used with --org)
-# @flag --help                    Show help for command
+# @option -u --user[`_choice_search_user`] <username>  The username to delete codespaces for (used with --org)
+# @flag --help                               Show help for command
 codespace::delete() {
     :;
 }
@@ -188,15 +188,15 @@ codespace::jupyter() {
 
 # {{{ gh codespace list
 # @cmd List codespaces
-# @option -q --jq <expression>      Filter JSON output using a jq expression
-# @option --json <fields>           Output JSON with the specified fields
-# @option -L --limit <int>          Maximum number of codespaces to list (default 30)
-# @option -o --org <login>          The login handle of the organization to list codespaces for (admin-only)
+# @option -q --jq <expression>               Filter JSON output using a jq expression
+# @option --json[`_choice_codespace_field`] <fields>  Output JSON with the specified fields
+# @option -L --limit <int>                   Maximum number of codespaces to list (default 30)
+# @option -o --org[`_choice_org`] <login>    The login handle of the organization to list codespaces for (admin-only)
 # @option -R --repo[`_choice_search_repo`] <string>  Repository name with owner: user/repo
-# @option -t --template <string>    Format JSON output using a Go template; see "gh help formatting"
-# @option -u --user <username>      The username to list codespaces for (used with --org)
-# @flag -w --web                    List codespaces in the web browser, cannot be used with --user or --org
-# @flag --help                      Show help for command
+# @option -t --template <string>             Format JSON output using a Go template; see "gh help formatting"
+# @option -u --user[`_choice_search_user`] <username>  The username to list codespaces for (used with --org)
+# @flag -w --web                             List codespaces in the web browser, cannot be used with --user or --org
+# @flag --help                               Show help for command
 codespace::list() {
     :;
 }
@@ -218,7 +218,7 @@ codespace::logs() {
 # @cmd List ports in a codespace
 # @option -c --codespace[`_choice_codespace`] <string>  Name of the codespace
 # @option -q --jq <expression>      Filter JSON output using a jq expression
-# @option --json <fields>           Output JSON with the specified fields
+# @option --json[`_choice_codespace_field`] <fields>  Output JSON with the specified fields
 # @option -R --repo[`_choice_search_repo`] <string>  Filter codespace selection by repository name (user/repo)
 # @option --repo-owner[`_choice_owner`] <string>  Filter codespace selection by repository owner (username or org)
 # @option -t --template <string>    Format JSON output using a Go template; see "gh help formatting"
@@ -283,11 +283,11 @@ codespace::ssh() {
 # {{{ gh codespace stop
 # @cmd Stop a running codespace
 # @option -c --codespace[`_choice_codespace`] <string>  Name of the codespace
-# @option -o --org <login>        The login handle of the organization (admin-only)
+# @option -o --org[`_choice_org`] <login>    The login handle of the organization (admin-only)
 # @option -R --repo[`_choice_search_repo`] <string>  Filter codespace selection by repository name (user/repo)
 # @option --repo-owner[`_choice_owner`] <string>  Filter codespace selection by repository owner (username or org)
-# @option -u --user <username>    The username to stop codespace for (used with --org)
-# @flag --help                    Show help for command
+# @option -u --user[`_choice_search_user`] <username>  The username to stop codespace for (used with --org)
+# @flag --help                               Show help for command
 codespace::stop() {
     :;
 }
@@ -297,7 +297,7 @@ codespace::stop() {
 # @cmd View details about a codespace
 # @option -c --codespace[`_choice_codespace`] <string>  Name of the codespace
 # @option -q --jq <expression>      Filter JSON output using a jq expression
-# @option --json <fields>           Output JSON with the specified fields
+# @option --json[`_choice_codespace_field`] <fields>  Output JSON with the specified fields
 # @option -R --repo[`_choice_search_repo`] <string>  Filter codespace selection by repository name (user/repo)
 # @option --repo-owner[`_choice_owner`] <string>  Filter codespace selection by repository owner (username or org)
 # @option -t --template <string>    Format JSON output using a Go template; see "gh help formatting"
@@ -410,10 +410,10 @@ issue() {
 # @option -b --body <string>                      Supply a body.
 # @option -F --body-file <file>                   Read body text from file (use "-" to read from standard input)
 # @option -l --label*,[`_choice_label`] <name>    Add labels by name
-# @option -m --milestone*,[`_choice_milestone`] <name>  Add the issue to a milestone by name
-# @option -p --project*,[`_choice_repo_project`] <name>  Add the issue to projects by name
+# @option -m --milestone[`_choice_milestone`] <name>  Add the issue to a milestone by name
+# @option -p --project[`_choice_repo_project`] <name>  Add the issue to projects by name
 # @option --recover <string>                      Recover input from a failed run of create
-# @option -T --template*,[`_choice_issue_template`] <name>  Template name to use as starting body text
+# @option -T --template[`_choice_issue_template`] <name>  Template name to use as starting body text
 # @option -t --title <string>                     Supply a title.
 # @flag -w --web                                  Open the browser to create an issue
 # @flag --help                                    Show help for command
@@ -433,10 +433,10 @@ issue::create() {
 # @option -l --label*,[`_choice_label`] <string>   Filter by label
 # @option -L --limit <int>                         Maximum number of issues to fetch (default 30)
 # @option --mention[`_choice_mention`] <string>    Filter by mention
-# @option -m --milestone*,[`_choice_milestone`] <string>  Filter by milestone number or title
+# @option -m --milestone[`_choice_milestone`] <string>  Filter by milestone number or title
 # @option -S --search <query>                      Search issues with query
 # @option -s --state[open|closed|all] <string>     Filter by state:  (default "open")
-# @option -t --template*,[`_choice_issue_template`] <string>  Format JSON output using a Go template; see "gh help formatting"
+# @option -t --template[`_choice_issue_template`] <string>  Format JSON output using a Go template; see "gh help formatting"
 # @flag -w --web                                   List issues in the web browser
 # @flag --help                                     Show help for command
 # @option -R --repo[`_choice_search_repo`] <[HOST/]OWNER/REPO>  Select another repository using the [HOST/]OWNER/REPO format
@@ -449,7 +449,7 @@ issue::list() {
 # @cmd Show status of relevant issues
 # @option -q --jq <expression>    Filter JSON output using a jq expression
 # @option --json*,[`_choice_issue_field`] <fields>  Output JSON with the specified fields
-# @option -t --template*,[`_choice_issue_template`] <string>  Format JSON output using a Go template; see "gh help formatting"
+# @option -t --template[`_choice_issue_template`] <string>  Format JSON output using a Go template; see "gh help formatting"
 # @flag --help                    Show help for command
 # @option -R --repo[`_choice_search_repo`] <[HOST/]OWNER/REPO>  Select another repository using the [HOST/]OWNER/REPO format
 issue::status() {
@@ -517,10 +517,10 @@ issue::develop() {
 # @option --add-project*,[`_choice_repo_project`] <name>  Add the issue to projects by name
 # @option -b --body <string>                       Set the new body.
 # @option -F --body-file <file>                    Read body text from file (use "-" to read from standard input)
-# @option -m --milestone*,[`_choice_milestone`] <name>  Edit the milestone the issue belongs to by name
+# @option -m --milestone[`_choice_milestone`] <name>  Edit the milestone the issue belongs to by name
 # @option --remove-assignee*,[`_choice_issue_assignee`] <login>  Remove assigned users by their login.
-# @option --remove-label*,[`_choice_label`] <name>  Remove labels by name
-# @option --remove-project <name>                  Remove the issue from projects by name
+# @option --remove-label*,[`_choice_issue_label`] <name>  Remove labels by name
+# @option --remove-project*,[`_choice_issue_project`] <name>  Remove the issue from projects by name
 # @option -t --title <string>                      Set the new title.
 # @flag --help                                     Show help for command
 # @option -R --repo[`_choice_search_repo`] <[HOST/]OWNER/REPO>  Select another repository using the [HOST/]OWNER/REPO format
@@ -598,7 +598,7 @@ issue::unpin() {
 # @flag -c --comments             View issue comments
 # @option -q --jq <expression>    Filter JSON output using a jq expression
 # @option --json*,[`_choice_issue_field`] <fields>  Output JSON with the specified fields
-# @option -t --template*,[`_choice_issue_template`] <string>  Format JSON output using a Go template; see "gh help formatting"
+# @option -t --template[`_choice_issue_template`] <string>  Format JSON output using a Go template; see "gh help formatting"
 # @flag -w --web                  Open an issue in the browser
 # @flag --help                    Show help for command
 # @option -R --repo[`_choice_search_repo`] <[HOST/]OWNER/REPO>  Select another repository using the [HOST/]OWNER/REPO format
@@ -644,12 +644,12 @@ pr() {
 # @flag -f --fill                                 Do not prompt for title/body and just use commit info
 # @option -H --head[`_choice_branch`] <branch>    The branch that contains commits for your pull request (default: current branch)
 # @option -l --label*,[`_choice_label`] <name>    Add labels by name
-# @option -m --milestone*,[`_choice_milestone`] <name>  Add the pull request to a milestone by name
+# @option -m --milestone[`_choice_milestone`] <name>  Add the pull request to a milestone by name
 # @flag --no-maintainer-edit                      Disable maintainer's ability to modify pull request
 # @option -p --project*,[`_choice_repo_project`] <name>  Add the pull request to projects by name
 # @option --recover <string>                      Recover input from a failed run of create
 # @option -r --reviewer*,[`_choice_assignee`] <handle>  Request reviews from people or teams by their handle
-# @option -T --template*,[`_choice_pr_template`] <file>  Template file to use as starting body text
+# @option -T --template <file>                    Template file to use as starting body text
 # @option -t --title <string>                     Title for the pull request
 # @flag -w --web                                  Open the web browser to create a pull request
 # @flag --help                                    Show help for command
@@ -673,7 +673,7 @@ pr::create() {
 # @option -L --limit <int>                         Maximum number of items to fetch (default 30)
 # @option -S --search <query>                      Search pull requests with query
 # @option -s --state[open|closed|merged|all] <string>  Filter by state:  (default "open")
-# @option -t --template*,[`_choice_pr_template`] <string>  Format JSON output using a Go template; see "gh help formatting"
+# @option -t --template <string>                   Format JSON output using a Go template; see "gh help formatting"
 # @flag -w --web                                   List pull requests in the web browser
 # @flag --help                                     Show help for command
 # @option -R --repo[`_choice_search_repo`] <[HOST/]OWNER/REPO>  Select another repository using the [HOST/]OWNER/REPO format
@@ -687,7 +687,7 @@ pr::list() {
 # @flag -c --conflict-status                       Display the merge conflict status of each pull request
 # @option -q --jq <expression>                     Filter JSON output using a jq expression
 # @option --json*,[`_choice_pr_field`] <fields>    Output JSON with the specified fields
-# @option -t --template*,[`_choice_pr_template`] <string>  Format JSON output using a Go template; see "gh help formatting"
+# @option -t --template <string>                   Format JSON output using a Go template; see "gh help formatting"
 # @flag --help                                     Show help for command
 # @option -R --repo[`_choice_search_repo`] <[HOST/]OWNER/REPO>  Select another repository using the [HOST/]OWNER/REPO format
 pr::status() {
@@ -773,10 +773,10 @@ pr::diff() {
 # @option -B --base[`_choice_branch`] <branch>     Change the base branch for this pull request
 # @option -b --body <string>                       Set the new body.
 # @option -F --body-file <file>                    Read body text from file (use "-" to read from standard input)
-# @option -m --milestone*,[`_choice_milestone`] <name>  Edit the milestone the pull request belongs to by name
+# @option -m --milestone[`_choice_milestone`] <name>  Edit the milestone the pull request belongs to by name
 # @option --remove-assignee*,[`_choice_pr_assignee`] <login>  Remove assigned users by their login.
-# @option --remove-label*,[`_choice_label`] <name>  Remove labels by name
-# @option --remove-project <name>                  Remove the pull request from projects by name
+# @option --remove-label*,[`_choice_pr_label`] <name>  Remove labels by name
+# @option --remove-project*,[`_choice_pr_project`] <name>  Remove the pull request from projects by name
 # @option --remove-reviewer*,[`_choice_pr_reviewer`] <login>  Remove reviewers by their login.
 # @option -t --title <string>                      Set the new title.
 # @flag --help                                     Show help for command
@@ -872,7 +872,7 @@ pr::unlock() {
 # @flag -c --comments                              View pull request comments
 # @option -q --jq <expression>                     Filter JSON output using a jq expression
 # @option --json*,[`_choice_pr_field`] <fields>    Output JSON with the specified fields
-# @option -t --template*,[`_choice_pr_template`] <string>  Format JSON output using a Go template; see "gh help formatting"
+# @option -t --template <string>                   Format JSON output using a Go template; see "gh help formatting"
 # @flag -w --web                                   Open a pull request in the browser
 # @flag --help                                     Show help for command
 # @option -R --repo[`_choice_search_repo`] <[HOST/]OWNER/REPO>  Select another repository using the [HOST/]OWNER/REPO format
@@ -892,10 +892,10 @@ project() {
 
 # {{{ gh project close
 # @cmd Close a project
-# @option --format[json] <string>                Output format, must be 'json'
-# @option --owner*,[`_choice_owner`] <string>    Login of the owner.
-# @flag --undo                                   Reopen a closed project
-# @flag --help                                   Show help for command
+# @option --format[json] <string>              Output format, must be 'json'
+# @option --owner[`_choice_owner`] <string>    Login of the owner.
+# @flag --undo                                 Reopen a closed project
+# @flag --help                                 Show help for command
 # @arg project[`_choice_project`]
 project::close() {
     :;
@@ -906,8 +906,8 @@ project::close() {
 # @cmd Copy a project
 # @flag --drafts                     Include draft issues when copying
 # @option --format[json] <string>    Output format: {json}
-# @option --source-owner*,[`_choice_owner`] <string>  Login of the source owner.
-# @option --target-owner*,[`_choice_owner`] <string>  Login of the target owner.
+# @option --source-owner[`_choice_owner`] <string>  Login of the source owner.
+# @option --target-owner[`_choice_owner`] <string>  Login of the target owner.
 # @option --title <string>           Title for the new project
 # @flag --help                       Show help for command
 # @arg project[`_choice_project`]
@@ -918,10 +918,10 @@ project::copy() {
 
 # {{{ gh project create
 # @cmd Create a project
-# @option --format[json] <string>                Output format: {json}
-# @option --owner*,[`_choice_owner`] <string>    Login of the owner.
-# @option --title <string>                       Title for the project
-# @flag --help                                   Show help for command
+# @option --format[json] <string>              Output format: {json}
+# @option --owner[`_choice_owner`] <string>    Login of the owner.
+# @option --title <string>                     Title for the project
+# @flag --help                                 Show help for command
 project::create() {
     :;
 }
@@ -929,9 +929,9 @@ project::create() {
 
 # {{{ gh project delete
 # @cmd Delete a project
-# @option --format[json] <string>                Output format: {json}
-# @option --owner*,[`_choice_owner`] <string>    Login of the owner.
-# @flag --help                                   Show help for command
+# @option --format[json] <string>              Output format: {json}
+# @option --owner[`_choice_owner`] <string>    Login of the owner.
+# @flag --help                                 Show help for command
 # @arg project[`_choice_project`]
 project::delete() {
     :;
@@ -942,7 +942,7 @@ project::delete() {
 # @cmd Edit a project
 # @option -d --description <string>                New description of the project
 # @option --format[json] <string>                  Output format: {json}
-# @option --owner*,[`_choice_owner`] <string>      Login of the owner.
+# @option --owner[`_choice_owner`] <string>        Login of the owner.
 # @option --readme <string>                        New readme for the project
 # @option --title <string>                         New title for the project
 # @option --visibility[PUBLIC|PRIVATE] <string>    Change project visibility:
@@ -956,11 +956,11 @@ project::edit() {
 # {{{ gh project field-create
 # @cmd Create a field in a project
 # @option --data-type[TEXT|SINGLE_SELECT|DATE|NUMBER] <string>  DataType of the new field.:
-# @option --format[json] <string>                Output format: {json}
-# @option --name <string>                        Name of the new field
-# @option --owner*,[`_choice_owner`] <string>    Login of the owner.
-# @option --single-select-options* <string>      Options for SINGLE_SELECT data type
-# @flag --help                                   Show help for command
+# @option --format[json] <string>              Output format: {json}
+# @option --name <string>                      Name of the new field
+# @option --owner[`_choice_owner`] <string>    Login of the owner.
+# @option --single-select-options* <string>    Options for SINGLE_SELECT data type
+# @flag --help                                 Show help for command
 # @arg project[`_choice_project`]
 project::field-create() {
     :;
@@ -979,10 +979,10 @@ project::field-delete() {
 
 # {{{ gh project field-list
 # @cmd List the fields in a project
-# @option --format[json] <string>                Output format: {json}
-# @option -L --limit <int>                       Maximum number of fields to fetch (default 30)
-# @option --owner*,[`_choice_owner`] <string>    Login of the owner.
-# @flag --help                                   Show help for command
+# @option --format[json] <string>              Output format: {json}
+# @option -L --limit <int>                     Maximum number of fields to fetch (default 30)
+# @option --owner[`_choice_owner`] <string>    Login of the owner.
+# @flag --help                                 Show help for command
 project::field-list() {
     :;
 }
@@ -990,10 +990,10 @@ project::field-list() {
 
 # {{{ gh project item-add
 # @cmd Add a pull request or an issue to a project
-# @option --format[json] <string>                Output format: {json}
-# @option --owner*,[`_choice_owner`] <string>    Login of the owner.
-# @option --url <string>                         URL of the issue or pull request to add to the project
-# @flag --help                                   Show help for command
+# @option --format[json] <string>              Output format: {json}
+# @option --owner[`_choice_owner`] <string>    Login of the owner.
+# @option --url <string>                       URL of the issue or pull request to add to the project
+# @flag --help                                 Show help for command
 # @arg project[`_choice_project`]
 project::item-add() {
     :;
@@ -1002,11 +1002,11 @@ project::item-add() {
 
 # {{{ gh project item-archive
 # @cmd Archive an item in a project
-# @option --format[json] <string>                Output format: {json}
-# @option --id <string>                          ID of the item to archive
-# @option --owner*,[`_choice_owner`] <string>    Login of the owner.
-# @flag --undo                                   Unarchive an item
-# @flag --help                                   Show help for command
+# @option --format[json] <string>              Output format: {json}
+# @option --id <string>                        ID of the item to archive
+# @option --owner[`_choice_owner`] <string>    Login of the owner.
+# @flag --undo                                 Unarchive an item
+# @flag --help                                 Show help for command
 # @arg project[`_choice_project`]
 project::item-archive() {
     :;
@@ -1015,11 +1015,11 @@ project::item-archive() {
 
 # {{{ gh project item-create
 # @cmd Create a draft issue item in a project
-# @option --body <string>                        Body for the draft issue
-# @option --format[json] <string>                Output format: {json}
-# @option --owner*,[`_choice_owner`] <string>    Login of the owner.
-# @option --title <string>                       Title for the draft issue
-# @flag --help                                   Show help for command
+# @option --body <string>                      Body for the draft issue
+# @option --format[json] <string>              Output format: {json}
+# @option --owner[`_choice_owner`] <string>    Login of the owner.
+# @option --title <string>                     Title for the draft issue
+# @flag --help                                 Show help for command
 # @arg project[`_choice_project`]
 project::item-create() {
     :;
@@ -1028,10 +1028,10 @@ project::item-create() {
 
 # {{{ gh project item-delete
 # @cmd Delete an item from a project by ID
-# @option --format[json] <string>                Output format: {json}
-# @option --id <string>                          ID of the item to delete
-# @option --owner*,[`_choice_owner`] <string>    Login of the owner.
-# @flag --help                                   Show help for command
+# @option --format[json] <string>              Output format: {json}
+# @option --id <string>                        ID of the item to delete
+# @option --owner[`_choice_owner`] <string>    Login of the owner.
+# @flag --help                                 Show help for command
 # @arg project[`_choice_project`]
 project::item-delete() {
     :;
@@ -1059,10 +1059,10 @@ project::item-edit() {
 
 # {{{ gh project item-list
 # @cmd List the items in a project
-# @option --format[json] <string>                Output format: {json}
-# @option -L --limit <int>                       Maximum number of items to fetch (default 30)
-# @option --owner*,[`_choice_owner`] <string>    Login of the owner.
-# @flag --help                                   Show help for command
+# @option --format[json] <string>              Output format: {json}
+# @option -L --limit <int>                     Maximum number of items to fetch (default 30)
+# @option --owner[`_choice_owner`] <string>    Login of the owner.
+# @flag --help                                 Show help for command
 # @arg project[`_choice_project`]
 project::item-list() {
     :;
@@ -1071,12 +1071,12 @@ project::item-list() {
 
 # {{{ gh project list
 # @cmd List the projects for an owner
-# @flag --closed                                 Include closed projects
-# @option --format[json] <string>                Output format: {json}
-# @option -L --limit <int>                       Maximum number of projects to fetch (default 30)
-# @option --owner*,[`_choice_owner`] <string>    Login of the owner
-# @flag -w --web                                 Open projects list in the browser
-# @flag --help                                   Show help for command
+# @flag --closed                               Include closed projects
+# @option --format[json] <string>              Output format: {json}
+# @option -L --limit <int>                     Maximum number of projects to fetch (default 30)
+# @option --owner[`_choice_owner`] <string>    Login of the owner
+# @flag -w --web                               Open projects list in the browser
+# @flag --help                                 Show help for command
 project::list() {
     :;
 }
@@ -1084,10 +1084,10 @@ project::list() {
 
 # {{{ gh project view
 # @cmd View a project
-# @option --format[json] <string>                Output format: {json}
-# @option --owner*,[`_choice_owner`] <string>    Login of the owner.
-# @flag -w --web                                 Open a project in the browser
-# @flag --help                                   Show help for command
+# @option --format[json] <string>              Output format: {json}
+# @option --owner[`_choice_owner`] <string>    Login of the owner.
+# @flag -w --web                               Open a project in the browser
+# @flag --help                                 Show help for command
 # @arg project[`_choice_project`]
 project::view() {
     :;
@@ -1331,7 +1331,7 @@ repo::deploy-key::add() {
 # @cmd Delete a deploy key from a GitHub repository
 # @flag --help    Show help for command
 # @option -R --repo[`_choice_search_repo`] <[HOST/]OWNER/REPO>  Select another repository using the [HOST/]OWNER/REPO format
-# @arg key-id![`_choice_repo_deploy_key`]
+# @arg key-id![`_choice_repo_key`]
 repo::deploy-key::delete() {
     :;
 }
@@ -1376,13 +1376,13 @@ repo::edit() {
 
 # {{{ gh repo fork
 # @cmd Create a fork of a repository
-# @flag --clone                     Clone the fork
-# @flag --default-branch-only       Only include the default branch in the fork
-# @option --fork-name <string>      Rename the forked repository
-# @option --org <string>            Create the fork in an organization
-# @flag --remote                    Add a git remote for the fork
-# @option --remote-name <string>    Specify the name for the new remote (default "origin")
-# @flag --help                      Show help for command
+# @flag --clone                            Clone the fork
+# @flag --default-branch-only              Only include the default branch in the fork
+# @option --fork-name <string>             Rename the forked repository
+# @option --org[`_choice_org`] <string>    Create the fork in an organization
+# @flag --remote                           Add a git remote for the fork
+# @option --remote-name <string>           Specify the name for the new remote (default "origin")
+# @flag --help                             Show help for command
 # @arg repository[`_choice_search_repo`]
 repo::fork() {
     :;
@@ -2150,10 +2150,10 @@ secret() {
 # {{{ gh secret delete
 # @cmd Delete secrets
 # @option -a --app[actions|codespaces|dependabot] <string>  Delete a secret for a specific application:
-# @option -e --env <string>    Delete a secret for an environment
-# @option -o --org <string>    Delete a secret for an organization
-# @flag -u --user              Delete a secret for your user
-# @flag --help                 Show help for command
+# @option -e --env <string>                   Delete a secret for an environment
+# @option -o --org[`_choice_org`] <string>    Delete a secret for an organization
+# @flag -u --user                             Delete a secret for your user
+# @flag --help                                Show help for command
 # @option -R --repo[`_choice_search_repo`] <[HOST/]OWNER/REPO>  Select another repository using the [HOST/]OWNER/REPO format
 # @arg secret-name![`_choice_secret`]
 secret::delete() {
@@ -2164,10 +2164,10 @@ secret::delete() {
 # {{{ gh secret list
 # @cmd List secrets
 # @option -a --app[actions|codespaces|dependabot] <string>  List secrets for a specific application:
-# @option -e --env <string>    List secrets for an environment
-# @option -o --org <string>    List secrets for an organization
-# @flag -u --user              List a secret for your user
-# @flag --help                 Show help for command
+# @option -e --env <string>                   List secrets for an environment
+# @option -o --org[`_choice_org`] <string>    List secrets for an organization
+# @flag -u --user                             List a secret for your user
+# @flag --help                                Show help for command
 # @option -R --repo[`_choice_search_repo`] <[HOST/]OWNER/REPO>  Select another repository using the [HOST/]OWNER/REPO format
 secret::list() {
     :;
@@ -2181,7 +2181,7 @@ secret::list() {
 # @option -e --env <environment>       Set deployment environment secret
 # @option -f --env-file <file>         Load secret names and values from a dotenv-formatted file
 # @flag --no-store                     Print the encrypted, base64-encoded value instead of storing it on Github
-# @option -o --org <organization>      Set organization secret
+# @option -o --org[`_choice_org`] <organization>  Set organization secret
 # @option -r --repos <repositories>    List of repositories that can access an organization or user secret
 # @flag -u --user                      Set a secret for your user
 # @option -v --visibility[all|private|selected] <string>  Set visibility for an organization secret:  (default "private")
@@ -2233,9 +2233,9 @@ ssh-key::list() {
 
 # {{ gh status
 # @cmd Print information about relevant issues, pull requests, and notifications across repositories
-# @option -e --exclude* <string>    Comma separated list of repos to exclude in owner/name format
-# @option -o --org <string>         Report status within an organization
-# @flag --help                      Show help for command
+# @option -e --exclude* <string>              Comma separated list of repos to exclude in owner/name format
+# @option -o --org[`_choice_org`] <string>    Report status within an organization
+# @flag --help                                Show help for command
 status() {
     :;
 }
@@ -2344,39 +2344,39 @@ _choice_hostname() {
 
 _choice_auth_scope() {
     cat <<-'EOF'
-admin:gpg_key	Fully manage GPG keys.
-admin:org	Fully manage the organization and its teams, projects, and memberships.
-admin:org_hook	Grants read, write, ping, and delete access to organization hooks.
-admin:public_key	Fully manage public keys.
-admin:repo_hook	Grants read, write, ping, and delete access to repository hooks in public and private repositories.
-codespace	Full control of codespaces
-delete:packages	Grants access to delete packages from GitHub Packages.
-delete_repo	Grants access to delete adminable repositories.
-gist	Grants write access to gists.
-notifications	Grants read access to a user's notifications
-public_repo	Limits access to public repositories.
-read:discussion	Allows read access for team discussions.
-read:gpg_key	List and view details for GPG keys.
-read:org	Read-only access to organization membership, organization projects, and team membership.
-read:packages	Grants access to download or install packages from GitHub Packages.
-read:public_key	List and view details for public keys.
-read:repo_hook	Grants read and ping access to hooks in public or private repositories.
-read:user	Grants access to read a user's profile data.
 repo	Grants full access to private and public repositories.
-repo:invite	Grants accept/decline abilities for invitations to collaborate on a repository.
 repo:status	Grants read/write access to public and private repository commit statuses.
 repo_deployment	Grants access to deployment statuses for public and private repositories.
+public_repo	Limits access to public repositories.
+repo:invite	Grants accept/decline abilities for invitations to collaborate on a repository.
 security_events	Grants read and write access to security events in the code scanning API.
+admin:repo_hook	Grants read, write, ping, and delete access to repository hooks in public and private repositories.
+read:repo_hook	Grants read and ping access to hooks in public or private repositories.
+write:repo_hook	Grants read, write, and ping access to hooks in public or private repositories.
+admin:org	Fully manage the organization and its teams, projects, and memberships.
+write:org	Read and write access to organization membership, organization projects, and team membership.
+read:org	Read-only access to organization membership, organization projects, and team membership.
+admin:public_key	Fully manage public keys.
+write:public_key	Create, list, and view details for public keys.
+read:public_key	List and view details for public keys.
+admin:org_hook	Grants read, write, ping, and delete access to organization hooks.
+gist	Grants write access to gists.
+notifications	Grants read access to a user's notifications
 user	Grants read/write access to profile info only.
+read:user	Grants access to read a user's profile data.
 user:email	Grants read access to a user's email addresses.
 user:follow	Grants access to follow or unfollow other users.
-workflow	Grants the ability to add and update GitHub Actions workflow files.
-write:discussion	Allows read and write access for team discussions.
-write:gpg_key	Create, list, and view details for GPG keys.
-write:org	Read and write access to organization membership, organization projects, and team membership.
+project	Grants read/write access to user and organization projects.
+read:project	Grants read only access to user and organization projects.
+delete_repo	Grants access to delete adminable repositories.
 write:packages	Grants access to upload or publish a package in GitHub Packages.
-write:public_key	Create, list, and view details for public keys.
-write:repo_hook	Grants read, write, and ping access to hooks in public or private repositories.
+read:packages	Grants access to download or install packages from GitHub Packages.
+delete:packages	Grants access to delete packages from GitHub Packages.
+admin:gpg_key	Fully manage GPG keys.
+write:gpg_key	Create, list, and view details for GPG keys.
+read:gpg_key	List and view details for GPG keys.
+codespace	Full control of codespaces
+workflow	Grants the ability to add and update GitHub Actions workflow files.
 EOF
 }
 
@@ -2400,7 +2400,11 @@ _choice_owner() {
 
 _choice_codespace() {
     gh codespace list --json name,owner,repository,state | \
-    yq '.[] | .name + "	" + .owner + "- " + .repository + " - " + .state'
+    yq '.[] | .name + "	" + .owner + " • " + .repository + " • " + .state'
+}
+
+_choice_codespace_field() {
+    gh codespace list --json 2>&1 | tail -n +2
 }
 
 _choice_search_user() {
@@ -2415,6 +2419,10 @@ _choice_search_user() {
             }
         }' | \
     yq '.data.search.edges[].node | .login + "	" + (.name // "")'
+}
+
+_choice_org() {
+    gh api user/orgs | yq '.[] | .login + "	" + (.description // "")'
 }
 
 _choice_search_org() {
@@ -2437,9 +2445,6 @@ _choice_gist() {
 }
 
 _choice_gist_file() {
-    if [[ -z "$argc_gist" ]]; then
-        return
-    fi
     _helper_user_query 'gist(name:"'$argc_gist'") { files { name } }' | \
     yq '.data.user.gist.files[].name'
 }
@@ -2455,17 +2460,17 @@ _choice_label() {
 }
 
 _choice_milestone() {
-    _helper_repo_query 'milestones(first: 100) { nodes { title, description } }' | \
-    yq '.data.repository.labels.nodes[] | .title + "	" + (.description // "")'
+    _helper_repo_query 'milestones(first: 100, states: OPEN) { nodes { title, description } }' | \
+    yq '.data.repository.milestones.nodes[] | .title + "	" + (.description // "")'
 }
 
 _choice_repo_project() {
-    _helper_repo_query 'projects(first: 100, states: OPEN, orderBy: {direction: DESC, field: UPDATED_AT}) { nodes { name, body } }' | \
-    yq '.data.repository.projects.nodes[] | .name + "	" + (.body // "")'
+    _helper_repo_query 'projectsV2(first: 100, orderBy: {direction: DESC, field: UPDATED_AT}) { nodes {  number title } }' | \
+    yq '.data.repository.projectsV2.nodes[] | .number + "	" + .title'
 }
 
 _choice_issue_template() {
-    _helper_repo_query 'issueTemplates { about, name }' | \
+    _helper_repo_query 'issueTemplates { name, about }' | \
     yq '.data.repository.issueTemplates[] | .name + "	" + (.about // "")'
 }
 
@@ -2494,25 +2499,7 @@ _choice_mention() {
 }
 
 _choice_issue_field() {
-    cat <<-'EOF'
-assignees
-author
-body
-closed
-comments
-createdAt
-closedAt
-id
-labels
-milestone
-number
-projectCards
-reactionGroups
-state
-title
-updatedAt
-url
-EOF
+    gh issue list --json 2>&1 | tail -n +2
 }
 
 _choice_open_issue() {
@@ -2529,23 +2516,31 @@ _choice_all_issue() {
 
 _choice_pin_issue() {
     _helper_repo_query 'pinnedIssues(first: 3) { nodes { issue { number, title, state } } }' | \
-    yq '.data.repository.pinnedIssues.nodes[] | .number + "	" + .title'
+    yq '.data.repository.pinnedIssues.nodes[].issue | .number + "	" + .title'
 }
 
 _choice_issue_assignee() {
     if [[ -z "$argc_issue" ]]; then
         return
     fi
-    _helper_repo_query 'issue(number: '$argc_issue') { assignees(first: 100) { edges { node { login, name } } }' | \
-    yq '.data.repository.issue.assignees.edges[].node | .login + "	" + (.name // "")'
+    _helper_repo_query 'issue(number: '$argc_issue') { assignees(first: 100) { nodes { login, name } } }' | \
+    yq '.data.repository.issue.assignees.nodes[]| .login + "	" + (.name // "")'
 }
 
-_choice_label() {
+_choice_issue_label() {
     if [[ -z "$argc_issue" ]]; then
         return
     fi
-    _helper_repo_query 'issue(number: '$argc_issue') { labels(first: 100) { edges { node { name, description } } }' | \
-    yq '.data.repository.issue.labels.edges[].node | .name + "	" + (.description // "")'
+    _helper_repo_query 'issue(number: '$argc_issue') { labels(first: 100) { nodes { name, description } } }' | \
+    yq '.data.repository.issue.labels.nodes[] | .name + "	" + (.description // "")'
+}
+
+_choice_issue_project() {
+    if [[ -z "$argc_issue" ]]; then
+        return
+    fi
+    _helper_repo_query 'issue(number: '$argc_issue') { projectsV2(first:100) { nodes { number title } } }' | \
+    yq '.data.repository.issue.projectsV2.nodes[] | .number + "	" + .title'
 }
 
 _choice_open_pr() {
@@ -2570,51 +2565,39 @@ _choice_pr_checks() {
 }
 
 _choice_pr_field() {
-    cat <<-'EOF'
-additions
-baseRefName
-changedFiles
-commits
-deletions
-files
-headRefName
-headRepository
-headRepositoryOwner
-isCrossRepository
-isDraft
-maintainerCanModify
-mergeable
-mergeCommit
-mergedAt
-mergedBy
-mergeStateStatus
-potentialMergeCommit
-reviewDecision
-reviewRequests
-reviews
-statusCheckRollup
-EOF
-}
-
-_choice_pr_template() {
-    _helper_repo_query 'pullRequestTemplates { body, filename }' | \
-    yq '.data.repository.pullRequestTemplates[] | .filename + "	" + .body'
+    gh pr list --json 2>&1 | tail -n +2
 }
 
 _choice_pr_assignee() {
     if [[ -z "$argc_pr" ]]; then
         return
     fi
-    _helper_repo_query 'pullRequest(number: '$argc_pr') { assignees(first: 100) { edges { node { login, name } } }' | \
-    yq '.data.repository.pullRequest.assignees.edges[].node | .login + "	" + (.name // "")'
+    _helper_repo_query 'pullRequest(number: '$argc_pr') { assignees(first: 100) { nodes { login, name } } }' | \
+    yq '.data.repository.pullRequest.assignees.nodes[] | .login + "	" + (.name // "")'
+}
+
+_choice_pr_label() {
+    if [[ -z "$argc_pr" ]]; then
+        return
+    fi
+    _helper_repo_query 'pullRequest(number: '$argc_pr') { labels(first: 100) { nodes { name, description } } }' | \
+    yq '.data.repository.pullRequest.labels.nodes[] | .name + "	" + (.description // "")'
+}
+
+_choice_pr_project() {
+    if [[ -z "$argc_pr" ]]; then
+        return
+    fi
+    _helper_repo_query 'pullRequest(number: '$argc_pr') { projectsV2(first:100) { nodes { number title } } }' | \
+    yq '.data.repository.pullRequest.projectsV2.nodes[] | .number + "	" + .title'
 }
 
 _choice_pr_reviewer() {
     if [[ -z "$argc_pr" ]]; then
         return
     fi
-    _helper_repo_curl pulls/$argc_pr/requested_reviewers | \
-    yq '.users[].login'
+    _helper_repo_query 'pullRequest(number: '$argc_pr') { latestReviews(first:100) { nodes { author { login } } } }' | \
+    yq '.data.repository.pullRequest.latestReviews.nodes[].author.login'
 }
 
 _choice_pr_commit() {
@@ -2626,12 +2609,16 @@ _choice_pr_commit() {
 }
 
 _choice_project() {
-    owner_val="${argc_owner:-$(_helper_get_user)}"
-    if [[ -z "$owner_val" ]]; then
-        return
+    if [[ -n "$argc_owner" ]]; then
+        gh api graphql -f query='query { organization(login: "'$argc_owner'") { projectsV2(first: 100) { nodes { number title } } } }' | \
+        yq '.data.organization.projectsV2.nodes[] | .number + "	" + .title'
+    else
+        user_val="$(_helper_get_user)"
+        if [[ -n "$user_val" ]]; then
+            gh api graphql -f query='query { user(login: "'$user_val'") { projectsV2(first: 100) { nodes { number title } } } }' | \
+            yq '.data.user.projectsV2.nodes[] | .number + "	" + .title'
+        fi
     fi
-    gh api graphql -f query='query { user(login: "'$user_val'") { projectsV2(first: 100) { nodes { id title } } } }' | \
-    yq '.data.search.user.projectsV2.nodes[] | .id + "	" + .title'
 }
 
 _choice_gitignore() {
@@ -2643,76 +2630,11 @@ _choice_license() {
 }
 
 _choice_repo_field() {
-    cat <<-'EOF'
-id
-name
-nameWithOwner
-owner
-parent
-templateRepository
-description
-homepageUrl
-openGraphImageUrl
-usesCustomOpenGraphImage
-url
-sshUrl
-mirrorUrl
-securityPolicyUrl
-createdAt
-pushedAt
-updatedAt
-isBlankIssuesEnabled
-isSecurityPolicyEnabled
-hasIssuesEnabled
-hasProjectsEnabled
-hasWikiEnabled
-mergeCommitAllowed
-squashMergeAllowed
-rebaseMergeAllowed
-forkCount
-stargazerCount
-watchers
-issues
-pullRequests
-codeOfConduct
-contactLinks
-defaultBranchRef
-deleteBranchOnMerge
-diskUsage
-fundingLinks
-isArchived
-isEmpty
-isFork
-isInOrganization
-isMirror
-isPrivate
-isTemplate
-isUserConfigurationRepository
-licenseInfo
-viewerCanAdminister
-viewerDefaultCommitEmail
-viewerDefaultMergeMethod
-viewerHasStarred
-viewerPermission
-viewerPossibleCommitEmails
-viewerSubscription
-repositoryTopics
-primaryLanguage
-languages
-issueTemplates
-pullRequestTemplates
-labels
-milestones
-latestRelease
-assignableUsers
-mentionableUsers
-projects
-EOF
+    gh repo list --json 2>&1 | tail -n +2
 }
 
-_choice_repo_deploy_key() {
-    _helper_repo_query 'deployKeys(first: 100) { nodes { id title } }' | \
-    yq '.data.repository.deployKeys.nodes[] | .id + "	" + .title'
+_choice_repo_key() {
+    _helper_repo_curl keys | yq '.[] | .id + "	" + .title'
 }
 
 _choice_search_topic() {
@@ -2724,7 +2646,7 @@ _choice_search_topic() {
 
 _choice_repo_topic() {
     _helper_repo_query 'repositoryTopics(first:100) { nodes { topic { name } } }' | \
-    yq '.data.repository.repositoryTopics.nodes[].name'
+    yq '.data.repository.repositoryTopics.nodes[].topic.name'
 }
 
 _choice_inprogress_run() {
@@ -2743,33 +2665,17 @@ _choice_all_run() {
 }
 
 _choice_run_field() {
-    cat <<-'EOF'
-name
-displayTitle
-headBranch
-headSha
-createdAt
-updatedAt
-startedAt
-status
-conclusion
-event
-number
-databaseId
-workflowDatabaseId
-workflowName
-url
-EOF
+    gh run list --json 2>&1 | tail -n +2
 }
 
 _choice_artifact_name() {
     local path
     if [[ -z "$argc_run_id" ]]; then
-        path="/actions/artifacts"
+        path="actions/artifacts"
     else
-        path="/actions/runs/$argc_run_id/artifacts"
+        path="actions/runs/$argc_run_id/artifacts"
     fi
-    _helper_repo_query "$path" | \
+    _helper_repo_curl "$path" | \
     yq '.artifacts[].name'
 }
 
@@ -2817,12 +2723,12 @@ _choice_run_job() {
     if [[ -z "$argc_run_id" ]]; then
         return
     fi
-    _helper_repo_query "/actions/runs/$argc_run_id/jobs" | \
+    _helper_repo_curl "actions/runs/$argc_run_id/jobs" | \
     yq '.jobs[] | .id + "	" + .name'
 }
 
 _choice_workflow() {
-    _helper_repo_query "/actions/workflows" | \
+    _helper_repo_curl "actions/workflows" | \
     yq '.workflows[] | .id + "	" + .name'
 }
 
@@ -2852,16 +2758,7 @@ _choice_gpg_key() {
 }
 
 _choice_commit_field() {
-    cat <<-'EOF'
-author
-commit
-committer
-sha
-id
-parents
-repository
-url
-EOF
+    gh search commits --json 2>&1 | tail -n +2
 }
 
 _choice_secret() {
@@ -2869,13 +2766,13 @@ _choice_secret() {
 }
 
 _choice_ssh_key() {
-    gh api /user/keys | \
+    gh api user/keys | \
     yq '.[] | .id + "	" + .title'
 }
 
 _choice_env() {
     _helper_repo_curl 'environments' |
-    yq  '.environments[] | .id + "	" + .name'
+    yq  '.environments[].name'
 }
 
 _choice_variable() {
@@ -2895,7 +2792,7 @@ _helper_search_repo() {
                 edges { node { ... on Repository { name description } } } 
             }
         }' | \
-    yq '.data.search.edges[].node | .name + "	" + .description'
+    yq '.data.search.edges[].node | .name + "	" + (.description // "")'
 }
 
 _helper_query_issue() {
@@ -2937,7 +2834,7 @@ _helper_repo_curl() {
     if [[ -z "$owner_val" ]] || [[ -z "$repo_val" ]]; then
         return
     fi
-    gh api "repos/$owner_val/$repo_val/$1/"
+    gh api "repos/$owner_val/$repo_val/$1"
 }
 
 _helper_retrieve_owner_repo_vals() {
@@ -2948,9 +2845,11 @@ _helper_retrieve_owner_repo_vals() {
         local raw_values="$( \
             git remote -v | \
             gawk '{
-                if (match($0, /^origin\thttps:\/\/[^\/]+\/([^\/]+)\/([^\/]+)\.git \(fetch\)/, arr)) {
+                if (match($0, /^origin\thttps:\/\/[^\/]+\/([^\/]+)\/([^\/]+) \(fetch\)/, arr)) {
+                    gsub(".git", "", arr[2])
                     print arr[1] " " arr[2]
-                } else if (match($0, /^origin\t[^:]+:([^\/]+)\/([^\/]+)\.git \(fetch\)/, arr)) {
+                } else if (match($0, /^origin\t[^:]+:([^\/]+)\/([^\/]+) \(fetch\)/, arr)) {
+                    gsub(".git", "", arr[2])
                     print arr[1] " " arr[2]
                 }
             }' \
