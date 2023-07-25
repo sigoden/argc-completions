@@ -2855,8 +2855,10 @@ _helper_retrieve_owner_repo_vals() {
             }' \
         )"
         local values=( $raw_values )
-        owner_val=${values[0]}
-        repo_val=${values[1]}
+        if [[ "${#values[@]}" -eq 2 ]]; then
+            owner_val=${values[0]}
+            repo_val=${values[1]}
+        fi
     fi
 }
 

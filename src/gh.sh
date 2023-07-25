@@ -3,7 +3,7 @@ _patch_help() {
         sed \
             -e 's/^  \(\S\+\):/  \1 /' \
             -e 's/^ARGUMENTS/^ARGUMENTS EXAMPLES:/' \
-            -e '/^USAGE/,+1 {N; s/\n//; s/USAGE /USAGE:/; s/$/\n/}'
+            -e '/^USAGE/,+1 {N; s/\n//; s/USAGE /USAGE:/;}'
 
     }
 
@@ -957,8 +957,10 @@ _helper_retrieve_owner_repo_vals() {
             }' \
         )"
         local values=( $raw_values )
-        owner_val=${values[0]}
-        repo_val=${values[1]}
+        if [[ "${#values[@]}" -eq 2 ]]; then
+            owner_val=${values[0]}
+            repo_val=${values[1]}
+        fi
     fi
 }
 
