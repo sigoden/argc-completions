@@ -157,7 +157,7 @@ contains() {
 
 # {{ apt content
 # @cmd List files contained in a package
-# @arg pkg![`_choice_pkg`]
+# @arg pkg+[`_choice_pkg`]
 content() {
     :;
 }
@@ -173,7 +173,7 @@ deb() {
 
 # {{ apt depends
 # @cmd Show raw dependency information for a package
-# @arg pkg![`_choice_pkg`]
+# @arg pkg+[`_choice_pkg`]
 depends() {
     :;
 }
@@ -188,7 +188,7 @@ dist-upgrade() {
 
 # {{ apt download
 # @cmd Download the .deb file for a package
-# @arg pkg!
+# @arg pkg![`_choice_pkg`]
 download() {
     :;
 }
@@ -224,7 +224,7 @@ held() {
 
 # {{ apt hold
 # @cmd Hold a package
-# @arg pkg![`_choice_installed_pkg`]
+# @arg pkg+[`_choice_installed_pkg`]
 hold() {
     :;
 }
@@ -277,7 +277,7 @@ recommends() {
 
 # {{ apt rdepends
 # @cmd Show reverse dependency information for a package
-# @arg pkg![`_choice_pkg`]
+# @arg pkg+[`_choice_pkg`]
 rdepends() {
     :;
 }
@@ -285,7 +285,7 @@ rdepends() {
 
 # {{ apt reinstall
 # @cmd Download and (possibly) reinstall a currently installed package
-# @arg pkg![`_choice_installed_pkg`]
+# @arg pkg+[`_choice_installed_pkg`]
 reinstall() {
     :;
 }
@@ -309,7 +309,7 @@ search() {
 
 # {{ apt show
 # @cmd Display detailed information about a package
-# @arg pkg![`_choice_pkg`]
+# @arg pkg+[`_choice_pkg`]
 show() {
     :;
 }
@@ -324,7 +324,7 @@ showhold() {
 
 # {{ apt showsrc
 # @cmd Display all the source package records that match the given package name
-# @arg pkg![`_choice_pkg`]
+# @arg pkg+[`_choice_pkg`]
 showsrc() {
     :;
 }
@@ -332,7 +332,7 @@ showsrc() {
 
 # {{ apt source
 # @cmd Download source archives
-# @arg pkg![`_choice_pkg`]
+# @arg pkg+[`_choice_pkg`]
 source() {
     :;
 }
@@ -347,7 +347,7 @@ sources() {
 
 # {{ apt unhold
 # @cmd Unhold a package
-# @arg pkg![`_choice_hold_pkg`]
+# @arg pkg+[`_choice_hold_pkg`]
 unhold() {
     :;
 }
@@ -363,7 +363,7 @@ update() {
 # {{ apt upgrade
 # @cmd Perform a safe upgrade
 # @flag --with-new-pkgs    Allow installing new packages
-# @arg pkg[`_choice_upgradable_pkg`]
+# @arg pkg*[`_choice_upgradable_pkg`]
 upgrade() {
     :;
 }
