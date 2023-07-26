@@ -4,7 +4,7 @@
 
 set -e
 
-argc_version=${ARGC_VERSION:-v1.7.0}
+argc_version=${ARGC_VERSION:-v1.8.0}
 yq_version=v4.34.2
 sed_version=4.9.0-2
 fakepty_version=v1.2.0
