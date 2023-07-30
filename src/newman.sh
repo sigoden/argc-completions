@@ -1,3 +1,8 @@
 _patch_table() { 
-    _patch_table_edit_arguments ';;' 'file'
+    if [[ "$*" == "newman run" ]]; then
+        _patch_table_edit_arguments ';;' 'file'
+
+    else
+        cat
+    fi
 }

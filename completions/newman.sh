@@ -3,7 +3,6 @@
 
 # @flag -v --version    output the version number
 # @flag -h --help       display help for command
-# @arg file
 
 # {{ newman run
 # @cmd Initiate a Postman Collection run from a given URL or path
