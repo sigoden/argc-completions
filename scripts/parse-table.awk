@@ -462,8 +462,10 @@ function parseDesc(descVal, output, extractChoice, logPrefix)  {
             }
         }
     }
-    if (match(choicesVal, /^-/)) {
-        choicesVal = ""
+    if (choicesVal != "") {
+        if (match(choicesVal, /^-/) || match(choicesVal, /[0-9]+-[0-9]+/)) {
+            choicesVal = ""
+        }
     }
     if (choicesVal != "") {
         matchIdx = index(concatedDescVal, matchVal)
