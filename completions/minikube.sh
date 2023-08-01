@@ -11,7 +11,7 @@
 # @option --apiserver-names* <value>             A set of apiserver names which are used in the generated certificate for kubernetes.
 # @option --apiserver-port <8443>                The apiserver listening port
 # @flag --auto-update-drivers                    If set, automatically updates drivers to the latest version.
-# @option --base-image[`_module_oci_docker_image`] <'gcr.io/k8s-minikube/kicbase:v0.0.39@sha256:bf2d9f1e9d837d8deea073611d2605405b6be904647d97ebd9b12045ddfe1106':>
+# @option --base-image[`_module_oci_docker_image`] <image>
 # @option --binary-mirror <value>                Location to fetch kubectl, kubelet, & kubeadm binaries from.
 # @flag --cache-images                           If true, cache docker images for the current bootstrapper and load them into the machine.
 # @option --cert-expiration <26280h0m0s>         Duration until minikube certificate expiration, defaults to three years (26280h).

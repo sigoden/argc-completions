@@ -30,8 +30,8 @@
 # @option --playlist-start <NUMBER>                Playlist video to start at (default is 1)
 # @option --playlist-end <NUMBER>                  Playlist video to end at (default is last)
 # @option --playlist-items <ITEM_SPEC>             Playlist video items to download.
-# @option --match-title <REGEX>                    Download only matching titles (regex or caseless sub-string)
-# @option --reject-title <REGEX>                   Skip download for matching titles (regex or caseless sub-string)
+# @option --match-title <REGEX>                    Download only matching titles (case-insensitive regex or alphanumeric sub-string)
+# @option --reject-title <REGEX>                   Skip download for matching titles (case-insensitive regex or alphanumeric sub-string)
 # @option --max-downloads <NUMBER>                 Abort after downloading NUMBER files
 # @option --min-filesize <SIZE>                    Do not download any videos smaller than SIZE (e.g. 50k or 44.6m)
 # @option --max-filesize <SIZE>                    Do not download any videos larger than SIZE (e.g. 50k or 44.6m)
@@ -73,6 +73,7 @@
 # @flag -c --continue                              Force resume of partially downloaded files.
 # @flag --no-continue                              Do not resume partially downloaded files (restart from beginning)
 # @flag --no-part                                  Do not use .part files - write directly into output file
+# @flag --mtime                                    Use the Last-modified header to set the file modification time (default)
 # @flag --no-mtime                                 Do not use the Last-modified header to set the file modification time
 # @flag --write-description                        Write video description to a .description file
 # @flag --write-info-json                          Write video metadata to a .info.json file
@@ -113,7 +114,7 @@
 # @flag --no-check-certificate                     Suppress HTTPS certificate validation
 # @flag --prefer-insecure                          Use an unencrypted connection to retrieve information about the video.
 # @option --user-agent <UA>                        Specify a custom user agent
-# @option --referer <URL>                          Specify a custom referer, use if the video access is restricted to one domain
+# @option --referer <URL>                          Specify a custom Referer: use if the video access is restricted to one domain
 # @option --add-header <FIELD:VALUE>               Specify a custom HTTP header and its value, separated by a colon ':'.
 # @flag --bidi-workaround                          Work around terminals that lack bidirectional text support.
 # @option --sleep-interval <SECONDS>               Number of seconds to sleep before each download when used alone or a lower bound of a range for randomized sleep before each download (minimum possible number of seconds to sleep) when used along with --max-sleep-interval.
@@ -143,7 +144,7 @@
 # @option --audio-format[best|aac|flac|mp3|m4a|opus|vorbis|wav] <FORMAT>  Specify audio format: "best", "aac", "flac", "mp3", "m4a", "opus", "vorbis", or "wav"; "best" by default; No effect without -x
 # @option --audio-quality[0|1|2|3|4|5|6|7|8|9] <QUALITY>  Specify ffmpeg/avconv audio quality, insert a value between 0 (better) and 9 (worse) for VBR or a specific bitrate like 128K (default 5)
 # @option --recode-video[mp4|flv|ogg|webm|mkv|avi] <FORMAT>  Encode the video to another format if necessary (currently supported: mp4|flv|ogg|webm|mkv|avi)
-# @option --postprocessor-args <ARGS>              Give these arguments to the postprocessor
+# @option --postprocessor-args <ARGS>              Give these arguments to the postprocessor (if postprocessing is required)
 # @flag -k --keep-video                            Keep the video file on disk after the post-processing; the video is erased by default
 # @flag --no-post-overwrites                       Do not overwrite post-processed files; the post-processed files are overwritten by default
 # @flag --embed-subs                               Embed subtitles in the video (only for mp4, webm and mkv videos)

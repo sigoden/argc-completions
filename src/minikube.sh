@@ -1,5 +1,5 @@
 _patch_help() { 
-    _patch_help_run_help $@ | gawk '{
+    TERM_WIDTH=200 _patch_help_run_help $@ | gawk '{
         noPrint = 0
 
         if (match($0, /^\s*$/)) {
@@ -55,7 +55,7 @@ _patch_table() {
             '--driver(<value>);[virtualbox|vmwarefusion|kvm2|qemu2|qemu|vmware|none|docker|podman|ssh|auto-detect]' \
             '--iso-url(<url>);*,;Locations to fetch the minikube ISO from.' \
             '--addons;*,[`_choice_addon`]' \
-            '--base-image;[`_module_oci_docker_image`]' \
+            '--base-image(<image>);[`_module_oci_docker_image`]' \
             '--cni;[`_choice_cni`]' \
             '--container-runtime;[docker|cri-o|containerd]' \
             '--cri-socket(<file>)' \

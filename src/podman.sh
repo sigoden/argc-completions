@@ -34,6 +34,11 @@ _patch_table() {
             'list(list, ls)' \
             'unmount(unmount, umount)' \
 
+    elif [[ "$*" == "podman images" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--sort(<kind>);[size|tag|created|id|repository];Sort by kind' \
+
     elif [[ "$*" == "podman machine" ]]; then
         echo "$table" | \
         _patch_table_edit_commands \

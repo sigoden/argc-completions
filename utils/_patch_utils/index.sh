@@ -1,6 +1,6 @@
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." &> /dev/null && pwd )"
 
-export COLUMNS=`tput cols` MANWIDTH=1000 NO_COLOR=true
+export MANWIDTH=1000 NO_COLOR=true
 
 # Run help, first with the --help flag, if that fails then use the help subcmd
 _patch_help_run_help() {
@@ -19,22 +19,26 @@ _patch_help_run_help() {
 
 # Run --help to get help
 _patch_help_run_help_flag() {
-    _patch_help_run_with_fakepty $@ --help
+    _patch_help_cmd_wrapper $@ --help
 }
 
 # Run help subcommand to get help
 _patch_help_run_help_subcmd() {
     if [[ $# -eq 1 ]]; then
-       _patch_help_run_with_fakepty $1 help
+       _patch_help_cmd_wrapper $1 help
     else
-       _patch_help_run_with_fakepty ${@:1:$#-1} help ${!#}
+       _patch_help_cmd_wrapper ${@:1:$#-1} help ${!#}
     fi
 }
 
-# Run command in a fake pty
-_patch_help_run_with_fakepty() {
-    if command -v fakepty >/dev/null; then
-        fakepty $@  | _patch_help_preprocess_color
+# Run help command with a wrapper
+_patch_help_cmd_wrapper() {
+    if [[ -n "$TERM_WIDTH" ]]; then
+        if command -v fakepty >/dev/null; then
+            COLUMNS="$TERM_WIDTH" fakepty $@ | _patch_help_preprocess_color
+        else
+            COLUMNS="$TERM_WIDTH" $@ 2>&1
+        fi
     else
         $@ 2>&1
     fi

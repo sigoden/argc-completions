@@ -1,6 +1,6 @@
 _patch_help() { 
     if [[ "$*" == "pip config" ]] || [[ "$*" == "pip cache" ]]; then
-        $@ --help | gawk '{
+        TERM_WIDTH=200 _patch_help_run_help $@ | gawk '{
             if (match($0, /  Subcommands:/)) {
                 print "Commands:"
                 commandZone = 1
@@ -32,7 +32,7 @@ pip cache remove <pattern>
 EOF
 
     else
-        $@ --help
+        TERM_WIDTH=200 _patch_help_run_help $@
     fi
 }
 

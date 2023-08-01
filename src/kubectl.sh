@@ -39,14 +39,14 @@ _patch_help() {
         }'
     }
     if [[ "$*" == "kubectl" ]]; then
-        _patch_help_run_help $@ | _common_edit
+        TERM_WIDTH=200 _patch_help_run_help $@ | _common_edit
         kubectl options | sed '1,2 c\Options:' | _common_edit
 
     elif [[ "$*" == "kubectl config set-credentials" ]]; then
-        _patch_help_run_help $@ | _common_edit | sed '1,/Options:/ c\Options:'
+        TERM_WIDTH=200 _patch_help_run_help $@ | _common_edit | sed '1,/Options:/ c\Options:'
 
     else
-        _patch_help_run_help $@ | _common_edit
+        TERM_WIDTH=200 _patch_help_run_help $@ | _common_edit
     fi
 }
 
@@ -285,6 +285,7 @@ _patch_table() {
       || [[ "$*" == "kubectl apply" ]] \
       || [[ "$*" == "kubectl apply set-last-applied" ]] \
       || [[ "$*" == "kubectl replace" ]] \
+      || [[ "$*" == "kubectl events" ]] \
       ; then
         echo "$table" | _patch_table_edit_arguments ';;'
 

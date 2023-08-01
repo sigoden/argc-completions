@@ -1,5 +1,5 @@
 _patch_help() { 
-   _patch_help_run_help $@ | sed -e '/^GIT CONFIG/, $ d'
+  TERM_WIDTH=200 _patch_help_run_help $@ | sed -e '/^GIT CONFIG/, $ d'
 }
 
 _patch_table() { 

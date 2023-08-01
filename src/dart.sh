@@ -1,3 +1,7 @@
+_patch_help() {
+    TERM_WIDTH=200 _patch_help_run_help $@
+}
+
 _patch_table() { 
     if [[ "$*" == "dart compile"* ]]; then
         _patch_table_edit_options \
