@@ -169,6 +169,15 @@ cmd5() {
 }
 # }} __test cmd5
 
+# {{ __test cmd6
+# @cmd
+# @arg cmd[add|list|rm]
+# @arg args
+cmd6() {
+    :;
+}
+# }} __test cmd6
+
 # {{ __test bug
 # @cmd start a bug report
 bug() {

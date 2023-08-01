@@ -165,7 +165,13 @@ function parseArgument(words1, descVal, choicesVal) {
     split("", notations)
     addNotations(value, notations, extra)
     notation = notations[1]
-    name = getArgName(notation)
+    if (match(notation, /^[a-z0-9]([A-Za-z0-9_-]+)(\|[a-z0-9]([A-Za-z0-9_-]+)){2,}$/)) {
+        name = "cmd"
+        choicesVal = "[" notation "]"
+        notation = "cmd"
+    } else {
+        name = getArgName(notation)
+    }
     if (length(name) == 0) {
         return
     }

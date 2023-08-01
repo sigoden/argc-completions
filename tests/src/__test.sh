@@ -144,6 +144,7 @@ Other:
     cmd3,
     cmd4, c
     cmd5, d,
+    cmd6
 
 The commands are:
 
@@ -200,5 +201,7 @@ Arguments:
   [filter]
           Dot separated path to symbol
 EOF
+    elif [[ "$*" == "__test cmd6" ]]; then
+        echo "Usage: __test cmd6 add|list|rm [<args>]"
     fi
 }

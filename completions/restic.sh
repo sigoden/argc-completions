@@ -115,7 +115,7 @@ cache() {
 # @option --repository-file <file>        file to read the repository location from (default: $RESTIC_REPOSITORY_FILE)
 # @option --tls-client-cert <file>        path to a file containing PEM encoded TLS client certificate and private key
 # @option -v --verbose <n>                be verbose (specify multiple times or a level using --verbose=n, max level/times is 3)
-# @arg pack-blob-snapshot-index-key-masterkey-config-lock <pack|blob|snapshot|index|key|masterkey|config|lock>
+# @arg cmd[pack|blob|snapshot|index|key|masterkey|config|lock]
 # @arg id
 cat() {
     :;
@@ -413,7 +413,7 @@ init() {
 # @option --repository-file <file>        file to read the repository location from (default: $RESTIC_REPOSITORY_FILE)
 # @option --tls-client-cert <file>        path to a file containing PEM encoded TLS client certificate and private key
 # @option -v --verbose <n>                be verbose (specify multiple times or a level using --verbose=n, max level/times is 3)
-# @arg list-add-remove-passwd <list|add|remove|passwd>
+# @arg cmd[list|add|remove|passwd]
 # @arg id
 key() {
     :;
@@ -440,7 +440,7 @@ key() {
 # @option --repository-file <file>        file to read the repository location from (default: $RESTIC_REPOSITORY_FILE)
 # @option --tls-client-cert <file>        path to a file containing PEM encoded TLS client certificate and private key
 # @option -v --verbose <n>                be verbose (specify multiple times or a level using --verbose=n, max level/times is 3)
-# @arg blobs-packs-index-snapshots-keys-locks <blobs|packs|index|snapshots|keys|locks>
+# @arg cmd[blobs|packs|index|snapshots|keys|locks]
 list() {
     :;
 }
