@@ -200,23 +200,34 @@ function parseArgument(words1, descVal, choicesVal) {
 function parseCommand(words1, descVal) {
     split("", names)
     split("", shortNames)
-    for (i in words1) {
-        word = words1[i]
-        if (match(word, /^(\[|\(|<)/) || !match(word, /[a-z]/)) {
-            break
+    if (match(words1[1], /^-/)) {
+        for (i in words1) {
+            word = words1[i]
+            if (length(word) < 3) {
+                shortNames[length(shortNames) + 1] = word
+            } else {
+                names[length(names) + 1] = word
+            }
         }
-        if (match(tolower(word), RE_SKIP_SBUCOMMAND)) {
-            return
+    } else {
+        for (i in words1) {
+            word = words1[i]
+            if (match(word, /^(\[|\(|<)/) || !match(word, /[a-z]/)) {
+                break
+            }
+            if (match(tolower(word), RE_SKIP_SBUCOMMAND)) {
+                return
+            }
+            if (index(EXISTS_SUBCOMMANDS, "," word ",") > 0) {
+                continue
+            }
+            if (length(word) < 3) {
+                shortNames[length(shortNames) + 1] = word
+            } else {
+                names[length(names) + 1] = word
+            }
+            EXISTS_SUBCOMMANDS = EXISTS_SUBCOMMANDS word "," 
         }
-        if (index(EXISTS_SUBCOMMANDS, "," word ",") > 0) {
-            continue
-        }
-        if (length(word) < 3) {
-            shortNames[length(shortNames) + 1] = word
-        } else {
-            names[length(names) + 1] = word
-        }
-        EXISTS_SUBCOMMANDS = EXISTS_SUBCOMMANDS word "," 
     }
     split("", allNames);
     for (i in names) {

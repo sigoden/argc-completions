@@ -64,7 +64,7 @@ END {
                 body = notation
             }
             print "argument # " body " # " TABLE[i, 4] " # " TABLE[i, 3]
-        } else if (KIND == "argument") {
+        } else if (KIND == "command") {
             body = name
             if (length(notation) > 0) {
                 body = notation
