@@ -56,6 +56,7 @@ _argc_util_comp_path() {
 # Args:
 #   SEP: seperator
 #   FILTER: default value is ARGC_FILTER
+#   PREFIX: additional prefix
 #
 # ```sh
 # _choice_fn() {
@@ -71,15 +72,18 @@ _argc_util_comp_path() {
 _argc_util_comp_kv() {
     local sep="$1"
     local filter="${2-$ARGC_FILTER}"
+    local prefix="${3}"
     if [[ "$filter" == *"$sep"* ]]; then
         argc__kv_key="${filter%%$sep*}"
-        argc__kv_prefix="$argc__kv_key$sep"
+        argc__kv_local_prefix="$argc__kv_key$sep"
+        argc__kv_prefix="$prefix$argc__kv_local_prefix"
         argc__kv_filter="${filter#*$sep}"
         echo "__argc_prefix=$argc__kv_prefix"
         echo "__argc_filter=$argc__kv_filter"
     else
         argc__kv_key=""
-        argc__kv_prefix=""
+        argc__kv_local_prefix=""
+        argc__kv_prefix="$prefix"
         argc__kv_filter="$filter"
         echo "__argc_filter=$argc__kv_filter"
     fi
@@ -93,7 +97,7 @@ _argc_util_comp_kv() {
             key_value="$line"
         fi
         key="${key_value%%=*}"
-        if [[ -z "$argc__kv_prefix" ]]; then
+        if [[ -z "$argc__kv_local_prefix" ]]; then
             if [[ "$key" == "$key_value" ]]; then
                 echo -e "$key\t$desc"
             else
@@ -189,7 +193,6 @@ END {
 #   FILTER: filter value, defualt is $ARGC_FILTER
 #   PREFIX: The additional prefix
 _argc_util_comp_multi() {
-    set -x
     local sep="$1"
     local filter="${2-$ARGC_FILTER}" 
     local prefix="$3"
@@ -269,24 +272,6 @@ _argc_util_comp_subcommand() {
     argc --argc-compgen generic "$scriptfile" "${args[@]}"
 }
 
-
-# Checks if given string has a path prefix.
-#
-# ```sh
-# _argc_util_has_path_prefix ./      # yes
-# _argc_util_has_path_prefix /       # yes
-# _argc_util_has_path_prefix ~       # yes
-# _argc_util_has_path_prefix C:\\    # yes
-# _argc_util_has_path_prefix README  # no
-# ```
-_argc_util_has_path_prefix() {
-     if [[ $1 == '.'* || $1 == '/'* || $1 == '~'* ]] || [[ $1 =~ ^[A-Za-z]: ]]; then
-        return 0
-    else
-        return 1
-    fi
-}
-
 # Enetr kv complete mode
 # Args:
 #   SEP: key value seperator
@@ -344,6 +329,22 @@ _argc_util_mode_parts() {
     echo "__argc_filter=$argc__parts_filter"
 }
 
+# Checks if given string has a path prefix.
+#
+# ```sh
+# _argc_util_has_path_prefix ./      # yes
+# _argc_util_has_path_prefix /       # yes
+# _argc_util_has_path_prefix ~       # yes
+# _argc_util_has_path_prefix C:\\    # yes
+# _argc_util_has_path_prefix README  # no
+# ```
+_argc_util_has_path_prefix() {
+     if [[ $1 == '.'* || $1 == '/'* || $1 == '~'* ]] || [[ $1 =~ ^[A-Za-z]: ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
 
 # Run functions in parallel
 #

@@ -9,7 +9,7 @@ BEGIN {
     for (i in args) {
         arg = args[i]
         if (arg == ";;") {
-            SEP_INDEX = i
+            SEP_INDEX = int(i)
         }
         split(arg, argParts, ";")
         name = argParts[1]
