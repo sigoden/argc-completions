@@ -175,6 +175,7 @@ tunnel::service() {
 # {{{{ code-insiders tunnel service install
 # @cmd Installs or re-installs the tunnel service on the machine
 # @flag --accept-server-license-terms      If set, the user accepts the server license terms and the server will be started without a user prompt
+# @option --name                           Sets the machine name for port forwarding service
 # @flag -h --help                          Print help
 # @option --cli-data-dir <CLI_DATA_DIR>    Directory where CLI metadata should be stored [env: VSCODE_CLI_DATA_DIR=]
 # @flag --verbose                          Print verbose output (implies --wait)

@@ -112,6 +112,8 @@ Options:
             Given some file's PATH, print which conda package the file came from.
     -backup, -keep	keep a backup of the modified files
     --encoding={s,S,b,l,B,L}  Select character size and endianness:
+    --log-level-cmake=<ERROR|WARNING|NOTICE|STATUS|VERBOSE|DEBUG|TRACE>   Set the verbosity of messages from CMake files. 
+    --trace-format={human|json-v1}  Set the output format of the trace.
 
 	-pkgdir dir
 		install and load all packages from dir instead of the usual locations.

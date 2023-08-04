@@ -3,7 +3,6 @@ _patch_table() {
     | \
     _patch_table_edit_options \
         '--address-radix;[`_choice_address_radix`]' \
-        '--endian;[big|little]' \
         '--format;[`_choice_format`]' \
 
 }

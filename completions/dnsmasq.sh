@@ -44,7 +44,7 @@
 # @option -O --dhcp-option <optspec>               Specify options to be sent to DHCP clients.
 # @option --dhcp-option-force <optspec>            DHCP option sent even if the client does not request it.
 # @option -p --port <integer>                      Specify port to listen for DNS requests on (defaults to 53).
-# @option -P --edns-packet-max <integer>           Maximum supported UDP packet size for EDNS.0 (defaults to 4096).
+# @option -P --edns-packet-max <integer>           Maximum supported UDP packet size for EDNS.0 (defaults to 1232).
 # @flag -q --log-queries                           Log DNS queries.
 # @option -Q --query-port <integer>                Force the originating port for upstream DNS queries.
 # @flag -R --no-resolv                             Do NOT read resolv.conf.

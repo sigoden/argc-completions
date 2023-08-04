@@ -75,6 +75,8 @@
 # @flag -backup                                    keep a backup of the modified files
 # @flag -keep                                      keep a backup of the modified files
 # @option --encoding[s|S|b|l|B|L]                  Select character size and endianness:
+# @option --log-level-cmake[ERROR|WARNING|NOTICE|STATUS|VERBOSE|DEBUG|TRACE]  Set the verbosity of messages from CMake files.
+# @option --trace-format[human|json-v1]            Set the output format of the trace.
 # @option -pkgdir <dir>                            install and load all packages from dir instead of the usual locations.
 # @option -ldflags <[pattern=]arg list>            arguments to pass on each go tool link invocation.
 # @flag --incremental                              show blame entries as we find them, incrementally

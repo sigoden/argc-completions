@@ -4,7 +4,7 @@
 # @flag -h --help                                  Prints help information
 # @flag --tutor                                    Loads the tutorial
 # @option --health[`_choice_health`] <CATEGORY>    Checks for potential errors in editor setup CATEGORY can be a language or one of 'clipboard', 'languages' or 'all'.
-# @option -g --grammar[fetch|build] <fetch|build>  Fetches or builds tree-sitter grammars listed in languages.toml
+# @option -g --grammar[fetch|build]                Fetches or builds tree-sitter grammars listed in languages.toml
 # @option -c --config <file>                       Specifies a file to use for configuration
 # @flag -v                                         Increases logging verbosity each use for up to 3 times
 # @flag --log                                      Specifies a file to use for logging (default file: /home/sigo/.cache/helix/helix.log)

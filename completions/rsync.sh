@@ -21,7 +21,9 @@
 # @flag --append                       append data onto shorter files
 # @flag --append-verify                --append w/old data in file checksum
 # @flag -d --dirs                      transfer directories without recursing
-# @flag --mkpath                       create the destination's path component
+# @flag --old-dirs                     works like --dirs when talking to old rsync
+# @flag --old-d                        works like --dirs when talking to old rsync
+# @flag --mkpath                       create destination's missing path components
 # @flag -l --links                     copy symlinks as symlinks
 # @flag -L --copy-links                transform symlink into referent file/dir
 # @flag --copy-unsafe-links            only "unsafe" symlinks are transformed
@@ -38,7 +40,8 @@
 # @flag -o --owner                     preserve owner (super-user only)
 # @flag -g --group                     preserve group
 # @flag --devices                      preserve device files (super-user only)
-# @flag --copy-devices                 copy device contents as regular file
+# @flag --copy-devices                 copy device contents as a regular file
+# @flag --write-devices                write to devices as files (implies --inplace)
 # @flag --specials                     preserve special files
 # @flag -D                             same as --devices --specials
 # @flag -t --times                     preserve modification times
@@ -51,7 +54,6 @@
 # @flag --fake-super                   store/recover privileged attrs using xattrs
 # @flag -S --sparse                    turn sequences of nulls into sparse blocks
 # @flag --preallocate                  allocate dest files before writing them
-# @flag --write-devices                write to devices as files (implies --inplace)
 # @flag -n --dry-run                   perform a trial run with no changes made
 # @flag -W --whole-file                copy files whole (w/o delta-xfer algorithm)
 # @option --checksum-choice <STR>      choose the checksum algorithm (aka --cc)
@@ -108,7 +110,9 @@
 # @option --include-from <FILE>        read include patterns from FILE
 # @option --files-from <FILE>          read list of source-file names from FILE
 # @flag -0 --from0                     all *-from/filter files are delimited by 0s
-# @flag -s --protect-args              no space-splitting; wildcard chars only
+# @flag --old-args                     disable the modern arg-protection idiom
+# @flag -s --secluded-args             use the protocol to safely send the args
+# @flag --trust-sender                 trust the remote sender's file list
 # @option --copy-as <USER[:GROUP]>     specify user & optional group for the copy
 # @option --address                    bind address for outgoing socket to daemon
 # @option --port                       specify double-colon alternate port number
@@ -131,6 +135,7 @@
 # @option --bwlimit <RATE>             limit socket I/O bandwidth
 # @option --stop-after <MINS>          Stop rsync after MINS minutes have elapsed
 # @option --stop-at <y-m-dTh:m>        Stop rsync at the specified point in time
+# @flag --fsync                        fsync every written file
 # @option --write-batch <FILE>         write a batched update to FILE
 # @option --only-write-batch <FILE>    like --write-batch but w/o updating dest
 # @option --read-batch <FILE>          read a batched update from FILE

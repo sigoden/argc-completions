@@ -85,7 +85,7 @@ EOF
 
 _patch_table() { 
     _patch_table_edit_options \
-        '-D;[`_choice_d`]' \
+        '-D;[`_choice_debugopts`]' \
         '-fstype;[`_choice_fstype`]' \
         '-group;[`_module_os_group`]' \
         '-user;[`_module_os_user`]' \
@@ -95,7 +95,7 @@ _patch_table() {
 
 }
 
-_choice_d() {
+_choice_debugopts() {
     cat <<-'EOF'
 exec	Show diagnostic information relating to -exec, -execdir, -ok and -okdir
 opt	Prints diagnostic information relating to the optimisation of the expression tree

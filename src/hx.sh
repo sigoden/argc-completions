@@ -1,7 +1,5 @@
 _patch_table() { 
-    _patch_table_edit_options \
-        '--health;[`_choice_health`]' \
-        '--grammar;[fetch|build]' \
+    _patch_table_edit_options '--health;[`_choice_health`]'
 
 }
 

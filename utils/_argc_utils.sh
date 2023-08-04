@@ -7,8 +7,7 @@
 #   `suffix=`: Set __argc_suffix
 #   `exts=`: Set file's allowed exts. e.g. `-exts=.json,jsonc`
 _argc_util_comp_path() {
-    local isdir suffix filter exts chdir prefix with_prefix
-    local filter="$ARGC_FILTER"
+    local isdir suffix filter exts chdir prefix with_filter with_prefix
     for arg in "${@}"; do
         case "$arg" in
         dir)
@@ -22,6 +21,7 @@ _argc_util_comp_path() {
             suffix="${arg:7}"
             ;;
         filter=*)
+            with_filter=1
             filter="${arg:7}"
             ;;
         exts=*)
@@ -41,7 +41,9 @@ _argc_util_comp_path() {
     if [[ "$with_prefix" -eq 1 ]]; then
         echo "__argc_prefix=$prefix"
     fi
-    echo "__argc_filter=$filter"
+    if [[ "$with_filter" -eq 1 ]]; then
+        echo "__argc_prefix=$filter"
+    fi
     if [[ "$isdir" -eq 1 ]]; then
         echo "__argc_value=dir"
     else
