@@ -271,6 +271,7 @@ set_globals() {
     scripts_dir="$ROOT_DIR/scripts"
     src_dir="$ROOT_DIR/src"
     utils_dir="$ROOT_DIR/utils"
+    helps_dir="$ROOT_DIR/helps"
     use_help_subcmd=0
     command_names+=( "$argc_cmd" )
     if [[ "$argc_cmd" == '__test' ]]; then
@@ -294,8 +295,8 @@ set_globals() {
         output_file="$argc_output/$(echo "${cmds[@]}" | sed 's| |/|g').sh"
     fi
 
-    if [[ -d "$ARGC_COMPLETIONS_HELP_DIR" ]]; then
-        help_output_file="$ARGC_COMPLETIONS_HELP_DIR/$(echo "${cmds[@]}" | sed 's/ /-/g').txt"
+    if [[ -d "$helps_dir" ]]; then
+        help_output_file="$helps_dir/$(echo "${cmds[@]}" | sed 's/ /-/g').txt"
         rm -rf "$help_output_file"
     fi
 

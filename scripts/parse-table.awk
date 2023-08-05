@@ -175,7 +175,7 @@ END {
             if (match(word, /^(\[-|\(-|<-|-)/)) {
                 continue
             }
-            if (match(tolower(word), /argument|option|flag|command/)) {
+            if (match(tolower(word), /argument|switches|option|flag|command/)) {
                 continue
             }
             arguments[length(arguments) + 1] = word

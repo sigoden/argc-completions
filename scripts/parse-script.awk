@@ -70,6 +70,7 @@ END {
 function parseOptions(words1, descVal, choicesVal) {
     split("", shorts)
     split("", longs)
+    split("", longsDedup)
     split("", notations)
     extra["multiple"] = 0
     notation = ""
@@ -88,7 +89,11 @@ function parseOptions(words1, descVal, choicesVal) {
                 notation = substr(word, length(name) + 1)
             } else {
                 name = extractName(word)
-                longs[length(longs) + 1] = "--" name
+                longValue = "--" name
+                if (longsDedup[longValue] != 1) {
+                    longsDedup[longValue] = 1
+                    longs[length(longs) + 1] = longValue
+                }
                 notation = substr(word, length(name) + 1)
             }
         } else if (index(word, "-") == 1) {
@@ -99,7 +104,11 @@ function parseOptions(words1, descVal, choicesVal) {
                 if (length(name) == 1) {
                     shorts[length(shorts) + 1] = "-" name
                 } else {
-                    longs[length(longs) + 1] = "-" name
+                    longValue = "-" name
+                    if (longsDedup[longValue] != 1) {
+                        longsDedup[longValue] = 1
+                        longs[length(longs) + 1] = longValue
+                    }
                 }
                 notation = substr(word, length(name) + 1)
             } else {

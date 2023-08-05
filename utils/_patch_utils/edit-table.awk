@@ -16,6 +16,9 @@ BEGIN {
         notation = ""
         if (match(name, /\(.*\)$/)) {
             notation = substr(name, RSTART + 1, RLENGTH - 2)
+            if (notation == "") {
+                notation = " "
+            }
             name = substr(name, 1, RSTART - 1)
         }
         split("", values)

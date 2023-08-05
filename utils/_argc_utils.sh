@@ -638,7 +638,7 @@ _argc_util_transform_table() {
                 }
             }
             tableOn = 1
-        } else {
+        } else if (!match($0, /^[ -]*$/)) {
             line = ""
             for (i in COLS) {
                 value = substr($0, COLS_INDEX[i], COLS_LEN[i])
