@@ -148,6 +148,7 @@ END {
         if (optionVal == "--") {
             continue
         }
+        gsub(",-", ", -", optionVal)
         split("", descValues)
         parseDesc(substr(option, splitAt + 1), descValues, 1, "option `" optionVal "`")
         if (length(descValues[2]) > 0) {
