@@ -65,6 +65,9 @@ END {
             }
         } 
         if (spaces == 0) {
+            if (match(line, /^[A-Z]/)) {
+                groupName = ""
+            }
             if (match(santizedLine, /\s*(flags|options)(:\s*$|$)/)) {
                 if (isOptionLine(getNoneEmptyLineIndex(i))) {
                     groupName = "option"
@@ -82,10 +85,10 @@ END {
                 }
             } else if (match(santizedLine, /^(aliases|synopsis|description|discussion|environment|environment variables|examples|learn more)(:\s*$|$)/)) {
                 if (LINES[i+1, 3] > spaces) {
-                    groupName = "misc"
+                    groupName = ""
                     continue
                 }
-            } 
+            }
             if (isPrevEmpty) {
                 noneEmptyLineIndex = getNoneEmptyLineIndex(i)
                 if (LINES[noneEmptyLineIndex, 3] > spaces) {
@@ -124,7 +127,7 @@ END {
             } else {
                 trimed = trimStarts(line)
                 if (length(trimed) > 0) {
-                    if (match(trimed, /^([^ .,[]]+ ){4, }/) && !match(trimed, /(  |\t)/)) {
+                    if (match(trimed, /^([^ ,[\]]+ ){4, }/) && !match(trimed, /(  |\t)/)) {
                     } if (match(trimed, /^[a-z0-9_][A-Za-z0-9_.-]*(\*)?($|\s|,)/)) {
                         commands[length(commands) + 1] = trimed
                     }
@@ -146,6 +149,9 @@ END {
         splitAt = splitOption(option)
         optionVal = substr(option, 1, splitAt)
         if (optionVal == "--") {
+            continue
+        }
+        if (match(optionVal, /^--?<.*>/)) {
             continue
         }
         gsub(",-", ", -", optionVal)
@@ -231,9 +237,9 @@ function isOptionLine(idx) {
             yes = 1
         } else if (match(santizedLine, /^(-\S,? )?--[^-]\S* (\[|<)/)) {
             yes = 1
-        } else if (match(santizedLine, /^(-\S,? )?--[^-]\S*( \S+)?\s*$/)) {
+        } else if (match(santizedLine, /^(-\S,? )?--[^-]\S*( \S+)?\s*$/) && !match(santizedLine, /\.$/)) {
             yes = 1
-        } else if (match(santizedLine, /^-\S \S+\s*$/)) {
+        } else if (match(santizedLine, /^-\S \S+\s*$/) && !match(santizedLine, /\.$/)) {
             yes = 1
         } else if (LINES[idx+1, 3] > LINES[idx, 3]) {
             yes = 1

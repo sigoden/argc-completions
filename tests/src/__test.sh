@@ -120,6 +120,9 @@ Options:
 
 	-ldflags '[pattern=]arg list'
 		arguments to pass on each go tool link invocation.
+
+    -<alertname>  disable alert <alertname>
+    --<alertname> treat <alertname> as non-fatal
 -------
 
 Future runs of this module will trigger no downloads or compilation unless
@@ -187,6 +190,8 @@ EXPERIMENTAL:
   Experimental features provide early access to product functionality. 
   These features may change between releases without warning, or can be removed from a future release.
 
+OPAMSWITCH see option `--switch'. Automatically set by `opam env
+--switch=SWITCH --set-switch'.
 EOF
     elif [[ "$*" == "__test cmd1" ]]; then
         echo "Usage: __test cmd1 [OPTIONS] <--build|--clear>"
