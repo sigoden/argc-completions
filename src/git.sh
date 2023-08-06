@@ -206,7 +206,7 @@ EOF
 
     elif [[ "$*" == "git sparse-checkout set" ]] \
       || [[ "$*" == "git sparse-checkout add" ]] \
-      ; then
+    ; then
         $@ -h 2>&1 | sed '/^usage:/ c\usage: git sparse-checkout set <pattern>'
 
     elif [[ "$*" == "git stash" ]]; then

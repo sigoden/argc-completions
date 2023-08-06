@@ -101,7 +101,7 @@ _patch_table() {
         elif [[ "$*" == "gh issue delete" ]] \
           || [[ "$*" == "gh issue lock" ]] \
           || [[ "$*" == "gh issue unlock" ]] \
-          ; then
+        ; then
             echo "$table" | \
             _patch_table_edit_arguments \
                 '<number>|<url>(issue);[`_choice_all_issue`]' \
@@ -189,8 +189,7 @@ _patch_table() {
             _patch_table_dedup_options '--watch' | \
             _patch_table_edit_arguments ';;'  'pr;[`_choice_pr_checks`]' \
 
-        elif [[ "$*" == "gh pr edit" ]] \
-        ; then
+        elif [[ "$*" == "gh pr edit" ]]; then
             echo "$table" | \
 
             _patch_table_edit_options \
@@ -209,7 +208,7 @@ _patch_table() {
           || [[ "$*" == "gh pr unlock" ]] \
           || [[ "$*" == "gh pr review" ]] \
           || [[ "$*" == "gh pr view" ]] \
-          ; then
+        ; then
             echo "$table" | \
             _patch_table_edit_arguments ';;'  'pr;[`_choice_open_pr`]' \
 

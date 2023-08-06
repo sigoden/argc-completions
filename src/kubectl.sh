@@ -102,7 +102,7 @@ _patch_table() {
 
     elif [[ "$*" == "kubectl create role" ]] \
       || [[ "$*" == "kubectl create clusterrole" ]] \
-      ; then
+    ; then
         echo "$table" | \
         _patch_table_edit_options \
             '--verb;*,[`_choice_verb_type`]' \
@@ -175,7 +175,7 @@ _patch_table() {
       || [[ "$*" == "kubectl delete" ]] \
       || [[ "$*" == "kubectl describe" ]] \
       || [[ "$*" == "kubectl patch" ]] \
-        ; then
+    ; then
         echo "$table" | \
         _patch_table_edit_arguments \
             ';;' \
@@ -190,7 +190,7 @@ _patch_table() {
 
     elif [[ "$*" == "kubectl scale" ]] \
       || [[ "$*" == "kubectl autoscale" ]] \
-        ; then
+    ; then
         echo "$table" | \
         _patch_table_edit_arguments \
             ';;' \
@@ -211,7 +211,7 @@ _patch_table() {
     elif [[ "$*" == "kubectl cordon" ]] \
       || [[ "$*" == "kubectl uncordon" ]] \
       || [[ "$*" == "kubectl drain" ]] \
-      ; then
+    ; then
         echo "$table" | \
         _patch_table_edit_arguments \
             ';;' \
@@ -227,7 +227,7 @@ _patch_table() {
 
     elif [[ "$*" == "kubectl logs" ]] \
       || [[ "$*" == "kubectl attach" ]] \
-      ; then
+    ; then
         echo "$table" | \
         _patch_table_edit_options \
             '--container;[`_choice_filtered_container`]' \
@@ -286,7 +286,7 @@ _patch_table() {
       || [[ "$*" == "kubectl apply set-last-applied" ]] \
       || [[ "$*" == "kubectl replace" ]] \
       || [[ "$*" == "kubectl events" ]] \
-      ; then
+    ; then
         echo "$table" | _patch_table_edit_arguments ';;'
 
     elif [[ "$*" == "kubectl apply edit-last-applied" ]]; then

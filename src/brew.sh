@@ -34,7 +34,7 @@ EOF
       || [[ "$*" == "brew casks" ]] \
       || [[ "$*" == "brew formulae" ]] \
       || [[ "$*" == "brew shellenv" ]] \
-      ; then 
+    ; then 
         :;
     elif [[ "$*" == "brew services" ]]; then
         $@ --help

@@ -23,7 +23,7 @@ _patch_table() {
       || [[ "$*" == "systemctl thaw" ]] \
       || [[ "$*" == "systemctl reset-failed" ]] \
       || [[ "$*" == "systemctl list-unit-files" ]] \
-      ; then
+    ; then
         echo "$table" | _patch_table_edit_arguments ';;' 'pattern;*[`_choice_unit`]'
 
     elif [[ "$*" == "systemctl start" ]] \
@@ -43,7 +43,7 @@ _patch_table() {
       || [[ "$*" == "systemctl unmask" ]] \
       || [[ "$*" == "systemctl revert" ]] \
       || [[ "$*" == "systemctl edit" ]] \
-      ; then
+    ; then
         echo "$table" | _patch_table_edit_arguments ';;' 'unit;*[`_choice_unit`]'
 
     elif [[ "$*" == "systemctl isolate" ]]; then

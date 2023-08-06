@@ -32,7 +32,7 @@ _patch_table() {
      || [[ "$*" == "apk upgrade" ]] \
      || [[ "$*" == "apk fix" ]] \
      || [[ "$*" == "apk version" ]] \
-     ; then
+    ; then
         _patch_table_edit_arguments 'packages;[`_choice_installed_package`]'
 
    elif [[ "$*" == "apk cache"* ]]; then

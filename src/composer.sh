@@ -32,7 +32,7 @@ _patch_table() {
       || [[ "$*" == "composer show" ]] \
       || [[ "$*" == "composer suggests" ]] \
       || [[ "$*" == "composer update" ]] \
-      ; then
+    ; then
         _patch_table_edit_arguments \
             'packages;*[`_choice_dependency`]' \
             'package;[`_choice_dependency`]' \

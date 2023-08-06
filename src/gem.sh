@@ -18,14 +18,14 @@ _patch_table() {
       || [[ "$*" == "gem uninstall" ]] \
       || [[ "$*" == "gem unpack" ]] \
       || [[ "$*" == "gem update" ]] \
-      ; then
+    ; then
         _patch_table_edit_arguments ';;' 'gemname;[`_choice_installed_package`]' 
 
     elif [[ "$*" == "gem fetch" ]] \
       || [[ "$*" == "gem open" ]] \
       || [[ "$*" == "gem owner" ]] \
       || [[ "$*" == "gem info" ]] \
-      ; then
+    ; then
         _patch_table_edit_arguments ';;' 'gemname;[`_choice_package`]' 
 
     elif [[ "$*" ==  "gem contents" ]]; then
@@ -42,7 +42,7 @@ _patch_table() {
 
     elif [[ "$*" ==  "gem push" ]] \
       || [[ "$*" ==  "gem yank" ]] \
-      ; then
+    ; then
         _patch_table_edit_arguments 'gem(file:.gem)'
 
     elif [[ "$*" ==  "gem specification" ]]; then

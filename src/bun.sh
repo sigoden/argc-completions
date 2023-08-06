@@ -18,7 +18,7 @@ _patch_help() {
       || [[ "$*" == "bun remove" ]] \
       || [[ "$*" == "bun link" ]] \
       || [[ "$*" == "bun unlink" ]] \
-      ; then
+    ; then
         echo "Usage: $* <pkg>"
         $@ --help
 

@@ -52,7 +52,7 @@ _patch_table() {
 
     elif [[ "$*" == "nssm get" ]] \
       || [[ "$*" == "nssm reset" ]] \
-      ; then
+    ; then
         _patch_table_edit_arguments \
             'servicename;[`_choice_servicename`]' \
             'parameter;[`_choice_parameter_name`]' \

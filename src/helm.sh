@@ -55,7 +55,7 @@ _patch_table() {
 
     elif [[ "$*" == "helm plugin uninstall" ]] \
       || [[ "$*" == "helm plugin update" ]] \
-      ; then
+    ; then
         echo "$table" | \
         _patch_table_edit_arguments \
             'plugin;[`_choice_plugin`]' \
@@ -80,7 +80,7 @@ _patch_table() {
 
     elif [[ "$*" == "helm repo remove" ]] \
       || [[ "$*" == "helm repo update" ]] \
-      ; then
+    ; then
         echo "$table" | \
         _patch_table_edit_arguments \
             ';;' \

@@ -81,7 +81,7 @@ EOF
     elif [[ "$*" == "mix compile.erlang" ]] \
       || [[ "$*" == "mix compile.leex" ]] \
       || [[ "$*" == "mix compile.yecc" ]] \
-      ; then
+    ; then
         cat <<-'EOF'
 Options:
     --force            forces compilation regardless of modification times
@@ -97,7 +97,7 @@ EOF
 
     elif [[ "$*" == "mix deps.loadpaths" ]] \
       || [[ "$*" == "mix loadpaths" ]] \
-      ; then
+    ; then
         cat <<-'EOF'
 Options:
     --no-archives-check        does not check archives
@@ -136,7 +136,7 @@ EOF
     elif [[ "$*" == "mix phx.gen.html" ]] \
       || [[ "$*" == "mix phx.gen.json" ]] \
       || [[ "$*" == "mix phx.gen.live" ]] \
-      ; then
+    ; then
         cat <<-'EOF'
 Options:
     --context-app <value>                   set context_app
@@ -193,7 +193,7 @@ EOF
       || [[ "$*" == "mix phx.gen.presence" ]] \
       || [[ "$*" == "mix phx.gen.secret" ]] \
       || [[ "$*" == "mix phx.gen.socket" ]] \
-      ; then
+    ; then
         :;
 
     else
@@ -315,7 +315,7 @@ _patch_table() {
 
     elif [[ "$*" == "mix phx.new" ]] \
       || [[ "$*" == "mix phx.new.ecto"  ]] \
-      ; then
+    ; then
         _patch_table_edit_options  \
             '--app(<name>)' \
             '--module(<name>)' \

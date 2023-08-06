@@ -19,7 +19,7 @@ _patch_table() {
       || [[ "$*" == "dnf mark" ]] \
       || [[ "$*" == "dnf reinstall" ]] \
       || [[ "$*" == "dnf remove" ]] \
-      ; then
+    ; then
         _patch_table_edit_arguments ';;' 'package;*[`_choice_installed_package`]'
 
     elif [[ "$*" == "dnf upgrade" ]] \
@@ -43,7 +43,7 @@ _patch_table() {
       || [[ "$*" == "dnf install" ]] \
       || [[ "$*" == "dnf list" ]] \
       || [[ "$*" == "dnf updateinfo" ]] \
-      ; then
+    ; then
         _patch_table_edit_arguments ';;' 'package;*[`_choice_package`]'
 
     elif [[ "$*" == "dnf module" ]]; then

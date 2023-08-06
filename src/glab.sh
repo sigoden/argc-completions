@@ -146,7 +146,7 @@ _patch_table() {
 
         elif [[ "$*" == "glab issue delete" ]] \
           || [[ "$*" == "glab issue view" ]] \
-          ; then
+        ; then
             echo "$table" | \
             _patch_table_edit_arguments \
                 ';;' \
@@ -209,7 +209,7 @@ _patch_table() {
           || [[ "$*" == "glab mr diff" ]] \
           || [[ "$*" == "glab mr issues" ]] \
           || [[ "$*" == "glab mr view" ]] \
-          ; then
+        ; then
             echo "$table" | \
             _patch_table_edit_arguments \
                 ';;' \
@@ -220,7 +220,7 @@ _patch_table() {
           || [[ "$*" == "glab mr subscribe" ]] \
           || [[ "$*" == "glab mr unsubscribe" ]] \
           || [[ "$*" == "glab mr todo" ]] \
-          ; then
+        ; then
             echo "$table" | \
             _patch_table_edit_arguments \
                 ';;' \
@@ -311,7 +311,7 @@ _patch_table() {
 
         elif [[ "$*" == "glab repo delete" ]] \
           || [[ "$*" == "glab repo fork" ]] \
-          ; then
+        ; then
             echo "$table" | \
             _patch_table_edit_arguments \
                 ';;' \
@@ -352,7 +352,7 @@ _patch_table() {
 
         elif [[ "$*" == "glab schedule delete" ]] \
           || [[ "$*" == "glab schedule run" ]] \
-          ; then
+        ; then
             echo "$table" | \
             _patch_table_edit_arguments \
                 ';;' \

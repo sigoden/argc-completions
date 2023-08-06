@@ -28,7 +28,7 @@ _patch_table() {
     elif [[ "$*" == "vcpkg install" ]] \
       || [[ "$*" == "vcpkg edit" ]] \
       || [[ "$*" == "vcpkg depend-info" ]] \
-      ; then
+    ; then
         echo "$table" | \
         _patch_table_edit_arguments 'pkg;[`_choice_package_cached`]' \
 

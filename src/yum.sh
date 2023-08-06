@@ -19,7 +19,7 @@ _patch_table() {
       || [[ "$*" == "yum mark" ]] \
       || [[ "$*" == "yum reinstall" ]] \
       || [[ "$*" == "yum remove" ]] \
-      ; then
+    ; then
         _patch_table_edit_arguments ';;' 'package;*[`_choice_installed_package`]'
 
     elif [[ "$*" == "yum upgrade" ]] \
@@ -43,7 +43,7 @@ _patch_table() {
       || [[ "$*" == "yum install" ]] \
       || [[ "$*" == "yum list" ]] \
       || [[ "$*" == "yum updateinfo" ]] \
-      ; then
+    ; then
         _patch_table_edit_arguments ';;' 'package;*[`_choice_package`]'
 
     elif [[ "$*" == "yum module" ]]; then

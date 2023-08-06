@@ -16,7 +16,7 @@ _patch_table() {
     elif [[ "$*" == "direnv allow" ]] \
       || [[ "$*" == "direnv deny" ]] \
       || [[ "$*" == "direnv edit" ]] \
-      ; then
+    ; then
         _patch_table_edit_arguments ';;' 'file;[`_choice_path_to_rc`]'
 
     elif [[ "$*" == "direnv exec" ]]; then

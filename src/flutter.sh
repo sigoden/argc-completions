@@ -20,7 +20,7 @@ _patch_help() {
       || [[ "$*" == "flutter pub outdated" ]] \
       || [[ "$*" == "flutter pub publish" ]] \
       || [[ "$*" == "flutter pub run" ]] \
-      ; then
+    ; then
         ( \
             cd /tmp && \
             touch pubspec.yaml && \

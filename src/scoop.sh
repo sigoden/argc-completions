@@ -86,7 +86,7 @@ _patch_table() {
       || [[ "$*" == "scoop uninstall" ]] \
       || [[ "$*" == "scoop update" ]] \
       || [[ "$*" == "scoop unhold" ]] \
-      ; then
+    ; then
         _patch_table_edit_arguments 'app;[`_choice_installed_package`]'
 
     elif [[ "$*" == "scoop cat" ]] \
@@ -94,7 +94,7 @@ _patch_table() {
       || [[ "$*" == "scoop depends" ]] \
       || [[ "$*" == "scoop home" ]] \
       || [[ "$*" == "scoop info" ]] \
-      ; then
+    ; then
         _patch_table_edit_arguments 'app;[`_choice_package`]'
 
     elif [[ "$*" == "scoop config" ]]; then
@@ -105,7 +105,7 @@ _patch_table() {
 
     elif [[ "$*" == "scoop download" ]] \
       || [[ "$*" == "scoop install" ]] \
-      ; then
+    ; then
         _patch_table_edit_arguments 'app;[`_choice_package_or_path`]'
 
     elif [[ "$*" == "scoop export" ]]; then
