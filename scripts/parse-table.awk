@@ -194,14 +194,13 @@ END {
         }
         splitAt = splitArgment(argument)
         argumentVal = substr(argument, 1, splitAt)
+        argumentVal = gensub(/\([Ss]\)/, "...", 1, argumentVal)
+        argumentVal = gensub(/(\s*\|\s*-[^)}|\]]+)+/, "", 1, argumentVal)
         split("", descValues)
         parseDesc(substr(argument, splitAt + 1), descValues, 1, "argument `" optionVal "`")
         if (match(argumentVal, /^\(([A-Za-z0-9_-]+\|)+[A-Za-z0-9_-]+\)$/)) {
             print "argument # value # " descValues[1] " # [" substr(argumentVal, 2, length(argumentVal) -2) "]"
         } else {
-            while (match(argumentVal, /\|\s*-\S+( [<>A-Za-z0-9_-]+)*\s*[)}\|\]]/)) {
-                argumentVal = substr(argumentVal, 1, RSTART - 1) substr(argumentVal, RSTART + RLENGTH - 1)
-            }
             if (length(descValues[2]) > 0) {
                 print "argument # " argumentVal " # " descValues[1] " # " descValues[2]
             } else {

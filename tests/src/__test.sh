@@ -149,6 +149,8 @@ Other:
     cmd5, d,
     cmd6
     cmd7
+    cmd8
+    cmd9
 
 The commands are:
 
@@ -213,5 +215,9 @@ usage: __test cmd7 [-c [config file]] [-q] [-v] [--version] [--installroot [path
               [--enableplugin [plugin]] [--disableplugin [plugin]] [--releasever RELEASEVER] [--setopt SETOPTS]
               PACKAGE [PACKAGE ...]
 EOF
+    elif [[ "$*" == "__test cmd8" ]]; then
+        echo "Usage: __test cmd8 [DIR(S)]"
+    elif [[ "$*" == "__test cmd9" ]]; then
+        echo "Usage: __test cmd9 [hosted-url|--all]"
     fi
 }

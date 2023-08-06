@@ -195,6 +195,22 @@ cmd7() {
 }
 # }} __test cmd7
 
+# {{ __test cmd8
+# @cmd
+# @arg dir*
+cmd8() {
+    :;
+}
+# }} __test cmd8
+
+# {{ __test cmd9
+# @cmd
+# @arg hosted-url
+cmd9() {
+    :;
+}
+# }} __test cmd9
+
 # {{ __test bug
 # @cmd start a bug report
 bug() {

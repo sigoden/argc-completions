@@ -845,7 +845,7 @@ pub::token::list() {
 # {{{{ flutter pub token remove
 # @cmd Remove secret token for package repository at <hosted-url>.
 # @flag --all    Remove all secret tokens.
-# @arg hosted-url---all <<hosted-url>|--all>
+# @arg hosted-url!
 pub::token::remove() {
     :;
 }

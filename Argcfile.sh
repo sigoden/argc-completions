@@ -144,7 +144,7 @@ xtest() {
     if [[ -z "$argc_kind" ]]; then
         ./scripts/generate.sh __test
     else
-        argc print __test -k "$argc_kind"
+        argc print __test $@ -k "$argc_kind"
     fi
 }
 
