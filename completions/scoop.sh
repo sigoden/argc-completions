@@ -100,7 +100,7 @@ cache::rm() {
 # {{ scoop cat
 # @cmd Show content of specified manifest.
 # @arg app![`_choice_package`]
-cat() {
+cat_() {
     :;
 }
 # }} scoop cat

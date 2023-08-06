@@ -147,6 +147,7 @@ Other:
     cmd4, c
     cmd5, d,
     cmd6
+    cat
 
 The commands are:
 

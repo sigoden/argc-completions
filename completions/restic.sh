@@ -117,7 +117,7 @@ cache() {
 # @option -v --verbose <n>                be verbose (specify multiple times or a level using --verbose=n, max level/times is 3)
 # @arg cmd[pack|blob|snapshot|index|key|masterkey|config|lock]
 # @arg id
-cat() {
+cat_() {
     :;
 }
 # }} restic cat

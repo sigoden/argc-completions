@@ -39,7 +39,7 @@ play() {
 # @cmd Print full output of terminal session
 # @flag -h --help    show this help message and exit
 # @arg filename
-cat() {
+cat_() {
     :;
 }
 # }} asciinema cat

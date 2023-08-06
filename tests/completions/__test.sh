@@ -180,6 +180,13 @@ cmd6() {
 }
 # }} __test cmd6
 
+# {{ __test cat
+# @cmd
+cat_() {
+    :;
+}
+# }} __test cat
+
 # {{ __test bug
 # @cmd start a bug report
 bug() {

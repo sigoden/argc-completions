@@ -14,10 +14,11 @@ ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )"
 command_names=()
 
 handle_cmd() {
-    local output table level nest_fn_prefix command_output
-    table="$(get_table $@)"
+    local output table level nest_fn_prefix command_lines command_output line cmd_paths
+    local cmd_paths=( $(sanitize_cmds "$@") )
     nest_fn_prefix="$(echo "${@:$((1 + $cmds_level))}" | sed 's/ /::/g')"
-    output="$(echo "$table" | grep -v '^command #' | parse_script $@)"
+    table="$(get_table "${cmd_paths[@]}")"
+    output="$(echo "$table" | grep -v '^command #' | parse_script "${cmd_paths[@]}")"
     if [[ $# -gt $cmds_level ]]; then
         if [[ -z "$output" ]]; then
             output="$(print_cmd_fn "$nest_fn_prefix")"
@@ -25,19 +26,21 @@ handle_cmd() {
             output="$output"$'\n'"$(print_cmd_fn "$nest_fn_prefix")"
         fi
     fi
-    while IFS=$'\n' read -r line; do
-        if [[ -n "$line" ]]; then
-            local subcmd_output="$(handle_subcmd "$line" $@)"
-            if [[ -z "$subcmd_output" ]]; then
-                continue
-            fi
-            if [[ -z "$command_output" ]]; then
-                command_output="$subcmd_output"
-            else
-                command_output="$command_output"$'\n'"$subcmd_output"
-            fi
+    mapfile -t command_lines < <(echo "$table" | grep '^command #' | parse_script "${cmd_paths[@]}")
+    for line in "${command_lines[@]}"; do
+        if [[ -z "$line" ]]; then
+            continue
         fi
-    done < <(echo "$table" | grep '^command #' | parse_script $@)
+        local subcmd_output="$(handle_subcmd "$line" $@)"
+        if [[ -z "$subcmd_output" ]]; then
+            continue
+        fi
+        if [[ -z "$command_output" ]]; then
+            command_output="$subcmd_output"
+        else
+            command_output="$command_output"$'\n'"$subcmd_output"
+        fi
+    done 
     if [[ -n "$command_output" ]]; then
         output="$output"$'\n'"$command_output"
     fi
@@ -56,6 +59,7 @@ handle_subcmd() {
     local cmd_aliases="$(echo "${names[@]:1}" | sed 's/ /,/g')"
 
     local new_cmds=( "${@:2}" "$cmd_name" )
+    local new_cmds_sanitized=( $(sanitize_cmds "${new_cmds[@]}") )
     local new_cmds_level=$(( ${#new_cmds[@]} + 1 - $cmds_level ))
 
     local cmd_full_name="$(printf "%s\n" ${new_cmds[@]} | uniq | tr '\n' ' ' | sed -e 's/ $//' -e 's/ /::/g')"
@@ -65,7 +69,7 @@ handle_subcmd() {
         return
     fi
     echo
-    echo "# $(repeat_string '{' $new_cmds_level) ${new_cmds[@]}"
+    echo "# $(repeat_string '{' $new_cmds_level) ${new_cmds_sanitized[@]}"
     if [[ -z "$description" ]]; then
         echo "# @cmd"
     else
@@ -75,7 +79,7 @@ handle_subcmd() {
         echo "# @alias $cmd_aliases"
     fi
     handle_cmd ${new_cmds[@]}
-    echo "# $(repeat_string '}' $new_cmds_level) ${new_cmds[@]}"
+    echo "# $(repeat_string '}' $new_cmds_level) ${new_cmds_sanitized[@]}"
 }
 
 get_table() {
@@ -333,6 +337,10 @@ print_cmd_fn() {
     echo "$1() {"
     echo "    :;"
     echo "}"
+}
+
+sanitize_cmds() {
+    echo "$@" | awk '{for(i = 1; i <= NF; i++) { gsub(/_*$/, "", $i); value = value " "  $i}; print value}'
 }
 
 log_info() {

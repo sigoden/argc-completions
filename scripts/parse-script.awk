@@ -11,6 +11,7 @@ BEGIN {
     PAIRS_CLOSE = ">])}"
     RE_SKIP_ARGUMENT = "^(flag|option|command|subcommand)"
     RE_SKIP_SBUCOMMAND =  "help|command|none|n\\/a"
+    RE_SHADOW_COMMAND = "^(do|echo|cat|tail|head|command)$"
     RE_REMOVE_NOTATION_PREFIX = "[=!]"
     EXISTS_SUBCOMMANDS = ",help,"
     paramLineNum = 0
@@ -240,7 +241,11 @@ function parseCommand(words1, descVal) {
     }
     split("", allNames);
     for (i in names) {
-        allNames[length(allNames) + 1] = names[i]
+        name = names[i]
+        if (match(name, RE_SHADOW_COMMAND)) {
+            name = name "_"
+        }
+        allNames[length(allNames) + 1] = name
     }
     for (i in shortNames) {
         allNames[length(allNames) + 1] = shortNames[i]

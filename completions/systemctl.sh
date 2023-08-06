@@ -510,7 +510,7 @@ show() {
 # @flag --mkdir                         Create directory before mounting, if missing
 # @flag --marked                        Restart/reload previously marked units
 # @arg pattern*[`_choice_unit`]
-cat() {
+cat_() {
     :;
 }
 # }} systemctl cat

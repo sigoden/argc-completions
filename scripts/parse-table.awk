@@ -283,7 +283,7 @@ function splitOption(input) {
             if (length(word) == 0 && length(words) > 0 && match(ch, /[A-Za-z0-9]/)) {
                 if (match(words[length(words)], /^-/) && match(substr(input, i), /^\S+( -|  | \[|\n|$)/)) {
                     isBreak = 0
-                } else if (match(substr(input, i), /^[A-Z0-9]+( [A-Z0-9]+){,2}( -|  | \[|\n|$)/) || match(substr(input, i), /^[a-z0-9]+( [a-z0-9]+){,2}( -|  | \[|\n|$)/)) {
+                } else if (match(substr(input, i), /^[A-Z0-9]+(\.\.\.)?( [A-Z0-9]+(\.\.\.)?){,2}( -|  | \[|\n|$)/) || match(substr(input, i), /^[a-z0-9]+(\.\.\.)?( [a-z0-9]+(\.\.\.)?){,2}( -|  | \[|\n|$)/)) {
                     isBreak = 0
                 }
                 if (isBreak == 1) {

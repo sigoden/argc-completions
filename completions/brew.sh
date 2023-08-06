@@ -986,7 +986,7 @@ bump-unversioned-casks() {
 # @flag -v --verbose    Make some output more verbose.
 # @flag -h --help       Show this message.
 # @arg formula-cask[`_choice_suggest_formula_cask`]
-cat() {
+cat_() {
     :;
 }
 # }} brew cat

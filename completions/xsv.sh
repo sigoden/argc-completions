@@ -13,7 +13,7 @@
 # @flag -n --no-headers           When set, the first row will NOT be interpreted as column names.
 # @option -d --delimiter <arg>    The field delimiter for reading CSV data.
 # @arg input-file
-cat() {
+cat_() {
     :;
 }
 # }} xsv cat
