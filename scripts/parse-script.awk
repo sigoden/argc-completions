@@ -179,6 +179,10 @@ function parseArgument(words1, descVal, choicesVal) {
         name = "cmd"
         choicesVal = "[" notation "]"
         notation = "cmd"
+    } else if (notation == "true|false") {
+        name = "bool"
+        choicesVal = "[" notation "]"
+        notation = "bool"
     } else {
         name = getArgName(notation)
     }
