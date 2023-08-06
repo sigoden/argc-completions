@@ -211,7 +211,6 @@ PermSize=;;Sets the space (in bytes) allocated to the permanent generation that 
 EOF
 }
 
-
 _choice_class_path() {
     _argc_util_comp_path exts=.jar,.zip
 }

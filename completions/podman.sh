@@ -1213,7 +1213,7 @@ image::inspect() {
 # @flag --no-trunc                 Do not truncate output
 # @flag -n --noheading             Do not print column headings
 # @flag -q --quiet                 Display only image IDs
-# @option --sort <string>          Sort by repository, size, tag, created, id (default "created")
+# @option --sort[size|tag|created|id|repository] <kind>  Sort by kind
 # @arg image[`_module_oci_podman_image`]
 image::list() {
     :;
