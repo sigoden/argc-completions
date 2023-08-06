@@ -114,17 +114,17 @@ install() {
 }
 # }} pnpm install
 
-# {{ pnpm install-test
+# {{ pnpm it
 # @cmd Runs a pnpm install followed immediately by a pnpm test
-# @alias it
-install-test() {
+# @alias install-test
+it() {
     :;
 }
-# }} pnpm install-test
+# }} pnpm it
 
-# {{ pnpm link
+# {{ pnpm ln
 # @cmd Connect the local project to another one
-# @alias ln
+# @alias link
 # @flag --color                Controls colors in the output.
 # @flag --no-color             Controls colors in the output.
 # @flag --aggregate-output     Aggregate output from child processes that are run in parallel, and only print output when child process is finished.
@@ -136,10 +136,10 @@ install-test() {
 # @flag --use-stderr           Divert all output to stderr
 # @flag -w --workspace-root    Run the command on the root workspace project
 # @arg dir!
-link() {
+ln() {
     :;
 }
-# }} pnpm link
+# }} pnpm ln
 
 # {{ pnpm prune
 # @cmd Removes extraneous packages
@@ -159,9 +159,9 @@ prune() {
 }
 # }} pnpm prune
 
-# {{ pnpm rebuild
+# {{ pnpm rb
 # @cmd Rebuild a package
-# @alias rb
+# @alias rebuild
 # @flag --color                       Controls colors in the output.
 # @flag --no-color                    Controls colors in the output.
 # @flag --aggregate-output            Aggregate output from child processes that are run in parallel, and only print output when child process is finished.
@@ -179,14 +179,14 @@ prune() {
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
 # @arg pkg*
-rebuild() {
+rb() {
     :;
 }
-# }} pnpm rebuild
+# }} pnpm rb
 
-# {{ pnpm remove
+# {{ pnpm rm
 # @cmd Removes packages from node_modules and from the project's package.json
-# @alias rm
+# @alias remove
 # @flag --color                       Controls colors in the output.
 # @flag --no-color                    Controls colors in the output.
 # @flag --aggregate-output            Aggregate output from child processes that are run in parallel, and only print output when child process is finished.
@@ -206,10 +206,10 @@ rebuild() {
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
 # @arg pkg-version*[`_choice_dependency`] <<pkg>[@<version>]>
-remove() {
+rm() {
     :;
 }
-# }} pnpm remove
+# }} pnpm rm
 
 # {{ pnpm unlink
 # @cmd Unlinks a package.
@@ -229,9 +229,9 @@ unlink() {
 }
 # }} pnpm unlink
 
-# {{ pnpm update
+# {{ pnpm up
 # @cmd Updates packages to their latest version based on the specified range
-# @alias up
+# @alias update
 # @flag --color                       Controls colors in the output.
 # @flag --no-color                    Controls colors in the output.
 # @flag --aggregate-output            Aggregate output from child processes that are run in parallel, and only print output when child process is finished.
@@ -256,10 +256,10 @@ unlink() {
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
 # @arg pkg*[`_choice_dependency`]
-update() {
+up() {
     :;
 }
-# }} pnpm update
+# }} pnpm up
 
 # {{ pnpm audit
 # @cmd Checks for known security issues with the installed packages
@@ -287,9 +287,9 @@ licenses() {
 }
 # }} pnpm licenses
 
-# {{ pnpm list
+# {{ pnpm ls
 # @cmd Print all the versions of packages that are installed, as well as their dependencies, in a tree-structure
-# @alias ls
+# @alias list
 # @flag --color                       Controls colors in the output.
 # @flag --no-color                    Controls colors in the output.
 # @flag --aggregate-output            Aggregate output from child processes that are run in parallel, and only print output when child process is finished.
@@ -315,10 +315,10 @@ licenses() {
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
 # @arg pkg*
-list() {
+ls() {
     :;
 }
-# }} pnpm list
+# }} pnpm ls
 
 # {{ pnpm outdated
 # @cmd Check for outdated packages
@@ -589,23 +589,23 @@ env() {
     :;
 }
 
-# {{{ pnpm env list
+# {{{ pnpm env ls
 # @cmd List Node.js versions available locally or remotely
-# @alias ls
+# @alias list
 # @flag --remote    List the remote versions of Node.js
-env::list() {
+env::ls() {
     :;
 }
-# }}} pnpm env list
+# }}} pnpm env ls
 
-# {{{ pnpm env remove
+# {{{ pnpm env rm
 # @cmd Removes the specified version of Node.js.
-# @alias rm
+# @alias remove
 # @flag -g --global    Manages Node.js versions globally
-env::remove() {
+env::rm() {
     :;
 }
-# }}} pnpm env remove
+# }}} pnpm env rm
 
 # {{{ pnpm env use
 # @cmd Installs the specified version of Node.js.

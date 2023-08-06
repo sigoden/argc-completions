@@ -710,7 +710,7 @@ plugin::list() {
 
 # {{{ helm plugin uninstall
 # @cmd uninstall one or more Helm plugins
-# @alias remove,rm
+# @alias rm,remove
 # @flag -h --help                            help for uninstall
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output

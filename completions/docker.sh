@@ -1267,9 +1267,9 @@ container::logs() {
 }
 # }}} docker container logs
 
-# {{{ docker container list
+# {{{ docker container ls
 # @cmd List containers
-# @alias ls,ps
+# @alias list,ps
 # @flag -a --all               Show all containers (default shows just running)
 # @option -f --filter[`_choice_container_ls_filter`] <filter>  Filter output based on conditions provided
 # @option --format <string>    Format output using a custom template:
@@ -1278,10 +1278,10 @@ container::logs() {
 # @flag --no-trunc             Don't truncate output
 # @flag -q --quiet             Only display container IDs
 # @flag -s --size              Display total file sizes
-container::list() {
+container::ls() {
     :;
 }
-# }}} docker container list
+# }}} docker container ls
 
 # {{{ docker container pause
 # @cmd Pause all processes within one or more containers
@@ -1701,9 +1701,9 @@ image::load() {
 }
 # }}} docker image load
 
-# {{{ docker image list
+# {{{ docker image ls
 # @cmd List images
-# @alias ls,ps
+# @alias list,ps
 # @flag -a --all               Show all images (default hides intermediate images)
 # @flag --digests              Show digests
 # @option -f --filter[`_choice_image_ls_filter`] <filter>  Filter output based on conditions provided
@@ -1711,10 +1711,10 @@ image::load() {
 # @flag --no-trunc             Don't truncate output
 # @flag -q --quiet             Only show image IDs
 # @arg repository-tag[`_module_oci_docker_image`] <REPOSITORY[:TAG]>
-image::list() {
+image::ls() {
     :;
 }
-# }}} docker image list
+# }}} docker image ls
 
 # {{{ docker image prune
 # @cmd Remove unused images

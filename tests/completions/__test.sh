@@ -223,21 +223,21 @@ install() {
 }
 # }} __test install
 
-# {{ __test install-test
+# {{ __test it
 # @cmd Runs a pnpm install followed immediately by a pnpm test
-# @alias it
-install-test() {
+# @alias install-test
+it() {
     :;
 }
-# }} __test install-test
+# }} __test it
 
-# {{ __test link
+# {{ __test ln
 # @cmd Connect the local project to another one
-# @alias ln
-link() {
+# @alias link
+ln() {
     :;
 }
-# }} __test link
+# }} __test ln
 
 # {{ __test compile
 # @cmd UNSTABLE: Compile the script into a self contained executable

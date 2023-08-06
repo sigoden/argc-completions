@@ -125,7 +125,7 @@ npm cache ls [name@version]
 npm cache verify
 EOF
 
-    elif [[ "$*" == "npm clean-install" ]]; then
+    elif [[ "$*" == "npm ci" ]]; then
         cat <<-'EOF'
 Options:
     -S --save                   Save installed packages to a package.json file as dependencies.
@@ -477,7 +477,7 @@ Options:
     --scope <value>     Associate an operation with a scope for a scoped registry.
 EOF
 
-    elif [[ "$*" == "npm list" ]]; then
+    elif [[ "$*" == "npm ls" ]]; then
         cat <<-'EOF'
 Usage: npm ls [package-spec]...
 Options:

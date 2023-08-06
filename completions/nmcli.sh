@@ -276,13 +276,14 @@ device::set() {
 }
 # }}} nmcli device set
 
-# {{{ nmcli device connect
+# {{{ nmcli device up
 # @cmd Connect the device.
-# @alias up
-device::connect() {
+# @alias connect
+# @arg ifname![`_choice_device_ifname`]
+device::up() {
     :;
 }
-# }}} nmcli device connect
+# }}} nmcli device up
 
 # {{{ nmcli device reapply
 # @cmd Attempt to update device with changes to the currently active connection made since it was last applied.

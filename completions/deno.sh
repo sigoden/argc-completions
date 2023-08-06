@@ -217,7 +217,7 @@ doc() {
 # @flag -p --print                          print result to stdout
 # @flag -h --help                           Print help (see a summary with '-h')
 # @arg code_arg+                            Code arg
-eval() {
+eval_() {
     :;
 }
 # }} deno eval

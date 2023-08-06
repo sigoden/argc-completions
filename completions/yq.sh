@@ -72,7 +72,7 @@ completion() {
 # @flag --xml-skip-proc-inst                 skip over process instructions (e.g. <?xml version="1"?>)
 # @flag --xml-strict-mode                    enables strict parsing of XML.
 # @arg yaml_file1*
-eval() {
+eval_() {
     :;
 }
 # }} yq eval

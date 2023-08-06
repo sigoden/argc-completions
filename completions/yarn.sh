@@ -340,7 +340,7 @@ bin() {
 # @option --otp <otpcode>                       one-time password for two factor authentication
 # @option --pattern <pattern>                   filter cached packages by pattern
 # @flag -h --help                               output usage information
-# @arg ls-list-clean-dir <ls|list|clean|dir>
+# @arg cmd[ls|list|clean|dir]
 cache() {
     :;
 }
@@ -685,7 +685,7 @@ generate-lock-entry() {
 # @option --prefix <prefix>                     bin prefix to use to install binaries
 # @flag --latest                                upgrade to the latest version of packages
 # @flag -h --help                               output usage information
-# @arg add-bin-dir-ls-list-remove-upgrade-upgrade-interactive <add|bin|dir|ls|list|remove|upgrade|upgrade-interactive>
+# @arg cmd[add|bin|dir|ls|list|remove|upgrade|upgrade-interactive]
 global() {
     :;
 }

@@ -200,7 +200,7 @@ search() {
 # @option -d --delimiter <arg>    The field delimiter for reading CSV data.
 # @arg selection!
 # @arg input-file
-select() {
+select_() {
     :;
 }
 # }} xsv select

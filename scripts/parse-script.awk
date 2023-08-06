@@ -11,7 +11,7 @@ BEGIN {
     PAIRS_CLOSE = ">])}"
     RE_SKIP_ARGUMENT = "^(flag|option|command|subcommand)"
     RE_SKIP_SBUCOMMAND =  "help|command|none|n\\/a"
-    RE_SHADOW_COMMAND = "^(do|echo|cat|tail|head|command)$"
+    RE_SHADOW_COMMAND = "^(do|echo|cat|tail|head|command|select|eval)$"
     RE_REMOVE_NOTATION_PREFIX = "[=!]"
     EXISTS_SUBCOMMANDS = ",help,"
     paramLineNum = 0
@@ -209,15 +209,10 @@ function parseArgument(words1, descVal, choicesVal) {
 
 function parseCommand(words1, descVal) {
     split("", names)
-    split("", shortNames)
     if (match(words1[1], /^-/)) {
         for (i in words1) {
             word = words1[i]
-            if (length(word) < 3) {
-                shortNames[length(shortNames) + 1] = word
-            } else {
-                names[length(names) + 1] = word
-            }
+            names[length(names) + 1] = word
         }
     } else {
         for (i in words1) {
@@ -231,27 +226,22 @@ function parseCommand(words1, descVal) {
             if (index(EXISTS_SUBCOMMANDS, "," word ",") > 0) {
                 continue
             }
-            if (length(word) < 3) {
-                shortNames[length(shortNames) + 1] = word
+            if (match(word, RE_SHADOW_COMMAND)) {
+                names[length(names) + 1] = word "_"
             } else {
                 names[length(names) + 1] = word
             }
             EXISTS_SUBCOMMANDS = EXISTS_SUBCOMMANDS word "," 
         }
     }
-    split("", allNames);
-    for (i in names) {
-        name = names[i]
-        if (match(name, RE_SHADOW_COMMAND)) {
-            name = name "_"
-        }
-        allNames[length(allNames) + 1] = name
+    if (length(names) > 1 && length(names[1]) < 2) {
+        word = names[1]
+        names[1] = names[2]
+        names[2] = word
+
     }
-    for (i in shortNames) {
-        allNames[length(allNames) + 1] = shortNames[i]
-    }
-    if (length(allNames) > 0) {
-        addCommandLine(join(allNames, " "), descVal)
+    if (length(names) > 0) {
+        addCommandLine(join(names, " "), descVal)
     }
 }
 

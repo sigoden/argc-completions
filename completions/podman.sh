@@ -1809,15 +1809,15 @@ network::reload() {
 }
 # }}} podman network reload
 
-# {{{ podman network remove
+# {{{ podman network rm
 # @cmd network rm
-# @alias rm
+# @alias remove
 # @flag -f --force    remove any containers using network
 # @arg network*[`_choice_network`]
-network::remove() {
+network::rm() {
     :;
 }
-# }}} podman network remove
+# }}} podman network rm
 # }} podman network
 
 # {{ podman pause
@@ -1962,9 +1962,9 @@ pod::prune() {
 }
 # }}} podman pod prune
 
-# {{{ podman pod list
+# {{{ podman pod ps
 # @cmd List pods
-# @alias ps,ls
+# @alias ls,list
 # @flag --ctr-ids                  Display the container UUIDs.
 # @flag --ctr-names                Display the container names
 # @flag --ctr-status               Display the container status
@@ -1976,10 +1976,10 @@ pod::prune() {
 # @flag --ns                       Display namespace information of the pod
 # @flag -q --quiet                 Print the numeric IDs of the pods only
 # @option --sort <string>          Sort output by created, id, name, or number (default "created")
-pod::list() {
+pod::ps() {
     :;
 }
-# }}} podman pod list
+# }}} podman pod ps
 
 # {{{ podman pod restart
 # @cmd Restart one or more pods
@@ -2364,15 +2364,15 @@ secret::inspect() {
 }
 # }}} podman secret inspect
 
-# {{{ podman secret list
+# {{{ podman secret ls
 # @cmd List secrets
-# @alias ls
+# @alias list
 # @option --format <string>    Format volume output using Go template (default "{{.ID}}\t{{.Name}}\t{{.Driver}}\t{{.CreatedAt}}\t{{.UpdatedAt}}\t\n")
 # @flag --noheading            Do not print headers
-secret::list() {
+secret::ls() {
     :;
 }
-# }}} podman secret list
+# }}} podman secret ls
 
 # {{{ podman secret rm
 # @cmd Remove one or more secrets
@@ -2667,17 +2667,17 @@ volume::inspect() {
 }
 # }}} podman volume inspect
 
-# {{{ podman volume list
+# {{{ podman volume ls
 # @cmd List volumes
-# @alias ls
+# @alias list
 # @option -f --filter* <string>    Filter volume output
 # @option --format <string>        Format volume output using Go template (default "{{.Driver}}\t{{.Name}}\n")
 # @flag --noheading                Do not print headers
 # @flag -q --quiet                 Print volume output in quiet mode
-volume::list() {
+volume::ls() {
     :;
 }
-# }}} podman volume list
+# }}} podman volume ls
 
 # {{{ podman volume prune
 # @cmd Remove all unused volumes
@@ -2688,16 +2688,16 @@ volume::prune() {
 }
 # }}} podman volume prune
 
-# {{{ podman volume remove
+# {{{ podman volume rm
 # @cmd Remove one or more volumes
-# @alias rm
+# @alias remove
 # @flag -a --all      Remove all volumes
 # @flag -f --force    Remove a volume by force, even if it is being used by a container
 # @arg volume*[`_choice_volume`]
-volume::remove() {
+volume::rm() {
     :;
 }
-# }}} podman volume remove
+# }}} podman volume rm
 # }} podman volume
 
 # {{ podman wait

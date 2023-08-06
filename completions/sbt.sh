@@ -236,7 +236,7 @@ client() {
 # {{ sbt eval
 # @cmd Evaluates the given Scala expression and prints the result and type.
 # @arg expression!
-eval() {
+eval_() {
     :;
 }
 # }} sbt eval

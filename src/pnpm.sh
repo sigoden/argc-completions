@@ -39,10 +39,10 @@ EOF
 
     elif [[ "$*" == "pnpm env "* ]]; then
         cat <<-'EOF' | _patch_help_select_subcmd $@
-pnpm env list
+pnpm env ls
 options:
     --remote       List the remote versions of Node.js
-pnpm env remove
+pnpm env rm
 options:
     -g --global    Manages Node.js versions globally
 pnpm env use
@@ -93,7 +93,7 @@ _patch_table() {
     elif [[ "$*" == "pnpm install" ]]; then
         echo "$table"| _patch_table_edit_options '--package-import-method;[`_choice_pacakge_import_method`];Import package method'
 
-    elif [[ "$*" == "pnpm list" ]]; then
+    elif [[ "$*" == "pnpm ls" ]]; then
         echo "$table"| _patch_table_edit_options '--depth(<number>)'
 
     elif [[ "$*" == "pnpm run" ]]; then
@@ -102,10 +102,10 @@ _patch_table() {
     elif [[ "$*" == "pnpm exec" ]]; then
         echo "$table" | _patch_table_edit_arguments 'exec;[`_choice_bin`]'
 
-    elif [[ "$*" == "pnpm remove" ]]; then
+    elif [[ "$*" == "pnpm rm" ]]; then
         echo "$table" | _patch_table_edit_arguments 'pkg;[`_choice_dependency`]'
 
-    elif [[ "$*" == "pnpm update" ]]; then
+    elif [[ "$*" == "pnpm up" ]]; then
         echo "$table" | _patch_table_edit_arguments 'pkg;[`_choice_dependency`]'
 
     elif [[ "$*" == "pnpm config" ]]; then

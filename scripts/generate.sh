@@ -261,10 +261,10 @@ parse_script() {
 validate_script() {
     if [[ -f "$output_file" ]]; then
         log_info ": validate script"
-        output=$(bash "$output_file" --help 2>&1)
+        output=$(bash "$output_file" --help 2>&1 || true)
         if [[ -n "$output" ]]; then
             if ! grep -q "USAGE:" <<<"$output"; then
-                log_error "$output"
+                log_error "$(echo "$output" | head -n 1)"
             fi
         fi
     fi

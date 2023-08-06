@@ -746,7 +746,7 @@ suggests() {
 
 # {{ composer update
 # @cmd Upgrades your dependencies to the latest version according to composer.json, and updates the composer.lock file.
-# @alias upgrade,u
+# @alias u,upgrade
 # @option --with                          Temporary version constraint to add, e.g. foo/bar:1.0.0 or foo/bar=1.0.0 (multiple values allowed)
 # @flag --prefer-source                   Forces installation from package sources when possible, including VCS information.
 # @flag --prefer-dist                     Forces installation from package dist (default behavior).

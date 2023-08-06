@@ -67,7 +67,7 @@ _patch_table() {
             'SRC;[`_choice_container_cp`]' \
             'DEST;[`_choice_container_cp`]' \
 
-    elif [[ "$*" == "docker container list"* ]]; then
+    elif [[ "$*" == "docker container ls"* ]]; then
         echo "$table" | _patch_table_edit_options '--filter;[`_choice_container_ls_filter`]'
 
     elif [[ "$*" == "docker ps"* ]]; then
@@ -76,7 +76,7 @@ _patch_table() {
     elif [[ "$*" == "docker image" ]]; then
         echo "$table" | _patch_table_edit_commands 'ls(ls, list, ps)'
 
-    elif [[ "$*" == "docker image list"* ]] || [[ "$*" == "docker images"* ]]; then
+    elif [[ "$*" == "docker image ls"* ]] || [[ "$*" == "docker images"* ]]; then
         echo "$table" | _patch_table_edit_options '--filter;[`_choice_image_ls_filter`]'
 
     elif [[ "$*" == "docker image tag"* ]] || [[ "$*" == "docker tag"* ]]; then

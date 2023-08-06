@@ -97,9 +97,9 @@ cache::verify() {
 # }}} npm cache verify
 # }} npm cache
 
-# {{ npm clean-install
+# {{ npm ci
 # @cmd Clean install a project
-# @alias install-clean,isntall-clean,ci,ic
+# @alias clean-install,ic,install-clean,isntall-clean
 # @flag -S --save                              Save installed packages to a package.json file as dependencies.
 # @flag -E --save-exact                        Dependencies  saved  to  package.json  will be configured with an exact version rather than using npm's default semver
 # @flag -g --global                            Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
@@ -119,10 +119,10 @@ cache::verify() {
 # @flag --workspaces                           Set to true to run the command in the context of all configured workspaces.
 # @flag --include-workspace-root               Include the workspace root when workspaces are enabled for a command.
 # @flag --install-links                        When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
-clean-install() {
+ci() {
     :;
 }
-# }} npm clean-install
+# }} npm ci
 
 # {{ npm completion
 # @cmd Tab Completion for npm
@@ -435,7 +435,7 @@ init() {
 
 # {{ npm install
 # @cmd Install a package
-# @alias add,isnt,i,in
+# @alias add,i,in,isnt
 # @flag -S --save                   Save installed packages to a package.json file as dependencies.
 # @flag -E --save-exact             Dependencies  saved  to  package.json  will be configured with an exact version rather than using npm's default semver
 # @flag -g --global                 Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
@@ -561,9 +561,9 @@ logout() {
 }
 # }} npm logout
 
-# {{ npm list
+# {{ npm ls
 # @cmd List installed packages
-# @alias ls
+# @alias list
 # @flag --all                       When  running  npm  outdated  and npm ls, setting --all will show all outdated or installed packages, rather than only
 # @flag --json                      Whether or not to output JSON data, rather than the normal output.
 # @flag --long                      Show extended information in ls, search, and help-search.
@@ -579,10 +579,10 @@ logout() {
 # @flag --include-workspace-root    Include the workspace root when workspaces are enabled for a command.
 # @flag --install-links             When  set  file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
 # @arg package-spec*
-list() {
+ls() {
     :;
 }
-# }} npm list
+# }} npm ls
 
 # {{ npm org
 # @cmd Manage orgs
@@ -1055,7 +1055,7 @@ unstar() {
 
 # {{ npm update
 # @cmd Update packages
-# @alias upgrade,udpate,up
+# @alias up,upgrade,udpate
 # @flag -S --save                   Save installed packages to a package.json file as dependencies.
 # @flag -g --global                 Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
 # @option --install-strategy[hoisted|nested|shallow] <value>  Sets the strategy for installing packages in node_modules.
