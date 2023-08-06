@@ -1672,6 +1672,7 @@ shortlog() {
 # @flag --sparse                        show merges reachable from only one tip
 # @flag --date-order                    topologically sort, maintaining date order where possible
 # @option -g --reflog <<n>[,<base>]>    show <n> most recent ref-log entries starting at base
+# @arg rev-glob* <<rev>|<glob>>
 show-branch() {
     :;
 }

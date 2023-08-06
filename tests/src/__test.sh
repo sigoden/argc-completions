@@ -139,6 +139,7 @@ Commands:
     build, b                    Compile the current package
     t, test                     Run the tests
     x [cmd] [key] [value]       View or set your gatsby-cli configuration settings.   
+    cat                         fn name will be `cat_`
 
 Other:
     cmd1
@@ -147,7 +148,7 @@ Other:
     cmd4, c
     cmd5, d,
     cmd6
-    cat
+    cmd7
 
 The commands are:
 
@@ -206,5 +207,11 @@ Arguments:
 EOF
     elif [[ "$*" == "__test cmd6" ]]; then
         echo "Usage: __test cmd6 add|list|rm [<args>]"
+    elif [[ "$*" == "__test cmd7" ]]; then
+        cat <<-'EOF'
+usage: __test cmd7 [-c [config file]] [-q] [-v] [--version] [--installroot [path]] [--nodocs] [--noplugins]
+              [--enableplugin [plugin]] [--disableplugin [plugin]] [--releasever RELEASEVER] [--setopt SETOPTS]
+              PACKAGE [PACKAGE ...]
+EOF
     fi
 }

@@ -332,7 +332,14 @@ function addNotations(item, array, extra) {
 }
 
 function addParamLine(text, descVal) {
-    paramLineNum = paramLineNum + 1
+    nextParam = 1
+    if (paramLineNum > 0) {
+        textIdx = index(text, paramLines[paramLineNum, 1])
+        if (textIdx == 1 && match(substr(text, length(paramLines[paramLineNum, 1]) + 1), /^(|\*|-N)$/)) {
+            nextParam = 0
+        }
+    }
+    paramLineNum = paramLineNum + nextParam
     paramLines[paramLineNum, 1] = text
     paramLines[paramLineNum, 2] = descVal
     textLen = length(text)

@@ -59,6 +59,7 @@ END {
                 }
             } else if (index(santizedLine, "usage:") == 1) {
                 usage = substr(line, spaces + 7)
+                usageNR = i
                 groupName = "usage"
                 continue
             }
@@ -132,6 +133,10 @@ END {
         } else if (groupName == "usage") {
             if (usage == "") {
                 usage = trimStarts(line)
+                usageNR = i
+            } else if (usageNR == i - 1 && match(line, /^ {10,}\S/)) {
+                usage = usage " " trimStarts(line)
+                usageNR = i
             }
         }
     }

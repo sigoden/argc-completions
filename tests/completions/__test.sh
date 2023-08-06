@@ -127,6 +127,13 @@ x() {
 }
 # }} __test x
 
+# {{ __test cat
+# @cmd fn name will be `cat_`
+cat_() {
+    :;
+}
+# }} __test cat
+
 # {{ __test cmd1
 # @cmd
 cmd1() {
@@ -180,12 +187,13 @@ cmd6() {
 }
 # }} __test cmd6
 
-# {{ __test cat
+# {{ __test cmd7
 # @cmd
-cat_() {
+# @arg package*
+cmd7() {
     :;
 }
-# }} __test cat
+# }} __test cmd7
 
 # {{ __test bug
 # @cmd start a bug report
