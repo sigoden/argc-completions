@@ -160,7 +160,9 @@ END {
         if (length(descValues[2]) > 0) {
             print "option # " optionVal  " # " descValues[1] " # " descValues[2]
         } else {
-            if (match(optionVal, /=?\{([A-Za-z0-9]+(,[A-Za-z0-9_-]+)+)\},?\s*$/, arr) || match(optionVal, /=?\{([A-Za-z0-9]+(\|[A-Za-z0-9_-]+)+)\},?\s*$/, arr) || match(optionVal, /=?<([A-Za-z0-9]+(\|[A-Za-z0-9_-]+){2,})>,?\s*$/, arr)) {
+            if (match(optionVal, /=?\{([A-Za-z0-9]+(,[A-Za-z0-9_-]+)+)\},?\s*$/, arr) || 
+                match(optionVal, /=?\{([A-Za-z0-9]+(\|[A-Za-z0-9_-]+)+)\},?\s*$/, arr) || 
+                match(optionVal, /=?<([A-Za-z0-9]+(\|[A-Za-z0-9_-]+){2,})>,?\s*$/, arr)) {
                 optionVal = substr(optionVal, 1, RSTART - 1)
                 gsub(",", "|", arr[1])
                 print "option # " optionVal  " # " descValues[1] " # [" arr[1] "]"
@@ -293,9 +295,11 @@ function splitOption(input) {
         } else {
             isBreak = 1
             if (length(word) == 0 && length(words) > 0 && match(ch, /[A-Za-z0-9]/)) {
-                if (match(words[length(words)], /^-/) && match(substr(input, i), /^\S+( -|  | \[|\n|$)/)) {
+                trimedInput = substr(input, i)
+                if (match(words[length(words)], /^-/) && match(trimedInput, /^\S+( -|  |\.{3}| \[|\n|$)/)) {
                     isBreak = 0
-                } else if (match(substr(input, i), /^[A-Z0-9]+(\.\.\.)?( [A-Z0-9]+(\.\.\.)?){,2}( -|  | \[|\n|$)/) || match(substr(input, i), /^[a-z0-9]+(\.\.\.)?( [a-z0-9]+(\.\.\.)?){,2}( -|  | \[|\n|$)/)) {
+                } else if (match(trimedInput, /^[A-Z0-9]+( [A-Z0-9]+){,2}( -|  |\.{3}| \[|\n|$)/) ||
+                           match(trimedInput, /^[a-z0-9]+( [a-z0-9]+){,2}( -|  |\.{3}| \[|\n|$)/)) {
                     isBreak = 0
                 }
                 if (isBreak == 1) {
@@ -350,25 +354,60 @@ function splitArgment(input) {
 }
 
 function splitCommand(input) {
+    split(input, chars, "")
     split("", words)
-    worsLen = 0
-    idx = 1
-    wordsLen = 0
-    while (1) {
-        wordSize = nextWord(substr(input, idx))
-        if (wordSize == 0) {
-            break
+    balances = ""
+    word = ""
+    wordBreakAt = 0
+    for (i=1; i <= length(input); i++) {
+        ch = chars[i]
+        if (ch == "\n") {
+            return i - 1
+        } else if (match(ch, /[[:space:]]/)) {
+            if (length(balances) == 0) {
+                if (length(word) == 0) {
+                    if (i - wordBreakAt > 1 && substr(input, i + 1, 1) != "-") {
+                        return wordBreakAt
+                    }
+                } else {
+                    words[length(words) + 1] = word
+                    word = ""
+                    wordBreakAt = i - 1
+                    if (ch == "\t") {
+                        return wordBreakAt
+                    }
+                }
+            } else {
+                word = word ch
+            }
+        } else if (index(PAIRS_OPEN, ch) > 0) {
+            balances = balances ch
+            word = word ch
+        } else if (index(PAIRS_CLOSE, ch) > 0) {
+            if (substr(balances, length(balances), 1) == PAIRS[ch]) {
+                balances = substr(balances, 1, length(balances) - 1)
+            }
+            word = word ch
+        } else {
+            isBreak = 1
+            if (length(word) == 0 && length(words) > 0 && match(ch, /[A-Za-z0-9]/)) {
+                trimedInput = substr(input, i)
+                if (match(trimedInput, /^\S+(  | \.{3}| \[|\n|$)/)) {
+                    isBreak = 0
+                } else if (match(words[length(words)], /,$/)) {
+                    isBreak = 0
+                } else if (match(trimedInput, /^[A-Z0-9=]+( [A-Z0-9=]+){,2}(  |\.{3}| \[|\n|$)/) ||
+                           match(trimedInput, /^[a-z0-9=]+( [a-z0-9=]+){,2}(  |\.{3}| \[|\n|$)/)) {
+                    isBreak = 0
+                }
+                if (isBreak == 1) {
+                    return wordBreakAt
+                }
+            }
+            word = word ch
         }
-        word = substr(input, idx, wordSize)
-        if (wordsLen == 0 || match(words[wordsLen], /,$/) || match(word, /^(\[|\(|<)/) || !match(word, /[a-z]/)) {
-            idx = idx + wordSize + 1
-            wordsLen = wordsLen + 1
-            words[wordsLen] = word
-            continue
-        }
-        break
     }
-    return idx - 2
+    return length(input)
 }
 
 function parseDesc(descVal, output, extractChoice, logPrefix)  {

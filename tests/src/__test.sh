@@ -187,6 +187,11 @@ Systemctl Commands:
   set-property UNIT PROPERTY=VALUE... Sets one or more properties of a unit
   mount-image UNIT PATH [PATH [OPTS]] Mount an image from the host into a
 
+Emerge Commands:
+    ebuild   An ebuild must be, at a minimum, a valid Portage package directory name without a version or category, such as portage or python.  Both categories and version numbers may be used in addition, such as sys-apps/portage or =python-2.2.1-r2.  emerge ignores a trailing slash so that filename completion can be used.  The ebuild may also be an actual filename, such as /var/db/repos/gentoo/app-admin/python/python-2.2.1-r2.ebuild.  WARNING: The implementation of emerge /path/to/ebuild is broken and so this syntax shouldn't be used.
+    tbz2 file
+            A tbz2 file must be a valid .tbz2 created with ebuild <package>-<version>.ebuild package or emerge --buildpkg [category/]<package> or quickpkg [category/]<package>.
+
 EXPERIMENTAL:
   docker manifest is an experimental feature.
   Experimental features provide early access to product functionality. 

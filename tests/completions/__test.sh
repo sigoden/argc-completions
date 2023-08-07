@@ -328,4 +328,19 @@ mount-image() {
 }
 # }} __test mount-image
 
+# {{ __test ebuild
+# @cmd An ebuild must be, at a minimum, a valid Portage package directory name without a version or category, such as portage or python.
+ebuild() {
+    :;
+}
+# }} __test ebuild
+
+# {{ __test tbz2
+# @cmd A tbz2 file must be a valid .tbz2 created with ebuild <package>-<version>.ebuild package or emerge --buildpkg [category/]<package> or quickpkg [category/]<package>.
+# @alias file
+tbz2() {
+    :;
+}
+# }} __test tbz2
+
 command eval "$(argc --argc-eval "$0" "$@")"

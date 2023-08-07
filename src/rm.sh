@@ -1,3 +1,7 @@
+_patch_help() { 
+    $@ --help | sed '/commands:$/ a\n'
+}
+
 _patch_table() {
     _patch_table_edit_options '--interactive;[`_choice_interactive`]'
 }
