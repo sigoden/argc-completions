@@ -813,6 +813,7 @@ select-window() {
 # @flag -X
 # @option -N <repeat-count>
 # @option -t <target-pane>
+# @arg key*
 send-keys() {
     :;
 }
@@ -980,6 +981,7 @@ show-window-options() {
 # @flag -n
 # @flag -q
 # @flag -v
+# @arg path*
 source-file() {
     :;
 }

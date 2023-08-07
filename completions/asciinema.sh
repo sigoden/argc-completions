@@ -3,7 +3,6 @@
 
 # @flag -h --help    show this help message and exit
 # @flag --version    show program's version number and exit
-# @arg rec-play-cat-upload-auth <rec,play,cat,upload,auth>
 
 # {{ asciinema rec
 # @cmd Record terminal session

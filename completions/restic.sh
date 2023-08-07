@@ -61,7 +61,7 @@
 # @option --repository-file <file>        file to read the repository location from (default: $RESTIC_REPOSITORY_FILE)
 # @option --tls-client-cert <file>        path to a file containing PEM encoded TLS client certificate and private key
 # @option -v --verbose <n>                be verbose (specify multiple times or a level using --verbose=n, max level/times is 3)
-# @arg file-dir <FILE/DIR>
+# @arg file-dir* <FILE/DIR>
 backup() {
     :;
 }

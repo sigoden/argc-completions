@@ -173,6 +173,7 @@ END {
         split("", words)
         gsub(/ \| /, "|", usage)
         gsub(/-- |\[--\] /, "", usage)
+        gsub(/\s+\.\.\.$/, "...", usage)
         splitUsage(usage, words)
         isCmd = 1
         for (i in words) {

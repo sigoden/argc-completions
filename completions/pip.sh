@@ -699,7 +699,7 @@ wheel() {
 # @flag --no-python-version-warning     Silence deprecation warnings for upcoming unsupported Pythons.
 # @option --use-feature <feature>       Enable new functionality, that may be backward incompatible.
 # @option --use-deprecated <feature>    Enable deprecated functionality, that will be removed in the future.
-# @arg file!
+# @arg file+
 hash() {
     :;
 }

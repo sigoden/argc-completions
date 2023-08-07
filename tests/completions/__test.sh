@@ -212,6 +212,14 @@ cmd9() {
 }
 # }} __test cmd9
 
+# {{ __test cmda
+# @cmd
+# @arg dir*
+cmda() {
+    :;
+}
+# }} __test cmda
+
 # {{ __test bug
 # @cmd start a bug report
 bug() {

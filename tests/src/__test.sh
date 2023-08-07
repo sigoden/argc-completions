@@ -155,6 +155,7 @@ Other:
     cmd7
     cmd8
     cmd9
+    cmda
 
 The commands are:
 
@@ -225,5 +226,7 @@ EOF
         echo "Usage: __test cmd8 [DIR(S)]"
     elif [[ "$*" == "__test cmd9" ]]; then
         echo "Usage: __test cmd9 [hosted-url|--all]"
+    elif [[ "$*" == "__test cmda" ]]; then
+        echo "Usage: __test cmda [DIR] ..."
     fi
 }

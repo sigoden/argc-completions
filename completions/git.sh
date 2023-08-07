@@ -1140,7 +1140,7 @@ maintenance() {
 
 # {{ git mergetool
 # @cmd Run merge conflict resolution tools to resolve merge conflicts
-# @arg file-to-merge <file to merge>
+# @arg file-to-merge* <file to merge>
 mergetool() {
     :;
 }
