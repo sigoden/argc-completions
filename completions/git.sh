@@ -508,7 +508,7 @@ merge() {
 # @flag -m --merge                         use merging strategies to rebase
 # @flag -i --interactive                   let the user edit the list of commits to rebase
 # @flag --rerere-autoupdate                update the index with reused conflict resolution if possible
-# @option --empty <drop,keep,ask>          how to handle commits that become empty
+# @option --empty[drop|keep|ask]           how to handle commits that become empty
 # @flag --autosquash                       move commits that begin with squash!/fixup! under -i
 # @option -S --gpg-sign <key-id>           GPG-sign commits
 # @flag --autostash                        automatically stash/stash pop before and after

@@ -160,10 +160,10 @@ END {
         if (length(descValues[2]) > 0) {
             print "option # " optionVal  " # " descValues[1] " # " descValues[2]
         } else {
-            if (match(optionVal, /=?\{([A-Za-z0-9]+(,[A-Za-z0-9_-]+)+)\},?\s*$/, arr) || 
-                match(optionVal, /=?\{([A-Za-z0-9]+(\|[A-Za-z0-9_-]+)+)\},?\s*$/, arr) || 
-                match(optionVal, /=?<([A-Za-z0-9]+(\|[A-Za-z0-9_-]+){2,})>,?\s*$/, arr)) {
-                optionVal = substr(optionVal, 1, RSTART - 1)
+            if (match(optionVal, /=?\{([[:alnum:]][[:alnum:]_-]*(,[[:alnum:]][[:alnum:]_-]*)+)\},?/, arr) || 
+                match(optionVal, /=?\{([[:alnum:]][[:alnum:]_-]*(\|[[:alnum:]][[:alnum:]_-]*)+)\},?/, arr) || 
+                match(optionVal, /=?<([[:alnum:]][[:alnum:]_-]*(\|[[:alnum:]][[:alnum:]_-]*){2,})>,?/, arr)) {
+                optionVal = substr(optionVal, 1, RSTART - 1) substr(optionVal, RSTART + RLENGTH)
                 gsub(",", "|", arr[1])
                 print "option # " optionVal  " # " descValues[1] " # [" arr[1] "]"
             } else {
