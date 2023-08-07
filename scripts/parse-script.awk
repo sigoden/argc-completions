@@ -382,7 +382,7 @@ function getArgName(input) {
 }
 
 function extractName(input,     result, len, idx, end, last) {
-    if (match(input, /[0-9a-zA-Z._-]+/)) {
+    if (match(input, /[0-9a-zA-Z.:_-]+/)) {
         result = substr(input, RSTART, RLENGTH)
         return takeTailEllipsis(result)
     }

@@ -60,6 +60,7 @@
 # @option --input-format[auto|a|yaml|y|props|p|xml|x|tsv|t|csv|c|toml] <string>  parse format for input.
 # @option --argjson <a> <v>                        set variable $a to JSON value <v>;
 # @option --git-protocol[ssh|https] <string>       The protocol to use for git operations:
+# @option --graph:node_limit <integer>
 # @option -r --reload* <CACHE_BLOCKLIST>           Reload source code cache (recompile TypeScript)
 # @option -coverpkg <pattern1,pattern2,pattern3>   For a build that targets package 'main'
 # @option --cgroupns <string>                      Cgroup namespace to use (host|private)
