@@ -31,7 +31,7 @@
 # @flag --verbose                         turn on verbose mode and disable script from stdin
 # @flag --version                         print the version number, then exit
 # @flag --help                            show this message, -h for short message
-# @option --backtrace-limit <num>         limit the maximum length of backtrace AST with comments freeze all string literals (default: disabled)
+# @option --backtrace-limit <num>         limit the maximum length of backtrace
 # @flag --jit-warnings                    Enable printing JIT warnings
 # @flag --jit-debug                       Enable JIT debugging (very slow), or add cflags if specified
 # @flag --jit-wait                        Wait until JIT compilation finishes every time (for testing)
