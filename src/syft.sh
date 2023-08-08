@@ -20,11 +20,11 @@ _patch_table() {
     || [[ "$*" == "syft package" ]] \
     ; then
         echo "$table" | \
-        _patch_table_edit_arguments ';;' 'SOURCE;[`_choice_source`]'
+        _patch_table_edit_arguments ';;' 'source;[`_choice_source`]'
 
     elif [[ "$*" == "syft convert" ]]; then
         echo "$table" | \
-        _patch_table_edit_arguments ';;' 'SOURCE-SBOM-FILE'  'FORMAT;[`_chocie_convert_format`]'
+        _patch_table_edit_arguments ';;' 'source-sbom-file'  'format;[`_chocie_convert_format`]'
 
     else
         echo "$table"

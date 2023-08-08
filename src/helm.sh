@@ -16,9 +16,9 @@ _patch_table() {
             '--output;[table|json|yaml]' \
         | \
         _patch_table_edit_arguments \
-            'CHART;[`_choice_chart`]' \
-            'RELEASE_NAME;[`_choice_release`]' \
-            'RELEASE;[`_choice_release`]' \
+            'chart;[`_choice_chart`]' \
+            'release_name;[`_choice_release`]' \
+            'release;[`_choice_release`]' \
     )"
 
     if [[ "$*" == "helm" ]]; then
@@ -89,7 +89,7 @@ _patch_table() {
     elif [[ "$*" == "helm rollback" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments \
-            'REVISION;[`_choice_revision`]'
+            'revision;[`_choice_revision`]'
 
     elif [[ "$*" == "helm template" ]]; then
         echo "$table" | \

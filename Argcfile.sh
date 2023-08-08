@@ -74,6 +74,8 @@ regenerate:all() {
             cmd="$(basename $f .sh)"
             if command -v $cmd > /dev/null; then
                 argc generate $cmd -E
+            else
+                echo Skip $cmd
             fi
         fi
     done

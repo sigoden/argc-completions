@@ -1,4 +1,12 @@
 BEGIN {
+    PAIRS[">"] = "<";
+    PAIRS["]"] = "[";
+    PAIRS[")"] = "(";
+    PAIRS["}"] = "{";
+    PAIRS_OPEN = "<[({"
+    PAIRS_CLOSE = ">])}"
+    RE_REMOVE_NOTATION_PREFIX = "[=!]"
+
     split(RAW_ARGS, args, "\n")
     split("", LINES)
     split("", TABLE)
@@ -99,8 +107,8 @@ function editOption(line,       i) {
             notation = TABLE[i, 2]
             choice = TABLE[i, 3]
             desc = TABLE[i, 4]
-            noDesc = desc == "" && trim(optionDesc) == ""
-            noChoice = choice == "" && trim(optionChoice) == ""
+            noDesc = desc == "" && trimSpaces(optionDesc) == ""
+            noChoice = choice == "" && trimSpaces(optionChoice) == ""
             for (j = LINE_INDEX + 1; j <= LINES_SIZE; j++) {
                 split("", parts2)
                 splitOption(LINES[j], parts2)
@@ -108,14 +116,14 @@ function editOption(line,       i) {
                     LINE_INDEX = j
                     if (noDesc) {
                         optionDesc_ = parts2[2]
-                        if (trim(optionDesc_) != "") {
+                        if (trimSpaces(optionDesc_) != "") {
                             optionDesc = optionDesc_ 
                             noDesc = 0
                         }
                     }
                     if (noChoice) {
                         optionChoice_ = parts2[3]
-                        if (trim(optionChoice_) != "") {
+                        if (trimSpaces(optionChoice_) != "") {
                             optionChoice = optionChoice_ 
                             noChoice = 0
                         }
@@ -153,40 +161,37 @@ function editArgument(line,     i) {
         if (TAKEN_ROWS[i] == 1) {
             continue
         }
-        name = TABLE[i, 1]
+        name = tolower(TABLE[i, 1])
         if (name == "") {
             continue
         }
-        argumentNameLower = tolower(argumentName)
-        nameIdx = index(argumentNameLower, tolower(name))
-        if (nameIdx > 0) {
-            chekChars = substr(argumentNameLower, nameIdx - 1, 1) substr(argumentNameLower, nameIdx + length(name), 1)
-            if (!match(chekChars, /[a-z0-9_\|:-]/)) {
-                TAKEN_ROWS[i] = 1
-                notation = TABLE[i, 2]
-                choice = TABLE[i, 3]
-                desc = TABLE[i, 4]
-                if (notation == "" && choice == "" && desc == "") {
-                    return
-                }
-                if (notation != "") {
-                    if (!match(notation, /^\s+/)) {
-                        notation = " " notation
-                    }
-                    if (!match(notation, /\s+$/)) {
-                        notation = notation " "
-                    }
-                    argumentName = notation
-                }
-                if (desc != "") {
-                    argumentDesc = " " desc " "
-                }
-                if (choice != "") {
-                    argumentChoice = " " choice
-                }
-                print "argument #" argumentName "#" argumentDesc "#" argumentChoice
+        trimedArgumentName = trimSpaces(tolower(argumentName))
+        parseNotation(trimedArgumentName, extra)
+        if (extra["notation"] == name || getArgName(extra["notation"]) == name) {
+            TAKEN_ROWS[i] = 1
+            notation = TABLE[i, 2]
+            choice = TABLE[i, 3]
+            desc = TABLE[i, 4]
+            if (notation == "" && choice == "" && desc == "") {
                 return
             }
+            if (notation != "") {
+                if (!match(notation, /^\s+/)) {
+                    notation = " " notation
+                }
+                if (!match(notation, /\s+$/)) {
+                    notation = notation " "
+                }
+                argumentName = notation
+            }
+            if (desc != "") {
+                argumentDesc = " " desc " "
+            }
+            if (choice != "") {
+                argumentChoice = " " choice
+            }
+            print "argument #" argumentName "#" argumentDesc "#" argumentChoice
+            return
         }
     }
     print line
@@ -272,7 +277,156 @@ function extractOptionName(optionBody,      len, idx, i) {
     return value
 }
 
-function trim(input) {
-    gsub(/^[[:space:]]+|[[:space:]]+$/,"", input)
+function getArgName(input) {
+    split(input, chars, "")
+    split("", words)
+    word = ""
+    for (i=1; i <= length(input); i++) {
+        ch = chars[i]
+        if (match(ch, /[A-Za-z0-9_-]/)) {
+            word = word ch
+        } else {
+            if (word != "") {
+                words[length(words) + 1] = word
+                word = ""
+            }
+        }
+    }
+    if (word != "") {
+        words[length(words) + 1] = word
+    }
+    value = join(words, "-")
+    gsub(/^-+|-+$/, "", value)
+    return tolower(value)
+}
+
+function parseNotation(item, extra) {
+    extra["notation"] = ""
+    len = length(item)
+    if (len > 1) {
+        firstChar = substr(item, 1, 1)
+        if (firstChar == "'" && match(item, /^'[^']*'$/)) {
+            item = substr(item, 2, length(item) - 2)
+        } else if (match(firstChar, RE_REMOVE_NOTATION_PREFIX)) {
+            item = substr(item, 2)
+        }
+    }
+    item = takeHeadEllipsis(item, extra)
+    item = takeTailEllipsis(item, extra)
+    split(item, chars, "")
+    balances = ""
+    split("", balanceIndexes)
+    idx = 0
+    split("", pairs)
+    for (i=1; i <= length(item); i++) {
+        ch = chars[i]
+        if (index(PAIRS_OPEN, ch) > 0) {
+            balances = balances ch
+            idx += 1
+            balanceIndexes[idx] = i
+        } else if (index(PAIRS_CLOSE, ch) > 0) {
+            if (substr(balances, length(balances), 1) == PAIRS[ch]) {
+                balances = substr(balances, 1, length(balances) - 1)
+                pairs[length(pairs) + 1] = balanceIndexes[idx] ":" i
+                idx -= 1
+            }
+        }
+    }
+    start = 1
+    end = length(item)
+    for (i = length(pairs); i >= 1; i--) {
+        split(pairs[i], values, ":")
+        pairStart = values[1]
+        matchStart = 0
+        if (values[1] == start) {
+            matchStart = 1
+        } else {
+            if (match(substr(item, 1, pairStart - 1), /^\.{2,}$/)) {
+                matchStart = 2
+            }
+        }
+        if (matchStart > 0) {
+            pairEnd = values[2]
+            matchEnd = 0
+            if (pairEnd == end) {
+                matchEnd = 1
+            } else if (match(substr(item, pairEnd + 1, end - pairEnd), /^\.{2,}$/)) {
+                matchEnd = 2
+            }
+            if (matchEnd > 0) {
+                if (substr(item, pairStart, 1) == "<" && extra["required"] == 0 && i == length(pairs)) {
+                    extra["required"] = 1
+                }
+                if (matchStart == 2 || matchEnd == 2) {
+                    extra["multiple"] = 1
+                }
+                start = pairStart + 1
+                if (match(substr(item, start, 1), RE_REMOVE_NOTATION_PREFIX)) {
+                    start = start + 1
+                }
+                end = pairEnd - 1
+            }
+        }
+    }
+    item = substr(item, start, end + 1 - start)
+    item = takeHeadEllipsis(item, extra)
+    extra2["multiple"] = 0
+    item2 = takeTailEllipsis(item, extra2)
+    if (index(PAIRS_CLOSE, substr(item2, length(item2))) == 0) {
+        item = item2
+        if (extra2["multiple"] == 1) {
+            extra["multiple"] = 1
+        }
+    }
+    if (length(item) > 0) {
+        item = trimSpaces(item)
+        if (match(item, /^<[^>]+>$/)) {
+            item = substr(item, 2, length(item) - 2)
+        }
+        extra["notation"] = item
+    }
+}
+
+function takeTailEllipsis(item, extra,    len, end, idx) {
+    len = length(item)
+    if (len > 1 && substr(item, len - 1, 2) == ".." ) {
+        end = len - 2
+        for(idx=len - 2; idx >= 0; idx--) {
+            if (substr(item, idx, 1) != ".") {
+                break
+            }
+            end = end - 1
+        }
+        extra["multiple"] = 1
+        return substr(item, 1, end)
+    }
+    return item
+}
+
+function takeHeadEllipsis(item, extra,    len, end, idx) {
+    len = length(item)
+    if (len > 1 && substr(item, 1, 2) == ".." ) {
+        start = 3
+        for(idx=start; idx <= len; idx++) {
+            if (substr(item, idx, 1) != ".") {
+                break
+            }
+            start = start + 1
+        }
+        extra["multiple"] = 1
+        return substr(item, start)
+    }
+    return item
+}
+
+function join(array, sep,  result, i) {
+    result = array[1]
+    for (i = 2; i <= length(array); i++)
+        result = result sep array[i]
+    return result
+}
+
+function trimSpaces(input) {
+    gsub(/^[[:space:]]+|[[:space:]]+$/,"",input)
     return input
 }

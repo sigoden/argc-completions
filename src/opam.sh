@@ -129,7 +129,7 @@ _patch_table() {
 
     elif [[ "$*" == "opam var" ]]; then
         echo "$table" | \
-        _patch_table_edit_arguments 'var;*[`_choice_var`]'
+        _patch_table_edit_arguments 'var-value;*[`_choice_var`]'
 
     else
         echo "$table"

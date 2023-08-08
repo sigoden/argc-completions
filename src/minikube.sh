@@ -73,19 +73,19 @@ _patch_table() {
         echo "$table" | _patch_table_edit_arguments ';;' 'image;[`_choice_load_image`]'
 
     elif [[ "$*" == "minikube image save" ]]; then
-        echo "$table" | _patch_table_edit_arguments 'IMAGE;[`_choice_image`]' 'ARCHIVE|-(ARCHIVE <path>)'
+        echo "$table" | _patch_table_edit_arguments 'image;[`_choice_image`]' 'archive(archive <path>)'
 
     elif [[ "$*" == "minikube image"* ]]; then
-        echo "$table" | _patch_table_edit_arguments 'IMAGE;[`_choice_image`]'
+        echo "$table" | _patch_table_edit_arguments 'image;[`_choice_image`]'
 
     elif [[ "$*" == "minikube addons"* ]]; then
-        echo "$table" | _patch_table_edit_arguments 'ADDON_NAME;[`_choice_addon`]'
+        echo "$table" | _patch_table_edit_arguments 'addon_name;[`_choice_addon`]'
 
     elif [[ "$*" == "minikube config"* ]]; then
-        echo "$table" | _patch_table_edit_arguments 'PROPERTY_NAME;[`_choice_property_name`]'
+        echo "$table" | _patch_table_edit_arguments 'property_name;[`_choice_property_name`]'
 
     elif [[ "$*" == "minikube profile" ]]; then
-        echo "$table" | _patch_table_edit_arguments ';;' 'MINIKUBE_PROFILE_NAME'
+        echo "$table" | _patch_table_edit_arguments ';;' 'minikube_profile_name'
 
     elif [[ "$*" == "minikube mount" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'src:dest;[`_choice_mount`]'
@@ -94,7 +94,7 @@ _patch_table() {
         echo "$table" | _patch_table_edit_arguments ';;' 'args;~[`_choice_kubectl`]'
 
     elif [[ "$*" == "minikube cp" ]]; then
-        echo "$table" | _patch_table_edit_arguments ';;' 'SRC;[`_choice_cp`]' 'DEST;[`_choice_cp`]'
+        echo "$table" | _patch_table_edit_arguments ';;' 'src;[`_choice_cp`]' 'dest;[`_choice_cp`]'
 
     elif [[ "$*" == "minikube license" ]]; then
         echo "$table" | _patch_table_edit_options '--dir(<dir>)'

@@ -158,7 +158,7 @@ EOF
 }
 _patch_table() {
     if [[ "$*" == "adb reconnect" ]]; then
-        _patch_table_edit_arguments ';;' 'TYPE;[`_choice_reconnect_type`]'
+        _patch_table_edit_arguments ';;' 'type;[`_choice_reconnect_type`]'
     else
         cat
     fi

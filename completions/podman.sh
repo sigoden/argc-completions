@@ -1012,7 +1012,7 @@ generate() {
 # @cmd Generate Kubernetes YAML from containers, pods or volumes.
 # @option -f --filename <file>    Write output to the specified path
 # @flag -s --service              Generate YAML for a Kubernetes service object
-# @arg container-pod-volume*[`_choice_container`] <CONTAINER...|POD...|VOLUME>
+# @arg container-pod-volume* <CONTAINER...|POD...|VOLUME>
 generate::kube() {
     :;
 }

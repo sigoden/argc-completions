@@ -28,21 +28,21 @@ _patch_table() {
         '--platform;[`_module_oci_docker_platform`]' \
     | \
     _patch_table_edit_arguments \
-        'CONTAINER;[`_choice_container_name`]' \
-        'REPOSITORY[:TAG];[`_module_oci_docker_image`]' \
-        'IMAGE:TAG;[`_module_oci_docker_image`]' \
-        'IMAGE;[`_module_oci_docker_image`]' \
+        'container;[`_choice_container_name`]' \
+        'repository-tag;[`_module_oci_docker_image`]' \
+        'image-tag;[`_module_oci_docker_image`]' \
+        'image;[`_module_oci_docker_image`]' \
     )"
 
     if [[ "$*" == "docker config"* ]]; then
-        echo "$table" | _patch_table_edit_arguments 'CONFIG;[`_choice_config`]'
+        echo "$table" | _patch_table_edit_arguments 'config;[`_choice_config`]'
 
     elif [[ "$*" == "docker compose"* ]]; then
         table="$( \
             echo "$table" | \
             _patch_table_edit_arguments \
-                'SERVICE;[`_choice_compose_service`]' \
-                'SERVICES;[`_choice_compose_service`]' \
+                'service;[`_choice_compose_service`]' \
+                'services;[`_choice_compose_service`]' \
         )"
 
         if [[ "$*" == "docker compose" ]]; then
@@ -51,8 +51,8 @@ _patch_table() {
         elif [[ "$*" == "docker compose cp" ]]; then
             echo "$table" | \
             _patch_table_edit_arguments \
-                'SRC;[`_choice_compose_cp`]' \
-                'DEST;[`_choice_compose_cp`]' \
+                'src;[`_choice_compose_cp`]' \
+                'dest;[`_choice_compose_cp`]' \
 
         else
             echo "$table"
@@ -64,11 +64,18 @@ _patch_table() {
     elif [[ "$*" == "docker container cp"* ]] || [[ "$*" == "docker cp"* ]]; then
         echo "$table" | \
         _patch_table_edit_arguments \
-            'SRC;[`_choice_container_cp`]' \
-            'DEST;[`_choice_container_cp`]' \
+            'src;[`_choice_container_cp`]' \
+            'dest;[`_choice_container_cp`]' \
 
     elif [[ "$*" == "docker container ls"* ]]; then
         echo "$table" | _patch_table_edit_options '--filter;[`_choice_container_ls_filter`]'
+
+    elif [[ "$*" == "docker container rm" ]] \
+      || [[ "$*" == "docker container logs" ]] \
+      || [[ "$*" == "docker rm" ]] \
+      || [[ "$*" == "docker logs" ]] \
+    ; then
+        echo "$table" | _patch_table_edit_arguments 'container;[`_choice_container_name_all`]' \
 
     elif [[ "$*" == "docker ps"* ]]; then
         echo "$table" | _patch_table_edit_options '--filter;[`_choice_container_ls_filter`]'
@@ -82,44 +89,44 @@ _patch_table() {
     elif [[ "$*" == "docker image tag"* ]] || [[ "$*" == "docker tag"* ]]; then
         echo "$table" | \
         _patch_table_edit_arguments \
-            'SOURCE_IMAGE;[`_module_oci_docker_image`]' \
-            'TARGET_IMAGE;[`_module_oci_docker_image`]' \
+            'source_image-tag;[`_module_oci_docker_image`]' \
+            'target_image-tag;[`_module_oci_docker_image`]' \
 
     elif [[ "$*" == "docker events"* ]]; then
         echo "$table" | _patch_table_edit_options '--filter;[`_choice_event_filter`]'
 
     elif [[ "$*" == "docker buildx"* ]]; then
-        echo "$table" | _patch_table_edit_arguments 'NAME;[`_choice_builder`]'
+        echo "$table" | _patch_table_edit_arguments 'name;[`_choice_builder`]'
 
     elif [[ "$*" == "docker builder"* ]]; then
-        echo "$table" | _patch_table_edit_arguments 'NAME;[`_choice_builder`]'
+        echo "$table" | _patch_table_edit_arguments 'name;[`_choice_builder`]'
 
     elif [[ "$*" == "docker network"* ]]; then
-        echo "$table" | _patch_table_edit_arguments 'NETWORK;[`_choice_network`]'
+        echo "$table" | _patch_table_edit_arguments 'network;[`_choice_network`]'
 
     elif [[ "$*" == "docker context"* ]]; then
-        echo "$table" | _patch_table_edit_arguments 'CONTEXT;[`_choice_context`]'
+        echo "$table" | _patch_table_edit_arguments 'context;[`_choice_context`]'
 
     elif [[ "$*" == "docker node"* ]]; then
-        echo "$table" | _patch_table_edit_arguments 'NODE;[`_choice_node`]'
+        echo "$table" | _patch_table_edit_arguments 'node;[`_choice_node`]'
 
     elif [[ "$*" == "docker plugin"* ]]; then
-        echo "$table" | _patch_table_edit_arguments 'PLUGIN;[`_choice_plugin`]'
+        echo "$table" | _patch_table_edit_arguments 'plugin;[`_choice_plugin`]'  'plugin-tag;[`_choice_plugin`]'
 
     elif [[ "$*" == "docker secret"* ]]; then
-        echo "$table" | _patch_table_edit_arguments 'SECRET;[`_choice_secret`]'
+        echo "$table" | _patch_table_edit_arguments 'secret;[`_choice_secret`]'
 
     elif [[ "$*" == "docker service"* ]]; then
-        echo "$table" | _patch_table_edit_arguments 'SERVICE;[`_choice_service`]'
+        echo "$table" | _patch_table_edit_arguments 'service;[`_choice_service`]' 'service-replicas;[`_choice_service`]'
 
     elif [[ "$*" == "docker stack"* ]]; then
-        echo "$table" | _patch_table_edit_arguments 'STACK;[`_choice_stack`]'
+        echo "$table" | _patch_table_edit_arguments 'stack;[`_choice_stack`]'
 
     elif [[ "$*" == "docker volume"* ]]; then
-        echo "$table" | _patch_table_edit_arguments 'VOLUME;[`_choice_volume`]'
+        echo "$table" | _patch_table_edit_arguments 'volume;[`_choice_volume`]'
 
     elif [[ "$*" == "docker trust"* ]]; then
-        echo "$table" | _patch_table_edit_arguments 'REPOSITORY;[`_docker_repository`]'
+        echo "$table" | _patch_table_edit_arguments 'repository;[`_docker_repository`]'
 
     else
         echo "$table"
@@ -132,6 +139,10 @@ _docker() {
 
 _choice_config() {
     _docker config ls --format '{{.Name}}\tupdated {{.UpdatedAt}}'
+}
+
+_choice_container_name_all() {
+    _docker ps -a --format '{{.Names}}\t{{.Image}} ({{.Status}})'
 }
 
 _choice_container_name() {

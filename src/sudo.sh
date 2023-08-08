@@ -9,7 +9,7 @@ _patch_table() {
         '--other-user;[`_module_os_user`]' \
         '--preserve-env;[`_choice_env_var`]' \
     | \
-    _patch_table_edit_arguments ';;' 'CMD;[`_choice_cmd`]' 'ARGS;~[`_choice_args`]'
+    _patch_table_edit_arguments ';;' 'cmd;[`_choice_cmd`]' 'args;~[`_choice_args`]'
 }
 
 _choice_cmd() {

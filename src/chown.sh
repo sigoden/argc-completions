@@ -1,6 +1,6 @@
 _patch_table() { 
     _patch_table_edit_options '--from;[`_choice_user_group`]' | \
-    _patch_table_edit_arguments 'OWNER(OWNER:GROUP);[`_choice_owner_group`]'
+    _patch_table_edit_arguments 'owner-group(OWNER:GROUP);[`_choice_owner_group`]'
 }
 
 _choice_owner_group() {

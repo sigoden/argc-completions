@@ -4,5 +4,5 @@ _patch_table() {
         '--group;*,[`_module_os_group`]' \
         '--shell;*,[`_module_os_shell`]' \
     | \
-    _patch_table_edit_arguments ';;' 'LOGIN;[`_module_os_user`]'
+    _patch_table_edit_arguments ';;' 'login;[`_module_os_user`]'
 }

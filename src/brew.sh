@@ -116,24 +116,24 @@ _patch_table() {
 
     elif [[ "$*" == "brew outdated" ]]; then
         _patch_table_edit_arguments \
-            'formula|cask;[`_choice_outdated_formula_cask`]' \
+            'formula-cask;[`_choice_outdated_formula_cask`]' \
 
     elif [[ "$*" == "brew bottle" ]]; then
         _patch_table_edit_arguments \
-            'installed_formula|file;[`_choice_installed_formula_file`]' \
+            'installed_formula-file;[`_choice_installed_formula_file`]' \
 
     elif [[ "$*" == "brew style" ]]; then
         _patch_table_edit_arguments \
-            ';;' 'file|tap|formula|cask;*[`_choice_file_tap_formula_cask`]' \
+            ';;' 'file-tap-formula-cask;*[`_choice_file_tap_formula_cask`]' \
 
     elif [[ "$*" == "brew "* ]]; then
         _patch_table_edit_arguments \
-            'formula|cask;[`_choice_suggest_formula_cask`]' \
-            'installed_formula|installed_cask;[`_choice_installed_formula_cask`]' \
-            'outdated_formula|outdated_cask;[`_choice_outdated_formula_cask`]' \
+            'formula-cask;[`_choice_suggest_formula_cask`]' \
+            'installed_formula-installed_cask;[`_choice_installed_formula_cask`]' \
+            'outdated_formula-outdated_cask;[`_choice_outdated_formula_cask`]' \
             'installed_formula;[`_choice_installed_formula`]' \
             'formula;[`_choice_suggest_formula`]' \
-            'cask|tap;[`_choice_cask_tap`]' \
+            'cask-tap;[`_choice_cask_tap`]' \
             'cask;[`_choice_suggest_cask`]' \
             'tap;[`_choice_tap`]' \
             'diagnostic_check;[`_choice_suggest_diagnostic_check`]' \

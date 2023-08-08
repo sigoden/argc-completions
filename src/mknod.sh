@@ -1,5 +1,5 @@
 _patch_table() { 
-    _patch_table_edit_arguments ';;' 'NAME' 'TYPE;[`_choice_type`]'
+    _patch_table_edit_arguments ';;' 'name' 'type;[`_choice_type`]'
 }
 
 _choice_type() {

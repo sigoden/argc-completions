@@ -125,7 +125,10 @@ function parseOptions(words1, descVal, choicesVal) {
             notation = word
         }
         if (length(notation) > 0) {
-            addNotations(notation, notations, extra)
+            parseNotation(notation, extra)
+            if (extra["notation"] != "") {
+                notations[length(notations) + 1] = extra["notation"]
+            }
         }
     }
     shortsLen = length(shorts)
@@ -179,8 +182,8 @@ function parseArgument(words1, descVal, choicesVal) {
     extra["required"] = 0
     value = words1[1]
     split("", notations)
-    addNotations(value, notations, extra)
-    notation = notations[1]
+    parseNotation(value, extra)
+    notation = extra["notation"]
     if (match(notation, /^[a-z0-9]([A-Za-z0-9_-]+)(\|[a-z0-9]([A-Za-z0-9_-]+)){2,}$/)) {
         name = "cmd"
         choicesVal = "[" notation "]"
@@ -255,7 +258,8 @@ function parseCommand(words1, descVal) {
     }
 }
 
-function addNotations(item, array, extra) {
+function parseNotation(item, extra) {
+    extra["notation"] = ""
     len = length(item)
     if (len > 1) {
         firstChar = substr(item, 1, 1)
@@ -337,7 +341,7 @@ function addNotations(item, array, extra) {
         if (match(item, /^<[^>]+>$/)) {
             item = substr(item, 2, length(item) - 2)
         }
-        array[length(array) + 1] = item
+        extra["notation"] = item
     }
 }
 

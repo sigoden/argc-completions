@@ -1,5 +1,8 @@
 _patch_table() {
-    _patch_table_edit_arguments 'SERVICE;[`_choice_service`]'
+    _patch_table_edit_arguments \
+        'service;[`_choice_service`]'  \
+        'service-num;[`_choice_service`]' \
+
 }
 
 _docker_compose() {

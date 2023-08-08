@@ -8,7 +8,7 @@ _patch_table() {
             '--rules-exclude;[`_choice_lint_rule`]' \
 
     elif [[ "$*" == "deno task" ]]; then
-        _patch_table_edit_arguments 'TASK;[`_choice_task`]'
+        _patch_table_edit_arguments 'task;[`_choice_task`]'
 
     else
         cat

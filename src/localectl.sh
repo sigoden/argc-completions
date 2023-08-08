@@ -13,10 +13,10 @@ _patch_table() {
 
     elif [[ "$*" == "localectl set-x11-keymap" ]]; then
         _patch_table_edit_arguments ';;' \
-            'LAYOUT;[`_choice_x11_layout`]' \
-            'MODEL;[`_choice_x11_model`]' \
-            'VARIANT;[`_choice_x11_variant`]' \
-            'OPTIONS;*,[`_choice_x11_options`]' \
+            'layout;[`_choice_x11_layout`]' \
+            'model;[`_choice_x11_model`]' \
+            'variant;[`_choice_x11_variant`]' \
+            'options;*,[`_choice_x11_options`]' \
 
     else
         cat

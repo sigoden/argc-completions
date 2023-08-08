@@ -9,7 +9,7 @@ _patch_table() {
         '--json(<file>)' \
         '--source;[docker|podman|docker-archive]' \
     | \
-    _patch_table_edit_arguments 'IMAGE;[`_choice_image`]'
+    _patch_table_edit_arguments 'image;[`_choice_image`]'
 
 }
 

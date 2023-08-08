@@ -24,7 +24,7 @@ _patch_table() {
 
     elif [[ "$*" == "glab alias"* ]]; then
         echo "$table" | \
-        _patch_table_edit_arguments '<alias name>;[`_choice_alias`]'
+        _patch_table_edit_arguments 'alias-name;[`_choice_alias`]'
 
 
     elif [[ "$*" == "glab api"* ]]; then

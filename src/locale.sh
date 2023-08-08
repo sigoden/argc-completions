@@ -1,5 +1,5 @@
 _patch_table() { 
-    _patch_table_edit_arguments 'NAME;[`_choice_locale`]'
+    _patch_table_edit_arguments 'name;[`_choice_locale`]'
 }
 
 _choice_locale() {

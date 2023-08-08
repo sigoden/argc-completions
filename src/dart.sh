@@ -9,7 +9,7 @@ _patch_table() {
             '--verbosity;[`_choice_log_verbosity`]' \
             '--target-os;[android|fuchsia|ios|linux|macos|windows]' \
         | \
-        _patch_table_edit_arguments '<dart entry point>(dart-entry-point <file:.dart>)'
+        _patch_table_edit_arguments 'dart-entry-point(dart-entry-point <file:.dart>)'
 
     elif [[ "$*" == "dart create" ]]; then
         _patch_table_edit_options '--template;[`_choice_create_template`]'

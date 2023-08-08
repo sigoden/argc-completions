@@ -25,17 +25,17 @@ _patch_table() {
       || [[ "$*" == "zypper clean" ]] \
     ; then
         echo "$table" | \
-        _patch_table_edit_arguments 'ALIAS|#|URI;[`_choice_repo`]'
+        _patch_table_edit_arguments 'alias-uri;[`_choice_repo`]'
 
     elif [[ "$*" == "zypper modifyservice" ]] \
       || [[ "$*" == "zypper removeservice" ]] \
     ; then
         echo "$table" | \
-        _patch_table_edit_arguments 'ALIAS|#|URI;[`_choice_service`]'
+        _patch_table_edit_arguments 'alias-uri;[`_choice_service`]'
 
     elif [[ "$*" == "zypper removelock" ]]; then
         echo "$table" | \
-        _patch_table_edit_arguments 'LOCK-NUMBER|PACKAGENAME;[`_choice_lock`]'
+        _patch_table_edit_arguments 'lock-number-packagename;[`_choice_lock`]'
 
     elif [[ "$*" == "zypper patch-info" ]]; then
         echo "$table" | \

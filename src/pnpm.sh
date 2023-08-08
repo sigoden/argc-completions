@@ -103,7 +103,7 @@ _patch_table() {
         echo "$table" | _patch_table_edit_arguments 'exec;[`_choice_bin`]'
 
     elif [[ "$*" == "pnpm rm" ]]; then
-        echo "$table" | _patch_table_edit_arguments 'pkg;[`_choice_dependency`]'
+        echo "$table" | _patch_table_edit_arguments 'pkg-version;[`_choice_dependency`]'
 
     elif [[ "$*" == "pnpm up" ]]; then
         echo "$table" | _patch_table_edit_arguments 'pkg;[`_choice_dependency`]'

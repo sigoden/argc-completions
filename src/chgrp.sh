@@ -1,5 +1,5 @@
 _patch_table() { 
-    _patch_table_edit_arguments 'GROUP;[`_choice_group_value`]'
+    _patch_table_edit_arguments 'group;[`_choice_group_value`]'
 }
 
 _choice_group_value() {

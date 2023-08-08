@@ -25,8 +25,8 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_arguments \
             ';;' \
-            'SRC;[`_choice_container_cp`]' \
-            'DEST;[`_choice_container_cp`]' \
+            'src;[`_choice_container_cp`]' \
+            'dest;[`_choice_container_cp`]' \
 
     elif [[ "$*" == "podman image" ]]; then
         echo "$table" | \

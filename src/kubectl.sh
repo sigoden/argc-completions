@@ -130,7 +130,7 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_arguments \
             ';;' \
-            'RESOURCE-NAME;[`_choice_resource_type_and_name`]' \
+            'resource-name;[`_choice_resource_type_and_name`]' \
             'kv...' \
 
     elif [[ "$*" == "kubectl set image" ]]; then
@@ -159,7 +159,7 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_arguments \
             ';;' \
-            'RESOURCE-NAME;[`_choice_resource_type_and_name`]' \
+            'resource-name;[`_choice_resource_type_and_name`]' \
             'name' \
 
     elif [[ "$*" == "kubectl set subject" ]]; then
@@ -168,7 +168,7 @@ _patch_table() {
     elif [[ "$*" == "kubectl explain" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments \
-            'RESOURCE;[`_choice_all_type`]' \
+            'resource;[`_choice_all_type`]' \
 
     elif [[ "$*" == "kubectl get" ]] \
       || [[ "$*" == "kubectl edit" ]] \
@@ -186,7 +186,7 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_arguments \
             ';;' \
-            'RESOURCE-NAME;[`_choice_resource_type_and_name`]' \
+            'resource-name;[`_choice_resource_type_and_name`]' \
 
     elif [[ "$*" == "kubectl scale" ]] \
       || [[ "$*" == "kubectl autoscale" ]] \
@@ -194,19 +194,19 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_arguments \
             ';;' \
-            'RESOURCE-NAME;[`_choice_resource_type_and_name`]' \
+            'resource-name;[`_choice_resource_type_and_name`]' \
 
     elif [[ "$*" == "kubectl top node" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments \
             ';;' \
-            'NAME;[`_choice_node`]' \
+            'name;[`_choice_node`]' \
 
     elif [[ "$*" == "kubectl top pod" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments \
             ';;' \
-            'NAME;[`_choice_pod`]' \
+            'name;[`_choice_pod`]' \
 
     elif [[ "$*" == "kubectl cordon" ]] \
       || [[ "$*" == "kubectl uncordon" ]] \
@@ -215,14 +215,14 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_arguments \
             ';;' \
-            'NAME;[`_choice_node`]' \
+            'name;[`_choice_node`]' \
 
     elif [[ "$*" == "kubectl taint" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments \
             ';;' \
-            'NODE;[node]' \
-            'NAME;[`_choice_node`]' \
+            'node;[node]' \
+            'name;[`_choice_node`]' \
             'key-value...' \
 
     elif [[ "$*" == "kubectl logs" ]] \
@@ -234,7 +234,7 @@ _patch_table() {
         | \
         _patch_table_edit_arguments \
             ';;' \
-            'POD;[`_choice_pod`]' \
+            'pod;[`_choice_pod`]' \
 
     elif [[ "$*" == "kubectl exec" ]]; then
         echo "$table" | \
@@ -243,14 +243,14 @@ _patch_table() {
         | \
         _patch_table_edit_arguments \
             ';;' \
-            'POD;[`_choice_pod`]' \
+            'pod;[`_choice_pod`]' \
             'args...'
 
     elif [[ "$*" == "kubectl port-forward" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments \
             ';;' \
-            'POD;[`_choice_pod`]' \
+            'pod;[`_choice_pod`]' \
             'old:new-port...'
 
     elif [[ "$*" == "kubectl cp" ]]; then
@@ -278,7 +278,7 @@ _patch_table() {
         | \
         _patch_table_edit_arguments \
             ';;' \
-            'POD;[`_choice_pod`]' \
+            'pod;[`_choice_pod`]' \
             'args...'
 
     elif [[ "$*" == "kubectl debug" ]] \
@@ -293,7 +293,7 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_arguments \
             ';;' \
-            'RESOURCE-NAME;[`_choice_resource_type_and_name`]' \
+            'resource-name;[`_choice_resource_type_and_name`]' \
 
     elif [[ "$*" == "kubectl apply view-last-applied" ]]; then
         echo "$table" | \
@@ -328,25 +328,25 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_arguments \
             ';;' \
-            'SHELL;[bash|zsh|fish|powershell]' \
+            'shell;[bash|zsh|fish|powershell]' \
 
     elif [[ "$*" == "kubectl config delete-cluster" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments \
             ';;' \
-            'NAME;[`_choice_cluster`]' \
+            'name;[`_choice_cluster`]' \
 
     elif [[ "$*" == "kubectl config delete-context" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments \
             ';;' \
-            'NAME;[`_choice_context`]' \
+            'name;[`_choice_context`]' \
 
     elif [[ "$*" == "kubectl config delete-user" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments \
             ';;' \
-            'NAME;[`_choice_user`]' \
+            'name;[`_choice_user`]' \
 
     elif [[ "$*" == "kubectl config get-contexts" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;'
@@ -355,8 +355,8 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_arguments \
             ';;' \
-            'CONTEXT_NAME;[`_choice_context`]' \
-            'NEW_NAME' \
+            'context_name;[`_choice_context`]' \
+            'new_name' \
 
     elif [[ "$*" == "kubectl config set-cluster" ]]; then
         echo "$table" | \
@@ -369,7 +369,7 @@ _patch_table() {
         | \
         _patch_table_edit_arguments \
             ';;' \
-            'NAME;[`_choice_cluster`]' \
+            'name;[`_choice_cluster`]' \
 
     elif [[ "$*" == "kubectl config set-context" ]]; then
         echo "$table" | \
@@ -381,7 +381,7 @@ _patch_table() {
         | \
         _patch_table_edit_arguments \
             ';;' \
-            'NAME;[`_choice_context`]' \
+            'name;[`_choice_context`]' \
 
     elif [[ "$*" == "kubectl config set-credentials" ]]; then
         echo "$table" | \
@@ -398,7 +398,7 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_arguments \
             ';;' \
-            'CONTEXT_NAME;[`_choice_context`]' \
+            'context_name;[`_choice_context`]' \
 
     else
         echo "$table"

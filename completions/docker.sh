@@ -1261,7 +1261,7 @@ container::kill() {
 # @option -n --tail <string>    Number of lines to show from the end of the logs (default "all")
 # @flag -t --timestamps         Show timestamps
 # @option --until <string>      Show logs before a timestamp (e.g. "2013-01-02T13:23:37Z") or relative (e.g. "42m" for 42 minutes)
-# @arg container[`_choice_container_name`]
+# @arg container[`_choice_container_name_all`]
 container::logs() {
     :;
 }
@@ -1333,7 +1333,7 @@ container::restart() {
 # @flag -f --force      Force the removal of a running container (uses SIGKILL)
 # @flag -l --link       Remove the specified link
 # @flag -v --volumes    Remove anonymous volumes associated with the container
-# @arg container*[`_choice_container_name`]
+# @arg container*[`_choice_container_name_all`]
 container::rm() {
     :;
 }
@@ -2519,7 +2519,7 @@ load() {
 # @option -n --tail <string>    Number of lines to show from the end of the logs (default "all")
 # @flag -t --timestamps         Show timestamps
 # @option --until <string>      Show logs before a timestamp (e.g. "2013-01-02T13:23:37Z") or relative (e.g. "42m" for 42 minutes)
-# @arg container[`_choice_container_name`]
+# @arg container[`_choice_container_name_all`]
 logs() {
     :;
 }
@@ -2566,7 +2566,7 @@ restart() {
 # @flag -f --force      Force the removal of a running container (uses SIGKILL)
 # @flag -l --link       Remove the specified link
 # @flag -v --volumes    Remove anonymous volumes associated with the container
-# @arg container*[`_choice_container_name`]
+# @arg container*[`_choice_container_name_all`]
 rm() {
     :;
 }
@@ -3188,6 +3188,10 @@ _docker() {
 
 _choice_config() {
     _docker config ls --format '{{.Name}}\tupdated {{.UpdatedAt}}'
+}
+
+_choice_container_name_all() {
+    _docker ps -a --format '{{.Names}}\t{{.Image}} ({{.Status}})'
 }
 
 _choice_container_name() {
