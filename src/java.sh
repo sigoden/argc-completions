@@ -26,7 +26,7 @@ _patch_table() {
         '-disableassertions;*:' \
         '-javaagent;*:[`_choice_class_path`]' \
         ';;' \
-        '-X;%[`_choice_option`];pass additional options to JVM' \
+        '-X;-[`_choice_option`];pass additional options to JVM' \
 
 }
 

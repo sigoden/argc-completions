@@ -1,26 +1,26 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @option -0% <octal>                     specify record separator (\0, if no argument)
+# @option -0- <octal>                     specify record separator (\0, if no argument)
 # @flag -a                                autosplit mode with -n or -p (splits $_ into $F)
 # @flag -c                                check syntax only
-# @option -C% <directory>                 cd to directory before executing your script
+# @option -C- <directory>                 cd to directory before executing your script
 # @flag -d --debug                        set debugging flags (set $DEBUG to true)
 # @option -e <command>                    one line of script.
-# @option -E --encoding%[`_choice_encoding_combined`] <ex[:in]>  specify the default external and internal character encodings
-# @option -F% <pattern>                   split() pattern for autosplit (-a)
-# @option -i% <extension>                 edit ARGV files in place (make backup if extension supplied)
-# @option -I% <directory>                 specify $LOAD_PATH directory (may be used more than once)
+# @option -E --encoding-[`_choice_encoding_combined`] <ex[:in]>  specify the default external and internal character encodings
+# @option -F- <pattern>                   split() pattern for autosplit (-a)
+# @option -i- <extension>                 edit ARGV files in place (make backup if extension supplied)
+# @option -I- <directory>                 specify $LOAD_PATH directory (may be used more than once)
 # @flag -l                                enable line ending processing
 # @flag -n                                assume 'while gets(); ... end' loop around your script
 # @flag -p                                assume loop like -n but print line also like sed
-# @option -r% <library>                   require the library before executing your script
+# @option -r- <library>                   require the library before executing your script
 # @flag -s                                enable some switch parsing for switches after script name
 # @flag -S                                look for the script using PATH environment variable
 # @flag -v                                print the version number, then turn on verbose mode
 # @flag -w                                turn warnings on for your script
-# @option -W%[`_choice_warning_level_combined`] <level=2|:category>  set warning level; 0=silence, 1=medium, 2=verbose
-# @option -x% <directory>                 strip off text before ♯!ruby line and perhaps cd to directory
+# @option -W-[`_choice_warning_level_combined`] <level=2|:category>  set warning level; 0=silence, 1=medium, 2=verbose
+# @option -x- <directory>                 strip off text before ♯!ruby line and perhaps cd to directory
 # @flag --jit                             enable JIT with default options (experimental)
 # @flag --copyright                       print the copyright
 # @option --dump[`_choice_dump`]          dump debug information.

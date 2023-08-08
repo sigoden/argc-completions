@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @option -A%[`_choice_alias`] <aliases>        Use concatenated aliases to modify classpath
-# @option -X%[`_choice_alias_ext`] <aliases>    Use concatenated aliases to modify classpath or supply exec fn/args
-# @option -T%[`_choice_tool`] <toolname|aliases>  Invoke tool by name or via aliases ala -X
-# @option -M%[`_choice_alias`] <aliases>        Use concatenated aliases to modify classpath or supply main opts
+# @option -A-[`_choice_alias`] <aliases>        Use concatenated aliases to modify classpath
+# @option -X-[`_choice_alias_ext`] <aliases>    Use concatenated aliases to modify classpath or supply exec fn/args
+# @option -T-[`_choice_tool`] <toolname|aliases>  Invoke tool by name or via aliases ala -X
+# @option -M-[`_choice_alias`] <aliases>        Use concatenated aliases to modify classpath or supply main opts
 # @flag -P                                      Prepare deps - download libs, cache classpath, but don't exec
 # @flag -Jopt                                   Pass opt through in java_opts, ex: -J-Xmx512m
 # @option -Sdeps <EDN>                          Deps data to use as the last deps file to be merged

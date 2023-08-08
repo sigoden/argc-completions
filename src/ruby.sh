@@ -14,15 +14,15 @@ _patch_help() {
 
 _patch_table() { 
     _patch_table_edit_options \
-        '-0;%' \
-        '-C;%' \
-        '-E;%[`_choice_encoding_combined`]' \
-        '-W;%[`_choice_warning_level_combined`]' \
-        '-F;%' \
-        '-i;%' \
-        '-I;%' \
-        '-r;%' \
-        '-x;%' \
+        '-0;-' \
+        '-C;-' \
+        '-E;-[`_choice_encoding_combined`]' \
+        '-W;-[`_choice_warning_level_combined`]' \
+        '-F;-' \
+        '-i;-' \
+        '-I;-' \
+        '-r;-' \
+        '-x;-' \
         '--dump();[`_choice_dump`]' \
         '--enable();[`_choice_feature`]' \
         '--disable();[`_choice_feature`]' \

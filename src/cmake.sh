@@ -18,8 +18,8 @@ _patch_table() {
     _patch_table_edit_options \
         '-Werror(<value>);[dev|deprecated]' \
         '-Wno-error(<value>);[dev|deprecated]' \
-        '-D;%[`_choice_set_cache_entry`]' \
-        '-U;%[`_choice_remove_cache_entry`]' \
+        '-D;-[`_choice_set_cache_entry`]' \
+        '-U;-[`_choice_remove_cache_entry`]' \
         '-E(<cmd> <args...>);[`_choice_cmd`]' \
         '-G;[`_choice_generator`]' \
         '--help-command;[`_choice_help_command`]' \

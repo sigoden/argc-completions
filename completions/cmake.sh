@@ -4,8 +4,8 @@
 # @option -S <path-to-source>                      Explicitly specify a source directory.
 # @option -B <path-to-build>                       Explicitly specify a build directory.
 # @option -C <initial-cache>                       Pre-load a script to populate the cache.
-# @option -D%[`_choice_set_cache_entry`] <<var>[:<type>]=<value>>  Create or update a cmake cache entry.
-# @option -U%[`_choice_remove_cache_entry`] <globbing_expr>  Remove matching entries from CMake cache.
+# @option -D-[`_choice_set_cache_entry`] <<var>[:<type>]=<value>>  Create or update a cmake cache entry.
+# @option -U-[`_choice_remove_cache_entry`] <globbing_expr>  Remove matching entries from CMake cache.
 # @option -G[`_choice_generator`] <generator-name>  Specify a build system generator.
 # @option -T <toolset-name>                        Specify toolset name if supported by generator.
 # @option -A <platform-name>                       Specify platform name if supported by generator.
