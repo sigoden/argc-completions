@@ -1,6 +1,6 @@
 _patch_help() { 
     if [[ "$*" == "snap" ]]; then
-        $1 help --all | sed '/^  \S.*:$/ d'
+        snap help --all | sed '/^  \S.*:$/ d'
     else
         $@ --help | \
         sed \

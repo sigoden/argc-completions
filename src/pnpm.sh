@@ -1,6 +1,6 @@
 _patch_help() {
     if [[ "$*" == "pnpm" ]]; then
-        $1 help
+        pnpm help
         cat <<-'EOF'
 Miss options:
     -C, --dir <path>                         Run as if pnpm was started in <path> instead of the current working directory.
