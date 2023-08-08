@@ -158,6 +158,7 @@ Other:
     cmd8
     cmd9
     cmda
+    cmdb
 
 The commands are:
 
@@ -235,5 +236,7 @@ EOF
         echo "Usage: __test cmd9 [hosted-url|--all]"
     elif [[ "$*" == "__test cmda" ]]; then
         echo "Usage: __test cmda [DIR] ..."
+    elif [[ "$*" == "__test cmdb" ]]; then
+        echo "Usage: __test cmdb [OPTION…] LOCATION FILENAME NAME [BRANCH] - Create a single file bundle from a local repository"
     fi
 }

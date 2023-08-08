@@ -223,6 +223,17 @@ cmda() {
 }
 # }} __test cmda
 
+# {{ __test cmdb
+# @cmd
+# @arg location
+# @arg filename
+# @arg name
+# @arg branch
+cmdb() {
+    :;
+}
+# }} __test cmdb
+
 # {{ __test bug
 # @cmd start a bug report
 bug() {

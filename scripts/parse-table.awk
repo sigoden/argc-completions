@@ -316,6 +316,7 @@ function splitUsage(input, words) {
     split(input, chars, "")
     balances = ""
     word = ""
+    wordBreakAt = 0
     for (i=1; i <= length(input); i++) {
         ch = chars[i]
         if (ch == "\n") {
@@ -327,6 +328,7 @@ function splitUsage(input, words) {
                 } else {
                     words[length(words)+1] = word;
                     word = ""
+                    wordBreakAt = i - 1
                 }
             } else {
                 word = word ch
@@ -340,6 +342,12 @@ function splitUsage(input, words) {
             }
             word = word ch
         } else {
+            if (length(word) == 0 && length(words) > 0) {
+                trimedInput = substr(input, i)
+                if (match(trimedInput, /^- /)) {
+                    return wordBreakAt
+                }
+            }
             word = word ch
         }
     }
