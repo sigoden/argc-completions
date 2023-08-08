@@ -49,6 +49,7 @@ Options:
     -nc, --no-clobber           skip downloads that would download to
     --stop-at=y-m-dTh:m         Stop rsync at the specified point in time
     --[no-]color                Controls colors in the output.
+    --[no]heading               Print a filename heading above each file's results.
     --http1.1                   Use HTTP 1.1
     --filter1 !<selector>       
     --filter2 ...<pattern>      Includes all direct and indirect dependencies of the matched packages. 

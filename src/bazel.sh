@@ -3,7 +3,6 @@ _patch_help() {
         gawk '{
             printLine = 1
             if (match($0, /^\s*-/)) {
-                gsub(/\[no\]/, "[no-]", $0)
                 if (match($0, / \((.*)\)$/, arr)) {
                     option = substr($0, 1, RSTART -1)
                     notation = ""

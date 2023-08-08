@@ -88,6 +88,12 @@ function parseOptions(words1, descVal, choicesVal) {
                 longs[length(longs) + 1] = "--" name
                 longs[length(longs) + 1] = "--no-" name
                 notation = substr(word, length(name) + 1)
+            } else if (index(word, "[no]")) {
+                word = substr(word, 5)
+                name = extractName(word)
+                longs[length(longs) + 1] = "--" name
+                longs[length(longs) + 1] = "--no" name
+                notation = substr(word, length(name) + 1)
             } else {
                 name = extractName(word)
                 longValue = "--" name

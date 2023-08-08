@@ -36,6 +36,8 @@
 # @option --stop-at <y-m-dTh:m>                    Stop rsync at the specified point in time
 # @flag --color                                    Controls colors in the output.
 # @flag --no-color                                 Controls colors in the output.
+# @flag --heading                                  Print a filename heading above each file's results.
+# @flag --noheading                                Print a filename heading above each file's results.
 # @flag --http1.1                                  Use HTTP 1.1
 # @option --filter1 <selector>
 # @option --filter2* <pattern>                     Includes all direct and indirect dependencies of the matched packages.
