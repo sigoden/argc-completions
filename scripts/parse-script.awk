@@ -136,24 +136,24 @@ function parseOptions(words1, descVal, choicesVal) {
         modifierVal = "*"
     }
 
-    notationsVal = ""
+    notationVal = ""
     if (choicesVal == "" && length(notations) == 1 && match(notations[1], /^[a-z0-9][a-z0-9_-]+(\|[a-z0-9][a-z0-9_-]+){2,}$/)) {
         choicesVal = "[" notations[1] "]"
     } else {
         for (i in notations) {
-            notationsVal = notationsVal " <" notations[i] ">"
+            notationVal = notationVal " <" notations[i] ">"
         }
     }
     kindVal = "# @option "
-    if (choicesVal == "" && notationsVal == "") {
+    if (choicesVal == "" && notationVal == "") {
         kindVal = "# @flag "
     }
-    if (notationsVal == " <\"\">") {
-        notationsVal = ""
+    if (notationVal == " <\"\">" || notationVal == " <=>") {
+        notationVal = ""
     }
     if (shortsLen <= 1 && longsLen == 1) {
-        tailVal = modifierVal choicesVal notationsVal
-        if (" <" longNameToValueName(longs[1]) ">" == notationsVal) {
+        tailVal = modifierVal choicesVal notationVal
+        if (" <" longNameToValueName(longs[1]) ">" == notationVal) {
             tailVal = modifierVal choicesVal
         }
         if (shortsLen == 0) {
@@ -162,7 +162,7 @@ function parseOptions(words1, descVal, choicesVal) {
             addParamLine(kindVal shorts[1] " " longs[1] tailVal, descVal)
         }
     }  else {
-        tailVal = modifierVal choicesVal notationsVal
+        tailVal = modifierVal choicesVal notationVal
 
         for (i in shorts) {
             addParamLine(kindVal shorts[i] tailVal, descVal)

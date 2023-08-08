@@ -39,7 +39,7 @@
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -92,7 +92,7 @@
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -150,7 +150,7 @@ list-units() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -208,7 +208,7 @@ list-sockets() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -265,7 +265,7 @@ list-timers() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -323,7 +323,7 @@ is-active() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -381,7 +381,7 @@ is-failed() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -439,7 +439,7 @@ status() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -497,7 +497,7 @@ show() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -555,7 +555,7 @@ cat_() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -613,7 +613,7 @@ list-dependencies() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -671,7 +671,7 @@ start() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -729,7 +729,7 @@ stop() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -787,7 +787,7 @@ reload() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -845,7 +845,7 @@ restart() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -903,7 +903,7 @@ try-restart() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -961,7 +961,7 @@ reload-or-restart() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -1019,7 +1019,7 @@ try-reload-or-restart() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -1077,7 +1077,7 @@ isolate() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -1135,7 +1135,7 @@ kill() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -1193,7 +1193,7 @@ clean() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -1251,7 +1251,7 @@ freeze() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -1309,7 +1309,7 @@ thaw() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -1368,7 +1368,7 @@ set-property() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -1427,7 +1427,7 @@ bind() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -1486,7 +1486,7 @@ mount-image() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -1545,7 +1545,7 @@ service-log-level() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -1604,7 +1604,7 @@ service-log-target() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -1662,7 +1662,7 @@ reset-failed() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -1720,7 +1720,7 @@ list-unit-files() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -1778,7 +1778,7 @@ enable() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -1836,7 +1836,7 @@ disable() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -1894,7 +1894,7 @@ reenable() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -1952,7 +1952,7 @@ preset() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -2009,7 +2009,7 @@ preset-all() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -2067,7 +2067,7 @@ is-enabled() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -2125,7 +2125,7 @@ mask() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -2183,7 +2183,7 @@ unmask() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -2241,7 +2241,7 @@ link() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -2299,7 +2299,7 @@ revert() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -2358,7 +2358,7 @@ add-wants() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -2417,7 +2417,7 @@ add-requires() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -2475,7 +2475,7 @@ edit() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -2532,7 +2532,7 @@ get-default() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -2590,7 +2590,7 @@ set-default() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -2648,7 +2648,7 @@ list-machines() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -2706,7 +2706,7 @@ list-jobs() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -2763,7 +2763,7 @@ cancel() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -2820,7 +2820,7 @@ show-environment() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -2878,7 +2878,7 @@ set-environment() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -2936,7 +2936,7 @@ unset-environment() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -2994,7 +2994,7 @@ import-environment() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -3051,7 +3051,7 @@ daemon-reload() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -3108,7 +3108,7 @@ daemon-reexec() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -3166,7 +3166,7 @@ log-level() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -3224,7 +3224,7 @@ log-target() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -3281,7 +3281,7 @@ service-watchdogs() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -3338,7 +3338,7 @@ is-system-running() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -3395,7 +3395,7 @@ default() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -3452,7 +3452,7 @@ rescue() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -3509,7 +3509,7 @@ emergency() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -3566,7 +3566,7 @@ halt() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -3623,7 +3623,7 @@ poweroff() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -3680,7 +3680,7 @@ reboot() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -3737,7 +3737,7 @@ kexec() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -3794,7 +3794,7 @@ exit() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -3851,7 +3851,7 @@ switch-root() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -3908,7 +3908,7 @@ suspend() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -3965,7 +3965,7 @@ hibernate() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode
@@ -4022,7 +4022,7 @@ hybrid-sleep() {
 # @flag --global                        Enable/disable/mask default user unit files globally
 # @flag --runtime                       Enable/disable/mask unit files temporarily until next reboot
 # @flag -f --force                      When enabling unit files, override existing symlinks When shutting down, execute action immediately
-# @option --preset-mode <=>             Apply only enable, only disable, or all presets
+# @option --preset-mode                 Apply only enable, only disable, or all presets
 # @option --root <PATH>                 Enable/disable/mask unit files in the specified root directory
 # @option -n --lines <INTEGER>          Number of journal entries to show
 # @option -o --output[short|short-precise|short-iso|short-iso-precise|short-full|short-monotonic|short-unix|verbose|export|json|json-pretty|json-sse|cat] <STRING>  Change journal output mode

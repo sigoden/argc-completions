@@ -34,6 +34,7 @@ Options:
                                 Synchronize output of parallel jobs by TYPE.
     -p, --package [<SPEC>]      Package to modify
     -w, --workdir=""            Working directory inside the container
+    --gdbserver=                Run the command with gdbserver
     -x, --proxy [protocol://]host[:port] Use this proxy
     -v, --verbose...            Use verbose output (-vv very verbose/build.rs output)
     -., --hidden                Search hidden files and directories.

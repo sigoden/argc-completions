@@ -20,6 +20,7 @@
 # @option -O --output-sync <TYPE>                  Synchronize output of parallel jobs by TYPE.
 # @option -p --package <SPEC>                      Package to modify
 # @option -w --workdir                             Working directory inside the container
+# @option --gdbserver                              Run the command with gdbserver
 # @option -x --proxy <[protocol://]host[:port]>    Use this proxy
 # @flag -v --verbose*                              Use verbose output (-vv very verbose/build.rs output)
 # @flag -. --hidden                                Search hidden files and directories.
