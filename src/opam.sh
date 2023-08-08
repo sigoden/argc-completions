@@ -79,11 +79,11 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_commands \
             'show(show, info)' \
-            'info' \
             'repository(repository, remote)' \
-            'remote' \
             'remove(remove, uninstall)' \
-            'uninstall' \
+            ';;' \
+            'search;An alias for list --search.' \
+            'unpin;An alias for pin remove.' \
 
     elif [[ "$*" == "opam install" ]] \
       || [[ "$*" == "opam show" ]] \
@@ -104,6 +104,10 @@ _patch_table() {
     ; then
         echo "$table" | \
         _patch_table_edit_arguments 'switch;*[`_choice_installed_switch`]'
+
+    elif [[ "$*" == "opam admin" ]]; then
+        echo "$table" | \
+        _patch_table_edit_commands 'index(index, make)'
 
     elif [[ "$*" == "opam config "* ]]; then
         echo "$table" | \

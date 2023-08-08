@@ -275,6 +275,7 @@ admin::filter() {
 
 # {{{ opam admin index
 # @cmd Generate an inclusive index file for serving over HTTP.
+# @alias make
 # @flag --full-urls-txt                           Generate an inclusive 'urls.txt', for a repository that will be used by opam versions earlier than 2.0.
 # @flag --minimal-urls-txt                        Generate a minimal 'urls.txt' file, that only includes the 'repo' file.
 # @flag --no                                      Answer no to all opam yes/no questions without prompting.
@@ -450,43 +451,6 @@ admin::upgrade() {
     :;
 }
 # }}} opam admin upgrade
-
-# {{{ opam admin make
-# @cmd An alias for index.
-# @flag --full-urls-txt                           Generate an inclusive 'urls.txt', for a repository that will be used by opam versions earlier than 2.0.
-# @flag --minimal-urls-txt                        Generate a minimal 'urls.txt' file, that only includes the 'repo' file.
-# @flag --no                                      Answer no to all opam yes/no questions without prompting.
-# @flag --no-urls-txt                             Don't generate a 'urls.txt' file.
-# @flag -y --yes                                  Answer yes to all opam yes/no questions without prompting.
-# @flag --best-effort                             Don't fail if all requested packages can't be installed: try to install as many as possible.
-# @option --cli <MAJOR.MINOR>                     Use the command-line interface syntax and semantics of MAJOR.MINOR.
-# @option --color[always|never|auto] <WHEN>       Colorize the output.
-# @option --confirm-level[ask|no|yes|unsafe-yes] <LEVEL>  Confirmation level
-# @option --criteria                              Specify user preferences for dependency solving for this run.
-# @option --cudf <FILENAME>                       Debug option: Save the CUDF requests sent to the solver to FILENAME-<n>.cudf.
-# @flag --debug                                   Print debug message to stderr.
-# @option --debug-level <LEVEL>                   Like --debug, but allows specifying the debug level (--debug sets it to 1).
-# @flag --git-version                             Print the git version of opam, if set (i.e.
-# @option --help[auto|pager|groff|plain] <FMT>    Show this help in format FMT.
-# @flag --ignore-pin-depends                      Ignore extra pins required by packages that get pinned, either manually through opam pin or through opam install DIR.
-# @option --json <FILENAME>                       Save the results of the opam run in a computer-readable file.
-# @flag --no-aspcud                               Removed in 2.1.
-# @flag --no-auto-upgrade                         When configuring or updating a repository that is written for an earlier opam version (1.2), opam internally converts it to the current format.
-# @flag -q --quiet                                Disables --verbose.
-# @option --root                                  Use ROOT as the current root path.
-# @flag --safe                                    Make sure nothing will be automatically updated or rewritten.
-# @flag --readonly                                Make sure nothing will be automatically updated or rewritten.
-# @option --solver <CMD>                          Specify the CUDF solver to use for resolving package installation problems.
-# @flag --strict                                  Fail whenever an error is found in a package definition or a configuration file.
-# @option --switch[`_choice_installed_switch`]    Use SWITCH as the current compiler switch.
-# @flag --use-internal-solver                     Disable any external solver, and use the built-in one (this requires that opam has been compiled with a built-in solver).
-# @flag -v --verbose                              Be more verbose.
-# @flag --version                                 Show version information.
-# @flag -w --working-dir                          Whenever updating packages that are bound to a local, version-controlled directory, update to the current working state of their source instead of the last committed state, or the ref they are pointing to.
-admin::make() {
-    :;
-}
-# }}} opam admin make
 # }} opam admin
 
 # {{ opam clean
