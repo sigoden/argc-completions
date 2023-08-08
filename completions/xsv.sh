@@ -86,23 +86,6 @@ fmt() {
 frequency() {
     :;
 }
-
-# {{{ xsv frequency field,value,count
-# @cmd
-# @option -s --select <arg>       Select a subset of columns to compute frequencies for.
-# @option -l --limit <arg>        Limit the frequency table to the N most common items.
-# @flag -a --asc                  Sort the frequency tables in ascending order by count.
-# @flag --no-nulls                Don't include NULLs in the frequency table.
-# @option -j --jobs <arg>         The number of jobs to run in parallel.
-# @flag -h --help                 Display this message
-# @option -o --output <file>      Write output to <file> instead of stdout.
-# @flag -n --no-headers           When set, the first row will NOT be included in the frequency table.
-# @option -d --delimiter <arg>    The field delimiter for reading CSV data.
-# @arg input-file
-frequency::field,value,count() {
-    :;
-}
-# }}} xsv frequency field,value,count
 # }} xsv frequency
 
 # {{ xsv headers

@@ -138,6 +138,13 @@ cat_() {
 }
 # }} __test cat
 
+# {{ __test toJSON
+# @cmd Convert front matter to JSON
+toJSON() {
+    :;
+}
+# }} __test toJSON
+
 # {{ __test cmd1
 # @cmd
 cmd1() {
@@ -351,10 +358,23 @@ ebuild() {
 
 # {{ __test tbz2
 # @cmd A tbz2 file must be a valid .tbz2 created with ebuild <package>-<version>.ebuild package or emerge --buildpkg [category/]<package> or quickpkg [category/]<package>.
-# @alias file
 tbz2() {
     :;
 }
 # }} __test tbz2
+
+# {{ __test deps.clean
+# @cmd Deletes the given dependencies' files
+deps.clean() {
+    :;
+}
+# }} __test deps.clean
+
+# {{ __test deps.compile
+# @cmd Compiles dependencies
+deps.compile() {
+    :;
+}
+# }} __test deps.compile
 
 command eval "$(argc --argc-eval "$0" "$@")"

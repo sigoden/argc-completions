@@ -25,10 +25,10 @@ BEGIN {
     index1 = index($0, "#")
     part1 = substr($0, index1 + 1)
     split("", words1)
-    index2 = splitWords(part1, words1)
+    kind = substr($0, 1, index1 - 2)
+    index2 = splitWords(part1, words1, kind)
     part2 = substr(part1, index2 + 1)
     if (length(words1) > 0) {
-        kind = substr($0, 1, index1 - 2)
         if (kind == "option") {
             split("", descRet)
             extractDesc(descRet, part2)
@@ -222,17 +222,11 @@ function parseArgument(words1, descVal, choicesVal) {
 
 function parseCommand(words1, descVal) {
     split("", names)
-    if (match(words1[1], /^-/)) {
-        for (i in words1) {
-            word = words1[i]
-            names[length(names) + 1] = word
-        }
-    } else {
-        for (i in words1) {
-            word = words1[i]
-            if (match(word, /^(\[|\(|<)/) || !match(word, /[a-z]/)) {
-                break
-            }
+    prevComma = 1
+    for (i in words1) {
+        word = words1[i]
+        comma = gsub(/,$/, "", word)
+        if (prevComma != 0 && match(word, /^(-|--)?([a-z0-9]+[A-Za-z0-9_.-]*)$/)) {
             if (match(tolower(word), RE_SKIP_SBUCOMMAND)) {
                 return
             }
@@ -245,7 +239,10 @@ function parseCommand(words1, descVal) {
                 names[length(names) + 1] = word
             }
             EXISTS_SUBCOMMANDS = EXISTS_SUBCOMMANDS word "," 
+        } else {
+            break
         }
+        prevComma = comma
     }
     if (length(names) > 1 && length(names[1]) < 2) {
         word = names[1]
@@ -408,7 +405,7 @@ function extractDesc(result, input) {
     result[2] = idx + 1
 }
 
-function splitWords(input, words) {
+function splitWords(input, words, kind) {
     split(input, chars, "")
     balances = ""
     word = ""
@@ -426,7 +423,9 @@ function splitWords(input, words) {
                 word = word ch
             }
         } else if (ch == "," && match(chars[i+1], /^(\s|$)/)) {
-
+            if (kind == "command") {
+                word = word ch
+            }
         } else if (ch == "#" && length(word) == 0) {
             if (length(balances) == 0) {
                 if (length(word) != 0) {
