@@ -190,7 +190,11 @@ END {
             if (match(word, /^(\[-|\(-|<-|-)/)) {
                 continue
             }
-            if (match(tolower(word), /argument|switches|option|flag|command/)) {
+            wordLower = tolower(word)
+            if (match(wordLower, /argument|switches|option|flag|command/)) {
+                continue
+            }
+            if (match(wordLower, /\<args\>/) && match(tolower(words[i-1]), /\<command\>/)) {
                 continue
             }
             arguments[length(arguments) + 1] = word

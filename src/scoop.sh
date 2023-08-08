@@ -67,10 +67,7 @@ EOF
 }
 
 _patch_table() {
-    if [[ "$*" == "scoop" ]]; then
-        _patch_table_edit_arguments ';;'
-
-    elif [[ "$*" == "scoop alias rm" ]]; then
+    if [[ "$*" == "scoop alias rm" ]]; then
         _patch_table_edit_arguments 'name;[`_choice_alias`]'
 
     elif [[ "$*" == "scoop bucket add" ]]; then

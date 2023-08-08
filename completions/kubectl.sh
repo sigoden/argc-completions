@@ -305,7 +305,6 @@ create::cronjob() {
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
 # @option --validate[strict|true|warn|ignore|false] <strict>  Must be one of: strict (or true), warn, ignore (or false).
 # @arg name
-# @arg args*
 create::deployment() {
     :;
 }
@@ -398,7 +397,6 @@ create::ingress() {
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
 # @option --validate[strict|true|warn|ignore|false] <strict>  Must be one of: strict (or true), warn, ignore (or false).
 # @arg name
-# @arg args*
 create::job() {
     :;
 }

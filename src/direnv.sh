@@ -10,10 +10,7 @@ _patch_help() {
 }
 
 _patch_table() { 
-    if [[ "$*" == "direnv" ]]; then
-        _patch_table_edit_arguments ';;'
-
-    elif [[ "$*" == "direnv allow" ]] \
+    if [[ "$*" == "direnv allow" ]] \
       || [[ "$*" == "direnv deny" ]] \
       || [[ "$*" == "direnv edit" ]] \
     ; then

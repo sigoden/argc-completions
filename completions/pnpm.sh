@@ -357,7 +357,6 @@ outdated() {
 # @flag --resume-from       Command executed from given package
 # @flag -c --shell-mode     If exist, runs file inside of a shell.
 # @arg exec[`_choice_bin`]
-# @arg args*
 exec() {
     :;
 }
@@ -385,7 +384,7 @@ exec() {
 # @option --filter[`_choice_workspace`] <selector>  Filtering allows you to restrict commands to specific subsets of packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
-# @arg args*[`_choice_script`]
+# @arg cmd[`_choice_script`]
 run() {
     :;
 }
@@ -567,7 +566,6 @@ why() {
 # @flag -c --shell-mode    Runs the script inside of a shell.
 # @option --reporter[`_choice_reporter`] <append-only>  Set reporter.
 # @flag -s --silent        No output is logged to the console, except fatal errors
-# @arg args*
 dlx() {
     :;
 }

@@ -160,6 +160,7 @@ Other:
     cmd9
     cmda
     cmdb
+    cmdc
 
 The commands are:
 
@@ -243,5 +244,7 @@ EOF
         echo "Usage: __test cmda [DIR] ..."
     elif [[ "$*" == "__test cmdb" ]]; then
         echo "Usage: __test cmdb [OPTION…] LOCATION FILENAME NAME [BRANCH] - Create a single file bundle from a local repository"
+    elif [[ "$*" == "__test cmdc" ]]; then
+        echo "Usage: __test cmdc COMMAND [ARGS]..."
     fi
 }

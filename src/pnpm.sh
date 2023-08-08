@@ -97,7 +97,7 @@ _patch_table() {
         echo "$table"| _patch_table_edit_options '--depth(<number>)'
 
     elif [[ "$*" == "pnpm run" ]]; then
-        echo "$table" | _patch_table_edit_arguments 'args;[`_choice_script`]'
+        echo "$table" | _patch_table_edit_arguments ';;' 'cmd;[`_choice_script`]'
 
     elif [[ "$*" == "pnpm exec" ]]; then
         echo "$table" | _patch_table_edit_arguments 'exec;[`_choice_bin`]'

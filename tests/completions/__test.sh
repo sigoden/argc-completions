@@ -241,6 +241,13 @@ cmdb() {
 }
 # }} __test cmdb
 
+# {{ __test cmdc
+# @cmd
+cmdc() {
+    :;
+}
+# }} __test cmdc
+
 # {{ __test bug
 # @cmd start a bug report
 bug() {

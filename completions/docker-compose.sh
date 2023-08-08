@@ -20,7 +20,6 @@
 # @option --project-directory <PATH>      Specify an alternate working directory (default: the path of the Compose file)
 # @flag --compatibility                   If set, Compose will attempt to convert keys in v3 files to their non-Swarm equivalent (DEPRECATED)
 # @option --env-file <PATH>               Specify an alternate environment file
-# @arg args*
 
 # {{ docker-compose build
 # @cmd Build or rebuild services
@@ -96,7 +95,6 @@ events() {
 # @flag -e --env             KEY=VAL Set environment variables (can be used multiple times, not supported in API < 1.25)
 # @flag -w --workdir         DIR Path to workdir directory for this command.
 # @arg service[`_choice_service`]
-# @arg args*
 exec() {
     :;
 }

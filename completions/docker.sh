@@ -792,7 +792,6 @@ compose::events() {
 # @option -u --user <string>                       Run the command as this user.
 # @option -w --workdir <dir>                       Path to workdir directory for this command.
 # @arg service[`_choice_compose_service`]
-# @arg args*
 compose::exec() {
     :;
 }
@@ -956,7 +955,6 @@ compose::rm() {
 # @option -v --volume* <string>     Bind mount a volume.
 # @option -w --workdir <dir>        Working directory inside the container
 # @arg service[`_choice_compose_service`]
-# @arg args*
 compose::run() {
     :;
 }
