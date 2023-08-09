@@ -8,8 +8,8 @@
 # @flag --block-buffered                           When enabled, ripgrep will use block buffering.
 # @flag -b --byte-offset                           Print the 0-based byte offset within the input file before each line of output.
 # @flag -s --case-sensitive                        Search case sensitively.
-# @option --color <WHEN>                           This flag controls when to use colors.
-# @option --colors* <COLOR_SPEC>                   This flag specifies color settings for use in the output.
+# @option --color[`_choice_color`] <WHEN>          This flag controls when to use colors.
+# @option --colors*[`_choice_color_spec`] <COLOR_SPEC>  This flag specifies color settings for use in the output.
 # @flag --column                                   Show column numbers (1-based).
 # @option -C --context <NUM>                       Show NUM lines before and after each match.
 # @option --context-separator <SEPARATOR>          The string used to separate non-contiguous context lines in the output.
@@ -19,7 +19,7 @@
 # @flag --debug                                    Show debug messages.
 # @option --dfa-size-limit <NUM+SUFFIX?>           The upper size limit of the regex DFA.
 # @option -E --encoding                            Specify the text encoding that ripgrep will use on all files searched.
-# @option --engine                                 Specify which regular expression engine to use.
+# @option --engine[default|pcre2|auto]             Specify which regular expression engine to use.
 # @option --field-context-separator <SEPARATOR>    Set the field context separator, which is used to delimit file paths, line numbers, columns and the context itself, when printing contextual lines.
 # @option --field-match-separator <SEPARATOR>      Set the field match separator, which is used to delimit file paths, line numbers, columns and the match itself.
 # @option -f --file* <PATTERNFILE>                 Search for patterns from the given file, with one pattern per line.
@@ -85,22 +85,119 @@
 # @option -r --replace <REPLACEMENT_TEXT>          Replace every match with the text given when printing results.
 # @flag -z --search-zip                            Search in compressed files.
 # @flag -S --smart-case                            Searches case insensitively if the pattern is all lowercase.
-# @option --sort <SORTBY>                          This flag enables sorting of results in ascending order.
-# @option --sortr <SORTBY>                         This flag enables sorting of results in descending order.
+# @option --sort[`_choice_sort`] <SORTBY>          This flag enables sorting of results in ascending order.
+# @option --sortr[`_choice_sort`] <SORTBY>         This flag enables sorting of results in descending order.
 # @flag --stats                                    Print aggregate statistics about this ripgrep search.
 # @flag -a --text                                  Search binary files as if they were text.
 # @option -j --threads <NUM>                       The approximate number of threads to use.
 # @flag --trim                                     When set, all ASCII whitespace at the beginning of each line printed will be trimmed.
-# @option -t --type*                               Only search files matching TYPE.
-# @option --type-add* <TYPE_SPEC>                  Add a new glob for a particular file type.
-# @option --type-clear* <TYPE>                     Clear the file type globs previously defined for TYPE.
+# @option -t --type*[`_choice_type`]               Only search files matching TYPE.
+# @option --type-add*[`_choice_type_spec`] <TYPE_SPEC>  Add a new glob for a particular file type.
+# @option --type-clear*[`_choice_type`] <TYPE>     Clear the file type globs previously defined for TYPE.
 # @flag --type-list                                Show all supported file types and their corresponding globs.
-# @option -T --type-not* <TYPE>                    Do not search files matching TYPE.
+# @option -T --type-not*[`_choice_type`] <TYPE>    Do not search files matching TYPE.
 # @flag -u --unrestricted                          Reduce the level of "smart" searching.
 # @flag -V --version                               Prints version information
 # @flag --vimgrep                                  Show results with every match on its own line, including line numbers and column numbers.
 # @flag -H --with-filename                         Display the file path for matches.
 # @flag -w --word-regexp                           Only show matches surrounded by word boundaries.
-# @arg paths*
+# @arg pattern![`_choice_pattern`]                 A regular expression used for searching.
+# @arg path+                                       A file or directory to search.
+
+. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
+
+_choice_pattern() {
+    if [[ -n "$argc_regexp" ]] \
+    || [[ -n "$argc_file" ]] \
+    || [[ -n "$argc_files" ]] \
+    ; then
+        _argc_util_comp_path
+    fi
+}
+
+_choice_color() {
+    cat <<-'EOF'
+never	Colors will never be used.
+auto	The default. ripgrep tries to be smart.
+always	Colors will always be used regardless of where output is sent.
+ansi	Like 'always', but emits ANSI escapes (even in a Windows console).
+EOF
+}
+
+_choice_sort() {
+    cat <<-'EOF'
+none	Do not sort results. Fastest. Can be multi-threaded.
+path	Sort by file path. Always single-threaded.
+modified	Sort by the last modified time on a file. Always single-threaded.
+accessed	Sort by the last accessed time on a file. Always single-threaded.
+created	Sort by the creation time on a file. Always single-threaded.
+EOF
+}
+
+_choice_color_spec() {
+    _argc_util_mode_parts :
+    readarray -d : -t prefix_parts <<<"$argc__parts_prefix"
+    case "${#prefix_parts[@]}" in
+    1)
+        _choice_color_type | _argc_util_transform suffix=: nospace
+        ;;
+    2)
+        _choice_color_attribute | _argc_util_transform suffix=: nospace
+        ;;
+    3)
+        if [[ "${prefix_parts[1]}" =~ bg|fg ]]; then
+            _choice_color_value
+        elif [[  "${prefix_parts[1]}" == style  ]]; then
+            _choice_color_style
+        fi
+        ;;
+    esac
+}
+
+_choice_color_type() {
+    cat <<-'EOF'
+column	specify coloring for column numbers
+line	specify coloring for line numbers
+match	specify coloring for match text
+path	specify coloring for file names
+EOF
+}
+
+_choice_color_attribute() {
+    cat <<-'EOF'
+none	clear color/style for type
+bg	specify background color
+fg	specify foreground color
+style	specify text style
+EOF
+}
+
+_choice_color_value() {
+    printf "%s\n"  black blue green red cyan magenta yellow white 
+}
+
+_choice_color_style() {
+    printf "%s\n" bold nobold intense nointense underline nounderline
+
+}
+
+_choice_type() {
+    rg --type-list | sed 's/:.*$//'
+}
+
+_choice_type_spec() {
+    if [[ "$ARGC_FILTER" != *':'* ]]; then
+        _choice_type | _argc_util_transform suffix=: nospace
+    elif [[ "$ARGC_FILTER" == *:include:* ]]; then
+        if [[ "$ARGC_FILTER" == *,* ]]; then
+            _argc_util_mode_parts ,
+            _choice_type | _argc_util_transform nospace
+        else
+            echo "__argc_prefix=${ARGC_FILTER%:*}:"
+            echo "__argc_filter=${ARGC_FILTER##*:}"
+            _choice_type | _argc_util_transform nospace
+        fi
+    fi
+}
 
 command eval "$(argc --argc-eval "$0" "$@")"
