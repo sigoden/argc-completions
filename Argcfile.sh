@@ -11,8 +11,8 @@ set -e
 # @arg cmd![?`_choice_command`]
 # @arg subcmd
 generate() {
-    if ! command -v $argc_cmd > /dev/null; then
-        echo $argc_cmd not found
+    if ! _helper_can_generate $argc_cmd > /dev/null; then
+        echo $argc_cmd not found or man $argc_cmd not found
         exit 1
     fi
     generate_sh_args=" -o completions"
@@ -72,7 +72,7 @@ regenerate:all() {
     for f in completions/*; do
         if [ -f $f ]; then
             cmd="$(basename $f .sh)"
-            if command -v $cmd > /dev/null; then
+            if _helper_can_generate $cmd > /dev/null; then
                 argc generate $cmd -E
             else
                 echo Skip $cmd
@@ -206,6 +206,21 @@ _helper_print_script() {
     else
         echo "$table_text"
     fi
+}
+
+_helper_can_generate() {
+    local cmd="$1" src_file="src/$1.sh"
+    if ! command -v $cmd > /dev/null; then
+        return 1
+    fi
+    if [[ -f "$src_file" ]]; then
+        if grep -q _patch_help_run_man "$src_file"; then
+            if ! man -w $cmd > /dev/null 2>&1; then
+                return 1
+            fi
+        fi
+    fi
+    return 0
 }
 
 _helper_source_script() {

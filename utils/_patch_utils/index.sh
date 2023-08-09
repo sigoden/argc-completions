@@ -80,7 +80,7 @@ _patch_help_preprocess_2cols() {
 
 # Preprocess commands whose help text has ascii color.
 _patch_help_preprocess_color() {
-    sed 's/\x1b\[\([0-3]\?[JK]\|[0-9]\+\(;[0-9]\+\)*m\|[=?][0-9]\+[hl]\)//g' 
+    awk '{gsub(/[\x1B\x9B][[\]()#;?]*((((;[-a-zA-Z0-9\/#&.:=?%@~_]+)*|[a-zA-Z0-9]+(;[-a-zA-Z0-9\/#&.:=?%@~_]*)*)?\x07)|(([0-9]{1,4}(;[0-9]{0,4})*)?[0-9A-PR-TZcf-ntqry=><~]))/, ""); print}'
 }
 
 # Edit table options

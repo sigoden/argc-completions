@@ -33,12 +33,12 @@ BEGIN {
             split("", descRet)
             extractDesc(descRet, part2)
             part3 = substr(part2, descRet[2] + 1)
-            parseOptions(words1, descRet[1], trimSpaces(part3))
+            parseOptions(words1, descRet[1], trim(part3))
         } else if (kind == "argument") {
             split("", descRet)
             extractDesc(descRet, part2)
             part3 = substr(part2, descRet[2] + 1)
-            parseArgument(words1, descRet[1], trimSpaces(part3))
+            parseArgument(words1, descRet[1], trim(part3))
         } else if (kind == "command") {
             split("", descRet)
             extractDesc(descRet, part2)
@@ -334,7 +334,7 @@ function parseNotation(item, extra) {
         }
     }
     if (length(item) > 0) {
-        item = trimSpaces(item)
+        item = trim(item)
         if (match(item, /^<[^>]+>$/)) {
             item = substr(item, 2, length(item) - 2)
         }
@@ -401,7 +401,7 @@ function extractDesc(result, input) {
         idx = length(input) + 1
     }
     text = substr(input, 0, idx)
-    result[1] = trimSpaces(text)
+    result[1] = trim(text)
     result[2] = idx + 1
 }
 
@@ -510,7 +510,7 @@ function join(array, sep,  result, i) {
     return result
 }
 
-function trimSpaces(input) {
+function trim(input) {
     gsub(/^[[:space:]]+|[[:space:]]+$/,"",input)
     return input
 }

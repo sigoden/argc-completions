@@ -107,8 +107,8 @@ function editOption(line,       i) {
             notation = TABLE[i, 2]
             choice = TABLE[i, 3]
             desc = TABLE[i, 4]
-            noDesc = desc == "" && trimSpaces(optionDesc) == ""
-            noChoice = choice == "" && trimSpaces(optionChoice) == ""
+            noDesc = desc == "" && trim(optionDesc) == ""
+            noChoice = choice == "" && trim(optionChoice) == ""
             for (j = LINE_INDEX + 1; j <= LINES_SIZE; j++) {
                 split("", parts2)
                 splitOption(LINES[j], parts2)
@@ -116,14 +116,14 @@ function editOption(line,       i) {
                     LINE_INDEX = j
                     if (noDesc) {
                         optionDesc_ = parts2[2]
-                        if (trimSpaces(optionDesc_) != "") {
+                        if (trim(optionDesc_) != "") {
                             optionDesc = optionDesc_ 
                             noDesc = 0
                         }
                     }
                     if (noChoice) {
                         optionChoice_ = parts2[3]
-                        if (trimSpaces(optionChoice_) != "") {
+                        if (trim(optionChoice_) != "") {
                             optionChoice = optionChoice_ 
                             noChoice = 0
                         }
@@ -165,7 +165,7 @@ function editArgument(line,     i) {
         if (name == "") {
             continue
         }
-        trimedArgumentName = trimSpaces(tolower(argumentName))
+        trimedArgumentName = trim(tolower(argumentName))
         parseNotation(trimedArgumentName, extra)
         if (extra["notation"] == name || getArgName(extra["notation"]) == name) {
             TAKEN_ROWS[i] = 1
@@ -379,7 +379,7 @@ function parseNotation(item, extra) {
         }
     }
     if (length(item) > 0) {
-        item = trimSpaces(item)
+        item = trim(item)
         if (match(item, /^<[^>]+>$/)) {
             item = substr(item, 2, length(item) - 2)
         }
@@ -426,7 +426,7 @@ function join(array, sep,  result, i) {
     return result
 }
 
-function trimSpaces(input) {
+function trim(input) {
     gsub(/^[[:space:]]+|[[:space:]]+$/,"",input)
     return input
 }
