@@ -180,14 +180,14 @@ END {
         isCmd = 1
         for (i in words) {
             word = words[i]
-            if (i == 1 && match(word, /\/[a-z0-9_][A-Za-z0-9_-]*$/)) {
+            if (i == 1 && match(word, /\//)) {
                 continue
             }
             if (isCmd && match(word, /^[a-z0-9_][A-Za-z0-9_-]*$/)) {
                 continue
             }
             isCmd = 0
-            if (match(word, /^(\[-|\(-|<-|-)/)) {
+            if (match(word, /^(\[\s*-|\(\s*-|<\s*-|-)/)) {
                 continue
             }
             wordLower = tolower(word)
