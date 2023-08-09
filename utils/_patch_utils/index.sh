@@ -113,15 +113,15 @@ _patch_table_dedup_options() {
 # Edit table arguments
 # Example:
 #    cat | _patch_table_edit_arguments \ |
-#      ';;' \ |                                 # seperator, before it change the argument, after it append the argument. if it's first, current arguments will be purged.
 #      'foo;[`_choice_foo`]' \ |                # bind choice fn
 #      'foo;;desc' \ |                          # change description
 #      'foo(path)' \ |                          # rename value name
 #      'foo(path <file:.json)' \ |              # change value name and notation
 #      'foo(path);[`_choice_foo`];desc' \ |     # change everything
 #      'foo; ; ' \ |                            # use space to clear text
-#      'foo' \ |                                # delete option
-#      'foo;;desc'                              # append a new option
+#      'foo' \ |                                # delete argument
+#      ';;' \ |                                 # seperator, before it change the argument, after it append the argument. if it's first, current arguments will be purged.
+#      'foo;;desc'                              # append a new argument
 _patch_table_edit_arguments() {
     local args="$(printf "%s\n" "$@")"
     gawk -v KIND=argument -v RAW_ARGS="$args" -f "$ROOT_DIR/utils/_patch_utils/edit-table.awk"
@@ -135,7 +135,7 @@ _patch_table_edit_arguments() {
 #      'foo(bar, baz)' \ |                     # rename command and add aliases
 #      'foo; ' \ |                             # use space to clear description
 #      'foo' \ |                               # delete command
-#      ';;' \ |                                # seperator, before it change the option, after it append the option.
+#      ';;' \ |                                # seperator, before it change the command, after it append the command.
 #      'foo;;desc'                             # append a new command
 _patch_table_edit_commands() {
     local args="$(printf "%s\n" "$@")"
