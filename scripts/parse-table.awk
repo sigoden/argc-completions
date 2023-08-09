@@ -554,7 +554,7 @@ function parseDesc(descVal, output, extractChoice, logPrefix)  {
             trucatedAt = trucatedAt + length(value)
         }
     }
-
+    gsub(/(\s{3,}|\t+)/, "  ", truncatedDescVal)
     output[1] = truncatedDescVal
 }
 
@@ -619,7 +619,12 @@ function extraArgName(input) {
 
 
 function testMultilineDesc(input) {
-    return match(input, /^ {8,}\S+/) || match(input, /^\t{2,}\S+/) || match(input, /^\t {4,}\S+/) || match(input, /^ {4,}\t\S+/)
+    if (match(input, /^\s*\S/)) {
+        testSpaces = substr(input, 1, RLENGTH - 1)
+        gsub("\t", "    ", testSpaces)
+        return length(testSpaces) >= 8
+    }
+    return 0
 }
 
 function testValueDesc(input) {

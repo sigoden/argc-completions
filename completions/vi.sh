@@ -30,7 +30,7 @@
 # @option -w <scriptout>     Append all typed commands to file <scriptout>
 # @option -W <scriptout>     Write all typed commands to file <scriptout>
 # @flag --clean              'nocompatible', Vim defaults, no plugins, no viminfo
-# @flag -h                   or  --help	Print Help (this message) and exit
+# @flag -h --help            Print Help (this message) and exit
 # @flag --version            Print version information and exit
 # @arg files*
 

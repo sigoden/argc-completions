@@ -15,6 +15,11 @@ _patch_table() {
         _patch_table_edit_commands \
             'unmount(unmount, umount)' \
 
+    elif [[ "$*" == "podman build" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--file(<file>);pathname or URL of a Dockerfile' \
+
     elif [[ "$*" == "podman container" ]]; then
         echo "$table" | \
         _patch_table_edit_commands \
@@ -33,6 +38,12 @@ _patch_table() {
         _patch_table_edit_commands \
             'list(list, ls)' \
             'unmount(unmount, umount)' \
+
+    elif [[ "$*" == "podman image build" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--file(<file>);pathname or URL of a Dockerfile' \
+            '--network;[private|none|ns:|host]' \
 
     elif [[ "$*" == "podman image list" ]]; then
         echo "$table" | \
@@ -65,10 +76,6 @@ _patch_table() {
             echo "$table"
         fi
         
-    elif [[ "$*" == "podman image build" ]]; then
-        echo "$table" | \
-        _patch_table_edit_options '--network;[private|none|ns:|host]'
-
     elif [[ "$*" == "podman pod"* ]]; then
         table="$( \
             echo "$table" | \

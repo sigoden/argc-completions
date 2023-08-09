@@ -9,6 +9,7 @@ _patch_help() {
    sed  \
     -e '/-r (with file name)/ d' \
     -e '/^ \+-s/ d' \
+    -e '/^\s*-/ s/\s\+or\s\+-/ -/'
 
 }
 

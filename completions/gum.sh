@@ -137,7 +137,7 @@ input() {
 # @option --align <left>    Text alignment
 # @flag --horizontal        Join (potentially multi-line) strings horizontally
 # @flag --vertical          Join (potentially multi-line) strings vertically
-# @arg text!                ...    Text to join.
+# @arg text+                Text to join.
 join() {
     :;
 }

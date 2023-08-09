@@ -28,7 +28,8 @@
 # @flag --gost94-cryptopro               Calculate GOST R 34.11-94 CryptoPro message digest.
 # @flag --ripemd160                      Calculate RIPEMD-160 message digest.
 # @flag --has160                         Calculate HAS-160 message digest.
-# @flag --blake2s                        --blake2b   Calculate BLAKE2S/BLAKE2B message digest.
+# @flag --blake2s                        Calculate BLAKE2S/BLAKE2B message digest.
+# @flag --blake2b                        Calculate BLAKE2S/BLAKE2B message digest.
 # @flag --edonr256                       Calculate EDON-R 256/512 message digest.
 # @flag --edonr512                       Calculate EDON-R 256/512 message digest.
 # @flag --snefru128                      Calculate SNEFRU-128/256 message digest.

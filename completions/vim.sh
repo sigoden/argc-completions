@@ -2,7 +2,7 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # @flag -g                                Run using GUI (like "gvim")
-# @flag -f                                or  --nofork	Foreground: Don't fork when starting GUI
+# @flag -f --nofork                       Foreground: Don't fork when starting GUI
 # @flag -v                                Vi mode (like "vi")
 # @flag -e                                Ex mode (like "ex")
 # @flag -E                                Improved Ex mode
@@ -52,7 +52,7 @@
 # @option --startuptime <file>            Write startup timing messages to <file>
 # @option -i <viminfo-file>               Use <viminfo> instead of .viminfo
 # @flag --clean                           'nocompatible', Vim defaults, no plugins, no viminfo
-# @flag -h                                or  --help	Print Help (this message) and exit
+# @flag -h --help                         Print Help (this message) and exit
 # @flag --version                         Print version information and exit
 # @option -bg <color>                     Use <color> for the background
 # @option -background <color>             Use <color> for the background

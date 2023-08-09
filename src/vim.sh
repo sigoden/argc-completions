@@ -4,6 +4,7 @@ _patch_help() {
         -e '/-r (with file name)/ d' \
         -e '/only for "ex"/ d' \
         -e 's/\s\+\(.*\) (also: \(.*\))/   \2 \1/' \
+        -e '/^\s*-/ s/\s\+or\s\+-/ -/'
 
 }
 

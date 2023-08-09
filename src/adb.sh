@@ -104,7 +104,7 @@ adb pull REMOTE... LOCAL
 adb sync (all|data|odm|oem|product_services|product|system|vendor)
     -l                      list but don't copy
 adb shell [COMMAND...]
-    -e  ESCAPE             choose escape character, or "none"; default '~'
+    -e ESCAPE              choose escape character, or "none"; default '~'
     -n                     don't read from stdin
     -T                     disable PTY allocation
     -t                     force PTY allocation

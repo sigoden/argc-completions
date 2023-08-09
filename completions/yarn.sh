@@ -168,7 +168,7 @@ add() {
 # @option --otp <otpcode>                       one-time password for two factor authentication
 # @flag --summary                               Only print the summary.
 # @option --groups*[devDependencies|dependencies|optionalDependencies] <group_name> <group_name>  Only audit dependencies from listed groups.
-# @option --level <severity>                    Only print advisories with severity greater than or equal to one of the following:     info|low|moderate|high|critical.
+# @option --level[info|low|moderate|high|critical] <severity>  Only print advisories with severity greater than or equal
 # @flag -h --help                               output usage information
 audit() {
     :;

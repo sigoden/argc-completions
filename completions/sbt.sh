@@ -10,8 +10,8 @@
 # @flag -debug-inc                                 enable extra debugging for the incremental debugger
 # @flag --debug-inc                                enable extra debugging for the incremental debugger
 # @flag --no-colors                                disable ANSI color codes
-# @option --color[auto|always|true|false|never]    enable or disable ANSI color codes      (sbt 1.3 and above)
-# @option --supershell[auto|always|true|false|never]  enable or disable supershell            (sbt 1.3 and above)
+# @option --color[auto|always|true|false|never]    enable or disable ANSI color codes  (sbt 1.3 and above)
+# @option --supershell[auto|always|true|false|never]  enable or disable supershell  (sbt 1.3 and above)
 # @flag --traces                                   generate Trace Event report on shutdown (sbt 1.3 and above)
 # @flag --timings                                  display task timings report on shutdown
 # @flag --sbt-create                               start sbt even if current directory contains no sbt project

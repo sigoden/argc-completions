@@ -86,7 +86,7 @@ Options:
     -f --force             Removes various protections against unfortunate side effects, common mistakes, unnecessary performance degradation, and malicious input.
     --json                 Whether or not to output JSON data, rather than the normal output.
     --package-lock-only    If set to true, the current operation will only use the package-lock.json, ignoring node_modules.
-    --omit  <value>        Dependency types to omit from the installation tree on disk. (dev,optional,peer)
+    --omit <value>         Dependency types to omit from the installation tree on disk. (dev,optional,peer)
     --foreground-scripts   Run all build scripts (ie, preinstall, install, and postinstall) scripts for installed packages in the foreground process, sharing standard input, output, and error with the main npm process.
     --ignore-scripts       If true, npm does not run scripts specified in package.json files.
     -w --workspace <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running only the workspaces defined by this configuration option.

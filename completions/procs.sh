@@ -2,7 +2,7 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # @flag -a --and                                AND  logic for multi-keyword
-# @flag -o --or                                 OR   logic for multi-keyword
+# @flag -o --or                                 OR  logic for multi-keyword
 # @flag -d --nand                               NAND logic for multi-keyword
 # @flag -r --nor                                NOR  logic for multi-keyword
 # @flag -l --list                               Show list of kind

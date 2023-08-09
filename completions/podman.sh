@@ -74,7 +74,7 @@ auto-update() {
 # @option --dns </etc/resolv.conf>               Set custom DNS servers or disable it completely by setting it to 'none', which prevents the automatic creation of /etc/resolv.conf.
 # @option --dns-option* <string>                 Set custom DNS options
 # @option --dns-search* <string>                 Set custom DNS search domains
-# @flag -f --file                                pathname or URL                         pathname or URL of a Dockerfile
+# @option -f --filepathname or URL of a Dockerfile <file>  pathname or URL  pathname or URL of a Dockerfile
 # @flag --force-rm                               Always remove intermediate containers after a build, even if the build is unsuccessful.
 # @option --format <format>                      format of the built image's manifest and metadata.
 # @option --from <file>                          image name used to replace the value in the first FROM instruction in the Containerfile
@@ -1098,7 +1098,7 @@ image() {
 # @option --dns </etc/resolv.conf>         Set custom DNS servers or disable it completely by setting it to 'none', which prevents the automatic creation of /etc/resolv.conf.
 # @option --dns-option* <string>           Set custom DNS options
 # @option --dns-search* <string>           Set custom DNS search domains
-# @flag -f --file                          pathname or URL                         pathname or URL of a Dockerfile
+# @option -f --filepathname or URL of a Dockerfile <file>  pathname or URL  pathname or URL of a Dockerfile
 # @flag --force-rm                         Always remove intermediate containers after a build, even if the build is unsuccessful.
 # @option --format <format>                format of the built image's manifest and metadata.
 # @option --from <file>                    image name used to replace the value in the first FROM instruction in the Containerfile

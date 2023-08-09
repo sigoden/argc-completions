@@ -1,6 +1,6 @@
 _patch_table() {
     _patch_table_edit_options \
-        '--type;*[`_choice_type`]' \
+        '--type;*[`_choice_type`];Filter the search' \
         '--exec(<args>...)' \
         '--exec-batch(<args>...)' \
 

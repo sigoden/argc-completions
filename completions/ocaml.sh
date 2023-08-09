@@ -37,7 +37,7 @@
 # @flag --version                           Print version and exit
 # @flag -no-version                         Do not print version at startup
 # @flag -vnum                               Print version number and exit
-# @option -w <list>                         Enable or disable warnings according to <list>: +<spec>   enable warnings in <spec>
+# @option -w <list>                         Enable or disable warnings according to <list>: +<spec>  enable warnings in <spec>
 # @option -warn-error <list>                Enable or disable error status for warnings according
 # @flag -warn-help                          Show description of warning numbers
 # @option -color[auto|always|never]         Enable or disable colors in compiler messages

@@ -210,6 +210,10 @@ _patch_table() {
     elif [[ "$*" == "yarn generate-lock-entry" ]]; then
         _patch_table_dedup_options --registry
 
+    elif [[ "$*" == "yarn audit" ]]; then
+        _patch_table_edit_options \
+            '--level;[info|low|moderate|high|critical];Only print advisories with severity greater than or equal' \
+
     elif [[ "$*" == "yarn global remove" ]] || [[ "$*" == "yarn global upgrade" ]]; then
         _patch_table_edit_arguments 'packages;[`_choice_global_dependency`]'
 

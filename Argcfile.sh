@@ -12,7 +12,7 @@ set -e
 # @arg subcmd
 generate() {
     if ! _helper_can_generate $argc_cmd > /dev/null; then
-        echo $argc_cmd not found or man $argc_cmd not found
+        echo $argc_cmd not available
         exit 1
     fi
     generate_sh_args=" -o completions"

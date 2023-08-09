@@ -30,7 +30,7 @@
 # @option -inputhandler <class>      the class which will handle input requests
 # @option -find <file>               (s)earch for buildfile towards the root of
 # @option -s <file>                  the filesystem and use it
-# @flag -nice                        number          A niceness value for the main thread: 1 (lowest) to 10 (highest); 5 is the default
+# @option -nice <number>             A niceness value for the main thread: 1 (lowest) to 10 (highest); 5 is the default
 # @flag -nouserlib                   Run ant without using the jar files from ${user.home}/.ant/lib
 # @flag -noclasspath                 Run ant without using CLASSPATH
 # @flag -autoproxy                   Java1.5+: use the OS proxy settings

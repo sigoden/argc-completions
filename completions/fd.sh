@@ -23,7 +23,7 @@
 # @option --exact-depth <depth>                    Only show search results at the exact given depth.
 # @option -E --exclude <pattern>                   Exclude files/directories that match the given glob pattern.
 # @flag --prune                                    Do not traverse into directories that match the search criteria.
-# @option -t --type*[`_choice_type`] <filetype>    Filter the search by type: 'f' or 'file':         regular files 'd' or 'directory':    directories 'l' or 'symlink':      symbolic links 's' or 'socket':       socket 'p' or 'pipe':         named pipe (FIFO)
+# @option -t --type*[`_choice_type`] <filetype>    Filter the search
 # @option -e --extension <ext>                     (Additionally) filter search results by their file extension.
 # @option -S --size <size>                         Limit results based on the size of files using the format <+-><NUM><UNIT>.
 # @option --changed-within <date|dur>              Filter results based on the file modification time.

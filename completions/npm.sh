@@ -27,17 +27,17 @@ adduser() {
 # {{ npm audit
 # @cmd Run a security audit
 # @option --audit-level[info|low|moderate|high|critical|none] <value>  The minimum level of vulnerability for npm audit to exit with a non-zero exit code.
-# @flag --dry-run                      Indicates that you don't want npm to make any changes and that it should only report what it would have done
-# @flag -f --force                     Removes various protections against unfortunate side effects, common mistakes, unnecessary performance degradation, and malicious input.
-# @flag --json                         Whether or not to output JSON data, rather than the normal output.
-# @flag --package-lock-only            If set to true, the current operation will only use the package-lock.json, ignoring node_modules.
-# @option --omit[dev|optional|peer]    <value>        Dependency types to omit from the installation tree on disk.
-# @flag --foreground-scripts           Run all build scripts (ie, preinstall, install, and postinstall) scripts for installed packages in the foreground process, sharing standard input, output, and error with the main npm process.
-# @flag --ignore-scripts               If true, npm does not run scripts specified in package.json files.
+# @flag --dry-run                              Indicates that you don't want npm to make any changes and that it should only report what it would have done
+# @flag -f --force                             Removes various protections against unfortunate side effects, common mistakes, unnecessary performance degradation, and malicious input.
+# @flag --json                                 Whether or not to output JSON data, rather than the normal output.
+# @flag --package-lock-only                    If set to true, the current operation will only use the package-lock.json, ignoring node_modules.
+# @option --omit[dev|optional|peer] <value>    Dependency types to omit from the installation tree on disk.
+# @flag --foreground-scripts                   Run all build scripts (ie, preinstall, install, and postinstall) scripts for installed packages in the foreground process, sharing standard input, output, and error with the main npm process.
+# @flag --ignore-scripts                       If true, npm does not run scripts specified in package.json files.
 # @option -w --workspace[`_choice_workspace`] <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running only the workspaces defined by this configuration option.
-# @flag --workspaces                   Set to true to run the command in the context of all configured workspaces.
-# @flag --include-workspace-root       Include the workspace root when workspaces are enabled for a command.
-# @flag --install-links                When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
+# @flag --workspaces                           Set to true to run the command in the context of all configured workspaces.
+# @flag --include-workspace-root               Include the workspace root when workspaces are enabled for a command.
+# @flag --install-links                        When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
 # @arg value[fix|signatures]
 audit() {
     :;

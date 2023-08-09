@@ -32,7 +32,7 @@
 # @option --capture-comment <comment>             add a capture file comment, if supported
 # @option -C <config profile>                     start with specified configuration profile
 # @option -F[`_choice_file_type`] <output file type>  set the output file type, default is pcapng an empty "-F" option will list the file types
-# @flag -V                                        add output of packet tree        (Packet Details)
+# @flag -V                                        add output of packet tree  (Packet Details)
 # @option -O <protocols>                          Only show packet details of these protocols, comma separated
 # @flag -P --print                                print packet summary even when writing to a file
 # @option -S <separator>                          the line separator to print between packets

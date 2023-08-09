@@ -107,11 +107,11 @@ sync() {
 
 # {{ adb shell
 # @cmd run remote shell command (interactive shell if no command given)
-# @flag -e    ESCAPE             choose escape character, or "none"; default '~'
-# @flag -n    don't read from stdin
-# @flag -T    disable PTY allocation
-# @flag -t    force PTY allocation
-# @flag -x    disable remote exit codes and stdout/stderr separation
+# @option -e <ESCAPE>    choose escape character, or "none"; default '~'
+# @flag -n               don't read from stdin
+# @flag -T               disable PTY allocation
+# @flag -t               force PTY allocation
+# @flag -x               disable remote exit codes and stdout/stderr separation
 shell() {
     :;
 }

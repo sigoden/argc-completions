@@ -1,40 +1,77 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @flag --help                                   display this help and exit
-# @flag -v --version                             output version information and exit
-# @option -m --magic-file*, <FILES>              use LIST as a colon-separated list of magic number files
-# @flag -z --uncompress                          try to look inside compressed files
-# @flag -Z --uncompress-noreport                 only print the contents of compressed files
-# @flag -b --brief                               do not prepend filenames to output lines
-# @flag -c --checking-printout                   print the parsed form of the magic file, use in conjunction with -m to debug a new magic file before installing it
-# @option -e --exclude[`_choice_test`] <TEST>    exclude TEST from the list of test to be performed for file.
-# @option --exclude-quiet[`_choice_test`] <TEST>  like exclude, but ignore unknown tests
-# @option -f --files-from <FILE>                 read the filenames to be examined from FILE
-# @option -F --separator <STRING>                use string as separator instead of `:'
-# @flag -i --mime                                output MIME type strings (--mime-type and --mime-encoding)
-# @flag --apple                                  output the Apple CREATOR/TYPE
-# @flag --extension                              output a slash-separated list of extensions
-# @flag --mime-type                              output the MIME type
-# @flag --mime-encoding                          output the MIME encoding
-# @flag -k --keep-going                          don't stop at the first match
-# @flag -l --list                                list magic strength
-# @flag -L --dereference                         follow symlinks (default if POSIXLY_CORRECT is set)
-# @flag -h --no-dereference                      don't follow symlinks (default if POSIXLY_CORRECT is not set) (default)
-# @flag -n --no-buffer                           do not buffer output
-# @flag -N --no-pad                              do not pad output
-# @flag -0 --print0                              terminate filenames with ASCII NUL
-# @flag -p --preserve-date                       preserve access times on files
-# @flag -P --parameter                           set file engine parameter limits bytes 1048576 max bytes to look inside file elf_notes     256 max ELF notes processed elf_phnum    2048 max ELF prog sections processed elf_shnum   32768 max ELF sections processed encoding   65536 max bytes to scan for encoding indir      50 recursion limit for indirection
-# @flag -r --raw                                 don't translate unprintable chars to \ooo
-# @flag -s --special-files                       treat special (block/char devices) files as ordinary ones
-# @flag -S --no-sandbox                          disable system call sandboxing
-# @flag -C --compile                             compile file specified by -m
-# @flag -d --debug                               print debugging messages
-# @arg file*
+# @flag --apple                              Causes the file command to output the file type and creator code as used by older MacOS versions.
+# @flag -b --brief                           Do not prepend filenames to output lines (brief mode).
+# @flag -C --compile                         Write a magic.mgc output file that contains a pre-parsed version of the magic file or directory.
+# @flag -c --checking-printout               Cause a checking printout of the parsed form of the magic file.
+# @flag -d                                   Prints internal debugging information to stderr.
+# @flag -E                                   On filesystem errors (file not found etc), instead of handling the error as regular output as POSIX mandates and keep going, issue an error message and exit.
+# @option -e --exclude[`_choice_test`] <testname>  Exclude the test named in testname from the list of tests made to determine the file type.
+# @option --exclude-quiet[`_choice_test`]    Like --exclude but ignore tests that file does not know about.
+# @flag --extension                          Print a slash-separated list of valid extensions for the file type found.
+# @option -F --separator <separator>         Use the specified string as the separator between the filename and the file result returned.
+# @option -f --files-from <namefile>         Read the names of the files to be examined from namefile (one per line) before the argument list.
+# @flag -h --no-dereference                  This option causes symlinks not to be followed (on systems that support symbolic links).
+# @flag -i --mime                            Causes the file command to output mime type strings rather than the more traditional human readable ones.
+# @flag --mime-type                          Like -i, but print only the specified element(s).
+# @flag --mime-encoding                      Like -i, but print only the specified element(s).
+# @flag -k --keep-going                      Don't stop at the first match, keep going.
+# @flag -l --list                            Shows a list of patterns and their strength sorted descending by magic(5) strength which is used for the matching (see also the -k option).
+# @flag -L --dereference                     This option causes symlinks to be followed, as the like-named option in ls(1) (on systems that support symbolic links).
+# @option -m --magic-file*, <FILES>          Specify an alternate list of files and directories containing magic.
+# @flag -N --no-pad                          Don't pad filenames so that they align in the output.
+# @flag -n --no-buffer                       Force stdout to be flushed after checking each file.
+# @flag -p --preserve-date                   On systems that support utime(3) or utimes(2), attempt to preserve the access time of files analyzed, to pretend that file never read them.
+# @option -P --parameter[`_choice_parameter`] <name=value>  Set various parameter limits.
+# @flag -r --raw                             Don't translate unprintable characters to \ooo.
+# @flag -s --special-files                   Normally, file only attempts to read and determine the type of argument files which stat(2) reports are ordinary files.
+# @flag -S --no-sandbox                      On systems where libseccomp (https://github.com/seccomp/libseccomp) is available, the -S option disables sandboxing which is enabled by default.
+# @flag -v --version                         Print the version of the program and exit.
+# @flag -z --uncompress                      Try to look inside compressed files.
+# @flag -Z --uncompress-noreport             Try to look inside compressed files, but report information about the contents only not the compression.
+# @flag -0 --print0                          Output a null character ‘\0’ after the end of the filename.
+# @flag --help                               Print a help message and exit.
+# @arg files*
+
+. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
 _choice_test() {
-    printf "%s\n" apptype ascii cdf compress csv elf encoding soft tar json text tokens
+    cat <<-'EOF'
+apptype	EMX application type (only on EMX).
+ascii	Various types of text files (this test will try to guess the text encoding, irrespective of the setting of the ‘encoding’ option).
+encoding	Different text encodings for soft magic tests.
+tokens	Ignored for backwards compatibility.
+cdf	Prints details of Compound Document Files.
+compress	Checks for, and looks inside, compressed files.
+csv	Checks Comma Separated Value files.
+elf	Prints ELF file details, provided soft magic tests are enabled and the elf magic is found.
+json	Examines JSON (RFC-7159) files by parsing them for compliance.
+soft	Consults magic files.
+tar	Examines tar files by verifying the checksum of the 512 byte tar header.
+text	A synonym for ‘ascii’.
+EOF
+}
+
+_choice_parameter() {
+    _argc_util_mode_kv :
+    if [[ -z "$argc__kv_prefix" ]]; then
+        _choice_parameter_name | _argc_util_transform suffix== nospace
+        return
+    fi
+}
+
+_choice_parameter_name() {
+    cat <<-'EOF'
+bytes	max number of bytes to read from file
+elf_notes	max ELF notes processed
+elf_phnum	max ELF program sections processed
+elf_shnum	max ELF sections processed
+encoding	max number of bytes to scan for encoding evaluation
+indir	recursion limit for indirect magic
+name	use count limit for name/use magic
+regex	length limit for regex searches
+EOF
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"
