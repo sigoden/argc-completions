@@ -609,8 +609,10 @@ _argc_util_transform() {
 # Args:
 #   cols: Select columns
 #   joins: Symols used to join cols
-# Example:
-#   docker images | _argc_util_transform_table 'IMAGE ID;REPOSITORY;TAG' '\t;:'
+#
+# ```
+# docker images | _argc_util_transform_table 'IMAGE ID;REPOSITORY;TAG' '\t;:'
+# ```
 _argc_util_transform_table() {
     gawk -v RAW_COLS="$1" -v RAW_JOINS="$2" 'BEGIN {
         split(RAW_COLS, COLS, ";")
@@ -654,12 +656,49 @@ _argc_util_transform_table() {
     }'
 }
 
+# Use Filter
+# Args:
+#   `-i`: optional, if omit, filter out; if set, include.
+#   words: words to filter
+#   sep: chars teo seperate words
+#
+# ```
+# _choice_fn | argc_util_filter "$argc__parts_prefix" :
+# ```
+_argc_util_filter() {
+    local include=0
+    if [[ "$1" == "-i" ]]; then
+        include=1
+        shift
+    fi
+    gawk -v "INCLUDE=$include" -v "RAW_WORDS=$1" -v "SEP=$2" '
+BEGIN {
+    split(RAW_WORDS, WORDS, SEP)
+}
+{
+    found = 0
+    split($0, parts, "\t")
+    value = parts[1]
+    gsub("\x00", "", value)
+    for (i in WORDS) {
+        if (WORDS[i] == value) {
+            found = 1
+            break
+        }
+    }
+    if ((found == 1 && INCLUDE == 1) || (found == 0 && INCLUDE == 0)) {
+        print $0
+    }
+}
+'
+}
 
 # Use Cache 
 # Args:
 #   timeout_secs: Timeout in seconds
 #   choice_fn: Cache data from choice fn
 #   key: Additional cache key
+#
 # ```
 # _argc_util_cache 86400 _choice_fn
 # ```
