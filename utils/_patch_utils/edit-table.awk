@@ -7,6 +7,13 @@ BEGIN {
     PAIRS_CLOSE = ">])}"
     RE_REMOVE_NOTATION_PREFIX = "[=!]"
 
+    split("", OPTIONS)
+    OPTIONS_NUM = 0
+    split("", ARGUMENTS)
+    ARGUMENTS_NUM = 0
+    split("", COMMANDS)
+    COMMANDS_NUM = 0
+
     split(RAW_ARGS, args, "\n")
     split("", LINES)
     split("", TABLE)
@@ -47,20 +54,30 @@ BEGIN {
 END {
     for (LINE_INDEX = 1; LINE_INDEX <= LINES_SIZE; LINE_INDEX++) {
         line = LINES[LINE_INDEX]
-        if (KIND == "option" && index(line, "option # ") == 1) {
-            if (SEP_INDEX > 1) {
-                editOption(line)
+        if (match(line, /^option/)) {
+            if (KIND == "option") {
+                if (SEP_INDEX > 1) {
+                    editOption(line)
+                }
+            } else {
+                addOptionLine(line)
             }
-        } else if (KIND == "argument" && index(line, "argument # ") == 1) {
-            if (SEP_INDEX > 1) {
-                editArgument(line)
+        } else if (match(line, /^argument/)) {
+            if (KIND == "argument") {
+                if (SEP_INDEX > 1) {
+                    editArgument(line)
+                }
+            } else {
+                addArgumentLine(line)
             }
-        } else if (KIND == "command" && index(line, "command # ") == 1) {
-            if (SEP_INDEX > 1) {
-                editCommand(line)
+        } else if (match(line, /^command/)) {
+            if (KIND == "command") {
+                if (SEP_INDEX > 1) {
+                    editCommand(line)
+                }
+            } else {
+                addCommandLine(line)
             }
-        } else {
-            print line
         }
     }
 
@@ -68,20 +85,30 @@ END {
         name = TABLE[i, 1] 
         notation = TABLE[i, 2] 
         if (KIND == "option") {
-            print "option # " name " " notation " # " TABLE[i, 4] " # " TABLE[i, 3]
+            addOptionLine("option # " name " " notation " # " TABLE[i, 4] " # " TABLE[i, 3])
         } else if (KIND == "argument") {
             body = name
             if (length(notation) > 0) {
                 body = notation
             }
-            print "argument # " body " # " TABLE[i, 4] " # " TABLE[i, 3]
+            addArgumentLine("argument # " body " # " TABLE[i, 4] " # " TABLE[i, 3])
         } else if (KIND == "command") {
             body = name
             if (length(notation) > 0) {
                 body = notation
             }
-            print "command # " body " # " TABLE[i, 3] 
+            addCommandLine("command # " body " # " TABLE[i, 3])
         }
+    }
+
+    for (i = 1; i <= OPTIONS_NUM; i++) {
+        print OPTIONS[i]
+    }
+    for (i = 1; i <= ARGUMENTS_NUM; i++) {
+        print ARGUMENTS[i]
+    }
+    for (i = 1; i <= COMMANDS_NUM; i++) {
+        print COMMANDS[i]
     }
 }
 
@@ -144,11 +171,11 @@ function editOption(line,       i) {
             if (choice != "") {
                 optionChoice = " " choice
             }
-            print "option #" optionBody "#" optionDesc "#" optionChoice
+            addOptionLine("option #" optionBody "#" optionDesc "#" optionChoice)
             return
         }
     }
-    print line
+    addOptionLine(line)
 }
 
 function editArgument(line,     i) {
@@ -190,11 +217,11 @@ function editArgument(line,     i) {
             if (choice != "") {
                 argumentChoice = " " choice
             }
-            print "argument #" argumentName "#" argumentDesc "#" argumentChoice
+            addArgumentLine("argument #" argumentName "#" argumentDesc "#" argumentChoice)
             return
         }
     }
-    print line
+    addArgumentLine(line)
 }
 
 function editCommand(line,     i) {
@@ -232,12 +259,12 @@ function editCommand(line,     i) {
                 if (desc != "") {
                     commandDesc = " " desc " "
                 }
-                print "command #" commandName "#" commandDesc 
+                addCommandLine("command #" commandName "#" commandDesc)
                 return
             }
         }
     }
-    print line
+    addCommandLine(line)
 }
 
 function splitOption(line, output,      parts) {
@@ -259,6 +286,21 @@ function splitCommand(line, output,     parts) {
     split(substr(line, 10), parts, " #")
     output[1] = parts[1] " " 
     output[2] = parts[2] " " 
+}
+
+function addOptionLine(line) {
+    OPTIONS_NUM += 1
+    OPTIONS[OPTIONS_NUM] = line
+}
+
+function addArgumentLine(line) {
+    ARGUMENTS_NUM += 1
+    ARGUMENTS[ARGUMENTS_NUM] = line
+}
+
+function addCommandLine(line) {
+    COMMANDS_NUM += 1
+    COMMANDS[COMMANDS_NUM] = line
 }
 
 function extractOptionName(optionBody,      len, idx, i) {

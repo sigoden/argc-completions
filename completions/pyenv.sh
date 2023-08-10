@@ -58,11 +58,11 @@ hooks() {
 
 # {{ pyenv init
 # @cmd Configure the shell environment for pyenv
-# @arg shell[bash|fish|zsh]
 # @option --path <path>
 # @flag --no-push-path
 # @flag --detect-shell
 # @flag --no-rehash
+# @arg shell[bash|fish|zsh]
 init() {
     :;
 }

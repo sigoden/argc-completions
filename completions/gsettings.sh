@@ -46,9 +46,9 @@ list-recursively() {
 
 # {{ gsettings range
 # @cmd Queries the range of a key
+# @option --schemadir
 # @arg schema-path[`_choice_schema_path`] <SCHEMA[:PATH]>
 # @arg key[`_choice_key`]
-# @option --schemadir
 range() {
     :;
 }
@@ -56,9 +56,9 @@ range() {
 
 # {{ gsettings describe
 # @cmd Queries the description of a key
+# @option --schemadir
 # @arg schema-path[`_choice_schema_path`] <SCHEMA[:PATH]>
 # @arg key[`_choice_key`]
-# @option --schemadir
 describe() {
     :;
 }
@@ -66,9 +66,9 @@ describe() {
 
 # {{ gsettings get
 # @cmd Get the value of a key
+# @option --schemadir
 # @arg schema-path[`_choice_schema_path`] <SCHEMA[:PATH]>
 # @arg key[`_choice_key`]
-# @option --schemadir
 get() {
     :;
 }
@@ -76,10 +76,10 @@ get() {
 
 # {{ gsettings set
 # @cmd Set the value of a key
+# @option --schemadir
 # @arg schema-path[`_choice_schema_path`] <SCHEMA[:PATH]>
 # @arg key[`_choice_key`]
 # @arg value
-# @option --schemadir
 set() {
     :;
 }
@@ -87,9 +87,9 @@ set() {
 
 # {{ gsettings reset
 # @cmd Reset the value of a key
+# @option --schemadir
 # @arg schema-path[`_choice_schema_path`] <SCHEMA[:PATH]>
 # @arg key[`_choice_key`]
-# @option --schemadir
 reset() {
     :;
 }
@@ -105,9 +105,9 @@ reset-recursively() {
 
 # {{ gsettings writable
 # @cmd Check if a key is writable
+# @option --schemadir
 # @arg schema-path[`_choice_schema_path`] <SCHEMA[:PATH]>
 # @arg key[`_choice_key`]
-# @option --schemadir
 writable() {
     :;
 }
