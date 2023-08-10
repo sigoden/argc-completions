@@ -11,8 +11,9 @@ set -e
 # @arg cmd![?`_choice_command`]
 # @arg subcmd
 generate() {
-    if ! _helper_can_generate $argc_cmd > /dev/null; then
-        echo $argc_cmd not available
+    err=$(_helper_can_generate $argc_cmd)
+    if [[ -n "$err" ]]; then
+        echo "$err"
         exit 1
     fi
     generate_sh_args=" -o completions"
@@ -72,7 +73,7 @@ regenerate:all() {
     for f in completions/*; do
         if [ -f $f ]; then
             cmd="$(basename $f .sh)"
-            if _helper_can_generate $cmd > /dev/null; then
+            if [[ -z "$(_helper_can_generate $cmd)" ]]; then
                 argc generate $cmd -E
             else
                 echo Skip $cmd
@@ -211,16 +212,18 @@ _helper_print_script() {
 _helper_can_generate() {
     local cmd="$1" src_file="src/$1.sh"
     if ! command -v $cmd > /dev/null; then
-        return 1
+        echo error: $cmd not found
+        return
     fi
     if [[ -f "$src_file" ]]; then
         if grep -q _patch_help_run_man "$src_file"; then
             if ! man -w $cmd > /dev/null 2>&1; then
-                return 1
+                echo man $cmd not found
+                return
             fi
         fi
     fi
-    return 0
+    return
 }
 
 _helper_source_script() {
@@ -250,12 +253,13 @@ _helper_test_fn() {
 }
 
 _helper_list_changed_cmd() {
-    git status | gawk '{
-        if(match($2, /^(src|completions)/)) {
-            split($2, p, "/");
-            print gensub(/^([a-z0-9_-]+).*$/, "\\1", 1, p[2])
-        }
-    }'
+    git status | \
+    gawk '/(src|completions)/ {
+        split($NF, p, "/");
+        print gensub(/^([a-z0-9_-]+).*$/, "\\1", 1, p[2])
+    }' | \
+    sort | uniq
 }
+
 
 eval "$(argc --argc-eval "$0" "$@")"
