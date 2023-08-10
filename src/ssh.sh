@@ -9,12 +9,12 @@ _patch_table() {
         -R \
     | \
     _patch_table_edit_options \
-        '-L([bind_address:]port:host:hostport)' \
-        '-R([bind_address:]port:host:hostport)' \
-        '-o;[`_module_ssh_option`]' \
         '-c;*,[`_module_ssh_cipher`]' \
+        '-o;[`_module_ssh_option`]' \
+        '-L([bind_address:]port:host:hostport)' \
         '-O;[`_choice_ctl_cmd`]' \
         '-Q;[`_choice_query`]' \
+        '-R([bind_address:]port:host:hostport)' \
         ';;' \
     | \
     _patch_table_edit_arguments \

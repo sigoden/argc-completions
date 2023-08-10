@@ -7,12 +7,12 @@ _patch_table() {
     _patch_table_edit_options \
         '--cert-type;[DER|PEM|ENG]' \
         '--engine;[`_choice_engine`]' \
-        '--header;[`_module_http_header`]' \
         '--ftp-method;[`_choice_ftp_method`]' \
+        '--header;[`_module_http_header`]' \
         '--key-type;[DER|PEM|ENG]' \
         '--krb;[clear|safe|confidential|private]' \
-        '--request;[`_module_http_method`]' \
         '--proxy-cert-type;[DER|PEM|ENG]' \
+        '--request;[`_module_http_method`]' \
 
 }
 

@@ -7,16 +7,16 @@ _patch_help() {
 _patch_table() { 
     _patch_table_dedup_options \
         ';;' \
-        '--overlay' \
         '--8086' \
         '--compress-exports' \
         '--compress-icons' \
+        '--overlay' \
         '--strip-relocs' \
     | \
     _patch_table_edit_options \
-        '--overlay;[`__choice_overlay`]' \
         '--compress-exports;[`_choice_compress_exports`]' \
         '--compress-icons;[`_choice_compress_icons`]' \
+        '--overlay;[`__choice_overlay`]' \
         '--strip-relocs;[`_choice_strip_relocs`]' \
 
 }

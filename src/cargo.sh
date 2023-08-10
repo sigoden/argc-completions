@@ -42,9 +42,9 @@ _patch_table() {
             '--bench;[`_choice_bench`]' \
             '--bin;[`_choice_bin`]' \
             '--example;[`_choice_example`]' \
+            '--package;[`_choice_package`]' \
             '--target;[`_choice_target`]' \
             '--test;[`_choice_test`]' \
-            '--package;[`_choice_package`]' \
     )"
     if [[ "$*" == "cargo" ]]; then
         echo "$table" | _patch_table_edit_arguments 'cmd;[`_choice_cmd`]'

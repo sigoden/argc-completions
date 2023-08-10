@@ -9,8 +9,8 @@ _patch_help() {
 _patch_table() {
     table="$(
         _patch_table_edit_options \
-            '--repo;[`_choice_repo`]' \
             '--from;[`_choice_repo`]' \
+            '--repo;[`_choice_repo`]' \
     )"
 
     if [[ "$*" == "zypper addrepo" ]]; then
@@ -18,11 +18,11 @@ _patch_table() {
         _patch_table_edit_options \
             '--repo; '
 
-    elif [[ "$*" == "zypper removerepo" ]] \
-      || [[ "$*" == "zypper renamerepo" ]] \
+    elif [[ "$*" == "zypper clean" ]] \
       || [[ "$*" == "zypper modifyrepo" ]] \
+      || [[ "$*" == "zypper removerepo" ]] \
+      || [[ "$*" == "zypper renamerepo" ]] \
       || [[ "$*" == "zypper refresh" ]] \
-      || [[ "$*" == "zypper clean" ]] \
     ; then
         echo "$table" | \
         _patch_table_edit_arguments 'alias-uri;[`_choice_repo`]'
@@ -32,10 +32,6 @@ _patch_table() {
     ; then
         echo "$table" | \
         _patch_table_edit_arguments 'alias-uri;[`_choice_service`]'
-
-    elif [[ "$*" == "zypper removelock" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments 'lock-number-packagename;[`_choice_lock`]'
 
     elif [[ "$*" == "zypper patch-info" ]]; then
         echo "$table" | \
@@ -56,6 +52,10 @@ _patch_table() {
         _patch_table_edit_arguments \
             'capability;[`_choice_installed_package`]' \
             'packagename;[`_choice_installed_package`]' \
+
+    elif [[ "$*" == "zypper removelock" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments 'lock-number-packagename;[`_choice_lock`]'
 
     else
         echo "$table"

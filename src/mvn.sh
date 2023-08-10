@@ -4,19 +4,18 @@ _patch_help() {
 
 _patch_table() { 
     _patch_table_edit_options \
+        '-gs(<file:.xml>)' \
+        '-gt(<file:.xml>)' \
         '--activate-profiles;*,[`_choice_profile`]' \
         '--color;[auto|always|never]' \
         '--file(<file:.xml>)' \
-        '-gs(<file:.xml>)' \
         '--global-settings(<file:.xml>)' \
-        '-gt(<file:.xml>)' \
         '--global-toolchains(<file:.xml>)' \
         '--log-file(<file>)' \
-        '--file(<file:.xml>)' \
-        '--settings(<file:.xml>)' \
-        '--toolchains(<file:.xml>)' \
         '--projects;*,[`_choice_project`]' \
         '--resume-from;[`_choice_project`]' \
+        '--settings(<file:.xml>)' \
+        '--toolchains(<file:.xml>)' \
     | \
     _patch_table_edit_arguments ';;' 'goalAndPhase;*[`_choice_goal_phase`]'
 }

@@ -9,7 +9,6 @@ _patch_table() {
     _patch_table_edit_arguments ';;' 'PATHS...'
 }
 
-
 _choice_backup() {
     printf "%s\n" never nil none numbered off simple t
 }

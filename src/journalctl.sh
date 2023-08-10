@@ -11,9 +11,9 @@ _patch_table() {
         '--output;[`_choice_output`]' \
         '--output-fileds;*,[`_choice_field`]' \
         '--priority;[`_choice_priority`]' \
+        '--root(<DIR>)' \
         '--unit;[`_choice_unit`]' \
         '--user-unit;[`_choice_user_unit`]' \
-        '--root(<DIR>)' \
 
 }
 

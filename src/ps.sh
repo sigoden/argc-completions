@@ -16,16 +16,16 @@ EOF
 
 _patch_table() { 
     _patch_table_edit_options \
-        '--Group;*,[`_module_os_group`]' \
-        '--group;*,[`_module_os_group`]' \
-        '--user;*,[`_module_os_user`]' \
         '--format;*,[`_choice_column`]' \
+        '--group;*,[`_module_os_group`]' \
         '--pid;*,[`_module_os_pid`]' \
         '--ppid;*,[`_module_os_pid`]' \
         '--quick-pid;*,[`_module_os_pid`]' \
         '--sid;*,[`_module_os_sid`]' \
         '--sort;*,[`_choice_column`]' \
         '--tty;*,[`_module_os_tty`]' \
+        '--user;*,[`_module_os_user`]' \
+        '--Group;*,[`_module_os_group`]' \
 
 }
 

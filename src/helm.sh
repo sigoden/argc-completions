@@ -10,27 +10,27 @@ _patch_table() {
     table="$( \
         _patch_table_detect_value_type | \
         _patch_table_edit_options \
+            '--keyring(<file>)' \
             '--kube-context;[`_choice_kube_context`]' \
             '--namespace;[`_choice_kube_namespace`]' \
-            '--keyring(<file>)' \
             '--output;[table|json|yaml]' \
         | \
         _patch_table_edit_arguments \
             'chart;[`_choice_chart`]' \
-            'release_name;[`_choice_release`]' \
             'release;[`_choice_release`]' \
+            'release_name;[`_choice_release`]' \
     )"
 
     if [[ "$*" == "helm" ]]; then
         echo "$table" | \
         _patch_table_edit_commands \
-            'list(list, ls)' \
             'dependency(dependency, dep, dependencies)' \
-            'update(update, up)' \
             'history(history, hist)' \
+            'list(list, ls)' \
             'pull(pull, fetch)' \
             'show(show, inspect)' \
             'uninstall(uninstall, del, delete, un)' \
+            'update(update, up)' \
 
 
     elif [[ "$*" == "helm install" ]]; then

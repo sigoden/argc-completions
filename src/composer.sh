@@ -14,6 +14,7 @@ _patch_help() {
 
     elif [[ "$*" == "composer list" ]]; then
         :;
+
     else
         $@ --help | _common_edit
     fi

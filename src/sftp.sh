@@ -9,10 +9,10 @@ _patch_table() {
         -e '/# -R #/ d' \
     | \
     _patch_table_edit_options \
-        '-R([bind_address:]port:host:hostport)' \
-        '-J;[`_module_ssh_host`]' \
         '-c;*,[`_module_ssh_cipher`]' \
         '-o;[`_module_ssh_option`]' \
+        '-J;[`_module_ssh_host`]' \
+        '-R([bind_address:]port:host:hostport)' \
     | \
     _patch_table_edit_arguments \
         'destination;[`_module_ssh_host`]' \

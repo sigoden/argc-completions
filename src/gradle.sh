@@ -1,21 +1,21 @@
 _patch_table() { 
     _patch_table_edit_options \
         '--build-file(<file>)' \
-        '--settings-file(<file>)' \
         '--configuration-cache-problems;[fail|warn]' \
         '--console;[plain|auto|rich|verbose]' \
-        '--system-prop;[`_choice_system_prop`]' \
         '--dependency-verification;[strict|lenient|off]' \
+        '--exclude-task;[`_choice_task_cached`]' \
         '--gradle-user-home(<dir>)' \
         '--init-script(<file>)' \
-        '--write-verification-metadata(<value...>);*,' \
         '--max-workers(<n>)' \
         '--project-prop(<value>)' \
         '--project-dir(<dir>)' \
         '--priority;[normal|low]' \
         '--project-cache-dir(<dir>)' \
+        '--settings-file(<file>)' \
+        '--system-prop;[`_choice_system_prop`]' \
         '--warning-mode;[all|fail|summary|none]' \
-        '--exclude-task;[`_choice_task_cached`]' \
+        '--write-verification-metadata(<value...>);*,' \
     | \
     _patch_table_edit_arguments 'task;[`_choice_task_cached`]'
 }

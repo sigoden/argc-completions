@@ -3,8 +3,8 @@ _patch_table() {
     | \
     _patch_table_edit_options \
         '--color;[`_choice_color`]' \
-        '--time;[`_choice_time`]' \
         '--format;[`_choice_format`]' \
+        '--time;[`_choice_time`]' \
 
 }
 

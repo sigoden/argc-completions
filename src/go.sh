@@ -187,22 +187,22 @@ _patch_table() {
     table="$( \
         _patch_table_edit_options \
             '-buildmode;[`_choice_buildmode`]' \
-            '-compiler;[gccgo|gc]' \
             '-buildvcs;[true|false|auto]' \
+            '-compiler;[gccgo|gc]' \
+            '-mod;[readonly|vendor|mod]' \
             '-overlay(<file:.json>)' \
             '-pgo(<file:.pgo>)' \
-            '-mod;[readonly|vendor|mod]' \
     )"
 
     if [[ "$*" == "go build" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'path...'
 
-    elif [[ "$*" == "go doc" ]]; then
-        echo "$table" | _patch_table_edit_arguments ';;'
-
     elif [[ "$*" == "go clean" ]]; then
         _patch_table_copy_options go build
         echo "$table"
+
+    elif [[ "$*" == "go doc" ]]; then
+        echo "$table" | _patch_table_edit_arguments ';;'
 
     elif [[ "$*" == "go env" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'env;*[`_choice_env`]'

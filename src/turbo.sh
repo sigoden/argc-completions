@@ -8,8 +8,8 @@ _patch_table() {
             '--cpuprofile(CPU_PROFILE_FILE)' \
             '--cwd(CWD_DIR)' \
             '--heap(HEAP_FILE)' \
-            '--trace(TRACE_FILE)' \
             '--profile(PROFILE_FILE)' \
+            '--trace(TRACE_FILE)' \
     )"
     if [[ "$*" == "turbo" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'task;*[`_choice_task`]'

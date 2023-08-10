@@ -38,7 +38,6 @@
 # @flag --version                                 output version information and exit
 # @arg paths*
 
-
 _choice_backup() {
     printf "%s\n" never nil none numbered off simple t
 }

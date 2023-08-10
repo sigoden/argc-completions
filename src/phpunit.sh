@@ -3,8 +3,8 @@ _patch_table() {
         '--columns' \
     | \
     _patch_table_edit_options \
-        '--testsuite;[`_choice_suite`]' \
         '--group;[`_choice_group`]' \
+        '--testsuite;[`_choice_suite`]' \
     
 }
 

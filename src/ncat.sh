@@ -5,10 +5,10 @@ _patch_help() {
 _patch_table() { 
     _patch_table_edit_options \
         '--allow;*,[`_module_os_hostname`]' \
-        '--exec;[`_module_os_command_string`]' \
         '--deny;*,[`_module_os_hostname`]' \
-        '--proxy-type;[`_choice_proxy_type`]' \
+        '--exec;[`_module_os_command_string`]' \
         '--proxy-dns;[`_choice_proxy_dns`]' \
+        '--proxy-type;[`_choice_proxy_type`]' \
         '--sh-exec;[`_module_os_command_string`]' \
         '--ssl-trustfile(file)' \
     | \

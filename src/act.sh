@@ -1,8 +1,8 @@
 _patch_table() {
     _patch_table_detect_value_type \ |
     _patch_table_edit_options  \
-        '--job;[`_choice_job`]' \
         '--container-architecture;[`_module_oci_docker_platform`]' \
+        '--job;[`_choice_job`]' \
     | \
     _patch_table_edit_arguments ';;' 'event;[`_choice_event`]'
 }

@@ -5,10 +5,10 @@ _patch_help() {
 _patch_table() { 
     _patch_table_edit_commands ';;' | \
     _patch_table_edit_options \
-        '-l;[`_choice_lang`]' \
         '-c;*[`_choice_set_var`]' \
-        '--psm;[`_choice_psm`]' \
+        '-l;[`_choice_lang`]' \
         '--oem;[`_choice_oem`]' \
+        '--psm;[`_choice_psm`]' \
     | \
     _patch_table_edit_arguments 'imagename(<file>)' 'outdir' 'configfile...'
 }

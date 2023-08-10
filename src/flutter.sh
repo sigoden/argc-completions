@@ -14,11 +14,6 @@ _patch_help() {
         _common_edit | \
         sed 's/^-d, --define/    --define/'
 
-    elif [[ "$*" == "flutter symbolize" ]]; then
-        $@ --help | \
-        _common_edit | \
-        sed 's/^-d, --debug-info/    --debug-info/'
-
     elif [[ "$*" == "flutter pub downgrade" ]] \
       || [[ "$*" == "flutter pub outdated" ]] \
       || [[ "$*" == "flutter pub publish" ]] \
@@ -34,6 +29,11 @@ _patch_help() {
     elif [[ "$*" == "flutter pub version" ]]; then
         :;
 
+    elif [[ "$*" == "flutter symbolize" ]]; then
+        $@ --help | \
+        _common_edit | \
+        sed 's/^-d, --debug-info/    --debug-info/'
+
     else
         $@ --help | _common_edit
     fi
@@ -42,46 +42,44 @@ _patch_help() {
 _patch_table() {
     table="$( \
         _patch_table_edit_options \
-            '--device-id;[`_choice_device`]' \
-            '--flavor(<value>)' \
             '--dart-define-from-file(<file:.json>)' \
-            '--web-renderer;[auto|canvaskit|html]' \
-            '--device-vmservice-port(<port>)' \
-            '--host-vmservice-port(<port>)' \
-            '--device-connection;[attached|both|wireless]' \
             '--dds-port(<port>)' \
+            '--device-connection;[attached|both|wireless]' \
+            '--device-id;[`_choice_device`]' \
+            '--device-vmservice-port(<port>)' \
+            '--flavor(<value>)' \
+            '--host-vmservice-port(<port>)' \
+            '--web-renderer;[auto|canvaskit|html]' \
     )"
 
-    if [[ "$*" == "flutter channel" ]]; then
-        echo "$table" | _patch_table_edit_arguments 'channel-name;[`_choice_channel`]'
-
-    elif [[ "$*" == "flutter config" ]]; then
+    if [[ "$*" == "flutter assemble" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '--android-sdk(<dir>)' \
-            '--android-studio-dir(<dir>)' \
-            '--build-dir(<dir>)' \
-
-    elif [[ "$*" == "flutter assemble" ]]; then
-        echo "$table" | \
-        _patch_table_edit_options \
-            '--input(<key=value>)' \
-            '--depfile(<file>)' \
+            '--asset-dir(<dir>)' \
             '--build-inputs(<file>)' \
             '--build-outputs(<file>)' \
             '--code-size-directory(<dir>)' \
-            '--resource-pool-size(<n>)' \
-            '--asset-dir(<dir>)' \
+            '--depfile(<file>)' \
+            '--input(<key=value>)' \
             '--output(<dir>)' \
+            '--resource-pool-size(<n>)' \
+
+    elif [[ "$*" == "flutter attach" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--app-id(<url>)' \
+            '--debug-url(<url>)' \
+            '--pid-file(<file>)' \
+
 
     elif [[ "$*" == "flutter build"* ]]; then
         table="$( \
             echo "$table" | \
             _patch_table_edit_options \
+                '--android-project-arg(<value>)' \
+                '--build-number(<value>)' \
                 '--depfile(<file>)' \
                 '--output(<dir>)' \
-                '--build-number(<value>)' \
-                '--android-project-arg(<value>)' \
         )"
 
         if [[ "$*" == "flutter build aar" ]]; then
@@ -119,80 +117,87 @@ _patch_table() {
             echo "$table"
         fi
 
+    elif [[ "$*" == "flutter channel" ]]; then
+        echo "$table" | _patch_table_edit_arguments 'channel-name;[`_choice_channel`]'
+
     elif [[ "$*" == "flutter clean" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
             '--scheme(<value>)' \
 
+    elif [[ "$*" == "flutter config" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--android-sdk(<dir>)' \
+            '--android-studio-dir(<dir>)' \
+            '--build-dir(<dir>)' \
+
     elif [[ "$*" == "flutter create" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '--description(<text>)' \
-            '--org(<text>)' \
-            '--roject-name(<text>)' \
-            '--ios-language;[objc|swift]' \
             '--android-language;[java|kotlin]' \
+            '--description(<text>)' \
+            '--ios-language;[objc|swift]' \
+            '--org(<text>)' \
             '--platforms;[ios|android|windows|linux|macos|web]' \
+            '--roject-name(<text>)' \
             '--template;[`_choice_create_template`]' \
 
     elif [[ "$*" == "flutter drive" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '--use-application-binary(<file:.apk>)' \
-            '--route(<value>)' \
-            '--dart-entrypoint-args(<value>)' \
-            '--web-launch-url(<url>)' \
             '--android-project-arg(<value)' \
             '--browser-name;[android-chrome|chrome|edge|firefox|ios-safari|safari]' \
             '--chrome-binary(<path>)' \
-            '--test-arguments(<value>)' \
-            '--profile-memory(<file:.json>)' \
-
-    elif [[ "$*" == "flutter gen-l10n" ]]; then
-        echo "$table" | \
-        _patch_table_edit_options \
-            '--arb-dir(<dir>)' \
-            '--output-dir(<dir>)' \
-            '--template-arb-file(<file>)' \
-            '--output-localization-file(<file>)' \
-            '--untranslated-messages-file(<file>)' \
-            '--output-class(<value>)' \
-            '--header(<value>)' \
-            '--header-file(<file>)' \
-
-    elif [[ "$*" == "flutter run" ]]; then
-        echo "$table" | \
-        _patch_table_edit_options \
-            '--use-application-binary(<path>)' \
-            '--route(<value>)' \
             '--dart-entrypoint-args(<value>)' \
+            '--profile-memory(<file:.json>)' \
+            '--route(<value>)' \
+            '--test-arguments(<value>)' \
+            '--use-application-binary(<file:.apk>)' \
             '--web-launch-url(<url>)' \
-            '--pid-file(<file>)' \
-            '--android-project-arg(<value)' \
-
-    elif [[ "$*" == "flutter test" ]]; then
-        echo "$table" | \
-        _patch_table_edit_options \
-            '--tags(<tag...>)' \
-            '--exclude-tags(<tag...>)' \
-            '--total-shards(<n>)'  \
-            '--shard-index(<n>)'  \
-            '--reporter;[`_choice_test_reporter`]' \
-            '--test-randomize-ordering-seed(<value>)' \
-            '--timeout(<value>)' \
-
-    elif [[ "$*" == "flutter attach" ]]; then
-        echo "$table" | \
-        _patch_table_edit_options \
-            '--debug-url(<url>)' \
-            '--app-id(<url>)' \
-            '--pid-file(<file>)' \
 
     elif [[ "$*" == "flutter emulators" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
             '--launch;[`_choice_emulator`]' \
             '--name(<value>)' \
+
+    elif [[ "$*" == "flutter gen-l10n" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--arb-dir(<dir>)' \
+            '--header(<value>)' \
+            '--header-file(<file>)' \
+            '--output-class(<value>)' \
+            '--output-dir(<dir>)' \
+            '--output-localization-file(<file>)' \
+            '--template-arb-file(<file>)' \
+            '--untranslated-messages-file(<file>)' \
+
+    elif [[ "$*" == "flutter pub deps" ]]; then
+        echo "$table" | _patch_table_edit_options '--style;[=tree|compact|list]'
+
+    elif [[ "$*" == "flutter pub downgrade" ]] || [[ "$*" == "flutter pub upgrade" ]]; then
+        echo "$table" | _patch_table_edit_arguments 'dependencies;[`_choice_package`]'
+
+    elif [[ "$*" == "flutter pub global deactivate" ]]; then
+        echo "$table" | _patch_table_edit_arguments 'package;[`_choice_gloal_package`]'
+
+    elif [[ "$*" == "flutter pub global run" ]]; then
+        echo "$table" | _patch_table_edit_arguments '<package>:<executable>;[`_choice_global_package_executable`]'
+
+    elif [[ "$*" == "flutter pub remove" ]]; then
+        echo "$table" | _patch_table_edit_arguments ';;' 'packages;*[`_choice_package`]'
+
+    elif [[ "$*" == "flutter run" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--android-project-arg(<value)' \
+            '--dart-entrypoint-args(<value>)' \
+            '--pid-file(<file>)' \
+            '--route(<value>)' \
+            '--use-application-binary(<path>)' \
+            '--web-launch-url(<url>)' \
 
     elif [[ "$*" == "flutter screenshot" ]]; then
         echo "$table" | \
@@ -206,20 +211,16 @@ _patch_table() {
             '--input(<path>)' \
             '--output(<path>)' \
 
-    elif [[ "$*" == "flutter pub global deactivate" ]]; then
-        echo "$table" | _patch_table_edit_arguments 'package;[`_choice_gloal_package`]'
-
-    elif [[ "$*" == "flutter pub global run" ]]; then
-        echo "$table" | _patch_table_edit_arguments '<package>:<executable>;[`_choice_global_package_executable`]'
-
-    elif [[ "$*" == "flutter pub deps" ]]; then
-        echo "$table" | _patch_table_edit_options '--style;[=tree|compact|list]'
-
-    elif [[ "$*" == "flutter pub downgrade" ]] || [[ "$*" == "flutter pub upgrade" ]]; then
-        echo "$table" | _patch_table_edit_arguments 'dependencies;[`_choice_package`]'
-
-    elif [[ "$*" == "flutter pub remove" ]]; then
-        echo "$table" | _patch_table_edit_arguments ';;' 'packages;*[`_choice_package`]'
+    elif [[ "$*" == "flutter test" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--exclude-tags(<tag...>)' \
+            '--reporter;[`_choice_test_reporter`]' \
+            '--shard-index(<n>)'  \
+            '--tags(<tag...>)' \
+            '--test-randomize-ordering-seed(<value>)' \
+            '--timeout(<value>)' \
+            '--total-shards(<n>)'  \
 
     else
         echo "$table"

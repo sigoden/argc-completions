@@ -21,18 +21,21 @@ _patch_table() {
     ; then
         _patch_table_edit_arguments ';;' 'gemname;[`_choice_installed_package`]' 
 
-    elif [[ "$*" == "gem fetch" ]] \
-      || [[ "$*" == "gem open" ]] \
-      || [[ "$*" == "gem owner" ]] \
-      || [[ "$*" == "gem info" ]] \
-    ; then
-        _patch_table_edit_arguments ';;' 'gemname;[`_choice_package`]' 
-
     elif [[ "$*" ==  "gem contents" ]]; then
         _patch_table_edit_options \
             '--spec-dir(<DIR>);*,' \
         | \
         _patch_table_edit_arguments 'gemname;[`_choice_installed_package`]' 
+
+    elif [[ "$*" ==  "gem environment" ]]; then
+        _patch_table_edit_arguments ';;' 'action;[`_choice_environment_action`]' 
+
+    elif [[ "$*" == "gem fetch" ]] \
+      || [[ "$*" == "gem info" ]] \
+      || [[ "$*" == "gem open" ]] \
+      || [[ "$*" == "gem owner" ]] \
+    ; then
+        _patch_table_edit_arguments ';;' 'gemname;[`_choice_package`]' 
 
     elif [[ "$*" ==  "gem install" ]]; then
         _patch_table_edit_arguments ';;' 'gemname;[`_choice_install`]' 
@@ -47,11 +50,8 @@ _patch_table() {
 
     elif [[ "$*" ==  "gem specification" ]]; then
         _patch_table_edit_arguments \
-            'gemfile;[`_choice_installed_package`]' \
             'field;[`_choice_spec_field`]' \
-
-    elif [[ "$*" ==  "gem environment" ]]; then
-        _patch_table_edit_arguments ';;' 'action;[`_choice_environment_action`]' 
+            'gemfile;[`_choice_installed_package`]' \
 
     elif [[ "$*" ==  "gem which" ]]; then
         _patch_table_edit_arguments ';;' 'file...'

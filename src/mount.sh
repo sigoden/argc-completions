@@ -9,7 +9,11 @@ _patch_table() {
         '--types;*,[`_choice_fstype`]' \
         '--uuid;[`_choice_uuid`]' \
     | \
-    _patch_table_edit_arguments ';;' 'mount-source;[`_choice_mount_source`]' 'mount-target;[`_choice_mount_target`]'
+    _patch_table_edit_arguments \
+        ';;' \
+        'mount-source;[`_choice_mount_source`]' \
+        'mount-target;[`_choice_mount_target`]' \
+
 }
 
 _choice_label() {

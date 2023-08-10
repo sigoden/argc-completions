@@ -1,7 +1,6 @@
 _patch_table() {
     _patch_table_edit_options \
         '--euid;*,[`_module_os_user`]' \
-        '--uid;*,[`_module_os_user`]' \
         '--group;*,[`_module_os_group`]' \
         '--ns;*,[`_module_os_pid`]' \
         '--nslist;*,[`_choice_nslist`]' \
@@ -9,6 +8,7 @@ _patch_table() {
         '--runstates;*,[`_choice_runstate`]' \
         '--session;*,[`_module_os_sid`]' \
         '--terminal;*,[`_module_os_tty`]' \
+        '--uid;*,[`_module_os_user`]' \
     | \
     _patch_table_edit_arguments ';;' 'pattern;[`_module_os_process`]'
 }

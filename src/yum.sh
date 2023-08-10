@@ -22,9 +22,13 @@ _patch_table() {
     ; then
         _patch_table_edit_arguments ';;' 'package;*[`_choice_installed_package`]'
 
-    elif [[ "$*" == "yum upgrade" ]] \
-      || [[ "$*" == "yum upgrade-minimal" ]]; then
-        _patch_table_edit_arguments ';;' 'package;*[`_choice_upgradable_pkg`]'
+    elif [[ "$*" == "yum check-update" ]] \
+      || [[ "$*" == "yum info" ]] \
+      || [[ "$*" == "yum install" ]] \
+      || [[ "$*" == "yum list" ]] \
+      || [[ "$*" == "yum updateinfo" ]] \
+    ; then
+        _patch_table_edit_arguments ';;' 'package;*[`_choice_package`]'
 
     elif [[ "$*" == "yum clean" ]]; then
         _patch_table_edit_arguments ';;' 'action;[metadata|packages|dbcache|expire-cache|all]'
@@ -37,14 +41,6 @@ _patch_table() {
 
     elif [[ "$*" == "yum history" ]]; then
         _patch_table_edit_arguments ';;' 'cmd;[list|info|redo|replay|rollback|store|undo|userinstalled]' 'transaction' 'file'
-
-    elif [[ "$*" == "yum check-update" ]] \
-      || [[ "$*" == "yum info" ]] \
-      || [[ "$*" == "yum install" ]] \
-      || [[ "$*" == "yum list" ]] \
-      || [[ "$*" == "yum updateinfo" ]] \
-    ; then
-        _patch_table_edit_arguments ';;' 'package;*[`_choice_package`]'
 
     elif [[ "$*" == "yum module" ]]; then
         _patch_table_edit_arguments ';;' 'cmd;[`_choice_module_cmd`]' 'module-spec...'
@@ -73,6 +69,11 @@ _patch_table() {
 
     elif [[ "$*" == "yum swap" ]]; then
         _patch_table_edit_arguments ';;' 'remove-spec' 'install-spec'
+
+    elif [[ "$*" == "yum upgrade" ]] \
+      || [[ "$*" == "yum upgrade-minimal" ]]; then
+        _patch_table_edit_arguments ';;' 'package;*[`_choice_upgradable_pkg`]'
+
 
     else
         cat

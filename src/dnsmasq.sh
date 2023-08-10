@@ -1,10 +1,10 @@
 _patch_table() { 
     _patch_table_edit_options \
         '--dhcp-scriptuser;[`_module_os_user`]' \
-        '--user;[`_module_os_user`]' \
-        '--group;[`_module_os_group`]' \
         '--except-interface;[`_choice_net_device`]' \
+        '--group;[`_module_os_group`]' \
         '--interface;[`_choice_net_device`]' \
+        '--user;[`_module_os_user`]' \
 
 }
 

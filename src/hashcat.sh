@@ -11,14 +11,14 @@ _patch_help() {
 
 _patch_table() { 
     _patch_table_edit_options \
-        '--hash-type;[`_choice_hash_mode`]' \
         '--attack-mode;[`_choice_attack_mode`]' \
         '--brain-client-features;[`_choice_brain_client_features`]' \
         '--brain-host;[`_module_os_hostname`]' \
+        '--debug-mode;[`_choice_debug_mode`]' \
+        '--hash-type;[`_choice_hash_mode`]' \
+        '--opencl-device-types;*,[`_choice_device_type`]' \
         '--outfile-format;*,[`_choice_outfile_format`]' \
         '--workload-profile;[`_choice_workload_profile`]' \
-        '--opencl-device-types;*,[`_choice_device_type`]' \
-        '--debug-mode;[`_choice_debug_mode`]' \
 
 }
 

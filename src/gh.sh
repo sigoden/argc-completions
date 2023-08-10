@@ -24,12 +24,18 @@ _patch_table() {
     table="$( \
         _patch_table_detect_value_type \ |
         _patch_table_edit_options \
-            '--repo;[`_choice_search_repo`]' \
-            '--repo-owner;[`_choice_owner`]' \
             '--branch;[`_choice_branch`]' \
             '--org;[`_choice_org`]' \
+            '--repo;[`_choice_search_repo`]' \
+            '--repo-owner;[`_choice_owner`]' \
     )"
-    if [[ "$*" == "gh auth"* ]]; then
+
+    if [[ "$*" == "gh alias"* ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'alias;[`_choice_alias`]' \
+
+    elif [[ "$*" == "gh auth"* ]]; then
         table="$( \
             echo "$table" | \
             _patch_table_edit_options \
@@ -43,8 +49,8 @@ _patch_table() {
             echo "$table" | \
             _patch_table_edit_options \
                 '--codespace;[`_choice_codespace`]' \
-                '--user;[`_choice_search_user`]' \
                 '--json;[`_choice_codespace_field`]' \
+                '--user;[`_choice_search_user`]' \
         )"
         if [[ "$*" == "gh codespace ssh" ]]; then
             echo "$table" | \
@@ -55,11 +61,22 @@ _patch_table() {
             echo "$table"
         fi
 
+    elif [[ "$*" == "gh completion" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'shell;[bash|zsh|fish|powershell]' \
+
+    elif [[ "$*" == "gh config"* ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'key;[`_choice_config_key`]' \
+
+
     elif [[ "$*" == "gh gist"* ]]; then
         table="$(
             echo "$table" | \
             _patch_table_edit_arguments \
-                '<id>|<url>(gist);[`_choice_gist`]' \
+                'id-url(gist);[`_choice_gist`]' \
                 'gist;[`_choice_gist`]' \
         )"
 
@@ -85,18 +102,24 @@ _patch_table() {
             echo "$table"
         fi
 
+    elif [[ "$*" == "gh gpg-key"* ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'key-id;[`_choice_gpg_key`]' \
+
+
     elif [[ "$*" == "gh issue"* ]]; then
         table="$(
             echo "$table" | \
             _patch_table_edit_options \
                 '--assignee;*,[`_choice_assignee`]' \
                 '--author;[`_choice_search_user`]' \
+                '--json;*,[`_choice_issue_field`]' \
                 '--label;*,[`_choice_label`]' \
+                '--mention;[`_choice_mention`]' \
                 '--milestone;[`_choice_milestone`]' \
                 '--project;[`_choice_repo_project`]' \
                 '--template;[`_choice_issue_template`]' \
-                '--mention;[`_choice_mention`]' \
-                '--json;*,[`_choice_issue_field`]' \
         )"
 
         if [[ "$*" == "gh issue close" ]] \
@@ -106,7 +129,7 @@ _patch_table() {
         ; then
             echo "$table" | \
             _patch_table_edit_arguments \
-                '<number>|<url>(issue);[`_choice_open_issue`]' \
+                'number-url(issue);[`_choice_open_issue`]' \
 
         elif [[ "$*" == "gh issue delete" ]] \
           || [[ "$*" == "gh issue lock" ]] \
@@ -114,7 +137,7 @@ _patch_table() {
         ; then
             echo "$table" | \
             _patch_table_edit_arguments \
-                '<number>|<url>(issue);[`_choice_all_issue`]' \
+                'number-url(issue);[`_choice_all_issue`]' \
 
 
         elif [[ "$*" == "gh issue develop" ]]; then
@@ -124,7 +147,7 @@ _patch_table() {
                 '--name;[`_choice_branch`]' \
             | \
             _patch_table_edit_arguments \
-                '<number>|<url>(issue);[`_choice_open_issue`]' \
+                'number-url(issue);[`_choice_open_issue`]' \
 
         elif [[ "$*" == "gh issue edit" ]]; then
             echo "$table" | \
@@ -143,30 +166,36 @@ _patch_table() {
         elif [[ "$*" == "gh issue reopen" ]]; then
             echo "$table" | \
             _patch_table_edit_arguments \
-                '<number>|<url>(issue);[`_choice_closed_issue`]' \
+                'number-url(issue);[`_choice_closed_issue`]' \
                 
         elif [[ "$*" == "gh issue transfer" ]]; then
             echo "$table" | \
             _patch_table_edit_arguments \
-                '<number>|<url>(issue);[`_choice_all_issue`]' \
+                'number-url(issue);[`_choice_all_issue`]' \
                 'destination-repo;[`_choice_search_repo`]' \
 
         elif [[ "$*" == "gh issue unpin" ]]; then
             echo "$table" | \
             _patch_table_edit_arguments \
-                '<number>|<url>(issue);[`_choice_pin_issue`]' \
+                'number-url(issue);[`_choice_pin_issue`]' \
 
         else
             echo "$table"
         fi
 
+    elif [[ "$*" == "gh label"* ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'name;[`_choice_label`]' \
+            'source-repository;[`_choice_search_repo`]' \
+
     elif [[ "$*" == "gh project"* ]]; then
         echo "$table" | \
         _patch_table_edit_options \
+            '--format;[json]' \
             '--owner;[`_choice_owner`]' \
             '--source-owner;[`_choice_owner`]' \
             '--target-owner;[`_choice_owner`]' \
-            '--format;[json]' \
         | \
         _patch_table_edit_arguments \
             'number(project);[`_choice_project`]' \
@@ -179,11 +208,11 @@ _patch_table() {
                 '--author;[`_choice_search_user`]' \
                 '--base;[`_choice_branch`]' \
                 '--head;[`_choice_branch`]' \
+                '--json;*,[`_choice_pr_field`]' \
                 '--label;*,[`_choice_label`]' \
                 '--milestone;[`_choice_milestone`]' \
                 '--project;*,[`_choice_repo_project`]' \
                 '--reviewer;*,[`_choice_assignee`]' \
-                '--json;*,[`_choice_pr_field`]' \
         )"
 
         if [[ "$*" == "gh pr checkout" ]] \
@@ -209,8 +238,8 @@ _patch_table() {
                 '--add-reviewer;*,[`_choice_assignee`]' \
                 '--remove-assignee;*,[`_choice_pr_assignee`]' \
                 '--remove-label;*,[`_choice_pr_label`]' \
-                '--remove-reviewer;*,[`_choice_pr_reviewer`]' \
                 '--remove-project;*,[`_choice_pr_project`]' \
+                '--remove-reviewer;*,[`_choice_pr_reviewer`]' \
             | \
             _patch_table_edit_arguments ';;'  'pr;[`_choice_open_pr`]' \
 
@@ -244,19 +273,19 @@ _patch_table() {
     elif [[ "$*" == "gh release"* ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '--target;*,[`_choice_branch`]' \
             '--discussion-category;[`_choice_discussion_category`]' \
+            '--target;*,[`_choice_branch`]' \
         | \
         _patch_table_edit_arguments \
-            'tag;[`_choice_tag`]' \
             'asset-name;[`_choice_release_asset`]' \
+            'tag;[`_choice_tag`]' \
 
     elif [[ "$*" == "gh repo"* ]]; then
         table="$(
             echo "$table" | \
             _patch_table_edit_options \
-                '--template;[`_choice_search_repo`]' \
                 '--json;[`_choice_repo_field`]' \
+                '--template;[`_choice_search_repo`]' \
             | \
             _patch_table_edit_arguments \
                 'repository;[`_choice_search_repo`]' \
@@ -321,8 +350,8 @@ _patch_table() {
             echo "$table" | \
             _patch_table_edit_options \
                 '--event;*,[`_choice_workflow_event`]' \
-                '--user;[`_choice_search_user`]' \
                 '--json;*,[`_choice_run_field`]' \
+                '--user;[`_choice_search_user`]' \
                 '--workflow;[`_choice_workflow`]' \
 
         elif [[ "$*" == "gh run rerun" ]]; then
@@ -344,38 +373,6 @@ _patch_table() {
         else
             echo "$table"
         fi
-
-    elif [[ "$*" == "gh workflow"* ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            '<workflow-id>|<workflow-name>(workflow);[`_choice_workflow`]' \
-            '<workflow-id>|<workflow-name>|<filename>(workflow);[`_choice_workflow_or_file`]' \
-
-    elif [[ "$*" == "gh alias"* ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            'alias;[`_choice_alias`]' \
-
-    elif [[ "$*" == "gh completion" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            'shell;[bash|zsh|fish|powershell]' \
-
-    elif [[ "$*" == "gh config"* ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            'key;[`_choice_config_key`]' \
-
-    elif [[ "$*" == "gh gpg-key"* ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            'key-id;[`_choice_gpg_key`]' \
-
-    elif [[ "$*" == "gh label"* ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            'name;[`_choice_label`]' \
-            'source-repository;[`_choice_search_repo`]' \
 
     elif [[ "$*" == "gh search"* ]]; then
         table="$(
@@ -405,9 +402,9 @@ _patch_table() {
         elif [[ "$*" == "gh search repos" ]]; then
             echo "$table" | \
             _patch_table_edit_options \
+                '--json;*,[`_choice_repo_field`]' \
                 '--license;[`_choice_license`]' \
                 '--topic;*,[`_choice_search_topic`]' \
-                '--json;*,[`_choice_repo_field`]' \
 
         else
             echo "$table"
@@ -440,6 +437,13 @@ _patch_table() {
         else
             echo "$table"
         fi
+
+    elif [[ "$*" == "gh workflow"* ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'workflow-id-workflow-name(workflow);[`_choice_workflow`]' \
+            'workflow-id-workflow-name-filename(workflow);[`_choice_workflow_or_file`]' \
+
     else
         echo "$table"
     fi

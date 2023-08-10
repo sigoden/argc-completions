@@ -5,8 +5,8 @@ _patch_help() {
 
 _patch_table() {
     _patch_table_edit_options \
-        '-o;[`_module_ssh_option`]' \
         '-c;*,[`_module_ssh_cipher`]' \
+        '-o;[`_module_ssh_option`]' \
     | \
     _patch_table_edit_arguments 'paths;[`_choice_path`]'
 }

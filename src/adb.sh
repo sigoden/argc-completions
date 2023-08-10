@@ -161,15 +161,15 @@ _patch_table() {
     if [[ "$*" == "adb reconnect" ]]; then
         _patch_table_edit_arguments ';;' 'type;[`_choice_reconnect_type`]'
 
+    elif [[ "$*" == "adb emu" ]]; then
+        _patch_table_edit_arguments \
+            'command;[`_module_os_command`]' \
+
     elif [[ "$*" == "adb shell" ]]; then
         _patch_table_edit_arguments \
             ';;' \
             'command;[`_module_os_command`]' \
             'args;~[`_choice_args`]' \
-
-    elif [[ "$*" == "adb emu" ]]; then
-        _patch_table_edit_arguments \
-            'command;[`_module_os_command`]' \
 
     else
         cat

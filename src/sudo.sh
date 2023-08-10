@@ -5,9 +5,9 @@ _patch_help() {
 _patch_table() { 
     _patch_table_edit_options \
         '--group;[`_module_os_group`]' \
-        '--user;[`_module_os_user`]' \
         '--other-user;[`_module_os_user`]' \
         '--preserve-env;[`_choice_env_var`]' \
+        '--user;[`_module_os_user`]' \
     | \
     _patch_table_edit_arguments \
         ';;' \

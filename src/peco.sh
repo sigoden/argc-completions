@@ -1,15 +1,15 @@
 _patch_table() { 
     _patch_table_edit_options \
-        '--query(<value>)' \
-        '--rcfile(<file>)' \
         '--buffer-size(<n>)' \
+        '--exec;[`_module_os_command`]' \
+        '--initial-filter(<value>)' \
         '--initial-index(<n>)' \
         '--initial-matcher(<value>)' \
-        '--initial-filter(<value>)' \
-        '--prompt(<value>)' \
-        '--on-cancel;[success|error]' \
         '--layout;[top-down|bottom-up]' \
+        '--on-cancel;[success|error]' \
+        '--prompt(<value>)' \
+        '--query(<value>)' \
+        '--rcfile(<file>)' \
         '--selection-prefix(<value>)' \
-        '--exec;[`_module_os_command`]' \
 
 }

@@ -1,25 +1,25 @@
 _patch_table() { 
     _patch_table_edit_options \
-        '--port(<port>)' \
-        '--interface[`_choice_interface`]' \
-        '--socket-owner;[`_choice_socket_owner`]' \
-        '--credential(<user:pass>)' \
         '--auth-header(<value>)' \
-        '--uid;[`_module_os_user`]' \
-        '--gid;[`_module_os_group`]' \
-        '--signal;[`_module_os_signal`]' \
-        '--cwd(<dir>)' \
-        '--url-arg(<value>)' \
-        '--client-option(<value...>)' \
-        '--terminal-type(<value>)' \
-        '--max-clients(<num>)' \
-        '--index(<path>)' \
         '--base-path(<path>)' \
+        '--client-option(<value...>)' \
+        '--credential(<user:pass>)' \
+        '--cwd(<dir>)' \
+        '--debug(<level>)' \
+        '--gid;[`_module_os_group`]' \
+        '--index(<path>)' \
+        '--interface[`_choice_interface`]' \
+        '--max-clients(<num>)' \
         '--ping-interval(<sec>)' \
+        '--port(<port>)' \
+        '--signal;[`_module_os_signal`]' \
+        '--socket-owner;[`_choice_socket_owner`]' \
+        '--ssl-ca(<path>)' \
         '--ssl-cert(<path>)' \
         '--ssl-key(<path>)' \
-        '--ssl-ca(<path>)' \
-        '--debug(<level>)' \
+        '--terminal-type(<value>)' \
+        '--uid;[`_module_os_user`]' \
+        '--url-arg(<value>)' \
     | \
     _patch_table_edit_arguments \
         ';;' \

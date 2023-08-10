@@ -57,12 +57,8 @@ _patch_help() {
 _patch_table() { 
     table="$(sed 's/ <label> #/ <label> # # [`_choice_target`]/')"
 
-    if [[ "$*" == "bazel info" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments 'keys;*[`_choice_info_key`]'
-
-    elif [[ "$*" == "bazel test" ]] \
-      || [[ "$*" == "bazel coverage" ]] \
+    if [[ "$*" == "bazel coverage" ]] \
+    || [[ "$*" == "bazel test" ]] \
     ; then
         echo "$table" | \
         _patch_table_edit_arguments 'test-targets;*[`_choice_test_target`]'
@@ -79,9 +75,13 @@ _patch_table() {
             'targets;*[`_choice_target`]' \
             'target;[`_choice_target`]' \
 
+    elif [[ "$*" == "bazel info" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments 'keys;*[`_choice_info_key`]'
+
     elif [[ "$*" == "bazel run" ]]; then
         echo "$table" | \
-        _patch_table_edit_arguments 'binary target;*[`_choice_run_target`]'
+        _patch_table_edit_arguments 'binary-target;*[`_choice_run_target`]'
 
     else
         echo "$table"

@@ -28,6 +28,10 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_arguments 'package;[`_choice_database`]'
 
+    elif [[ "$*" == "pacman --deptest" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments 'package;[`_choice_package`]'
+
     elif [[ "$*" == "pacman --files" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments 'file;[`_choice_file_database`]'
@@ -47,16 +51,12 @@ _patch_table() {
     elif [[ "$*" == "pacman --sync" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '--list;[`_choice_repo`]' \
             '--groups;[`_choice_package_group`]' \
             '--ignore;[`_choice_package`]' \
             '--ignoregroup;[`_choice_package_group`]' \
+            '--list;[`_choice_repo`]' \
         | \
         _patch_table_edit_arguments 'package;[`_choice_sync_package`]'
-
-    elif [[ "$*" == "pacman --deptest" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments 'package;[`_choice_package`]'
 
     elif [[ "$*" == "pacman --upgrade" ]]; then
         echo "$table" | \

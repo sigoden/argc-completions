@@ -22,9 +22,13 @@ _patch_table() {
     ; then
         _patch_table_edit_arguments ';;' 'package;*[`_choice_installed_package`]'
 
-    elif [[ "$*" == "dnf upgrade" ]] \
-      || [[ "$*" == "dnf upgrade-minimal" ]]; then
-        _patch_table_edit_arguments ';;' 'package;*[`_choice_upgradable_pkg`]'
+    elif [[ "$*" == "dnf check-update" ]] \
+      || [[ "$*" == "dnf info" ]] \
+      || [[ "$*" == "dnf install" ]] \
+      || [[ "$*" == "dnf list" ]] \
+      || [[ "$*" == "dnf updateinfo" ]] \
+    ; then
+        _patch_table_edit_arguments ';;' 'package;*[`_choice_package`]'
 
     elif [[ "$*" == "dnf clean" ]]; then
         _patch_table_edit_arguments ';;' 'action;[metadata|packages|dbcache|expire-cache|all]'
@@ -37,14 +41,6 @@ _patch_table() {
 
     elif [[ "$*" == "dnf history" ]]; then
         _patch_table_edit_arguments ';;' 'cmd;[list|info|redo|replay|rollback|store|undo|userinstalled]' 'transaction' 'file'
-
-    elif [[ "$*" == "dnf check-update" ]] \
-      || [[ "$*" == "dnf info" ]] \
-      || [[ "$*" == "dnf install" ]] \
-      || [[ "$*" == "dnf list" ]] \
-      || [[ "$*" == "dnf updateinfo" ]] \
-    ; then
-        _patch_table_edit_arguments ';;' 'package;*[`_choice_package`]'
 
     elif [[ "$*" == "dnf module" ]]; then
         _patch_table_edit_arguments ';;' 'cmd;[`_choice_module_cmd`]' 'module-spec...'
@@ -73,6 +69,10 @@ _patch_table() {
 
     elif [[ "$*" == "dnf swap" ]]; then
         _patch_table_edit_arguments ';;' 'remove-spec' 'install-spec'
+
+    elif [[ "$*" == "dnf upgrade" ]] \
+      || [[ "$*" == "dnf upgrade-minimal" ]]; then
+        _patch_table_edit_arguments ';;' 'package;*[`_choice_upgradable_pkg`]'
 
     else
         cat

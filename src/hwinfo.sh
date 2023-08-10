@@ -33,10 +33,10 @@ _patch_help() {
 
 _patch_table() { 
     _patch_table_edit_options \
+        '--dump-db;[0|1]' \
         '--only;*[`_choice_device`]' \
         '--save-config;[`_choice_save_config`]' \
         '--show-config;[`_choice_device_udi`]' \
-        '--dump-db;[0|1]' \
 
 }
 

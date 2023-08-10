@@ -6,8 +6,8 @@ _patch_table() {
     if [[ "$*" == "dart compile"* ]]; then
         _patch_table_edit_options \
             '--output(<file>)' \
-            '--verbosity;[`_choice_log_verbosity`]' \
             '--target-os;[android|fuchsia|ios|linux|macos|windows]' \
+            '--verbosity;[`_choice_log_verbosity`]' \
         | \
         _patch_table_edit_arguments 'dart-entry-point(dart-entry-point <file:.dart>)'
 
@@ -17,9 +17,13 @@ _patch_table() {
     elif [[ "$*" == "dart format" ]]; then
         _patch_table_edit_options '--output;[`_choice_format_output`]'
 
-    elif [[ "$*" == "dart run" ]]; then
-        _patch_table_edit_options '--verbosity;[`_choice_log_verbosity`]' | \
-        _patch_table_edit_arguments ';;' '<dart-file|package-target>' 'args...'
+    elif [[ "$*" == "dart pub deps" ]]; then
+        _patch_table_edit_options '--style;[=tree|compact|list]'
+
+    elif [[ "$*" == "dart pub downgrade" ]] \
+      || [[ "$*" == "dart pub upgrade" ]] \
+    ; then
+        _patch_table_edit_arguments 'dependencies;[`_choice_package`]'
 
     elif [[ "$*" == "dart pub global deactivate" ]]; then
         _patch_table_edit_arguments 'package;[`_choice_gloal_package`]'
@@ -27,14 +31,12 @@ _patch_table() {
     elif [[ "$*" == "dart pub global run" ]]; then
         _patch_table_edit_arguments '<package>:<executable>;[`_choice_global_package_executable`]'
 
-    elif [[ "$*" == "dart pub deps" ]]; then
-        _patch_table_edit_options '--style;[=tree|compact|list]'
-
-    elif [[ "$*" == "dart pub downgrade" ]] || [[ "$*" == "dart pub upgrade" ]]; then
-        _patch_table_edit_arguments 'dependencies;[`_choice_package`]'
-
     elif [[ "$*" == "dart pub remove" ]]; then
         _patch_table_edit_arguments ';;' 'packages;*[`_choice_package`]'
+
+    elif [[ "$*" == "dart run" ]]; then
+        _patch_table_edit_options '--verbosity;[`_choice_log_verbosity`]' | \
+        _patch_table_edit_arguments ';;' '<dart-file|package-target>' 'args...'
 
     else
         cat

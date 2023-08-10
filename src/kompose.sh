@@ -6,8 +6,8 @@ _patch_table() {
         '--service-group-name' \
     | \
     _patch_table_edit_options \
-        '--provider;[Kubernetes|OpenShift]' \
         '--build;[local|build-config|none]' \
+        '--provider;[Kubernetes|OpenShift]' \
         '--volumes;[persistentVolumeClaim|emptyDir|hostPath|configMap]' \
 
 }

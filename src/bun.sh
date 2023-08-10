@@ -6,17 +6,10 @@ _patch_help() {
             -e 's/^  \(\S\+\).\{20\}\(.*\)$/  \1 \2/' \
             -e '/ (bun \w\+)$/ s/  \(\w\+\)\(.*\)(bun \(\w\+\))$/  \1, \3\2/' \
 
-    elif [[ "$*" == "bun run" ]]; then
-        echo "Usage: bun run [script_or_bin]..."
-        $@ --help | sed '/----/,$ d'
-
-    elif [[ "$*" == "bun dev" ]]; then
-        $@ --help | sed '/----/,$ d'
-
     elif [[ "$*" == "bun add" ]] \
       || [[ "$*" == "bun install" ]] \
-      || [[ "$*" == "bun remove" ]] \
       || [[ "$*" == "bun link" ]] \
+      || [[ "$*" == "bun remove" ]] \
       || [[ "$*" == "bun unlink" ]] \
     ; then
         echo "Usage: $* <pkg>"
@@ -25,6 +18,10 @@ _patch_help() {
     elif [[ "$*" == "bun create" ]]; then
         echo "Usage: bun create <pkg> [args]..."
         $@ --help
+
+    elif [[ "$*" == "bun dev" ]]; then
+        $@ --help | sed '/----/,$ d'
+
 
     elif [[ "$*" == "bun pm" ]]; then
         cat <<-'EOF'
@@ -55,6 +52,10 @@ bun pm ls
 options:
     --all         All installed dependencies, including nth-order dependencies.
 EOF
+
+    elif [[ "$*" == "bun run" ]]; then
+        echo "Usage: bun run [script_or_bin]..."
+        $@ --help | sed '/----/,$ d'
 
     else
         cat <<-'EOF' | _patch_help_select_subcmd $@ 

@@ -12,19 +12,19 @@ _patch_help() {
 
 _patch_table() { 
     _patch_table_edit_options \
-        '-cp;*:[`_choice_class_path`]' \
-        '-classpath;*:[`_choice_class_path`]' \
-        '--class-path;*:[`_choice_class_path`]' \
         '-agentpath;[`_choice_agent_path`]' \
-        '-p(<dir>);*:' \
-        '--module-path(<dir>);*:' \
-        '--upgrade-module-path(<dir>);*:' \
-        '--add-modules(<dir>);*,' \
-        '-ea;*:' \
-        '-enableassertions;*:' \
+        '-classpath;*:[`_choice_class_path`]' \
+        '-cp;*:[`_choice_class_path`]' \
         '-da;*:' \
         '-disableassertions;*:' \
+        '-ea;*:' \
+        '-enableassertions;*:' \
         '-javaagent;*:[`_choice_class_path`]' \
+        '-p(<dir>);*:' \
+        '--add-modules(<dir>);*,' \
+        '--class-path;*:[`_choice_class_path`]' \
+        '--module-path(<dir>);*:' \
+        '--upgrade-module-path(<dir>);*:' \
         ';;' \
         '-X;-[`_choice_option`];pass additional options to JVM' \
 

@@ -31,10 +31,14 @@ _patch_table() {
             '--set;[`_choice_config_kv`]' \
             '--show;[`_choice_config_key`]' \
 
-    elif [[ "$*" == "conda config" ]]; then
+    elif [[ "$*" == "conda init" ]]; then
+        echo "$table" | \
         _patch_table_edit_arguments ';;' 'SHELLS;*[bash|fish|powershell|tcsh|xonsh|zsh]'
 
-    elif [[ "$*" == "conda remove" ]] || [[ "$*" == "conda update" ]]; then
+    elif [[ "$*" == "conda remove" ]] \
+      || [[ "$*" == "conda update" ]] \
+    ; then
+        echo "$table" | \
         _patch_table_edit_arguments ';;' 'package_name;[`_choice_package`]'
 
     else

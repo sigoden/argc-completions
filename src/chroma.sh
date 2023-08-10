@@ -1,8 +1,8 @@
 _patch_table() { 
     _patch_table_edit_options \
+        '--formatter;[`_choice_formatter`]' \
         '--lexer;[`_choice_lexer`]' \
         '--style;[`_choice_style`]' \
-        '--formatter;[`_choice_formatter`]' \
 
 }
 

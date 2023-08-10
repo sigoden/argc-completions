@@ -108,11 +108,11 @@ _patch_table() {
     elif [[ "$*" == "scoop export" ]]; then
         _patch_table_edit_arguments ';;' 
 
-    elif [[ "$*" == "scoop shim" ]]; then
-        _patch_table_edit_arguments ';;' 'cmd;[`_choice_shim_cmd`]' 'name' 'args...'
-
     elif [[ "$*" == "scoop hold" ]]; then
         _patch_table_edit_arguments ';;' 'app;*[`_choice_installed_package`]'
+
+    elif [[ "$*" == "scoop shim" ]]; then
+        _patch_table_edit_arguments ';;' 'cmd;[`_choice_shim_cmd`]' 'name' 'args...'
 
     elif [[ "$*" == "scoop virustotal" ]]; then
         _patch_table_edit_arguments ';;' 'app;*[`_choice_package`]'

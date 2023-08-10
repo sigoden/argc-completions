@@ -13,40 +13,40 @@ _patch_help() {
 _patch_table() {
     table="$( \
         _patch_table_edit_arguments \
-            'snap;[`_choice_installed_snap`]' \
             'change-id;[`_choice_change`]' \
             'service;[`_choice_change`]' \
+            'snap;[`_choice_installed_snap`]' \
     )"
-    if [[ "$*" == "snap enable" ]]; then
+
+    if [[ "$*" == "snap connect" ]] \
+    || [[ "$*" == "snap disconnect" ]] \
+    ; then
         echo "$table" | \
-        _patch_table_edit_arguments 'snap;[`_choice_disabled_snap`]'
+        _patch_table_edit_arguments \
+            'snap-plug;[`_choice_snap_plug`]' \
+            'snap-slot;[`_choice_snap_slot`]' \
 
     elif [[ "$*" == "snap disable" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments 'snap;[`_choice_enabled_snap`]'
 
+    elif [[ "$*" == "snap enable" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments 'snap;[`_choice_disabled_snap`]'
+
     elif [[ "$*" == "snap install" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments 'snap; '
-
-
-    elif [[ "$*" == "snap unalias" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            'alias-or-snap;[`_choice_alias_or_snap`]' \
 
     elif [[ "$*" == "snap interface" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments \
             'interface;[`_choice_interface`]' \
 
-    elif [[ "$*" == "snap connect" ]] \
-      || [[ "$*" == "snap disconnect" ]] \
-    ; then
+    elif [[ "$*" == "snap unalias" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments \
-            'snap-plug;[`_choice_snap_plug`]' \
-            'snap-slot;[`_choice_snap_slot`]' \
+            'alias-or-snap;[`_choice_alias_or_snap`]' \
 
     else
         echo "$table"

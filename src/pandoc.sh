@@ -9,16 +9,16 @@ _patch_table() {
     _patch_table_edit_options \
         '-f;[`_choice_input_format`]' \
         '-r;[`_choice_input_format`]' \
-        '--from;[`_choice_input_format`]' \
-        '--read;[`_choice_input_format`]' \
         '-t;[`_choice_output_format`]' \
         '-w;[`_choice_output_format`]' \
+        '--from;[`_choice_input_format`]' \
+        '--highlight-style;[`_choice_highlight_style`]' \
+        '--list-extensions;[`_choice_format`]' \
+        '--output;[docx|odt|epub2|epub3]' \
+        '--print-highlight-style;[`_choice_highlight_style`]' \
+        '--read;[`_choice_input_format`]' \
         '--to;[`_choice_output_format`]' \
         '--write;[`_choice_output_format`]' \
-        '--output;[docx|odt|epub2|epub3]' \
-        '--highlight-style;[`_choice_highlight_style`]' \
-        '--print-highlight-style;[`_choice_highlight_style`]' \
-        '--list-extensions;[`_choice_format`]' \
 
 }
 

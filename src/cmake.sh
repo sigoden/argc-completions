@@ -16,12 +16,12 @@ _patch_table() {
         '--preset' \
     | \
     _patch_table_edit_options \
-        '-Werror(<value>);[dev|deprecated]' \
-        '-Wno-error(<value>);[dev|deprecated]' \
         '-D;-[`_choice_set_cache_entry`]' \
-        '-U;-[`_choice_remove_cache_entry`]' \
         '-E(<cmd> <args...>);[`_choice_cmd`]' \
         '-G;[`_choice_generator`]' \
+        '-U;-[`_choice_remove_cache_entry`]' \
+        '-Werror(<value>);[dev|deprecated]' \
+        '-Wno-error(<value>);[dev|deprecated]' \
         '--help-command;[`_choice_help_command`]' \
         '--help-manual;[`_choice_help_manual`]' \
         '--help-module;[`_choice_help_module`]' \

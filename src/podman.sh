@@ -133,6 +133,12 @@ _patch_table() {
             echo "$table"
         fi
 
+    elif [[ "$*" == "podman system connection" ]]; then
+        echo "$table" | \
+        _patch_table_edit_commands \
+            'ls(ls, list)' \
+            'remove(remove, rm)' \
+            'rename(rename, mv)' \
 
     elif [[ "$*" == "podman volume"* ]]; then
         table="$(
@@ -150,13 +156,6 @@ _patch_table() {
         else
             echo "$table"
         fi
-
-    elif [[ "$*" == "podman system connection" ]]; then
-        echo "$table" | \
-        _patch_table_edit_commands \
-            'ls(ls, list)' \
-            'remove(remove, rm)' \
-            'rename(rename, mv)' \
 
     else
         echo "$table"

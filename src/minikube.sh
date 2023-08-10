@@ -41,33 +41,23 @@ _patch_table() {
     table="$( \
         _patch_table_edit_options \
             '--driver(<value>);[virtualbox|vmwarefusion|kvm2|qemu2|qemu|vmware|none|docker|podman|ssh|auto-detect]' \
-            '--output;[text|json]' \
-            '--node;[`_choice_node`]' \
-            '--namespace;[`_choice_namespace`]' \
             '--file(<file>)' \
+            '--namespace;[`_choice_namespace`]' \
+            '--node;[`_choice_node`]' \
+            '--output;[text|json]' \
     )"
 
-    if [[ "$*" == "minikube start" ]]; then
-        echo "$table" | \
-        _patch_table_dedup_options --driver \
-        | \
-        _patch_table_edit_options \
-            '--driver(<value>);[virtualbox|vmwarefusion|kvm2|qemu2|qemu|vmware|none|docker|podman|ssh|auto-detect]' \
-            '--iso-url(<url>);*,;Locations to fetch the minikube ISO from.' \
-            '--addons;*,[`_choice_addon`]' \
-            '--base-image(<image>);[`_module_oci_docker_image`]' \
-            '--cni;[`_choice_cni`]' \
-            '--container-runtime;[docker|cri-o|containerd]' \
-            '--cri-socket(<file>)' \
-            '--host-only-nic-type;[Am79C970A|Am79C973|82540EM|82543GC|82545EM|virtio]' \
-            '--hyperkit-vpnkit-sock;[`_choice_vnpkit_sock`]' \
-            '--mount-string;[`_choice_mount_string`]' \
-            '--nat-nic-type;[Am79C970A|Am79C973|82540EM|82543GC|82545EM|virtio]' \
-            '--ssh-key(<file>)' \
+    if [[ "$*" == "minikube addons"* ]]; then
+        echo "$table" | _patch_table_edit_arguments 'addon_name;[`_choice_addon`]'
 
     elif [[ "$*" == "minikube docker-env" ]]; then
-        echo "$table" | _patch_table_edit_options \
-            "--format(<value>)" \
+        echo "$table" | _patch_table_edit_options "--format(<value>)"
+
+    elif [[ "$*" == "minikube config"* ]]; then
+        echo "$table" | _patch_table_edit_arguments 'property_name;[`_choice_property_name`]'
+
+    elif [[ "$*" == "minikube cp" ]]; then
+        echo "$table" | _patch_table_edit_arguments ';;' 'src;[`_choice_cp`]' 'dest;[`_choice_cp`]'
 
     elif [[ "$*" == "minikube image load" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'image;[`_choice_load_image`]'
@@ -78,26 +68,34 @@ _patch_table() {
     elif [[ "$*" == "minikube image"* ]]; then
         echo "$table" | _patch_table_edit_arguments 'image;[`_choice_image`]'
 
-    elif [[ "$*" == "minikube addons"* ]]; then
-        echo "$table" | _patch_table_edit_arguments 'addon_name;[`_choice_addon`]'
+    elif [[ "$*" == "minikube kubectl" ]]; then
+        echo "$table" | _patch_table_edit_arguments ';;' 'args;~[`_choice_kubectl`]'
 
-    elif [[ "$*" == "minikube config"* ]]; then
-        echo "$table" | _patch_table_edit_arguments 'property_name;[`_choice_property_name`]'
-
-    elif [[ "$*" == "minikube profile" ]]; then
-        echo "$table" | _patch_table_edit_arguments ';;' 'minikube_profile_name'
+    elif [[ "$*" == "minikube license" ]]; then
+        echo "$table" | _patch_table_edit_options '--dir(<dir>)'
 
     elif [[ "$*" == "minikube mount" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'src:dest;[`_choice_mount`]'
 
-    elif [[ "$*" == "minikube kubectl" ]]; then
-        echo "$table" | _patch_table_edit_arguments ';;' 'args;~[`_choice_kubectl`]'
+    elif [[ "$*" == "minikube profile" ]]; then
+        echo "$table" | _patch_table_edit_arguments ';;' 'minikube_profile_name'
 
-    elif [[ "$*" == "minikube cp" ]]; then
-        echo "$table" | _patch_table_edit_arguments ';;' 'src;[`_choice_cp`]' 'dest;[`_choice_cp`]'
-
-    elif [[ "$*" == "minikube license" ]]; then
-        echo "$table" | _patch_table_edit_options '--dir(<dir>)'
+    elif [[ "$*" == "minikube start" ]]; then
+        echo "$table" | \
+        _patch_table_dedup_options '--driver' | \
+        _patch_table_edit_options \
+            '--addons;*,[`_choice_addon`]' \
+            '--base-image(<image>);[`_module_oci_docker_image`]' \
+            '--cni;[`_choice_cni`]' \
+            '--container-runtime;[docker|cri-o|containerd]' \
+            '--cri-socket(<file>)' \
+            '--driver(<value>);[virtualbox|vmwarefusion|kvm2|qemu2|qemu|vmware|none|docker|podman|ssh|auto-detect]' \
+            '--host-only-nic-type;[Am79C970A|Am79C973|82540EM|82543GC|82545EM|virtio]' \
+            '--hyperkit-vpnkit-sock;[`_choice_vnpkit_sock`]' \
+            '--iso-url(<url>);*,;Locations to fetch the minikube ISO from.' \
+            '--mount-string;[`_choice_mount_string`]' \
+            '--nat-nic-type;[Am79C970A|Am79C973|82540EM|82543GC|82545EM|virtio]' \
+            '--ssh-key(<file>)' \
 
     else
         echo "$table"

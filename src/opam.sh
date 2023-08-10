@@ -65,14 +65,14 @@ _patch_table() {
     table="$(
         _patch_table_edit_options \
             '--color;[always|never|auto]' \
-            '--confirm-level;[ask|no|yes|unsafe-yes];Confirmation level' \
-            '--help;[auto|pager|groff|plain]' \
-            '--kind;[http|local|git|darcs|hg]' \
-            '--switch;[`_choice_installed_switch`]' \
-            '--shell;[bash|sh|csh|zsh|fish]' \
             '--columns;[`_choice_columns`]' \
+            '--confirm-level;[ask|no|yes|unsafe-yes];Confirmation level' \
             '--fields;[`_choice_columns`]' \
             '--has-flag;[light-uninstall|verbose|plugin|compiler|conf]' \
+            '--help;[auto|pager|groff|plain]' \
+            '--kind;[http|local|git|darcs|hg]' \
+            '--shell;[bash|sh|csh|zsh|fish]' \
+            '--switch;[`_choice_installed_switch`]' \
     )"
 
     if [[ "$*" == "opam" ]]; then
@@ -85,26 +85,6 @@ _patch_table() {
             'search;An alias for list --search.' \
             'unpin;An alias for pin remove.' \
 
-    elif [[ "$*" == "opam install" ]] \
-      || [[ "$*" == "opam show" ]] \
-    ; then
-        echo "$table" | \
-        _patch_table_edit_arguments 'packages;*[`_choice_package`]'
-
-    elif [[ "$*" == "opam reinstall" ]] \
-      || [[ "$*" == "opam remove" ]] \
-      || [[ "$*" == "opam upgrade" ]] \
-      || [[ "$*" == "opam source" ]] \
-    ; then
-        echo "$table" | \
-        _patch_table_edit_arguments 'packages;*[`_choice_package`]'
-
-    elif [[ "$*" == "opam switch create" ]] \
-      || [[ "$*" == "opam switch install" ]] \
-    ; then
-        echo "$table" | \
-        _patch_table_edit_arguments 'switch;*[`_choice_installed_switch`]'
-
     elif [[ "$*" == "opam admin" ]]; then
         echo "$table" | \
         _patch_table_edit_commands 'index(index, make)'
@@ -113,13 +93,18 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_arguments 'var;*[`_choice_var`]'
 
-    elif [[ "$*" == "opam repository "* ]]; then
+    elif [[ "$*" == "opam exec"  ]] \
+    ; then
         echo "$table" | \
-        _patch_table_edit_arguments 'name;*[`_choice_repository`]'
+        _patch_table_edit_arguments \
+            'command;[`_module_os_command`]' \
+            'arg;~[`_choice_args`]' \
 
-    elif [[ "$*" == "opam update" ]]; then
+    elif [[ "$*" == "opam install" ]] \
+      || [[ "$*" == "opam show" ]] \
+    ; then
         echo "$table" | \
-        _patch_table_edit_arguments 'names;*[`_choice_update`]'
+        _patch_table_edit_arguments 'packages;*[`_choice_package`]'
 
     elif [[ "$*" == "opam pin add" ]]; then
         echo "$table" | \
@@ -131,16 +116,31 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_arguments ';;' 'name;*[`_choice_installed_pin`]'
 
+    elif [[ "$*" == "opam reinstall" ]] \
+      || [[ "$*" == "opam remove" ]] \
+      || [[ "$*" == "opam source" ]] \
+      || [[ "$*" == "opam upgrade" ]] \
+    ; then
+        echo "$table" | \
+        _patch_table_edit_arguments 'packages;*[`_choice_package`]'
+
+    elif [[ "$*" == "opam repository "* ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments 'name;*[`_choice_repository`]'
+
+    elif [[ "$*" == "opam switch create" ]] \
+      || [[ "$*" == "opam switch install" ]] \
+    ; then
+        echo "$table" | \
+        _patch_table_edit_arguments 'switch;*[`_choice_installed_switch`]'
+
+    elif [[ "$*" == "opam update" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments 'names;*[`_choice_update`]'
+
     elif [[ "$*" == "opam var" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments 'var-value;*[`_choice_var`]'
-
-    elif [[ "$*" == "opam exec"  ]] \
-    ; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            'command;[`_module_os_command`]' \
-            'arg;~[`_choice_args`]' \
 
     else
         echo "$table"

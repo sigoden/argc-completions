@@ -78,9 +78,9 @@
 # @flag --unprivileged                         Assume the user lacks raw socket privileges
 # @flag -V                                     Print version number
 # @flag -h                                     Print this help summary page.
+# @option -o-[`_choice_output_format`]         Scan output format
 # @option -s-[`_choice_scan`]                  Scan options
 # @option -P-[`_choice_protocol`]              Protocol options
-# @option -o-[`_choice_output_format`]         Scan output format
 # @arg hosts*[`_module_os_hostname`]
 
 _choice_scan() {

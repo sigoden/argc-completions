@@ -8,9 +8,9 @@ _patch_table() {
         '--audio-quality;[0|1|2|3|4|5|6|7|8|9]' \
         '--convert-subs;[srt|ass|vtt|lrc]' \
         '--fixup;[`_choice_fixup`]' \
+        '--format;[`_choice_format`]' \
         '--recode-video;[mp4|flv|ogg|webm|mkv|avi]' \
         '--sub-format;*/[ass|srt|best]' \
-        '--format;[`_choice_format`]' \
         '--sub-lang;[`_choice_sub_lang`]' \
 
 }

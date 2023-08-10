@@ -5,11 +5,11 @@ _patch_help() {
 _patch_table() { 
     _patch_table_edit_options \
         '--certs;*[`_choice_cert`]' \
-        '--save-stream-file;[`_choice_appendable_file`]' \
         '--mode;[`_choice_mode`]' \
-        '--set;*[`_choice_option`]' \
         '--modify-body;*[`_choice_modify_body`]' \
         '--modify-headers;*[`_choice_modify_headers`]' \
+        '--save-stream-file;[`_choice_appendable_file`]' \
+        '--set;*[`_choice_option`]' \
         
 }
 

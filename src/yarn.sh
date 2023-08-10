@@ -177,6 +177,9 @@ yarn team remove <scope:team> <user>
 yarn team list <scope[:team]>
 EOF
 
+    elif [[ "$*" == "yarn test" ]]; then
+        :;
+
     elif [[ "$*" == "yarn workspaces" ]]; then
         $@ --help | _common_edit
         cat <<-'EOF'
@@ -193,9 +196,6 @@ options:
 yarn workspace run <cmd>
 EOF
 
-    elif [[ "$*" == "yarn test" ]]; then
-        :;
-
     else
         $@ --help | _common_edit
     fi
@@ -204,6 +204,10 @@ EOF
 _patch_table() {
     if [[ "$*" == "yarn" ]]; then
         _patch_table_edit_arguments ';;' 'cmd;[`_choice_script`]'
+
+    elif [[ "$*" == "yarn audit" ]]; then
+        _patch_table_edit_options \
+            '--level;[info|low|moderate|high|critical];Only print advisories with severity greater than or equal' \
 
     elif [[ "$*" == "yarn autoclean" ]]; then
         _patch_table_dedup_options --force
@@ -214,18 +218,14 @@ _patch_table() {
     elif [[ "$*" == "yarn generate-lock-entry" ]]; then
         _patch_table_dedup_options --registry
 
-    elif [[ "$*" == "yarn audit" ]]; then
-        _patch_table_edit_options \
-            '--level;[info|low|moderate|high|critical];Only print advisories with severity greater than or equal' \
-
     elif [[ "$*" == "yarn global remove" ]] || [[ "$*" == "yarn global upgrade" ]]; then
         _patch_table_edit_arguments 'packages;[`_choice_global_dependency`]'
 
-    elif [[ "$*" == "yarn run" ]]; then
-        _patch_table_edit_arguments ';;' 'script;[`_choice_script`]'
-
     elif [[ "$*" == "yarn remove" ]]; then
         _patch_table_edit_arguments 'packages;[`_choice_dependency`]'
+
+    elif [[ "$*" == "yarn run" ]]; then
+        _patch_table_edit_arguments ';;' 'script;[`_choice_script`]'
 
     elif [[ "$*" == "yarn upgrade" ]]; then
         _patch_table_edit_arguments ';;' '[packages]...;[`_choice_dependency`]'

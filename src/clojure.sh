@@ -10,9 +10,9 @@ _patch_help() {
 _patch_table() { 
     _patch_table_edit_options \
         '-A;-[`_choice_alias`]' \
-        '-X;-[`_choice_alias_ext`]' \
-        '-T;-[`_choice_tool`]' \
         '-M;-[`_choice_alias`]' \
+        '-T;-[`_choice_tool`]' \
+        '-X;-[`_choice_alias_ext`]' \
     | \
     _patch_table_edit_arguments ';;' 'args;*[`_choice_args`]'
      

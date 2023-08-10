@@ -47,7 +47,6 @@ _patch_help() {
         function trim(input) {
             gsub(/^[[:space:]]+|[[:space:]]+$/,"", input)
             return input
-        
         }
     '
 }

@@ -15,17 +15,17 @@ _patch_help() {
 _patch_table() { 
     _patch_table_edit_options \
         '-0;-' \
-        '-C;-' \
-        '-E;-[`_choice_encoding_combined`]' \
-        '-W;-[`_choice_warning_level_combined`]' \
-        '-F;-' \
         '-i;-' \
-        '-I;-' \
         '-r;-' \
         '-x;-' \
+        '-C;-' \
+        '-E;-[`_choice_encoding_combined`]' \
+        '-F;-' \
+        '-I;-' \
+        '-W;-[`_choice_warning_level_combined`]' \
+        '--disable();[`_choice_feature`]' \
         '--dump();[`_choice_dump`]' \
         '--enable();[`_choice_feature`]' \
-        '--disable();[`_choice_feature`]' \
         '--external-encoding;[`_choice_encoding`]' \
         '--internal-encoding;[`_choice_encoding`]' \
     

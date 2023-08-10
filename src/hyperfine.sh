@@ -1,8 +1,8 @@
 _patch_table() { 
     _patch_table_edit_options \
         '--shell;[`_module_os_shell`]' \
-        '--style;[`_choice_style`]' \
         '--sort;[`_choice_sort`]' \
+        '--style;[`_choice_style`]' \
     | \
     _patch_table_edit_arguments \
         ';;' \

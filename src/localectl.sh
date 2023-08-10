@@ -6,17 +6,17 @@ _patch_help() {
 
 _patch_table() { 
     if [[ "$*" == "localectl set-keymap" ]]; then
-        _patch_table_edit_arguments ';;' 'MAP;*[`_choice_map`]'
+        _patch_table_edit_arguments ';;' 'map;*[`_choice_map`]'
 
     elif [[ "$*" == "localectl set-locale" ]]; then
-        _patch_table_edit_arguments ';;' 'LOACLE;*[`_choice_locale`]'
+        _patch_table_edit_arguments ';;' 'loacle;*[`_choice_locale`]'
 
     elif [[ "$*" == "localectl set-x11-keymap" ]]; then
         _patch_table_edit_arguments ';;' \
             'layout;[`_choice_x11_layout`]' \
             'model;[`_choice_x11_model`]' \
-            'variant;[`_choice_x11_variant`]' \
             'options;*,[`_choice_x11_options`]' \
+            'variant;[`_choice_x11_variant`]' \
 
     else
         cat

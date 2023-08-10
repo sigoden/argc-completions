@@ -6,8 +6,8 @@ _patch_table() {
     _patch_table_edit_options \
         '--color;[auto|never|always]' \
         '--console-level;[`_choice_log_level`]' \
-        '--level;[`_choice_level`]' \
         '--facility;[`_choice_facility`]' \
+        '--level;[`_choice_level`]' \
         '--time-format;[delta|reltime|ctime|notime|iso]' \
 
 }

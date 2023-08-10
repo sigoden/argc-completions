@@ -30,12 +30,40 @@ EOF
                 }
             }
         }'
-    elif [[ "$*" == "brew rubocop" ]] \
-      || [[ "$*" == "brew casks" ]] \
+
+    elif [[ "$*" == "brew autoupdate" ]]; then
+        $@ --help
+        cat <<-'EOF'
+Commands:
+    stop        Stop autoupdating, but retain plist and logs.
+    delete      Cancel the autoupdate, delete the plist and logs.
+    status      Prints the current status of this tool.
+    version     Output this tool's current version, and a short changelog.
+EOF
+    elif [[ "$*" == "brew autoupdate "* ]]; then
+        :;
+
+    elif [[ "$*" == "brew bundle" ]]; then
+        $@ --help
+        cat <<-'EOF'
+Commands:
+    dump        Write all installed casks/formulae/images/taps into a Brewfile in the current directory.
+    cleanup     Uninstall all dependencies not listed from the Brewfile.
+    check       Check if all dependencies are installed from the Brewfile.
+    list        List all dependencies present in the Brewfile.
+    exec        Run an external command in an isolated build environment based on the Brewfile dependencies.
+EOF
+
+    elif [[ "$*" == "brew bundle "* ]]; then
+        :;
+
+    elif [[ "$*" == "brew casks" ]] \
       || [[ "$*" == "brew formulae" ]] \
       || [[ "$*" == "brew shellenv" ]] \
+      || [[ "$*" == "brew rubocop" ]] \
     ; then 
         :;
+
     elif [[ "$*" == "brew services" ]]; then
         $@ --help
         cat <<-'EOF'
@@ -49,6 +77,7 @@ Commands:
     restart         Stop (if necessary) and start the service formula immediately and register it to launch at login (or boot).
     cleanup         Remove all unused services.
 EOF
+
     elif [[ "$*" == "brew services "* ]]; then
         cat <<-'EOF' | _patch_help_select_subcmd $@
 brew services list
@@ -70,29 +99,7 @@ brew services restart [formula]
 brew services cleanup
     --all
 EOF
-    elif [[ "$*" == "brew bundle" ]]; then
-        $@ --help
-        cat <<-'EOF'
-Commands:
-    dump        Write all installed casks/formulae/images/taps into a Brewfile in the current directory.
-    cleanup     Uninstall all dependencies not listed from the Brewfile.
-    check       Check if all dependencies are installed from the Brewfile.
-    list        List all dependencies present in the Brewfile.
-    exec        Run an external command in an isolated build environment based on the Brewfile dependencies.
-EOF
-    elif [[ "$*" == "brew bundle "* ]]; then
-        :;
-    elif [[ "$*" == "brew autoupdate" ]]; then
-        $@ --help
-        cat <<-'EOF'
-Commands:
-    stop        Stop autoupdating, but retain plist and logs.
-    delete      Cancel the autoupdate, delete the plist and logs.
-    status      Prints the current status of this tool.
-    version     Output this tool's current version, and a short changelog.
-EOF
-    elif [[ "$*" == "brew autoupdate "* ]]; then
-        :;
+
     else
         $@ --help | sed 's/^Usage: brew \(\S\+\)\(, [a-z0-9-]\+\)\+/Usage: brew \1/'
     fi
@@ -105,22 +112,22 @@ _patch_table() {
             '--cellar;*[`_choice_suggest_formula`]' \
         | \
         _patch_table_edit_commands \
-            'uninstall(uninstall, remove, rm)' \
-            'list(list, ls)' \
             'doctor(doctor, dr)' \
             'home(home, homepage)' \
             'info(info, abv)' \
             'link(link, ls)' \
+            'list(list, ls)' \
             'livecheck(livecheck, lc)' \
             'typecheck(typecheck, tc)' \
-
-    elif [[ "$*" == "brew outdated" ]]; then
-        _patch_table_edit_arguments \
-            'formula-cask;[`_choice_outdated_formula_cask`]' \
+            'uninstall(uninstall, remove, rm)' \
 
     elif [[ "$*" == "brew bottle" ]]; then
         _patch_table_edit_arguments \
             'installed_formula-file;[`_choice_installed_formula_file`]' \
+
+    elif [[ "$*" == "brew outdated" ]]; then
+        _patch_table_edit_arguments \
+            'formula-cask;[`_choice_outdated_formula_cask`]' \
 
     elif [[ "$*" == "brew style" ]]; then
         _patch_table_edit_arguments \

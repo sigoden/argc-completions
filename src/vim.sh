@@ -10,13 +10,13 @@ _patch_help() {
 
 _patch_table() { 
     _patch_table_edit_options \
-        '-u(<vimrc-file>)' \
-        '-U(<gvimrc-file>)' \
-        '-S(<session-file>)' \
-        '-s(<scriptin-file>)' \
-        '-w(<scriptout-file>)' \
-        '-W(<scriptout-file>)' \
         '-i(<viminfo-file>)' \
+        '-s(<scriptin-file>)' \
+        '-u(<vimrc-file>)' \
+        '-w(<scriptout-file>)' \
+        '-S(<session-file>)' \
+        '-U(<gvimrc-file>)' \
+        '-W(<scriptout-file>)' \
     | \
     _patch_table_edit_arguments ';;' 'paths...'
 }

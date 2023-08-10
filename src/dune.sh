@@ -23,8 +23,8 @@ _patch_help() {
 _patch_table() {
     table="$(
         _patch_table_edit_options \
-            '--help;[auto|pager|groff|plain]' \
             '--cache-check-probability(<VAL>)' \
+            '--help;[auto|pager|groff|plain]' \
     )"
 
     if [[ "$*" == "dune" ]]; then

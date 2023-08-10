@@ -9,11 +9,11 @@ _patch_table() {
     _patch_table_dedup_options '-D' '-r' | \
     _patch_table_edit_options \
         '-d;[`_choice_screen`]' \
-        '-RR;[`_choice_screen`]' \
         '-r;[`_choice_screen`]' \
-        '-R;[`_choice_screen`]' \
-        '-x;[`_choice_attached_screen`]' \
         '-s;[`_module_os_shell`]' \
+        '-x;[`_choice_attached_screen`]' \
+        '-R;[`_choice_screen`]' \
+        '-RR;[`_choice_screen`]' \
 
 }
 

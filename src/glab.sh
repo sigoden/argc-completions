@@ -71,7 +71,7 @@ _patch_table() {
         elif [[ "$*" == "glab ci view" ]]; then
             echo "$table" | \
             _patch_table_edit_arguments \
-                'branch/tag;[`_choice_ref`]' \
+                'branch-tag;[`_choice_ref`]' \
 
         else
             echo "$table"
@@ -186,12 +186,12 @@ _patch_table() {
         table="$( \
             echo "$table" | \
             _patch_table_edit_options \
-                '--branch;[`_choice_branch`]' \
                 '--assignee;[`_choice_member`]' \
+                '--branch;[`_choice_branch`]' \
                 '--label;*,[`_choice_label`]' \
                 '--milestone;[`_choice_milestone`]' \
-                '--target-branch;[`_choice_branch`]' \
                 '--source-branch;[`_choice_branch`]' \
+                '--target-branch;[`_choice_branch`]' \
         )"
 
         if [[ "$*" == "glab mr approve" ]]; then
@@ -277,8 +277,8 @@ _patch_table() {
     elif [[ "$*" == "glab release"* ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '--milestone;[`_choice_milestone`]' \
             '--asset-name;[`_choice_asset_name`]' \
+            '--milestone;[`_choice_milestone`]' \
         | \
         _patch_table_edit_arguments \
             'tag;[`_choice_tag`]' \

@@ -17,9 +17,9 @@ _patch_table() {
         '--script;*[`_choice_script`]' \
         '--script-help;[`_choice_script`]' \
         ';;' \
+        '-o-;[`_choice_output_format`];Scan output format' \
         '-s-;[`_choice_scan`];Scan options' \
         '-P-;[`_choice_protocol`];Protocol options' \
-        '-o-;[`_choice_output_format`];Scan output format' \
     | \
     _patch_table_edit_arguments ';;' 'hosts;*[`_module_os_hostname`]'
 

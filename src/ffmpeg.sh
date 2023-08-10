@@ -22,14 +22,14 @@ _patch_table() {
         '-f;[`_choice_format`]' \
         '-h;[`_choice_help_topic`]' \
         '-help;[`_choice_help_topic`]' \
-        '--help;[`_choice_help_topic`]' \
-        '-v;[`_choice_loglevel`]' \
         '-loglevel;[`_choice_loglevel`]' \
         '-sinks;*,[`_choice_device`]' \
         '-sources;*,[`_choice_device`]' \
         '-scodec;[`_choice_codec`]' \
+        '-v;[`_choice_loglevel`]' \
         '-vcodec;[`_choice_codec`]' \
         '-vf;*[`_choice_filter_kv`]' \
+        '--help;[`_choice_help_topic`]' \
     | \
     _patch_table_edit_arguments ';;' 'outfile...'
 }

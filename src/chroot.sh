@@ -1,7 +1,7 @@
 _patch_table() { 
     _patch_table_edit_options \
-        '--userspec;[`_choice_user_group`]' \
         '--groups;*,[`_module_os_group`]' \
+        '--userspec;[`_choice_user_group`]' \
     | \
     _patch_table_edit_arguments \
         'newroot(rootpath)' \

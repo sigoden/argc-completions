@@ -8,10 +8,10 @@ _patch_help() {
 _patch_table() { 
     _patch_table_dedup_options \
         ';;' \
-        '--proximate' \
         '--help-types' \
         '--help-colors' \
         '--help-rgb-colors' \
+        '--proximate' \
     | \
     _patch_table_edit_options \
         '--\\[no\\]ignore-dir;*[`_choice_ignore_directory`]' \

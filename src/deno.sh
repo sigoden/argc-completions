@@ -4,8 +4,8 @@ _patch_table() {
 
     elif [[ "$*" == "deno lint" ]]; then
         _patch_table_edit_options \
-            '--rules-include;[`_choice_lint_rule`]' \
             '--rules-exclude;[`_choice_lint_rule`]' \
+            '--rules-include;[`_choice_lint_rule`]' \
 
     elif [[ "$*" == "deno task" ]]; then
         _patch_table_edit_arguments 'task;[`_choice_task`]'

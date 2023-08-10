@@ -1,36 +1,36 @@
 _patch_table() {
     table="$( \
         _patch_table_edit_options  \
-            '--toolchain;[`_choice_toolchain`]' \
             '--target;[`_choice_target`]' \
+            '--toolchain;[`_choice_toolchain`]' \
         | \
         _patch_table_edit_arguments \
-            'toolchain;[`_choice_toolchain`]' \
-            'target;[`_choice_target`]' \
             'component;[`_choice_available_component`]' \
+            'target;[`_choice_target`]' \
+            'toolchain;[`_choice_toolchain`]' \
     )"
 
     if [[ "$*" == "rustup" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;'
 
-    elif [[ "$*" == "rustup update" ]]; then
-        echo "$table" | _patch_table_edit_arguments 'toolchain;[`_choice_channel`]'
+    elif [[ "$*" == "rustup component remove" ]]; then
+        echo "$table" | _patch_table_edit_arguments 'component;[`_choice_installed_component`]'
+
+    elif [[ "$*" == "rustup man" ]] \
+      || [[ "$*" == "rustup which" ]] \
+    ; then
+        echo "$table" | _patch_table_edit_arguments 'command;[`_choice_toolchain_command`]'
+
+    elif [[ "$*" == "rustup run" ]]; then
+        echo "$table" | _patch_table_edit_arguments 'command;[`_choice_toolchain_command`]'
 
     elif [[ "$*" == "rustup toolchain install" ]]; then
         echo "$table" | \
             _patch_table_edit_options '--component;*,[`_choice_available_component`]' | \
             _patch_table_edit_arguments 'toolchain;[`_choice_channel`]'
 
-    elif [[ "$*" == "rustup component remove" ]]; then
-        echo "$table" | _patch_table_edit_arguments 'component;[`_choice_installed_component`]'
-
-    elif [[ "$*" == "rustup run" ]]; then
-        echo "$table" | _patch_table_edit_arguments 'command;[`_choice_toolchain_command`]'
-
-    elif [[ "$*" == "rustup which" ]] \
-      || [[ "$*" == "rustup man" ]] \
-    ; then
-        echo "$table" | _patch_table_edit_arguments 'command;[`_choice_toolchain_command`]'
+    elif [[ "$*" == "rustup update" ]]; then
+        echo "$table" | _patch_table_edit_arguments 'toolchain;[`_choice_channel`]'
 
     else
         echo "$table"

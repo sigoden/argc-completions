@@ -58,6 +58,10 @@ regenerate:changed() {
     done
     mapfile -t cmds <<<"$(_helper_list_changed_cmd)"
     for cmd in ${cmds[@]}; do
+        if [[ -n "$(_helper_can_generate $cmd)" ]]; then
+            echo Skip $cmd
+            continue
+        fi
         argc generate $cmd -E
         if [[ -n "${symlink_map[$cmd]}" ]]; then
             symlink_cmds=( ${symlink_map[$cmd]} )

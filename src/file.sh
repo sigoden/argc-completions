@@ -4,9 +4,9 @@ _patch_help() {
 
 _patch_table() { 
     _patch_table_edit_options \
-        '--magic-file(<FILES>);*,' \
         '--exclude;[`_choice_test`]' \
         '--exclude-quiet;[`_choice_test`]' \
+        '--magic-file(<FILES>);*,' \
         '--parameter;[`_choice_parameter`]' \
     | \
     _patch_table_edit_arguments ';;' 'files...'

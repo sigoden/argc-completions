@@ -212,8 +212,8 @@ _patch_table() {
 
     elif [[ "$*" == "mix archive.build" ]]; then
         _patch_table_edit_options  \
-            '-o(<path>)' \
             '-i(<name>)' \
+            '-o(<path>)' \
 
     elif [[ "$*" == "mix archive.build" ]]; then
         _patch_table_edit_options  \
@@ -318,32 +318,32 @@ _patch_table() {
     ; then
         _patch_table_edit_options  \
             '--app(<name>)' \
-            '--module(<name>)' \
-            '--database;[postgres|mysql|mssql|sqlite3]' \
             '--binary-id(<value>)' \
-
-    elif [[ "$*" == "mix profile.cprof" ]]; then
-        _patch_table_edit_options  \
-            '--matching(<pattern>)' \
-            '--limit(<n>)' \
+            '--database;[postgres|mysql|mssql|sqlite3]' \
             '--module(<name>)' \
-            '--eval(<code>)' \
 
     elif [[ "$*" == "mix profile.cprof" ]]; then
         _patch_table_edit_options  \
-            '--matching(<pattern>)' \
-            '--calls(<n>)' \
-            '--time(<value>)' \
-            '--sort;[time|calls]' \
             '--eval(<code>)' \
+            '--limit(<n>)' \
+            '--matching(<pattern>)' \
+            '--module(<name>)' \
+
+    elif [[ "$*" == "mix profile.cprof" ]]; then
+        _patch_table_edit_options  \
+            '--calls(<n>)' \
+            '--eval(<code>)' \
+            '--matching(<pattern>)' \
             '--require(<file>)' \
+            '--sort;[time|calls]' \
+            '--time(<value>)' \
 
     elif [[ "$*" == "mix profile.fprof" ]]; then
         _patch_table_edit_options  \
-            '--sort;[acc|own]' \
-            '--trace-to-file(<file>)' \
             '--eval(<code>)' \
             '--require(<file>)' \
+            '--sort;[acc|own]' \
+            '--trace-to-file(<file>)' \
 
     elif [[ "$*" == "mix release" ]]; then
         _patch_table_edit_options  \
@@ -371,9 +371,9 @@ _patch_table() {
     elif [[ "$*" == "mix xref" ]]; then
         _patch_table_edit_options  \
             '--exclude(<path...>)' \
-            '--label(<value>)' \
-            '--group(<value>);*,' \
             '--format;[pretty|plain|stats|cycles|dot]' \
+            '--group(<value>);*,' \
+            '--label(<value>)' \
             '--output(<path>)' \
 
     else

@@ -10,11 +10,11 @@ _patch_table() {
     _patch_table_edit_options \
         '--atime-preserve;[replace|system]' \
         '--backup;[existing|never|nil|numbered|simple|t]' \
-        '--format;[gnu|oldgnu|pax|posix|ustar|v7]' \
-        '--quoting-style;[c|clocale|c-maybe|escape|literal|locale|shell|shell-always]' \
-        '--owner;[`_module_os_user`]' \
         '--file(<FILE>)' \
+        '--format;[gnu|oldgnu|pax|posix|ustar|v7]' \
         '--group;[`_module_os_group`]' \
+        '--owner;[`_module_os_user`]' \
+        '--quoting-style;[c|clocale|c-maybe|escape|literal|locale|shell|shell-always]' \
     | \
     _patch_table_edit_arguments ';;' 'FILES;*[`_choice_files`]'
 }

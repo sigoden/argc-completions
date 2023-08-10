@@ -21,28 +21,28 @@ _patch_table() {
         _patch_table_edit_commands \
             'integrate;Integrate vcpkg with shells and buildsystems.' \
     
-    elif [[ "$*" == "vcpkg search" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments 'pat;[`_choice_package_cached`]' \
-
-    elif [[ "$*" == "vcpkg install" ]] \
-      || [[ "$*" == "vcpkg edit" ]] \
+    elif [[ "$*" == "vcpkg edit" ]] \
       || [[ "$*" == "vcpkg depend-info" ]] \
+      || [[ "$*" == "vcpkg install" ]] \
     ; then
         echo "$table" | \
         _patch_table_edit_arguments 'pkg;[`_choice_package_cached`]' \
 
-    elif [[ "$*" == "vcpkg remove" ]]; then
+    elif [[ "$*" == "vcpkg export" ]]; then
         echo "$table" | \
-        _patch_table_edit_arguments 'pkg;[`_choice_installed_package`]' \
+        _patch_table_edit_arguments ';;' 'pkg;*[`_choice_installed_package`]' \
 
     elif [[ "$*" == "vcpkg integrate" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments ';;' 'action;[`_choice_integrate_action`]' \
 
-    elif [[ "$*" == "vcpkg export" ]]; then
+    elif [[ "$*" == "vcpkg remove" ]]; then
         echo "$table" | \
-        _patch_table_edit_arguments ';;' 'pkg;*[`_choice_installed_package`]' \
+        _patch_table_edit_arguments 'pkg;[`_choice_installed_package`]' \
+
+    elif [[ "$*" == "vcpkg search" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments 'pat;[`_choice_package_cached`]' \
 
     else
         echo "$table"

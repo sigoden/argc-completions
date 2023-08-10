@@ -1,21 +1,21 @@
 _patch_table() { 
     _patch_table_edit_options \
-        '--interface;[`_module_os_network_interface`]' \
-        '--linktype;[`_choice_linktype`]' \
-        '--autostop;[`_choice_autostop`]' \
-        '--ring-buffer;[`_choice_ring_buffer`]' \
-        '--read-file(<file>)' \
         '-d;[`_choice_decode`]' \
-        '--enable-protocol;[`_choice_protocol`]' \
+        '-z;[`_choice_statistic`]' \
+        '-E;[`_choice_output_option`]' \
+        '-F;[`_choice_file_type`]' \
+        '-G;[`_choice_report`]' \
+        '-K(<file>)' \
+        '-X;[`_choice_extension_option`]' \
+        '--autostop;[`_choice_autostop`]' \
         '--disable-protocol;[`_choice_protocol`]' \
         '--elastic-mapping-filter;*,[`_choice_protocol`]' \
-        '-F;[`_choice_file_type`]' \
-        '-E;[`_choice_output_option`]' \
-        '-X;[`_choice_extension_option`]' \
+        '--enable-protocol;[`_choice_protocol`]' \
         '--export-objects;[`_choice_export_objects`]' \
-        '-K(<file>)' \
-        '-G;[`_choice_report`]' \
-        '-z;[`_choice_statistic`]' \
+        '--interface;[`_module_os_network_interface`]' \
+        '--linktype;[`_choice_linktype`]' \
+        '--read-file(<file>)' \
+        '--ring-buffer;[`_choice_ring_buffer`]' \
     
 }
 

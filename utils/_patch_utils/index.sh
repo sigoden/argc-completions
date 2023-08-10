@@ -83,6 +83,17 @@ _patch_help_preprocess_color() {
     awk '{gsub(/[\x1B\x9B][[\]()#;?]*((((;[-a-zA-Z0-9\/#&.:=?%@~_]+)*|[a-zA-Z0-9]+(;[-a-zA-Z0-9\/#&.:=?%@~_]*)*)?\x07)|(([0-9]{1,4}(;[0-9]{0,4})*)?[0-9A-PR-TZcf-ntqry=><~]))/, ""); print}'
 }
 
+# Deduplicate options
+# Example
+#    cat | _patch_table_dedup_options \ |
+#      '--foo'                                   # remove duplicated option, keep last
+#      ';;'                                      # seperator, before it keep last, after it keep first
+#      '--foo'                                   # remove duplicated option, keep first
+_patch_table_dedup_options() {
+    local args="$(printf "%s\n" "$@")"
+    gawk -v RAW_ARGS="$args" -f "$ROOT_DIR/utils/_patch_utils/dedup-options.awk"
+}
+
 # Edit table options
 # Example:
 #    cat | _patch_table_edit_options \ |
@@ -97,17 +108,6 @@ _patch_help_preprocess_color() {
 _patch_table_edit_options() {
     local args="$(printf "%s\n" "$@")"
     gawk -v KIND=option -v RAW_ARGS="$args" -f "$ROOT_DIR/utils/_patch_utils/edit-table.awk"
-}
-
-# Deduplicate options
-# Example
-#    cat | _patch_table_dedup_options \ |
-#      '--foo'                                   # remove duplicated option, keep last
-#      ';;'                                      # seperator, before it keep last, after it keep first
-#      '--foo'                                   # remove duplicated option, keep first
-_patch_table_dedup_options() {
-    local args="$(printf "%s\n" "$@")"
-    gawk -v RAW_ARGS="$args" -f "$ROOT_DIR/utils/_patch_utils/dedup-options.awk"
 }
 
 # Edit table arguments

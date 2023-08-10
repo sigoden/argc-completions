@@ -50,6 +50,9 @@ options:
     -g --global    Manages Node.js versions globally
 EOF
 
+    elif [[ "$*" == "pnpm server "* ]]; then
+        :;
+
     elif [[ "$*" == "pnpm store" ]]; then
         pnpm help store | sed 's/add <pkg>.../add         /'
 
@@ -60,9 +63,6 @@ pnpm store path
 pnpm store prune
 pnpm store status
 EOF
-
-    elif [[ "$*" == "pnpm server "* ]]; then
-        :;
 
     else 
         _patch_help_run_help_subcmd $@
@@ -76,23 +76,13 @@ _patch_table() {
             -e 's/-s, --silent, --reporter silent/-s, --silent/' \
         | \
         _patch_table_edit_options \
-            '--loglevel;[debug|info|warn|error|silent]' \
             '--filter;[`_choice_workspace`];Filtering allows you to restrict commands to specific subsets of packages.' \
+            '--loglevel;[debug|info|warn|error|silent]' \
             '--reporter;[`_choice_reporter`];Set reporter.' \
     )"
 
     if [[ "$*" == "pnpm" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'cmd;[`_choice_script`]'
-
-    elif [[ "$*" == "pnpm rb" ]] \
-      || [[ "$*" == "pnpm up" ]] \
-      || [[ "$*" == "pnpm outdated" ]] \
-      || [[ "$*" == "pnpm why" ]] \
-    ; then
-        echo "$table" | _patch_table_edit_arguments 'pkg;[`_choice_dependency`]'
-
-    elif [[ "$*" == "pnpm unlink" ]] ; then
-        echo "$table" | _patch_table_edit_arguments ';;' 'pkg;[`_choice_dependency`]'
 
     elif [[ "$*" == "pnpm config" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;'
@@ -100,27 +90,38 @@ _patch_table() {
     elif [[ "$*" == "pnpm config "* ]]; then
         echo "$table" | _patch_table_edit_arguments 'key;[`_choice_config_key`]'
 
+    elif [[ "$*" == "pnpm env" ]] \
+      || [[ "$*" == "pnpm dlx" ]] \
+    ; then
+        echo "$table" | _patch_table_edit_arguments ';;'
+
+    elif [[ "$*" == "pnpm exec" ]]; then
+        echo "$table" | _patch_table_edit_arguments ';;' 'command;[`_choice_bin`]' 'args...'
+
     elif [[ "$*" == "pnpm install" ]]; then
-        echo "$table"| _patch_table_edit_options '--package-import-method;[`_choice_pacakge_import_method`];Import package method'
+        echo "$table" | \
+        _patch_table_edit_options '--package-import-method;[`_choice_pacakge_import_method`];Import package method'
 
     elif [[ "$*" == "pnpm ls" ]]; then
         echo "$table" | \
         _patch_table_edit_options '--depth(<number>)' | \
         _patch_table_edit_arguments 'pkg;[`_choice_dependency`]'
 
+    elif [[ "$*" == "pnpm outdated" ]] \
+      || [[ "$*" == "pnpm rb" ]] \
+      || [[ "$*" == "pnpm up" ]] \
+      || [[ "$*" == "pnpm why" ]] \
+    ; then
+        echo "$table" | _patch_table_edit_arguments 'pkg;[`_choice_dependency`]'
+
     elif [[ "$*" == "pnpm run" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'command;[`_choice_script`]' 'args...'
-
-    elif [[ "$*" == "pnpm exec" ]]; then
-        echo "$table" | _patch_table_edit_arguments ';;' 'command;[`_choice_bin`]' 'args...'
 
     elif [[ "$*" == "pnpm rm" ]]; then
         echo "$table" | _patch_table_edit_arguments 'pkg-version;[`_choice_dependency`]'
 
-    elif [[ "$*" == "pnpm env" ]] \
-      || [[ "$*" == "pnpm dlx" ]] \
-    ; then
-        echo "$table" | _patch_table_edit_arguments ';;'
+    elif [[ "$*" == "pnpm unlink" ]] ; then
+        echo "$table" | _patch_table_edit_arguments ';;' 'pkg;[`_choice_dependency`]'
 
     else
         echo "$table"
