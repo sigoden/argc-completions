@@ -81,6 +81,8 @@
 # @option --encoding[s|S|b|l|B|L]                  Select character size and endianness:
 # @option --log-level-cmake[ERROR|WARNING|NOTICE|STATUS|VERBOSE|DEBUG|TRACE]  Set the verbosity of messages from CMake files.
 # @option --trace-format[human|json-v1]            Set the output format of the trace.
+# @option --sec-severity[Critical|Important|Moderate|Low]  Include security relevant packages matching the
+# @option --secseverity[Critical|Important|Moderate|Low]  Include security relevant packages matching the
 # @option -pkgdir <dir>                            install and load all packages from dir instead of the usual locations.
 # @option -ldflags <[pattern=]arg list>            arguments to pass on each go tool link invocation.
 # @flag --incremental                              show blame entries as we find them, incrementally
@@ -385,5 +387,21 @@ deps.compile() {
     :;
 }
 # }} __test deps.compile
+
+# {{ __test --sync
+# @cmd Synchronize packages
+# @alias -S
+--sync() {
+    :;
+}
+# }} __test --sync
+
+# {{ __test --remove
+# @cmd Remove package(s) from the system
+# @alias -R
+--remove() {
+    :;
+}
+# }} __test --remove
 
 command eval "$(argc --argc-eval "$0" "$@")"

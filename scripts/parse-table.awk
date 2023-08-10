@@ -163,7 +163,9 @@ END {
             if (match(optionVal, /=?\{([[:alnum:]][[:alnum:]_-]*(,[[:alnum:]][[:alnum:]_-]*)+)\},?/, arr) || 
                 match(optionVal, /=?\{([[:alnum:]][[:alnum:]_-]*(\|[[:alnum:]][[:alnum:]_-]*)+)\},?/, arr) || 
                 match(optionVal, /=?<([[:alnum:]][[:alnum:]_-]*(\|[[:alnum:]][[:alnum:]_-]*){2,})>,?/, arr)) {
-                optionVal = substr(optionVal, 1, RSTART - 1) substr(optionVal, RSTART + RLENGTH)
+                matchText = substr(optionVal, RSTART, RLENGTH)
+                gsub(/(^=|,$)/, "", matchText);
+                optionVal = replace(optionVal, matchText, "", 1)
                 gsub(",", "|", arr[1])
                 print "option # " optionVal  " # " descValues[1] " # [" arr[1] "]"
             } else {
@@ -670,10 +672,13 @@ function trimEnds(input) {
     return input
 }
 
-function replace(input, source, target, idx) {
-    idx = index(input, source)
-    if (idx > 0) {
-        return substr(input, 1, idx - 1) target substr(input, idx + length(source))
+function replace(input, from, to, all,       fromLen, idx) {
+    fromLen = length(from)
+    while (idx = index(input, from)) {
+        input = substr(input, 1, idx - 1) to substr(input, idx + fromLen)
+        if (!all) {
+            break
+        }
     }
     return input
 }

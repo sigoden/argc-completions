@@ -117,6 +117,8 @@ Options:
     --encoding={s,S,b,l,B,L}  Select character size and endianness:
     --log-level-cmake=<ERROR|WARNING|NOTICE|STATUS|VERBOSE|DEBUG|TRACE>   Set the verbosity of messages from CMake files. 
     --trace-format={human|json-v1}  Set the output format of the trace.
+    --sec-severity {Critical,Important,Moderate,Low}, --secseverity {Critical,Important,Moderate,Low}
+            Include security relevant packages matching the
 
 	-pkgdir dir
 		install and load all packages from dir instead of the usual locations.
@@ -246,5 +248,17 @@ EOF
         echo "Usage: __test cmdb [OPTION…] LOCATION FILENAME NAME [BRANCH] - Create a single file bundle from a local repository"
     elif [[ "$*" == "__test cmdc" ]]; then
         echo "Usage: __test cmdc COMMAND [ARGS]..."
+    fi
+}
+
+_patch_table() {
+    if [[ "$*" == "__test" ]]; then
+        _patch_table_edit_commands \
+            '' ';;' \
+            '(--sync, -S);Synchronize packages' \
+            '(--remove, -R);Remove package(s) from the system' \
+
+    else
+        cat
     fi
 }
