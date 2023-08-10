@@ -265,6 +265,7 @@ _argc_util_comp_subcommand() {
     if [[ ! -f "$scriptfile" ]]; then
         scriptfile="$ARGC_COMPLETIONS_ROOT/completions/${args[0]}/${args[1]}.sh"
         if [[ ! -f "$scriptfile" ]]; then
+            _argc_util_comp_path
             return
         fi
     fi
