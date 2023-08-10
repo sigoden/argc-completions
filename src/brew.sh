@@ -121,17 +121,40 @@ _patch_table() {
             'typecheck(typecheck, tc)' \
             'uninstall(uninstall, remove, rm)' \
 
+    elif [[ "$*" == "brew analytics" ]] \
+      || [[ "$*" == "brew developer" ]] \
+    ; then
+        _patch_table_edit_arguments \
+            'subcommand;[state|on|off]' \
+
+    elif [[ "$*" == "brew alias" ]]; then
+        _patch_table_edit_arguments \
+            ';;' \
+            'alias;*[`_choice_alias`]' \
+
     elif [[ "$*" == "brew bottle" ]]; then
         _patch_table_edit_arguments \
             'installed_formula-file;[`_choice_installed_formula_file`]' \
+
+    elif [[ "$*" == "brew completions" ]]; then
+        _patch_table_edit_arguments \
+            'subcommand;[state|link|unlink]' \
 
     elif [[ "$*" == "brew outdated" ]]; then
         _patch_table_edit_arguments \
             'formula-cask;[`_choice_outdated_formula_cask`]' \
 
+    elif [[ "$*" == "brew prof" ]]; then
+        _patch_table_edit_arguments \
+            'command;~[`_choice_prof_command`]' \
+
     elif [[ "$*" == "brew style" ]]; then
         _patch_table_edit_arguments \
             ';;' 'file-tap-formula-cask;*[`_choice_file_tap_formula_cask`]' \
+
+    elif [[ "$*" == "brew which-formula" ]]; then
+        _patch_table_edit_arguments \
+            'command;[`_module_os_command`]' \
 
     elif [[ "$*" == "brew "* ]]; then
         _patch_table_edit_arguments \
@@ -221,4 +244,12 @@ _choice_suggest_diagnostic_check() {
 
 _choice_suggest_service() {
    brew services list | gawk '{if (NR > 1) {print $1}}'
+}
+
+_choice_prof_command() {
+    _argc_util_comp_subcommand 0 brew
+}
+
+_choice_alias() {
+    brew alias | sed "s/^brew alias \([^=]\+\)='\(.*\)'$/\1\t\2/"   
 }

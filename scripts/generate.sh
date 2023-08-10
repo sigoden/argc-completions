@@ -166,7 +166,7 @@ get_modules_script() {
                 fn_name=${values[0]}
                 mod_fns_script[$fn_name]="$(sed -n "${values[1]},${values[2]} p" "$mod_path")"
                 mod_fns_deps[$fn_name]="${values[3]}"
-            done < <(awk -f "$scripts_dir/analysis-module.awk" "$mod_path")
+            done < <(gawk -f "$scripts_dir/analysis-module.awk" "$mod_path")
         fi
     done
 
@@ -340,7 +340,7 @@ print_cmd_fn() {
 }
 
 sanitize_cmds() {
-    echo "$@" | awk '{for(i = 1; i <= NF; i++) { gsub(/_*$/, "", $i); value = value " "  $i}; print value}'
+    echo "$@" | gawk '{for(i = 1; i <= NF; i++) { gsub(/_*$/, "", $i); value = value " "  $i}; print value}'
 }
 
 log_info() {
