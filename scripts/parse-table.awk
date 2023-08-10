@@ -57,7 +57,7 @@ END {
                     optionIndent = spaces
                     continue
                 }
-            } else if (match(santizedLine, /(synopsis|usage:)/)) {
+            } else if (match(santizedLine, /(^\s*synopsis|usage:)/)) {
                 usage = substr(line, spaces + RSTART + RLENGTH)
                 usageNR = i
                 groupName = "usage"

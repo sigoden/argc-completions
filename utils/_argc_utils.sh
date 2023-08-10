@@ -714,7 +714,11 @@ _argc_util_cache() {
     fi
     local cache_file="$cache_dir/$cache_key"
     if [[ -f "$cache_file" ]]; then
-        mod_time=$(command stat -c %Y "$cache_file")
+        if [[ "$ARGC_OS" == "macos" ]]; then
+          mod_time=$(command stat -f "%Sm" -t "%s" "$cache_file")
+        else
+          mod_time=$(command stat -c %Y "$cache_file")
+        fi
         now_time=$(date '+%s')
         if (( $now_time - $mod_time < $1 )); then
             command cat $cache_file
