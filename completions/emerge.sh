@@ -142,7 +142,6 @@ ebuild() {
 
 # {{ emerge tbz2
 # @cmd A tbz2 file must be a valid .tbz2 created with ebuild <package>-<version>.ebuild package or emerge --buildpkg [category/]<package> or quickpkg [category/]<package>.
-# @alias file
 # @arg file!
 tbz2() {
     :;
@@ -156,6 +155,13 @@ gpkg() {
     :;
 }
 # }} emerge gpkg
+
+# {{ emerge file
+# @cmd A file must be a file or directory that has been installed by one or more packages.
+file() {
+    :;
+}
+# }} emerge file
 
 # {{ emerge set
 # @cmd A  set  is a convenient shorthand for a large group of packages.

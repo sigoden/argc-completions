@@ -10,7 +10,6 @@
 # @option --repo* <tap>          Display where Homebrew´s git repository is located.
 # @flag -v --version             Print the version numbers of Homebrew
 
-
 # {{ brew install
 # @cmd Install formula.
 # @flag -d --debug                If brewing fails, open an interactive debugging session with access to IRB or a shell inside the temporary build directory.
@@ -62,7 +61,7 @@
 # @flag --language                Comma-separated list of language codes to prefer for cask installation.
 # @flag -q --quiet                Make some output more quiet.
 # @flag -h --help                 Show this message.
-# @arg formula-cask[`_choice_suggest_formula_cask`]
+# @arg formula-cask[`_choice_suggest_formula_cask`] <formula|cask>
 install() {
     :;
 }
@@ -82,7 +81,7 @@ install() {
 # @flag -q --quiet               Make some output more quiet.
 # @flag -v --verbose             Make some output more verbose.
 # @flag -h --help                Show this message.
-# @arg installed_formula-installed_cask[`_choice_installed_formula_cask`]
+# @arg installed_formula-installed_cask[`_choice_installed_formula_cask`] <installed_formula|installed_cask>
 uninstall() {
     :;
 }
@@ -107,7 +106,7 @@ uninstall() {
 # @flag -q --quiet      Make some output more quiet.
 # @flag -v --verbose    Make some output more verbose.
 # @flag -h --help       Show this message.
-# @arg installed_formula-installed_cask*[`_choice_installed_formula_cask`]
+# @arg installed_formula-installed_cask*[`_choice_installed_formula_cask`] <installed_formula|installed_cask>
 list() {
     :;
 }
@@ -148,6 +147,7 @@ search() {
 # @flag -q --quiet      Make some output more quiet.
 # @flag -v --verbose    Make some output more verbose.
 # @flag -h --help       Show this message.
+# @arg subcommand[state|on|off]
 analytics() {
     :;
 }
@@ -182,7 +182,7 @@ casks() {
 # @flag -q --quiet        Make some output more quiet.
 # @flag -v --verbose      Make some output more verbose.
 # @flag -h --help         Show this message.
-# @arg formula-cask*[`_choice_suggest_formula_cask`]
+# @arg formula-cask*[`_choice_suggest_formula_cask`] <formula|cask>
 cleanup() {
     :;
 }
@@ -194,6 +194,7 @@ cleanup() {
 # @flag -q --quiet      Make some output more quiet.
 # @flag -v --verbose    Make some output more verbose.
 # @flag -h --help       Show this message.
+# @arg subcommand[state|link|unlink]
 completions() {
     :;
 }
@@ -239,7 +240,7 @@ config() {
 # @flag -q --quiet                Make some output more quiet.
 # @flag -v --verbose              Make some output more verbose.
 # @flag -h --help                 Show this message.
-# @arg formula-cask*[`_choice_suggest_formula_cask`]
+# @arg formula-cask*[`_choice_suggest_formula_cask`] <formula|cask>
 deps() {
     :;
 }
@@ -271,6 +272,7 @@ desc() {
 # @flag -q --quiet      Make some output more quiet.
 # @flag -v --verbose    Make some output more verbose.
 # @flag -h --help       Show this message.
+# @arg subcommand[state|on|off]
 developer() {
     :;
 }
@@ -322,7 +324,7 @@ doctor() {
 # @flag -d --debug                Display any debugging information.
 # @flag -q --quiet                Make some output more quiet.
 # @flag -h --help                 Show this message.
-# @arg formula-cask[`_choice_suggest_formula_cask`]
+# @arg formula-cask[`_choice_suggest_formula_cask`] <formula|cask>
 fetch() {
     :;
 }
@@ -361,7 +363,7 @@ gist-logs() {
 # @flag -q --quiet      Make some output more quiet.
 # @flag -v --verbose    Make some output more verbose.
 # @flag -h --help       Show this message.
-# @arg formula-cask*[`_choice_suggest_formula_cask`]
+# @arg formula-cask*[`_choice_suggest_formula_cask`] <formula|cask>
 home() {
     :;
 }
@@ -386,7 +388,7 @@ home() {
 # @flag -d --debug      Display any debugging information.
 # @flag -q --quiet      Make some output more quiet.
 # @flag -h --help       Show this message.
-# @arg formula-cask*[`_choice_suggest_formula_cask`]
+# @arg formula-cask*[`_choice_suggest_formula_cask`] <formula|cask>
 info() {
     :;
 }
@@ -438,7 +440,7 @@ link() {
 # @flag -q --quiet        Make some output more quiet.
 # @flag -v --verbose      Make some output more verbose.
 # @flag -h --help         Show this message.
-# @arg formula-cask[`_choice_suggest_formula_cask`]
+# @arg formula-cask[`_choice_suggest_formula_cask`] <formula|cask>
 log() {
     :;
 }
@@ -513,7 +515,7 @@ options() {
 # @flag --greedy-auto-updates    Also include outdated casks including those with auto_updates true.
 # @flag -d --debug               Display any debugging information.
 # @flag -h --help                Show this message.
-# @arg formula-cask*[`_choice_outdated_formula_cask`]
+# @arg formula-cask*[`_choice_outdated_formula_cask`] <formula|cask>
 outdated() {
     :;
 }
@@ -620,7 +622,7 @@ readall() {
 # @flag --language                Comma-separated list of language codes to prefer for cask installation.
 # @flag -q --quiet                Make some output more quiet.
 # @flag -h --help                 Show this message.
-# @arg formula-cask[`_choice_suggest_formula_cask`]
+# @arg formula-cask[`_choice_suggest_formula_cask`] <formula|cask>
 reinstall() {
     :;
 }
@@ -647,7 +649,7 @@ shellenv() {
 # @flag -q --quiet                Make some output more quiet.
 # @flag -v --verbose              Make some output more verbose.
 # @flag -h --help                 Show this message.
-# @arg user-repo
+# @arg user-repo <user/repo>
 # @arg url
 tap() {
     :;
@@ -771,7 +773,7 @@ update-reset() {
 # @flag --language                Comma-separated list of language codes to prefer for cask installation.
 # @flag -q --quiet                Make some output more quiet.
 # @flag -h --help                 Show this message.
-# @arg outdated_formula-outdated_cask*[`_choice_outdated_formula_cask`]
+# @arg outdated_formula-outdated_cask*[`_choice_outdated_formula_cask`] <outdated_formula|outdated_cask>
 upgrade() {
     :;
 }
@@ -834,7 +836,7 @@ uses() {
 # @flag -q --quiet                 Make some output more quiet.
 # @flag -v --verbose               Make some output more verbose.
 # @flag -h --help                  Show this message.
-# @arg formula-cask*[`_choice_suggest_formula_cask`]
+# @arg formula-cask*[`_choice_suggest_formula_cask`] <formula|cask>
 audit() {
     :;
 }
@@ -859,7 +861,7 @@ audit() {
 # @flag -q --quiet           Make some output more quiet.
 # @flag -v --verbose         Make some output more verbose.
 # @flag -h --help            Show this message.
-# @arg installed_formula-file[`_choice_installed_formula_file`]
+# @arg installed_formula-file[`_choice_installed_formula_file`] <installed_formula|file>
 bottle() {
     :;
 }
@@ -880,7 +882,7 @@ bottle() {
 # @flag -q --quiet            Make some output more quiet.
 # @flag -v --verbose          Make some output more verbose.
 # @flag -h --help             Show this message.
-# @arg formula-cask*[`_choice_suggest_formula_cask`]
+# @arg formula-cask*[`_choice_suggest_formula_cask`] <formula|cask>
 bump() {
     :;
 }
@@ -969,7 +971,7 @@ bump-revision() {
 # @flag -q --quiet      Make some output more quiet.
 # @flag -v --verbose    Make some output more verbose.
 # @flag -h --help       Show this message.
-# @arg cask-tap[`_choice_cask_tap`]
+# @arg cask-tap[`_choice_cask_tap`] <cask|tap>
 bump-unversioned-casks() {
     :;
 }
@@ -985,7 +987,7 @@ bump-unversioned-casks() {
 # @flag -q --quiet      Make some output more quiet.
 # @flag -v --verbose    Make some output more verbose.
 # @flag -h --help       Show this message.
-# @arg formula-cask[`_choice_suggest_formula_cask`]
+# @arg formula-cask[`_choice_suggest_formula_cask`] <formula|cask>
 cat_() {
     :;
 }
@@ -1069,7 +1071,7 @@ dispatch-build-bottle() {
 # @flag -q --quiet      Make some output more quiet.
 # @flag -v --verbose    Make some output more verbose.
 # @flag -h --help       Show this message.
-# @arg formula-cask*[`_choice_suggest_formula_cask`]
+# @arg formula-cask*[`_choice_suggest_formula_cask`] <formula|cask>
 edit() {
     :;
 }
@@ -1193,7 +1195,7 @@ linkage() {
 # @flag -d --debug        Display any debugging information.
 # @flag -v --verbose      Make some output more verbose.
 # @flag -h --help         Show this message.
-# @arg formula-cask*[`_choice_suggest_formula_cask`]
+# @arg formula-cask*[`_choice_suggest_formula_cask`] <formula|cask>
 livecheck() {
     :;
 }
@@ -1291,6 +1293,7 @@ pr-upload() {
 # @flag -q --quiet      Make some output more quiet.
 # @flag -v --verbose    Make some output more verbose.
 # @flag -h --help       Show this message.
+# @arg command~[`_choice_prof_command`]
 prof() {
     :;
 }
@@ -1374,7 +1377,7 @@ style() {
 # @flag -q --quiet           Make some output more quiet.
 # @flag -v --verbose         Make some output more verbose.
 # @flag -h --help            Show this message.
-# @arg user-repo
+# @arg user-repo <user/repo>
 tap-new() {
     :;
 }
@@ -1552,6 +1555,7 @@ vendor-gems() {
 # @flag -q --quiet      Make some output more quiet.
 # @flag -v --verbose    Make some output more verbose.
 # @flag -h --help       Show this message.
+# @arg alias*[`_choice_alias`]
 alias() {
     :;
 }
@@ -1816,6 +1820,7 @@ unalias() {
 # @flag -q --quiet      Make some output more quiet.
 # @flag -v --verbose    Make some output more verbose.
 # @flag -h --help       Show this message.
+# @arg command[`_module_os_command`]
 which-formula() {
     :;
 }
@@ -1913,6 +1918,26 @@ _choice_suggest_diagnostic_check() {
 
 _choice_suggest_service() {
    brew services list | gawk '{if (NR > 1) {print $1}}'
+}
+
+_choice_prof_command() {
+    _argc_util_comp_subcommand 0 brew
+}
+
+_choice_alias() {
+    brew alias | sed "s/^brew alias \([^=]\+\)='\(.*\)'$/\1\t\2/"   
+}
+
+_module_os_command() {
+    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+        _argc_util_comp_path
+        return
+    fi
+    if [[ "$ARGC_OS" == "windows" ]]; then
+        PATH="$(echo "$PATH" | sed 's|:[^:]*/windows/system32[^:]*:||Ig')" compgen -c
+    else
+        compgen -c
+    fi
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"
