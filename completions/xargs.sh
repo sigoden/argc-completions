@@ -22,7 +22,7 @@
 # @flag -x --exit                       exit if the size (see -s) is exceeded
 # @flag --help                          display this help and exit
 # @flag --version                       output version information and exit
-# @arg cmd[`_module_os_command`]
+# @arg command[`_module_os_command`]
 # @arg args~[`_choice_args`]
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
@@ -32,7 +32,13 @@ _choice_args() {
 }
 
 _module_os_command() {
-    if [[ "$ARGC_OS" != "windows" ]]; then
+    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+        _argc_util_comp_path
+        return
+    fi
+    if [[ "$ARGC_OS" == "windows" ]]; then
+        PATH="$(echo "$PATH" | sed 's|:[^:]*/windows/system32[^:]*:||Ig')" compgen -c
+    else
         compgen -c
     fi
 }

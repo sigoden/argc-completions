@@ -19,7 +19,8 @@ _patch_table() {
     elif [[ "$*" == "direnv exec" ]]; then
         _patch_table_edit_arguments \
             ';;' \
-            'dir' 'cmd;[`_choice_cmd`]' \
+            'dir' \
+            'command;[`_module_os_command`]' \
             'args;~[`_choice_args`]' \
 
     elif [[ "$*" == "direnv fetchurl" ]]; then
@@ -35,11 +36,6 @@ _patch_table() {
 
 _choice_path_to_rc() {
     _argc_util_comp_path exts=.envrc,.env
-}
-
-_choice_cmd() {
-    _argc_util_comp_path
-    _module_os_command
 }
 
 _choice_args() {

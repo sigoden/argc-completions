@@ -8,8 +8,8 @@
 # @option -g --group[`_module_os_group`] <group>  specify the primary group
 # @option -G --supp-group[`_module_os_group`] <group>  specify a supplemental group
 # @flag -l --login                             make the shell a login shell
-# @option -c --command <command>               pass a single command to the shell with -c
-# @option --session-command <command>          pass a single command to the shell with -c and do not create a new session
+# @option -c --command[`_module_os_command_string`] <command>  pass a single command to the shell with -c
+# @option --session-command[`_module_os_command_string`] <command>  pass a single command to the shell with -c and do not create a new session
 # @flag -f --fast                              pass -f to the shell (for csh or tcsh)
 # @option -s --shell[`_module_os_shell`] <shell>  run <shell> if /etc/shells allows it
 # @flag -P --pty                               create a new pseudo-terminal
@@ -17,6 +17,24 @@
 # @flag -V --version                           display version
 # @arg user[`_module_os_user`]
 # @arg args*
+
+. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
+
+_module_os_command() {
+    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+        _argc_util_comp_path
+        return
+    fi
+    if [[ "$ARGC_OS" == "windows" ]]; then
+        PATH="$(echo "$PATH" | sed 's|:[^:]*/windows/system32[^:]*:||Ig')" compgen -c
+    else
+        compgen -c
+    fi
+}
+
+_module_os_command_string() {
+    _module_os_command
+}
 
 _module_os_group() {
     command cat /etc/group | gawk -F: '{print $1 "\t" $4}'

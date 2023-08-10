@@ -4,6 +4,7 @@
 # @flag -a    display all interfaces which are currently available, even if down
 # @flag -s    display a short list (like netstat -i)
 # @flag -v    be more verbose for some error conditions
+# @arg interface[`_module_os_network_interface`]
 
 # {{ ifconfig interface
 # @cmd The name of the interface.
@@ -158,5 +159,9 @@ txqueuelen() {
     :;
 }
 # }} ifconfig txqueuelen
+
+_module_os_network_interface() {
+    ifconfig -a | sed -n 's/^\(\S\+\): .*/\1/p'
+}
 
 command eval "$(argc --argc-eval "$0" "$@")"

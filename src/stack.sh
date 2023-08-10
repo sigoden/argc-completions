@@ -30,7 +30,13 @@ _patch_table() {
         _patch_table_edit_arguments 'package;[`_choice_dependency`]'
 
     elif [[ "$*" == "stack ghci" ]]; then
-        _patch_table_edit_arguments 'target/file;[`_choice_target_or_file`]'
+        _patch_table_edit_arguments 'target-file;[`_choice_target_or_file`]'
+        
+    elif [[ "$*" == "stack exec" ]]; then
+        _patch_table_edit_arguments \
+            ';;' \
+            'command;[`_module_os_command`]' \
+            'args;~[`_choice_args`]' \
 
     else
         cat
@@ -51,4 +57,8 @@ _choice_target_or_file() {
         return
     fi
     _choice_target
+}
+
+_choice_args() {
+    _argc_util_comp_subcommand 0
 }

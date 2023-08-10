@@ -78,7 +78,20 @@ _patch_table() {
     fi
 
     if [[ "$*" == "kubectl create" ]]; then
-        echo "$table" | _patch_table_edit_arguments ';;'
+        echo "$table" | \
+        _patch_table_edit_commands \
+            'configmap(configmap, cm)' \
+            'cronjob(cronjob, cj)' \
+            'deployment(deployment, deploy)' \
+            'ingress(ingress, ing)' \
+            'namespace(namespace, ns)' \
+            'poddisruptionbudget(poddisruptionbudget, pdb)' \
+            'priorityclass(priorityclass, pc)' \
+            'quota(quota, resourcequota)' \
+            'service(service, svc)' \
+            'serviceaccount(serviceaccount, sa)' \
+        | \
+        _patch_table_edit_arguments ';;'
 
     elif [[ "$*" == "kubectl create rolebinding" ]]; then
         echo "$table" | \
@@ -107,6 +120,14 @@ _patch_table() {
         _patch_table_edit_options \
             '--verb;*,[`_choice_verb_type`]' \
 
+    elif [[ "$*" == "kubectl create deployment" ]] \
+      || [[ "$*" == "kubectl create job" ]] \
+    ; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'command;[`_module_os_command`]' \
+            'args;~[`_choice_args`]' \
+
     elif [[ "$*" == "kubectl expose" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
@@ -125,6 +146,11 @@ _patch_table() {
             '--image;[`_module_oci_docker_image`]' \
         | \
         _patch_table_edit_arguments 'NAME' 'args...'
+
+    elif [[ "$*" == "kubectl set" ]]; then
+        echo "$table" | \
+        _patch_table_edit_commands \
+            'serviceaccount(serviceaccount, sa)' \
 
     elif [[ "$*" == "kubectl set env" ]]; then
         echo "$table" | \
@@ -195,6 +221,12 @@ _patch_table() {
         _patch_table_edit_arguments \
             ';;' \
             'resource-name;[`_choice_resource_type_and_name`]' \
+
+    elif [[ "$*" == "kubectl top" ]]; then
+        echo "$table" | \
+        _patch_table_edit_commands \
+            'node(node, nodes, no)' \
+            'pod(pod, pods, po)' \
 
     elif [[ "$*" == "kubectl top node" ]]; then
         echo "$table" | \
@@ -329,6 +361,11 @@ _patch_table() {
         _patch_table_edit_arguments \
             ';;' \
             'shell;[bash|zsh|fish|powershell]' \
+
+    elif [[ "$*" == "kubectl config" ]]; then
+        echo "$table" | \
+        _patch_table_edit_commands \
+            'use-context(use-context, use)' \
 
     elif [[ "$*" == "kubectl config delete-cluster" ]]; then
         echo "$table" | \
@@ -528,6 +565,10 @@ _choice_cp() {
             _complete_container_path
         fi
     fi
+}
+
+_choice_args() {
+    _argc_util_comp_subcommand 1
 }
 
 _helper_find_resource_by_type() {

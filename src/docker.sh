@@ -54,6 +54,15 @@ _patch_table() {
                 'src;[`_choice_compose_cp`]' \
                 'dest;[`_choice_compose_cp`]' \
 
+        elif [[ "$*" == "docker compose run" ]] \
+          || [[ "$*" == "docker compose exec" ]] \
+        ; then
+            echo "$table" | \
+            _patch_table_edit_arguments \
+                'command;[`_module_os_command`]' \
+                'arg;~[`_choice_args`]' \
+                'args;~[`_choice_args`]' \
+
         else
             echo "$table"
         fi
@@ -76,6 +85,19 @@ _patch_table() {
       || [[ "$*" == "docker logs" ]] \
     ; then
         echo "$table" | _patch_table_edit_arguments 'container;[`_choice_container_name_all`]' \
+
+    elif [[ "$*" == "docker container exec" ]] \
+      || [[ "$*" == "docker container run" ]] \
+      || [[ "$*" == "docker container create" ]] \
+      || [[ "$*" == "docker exec" ]] \
+      || [[ "$*" == "docker run" ]] \
+      || [[ "$*" == "docker create" ]] \
+    ; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'command;[`_module_os_command`]' \
+            'arg;~[`_choice_args`]' \
+            'args;~[`_choice_args`]' \
 
     elif [[ "$*" == "docker ps"* ]]; then
         echo "$table" | _patch_table_edit_options '--filter;[`_choice_container_ls_filter`]'
@@ -302,4 +324,8 @@ service=`_choice_service`
 type=container,daemon,image,network,volume
 volume=`_choice_volume`
 EOF
+}
+
+_choice_args() {
+    _argc_util_comp_subcommand 1
 }

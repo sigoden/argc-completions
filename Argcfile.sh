@@ -55,7 +55,7 @@ regenerate:changed() {
         cmd=$(basename $(realpath src/$symlink_cmd.sh) .sh)
         symlink_map[$cmd]="${symlink_map[$cmd]} $symlink_cmd"
     done
-    mapfile -t cmds <<<"$(git status | awk '{if(match($2, /^src/)) {v=substr($2,5,length($2)-7); split(v, p, "/"); print p[1]}}')"
+    mapfile -t cmds <<<"$(_helper_list_changed_cmd)"
     for cmd in ${cmds[@]}; do
         argc generate $cmd -E
         if [[ -n "${symlink_map[$cmd]}" ]]; then
@@ -247,6 +247,15 @@ _helper_test_fn() {
         return 1
     fi
     return 0
+}
+
+_helper_list_changed_cmd() {
+    git status | gawk '{
+        if(match($2, /^(src|completions)/)) {
+            split($2, p, "/");
+            print gensub(/^([a-z0-9_-]+).*$/, "\\1", 1, p[2])
+        }
+    }'
 }
 
 eval "$(argc --argc-eval "$0" "$@")"

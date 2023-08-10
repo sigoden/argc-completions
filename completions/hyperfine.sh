@@ -28,6 +28,10 @@
 # @option -n --command-name <NAME>                 Give a meaningful name to a command.
 # @flag -h --help                                  Print help
 # @flag -V --version                               Print version
+# @arg command[`_module_os_command`]
+# @arg args~[`_choice_args`]
+
+. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
 _choice_style() {
     cat <<-'EOF'
@@ -45,6 +49,22 @@ auto	the speed comparison will be ordered by time and the markup tables will be 
 command	order benchmarks in the way they were specified
 mean-time	order benchmarks by mean runtime
 EOF
+}
+
+_choice_args() {
+    _argc_util_comp_subcommand 0
+}
+
+_module_os_command() {
+    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+        _argc_util_comp_path
+        return
+    fi
+    if [[ "$ARGC_OS" == "windows" ]]; then
+        PATH="$(echo "$PATH" | sed 's|:[^:]*/windows/system32[^:]*:||Ig')" compgen -c
+    else
+        compgen -c
+    fi
 }
 
 _module_os_shell() {

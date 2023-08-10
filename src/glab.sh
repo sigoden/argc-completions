@@ -287,7 +287,9 @@ _patch_table() {
         if [[ "$*" == "glab repo archive" ]]; then
             echo "$table" | \
             _patch_table_edit_options \
-                '--sha;[`_choice_commit`]'
+                '--sha;[`_choice_commit`]' \
+            | \
+            _patch_table_edit_arguments ';;'
 
         elif [[ "$*" == "glab repo clone" ]]; then
             echo "$table" | \

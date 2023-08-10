@@ -173,6 +173,7 @@ create::clusterrolebinding() {
 
 # {{{ kubectl create configmap
 # @cmd Create a config map from a local file, directory or literal value
+# @alias cm
 # @option --as <value>                            Username to impersonate for the operation.
 # @option --as-group* <value>                     Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --as-uid <value>                        UID to impersonate for the operation.
@@ -220,6 +221,7 @@ create::configmap() {
 
 # {{{ kubectl create cronjob
 # @cmd Create a cron job with the specified name
+# @alias cj
 # @option --as <value>                            Username to impersonate for the operation.
 # @option --as-group* <value>                     Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --as-uid <value>                        UID to impersonate for the operation.
@@ -266,6 +268,7 @@ create::cronjob() {
 
 # {{{ kubectl create deployment
 # @cmd Create a deployment with the specified name
+# @alias deploy
 # @option --as <value>                            Username to impersonate for the operation.
 # @option --as-group* <value>                     Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --as-uid <value>                        UID to impersonate for the operation.
@@ -305,6 +308,8 @@ create::cronjob() {
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
 # @option --validate[strict|true|warn|ignore|false] <strict>  Must be one of: strict (or true), warn, ignore (or false).
 # @arg name
+# @arg command[`_module_os_command`]
+# @arg args~[`_choice_args`]
 create::deployment() {
     :;
 }
@@ -312,6 +317,7 @@ create::deployment() {
 
 # {{{ kubectl create ingress
 # @cmd Create an ingress with the specified name
+# @alias ing
 # @option --as <value>                            Username to impersonate for the operation.
 # @option --as-group* <value>                     Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --as-uid <value>                        UID to impersonate for the operation.
@@ -397,6 +403,8 @@ create::ingress() {
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
 # @option --validate[strict|true|warn|ignore|false] <strict>  Must be one of: strict (or true), warn, ignore (or false).
 # @arg name
+# @arg command[`_module_os_command`]
+# @arg args~[`_choice_args`]
 create::job() {
     :;
 }
@@ -404,6 +412,7 @@ create::job() {
 
 # {{{ kubectl create namespace
 # @cmd Create a namespace with the specified name
+# @alias ns
 # @option --as <value>                            Username to impersonate for the operation.
 # @option --as-group* <value>                     Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --as-uid <value>                        UID to impersonate for the operation.
@@ -447,6 +456,7 @@ create::namespace() {
 
 # {{{ kubectl create poddisruptionbudget
 # @cmd Create a pod disruption budget with the specified name
+# @alias pdb
 # @option --as <value>                            Username to impersonate for the operation.
 # @option --as-group* <value>                     Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --as-uid <value>                        UID to impersonate for the operation.
@@ -493,6 +503,7 @@ create::poddisruptionbudget() {
 
 # {{{ kubectl create priorityclass
 # @cmd Create a priority class with the specified name
+# @alias pc
 # @option --as <value>                            Username to impersonate for the operation.
 # @option --as-group* <value>                     Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --as-uid <value>                        UID to impersonate for the operation.
@@ -540,6 +551,7 @@ create::priorityclass() {
 
 # {{{ kubectl create quota
 # @cmd Create a quota with the specified name
+# @alias resourcequota
 # @option --as <value>                            Username to impersonate for the operation.
 # @option --as-group* <value>                     Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --as-uid <value>                        UID to impersonate for the operation.
@@ -855,6 +867,7 @@ create::secret::tls() {
 
 # {{{ kubectl create service
 # @cmd Create a service using a specified subcommand
+# @alias svc
 # @option --as <value>                            Username to impersonate for the operation.
 # @option --as-group* <value>                     Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --as-uid <value>                        UID to impersonate for the operation.
@@ -1069,6 +1082,7 @@ create::service::nodeport() {
 
 # {{{ kubectl create serviceaccount
 # @cmd Create a service account with the specified name
+# @alias sa
 # @option --as <value>                            Username to impersonate for the operation.
 # @option --as-group* <value>                     Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --as-uid <value>                        UID to impersonate for the operation.
@@ -1510,6 +1524,7 @@ set::selector() {
 
 # {{{ kubectl set serviceaccount
 # @cmd Update the service account of a resource
+# @alias sa
 # @option --as <value>                            Username to impersonate for the operation.
 # @option --as-group* <value>                     Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --as-uid <value>                        UID to impersonate for the operation.
@@ -2427,6 +2442,7 @@ top() {
 
 # {{{ kubectl top node
 # @cmd Display resource (CPU/memory) usage of nodes
+# @alias nodes,no
 # @option --as <value>                            Username to impersonate for the operation.
 # @option --as-group* <value>                     Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --as-uid <value>                        UID to impersonate for the operation.
@@ -2467,6 +2483,7 @@ top::node() {
 
 # {{{ kubectl top pod
 # @cmd Display resource (CPU/memory) usage of pods
+# @alias pods,po
 # @option --as <value>                            Username to impersonate for the operation.
 # @option --as-group* <value>                     Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --as-uid <value>                        UID to impersonate for the operation.
@@ -4374,6 +4391,7 @@ config::unset() {
 
 # {{{ kubectl config use-context
 # @cmd Set the current-context in a kubeconfig file
+# @alias use
 # @option --as <value>                            Username to impersonate for the operation.
 # @option --as-group* <value>                     Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --as-uid <value>                        UID to impersonate for the operation.
@@ -4682,12 +4700,28 @@ _choice_cp() {
     fi
 }
 
+_choice_args() {
+    _argc_util_comp_subcommand 1
+}
+
 _helper_find_resource_by_type() {
     _kubectl get $1 -o go-template --template="$(echo -e "{{range .items}}{{.metadata.name}}\t{{.kind}}\n{{end}}")" 
 }
 
 _module_oci_docker_image() {
     docker image ls --format '{{.Repository}}={{.Tag}}' | _argc_util_comp_kv :
+}
+
+_module_os_command() {
+    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+        _argc_util_comp_path
+        return
+    fi
+    if [[ "$ARGC_OS" == "windows" ]]; then
+        PATH="$(echo "$PATH" | sed 's|:[^:]*/windows/system32[^:]*:||Ig')" compgen -c
+    else
+        compgen -c
+    fi
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

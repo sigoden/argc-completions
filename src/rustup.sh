@@ -24,6 +24,14 @@ _patch_table() {
     elif [[ "$*" == "rustup component remove" ]]; then
         echo "$table" | _patch_table_edit_arguments 'component;[`_choice_installed_component`]'
 
+    elif [[ "$*" == "rustup run" ]]; then
+        echo "$table" | _patch_table_edit_arguments 'command;[`_choice_toolchain_command`]'
+
+    elif [[ "$*" == "rustup which" ]] \
+      || [[ "$*" == "rustup man" ]] \
+    ; then
+        echo "$table" | _patch_table_edit_arguments 'command;[`_choice_toolchain_command`]'
+
     else
         echo "$table"
     fi
@@ -69,4 +77,8 @@ _choice_channel() {
     echo beta
     echo stable
     echo nightly
+}
+
+_choice_toolchain_command() {
+    printf "%s\n" cargo cargo-clippy cargo-fmt clippy-driver rustc rustdoc rustfmt rust-gdb rust-gdbgui rust-lldb
 }

@@ -9,3 +9,12 @@ _patch_help() {
         :;
     fi
 }
+
+_patch_table() { 
+    if [[ "$*" == "ifconfig" ]]; then
+        _patch_table_edit_arguments 'interface;[`_module_os_network_interface`]'
+
+    else
+        cat
+    fi
+}

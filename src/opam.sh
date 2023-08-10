@@ -135,6 +135,13 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_arguments 'var-value;*[`_choice_var`]'
 
+    elif [[ "$*" == "opam exec"  ]] \
+    ; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'command;[`_module_os_command`]' \
+            'arg;~[`_choice_args`]' \
+
     else
         echo "$table"
 
@@ -189,4 +196,8 @@ _choice_installed_pin() {
 
 _choice_update() {
     _argc_util_parallel _choice_repository ::: _choice_installed_pin
+}
+
+_choice_args() {
+    _argc_util_comp_subcommand 0
 }

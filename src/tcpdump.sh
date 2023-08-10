@@ -1,5 +1,5 @@
 _patch_help() { 
-    _patch_help_run_man $@ | sed '/^\s*-/ {N;s/\n\s*-/, -/}'
+    _patch_help_run_man $@ | sed '/^\s*-/ {:x;N;s/\n\s*-/, -/;t x;}'
 }
 
 _patch_table() { 

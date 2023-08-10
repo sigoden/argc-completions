@@ -18,7 +18,25 @@
 # @flag --list-unused-keys             List common keys which are not bound to any action.
 # @option --list-tagged-files <tag>    List all files which are tagged with the given tag, default: *
 # @flag --profile                      Print statistics of CPU usage on exit.
-# @option --cmd <COMMAND>              Execute COMMAND after the configuration has been read.
+# @option --cmd[`_module_os_command_string`] <COMMAND>  Execute COMMAND after the configuration has been read.
 # @arg path
+
+. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
+
+_module_os_command() {
+    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+        _argc_util_comp_path
+        return
+    fi
+    if [[ "$ARGC_OS" == "windows" ]]; then
+        PATH="$(echo "$PATH" | sed 's|:[^:]*/windows/system32[^:]*:||Ig')" compgen -c
+    else
+        compgen -c
+    fi
+}
+
+_module_os_command_string() {
+    _module_os_command
+}
 
 command eval "$(argc --argc-eval "$0" "$@")"

@@ -1,4 +1,8 @@
 _patch_help() {
+    _common_edit() {
+        sed 's/ \[command\] \[flags\]//'
+    }
+
     if [[ "$*" == "yarn" ]]; then
         $@ --help | sed '/^  Commands:/, $ d'
         cat <<-'EOF'
@@ -45,7 +49,7 @@ Commands:
 EOF
 
     elif [[ "$*" == "yarn cache" ]]; then
-        $@ --help
+        $@ --help | _common_edit
         cat <<-'EOF'
 Commands:
     list, ls  print out every cached package.
@@ -63,7 +67,7 @@ yarn cache clean [<module_name>...]
 EOF
 
     elif [[ "$*" == "yarn config" ]]; then
-        $@ --help
+        $@ --help | _common_edit
         cat <<-'EOF'
 Commands:
     set     Sets the config key to a certain value.
@@ -83,7 +87,7 @@ yarn config list
 EOF
 
     elif [[ "$*" == "yarn global" ]]; then
-        $@ --help
+        $@ --help | _common_edit
         cat <<-'EOF'
 Commands:
     add         Installs packages and any packages that it depends on.
@@ -109,7 +113,7 @@ options:
 EOF
 
     elif [[ "$*" == "yarn licenses" ]]; then
-        $@ --help
+        $@ --help | _common_edit
         cat <<-'EOF'
 Commands:
     list                    List in alphabetical order all of the packages that were installed by yarn or yarn install, and give you the license.
@@ -124,7 +128,7 @@ yarn licenses generate-disclaimer
 EOF
 
     elif [[ "$*" == "yarn owner" ]]; then
-        $@ --help
+        $@ --help | _common_edit
         cat <<-'EOF'
 Commands:
     list    Lists all of the owners of a <package>.
@@ -140,7 +144,7 @@ yarn owner remove <user> <package>
 EOF
 
     elif [[ "$*" == "yarn policies" ]]; then
-        $@ --help
+        $@ --help | _common_edit
         cat <<-'EOF'
 Commands:
     set-version  Enforcing Yarn’s version across your project.
@@ -154,7 +158,7 @@ options:
 EOF
 
     elif [[ "$*" == "yarn team" ]]; then
-        $@ --help
+        $@ --help | _common_edit
         cat <<-'EOF'
 Commands:
     create      Create a new team.
@@ -174,7 +178,7 @@ yarn team list <scope[:team]>
 EOF
 
     elif [[ "$*" == "yarn workspaces" ]]; then
-        $@ --help
+        $@ --help | _common_edit
         cat <<-'EOF'
 Commands:
     info    display the workspace dependency tree of your current project.
@@ -193,7 +197,7 @@ EOF
         :;
 
     else
-        $@ --help
+        $@ --help | _common_edit
     fi
 }
 

@@ -84,6 +84,16 @@ _patch_table() {
     if [[ "$*" == "pnpm" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'cmd;[`_choice_script`]'
 
+    elif [[ "$*" == "pnpm rb" ]] \
+      || [[ "$*" == "pnpm up" ]] \
+      || [[ "$*" == "pnpm outdated" ]] \
+      || [[ "$*" == "pnpm why" ]] \
+    ; then
+        echo "$table" | _patch_table_edit_arguments 'pkg;[`_choice_dependency`]'
+
+    elif [[ "$*" == "pnpm unlink" ]] ; then
+        echo "$table" | _patch_table_edit_arguments ';;' 'pkg;[`_choice_dependency`]'
+
     elif [[ "$*" == "pnpm config" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;'
 
@@ -94,24 +104,22 @@ _patch_table() {
         echo "$table"| _patch_table_edit_options '--package-import-method;[`_choice_pacakge_import_method`];Import package method'
 
     elif [[ "$*" == "pnpm ls" ]]; then
-        echo "$table"| _patch_table_edit_options '--depth(<number>)'
+        echo "$table" | \
+        _patch_table_edit_options '--depth(<number>)' | \
+        _patch_table_edit_arguments 'pkg;[`_choice_dependency`]'
 
     elif [[ "$*" == "pnpm run" ]]; then
-        echo "$table" | _patch_table_edit_arguments ';;' 'cmd;[`_choice_script`]'
+        echo "$table" | _patch_table_edit_arguments ';;' 'command;[`_choice_script`]' 'args...'
 
     elif [[ "$*" == "pnpm exec" ]]; then
-        echo "$table" | _patch_table_edit_arguments 'exec;[`_choice_bin`]'
+        echo "$table" | _patch_table_edit_arguments ';;' 'command;[`_choice_bin`]' 'args...'
 
     elif [[ "$*" == "pnpm rm" ]]; then
         echo "$table" | _patch_table_edit_arguments 'pkg-version;[`_choice_dependency`]'
 
-    elif [[ "$*" == "pnpm up" ]]; then
-        echo "$table" | _patch_table_edit_arguments 'pkg;[`_choice_dependency`]'
-
-    elif [[ "$*" == "pnpm config" ]]; then
-        echo "$table" | _patch_table_edit_arguments ';;'
-
-    elif [[ "$*" == "pnpm env" ]]; then
+    elif [[ "$*" == "pnpm env" ]] \
+      || [[ "$*" == "pnpm dlx" ]] \
+    ; then
         echo "$table" | _patch_table_edit_arguments ';;'
 
     else

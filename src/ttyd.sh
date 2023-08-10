@@ -20,6 +20,11 @@ _patch_table() {
         '--ssl-key(<path>)' \
         '--ssl-ca(<path>)' \
         '--debug(<level>)' \
+    | \
+    _patch_table_edit_arguments \
+        ';;' \
+        'command;[`_module_os_command`]' \
+        'args;~[`_choice_args`]' \
 
 }
 
@@ -35,4 +40,8 @@ _choice_socket_owner() {
     else
         _module_os_group
     fi
+}
+
+_choice_args() {
+    _argc_util_comp_subcommand 0
 }

@@ -76,7 +76,7 @@
 # @option --path-separator <SEPARATOR>             Set the path separator to use when printing file paths.
 # @flag -P --pcre2                                 When this flag is present, ripgrep will use the PCRE2 regex engine instead of its default regex engine.
 # @flag --pcre2-version                            When this flag is present, ripgrep will print the version of PCRE2 in use, along with other information, and then exit.
-# @option --pre <COMMAND>                          For each input FILE, search the standard output of COMMAND FILE rather than the contents of FILE.
+# @option --pre[`_module_os_command_string`] <COMMAND>  For each input FILE, search the standard output of COMMAND FILE rather than the contents of FILE.
 # @option --pre-glob* <GLOB>                       This flag works in conjunction with the --pre flag.
 # @flag -p --pretty                                This is a convenience alias for '--color always --heading --line-number'.
 # @flag -q --quiet                                 Do not print anything to stdout.
@@ -198,6 +198,22 @@ _choice_type_spec() {
             _choice_type | _argc_util_transform nospace
         fi
     fi
+}
+
+_module_os_command() {
+    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+        _argc_util_comp_path
+        return
+    fi
+    if [[ "$ARGC_OS" == "windows" ]]; then
+        PATH="$(echo "$PATH" | sed 's|:[^:]*/windows/system32[^:]*:||Ig')" compgen -c
+    else
+        compgen -c
+    fi
+}
+
+_module_os_command_string() {
+    _module_os_command
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

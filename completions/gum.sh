@@ -167,6 +167,8 @@ pager() {
 # @option -a --align <left>             Alignment of spinner with regard to the title ($GUM_SPIN_ALIGN)
 # @option --spinner.foreground <212>    Foreground Color ($GUM_SPIN_SPINNER_FOREGROUND)
 # @option --title.foreground <value>    Foreground Color ($GUM_SPIN_TITLE_FOREGROUND)
+# @arg command[`_module_os_command`]
+# @arg args~[`_choice_args`]
 spin() {
     :;
 }
@@ -240,5 +242,23 @@ write() {
     :;
 }
 # }} gum write
+
+. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
+
+_choice_args() {
+    _argc_util_comp_subcommand 0
+}
+
+_module_os_command() {
+    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+        _argc_util_comp_path
+        return
+    fi
+    if [[ "$ARGC_OS" == "windows" ]]; then
+        PATH="$(echo "$PATH" | sed 's|:[^:]*/windows/system32[^:]*:||Ig')" compgen -c
+    else
+        compgen -c
+    fi
+}
 
 command eval "$(argc --argc-eval "$0" "$@")"

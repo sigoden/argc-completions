@@ -178,7 +178,7 @@ prune() {
 # @option --filter[`_choice_workspace`] <selector>  Filtering allows you to restrict commands to specific subsets of packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
-# @arg pkg*
+# @arg pkg*[`_choice_dependency`]
 rb() {
     :;
 }
@@ -223,7 +223,7 @@ rm() {
 # @flag --stream               Stream output from child processes immediately, prefixed with the originating package directory.
 # @flag --use-stderr           Divert all output to stderr
 # @flag -w --workspace-root    Run the command on the root workspace project
-# @arg in-package-dir <in package dir>
+# @arg pkg[`_choice_dependency`]
 unlink() {
     :;
 }
@@ -314,7 +314,7 @@ licenses() {
 # @option --filter[`_choice_workspace`] <selector>  Filtering allows you to restrict commands to specific subsets of packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
-# @arg pkg*
+# @arg pkg*[`_choice_dependency`]
 ls() {
     :;
 }
@@ -343,7 +343,7 @@ ls() {
 # @option --filter[`_choice_workspace`] <selector>  Filtering allows you to restrict commands to specific subsets of packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
-# @arg pkg*
+# @arg pkg*[`_choice_dependency`]
 outdated() {
     :;
 }
@@ -356,7 +356,8 @@ outdated() {
 # @flag --report-summary    Save the execution results of every package to "pnpm-exec-summary.json".
 # @flag --resume-from       Command executed from given package
 # @flag -c --shell-mode     If exist, runs file inside of a shell.
-# @arg exec[`_choice_bin`]
+# @arg command[`_choice_bin`]
+# @arg args*
 exec() {
     :;
 }
@@ -384,7 +385,8 @@ exec() {
 # @option --filter[`_choice_workspace`] <selector>  Filtering allows you to restrict commands to specific subsets of packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
-# @arg cmd[`_choice_script`]
+# @arg command[`_choice_script`]
+# @arg args*
 run() {
     :;
 }
@@ -554,7 +556,7 @@ dedup() {
 # @option --filter[`_choice_workspace`] <selector>  Filtering allows you to restrict commands to specific subsets of packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
-# @arg pkg+
+# @arg pkg+[`_choice_dependency`]
 why() {
     :;
 }

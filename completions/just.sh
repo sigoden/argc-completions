@@ -26,7 +26,7 @@
 # @flag -V --version                           Print version information
 # @option --chooser                            Override binary invoked by `--choose`
 # @option --color[auto|always|never]           Print colorful output [default: auto]
-# @option -c --command                         Run an arbitrary command with the working directory, `.env`, overrides, and exports set
+# @option -c --command[`_module_os_command_string`]  Run an arbitrary command with the working directory, `.env`, overrides, and exports set
 # @option --completions[zsh|bash|fish|powershell|elvish] <SHELL>  Print shell completion script for <SHELL>
 # @option --dotenv-filename                    Search for environment file named <DOTENV-FILENAME> instead of `.env`
 # @option --dotenv-path                        Load environment file at <DOTENV-PATH> instead of searching for one
@@ -41,8 +41,26 @@
 # @option -d --working-directory               Use <WORKING-DIRECTORY> as working directory.
 # @arg arguments+[`_choice_recipe`]            Overrides and recipe(s) to run, defaulting to the first recipe in the justfile
 
+. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
+
 _choice_recipe() {
    just --summary 2> /dev/null | tr " " "\n" || gawk '{$1=$1};1'
+}
+
+_module_os_command() {
+    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+        _argc_util_comp_path
+        return
+    fi
+    if [[ "$ARGC_OS" == "windows" ]]; then
+        PATH="$(echo "$PATH" | sed 's|:[^:]*/windows/system32[^:]*:||Ig')" compgen -c
+    else
+        compgen -c
+    fi
+}
+
+_module_os_command_string() {
+    _module_os_command
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

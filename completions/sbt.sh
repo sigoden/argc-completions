@@ -206,6 +206,7 @@ alias() {
 
 # {{ sbt append
 # @cmd Appends 'command' to list of commands to run.
+# @arg command!
 append() {
     :;
 }
@@ -243,6 +244,7 @@ eval_() {
 
 # {{ sbt iflast
 # @cmd If there are no more commands after this one, 'command' is run.
+# @arg command!
 iflast() {
     :;
 }
@@ -250,6 +252,7 @@ iflast() {
 
 # {{ sbt onFailure
 # @cmd Registers 'command' to run when a command fails to complete normally.
+# @arg command!
 onFailure() {
     :;
 }

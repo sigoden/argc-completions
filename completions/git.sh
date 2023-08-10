@@ -1023,15 +1023,15 @@ describe() {
 
 # {{ git difftool
 # @cmd Show changes using common diff tools
-# @flag -g --gui                   use `diff.guitool` instead of `diff.tool`
-# @flag -d --dir-diff              perform a full-directory diff
-# @flag -y --no-prompt             do not prompt before launching a diff tool
-# @flag --symlinks                 use symlinks in dir-diff mode
-# @option -t --tool <tool>         use the specified diff tool
-# @flag --tool-help                print a list of diff tools that may be used with `--tool`
-# @flag --trust-exit-code          make 'git-difftool' exit when an invoked diff tool returns a non-zero exit code
-# @option -x --extcmd <command>    specify a custom command for viewing diffs
-# @flag --no-index                 passed to `diff`
+# @flag -g --gui              use `diff.guitool` instead of `diff.tool`
+# @flag -d --dir-diff         perform a full-directory diff
+# @flag -y --no-prompt        do not prompt before launching a diff tool
+# @flag --symlinks            use symlinks in dir-diff mode
+# @option -t --tool <tool>    use the specified diff tool
+# @flag --tool-help           print a list of diff tools that may be used with `--tool`
+# @flag --trust-exit-code     make 'git-difftool' exit when an invoked diff tool returns a non-zero exit code
+# @option -x --extcmd[`_module_os_command_string`] <command>  specify a custom command for viewing diffs
+# @flag --no-index            passed to `diff`
 # @arg commit-commit <<commit> [<commit>]>
 # @arg path*
 difftool() {
@@ -2260,6 +2260,22 @@ _choice_stash() {
 
 _helper_ref_change() {
     _git diff-tree --name-only --no-commit-id -r "$1"
+}
+
+_module_os_command() {
+    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+        _argc_util_comp_path
+        return
+    fi
+    if [[ "$ARGC_OS" == "windows" ]]; then
+        PATH="$(echo "$PATH" | sed 's|:[^:]*/windows/system32[^:]*:||Ig')" compgen -c
+    else
+        compgen -c
+    fi
+}
+
+_module_os_command_string() {
+    _module_os_command
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

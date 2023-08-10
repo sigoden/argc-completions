@@ -156,9 +156,21 @@ adb reconnect
 EOF
     fi
 }
+
 _patch_table() {
     if [[ "$*" == "adb reconnect" ]]; then
         _patch_table_edit_arguments ';;' 'type;[`_choice_reconnect_type`]'
+
+    elif [[ "$*" == "adb shell" ]]; then
+        _patch_table_edit_arguments \
+            ';;' \
+            'command;[`_module_os_command`]' \
+            'args;~[`_choice_args`]' \
+
+    elif [[ "$*" == "adb emu" ]]; then
+        _patch_table_edit_arguments \
+            'command;[`_module_os_command`]' \
+
     else
         cat
     fi
@@ -167,4 +179,8 @@ _patch_table() {
 _choice_reconnect_type() {
     echo "device	kick connection from device side to force reconnect"
     echo "offline	reset offline/unauthorized devices to force reconnect"
+}
+
+_choice_args() {
+    _argc_util_comp_subcommand 0
 }

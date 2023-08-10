@@ -33,6 +33,25 @@ _patch_table() {
             'src;[`_choice_container_cp`]' \
             'dest;[`_choice_container_cp`]' \
 
+    elif [[ "$*" == "podman container create" ]] \
+      || [[ "$*" == "podman container exec" ]] \
+      || [[ "$*" == "podman container run" ]] \
+    ; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'command;[`_module_os_command`]' \
+            'args;~[`_choice_args`]' \
+
+    elif [[ "$*" == "podman create" ]] \
+      || [[ "$*" == "podman exec" ]] \
+      || [[ "$*" == "podman run" ]] \
+      || [[ "$*" == "podman unshare" ]] \
+    ; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'command;[`_module_os_command`]' \
+            'args;~[`_choice_args`]' \
+
     elif [[ "$*" == "podman image" ]]; then
         echo "$table" | \
         _patch_table_edit_commands \
@@ -59,6 +78,12 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_commands \
             'list(list, ls)' \
+
+    elif [[ "$*" == "podman machine ssh" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'command;[`_module_os_command`]' \
+            'args;~[`_choice_args`]' \
 
     elif [[ "$*" == "podman network"* ]]; then
         table="$( \
@@ -189,4 +214,8 @@ _choice_container_cp() {
             _complete_container_path
         fi
     fi
+}
+
+_choice_args() {
+    _argc_util_comp_subcommand 1
 }

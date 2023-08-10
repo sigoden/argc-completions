@@ -76,7 +76,7 @@
 # @flag --navigate                                 Activate diff navigation.
 # @option --navigate-regex <REGEX>                 Regular expression defining navigation stop points
 # @flag --no-gitconfig                             Do not read any settings from git config.
-# @option --pager[`_choice_cmd`] <CMD>             Which pager to use.
+# @option --pager[`_module_os_command`] <CMD>      Which pager to use.
 # @option --paging[auto|always|never]              Whether to use a pager when displaying output.
 # @flag --parse-ansi                               Display ANSI color escape sequences in human-readable form.
 # @option --plus-emph-style <STYLE>                Style string for emphasized sections of added lines.
@@ -111,17 +111,18 @@
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_cmd() {
-    _argc_util_comp_path
-    _module_os_command
-}
-
 _choice_theme() {
     delta --list-syntax-themes | sed  's/^\w\+\s\+//'
 }
 
 _module_os_command() {
-    if [[ "$ARGC_OS" != "windows" ]]; then
+    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+        _argc_util_comp_path
+        return
+    fi
+    if [[ "$ARGC_OS" == "windows" ]]; then
+        PATH="$(echo "$PATH" | sed 's|:[^:]*/windows/system32[^:]*:||Ig')" compgen -c
+    else
         compgen -c
     fi
 }

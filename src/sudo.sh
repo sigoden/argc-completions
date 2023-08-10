@@ -9,15 +9,11 @@ _patch_table() {
         '--other-user;[`_module_os_user`]' \
         '--preserve-env;[`_choice_env_var`]' \
     | \
-    _patch_table_edit_arguments ';;' 'cmd;[`_choice_cmd`]' 'args;~[`_choice_args`]'
-}
+    _patch_table_edit_arguments \
+        ';;' \
+        'command;[`_module_os_command`]' \
+        'args;~[`_choice_args`]' \
 
-_choice_cmd() {
-    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
-        _argc_util_comp_path
-        return
-    fi
-    _module_os_command
 }
 
 _choice_args() {

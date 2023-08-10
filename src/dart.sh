@@ -1,5 +1,5 @@
 _patch_help() {
-    TERM_WIDTH=200 _patch_help_run_help $@
+    TERM_WIDTH=200 _patch_help_run_help $@ | sed 's/ <subcommand> \[arguments...\]//'
 }
 
 _patch_table() { 

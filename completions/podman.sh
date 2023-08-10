@@ -342,6 +342,8 @@ container::cp() {
 # @option --volumes-from* <string>                 Mount volumes from the specified container(s)
 # @option -w --workdir <dir>                       Working directory inside the container
 # @arg image[`_module_oci_podman_image`]
+# @arg command[`_module_os_command`]
+# @arg args~[`_choice_args`]
 container::create() {
     :;
 }
@@ -371,6 +373,8 @@ container::diff() {
 # @option -u --user <string>        Sets the username or UID used and optionally the groupname or GID for the specified command
 # @option -w --workdir <dir>        Working directory inside the container
 # @arg container[`_choice_container`]
+# @arg command[`_module_os_command`]
+# @arg args~[`_choice_args`]
 container::exec() {
     :;
 }
@@ -709,6 +713,8 @@ container::rm() {
 # @option --volumes-from* <string>                 Mount volumes from the specified container(s)
 # @option -w --workdir <dir>                       Working directory inside the container
 # @arg image[`_module_oci_podman_image`]
+# @arg command[`_module_os_command`]
+# @arg args~[`_choice_args`]
 container::run() {
     :;
 }
@@ -948,6 +954,8 @@ cp() {
 # @option --volumes-from* <string>                 Mount volumes from the specified container(s)
 # @option -w --workdir <dir>                       Working directory inside the container
 # @arg image[`_module_oci_podman_image`]
+# @arg command[`_module_os_command`]
+# @arg args~[`_choice_args`]
 create() {
     :;
 }
@@ -988,6 +996,8 @@ events() {
 # @option -u --user <string>        Sets the username or UID used and optionally the groupname or GID for the specified command
 # @option -w --workdir <dir>        Working directory inside the container
 # @arg container[`_choice_container`]
+# @arg command[`_module_os_command`]
+# @arg args~[`_choice_args`]
 exec() {
     :;
 }
@@ -1579,6 +1589,8 @@ machine::rm() {
 # {{{ podman machine ssh
 # @cmd SSH into an existing machine
 # @arg name
+# @arg command[`_module_os_command`]
+# @arg args~[`_choice_args`]
 machine::ssh() {
     :;
 }
@@ -2304,6 +2316,8 @@ rmi() {
 # @option --volumes-from* <string>                 Mount volumes from the specified container(s)
 # @option -w --workdir <dir>                       Working directory inside the container
 # @arg image[`_module_oci_podman_image`]
+# @arg command[`_module_os_command`]
+# @arg args~[`_choice_args`]
 run() {
     :;
 }
@@ -2593,6 +2607,8 @@ unpause() {
 # {{ podman unshare
 # @cmd Run a command in a modified user namespace
 # @flag --rootless-cni    Join the rootless network namespace used for CNI networking
+# @arg command[`_module_os_command`]
+# @arg args~[`_choice_args`]
 unshare() {
     :;
 }
@@ -2766,8 +2782,24 @@ _choice_container_cp() {
     fi
 }
 
+_choice_args() {
+    _argc_util_comp_subcommand 1
+}
+
 _module_oci_podman_image() {
     podman image ls --format '{{.Repository}}={{.Tag}}' | _argc_util_comp_kv :
+}
+
+_module_os_command() {
+    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+        _argc_util_comp_path
+        return
+    fi
+    if [[ "$ARGC_OS" == "windows" ]]; then
+        PATH="$(echo "$PATH" | sed 's|:[^:]*/windows/system32[^:]*:||Ig')" compgen -c
+    else
+        compgen -c
+    fi
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

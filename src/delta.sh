@@ -5,14 +5,9 @@ _patch_help() {
 _patch_table() { 
     _patch_table_edit_options \
         '--inspect-raw-lines;[true|false]' \
-        '--pager;[`_choice_cmd`]' \
+        '--pager;[`_module_os_command`]' \
         '--syntax-theme;[`_choice_theme`]' \
 
-}
-
-_choice_cmd() {
-    _argc_util_comp_path
-    _module_os_command
 }
 
 _choice_theme() {

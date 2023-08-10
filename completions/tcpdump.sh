@@ -64,6 +64,7 @@
 # @option -y --linktype <datalinktype>          Set the data link type to use while capturing packets (see -L) or just compiling and dumping packet-matching code (see -d) to datalinktype.
 # @option -z <postrotate-command>               Used in conjunction with the -C or -G options, this will make tcpdump run " postrotate-command file " where file is the savefile being closed after each rotation.
 # @option -Z --relinquish-privileges <user>     If tcpdump is running as root, after opening the capture device or input savefile, change the user ID to user and the group ID to the primary group of user.
+# @arg expression
 
 _choice_tcp_interface() {
     tcpdump --list-interfaces | sed -n 's/\.\(\S\+\)\s*\((\(.*\))\)\?.*$/\1\t\3/p'

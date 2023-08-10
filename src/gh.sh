@@ -39,11 +39,21 @@ _patch_table() {
         echo "$table"
 
     elif [[ "$*" == "gh codespace"* ]]; then
-        echo "$table" | \
-        _patch_table_edit_options \
-            '--codespace;[`_choice_codespace`]' \
-            '--user;[`_choice_search_user`]' \
-            '--json;[`_choice_codespace_field`]' \
+        table="$( \
+            echo "$table" | \
+            _patch_table_edit_options \
+                '--codespace;[`_choice_codespace`]' \
+                '--user;[`_choice_search_user`]' \
+                '--json;[`_choice_codespace_field`]' \
+        )"
+        if [[ "$*" == "gh codespace ssh" ]]; then
+            echo "$table" | \
+            _patch_table_edit_arguments \
+                'command;[`_module_os_command`]' \
+
+        else
+            echo "$table"
+        fi
 
     elif [[ "$*" == "gh gist"* ]]; then
         table="$(

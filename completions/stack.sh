@@ -856,6 +856,8 @@ hoogle() {
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
 # @flag --help                              Show this help text.
+# @arg command[`_module_os_command`]
+# @arg args~[`_choice_args`]
 exec() {
     :;
 }
@@ -1200,6 +1202,22 @@ _choice_target_or_file() {
         return
     fi
     _choice_target
+}
+
+_choice_args() {
+    _argc_util_comp_subcommand 0
+}
+
+_module_os_command() {
+    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+        _argc_util_comp_path
+        return
+    fi
+    if [[ "$ARGC_OS" == "windows" ]]; then
+        PATH="$(echo "$PATH" | sed 's|:[^:]*/windows/system32[^:]*:||Ig')" compgen -c
+    else
+        compgen -c
+    fi
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

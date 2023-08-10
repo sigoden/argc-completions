@@ -100,25 +100,44 @@ setup() {
 
 # {{ volta run
 # @cmd Run a command with custom Node, npm, pnpm, and/or Yarn versions
-# @flag --bundled-npm            Forces npm to be the version bundled with Node
-# @flag --no-pnpm                Disables pnpm
-# @flag --no-yarn                Disables Yarn
-# @flag --verbose                Enables verbose diagnostics
-# @flag --quiet                  Prevents unnecessary output
-# @flag -h --help                Prints help information
-# @option --node <version>       Set the custom Node version
-# @option --npm <version>        Set the custom npm version
-# @option --pnpm <version>       Set the custon pnpm version
-# @option --yarn <version>       Set the custom Yarn version
-# @option --env* <NAME=value>    Set an environment variable (can be used multiple times)
-# @arg args+                     Arguments to pass to the command
+# @flag --bundled-npm                    Forces npm to be the version bundled with Node
+# @flag --no-pnpm                        Disables pnpm
+# @flag --no-yarn                        Disables Yarn
+# @flag --verbose                        Enables verbose diagnostics
+# @flag --quiet                          Prevents unnecessary output
+# @flag -h --help                        Prints help information
+# @option --node <version>               Set the custom Node version
+# @option --npm <version>                Set the custom npm version
+# @option --pnpm <version>               Set the custon pnpm version
+# @option --yarn <version>               Set the custom Yarn version
+# @option --env* <NAME=value>            Set an environment variable (can be used multiple times)
+# @arg command![`_module_os_command`]    The command to run
+# @arg args~[`_choice_args`]             Arguments to pass to the command
 run() {
     :;
 }
 # }} volta run
 
+. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
+
 _choice_tool() {
     volta list --format plain | gawk '{print $2}'
+}
+
+_choice_args() {
+    _argc_util_comp_subcommand 0
+}
+
+_module_os_command() {
+    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+        _argc_util_comp_path
+        return
+    fi
+    if [[ "$ARGC_OS" == "windows" ]]; then
+        PATH="$(echo "$PATH" | sed 's|:[^:]*/windows/system32[^:]*:||Ig')" compgen -c
+    else
+        compgen -c
+    fi
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

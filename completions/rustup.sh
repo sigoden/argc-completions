@@ -240,6 +240,7 @@ override::unset() {
 # @flag --install                         Install the requested toolchain if needed
 # @flag -h --help                         Print help information
 # @arg toolchain![`_choice_toolchain`]    Toolchain name, such as 'stable', 'nightly', or '1.8.0'.
+# @arg command+[`_choice_toolchain_command`]
 run() {
     :;
 }
@@ -249,6 +250,7 @@ run() {
 # @cmd Display which binary will be run for a given command
 # @option --toolchain[`_choice_toolchain`] <toolchain>  Toolchain name, such as 'stable', 'nightly', or '1.8.0'.
 # @flag -h --help    Print help information
+# @arg command![`_choice_toolchain_command`]
 which() {
     :;
 }
@@ -284,6 +286,7 @@ doc() {
 # @cmd View the man page for a given command
 # @option --toolchain[`_choice_toolchain`] <toolchain>  Toolchain name, such as 'stable', 'nightly', or '1.8.0'.
 # @flag -h --help    Print help information
+# @arg command![`_choice_toolchain_command`]
 man() {
     :;
 }
@@ -361,6 +364,7 @@ set::auto-self-update() {
 # @cmd Generate tab-completion scripts for your shell
 # @flag -h --help    Print help information
 # @arg shell![bash|elvish|fish|powershell|zsh]
+# @arg command![rustup|cargo]
 completions() {
     :;
 }
@@ -408,6 +412,10 @@ _choice_channel() {
     echo beta
     echo stable
     echo nightly
+}
+
+_choice_toolchain_command() {
+    printf "%s\n" cargo cargo-clippy cargo-fmt clippy-driver rustc rustdoc rustfmt rust-gdb rust-gdbgui rust-lldb
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

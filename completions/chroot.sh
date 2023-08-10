@@ -6,7 +6,9 @@
 # @flag --skip-chdir    do not change working directory to '/'
 # @flag --help          display this help and exit
 # @flag --version       output version information and exit
-# @arg path
+# @arg rootpath
+# @arg command[`_module_os_command`]
+# @arg args~[`_choice_args`]
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
@@ -16,6 +18,22 @@ _choice_user_group() {
         _module_os_user | _argc_util_transform suffix=: nospace
     else
         _module_os_group
+    fi
+}
+
+_choice_args() {
+    _argc_util_comp_subcommand 1
+}
+
+_module_os_command() {
+    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+        _argc_util_comp_path
+        return
+    fi
+    if [[ "$ARGC_OS" == "windows" ]]; then
+        PATH="$(echo "$PATH" | sed 's|:[^:]*/windows/system32[^:]*:||Ig')" compgen -c
+    else
+        compgen -c
     fi
 }
 

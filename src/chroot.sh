@@ -3,7 +3,11 @@ _patch_table() {
         '--userspec;[`_choice_user_group`]' \
         '--groups;*,[`_module_os_group`]' \
     | \
-    _patch_table_edit_arguments 'NEWROOT(PATH)'
+    _patch_table_edit_arguments \
+        'newroot(rootpath)' \
+        'command;[`_module_os_command`]' \
+        'args;~[`_choice_args`]' \
+
 }
 
 _choice_user_group() {
@@ -13,4 +17,8 @@ _choice_user_group() {
     else
         _module_os_group
     fi
+}
+
+_choice_args() {
+    _argc_util_comp_subcommand 1
 }

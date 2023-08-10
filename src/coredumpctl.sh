@@ -6,12 +6,7 @@ _patch_help() {
 
 _patch_table() { 
     _patch_table_edit_options \
-        '--debugger;[`_choice_debugger`]' \
+        '--debugger;[`_module_os_command`]' \
         '--json;[pretty|short|off]' \
 
-}
-
-_choice_debugger() {
-    _argc_util_comp_path
-    _module_os_command
 }

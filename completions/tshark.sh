@@ -154,7 +154,7 @@ _choice_export_objects() {
 }
 
 _module_os_network_interface() {
-    ifconfig -s | gawk '{if (NR>1) { print $1 }}'
+    ifconfig -a | sed -n 's/^\(\S\+\): .*/\1/p'
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

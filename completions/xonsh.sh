@@ -3,7 +3,7 @@
 
 # @flag -h --help                   Show help and exit.
 # @flag -V --version                Show version information and exit.
-# @option -c <COMMAND>              Run a single command and exit.
+# @option -c[`_module_os_command_string`] <COMMAND>  Run a single command and exit.
 # @flag -i --interactive            Force running in interactive mode.
 # @flag -l --login                  Run as a login shell.
 # @option --rc*,[`_choice_file`]    The xonshrc files to load, these may be either xonsh files or directories containing xonsh files
@@ -24,6 +24,22 @@ _choice_shell_type() {
 
 _choice_file() {
     _argc_util_comp_path
+}
+
+_module_os_command() {
+    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+        _argc_util_comp_path
+        return
+    fi
+    if [[ "$ARGC_OS" == "windows" ]]; then
+        PATH="$(echo "$PATH" | sed 's|:[^:]*/windows/system32[^:]*:||Ig')" compgen -c
+    else
+        compgen -c
+    fi
+}
+
+_module_os_command_string() {
+    _module_os_command
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

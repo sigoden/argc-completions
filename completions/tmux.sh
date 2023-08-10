@@ -37,6 +37,9 @@ attach-session() {
 # @flag -r
 # @option -T <key-table>
 # @option -N <note>
+# @arg key
+# @arg command
+# @arg args*
 bind-key() {
     :;
 }
@@ -88,6 +91,7 @@ capture-pane() {
 # @option -K <key-format>
 # @option -O <sort-order>
 # @option -t <target-pane>
+# @arg template
 choose-buffer() {
     :;
 }
@@ -103,6 +107,7 @@ choose-buffer() {
 # @option -K <key-format>
 # @option -O <sort-order>
 # @option -t <target-pane>
+# @arg template
 choose-client() {
     :;
 }
@@ -121,6 +126,7 @@ choose-client() {
 # @option -K <key-format>
 # @option -O <sort-order>
 # @option -t <target-pane>
+# @arg template
 choose-tree() {
     :;
 }
@@ -148,6 +154,7 @@ clock-mode() {
 # @alias confirm
 # @option -p <prompt>
 # @option -t <target-client>
+# @arg command
 confirm-before() {
     :;
 }
@@ -210,6 +217,9 @@ detach-client() {
 # @option -T <title>
 # @option -x <position>
 # @option -y <position>
+# @arg name
+# @arg key
+# @arg command*
 display-menu() {
     :;
 }
@@ -227,6 +237,7 @@ display-menu() {
 # @option -d <delay>
 # @option -F <format>
 # @option -t <target-pane>
+# @arg message
 display-message() {
     :;
 }
@@ -244,6 +255,7 @@ display-message() {
 # @option -w <width>
 # @option -x <position>
 # @option -y <position>
+# @arg command
 display-popup() {
     :;
 }
@@ -256,6 +268,7 @@ display-popup() {
 # @flag -N
 # @option -d <duration>
 # @option -t <target-client>
+# @arg template
 display-panes() {
     :;
 }
@@ -271,6 +284,7 @@ display-panes() {
 # @flag -T
 # @flag -Z
 # @option -t <target-pane>
+# @arg match-string
 find-window() {
     :;
 }
@@ -291,6 +305,8 @@ has-session() {
 # @flag -b
 # @flag -F
 # @option -t <target-pane>
+# @arg shell-command
+# @arg command
 if-shell() {
     :;
 }
@@ -412,6 +428,7 @@ list-clients() {
 # @flag -N
 # @option -P <prefix-string>
 # @option -T <key-table>
+# @arg key
 list-keys() {
     :;
 }
@@ -457,6 +474,7 @@ list-windows() {
 # @alias loadb
 # @option -b <buffer-name>
 # @option -t <target-client>
+# @arg path
 load-buffer() {
     :;
 }
@@ -537,6 +555,7 @@ move-window() {
 # @option -t <target-session>
 # @option -x <width>
 # @option -y <height>
+# @arg command
 new-session() {
     :;
 }
@@ -556,6 +575,7 @@ new-session() {
 # @option -F <format>
 # @option -n <window-name>
 # @option -t <target-window>
+# @arg command
 new-window() {
     :;
 }
@@ -601,6 +621,7 @@ paste-buffer() {
 # @flag -O
 # @flag -o
 # @option -t <target-pane>
+# @arg command
 pipe-pane() {
     :;
 }
@@ -640,6 +661,7 @@ previous-window() {
 # @option -C <XxY>
 # @option -f <flags>
 # @option -t <target-client>
+# @arg adjustment
 refresh-client() {
     :;
 }
@@ -649,6 +671,7 @@ refresh-client() {
 # @cmd
 # @alias rename
 # @option -t <target-session>
+# @arg new-name
 rename-session() {
     :;
 }
@@ -658,6 +681,7 @@ rename-session() {
 # @cmd
 # @alias renamew
 # @option -t <target-window>
+# @arg new-name
 rename-window() {
     :;
 }
@@ -676,6 +700,7 @@ rename-window() {
 # @option -x <width>
 # @option -y <height>
 # @option -t <target-pane>
+# @arg adjustment
 resize-pane() {
     :;
 }
@@ -693,6 +718,7 @@ resize-pane() {
 # @option -x <width>
 # @option -y <height>
 # @option -t <target-window>
+# @arg adjustment
 resize-window() {
     :;
 }
@@ -705,6 +731,7 @@ resize-window() {
 # @option -c <start-directory>
 # @option -e <environment>
 # @option -t <target-pane>
+# @arg command
 respawn-pane() {
     :;
 }
@@ -717,6 +744,7 @@ respawn-pane() {
 # @option -c <start-directory>
 # @option -e <environment>
 # @option -t <target-window>
+# @arg command
 respawn-window() {
     :;
 }
@@ -741,6 +769,7 @@ rotate-window() {
 # @flag -C
 # @option -d <delay>
 # @option -t <target-pane>
+# @arg shell-command
 run-shell() {
     :;
 }
@@ -751,6 +780,7 @@ run-shell() {
 # @alias saveb
 # @flag -a
 # @option -b <buffer-name>
+# @arg path
 save-buffer() {
     :;
 }
@@ -764,6 +794,7 @@ save-buffer() {
 # @flag -o
 # @flag -p
 # @option -t <target-pane>
+# @arg layout-name
 select-layout() {
     :;
 }
@@ -836,6 +867,7 @@ send-prefix() {
 # @option -b <buffer-name>
 # @option -n <new-buffer-name>
 # @option -t <target-client>
+# @arg data
 set-buffer() {
     :;
 }
@@ -850,6 +882,8 @@ set-buffer() {
 # @flag -r
 # @flag -u
 # @option -t <target-session>
+# @arg name
+# @arg value
 set-environment() {
     :;
 }
@@ -864,6 +898,8 @@ set-environment() {
 # @flag -u
 # @flag -w
 # @option -t <target-pane>
+# @arg hook
+# @arg command
 set-hook() {
     :;
 }
@@ -883,6 +919,7 @@ set-hook() {
 # @flag -U
 # @flag -w
 # @option -t <target-pane>
+# @arg value
 set-option() {
     :;
 }
@@ -898,6 +935,7 @@ set-option() {
 # @flag -q
 # @flag -u
 # @option -t <target-window>
+# @arg value
 set-window-option() {
     :;
 }
@@ -919,6 +957,7 @@ show-buffer() {
 # @flag -g
 # @flag -s
 # @option -t <target-session>
+# @arg name
 show-environment() {
     :;
 }
@@ -1003,6 +1042,7 @@ source-file() {
 # @option -F <format>
 # @option -l <size>
 # @option -t <target-pane>
+# @arg command
 split-window() {
     :;
 }
@@ -1074,6 +1114,7 @@ switch-client() {
 # @flag -n
 # @flag -q
 # @option -T <key-table>
+# @arg key
 unbind-key() {
     :;
 }
@@ -1095,6 +1136,7 @@ unlink-window() {
 # @flag --L
 # @flag --S
 # @flag --U
+# @arg channel
 wait-for() {
     :;
 }

@@ -243,6 +243,8 @@ cmdb() {
 
 # {{ __test cmdc
 # @cmd
+# @arg command
+# @arg args*
 cmdc() {
     :;
 }

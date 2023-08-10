@@ -114,7 +114,8 @@
 # @option --volumes-from <list>                    Mount volumes from the specified container(s)
 # @option -w --workdir <dir>                       Working directory inside the container
 # @arg image[`_module_oci_docker_image`]
-# @arg arg*
+# @arg command[`_module_os_command`]
+# @arg arg~[`_choice_args`]
 run() {
     :;
 }
@@ -132,7 +133,8 @@ run() {
 # @option -u --user <string>        Username or UID (format: "<name|uid>[:<group|gid>]")
 # @option -w --workdir <dir>        Working directory inside the container
 # @arg container[`_choice_container_name`]
-# @arg arg*
+# @arg command[`_module_os_command`]
+# @arg arg~[`_choice_args`]
 exec() {
     :;
 }
@@ -792,6 +794,8 @@ compose::events() {
 # @option -u --user <string>                       Run the command as this user.
 # @option -w --workdir <dir>                       Path to workdir directory for this command.
 # @arg service[`_choice_compose_service`]
+# @arg command[`_module_os_command`]
+# @arg args~[`_choice_args`]
 compose::exec() {
     :;
 }
@@ -955,6 +959,8 @@ compose::rm() {
 # @option -v --volume* <string>     Bind mount a volume.
 # @option -w --workdir <dir>        Working directory inside the container
 # @arg service[`_choice_compose_service`]
+# @arg command[`_module_os_command`]
+# @arg args~[`_choice_args`]
 compose::run() {
     :;
 }
@@ -1191,7 +1197,8 @@ container::cp() {
 # @option --volumes-from <list>               Mount volumes from the specified container(s)
 # @option -w --workdir <dir>                  Working directory inside the container
 # @arg image[`_module_oci_docker_image`]
-# @arg arg*
+# @arg command[`_module_os_command`]
+# @arg arg~[`_choice_args`]
 container::create() {
     :;
 }
@@ -1217,7 +1224,8 @@ container::diff() {
 # @option -u --user <string>        Username or UID (format: "<name|uid>[:<group|gid>]")
 # @option -w --workdir <dir>        Working directory inside the container
 # @arg container[`_choice_container_name`]
-# @arg arg*
+# @arg command[`_module_os_command`]
+# @arg arg~[`_choice_args`]
 container::exec() {
     :;
 }
@@ -1438,7 +1446,8 @@ container::rm() {
 # @option --volumes-from <list>                    Mount volumes from the specified container(s)
 # @option -w --workdir <dir>                       Working directory inside the container
 # @arg image[`_module_oci_docker_image`]
-# @arg arg*
+# @arg command[`_module_os_command`]
+# @arg arg~[`_choice_args`]
 container::run() {
     :;
 }
@@ -2422,7 +2431,8 @@ cp() {
 # @option --volumes-from <list>               Mount volumes from the specified container(s)
 # @option -w --workdir <dir>                  Working directory inside the container
 # @arg image[`_module_oci_docker_image`]
-# @arg arg*
+# @arg command[`_module_os_command`]
+# @arg arg~[`_choice_args`]
 create() {
     :;
 }
@@ -2928,6 +2938,7 @@ service() {
 # @flag --with-registry-auth                      Send registry authentication details to swarm agents
 # @option -w --workdir <dir>                      Working directory inside the container
 # @arg image[`_module_oci_docker_image`]
+# @arg command
 # @arg arg*
 service::create() {
     :;
@@ -3351,6 +3362,10 @@ volume=`_choice_volume`
 EOF
 }
 
+_choice_args() {
+    _argc_util_comp_subcommand 1
+}
+
 _module_oci_docker_image() {
     docker image ls --format '{{.Repository}}={{.Tag}}' | _argc_util_comp_kv :
 }
@@ -3365,6 +3380,18 @@ linux/386
 linux/arm/v7
 linux/arm/v6
 EOF
+}
+
+_module_os_command() {
+    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+        _argc_util_comp_path
+        return
+    fi
+    if [[ "$ARGC_OS" == "windows" ]]; then
+        PATH="$(echo "$PATH" | sed 's|:[^:]*/windows/system32[^:]*:||Ig')" compgen -c
+    else
+        compgen -c
+    fi
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

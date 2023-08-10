@@ -1,13 +1,33 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @option -o --output <FILE>    Write the resource use statistics to FILE instead of to the standard error stream.
-# @flag -a --append             Append the resource use information to the output file instead of overwriting it.
-# @option -f --format           Use FORMAT as the format string that controls the output of time.
-# @flag --help                  Print a summary of the command line options and exit.
-# @flag -p --portability        Use the following format string, for conformance with POSIX standard 1003.2: real %e user %U sys %S
-# @flag -v --verbose            Use the built-in verbose format, which displays each available piece of information on the program's resource use on its own line, with an English description of its meaning.
-# @flag --quiet                 Do not report the status of the program even if it is different from zero.
-# @flag -V --version            Print the version number of time and exit.
+# @flag -a --append             with -o FILE, append instead of overwriting
+# @option -f --format           use the specified FORMAT instead of the default
+# @option -o --output <FILE>    write to FILE instead of STDERR
+# @flag -p --portability        print POSIX standard 1003.2 conformant string: real %%e user %%U sys %%S
+# @flag -q --quiet              do not print information about abnormal program termination (non-zero exit codes or signals)
+# @flag -v --verbose            print all resource usage information instead of the default format
+# @flag -h --help               display this help and exit
+# @flag -V --version            output version information and exit
+# @arg command[`_module_os_command`]
+# @arg arg~[`_choice_args`]
+
+. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
+
+_choice_args() {
+    _argc_util_comp_subcommand 0
+}
+
+_module_os_command() {
+    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+        _argc_util_comp_path
+        return
+    fi
+    if [[ "$ARGC_OS" == "windows" ]]; then
+        PATH="$(echo "$PATH" | sed 's|:[^:]*/windows/system32[^:]*:||Ig')" compgen -c
+    else
+        compgen -c
+    fi
+}
 
 command eval "$(argc --argc-eval "$0" "$@")"

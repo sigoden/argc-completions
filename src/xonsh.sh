@@ -4,6 +4,7 @@ _patch_help() {
 
 _patch_table() {
     _patch_table_edit_options \
+        '-c;[`_module_os_command_string`]' \
         '--rc;*,[`_choice_file`]' \
         '--shell-type;[`_choice_shell_type`]' \
     | \

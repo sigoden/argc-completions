@@ -13,16 +13,18 @@
 # @flag -x --exec                         pass command to exec instead of "sh -c"
 # @flag -h --help                         display this help and exit
 # @flag -v --version                      output version information and exit
+# @arg command[`_module_os_command`]
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_value() {
-    _argc_util_comp_path
-    _module_os_command
-}
-
 _module_os_command() {
-    if [[ "$ARGC_OS" != "windows" ]]; then
+    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+        _argc_util_comp_path
+        return
+    fi
+    if [[ "$ARGC_OS" == "windows" ]]; then
+        PATH="$(echo "$PATH" | sed 's|:[^:]*/windows/system32[^:]*:||Ig')" compgen -c
+    else
         compgen -c
     fi
 }

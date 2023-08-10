@@ -3,6 +3,11 @@ _patch_table() {
         '--shell;[`_module_os_shell`]' \
         '--style;[`_choice_style`]' \
         '--sort;[`_choice_sort`]' \
+    | \
+    _patch_table_edit_arguments \
+        ';;' \
+        'command;[`_module_os_command`]' \
+        'args;~[`_choice_args`]' \
 
 }
 
@@ -22,4 +27,8 @@ auto	the speed comparison will be ordered by time and the markup tables will be 
 command	order benchmarks in the way they were specified
 mean-time	order benchmarks by mean runtime
 EOF
+}
+
+_choice_args() {
+    _argc_util_comp_subcommand 0
 }

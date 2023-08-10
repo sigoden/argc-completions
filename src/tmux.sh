@@ -2,7 +2,8 @@ _patch_help() {
     _transform() {
         gawk '{
             idx = 1
-            usage = "usage: "
+            usage = ""
+            hasArg = 0
             split("", options)
             while (match(substr($0, idx), /\s*(\S+|\[[^\]]*\]\]*)\s*/, arr)) {
                 idx = idx + RLENGTH
@@ -25,10 +26,17 @@ _patch_help() {
                         }
                     }
                 } else {
-                    usage = usage " " value
+                    if (usage == "") {
+                        usage = "tmux " value
+                    } else {
+                        if (value != "...") {
+                            value = "[" value "]"
+                        }
+                        usage = usage " " value
+                    }
                 }
             }
-            print usage
+            print "usage: " usage
             for (i in options) {
                 print  options[i]
             }

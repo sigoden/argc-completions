@@ -1,6 +1,9 @@
 _patch_help() { 
     _common_edit() {
-        sed '/^Usage:/,/^$/ {/^-h, --help / d;}'
+        sed \
+            -e '/^Usage:/,/^$/ {/^-h, --help / d;}' \
+            -e 's/ <subcommand> \[arguments...\]//' \
+
     }
 
     if [[ "$*" == "flutter" ]]; then

@@ -30,7 +30,7 @@ edit() {
 # {{ direnv exec
 # @cmd Executes a command after loading the first .envrc found in DIR
 # @arg dir
-# @arg cmd[`_choice_cmd`]
+# @arg command[`_module_os_command`]
 # @arg args~[`_choice_args`]
 exec() {
     :;
@@ -94,11 +94,6 @@ _choice_path_to_rc() {
     _argc_util_comp_path exts=.envrc,.env
 }
 
-_choice_cmd() {
-    _argc_util_comp_path
-    _module_os_command
-}
-
 _choice_args() {
     _argc_util_comp_subcommand 1
 }
@@ -108,7 +103,13 @@ _choice_hook_shell() {
 }
 
 _module_os_command() {
-    if [[ "$ARGC_OS" != "windows" ]]; then
+    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+        _argc_util_comp_path
+        return
+    fi
+    if [[ "$ARGC_OS" == "windows" ]]; then
+        PATH="$(echo "$PATH" | sed 's|:[^:]*/windows/system32[^:]*:||Ig')" compgen -c
+    else
         compgen -c
     fi
 }

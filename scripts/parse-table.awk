@@ -57,8 +57,8 @@ END {
                     optionIndent = spaces
                     continue
                 }
-            } else if (index(santizedLine, "usage:") == 1) {
-                usage = substr(line, spaces + 7)
+            } else if (match(santizedLine, /(synopsis|usage:)/)) {
+                usage = substr(line, spaces + RSTART + RLENGTH)
                 usageNR = i
                 groupName = "usage"
                 continue
@@ -175,7 +175,9 @@ END {
         split("", words)
         gsub(/ \| /, "|", usage)
         gsub(/-- |\[--\] /, "", usage)
-        gsub(/\s+\.\.\.$/, "...", usage)
+        sub(/\s+\.\.\.$/, "...", usage)
+        sub(/\[COMMAND \[ARG.*\](\.\.\.)?\]/, "COMMAND ARGS...", usage)
+        sub(/\[command \[arg.*\](\.\.\.)?\]/, "command args...", usage)
         splitUsage(usage, words)
         isCmd = 1
         for (i in words) {
@@ -191,15 +193,14 @@ END {
                 continue
             }
             wordLower = tolower(word)
-            if (match(wordLower, /argument|switches|option|flag|command/)) {
-                continue
-            }
-            if (match(wordLower, /\<args\>/) && match(tolower(words[i-1]), /\<command\>/)) {
+            if (match(wordLower, /argument|switches|option|flag/)) {
                 continue
             }
             arguments[length(arguments) + 1] = word
         }
     }
+    split("", tidyArguments)
+    tidyArgumentsNum = 0
     for (i in arguments) {
         argument = arguments[i]
         if (i < length(arguments) && extraArgName(argument) == extraArgName(arguments[i + 1])) {
@@ -212,14 +213,37 @@ END {
         split("", descValues)
         parseDesc(substr(argument, splitAt + 1), descValues, 1, "argument `" optionVal "`")
         if (match(argumentVal, /^\(([A-Za-z0-9_-]+\|)+[A-Za-z0-9_-]+\)$/)) {
-            print "argument # value # " descValues[1] " # [" substr(argumentVal, 2, length(argumentVal) -2) "]"
+            tidyArgumentsNum = tidyArgumentsNum + 1
+            tidyArguments[tidyArgumentsNum, 1] = "value"
+            tidyArguments[tidyArgumentsNum, 2] = descValues[1]
+            tidyArguments[tidyArgumentsNum, 3] = "[" substr(argumentVal, 2, length(argumentVal) -2) "]"
         } else {
+            tidyArgumentsNum = tidyArgumentsNum + 1
+            tidyArguments[tidyArgumentsNum, 1] = argumentVal
+            tidyArguments[tidyArgumentsNum, 2] = descValues[1]
             if (length(descValues[2]) > 0) {
-                print "argument # " argumentVal " # " descValues[1] " # " descValues[2]
-            } else {
-                print "argument # " argumentVal " # " descValues[1]
+                tidyArguments[tidyArgumentsNum, 3] = descValues[2]
             }
         }
+    }
+    prevSkipArgument = 0
+    for (i = 1; i <= tidyArgumentsNum; i++) {
+        argumentVal = tidyArguments[i, 1]
+        if (match(tolower(argumentVal), /\<(command|subcommand)\>/)) {
+            if (i == 1 && length(commands) > 0) {
+                prevSkipArgument = 1
+                continue
+            } else if (prevSkipArgument == 1) {
+                prevSkipArgument = 1
+                continue
+            }
+        } else if (match(tolower(argumentVal), /arg/)) {
+            if (i == tidyArgumentsNum && prevSkipArgument == 1) {
+                continue
+            }
+        }
+        print "argument # " argumentVal " # " tidyArguments[i, 2] " # " tidyArguments[i, 3]
+        prevSkipArgument = 0
     }
     for (i in commands) {
         command = commands[i]

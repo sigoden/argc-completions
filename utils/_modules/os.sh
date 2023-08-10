@@ -73,11 +73,21 @@ _module_os_shell() {
 }
 
 _module_os_command() {
-    if [[ "$ARGC_OS" != "windows" ]]; then
+    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+        _argc_util_comp_path
+        return
+    fi
+    if [[ "$ARGC_OS" == "windows" ]]; then
+        PATH="$(echo "$PATH" | sed 's|:[^:]*/windows/system32[^:]*:||Ig')" compgen -c
+    else
         compgen -c
     fi
 }
 
+_module_os_command_string() {
+    _module_os_command
+}
+
 _module_os_network_interface() {
-    ifconfig -s | gawk '{if (NR>1) { print $1 }}'
+    ifconfig -a | sed -n 's/^\(\S\+\): .*/\1/p'
 }

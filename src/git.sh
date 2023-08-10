@@ -354,6 +354,9 @@ EOF
         echo options:
         $@ -h 2>&1 | sed -e '/^usage:/ d' -e '/^\s\+or:/ d'
 
+    elif [[ "$*" == "git maintenance" ]]; then
+        :;
+
     else
         $@ -h 2>&1
     fi
@@ -383,6 +386,9 @@ _patch_table() {
 
     elif [[ "$*" == "git describe" ]]; then
         _patch_table_edit_arguments 'commit-ish;[`_choice_ref`]'
+
+    elif [[ "$*" == "git difftool" ]]; then
+        _patch_table_edit_options '--extcmd;[`_module_os_command_string`]'
 
     elif [[ "$*" == "git diff" ]]; then
         _patch_table_edit_arguments ';;' '[commit-path]...;[`_choice_diff`]'

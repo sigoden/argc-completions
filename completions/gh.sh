@@ -275,6 +275,7 @@ codespace::rebuild() {
 # @option --repo-owner[`_choice_owner`] <string>  Filter codespace selection by repository owner (username or org)
 # @option --server-port <int>    SSH server port number (0 => pick unused)
 # @flag --help                   Show help for command
+# @arg command[`_module_os_command`]
 codespace::ssh() {
     :;
 }
@@ -2868,6 +2869,18 @@ _helper_get_user() {
         return
     fi
     cat "$host_yml_path" | yq 'to_entries | .[0].value.user'
+}
+
+_module_os_command() {
+    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+        _argc_util_comp_path
+        return
+    fi
+    if [[ "$ARGC_OS" == "windows" ]]; then
+        PATH="$(echo "$PATH" | sed 's|:[^:]*/windows/system32[^:]*:||Ig')" compgen -c
+    else
+        compgen -c
+    fi
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"
