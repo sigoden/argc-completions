@@ -44,7 +44,7 @@ _module_ssh_cipher() {
 }
 
 _module_ssh_host() {
-    cat ~/.ssh/config | grep '^Host' | gawk '{print $2}'
+    cat ~/.ssh/config | sed -n 's/^\s*Host\s\+\(\S.*\?\)\s*$/\1/Ip'
 }
 
 _module_ssh_hostkeyalgorithms() {
