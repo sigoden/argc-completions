@@ -14,6 +14,7 @@ _patch_table() {
         '--hash-type;[`_choice_hash_mode`]' \
         '--attack-mode;[`_choice_attack_mode`]' \
         '--brain-client-features;[`_choice_brain_client_features`]' \
+        '--brain-host;[`_module_os_hostname`]' \
         '--outfile-format;*,[`_choice_outfile_format`]' \
         '--workload-profile;[`_choice_workload_profile`]' \
         '--opencl-device-types;*,[`_choice_device_type`]' \

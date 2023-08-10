@@ -107,7 +107,7 @@
 # @option --brain-server-timer <Num>          Update the brain server dump each X seconds (min:60)
 # @flag -z --brain-client                     Enable brain client, activates -S
 # @option --brain-client-features[`_choice_brain_client_features`] <Num>  Define brain client features, see below
-# @option --brain-host <Str>                  Brain server host (IP or domain)
+# @option --brain-host[`_module_os_hostname`] <Str>  Brain server host (IP or domain)
 # @option --brain-port <Port>                 Brain server port
 # @option --brain-password <Str>              Brain server authentication password
 # @option --brain-session <Hex>               Overrides automatically calculated brain session
@@ -162,6 +162,30 @@ _helper_extract_table() {
             }
         }
     }'
+}
+
+_module_os_hostname() {
+    _etc_hosts() {
+        if [[ -f "/etc/hosts" ]]; then
+            cat /etc/hosts | sed -e '/^\s*#/ d' -e '/^\s*$/ d'
+        elif command -v getent >/dev/null; then
+            getent hosts 
+        fi
+    }
+    _etc_hosts | sed -e '/^\s*\(127\.0\.\|ff0\|fe0\|::1\)/ d' -e 's/^\s*\S\+\s*\(\S\+\)$/\1/'
+
+    if [[ -r ~/.ssh/config ]]; then
+        cat ~/.ssh/config | sed -n 's/^\s*Host\s\+\(\S.*\?\)\s*$/\1/Ip'
+    fi
+    if [[ -r ~/.ssh/known_hosts ]]; then
+        cat ~/.ssh/known_hosts | \
+        sed \
+            -e '/^\s*[!*|@#]/ d' \
+            -e 's/^\s*\(\S\+\).*/\1/' \
+            -e 's/,/\n/' \
+            -e 's/\[\(\S\+\)\].*/\1/' \
+
+    fi
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"
