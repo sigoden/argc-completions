@@ -415,6 +415,86 @@ agent::all() {
 # }}} nmcli agent all
 # }} nmcli agent
 
+_choice_connection_id() {
+    nmcli --terse connection show | gawk -F: '{print $1 "\t" $3 " " $2}'
+}
+
+_choice_connectivity_check() {
+    cat <<-'EOF'
+none	the host is not connected to any network.
+portal	the host is behind a captive portal and cannot reach the full Internet.
+limited	the host is connected to a network, but it has no access to the Internet.
+full	the host is connected to a network and has full access to the Internet.
+unknown	the connectivity status cannot be found out.
+EOF
+}
+
+_choice_device_ifname() {
+    nmcli --terse --fields device,type device status | gawk -F: '{print $1 "\t" $2}'
+}
+
+_choice_device_set_values() {
+    len=${#argc__positionals[@]}
+    if [[ $len -eq 2 ]] || [[ $len -eq 4 ]]; then
+        printf "%s\n" autoconnect managed
+    elif [[ $len -eq 3 ]] || [[ $len -eq 5 ]]; then
+        printf "%s\n" yes no
+    fi
+}
+
+_choice_device_wifi_hotspot_args() {
+    len=${#argc__positionals[@]}
+    if (( $len % 2 == 1 )); then
+        printf "%s\n" ifname con-name ssid band channel password
+    elif [[ "${argc__positionals[-2]}" == "ifname" ]]; then
+        _choice_wifi_ifname
+    elif [[ "${argc__positionals[-2]}" == "ssid" ]]; then
+        _choice_wifi_ssid
+    elif [[ "${argc__positionals[-2]}" == "band" ]]; then
+        printf "%s\n" a bg
+    fi
+}
+
+_choice_device_wifi_list_args() {
+    len=${#argc__positionals[@]}
+    if [[ $len -eq 1 ]]; then
+        printf "%s\n" ifname bssid
+    elif [[ $len -eq 2 ]] || [[ $len -eq 4 ]]; then
+        if [[ "${argc__positionals[-2]}" == "ifname" ]]; then
+            _choice_wifi_ifname
+        elif [[ "${argc__positionals[-2]}" == "bssid" ]]; then
+            _choice_wifi_bssid
+        fi
+    elif [[ $len -eq 3 ]]; then
+        if [[ "${argc__positionals[0]}" == "ifname" ]]; then
+            echo bssid
+        elif [[ "${argc__positionals[0]}" == "bssid" ]]; then
+            echo ifname
+        fi
+    fi
+}
+
+_choice_device_wifi_rescan_args() {
+    len=${#argc__positionals[@]}
+    if [[ $len -eq 1 ]]; then
+        printf "%s\n" ifname ssid
+    elif [[ $len -eq 2 ]]; then
+        if [[ "${argc__positionals[0]}" == "ifname" ]]; then
+            _choice_wifi_ifname
+        elif [[ "${argc__positionals[0]}" == "ssid" ]]; then
+            _choice_wifi_ssid
+        fi
+    elif [[ $len -eq 3 ]]; then
+        if [[ "${argc__positionals[0]}" == "ifname" ]]; then
+            echo ssid
+        elif [[ "${argc__positionals[0]}" == "ssid" ]]; then
+            _choice_wifi_ssid
+        fi
+    else
+        _choice_wifi_ssid
+    fi
+}
+
 _choice_field() {
     cat <<-'EOF'
 ACTIVE
@@ -473,12 +553,11 @@ _choice_general_logging_args() {
     fi
 }
 
-_choice_logging_level() {
+_choice_general_reload_args() {
     cat <<-'EOF'
-ERR	log only critical errors
-WARN	log warning messages
-INFO	log various informational messages
-DEBUG	verbose logging for debugging purposes
+conf	Reload the NetworkManager.conf configuration from disk. 
+dns-rc	Update DNS configuration, which usually involves writing /etc/resolv.conf anew.
+dns-full	Restart the DNS plugin.
 EOF
 }
 
@@ -521,104 +600,25 @@ SYSTEMD
 EOF
 }
 
-_choice_general_reload_args() {
+_choice_logging_level() {
     cat <<-'EOF'
-conf	Reload the NetworkManager.conf configuration from disk. 
-dns-rc	Update DNS configuration, which usually involves writing /etc/resolv.conf anew.
-dns-full	Restart the DNS plugin.
+ERR	log only critical errors
+WARN	log warning messages
+INFO	log various informational messages
+DEBUG	verbose logging for debugging purposes
 EOF
-}
-
-_choice_connectivity_check() {
-    cat <<-'EOF'
-none	the host is not connected to any network.
-portal	the host is behind a captive portal and cannot reach the full Internet.
-limited	the host is connected to a network, but it has no access to the Internet.
-full	the host is connected to a network and has full access to the Internet.
-unknown	the connectivity status cannot be found out.
-EOF
-}
-
-_choice_connection_id() {
-    nmcli --terse connection show | gawk -F: '{print $1 "\t" $3 " " $2}'
-}
-
-_choice_device_ifname() {
-    nmcli --terse --fields device,type device status | gawk -F: '{print $1 "\t" $2}'
-}
-
-_choice_wifi_ifname() {
-    nmcli --terse --fields device,type device status | gawk -F: '{if ($2 == "wifi") {print $1 "\t" $2}}'
 }
 
 _choice_wifi_bssid() {
      nmcli --terse --fields bssid,ssid device wifi list | gawk '{print substr($0, 1, 17) "\t" substr($0, 19)}'
 }
 
+_choice_wifi_ifname() {
+    nmcli --terse --fields device,type device status | gawk -F: '{if ($2 == "wifi") {print $1 "\t" $2}}'
+}
+
 _choice_wifi_ssid() {
      nmcli --terse --fields ssid device wifi list
-}
-
-_choice_device_set_values() {
-    len=${#argc__positionals[@]}
-    if [[ $len -eq 2 ]] || [[ $len -eq 4 ]]; then
-        printf "%s\n" autoconnect managed
-    elif [[ $len -eq 3 ]] || [[ $len -eq 5 ]]; then
-        printf "%s\n" yes no
-    fi
-}
-
-_choice_device_wifi_list_args() {
-    len=${#argc__positionals[@]}
-    if [[ $len -eq 1 ]]; then
-        printf "%s\n" ifname bssid
-    elif [[ $len -eq 2 ]] || [[ $len -eq 4 ]]; then
-        if [[ "${argc__positionals[-2]}" == "ifname" ]]; then
-            _choice_wifi_ifname
-        elif [[ "${argc__positionals[-2]}" == "bssid" ]]; then
-            _choice_wifi_bssid
-        fi
-    elif [[ $len -eq 3 ]]; then
-        if [[ "${argc__positionals[0]}" == "ifname" ]]; then
-            echo bssid
-        elif [[ "${argc__positionals[0]}" == "bssid" ]]; then
-            echo ifname
-        fi
-    fi
-}
-
-_choice_device_wifi_hotspot_args() {
-    len=${#argc__positionals[@]}
-    if (( $len % 2 == 1 )); then
-        printf "%s\n" ifname con-name ssid band channel password
-    elif [[ "${argc__positionals[-2]}" == "ifname" ]]; then
-        _choice_wifi_ifname
-    elif [[ "${argc__positionals[-2]}" == "ssid" ]]; then
-        _choice_wifi_ssid
-    elif [[ "${argc__positionals[-2]}" == "band" ]]; then
-        printf "%s\n" a bg
-    fi
-}
-
-_choice_device_wifi_rescan_args() {
-    len=${#argc__positionals[@]}
-    if [[ $len -eq 1 ]]; then
-        printf "%s\n" ifname ssid
-    elif [[ $len -eq 2 ]]; then
-        if [[ "${argc__positionals[0]}" == "ifname" ]]; then
-            _choice_wifi_ifname
-        elif [[ "${argc__positionals[0]}" == "ssid" ]]; then
-            _choice_wifi_ssid
-        fi
-    elif [[ $len -eq 3 ]]; then
-        if [[ "${argc__positionals[0]}" == "ifname" ]]; then
-            echo ssid
-        elif [[ "${argc__positionals[0]}" == "ssid" ]]; then
-            _choice_wifi_ssid
-        fi
-    else
-        _choice_wifi_ssid
-    fi
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

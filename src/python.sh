@@ -10,10 +10,6 @@ _patch_table() {
     _patch_table_edit_arguments ';;' 'file' 'args...'
 }
 
-_choice_model_cached() {
-    _argc_util_cache 86400 _choice_model
-}
-
 _choice_model() {
     python -c "help('modules')" 2>/dev/null | \
     gawk 'BEGIN {
@@ -32,6 +28,10 @@ _choice_model() {
                 }
             }
         }'
+}
+
+_choice_model_cached() {
+    _argc_util_cache 86400 _choice_model
 }
 
 _choice_opt() {

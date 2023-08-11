@@ -2729,28 +2729,12 @@ wait() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
+_choice_args() {
+    _argc_util_comp_subcommand 1
+}
+
 _choice_container() {
     podman ps --format json | yq '.[] | .Names[0] + "	" + .Image' 
-}
-
-_choice_pod() {
-    podman pod list --format json | yq '.[].Name'
-}
-
-_choice_machine() {
-    podman machine list | gawk '{ if (NR > 1) { gsub(/\*$/, "", $1); print $1}}'
-}
-
-_choice_volume() {
-    podman volume list --format json | yq '.[] | .Name + "	" + .Driver'
-}
-
-_choice_network() {
-    podman network ls --format json | yq '.[].Name'
-}
-
-_choice_secret() {
-    podman secret list --format '{{.Name}}'
 }
 
 _choice_container_cp() {
@@ -2782,8 +2766,24 @@ _choice_container_cp() {
     fi
 }
 
-_choice_args() {
-    _argc_util_comp_subcommand 1
+_choice_machine() {
+    podman machine list | gawk '{ if (NR > 1) { gsub(/\*$/, "", $1); print $1}}'
+}
+
+_choice_network() {
+    podman network ls --format json | yq '.[].Name'
+}
+
+_choice_pod() {
+    podman pod list --format json | yq '.[].Name'
+}
+
+_choice_secret() {
+    podman secret list --format '{{.Name}}'
+}
+
+_choice_volume() {
+    podman volume list --format json | yq '.[] | .Name + "	" + .Driver'
 }
 
 _module_oci_podman_image() {

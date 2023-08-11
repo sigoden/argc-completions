@@ -14,15 +14,6 @@ _patch_table() {
     _patch_table_edit_arguments 'pattern;[`_choice_pattern`]'
 }
 
-_choice_pattern() {
-    if [[ -n "$argc_regexp" ]] \
-    || [[ -n "$argc_file" ]] \
-    || [[ -n "$argc_files" ]] \
-    ; then
-        _argc_util_comp_path
-    fi
-}
-
 _choice_color() {
     cat <<-'EOF'
 never	Colors will never be used.
@@ -32,13 +23,12 @@ ansi	Like 'always', but emits ANSI escapes (even in a Windows console).
 EOF
 }
 
-_choice_sort() {
+_choice_color_attribute() {
     cat <<-'EOF'
-none	Do not sort results. Fastest. Can be multi-threaded.
-path	Sort by file path. Always single-threaded.
-modified	Sort by the last modified time on a file. Always single-threaded.
-accessed	Sort by the last accessed time on a file. Always single-threaded.
-created	Sort by the creation time on a file. Always single-threaded.
+none	clear color/style for type
+bg	specify background color
+fg	specify foreground color
+style	specify text style
 EOF
 }
 
@@ -62,6 +52,11 @@ _choice_color_spec() {
     esac
 }
 
+_choice_color_style() {
+    printf "%s\n" bold nobold intense nointense underline nounderline
+
+}
+
 _choice_color_type() {
     cat <<-'EOF'
 column	specify coloring for column numbers
@@ -71,22 +66,27 @@ path	specify coloring for file names
 EOF
 }
 
-_choice_color_attribute() {
-    cat <<-'EOF'
-none	clear color/style for type
-bg	specify background color
-fg	specify foreground color
-style	specify text style
-EOF
-}
-
 _choice_color_value() {
     printf "%s\n"  black blue green red cyan magenta yellow white 
 }
 
-_choice_color_style() {
-    printf "%s\n" bold nobold intense nointense underline nounderline
+_choice_pattern() {
+    if [[ -n "$argc_regexp" ]] \
+    || [[ -n "$argc_file" ]] \
+    || [[ -n "$argc_files" ]] \
+    ; then
+        _argc_util_comp_path
+    fi
+}
 
+_choice_sort() {
+    cat <<-'EOF'
+none	Do not sort results. Fastest. Can be multi-threaded.
+path	Sort by file path. Always single-threaded.
+modified	Sort by the last modified time on a file. Always single-threaded.
+accessed	Sort by the last accessed time on a file. Always single-threaded.
+created	Sort by the creation time on a file. Always single-threaded.
+EOF
 }
 
 _choice_type() {

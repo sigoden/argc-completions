@@ -923,10 +923,6 @@ _choice_config_key() {
     npm config list $(_argc_util_param_select_options --global) --json | yq 'keys | .[]'
 }
 
-_choice_workspace() {
-    npm query .workspace | yq '.[].location'
-}
-
 _choice_dependency() {
     _helper_find_pkg_json_path
     if [[ -n "$pkg_json_path" ]]; then
@@ -939,6 +935,10 @@ _choice_script() {
     if [[ -n "$pkg_json_path" ]]; then
         cat "$pkg_json_path" | yq '(.scripts // {}) | keys | .[]'
     fi
+}
+
+_choice_workspace() {
+    npm query .workspace | yq '.[].location'
 }
 
 _helper_find_pkg_json_path() {

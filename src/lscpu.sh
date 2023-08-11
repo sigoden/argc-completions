@@ -9,6 +9,22 @@ _patch_table() {
 
 }
 
+_choice_cache_column() {
+    cat <<-'EOF'
+ALL-SIZE	size of all system caches
+LEVEL	cache level
+NAME	cache name
+ONE-SIZE	size of one cache
+TYPE	cache type
+WAYS	ways of associativity
+ALLOC-POLICY	allocation policy
+WRITE-POLICY	write policy
+PHY-LINE	number of physical cache line per cache t
+SETS	number of sets in the cache; set lines has the same cache index
+COHERENCY-SIZE	minimum amount of data in bytes transferred from memory to cache
+EOF
+}
+
 _choice_format_column() {
     cat <<-'EOF'
 CPU	logical CPU number
@@ -24,21 +40,5 @@ CONFIGURED	shows if the hypervisor has allocated the CPU
 ONLINE	shows if Linux currently makes use of the CPU
 MAXMHZ	shows the maximum MHz of the CPU
 MINMHZ	shows the minimum MHz of the CPU
-EOF
-}
-
-_choice_cache_column() {
-    cat <<-'EOF'
-ALL-SIZE	size of all system caches
-LEVEL	cache level
-NAME	cache name
-ONE-SIZE	size of one cache
-TYPE	cache type
-WAYS	ways of associativity
-ALLOC-POLICY	allocation policy
-WRITE-POLICY	write policy
-PHY-LINE	number of physical cache line per cache t
-SETS	number of sets in the cache; set lines has the same cache index
-COHERENCY-SIZE	minimum amount of data in bytes transferred from memory to cache
 EOF
 }

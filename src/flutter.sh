@@ -227,6 +227,10 @@ _patch_table() {
     fi
 }
 
+_choice_channel() {
+    flutter --suppress-analytics channel | tail -n +2 | sed 's/^[* ]*//'
+}
+
 _choice_create_template() {
     cat <<-'EOF'
 app	Generate a Flutter application.
@@ -236,19 +240,6 @@ plugin	Generate a shareable Flutter project containing an API in Dart code with 
 plugin_ffi	Generate a shareable Flutter project containing an API in Dart code with a platform-specific implementation through dart:ffi for Android, iOS, Linux, macOS, Windows, or any combination of these.
 skeleton	Generate a List View / Detail View Flutter application that follows community best practices.
 EOF
-}
-
-_choice_test_reporter() {
-    cat <<-'EOF'
-compact	A single line that updates dynamically
-expanded	A separate line for each update
-github	A custom reporter for GitHub Actions
-json	A machine-readable format
-EOF
-}
-
-_choice_channel() {
-    flutter --suppress-analytics channel | tail -n +2 | sed 's/^[* ]*//'
 }
 
 _choice_device() {
@@ -282,6 +273,15 @@ _choice_package() {
         return
     fi
     cat "$pubspec_path" | yq '(.dependencies // {}) + (.dev_dependencies // {}) | keys | .[]'
+}
+
+_choice_test_reporter() {
+    cat <<-'EOF'
+compact	A single line that updates dynamically
+expanded	A separate line for each update
+github	A custom reporter for GitHub Actions
+json	A machine-readable format
+EOF
 }
 
 _helper_find_pubspec_path() {

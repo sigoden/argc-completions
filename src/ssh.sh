@@ -22,6 +22,16 @@ _patch_table() {
 
 }
 
+_choice_ctl_cmd() {
+    cat <<-'EOF'
+check	check that the master process is running
+forward	request forwardings without command execution
+cancel	cancel forwardings
+exit	request the master to exit
+stop	request the master to stop accepting further multiplexing requests
+EOF
+}
+
 _choice_query() {
     cat <<-'EOF'
 cipher	supported symmetric ciphers
@@ -35,15 +45,5 @@ key-plain	non-certificate key types
 key-sig	all key types and signature algorithms
 protocol-version	supported SSH protocol versions
 sig	supported signature algorithms
-EOF
-}
-
-_choice_ctl_cmd() {
-    cat <<-'EOF'
-check	check that the master process is running
-forward	request forwardings without command execution
-cancel	cancel forwardings
-exit	request the master to exit
-stop	request the master to stop accepting further multiplexing requests
 EOF
 }

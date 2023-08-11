@@ -43,15 +43,6 @@ _patch_table() {
     fi
 }
 
-_choice_log_verbosity() {
-    cat <<-'EOF'
-all	Show all messages
-error	Show only error messages
-info	Show error, warning, and info messages
-warning	Show only error and warning messages
-EOF
-}
-
 _choice_create_template() {
     cat <<-'EOF'
 console	A command-line application.
@@ -85,6 +76,15 @@ _choice_global_package_executable() {
             ls -1 "$pkg_path" | sed 's/\.dart$//'
         fi
     fi
+}
+
+_choice_log_verbosity() {
+    cat <<-'EOF'
+all	Show all messages
+error	Show only error messages
+info	Show error, warning, and info messages
+warning	Show only error and warning messages
+EOF
 }
 
 _choice_package() {

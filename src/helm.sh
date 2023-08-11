@@ -115,23 +115,9 @@ _patch_table() {
     fi
 }
 
-_helm() {
-    local opts=( \
-        --kube-apiserver \
-        --kube-as-group \
-        --kube-as-user \
-        --kube-ca-file \
-        --kube-context \
-        --kube-insecure-skip-tls-verify \
-        --kube-tls-server-name \
-        --kube-token \
-        --kubeconfig \
-        --namespace \
-        --registry-config \
-        --repository-cache \
-        --repository-config \
-    )
-    helm $(_argc_util_param_select_options ${opts[@]}) "$@"
+_choice_chart() {
+    _choice_repo_chart
+    _argc_util_comp_path isdir
 }
 
 _choice_kube_context() {
@@ -142,9 +128,12 @@ _choice_kube_namespace() {
     kubectl get namespaces | tail -n +2 | gawk '{print $1}'
 }
 
-_choice_chart() {
-    _choice_repo_chart
-    _argc_util_comp_path isdir
+_choice_plugin() {
+    _helm plugin list | _argc_util_transform_table 'NAME;DESCRIPTION' '\t'
+}
+
+_choice_release() {
+    _helm list --output json | yq '.[] | .name + "	" + .chart'
 }
 
 _choice_repo_chart() {
@@ -173,8 +162,8 @@ _choice_repo_name() {
     cat "$repo_yaml_path" | yq '.repositories[] | .name + "	" + .url'
 }
 
-_choice_release() {
-    _helm list --output json | yq '.[] | .name + "	" + .chart'
+_choice_revision() {
+    _helm history --output json "${argc__positionals[0]}" | yq '.[] | .revision + "	" + .description'
 }
 
 _choice_set_file() {
@@ -186,10 +175,21 @@ _choice_set_file() {
     fi
 }
 
-_choice_revision() {
-    _helm history --output json "${argc__positionals[0]}" | yq '.[] | .revision + "	" + .description'
-}
-
-_choice_plugin() {
-    _helm plugin list | _argc_util_transform_table 'NAME;DESCRIPTION' '\t'
+_helm() {
+    local opts=( \
+        --kube-apiserver \
+        --kube-as-group \
+        --kube-as-user \
+        --kube-ca-file \
+        --kube-context \
+        --kube-insecure-skip-tls-verify \
+        --kube-tls-server-name \
+        --kube-token \
+        --kubeconfig \
+        --namespace \
+        --registry-config \
+        --repository-cache \
+        --repository-config \
+    )
+    helm $(_argc_util_param_select_options ${opts[@]}) "$@"
 }

@@ -33,7 +33,6 @@
 # @flag --version                           output version information and exit
 # @arg file*
 
-
 _choice_check() {
     printf "%s\n" diagnose-first quiet silent
 }

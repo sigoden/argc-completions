@@ -111,47 +111,12 @@ _patch_table() {
     fi
 }
 
-_systemctl() {
-    systemctl $(_argc_util_param_select_options --user) "$@"
-}
-
-_choice_type() {
-    _systemctl --type=help | tail -n +2
-}
-
-_choice_unit() {
-    _systemctl list-units --no-pager -o json | yq '.[] | .unit + "	" + .description'
-}
-
-_choice_timer_unit() {
-    _systemctl list-units --no-pager -o json | yq '.[] | select(.unit == "*.timer") | .unit + "	" + .description'
-}
-
-_choice_socket_unit() {
-    _systemctl list-units --no-pager -o json | yq '.[] | select(.unit == "*.socket") | .unit + "	" + .description'
-}
-
-_choice_unit_pid() {
-    _argc_util_parallel _choice_unit ::: _module_os_pid
-}
-
-_choice_unit_job() {
-    _argc_util_parallel _choice_unit ::: _choice_job
+_choice_environment() {
+    _systemctl show-environment | _argc_util_transform format==
 }
 
 _choice_job() {
     _systemctl list-jobs --no-pager -o json | yq '.[] | .job + "	" + .description'
-}
-
-_choice_perperty() {
-    _argc_util_mode_kv =
-    if [[ -z "$argc__kv_prefix" ]]; then
-        _systemctl show | _argc_util_transform format== suffix== nospace
-    fi
-}
-
-_choice_service() {
-    _systemctl list-units --type service -o json | yq '.[] | .unit + "	" + .description'
 }
 
 _choice_log_level() {
@@ -175,17 +140,19 @@ debug	debug-level message
 EOF
 }
 
-_choice_unit_path() {
-    _choice_unit
-    _argc_util_comp_path
-}
-
-_choice_target() {
-    _systemctl list-units --type target --no-pager -o json | yq '.[] | .unit + "	" + .description'
-}
-
 _choice_machine() {
     _systemctl list-machines --no-pager -o json | yq '.[].name' | gawk '{print $1}'
+}
+
+_choice_perperty() {
+    _argc_util_mode_kv =
+    if [[ -z "$argc__kv_prefix" ]]; then
+        _systemctl show | _argc_util_transform format== suffix== nospace
+    fi
+}
+
+_choice_service() {
+    _systemctl list-units --type service -o json | yq '.[] | .unit + "	" + .description'
 }
 
 _choice_set_environment() {
@@ -195,6 +162,39 @@ _choice_set_environment() {
     fi
 }
 
-_choice_environment() {
-    _systemctl show-environment | _argc_util_transform format==
+_choice_socket_unit() {
+    _systemctl list-units --no-pager -o json | yq '.[] | select(.unit == "*.socket") | .unit + "	" + .description'
+}
+
+_choice_target() {
+    _systemctl list-units --type target --no-pager -o json | yq '.[] | .unit + "	" + .description'
+}
+
+_choice_timer_unit() {
+    _systemctl list-units --no-pager -o json | yq '.[] | select(.unit == "*.timer") | .unit + "	" + .description'
+}
+
+_choice_type() {
+    _systemctl --type=help | tail -n +2
+}
+
+_choice_unit() {
+    _systemctl list-units --no-pager -o json | yq '.[] | .unit + "	" + .description'
+}
+
+_choice_unit_job() {
+    _argc_util_parallel _choice_unit ::: _choice_job
+}
+
+_choice_unit_path() {
+    _choice_unit
+    _argc_util_comp_path
+}
+
+_choice_unit_pid() {
+    _argc_util_parallel _choice_unit ::: _module_os_pid
+}
+
+_systemctl() {
+    systemctl $(_argc_util_param_select_options --user) "$@"
 }

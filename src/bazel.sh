@@ -93,16 +93,31 @@ _choice_info_key() {
     bazel help info-keys | sed 's/ \+/\t/'
 }
 
-_choice_test_target() {
-    _helper_find_target test
-}
-
 _choice_run_target() {
     _helper_find_target run
 }
 
 _choice_target() {
     _helper_find_target
+}
+
+_choice_test_target() {
+    _helper_find_target test
+}
+
+_helper_find_package() {
+    find "$workspace_dir" -name BUILD* | \
+    sed \
+        -e 's|/BUILD\(\.bazel\)\?$|:\x00|' \
+        -e "s|^$workspace_dir:|//:|" \
+        -e "s|^$workspace_dir|/|" \
+
+}
+
+_helper_find_rules_in_package() {
+    local package_name="${ARGC_FILTER%%:*}"
+    bazel --output_base=/tmp/bazel-completion-$USER query \
+        --keep_going --noshow_progress --output=label "kind('$pattern rule', '$package_name:*')"
 }
 
 _helper_find_target() {
@@ -121,21 +136,6 @@ _helper_find_target() {
     else
         _helper_find_package
     fi
-}
-
-_helper_find_rules_in_package() {
-    local package_name="${ARGC_FILTER%%:*}"
-    bazel --output_base=/tmp/bazel-completion-$USER query \
-        --keep_going --noshow_progress --output=label "kind('$pattern rule', '$package_name:*')"
-}
-
-_helper_find_package() {
-    find "$workspace_dir" -name BUILD* | \
-    sed \
-        -e 's|/BUILD\(\.bazel\)\?$|:\x00|' \
-        -e "s|^$workspace_dir:|//:|" \
-        -e "s|^$workspace_dir|/|" \
-
 }
 
 _helper_find_workspace_dir() {

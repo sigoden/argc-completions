@@ -30,36 +30,6 @@ _patch_table() {
 
 }
 
-_choice_option() {
-    cat <<-'EOF' | _argc_util_comp_kv ':'
-batch;;Disables background compilation.
-bootclasspath=`_choice_boot_class_path`;;Specifies a list of directories, JAR files, and ZIP archives separated by colons (:) to search for boot class files.
-bootclasspath/a=`_choice_boot_class_path`;;Specifies a list of directories, JAR files, and ZIP archives separated by colons (:) to append to the end of the default bootstrap class path.
-bootclasspath/p=`_choice_boot_class_path`;;Specifies a list of directories, JAR files, and ZIP archives separated by colons (:) to prepend to the front of the default bootstrap class path.
-check=jni;;Performs additional checks for Java Native Interface (JNI) functions.
-comp;;Forces compilation of methods on first invocation.
-debug;;Does nothing. Provided for backward compatibility.
-diag;;Shows additional diagnostic messages.
-future;;Enables strict class-file format checks that enforce close conformance to the class-file format specification.
-int;;Runs the application in interpreted-only mode. Compilation to native code is disabled, and all bytecode is executed by the interpreter.
-internalversion;;Displays more detailed JVM version information than the -version option, and then exits.
-loggc=__argc_value=file;;Sets the file to which verbose GC events information should be redirected for logging.
-maxjitcodesize=;;Specifies the maximum code cache size (in bytes) for JIT-compiled code.
-mixed;;Executes all bytecode by the interpreter except for hot methods, which are compiled to native code.
-mn\0;;Sets the initial and maximum size (in bytes) of the heap for the young generation (nursery).
-ms\0;;Sets the initial size (in bytes) of the heap.
-mx\0;;Specifies the maximum size (in bytes) of the memory allocation pool in bytes.
-noclassgc;;Disables garbage collection (GC) of classes.
-rs;;Reduces the use of operating system signals by the JVM.
-share=auto,on,off,dump;;Sets the class data sharing (CDS) mode.
-showSettings=all,locale,properties,vm;;Shows settings and continues.
-ss\0;;Sets the thread stack size (in bytes).
-usealtsigs;;Use alternative signals instead of SIGUSR1 and SIGUSR2 for JVM internal signals.
-verify=none,remote,all;;Sets the mode of the bytecode verifier.
-X=`_choice_advance_option`;;Control the runtime behavior of the Java HotSpot VM.
-EOF
-}
-
 _choice_advance_option() {
     cat <<-'EOF' | _argc_util_comp_kv = "$argc__kv_filter" "$argc__kv_prefix"
 +DisableAttachMechanism;;Enables the option that disables the mechanism that lets tools attach to the JVM.
@@ -211,10 +181,6 @@ PermSize=;;Sets the space (in bytes) allocated to the permanent generation that 
 EOF
 }
 
-_choice_class_path() {
-    _argc_util_comp_path exts=.jar,.zip
-}
-
 _choice_agent_path() {
     _argc_util_mode_kv =
     if [[ -z "$argc__kv_prefix" ]]; then
@@ -225,4 +191,38 @@ _choice_agent_path() {
 _choice_boot_class_path() {
     _argc_util_mode_parts : "$argc__kv_filter" "$argc__kv_prefix"
     _argc_util_comp_path exts=.jar,.zip filter="$argc__parts_filter" prefix="$argc__parts_prefix"
+}
+
+_choice_class_path() {
+    _argc_util_comp_path exts=.jar,.zip
+}
+
+_choice_option() {
+    cat <<-'EOF' | _argc_util_comp_kv ':'
+batch;;Disables background compilation.
+bootclasspath=`_choice_boot_class_path`;;Specifies a list of directories, JAR files, and ZIP archives separated by colons (:) to search for boot class files.
+bootclasspath/a=`_choice_boot_class_path`;;Specifies a list of directories, JAR files, and ZIP archives separated by colons (:) to append to the end of the default bootstrap class path.
+bootclasspath/p=`_choice_boot_class_path`;;Specifies a list of directories, JAR files, and ZIP archives separated by colons (:) to prepend to the front of the default bootstrap class path.
+check=jni;;Performs additional checks for Java Native Interface (JNI) functions.
+comp;;Forces compilation of methods on first invocation.
+debug;;Does nothing. Provided for backward compatibility.
+diag;;Shows additional diagnostic messages.
+future;;Enables strict class-file format checks that enforce close conformance to the class-file format specification.
+int;;Runs the application in interpreted-only mode. Compilation to native code is disabled, and all bytecode is executed by the interpreter.
+internalversion;;Displays more detailed JVM version information than the -version option, and then exits.
+loggc=__argc_value=file;;Sets the file to which verbose GC events information should be redirected for logging.
+maxjitcodesize=;;Specifies the maximum code cache size (in bytes) for JIT-compiled code.
+mixed;;Executes all bytecode by the interpreter except for hot methods, which are compiled to native code.
+mn\0;;Sets the initial and maximum size (in bytes) of the heap for the young generation (nursery).
+ms\0;;Sets the initial size (in bytes) of the heap.
+mx\0;;Specifies the maximum size (in bytes) of the memory allocation pool in bytes.
+noclassgc;;Disables garbage collection (GC) of classes.
+rs;;Reduces the use of operating system signals by the JVM.
+share=auto,on,off,dump;;Sets the class data sharing (CDS) mode.
+showSettings=all,locale,properties,vm;;Shows settings and continues.
+ss\0;;Sets the thread stack size (in bytes).
+usealtsigs;;Use alternative signals instead of SIGUSR1 and SIGUSR2 for JVM internal signals.
+verify=none,remote,all;;Sets the mode of the bytecode verifier.
+X=`_choice_advance_option`;;Control the runtime behavior of the Java HotSpot VM.
+EOF
 }

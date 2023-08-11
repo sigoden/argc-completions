@@ -57,22 +57,6 @@ _patch_table() {
     fi
 }
 
-_choice_cmd() {
-    cargo --list 2>/dev/null | gawk 'NR>1 {print $1}'
-}
-
-_choice_testname() {
-    cargo t -- --list | gawk '/: test$/ { print substr($1, 1, length($1) - 1) }' 
-}
-
-_choice_depid() {
-    _helper_package_json | yq '.dependencies[].name'
-}
-
-_choice_package() {
-    _helper_metadata_json | yq '.packages[].name'
-}
-
 _choice_bench() {
     _helper_package_target bench
 }
@@ -81,20 +65,36 @@ _choice_bin() {
     _helper_package_target bin
 }
 
-_choice_test() {
-    _helper_package_target test
+_choice_cmd() {
+    cargo --list 2>/dev/null | gawk 'NR>1 {print $1}'
+}
+
+_choice_depid() {
+    _helper_package_json | yq '.dependencies[].name'
 }
 
 _choice_example() {
     _helper_package_target example
 }
 
+_choice_package() {
+    _helper_metadata_json | yq '.packages[].name'
+}
+
 _choice_target() {
     rustup target list --installed
 }
 
-_helper_package_target() {
-    _helper_package_json | yq '.targets[] | select( .kind[] | contains("'$1'") ) | .name'
+_choice_test() {
+    _helper_package_target test
+}
+
+_choice_testname() {
+    cargo t -- --list | gawk '/: test$/ { print substr($1, 1, length($1) - 1) }' 
+}
+
+_helper_metadata_json() {
+    cargo metadata --format-version 1 --no-deps
 }
 
 _helper_package_json() {
@@ -108,6 +108,6 @@ _helper_package_json() {
     fi
 }
 
-_helper_metadata_json() {
-    cargo metadata --format-version 1 --no-deps
+_helper_package_target() {
+    _helper_package_json | yq '.targets[] | select( .kind[] | contains("'$1'") ) | .name'
 }

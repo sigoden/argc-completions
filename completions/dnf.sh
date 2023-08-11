@@ -2234,14 +2234,6 @@ _choice_installed_package() {
     dnf repoquery --cacheonly "$ARGC_FILTER*" --qf "%{name}" --installed
 }
 
-_choice_package() {
-    dnf repoquery --cacheonly "$ARGC_FILTER*" --qf "%{name}" --available
-}
-
-_choice_upgradable_pkg() {
-    dnf repoquery --cacheonly "$ARGC_FILTER*" --qf "%{name}" --upgrades 
-}
-
 _choice_module_cmd() {
     cat <<-'EOF'
 disable	disable a module with all its streams
@@ -2256,6 +2248,14 @@ reset	reset a module
 switch-to	switch a module to a stream and distrosync rpm packages
 update	update packages associated with an active stream
 EOF
+}
+
+_choice_package() {
+    dnf repoquery --cacheonly "$ARGC_FILTER*" --qf "%{name}" --available
+}
+
+_choice_upgradable_pkg() {
+    dnf repoquery --cacheonly "$ARGC_FILTER*" --qf "%{name}" --upgrades 
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

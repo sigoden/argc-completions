@@ -141,11 +141,31 @@ version() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
+_choice_docker_image() {
+    if [[ "$argc__kv_filter" == *':'* ]]; then
+        prefix="$argc__kv_prefix${argc__kv_filter%%:*}:"
+    else
+        prefix="$argc__kv_prefix"
+    fi
+    ARGC_FILTER="$argc__kv_filter" _module_oci_docker_image
+    echo "__argc_prefix=$prefix"
+}
+
 _choice_image() {
     if [[ $ARGC_FILTER != *':'* ]]; then
         _argc_util_comp_path
     fi
     _argc_util_parallel _module_oci_docker_image ::: _choice_provider
+}
+
+_choice_podman_image() {
+    if [[ "$argc__kv_filter" == *':'* ]]; then
+        prefix="$argc__kv_prefix${argc__kv_filter%%:*}:"
+    else
+        prefix="$argc__kv_prefix"
+    fi
+    ARGC_FILTER="$argc__kv_filter" _module_oci_podman_image
+    echo "__argc_prefix=$prefix"
 }
 
 _choice_provider() {
@@ -161,26 +181,6 @@ sbom=__argc_value=file;;read Syft JSON from path on disk
 registry=;;pull image directly from a registry
 purl=__argc_value=file;;read a newline separated file of purls from a path on disk
 EOF
-}
-
-_choice_docker_image() {
-    if [[ "$argc__kv_filter" == *':'* ]]; then
-        prefix="$argc__kv_prefix${argc__kv_filter%%:*}:"
-    else
-        prefix="$argc__kv_prefix"
-    fi
-    ARGC_FILTER="$argc__kv_filter" _module_oci_docker_image
-    echo "__argc_prefix=$prefix"
-}
-
-_choice_podman_image() {
-    if [[ "$argc__kv_filter" == *':'* ]]; then
-        prefix="$argc__kv_prefix${argc__kv_filter%%:*}:"
-    else
-        prefix="$argc__kv_prefix"
-    fi
-    ARGC_FILTER="$argc__kv_filter" _module_oci_podman_image
-    echo "__argc_prefix=$prefix"
 }
 
 _module_oci_docker_image() {

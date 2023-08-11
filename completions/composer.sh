@@ -817,10 +817,10 @@ validate() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_dependency() {
-    _helper_find_composer_json_path
-    if [[ -n "$composer_json_path" ]]; then
-        cat "$composer_json_path" | yq '(.require // {}) + (.require-dev // {}) | keys | .[]'
+_choice_bin() {
+    composer_root_dir="$(_argc_util_path_search_parent -p composer.json)"
+    if [[ -n  "$composer_root_dir" ]]; then
+        (cd "$composer_root_dir/vendor/bin/" && ls -1)
     fi
 }
 
@@ -829,11 +829,15 @@ _choice_config_key() {
     sed -n 's/\[\(.*\)\] \(\S*\)/\1\t\2/p'
 }
 
-_choice_bin() {
-    composer_root_dir="$(_argc_util_path_search_parent -p composer.json)"
-    if [[ -n  "$composer_root_dir" ]]; then
-        (cd "$composer_root_dir/vendor/bin/" && ls -1)
+_choice_dependency() {
+    _helper_find_composer_json_path
+    if [[ -n "$composer_json_path" ]]; then
+        cat "$composer_json_path" | yq '(.require // {}) + (.require-dev // {}) | keys | .[]'
     fi
+}
+
+_choice_global() {
+    _argc_util_comp_subcommand 0 composer
 }
 
 _choice_script() {
@@ -841,10 +845,6 @@ _choice_script() {
     if [[ -n "$composer_json_path" ]]; then
         cat "$composer_json_path" | yq '(.scripts // {}) | keys | .[]'
     fi
-}
-
-_choice_global() {
-    _argc_util_comp_subcommand 0 composer
 }
 
 _helper_find_composer_json_path() {

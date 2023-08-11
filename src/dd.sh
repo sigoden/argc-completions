@@ -63,7 +63,6 @@ skip_bytes	treat 'skip=N' as a byte count
 EOF
 }
 
-
 _choice_oflag() {
     cat <<-'EOF' | _argc_util_comp_multi , =
 append	append mode

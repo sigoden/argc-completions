@@ -65,13 +65,12 @@ _choice_color() {
     printf "%s\n" auto never always
 }
 
-_choice_time() {
-    printf "%s\n" full-iso long-iso iso locale
-}
-
-
 _choice_format() {
     printf "%s\n" across commas horizontal long single-column verbose vertical
+}
+
+_choice_time() {
+    printf "%s\n" full-iso long-iso iso locale
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

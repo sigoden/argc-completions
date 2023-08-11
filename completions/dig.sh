@@ -19,14 +19,6 @@
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_c() {
-    cat <<-'EOF'
-IN
-HS	Hesiod records
-CH	Chaosnet records
-EOF
-}
-
 _choice_args() {
     cat <<-'EOF' | _argc_util_comp_kv =
 +aaflag;;This option is a synonym for +[no]aaonly.
@@ -167,6 +159,14 @@ _choice_args() {
 +vc;;This option uses [or does not use] TCP when querying name servers.
 +yaml;;When enabled, this option prints the responses in a detailed YAML format.
 +zflag;;This option sets [or does not set] the last unassigned DNS header flag in a DNS query.
+EOF
+}
+
+_choice_c() {
+    cat <<-'EOF'
+IN
+HS	Hesiod records
+CH	Chaosnet records
 EOF
 }
 

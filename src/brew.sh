@@ -171,12 +171,26 @@ _patch_table() {
     fi
 }
 
-_choice_suggest_formula_cask() {
-    if [[ -z "$argc_cask" ]] && [[ -z "$argc_casks" ]]; then
-        _choice_suggest_formula
-    elif [[ -z "$argc_formula" ]] && [[ -z "$argc_formulae" ]]; then
-        _choice_suggest_cask
-    fi
+_choice_alias() {
+    brew alias | sed "s/^brew alias \([^=]\+\)='\(.*\)'$/\1\t\2/"   
+}
+
+_choice_cask_tap() {
+    _choice_suggest_cask
+    _choice_tap
+}
+
+_choice_file_tap_formula_cask() {
+    _argc_util_comp_path
+    _argc_util_parallel _choice_suggest_cask ::: _choice_suggest_formula ::: _choice_tap
+}
+
+_choice_installed_cask() {
+    brew list --cask | sed 's/\s\+/\n/'
+}
+
+_choice_installed_formula() {
+    brew list --formula | sed 's/\s\+/\n/'
 }
 
 _choice_installed_formula_cask() {
@@ -187,6 +201,19 @@ _choice_installed_formula_cask() {
     fi
 }
 
+_choice_installed_formula_file() {
+    _argc_util_comp_path
+    _choice_installed_formula
+}
+
+_choice_outdated_cask() {
+    brew outdated --cask | sed 's/\s/\t/'
+}
+
+_choice_outdated_formula() {
+    brew outdated --formula | sed 's/\s/\t/'
+}
+
 _choice_outdated_formula_cask() {
     if [[ -z "$argc_cask" ]] && [[ -z "$argc_casks" ]]; then
         _choice_outdated_formula
@@ -195,61 +222,34 @@ _choice_outdated_formula_cask() {
     fi
 }
 
-_choice_cask_tap() {
-    _choice_suggest_cask
-    _choice_tap
-}
-
-_choice_installed_formula_file() {
-    _argc_util_comp_path
-    _choice_installed_formula
-}
-
-_choice_file_tap_formula_cask() {
-    _argc_util_comp_path
-    _argc_util_parallel _choice_suggest_cask ::: _choice_suggest_formula ::: _choice_tap
-}
-
-_choice_suggest_formula() {
-    brew formulae
-}
-
-_choice_installed_formula() {
-    brew list --formula | sed 's/\s\+/\n/'
-}
-
-_choice_outdated_formula() {
-    brew outdated --formula | sed 's/\s/\t/'
+_choice_prof_command() {
+    _argc_util_comp_subcommand 0 brew
 }
 
 _choice_suggest_cask() {
     brew casks
 }
 
-_choice_installed_cask() {
-    brew list --cask | sed 's/\s\+/\n/'
-}
-
-_choice_outdated_cask() {
-    brew outdated --cask | sed 's/\s/\t/'
-}
-
-_choice_tap() {
-    brew tap
-}
-
 _choice_suggest_diagnostic_check() {
     brew doctor --list-checks
+}
+
+_choice_suggest_formula() {
+    brew formulae
+}
+
+_choice_suggest_formula_cask() {
+    if [[ -z "$argc_cask" ]] && [[ -z "$argc_casks" ]]; then
+        _choice_suggest_formula
+    elif [[ -z "$argc_formula" ]] && [[ -z "$argc_formulae" ]]; then
+        _choice_suggest_cask
+    fi
 }
 
 _choice_suggest_service() {
    brew services list | gawk '{if (NR > 1) {print $1}}'
 }
 
-_choice_prof_command() {
-    _argc_util_comp_subcommand 0 brew
-}
-
-_choice_alias() {
-    brew alias | sed "s/^brew alias \([^=]\+\)='\(.*\)'$/\1\t\2/"   
+_choice_tap() {
+    brew tap
 }

@@ -148,12 +148,8 @@ _patch_table() {
     fi
 }
 
-_choice_installed_switch() {
-    opam switch list --safe -s
-}
-
-_choice_installed_switch() {
-    opam switch list-available --safe -s
+_choice_args() {
+    _argc_util_comp_subcommand 0
 }
 
 _choice_columns() {
@@ -169,8 +165,32 @@ _choice_installed_package() {
     opam list --safe -i -s
 }
 
+_choice_installed_pin() {
+    opam pin list --safe -s   
+}
+
+_choice_installed_switch() {
+    opam switch list-available --safe -s
+}
+
+_choice_installed_switch() {
+    opam switch list-available --safe -s
+}
+
 _choice_package() {
     opam list --safe -a -s
+}
+
+_choice_pin() {
+    opam pin list --safe -A -s   
+}
+
+_choice_repository() {
+    opam repository list --safe -a -s
+}
+
+_choice_update() {
+    _argc_util_parallel _choice_repository ::: _choice_installed_pin
 }
 
 _choice_var() {
@@ -180,24 +200,4 @@ _choice_var() {
         -e '/<><>/ d' \
         -e 's%^\([^#= ][^ ]*\).*%\1%p' \
 
-}
-
-_choice_repository() {
-    opam repository list --safe -a -s
-}
-
-_choice_pin() {
-    opam pin list --safe -A -s   
-}
-
-_choice_installed_pin() {
-    opam pin list --safe -s   
-}
-
-_choice_update() {
-    _argc_util_parallel _choice_repository ::: _choice_installed_pin
-}
-
-_choice_args() {
-    _argc_util_comp_subcommand 0
 }

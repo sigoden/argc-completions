@@ -15,7 +15,6 @@ _patch_table() {
 
 }
 
-
 _choice_check() {
     printf "%s\n" diagnose-first quiet silent
 }

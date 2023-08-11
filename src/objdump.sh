@@ -16,6 +16,16 @@ _patch_table() {
 
 }
 
+_choice_architecture() {
+    printf "%s\n" i386 i386:x86-64 i386:x64-32 i8086 i386:intel i386:x86-64:intel \
+        i386:x64-32:intel i386:nacl i386:x86-64:nacl i386:x64-32:nacl iamcu iamcu:intel \
+        l1om l1om:intel k1om k1om:intel plugin
+}
+
+_choice_demangle() {
+    printf "%s\n" auto gnu lucid arm hp edg gnu-v3 java gnat
+}
+
 _choice_dwarf() {
     cat <<-'EOF'
 abbrev	Displays the contents of the .debug_abbrev section.
@@ -48,14 +58,4 @@ _choice_target() {
     printf "%s\n" elf64-x86-64 elf32-i386 elf32-iamcu elf32-x86-64 \
         a.out-i386-linux pei-i386 pei-x86-64 elf64-l1om elf64-k1om elf64-little \
         elf64-big elf32-little elf32-big plugin srec symbolsrec verilog tekhex binary ihex
-}
-
-_choice_architecture() {
-    printf "%s\n" i386 i386:x86-64 i386:x64-32 i8086 i386:intel i386:x86-64:intel \
-        i386:x64-32:intel i386:nacl i386:x86-64:nacl i386:x64-32:nacl iamcu iamcu:intel \
-        l1om l1om:intel k1om k1om:intel plugin
-}
-
-_choice_demangle() {
-    printf "%s\n" auto gnu lucid arm hp edg gnu-v3 java gnat
 }

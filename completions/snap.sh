@@ -694,6 +694,14 @@ prepare-image() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
+_choice_alias_or_snap() {
+    snap aliases | _argc_util_transform_table 'Command;Alias' '\n'
+}
+
+_choice_change() {
+    snap changes | _argc_util_transform_table 'ID;Summary' '\t'
+}
+
 _choice_disabled_snap() {
     snap list | gawk '/disabled/ {print $1}'
 }
@@ -706,20 +714,12 @@ _choice_installed_snap() {
     snap list | gawk '{ if (NR>1) { print $1 } }'
 }
 
-_choice_change() {
-    snap changes | _argc_util_transform_table 'ID;Summary' '\t'
-}
-
-_choice_alias_or_snap() {
-    snap aliases | _argc_util_transform_table 'Command;Alias' '\n'
+_choice_interface() {
+    snap interface | _argc_util_transform_table 'Name;Summary' '\t'
 }
 
 _choice_service() {
     snap services | tail -n +2 | gawk '{gsub(/\.server$/, "", $1); print $1}'
-}
-
-_choice_interface() {
-    snap interface | _argc_util_transform_table 'Name;Summary' '\t'
 }
 
 _choice_snap_plug() {

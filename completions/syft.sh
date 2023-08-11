@@ -187,28 +187,6 @@ _chocie_convert_format() {
     fi
 }
 
-
-_choice_source() {
-    if [[ $ARGC_FILTER != *':'* ]]; then
-        _argc_util_comp_path
-    fi
-    _argc_util_parallel _module_oci_docker_image ::: _choice_provider
-}
-
-_choice_provider() {
-    cat <<-'EOF' | _argc_util_comp_kv :
-docker=`_choice_docker_image`;;use the Docker daemon
-podman=`_choice_podman_image`;;use the Podman daemon
-registry=;;pull image directly from a registry
-docker-archive=__argc_value=file;;use a tarball from disk for archives created from "docker save"
-oci-archive=__argc_value=file;;use a tarball from disk for OCI archives (from Podman or otherwise)
-oci-dir=__argc_value=file;;read directly from a path on disk for OCI layout directories (from Skopeo or otherwise)
-singularity=__argc_value=file;;read directly from a Singularity Image Format (SIF) container on disk
-dir=__argc_value=dir;;read directly from a path on disk (any directory)
-file=__argc_value=file;;read directly from a path on disk (any single file)
-EOF
-}
-
 _choice_docker_image() {
     if [[ "$argc__kv_filter" == *':'* ]]; then
         prefix="$argc__kv_prefix${argc__kv_filter%%:*}:"
@@ -227,6 +205,27 @@ _choice_podman_image() {
     fi
     ARGC_FILTER="$argc__kv_filter" _module_oci_podman_image
     echo "__argc_prefix=$prefix"
+}
+
+_choice_provider() {
+    cat <<-'EOF' | _argc_util_comp_kv :
+docker=`_choice_docker_image`;;use the Docker daemon
+podman=`_choice_podman_image`;;use the Podman daemon
+registry=;;pull image directly from a registry
+docker-archive=__argc_value=file;;use a tarball from disk for archives created from "docker save"
+oci-archive=__argc_value=file;;use a tarball from disk for OCI archives (from Podman or otherwise)
+oci-dir=__argc_value=file;;read directly from a path on disk for OCI layout directories (from Skopeo or otherwise)
+singularity=__argc_value=file;;read directly from a Singularity Image Format (SIF) container on disk
+dir=__argc_value=dir;;read directly from a path on disk (any directory)
+file=__argc_value=file;;read directly from a path on disk (any single file)
+EOF
+}
+
+_choice_source() {
+    if [[ $ARGC_FILTER != *':'* ]]; then
+        _argc_util_comp_path
+    fi
+    _argc_util_parallel _module_oci_docker_image ::: _choice_provider
 }
 
 _module_oci_docker_image() {

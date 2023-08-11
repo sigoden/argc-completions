@@ -16,20 +16,20 @@
 # @flag --version                               output version information and exit
 # @arg file*
 
+_choice_number_format() {
+    cat <<-'EOF'
+ln	left justified
+rn	right justified
+rz	right justified with leading zeroes
+EOF
+}
+
 _choice_numbering() {
     cat <<-'EOF'
 a	number all lines
 n	no line numbering
 p	number only lines matching regex
 t	number only non-empty lines
-EOF
-}
-
-_choice_number_format() {
-    cat <<-'EOF'
-ln	left justified
-rn	right justified
-rz	right justified with leading zeroes
 EOF
 }
 

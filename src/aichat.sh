@@ -5,10 +5,10 @@ _patch_table() {
         
 }
 
-_choice_role() {
-    aichat --list-roles
-}
-
 _choice_model() {
     aichat --list-models
+}
+
+_choice_role() {
+    aichat --list-roles
 }

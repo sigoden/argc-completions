@@ -33,14 +33,8 @@
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_style() {
-    cat <<-'EOF'
-basic	disable output coloring and interactive elements
-full	enable all effects even if no interactive terminal was detected.
-nocolor	keep the interactive output without any colors.
-color	keep the colors without any interactive output.
-none	disable all the output of the tool.
-EOF
+_choice_args() {
+    _argc_util_comp_subcommand 0
 }
 
 _choice_sort() {
@@ -51,8 +45,14 @@ mean-time	order benchmarks by mean runtime
 EOF
 }
 
-_choice_args() {
-    _argc_util_comp_subcommand 0
+_choice_style() {
+    cat <<-'EOF'
+basic	disable output coloring and interactive elements
+full	enable all effects even if no interactive terminal was detected.
+nocolor	keep the interactive output without any colors.
+color	keep the colors without any interactive output.
+none	disable all the output of the tool.
+EOF
 }
 
 _module_os_command() {

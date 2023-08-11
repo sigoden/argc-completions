@@ -73,10 +73,6 @@ _patch_table() {
     fi
 }
 
-_choice_servicename() {
-    nssm list
-}
-
 _choice_parameter_name() {
     cat <<-'EOF'
 AppParameters
@@ -142,4 +138,8 @@ IDLE_PRIORITY_CLASS
 EOF
             ;;
     esac
+}
+
+_choice_servicename() {
+    nssm list
 }

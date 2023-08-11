@@ -23,14 +23,6 @@ _patch_table() {
     fi
 }
 
-_choice_repo() {
-    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
-        _argc_util_comp_path dir
-        return
-    fi
-    _choice_remote_repo
-}
-
 _choice_remote_repo() {
     command cat <<-'EOF' | _argc_util_comp_kv :
 sftp=;;SFTP
@@ -42,4 +34,12 @@ azure=;;Microsoft Azure Blob Storage
 gs=;;Google Cloud Storage
 rclone=;;rclone
 EOF
+}
+
+_choice_repo() {
+    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+        _argc_util_comp_path dir
+        return
+    fi
+    _choice_remote_repo
 }

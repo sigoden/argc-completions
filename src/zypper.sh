@@ -63,24 +63,28 @@ _patch_table() {
 
 }
 
-_choice_package() {
-    _helper_list_packages
-}
-
 _choice_installed_package() {
 	grep -s --no-filename "^$cur" "/var/cache/zypp/solv/@System/solv.idx" | cut -f1
 }
 
-_choice_product() {
-    _helper_list_packages "product:$ARGC_FILTER" | sed -e "s/^product://"
+_choice_lock() {
+    LC_ALL=POSIX zypper -q ll | _helper_extract
+}
+
+_choice_package() {
+    _helper_list_packages
+}
+
+_choice_patch() {
+    _helper_list_packages "patch:$ARGC_FILTER" | sed -e "s/^patch://"
 }
 
 _choice_pattern() {
     _helper_list_packages "pattern:$ARGC_FILTER" | sed -e "s/^pattern://"
 }
 
-_choice_patch() {
-    _helper_list_packages "patch:$ARGC_FILTER" | sed -e "s/^patch://"
+_choice_product() {
+    _helper_list_packages "product:$ARGC_FILTER" | sed -e "s/^product://"
 }
 
 _choice_repo() {
@@ -91,8 +95,12 @@ _choice_service() {
     LC_ALL=POSIX zypper -q ls | _helper_extract
 }
 
-_choice_lock() {
-    LC_ALL=POSIX zypper -q ll | _helper_extract
+_helper_extract() {
+    sed -rn '/^[0-9]/{
+        s/^[0-9]+[[:blank:]]*\|[[:blank:]]*([^|]+).*/\1/
+        s/[[:blank:]]*$//
+        p
+    }'
 }
 
 _helper_list_packages() {
@@ -101,12 +109,4 @@ _helper_list_packages() {
 	grep -s --no-filename "$filter" /var/cache/zypp/solv/*/solv.idx |\
 		cut -f1 | sort --unique
 	set -o noglob
-}
-
-_helper_extract() {
-    sed -rn '/^[0-9]/{
-        s/^[0-9]+[[:blank:]]*\|[[:blank:]]*([^|]+).*/\1/
-        s/[[:blank:]]*$//
-        p
-    }'
 }

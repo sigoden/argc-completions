@@ -120,12 +120,12 @@ run() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_tool() {
-    volta list --format plain | gawk '{print $2}'
-}
-
 _choice_args() {
     _argc_util_comp_subcommand 0
+}
+
+_choice_tool() {
+    volta list --format plain | gawk '{print $2}'
 }
 
 _module_os_command() {

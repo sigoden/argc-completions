@@ -23,12 +23,12 @@ _patch_table() {
     fi
 }
 
-_choice_map() {
-    localectl list-keymaps
-}
-
 _choice_locale() {
     localectl list-locales
+}
+
+_choice_map() {
+    localectl list-keymaps
 }
 
 _choice_x11_layout() {
@@ -39,10 +39,10 @@ _choice_x11_model() {
     localectl list-x11-keymap-models
 }
 
-_choice_x11_variant() {
-    localectl list-x11-keymap-variants
-}
-
 _choice_x11_options() {
     localectl list-x11-keymap-options
+}
+
+_choice_x11_variant() {
+    localectl list-x11-keymap-variants
 }

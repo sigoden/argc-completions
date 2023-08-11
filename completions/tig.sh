@@ -7,12 +7,12 @@
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_cmd() {
-    tig --help | sed -n 's/^\s*or: tig \([a-z]\S\+\).*/\1/p'   
-}
-
 _choice_args() {
     _argc_util_comp_subcommand 0 git
+}
+
+_choice_cmd() {
+    tig --help | sed -n 's/^\s*or: tig \([a-z]\S\+\).*/\1/p'   
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

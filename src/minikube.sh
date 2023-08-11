@@ -102,27 +102,6 @@ _patch_table() {
     fi
 }
 
-
-_choice_node() {
-    minikube node list
-}
-
-_choice_namespace() {
-    minikube kubectl get namespaces | tail -n +2 | gawk '{print $1}'
-}
-
-_choice_load_image() {
-    if _argc_util_has_path_prefix "$argc_image"; then
-        _argc_util_comp_path
-        return
-    fi
-    _module_oci_docker_image
-}
-
-_choice_image() {
-    minikube image ls
-}
-
 _choice_addon() {
     minikube addons list --output json  | yq 'keys | .[]'
 }
@@ -135,12 +114,63 @@ _choice_cni() {
     printf "%s\n" auto bridge calico cilium flannel kindnet
 }
 
-_choice_vnpkit_sock() {
-    if _argc_util_has_path_prefix "$argc_hyperkit_vpnkit_sock"; then
+_choice_cp() {
+    _complete_node_path() {
+        _argc_util_mode_kv ':'
+        if [[ -z "$argc__kv_prefix" ]]; then
+            if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+                echo "__argc_value=path"
+                return
+            fi
+            _choice_node | _argc_util_transform suffix=: nospace
+        else
+            _argc_util_mode_parts '/' "$argc__kv_filter" "$argc__kv_prefix"
+            if [[ -z "$argc__kv_filter" ]]; then
+                echo -e "/\0"
+                return
+            fi
+            minikube ssh --node "${argc__kv_key}"  "ls -1 -p '$argc__parts_local_prefix'" | _argc_util_transform nospaceIfEnd=/
+        fi
+    }
+    if [[ ${#argc__positionals[@]} -eq 1 ]]; then
+        _complete_node_path
+    else
+        if [[ "${argc__positionals[0]}" == *':'* ]]; then
+            echo "__argc_value=path"
+        else
+            _complete_node_path
+        fi
+    fi
+}
+
+_choice_image() {
+    minikube image ls
+}
+
+_choice_kubectl() {
+    _argc_util_comp_subcommand 0 kubectl
+}
+
+_choice_load_image() {
+    if _argc_util_has_path_prefix "$argc_image"; then
         _argc_util_comp_path
         return
     fi
-    printf "%s\n" auto
+    _module_oci_docker_image
+}
+
+_choice_mount() {
+    _argc_util_mode_kv :
+    if [[ -z "$argc__kv_prefix" ]]; then
+        _argc_util_comp_path suffix=:
+    else
+        _argc_util_mode_parts '/' "$argc__kv_filter" "$argc__kv_prefix"
+        if [[ -z "$argc__kv_filter" ]]; then
+            echo -e "/\0"
+            return
+        fi
+        minikube ssh "ls -1 -p '$argc__parts_local_prefix'" | _argc_util_transform nospaceIfEnd=/
+    fi
 }
 
 _choice_mount_string() {
@@ -150,6 +180,14 @@ _choice_mount_string() {
     else
         echo /minikube-host
     fi
+}
+
+_choice_namespace() {
+    minikube kubectl get namespaces | tail -n +2 | gawk '{print $1}'
+}
+
+_choice_node() {
+    minikube node list
 }
 
 _choice_property_name() {
@@ -184,49 +222,10 @@ MaxAuditEntries
 EOF
 }
 
-_choice_mount() {
-    _argc_util_mode_kv :
-    if [[ -z "$argc__kv_prefix" ]]; then
-        _argc_util_comp_path suffix=:
-    else
-        _argc_util_mode_parts '/' "$argc__kv_filter" "$argc__kv_prefix"
-        if [[ -z "$argc__kv_filter" ]]; then
-            echo -e "/\0"
-            return
-        fi
-        minikube ssh "ls -1 -p '$argc__parts_local_prefix'" | _argc_util_transform nospaceIfEnd=/
+_choice_vnpkit_sock() {
+    if _argc_util_has_path_prefix "$argc_hyperkit_vpnkit_sock"; then
+        _argc_util_comp_path
+        return
     fi
-}
-
-_choice_kubectl() {
-    _argc_util_comp_subcommand 0 kubectl
-}
-
-_choice_cp() {
-    _complete_node_path() {
-        _argc_util_mode_kv ':'
-        if [[ -z "$argc__kv_prefix" ]]; then
-            if _argc_util_has_path_prefix "$ARGC_FILTER"; then
-                echo "__argc_value=path"
-                return
-            fi
-            _choice_node | _argc_util_transform suffix=: nospace
-        else
-            _argc_util_mode_parts '/' "$argc__kv_filter" "$argc__kv_prefix"
-            if [[ -z "$argc__kv_filter" ]]; then
-                echo -e "/\0"
-                return
-            fi
-            minikube ssh --node "${argc__kv_key}"  "ls -1 -p '$argc__parts_local_prefix'" | _argc_util_transform nospaceIfEnd=/
-        fi
-    }
-    if [[ ${#argc__positionals[@]} -eq 1 ]]; then
-        _complete_node_path
-    else
-        if [[ "${argc__positionals[0]}" == *':'* ]]; then
-            echo "__argc_value=path"
-        else
-            _complete_node_path
-        fi
-    fi
+    printf "%s\n" auto
 }

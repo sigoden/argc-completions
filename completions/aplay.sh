@@ -41,6 +41,10 @@
 # @flag --fatal-errors                             treat all errors as fatal
 # @arg file*
 
+_choice_card() {
+    aplay -l | grep '^card [0-9]\+' | sed 's/card \([0-9]\+\): \(.\+\) \[.*\].*/\1\t\2/'
+}
+
 _choice_format() {
     cat <<-'EOF'
 S8
@@ -95,10 +99,6 @@ U32_BE
 U32_LE
 U8
 EOF
-}
-
-_choice_card() {
-    aplay -l | grep '^card [0-9]\+' | sed 's/card \([0-9]\+\): \(.\+\) \[.*\].*/\1\t\2/'
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

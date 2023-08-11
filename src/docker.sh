@@ -145,7 +145,7 @@ _patch_table() {
         echo "$table" | _patch_table_edit_arguments 'stack;[`_choice_stack`]'
 
     elif [[ "$*" == "docker trust"* ]]; then
-        echo "$table" | _patch_table_edit_arguments 'repository;[`_docker_repository`]'
+        echo "$table" | _patch_table_edit_arguments 'repository;[`_choice_repository`]'
 
     elif [[ "$*" == "docker volume"* ]]; then
         echo "$table" | _patch_table_edit_arguments 'volume;[`_choice_volume`]'
@@ -155,97 +155,12 @@ _patch_table() {
     fi
 }
 
-_docker() {
-    docker $(_argc_util_param_select_options --host --config --context) "$@"
-}
-
-_choice_config() {
-    _docker config ls --format '{{.Name}}\tupdated {{.UpdatedAt}}'
-}
-
-_choice_container_name_all() {
-    _docker ps -a --format '{{.Names}}\t{{.Image}} ({{.Status}})'
-}
-
-_choice_container_name() {
-    _docker ps --format '{{.Names}}\t{{.Image}} ({{.Status}})'
-}
-
-_choice_container_id() {
-    _docker ps --format '{{.ID}}\t{{.Image}} ({{.Status}})'
-}
-
-_docker_repository() {
-    _docker image ls --format '{{.Repository}}'
-}
-
-_choice_context() {
-    _docker context list --format '{{.Name}}\t{{.Description}}'
-}
-
-_choice_network() {
-    _docker network list --format '{{.Name}}\t{{.Driver}}/{{.Scope}}'
-}
-
-_choice_node() {
-    _docker node list --format '{{.ID}}\t{{.Hostname}} {{.ManagerStatus}}'
-}
-
-_choice_plugin() {
-    _docker plugin list --format '{{.Name}}\t{{.Description}}'
-}
-
-_choice_secret() {
-    _docker secret list --format '{{.Name}}\tupdated {{.UpdatedAt}}'
-}
-
-_choice_service() {
-    _docker service list --format '{{.Name}}\t{{.Image}} {{.Mode}} {{.Replicas}}'
-}
-
-_choice_stack() {
-    _docker stack list --format '{{.Name}}\t{{.Services}} on {{.Orchestrator}}'
-}
-
-_choice_volume() {
-    _docker volume list --format '{{.Name}}\t{{.Driver}}'
+_choice_args() {
+    _argc_util_comp_subcommand 1
 }
 
 _choice_builder() {
     _docker buildx ls | tail -n +2 | gawk '{if (match($0, /^\w+/)) {print $1} }'
-}
-
-_choice_container_cp() {
-    _complete_container_path() {
-        _argc_util_mode_kv ':'
-        if [[ -z "$argc__kv_prefix" ]]; then
-            if _argc_util_has_path_prefix "$ARGC_FILTER"; then
-                echo "__argc_value=path"
-                return
-            fi
-            _choice_container_name | _argc_util_transform suffix=: nospace
-        else
-            _argc_util_mode_parts '/' "$argc__kv_filter" "$argc__kv_prefix"
-            if [[ -z "$argc__kv_filter" ]]; then
-                echo -e "/\0"
-                return
-            fi
-            _docker exec "${argc__kv_key}" ls -1p "$argc__parts_local_prefix" | _argc_util_transform nospaceIfEnd=/
-        fi
-    }
-    if [[ ${#argc__positionals[@]} -eq 1 ]]; then
-        _complete_container_path
-    else
-        if [[ "${argc__positionals[0]}" == *':'* ]]; then
-            echo "__argc_value=path"
-        else
-            _complete_container_path
-        fi
-    fi
-}
-
-_choice_compose_service() {
-    _docker compose convert --services
 }
 
 _choice_compose_cp() {
@@ -277,6 +192,47 @@ _choice_compose_cp() {
     fi
 }
 
+_choice_compose_service() {
+    _docker compose convert --services
+}
+
+_choice_config() {
+    _docker config ls --format '{{.Name}}\tupdated {{.UpdatedAt}}'
+}
+
+_choice_container_cp() {
+    _complete_container_path() {
+        _argc_util_mode_kv ':'
+        if [[ -z "$argc__kv_prefix" ]]; then
+            if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+                echo "__argc_value=path"
+                return
+            fi
+            _choice_container_name | _argc_util_transform suffix=: nospace
+        else
+            _argc_util_mode_parts '/' "$argc__kv_filter" "$argc__kv_prefix"
+            if [[ -z "$argc__kv_filter" ]]; then
+                echo -e "/\0"
+                return
+            fi
+            _docker exec "${argc__kv_key}" ls -1p "$argc__parts_local_prefix" | _argc_util_transform nospaceIfEnd=/
+        fi
+    }
+    if [[ ${#argc__positionals[@]} -eq 1 ]]; then
+        _complete_container_path
+    else
+        if [[ "${argc__positionals[0]}" == *':'* ]]; then
+            echo "__argc_value=path"
+        else
+            _complete_container_path
+        fi
+    fi
+}
+
+_choice_container_id() {
+    _docker ps --format '{{.ID}}\t{{.Image}} ({{.Status}})'
+}
+
 _choice_container_ls_filter() {
     cat <<-'EOF' | _argc_util_comp_kv =
 id=`_choice_container_id`
@@ -297,14 +253,16 @@ is-task=true,false
 EOF
 }
 
-_choice_image_ls_filter() {
-    cat <<-'EOF' | _argc_util_comp_kv =
-dangling=true,false
-label=
-before=`_module_oci_docker_image`
-since=`_module_oci_docker_image`
-reference=`_module_oci_docker_image`
-EOF
+_choice_container_name() {
+    _docker ps --format '{{.Names}}\t{{.Image}} ({{.Status}})'
+}
+
+_choice_container_name_all() {
+    _docker ps -a --format '{{.Names}}\t{{.Image}} ({{.Status}})'
+}
+
+_choice_context() {
+    _docker context list --format '{{.Name}}\t{{.Description}}'
 }
 
 _choice_event_filter() {
@@ -326,6 +284,48 @@ volume=`_choice_volume`
 EOF
 }
 
-_choice_args() {
-    _argc_util_comp_subcommand 1
+_choice_image_ls_filter() {
+    cat <<-'EOF' | _argc_util_comp_kv =
+dangling=true,false
+label=
+before=`_module_oci_docker_image`
+since=`_module_oci_docker_image`
+reference=`_module_oci_docker_image`
+EOF
+}
+
+_choice_network() {
+    _docker network list --format '{{.Name}}\t{{.Driver}}/{{.Scope}}'
+}
+
+_choice_node() {
+    _docker node list --format '{{.ID}}\t{{.Hostname}} {{.ManagerStatus}}'
+}
+
+_choice_plugin() {
+    _docker plugin list --format '{{.Name}}\t{{.Description}}'
+}
+
+_choice_repository() {
+    _docker image ls --format '{{.Repository}}'
+}
+
+_choice_secret() {
+    _docker secret list --format '{{.Name}}\tupdated {{.UpdatedAt}}'
+}
+
+_choice_service() {
+    _docker service list --format '{{.Name}}\t{{.Image}} {{.Mode}} {{.Replicas}}'
+}
+
+_choice_stack() {
+    _docker stack list --format '{{.Name}}\t{{.Services}} on {{.Orchestrator}}'
+}
+
+_choice_volume() {
+    _docker volume list --format '{{.Name}}\t{{.Driver}}'
+}
+
+_docker() {
+    docker $(_argc_util_param_select_options --host --config --context) "$@"
 }

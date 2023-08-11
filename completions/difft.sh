@@ -27,15 +27,15 @@
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
+_choice_language() {
+    difft --list-languages  | sed -n 's/^\(\S\+\)$/\1/p'
+}
+
 _choice_override() {
     _argc_util_mode_kv :
     if [[ -n "$argc__kv_prefix" ]]; then
         _choice_language
     fi
-}
-
-_choice_language() {
-    difft --list-languages  | sed -n 's/^\(\S\+\)$/\1/p'
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

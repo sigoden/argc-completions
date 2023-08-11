@@ -9,6 +9,16 @@
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
+_choice_block_device() {
+    lsblk --json -o KNAME,LABEL,PARTLABEL,PARTUUID,PATH,SIZE,PARTTYPENAME,TYPE,UUID | \
+    yq '.blockdevices[] | .path + "	" + .size + " " + (.parttypename // "")'
+}
+
+_choice_disk() {
+    _argc_util_comp_path
+    _choice_block_device
+}
+
 _choice_fstype() {
     cat <<-'EOF'
 bfs	is the native file system for the BeOS
@@ -39,16 +49,6 @@ vfat	is an extended FAT filesystem used by Microsoft Windows95 and Windows NT.
 xfs	is a journaling filesystem, developed by SGI.
 xiafs	was designed and implemented to be a stable, safe filesystem by  extending  the  Minix filesystem code.
 EOF
-}
-
-_choice_disk() {
-    _argc_util_comp_path
-    _choice_block_device
-}
-
-_choice_block_device() {
-    lsblk --json -o KNAME,LABEL,PARTLABEL,PARTUUID,PATH,SIZE,PARTTYPENAME,TYPE,UUID | \
-    yq '.blockdevices[] | .path + "	" + .size + " " + (.parttypename // "")'
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

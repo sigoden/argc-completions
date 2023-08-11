@@ -46,39 +46,6 @@ _choice_generator() {
 
 }
 
-_choice_set_cache_entry() {
-    _argc_util_mode_kv =
-    if [[ -z "$argc__kv_prefix" ]]; then
-        cmake -LA -N 2>/dev/null | tail -n +2 | gawk -F: '{print $1 "=\0"}'
-        return
-    else
-        if [[ "$argc__kv_key" == "CMAKE_BUILD_TYPE" ]]; then
-            printf "%s\n" Debug Release RelWithDebInfo MinSizeRel
-            return
-        fi
-        type="$(cmake -LA -N 2>/dev/null | tail -n +2 | grep "^$argc__kv_key")"
-        if [[ -n "$type" ]]; then
-            type="${type#*:}"
-            type="${type%%=*}"
-            case "$type" in
-            FILEPATH)
-                _argc_util_comp_path
-                ;;
-            PATH)
-                _argc_util_comp_path dir
-                ;;
-            BOOL)
-                printf "%s\n" ON OFF TRUE FALSE
-                ;;
-            esac
-        fi
-    fi
-}
-
-_choice_remove_cache_entry() {
-    cmake -LA -N 2>/dev/null | tail -n +2 | cut -f1 -d:
-}
-
 _choice_help_command() {
     cmake --help-command-list 2>&1 | grep -v "^cmake version "
 }
@@ -113,4 +80,37 @@ _choice_preset() {
         -e 's,^[[:space:]]*"\([^"]*\)"[[:space:]]*-[[:space:]]*\(.*\),\1:\2,p' \
         -e 's,^[[:space:]]*"\([^"]*\)"[[:space:]]*$,\1,p' \
 
+}
+
+_choice_remove_cache_entry() {
+    cmake -LA -N 2>/dev/null | tail -n +2 | cut -f1 -d:
+}
+
+_choice_set_cache_entry() {
+    _argc_util_mode_kv =
+    if [[ -z "$argc__kv_prefix" ]]; then
+        cmake -LA -N 2>/dev/null | tail -n +2 | gawk -F: '{print $1 "=\0"}'
+        return
+    else
+        if [[ "$argc__kv_key" == "CMAKE_BUILD_TYPE" ]]; then
+            printf "%s\n" Debug Release RelWithDebInfo MinSizeRel
+            return
+        fi
+        type="$(cmake -LA -N 2>/dev/null | tail -n +2 | grep "^$argc__kv_key")"
+        if [[ -n "$type" ]]; then
+            type="${type#*:}"
+            type="${type%%=*}"
+            case "$type" in
+            FILEPATH)
+                _argc_util_comp_path
+                ;;
+            PATH)
+                _argc_util_comp_path dir
+                ;;
+            BOOL)
+                printf "%s\n" ON OFF TRUE FALSE
+                ;;
+            esac
+        fi
+    fi
 }

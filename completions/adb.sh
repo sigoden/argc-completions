@@ -458,13 +458,13 @@ reconnect() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
+_choice_args() {
+    _argc_util_comp_subcommand 0
+}
+
 _choice_reconnect_type() {
     echo "device	kick connection from device side to force reconnect"
     echo "offline	reset offline/unauthorized devices to force reconnect"
-}
-
-_choice_args() {
-    _argc_util_comp_subcommand 0
 }
 
 _module_os_command() {

@@ -83,21 +83,12 @@
 # @option -P-[`_choice_protocol`]              Protocol options
 # @arg hosts*[`_module_os_hostname`]
 
-_choice_scan() {
+_choice_output_format() {
     cat <<-'EOF'
-L	List Scan - simply list targets to scan
-n	Ping Scan - disable port scan
-S	TCY SYNC scans
-T	Connect scans
-A	ACK scans
-W	Window scans
-M	Maimon scans
-I	Idle scan
-Y	SCTP INIT scans
-Z	COOKIE-ECHO scans
-O	IP protocol scan
-V	Probe open ports to determine service/version info
-C	equivalent to --script=default
+N	normal format
+X	xml format
+S	Script kiddie format
+G	Grepable format
 EOF
 }
 
@@ -115,12 +106,21 @@ O	IP Protocol Ping
 EOF
 }
 
-_choice_output_format() {
+_choice_scan() {
     cat <<-'EOF'
-N	normal format
-X	xml format
-S	Script kiddie format
-G	Grepable format
+L	List Scan - simply list targets to scan
+n	Ping Scan - disable port scan
+S	TCY SYNC scans
+T	Connect scans
+A	ACK scans
+W	Window scans
+M	Maimon scans
+I	Idle scan
+Y	SCTP INIT scans
+Z	COOKIE-ECHO scans
+O	IP protocol scan
+V	Probe open ports to determine service/version info
+C	equivalent to --script=default
 EOF
 }
 

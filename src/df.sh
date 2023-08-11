@@ -6,6 +6,10 @@ _patch_table() {
 
 }
 
+_choice_output() {
+    printf "%s\n" avail file fstype iavail ipcent itotal iused pcent size source target used
+}
+
 _choice_type() {
     cat <<-'EOF'
 adfs
@@ -29,8 +33,4 @@ hugetlbfs
 pstore
 swap
 EOF
-}
-
-_choice_output() {
-    printf "%s\n" avail file fstype iavail ipcent itotal iused pcent size source target used
 }

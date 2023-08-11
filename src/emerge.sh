@@ -33,6 +33,19 @@ _choice_args() {
     _choice_package_smart
 }
 
+_choice_installed_package() {
+    find /var/db/pkg -mindepth 2 -maxdepth 2 -type d -printf '%P\n' | \
+    sed 's/-[0-9][0-9.]*.*$//'
+}
+
+_choice_package() {
+    find /var/db/repos/gentoo -mindepth 2 -maxdepth 2 -type d ! '(' '(' -path '*/eclass/*' -o -path '*/metadata/*' -o -path '*/profiles/*' -o -path '*/.*/*' ')' -prune ')' -printf '%P\n'
+}
+
+_choice_package_set() {
+    emerge --list-sets
+}
+
 _choice_package_smart() {
     if [[ -n "$argc_config" ]] \
     || [[ -n "$argc_depclean" ]] \
@@ -45,17 +58,4 @@ _choice_package_smart() {
         _choice_package | _argc_util_comp_parts /
         _choice_package_set
     fi
-}
-
-_choice_installed_package() {
-    find /var/db/pkg -mindepth 2 -maxdepth 2 -type d -printf '%P\n' | \
-    sed 's/-[0-9][0-9.]*.*$//'
-}
-
-_choice_package() {
-    find /var/db/repos/gentoo -mindepth 2 -maxdepth 2 -type d ! '(' '(' -path '*/eclass/*' -o -path '*/metadata/*' -o -path '*/profiles/*' -o -path '*/.*/*' ')' -prune ')' -printf '%P\n'
-}
-
-_choice_package_set() {
-    emerge --list-sets
 }

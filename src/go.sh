@@ -265,6 +265,10 @@ _patch_table() {
     fi
 }
 
+_choice_bench_target() {
+    go test -list='^Bench' 2>/dev/null | sed '$d'
+}
+
 _choice_buildmode() {
     cat <<-'EOF'
 archive
@@ -282,25 +286,8 @@ _choice_env() {
     go env --json | yq 'to_entries | map(.key + "	" + .value) | .[]'
 }
 
-_choice_bench_target() {
-    go test -list='^Bench' 2>/dev/null | sed '$d'
-}
-
-_choice_test_target() {
-    go test -list='^(Test|Example)' 2>/dev/null | sed '$d'
-}
-
-_choice_tool() {
-    go tool
-}
-
 _choice_mod() {
     _helper_mod_json | yq '(.Require // []) | map(.Path + "@" + .Version) | .[]'
-}
-
-
-_choice_mod_no_version() {
-    _helper_mod_json | yq '(.Require // []) | .[].Path'
 }
 
 _choice_mod_dropexclude() {
@@ -313,6 +300,10 @@ _choice_mod_dropreplace() {
 
 _choice_mod_droprequire() {
     _helper_mod_json | yq '(.Require // []) | filter(.Indirect != true) | .[].Path'
+}
+
+_choice_mod_no_version() {
+    _helper_mod_json | yq '(.Require // []) | .[].Path'
 }
 
 _choice_mod_replace() {
@@ -331,6 +322,14 @@ _choice_mod_replace() {
 
 _choice_mod_why() {
     _argc_util_parallel _choice_mod_no_version ::: _helper_list_imports
+}
+
+_choice_test_target() {
+    go test -list='^(Test|Example)' 2>/dev/null | sed '$d'
+}
+
+_choice_tool() {
+    go tool
 }
 
 _choice_work_dropreplace() {
@@ -359,6 +358,10 @@ _choice_work_replace() {
     fi
 }
 
+_helper_list_imports() {
+     go list -f "{{.ImportPath}}	{{.Doc}}" all
+}
+
 _helper_mod_json() {
     local args=()
     if [[ -f "$argc_modfile" ]]; then
@@ -373,8 +376,4 @@ _helper_work_json() {
         args+=( "$argc_workfile" )
     fi
     go work edit -json "${args[@]}" 2>/dev/null
-}
-
-_helper_list_imports() {
-     go list -f "{{.ImportPath}}	{{.Doc}}" all
 }

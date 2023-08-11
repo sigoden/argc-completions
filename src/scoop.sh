@@ -122,42 +122,13 @@ _patch_table() {
     fi
 }
 
-
 _choice_alias() {
     scoop alias list | tail -n +4 | sed 's/ \+/\t/'
-}
-
-_choice_known_bucket() {
-    scoop bucket known
 }
 
 _choice_bucket() {
     _helper_get_scoop_dir
     ls -1 --indicator-style=none "$scoop_dir/buckets"
-}
-
-_choice_package() {
-    _helper_get_scoop_dir
-    for bucket_dir in "$scoop_dir/buckets/"*; do
-        ls -1 "$bucket_dir/bucket/" | sed 's/\.json$//'
-    done
-}
-
-_choice_installed_package() {
-    _helper_get_scoop_dir
-    ls -1 --indicator-style=none "$scoop_dir/apps"
-}
-
-_choice_package_or_path() {
-    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
-        _argc_util_comp_path
-        return
-    fi
-    _choice_package
-}
-
-_choice_shim_cmd() {
-    printf "%s\n" add rm list info alter
 }
 
 _choice_config_key() {
@@ -214,14 +185,42 @@ _choice_config_value() {
     esac
 }
 
+_choice_installed_package() {
+    _helper_get_scoop_dir
+    ls -1 --indicator-style=none "$scoop_dir/apps"
+}
+
+_choice_known_bucket() {
+    scoop bucket known
+}
+
+_choice_package() {
+    _helper_get_scoop_dir
+    for bucket_dir in "$scoop_dir/buckets/"*; do
+        ls -1 "$bucket_dir/bucket/" | sed 's/\.json$//'
+    done
+}
+
+_choice_package_or_path() {
+    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+        _argc_util_comp_path
+        return
+    fi
+    _choice_package
+}
+
+_choice_shim_cmd() {
+    printf "%s\n" add rm list info alter
+}
+
+_helper_get_config_file() {
+    config_file="$(_argc_util_path_resolve $HOME .config/scoop/config.json)"
+}
+
 _helper_get_scoop_dir() {
     _helper_get_config_file
     scoop_dir="$(command cat "$config_file" | yq '.root_path // ""')"
     if [[ -z "$scoop_dir" ]]; then
         scoop_dir="$(_argc_util_path_resolve $USERPROFILE\\scoop)"
     fi
-}
-
-_helper_get_config_file() {
-    config_file="$(_argc_util_path_resolve $HOME .config/scoop/config.json)"
 }

@@ -14,12 +14,12 @@
 # @flag -V --version                     Print version
 # @arg text*                             Input text
 
-_choice_role() {
-    aichat --list-roles
-}
-
 _choice_model() {
     aichat --list-models
+}
+
+_choice_role() {
+    aichat --list-roles
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

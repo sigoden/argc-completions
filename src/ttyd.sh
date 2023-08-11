@@ -28,6 +28,10 @@ _patch_table() {
 
 }
 
+_choice_args() {
+    _argc_util_comp_subcommand 0
+}
+
 _choice_interface() {
     _argc_util_comp_path
     _module_os_network_interface
@@ -40,8 +44,4 @@ _choice_socket_owner() {
     else
         _module_os_group
     fi
-}
-
-_choice_args() {
-    _argc_util_comp_subcommand 0
 }

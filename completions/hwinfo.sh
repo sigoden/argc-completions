@@ -70,9 +70,12 @@
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_save_config() {
-    echo all
-    _choice_device_udi
+_choice_device() {
+    if [[ -z "$ARGC_FILTER" ]]; then
+        echo "/dev/\0"
+    else
+        _argc_util_comp_path
+    fi
 }
 
 _choice_device_udi() {
@@ -86,12 +89,9 @@ _choice_device_udi() {
     }'
 }
 
-_choice_device() {
-    if [[ -z "$ARGC_FILTER" ]]; then
-        echo "/dev/\0"
-    else
-        _argc_util_comp_path
-    fi
+_choice_save_config() {
+    echo all
+    _choice_device_udi
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

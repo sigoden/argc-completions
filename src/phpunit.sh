@@ -8,10 +8,10 @@ _patch_table() {
     
 }
 
-_choice_suite() {
-    phpunit --list-groups | tail -n +4 | sed -e 's/^\s*- //' -e 's/.$//'
-}
-
 _choice_group() {
     phpunit --list-suites | tail -n +4 | sed -e 's/^\s*- //' -e 's/.$//'
+}
+
+_choice_suite() {
+    phpunit --list-groups | tail -n +4 | sed -e 's/^\s*- //' -e 's/.$//'
 }

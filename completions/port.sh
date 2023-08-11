@@ -625,16 +625,16 @@ mdmg() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_package_cached() {
-    _argc_util_cache 86400 _choice_package
+_choice_installed_package() {
+    port installed | gawk '/^  / {print $1}'
 }
 
 _choice_package() {
     port echo all | sed 's/\(\S\+\).*/\1/'
 }
 
-_choice_installed_package() {
-    port installed | gawk '/^  / {print $1}'
+_choice_package_cached() {
+    _argc_util_cache 86400 _choice_package
 }
 
 _choice_variant() {

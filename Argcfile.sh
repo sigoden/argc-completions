@@ -155,6 +155,30 @@ xtest() {
     fi
 }
 
+# @cmd Format the src file
+# @arg names*[`_choice_src_name`]
+format() {
+    for name in ${argc_names[@]}; do
+        srcfile="src/$name.sh"
+        if [[ ! -f "$srcfile" ]]; then
+            echo "missing $srcfile "
+        else
+            echo "format $srcfile "
+            _helper_format_srcfile "$src_file"
+        fi
+    done
+}
+
+# @cmd Format all src files
+format:all() {
+    while IFS=$'\n' read -r srcfile; do
+        if [[ -f "$srcfile" && ! -L "$srcfile" ]]; then
+            echo "format $srcfile"
+            _helper_format_srcfile $srcfile
+        fi
+    done < <(find src/ -type f -name "*.sh" | sort)
+}
+
 _choice_command() {
     if [[ "$ARGC_OS" != "windows" ]]; then
         compgen -c
@@ -173,9 +197,19 @@ _choice_fn_name() {
     fi
 }
 
+_choice_src_name() {
+    ls -1 src | sed -n 's/^\([[:alnum:]-]\+\)\.sh$/\1/p'
+}
+
 _choice_print_target() {
     echo __argc_value=file
     _choice_completion
+}
+
+_helper_format_srcfile() {
+    tmpfile="${tmpfile:-"/tmp/argc-completions-format-tmp.sh"}"
+    cat "$srcfile" | gawk -f ./scripts/sort-fns.awk > "$tmpfile"
+    mv "$tmpfile" "$srcfile"
 }
 
 _helper_print_help() {

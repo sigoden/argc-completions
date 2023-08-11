@@ -63,14 +63,6 @@
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_task_cached() {
-    _argc_util_cache 3600 _choice_task $PWD
-}
-
-_choice_task() {
-    gradle -q tasks --all | sed -n 's/^\(\S\+\) - \(.*\)$/\1\t\2/p'
-}
-
 _choice_system_prop() {
     cat <<-'EOF' | _argc_util_comp_kv =
 org.gradle.cache.reserved.mb=;;Reserve Gradle Daemon memory for operations 
@@ -87,6 +79,14 @@ org.gradle.priority=low,normal;;Set priority for Gradle worker processes
 org.gradle.warning.mode=all,summary,fail,none;;Set types of warnings to log  
 org.gradle.workers.max=;;Set the number of workers Gradle is allowed to use
 EOF
+}
+
+_choice_task() {
+    gradle -q tasks --all | sed -n 's/^\(\S\+\) - \(.*\)$/\1\t\2/p'
+}
+
+_choice_task_cached() {
+    _argc_util_cache 3600 _choice_task $PWD
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

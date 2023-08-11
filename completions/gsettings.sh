@@ -123,16 +123,19 @@ monitor() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_gsettings() {
-    gsettings $(_argc_util_param_select_options --schemadir) "$@"
-}
-
-_choice_schema() {
-    _gsettings list-schemas
+_choice_key() {
+    if [[ -z "$argc_schema_path" ]]; then
+        return
+    fi
+    _gsettings list-keys ${argc_schema_path%%:*}
 }
 
 _choice_relocatable_schema() {
     _gsettings list-relocatable-schemas
+}
+
+_choice_schema() {
+    _gsettings list-schemas
 }
 
 _choice_schema_path() {
@@ -145,11 +148,8 @@ _choice_schema_path() {
     fi
 }
 
-_choice_key() {
-    if [[ -z "$argc_schema_path" ]]; then
-        return
-    fi
-    _gsettings list-keys ${argc_schema_path%%:*}
+_gsettings() {
+    gsettings $(_argc_util_param_select_options --schemadir) "$@"
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

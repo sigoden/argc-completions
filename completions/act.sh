@@ -55,10 +55,6 @@
 # @option -W --workflows <file>                 path to workflow file(s) (default "./.github/workflows/")
 # @arg event[`_choice_event`]
 
-_choice_job() {
-    act -l 2>/dev/null | tail +2 | gawk '{print $2}'    
-}
-
 _choice_event() {
     cat <<-'EOF'
 branch_protection_rule
@@ -98,6 +94,10 @@ workflow_call
 workflow_dispatch
 workflow_run
 EOF
+}
+
+_choice_job() {
+    act -l 2>/dev/null | tail +2 | gawk '{print $2}'    
 }
 
 _module_oci_docker_platform() {

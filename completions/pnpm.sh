@@ -767,20 +767,12 @@ _choice_config_key() {
     pnpm config list --json | yq 'keys | .[]'
 }
 
-_choice_script() {
+_choice_dependency() {
     _helper_apply_filter
     _helper_find_pkg_json_path
     if [[ -n "$pkg_json_path" ]]; then
-        cat "$pkg_json_path" | yq '(.scripts // {}) | keys | .[]'
+        cat "$pkg_json_path" | yq '(.dependencies // {}) + (.devDependencies // {}) + (.optionalDependencies // {}) | keys | .[]'
     fi
-}
-_choice_reporter() {
-    cat <<-'EOF'
-append-only	The output is always appended to the end. No cursor manipulations are performed"
-default	The default reporter when the stdout is TTY"
-ndjson	The most verbose reporter. Prints all logs in ndjson format"
-silent	No output is logged to the console, except fatal errors"
-EOF
 }
 
 _choice_pacakge_import_method() {
@@ -792,11 +784,20 @@ hardlink	Hardlink packages from the store"
 EOF
 }
 
-_choice_dependency() {
+_choice_reporter() {
+    cat <<-'EOF'
+append-only	The output is always appended to the end. No cursor manipulations are performed"
+default	The default reporter when the stdout is TTY"
+ndjson	The most verbose reporter. Prints all logs in ndjson format"
+silent	No output is logged to the console, except fatal errors"
+EOF
+}
+
+_choice_script() {
     _helper_apply_filter
     _helper_find_pkg_json_path
     if [[ -n "$pkg_json_path" ]]; then
-        cat "$pkg_json_path" | yq '(.dependencies // {}) + (.devDependencies // {}) + (.optionalDependencies // {}) | keys | .[]'
+        cat "$pkg_json_path" | yq '(.scripts // {}) | keys | .[]'
     fi
 }
 

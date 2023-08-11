@@ -35,12 +35,12 @@
 # @option -x[`_choice_attached_screen`]     Attach to a not detached screen.
 # @flag -X                                  Execute <cmd> as a screen command in the specified session.
 
-_choice_screen() {
-    _helper_list_screen
-}
-
 _choice_attached_screen() {
     _helper_list_screen | grep Detached
+}
+
+_choice_screen() {
+    _helper_list_screen
 }
 
 _helper_list_screen() {

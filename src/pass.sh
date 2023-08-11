@@ -56,6 +56,11 @@ _patch_table() {
     fi
 }
 
+_choice_git() {
+    _helper_find_root_dir
+    (cd "$root_dir" && _argc_util_comp_subcommand 0 git)
+}
+
 _choice_gpg_id() {
     gpg --list-keys --with-colons | grep '^pub\|^uid' | grep -A1 'pub' | gawk -F: '/^pub:|^uid:/ {print $5 $10}'
 }
@@ -68,11 +73,6 @@ _choice_pass_dir() {
 _choice_pass_name() {
     _helper_find_root_dir
     command ls -a1dp "$root_dir$ARGC_FILTER"* | sed -e "s|$root_dir||" -e 's/\.gpg$//' | _argc_util_comp_parts /
-}
-
-_choice_git() {
-    _helper_find_root_dir
-    (cd "$root_dir" && _argc_util_comp_subcommand 0 git)
 }
 
 _helper_find_root_dir() {

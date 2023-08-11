@@ -6,6 +6,10 @@ _patch_table() {
     _patch_table_edit_arguments ';;' 'words;~[`_choice_delegate`]'
 }
 
+_choice_cmd() {
+    openssl list -1 -commands -cipher-commands -digest-commands
+}
+
 _choice_delegate() {
     if _argc_util_has_path_prefix "$ARGC_FILTER"; then
         _argc_util_comp_path
@@ -21,8 +25,4 @@ _choice_delegate() {
         return
     fi
     _argc_util_comp_path
-}
-
-_choice_cmd() {
-    openssl list -1 -commands -cipher-commands -digest-commands
 }

@@ -89,8 +89,32 @@
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
+_choice_bsf() {
+    ffmpeg -hide_banner -bsfs | tail -n +2
+}
+
 _choice_codec() {
     ffmpeg -hide_banner -codecs | tail -n +11 | sed 's/^.\{7\} \([^ ]\+\) \(.*\)$/\1\t\2/'
+}
+
+_choice_decoder() {
+    ffmpeg -hide_banner -decoders | tail -n +11 | sed 's/^.\{7\} \([^ ]\+\) \(.*\)$/\1\t\2/'
+}
+
+_choice_demuxer() {
+    ffmpeg -hide_banner -demuxers | tail -n +5 | sed 's/^.\{3\} \([^ ]\+\) \(.*\)$/\1\t\2/'
+}
+
+_choice_device() {
+    ffmpeg -hide_banner -devices | tail -n +5 | sed 's/^.\{3\} \([^ ]\+\) \(.*\)$/\1\t\2/'
+}
+
+_choice_encoder() {
+    ffmpeg -hide_banner -encoders | tail -n +11 | sed 's/^.\{7\} \([^ ]\+\) \(.*\)$/\1\t\2/'
+}
+
+_choice_filter() {
+    ffmpeg -hide_banner -filters | tail -n +9 | sed 's/^.\{4\} \([^ ]\+\) \+[^ ]\+ \(.*\)$/\1\t\2/'
 }
 
 _choice_filter_kv() {
@@ -130,32 +154,8 @@ trace
 EOF
 }
 
-_choice_device() {
-    ffmpeg -hide_banner -devices | tail -n +5 | sed 's/^.\{3\} \([^ ]\+\) \(.*\)$/\1\t\2/'
-}
-
-_choice_decoder() {
-    ffmpeg -hide_banner -decoders | tail -n +11 | sed 's/^.\{7\} \([^ ]\+\) \(.*\)$/\1\t\2/'
-}
-
-_choice_encoder() {
-    ffmpeg -hide_banner -encoders | tail -n +11 | sed 's/^.\{7\} \([^ ]\+\) \(.*\)$/\1\t\2/'
-}
-
-_choice_demuxer() {
-    ffmpeg -hide_banner -demuxers | tail -n +5 | sed 's/^.\{3\} \([^ ]\+\) \(.*\)$/\1\t\2/'
-}
-
 _choice_muxer() {
     ffmpeg -hide_banner -muxers | tail -n +5 | sed 's/^.\{3\} \([^ ]\+\) \(.*\)$/\1\t\2/'
-}
-
-_choice_filter() {
-    ffmpeg -hide_banner -filters | tail -n +9 | sed 's/^.\{4\} \([^ ]\+\) \+[^ ]\+ \(.*\)$/\1\t\2/'
-}
-
-_choice_bsf() {
-    ffmpeg -hide_banner -bsfs | tail -n +2
 }
 
 _choice_protocol() {

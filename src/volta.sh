@@ -12,10 +12,10 @@ _patch_table() {
     fi
 }
 
-_choice_tool() {
-    volta list --format plain | gawk '{print $2}'
-}
-
 _choice_args() {
     _argc_util_comp_subcommand 0
+}
+
+_choice_tool() {
+    volta list --format plain | gawk '{print $2}'
 }

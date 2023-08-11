@@ -414,14 +414,6 @@ contact() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_package_cached() {
-    _argc_util_cache 3600 _choice_package
-}
-
-_choice_package() {
-    vcpkg search --x-json | yq 'to_entries | .[] | .key + "	" + .value.description[0]'
-}
-
 _choice_installed_package() {
     vcpkg list --x-json | yq 'to_entries | .[] | .value.package_name'
 }
@@ -436,6 +428,14 @@ bash	Enable bash tab-completion.
 zsh	Enable zsh tab-completion.
 x-fish	Enable fish tab-completion.
 EOF
+}
+
+_choice_package() {
+    vcpkg search --x-json | yq 'to_entries | .[] | .key + "	" + .value.description[0]'
+}
+
+_choice_package_cached() {
+    _argc_util_cache 3600 _choice_package
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

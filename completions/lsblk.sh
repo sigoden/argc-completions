@@ -32,6 +32,10 @@
 # @flag -V --version                              display version
 # @arg device*[`_choice_block_device`]
 
+_choice_block_device() {
+    lsblk --json -o KNAME,LABEL,PARTLABEL,PARTUUID,PATH,SIZE,PARTTYPENAME,TYPE,UUID | yq '.blockdevices[] | .path + "	" + .size + " " + (.parttypename // "")'
+}
+
 _choice_column() {
     cat <<-'EOF'
 NAME	device name
@@ -90,10 +94,6 @@ VENDOR	device vendor
 ZONED	zone model
 DAX	dax-capable device
 EOF
-}
-
-_choice_block_device() {
-    lsblk --json -o KNAME,LABEL,PARTLABEL,PARTUUID,PATH,SIZE,PARTTYPENAME,TYPE,UUID | yq '.blockdevices[] | .path + "	" + .size + " " + (.parttypename // "")'
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

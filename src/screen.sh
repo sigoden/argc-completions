@@ -17,12 +17,12 @@ _patch_table() {
 
 }
 
-_choice_screen() {
-    _helper_list_screen
-}
-
 _choice_attached_screen() {
     _helper_list_screen | grep Detached
+}
+
+_choice_screen() {
+    _helper_list_screen
 }
 
 _helper_list_screen() {

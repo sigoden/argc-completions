@@ -23,6 +23,15 @@ _choice_lang() {
     tesseract --list-langs | tail -n +2
 }
 
+_choice_oem() {
+    cat <<-'EOF'
+0	Legacy engine only.
+1	Neural nets LSTM engine only.
+2	Legacy + LSTM engines.
+3	Default, based on what is available.
+EOF
+}
+
 _choice_psm() {
     cat <<-'EOF'
 0	Orientation and script detection (OSD) only.
@@ -39,15 +48,6 @@ _choice_psm() {
 11	Sparse text. Find as much text as possible in no particular order.
 12	Sparse text with OSD.
 13	Raw line. Treat the image as a single text line,
-EOF
-}
-
-_choice_oem() {
-    cat <<-'EOF'
-0	Legacy engine only.
-1	Neural nets LSTM engine only.
-2	Legacy + LSTM engines.
-3	Default, based on what is available.
 EOF
 }
 

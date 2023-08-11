@@ -15,10 +15,10 @@ _patch_table() {
     _patch_table_edit_arguments 'hostname;[`_module_os_hostname`]'
 }
 
-_choice_proxy_type() {
-    printf "%s\n" http socks4 socks5
-}
-
 _choice_proxy_dns() {
     printf "%s\n" local remote both none
+}
+
+_choice_proxy_type() {
+    printf "%s\n" http socks4 socks5
 }

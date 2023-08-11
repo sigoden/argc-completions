@@ -69,26 +69,6 @@ _patch_table() {
     fi
 }
 
-_choice_package() {
-    pacman -Ssq 
-}
-
-_choice_installed_package() {
-    pacman -Q | sed 's/ /\t/'
-}
-
-_choice_package_group() {
-    pacman -Sg
-}
-
-_choice_repo() {
-    cat /etc/pacman.conf  | sed -n -e '/^\[options\]/ d' -e '/^\[.*\]/ s/^\[\(.*\)\]/\1/p'
-}
-
-_choice_sync_package() {
-    _argc_util_parallel _choice_package ::: _choice_package_group
-}
-
 _choice_database() {
     if [[ "$argc_asdeps" -eq 1 ]] \
     || [[ "$argc_asexplicit" -eq 1  ]] \
@@ -104,4 +84,24 @@ _choice_file_database() {
         return
     fi
     _choice_package
+}
+
+_choice_installed_package() {
+    pacman -Q | sed 's/ /\t/'
+}
+
+_choice_package() {
+    pacman -Ssq 
+}
+
+_choice_package_group() {
+    pacman -Sg
+}
+
+_choice_repo() {
+    cat /etc/pacman.conf  | sed -n -e '/^\[options\]/ d' -e '/^\[.*\]/ s/^\[\(.*\)\]/\1/p'
+}
+
+_choice_sync_package() {
+    _argc_util_parallel _choice_package ::: _choice_package_group
 }

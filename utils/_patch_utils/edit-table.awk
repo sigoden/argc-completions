@@ -8,11 +8,11 @@ BEGIN {
     RE_REMOVE_NOTATION_PREFIX = "[=!]"
 
     split("", OPTIONS)
-    OPTIONS_NUM = 0
+    OPTION_NUM = 0
     split("", ARGUMENTS)
-    ARGUMENTS_NUM = 0
+    ARGUMENT_NUM = 0
     split("", COMMANDS)
-    COMMANDS_NUM = 0
+    COMMAND_NUM = 0
 
     split(RAW_ARGS, args, "\n")
     split("", LINES)
@@ -101,13 +101,13 @@ END {
         }
     }
 
-    for (i = 1; i <= OPTIONS_NUM; i++) {
+    for (i = 1; i <= OPTION_NUM; i++) {
         print OPTIONS[i]
     }
-    for (i = 1; i <= ARGUMENTS_NUM; i++) {
+    for (i = 1; i <= ARGUMENT_NUM; i++) {
         print ARGUMENTS[i]
     }
-    for (i = 1; i <= COMMANDS_NUM; i++) {
+    for (i = 1; i <= COMMAND_NUM; i++) {
         print COMMANDS[i]
     }
 }
@@ -289,18 +289,18 @@ function splitCommand(line, output,     parts) {
 }
 
 function addOptionLine(line) {
-    OPTIONS_NUM += 1
-    OPTIONS[OPTIONS_NUM] = line
+    OPTION_NUM += 1
+    OPTIONS[OPTION_NUM] = line
 }
 
 function addArgumentLine(line) {
-    ARGUMENTS_NUM += 1
-    ARGUMENTS[ARGUMENTS_NUM] = line
+    ARGUMENT_NUM += 1
+    ARGUMENTS[ARGUMENT_NUM] = line
 }
 
 function addCommandLine(line) {
-    COMMANDS_NUM += 1
-    COMMANDS[COMMANDS_NUM] = line
+    COMMAND_NUM += 1
+    COMMANDS[COMMAND_NUM] = line
 }
 
 function extractOptionName(optionBody,      len, idx, i) {

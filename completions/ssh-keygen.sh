@@ -46,11 +46,36 @@
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
+_choice_b() {
+    case "$argc_t" in
+    rsa)
+        printf "%s\n" 1024 2048 3072
+        ;;
+    dsa)
+        printf "%s\n" 1024
+        ;;
+    ecdsa)
+        printf "%s\n" 256 384 521
+        ;;
+    esac
+}
+
+_choice_cipher() {
+    ssh -Q cipher
+}
 
 _choice_m() {
     cat <<-'EOF'
 generate	Generate candidate Diffie-Hellman Group Exchange (DH-GEX) parameters
 screen	Screen candidate parameters for Diffie-Hellman Group Exchange
+EOF
+}
+
+_choice_m2() {
+    cat <<-'EOF'
+RFC4716	RFC 4716/SSH2 public or private key
+PKCS8	PKCS8 public or private key
+PEM	PEM public key
 EOF
 }
 
@@ -78,32 +103,6 @@ match-principals	Find principal matching the principal name provided using the -
 check-novalidate	Checks that a signature generated using ssh-keygen -Y sign has a valid structure
 sign	Cryptographically sign a file or some data using a SSH key
 verify	Request to verify a signature generated using ssh-keygen -Y sign
-EOF
-}
-
-_choice_cipher() {
-    ssh -Q cipher
-}
-
-_choice_b() {
-    case "$argc_t" in
-    rsa)
-        printf "%s\n" 1024 2048 3072
-        ;;
-    dsa)
-        printf "%s\n" 1024
-        ;;
-    ecdsa)
-        printf "%s\n" 256 384 521
-        ;;
-    esac
-}
-
-_choice_m2() {
-    cat <<-'EOF'
-RFC4716	RFC 4716/SSH2 public or private key
-PKCS8	PKCS8 public or private key
-PEM	PEM public key
 EOF
 }
 

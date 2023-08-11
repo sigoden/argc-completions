@@ -15,6 +15,10 @@ _patch_table() {
     fi
 }
 
+_choice_install_bin() {
+    find ~/.deno/bin -maxdepth 1 -type f | xargs -I% basename % | grep -v '.cmd$\|^deno$'
+}
+
 _choice_lint_rule() {
     deno lint --rules --json | yq '.[] | (.docs | split("\n") | .0) as $desc | .code + "	" + $desc'
 }
@@ -24,10 +28,6 @@ _choice_task() {
     if [[ -n "$deno_json_path" ]]; then
         cat "$deno_json_path" | yq '.tasks | keys | .[]' 
     fi
-}
-
-_choice_install_bin() {
-    find ~/.deno/bin -maxdepth 1 -type f | xargs -I% basename % | grep -v '.cmd$\|^deno$'
 }
 
 _helper_find_deno_json_path() {

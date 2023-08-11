@@ -967,17 +967,6 @@ platform	display the supported gem platforms
 EOF
 }
 
-_choice_installed_package() {
-    gem list --local | sed 's/\(\S\+\) (\(.*\))/\1\t\2/'   
-}
-
-_choice_package() {
-    if [[ "${#ARGC_FILTER}" -lt 2 ]]; then
-        return
-    fi
-    gem search "^$ARGC_FILTER" | sed -n 's/^\(\S\+\) (\(.*\))$/\1\t\2/p'
-}
-
 _choice_install() {
     if _argc_util_has_path_prefix "$ARGC_FILTER"; then
         _argc_util_comp_path
@@ -986,11 +975,22 @@ _choice_install() {
     _choice_package
 }
 
+_choice_installed_package() {
+    gem list --local | sed 's/\(\S\+\) (\(.*\))/\1\t\2/'   
+}
+
 _choice_lock() {
     if [[ "${#ARGC_FILTER}" -lt 2 ]]; then
         return
     fi
     gem search "^$ARGC_FILTER" | sed -n 's/^\(\S\+\) (\(.*\))$/\1-\2/p'
+}
+
+_choice_package() {
+    if [[ "${#ARGC_FILTER}" -lt 2 ]]; then
+        return
+    fi
+    gem search "^$ARGC_FILTER" | sed -n 's/^\(\S\+\) (\(.*\))$/\1\t\2/p'
 }
 
 _choice_spec_field() {

@@ -85,11 +85,6 @@ _patch_table() {
     fi
 }
 
-_choice_script_or_bin() {
-    echo __argc_value=file
-    _choice_script
-}
-
 _choice_dependency() {
     _helper_find_pkg_json_path
     if [[ -n "$pkg_json_path" ]]; then
@@ -102,6 +97,11 @@ _choice_script() {
     if [[ -n "$pkg_json_path" ]]; then
         cat "$pkg_json_path" | yq '(.scripts // {}) | keys | .[]'
     fi
+}
+
+_choice_script_or_bin() {
+    echo __argc_value=file
+    _choice_script
 }
 
 _helper_find_pkg_json_path() {

@@ -634,12 +634,12 @@ version() {
 }
 # }} apk version
 
-_choice_package() {
-    apk search -q
-}
-
 _choice_installed_package() {
     apk info -q
+}
+
+_choice_package() {
+    apk search -q
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

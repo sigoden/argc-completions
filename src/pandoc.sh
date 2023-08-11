@@ -22,12 +22,8 @@ _patch_table() {
 
 }
 
-_choice_input_format() {
-    pandoc --list-input-formats
-}
-
-_choice_output_format() {
-    pandoc --list-output-formats
+_choice_format() {
+    _argc_util_parallel _choice_input_format :::  _choice_output_format
 }
 
 _choice_highlight_style() {
@@ -35,6 +31,10 @@ _choice_highlight_style() {
     printf "%s\n" pygments kate monochrome breezeDark espresso zenburn haddock tango
 }
 
-_choice_format() {
-    _argc_util_parallel _choice_input_format :::  _choice_output_format
+_choice_input_format() {
+    pandoc --list-input-formats
+}
+
+_choice_output_format() {
+    pandoc --list-output-formats
 }

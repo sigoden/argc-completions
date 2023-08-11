@@ -13,4 +13,3 @@ _choice_color() {
 _choice_time() {
     printf "%s\n" full-iso long-iso iso locale
 }
-

@@ -14,7 +14,6 @@ _patch_table() {
     _patch_table_edit_arguments ';;' 'PAGES;*[`_choice_page`]'
 }
 
-
 _choice_page() {
     if [[ -n $argc_local_file ]]; then
         _argc_util_comp_path exts=.man

@@ -31,13 +31,13 @@ _patch_table() {
     
 }
 
-_choice_encoding_combined() {
-    _argc_util_mode_kv :
-    if [[ -z "$argc__kv_prefix" ]]; then
-        _choice_encoding
-        return
-    fi
-    _choice_encoding
+_choice_dump() {
+    cat <<-'EOF'
+insns	instruction sequences
+yydebug	yydebug of yacc parser generator
+parsetree	AST
+parsetree_with_comment	AST with comments
+EOF
 }
 
 _choice_encoding() {
@@ -50,37 +50,13 @@ Shift_JIS	Specifies the Shift_JIS encoding for Japanese text.
 EOF
 }
 
-_choice_warning_level_combined() {
+_choice_encoding_combined() {
     _argc_util_mode_kv :
     if [[ -z "$argc__kv_prefix" ]]; then
-        _choice_warning_level
+        _choice_encoding
         return
     fi
-    _choice_warning_category
-}
-
-_choice_warning_level() {
-    cat <<-'EOF'
-0	silence
-1	medium
-2	verbose
-EOF
-}
-
-_choice_warning_category() {
-    cat <<-'EOF'
-deprecated	deprecated features
-experimental	experimental features
-EOF
-}
-
-_choice_dump() {
-    cat <<-'EOF'
-insns	instruction sequences
-yydebug	yydebug of yacc parser generator
-parsetree	AST
-parsetree_with_comment	AST with comments
-EOF
+    _choice_encoding
 }
 
 _choice_feature() {
@@ -91,4 +67,28 @@ rubyopt	RUBYOPT environment variable (default: enabled)
 frozen-string-literal	freeze all string literals (default: disabled)
 jit	JIT compiler (default: disabled)
 EOF
+}
+
+_choice_warning_category() {
+    cat <<-'EOF'
+deprecated	deprecated features
+experimental	experimental features
+EOF
+}
+
+_choice_warning_level() {
+    cat <<-'EOF'
+0	silence
+1	medium
+2	verbose
+EOF
+}
+
+_choice_warning_level_combined() {
+    _argc_util_mode_kv :
+    if [[ -z "$argc__kv_prefix" ]]; then
+        _choice_warning_level
+        return
+    fi
+    _choice_warning_category
 }

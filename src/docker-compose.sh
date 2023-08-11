@@ -16,14 +16,14 @@ _patch_table() {
     fi
 }
 
-_docker_compose() {
-    docker-compose $(_argc_util_param_select_options --file) "$@"
+_choice_args() {
+    _argc_util_comp_subcommand 1
 }
 
 _choice_service() {
     _docker_compose config --services
 }
 
-_choice_args() {
-    _argc_util_comp_subcommand 1
+_docker_compose() {
+    docker-compose $(_argc_util_param_select_options --file) "$@"
 }

@@ -253,16 +253,16 @@ _choice_dependency() {
     fi
 }
 
+_choice_global_dependency() {
+    cat "$(_argc_util_path_resolve "$(yarn global dir)" package.json)" | \
+    yq '(.dependencies // {}) + (.devDependencies // {}) + (.optionalDependencies // {}) | keys | .[]'
+}
+
 _choice_script() {
     _helper_find_pkg_json_path
     if [[ -n "$pkg_json_path" ]]; then
         cat "$pkg_json_path" | yq '(.scripts // {}) | keys | .[]'
     fi
-}
-
-_choice_global_dependency() {
-    cat "$(_argc_util_path_resolve "$(yarn global dir)" package.json)" | \
-    yq '(.dependencies // {}) + (.devDependencies // {}) + (.optionalDependencies // {}) | keys | .[]'
 }
 
 _choice_workspace() {

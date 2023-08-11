@@ -19,14 +19,6 @@ _patch_table() {
 
 }
 
-_choice_pattern() {
-    if [[ -n "$argc_regexp" ]] \
-    || [[ -n "$argc_file" ]] \
-    ; then
-        _argc_util_comp_path
-    fi
-}
-
 _choice_color() {
     printf "%s\n" auto never always
 }
@@ -44,6 +36,14 @@ _choice_encoding() {
         CP1251 CP1252 CP1253 CP1254 \
         CP1255 CP1256 CP1257 CP1258 \
         KOI8-R KOI8-U KOI8-RU
+}
+
+_choice_pattern() {
+    if [[ -n "$argc_regexp" ]] \
+    || [[ -n "$argc_file" ]] \
+    ; then
+        _argc_util_comp_path
+    fi
 }
 
 _choice_type() {

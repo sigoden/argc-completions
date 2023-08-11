@@ -1395,56 +1395,31 @@ _choice_alias() {
     glab alias list
 }
 
-_choice_hostname() {
-    config_yml_path="$(_helper_get_config_yml_path)"
-    if [[ ! -f  "$config_yml_path" ]]; then
+_choice_all_incident_issue() {
+    _helper_repo_curl 'issues?per_page=100&issue_type=incident' | \
+    yq '.[] | .iid + "	" + .title'
+}
+
+_choice_all_issue() {
+    _helper_repo_curl 'issues?per_page=100' | \
+    yq '.[] | .iid + "	" + .title'
+}
+
+_choice_all_mr() {
+    _helper_repo_curl 'merge_requests?per_page=100' | \
+    yq '.[] | .iid + "	" + .title'
+}
+
+_choice_all_mr_or_branch() {
+    _argc_util_parallel _choice_all_mr ::: _choice_branch
+}
+
+_choice_asset_name() {
+    if [[ -z "$argc_tag" ]]; then
         return
     fi
-    cat "$config_yml_path" | yq '.hosts | keys | .[]'
-}
-
-_choice_commit() {
-    _helper_repo_curl 'repository/commits?per_page=100' | \
-    yq '.[] | .short_id + "	" + (.title // "")'
-}
-
-_choice_search_repo() {
-    _argc_util_mode_kv /
-    if [[ -z "$argc__kv_prefix" ]]; then
-        _choice_owner | _argc_util_transform suffix=/ nospace
-    elif [[ "$argc__kv_filter" == *'/'* ]]; then
-        local prefix_val="$argc__kv_prefix${argc__kv_filter%%/*}"
-        local filter_val="${argc__kv_filter#*/}" 
-        echo "__argc_prefix=$prefix_val/"
-        echo "__argc_filter=$filter_val"
-        _helper_search_subgroup_repo "$prefix_val" "$filter_val"
-    else
-        _helper_search_repo "$argc__kv_key" "$argc__kv_filter"
-    fi
-}
-
-_choice_owner() {
-    _argc_util_parallel _choice_search_user ::: _choice_search_group
-}
-
-_choice_search_user() {
-    if [[ "${#ARGC_FILTER}" -lt 3 ]]; then
-        return
-    fi
-    glab api 'users?per_page=50&search='$ARGC_FILTER | \
-    yq '.[] | .username + "	" + (.name // "")'
-}
-
-_choice_search_group() {
-    if [[ "${#ARGC_FILTER}" -lt 3 ]]; then
-        return
-    fi
-    glab api 'groups?all_available=true&top_level_only=true&per_page=50&search='$ARGC_FILTER | \
-    yq '.[] | .path + "	" + (.description // "")'
-}
-
-_choice_ref() {
-    _argc_util_parallel _choice_branch ::: _choice_tag
+    _helper_repo_curl 'releases/'$argc_tag'?per_page=100' | \
+    yq '.assets.sources[].url'
 }
 
 _choice_branch() {
@@ -1452,24 +1427,28 @@ _choice_branch() {
     yq '.[] | .name + "	" + .commit.title'
 }
 
-_choice_tag() {
-    _helper_repo_curl 'repository/tags?per_page=100&search='$ARGC_FILTER | \
-    yq '.[] | .name + "	" + .commit.title'
+_choice_closed_incident_issue() {
+    _helper_repo_curl 'issues?per_page=100&issue_type=incident&state=closed' | \
+    yq '.[] | .iid + "	" + .title'
 }
 
-_choice_job_name() {
-    _helper_repo_curl 'jobs?per_page=100' | \
-    yq '.[] | .name'
+_choice_closed_issue() {
+    _helper_repo_curl 'issues?per_page=100&state=closed' | \
+    yq '.[] | .iid + "	" + .title'
 }
 
-_choice_job_id() {
-    _helper_repo_curl 'jobs?per_page=100' | \
-    yq '.[] | .id + "	" + .name + " [" + .status + "]"'
+_choice_closed_mr() {
+    _helper_repo_curl 'merge_requests?per_page=100&state=closed' | \
+    yq '.[] | .iid + "	" + .title'
 }
 
-_choice_pipeline() {
-    _helper_repo_curl 'pipelines?per_page=100' | \
-    yq '.[] | .id + "	" + .ref'
+_choice_closed_mr_or_branch() {
+    _argc_util_parallel _choice_closed_mr ::: _choice_branch
+}
+
+_choice_commit() {
+    _helper_repo_curl 'repository/commits?per_page=100' | \
+    yq '.[] | .short_id + "	" + (.title // "")'
 }
 
 _choice_config_key() {
@@ -1484,43 +1463,12 @@ _choice_config_key() {
     fi
 }
 
-_choice_member() {
-    _helper_repo_curl 'members/all?per_page=100&query='$ARGC_FILTER | \
-    yq '.[] | .username + "	" + .name'
-}
-
-_choice_search_group_subgroup() {
-    _argc_util_mode_kv /
-    if [[ -z "$argc__kv_prefix" ]]; then
-        _choice_owner | _argc_util_transform suffix=/ nospace
-    else
-        _helper_search_subgroup "$argc__kv_key" "$argc__kv_filter"
+_choice_hostname() {
+    config_yml_path="$(_helper_get_config_yml_path)"
+    if [[ ! -f  "$config_yml_path" ]]; then
+        return
     fi
-}
-
-_choice_label() {
-    _helper_repo_curl 'labels?per_page=100&search='$ARGC_FILTER | \
-    yq '.[] | .name + "	" + .description'
-}
-
-_choice_milestone() {
-    _helper_repo_curl 'milestones?per_page=100' | \
-    yq '.[] | .title + "	" + .description'
-}
-
-_choice_closed_incident_issue() {
-    _helper_repo_curl 'issues?per_page=100&issue_type=incident&state=closed' | \
-    yq '.[] | .iid + "	" + .title'
-}
-
-_choice_opened_incident_issue() {
-    _helper_repo_curl 'issues?per_page=100&issue_type=incident&state=opened' | \
-    yq '.[] | .iid + "	" + .title'
-}
-
-_choice_all_incident_issue() {
-    _helper_repo_curl 'issues?per_page=100&issue_type=incident' | \
-    yq '.[] | .iid + "	" + .title'
+    cat "$config_yml_path" | yq '.hosts | keys | .[]'
 }
 
 _choice_issue_label() {
@@ -1531,19 +1479,29 @@ _choice_issue_label() {
     yq '.labels[]'
 }
 
-_choice_closed_issue() {
-    _helper_repo_curl 'issues?per_page=100&state=closed' | \
-    yq '.[] | .iid + "	" + .title'
+_choice_job_id() {
+    _helper_repo_curl 'jobs?per_page=100' | \
+    yq '.[] | .id + "	" + .name + " [" + .status + "]"'
 }
 
-_choice_opened_issue() {
-    _helper_repo_curl 'issues?per_page=100&state=opened' | \
-    yq '.[] | .iid + "	" + .title'
+_choice_job_name() {
+    _helper_repo_curl 'jobs?per_page=100' | \
+    yq '.[] | .name'
 }
 
-_choice_all_issue() {
-    _helper_repo_curl 'issues?per_page=100' | \
-    yq '.[] | .iid + "	" + .title'
+_choice_label() {
+    _helper_repo_curl 'labels?per_page=100&search='$ARGC_FILTER | \
+    yq '.[] | .name + "	" + .description'
+}
+
+_choice_member() {
+    _helper_repo_curl 'members/all?per_page=100&query='$ARGC_FILTER | \
+    yq '.[] | .username + "	" + .name'
+}
+
+_choice_milestone() {
+    _helper_repo_curl 'milestones?per_page=100' | \
+    yq '.[] | .title + "	" + .description'
 }
 
 _choice_mr_commit() {
@@ -1562,16 +1520,14 @@ _choice_mr_label() {
     yq '.labels[]'
 }
 
-_choice_opened_mr_or_branch() {
-    _argc_util_parallel _choice_opened_mr ::: _choice_branch
+_choice_opened_incident_issue() {
+    _helper_repo_curl 'issues?per_page=100&issue_type=incident&state=opened' | \
+    yq '.[] | .iid + "	" + .title'
 }
 
-_choice_closed_mr_or_branch() {
-    _argc_util_parallel _choice_closed_mr ::: _choice_branch
-}
-
-_choice_all_mr_or_branch() {
-    _argc_util_parallel _choice_all_mr ::: _choice_branch
+_choice_opened_issue() {
+    _helper_repo_curl 'issues?per_page=100&state=opened' | \
+    yq '.[] | .iid + "	" + .title'
 }
 
 _choice_opened_mr() {
@@ -1579,22 +1535,21 @@ _choice_opened_mr() {
     yq '.[] | .iid + "	" + .title'
 }
 
-_choice_closed_mr() {
-    _helper_repo_curl 'merge_requests?per_page=100&state=closed' | \
-    yq '.[] | .iid + "	" + .title'
+_choice_opened_mr_or_branch() {
+    _argc_util_parallel _choice_opened_mr ::: _choice_branch
 }
 
-_choice_all_mr() {
-    _helper_repo_curl 'merge_requests?per_page=100' | \
-    yq '.[] | .iid + "	" + .title'
+_choice_owner() {
+    _argc_util_parallel _choice_search_user ::: _choice_search_group
 }
 
-_choice_asset_name() {
-    if [[ -z "$argc_tag" ]]; then
-        return
-    fi
-    _helper_repo_curl 'releases/'$argc_tag'?per_page=100' | \
-    yq '.assets.sources[].url'
+_choice_pipeline() {
+    _helper_repo_curl 'pipelines?per_page=100' | \
+    yq '.[] | .id + "	" + .ref'
+}
+
+_choice_ref() {
+    _argc_util_parallel _choice_branch ::: _choice_tag
 }
 
 _choice_repo_view_branch() {
@@ -1612,8 +1567,53 @@ _choice_schedule() {
     yq '.[] | .id + "	" + .description'
 }
 
+_choice_search_group() {
+    if [[ "${#ARGC_FILTER}" -lt 3 ]]; then
+        return
+    fi
+    glab api 'groups?all_available=true&top_level_only=true&per_page=50&search='$ARGC_FILTER | \
+    yq '.[] | .path + "	" + (.description // "")'
+}
+
+_choice_search_group_subgroup() {
+    _argc_util_mode_kv /
+    if [[ -z "$argc__kv_prefix" ]]; then
+        _choice_owner | _argc_util_transform suffix=/ nospace
+    else
+        _helper_search_subgroup "$argc__kv_key" "$argc__kv_filter"
+    fi
+}
+
+_choice_search_repo() {
+    _argc_util_mode_kv /
+    if [[ -z "$argc__kv_prefix" ]]; then
+        _choice_owner | _argc_util_transform suffix=/ nospace
+    elif [[ "$argc__kv_filter" == *'/'* ]]; then
+        local prefix_val="$argc__kv_prefix${argc__kv_filter%%/*}"
+        local filter_val="${argc__kv_filter#*/}" 
+        echo "__argc_prefix=$prefix_val/"
+        echo "__argc_filter=$filter_val"
+        _helper_search_subgroup_repo "$prefix_val" "$filter_val"
+    else
+        _helper_search_repo "$argc__kv_key" "$argc__kv_filter"
+    fi
+}
+
+_choice_search_user() {
+    if [[ "${#ARGC_FILTER}" -lt 3 ]]; then
+        return
+    fi
+    glab api 'users?per_page=50&search='$ARGC_FILTER | \
+    yq '.[] | .username + "	" + (.name // "")'
+}
+
 _choice_ssh_key() {
     glab api /user/keys | yq '.[] | .id + "	" + .title'
+}
+
+_choice_tag() {
+    _helper_repo_curl 'repository/tags?per_page=100&search='$ARGC_FILTER | \
+    yq '.[] | .name + "	" + .commit.title'
 }
 
 _choice_variable_key() {
@@ -1627,33 +1627,12 @@ _choice_variable_key() {
     fi
 }
 
-_helper_search_repo() {
-    _argc_util_parallel _helper_search_user_repo $1 $2 ::: _helper_search_group_repo $1 $2 ::: _helper_search_subgroup_ex $1 $2
+_helper_encode_uri() {
+    value="$1" yq --null-input 'env(value) | @uri'
 }
 
-_helper_search_subgroup_ex() {
-    _helper_search_subgroup $@ | gawk -F'\t' '{print $1 "/\0\t" $2}'
-}
-
-_helper_search_subgroup() {
-    glab api 'groups/'$1'/subgroups?all_available=true&per_page=50&search='$2 | \
-    yq '.[] | .path + "	" + (.description // "")' 
-}
-
-_helper_search_user_repo() {
-    glab api 'users/'$1'/projects?order_by=updated_at&per_page=50&search='$2 | \
-    yq '.[] | .path + "	" + (.description // "")'
-}
-
-_helper_search_group_repo() {
-    glab api 'groups/'$1'/projects?order_by=updated_at&per_page=50&search='$2 | \
-    yq '.[] | .path + "	" + (.description // "")'
-}
-
-_helper_search_subgroup_repo() {
-    group_uri="$(_helper_encode_uri "$1")"
-    glab api 'groups/'$group_uri'/projects?order_by=updated_at&per_page=50&search='$2 | \
-    yq '.[] | .path + "	" + (.description // "")'
+_helper_get_config_yml_path() {
+    _argc_util_path_resolve CONFIG_DIR glab-cli/config.yml
 }
 
 _helper_repo_curl() {
@@ -1701,12 +1680,33 @@ _helper_retrieve_project_id() {
     project_id_uri="$(value="$project_id_val" yq --null-input 'env(value) | @uri')"
 }
 
-_helper_get_config_yml_path() {
-    _argc_util_path_resolve CONFIG_DIR glab-cli/config.yml
+_helper_search_group_repo() {
+    glab api 'groups/'$1'/projects?order_by=updated_at&per_page=50&search='$2 | \
+    yq '.[] | .path + "	" + (.description // "")'
 }
 
-_helper_encode_uri() {
-    value="$1" yq --null-input 'env(value) | @uri'
+_helper_search_repo() {
+    _argc_util_parallel _helper_search_user_repo $1 $2 ::: _helper_search_group_repo $1 $2 ::: _helper_search_subgroup_ex $1 $2
+}
+
+_helper_search_subgroup() {
+    glab api 'groups/'$1'/subgroups?all_available=true&per_page=50&search='$2 | \
+    yq '.[] | .path + "	" + (.description // "")' 
+}
+
+_helper_search_subgroup_ex() {
+    _helper_search_subgroup $@ | gawk -F'\t' '{print $1 "/\0\t" $2}'
+}
+
+_helper_search_subgroup_repo() {
+    group_uri="$(_helper_encode_uri "$1")"
+    glab api 'groups/'$group_uri'/projects?order_by=updated_at&per_page=50&search='$2 | \
+    yq '.[] | .path + "	" + (.description // "")'
+}
+
+_helper_search_user_repo() {
+    glab api 'users/'$1'/projects?order_by=updated_at&per_page=50&search='$2 | \
+    yq '.[] | .path + "	" + (.description // "")'
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

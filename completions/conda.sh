@@ -367,10 +367,6 @@ notices() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_env_var() {
-    conda info --envs | gawk '{if(match($0, /^([^# ]+)[ *]+(.*)$/, arr)) { print arr[1] "\t" arr[2] }}'
-}
-
 _choice_config_key() {
     conda config --show | yq -p yaml 'keys | .[]'
 }
@@ -379,6 +375,10 @@ _choice_config_kv() {
     if _helper_check_config_flag 1; then
         _choice_config_key
     fi
+}
+
+_choice_env_var() {
+    conda info --envs | gawk '{if(match($0, /^([^# ]+)[ *]+(.*)$/, arr)) { print arr[1] "\t" arr[2] }}'
 }
 
 _choice_package() {

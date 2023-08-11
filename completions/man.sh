@@ -54,7 +54,6 @@
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-
 _choice_page() {
     if [[ -n $argc_local_file ]]; then
         _argc_util_comp_path exts=.man
