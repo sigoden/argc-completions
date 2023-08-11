@@ -12,6 +12,10 @@ _patch_help() {
 
 _patch_table() { 
     _patch_table_edit_options \
+        '--add-modules(<dir>);*,' \
+        '--class-path;*:[`_choice_class_path`]' \
+        '--module-path(<dir>);*:' \
+        '--upgrade-module-path(<dir>);*:' \
         '-agentpath;[`_choice_agent_path`]' \
         '-classpath;*:[`_choice_class_path`]' \
         '-cp;*:[`_choice_class_path`]' \
@@ -21,10 +25,6 @@ _patch_table() {
         '-enableassertions;*:' \
         '-javaagent;*:[`_choice_class_path`]' \
         '-p(<dir>);*:' \
-        '--add-modules(<dir>);*,' \
-        '--class-path;*:[`_choice_class_path`]' \
-        '--module-path(<dir>);*:' \
-        '--upgrade-module-path(<dir>);*:' \
         ';;' \
         '-X;-[`_choice_option`];pass additional options to JVM' \
 

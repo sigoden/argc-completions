@@ -52,7 +52,7 @@ _patch_table() {
 }
 
 _choice_alternative() {
-   local admindir="$argc_admindir"
+    local admindir="$argc_admindir"
     if [[ -z "$admindir" ]]; then
         for i in alternatives dpkg/alternatives rpm/alternatives; do
             [[ -d /var/lib/$i ]] && admindir=/var/lib/$i && break

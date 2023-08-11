@@ -85,13 +85,13 @@ EOF
 
 _patch_table() { 
     _patch_table_edit_options \
+        '-D;[`_choice_debugopts`]' \
         '-fstype;[`_choice_fstype`]' \
         '-group;[`_module_os_group`]' \
         '-regextype;[`_choice_regextype`]' \
         '-type;[`_choice_type`]' \
         '-user;[`_module_os_user`]' \
         '-xtype;[`_choice_type`]' \
-        '-D;[`_choice_debugopts`]' \
 
 }
 

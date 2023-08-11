@@ -1,9 +1,9 @@
 _patch_table() { 
     _patch_table_edit_options \
         '--label;[`_choice_label`]' \
-        '--options;*,[`_choice_options`]' \
         '--options-mode;[ignore|append|prepend|replace]' \
         '--options-source;[fstab|mtab|disable]' \
+        '--options;*,[`_choice_options`]' \
         '--source;[`_choice_source`]' \
         '--target(<path>)' \
         '--types;*,[`_choice_fstype`]' \

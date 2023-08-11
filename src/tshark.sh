@@ -1,12 +1,5 @@
 _patch_table() { 
     _patch_table_edit_options \
-        '-d;[`_choice_decode`]' \
-        '-z;[`_choice_statistic`]' \
-        '-E;[`_choice_output_option`]' \
-        '-F;[`_choice_file_type`]' \
-        '-G;[`_choice_report`]' \
-        '-K(<file>)' \
-        '-X;[`_choice_extension_option`]' \
         '--autostop;[`_choice_autostop`]' \
         '--disable-protocol;[`_choice_protocol`]' \
         '--elastic-mapping-filter;*,[`_choice_protocol`]' \
@@ -16,6 +9,13 @@ _patch_table() {
         '--linktype;[`_choice_linktype`]' \
         '--read-file(<file>)' \
         '--ring-buffer;[`_choice_ring_buffer`]' \
+        '-E;[`_choice_output_option`]' \
+        '-F;[`_choice_file_type`]' \
+        '-G;[`_choice_report`]' \
+        '-K(<file>)' \
+        '-X;[`_choice_extension_option`]' \
+        '-d;[`_choice_decode`]' \
+        '-z;[`_choice_statistic`]' \
     
 }
 
@@ -52,7 +52,7 @@ EOF
 }
 
 _choice_file_type() {
-   tshark -F 2>&1  | sed -e 's/    \(\S\+\) - /\1\t/p'
+    tshark -F 2>&1  | sed -e 's/    \(\S\+\) - /\1\t/p'
 }
 
 _choice_linktype() {

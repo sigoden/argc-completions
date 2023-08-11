@@ -85,7 +85,7 @@ _patch_table() {
         if [[ "$*" == "flutter build aar" ]]; then
             echo "$table" | \
             _patch_table_edit_options \
-                '--target-platform;[android-arm|android-arm64|android-x86|android-x64]'  \
+                '--target-platform;[android-arm|android-arm64|android-x86|android-x64]' \
 
         elif [[ "$*" == "flutter build apk" ]]; then
             echo "$table" | \
@@ -177,7 +177,9 @@ _patch_table() {
     elif [[ "$*" == "flutter pub deps" ]]; then
         echo "$table" | _patch_table_edit_options '--style;[=tree|compact|list]'
 
-    elif [[ "$*" == "flutter pub downgrade" ]] || [[ "$*" == "flutter pub upgrade" ]]; then
+    elif [[ "$*" == "flutter pub downgrade" ]] \
+      || [[ "$*" == "flutter pub upgrade" ]] \
+    ; then
         echo "$table" | _patch_table_edit_arguments 'dependencies;[`_choice_package`]'
 
     elif [[ "$*" == "flutter pub global deactivate" ]]; then
@@ -216,11 +218,11 @@ _patch_table() {
         _patch_table_edit_options \
             '--exclude-tags(<tag...>)' \
             '--reporter;[`_choice_test_reporter`]' \
-            '--shard-index(<n>)'  \
+            '--shard-index(<n>)' \
             '--tags(<tag...>)' \
             '--test-randomize-ordering-seed(<value>)' \
             '--timeout(<value>)' \
-            '--total-shards(<n>)'  \
+            '--total-shards(<n>)' \
 
     else
         echo "$table"

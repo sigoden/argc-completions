@@ -10,11 +10,13 @@ Miss Commands:
   stack       Manage Swarm stacks
 EOF
 
-    elif [[ "$*" == "docker container cp" ]] || [[ "$*" == "docker cp" ]]; then
-        $@ --help |  sed '/Usage:/ c\Usage:  docker cp [OPTIONS] SRC DEST'
-
     elif [[ "$*" == "docker compose cp" ]]; then
         $@ --help | sed '/Usage:/ c\Usage:  docker compose cp [OPTIONS] SRC DEST'
+
+    elif [[ "$*" == "docker container cp" ]] \
+      || [[ "$*" == "docker cp" ]] \
+    ; then
+        $@ --help |  sed '/Usage:/ c\Usage:  docker cp [OPTIONS] SRC DEST'
 
     else
         $@ --help
@@ -57,8 +59,8 @@ _patch_table() {
                 'src;[`_choice_compose_cp`]' \
                 'dest;[`_choice_compose_cp`]' \
 
-        elif [[ "$*" == "docker compose run" ]] \
-          || [[ "$*" == "docker compose exec" ]] \
+        elif [[ "$*" == "docker compose exec" ]] \
+          || [[ "$*" == "docker compose run" ]] \
         ; then
             echo "$table" | \
             _patch_table_edit_arguments \
@@ -76,7 +78,9 @@ _patch_table() {
     elif [[ "$*" == "docker container" ]]; then
         echo "$table" | _patch_table_edit_commands 'ls(ls, list, ps)'
 
-    elif [[ "$*" == "docker container cp"* ]] || [[ "$*" == "docker cp"* ]]; then
+    elif [[ "$*" == "docker container cp"* ]] \
+      || [[ "$*" == "docker cp"* ]] \
+    ; then
         echo "$table" | \
         _patch_table_edit_arguments \
             'src;[`_choice_container_cp`]' \
@@ -95,15 +99,15 @@ _patch_table() {
             'arg;~[`_choice_args`]' \
             'args;~[`_choice_args`]' \
 
-    elif [[ "$*" == "docker container ls"* ]]; then
-        echo "$table" | _patch_table_edit_options '--filter;[`_choice_container_ls_filter`]'
-
     elif [[ "$*" == "docker container logs" ]] \
       || [[ "$*" == "docker container rm" ]] \
       || [[ "$*" == "docker logs" ]] \
       || [[ "$*" == "docker rm" ]] \
     ; then
         echo "$table" | _patch_table_edit_arguments 'container;[`_choice_container_name_all`]' \
+
+    elif [[ "$*" == "docker container ls"* ]]; then
+        echo "$table" | _patch_table_edit_options '--filter;[`_choice_container_ls_filter`]'
 
     elif [[ "$*" == "docker context"* ]]; then
         echo "$table" | _patch_table_edit_arguments 'context;[`_choice_context`]'
@@ -114,10 +118,14 @@ _patch_table() {
     elif [[ "$*" == "docker image" ]]; then
         echo "$table" | _patch_table_edit_commands 'ls(ls, list, ps)'
 
-    elif [[ "$*" == "docker image ls"* ]] || [[ "$*" == "docker images"* ]]; then
+    elif [[ "$*" == "docker image ls"* ]] \
+      || [[ "$*" == "docker images"* ]] \
+    ; then
         echo "$table" | _patch_table_edit_options '--filter;[`_choice_image_ls_filter`]'
 
-    elif [[ "$*" == "docker image tag"* ]] || [[ "$*" == "docker tag"* ]]; then
+    elif [[ "$*" == "docker image tag"* ]] \
+      || [[ "$*" == "docker tag"* ]] \
+    ; then
         echo "$table" | \
         _patch_table_edit_arguments \
             'source_image-tag;[`_module_oci_docker_image`]' \

@@ -1,5 +1,7 @@
 _patch_help() { 
-    if [[ "$*" == "pip config" ]] || [[ "$*" == "pip cache" ]]; then
+    if [[ "$*" == "pip cache" ]] \
+    || [[ "$*" == "pip config" ]] \
+    ; then
         TERM_WIDTH=200 _patch_help_run_help $@ | gawk '{
             if (match($0, /  Subcommands:/)) {
                 print "Commands:"

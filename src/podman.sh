@@ -26,7 +26,9 @@ _patch_table() {
             'list(list, ls)' \
             'unmount(unmount, umount)' \
 
-    elif [[ "$*" == "podman container cp"* ]] || [[ "$*" == "podman cp"* ]]; then
+    elif [[ "$*" == "podman container cp"* ]] \
+      || [[ "$*" == "podman cp"* ]] \
+    ; then
         echo "$table" | \
         _patch_table_edit_arguments \
             ';;' \

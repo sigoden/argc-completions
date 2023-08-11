@@ -50,14 +50,14 @@ _patch_table() {
     if [[ "$*" == "minikube addons"* ]]; then
         echo "$table" | _patch_table_edit_arguments 'addon_name;[`_choice_addon`]'
 
-    elif [[ "$*" == "minikube docker-env" ]]; then
-        echo "$table" | _patch_table_edit_options "--format(<value>)"
-
     elif [[ "$*" == "minikube config"* ]]; then
         echo "$table" | _patch_table_edit_arguments 'property_name;[`_choice_property_name`]'
 
     elif [[ "$*" == "minikube cp" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'src;[`_choice_cp`]' 'dest;[`_choice_cp`]'
+
+    elif [[ "$*" == "minikube docker-env" ]]; then
+        echo "$table" | _patch_table_edit_options "--format(<value>)"
 
     elif [[ "$*" == "minikube image load" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'image;[`_choice_load_image`]'

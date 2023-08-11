@@ -57,36 +57,36 @@ _patch_table() {
             '--option;[`_choice_option`]' \
             '-t;[`_choice_target`]' \
 
-    elif [[  "$*" == "apt build" ]]; then
+    elif [[ "$*" == "apt build" ]]; then
         _patch_table_edit_options \
             '--build;*,[`_choice_build`]' \
 
-    elif [[  "$*" == "apt build-dep" ]] \
-      || [[  "$*" == "apt changelog" ]] \
-      || [[  "$*" == "apt content" ]] \
-      || [[  "$*" == "apt depends" ]] \
-      || [[  "$*" == "apt download" ]] \
-      || [[  "$*" == "apt install" ]] \
-      || [[  "$*" == "apt policy" ]] \
-      || [[  "$*" == "apt recommands" ]] \
-      || [[  "$*" == "apt rdepends" ]] \
-      || [[  "$*" == "apt show" ]] \
-      || [[  "$*" == "apt showsrc" ]] \
-      || [[  "$*" == "apt source" ]] \
+    elif [[ "$*" == "apt build-dep" ]] \
+      || [[ "$*" == "apt changelog" ]] \
+      || [[ "$*" == "apt content" ]] \
+      || [[ "$*" == "apt depends" ]] \
+      || [[ "$*" == "apt download" ]] \
+      || [[ "$*" == "apt install" ]] \
+      || [[ "$*" == "apt policy" ]] \
+      || [[ "$*" == "apt rdepends" ]] \
+      || [[ "$*" == "apt recommands" ]] \
+      || [[ "$*" == "apt show" ]] \
+      || [[ "$*" == "apt showsrc" ]] \
+      || [[ "$*" == "apt source" ]] \
     ; then
         _patch_table_edit_arguments 'pkg;[`_choice_pkg`]'
 
-    elif [[  "$*" == "apt hold" ]] \
-      || [[  "$*" == "apt purge" ]] \
-      || [[  "$*" == "apt reinstall" ]] \
-      || [[  "$*" == "apt remove" ]] \
+    elif [[ "$*" == "apt hold" ]] \
+      || [[ "$*" == "apt purge" ]] \
+      || [[ "$*" == "apt reinstall" ]] \
+      || [[ "$*" == "apt remove" ]] \
     ; then
         _patch_table_edit_arguments 'pkg;[`_choice_installed_pkg`]'
 
-    elif [[  "$*" == "apt unhold" ]]; then
+    elif [[ "$*" == "apt unhold" ]]; then
         _patch_table_edit_arguments 'pkg;[`_choice_hold_pkg`]'
 
-    elif [[  "$*" == "apt upgrade" ]]; then
+    elif [[ "$*" == "apt upgrade" ]]; then
         _patch_table_edit_arguments 'pkg;[`_choice_upgradable_pkg`]'
 
     else

@@ -6,10 +6,10 @@ _patch_table() {
         '--pre;[`_module_os_command_string`]' \
         '--sort;[`_choice_sort`]' \
         '--sortr;[`_choice_sort`]' \
-        '--type;[`_choice_type`]' \
         '--type-add;[`_choice_type_spec`]' \
         '--type-clear;[`_choice_type`]' \
         '--type-not;[`_choice_type`]' \
+        '--type;[`_choice_type`]' \
     | \
     _patch_table_edit_arguments 'pattern;[`_choice_pattern`]'
 }

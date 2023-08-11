@@ -104,7 +104,7 @@ EOF
 }
 
 _choice_file_type() {
-   tshark -F 2>&1  | sed -e 's/    \(\S\+\) - /\1\t/p'
+    tshark -F 2>&1  | sed -e 's/    \(\S\+\) - /\1\t/p'
 }
 
 _choice_linktype() {

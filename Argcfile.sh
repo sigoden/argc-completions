@@ -56,7 +56,7 @@ regenerate:changed() {
         cmd=$(basename $(realpath src/$symlink_cmd.sh) .sh)
         symlink_map[$cmd]="${symlink_map[$cmd]} $symlink_cmd"
     done
-    mapfile -t cmds <<<"$(_helper_list_changed_cmd)"
+    mapfile -t cmds <<<"$(_helper_list_changed)"
     for cmd in ${cmds[@]}; do
         if [[ -n "$(_helper_can_generate $cmd)" ]]; then
             echo Skip $cmd
@@ -208,7 +208,7 @@ _choice_print_target() {
 
 _helper_format_srcfile() {
     tmpfile="${tmpfile:-"/tmp/argc-completions-format-tmp.sh"}"
-    cat "$srcfile" | gawk -f ./scripts/sort-fns.awk > "$tmpfile"
+    cat "$srcfile" | gawk -f ./scripts/format-src-script.awk > "$tmpfile"
     mv "$tmpfile" "$srcfile"
 }
 
@@ -290,9 +290,9 @@ _helper_test_fn() {
     return 0
 }
 
-_helper_list_changed_cmd() {
+_helper_list_changed() {
     git status | \
-    gawk '/(src|completions)/ {
+    gawk '/(src|completions)\// {
         split($NF, p, "/");
         print gensub(/^([a-z0-9_-]+).*$/, "\\1", 1, p[2])
     }' | \

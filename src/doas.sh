@@ -4,8 +4,8 @@ _patch_help() {
 
 _patch_table() { 
     _patch_table_edit_options \
-        '-u;[`_module_os_user`]' \
         '-C(<config-file>)' \
+        '-u;[`_module_os_user`]' \
     | \
     _patch_table_edit_arguments \
         'command;[`_module_os_command`]' \

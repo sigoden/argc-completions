@@ -48,10 +48,13 @@ _patch_table() {
     )"
     if [[ "$*" == "cargo" ]]; then
         echo "$table" | _patch_table_edit_arguments 'cmd;[`_choice_cmd`]'
-    elif [[ "$*" == "cargo test" ]]; then
-        echo "$table" | _patch_table_edit_arguments 'testname;[`_choice_testname`]'
+
     elif [[ "$*" == "cargo remove" ]]; then
         echo "$table" | _patch_table_edit_arguments 'dep_id;[`_choice_depid`]'
+
+    elif [[ "$*" == "cargo test" ]]; then
+        echo "$table" | _patch_table_edit_arguments 'testname;[`_choice_testname`]'
+
     else
         echo "$table"
     fi

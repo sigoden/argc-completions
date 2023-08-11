@@ -80,9 +80,9 @@ _patch_table() {
       || [[ "$*" == "scoop cleanup" ]] \
       || [[ "$*" == "scoop prefix" ]] \
       || [[ "$*" == "scoop reset" ]] \
+      || [[ "$*" == "scoop unhold" ]] \
       || [[ "$*" == "scoop uninstall" ]] \
       || [[ "$*" == "scoop update" ]] \
-      || [[ "$*" == "scoop unhold" ]] \
     ; then
         _patch_table_edit_arguments 'app;[`_choice_installed_package`]'
 

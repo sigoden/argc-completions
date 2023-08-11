@@ -20,9 +20,9 @@ _patch_table() {
 
     elif [[ "$*" == "zypper clean" ]] \
       || [[ "$*" == "zypper modifyrepo" ]] \
+      || [[ "$*" == "zypper refresh" ]] \
       || [[ "$*" == "zypper removerepo" ]] \
       || [[ "$*" == "zypper renamerepo" ]] \
-      || [[ "$*" == "zypper refresh" ]] \
     ; then
         echo "$table" | \
         _patch_table_edit_arguments 'alias-uri;[`_choice_repo`]'
@@ -47,7 +47,7 @@ _patch_table() {
 
     elif [[ "$*" == "zypper remove" ]] \
       || [[ "$*" == "zypper update" ]] \
-     ; then
+    ; then
         echo "$table" | \
         _patch_table_edit_arguments \
             'capability;[`_choice_installed_package`]' \

@@ -25,12 +25,12 @@ EOF
 
 _patch_table() { 
     _patch_table_edit_options \
+        '-E;[`_choice_e`]' \
+        '-U;[`_module_os_user`]' \
         '-e;[`_choice_e2`]' \
         '-o;[`_choice_o`]' \
         '-p;*,[`_module_os_pid`]' \
         '-u;[`_module_os_user`]' \
-        '-E;[`_choice_e`]' \
-        '-U;[`_module_os_user`]' \
 
 }
 

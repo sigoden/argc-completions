@@ -3,13 +3,13 @@ _patch_help() {
         text="$(vim.tiny --help)"
     else
         text="$($@ --help)"
-   fi
+    fi
 
-   echo "$text" | \
-   sed  \
-    -e '/-r (with file name)/ d' \
-    -e '/^ \+-s/ d' \
-    -e '/^\s*-/ s/\s\+or\s\+-/ -/'
+    echo "$text" | \
+    sed  \
+        -e '/-r (with file name)/ d' \
+        -e '/^ \+-s/ d' \
+        -e '/^\s*-/ s/\s\+or\s\+-/ -/'
 
 }
 

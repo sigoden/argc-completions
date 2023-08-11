@@ -78,9 +78,9 @@ _patch_table() {
     if [[ "$*" == "opam" ]]; then
         echo "$table" | \
         _patch_table_edit_commands \
-            'show(show, info)' \
-            'repository(repository, remote)' \
             'remove(remove, uninstall)' \
+            'repository(repository, remote)' \
+            'show(show, info)' \
             ';;' \
             'search;An alias for list --search.' \
             'unpin;An alias for pin remove.' \
@@ -93,8 +93,7 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_arguments 'var;*[`_choice_var`]'
 
-    elif [[ "$*" == "opam exec"  ]] \
-    ; then
+    elif [[ "$*" == "opam exec" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments \
             'command;[`_module_os_command`]' \

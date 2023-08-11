@@ -18,8 +18,8 @@ _patch_table() {
         '--\\[no\\]ignore-directory;*[`_choice_ignore_directory`]' \
         '--ignore-file;*[`_choice_ignore_file`]' \
         '--type-add;*[`_choice_type_add`]' \
-        '--type-set;*[`_choice_type_add`]' \
         '--type-del;*[`_choice_type`]' \
+        '--type-set;*[`_choice_type_add`]' \
     | \
     _patch_table_edit_arguments ';;' 'path...'
 }

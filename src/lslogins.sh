@@ -4,7 +4,7 @@ _patch_help() {
 
 _patch_table() { 
     _patch_table_edit_options \
-        '--groups;*,[`_module_os_group`]'  \
+        '--groups;*,[`_module_os_group`]' \
         '--logins;*,[`_module_os_user`]' \
         '--output;*,[`_choice_column`]' \
     | \

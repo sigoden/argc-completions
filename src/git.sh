@@ -30,44 +30,44 @@ Options:
     --list-cmds=group[,group...]    List commands by group.
 Commands:
 $commands
-   am               Apply a series of patches from a mailbox 
-   apply            Apply a patch to files and/or to the index 
-   archive          Create an archive of files from a named tree 
-   blame            Show what revision and author last modified each line of a file 
-   branch           List, create, or delete branches 
-   checkout         Switch branches or restore working tree files 
-   cherry           Find commits yet to be applied to upstream 
-   cherry-pick      Apply the changes introduced by some existing commits 
-   clean            Remove untracked files from the working tree 
-   config           Get and set repository or global options 
-   describe         Give an object a human readable name based on an available ref 
-   difftool         Show changes using common diff tools 
-   format-patch     Prepare patches for e-mail submission 
-   fsck             Verifies the connectivity and validity of the objects in the database 
-   gc               Cleanup unnecessary files and optimize the local repository 
-   help             Display help information about Git 
-   instaweb         Instantly browse your working repository in gitweb 
-   maintenance      Run tasks to optimize Git repository data 
-   mergetool        Run merge conflict resolution tools to resolve merge conflicts 
-   notes            Add or inspect object notes 
-   prune            Prune all unreachable objects from the object database 
-   range-diff       Compare two commit ranges (e.g. two versions of a branch) 
-   reflog           Manage reflog information 
-   remote           Manage set of tracked repositories 
-   repack           Pack unpacked objects in a repository 
-   replace          Create, list, delete refs to replace objects 
-   request-pull     Generates a summary of pending changes 
-   restore          Restore working tree files 
-   revert           Revert some existing commits 
-   shortlog         Summarize 'git log' output 
-   show-branch      Show branches and their commits 
-   sparse-checkout  Initialize and modify the sparse-checkout configuration, which reduces the checkout to a set of 
-   stage            Add file contents to the staging area 
-   stash            Stash the changes in a dirty working directory away 
-   submodule        Initialize, update or inspect submodules 
-   tag              Create, list, delete or verify a tag object signed with GPG 
-   whatchanged      Show logs with difference each commit introduces 
-   worktree         Manage multiple working trees 
+    am               Apply a series of patches from a mailbox 
+    apply            Apply a patch to files and/or to the index 
+    archive          Create an archive of files from a named tree 
+    blame            Show what revision and author last modified each line of a file 
+    branch           List, create, or delete branches 
+    checkout         Switch branches or restore working tree files 
+    cherry           Find commits yet to be applied to upstream 
+    cherry-pick      Apply the changes introduced by some existing commits 
+    clean            Remove untracked files from the working tree 
+    config           Get and set repository or global options 
+    describe         Give an object a human readable name based on an available ref 
+    difftool         Show changes using common diff tools 
+    format-patch     Prepare patches for e-mail submission 
+    fsck             Verifies the connectivity and validity of the objects in the database 
+    gc               Cleanup unnecessary files and optimize the local repository 
+    help             Display help information about Git 
+    instaweb         Instantly browse your working repository in gitweb 
+    maintenance      Run tasks to optimize Git repository data 
+    mergetool        Run merge conflict resolution tools to resolve merge conflicts 
+    notes            Add or inspect object notes 
+    prune            Prune all unreachable objects from the object database 
+    range-diff       Compare two commit ranges (e.g. two versions of a branch) 
+    reflog           Manage reflog information 
+    remote           Manage set of tracked repositories 
+    repack           Pack unpacked objects in a repository 
+    replace          Create, list, delete refs to replace objects 
+    request-pull     Generates a summary of pending changes 
+    restore          Restore working tree files 
+    revert           Revert some existing commits 
+    shortlog         Summarize 'git log' output 
+    show-branch      Show branches and their commits 
+    sparse-checkout  Initialize and modify the sparse-checkout configuration, which reduces the checkout to a set of 
+    stage            Add file contents to the staging area 
+    stash            Stash the changes in a dirty working directory away 
+    submodule        Initialize, update or inspect submodules 
+    tag              Create, list, delete or verify a tag object signed with GPG 
+    whatchanged      Show logs with difference each commit introduces 
+    worktree         Manage multiple working trees 
 EOF
 
     elif [[ "$*" == "git bisect" ]]; then
@@ -117,6 +117,9 @@ git bisect replay <logfile>
 git bisect log
 git bisect run <cmd> 
 EOF
+
+    elif [[ "$*" == "git maintenance" ]]; then
+        :;
 
     elif [[ "$*" == "git notes" ]]; then
         cat <<-'EOF'
@@ -178,16 +181,16 @@ EOF
 Options:
     -v --verbose      be verbose; must be placed before a subcommand
 Commands:
-   add
-   rename
-   remove
-   set-head
-   show
-   prune
-   update
-   set-branches
-   get-url
-   set-url
+    add
+    rename
+    remove
+    set-head
+    show
+    prune
+    update
+    set-branches
+    get-url
+    set-url
 EOF
 
     elif [[ "$*" == "git remote remove" ]]; then
@@ -204,8 +207,8 @@ Commands:
     disable
 EOF
 
-    elif [[ "$*" == "git sparse-checkout set" ]] \
-      || [[ "$*" == "git sparse-checkout add" ]] \
+    elif [[ "$*" == "git sparse-checkout add" ]] \
+      || [[ "$*" == "git sparse-checkout set" ]] \
     ; then
         $@ -h 2>&1 | sed '/^usage:/ c\usage: git sparse-checkout set <pattern>'
 
@@ -354,9 +357,6 @@ EOF
         echo options:
         $@ -h 2>&1 | sed -e '/^usage:/ d' -e '/^\s\+or:/ d'
 
-    elif [[ "$*" == "git maintenance" ]]; then
-        :;
-
     else
         $@ -h 2>&1
     fi
@@ -387,11 +387,11 @@ _patch_table() {
     elif [[ "$*" == "git describe" ]]; then
         _patch_table_edit_arguments 'commit-ish;[`_choice_ref`]'
 
-    elif [[ "$*" == "git difftool" ]]; then
-        _patch_table_edit_options '--extcmd;[`_module_os_command_string`]'
-
     elif [[ "$*" == "git diff" ]]; then
         _patch_table_edit_arguments ';;' '[commit-path]...;[`_choice_diff`]'
+
+    elif [[ "$*" == "git difftool" ]]; then
+        _patch_table_edit_options '--extcmd;[`_module_os_command_string`]'
 
     elif [[ "$*" == "git fetch" ]]; then
         _patch_table_edit_arguments ';;' '<remote>;[`_choice_remote`]' '<refspec>...;[`_choice_branch`]'
@@ -402,11 +402,11 @@ _patch_table() {
     elif [[ "$*" == "git merge" ]]; then
         _patch_table_edit_arguments 'commit;[`_choice_branch`]'
 
-    elif [[ "$*" == "git push" ]]; then
-        _patch_table_edit_arguments ';;' '<remote>;[`_choice_remote`]' '<refspec>...;[`_choice_push`]'
-
     elif [[ "$*" == "git pull" ]]; then
         _patch_table_edit_arguments ';;' '<remote>;[`_choice_remote`]' '<refspec>...;[`_choice_remote_branch`]'
+
+    elif [[ "$*" == "git push" ]]; then
+        _patch_table_edit_arguments ';;' '<remote>;[`_choice_remote`]' '<refspec>...;[`_choice_push`]'
 
     elif [[ "$*" == "git range-diff" ]]; then
         _patch_table_edit_arguments ';;' '<base>;[`_choice_branch`]' '<new>;[`_choice_branch`]'

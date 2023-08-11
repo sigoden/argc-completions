@@ -1,11 +1,11 @@
 _patch_table() { 
-    if [[ "$*" == "volta uninstall" ]]; then
-        _patch_table_edit_arguments 'tool;[`_choice_tool`]'
-
-    elif [[ "$*" == "volta run" ]]; then
+    if [[ "$*" == "volta run" ]]; then
         _patch_table_edit_arguments \
             'command;[`_module_os_command`]' \
             'args;~[`_choice_args`]' \
+
+    elif [[ "$*" == "volta uninstall" ]]; then
+        _patch_table_edit_arguments 'tool;[`_choice_tool`]'
 
     else
         cat

@@ -1,3 +1,3 @@
 _patch_table() { 
-   _patch_table_edit_arguments ';;'  'SRC_FILE'
+    _patch_table_edit_arguments ';;'  'SRC_FILE'
 }

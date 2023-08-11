@@ -8,13 +8,13 @@ _patch_table() {
         '--diagnostic-dir(<dir>)' \
         '--experimental-policy(<file>)' \
         '--heap-prof-dir(<dir>)' \
+        '--heapsnapshot-signal;[`_module_os_signal`]' \
         '--icu-data-dir(<dir>)' \
         '--openssl-config(<file>)' \
         '--redirect-warnings(<file>)' \
         '--report-dir(<dir>)' \
         '--report-directory(<dir>)' \
         '--tls-keylog(<file>)' \
-        '--heapsnapshot-signal;[`_module_os_signal`]' \
         '--unhandled-rejections;[strict|warn|none]' \
         '--use-largepages;[off|on|silent]' \
     | \

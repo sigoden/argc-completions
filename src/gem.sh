@@ -7,7 +7,7 @@ _patch_help() {
 }
 
 _patch_table() { 
-    if [[ "$*" ==  "gem build" ]]; then
+    if [[ "$*" == "gem build" ]]; then
         _patch_table_edit_arguments 'gemspec_file(file:.gemspec)' 
     
     elif [[ "$*" == "gem check" ]] \
@@ -21,13 +21,13 @@ _patch_table() {
     ; then
         _patch_table_edit_arguments ';;' 'gemname;[`_choice_installed_package`]' 
 
-    elif [[ "$*" ==  "gem contents" ]]; then
+    elif [[ "$*" == "gem contents" ]]; then
         _patch_table_edit_options \
             '--spec-dir(<DIR>);*,' \
         | \
         _patch_table_edit_arguments 'gemname;[`_choice_installed_package`]' 
 
-    elif [[ "$*" ==  "gem environment" ]]; then
+    elif [[ "$*" == "gem environment" ]]; then
         _patch_table_edit_arguments ';;' 'action;[`_choice_environment_action`]' 
 
     elif [[ "$*" == "gem fetch" ]] \
@@ -37,23 +37,23 @@ _patch_table() {
     ; then
         _patch_table_edit_arguments ';;' 'gemname;[`_choice_package`]' 
 
-    elif [[ "$*" ==  "gem install" ]]; then
+    elif [[ "$*" == "gem install" ]]; then
         _patch_table_edit_arguments ';;' 'gemname;[`_choice_install`]' 
 
-    elif [[ "$*" ==  "gem lock" ]]; then
+    elif [[ "$*" == "gem lock" ]]; then
         _patch_table_edit_arguments ';;' 'gemname;[`_choice_lock`]' 
 
-    elif [[ "$*" ==  "gem push" ]] \
-      || [[ "$*" ==  "gem yank" ]] \
+    elif [[ "$*" == "gem push" ]] \
+      || [[ "$*" == "gem yank" ]] \
     ; then
         _patch_table_edit_arguments 'gem(file:.gem)'
 
-    elif [[ "$*" ==  "gem specification" ]]; then
+    elif [[ "$*" == "gem specification" ]]; then
         _patch_table_edit_arguments \
             'field;[`_choice_spec_field`]' \
             'gemfile;[`_choice_installed_package`]' \
 
-    elif [[ "$*" ==  "gem which" ]]; then
+    elif [[ "$*" == "gem which" ]]; then
         _patch_table_edit_arguments ';;' 'file...'
 
     else

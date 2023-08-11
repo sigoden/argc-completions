@@ -8,11 +8,11 @@ _patch_help() {
 
 _patch_table() { 
     _patch_table_edit_options \
+        '-F(<config-file>)' \
         '-d;[1|2|3|4|5]' \
         '-e;[`_module_os_command_string`]' \
         '-i(<include-file>)' \
         '-m;[MH|MMDF|Maildir|mbox]' \
-        '-F(<config-file>)' \
     | \
     _patch_table_edit_arguments ';;' 'address'
 

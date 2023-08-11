@@ -8,8 +8,8 @@ _patch_help() {
 
 _patch_table() { 
     _patch_table_edit_options \
-        '--compress-program;[bzip2|gzip|lzop|xz]' \
         '--check;[`_choice_check`]' \
+        '--compress-program;[bzip2|gzip|lzop|xz]' \
         '--files0-from(<FILE>)' \
         '--sort;[`_choice_sort`]' \
 

@@ -12,8 +12,8 @@ _patch_table() {
 
     table="$(_patch_table_copy_options systemctl; cat)"
 
-    if [[ "$*" == "systemctl add-wants" ]] \
-    || [[ "$*" == "systemctl add-requires" ]] \
+    if [[ "$*" == "systemctl add-requires" ]] \
+    || [[ "$*" == "systemctl add-wants" ]] \
     ; then
         echo "$table" | _patch_table_edit_arguments ';;' 'target:[`_choice_target`]' 'unit;*[`_choice_unit`]'
 
@@ -54,6 +54,16 @@ _patch_table() {
 
     elif [[ "$*" == "systemctl enable" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'unit-path;*[`_choice_unit_path`]'
+
+    elif [[ "$*" == "systemctl help" ]] \
+      || [[ "$*" == "systemctl status" ]] \
+    ; then
+        echo "$table" | _patch_table_edit_arguments ';;' 'pattern-pid;*[`_choice_unit_pid`]'
+
+    elif [[ "$*" == "systemctl import-environment" ]] \
+      || [[ "$*" == "systemctl unset-environment" ]] \
+    ; then
+        echo "$table" | _patch_table_edit_arguments ';;' 'pattern;[`_choice_environment`]'
 
     elif [[ "$*" == "systemctl isolate" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'unit;[`_choice_unit`]'
@@ -99,12 +109,6 @@ _patch_table() {
 
     elif [[ "$*" == "systemctl show" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'pattern-job;*[`_choice_unit_job`]'
-
-    elif [[ "$*" == "systemctl status" ]] || [[ "$*" == "systemctl help" ]]; then
-        echo "$table" | _patch_table_edit_arguments ';;' 'pattern-pid;*[`_choice_unit_pid`]'
-
-    elif [[ "$*" == "systemctl unset-environment" ]] || [[ "$*" == "systemctl import-environment" ]]; then
-        echo "$table" | _patch_table_edit_arguments ';;' 'pattern;[`_choice_environment`]'
 
     else
         echo "$table" 

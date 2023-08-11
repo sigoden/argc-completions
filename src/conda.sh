@@ -26,8 +26,8 @@ _patch_table() {
             '--describe;[`_choice_config_key`]' \
             '--get;[`_choice_config_key`]' \
             '--prepend;[`_choice_config_kv`]' \
-            '--remove;[`_choice_config_kv`]' \
             '--remove-key;[`_choice_config_key`]' \
+            '--remove;[`_choice_config_kv`]' \
             '--set;[`_choice_config_kv`]' \
             '--show;[`_choice_config_key`]' \
 

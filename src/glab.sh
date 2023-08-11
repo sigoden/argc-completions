@@ -61,8 +61,9 @@ _patch_table() {
             _patch_table_edit_arguments \
                 'id;[`_choice_pipeline`]' \
 
-        elif [[ "$*" == "glab ci trace" ]] \
-          || [[ "$*" == "glab ci retry"  ]]; then
+        elif [[ "$*" == "glab ci retry" ]] \
+          || [[ "$*" == "glab ci trace" ]] \
+        ; then
             echo "$table" | \
             _patch_table_edit_arguments \
                 'job-id;[`_choice_job_id`]' \
@@ -135,9 +136,9 @@ _patch_table() {
         )"
 
         if [[ "$*" == "glab issue close" ]] \
-        || [[ "$*" == "glab issue note"  ]] \
-        || [[ "$*" == "glab issue subscribe"  ]] \
-        || [[ "$*" == "glab issue unsubscribe"  ]] \
+        || [[ "$*" == "glab issue note" ]] \
+        || [[ "$*" == "glab issue subscribe" ]] \
+        || [[ "$*" == "glab issue unsubscribe" ]] \
         ; then
             echo "$table" | \
             _patch_table_edit_arguments \
@@ -218,8 +219,8 @@ _patch_table() {
         elif [[ "$*" == "glab mr close" ]] \
           || [[ "$*" == "glab mr revoke" ]] \
           || [[ "$*" == "glab mr subscribe" ]] \
-          || [[ "$*" == "glab mr unsubscribe" ]] \
           || [[ "$*" == "glab mr todo" ]] \
+          || [[ "$*" == "glab mr unsubscribe" ]] \
         ; then
             echo "$table" | \
             _patch_table_edit_arguments \

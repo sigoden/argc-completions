@@ -39,14 +39,14 @@ EOF
 
 _patch_table() { 
     if [[ "$*" == "nssm dump" ]] \
-    || [[ "$*" == "nssm edit"  ]] \
-    || [[ "$*" == "nssm processes"  ]] \
-    || [[ "$*" == "nssm rotate"  ]] \
-    || [[ "$*" == "nssm restart"  ]] \
-    || [[ "$*" == "nssm start"  ]] \
-    || [[ "$*" == "nssm status"  ]] \
-    || [[ "$*" == "nssm statuscode"  ]] \
-    || [[ "$*" == "nssm stop"  ]] \
+    || [[ "$*" == "nssm edit" ]] \
+    || [[ "$*" == "nssm processes" ]] \
+    || [[ "$*" == "nssm restart" ]] \
+    || [[ "$*" == "nssm rotate" ]] \
+    || [[ "$*" == "nssm start" ]] \
+    || [[ "$*" == "nssm status" ]] \
+    || [[ "$*" == "nssm statuscode" ]] \
+    || [[ "$*" == "nssm stop" ]] \
     ; then
         _patch_table_edit_arguments 'servicename;[`_choice_servicename`]'
 

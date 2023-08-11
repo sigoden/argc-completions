@@ -8,8 +8,8 @@ _patch_table() {
         '--facility;*,[`_choice_facility`]' \
         '--field;[`_choice_field`]' \
         '--image(<FILE>)' \
-        '--output;[`_choice_output`]' \
         '--output-fileds;*,[`_choice_field`]' \
+        '--output;[`_choice_output`]' \
         '--priority;[`_choice_priority`]' \
         '--root(<DIR>)' \
         '--unit;[`_choice_unit`]' \

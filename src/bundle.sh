@@ -82,7 +82,7 @@ _patch_table() {
             'pack' \
             'package' \
 
-    elif [[ "$*" == "bundle add" ]] ; then
+    elif [[ "$*" == "bundle add" ]]; then
         _patch_table_edit_options \
             '--branch(<value>)' \
             '--git(<value>)' \
@@ -95,46 +95,46 @@ _patch_table() {
         | \
         _patch_table_edit_arguments ';;' 'gem;[`_choice_package`]'
 
-    elif [[ "$*" == "bundle binstubs" ]] ; then
+    elif [[ "$*" == "bundle binstubs" ]]; then
         _patch_table_edit_options \
             '--path(<path>)' \
             '--shebang(<value>)' \
         | \
         _patch_table_edit_arguments ';;' 'gem;[`_choice_package`]'
 
-    elif [[ "$*" == "bundle check" ]] ; then
+    elif [[ "$*" == "bundle check" ]]; then
         _patch_table_edit_options \
             '--gemfile(<file>)' \
             '--path(<path>)' \
 
-    elif [[ "$*" == "bundle init" ]] ; then
+    elif [[ "$*" == "bundle init" ]]; then
         _patch_table_edit_options \
             '--gemfile(<file>)' \
             '--gemspec(<file:.gemspec>)' \
 
 
-    elif [[ "$*" == "bundle outdated" ]] ; then
-        _patch_table_edit_options \
-            '--source(<value>)' \
-        | \
-        _patch_table_edit_arguments ';;' 'gem;*[`_choice_dependency`]'
-
-    elif [[ "$*" == "bundle open" ]] ; then
+    elif [[ "$*" == "bundle open" ]]; then
         _patch_table_edit_options \
             '--path(<path>)' \
         | \
         _patch_table_edit_arguments ';;' 'gem;*[`_choice_dependency`]'
 
-    elif [[ "$*" == "bundle plugin uninstall" ]] ; then
+    elif [[ "$*" == "bundle outdated" ]]; then
+        _patch_table_edit_options \
+            '--source(<value>)' \
+        | \
+        _patch_table_edit_arguments ';;' 'gem;*[`_choice_dependency`]'
+
+    elif [[ "$*" == "bundle plugin uninstall" ]]; then
         _patch_table_edit_arguments ';;' 'plugin;*[`_choice_plugin`]'
 
-    elif [[ "$*" == "bundle remove" ]] ; then
+    elif [[ "$*" == "bundle remove" ]]; then
         _patch_table_edit_arguments ';;' 'gem;*[`_choice_dependency`]'
 
     elif [[ "$*" == "bundle update" ]]; then
         _patch_table_edit_arguments ';;' 'gem;*[`_choice_dependency`]'
 
-    elif [[ "$*" == "bundle viz" ]] ; then
+    elif [[ "$*" == "bundle viz" ]]; then
         _patch_table_edit_options \
             '--file(<value>)' \
             '--format(<value>)' \

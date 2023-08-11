@@ -88,6 +88,20 @@ Options:
     --no-all-warnings  prints only warnings from files currently compiled (instead of all)
 EOF
 
+    elif [[ "$*" == "mix compile.leex" ]] \
+      || [[ "$*" == "mix compile.protocols" ]] \
+      || [[ "$*" == "mix deps.precompile" ]] \
+      || [[ "$*" == "mix iex" ]] \
+      || [[ "$*" == "mix phx.gen" ]] \
+      || [[ "$*" == "mix phx.gen.channel" ]] \
+      || [[ "$*" == "mix phx.gen.context" ]] \
+      || [[ "$*" == "mix phx.gen.embedded" ]] \
+      || [[ "$*" == "mix phx.gen.presence" ]] \
+      || [[ "$*" == "mix phx.gen.secret" ]] \
+      || [[ "$*" == "mix phx.gen.socket" ]] \
+    ; then
+        :;
+
     elif [[ "$*" == "mix compile.yecc" ]]; then
         cat <<-'EOF'
 Options:
@@ -182,20 +196,6 @@ Options:
     --open      open browser window for each started endpoint
 EOF
 
-    elif [[ "$*" == "mix compile.protocols" ]] \
-      || [[ "$*" == "mix compile.leex" ]] \
-      || [[ "$*" == "mix deps.precompile" ]] \
-      || [[ "$*" == "mix iex" ]] \
-      || [[ "$*" == "mix phx.gen" ]] \
-      || [[ "$*" == "mix phx.gen.channel" ]] \
-      || [[ "$*" == "mix phx.gen.context" ]] \
-      || [[ "$*" == "mix phx.gen.embedded" ]] \
-      || [[ "$*" == "mix phx.gen.presence" ]] \
-      || [[ "$*" == "mix phx.gen.secret" ]] \
-      || [[ "$*" == "mix phx.gen.socket" ]] \
-    ; then
-        :;
-
     else
         _patch_help_run_help_subcmd $@ | _common_edit
     fi
@@ -214,12 +214,6 @@ _patch_table() {
         _patch_table_edit_options  \
             '-i(<name>)' \
             '-o(<path>)' \
-
-    elif [[ "$*" == "mix archive.build" ]]; then
-        _patch_table_edit_options  \
-            '--app(<name>)' \
-            '--organization(<org>)' \
-            '--repo(<repo>)' \
 
     elif [[ "$*" == "mix cmd" ]]; then
         _patch_table_edit_options  \
@@ -242,10 +236,10 @@ _patch_table() {
 
     elif [[ "$*" == "mix deps.tree" ]]; then
         _patch_table_edit_options  \
-            '--only(<value>)' \
-            '--target(<value>)' \
             '--exclude;*[`_choice_dependency`]' \
             '--format;[pretty|plain|dot]' \
+            '--only(<value>)' \
+            '--target(<value>)' \
 
     elif [[ "$*" == "mix deps.unlock" ]]; then
         _patch_table_edit_options  \
@@ -314,7 +308,7 @@ _patch_table() {
             '--umbrella;;generate an umbrella project.' \
 
     elif [[ "$*" == "mix phx.new" ]] \
-      || [[ "$*" == "mix phx.new.ecto"  ]] \
+      || [[ "$*" == "mix phx.new.ecto" ]] \
     ; then
         _patch_table_edit_options  \
             '--app(<name>)' \
@@ -329,14 +323,6 @@ _patch_table() {
             '--matching(<pattern>)' \
             '--module(<name>)' \
 
-    elif [[ "$*" == "mix profile.cprof" ]]; then
-        _patch_table_edit_options  \
-            '--calls(<n>)' \
-            '--eval(<code>)' \
-            '--matching(<pattern>)' \
-            '--require(<file>)' \
-            '--sort;[time|calls]' \
-            '--time(<value>)' \
 
     elif [[ "$*" == "mix profile.fprof" ]]; then
         _patch_table_edit_options  \

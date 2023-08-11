@@ -71,7 +71,8 @@ _patch_table() {
         _patch_table_edit_arguments ';;' 'remove-spec' 'install-spec'
 
     elif [[ "$*" == "yum upgrade" ]] \
-      || [[ "$*" == "yum upgrade-minimal" ]]; then
+      || [[ "$*" == "yum upgrade-minimal" ]] \
+    ; then
         _patch_table_edit_arguments ';;' 'package;*[`_choice_upgradable_pkg`]'
 
 

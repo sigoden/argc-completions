@@ -1,6 +1,6 @@
 _patch_help() { 
-   $@ --help 2>&1 | sed '/^\s*-SIGNAL/ d'
-   cat <<-'EOF'
+    $@ --help 2>&1 | sed '/^\s*-SIGNAL/ d'
+    cat <<-'EOF'
 -ABRT	Abnormal termination
 -ALRM	Virtual alarm clock
 -BUS	BUS error

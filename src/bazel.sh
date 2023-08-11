@@ -57,23 +57,23 @@ _patch_help() {
 _patch_table() { 
     table="$(sed 's/ <label> #/ <label> # # [`_choice_target`]/')"
 
-    if [[ "$*" == "bazel coverage" ]] \
-    || [[ "$*" == "bazel test" ]] \
-    ; then
-        echo "$table" | \
-        _patch_table_edit_arguments 'test-targets;*[`_choice_test_target`]'
-
-    elif [[ "$*" == "bazel aquery" ]] \
-      || [[ "$*" == "bazel build" ]] \
-      || [[ "$*" == "bazel cquery" ]] \
-      || [[ "$*" == "bazel fetch" ]] \
-      || [[ "$*" == "bazel mobile-install" ]] \
-      || [[ "$*" == "bazel print_action" ]] \
+    if [[ "$*" == "bazel aquery" ]] \
+    || [[ "$*" == "bazel build" ]] \
+    || [[ "$*" == "bazel cquery" ]] \
+    || [[ "$*" == "bazel fetch" ]] \
+    || [[ "$*" == "bazel mobile-install" ]] \
+    || [[ "$*" == "bazel print_action" ]] \
     ; then
         echo "$table" | \
         _patch_table_edit_arguments \
-            'targets;*[`_choice_target`]' \
             'target;[`_choice_target`]' \
+            'targets;*[`_choice_target`]' \
+
+    elif [[ "$*" == "bazel coverage" ]] \
+      || [[ "$*" == "bazel test" ]] \
+    ; then
+        echo "$table" | \
+        _patch_table_edit_arguments 'test-targets;*[`_choice_test_target`]'
 
     elif [[ "$*" == "bazel info" ]]; then
         echo "$table" | \

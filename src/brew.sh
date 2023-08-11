@@ -59,9 +59,9 @@ EOF
 
     elif [[ "$*" == "brew casks" ]] \
       || [[ "$*" == "brew formulae" ]] \
-      || [[ "$*" == "brew shellenv" ]] \
       || [[ "$*" == "brew rubocop" ]] \
-    ; then 
+      || [[ "$*" == "brew shellenv" ]] \
+    ; then
         :;
 
     elif [[ "$*" == "brew services" ]]; then
@@ -121,16 +121,16 @@ _patch_table() {
             'typecheck(typecheck, tc)' \
             'uninstall(uninstall, remove, rm)' \
 
+    elif [[ "$*" == "brew alias" ]]; then
+        _patch_table_edit_arguments \
+            ';;' \
+            'alias;*[`_choice_alias`]' \
+
     elif [[ "$*" == "brew analytics" ]] \
       || [[ "$*" == "brew developer" ]] \
     ; then
         _patch_table_edit_arguments \
             'subcommand;[state|on|off]' \
-
-    elif [[ "$*" == "brew alias" ]]; then
-        _patch_table_edit_arguments \
-            ';;' \
-            'alias;*[`_choice_alias`]' \
 
     elif [[ "$*" == "brew bottle" ]]; then
         _patch_table_edit_arguments \
@@ -156,7 +156,7 @@ _patch_table() {
         _patch_table_edit_arguments \
             'command;[`_module_os_command`]' \
 
-    elif [[ "$*" == "brew "* ]]; then
+    else
         _patch_table_edit_arguments \
             'formula-cask;[`_choice_suggest_formula_cask`]' \
             'installed_formula-installed_cask;[`_choice_installed_formula_cask`]' \
@@ -247,7 +247,7 @@ _choice_suggest_formula_cask() {
 }
 
 _choice_suggest_service() {
-   brew services list | gawk '{if (NR > 1) {print $1}}'
+    brew services list | gawk '{if (NR > 1) {print $1}}'
 }
 
 _choice_tap() {

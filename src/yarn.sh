@@ -218,7 +218,9 @@ _patch_table() {
     elif [[ "$*" == "yarn generate-lock-entry" ]]; then
         _patch_table_dedup_options --registry
 
-    elif [[ "$*" == "yarn global remove" ]] || [[ "$*" == "yarn global upgrade" ]]; then
+    elif [[ "$*" == "yarn global remove" ]] \
+      || [[ "$*" == "yarn global upgrade" ]] \
+    ; then
         _patch_table_edit_arguments 'packages;[`_choice_global_dependency`]'
 
     elif [[ "$*" == "yarn remove" ]]; then

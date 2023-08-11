@@ -64,7 +64,7 @@ pnpm store prune
 pnpm store status
 EOF
 
-    else 
+    else
         _patch_help_run_help_subcmd $@
     fi
 }
@@ -90,8 +90,8 @@ _patch_table() {
     elif [[ "$*" == "pnpm config "* ]]; then
         echo "$table" | _patch_table_edit_arguments 'key;[`_choice_config_key`]'
 
-    elif [[ "$*" == "pnpm env" ]] \
-      || [[ "$*" == "pnpm dlx" ]] \
+    elif [[ "$*" == "pnpm dlx" ]] \
+      || [[ "$*" == "pnpm env" ]] \
     ; then
         echo "$table" | _patch_table_edit_arguments ';;'
 
@@ -114,13 +114,13 @@ _patch_table() {
     ; then
         echo "$table" | _patch_table_edit_arguments 'pkg;[`_choice_dependency`]'
 
-    elif [[ "$*" == "pnpm run" ]]; then
-        echo "$table" | _patch_table_edit_arguments ';;' 'command;[`_choice_script`]' 'args...'
-
     elif [[ "$*" == "pnpm rm" ]]; then
         echo "$table" | _patch_table_edit_arguments 'pkg-version;[`_choice_dependency`]'
 
-    elif [[ "$*" == "pnpm unlink" ]] ; then
+    elif [[ "$*" == "pnpm run" ]]; then
+        echo "$table" | _patch_table_edit_arguments ';;' 'command;[`_choice_script`]' 'args...'
+
+    elif [[ "$*" == "pnpm unlink" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'pkg;[`_choice_dependency`]'
 
     else

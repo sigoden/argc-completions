@@ -25,7 +25,7 @@
 # @arg files*
 
 _choice_alg() {
-   printf "%s\n" md5 sha1 sha256 tiger whirlpool
+    printf "%s\n" md5 sha1 sha256 tiger whirlpool
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

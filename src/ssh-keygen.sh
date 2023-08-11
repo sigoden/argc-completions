@@ -4,17 +4,17 @@ _patch_help() {
 
 _patch_table() { 
     _patch_table_edit_options \
+        '-E;[md5|sha256]' \
+        '-M;[`_choice_m`]' \
+        '-O;[`_choice_o`]' \
+        '-Y;[`_choice_y`]' \
+        '-Z;[`_choice_cipher`]' \
         '-b;[`_choice_b`]' \
         '-m;[`_choice_m2`]' \
         '-n;[`_module_os_user`]' \
         '-s(<ca_key_file>)' \
         '-t;[dsa|ecdsa|ecdsa-sk|ed25519|ed25519-sk|rsa];Specifies the type of key to create' \
         '-w(<provider_file>)' \
-        '-E;[md5|sha256]' \
-        '-O;[`_choice_o`]' \
-        '-M;[`_choice_m`]' \
-        '-Y;[`_choice_y`]' \
-        '-Z;[`_choice_cipher`]' \
 
 }
 

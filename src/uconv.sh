@@ -4,8 +4,8 @@ _patch_help() {
 
 _patch_table() { 
     _patch_table_edit_options \
-        '--to-callback;[`_choice_callback`]' \
         '--from-callback;[`_choice_callback`]' \
+        '--to-callback;[`_choice_callback`]' \
     | \
     _patch_table_edit_arguments ';;' 'file...'
 

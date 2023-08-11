@@ -16,6 +16,7 @@ EOF
 
 _patch_table() { 
     _patch_table_edit_options \
+        '--Group;*,[`_module_os_group`]' \
         '--format;*,[`_choice_column`]' \
         '--group;*,[`_module_os_group`]' \
         '--pid;*,[`_module_os_pid`]' \
@@ -25,7 +26,6 @@ _patch_table() {
         '--sort;*,[`_choice_column`]' \
         '--tty;*,[`_module_os_tty`]' \
         '--user;*,[`_module_os_user`]' \
-        '--Group;*,[`_module_os_group`]' \
 
 }
 

@@ -78,8 +78,9 @@ Commands:
     lldp                Manage lldp devices.
 EOF
 
-    elif [[ "$*" == "nmcli device wifi" ]]; then
-        cat <<-'EOF'
+    elif [[ "$*" == "nmcli device "* ]]; then
+        if [[ "$*" == "nmcli device wifi" ]]; then
+            cat <<-'EOF'
 Commands:  
     list                List available Wi-Fi access points. 
     connect             Connect to a Wi-Fi network specified by SSID or BSSID.
@@ -88,8 +89,8 @@ Commands:
     show-password       Show the details of the active Wi-Fi networks, including the secrets.
 EOF
 
-    elif [[ "$*" == "nmcli device wifi "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@
+        elif [[ "$*" == "nmcli device wifi "* ]]; then
+            cat <<-'EOF' | _patch_help_select_subcmd $@
 nmcli device wifi list <value>...
     --rescan <auto|no|yes>   Trigger new Wi-Fi scan
 nmcli device wifi connect <value>...
@@ -97,9 +98,8 @@ nmcli device wifi hostspot <value>...
 nmcli device wifi rescan <value>...
 nmcli device wifi show-password <value>...
 EOF
-
-    elif [[ "$*" == "nmcli device "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@
+        else
+            cat <<-'EOF' | _patch_help_select_subcmd $@
 nmcli device show [ifname]
 nmcli device set <ifname> <value>...
 nmcli device up <ifname>
@@ -109,6 +109,7 @@ nmcli device down <ifname>...
 nmcli device delete <ifname>...
 nmcli device monitor [ifname]...
 EOF
+        fi
 
     elif [[ "$*" == "nmcli general" ]]; then
         cat <<-'EOF'
@@ -163,9 +164,9 @@ _patch_table() {
         _patch_table_edit_options \
             '--color;[auto|yes|no]' \
             '--escape;[yes|no]' \
-            '--mode;[tabular|multiline]' \
             '--fields;[`_choice_field`]' \
             '--get-values;[`_choice_field`]' \
+            '--mode;[tabular|multiline]' \
 
     elif [[ "$*" == "nmcli connection"* ]]; then
         _patch_table_edit_arguments 'id;[`_choice_connection_id`]'

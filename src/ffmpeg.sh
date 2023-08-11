@@ -9,10 +9,11 @@ _patch_help() {
 _patch_table() { 
     _patch_table_dedup_options \
         '-bits_per_raw_sample' \
-        '-vol' \
         '-s' \
+        '-vol' \
     | \
     _patch_table_edit_options \
+        '--help;[`_choice_help_topic`]' \
         '-ab;[16|32|64|128|192|256|320]' \
         '-acodec;[`_choice_codec`]' \
         '-af;*[`_choice_filter_kv`]' \
@@ -23,13 +24,12 @@ _patch_table() {
         '-h;[`_choice_help_topic`]' \
         '-help;[`_choice_help_topic`]' \
         '-loglevel;[`_choice_loglevel`]' \
+        '-scodec;[`_choice_codec`]' \
         '-sinks;*,[`_choice_device`]' \
         '-sources;*,[`_choice_device`]' \
-        '-scodec;[`_choice_codec`]' \
         '-v;[`_choice_loglevel`]' \
         '-vcodec;[`_choice_codec`]' \
         '-vf;*[`_choice_filter_kv`]' \
-        '--help;[`_choice_help_topic`]' \
     | \
     _patch_table_edit_arguments ';;' 'outfile...'
 }

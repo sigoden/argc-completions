@@ -5,8 +5,8 @@ _patch_help() {
 _patch_table() { 
     _patch_table_edit_options \
         '--device;[`_choice_card`]' \
-        '--format;[`_choice_format`]' \
         '--file-type;[voc|wav|raw|au]' \
+        '--format;[`_choice_format`]' \
         '--vumeter;[mono|stereo]' \
 
 }

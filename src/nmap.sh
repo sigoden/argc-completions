@@ -10,12 +10,12 @@ _patch_help() {
 
 _patch_table() { 
     _patch_table_edit_options \
-        '-e;[`_module_os_network_interface`]' \
-        '-T;[`_choice_template`]' \
-        '--exclude;*,[`_module_os_hostname`]' \
         '--dns-servers;*,[`_module_os_hostname`]' \
-        '--script;*[`_choice_script`]' \
+        '--exclude;*,[`_module_os_hostname`]' \
         '--script-help;[`_choice_script`]' \
+        '--script;*[`_choice_script`]' \
+        '-T;[`_choice_template`]' \
+        '-e;[`_module_os_network_interface`]' \
         ';;' \
         '-o-;[`_choice_output_format`];Scan output format' \
         '-s-;[`_choice_scan`];Scan options' \

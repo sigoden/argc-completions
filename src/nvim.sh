@@ -4,9 +4,9 @@ _patch_help() {
 
 _patch_table() { 
     _patch_table_edit_options \
+        '-S(<session-file>)' \
         '-i(<shada-file>)' \
         '-u(<config-file>)' \
-        '-S(<session-file>)' \
     | \
     _patch_table_edit_arguments ';;' 'paths...'
 }

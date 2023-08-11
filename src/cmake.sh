@@ -11,17 +11,11 @@ _patch_help() {
 
 _patch_table() { 
     _patch_table_dedup_options \
+        '--preset' \
         '-Werror' \
         '-Wno-error' \
-        '--preset' \
     | \
     _patch_table_edit_options \
-        '-D;-[`_choice_set_cache_entry`]' \
-        '-E(<cmd> <args...>);[`_choice_cmd`]' \
-        '-G;[`_choice_generator`]' \
-        '-U;-[`_choice_remove_cache_entry`]' \
-        '-Werror(<value>);[dev|deprecated]' \
-        '-Wno-error(<value>);[dev|deprecated]' \
         '--help-command;[`_choice_help_command`]' \
         '--help-manual;[`_choice_help_manual`]' \
         '--help-module;[`_choice_help_module`]' \
@@ -30,6 +24,12 @@ _patch_table() {
         '--help-variable;[`_choice_help_variable`]' \
         '--list-presets;[`_choice_list_preset`]' \
         '--preset;[`_choice_preset`]' \
+        '-D;-[`_choice_set_cache_entry`]' \
+        '-E(<cmd> <args...>);[`_choice_cmd`]' \
+        '-G;[`_choice_generator`]' \
+        '-U;-[`_choice_remove_cache_entry`]' \
+        '-Werror(<value>);[dev|deprecated]' \
+        '-Wno-error(<value>);[dev|deprecated]' \
 
 }
 

@@ -21,8 +21,8 @@ _patch_table() {
         _patch_table_edit_commands \
             'integrate;Integrate vcpkg with shells and buildsystems.'
     
-    elif [[ "$*" == "vcpkg edit" ]] \
-      || [[ "$*" == "vcpkg depend-info" ]] \
+    elif [[ "$*" == "vcpkg depend-info" ]] \
+      || [[ "$*" == "vcpkg edit" ]] \
       || [[ "$*" == "vcpkg install" ]] \
     ; then
         echo "$table" | \

@@ -8,10 +8,10 @@ _patch_table() {
         '--gradle-user-home(<dir>)' \
         '--init-script(<file>)' \
         '--max-workers(<n>)' \
-        '--project-prop(<value>)' \
-        '--project-dir(<dir>)' \
         '--priority;[normal|low]' \
         '--project-cache-dir(<dir>)' \
+        '--project-dir(<dir>)' \
+        '--project-prop(<value>)' \
         '--settings-file(<file>)' \
         '--system-prop;[`_choice_system_prop`]' \
         '--warning-mode;[all|fail|summary|none]' \

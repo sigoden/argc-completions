@@ -1,8 +1,8 @@
 _patch_table() { 
     _patch_table_edit_options \
+        '-D(<path>)' \
         '-d;[`_choice_d`]' \
         '-s;[`_choice_s`]' \
-        '-D(<path>)' \
 
 }
 

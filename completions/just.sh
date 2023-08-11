@@ -44,7 +44,7 @@
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
 _choice_recipe() {
-   just --summary 2> /dev/null | tr " " "\n" || gawk '{$1=$1};1'
+    just --summary 2> /dev/null | tr " " "\n" || gawk '{$1=$1};1'
 }
 
 _module_os_command() {

@@ -4,8 +4,6 @@ _patch_help() {
 
 _patch_table() { 
     _patch_table_edit_options \
-        '-gs(<file:.xml>)' \
-        '-gt(<file:.xml>)' \
         '--activate-profiles;*,[`_choice_profile`]' \
         '--color;[auto|always|never]' \
         '--file(<file:.xml>)' \
@@ -16,6 +14,8 @@ _patch_table() {
         '--resume-from;[`_choice_project`]' \
         '--settings(<file:.xml>)' \
         '--toolchains(<file:.xml>)' \
+        '-gs(<file:.xml>)' \
+        '-gt(<file:.xml>)' \
     | \
     _patch_table_edit_arguments ';;' 'goalAndPhase;*[`_choice_goal_phase`]'
 }

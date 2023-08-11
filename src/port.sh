@@ -25,12 +25,12 @@ _patch_table() {
       || [[ "$*" == "port deactivate" ]] \
       || [[ "$*" == "port dependents" ]] \
       || [[ "$*" == "port installed" ]] \
-      || [[ "$*" == "port location" ]] \
       || [[ "$*" == "port load" ]] \
+      || [[ "$*" == "port location" ]] \
       || [[ "$*" == "port log" ]] \
       || [[ "$*" == "port logfile" ]] \
-      || [[ "$*" == "port reload" ]] \
       || [[ "$*" == "port rdependents" ]] \
+      || [[ "$*" == "port reload" ]] \
       || [[ "$*" == "port uninstall" ]] \
       || [[ "$*" == "port unload" ]] \
     ; then
@@ -41,8 +41,7 @@ _patch_table() {
             'package;[`_choice_package_cached`]' \
             'variant;[`_choice_variant`]' \
 
-    elif [[ "$*" == "port upgrade" ]] \
-    ; then
+    elif [[ "$*" == "port upgrade" ]]; then
         _patch_table_edit_arguments \
             'package;[`_choice_installed_package`]' \
             'variant;[`_choice_variant`]' \

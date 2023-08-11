@@ -46,7 +46,7 @@ EOF
         cat <<-'EOF' | _patch_help_select_subcmd $@ 
 bun pm bin
 options:
-   -g, --global   Install globally
+    -g, --global   Install globally
 
 bun pm ls
 options:
@@ -76,10 +76,12 @@ _patch_table() {
     if [[ "$*" == "bun" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments ';;' '[args]...;[`_choice_script_or_bin`]'
-    elif [[ "$*" == "bun run" ]]; then
-        echo "$table" | _patch_table_edit_arguments ';;' 'script_or_bin;[`_choice_script_or_bin`]'
+
     elif [[ "$*" == "bun remove" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'pkg;[`_choice_dependency`]'
+
+    elif [[ "$*" == "bun run" ]]; then
+        echo "$table" | _patch_table_edit_arguments ';;' 'script_or_bin;[`_choice_script_or_bin`]'
     else
         echo "$table"
     fi

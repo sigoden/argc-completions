@@ -22,5 +22,5 @@ _patch_table() {
 }
 
 _choice_alg() {
-   printf "%s\n" md5 sha1 sha256 tiger whirlpool
+    printf "%s\n" md5 sha1 sha256 tiger whirlpool
 }

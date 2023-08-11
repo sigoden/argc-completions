@@ -11,8 +11,8 @@ _patch_help() {
         echo
         return
     fi
-    if [[ "$*" == "gh reference" ]] \
-    || [[ "$*" == "gh extension exec"  ]] \
+    if [[ "$*" == "gh extension exec" ]] \
+    || [[ "$*" == "gh reference" ]] \
     ; then
         :;
     else
@@ -26,8 +26,8 @@ _patch_table() {
         _patch_table_edit_options \
             '--branch;[`_choice_branch`]' \
             '--org;[`_choice_org`]' \
-            '--repo;[`_choice_search_repo`]' \
             '--repo-owner;[`_choice_owner`]' \
+            '--repo;[`_choice_search_repo`]' \
     )"
 
     if [[ "$*" == "gh alias"* ]]; then
@@ -123,9 +123,9 @@ _patch_table() {
         )"
 
         if [[ "$*" == "gh issue close" ]] \
-        || [[ "$*" == "gh issue comment"  ]] \
-        || [[ "$*" == "gh issue pin"  ]] \
-        || [[ "$*" == "gh issue view"  ]] \
+        || [[ "$*" == "gh issue comment" ]] \
+        || [[ "$*" == "gh issue pin" ]] \
+        || [[ "$*" == "gh issue view" ]] \
         ; then
             echo "$table" | \
             _patch_table_edit_arguments \
@@ -244,8 +244,8 @@ _patch_table() {
             _patch_table_edit_arguments ';;'  'pr;[`_choice_open_pr`]' \
 
         elif [[ "$*" == "gh pr lock" ]] \
-          || [[ "$*" == "gh pr unlock" ]] \
           || [[ "$*" == "gh pr review" ]] \
+          || [[ "$*" == "gh pr unlock" ]] \
           || [[ "$*" == "gh pr view" ]] \
         ; then
             echo "$table" | \
@@ -297,11 +297,6 @@ _patch_table() {
                 '--gitignore;[`_choice_gitignore`]' \
                 '--license;[`_choice_license`]' \
 
-        elif [[ "$*" == "gh repo list"* ]]; then
-            echo "$table" | \
-            _patch_table_edit_arguments \
-                'owner;[`_choice_owner`]' \
-
         elif [[ "$*" == "gh repo deploy-key delete"* ]]; then
             echo "$table" | \
             _patch_table_edit_arguments \
@@ -312,6 +307,11 @@ _patch_table() {
             _patch_table_edit_options \
                 '--add-topic;*,[`_choice_search_topic`]' \
                 '--remove-topic;*,[`_choice_repo_topic`]' \
+
+        elif [[ "$*" == "gh repo list"* ]]; then
+            echo "$table" | \
+            _patch_table_edit_arguments \
+                'owner;[`_choice_owner`]' \
 
         elif [[ "$*" == "gh repo sync"* ]]; then
             echo "$table" | \

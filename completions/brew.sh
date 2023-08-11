@@ -1921,7 +1921,7 @@ _choice_suggest_formula_cask() {
 }
 
 _choice_suggest_service() {
-   brew services list | gawk '{if (NR > 1) {print $1}}'
+    brew services list | gawk '{if (NR > 1) {print $1}}'
 }
 
 _choice_tap() {
