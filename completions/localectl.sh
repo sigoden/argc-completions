@@ -50,6 +50,7 @@ list-keymaps() {
 # @cmd Set X11 and console keyboard mappings
 # @arg layout[`_choice_x11_layout`]
 # @arg model[`_choice_x11_model`]
+# @arg options*,[`_choice_x11_options`]
 # @arg variant[`_choice_x11_variant`]
 set-x11-keymap() {
     :;

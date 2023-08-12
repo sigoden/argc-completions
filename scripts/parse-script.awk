@@ -19,6 +19,7 @@ BEGIN {
     paramLineMaxWidth = 48
     split("", paramLines)
     commandLineNum = 0
+    argumentLine = 0
     split("", commandLines)
 }
 {
@@ -46,6 +47,7 @@ BEGIN {
         }
     }
 }
+
 END {
     paramLineWidth = paramLineWidth + 2
     for (i = 1; i <= paramLineNum; i++) {
@@ -198,7 +200,7 @@ function parseArgument(words1, descVal, choicesVal) {
     if (length(name) == 0) {
         return
     }
-    if (match(name, RE_SKIP_ARGUMENT)) {
+    if (argumentLine == 0 && match(name, RE_SKIP_ARGUMENT)) {
         return
     }
     modifierVal = ""
@@ -217,6 +219,7 @@ function parseArgument(words1, descVal, choicesVal) {
     } else if (tolower(notation) != name) {
         notationVal = " <"  notation ">"
     }
+    argumentLine += 1
     addParamLine("# @arg " name modifierVal choicesVal notationVal, descVal)
 }
 
