@@ -41,13 +41,9 @@
 # @flag --manual                              Show the manual page
 # @option --completions[bash|elvish|fish|nu|powershell|zsh]  Generate a shell completions script
 # @arg command[`_module_os_command`]
-# @arg args~[`_choice_args`]
+# @arg args~[`_module_os_command_args`]
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
-
-_choice_args() {
-    _argc_util_comp_subcommand 0
-}
 
 _module_os_command() {
     if _argc_util_has_path_prefix "$ARGC_FILTER"; then
@@ -59,6 +55,10 @@ _module_os_command() {
     else
         compgen -c
     fi
+}
+
+_module_os_command_args() {
+    _argc_util_comp_subcommand 0
 }
 
 _module_os_shell() {

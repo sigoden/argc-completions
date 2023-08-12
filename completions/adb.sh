@@ -113,7 +113,7 @@ sync() {
 # @flag -t               force PTY allocation
 # @flag -x               disable remote exit codes and stdout/stderr separation
 # @arg command[`_module_os_command`]
-# @arg args~[`_choice_args`]
+# @arg args~[`_module_os_command_args`]
 shell() {
     :;
 }
@@ -458,10 +458,6 @@ reconnect() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_args() {
-    _argc_util_comp_subcommand 0
-}
-
 _choice_reconnect_type() {
     echo "device	kick connection from device side to force reconnect"
     echo "offline	reset offline/unauthorized devices to force reconnect"
@@ -477,6 +473,10 @@ _module_os_command() {
     else
         compgen -c
     fi
+}
+
+_module_os_command_args() {
+    _argc_util_comp_subcommand 0
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

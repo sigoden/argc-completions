@@ -30,13 +30,9 @@
 # @flag -v --version                          Print the version and exit
 # @flag -h --help                             Print this text and exit
 # @arg command[`_module_os_command`]
-# @arg args~[`_choice_args`]
+# @arg args~[`_module_os_command_args`]
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
-
-_choice_args() {
-    _argc_util_comp_subcommand 0
-}
 
 _choice_interface() {
     _argc_util_comp_path
@@ -62,6 +58,10 @@ _module_os_command() {
     else
         compgen -c
     fi
+}
+
+_module_os_command_args() {
+    _argc_util_comp_subcommand 0
 }
 
 _module_os_group() {

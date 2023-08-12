@@ -30,13 +30,9 @@
 # @flag -V --version                              display version information and exit
 # @flag -v --validate                             update user's timestamp without running a command
 # @arg command[`_module_os_command`]
-# @arg args~[`_choice_args`]
+# @arg args~[`_module_os_command_args`]
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
-
-_choice_args() {
-    _argc_util_comp_subcommand 0
-}
 
 _choice_env_var() {
     env | _argc_util_transform format== | _argc_util_comp_multi ,
@@ -52,6 +48,10 @@ _module_os_command() {
     else
         compgen -c
     fi
+}
+
+_module_os_command_args() {
+    _argc_util_comp_subcommand 0
 }
 
 _module_os_group() {

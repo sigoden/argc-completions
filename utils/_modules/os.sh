@@ -88,6 +88,10 @@ _module_os_command_string() {
     _module_os_command
 }
 
+_module_os_command_args() {
+    _argc_util_comp_subcommand 0
+}
+
 _module_os_network_interface() {
     ifconfig -a | sed -n 's/^\(\S\+\): .*/\1/p'
 }

@@ -13,7 +13,7 @@ _patch_table() {
         _patch_table_edit_arguments \
             ';;' \
             'command;[`_choice_command`]' \
-            'args;~[`_choice_args`]' \
+            'args;~[`_module_os_command_args`]' \
 
     elif [[ "$*" == "pyenv global" ]] \
       || [[ "$*" == "pyenv local" ]] \
@@ -54,10 +54,6 @@ _patch_table() {
     else
         cat
     fi
-}
-
-_choice_args() {
-    _argc_util_comp_subcommand 0
 }
 
 _choice_available_version() {

@@ -29,13 +29,9 @@
 # @flag -h --help                                  Print help
 # @flag -V --version                               Print version
 # @arg command[`_module_os_command`]
-# @arg args~[`_choice_args`]
+# @arg args~[`_module_os_command_args`]
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
-
-_choice_args() {
-    _argc_util_comp_subcommand 0
-}
 
 _choice_sort() {
     cat <<-'EOF'
@@ -65,6 +61,10 @@ _module_os_command() {
     else
         compgen -c
     fi
+}
+
+_module_os_command_args() {
+    _argc_util_comp_subcommand 0
 }
 
 _module_os_shell() {

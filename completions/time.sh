@@ -10,13 +10,9 @@
 # @flag -h --help               display this help and exit
 # @flag -V --version            output version information and exit
 # @arg command[`_module_os_command`]
-# @arg arg~[`_choice_args`]
+# @arg arg~[`_module_os_command_args`]
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
-
-_choice_args() {
-    _argc_util_comp_subcommand 0
-}
 
 _module_os_command() {
     if _argc_util_has_path_prefix "$ARGC_FILTER"; then
@@ -28,6 +24,10 @@ _module_os_command() {
     else
         compgen -c
     fi
+}
+
+_module_os_command_args() {
+    _argc_util_comp_subcommand 0
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

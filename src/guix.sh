@@ -1,6 +1,6 @@
 _patch_help() { 
-    if [[  "$*" == "guix system "*  ]] \
-    || [[  "$*" == "guix import "*  ]] \
+    if [[ "$*" == "guix import "* ]] \
+    || [[ "$*" == "guix system "* ]] \
     ; then
         :;
     else
@@ -16,13 +16,9 @@ _patch_table() {
             'package-or-derivation;[`_choice_package`]' \
     )"
 
-    if [[ "$*" == "guix remove" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments 'packages;[`_choice_installed_package`]'
-
-    elif [[ "$*" == "guix system" ]] \
-      || [[ "$*" == "guix import" ]] \
-      || [[ "$*" == "guix container" ]] \
+    if [[ "$*" == "guix container" ]] \
+    || [[ "$*" == "guix import" ]] \
+    || [[ "$*" == "guix system" ]] \
     ; then
         echo "$table" | \
         _patch_table_edit_arguments ';;'
@@ -32,11 +28,7 @@ _patch_table() {
         _patch_table_edit_arguments \
             'pid;[`_module_os_pid`]' \
             'command;[`_module_os_command`]' \
-            'args;~[`_choice_args`]' \
-
-    elif [[ "$*" == "guix time-machine" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments ';;' 'command;~[`_choice_time_machine_command`]'
+            'args;~[`_module_os_command_args`]' \
 
     elif [[ "$*" == "guix environment" ]]; then
         echo "$table" | \
@@ -44,23 +36,27 @@ _patch_table() {
             'package;[`_choice_installed_package`]' \
             'command;~[`_module_os_command_string`]' \
 
+    elif [[ "$*" == "guix remove" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments 'packages;[`_choice_installed_package`]'
+
+    elif [[ "$*" == "guix time-machine" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments ';;' 'command;~[`_choice_time_machine_command`]'
+
     else
         echo "$table"
     fi
-}
-
-_choice_package() {
-    guix package -A
 }
 
 _choice_installed_package() {
     guix package -I
 }
 
-_choice_time_machine_command() {
-    _argc_util_comp_subcommand 0 guix
+_choice_package() {
+    guix package -A
 }
 
-_choice_args() {
-    _argc_util_comp_subcommand 0
+_choice_time_machine_command() {
+    _argc_util_comp_subcommand 0 guix
 }

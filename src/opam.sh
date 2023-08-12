@@ -97,7 +97,7 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_arguments \
             'command;[`_module_os_command`]' \
-            'arg;~[`_choice_args`]' \
+            'arg;~[`_module_os_command_args`]' \
 
     elif [[ "$*" == "opam install" ]] \
       || [[ "$*" == "opam show" ]] \
@@ -145,10 +145,6 @@ _patch_table() {
         echo "$table"
 
     fi
-}
-
-_choice_args() {
-    _argc_util_comp_subcommand 0
 }
 
 _choice_columns() {

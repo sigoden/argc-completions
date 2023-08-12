@@ -857,7 +857,7 @@ hoogle() {
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
 # @flag --help                              Show this help text.
 # @arg command[`_module_os_command`]
-# @arg args~[`_choice_args`]
+# @arg args~[`_module_os_command_args`]
 exec() {
     :;
 }
@@ -1188,10 +1188,6 @@ hpc::report() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_args() {
-    _argc_util_comp_subcommand 0
-}
-
 _choice_dependency() {
     stack ls dependencies | gawk '{print $1}'
 }
@@ -1218,6 +1214,10 @@ _module_os_command() {
     else
         compgen -c
     fi
+}
+
+_module_os_command_args() {
+    _argc_util_comp_subcommand 0
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

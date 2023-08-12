@@ -34,7 +34,7 @@ doctor() {
 # {{ pyenv exec
 # @cmd Run an executable with the selected Python version
 # @arg command[`_choice_command`]
-# @arg args~[`_choice_args`]
+# @arg args~[`_module_os_command_args`]
 exec() {
     :;
 }
@@ -150,10 +150,6 @@ uninstall() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_args() {
-    _argc_util_comp_subcommand 0
-}
-
 _choice_available_version() {
     pyenv install --list | sed "s/^[[:space:]]*//"
 }
@@ -176,6 +172,10 @@ _choice_installed_version() {
 
 _choice_prefix() {
     pyenv prefix --complete
+}
+
+_module_os_command_args() {
+    _argc_util_comp_subcommand 0
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

@@ -467,7 +467,7 @@ container() {
 # @flag -V --version    display version information and exit
 # @arg pid[`_module_os_pid`]
 # @arg command[`_module_os_command`]
-# @arg args~[`_choice_args`]
+# @arg args~[`_module_os_command_args`]
 container::exec() {
     :;
 }
@@ -991,10 +991,6 @@ _choice_time_machine_command() {
     _argc_util_comp_subcommand 0 guix
 }
 
-_choice_args() {
-    _argc_util_comp_subcommand 0
-}
-
 _module_os_command() {
     if _argc_util_has_path_prefix "$ARGC_FILTER"; then
         _argc_util_comp_path
@@ -1005,6 +1001,10 @@ _module_os_command() {
     else
         compgen -c
     fi
+}
+
+_module_os_command_args() {
+    _argc_util_comp_subcommand 0
 }
 
 _module_os_command_string() {

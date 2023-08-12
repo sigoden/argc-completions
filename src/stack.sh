@@ -28,7 +28,7 @@ _patch_table() {
         _patch_table_edit_arguments \
             ';;' \
             'command;[`_module_os_command`]' \
-            'args;~[`_choice_args`]' \
+            'args;~[`_module_os_command_args`]' \
 
     elif [[ "$*" == "stack ghci" ]]; then
         _patch_table_edit_arguments 'target-file;[`_choice_target_or_file`]'
@@ -41,10 +41,6 @@ _patch_table() {
     else
         cat
     fi
-}
-
-_choice_args() {
-    _argc_util_comp_subcommand 0
 }
 
 _choice_dependency() {

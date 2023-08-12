@@ -721,7 +721,7 @@ env() {
 # @flag --version                                 Show version information.
 # @flag -w --working-dir                          Whenever updating packages that are bound to a local, version-controlled directory, update to the current working state of their source instead of the last committed state, or the ref they are pointing to.
 # @arg command[`_module_os_command`]
-# @arg arg~[`_choice_args`]
+# @arg arg~[`_module_os_command_args`]
 exec() {
     :;
 }
@@ -1962,10 +1962,6 @@ unpin() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_args() {
-    _argc_util_comp_subcommand 0
-}
-
 _choice_columns() {
     printf "%s\n" \
         name version package synopsis synopsis-or-target \
@@ -2026,6 +2022,10 @@ _module_os_command() {
     else
         compgen -c
     fi
+}
+
+_module_os_command_args() {
+    _argc_util_comp_subcommand 0
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"
