@@ -146,29 +146,18 @@ get_modules_script() {
     if [[ ${#module_fns[@]} -eq 0 ]]; then
         return
     fi
-    module_names=()
-    for mod_fn in ${module_fns[@]}; do
-        local value=${mod_fn:8}
-        value=${value%%_*}
-        if [[ " ${module_names[@]} " != *" $value "* ]]; then
-            module_names+=( $value )
-        fi
-    done
 
-    local mod mod_path mod_fns_script mod_fns_deps values fn_name
+    local mod_path mod_fns_script mod_fns_deps values fn_name
     declare -A mod_fns_script
     declare -A mod_fns_deps
     IFS=";"
-    for mod in ${module_names[@]}; do
-        mod_path="$utils_dir/_modules/$mod.sh"
-        if [[ -f "$mod_path" ]]; then
-            while IFS=$'\n' read -r line; do
-                values=( $line )
-                fn_name=${values[0]}
-                mod_fns_script[$fn_name]="$(sed -n "${values[1]},${values[2]} p" "$mod_path")"
-                mod_fns_deps[$fn_name]="${values[3]}"
-            done < <(gawk -f "$scripts_dir/analysis-module.awk" "$mod_path")
-        fi
+    for mod_path in "$utils_dir/_modules/"*.sh; do
+        while IFS=$'\n' read -r line; do
+            values=( $line )
+            fn_name=${values[0]}
+            mod_fns_script[$fn_name]="$(sed -n "${values[1]},${values[2]} p" "$mod_path")"
+            mod_fns_deps[$fn_name]="${values[3]}"
+        done < <(gawk -f "$scripts_dir/analysis-module.awk" "$mod_path")
     done
 
     local checked_mod_fns to_check_mod_fns embed_mod_fns
