@@ -29,8 +29,10 @@ Miss commands:
 Args:
     <cmd>
 EOF
+    elif [[ "$*" == "cargo clippy" ]]; then
+        $@ --help | sed '/^\s*-W --/,/^$/ d'
     elif [[ "$*" == "cargo udeps" ]]; then
-        cargo udeps -h | sed 's/\[cargo\]//g'
+        $@ --help | sed 's/\[cargo\]//g'
     else
         $@ --help
     fi
@@ -48,6 +50,16 @@ _patch_table() {
     )"
     if [[ "$*" == "cargo" ]]; then
         echo "$table" | _patch_table_edit_arguments 'cmd;[`_choice_cmd`]'
+
+    elif [[ "$*" == "cargo clippy" ]]; then
+        { _patch_table_copy_options cargo fix; echo "$table"; } | \
+        _patch_table_dedup_options \
+            '--help' \
+        | \
+         _patch_table_edit_arguments 'opts;~[`_choice_clippy`]'
+
+    elif [[ "$*" == "cargo fmt" ]]; then
+        echo "$table" | _patch_table_edit_arguments 'rustfmt_options;~[`_choice_fmt`]'
 
     elif [[ "$*" == "cargo remove" ]]; then
         echo "$table" | _patch_table_edit_arguments 'dep_id;[`_choice_depid`]'
@@ -68,6 +80,23 @@ _choice_bin() {
     _helper_package_target bin
 }
 
+_choice_clippy() {
+    if [[ "$ARGC_FILTER" == '-'* ]]; then
+        cat <<-'EOF'
+--warn	Set lint warnings
+-W	Set lint warnings
+--allow	Set lint allowed
+-A	Set lint allowed
+--deny	Set lint denied
+-D	Set lint denied
+--forbid	Set lint forbidden
+-F	Set lint forbidden
+EOF
+    else
+        _argc_util_comp_subcommand 0 rustc
+    fi
+}
+
 _choice_cmd() {
     cargo --list 2>/dev/null | gawk 'NR>1 {print $1}'
 }
@@ -78,6 +107,10 @@ _choice_depid() {
 
 _choice_example() {
     _helper_package_target example
+}
+
+_choice_fmt() {
+    _argc_util_comp_subcommand 0 rustfmt
 }
 
 _choice_package() {

@@ -554,16 +554,53 @@ uninstall() {
 
 # {{ cargo clippy
 # @cmd Checks a package to catch common mistakes and improve your Rust code.
-# @flag --no-deps              Run Clippy only on the given crate, without linting the dependencies
-# @flag --fix                  Automatically apply lint suggestions.
-# @flag -h --help              Print this message
-# @flag -V --version           Print version info and exit
-# @option --explain <LINT>     Print the documentation for a given lint
-# @option -W --warn <OPT>      Set lint warnings
-# @option -A --allow <OPT>     Set lint allowed
-# @option -D --deny <OPT>      Set lint denied
-# @option -F --forbid <OPT>    Set lint forbidden
-# @arg opts*
+# @flag -q --quiet                               Do not print cargo log messages
+# @option -p --package[`_choice_package`] <SPEC>  Package(s) to fix
+# @flag --workspace                              Fix all packages in the workspace
+# @option --exclude <SPEC>                       Exclude packages from the fixes
+# @flag --all                                    Alias for --workspace (deprecated)
+# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs
+# @flag --keep-going                             Do not abort the build as soon as there is an error (unstable)
+# @flag --lib                                    Fix only this package's library
+# @flag --bins                                   Fix all binaries
+# @option --bin[`_choice_bin`] <NAME>            Fix only the specified binary
+# @flag --examples                               Fix all examples
+# @option --example[`_choice_example`] <NAME>    Fix only the specified example
+# @flag --tests                                  Fix all tests
+# @option --test[`_choice_test`] <NAME>          Fix only the specified test target
+# @flag --benches                                Fix all benches
+# @option --bench[`_choice_bench`] <NAME>        Fix only the specified bench target
+# @flag --all-targets                            Fix all targets (default)
+# @flag -r --release                             Fix artifacts in release mode, with optimizations
+# @option --profile <PROFILE-NAME>               Build artifacts with the specified profile
+# @option -F --features                          Space or comma separated list of features to activate
+# @flag --all-features                           Activate all available features
+# @flag --no-default-features                    Do not activate the `default` feature
+# @option --target[`_choice_target`] <TRIPLE>    Fix for the target triple
+# @option --target-dir <DIRECTORY>               Directory for all generated artifacts
+# @option --manifest-path <PATH>                 Path to Cargo.toml
+# @option --message-format <FMT>                 Error format
+# @flag --broken-code                            Fix code even if it already has compiler errors
+# @flag --edition                                Fix in preparation for the next edition
+# @flag --edition-idioms                         Fix warnings to migrate to the idioms of an edition
+# @flag --allow-no-vcs                           Fix code even if a VCS was not detected
+# @flag --allow-dirty                            Fix code even if the working directory is dirty
+# @flag --allow-staged                           Fix code even if the working directory has staged changes
+# @flag --ignore-rust-version                    Ignore `rust-version` specification in packages
+# @option --timings[html|json] <FMTS>            Timing output formats (unstable) (comma separated): html, json
+# @flag -v --verbose*                            Use verbose output (-vv very verbose/build.rs output)
+# @option --color[auto|always|never] <WHEN>      Coloring: auto, always, never
+# @flag --frozen                                 Require Cargo.lock and cache are up to date
+# @flag --locked                                 Require Cargo.lock is up to date
+# @flag --offline                                Run without accessing the network
+# @option --config <KEY=VALUE>                   Override a configuration value
+# @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
+# @flag --no-deps                                Run Clippy only on the given crate, without linting the dependencies
+# @flag --fix                                    Automatically apply lint suggestions.
+# @flag -h --help                                Print this message
+# @flag -V --version                             Print version info and exit
+# @option --explain <LINT>                       Print the documentation for a given lint
+# @arg opts~[`_choice_clippy`]
 clippy() {
     :;
 }
@@ -681,7 +718,7 @@ fix() {
 # @flag -q --quiet                             No output printed to stdout
 # @flag -v --verbose                           Use verbose output
 # @flag --version                              Print rustfmt version and exit
-# @arg rustfmt_options+                        Options passed to rustfmt
+# @arg rustfmt_options~[`_choice_fmt`]         Options passed to rustfmt
 fmt() {
     :;
 }
@@ -1121,6 +1158,23 @@ _choice_bin() {
     _helper_package_target bin
 }
 
+_choice_clippy() {
+    if [[ "$ARGC_FILTER" == '-'* ]]; then
+        cat <<-'EOF'
+--warn	Set lint warnings
+-W	Set lint warnings
+--allow	Set lint allowed
+-A	Set lint allowed
+--deny	Set lint denied
+-D	Set lint denied
+--forbid	Set lint forbidden
+-F	Set lint forbidden
+EOF
+    else
+        _argc_util_comp_subcommand 0 rustc
+    fi
+}
+
 _choice_cmd() {
     cargo --list 2>/dev/null | gawk 'NR>1 {print $1}'
 }
@@ -1135,6 +1189,10 @@ _choice_example() {
 
 _choice_package() {
     _helper_metadata_json | yq '.packages[].name'
+}
+
+_choice_fmt() {
+    _argc_util_comp_subcommand 0 rustfmt
 }
 
 _choice_target() {
