@@ -420,6 +420,16 @@ list-clients() {
 }
 # }} tmux list-clients
 
+# {{ tmux list-commands
+# @cmd
+# @alias lscm
+# @option -F <format>
+# @arg command[`_choice_command`]
+list-commands() {
+    :;
+}
+# }} tmux list-commands
+
 # {{ tmux list-keys
 # @cmd
 # @alias lsk
@@ -1141,5 +1151,9 @@ wait-for() {
     :;
 }
 # }} tmux wait-for
+
+_choice_command() {
+    tmux list-commands | sed 's/^\(\S\+\)\( (\(\S\+\))\)\?\(.*\)$/\1\n\3/'
+}
 
 command eval "$(argc --argc-eval "$0" "$@")"

@@ -83,6 +83,16 @@ _patch_help_preprocess_color() {
     gawk '{gsub(/[\x1B\x9B][[\]()#;?]*((((;[-a-zA-Z0-9\/#&.:=?%@~_]+)*|[a-zA-Z0-9]+(;[-a-zA-Z0-9\/#&.:=?%@~_]*)*)?\x07)|(([0-9]{1,4}(;[0-9]{0,4})*)?[0-9A-PR-TZcf-ntqry=><~]))/, ""); gsub(/.\x08/, ""); print}'
 }
 
+# Preprocess only usage
+_patch_help_preprocess_usageonly() {
+    gawk -v LEVEL="$1" -f "$ROOT_DIR/utils/_patch_utils/preprocess-usageonly.awk"
+}
+
+# Preprocess corba-based cli
+_patch_help_preprocess_cobra() {
+    gawk -f "$ROOT_DIR/utils/_patch_utils/preprocess-cobra.awk"
+}
+
 # Deduplicate options
 # Example
 #    cat | _patch_table_dedup_options \ |

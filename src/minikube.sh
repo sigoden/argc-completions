@@ -1,40 +1,5 @@
 _patch_help() { 
-    TERM_WIDTH=200 _patch_help_run_help $@ | gawk '{
-        noPrint = 0
-
-        if (match($0, /^\s*$/)) {
-            commandZone = 0
-            optionZone = 0
-        } else if (match($0, /^Available Commands:/)) {
-            commandZone = 1
-        } else if (match($0, /    -.*:$/)) {
-            optionZone = 1
-            noPrint = 1
-            line = substr($0, 1, length($0) - 1)
-            if (match(line, /=(false|true)$/)) {
-                line = substr(line, 1, length(line) - RLENGTH)
-            } else if (match(line, /=\[([A-Za-z0-9_-]+(,[A-Za-z0-9_-]+)+)\]$/, arr)) {
-                gsub(",", "|", arr[1])
-                line = substr(line, 1, length(line) - RLENGTH) " " arr[1]
-            } else if (match(line, /=\[\]$/)) {
-                line = substr(line, 1, length(line) - RLENGTH) " <value...>"
-            } else if (match(line, /=(\047\047)?$/)) {
-                line = substr(line, 1, length(line) - RLENGTH) " <value>"
-            } else if (match(line, /=\047(\S+)\047$/, arr)) {
-                line = substr(line, 1, length(line) - RLENGTH) " <" arr[1] ">"
-            }
-            print line
-        } else if (commandZone == 1 && match($0, /^\S/)) {
-            noPrint = 1
-        }  else if (optionZone == 1) {
-            noPrint = 1
-            print "      " $0
-        }
-
-        if (noPrint == 0) {
-            print $0
-        }
-    }'
+    $@ --help | _patch_help_preprocess_cobra
 }
 
 _patch_table() { 

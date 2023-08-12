@@ -11,7 +11,7 @@
 # @option --apiserver-names* <value>             A set of apiserver names which are used in the generated certificate for kubernetes.
 # @option --apiserver-port <8443>                The apiserver listening port
 # @flag --auto-update-drivers                    If set, automatically updates drivers to the latest version.
-# @option --base-image[`_module_oci_docker_image`] <image>
+# @option --base-image[`_module_oci_docker_image`] <image>  The base image to use for docker/podman drivers.
 # @option --binary-mirror <value>                Location to fetch kubectl, kubelet, & kubeadm binaries from.
 # @flag --cache-images                           If true, cache docker images for the current bootstrapper and load them into the machine.
 # @option --cert-expiration <26280h0m0s>         Duration until minikube certificate expiration, defaults to three years (26280h).
@@ -108,7 +108,7 @@ start() {
 
 # {{ minikube status
 # @cmd Gets the status of a local Kubernetes cluster
-# @option -f --format <'{{.Name}} #>
+# @option -f --format <template>               type: Control Plane host: {{.Host}} kubelet: {{.Kubelet}} apiserver: {{.APIServer}} kubeconfig: {{.Kubeconfig}} {{- if .TimeToStop }} timeToStop: {{.TimeToStop}} {{- end }} {{- if .DockerEnv }} docker-env: {{.DockerEnv}} {{- end }} {{- if .PodManEnv }} podman-env: {{.PodManEnv}} {{- end }}  ': Go template format string for the status output.
 # @option -l --layout <nodes>                  output layout (EXPERIMENTAL, JSON only): 'nodes' or 'cluster'
 # @option -n --node[`_choice_node`] <value>    The node to check status for.
 # @option -o --output[text|json] <text>        minikube status --output OUTPUT.
@@ -214,7 +214,7 @@ cache::delete() {
 
 # {{{ minikube cache list
 # @cmd List all available images from the local cache.
-# @option --format <'{{.CacheImage}} #>
+# @option --format <template>    ': Go template format string for the cache list output.
 cache::list() {
     :;
 }
