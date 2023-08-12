@@ -1,11 +1,11 @@
 _patch_help() {
     if [[ "$*" == "bun" ]]; then
-        echo "Options: "
         bun --help | \
         sed \
-            -e 's/^  \(\S\+\).\{20\}\(.*\)$/  \1 \2/' \
+            -e '/^------/,+3 c\Commands:' \
+            -e 's/^  \(\S\+\)\s\{2,\}\(\S\+\( \S\+\)*\)\?\s\{2,\}\(\S.*\)$/  \1\t\4/' \
             -e '/ (bun \w\+)$/ s/  \(\w\+\)\(.*\)(bun \(\w\+\))$/  \1, \3\2/' \
-
+        
     elif [[ "$*" == "bun add" ]] \
       || [[ "$*" == "bun install" ]] \
       || [[ "$*" == "bun link" ]] \
@@ -102,7 +102,10 @@ _choice_script() {
 }
 
 _choice_script_or_bin() {
-    echo __argc_value=file
+    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+        _argc_util_comp_path
+        return
+    fi
     _choice_script
 }
 
