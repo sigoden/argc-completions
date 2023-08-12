@@ -24,14 +24,14 @@ _patch_table() {
 
     elif [[ "$*" == "syft convert" ]]; then
         echo "$table" | \
-        _patch_table_edit_arguments ';;' 'source-sbom-file'  'format;[`_chocie_convert_format`]'
+        _patch_table_edit_arguments ';;' 'source-sbom-file'  'format;[`_choice_convert_format`]'
 
     else
         echo "$table"
     fi
 }
 
-_chocie_convert_format() {
+_choice_convert_format() {
     _argc_util_mode_kv =
     if [[ -z "$argc__kv_prefix" ]]; then
         printf "%s=\n" spdx-json cyclonedx-json syft-json

@@ -120,7 +120,7 @@ completion::zsh() {
 # @flag -q --quiet                     suppress all logging output
 # @option -v --verbose <count>         increase verbosity (-v = info, -vv = debug)
 # @arg source-sbom-file
-# @arg format[`_chocie_convert_format`]
+# @arg format[`_choice_convert_format`]
 convert() {
     :;
 }
@@ -178,7 +178,7 @@ version() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_chocie_convert_format() {
+_choice_convert_format() {
     _argc_util_mode_kv =
     if [[ -z "$argc__kv_prefix" ]]; then
         printf "%s=\n" spdx-json cyclonedx-json syft-json
