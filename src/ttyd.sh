@@ -8,7 +8,7 @@ _patch_table() {
         '--debug(<level>)' \
         '--gid;[`_module_os_group`]' \
         '--index(<path>)' \
-        '--interface[`_choice_interface`]' \
+        '--interface;[`_choice_interface`]' \
         '--max-clients(<num>)' \
         '--ping-interval(<sec>)' \
         '--port(<port>)' \

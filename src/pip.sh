@@ -48,7 +48,7 @@ _patch_table() {
             '--progress-bar;[off|on|ascii|pretty|emoji]' \
     )"
 
-    if [[ "$*" == "pip config" ]]; then
+    if [[ "$*" == "pip config"* ]]; then
         echo "$table" | _patch_table_edit_arguments 'key;[`_choice_config_key`]'
 
     elif [[ "$*" == "pip freeze" ]]; then

@@ -107,7 +107,7 @@ _patch_table() {
 
     elif [[ "$*" == "opam pin add" ]]; then
         echo "$table" | \
-        _patch_table_edit_arguments 'name;*[`_choice_pin`]' 'target(<dir>)'
+        _patch_table_edit_arguments ';;' 'name;*[`_choice_pin`]' 'target(<dir>)'
 
     elif [[ "$*" == "opam pin remove" ]] \
       || [[ "$*" == "opam unpin" ]] \
@@ -121,7 +121,7 @@ _patch_table() {
       || [[ "$*" == "opam upgrade" ]] \
     ; then
         echo "$table" | \
-        _patch_table_edit_arguments 'packages;*[`_choice_package`]'
+        _patch_table_edit_arguments 'packages;*[`_choice_installed_package`]'
 
     elif [[ "$*" == "opam repository "* ]]; then
         echo "$table" | \

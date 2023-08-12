@@ -12,8 +12,6 @@ set -e
 
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )"
 
-command_names=";"
-
 handle_cmd() {
     local output table level nest_fn_prefix command_lines command_output line cmd_paths
     local cmd_paths=( $(sanitize_cmds "$@") )
@@ -115,16 +113,41 @@ get_table() {
     echo "$table"
 }
 
-embed_script() {
+embed_src_script() {
     if [[ ! -f "$src_file" ]]; then
         return
     fi
+    local main_content="$1"
+    local src_fns src_script 
+    mapfile -t src_fns < <( \
+        echo "$main_content" | \
+        sed -n '/^# @\(option\|arg\)/ s/.* \S\+\[`\(\S\+\)`\].*/\1/p' | \
+        grep -v '^_module_' | \
+        sort | uniq  \
+    )
 
-    local mods_script="$(get_modules_script)"
+    if [[ ${#src_fns} -gt 0 ]]; then
+        src_script="$(get_src_script "${src_fns[@]}")"
+    fi
 
-    local src_script="$(get_src_script)"
+    local mod_fns mod_script 
+    mapfile -t mod_fns < <( \
+        echo "$main_content"$'\n'"$src_script" | \
+        grep -o -w '_module_[[:alnum:]_]*' | 
+        sort | uniq  \
+    )
+    if [[ ${#mod_fns} -gt 0 ]]; then
+        mod_script="$(get_mod_script "${mod_fns[@]}")"
+    fi
 
-    if grep -q -o -w '_argc_util_[[:alnum:]_]*' <<<"${src_script}"$\n"${mods_script}"; then
+    local script_content="${src_script}"$'\n'"${mod_script}"
+    if [[ -z "$script_content" ]]; then
+        return
+    fi
+
+    echo 
+
+    if grep -q -o -w '_argc_util_[[:alnum:]_]*' <<<"$script_content"; then
         echo
         echo '. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"'
     fi
@@ -134,39 +157,33 @@ embed_script() {
         echo "$src_script"
     fi
 
-    if [[ -n "$mods_script" ]]; then
+    if [[ -n "$mod_script" ]]; then
         echo
-        echo "$mods_script"
+        echo "$mod_script"
     fi
 }
 
-get_modules_script() {
-    local module_fns module_names IFS
-    module_fns=( $(cat "$src_file" | grep -o -w '_module_[[:alnum:]_]*' | tr '\n' ' ') )
-    if [[ ${#module_fns[@]} -eq 0 ]]; then
-        return
-    fi
-
-    local mod_path mod_fns_script mod_fns_deps values fn_name
+get_mod_script() {
+    local mod_fns mod_path mod_fns_script mod_fns_deps values fn_name
     declare -A mod_fns_script
     declare -A mod_fns_deps
-    IFS=";"
+    mod_fns=( "$@" )
     for mod_path in "$utils_dir/_modules/"*.sh; do
         while IFS=$'\n' read -r line; do
-            values=( $line )
+            IFS=';' read -a values <<<"$line"
             fn_name=${values[0]}
             mod_fns_script[$fn_name]="$(sed -n "${values[1]},${values[2]} p" "$mod_path")"
             mod_fns_deps[$fn_name]="${values[3]}"
-        done < <(gawk -f "$scripts_dir/analysis-module.awk" "$mod_path")
+        done < <(gawk -f "$scripts_dir/inspect-fns.awk" "$mod_path")
     done
 
     local checked_mod_fns to_check_mod_fns embed_mod_fns
     declare -A checked_mod_fns
     embed_mod_fns=()
-    to_check_mod_fns=( ${module_fns[@]} )
-    IFS=" "
+    to_check_mod_fns=( "${mod_fns[@]}" )
+    local IFS=" "
     while [ ${#to_check_mod_fns[@]} -gt 0 ]; do
-        local dep_module_fns=()
+        local dep_mod_fns=()
         for mod_fn in ${to_check_mod_fns[@]}; do
             if [[ ${checked_mod_fns[$mod_fn]} -eq 1 ]]; then
                 continue
@@ -174,14 +191,14 @@ get_modules_script() {
                 checked_mod_fns[$mod_fn]=1
             fi
             if [[ -v mod_fns_script[$mod_fn] ]]; then
-                dep_module_fns+=( ${mod_fns_deps[$mod_fn]} )
+                dep_mod_fns+=( ${mod_fns_deps[$mod_fn]} )
                 embed_mod_fns+=( $mod_fn )
             else
                 continue
             fi
         done
         to_check_mod_fns=()
-        for mod_fn in ${dep_module_fns[@]}; do
+        for mod_fn in ${dep_mod_fns[@]}; do
             if [[ ${checked_mod_fns[$mod_fn]} -eq 1 ]]; then
                 continue
             else
@@ -194,40 +211,84 @@ get_modules_script() {
         IFS=$'\n'
         embed_mod_fns=( $(printf "%s\n" "${embed_mod_fns[@]}" | sort -n) )
 
-        local mods_script mod_fn_script
+        local mod_script mod_fn_script
         for mod_fn in ${embed_mod_fns[@]}; do
             mod_fn_script="${mod_fns_script[$mod_fn]}"
-            if [[ -z "$mods_script" ]]; then
-                mods_script="$mod_fn_script"
+            if [[ -z "$mod_script" ]]; then
+                mod_script="$mod_fn_script"
             else
-                mods_script="$mods_script"$'\n'$'\n'"$mod_fn_script"
+                mod_script="$mod_script"$'\n'$'\n'"$mod_fn_script"
             fi
         done
 
-        echo "$mods_script"
+        echo "$mod_script"
     fi
 }
 
 get_src_script() {
-    cat "$src_file" | \
-    gawk 'BEGIN {
-            patch_fn_state = 0
-        }
-        {
-            if (patch_fn_state > 0) {
-                if (match($0, /^}$/)) {
-                    patch_fn_state = 1
-                } else if (patch_fn_state == 1 && match($0, /^\s*$/)) {
-                    patch_fn_state = 0
-                }
-            } else {
-                if (match($0, /^_patch_\w+\(/)) {
-                    patch_fn_state = 2
-                } else {
-                    print $0
-                }
-            }
-        }'
+    local src_fns all_src_fns src_fns_script src_fns_deps values fn_name
+    declare -A src_fns_script
+    declare -A src_fns_deps
+    all_src_fns=()
+    src_fns=( "$@" )
+    local IFS=" "
+    while IFS=$'\n' read -r line; do
+        IFS=';' read -a values <<<"$line"
+        fn_name=${values[0]}
+        all_src_fns+=( $fn_name )
+        src_fns_script[$fn_name]="$(sed -n "${values[1]},${values[2]} p" "$src_file")"
+        src_fns_deps[$fn_name]="${values[3]}"
+    done < <(gawk -f "$scripts_dir/inspect-fns.awk" "$src_file")
+
+    local checked_src_fns to_check_src_fns embed_src_fns
+    declare -A checked_src_fns
+    embed_src_fns=()
+    to_check_src_fns=( "${src_fns[@]}" )
+    local IFS=" "
+    while [ ${#to_check_src_fns[@]} -gt 0 ]; do
+        local dep_src_fns=()
+        for src_fn in ${to_check_src_fns[@]}; do
+            if [[ ${checked_src_fns[$src_fn]} -eq 1 ]]; then
+                continue
+            else
+                checked_src_fns[$src_fn]=1
+            fi
+            if [[ -v src_fns_script[$src_fn] ]]; then
+                dep_src_fns+=( ${src_fns_deps[$src_fn]} )
+                embed_src_fns+=( $src_fn )
+            else
+                continue
+            fi
+        done
+        to_check_src_fns=()
+        for src_fn in ${dep_src_fns[@]}; do
+            if [[ ${checked_src_fns[$src_fn]} -eq 1 ]]; then
+                continue
+            else
+                to_check_src_fns+=( $src_fn )
+            fi
+        done
+    done
+
+    local check_src_fn src_script src_fn_script unused_src_fns
+    unused_src_fns=()
+    for check_src_fn in "${all_src_fns[@]}"; do
+        if [[ " ${embed_src_fns[@]} " == *" $check_src_fn "* ]] || [[ ! "$check_src_fn" =~ ^(_helper_|_choice_) ]]; then
+            src_fn_script="${src_fns_script[$check_src_fn]}"
+            if [[ -z "$src_script" ]]; then
+                src_script="$src_fn_script"
+            else
+                src_script="$src_script"$'\n'$'\n'"$src_fn_script"
+            fi
+        else
+            unused_src_fns+=( $check_src_fn )
+        fi
+    done
+    if [[ ${#unused_src_fns[@]} -gt 0 ]]; then
+        log_info ": unused fns: ${unused_src_fns[@]}"
+    fi
+
+    echo "$src_script"
 }
 
 parse_table() {
@@ -267,7 +328,7 @@ set_globals() {
     utils_dir="$ROOT_DIR/utils"
     helps_dir="$ROOT_DIR/helps"
     use_help_subcmd=0
-    command_names="$command_names$argc_cmd;"
+    command_names=";$argc_cmd;"
     if [[ "$argc_cmd" == '__test' ]]; then
         src_dir="$ROOT_DIR/tests/src"
         argc_output="$ROOT_DIR/tests/completions"
@@ -347,14 +408,10 @@ eval "$(argc --argc-eval "$0" "$@")"
 
 set_globals
 
-gen() {
-    print_head
-    handle_cmd ${cmds[@]}
-    embed_script
-    print_tail
-}
+main_content="$(handle_cmd "${cmds[@]}")"
+src_content="$(embed_src_script "$main_content")"
 
-output_content="$(gen)"
+output_content="$(print_head; echo "$main_content$src_content" ; print_tail)"
 
 if [[ -n "$output_file" ]]; then
     mkdir -p "$(dirname "$output_file")"

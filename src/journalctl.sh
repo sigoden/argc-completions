@@ -4,7 +4,7 @@ _patch_help() {
 
 _patch_table() { 
     _patch_table_edit_options \
-        '--boots;[`_choice_boots`]' \
+        '--boot;[`_choice_boot`]' \
         '--facility;*,[`_choice_facility`]' \
         '--field;[`_choice_field`]' \
         '--image(<FILE>)' \
@@ -17,7 +17,7 @@ _patch_table() {
 
 }
 
-_choice_boots() {
+_choice_boot() {
     journalctl --list-boots | gawk '{x=""; for (i = 3; i <= NF; i++) x = x " " $i;  print $1 "\t" x; print $2 "\t" x}'
 }
 

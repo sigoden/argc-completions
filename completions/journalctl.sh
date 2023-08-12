@@ -10,7 +10,7 @@
 # @option --after-cursor <CURSOR>             Show entries after the specified cursor
 # @flag --show-cursor                         Print the cursor after all the entries
 # @option --cursor-file <FILE>                Show entries after cursor in FILE and update FILE
-# @option -b --boot <ID>                      Show current boot or the specified boot
+# @option -b --boot[`_choice_boot`] <ID>      Show current boot or the specified boot
 # @flag --list-boots                          Show terse information about recorded boots
 # @flag -k --dmesg                            Show kernel message log from the current boot
 # @option -u --unit[`_choice_unit`]           Show logs from the specified unit
@@ -64,7 +64,7 @@
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_boots() {
+_choice_boot() {
     journalctl --list-boots | gawk '{x=""; for (i = 3; i <= NF; i++) x = x " " $i;  print $1 "\t" x; print $2 "\t" x}'
 }
 

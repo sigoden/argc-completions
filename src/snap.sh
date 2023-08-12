@@ -14,7 +14,7 @@ _patch_table() {
     table="$( \
         _patch_table_edit_arguments \
             'change-id;[`_choice_change`]' \
-            'service;[`_choice_change`]' \
+            'service;[`_choice_service`]' \
             'snap;[`_choice_installed_snap`]' \
     )"
 

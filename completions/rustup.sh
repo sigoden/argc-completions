@@ -226,9 +226,9 @@ override::set() {
 
 # {{{ rustup override unset
 # @cmd Remove the override toolchain for a directory
-# @option --path <path>    Path to the directory
-# @flag --nonexistent      Remove override toolchain for all nonexistent directories
-# @flag -h --help          Print help information
+# @option --path[`_choice_override`] <path>    Path to the directory
+# @flag --nonexistent                          Remove override toolchain for all nonexistent directories
+# @flag -h --help                              Print help information
 override::unset() {
     :;
 }

@@ -4,7 +4,7 @@
 # @flag -a --archive-header                      If any of the objfile files are archives, display the archive header information (in a format similar to ls -l).
 # @option --adjust-vma <offset>                  When dumping information, first add offset to all the section addresses.
 # @option -b --target[`_choice_target`] <bfdname>  Specify that the object-code format for the object files is bfdname.
-# @option -C --demangle <style>                  Decode (demangle) low-level symbol names into user-level names.
+# @option -C --demangle[`_choice_demangle`] <style>  Decode (demangle) low-level symbol names into user-level names.
 # @flag --recurse-limit                          Enables or disables a limit on the amount of recursion performed whilst demangling strings.
 # @flag --no-recurse-limit                       Enables or disables a limit on the amount of recursion performed whilst demangling strings.
 # @flag --recursion-limit                        Enables or disables a limit on the amount of recursion performed whilst demangling strings.

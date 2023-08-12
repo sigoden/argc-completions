@@ -201,7 +201,7 @@ watch() {
 
 # {{ snap services
 # @cmd Query the status of services
-# @arg service[`_choice_change`] <<service>:>    A service specification, which can be just a snap name (for all services in the snap), or <snap>.<app> for a single service.
+# @arg service[`_choice_service`] <<service>:>    A service specification, which can be just a snap name (for all services in the snap), or <snap>.<app> for a single service.
 services() {
     :;
 }
@@ -209,9 +209,9 @@ services() {
 
 # {{ snap start
 # @cmd Start services
-# @flag --no-wait                                Do not wait for the operation to finish but just print the change id.
-# @flag --enable                                 As well as starting the service now, arrange for it to be started on boot.
-# @arg service[`_choice_change`] <<service>:>    A service specification, which can be just a snap name (for all services in the snap), or <snap>.<app> for a single service.
+# @flag --no-wait                                 Do not wait for the operation to finish but just print the change id.
+# @flag --enable                                  As well as starting the service now, arrange for it to be started on boot.
+# @arg service[`_choice_service`] <<service>:>    A service specification, which can be just a snap name (for all services in the snap), or <snap>.<app> for a single service.
 start() {
     :;
 }
@@ -219,9 +219,9 @@ start() {
 
 # {{ snap stop
 # @cmd Stop services
-# @flag --no-wait                                Do not wait for the operation to finish but just print the change id.
-# @flag --disable                                As well as stopping the service now, arrange for it to no longer be started on boot.
-# @arg service[`_choice_change`] <<service>:>    A service specification, which can be just a snap name (for all services in the snap), or <snap>.<app> for a single service.
+# @flag --no-wait                                 Do not wait for the operation to finish but just print the change id.
+# @flag --disable                                 As well as stopping the service now, arrange for it to no longer be started on boot.
+# @arg service[`_choice_service`] <<service>:>    A service specification, which can be just a snap name (for all services in the snap), or <snap>.<app> for a single service.
 stop() {
     :;
 }
@@ -229,9 +229,9 @@ stop() {
 
 # {{ snap restart
 # @cmd Restart services
-# @flag --no-wait                                Do not wait for the operation to finish but just print the change id.
-# @flag --reload                                 If the service has a reload command, use it instead of restarting.
-# @arg service[`_choice_change`] <<service>:>    A service specification, which can be just a snap name (for all services in the snap), or <snap>.<app> for a single service.
+# @flag --no-wait                                 Do not wait for the operation to finish but just print the change id.
+# @flag --reload                                  If the service has a reload command, use it instead of restarting.
+# @arg service[`_choice_service`] <<service>:>    A service specification, which can be just a snap name (for all services in the snap), or <snap>.<app> for a single service.
 restart() {
     :;
 }
@@ -239,9 +239,9 @@ restart() {
 
 # {{ snap logs
 # @cmd Retrieve logs for services
-# @option -n                                     Show only the given number of lines, or 'all'.
-# @flag -f                                       Wait for new lines and print them as they come in.
-# @arg service[`_choice_change`] <<service>:>    A service specification, which can be just a snap name (for all services in the snap), or <snap>.<app> for a single service.
+# @option -n                                      Show only the given number of lines, or 'all'.
+# @flag -f                                        Wait for new lines and print them as they come in.
+# @arg service[`_choice_service`] <<service>:>    A service specification, which can be just a snap name (for all services in the snap), or <snap>.<app> for a single service.
 logs() {
     :;
 }

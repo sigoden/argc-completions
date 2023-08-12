@@ -1,6 +1,6 @@
 #!/usr/bin/env awk
 
-# Analsys utils/_modules/*.sh
+# Analsys _choice_fn*/_module_fn*/_helper_fn*
 
 BENGIN {
     split("", LINES)
@@ -15,8 +15,8 @@ BENGIN {
 END {
     for (i = 1; i <= LINE_NUM; i++) {
         line = LINES[i]
-        if (match(line, /^_module_\w+\(\) \{/)) {
-            fnName = substr(line, 1, RLENGTH - 4);
+        if (match(line, /^(_\w+)\s*\(\)\s+\{/, arr) && !match(arr[1], /^_patch/)) {
+            fnName = arr[1]
             fnEntry = i
             fnZone = 1
             fnDeps = ""
@@ -29,7 +29,7 @@ END {
             fnZone = 0
         } else if (fnZone == 1) {
             idx = 1
-            while (match(substr(line, idx), /\<_module_\w+\>/)) {
+            while (match(substr(line, idx), /\<_(choice|helper|module)_\w+\>/)) {
                 depFnName = substr(line, idx + RSTART - 1, RLENGTH)
                 if (fnDeps == "") {
                     fnDeps = depFnName

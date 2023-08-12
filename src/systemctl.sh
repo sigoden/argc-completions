@@ -80,7 +80,7 @@ _patch_table() {
     elif [[ "$*" == "systemctl list-sockets" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'pattern;*[`_choice_socket_unit`]'
 
-    elif [[ "$*" == "systemctl list-timer" ]]; then
+    elif [[ "$*" == "systemctl list-timers" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'pattern;*[`_choice_timer_unit`]'
 
     elif [[ "$*" == "systemctl log-level" ]]; then

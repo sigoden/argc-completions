@@ -2343,10 +2343,6 @@ _choice_all_issue() {
     _helper_query_issue
 }
 
-_choice_all_pr() {
-    _helper_query_pr
-}
-
 _choice_all_run() {
     _helper_repo_curl 'actions/runs' | \
     yq '.workflow_runs[] | .id + "	" + .name + ": " + (.display_title // "")'

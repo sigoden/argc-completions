@@ -21,7 +21,7 @@
 # @option -S --sectors <number>                    specify the number of sectors per track
 # @flag -h --help                                  display this help
 # @flag -V --version                               display version
-# @arg devices*[_choice_disk]
+# @arg devices*[`_choice_disk`]
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 

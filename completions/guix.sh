@@ -979,12 +979,12 @@ repl() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_package() {
-    guix package -A
-}
-
 _choice_installed_package() {
     guix package -I
+}
+
+_choice_package() {
+    guix package -A
 }
 
 _choice_time_machine_command() {

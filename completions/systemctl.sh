@@ -220,6 +220,7 @@ list-sockets() {
 # @flag --read-only                     Create read-only bind mount
 # @flag --mkdir                         Create directory before mounting, if missing
 # @flag --marked                        Restart/reload previously marked units
+# @arg pattern*[`_choice_timer_unit`]
 list-timers() {
     :;
 }

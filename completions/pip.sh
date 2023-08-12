@@ -435,7 +435,7 @@ config::edit() {
 
 # {{{ pip config get
 # @cmd Get the value associated with command.option
-# @arg key!
+# @arg key![`_choice_config_key`]
 config::get() {
     :;
 }
@@ -443,7 +443,7 @@ config::get() {
 
 # {{{ pip config set
 # @cmd Set the command.option=value
-# @arg key!
+# @arg key![`_choice_config_key`]
 # @arg value!
 config::set() {
     :;
@@ -452,7 +452,7 @@ config::set() {
 
 # {{{ pip config unset
 # @cmd Unset the value associated with command.option
-# @arg key!
+# @arg key![`_choice_config_key`]
 config::unset() {
     :;
 }

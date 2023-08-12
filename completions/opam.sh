@@ -1150,7 +1150,7 @@ pin::scan() {
 
 # {{{ opam pin add
 # @cmd Pins package PACKAGE to TARGET, which may be a version, a path, or a URL.
-# @arg package
+# @arg name*[`_choice_pin`]
 # @arg dir!
 pin::add() {
     :;
@@ -1230,7 +1230,7 @@ pin::edit() {
 # @flag -v --verbose                              Be more verbose.
 # @flag --version                                 Show version information.
 # @flag -w --working-dir                          Whenever updating packages that are bound to a local, version-controlled directory, update to the current working state of their source instead of the last committed state, or the ref they are pointing to.
-# @arg packages*[`_choice_package`]               List of package names, with an optional version or constraint, e.g `pkg', `pkg.1.0' or `pkg>=0.5' ; or directory names containing package description, with explicit directory (e.g. `./srcdir' or `.')
+# @arg packages*[`_choice_installed_package`]     List of package names, with an optional version or constraint, e.g `pkg', `pkg.1.0' or `pkg>=0.5' ; or directory names containing package description, with explicit directory (e.g. `./srcdir' or `.')
 reinstall() {
     :;
 }
@@ -1292,7 +1292,7 @@ reinstall() {
 # @flag -v --verbose                              Be more verbose.
 # @flag --version                                 Show version information.
 # @flag -w --working-dir                          Whenever updating packages that are bound to a local, version-controlled directory, update to the current working state of their source instead of the last committed state, or the ref they are pointing to.
-# @arg packages*[`_choice_package`]               List of package names, with an optional version or constraint, e.g `pkg', `pkg.1.0' or `pkg>=0.5' ; or directory names containing package description, with explicit directory (e.g. `./srcdir' or `.')
+# @arg packages*[`_choice_installed_package`]     List of package names, with an optional version or constraint, e.g `pkg', `pkg.1.0' or `pkg>=0.5' ; or directory names containing package description, with explicit directory (e.g. `./srcdir' or `.')
 remove() {
     :;
 }
@@ -1771,7 +1771,7 @@ update() {
 # @flag -v --verbose                              Be more verbose.
 # @flag --version                                 Show version information.
 # @flag -w --working-dir                          Whenever updating packages that are bound to a local, version-controlled directory, update to the current working state of their source instead of the last committed state, or the ref they are pointing to.
-# @arg packages*[`_choice_package`]               List of package names, with an optional version or constraint, e.g `pkg', `pkg.1.0' or `pkg>=0.5' ; or directory names containing package description, with explicit directory (e.g. `./srcdir' or `.')
+# @arg packages*[`_choice_installed_package`]     List of package names, with an optional version or constraint, e.g `pkg', `pkg.1.0' or `pkg>=0.5' ; or directory names containing package description, with explicit directory (e.g. `./srcdir' or `.')
 upgrade() {
     :;
 }

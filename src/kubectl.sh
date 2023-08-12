@@ -528,10 +528,6 @@ _choice_pod() {
     _helper_find_resource_by_type pods
 }
 
-_choice_pod_or_resource() {
-    _argc_util_parallel _choice_pod ::: _choice_resource_type_and_name
-}
-
 _choice_resource() {
     if [[ -n "${argc__positionals[0]}" ]]; then
         _helper_find_resource_by_type "${argc__positionals[0]}"

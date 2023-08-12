@@ -6,7 +6,7 @@ _patch_table() {
         '--units;[cylinders|sectors]' \
         '--wipe-partitions;[auto|never|always]' \
     | \
-    _patch_table_edit_arguments ';;' 'devices...;[_choice_disk]'
+    _patch_table_edit_arguments ';;' 'devices...;[`_choice_disk`]'
 }
 
 _choice_block_device() {
