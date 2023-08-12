@@ -11,7 +11,8 @@ set -e
 # @arg subcmd                       Optional subcommand
 
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )"
-command_names=()
+
+command_names=";"
 
 handle_cmd() {
     local output table level nest_fn_prefix command_lines command_output line cmd_paths
@@ -63,8 +64,8 @@ handle_subcmd() {
     local new_cmds_level=$(( ${#new_cmds[@]} + 1 - $cmds_level ))
 
     local cmd_full_name="$(printf "%s\n" ${new_cmds[@]} | uniq | tr '\n' ' ' | sed -e 's/ $//' -e 's/ /::/g')"
-    if [[ "$cmd_name" != "$argc_cmd" ]] && [[  ! " ${command_names[*]} " == *" $cmd_full_name "* ]]; then
-        command_names+=( "$cmd_full_name" )
+    if [[ "$cmd_name" != "$argc_cmd" ]] && [[  ! "$command_names" == *";$cmd_full_name;"* ]]; then
+        command_names="$command_names$cmd_full_name;"
     else 
         return
     fi
@@ -84,8 +85,8 @@ handle_subcmd() {
 
 get_table() {
     log_info "$@: start"
-    if [[ $# -gt 4 ]] && [[ " ${@:1:$#-1} " == *" ${!#} "* ]]; then
-        log_error "$@: dead loop"
+    if [[ $# -gt 5 ]]; then
+        log_error "$@: too deep"
         return
     fi
     local path help_text table
@@ -277,7 +278,7 @@ set_globals() {
     utils_dir="$ROOT_DIR/utils"
     helps_dir="$ROOT_DIR/helps"
     use_help_subcmd=0
-    command_names+=( "$argc_cmd" )
+    command_names="$command_names$argc_cmd;"
     if [[ "$argc_cmd" == '__test' ]]; then
         src_dir="$ROOT_DIR/tests/src"
         argc_output="$ROOT_DIR/tests/completions"
