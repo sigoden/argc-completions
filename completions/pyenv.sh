@@ -11,6 +11,13 @@ activate() {
 }
 # }} pyenv activate
 
+# {{ pyenv commands
+# @cmd List all available pyenv commands
+commands() {
+    :;
+}
+# }} pyenv commands
+
 # {{ pyenv deactivate
 # @cmd Deactivate virtual environment
 deactivate() {

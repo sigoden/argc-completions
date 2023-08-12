@@ -10,7 +10,7 @@ BEGIN {
     PAIRS_OPEN = "<[({"
     PAIRS_CLOSE = ">])}"
     RE_SKIP_ARGUMENT = "^(flag|option|switches)"
-    RE_SKIP_SBUCOMMAND =  "help|command|none|n\\/a"
+    RE_SKIP_SBUCOMMAND =  "\\<(help|command|none|n\\/a)\\>"
     RE_SHADOW_COMMAND = "^(do|echo|cat|tail|head|command|select|eval)$"
     RE_REMOVE_NOTATION_PREFIX = "[=!]"
     EXISTS_SUBCOMMANDS = ",help,"

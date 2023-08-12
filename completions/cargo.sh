@@ -1187,12 +1187,12 @@ _choice_example() {
     _helper_package_target example
 }
 
-_choice_package() {
-    _helper_metadata_json | yq '.packages[].name'
-}
-
 _choice_fmt() {
     _argc_util_comp_subcommand 0 rustfmt
+}
+
+_choice_package() {
+    _helper_metadata_json | yq '.packages[].name'
 }
 
 _choice_target() {
