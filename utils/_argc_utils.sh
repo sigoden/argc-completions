@@ -142,6 +142,12 @@ _argc_util_comp_parts() {
     echo "__argc_prefix=$argc__parts_prefix"
     echo "__argc_filter=$argc__parts_filter"
 
+    IFS="$sep" read -ra argc__parts_values <<<"$filter"
+    if [[ -z "$argc__parts_filter" ]]; then
+        argc__parts_values=( "${argc__parts_values[@]}" "" )
+    fi
+    argc__parts_len="${#argc__parts_values[@]}"
+
     gawk -v SEP="$sep" -v FILTER="$argc__parts_filter" -v PREFIX="$argc__parts_local_prefix" '
 BEGIN {
     split("", VALUES)
@@ -328,6 +334,12 @@ _argc_util_mode_parts() {
     fi
     echo "__argc_prefix=$argc__parts_prefix"
     echo "__argc_filter=$argc__parts_filter"
+
+    IFS="$sep" read -ra argc__parts_values <<<"$filter"
+    if [[ -z "$argc__parts_filter" ]]; then
+        argc__parts_values=( "${argc__parts_values[@]}" "" )
+    fi
+    argc__parts_len="${#argc__parts_values[@]}"
 }
 
 # Checks if given string has a path prefix.

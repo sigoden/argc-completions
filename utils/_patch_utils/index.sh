@@ -93,6 +93,11 @@ _patch_help_preprocess_cobra() {
     gawk -f "$ROOT_DIR/utils/_patch_utils/preprocess-cobra.awk"
 }
 
+# Preprocess yargs-based cli
+_patch_help_preprocess_yargs() {
+    gawk -f "$ROOT_DIR/utils/_patch_utils/preprocess-yargs.awk"
+}
+
 # Deduplicate options
 # Example
 #    cat | _patch_table_dedup_options \ |

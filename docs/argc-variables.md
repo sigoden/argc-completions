@@ -36,8 +36,9 @@ It will print:
 
 ## builtin variables
 
-- `argc__args`:  command line args
+- `argc__args`:  Command line args
 - `argc__index`: The index of the current command word in the args
+- `argc__main_fn`: The @cmd fn
 - `argc__positionals`: The positional args
 
 Run command
@@ -49,6 +50,7 @@ Argc will set the variable value
 ```
 argc__args=([0]="git" [1]="reset" [2]="--hard" [3]="")
 argc__index=1
+argc__main_fn=reset
 argc__positionals=([0]="")
 ```
 

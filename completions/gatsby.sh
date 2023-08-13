@@ -23,8 +23,8 @@
 # @option --ca-file <file>                     Custom HTTPS CA certificate file (also required: --https, --cert-file, --key-file).
 # @flag --graphql-tracing                      Trace every graphql resolver, may have performance implications
 # @option --open-tracing-config-file <file>    Tracer configuration file (OpenTracing compatible).
-# @flag --inspect                              Opens a port for debugging.
-# @flag --inspect-brk                          Opens a port for debugging.
+# @option --inspect <number>                   Opens a port for debugging.
+# @option --inspect-brk <number>               Opens a port for debugging.
 # @flag -h --help                              Show help
 # @flag -v --version                           Show the version of the Gatsby CLI and the Gatsby package in the current project
 develop() {
