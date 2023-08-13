@@ -18,6 +18,13 @@ _choice_page() {
     if [[ -n $argc_local_file ]]; then
         _argc_util_comp_path exts=.man
     else
-        man -k "$ARGC_FILTER" | sed 's/^\(\S\+\) \?(.*) \+- \(.*\)$/\1\t\2/' 
+        len=${#argc__positionals[@]}
+        if [[ $len -gt 1 ]]; then
+            prefix=$(printf "%s-" "${argc__positionals[@]:0:$((len-1))}")
+        else
+            prefix=""
+        fi
+        search="^$prefix$ARGC_FILTER"
+        man -k "$search" | sed 's/^'$prefix'\(\S\+\) \?(.*) \+- \(.*\)$/\1\t\2/' 
     fi
 }
