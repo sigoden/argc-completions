@@ -514,10 +514,16 @@ function parseDesc(descVal, output, extractChoice, logPrefix)  {
     }
     if (extractChoice == 1 && choicesVal == "" ) {
         if (index(concatedDescVal, "]") > 0) {
-            if (match(concatedDescVal, / ?\[possible values: (([A-Za-z0-9_\.\/,-]+, )+[A-Za-z0-9_\.\/,-]+)\]/, arr)) {
-                choicesVal = arr[1]
+            if (match(concatedDescVal, / ?\[(possible values|choices): (([A-Za-z0-9_\.\/,-]+, )*[A-Za-z0-9_\.\/,-]+)\]/, arr)) {
+                choicesVal = arr[2]
+                matchVal = arr[0]
+            } else if (match(concatedDescVal, / ?\[(possible values|choices): (("([A-Za-z0-9_\.\/,-]+)", )*"([A-Za-z0-9_\.\/,-]+)")\]/, arr)) {
+                choicesVal = arr[2]
                 matchVal = arr[0]
             } else if (match(concatedDescVal, / ?\[(([A-Za-z0-9_-]+(,|, |\|)){2,}[A-Za-z0-9_-]+)\]/, arr)) {
+                choicesVal = arr[1]
+                matchVal = arr[0]
+            } else if (match(concatedDescVal, / ?\[(("([A-Za-z0-9_-]+)"(,|, |\|)){2,}"([A-Za-z0-9_-]+)")\]/, arr)) {
                 choicesVal = arr[1]
                 matchVal = arr[0]
             }

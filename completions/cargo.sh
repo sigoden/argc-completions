@@ -814,7 +814,7 @@ logout() {
 # @option --filter-platform <TRIPLE>           Only include resolve dependencies matching the given target-triple
 # @flag --no-deps                              Output information only about the workspace members and don't fetch dependencies
 # @option --manifest-path <PATH>               Path to Cargo.toml
-# @option --format-version <VERSION>           Format version [possible values: 1]
+# @option --format-version[1] <VERSION>        Format version
 # @flag -h --help                              Print help
 # @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
 # @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
