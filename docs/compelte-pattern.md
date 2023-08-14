@@ -67,9 +67,9 @@ choice fn for chown user:group
 _choice_user_group() {
     _argc_util_mode_kv ':'
     if [[ -z "$argc__kv_prefix" ]]; then
-        _helper_user | _argc_util_transform suffix=: nospace
+        _module_os_user | _argc_util_transform suffix=: nospace
     else
-        _helper_group
+        _module_os_group
     fi
 }
 ```
@@ -80,6 +80,29 @@ user1:    user2:    user3:
 
 $ scp user1:<tab>
 group1    gruop2    group3
+```
+
+## Tag value pairs
+
+```sh
+_choice_address_add() {
+    cat <<-'EOF' | _argc_util_comp_tv
+dev=`_choice_ip_device`;;the name of the device to add the address to.
+local=;;the address of the interface.
+peer=;;the address of the remote endpoint for pointopoint interfaces.
+broadcast=;;the broadcast address on the interface.
+label=;;Each address may be tagged with a label string.
+scope=`_choice_ip_scope`;;the scope of the area where this address is valid.
+EOF
+}
+```
+
+```
+$ ip address add 33.33.33.33 dev <tab>
+lo      wlp0s20f3     enp0s31f6  
+
+$ ip address add 33.33.33.33 scope <tab>
+0 (global)     255 (nowhere)  200 (site) 
 ```
 
 ## Multi parts
@@ -157,8 +180,8 @@ b   c   d   ..
 ## Sudo-like subcommands
 
 ```sh
-# @arg CMD
-# @arg ARGS~[`_choice_args`]
+# @arg cmd
+# @arg args~[`_choice_args`]
 
 _choice_args() {
     _argc_util_comp_subcommand 0

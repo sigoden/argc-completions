@@ -94,6 +94,7 @@ _argc_util_comp_kv() {
             desc="${line#*;;}"
             key_value=${line%%;;*}
         else
+            desc=""
             key_value="$line"
         fi
         key="${key_value%%=*}"
@@ -114,6 +115,67 @@ _argc_util_comp_kv() {
             fi
         fi
     done
+}
+
+
+# Complete tag-value pairs.
+#
+# ```sh
+# _choice_fn() {
+#     cat <<-'EOF' | _argc_util_comp_tv =
+# foo=yes,no;;desc foo
+# bar=v1,v2,v3;;desc bar
+# baz=__argc_value=file;;desc baz
+# qux=`_choice_fn`;;desc qux
+# quux;;desc qux
+# abc=`_choice_arg1`;`_choice_arg2`;;support two arguments
+# EOF
+# }
+# ```
+_argc_util_comp_tv() {
+    local line desc key key_value value lines value_parts args_len parts_len idx part_value
+
+    args_len=${#argc__positionals[@]}
+    lines=()
+    local IFS=$'\n'
+    for line in $(command cat); do
+        if [[ "$line" == *";;"* ]]; then
+            desc="${line#*;;}"
+            key_value=${line%%;;*}
+        else
+            desc=""
+            key_value="$line"
+        fi
+        key="${key_value%%=*}"
+        value="${key_value#*=}"
+        IFS=';' read -a value_parts <<<"$value"
+        parts_len="${#value_parts[@]}"
+        if [[ "$key" == "$value" ]]; then
+            parts_len=0
+        fi
+        for ((i = parts_len; i >= 1; i--)); do
+            if [[ $args_len -gt $i ]]; then
+                idx=$(( args_len - i - 1 ))
+                if [[ "${argc__positionals[idx]}" == "$key" ]]; then
+                    part_value="${value_parts[$((i - 1))]}"
+                    if [[ "$part_value" == $'`'* ]]; then
+                        eval "${part_value:1:-1}" 2>/dev/null
+                    else
+                        echo $part_value | command tr ',' '\n'
+                    fi
+                    return
+                fi
+            fi
+        done
+
+        if [[ " ${argc__positionals[@]} " == *" $key "* ]]; then
+            if [[ "$key" != "${argc__positionals[-1]}" ]]; then
+                continue
+            fi
+        fi
+        lines+=( "$key"$'\t'"$desc" )
+    done
+    printf "%s\n" "${lines[@]}"
 }
 
 
@@ -253,7 +315,7 @@ BEGIN {
 
 # Complete subcommand for something like `sudo`/`npx`.
 # Args:
-#   INDEX:  Slice from positional args
+#   INDEX: Slice from positional args
 #   PREPENDARGS*: Args to prepend to sliced positional args array
 #
 # ```sh
