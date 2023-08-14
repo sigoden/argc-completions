@@ -3388,7 +3388,7 @@ _module_os_command() {
         return
     fi
     if [[ "$ARGC_OS" == "windows" ]]; then
-        PATH="$(echo "$PATH" | sed 's|:[^:]*/windows/system32[^:]*:||Ig')" compgen -c
+        PATH="$(echo "$PATH" | sed 's|:[^:]*/windows/system32:|:|Ig')" compgen -c
     else
         compgen -c
     fi
