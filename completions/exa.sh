@@ -22,7 +22,7 @@
 # @flag --group-directories-first              list directories before other files
 # @flag -D --only-dirs                         list only directories
 # @option -I --ignore-glob <GLOBS>             glob patterns (pipe-separated) of files to ignore
-# @flag --git-ignore                           ignore files mentioned in '.gitignore' modified, accessed, created, inode, and none.
+# @flag --git-ignore                           ignore files mentioned in '.gitignore'
 # @flag -b --binary                            list file sizes with binary prefixes
 # @flag -B --bytes                             list file sizes in bytes, without any prefixes
 # @flag -g --group                             list each file's group

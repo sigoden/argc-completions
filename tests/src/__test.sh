@@ -126,6 +126,11 @@ Options:
 	-ldflags '[pattern=]arg list'
 		arguments to pass on each go tool link invocation.
 
+    --forcearch ARCH      Force the use of an architecture
+
+    {metadata,packages,dbcache,expire-cache,all}
+                        Metadata type to clean
+
     -<alertname>  disable alert <alertname>
     --<alertname> treat <alertname> as non-fatal
 -------

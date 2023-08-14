@@ -63,6 +63,6 @@
 # @flag --print0                                 Print output delimited by ASCII NUL characters
 # @flag --sync                                   Synchronous search for multi-staged filtering
 # @option --listen <HTTP_PORT>                   Start HTTP server to receive actions (POST /)
-# @flag --version                                Display version information and exit (e.g. '--layout=reverse --inline-info')
+# @flag --version                                Display version information and exit
 
 command eval "$(argc --argc-eval "$0" "$@")"

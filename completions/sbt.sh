@@ -26,7 +26,7 @@
 # @flag --batch                                    disable interactive mode
 # @option --sbt-version <version>                  use the specified version of sbt
 # @option --sbt-jar <path>                         use the specified jar as the sbt launcher
-# @option --java-home <path>                       alternate JAVA_HOME are appended to JAVA_OPTS are prepended to the runner args
+# @option --java-home <path>                       alternate JAVA_HOME
 # @option -Dkey <val>                              pass -Dkey=val directly to the java runtime
 # @flag -J-X                                       pass option -X directly to the java runtime (-J is stripped)
 

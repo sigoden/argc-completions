@@ -120,6 +120,8 @@ END {
         } else if (groupName == "option") {
             if (testMultilineDesc(line)) {
                 options[length(options)] = options[length(options)] lineSeps line
+            } else if (!match(line, /^\s*$/)) {
+                groupName = ""
             }
         } else if (groupName == "command") {
             if (testMultilineDesc(line)) {

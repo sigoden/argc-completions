@@ -420,7 +420,7 @@ check-update() {
 # @option --cves <CVES>                        Include packages needed to fix the given CVE, in updates
 # @option --sec-severity[Critical|Important|Moderate|Low]  Include security relevant packages matching the severity, in updates
 # @option --secseverity[Critical|Important|Moderate|Low]  Include security relevant packages matching the severity, in updates
-# @option --forcearch <ARCH>                   Force the use of an architecture Metadata type to clean
+# @option --forcearch <ARCH>                   Force the use of an architecture
 # @arg action[metadata|packages|dbcache|expire-cache|all]
 clean() {
     :;
@@ -763,7 +763,7 @@ downgrade() {
 # @flag --hidden                               show also hidden groups
 # @flag --installed                            show only installed groups
 # @flag --available                            show only available groups
-# @flag --ids                                  show also ID of groups remove, install, upgrade, mark
+# @flag --ids                                  show also ID of groups
 # @arg cmd[summary|list|info|remove|install|upgrade|mark]
 # @arg args*
 group() {
@@ -840,7 +840,7 @@ group() {
 # @option -o --output                          For the store command, file path to store the transaction to
 # @flag --ignore-installed                     For the replay command, don't check for installed packages matching those in transaction
 # @flag --ignore-extras                        For the replay command, don't check for extra packages pulled into the transaction
-# @flag --skip-unavailable                     For the replay command, skip packages that are not available or have missing dependencies replay, rollback, store, undo, userinstalled Transaction ID (<number>, 'last' or 'last-<number>' for one transaction, <transaction-id>..<transaction- id> for a range) file to replay
+# @flag --skip-unavailable                     For the replay command, skip packages that are not available or have missing dependencies
 # @arg cmd[list|info|redo|replay|rollback|store|undo|userinstalled]
 # @arg transaction
 # @arg file
@@ -1784,7 +1784,7 @@ repoquery() {
 # @flag --updates                              show only upgrades packages
 # @flag --upgrades                             show only upgrades packages
 # @flag --autoremove                           show only autoremove packages
-# @flag --recent                               show only recently changed packages remove, install, remove-or-reinstall, info, remove-or- distro-sync, check-update
+# @flag --recent                               show only recently changed packages
 # @arg repoid
 # @arg cmd[remove|install|remove-or-reinstall|info|remove-or-distro-sync|check-update|reinstall|reinstall-old|move-to|upgrade|list]
 # @arg package*[`_choice_package`]

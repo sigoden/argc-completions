@@ -47,7 +47,7 @@
 # @option -D --ifdef <NAME>                    output merged file with '#ifdef NAME' diffs
 # @option --GTYPE-group-format <GFMT>          format GTYPE input groups with GFMT
 # @option --line-format <LFMT>                 format all input lines with LFMT
-# @option --LTYPE-line-format <LFMT>           format LTYPE input lines with LFMT LETTERs are as follows for new group, lower case for old group:
+# @option --LTYPE-line-format <LFMT>           format LTYPE input lines with LFMT
 # @flag -d --minimal                           try hard to find a smaller set of changes
 # @option --horizon-lines <NUM>                keep NUM lines of the common prefix and suffix
 # @flag --speed-large-files                    assume large files and many scattered small changes

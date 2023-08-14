@@ -28,13 +28,13 @@
 # @option --autounmask-backtrack[y|n]             Allow backtracking after autounmask has detected that configuration changes are necessary.
 # @option --autounmask-continue[y|n]              Automatically apply autounmask changes to configuration files, and continue to execute the specified command.
 # @option --autounmask-only[y|n]                  Instead of doing any package building, just unmask packages and generate package.use settings as necessary to satisfy dependencies.
-# @option --autounmask-unrestricted-atoms[y|n]    If --autounmask is enabled, keyword and mask changes using the '=' operator will be written.
+# @option --autounmask-unrestricted-atoms[y|n]    If --autounmask is enabled, keyword and mask changes using the ´=´ operator will be written.
 # @option --autounmask-keep-keywords[y|n]         If --autounmask is enabled, no package.accept_keywords changes will be created.
 # @option --autounmask-keep-masks[y|n]            If --autounmask is enabled, no package.unmask or ** keyword changes will be created.
 # @option --autounmask-license[y|n]               Allow autounmask package.license changes.
 # @option --autounmask-use[y|n]                   Allow autounmask package.use changes.
 # @option --autounmask-write[y|n]                 If --autounmask is enabled, changes are written to config files, respecting CONFIG_PROTECT and --ask.
-# @option --backtrack <COUNT>                     Specifies an integer number of times to backtrack if dependency calculation fails due to a conflict or an unsatisfied dependency (default: '10').
+# @option --backtrack <COUNT>                     Specifies an integer number of times to backtrack if dependency calculation fails due to a conflict or an unsatisfied dependency (default: ´10´).
 # @option --binpkg-changed-deps[y|n]              Tells emerge to ignore binary packages for which the corresponding ebuild dependencies have changed since the packages were built.
 # @option --binpkg-respect-use[y|n]               Tells emerge to ignore binary packages if their USE flags don't match the current configuration.
 # @option -b --buildpkg[y|n]                      Tells emerge to build binary packages for all ebuilds processed in addition to actually merging the packages.

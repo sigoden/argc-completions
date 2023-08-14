@@ -4,6 +4,7 @@ _patch_help() {
             -e '/^SYNOPSIS/,/^DESCRIPTION/ c\DESCRIPTION' \
             -e '/^\s*-/ s/ (absent.*)//' \
             -e '/^\s*-/ s/ (default.*)//' \
+            -e '/^\s*--cache-check-probability/,+1 {N;s/\n\s*DUNE/ DUNE/;}' \
             -e 's/ (required)$//' \
 
     }
@@ -32,6 +33,11 @@ _patch_table() {
         _patch_table_edit_commands \
             'runtest(runtest, test)' \
             'test' \
+
+    elif [[ "$*" == "dune cache" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--port-file;;The file to read/write the daemon port from/to.'
 
     elif [[ "$*" == "dune init" ]]; then
         echo "$table" | \

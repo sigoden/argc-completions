@@ -2,7 +2,7 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # @flag -clean                 Cleans the configuration directory
-# @option -config-dir <dir>    Specify a custom location for the configuration directory Specify a line and column to start the cursor at when opening a buffer
+# @option -config-dir <dir>    Specify a custom location for the configuration directory
 # @flag -options               Show all option help
 # @flag -debug                 Enable debug mode (enables logging to ./log.txt)
 # @flag -version               Show the version number and information

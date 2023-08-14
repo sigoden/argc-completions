@@ -880,16 +880,20 @@ purge-kernels() {
 }
 # }} zypper purge-kernels
 
+# {{ zypper subcommand
+# @cmd Lists available subcommands.
+# @arg subcommand!
+subcommand() {
+    :;
+}
+# }} zypper subcommand
+
 _choice_installed_package() {
-	grep -s --no-filename "^$cur" "/var/cache/zypp/solv/@System/solv.idx" | cut -f1
+    _helper_list_packages
 }
 
 _choice_lock() {
     LC_ALL=POSIX zypper -q ll | _helper_extract
-}
-
-_choice_package() {
-    _helper_list_packages
 }
 
 _choice_patch() {

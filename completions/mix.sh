@@ -37,7 +37,7 @@ app.start() {
 # {{ mix app.tree
 # @cmd Prints the application tree
 # @option --exclude* <app>              exclude applications which you do not want to see printed.
-# @option --format[pretty|plain|dot]    Can be set to one of either: is the default except on Windows.
+# @option --format[pretty|plain|dot]    Can be set to one of either:
 app.tree() {
     :;
 }
@@ -164,7 +164,7 @@ deps.get() {
 # @option --only <value>                      the environment to show dependencies for
 # @option --target <value>                    the target to show dependencies for
 # @option --exclude*[`_choice_dependency`]    exclude dependencies which you do not want to see printed.
-# @option --format[pretty|plain|dot]          Can be set to one of either: is the default except on Windows.
+# @option --format[pretty|plain|dot]          Can be set to one of either:
 deps.tree() {
     :;
 }

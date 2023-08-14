@@ -41,7 +41,7 @@
 # @option -j <protocolfilter>                     protocols layers filter if -T ek|pdml|json selected (e.g. "ip ip.flags text", filter does not expand child nodes, unless child is specified also in the filter)
 # @option -J <protocolfilter>                     top level protocol filter if -T ek|pdml|json selected (e.g. "http tcp", filter which expands all child nodes)
 # @option -e <field>                              field to print if -Tfields selected (e.g. tcp.port, _ws.col.Info) this option can be repeated to print multiple fields
-# @option -E[`_choice_output_option`] <<fieldsoption>=<value>>  set options for output when -Tfields selected: aggregator
+# @option -E[`_choice_output_option`] <<fieldsoption>=<value>>  set options for output when -Tfields selected:
 # @option -t <a|ad|adoy|d|dd|e|r|u|ud|udoy>       output format of time stamps (def: r: rel.
 # @option -u <s|hms>                              output format of seconds (def: s: seconds)
 # @flag -l                                        flush standard output after each packet

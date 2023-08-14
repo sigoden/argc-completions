@@ -85,6 +85,7 @@
 # @option --secseverity[Critical|Important|Moderate|Low]  Include security relevant packages matching the
 # @option -pkgdir <dir>                            install and load all packages from dir instead of the usual locations.
 # @option -ldflags <[pattern=]arg list>            arguments to pass on each go tool link invocation.
+# @option --forcearch <ARCH>                       Force the use of an architecture
 # @flag --incremental                              show blame entries as we find them, incrementally
 # @flag --line-porcelain                           show porcelain format with per-line commit information
 # @arg arg1!
