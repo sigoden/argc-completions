@@ -16,13 +16,13 @@ _patch_table() {
     elif [[ "$*" == "rustup component remove" ]]; then
         echo "$table" | _patch_table_edit_arguments 'component;[`_choice_installed_component`]'
 
-    elif [[ "$*" == "rustup override unset" ]]; then
-        echo "$table" | _patch_table_edit_options '--path;[`_choice_override`]'
-
     elif [[ "$*" == "rustup man" ]] \
       || [[ "$*" == "rustup which" ]] \
     ; then
         echo "$table" | _patch_table_edit_arguments 'command;[`_choice_toolchain_command`]'
+
+    elif [[ "$*" == "rustup override unset" ]]; then
+        echo "$table" | _patch_table_edit_options '--path;[`_choice_override`]'
 
     elif [[ "$*" == "rustup run" ]]; then
         echo "$table" | _patch_table_edit_arguments 'command;[`_choice_toolchain_command`]'
