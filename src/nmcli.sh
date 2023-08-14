@@ -3,160 +3,71 @@ _patch_help() {
         _patch_help_run_man nmcli | \
         sed -n '/^OPTIONS/,/^GENERAL COMMANDS/ {//!p}' | \
         sed -e 's/-\(\S\) | --/-\1, --/' -e 's/ {.*}/ <value>/'
-        cat <<-'EOF'
-Commands:
-    general             Use this command to show NetworkManager status and permissions. 
-    networking          Query NetworkManager networking status, enable and disable networking.
-    radio               Show radio switches status, or enable and disable the switches.
-    monitor             Observe NetworkManager activity.
-    connection          NetworkManager stores all network configuration as "connections".
-    device              Show and manage network interfaces.
-    agent               Run nmcli as a NetworkManager secret agent, or polkit agent.
-EOF
+    fi
+    cat <<-'EOF' | _patch_help_embed_help $@
+# general - Use this command to show NetworkManager status and permissions. 
+## status - Show overall status of NetworkManager.
+## hostname [hostname] - Get and change system hostname
+## permissions - Show the permissions a caller has for various authenticated operations that NetworkManager provides.
+## logging [args]... - Get and change NetworkManager logging level and domains.
+## reload [args]... - Reload NetworkManager's configuration and perform certain updates.
 
-    elif [[ "$*" == "nmcli agent" ]]; then
-        cat <<-'EOF'
-Commands:  
-    secret              Register nmcli as a NetworkManager secret agent and listen for secret requests.
-    polkit              Register nmcli as a polkit agent for the user session and listen for authorization requests.
-    all                 Runs nmcli as both NetworkManager secret and a polkit agent.
-EOF
+# networking - Query NetworkManager networking status, enable and disable networking.
+## on - Enable networking control by NetworkManager.
+## off - Disable networking control by NetworkManager.
+## connectivity [check] - Get network connectivity state.
 
-    elif [[ "$*" == "nmcli connection" ]]; then
-        cat <<-'EOF'
-Commands:
-    show                List in-memory and on-disk connection profiles, some of which may also be active if a device is using that connection profile.
-    up                  Activate a connection.
-    down                Deactivate a connection from a device without preventing the device from further auto-activation.
-    modify              Add, modify or remove properties in the connection profile.
-    add                 Create a new connection using specified properties.
-    edit                Edit an existing connection or add a new one, using an interactive editor.
-    clone               Clone a connection.
-    delete              Delete a configured connection.
-    monitor             Monitor connection profile activity. 
-    reload              Reload all connection files from disk.
-    load                Load/reload one or more connection files from disk.
-    import              Import an external/foreign configuration as a NetworkManager connection profile.
-    export              Export a connection.
-EOF
+# radio - Show radio switches status, or enable and disable the switches.
+## wiff (on|off) - Show or set status of Wi-Fi in NetworkManager. 
+## wwan (on|off) - Show or set status of WWAN (mobile broadband) in NetworkManager.
+## all (on|off) - Show or set all previously mentioned radio switches at the same time.
 
-    elif [[ "$*" == "nmcli connection "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@
-nmcli connection show <id>...
-options:
+# monitor - Observe NetworkManager activity.
+
+# connection - NetworkManager stores all network configuration as "connections".
+## show <id>... - List in-memory and on-disk connection profiles, some of which may also be active if a device is using that connection profile.
     --active            show active connections
     --order <value>     specify order
-nmcli connection up <id> <value>...
-nmcli connection down <id>...
-nmcli connection modify <id> <value>...
+## up <id> <value>... - Activate a connection.
+## down <id>... - Deactivate a connection from a device without preventing the device from further auto-activation.
+## modify <id> <value>... - Add, modify or remove properties in the connection profile.
     --temporary         Whether temporary modify
-nmcli connection add <value>...
-nmcli connection edit <id>
-nmcli connection clone <id> <new_name>
+## add <value>... - Create a new connection using specified properties.
+## edit <id> - Edit an existing connection or add a new one, using an interactive editor.
+## clone <id> <new_name> - Clone a connection.
     --temporary         Whether temporary clone
-nmcli connection delete <id>...
-nmcli connection monitor <id>...
-nmcli connection load <filename>...
-nmcli connection import <file>
+## delete <id>... - Delete a configured connection.
+## monitor <id>... - Monitor connection profile activity. 
+## reload - Reload all connection files from disk.
+## load <filename>... - Load/reload one or more connection files from disk.
+## import <file> - Import an external/foreign configuration as a NetworkManager connection profile.
     --temporary         Whether temporary import
-nmcli connection export <id> [file]
-EOF
+## export <id> [file] - Export a connection.
 
-    elif [[ "$*" == "nmcli device" ]]; then
-        cat <<-'EOF'
-Commands:
-    status              Print status of devices.
-    show                Show detailed information about devices.
-    set                 Set device properties.
-    up, connect         Connect the device.
-    reapply             Attempt to update device with changes to the currently active connection made since it was last applied.
-    modify              Modify the settings currently active on the device.
-    down, disconnect    Disconnect a device and prevent the device from automatically activating further connections without user/manual intervention.
-    delete              Delete a device.
-    monitor             Monitor device activity.
-    wifi                Manage wifi devices.
-    lldp                Manage lldp devices.
-EOF
-
-    elif [[ "$*" == "nmcli device "* ]]; then
-        if [[ "$*" == "nmcli device wifi" ]]; then
-            cat <<-'EOF'
-Commands:  
-    list                List available Wi-Fi access points. 
-    connect             Connect to a Wi-Fi network specified by SSID or BSSID.
-    hotspot             Create a Wi-Fi hotspot.
-    rescan              Request that NetworkManager immediately re-scan for available access points.
-    show-password       Show the details of the active Wi-Fi networks, including the secrets.
-EOF
-
-        elif [[ "$*" == "nmcli device wifi "* ]]; then
-            cat <<-'EOF' | _patch_help_select_subcmd $@
-nmcli device wifi list <value>...
+# device - Show and manage network interfaces.
+## status - Print status of devices.
+## show [ifname] - Show detailed information about devices.
+## set <ifname> <value>... - Set device properties.
+## up/connect <ifname> - Connect the device.
+## reapply <ifname> - Attempt to update device with changes to the currently active connection made since it was last applied.
+## modify <ifname> <value>... - Modify the settings currently active on the device.
+## down/disconnect <ifname>... - Disconnect a device and prevent the device from automatically activating further connections without user/manual intervention.
+## delete <ifname>... - Delete a device.
+## monitor [ifname]... - Monitor device activity.
+## wifi - Manage wifi devices.
+### list <value>... - List available Wi-Fi access points. 
     --rescan <auto|no|yes>   Trigger new Wi-Fi scan
-nmcli device wifi connect <value>...
-nmcli device wifi hostspot <value>...
-nmcli device wifi rescan <value>...
-nmcli device wifi show-password <value>...
-EOF
-        else
-            cat <<-'EOF' | _patch_help_select_subcmd $@
-nmcli device show [ifname]
-nmcli device set <ifname> <value>...
-nmcli device up <ifname>
-nmcli device reapply <ifname>
-nmcli device modify <ifname> <value>...
-nmcli device down <ifname>...
-nmcli device delete <ifname>...
-nmcli device monitor [ifname]...
-EOF
-        fi
+### connect <value>... - Connect to a Wi-Fi network specified by SSID or BSSID.
+### hotspot <value>... - Create a Wi-Fi hotspot.
+### rescan <value>... - Request that NetworkManager immediately re-scan for available access points.
+### show-password <value>... - Show the details of the active Wi-Fi networks, including the secrets.
+## lldp - Manage lldp devices.
 
-    elif [[ "$*" == "nmcli general" ]]; then
-        cat <<-'EOF'
-Commands:
-    status              Show overall status of NetworkManager.
-    hostname            Get and change system hostname
-    permissions         Show the permissions a caller has for various authenticated operations that NetworkManager provides.
-    logging             Get and change NetworkManager logging level and domains.
-    reload              Reload NetworkManager's configuration and perform certain updates.
+# agent - Run nmcli as a NetworkManager secret agent, or polkit agent.
+## secret - Register nmcli as a NetworkManager secret agent and listen for secret requests.
+## polkit - Register nmcli as a polkit agent for the user session and listen for authorization requests.
+## all - Runs nmcli as both NetworkManager secret and a polkit agent.
 EOF
-
-    elif [[ "$*" == "nmcli general "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@
-nmcli general hostname [hostname]
-nmcli general logging [args]...
-nmcli general reload [args]...
-EOF
-
-    elif [[ "$*" == "nmcli networking" ]]; then
-        cat <<-'EOF'
-Commands:
-    on                  Enable networking control by NetworkManager.
-    off                 Disable networking control by NetworkManager.
-    connectivity        Get network connectivity state.
-EOF
-
-    elif [[ "$*" == "nmcli networking "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@
-nmcli networking connectivity [check]
-EOF
-
-    elif [[ "$*" == "nmcli radio" ]]; then
-        cat <<-'EOF'
-Commands:
-    wiff                Show or set status of Wi-Fi in NetworkManager. 
-    wwan                Show or set status of WWAN (mobile broadband) in NetworkManager.
-    all                 Show or set all previously mentioned radio switches at the same time.
-EOF
-
-    elif [[ "$*" == "nmcli radio "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@
-nmcli radio wiff (on|off)
-nmcli radio wwan (on|off)
-nmcli radio all (on|off)
-EOF
-
-    fi
 }
 
 _patch_table() {

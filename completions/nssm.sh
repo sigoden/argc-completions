@@ -121,10 +121,6 @@ processes() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_servicename() {
-    nssm list
-}
-
 _choice_parameter_name() {
     cat <<-'EOF'
 AppParameters
@@ -190,6 +186,10 @@ IDLE_PRIORITY_CLASS
 EOF
             ;;
     esac
+}
+
+_choice_servicename() {
+    nssm list
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

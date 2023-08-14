@@ -9,9 +9,9 @@ _patch_help() {
             -e 's/< y | n >/{y|n}/' \
 
     else
-        cat <<-'EOF' | _patch_help_select_subcmd $@
-emerge tbz2 <file>
-emerge gpkg <file>
+        cat <<-'EOF' | _patch_help_embed_help $@
+# tbz2 <file>
+# gpkg <file>
 EOF
     fi
 }

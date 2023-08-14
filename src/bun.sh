@@ -22,47 +22,27 @@ _patch_help() {
     elif [[ "$*" == "bun dev" ]]; then
         $@ --help | sed '/----/,$ d'
 
-
-    elif [[ "$*" == "bun pm" ]]; then
-        cat <<-'EOF'
-Usage: bun pm
-
-Commands:
-    bin          Print the path to bin folder
-    ls           List the dependency tree according to the current lockfile
-    hash         Generate & print the hash of the current lockfile
-    hash-string  Print the string used to hash the lockfile
-    hash-print   Print the hash stored in the current lockfile
-    cache        Print the path to the cache folder
-EOF
-    elif [[ "$*" == "bun pm cache" ]]; then
-        cat <<-'EOF'
-Usage: bun pm cache
-Commands:
-    rm        Clear Bun's global module cache
-EOF
-
-    elif [[ "$*" == "bun pm "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@ 
-bun pm bin
-options:
-    -g, --global   Install globally
-
-bun pm ls
-options:
-    --all         All installed dependencies, including nth-order dependencies.
-EOF
-
     elif [[ "$*" == "bun run" ]]; then
         echo "Usage: bun run [script_or_bin]..."
         $@ --help | sed '/----/,$ d'
 
     else
-        cat <<-'EOF' | _patch_help_select_subcmd $@ 
-bun build [file]...
-bun x <cmd> [args]...
-bun completions [dir]
-bun discord
+        cat <<-'EOF' | _patch_help_embed_help $@ 
+# pm
+## bin - Print the path to bin folder
+    -g, --global   Install globally
+## ls - List the dependency tree according to the current lockfile
+    --all         All installed dependencies, including nth-order dependencies.
+## hash - Generate & print the hash of the current lockfile
+## hash-string - Print the string used to hash the lockfile
+## hash-print - Print the hash stored in the current lockfile
+## cache - Print the path to the cache folder
+### rm - Clear Bun's global module cache
+
+# build [file]...
+# x <cmd> [args]...
+# completions [dir]
+# discord
 EOF
     fi
 }

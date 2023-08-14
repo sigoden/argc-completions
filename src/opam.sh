@@ -1,64 +1,62 @@
 _patch_help() { 
-    _common_edit() {
+    if [[ $# -eq 3 ]]; then
+        embed_help="$( \
+        cat <<-'EOF' | _patch_help_embed_help $@
+# config
+## list [PACKAGE]...
+## expand STRING
+## subst FILE...
+## cudf-universe [FILE]
+## pef-universe [FILE]
+## set VAR VALUE
+## unset VAR
+## set-global VAR VALUE
+## unset-global VAR
+## var VAR
+
+# pin
+## scan DIR
+## add PACKAGE TARGET
+## remove NAMES...|TARGET
+## edit NAME
+
+# repository
+## add NAME [ADDRESS] [QUORUM] [FINGERPRINTS]
+## remove NAME...
+## set-repos NAME...
+## set-url NAME ADDRESS [QUORUM] [FINGERPRINTS]
+## list
+
+# switch
+## create SWITCH [COMPILER]
+## set SWITCH
+## remove SWITCH
+## export FILE
+## import FILE
+## reinstall [SWITCH]
+## list-available [PATTERN]
+## set-invariant PACKAGES
+## set-description STRING
+## link SWITCH [DIR]
+## install SWITCH
+## set-base PACKAGES
+EOF
+)"
+        echo "$embed_help"
+    fi
+
+    if [[ $# -le 2 ]] \
+    || [[ "$*" == "opam admin "* ]] \
+    || grep -q __HELP_CMD__ <<<"$embed_help" \
+    ; then
+        $@ --help=plain | \
         sed \
             -e '/^\s*-/ s/ (absent=.*)//' \
             -e '/^\s*-/ s/ (default=.*)//' \
             -e 's/ (required)$//' \
 
-    }
-    if [[ "$*" == "opam" ]]; then
-        $@ --help=plain | _common_edit
-
-    elif [[ "$*" == "opam config "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@
-opam config list [PACKAGE]...
-opam config expand STRING
-opam config subst FILE...
-opam config cudf-universe [FILE]
-opam config pef-universe [FILE]
-opam config set VAR VALUE
-opam config unset VAR
-opam config set-global VAR VALUE
-opam config unset-global VAR
-opam config var VAR
-EOF
-
-    elif [[ "$*" == "opam pin "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@
-opam pin scan DIR
-opam pin add PACKAGE TARGET
-opam pin remove NAMES...|TARGET
-opam pin edit NAME
-EOF
-
-    elif [[ "$*" == "opam repository "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@
-opam repository add NAME [ADDRESS] [QUORUM] [FINGERPRINTS]
-opam repository remove NAME...
-opam repository set-repos NAME...
-opam repository set-url NAME ADDRESS [QUORUM] [FINGERPRINTS]
-opam repository list
-EOF
-
-    elif [[ "$*" == "opam switch "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@
-opam switch create SWITCH [COMPILER]
-opam switch set SWITCH
-opam switch remove SWITCH
-opam switch export FILE
-opam switch import FILE
-opam switch reinstall [SWITCH]
-opam switch list-available [PATTERN]
-opam switch set-invariant PACKAGES
-opam switch set-description STRING
-opam switch link SWITCH [DIR]
-opam switch install SWITCH
-opam switch set-base PACKAGES
-EOF
-
-    else
-        $@ --help=plain | _common_edit
     fi
+
 }
 
 _patch_table() { 

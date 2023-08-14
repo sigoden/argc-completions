@@ -5,64 +5,36 @@ _patch_help() {
             -e '/^Command/,$ s/^/  /'  \
             -e '/^  Command/,+1 c\Commands:'  \
     
-    elif [[ "$*" == "scoop alias" ]]; then
-        cat <<-'EOF'
-Commands:
-    add         Add alias
-    list        List aliases
-    rm          Remove alias
-EOF
-
-    elif [[ "$*" == "scoop alias "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@
-scoop alias add <name> <value> <description>
-scoop alias list
-    -v, --verbose   Show alias description and table headers
-scoop alias rm <name>
-EOF
-
-    elif [[ "$*" == "scoop bucket" ]]; then
-        cat <<-'EOF'
-Commands:
-    add         Add bucket
-    list        List buckets
-    known       List known buckets
-    rm          Remove bucket
-EOF
-
-    elif [[ "$*" == "scoop bucket "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@
-scoop bucket add <name> [<repo>]
-scoop bucket rm <name>
-EOF
-
-    elif [[ "$*" == "scoop cache" ]]; then
-        cat <<-'EOF'
-Commands:
-    list        List cache
-    rm          Remove cache
-EOF
-
-    elif [[ "$*" == "scoop cache "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@
-scoop cache rm app...
-    -a, --all   Remove all cache
-EOF
-
-    elif [[ "$*" == "scoop config" ]]; then
-        cat <<-'EOF'
-Usage: scoop config <name> [value]
-Commands:
-    rm          Remove config item
-EOF
-
-    elif [[ "$*" == "scoop config "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@
-scoop cache rm <name>
-EOF
-
     else
-        $@ --help
+        help_text="$( \
+            cat <<-'EOF' | _patch_help_embed_help $@ 
+# alias
+## add <name> <value> <description> - Add alias
+## list - List aliases
+    -v, --verbose   Show alias description and table headers
+## rm <name> - Remove alias
+
+# bucket
+## add <name> [<repo>] - Add bucket
+## list - List buckets
+## known - List known buckets
+## rm rm <name> - Remove bucket
+
+# cache
+## list - List cache
+## rm app... - Remove cache
+    -a, --all   Remove all cache
+
+# config <name> [value]
+## rm <name> - Remove config item
+
+EOF
+)"
+        if [[ $# -le 2 ]] && [[ -z "$help_text" ]]; then
+            $@ --help
+        else
+            echo "$help_text"
+        fi
     fi
 }
 
@@ -116,6 +88,9 @@ _patch_table() {
 
     elif [[ "$*" == "scoop virustotal" ]]; then
         _patch_table_edit_arguments ';;' 'app;*[`_choice_package`]'
+
+    elif [[ "$*" == "scoop which" ]]; then
+        _patch_table_edit_arguments 'command;[`_module_os_command`]'
 
     else
         cat

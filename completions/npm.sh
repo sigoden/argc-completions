@@ -296,6 +296,14 @@ docs() {
 }
 # }} npm docs
 
+# {{ npm doctor
+# @cmd Check your npm environment
+# @option --registry <value>    The base URL of the npm registry.
+doctor() {
+    :;
+}
+# }} npm doctor
+
 # {{ npm edit
 # @cmd Edit an installed package
 # @option --editor <value>    The command to run for npm edit and npm config edit.
@@ -411,6 +419,9 @@ hook::rm() {
 
 # {{{ npm hook update
 # @cmd Update a hook
+# @arg id!
+# @arg url!
+# @arg secret!
 hook::update() {
     :;
 }
@@ -691,6 +702,14 @@ pack() {
 }
 # }} npm pack
 
+# {{ npm ping
+# @cmd Ping npm registry
+# @option --registry <value>    The base URL of the npm registry.
+ping() {
+    :;
+}
+# }} npm ping
+
 # {{ npm pkg
 # @cmd Manages your package.json
 # @flag -f --force      Removes various protections against unfortunate side effects, common mistakes,  unnecessary  performance  degradation,
@@ -838,6 +857,19 @@ rebuild() {
 }
 # }} npm rebuild
 
+# {{ npm repo
+# @cmd Open package repository page in the browser
+# @flag --browser                   The browser that is called by npm commands to open websites.
+# @option --registry <value>        The base URL of the npm registry.
+# @option -w --workspace[`_choice_workspace`] <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
+# @flag --workspaces                Set to true to run the command in the context of all configured workspaces.
+# @flag --include-workspace-root    Include the workspace root when workspaces are enabled for a command.
+# @arg pkgname*
+repo() {
+    :;
+}
+# }} npm repo
+
 # {{ npm restart
 # @cmd Restart a package
 # @flag --ignore-scripts            If true, npm does not run scripts specified in package.json files.
@@ -899,6 +931,17 @@ shrinkwrap() {
     :;
 }
 # }} npm shrinkwrap
+
+# {{ npm star
+# @cmd Mark your favorite packages
+# @option --registry <value>    The base URL of the npm registry.
+# @flag --unicode               When set to true, npm uses unicode characters in the tree output.
+# @option --otp <value>         This  is  a one-time password from a two-factor authenticator.
+# @arg pkg*
+star() {
+    :;
+}
+# }} npm star
 
 # {{ npm stars
 # @cmd View packages marked as favorites
@@ -1041,6 +1084,18 @@ uninstall() {
     :;
 }
 # }} npm uninstall
+
+# {{ npm unpublish
+# @cmd Remove a package from the registry
+# @flag --dry-run       Indicates that you don't want npm to make any changes and that it should only report what it would have done.
+# @flag -f --force      Removes  various  protections  against unfortunate side effects, common mistakes, unnecessary performance degradation,
+# @option -w --workspace[`_choice_workspace`] <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
+# @flag --workspaces    Set to true to run the command in the context of all configured workspaces.
+# @arg package-spec
+unpublish() {
+    :;
+}
+# }} npm unpublish
 
 # {{ npm unstar
 # @cmd Remove an item from your favorite packages

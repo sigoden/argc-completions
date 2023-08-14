@@ -1,42 +1,28 @@
 _patch_help() { 
-    if [[ "$*" == "pip cache" ]] \
-    || [[ "$*" == "pip config" ]] \
-    ; then
-        TERM_WIDTH=200 _patch_help_run_help $@ | gawk '{
-            if (match($0, /  Subcommands:/)) {
-                print "Commands:"
-                commandZone = 1
-            } else if (commandZone == 1) {
-                if (match($0, /^\s*$/)) {
-                    if (hasCommand == 1) {
-                        print "\ndescription:\n"
-                        commandZone = 0
-                    }
-                } else if (match($0, /\s*-\s*(\S+): (.*)$/, arr)) {
-                    print "  " arr[1] "    " arr[2]
-                    hasCommand = 1
-                }
-            } else {
-                print $0
-            }
-        }'
-
-    elif [[ "$*" == "pip cache "* ]] \
-      || [[ "$*" == "pip config "* ]] \
-    ; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@
-pip config edit
-    --editor <editor-path>      Editor to use to edit the file
-pip config get <key>
-pip config set <key> <value>
-pip config unset <key>
-pip cache list <pattern>
-    --format human|abspath      Select the output format
-pip cache remove <pattern>
-EOF
-
-    else
+    if [[ "$*" == "pip" ]]; then
         TERM_WIDTH=200 _patch_help_run_help $@
+    else
+        cat <<-'EOF' | _patch_help_embed_help $@
+# config
+## list - List the active configuration (or from the file specified)
+## edit - Edit the configuration file in an editor
+    --editor <editor-path>      Editor to use to edit the file
+## get <key> - Get the value associated with command.option
+## set <key> <value> - Set the command.option=value
+## unset <key> - Unset the value associated with command.option
+## debug - List the configuration files and values defined under them
+
+# cache
+## dir - Show the cache directory.
+## info - Show information about the cache.
+## list <pattern> - List filenames of packages stored in the cache.
+    --format human|abspath      Select the output format
+## remove <pattern> - Remove one or more package from the cache.
+## purge - Remove all items from the cache.
+EOF
+        if [[ "$#" -le 2 ]]; then
+            TERM_WIDTH=200 _patch_help_run_help $@
+        fi
     fi
 }
 

@@ -2,13 +2,13 @@ _patch_help() {
     if [[ "$*" == "hostnamectl" ]]; then
         $@ --help
     else
-        cat <<-'EOF' | _patch_help_select_subcmd $@
-hostnamectl status
-hostnamectl hostname [NAME]
-hostnamectl icon-name [NAME]
-hostnamectl chassis [NAME]
-hostnamectl deployment [NAME]
-hostnamectl location [NAME]
+        cat <<-'EOF' | _patch_help_embed_help $@
+# status
+# hostname [NAME]
+# icon-name [NAME]
+# chassis [NAME]
+# deployment [NAME]
+# location [NAME]
 EOF
     fi
 }

@@ -57,7 +57,7 @@ END {
                     optionIndent = spaces
                     continue
                 }
-            } else if (match(santizedLine, /(^\s*synopsis|usage:)/)) {
+            } else if (match(santizedLine, /(^\s*synopsis|usage:)/) && !usage) {
                 usage = substr(line, spaces + RSTART + RLENGTH)
                 usageNR = i
                 groupName = "usage"
@@ -128,7 +128,7 @@ END {
                 trimed = trimStarts(line)
                 if (length(trimed) > 0) {
                     if (match(trimed, /^([^ ,[\]]+ ){4, }/) && !match(trimed, /(  |\t)/)) {
-                    } if (match(trimed, /^[a-z0-9_][A-Za-z0-9_.-]*(\*)?($|\s|,)/)) {
+                    } else if (match(trimed, /^[a-z0-9_][A-Za-z0-9_.-]*(\*)?($|\s|,)/)) {
                         commands[length(commands) + 1] = trimed
                     }
                 }
@@ -191,6 +191,9 @@ END {
                 continue
             }
             isCmd = 0
+            if (word == "--") {
+                continue
+            }
             if (match(word, /^(\[\s*-|\(\s*-|<\s*-|-)/)) {
                 continue
             }

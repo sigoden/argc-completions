@@ -70,94 +70,51 @@ $commands
     worktree         Manage multiple working trees 
 EOF
 
-    elif [[ "$*" == "git bisect" ]]; then
-        cat <<-'EOF'
-Usage: git bisect
-Commands:
-    start       reset bisect state and start bisection.
-    bad         mark <rev> bad revision after change in a given property.
-    new         mark <rev> new revision after change in a given property.
-    good        mark <rev>... good revisions before change in a given property.
-    old         mark <rev>... old revisions before change in a given property.
-    terms       show the terms used for old and new commits.
-    skip        mark <rev>... untestable revisions.
-    next        find next bisection to test and check it out.
-    reset       finish bisection search and go back to commit.
-    visualize   how bisect status in gitk.
-    view        show bisect status in gitk.
-    replay      replay bisection log.
-    log         show bisect log.
-    run         use <cmd>... to automatically bisect.
-EOF
-
-    elif [[ "$*" == "git bisect "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@ 
-git bisect start
-options:
+    else
+        embed_help="$( \
+        cat <<-'EOF' | _patch_help_embed_help $@
+# bisect
+## start - reset bisect state and start bisection.
     --term-new <term>
     --term-bad <term>
     --term-old <term>
     --term-good <term>
     --no-checkout
     --first-parent
-git bisect bad [<rev>]
-git bisect new [<rev>]
-git bisect good [<rev>...]
-git bisect old [<rev>...]
-git bisect terms 
-options:
+## bad [<rev>] - mark <rev> bad revision after change in a given property.
+## new [<rev>] - mark <rev> new revision after change in a given property.
+## good [<rev>...] - mark <rev>... good revisions before change in a given property.
+## old [<rev>...] - old revisions before change in a given property.
+## terms - show the terms used for old and new commits.
     --term-good
     --term-bad
-git bisect skip  [(<rev>|<range>)...]
-git bisect next
-git bisect reset [<commit>]
-git bisect visualize
-git bisect new
-git bisect replay <logfile>
-git bisect log
-git bisect run <cmd> 
-EOF
+## skip [(<rev>|<range>)...] - mark <rev>... untestable revisions.
+## next - find next bisection to test and check it out.
+## reset [<commit>] - finish bisection search and go back to commit.
+## visualize - how bisect status in gitk.
+## view - show bisect status in gitk.
+## replay <logfile> - replay bisection log.
+## log - show bisect log.
+## run <cmd> - use <cmd>... to automatically bisect.
 
-    elif [[ "$*" == "git maintenance" ]]; then
-        :;
+# maintenance
 
-    elif [[ "$*" == "git notes" ]]; then
-        cat <<-'EOF'
-Options:
+# notes
     --ref <notes-ref>     use notes from <notes-ref>
-Commands:
-    list
-    add
-    copy
-    append
-    edit
-    show
-    merge
-    remove
-    prune
-    get-ref
-EOF
+## list [<object>]
+## add%
+## copy%
+## append%
+## edit%
+## show%
+## merge%
+## remove%
+## prune%
+## get-ref%
 
-    elif [[ "$*" == "git notes list" ]]; then
-        echo "usage: git notes list [<object>]"
-
-    elif [[ "$*" == "git reflog" ]]; then
-        cat <<-'EOF'
-Commands:
-    show
-    expire
-    delete
-    exists
-EOF
-
-    elif [[ "$*" == "git reflog "* ]]; then
-
-        if [[ "$*" == "git reflog show" ]]; then
-            $@ -h 2>&1
-        else
-            cat <<-'EOF' | _patch_help_select_subcmd $@
-git reflog expire <refs>...
-options:
+# reflog
+## show%
+## expire <refs>...
     --expire <time>
     --expire-unreachable <time>
     --rewrite
@@ -166,85 +123,49 @@ options:
     -n --dry-run
     --verbose
     --all
-git reflog delete <refs>...
-options:
+## delete  <refs>...
     --rewrite
     --updateref
     -n --dry-run
     --verbose
-git refloge exists <ref>
-EOF
-        fi
+## exists <ref>
 
-    elif [[ "$*" == "git remote" ]]; then
-        cat <<-'EOF'
-Options:
+# remote
     -v --verbose      be verbose; must be placed before a subcommand
-Commands:
-    add
-    rename
-    remove
-    set-head
-    show
-    prune
-    update
-    set-branches
-    get-url
-    set-url
-EOF
 
-    elif [[ "$*" == "git remote remove" ]]; then
-        echo "usage:  git remote remove <name>"
+## add%
+## rename%
+## remove <name>
+## set-head%
+## show%
+## prune%
+## update%
+## set-branches%
+## get-url%
+## set-url%
 
-    elif [[ "$*" == "git sparse-checkout" ]]; then
-        cat <<-'EOF'
-Commands:
-    init
-    list
-    set
-    add
-    reapply
-    disable
-EOF
+# sparse-checkout
+## init%
+## list%
+## set% <pattern>
+## add% <pattern>
+## reapply%
+## disable%
 
-    elif [[ "$*" == "git sparse-checkout add" ]] \
-      || [[ "$*" == "git sparse-checkout set" ]] \
-    ; then
-        $@ -h 2>&1 | sed '/^usage:/ c\usage: git sparse-checkout set <pattern>'
-
-    elif [[ "$*" == "git stash" ]]; then
-        cat <<-'EOF'
-Commands:
-    list
-    show
-    drop
-    pop
-    apply
-    branch
-    clear
-    push
-    save
-EOF
-
-    elif [[ "$*" == "git stash "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@ 
-git stash list
-git stash show <stash>
-git stash drop <stash>
-options:
+# stash
+## list
+## show <stash>
+## drop <stash>
     -q --quiet
-git stash pop [<stash>]
-options:
+## pop [<stash>]
     --index
     -q --quiet
-git stash apply [<stash>]
-options:
+## apply [<stash>]
     --index
     -q --quiet
-git stash branch <branchname> [<stash>]
-git stash clear
-git stash push [<pathspec>...]
-options:
+## branch <branchname> [<stash>]
+## clear
+## push  [<pathspec>...]
     -p --patch
     -k --keep-index
     --no-keep-index
@@ -254,53 +175,29 @@ options:
     -m --message <message>
     --pathspec-from-file <file>
     --pathspec-file-nul
-git stash save [<message>]
-options:
+## save [<message>]
     -p --patch
     -k --keep-index
     --no-keep-index
     -q --quiet
     -u --include-untracked
     -a --all
-EOF
 
-    elif [[ "$*" == "git submodule" ]]; then
-        cat <<-'EOF'
-Options:
+# submodule
     --quiet
     --cached
-Commands:
-    add
-    status
-    init
-    deinit
-    update
-    set-branch
-    set-url
-    summary
-    foreach
-    sync
-    absorbgitdirs
-EOF
-
-    elif [[ "$*" == "git submodule "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@ 
-git submodule add <repository> [<path>]
-options:
+## add <repository> [<path>]
     -b <branch>
     -f --force
     --name <name>
     --reference <repository>
-git submodule status [<path>...]
-options:
+## status [<path>...]
     --recursive
-git submodule init [<path>...]
-git submodule deinit [<path>...]
-options:
+## init [<path>...]
+## deinit [<path>...]
     -f --force
     --all
-git submodule update [<path>...]
-options:
+## update [<path>...]
     --init
     --remote
     -N --no-fetch
@@ -313,52 +210,34 @@ options:
     --reference <repository>
     --single-branch
     --no-single-branch
-git submodule set-branch <path>
-options:
+## set-branch <path>
     --default
     --branch <branch>
-git submodule set-url <path> <newurl>
-git submodule summary [commit] [<path>...]
-options:
+## set-url <path> <newurl>
+## summary [commit] [<path>...]
     --cached
     --files
     --summary-limit <n>
-git submodule foreach <cmd>
-options:
+## foreach <cmd>
     --recursive
-git submodule sync [<path>...]
-options:
+## sync [<path>...]
     --recursive
-git submodule absorbgitdirs [<path>...]
-EOF
+## absorbgitdirs [<path>...]
 
-    elif [[ "$*" == "git worktree" ]]; then
-        cat <<-'EOF'
-Commands:
-    add
-    list
-    lock
-    move
-    prune
-    remove
-    unlock
+# worktree
+## add% <path> [<commit-ish>]
+## list% [<options>]
+## lock% <path>
+## move% <worktree> <new-path>
+## prune% [<options>]
+## remove% <worktree>
+## unlock% <path>
 EOF
-
-    elif [[ "$*" == "git worktree "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@ 
-git worktree add [<options>] <path> [<commit-ish>]
-git worktree list [<options>]
-git worktree lock [<options>] <path>
-git worktree move <worktree> <new-path>
-git worktree prune [<options>]
-git worktree remove [<options>] <worktree>
-git worktree unlock <path>
-EOF
-        echo options:
-        $@ -h 2>&1 | sed -e '/^usage:/ d' -e '/^\s\+or:/ d'
-
-    else
-        $@ -h 2>&1
+)"
+        echo "$embed_help"
+        if [[ -z "$embed_help" ]] || grep -q __HELP_CMD__ <<<"$embed_help"; then
+            $@ -h 2>&1
+        fi
     fi
 }
 

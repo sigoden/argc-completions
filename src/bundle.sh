@@ -25,53 +25,38 @@ _patch_help() {
     }
     if [[ "$*" == "bundle" ]]; then
        $@ --help | sed 's/       bundle \([a-z_-]\+\).*/  \1/'
-    elif [[ "$*" == "bundle config" ]]; then
-        $@ --help | _common_edit
-        cat <<-'EOF'
-Commands:
-    list        List config
-    get         Get a config item
-    set         Set a config item
-    unset       Unset a config item
-EOF
 
-    elif [[ "$*" == "bundle config "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@
-bundle config get <name>
+    else
+        cat <<-'EOF' | _patch_help_embed_help $@
+# config
+## list - List config
     --global
     --local
-bundle config set <name> <value>
+## get <name> - Get a config item
     --global
     --local
-bundle config unset <name>
+## set <name> <value> - Set a config item
     --global
     --local
-EOF
+## unset <name> - Unset a config item
+    --global
+    --local
 
-    elif [[ "$*" == "bundle plugin" ]]; then
-        $@ --help | _common_edit
-        cat <<-'EOF'
-Commands:
-    install     Install plugins.
-    uninstall   Uninstall given list of plugins.
-    list        List the installed plugins and available commands.
-EOF
-
-    elif [[ "$*" == "bundle plugin "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@
-bundle plugin install
+# plugin
+## install - Install plugins.
   --source <value>     URL of the RubyGems source to fetch the plugin from
   --version <value     The version of the plugin to fetch
   --git <value>        URL of the git repo to fetch from
   --local-git <path>   Path of the local git repo to fetch from
   --branch <value>     The git branch to checkout
   --ref <value>        The git revision to check out
-bundle plugin uninstall <plugin...>
+## uninstall <plugin...> - Uninstall given list of plugins.
   --all       Uninstall all the installed plugins.
+## list - List the installed plugins and available commands.
 EOF
-
-    else
-        $@ --help | _common_edit
+        if [[ "$#" -le 2 ]]; then
+            $@ --help | _common_edit
+        fi
     fi
 }
 

@@ -29,43 +29,32 @@ Miss commands:
       config               Manage the configuration files.
 EOF
 
-    elif [[ "$*" == "pnpm config "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@
-pnpm config set <key> <value> 
-pnpm config get <key> 
-pnpm config delete <key> 
-pnpm config list
-EOF
-
-    elif [[ "$*" == "pnpm env "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@
-pnpm env ls
-options:
-    --remote       List the remote versions of Node.js
-pnpm env rm
-options:
-    -g --global    Manages Node.js versions globally
-pnpm env use
-options:
-    -g --global    Manages Node.js versions globally
-EOF
-
-    elif [[ "$*" == "pnpm server "* ]]; then
-        :;
-
-    elif [[ "$*" == "pnpm store" ]]; then
-        pnpm help store | sed 's/add <pkg>.../add         /'
-
-    elif [[ "$*" == "pnpm store "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@
-pnpm store add <pkg>...
-pnpm store path
-pnpm store prune
-pnpm store status
-EOF
-
     else
-        _patch_help_run_help_subcmd $@
+        if [[ $# -le 2 ]]; then
+            _patch_help_run_help_subcmd $@
+        else
+            cat <<-'EOF' | _patch_help_embed_help $@ 
+# config
+## set <key> <value> 
+## get <key> 
+## delete <key> 
+## list
+
+# env
+## ls
+    --remote       List the remote versions of Node.js
+## rm
+    -g --global    Manages Node.js versions globally
+## use
+    -g --global    Manages Node.js versions globally
+
+# store
+## add <pkg>...
+## path
+## prune
+## status
+EOF
+        fi
     fi
 }
 

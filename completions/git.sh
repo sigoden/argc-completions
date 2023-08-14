@@ -171,6 +171,7 @@ bisect::bad() {
 
 # {{{ git bisect new
 # @cmd mark <rev> new revision after change in a given property.
+# @arg rev
 bisect::new() {
     :;
 }
@@ -185,7 +186,7 @@ bisect::good() {
 # }}} git bisect good
 
 # {{{ git bisect old
-# @cmd mark <rev>... old revisions before change in a given property.
+# @cmd old revisions before change in a given property.
 # @arg rev*
 bisect::old() {
     :;
@@ -1425,6 +1426,7 @@ reflog::delete() {
 
 # {{{ git reflog exists
 # @cmd
+# @arg ref!
 reflog::exists() {
     :;
 }

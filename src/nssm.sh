@@ -1,40 +1,20 @@
 _patch_help() { 
-    if [[ "$*" == "nssm" ]]; then
-        cat <<-'EOF'
-Commands:
-    install         Show service installation GUI
-    edit            Show service editing GUI
-    dump            Dump service parameters
-    get             Get service parameters
-    set             Set service parameters
-    reset           Reset service parameters
-    remove          Show service removal GUI
-    start           Start service
-    stop            Stop service
-    restart         Restart service
-    status          Check service status
-    statuscode      Check service statucode
-    rotate          Rotate service
-    processes       list the processes associated with a specific service 
+    cat <<-'EOF' | _patch_help_embed_help $@
+# install - Show service installation GUI
+# edit <servicename> - Show service editing GUI
+# dump <servicename> - Dump service parameters
+# get <servicename> <parameter> - Get service parameters
+# set <servicename> <parameter> <value> - Set service parameters
+# reset <servicename> <parameter> - Reset service parameters
+# remove <servicename> <confirm> - Show service removal GUI
+# start <servicename> - Start service
+# stop <servicename> - Stop service
+# restart <servicename> - Restart service
+# status <servicename> - Check service status
+# statuscode <servicename> - Check service statucode
+# rotate <servicename> - Rotate service
+# processes <servicename> - list the processes associated with a specific service 
 EOF
-    else
-        cat <<-'EOF' | _patch_help_select_subcmd $@
-nssm install
-nssm edit <servicename>
-nssm dump <servicename>
-nssm get <servicename> <parameter>
-nssm set <servicename> <parameter> <value>
-nssm reset <servicename> <parameter>
-nssm remove <servicename> <confirm>
-nssm start <servicename>
-nssm stop <servicename>
-nssm restart <servicename>
-nssm status <servicename>
-nssm statuscode <servicename>
-nssm rotate <servicename>
-nssm processes <servicename>
-EOF
-    fi
 }
 
 _patch_table() { 

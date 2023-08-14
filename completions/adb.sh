@@ -42,7 +42,7 @@ disconnect() {
 # }} adb disconnect
 
 # {{ adb forward
-# @cmd list all forward socket connections
+# @cmd forward socket connection using
 # @flag --list                list all forward socket connections
 # @flag --no-rebind           don't replace existing connection
 # @option --remove <LOCAL>    remove specific forward socket connection
@@ -390,7 +390,7 @@ remount() {
 # }} adb remount
 
 # {{ adb reboot
-# @cmd reboot the device; defaults to booting system image but supports bootloader and recovery too.
+# @cmd reboot the device; defaults to booting system image but
 # @arg value[bootloader|recovery|sideload|sideload-auto-reboot]
 reboot() {
     :;

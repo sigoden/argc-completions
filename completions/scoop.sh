@@ -323,6 +323,7 @@ virustotal() {
 
 # {{ scoop which
 # @cmd Locate a shim/executable (similar to 'which' on Linux)
+# @arg command![`_module_os_command`]
 which() {
     :;
 }
@@ -330,42 +331,13 @@ which() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-
 _choice_alias() {
     scoop alias list | tail -n +4 | sed 's/ \+/\t/'
-}
-
-_choice_known_bucket() {
-    scoop bucket known
 }
 
 _choice_bucket() {
     _helper_get_scoop_dir
     ls -1 --indicator-style=none "$scoop_dir/buckets"
-}
-
-_choice_package() {
-    _helper_get_scoop_dir
-    for bucket_dir in "$scoop_dir/buckets/"*; do
-        ls -1 "$bucket_dir/bucket/" | sed 's/\.json$//'
-    done
-}
-
-_choice_installed_package() {
-    _helper_get_scoop_dir
-    ls -1 --indicator-style=none "$scoop_dir/apps"
-}
-
-_choice_package_or_path() {
-    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
-        _argc_util_comp_path
-        return
-    fi
-    _choice_package
-}
-
-_choice_shim_cmd() {
-    printf "%s\n" add rm list info alter
 }
 
 _choice_config_key() {
@@ -422,6 +394,38 @@ _choice_config_value() {
     esac
 }
 
+_choice_installed_package() {
+    _helper_get_scoop_dir
+    ls -1 --indicator-style=none "$scoop_dir/apps"
+}
+
+_choice_known_bucket() {
+    scoop bucket known
+}
+
+_choice_package() {
+    _helper_get_scoop_dir
+    for bucket_dir in "$scoop_dir/buckets/"*; do
+        ls -1 "$bucket_dir/bucket/" | sed 's/\.json$//'
+    done
+}
+
+_choice_package_or_path() {
+    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+        _argc_util_comp_path
+        return
+    fi
+    _choice_package
+}
+
+_choice_shim_cmd() {
+    printf "%s\n" add rm list info alter
+}
+
+_helper_get_config_file() {
+    config_file="$(_argc_util_path_resolve $HOME .config/scoop/config.json)"
+}
+
 _helper_get_scoop_dir() {
     _helper_get_config_file
     scoop_dir="$(command cat "$config_file" | yq '.root_path // ""')"
@@ -430,8 +434,16 @@ _helper_get_scoop_dir() {
     fi
 }
 
-_helper_get_config_file() {
-    config_file="$(_argc_util_path_resolve $HOME .config/scoop/config.json)"
+_module_os_command() {
+    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+        _argc_util_comp_path
+        return
+    fi
+    if [[ "$ARGC_OS" == "windows" ]]; then
+        PATH="$(echo "$PATH" | sed 's|:[^:]*/windows/system32[^:]*:||Ig')" compgen -c
+    else
+        compgen -c
+    fi
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

@@ -81,6 +81,8 @@ config() {
 
 # {{{ bundle config list
 # @cmd List config
+# @flag --global
+# @flag --local
 config::list() {
     :;
 }

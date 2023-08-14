@@ -7,33 +7,33 @@ _patch_help() {
             -e 's/\[ls\]/ls/' \
             -e 's/\[show\]/show/'
     else
-        cat <<-'EOF' | _patch_help_select_subcmd $@
-pass init <gpg-id>...
+        cat <<-'EOF' | _patch_help_embed_help $@
+# init <gpg-id>...
     -p, --path <subdir>               Secific sub folder of the password store.
-pass ls [subdir]
-pass find <pass-string>...
-pass show <pass-name>
+# ls [subdir]
+# find <pass-string>...
+# show <pass-name>
     -c, --clip <line-number>          Do not print the password but instead copy the first(or otherwise specified) line to the clipboard 
     -q, --qrcode <line-number>        Do not print the password but instead display a QR code
-pass grep <search-string>
-pass insert <pass-name>
+# grep <search-string>
+# insert <pass-name>
     -e, --echo                        Echo the password back to the console
     -m, --multiline                   Lines will be read until EOF or Ctrl+D is reached
     -f, --force                       Forcely overwriting an existing password
-pass edit <pass-name>
-pass generate <pass-name> [pass-length]
+# edit <pass-name>
+# generate <pass-name> [pass-length]
     -n, --no-symbols                  Do not use any non-alphanumeric characters in the generated password.
     -c, --clip                        Do not print the password but instead copy it to the clipboard
     -i, --in-place                    Do not interactively prompt
     -f, --force                       Forcely overwriting an existing password
-pass rm <pass-name>
+# rm <pass-name>
     -r, --recursive                   Delete pass-name recursively.
     -f, --force                       Do not interactively prompt before removal.
-pass mv <old-path> <new-path>
+# mv <old-path> <new-path>
     -f, --force                       Silently overwrite new-path if it exists
-pass cp <old-path> <new-path>
+# cp <old-path> <new-path>
     -f, --force                       Silently overwrite new-path if it exists
-pass git <args>...
+# git <args>...
 EOF
     fi
 }

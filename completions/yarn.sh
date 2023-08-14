@@ -340,7 +340,6 @@ bin() {
 # @option --otp <otpcode>                       one-time password for two factor authentication
 # @option --pattern <pattern>                   filter cached packages by pattern
 # @flag -h --help                               output usage information
-# @arg cmd[ls|list|clean|dir]
 cache() {
     :;
 }
@@ -685,7 +684,6 @@ generate-lock-entry() {
 # @option --prefix <prefix>                     bin prefix to use to install binaries
 # @flag --latest                                upgrade to the latest version of packages
 # @flag -h --help                               output usage information
-# @arg cmd[add|bin|dir|ls|list|remove|upgrade|upgrade-interactive]
 global() {
     :;
 }
@@ -1563,7 +1561,6 @@ pack() {
 # @flag --focus                                 Focus on a single workspace by installing remote copies of its sibling workspaces.
 # @option --otp <otpcode>                       one-time password for two factor authentication
 # @flag -h --help                               output usage information
-# @arg set-version
 policies() {
     :;
 }
@@ -2469,6 +2466,7 @@ workspaces::info() {
 
 # {{{ yarn workspaces run
 # @cmd run the chosen Yarn command in each workspace.
+# @arg cmd~[`_choice_workspaces_cmd`]
 workspaces::run() {
     :;
 }
@@ -2515,6 +2513,10 @@ _choice_workspace_args() {
     fi
     (cd "$location" && _argc_util_comp_subcommand 1 yarn)
     
+}
+
+_choice_workspaces_cmd() {
+    _argc_util_comp_subcommand 0 yarn
 }
 
 _helper_find_pkg_json_path() {

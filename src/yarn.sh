@@ -47,157 +47,71 @@ Commands:
     workspace       Run the chosen Yarn command in the selected workspace.
     workspaces      Show information about your workspaces.
 EOF
-
-    elif [[ "$*" == "yarn cache" ]]; then
-        $@ --help | _common_edit
-        cat <<-'EOF'
-Commands:
-    list, ls  print out every cached package.
-    dir       print out the path where yarn’s global cache is currently stored.
-    clean     clear the global cache.
-EOF
-
-    elif [[ "$*" == "yarn cache "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@ 
-yarn cache list
-options:
-    --pattern <pattern>
-yarn cache dir
-yarn cache clean [<module_name>...]
-EOF
-
-    elif [[ "$*" == "yarn config" ]]; then
-        $@ --help | _common_edit
-        cat <<-'EOF'
-Commands:
-    set     Sets the config key to a certain value.
-    get     Echoes the value for a given key to stdout.
-    delete  Deletes a given key from the config.
-    list    Displays the current configuration.
-EOF
- 
-    elif [[ "$*" == "yarn config "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@ 
-yarn config set <key> <value>
-options:
-    -g --global
-yarn config get <key>
-yarn config delete <key>
-yarn config list
-EOF
-
-    elif [[ "$*" == "yarn global" ]]; then
-        $@ --help | _common_edit
-        cat <<-'EOF'
-Commands:
-    add         Installs packages and any packages that it depends on.
-    bin         Displays the location of the yarn bin folder.
-    remove      Remove packages.
-    upgrade     Upgrades packages to their latest version based on the specified range.
-EOF
-
-    elif [[ "$*" == "yarn global "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@ 
-yarn global add <packages>...
-options:
-    --prefix <prefix>   bin prefix
-yarn global bin
-options:
-    --prefix <prefix>   bin prefix
-yarn global remove <packages>...
-options:
-    --prefix <prefix>   bin prefix
-yarn global upgrade <packages>...
-options:
-    --prefix <prefix>   bin prefix
-EOF
-
-    elif [[ "$*" == "yarn licenses" ]]; then
-        $@ --help | _common_edit
-        cat <<-'EOF'
-Commands:
-    list                    List in alphabetical order all of the packages that were installed by yarn or yarn install, and give you the license.
-    generate-disclaimer     Return a sorted list of licenses from all the packages you have installed to the stdout
-
-EOF
-
-    elif [[ "$*" == "yarn licenses "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@ 
-yarn licenses list
-yarn licenses generate-disclaimer
-EOF
-
-    elif [[ "$*" == "yarn owner" ]]; then
-        $@ --help | _common_edit
-        cat <<-'EOF'
-Commands:
-    list    Lists all of the owners of a <package>.
-    add     Adds the <user> as an owner of the <package>.
-    remove  Removes the <user> as an owner of the <package>.
-EOF
-
-    elif [[ "$*" == "yarn owner "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@ 
-yarn owner list <package>
-yarn owner add <user> <package>
-yarn owner remove <user> <package>
-EOF
-
-    elif [[ "$*" == "yarn policies" ]]; then
-        $@ --help | _common_edit
-        cat <<-'EOF'
-Commands:
-    set-version  Enforcing Yarn’s version across your project.
-EOF
-
-    elif [[ "$*" == "yarn policies "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@ 
-yarn policies set-version <ver>
-options:
-    --rc   Use latest rc release
-EOF
-
-    elif [[ "$*" == "yarn team" ]]; then
-        $@ --help | _common_edit
-        cat <<-'EOF'
-Commands:
-    create      Create a new team.
-    destroy     Destroys an existing team.
-    add         Add a user to an existing team.
-    remove      Remove a user from a team they belong to.
-    list        List of existing teams under that organization.
-EOF
-
-    elif [[ "$*" == "yarn team "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@ 
-yarn team create <scope:team>
-yarn team destroy <scope:team>
-yarn team add <scope:team> <user>
-yarn team remove <scope:team> <user>
-yarn team list <scope[:team]>
-EOF
-
-    elif [[ "$*" == "yarn test" ]]; then
-        :;
-
-    elif [[ "$*" == "yarn workspaces" ]]; then
-        $@ --help | _common_edit
-        cat <<-'EOF'
-Commands:
-    info    display the workspace dependency tree of your current project.
-    run     run the chosen Yarn command in each workspace.
-EOF
-
-    elif [[ "$*" == "yarn workspaces "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@ 
-yarn workspaces info
-options:
-    --json
-yarn workspace run <cmd>
-EOF
-
     else
-        $@ --help | _common_edit
+        cat <<-'EOF' | _patch_help_embed_help $@
+# cache
+
+## list/ls - print out every cached package.
+    --pattern <pattern>
+## dir - print out the path where yarn’s global cache is currently stored.
+## clean [<module_name>...] - clear the global cache.
+
+# config
+
+## set <key> <value> - Sets the config key to a certain value.
+    -g --global
+## get <key> - Echoes the value for a given key to stdout.
+## delete <key> - Deletes a given key from the config.
+## list - Displays the current configuration.
+
+# global
+
+## add <packages>... - Installs packages and any packages that it depends on.
+    --prefix <prefix>   bin prefix
+## bin - Displays the location of the yarn bin folder.
+    --prefix <prefix>   bin prefix
+## remove <packages>... - Remove packages.
+    --prefix <prefix>   bin prefix
+## upgrade <packages>... - Upgrades packages to their latest version based on the specified range.
+    --prefix <prefix>   bin prefix
+
+# licenses
+
+## list - List in alphabetical order all of the packages that were installed by yarn or yarn install, and give you the license.
+## generate-disclaimer - Return a sorted list of licenses from all the packages you have installed to the stdout
+
+# owner
+
+## list <package> - Lists all of the owners of a <package>.
+## add <user> <package> - Adds the <user> as an owner of the <package>.
+## remove <user> <package> - Removes the <user> as an owner of the <package>.
+
+# policies
+
+## set-version <ver> - Enforcing Yarn’s version across your project.
+    --rc   Use latest rc release
+
+# team
+
+## create <scope:team> - Create a new team.
+## destroy <scope:team> - Destroys an existing team.
+## add <scope:team> <user> - Add a user to an existing team.
+## remove <scope:team> <user> - Remove a user from a team they belong to.
+## list <scope[:team]> - List of existing teams under that organization.
+
+# workspaces
+
+## info - display the workspace dependency tree of your current project.
+    --json
+## run <cmd> - run the chosen Yarn command in each workspace.
+
+# test
+EOF
+        if [[ "$#" -le 2 ]]; then
+            if [[ "$*" != "yarn test" ]]; then
+                $@ --help | sed 's/ \[command\] \[flags\]//'
+            fi
+        fi
     fi
 }
 
@@ -239,6 +153,10 @@ _patch_table() {
 
     elif [[ "$*" == "yarn workspaces" ]]; then
         _patch_table_edit_arguments ';;'
+
+    elif [[ "$*" == "yarn workspaces run" ]]; then
+        _patch_table_edit_arguments 'cmd;~[`_choice_workspaces_cmd`]'
+
     else
         cat
     fi
@@ -282,6 +200,10 @@ _choice_workspace_args() {
     fi
     (cd "$location" && _argc_util_comp_subcommand 1 yarn)
     
+}
+
+_choice_workspaces_cmd() {
+    _argc_util_comp_subcommand 0 yarn
 }
 
 _helper_find_pkg_json_path() {

@@ -2,19 +2,19 @@ _patch_help() {
     if [[ "$*" == "update-alternatives" ]]; then
         $@ --help
     else
-        cat <<-'EOF' | _patch_help_select_subcmd $@
-update-alternatives --install <link> <name> <path> <priority>
-update-alternatives --remove <name> <path>
-update-alternatives --remove-all <name>
-update-alternatives --auto <name>
-update-alternatives --display <name>
-update-alternatives --query <name>
-update-alternatives --list <name>
-update-alternatives --get-selections
-update-alternatives --set-selections
-update-alternatives --config <name>
-update-alternatives --set <name> <path>
-update-alternatives --all
+        cat <<-'EOF' | _patch_help_embed_help $@
+# --install <link> <name> <path> <priority>
+# --remove <name> <path>
+# --remove-all <name>
+# --auto <name>
+# --display <name>
+# --query <name>
+# --list <name>
+# --get-selections
+# --set-selections
+# --config <name>
+# --set <name> <path>
+# --all
 EOF
     fi
 }

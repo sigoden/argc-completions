@@ -1,17 +1,15 @@
 _patch_help() {
-    if [[ "$*" == "apk cache" ]]; then
-        $@ --help | sed '/^usage:/,/^$/ d'
-        cat <<-'EOF'
-Commands:
-    clean       Removing older packages
-    download    Download missing packages
-    sync        Delete and download in one step
+    if [[ "$*" == "apk cache"* ]]; then
+        cat <<-'EOF' | _patch_help_embed_help $@
+# cache% --
+## clean - Removing older packages
+## download [DEPENDENCY...] - Download missing packages
+## sync [DEPENDENCY...] - Delete and download in one step
 EOF
-    elif [[ "$*" == "apk cache "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@
-apk cache download [DEPENDENCY...]
-apk cache sync [DEPENDENCY...]
-EOF
+
+        if [[ "$*" == "apk cache" ]]; then
+            $@ --help
+        fi
     else
         $@ --help
     fi

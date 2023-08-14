@@ -1,86 +1,14 @@
 _patch_help() {
-    if [[ "$*" == "npm" ]]; then
-        cat <<-'EOF'
-Commands:
-    access                              Set access level on published packages
-    adduser, add-user                   Add a registry user account
-    audit                               Run a security audit
-    bugs, issues                        Report bugs for a package in a web browser
-    cache                               Manipulates packages cache
-    ci, clean-install, ic, install-clean, isntall-clean     Clean install a project
-    completion                          Tab Completion for npm
-    config, c                           Manage the npm configuration files
-    dedupe, ddp                         Reduce duplication in the package tree
-    deprecate                           Deprecate a version of a package
-    diff                                The registry diff command
-    dist-tag, dist-tags                 Modify package distribution tags
-    docs, home                          Open documentation for a package in a web browser
-    edit                                Edit an installed package
-    exec, x                             Run a command from a local or remote npm package
-    explain, why                        Explain installed packages
-    explore                             Browse an installed package
-    find-dupes                          Find duplication in the package tree
-    fund                                Retrieve funding information
-    config                              Manage the npm configuration files
-    hook                                Manage registry hooks
-    init, create, innit                 Create a package.json file
-    install, add, i, in, isnt           Install a package
-    install-ci-test, cit, clean-install-test, sit     Install a project with a clean slate and run tests
-    install-test, it                    Install package(s) and run tests
-    link                                Symlink a package folder
-    login                               Login to a registry user account
-    logout                              Log out of the registry
-    ls, list                            List installed packages
-    org, ogr                            Manage orgs
-    outdated                            Check for outdated packages
-    owner, author                       Manage package owners
-    pack                                Create a tarball from a package
-    pkg                                 Manages your package.json
-    prefix                              Display prefix
-    profile                             Change settings on your registry profile
-    prune                               Remove extraneous packages
-    publish                             Publish a package
-    query                               Dependency selector query
-    rebuild, rb                         Rebuild a package
-    restart                             Restart a package
-    root                                Display npm root
-    run-script, run, rum, urn           Run arbitrary package scripts
-    search, find, s, se                 Search for packages
-    shrinkwrap                          Lock down dependency versions for publication
-    stars                               View packages marked as favorites
-    start                               Start a package
-    stop                                Stop a package
-    team                                Manage organization teams and team memberships
-    test, tst, t                        Test a package
-    token                               Manage your authentication tokens
-    uninstall, unlink, remove, rm, r, un   Remove a package
-    unstar                              Remove an item from your favorite packages
-    update, up, upgrade, udpate         Update packages
-    version, verison                    Bump a package version
-    view, info, show, v                 View registry info
-    whoami                              Display npm username
-EOF
-
-    elif [[ "$*" == "npm access" ]]; then
-        cat <<-'EOF'
-Options:
+    cat <<-'EOF' | _patch_help_embed_help $@
+# access - Set access level on published packages
     --json            Whether or not to output JSON data, rather than the normal output. 
     --opt <value>     This is a one-time password from a two-factor authenticator.
     --registry <url>  The base URL of the npm registry.
-EOF
-
-    elif [[ "$*" == "npm adduser" ]]; then
-        cat <<-'EOF'
-Options:
+# adduser/add-user - Add a registry user account
     --registry <url>  The base URL of the npm registry.
     --scope <scope>   Associate an operation with a scope for a scoped registry.
     -auth-type <type> What authentication strategy to use with login. (web, legacy)
-EOF
-
-    elif [[ "$*" == "npm audit" ]]; then
-        cat <<-'EOF'
-Usage: npm audit (fix|signatures)
-Options:
+# audit (fix|signatures) - Run a security audit
     --audit-level <value>  The minimum level of vulnerability for npm audit to exit with a non-zero exit code. (info,low,moderate,high,critical,none)
     --dry-run              Indicates that you don't want npm to make any changes and that it should only report what it would have done
     -f --force             Removes various protections against unfortunate side effects, common mistakes, unnecessary performance degradation, and malicious input.
@@ -93,41 +21,19 @@ Options:
     --workspaces           Set to true to run the command in the context of all configured workspaces.
     --include-workspace-root  Include the workspace root when workspaces are enabled for a command.
     --install-links        When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
-EOF
-
-    elif [[ "$*" == "npm bugs" ]]; then
-        cat <<-'EOF'
-Usage: npm audit [pkgname]...
-Options:
+# bugs/issues [pkgname]... - Report bugs for a package in a web browser
     --browser <value>      The browser that is called by npm commands to open websites.
     --registry <url>       The base URL of the npm registry.
     -w --workspace <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running only the workspaces defined by this configuration option.
     --workspaces           Set to true to run the command in the context of all configured workspaces.
     --include-workspace-root  Include the workspace root when workspaces are enabled for a command.
-EOF
-
-    elif [[ "$*" == "npm cache" ]]; then
-        cat <<-'EOF'
-Options:
+# cache - Manipulates packages cache
     --cache <value>    The location of npm's cache directory.
-Commands:
-    add        Add the specified packages to the local cache.
-    clean      Delete all data out of the cache folder.
-    ls         List all cache.
-    verify     Verify the contents of the cache folder, garbage collecting any unneeded data, and verifying the integrity of the cache index and all cached data.
-EOF
-
-    elif [[ "$*" == "npm cache "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@ 
-npm cache add <package-spec>
-npm cache clean [key]
-npm cache ls [name@version]
-npm cache verify
-EOF
-
-    elif [[ "$*" == "npm ci" ]]; then
-        cat <<-'EOF'
-Options:
+## add <package-spec> - Add the specified packages to the local cache.
+## clean [key] - Delete all data out of the cache folder.
+## ls [name@version] - List all cache.
+## verify - Verify the contents of the cache folder, garbage collecting any unneeded data, and verifying the integrity of the cache index and all cached data.
+# ci/clean-install/ic/install-clean/isntall-clean - Clean install a project
     -S --save                   Save installed packages to a package.json file as dependencies.
     -E --save-exact             Dependencies  saved  to  package.json  will be configured with an exact version rather than using npm's default semver
     -g --global                 Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
@@ -147,40 +53,21 @@ Options:
     --workspaces                Set to true to run the command in the context of all configured workspaces.
     --include-workspace-root    Include the workspace root when workspaces are enabled for a command.
     --install-links             When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
-EOF
-
-    elif [[ "$*" == "npm config" ]]; then
-        cat <<-'EOF'
-Commands:
-    set     Sets each of the config keys to the value provided.
-    get     Echo the config value(s) to stdout.
-    list    Show all the config settings. 
-    delete  Deletes the specified keys from all configuration files.
-    edit    Opens the config file in an editor. 
-    fix     Attempts  to  repair invalid configuration items. 
-Options:
+# completion - Tab Completion for npm
+# config/c - Manage the npm configuration files
     --json              Whether or not to output JSON data, rather than the normal output.
     -g --global         Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working directory. 
     --editor <value>    The command to run for npm edit and npm config edit.
     --location <value>  When passed to npm config this refers to which config file to use. (global, user, project)
     --long              Show extended information in ls, search, and help-search.
-EOF
-
-    elif [[ "$*" == "npm config "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@ 
-npm config set [<key>=<value>]...
-npm config get [key]...
-npm config list
-options:
+## set [<key>=<value>]... - Sets each of the config keys to the value provided.
+## get [key]... - Echo the config value(s) to stdout.
+## list - Show all the config settings. 
     --json  Whether or not to output JSON data, rather than the normal output.
-npm config delete [key]...
-npm config edit
-npm config fix
-EOF
-
-    elif [[ "$*" == "npm dedupe" ]]; then
-        cat <<-'EOF'
-Options:
+## delete [key]... - Deletes the specified keys from all configuration files.
+## edit - Opens the config file in an editor. 
+## fix - Attempts  to  repair invalid configuration items. 
+# dedupe/ddp - Reduce duplication in the package tree
     --install-strategy <value>        Sets the strategy for installing packages in node_modules.  (hoisted, nested, shallow)
     --legacy-bundling                 Instead  of  hoisting package installs in node_modules, install packages in the same manner that they are depended on.
     --global-style                    Only  install  direct  dependencies  in  the top level node_modules, but hoist on deeper dependencies. 
@@ -196,20 +83,10 @@ Options:
     --workspaces                      Set to true to run the command in the context of all configured workspaces.
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
     --install-links                   When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
-EOF
-
-    elif [[ "$*" == "npm deprecate" ]]; then
-        cat <<-'EOF'
-Usage: npm deprecate <package-spec> <message>
-Options:
+# deprecate <package-spec> <message> - Deprecate a version of a package
     --registry <value>  The base URL of the npm registry.
     --otp <value>       This is a one-time password from a two-factor authenticator. 
-EOF
-
-    elif [[ "$*" == "npm diff" ]]; then
-        cat <<-'EOF'
-Usage: npm diff [paths]...
-Options:
+# diff [paths]... - The registry diff command
     --diff <value>                    Define arguments to compare in npm diff.
     --diff-name-only                  Prints only filenames when using npm diff.
     --diff-unified <value>            The number of lines of context to print in npm diff.
@@ -223,80 +100,35 @@ Options:
     -w --workspace <value>            Enable running a command in the context of the configured workspaces of the current project while filtering by running
     --workspaces                      Set to true to run the command in the context of all configured workspaces.
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
-EOF
-
-    elif [[ "$*" == "npm dist-tag" ]]; then
-        cat <<-'EOF'
-Commands:
-    add      Tags the specified version of the package with the specified tag, or the --tag config if not specified.
-    rm       Clear a tag that is no longer in use from the package.
-    ls       Show all of the dist-tags for a package, defaulting to the package in the current prefix.
-Options:
+# dist-tag/dist-tags - Modify package distribution tags
     -w --workspace <value>            Enable running a command in the context of the configured workspaces of the current project while filtering by running
     --workspaces                      Set to true to run the command in the context of all configured workspaces.
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
-EOF
-
-    elif [[ "$*" == "npm dist-tag "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@ 
-npm dist-tag add <package-spec> <tag>
-npm dist-tag rm <package-spec> <tag>
-npm dist-tag ls [package-spec]
-EOF
-
-    elif [[ "$*" == "npm docs" ]]; then
-        cat <<-'EOF'
-Usage: npm docs [pkgname]...
-Options:
+## add <package-spec> <tag> - Tags the specified version of the package with the specified tag, or the --tag config if not specified.
+## rm <package-spec> <tag> - Clear a tag that is no longer in use from the package.
+## ls [package-spec] - Show all of the dist-tags for a package, defaulting to the package in the current prefix.
+# docs/home [pkgname]... - Open documentation for a package in a web browser
     --browser                         The browser that is called by npm commands to open websites.
     --registry <value>                The base URL of the npm registry.
     -w --workspace <value>            Enable running a command in the context of the configured workspaces of the current project while filtering by running
     --workspaces                      Set to true to run the command in the context of all configured workspaces.
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
-EOF
-
-    elif [[ "$*" == "npm doctor" ]]; then
-        cat <<-'EOF'
-Options:
+# doctor - Check your npm environment
     --registry <value>  The base URL of the npm registry.
-EOF
-
-    elif [[ "$*" == "npm edit" ]]; then
-        cat <<-'EOF'
-Usage: npm edit <pkg>
-Options:
+# edit <pkg> - Edit an installed package
     --editor <value>  The command to run for npm edit and npm config edit.
-EOF
-
-    elif [[ "$*" == "npm exec" ]]; then
-        cat <<-'EOF'
-Usage: npm exec <cmd> [args]...
-Options:
+# exec/x <cmd> [args]... - Run a command from a local or remote npm package
     --package <value>                 The package or packages to install for npm help exec
     --call <value>                    Optional  companion  option for npm exec, npx that allows for specifying a custom command to be run along with the in‐
     -w --workspace <value>            Enable running a command in the context of the configured workspaces of the current project while filtering by running
     --workspaces                      Set to true to run the command in the context of all configured workspaces.
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
-EOF
-
-    elif [[ "$*" == "npm explain" ]]; then
-        cat <<-'EOF'
-Usage: npm explain <package-spec>
-Options:
+# explain/why <package-spec> - Explain installed packages
     --json               Whether or not to output JSON data, rather than the normal output.
     -w --workspace <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
-EOF
-
-    elif [[ "$*" == "npm explore" ]]; then
-        cat <<-'EOF'
-Usage: npm explore <package> [args]...
-Options:
+# explore <package> [args]... - Browse an installed package
     --shell <value>  The shell to run for the npm explore command.
-EOF
-
-    elif [[ "$*" == "npm find-dupes" ]]; then
-        cat <<-'EOF'
-Options:
+# find-dupes - Find duplication in the package tree
     --install-strategy <value>        Sets the strategy for installing packages in node_modules.  (hoisted, nested, shallow)
     --legacy-bundling                 Instead  of  hoisting package installs in node_modules, install packages in the same manner that they are depended on.
     --global-style                    Only  install  direct  dependencies  in  the top level node_modules, but hoist on deeper dependencies. 
@@ -311,50 +143,22 @@ Options:
     --workspaces                      Set to true to run the command in the context of all configured workspaces.
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
     --install-links                   When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
-EOF
-
-    elif [[ "$*" == "npm fund" ]]; then
-        cat <<-'EOF'
-Usage: npm fund [package-spec]
-Options:
+# fund [package-spec] - Retrieve funding information
     --json               Whether or not to output JSON data, rather than the normal output.
     --browser            The browser that is called by npm commands to open websites.
     --unicode            When set to true, npm uses unicode characters in the tree output. 
     -w --workspace <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
     --which <value>      If there are multiple funding sources, which 1-indexed source URL to open.
-EOF
-
-    elif [[ "$*" == "npm help-search" ]]; then
-        cat <<-'EOF'
-Usage: npm help-search <text>
-Options:
+# help-search <text> - Search npm help documentation
     --long          Show extended information in ls, search, and help-search.
-EOF
-
-    elif [[ "$*" == "npm hook" ]]; then
-        cat <<-'EOF'
-Commands:
-    add      Add a hook
-    ls       List hooks
-    rm       Remove a hook
-    update   Update a hook
-Options:
+# hook - Manage registry hooks
     --registry <value>  The base URL of the npm registry.
     --otp <value>       This is a one-time password from a two-factor authenticator. 
-EOF
-
-    elif [[ "$*" == "npm hook "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@ 
-npm hook add <pkg> <url> <secret>
-npm hook ls [pkg]
-npm hook rm <id>
-npm hook udpate <id> <url> <secret>
-EOF
-
-    elif [[ "$*" == "npm init" ]]; then
-        cat <<-'EOF'
-Usage: npm init <package-spec>
-Options:
+## add <pkg> <url> <secret> - Add a hook
+## ls [pkg] - List hooks
+## rm <id> - Remove a hook
+## update <id> <url> <secret> - Update a hook
+# init/create/innit <package-spec> - Create a package.json file
     --yes                             Automatically answer "yes" to any prompts that npm might print on the command line.
     -f --force                        Removes various protections against unfortunate side effects, common mistakes,  unnecessary  performance  degradation,
     --scope <value>                   Associate an operation with a scope for a scoped registry.
@@ -362,12 +166,7 @@ Options:
     --workspaces                      Set to true to run the command in the context of all configured workspaces.
     --workspaces-update               If set to true, the npm cli will run an update after operations that may possibly change the workspaces  installed  to
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
-EOF
-
-    elif [[ "$*" == "npm install" ]]; then
-        cat <<-'EOF'
-Usage: npm install [package-spec]...
-Options:
+# install/add/i/in/isnt  [package-spec]... - Install a package
     -S --save                         Save installed packages to a package.json file as dependencies.
     -E --save-exact                   Dependencies  saved  to  package.json  will be configured with an exact version rather than using npm's default semver
     -g --global                       Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
@@ -387,11 +186,7 @@ Options:
     --workspaces                      Set to true to run the command in the context of all configured workspaces.
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
     --install-links                   When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating  a  sym‐
-EOF
-
-    elif [[ "$*" == "npm install-ci-test" ]]; then
-        cat <<-'EOF'
-Options:
+# install-ci-test/cit/clean-install-test/sit - Install a project with a clean slate and run tests
     -S --save                         Save installed packages to a package.json file as dependencies.
     -E --save-exact                   Dependencies  saved  to  package.json  will be configured with an exact version rather than using npm's default semver
     -g --global                       Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
@@ -411,12 +206,7 @@ Options:
     --workspaces                      Set to true to run the command in the context of all configured workspaces.
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
     --install-links                   When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
-EOF
-
-    elif [[ "$*" == "npm install-test" ]]; then
-        cat <<-'EOF'
-Usage: npm install-test [package-spec]...
-Options:
+# install-test/it [package-spec]... - Install package(s) and run tests
     -S --save                         Save installed packages to a package.json file as dependencies.
     -E --save-exact                   Dependencies saved to package.json will be configured with an exact version rather than  using  npm's  default  semver
     -g --global                       Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
@@ -436,12 +226,7 @@ Options:
     --workspaces                      Set to true to run the command in the context of all configured workspaces.
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
     --install-links                   When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
-EOF
-
-    elif [[ "$*" == "npm link" ]]; then
-        cat <<-'EOF'
-Usage: npm link [package-spec]
-Options:
+# link [package-spec] - Symlink a package folder
     -S --save                         Save installed packages to a package.json file as dependencies.
     -E --save-exact                   Dependencies saved to package.json will be configured with an exact version rather than  using  npm's  default  semver
     -g --global                       Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
@@ -460,27 +245,14 @@ Options:
     --workspaces                      Set to true to run the command in the context of all configured workspaces.
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
     --install-links                   When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
-EOF
-
-    elif [[ "$*" == "npm login" ]]; then
-        cat <<-'EOF'
-Options:
+# login - Login to a registry user account
     --registry <value>   The base URL of the npm registry.
     --scope <value>      Associate an operation with a scope for a scoped registry.
     --auth-type <value>  What authentication strategy to use with login. 
-EOF
-
-    elif [[ "$*" == "npm logout" ]]; then
-        cat <<-'EOF'
-Options:
+# logout - Log out of the registry
     --registry <value>  The base URL of the npm registry.
     --scope <value>     Associate an operation with a scope for a scoped registry.
-EOF
-
-    elif [[ "$*" == "npm ls" ]]; then
-        cat <<-'EOF'
-Usage: npm ls [package-spec]...
-Options:
+# ls/list  [package-spec]... - List installed packages
     --all                             When  running  npm  outdated  and npm ls, setting --all will show all outdated or installed packages, rather than only
     --json                            Whether or not to output JSON data, rather than the normal output.
     --long                            Show extended information in ls, search, and help-search.
@@ -495,63 +267,30 @@ Options:
     --workspaces                      Set to true to run the command in the context of all configured workspaces.
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
     --install-links                   When  set  file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
-EOF
-
-    elif [[ "$*" == "npm org" ]]; then
-        cat <<-'EOF'
-Commands:
-    set    Add user to org.
-    rm     Remove a user from an org.
-    ls     List all users in an org.
-Options:
+# org/ogr - Manage orgs
     --registry <value>   The base URL of the npm registry.
     --otp <value>        This is a one-time password from a two-factor authenticator. 
     --json               Whether or not to output JSON data, rather than the normal output.
     --parseable          Output parseable results from commands that write to standard output. 
-EOF
-    elif [[ "$*" == "npm org "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@ 
-npm org set <orgname> <username> (developer|admin|owner)
-npm org rm <orgname> <username>
-npm org ls <orgname> [username]
-EOF
-
-    elif [[ "$*" == "npm outdated" ]]; then
-        cat <<-'EOF'
-Usage: npm outdated [package-spec]...
-Options:
+## set <orgname> <username> (developer|admin|owner) - Add user to org.
+## rm <orgname> <username> - Remove a user from an org.
+## ls <orgname> [username] - List all users in an org.
+# outdated [package-spec]... - Check for outdated packages
     --all                When  running  npm  outdated  and npm ls, setting --all will show all outdated or installed packages, rather than only
     --json               Whether or not to output JSON data, rather than the normal output.
     --long               Show extended information in ls, search, and help-search.
     --parseable          Output parseable results from commands that write to standard output. 
     -g --global          Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
     -w --workspace <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
-EOF
-
-    elif [[ "$*" == "npm owner" ]]; then
-        cat <<-'EOF'
-Commands:
-    ls        List all the users who have access to modify a package and push new versions.
-    add       Add a new user as a maintainer of a package. This user is enabled to modify metadata, publish new versions, and add other owners.
-    rm        Remove a user from the package owner list. This immediately revokes their privileges.
-Options:
+# owner/author - Manage package owners
     --registry <value>    The base URL of the npm registry.
     --otp <value>         This  is  a one-time password from a two-factor authenticator. 
     -w --workspace <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
     --workspaces          Set to true to run the command in the context of all configured workspaces.
-EOF
-
-    elif [[ "$*" == "npm owner "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@ 
-npm owner ls <package-spec>
-npm owner add <user> <package-spec>
-npm owner rm <user> <package-spec>
-EOF
-
-    elif [[ "$*" == "npm pack" ]]; then
-        cat <<-'EOF'
-Usage: npm pack <package-spec>
-Options:
+## ls <package-spec> - List all the users who have access to modify a package and push new versions.
+## add <user> <package-spec> - Add a new user as a maintainer of a package. This user is enabled to modify metadata, publish new versions, and add other owners.
+## rm <user> <package-spec> - Remove a user from the package owner list. This immediately revokes their privileges.
+# pack <package-spec> - Create a tarball from a package
     --dry-run                         Indicates that you don't want npm to make any changes and that it should only report what it would have done. 
     --json                            Whether or not to output JSON data, rather than the normal output.
     --pack-destination <value>        Directory in which npm pack will save tarballs.
@@ -559,67 +298,28 @@ Options:
     --workspaces                      Set to true to run the command in the context of all configured workspaces.
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
     --Description <value>             
-EOF
-
-    elif [[ "$*" == "npm ping" ]]; then
-        cat <<-'EOF'
-Options:
+# ping - Ping npm registry
     --registry <value>  The base URL of the npm registry.
-EOF
-
-
-    elif [[ "$*" == "npm pkg" ]]; then
-        cat <<-'EOF'
-Commands:
-    get       Retrieves a value key, defined in your package.json file.
-    set       Sets a value in your package.json based on the field value.
-    delete    Deletes a key from your package.json.
-Options:
+# pkg - Manages your package.json
     -f --force            Removes various protections against unfortunate side effects, common mistakes,  unnecessary  performance  degradation,
     --json                Whether or not to output JSON data, rather than the normal output.
     -w --workspace <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
     --workspaces          Set to true to run the command in the context of all configured workspaces.
-EOF
-
-    elif [[ "$*" == "npm pkg "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@ 
-npm pkg get <field>...
-npm pkg set <key=value>...
-npm pkg delete <field>...
-EOF
-
-    elif [[ "$*" == "npm prefix" ]]; then
-        cat <<-'EOF'
-Options:
+## get <field>... - Retrieves a value key, defined in your package.json file.
+## set <key=value>... - Sets a value in your package.json based on the field value.
+## delete <field>... - Deletes a key from your package.json.
+# prefix - Display prefix
     -g --global       Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
-EOF
-
-    elif [[ "$*" == "npm profile" ]]; then
-        cat <<-'EOF'
-Commands:
-    get          Display all of the properties of your profile, or one or more specific properties.
-    set          Set the value of a profile property. You can set the following properties this way: email, fullname, homepage, freenode, twitter, github.
-    enable-2fa   Enables two-factor authentication.
-    disable-2fa  Disables two-factor authentication.
-Options:
+# profile - Change settings on your registry profile
     --registry <value>   The base URL of the npm registry.
     --json               Whether or not to output JSON data, rather than the normal output.
     --parseable          Output parseable results from commands that write to standard output. 
     --otp <value>        This  is  a one-time password from a two-factor authenticator. 
-EOF
-
-    elif [[ "$*" == "npm profile "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@ 
-npm profile get [key]
-npm profile set <key> <value>
-npm profile enable-2fa (auth-only|auth-and-writes)
-npm profile disable-2fa
-EOF
-
-    elif [[ "$*" == "npm prune" ]]; then
-        cat <<-'EOF'
-Usage: npm prune [pkg]...
-Options:
+## get [key] - Display all of the properties of your profile, or one or more specific properties.
+## set <key> <value> - Set the value of a profile property. You can set the following properties this way: email, fullname, homepage, freenode, twitter, github.
+## enable-2fa (auth-only|auth-and-writes) - Enables two-factor authentication.
+## disable-2fa - Disables two-factor authentication.
+# prune [pkg]... - Remove extraneous packages
     --omit <value>                    Dependency types to omit from the installation tree on disk. (dev, optional, peer (can be set multiple times))
     --dry-run                         Indicates that you don't want npm to make any changes and that it should only report what it would have done. 
     --json                            Whether or not to output JSON data, rather than the normal output.
@@ -629,12 +329,7 @@ Options:
     --workspaces                      Set to true to run the command in the context of all configured workspaces.
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
     --install-links                   When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating  a  sym‐
-EOF
-
-    elif [[ "$*" == "npm publish" ]]; then
-        cat <<-'EOF'
-Usage: npm publish <package-spec>
-Options:
+# publish <package-spec> - Publish a package
     --tag <value>                     If you ask npm to install a package and don't tell it a specific version, then it will install the specified tag.
     --access <value>                  If you do not want your scoped package to be publicly viewable (and installable) set --access=restricted. (null, restricted, public)
     --dry-run                         Indicates that you don't want npm to make any changes and that it should only report what it would have done. 
@@ -642,22 +337,12 @@ Options:
     -w --workspace <value>            Enable running a command in the context of the configured workspaces of the current project while filtering by running
     --workspaces                      Set to true to run the command in the context of all configured workspaces.
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
-EOF
-
-    elif [[ "$*" == "npm query" ]]; then
-        cat <<-'EOF'
-Usage: npm query <selector>
-Options:
+# query <selector> - Dependency selector query
     -g --global                       Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
     -w --workspace <value>            Enable running a command in the context of the configured workspaces of the current project while filtering by running
     --workspaces                      Set to true to run the command in the context of all configured workspaces.
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
-EOF
-
-    elif [[ "$*" == "npm rebuild" ]]; then
-        cat <<-'EOF'
-Usage: npm prune [package-spec]...
-Options:
+# rebuild/rb [package-spec]... - Rebuild a package
     -g --global                       Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
     --bin-links                       Tells npm to create symlinks (or .cmd shims on Windows) for package executables.
     --foreground-scripts              Run all build scripts (ie, preinstall, install, and postinstall) scripts for  installed  packages  in  the  foreground
@@ -666,37 +351,18 @@ Options:
     --workspaces                      Set to true to run the command in the context of all configured workspaces.
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
     --install-links                   When  set  file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
-EOF
-
-    elif [[ "$*" == "npm repo" ]]; then
-        cat <<-'EOF'
-Usage: npm repo [pkgname]...
-Options:
+# repo [pkgname]... - Open package repository page in the browser 
     --browser                         The browser that is called by npm commands to open websites.
     --registry <value>                The base URL of the npm registry.
     -w --workspace <value>            Enable running a command in the context of the configured workspaces of the current project while filtering by running
     --workspaces                      Set to true to run the command in the context of all configured workspaces.
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
-EOF
-
-    elif [[ "$*" == "npm restart" ]]; then
-        cat <<-'EOF'
-Usage: npm restart [args]...
-Options:
+# restart [args]... - Restart a package
     --ignore-scripts          If true, npm does not run scripts specified in package.json files.
     --script-shell <value>    The shell to use for scripts run with the npm exec, npm run and npm init <package-spec> commands.
-EOF
-
-    elif [[ "$*" == "npm root" ]]; then
-        cat <<-'EOF'
-Options:
+# root - Display npm root
     -g --global       Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
-EOF
-
-    elif [[ "$*" == "npm run-script" ]]; then
-        cat <<-'EOF'
-Usage: npm run-script <cmd> [args]...
-Options:
+# run-script/run/rum/urn <cmd> [args]... - Run arbitrary package scripts
     -w --workspace <value>            Enable running a command in the context of the configured workspaces of the current project while filtering by running
     --workspaces                      Set to true to run the command in the context of all configured workspaces.
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
@@ -704,12 +370,7 @@ Options:
     --ignore-scripts                  If true, npm does not run scripts specified in package.json files.
     --foreground-scripts              Run all build scripts (ie, preinstall, install, and postinstall) scripts for  installed  packages  in  the  foreground
     --script-shell <value>            The shell to use for scripts run with the npm exec, npm run and npm init <package-spec> commands.
-EOF
-
-    elif [[ "$*" == "npm search" ]]; then
-        cat <<-'EOF'
-Usage: npm search [terms]...
-Options:
+# search/find/s/se [terms]... - Search for packages
     --long                    Show extended information in ls, search, and help-search.
     --json                    Whether or not to output JSON data, rather than the normal output.
     --color                   If false, never shows colors. 
@@ -721,133 +382,58 @@ Options:
     --prefer-online           If true, staleness checks for cached data will be forced, making the CLI look for updates immediately even  for  fresh
     --prefer-offline          If  true,  staleness  checks  for cached data will be bypassed, but missing data will be requested from the server. 
     --offline                 Force offline mode: no network requests will be done during install. 
-EOF
-
-    elif [[ "$*" == "npm shrinkwrap" ]]; then
-        cat <<-'EOF'
-EOF
-
-    elif [[ "$*" == "npm star" ]]; then
-        cat <<-'EOF'
-Usage: npm star [package-spec]...
-Options:
+# shrinkwrap - Lock down dependency versions for publication
+# star [pkg]... - Mark your favorite packages
     --registry <value>  The base URL of the npm registry.
     --unicode           When set to true, npm uses unicode characters in the tree output. 
     --otp <value>       This  is  a one-time password from a two-factor authenticator. 
-EOF
-
-    elif [[ "$*" == "npm stars" ]]; then
-        cat <<-'EOF'
-Usage: npm stars [user]
-Options:
+# stars [user] - View packages marked as favorites
     --registry <value>  The base URL of the npm registry.
-EOF
-
-    elif [[ "$*" == "npm start" ]]; then
-        cat <<-'EOF'
-Usage: npm start [args]...
-Options:
+# start [args]... - Start a package
     --ignore-scripts          If true, npm does not run scripts specified in package.json files.
     --script-shell <value>    The shell to use for scripts run with the npm exec, npm run and npm init <package-spec> commands.
-EOF
-
-    elif [[ "$*" == "npm stop" ]]; then
-        cat <<-'EOF'
-Usage: npm stop [args]...
-Options:
+# stop [args]... - Stop a package
     --ignore-scripts          If true, npm does not run scripts specified in package.json files.
     --script-shell <value>    The shell to use for scripts run with the npm exec, npm run and npm init <package-spec> commands.
-EOF
-
-    elif [[ "$*" == "npm team" ]]; then
-        cat <<-'EOF'
-Commands:
-    create    Create a new team.
-    destroy   Destroy a team.
-    add       Add a user to existing team.
-    rm        Using npm team rm you can also remove users from a team they belong to.
-    ls        If performed on an organization name, will return a list of existing teams under that organization.
-Options:
+# team - Manage organization teams and team memberships
     --registry <value>   The base URL of the npm registry.
     --otp <value>        This is a one-time password from a two-factor authenticator. 
     --parseable          Output parseable results from commands that write to standard output. 
     --json               Whether or not to output JSON data, rather than the normal output.
-EOF
-
-    elif [[ "$*" == "npm team "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@ 
-npm team create <scope:team>
-npm team destroy <scope:team>
-npm team add <scope:team> <user>
-npm team rm <scope:team> <user>
-npm team ls <scope>
-EOF
-
-    elif [[ "$*" == "npm test" ]]; then
-        cat <<-'EOF'
-Usage: npm test [args]...
-Options:
+## create <scope:team> - Create a new team.
+## destroy <scope:team> - Destroy a team.
+## add <scope:team> <user> - Add a user to existing team.
+## rm <scope:team> <user> - Using npm team rm you can also remove users from a team they belong to.
+## ls <scope> - If performed on an organization name, will return a list of existing teams under that organization.
+# test/tst/t [args]... - Test a package
     --ignore-scripts          If true, npm does not run scripts specified in package.json files.
     --script-shell <value>    The shell to use for scripts run with the npm exec, npm run and npm init <package-spec> commands.
-EOF
-
-    elif [[ "$*" == "npm token" ]]; then
-        cat <<-'EOF'
-Commands:
-    list        Shows a table of all active authentication tokens
-    create      Create a new authentication token.
-    revoke      Immediately removes an authentication token from the registry.
-Options:
+# token - Manage your authentication tokens
     --read-only          This is used to mark a token as unable to publish when configuring limited access tokens with the npm token create
     --cidr <value>       This is a list of CIDR address to be used when configuring limited access tokens with the npm token create command.
     --registry <value>   The base URL of the npm registry.
     --otp <value>        This is a one-time password from a two-factor authenticator. 
-EOF
-
-    elif [[ "$*" == "npm token "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@ 
-npm token list
-npm token revoke <id|token>
-npm token create
-options:
+## list - Shows a table of all active authentication tokens
+## create - Create a new authentication token.
   --read-only
   --cidr <value>
-EOF
-
-    elif [[ "$*" == "npm uninstall" ]]; then
-        cat <<-'EOF'
-Usage: npm uninstall <pkg>...
-Options:
+## revoke <id|token> - Immediately removes an authentication token from the registry.
+# uninstall/unlink/remove/rm/r/un <pkg>... - Remove a package
     -S --save                         Save installed packages to a package.json file as dependencies.
     -w --workspace <value>            Enable running a command in the context of the configured workspaces of the current project while filtering by running
     --workspaces                      Set to true to run the command in the context of all configured workspaces.
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
     --install-links                   When  set  file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
-EOF
-
-    elif [[ "$*" == "npm unpublish" ]]; then
-        cat <<-'EOF'
-Usage: npm unpublish [package-spec]
-Options:
+# unpublish [package-spec] - Remove a package from the registry
     --dry-run             Indicates that you don't want npm to make any changes and that it should only report what it would have done. 
     -f --force            Removes  various  protections  against unfortunate side effects, common mistakes, unnecessary performance degradation,
     -w --workspace <value>  Enable running a command in the context of the configured workspaces of the current project while filtering by running
     --workspaces          Set to true to run the command in the context of all configured workspaces.
-EOF
-
-    elif [[ "$*" == "npm unstar" ]]; then
-        cat <<-'EOF'
-Usage: npm unstar [package-spec]...
-Options:
+# unstar [package-spec]... - Remove an item from your favorite packages
     --registry <value>  The base URL of the npm registry.
     --unicode           When set to true, npm uses unicode characters in the tree output. 
     --otp <value>       This  is  a one-time password from a two-factor authenticator. 
-EOF
-
-    elif [[ "$*" == "npm update" ]]; then
-        cat <<-'EOF'
-Usage: npm update [pkg]...
-Options:
+# update/up/upgrade/udpate [pkg]... - Update packages
     -S --save                         Save installed packages to a package.json file as dependencies.
     -g --global                       Operates in "global" mode, so that packages are installed into the prefix folder instead of the current working direc‐
     --install-strategy <value>        Sets the strategy for installing packages in node_modules.  (hoisted, nested, shallow)
@@ -866,12 +452,7 @@ Options:
     --workspaces                      Set to true to run the command in the context of all configured workspaces.
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
     --install-links                   When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating  a  sym‐
-EOF
-
-    elif [[ "$*" == "npm version" ]]; then
-        cat <<-'EOF'
-Usage: npm version <ver>
-Options:
+# version/verison <ver> - Bump a package version
     --allow-same-version              Prevents throwing an error when npm version is used to set the new version to the same value as the current version.
     --commit-hooks                    Run git commit hooks when using the npm version command.
     --git-tag-version                 Tag the commit when using the npm version command. 
@@ -883,25 +464,15 @@ Options:
     --workspaces-update               If set to true, the npm cli will run an update after operations that may possibly change the workspaces  installed  to
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
     --Description <value>             
-EOF
-
-    elif [[ "$*" == "npm view" ]]; then
-        cat <<-'EOF'
-Usage: npm view <package-spec> <filed>
-Options:
+# view/info/show/v <package-spec> <filed> - View registry info
     --json                            Whether or not to output JSON data, rather than the normal output.
     -w --workspace <value>            Enable running a command in the context of the configured workspaces of the current project while filtering by running
     --workspaces                      Set to true to run the command in the context of all configured workspaces.
     --include-workspace-root          Include the workspace root when workspaces are enabled for a command.
     --Output <value>                  
-EOF
-
-    elif [[ "$*" == "npm whoami" ]]; then
-        cat <<-'EOF'
-Options:
+# whoami - Display npm username
     --registry <value>  The base URL of the npm registry.
 EOF
-    fi
 }
 
 _patch_table() {

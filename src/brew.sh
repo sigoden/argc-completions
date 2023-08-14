@@ -30,78 +30,52 @@ EOF
                 }
             }
         }'
+    else
+        embed_help="$( \
+        cat <<-'EOF' | _patch_help_embed_help $@
+# autoupdate%
+## stop - Stop autoupdating, but retain plist and logs.
+## delete - Cancel the autoupdate, delete the plist and logs.
+## status - Prints the current status of this tool.
+## version - Output this tool's current version, and a short changelog.
 
-    elif [[ "$*" == "brew autoupdate" ]]; then
-        $@ --help
-        cat <<-'EOF'
-Commands:
-    stop        Stop autoupdating, but retain plist and logs.
-    delete      Cancel the autoupdate, delete the plist and logs.
-    status      Prints the current status of this tool.
-    version     Output this tool's current version, and a short changelog.
-EOF
-    elif [[ "$*" == "brew autoupdate "* ]]; then
-        :;
+# bundle%
+## dump - Write all installed casks/formulae/images/taps into a Brewfile in the current directory.
+## cleanup - Uninstall all dependencies not listed from the Brewfile.
+## check - Check if all dependencies are installed from the Brewfile.
+## list - List all dependencies present in the Brewfile.
+## exec - Run an external command in an isolated build environment based on the Brewfile dependencies.
 
-    elif [[ "$*" == "brew bundle" ]]; then
-        $@ --help
-        cat <<-'EOF'
-Commands:
-    dump        Write all installed casks/formulae/images/taps into a Brewfile in the current directory.
-    cleanup     Uninstall all dependencies not listed from the Brewfile.
-    check       Check if all dependencies are installed from the Brewfile.
-    list        List all dependencies present in the Brewfile.
-    exec        Run an external command in an isolated build environment based on the Brewfile dependencies.
-EOF
+# casks
+# formulae
+# rubocop
+# shellenv
 
-    elif [[ "$*" == "brew bundle "* ]]; then
-        :;
-
-    elif [[ "$*" == "brew casks" ]] \
-      || [[ "$*" == "brew formulae" ]] \
-      || [[ "$*" == "brew rubocop" ]] \
-      || [[ "$*" == "brew shellenv" ]] \
-    ; then
-        :;
-
-    elif [[ "$*" == "brew services" ]]; then
-        $@ --help
-        cat <<-'EOF'
-Commands:
-    list            List information about all managed services for the current user (or root).
-    info            List all managed services for the current user (or root).
-    run             Run the service formula without registering to launch at login (or boot).
-    start           Start the service formula immediately and register it to launch at login (or boot).
-    stop            Stop the service formula immediately and unregister it from launching at login (or boot).
-    kill            Stop the service formula immediately but keep it registered to launch at login (or boot).
-    restart         Stop (if necessary) and start the service formula immediately and register it to launch at login (or boot).
-    cleanup         Remove all unused services.
-EOF
-
-    elif [[ "$*" == "brew services "* ]]; then
-        cat <<-'EOF' | _patch_help_select_subcmd $@
-brew services list
+# services%
+## list - List information about all managed services for the current user (or root).
     --json
-brew services info [formula]
+## info [formula] - List all managed services for the current user (or root).
     --all
     --json
-brew services run [formula]
+## run [formula] - Run the service formula without registering to launch at login (or boot).
     --all
-brew services start [formula]
+## start [formula] - Start the service formula immediately and register it to launch at login (or boot).
     --all
     --file <file>
-brew services stop [formula]
+## stop [formula] - Stop the service formula immediately and unregister it from launching at login (or boot).
     --all
-brew services kill [formula]
+## kill [formula] - Stop the service formula immediately but keep it registered to launch at login (or boot).
     --all
-brew services restart [formula]
+## restart [formula] - Stop (if necessary) and start the service formula immediately and register it to launch at login (or boot).
     --all
-brew services cleanup
+## cleanup - Remove all unused services.
     --all
 EOF
-
-    else
-        $@ --help | sed 's/^Usage: brew \(\S\+\)\(, [a-z0-9-]\+\)\+/Usage: brew \1/'
+)"
+        echo "$embed_help"
+        if [[ -z "$embed_help" ]] || grep -q __HELP_CMD__ <<<"$embed_help"; then 
+            $@ --help | sed 's/^Usage: brew \(\S\+\)\(, [a-z0-9-]\+\)\+/Usage: brew \1/'
+        fi
     fi
 }
 
@@ -147,6 +121,10 @@ _patch_table() {
     elif [[ "$*" == "brew prof" ]]; then
         _patch_table_edit_arguments \
             'command;~[`_choice_prof_command`]' \
+
+    elif [[ "$*" == "brew services"* ]]; then
+        _patch_table_edit_arguments \
+            'formula;[`_choice_suggest_service`]' \
 
     elif [[ "$*" == "brew style" ]]; then
         _patch_table_edit_arguments \

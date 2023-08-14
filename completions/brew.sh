@@ -188,6 +188,18 @@ cleanup() {
 }
 # }} brew cleanup
 
+# {{ brew commands
+# @cmd Show lists of built-in and external commands.
+# @flag -q --quiet           List only the names of commands without category headers.
+# @flag --include-aliases    Include aliases of internal commands.
+# @flag -d --debug           Display any debugging information.
+# @flag -v --verbose         Make some output more verbose.
+# @flag -h --help            Show this message.
+commands() {
+    :;
+}
+# }} brew commands
+
 # {{ brew completions
 # @cmd Control whether Homebrew automatically links external tap shell completion files.
 # @flag -d --debug      Display any debugging information.
@@ -1696,7 +1708,7 @@ services::list() {
 # @cmd List all managed services for the current user (or root).
 # @flag --all
 # @flag --json
-# @arg formula[`_choice_suggest_formula`]
+# @arg formula[`_choice_suggest_service`]
 services::info() {
     :;
 }
@@ -1705,7 +1717,7 @@ services::info() {
 # {{{ brew services run
 # @cmd Run the service formula without registering to launch at login (or boot).
 # @flag --all
-# @arg formula[`_choice_suggest_formula`]
+# @arg formula[`_choice_suggest_service`]
 services::run() {
     :;
 }
@@ -1715,7 +1727,7 @@ services::run() {
 # @cmd Start the service formula immediately and register it to launch at login (or boot).
 # @flag --all
 # @option --file <file>
-# @arg formula[`_choice_suggest_formula`]
+# @arg formula[`_choice_suggest_service`]
 services::start() {
     :;
 }
@@ -1724,7 +1736,7 @@ services::start() {
 # {{{ brew services stop
 # @cmd Stop the service formula immediately and unregister it from launching at login (or boot).
 # @flag --all
-# @arg formula[`_choice_suggest_formula`]
+# @arg formula[`_choice_suggest_service`]
 services::stop() {
     :;
 }
@@ -1733,7 +1745,7 @@ services::stop() {
 # {{{ brew services kill
 # @cmd Stop the service formula immediately but keep it registered to launch at login (or boot).
 # @flag --all
-# @arg formula[`_choice_suggest_formula`]
+# @arg formula[`_choice_suggest_service`]
 services::kill() {
     :;
 }
@@ -1742,7 +1754,7 @@ services::kill() {
 # {{{ brew services restart
 # @cmd Stop (if necessary) and start the service formula immediately and register it to launch at login (or boot).
 # @flag --all
-# @arg formula[`_choice_suggest_formula`]
+# @arg formula[`_choice_suggest_service`]
 services::restart() {
     :;
 }

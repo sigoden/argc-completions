@@ -46,27 +46,22 @@ _patch_help_cmd_wrapper() {
 
 # Run man to get help
 _patch_help_run_man() {
-    if [[ "$(uname -s)" == "Darwin" ]]; then
-        man $@ | col -bx
+    if [[ $# -eq  1 ]]; then
+        key=$1
     else
-        man $@
+        key="$(printf "%s-" "$@")"
+        key="${key%-}"
+    fi
+    if [[ "$(uname -s)" == "Darwin" ]]; then
+        man $key 2>/dev/null | col -bx
+    else
+        man $key 2>/dev/null
     fi
 }
 
-# Select subcmd help text
-# Example:
-# ```
-# cat <<-'EOF' | _patch_help_select_subcmd $@ 
-# yarn config set <key> <value>
-# options:
-#     -g --global   Use global config
-# yarn config get <key>
-# yarn config delete <key>
-# yarn config list
-# EOF
-# ```
-_patch_help_select_subcmd() {
-    gawk -v v1="^$1 " -v v2="^$*($| )" '$0 ~ v1 { x = 0; } $0 ~ v2 { x=1; print "Usage: " $0 } /^(options:|\s+-)/ && x == 1 { print $0 }'
+# Embed help
+_patch_help_embed_help() {
+    gawk -v RAW_ARGS="$*" -f "$ROOT_DIR/utils/_patch_utils/embed-help.awk"
 }
 
 # Split 2-column options
