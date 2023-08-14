@@ -1220,21 +1220,6 @@ failed;;max number of probes exceeded without success, neighbor validation has u
 EOF
 }
 
-_choice_ip_route_encaphdr() {
-    printf "%s\n" mpls ip bpf seg6 seg6local ioam6
-}
-
-_choice_ip_route_encaptype() {
-    cat <<-'EOF'
-mpls	encapsulation type MPLS
-ip	IP encapsulation (Geneve, GRE, VXLAN, ...)
-bpf	Execution of BPF program
-seg6	encapsulation type IPv6 Segment Routing
-seg6local	local SRv6 segment processing
-ioam6	encapsulation type IPv6 IOAM
-EOF
-}
-
 _choice_ip_route_type() {
     cat <<-'EOF'
 unicast	the route entry describes real paths to the destinations covered by the route prefix.
@@ -1487,7 +1472,7 @@ protocol=redirect,kernel,boot,static,ra;;the routing protocol identifier of this
 onlink;;pretend that the nexthop is directly attached to this link, even if it does not match any interface prefix.
 pref=low,medium,high;;the IPv6 route preference.
 nhid=;;use nexthop object with given id as nexthop specification.
-encap=`_choice_ip_route_encaptype`;`_choice_ip_route_encaphdr`;;attach tunnel encapsulation attributes to this route.
+encap=;;attach tunnel encapsulation attributes to this route.
 expires=;;the route will be deleted after the expires time.
 ttl-propagate=enabled,disabled;;Control whether TTL should be propagated from any encap into the un-encapsulated packet, overriding any global configuration.
 EOF

@@ -130,6 +130,8 @@ END {
                     if (match(trimed, /^([^ ,[\]]+ ){4, }/) && !match(trimed, /(  |\t)/)) {
                     } else if (match(trimed, /^[a-z0-9_][A-Za-z0-9_.-]*(\*)?($|\s|,)/)) {
                         commands[length(commands) + 1] = trimed
+                    } else if (match(trimed, /^\\-/)) {
+                        commands[length(commands) + 1] = substr(trimed, 2)
                     }
                 }
             }

@@ -53,6 +53,9 @@ END {
                     cmdName = arr[2]
                     gsub(/%$/, "", cmdName)
                     gsub(/\//, ", ", cmdName)
+                    if (substr(cmdName, 1, 1) == "-") {
+                        cmdName = "\\" cmdName
+                    }
                     print "  " cmdName "    " extractDesc(line)
                     commandEnding = 1
                 } else if (level < CMD_LEVEL) {
