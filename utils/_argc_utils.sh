@@ -442,7 +442,7 @@ _argc_util_parallel() {
 # }
 # ```
 _argc_util_param_select_options() {
-    local option option_name option_var option_val
+    local option option_name option_var option_val declar_val item
     for option in "$@"; do
         if [[ "$option" == '--'* ]]; then
             option_name="${option#*--}"
@@ -453,12 +453,21 @@ _argc_util_param_select_options() {
         fi
         option_name="${option_name//-/_}"
         option_var="argc_$option_name"
-        option_val="${!option_var}"
-        if [[ -n "$option_val" ]]; then
-            if [[ "$option_val" -eq 1 ]]; then
-                echo -n " $option"
+        declar_val=$(declare -p $option_var 2>/dev/null)
+        if [[ -n "$declar_val" ]]; then
+            if [[ "$declar_val" =~ "declare -a" ]]; then
+                option_var="$option_var[@]"
+                option_val=( "${!option_var}" )
+                for item in "${option_val[@]}"; do
+                    printf " %s %q" "$option" "$item"
+                done
             else
-                echo -n " $option $option_val"
+                option_val="${!option_var}"
+                if [[ "$option_val" == "1" ]]; then
+                    printf " %s" "$option"
+                else
+                    printf " %s %q" "$option" "$option_val"
+                fi
             fi
         fi
     done
@@ -708,7 +717,7 @@ _argc_util_transform_table() {
                 COLS_INDEX[i] = idx
                 if (match(remainLine, /\s+\S/)) {
                     COLS_LEN[i] = colLen + RLENGTH - 1
-                } else if (match(remainLine, /\s+$/)) {
+                } else if (match(remainLine, /\s*$/)) {
                     COLS_LEN[i] = colLen + RLENGTH
                 } else {
                     next

@@ -21,7 +21,7 @@ BEGIN {
     line = $0
     LINE_NUM += 1
     LINES[LINE_NUM] = line
-    if (match(line, /^(\w+)\(\)\s*\{/, arr)) {
+    if (match(line, /^(\w+)\(\)\s*\{\s*$/, arr)) {
         fnName = arr[1]
         fnEntry = LINE_NUM
         fnZone = 1
@@ -31,7 +31,7 @@ BEGIN {
         if (!match(fnName, /^_patch/)) {
             FUNC_NAMES[length(FUNC_NAMES) + 1] = fnName
         }
-    } else if (match(line, /^\}$/) && fnZone == 1) {
+    } else if (match(line, /^\}\s*$/) && fnZone == 1) {
         FUNC_NUM = FUNC_NUM + 1
         FUNCS[FUNC_NUM, 1] = fnName
         FUNCS[FUNC_NUM, 2] = fnEntry

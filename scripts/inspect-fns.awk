@@ -15,12 +15,12 @@ BENGIN {
 END {
     for (i = 1; i <= LINE_NUM; i++) {
         line = LINES[i]
-        if (match(line, /^(_\w+)\s*\(\)\s+\{/, arr) && !match(arr[1], /^_patch/)) {
+        if (match(line, /^(_\w+)\s*\(\)\s+\{\s*$/, arr) && !match(arr[1], /^_patch/)) {
             fnName = arr[1]
             fnEntry = i
             fnZone = 1
             fnDeps = ""
-        } else if (match(line, /^\}$/) && fnZone == 1) {
+        } else if (match(line, /^\}\s*$/) && fnZone == 1) {
             FUNC_NUM = FUNC_NUM + 1
             FUNCS[FUNC_NUM, 1] = fnName
             FUNCS[FUNC_NUM, 2] = fnEntry
