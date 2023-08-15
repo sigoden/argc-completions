@@ -35,6 +35,14 @@
 # @option --installroot <DIR>           Operate on a different root directory, but share repositories with the host.
 # @flag --disable-system-resolvables    Do not read installed packages.
 
+# {{ zypper shell
+# @cmd Accept multiple commands at once.
+# @alias sh
+shell() {
+    :;
+}
+# }} zypper shell
+
 # {{ zypper repos
 # @cmd List all defined repositories.
 # @alias lr

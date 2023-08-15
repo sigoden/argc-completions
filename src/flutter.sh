@@ -7,7 +7,10 @@ _patch_help() {
     }
 
     if [[ "$*" == "flutter" ]]; then
-        $@ --help | sed '1, /^Usage:/ d'
+        $@ --help | \
+        sed \
+            -e '1, /^Usage:/ d'  \
+            -e '/^\(Flutter SDK\|Project\|Tools & Devices\)/ d' \
 
     elif [[ "$*" == "flutter assemble" ]]; then
         $@ --help | \
