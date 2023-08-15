@@ -2,8 +2,16 @@ _module_os_user() {
     command cat /etc/passwd | gawk -F: '{split($5,descs,","); print $1 "\t" descs[1]}'
 }
 
+_module_os_uid() {
+    command cat /etc/passwd | gawk -F: '{print $3 "\t" $1}'
+}
+
 _module_os_group() {
     command cat /etc/group | gawk -F: '{print $1 "\t" $4}'
+}
+
+_module_os_gid() {
+    command cat /etc/group | gawk -F: '{print $3 "\t" $1}'
 }
 
 _module_os_pid() {

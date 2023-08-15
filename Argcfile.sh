@@ -156,6 +156,7 @@ xtest() {
 }
 
 # @cmd Format the src file
+# @alias fmt
 # @arg names*[`_choice_src_name`]
 format() {
     for name in ${argc_names[@]}; do

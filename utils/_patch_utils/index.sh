@@ -174,9 +174,9 @@ _patch_table_copy_options() {
 # Detect value type
 _patch_table_detect_value_type() {
     sed \
-        -e 's/^\(option # -\S\+\( -\S\+\)*\) \(stringArray\|strings\)/\1 string.../' \
-        -e '/dir/ s/^\(option # -\S\+\( -\S\+\)*\) \S*[Ss]tring/\1 dir/' \
-        -e '/file/ s/^\(option # -\S\+\( -\S\+\)*\) \S*[Ss]tring/\1 file/' \
-        -e '/[Pp]ath\|\blocation\b\|[Dd]estination\|save/ s/^\(option # -\S\+\( -\S\+\)*\) \S*[Ss]tring/\1 path/' \
+        -e 's/^\(option # -\S\+\( -\S\+\)*\) \(stringarray\|strings\)/\1 string.../I' \
+        -e '/dir/ s/^\(option # -\S\+\( -\S\+\)*\) \S*string/\1 dir/I' \
+        -e '/file/ s/^\(option # -\S\+\( -\S\+\)*\) \S*string/\1 file/I' \
+        -e '/[Pp]ath\|\blocation\b\|[Dd]estination\|save/ s/^\(option # -\S\+\( -\S\+\)*\) \S*string/\1 path/I' \
 
 }

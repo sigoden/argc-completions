@@ -69,6 +69,9 @@ END {
                 groupName = ""
             }
             if (match(santizedLine, /\s*(flags|options)(:\s*$|$)/)) {
+                if (LINES[i+1, 2] == "") {
+                    i += 1
+                }
                 if (isOptionLine(getNoneEmptyLineIndex(i))) {
                     groupName = "option"
                     continue
@@ -79,6 +82,9 @@ END {
                     continue
                 }
             } else if (match(santizedLine, /\s*(commands|subcommands)(:\s*$|$)/)) {
+                if (LINES[i+1, 2] == "") {
+                    i += 1
+                }
                 if (LINES[i+1, 3] > spaces) {
                     groupName = "command"
                     continue
