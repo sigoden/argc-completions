@@ -212,8 +212,8 @@ _patch_table() {
 
     elif [[ "$*" == "mix archive.build" ]]; then
         _patch_table_edit_options  \
-            '-i(<name>)' \
             '-o(<path>)' \
+            '-i(<name>)' \
 
     elif [[ "$*" == "mix cmd" ]]; then
         _patch_table_edit_options  \
@@ -236,10 +236,10 @@ _patch_table() {
 
     elif [[ "$*" == "mix deps.tree" ]]; then
         _patch_table_edit_options  \
-            '--exclude;*[`_choice_dependency`]' \
-            '--format;[pretty|plain|dot]' \
             '--only(<value>)' \
             '--target(<value>)' \
+            '--exclude;*[`_choice_dependency`]' \
+            '--format;[pretty|plain|dot]' \
 
     elif [[ "$*" == "mix deps.unlock" ]]; then
         _patch_table_edit_options  \
@@ -312,24 +312,24 @@ _patch_table() {
     ; then
         _patch_table_edit_options  \
             '--app(<name>)' \
-            '--binary-id(<value>)' \
-            '--database;[postgres|mysql|mssql|sqlite3]' \
             '--module(<name>)' \
+            '--database;[postgres|mysql|mssql|sqlite3]' \
+            '--binary-id(<value>)' \
 
     elif [[ "$*" == "mix profile.cprof" ]]; then
         _patch_table_edit_options  \
-            '--eval(<code>)' \
-            '--limit(<n>)' \
             '--matching(<pattern>)' \
+            '--limit(<n>)' \
             '--module(<name>)' \
+            '--eval(<code>)' \
 
 
     elif [[ "$*" == "mix profile.fprof" ]]; then
         _patch_table_edit_options  \
-            '--eval(<code>)' \
-            '--require(<file>)' \
             '--sort;[acc|own]' \
             '--trace-to-file(<file>)' \
+            '--eval(<code>)' \
+            '--require(<file>)' \
 
     elif [[ "$*" == "mix release" ]]; then
         _patch_table_edit_options  \
@@ -345,7 +345,6 @@ _patch_table() {
         _patch_table_edit_options  \
             '--cover(<value>)' \
             '--exit-status(<n>)' \
-            '--export-converage(<value>)' \
             '--formatter(<value>)' \
             '--include(<value...>)' \
             '--max-cases(<n>)' \
@@ -353,6 +352,7 @@ _patch_table() {
             '--partitions(<n>)' \
             '--seed(<n>)' \
             '--timeout(<n>)' \
+            '--export-converage(<value>)' \
 
     elif [[ "$*" == "mix xref" ]]; then
         _patch_table_edit_options  \
@@ -367,10 +367,10 @@ _patch_table() {
     fi
 }
 
-_choice_dependency() {
-    mix deps.get | sed -n 's/^  \(\S\+\) .*$/\1/p'
-}
-
 _choice_task() {
     mix help | sed -n 's/mix \(\S\+\)\s*# \(.*\)$/\1\t\2/p'
+}
+
+_choice_dependency() {
+    mix deps.get | sed -n 's/^  \(\S\+\) .*$/\1/p'
 }

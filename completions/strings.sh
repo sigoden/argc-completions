@@ -20,6 +20,14 @@
 # @flag --version                              Print the program's version number
 # @arg files*
 
+_choice_radix() {
+    cat <<-'EOF'
+o	8
+d	10
+x	16
+EOF
+}
+
 _choice_encoding() {
     cat <<-'EOF'
 s	7-bit
@@ -28,14 +36,6 @@ b	16-bit
 l	16-bit
 B	32-bit
 L	32-bit
-EOF
-}
-
-_choice_radix() {
-    cat <<-'EOF'
-o	8
-d	10
-x	16
 EOF
 }
 

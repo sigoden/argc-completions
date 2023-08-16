@@ -1188,12 +1188,12 @@ hpc::report() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_dependency() {
-    stack ls dependencies | gawk '{print $1}'
-}
-
 _choice_target() {
     stack ide targets
+}
+
+_choice_dependency() {
+    stack ls dependencies | gawk '{print $1}'
 }
 
 _choice_target_or_file() {

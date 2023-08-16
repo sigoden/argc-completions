@@ -5,11 +5,11 @@ _patch_help() {
 }
 
 _patch_table() { 
-    if [[ "$*" == "localectl set-keymap" ]]; then
-        _patch_table_edit_arguments ';;' 'map;*[`_choice_map`]'
-
-    elif [[ "$*" == "localectl set-locale" ]]; then
+    if [[ "$*" == "localectl set-locale" ]]; then
         _patch_table_edit_arguments ';;' 'loacle;*[`_choice_locale`]'
+
+    elif [[ "$*" == "localectl set-keymap" ]]; then
+        _patch_table_edit_arguments ';;' 'map;*[`_choice_map`]'
 
     elif [[ "$*" == "localectl set-x11-keymap" ]]; then
         _patch_table_edit_arguments ';;' \

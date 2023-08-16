@@ -56,12 +56,12 @@ _patch_table() {
     fi
 }
 
-_choice_available_version() {
-    pyenv install --list | sed "s/^[[:space:]]*//"
-}
-
 _choice_command() {
     pyenv exec --complete
+}
+
+_choice_installed_version() {
+    pyenv versions --bare
 }
 
 _choice_install() {
@@ -72,10 +72,10 @@ _choice_install() {
     _choice_available_version
 }
 
-_choice_installed_version() {
-    pyenv versions --bare
-}
-
 _choice_prefix() {
     pyenv prefix --complete
+}
+
+_choice_available_version() {
+    pyenv install --list | sed "s/^[[:space:]]*//"
 }

@@ -78,6 +78,11 @@ _choice_device() {
     fi
 }
 
+_choice_save_config() {
+    echo all
+    _choice_device_udi
+}
+
 _choice_device_udi() {
     hwinfo --all | \
     gawk '{
@@ -87,11 +92,6 @@ _choice_device_udi() {
             print id "\t" arr[1]
         }
     }'
-}
-
-_choice_save_config() {
-    echo all
-    _choice_device_udi
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

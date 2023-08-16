@@ -87,12 +87,12 @@
 # @flag --check-version                          Check whether PHPUnit is the latest version
 # @arg unittest-php <UnitTest.php>
 
-_choice_group() {
-    phpunit --list-suites | tail -n +4 | sed -e 's/^\s*- //' -e 's/.$//'
-}
-
 _choice_suite() {
     phpunit --list-groups | tail -n +4 | sed -e 's/^\s*- //' -e 's/.$//'
+}
+
+_choice_group() {
+    phpunit --list-suites | tail -n +4 | sed -e 's/^\s*- //' -e 's/.$//'
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

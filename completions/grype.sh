@@ -141,6 +141,13 @@ version() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
+_choice_image() {
+    if [[ $ARGC_FILTER != *':'* ]]; then
+        _argc_util_comp_path
+    fi
+    _argc_util_parallel _module_oci_docker_image ::: _choice_provider
+}
+
 _choice_docker_image() {
     if [[ "$argc__kv_filter" == *':'* ]]; then
         prefix="$argc__kv_prefix${argc__kv_filter%%:*}:"
@@ -149,13 +156,6 @@ _choice_docker_image() {
     fi
     ARGC_FILTER="$argc__kv_filter" _module_oci_docker_image
     echo "__argc_prefix=$prefix"
-}
-
-_choice_image() {
-    if [[ $ARGC_FILTER != *':'* ]]; then
-        _argc_util_comp_path
-    fi
-    _argc_util_parallel _module_oci_docker_image ::: _choice_provider
 }
 
 _choice_podman_image() {

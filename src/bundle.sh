@@ -67,16 +67,19 @@ _patch_table() {
             'pack' \
             'package' \
 
+    elif [[ "$*" == "bundle update" ]]; then
+        _patch_table_edit_arguments ';;' 'gem;*[`_choice_dependency`]'
+
     elif [[ "$*" == "bundle add" ]]; then
         _patch_table_edit_options \
-            '--branch(<value>)' \
+            '--version(<value>)' \
+            '--group(<value>)' \
+            '--source(<value>)' \
+            '--path(<path>)' \
             '--git(<value>)' \
             '--github(<value>)' \
-            '--group(<value>)' \
-            '--path(<path>)' \
+            '--branch(<value>)' \
             '--ref(<value>)' \
-            '--source(<value>)' \
-            '--version(<value>)' \
         | \
         _patch_table_edit_arguments ';;' 'gem;[`_choice_package`]'
 
@@ -92,11 +95,11 @@ _patch_table() {
             '--gemfile(<file>)' \
             '--path(<path>)' \
 
-    elif [[ "$*" == "bundle init" ]]; then
+    elif [[ "$*" == "bundle outdated" ]]; then
         _patch_table_edit_options \
-            '--gemfile(<file>)' \
-            '--gemspec(<file:.gemspec>)' \
-
+            '--source(<value>)' \
+        | \
+        _patch_table_edit_arguments ';;' 'gem;*[`_choice_dependency`]'
 
     elif [[ "$*" == "bundle open" ]]; then
         _patch_table_edit_options \
@@ -104,27 +107,23 @@ _patch_table() {
         | \
         _patch_table_edit_arguments ';;' 'gem;*[`_choice_dependency`]'
 
-    elif [[ "$*" == "bundle outdated" ]]; then
-        _patch_table_edit_options \
-            '--source(<value>)' \
-        | \
-        _patch_table_edit_arguments ';;' 'gem;*[`_choice_dependency`]'
-
-    elif [[ "$*" == "bundle plugin uninstall" ]]; then
-        _patch_table_edit_arguments ';;' 'plugin;*[`_choice_plugin`]'
-
-    elif [[ "$*" == "bundle remove" ]]; then
-        _patch_table_edit_arguments ';;' 'gem;*[`_choice_dependency`]'
-
-    elif [[ "$*" == "bundle update" ]]; then
-        _patch_table_edit_arguments ';;' 'gem;*[`_choice_dependency`]'
-
     elif [[ "$*" == "bundle viz" ]]; then
         _patch_table_edit_options \
             '--file(<value>)' \
             '--format(<value>)' \
-            '--format(<value>)' \
             '--without(<value...>)' \
+
+    elif [[ "$*" == "bundle init" ]]; then
+        _patch_table_edit_options \
+            '--gemspec(<file:.gemspec>)' \
+            '--gemfile(<file>)' \
+
+
+    elif [[ "$*" == "bundle remove" ]]; then
+        _patch_table_edit_arguments ';;' 'gem;*[`_choice_dependency`]'
+
+    elif [[ "$*" == "bundle plugin uninstall" ]]; then
+        _patch_table_edit_arguments ';;' 'plugin;*[`_choice_plugin`]'
 
     else
         cat

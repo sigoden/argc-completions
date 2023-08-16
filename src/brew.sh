@@ -86,29 +86,20 @@ _patch_table() {
             '--cellar;*[`_choice_suggest_formula`]' \
         | \
         _patch_table_edit_commands \
+            'uninstall(uninstall, remove, rm)' \
+            'list(list, ls)' \
             'doctor(doctor, dr)' \
             'home(home, homepage)' \
             'info(info, abv)' \
             'link(link, ls)' \
-            'list(list, ls)' \
             'livecheck(livecheck, lc)' \
             'typecheck(typecheck, tc)' \
-            'uninstall(uninstall, remove, rm)' \
-
-    elif [[ "$*" == "brew alias" ]]; then
-        _patch_table_edit_arguments \
-            ';;' \
-            'alias;*[`_choice_alias`]' \
 
     elif [[ "$*" == "brew analytics" ]] \
       || [[ "$*" == "brew developer" ]] \
     ; then
         _patch_table_edit_arguments \
             'subcommand;[state|on|off]' \
-
-    elif [[ "$*" == "brew bottle" ]]; then
-        _patch_table_edit_arguments \
-            'installed_formula-file;[`_choice_installed_formula_file`]' \
 
     elif [[ "$*" == "brew completions" ]]; then
         _patch_table_edit_arguments \
@@ -118,17 +109,26 @@ _patch_table() {
         _patch_table_edit_arguments \
             'formula-cask;[`_choice_outdated_formula_cask`]' \
 
+    elif [[ "$*" == "brew bottle" ]]; then
+        _patch_table_edit_arguments \
+            'installed_formula-file;[`_choice_installed_formula_file`]' \
+
     elif [[ "$*" == "brew prof" ]]; then
         _patch_table_edit_arguments \
             'command;~[`_choice_prof_command`]' \
 
-    elif [[ "$*" == "brew services"* ]]; then
-        _patch_table_edit_arguments \
-            'formula;[`_choice_suggest_service`]' \
-
     elif [[ "$*" == "brew style" ]]; then
         _patch_table_edit_arguments \
             ';;' 'file-tap-formula-cask;*[`_choice_file_tap_formula_cask`]' \
+
+    elif [[ "$*" == "brew alias" ]]; then
+        _patch_table_edit_arguments \
+            ';;' \
+            'alias;*[`_choice_alias`]' \
+
+    elif [[ "$*" == "brew services"* ]]; then
+        _patch_table_edit_arguments \
+            'formula;[`_choice_suggest_service`]' \
 
     elif [[ "$*" == "brew which-formula" ]]; then
         _patch_table_edit_arguments \
@@ -149,26 +149,16 @@ _patch_table() {
     fi
 }
 
-_choice_alias() {
-    brew alias | sed "s/^brew alias \([^=]\+\)='\(.*\)'$/\1\t\2/"   
+_choice_suggest_formula_cask() {
+    if [[ -z "$argc_cask" ]] && [[ -z "$argc_casks" ]]; then
+        _choice_suggest_formula
+    elif [[ -z "$argc_formula" ]] && [[ -z "$argc_formulae" ]]; then
+        _choice_suggest_cask
+    fi
 }
 
-_choice_cask_tap() {
-    _choice_suggest_cask
-    _choice_tap
-}
-
-_choice_file_tap_formula_cask() {
-    _argc_util_comp_path
-    _argc_util_parallel _choice_suggest_cask ::: _choice_suggest_formula ::: _choice_tap
-}
-
-_choice_installed_cask() {
-    brew list --cask | sed 's/\s\+/\n/'
-}
-
-_choice_installed_formula() {
-    brew list --formula | sed 's/\s\+/\n/'
+_choice_suggest_formula() {
+    brew formulae
 }
 
 _choice_installed_formula_cask() {
@@ -179,17 +169,12 @@ _choice_installed_formula_cask() {
     fi
 }
 
-_choice_installed_formula_file() {
-    _argc_util_comp_path
-    _choice_installed_formula
+_choice_suggest_diagnostic_check() {
+    brew doctor --list-checks
 }
 
-_choice_outdated_cask() {
-    brew outdated --cask | sed 's/\s/\t/'
-}
-
-_choice_outdated_formula() {
-    brew outdated --formula | sed 's/\s/\t/'
+_choice_installed_formula() {
+    brew list --formula | sed 's/\s\+/\n/'
 }
 
 _choice_outdated_formula_cask() {
@@ -200,34 +185,49 @@ _choice_outdated_formula_cask() {
     fi
 }
 
-_choice_prof_command() {
-    _argc_util_comp_subcommand 0 brew
+_choice_tap() {
+    brew tap
+}
+
+_choice_installed_formula_file() {
+    _argc_util_comp_path
+    _choice_installed_formula
 }
 
 _choice_suggest_cask() {
     brew casks
 }
 
-_choice_suggest_diagnostic_check() {
-    brew doctor --list-checks
+_choice_cask_tap() {
+    _choice_suggest_cask
+    _choice_tap
 }
 
-_choice_suggest_formula() {
-    brew formulae
+_choice_prof_command() {
+    _argc_util_comp_subcommand 0 brew
 }
 
-_choice_suggest_formula_cask() {
-    if [[ -z "$argc_cask" ]] && [[ -z "$argc_casks" ]]; then
-        _choice_suggest_formula
-    elif [[ -z "$argc_formula" ]] && [[ -z "$argc_formulae" ]]; then
-        _choice_suggest_cask
-    fi
+_choice_file_tap_formula_cask() {
+    _argc_util_comp_path
+    _argc_util_parallel _choice_suggest_cask ::: _choice_suggest_formula ::: _choice_tap
+}
+
+_choice_alias() {
+    brew alias | sed "s/^brew alias \([^=]\+\)='\(.*\)'$/\1\t\2/"   
 }
 
 _choice_suggest_service() {
     brew services list | gawk '{if (NR > 1) {print $1}}'
 }
 
-_choice_tap() {
-    brew tap
+_choice_installed_cask() {
+    brew list --cask | sed 's/\s\+/\n/'
+}
+
+_choice_outdated_cask() {
+    brew outdated --cask | sed 's/\s/\t/'
+}
+
+_choice_outdated_formula() {
+    brew outdated --formula | sed 's/\s/\t/'
 }

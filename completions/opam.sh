@@ -1962,6 +1962,14 @@ unpin() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
+_choice_installed_switch() {
+    opam switch list-available --safe -s
+}
+
+_choice_installed_switch() {
+    opam switch list-available --safe -s
+}
+
 _choice_columns() {
     printf "%s\n" \
         name version package synopsis synopsis-or-target \
@@ -1971,20 +1979,13 @@ _choice_columns() {
 
 }
 
-_choice_installed_package() {
-    opam list --safe -i -s
-}
+_choice_var() {
+    opam $(_argc_util_param_select_options --global) var --safe | \
+    sed -n \
+        -e '/^PKG:/ d' \
+        -e '/<><>/ d' \
+        -e 's%^\([^#= ][^ ]*\).*%\1%p' \
 
-_choice_installed_pin() {
-    opam pin list --safe -s   
-}
-
-_choice_installed_switch() {
-    opam switch list-available --safe -s
-}
-
-_choice_installed_switch() {
-    opam switch list-available --safe -s
 }
 
 _choice_package() {
@@ -1995,21 +1996,20 @@ _choice_pin() {
     opam pin list --safe -A -s   
 }
 
+_choice_installed_pin() {
+    opam pin list --safe -s   
+}
+
+_choice_installed_package() {
+    opam list --safe -i -s
+}
+
 _choice_repository() {
     opam repository list --safe -a -s
 }
 
 _choice_update() {
     _argc_util_parallel _choice_repository ::: _choice_installed_pin
-}
-
-_choice_var() {
-    opam $(_argc_util_param_select_options --global) var --safe | \
-    sed -n \
-        -e '/^PKG:/ d' \
-        -e '/<><>/ d' \
-        -e 's%^\([^#= ][^ ]*\).*%\1%p' \
-
 }
 
 _module_os_command() {

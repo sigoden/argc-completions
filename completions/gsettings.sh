@@ -123,6 +123,16 @@ monitor() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
+_choice_schema_path() {
+    _argc_util_mode_kv :
+    if [[ -z "$argc__kv_prefix" ]]; then
+        _choice_schema
+        _choice_relocatable_schema | _argc_util_transform suffix=: nospace
+    else
+        _argc_util_comp_path
+    fi
+}
+
 _choice_key() {
     if [[ -z "$argc_schema_path" ]]; then
         return
@@ -136,16 +146,6 @@ _choice_relocatable_schema() {
 
 _choice_schema() {
     _gsettings list-schemas
-}
-
-_choice_schema_path() {
-    _argc_util_mode_kv :
-    if [[ -z "$argc__kv_prefix" ]]; then
-        _choice_schema
-        _choice_relocatable_schema | _argc_util_transform suffix=: nospace
-    else
-        _argc_util_comp_path
-    fi
 }
 
 _gsettings() {

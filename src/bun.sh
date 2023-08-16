@@ -6,8 +6,16 @@ _patch_help() {
             -e 's/^  \(\S\+\)\s\{2,\}\(\S\+\( \S\+\)*\)\?\s\{2,\}\(\S.*\)$/  \1\t\4/' \
             -e '/ (bun \w\+)$/ s/  \(\w\+\)\(.*\)(bun \(\w\+\))$/  \1, \3\2/' \
         
-    elif [[ "$*" == "bun add" ]] \
-      || [[ "$*" == "bun install" ]] \
+    elif [[ "$*" == "bun run" ]]; then
+        echo "Usage: bun run [script_or_bin]..."
+        $@ --help | sed '/----/,$ d'
+
+    elif [[ "$*" == "bun create" ]]; then
+        echo "Usage: bun create <pkg> [args]..."
+        $@ --help
+
+    elif [[ "$*" == "bun install" ]] \
+      || [[ "$*" == "bun add" ]] \
       || [[ "$*" == "bun link" ]] \
       || [[ "$*" == "bun remove" ]] \
       || [[ "$*" == "bun unlink" ]] \
@@ -15,15 +23,7 @@ _patch_help() {
         echo "Usage: $* <pkg>"
         $@ --help
 
-    elif [[ "$*" == "bun create" ]]; then
-        echo "Usage: bun create <pkg> [args]..."
-        $@ --help
-
     elif [[ "$*" == "bun dev" ]]; then
-        $@ --help | sed '/----/,$ d'
-
-    elif [[ "$*" == "bun run" ]]; then
-        echo "Usage: bun run [script_or_bin]..."
         $@ --help | sed '/----/,$ d'
 
     else
@@ -57,14 +57,22 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_arguments ';;' '[args]...;[`_choice_script_or_bin`]'
 
+    elif [[ "$*" == "bun run" ]]; then
+        echo "$table" | _patch_table_edit_arguments ';;' 'script_or_bin;[`_choice_script_or_bin`]'
     elif [[ "$*" == "bun remove" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'pkg;[`_choice_dependency`]'
 
-    elif [[ "$*" == "bun run" ]]; then
-        echo "$table" | _patch_table_edit_arguments ';;' 'script_or_bin;[`_choice_script_or_bin`]'
     else
         echo "$table"
     fi
+}
+
+_choice_script_or_bin() {
+    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+        _argc_util_comp_path
+        return
+    fi
+    _choice_script
 }
 
 _choice_dependency() {
@@ -79,14 +87,6 @@ _choice_script() {
     if [[ -n "$pkg_json_path" ]]; then
         cat "$pkg_json_path" | yq '(.scripts // {}) | keys | .[]'
     fi
-}
-
-_choice_script_or_bin() {
-    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
-        _argc_util_comp_path
-        return
-    fi
-    _choice_script
 }
 
 _helper_find_pkg_json_path() {

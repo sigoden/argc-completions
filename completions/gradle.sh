@@ -81,12 +81,12 @@ org.gradle.workers.max=;;Set the number of workers Gradle is allowed to use
 EOF
 }
 
-_choice_task() {
-    gradle -q tasks --all | sed -n 's/^\(\S\+\) - \(.*\)$/\1\t\2/p'
-}
-
 _choice_task_cached() {
     _argc_util_cache 3600 _choice_task $PWD
+}
+
+_choice_task() {
+    gradle -q tasks --all | sed -n 's/^\(\S\+\) - \(.*\)$/\1\t\2/p'
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

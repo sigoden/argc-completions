@@ -178,6 +178,13 @@ version() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
+_choice_source() {
+    if [[ $ARGC_FILTER != *':'* ]]; then
+        _argc_util_comp_path
+    fi
+    _argc_util_parallel _module_oci_docker_image ::: _choice_provider
+}
+
 _choice_convert_format() {
     _argc_util_mode_kv =
     if [[ -z "$argc__kv_prefix" ]]; then
@@ -219,13 +226,6 @@ singularity=__argc_value=file;;read directly from a Singularity Image Format (SI
 dir=__argc_value=dir;;read directly from a path on disk (any directory)
 file=__argc_value=file;;read directly from a path on disk (any single file)
 EOF
-}
-
-_choice_source() {
-    if [[ $ARGC_FILTER != *':'* ]]; then
-        _argc_util_comp_path
-    fi
-    _argc_util_parallel _module_oci_docker_image ::: _choice_provider
 }
 
 _module_oci_docker_image() {

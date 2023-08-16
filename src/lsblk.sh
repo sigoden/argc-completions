@@ -12,10 +12,6 @@ _patch_table() {
     _patch_table_edit_arguments 'device;*[`_choice_block_device`]'
 }
 
-_choice_block_device() {
-    lsblk --json -o KNAME,LABEL,PARTLABEL,PARTUUID,PATH,SIZE,PARTTYPENAME,TYPE,UUID | yq '.blockdevices[] | .path + "	" + .size + " " + (.parttypename // "")'
-}
-
 _choice_column() {
     cat <<-'EOF'
 NAME	device name
@@ -74,4 +70,8 @@ VENDOR	device vendor
 ZONED	zone model
 DAX	dax-capable device
 EOF
+}
+
+_choice_block_device() {
+    lsblk --json -o KNAME,LABEL,PARTLABEL,PARTUUID,PATH,SIZE,PARTTYPENAME,TYPE,UUID | yq '.blockdevices[] | .path + "	" + .size + " " + (.parttypename // "")'
 }

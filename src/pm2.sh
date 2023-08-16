@@ -12,37 +12,49 @@ _patch_help() {
 _patch_table() {
     if [[ "$*" == "pm2" ]]; then
         _patch_table_edit_options \
-            '--gid;[`_module_os_gid`]' \
             '--log-type;[raw|json]' \
             '--pid(<path>)' \
-            '--uid;[`_module_os_uid`]' \
             '--user;[`_module_os_user`]' \
+            '--uid;[`_module_os_uid`]' \
+            '--gid;[`_module_os_gid`]' \
         | \
         _patch_table_edit_commands \
             'config(config, conf)' \
             'describe(describe, desc)' \
             'info(info, show)' \
-            'l' \
             'list(list, ls, l, ps, status)' \
+            'l' \
             'ps' \
             'status' \
 
-    elif [[ "$*" == "pm2 attach" ]] \
-      || [[ "$*" == "pm2 send" ]] \
-    ; then
-        _patch_table_edit_arguments 'pm_id;[`_choice_pm_id`]'
+    elif [[ "$*" == "pm2 start" ]]; then
+        { _patch_table_copy_options pm2; cat; } | \
+        _patch_table_dedup_options \
+            '--watch' \
+            '--help' \
+        | \
+        _patch_table_edit_arguments ';;' 'target;[`_choice_start`]'
 
-    elif [[ "$*" == "pm2 backward" ]] \
-      || [[ "$*" == "pm2 describe" ]] \
-      || [[ "$*" == "pm2 forward" ]] \
-      || [[ "$*" == "pm2 id" ]] \
-      || [[ "$*" == "pm2 info" ]] \
-      || [[ "$*" == "pm2 inspect" ]] \
-      || [[ "$*" == "pm2 monitor" ]] \
-      || [[ "$*" == "pm2 pid" ]] \
+    elif [[ "$*" == "pm2 trigger" ]]; then
+        _patch_table_edit_arguments ';;' 'target;[`_choice_id_name_ns`]' 'action_name' 'param'
+
+    elif [[ "$*" == "pm2 startOrRestart" ]] \
+      || [[ "$*" == "pm2 startOrReload" ]] \
+      || [[ "$*" == "pm2 startOrGracefulReload" ]] \
+    ; then
+        _patch_table_edit_arguments 'json(file:.json)'
+
+    elif [[ "$*" == "pm2 pid" ]] \
       || [[ "$*" == "pm2 scale" ]] \
+      || [[ "$*" == "pm2 id" ]] \
+      || [[ "$*" == "pm2 inspect" ]] \
       || [[ "$*" == "pm2 sendSignal" ]] \
+      || [[ "$*" == "pm2 monitor" ]] \
       || [[ "$*" == "pm2 unmonitor" ]] \
+      || [[ "$*" == "pm2 describe" ]] \
+      || [[ "$*" == "pm2 info" ]] \
+      || [[ "$*" == "pm2 forward" ]] \
+      || [[ "$*" == "pm2 backward" ]] \
     ; then
         _patch_table_edit_arguments \
             'name;[`_choice_name`]'\
@@ -50,57 +62,29 @@ _patch_table() {
             'pm2_id-name;[`_choice_id_name`]' \
             'name-id;[`_choice_id_name`]' \
 
-    elif [[ "$*" == "pm2 delete" ]] \
-      || [[ "$*" == "pm2 logs" ]] \
-      || [[ "$*" == "pm2 reload" ]] \
-      || [[ "$*" == "pm2 reset" ]] \
+    elif [[ "$*" == "pm2 stop" ]] \
       || [[ "$*" == "pm2 restart" ]] \
-      || [[ "$*" == "pm2 stop" ]] \
+      || [[ "$*" == "pm2 reload" ]] \
+      || [[ "$*" == "pm2 delete" ]] \
+      || [[ "$*" == "pm2 reset" ]] \
+      || [[ "$*" == "pm2 logs" ]] \
     ; then
         _patch_table_edit_arguments ';;' 'target;[`_choice_stop`]'
-
-    elif [[ "$*" == "pm2 logs" ]]; then
-        _patch_table_edit_arguments ';;' 'target;[`_choice_id_name_ns`]'
 
     elif [[ "$*" == "pm2 publish" ]]; then
         _patch_table_edit_arguments 'folder(<dir>)'
 
-    elif [[ "$*" == "pm2 start" ]]; then
-        { _patch_table_copy_options pm2; cat; } | \
-        _patch_table_dedup_options \
-            '--help' \
-            '--watch' \
-        | \
-        _patch_table_edit_arguments ';;' 'target;[`_choice_start`]'
-
-    elif [[ "$*" == "pm2 startOrGracefulReload" ]] \
-      || [[ "$*" == "pm2 startOrReload" ]] \
-      || [[ "$*" == "pm2 startOrRestart" ]] \
+    elif [[ "$*" == "pm2 send" ]] \
+      || [[ "$*" == "pm2 attach" ]] \
     ; then
-        _patch_table_edit_arguments 'json(file:.json)'
+        _patch_table_edit_arguments 'pm_id;[`_choice_pm_id`]'
 
-    elif [[ "$*" == "pm2 trigger" ]]; then
-        _patch_table_edit_arguments ';;' 'target;[`_choice_id_name_ns`]' 'action_name' 'param'
+    elif [[ "$*" == "pm2 logs" ]]; then
+        _patch_table_edit_arguments ';;' 'target;[`_choice_id_name_ns`]'
 
     else
         cat
     fi
-}
-
-_choice_id_name() {
-    pm2 jlist | yq '.[] | .pm_id + "	" + .name, .[].name'
-}
-
-_choice_id_name_ns() {
-    pm2 jlist | yq '.[] | .pm_id + "	" + .name, .[].name, .[].pm2_env.namespace // ""'
-}
-
-_choice_name() {
-    pm2 jlist | yq '.[].name'
-}
-
-_choice_pm_id() {
-    pm2 jlist | yq '.[] | .pm_id + "	" + .name'
 }
 
 _choice_start() {
@@ -111,6 +95,14 @@ _choice_start() {
     _choice_id_name_ns
 }
 
+_choice_id_name_ns() {
+    pm2 jlist | yq '.[] | .pm_id + "	" + .name, .[].name, .[].pm2_env.namespace // ""'
+}
+
+_choice_name() {
+    pm2 jlist | yq '.[].name'
+}
+
 _choice_stop() {
     if _argc_util_has_path_prefix "$ARGC_FILTER"; then
         _argc_util_comp_path
@@ -118,4 +110,12 @@ _choice_stop() {
     fi
     _choice_id_name_ns
     echo all
+}
+
+_choice_id_name() {
+    pm2 jlist | yq '.[] | .pm_id + "	" + .name, .[].name'
+}
+
+_choice_pm_id() {
+    pm2 jlist | yq '.[] | .pm_id + "	" + .name'
 }

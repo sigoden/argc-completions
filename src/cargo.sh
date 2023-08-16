@@ -51,6 +51,12 @@ _patch_table() {
     if [[ "$*" == "cargo" ]]; then
         echo "$table" | _patch_table_edit_arguments 'cmd;[`_choice_cmd`]'
 
+    elif [[ "$*" == "cargo remove" ]]; then
+        echo "$table" | _patch_table_edit_arguments 'dep_id;[`_choice_depid`]'
+
+    elif [[ "$*" == "cargo test" ]]; then
+        echo "$table" | _patch_table_edit_arguments 'testname;[`_choice_testname`]'
+
     elif [[ "$*" == "cargo clippy" ]]; then
         { _patch_table_copy_options cargo fix; echo "$table"; } | \
         _patch_table_dedup_options \
@@ -61,23 +67,45 @@ _patch_table() {
     elif [[ "$*" == "cargo fmt" ]]; then
         echo "$table" | _patch_table_edit_arguments 'rustfmt_options;~[`_choice_fmt`]'
 
-    elif [[ "$*" == "cargo remove" ]]; then
-        echo "$table" | _patch_table_edit_arguments 'dep_id;[`_choice_depid`]'
-
-    elif [[ "$*" == "cargo test" ]]; then
-        echo "$table" | _patch_table_edit_arguments 'testname;[`_choice_testname`]'
-
     else
         echo "$table"
     fi
+}
+
+_choice_cmd() {
+    cargo --list 2>/dev/null | gawk 'NR>1 {print $1}'
+}
+
+_choice_package() {
+    _helper_metadata_json | yq '.packages[].name'
+}
+
+_choice_bin() {
+    _helper_package_target bin
+}
+
+_choice_example() {
+    _helper_package_target example
+}
+
+_choice_test() {
+    _helper_package_target test
 }
 
 _choice_bench() {
     _helper_package_target bench
 }
 
-_choice_bin() {
-    _helper_package_target bin
+_choice_target() {
+    rustup target list --installed
+}
+
+_choice_depid() {
+    _helper_package_json | yq '.dependencies[].name'
+}
+
+_choice_testname() {
+    cargo t -- --list | gawk '/: test$/ { print substr($1, 1, length($1) - 1) }' 
 }
 
 _choice_clippy() {
@@ -97,36 +125,8 @@ EOF
     fi
 }
 
-_choice_cmd() {
-    cargo --list 2>/dev/null | gawk 'NR>1 {print $1}'
-}
-
-_choice_depid() {
-    _helper_package_json | yq '.dependencies[].name'
-}
-
-_choice_example() {
-    _helper_package_target example
-}
-
 _choice_fmt() {
     _argc_util_comp_subcommand 0 rustfmt
-}
-
-_choice_package() {
-    _helper_metadata_json | yq '.packages[].name'
-}
-
-_choice_target() {
-    rustup target list --installed
-}
-
-_choice_test() {
-    _helper_package_target test
-}
-
-_choice_testname() {
-    cargo t -- --list | gawk '/: test$/ { print substr($1, 1, length($1) - 1) }' 
 }
 
 _helper_metadata_json() {

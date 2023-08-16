@@ -38,14 +38,6 @@ _choice_encoding() {
         KOI8-R KOI8-U KOI8-RU
 }
 
-_choice_pattern() {
-    if [[ -n "$argc_regexp" ]] \
-    || [[ -n "$argc_file" ]] \
-    ; then
-        _argc_util_comp_path
-    fi
-}
-
 _choice_type() {
     printf "%s\n" \
         actionscript ada asm asp aspx autoconf automake \
@@ -63,4 +55,12 @@ _choice_type() {
         swift tcl tex text tiff Tiff tt \
         typescript verilog vhdl vim xml Xml yacc \
         yaml
+}
+
+_choice_pattern() {
+    if [[ -n "$argc_regexp" ]] \
+    || [[ -n "$argc_file" ]] \
+    ; then
+        _argc_util_comp_path
+    fi
 }

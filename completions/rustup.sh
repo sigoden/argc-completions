@@ -372,6 +372,17 @@ completions() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
+_choice_channel() {
+    echo beta
+    echo stable
+    echo nightly
+}
+
+_choice_toolchain() {
+    rustup toolchain list | gawk '{print $1}'
+    _choice_channel
+}
+
 _choice_available_component() {
     cat <<-'EOF'
 rustc	The Rust compiler.
@@ -391,10 +402,8 @@ rustc-dev	This component contains the compiler as a library.
 EOF
 }
 
-_choice_channel() {
-    echo beta
-    echo stable
-    echo nightly
+_choice_target() {
+    rustup target list | gawk '{print $1}' | _argc_util_comp_parts -
 }
 
 _choice_installed_component() {
@@ -403,15 +412,6 @@ _choice_installed_component() {
 
 _choice_override() {
     rustup override list
-}
-
-_choice_target() {
-    rustup target list | gawk '{print $1}' | _argc_util_comp_parts -
-}
-
-_choice_toolchain() {
-    rustup toolchain list | gawk '{print $1}'
-    _choice_channel
 }
 
 _choice_toolchain_command() {

@@ -6,14 +6,14 @@ _patch_table() {
 
 }
 
-_choice_formatter() {
-    chroma --list | sed -n 's/^formatters: \(.*\)/\1/p' | tr ' ' '\n'
-}
-
 _choice_lexer() {
     chroma --list | sed -n 's/^\s\+aliases: \(.*\)/\1/p' | tr ' ' '\n'
 }
 
 _choice_style() {
     chroma --list | sed -n 's/^styles: \(.*\)/\1/p' | tr ' ' '\n'
+}
+
+_choice_formatter() {
+    chroma --list | sed -n 's/^formatters: \(.*\)/\1/p' | tr ' ' '\n'
 }

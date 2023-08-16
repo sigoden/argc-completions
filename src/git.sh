@@ -248,6 +248,36 @@ _patch_table() {
     elif [[ "$*" == "git add" ]]; then
         _patch_table_edit_arguments 'pathspec;[`_choice_unstaged_file`]'
 
+    elif [[ "$*" == "git diff" ]]; then
+        _patch_table_edit_arguments ';;' '[commit-path]...;[`_choice_diff`]'
+
+    elif [[ "$*" == "git log" ]]; then
+        _patch_table_edit_arguments ';;' '[commit-path]...;[`_choice_log`]'
+
+    elif [[ "$*" == "git show" ]]; then
+        _patch_table_edit_arguments ';;' '[commit-path]...;[`_choice_show`]'
+
+    elif [[ "$*" == "git merge" ]]; then
+        _patch_table_edit_arguments 'commit;[`_choice_branch`]'
+
+    elif [[ "$*" == "git rebase" ]]; then
+        _patch_table_edit_arguments ';;' '<base>;[`_choice_branch`]' '<new>;[`_choice_branch`]'
+
+    elif [[ "$*" == "git reset" ]]; then
+        _patch_table_edit_arguments ';;' '[commit]...;[`_choice_reset`]'
+
+    elif [[ "$*" == "git switch" ]]; then
+        _patch_table_edit_arguments 'branch;[`_choice_branch`]'
+
+    elif [[ "$*" == "git fetch" ]]; then
+        _patch_table_edit_arguments ';;' '<remote>;[`_choice_remote`]' '<refspec>...;[`_choice_branch`]'
+
+    elif [[ "$*" == "git pull" ]]; then
+        _patch_table_edit_arguments ';;' '<remote>;[`_choice_remote`]' '<refspec>...;[`_choice_remote_branch`]'
+
+    elif [[ "$*" == "git push" ]]; then
+        _patch_table_edit_arguments ';;' '<remote>;[`_choice_remote`]' '<refspec>...;[`_choice_push`]'
+
     elif [[ "$*" == "git branch" ]]; then
         _patch_table_edit_arguments ';;' '<branch>;[`_choice_branch`]'
 
@@ -266,38 +296,14 @@ _patch_table() {
     elif [[ "$*" == "git describe" ]]; then
         _patch_table_edit_arguments 'commit-ish;[`_choice_ref`]'
 
-    elif [[ "$*" == "git diff" ]]; then
-        _patch_table_edit_arguments ';;' '[commit-path]...;[`_choice_diff`]'
-
     elif [[ "$*" == "git difftool" ]]; then
         _patch_table_edit_options '--extcmd;[`_module_os_command_string`]'
-
-    elif [[ "$*" == "git fetch" ]]; then
-        _patch_table_edit_arguments ';;' '<remote>;[`_choice_remote`]' '<refspec>...;[`_choice_branch`]'
-
-    elif [[ "$*" == "git log" ]]; then
-        _patch_table_edit_arguments ';;' '[commit-path]...;[`_choice_log`]'
-
-    elif [[ "$*" == "git merge" ]]; then
-        _patch_table_edit_arguments 'commit;[`_choice_branch`]'
-
-    elif [[ "$*" == "git pull" ]]; then
-        _patch_table_edit_arguments ';;' '<remote>;[`_choice_remote`]' '<refspec>...;[`_choice_remote_branch`]'
-
-    elif [[ "$*" == "git push" ]]; then
-        _patch_table_edit_arguments ';;' '<remote>;[`_choice_remote`]' '<refspec>...;[`_choice_push`]'
 
     elif [[ "$*" == "git range-diff" ]]; then
         _patch_table_edit_arguments ';;' '<base>;[`_choice_branch`]' '<new>;[`_choice_branch`]'
 
-    elif [[ "$*" == "git rebase" ]]; then
-        _patch_table_edit_arguments ';;' '<base>;[`_choice_branch`]' '<new>;[`_choice_branch`]'
-
     elif [[ "$*" == "git remote"* ]]; then
         _patch_table_edit_arguments 'name;[`_choice_remote`]' 'old;[`_choice_remote`]' 'new;[`_choice_remote`]'
-
-    elif [[ "$*" == "git reset" ]]; then
-        _patch_table_edit_arguments ';;' '[commit]...;[`_choice_reset`]'
 
     elif [[ "$*" == "git restore" ]]; then
         _patch_table_edit_arguments 'file;[`_choice_restore_file`]'
@@ -305,14 +311,8 @@ _patch_table() {
     elif [[ "$*" == "git shortlog" ]]; then
         _patch_table_edit_arguments ';;' '[commit-path]...;[`_choice_log`]'
 
-    elif [[ "$*" == "git show" ]]; then
-        _patch_table_edit_arguments ';;' '[commit-path]...;[`_choice_show`]'
-
     elif [[ "$*" == "git stash"* ]]; then
         _patch_table_edit_arguments 'stash;[`_choice_stash`]'
-
-    elif [[ "$*" == "git switch" ]]; then
-        _patch_table_edit_arguments 'branch;[`_choice_branch`]'
 
     elif [[ "$*" == "git tag" ]]; then
         _patch_table_edit_arguments ';;' '<tagname>;[`_choice_tag`]'
@@ -322,18 +322,65 @@ _patch_table() {
     fi
 }
 
+_choice_cmd() {
+    _git config --get-regexp 'alias.*' | gawk '{print substr($1, 7)}'
+}
+
+_choice_unstaged_file() {
+    _git status --porcelain | gawk '{
+    if (substr($0, 2, 1) != " ") {
+        print substr($0, 4)
+    }
+}' | _argc_util_comp_parts /
+}
+
+_choice_diff() {
+    _choice_reset
+}
+
+_choice_log() {
+    if [[ -n "$argc_dashes" ]]; then
+        _git ls-files | _argc_util_comp_parts /
+    else
+        _argc_util_mode_kv '..'
+        _choice_ref
+    fi
+}
+
+_choice_show() {
+    _argc_util_mode_kv ':'
+    if [[ -z "$argc__kv_prefix" ]]; then
+        _choice_ref
+    else
+        _git ls-files | _argc_util_comp_parts / "$argc__kv_filter" "$argc__kv_prefix"
+    fi
+}
+
 _choice_branch() {
     _argc_util_parallel _choice_tag ::: _choice_local_branch ::: _choice_remote_branch
 }
 
-_choice_changed_file() {
-    _git status --porcelain | gawk '{
-    if (match($0, "->")) {
-        print substr($0, RSTART + RLENGTH + 1)
-    } else {
-        print substr($0, 4)
-    }
-}' | _argc_util_comp_parts /
+_choice_reset() {
+    if [[ -n "$argc__dashes" ]]; then
+        _choice_changed_file
+    elif [[ ${#argc__positionals[@]} -gt 1 ]]; then
+        :;
+    else
+        _choice_ref
+    fi
+}
+
+_choice_remote() {
+    _git remote
+}
+
+_choice_remote_branch() {
+    _git branch --remote --sort=-creatordate --format '%(refname:short)	%(subject)' | head -n 100
+}
+
+_choice_push() {
+    _argc_util_mode_kv ':'
+    _choice_branch
 }
 
 _choice_checkout() {
@@ -350,16 +397,43 @@ _choice_checkout() {
     fi
 }
 
-_choice_cmd() {
-    _git config --get-regexp 'alias.*' | gawk '{print substr($1, 7)}'
+_choice_range() {
+    _argc_util_mode_kv '..'
+    _choice_ref 
 }
 
 _choice_config_key() {
     _git config --get-regexp '.*' | gawk '{print $1}'
 }
 
-_choice_diff() {
-    _choice_reset
+_choice_ref() {
+    _argc_util_parallel _choice_tag ::: _choice_head_commit ::: _choice_local_branch ::: _choice_remote_branch
+}
+
+_choice_restore_file() {
+    if [[ -n "$argc_staged" ]]; then
+        _choice_staged_file
+    else
+        _choice_changed_file
+    fi
+}
+
+_choice_stash() {
+    _git stash list --format='%gd	%gs'
+}
+
+_choice_tag() {
+    git tag --sort=-creatordate --format "%(refname)	%(subject)" | sed 's|refs/tags/||' | head -n 100
+}
+
+_choice_changed_file() {
+    _git status --porcelain | gawk '{
+    if (match($0, "->")) {
+        print substr($0, RSTART + RLENGTH + 1)
+    } else {
+        print substr($0, 4)
+    }
+}' | _argc_util_comp_parts /
 }
 
 _choice_head_commit() {
@@ -374,64 +448,6 @@ _choice_local_branch() {
     _git branch --format '%(refname:short)	%(subject)'
 }
 
-_choice_log() {
-    if [[ -n "$argc_dashes" ]]; then
-        _git ls-files | _argc_util_comp_parts /
-    else
-        _argc_util_mode_kv '..'
-        _choice_ref
-    fi
-}
-
-_choice_push() {
-    _argc_util_mode_kv ':'
-    _choice_branch
-}
-
-_choice_range() {
-    _argc_util_mode_kv '..'
-    _choice_ref 
-}
-
-_choice_ref() {
-    _argc_util_parallel _choice_tag ::: _choice_head_commit ::: _choice_local_branch ::: _choice_remote_branch
-}
-
-_choice_remote() {
-    _git remote
-}
-
-_choice_remote_branch() {
-    _git branch --remote --sort=-creatordate --format '%(refname:short)	%(subject)' | head -n 100
-}
-
-_choice_reset() {
-    if [[ -n "$argc__dashes" ]]; then
-        _choice_changed_file
-    elif [[ ${#argc__positionals[@]} -gt 1 ]]; then
-        :;
-    else
-        _choice_ref
-    fi
-}
-
-_choice_restore_file() {
-    if [[ -n "$argc_staged" ]]; then
-        _choice_staged_file
-    else
-        _choice_changed_file
-    fi
-}
-
-_choice_show() {
-    _argc_util_mode_kv ':'
-    if [[ -z "$argc__kv_prefix" ]]; then
-        _choice_ref
-    else
-        _git ls-files | _argc_util_comp_parts / "$argc__kv_filter" "$argc__kv_prefix"
-    fi
-}
-
 _choice_staged_file() {
     _git status --porcelain | gawk '{
     if (substr($0, 2, 1) == " ") {
@@ -440,22 +456,6 @@ _choice_staged_file() {
         } else {
             print substr($0, 4)
         }
-    }
-}' | _argc_util_comp_parts /
-}
-
-_choice_stash() {
-    _git stash list --format='%gd	%gs'
-}
-
-_choice_tag() {
-    git tag --sort=-creatordate --format "%(refname)	%(subject)" | sed 's|refs/tags/||' | head -n 100
-}
-
-_choice_unstaged_file() {
-    _git status --porcelain | gawk '{
-    if (substr($0, 2, 1) != " ") {
-        print substr($0, 4)
     }
 }' | _argc_util_comp_parts /
 }

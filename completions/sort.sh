@@ -33,12 +33,12 @@
 # @flag --version                           output version information and exit
 # @arg file*
 
-_choice_check() {
-    printf "%s\n" diagnose-first quiet silent
-}
-
 _choice_sort() {
     printf "%s\n" general-numeric human-numeric month numeric random version
+}
+
+_choice_check() {
+    printf "%s\n" diagnose-first quiet silent
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

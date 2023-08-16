@@ -16,6 +16,15 @@ _patch_table() {
 
 }
 
+_choice_predict() {
+    cat <<-'EOF'
+adaptive	local echo for slower links
+always	use local echo even on fast links
+never	never use local echo
+experimental	aggressively echo even when incorrect
+EOF
+}
+
 _choice_family() {
     cat <<-'EOF'
 inet	use IPv4 only
@@ -24,14 +33,5 @@ auto	autodetect network type for single-family hosts only
 all	try all network types
 prefer-inet	use all network types, but try IPv4 first [default]
 prefer-inet6	use all network types, but try IPv6 first
-EOF
-}
-
-_choice_predict() {
-    cat <<-'EOF'
-adaptive	local echo for slower links
-always	use local echo even on fast links
-never	never use local echo
-experimental	aggressively echo even when incorrect
 EOF
 }

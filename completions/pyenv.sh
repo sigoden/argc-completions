@@ -157,12 +157,12 @@ uninstall() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_available_version() {
-    pyenv install --list | sed "s/^[[:space:]]*//"
-}
-
 _choice_command() {
     pyenv exec --complete
+}
+
+_choice_installed_version() {
+    pyenv versions --bare
 }
 
 _choice_install() {
@@ -173,12 +173,12 @@ _choice_install() {
     _choice_available_version
 }
 
-_choice_installed_version() {
-    pyenv versions --bare
-}
-
 _choice_prefix() {
     pyenv prefix --complete
+}
+
+_choice_available_version() {
+    pyenv install --list | sed "s/^[[:space:]]*//"
 }
 
 _module_os_command_args() {

@@ -477,28 +477,25 @@ EOF
 
 _patch_table() {
     table="$(_patch_table_edit_options '--workspace;[`_choice_workspace`]')"
-    if [[ "$*" == "npm config "* ]]; then
-        echo "$table" | _patch_table_edit_arguments 'key;[`_choice_config_key`]' 'key-value;[`_choice_config_key`]'
-    elif [[ "$*" == "npm run-script" ]]; then
+    if [[ "$*" == "npm run-script" ]]; then
         echo "$table" | _patch_table_edit_arguments 'cmd;[`_choice_script`]'
     elif [[ "$*" == "npm uninstall" ]]; then
         echo "$table" | _patch_table_edit_arguments 'pkg;[`_choice_dependency`]'
     elif [[ "$*" == "npm update" ]]; then
         echo "$table" | _patch_table_edit_arguments 'pkg;[`_choice_dependency`]'
+    elif [[ "$*" == "npm config "* ]]; then
+        echo "$table" | _patch_table_edit_arguments 'key;[`_choice_config_key`]' 'key-value;[`_choice_config_key`]'
     else
         echo "$table"
     fi
 }
 
-_choice_config_key() {
-    npm config list $(_argc_util_param_select_options --global) --json | yq 'keys | .[]'
+_choice_workspace() {
+    npm query .workspace | yq '.[].location'
 }
 
-_choice_dependency() {
-    _helper_find_pkg_json_path
-    if [[ -n "$pkg_json_path" ]]; then
-        cat "$pkg_json_path" | yq '(.dependencies // {}) + (.devDependencies // {}) + (.optionalDependencies // {}) | keys | .[]'
-    fi
+_choice_config_key() {
+    npm config list $(_argc_util_param_select_options --global) --json | yq 'keys | .[]'
 }
 
 _choice_script() {
@@ -508,8 +505,11 @@ _choice_script() {
     fi
 }
 
-_choice_workspace() {
-    npm query .workspace | yq '.[].location'
+_choice_dependency() {
+    _helper_find_pkg_json_path
+    if [[ -n "$pkg_json_path" ]]; then
+        cat "$pkg_json_path" | yq '(.dependencies // {}) + (.devDependencies // {}) + (.optionalDependencies // {}) | keys | .[]'
+    fi
 }
 
 _helper_find_pkg_json_path() {

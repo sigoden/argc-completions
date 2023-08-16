@@ -32,10 +32,10 @@ _choice_ignore_file() {
     ack --dump | sed -n 's/^\s*--ignore-file=//p' | _argc_util_comp_parts :
 }
 
-_choice_type() {
-    ack --dump | sed -n 's/^\s*--type-add=\([^:]\+\):.*$/\1/p'
-}
-
 _choice_type_add() {
     ack --dump | sed -n 's/^\s*--type-add=//p' | _argc_util_comp_parts :
+}
+
+_choice_type() {
+    ack --dump | sed -n 's/^\s*--type-add=\([^:]\+\):.*$/\1/p'
 }

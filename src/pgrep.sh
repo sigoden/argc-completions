@@ -13,10 +13,6 @@ _patch_table() {
     _patch_table_edit_arguments ';;' 'pattern;[`_module_os_process`]'
 }
 
-_choice_nslist() {
-    printf "%s\n" ipc mnt net pid user uts
-}
-
 _choice_runstate() {
     cat <<-'EOF'
 D	uninterruptible sleep (usually IO)
@@ -29,4 +25,8 @@ X	dead (should never be seen)
 Z	defunct (zombie) process, terminated but not reaped by its parent
 t	stopped by debugger during the tracing
 EOF
+}
+
+_choice_nslist() {
+    printf "%s\n" ipc mnt net pid user uts
 }

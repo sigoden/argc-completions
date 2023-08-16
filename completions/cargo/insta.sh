@@ -144,6 +144,10 @@ show() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
+_choice_package() {
+    _helper_metadata_json | yq '.packages[].name'
+}
+
 _choice_bin() {
     _helper_package_target bin
 }
@@ -152,16 +156,12 @@ _choice_example() {
     _helper_package_target example
 }
 
-_choice_package() {
-    _helper_metadata_json | yq '.packages[].name'
+_choice_test() {
+    _helper_package_target test
 }
 
 _choice_target() {
     rustup target list --installed
-}
-
-_choice_test() {
-    _helper_package_target test
 }
 
 _helper_metadata_json() {

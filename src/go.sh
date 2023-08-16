@@ -111,6 +111,25 @@ Options:
     -vendor      exclude tests of dependencies
 EOF
 
+    elif [[ "$*" == "go work edit" ]]; then
+        cat <<-'EOF'
+Options:
+    -dropreplace <value>...      drop a replacement
+    -dropuse <value>...          drop a use directive
+    -fmt                         reformat the go.work file without making other changes
+    -go <value>                  set the expected Go language version
+    -json                        print the final go.work in JSON format
+    -print                       print the final go.work in its text format
+    -replace <value>...          add a replacement
+    -use <file>...               add a use directive
+EOF
+
+    elif [[ "$*" == "go work use" ]]; then
+        cat <<-'EOF'
+Options:
+    -r                           recursively for modules in the argument directories
+EOF
+
     elif [[ "$*" == "go run" ]]; then
         cat <<-'EOF'
 Options:
@@ -158,25 +177,6 @@ Options:
     -x      print commands as they are executed
 EOF
 
-
-    elif [[ "$*" == "go work edit" ]]; then
-        cat <<-'EOF'
-Options:
-    -dropreplace <value>...      drop a replacement
-    -dropuse <value>...          drop a use directive
-    -fmt                         reformat the go.work file without making other changes
-    -go <value>                  set the expected Go language version
-    -json                        print the final go.work in JSON format
-    -print                       print the final go.work in its text format
-    -replace <value>...          add a replacement
-    -use <file>...               add a use directive
-EOF
-
-    elif [[ "$*" == "go work use" ]]; then
-        cat <<-'EOF'
-Options:
-    -r                           recursively for modules in the argument directories
-EOF
 
     else
         _patch_help_run_help_subcmd $@
@@ -238,6 +238,15 @@ _patch_table() {
     elif [[ "$*" == "go mod why" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'packages;*[`_choice_mod_why`]'
 
+    elif [[ "$*" == "go work edit" ]]; then
+        echo "$table" \ |
+        _patch_table_edit_options \
+            '-dropreplace;*|[`_choice_work_dropreplace`]' \
+            '-dropuse;*|[`_choice_work_dropuse`]' \
+            '-replace;*|[`_choice_work_replace`]' \
+        | \
+        _patch_table_edit_arguments ';;' 'workfile <file:go.work>'
+
     elif [[ "$*" == "go run" ]]; then
         _patch_table_copy_options go build
         echo "$table" 
@@ -251,22 +260,9 @@ _patch_table() {
     elif [[ "$*" == "go tool" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'name;[`_choice_tool`]' 'args...'
 
-    elif [[ "$*" == "go work edit" ]]; then
-        echo "$table" \ |
-        _patch_table_edit_options \
-            '-dropreplace;*|[`_choice_work_dropreplace`]' \
-            '-dropuse;*|[`_choice_work_dropuse`]' \
-            '-replace;*|[`_choice_work_replace`]' \
-        | \
-        _patch_table_edit_arguments ';;' 'workfile <file:go.work>'
-
     else
         echo "$table"
     fi
-}
-
-_choice_bench_target() {
-    go test -list='^Bench' 2>/dev/null | sed '$d'
 }
 
 _choice_buildmode() {
@@ -302,10 +298,6 @@ _choice_mod_droprequire() {
     _helper_mod_json | yq '(.Require // []) | filter(.Indirect != true) | .[].Path'
 }
 
-_choice_mod_no_version() {
-    _helper_mod_json | yq '(.Require // []) | .[].Path'
-}
-
 _choice_mod_replace() {
     _argc_util_mode_kv =
     if [[ -z "$argc__kv_prefix" ]]; then
@@ -322,14 +314,6 @@ _choice_mod_replace() {
 
 _choice_mod_why() {
     _argc_util_parallel _choice_mod_no_version ::: _helper_list_imports
-}
-
-_choice_test_target() {
-    go test -list='^(Test|Example)' 2>/dev/null | sed '$d'
-}
-
-_choice_tool() {
-    go tool
 }
 
 _choice_work_dropreplace() {
@@ -356,6 +340,22 @@ _choice_work_replace() {
     else
         _argc_util_comp_path cd="$root_dir" filter="$argc__kv_filter"
     fi
+}
+
+_choice_bench_target() {
+    go test -list='^Bench' 2>/dev/null | sed '$d'
+}
+
+_choice_test_target() {
+    go test -list='^(Test|Example)' 2>/dev/null | sed '$d'
+}
+
+_choice_tool() {
+    go tool
+}
+
+_choice_mod_no_version() {
+    _helper_mod_json | yq '(.Require // []) | .[].Path'
 }
 
 _helper_list_imports() {

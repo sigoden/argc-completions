@@ -74,10 +74,6 @@
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_bench() {
-    _helper_package_target bench
-}
-
 _choice_bin() {
     _helper_package_target bin
 }
@@ -86,12 +82,16 @@ _choice_example() {
     _helper_package_target example
 }
 
-_choice_target() {
-    rustup target list --installed
-}
-
 _choice_test() {
     _helper_package_target test
+}
+
+_choice_bench() {
+    _helper_package_target bench
+}
+
+_choice_target() {
+    rustup target list --installed
 }
 
 _helper_metadata_json() {

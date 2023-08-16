@@ -60,10 +60,6 @@ _choice_b() {
     esac
 }
 
-_choice_cipher() {
-    ssh -Q cipher
-}
-
 _choice_m() {
     cat <<-'EOF'
 generate	Generate candidate Diffie-Hellman Group Exchange (DH-GEX) parameters
@@ -104,6 +100,10 @@ check-novalidate	Checks that a signature generated using ssh-keygen -Y sign has 
 sign	Cryptographically sign a file or some data using a SSH key
 verify	Request to verify a signature generated using ssh-keygen -Y sign
 EOF
+}
+
+_choice_cipher() {
+    ssh -Q cipher
 }
 
 _module_os_user() {

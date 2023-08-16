@@ -122,8 +122,7 @@ embed_src_script() {
     mapfile -t src_fns < <( \
         echo "$main_content" | \
         sed -n '/^# @\(option\|arg\)/ s/.* \S\+\[`\(\S\+\)`\].*/\1/p' | \
-        grep -v '^_module_' | \
-        sort | uniq  \
+        grep -v '^_module_' \
     )
 
     if [[ ${#src_fns} -gt 0 ]]; then

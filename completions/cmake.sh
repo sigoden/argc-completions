@@ -73,59 +73,6 @@
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_cmd() {
-    cmake -E help 2>&1 | sed -n  '/^  [^ ]/{s|^  \([^ ]\{1,\}\) .*$|\1|;p}' 
-}
-
-_choice_generator() {
-    cmake --help 2>&1 | \
-    sed -n \
-        -e "1,/^Generators/d" \
-        -e "/^\s*(/d" \
-        -e "/^  *[^ =]/{s|^ *\([^=]*[^ =]\).*$|\1|;p}" \
-
-}
-
-_choice_help_command() {
-    cmake --help-command-list 2>&1 | grep -v "^cmake version "
-}
-
-_choice_help_manual() {
-    cmake --help-manual-list 2>&1 | grep -v "^cmake version " | sed -e "s/([0-9])$//"
-}
-
-_choice_help_module() {
-    cmake --help-module-list 2>&1 | grep -v "^cmake version "
-}
-
-_choice_help_policy() {
-    cmake --help-policy-list 2>&1 | grep -v "^cmake version "
-}
-
-_choice_help_property() {
-    cmake --help-property-list 2>&1 | grep -v "^cmake version "
-}
-
-_choice_help_variable() {
-    cmake --help-variable-list 2>&1 | grep -v "^cmake version "
-}
-
-_choice_list_preset() {
-    printf "%s\n" configure build test all
-}
-
-_choice_preset() {
-    cmake --list-presets 2>/dev/null | \
-    sed -n \
-        -e 's,^[[:space:]]*"\([^"]*\)"[[:space:]]*-[[:space:]]*\(.*\),\1:\2,p' \
-        -e 's,^[[:space:]]*"\([^"]*\)"[[:space:]]*$,\1,p' \
-
-}
-
-_choice_remove_cache_entry() {
-    cmake -LA -N 2>/dev/null | tail -n +2 | cut -f1 -d:
-}
-
 _choice_set_cache_entry() {
     _argc_util_mode_kv =
     if [[ -z "$argc__kv_prefix" ]]; then
@@ -153,6 +100,59 @@ _choice_set_cache_entry() {
             esac
         fi
     fi
+}
+
+_choice_remove_cache_entry() {
+    cmake -LA -N 2>/dev/null | tail -n +2 | cut -f1 -d:
+}
+
+_choice_generator() {
+    cmake --help 2>&1 | \
+    sed -n \
+        -e "1,/^Generators/d" \
+        -e "/^\s*(/d" \
+        -e "/^  *[^ =]/{s|^ *\([^=]*[^ =]\).*$|\1|;p}" \
+
+}
+
+_choice_preset() {
+    cmake --list-presets 2>/dev/null | \
+    sed -n \
+        -e 's,^[[:space:]]*"\([^"]*\)"[[:space:]]*-[[:space:]]*\(.*\),\1:\2,p' \
+        -e 's,^[[:space:]]*"\([^"]*\)"[[:space:]]*$,\1,p' \
+
+}
+
+_choice_list_preset() {
+    printf "%s\n" configure build test all
+}
+
+_choice_cmd() {
+    cmake -E help 2>&1 | sed -n  '/^  [^ ]/{s|^  \([^ ]\{1,\}\) .*$|\1|;p}' 
+}
+
+_choice_help_manual() {
+    cmake --help-manual-list 2>&1 | grep -v "^cmake version " | sed -e "s/([0-9])$//"
+}
+
+_choice_help_command() {
+    cmake --help-command-list 2>&1 | grep -v "^cmake version "
+}
+
+_choice_help_module() {
+    cmake --help-module-list 2>&1 | grep -v "^cmake version "
+}
+
+_choice_help_policy() {
+    cmake --help-policy-list 2>&1 | grep -v "^cmake version "
+}
+
+_choice_help_property() {
+    cmake --help-property-list 2>&1 | grep -v "^cmake version "
+}
+
+_choice_help_variable() {
+    cmake --help-variable-list 2>&1 | grep -v "^cmake version "
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

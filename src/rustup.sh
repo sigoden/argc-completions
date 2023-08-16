@@ -13,13 +13,16 @@ _patch_table() {
     if [[ "$*" == "rustup" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;'
 
+    elif [[ "$*" == "rustup update" ]]; then
+        echo "$table" | _patch_table_edit_arguments 'toolchain;[`_choice_channel`]'
+
+    elif [[ "$*" == "rustup toolchain install" ]]; then
+        echo "$table" | \
+            _patch_table_edit_options '--component;*,[`_choice_available_component`]' | \
+            _patch_table_edit_arguments 'toolchain;[`_choice_channel`]'
+
     elif [[ "$*" == "rustup component remove" ]]; then
         echo "$table" | _patch_table_edit_arguments 'component;[`_choice_installed_component`]'
-
-    elif [[ "$*" == "rustup man" ]] \
-      || [[ "$*" == "rustup which" ]] \
-    ; then
-        echo "$table" | _patch_table_edit_arguments 'command;[`_choice_toolchain_command`]'
 
     elif [[ "$*" == "rustup override unset" ]]; then
         echo "$table" | _patch_table_edit_options '--path;[`_choice_override`]'
@@ -27,17 +30,25 @@ _patch_table() {
     elif [[ "$*" == "rustup run" ]]; then
         echo "$table" | _patch_table_edit_arguments 'command;[`_choice_toolchain_command`]'
 
-    elif [[ "$*" == "rustup toolchain install" ]]; then
-        echo "$table" | \
-            _patch_table_edit_options '--component;*,[`_choice_available_component`]' | \
-            _patch_table_edit_arguments 'toolchain;[`_choice_channel`]'
-
-    elif [[ "$*" == "rustup update" ]]; then
-        echo "$table" | _patch_table_edit_arguments 'toolchain;[`_choice_channel`]'
+    elif [[ "$*" == "rustup which" ]] \
+      || [[ "$*" == "rustup man" ]] \
+    ; then
+        echo "$table" | _patch_table_edit_arguments 'command;[`_choice_toolchain_command`]'
 
     else
         echo "$table"
     fi
+}
+
+_choice_channel() {
+    echo beta
+    echo stable
+    echo nightly
+}
+
+_choice_toolchain() {
+    rustup toolchain list | gawk '{print $1}'
+    _choice_channel
 }
 
 _choice_available_component() {
@@ -59,10 +70,8 @@ rustc-dev	This component contains the compiler as a library.
 EOF
 }
 
-_choice_channel() {
-    echo beta
-    echo stable
-    echo nightly
+_choice_target() {
+    rustup target list | gawk '{print $1}' | _argc_util_comp_parts -
 }
 
 _choice_installed_component() {
@@ -71,15 +80,6 @@ _choice_installed_component() {
 
 _choice_override() {
     rustup override list
-}
-
-_choice_target() {
-    rustup target list | gawk '{print $1}' | _argc_util_comp_parts -
-}
-
-_choice_toolchain() {
-    rustup toolchain list | gawk '{print $1}'
-    _choice_channel
 }
 
 _choice_toolchain_command() {

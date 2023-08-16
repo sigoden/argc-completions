@@ -376,23 +376,16 @@ version() {
 }
 # }} apt version
 
-_choice_build() {
-    printf "%s\n" ull source binary any all
-}
-
-_choice_hold_pkg() {
-    apt held
-}
-
-_choice_installed_pkg() {
-    if [[ -n "$ARGC_FILTER" ]]; then
-        pattern=$ARGC_FILTER*
-    fi
-    apt list --installed $pattern | gawk -F/ '{if (NR>1) {print $1}}'
-}
-
 _choice_option() {
     apt-config dump | gawk '{print $1}'
+}
+
+_choice_target() {
+    printf "%s\n" stable testing unstable
+}
+
+_choice_build() {
+    printf "%s\n" ull source binary any all
 }
 
 _choice_pkg() {
@@ -402,8 +395,15 @@ _choice_pkg() {
     apt list $ARGC_FILTER* | gawk -F/ '{if (NR>1) {print $1}}'
 }
 
-_choice_target() {
-    printf "%s\n" stable testing unstable
+_choice_installed_pkg() {
+    if [[ -n "$ARGC_FILTER" ]]; then
+        pattern=$ARGC_FILTER*
+    fi
+    apt list --installed $pattern | gawk -F/ '{if (NR>1) {print $1}}'
+}
+
+_choice_hold_pkg() {
+    apt held
 }
 
 _choice_upgradable_pkg() {

@@ -34,6 +34,16 @@ _patch_table() {
 
 }
 
+_choice_e2() {
+    cat <<-'EOF'
+k	kibibytes
+m	mebibytes
+g	gibibytes
+t	tebibytes
+p	pebibytes
+EOF
+}
+
 _choice_e() {
     cat <<-'EOF'
 k	kibibytes
@@ -42,16 +52,6 @@ g	gibibytes
 t	tebibytes
 p	pebibytes
 e	exbibytes
-EOF
-}
-
-_choice_e2() {
-    cat <<-'EOF'
-k	kibibytes
-m	mebibytes
-g	gibibytes
-t	tebibytes
-p	pebibytes
 EOF
 }
 

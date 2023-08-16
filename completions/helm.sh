@@ -1663,11 +1663,6 @@ version() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_chart() {
-    _choice_repo_chart
-    _argc_util_comp_path isdir
-}
-
 _choice_kube_context() {
     kubectl config get-contexts -o name
 }
@@ -1676,12 +1671,26 @@ _choice_kube_namespace() {
     kubectl get namespaces | tail -n +2 | gawk '{print $1}'
 }
 
-_choice_plugin() {
-    _helm plugin list | _argc_util_transform_table 'NAME;DESCRIPTION' '\t'
+_choice_chart() {
+    _choice_repo_chart
+    _argc_util_comp_path isdir
 }
 
 _choice_release() {
     _helm list --output json | yq '.[] | .name + "	" + .chart'
+}
+
+_choice_set_file() {
+    _argc_util_mode_kv =
+    if [[ -z "$argc__kv_prefix" ]]; then
+        :;
+    else
+        _argc_util_comp_path
+    fi
+}
+
+_choice_plugin() {
+    _helm plugin list | _argc_util_transform_table 'NAME;DESCRIPTION' '\t'
 }
 
 _choice_repo_chart() {
@@ -1712,15 +1721,6 @@ _choice_repo_name() {
 
 _choice_revision() {
     _helm history --output json "${argc__positionals[0]}" | yq '.[] | .revision + "	" + .description'
-}
-
-_choice_set_file() {
-    _argc_util_mode_kv =
-    if [[ -z "$argc__kv_prefix" ]]; then
-        :;
-    else
-        _argc_util_comp_path
-    fi
 }
 
 _helm() {

@@ -1108,7 +1108,7 @@ image() {
 # @option --dns </etc/resolv.conf>         Set custom DNS servers or disable it completely by setting it to 'none', which prevents the automatic creation of /etc/resolv.conf.
 # @option --dns-option* <string>           Set custom DNS options
 # @option --dns-search* <string>           Set custom DNS search domains
-# @option -f --filepathname or URL of a Dockerfile <file>  pathname or URL  pathname or URL of a Dockerfile
+# @option -f --file <file>                 pathname or URL of a Dockerfile
 # @flag --force-rm                         Always remove intermediate containers after a build, even if the build is unsuccessful.
 # @option --format <format>                format of the built image's manifest and metadata.
 # @option --from <file>                    image name used to replace the value in the first FROM instruction in the Containerfile
@@ -2729,12 +2729,12 @@ wait() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_args() {
-    _argc_util_comp_subcommand 1
-}
-
 _choice_container() {
     podman ps --format json | yq '.[] | .Names[0] + "	" + .Image' 
+}
+
+_choice_network() {
+    podman network ls --format json | yq '.[].Name'
 }
 
 _choice_container_cp() {
@@ -2766,12 +2766,12 @@ _choice_container_cp() {
     fi
 }
 
-_choice_machine() {
-    podman machine list | gawk '{ if (NR > 1) { gsub(/\*$/, "", $1); print $1}}'
+_choice_args() {
+    _argc_util_comp_subcommand 1
 }
 
-_choice_network() {
-    podman network ls --format json | yq '.[].Name'
+_choice_machine() {
+    podman machine list | gawk '{ if (NR > 1) { gsub(/\*$/, "", $1); print $1}}'
 }
 
 _choice_pod() {

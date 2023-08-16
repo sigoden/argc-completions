@@ -335,9 +335,25 @@ _choice_alias() {
     scoop alias list | tail -n +4 | sed 's/ \+/\t/'
 }
 
+_choice_known_bucket() {
+    scoop bucket known
+}
+
 _choice_bucket() {
     _helper_get_scoop_dir
     ls -1 --indicator-style=none "$scoop_dir/buckets"
+}
+
+_choice_installed_package() {
+    _helper_get_scoop_dir
+    ls -1 --indicator-style=none "$scoop_dir/apps"
+}
+
+_choice_package() {
+    _helper_get_scoop_dir
+    for bucket_dir in "$scoop_dir/buckets/"*; do
+        ls -1 "$bucket_dir/bucket/" | sed 's/\.json$//'
+    done
 }
 
 _choice_config_key() {
@@ -392,22 +408,6 @@ _choice_config_value() {
             printf "%s\n" kiennq scoopcs 71
             ;;
     esac
-}
-
-_choice_installed_package() {
-    _helper_get_scoop_dir
-    ls -1 --indicator-style=none "$scoop_dir/apps"
-}
-
-_choice_known_bucket() {
-    scoop bucket known
-}
-
-_choice_package() {
-    _helper_get_scoop_dir
-    for bucket_dir in "$scoop_dir/buckets/"*; do
-        ls -1 "$bucket_dir/bucket/" | sed 's/\.json$//'
-    done
 }
 
 _choice_package_or_path() {

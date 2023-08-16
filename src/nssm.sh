@@ -18,15 +18,15 @@ EOF
 }
 
 _patch_table() { 
-    if [[ "$*" == "nssm dump" ]] \
-    || [[ "$*" == "nssm edit" ]] \
-    || [[ "$*" == "nssm processes" ]] \
-    || [[ "$*" == "nssm restart" ]] \
-    || [[ "$*" == "nssm rotate" ]] \
+    if [[ "$*" == "nssm edit" ]] \
+    || [[ "$*" == "nssm dump" ]] \
     || [[ "$*" == "nssm start" ]] \
+    || [[ "$*" == "nssm stop" ]] \
+    || [[ "$*" == "nssm restart" ]] \
     || [[ "$*" == "nssm status" ]] \
     || [[ "$*" == "nssm statuscode" ]] \
-    || [[ "$*" == "nssm stop" ]] \
+    || [[ "$*" == "nssm rotate" ]] \
+    || [[ "$*" == "nssm processes" ]] \
     ; then
         _patch_table_edit_arguments 'servicename;[`_choice_servicename`]'
 
@@ -37,20 +37,24 @@ _patch_table() {
             'servicename;[`_choice_servicename`]' \
             'parameter;[`_choice_parameter_name`]' \
 
-    elif [[ "$*" == "nssm remove" ]]; then
-        _patch_table_edit_arguments \
-            'servicename;[`_choice_servicename`]' \
-            'confirm;[confirm]' \
-
     elif [[ "$*" == "nssm set" ]]; then
         _patch_table_edit_arguments \
             'servicename;[`_choice_servicename`]' \
             'parameter;[`_choice_parameter_name`]' \
             'value;[`_choice_parameter_value`]' \
 
+    elif [[ "$*" == "nssm remove" ]]; then
+        _patch_table_edit_arguments \
+            'servicename;[`_choice_servicename`]' \
+            'confirm;[confirm]' \
+
     else
         cat
     fi
+}
+
+_choice_servicename() {
+    nssm list
 }
 
 _choice_parameter_name() {
@@ -118,8 +122,4 @@ IDLE_PRIORITY_CLASS
 EOF
             ;;
     esac
-}
-
-_choice_servicename() {
-    nssm list
 }

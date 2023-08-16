@@ -12,8 +12,8 @@ _patch_table() {
     _patch_table_edit_options \
         '--dns-servers;*,[`_module_os_hostname`]' \
         '--exclude;*,[`_module_os_hostname`]' \
-        '--script-help;[`_choice_script`]' \
         '--script;*[`_choice_script`]' \
+        '--script-help;[`_choice_script`]' \
         '-T;[`_choice_template`]' \
         '-e;[`_module_os_network_interface`]' \
         ';;' \
@@ -23,47 +23,6 @@ _patch_table() {
     | \
     _patch_table_edit_arguments ';;' 'hosts;*[`_module_os_hostname`]'
 
-}
-
-_choice_output_format() {
-    cat <<-'EOF'
-N	normal format
-X	xml format
-S	Script kiddie format
-G	Grepable format
-EOF
-}
-
-_choice_protocol() {
-  cat <<-'EOF'  
-n	Treat all hosts as online -- skip host discovery
-S	TCP SYNC discovery to given ports
-A	ACK discovery to given ports
-U	UDP discovery to given ports
-Y	SCTP discovery to given ports
-E	ICMP echo request discovery probes
-P	timestamp request discovery probes
-M	netmask request discovery probes
-O	IP Protocol Ping
-EOF
-}
-
-_choice_scan() {
-    cat <<-'EOF'
-L	List Scan - simply list targets to scan
-n	Ping Scan - disable port scan
-S	TCY SYNC scans
-T	Connect scans
-A	ACK scans
-W	Window scans
-M	Maimon scans
-I	Idle scan
-Y	SCTP INIT scans
-Z	COOKIE-ECHO scans
-O	IP protocol scan
-V	Probe open ports to determine service/version info
-C	equivalent to --script=default
-EOF
 }
 
 _choice_script() {
@@ -94,4 +53,45 @@ _choice_template() {
     for (( i=0; i<$length; i++)); do
         echo -e "$i\t${values[$i]} timing"
     done
+}
+
+_choice_output_format() {
+    cat <<-'EOF'
+N	normal format
+X	xml format
+S	Script kiddie format
+G	Grepable format
+EOF
+}
+
+_choice_scan() {
+    cat <<-'EOF'
+L	List Scan - simply list targets to scan
+n	Ping Scan - disable port scan
+S	TCY SYNC scans
+T	Connect scans
+A	ACK scans
+W	Window scans
+M	Maimon scans
+I	Idle scan
+Y	SCTP INIT scans
+Z	COOKIE-ECHO scans
+O	IP protocol scan
+V	Probe open ports to determine service/version info
+C	equivalent to --script=default
+EOF
+}
+
+_choice_protocol() {
+  cat <<-'EOF'  
+n	Treat all hosts as online -- skip host discovery
+S	TCP SYNC discovery to given ports
+A	ACK discovery to given ports
+U	UDP discovery to given ports
+Y	SCTP discovery to given ports
+E	ICMP echo request discovery probes
+P	timestamp request discovery probes
+M	netmask request discovery probes
+O	IP Protocol Ping
+EOF
 }

@@ -408,6 +408,25 @@
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
+_choice_table() {
+    cat <<-'EOF'
+filter	This is the default table (if no -t option is passed).
+nat	This  table is consulted when a packet that creates a new connection is encountered.
+mangle	This table is used for specialized packet alteration.
+raw	This table is used mainly for configuring exemptions from connection tracking in combination with the NOTRACK target.
+security	This table is used for Mandatory Access Control (MAC) networking rules, such as those enabled by the SECMARK and CONNSEC‐MARK  targets.
+EOF
+}
+
+_choice_protocol() {
+    printf "%s\n" tcp udp udplite icmp icmpv6 esp ah sctp mh all
+}
+
+_choice_target() {
+    printf "%s\n" ACCEPT DROP RETURN
+    _choice_chain
+}
+
 _choice_chain() {
     prerouting="PREROUTING\tFor packets that are coming in"
     input="INPUT\tFor packets destined to local sockets"
@@ -452,30 +471,11 @@ _choice_chain() {
     _choice_user_chain
 }
 
-_choice_protocol() {
-    printf "%s\n" tcp udp udplite icmp icmpv6 esp ah sctp mh all
-}
-
 _choice_rulenum() {
     if [[ -n "$argc_table" ]] && [[ -n "$argc_chain" ]]; then
         iptables -t $argc_table -L $argc_chain --line-numbers -n 2>/dev/null | \
         gawk '{if (NR>2) { print $1 "\t" $2 " " $3 " -- " $5 " " $6 }}'
     fi
-}
-
-_choice_table() {
-    cat <<-'EOF'
-filter	This is the default table (if no -t option is passed).
-nat	This  table is consulted when a packet that creates a new connection is encountered.
-mangle	This table is used for specialized packet alteration.
-raw	This table is used mainly for configuring exemptions from connection tracking in combination with the NOTRACK target.
-security	This table is used for Mandatory Access Control (MAC) networking rules, such as those enabled by the SECMARK and CONNSEC‐MARK  targets.
-EOF
-}
-
-_choice_target() {
-    printf "%s\n" ACCEPT DROP RETURN
-    _choice_chain
 }
 
 _choice_user_chain() {

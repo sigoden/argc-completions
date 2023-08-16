@@ -12,10 +12,6 @@
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_args() {
-    _argc_util_comp_subcommand 1
-}
-
 _choice_user_group() {
     _argc_util_mode_kv ':'
     if [[ -z "$argc__kv_prefix" ]]; then
@@ -23,6 +19,10 @@ _choice_user_group() {
     else
         _module_os_group
     fi
+}
+
+_choice_args() {
+    _argc_util_comp_subcommand 1
 }
 
 _module_os_command() {

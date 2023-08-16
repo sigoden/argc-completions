@@ -896,12 +896,16 @@ subcommand() {
 }
 # }} zypper subcommand
 
-_choice_installed_package() {
-    _helper_list_packages
+_choice_repo() {
+    LC_ALL=POSIX zypper -q lr | _helper_extract
 }
 
-_choice_lock() {
-    LC_ALL=POSIX zypper -q ll | _helper_extract
+_choice_service() {
+    LC_ALL=POSIX zypper -q ls | _helper_extract
+}
+
+_choice_installed_package() {
+    _helper_list_packages
 }
 
 _choice_patch() {
@@ -916,12 +920,8 @@ _choice_product() {
     _helper_list_packages "product:$ARGC_FILTER" | sed -e "s/^product://"
 }
 
-_choice_repo() {
-    LC_ALL=POSIX zypper -q lr | _helper_extract
-}
-
-_choice_service() {
-    LC_ALL=POSIX zypper -q ls | _helper_extract
+_choice_lock() {
+    LC_ALL=POSIX zypper -q ll | _helper_extract
 }
 
 _helper_extract() {

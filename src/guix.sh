@@ -16,12 +16,20 @@ _patch_table() {
             'package-or-derivation;[`_choice_package`]' \
     )"
 
-    if [[ "$*" == "guix container" ]] \
-    || [[ "$*" == "guix import" ]] \
-    || [[ "$*" == "guix system" ]] \
+    if [[ "$*" == "guix remove" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments 'packages;[`_choice_installed_package`]'
+
+    elif [[ "$*" == "guix system" ]] \
+      || [[ "$*" == "guix container" ]] \
+      || [[ "$*" == "guix import" ]] \
     ; then
         echo "$table" | \
         _patch_table_edit_arguments ';;'
+
+    elif [[ "$*" == "guix time-machine" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments ';;' 'command;~[`_choice_time_machine_command`]'
 
     elif [[ "$*" == "guix container exec" ]]; then
         echo "$table" | \
@@ -36,25 +44,17 @@ _patch_table() {
             'package;[`_choice_installed_package`]' \
             'command;~[`_module_os_command_string`]' \
 
-    elif [[ "$*" == "guix remove" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments 'packages;[`_choice_installed_package`]'
-
-    elif [[ "$*" == "guix time-machine" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments ';;' 'command;~[`_choice_time_machine_command`]'
-
     else
         echo "$table"
     fi
 }
 
-_choice_installed_package() {
-    guix package -I
-}
-
 _choice_package() {
     guix package -A
+}
+
+_choice_installed_package() {
+    guix package -I
 }
 
 _choice_time_machine_command() {

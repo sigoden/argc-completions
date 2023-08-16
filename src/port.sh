@@ -19,20 +19,20 @@ _patch_table() {
         _patch_table_edit_commands \
             'unsetrequested(unsetrequested, setunrequested)' \
 
-    elif [[ "$*" == "port activate" ]] \
-      || [[ "$*" == "port clean" ]] \
-      || [[ "$*" == "port contents" ]] \
+    elif [[ "$*" == "port dependents" ]] \
+      || [[ "$*" == "port rdependents" ]] \
+      || [[ "$*" == "port uninstall" ]] \
+      || [[ "$*" == "port activate" ]] \
       || [[ "$*" == "port deactivate" ]] \
-      || [[ "$*" == "port dependents" ]] \
       || [[ "$*" == "port installed" ]] \
-      || [[ "$*" == "port load" ]] \
       || [[ "$*" == "port location" ]] \
+      || [[ "$*" == "port contents" ]] \
+      || [[ "$*" == "port clean" ]] \
       || [[ "$*" == "port log" ]] \
       || [[ "$*" == "port logfile" ]] \
-      || [[ "$*" == "port rdependents" ]] \
-      || [[ "$*" == "port reload" ]] \
-      || [[ "$*" == "port uninstall" ]] \
+      || [[ "$*" == "port load" ]] \
       || [[ "$*" == "port unload" ]] \
+      || [[ "$*" == "port reload" ]] \
     ; then
         _patch_table_edit_arguments ';;' 'package;*[`_choice_installed_package`]'
 
@@ -51,18 +51,18 @@ _patch_table() {
     fi
 }
 
-_choice_installed_package() {
-    port installed | gawk '/^  / {print $1}'
-}
-
-_choice_package() {
-    port echo all | sed 's/\(\S\+\).*/\1/'
-}
-
 _choice_package_cached() {
     _argc_util_cache 86400 _choice_package
 }
 
+_choice_installed_package() {
+    port installed | gawk '/^  / {print $1}'
+}
+
 _choice_variant() {
     port variants "$argc_package" | tail -n +2 | sed -e 's/^\(\[\(+\|-\)\]\|\s*\)/\2/' -e 's/: /\t/'
+}
+
+_choice_package() {
+    port echo all | sed 's/\(\S\+\).*/\1/'
 }

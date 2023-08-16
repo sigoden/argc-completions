@@ -4575,28 +4575,64 @@ version() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_all_type() {
-    kubectl api-resources --output=name --cached | gawk -F. '{print $1}'
+_choice_cluster() {
+    kubectl config get-clusters | tail -n +2
+}
+
+_choice_context() {
+    kubectl config get-contexts -o name
+}
+
+_choice_namespace() {
+    kubectl get namespaces | tail -n +2 | gawk '{print $1}'
+}
+
+_choice_user() {
+    kubectl config get-users | tail -n +2
+}
+
+_choice_verb_type() {
+    printf "%s\n" get list create update patch watch delete deletecollection
 }
 
 _choice_args() {
     _argc_util_comp_subcommand 1
 }
 
-_choice_cluster() {
-    kubectl config get-clusters | tail -n +2
-}
-
 _choice_clusterrole() {
     kubectl get clusterrole | tail -n +2 | gawk '{print $1'}
+}
+
+_choice_serviceaccount() {
+    kubectl get serviceaccounts | tail -n +2 |  gawk '{print $1'}
 }
 
 _choice_common_type() {
     printf "%s\n" pod service replicationcontroller deployment replicaset
 }
 
-_choice_container() {
-    _kubectl get pods -o go-template --template="$(echo -e "{{range .items}}{{range .spec.containers}}{{.name}}\t{{.image}}\n{{end}}{{end}}")"
+_choice_resource() {
+    if [[ -n "${argc__positionals[0]}" ]]; then
+        _helper_find_resource_by_type "${argc__positionals[0]}"
+    fi
+}
+
+_choice_resource_type_and_name() {
+    _argc_util_mode_kv /
+    if [[ -z "$argc__kv_prefix" ]]; then
+        _choice_all_type | _argc_util_transform suffix=/ nospace
+    else
+        _helper_find_resource_by_type $argc__kv_key
+    fi
+}
+
+_choice_resource_type_or_resource() {
+    _argc_util_mode_kv /
+    if [[ -z "$argc__kv_prefix" ]]; then
+        _choice_all_type | _argc_util_transform nospace
+    else
+        _helper_find_resource_by_type $argc__kv_key
+    fi
 }
 
 _choice_container_image() {
@@ -4608,8 +4644,22 @@ _choice_container_image() {
     fi
 }
 
-_choice_context() {
-    kubectl config get-contexts -o name
+_choice_all_type() {
+    kubectl api-resources --output=name --cached | gawk -F. '{print $1}'
+}
+
+_choice_node() {
+    _helper_find_resource_by_type nodes
+}
+
+_choice_pod() {
+    _helper_find_resource_by_type pods
+}
+
+_choice_filtered_container() {
+    if [[ "${argc__positionals[0]}" != *"/"* ]]; then
+        _kubectl get pods "${argc__positionals[0]}"  -o jsonpath='{.spec.containers[*].name}'
+    fi
 }
 
 _choice_cp() {
@@ -4641,58 +4691,8 @@ _choice_cp() {
     fi
 }
 
-_choice_filtered_container() {
-    if [[ "${argc__positionals[0]}" != *"/"* ]]; then
-        _kubectl get pods "${argc__positionals[0]}"  -o jsonpath='{.spec.containers[*].name}'
-    fi
-}
-
-_choice_namespace() {
-    kubectl get namespaces | tail -n +2 | gawk '{print $1}'
-}
-
-_choice_node() {
-    _helper_find_resource_by_type nodes
-}
-
-_choice_pod() {
-    _helper_find_resource_by_type pods
-}
-
-_choice_resource() {
-    if [[ -n "${argc__positionals[0]}" ]]; then
-        _helper_find_resource_by_type "${argc__positionals[0]}"
-    fi
-}
-
-_choice_resource_type_and_name() {
-    _argc_util_mode_kv /
-    if [[ -z "$argc__kv_prefix" ]]; then
-        _choice_all_type | _argc_util_transform suffix=/ nospace
-    else
-        _helper_find_resource_by_type $argc__kv_key
-    fi
-}
-
-_choice_resource_type_or_resource() {
-    _argc_util_mode_kv /
-    if [[ -z "$argc__kv_prefix" ]]; then
-        _choice_all_type | _argc_util_transform nospace
-    else
-        _helper_find_resource_by_type $argc__kv_key
-    fi
-}
-
-_choice_serviceaccount() {
-    kubectl get serviceaccounts | tail -n +2 |  gawk '{print $1'}
-}
-
-_choice_user() {
-    kubectl config get-users | tail -n +2
-}
-
-_choice_verb_type() {
-    printf "%s\n" get list create update patch watch delete deletecollection
+_choice_container() {
+    _kubectl get pods -o go-template --template="$(echo -e "{{range .items}}{{range .spec.containers}}{{.name}}\t{{.image}}\n{{end}}{{end}}")"
 }
 
 _helper_find_resource_by_type() {

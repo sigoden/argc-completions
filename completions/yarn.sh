@@ -2475,15 +2475,15 @@ workspaces::run() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_config_key() {
-    yarn config list --json |  yq 'select(.type == "inspect") | .data | keys | .[]'
-}
-
-_choice_dependency() {
+_choice_script() {
     _helper_find_pkg_json_path
     if [[ -n "$pkg_json_path" ]]; then
-        cat "$pkg_json_path" |  yq '(.dependencies // {}) + (.devDependencies // {}) + (.optionalDependencies // {}) | keys | .[]'
+        cat "$pkg_json_path" | yq '(.scripts // {}) | keys | .[]'
     fi
+}
+
+_choice_config_key() {
+    yarn config list --json |  yq 'select(.type == "inspect") | .data | keys | .[]'
 }
 
 _choice_global_dependency() {
@@ -2491,10 +2491,10 @@ _choice_global_dependency() {
     yq '(.dependencies // {}) + (.devDependencies // {}) + (.optionalDependencies // {}) | keys | .[]'
 }
 
-_choice_script() {
+_choice_dependency() {
     _helper_find_pkg_json_path
     if [[ -n "$pkg_json_path" ]]; then
-        cat "$pkg_json_path" | yq '(.scripts // {}) | keys | .[]'
+        cat "$pkg_json_path" |  yq '(.dependencies // {}) + (.devDependencies // {}) + (.optionalDependencies // {}) | keys | .[]'
     fi
 }
 

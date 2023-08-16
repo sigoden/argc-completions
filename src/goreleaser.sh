@@ -8,7 +8,6 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_options \
             '--release-footer(<file>)' \
-            '--release-footer(<file>)' \
             '--release-footer-tmpl(<file>)' \
             '--release-header(<file>)' \
             '--release-header-tmpl(<file>)' \

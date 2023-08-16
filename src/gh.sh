@@ -26,16 +26,11 @@ _patch_table() {
         _patch_table_edit_options \
             '--branch;[`_choice_branch`]' \
             '--org;[`_choice_org`]' \
-            '--repo-owner;[`_choice_owner`]' \
             '--repo;[`_choice_search_repo`]' \
+            '--repo-owner;[`_choice_owner`]' \
     )"
 
-    if [[ "$*" == "gh alias"* ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            'alias;[`_choice_alias`]' \
-
-    elif [[ "$*" == "gh auth"* ]]; then
+    if [[ "$*" == "gh auth"* ]]; then
         table="$( \
             echo "$table" | \
             _patch_table_edit_options \
@@ -60,17 +55,6 @@ _patch_table() {
         else
             echo "$table"
         fi
-
-    elif [[ "$*" == "gh completion" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            'shell;[bash|zsh|fish|powershell]' \
-
-    elif [[ "$*" == "gh config"* ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            'key;[`_choice_config_key`]' \
-
 
     elif [[ "$*" == "gh gist"* ]]; then
         table="$(
@@ -101,12 +85,6 @@ _patch_table() {
         else
             echo "$table"
         fi
-
-    elif [[ "$*" == "gh gpg-key"* ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            'key-id;[`_choice_gpg_key`]' \
-
 
     elif [[ "$*" == "gh issue"* ]]; then
         table="$(
@@ -182,12 +160,6 @@ _patch_table() {
         else
             echo "$table"
         fi
-
-    elif [[ "$*" == "gh label"* ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            'name;[`_choice_label`]' \
-            'source-repository;[`_choice_search_repo`]' \
 
     elif [[ "$*" == "gh project"* ]]; then
         echo "$table" | \
@@ -297,6 +269,11 @@ _patch_table() {
                 '--gitignore;[`_choice_gitignore`]' \
                 '--license;[`_choice_license`]' \
 
+        elif [[ "$*" == "gh repo list"* ]]; then
+            echo "$table" | \
+            _patch_table_edit_arguments \
+                'owner;[`_choice_owner`]' \
+
         elif [[ "$*" == "gh repo deploy-key delete"* ]]; then
             echo "$table" | \
             _patch_table_edit_arguments \
@@ -307,11 +284,6 @@ _patch_table() {
             _patch_table_edit_options \
                 '--add-topic;*,[`_choice_search_topic`]' \
                 '--remove-topic;*,[`_choice_repo_topic`]' \
-
-        elif [[ "$*" == "gh repo list"* ]]; then
-            echo "$table" | \
-            _patch_table_edit_arguments \
-                'owner;[`_choice_owner`]' \
 
         elif [[ "$*" == "gh repo sync"* ]]; then
             echo "$table" | \
@@ -373,6 +345,40 @@ _patch_table() {
         else
             echo "$table"
         fi
+
+    elif [[ "$*" == "gh workflow"* ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'workflow-id-workflow-name(workflow);[`_choice_workflow`]' \
+            'workflow-id-workflow-name-filename(workflow);[`_choice_workflow_or_file`]' \
+
+    elif [[ "$*" == "gh alias"* ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'alias;[`_choice_alias`]' \
+
+    elif [[ "$*" == "gh completion" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'shell;[bash|zsh|fish|powershell]' \
+
+    elif [[ "$*" == "gh config"* ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'key;[`_choice_config_key`]' \
+
+
+    elif [[ "$*" == "gh gpg-key"* ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'key-id;[`_choice_gpg_key`]' \
+
+
+    elif [[ "$*" == "gh label"* ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'name;[`_choice_label`]' \
+            'source-repository;[`_choice_search_repo`]' \
 
     elif [[ "$*" == "gh search"* ]]; then
         table="$(
@@ -438,48 +444,17 @@ _patch_table() {
             echo "$table"
         fi
 
-    elif [[ "$*" == "gh workflow"* ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            'workflow-id-workflow-name(workflow);[`_choice_workflow`]' \
-            'workflow-id-workflow-name-filename(workflow);[`_choice_workflow_or_file`]' \
-
     else
         echo "$table"
     fi
 }
 
-_choice_alias() {
-    gh alias list | sed 's/:/\t/'
-}
-
-_choice_all_issue() {
-    _helper_query_issue
-}
-
-_choice_all_pr() {
-    _helper_query_pr
-}
-
-_choice_all_run() {
-    _helper_repo_curl 'actions/runs' | \
-    yq '.workflow_runs[] | .id + "	" + .name + ": " + (.display_title // "")'
-}
-
-_choice_artifact_name() {
-    local path
-    if [[ -z "$argc_run_id" ]]; then
-        path="actions/artifacts"
-    else
-        path="actions/runs/$argc_run_id/artifacts"
+_choice_hostname() {
+    host_yml_path="$(_argc_util_path_resolve CONFIG_DIR gh/hosts.yml)"
+    if [[ ! -f "$host_yml_path" ]]; then
+        return
     fi
-    _helper_repo_curl "$path" | \
-    yq '.artifacts[].name'
-}
-
-_choice_assignee() {
-    _helper_repo_query 'assignableUsers(first: 100, query: "'$ARGC_FILTER'") { nodes { login, name } }' | \
-    yq '.data.repository.assignableUsers.nodes[] | .login + "	" + (.name // "")'
+    cat "$host_yml_path" | yq 'keys | .[]'
 }
 
 _choice_auth_scope() {
@@ -525,12 +500,13 @@ _choice_branch() {
     yq '.data.repository.refs.nodes[] | .name + "	" + .target.abbreviatedOid'
 }
 
-_choice_closed_issue() {
-    _helper_query_issue CLOSED
-}
-
-_choice_closed_pr() {
-    _helper_query_pr CLOSED
+_choice_search_repo() {
+    _argc_util_mode_kv /
+    if [[ -z "$argc__kv_prefix" ]]; then
+        _choice_owner | _argc_util_transform suffix=/ nospace
+    else
+        _helper_search_repo "$argc__kv_key" "$argc__kv_filter"
+    fi
 }
 
 _choice_codespace() {
@@ -538,36 +514,30 @@ _choice_codespace() {
     yq '.[] | .name + "	" + .owner + " • " + .repository + " • " + .state'
 }
 
-_choice_codespace_field() {
-    gh codespace list --json 2>&1 | tail -n +2
+_choice_owner() {
+    _argc_util_parallel _choice_search_user ::: _choice_search_org
 }
 
-_choice_commit_field() {
-    gh search commits --json 2>&1 | tail -n +2
+_choice_org() {
+    gh api user/orgs | yq '.[] | .login + "	" + (.description // "")'
 }
 
-_choice_config_key() {
-    config_yml_path="$(_argc_util_path_resolve CONFIG_DIR gh/config.yml)"
-    if [[ ! -f "$config_yml_path" ]]; then
+_choice_search_user() {
+    val=${1:-$ARGC_FILTER}
+    if [[ "${#val}" -lt 2 ]]; then
         return
     fi
-    cat "$config_yml_path" | yq 'keys | .[]'
+    gh api graphql -f query='
+        query {
+            search( type:USER, query: "'$val' in:login", first: 100) {
+                edges { node { ... on User { login name } } } 
+            }
+        }' | \
+    yq '.data.search.edges[].node | .login + "	" + (.name // "")'
 }
 
-_choice_discussion_category() {
-    _helper_repo_query 'discussionCategories(first:100) { nodes { name, description } } ' | \
-    yq '.data.repository.discussionCategories.nodes[] | .name + "	" + (.description // "")'
-
-}
-
-_choice_env() {
-    _helper_repo_curl 'environments' |
-    yq  '.environments[].name'
-}
-
-_choice_failed_run() {
-    _helper_repo_curl 'actions/runs?status=failure' | \
-    yq '.workflow_runs[] | .id + "	" + .name + ": " + (.display_title // "")'
+_choice_codespace_field() {
+    gh codespace list --json 2>&1 | tail -n +2
 }
 
 _choice_gist() {
@@ -580,26 +550,46 @@ _choice_gist_file() {
     yq '.data.user.gist.files[].name'
 }
 
-_choice_gitignore() {
-    gh api gitignore/templates | yq '.[]'
+_choice_assignee() {
+    _helper_repo_query 'assignableUsers(first: 100, query: "'$ARGC_FILTER'") { nodes { login, name } }' | \
+    yq '.data.repository.assignableUsers.nodes[] | .login + "	" + (.name // "")'
 }
 
-_choice_gpg_key() {
-    gh api user/gpg_keys | \
-    yq '.[] | .key_id + "	" + .name'
+_choice_label() {
+    _helper_repo_query 'labels(first: 100) { nodes { name, description } }' | \
+    yq '.data.repository.labels.nodes[] | .name + "	" + (.description // "")'
 }
 
-_choice_hostname() {
-    host_yml_path="$(_argc_util_path_resolve CONFIG_DIR gh/hosts.yml)"
-    if [[ ! -f "$host_yml_path" ]]; then
-        return
-    fi
-    cat "$host_yml_path" | yq 'keys | .[]'
+_choice_milestone() {
+    _helper_repo_query 'milestones(first: 100, states: OPEN) { nodes { title, description } }' | \
+    yq '.data.repository.milestones.nodes[] | .title + "	" + (.description // "")'
 }
 
-_choice_inprogress_run() {
-    _helper_repo_curl 'actions/runs?status=in_progress' | \
-    yq '.workflow_runs[] | .id + "	" + .name + ": " + (.display_title // "")'
+_choice_repo_project() {
+    _helper_repo_query 'projectsV2(first: 100, orderBy: {direction: DESC, field: UPDATED_AT}) { nodes {  number title } }' | \
+    yq '.data.repository.projectsV2.nodes[] | .number + "	" + .title'
+}
+
+_choice_issue_template() {
+    _helper_repo_query 'issueTemplates { name, about }' | \
+    yq '.data.repository.issueTemplates[] | .name + "	" + (.about // "")'
+}
+
+_choice_issue_field() {
+    gh issue list --json 2>&1 | tail -n +2
+}
+
+_choice_mention() {
+    _helper_repo_query 'mentionableUsers(first: 100, query: "'$ARGC_FILTER'") { nodes { login, name } }' | \
+    yq '.data.repository.mentionableUsers.nodes[] | .login + "	" + (.name // "")'
+}
+
+_choice_open_issue() {
+    _helper_query_issue OPEN
+}
+
+_choice_all_issue() {
+    _helper_query_issue
 }
 
 _choice_issue_assignee() {
@@ -608,10 +598,6 @@ _choice_issue_assignee() {
     fi
     _helper_repo_query 'issue(number: '$argc_issue') { assignees(first: 100) { nodes { login, name } } }' | \
     yq '.data.repository.issue.assignees.nodes[]| .login + "	" + (.name // "")'
-}
-
-_choice_issue_field() {
-    gh issue list --json 2>&1 | tail -n +2
 }
 
 _choice_issue_label() {
@@ -630,49 +616,25 @@ _choice_issue_project() {
     yq '.data.repository.issue.projectsV2.nodes[] | .number + "	" + .title'
 }
 
-_choice_issue_template() {
-    _helper_repo_query 'issueTemplates { name, about }' | \
-    yq '.data.repository.issueTemplates[] | .name + "	" + (.about // "")'
+_choice_closed_issue() {
+    _helper_query_issue CLOSED
 }
 
-_choice_label() {
-    _helper_repo_query 'labels(first: 100) { nodes { name, description } }' | \
-    yq '.data.repository.labels.nodes[] | .name + "	" + (.description // "")'
+_choice_pin_issue() {
+    _helper_repo_query 'pinnedIssues(first: 3) { nodes { issue { number, title, state } } }' | \
+    yq '.data.repository.pinnedIssues.nodes[].issue | .number + "	" + .title'
 }
 
-_choice_license() {
-    gh api licenses | yq '.[] | .key + "	" + .name'
-}
-
-_choice_mention() {
-    _helper_repo_query 'mentionableUsers(first: 100, query: "'$ARGC_FILTER'") { nodes { login, name } }' | \
-    yq '.data.repository.mentionableUsers.nodes[] | .login + "	" + (.name // "")'
-}
-
-_choice_milestone() {
-    _helper_repo_query 'milestones(first: 100, states: OPEN) { nodes { title, description } }' | \
-    yq '.data.repository.milestones.nodes[] | .title + "	" + (.description // "")'
-}
-
-_choice_open_issue() {
-    _helper_query_issue OPEN
+_choice_pr_field() {
+    gh pr list --json 2>&1 | tail -n +2
 }
 
 _choice_open_pr() {
     _helper_query_pr OPEN
 }
 
-_choice_org() {
-    gh api user/orgs | yq '.[] | .login + "	" + (.description // "")'
-}
-
-_choice_owner() {
-    _argc_util_parallel _choice_search_user ::: _choice_search_org
-}
-
-_choice_pin_issue() {
-    _helper_repo_query 'pinnedIssues(first: 3) { nodes { issue { number, title, state } } }' | \
-    yq '.data.repository.pinnedIssues.nodes[].issue | .number + "	" + .title'
+_choice_pr_checks() {
+    _argc_util_parallel _choice_branch ::: _choice_open_pr
 }
 
 _choice_pr_assignee() {
@@ -681,22 +643,6 @@ _choice_pr_assignee() {
     fi
     _helper_repo_query 'pullRequest(number: '$argc_pr') { assignees(first: 100) { nodes { login, name } } }' | \
     yq '.data.repository.pullRequest.assignees.nodes[] | .login + "	" + (.name // "")'
-}
-
-_choice_pr_checks() {
-    _argc_util_parallel _choice_branch ::: _choice_open_pr
-}
-
-_choice_pr_commit() {
-    if [[ -z "$argc_pr" ]]; then
-        return
-    fi
-    _helper_repo_curl pulls/$argc_pr/commits | \
-    yq '.[] | .sha + "	" + .commit.message'
-}
-
-_choice_pr_field() {
-    gh pr list --json 2>&1 | tail -n +2
 }
 
 _choice_pr_label() {
@@ -723,6 +669,23 @@ _choice_pr_reviewer() {
     yq '.data.repository.pullRequest.latestReviews.nodes[].author.login'
 }
 
+_choice_pr_commit() {
+    if [[ -z "$argc_pr" ]]; then
+        return
+    fi
+    _helper_repo_curl pulls/$argc_pr/commits | \
+    yq '.[] | .sha + "	" + .commit.message'
+}
+
+_choice_ready_pr() {
+    _helper_repo_query 'pullRequests(first: 100, states: OPEN, orderBy: {direction: DESC, field: UPDATED_AT}) { nodes {  number, title, isDraft, state  } }' | \
+    yq '.data.repository.pullRequests.nodes[] | select(.isDraft) | .number + "	" + .title'
+}
+
+_choice_closed_pr() {
+    _helper_query_pr CLOSED
+}
+
 _choice_project() {
     if [[ -n "$argc_owner" ]]; then
         gh api graphql -f query='query { organization(login: "'$argc_owner'") { projectsV2(first: 100) { nodes { number title } } } }' | \
@@ -736,9 +699,15 @@ _choice_project() {
     fi
 }
 
-_choice_ready_pr() {
-    _helper_repo_query 'pullRequests(first: 100, states: OPEN, orderBy: {direction: DESC, field: UPDATED_AT}) { nodes {  number, title, isDraft, state  } }' | \
-    yq '.data.repository.pullRequests.nodes[] | select(.isDraft) | .number + "	" + .title'
+_choice_discussion_category() {
+    _helper_repo_query 'discussionCategories(first:100) { nodes { name, description } } ' | \
+    yq '.data.repository.discussionCategories.nodes[] | .name + "	" + (.description // "")'
+
+}
+
+_choice_tag() {
+    _helper_repo_query 'refs(first: 100, refPrefix: "refs/tags/", orderBy: {field: TAG_COMMIT_DATE, direction: DESC}) { nodes { name } }' | \
+    yq '.data.repository.refs.nodes[] | .name'
 }
 
 _choice_release_asset() {
@@ -749,57 +718,20 @@ _choice_release_asset() {
     yq '.data.repository.release.releaseAssets.nodes[].name'
 }
 
+_choice_gitignore() {
+    gh api gitignore/templates | yq '.[]'
+}
+
+_choice_license() {
+    gh api licenses | yq '.[] | .key + "	" + .name'
+}
+
 _choice_repo_field() {
     gh repo list --json 2>&1 | tail -n +2
 }
 
 _choice_repo_key() {
     _helper_repo_curl keys | yq '.[] | .id + "	" + .title'
-}
-
-_choice_repo_project() {
-    _helper_repo_query 'projectsV2(first: 100, orderBy: {direction: DESC, field: UPDATED_AT}) { nodes {  number title } }' | \
-    yq '.data.repository.projectsV2.nodes[] | .number + "	" + .title'
-}
-
-_choice_repo_topic() {
-    _helper_repo_query 'repositoryTopics(first:100) { nodes { topic { name } } }' | \
-    yq '.data.repository.repositoryTopics.nodes[].topic.name'
-}
-
-_choice_run_field() {
-    gh run list --json 2>&1 | tail -n +2
-}
-
-_choice_run_job() { 
-    if [[ -z "$argc_run_id" ]]; then
-        return
-    fi
-    _helper_repo_curl "actions/runs/$argc_run_id/jobs" | \
-    yq '.jobs[] | .id + "	" + .name'
-}
-
-_choice_search_org() {
-    val=${1:-$ARGC_FILTER}
-    if [[ "${#val}" -lt 2 ]]; then
-        return
-    fi
-    gh api graphql -f query='
-        query {
-            search( type:USER, query: "'$val' in:login", first: 100) {
-                edges { node { ... on Organization  { login name } } } 
-            }
-        }' | \
-    yq '.data.search.edges[].node | .login + "	" + (.name // "")'
-}
-
-_choice_search_repo() {
-    _argc_util_mode_kv /
-    if [[ -z "$argc__kv_prefix" ]]; then
-        _choice_owner | _argc_util_transform suffix=/ nospace
-    else
-        _helper_search_repo "$argc__kv_key" "$argc__kv_filter"
-    fi
 }
 
 _choice_search_topic() {
@@ -809,47 +741,30 @@ _choice_search_topic() {
     gh api "search/topics?per_page=100&q=$ARGC_FILTER" | yq '.items[] | .name + "	" + (.short_description // "")'
 }
 
-_choice_search_user() {
-    val=${1:-$ARGC_FILTER}
-    if [[ "${#val}" -lt 2 ]]; then
-        return
-    fi
-    gh api graphql -f query='
-        query {
-            search( type:USER, query: "'$val' in:login", first: 100) {
-                edges { node { ... on User { login name } } } 
-            }
-        }' | \
-    yq '.data.search.edges[].node | .login + "	" + (.name // "")'
+_choice_repo_topic() {
+    _helper_repo_query 'repositoryTopics(first:100) { nodes { topic { name } } }' | \
+    yq '.data.repository.repositoryTopics.nodes[].topic.name'
 }
 
-_choice_secret() {
-    gh secret list
+_choice_inprogress_run() {
+    _helper_repo_curl 'actions/runs?status=in_progress' | \
+    yq '.workflow_runs[] | .id + "	" + .name + ": " + (.display_title // "")'
 }
 
-_choice_ssh_key() {
-    gh api user/keys | \
-    yq '.[] | .id + "	" + .title'
+_choice_all_run() {
+    _helper_repo_curl 'actions/runs' | \
+    yq '.workflow_runs[] | .id + "	" + .name + ": " + (.display_title // "")'
 }
 
-_choice_tag() {
-    _helper_repo_query 'refs(first: 100, refPrefix: "refs/tags/", orderBy: {field: TAG_COMMIT_DATE, direction: DESC}) { nodes { name } }' | \
-    yq '.data.repository.refs.nodes[] | .name'
-}
-
-_choice_variable() {
-    if [[ -n "$argc_org" ]]; then
-        gh "orgs/$argc_org/actions/variables?per_page=100" | \
-        yq '.variables[] | .name + "	" + .value'
+_choice_artifact_name() {
+    local path
+    if [[ -z "$argc_run_id" ]]; then
+        path="actions/artifacts"
     else
-       _helper_repo_curl 'actions/variables?per_page=100' | \
-        yq '.variables[] | .name + "	" + .value'
+        path="actions/runs/$argc_run_id/artifacts"
     fi
-}
-
-_choice_workflow() {
-    _helper_repo_curl "actions/workflows" | \
-    yq '.workflows[] | .id + "	" + .name'
+    _helper_repo_curl "$path" | \
+    yq '.artifacts[].name'
 }
 
 _choice_workflow_event() {
@@ -892,12 +807,97 @@ workflow_run
 EOF
 }
 
+_choice_run_field() {
+    gh run list --json 2>&1 | tail -n +2
+}
+
+_choice_workflow() {
+    _helper_repo_curl "actions/workflows" | \
+    yq '.workflows[] | .id + "	" + .name'
+}
+
+_choice_run_job() { 
+    if [[ -z "$argc_run_id" ]]; then
+        return
+    fi
+    _helper_repo_curl "actions/runs/$argc_run_id/jobs" | \
+    yq '.jobs[] | .id + "	" + .name'
+}
+
+_choice_failed_run() {
+    _helper_repo_curl 'actions/runs?status=failure' | \
+    yq '.workflow_runs[] | .id + "	" + .name + ": " + (.display_title // "")'
+}
+
 _choice_workflow_or_file() {
     if _argc_util_is_path "$ARGC_FILTER"; then
         _argc_util_comp_path 
     else
         _choice_workflow
     fi
+}
+
+_choice_alias() {
+    gh alias list | sed 's/:/\t/'
+}
+
+_choice_config_key() {
+    config_yml_path="$(_argc_util_path_resolve CONFIG_DIR gh/config.yml)"
+    if [[ ! -f "$config_yml_path" ]]; then
+        return
+    fi
+    cat "$config_yml_path" | yq 'keys | .[]'
+}
+
+_choice_gpg_key() {
+    gh api user/gpg_keys | \
+    yq '.[] | .key_id + "	" + .name'
+}
+
+_choice_commit_field() {
+    gh search commits --json 2>&1 | tail -n +2
+}
+
+_choice_secret() {
+    gh secret list
+}
+
+_choice_ssh_key() {
+    gh api user/keys | \
+    yq '.[] | .id + "	" + .title'
+}
+
+_choice_env() {
+    _helper_repo_curl 'environments' |
+    yq  '.environments[].name'
+}
+
+_choice_search_org() {
+    val=${1:-$ARGC_FILTER}
+    if [[ "${#val}" -lt 2 ]]; then
+        return
+    fi
+    gh api graphql -f query='
+        query {
+            search( type:USER, query: "'$val' in:login", first: 100) {
+                edges { node { ... on Organization  { login name } } } 
+            }
+        }' | \
+    yq '.data.search.edges[].node | .login + "	" + (.name // "")'
+}
+
+_choice_variable() {
+    if [[ -n "$argc_org" ]]; then
+        gh "orgs/$argc_org/actions/variables?per_page=100" | \
+        yq '.variables[] | .name + "	" + .value'
+    else
+       _helper_repo_curl 'actions/variables?per_page=100' | \
+        yq '.variables[] | .name + "	" + .value'
+    fi
+}
+
+_choice_all_pr() {
+    _helper_query_pr
 }
 
 _helper_get_user() {

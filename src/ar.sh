@@ -13,17 +13,8 @@ _patch_table() {
 
 }
 
-_choice_action() {
-    cat <<-'EOF'
-d	delete file(s) from the archive
-m	move file(s) in the archive
-p	print file(s) found in the archive
-q	quick append file(s) to the archive
-r	replace existing or insert new file(s) into the archive
-s	act as ranlib
-t	display contents of the archive
-x	extract file(s) from the archive
-EOF
+_choice_target() {
+    printf "%s\n" elf64-x86-64 elf32-i386 elf32-iamcu elf32-x86-64 pei-i386 pe-x86-64 pei-x86-64 elf64-l1om elf64-k1om elf64-little elf64-big elf32-little elf32-big pe-bigobj-x86-64 pe-i386 srec symbolsrec verilog tekhex binary ihex plugin
 }
 
 _choice_cmd() {
@@ -35,6 +26,19 @@ _choice_cmd() {
         echo "__argc_filter="
         _choice_modifier | _argc_util_filter "$ARGC_FILTER"
     fi
+}
+
+_choice_action() {
+    cat <<-'EOF'
+d	delete file(s) from the archive
+m	move file(s) in the archive
+p	print file(s) found in the archive
+q	quick append file(s) to the archive
+r	replace existing or insert new file(s) into the archive
+s	act as ranlib
+t	display contents of the archive
+x	extract file(s) from the archive
+EOF
 }
 
 _choice_modifier() {
@@ -58,8 +62,4 @@ v	be verbose
 V	display the version number
 @	read options from <file>
 EOF
-}
-
-_choice_target() {
-    printf "%s\n" elf64-x86-64 elf32-i386 elf32-iamcu elf32-x86-64 pei-i386 pe-x86-64 pei-x86-64 elf64-l1om elf64-k1om elf64-little elf64-big elf32-little elf32-big pe-bigobj-x86-64 pe-i386 srec symbolsrec verilog tekhex binary ihex plugin
 }

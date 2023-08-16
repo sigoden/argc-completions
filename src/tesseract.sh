@@ -17,13 +17,13 @@ _choice_lang() {
     tesseract --list-langs | tail -n +2
 }
 
-_choice_oem() {
-    cat <<-'EOF'
-0	Legacy engine only.
-1	Neural nets LSTM engine only.
-2	Legacy + LSTM engines.
-3	Default, based on what is available.
-EOF
+_choice_set_var() {
+    _argc_util_mode_kv =
+    if [[ -z "$argc__kv_prefix" ]]; then
+        tesseract --print-parameters | tail -n +2 | gawk -F'\t' '{print $1 "=\x00\t" $3}'
+    else
+        tesseract --print-parameters | grep "\\$argc__kv_key" | gawk -F'\t' '{print $2}'
+    fi
 }
 
 _choice_psm() {
@@ -45,11 +45,11 @@ _choice_psm() {
 EOF
 }
 
-_choice_set_var() {
-    _argc_util_mode_kv =
-    if [[ -z "$argc__kv_prefix" ]]; then
-        tesseract --print-parameters | tail -n +2 | gawk -F'\t' '{print $1 "=\x00\t" $3}'
-    else
-        tesseract --print-parameters | grep "\\$argc__kv_key" | gawk -F'\t' '{print $2}'
-    fi
+_choice_oem() {
+    cat <<-'EOF'
+0	Legacy engine only.
+1	Neural nets LSTM engine only.
+2	Legacy + LSTM engines.
+3	Default, based on what is available.
+EOF
 }

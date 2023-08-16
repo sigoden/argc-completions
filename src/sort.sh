@@ -15,10 +15,10 @@ _patch_table() {
 
 }
 
-_choice_check() {
-    printf "%s\n" diagnose-first quiet silent
-}
-
 _choice_sort() {
     printf "%s\n" general-numeric human-numeric month numeric random version
+}
+
+_choice_check() {
+    printf "%s\n" diagnose-first quiet silent
 }

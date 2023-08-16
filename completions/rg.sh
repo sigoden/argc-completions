@@ -115,15 +115,6 @@ ansi	Like 'always', but emits ANSI escapes (even in a Windows console).
 EOF
 }
 
-_choice_color_attribute() {
-    cat <<-'EOF'
-none	clear color/style for type
-bg	specify background color
-fg	specify foreground color
-style	specify text style
-EOF
-}
-
 _choice_color_spec() {
     _argc_util_mode_parts :
     readarray -d : -t prefix_parts <<<"$argc__parts_prefix"
@@ -142,33 +133,6 @@ _choice_color_spec() {
         fi
         ;;
     esac
-}
-
-_choice_color_style() {
-    printf "%s\n" bold nobold intense nointense underline nounderline
-
-}
-
-_choice_color_type() {
-    cat <<-'EOF'
-column	specify coloring for column numbers
-line	specify coloring for line numbers
-match	specify coloring for match text
-path	specify coloring for file names
-EOF
-}
-
-_choice_color_value() {
-    printf "%s\n"  black blue green red cyan magenta yellow white 
-}
-
-_choice_pattern() {
-    if [[ -n "$argc_regexp" ]] \
-    || [[ -n "$argc_file" ]] \
-    || [[ -n "$argc_files" ]] \
-    ; then
-        _argc_util_comp_path
-    fi
 }
 
 _choice_sort() {
@@ -198,6 +162,42 @@ _choice_type_spec() {
             _choice_type | _argc_util_transform nospace
         fi
     fi
+}
+
+_choice_pattern() {
+    if [[ -n "$argc_regexp" ]] \
+    || [[ -n "$argc_file" ]] \
+    || [[ -n "$argc_files" ]] \
+    ; then
+        _argc_util_comp_path
+    fi
+}
+
+_choice_color_attribute() {
+    cat <<-'EOF'
+none	clear color/style for type
+bg	specify background color
+fg	specify foreground color
+style	specify text style
+EOF
+}
+
+_choice_color_style() {
+    printf "%s\n" bold nobold intense nointense underline nounderline
+
+}
+
+_choice_color_type() {
+    cat <<-'EOF'
+column	specify coloring for column numbers
+line	specify coloring for line numbers
+match	specify coloring for match text
+path	specify coloring for file names
+EOF
+}
+
+_choice_color_value() {
+    printf "%s\n"  black blue green red cyan magenta yellow white 
 }
 
 _module_os_command() {

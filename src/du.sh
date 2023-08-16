@@ -1,7 +1,7 @@
 _patch_table() { 
     _patch_table_edit_options \
-        '--time-style;[`_choice_time_style`]' \
         '--time;[`_choice_time`]' \
+        '--time-style;[`_choice_time_style`]' \
 
 }
 

@@ -89,43 +89,6 @@
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_bsf() {
-    ffmpeg -hide_banner -bsfs | tail -n +2
-}
-
-_choice_codec() {
-    ffmpeg -hide_banner -codecs | tail -n +11 | sed 's/^.\{7\} \([^ ]\+\) \(.*\)$/\1\t\2/'
-}
-
-_choice_decoder() {
-    ffmpeg -hide_banner -decoders | tail -n +11 | sed 's/^.\{7\} \([^ ]\+\) \(.*\)$/\1\t\2/'
-}
-
-_choice_demuxer() {
-    ffmpeg -hide_banner -demuxers | tail -n +5 | sed 's/^.\{3\} \([^ ]\+\) \(.*\)$/\1\t\2/'
-}
-
-_choice_device() {
-    ffmpeg -hide_banner -devices | tail -n +5 | sed 's/^.\{3\} \([^ ]\+\) \(.*\)$/\1\t\2/'
-}
-
-_choice_encoder() {
-    ffmpeg -hide_banner -encoders | tail -n +11 | sed 's/^.\{7\} \([^ ]\+\) \(.*\)$/\1\t\2/'
-}
-
-_choice_filter() {
-    ffmpeg -hide_banner -filters | tail -n +9 | sed 's/^.\{4\} \([^ ]\+\) \+[^ ]\+ \(.*\)$/\1\t\2/'
-}
-
-_choice_filter_kv() {
-    _argc_util_mode_kv =
-    _choice_filter | _argc_util_transform suffix== nospace
-}
-
-_choice_format() {
-    ffmpeg -hide_banner -formats | tail -n +5 | sed 's/^.\{3\} \([^ ]\+\) \(.*\)$/\1\t\2/'
-}
-
 _choice_help_topic() {
     cat <<-'EOF' | _argc_util_comp_kv =
 long;;Print advanced tool options in addition to the basic tool options.
@@ -140,6 +103,10 @@ protocol=`_choice_protocol`;;Print detailed information about the protocol
 EOF
 }
 
+_choice_device() {
+    ffmpeg -hide_banner -devices | tail -n +5 | sed 's/^.\{3\} \([^ ]\+\) \(.*\)$/\1\t\2/'
+}
+
 _choice_loglevel() {
     cat <<-'EOF'
 quiet	Show nothing at all; be silent.
@@ -152,6 +119,39 @@ verbose	Same as "info", except more verbose.
 debug	Show everything, including debugging information.
 trace	
 EOF
+}
+
+_choice_format() {
+    ffmpeg -hide_banner -formats | tail -n +5 | sed 's/^.\{3\} \([^ ]\+\) \(.*\)$/\1\t\2/'
+}
+
+_choice_codec() {
+    ffmpeg -hide_banner -codecs | tail -n +11 | sed 's/^.\{7\} \([^ ]\+\) \(.*\)$/\1\t\2/'
+}
+
+_choice_filter_kv() {
+    _argc_util_mode_kv =
+    _choice_filter | _argc_util_transform suffix== nospace
+}
+
+_choice_bsf() {
+    ffmpeg -hide_banner -bsfs | tail -n +2
+}
+
+_choice_decoder() {
+    ffmpeg -hide_banner -decoders | tail -n +11 | sed 's/^.\{7\} \([^ ]\+\) \(.*\)$/\1\t\2/'
+}
+
+_choice_demuxer() {
+    ffmpeg -hide_banner -demuxers | tail -n +5 | sed 's/^.\{3\} \([^ ]\+\) \(.*\)$/\1\t\2/'
+}
+
+_choice_encoder() {
+    ffmpeg -hide_banner -encoders | tail -n +11 | sed 's/^.\{7\} \([^ ]\+\) \(.*\)$/\1\t\2/'
+}
+
+_choice_filter() {
+    ffmpeg -hide_banner -filters | tail -n +9 | sed 's/^.\{4\} \([^ ]\+\) \+[^ ]\+ \(.*\)$/\1\t\2/'
 }
 
 _choice_muxer() {

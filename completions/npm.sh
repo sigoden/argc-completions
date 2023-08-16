@@ -1180,15 +1180,12 @@ whoami() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_config_key() {
-    npm config list $(_argc_util_param_select_options --global) --json | yq 'keys | .[]'
+_choice_workspace() {
+    npm query .workspace | yq '.[].location'
 }
 
-_choice_dependency() {
-    _helper_find_pkg_json_path
-    if [[ -n "$pkg_json_path" ]]; then
-        cat "$pkg_json_path" | yq '(.dependencies // {}) + (.devDependencies // {}) + (.optionalDependencies // {}) | keys | .[]'
-    fi
+_choice_config_key() {
+    npm config list $(_argc_util_param_select_options --global) --json | yq 'keys | .[]'
 }
 
 _choice_script() {
@@ -1198,8 +1195,11 @@ _choice_script() {
     fi
 }
 
-_choice_workspace() {
-    npm query .workspace | yq '.[].location'
+_choice_dependency() {
+    _helper_find_pkg_json_path
+    if [[ -n "$pkg_json_path" ]]; then
+        cat "$pkg_json_path" | yq '(.dependencies // {}) + (.devDependencies // {}) + (.optionalDependencies // {}) | keys | .[]'
+    fi
 }
 
 _helper_find_pkg_json_path() {

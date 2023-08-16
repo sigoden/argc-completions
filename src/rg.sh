@@ -6,10 +6,10 @@ _patch_table() {
         '--pre;[`_module_os_command_string`]' \
         '--sort;[`_choice_sort`]' \
         '--sortr;[`_choice_sort`]' \
+        '--type;[`_choice_type`]' \
         '--type-add;[`_choice_type_spec`]' \
         '--type-clear;[`_choice_type`]' \
         '--type-not;[`_choice_type`]' \
-        '--type;[`_choice_type`]' \
     | \
     _patch_table_edit_arguments 'pattern;[`_choice_pattern`]'
 }
@@ -20,15 +20,6 @@ never	Colors will never be used.
 auto	The default. ripgrep tries to be smart.
 always	Colors will always be used regardless of where output is sent.
 ansi	Like 'always', but emits ANSI escapes (even in a Windows console).
-EOF
-}
-
-_choice_color_attribute() {
-    cat <<-'EOF'
-none	clear color/style for type
-bg	specify background color
-fg	specify foreground color
-style	specify text style
 EOF
 }
 
@@ -50,33 +41,6 @@ _choice_color_spec() {
         fi
         ;;
     esac
-}
-
-_choice_color_style() {
-    printf "%s\n" bold nobold intense nointense underline nounderline
-
-}
-
-_choice_color_type() {
-    cat <<-'EOF'
-column	specify coloring for column numbers
-line	specify coloring for line numbers
-match	specify coloring for match text
-path	specify coloring for file names
-EOF
-}
-
-_choice_color_value() {
-    printf "%s\n"  black blue green red cyan magenta yellow white 
-}
-
-_choice_pattern() {
-    if [[ -n "$argc_regexp" ]] \
-    || [[ -n "$argc_file" ]] \
-    || [[ -n "$argc_files" ]] \
-    ; then
-        _argc_util_comp_path
-    fi
 }
 
 _choice_sort() {
@@ -106,4 +70,40 @@ _choice_type_spec() {
             _choice_type | _argc_util_transform nospace
         fi
     fi
+}
+
+_choice_pattern() {
+    if [[ -n "$argc_regexp" ]] \
+    || [[ -n "$argc_file" ]] \
+    || [[ -n "$argc_files" ]] \
+    ; then
+        _argc_util_comp_path
+    fi
+}
+
+_choice_color_attribute() {
+    cat <<-'EOF'
+none	clear color/style for type
+bg	specify background color
+fg	specify foreground color
+style	specify text style
+EOF
+}
+
+_choice_color_style() {
+    printf "%s\n" bold nobold intense nointense underline nounderline
+
+}
+
+_choice_color_type() {
+    cat <<-'EOF'
+column	specify coloring for column numbers
+line	specify coloring for line numbers
+match	specify coloring for match text
+path	specify coloring for file names
+EOF
+}
+
+_choice_color_value() {
+    printf "%s\n"  black blue green red cyan magenta yellow white 
 }

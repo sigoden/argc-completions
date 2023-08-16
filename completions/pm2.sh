@@ -797,8 +797,12 @@ examples() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_id_name() {
-    pm2 jlist | yq '.[] | .pm_id + "	" + .name, .[].name'
+_choice_start() {
+    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+        _argc_util_comp_path
+        return
+    fi
+    _choice_id_name_ns
 }
 
 _choice_id_name_ns() {
@@ -809,18 +813,6 @@ _choice_name() {
     pm2 jlist | yq '.[].name'
 }
 
-_choice_pm_id() {
-    pm2 jlist | yq '.[] | .pm_id + "	" + .name'
-}
-
-_choice_start() {
-    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
-        _argc_util_comp_path
-        return
-    fi
-    _choice_id_name_ns
-}
-
 _choice_stop() {
     if _argc_util_has_path_prefix "$ARGC_FILTER"; then
         _argc_util_comp_path
@@ -828,6 +820,14 @@ _choice_stop() {
     fi
     _choice_id_name_ns
     echo all
+}
+
+_choice_id_name() {
+    pm2 jlist | yq '.[] | .pm_id + "	" + .name, .[].name'
+}
+
+_choice_pm_id() {
+    pm2 jlist | yq '.[] | .pm_id + "	" + .name'
 }
 
 _module_os_gid() {

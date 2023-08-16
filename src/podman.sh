@@ -63,7 +63,7 @@ _patch_table() {
     elif [[ "$*" == "podman image build" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '--file(<file>);pathname or URL of a Dockerfile' \
+            '--file(<file>);;pathname or URL of a Dockerfile' \
             '--network;[private|none|ns:|host]' \
 
     elif [[ "$*" == "podman image list" ]]; then
@@ -138,9 +138,9 @@ _patch_table() {
     elif [[ "$*" == "podman system connection" ]]; then
         echo "$table" | \
         _patch_table_edit_commands \
-            'ls(ls, list)' \
             'remove(remove, rm)' \
             'rename(rename, mv)' \
+            'ls(ls, list)' \
 
     elif [[ "$*" == "podman volume"* ]]; then
         table="$(
@@ -164,12 +164,12 @@ _patch_table() {
     fi
 }
 
-_choice_args() {
-    _argc_util_comp_subcommand 1
-}
-
 _choice_container() {
     podman ps --format json | yq '.[] | .Names[0] + "	" + .Image' 
+}
+
+_choice_network() {
+    podman network ls --format json | yq '.[].Name'
 }
 
 _choice_container_cp() {
@@ -201,12 +201,12 @@ _choice_container_cp() {
     fi
 }
 
-_choice_machine() {
-    podman machine list | gawk '{ if (NR > 1) { gsub(/\*$/, "", $1); print $1}}'
+_choice_args() {
+    _argc_util_comp_subcommand 1
 }
 
-_choice_network() {
-    podman network ls --format json | yq '.[].Name'
+_choice_machine() {
+    podman machine list | gawk '{ if (NR > 1) { gsub(/\*$/, "", $1); print $1}}'
 }
 
 _choice_pod() {

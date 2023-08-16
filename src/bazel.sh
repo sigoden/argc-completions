@@ -89,20 +89,20 @@ _patch_table() {
     fi
 }
 
-_choice_info_key() {
-    bazel help info-keys | sed 's/ \+/\t/'
-}
-
-_choice_run_target() {
-    _helper_find_target run
-}
-
 _choice_target() {
     _helper_find_target
 }
 
 _choice_test_target() {
     _helper_find_target test
+}
+
+_choice_info_key() {
+    bazel help info-keys | sed 's/ \+/\t/'
+}
+
+_choice_run_target() {
+    _helper_find_target run
 }
 
 _helper_find_package() {

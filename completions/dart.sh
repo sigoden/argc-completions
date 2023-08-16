@@ -485,6 +485,15 @@ test() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
+_choice_log_verbosity() {
+    cat <<-'EOF'
+all	Show all messages
+error	Show only error messages
+info	Show error, warning, and info messages
+warning	Show only error and warning messages
+EOF
+}
+
 _choice_create_template() {
     cat <<-'EOF'
 console	A command-line application.
@@ -503,6 +512,14 @@ write	Overwrite formatted files on disk.
 EOF
 }
 
+_choice_package() {
+    _helper_find_pubspec_path
+    if [[ -z "$pubspec_path" ]]; then
+        return
+    fi
+    cat "$pubspec_path" | yq '(.dependencies // {}) + (.dev_dependencies // {}) | keys | .[]'
+}
+
 _choice_gloal_package() {
     dart pub global list | sed 's/ /\t/'
 }
@@ -518,23 +535,6 @@ _choice_global_package_executable() {
             ls -1 "$pkg_path" | sed 's/\.dart$//'
         fi
     fi
-}
-
-_choice_log_verbosity() {
-    cat <<-'EOF'
-all	Show all messages
-error	Show only error messages
-info	Show error, warning, and info messages
-warning	Show only error and warning messages
-EOF
-}
-
-_choice_package() {
-    _helper_find_pubspec_path
-    if [[ -z "$pubspec_path" ]]; then
-        return
-    fi
-    cat "$pubspec_path" | yq '(.dependencies // {}) + (.dev_dependencies // {}) | keys | .[]'
 }
 
 _helper_find_pubspec_path() {

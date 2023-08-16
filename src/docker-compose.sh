@@ -16,12 +16,12 @@ _patch_table() {
     fi
 }
 
-_choice_args() {
-    _argc_util_comp_subcommand 1
-}
-
 _choice_service() {
     _docker_compose config --services
+}
+
+_choice_args() {
+    _argc_util_comp_subcommand 1
 }
 
 _docker_compose() {

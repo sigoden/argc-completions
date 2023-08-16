@@ -62,6 +62,39 @@
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
+_choice_profile() {
+    _helper_find_pom_path
+    if [[ ! -f "$pom_path" ]]; then
+        return
+    fi
+    cat "$pom_path" | yq -p xml  '.project.profiles[].[].id' 
+}
+
+_choice_project() {
+    _helper_find_pom_path
+    if [[ ! -f "$pom_path" ]]; then
+        return
+    fi
+    mvn --file "$pom_path" -Dexec.executable='echo' -Dexec.args='${project.artifactId}' exec:exec -q
+}
+
+_choice_goal_phase() {
+    _choice_default_goal_phase
+    _helper_find_pom_path
+    if [[ ! -f "$pom_path" ]]; then
+        return
+    fi
+    local IFS=$'\n'
+    plugin_paths=( $(cat "$pom_path" | yq -p xml '.project.build.plugins.plugin | .[] |  .groupId |= sub("\.", "/") | .groupId + "/" + .artifactId + "/" + .version + "/" + .artifactId + "-" + .version + ".jar"') )
+    for plugin_subpath in ${plugin_paths[@]}; do
+        plugin_path="$HOME/.m2/repository/$plugin_subpath" 
+        if [[ -f "$plugin_path" ]]; then
+            unzip -p "$plugin_path" META-INF/maven/plugin.xml | \
+            yq -p xml '.plugin.goalPrefix as $prefix | .plugin.mojos[] | .[] | .description |= split("\n") | $prefix + ":" + .goal + "   " + .description[0]'
+        fi
+    done
+}
+
 _choice_default_goal_phase() {
     cat <<-'EOF'
 pre-clean	execute processes needed prior to the actual project cleaning
@@ -95,39 +128,6 @@ site	generate the project's site documentation
 post-site	execute processes needed to finalize the site generation
 site-deploy	deploy the generated site documentation to the specified web server
 EOF
-}
-
-_choice_goal_phase() {
-    _choice_default_goal_phase
-    _helper_find_pom_path
-    if [[ ! -f "$pom_path" ]]; then
-        return
-    fi
-    local IFS=$'\n'
-    plugin_paths=( $(cat "$pom_path" | yq -p xml '.project.build.plugins.plugin | .[] |  .groupId |= sub("\.", "/") | .groupId + "/" + .artifactId + "/" + .version + "/" + .artifactId + "-" + .version + ".jar"') )
-    for plugin_subpath in ${plugin_paths[@]}; do
-        plugin_path="$HOME/.m2/repository/$plugin_subpath" 
-        if [[ -f "$plugin_path" ]]; then
-            unzip -p "$plugin_path" META-INF/maven/plugin.xml | \
-            yq -p xml '.plugin.goalPrefix as $prefix | .plugin.mojos[] | .[] | .description |= split("\n") | $prefix + ":" + .goal + "   " + .description[0]'
-        fi
-    done
-}
-
-_choice_profile() {
-    _helper_find_pom_path
-    if [[ ! -f "$pom_path" ]]; then
-        return
-    fi
-    cat "$pom_path" | yq -p xml  '.project.profiles[].[].id' 
-}
-
-_choice_project() {
-    _helper_find_pom_path
-    if [[ ! -f "$pom_path" ]]; then
-        return
-    fi
-    mvn --file "$pom_path" -Dexec.executable='echo' -Dexec.args='${project.artifactId}' exec:exec -q
 }
 
 _helper_find_pom_path() {

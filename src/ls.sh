@@ -8,8 +8,8 @@ _patch_table() {
         '--indicator-style;[`_choice_indicator_style`]' \
         '--quoting-style;[`_choice_quoting_style`]' \
         '--sort;[`_choice_sort`]' \
-        '--time-style;[`_choice_time_style`]' \
         '--time;[`_choice_time`]' \
+        '--time-style;[`_choice_time_style`]' \
 
 }
 

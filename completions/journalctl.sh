@@ -68,12 +68,25 @@ _choice_boot() {
     journalctl --list-boots | gawk '{x=""; for (i = 3; i <= NF; i++) x = x " " $i;  print $1 "\t" x; print $2 "\t" x}'
 }
 
-_choice_facility() {
-    journalctl --facility=help | tail -n +2
+_choice_unit() {
+    systemctl list-units --no-pager -o json | yq '.[] | .unit + "	" + .description'
 }
 
-_choice_field() {
-    journalctl --fields
+_choice_user_unit() {
+    systemctl --user list-units --no-pager -o json | yq '.[] | .unit + "	" + .description'
+}
+
+_choice_priority() {
+    _argc_util_mode_kv '..'
+    if [[ -z "$argc__kv_prefix" ]]; then
+        _choice_priority_value
+    else
+        _choice_priority_value
+    fi
+}
+
+_choice_facility() {
+    journalctl --facility=help | tail -n +2
 }
 
 _choice_output() {
@@ -96,13 +109,8 @@ with-unit	similar to short-full, but prefixes the unit and user unit names
 EOF
 }
 
-_choice_priority() {
-    _argc_util_mode_kv '..'
-    if [[ -z "$argc__kv_prefix" ]]; then
-        _choice_priority_value
-    else
-        _choice_priority_value
-    fi
+_choice_field() {
+    journalctl --fields
 }
 
 _choice_priority_value() {
@@ -124,14 +132,6 @@ notice	5
 info	6
 debug	7
 EOF
-}
-
-_choice_unit() {
-    systemctl list-units --no-pager -o json | yq '.[] | .unit + "	" + .description'
-}
-
-_choice_user_unit() {
-    systemctl --user list-units --no-pager -o json | yq '.[] | .unit + "	" + .description'
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

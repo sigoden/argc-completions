@@ -753,25 +753,15 @@ config::set() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_bin() {
-    _helper_find_pkg_json_path
-    if [[ -f "$pkg_json_path" ]]; then
-        bin_dir="$(dirname "$pkg_json_path")/node_modules/.bin"
-        if [[ -d "$bin_dir" ]]; then
-            ls -1 "$bin_dir" | sed -e 's/\..*$//' | uniq
-        fi
-    fi
+_choice_workspace() {
+    pnpm recursive list --json | yq '.[] | .name'
 }
 
-_choice_config_key() {
-    pnpm config list --json | yq 'keys | .[]'
-}
-
-_choice_dependency() {
+_choice_script() {
     _helper_apply_filter
     _helper_find_pkg_json_path
     if [[ -n "$pkg_json_path" ]]; then
-        cat "$pkg_json_path" | yq '(.dependencies // {}) + (.devDependencies // {}) + (.optionalDependencies // {}) | keys | .[]'
+        cat "$pkg_json_path" | yq '(.scripts // {}) | keys | .[]'
     fi
 }
 
@@ -793,16 +783,26 @@ silent	No output is logged to the console, except fatal errors"
 EOF
 }
 
-_choice_script() {
+_choice_dependency() {
     _helper_apply_filter
     _helper_find_pkg_json_path
     if [[ -n "$pkg_json_path" ]]; then
-        cat "$pkg_json_path" | yq '(.scripts // {}) | keys | .[]'
+        cat "$pkg_json_path" | yq '(.dependencies // {}) + (.devDependencies // {}) + (.optionalDependencies // {}) | keys | .[]'
     fi
 }
 
-_choice_workspace() {
-    pnpm recursive list --json | yq '.[] | .name'
+_choice_bin() {
+    _helper_find_pkg_json_path
+    if [[ -f "$pkg_json_path" ]]; then
+        bin_dir="$(dirname "$pkg_json_path")/node_modules/.bin"
+        if [[ -d "$bin_dir" ]]; then
+            ls -1 "$bin_dir" | sed -e 's/\..*$//' | uniq
+        fi
+    fi
+}
+
+_choice_config_key() {
+    pnpm config list --json | yq 'keys | .[]'
 }
 
 _helper_apply_filter() {

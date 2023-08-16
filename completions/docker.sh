@@ -3195,8 +3195,46 @@ _choice_args() {
     _argc_util_comp_subcommand 1
 }
 
+_choice_container_name() {
+    _docker ps --format '{{.Names}}\t{{.Image}} ({{.Status}})'
+}
+
+_choice_container_ls_filter() {
+    cat <<-'EOF' | _argc_util_comp_kv =
+id=`_choice_container_id`
+name=`_choice_container_name`
+label=
+exited
+status=created,dead,exited,paused,restarting,running,removing
+ancestor=`_module_oci_docker_image`
+before=`_choice_container_name`
+since=`_choice_container_name`
+volume=`_choice_volume`
+network=`_choice_network`
+publish=
+expose=
+health=healthy,none,starting,unhealthy
+isolation=default,process,hyperv
+is-task=true,false
+EOF
+}
+
+_choice_image_ls_filter() {
+    cat <<-'EOF' | _argc_util_comp_kv =
+dangling=true,false
+label=
+before=`_module_oci_docker_image`
+since=`_module_oci_docker_image`
+reference=`_module_oci_docker_image`
+EOF
+}
+
 _choice_builder() {
     _docker buildx ls | tail -n +2 | gawk '{if (match($0, /^\w+/)) {print $1} }'
+}
+
+_choice_compose_service() {
+    _docker compose convert --services
 }
 
 _choice_compose_cp() {
@@ -3228,14 +3266,6 @@ _choice_compose_cp() {
     fi
 }
 
-_choice_compose_service() {
-    _docker compose convert --services
-}
-
-_choice_config() {
-    _docker config ls --format '{{.Name}}\tupdated {{.UpdatedAt}}'
-}
-
 _choice_container_cp() {
     _complete_container_path() {
         _argc_util_mode_kv ':'
@@ -3265,40 +3295,28 @@ _choice_container_cp() {
     fi
 }
 
-_choice_container_id() {
-    _docker ps --format '{{.ID}}\t{{.Image}} ({{.Status}})'
-}
-
-_choice_container_ls_filter() {
-    cat <<-'EOF' | _argc_util_comp_kv =
-id=`_choice_container_id`
-name=`_choice_container_name`
-label=
-exited
-status=created,dead,exited,paused,restarting,running,removing
-ancestor=`_module_oci_docker_image`
-before=`_choice_container_name`
-since=`_choice_container_name`
-volume=`_choice_volume`
-network=`_choice_network`
-publish=
-expose=
-health=healthy,none,starting,unhealthy
-isolation=default,process,hyperv
-is-task=true,false
-EOF
-}
-
-_choice_container_name() {
-    _docker ps --format '{{.Names}}\t{{.Image}} ({{.Status}})'
-}
-
 _choice_container_name_all() {
     _docker ps -a --format '{{.Names}}\t{{.Image}} ({{.Status}})'
 }
 
 _choice_context() {
     _docker context list --format '{{.Name}}\t{{.Description}}'
+}
+
+_choice_network() {
+    _docker network list --format '{{.Name}}\t{{.Driver}}/{{.Scope}}'
+}
+
+_choice_plugin() {
+    _docker plugin list --format '{{.Name}}\t{{.Description}}'
+}
+
+_choice_repository() {
+    _docker image ls --format '{{.Repository}}'
+}
+
+_choice_volume() {
+    _docker volume list --format '{{.Name}}\t{{.Driver}}'
 }
 
 _choice_event_filter() {
@@ -3320,30 +3338,12 @@ volume=`_choice_volume`
 EOF
 }
 
-_choice_image_ls_filter() {
-    cat <<-'EOF' | _argc_util_comp_kv =
-dangling=true,false
-label=
-before=`_module_oci_docker_image`
-since=`_module_oci_docker_image`
-reference=`_module_oci_docker_image`
-EOF
-}
-
-_choice_network() {
-    _docker network list --format '{{.Name}}\t{{.Driver}}/{{.Scope}}'
+_choice_config() {
+    _docker config ls --format '{{.Name}}\tupdated {{.UpdatedAt}}'
 }
 
 _choice_node() {
     _docker node list --format '{{.ID}}\t{{.Hostname}} {{.ManagerStatus}}'
-}
-
-_choice_plugin() {
-    _docker plugin list --format '{{.Name}}\t{{.Description}}'
-}
-
-_choice_repository() {
-    _docker image ls --format '{{.Repository}}'
 }
 
 _choice_secret() {
@@ -3358,8 +3358,8 @@ _choice_stack() {
     _docker stack list --format '{{.Name}}\t{{.Services}} on {{.Orchestrator}}'
 }
 
-_choice_volume() {
-    _docker volume list --format '{{.Name}}\t{{.Driver}}'
+_choice_container_id() {
+    _docker ps --format '{{.ID}}\t{{.Image}} ({{.Status}})'
 }
 
 _docker() {

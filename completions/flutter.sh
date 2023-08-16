@@ -1202,6 +1202,10 @@ symbolize() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
+_choice_device() {
+    flutter --suppress-analytics devices --machine | yq '.[] | .id + "	" + .name + " • " + .targetPlatform + " • " + .sdk'
+}
+
 _choice_channel() {
     flutter --suppress-analytics channel | tail -n +2 | sed 's/^[* ]*//'
 }
@@ -1217,12 +1221,12 @@ skeleton	Generate a List View / Detail View Flutter application that follows com
 EOF
 }
 
-_choice_device() {
-    flutter --suppress-analytics devices --machine | yq '.[] | .id + "	" + .name + " • " + .targetPlatform + " • " + .sdk'
-}
-
-_choice_emulator() {
-    flutter --suppress-analytics emulators | sed -n 's/^\([^ ]\+\) \+• \(.*\)$/\1\t\2/p'
+_choice_package() {
+    _helper_find_pubspec_path
+    if [[ -z "$pubspec_path" ]]; then
+        return
+    fi
+    cat "$pubspec_path" | yq '(.dependencies // {}) + (.dev_dependencies // {}) | keys | .[]'
 }
 
 _choice_gloal_package() {
@@ -1242,14 +1246,6 @@ _choice_global_package_executable() {
     fi
 }
 
-_choice_package() {
-    _helper_find_pubspec_path
-    if [[ -z "$pubspec_path" ]]; then
-        return
-    fi
-    cat "$pubspec_path" | yq '(.dependencies // {}) + (.dev_dependencies // {}) | keys | .[]'
-}
-
 _choice_test_reporter() {
     cat <<-'EOF'
 compact	A single line that updates dynamically
@@ -1257,6 +1253,10 @@ expanded	A separate line for each update
 github	A custom reporter for GitHub Actions
 json	A machine-readable format
 EOF
+}
+
+_choice_emulator() {
+    flutter --suppress-analytics emulators | sed -n 's/^\([^ ]\+\) \+• \(.*\)$/\1\t\2/p'
 }
 
 _helper_find_pubspec_path() {

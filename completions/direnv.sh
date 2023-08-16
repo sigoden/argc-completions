@@ -90,16 +90,16 @@ version() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
+_choice_path_to_rc() {
+    _argc_util_comp_path exts=.envrc,.env
+}
+
 _choice_args() {
     _argc_util_comp_subcommand 1
 }
 
 _choice_hook_shell() {
     printf "%s" bash elvish fish tcsh zsh
-}
-
-_choice_path_to_rc() {
-    _argc_util_comp_path exts=.envrc,.env
 }
 
 _module_os_command() {

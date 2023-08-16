@@ -13,6 +13,53 @@ _patch_table() {
         
 }
 
+_choice_option() {
+    _argc_util_mode_kv =
+    if [[ -z "$argc__kv_prefix" ]]; then
+        mitmproxy --options | \
+        yq 'to_entries | .[] | .type = (.value | type) | .key + ";" + .type' | \
+        sed -e 's/;!!bool//' -e 's/;!!.*$/=\x00/'
+    else
+        case "$argc__kv_key" in
+            confdir)
+                echo __argc_value=dir
+                ;;
+            connection_strategy)
+                printf "%s\n" eager lazy
+               ;;
+            console_default_contentview)
+                printf "%s\n" 'auto' 'raw' 'hex' 'graphql' 'json' 'xml/html' 'wbxml' 'javascript' \
+                    'css' 'url-encoded' 'multipart form' 'image' 'query' 'protocol buffer' \
+                    'msgpack' 'grpc/protocol buffer' 'mqtt'
+                ;;
+            console_eventlog_verbosity)
+                printf "%s\n" 'error' 'warn' 'info' 'alert' 'debug'
+                ;;
+            console_flowlist_layout)
+                printf "%s\n" 'default' 'list' 'table'
+                ;;
+            console_layout)
+                printf "%s\n" 'horizontal' 'single' 'vertical'
+                ;;
+            console_palette)
+                printf "%s\n" 'dark' 'light' 'lowdark' 'lowlight' 'solarized_dark' 'solarized_light'
+                ;;
+            tls_version_client_max|tls_version_client_min|tls_version_server_max|tls_version_server_min)
+                printf "%s\n" 'UNBOUNDED' 'SSL3' 'TLS1' 'TLS1_1' 'TLS1_2' 'TLS1_3'
+                ;;
+            view_order)
+                printf "%s\n" 'time' 'method', 'url', 'size'
+                ;;
+        esac
+    fi
+}
+
+_choice_mode() {
+    printf "%s\n" regular transparent socks5 
+    echo -e "reverse:\0"
+    echo -e "upstream:\0"
+}
+
 _choice_appendable_file() {
     if [[ "$ARGC_FILTER" == '+'* ]]; then
         _argc_util_comp_path prefix=+ filter="${ARGC_FILTER:1}"
@@ -28,48 +75,6 @@ _choice_cert() {
     else
         _argc_util_comp_path prefix="$argc__kv_prefix" filter="$argc__kv_filter"
     fi
-}
-
-_choice_flow_filter() {
-    cat <<-'EOF'
-a	Match asset in response: CSS, JavaScript, images, fonts
-all	Match all flows
-b	Body
-bq	Request body
-bs	Response body
-c	HTTP response code
-comment	Flow comment
-d	Domain
-dns	Match DNS flows
-dst	Match destination address
-e	Match error
-h	Header
-hq	Request header
-hs	Response header
-http	Match HTTP flows
-m	Method
-marked	Match marked flows
-marker	Match marked flows with specified marker
-meta	Flow metadata
-q	Match request with no response
-replay	Match replayed flows
-replayq	Match replayed client request
-replays	Match replayed server response
-s	Match response
-src	Match source address
-t	Content-type header
-tcp	Match TCP flows
-tq	Request Content-Type header
-ts	Response Content-Type header
-u	URL
-websocket	Match WebSocket flows
-EOF
-}
-
-_choice_mode() {
-    printf "%s\n" regular transparent socks5 
-    echo -e "reverse:\0"
-    echo -e "upstream:\0"
 }
 
 _choice_modify_body() {
@@ -112,45 +117,40 @@ _choice_modify_headers() {
     fi
 }
 
-_choice_option() {
-    _argc_util_mode_kv =
-    if [[ -z "$argc__kv_prefix" ]]; then
-        mitmproxy --options | \
-        yq 'to_entries | .[] | .type = (.value | type) | .key + ";" + .type' | \
-        sed -e 's/;!!bool//' -e 's/;!!.*$/=\x00/'
-    else
-        case "$argc__kv_key" in
-            confdir)
-                echo __argc_value=dir
-                ;;
-            connection_strategy)
-                printf "%s\n" eager lazy
-               ;;
-            console_default_contentview)
-                printf "%s\n" 'auto' 'raw' 'hex' 'graphql' 'json' 'xml/html' 'wbxml' 'javascript' \
-                    'css' 'url-encoded' 'multipart form' 'image' 'query' 'protocol buffer' \
-                    'msgpack' 'grpc/protocol buffer' 'mqtt'
-                ;;
-            console_eventlog_verbosity)
-                printf "%s\n" 'error' 'warn' 'info' 'alert' 'debug'
-                ;;
-            console_flowlist_layout)
-                printf "%s\n" 'default' 'list' 'table'
-                ;;
-            console_layout)
-                printf "%s\n" 'horizontal' 'single' 'vertical'
-                ;;
-            console_palette)
-                printf "%s\n" 'dark' 'light' 'lowdark' 'lowlight' 'solarized_dark' 'solarized_light'
-                ;;
-            tls_version_client_max|tls_version_client_min|tls_version_server_max|tls_version_server_min)
-                printf "%s\n" 'UNBOUNDED' 'SSL3' 'TLS1' 'TLS1_1' 'TLS1_2' 'TLS1_3'
-                ;;
-            view_order)
-                printf "%s\n" 'time' 'method', 'url', 'size'
-                ;;
-        esac
-    fi
+_choice_flow_filter() {
+    cat <<-'EOF'
+a	Match asset in response: CSS, JavaScript, images, fonts
+all	Match all flows
+b	Body
+bq	Request body
+bs	Response body
+c	HTTP response code
+comment	Flow comment
+d	Domain
+dns	Match DNS flows
+dst	Match destination address
+e	Match error
+h	Header
+hq	Request header
+hs	Response header
+http	Match HTTP flows
+m	Method
+marked	Match marked flows
+marker	Match marked flows with specified marker
+meta	Flow metadata
+q	Match request with no response
+replay	Match replayed flows
+replayq	Match replayed client request
+replays	Match replayed server response
+s	Match response
+src	Match source address
+t	Content-type header
+tcp	Match TCP flows
+tq	Request Content-Type header
+ts	Response Content-Type header
+u	URL
+websocket	Match WebSocket flows
+EOF
 }
 
 _helper_three_parts_mode() {

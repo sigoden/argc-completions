@@ -532,10 +532,6 @@ vet() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_bench_target() {
-    go test -list='^Bench' 2>/dev/null | sed '$d'
-}
-
 _choice_buildmode() {
     cat <<-'EOF'
 archive
@@ -569,10 +565,6 @@ _choice_mod_droprequire() {
     _helper_mod_json | yq '(.Require // []) | filter(.Indirect != true) | .[].Path'
 }
 
-_choice_mod_no_version() {
-    _helper_mod_json | yq '(.Require // []) | .[].Path'
-}
-
 _choice_mod_replace() {
     _argc_util_mode_kv =
     if [[ -z "$argc__kv_prefix" ]]; then
@@ -589,14 +581,6 @@ _choice_mod_replace() {
 
 _choice_mod_why() {
     _argc_util_parallel _choice_mod_no_version ::: _helper_list_imports
-}
-
-_choice_test_target() {
-    go test -list='^(Test|Example)' 2>/dev/null | sed '$d'
-}
-
-_choice_tool() {
-    go tool
 }
 
 _choice_work_dropreplace() {
@@ -623,6 +607,22 @@ _choice_work_replace() {
     else
         _argc_util_comp_path cd="$root_dir" filter="$argc__kv_filter"
     fi
+}
+
+_choice_bench_target() {
+    go test -list='^Bench' 2>/dev/null | sed '$d'
+}
+
+_choice_test_target() {
+    go test -list='^(Test|Example)' 2>/dev/null | sed '$d'
+}
+
+_choice_tool() {
+    go tool
+}
+
+_choice_mod_no_version() {
+    _helper_mod_json | yq '(.Require // []) | .[].Path'
 }
 
 _helper_list_imports() {

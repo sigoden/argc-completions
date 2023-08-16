@@ -40,17 +40,17 @@ _choice_alias_ext() {
     echo -e ":deps\tManage deps"
 }
 
+_choice_tool() {
+    if command -v bb > /dev/null; then
+        bb -e "$(_helper_bb_code)" tools
+    fi
+}
+
 _choice_args() {
     if [[ "${argc_X[0]}" == ":deps" ]] && [[ "${#argc__positionals[@]}" -eq 1 ]]; then
         clojure --help | sed -n '/:deps alias:/,/^$/ {//!p}'| sed -e 's/ -X:deps \(\S\+\)\s*\(.*\)$/\1\t\2/'
     else
         _argc_util_comp_path
-    fi
-}
-
-_choice_tool() {
-    if command -v bb > /dev/null; then
-        bb -e "$(_helper_bb_code)" tools
     fi
 }
 

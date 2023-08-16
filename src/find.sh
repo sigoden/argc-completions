@@ -108,6 +108,10 @@ help	Explain the debugging options.
 EOF
 }
 
+_choice_regextype() {
+    printf "%s\n" findutils-default ed emacs gnu-awk grep posix-awk awk posix-basic posix-egrep egrep posix-extended posix-minimal-basic sed
+}
+
 _choice_fstype() {
     cat <<-'EOF'
 bfs	is the native file system for the BeOS
@@ -138,10 +142,6 @@ vfat	is an extended FAT filesystem used by Microsoft Windows95 and Windows NT.
 xfs	is a journaling filesystem, developed by SGI.
 xiafs	was designed and implemented to be a stable, safe filesystem by  extending  the  Minix filesystem code.
 EOF
-}
-
-_choice_regextype() {
-    printf "%s\n" findutils-default ed emacs gnu-awk grep posix-awk awk posix-basic posix-egrep egrep posix-extended posix-minimal-basic sed
 }
 
 _choice_type() {

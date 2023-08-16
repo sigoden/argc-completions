@@ -2117,18 +2117,65 @@ worktree::unlock() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
+_choice_cmd() {
+    _git config --get-regexp 'alias.*' | gawk '{print substr($1, 7)}'
+}
+
+_choice_unstaged_file() {
+    _git status --porcelain | gawk '{
+    if (substr($0, 2, 1) != " ") {
+        print substr($0, 4)
+    }
+}' | _argc_util_comp_parts /
+}
+
+_choice_diff() {
+    _choice_reset
+}
+
+_choice_log() {
+    if [[ -n "$argc_dashes" ]]; then
+        _git ls-files | _argc_util_comp_parts /
+    else
+        _argc_util_mode_kv '..'
+        _choice_ref
+    fi
+}
+
+_choice_show() {
+    _argc_util_mode_kv ':'
+    if [[ -z "$argc__kv_prefix" ]]; then
+        _choice_ref
+    else
+        _git ls-files | _argc_util_comp_parts / "$argc__kv_filter" "$argc__kv_prefix"
+    fi
+}
+
 _choice_branch() {
     _argc_util_parallel _choice_tag ::: _choice_local_branch ::: _choice_remote_branch
 }
 
-_choice_changed_file() {
-    _git status --porcelain | gawk '{
-    if (match($0, "->")) {
-        print substr($0, RSTART + RLENGTH + 1)
-    } else {
-        print substr($0, 4)
-    }
-}' | _argc_util_comp_parts /
+_choice_reset() {
+    if [[ -n "$argc__dashes" ]]; then
+        _choice_changed_file
+    elif [[ ${#argc__positionals[@]} -gt 1 ]]; then
+        :;
+    else
+        _choice_ref
+    fi
+}
+
+_choice_remote() {
+    _git remote
+}
+
+_choice_remote_branch() {
+    _git branch --remote --sort=-creatordate --format '%(refname:short)	%(subject)' | head -n 100
+}
+
+_choice_push() {
+    _argc_util_mode_kv ':'
+    _choice_branch
 }
 
 _choice_checkout() {
@@ -2145,16 +2192,43 @@ _choice_checkout() {
     fi
 }
 
-_choice_cmd() {
-    _git config --get-regexp 'alias.*' | gawk '{print substr($1, 7)}'
+_choice_range() {
+    _argc_util_mode_kv '..'
+    _choice_ref 
 }
 
 _choice_config_key() {
     _git config --get-regexp '.*' | gawk '{print $1}'
 }
 
-_choice_diff() {
-    _choice_reset
+_choice_ref() {
+    _argc_util_parallel _choice_tag ::: _choice_head_commit ::: _choice_local_branch ::: _choice_remote_branch
+}
+
+_choice_restore_file() {
+    if [[ -n "$argc_staged" ]]; then
+        _choice_staged_file
+    else
+        _choice_changed_file
+    fi
+}
+
+_choice_stash() {
+    _git stash list --format='%gd	%gs'
+}
+
+_choice_tag() {
+    git tag --sort=-creatordate --format "%(refname)	%(subject)" | sed 's|refs/tags/||' | head -n 100
+}
+
+_choice_changed_file() {
+    _git status --porcelain | gawk '{
+    if (match($0, "->")) {
+        print substr($0, RSTART + RLENGTH + 1)
+    } else {
+        print substr($0, 4)
+    }
+}' | _argc_util_comp_parts /
 }
 
 _choice_head_commit() {
@@ -2169,64 +2243,6 @@ _choice_local_branch() {
     _git branch --format '%(refname:short)	%(subject)'
 }
 
-_choice_log() {
-    if [[ -n "$argc_dashes" ]]; then
-        _git ls-files | _argc_util_comp_parts /
-    else
-        _argc_util_mode_kv '..'
-        _choice_ref
-    fi
-}
-
-_choice_push() {
-    _argc_util_mode_kv ':'
-    _choice_branch
-}
-
-_choice_range() {
-    _argc_util_mode_kv '..'
-    _choice_ref 
-}
-
-_choice_ref() {
-    _argc_util_parallel _choice_tag ::: _choice_head_commit ::: _choice_local_branch ::: _choice_remote_branch
-}
-
-_choice_remote() {
-    _git remote
-}
-
-_choice_remote_branch() {
-    _git branch --remote --sort=-creatordate --format '%(refname:short)	%(subject)' | head -n 100
-}
-
-_choice_reset() {
-    if [[ -n "$argc__dashes" ]]; then
-        _choice_changed_file
-    elif [[ ${#argc__positionals[@]} -gt 1 ]]; then
-        :;
-    else
-        _choice_ref
-    fi
-}
-
-_choice_restore_file() {
-    if [[ -n "$argc_staged" ]]; then
-        _choice_staged_file
-    else
-        _choice_changed_file
-    fi
-}
-
-_choice_show() {
-    _argc_util_mode_kv ':'
-    if [[ -z "$argc__kv_prefix" ]]; then
-        _choice_ref
-    else
-        _git ls-files | _argc_util_comp_parts / "$argc__kv_filter" "$argc__kv_prefix"
-    fi
-}
-
 _choice_staged_file() {
     _git status --porcelain | gawk '{
     if (substr($0, 2, 1) == " ") {
@@ -2235,22 +2251,6 @@ _choice_staged_file() {
         } else {
             print substr($0, 4)
         }
-    }
-}' | _argc_util_comp_parts /
-}
-
-_choice_stash() {
-    _git stash list --format='%gd	%gs'
-}
-
-_choice_tag() {
-    git tag --sort=-creatordate --format "%(refname)	%(subject)" | sed 's|refs/tags/||' | head -n 100
-}
-
-_choice_unstaged_file() {
-    _git status --porcelain | gawk '{
-    if (substr($0, 2, 1) != " ") {
-        print substr($0, 4)
     }
 }' | _argc_util_comp_parts /
 }

@@ -113,12 +113,16 @@
 # @option --brain-session <Hex>               Overrides automatically calculated brain session
 # @option --brain-session-whitelist <Hex>     Allow given sessions only, separated with commas
 
+_choice_hash_mode() {
+    _helper_extract_table "Hash modes"
+}
+
 _choice_attack_mode() {
     _helper_extract_table "Attack Modes"
 }
 
-_choice_brain_client_features() {
-    _helper_extract_table "Brain Client Features"
+_choice_outfile_format() {
+    _helper_extract_table "Outfile Formats"
 }
 
 _choice_debug_mode() {
@@ -129,16 +133,12 @@ _choice_device_type() {
     _helper_extract_table "OpenCL Device Types"
 }
 
-_choice_hash_mode() {
-    _helper_extract_table "Hash modes"
-}
-
-_choice_outfile_format() {
-    _helper_extract_table "Outfile Formats"
-}
-
 _choice_workload_profile() {
     _helper_extract_table "Workload Profiles"
+}
+
+_choice_brain_client_features() {
+    _helper_extract_table "Brain Client Features"
 }
 
 _helper_extract_table() {

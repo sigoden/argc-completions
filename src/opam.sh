@@ -87,10 +87,6 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_commands 'index(index, make)'
 
-    elif [[ "$*" == "opam config "* ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments 'var;*[`_choice_var`]'
-
     elif [[ "$*" == "opam exec" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments \
@@ -121,10 +117,6 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_arguments 'packages;*[`_choice_installed_package`]'
 
-    elif [[ "$*" == "opam repository "* ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments 'name;*[`_choice_repository`]'
-
     elif [[ "$*" == "opam switch create" ]] \
       || [[ "$*" == "opam switch install" ]] \
     ; then
@@ -139,10 +131,26 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_arguments 'var-value;*[`_choice_var`]'
 
+    elif [[ "$*" == "opam config "* ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments 'var;*[`_choice_var`]'
+
+    elif [[ "$*" == "opam repository "* ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments 'name;*[`_choice_repository`]'
+
     else
         echo "$table"
 
     fi
+}
+
+_choice_installed_switch() {
+    opam switch list-available --safe -s
+}
+
+_choice_installed_switch() {
+    opam switch list-available --safe -s
 }
 
 _choice_columns() {
@@ -154,20 +162,13 @@ _choice_columns() {
 
 }
 
-_choice_installed_package() {
-    opam list --safe -i -s
-}
+_choice_var() {
+    opam $(_argc_util_param_select_options --global) var --safe | \
+    sed -n \
+        -e '/^PKG:/ d' \
+        -e '/<><>/ d' \
+        -e 's%^\([^#= ][^ ]*\).*%\1%p' \
 
-_choice_installed_pin() {
-    opam pin list --safe -s   
-}
-
-_choice_installed_switch() {
-    opam switch list-available --safe -s
-}
-
-_choice_installed_switch() {
-    opam switch list-available --safe -s
 }
 
 _choice_package() {
@@ -178,19 +179,18 @@ _choice_pin() {
     opam pin list --safe -A -s   
 }
 
+_choice_installed_pin() {
+    opam pin list --safe -s   
+}
+
+_choice_installed_package() {
+    opam list --safe -i -s
+}
+
 _choice_repository() {
     opam repository list --safe -a -s
 }
 
 _choice_update() {
     _argc_util_parallel _choice_repository ::: _choice_installed_pin
-}
-
-_choice_var() {
-    opam $(_argc_util_param_select_options --global) var --safe | \
-    sed -n \
-        -e '/^PKG:/ d' \
-        -e '/<><>/ d' \
-        -e 's%^\([^#= ][^ ]*\).*%\1%p' \
-
 }

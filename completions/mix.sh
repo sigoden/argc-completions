@@ -949,12 +949,12 @@ phx.server() {
 }
 # }} mix phx.server
 
-_choice_dependency() {
-    mix deps.get | sed -n 's/^  \(\S\+\) .*$/\1/p'
-}
-
 _choice_task() {
     mix help | sed -n 's/mix \(\S\+\)\s*# \(.*\)$/\1\t\2/p'
+}
+
+_choice_dependency() {
+    mix deps.get | sed -n 's/^  \(\S\+\) .*$/\1/p'
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

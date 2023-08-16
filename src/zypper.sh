@@ -18,11 +18,11 @@ _patch_table() {
         _patch_table_edit_options \
             '--repo; '
 
-    elif [[ "$*" == "zypper clean" ]] \
+    elif [[ "$*" == "zypper removerepo" ]] \
+      || [[ "$*" == "zypper renamerepo" ]] \
       || [[ "$*" == "zypper modifyrepo" ]] \
       || [[ "$*" == "zypper refresh" ]] \
-      || [[ "$*" == "zypper removerepo" ]] \
-      || [[ "$*" == "zypper renamerepo" ]] \
+      || [[ "$*" == "zypper clean" ]] \
     ; then
         echo "$table" | \
         _patch_table_edit_arguments 'alias-uri;[`_choice_repo`]'
@@ -32,6 +32,14 @@ _patch_table() {
     ; then
         echo "$table" | \
         _patch_table_edit_arguments 'alias-uri;[`_choice_service`]'
+
+    elif [[ "$*" == "zypper remove" ]] \
+      || [[ "$*" == "zypper update" ]] \
+    ; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'capability;[`_choice_installed_package`]' \
+            'packagename;[`_choice_installed_package`]' \
 
     elif [[ "$*" == "zypper patch-info" ]]; then
         echo "$table" | \
@@ -45,14 +53,6 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_arguments 'product_name;[`_choice_product`]'
 
-    elif [[ "$*" == "zypper remove" ]] \
-      || [[ "$*" == "zypper update" ]] \
-    ; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            'capability;[`_choice_installed_package`]' \
-            'packagename;[`_choice_installed_package`]' \
-
     elif [[ "$*" == "zypper removelock" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments 'lock-number-packagename;[`_choice_lock`]'
@@ -63,12 +63,16 @@ _patch_table() {
 
 }
 
-_choice_installed_package() {
-    _helper_list_packages
+_choice_repo() {
+    LC_ALL=POSIX zypper -q lr | _helper_extract
 }
 
-_choice_lock() {
-    LC_ALL=POSIX zypper -q ll | _helper_extract
+_choice_service() {
+    LC_ALL=POSIX zypper -q ls | _helper_extract
+}
+
+_choice_installed_package() {
+    _helper_list_packages
 }
 
 _choice_patch() {
@@ -83,12 +87,8 @@ _choice_product() {
     _helper_list_packages "product:$ARGC_FILTER" | sed -e "s/^product://"
 }
 
-_choice_repo() {
-    LC_ALL=POSIX zypper -q lr | _helper_extract
-}
-
-_choice_service() {
-    LC_ALL=POSIX zypper -q ls | _helper_extract
+_choice_lock() {
+    LC_ALL=POSIX zypper -q ll | _helper_extract
 }
 
 _helper_extract() {

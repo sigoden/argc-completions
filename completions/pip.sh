@@ -779,11 +779,6 @@ debug() {
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_config_key() {
-    pip config $(_argc_util_param_select_options --global --site --user) list | \
-    gawk -F= '{gsub("\047", "", $2); print $1 "\t" $2}'
-}
-
 _choice_exists_action() {
     cat <<-'EOF'
 s	switch
@@ -796,6 +791,11 @@ EOF
 
 _choice_package() {
     pip list --format json | yq '.[] | .name + "	" + .version'
+}
+
+_choice_config_key() {
+    pip config $(_argc_util_param_select_options --global --site --user) list | \
+    gawk -F= '{gsub("\047", "", $2); print $1 "\t" $2}'
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

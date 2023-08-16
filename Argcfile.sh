@@ -165,7 +165,7 @@ format() {
             echo "missing $srcfile "
         else
             echo "format $srcfile "
-            _helper_format_srcfile "$src_file"
+            ./scripts/format.sh "$name"
         fi
     done
 }
@@ -175,7 +175,7 @@ format:all() {
     while IFS=$'\n' read -r srcfile; do
         if [[ -f "$srcfile" && ! -L "$srcfile" ]]; then
             echo "format $srcfile"
-            _helper_format_srcfile $srcfile
+            ./scripts/format.sh "$(basename "$srcfile" .sh)"
         fi
     done < <(find src/ -type f -name "*.sh" | sort)
 }
@@ -205,12 +205,6 @@ _choice_src_name() {
 _choice_print_target() {
     echo __argc_value=file
     _choice_completion
-}
-
-_helper_format_srcfile() {
-    tmpfile="${tmpfile:-"/tmp/argc-completions-format-tmp.sh"}"
-    cat "$srcfile" | gawk -f ./scripts/format-src-script.awk > "$tmpfile"
-    mv "$tmpfile" "$srcfile"
 }
 
 _helper_print_help() {

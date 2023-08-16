@@ -5,10 +5,6 @@
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_cmd() {
-    openssl list -1 -commands -cipher-commands -digest-commands
-}
-
 _choice_delegate() {
     if _argc_util_has_path_prefix "$ARGC_FILTER"; then
         _argc_util_comp_path
@@ -24,6 +20,10 @@ _choice_delegate() {
         return
     fi
     _argc_util_comp_path
+}
+
+_choice_cmd() {
+    openssl list -1 -commands -cipher-commands -digest-commands
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"
