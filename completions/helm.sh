@@ -1440,7 +1440,7 @@ status() {
 # @option --kube-version <string>            Kubernetes version used for Capabilities.KubeVersion
 # @option --name-template <string>           specify template used to name the release
 # @flag --no-hooks                           prevent hooks from running during install
-# @option --output-dir <dir>                 writes the executed templates to files in output-dir instead of stdout
+# @option --output-dir <path>                writes the executed templates to files in output-dir instead of stdout
 # @flag --pass-credentials                   pass credentials to all domains
 # @option --password <string>                chart repository password where to locate the requested chart
 # @option --post-renderer <path>             the path to an executable to be used for post rendering.

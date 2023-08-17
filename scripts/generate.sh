@@ -84,7 +84,7 @@ handle_subcmd() {
 get_table() {
     log_info "$@: start"
     if [[ $# -gt 5 ]]; then
-        log_error "$@: too deep"
+        log_error "$@: loop"
         return
     fi
     local path help_text table

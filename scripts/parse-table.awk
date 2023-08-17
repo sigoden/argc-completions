@@ -201,9 +201,6 @@ END {
                 continue
             }
             isCmd = 0
-            if (word == "--") {
-                continue
-            }
             if (match(word, /^(\[\s*-|\(\s*-|<\s*-|-)/)) {
                 continue
             }

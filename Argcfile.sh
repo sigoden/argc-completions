@@ -199,7 +199,7 @@ _choice_fn_name() {
 }
 
 _choice_src_name() {
-    ls -1 src | sed -n 's/^\([[:alnum:]-]\+\)\.sh$/\1/p'
+    ls -1 src | sed -n 's/^\([[:alnum:]_-]\+\)\.sh$/\1/p'
 }
 
 _choice_print_target() {

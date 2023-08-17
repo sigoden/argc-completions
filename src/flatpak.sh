@@ -7,7 +7,7 @@ _patch_table() {
 }
 
 _choice_delegate() {
-    cmd="${argc__args[*]}"
+    line="${argc__args[*]}"
     cur="${argc__args[-1]}"
     if [[ "$cur" =~ ^-.*= ]]; then
         echo "__argc_prefix=${cur%%=*}="
@@ -28,5 +28,5 @@ _choice_delegate() {
                 printf "%s\0\n" "$value"
             fi
         esac
-    done < <(flatpak complete "$cmd" "${#cmd}" "$cur")
+    done < <(flatpak complete "$line" "${#line}" "$cur")
 }

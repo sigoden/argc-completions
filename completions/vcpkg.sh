@@ -14,7 +14,7 @@
 # @option --x-install-root <dir>        (Experimental) Specify the install root directory.
 # @flag --x-json                        (Experimental) Request JSON output.
 # @option --overlay-ports <dir>         Specify directories to be used when searching for ports.
-# @option --overlay-triplets <dir>      Specifiy directories containing triplets files.
+# @option --overlay-triplets <path>     Specifiy directories containing triplets files.
 # @option --x-packages-root <dir>       (Experimental) Specify the packages root directory.
 # @option --triplet <string>            Specify the target architecture triplet.
 # @option --vcpkg-root <dir>            Specify the vcpkg root directory.
@@ -49,7 +49,7 @@ search() {
 # @flag --only-binarycaching              Fail if cached binaries are not available.
 # @flag --only-downloads                  Make a best-effort attempt to download sources without building.
 # @option --overlay-ports <dir>           Specify directories to be used when searching for ports.
-# @option --overlay-triplets <dir>        Specifiy directories containing triplets files.
+# @option --overlay-triplets <path>       Specifiy directories containing triplets files.
 # @option --x-packages-root <dir>         (Experimental) Specify the packages root directory.
 # @flag --recurse                         Allow removal of packages as part of installation.
 # @option --triplet <string>              Specify the target architecture triplet.
@@ -73,7 +73,7 @@ install() {
 # @option --x-install-root <dir>        (Experimental) Specify the install root directory.
 # @flag --outdated                      Select all packages with versions that do not match the portfiles
 # @option --overlay-ports <dir>         Specify directories to be used when searching for ports.
-# @option --overlay-triplets <dir>      Specifiy directories containing triplets files.
+# @option --overlay-triplets <path>     Specifiy directories containing triplets files.
 # @option --x-packages-root <dir>       (Experimental) Specify the packages root directory.
 # @flag --recurse                       Allow removal of packages not explicitly specified on the command line
 # @option --triplet <string>            Specify the target architecture triplet.
@@ -93,7 +93,7 @@ remove() {
 # @option --host-triplet <string>       Specify the host architecture triplet.
 # @option --x-install-root <dir>        (Experimental) Specify the install root directory.
 # @option --overlay-ports <dir>         Specify directories to be used when searching for ports.
-# @option --overlay-triplets <dir>      Specifiy directories containing triplets files.
+# @option --overlay-triplets <path>     Specifiy directories containing triplets files.
 # @option --x-packages-root <dir>       (Experimental) Specify the packages root directory.
 # @option --triplet <string>            Specify the target architecture triplet.
 # @option --vcpkg-root <dir>            Specify the vcpkg root directory.
@@ -114,7 +114,7 @@ update() {
 # @flag --no-dry-run                    Actually upgrade
 # @flag --no-keep-going                 Stop installing packages on failure
 # @option --overlay-ports <dir>         Specify directories to be used when searching for ports.
-# @option --overlay-triplets <dir>      Specifiy directories containing triplets files.
+# @option --overlay-triplets <path>     Specifiy directories containing triplets files.
 # @option --x-packages-root <dir>       (Experimental) Specify the packages root directory.
 # @option --triplet <string>            Specify the target architecture triplet.
 # @option --vcpkg-root <dir>            Specify the vcpkg root directory.
@@ -132,7 +132,7 @@ upgrade() {
 # @option --host-triplet <string>       Specify the host architecture triplet.
 # @option --x-install-root <dir>        (Experimental) Specify the install root directory.
 # @option --overlay-ports <dir>         Specify directories to be used when searching for ports.
-# @option --overlay-triplets <dir>      Specifiy directories containing triplets files.
+# @option --overlay-triplets <path>     Specifiy directories containing triplets files.
 # @option --x-packages-root <dir>       (Experimental) Specify the packages root directory.
 # @option --triplet <string>            Specify the target architecture triplet.
 # @option --vcpkg-root <dir>            Specify the vcpkg root directory.
@@ -154,7 +154,7 @@ hash() {
 # @option --x-install-root <dir>        (Experimental) Specify the install root directory.
 # @flag --x-json                        (Experimental) Request JSON output.
 # @option --overlay-ports <dir>         Specify directories to be used when searching for ports.
-# @option --overlay-triplets <dir>      Specifiy directories containing triplets files.
+# @option --overlay-triplets <path>     Specifiy directories containing triplets files.
 # @option --x-packages-root <dir>       (Experimental) Specify the packages root directory.
 # @option --triplet <string>            Specify the target architecture triplet.
 # @option --vcpkg-root <dir>            Specify the vcpkg root directory.
@@ -172,7 +172,7 @@ list() {
 # @option --host-triplet <string>       Specify the host architecture triplet.
 # @option --x-install-root <dir>        (Experimental) Specify the install root directory.
 # @option --overlay-ports <dir>         Specify directories to be used when searching for ports.
-# @option --overlay-triplets <dir>      Specifiy directories containing triplets files.
+# @option --overlay-triplets <path>     Specifiy directories containing triplets files.
 # @option --x-packages-root <dir>       (Experimental) Specify the packages root directory.
 # @option --triplet <string>            Specify the target architecture triplet.
 # @option --vcpkg-root <dir>            Specify the vcpkg root directory.
@@ -208,7 +208,7 @@ integrate() {
 # @option --output-dir <dir>                       Specify the output directory for produced artifacts
 # @option --output <file>                          Specify the output name (used to construct filename)
 # @option --overlay-ports <dir>                    Specify directories to be used when searching for ports.
-# @option --overlay-triplets <dir>                 Specifiy directories containing triplets files.
+# @option --overlay-triplets <path>                Specifiy directories containing triplets files.
 # @option --x-packages-root <dir>                  (Experimental) Specify the packages root directory.
 # @flag --prefab                                   Export to Prefab format
 # @option --prefab-artifact-id <string>            Artifact Id is the name of the project according Maven specifications
@@ -240,7 +240,7 @@ export() {
 # @option --host-triplet <string>       Specify the host architecture triplet.
 # @option --x-install-root <dir>        (Experimental) Specify the install root directory.
 # @option --overlay-ports <dir>         Specify directories to be used when searching for ports.
-# @option --overlay-triplets <dir>      Specifiy directories containing triplets files.
+# @option --overlay-triplets <path>     Specifiy directories containing triplets files.
 # @option --x-packages-root <dir>       (Experimental) Specify the packages root directory.
 # @option --triplet <string>            Specify the target architecture triplet.
 # @option --vcpkg-root <dir>            Specify the vcpkg root directory.
@@ -259,7 +259,7 @@ edit() {
 # @option --host-triplet <string>       Specify the host architecture triplet.
 # @option --x-install-root <dir>        (Experimental) Specify the install root directory.
 # @option --overlay-ports <dir>         Specify directories to be used when searching for ports.
-# @option --overlay-triplets <dir>      Specifiy directories containing triplets files.
+# @option --overlay-triplets <path>     Specifiy directories containing triplets files.
 # @option --x-packages-root <dir>       (Experimental) Specify the packages root directory.
 # @option --triplet <string>            Specify the target architecture triplet.
 # @option --vcpkg-root <dir>            Specify the vcpkg root directory.
@@ -280,7 +280,7 @@ create() {
 # @option --host-triplet <string>       Specify the host architecture triplet.
 # @option --x-install-root <dir>        (Experimental) Specify the install root directory.
 # @option --overlay-ports <dir>         Specify directories to be used when searching for ports.
-# @option --overlay-triplets <dir>      Specifiy directories containing triplets files.
+# @option --overlay-triplets <path>     Specifiy directories containing triplets files.
 # @option --x-packages-root <dir>       (Experimental) Specify the packages root directory.
 # @option --triplet <string>            Specify the target architecture triplet.
 # @option --vcpkg-root <dir>            Specify the vcpkg root directory.
@@ -301,7 +301,7 @@ x-init-registry() {
 # @option --host-triplet <string>       Specify the host architecture triplet.
 # @option --x-install-root <dir>        (Experimental) Specify the install root directory.
 # @option --overlay-ports <dir>         Specify directories to be used when searching for ports.
-# @option --overlay-triplets <dir>      Specifiy directories containing triplets files.
+# @option --overlay-triplets <path>     Specifiy directories containing triplets files.
 # @option --x-packages-root <dir>       (Experimental) Specify the packages root directory.
 # @option --triplet <string>            Specify the target architecture triplet.
 # @option --vcpkg-root <dir>            Specify the vcpkg root directory.
@@ -319,7 +319,7 @@ format-manifest() {
 # @option --host-triplet <string>       Specify the host architecture triplet.
 # @option --x-install-root <dir>        (Experimental) Specify the install root directory.
 # @option --overlay-ports <dir>         Specify directories to be used when searching for ports.
-# @option --overlay-triplets <dir>      Specifiy directories containing triplets files.
+# @option --overlay-triplets <path>     Specifiy directories containing triplets files.
 # @option --x-packages-root <dir>       (Experimental) Specify the packages root directory.
 # @option --triplet <string>            Specify the target architecture triplet.
 # @option --vcpkg-root <dir>            Specify the vcpkg root directory.
@@ -340,7 +340,7 @@ owns() {
 # @option --x-install-root <dir>        (Experimental) Specify the install root directory.
 # @option --max-recurse <string>        Set max recursion depth.
 # @option --overlay-ports <dir>         Specify directories to be used when searching for ports.
-# @option --overlay-triplets <dir>      Specifiy directories containing triplets files.
+# @option --overlay-triplets <path>     Specifiy directories containing triplets files.
 # @option --x-packages-root <dir>       (Experimental) Specify the packages root directory.
 # @flag --show-depth                    Show recursion depth in `list` output.
 # @option --sort <string>               Choose sort order for the `list` format, one of `lexicographical`, `topological` (default), `reverse`
@@ -364,7 +364,7 @@ depend-info() {
 # @flag --include                       Add installed include/ to INCLUDE
 # @option --x-install-root <dir>        (Experimental) Specify the install root directory.
 # @option --overlay-ports <dir>         Specify directories to be used when searching for ports.
-# @option --overlay-triplets <dir>      Specifiy directories containing triplets files.
+# @option --overlay-triplets <path>     Specifiy directories containing triplets files.
 # @option --x-packages-root <dir>       (Experimental) Specify the packages root directory.
 # @flag --python                        Add installed python/ to PYTHONPATH
 # @flag --tools                         Add installed tools/*/ to PATH
@@ -384,7 +384,7 @@ env() {
 # @option --host-triplet <string>       Specify the host architecture triplet.
 # @option --x-install-root <dir>        (Experimental) Specify the install root directory.
 # @option --overlay-ports <dir>         Specify directories to be used when searching for ports.
-# @option --overlay-triplets <dir>      Specifiy directories containing triplets files.
+# @option --overlay-triplets <path>     Specifiy directories containing triplets files.
 # @option --x-packages-root <dir>       (Experimental) Specify the packages root directory.
 # @option --triplet <string>            Specify the target architecture triplet.
 # @option --vcpkg-root <dir>            Specify the vcpkg root directory.
@@ -402,7 +402,7 @@ version() {
 # @option --host-triplet <string>       Specify the host architecture triplet.
 # @option --x-install-root <dir>        (Experimental) Specify the install root directory.
 # @option --overlay-ports <dir>         Specify directories to be used when searching for ports.
-# @option --overlay-triplets <dir>      Specifiy directories containing triplets files.
+# @option --overlay-triplets <path>     Specifiy directories containing triplets files.
 # @option --x-packages-root <dir>       (Experimental) Specify the packages root directory.
 # @flag --survey                        Launch default browser to the current vcpkg survey
 # @option --triplet <string>            Specify the target architecture triplet.

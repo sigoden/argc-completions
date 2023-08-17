@@ -33,7 +33,7 @@ completion() {
 # @flag -h --help                           help for convert
 # @option --indent <int>                    Spaces length to indent generated yaml files (default 2)
 # @flag -j --json                           Generate resource files into JSON format
-# @option -o --out <dir>                    Specify a file name or directory to save objects to (if path does not exist, a file will be created)
+# @option -o --out <path>                   Specify a file name or directory to save objects to (if path does not exist, a file will be created)
 # @flag --push-image                        If we should push the docker image we built
 # @option --push-image-registry <string>    Specify registry for pushing image, which will override registry from image name.
 # @option --pvc-request-size <string>       Specify the size of pvc storage requests in the generated resource spec

@@ -686,7 +686,7 @@ buildx::version() {
 # @option --parallel <int>                      Control max parallelism, -1 for unlimited (default -1)
 # @option --profile* <file>                     Specify a profile to enable
 # @option --progress[auto|tty|plain|quiet] <string>  Set type of progress output (default "auto")
-# @option --project-directory <dir>             Specify an alternate working directory (default: the path of the, first specified, Compose file)
+# @option --project-directory <path>            Specify an alternate working directory (default: the path of the, first specified, Compose file)
 # @option -p --project-name <string>            Project name
 compose() {
     :;

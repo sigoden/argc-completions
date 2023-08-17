@@ -152,7 +152,7 @@ start() {
 # {{ pm2 trigger
 # @cmd trigger process action
 # @flag -h --help    output usage information
-# @arg target[`_choice_id_name_ns`]
+# @arg target[`_choice_reload`]
 # @arg action_name
 # @arg param
 trigger() {
@@ -246,7 +246,7 @@ scale() {
 # {{ pm2 reload
 # @cmd reload processes (note that its for app using HTTP/HTTPS)
 # @flag -h --help    output usage information
-# @arg target[`_choice_stop`]
+# @arg target[`_choice_reload`]
 reload() {
     :;
 }
@@ -581,7 +581,7 @@ ecosystem() {
 # {{ pm2 reset
 # @cmd reset counters for process
 # @flag -h --help    output usage information
-# @arg target[`_choice_stop`]
+# @arg target[`_choice_reset`]
 reset() {
     :;
 }
@@ -610,7 +610,7 @@ info() {
 # {{ pm2 env
 # @cmd list all environment variables of a process id
 # @flag -h --help    output usage information
-# @arg id!
+# @arg id![`_choice_pm_id`]
 env() {
     :;
 }
@@ -713,7 +713,7 @@ reloadLogs() {
 # @flag --nostream                print logs without launching the log stream
 # @option --highlight <value>     highlights the given value
 # @flag -h --help                 output usage information
-# @arg target[`_choice_stop`]
+# @arg target[`_choice_log`]
 logs() {
     :;
 }
@@ -802,11 +802,12 @@ _choice_start() {
         _argc_util_comp_path
         return
     fi
-    _choice_id_name_ns
+    _choice_log
 }
 
-_choice_id_name_ns() {
-    pm2 jlist | yq '.[] | .pm_id + "	" + .name, .[].name, .[].pm2_env.namespace // ""'
+_choice_reload() {
+    _choice_log
+    echo all
 }
 
 _choice_name() {
@@ -818,7 +819,7 @@ _choice_stop() {
         _argc_util_comp_path
         return
     fi
-    _choice_id_name_ns
+    _choice_log
     echo all
 }
 
@@ -828,6 +829,15 @@ _choice_id_name() {
 
 _choice_pm_id() {
     pm2 jlist | yq '.[] | .pm_id + "	" + .name'
+}
+
+_choice_reset() {
+    _choice_id_name
+    echo all
+}
+
+_choice_log() {
+    pm2 jlist | yq '.[] | .pm_id + "	" + .name, .[].name, .[].pm2_env.namespace // ""'
 }
 
 _module_os_gid() {
