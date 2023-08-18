@@ -12,7 +12,8 @@
 # @option -o --output <file>      Write output to <file> instead of stdout.
 # @flag -n --no-headers           When set, the first row will NOT be interpreted as column names.
 # @option -d --delimiter <arg>    The field delimiter for reading CSV data.
-# @arg input-file
+# @arg cmd[rows|columns]
+# @arg input-file*
 cat_() {
     :;
 }

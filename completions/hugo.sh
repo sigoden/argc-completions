@@ -836,6 +836,7 @@ mod::verify() {
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
+# @arg content
 # @arg path
 new() {
     :;

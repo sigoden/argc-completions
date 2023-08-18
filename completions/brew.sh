@@ -539,6 +539,7 @@ outdated() {
 # @flag -q --quiet      Make some output more quiet.
 # @flag -v --verbose    Make some output more verbose.
 # @flag -h --help       Show this message.
+# @arg installed_formula[`_choice_installed_formula`]
 pin() {
     :;
 }
@@ -561,6 +562,7 @@ postgresql-upgrade-database() {
 # @flag -q --quiet      Make some output more quiet.
 # @flag -v --verbose    Make some output more verbose.
 # @flag -h --help       Show this message.
+# @arg installed_formula[`_choice_installed_formula`]
 postinstall() {
     :;
 }
@@ -701,6 +703,7 @@ unlink() {
 # @flag -q --quiet      Make some output more quiet.
 # @flag -v --verbose    Make some output more verbose.
 # @flag -h --help       Show this message.
+# @arg installed_formula[`_choice_installed_formula`]
 unpin() {
     :;
 }
@@ -1110,6 +1113,7 @@ extract() {
 # @flag -q --quiet      Make some output more quiet.
 # @flag -v --verbose    Make some output more verbose.
 # @flag -h --help       Show this message.
+# @arg formula[`_choice_suggest_formula`]
 formula() {
     :;
 }
@@ -1820,6 +1824,7 @@ test-bot() {
 # @flag -q --quiet      Make some output more quiet.
 # @flag -v --verbose    Make some output more verbose.
 # @flag -h --help       Show this message.
+# @arg alias
 unalias() {
     :;
 }

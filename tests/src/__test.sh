@@ -250,7 +250,7 @@ EOF
     elif [[ "$*" == "__test cmda" ]]; then
         echo "Usage: __test cmda [DIR] ..."
     elif [[ "$*" == "__test cmdb" ]]; then
-        echo "Usage: __test cmdb [OPTION…] LOCATION FILENAME NAME [BRANCH] - Create a single file bundle from a local repository"
+        echo "Usage: __test cmdb [OPTION…] LOCATION FILENAME NAME [BRANCH]"
     elif [[ "$*" == "__test cmdc" ]]; then
         echo "Usage: __test cmdc COMMAND [ARGS]..."
     fi

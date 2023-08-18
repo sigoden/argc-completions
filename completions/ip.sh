@@ -658,26 +658,12 @@ route::replace() {
 
 # {{{ ip route delete
 # @cmd delete route
+# @alias del
 # @arg action*[`_choice_route_add`]
 route::delete() {
     :;
 }
 # }}} ip route delete
-
-# {{{ ip route del
-# @cmd
-# @arg add
-# @arg but
-# @arg their
-# @arg semantics
-# @arg are
-# @arg a
-# @arg bit
-# @arg different <different.>
-route::del() {
-    :;
-}
-# }}} ip route del
 
 # {{{ ip route show
 # @cmd list routes

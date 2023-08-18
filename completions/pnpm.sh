@@ -282,6 +282,7 @@ audit() {
 # @flag --long           Show more details (such as a link to the repo) are not displayed.
 # @flag --no-optional    Don't check "optionalDependencies"
 # @flag -P --prod        Check only "dependencies" and "optionalDependencies"
+# @arg cmd[list]
 licenses() {
     :;
 }

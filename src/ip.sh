@@ -113,8 +113,7 @@ _patch_help() {
 ## add - add new route
 ## change - change route
 ## replace - change or add new one
-## delete - delete route
-## del has the same arguments as ip route add, but their semantics are a bit different.
+## delete/del - delete route
 ## show - list routes
 ## flush - flush routing tables
 ## get - get a single route

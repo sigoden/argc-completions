@@ -90,6 +90,9 @@ _patch_table() {
     elif [[ "$*" == "pnpm unlink" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'pkg;[`_choice_dependency`]'
 
+    elif [[ "$*" == "pnpm licenses" ]]; then
+        echo "$table" | _patch_table_edit_arguments ';;' 'cmd;[list]'
+
     elif [[ "$*" == "pnpm ls" ]]; then
         echo "$table" | \
         _patch_table_edit_options '--depth(<number>)' | \

@@ -292,19 +292,17 @@ get_src_script() {
 
 parse_table() {
     if [[ "$argc_verbose" == "1" ]]; then
-        local prefix="$(echo "[info] $@" | sed 's/ /@/g')"
-        gawk -v LOG_PREFIX="$prefix" -f "$scripts_dir/parse-table.awk"
+        gawk -v "CMDS=$*" -v "LOG=1" -f "$scripts_dir/parse-table.awk"
     else
-        gawk -f "$scripts_dir/parse-table.awk"
+        gawk -v "CMDS=$*" -f "$scripts_dir/parse-table.awk"
     fi
 }
 
 parse_script() {
     if [[ "$argc_verbose" == "1" ]]; then
-        local prefix="$(echo "[info] $@" | sed 's/ /@/g')"
-        gawk -v LOG_PREFIX="$prefix" -f "$scripts_dir/parse-script.awk"
+        gawk -v "CMDS=$*" -v "LOG=1" -f "$scripts_dir/parse-script.awk"
     else
-        gawk -f "$scripts_dir/parse-script.awk"
+        gawk -v "CMDS=$*" -f "$scripts_dir/parse-script.awk"
     fi
 }
 

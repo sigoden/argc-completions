@@ -186,7 +186,9 @@ END {
     if (length(arguments) == 0 && length(usage) > 0) {
         split("", words)
         gsub(/ \| /, "|", usage)
-        gsub(/-- |\[--\] /, "", usage)
+        usage = gensub(/\[-- ([^\]]+)\]/, "[\\1]", 1, usage)
+        gsub(/\[--\] /, "", usage)
+        if (CMDS) { sub(CMDS " ", CMDS " -- ", usage) }
         sub(/\s+\.\.\.$/, "...", usage)
         sub(/\[COMMAND \[ARG.*\](\.\.\.)?\]/, "COMMAND ARGS...", usage)
         sub(/\[command \[arg.*\](\.\.\.)?\]/, "command args...", usage)
@@ -382,12 +384,6 @@ function splitUsage(input, words) {
             }
             word = word ch
         } else {
-            if (length(word) == 0 && length(words) > 0) {
-                trimedInput = substr(input, i)
-                if (match(trimedInput, /^- /)) {
-                    return wordBreakAt
-                }
-            }
             word = word ch
         }
     }
@@ -623,8 +619,8 @@ function nextWord(input,    i) {
 }
 
 function outputLog(value) {
-    if (length(LOG_PREFIX) > 0) {
-        print LOG_PREFIX ": " value  > "/dev/stderr"
+    if (LOG) {
+        print "[info] " CMDS ":" value  > "/dev/stderr"
     }
 }
 

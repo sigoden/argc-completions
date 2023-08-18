@@ -18,7 +18,7 @@ _patch_help() {
 ## add <name> [<repo>] - Add bucket
 ## list - List buckets
 ## known - List known buckets
-## rm rm <name> - Remove bucket
+## rm <name> - Remove bucket
 
 # cache
 ## list - List cache

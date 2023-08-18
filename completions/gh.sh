@@ -984,6 +984,7 @@ project::field-delete() {
 # @option -L --limit <int>                     Maximum number of fields to fetch (default 30)
 # @option --owner[`_choice_owner`] <string>    Login of the owner.
 # @flag --help                                 Show help for command
+# @arg project[`_choice_project`]
 project::field-list() {
     :;
 }

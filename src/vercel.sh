@@ -6,7 +6,7 @@ _patch_help() {
             -e 's/^  //' \
             -e '/^Commands:/,/^[A-Z]/ {/^  [A-Z]/ d; /^\s*$/ d; s/ | /, /; s/\s\+\[\([^]]*\)\]/ <\1>/;}' \
             -e 's/,  /, /' \
-            -e 's/▲ '"$*"'/Usage: '"$*"' [options]/'
+            -e 's/▲ '"$*"'/Usage: '"$*"'/'
 
     else
         _patch_help $1 $2  | sed -n '/^Commands/,/^[A-Z]/ s/^  \('$3' \(\S\+ \)*\) .*/Usage: '"$1 $2"' \1/p'
