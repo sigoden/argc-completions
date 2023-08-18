@@ -190,6 +190,7 @@ END {
         gsub(/\[--\] /, "", usage)
         if (CMDS) { sub(CMDS " ", CMDS " -- ", usage) }
         sub(/\s+\.\.\.$/, "...", usage)
+        sub(/ - [A-Z][a-z0-9].*/, "", usage)
         sub(/\[COMMAND \[ARG.*\](\.\.\.)?\]/, "COMMAND ARGS...", usage)
         sub(/\[command \[arg.*\](\.\.\.)?\]/, "command args...", usage)
         splitUsage(usage, words)
