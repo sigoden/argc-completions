@@ -45,7 +45,7 @@
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
 _choice_tag() {
-    prinf "%s\tBuiltin tags\n" all tagged untagged
+    printf "%s\tBuiltin tags\n" all tagged untagged
     ansible-playbook $(_argc_util_param_select_options --inventory) "${argc__positionals[@]}" --list-tags 2>/dev/null  | \
     sed -n -e 's/^\s*TASK TAGS: \[\(.*\)\].*/\1/' -e 's/, /\n/p'
 }

@@ -15,7 +15,7 @@ _patch_table() {
         '-K(<file>)' \
         '-X;[`_choice_extension_option`]' \
         '-d;[`_choice_decode`]' \
-        '-z;[`_choice_statistic`]' \
+        '-z;*,[`_choice_statistic`]' \
     
 }
 

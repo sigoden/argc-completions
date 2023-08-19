@@ -51,7 +51,7 @@
 # @option -W <n>                                  Save extra information in the file, if supported.
 # @option -X[`_choice_extension_option`] <<key>:<value>>  eXtension options, see the man page for details
 # @option -U <tap_name>                           PDUs export mode, see the man page for details
-# @option -z[`_choice_statistic`] <statistics>    various statistics, see the man page for details
+# @option -z*,[`_choice_statistic`] <statistics>  various statistics, see the man page for details
 # @option --export-objects[`_choice_export_objects`] <<protocol>,<destdir>>  save exported objects for a protocol to a directory named "destdir"
 # @option --export-tls-session-keys <keyfile>     export TLS Session Keys to a file named "keyfile"
 # @flag --color                                   color output text similarly to the Wireshark GUI, requires a terminal with 24-bit color support Also supplies color attributes to pdml and psml formats (Note that attributes are nonstandard)
