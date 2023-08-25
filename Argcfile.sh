@@ -170,6 +170,18 @@ format() {
     done
 }
 
+# @cmd Format changed files
+format:changed() {
+    mapfile -t cmds <<<"$(_helper_list_changed)"
+    for name in ${cmds[@]}; do
+        srcfile="src/$name.sh"
+        if [[ -f "$srcfile" ]]; then
+            echo "format $srcfile "
+            ./scripts/format.sh "$name"
+        fi
+    done
+}
+
 # @cmd Format all src files
 format:all() {
     while IFS=$'\n' read -r srcfile; do
