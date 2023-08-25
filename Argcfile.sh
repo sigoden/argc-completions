@@ -180,6 +180,14 @@ format:all() {
     done < <(find src/ -type f -name "*.sh" | sort)
 }
 
+# @cmd Print version
+version() {
+    argc --argc-version
+    yq --version
+    sed --version | head -n 1
+    fakepty --version
+}
+
 _choice_command() {
     if [[ "$ARGC_OS" != "windows" ]]; then
         compgen -c
