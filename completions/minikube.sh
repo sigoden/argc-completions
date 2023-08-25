@@ -773,7 +773,7 @@ _choice_cp() {
     _complete_node_path() {
         _argc_util_mode_kv ':'
         if [[ -z "$argc__kv_prefix" ]]; then
-            if _argc_util_has_path_prefix "$ARGC_CWORD"; then
+            if _argc_util_has_path_prefix; then
                 echo "__argc_value=path"
                 return
             fi

@@ -979,7 +979,7 @@ _choice_package() {
 }
 
 _choice_install() {
-    if _argc_util_has_path_prefix "$ARGC_CWORD"; then
+    if _argc_util_has_path_prefix; then
         _argc_util_comp_path
         return
     fi

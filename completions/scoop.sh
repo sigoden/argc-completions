@@ -411,7 +411,7 @@ _choice_config_value() {
 }
 
 _choice_package_or_path() {
-    if _argc_util_has_path_prefix "$ARGC_CWORD"; then
+    if _argc_util_has_path_prefix; then
         _argc_util_comp_path
         return
     fi
@@ -435,7 +435,7 @@ _helper_get_scoop_dir() {
 }
 
 _module_os_command() {
-    if _argc_util_has_path_prefix "$ARGC_CWORD"; then
+    if _argc_util_has_path_prefix; then
         _argc_util_comp_path
         return
     fi

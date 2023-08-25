@@ -99,7 +99,7 @@ EOF
 }
 
 _choice_source() {
-    if _argc_util_has_path_prefix "$ARGC_CWORD"; then
+    if _argc_util_has_path_prefix; then
         _choice_block_device
         _argc_util_comp_path
         return

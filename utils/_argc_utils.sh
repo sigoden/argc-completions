@@ -414,7 +414,12 @@ _argc_util_mode_parts() {
 # _argc_util_has_path_prefix README  # no
 # ```
 _argc_util_has_path_prefix() {
-     if [[ $1 == '.'* || $1 == '/'* || $1 == '~'* ]] || [[ $1 =~ ^[A-Za-z]: ]]; then
+    local filter="${1-$ARGC_CWORD}"
+    if [[ "$filter" == '.'* ]] \
+    || [[ "$filter" == '/'* ]] \
+    || [[ "$filter" == '~'* ]] \
+    || [[ "$filter" =~ ^[A-Za-z]: ]] \
+    ; then
         return 0
     else
         return 1

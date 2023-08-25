@@ -4666,7 +4666,7 @@ _choice_cp() {
     _complete_container_path() {
         _argc_util_mode_kv ':'
         if [[ -z "$argc__kv_prefix" ]]; then
-            if _argc_util_has_path_prefix "$ARGC_CWORD"; then
+            if _argc_util_has_path_prefix; then
                 echo "__argc_value=path"
                 return
             fi
@@ -4708,7 +4708,7 @@ _module_oci_docker_image() {
 }
 
 _module_os_command() {
-    if _argc_util_has_path_prefix "$ARGC_CWORD"; then
+    if _argc_util_has_path_prefix; then
         _argc_util_comp_path
         return
     fi
