@@ -7,7 +7,7 @@ Argc macros are used to change compgen behaviour.
 Completions not starting with filter will be ignored
 
 ```sh
-echo "__argc_filter=$ARGC_FILTER"
+echo "__argc_filter=$ARGC_CWORD"
 ```
 
 ## __argc_prefix=

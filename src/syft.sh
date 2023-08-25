@@ -32,7 +32,7 @@ _patch_table() {
 }
 
 _choice_source() {
-    if [[ $ARGC_FILTER != *':'* ]]; then
+    if [[ $ARGC_CWORD != *':'* ]]; then
         _argc_util_comp_path
     fi
     _argc_util_parallel _module_oci_docker_image ::: _choice_provider
@@ -53,7 +53,7 @@ _choice_docker_image() {
     else
         prefix="$argc__kv_prefix"
     fi
-    ARGC_FILTER="$argc__kv_filter" _module_oci_docker_image
+    ARGC_CWORD="$argc__kv_filter" _module_oci_docker_image
     echo "__argc_prefix=$prefix"
 }
 
@@ -63,7 +63,7 @@ _choice_podman_image() {
     else
         prefix="$argc__kv_prefix"
     fi
-    ARGC_FILTER="$argc__kv_filter" _module_oci_podman_image
+    ARGC_CWORD="$argc__kv_filter" _module_oci_podman_image
     echo "__argc_prefix=$prefix"
 }
 

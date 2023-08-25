@@ -1438,7 +1438,7 @@ _choice_pipeline() {
 }
 
 _choice_branch() {
-    _helper_repo_curl 'repository/branches?per_page=100&search='$ARGC_FILTER | \
+    _helper_repo_curl 'repository/branches?per_page=100&search='$ARGC_CWORD | \
     yq '.[] | .name + "	" + .commit.title'
 }
 
@@ -1465,15 +1465,15 @@ _choice_opened_incident_issue() {
 }
 
 _choice_member() {
-    _helper_repo_curl 'members/all?per_page=100&query='$ARGC_FILTER | \
+    _helper_repo_curl 'members/all?per_page=100&query='$ARGC_CWORD | \
     yq '.[] | .username + "	" + .name'
 }
 
 _choice_search_user() {
-    if [[ "${#ARGC_FILTER}" -lt 3 ]]; then
+    if [[ "${#ARGC_CWORD}" -lt 3 ]]; then
         return
     fi
-    glab api 'users?per_page=50&search='$ARGC_FILTER | \
+    glab api 'users?per_page=50&search='$ARGC_CWORD | \
     yq '.[] | .username + "	" + (.name // "")'
 }
 
@@ -1487,7 +1487,7 @@ _choice_search_group_subgroup() {
 }
 
 _choice_label() {
-    _helper_repo_curl 'labels?per_page=100&search='$ARGC_FILTER | \
+    _helper_repo_curl 'labels?per_page=100&search='$ARGC_CWORD | \
     yq '.[] | .name + "	" + .description'
 }
 
@@ -1558,7 +1558,7 @@ _choice_closed_mr_or_branch() {
 }
 
 _choice_tag() {
-    _helper_repo_curl 'repository/tags?per_page=100&search='$ARGC_FILTER | \
+    _helper_repo_curl 'repository/tags?per_page=100&search='$ARGC_CWORD | \
     yq '.[] | .name + "	" + .commit.title'
 }
 
@@ -1573,7 +1573,7 @@ _choice_asset_name() {
 _choice_repo_view_branch() {
     if [[ -n "$argc_repo" ]]; then
         project_id_uri="$(_helper_encode_uri "$argc_repo")"
-        glab api "projects/$project_id_uri/repository/branches?per_page=100&search=$ARGC_FILTER" | \
+        glab api "projects/$project_id_uri/repository/branches?per_page=100&search=$ARGC_CWORD" | \
         yq '.[] | .name + "	" + .commit.title'
     else
         _choice_branch
@@ -1620,10 +1620,10 @@ _choice_owner() {
 }
 
 _choice_search_group() {
-    if [[ "${#ARGC_FILTER}" -lt 3 ]]; then
+    if [[ "${#ARGC_CWORD}" -lt 3 ]]; then
         return
     fi
-    glab api 'groups?all_available=true&top_level_only=true&per_page=50&search='$ARGC_FILTER | \
+    glab api 'groups?all_available=true&top_level_only=true&per_page=50&search='$ARGC_CWORD | \
     yq '.[] | .path + "	" + (.description // "")'
 }
 

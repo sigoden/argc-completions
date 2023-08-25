@@ -64,12 +64,12 @@ _choice_gpg_id() {
 
 _choice_pass_dir() {
     _helper_find_root_dir
-    command ls -a1dp "$root_dir$ARGC_FILTER"* | grep /$ | sed "s|$root_dir||" | _argc_util_comp_parts /
+    command ls -a1dp "$root_dir$ARGC_CWORD"* | grep /$ | sed "s|$root_dir||" | _argc_util_comp_parts /
 }
 
 _choice_pass_name() {
     _helper_find_root_dir
-    command ls -a1dp "$root_dir$ARGC_FILTER"* | sed -e "s|$root_dir||" -e 's/\.gpg$//' | _argc_util_comp_parts /
+    command ls -a1dp "$root_dir$ARGC_CWORD"* | sed -e "s|$root_dir||" -e 's/\.gpg$//' | _argc_util_comp_parts /
 }
 
 _choice_git() {

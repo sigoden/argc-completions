@@ -71,7 +71,7 @@
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
 _choice_device() {
-    if [[ -z "$ARGC_FILTER" ]]; then
+    if [[ -z "$ARGC_CWORD" ]]; then
         echo "/dev/\0"
     else
         _argc_util_comp_path

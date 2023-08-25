@@ -24,7 +24,7 @@ _choice_page() {
         else
             prefix=""
         fi
-        search="^$prefix$ARGC_FILTER"
+        search="^$prefix$ARGC_CWORD"
         man -k "$search" | sed 's/^'$prefix'\(\S\+\) \?(.*) \+- \(.*\)$/\1\t\2/' 
     fi
 }

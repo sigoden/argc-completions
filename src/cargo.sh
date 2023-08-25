@@ -109,7 +109,7 @@ _choice_testname() {
 }
 
 _choice_clippy() {
-    if [[ "$ARGC_FILTER" == '-'* ]]; then
+    if [[ "$ARGC_CWORD" == '-'* ]]; then
         cat <<-'EOF'
 --warn	Set lint warnings
 -W	Set lint warnings

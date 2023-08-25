@@ -79,7 +79,7 @@ _choice_database() {
 }
 
 _choice_file_database() {
-    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+    if _argc_util_has_path_prefix "$ARGC_CWORD"; then
         _argc_util_comp_path
         return
     fi

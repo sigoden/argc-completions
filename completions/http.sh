@@ -174,13 +174,13 @@ _choice_request_item() {
     local sep sep_used
     for sep in $(_choice_seperator); do
         sep="${sep%%	*}"
-        if [[ "$ARGC_FILTER" == *"$sep"*  ]]; then
+        if [[ "$ARGC_CWORD" == *"$sep"*  ]]; then
             sep_used="$sep"
             break
         fi
     done
     if [[ -z "$sep_used" ]]; then
-        _choice_seperator | sed 's/^\(.*\)$/'$ARGC_FILTER'\1/'
+        _choice_seperator | sed 's/^\(.*\)$/'$ARGC_CWORD'\1/'
         _module_http_header
     else
         if [[ "$sep_used" == "=@" ]] || [[ "$sep_used" == ":=@" ]]; then

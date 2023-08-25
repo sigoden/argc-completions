@@ -385,7 +385,7 @@ _choice_push() {
 
 _choice_checkout() {
     if [[ -n "$argc__dashes" ]]; then
-        if [[ "${argc__dashes[0]}" -gt 0 ]]; then
+        if [[ "$argc__dashes" -gt 0 ]]; then
             _helper_ref_change "${argc__positionals[0]}"
         else
             _choice_changed_file

@@ -2156,6 +2156,7 @@ _choice_branch() {
 }
 
 _choice_reset() {
+    (set -o posix; set) | command grep argc_ 
     if [[ -n "$argc__dashes" ]]; then
         _choice_changed_file
     elif [[ ${#argc__positionals[@]} -gt 1 ]]; then
@@ -2264,7 +2265,7 @@ _helper_ref_change() {
 }
 
 _module_os_command() {
-    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+    if _argc_util_has_path_prefix "$ARGC_CWORD"; then
         _argc_util_comp_path
         return
     fi

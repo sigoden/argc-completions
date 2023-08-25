@@ -107,15 +107,15 @@ _choice_build() {
 }
 
 _choice_pkg() {
-    if [[ -z "$ARGC_FILTER" ]]; then
+    if [[ -z "$ARGC_CWORD" ]]; then
         return
     fi
-    apt list $ARGC_FILTER* | gawk -F/ '{if (NR>1) {print $1}}'
+    apt list $ARGC_CWORD* | gawk -F/ '{if (NR>1) {print $1}}'
 }
 
 _choice_installed_pkg() {
-    if [[ -n "$ARGC_FILTER" ]]; then
-        pattern=$ARGC_FILTER*
+    if [[ -n "$ARGC_CWORD" ]]; then
+        pattern=$ARGC_CWORD*
     fi
     apt list --installed $pattern | gawk -F/ '{if (NR>1) {print $1}}'
 }
@@ -125,8 +125,8 @@ _choice_hold_pkg() {
 }
 
 _choice_upgradable_pkg() {
-    if [[ -n "$ARGC_FILTER" ]]; then
-        pattern=$ARGC_FILTER*
+    if [[ -n "$ARGC_CWORD" ]]; then
+        pattern=$ARGC_CWORD*
     fi
     apt list --upgradable $pattern | gawk -F/ '{if (NR>1) {print $1}}'
 }

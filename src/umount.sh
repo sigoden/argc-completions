@@ -105,7 +105,7 @@ _choice_mount_point() {
 }
 
 _choice_source() {
-    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+    if _argc_util_has_path_prefix "$ARGC_CWORD"; then
         _choice_block_device
         _argc_util_comp_path
         return

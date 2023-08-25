@@ -150,15 +150,15 @@ _choice_type() {
 }
 
 _choice_type_spec() {
-    if [[ "$ARGC_FILTER" != *':'* ]]; then
+    if [[ "$ARGC_CWORD" != *':'* ]]; then
         _choice_type | _argc_util_transform suffix=: nospace
-    elif [[ "$ARGC_FILTER" == *:include:* ]]; then
-        if [[ "$ARGC_FILTER" == *,* ]]; then
+    elif [[ "$ARGC_CWORD" == *:include:* ]]; then
+        if [[ "$ARGC_CWORD" == *,* ]]; then
             _argc_util_mode_parts ,
             _choice_type | _argc_util_transform nospace
         else
-            echo "__argc_prefix=${ARGC_FILTER%:*}:"
-            echo "__argc_filter=${ARGC_FILTER##*:}"
+            echo "__argc_prefix=${ARGC_CWORD%:*}:"
+            echo "__argc_filter=${ARGC_CWORD##*:}"
             _choice_type | _argc_util_transform nospace
         fi
     fi
@@ -201,7 +201,7 @@ _choice_color_value() {
 }
 
 _module_os_command() {
-    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+    if _argc_util_has_path_prefix "$ARGC_CWORD"; then
         _argc_util_comp_path
         return
     fi

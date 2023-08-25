@@ -354,10 +354,10 @@ _choice_dependency() {
 }
 
 _choice_package() {
-    if [[ "${#ARGC_FILTER}" -lt 2 ]]; then
+    if [[ "${#ARGC_CWORD}" -lt 2 ]]; then
         return
     fi
-    gem search "^$ARGC_FILTER" | sed -n 's/^\(\S\+\) (\(.*\))$/\1\t\2/p'
+    gem search "^$ARGC_CWORD" | sed -n 's/^\(\S\+\) (\(.*\))$/\1\t\2/p'
 }
 
 _choice_plugin() {

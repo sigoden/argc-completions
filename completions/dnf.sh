@@ -2231,11 +2231,11 @@ upgrade-minimal() {
 # }} dnf upgrade-minimal
 
 _choice_installed_package() {
-    dnf repoquery --cacheonly "$ARGC_FILTER*" --qf "%{name}" --installed
+    dnf repoquery --cacheonly "$ARGC_CWORD*" --qf "%{name}" --installed
 }
 
 _choice_package() {
-    dnf repoquery --cacheonly "$ARGC_FILTER*" --qf "%{name}" --available
+    dnf repoquery --cacheonly "$ARGC_CWORD*" --qf "%{name}" --available
 }
 
 _choice_module_cmd() {
@@ -2255,7 +2255,7 @@ EOF
 }
 
 _choice_upgradable_pkg() {
-    dnf repoquery --cacheonly "$ARGC_FILTER*" --qf "%{name}" --upgrades 
+    dnf repoquery --cacheonly "$ARGC_CWORD*" --qf "%{name}" --upgrades 
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

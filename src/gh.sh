@@ -523,7 +523,7 @@ _choice_org() {
 }
 
 _choice_search_user() {
-    val=${1:-$ARGC_FILTER}
+    val=${1:-$ARGC_CWORD}
     if [[ "${#val}" -lt 2 ]]; then
         return
     fi
@@ -551,7 +551,7 @@ _choice_gist_file() {
 }
 
 _choice_assignee() {
-    _helper_repo_query 'assignableUsers(first: 100, query: "'$ARGC_FILTER'") { nodes { login, name } }' | \
+    _helper_repo_query 'assignableUsers(first: 100, query: "'$ARGC_CWORD'") { nodes { login, name } }' | \
     yq '.data.repository.assignableUsers.nodes[] | .login + "	" + (.name // "")'
 }
 
@@ -580,7 +580,7 @@ _choice_issue_field() {
 }
 
 _choice_mention() {
-    _helper_repo_query 'mentionableUsers(first: 100, query: "'$ARGC_FILTER'") { nodes { login, name } }' | \
+    _helper_repo_query 'mentionableUsers(first: 100, query: "'$ARGC_CWORD'") { nodes { login, name } }' | \
     yq '.data.repository.mentionableUsers.nodes[] | .login + "	" + (.name // "")'
 }
 
@@ -735,10 +735,10 @@ _choice_repo_key() {
 }
 
 _choice_search_topic() {
-    if [[ "${#ARGC_FILTER}" -lt 2 ]]; then
+    if [[ "${#ARGC_CWORD}" -lt 2 ]]; then
         return
     fi
-    gh api "search/topics?per_page=100&q=$ARGC_FILTER" | yq '.items[] | .name + "	" + (.short_description // "")'
+    gh api "search/topics?per_page=100&q=$ARGC_CWORD" | yq '.items[] | .name + "	" + (.short_description // "")'
 }
 
 _choice_repo_topic() {
@@ -830,7 +830,7 @@ _choice_failed_run() {
 }
 
 _choice_workflow_or_file() {
-    if _argc_util_is_path "$ARGC_FILTER"; then
+    if _argc_util_is_path "$ARGC_CWORD"; then
         _argc_util_comp_path 
     else
         _choice_workflow
@@ -873,7 +873,7 @@ _choice_env() {
 }
 
 _choice_search_org() {
-    val=${1:-$ARGC_FILTER}
+    val=${1:-$ARGC_CWORD}
     if [[ "${#val}" -lt 2 ]]; then
         return
     fi

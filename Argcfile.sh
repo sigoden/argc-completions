@@ -118,7 +118,7 @@ choice-fn() {
             filter="${filter#*=}"
         fi
         (cd $argc_dir && \
-            ARGC_COMPGEN=1 ARGC_OS="$os" ARGC_PATH_SEP="$sep" ARGC_FILTER="$filter" ARGC_LAST_ARG="$last_arg" \
+            ARGC_COMPGEN=1 ARGC_OS="$os" ARGC_PATH_SEP="$sep" ARGC_CWORD="$filter" ARGC_LAST_ARG="$last_arg" \
             bash "$script_file" ___internal___ $argc_fn "${argc_args[@]}")
     else
         . utils/_argc_utils.sh

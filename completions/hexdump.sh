@@ -18,8 +18,8 @@
 # @arg file+
 
 _choice_multi_suffixes() {
-    if [[ "$ARGC_FILTER" =~ ^[0-9]+ ]]; then
-        value=$(expr "$ARGC_FILTER" : '\([0-9]*\)')
+    if [[ "$ARGC_CWORD" =~ ^[0-9]+ ]]; then
+        value=$(expr "$ARGC_CWORD" : '\([0-9]*\)')
         units=( KiB MiB GiB TiB PiB EiB ZiB YiB )
         for u in ${units[@]}; do
             echo "$value$u"

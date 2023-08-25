@@ -55,7 +55,7 @@ _argc_util_comp_path() {
 # Complete key value pairs
 # Args:
 #   SEP: seperator
-#   FILTER: default value is ARGC_FILTER
+#   FILTER: default value is ARGC_CWORD
 #   PREFIX: additional prefix
 #
 # ```sh
@@ -71,7 +71,7 @@ _argc_util_comp_path() {
 # ```
 _argc_util_comp_kv() {
     local sep="$1"
-    local filter="${2-$ARGC_FILTER}"
+    local filter="${2-$ARGC_CWORD}"
     local prefix="${3}"
     if [[ "$filter" == *"$sep"* ]]; then
         argc__kv_key="${filter%%$sep*}"
@@ -182,7 +182,7 @@ _argc_util_comp_tv() {
 # Complete multiple parts of words separated by a char
 # Args:
 #   SEP: seperator
-#   FILTER: default value is ARGC_FILTER
+#   FILTER: default value is ARGC_CWORD
 #   PREFIX: additional prefix
 #
 # ```sh
@@ -190,7 +190,7 @@ _argc_util_comp_tv() {
 # ```
 _argc_util_comp_parts() {
     local sep="$1"
-    local filter="${2-$ARGC_FILTER}"
+    local filter="${2-$ARGC_CWORD}"
     local prefix="${3}"
     if [[ "$filter" == *"$sep"* ]]; then
         argc__parts_local_prefix="${filter%$sep*}$sep"
@@ -258,11 +258,11 @@ END {
 # Complete multi values seperated by SEP
 # Args:
 #   SEP: seperator, can be empty string
-#   FILTER: filter value, defualt is $ARGC_FILTER
+#   FILTER: filter value, defualt is $ARGC_CWORD
 #   PREFIX: The additional prefix
 _argc_util_comp_multi() {
     local sep="$1"
-    local filter="${2-$ARGC_FILTER}" 
+    local filter="${2-$ARGC_CWORD}" 
     local prefix="$3"
 
     if [[ -n "$sep" ]]; then
@@ -344,7 +344,7 @@ _argc_util_comp_subcommand() {
 # Enetr kv complete mode
 # Args:
 #   SEP: key value seperator
-#   FILTER: filter value, defualt is $ARGC_FILTER
+#   FILTER: filter value, defualt is $ARGC_CWORD
 #
 # Explain:
 # Suppose we add `_argc_util_mode_kv :` to choice fn.
@@ -358,7 +358,7 @@ _argc_util_comp_subcommand() {
 #   argc__kv_filter: local
 _argc_util_mode_kv() {
     local sep="$1"
-    local filter="${2-$ARGC_FILTER}"
+    local filter="${2-$ARGC_CWORD}"
 
     if [[ "$filter" == *"$sep"* ]]; then
         argc__kv_key="${filter%%$sep*}"
@@ -378,11 +378,11 @@ _argc_util_mode_kv() {
 # Enetr parts complete mode
 # Args:
 #   SEP: key value seperator
-#   FILTER: filter value, defualt is $ARGC_FILTER
+#   FILTER: filter value, defualt is $ARGC_CWORD
 #   PREFIX: The additional prefix
 _argc_util_mode_parts() {
     local sep="$1"
-    local filter="${2-$ARGC_FILTER}" 
+    local filter="${2-$ARGC_CWORD}" 
     local prefix="${3}"
 
     if [[ "$filter" == *"$sep"* ]]; then
@@ -788,7 +788,7 @@ BEGIN {
 # ```
 _argc_util_cache() {
     local cache_dir=/tmp/argc_completions_cache
-    local cache_key="$(printf "%s_" "${argc__args[@]:0:$(( $argc__index + 1 ))}")"
+    local cache_key="$(printf "%s_" "${argc__args[@]:0:$(( $argc__cmd_arg_index + 1 ))}")"
     cache_key="${cache_key}_$2"
     if [[ -n "$3" ]]; then
         local key="$(echo "$3" | md5sum)"

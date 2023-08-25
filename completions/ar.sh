@@ -16,13 +16,13 @@ _choice_target() {
 }
 
 _choice_cmd() {
-    if [[ -z "$ARGC_FILTER" ]]; then
+    if [[ -z "$ARGC_CWORD" ]]; then
         _choice_action | _argc_util_transform nospace
         return
     else
-        echo "__argc_prefix=$ARGC_FILTER"
+        echo "__argc_prefix=$ARGC_CWORD"
         echo "__argc_filter="
-        _choice_modifier | _argc_util_filter "$ARGC_FILTER"
+        _choice_modifier | _argc_util_filter "$ARGC_CWORD"
     fi
 }
 

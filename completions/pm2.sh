@@ -798,7 +798,7 @@ examples() {
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
 _choice_start() {
-    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+    if _argc_util_has_path_prefix "$ARGC_CWORD"; then
         _argc_util_comp_path
         return
     fi
@@ -815,7 +815,7 @@ _choice_name() {
 }
 
 _choice_stop() {
-    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+    if _argc_util_has_path_prefix "$ARGC_CWORD"; then
         _argc_util_comp_path
         return
     fi

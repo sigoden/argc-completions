@@ -3241,7 +3241,7 @@ _choice_compose_cp() {
     _complete_compose_service_path() {
         _argc_util_mode_kv ':'
         if [[ -z "$argc__kv_prefix" ]]; then
-            if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+            if _argc_util_has_path_prefix "$ARGC_CWORD"; then
                 echo "__argc_value=path"
                 return
             fi
@@ -3270,7 +3270,7 @@ _choice_container_cp() {
     _complete_container_path() {
         _argc_util_mode_kv ':'
         if [[ -z "$argc__kv_prefix" ]]; then
-            if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+            if _argc_util_has_path_prefix "$ARGC_CWORD"; then
                 echo "__argc_value=path"
                 return
             fi
@@ -3383,7 +3383,7 @@ EOF
 }
 
 _module_os_command() {
-    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+    if _argc_util_has_path_prefix "$ARGC_CWORD"; then
         _argc_util_comp_path
         return
     fi

@@ -972,14 +972,14 @@ EOF
 }
 
 _choice_package() {
-    if [[ "${#ARGC_FILTER}" -lt 2 ]]; then
+    if [[ "${#ARGC_CWORD}" -lt 2 ]]; then
         return
     fi
-    gem search "^$ARGC_FILTER" | sed -n 's/^\(\S\+\) (\(.*\))$/\1\t\2/p'
+    gem search "^$ARGC_CWORD" | sed -n 's/^\(\S\+\) (\(.*\))$/\1\t\2/p'
 }
 
 _choice_install() {
-    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+    if _argc_util_has_path_prefix "$ARGC_CWORD"; then
         _argc_util_comp_path
         return
     fi
@@ -987,10 +987,10 @@ _choice_install() {
 }
 
 _choice_lock() {
-    if [[ "${#ARGC_FILTER}" -lt 2 ]]; then
+    if [[ "${#ARGC_CWORD}" -lt 2 ]]; then
         return
     fi
-    gem search "^$ARGC_FILTER" | sed -n 's/^\(\S\+\) (\(.*\))$/\1-\2/p'
+    gem search "^$ARGC_CWORD" | sed -n 's/^\(\S\+\) (\(.*\))$/\1-\2/p'
 }
 
 _choice_spec_field() {

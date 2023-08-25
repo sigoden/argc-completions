@@ -909,15 +909,15 @@ _choice_installed_package() {
 }
 
 _choice_patch() {
-    _helper_list_packages "patch:$ARGC_FILTER" | sed -e "s/^patch://"
+    _helper_list_packages "patch:$ARGC_CWORD" | sed -e "s/^patch://"
 }
 
 _choice_pattern() {
-    _helper_list_packages "pattern:$ARGC_FILTER" | sed -e "s/^pattern://"
+    _helper_list_packages "pattern:$ARGC_CWORD" | sed -e "s/^pattern://"
 }
 
 _choice_product() {
-    _helper_list_packages "product:$ARGC_FILTER" | sed -e "s/^product://"
+    _helper_list_packages "product:$ARGC_CWORD" | sed -e "s/^product://"
 }
 
 _choice_lock() {
@@ -933,7 +933,7 @@ _helper_extract() {
 }
 
 _helper_list_packages() {
-    local filter="^${1:-$ARGC_FILTER}"
+    local filter="^${1:-$ARGC_CWORD}"
 	set +o noglob
 	grep -s --no-filename "$filter" /var/cache/zypp/solv/*/solv.idx |\
 		cut -f1 | sort --unique

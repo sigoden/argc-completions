@@ -37,8 +37,8 @@ It will print:
 ## builtin variables
 
 - `argc__args`:  Command line args
-- `argc__index`: The index of the current command word in the args
-- `argc__main_fn`: The @cmd fn
+- `argc__cmd_arg_index`: The index of the command word in `argc__args`
+- `argc__cmd_fn`: The argc func name
 - `argc__positionals`: The positional args
 
 Run command
@@ -49,8 +49,8 @@ git reset --hard <tab>
 Argc will set the variable value
 ```
 argc__args=([0]="git" [1]="reset" [2]="--hard" [3]="")
-argc__index=1
-argc__main_fn=reset
+argc__cmd_arg_index=1
+argc__cmd_fn=reset
 argc__positionals=([0]="")
 ```
 
@@ -58,7 +58,7 @@ argc__positionals=([0]="")
 
 - ARGC_OS: OS kind, such as  `windows`, `linux`, `macos`
 - ARGC_LAST_ARG: The raw last arg. 
-- ARGC_FILTER: The processed last arg, completion value should `startsWith` this.
+- ARGC_CWORD: The processed last arg, completion value should `startsWith` this.
 
 Run command on linux zsh
 ```
@@ -69,7 +69,7 @@ Argc will set variable value
 ```
 ARGC_OS=linux
 ARGC_LAST_ARG=--oa='ab
-ARGC_FILTER=ab
+ARGC_CWORD=ab
 ```
 
 ## tips

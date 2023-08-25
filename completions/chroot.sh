@@ -26,7 +26,7 @@ _choice_args() {
 }
 
 _module_os_command() {
-    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+    if _argc_util_has_path_prefix "$ARGC_CWORD"; then
         _argc_util_comp_path
         return
     fi

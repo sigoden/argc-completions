@@ -6,7 +6,7 @@
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
 _choice_delegate() {
-    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+    if _argc_util_has_path_prefix "$ARGC_CWORD"; then
         _argc_util_comp_path
         return
     fi
@@ -15,7 +15,7 @@ _choice_delegate() {
         return
     fi
     cmd="${argc__positionals[0]}" 
-    if [[ "$ARGC_FILTER" == -* ]]; then
+    if [[ "$ARGC_CWORD" == -* ]]; then
         openssl list -options "$cmd" | sed -e 's/^\(\S\+\).*/-\1/'
         return
     fi

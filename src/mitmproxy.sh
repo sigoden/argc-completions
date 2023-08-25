@@ -61,8 +61,8 @@ _choice_mode() {
 }
 
 _choice_appendable_file() {
-    if [[ "$ARGC_FILTER" == '+'* ]]; then
-        _argc_util_comp_path prefix=+ filter="${ARGC_FILTER:1}"
+    if [[ "$ARGC_CWORD" == '+'* ]]; then
+        _argc_util_comp_path prefix=+ filter="${ARGC_CWORD:1}"
     else
         _argc_util_comp_path
     fi
@@ -105,13 +105,13 @@ _choice_modify_headers() {
             _choice_flow_filter | _argc_util_transform nospace
         fi
     elif [[ "$argc__3p_count" -eq 2 ]]; then
-        ARGC_FILTER="$argc__3p_filter" SEP="$argc__3p_sep" _module_http_header 
+        ARGC_CWORD="$argc__3p_filter" SEP="$argc__3p_sep" _module_http_header 
         echo __argc_prefix="${argc__3p_prefix}"
     else
         if [[ "${argc__3p_filter:0:1}" == "@" ]]; then
             _argc_util_comp_path prefix="${argc__3p_prefix}@" filter="${argc__3p_filter:1}"
         else
-            ARGC_FILTER="${argc__3p_parts[1]}$argc__3p_sep$argc__3p_filter" SEP="$argc__3p_sep" _module_http_header 
+            ARGC_CWORD="${argc__3p_parts[1]}$argc__3p_sep$argc__3p_filter" SEP="$argc__3p_sep" _module_http_header 
             echo __argc_prefix="${argc__3p_prefix}"
         fi
     fi
@@ -156,10 +156,10 @@ EOF
 _helper_three_parts_mode() {
     local values IFS
     IFS=$'\n'
-    if [[ -z "$ARGC_FILTER" ]]; then
+    if [[ -z "$ARGC_CWORD" ]]; then
         return
     fi
-    values=( $(gawk -v VALUE="$ARGC_FILTER" 'BEGIN {
+    values=( $(gawk -v VALUE="$ARGC_CWORD" 'BEGIN {
         if (VALUE != "") {
             sep = substr(VALUE, 1, 1)
             split(VALUE, arr, sep)

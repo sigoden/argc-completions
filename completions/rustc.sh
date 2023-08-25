@@ -33,7 +33,7 @@
 
 _choice_lib() {
     _argc_util_mode_kv =
-    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+    if _argc_util_has_path_prefix "$ARGC_CWORD"; then
         _argc_util_comp_path
         return
     fi
@@ -46,14 +46,14 @@ _choice_lib() {
 
 _choice_link() {
     _argc_util_mode_kv =
-    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+    if _argc_util_has_path_prefix "$ARGC_CWORD"; then
         _argc_util_comp_path
         return
     fi
     if [[ -z "$argc__kv_prefix" ]]; then
-        if [[ "$ARGC_FILTER" == *':'* ]]; then
-            kind="${ARGC_FILTER%%:*}"
-            modifiers="${ARGC_FILTER#*:}"
+        if [[ "$ARGC_CWORD" == *':'* ]]; then
+            kind="${ARGC_CWORD%%:*}"
+            modifiers="${ARGC_CWORD#*:}"
             _choice_link_modifier | _argc_util_comp_multi ',' "$modifiers" "$kind:"
 
         else

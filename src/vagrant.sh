@@ -113,7 +113,7 @@ _choice_provider() {
 }
 
 _choice_box_add() {
-    if _argc_util_has_path_prefix "$ARGC_FILTER"; then
+    if _argc_util_has_path_prefix "$ARGC_CWORD"; then
         _argc_util_comp_path exts=.box,.json
         return
     fi
@@ -154,7 +154,7 @@ _choice_machine() {
 }
 
 _choice_box_search() {
-    query="page=1&limit=50&q=$ARGC_FILTER"
+    query="page=1&limit=50&q=$ARGC_CWORD"
     if [[ -n "$argc_provider" ]]; then
         query="provider=$argc_provider&$query"
     fi

@@ -12103,7 +12103,7 @@ _helper_find_package() {
 }
 
 _helper_find_rules_in_package() {
-    local package_name="${ARGC_FILTER%%:*}"
+    local package_name="${ARGC_CWORD%%:*}"
     bazel --output_base=/tmp/bazel-completion-$USER query \
         --keep_going --noshow_progress --output=label "kind('$pattern rule', '$package_name:*')"
 }
@@ -12119,7 +12119,7 @@ _helper_find_target() {
     if [[ -z "$workspace_dir" ]]; then
         return
     fi
-    if [[ "$ARGC_FILTER" == *':'* ]]; then
+    if [[ "$ARGC_CWORD" == *':'* ]]; then
         _helper_find_rules_in_package
     else
         _helper_find_package
