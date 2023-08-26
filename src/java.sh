@@ -26,7 +26,7 @@ _patch_table() {
         '-javaagent;*:[`_choice_class_path`]' \
         '-p(<dir>);*:' \
         ';;' \
-        '-X;-[`_choice_option`];pass additional options to JVM' \
+        '-X;-*[`_choice_option`];pass additional options to JVM' \
 
 }
 

@@ -40,7 +40,7 @@
 # @option -javaagent*:[`_choice_class_path`] <<jarpath>[=<options>]>  load Java programming language agent, see java.lang.instrument
 # @option -splash <imagepath>                  show splash screen with specified image HiDPI scaled images are automatically supported and used if available.
 # @flag --enable-preview                       allow classes to depend on preview features of this release
-# @option -X-[`_choice_option`]                pass additional options to JVM
+# @option -X-*[`_choice_option`]               pass additional options to JVM
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 

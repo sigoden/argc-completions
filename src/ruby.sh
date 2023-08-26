@@ -19,15 +19,15 @@ _patch_table() {
         '--enable();[`_choice_feature`]' \
         '--external-encoding;[`_choice_encoding`]' \
         '--internal-encoding;[`_choice_encoding`]' \
-        '-0;-' \
-        '-C;-' \
-        '-E;-[`_choice_encoding_combined`]' \
-        '-F;-' \
-        '-I;-' \
-        '-W;-[`_choice_warning_level_combined`]' \
-        '-i;-' \
-        '-r;-' \
-        '-x;-' \
+        '-0;-*' \
+        '-C;-*' \
+        '-E;-*[`_choice_encoding_combined`]' \
+        '-F;-*' \
+        '-I;-*' \
+        '-W;-*[`_choice_warning_level_combined`]' \
+        '-i;-*' \
+        '-r;-*' \
+        '-x;-*' \
     
 }
 
