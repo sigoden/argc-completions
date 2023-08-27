@@ -70,8 +70,8 @@ EOF
 Manually add the following code to $nu.config-path
 
 ```nu
-let-env ARGC_COMPLETIONS_ROOT = '__ROOT_DIR__'
-let-env PATH = ($env.PATH | prepend "__BIN_DIR__")
+$env.ARGC_COMPLETIONS_ROOT = '__ROOT_DIR__'
+$env.PATH = ($env.PATH | prepend "__BIN_DIR__")
 source "__ARGC_COMPLETIONS__.nu"
 let external_completer = {|spans| 
     _argc_completions_completer $spans

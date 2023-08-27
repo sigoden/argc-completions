@@ -1,4 +1,4 @@
-let-env ARGC_COMPLETIONS_EXTEND_CMDS = (ls $env.ARGC_COMPLETIONS_DIR | where type == dir | each {|it| $it.name | path basename })
+$env.ARGC_COMPLETIONS_EXTEND_CMDS = (ls $env.ARGC_COMPLETIONS_DIR | where type == dir | each {|it| $it.name | path basename })
 
 def _argc_completions_completer [args: list<string>] {
     let cmd = ($args.0 | path parse | get stem)
