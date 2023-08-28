@@ -1,6 +1,5 @@
 _patch_help() {
-    echo "Usage: ssh [options] destination [args]..."
-    _patch_help_run_man ssh | sed -n '/^DESCRIPTION/, /^AUTHENTICATION/ {//!p}'
+    _patch_help_run_man $@ | sed -n '/^DESCRIPTION/, /^AUTHENTICATION/ {//!p}'
 }
 
 _patch_table() {
@@ -18,7 +17,9 @@ _patch_table() {
         ';;' \
     | \
     _patch_table_edit_arguments \
+        ';;' \
         'destination;[`_module_ssh_host`]' \
+        'args...' \
 
 }
 

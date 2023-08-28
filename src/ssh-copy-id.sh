@@ -1,6 +1,5 @@
 _patch_help() { 
-    echo "Usage: ssh-copy-id [options] destination"
-    _patch_help_run_man ssh-copy-id | sed -n '/^DESCRIPTION/, /^EXAMPLES/ {//!p}'
+    _patch_help_run_man $@ | sed -n '/^DESCRIPTION/, /^EXAMPLES/ {//!p}'
 }
 
 _patch_table() {
