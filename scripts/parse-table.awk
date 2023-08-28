@@ -197,7 +197,7 @@ END {
         isCmd = 1
         for (i in words) {
             word = words[i]
-            if (i == 1 && match(word, /\//)) {
+            if (i == 1 && (match(word, /\//) || match(word, /\.(exe|bat|cmd)$/))) {
                 continue
             }
             if (isCmd && match(word, /^[a-z0-9_][A-Za-z0-9_-]*$/)) {

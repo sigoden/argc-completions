@@ -24,6 +24,10 @@ if [[ ! -f "$argc_file" ]]; then
     exit 1
 fi
 
+if [[ "$OS" == "Windows_NT" ]]; then
+    argc_file="$(cygpath -w "$argc_file")"
+fi
+
 json="$(argc --argc-export "$argc_file")"
 commands="$(echo "$json" | cmd="$@" yq '
     .path = env(cmd) |
