@@ -43,7 +43,7 @@ validate() {
 # @option -refresh <false>               Skip checking for external changes to remote objects while creating the plan.
 # @option -replace[`_choice_resource_parts`] <resource>  Force replacement of a particular resource instance using its resource address.
 # @option -target[`_choice_resource_parts`] <resource>  Limit the planning operation to only the given module, resource, or resource instance and all of its dependencies.
-# @option -var <foo=bar> <Set> <a> <value> <for> <one> <of> <the> <input> <variables> <in> <the> <root>  module of the configuration.
+# @option -var <foo=bar>                 Set a value for one of the input variables in the root module of the configuration.
 # @option -var-file <filename>           Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars.
 # @flag -compact-warnings                If Terraform produces any warnings that are not accompanied by errors, shows them in a more compact form that includes only the summary messages.
 # @flag -detailed-exitcode               Return detailed exit codes when the command exits.
@@ -100,7 +100,7 @@ destroy() {
 # {{ terraform console
 # @cmd Try Terraform expressions at an interactive command prompt
 # @option -state <path>      Legacy option for the local backend only.
-# @option -var <foo=bar> <Set> <a> <variable> <in> <the> <Terraform> <configuration.> <This>  flag can be set multiple times.
+# @option -var <foo=bar>     Set a variable in the Terraform configuration.
 # @option -var-file <foo>    Set variables in the Terraform configuration from a file.
 console() {
     :;
@@ -157,7 +157,7 @@ graph() {
 # @option -lock <false>           Don't hold a state lock during the operation.
 # @option -lock-timeout <0s>      Duration to retry a state lock.
 # @flag -no-color                 If specified, output won't contain any color.
-# @option -var <foo=bar> <Set> <a> <variable> <in> <the> <Terraform> <configuration.> <This>  flag can be set multiple times.
+# @option -var <foo=bar>          Set a variable in the Terraform configuration.
 # @option -var-file <foo>         Set variables in the Terraform configuration from a file.
 # @flag -ignore-remote-version    A rare option used for the remote backend only.
 # @flag -state                    state-out, and -backup are legacy options supported for the local
@@ -254,7 +254,7 @@ providers::schema() {
 # @flag -no-color               If specified, output won't contain any color.
 # @option -parallelism <n>      Limit the number of concurrent operations.
 # @option -target[`_choice_resource_parts`] <resource>  Resource to target.
-# @option -var <foo=bar> <Set> <a> <variable> <in> <the> <Terraform> <configuration.> <This>  flag can be set multiple times.
+# @option -var <foo=bar>        Set a variable in the Terraform configuration.
 # @option -var-file <foo>       Set variables in the Terraform configuration from a file.
 # @flag -state                  state-out, and -backup are legacy options supported for the local
 refresh() {

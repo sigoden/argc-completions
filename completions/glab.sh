@@ -34,6 +34,7 @@ alias::list() {
 # @flag -s --shell    Declare an alias to be passed through a shell interpreter
 # @flag --help        Show help for command
 # @arg alias-name![`_choice_alias`] <alias name>
+# @arg command!
 alias::set() {
     :;
 }

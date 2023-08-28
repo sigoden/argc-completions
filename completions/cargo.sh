@@ -24,7 +24,7 @@
 # @flag --workspace                              Build all packages in the workspace
 # @option --exclude <SPEC>                       Exclude packages from the build
 # @flag --all                                    Alias for --workspace (deprecated)
-# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs
+# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs.
 # @flag --keep-going                             Do not abort the build as soon as there is an error (unstable)
 # @flag --lib                                    Build only this package's library
 # @flag --bins                                   Build all binaries
@@ -72,7 +72,7 @@ build() {
 # @flag --workspace                              Check all packages in the workspace
 # @option --exclude <SPEC>                       Exclude packages from the check
 # @flag --all                                    Alias for --workspace (deprecated)
-# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs
+# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs.
 # @flag --keep-going                             Do not abort the build as soon as there is an error (unstable)
 # @flag --lib                                    Check only this package's library
 # @flag --bins                                   Check all binaries
@@ -144,7 +144,7 @@ clean() {
 # @flag --all                                    Alias for --workspace (deprecated)
 # @flag --no-deps                                Don't build documentation for dependencies
 # @flag --document-private-items                 Document private items
-# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs
+# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs.
 # @flag --keep-going                             Do not abort the build as soon as there is an error (unstable)
 # @flag --lib                                    Document only this package's library
 # @flag --bins                                   Document all binaries
@@ -288,7 +288,7 @@ remove() {
 # @option --bin[`_choice_bin`] <NAME>            Name of the bin target to run
 # @option --example[`_choice_example`] <NAME>    Name of the example target to run
 # @option -p --package[`_choice_package`] <SPEC>  Package with the target to run
-# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs
+# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs.
 # @flag --keep-going                             Do not abort the build as soon as there is an error (unstable)
 # @flag -r --release                             Build artifacts in release mode, with optimizations
 # @option --profile <PROFILE-NAME>               Build artifacts with the specified profile
@@ -337,7 +337,7 @@ run() {
 # @flag --workspace                              Test all packages in the workspace
 # @option --exclude <SPEC>                       Exclude packages from the test
 # @flag --all                                    Alias for --workspace (deprecated)
-# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs
+# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs.
 # @flag --keep-going                             Do not abort the build as soon as there is an error (unstable)
 # @flag -r --release                             Build artifacts in release mode, with optimizations
 # @option --profile <PROFILE-NAME>               Build artifacts with the specified profile
@@ -385,7 +385,7 @@ test() {
 # @flag --workspace                              Benchmark all packages in the workspace
 # @option --exclude <SPEC>                       Exclude packages from the benchmark
 # @flag --all                                    Alias for --workspace (deprecated)
-# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs
+# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs.
 # @flag --keep-going                             Do not abort the build as soon as there is an error (unstable)
 # @option --profile <PROFILE-NAME>               Build artifacts with the specified profile
 # @option -F --features                          Space or comma separated list of features to activate
@@ -470,7 +470,7 @@ search() {
 # @option -F --features                          Space or comma separated list of features to activate
 # @flag --all-features                           Activate all available features
 # @flag --no-default-features                    Do not activate the `default` feature
-# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs
+# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs.
 # @flag --keep-going                             Do not abort the build as soon as there is an error (unstable)
 # @flag --dry-run                                Perform all checks without uploading
 # @option --registry                             Registry to publish to
@@ -497,7 +497,7 @@ publish() {
 # @option --rev <SHA>                            Specific commit to use when installing from git
 # @option --path                                 Filesystem path to local crate to install
 # @flag --list                                   list all installed packages and their versions
-# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs
+# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs.
 # @flag --keep-going                             Do not abort the build as soon as there is an error (unstable)
 # @flag -f --force                               Force overwriting existing crates or binaries
 # @flag --no-track                               Do not save tracking information
@@ -559,7 +559,7 @@ uninstall() {
 # @flag --workspace                              Fix all packages in the workspace
 # @option --exclude <SPEC>                       Exclude packages from the fixes
 # @flag --all                                    Alias for --workspace (deprecated)
-# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs
+# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs.
 # @flag --keep-going                             Do not abort the build as soon as there is an error (unstable)
 # @flag --lib                                    Fix only this package's library
 # @flag --bins                                   Fix all binaries
@@ -665,7 +665,7 @@ fetch() {
 # @flag --workspace                              Fix all packages in the workspace
 # @option --exclude <SPEC>                       Exclude packages from the fixes
 # @flag --all                                    Alias for --workspace (deprecated)
-# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs
+# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs.
 # @flag --keep-going                             Do not abort the build as soon as there is an error (unstable)
 # @flag --lib                                    Fix only this package's library
 # @flag --bins                                   Fix all binaries
@@ -709,15 +709,15 @@ fix() {
 
 # {{ cargo fmt
 # @cmd Formats all bin and lib files of the current crate using rustfmt.
-# @flag --all                                  Format all packages, and also their local path-based dependencies
-# @flag --check                                Run rustfmt in check mode
-# @flag -h --help                              Print help information
-# @option --manifest-path <manifest-path>      Specify path to Cargo.toml
-# @option --message-format <message-format>    Specify message-format: short|json|human
-# @option -p --package*[`_choice_package`] <package>  Specify package to format
 # @flag -q --quiet                             No output printed to stdout
 # @flag -v --verbose                           Use verbose output
 # @flag --version                              Print rustfmt version and exit
+# @option -p --package*[`_choice_package`] <package>  Specify package to format
+# @option --manifest-path <manifest-path>      Specify path to Cargo.toml
+# @option --message-format <message-format>    Specify message-format: short|json|human
+# @flag --all                                  Format all packages, and also their local path-based dependencies
+# @flag --check                                Run rustfmt in check mode
+# @flag -h --help                              Print help
 # @arg rustfmt_options~[`_choice_fmt`]         Options passed to rustfmt
 fmt() {
     :;
@@ -867,7 +867,7 @@ owner() {
 # @flag --workspace                              Assemble all packages in the workspace
 # @option --exclude <SPEC>                       Don't assemble specified packages
 # @option --manifest-path <PATH>                 Path to Cargo.toml
-# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs
+# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs.
 # @flag --keep-going                             Do not abort the build as soon as there is an error (unstable)
 # @flag -h --help                                Print help
 # @flag -v --verbose*                            Use verbose output (-vv very verbose/build.rs output)
@@ -954,7 +954,7 @@ report::future-incompatibilities() {
 # @cmd Compile a package, and pass extra options to the compiler
 # @flag -q --quiet                               Do not print cargo log messages
 # @option -p --package[`_choice_package`] <SPEC>  Package to build
-# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs
+# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs.
 # @flag --keep-going                             Do not abort the build as soon as there is an error (unstable)
 # @flag --lib                                    Build only this package's library
 # @flag --bins                                   Build all binaries
@@ -1000,7 +1000,7 @@ rustc() {
 # @flag -q --quiet                               Do not print cargo log messages
 # @flag --open                                   Opens the docs in a browser after the operation
 # @option -p --package[`_choice_package`] <SPEC>  Package to document
-# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs
+# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs.
 # @flag --keep-going                             Do not abort the build as soon as there is an error (unstable)
 # @flag --lib                                    Build only this package's library
 # @flag --bins                                   Build all binaries

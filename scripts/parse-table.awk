@@ -10,8 +10,8 @@ BEGIN {
     PAIRS["]"] = "[";
     PAIRS[")"] = "(";
     PAIRS["}"] = "{";
-    PAIRS_OPEN = "<[({'"
-    PAIRS_CLOSE = ">])}'"
+    PAIRS_OPEN = "<[({"
+    PAIRS_CLOSE = ">])}"
 }
 
 {
@@ -327,6 +327,13 @@ function splitOption(input) {
             } else {
                 word = word ch
             }
+        } else if (ch == "\x27" || ch == "\x22") {
+            if (substr(balances, length(balances), 1) == ch) {
+                balances = substr(balances, 1, length(balances) - 1)
+            } else {
+                balances = balances ch
+            }
+            word = word ch
         } else if (index(PAIRS_OPEN, ch) > 0) {
             balances = balances ch
             word = word ch

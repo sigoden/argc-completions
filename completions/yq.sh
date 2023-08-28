@@ -11,6 +11,10 @@
 # @option -I --indent <int>                  sets indent level for output (default 2)
 # @flag -i --inplace                         update the file inplace of first file given.
 # @option -p --input-format[auto|a|yaml|y|props|p|xml|x|tsv|t|csv|c|toml] <string>  parse format for input.
+# @flag --lua-globals                        output keys as top-level global variables
+# @option --lua-prefix <string>              prefix (default "return ")
+# @option --lua-suffix <string>              suffix (default ";\n")
+# @flag --lua-unquoted                       output unquoted string keys (e.g. {foo="bar"})
 # @flag -M --no-colors                       force print with no colors
 # @flag -N --no-doc                          Don't print document separators (---)
 # @flag -0 --nul-output                      Use NUL char to separate values.
@@ -52,6 +56,10 @@ completion() {
 # @option -I --indent <int>                  sets indent level for output (default 2)
 # @flag -i --inplace                         update the file inplace of first file given.
 # @option -p --input-format[auto|a|yaml|y|props|p|xml|x|tsv|t|csv|c|toml] <string>  parse format for input.
+# @flag --lua-globals                        output keys as top-level global variables
+# @option --lua-prefix <string>              prefix (default "return ")
+# @option --lua-suffix <string>              suffix (default ";\n")
+# @flag --lua-unquoted                       output unquoted string keys (e.g. {foo="bar"})
 # @flag -M --no-colors                       force print with no colors
 # @flag -N --no-doc                          Don't print document separators (---)
 # @flag -0 --nul-output                      Use NUL char to separate values.
@@ -89,6 +97,10 @@ eval_() {
 # @option -I --indent <int>                  sets indent level for output (default 2)
 # @flag -i --inplace                         update the file inplace of first file given.
 # @option -p --input-format[auto|a|yaml|y|props|p|xml|x|tsv|t|csv|c|toml] <string>  parse format for input.
+# @flag --lua-globals                        output keys as top-level global variables
+# @option --lua-prefix <string>              prefix (default "return ")
+# @option --lua-suffix <string>              suffix (default ";\n")
+# @flag --lua-unquoted                       output unquoted string keys (e.g. {foo="bar"})
 # @flag -M --no-colors                       force print with no colors
 # @flag -N --no-doc                          Don't print document separators (---)
 # @flag -0 --nul-output                      Use NUL char to separate values.

@@ -2156,7 +2156,6 @@ _choice_branch() {
 }
 
 _choice_reset() {
-    (set -o posix; set) | command grep argc_ 
     if [[ -n "$argc__dashes" ]]; then
         _choice_changed_file
     elif [[ ${#argc__positionals[@]} -gt 1 ]]; then
@@ -2181,7 +2180,7 @@ _choice_push() {
 
 _choice_checkout() {
     if [[ -n "$argc__dashes" ]]; then
-        if [[ "${argc__dashes[0]}" -gt 0 ]]; then
+        if [[ "$argc__dashes" -gt 0 ]]; then
             _helper_ref_change "${argc__positionals[0]}"
         else
             _choice_changed_file
