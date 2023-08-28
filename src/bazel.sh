@@ -17,7 +17,12 @@ _patch_help() {
                             notation = "<" part ">"
                         } else if (match(part, /^(a|an)? ?(\S+)$/, arr2)) {
                             notation = "<" arr2[2]  ">"
-                        } else if (match(part, / or \S+$/)) {
+                        } else if (match(part, /^comma-separated list of values: /)) {
+                            part = substr(part, RLENGTH + 1)
+                            gsub(/(, | or )/, "|", part)
+                            notation = "{" part "}"
+                            desc = desc "comma-separated list of values"
+                        } else if (match(part, /^(\S+, )*\S+ or \S+$/)) {
                             gsub(/(, | or )/, "|", part)
                             notation = "{" part "}"
                         } else if (match(part, / default:/)) {

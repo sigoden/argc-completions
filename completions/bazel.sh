@@ -428,8 +428,8 @@ analyze-profile() {
 # @flag --noincompatible_require_ctx_in_configure_features
 # @flag --interface_shared_objects
 # @flag --nointerface_shared_objects
-# @option --ios_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
-# @option --macos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_sdk_version <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --macos_sdk_version <value>            a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --minimum_os_version <string>
 # @option --platform_mappings <path>             a relative path
 # @option --platforms[`_choice_target`] <label>
@@ -438,8 +438,8 @@ analyze-profile() {
 # @option --python_path <string>
 # @option --python_top[`_choice_target`] <label>
 # @option --target_platform_fallback[`_choice_target`] <label>
-# @option --tvos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
-# @option --watchos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_sdk_version <value>             a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --watchos_sdk_version <value>          a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xcode_version <string>
 # @option --xcode_version_config[`_choice_target`] <label>
 # @flag --apple_enable_auto_dsym_dbg
@@ -488,7 +488,7 @@ analyze-profile() {
 # @option --android_manifest_merger_order[alphabetical|alphabetical_by_configuration|dependency]
 # @flag --android_resource_shrinking
 # @flag --noandroid_resource_shrinking
-# @option --apple_bitcode <'mode'|'platform=mode'|where 'mode' is none|embedded_markers|embedded|and 'platform' is ios|watchos|tvos|macos|catalyst> <may> <be> <used> <multiple> <times>
+# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, watchos, tvos, macos or catalyst may be used multiple times
 # @option --aspects <value>                      comma-separated list of options may be used multiple times
 # @option --bep_maximum_open_remote_upload_files <integer>
 # @option --build_python_zip[auto|yes|no] <value>  a tri-state
@@ -552,7 +552,7 @@ analyze-profile() {
 # @option --host_features <string>               may be used multiple times
 # @option --host_force_python[PY2|PY3]
 # @option --host_linkopt <string>                may be used multiple times
-# @option --host_macos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --host_macos_minimum_os <value>        a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --host_per_file_copt <path>            a comma-separated list of regex expressions with prefix '-' specifying excluded paths followed by an @ and a comma separated list of options may be used multiple times
 # @option --host_swiftcopt <string>              may be used multiple times
 # @flag --incompatible_avoid_conflict_dlls
@@ -566,7 +566,7 @@ analyze-profile() {
 # @flag --instrument_test_targets
 # @flag --noinstrument_test_targets
 # @option --instrumentation_filter <path>        a comma-separated list of regex expressions with prefix '-' specifying excluded paths
-# @option --ios_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_minimum_os <value>               a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --ios_multi_cpus <value>               comma-separated list of options may be used multiple times
 # @flag --legacy_whole_archive
 # @flag --nolegacy_whole_archive
@@ -574,7 +574,7 @@ analyze-profile() {
 # @option --ltobackendopt <string>               may be used multiple times
 # @option --ltoindexopt <string>                 may be used multiple times
 # @option --macos_cpus <value>                   comma-separated list of options may be used multiple times
-# @option --macos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --macos_minimum_os <value>             a dotted version (for example '2.3' or '3.3alpha2.4')
 # @flag --objc_debug_with_GLIBCXX
 # @flag --noobjc_debug_with_GLIBCXX
 # @flag --objc_enable_binary_stripping
@@ -601,9 +601,9 @@ analyze-profile() {
 # @option --swiftcopt <string>                   may be used multiple times
 # @option --symlink_prefix <string>
 # @option --tvos_cpus <value>                    comma-separated list of options may be used multiple times
-# @option --tvos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_minimum_os <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --watchos_cpus <value>                 comma-separated list of options may be used multiple times
-# @option --watchos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --watchos_minimum_os <value>           a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xbinary_fdo[`_choice_target`] <label>
 # @option --auto_cpu_environment_group[`_choice_target`] <label>
 # @flag --check_bzl_visibility
@@ -761,7 +761,7 @@ analyze-profile() {
 # @flag --ios_memleaks
 # @flag --noios_memleaks
 # @option --ios_simulator_device <string>
-# @option --ios_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_simulator_version <value>        a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --local_test_jobs[auto|HOST_CPUS|HOST_RAM] <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
 # @option --runs_per_test <value>                a positive integer or test_regex@runs.
 # @option --test_env <value>                     a 'name=value' assignment with an optional value part may be used multiple times
@@ -771,9 +771,9 @@ analyze-profile() {
 # @option --test_timeout <value>                 a single integer or comma-separated list of 4 integers
 # @option --test_tmpdir <path>
 # @option --tvos_simulator_device <string>
-# @option --tvos_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_simulator_version <value>       a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --watchos_simulator_device <string>
-# @option --watchos_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --watchos_simulator_version <value>    a dotted version (for example '2.3' or '3.3alpha2.4')
 # @flag --zip_undeclared_test_outputs
 # @flag --nozip_undeclared_test_outputs
 # @option --aspect_deps[off|conservative|precise]
@@ -1172,9 +1172,9 @@ analyze-profile() {
 # @flag --test_runner_fail_fast
 # @flag --notest_runner_fail_fast
 # @option --test_sharding_strategy[explicit|disabled]
-# @option --test_size_filters <comma-separated list of values: small|medium|large|enormous>
+# @option --test_size_filters[small|medium|large|enormous]  comma-separated list of values
 # @option --test_tag_filters <value>             comma-separated list of options
-# @option --test_timeout_filters <comma-separated list of values: short|moderate|long|eternal>
+# @option --test_timeout_filters[short|moderate|long|eternal]  comma-separated list of values
 # @option --tls_certificate <string>
 # @option --tls_client_certificate <string>
 # @option --tls_client_key <string>
@@ -1344,8 +1344,8 @@ aquery() {
 # @flag --noincompatible_require_ctx_in_configure_features
 # @flag --interface_shared_objects
 # @flag --nointerface_shared_objects
-# @option --ios_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
-# @option --macos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_sdk_version <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --macos_sdk_version <value>            a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --minimum_os_version <string>
 # @option --platform_mappings <path>             a relative path
 # @option --platforms[`_choice_target`] <label>
@@ -1354,8 +1354,8 @@ aquery() {
 # @option --python_path <string>
 # @option --python_top[`_choice_target`] <label>
 # @option --target_platform_fallback[`_choice_target`] <label>
-# @option --tvos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
-# @option --watchos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_sdk_version <value>             a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --watchos_sdk_version <value>          a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xcode_version <string>
 # @option --xcode_version_config[`_choice_target`] <label>
 # @flag --apple_enable_auto_dsym_dbg
@@ -1404,7 +1404,7 @@ aquery() {
 # @option --android_manifest_merger_order[alphabetical|alphabetical_by_configuration|dependency]
 # @flag --android_resource_shrinking
 # @flag --noandroid_resource_shrinking
-# @option --apple_bitcode <'mode'|'platform=mode'|where 'mode' is none|embedded_markers|embedded|and 'platform' is ios|watchos|tvos|macos|catalyst> <may> <be> <used> <multiple> <times>
+# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, watchos, tvos, macos or catalyst may be used multiple times
 # @option --aspects <value>                      comma-separated list of options may be used multiple times
 # @option --bep_maximum_open_remote_upload_files <integer>
 # @option --build_python_zip[auto|yes|no] <value>  a tri-state
@@ -1468,7 +1468,7 @@ aquery() {
 # @option --host_features <string>               may be used multiple times
 # @option --host_force_python[PY2|PY3]
 # @option --host_linkopt <string>                may be used multiple times
-# @option --host_macos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --host_macos_minimum_os <value>        a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --host_per_file_copt <path>            a comma-separated list of regex expressions with prefix '-' specifying excluded paths followed by an @ and a comma separated list of options may be used multiple times
 # @option --host_swiftcopt <string>              may be used multiple times
 # @flag --incompatible_avoid_conflict_dlls
@@ -1482,7 +1482,7 @@ aquery() {
 # @flag --instrument_test_targets
 # @flag --noinstrument_test_targets
 # @option --instrumentation_filter <path>        a comma-separated list of regex expressions with prefix '-' specifying excluded paths
-# @option --ios_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_minimum_os <value>               a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --ios_multi_cpus <value>               comma-separated list of options may be used multiple times
 # @flag --legacy_whole_archive
 # @flag --nolegacy_whole_archive
@@ -1490,7 +1490,7 @@ aquery() {
 # @option --ltobackendopt <string>               may be used multiple times
 # @option --ltoindexopt <string>                 may be used multiple times
 # @option --macos_cpus <value>                   comma-separated list of options may be used multiple times
-# @option --macos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --macos_minimum_os <value>             a dotted version (for example '2.3' or '3.3alpha2.4')
 # @flag --objc_debug_with_GLIBCXX
 # @flag --noobjc_debug_with_GLIBCXX
 # @flag --objc_enable_binary_stripping
@@ -1517,9 +1517,9 @@ aquery() {
 # @option --swiftcopt <string>                   may be used multiple times
 # @option --symlink_prefix <string>
 # @option --tvos_cpus <value>                    comma-separated list of options may be used multiple times
-# @option --tvos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_minimum_os <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --watchos_cpus <value>                 comma-separated list of options may be used multiple times
-# @option --watchos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --watchos_minimum_os <value>           a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xbinary_fdo[`_choice_target`] <label>
 # @option --auto_cpu_environment_group[`_choice_target`] <label>
 # @flag --check_bzl_visibility
@@ -1677,7 +1677,7 @@ aquery() {
 # @flag --ios_memleaks
 # @flag --noios_memleaks
 # @option --ios_simulator_device <string>
-# @option --ios_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_simulator_version <value>        a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --local_test_jobs[auto|HOST_CPUS|HOST_RAM] <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
 # @option --runs_per_test <value>                a positive integer or test_regex@runs.
 # @option --test_env <value>                     a 'name=value' assignment with an optional value part may be used multiple times
@@ -1687,9 +1687,9 @@ aquery() {
 # @option --test_timeout <value>                 a single integer or comma-separated list of 4 integers
 # @option --test_tmpdir <path>
 # @option --tvos_simulator_device <string>
-# @option --tvos_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_simulator_version <value>       a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --watchos_simulator_device <string>
-# @option --watchos_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --watchos_simulator_version <value>    a dotted version (for example '2.3' or '3.3alpha2.4')
 # @flag --zip_undeclared_test_outputs
 # @flag --nozip_undeclared_test_outputs
 # @option --allow_yanked_versions <string>       may be used multiple times
@@ -2036,9 +2036,9 @@ aquery() {
 # @flag --test_runner_fail_fast
 # @flag --notest_runner_fail_fast
 # @option --test_sharding_strategy[explicit|disabled]
-# @option --test_size_filters <comma-separated list of values: small|medium|large|enormous>
+# @option --test_size_filters[small|medium|large|enormous]  comma-separated list of values
 # @option --test_tag_filters <value>             comma-separated list of options
-# @option --test_timeout_filters <comma-separated list of values: short|moderate|long|eternal>
+# @option --test_timeout_filters[short|moderate|long|eternal]  comma-separated list of values
 # @option --tls_certificate <string>
 # @option --tls_client_certificate <string>
 # @option --tls_client_key <string>
@@ -2208,8 +2208,8 @@ build() {
 # @flag --noincompatible_require_ctx_in_configure_features
 # @flag --interface_shared_objects
 # @flag --nointerface_shared_objects
-# @option --ios_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
-# @option --macos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_sdk_version <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --macos_sdk_version <value>            a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --minimum_os_version <string>
 # @option --platform_mappings <path>             a relative path
 # @option --platforms[`_choice_target`] <label>
@@ -2218,8 +2218,8 @@ build() {
 # @option --python_path <string>
 # @option --python_top[`_choice_target`] <label>
 # @option --target_platform_fallback[`_choice_target`] <label>
-# @option --tvos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
-# @option --watchos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_sdk_version <value>             a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --watchos_sdk_version <value>          a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xcode_version <string>
 # @option --xcode_version_config[`_choice_target`] <label>
 # @flag --apple_enable_auto_dsym_dbg
@@ -2272,7 +2272,7 @@ build() {
 # @option --android_manifest_merger_order[alphabetical|alphabetical_by_configuration|dependency]
 # @flag --android_resource_shrinking
 # @flag --noandroid_resource_shrinking
-# @option --apple_bitcode <'mode'|'platform=mode'|where 'mode' is none|embedded_markers|embedded|and 'platform' is ios|watchos|tvos|macos|catalyst> <may> <be> <used> <multiple> <times>
+# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, watchos, tvos, macos or catalyst may be used multiple times
 # @option --aspects <value>                      comma-separated list of options may be used multiple times
 # @option --bep_maximum_open_remote_upload_files <integer>
 # @option --build_python_zip[auto|yes|no] <value>  a tri-state
@@ -2336,7 +2336,7 @@ build() {
 # @option --host_features <string>               may be used multiple times
 # @option --host_force_python[PY2|PY3]
 # @option --host_linkopt <string>                may be used multiple times
-# @option --host_macos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --host_macos_minimum_os <value>        a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --host_per_file_copt <path>            a comma-separated list of regex expressions with prefix '-' specifying excluded paths followed by an @ and a comma separated list of options may be used multiple times
 # @option --host_swiftcopt <string>              may be used multiple times
 # @flag --incompatible_avoid_conflict_dlls
@@ -2350,7 +2350,7 @@ build() {
 # @flag --instrument_test_targets
 # @flag --noinstrument_test_targets
 # @option --instrumentation_filter <path>        a comma-separated list of regex expressions with prefix '-' specifying excluded paths
-# @option --ios_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_minimum_os <value>               a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --ios_multi_cpus <value>               comma-separated list of options may be used multiple times
 # @flag --legacy_whole_archive
 # @flag --nolegacy_whole_archive
@@ -2358,7 +2358,7 @@ build() {
 # @option --ltobackendopt <string>               may be used multiple times
 # @option --ltoindexopt <string>                 may be used multiple times
 # @option --macos_cpus <value>                   comma-separated list of options may be used multiple times
-# @option --macos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --macos_minimum_os <value>             a dotted version (for example '2.3' or '3.3alpha2.4')
 # @flag --objc_debug_with_GLIBCXX
 # @flag --noobjc_debug_with_GLIBCXX
 # @flag --objc_enable_binary_stripping
@@ -2385,9 +2385,9 @@ build() {
 # @option --swiftcopt <string>                   may be used multiple times
 # @option --symlink_prefix <string>
 # @option --tvos_cpus <value>                    comma-separated list of options may be used multiple times
-# @option --tvos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_minimum_os <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --watchos_cpus <value>                 comma-separated list of options may be used multiple times
-# @option --watchos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --watchos_minimum_os <value>           a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xbinary_fdo[`_choice_target`] <label>
 # @option --auto_cpu_environment_group[`_choice_target`] <label>
 # @flag --check_bzl_visibility
@@ -2545,7 +2545,7 @@ build() {
 # @flag --ios_memleaks
 # @flag --noios_memleaks
 # @option --ios_simulator_device <string>
-# @option --ios_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_simulator_version <value>        a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --local_test_jobs[auto|HOST_CPUS|HOST_RAM] <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
 # @option --runs_per_test <value>                a positive integer or test_regex@runs.
 # @option --test_env <value>                     a 'name=value' assignment with an optional value part may be used multiple times
@@ -2555,9 +2555,9 @@ build() {
 # @option --test_timeout <value>                 a single integer or comma-separated list of 4 integers
 # @option --test_tmpdir <path>
 # @option --tvos_simulator_device <string>
-# @option --tvos_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_simulator_version <value>       a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --watchos_simulator_device <string>
-# @option --watchos_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --watchos_simulator_version <value>    a dotted version (for example '2.3' or '3.3alpha2.4')
 # @flag --zip_undeclared_test_outputs
 # @flag --nozip_undeclared_test_outputs
 # @option --allow_yanked_versions <string>       may be used multiple times
@@ -2906,9 +2906,9 @@ build() {
 # @flag --test_runner_fail_fast
 # @flag --notest_runner_fail_fast
 # @option --test_sharding_strategy[explicit|disabled]
-# @option --test_size_filters <comma-separated list of values: small|medium|large|enormous>
+# @option --test_size_filters[small|medium|large|enormous]  comma-separated list of values
 # @option --test_tag_filters <value>             comma-separated list of options
-# @option --test_timeout_filters <comma-separated list of values: short|moderate|long|eternal>
+# @option --test_timeout_filters[short|moderate|long|eternal]  comma-separated list of values
 # @option --tls_certificate <string>
 # @option --tls_client_certificate <string>
 # @option --tls_client_key <string>
@@ -3077,8 +3077,8 @@ canonicalize-flags() {
 # @flag --noincompatible_require_ctx_in_configure_features
 # @flag --interface_shared_objects
 # @flag --nointerface_shared_objects
-# @option --ios_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
-# @option --macos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_sdk_version <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --macos_sdk_version <value>            a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --minimum_os_version <string>
 # @option --platform_mappings <path>             a relative path
 # @option --platforms[`_choice_target`] <label>
@@ -3087,8 +3087,8 @@ canonicalize-flags() {
 # @option --python_path <string>
 # @option --python_top[`_choice_target`] <label>
 # @option --target_platform_fallback[`_choice_target`] <label>
-# @option --tvos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
-# @option --watchos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_sdk_version <value>             a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --watchos_sdk_version <value>          a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xcode_version <string>
 # @option --xcode_version_config[`_choice_target`] <label>
 # @flag --apple_enable_auto_dsym_dbg
@@ -3144,7 +3144,7 @@ canonicalize-flags() {
 # @option --android_manifest_merger_order[alphabetical|alphabetical_by_configuration|dependency]
 # @flag --android_resource_shrinking
 # @flag --noandroid_resource_shrinking
-# @option --apple_bitcode <'mode'|'platform=mode'|where 'mode' is none|embedded_markers|embedded|and 'platform' is ios|watchos|tvos|macos|catalyst> <may> <be> <used> <multiple> <times>
+# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, watchos, tvos, macos or catalyst may be used multiple times
 # @option --aspects <value>                      comma-separated list of options may be used multiple times
 # @option --bep_maximum_open_remote_upload_files <integer>
 # @option --build_python_zip[auto|yes|no] <value>  a tri-state
@@ -3208,7 +3208,7 @@ canonicalize-flags() {
 # @option --host_features <string>               may be used multiple times
 # @option --host_force_python[PY2|PY3]
 # @option --host_linkopt <string>                may be used multiple times
-# @option --host_macos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --host_macos_minimum_os <value>        a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --host_per_file_copt <path>            a comma-separated list of regex expressions with prefix '-' specifying excluded paths followed by an @ and a comma separated list of options may be used multiple times
 # @option --host_swiftcopt <string>              may be used multiple times
 # @flag --incompatible_avoid_conflict_dlls
@@ -3222,7 +3222,7 @@ canonicalize-flags() {
 # @flag --instrument_test_targets
 # @flag --noinstrument_test_targets
 # @option --instrumentation_filter <path>        a comma-separated list of regex expressions with prefix '-' specifying excluded paths
-# @option --ios_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_minimum_os <value>               a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --ios_multi_cpus <value>               comma-separated list of options may be used multiple times
 # @flag --legacy_whole_archive
 # @flag --nolegacy_whole_archive
@@ -3230,7 +3230,7 @@ canonicalize-flags() {
 # @option --ltobackendopt <string>               may be used multiple times
 # @option --ltoindexopt <string>                 may be used multiple times
 # @option --macos_cpus <value>                   comma-separated list of options may be used multiple times
-# @option --macos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --macos_minimum_os <value>             a dotted version (for example '2.3' or '3.3alpha2.4')
 # @flag --objc_debug_with_GLIBCXX
 # @flag --noobjc_debug_with_GLIBCXX
 # @flag --objc_enable_binary_stripping
@@ -3257,9 +3257,9 @@ canonicalize-flags() {
 # @option --swiftcopt <string>                   may be used multiple times
 # @option --symlink_prefix <string>
 # @option --tvos_cpus <value>                    comma-separated list of options may be used multiple times
-# @option --tvos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_minimum_os <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --watchos_cpus <value>                 comma-separated list of options may be used multiple times
-# @option --watchos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --watchos_minimum_os <value>           a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xbinary_fdo[`_choice_target`] <label>
 # @option --auto_cpu_environment_group[`_choice_target`] <label>
 # @flag --check_bzl_visibility
@@ -3417,7 +3417,7 @@ canonicalize-flags() {
 # @flag --ios_memleaks
 # @flag --noios_memleaks
 # @option --ios_simulator_device <string>
-# @option --ios_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_simulator_version <value>        a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --local_test_jobs[auto|HOST_CPUS|HOST_RAM] <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
 # @option --runs_per_test <value>                a positive integer or test_regex@runs.
 # @option --test_env <value>                     a 'name=value' assignment with an optional value part may be used multiple times
@@ -3427,9 +3427,9 @@ canonicalize-flags() {
 # @option --test_timeout <value>                 a single integer or comma-separated list of 4 integers
 # @option --test_tmpdir <path>
 # @option --tvos_simulator_device <string>
-# @option --tvos_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_simulator_version <value>       a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --watchos_simulator_device <string>
-# @option --watchos_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --watchos_simulator_version <value>    a dotted version (for example '2.3' or '3.3alpha2.4')
 # @flag --zip_undeclared_test_outputs
 # @flag --nozip_undeclared_test_outputs
 # @option --allow_yanked_versions <string>       may be used multiple times
@@ -3776,9 +3776,9 @@ canonicalize-flags() {
 # @flag --test_runner_fail_fast
 # @flag --notest_runner_fail_fast
 # @option --test_sharding_strategy[explicit|disabled]
-# @option --test_size_filters <comma-separated list of values: small|medium|large|enormous>
+# @option --test_size_filters[small|medium|large|enormous]  comma-separated list of values
 # @option --test_tag_filters <value>             comma-separated list of options
-# @option --test_timeout_filters <comma-separated list of values: short|moderate|long|eternal>
+# @option --test_timeout_filters[short|moderate|long|eternal]  comma-separated list of values
 # @option --tls_certificate <string>
 # @option --tls_client_certificate <string>
 # @option --tls_client_key <string>
@@ -3947,8 +3947,8 @@ clean() {
 # @flag --noincompatible_require_ctx_in_configure_features
 # @flag --interface_shared_objects
 # @flag --nointerface_shared_objects
-# @option --ios_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
-# @option --macos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_sdk_version <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --macos_sdk_version <value>            a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --minimum_os_version <string>
 # @option --platform_mappings <path>             a relative path
 # @option --platforms[`_choice_target`] <label>
@@ -3957,8 +3957,8 @@ clean() {
 # @option --python_path <string>
 # @option --python_top[`_choice_target`] <label>
 # @option --target_platform_fallback[`_choice_target`] <label>
-# @option --tvos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
-# @option --watchos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_sdk_version <value>             a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --watchos_sdk_version <value>          a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xcode_version <string>
 # @option --xcode_version_config[`_choice_target`] <label>
 # @flag --apple_enable_auto_dsym_dbg
@@ -4007,7 +4007,7 @@ clean() {
 # @option --android_manifest_merger_order[alphabetical|alphabetical_by_configuration|dependency]
 # @flag --android_resource_shrinking
 # @flag --noandroid_resource_shrinking
-# @option --apple_bitcode <'mode'|'platform=mode'|where 'mode' is none|embedded_markers|embedded|and 'platform' is ios|watchos|tvos|macos|catalyst> <may> <be> <used> <multiple> <times>
+# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, watchos, tvos, macos or catalyst may be used multiple times
 # @option --aspects <value>                      comma-separated list of options may be used multiple times
 # @option --bep_maximum_open_remote_upload_files <integer>
 # @option --build_python_zip[auto|yes|no] <value>  a tri-state
@@ -4071,7 +4071,7 @@ clean() {
 # @option --host_features <string>               may be used multiple times
 # @option --host_force_python[PY2|PY3]
 # @option --host_linkopt <string>                may be used multiple times
-# @option --host_macos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --host_macos_minimum_os <value>        a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --host_per_file_copt <path>            a comma-separated list of regex expressions with prefix '-' specifying excluded paths followed by an @ and a comma separated list of options may be used multiple times
 # @option --host_swiftcopt <string>              may be used multiple times
 # @flag --incompatible_avoid_conflict_dlls
@@ -4085,7 +4085,7 @@ clean() {
 # @flag --instrument_test_targets
 # @flag --noinstrument_test_targets
 # @option --instrumentation_filter <path>        a comma-separated list of regex expressions with prefix '-' specifying excluded paths
-# @option --ios_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_minimum_os <value>               a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --ios_multi_cpus <value>               comma-separated list of options may be used multiple times
 # @flag --legacy_whole_archive
 # @flag --nolegacy_whole_archive
@@ -4093,7 +4093,7 @@ clean() {
 # @option --ltobackendopt <string>               may be used multiple times
 # @option --ltoindexopt <string>                 may be used multiple times
 # @option --macos_cpus <value>                   comma-separated list of options may be used multiple times
-# @option --macos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --macos_minimum_os <value>             a dotted version (for example '2.3' or '3.3alpha2.4')
 # @flag --objc_debug_with_GLIBCXX
 # @flag --noobjc_debug_with_GLIBCXX
 # @flag --objc_enable_binary_stripping
@@ -4120,9 +4120,9 @@ clean() {
 # @option --swiftcopt <string>                   may be used multiple times
 # @option --symlink_prefix <string>
 # @option --tvos_cpus <value>                    comma-separated list of options may be used multiple times
-# @option --tvos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_minimum_os <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --watchos_cpus <value>                 comma-separated list of options may be used multiple times
-# @option --watchos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --watchos_minimum_os <value>           a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xbinary_fdo[`_choice_target`] <label>
 # @option --auto_cpu_environment_group[`_choice_target`] <label>
 # @flag --check_bzl_visibility
@@ -4280,7 +4280,7 @@ clean() {
 # @flag --ios_memleaks
 # @flag --noios_memleaks
 # @option --ios_simulator_device <string>
-# @option --ios_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_simulator_version <value>        a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --local_test_jobs[auto|HOST_CPUS|HOST_RAM] <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
 # @option --runs_per_test <value>                a positive integer or test_regex@runs.
 # @option --test_env <value>                     a 'name=value' assignment with an optional value part may be used multiple times
@@ -4290,9 +4290,9 @@ clean() {
 # @option --test_timeout <value>                 a single integer or comma-separated list of 4 integers
 # @option --test_tmpdir <path>
 # @option --tvos_simulator_device <string>
-# @option --tvos_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_simulator_version <value>       a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --watchos_simulator_device <string>
-# @option --watchos_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --watchos_simulator_version <value>    a dotted version (for example '2.3' or '3.3alpha2.4')
 # @flag --zip_undeclared_test_outputs
 # @flag --nozip_undeclared_test_outputs
 # @option --allow_yanked_versions <string>       may be used multiple times
@@ -4645,9 +4645,9 @@ clean() {
 # @flag --test_runner_fail_fast
 # @flag --notest_runner_fail_fast
 # @option --test_sharding_strategy[explicit|disabled]
-# @option --test_size_filters <comma-separated list of values: small|medium|large|enormous>
+# @option --test_size_filters[small|medium|large|enormous]  comma-separated list of values
 # @option --test_tag_filters <value>             comma-separated list of options
-# @option --test_timeout_filters <comma-separated list of values: short|moderate|long|eternal>
+# @option --test_timeout_filters[short|moderate|long|eternal]  comma-separated list of values
 # @option --tls_certificate <string>
 # @option --tls_client_certificate <string>
 # @option --tls_client_key <string>
@@ -4817,8 +4817,8 @@ coverage() {
 # @flag --noincompatible_require_ctx_in_configure_features
 # @flag --interface_shared_objects
 # @flag --nointerface_shared_objects
-# @option --ios_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
-# @option --macos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_sdk_version <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --macos_sdk_version <value>            a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --minimum_os_version <string>
 # @option --platform_mappings <path>             a relative path
 # @option --platforms[`_choice_target`] <label>
@@ -4827,8 +4827,8 @@ coverage() {
 # @option --python_path <string>
 # @option --python_top[`_choice_target`] <label>
 # @option --target_platform_fallback[`_choice_target`] <label>
-# @option --tvos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
-# @option --watchos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_sdk_version <value>             a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --watchos_sdk_version <value>          a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xcode_version <string>
 # @option --xcode_version_config[`_choice_target`] <label>
 # @flag --apple_enable_auto_dsym_dbg
@@ -4877,7 +4877,7 @@ coverage() {
 # @option --android_manifest_merger_order[alphabetical|alphabetical_by_configuration|dependency]
 # @flag --android_resource_shrinking
 # @flag --noandroid_resource_shrinking
-# @option --apple_bitcode <'mode'|'platform=mode'|where 'mode' is none|embedded_markers|embedded|and 'platform' is ios|watchos|tvos|macos|catalyst> <may> <be> <used> <multiple> <times>
+# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, watchos, tvos, macos or catalyst may be used multiple times
 # @option --aspects <value>                      comma-separated list of options may be used multiple times
 # @option --bep_maximum_open_remote_upload_files <integer>
 # @option --build_python_zip[auto|yes|no] <value>  a tri-state
@@ -4941,7 +4941,7 @@ coverage() {
 # @option --host_features <string>               may be used multiple times
 # @option --host_force_python[PY2|PY3]
 # @option --host_linkopt <string>                may be used multiple times
-# @option --host_macos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --host_macos_minimum_os <value>        a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --host_per_file_copt <path>            a comma-separated list of regex expressions with prefix '-' specifying excluded paths followed by an @ and a comma separated list of options may be used multiple times
 # @option --host_swiftcopt <string>              may be used multiple times
 # @flag --incompatible_avoid_conflict_dlls
@@ -4955,7 +4955,7 @@ coverage() {
 # @flag --instrument_test_targets
 # @flag --noinstrument_test_targets
 # @option --instrumentation_filter <path>        a comma-separated list of regex expressions with prefix '-' specifying excluded paths
-# @option --ios_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_minimum_os <value>               a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --ios_multi_cpus <value>               comma-separated list of options may be used multiple times
 # @flag --legacy_whole_archive
 # @flag --nolegacy_whole_archive
@@ -4963,7 +4963,7 @@ coverage() {
 # @option --ltobackendopt <string>               may be used multiple times
 # @option --ltoindexopt <string>                 may be used multiple times
 # @option --macos_cpus <value>                   comma-separated list of options may be used multiple times
-# @option --macos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --macos_minimum_os <value>             a dotted version (for example '2.3' or '3.3alpha2.4')
 # @flag --objc_debug_with_GLIBCXX
 # @flag --noobjc_debug_with_GLIBCXX
 # @flag --objc_enable_binary_stripping
@@ -4990,9 +4990,9 @@ coverage() {
 # @option --swiftcopt <string>                   may be used multiple times
 # @option --symlink_prefix <string>
 # @option --tvos_cpus <value>                    comma-separated list of options may be used multiple times
-# @option --tvos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_minimum_os <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --watchos_cpus <value>                 comma-separated list of options may be used multiple times
-# @option --watchos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --watchos_minimum_os <value>           a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xbinary_fdo[`_choice_target`] <label>
 # @option --auto_cpu_environment_group[`_choice_target`] <label>
 # @flag --check_bzl_visibility
@@ -5150,7 +5150,7 @@ coverage() {
 # @flag --ios_memleaks
 # @flag --noios_memleaks
 # @option --ios_simulator_device <string>
-# @option --ios_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_simulator_version <value>        a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --local_test_jobs[auto|HOST_CPUS|HOST_RAM] <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
 # @option --runs_per_test <value>                a positive integer or test_regex@runs.
 # @option --test_env <value>                     a 'name=value' assignment with an optional value part may be used multiple times
@@ -5160,9 +5160,9 @@ coverage() {
 # @option --test_timeout <value>                 a single integer or comma-separated list of 4 integers
 # @option --test_tmpdir <path>
 # @option --tvos_simulator_device <string>
-# @option --tvos_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_simulator_version <value>       a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --watchos_simulator_device <string>
-# @option --watchos_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --watchos_simulator_version <value>    a dotted version (for example '2.3' or '3.3alpha2.4')
 # @flag --zip_undeclared_test_outputs
 # @flag --nozip_undeclared_test_outputs
 # @option --aspect_deps[off|conservative|precise]
@@ -5561,9 +5561,9 @@ coverage() {
 # @flag --test_runner_fail_fast
 # @flag --notest_runner_fail_fast
 # @option --test_sharding_strategy[explicit|disabled]
-# @option --test_size_filters <comma-separated list of values: small|medium|large|enormous>
+# @option --test_size_filters[small|medium|large|enormous]  comma-separated list of values
 # @option --test_tag_filters <value>             comma-separated list of options
-# @option --test_timeout_filters <comma-separated list of values: short|moderate|long|eternal>
+# @option --test_timeout_filters[short|moderate|long|eternal]  comma-separated list of values
 # @option --tls_certificate <string>
 # @option --tls_client_certificate <string>
 # @option --tls_client_key <string>
@@ -6278,8 +6278,8 @@ fetch() {
 # @flag --noincompatible_require_ctx_in_configure_features
 # @flag --interface_shared_objects
 # @flag --nointerface_shared_objects
-# @option --ios_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
-# @option --macos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_sdk_version <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --macos_sdk_version <value>            a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --minimum_os_version <string>
 # @option --platform_mappings <path>             a relative path
 # @option --platforms[`_choice_target`] <label>
@@ -6288,8 +6288,8 @@ fetch() {
 # @option --python_path <string>
 # @option --python_top[`_choice_target`] <label>
 # @option --target_platform_fallback[`_choice_target`] <label>
-# @option --tvos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
-# @option --watchos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_sdk_version <value>             a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --watchos_sdk_version <value>          a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xcode_version <string>
 # @option --xcode_version_config[`_choice_target`] <label>
 # @flag --apple_enable_auto_dsym_dbg
@@ -6338,7 +6338,7 @@ fetch() {
 # @option --android_manifest_merger_order[alphabetical|alphabetical_by_configuration|dependency]
 # @flag --android_resource_shrinking
 # @flag --noandroid_resource_shrinking
-# @option --apple_bitcode <'mode'|'platform=mode'|where 'mode' is none|embedded_markers|embedded|and 'platform' is ios|watchos|tvos|macos|catalyst> <may> <be> <used> <multiple> <times>
+# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, watchos, tvos, macos or catalyst may be used multiple times
 # @option --aspects <value>                      comma-separated list of options may be used multiple times
 # @option --bep_maximum_open_remote_upload_files <integer>
 # @option --build_python_zip[auto|yes|no] <value>  a tri-state
@@ -6402,7 +6402,7 @@ fetch() {
 # @option --host_features <string>               may be used multiple times
 # @option --host_force_python[PY2|PY3]
 # @option --host_linkopt <string>                may be used multiple times
-# @option --host_macos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --host_macos_minimum_os <value>        a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --host_per_file_copt <path>            a comma-separated list of regex expressions with prefix '-' specifying excluded paths followed by an @ and a comma separated list of options may be used multiple times
 # @option --host_swiftcopt <string>              may be used multiple times
 # @flag --incompatible_avoid_conflict_dlls
@@ -6416,7 +6416,7 @@ fetch() {
 # @flag --instrument_test_targets
 # @flag --noinstrument_test_targets
 # @option --instrumentation_filter <path>        a comma-separated list of regex expressions with prefix '-' specifying excluded paths
-# @option --ios_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_minimum_os <value>               a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --ios_multi_cpus <value>               comma-separated list of options may be used multiple times
 # @flag --legacy_whole_archive
 # @flag --nolegacy_whole_archive
@@ -6424,7 +6424,7 @@ fetch() {
 # @option --ltobackendopt <string>               may be used multiple times
 # @option --ltoindexopt <string>                 may be used multiple times
 # @option --macos_cpus <value>                   comma-separated list of options may be used multiple times
-# @option --macos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --macos_minimum_os <value>             a dotted version (for example '2.3' or '3.3alpha2.4')
 # @flag --objc_debug_with_GLIBCXX
 # @flag --noobjc_debug_with_GLIBCXX
 # @flag --objc_enable_binary_stripping
@@ -6451,9 +6451,9 @@ fetch() {
 # @option --swiftcopt <string>                   may be used multiple times
 # @option --symlink_prefix <string>
 # @option --tvos_cpus <value>                    comma-separated list of options may be used multiple times
-# @option --tvos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_minimum_os <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --watchos_cpus <value>                 comma-separated list of options may be used multiple times
-# @option --watchos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --watchos_minimum_os <value>           a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xbinary_fdo[`_choice_target`] <label>
 # @option --auto_cpu_environment_group[`_choice_target`] <label>
 # @flag --check_bzl_visibility
@@ -6611,7 +6611,7 @@ fetch() {
 # @flag --ios_memleaks
 # @flag --noios_memleaks
 # @option --ios_simulator_device <string>
-# @option --ios_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_simulator_version <value>        a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --local_test_jobs[auto|HOST_CPUS|HOST_RAM] <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
 # @option --runs_per_test <value>                a positive integer or test_regex@runs.
 # @option --test_env <value>                     a 'name=value' assignment with an optional value part may be used multiple times
@@ -6621,9 +6621,9 @@ fetch() {
 # @option --test_timeout <value>                 a single integer or comma-separated list of 4 integers
 # @option --test_tmpdir <path>
 # @option --tvos_simulator_device <string>
-# @option --tvos_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_simulator_version <value>       a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --watchos_simulator_device <string>
-# @option --watchos_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --watchos_simulator_version <value>    a dotted version (for example '2.3' or '3.3alpha2.4')
 # @flag --zip_undeclared_test_outputs
 # @flag --nozip_undeclared_test_outputs
 # @option --allow_yanked_versions <string>       may be used multiple times
@@ -6972,9 +6972,9 @@ fetch() {
 # @flag --test_runner_fail_fast
 # @flag --notest_runner_fail_fast
 # @option --test_sharding_strategy[explicit|disabled]
-# @option --test_size_filters <comma-separated list of values: small|medium|large|enormous>
+# @option --test_size_filters[small|medium|large|enormous]  comma-separated list of values
 # @option --test_tag_filters <value>             comma-separated list of options
-# @option --test_timeout_filters <comma-separated list of values: short|moderate|long|eternal>
+# @option --test_timeout_filters[short|moderate|long|eternal]  comma-separated list of values
 # @option --tls_certificate <string>
 # @option --tls_client_certificate <string>
 # @option --tls_client_key <string>
@@ -7371,8 +7371,8 @@ license() {
 # @flag --noincompatible_require_ctx_in_configure_features
 # @flag --interface_shared_objects
 # @flag --nointerface_shared_objects
-# @option --ios_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
-# @option --macos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_sdk_version <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --macos_sdk_version <value>            a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --minimum_os_version <string>
 # @option --platform_mappings <path>             a relative path
 # @option --platforms[`_choice_target`] <label>
@@ -7381,8 +7381,8 @@ license() {
 # @option --python_path <string>
 # @option --python_top[`_choice_target`] <label>
 # @option --target_platform_fallback[`_choice_target`] <label>
-# @option --tvos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
-# @option --watchos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_sdk_version <value>             a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --watchos_sdk_version <value>          a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xcode_version <string>
 # @option --xcode_version_config[`_choice_target`] <label>
 # @flag --apple_enable_auto_dsym_dbg
@@ -7436,7 +7436,7 @@ license() {
 # @option --android_manifest_merger_order[alphabetical|alphabetical_by_configuration|dependency]
 # @flag --android_resource_shrinking
 # @flag --noandroid_resource_shrinking
-# @option --apple_bitcode <'mode'|'platform=mode'|where 'mode' is none|embedded_markers|embedded|and 'platform' is ios|watchos|tvos|macos|catalyst> <may> <be> <used> <multiple> <times>
+# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, watchos, tvos, macos or catalyst may be used multiple times
 # @option --aspects <value>                      comma-separated list of options may be used multiple times
 # @option --bep_maximum_open_remote_upload_files <integer>
 # @option --build_python_zip[auto|yes|no] <value>  a tri-state
@@ -7502,7 +7502,7 @@ license() {
 # @option --host_features <string>               may be used multiple times
 # @option --host_force_python[PY2|PY3]
 # @option --host_linkopt <string>                may be used multiple times
-# @option --host_macos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --host_macos_minimum_os <value>        a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --host_per_file_copt <path>            a comma-separated list of regex expressions with prefix '-' specifying excluded paths followed by an @ and a comma separated list of options may be used multiple times
 # @option --host_swiftcopt <string>              may be used multiple times
 # @flag --incompatible_avoid_conflict_dlls
@@ -7516,7 +7516,7 @@ license() {
 # @flag --instrument_test_targets
 # @flag --noinstrument_test_targets
 # @option --instrumentation_filter <path>        a comma-separated list of regex expressions with prefix '-' specifying excluded paths
-# @option --ios_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_minimum_os <value>               a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --ios_multi_cpus <value>               comma-separated list of options may be used multiple times
 # @flag --legacy_whole_archive
 # @flag --nolegacy_whole_archive
@@ -7524,7 +7524,7 @@ license() {
 # @option --ltobackendopt <string>               may be used multiple times
 # @option --ltoindexopt <string>                 may be used multiple times
 # @option --macos_cpus <value>                   comma-separated list of options may be used multiple times
-# @option --macos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --macos_minimum_os <value>             a dotted version (for example '2.3' or '3.3alpha2.4')
 # @flag --objc_debug_with_GLIBCXX
 # @flag --noobjc_debug_with_GLIBCXX
 # @flag --objc_enable_binary_stripping
@@ -7553,9 +7553,9 @@ license() {
 # @option --swiftcopt <string>                   may be used multiple times
 # @option --symlink_prefix <string>
 # @option --tvos_cpus <value>                    comma-separated list of options may be used multiple times
-# @option --tvos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_minimum_os <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --watchos_cpus <value>                 comma-separated list of options may be used multiple times
-# @option --watchos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --watchos_minimum_os <value>           a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xbinary_fdo[`_choice_target`] <label>
 # @option --auto_cpu_environment_group[`_choice_target`] <label>
 # @flag --check_bzl_visibility
@@ -7713,7 +7713,7 @@ license() {
 # @flag --ios_memleaks
 # @flag --noios_memleaks
 # @option --ios_simulator_device <string>
-# @option --ios_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_simulator_version <value>        a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --local_test_jobs[auto|HOST_CPUS|HOST_RAM] <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
 # @option --runs_per_test <value>                a positive integer or test_regex@runs.
 # @option --test_env <value>                     a 'name=value' assignment with an optional value part may be used multiple times
@@ -7723,9 +7723,9 @@ license() {
 # @option --test_timeout <value>                 a single integer or comma-separated list of 4 integers
 # @option --test_tmpdir <path>
 # @option --tvos_simulator_device <string>
-# @option --tvos_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_simulator_version <value>       a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --watchos_simulator_device <string>
-# @option --watchos_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --watchos_simulator_version <value>    a dotted version (for example '2.3' or '3.3alpha2.4')
 # @flag --zip_undeclared_test_outputs
 # @flag --nozip_undeclared_test_outputs
 # @option --allow_yanked_versions <string>       may be used multiple times
@@ -8073,9 +8073,9 @@ license() {
 # @flag --test_runner_fail_fast
 # @flag --notest_runner_fail_fast
 # @option --test_sharding_strategy[explicit|disabled]
-# @option --test_size_filters <comma-separated list of values: small|medium|large|enormous>
+# @option --test_size_filters[small|medium|large|enormous]  comma-separated list of values
 # @option --test_tag_filters <value>             comma-separated list of options
-# @option --test_timeout_filters <comma-separated list of values: short|moderate|long|eternal>
+# @option --test_timeout_filters[short|moderate|long|eternal]  comma-separated list of values
 # @option --tls_certificate <string>
 # @option --tls_client_certificate <string>
 # @option --tls_client_key <string>
@@ -8499,8 +8499,8 @@ mod() {
 # @flag --noincompatible_require_ctx_in_configure_features
 # @flag --interface_shared_objects
 # @flag --nointerface_shared_objects
-# @option --ios_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
-# @option --macos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_sdk_version <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --macos_sdk_version <value>            a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --minimum_os_version <string>
 # @option --platform_mappings <path>             a relative path
 # @option --platforms[`_choice_target`] <label>
@@ -8509,8 +8509,8 @@ mod() {
 # @option --python_path <string>
 # @option --python_top[`_choice_target`] <label>
 # @option --target_platform_fallback[`_choice_target`] <label>
-# @option --tvos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
-# @option --watchos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_sdk_version <value>             a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --watchos_sdk_version <value>          a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xcode_version <string>
 # @option --xcode_version_config[`_choice_target`] <label>
 # @flag --apple_enable_auto_dsym_dbg
@@ -8559,7 +8559,7 @@ mod() {
 # @option --android_manifest_merger_order[alphabetical|alphabetical_by_configuration|dependency]
 # @flag --android_resource_shrinking
 # @flag --noandroid_resource_shrinking
-# @option --apple_bitcode <'mode'|'platform=mode'|where 'mode' is none|embedded_markers|embedded|and 'platform' is ios|watchos|tvos|macos|catalyst> <may> <be> <used> <multiple> <times>
+# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, watchos, tvos, macos or catalyst may be used multiple times
 # @option --aspects <value>                      comma-separated list of options may be used multiple times
 # @option --bep_maximum_open_remote_upload_files <integer>
 # @option --build_python_zip[auto|yes|no] <value>  a tri-state
@@ -8623,7 +8623,7 @@ mod() {
 # @option --host_features <string>               may be used multiple times
 # @option --host_force_python[PY2|PY3]
 # @option --host_linkopt <string>                may be used multiple times
-# @option --host_macos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --host_macos_minimum_os <value>        a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --host_per_file_copt <path>            a comma-separated list of regex expressions with prefix '-' specifying excluded paths followed by an @ and a comma separated list of options may be used multiple times
 # @option --host_swiftcopt <string>              may be used multiple times
 # @flag --incompatible_avoid_conflict_dlls
@@ -8637,7 +8637,7 @@ mod() {
 # @flag --instrument_test_targets
 # @flag --noinstrument_test_targets
 # @option --instrumentation_filter <path>        a comma-separated list of regex expressions with prefix '-' specifying excluded paths
-# @option --ios_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_minimum_os <value>               a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --ios_multi_cpus <value>               comma-separated list of options may be used multiple times
 # @flag --legacy_whole_archive
 # @flag --nolegacy_whole_archive
@@ -8645,7 +8645,7 @@ mod() {
 # @option --ltobackendopt <string>               may be used multiple times
 # @option --ltoindexopt <string>                 may be used multiple times
 # @option --macos_cpus <value>                   comma-separated list of options may be used multiple times
-# @option --macos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --macos_minimum_os <value>             a dotted version (for example '2.3' or '3.3alpha2.4')
 # @flag --objc_debug_with_GLIBCXX
 # @flag --noobjc_debug_with_GLIBCXX
 # @flag --objc_enable_binary_stripping
@@ -8672,9 +8672,9 @@ mod() {
 # @option --swiftcopt <string>                   may be used multiple times
 # @option --symlink_prefix <string>
 # @option --tvos_cpus <value>                    comma-separated list of options may be used multiple times
-# @option --tvos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_minimum_os <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --watchos_cpus <value>                 comma-separated list of options may be used multiple times
-# @option --watchos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --watchos_minimum_os <value>           a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xbinary_fdo[`_choice_target`] <label>
 # @option --auto_cpu_environment_group[`_choice_target`] <label>
 # @flag --check_bzl_visibility
@@ -8832,7 +8832,7 @@ mod() {
 # @flag --ios_memleaks
 # @flag --noios_memleaks
 # @option --ios_simulator_device <string>
-# @option --ios_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_simulator_version <value>        a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --local_test_jobs[auto|HOST_CPUS|HOST_RAM] <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
 # @option --runs_per_test <value>                a positive integer or test_regex@runs.
 # @option --test_env <value>                     a 'name=value' assignment with an optional value part may be used multiple times
@@ -8842,9 +8842,9 @@ mod() {
 # @option --test_timeout <value>                 a single integer or comma-separated list of 4 integers
 # @option --test_tmpdir <path>
 # @option --tvos_simulator_device <string>
-# @option --tvos_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_simulator_version <value>       a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --watchos_simulator_device <string>
-# @option --watchos_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --watchos_simulator_version <value>    a dotted version (for example '2.3' or '3.3alpha2.4')
 # @flag --zip_undeclared_test_outputs
 # @flag --nozip_undeclared_test_outputs
 # @option --allow_yanked_versions <string>       may be used multiple times
@@ -9192,9 +9192,9 @@ mod() {
 # @flag --test_runner_fail_fast
 # @flag --notest_runner_fail_fast
 # @option --test_sharding_strategy[explicit|disabled]
-# @option --test_size_filters <comma-separated list of values: small|medium|large|enormous>
+# @option --test_size_filters[small|medium|large|enormous]  comma-separated list of values
 # @option --test_tag_filters <value>             comma-separated list of options
-# @option --test_timeout_filters <comma-separated list of values: short|moderate|long|eternal>
+# @option --test_timeout_filters[short|moderate|long|eternal]  comma-separated list of values
 # @option --tls_certificate <string>
 # @option --tls_client_certificate <string>
 # @option --tls_client_key <string>
@@ -9728,8 +9728,8 @@ query() {
 # @flag --noincompatible_require_ctx_in_configure_features
 # @flag --interface_shared_objects
 # @flag --nointerface_shared_objects
-# @option --ios_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
-# @option --macos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_sdk_version <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --macos_sdk_version <value>            a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --minimum_os_version <string>
 # @option --platform_mappings <path>             a relative path
 # @option --platforms[`_choice_target`] <label>
@@ -9738,8 +9738,8 @@ query() {
 # @option --python_path <string>
 # @option --python_top[`_choice_target`] <label>
 # @option --target_platform_fallback[`_choice_target`] <label>
-# @option --tvos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
-# @option --watchos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_sdk_version <value>             a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --watchos_sdk_version <value>          a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xcode_version <string>
 # @option --xcode_version_config[`_choice_target`] <label>
 # @flag --apple_enable_auto_dsym_dbg
@@ -9788,7 +9788,7 @@ query() {
 # @option --android_manifest_merger_order[alphabetical|alphabetical_by_configuration|dependency]
 # @flag --android_resource_shrinking
 # @flag --noandroid_resource_shrinking
-# @option --apple_bitcode <'mode'|'platform=mode'|where 'mode' is none|embedded_markers|embedded|and 'platform' is ios|watchos|tvos|macos|catalyst> <may> <be> <used> <multiple> <times>
+# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, watchos, tvos, macos or catalyst may be used multiple times
 # @option --aspects <value>                      comma-separated list of options may be used multiple times
 # @option --bep_maximum_open_remote_upload_files <integer>
 # @option --build_python_zip[auto|yes|no] <value>  a tri-state
@@ -9852,7 +9852,7 @@ query() {
 # @option --host_features <string>               may be used multiple times
 # @option --host_force_python[PY2|PY3]
 # @option --host_linkopt <string>                may be used multiple times
-# @option --host_macos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --host_macos_minimum_os <value>        a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --host_per_file_copt <path>            a comma-separated list of regex expressions with prefix '-' specifying excluded paths followed by an @ and a comma separated list of options may be used multiple times
 # @option --host_swiftcopt <string>              may be used multiple times
 # @flag --incompatible_avoid_conflict_dlls
@@ -9866,7 +9866,7 @@ query() {
 # @flag --instrument_test_targets
 # @flag --noinstrument_test_targets
 # @option --instrumentation_filter <path>        a comma-separated list of regex expressions with prefix '-' specifying excluded paths
-# @option --ios_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_minimum_os <value>               a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --ios_multi_cpus <value>               comma-separated list of options may be used multiple times
 # @flag --legacy_whole_archive
 # @flag --nolegacy_whole_archive
@@ -9874,7 +9874,7 @@ query() {
 # @option --ltobackendopt <string>               may be used multiple times
 # @option --ltoindexopt <string>                 may be used multiple times
 # @option --macos_cpus <value>                   comma-separated list of options may be used multiple times
-# @option --macos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --macos_minimum_os <value>             a dotted version (for example '2.3' or '3.3alpha2.4')
 # @flag --objc_debug_with_GLIBCXX
 # @flag --noobjc_debug_with_GLIBCXX
 # @flag --objc_enable_binary_stripping
@@ -9902,9 +9902,9 @@ query() {
 # @option --swiftcopt <string>                   may be used multiple times
 # @option --symlink_prefix <string>
 # @option --tvos_cpus <value>                    comma-separated list of options may be used multiple times
-# @option --tvos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_minimum_os <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --watchos_cpus <value>                 comma-separated list of options may be used multiple times
-# @option --watchos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --watchos_minimum_os <value>           a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xbinary_fdo[`_choice_target`] <label>
 # @option --auto_cpu_environment_group[`_choice_target`] <label>
 # @flag --check_bzl_visibility
@@ -10062,7 +10062,7 @@ query() {
 # @flag --ios_memleaks
 # @flag --noios_memleaks
 # @option --ios_simulator_device <string>
-# @option --ios_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_simulator_version <value>        a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --local_test_jobs[auto|HOST_CPUS|HOST_RAM] <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
 # @option --runs_per_test <value>                a positive integer or test_regex@runs.
 # @option --test_env <value>                     a 'name=value' assignment with an optional value part may be used multiple times
@@ -10072,9 +10072,9 @@ query() {
 # @option --test_timeout <value>                 a single integer or comma-separated list of 4 integers
 # @option --test_tmpdir <path>
 # @option --tvos_simulator_device <string>
-# @option --tvos_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_simulator_version <value>       a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --watchos_simulator_device <string>
-# @option --watchos_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --watchos_simulator_version <value>    a dotted version (for example '2.3' or '3.3alpha2.4')
 # @flag --zip_undeclared_test_outputs
 # @flag --nozip_undeclared_test_outputs
 # @option --allow_yanked_versions <string>       may be used multiple times
@@ -10421,9 +10421,9 @@ query() {
 # @flag --test_runner_fail_fast
 # @flag --notest_runner_fail_fast
 # @option --test_sharding_strategy[explicit|disabled]
-# @option --test_size_filters <comma-separated list of values: small|medium|large|enormous>
+# @option --test_size_filters[small|medium|large|enormous]  comma-separated list of values
 # @option --test_tag_filters <value>             comma-separated list of options
-# @option --test_timeout_filters <comma-separated list of values: short|moderate|long|eternal>
+# @option --test_timeout_filters[short|moderate|long|eternal]  comma-separated list of values
 # @option --tls_certificate <string>
 # @option --tls_client_certificate <string>
 # @option --tls_client_key <string>
@@ -11130,8 +11130,8 @@ sync() {
 # @flag --noincompatible_require_ctx_in_configure_features
 # @flag --interface_shared_objects
 # @flag --nointerface_shared_objects
-# @option --ios_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
-# @option --macos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_sdk_version <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --macos_sdk_version <value>            a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --minimum_os_version <string>
 # @option --platform_mappings <path>             a relative path
 # @option --platforms[`_choice_target`] <label>
@@ -11140,8 +11140,8 @@ sync() {
 # @option --python_path <string>
 # @option --python_top[`_choice_target`] <label>
 # @option --target_platform_fallback[`_choice_target`] <label>
-# @option --tvos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
-# @option --watchos_sdk_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_sdk_version <value>             a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --watchos_sdk_version <value>          a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xcode_version <string>
 # @option --xcode_version_config[`_choice_target`] <label>
 # @flag --apple_enable_auto_dsym_dbg
@@ -11190,7 +11190,7 @@ sync() {
 # @option --android_manifest_merger_order[alphabetical|alphabetical_by_configuration|dependency]
 # @flag --android_resource_shrinking
 # @flag --noandroid_resource_shrinking
-# @option --apple_bitcode <'mode'|'platform=mode'|where 'mode' is none|embedded_markers|embedded|and 'platform' is ios|watchos|tvos|macos|catalyst> <may> <be> <used> <multiple> <times>
+# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, watchos, tvos, macos or catalyst may be used multiple times
 # @option --aspects <value>                      comma-separated list of options may be used multiple times
 # @option --bep_maximum_open_remote_upload_files <integer>
 # @option --build_python_zip[auto|yes|no] <value>  a tri-state
@@ -11254,7 +11254,7 @@ sync() {
 # @option --host_features <string>               may be used multiple times
 # @option --host_force_python[PY2|PY3]
 # @option --host_linkopt <string>                may be used multiple times
-# @option --host_macos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --host_macos_minimum_os <value>        a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --host_per_file_copt <path>            a comma-separated list of regex expressions with prefix '-' specifying excluded paths followed by an @ and a comma separated list of options may be used multiple times
 # @option --host_swiftcopt <string>              may be used multiple times
 # @flag --incompatible_avoid_conflict_dlls
@@ -11268,7 +11268,7 @@ sync() {
 # @flag --instrument_test_targets
 # @flag --noinstrument_test_targets
 # @option --instrumentation_filter <path>        a comma-separated list of regex expressions with prefix '-' specifying excluded paths
-# @option --ios_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_minimum_os <value>               a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --ios_multi_cpus <value>               comma-separated list of options may be used multiple times
 # @flag --legacy_whole_archive
 # @flag --nolegacy_whole_archive
@@ -11276,7 +11276,7 @@ sync() {
 # @option --ltobackendopt <string>               may be used multiple times
 # @option --ltoindexopt <string>                 may be used multiple times
 # @option --macos_cpus <value>                   comma-separated list of options may be used multiple times
-# @option --macos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --macos_minimum_os <value>             a dotted version (for example '2.3' or '3.3alpha2.4')
 # @flag --objc_debug_with_GLIBCXX
 # @flag --noobjc_debug_with_GLIBCXX
 # @flag --objc_enable_binary_stripping
@@ -11303,9 +11303,9 @@ sync() {
 # @option --swiftcopt <string>                   may be used multiple times
 # @option --symlink_prefix <string>
 # @option --tvos_cpus <value>                    comma-separated list of options may be used multiple times
-# @option --tvos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_minimum_os <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --watchos_cpus <value>                 comma-separated list of options may be used multiple times
-# @option --watchos_minimum_os <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --watchos_minimum_os <value>           a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xbinary_fdo[`_choice_target`] <label>
 # @option --auto_cpu_environment_group[`_choice_target`] <label>
 # @flag --check_bzl_visibility
@@ -11463,7 +11463,7 @@ sync() {
 # @flag --ios_memleaks
 # @flag --noios_memleaks
 # @option --ios_simulator_device <string>
-# @option --ios_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --ios_simulator_version <value>        a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --local_test_jobs[auto|HOST_CPUS|HOST_RAM] <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
 # @option --runs_per_test <value>                a positive integer or test_regex@runs.
 # @option --test_env <value>                     a 'name=value' assignment with an optional value part may be used multiple times
@@ -11473,9 +11473,9 @@ sync() {
 # @option --test_timeout <value>                 a single integer or comma-separated list of 4 integers
 # @option --test_tmpdir <path>
 # @option --tvos_simulator_device <string>
-# @option --tvos_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --tvos_simulator_version <value>       a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --watchos_simulator_device <string>
-# @option --watchos_simulator_version <a dotted version (for example '2.3'|'3.3alpha2.4')>
+# @option --watchos_simulator_version <value>    a dotted version (for example '2.3' or '3.3alpha2.4')
 # @flag --zip_undeclared_test_outputs
 # @flag --nozip_undeclared_test_outputs
 # @option --allow_yanked_versions <string>       may be used multiple times
@@ -11828,9 +11828,9 @@ sync() {
 # @flag --test_runner_fail_fast
 # @flag --notest_runner_fail_fast
 # @option --test_sharding_strategy[explicit|disabled]
-# @option --test_size_filters <comma-separated list of values: small|medium|large|enormous>
+# @option --test_size_filters[small|medium|large|enormous]  comma-separated list of values
 # @option --test_tag_filters <value>             comma-separated list of options
-# @option --test_timeout_filters <comma-separated list of values: short|moderate|long|eternal>
+# @option --test_timeout_filters[short|moderate|long|eternal]  comma-separated list of values
 # @option --tls_certificate <string>
 # @option --tls_client_certificate <string>
 # @option --tls_client_key <string>
