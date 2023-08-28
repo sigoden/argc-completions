@@ -35,7 +35,7 @@ build-info() {
 # {{ caddy completion
 # @cmd Generate completion script
 # @flag -h --help    help for completion
-# @arg cmd[bash|zsh|fish|powershell]
+# @arg enum[bash|zsh|fish|powershell]
 completion() {
     :;
 }

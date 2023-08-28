@@ -27,7 +27,7 @@
 # @option -c --config <file>      application config file
 # @flag -q --quiet                suppress all logging output
 # @option -v --verbose <count>    increase verbosity (-v = info, -vv = debug)
-# @arg cmd[bash|zsh|fish]
+# @arg enum[bash|zsh|fish]
 completion() {
     :;
 }

@@ -187,13 +187,17 @@ function parseArgument(words1, descVal, choicesVal) {
     parseNotation(value, extra)
     notation = extra["notation"]
     if (match(notation, /^[a-z0-9]([A-Za-z0-9_-]+)(\|[a-z0-9]([A-Za-z0-9_-]+)){2,}$/)) {
-        name = "cmd"
+        name = "enum"
         choicesVal = "[" notation "]"
-        notation = "cmd"
+        notation = name
     } else if (notation == "true|false") {
         name = "bool"
         choicesVal = "[" notation "]"
         notation = "bool"
+    } else if (match(value, /^\{[a-z0-9]([A-Za-z0-9_-]+)(\|[a-z0-9]([A-Za-z0-9_-]+))+\}$/)) {
+        name = "enum"
+        choicesVal = "[" notation "]"
+        notation = name
     } else {
         name = getArgName(notation)
     }

@@ -20,6 +20,8 @@
 # @flag --no-track                                By default, binstall keeps track of the installed packages with metadata files stored in the installation root directory.
 # @option --install-path <INSTALL_PATH>           Install binaries in a custom location.
 # @option --root                                  Install binaries with a custom cargo root.
+# @option --index                                 The URL of the registry index to use.
+# @option --registry                              Name of the registry to use.
 # @flag --locked                                  This option will be passed through to all `cargo-install` invocations.
 # @flag --force                                   Force a crate to be installed even if it is already installed
 # @option --min-tls-version[1.2|1.3] <VERSION>    Require a minimum TLS version from remote endpoints.
@@ -28,6 +30,7 @@
 # @option --github-token <GITHUB_TOKEN>           Provide the github token for accessing the restful API of api.github.com
 # @flag -V                                        Print version information
 # @option --log-level <LEVEL>                     Utility log level
+# @flag -v --verbose                              Used with `--version` to print out verbose information
 # @flag -q --quiet                                Equivalent to setting `log_level` to `off`.
 # @arg crate-version* <crate[@version]>
 

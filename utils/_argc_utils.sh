@@ -792,15 +792,16 @@ BEGIN {
 # _argc_util_cache 86400 _choice_fn
 # ```
 _argc_util_cache() {
-    local cache_dir=/tmp/argc_completions_cache
-    local cache_key="$(printf "%s_" "${argc__args[@]:0:$(( $argc__cmd_arg_index + 1 ))}")"
+    local cache_dir cache_key cache_file
+    cache_dir=/tmp/argc_completions_cache
+    cache_key="$(printf "%s_" "${argc__args[@]:0:$(( $argc__cmd_arg_index + 1 ))}")"
     cache_key="${cache_key}_$2"
     if [[ -n "$3" ]]; then
         local key="$(echo "$3" | md5sum)"
         key="${key%% *}"
         cache_key="${cache_key}_$key"
     fi
-    local cache_file="$cache_dir/$cache_key"
+    cache_file="$cache_dir/$cache_key"
     if [[ -f "$cache_file" ]]; then
         if [[ "$ARGC_OS" == "macos" ]]; then
           mod_time=$(command stat -f "%Sm" -t "%s" "$cache_file")

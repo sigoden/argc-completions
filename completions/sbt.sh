@@ -95,7 +95,7 @@ set() {
 
 # {{ sbt session
 # @cmd Manipulates session settings.
-# @arg cmd[clear|clear-all|list|list-all|remove|save|save-all]
+# @arg enum[clear|clear-all|list|list-all|remove|save|save-all]
 session() {
     :;
 }
@@ -103,7 +103,7 @@ session() {
 
 # {{ sbt inspect
 # @cmd Prints the value for 'key', the defining scope, delegates, related definitions, and dependencies.
-# @arg cmd[tree|uses|definitions|actual]
+# @arg enum[tree|uses|definitions|actual]
 # @arg key!
 inspect() {
     :;
