@@ -1,21 +1,19 @@
 _patch_help() { 
     _prepare_workspace() {
-        base_dir="${ARGC_COMPLETIONS_GEN:-"/tmp/argc_completions_gen"}"
-        workspace_name="$1-completion" 
-        workspace_dir="$base_dir/$workspace_name"
+        _patch_help_prepare_workspace $1
         if [[ ! -d "$workspace_dir" ]]; then
             mkdir -p "$base_dir" && \
             cd "$base_dir" && \
             ng new "$1-completion" --interactive=false -g >/dev/null 2>&1
         fi
-        echo "$workspace_dir"
+        cd "$workspace_dir"
     }
     if [[ "$*" == "ng" ]] \
     || [[ "$*" == "ng new" ]] \
     ; then
         TERM_WIDTH=200 _patch_help_run_help $@ | _patch_help_preprocess_yargs
     else
-        (cd "$(_prepare_workspace $1)" && TERM_WIDTH=200 _patch_help_run_help $@) | _patch_help_preprocess_yargs
+        (_prepare_workspace $1 && TERM_WIDTH=200 _patch_help_run_help $@) | _patch_help_preprocess_yargs
     fi
 }
 

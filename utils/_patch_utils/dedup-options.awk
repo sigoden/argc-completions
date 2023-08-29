@@ -14,8 +14,18 @@ BEGIN {
             continue
         }
         optionName = extraOptionName($0)
+        matchOption = 0
         nameMatcher = " " pattern "[^A-Za-z0-9_-]"
         if (optionName ~ nameMatcher) {
+            matchOption = 1
+        }
+        if (matchOption != 1) {
+            nameMatcher = " " pattern "-[^A-Za-z0-9_-]"
+            if (optionName ~ nameMatcher) {
+                matchOption = 1
+            }
+        }
+        if (matchOption == 1) {
             DUPS_SIZE[i] = DUPS_SIZE[i] + 1
             DUPS[i, DUPS_SIZE[i]] = LINES_SIZE
         }

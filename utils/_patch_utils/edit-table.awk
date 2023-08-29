@@ -163,6 +163,7 @@ function editOption(line,       i) {
                 return
             }
             if (notation != "") {
+                sub(/(\{|\[)\S+\s*$/, "", optionName)
                 optionBody = optionName notation " "
             }
             if (desc != "") {

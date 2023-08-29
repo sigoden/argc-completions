@@ -73,6 +73,13 @@ _patch_help_preprocess_2cols() {
     sed 's/^  \(-\S\{1,2\} .*\) \(-\S\{1,2\} .*\)/  \1\n  \2/'
 }
 
+# Prepare workspace dir
+_patch_help_prepare_workspace() {
+    base_dir="${ARGC_COMPLETIONS_GEN:-"/tmp/argc_completions_gen"}"
+    workspace_name="$1-completion" 
+    workspace_dir="$base_dir/$workspace_name"
+}
+
 # Preprocess commands whose help text has ascii color.
 _patch_help_preprocess_color() {
     gawk '{gsub(/[\x1B\x9B][[\]()#;?]*((((;[-a-zA-Z0-9\/#&.:=?%@~_]+)*|[a-zA-Z0-9]+(;[-a-zA-Z0-9\/#&.:=?%@~_]*)*)?\x07)|(([0-9]{1,4}(;[0-9]{0,4})*)?[0-9A-PR-TZcf-ntqry=><~]))/, ""); gsub(/.\x08/, ""); print}'

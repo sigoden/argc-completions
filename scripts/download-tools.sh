@@ -16,7 +16,7 @@ download() {
     fi
     mkdir -p "$install_dir"
 
-    tmp_dir=/tmp/argc-completions-bins
+    tmp_dir=/tmp/argc_completions_bins
     mkdir -p "$tmp_dir"
 
     _os=$(_detect_os)
