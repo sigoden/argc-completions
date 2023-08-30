@@ -133,6 +133,9 @@ Options:
 
     -<alertname>  disable alert <alertname>
     --<alertname> treat <alertname> as non-fatal
+
+    --block-size=SIZE, -B    force a fixed checksum block-size
+    --output FORMAT, -o FORMAT   Render output using given FORMAT. Valid options are 'json' or 'yaml'
 -------
 
 Future runs of this module will trigger no downloads or compilation unless

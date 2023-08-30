@@ -74,15 +74,20 @@ function parseOptions(words1, descVal, choicesVal) {
     split("", shorts)
     split("", longs)
     split("", longsDedup)
-    split("", notations)
+    split("", notationGroup)
+    split("", notationListSize)
     extra["multiple"] = 0
     notation = ""
     word = ""
     name = ""
+    notationGroupNum = 0
+    notationListNum = 0
     for (i in words1) {
         word = words1[i]
+        notation = ""
         if (index(word, "--") == 1) {
-            delete notations
+            notationGroupNum += 1
+            notationListNum = 0
             word = substr(word, 3)
             if (index(word, "[no-]")) {
                 word = substr(word, 6)
@@ -106,7 +111,8 @@ function parseOptions(words1, descVal, choicesVal) {
                 notation = substr(word, length(name) + 1)
             }
         } else if (index(word, "-") == 1) {
-            delete notations
+            notationGroupNum += 1
+            notationListNum = 0
             word = substr(word, 2)
             if (length(word) > 1) {
                 name = extractName(word)
@@ -129,12 +135,27 @@ function parseOptions(words1, descVal, choicesVal) {
         if (length(notation) > 0) {
             parseNotation(notation, extra)
             if (extra["notation"] != "") {
-                notations[length(notations) + 1] = extra["notation"]
+                notationListNum += 1
+                notationListSize[notationGroupNum] = notationListNum
+                notationGroup[notationGroupNum, notationListNum] = extra["notation"]
             }
         }
     }
     shortsLen = length(shorts)
     longsLen = length(longs)
+
+    split("", notations)
+    for (j = notationGroupNum; j > 0; j--) {
+        if (notationListSize[j] > 0) {
+            if (j == notationGroupNum - 1 && notationListSize[j] == 1 && match(notationGroup[j, 1], /^(or|\/|\|)$/)) {
+                break
+            }
+            for (k = 1; k <= notationListSize[j]; k++) {
+                notations[length(notations) + 1] = notationGroup[j, k]
+            }
+            break
+        }
+    }
 
     modifierVal = ""
     if (extra["multiple"] == 1 && (choicesVal == "" || substr(choicesVal, 0, 1) == "[")) {

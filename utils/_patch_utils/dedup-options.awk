@@ -20,7 +20,7 @@ BEGIN {
             matchOption = 1
         }
         if (matchOption != 1) {
-            nameMatcher = " " pattern "-[^A-Za-z0-9_-]"
+            nameMatcher = " " pattern "[-=][^A-Za-z0-9_-]"
             if (optionName ~ nameMatcher) {
                 matchOption = 1
             }

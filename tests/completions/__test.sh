@@ -86,6 +86,8 @@
 # @option -pkgdir <dir>                            install and load all packages from dir instead of the usual locations.
 # @option -ldflags <[pattern=]arg list>            arguments to pass on each go tool link invocation.
 # @option --forcearch <ARCH>                       Force the use of an architecture
+# @option -B --block-size <SIZE>                   force a fixed checksum block-size
+# @option -o --output <FORMAT>                     Render output using given FORMAT.
 # @flag --incremental                              show blame entries as we find them, incrementally
 # @flag --line-porcelain                           show porcelain format with per-line commit information
 # @arg arg1!
@@ -194,7 +196,7 @@ cmd5() {
 
 # {{ __test cmd6
 # @cmd
-# @arg cmd[add|list|rm]
+# @arg enum[add|list|rm]
 # @arg args
 cmd6() {
     :;

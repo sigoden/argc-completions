@@ -8,7 +8,7 @@
 # @flag -C --print-config                        print the builtin default config to stdout e.g. 'conky -C > ~/.conkyrc' will create a new default config
 # @flag -d --daemonize                           daemonize, fork to background
 # @flag -h --help                                help
-# @option -a --alignment[`_choice_alignment`]    text alignment on screen, {top,bottom,middle}_{left,right,middle}
+# @option -a --alignment[`_choice_alignment`]    text alignment on screen
 # @option -X --display                           X11 display to use
 # @option -m --xinerama-head <N>                 Xinerama monitor index (0=first)
 # @option -f --font                              font to use

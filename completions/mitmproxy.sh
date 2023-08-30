@@ -1,59 +1,59 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @flag -h --help                                show this help message and exit
-# @flag --version                                show version number and exit
-# @flag --options                                Show all options and their default values
-# @flag --commands                               Show all commands and their signatures
+# @flag -h --help                            show this help message and exit
+# @flag --version                            show version number and exit
+# @flag --options                            Show all options and their default values
+# @flag --commands                           Show all commands and their signatures
 # @option --set*[`_choice_option`] <option[=value]>  Set an option.
-# @flag -q --quiet                               Quiet.
-# @flag -v --verbose                             Increase log verbosity.
-# @option -m --mode[`_choice_mode`] <MODE> <MODE>  The proxy server type(s) to spawn.
+# @flag -q --quiet                           Quiet.
+# @flag -v --verbose                         Increase log verbosity.
+# @option -m --mode[`_choice_mode`]          The proxy server type(s) to spawn.
 # @flag --no-anticache
-# @flag --anticache                              Strip out request headers that might cause the server to return 304-not-modified.
+# @flag --anticache                          Strip out request headers that might cause the server to return 304-not-modified.
 # @flag --no-showhost
-# @flag --showhost                               Use the Host header to construct URLs for display.
-# @option -r --rfile <PATH> <PATH>               Read flows from file.
-# @option -s --scripts <SCRIPT> <SCRIPT>         Execute a script.
-# @option --stickycookie <FILTER>                Set sticky cookie filter.
-# @option --stickyauth <FILTER>                  Set sticky auth filter.
-# @option -w --save-stream-file[`_choice_appendable_file`] <PATH> <PATH>  Stream flows to file as they arrive.
+# @flag --showhost                           Use the Host header to construct URLs for display.
+# @option -r --rfile <PATH>                  Read flows from file.
+# @option -s --scripts <SCRIPT>              Execute a script.
+# @option --stickycookie <FILTER>            Set sticky cookie filter.
+# @option --stickyauth <FILTER>              Set sticky auth filter.
+# @option -w --save-stream-file[`_choice_appendable_file`] <PATH>  Stream flows to file as they arrive.
 # @flag --no-anticomp
-# @flag --anticomp                               Try to convince servers to send us un-compressed data.
+# @flag --anticomp                           Try to convince servers to send us un-compressed data.
 # @option --console-layout[horizontal|single|vertical]  Console layout.
 # @flag --no-console-layout-headers
-# @flag --console-layout-headers                 Show layout component headers
-# @option --listen-host <HOST>                   Address to bind proxy server(s) to (may be overridden for individual modes, see `mode`).
-# @option -p --listen-port <PORT> <PORT>         Port to bind proxy server(s) to (may be overridden for individual modes, see `mode`).
+# @flag --console-layout-headers             Show layout component headers
+# @option --listen-host <HOST>               Address to bind proxy server(s) to (may be overridden for individual modes, see `mode`).
+# @option -p --listen-port <PORT>            Port to bind proxy server(s) to (may be overridden for individual modes, see `mode`).
 # @flag -n --no-server
-# @flag --server                                 Start a proxy server.
-# @option --ignore-hosts <HOST>                  Ignore host and forward all traffic without processing it.
-# @option --allow-hosts <HOST>                   Opposite of --ignore-hosts.
-# @option --tcp-hosts <HOST>                     Generic TCP SSL proxy mode for all hosts that match the pattern.
-# @option --upstream-auth <USER:PASS>            Add HTTP Basic authentication to upstream proxy and reverse proxy requests.
-# @option --proxyauth <SPEC>                     Require proxy authentication.
+# @flag --server                             Start a proxy server.
+# @option --ignore-hosts <HOST>              Ignore host and forward all traffic without processing it.
+# @option --allow-hosts <HOST>               Opposite of --ignore-hosts.
+# @option --tcp-hosts <HOST>                 Generic TCP SSL proxy mode for all hosts that match the pattern.
+# @option --upstream-auth <USER:PASS>        Add HTTP Basic authentication to upstream proxy and reverse proxy requests.
+# @option --proxyauth <SPEC>                 Require proxy authentication.
 # @flag --no-rawtcp
-# @flag --rawtcp                                 Enable/disable raw TCP connections.
+# @flag --rawtcp                             Enable/disable raw TCP connections.
 # @flag --no-http2
-# @flag --http2                                  Enable/disable HTTP/2 support.
-# @option --certs*[`_choice_cert`] <SPEC>        SSL certificates of the form "[domain=]path".
-# @option --cert-passphrase <PASS>               Passphrase for decrypting the private key provided in the --cert option.
+# @flag --http2                              Enable/disable HTTP/2 support.
+# @option --certs*[`_choice_cert`] <SPEC>    SSL certificates of the form "[domain=]path".
+# @option --cert-passphrase <PASS>           Passphrase for decrypting the private key provided in the --cert option.
 # @flag --no-ssl-insecure
-# @flag -k --ssl-insecure                        Do not verify upstream server SSL/TLS certificates.
-# @option -C --client-replay <PATH> <PATH>       Replay client requests from a saved file.
-# @option -S --server-replay <PATH> <PATH>       Replay server responses from a saved file.
+# @flag -k --ssl-insecure                    Do not verify upstream server SSL/TLS certificates.
+# @option -C --client-replay <PATH>          Replay client requests from a saved file.
+# @option -S --server-replay <PATH>          Replay server responses from a saved file.
 # @flag --no-server-replay-kill-extra
-# @flag --server-replay-kill-extra               Kill extra requests during replay (for which no replayable response was found).
+# @flag --server-replay-kill-extra           Kill extra requests during replay (for which no replayable response was found).
 # @flag --no-server-replay-nopop
-# @flag --server-replay-nopop                    Don't remove flows from server replay state after use.
+# @flag --server-replay-nopop                Don't remove flows from server replay state after use.
 # @flag --no-server-replay-refresh
-# @flag --server-replay-refresh                  Refresh server replay responses by adjusting date, expires and last-modified headers, as well as adjusting cookie expiration.
-# @option -M --map-remote <PATTERN> <PATTERN>    Map remote resources to another remote URL using a pattern of the form "[/flow-filter]/url-regex/replacement", where the separator can be any character.
-# @option --map-local <PATTERN>                  Map remote resources to a local file using a pattern of the form "[/flow-filter]/url-regex/file-or-directory-path", where the separator can be any character.
-# @option -B --modify-body*[`_choice_modify_body`] <PATTERN> <PATTERN>  Replacement pattern of the form "[/flow-filter]/regex/[@]replacement", where the separator can be any character.
-# @option -H --modify-headers*[`_choice_modify_headers`] <PATTERN> <PATTERN>  Header modify pattern of the form "[/flow-filter]/header-name/[@]header-value", where the separator can be any character.
-# @option --intercept <FILTER>                   Intercept filter expression.
-# @option --view-filter <FILTER>                 Limit the view to matching flows.
+# @flag --server-replay-refresh              Refresh server replay responses by adjusting date, expires and last-modified headers, as well as adjusting cookie expiration.
+# @option -M --map-remote <PATTERN>          Map remote resources to another remote URL using a pattern of the form "[/flow-filter]/url-regex/replacement", where the separator can be any character.
+# @option --map-local <PATTERN>              Map remote resources to a local file using a pattern of the form "[/flow-filter]/url-regex/file-or-directory-path", where the separator can be any character.
+# @option -B --modify-body*[`_choice_modify_body`] <PATTERN>  Replacement pattern of the form "[/flow-filter]/regex/[@]replacement", where the separator can be any character.
+# @option -H --modify-headers*[`_choice_modify_headers`] <PATTERN>  Header modify pattern of the form "[/flow-filter]/header-name/[@]header-value", where the separator can be any character.
+# @option --intercept <FILTER>               Intercept filter expression.
+# @option --view-filter <FILTER>             Limit the view to matching flows.
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 

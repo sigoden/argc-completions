@@ -20,8 +20,8 @@
 # @flag -T --traditional                        The -T option causes "gprof" to print its output in "traditional" BSD style.
 # @option -w --width <width>                    Sets width of output lines to width.
 # @flag -x --all-lines                          This option affects annotated source output only.
-# @flag --demangle                              These options control whether C++ symbol names should be demangled when printing output.
-# @flag --no-demangle                           These options control whether C++ symbol names should be demangled when printing output.
+# @option --demangle <style>                    These options control whether C++ symbol names should be demangled when printing output.
+# @option --no-demangle <style>                 These options control whether C++ symbol names should be demangled when printing output.
 # @flag -a --no-static                          The -a option causes "gprof" to suppress the printing of statically declared (private) functions.
 # @flag -c --static-call-graph                  The -c option causes the call graph of the program to be augmented by a heuristic which examines the text space of the object file and identifies function calls in the binary machine code.
 # @flag -D --ignore-non-functions               The -D option causes "gprof" to ignore symbols which are not known to be functions.

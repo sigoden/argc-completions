@@ -43,7 +43,7 @@
 # @flag -H --with-filename                         Always print the filename with output lines.
 # @flag -h --no-filename                           Never print filenames with output lines.
 # @flag -+ --heading                               Group matches per file.
-# @option -? --help <WHAT> <WHAT>                  Display a help message, specifically on WHAT when specified.
+# @option -? --help <WHAT>                         Display a help message, specifically on WHAT when specified.
 # @option --hexdump <[1-8][a][bch][A[NUM]][B[NUM]][C[NUM]]>  Output matches in 1 to 8 columns of 8 hexadecimal octets.
 # @flag -. --hidden                                Search hidden files and directories.
 # @flag --hyperlink                                Hyperlinks are enabled for file names when colors are enabled.

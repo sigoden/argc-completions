@@ -4,6 +4,7 @@ _patch_help() {
         -e  '/^ -y/ d' \
         -e 's/-M, Z/-M   /' \
         -e 's/-w, w/-w   /' \
+        -e 's/-V, V, --version/-V, --version/' \
     
     cat <<-'EOF'
 Miss Options:

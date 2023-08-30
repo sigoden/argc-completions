@@ -1,44 +1,44 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @option -0-* <octal>                    specify record separator (\0, if no argument)
-# @flag -a                                autosplit mode with -n or -p (splits $_ into $F)
-# @flag -c                                check syntax only
-# @option -C-* <directory>                cd to directory before executing your script
-# @flag -d --debug                        set debugging flags (set $DEBUG to true)
-# @option -e <command>                    one line of script.
+# @option -0-* <octal>                             specify record separator (\0, if no argument)
+# @flag -a                                         autosplit mode with -n or -p (splits $_ into $F)
+# @flag -c                                         check syntax only
+# @option -C-* <directory>                         cd to directory before executing your script
+# @flag -d --debug                                 set debugging flags (set $DEBUG to true)
+# @option -e <command>                             one line of script.
 # @option -E --encoding-*[`_choice_encoding_combined`] <ex[:in]>  specify the default external and internal character encodings
-# @option -F-* <pattern>                  split() pattern for autosplit (-a)
-# @option -i-* <extension>                edit ARGV files in place (make backup if extension supplied)
-# @option -I-* <directory>                specify $LOAD_PATH directory (may be used more than once)
-# @flag -l                                enable line ending processing
-# @flag -n                                assume 'while gets(); ... end' loop around your script
-# @flag -p                                assume loop like -n but print line also like sed
-# @option -r-* <library>                  require the library before executing your script
-# @flag -s                                enable some switch parsing for switches after script name
-# @flag -S                                look for the script using PATH environment variable
-# @flag -v                                print the version number, then turn on verbose mode
-# @flag -w                                turn warnings on for your script
+# @option -F-* <pattern>                           split() pattern for autosplit (-a)
+# @option -i-* <extension>                         edit ARGV files in place (make backup if extension supplied)
+# @option -I-* <directory>                         specify $LOAD_PATH directory (may be used more than once)
+# @flag -l                                         enable line ending processing
+# @flag -n                                         assume 'while gets(); ... end' loop around your script
+# @flag -p                                         assume loop like -n but print line also like sed
+# @option -r-* <library>                           require the library before executing your script
+# @flag -s                                         enable some switch parsing for switches after script name
+# @flag -S                                         look for the script using PATH environment variable
+# @flag -v                                         print the version number, then turn on verbose mode
+# @flag -w                                         turn warnings on for your script
 # @option -W-*[`_choice_warning_level_combined`] <level=2|:category>  set warning level; 0=silence, 1=medium, 2=verbose
-# @option -x-* <directory>                strip off text before ♯!ruby line and perhaps cd to directory
-# @flag --jit                             enable JIT with default options (experimental)
-# @flag --copyright                       print the copyright
-# @option --dump[`_choice_dump`]          dump debug information.
-# @option --enable[`_choice_feature`]     enable or disable features.
-# @option --disable[`_choice_feature`]    enable or disable features.
+# @option -x-* <directory>                         strip off text before ♯!ruby line and perhaps cd to directory
+# @flag --jit                                      enable JIT with default options (experimental)
+# @flag --copyright                                print the copyright
+# @option --dump*[`_choice_dump`] <value>          dump debug information.
+# @option --enable*[`_choice_feature`] <value>     enable or disable features.
+# @option --disable*[`_choice_feature`] <value>    enable or disable features.
 # @option --external-encoding[`_choice_encoding`] <encoding>  specify the default external or internal character encoding
 # @option --internal-encoding[`_choice_encoding`] <encoding>  specify the default external or internal character encoding
-# @flag --verbose                         turn on verbose mode and disable script from stdin
-# @flag --version                         print the version number, then exit
-# @flag --help                            show this message, -h for short message
-# @option --backtrace-limit <num>         limit the maximum length of backtrace
-# @flag --jit-warnings                    Enable printing JIT warnings
-# @flag --jit-debug                       Enable JIT debugging (very slow), or add cflags if specified
-# @flag --jit-wait                        Wait until JIT compilation finishes every time (for testing)
-# @flag --jit-save-temps                  Save JIT temporary files in $TMP or /tmp (for testing)
-# @option --jit-verbose <num>             Print JIT logs of level num or less to stderr (default: 0)
-# @option --jit-max-cache <num>           Max number of methods to be JIT-ed in a cache (default: 100)
-# @option --jit-min-calls <num>           Number of calls to trigger JIT (for testing, default: 10000)
+# @flag --verbose                                  turn on verbose mode and disable script from stdin
+# @flag --version                                  print the version number, then exit
+# @flag --help                                     show this message, -h for short message
+# @option --backtrace-limit <num>                  limit the maximum length of backtrace
+# @flag --jit-warnings                             Enable printing JIT warnings
+# @flag --jit-debug                                Enable JIT debugging (very slow), or add cflags if specified
+# @flag --jit-wait                                 Wait until JIT compilation finishes every time (for testing)
+# @flag --jit-save-temps                           Save JIT temporary files in $TMP or /tmp (for testing)
+# @option --jit-verbose <num>                      Print JIT logs of level num or less to stderr (default: 0)
+# @option --jit-max-cache <num>                    Max number of methods to be JIT-ed in a cache (default: 100)
+# @option --jit-min-calls <num>                    Number of calls to trigger JIT (for testing, default: 10000)
 # @arg programfile
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"

@@ -25,9 +25,9 @@
 # {{ croc send
 # @cmd send file(s), or folder (see options with croc send -h)
 # @flag --zip                                   zip folder before sending (default: false)
-# @option -c --code <value> <value>             codephrase used to connect to relay
+# @option -c --code <value>                     codephrase used to connect to relay
 # @option --hash[xxhash|imohash|md5] <value>    hash algorithm (default: "xxhash")
-# @option -t --text <value> <value>             send some text
+# @option -t --text <value>                     send some text
 # @flag --no-local                              disable local relay when sending (default: false)
 # @flag --no-multi                              disable multiplexing (default: false)
 # @option --ports <value>                       ports of the local relay (optional) (default: "9009,9010,9011,9012,9013")

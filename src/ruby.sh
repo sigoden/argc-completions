@@ -14,9 +14,9 @@ _patch_help() {
 
 _patch_table() { 
     _patch_table_edit_options \
-        '--disable();[`_choice_feature`]' \
-        '--dump();[`_choice_dump`]' \
-        '--enable();[`_choice_feature`]' \
+        '--disable(<value>);*[`_choice_feature`]' \
+        '--dump(<value>);*[`_choice_dump`]' \
+        '--enable(<value>);*[`_choice_feature`]' \
         '--external-encoding;[`_choice_encoding`]' \
         '--internal-encoding;[`_choice_encoding`]' \
         '-0;-*' \

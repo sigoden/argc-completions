@@ -1,6 +1,6 @@
 _patch_table() {
     _patch_table_edit_options \
-        '--alignment;[`_choice_alignment`]' \
+        '--alignment;[`_choice_alignment`];text alignment on screen' \
 
 }
 
