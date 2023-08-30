@@ -25,15 +25,15 @@ EOF
 
 _choice_color_spec() {
     _argc_util_mode_parts :
-    readarray -d : -t prefix_parts <<<"$argc__parts_prefix"
+    IFS=':' read -a prefix_parts <<<"$argc__parts_prefix"
     case "${#prefix_parts[@]}" in
-    1)
+    0)
         _choice_color_type | _argc_util_transform suffix=: nospace
         ;;
-    2)
+    1)
         _choice_color_attribute | _argc_util_transform suffix=: nospace
         ;;
-    3)
+    2)
         if [[ "${prefix_parts[1]}" =~ bg|fg ]]; then
             _choice_color_value
         elif [[  "${prefix_parts[1]}" == style  ]]; then
