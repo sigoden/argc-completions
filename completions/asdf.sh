@@ -4,7 +4,7 @@
 
 
 # {{ asdf plugin
-# @cmd
+# @cmd Plugin management
 plugin() {
     :;
 }

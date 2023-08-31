@@ -13,5 +13,5 @@ _choice_delegate() {
         _argc_util_comp_path
         return
     fi
-    echo "$output" | sed 's|[=/:]$|/\x00|'
+    echo "$output" | sed 's|\([=/:]\)$|\1\x00|'
 }

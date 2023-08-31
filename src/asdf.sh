@@ -1,6 +1,6 @@
 _patch_help() {
     cat <<-'EOF' | _patch_help_embed_help $@
-# plugin
+# plugin - Plugin management
 ## add <name> [<git-url>] - Add a plugin from the plugin repo OR, add a Git repo as a plugin by specifying the name and repo url
 ## list - List installed plugins.
     --urls  Show git urls

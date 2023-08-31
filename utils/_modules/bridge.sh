@@ -14,7 +14,7 @@ _module_bridge_argcomplete() {
         _argc_util_comp_path
         return
     fi
-    echo "$output" | sed 's|[=/:]$|/\x00|'
+    echo "$output" | sed 's|\([=/:]\)$|\1\x00|'
 }
 
 _module_bridge_corba() {
