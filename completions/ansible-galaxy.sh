@@ -3,7 +3,7 @@
 
 # @flag --version       show program's version number, config file location, configured module search path, module location, executable location and exit
 # @flag -h --help       show this help message and exit
-# @flag -v --verbose    verbose mode (-vvv for more, -vvvv to enable connection debugging)
+# @flag -v --verbose    Causes Ansible to print more debug messages.
 # @arg type*
 
 # {{ ansible-galaxy collection
@@ -21,7 +21,10 @@ collection() {
 # @option --token <API_KEY>                     The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
 # @option --api-key <API_KEY>                   The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
 # @flag -c --ignore-certs                       Ignore SSL certificate validation errors.
-# @flag -v --verbose                            verbose mode (-vvv for more, -vvvv to enable connection debugging)
+# @option --timeout                             The time to wait for operations against the galaxy server, defaults to 60s.
+# @flag -v --verbose                            Causes Ansible to print more debug messages.
+# @flag --clear-response-cache                  Clear the existing server response cache.
+# @flag --no-cache                              Do not use the server response cache.
 # @flag -n --no-deps                            Don't download collection(s) listed as dependencies.
 # @option -p --download-path <DOWNLOAD_PATH>    The directory to download the collections to.
 # @option -r --requirements-file <REQUIREMENTS_FILE>  A file containing a list of collections to be downloaded.
@@ -39,7 +42,8 @@ collection::download() {
 # @option --token <API_KEY>           The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
 # @option --api-key <API_KEY>         The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
 # @flag -c --ignore-certs             Ignore SSL certificate validation errors.
-# @flag -v --verbose                  verbose mode (-vvv for more, -vvvv to enable connection debugging)
+# @option --timeout                   The time to wait for operations against the galaxy server, defaults to 60s.
+# @flag -v --verbose                  Causes Ansible to print more debug messages.
 # @flag -f --force                    Force overwriting an existing role or collection
 # @option --init-path <INIT_PATH>     The path in which the skeleton collection will be created.
 # @option --collection-skeleton <COLLECTION_SKELETON>  The path to a collection skeleton that the new collection should be based upon.
@@ -50,13 +54,14 @@ collection::init() {
 # }}} ansible-galaxy collection init
 
 # {{{ ansible-galaxy collection build
-# @cmd Build an Ansible collection artifact that can be publish to Ansible Galaxy.
+# @cmd Build an Ansible collection artifact that can be published to Ansible Galaxy.
 # @flag -h --help                          show this help message and exit
 # @option -s --server <API_SERVER>         The Galaxy API server URL
 # @option --token <API_KEY>                The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
 # @option --api-key <API_KEY>              The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
 # @flag -c --ignore-certs                  Ignore SSL certificate validation errors.
-# @flag -v --verbose                       verbose mode (-vvv for more, -vvvv to enable connection debugging)
+# @option --timeout                        The time to wait for operations against the galaxy server, defaults to 60s.
+# @flag -v --verbose                       Causes Ansible to print more debug messages.
 # @flag -f --force                         Force overwriting an existing role or collection
 # @option --output-path <OUTPUT_PATH>      The path in which the collection is built to.
 # @arg collection[`_choice_collection`]    Path to the collection(s) directory to build.
@@ -72,7 +77,8 @@ collection::build() {
 # @option --token <API_KEY>                    The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
 # @option --api-key <API_KEY>                  The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
 # @flag -c --ignore-certs                      Ignore SSL certificate validation errors.
-# @flag -v --verbose                           verbose mode (-vvv for more, -vvvv to enable connection debugging)
+# @option --timeout                            The time to wait for operations against the galaxy server, defaults to 60s.
+# @flag -v --verbose                           Causes Ansible to print more debug messages.
 # @flag --no-wait                              Don't wait for import validation results.
 # @option --import-timeout <IMPORT_TIMEOUT>    The time to wait for the collection import process to finish.
 # @arg collection_path                         The path to the collection tarball to publish.
@@ -88,14 +94,24 @@ collection::publish() {
 # @option --token <API_KEY>           The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
 # @option --api-key <API_KEY>         The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
 # @flag -c --ignore-certs             Ignore SSL certificate validation errors.
-# @flag -v --verbose                  verbose mode (-vvv for more, -vvvv to enable connection debugging)
+# @option --timeout                   The time to wait for operations against the galaxy server, defaults to 60s.
+# @flag -v --verbose                  Causes Ansible to print more debug messages.
 # @flag -f --force                    Force overwriting an existing role or collection
+# @flag --clear-response-cache        Clear the existing server response cache.
+# @flag --no-cache                    Do not use the server response cache.
 # @flag -i --ignore-errors            Ignore errors during installation and continue with the next specified collection.
 # @flag -n --no-deps                  Don't download collections listed as dependencies.
 # @flag --force-with-deps             Force overwriting an existing collection and its dependencies.
 # @option -p --collections-path <COLLECTIONS_PATH>  The path to the directory containing your collections.
 # @option -r --requirements-file <REQUIREMENTS_FILE>  A file containing a list of collections to be installed.
 # @flag --pre                         Include pre-release versions.
+# @flag -U --upgrade                  Upgrade installed collection artifacts.
+# @option --keyring                   The keyring used during signature verification
+# @flag --disable-gpg-verify          Disable GPG signature verification when installing collections from a Galaxy server
+# @option --signature <SIGNATURES>    An additional signature source to verify the authenticity of the MANIFEST.json before installing the collection from a Galaxy server.
+# @option --required-valid-signature-count <REQUIRED_VALID_SIGNATURE_COUNT>  The number of signatures that must successfully verify the collection.
+# @option --ignore-signature-status-code[EXPSIG|EXPKEYSIG|REVKEYSIG|BADSIG|ERRSIG|NO_PUBKEY|MISSING_PASSPHRASE|BAD_PASSPHRASE|NODATA|UNEXPECTED|ERROR|FAILURE|BADARMOR|KEYEXPIRED|KEYREVOKED|NO_SECKEY]  A status code to ignore during signature verification (for example, NO_PUBKEY).
+# @flag --offline                     Install collection artifacts (tarballs) without contacting any distribution servers.
 # @arg collection_path                The collection(s) name or path/url to a tar.gz collection artifact.
 collection::install() {
     :;
@@ -109,8 +125,10 @@ collection::install() {
 # @option --token <API_KEY>                The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
 # @option --api-key <API_KEY>              The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
 # @flag -c --ignore-certs                  Ignore SSL certificate validation errors.
-# @flag -v --verbose                       verbose mode (-vvv for more, -vvvv to enable connection debugging)
-# @option -p --collection-path <COLLECTIONS_PATH>  One or more directories to search for collections in addition to the default COLLECTIONS_PATHS.
+# @option --timeout                        The time to wait for operations against the galaxy server, defaults to 60s.
+# @flag -v --verbose                       Causes Ansible to print more debug messages.
+# @option -p --collections-path <COLLECTIONS_PATH>  One or more directories to search for collections in addition to the default COLLECTIONS_PATHS.
+# @option --format[human|yaml|json]        Format to display the list of collections in.
 # @arg collection[`_choice_collection`]    Collection
 collection::list() {
     :;
@@ -124,11 +142,17 @@ collection::list() {
 # @option --token <API_KEY>           The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
 # @option --api-key <API_KEY>         The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
 # @flag -c --ignore-certs             Ignore SSL certificate validation errors.
-# @flag -v --verbose                  verbose mode (-vvv for more, -vvvv to enable connection debugging)
-# @option -p --collection-path <COLLECTIONS_PATH>  One or more directories to search for collections in addition to the default COLLECTIONS_PATHS.
+# @option --timeout                   The time to wait for operations against the galaxy server, defaults to 60s.
+# @flag -v --verbose                  Causes Ansible to print more debug messages.
+# @option -p --collections-path <COLLECTIONS_PATH>  One or more directories to search for collections in addition to the default COLLECTIONS_PATHS.
 # @flag -i --ignore-errors            Ignore errors during verification and continue with the next specified collection.
+# @flag --offline                     Validate collection integrity locally without contacting server for canonical manifest hash.
 # @option -r --requirements-file <REQUIREMENTS_FILE>  A file containing a list of collections to be verified.
-# @arg collection_path                The collection(s) name or path/url to a tar.gz collection artifact.
+# @option --keyring                   The keyring used during signature verification
+# @option --signature <SIGNATURES>    An additional signature source to verify the authenticity of the MANIFEST.json before using it to verify the rest of the contents of a collection from a Galaxy server.
+# @option --required-valid-signature-count <REQUIRED_VALID_SIGNATURE_COUNT>  The number of signatures that must successfully verify the collection.
+# @option --ignore-signature-status-code[EXPSIG|EXPKEYSIG|REVKEYSIG|BADSIG|ERRSIG|NO_PUBKEY|MISSING_PASSPHRASE|BAD_PASSPHRASE|NODATA|UNEXPECTED|ERROR|FAILURE|BADARMOR|KEYEXPIRED|KEYREVOKED|NO_SECKEY]  A status code to ignore during signature verification (for example, NO_PUBKEY).
+# @arg collection_path                The installed collection(s) name.
 collection::verify() {
     :;
 }
@@ -150,7 +174,8 @@ role() {
 # @option --token <API_KEY>                  The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
 # @option --api-key <API_KEY>                The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
 # @flag -c --ignore-certs                    Ignore SSL certificate validation errors.
-# @flag -v --verbose                         verbose mode (-vvv for more, -vvvv to enable connection debugging)
+# @option --timeout                          The time to wait for operations against the galaxy server, defaults to 60s.
+# @flag -v --verbose                         Causes Ansible to print more debug messages.
 # @flag -f --force                           Force overwriting an existing role or collection
 # @flag --offline                            Don't query the galaxy API when creating roles
 # @option --init-path <INIT_PATH>            The path in which the skeleton role will be created.
@@ -169,7 +194,8 @@ role::init() {
 # @option --token <API_KEY>               The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
 # @option --api-key <API_KEY>             The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
 # @flag -c --ignore-certs                 Ignore SSL certificate validation errors.
-# @flag -v --verbose                      verbose mode (-vvv for more, -vvvv to enable connection debugging)
+# @option --timeout                       The time to wait for operations against the galaxy server, defaults to 60s.
+# @flag -v --verbose                      Causes Ansible to print more debug messages.
 # @option -p --roles-path <ROLES_PATH>    The path to the directory containing your roles.
 # @arg role                               Role(s)
 role::remove() {
@@ -184,7 +210,8 @@ role::remove() {
 # @option --token <API_KEY>           The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
 # @option --api-key <API_KEY>         The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
 # @flag -c --ignore-certs             Ignore SSL certificate validation errors.
-# @flag -v --verbose                  verbose mode (-vvv for more, -vvvv to enable connection debugging)
+# @option --timeout                   The time to wait for operations against the galaxy server, defaults to 60s.
+# @flag -v --verbose                  Causes Ansible to print more debug messages.
 # @arg github_user                    GitHub username
 # @arg github_repo                    GitHub repository
 role::delete() {
@@ -199,7 +226,8 @@ role::delete() {
 # @option --token <API_KEY>               The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
 # @option --api-key <API_KEY>             The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
 # @flag -c --ignore-certs                 Ignore SSL certificate validation errors.
-# @flag -v --verbose                      verbose mode (-vvv for more, -vvvv to enable connection debugging)
+# @option --timeout                       The time to wait for operations against the galaxy server, defaults to 60s.
+# @flag -v --verbose                      Causes Ansible to print more debug messages.
 # @option -p --roles-path <ROLES_PATH>    The path to the directory containing your roles.
 # @arg role                               Role
 role::list() {
@@ -214,7 +242,8 @@ role::list() {
 # @option --token <API_KEY>              The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
 # @option --api-key <API_KEY>            The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
 # @flag -c --ignore-certs                Ignore SSL certificate validation errors.
-# @flag -v --verbose                     verbose mode (-vvv for more, -vvvv to enable connection debugging)
+# @option --timeout                      The time to wait for operations against the galaxy server, defaults to 60s.
+# @flag -v --verbose                     Causes Ansible to print more debug messages.
 # @option --platforms                    list of OS platforms to filter by
 # @option --galaxy-tags <GALAXY_TAGS>    list of galaxy tags to filter by
 # @option --author                       GitHub username
@@ -231,7 +260,8 @@ role::search() {
 # @option --token <API_KEY>           The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
 # @option --api-key <API_KEY>         The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
 # @flag -c --ignore-certs             Ignore SSL certificate validation errors.
-# @flag -v --verbose                  verbose mode (-vvv for more, -vvvv to enable connection debugging)
+# @option --timeout                   The time to wait for operations against the galaxy server, defaults to 60s.
+# @flag -v --verbose                  Causes Ansible to print more debug messages.
 # @flag --no-wait                     Don't wait for import results.
 # @option --branch <REFERENCE>        The name of a branch to import.
 # @option --role-name <ROLE_NAME>     The name the role should have, if different than the repo name
@@ -250,7 +280,8 @@ role::import() {
 # @option --token <API_KEY>               The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
 # @option --api-key <API_KEY>             The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
 # @flag -c --ignore-certs                 Ignore SSL certificate validation errors.
-# @flag -v --verbose                      verbose mode (-vvv for more, -vvvv to enable connection debugging)
+# @option --timeout                       The time to wait for operations against the galaxy server, defaults to 60s.
+# @flag -v --verbose                      Causes Ansible to print more debug messages.
 # @option -p --roles-path <ROLES_PATH>    The path to the directory containing your roles.
 # @option --remove <REMOVE_ID>            Remove the integration matching the provided ID value.
 # @flag --list                            List all of your integrations.
@@ -270,7 +301,8 @@ role::setup() {
 # @option --token <API_KEY>                       The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
 # @option --api-key <API_KEY>                     The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
 # @flag -c --ignore-certs                         Ignore SSL certificate validation errors.
-# @flag -v --verbose                              verbose mode (-vvv for more, -vvvv to enable connection debugging)
+# @option --timeout                               The time to wait for operations against the galaxy server, defaults to 60s.
+# @flag -v --verbose                              Causes Ansible to print more debug messages.
 # @option -p --roles-path <ROLES_PATH>            The path to the directory containing your roles.
 # @flag --offline                                 Don't query the galaxy API when creating roles
 # @arg role_name-version <role_name[,version]>    role
@@ -286,7 +318,8 @@ role::info() {
 # @option --token <API_KEY>                The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
 # @option --api-key <API_KEY>              The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
 # @flag -c --ignore-certs                  Ignore SSL certificate validation errors.
-# @flag -v --verbose                       verbose mode (-vvv for more, -vvvv to enable connection debugging)
+# @option --timeout                        The time to wait for operations against the galaxy server, defaults to 60s.
+# @flag -v --verbose                       Causes Ansible to print more debug messages.
 # @flag -f --force                         Force overwriting an existing role or collection
 # @option -p --roles-path <ROLES_PATH>     The path to the directory containing your roles.
 # @flag -i --ignore-errors                 Ignore errors and continue with the next specified role.

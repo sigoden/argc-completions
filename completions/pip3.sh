@@ -27,160 +27,6 @@
 # @option --use-feature <feature>       Enable new functionality, that may be backward incompatible.
 # @option --use-deprecated <feature>    Enable deprecated functionality, that will be removed in the future.
 
-# {{ pip3 config
-# @cmd
-# @option --editor <editor>             Editor to use to edit the file.
-# @flag --global                        Use the system-wide configuration file only
-# @flag --user                          Use the user configuration file only
-# @flag --site                          Use the current environment configuration file only
-# @flag -h --help                       Show help.
-# @flag --debug                         Let unhandled exceptions propagate outside the main subroutine, instead of logging them to stderr.
-# @flag --isolated                      Run pip in an isolated mode, ignoring environment variables and user configuration.
-# @flag --require-virtualenv            Allow pip to only run in a virtual environment; exit with an error otherwise.
-# @option --python <python>             Run pip with the specified Python interpreter.
-# @flag -v --verbose                    Give more output.
-# @flag -V --version                    Show version and exit.
-# @flag -q --quiet                      Give less output.
-# @option --log <path>                  Path to a verbose appending log.
-# @flag --no-input                      Disable prompting for input.
-# @option --keyring-provider[disabled|import|subprocess] <keyring_provider>  Enable the credential lookup via the keyring library if user input is allowed.
-# @option --proxy <proxy>               Specify a proxy in the form scheme://[user:passwd@]proxy.server:port.
-# @option --retries <retries>           Maximum number of retries each connection should attempt (default 5 times).
-# @option --timeout <sec>               Set the socket timeout (default 15 seconds).
-# @option --exists-action[`_choice_exists_action`] <action>  Default action when a path already exists: (s)witch, (i)gnore, (w)ipe, (b)ackup, (a)bort.
-# @option --trusted-host <hostname>     Mark this host or host:port pair as trusted, even though it does not have valid or any HTTPS.
-# @option --cert <path>                 Path to PEM-encoded CA certificate bundle.
-# @option --client-cert <path>          Path to SSL client certificate, a single file containing the private key and the certificate in PEM format.
-# @option --cache-dir <dir>             Store the cache data in <dir>.
-# @flag --no-cache-dir                  Disable the cache.
-# @flag --disable-pip-version-check     Don't periodically check PyPI to determine whether a new version of pip is available for download.
-# @flag --no-color                      Suppress colored output.
-# @flag --no-python-version-warning     Silence deprecation warnings for upcoming unsupported Pythons.
-# @option --use-feature <feature>       Enable new functionality, that may be backward incompatible.
-# @option --use-deprecated <feature>    Enable deprecated functionality, that will be removed in the future.
-config() {
-    :;
-}
-
-# {{{ pip3 config list
-# @cmd List the active configuration (or from the file specified)
-config::list() {
-    :;
-}
-# }}} pip3 config list
-
-# {{{ pip3 config edit
-# @cmd Edit the configuration file in an editor
-# @option --editor <editor-path>    Editor to use to edit the file
-config::edit() {
-    :;
-}
-# }}} pip3 config edit
-
-# {{{ pip3 config get
-# @cmd Get the value associated with command.option
-# @arg key!
-config::get() {
-    :;
-}
-# }}} pip3 config get
-
-# {{{ pip3 config set
-# @cmd Set the command.option=value
-# @arg key!
-# @arg value!
-config::set() {
-    :;
-}
-# }}} pip3 config set
-
-# {{{ pip3 config unset
-# @cmd Unset the value associated with command.option
-# @arg key!
-config::unset() {
-    :;
-}
-# }}} pip3 config unset
-
-# {{{ pip3 config debug
-# @cmd List the configuration files and values defined under them
-config::debug() {
-    :;
-}
-# }}} pip3 config debug
-# }} pip3 config
-
-# {{ pip3 cache
-# @cmd
-# @option --format <list_format>        Select the output format among: human (default) or abspath
-# @flag -h --help                       Show help.
-# @flag --debug                         Let unhandled exceptions propagate outside the main subroutine, instead of logging them to stderr.
-# @flag --isolated                      Run pip in an isolated mode, ignoring environment variables and user configuration.
-# @flag --require-virtualenv            Allow pip to only run in a virtual environment; exit with an error otherwise.
-# @option --python <python>             Run pip with the specified Python interpreter.
-# @flag -v --verbose                    Give more output.
-# @flag -V --version                    Show version and exit.
-# @flag -q --quiet                      Give less output.
-# @option --log <path>                  Path to a verbose appending log.
-# @flag --no-input                      Disable prompting for input.
-# @option --keyring-provider[disabled|import|subprocess] <keyring_provider>  Enable the credential lookup via the keyring library if user input is allowed.
-# @option --proxy <proxy>               Specify a proxy in the form scheme://[user:passwd@]proxy.server:port.
-# @option --retries <retries>           Maximum number of retries each connection should attempt (default 5 times).
-# @option --timeout <sec>               Set the socket timeout (default 15 seconds).
-# @option --exists-action[`_choice_exists_action`] <action>  Default action when a path already exists: (s)witch, (i)gnore, (w)ipe, (b)ackup, (a)bort.
-# @option --trusted-host <hostname>     Mark this host or host:port pair as trusted, even though it does not have valid or any HTTPS.
-# @option --cert <path>                 Path to PEM-encoded CA certificate bundle.
-# @option --client-cert <path>          Path to SSL client certificate, a single file containing the private key and the certificate in PEM format.
-# @option --cache-dir <dir>             Store the cache data in <dir>.
-# @flag --no-cache-dir                  Disable the cache.
-# @flag --disable-pip-version-check     Don't periodically check PyPI to determine whether a new version of pip is available for download.
-# @flag --no-color                      Suppress colored output.
-# @flag --no-python-version-warning     Silence deprecation warnings for upcoming unsupported Pythons.
-# @option --use-feature <feature>       Enable new functionality, that may be backward incompatible.
-# @option --use-deprecated <feature>    Enable deprecated functionality, that will be removed in the future.
-cache() {
-    :;
-}
-
-# {{{ pip3 cache dir
-# @cmd Show the cache directory.
-cache::dir() {
-    :;
-}
-# }}} pip3 cache dir
-
-# {{{ pip3 cache info
-# @cmd Show information about the cache.
-cache::info() {
-    :;
-}
-# }}} pip3 cache info
-
-# {{{ pip3 cache list
-# @cmd List filenames of packages stored in the cache.
-# @option --format <human|abspath>    Select the output format
-# @arg pattern!
-cache::list() {
-    :;
-}
-# }}} pip3 cache list
-
-# {{{ pip3 cache remove
-# @cmd Remove one or more package from the cache.
-# @arg pattern!
-cache::remove() {
-    :;
-}
-# }}} pip3 cache remove
-
-# {{{ pip3 cache purge
-# @cmd Remove all items from the cache.
-cache::purge() {
-    :;
-}
-# }}} pip3 cache purge
-# }} pip3 cache
-
 # {{ pip3 install
 # @cmd Install packages.
 # @option -r --requirement <file>                  Install from the given requirements file.
@@ -199,7 +45,7 @@ cache::purge() {
 # @option --prefix <dir>                           Installation prefix where lib, bin and other top-level folders are placed.
 # @option --src <dir>                              Directory to check out editable projects into.
 # @flag -U --upgrade                               Upgrade all specified packages to the newest available version.
-# @option --upgrade-strategy <upgrade_strategy>    Determines how dependency upgrading should be handled [default: only-if-needed].
+# @option --upgrade-strategy[only-if-needed|eager] <upgrade_strategy>  Determines how dependency upgrading should be handled [default: only-if-needed].
 # @flag --force-reinstall                          Reinstall all packages even if they are already up-to-date.
 # @flag -I --ignore-installed                      Ignore the installed packages, overwriting them.
 # @flag --ignore-requires-python                   Ignore the Requires-Python information.
@@ -343,6 +189,7 @@ download() {
 # @flag --no-python-version-warning                Silence deprecation warnings for upcoming unsupported Pythons.
 # @option --use-feature <feature>                  Enable new functionality, that may be backward incompatible.
 # @option --use-deprecated <feature>               Enable deprecated functionality, that will be removed in the future.
+# @arg package[`_choice_package`]
 uninstall() {
     :;
 }
@@ -354,9 +201,9 @@ uninstall() {
 # @flag -l --local                      If in a virtualenv that has global access, do not output globally-installed packages.
 # @flag --user                          Only output packages installed in user-site.
 # @option --path <path>                 Restrict to the specified installation path for listing packages (can be used multiple times).
-# @option --all[wheel|setuptools|pip|distribute]  Do not skip these packages in the output: wheel, setuptools, pip, distribute
+# @option --all[pip|setuptools|wheel|distribute]  Do not skip these packages in the output.
 # @flag --exclude-editable              Exclude editable package from output.
-# @option --exclude <package>           Exclude specified package from the output
+# @option --exclude[`_choice_package`] <package>  Exclude specified package from the output
 # @flag -h --help                       Show help.
 # @flag --debug                         Let unhandled exceptions propagate outside the main subroutine, instead of logging them to stderr.
 # @flag --isolated                      Run pip in an isolated mode, ignoring environment variables and user configuration.
@@ -435,7 +282,7 @@ inspect() {
 # @flag --not-required                  List packages that are not dependencies of installed packages.
 # @flag --exclude-editable              Exclude editable package from output.
 # @flag --include-editable              Include editable package from output.
-# @option --exclude <package>           Exclude specified package from the output
+# @option --exclude[`_choice_package`] <package>  Exclude specified package from the output
 # @option -i --index-url <url>          Base URL of the Python Package Index (default https://pypi.org/simple).
 # @option --extra-index-url <url>       Extra URLs of package indexes to use in addition to --index-url.
 # @flag --no-index                      Ignore package index (only looking at --find-links URLs instead).
@@ -498,6 +345,7 @@ list() {
 # @flag --no-python-version-warning     Silence deprecation warnings for upcoming unsupported Pythons.
 # @option --use-feature <feature>       Enable new functionality, that may be backward incompatible.
 # @option --use-deprecated <feature>    Enable deprecated functionality, that will be removed in the future.
+# @arg package[`_choice_package`]
 show() {
     :;
 }
@@ -535,6 +383,89 @@ check() {
 }
 # }} pip3 check
 
+# {{ pip3 config
+# @cmd Manage local and global configuration.
+# @option --editor <editor>             Editor to use to edit the file.
+# @flag --global                        Use the system-wide configuration file only
+# @flag --user                          Use the user configuration file only
+# @flag --site                          Use the current environment configuration file only
+# @flag -h --help                       Show help.
+# @flag --debug                         Let unhandled exceptions propagate outside the main subroutine, instead of logging them to stderr.
+# @flag --isolated                      Run pip in an isolated mode, ignoring environment variables and user configuration.
+# @flag --require-virtualenv            Allow pip to only run in a virtual environment; exit with an error otherwise.
+# @option --python <python>             Run pip with the specified Python interpreter.
+# @flag -v --verbose                    Give more output.
+# @flag -V --version                    Show version and exit.
+# @flag -q --quiet                      Give less output.
+# @option --log <path>                  Path to a verbose appending log.
+# @flag --no-input                      Disable prompting for input.
+# @option --keyring-provider[disabled|import|subprocess] <keyring_provider>  Enable the credential lookup via the keyring library if user input is allowed.
+# @option --proxy <proxy>               Specify a proxy in the form scheme://[user:passwd@]proxy.server:port.
+# @option --retries <retries>           Maximum number of retries each connection should attempt (default 5 times).
+# @option --timeout <sec>               Set the socket timeout (default 15 seconds).
+# @option --exists-action[`_choice_exists_action`] <action>  Default action when a path already exists: (s)witch, (i)gnore, (w)ipe, (b)ackup, (a)bort.
+# @option --trusted-host <hostname>     Mark this host or host:port pair as trusted, even though it does not have valid or any HTTPS.
+# @option --cert <path>                 Path to PEM-encoded CA certificate bundle.
+# @option --client-cert <path>          Path to SSL client certificate, a single file containing the private key and the certificate in PEM format.
+# @option --cache-dir <dir>             Store the cache data in <dir>.
+# @flag --no-cache-dir                  Disable the cache.
+# @flag --disable-pip-version-check     Don't periodically check PyPI to determine whether a new version of pip is available for download.
+# @flag --no-color                      Suppress colored output.
+# @flag --no-python-version-warning     Silence deprecation warnings for upcoming unsupported Pythons.
+# @option --use-feature <feature>       Enable new functionality, that may be backward incompatible.
+# @option --use-deprecated <feature>    Enable deprecated functionality, that will be removed in the future.
+config() {
+    :;
+}
+
+# {{{ pip3 config list
+# @cmd List the active configuration (or from the file specified)
+config::list() {
+    :;
+}
+# }}} pip3 config list
+
+# {{{ pip3 config edit
+# @cmd Edit the configuration file in an editor
+# @option --editor <editor-path>    Editor to use to edit the file
+config::edit() {
+    :;
+}
+# }}} pip3 config edit
+
+# {{{ pip3 config get
+# @cmd Get the value associated with command.option
+# @arg key![`_choice_config_key`]
+config::get() {
+    :;
+}
+# }}} pip3 config get
+
+# {{{ pip3 config set
+# @cmd Set the command.option=value
+# @arg key![`_choice_config_key`]
+# @arg value!
+config::set() {
+    :;
+}
+# }}} pip3 config set
+
+# {{{ pip3 config unset
+# @cmd Unset the value associated with command.option
+# @arg key![`_choice_config_key`]
+config::unset() {
+    :;
+}
+# }}} pip3 config unset
+
+# {{{ pip3 config debug
+# @cmd List the configuration files and values defined under them
+config::debug() {
+    :;
+}
+# }}} pip3 config debug
+# }} pip3 config
+
 # {{ pip3 search
 # @cmd Search PyPI for packages.
 # @option -i --index <url>              Base URL of Python Package Index (default https://pypi.org/pypi)
@@ -567,6 +498,77 @@ search() {
     :;
 }
 # }} pip3 search
+
+# {{ pip3 cache
+# @cmd Inspect and manage pip's wheel cache.
+# @option --format <list_format>        Select the output format among: human (default) or abspath
+# @flag -h --help                       Show help.
+# @flag --debug                         Let unhandled exceptions propagate outside the main subroutine, instead of logging them to stderr.
+# @flag --isolated                      Run pip in an isolated mode, ignoring environment variables and user configuration.
+# @flag --require-virtualenv            Allow pip to only run in a virtual environment; exit with an error otherwise.
+# @option --python <python>             Run pip with the specified Python interpreter.
+# @flag -v --verbose                    Give more output.
+# @flag -V --version                    Show version and exit.
+# @flag -q --quiet                      Give less output.
+# @option --log <path>                  Path to a verbose appending log.
+# @flag --no-input                      Disable prompting for input.
+# @option --keyring-provider[disabled|import|subprocess] <keyring_provider>  Enable the credential lookup via the keyring library if user input is allowed.
+# @option --proxy <proxy>               Specify a proxy in the form scheme://[user:passwd@]proxy.server:port.
+# @option --retries <retries>           Maximum number of retries each connection should attempt (default 5 times).
+# @option --timeout <sec>               Set the socket timeout (default 15 seconds).
+# @option --exists-action[`_choice_exists_action`] <action>  Default action when a path already exists: (s)witch, (i)gnore, (w)ipe, (b)ackup, (a)bort.
+# @option --trusted-host <hostname>     Mark this host or host:port pair as trusted, even though it does not have valid or any HTTPS.
+# @option --cert <path>                 Path to PEM-encoded CA certificate bundle.
+# @option --client-cert <path>          Path to SSL client certificate, a single file containing the private key and the certificate in PEM format.
+# @option --cache-dir <dir>             Store the cache data in <dir>.
+# @flag --no-cache-dir                  Disable the cache.
+# @flag --disable-pip-version-check     Don't periodically check PyPI to determine whether a new version of pip is available for download.
+# @flag --no-color                      Suppress colored output.
+# @flag --no-python-version-warning     Silence deprecation warnings for upcoming unsupported Pythons.
+# @option --use-feature <feature>       Enable new functionality, that may be backward incompatible.
+# @option --use-deprecated <feature>    Enable deprecated functionality, that will be removed in the future.
+cache() {
+    :;
+}
+
+# {{{ pip3 cache dir
+# @cmd Show the cache directory.
+cache::dir() {
+    :;
+}
+# }}} pip3 cache dir
+
+# {{{ pip3 cache info
+# @cmd Show information about the cache.
+cache::info() {
+    :;
+}
+# }}} pip3 cache info
+
+# {{{ pip3 cache list
+# @cmd List filenames of packages stored in the cache.
+# @option --format <human|abspath>    Select the output format
+# @arg pattern!
+cache::list() {
+    :;
+}
+# }}} pip3 cache list
+
+# {{{ pip3 cache remove
+# @cmd Remove one or more package from the cache.
+# @arg pattern!
+cache::remove() {
+    :;
+}
+# }}} pip3 cache remove
+
+# {{{ pip3 cache purge
+# @cmd Remove all items from the cache.
+cache::purge() {
+    :;
+}
+# }}} pip3 cache purge
+# }} pip3 cache
 
 # {{ pip3 index
 # @cmd Inspect information available from package indexes.
@@ -671,7 +673,7 @@ wheel() {
 
 # {{ pip3 hash
 # @cmd Compute hashes of package archives.
-# @option -a --algorithm <algorithm>    The hash algorithm to use: one of sha256, sha384, sha512
+# @option -a --algorithm[sha256|sha384|sha512] <algorithm>  The hash algorithm to use: one of sha256, sha384, sha512
 # @flag -h --help                       Show help.
 # @flag --debug                         Let unhandled exceptions propagate outside the main subroutine, instead of logging them to stderr.
 # @flag --isolated                      Run pip in an isolated mode, ignoring environment variables and user configuration.
@@ -775,6 +777,8 @@ debug() {
 }
 # }} pip3 debug
 
+. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
+
 _choice_exists_action() {
     cat <<-'EOF'
 s	switch
@@ -783,6 +787,15 @@ w	wipe
 b	backup
 a	abort
 EOF
+}
+
+_choice_config_key() {
+    pip config $(_argc_util_param_select_options --global --site --user) list | \
+    gawk -F= '{gsub("\047", "", $2); print $1 "\t" $2}'
+}
+
+_choice_package() {
+    pip list --format json | yq '.[] | .name + "	" + .version'
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

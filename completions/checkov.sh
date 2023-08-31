@@ -58,7 +58,7 @@
 # @option --secrets-scan-file-type <SECRETS_SCAN_FILE_TYPE>  not in use [env var: CKV_SECRETS_SCAN_FILE_TYPE]
 # @flag --enable-secret-scan-all-files             enable secret scan for all files [env var: CKV_SECRETS_SCAN_ENABLE_ALL]
 # @option --block-list-secret-scan <BLOCK_LIST_SECRET_SCAN>  List of files to filter out from the secret scanner [env var: CKV_SECRETS_SCAN_BLOCK_LIST]
-# @option --summary-position[top|bottom]           Chose whether the summary will be appended on top (before the checks results) or on bottom (after check results), default is on top.
+# @option --summary-position[bottom|top]           Chose whether the summary will be appended on top (before the checks results) or on bottom (after check results), default is on top.
 # @flag --skip-resources-without-violations        exclude extra resources (resources without violations) from report output [env var: CKV_SKIP_RESOURCES_WITHOUT_VIOLATIONS]
 # @flag --deep-analysis                            Combine the TF Plan and TF graphs to make connections not available in either
 # @flag --no-fail-on-crash                         Return exit code 0 instead of 2 [env var: CKV_NO_FAIL_ON_CRASH]

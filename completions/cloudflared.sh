@@ -475,7 +475,7 @@ tunnel::run() {
 # @option --np <NAME>                           List tunnels that start with the give NAME prefix
 # @option --exclude-name-prefix <NAME>          List tunnels whose NAME does not start with the given prefix
 # @option --enp <NAME>                          List tunnels whose NAME does not start with the given prefix
-# @option -w --when <TIME>                      List tunnels that are active at the given TIME in RFC3339 format (default: current time, 2023-08-30T17:41:30+08:00)
+# @option -w --when <TIME>                      List tunnels that are active at the given TIME in RFC3339 format
 # @option -i --id                               List tunnel by ID
 # @flag --show-recently-disconnected            Include connections that have recently disconnected in the list (default: false)
 # @flag --rd                                    Include connections that have recently disconnected in the list (default: false)

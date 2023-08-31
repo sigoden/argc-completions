@@ -3,7 +3,7 @@
 
 # @flag --version       show program's version number, config file location, configured module search path, module location, executable location and exit
 # @flag -h --help       show this help message and exit
-# @flag -v --verbose    verbose mode (-vvv for more, -vvvv to enable connection debugging)
+# @flag -v --verbose    Causes Ansible to print more debug messages.
 # @arg create-decrypt-edit-view-encrypt-encrypt_string-rekey* <create,decrypt,edit,view,encrypt,encrypt_string,rekey>
 
 # {{ ansible-vault create
@@ -15,7 +15,7 @@
 # @flag --ask-vault-pass                           ask for vault password
 # @option --vault-password-file <VAULT_PASSWORD_FILES>  vault password file
 # @option --vault-pass-file <VAULT_PASSWORD_FILES>  vault password file
-# @flag -v --verbose                               verbose mode (-vvv for more, -vvvv to enable connection debugging)
+# @flag -v --verbose                               Causes Ansible to print more debug messages.
 # @arg file_name                                   Filename
 create() {
     :;
@@ -31,7 +31,7 @@ create() {
 # @flag --ask-vault-pass            ask for vault password
 # @option --vault-password-file <VAULT_PASSWORD_FILES>  vault password file
 # @option --vault-pass-file <VAULT_PASSWORD_FILES>  vault password file
-# @flag -v --verbose                verbose mode (-vvv for more, -vvvv to enable connection debugging)
+# @flag -v --verbose                Causes Ansible to print more debug messages.
 # @arg file_name                    Filename
 decrypt() {
     :;
@@ -47,7 +47,7 @@ decrypt() {
 # @flag --ask-vault-pass                           ask for vault password
 # @option --vault-password-file <VAULT_PASSWORD_FILES>  vault password file
 # @option --vault-pass-file <VAULT_PASSWORD_FILES>  vault password file
-# @flag -v --verbose                               verbose mode (-vvv for more, -vvvv to enable connection debugging)
+# @flag -v --verbose                               Causes Ansible to print more debug messages.
 # @arg file_name                                   Filename
 edit() {
     :;
@@ -62,7 +62,7 @@ edit() {
 # @flag --ask-vault-pass            ask for vault password
 # @option --vault-password-file <VAULT_PASSWORD_FILES>  vault password file
 # @option --vault-pass-file <VAULT_PASSWORD_FILES>  vault password file
-# @flag -v --verbose                verbose mode (-vvv for more, -vvvv to enable connection debugging)
+# @flag -v --verbose                Causes Ansible to print more debug messages.
 # @arg file_name                    Filename
 view() {
     :;
@@ -77,7 +77,7 @@ view() {
 # @flag --ask-vault-pass                           ask for vault password
 # @option --vault-password-file <VAULT_PASSWORD_FILES>  vault password file
 # @option --vault-pass-file <VAULT_PASSWORD_FILES>  vault password file
-# @flag -v --verbose                               verbose mode (-vvv for more, -vvvv to enable connection debugging)
+# @flag -v --verbose                               Causes Ansible to print more debug messages.
 # @option --output <OUTPUT_FILE>                   output file name for encrypt or decrypt; use - for stdout
 # @option --encrypt-vault-id <ENCRYPT_VAULT_ID>    the vault id used to encrypt (required if more than one vault-id is provided)
 # @arg file_name                                   Filename
@@ -94,10 +94,11 @@ encrypt() {
 # @flag --ask-vault-pass                           ask for vault password
 # @option --vault-password-file <VAULT_PASSWORD_FILES>  vault password file
 # @option --vault-pass-file <VAULT_PASSWORD_FILES>  vault password file
-# @flag -v --verbose                               verbose mode (-vvv for more, -vvvv to enable connection debugging)
+# @flag -v --verbose                               Causes Ansible to print more debug messages.
 # @option --output <OUTPUT_FILE>                   output file name for encrypt or decrypt; use - for stdout
 # @option --encrypt-vault-id <ENCRYPT_VAULT_ID>    the vault id used to encrypt (required if more than one vault-id is provided)
 # @flag -p --prompt                                Prompt for the string to encrypt
+# @flag --show-input                               Do not hide input when prompted for the string to encrypt
 # @option -n --name <ENCRYPT_STRING_NAMES>         Specify the variable name
 # @option --stdin-name <ENCRYPT_STRING_STDIN_NAME>  Specify the variable name for stdin
 # @arg string_to_encrypt                           String to encrypt
@@ -114,7 +115,7 @@ encrypt_string() {
 # @flag --ask-vault-pass                           ask for vault password
 # @option --vault-password-file <VAULT_PASSWORD_FILES>  vault password file
 # @option --vault-pass-file <VAULT_PASSWORD_FILES>  vault password file
-# @flag -v --verbose                               verbose mode (-vvv for more, -vvvv to enable connection debugging)
+# @flag -v --verbose                               Causes Ansible to print more debug messages.
 # @option --encrypt-vault-id <ENCRYPT_VAULT_ID>    the vault id used to encrypt (required if more than one vault-id is provided)
 # @option --new-vault-password-file <NEW_VAULT_PASSWORD_FILE>  new vault password file for rekey
 # @option --new-vault-id <NEW_VAULT_ID>            the new vault identity to use for rekey

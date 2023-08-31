@@ -325,12 +325,12 @@ _choice_compose() {
     _argc_util_comp_subcommand 0 docker-compose
 }
 
-_choice_secret() {
-    nhost secrets list
-}
-
 _choice_hasura() {
     _argc_util_comp_subcommand 0 hasura
+}
+
+_choice_secret() {
+    nhost secrets list
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

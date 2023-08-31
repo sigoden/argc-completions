@@ -8,6 +8,7 @@ _patch_help() {
         sed \
             -e '/^\s*-/ s/ --url//' \
             -e 's/tunnel \[[^]]*\]/tunnel/' \
+            -e 's/(default: current time.*)//' \
 
     else
         $@ --help

@@ -1,5 +1,5 @@
 _patch_help() { 
-    if [[ "$*" == "pip" ]]; then
+    if [[ $# -eq 1 ]]; then
         TERM_WIDTH=200 _patch_help_run_help $@
     else
         cat <<-'EOF' | _patch_help_embed_help $@
@@ -34,26 +34,26 @@ _patch_table() {
             '--progress-bar;[off|on|ascii|pretty|emoji]' \
     )"
 
-    if [[ "$*" == "pip config"* ]]; then
+    if [[ "$*" == "$1 config"* ]]; then
         echo "$table" | _patch_table_edit_arguments 'key;[`_choice_config_key`]'
 
-    elif [[ "$*" == "pip freeze" ]]; then
+    elif [[ "$*" == "$1 freeze" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '--all;[distribute|setuptools|wheel|pip];Do not skip these packages in the output.' \
+            '--all;[pip|setuptools|wheel|distribute];Do not skip these packages in the output.' \
             '--exclude;[`_choice_package`]' \
 
-    elif [[ "$*" == "pip hash" ]]; then
+    elif [[ "$*" == "$1 hash" ]]; then
         echo "$table" | _patch_table_edit_options '--algorithm;[sha256|sha384|sha512]'
 
-    elif [[ "$*" == "pip install" ]]; then
+    elif [[ "$*" == "$1 install" ]]; then
         echo "$table" | _patch_table_edit_options '--upgrade-strategy;[only-if-needed|eager]'
 
-    elif [[ "$*" == "pip list" ]]; then
+    elif [[ "$*" == "$1 list" ]]; then
         echo "$table" | _patch_table_edit_options '--exclude;[`_choice_package`]'
 
-    elif [[ "$*" == "pip show" ]] \
-      || [[ "$*" == "pip uninstall" ]] \
+    elif [[ "$*" == "$1 show" ]] \
+      || [[ "$*" == "$1 uninstall" ]] \
     ; then
         echo "$table" | _patch_table_edit_arguments ';;' 'package;[`_choice_package`]'
 
