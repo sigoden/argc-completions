@@ -34,13 +34,8 @@ _patch_table() {
             '--progress-bar;[off|on|ascii|pretty|emoji]' \
     )"
 
-    if [[ "$*" == "pip install" ]]; then
-        echo "$table" | _patch_table_edit_options '--upgrade-strategy;[only-if-needed|eager]'
-
-    elif [[ "$*" == "pip uninstall" ]] \
-      || [[ "$*" == "pip show" ]] \
-    ; then
-        echo "$table" | _patch_table_edit_arguments ';;' 'package;[`_choice_package`]'
+    if [[ "$*" == "pip config"* ]]; then
+        echo "$table" | _patch_table_edit_arguments 'key;[`_choice_config_key`]'
 
     elif [[ "$*" == "pip freeze" ]]; then
         echo "$table" | \
@@ -48,14 +43,19 @@ _patch_table() {
             '--all;[distribute|setuptools|wheel|pip];Do not skip these packages in the output.' \
             '--exclude;[`_choice_package`]' \
 
+    elif [[ "$*" == "pip hash" ]]; then
+        echo "$table" | _patch_table_edit_options '--algorithm;[sha256|sha384|sha512]'
+
+    elif [[ "$*" == "pip install" ]]; then
+        echo "$table" | _patch_table_edit_options '--upgrade-strategy;[only-if-needed|eager]'
+
     elif [[ "$*" == "pip list" ]]; then
         echo "$table" | _patch_table_edit_options '--exclude;[`_choice_package`]'
 
-    elif [[ "$*" == "pip config"* ]]; then
-        echo "$table" | _patch_table_edit_arguments 'key;[`_choice_config_key`]'
-
-    elif [[ "$*" == "pip hash" ]]; then
-        echo "$table" | _patch_table_edit_options '--algorithm;[sha256|sha384|sha512]'
+    elif [[ "$*" == "pip show" ]] \
+      || [[ "$*" == "pip uninstall" ]] \
+    ; then
+        echo "$table" | _patch_table_edit_arguments ';;' 'package;[`_choice_package`]'
 
     else
         echo "$table"
@@ -72,11 +72,11 @@ a	abort
 EOF
 }
 
-_choice_package() {
-    pip list --format json | yq '.[] | .name + "	" + .version'
-}
-
 _choice_config_key() {
     pip config $(_argc_util_param_select_options --global --site --user) list | \
     gawk -F= '{gsub("\047", "", $2); print $1 "\t" $2}'
+}
+
+_choice_package() {
+    pip list --format json | yq '.[] | .name + "	" + .version'
 }
