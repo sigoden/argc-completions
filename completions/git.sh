@@ -2152,7 +2152,7 @@ _choice_show() {
 }
 
 _choice_branch() {
-    _argc_util_parallel _choice_tag ::: _choice_local_branch ::: _choice_remote_branch
+    _argc_util_parallel _choice_local_branch ::: _choice_remote_branch
 }
 
 _choice_reset() {
@@ -2202,7 +2202,7 @@ _choice_config_key() {
 }
 
 _choice_ref() {
-    _argc_util_parallel _choice_tag ::: _choice_head_commit ::: _choice_local_branch ::: _choice_remote_branch
+    _argc_util_parallel _choice_local_branch ::: _choice_remote_branch ::: _choice_tag ::: _choice_head_commit
 }
 
 _choice_restore_file() {
@@ -2218,7 +2218,7 @@ _choice_stash() {
 }
 
 _choice_tag() {
-    git tag --sort=-creatordate --format "%(refname)	%(subject)" | sed 's|refs/tags/||' | head -n 100
+    _git tag --sort=-creatordate --format "%(refname)	%(subject)" | sed 's|refs/tags/||' | head -n 100
 }
 
 _choice_changed_file() {
@@ -2234,8 +2234,8 @@ _choice_changed_file() {
 _choice_head_commit() {
     _git log --no-notes --pretty='tformat:%h	%<(64,trunc)%s' --max-count=100 | gawk -F '\t' '{
         if (NR == 1) { head="HEAD" } else { head=sprintf("HEAD~%02d", NR - 1) }
-        print $1 "\t" $2
         print head "\t" $2
+        print $1 "\t" $2
     }'
 }
 

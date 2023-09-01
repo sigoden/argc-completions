@@ -286,6 +286,7 @@
 - [lastlog](https://manpages.ubuntu.com/manpages/jammy/en/man8/lastlog.8.html): reports the most recent login of all users or of a given user
 - [lazygit](https://github.com/jesseduffield/lazygit): simple terminal UI for git commands
 - [ldd](https://manpages.ubuntu.com/manpages/jammy/en/man1/ldd.1.html): print shared object dependencies
+- [lerna](https://github.com/lerna/lerna): a fast, modern build system for managing and publishing multiple JavaScript/TypeScript packages from the same repository
 - [less](https://manpages.ubuntu.com/manpages/jammy/en/man1/less.1.html): opposite of more
 - [lf](https://github.com/gokcehan/lf): Terminal file manager 
 - [lightdm](https://manpages.ubuntu.com/manpages/jammy/en/man1/lightdm.1.html): a display manager
@@ -418,9 +419,11 @@
 - [pm2](https://github.com/Unitech/pm2): Node.js Production Process Manager with a built-in Load Balancer.
 - [pnpm](https://github.com/pnpm/pnpm): Fast, disk space efficient package manager for Node.js
 - [podman](https://github.com/containers/podman): A tool for managing OCI containers and pods.
+- [poetry](https://github.com/python-poetry/poetry): Python packaging and dependency management made easy
 - [port](https://github.com/macports/macports-ports): Install and upgrade open source software on macOS.
 - [poweroff](https://manpages.ubuntu.com/manpages/jammy/en/man8/halt.8.html): Halt, power-off or reboot the machine
 - [powertop](https://manpages.ubuntu.com/manpages/jammy/en/man8/powertop.8.html): a power consumption and power management diagnosis tool.
+- [pre-commit](https://github.com/pre-commit/pre-commit): A framework for managing and maintaining multi-language pre-commit hooks.
 - [printenv](https://manpages.ubuntu.com/manpages/jammy/en/man1/printenv.1.html): print all or part of environment
 - [procs](https://github.com/dalance/procs): A modern replacement for ps written in Rust
 - [pr](https://manpages.ubuntu.com/manpages/jammy/en/man1/pr.1.html): convert text files for printing
@@ -430,11 +433,13 @@
 - [pulumi](https://github.com/pulumi/pulumi): Modern Infrastructure as Code
 - [pwd](https://manpages.ubuntu.com/manpages/jammy/en/man1/pwd.1.html): print name of current/working directory
 - [pyenv](https://github.com/pyenv/pyenv): Simple Python version management
+- [pytest](https://github.com/pytest-dev/pytest): testing framework for Python
 - [python](https://www.python.org/): an interpreted, interactive, object-oriented programming language
 - [python3](https://www.python.org/): an interpreted, interactive, object-oriented programming language
 - [qrencode](https://manpages.ubuntu.com/manpages/jammy/en/man1/qrencode.1.html): Encode input data in a QR Code and save as a PNG or EPS image.
 - [rake](https://github.com/ruby/rake): A make-like build utility for Ruby
 - [ranger](https://github.com/ranger/ranger): A VIM-inspired filemanager for the console
+- [rbenv](https://github.com/rbenv/rbenv): Manage your app's Ruby environment
 - [rclone](https://github.com/rclone/rclone): rsync for cloud storage
 - [readlink](https://manpages.ubuntu.com/manpages/jammy/en/man1/readlink.1.html): print resolved symbolic links or canonical file names
 - [realpath](https://manpages.ubuntu.com/manpages/jammy/en/man1/realpath.1.html): print the resolved path
@@ -450,6 +455,7 @@
 - [rm](https://manpages.ubuntu.com/manpages/jammy/en/man1/rm.1.html): remove files or directories
 - [rmdir](https://manpages.ubuntu.com/manpages/jammy/en/man1/rmdir.1.html): remove empty directories
 - [rmmod](https://manpages.ubuntu.com/manpages/jammy/en/man8/rmmod.8.html): Simple program to remove a module from the Linux Kernel
+- [robot](https://github.com/robotframework/robotframework): Generic automation framework for acceptance testing and RPA
 - [Rscript](https://manpages.ubuntu.com/manpages/jammy/en/man1/Rscript.1.html): front end for scripting with R
 - [rsync](https://manpages.ubuntu.com/manpages/jammy/en/man1/rsync.1.html): a fast, versatile, remote (and local) file-copying tool
 - [ruby](https://www.ruby-lang.org/en/): Interpreted object-oriented scripting language

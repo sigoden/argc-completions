@@ -16,7 +16,7 @@ END {
             zone = "argument"
         } else if (match(line, /^Commands:/)) {
             zone = "command"
-        } else if (match(line, /^Options:/)) {
+        } else if (match(line, /Options:/)) {
             zone = "option"
         } else if (match(line, /^[A-Z]/)) {
             zone = ""
