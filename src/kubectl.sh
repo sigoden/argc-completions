@@ -1,13 +1,13 @@
 _patch_help() { 
     if [[ "$*" == "kubectl" ]]; then
-        TERM_WIDTH=200 _patch_help_run_help $@ | _patch_help_preprocess_cobra
+        $@ --help | _patch_help_preprocess_cobra
         kubectl options | sed '1,2 c\Options:' | _patch_help_preprocess_cobra
 
     elif [[ "$*" == "kubectl config set-credentials" ]]; then
-        TERM_WIDTH=200 _patch_help_run_help $@ | _patch_help_preprocess_cobra | sed '1,/Options:/ c\Options:'
+        $@ --help | _patch_help_preprocess_cobra | sed '1,/Options:/ c\Options:'
 
     else
-        TERM_WIDTH=200 _patch_help_run_help $@ | _patch_help_preprocess_cobra
+        $@ --help | _patch_help_preprocess_cobra
     fi
 }
 
@@ -100,7 +100,10 @@ _patch_table() {
             '--image;[`_module_oci_docker_image`]' \
             '--override-type;[json|merge|strategic]' \
         | \
-        _patch_table_edit_arguments 'NAME' 'args...'
+        _patch_table_edit_arguments \
+            'name' \
+            'command;[`_module_os_command`]' \
+            'args;~[`_choice_args`]' \
 
     elif [[ "$*" == "kubectl set" ]]; then
         echo "$table" | \

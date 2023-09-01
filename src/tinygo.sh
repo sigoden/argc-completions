@@ -1,5 +1,5 @@
 _patch_help() { 
-    TERM_WIDTH=200 _patch_help_run_help $@ | \
+    $@ --help 2>&1 | \
     sed 's/^  \([a-z]\S\+\): \+\(.*\)$/  \1  \2/'
 }
 

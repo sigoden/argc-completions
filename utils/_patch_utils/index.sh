@@ -19,28 +19,15 @@ _patch_help_run_help() {
 
 # Run --help to get help
 _patch_help_run_help_flag() {
-    _patch_help_cmd_wrapper $@ --help
+    $@ --help 2>&1 
 }
 
 # Run help subcommand to get help
 _patch_help_run_help_subcmd() {
     if [[ $# -eq 1 ]]; then
-       _patch_help_cmd_wrapper $1 help
+       $1 help 2>&1
     else
-       _patch_help_cmd_wrapper ${@:1:$#-1} help ${!#}
-    fi
-}
-
-# Run help command with a wrapper
-_patch_help_cmd_wrapper() {
-    if [[ -n "$TERM_WIDTH" ]]; then
-        if command -v fakepty >/dev/null; then
-            COLUMNS="$TERM_WIDTH" fakepty $@ | _patch_help_preprocess_color
-        else
-            COLUMNS="$TERM_WIDTH" $@ 2>&1
-        fi
-    else
-        $@ 2>&1
+       ${@:1:$#-1} help ${!#} 2>&1
     fi
 }
 
@@ -69,7 +56,7 @@ _patch_help_embed_help() {
 # ```
 # -p  extract files to pipe, no messages     -l  list files (short format)
 # ```
-_patch_help_preprocess_2cols() {
+_patch_help_split_2cols() {
     sed 's/^  \(-\S\{1,2\} .*\) \(-\S\{1,2\} .*\)/  \1\n  \2/'
 }
 
@@ -80,9 +67,14 @@ _patch_help_prepare_workspace() {
     workspace_dir="$base_dir/$workspace_name"
 }
 
-# Preprocess commands whose help text has ascii color.
-_patch_help_preprocess_color() {
+# Strip ansi code such as color, BS
+_patch_help_strip_ansi() {
     gawk '{gsub(/[\x1B\x9B][[\]()#;?]*((((;[-a-zA-Z0-9\/#&.:=?%@~_]+)*|[a-zA-Z0-9]+(;[-a-zA-Z0-9\/#&.:=?%@~_]*)*)?\x07)|(([0-9]{1,4}(;[0-9]{0,4})*)?[0-9A-PR-TZcf-ntqry=><~]))/, ""); gsub(/.\x08/, ""); print}'
+}
+
+# Fix wrap
+_patch_help_fix_wrap() {
+    gawk -f "$ROOT_DIR/utils/_patch_utils/preprocess-wrap.awk"
 }
 
 # Preprocess only usage

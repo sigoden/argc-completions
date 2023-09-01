@@ -1285,6 +1285,8 @@ expose() {
 # @flag -i --stdin                                Keep stdin open on the container in the pod, even if nothing is attached.
 # @option --template <file>                       Template string or path to template file to use when -o=go-template, -o=go-template-file.
 # @flag -t --tty                                  Allocate a TTY for the container in the pod.
+# @arg command[`_module_os_command`]
+# @arg args~[`_choice_args`]
 run() {
     :;
 }

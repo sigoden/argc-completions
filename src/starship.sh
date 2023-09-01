@@ -1,7 +1,3 @@
-_patch_help() { 
-    TERM_WIDTH=200 _patch_help_run_help $@
-}
-
 _patch_table() { 
     if [[ "$*" == "starship config" ]] \
     || [[ "$*" == "starship print-config" ]] \

@@ -4,7 +4,7 @@ _patch_help() {
 
     else
         _patch_help_run_help_subcmd $@ | \
-        _patch_help_preprocess_color | \
+        _patch_help_strip_ansi | \
         sed \
             -e 's/\t/     /' \
             -e "/^SYNOPSIS/ {N;s/\n.*/\n    $*/;}" \

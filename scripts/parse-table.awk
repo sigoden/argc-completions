@@ -636,12 +636,16 @@ function outputLog(value) {
 }
 
 function concateLine(value, line) {
+    value = trimEnds(value)
+    line = trimStarts(line)
     valueLen = length(value)
-    valueLastChar = substr(value, valueLen)
-    if (valueLastChar == "‐") {
+    if (valueLen == 0) {
+        return line
+    }
+    if (match(value, /-$/)) {
+        output = value line
+    } else if (match(value, /‐$/)) {
         output = substr(value, 1, valueLen - 1) line
-    } else if (valueLastChar == " ") {
-        output = trimEnds(value) " " line
     } else {
         output = value " " line
     }

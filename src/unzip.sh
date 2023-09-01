@@ -1,5 +1,5 @@
 _patch_help() {
-    $@ --help | _patch_help_preprocess_2cols
+    $@ --help | _patch_help_split_2cols
 }
 
 _patch_table() {

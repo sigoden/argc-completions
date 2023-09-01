@@ -1,6 +1,6 @@
 _patch_help() {
     $@ --help 2>&1 | \
-    _patch_help_preprocess_color | \
+    _patch_help_strip_ansi | \
     sed \
         -e 's/[┃|┗|━|┏|┓|┛]//g' \
         -e 's/^  //' \

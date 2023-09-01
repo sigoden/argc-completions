@@ -7,7 +7,6 @@ set -e
 argc_version=${ARGC_VERSION:-v1.9.0}
 yq_version=v4.35.1
 sed_version=4.9.0-2
-fakepty_version=v1.2.0
 
 download() {
     install_dir="$1"
@@ -27,7 +26,6 @@ download() {
     argc_url_prefix="https://github.com/sigoden/argc/releases/download/${argc_version}/argc-${argc_version}-"
     yq_url_prefix="https://github.com/mikefarah/yq/releases/download/${yq_version}/yq_"
     sed_url_prefix="https://github.com/xpack-dev-tools/sed-xpack/releases/download/v${sed_version}/xpack-sed-${sed_version}-"
-    fakepty_url_prefix="https://github.com/sigoden/fakepty/releases/download/${fakepty_version}/fakepty-${fakepty_version}-"
 
     case $os_arch in
     linux-amd64)
@@ -81,7 +79,6 @@ download() {
     if [[ "$_os" == "macos" ]]; then
         _fetch sed "${sed_url_prefix}${sed_file_suffix}" "xpack-sed-$sed_version/bin/sed"
     fi
-    _fetch fakepty "${fakepty_url_prefix}${argc_file_suffix}" fakepty
 }
 
 _fetch() {

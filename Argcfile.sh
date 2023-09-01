@@ -197,7 +197,6 @@ version() {
     argc --argc-version
     yq --version
     sed --version | head -n 1
-    fakepty --version
 }
 
 _choice_command() {
@@ -308,6 +307,9 @@ _helper_test_fn() {
 _helper_list_changed() {
     git status | \
     gawk '/(src|completions)\// {
+        if (match($0, /^\s+(deleted|renamed):\s+/)) {
+            next
+        }
         split($NF, p, "/");
         print gensub(/^([a-z0-9_+-]+).*$/, "\\1", 1, p[2])
     }' | \

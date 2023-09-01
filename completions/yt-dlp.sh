@@ -26,7 +26,7 @@
 # @flag --mark-watched                             Mark videos watched (even with --simulate)
 # @flag --no-mark-watched                          Do not mark videos watched (default)
 # @option --color <[STREAM:]POLICY>                Whether to emit color codes in output, optionally prefixed by the STREAM (stdout or stderr) to apply the setting to.
-# @option --compat-options <OPTS>                  Options that can help keep compatibility with youtube-dl or youtube-dlc configurations by reverting some of the changes made in yt- dlp.
+# @option --compat-options <OPTS>                  Options that can help keep compatibility with youtube-dl or youtube-dlc configurations by reverting some of the changes made in yt-dlp.
 # @option --alias <ALIASES> <OPTIONS>              Create aliases for an option string.
 # @option --proxy <URL>                            Use the specified HTTP/HTTPS/SOCKS proxy.
 # @option --socket-timeout <SECONDS>               Time to wait before giving up, in seconds

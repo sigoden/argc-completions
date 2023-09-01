@@ -1,6 +1,6 @@
 _patch_help() { 
     $@ --help | \
-    _patch_help_preprocess_color | \
+    _patch_help_strip_ansi | \
     gawk '
         BEGIN {
             split("", OPTIONS)

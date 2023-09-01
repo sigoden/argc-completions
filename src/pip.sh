@@ -1,6 +1,6 @@
 _patch_help() { 
     if [[ $# -eq 1 ]]; then
-        TERM_WIDTH=200 _patch_help_run_help $@
+        $@ --help 
     else
         cat <<-'EOF' | _patch_help_embed_help $@
 # config
@@ -21,7 +21,7 @@ _patch_help() {
 ## purge - Remove all items from the cache.
 EOF
         if [[ "$#" -le 2 ]]; then
-            TERM_WIDTH=200 _patch_help_run_help $@
+            $@ --help 
         fi
     fi
 }

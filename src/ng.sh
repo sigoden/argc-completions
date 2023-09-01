@@ -11,9 +11,9 @@ _patch_help() {
     if [[ "$*" == "ng" ]] \
     || [[ "$*" == "ng new" ]] \
     ; then
-        TERM_WIDTH=200 _patch_help_run_help $@ | _patch_help_preprocess_yargs
+        $@ --help | _patch_help_preprocess_yargs
     else
-        (_prepare_workspace $1 && TERM_WIDTH=200 _patch_help_run_help $@) | _patch_help_preprocess_yargs
+        (_prepare_workspace $1 && $@ --help) | _patch_help_preprocess_yargs
     fi
 }
 
