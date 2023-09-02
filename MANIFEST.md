@@ -6,12 +6,16 @@
 - [acpi](https://manpages.ubuntu.com/manpages/jammy/en/man1/acpi.1.html): shows battery status and other ACPI information
 - [act](https://github.com/nektos/act): Run your GitHub Actions locally
 - [adb](https://developer.android.com/tools/adb): Android Debug Bridge
+- [adduser](https://manpages.ubuntu.com/manpages/jammy/en/man8/adduser.8.html): add a user or group to the system
 - [age](https://github.com/FiloSottile/age): A simple, modern, and secure file encryption
+- [age-keygen](https://github.com/FiloSottile/age): generate age key pairs
 - [ag](https://github.com/ggreer/the_silver_searcher): The Silver Searcher. Like ack, but faster.
 - [aichat](https://github.com/sigoden/aichat): A powerful chatgpt cli.
 - [airflow](https://github.com/apache/airflow): A platform to programmatically author, schedule, and monitor workflows 
 - [alias](https://manpages.ubuntu.com/manpages/jammy/en/man1/alias.1posix.html): define or display aliases.
+- [alsactl](https://manpages.ubuntu.com/manpages/jammy/en/man1/alsactl.1.html): advanced controls for ALSA soundcard driver
 - [alsamixer](https://manpages.ubuntu.com/manpages/jammy/en/man1/alsamixer.1.html): soundcard mixer for ALSA soundcard driver, with ncurses interface
+- [amixer](https://manpages.ubuntu.com/manpages/jammy/en/man1/amixer.1.html): command-line mixer for ALSA soundcard driver
 - [ansible](https://www.ansible.com): Define and run a single task 'playbook' against a set of hosts
 - [ansible-config](https://docs.ansible.com/ansible/latest/cli/ansible-config.html): View ansible configuration.:
 - [ansible-console](https://docs.ansible.com/ansible/latest/cli/ansible-console.html): REPL console for executing Ansible tasks.
@@ -31,6 +35,7 @@
 - [asciidoctor](https://asciidoctor.org): converts AsciiDoc source files to HTML, DocBook, and other formats
 - [asciinema](https://asciinema.org): terminal session recorder
 - [asdf](https://github.com/asdf-vm/asdf): Extendable version manager with support for Ruby, Node.js, Elixir, Erlang & more
+- [at](https://manpages.ubuntu.com/manpages/jammy/en/man1/at.1.html): queue, examine, or delete jobs for later execution
 - [autoconf](https://manpages.ubuntu.com/manpages/jammy/en/man1/autoconf.1.html): Generate configuration scripts
 - [autojump](https://github.com/wting/autojump): Automatically jump to directory passed as an argument.
 - [awk](https://manpages.ubuntu.com/manpages/jammy/en/man1/gawk.1.html): pattern scanning and processing language
@@ -46,15 +51,19 @@
 - [bazel](https://bazel.build/): tool to automate software builds and tests
 - [bc](https://manpages.ubuntu.com/manpages/jammy/en/man1/bc.1.html): An arbitrary precision calculator language
 - [black](https://github.com/psf/black): The uncompromising Python code formatter
+- [bootctl](https://manpages.ubuntu.com/manpages/jammy/en/man1/bootctl.1.html): Control EFI firmware boot settings and manage boot loader
 - [bosh](https://bosh.io/docs/): unifies release engineering, deployment, and lifecycle management of small and large-scale cloud software.
 - [boundary](https://github.com/hashicorp/boundary): Simple and secure remote access.
+- [br](https://github.com/Canop/broot): A new way to see and navigate directory trees
 - [brew](https://brew.sh/): The missing package manager for macOS
+- [brightnessctl](https://manpages.ubuntu.com/manpages/jammy/en/man1/brightnessctl.1.html): read and control device brightness
 - [broot](https://github.com/Canop/broot): A new way to see and navigate directory trees
 - [brotli](https://github.com/google/brotli): lossless compression algorithm and format
 - [browser-sync](https://github.com/BrowserSync/browser-sync): Keep multiple browsers & devices in sync when building websites.
 - [btop](https://github.com/aristocratos/btop): Modern and colorful command line resource monitor that shows usage and stats
 - [bundle](https://bundler.io/): Ruby Dependency Management
 - [bun](https://github.com/oven-sh/bun): Incredibly fast JavaScript runtime, bundler, test runner, and package manager – all in one
+- [cabal](https://www.haskell.org/cabal/): a system for building and packaging Haskell libraries and programs
 - [caddy](https://github.com/caddyserver/caddy): an extensible server platform written in Go.
 - [cal](https://manpages.ubuntu.com/manpages/jammy/en/man1/cal.1.html): displays a calendar and the date of Easter
 - [cargo](https://github.com/rust-lang/cargo): The Rust package manager
@@ -91,6 +100,7 @@
 - [clojure](https://clojure.org/): runners to launch Clojure programs
 - [cloudflared](https://github.com/cloudflare/cloudflared): Cloudflare Tunnel client 
 - [cmake](https://cmake.org/): an open-source, cross-platform family of tools designed to build, test and package software. 
+- [cmark](https://github.com/commonmark/cmark): convert CommonMark formatted text to HTM
 - [cmus](https://manpages.ubuntu.com/manpages/jammy/en/man1/cmus.1.html): C* Music Player
 - [code](https://code.visualstudio.com/): Visual Studio Code
 - [code-insiders](https://code.visualstudio.com/): Visual Studio Code Insiders
@@ -108,15 +118,18 @@
 - [croc](https://github.com/schollz/croc): Easily and securely send things from one computer to another
 - [crontab](https://manpages.ubuntu.com/manpages/jammy/en/man1/crontab.1.html): Manage users crontab files
 - [c++](https://manpages.ubuntu.com/manpages/jammy/en/man1/gcc.1.html): GNU project C and C++ compiler
+- [csh](https://linux.die.net/man/1/csh): C shell with file name completion and command line editing
 - [csplit](https://manpages.ubuntu.com/manpages/jammy/en/man1/csplit.1.html): split a file into sections determined by context lines
 - [csview](https://github.com/wfxr/csview): A high performance csv viewer with cjk/emoji support.
 - [curl](https://github.com/curl/curl): transfer a URL
 - [cut](https://manpages.ubuntu.com/manpages/jammy/en/man1/cut.1.html): remove sections from each line of files
+- [cwebp](https://developers.google.com/speed/webp/docs/cwebp): Compress an image file to a WebP file
 - [darktable](https://github.com/darktable-org/darktable): an open source photography workflow application and raw developer.
 - [darktable-cli](https://docs.darktable.org/usermanual/4.0/en/special-topics/program-invocation/darktable-cli/): a command line darktable variant
 - [dart](https://dart.dev/): A client-optimized language for fast apps on any platform
 - [date](https://manpages.ubuntu.com/manpages/jammy/en/man1/date.1.html): print or set the system date and time
 - [dbt](https://github.com/dbt-labs/dbt-core): An ELT tool for managing your SQL transformations and data models.
+- [dconf](https://manpages.ubuntu.com/manpages/jammy/en/man1/dconf.1.html): Simple tool for manipulating a dconf database
 - [dc](https://manpages.ubuntu.com/manpages/jammy/en/man1/dc.1.html): an arbitrary precision calculator
 - [ddev](https://github.com/ddev/ddev): Create and maintain a local web development environment.
 - [ddosify](https://github.com/ddosify/ddosify): Comprehensive Performance Testing Platform.
@@ -125,6 +138,8 @@
 - [deno](https://github.com/denoland/deno): A modern runtime for JavaScript and TypeScript.
 - [devbox](https://github.com/jetpack-io/devbox): Instant, easy, and predictable development environments
 - [df](https://manpages.ubuntu.com/manpages/jammy/en/man1/df.1.html): report file system disk space usage
+- [dhclient](https://manpages.ubuntu.com/manpages/jammy/en/man8/dhclient.8.html): Dynamic Host Configuration Protocol Client
+- [dhcpcd](https://roy.marples.name/projects/dhcpcd): a DHCP client
 - [dict](https://manpages.ubuntu.com/manpages/jammy/en/man1/dict.1.html): DICT Protocol Client
 - [diff](https://manpages.ubuntu.com/manpages/jammy/en/man1/diff.1.html): compare files line by line
 - [diff3](https://manpages.ubuntu.com/manpages/jammy/en/man1/diff3.1.html): compare three files line by line
@@ -137,7 +152,7 @@
 - [dive](https://github.com/wagoodman/dive): A tool for exploring a docker image, layer contents, and discovering ways to shrink the size of your Docker/OCI image.
 - [dmenu](https://manpages.ubuntu.com/manpages/jammy/en/man1/dmenu.1.html): dynamic menu
 - [dmesg](https://manpages.ubuntu.com/manpages/jammy/en/man1/dmesg.1.html): dmesg - print or control the kernel ring buffer
-- [dnf](https://dnf.readthedocs.io/en/latest/index.html): package managment for Fodera Linux and the successor to YUM
+- [dnf](https://dnf.readthedocs.io/en/latest/index.html): package managment for Fedora Linux and the successor to YUM
 - [dnsmasq](https://manpages.ubuntu.com/manpages/jammy/en/man8/dnsmasq.8.html): A lightweight DHCP and caching DNS server.
 - [doas](https://manpages.ubuntu.com/manpages/jammy/en/man1/doas.1.html): execute commands as another user
 - [docker](https://www.docker.com/): a software platform that allows you to build, test, and deploy applications quickly.
@@ -147,24 +162,30 @@
 - [dos2unix](https://manpages.ubuntu.com/manpages/jammy/en/man1/dos2unix.1.html): DOS/Mac to Unix and vice versa text file format converter
 - [dotnet](https://learn.microsoft.com/en-us/dotnet/core/tools/):  A cross-platform toolchain for developing, building, running, and publishing .NET applications.
 - [dpkg](https://manpages.ubuntu.com/manpages/jammy/en/man1/dpkg.1.html): package manager for Debian
+- [dpkg-reconfigure](https://manpages.ubuntu.com/manpages/jammy/en/man8/dpkg-reconfigure.8.html): reconfigure an already installed package
 - [dprint](https://github.com/dprint/dprint): Pluggable and configurable code formatting platform written in Rust.
+- [dua](https://github.com/Byron/dua-cli): View disk space usage and delete unwanted data, fast
 - [duf](https://github.com/muesli/duf): Disk Usage/Free Utility - a better 'df' alternative
 - [dufs](https://github.com/sigoden/dufs): A static file server
 - [dune](https://github.com/ocaml/dune): composable build system for OCaml
 - [du](https://manpages.ubuntu.com/manpages/jammy/en/man1/du.1.html): estimate file space usage
 - [dust](https://github.com/bootandy/dust): A more intuitive version of du in rust
-- [echo](https://manpages.ubuntu.com/manpages/jammy/en/man1/echo.1.html): display a line of text
+- [efibootmgr](https://manpages.ubuntu.com/manpages/jammy/en/man8/efibootmgr.8.html): manipulate the UEFI Boot Manager
 - [egrep](https://manpages.ubuntu.com/manpages/jammy/en/man1/grep.1.html): print lines that match patterns
 - [elixir](https://elixir-lang.org/): The Elixir script runner
 - [elvish](https://github.com/elves/elvish): Expressive Programming Language + Versatile Interactive Shell
 - [emacs](https://www.gnu.org/software/emacs/): An extensible, customizable, free/libre text editor — and more.
 - [emerge](https://wiki.gentoo.org/wiki/Emerge): package manager for Gentoo Linux.
+- [encfs](https://github.com/vgough/encfs): mounts or creates an encrypted virtual filesystem
+- [entr](https://github.com/eradman/entr): run arbitrary commands when files change.
 - [env](https://manpages.ubuntu.com/manpages/jammy/en/man1/env.1.html): run a program in a modified environment
 - [esbuild](https://github.com/evanw/esbuild): An extremely fast bundler for the web
 - [eslint](https://github.com/eslint/eslint): Find and fix problems in your JavaScript code.
+- [ethtool](https://manpages.ubuntu.com/manpages/jammy/en/man8/ethtool.8.html): query or control network driver and hardware settings
 - [exa](https://github.com/ogham/exa): A modern replacement for ‘ls’.
 - [exercism](https://github.com/exercism/cli): A Go based command line tool for exercism.org.
-- [expr](https://manpages.ubuntu.com/manpages/jammy/en/man1/expr.1.html): evaluate expressions
+- [expand](https://manpages.ubuntu.com/manpages/jammy/en/man1/expand.1.html): convert tabs to spaces
+- [fab](https://github.com/fabric/fabric): Simple, Pythonic remote execution and deployment.
 - [fakeroot](https://manpages.ubuntu.com/manpages/jammy/man1/fakeroot-tcp.1.html): run a command in an environment faking root privileges for file manipulation
 - [fallocate](https://manpages.ubuntu.com/manpages/jammy/man1/fallocate.1.html): preallocate or deallocate space to a file
 - [fc-cache](https://manpages.ubuntu.com/manpages/jammy/man1/fc-cache.1.html): build font information cache files
@@ -197,6 +218,7 @@
 - [gdu](https://github.com/dundee/gdu): Pretty fast disk usage analyzer written in Go.
 - [gem](https://github.com/rubygems/rubygems): Library packaging and distribution for Ruby.
 - [getent](https://manpages.ubuntu.com/manpages/jammy/en/man1/getent.1.html): get entries from Name Service Switch libraries
+- [getfacl](https://manpages.ubuntu.com/manpages/jammy/en/man1/getfacl.1.html) - get file access control lists
 - [ghq](https://github.com/x-motemen/ghq): Remote repository management made easy.
 - [gh](https://cli.github.com/): Take GitHub to the command line
 - [gibo](https://github.com/simonwhitaker/gibo): Easy access to gitignore boilerplates
@@ -209,11 +231,13 @@
 - [goctl](https://go-zero.dev/en/docs/tasks/installation/goctl): a go-zero's built-in handcuffle
 - [godoc](https://pkg.go.dev/golang.org/x/tools/cmd/godoc): extracts and generates documentation for Go programs.
 - [gofmt](https://pkg.go.dev/cmd/gofmt): formats Go programs.
+- [gojq](https://github.com/itchyny/gojq): Pure Go implementation of jq
 - [goreleaser](https://github.com/goreleaser/goreleaser): Deliver Go binaries as fast and easily as possible
 - [gource](https://github.com/acaudwell/Gource): software version control visualization
 - [gpasswd](https://manpages.ubuntu.com/manpages/jammy/en/man1/gpasswd.1.html): administer /etc/group and /etc/gshadow
 - [gpg](https://manpages.ubuntu.com/manpages/jammy/en/man1/gpg.1.html): OpenPGP encryption and signing tool
 - [gpg-agent](https://manpages.ubuntu.com/manpages/jammy/en/man1/gpg-agent.1.html): Secret key management for GnuPG
+- [gping](https://github.com/orf/gping): Ping, but with a graph.
 - [gprof](https://manpages.ubuntu.com/manpages/jammy/en/man1/gprof.1.html): display call graph profile data
 - [gradle](https://gradle.org): Powerful build system for the JVM
 - [grep](https://manpages.ubuntu.com/manpages/jammy/en/man1/grep.1.html): print lines that match patterns
@@ -240,6 +264,7 @@
 - [hexchat](https://github.com/hexchat/hexchat): IRC client for X based on X-Chat 2
 - [hexdump](https://manpages.ubuntu.com/manpages/jammy/en/man1/hexdump.1.html): display file contents in hexadecimal, decimal, octal, or ascii
 - [hexyl](https://github.com/sharkdp/hexyl): A command-line hex viewer
+- [highlight](https://manpages.ubuntu.com/manpages/jammy/en/man1/highlight.1.html) - a universal sourcecode to formatted text converter
 - [hostname](https://manpages.ubuntu.com/manpages/jammy/en/man1/hostname.1.html): show or set the system's host name
 - [hostnamectl](https://manpages.ubuntu.com/manpages/jammy/en/man1/hostnamectl.1.html): Control the system hostname 
 - [htmlq](https://github.com/mgdm/htmlq): Like jq, but for HTML.
@@ -259,11 +284,13 @@
 - [install](https://manpages.ubuntu.com/manpages/jammy/en/man1/install.1.html): copy files and set attributes
 - [ip](https://manpages.ubuntu.com/manpages/jammy/en/man8/ip.8.html): show / manipulate routing, network devices, interfaces and tunnels
 - [iptables](https://manpages.ubuntu.com/manpages/jammy/en/man8/iptables.8.html): administration tool for IPv4/IPv6 packet filtering and NAT
+- [istioctl](https://github.com/istio/istio/): Istio configuration command line utility for service operators to debug and diagnose their Istio mesh.
 - [jar](https://docs.oracle.com/en/java/javase/16/docs/specs/man/jar.html): Manipulates Java Archive (JAR) files.
 - [java](https://docs.oracle.com/en/java/index.html): Launches a Java application. 
 - [jenv](https://github.com/jenv/jenv): Manage your Java environment
 - [jless](https://github.com/PaulJuliusMartinez/jless): JSON viewer designed for reading, exploring, and searching through JSON data.
 - [jmeter](http://jmeter.apache.org): Apache JMeter - Load testing tool
+- [jobs](https://manpages.ubuntu.com/manpages/jammy/en/man1/jobs.1posix.html): Display status of jobs.
 - [join](https://manpages.ubuntu.com/manpages/jammy/en/man1/join.1.html): join lines of two files on a common field
 - [journalctl](https://manpages.ubuntu.com/manpages/jammy/en/man1/journalctl.1.html): Query the systemd journal
 - [jq](https://github.com/jqlang/jq): Command-line JSON processor
@@ -273,6 +300,8 @@
 - [k6](https://github.com/grafana/k6): A modern load testing tool, using Go and JavaScript
 - [k9s](https://github.com/derailed/k9s): Kubernetes CLI To Manage Your Clusters In Style!
 - [kak](https://github.com/mawww/kakoune): mawww's experiment for a better code editor
+- [keepassxc-cli](https://github.com/keepassxreboot/keepassxc): Cross Platform Password Manager
+- [keybase](https://github.com/keybase/client): keybase: keeping everyone's chats and files safe, from families to communities to companies.
 - [kill](https://manpages.ubuntu.com/manpages/jammy/en/man1/kill.1.html): send a signal to a process
 - [killall](https://manpages.ubuntu.com/manpages/jammy/en/man1/killall.1.html): kill processes by name
 - [kind](https://github.com/kubernetes-sigs/kind): Kubernetes IN Docker - local clusters for testing Kubernetes
@@ -299,6 +328,7 @@
 - [localectl](https://manpages.ubuntu.com/manpages/jammy/en/man1/localectl.1.html): Control the system locale and keyboard layout settings
 - [locate](https://manpages.ubuntu.com/manpages/jammy/en/man1/plocate.1.html): find files by name, quickly
 - [locust](https://github.com/locustio/locust): Write scalable load tests in plain Python
+- [loginctl](https://manpages.ubuntu.com/manpages/jammy/en/man1/loginctl.1.html): Control the systemd login manager
 - [lp](https://manpages.ubuntu.com/manpages/jammy/en/man1/lp.1.html): print files
 - [ls](https://manpages.ubuntu.com/manpages/jammy/en/man1/ls.1.html): list directory contents
 - [lsblk](https://manpages.ubuntu.com/manpages/jammy/en/man8/lsblk.8.html): list block devices
@@ -314,10 +344,12 @@
 - [lua](https://www.lua.org/): Lua interpreter
 - [lzcat](https://manpages.ubuntu.com/manpages/jammy/en/man1/xz.1.html): Compress or decompress .xz and .lzma files
 - [lzma](https://manpages.ubuntu.com/manpages/jammy/en/man1/xz.1.html): Compress or decompress .xz and .lzma files
+- [machinectl](https://manpages.ubuntu.com/manpages/jammy/en/man1/machinectl.1.html): Control the systemd machine manager
 - [mackup](https://github.com/lra/mackup): Keep your application settings in sync (OS X/Linux)
 - [make](https://manpages.ubuntu.com/manpages/jammy/en/man1/make.1.html): GNU make utility to maintain groups of programs
 - [makepkg](https://man.archlinux.org/man/makepkg.8.en): package build utility for Arch linux
 - [man](https://manpages.ubuntu.com/manpages/jammy/en/man1/man.1.html): an interface to the system reference manuals
+- [mariner](https://gitlab.com/radek-sprta/mariner): Navigate torrents 
 - [mask](https://github.com/jacobdeichert/mask): A CLI task runner defined by a simple markdown file
 - [mbuffer](https://manpages.ubuntu.com/manpages/jammy/en/man1/mbuffer.1.html): measuring buffer
 - [md5sum](https://manpages.ubuntu.com/manpages/jammy/en/man1/md5sum.1.html): compute and check MD5 message digest
@@ -333,6 +365,7 @@
 - [mkfifo](https://manpages.ubuntu.com/manpages/jammy/en/man1/mkfifo.1.html): make FIFOs (named pipes)
 - [mkfs](https://manpages.ubuntu.com/manpages/jammy/en/man8/mkfs.8.html): build a Linux filesystem
 - [mknod](https://manpages.ubuntu.com/manpages/jammy/en/man1/mknod.1.html): make block or character special files
+- [mkpasswd](https://manpages.ubuntu.com/manpages/jammy/en/man1/mkpasswd.1.html): Crypts the PASSWORD
 - [mkswap](https://manpages.ubuntu.com/manpages/jammy/en/man8/mkswap.8.html): set up a Linux swap area
 - [mktemp](https://manpages.ubuntu.com/manpages/jammy/en/man1/mktemp.1.html): create a temporary file or directory
 - [modinfo](https://manpages.ubuntu.com/manpages/jammy/en/man8/modinfo.8.html): Show information about a Linux Kernel module
@@ -345,11 +378,13 @@
 - [mosh](https://github.com/mobile-shell/mosh): Mobile Shell
 - [mount](https://manpages.ubuntu.com/manpages/jammy/en/man8/mount.8.html): mount a filesystem
 - [mpv](https://mpv.io/): video player based on MPlayer/mplayer2
+- [mtr](https://manpages.ubuntu.com/manpages/jammy/en/man8/mtr.8.html): a network diagnostic tool
 - [mvn](https://maven.apache.org/): a software project management and comprehension tool.
 - [mv](https://manpages.ubuntu.com/manpages/jammy/en/man1/mv.1.html): move (rename) files
 - [mysql](https://www.mysql.com/): the MySQL command-line client
 - [mysqldump](https://dev.mysql.com/doc/refman/8.0/en/mysqldump.html): a database backup program
 - [nano](https://manpages.ubuntu.com/manpages/jammy/en/man1/nano.1.html): Nano's ANOther editor, inspired by Pico
+- [navi](https://github.com/denisidoro/navi): An interactive cheatsheet tool
 - [ncal](https://manpages.ubuntu.com/manpages/jammy/en/man1/ncal.1.html): displays a calendar and the date of Easter
 - [ncat](https://manpages.ubuntu.com/manpages/jammy/en/man1/ncat.1.html): Concatenate and redirect sockets
 - [ncdu](https://manpages.ubuntu.com/manpages/jammy/en/man1/ncdu.1.html): NCurses Disk Usage
@@ -357,6 +392,7 @@
 - [neofetch](https://github.com/dylanaraps/neofetch): Shows Linux System Information with Distribution Logo
 - [neomutt](https://manpages.ubuntu.com/manpages/jammy/en/man1/neomutt.1.html): The NeoMutt Mail User Agent (MUA)
 - [netcat](https://linux.die.net/man/1/nc): arbitrary TCP and UDP connections and listens
+- [networkctl](https://manpages.ubuntu.com/manpages/jammy/en/man1/networkctl.1.html): Query the status of network links
 - [newman](https://github.com/postmanlabs/newman): a command-line collection runner for Postman
 - [newrelic](https://github.com/newrelic/newrelic-cli): The New Relic CLI enables users to perform tasks against the New Relic APIs
 - [nfpm](https://github.com/goreleaser/nfpm): a simple and 0-dependencies deb, rpm, apk and arch linux packager written in Go.
@@ -366,6 +402,7 @@
 - [nice](https://manpages.ubuntu.com/manpages/jammy/en/man1/nice.1.html): run a program with modified scheduling priority
 - [ninja](https://github.com/ninja-build/ninja): a small build system with a focus on speed
 - [nl](https://manpages.ubuntu.com/manpages/jammy/en/man1/nl.1.html): number lines of files
+- [nm](https://manpages.ubuntu.com/manpages/jammy/en/man1/nm.1.html): list symbols from object files
 - [nmap](https://nmap.org/): The Network Mapper
 - [nmcli](https://manpages.ubuntu.com/manpages/jammy/en/man1/nmcli.1.html): command-line tool for controlling NetworkManage
 - [node](https://nodejs.org/en): an open-source, cross-platform JavaScript runtime environment.
@@ -386,6 +423,7 @@
 - [op](https://developer.1password.com/docs/cli/): 1Password CLI provides commands to manage and administer a 1Password account.
 - [optipng](https://manpages.ubuntu.com/manpages/jammy/en/man1/optipng.1.html): Optimize Portable Network Graphics files
 - [osqueryi](https://github.com/osquery/osquery): your OS as a high-performance relational database
+- [ouch](https://github.com/ouch-org/ouch): easily compressing and decompressing files and directories.
 - [packer](https://github.com/hashicorp/packer): Automate image builds
 - [pacman](https://archlinux.org/pacman/pacman.8.html): package manager utility for Arch linux
 - [pandoc](https://github.com/jgm/pandoc): Universal markup converter
@@ -403,6 +441,7 @@
 - [pgcli](https://github.com/dbcli/pgcli): Postgres CLI with autocompletion and syntax highlighting
 - [pg_dump](https://www.postgresql.org/docs/current/app-pgdump.html): extract a PostgreSQL database into a script file or other archive file
 - [pg_dumpall](https://www.postgresql.org/docs/current/app-pg-dumpall.html): extract a PostgreSQL database cluster into a script file
+- [pg_restore](https://www.postgresql.org/docs/current/app-pgrestore.html): restore a PostgreSQL database from an archive file created by pg_dump
 - [pgrep](https://manpages.ubuntu.com/manpages/jammy/en/man1/pgrep.1.html): look up, signal, or wait for processes based on name and other attributes
 - [php](https://www.php.net/): PHP Command Line Interface
 - [phpunit](https://github.com/sebastianbergmann/phpunit): The PHP Unit Testing framework.
@@ -420,6 +459,8 @@
 - [pnpm](https://github.com/pnpm/pnpm): Fast, disk space efficient package manager for Node.js
 - [podman](https://github.com/containers/podman): A tool for managing OCI containers and pods.
 - [poetry](https://github.com/python-poetry/poetry): Python packaging and dependency management made easy
+- [poff](https://manpages.ubuntu.com/manpages/jammy/en/man1/poff.1.html): starts up, shuts down or lists the log of PPP connections
+- [pon](https://manpages.ubuntu.com/manpages/jammy/en/man1/pon.1.html): starts up, shuts down or lists the log of PPP connections
 - [port](https://github.com/macports/macports-ports): Install and upgrade open source software on macOS.
 - [poweroff](https://manpages.ubuntu.com/manpages/jammy/en/man8/halt.8.html): Halt, power-off or reboot the machine
 - [powertop](https://manpages.ubuntu.com/manpages/jammy/en/man8/powertop.8.html): a power consumption and power management diagnosis tool.
@@ -431,6 +472,7 @@
 - [ps](https://manpages.ubuntu.com/manpages/jammy/en/man1/ps.1.html): report a snapshot of the current processes.
 - [ptx](https://manpages.ubuntu.com/manpages/jammy/en/man1/ptx.1.html): produce a permuted index of file contents
 - [pulumi](https://github.com/pulumi/pulumi): Modern Infrastructure as Code
+- [pv](https://manpages.ubuntu.com/manpages/jammy/en/man1/pv.1.html): monitor the progress of data through a pipe
 - [pwd](https://manpages.ubuntu.com/manpages/jammy/en/man1/pwd.1.html): print name of current/working directory
 - [pyenv](https://github.com/pyenv/pyenv): Simple Python version management
 - [pytest](https://github.com/pytest-dev/pytest): testing framework for Python
@@ -446,8 +488,12 @@
 - [reboot](https://manpages.ubuntu.com/manpages/jammy/en/man8/halt.8.html): Halt, power-off or reboot the machine
 - [recode](https://manpages.ubuntu.com/manpages/jammy/en/man1/recode.1.html): converts files between character sets
 - [redis-cli](https://github.com/redis/redis): Command-line client to redis-server
+- [renice](https://manpages.ubuntu.com/manpages/jammy/en/man1/renice.1.html): alter priority of running processes
+- [resolvectl](https://manpages.ubuntu.com/manpages/jammy/en/man1/resolvectl.1.html): Resolve domain names, IPV4 and IPv6 addresses, DNS resource records, and services
 - [restic](https://github.com/restic/restic): Backup and restore files
 - [resume](https://github.com/jsonresume/resume-cli): CLI tool to easily setup a new resume
+- [rfkill](https://manpages.ubuntu.com/manpages/jammy/en/man8/rfkill.8.html): tool for enabling and disabling wireless devices
+- [rgrep](https://manpages.ubuntu.com/manpages/jammy/en/man1/grep.1.html): print lines that match patterns
 - [rg](https://github.com/BurntSushi/ripgrep): recursively search the current directory for lines matching a pattern
 - [rhash](https://manpages.ubuntu.com/manpages/jammy/en/man1/rhash.1.html): calculate/check CRC32, MD5, SHA1, GOST, TTH, BTIH or other message digests.
 - [rich](https://github.com/Textualize/rich): Rich text and formatting in the terminal 
@@ -463,6 +509,7 @@
 - [rustc](https://github.com/rust-lang/rust): Rust compiler
 - [rustfmt](https://github.com/rust-lang/rustfmt): Format Rust code
 - [rustup](https://github.com/rust-lang/rustup): The Rust toolchain installer
+- [sad](https://github.com/ms-jpq/sad): Space Age seD.
 - [sass](https://sass-lang.com/): Compile Sass to CSS.
 - [sbt](https://github.com/sbt/sbt): An interactive build tool for Scala, Java, and more.
 - [scc](https://github.com/boyter/scc): Sloc, Cloc and Code. Count lines of code in a directory with complexity estimation.
@@ -470,9 +517,12 @@
 - [scp](https://manpages.ubuntu.com/manpages/jammy/en/man1/scp.1.html): OpenSSH secure file copy
 - [screen](https://manpages.ubuntu.com/manpages/jammy/en/man1/screen.1.html): screen manager with VT100/ANSI terminal emulation
 - [scrot](https://manpages.ubuntu.com/manpages/jammy/en/man1/scrot.1.html): command line screen capture utility
+- [scrypt](https://manpages.ubuntu.com/manpages/jammy/en/man1/scrypt.1.html): encrypt and decrypt files.
 - [sed](https://manpages.ubuntu.com/manpages/jammy/en/man1/sed.1.html): stream editor for filtering and transforming text
 - [seq](https://manpages.ubuntu.com/manpages/jammy/en/man1/seq.1.html): print a sequence of numbers
 - [serve](https://github.com/vercel/serve): Static file serving and directory listing
+- [setfacl](https://manpages.ubuntu.com/manpages/jammy/en/man1/setfacl.1.html): set file access control lists
+- [setsid](https://manpages.ubuntu.com/manpages/jammy/en/man1/setsid.1.html): run a program in a new session
 - [sftp](https://manpages.ubuntu.com/manpages/jammy/en/man1/sftp.1.html): OpenSSH secure file transfer
 - [sha1sum](https://manpages.ubuntu.com/manpages/jammy/en/man1/sha1sum.1.html): compute and check SHA1 message digest
 - [sha256sum](https://manpages.ubuntu.com/manpages/jammy/en/man1/sha256sum.1.html): compute and check SHA256 message digest
@@ -520,6 +570,7 @@
 - [tar](https://manpages.ubuntu.com/manpages/jammy/en/man1/tar.1.html): an archiving utility
 - [task](https://github.com/go-task/task): A task runner / simpler Make alternative written in Go
 - [tcpdump](https://manpages.ubuntu.com/manpages/jammy/en/man8/tcpdump.8.html): dump traffic on a network
+- [tcsh](https://www.tcsh.org/): C shell with file name completion and command line editing
 - [tee](https://manpages.ubuntu.com/manpages/jammy/en/man1/tee.1.html): read from standard input and write to standard output and files
 - [telnet](https://linux.die.net/man/1/telnet): user interface to the TELNET protocol
 - [terraform](https://github.com/hashicorp/terraform): Automate infrastructure on any cloud
@@ -528,6 +579,7 @@
 - [tesseract](https://github.com/tesseract-ocr/tesseract): Tesseract Open Source OCR Engine
 - [tfsec](https://github.com/aquasecurity/tfsec): Security scanner for your Terraform code
 - [tig](https://manpages.ubuntu.com/manpages/jammy/en/man1/tig.1.html): text-mode interface for Git
+- [timedatectl](https://manpages.ubuntu.com/manpages/jammy/en/man1/timedatectl.1.html): Control the system time and date
 - [timeout](https://manpages.ubuntu.com/manpages/jammy/en/man1/timeout.1.html): run a command with a time limit
 - [time](https://manpages.ubuntu.com/manpages/jammy/en/man1/time.1.html): run programs and summarize system resource usage
 - [tinygo](https://github.com/tinygo-org/tinygo): a Go compiler for small places.
@@ -539,6 +591,7 @@
 - [top](https://manpages.ubuntu.com/manpages/jammy/en/man1/top.1.html): display Linux processes
 - [torsocks](https://manpages.ubuntu.com/manpages/jammy/en/man1/torsocks.1.html): Shell wrapper to simplify the use of the torsocks(8) library to transparently torify an application.
 - [touch](https://manpages.ubuntu.com/manpages/jammy/en/man1/touch.1.html): change file timestamps
+- [tracepath](https://manpages.ubuntu.com/manpages/jammy/en/man8/tracepath.8.html) - traces path to a network host discovering MTU along this path
 - [traceroute](https://linux.die.net/man/8/traceroute): print the route packets trace to network host
 - [trap](https://manpages.ubuntu.com/manpages/lunar/en/man1/trap.1posix.html): Trap signals and other events.
 - [tree](https://manpages.ubuntu.com/manpages/jammy/en/man1/tree.1.html): list contents of directories in a tree-like format.
@@ -570,7 +623,6 @@
 - [unxz](https://manpages.ubuntu.com/manpages/jammy/en/man1/xz.1.html): Compress or decompress .xz and .lzma files
 - [unzip](https://manpages.ubuntu.com/manpages/jammy/en/man1/unzip.1.html): list, test and extract compressed files in a ZIP archive
 - [update-alternatives](https://manpages.ubuntu.com/manpages/jammy/en/man1/update-alternatives.1.html): maintain symbolic links determining default commands
-- [updatedb](https://linux.die.net/man/8/updatedb): update a database for plocate
 - [upower](https://manpages.ubuntu.com/manpages/jammy/en/man1/upower.1.html): abstraction for power management
 - [uptime](https://manpages.ubuntu.com/manpages/jammy/en/man1/uptime.1.html): Tell how long the system has been running.
 - [upx](https://github.com/upx/upx): Ultimate Packer for eXecutables
@@ -586,6 +638,7 @@
 - [vhs](https://github.com/charmbracelet/vhs): Your CLI home video recorder.
 - [vi](https://github.com/vim/vim): compact version of vim
 - [vim](https://github.com/vim/vim): Vi IMproved, a programmer's text editor
+- [vimdiff](https://github.com/vim/vim): Similar to UNIX diff command we can use Vim to show diff in much better manner. 
 - [visudo](https://manpages.ubuntu.com/manpages/jammy/en/man8/visudo.8.html): edit the sudoers file
 - [viu](https://github.com/atanunq/viu): View images right from the terminal.
 - [vivid](https://github.com/sharkdp/vivid): LS_COLORS manager with multiple themes
@@ -605,6 +658,7 @@
 - [wdiff](https://manpages.ubuntu.com/manpages/jammy/en/man1/wdiff.1.html): display word differences between text files
 - [wezterm](https://github.com/wez/wezterm): A GPU-accelerated cross-platform terminal emulator and multiplexer 
 - [wget](https://manpages.ubuntu.com/manpages/jammy/en/man1/wget.1.html): The non-interactive network downloader.
+- [whatis](https://manpages.ubuntu.com/manpages/jammy/en/man1/whatis.1.html): display one-line manual page descriptions
 - [whereis](https://manpages.ubuntu.com/manpages/jammy/en/man1/whereis.1.html): locate the binary, source, and manual page files for a command
 - [which](https://manpages.ubuntu.com/manpages/jammy/en/man1/which.1.html): locate a command
 - [who](https://manpages.ubuntu.com/manpages/jammy/en/man1/who.1.html): show who is logged on
@@ -628,6 +682,10 @@
 - [xsel](https://manpages.ubuntu.com/manpages/jammy/en/man1/xsel.1.html): manipulate the X selection. 
 - [xsv](https://github.com/BurntSushi/xsv): A fast CSV command line toolkit written in Rust.
 - [xxd](https://manpages.ubuntu.com/manpages/jammy/en/man1/xxd.1.html): make a hexdump or do the reverse.
+- [xxhsum](https://manpages.ubuntu.com/manpages/jammy/en/man1/xxhsum.1.html) - print or check xxHash non-cryptographic checksums
+- [xxh32sum](https://manpages.ubuntu.com/manpages/jammy/en/man1/xxhsum.1.html) - print or check xxHash non-cryptographic checksums
+- [xxh64sum](https://manpages.ubuntu.com/manpages/jammy/en/man1/xxhsum.1.html) - print or check xxHash non-cryptographic checksums
+- [xxh128sum](https://manpages.ubuntu.com/manpages/jammy/en/man1/xxhsum.1.html) - print or check xxHash non-cryptographic checksums
 - [xz](https://manpages.ubuntu.com/manpages/jammy/en/man1/xz.1.html): Compress or decompress .xz and .lzma files
 - [xzcat](https://manpages.ubuntu.com/manpages/jammy/en/man1/xz.1.html): Compress or decompress .xz and .lzma files
 - [yarn](https://github.com/yarnpkg/yarn): Fast, reliable, and secure dependency management.

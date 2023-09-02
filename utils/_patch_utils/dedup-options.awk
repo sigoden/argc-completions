@@ -18,8 +18,7 @@ BEGIN {
         nameMatcher = " " pattern "[^A-Za-z0-9_-]"
         if (optionName ~ nameMatcher) {
             matchOption = 1
-        }
-        if (matchOption != 1) {
+        } else {
             nameMatcher = " " pattern "[-=][^A-Za-z0-9_-]"
             if (optionName ~ nameMatcher) {
                 matchOption = 1

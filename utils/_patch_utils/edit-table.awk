@@ -128,8 +128,17 @@ function editOption(line,       i) {
         if (name == "") {
             continue
         }
+        matchOption = 0
         nameMatcher = " " name "[^A-Za-z0-9_-]"
         if (optionName ~ nameMatcher) {
+            matchOption = 1
+        } else {
+            nameMatcher = " " name "[-=][^A-Za-z0-9_-]"
+            if (optionName ~ nameMatcher) {
+                matchOption = 1
+            }
+        }
+        if (matchOption == 1) {
             TAKEN_ROWS[i] = 1
             notation = TABLE[i, 2]
             choice = TABLE[i, 3]

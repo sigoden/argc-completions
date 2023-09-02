@@ -197,7 +197,7 @@ END {
         isCmd = 1
         for (i in words) {
             word = words[i]
-            if (i == 1 && (match(word, /\//) || match(word, /\.(exe|bat|cmd)$/))) {
+            if (i == 1 && (match(word, /\//) || match(word, /\.[A-Za-z0-9]{1,4}$/))) {
                 continue
             }
             if (isCmd && match(word, /^[a-z0-9_][A-Za-z0-9_-]*$/)) {
@@ -528,7 +528,7 @@ function parseDesc(descVal, output, extractChoice, logPrefix)  {
     }
     if (extractChoice == 1 && choicesVal == "" ) {
         if (index(concatedDescVal, "]") > 0) {
-            if (match(concatedDescVal, / ?\[(possible values|choices): (([A-Za-z0-9_\.\/,-]+, )*[A-Za-z0-9_\.\/,-]+)\]/, arr)) {
+            if (match(concatedDescVal, / ?\[(possible values|choices): (([A-Za-z0-9_\.\/,:-]+, )*[A-Za-z0-9_\.\/,:-]+)\]/, arr)) {
                 choicesVal = arr[2]
                 matchVal = arr[0]
             } else if (match(concatedDescVal, / ?\[(possible values|choices): (("([A-Za-z0-9_\.\/,-]+)", )*"([A-Za-z0-9_\.\/,-]+)")\]/, arr)) {

@@ -66,7 +66,7 @@ _choice_run() {
         return
     fi
     _argc_util_mode_parts :
-    if [[ "$argc__parts_len" -le  1 ]]; then
+    if [[ "$argc__parts_len" -lt  2 ]]; then
         _choice_project | _argc_util_transform suffix=: nospace
     elif [[ "$argc__parts_len" -eq  2 ]]; then
         cat "$angular_json_path" | \
