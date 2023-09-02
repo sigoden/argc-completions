@@ -18,6 +18,7 @@
 # @flag --verbose                         print a diagnostic just before each output file is opened
 # @flag --help                            display this help and exit
 # @flag --version                         output version information and exit
-# @arg file-prefix <FILE [PREFIX]>
+# @arg file
+# @arg prefix
 
 command eval "$(argc --argc-eval "$0" "$@")"

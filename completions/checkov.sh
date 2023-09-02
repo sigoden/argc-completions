@@ -40,7 +40,7 @@
 # @flag --skip-policy-download                     Deprecated - use --skip-download
 # @flag --skip-fixes                               Do not download fixed resource templates from Bridgecrew.
 # @option --download-external-modules <DOWNLOAD_EXTERNAL_MODULES>  download external terraform modules from public git repositories and terraform registry [env var: DOWNLOAD_EXTERNAL_MODULES]
-# @option --var-file <VAR_FILE>                    Variable files to load in addition to the default files (see https://www.terraform.io/docs/language/valu es/variables.html#variable-definitions-tfvars- files).Currently only supported for source Terraform (.tf file), and Helm chart scans.Requires using --directory, not --file.
+# @option --var-file <VAR_FILE>                    Variable files to load in addition to the default files (see https://www.terraform.io/docs/language/valu es/variables.html#variable-definitions-tfvars-files).Currently only supported for source Terraform (.tf file), and Helm chart scans.Requires using --directory, not --file.
 # @option --external-modules-download-path <EXTERNAL_MODULES_DOWNLOAD_PATH>  set the path for the download external terraform modules [env var: EXTERNAL_MODULES_DIR]
 # @option --evaluate-variables <EVALUATE_VARIABLES>  evaluate the values of variables and locals [env var: CKV_EVAL_VARS]
 # @option -ca <CA_CERTIFICATE>                     Custom CA certificate (bundle) file [env var: BC_CA_BUNDLE]

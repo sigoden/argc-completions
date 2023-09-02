@@ -8,7 +8,7 @@
 # @flag --version       output version information and exit
 # @arg rootpath
 # @arg command[`_module_os_command`]
-# @arg args~[`_choice_args`]
+# @arg arg~[`_choice_args`]
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 

@@ -64,7 +64,7 @@
 # @option --sourcefile <file>                      Set the source file for the source map (for stdin)
 # @option --sourcemap[external|inline] <inline>    Set sourcemap option
 # @option --sources-content <false>                Omit "sourcesContent" in generated source maps
-# @option --supported-*[true|false] <:F=string>    Consider syntax F to be supported
+# @option --supported-* <:F=string>                Consider syntax F to be supported
 # @option --tree-shaking[false|true] <string>      Force tree shaking on or off
 # @option --tsconfig <file>                        Use this tsconfig.json file instead of other ones
 # @flag --version                                  Print the current version (0.19.2) and exit

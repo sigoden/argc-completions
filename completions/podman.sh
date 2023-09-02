@@ -343,7 +343,7 @@ container::cp() {
 # @option -w --workdir <dir>                       Working directory inside the container
 # @arg image[`_module_oci_podman_image`]
 # @arg command[`_module_os_command`]
-# @arg args~[`_choice_args`]
+# @arg arg~[`_choice_args`]
 container::create() {
     :;
 }
@@ -374,7 +374,7 @@ container::diff() {
 # @option -w --workdir <dir>        Working directory inside the container
 # @arg container[`_choice_container`]
 # @arg command[`_module_os_command`]
-# @arg args~[`_choice_args`]
+# @arg arg~[`_choice_args`]
 container::exec() {
     :;
 }
@@ -714,7 +714,7 @@ container::rm() {
 # @option -w --workdir <dir>                       Working directory inside the container
 # @arg image[`_module_oci_podman_image`]
 # @arg command[`_module_os_command`]
-# @arg args~[`_choice_args`]
+# @arg arg~[`_choice_args`]
 container::run() {
     :;
 }
@@ -955,7 +955,7 @@ cp() {
 # @option -w --workdir <dir>                       Working directory inside the container
 # @arg image[`_module_oci_podman_image`]
 # @arg command[`_module_os_command`]
-# @arg args~[`_choice_args`]
+# @arg arg~[`_choice_args`]
 create() {
     :;
 }
@@ -997,7 +997,7 @@ events() {
 # @option -w --workdir <dir>        Working directory inside the container
 # @arg container[`_choice_container`]
 # @arg command[`_module_os_command`]
-# @arg args~[`_choice_args`]
+# @arg arg~[`_choice_args`]
 exec() {
     :;
 }
@@ -1590,7 +1590,7 @@ machine::rm() {
 # @cmd SSH into an existing machine
 # @arg name
 # @arg command[`_module_os_command`]
-# @arg args~[`_choice_args`]
+# @arg arg~[`_choice_args`]
 machine::ssh() {
     :;
 }
@@ -2317,7 +2317,7 @@ rmi() {
 # @option -w --workdir <dir>                       Working directory inside the container
 # @arg image[`_module_oci_podman_image`]
 # @arg command[`_module_os_command`]
-# @arg args~[`_choice_args`]
+# @arg arg~[`_choice_args`]
 run() {
     :;
 }
@@ -2608,7 +2608,7 @@ unpause() {
 # @cmd Run a command in a modified user namespace
 # @flag --rootless-cni    Join the rootless network namespace used for CNI networking
 # @arg command[`_module_os_command`]
-# @arg args~[`_choice_args`]
+# @arg arg~[`_choice_args`]
 unshare() {
     :;
 }

@@ -2,7 +2,7 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # @flag --metadata-dump                            **For internal use only** Dump json metadata for all entries, ignores other options.
-# @flag --no-fail-on-errors                        **For internal use only** Only used for --metadata- dump.
+# @flag --no-fail-on-errors                        **For internal use only** Only used for --metadata-dump.
 # @option --playbook-dir <BASEDIR>                 Since this tool does not use playbooks, use this as a substitute playbook directory.
 # @flag --version                                  show program's version number, config file location, configured module search path, module location, executable location and exit
 # @flag -F --list_files                            Show plugin names and their source files without summaries (implies --list).

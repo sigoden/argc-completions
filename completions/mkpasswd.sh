@@ -9,7 +9,8 @@
 # @flag -s --stdin                                like --password-fd=0
 # @flag -h --help                                 display this help and exit
 # @flag -V --version                              output version information and exit
-# @arg password-salt <PASSWORD [SALT]>
+# @arg password
+# @arg salt
 
 _choice_method() {
     mkpasswd -m help | tail -n +2  | sed 's/\s\+/\t/'

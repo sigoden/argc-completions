@@ -6,7 +6,7 @@ _patch_table() {
     _patch_table_edit_arguments \
         'newroot(rootpath)' \
         'command;[`_module_os_command`]' \
-        'args;~[`_choice_args`]' \
+        'arg;~[`_choice_args`]' \
 
 }
 

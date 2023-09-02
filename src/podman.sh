@@ -42,7 +42,7 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_arguments \
             'command;[`_module_os_command`]' \
-            'args;~[`_choice_args`]' \
+            'arg;~[`_choice_args`]' \
 
     elif [[ "$*" == "podman create" ]] \
       || [[ "$*" == "podman exec" ]] \
@@ -52,7 +52,7 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_arguments \
             'command;[`_module_os_command`]' \
-            'args;~[`_choice_args`]' \
+            'arg;~[`_choice_args`]' \
 
     elif [[ "$*" == "podman image" ]]; then
         echo "$table" | \
@@ -85,7 +85,7 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_arguments \
             'command;[`_module_os_command`]' \
-            'args;~[`_choice_args`]' \
+            'arg;~[`_choice_args`]' \
 
     elif [[ "$*" == "podman network"* ]]; then
         table="$( \

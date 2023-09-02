@@ -789,13 +789,13 @@ a	abort
 EOF
 }
 
+_choice_package() {
+    pip list --format json | yq '.[] | .name + "	" + .version'
+}
+
 _choice_config_key() {
     pip config $(_argc_util_param_select_options --global --site --user) list | \
     gawk -F= '{gsub("\047", "", $2); print $1 "\t" $2}'
-}
-
-_choice_package() {
-    pip list --format json | yq '.[] | .name + "	" + .version'
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

@@ -255,6 +255,15 @@ cmdc() {
 }
 # }} __test cmdc
 
+# {{ __test cmde
+# @cmd
+# @arg command
+# @arg args*
+cmde() {
+    :;
+}
+# }} __test cmde
+
 # {{ __test bug
 # @cmd start a bug report
 bug() {

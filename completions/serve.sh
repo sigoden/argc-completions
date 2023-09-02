@@ -3,7 +3,7 @@
 
 # @flag --help                        Shows this help message
 # @flag -v --version                  Displays the current version of serve
-# @option -l --listen <listen_uri>    Specify a URI endpoint on which to listen (see below) - more than one may be specified to listen in multiple places
+# @option -l --listen <listen_uri>    Specify a URI endpoint on which to listen (see below) -more than one may be specified to listen in multiple places
 # @flag -p                            Specify custom port
 # @flag -s --single                   Rewrite all not-found requests to `index.html`
 # @flag -d --debug                    Show debugging information

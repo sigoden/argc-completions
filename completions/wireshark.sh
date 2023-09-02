@@ -69,6 +69,20 @@ EOF
     fi
 }
 
+_choice_ring_buffer() {
+    _argc_util_comp_kv :
+    if [[ -z "$argc__kv_prefix" ]]; then
+        cat <<-'EOF' | _argc_util_transform suffix=: nospace
+duration	switch to next file after NUM secs
+filesize	switch to next file after NUM KB
+files	ringbuffer: replace after NUM files
+packets	switch to next file after NUM packets
+interval	switch to next file when the time is an exact multiple of NUM secs
+EOF
+        return
+    fi
+}
+
 _choice_decode() {
     _argc_util_mode_kv ==
     if [[ -z "$argc__kv_prefix" ]]; then
@@ -99,20 +113,6 @@ _choice_persconf() {
         return
     fi
     _argc_util_comp_path
-}
-
-_choice_ring_buffer() {
-    _argc_util_comp_kv :
-    if [[ -z "$argc__kv_prefix" ]]; then
-        cat <<-'EOF' | _argc_util_transform suffix=: nospace
-duration	switch to next file after NUM secs
-filesize	switch to next file after NUM KB
-files	ringbuffer: replace after NUM files
-packets	switch to next file after NUM packets
-interval	switch to next file when the time is an exact multiple of NUM secs
-EOF
-        return
-    fi
 }
 
 _choice_selector() {

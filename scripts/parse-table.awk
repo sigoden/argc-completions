@@ -191,8 +191,7 @@ END {
         if (CMDS) { sub(CMDS " ", CMDS " -- ", usage) }
         sub(/\s+\.\.\.$/, "...", usage)
         sub(/ - [A-Z][a-z0-9].*/, "", usage)
-        sub(/\[COMMAND \[ARG.*\](\.\.\.)?\]/, "COMMAND ARGS...", usage)
-        sub(/\[command \[arg.*\](\.\.\.)?\]/, "command args...", usage)
+        usage = gensub(/\[(\S+) (\[[^\[\]]+\](\.\.\.)?)\]$/, "\\1 \\2", 1, usage)
         splitUsage(usage, words)
         isCmd = 1
         for (i in words) {

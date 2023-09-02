@@ -306,7 +306,7 @@ _helper_test_fn() {
 
 _helper_list_changed() {
     git status | \
-    gawk '/(src|completions)\// {
+    gawk '/ (src|completions)\// {
         if (match($0, /^\s+(deleted|renamed):\s+/)) {
             next
         }

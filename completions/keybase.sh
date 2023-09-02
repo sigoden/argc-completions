@@ -498,7 +498,8 @@ chat::list-channels() {
 # @cmd List members of a chat conversation
 # @option --topic-type <"chat">    Specify topic type of the conversation.
 # @flag -j --json                  Output memberships as JSON
-# @arg conversation-channel-name <conversation [channel name]>
+# @arg conversation
+# @arg channel-name <channel name>
 chat::list-members() {
     :;
 }
@@ -727,7 +728,8 @@ chat::search-regexp() {
 # @flag --clear-headline                 Clear the headline for the conversation
 # @flag --nonblock                       Send message without success confirmation
 # @option --exploding-lifetime <"0s">    Make this message an exploding message and set the lifetime for the given duration.
-# @arg conversation-message <conversation [message]>
+# @arg conversation
+# @arg message
 chat::send() {
     :;
 }

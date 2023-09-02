@@ -95,7 +95,7 @@
 # @option --log-file-date-format <LOG_FILE_DATE_FORMAT>  Log date format used by the logging module
 # @option --log-auto-indent <LOG_AUTO_INDENT>    Auto-indent multiline messages passed to the logging module.
 # @option --log-disable <LOGGER_DISABLE>         Disable a logger by name.
-# @option --cov <SOURCE>                         Path or package name to measure during execution (multi- allowed).
+# @option --cov <SOURCE>                         Path or package name to measure during execution (multi-allowed).
 # @flag --cov-reset                              Reset cov sources accumulated in options so far.
 # @option --cov-report <TYPE>                    Type of report to generate: term, term-missing, annotate, html, xml (multi-allowed).
 # @option --cov-config <PATH>                    Config file for coverage.

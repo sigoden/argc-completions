@@ -9,7 +9,7 @@
 # @option -I <R>                        same as --replace=R
 # @option -i --replace <R>              replace R in INITIAL-ARGS with names read from standard input, split at newlines; if R is unspecified, assume {}
 # @option -L --max-lines                use at most MAX-LINES non-blank input lines per command line
-# @option -l <MAX-LINES>                similar to -L but defaults to at most one non- blank input line if MAX-LINES is not specified
+# @option -l <MAX-LINES>                similar to -L but defaults to at most one non-blank input line if MAX-LINES is not specified
 # @option -n --max-args                 use at most MAX-ARGS arguments per command line
 # @flag -o --open-tty                   Reopen stdin as /dev/tty in the child process before executing the command; useful to run an interactive application.
 # @option -P --max-procs                run at most MAX-PROCS processes at a time

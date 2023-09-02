@@ -5,7 +5,7 @@
 # @flag --help                   display this help and exit
 # @flag --version                output version information and exit
 # @arg command[`_module_os_command`]
-# @arg args~[`_module_os_command_args`]
+# @arg arg~[`_module_os_command_args`]
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 

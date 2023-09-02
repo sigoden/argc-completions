@@ -39,7 +39,6 @@ attach-session() {
 # @option -N <note>
 # @arg key
 # @arg command
-# @arg args*
 bind-key() {
     :;
 }

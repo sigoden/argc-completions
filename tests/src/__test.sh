@@ -171,6 +171,7 @@ Other:
     cmda
     cmdb
     cmdc
+    cmde
 
 The commands are:
 
@@ -256,6 +257,8 @@ EOF
         echo "Usage: __test cmdb [OPTION…] LOCATION FILENAME NAME [BRANCH]"
     elif [[ "$*" == "__test cmdc" ]]; then
         echo "Usage: __test cmdc COMMAND [ARGS]..."
+    elif [[ "$*" == "__test cmde" ]]; then
+        echo "Usage: __test cmde [COMMAND [ARGS...]]"
     fi
 }
 
