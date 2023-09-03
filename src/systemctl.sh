@@ -120,23 +120,23 @@ _choice_type() {
 }
 
 _choice_unit() {
-    _systemctl list-units --no-pager -o json | yq '.[] | .unit + "	" + .description'
+    _argc_util_parallel _choice_unit_only ::: _choice_unit_file
 }
 
 _choice_socket_unit() {
-    _systemctl list-units --no-pager -o json | yq '.[] | select(.unit == "*.socket") | .unit + "	" + .description'
+    _systemctl list-units -o json | yq '.[] | select(.unit == "*.socket") | .unit + "	" + .description'
 }
 
 _choice_timer_unit() {
-    _systemctl list-units --no-pager -o json | yq '.[] | select(.unit == "*.timer") | .unit + "	" + .description'
+    _systemctl list-units -o json | yq '.[] | select(.unit == "*.timer") | .unit + "	" + .description'
 }
 
 _choice_unit_pid() {
-    _argc_util_parallel _choice_unit ::: _module_os_pid
+    _argc_util_parallel _choice_unit_only ::: _choice_unit_file ::: _module_os_pid
 }
 
 _choice_unit_job() {
-    _argc_util_parallel _choice_unit ::: _choice_job
+    _argc_util_parallel _choice_unit_only ::: _choice_unit_file  ::: _choice_job
 }
 
 _choice_perperty() {
@@ -172,7 +172,7 @@ EOF
 }
 
 _choice_target() {
-    _systemctl list-units --type target --no-pager -o json | yq '.[] | .unit + "	" + .description'
+    _systemctl list-units --type target -o json | yq '.[] | .unit + "	" + .description'
 }
 
 _choice_unit_path() {
@@ -181,11 +181,11 @@ _choice_unit_path() {
 }
 
 _choice_machine() {
-    _systemctl list-machines --no-pager -o json | yq '.[].name' | gawk '{print $1}'
+    _systemctl list-machines -o json | yq '.[].name' | gawk '{print $1}'
 }
 
 _choice_job() {
-    _systemctl list-jobs --no-pager -o json | yq '.[] | .job + "	" + .description'
+    _systemctl list-jobs -o json | yq '.[] | .job + "	" + .description'
 }
 
 _choice_set_environment() {
@@ -197,6 +197,14 @@ _choice_set_environment() {
 
 _choice_environment() {
     _systemctl show-environment | _argc_util_transform format==
+}
+
+_choice_unit_file() {
+    _systemctl list-unit-files -o json | yq '.[] | .unit_file'
+}
+
+_choice_unit_only() {
+    _systemctl list-units -o json | yq '.[] | .unit + "	" + .description'
 }
 
 _systemctl() {

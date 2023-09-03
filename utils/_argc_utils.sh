@@ -42,7 +42,7 @@ _argc_util_comp_path() {
         echo "__argc_prefix=$prefix"
     fi
     if [[ "$with_filter" -eq 1 ]]; then
-        echo "__argc_prefix=$filter"
+        echo "__argc_filter=$filter"
     fi
     if [[ "$isdir" -eq 1 ]]; then
         echo "__argc_value=dir"
