@@ -2,6 +2,7 @@
 - [7za](https://www.7-zip.org/): A file archiver with high compression ratio format
 - [7zr](https://www.7-zip.org/): A file archiver with high compression ratio format
 - [ab](https://httpd.apache.org/docs/2.4/programs/ab.html): Apache HTTP server benchmarking tool
+- [abook](https://manpages.ubuntu.com/manpages/jammy/en/man1/abook.1.html): text-based address book program
 - [ack](https://manpages.ubuntu.com/manpages/jammy/en/man1/ack.1p.html): grep-like text finder
 - [acpi](https://manpages.ubuntu.com/manpages/jammy/en/man1/acpi.1.html): shows battery status and other ACPI information
 - [act](https://github.com/nektos/act): Run your GitHub Actions locally
@@ -50,6 +51,7 @@
 - [bats](https://github.com/bats-core/bats-core): Bash Automated Testing System
 - [bazel](https://bazel.build/): tool to automate software builds and tests
 - [bc](https://manpages.ubuntu.com/manpages/jammy/en/man1/bc.1.html): An arbitrary precision calculator language
+- [bison](https://manpages.ubuntu.com/manpages/jammy/en/man1/bison.1.html): GNU Project parser generator (yacc replacement)
 - [black](https://github.com/psf/black): The uncompromising Python code formatter
 - [bootctl](https://manpages.ubuntu.com/manpages/jammy/en/man1/bootctl.1.html): Control EFI firmware boot settings and manage boot loader
 - [bosh](https://bosh.io/docs/): unifies release engineering, deployment, and lifecycle management of small and large-scale cloud software.
@@ -61,6 +63,7 @@
 - [brotli](https://github.com/google/brotli): lossless compression algorithm and format
 - [browser-sync](https://github.com/BrowserSync/browser-sync): Keep multiple browsers & devices in sync when building websites.
 - [btop](https://github.com/aristocratos/btop): Modern and colorful command line resource monitor that shows usage and stats
+- [btrfs](http://btrfs.wiki.kernel.org/): a toolbox to manage btrfs filesystems
 - [bundle](https://bundler.io/): Ruby Dependency Management
 - [bun](https://github.com/oven-sh/bun): Incredibly fast JavaScript runtime, bundler, test runner, and package manager – all in one
 - [cabal](https://www.haskell.org/cabal/): a system for building and packaging Haskell libraries and programs
@@ -383,6 +386,7 @@
 - [msfconsole](https://docs.metasploit.com/): main Metasploit command-line interface
 - [msfdb](https://docs.metasploit.com/): easily setup and control both a database and a Web Service capable of connecting this database with Metasploit
 - [mtr](https://manpages.ubuntu.com/manpages/jammy/en/man8/mtr.8.html): a network diagnostic tool
+- [mutt](http://www.mutt.org/): The Mutt Mail User Agent
 - [mvn](https://maven.apache.org/): a software project management and comprehension tool.
 - [mv](https://manpages.ubuntu.com/manpages/jammy/en/man1/mv.1.html): move (rename) files
 - [mysql](https://www.mysql.com/): the MySQL command-line client
@@ -491,6 +495,7 @@
 - [ranger](https://github.com/ranger/ranger): A VIM-inspired filemanager for the console
 - [rbenv](https://github.com/rbenv/rbenv): Manage your app's Ruby environment
 - [rclone](https://github.com/rclone/rclone): rsync for cloud storage
+- [readelf](https://manpages.ubuntu.com/manpages/jammy/en/man1/readelf.1.html): display information about ELF files
 - [readlink](https://manpages.ubuntu.com/manpages/jammy/en/man1/readlink.1.html): print resolved symbolic links or canonical file names
 - [realpath](https://manpages.ubuntu.com/manpages/jammy/en/man1/realpath.1.html): print the resolved path
 - [reboot](https://manpages.ubuntu.com/manpages/jammy/en/man8/halt.8.html): Halt, power-off or reboot the machine
@@ -668,6 +673,7 @@
 - [vmstat](https://manpages.ubuntu.com/manpages/jammy/en/man8/vmstat.8.html): Report virtual memory statistics
 - [volta](https://github.com/volta-cli/volta): JS Toolchains as Code. 
 - [vultr-cli](https://github.com/vultr/vultr-cli): Official command line tool for Vultr services
+- [w](https://manpages.ubuntu.com/manpages/jammy/en/man1/w.1.html): Show who is logged on and what they are doing.
 - [wasm-bindgen](https://github.com/rustwasm/wasm-bindgen): Generating JS bindings for a wasm file
 - [wasmer](https://github.com/wasmerio/wasmer): The leading WebAssembly Runtime supporting WASIX, WASI and Emscripten
 - [wasm-pack](https://github.com/rustwasm/wasm-pack): your favorite rust -> wasm workflow tool!
@@ -695,7 +701,6 @@
 - [wp](https://github.com/wp-cli/wp-cli): The command-line interface for WordPress.
 - [wrk](https://github.com/wg/wrk): Modern HTTP benchmarking tool
 - [wscat](https://github.com/websockets/wscat): WebSocket cat
-- [w](https://manpages.ubuntu.com/manpages/jammy/en/man1/w.1.html): Show who is logged on and what they are doing.
 - [wsl](https://learn.microsoft.com/en-us/windows/wsl/): CLI for Windows Subsytem for Linux
 - [xargs](https://manpages.ubuntu.com/manpages/jammy/en/man1/xargs.1.html): build and execute command lines from standard input
 - [xc](https://github.com/joerdav/xc): Markdown defined task runner.
@@ -720,6 +725,7 @@
 - [yq](https://github.com/mikefarah/yq): a portable command-line YAML, JSON, XML, CSV, TOML and properties processor
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp): A youtube-dl fork with additional features and fixes
 - [yum](http://yum.baseurl.org/wiki/YumCommands.html): Package manager for Red Hat Enterprise Linux.
+- [z](https://github.com/rupa/z): jump around
 - [zathura](https://github.com/pwmt/zathura): a document viewer
 - [zcat](https://manpages.ubuntu.com/manpages/jammy/en/man1/zcat.1.html): decompress and concatenate files to standard output
 - [zellij](https://github.com/zellij-org/zellij): A terminal workspace with batteries included
@@ -728,5 +734,5 @@
 - [zip](https://manpages.ubuntu.com/manpages/jammy/en/man1/zip.1.html): package and compress (archive) files
 - [zipcloak](https://manpages.ubuntu.com/manpages/jammy/en/man1/zipcloak.1.html): encrypt entries in a zipfile
 - [zoxide](https://github.com/ajeetdsouza/zoxide): A smarter cd command.
-- [z](https://github.com/rupa/z): jump around
+- [zpool](https://manpages.ubuntu.com/manpages/jammy/en/man8/zpool.8.html): configures ZFS storage pools
 - [zypper](https://en.opensuse.org/Portal:Zypper): package manager for openSUSE linux
