@@ -4,9 +4,9 @@ _patch_help() {
 
 _patch_table() { 
     _patch_table_edit_options \
-        '--command;[`_module_os_command_string`]' \
+        '--command;[`_module_os_command`]' \
         '--group;[`_module_os_group`]' \
-        '--session-command;[`_module_os_command_string`]' \
+        '--session-command;[`_module_os_command`]' \
         '--shell;[`_module_os_shell`]' \
         '--supp-group;[`_module_os_group`]' \
     | \

@@ -6,7 +6,7 @@ _patch_table() {
     _patch_table_edit_options \
         '--rc;*,[`_choice_file`]' \
         '--shell-type;[`_choice_shell_type`]' \
-        '-c;[`_module_os_command_string`]' \
+        '-c;[`_module_os_command`]' \
     | \
     _patch_table_edit_arguments ';;' 'file' 'args...'
 }

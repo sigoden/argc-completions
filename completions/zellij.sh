@@ -195,7 +195,7 @@ action::move-pane-backwards() {
 # @option -n --name             Name of the new pane
 # @option -p --plugin
 # @flag -s --start-suspended    Start the command suspended, only running it after the you first press ENTER
-# @arg command~[`_module_os_command_string`]
+# @arg command~[`_module_os_exec`]
 action::new-pane() {
     :;
 }
@@ -545,14 +545,14 @@ options() {
 
 # {{ zellij run
 # @cmd Run a command in a new pane [aliases: r]
-# @flag -c --close-on-exit                      Close the pane immediately when its command exits
-# @option --cwd                                 Change the working directory of the new pane
-# @option -d --direction                        Direction to open the new pane in
-# @flag -f --floating                           Open the new pane in floating mode
-# @flag -h --help                               Print help information
-# @option -n --name                             Name of the new pane
-# @flag -s --start-suspended                    Start the command suspended, only running after you first presses ENTER
-# @arg command~[`_module_os_command_string`]    Command to run
+# @flag -c --close-on-exit            Close the pane immediately when its command exits
+# @option --cwd                       Change the working directory of the new pane
+# @option -d --direction              Direction to open the new pane in
+# @flag -f --floating                 Open the new pane in floating mode
+# @flag -h --help                     Print help information
+# @option -n --name                   Name of the new pane
+# @flag -s --start-suspended          Start the command suspended, only running after you first presses ENTER
+# @arg command~[`_module_os_exec`]    Command to run
 run() {
     :;
 }
@@ -596,8 +596,16 @@ _module_os_command() {
     fi
 }
 
-_module_os_command_string() {
-    _module_os_command
+_module_os_exec() {
+    if [[ -n "$argc__last_flag_option" ]]; then
+        option_var="argc_${argc__last_flag_option//-/_}[@]"
+        argc__positionals=( "${!option_var}" )
+    fi
+    if [[ "${#argc__positionals[@]}" -lt 2 ]]; then
+        _module_os_command
+    else
+        _argc_util_comp_subcommand 0
+    fi
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

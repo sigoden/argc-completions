@@ -579,7 +579,7 @@ netns::pids() {
 # {{{ ip netns exec
 # @cmd Run cmd in the named network namespace
 # @arg name[`_choice_netns_name`]
-# @arg cmd~[`_module_os_command_string`]
+# @arg cmd*
 netns::exec() {
     :;
 }
@@ -1576,22 +1576,6 @@ _choice_ip_scope() {
     if [[ -r /etc/iproute2/rt_scopes ]]; then
         cat /etc/iproute2/rt_scopes | sed  -n  -e '/^#/ d' -e 's/^\(\S\+\)\s*\(\S\+\)\s*$/\1\t\2/p'
     fi
-}
-
-_module_os_command() {
-    if _argc_util_has_path_prefix; then
-        _argc_util_comp_path
-        return
-    fi
-    if [[ "$ARGC_OS" == "windows" ]]; then
-        PATH="$(echo "$PATH" | sed 's|:[^:]*/windows/system32:|:|Ig')" compgen -c
-    else
-        compgen -c
-    fi
-}
-
-_module_os_command_string() {
-    _module_os_command
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

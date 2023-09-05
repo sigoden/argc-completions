@@ -9,7 +9,7 @@ _patch_help() {
 _patch_table() {
     if [[ "$*" == "wsl" ]]; then
         _patch_table_edit_options \
-            '--exec;~[`_module_os_command_string`]' \
+            '--exec;~[`_module_os_exec`]' \
             '--distribution;[`_choice_distro`]' \
             '--set-default-version;[`_choice_version`]' \
             '--export;~[`_choice_export`]' \

@@ -1031,7 +1031,7 @@ describe() {
 # @option -t --tool <tool>    use the specified diff tool
 # @flag --tool-help           print a list of diff tools that may be used with `--tool`
 # @flag --trust-exit-code     make 'git-difftool' exit when an invoked diff tool returns a non-zero exit code
-# @option -x --extcmd[`_module_os_command_string`] <command>  specify a custom command for viewing diffs
+# @option -x --extcmd[`_module_os_command`] <command>  specify a custom command for viewing diffs
 # @flag --no-index            passed to `diff`
 # @arg commit-commit <<commit> [<commit>]>
 # @arg path*
@@ -2273,10 +2273,6 @@ _module_os_command() {
     else
         compgen -c
     fi
-}
-
-_module_os_command_string() {
-    _module_os_command
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

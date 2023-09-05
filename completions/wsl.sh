@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @option -e --exec~[`_module_os_command_string`] <CommandLine>  Execute the specified command without using the default Linux shell.
+# @option -e --exec~[`_module_os_exec`] <CommandLine>  Execute the specified command without using the default Linux shell.
 # @option --cd <Directory>        Sets the specified directory as the current working directory.
 # @option -d --distribution[`_choice_distro`] <Distro>  Run the specified distribution.
 # @option -u --user <UserName>    Run as the specified user.
@@ -96,8 +96,16 @@ _module_os_command() {
     fi
 }
 
-_module_os_command_string() {
-    _module_os_command
+_module_os_exec() {
+    if [[ -n "$argc__last_flag_option" ]]; then
+        option_var="argc_${argc__last_flag_option//-/_}[@]"
+        argc__positionals=( "${!option_var}" )
+    fi
+    if [[ "${#argc__positionals[@]}" -lt 2 ]]; then
+        _module_os_command
+    else
+        _argc_util_comp_subcommand 0
+    fi
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

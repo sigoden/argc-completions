@@ -1,5 +1,10 @@
 _patch_help() { 
-    echo "Usage: bash [options] file args..."
-    echo "Options:"
-    _patch_help_run_man bash | sed -n '/^OPTIONS/,/ARGUMENTS/ {//!p}'
+    _patch_help_run_man $@ | sed -n '/^OPTIONS/,/ARGUMENTS/ {//!p}'
+}
+
+_patch_table() {
+    _patch_table_edit_options \
+        '-c;[`_module_os_command`]' \
+    | \
+    _patch_table_edit_arguments ';;' 'file' 'args...'
 }

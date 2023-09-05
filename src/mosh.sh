@@ -10,7 +10,7 @@ _patch_table() {
     _patch_table_edit_options \
         '--family;[`_choice_family`];Network family setting' \
         '--predict;[`_choice_predict`];Predict setting"' \
-        '--ssh;[`_module_os_command_string`]' \
+        '--ssh;[`_module_os_command`]' \
     | \
     _patch_table_edit_arguments ';;' 'host;[`_module_os_hostname`]' 'args..'
 

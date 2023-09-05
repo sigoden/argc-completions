@@ -92,12 +92,20 @@ _module_os_command() {
     fi
 }
 
-_module_os_command_string() {
-    _module_os_command
-}
-
 _module_os_command_args() {
     _argc_util_comp_subcommand 0
+}
+
+_module_os_exec() {
+    if [[ -n "$argc__last_flag_option" ]]; then
+        option_var="argc_${argc__last_flag_option//-/_}[@]"
+        argc__positionals=( "${!option_var}" )
+    fi
+    if [[ "${#argc__positionals[@]}" -lt 2 ]]; then
+        _module_os_command
+    else
+        _argc_util_comp_subcommand 0
+    fi
 }
 
 _module_os_network_interface() {

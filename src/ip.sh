@@ -260,16 +260,7 @@ _patch_table() {
         _patch_table_edit_arguments ';;' 'action;*[`_choice_neighbour_get`]'
 
     elif [[ "$*" == "ip netns"* ]]; then
-        table="$( \
-            _patch_table_edit_arguments 'name;[`_choice_netns_name`]'
-        )"
-        if [[ "$*" == "ip netns exec" ]]; then
-            echo "$table" | \
-            _patch_table_edit_arguments 'cmd;~[`_module_os_command_string`]'
-
-        else
-            echo "$table"
-        fi
+        _patch_table_edit_arguments 'name;[`_choice_netns_name`]'
 
     elif [[ "$*" == "ip ntable show" ]]; then
         _patch_table_edit_arguments ';;' 'action;*[`_choice_ntable_show`]'

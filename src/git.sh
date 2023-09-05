@@ -297,7 +297,7 @@ _patch_table() {
         _patch_table_edit_arguments 'commit-ish;[`_choice_ref`]'
 
     elif [[ "$*" == "git difftool" ]]; then
-        _patch_table_edit_options '--extcmd;[`_module_os_command_string`]'
+        _patch_table_edit_options '--extcmd;[`_module_os_command`]'
 
     elif [[ "$*" == "git range-diff" ]]; then
         _patch_table_edit_arguments ';;' '<base>;[`_choice_branch`]' '<new>;[`_choice_branch`]'

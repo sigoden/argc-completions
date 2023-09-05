@@ -8,8 +8,8 @@
 # @option -g --group[`_module_os_group`] <group>  specify the primary group
 # @option -G --supp-group[`_module_os_group`] <group>  specify a supplemental group
 # @flag -l --login                             make the shell a login shell
-# @option -c --command[`_module_os_command_string`] <command>  pass a single command to the shell with -c
-# @option --session-command[`_module_os_command_string`] <command>  pass a single command to the shell with -c and do not create a new session
+# @option -c --command[`_module_os_command`] <command>  pass a single command to the shell with -c
+# @option --session-command[`_module_os_command`] <command>  pass a single command to the shell with -c and do not create a new session
 # @flag -f --fast                              pass -f to the shell (for csh or tcsh)
 # @option -s --shell[`_module_os_shell`] <shell>  run <shell> if /etc/shells allows it
 # @flag -P --pty                               create a new pseudo-terminal
@@ -30,10 +30,6 @@ _module_os_command() {
     else
         compgen -c
     fi
-}
-
-_module_os_command_string() {
-    _module_os_command
 }
 
 _module_os_group() {

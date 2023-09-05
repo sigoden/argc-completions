@@ -41,8 +41,8 @@ _patch_table() {
     elif [[ "$*" == "guix environment" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments \
-            'package;[`_choice_installed_package`]' \
-            'command;~[`_module_os_command_string`]' \
+            'package;*[`_choice_installed_package`]' \
+            'command' \
 
     else
         echo "$table"

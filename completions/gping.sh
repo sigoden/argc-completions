@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @option --cmd~[`_module_os_command_string`]     Graph the execution time for a list of commands rather than pinging hosts
+# @flag --cmd                                     Graph the execution time for a list of commands rather than pinging hosts
 # @option -n --watch-interval <WATCH_INTERVAL>    Watch interval seconds (provide partial seconds like '0.5').
 # @option -b --buffer                             Determines the number of seconds to display in the graph.
 # @flag -4                                        Resolve ping targets to IPv4 address
@@ -14,9 +14,15 @@
 # @flag --clear                                   Clear the graph from the terminal after closing the program
 # @flag -h --help                                 Print help
 # @flag -V --version                              Print version
-# @arg hosts*
+# @arg host_or_commands~[`_choice_host_or_commands`]
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
+
+_choice_host_or_commands() {
+    if [[ -n "$argc_cmd" ]]; then
+        _module_os_exec
+    fi
+}
 
 _module_os_command() {
     if _argc_util_has_path_prefix; then
@@ -30,8 +36,16 @@ _module_os_command() {
     fi
 }
 
-_module_os_command_string() {
-    _module_os_command
+_module_os_exec() {
+    if [[ -n "$argc__last_flag_option" ]]; then
+        option_var="argc_${argc__last_flag_option//-/_}[@]"
+        argc__positionals=( "${!option_var}" )
+    fi
+    if [[ "${#argc__positionals[@]}" -lt 2 ]]; then
+        _module_os_command
+    else
+        _argc_util_comp_subcommand 0
+    fi
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

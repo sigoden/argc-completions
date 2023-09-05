@@ -9,16 +9,16 @@
 
 # {{ wezterm start
 # @cmd Start the GUI, optionally running an alternative program [aliases: -e]
-# @flag --no-auto-connect                    If true, do not connect to domains marked as connect_automatically in your wezterm configuration file
-# @flag --always-new-process                 If enabled, don't try to ask an existing wezterm GUI instance to start the command.
-# @option --cwd <dir>                        Specify the current working directory for the initially spawned program
-# @option --class                            Override the default windowing system class.
-# @option --workspace                        Override the default workspace with the provided name.
-# @option --position                         Override the position for the initial window launched by this process.
-# @option --domain                           Name of the multiplexer domain section from the configuration to which you'd like to connect.
-# @flag --attach                             When used with --domain, if the domain already has running panes, wezterm will simply attach and will NOT spawn the specified PROG.
-# @flag -h --help                            Print help (see a summary with '-h')
-# @arg prog~[`_module_os_command_string`]    Instead of executing your shell, run PROG.
+# @flag --no-auto-connect          If true, do not connect to domains marked as connect_automatically in your wezterm configuration file
+# @flag --always-new-process       If enabled, don't try to ask an existing wezterm GUI instance to start the command.
+# @option --cwd <dir>              Specify the current working directory for the initially spawned program
+# @option --class                  Override the default windowing system class.
+# @option --workspace              Override the default workspace with the provided name.
+# @option --position               Override the position for the initial window launched by this process.
+# @option --domain                 Name of the multiplexer domain section from the configuration to which you'd like to connect.
+# @flag --attach                   When used with --domain, if the domain already has running panes, wezterm will simply attach and will NOT spawn the specified PROG.
+# @flag -h --help                  Print help (see a summary with '-h')
+# @arg prog~[`_module_os_exec`]    Instead of executing your shell, run PROG.
 start() {
     :;
 }
@@ -26,13 +26,13 @@ start() {
 
 # {{ wezterm ssh
 # @cmd Establish an ssh session
-# @option -o --ssh-option <name=value>       Override specific SSH configuration options.
-# @flag -v                                   Enable verbose ssh protocol tracing.
-# @option --class                            Override the default windowing system class.
-# @option --position                         Override the position for the initial window launched by this process.
-# @flag -h --help                            Print help (see a summary with '-h')
+# @option -o --ssh-option <name=value>    Override specific SSH configuration options.
+# @flag -v                                Enable verbose ssh protocol tracing.
+# @option --class                         Override the default windowing system class.
+# @option --position                      Override the position for the initial window launched by this process.
+# @flag -h --help                         Print help (see a summary with '-h')
 # @arg user_at_host_and_port![`_module_ssh_host`]  Specifies the remote system using the form: `[username@]host[:port]`.
-# @arg prog~[`_module_os_command_string`]    Instead of executing your shell, run PROG.
+# @arg prog~[`_module_os_exec`]           Instead of executing your shell, run PROG.
 ssh() {
     :;
 }
@@ -52,12 +52,12 @@ serial() {
 
 # {{ wezterm connect
 # @cmd Connect to wezterm multiplexer
-# @option --class                            Override the default windowing system class.
-# @option --workspace                        Override the default workspace with the provided name.
-# @option --position                         Override the position for the initial window launched by this process.
-# @flag -h --help                            Print help (see a summary with '-h')
-# @arg domain_name!                          Name of the multiplexer domain section from the configuration to which you'd like to connect
-# @arg prog~[`_module_os_command_string`]    Instead of executing your shell, run PROG.
+# @option --class                  Override the default windowing system class.
+# @option --workspace              Override the default workspace with the provided name.
+# @option --position               Override the position for the initial window launched by this process.
+# @flag -h --help                  Print help (see a summary with '-h')
+# @arg domain_name!                Name of the multiplexer domain section from the configuration to which you'd like to connect
+# @arg prog~[`_module_os_exec`]    Instead of executing your shell, run PROG.
 connect() {
     :;
 }
@@ -156,7 +156,7 @@ cli::move-pane-to-new-tab() {
 # @option --cwd <dir>                            Specify the current working directory for the initially spawned program
 # @option --move-pane-id <MOVE_PANE_ID>          Instead of spawning a new command, move the specified pane into the newly created split
 # @flag -h --help                                Print help
-# @arg prog~[`_module_os_command_string`]        Instead of executing your shell, run PROG.
+# @arg prog~[`_module_os_exec`]                  Instead of executing your shell, run PROG.
 cli::split-pane() {
     :;
 }
@@ -171,7 +171,7 @@ cli::split-pane() {
 # @option --cwd <dir>                            Specify the current working directory for the initially spawned program
 # @option --workspace                            When creating a new window, override the default workspace name with the provided name.
 # @flag -h --help                                Print help
-# @arg prog~[`_module_os_command_string`]        Instead of executing your shell, run PROG.
+# @arg prog~[`_module_os_exec`]                  Instead of executing your shell, run PROG.
 cli::spawn() {
     :;
 }
@@ -321,7 +321,7 @@ set-working-directory() {
 # {{ wezterm record
 # @cmd Record a terminal session as an asciicast
 # @flag -h --help    Print help
-# @arg prog~[`_module_os_command_string`]
+# @arg prog~[`_module_os_exec`]
 record() {
     :;
 }
@@ -378,8 +378,16 @@ _module_os_command() {
     fi
 }
 
-_module_os_command_string() {
-    _module_os_command
+_module_os_exec() {
+    if [[ -n "$argc__last_flag_option" ]]; then
+        option_var="argc_${argc__last_flag_option//-/_}[@]"
+        argc__positionals=( "${!option_var}" )
+    fi
+    if [[ "${#argc__positionals[@]}" -lt 2 ]]; then
+        _module_os_command
+    else
+        _argc_util_comp_subcommand 0
+    fi
 }
 
 _module_ssh_host() {

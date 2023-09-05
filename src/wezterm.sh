@@ -7,7 +7,7 @@ _patch_table() {
             '--window-id;[`_choice_window`]' \
         | \
         _patch_table_edit_arguments \
-            'prog;~[`_module_os_command_string`]' \
+            'prog;~[`_module_os_exec`]' \
     )"
 
     if [[ "$*" == "wezterm ssh" ]]; then

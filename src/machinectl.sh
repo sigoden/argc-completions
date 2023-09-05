@@ -23,7 +23,7 @@ _patch_table() {
         _patch_table_edit_arguments 'name;[`_choice_machine`]'
 
     elif [[ "$*" == "machinectl shell" ]]; then
-        _patch_table_edit_arguments ';;' 'name;[`_choice_machine`]' 'command;~[`_module_os_command_string`]'
+        _patch_table_edit_arguments ';;' 'name;[`_choice_machine`]' 'command;~[`_choice_shell_command`]'
 
     elif [[ "$*" == "machinectl image-status" ]] \
       || [[ "$*" == "machinectl show-image" ]] \
@@ -50,6 +50,14 @@ _patch_table() {
 _choice_machine() {
     machinectl --no-legend --no-pager list | \
     sed -n 's/^\(\S\+\).*$/\1/p'
+}
+
+_choice_shell_command() {
+    if [[ "${#argc__positionals[@]}" -lt 3 ]]; then
+        _module_os_command
+    else
+        _argc_util_comp_subcommand 1
+    fi
 }
 
 _choice_image() {

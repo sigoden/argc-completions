@@ -76,7 +76,7 @@
 # @option --path-separator <SEPARATOR>             Set the path separator to use when printing file paths.
 # @flag -P --pcre2                                 When this flag is present, ripgrep will use the PCRE2 regex engine instead of its default regex engine.
 # @flag --pcre2-version                            When this flag is present, ripgrep will print the version of PCRE2 in use, along with other information, and then exit.
-# @option --pre[`_module_os_command_string`] <COMMAND>  For each input FILE, search the standard output of COMMAND FILE rather than the contents of FILE.
+# @option --pre[`_module_os_command`] <COMMAND>    For each input FILE, search the standard output of COMMAND FILE rather than the contents of FILE.
 # @option --pre-glob* <GLOB>                       This flag works in conjunction with the --pre flag.
 # @flag -p --pretty                                This is a convenience alias for '--color always --heading --line-number'.
 # @flag -q --quiet                                 Do not print anything to stdout.
@@ -210,10 +210,6 @@ _module_os_command() {
     else
         compgen -c
     fi
-}
-
-_module_os_command_string() {
-    _module_os_command
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

@@ -27,8 +27,8 @@
 # @option --proxy-type[`_choice_proxy_type`] <proto>  In connect mode, this option requests the protocol proto to connect through the proxy host specified by --proxy.
 # @option --proxy-auth <user[:pass]>    In connect mode, gives the credentials that will be used to connect to the proxy server.
 # @option --proxy-dns[`_choice_proxy_dns`] <type>  In connect mode, it provides control over whether proxy destination hostnames are resolved by the remote proxy server or locally, by Ncat itself.
-# @option -e --exec[`_module_os_command_string`] <command>  Execute the specified command after a connection has been established.
-# @option -c --sh-exec[`_module_os_command_string`] <command>  Same as -e, except it tries to execute the command via /bin/sh.
+# @option -e --exec[`_module_os_command`] <command>  Execute the specified command after a connection has been established.
+# @option -c --sh-exec[`_module_os_command`] <command>  Same as -e, except it tries to execute the command via /bin/sh.
 # @option --lua-exec <file>             Runs the specified file as a Lua script after a connection has been established, using a built-in interpreter.
 # @option --allow*,[`_module_os_hostname`] <host[,host,...]>  The list of hosts specified will be the only hosts allowed to connect to the Ncat process.
 # @option --allowfile <file>            This has the same functionality as --allow, except that the allowed hosts are provided in a new-line delimited allow file, rather than directly on the command line.
@@ -72,10 +72,6 @@ _module_os_command() {
     else
         compgen -c
     fi
-}
-
-_module_os_command_string() {
-    _module_os_command
 }
 
 _module_os_hostname() {

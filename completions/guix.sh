@@ -514,7 +514,6 @@ container::exec() {
 # @flag -h --help                        display this help and exit
 # @flag -V --version                     display version information and exit
 # @arg package*[`_choice_installed_package`]
-# @arg command~[`_module_os_command_string`]
 environment() {
     :;
 }
@@ -1005,10 +1004,6 @@ _module_os_command() {
 
 _module_os_command_args() {
     _argc_util_comp_subcommand 0
-}
-
-_module_os_command_string() {
-    _module_os_command
 }
 
 _module_os_pid() {

@@ -3,7 +3,7 @@ _patch_table() {
         '--color;[`_choice_color`]' \
         '--colors;[`_choice_color_spec`]' \
         '--engine;[default|pcre2|auto]' \
-        '--pre;[`_module_os_command_string`]' \
+        '--pre;[`_module_os_command`]' \
         '--sort;[`_choice_sort`]' \
         '--sortr;[`_choice_sort`]' \
         '--type;[`_choice_type`]' \

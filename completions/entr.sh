@@ -9,7 +9,8 @@
 # @flag -r    Reload a persistent child process.
 # @flag -s    Evaluate the first argument using the interpreter specified by the SHELL environment variable.
 # @flag -z    Exit after the utility completes.
-# @arg command[`_module_os_command_string`]
+# @arg command[`_module_os_command`]
+# @arg args~[`_module_os_command_args`]
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
@@ -25,8 +26,8 @@ _module_os_command() {
     fi
 }
 
-_module_os_command_string() {
-    _module_os_command
+_module_os_command_args() {
+    _argc_util_comp_subcommand 0
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

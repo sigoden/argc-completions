@@ -6,7 +6,7 @@ _patch_table() {
         _patch_table_edit_arguments 'direction;[`_choice_direction`]'
 
     elif [[ "$*" == "zellij action new-pane" ]]; then
-        _patch_table_edit_arguments 'command;~[`_module_os_command_string`]'
+        _patch_table_edit_arguments 'command;~[`_module_os_exec`]'
 
     elif [[ "$*" == "zellij action resize" ]]; then
         _patch_table_edit_arguments 'resize;[increase|decrease]' 'direction;[`_choice_direction`]'
@@ -21,7 +21,7 @@ _patch_table() {
         _patch_table_edit_arguments 'target_session;[`_choice_session`]'
 
     elif [[ "$*" == "zellij run" ]]; then
-        _patch_table_edit_arguments 'command;~[`_module_os_command_string`]'
+        _patch_table_edit_arguments 'command;~[`_module_os_exec`]'
 
     else
         cat

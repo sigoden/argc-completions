@@ -38,7 +38,8 @@ It will print:
 
 - `argc__args`:  Command line args
 - `argc__cmd_arg_index`: The index of the command word in `argc__args`
-- `argc__cmd_fn`: The argc func name
+- `argc__cmd_fn`: The name of argc func
+- `argc__last_flag_option`: The name of last parse flag/option
 - `argc__positionals`: The positional args
 
 Run command

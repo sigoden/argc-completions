@@ -67,7 +67,7 @@ login() {
 # {{ machinectl shell
 # @cmd Invoke a shell (or other command) in a container or on the local host
 # @arg name[`_choice_machine`]
-# @arg command~[`_module_os_command_string`]
+# @arg command~[`_choice_shell_command`]
 shell() {
     :;
 }
@@ -304,6 +304,14 @@ _choice_machine() {
     sed -n 's/^\(\S\+\).*$/\1/p'
 }
 
+_choice_shell_command() {
+    if [[ "${#argc__positionals[@]}" -lt 3 ]]; then
+        _module_os_command
+    else
+        _argc_util_comp_subcommand 1
+    fi
+}
+
 _choice_image() {
     machinectl --no-legend --no-pager list-images | \
     sed -n 's/^\(\S\+\).*$/\1/p'
@@ -319,10 +327,6 @@ _module_os_command() {
     else
         compgen -c
     fi
-}
-
-_module_os_command_string() {
-    _module_os_command
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"
