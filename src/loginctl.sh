@@ -7,6 +7,10 @@ _patch_help() {
 }
 
 _patch_table() {
+    if [[ "$*" == "loginctl" ]]; then
+        _patch_table_add_metadata 'inherit-flag-options'
+        return
+    fi
     _patch_table_edit_arguments \
         'id;[`_choice_session`]' \
         'user;[`_choice_user`]' \

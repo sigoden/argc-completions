@@ -1,14 +1,16 @@
 _patch_help() { 
-    if [[ "$*" == "hostnamectl" ]]; then
+    if [[ "$#" -eq 1 ]]; then
         $@ --help
     else
-        cat <<-'EOF' | _patch_help_embed_help $@
-# status
-# hostname [NAME]
-# icon-name [NAME]
-# chassis [NAME]
-# deployment [NAME]
-# location [NAME]
-EOF
+        $1 --help  | sed -n "s/^  $2 \(.*\)  .*/Usage: $1 $2 \1/p"
+    fi
+}
+
+_patch_table() {
+    if [[ "$*" == "hostnamectl" ]]; then
+        _patch_table_add_metadata 'inherit-flag-options'
+
+    else
+        cat
     fi
 }

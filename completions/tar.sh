@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -A                                      append tar files to an archive
 # @flag --catenate                              append tar files to an archive
 # @flag --concatenate                           append tar files to an archive

@@ -6,6 +6,7 @@ _patch_help() {
 
 _patch_table() {
     if [[ "$*" == "rfkill" ]]; then
+        _patch_table_add_metadata 'inherit-flag-options' | \
         _patch_table_edit_options \
             '--output;*,[`_choice_column`]' \
     

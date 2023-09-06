@@ -5,8 +5,13 @@ _patch_help() {
 }
 
 _patch_table() { 
-    _patch_table_edit_options \
-        '--debugger;[`_module_os_command`]' \
-        '--json;[pretty|short|off]' \
+    if [[ "$*" == "coredumpctl" ]]; then
+        _patch_table_add_metadata 'inherit-flag-options' | \
+        _patch_table_edit_options \
+            '--debugger;[`_module_os_command`]' \
+            '--json;[pretty|short|off]' \
 
+    else
+        cat
+    fi
 }

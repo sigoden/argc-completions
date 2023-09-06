@@ -23,6 +23,7 @@ EOF
 
 _patch_table() { 
     if [[ "$*" == "iptables" ]]; then
+        _patch_table_add_metadata 'inherit-flag-options' | \
         _patch_table_edit_options \
             '--table;[`_choice_table`]' \
             '--protocol;[`_choice_protocol`]' \
@@ -31,7 +32,6 @@ _patch_table() {
         return
     fi
 
-    _patch_table_copy_options iptables
     _patch_table_edit_arguments \
         'chain;[`_choice_chain`]' \
         'rulenum;[`_choice_rulenum`]' \

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta inherit-flag-options
 # @flag -h --help                          this help
 # @option -c --card[`_choice_card`] <N>    select the card
 # @option -D --device <N>                  select the device, default 'default'

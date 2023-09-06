@@ -5,7 +5,10 @@ _patch_help() {
 }
 
 _patch_table() { 
-    if [[ "$*" == "localectl set-locale" ]]; then
+    if [[ "$*" == "localectl" ]]; then
+        _patch_table_add_metadata 'inherit-flag-options'
+
+    elif [[ "$*" == "localectl set-locale" ]]; then
         _patch_table_edit_arguments ';;' 'loacle;*[`_choice_locale`]'
 
     elif [[ "$*" == "localectl set-keymap" ]]; then

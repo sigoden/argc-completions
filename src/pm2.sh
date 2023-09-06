@@ -28,7 +28,7 @@ _patch_table() {
             'status' \
 
     elif [[ "$*" == "pm2 start" ]]; then
-        { _patch_table_copy_options pm2; cat; } | \
+        _patch_table_copy_options pm2 | \
         _patch_table_dedup_options \
             '--watch' \
             '--help' \

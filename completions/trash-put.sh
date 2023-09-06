@@ -14,11 +14,4 @@
 # @flag --version                              show program's version number and exit
 # @arg files
 
-# {{ trash-put trash
-# @cmd
-trash() {
-    :;
-}
-# }} trash-put trash
-
 command eval "$(argc --argc-eval "$0" "$@")"

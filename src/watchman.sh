@@ -37,6 +37,7 @@ _patch_table() {
     )"
     if [[ "$*" == "watchman" ]]; then
         echo "$table" | \
+        _patch_table_add_metadata 'inherit-flag-options' | \
         _patch_table_edit_options \
             '--output-encoding;[json|bser]' \
             '--server-encoding;[json|bser]' \

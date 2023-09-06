@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta inherit-flag-options
 # @flag -h --help                    Show help.
 # @flag --version                    Show version information.
 # @option -s --server                Choose the server to connect to.

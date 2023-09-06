@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta inherit-flag-options
 # @flag -h --help                     Show this help message
 # @flag --version                     Show package version
 # @flag --no-pager                    Do not pipe output into a pager

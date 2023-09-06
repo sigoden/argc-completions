@@ -12,7 +12,10 @@ EOF
 }
 
 _patch_table() {
-    if [[ "$*" == "mackup show" ]]; then
+    if [[ "$*" == "mackup" ]]; then
+        _patch_table_add_metadata 'inherit-flag-options'
+
+    elif [[ "$*" == "mackup show" ]]; then
         _patch_table_edit_arguments 'application;[`_choice_application`]'
 
     else

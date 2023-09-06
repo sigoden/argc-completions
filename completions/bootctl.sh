@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta inherit-flag-options
 # @flag -h --help               Show this help
 # @flag --version               Print version
 # @option --esp-path <PATH>     Path to the EFI System Partition (ESP)

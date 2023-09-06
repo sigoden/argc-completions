@@ -5,7 +5,10 @@ _patch_help() {
 }
 
 _patch_table() {
-    if [[ "$*" == "timedatectl set-time" ]]; then
+    if [[ "$*" == "timedatectl" ]]; then
+        _patch_table_add_metadata 'inherit-flag-options'
+
+    elif [[ "$*" == "timedatectl set-time" ]]; then
         _patch_table_edit_arguments ';;' 'time'
 
     elif [[ "$*" == "timedatectl set-timezone" ]]; then

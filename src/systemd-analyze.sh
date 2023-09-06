@@ -7,6 +7,10 @@ _patch_help() {
 }
 
 _patch_table() {
+    if [[ "$*" == "systemd-analyze" ]]; then
+        _patch_table_add_metadata 'inherit-flag-options'
+        return
+    fi
     _patch_table_edit_arguments \
         'unit;[`_choice_unit`]' \
 

@@ -6,11 +6,10 @@ _patch_help() {
 
 _patch_table() {
     if [[ "$*" == "systemctl" ]]; then
+        _patch_table_add_metadata 'inherit-flag-options' | \
         _patch_table_edit_options '--type;[`_choice_type`]'
         return
     fi
-
-    table="$(_patch_table_copy_options systemctl; cat)"
 
     if [[ "$*" == "systemctl list-units" ]] \
     || [[ "$*" == "systemctl is-active" ]] \

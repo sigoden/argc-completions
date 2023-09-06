@@ -29,7 +29,7 @@ _patch_table() {
     fi
 
     table="$( \
-        _patch_table_copy_options kubectl; \
+        _patch_table_copy_options kubectl | \
         _patch_table_edit_options \
             '--dry-run;[none|never|silent]' \
             '--filename(<file>)' \

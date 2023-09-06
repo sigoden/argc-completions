@@ -7,7 +7,10 @@ _patch_help() {
 }
 
 _patch_table() {
-    if [[ "$*" == "machinectl status" ]] \
+    if [[ "$*" == "machinectl" ]]; then
+        _patch_table_add_metadata 'inherit-flag-options'
+
+    elif [[ "$*" == "machinectl status" ]] \
     || [[ "$*" == "machinectl show" ]] \
     || [[ "$*" == "machinectl start" ]] \
     || [[ "$*" == "machinectl login" ]] \

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta inherit-flag-options
 # @flag -h --help                     Show this help
 # @flag --version                     Show package version
 # @flag --no-ask-password             Do not prompt for password

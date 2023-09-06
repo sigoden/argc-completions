@@ -14,7 +14,11 @@ _patch_table() {
         _patch_table_detect_value_type \
     )"
 
-    if [[ "$*" == "alsactl store" ]] \
+    if [[ "$*" == "alsactl" ]]; then
+        echo "$table" | \
+        _patch_table_add_metadata 'inherit-flag-options'
+
+    elif [[ "$*" == "alsactl store" ]] \
     || [[ "$*" == "alsactl restore" ]] \
     || [[ "$*" == "alsactl nrestore" ]] \
     || [[ "$*" == "alsactl init" ]] \

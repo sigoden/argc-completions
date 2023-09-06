@@ -58,7 +58,8 @@ _patch_table() {
         echo "$table" | _patch_table_edit_arguments 'testname;[`_choice_testname`]'
 
     elif [[ "$*" == "cargo clippy" ]]; then
-        { _patch_table_copy_options cargo fix; echo "$table"; } | \
+        echo "$table" | \
+        _patch_table_copy_options cargo fix | \
         _patch_table_dedup_options \
             '--help' \
         | \

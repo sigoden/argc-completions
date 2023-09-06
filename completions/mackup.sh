@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta inherit-flag-options
 # @flag -h --help       Show this screen.
 # @flag -f --force      Force every question asked to be answered with "Yes".
 # @flag -r --root       Allow mackup to be run as superuser.

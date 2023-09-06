@@ -7,6 +7,7 @@ _patch_help() {
 }
 
 _patch_table() { 
+    _patch_table_add_metadata 'combine-shorts' | \
     _patch_table_edit_options \
         '--atime-preserve;[replace|system]' \
         '--backup;[existing|never|nil|numbered|simple|t]' \

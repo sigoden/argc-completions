@@ -8,3 +8,12 @@ _patch_help() {
             
     fi
 }
+
+_patch_table() {
+    if [[ "$*" == "brightnessctl" ]]; then
+        _patch_table_add_metadata 'inherit-flag-options'
+
+    else
+        cat
+    fi
+}

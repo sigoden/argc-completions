@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta inherit-flag-options
 # @flag -a    display all interfaces which are currently available, even if down
 # @flag -s    display a short list (like netstat -i)
 # @flag -v    be more verbose for some error conditions

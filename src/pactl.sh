@@ -22,6 +22,7 @@ _patch_table() {
 
     if [[ "$*" == "pactl" ]]; then
         echo "$table" | \
+        _patch_table_add_metadata 'inherit-flag-options' | \
         _patch_table_edit_options \
             '--format;[text|json]' \
 

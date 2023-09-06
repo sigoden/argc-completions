@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta inherit-flag-options
 # @option --component[database|webservice]    Component used with provided command (default: database)
 # @flag -d --debug                            Enable debug output
 # @flag -h --help                             Show this help message

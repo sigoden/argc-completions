@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta inherit-flag-options
 # @flag -h --help                               Show this help
 # @flag --inetd                                 Spawning from an inetd style supervisor
 # @flag -S --no-site-spawner                    Don't use the site or system spawner
@@ -81,7 +82,7 @@ log-level() {
 
 # {{ watchman log
 # @cmd Generates a log line in the watchman log
-# @arg enum[debug|error]
+# @arg value[debug|error]
 # @arg msg!
 log() {
     :;

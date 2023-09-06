@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta inherit-flag-options
 # @flag -h --help                        this help
 # @flag -d --debug                       debug mode
 # @flag -v --version                     print version of this program

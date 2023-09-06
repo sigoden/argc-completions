@@ -168,6 +168,13 @@ _patch_table_copy_options() {
         table="$(echo "$table" | _patch_table $@)"
     fi
     echo "$table" | grep "^option #"
+    cat
+}
+
+# Add metadata
+_patch_table_add_metadata() {
+    printf "meta # %s\n" "$@"
+    cat
 }
 
 # Detect value type

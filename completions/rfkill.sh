@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta inherit-flag-options
 # @flag -J --json                            Use JSON output format.
 # @flag -n --noheadings                      Do not print a header line.
 # @option -o --output*,[`_choice_column`]    Specify which output columns to print.

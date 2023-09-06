@@ -7,6 +7,8 @@ BEGIN {
     PAIRS_CLOSE = ">])}"
     RE_REMOVE_NOTATION_PREFIX = "[=!]"
 
+    split("", METAS)
+    META_NUM = 0
     split("", OPTIONS)
     OPTION_NUM = 0
     split("", ARGUMENTS)
@@ -54,7 +56,9 @@ BEGIN {
 END {
     for (LINE_INDEX = 1; LINE_INDEX <= LINES_SIZE; LINE_INDEX++) {
         line = LINES[LINE_INDEX]
-        if (match(line, /^option/)) {
+        if (match(line, /^meta/)) {
+            addMetaLine(line)
+        } else if (match(line, /^option/)) {
             if (KIND == "option") {
                 if (SEP_INDEX > 1) {
                     editOption(line)
@@ -101,6 +105,9 @@ END {
         }
     }
 
+    for (i = 1; i <= META_NUM; i++) {
+        print METAS[i]
+    }
     for (i = 1; i <= OPTION_NUM; i++) {
         print OPTIONS[i]
     }
@@ -296,6 +303,11 @@ function splitCommand(line, output,     parts) {
     split(substr(line, 10), parts, " #")
     output[1] = parts[1] " " 
     output[2] = parts[2] " " 
+}
+
+function addMetaLine(line) {
+    META_NUM += 1
+    METAS[META_NUM] = line
 }
 
 function addOptionLine(line) {

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta inherit-flag-options
 # @flag -l --list                list devices with available brightness controls.
 # @flag -q --quiet               suppress output.
 # @flag -p --pretend             do not perform write operations.

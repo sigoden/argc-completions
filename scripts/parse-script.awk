@@ -14,13 +14,15 @@ BEGIN {
     RE_SHADOW_COMMAND = "^(do|echo|cat|tail|head|command|select|eval)$"
     RE_REMOVE_NOTATION_PREFIX = "[=!]"
     EXISTS_SUBCOMMANDS = ",help,"
+    argumentLine = 0
     paramLineNum = 0
     paramLineWidth = 0
     paramLineMaxWidth = 48
     split("", paramLines)
     commandLineNum = 0
-    argumentLine = 0
     split("", commandLines)
+    metaLineNum = 0
+    split("", metaLines)
 }
 {
     index1 = index($0, "#")
@@ -30,7 +32,10 @@ BEGIN {
     index2 = splitWords(part1, words1, kind)
     part2 = substr(part1, index2 + 1)
     if (length(words1) > 0) {
-        if (kind == "option") {
+        if (kind == "meta") {
+            metaLineNum += 1
+            metaLines[metaLineNum] = words1[1]
+        } else if (kind == "option") {
             split("", descRet)
             extractDesc(descRet, part2)
             part3 = substr(part2, descRet[2] + 1)
@@ -49,6 +54,9 @@ BEGIN {
 }
 
 END {
+    for (i = 1; i <= metaLineNum; i++) {
+        print "# @meta " metaLines[i]
+    }
     paramLineWidth = paramLineWidth + 2
     for (i = 1; i <= paramLineNum; i++) {
         body = paramLines[i, 1]

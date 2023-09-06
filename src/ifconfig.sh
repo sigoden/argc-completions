@@ -12,6 +12,7 @@ _patch_help() {
 
 _patch_table() { 
     if [[ "$*" == "ifconfig" ]]; then
+        _patch_table_add_metadata 'inherit-flag-options' | \
         _patch_table_edit_arguments 'interface;[`_module_os_network_interface`]'
 
     else
