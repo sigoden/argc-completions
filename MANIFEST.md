@@ -66,6 +66,10 @@
 - [btrfs](http://btrfs.wiki.kernel.org/): a toolbox to manage btrfs filesystems
 - [bundle](https://bundler.io/): Ruby Dependency Management
 - [bun](https://github.com/oven-sh/bun): Incredibly fast JavaScript runtime, bundler, test runner, and package manager – all in one
+- [bunzip2](https://manpages.ubuntu.com/manpages/jammy/en/man1/bzip2.1.html): a block-sorting file compressor
+- [bzcat](https://manpages.ubuntu.com/manpages/jammy/en/man1/bzcat.1.html): decompresses files to stdout
+- [bzip2](https://manpages.ubuntu.com/manpages/jammy/en/man1/bzip2.1.html): a block-sorting file compressor
+- [bzip2recover](https://manpages.ubuntu.com/manpages/jammy/en/man1/bzip2recover.1.html): recovers data from damaged bzip2 files
 - [cabal](https://www.haskell.org/cabal/): a system for building and packaging Haskell libraries and programs
 - [caddy](https://github.com/caddyserver/caddy): an extensible server platform written in Go.
 - [cal](https://manpages.ubuntu.com/manpages/jammy/en/man1/cal.1.html): displays a calendar and the date of Easter
@@ -112,9 +116,11 @@
 - [composer](https://github.com/composer/composer): Dependency Manager for PHP
 - [conda](https://github.com/conda/conda): a tool for managing and deploying applications, environments and packages.
 - [conky](https://github.com/brndnmtthws/conky): highly configurable system monitor.
-- [consul](https://github.com/hashicorp/consul): 
+- [connmanctl](https://manpages.ubuntu.com/manpages/jammy/en/man1/connmanctl.1.html): Connman CLI
+- [consul](https://github.com/hashicorp/consul): a distributed, highly available, and data center aware solution to connect and configure applications across dynamic, distributed infrastructure. 
 - [coredumpctl](): Tool for service discovery, monitoring and configuration
 - [cosign](https://github.com/sigstore/cosign): Container Signing
+- [cowsay](https://manpages.ubuntu.com/manpages/jammy/en/man6/cowsay.6.html): configurable speaking/thinking cow (and a bit more)
 - [cp](https://manpages.ubuntu.com/manpages/jammy/en/man1/cp.1.html): copy files and directories
 - [croc](https://github.com/schollz/croc): Easily and securely send things from one computer to another
 - [crontab](https://manpages.ubuntu.com/manpages/jammy/en/man1/crontab.1.html): Manage users crontab files
@@ -200,6 +206,7 @@
 - [find](https://manpages.ubuntu.com/manpages/jammy/en/man1/find.1.html): search for files in a directory hierarchy
 - [firefox](https://www.mozilla.org/en-US/firefox/new/): Mozilla Firefox Browser
 - [fish](https://github.com/fish-shell/fish-shell): The user-friendly command line shell. 
+- [flac](https://xiph.org/flac/): Free Lossless Audio Codec
 - [flatpak](https://github.com/flatpak/flatpak): Linux application sandboxing and distribution framework
 - [flutter](https://flutter.dev/): Build apps for any screen
 - [fmt](https://manpages.ubuntu.com/manpages/jammy/en/man1/fmt.1.html): simple optimal text formatter
@@ -238,6 +245,7 @@
 - [gpasswd](https://manpages.ubuntu.com/manpages/jammy/en/man1/gpasswd.1.html): administer /etc/group and /etc/gshadow
 - [gpg](https://manpages.ubuntu.com/manpages/jammy/en/man1/gpg.1.html): OpenPGP encryption and signing tool
 - [gpg-agent](https://manpages.ubuntu.com/manpages/jammy/en/man1/gpg-agent.1.html): Secret key management for GnuPG
+- [gphoto2](https://github.com/gphoto/gphoto2): command-line gphoto2 client
 - [gping](https://github.com/orf/gping): Ping, but with a graph.
 - [gprof](https://manpages.ubuntu.com/manpages/jammy/en/man1/gprof.1.html): display call graph profile data
 - [gradle](https://gradle.org): Powerful build system for the JVM
@@ -284,6 +292,7 @@
 - [ifdown](https://manpages.ubuntu.com/manpages/jammy/en/man8/ifdown.8.html): bring interfaces down
 - [ifup](https://manpages.ubuntu.com/manpages/jammy/en/man8/ifup.8.html): bring a network interface up
 - [install](https://manpages.ubuntu.com/manpages/jammy/en/man1/install.1.html): copy files and set attributes
+- [ipset](http://ipset.netfilter.org/): administration tool for IP sets
 - [ip](https://manpages.ubuntu.com/manpages/jammy/en/man8/ip.8.html): show / manipulate routing, network devices, interfaces and tunnels
 - [iptables](https://manpages.ubuntu.com/manpages/jammy/en/man8/iptables.8.html): administration tool for IPv4/IPv6 packet filtering and NAT
 - [istioctl](https://github.com/istio/istio/): Istio configuration command line utility for service operators to debug and diagnose their Istio mesh.
@@ -618,7 +627,6 @@
 - [trash-list](https://github.com/andreafrancia/trash-cli): List trashed files.
 - [trash-put](https://github.com/andreafrancia/trash-cli): Command line trash utility.
 - [trash-restore](https://github.com/andreafrancia/trash-cli): Restore for Command line trash utility.
-- [trash-rm](https://github.com/andreafrancia/trash-cli): Removes files matching a pattern from the trash can
 - [tree](https://manpages.ubuntu.com/manpages/jammy/en/man1/tree.1.html): list contents of directories in a tree-like format.
 - [trivy](https://github.com/aquasecurity/trivy): Scanner for vulnerabilities in container images, file systems, and Git repositories, as well as for configuration issues and hard-coded secrets
 - [tr](https://manpages.ubuntu.com/manpages/jammy/en/man1/tr.1.html): translate or delete characters
@@ -634,6 +642,7 @@
 - [type](https://manpages.ubuntu.com/manpages/lunar/en/man1/type.1posix.html): Display information about command type.
 - [typos](https://github.com/crate-ci/typos): Source Code Spelling Correction
 - [uconv](https://manpages.ubuntu.com/manpages/jammy/en/man1/uconv.1.html): convert data from one encoding to another
+- [udevadm](https://manpages.ubuntu.com/manpages/jammy/en/man8/udevadm.8.html): udev management tool
 - [ug](https://github.com/Genivia/ugrep): Ultra fast grep with query UI, fuzzy search, archive search, and more 
 - [ugrep](https://github.com/Genivia/ugrep): Ultra fast grep with query UI, fuzzy search, archive search, and more
 - [ulimit](https://manpages.ubuntu.com/manpages/jammy/en/man3/ulimit.3.html): get and set user limits
