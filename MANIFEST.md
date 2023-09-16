@@ -8,9 +8,9 @@
 - [act](https://github.com/nektos/act): Run your GitHub Actions locally
 - [adb](https://developer.android.com/tools/adb): Android Debug Bridge
 - [adduser](https://manpages.ubuntu.com/manpages/jammy/en/man8/adduser.8.html): add a user or group to the system
+- [ag](https://github.com/ggreer/the_silver_searcher): The Silver Searcher. Like ack, but faster.
 - [age](https://github.com/FiloSottile/age): A simple, modern, and secure file encryption
 - [age-keygen](https://github.com/FiloSottile/age): generate age key pairs
-- [ag](https://github.com/ggreer/the_silver_searcher): The Silver Searcher. Like ack, but faster.
 - [aichat](https://github.com/sigoden/aichat): A powerful chatgpt cli.
 - [airflow](https://github.com/apache/airflow): A platform to programmatically author, schedule, and monitor workflows 
 - [alias](https://manpages.ubuntu.com/manpages/jammy/en/man1/alias.1posix.html): define or display aliases.
@@ -29,9 +29,9 @@
 - [aplay](https://manpages.ubuntu.com/manpages/jammy/en/man1/aplay.1.html): command-line sound recorder and player for ALSA soundcard driver
 - [apropos](https://manpages.ubuntu.com/manpages/jammy/man1/apropos.1.html): search the manual page names and descriptions
 - [apt](https://manpages.ubuntu.com/manpages/jammy/en/man8/apt.8.html): Package manager for Debian-based Linux distributions
+- [ar](https://manpages.ubuntu.com/manpages/jammy/en/man1/ar.1.html): create, modify, and extract from archives
 - [arecord](https://manpages.ubuntu.com/manpages/jammy/en/man1/aplay.1.html): command-line sound recorder and player for ALSA soundcard driver
 - [argo](https://github.com/argoproj/argo-workflows): Workflow engine for Kubernetes
-- [ar](https://manpages.ubuntu.com/manpages/jammy/en/man1/ar.1.html): create, modify, and extract from archives
 - [arp](https://manpages.ubuntu.com/manpages/jammy/en/man8/arp.8.html): manipulate the system ARP cache
 - [asciidoctor](https://asciidoctor.org): converts AsciiDoc source files to HTML, DocBook, and other formats
 - [asciinema](https://asciinema.org): terminal session recorder
@@ -137,11 +137,11 @@
 - [dart](https://dart.dev/): A client-optimized language for fast apps on any platform
 - [date](https://manpages.ubuntu.com/manpages/jammy/en/man1/date.1.html): print or set the system date and time
 - [dbt](https://github.com/dbt-labs/dbt-core): An ELT tool for managing your SQL transformations and data models.
-- [dconf](https://manpages.ubuntu.com/manpages/jammy/en/man1/dconf.1.html): Simple tool for manipulating a dconf database
 - [dc](https://manpages.ubuntu.com/manpages/jammy/en/man1/dc.1.html): an arbitrary precision calculator
+- [dconf](https://manpages.ubuntu.com/manpages/jammy/en/man1/dconf.1.html): Simple tool for manipulating a dconf database
+- [dd](https://manpages.ubuntu.com/manpages/jammy/en/man1/dd.1.html): convert and copy a file
 - [ddev](https://github.com/ddev/ddev): Create and maintain a local web development environment.
 - [ddosify](https://github.com/ddosify/ddosify): Comprehensive Performance Testing Platform.
-- [dd](https://manpages.ubuntu.com/manpages/jammy/en/man1/dd.1.html): convert and copy a file
 - [delta](https://github.com/dandavison/delta): A syntax-highlighting pager for git, diff, and grep output
 - [deno](https://github.com/denoland/deno): A modern runtime for JavaScript and TypeScript.
 - [devbox](https://github.com/jetpack-io/devbox): Instant, easy, and predictable development environments
@@ -172,11 +172,11 @@
 - [dpkg](https://manpages.ubuntu.com/manpages/jammy/en/man1/dpkg.1.html): package manager for Debian
 - [dpkg-reconfigure](https://manpages.ubuntu.com/manpages/jammy/en/man8/dpkg-reconfigure.8.html): reconfigure an already installed package
 - [dprint](https://github.com/dprint/dprint): Pluggable and configurable code formatting platform written in Rust.
+- [du](https://manpages.ubuntu.com/manpages/jammy/en/man1/du.1.html): estimate file space usage
 - [dua](https://github.com/Byron/dua-cli): View disk space usage and delete unwanted data, fast
 - [duf](https://github.com/muesli/duf): Disk Usage/Free Utility - a better 'df' alternative
 - [dufs](https://github.com/sigoden/dufs): A static file server
 - [dune](https://github.com/ocaml/dune): composable build system for OCaml
-- [du](https://manpages.ubuntu.com/manpages/jammy/en/man1/du.1.html): estimate file space usage
 - [dust](https://github.com/bootandy/dust): A more intuitive version of du in rust
 - [efibootmgr](https://manpages.ubuntu.com/manpages/jammy/en/man8/efibootmgr.8.html): manipulate the UEFI Boot Manager
 - [egrep](https://manpages.ubuntu.com/manpages/jammy/en/man1/grep.1.html): print lines that match patterns
@@ -199,8 +199,8 @@
 - [fc-cache](https://manpages.ubuntu.com/manpages/jammy/man1/fc-cache.1.html): build font information cache files
 - [fc-cat](https://manpages.ubuntu.com/manpages/jammy/man1/fc-cat.1.html): read font information cache files
 - [fc-list](https://manpages.ubuntu.com/manpages/jammy/man1/fc-list.1.html): list available fonts
-- [fdisk](https://manpages.ubuntu.com/manpages/jammy/en/man8/fdisk.8.html): manipulate disk partition table
 - [fd](https://github.com/sharkdp/fd): A simple, fast and user-friendly alternative to 'find'
+- [fdisk](https://manpages.ubuntu.com/manpages/jammy/en/man8/fdisk.8.html): manipulate disk partition table
 - [ffmpeg](https://ffmpeg.org/): ffmpeg video converter
 - [fgrep](https://manpages.ubuntu.com/manpages/jammy/en/man1/grep.1.html): print lines that match patterns
 - [file](https://manpages.ubuntu.com/manpages/jammy/en/man1/file.1.html): determine file type
@@ -228,8 +228,8 @@
 - [gem](https://github.com/rubygems/rubygems): Library packaging and distribution for Ruby.
 - [getent](https://manpages.ubuntu.com/manpages/jammy/en/man1/getent.1.html): get entries from Name Service Switch libraries
 - [getfacl](https://manpages.ubuntu.com/manpages/jammy/en/man1/getfacl.1.html) - get file access control lists
-- [ghq](https://github.com/x-motemen/ghq): Remote repository management made easy.
 - [gh](https://cli.github.com/): Take GitHub to the command line
+- [ghq](https://github.com/x-motemen/ghq): Remote repository management made easy.
 - [gibo](https://github.com/simonwhitaker/gibo): Easy access to gitignore boilerplates
 - [gio](https://manpages.ubuntu.com/manpages/focal/man1/gio.1.html): GIO commandline tool
 - [git](https://git-scm.com/): fast, scalable, distributed revision control system
@@ -293,8 +293,8 @@
 - [ifdown](https://manpages.ubuntu.com/manpages/jammy/en/man8/ifdown.8.html): bring interfaces down
 - [ifup](https://manpages.ubuntu.com/manpages/jammy/en/man8/ifup.8.html): bring a network interface up
 - [install](https://manpages.ubuntu.com/manpages/jammy/en/man1/install.1.html): copy files and set attributes
-- [ipset](http://ipset.netfilter.org/): administration tool for IP sets
 - [ip](https://manpages.ubuntu.com/manpages/jammy/en/man8/ip.8.html): show / manipulate routing, network devices, interfaces and tunnels
+- [ipset](http://ipset.netfilter.org/): administration tool for IP sets
 - [iptables](https://manpages.ubuntu.com/manpages/jammy/en/man8/iptables.8.html): administration tool for IPv4/IPv6 packet filtering and NAT
 - [istioctl](https://github.com/istio/istio/): Istio configuration command line utility for service operators to debug and diagnose their Istio mesh.
 - [jar](https://docs.oracle.com/en/java/javase/16/docs/specs/man/jar.html): Manipulates Java Archive (JAR) files.
@@ -397,17 +397,17 @@
 - [msfdb](https://docs.metasploit.com/): easily setup and control both a database and a Web Service capable of connecting this database with Metasploit
 - [mtr](https://manpages.ubuntu.com/manpages/jammy/en/man8/mtr.8.html): a network diagnostic tool
 - [mutt](http://www.mutt.org/): The Mutt Mail User Agent
-- [mvn](https://maven.apache.org/): a software project management and comprehension tool.
 - [mv](https://manpages.ubuntu.com/manpages/jammy/en/man1/mv.1.html): move (rename) files
+- [mvn](https://maven.apache.org/): a software project management and comprehension tool.
 - [mysql](https://www.mysql.com/): the MySQL command-line client
 - [mysqldump](https://dev.mysql.com/doc/refman/8.0/en/mysqldump.html): a database backup program
 - [namei](https://manpages.ubuntu.com/manpages/jammy/en/man1/namei.1.html): follow a pathname until a terminal point is found
 - [nano](https://manpages.ubuntu.com/manpages/jammy/en/man1/nano.1.html): Nano's ANOther editor, inspired by Pico
 - [navi](https://github.com/denisidoro/navi): An interactive cheatsheet tool
+- [nc](https://linux.die.net/man/1/nc): arbitrary TCP and UDP connections and listens
 - [ncal](https://manpages.ubuntu.com/manpages/jammy/en/man1/ncal.1.html): displays a calendar and the date of Easter
 - [ncat](https://manpages.ubuntu.com/manpages/jammy/en/man1/ncat.1.html): Concatenate and redirect sockets
 - [ncdu](https://manpages.ubuntu.com/manpages/jammy/en/man1/ncdu.1.html): NCurses Disk Usage
-- [nc](https://linux.die.net/man/1/nc): arbitrary TCP and UDP connections and listens
 - [neofetch](https://github.com/dylanaraps/neofetch): Shows Linux System Information with Distribution Logo
 - [neomutt](https://manpages.ubuntu.com/manpages/jammy/en/man1/neomutt.1.html): The NeoMutt Mail User Agent (MUA)
 - [netcat](https://linux.die.net/man/1/nc): arbitrary TCP and UDP connections and listens
@@ -438,10 +438,10 @@
 - [od](https://manpages.ubuntu.com/manpages/jammy/en/man1/od.1.html): dump files in octal and other formats
 - [oh-my-posh](https://github.com/JanDeDobbeleer/oh-my-posh): The most customisable and low-latency cross platform/shell prompt renderer
 - [okteto](https://github.com/okteto/okteto): Remote Development Environments powered by Kubernetes
-- [opam](https://github.com/ocaml/opam): source-based package manager for ocaml.
-- [opa](https://github.com/open-policy-agent/opa): An open source project to policy-enable your service.
-- [openssl](https://github.com/openssl/openssl): OpenSSL command line program
 - [op](https://developer.1password.com/docs/cli/): 1Password CLI provides commands to manage and administer a 1Password account.
+- [opa](https://github.com/open-policy-agent/opa): An open source project to policy-enable your service.
+- [opam](https://github.com/ocaml/opam): source-based package manager for ocaml.
+- [openssl](https://github.com/openssl/openssl): OpenSSL command line program
 - [optipng](https://manpages.ubuntu.com/manpages/jammy/en/man1/optipng.1.html): Optimize Portable Network Graphics files
 - [osqueryi](https://github.com/osquery/osquery): your OS as a high-performance relational database
 - [ouch](https://github.com/ouch-org/ouch): easily compressing and decompressing files and directories.
@@ -486,12 +486,12 @@
 - [port](https://github.com/macports/macports-ports): Install and upgrade open source software on macOS.
 - [poweroff](https://manpages.ubuntu.com/manpages/jammy/en/man8/halt.8.html): Halt, power-off or reboot the machine
 - [powertop](https://manpages.ubuntu.com/manpages/jammy/en/man8/powertop.8.html): a power consumption and power management diagnosis tool.
+- [pr](https://manpages.ubuntu.com/manpages/jammy/en/man1/pr.1.html): convert text files for printing
 - [pre-commit](https://github.com/pre-commit/pre-commit): A framework for managing and maintaining multi-language pre-commit hooks.
 - [printenv](https://manpages.ubuntu.com/manpages/jammy/en/man1/printenv.1.html): print all or part of environment
 - [procs](https://github.com/dalance/procs): A modern replacement for ps written in Rust
-- [pr](https://manpages.ubuntu.com/manpages/jammy/en/man1/pr.1.html): convert text files for printing
-- [psql](https://www.postgresql.org/docs/current/app-psql.html): PostgreSQL interactive terminal
 - [ps](https://manpages.ubuntu.com/manpages/jammy/en/man1/ps.1.html): report a snapshot of the current processes.
+- [psql](https://www.postgresql.org/docs/current/app-psql.html): PostgreSQL interactive terminal
 - [ptx](https://manpages.ubuntu.com/manpages/jammy/en/man1/ptx.1.html): produce a permuted index of file contents
 - [pulumi](https://github.com/pulumi/pulumi): Modern Infrastructure as Code
 - [pv](https://manpages.ubuntu.com/manpages/jammy/en/man1/pv.1.html): monitor the progress of data through a pipe
@@ -516,8 +516,8 @@
 - [restic](https://github.com/restic/restic): Backup and restore files
 - [resume](https://github.com/jsonresume/resume-cli): CLI tool to easily setup a new resume
 - [rfkill](https://manpages.ubuntu.com/manpages/jammy/en/man8/rfkill.8.html): tool for enabling and disabling wireless devices
-- [rgrep](https://manpages.ubuntu.com/manpages/jammy/en/man1/grep.1.html): print lines that match patterns
 - [rg](https://github.com/BurntSushi/ripgrep): recursively search the current directory for lines matching a pattern
+- [rgrep](https://manpages.ubuntu.com/manpages/jammy/en/man1/grep.1.html): print lines that match patterns
 - [rhash](https://manpages.ubuntu.com/manpages/jammy/en/man1/rhash.1.html): calculate/check CRC32, MD5, SHA1, GOST, TTH, BTIH or other message digests.
 - [rich](https://github.com/Textualize/rich): Rich text and formatting in the terminal 
 - [rifle](https://manpages.ubuntu.com/manpages/jammy/en/man1/rifle.1.html): ranger's file opener
@@ -576,6 +576,7 @@
 - [strings](https://manpages.ubuntu.com/manpages/jammy/en/man1/strings.1.html): print the sequences of printable characters in files
 - [strip](https://manpages.ubuntu.com/manpages/jammy/en/man1/strip.1.html): discard symbols and other data from object files
 - [stty](https://manpages.ubuntu.com/manpages/jammy/en/man1/stty.1.html): change and print terminal line settings
+- [su](https://manpages.ubuntu.com/manpages/jammy/en/man1/su.1.html): run a command with substitute user and group ID
 - [subl](https://www.sublimetext.com/docs/command_line.html): Sublime Text Command Line Interface
 - [sudo](https://manpages.ubuntu.com/manpages/jammy/en/man8/sudo.8.html): execute a command as another user
 - [sudoedit](https://manpages.ubuntu.com/manpages/jammy/en/man8/sudoedit.8.html): edit files as another user
@@ -584,7 +585,6 @@
 - [supabase](https://github.com/supabase/supabase): The open source Firebase alternative.
 - [supervisorctl](http://supervisord.org/): control applications run by supervisord from the cmd line
 - [surreal](https://github.com/surrealdb/surrealdb): SurrealDB command-line interface and server 
-- [su](https://manpages.ubuntu.com/manpages/jammy/en/man1/su.1.html): run a command with substitute user and group ID
 - [svn](https://subversion.apache.org/): Subversion command line client tool
 - [svtplay-dl](https://github.com/spaam/svtplay-dl): Download videos from your favourite play services.
 - [swc](https://github.com/swc-project/swc): a super-fast TypeScript / JavaScript compiler written in Rust
@@ -621,6 +621,7 @@
 - [top](https://manpages.ubuntu.com/manpages/jammy/en/man1/top.1.html): display Linux processes
 - [torsocks](https://manpages.ubuntu.com/manpages/jammy/en/man1/torsocks.1.html): Shell wrapper to simplify the use of the torsocks(8) library to transparently torify an application.
 - [touch](https://manpages.ubuntu.com/manpages/jammy/en/man1/touch.1.html): change file timestamps
+- [tr](https://manpages.ubuntu.com/manpages/jammy/en/man1/tr.1.html): translate or delete characters
 - [tracepath](https://manpages.ubuntu.com/manpages/jammy/en/man8/tracepath.8.html) - traces path to a network host discovering MTU along this path
 - [traceroute](https://linux.die.net/man/8/traceroute): print the route packets trace to network host
 - [trap](https://manpages.ubuntu.com/manpages/lunar/en/man1/trap.1posix.html): Trap signals and other events.
@@ -630,7 +631,6 @@
 - [trash-restore](https://github.com/andreafrancia/trash-cli): Restore for Command line trash utility.
 - [tree](https://manpages.ubuntu.com/manpages/jammy/en/man1/tree.1.html): list contents of directories in a tree-like format.
 - [trivy](https://github.com/aquasecurity/trivy): Scanner for vulnerabilities in container images, file systems, and Git repositories, as well as for configuration issues and hard-coded secrets
-- [tr](https://manpages.ubuntu.com/manpages/jammy/en/man1/tr.1.html): translate or delete characters
 - [truncate](https://manpages.ubuntu.com/manpages/jammy/en/man1/truncate.1.html): shrink or extend the size of a file to the specified size
 - [trunk](https://github.com/thedodd/trunk): Build, bundle & ship your Rust WASM application to the web.
 - [tsc](https://github.com/Microsoft/TypeScript): The TypeScript Compiler
