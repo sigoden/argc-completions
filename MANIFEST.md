@@ -83,6 +83,7 @@
 - [cargo-insta](https://github.com/mitsuhiko/insta): A snapshot testing library for rust
 - [cargo-outdated](https://github.com/kbknapp/cargo-outdated): displaying when dependencies have newer versions available.
 - [cargo-tarpaulin](https://github.com/xd009642/tarpaulin): A code coverage tool for Rust projects
+- [cargo-tauri](https://github.com/tauri-apps/tauri): Build smaller, faster, and more secure desktop applications with a web frontend.
 - [cargo-udeps](https://github.com/est31/cargo-udeps): Find unused dependencies in Cargo.toml
 - [cat](https://manpages.ubuntu.com/manpages/jammy/en/man1/cat.1.html):  concatenate files and print on the standard output
 - [cc](https://manpages.ubuntu.com/manpages/jammy/en/man1/gcc.1.html): GNU project C and C++ compiler
@@ -641,6 +642,7 @@
 - [twiggy](https://github.com/rustwasm/twiggy): a code size profiler.
 - [type](https://manpages.ubuntu.com/manpages/lunar/en/man1/type.1posix.html): Display information about command type.
 - [typos](https://github.com/crate-ci/typos): Source Code Spelling Correction
+- [typst](https://github.com/typst/typst): A new markup-based typesetting system that is powerful and easy to learn.
 - [uconv](https://manpages.ubuntu.com/manpages/jammy/en/man1/uconv.1.html): convert data from one encoding to another
 - [udevadm](https://manpages.ubuntu.com/manpages/jammy/en/man8/udevadm.8.html): udev management tool
 - [ug](https://github.com/Genivia/ugrep): Ultra fast grep with query UI, fuzzy search, archive search, and more 
