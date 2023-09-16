@@ -74,7 +74,7 @@ _patch_table() {
 }
 
 _choice_cmd() {
-    cargo --list 2>/dev/null | gawk 'NR>1 {print $1}'
+    cargo --list | sed -n 's/^    \(\S\+\)$/\1/p'
 }
 
 _choice_package() {
