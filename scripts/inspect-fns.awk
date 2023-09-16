@@ -15,7 +15,7 @@ BENGIN {
 END {
     for (i = 1; i <= LINE_NUM; i++) {
         line = LINES[i]
-        if (match(line, /^(_\w+)\s*\(\)\s+\{\s*$/, arr) && !match(arr[1], /^_patch/)) {
+        if (match(line, /^(_\w+)\s*\(\)\s*\{\s*$/, arr) && !match(arr[1], /^_patch/)) {
             fnName = arr[1]
             fnEntry = i
             fnZone = 1

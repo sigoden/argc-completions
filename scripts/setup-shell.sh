@@ -4,21 +4,20 @@
 
 setup() {
     root_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )"
-    bin_dir="$root_dir/bin"
-    completions_dir="$root_dir/completions"
     scripts_dir="$root_dir/scripts"
-    argc_completions="$root_dir/shell/argc-completions"
+    script_file="$root_dir/shell/argc-completions"
     shell=$(echo "$1" | tr '[:upper:]' '[:lower:]')
     shell_list="bash|elvish|fish|nushell|powershell|xonsh|zsh"
     if [[ -z "$shell" ]]; then
         echo "Usage: ./setup-shell.sh [$shell_list]"
         exit 
     fi
-    if _is_win; then
-        if [[ ! " bash zsh fish " =~ " $shell " ]]; then
-            bin_dir="$(_to_win_path "$bin_dir")"
-            completions_dir="$(_to_win_path "$completions_dir")"
-            argc_completions="$(_to_win_path "$argc_completions")"
+    if [[ " bash zsh fish " =~ " $shell " ]]; then
+        root_dir="$(echo "$root_dir" | sed 's|'"$HOME"'|$HOME|')"
+    else
+        if _is_win; then
+            root_dir="$(_to_win_path "$root_dir")"
+            script_file="$(_to_win_path "$script_file")"
         fi
     fi
     case $shell in
@@ -28,9 +27,10 @@ setup() {
 Manually add the following code to '__CONFIG_FILE__'
 
 ```sh
+# argc-completions
 export ARGC_COMPLETIONS_ROOT="__ROOT_DIR__"
-export PATH="__BIN_DIR__:$PATH"
-source "__ARGC_COMPLETIONS__.bash"
+export PATH="$ARGC_COMPLETIONS_ROOT/bin:$PATH"
+source "$ARGC_COMPLETIONS_ROOT/shell/argc-completions.bash"
 ```
 EOF
 )
@@ -45,9 +45,12 @@ EOF
 Manually add the following code to '__CONFIG_FILE__'
 
 ```elv
+# argc-completions
+use path
 set E:ARGC_COMPLETIONS_ROOT = '__ROOT_DIR__'
-set paths = ['__BIN_DIR__' $@paths]
-eval (slurp < '__ARGC_COMPLETIONS__.elv')
+set E:ARGC_COMPLETIONS_DIR = (path:join $E:ARGC_COMPLETIONS_ROOT 'completions')
+set paths = [(path:join $E:ARGC_COMPLETIONS_ROOT 'bin') $@paths]
+eval (slurp < (path:join $E:ARGC_COMPLETIONS_ROOT 'shell' 'argc-completions.elv'))
 ```
 EOF
 )
@@ -58,9 +61,10 @@ EOF
 Manually add the following code to '__CONFIG_FILE__'
 
 ```fish
-set -gx  ARGC_COMPLETIONS_ROOT '__ROOT_DIR__'
-fish_add_path '__BIN_DIR__'
-source '__ARGC_COMPLETIONS__.fish' 
+# argc-completions
+set -gx ARGC_COMPLETIONS_ROOT "__ROOT_DIR__"
+fish_add_path "$ARGC_COMPLETIONS_ROOT/bin"
+source "$ARGC_COMPLETIONS_ROOT/shell/argc-completions.fish"
 ```
 EOF
 )
@@ -70,9 +74,11 @@ EOF
 Manually add the following code to $nu.config-path
 
 ```nu
+# argc-completions
 $env.ARGC_COMPLETIONS_ROOT = '__ROOT_DIR__'
-$env.PATH = ($env.PATH | prepend "__BIN_DIR__")
-source "__ARGC_COMPLETIONS__.nu"
+$env.ARGC_COMPLETIONS_DIR = ($env.ARGC_COMPLETIONS_ROOT | path join 'completions')
+$env.PATH = ($env.PATH | prepend ($env.ARGC_COMPLETIONS_ROOT | path join 'bin'))
+source "__SCRIPT_FILE__.nu"
 let external_completer = {|spans| 
     _argc_completions_completer $spans
 }
@@ -90,9 +96,10 @@ EOF
 Manually add the following code to $PROFILE
 
 ```ps1
+# argc-completions
 $env:ARGC_COMPLETIONS_ROOT = '__ROOT_DIR__'
-$env:PATH = '__BIN_DIR__;' + $env:PATH
-. '__ARGC_COMPLETIONS__.ps1'
+$env:PATH = [System.IO.Path]::Join($env:ARGC_COMPLETIONS_ROOT, 'bin') + [IO.Path]::PathSeparator + $env:PATH
+. ([System.IO.Path]::Join($env:ARGC_COMPLETIONS_ROOT, 'shell', 'argc-completions.ps1'))
 ```
 EOF
 )
@@ -107,9 +114,11 @@ EOF
 Manually add the following code to '__CONFIG_FILE__'
 
 ```xsh
+# argc-completions
+import os
 $ARGC_COMPLETIONS_ROOT = '__ROOT_DIR__'
-$PATH.insert(0, '__BIN_DIR__')
-source '__ARGC_COMPLETIONS__.xsh'
+$PATH.insert(0, os.path.join($ARGC_COMPLETIONS_ROOT, "bin"))
+source @(os.path.join($ARGC_COMPLETIONS_ROOT, "shell", "argc-completions.xsh"))
 ```
 EOF
 )
@@ -120,9 +129,10 @@ EOF
 Manually add the following code to '__CONFIG_FILE__'
 
 ```zsh
+# argc-completions
 export ARGC_COMPLETIONS_ROOT="__ROOT_DIR__"
-export PATH="__BIN_DIR__:$PATH"
-source "__ARGC_COMPLETIONS__.zsh"
+export PATH="$ARGC_COMPLETIONS_ROOT/bin:$PATH"
+source "$ARGC_COMPLETIONS_ROOT/shell/argc-completions.zsh"
 ```
 EOF
 )
@@ -133,10 +143,10 @@ EOF
         ;;
     esac
     echo "$content" | sed \
-        -e 's|__ROOT_DIR__|'"$root_dir"'|g'  \
-        -e 's|__CONFIG_FILE__|'"$config_file"'|g'  \
-        -e 's|__ARGC_COMPLETIONS__|'"$argc_completions"'|g' \
-        -e 's|__BIN_DIR__|'"$bin_dir"'|g' 
+        -e 's|__ROOT_DIR__|'"$root_dir"'|g' \
+        -e 's|__CONFIG_FILE__|'"$config_file"'|g' \
+        -e 's|__SCRIPT_FILE__|'"$script_file"'|g'  \
+
 }
 
 _to_win_path() {
