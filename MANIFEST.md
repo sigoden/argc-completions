@@ -588,6 +588,7 @@
 - [svn](https://subversion.apache.org/): Subversion command line client tool
 - [svtplay-dl](https://github.com/spaam/svtplay-dl): Download videos from your favourite play services.
 - [swc](https://github.com/swc-project/swc): a super-fast TypeScript / JavaScript compiler written in Rust
+- [swift](https://github.com/apple/swift): Swift compiler
 - [syft](https://github.com/anchore/syft): CLI tool and library for generating a Software Bill of Materials from container images and filesystems.
 - [sync](https://manpages.ubuntu.com/manpages/jammy/en/man1/sync.1.html): Synchronize cached writes to persistent storage
 - [sysctl](https://manpages.ubuntu.com/manpages/jammy/en/man8/sysctl.8.html): configure kernel parameters at runtime
