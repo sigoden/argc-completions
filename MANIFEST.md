@@ -181,6 +181,7 @@
 - [dpkg](https://manpages.ubuntu.com/manpages/jammy/en/man1/dpkg.1.html): package manager for Debian
 - [dpkg-reconfigure](https://manpages.ubuntu.com/manpages/jammy/en/man8/dpkg-reconfigure.8.html): reconfigure an already installed package
 - [dprint](https://github.com/dprint/dprint): Pluggable and configurable code formatting platform written in Rust.
+- [dstat](https://manpages.ubuntu.com/manpages/jammy/en/man1/dstat.1.html): versatile tool for generating system resource statistics
 - [du](https://manpages.ubuntu.com/manpages/jammy/en/man1/du.1.html): estimate file space usage
 - [dua](https://github.com/Byron/dua-cli): View disk space usage and delete unwanted data, fast
 - [duf](https://github.com/muesli/duf): Disk Usage/Free Utility - a better 'df' alternative
@@ -304,8 +305,10 @@
 - [id](https://manpages.ubuntu.com/manpages/jammy/en/man1/id.1.html): print real and effective user and group IDs
 - [ifconfig](https://manpages.ubuntu.com/manpages/jammy/en/man8/ifconfig.8.html): configure a network interface
 - [ifdown](https://manpages.ubuntu.com/manpages/jammy/en/man8/ifdown.8.html): bring interfaces down
+- [iftop](https://manpages.ubuntu.com/manpages/jammy/en/man8/iftop.8.html): display bandwidth usage on an interface by host
 - [ifup](https://manpages.ubuntu.com/manpages/jammy/en/man8/ifup.8.html): bring a network interface up
 - [install](https://manpages.ubuntu.com/manpages/jammy/en/man1/install.1.html): copy files and set attributes
+- [iostat](https://manpages.ubuntu.com/manpages/jammy/en/man1/iostat.1.html): Report Central Processing Unit (CPU) statistics and input/output statistics for devices and partitions.
 - [ip](https://manpages.ubuntu.com/manpages/jammy/en/man8/ip.8.html): show / manipulate routing, network devices, interfaces and tunnels
 - [ipset](http://ipset.netfilter.org/): administration tool for IP sets
 - [iptables](https://manpages.ubuntu.com/manpages/jammy/en/man8/iptables.8.html): administration tool for IPv4/IPv6 packet filtering and NAT
@@ -426,6 +429,7 @@
 - [netcat](https://linux.die.net/man/1/nc): arbitrary TCP and UDP connections and listens
 - [netctl](https://git.archlinux.org/netctl.git): Control the netctl network profile manager
 - [netctl-auto](https://manpages.ubuntu.com/manpages/jammy/en/man1/netctl-auto.1.html): Control automatic selection of wireless netctl profiles
+- [nethogs](https://github.com/raboof/nethogs): Linux 'net top' tool
 - [networkctl](https://manpages.ubuntu.com/manpages/jammy/en/man1/networkctl.1.html): Query the status of network links
 - [newman](https://github.com/postmanlabs/newman): a command-line collection runner for Postman
 - [newrelic](https://github.com/newrelic/newrelic-cli): The New Relic CLI enables users to perform tasks against the New Relic APIs
@@ -505,6 +509,7 @@
 - [procs](https://github.com/dalance/procs): A modern replacement for ps written in Rust
 - [ps](https://manpages.ubuntu.com/manpages/jammy/en/man1/ps.1.html): report a snapshot of the current processes.
 - [psql](https://www.postgresql.org/docs/current/app-psql.html): PostgreSQL interactive terminal
+- [pstree](https://manpages.ubuntu.com/manpages/jammy/en/man1/pstree.1.html): display a tree of processes
 - [ptx](https://manpages.ubuntu.com/manpages/jammy/en/man1/ptx.1.html): produce a permuted index of file contents
 - [pulumi](https://github.com/pulumi/pulumi): Modern Infrastructure as Code
 - [pv](https://manpages.ubuntu.com/manpages/jammy/en/man1/pv.1.html): monitor the progress of data through a pipe
@@ -577,6 +582,7 @@
 - [split](https://manpages.ubuntu.com/manpages/jammy/en/man1/split.1.html): split a file into pieces
 - [sqlfluff](https://github.com/sqlfluff/sqlfluff): The SQL Linter for Humans
 - [sqlite3](https://manpages.ubuntu.com/manpages/jammy/en/man1/sqlite3.1.html): A command line interface for SQLite version 3
+- [ss](https://manpages.ubuntu.com/manpages/jammy/en/man8/ss.8.html): another utility to investigate sockets
 - [ssh](https://manpages.ubuntu.com/manpages/jammy/en/man1/ssh.1.html): OpenSSH remote login client
 - [ssh-agent](https://manpages.ubuntu.com/manpages/jammy/en/man1/ssh-agent.1.html): OpenSSH authentication agent
 - [ssh-copy-id](https://manpages.ubuntu.com/manpages/jammy/en/man1/ssh-copy-id.1.html): use locally available keys to authorise logins on a remote machine

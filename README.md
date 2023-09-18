@@ -18,13 +18,13 @@ Argc-completions also provide tool to automatically generate completion scripts 
 
 ## Setup
 
-### 1. clone the repository
+### 1. Clone the repository
 
 ```
 git clone https://github.com/sigoden/argc-completions.git
 ```
 
-### 2. install required tools
+### 2. Install required tools
 
 Argc-completions requires the following tools:
 
@@ -36,13 +36,13 @@ Run the following script to download the tools to `./bin` folder:
 ```sh
 ./scripts/download-tools.sh
 ```
-<details>
-<summary>For Macos</summary>
 
-- Bash and GNU awk
+<details>
+<summary>For macos</summary>
 
 ```
-brew install bash gawk
+brew install bash
+brew install gawk
 ```
 
 </details>
@@ -51,11 +51,12 @@ brew install bash gawk
 <details>
 <summary>For Windows</summary>
 
-- [Git-For-Windows](https://gitforwindows.org/): Bash and GNU tools
+Install git and run the script in git-bash
 
 </details>
 
-### 3. setup shell
+
+### 3. Setup shell
 
 Argc-completions supports a lot of shells. Different shells need different configurations.
 
