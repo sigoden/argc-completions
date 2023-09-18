@@ -6,7 +6,7 @@ export ARGC_COMPLETIONS_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/n
 set -e
 
 # @cmd Automatically generate the completion script for <CMD>
-# @flag -E --with-extend-subcmds  Also regenerate extend subcommands
+# @flag -E --with-extend-subcmds    Also regenerate extend subcommands
 # @flag -v --verbose                Show log
 # @arg cmd![?`_choice_command`]
 # @arg subcmd

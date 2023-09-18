@@ -324,17 +324,25 @@ set_globals() {
     src_dir="$ROOT_DIR/src"
     utils_dir="$ROOT_DIR/utils"
     helps_dir="$ROOT_DIR/helps"
-    use_help_subcmd=0
     command_names=";$argc_cmd;"
     if [[ "$argc_cmd" == '__test' ]]; then
         src_dir="$ROOT_DIR/tests/src"
         argc_output="$ROOT_DIR/tests/completions"
     else
-        command -v $argc_cmd >/dev/null 2>&1
-        if [[ $? -eq 1 ]]; then
+        if ! command -v $argc_cmd >/dev/null; then
             log_error "$argc_cmd not found"
             exit 1
         fi
+    fi
+
+    cmds_level=1
+    if [[ "$argc_extend" == "1" ]] && [[ -n $argc_subcmd ]]; then
+        if ! command -v $argc_cmd-$argc_subcmd >/dev/null; then
+            log_error "$argc_cmd-$argc_subcmd not found"
+            exit 1
+        fi
+        cmds_level=2
+        src_file="$src_dir/$argc_cmd/$argc_subcmd.sh"
     fi
 
     if [[ ! -f "$src_file" ]]; then
@@ -350,12 +358,6 @@ set_globals() {
     if [[ -d "$helps_dir" ]]; then
         help_output_file="$helps_dir/$(echo "${cmds[@]}" | sed 's/ /-/g').txt"
         rm -rf "$help_output_file"
-    fi
-
-    if [[ "$argc_extend" == "1" ]] && [[ -n $argc_subcmd ]]; then
-        cmds_level=2
-    else
-        cmds_level=1
     fi
 
     source "$utils_dir/_patch_utils/index.sh"

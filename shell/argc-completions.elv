@@ -19,7 +19,7 @@ fn argc-completions-completer {|@args|
         }
     }
     if $extend {
-        set args = $args[1..]
+        set args = [(str:join '-' $args[0..2]) (all $args[2..])]
     } else {
         set scriptfile = (path:join $E:ARGC_COMPLETIONS_DIR (printf "%s.sh" $cmd))
     }

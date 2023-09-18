@@ -31,7 +31,7 @@ $_argc_completions_completer = {
         }
     }
     if ($extend) {
-        $words = $words[1..($words.Count-1)]
+        $words = @($words[0] + "-" + $words[1]) + $words[2..($words.Count-1)]
     } else {
         $scriptfile = ($ARGC_COMPLETIONS_DIR + $ARGC_DIR_SEP_CHAR + $cmd + ".sh")
     }

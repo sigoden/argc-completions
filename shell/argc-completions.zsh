@@ -21,7 +21,7 @@ _argc_completions_completer()
         fi
     fi
     if [[ $extend -eq 1 ]]; then
-        words=( ${words[2, -1]} )
+        words=( "${words[1]}-${words[2]}" ${words[3, -1]} )
     else
         scriptfile="$ARGC_COMPLETIONS_DIR/$cmd.sh"
     fi

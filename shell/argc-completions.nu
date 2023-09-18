@@ -15,7 +15,7 @@ def _argc_completions_completer [args: list<string>] {
     }
     mut args = $args
     if $extend {
-        $args = ($args | skip 1)
+        $args = ($args.0 + "-" + $args.1 | append ($args | skip 2))
     } else {
         $scriptfile = ($env.ARGC_COMPLETIONS_DIR | path join ($cmd + '.sh') | path expand)
     }

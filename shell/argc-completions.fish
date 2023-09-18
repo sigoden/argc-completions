@@ -22,7 +22,7 @@ function __argc_completions_completer
         end
     end
     if test $extend -eq 1
-        set args $args[2..]
+        set args "$args[1]-$args[2]" $args[3..]
     else
         set scriptfile "$ARGC_COMPLETIONS_DIR/$cmd.sh"
     end

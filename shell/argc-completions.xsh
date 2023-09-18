@@ -28,7 +28,7 @@ def _argc_completions_completer(context):
             if os.path.exists(scriptfile):
                 expand = True
     if expand:
-        args = args[1:]
+        args = [args[0] + '-' + args[1], *args[2:]]
     else:
         scriptfile = os.path.join(ARGC_COMPLETIONS_DIR, cmd + '.sh')
         if not os.path.exists(scriptfile):
