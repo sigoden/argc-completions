@@ -2118,7 +2118,7 @@ worktree::unlock() {
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
 _choice_cmd() {
-    _git config --get-regexp 'alias.*' | gawk '{print substr($1, 7)}'
+    _git --list-cmds=main,others,alias,nohelpers
 }
 
 _choice_unstaged_file() {

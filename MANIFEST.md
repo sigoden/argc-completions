@@ -81,10 +81,19 @@
 - [cargo-fuzz](https://github.com/rust-fuzz/cargo-fuzz): Command line helpers for fuzzing
 - [cargo-geiger](https://github.com/rust-secure-code/cargo-geiger): Detects usage of unsafe Rust in a Rust crate and its dependencies.
 - [cargo-insta](https://github.com/mitsuhiko/insta): A snapshot testing library for rust
+- [cargo-leptos](https://github.com/leptos-rs/cargo-leptos): Build tool for Leptos
+- [cargo-license](https://github.com/onur/cargo-license): Cargo subcommand to see license of dependencies
+- [cargo-llvm-cov](https://crates.io/crates/cargo-llvm-cov): Cargo subcommand to easily use LLVM source-based code coverage.
+- [cargo-make](https://github.com/sagiegurari/cargo-make): Rust task runner and build tool.
+- [cargo-ndk](https://github.com/bbqsrc/cargo-ndk): Compile Rust projects against the Android NDK without hassle
+- [cargo-nextest](https://github.com/nextest-rs/nextest/tree/main/cargo-nextest): A new, faster test runner for Rust.
 - [cargo-outdated](https://github.com/kbknapp/cargo-outdated): displaying when dependencies have newer versions available.
+- [cargo-sort](https://github.com/DevinR528/cargo-sort): Check if tables and items in a .toml file are lexically sorted
 - [cargo-tarpaulin](https://github.com/xd009642/tarpaulin): A code coverage tool for Rust projects
 - [cargo-tauri](https://github.com/tauri-apps/tauri): Build smaller, faster, and more secure desktop applications with a web frontend.
 - [cargo-udeps](https://github.com/est31/cargo-udeps): Find unused dependencies in Cargo.toml
+- [cargo-watch](https://github.com/watchexec/cargo-watch): Watches over your Cargo project's source.
+- [cargo-zigbuild](https://github.com/rust-cross/cargo-zigbuild): Compile Cargo project with zig as linker for easier cross compiling.
 - [cat](https://manpages.ubuntu.com/manpages/jammy/en/man1/cat.1.html):  concatenate files and print on the standard output
 - [cc](https://manpages.ubuntu.com/manpages/jammy/en/man1/gcc.1.html): GNU project C and C++ compiler
 - [cf](https://github.com/cloudfoundry/cli): The official command line client for Cloud Foundry
@@ -208,6 +217,7 @@
 - [firefox](https://www.mozilla.org/en-US/firefox/new/): Mozilla Firefox Browser
 - [fish](https://github.com/fish-shell/fish-shell): The user-friendly command line shell. 
 - [flac](https://xiph.org/flac/): Free Lossless Audio Codec
+- [flamegraph](https://github.com/flamegraph-rs/flamegraph): A Rust-powered flamegraph generator with additional support for Cargo projects
 - [flatpak](https://github.com/flatpak/flatpak): Linux application sandboxing and distribution framework
 - [flutter](https://flutter.dev/): Build apps for any screen
 - [fmt](https://manpages.ubuntu.com/manpages/jammy/en/man1/fmt.1.html): simple optimal text formatter
@@ -234,6 +244,9 @@
 - [gio](https://manpages.ubuntu.com/manpages/focal/man1/gio.1.html): GIO commandline tool
 - [git](https://git-scm.com/): fast, scalable, distributed revision control system
 - [git-cliff](https://github.com/orhun/git-cliff): A highly customizable Changelog Generator that follows Conventional Commit specifications
+- [git-lfs](https://github.com/git-lfs/git-lfs): Git extension for versioning large files
+- [git-open](https://github.com/paulirish/git-open): Open the repo website (GitHub, GitLab, Bitbucket) in your browser.
+- [git-quick-stats](https://github.com/arzzen/git-quick-stats): a simple and efficient way to access various statistics in a git repository.
 - [glab](https://gitlab.com/gitlab-org/cli): bringing GitLab to your command line
 - [glow](https://github.com/charmbracelet/glow): Render markdown on the CLI, with pizzazz!
 - [go](https://go.dev/): a tool for managing Go source code.

@@ -317,13 +317,44 @@ _patch_table() {
     elif [[ "$*" == "git tag" ]]; then
         _patch_table_edit_arguments ';;' '<tagname>;[`_choice_tag`]'
 
+    elif [[ "$*" == "git cliff" ]]; then
+        _patch_table_edit_options \
+            '--tag;[`_choice_tag`]' \
+        | \
+        _patch_table_edit_arguments \
+            'range;[`_choice_range`]' \
+
+    elif [[ "$*" == "git open" ]]; then
+        _patch_table_edit_options \
+            '--suffix(<value>)' \
+        | \
+        _patch_table_edit_arguments \
+            ';;' \
+            'remote;[`_choice_remote`]' \
+            'branch;[`_choice_local_branch`]' \
+
+    elif [[ "$*" == "git quick-stats" ]]; then
+        _patch_table_edit_arguments ';;'
+
+    elif [[ "$*" == "git standup" ]]; then
+        _patch_table_edit_options \
+            '-a(<author>)' \
+            '-w(<value>)' \
+            '-m(<num>)' \
+            '-b;[`_choice_local_branch`]' \
+            '-d(<num>)' \
+            '-u(<num>)' \
+            '-D(<value>)' \
+            '-A(<date>)' \
+            '-B(<date>)' \
+
     else
         cat
     fi
 }
 
 _choice_cmd() {
-    _git config --get-regexp 'alias.*' | gawk '{print substr($1, 7)}'
+    _git --list-cmds=main,others,alias,nohelpers
 }
 
 _choice_unstaged_file() {
@@ -342,8 +373,7 @@ _choice_log() {
     if [[ -n "$argc_dashes" ]]; then
         _git ls-files | _argc_util_comp_parts /
     else
-        _argc_util_mode_kv '..'
-        _choice_ref
+        _choice_range
     fi
 }
 
