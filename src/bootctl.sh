@@ -11,7 +11,7 @@ _patch_table() {
         _patch_table_add_metadata 'inherit-flag-options'
 
     elif [[ "$*" == "bootctl set-default" ]] \
-    || [[ "$*" == "bootctl set-oneshot" ]] \
+      || [[ "$*" == "bootctl set-oneshot" ]] \
     ; then
         _patch_table_edit_arguments 'id;[`_choice_boot`]'
         

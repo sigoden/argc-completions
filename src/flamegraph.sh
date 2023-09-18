@@ -1,7 +1,7 @@
 _patch_table() {
     _patch_table_edit_options \
-        '--pid;[`_module_os_pid`]' \
         '--cmd;[`_module_os_command`]' \
+        '--pid;[`_module_os_pid`]' \
     | \
     _patch_table_edit_arguments \
         ';;' \

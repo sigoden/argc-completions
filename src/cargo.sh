@@ -68,6 +68,26 @@ _patch_table() {
     elif [[ "$*" == "cargo fmt" ]]; then
         echo "$table" | _patch_table_edit_arguments 'rustfmt_options;~[`_choice_fmt`]'
 
+    elif [[ "$*" == "cargo llvm-cov nextest" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            ';;' \
+            'args;~[`_choice_nextest_cmd`]' \
+
+
+    elif [[ "$*" == "cargo make" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            ';;' 'task;[`_choice_make_task`]' 'args...' \
+
+    elif [[ "$*" == "cargo ndk" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--target;*[`_choice_ndk_target`]' \
+        | \
+        _patch_table_edit_arguments \
+            'cargo_args;~[`_choice_ndk_cmd`]' \
+    
     elif [[ "$*" == "cargo sort" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
@@ -75,11 +95,6 @@ _patch_table() {
         | \
         _patch_table_edit_arguments \
             ';;' 'paths...' \
-
-    elif [[ "$*" == "cargo make" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            ';;' 'task;[`_choice_make_task`]' 'args...' \
 
     elif [[ "$*" == "cargo watch" ]]; then
         echo "$table" | \
@@ -91,21 +106,6 @@ _patch_table() {
             ';;' \
             'command;[`_module_os_command`]' \
             'args;~[`_module_os_command_args`]' \
-
-    elif [[ "$*" == "cargo ndk" ]]; then
-        echo "$table" | \
-        _patch_table_edit_options \
-            '--target;*[`_choice_ndk_target`]' \
-        | \
-        _patch_table_edit_arguments \
-            'cargo_args;~[`_choice_ndk_cmd`]' \
-    
-    elif [[ "$*" == "cargo llvm-cov nextest" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            ';;' \
-            'args;~[`_choice_nextest_cmd`]' \
-
 
     else
         echo "$table"
@@ -174,20 +174,20 @@ _choice_make_task() {
     sed -n 's/No Description.//;s/^\(\S\+\) - \(.*\)/\1\t\2/p' 
 }
 
-_choice_watch_exec() {
-    cargo --list | sed -n 's/^    \(\S\S\+\).*/\1/p'
+_choice_ndk_cmd() {
+    _argc_util_comp_subcommand 0 cargo
 }
 
 _choice_ndk_target() {
     printf "%s\n" rmeabi-v7a arm64-v8a x86 x86_64
 }
 
-_choice_ndk_cmd() {
-    _argc_util_comp_subcommand 0 cargo
-}
-
 _choice_nextest_cmd() {
     _argc_util_comp_subcommand 0 cargo nextest
+}
+
+_choice_watch_exec() {
+    cargo --list | sed -n 's/^    \(\S\S\+\).*/\1/p'
 }
 
 _helper_metadata_json() {

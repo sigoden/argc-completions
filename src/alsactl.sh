@@ -19,13 +19,13 @@ _patch_table() {
         _patch_table_add_metadata 'inherit-flag-options'
 
     elif [[ "$*" == "alsactl store" ]] \
-    || [[ "$*" == "alsactl restore" ]] \
-    || [[ "$*" == "alsactl nrestore" ]] \
-    || [[ "$*" == "alsactl init" ]] \
-    || [[ "$*" == "alsactl daemon" ]] \
-    || [[ "$*" == "alsactl rdaemon" ]] \
-    || [[ "$*" == "alsactl monitor" ]] \
-    || [[ "$*" == "alsactl clean" ]] \
+      || [[ "$*" == "alsactl restore" ]] \
+      || [[ "$*" == "alsactl nrestore" ]] \
+      || [[ "$*" == "alsactl init" ]] \
+      || [[ "$*" == "alsactl daemon" ]] \
+      || [[ "$*" == "alsactl rdaemon" ]] \
+      || [[ "$*" == "alsactl monitor" ]] \
+      || [[ "$*" == "alsactl clean" ]] \
     ; then
         echo "$table" | \
         _patch_table_edit_arguments \

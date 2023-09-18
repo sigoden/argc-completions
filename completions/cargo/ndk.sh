@@ -13,12 +13,12 @@
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_ndk_target() {
-    printf "%s\n" rmeabi-v7a arm64-v8a x86 x86_64
-}
-
 _choice_ndk_cmd() {
     _argc_util_comp_subcommand 0 cargo
+}
+
+_choice_ndk_target() {
+    printf "%s\n" rmeabi-v7a arm64-v8a x86 x86_64
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"
