@@ -26,5 +26,8 @@ jobs:
       ./scripts/download-tools.sh
       echo `pwd`/bin >> $GITHUB_PATH
 
+    - name: Inspect tools
+      run: argc version
+
     - name: Check Scripts
       run: argc check:all
