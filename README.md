@@ -36,48 +36,26 @@ Run the following script to download the tools to `./bin` folder:
 ```sh
 ./scripts/download-tools.sh
 ```
+> For windows, run the script in git-bash
 
-<details>
-<summary>For macos</summary>
-
-```
-brew install bash
-brew install gawk
-```
-
-</details>
-
-
-<details>
-<summary>For Windows</summary>
-
-Install git and run the script in git-bash
-
-</details>
-
+> For macos, install bash and gawk with `brew install bash gawk`
 
 ### 3. Setup shell
 
 Argc-completions supports a lot of shells. Different shells need different configurations.
 
-Run `setup-shell.sh` to get code that loads argc-completions into your shell.
+Run the following script to see how argc-completions are integrated into the shell:
 
 ```sh
-./scripts/setup-shell.sh bash
-./scripts/setup-shell.sh elvish
-./scripts/setup-shell.sh fish
-./scripts/setup-shell.sh nushell
-./scripts/setup-shell.sh powershell
-./scripts/setup-shell.sh xonsh
-./scripts/setup-shell.sh zsh
+./scripts/setup-shell.sh bash # supports shells: bash elvish fish nushell powershell xonsh zsh
 ```
 
 ## Generate custom completion script
 
-You can run `generate.sh` to automatically generate the completion script for your command:
+You can run `generate.sh` to automatically generate the completion script for the command:
 
 ```sh
-argc generate your-command # or ./scripts/generate.sh your-command
+argc generate cmd 
 ```
 
 ## License
