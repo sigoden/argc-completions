@@ -8,10 +8,10 @@ _patch_table() {
     if [[ "$*" == "resolvectl" ]]; then
         _patch_table_add_metadata 'inherit-flag-options' | \
         _patch_table_edit_options \
-            '--class;[`_choice_class`]' \
             '--interface;[`_choice_interface`]' \
             '--protocol;[`_choice_protocol`]' \
             '--type;[`_choice_type`]' \
+            '--class;[`_choice_class`]' \
 
     else
         cat

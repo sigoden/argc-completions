@@ -11,17 +11,17 @@ _patch_table() {
         _patch_table_add_metadata 'inherit-flag-options'
 
     elif [[ "$*" == "machinectl status" ]] \
-    || [[ "$*" == "machinectl show" ]] \
-    || [[ "$*" == "machinectl start" ]] \
-    || [[ "$*" == "machinectl login" ]] \
-    || [[ "$*" == "machinectl enable" ]] \
-    || [[ "$*" == "machinectl disable" ]] \
-    || [[ "$*" == "machinectl poweroff" ]] \
-    || [[ "$*" == "machinectl terminate" ]] \
-    || [[ "$*" == "machinectl kill" ]] \
-    || [[ "$*" == "machinectl copy-to" ]] \
-    || [[ "$*" == "machinectl copy-from" ]] \
-    || [[ "$*" == "machinectl bind" ]] \
+      || [[ "$*" == "machinectl show" ]] \
+      || [[ "$*" == "machinectl start" ]] \
+      || [[ "$*" == "machinectl login" ]] \
+      || [[ "$*" == "machinectl enable" ]] \
+      || [[ "$*" == "machinectl disable" ]] \
+      || [[ "$*" == "machinectl poweroff" ]] \
+      || [[ "$*" == "machinectl terminate" ]] \
+      || [[ "$*" == "machinectl kill" ]] \
+      || [[ "$*" == "machinectl copy-to" ]] \
+      || [[ "$*" == "machinectl copy-from" ]] \
+      || [[ "$*" == "machinectl bind" ]] \
     ; then
         _patch_table_edit_arguments 'name;[`_choice_machine`]'
 

@@ -324,6 +324,9 @@ _patch_table() {
         _patch_table_edit_arguments \
             'range;[`_choice_range`]' \
 
+    elif [[ "$*" == "git lfs" ]]; then
+        _patch_table_edit_arguments ';;' 'words;~[`_module_bridge_corba`]'
+
     elif [[ "$*" == "git open" ]]; then
         _patch_table_edit_options \
             '--suffix(<value>)' \
@@ -338,15 +341,15 @@ _patch_table() {
 
     elif [[ "$*" == "git standup" ]]; then
         _patch_table_edit_options \
-            '-a(<author>)' \
-            '-w(<value>)' \
-            '-m(<num>)' \
-            '-b;[`_choice_local_branch`]' \
-            '-d(<num>)' \
-            '-u(<num>)' \
-            '-D(<value>)' \
             '-A(<date>)' \
             '-B(<date>)' \
+            '-D(<value>)' \
+            '-a(<author>)' \
+            '-b;[`_choice_local_branch`]' \
+            '-d(<num>)' \
+            '-m(<num>)' \
+            '-u(<num>)' \
+            '-w(<value>)' \
 
     else
         cat
@@ -411,6 +414,7 @@ _choice_remote_branch() {
 _choice_push() {
     _argc_util_mode_kv ':'
     _choice_branch
+    _choice_tag
 }
 
 _choice_checkout() {

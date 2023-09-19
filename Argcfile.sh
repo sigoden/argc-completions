@@ -172,24 +172,14 @@ format() {
 
 # @cmd Format changed files
 format:changed() {
-    mapfile -t cmds <<<"$(_helper_list_changed)"
-    for name in ${cmds[@]}; do
-        srcfile="src/$name.sh"
-        if [[ -f "$srcfile" ]]; then
-            echo "format $srcfile "
-            ./scripts/format.sh "$name"
-        fi
-    done
+    mapfile -t cmds < <(_helper_list_changed)
+    argc format "${cmds[@]}"
 }
 
 # @cmd Format all src files
 format:all() {
-    while IFS=$'\n' read -r srcfile; do
-        if [[ -f "$srcfile" && ! -L "$srcfile" ]]; then
-            echo "format $srcfile"
-            ./scripts/format.sh "$(basename "$srcfile" .sh)"
-        fi
-    done < <(find src/ -type f -name "*.sh" | sort)
+    mapfile -t cmds < <(find src/  -name "*.sh" -type f | sort | sed -n 's|src/\([[:alnum:]_-]\+\)\.sh|\1|p')
+    argc format "${cmds[@]}"
 }
 
 # @cmd Print version

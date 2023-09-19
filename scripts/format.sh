@@ -2,81 +2,70 @@
 
 set -e
 
-ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )"
+# @describe Format src script
+# @flag -p --print          Print formated script, don't edit file in place
+# @flag -c --check          Is the format ok?
+# @arg cmd!
 
+main() {
+    ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )"
 
-if [[ $# -eq 0 ]]; then
-    echo "Usage: format <cmd> [subcmd]"
-    exit 1
-fi
+    cmd_file="${argc_cmd}.sh"
+    src_file="$ROOT_DIR/src/$cmd_file"
+    comp_file="$ROOT_DIR/completions/$cmd_file"
 
-name="$(echo $@ | sed 's| |/|').sh"
-src_file="$ROOT_DIR/src/$name"
-argc_file="$ROOT_DIR/completions/$name"
+    if [[ ! -f "$src_file" ]]; then
+        echo "Not found src/$cmd_file"
+        exit 1
+    fi
 
-if [[ ! -f "$src_file" ]]; then
-    echo "Not found src/$name"
-    exit 1
-fi
+    if [[ ! -f "$comp_file" ]]; then
+        echo "Not found completions/$cmd_file"
+        exit 1
+    fi
 
-if [[ ! -f "$argc_file" ]]; then
-    echo "Not found completions/$name"
-    exit 1
-fi
+    if [[ "$OS" == "Windows_NT" ]]; then
+        comp_file="$(cygpath -w "$comp_file")"
+    fi
 
-if [[ "$OS" == "Windows_NT" ]]; then
-    argc_file="$(cygpath -w "$argc_file")"
-fi
+    json="$(argc --argc-export "$comp_file")"
+    commands="$(echo "$json" | cmd="$argc_cmd" yq '
+        .path = env(cmd) |
+        .. | select(has("subcommands")) | 
+        .path = (parent | parent | .path) + " " + .name | 
+        .path'
+    )"
+    options="$(echo "$json" | cmd="$argc_cmd" yq '
+        .path = env(cmd) |
+        .. | select(has("subcommands")) | 
+        .path = (parent | parent | .path) + " " + .name | 
+        .path as $path |
+        .options[] | $path + " " + .option_names[0]'
+    )"
+    choice_fns="$(cat "$comp_file" | extract_choice_fns)"
+    content="$({
+        echo "__COMMANDS__";
+        echo "$commands";
+        echo "__OPTIONS__";
+        echo "$options";
+        echo "__CHOICE_FNS__";
+        echo "$choice_fns";
+        echo "__SRC__";
+        cat "$src_file";
+    })"
 
-json="$(argc --argc-export "$argc_file")"
-commands="$(echo "$json" | cmd="$@" yq '
-    .path = env(cmd) |
-    .. | select(has("subcommands")) | 
-    .path = (parent | parent | .path) + " " + .name | 
-    .path'
-)"
-options="$(echo "$json" | cmd="$@" yq '
-    .path = env(cmd) |
-    .. | select(has("subcommands")) | 
-    .path = (parent | parent | .path) + " " + .name | 
-    .path as $path |
-    .options[] | $path + " " + .option_names[0]'
-)"
-choice_fns="$(cat "$argc_file" | \
-gawk '
-    BEGIN {
-        VALUE_LEN = 0
-        split("", VALUES)
-        split("", DEDUP_VALUES)
-        
-    }
-    {
-        if (match($0, /^# @(option|arg).*\S+\[`(\S+)`\]/, arr)) {
-            if (!DEDUP_VALUES[arr[2]]) {
-                VALUE_LEN += 1
-                VALUES[VALUE_LEN] = arr[2]
-                DEDUP_VALUES[arr[2]] = 1
-            }
-        }
-    }
-    END {
-        for (i in VALUES) {
-            print VALUES[i]
-        }
-    }'
-)"
-content="$({
-    echo "__COMMANDS__";
-    echo "$commands";
-    echo "__OPTIONS__";
-    echo "$options";
-    echo "__CHOICE_FNS__";
-    echo "$choice_fns";
-    echo "__SRC__";
-    cat "$src_file";
-})"
+    output="$(echo "$content" | format)"
+    if [[ -n "$argc_print" ]]; then
+        echo "$output"
+    elif [[ -n "$argc_check" ]]; then
+        echo "$output" | diff -u "$src_file" -
+    else
+        echo "$output" > "$src_file"
+    fi
+}
 
-output="$(echo "$content" | gawk '
+format() {
+    gawk '
 BEGIN {
     split("", COMMANDS)
     COMMAND_LEN = 0
@@ -464,6 +453,31 @@ function join(array, sep,       result, i) {
         result = result sep array[i]
     return result
 }
-')"
+'
+}
 
-echo "$output" > "$src_file"
+extract_choice_fns() {
+    gawk '
+    BEGIN {
+        VALUE_LEN = 0
+        split("", VALUES)
+        split("", DEDUP_VALUES)
+        
+    }
+    {
+        if (match($0, /^# @(option|arg).*\S+\[`(\S+)`\]/, arr)) {
+            if (!DEDUP_VALUES[arr[2]]) {
+                VALUE_LEN += 1
+                VALUES[VALUE_LEN] = arr[2]
+                DEDUP_VALUES[arr[2]] = 1
+            }
+        }
+    }
+    END {
+        for (i in VALUES) {
+            print VALUES[i]
+        }
+    }'
+}
+
+eval "$(argc --argc-eval "$0" "$@")"

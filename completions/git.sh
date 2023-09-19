@@ -2137,8 +2137,7 @@ _choice_log() {
     if [[ -n "$argc_dashes" ]]; then
         _git ls-files | _argc_util_comp_parts /
     else
-        _argc_util_mode_kv '..'
-        _choice_ref
+        _choice_range
     fi
 }
 
@@ -2176,6 +2175,7 @@ _choice_remote_branch() {
 _choice_push() {
     _argc_util_mode_kv ':'
     _choice_branch
+    _choice_tag
 }
 
 _choice_checkout() {

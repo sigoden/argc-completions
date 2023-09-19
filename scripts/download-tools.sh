@@ -4,9 +4,9 @@
 
 set -e
 
-argc_version=${ARGC_VERSION:-v1.9.0}
+argc_version=v1.10.0
 yq_version=v4.35.1
-sed_version=4.9.0-2
+sed_version=4.9.0-3
 
 download() {
     install_dir="$1"
