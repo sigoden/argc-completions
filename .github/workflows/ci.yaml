@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+    - '*'
+  push:
+    branches:
+    - main
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  all:
+    name: All
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup Tools
+      run: |
+      ./scripts/download-tools.sh
+      echo `pwd`/bin >> $GITHUB_PATH
+
+    - name: Check Scripts
+      run: argc check:all
