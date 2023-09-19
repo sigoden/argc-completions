@@ -23,8 +23,11 @@ jobs:
 
     - name: Setup Tools
       run: |
-      ./scripts/download-tools.sh
-      echo `pwd`/bin >> $GITHUB_PATH
+        ./scripts/download-tools.sh
+        echo `pwd`/bin >> $GITHUB_PATH
 
-    - name: Check Scripts
+    - name: Check versions
+      run: argc version
+
+    - name: Check scripts
       run: argc check:all
