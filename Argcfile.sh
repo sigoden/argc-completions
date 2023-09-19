@@ -182,6 +182,25 @@ format:all() {
     argc format "${cmds[@]}"
 }
 
+# @cmd Check scripts
+check:all() {
+    mapfile -t cmds < <(_choice_completion)
+    for cmd in "${cmds[@]}"; do
+        echo "check $cmd"
+        if [[ -f src/${cmd}.sh && ! -L src/${cmd}.sh ]]; then
+            ./scripts/format.sh -c $cmd
+        else
+            _helper_validate_script ./completions/$cmd.sh
+        fi
+        if [[ -d completions/$cmd ]]; then
+            for subcmd in completions/$cmd/*; do
+                echo "check $cmd $(basename ${subcmd##*/} .sh)"
+                _helper_validate_script $subcmd
+            done
+        fi
+    done
+}
+
 # @cmd Print version
 version() {
     argc --argc-version
@@ -198,7 +217,7 @@ _choice_command() {
 }
 
 _choice_completion() {
-    ls -p -1 completions | grep -v '/' | sed 's/.sh$//'
+    ls -p -1 completions | sed -n 's/^\([[:alnum:]_-]\+\)\.sh$/\1/p'
 }
 
 _choice_fn_name() {
@@ -304,6 +323,17 @@ _helper_list_changed() {
         print gensub(/^([a-z0-9_+-]+).*$/, "\\1", 1, p[2])
     }' | \
     sort | uniq
+}
+
+_helper_validate_script() {
+    local output
+    output=$(bash "$1" --help 2>&1 || true)
+    if [[ -n "$output" ]]; then
+        if ! grep -q "USAGE:" <<<"$output"; then
+            echo "$(echo "$output" | head -n 1)"
+            exit 1
+        fi
+    fi
 }
 
 
