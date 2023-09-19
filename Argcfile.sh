@@ -192,10 +192,13 @@ check:all() {
         else
             _helper_validate_script ./completions/$cmd.sh
         fi
+        _helper_check_manifest $cmd
         if [[ -d completions/$cmd ]]; then
-            for subcmd in completions/$cmd/*; do
-                echo "check $cmd $(basename ${subcmd##*/} .sh)"
-                _helper_validate_script $subcmd
+            for subcmd_file in completions/$cmd/*; do
+                subcmd="$(basename ${subcmd_file##*/} .sh)"
+                echo "check $cmd $subcmd"
+                _helper_validate_script $subcmd_file
+                _helper_check_manifest $cmd-$subcmd
             done
         fi
     done
@@ -205,7 +208,6 @@ check:all() {
 version() {
     argc --argc-version
     yq --version
-    sed --version | head -n 1
 }
 
 _choice_command() {
@@ -336,5 +338,11 @@ _helper_validate_script() {
     fi
 }
 
+_helper_check_manifest() {
+    if ! grep -q "^- \[$1\]" MANIFEST.md; then
+        echo "MANIFEST.md does not include $1"
+        exit 1
+    fi
+}
 
 eval "$(argc --argc-eval "$0" "$@")"
