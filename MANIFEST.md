@@ -62,6 +62,7 @@
 - [broot](https://github.com/Canop/broot): A new way to see and navigate directory trees
 - [brotli](https://github.com/google/brotli): lossless compression algorithm and format
 - [browser-sync](https://github.com/BrowserSync/browser-sync): Keep multiple browsers & devices in sync when building websites.
+- [btm](https://github.com/ClementTsang/bottom): A customizable cross-platform graphical process/system monitor for the terminal. Supports Linux, macOS, and Windows.
 - [btop](https://github.com/aristocratos/btop): Modern and colorful command line resource monitor that shows usage and stats
 - [btrfs](http://btrfs.wiki.kernel.org/): a toolbox to manage btrfs filesystems
 - [bundle](https://bundler.io/): Ruby Dependency Management
@@ -128,7 +129,8 @@
 - [conky](https://github.com/brndnmtthws/conky): highly configurable system monitor.
 - [connmanctl](https://manpages.ubuntu.com/manpages/jammy/en/man1/connmanctl.1.html): Connman CLI
 - [consul](https://github.com/hashicorp/consul): a distributed, highly available, and data center aware solution to connect and configure applications across dynamic, distributed infrastructure. 
-- [coredumpctl](): Tool for service discovery, monitoring and configuration
+- [coredumpctl](https://manpages.ubuntu.com/manpages/jammy/en/man1/coredumpctl.1.html): Tool for service discovery, monitoring and configuration
+- [coreutils](https://github.com/uutils/coreutils): Cross-platform Rust rewrite of the GNU coreutils
 - [cosign](https://github.com/sigstore/cosign): Container Signing
 - [cowsay](https://manpages.ubuntu.com/manpages/jammy/en/man6/cowsay.6.html): configurable speaking/thinking cow (and a bit more)
 - [cp](https://manpages.ubuntu.com/manpages/jammy/en/man1/cp.1.html): copy files and directories
@@ -144,6 +146,7 @@
 - [darktable](https://github.com/darktable-org/darktable): an open source photography workflow application and raw developer.
 - [darktable-cli](https://docs.darktable.org/usermanual/4.0/en/special-topics/program-invocation/darktable-cli/): a command line darktable variant
 - [dart](https://dart.dev/): A client-optimized language for fast apps on any platform
+- [dasel](https://github.com/TomWright/dasel): JSON, YAML, TOML, XML, and CSV query and modification tool
 - [date](https://manpages.ubuntu.com/manpages/jammy/en/man1/date.1.html): print or set the system date and time
 - [dbt](https://github.com/dbt-labs/dbt-core): An ELT tool for managing your SQL transformations and data models.
 - [dc](https://manpages.ubuntu.com/manpages/jammy/en/man1/dc.1.html): an arbitrary precision calculator
@@ -181,6 +184,7 @@
 - [dpkg](https://manpages.ubuntu.com/manpages/jammy/en/man1/dpkg.1.html): package manager for Debian
 - [dpkg-reconfigure](https://manpages.ubuntu.com/manpages/jammy/en/man8/dpkg-reconfigure.8.html): reconfigure an already installed package
 - [dprint](https://github.com/dprint/dprint): Pluggable and configurable code formatting platform written in Rust.
+- [drill](https://github.com/fcsonline/drill): Drill is an HTTP load testing application written in Rust
 - [dstat](https://manpages.ubuntu.com/manpages/jammy/en/man1/dstat.1.html): versatile tool for generating system resource statistics
 - [du](https://manpages.ubuntu.com/manpages/jammy/en/man1/du.1.html): estimate file space usage
 - [dua](https://github.com/Byron/dua-cli): View disk space usage and delete unwanted data, fast
@@ -228,6 +232,7 @@
 - [ftp](https://manpages.ubuntu.com/manpages/jammy/en/man1/tnftp.1.html): Internet file transfer program
 - [fuser](https://manpages.ubuntu.com/manpages/jammy/en/man1/fuser.1.html): identify processes using files or sockets
 - [fvm](https://github.com/fluttertools/fvm): Flutter Version Management
+- [fx](https://github.com/antonmedv/fx): Terminal JSON viewer & processor
 - [fzf](https://github.com/junegunn/fzf): A command-line fuzzy finder
 - [fzy](https://github.com/jhawthorn/fzy): A simple, fast fuzzy finder for the terminal
 - [gatsby](https://github.com/gatsbyjs/gatsby): The best React-based framework with performance, scalability and security built in.
@@ -266,6 +271,7 @@
 - [gradle](https://gradle.org): Powerful build system for the JVM
 - [grep](https://manpages.ubuntu.com/manpages/jammy/en/man1/grep.1.html): print lines that match patterns
 - [grex](https://github.com/pemistahl/grex): generates regular expressions from user-provided test cases.
+- [gron](https://github.com/tomnomnom/gron): Make JSON greppable.
 - [groupadd](https://manpages.ubuntu.com/manpages/jammy/en/man8/groupadd.8.html): create a new group
 - [groupdel](https://manpages.ubuntu.com/manpages/jammy/en/man8/groupdel.8.html): delete a group
 - [groupmems](https://manpages.ubuntu.com/manpages/jammy/en/man8/groupmems.8.html): administer members of a user's primary group
@@ -594,6 +600,7 @@
 - [stow](https://manpages.ubuntu.com/manpages/jammy/en/man8/stow.8.html): manage farms of symbolic links
 - [strings](https://manpages.ubuntu.com/manpages/jammy/en/man1/strings.1.html): print the sequences of printable characters in files
 - [strip](https://manpages.ubuntu.com/manpages/jammy/en/man1/strip.1.html): discard symbols and other data from object files
+- [stripe](https://github.com/stripe/stripe-cli): A command-line tool for Stripe
 - [stty](https://manpages.ubuntu.com/manpages/jammy/en/man1/stty.1.html): change and print terminal line settings
 - [su](https://manpages.ubuntu.com/manpages/jammy/en/man1/su.1.html): run a command with substitute user and group ID
 - [subl](https://www.sublimetext.com/docs/command_line.html): Sublime Text Command Line Interface
@@ -737,6 +744,7 @@
 - [xc](https://github.com/joerdav/xc): Markdown defined task runner.
 - [xdg-mime](https://manpages.ubuntu.com/manpages/jammy/en/man1/xdg-mime.1.html): command line tool for querying information about file type handling and adding descriptions for new file types
 - [xdg-open](https://manpages.ubuntu.com/manpages/jammy/en/man1/xdg-open.1.html): opens a file or URL in the user's preferred application
+- [xmake](https://github.com/xmake-io/xmake): A cross-platform build utility based on Lua
 - [xonsh](https://github.com/xonsh/xonsh): Python-powered, cross-platform, Unix-gazing shell.
 - [xsel](https://manpages.ubuntu.com/manpages/jammy/en/man1/xsel.1.html): manipulate the X selection. 
 - [xsv](https://github.com/BurntSushi/xsv): A fast CSV command line toolkit written in Rust.

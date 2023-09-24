@@ -6,15 +6,14 @@ Argc-completions provides argument completion for multiple CLI commands, and wor
 
 Argc-completions also provide tool to automatically generate completion scripts for command.
 
-## Supported shells:
+## Features
 
-- [Bash](https://www.gnu.org/software/bash/)
-- [Elvish](https://elv.sh/)
-- [Fish](https://fishshell.com/)
-- [Nushell](https://www.nushell.sh/)
-- [Powershell](https://microsoft.com/powershell)
-- [Xonsh](https://xon.sh/)
-- [Zsh](https://www.zsh.org/)
+- support bash/zsh/powershell/fish/nushell/elvish/xonsh
+- support windows/macos/linux
+- support 800+ commands
+- easily/automaticlly generate argc completion script from help-text/man-page
+- lazy completion evaluation, fast startup and lower memory usage
+- enhanced plugin/addon completion for command such as cargo, git
 
 ## Setup
 
@@ -55,7 +54,7 @@ Run the following script to see how argc-completions are integrated into the she
 You can run `generate.sh` to automatically generate the completion script for the command:
 
 ```sh
-argc generate cmd 
+argc generate <cmd>
 ```
 
 ## License
