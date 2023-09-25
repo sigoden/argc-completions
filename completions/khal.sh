@@ -1,14 +1,13 @@
-_patch_help() { 
-    :;
-}
+#!/usr/bin/env bash
+# Automatic generated, DON'T MODIFY IT.
 
-_patch_table() { 
-    _patch_table_edit_arguments ';;' 'words;~[`_choice_delegate`]'
-}
+# @arg words~[`_choice_delegate`]
+
+. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
 _choice_delegate() {
     line="${argc__args[*]}"
-    mapfile -t lines < <(COMP_WORDS="${line}" COMP_CWORD="${argc__args[-1]}" _YKMAN_COMPLETE=fish_complete ykman)
+    mapfile -t lines < <(COMP_WORDS="${line}" COMP_CWORD="${argc__args[-1]}" _KHAL_COMPLETE=fish_complete khal)
     for completion in "${lines[@]}"; do
         IFS=',' read type value <<< "$completion"
         if [[ $type == 'dir' ]]; then
@@ -20,3 +19,5 @@ _choice_delegate() {
         fi
     done
 }
+
+command eval "$(argc --argc-eval "$0" "$@")"

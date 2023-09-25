@@ -8,7 +8,7 @@ _patch_table() {
 
 _choice_delegate() {
     line="${argc__args[*]}"
-    mapfile -t lines < <(COMP_WORDS="${line}" COMP_CWORD="${argc__args[-1]}" _YKMAN_COMPLETE=fish_complete ykman)
+    mapfile -t lines < <(COMP_WORDS="${line}" COMP_CWORD="${argc__args[-1]}" _KHAL_COMPLETE=fish_complete khal)
     for completion in "${lines[@]}"; do
         IFS=',' read type value <<< "$completion"
         if [[ $type == 'dir' ]]; then

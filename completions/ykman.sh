@@ -7,8 +7,8 @@
 
 _choice_delegate() {
     line="${argc__args[*]}"
-    response="$(COMP_WORDS="${line}" COMP_CWORD="${argc__args[-1]}" _YKMAN_COMPLETE=fish_complete ykman)"
-    for completion in $response; do
+    mapfile -t lines < <(COMP_WORDS="${line}" COMP_CWORD="${argc__args[-1]}" _YKMAN_COMPLETE=fish_complete ykman)
+    for completion in "${lines[@]}"; do
         IFS=',' read type value <<< "$completion"
         if [[ $type == 'dir' ]]; then
             _argc_util_comp_path dir
