@@ -8,6 +8,7 @@
 - [act](https://github.com/nektos/act): Run your GitHub Actions locally
 - [adb](https://developer.android.com/tools/adb): Android Debug Bridge
 - [adduser](https://manpages.ubuntu.com/manpages/jammy/en/man8/adduser.8.html): add a user or group to the system
+- [afplay](https://ss64.com/osx/afplay.html): Audio File Play. (macOS)
 - [ag](https://github.com/ggreer/the_silver_searcher): The Silver Searcher. Like ack, but faster.
 - [age](https://github.com/FiloSottile/age): A simple, modern, and secure file encryption
 - [age-keygen](https://github.com/FiloSottile/age): generate age key pairs
@@ -37,6 +38,7 @@
 - [asciidoctor](https://asciidoctor.org): converts AsciiDoc source files to HTML, DocBook, and other formats
 - [asciinema](https://asciinema.org): terminal session recorder
 - [asdf](https://github.com/asdf-vm/asdf): Extendable version manager with support for Ruby, Node.js, Elixir, Erlang & more
+- [asr](https://ss64.com/osx/asr.html): Apple Software Restore; copy volumes (macOS)
 - [at](https://manpages.ubuntu.com/manpages/jammy/en/man1/at.1.html): queue, examine, or delete jobs for later execution
 - [autoconf](https://manpages.ubuntu.com/manpages/jammy/en/man1/autoconf.1.html): Generate configuration scripts
 - [autojump](https://github.com/wting/autojump): Automatically jump to directory passed as an argument.
@@ -58,7 +60,7 @@
 - [bosh](https://bosh.io/docs/): unifies release engineering, deployment, and lifecycle management of small and large-scale cloud software.
 - [boundary](https://github.com/hashicorp/boundary): Simple and secure remote access.
 - [br](https://github.com/Canop/broot): A new way to see and navigate directory trees
-- [brew](https://brew.sh/): The missing package manager for macOS
+- [brew](https://brew.sh/): The missing package manager for macOS. (macOS)
 - [brightnessctl](https://manpages.ubuntu.com/manpages/jammy/en/man1/brightnessctl.1.html): read and control device brightness
 - [broot](https://github.com/Canop/broot): A new way to see and navigate directory trees
 - [brotli](https://github.com/google/brotli): lossless compression algorithm and format
@@ -75,6 +77,7 @@
 - [bzip2recover](https://manpages.ubuntu.com/manpages/jammy/en/man1/bzip2recover.1.html): recovers data from damaged bzip2 files
 - [cabal](https://www.haskell.org/cabal/): a system for building and packaging Haskell libraries and programs
 - [caddy](https://github.com/caddyserver/caddy): an extensible server platform written in Go.
+- [caffeinate](https://ss64.com/osx/caffeinate.html): Prevent the system from sleeping on behalf of a utility. (macOS)
 - [cal](https://manpages.ubuntu.com/manpages/jammy/en/man1/cal.1.html): displays a calendar and the date of Easter
 - [cargo](https://github.com/rust-lang/cargo): The Rust package manager
 - [cargo-audit](https://github.com/RustSec/rustsec/tree/main/cargo-audit): Audit your dependencies for crates with security vulnerabilities reported to the RustSec Advisory Database.
@@ -122,6 +125,7 @@
 - [cmark](https://github.com/commonmark/cmark): convert CommonMark formatted text to HTM
 - [cmus](https://manpages.ubuntu.com/manpages/jammy/en/man1/cmus.1.html): C* Music Player
 - [code](https://code.visualstudio.com/): Visual Studio Code
+- [codesign](https://ss64.com/osx/codesign.html): create and manipulate code signatures. (macOS)
 - [code-insiders](https://code.visualstudio.com/): Visual Studio Code Insiders
 - [coffee](https://coffeescript.org/): a little language that compiles into JavaScript.
 - [column](https://manpages.ubuntu.com/manpages/jammy/en/man1/column.1.html): columnate lists
@@ -158,6 +162,7 @@
 - [ddev](https://github.com/ddev/ddev): Create and maintain a local web development environment.
 - [ddgr](https://github.com/jarun/ddgr): DuckDuckGo from the terminal
 - [ddosify](https://github.com/ddosify/ddosify): Comprehensive Performance Testing Platform.
+- [defaults](https://ss64.com/osx/defaults.html): Set preferences, the macOS user defaults system works with both the OS and with individual applications. (macOS)
 - [delta](https://github.com/dandavison/delta): A syntax-highlighting pager for git, diff, and grep output
 - [deno](https://github.com/denoland/deno): A modern runtime for JavaScript and TypeScript.
 - [devbox](https://github.com/jetpack-io/devbox): Instant, easy, and predictable development environments
@@ -173,6 +178,7 @@
 - [direnv](https://github.com/direnv/direnv): unclutter your .profile
 - [dir](https://manpages.ubuntu.com/manpages/jammy/en/man1/dir.1.html): list directory contents
 - [dirname](https://manpages.ubuntu.com/manpages/jammy/en/man1/dirname.1.html): strip last component from file name
+- [diskutil](https://ss64.com/osx/diskutil.html): Disk utilities - Format, Verify, Repair (local disks). (macOS)
 - [dive](https://github.com/wagoodman/dive): A tool for exploring a docker image, layer contents, and discovering ways to shrink the size of your Docker/OCI image.
 - [dmenu](https://manpages.ubuntu.com/manpages/jammy/en/man1/dmenu.1.html): dynamic menu
 - [dmesg](https://manpages.ubuntu.com/manpages/jammy/en/man1/dmesg.1.html): dmesg - print or control the kernel ring buffer
@@ -190,6 +196,7 @@
 - [dpkg-reconfigure](https://manpages.ubuntu.com/manpages/jammy/en/man8/dpkg-reconfigure.8.html): reconfigure an already installed package
 - [dprint](https://github.com/dprint/dprint): Pluggable and configurable code formatting platform written in Rust.
 - [drill](https://github.com/fcsonline/drill): Drill is an HTTP load testing application written in Rust
+- [dscacheutil](https://ss64.com/osx/dscacheutil.html): Directory Service cache - Gather information, statistics, initiate queries, flush the cache. (macOS)
 - [dstat](https://manpages.ubuntu.com/manpages/jammy/en/man1/dstat.1.html): versatile tool for generating system resource statistics
 - [du](https://manpages.ubuntu.com/manpages/jammy/en/man1/du.1.html): estimate file space usage
 - [dua](https://github.com/Byron/dua-cli): View disk space usage and delete unwanted data, fast
@@ -349,10 +356,12 @@
 - [kak](https://github.com/mawww/kakoune): mawww's experiment for a better code editor
 - [keepassxc-cli](https://github.com/keepassxreboot/keepassxc): Cross Platform Password Manager
 - [keybase](https://github.com/keybase/client): keybase: keeping everyone's chats and files safe, from families to communities to companies.
+- [keytool](https://docs.oracle.com/javase/8/docs/technotes/tools/unix/keytool.html): Manages a keystore (database) of cryptographic keys, X.509 certificate chains, and trusted certificates.
 - [khal](https://github.com/pimutils/khal): CLI calendar application
 - [kill](https://manpages.ubuntu.com/manpages/jammy/en/man1/kill.1.html): send a signal to a process
 - [killall](https://manpages.ubuntu.com/manpages/jammy/en/man1/killall.1.html): kill processes by name
 - [kind](https://github.com/kubernetes-sigs/kind): Kubernetes IN Docker - local clusters for testing Kubernetes
+- [kmutil](https://keith.github.io/xcode-man-pages/kmutil.8.html): multipurpose tool for managing kernel extensions (kexts) and kext collections on disk. (macOS)
 - [kompose](https://github.com/kubernetes/kompose): Convert Compose to Kubernetes
 - [kubeadm](https://kubernetes.io/docs/reference/setup-tools/kubeadm/): Easily bootstrap a secure Kubernetes cluster  
 - [kubectl](https://kubernetes.io/docs/reference/kubectl/): controls the Kubernetes cluster manager.
@@ -361,6 +370,7 @@
 - [last](https://manpages.ubuntu.com/manpages/jammy/en/man1/last.1.html): show a listing of last logged in users 
 - [lastb](https://manpages.ubuntu.com/manpages/jammy/en/man1/last.1.html): show a listing of last logged in users
 - [lastlog](https://manpages.ubuntu.com/manpages/jammy/en/man8/lastlog.8.html): reports the most recent login of all users or of a given user
+- [launchctl](https://ss64.com/osx/launchctl.html): Interfaces with launchd to load, unload daemons/agents and generally control launchd. (macOS)
 - [lazygit](https://github.com/jesseduffield/lazygit): simple terminal UI for git commands
 - [ldd](https://manpages.ubuntu.com/manpages/jammy/en/man1/ldd.1.html): print shared object dependencies
 - [lerna](https://github.com/lerna/lerna): a fast, modern build system for managing and publishing multiple JavaScript/TypeScript packages from the same repository
@@ -393,6 +403,7 @@
 - [lua](https://www.lua.org/): Lua interpreter
 - [lzcat](https://manpages.ubuntu.com/manpages/jammy/en/man1/xz.1.html): Compress or decompress .xz and .lzma files
 - [lzma](https://manpages.ubuntu.com/manpages/jammy/en/man1/xz.1.html): Compress or decompress .xz and .lzma files
+- [m](https://github.com/rgcr/m-cli): Swiss Army Knife for macOS. (macOS)
 - [m4](https://manpages.ubuntu.com/manpages/jammy/en/man1/m4.1posix.html): macro processor
 - [machinectl](https://manpages.ubuntu.com/manpages/jammy/en/man1/machinectl.1.html): Control the systemd machine manager
 - [mackup](https://github.com/lra/mackup): Keep your application settings in sync (OS X/Linux)
@@ -400,10 +411,15 @@
 - [makepkg](https://man.archlinux.org/man/makepkg.8.en): package build utility for Arch linux
 - [man](https://manpages.ubuntu.com/manpages/jammy/en/man1/man.1.html): an interface to the system reference manuals
 - [mariner](https://gitlab.com/radek-sprta/mariner): Navigate torrents 
+- [mas](https://github.com/mas-cli/mas): Mac App Store command line interface. (macOS)
 - [mask](https://github.com/jacobdeichert/mask): A CLI task runner defined by a simple markdown file
 - [mbuffer](https://manpages.ubuntu.com/manpages/jammy/en/man1/mbuffer.1.html): measuring buffer
 - [md5sum](https://manpages.ubuntu.com/manpages/jammy/en/man1/md5sum.1.html): compute and check MD5 message digest
 - [mdbook](https://github.com/rust-lang/mdBook): Create book from markdown files. 
+- [mdfind](https://ss64.com/osx/mdfind.html): Spotlight search. (macOS)
+- [mdimport](https://ss64.com/osx/mdimport.html): Import file hierarchies into the Spotlight metadata datastore. (macOS)
+- [mdls](https://ss64.com/osx/mdls.html): List the metadata attributes for a specified file. (macOS)
+- [mdutil](https://ss64.com/osx/mdutil.html): Manage the metadata stores used by Spotlight. (macOS)
 - [meld](http://meldmerge.org): graphical tool to diff and merge files
 - [meson](https://github.com/mesonbuild/meson): a high productivity build system
 - [micro](https://github.com/zyedidia/micro): A modern and intuitive terminal-based text editor
@@ -451,6 +467,7 @@
 - [netctl](https://git.archlinux.org/netctl.git): Control the netctl network profile manager
 - [netctl-auto](https://manpages.ubuntu.com/manpages/jammy/en/man1/netctl-auto.1.html): Control automatic selection of wireless netctl profiles
 - [nethogs](https://github.com/raboof/nethogs): Linux 'net top' tool
+- [networkQuality](https://ss64.com/osx/networkquality.html): Network quality testing tool. (macOS)
 - [networkctl](https://manpages.ubuntu.com/manpages/jammy/en/man1/networkctl.1.html): Query the status of network links
 - [newman](https://github.com/postmanlabs/newman): a command-line collection runner for Postman
 - [newrelic](https://github.com/newrelic/newrelic-cli): The New Relic CLI enables users to perform tasks against the New Relic APIs
@@ -474,6 +491,7 @@
 - [nssm](https://github.com/kirillkovalenko/nssm): Non-Sucking Service Manager
 - [nu](https://github.com/nushell/nushell): A new type of shell
 - [nvim](https://neovim.io/): hyperextensible Vim-based text editor
+- [nvram](https://ss64.com/osx/nvram.html): Manipulate firmware variables. (macOS)
 - [objdump](https://manpages.ubuntu.com/manpages/jammy/en/man1/objdump.1.html): display information from object files
 - [ocaml](https://ocaml.org/): The OCaml interactive toplevel
 - [od](https://manpages.ubuntu.com/manpages/jammy/en/man1/od.1.html): dump files in octal and other formats
@@ -484,6 +502,7 @@
 - [opam](https://github.com/ocaml/opam): source-based package manager for ocaml.
 - [openssl](https://github.com/openssl/openssl): OpenSSL command line program
 - [optipng](https://manpages.ubuntu.com/manpages/jammy/en/man1/optipng.1.html): Optimize Portable Network Graphics files
+- [osascript](https://ss64.com/osx/osascript.html): Execute AppleScripts and other OSA language scripts. (macOS)
 - [osqueryi](https://github.com/osquery/osquery): your OS as a high-performance relational database
 - [ouch](https://github.com/ouch-org/ouch): easily compressing and decompressing files and directories.
 - [packer](https://github.com/hashicorp/packer): Automate image builds
@@ -517,15 +536,18 @@
 - [pipenv](https://github.com/pypa/pipenv): Python Development Workflow for Humans.
 - [pipx](https://github.com/pypa/pipx): Install and Run Python Applications in Isolated Environments
 - [pkg-config](https://linux.die.net/man/1/pkg-config): Return metainformation about installed libraries
+- [pkgutil](https://ss64.com/osx/pkgutil.html): Query and manipulate MacOS Installer packages and receipts. (macOS)
 - [pkill](https://manpages.ubuntu.com/manpages/jammy/en/man1/pkill.1.html): look up or signal processes based on name and other attributes
 - [plocate](https://manpages.ubuntu.com/manpages/jammy/en/man1/plocate.1.html): find files by name, quickly
 - [pm2](https://github.com/Unitech/pm2): Node.js Production Process Manager with a built-in Load Balancer.
+- [pmset](https://ss64.com/osx/pmset.html): Power management settings. (macOS)
 - [pnpm](https://github.com/pnpm/pnpm): Fast, disk space efficient package manager for Node.js
+- [pod](https://github.com/CocoaPods/CocoaPods): The Cocoa Dependency Manager.
 - [podman](https://github.com/containers/podman): A tool for managing OCI containers and pods.
 - [poetry](https://github.com/python-poetry/poetry): Python packaging and dependency management made easy
 - [poff](https://manpages.ubuntu.com/manpages/jammy/en/man1/poff.1.html): starts up, shuts down or lists the log of PPP connections
 - [pon](https://manpages.ubuntu.com/manpages/jammy/en/man1/pon.1.html): starts up, shuts down or lists the log of PPP connections
-- [port](https://github.com/macports/macports-ports): Install and upgrade open source software on macOS.
+- [port](https://github.com/macports/macports-ports): Install and upgrade open source software on macOS. (macOS)
 - [poweroff](https://manpages.ubuntu.com/manpages/jammy/en/man8/halt.8.html): Halt, power-off or reboot the machine
 - [powertop](https://manpages.ubuntu.com/manpages/jammy/en/man8/powertop.8.html): a power consumption and power management diagnosis tool.
 - [pr](https://manpages.ubuntu.com/manpages/jammy/en/man1/pr.1.html): convert text files for printing
@@ -581,7 +603,7 @@
 - [sbt](https://github.com/sbt/sbt): An interactive build tool for Scala, Java, and more.
 - [scc](https://github.com/boyter/scc): Sloc, Cloc and Code. Count lines of code in a directory with complexity estimation.
 - [scons](https://github.com/SCons/scons): a software construction tool
-- [scoop](https://github.com/ScoopInstaller/Scoop): A command-line installer for Windows
+- [scoop](https://github.com/ScoopInstaller/Scoop): A command-line installer for Windows. (windows)
 - [scp](https://manpages.ubuntu.com/manpages/jammy/en/man1/scp.1.html): OpenSSH secure file copy
 - [screen](https://manpages.ubuntu.com/manpages/jammy/en/man1/screen.1.html): screen manager with VT100/ANSI terminal emulation
 - [scrot](https://manpages.ubuntu.com/manpages/jammy/en/man1/scrot.1.html): command line screen capture utility
@@ -598,11 +620,14 @@
 - [sha1sum](https://manpages.ubuntu.com/manpages/jammy/en/man1/sha1sum.1.html): compute and check SHA1 message digest
 - [sha256sum](https://manpages.ubuntu.com/manpages/jammy/en/man1/sha256sum.1.html): compute and check SHA256 message digest
 - [sha512sum](https://manpages.ubuntu.com/manpages/jammy/en/man1/sha512sum.1.html): compute and check SHA512 message digest
+- [shortcuts](https://ss64.com/osx/shortcuts.html): Manage macOS shortcuts. (macOS)
 - [shred](https://manpages.ubuntu.com/manpages/jammy/en/man1/shred.1.html): overwrite a file to hide its contents, and optionally delete it
 - [shuf](https://manpages.ubuntu.com/manpages/jammy/en/man1/shuf.1.html): generate random permutations
 - [shutdown](https://manpages.ubuntu.com/manpages/jammy/en/man8/shutdown.8.html): Halt, power-off or reboot the machine
+- [simctl](): Command line utility to control the Simulator
 - [slides](https://github.com/maaslalani/slides): Terminal based presentation tool
 - [snap](https://snapcraft.io/): The app store for Linux
+- [softwareupdate](https://ss64.com/osx/softwareupdate.html): Check for new and updated versions of your software based on information about your computer and current software. (macOS)
 - [sops](https://github.com/getsops/sops): Simple and flexible tool for managing secrets
 - [sort](https://manpages.ubuntu.com/manpages/jammy/en/man1/sort.1.html): sort lines of text files
 - [speedtest](https://github.com/sivel/speedtest-cli): Command line interface for testing internet bandwidth using speedtest.net.
@@ -635,6 +660,7 @@
 - [surreal](https://github.com/surrealdb/surrealdb): SurrealDB command-line interface and server 
 - [svn](https://subversion.apache.org/): Subversion command line client tool
 - [svtplay-dl](https://github.com/spaam/svtplay-dl): Download videos from your favourite play services.
+- [sw_vers](https://ss64.com/osx/sw_vers.html): Print macOS operating system version. (macOS)
 - [swc](https://github.com/swc-project/swc): a super-fast TypeScript / JavaScript compiler written in Rust
 - [swift](https://github.com/apple/swift): Swift compiler
 - [syft](https://github.com/anchore/syft): CLI tool and library for generating a Software Bill of Materials from container images and filesystems.
@@ -664,6 +690,7 @@
 - [tkn](https://github.com/tektoncd/cli): CLI for tekton pipelines
 - [tldr](https://github.com/tldr-pages/tldr): Collaborative cheatsheets for console commands
 - [tmate](https://tmate.io/): terminal multiplexer with instant terminal sharing
+- [tmutil](https://ss64.com/osx/tmutil.html): Time Machine utility. (macOS)
 - [tmux](https://github.com/tmux/tmux): terminal multiplexer
 - [tmuxinator](https://github.com/tmuxinator/tmuxinator): Manage complex tmux sessions easily
 - [tokei](https://github.com/XAMPPRocky/tokei): Count your code, quickly.
@@ -687,6 +714,7 @@
 - [ts-node](https://github.com/TypeStrong/ts-node): TypeScript execution and REPL for node.js
 - [ttyd](https://github.com/tsl0922/ttyd): a tool for sharing terminal over the web
 - [tty](https://manpages.ubuntu.com/manpages/jammy/en/man1/tty.1.html): print the file name of the terminal connected to standard input
+- [tuist](https://github.com/tuist/tuist): Create, maintain, and interact with Xcode projects at scale. (macOS)
 - [turbo](https://github.com/vercel/turbo): The build system that makes ship happen
 - [twiggy](https://github.com/rustwasm/twiggy): a code size profiler.
 - [type](https://manpages.ubuntu.com/manpages/lunar/en/man1/type.1posix.html): Display information about command type.
@@ -756,14 +784,19 @@
 - [wineboot](https://wiki.winehq.org/Wineboot): perform Wine initialization, startup, and shutdown tasks
 - [winepath](https://wiki.winehq.org/Winepath): Tool to convert Unix paths to/from Win32 paths
 - [winetricks](https://wiki.winehq.org/Winetricks): manage virtual Windows environments using Wine
-- [winget](https://github.com/microsoft/winget-cli): Windows Package Manager.
+- [winget](https://github.com/microsoft/winget-cli): Windows Package Manager. (windows)
 - [wireshark](https://manpages.ubuntu.com/manpages/jammy/en/man1/wireshark.1.html): Interactively dump and analyze network traffic
 - [wp](https://github.com/wp-cli/wp-cli): The command-line interface for WordPress.
 - [wrk](https://github.com/wg/wrk): Modern HTTP benchmarking tool
 - [wscat](https://github.com/websockets/wscat): WebSocket cat
-- [wsl](https://learn.microsoft.com/en-us/windows/wsl/): CLI for Windows Subsytem for Linux
+- [wsl](https://learn.microsoft.com/en-us/windows/wsl/): CLI for Windows Subsytem for Linux. (windows)
 - [xargs](https://manpages.ubuntu.com/manpages/jammy/en/man1/xargs.1.html): build and execute command lines from standard input
 - [xc](https://github.com/joerdav/xc): Markdown defined task runner.
+- [xcode-select](https://ss64.com/osx/xcode-select.html): Manage the active developer directory for Xcode and BSD tools. (macOS)
+- [xcodebuild](https://keith.github.io/xcode-man-pages/xcodebuild.1.html): build Xcode projects and workspaces. (macOS)
+- [xcodeproj](https://github.com/CocoaPods/Xcodeproj): Create and modify Xcode projects from Ruby. (macOS)
+- [xcodes](https://github.com/XcodesOrg/xcodes): The best command-line tool to install and switch between multiple versions of Xcode. (macOS)
+- [xcrun](https://keith.github.io/xcode-man-pages/xcrun.1.html): Run or locate development tools and properties. (macOS)
 - [xdg-mime](https://manpages.ubuntu.com/manpages/jammy/en/man1/xdg-mime.1.html): command line tool for querying information about file type handling and adding descriptions for new file types
 - [xdg-open](https://manpages.ubuntu.com/manpages/jammy/en/man1/xdg-open.1.html): opens a file or URL in the user's preferred application
 - [xh](https://github.com/ducaale/xh): Friendly and fast tool for sending HTTP requests.

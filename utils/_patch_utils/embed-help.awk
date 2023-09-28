@@ -34,7 +34,7 @@ END {
                         } else {
                             args = line2
                         }
-                        helpCmd = yes = gsub(/%$/, "", arr[2])
+                        helpCmd = gsub(/%$/, "", arr[2])
                         split(arr[2], cmdNames, "/")
                         if (args || helpCmd == 0) {
                             print "USAGE: " CMD_PREFIX " " cmdNames[1] args

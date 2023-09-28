@@ -178,7 +178,7 @@ format:changed() {
 
 # @cmd Format all src files
 format:all() {
-    mapfile -t cmds < <(find src/  -name "*.sh" -type f | sort | sed -n 's|src/\([[:alnum:]_-]\+\)\.sh|\1|p')
+    mapfile -t cmds < <(find src  -name "*.sh" -type f | sort | sed -n 's|src/\([[:alnum:]_-]\+\)\.sh|\1|p')
     argc format "${cmds[@]}"
 }
 
