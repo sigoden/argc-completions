@@ -2,10 +2,6 @@
 
 A multi-shell completion solution.
 
-Argc-completions provides argument completion for multiple CLI commands, and works across multiple POSIX and non-POSIX shells.
-
-Argc-completions also provide tool to automatically generate completion scripts for command.
-
 ## Features
 
 - support bash/zsh/powershell/fish/nushell/elvish/xonsh

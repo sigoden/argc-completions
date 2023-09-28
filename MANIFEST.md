@@ -624,7 +624,7 @@
 - [shred](https://manpages.ubuntu.com/manpages/jammy/en/man1/shred.1.html): overwrite a file to hide its contents, and optionally delete it
 - [shuf](https://manpages.ubuntu.com/manpages/jammy/en/man1/shuf.1.html): generate random permutations
 - [shutdown](https://manpages.ubuntu.com/manpages/jammy/en/man8/shutdown.8.html): Halt, power-off or reboot the machine
-- [simctl](): Command line utility to control the Simulator
+- [simctl](): Command line utility to control the Simulator. (macOS)
 - [slides](https://github.com/maaslalani/slides): Terminal based presentation tool
 - [snap](https://snapcraft.io/): The app store for Linux
 - [softwareupdate](https://ss64.com/osx/softwareupdate.html): Check for new and updated versions of your software based on information about your computer and current software. (macOS)

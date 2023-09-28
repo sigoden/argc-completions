@@ -99,7 +99,7 @@
 # @flag --gladtex                                  Enclose TeX math in <eq> tags in HTML output.
 # @flag --dump-args                                Print information about command-line arguments to stdout, then exit.
 # @flag --ignore-args                              Ignore command-line arguments (for use in wrapper scripts).
-# @arg files*
+# @arg paths*
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 

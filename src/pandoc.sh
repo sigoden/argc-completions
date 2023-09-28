@@ -1,6 +1,5 @@
 _patch_help() { 
-    echo "Usage: pandoc [options] files..."
-    _patch_help_run_man pandoc | \
+    _patch_help_run_man $@ | \
     sed -n '/^OPTIONS/,/^EXIT/ {//!p}' | \
     sed -e 's/--reference-location = /--reference-location=/'
 }
@@ -19,6 +18,8 @@ _patch_table() {
         '-r;[`_choice_input_format`]' \
         '-t;[`_choice_output_format`]' \
         '-w;[`_choice_output_format`]' \
+    | \
+    _patch_table_edit_arguments ';;' 'paths...'
 
 }
 
