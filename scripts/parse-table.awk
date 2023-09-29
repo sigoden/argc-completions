@@ -228,7 +228,7 @@ END {
         parseDesc(substr(argument, splitAt + 1), descValues, 1, "argument `" optionVal "`")
         if (match(argumentVal, /^\(([A-Za-z0-9_-]+\|)+[A-Za-z0-9_-]+\)$/) || match(argumentVal, /^\{([A-Za-z0-9_-]+\|)+[A-Za-z0-9_-]+\}$/)) {
             tidyArgumentsNum = tidyArgumentsNum + 1
-            tidyArguments[tidyArgumentsNum, 1] = "value"
+            tidyArguments[tidyArgumentsNum, 1] = "enum"
             tidyArguments[tidyArgumentsNum, 2] = descValues[1]
             tidyArguments[tidyArgumentsNum, 3] = "[" substr(argumentVal, 2, length(argumentVal) -2) "]"
         } else {

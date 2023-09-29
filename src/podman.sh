@@ -54,6 +54,12 @@ _patch_table() {
             'command;[`_module_os_command`]' \
             'arg;~[`_choice_args`]' \
 
+    elif [[ "$*" == "podman generate systemd" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            ';;' \
+            'value;[`_choice_container_pod`]' \
+
     elif [[ "$*" == "podman image" ]]; then
         echo "$table" | \
         _patch_table_edit_commands \
@@ -75,6 +81,13 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_options \
             '--sort(<kind>);[size|tag|created|id|repository];Sort by kind' \
+
+    elif [[ "$*" == "podman inspect" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--type;[image|container|all]' \
+        | \
+        _patch_table_edit_arguments ';;' 'name'
 
     elif [[ "$*" == "podman machine" ]]; then
         echo "$table" | \
@@ -203,6 +216,10 @@ _choice_container_cp() {
 
 _choice_args() {
     _argc_util_comp_subcommand 1
+}
+
+_choice_container_pod() {
+    _argc_util_parallel _choice_container ::: _choice_pod
 }
 
 _choice_machine() {

@@ -82,7 +82,7 @@ log-level() {
 
 # {{ watchman log
 # @cmd Generates a log line in the watchman log
-# @arg value[debug|error]
+# @arg enum[debug|error]
 # @arg msg!
 log() {
     :;

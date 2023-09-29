@@ -66,7 +66,7 @@ _patch_table() {
             '--box-version;[`_choice_box_version`]' \
         | \
         _patch_table_edit_arguments \
-            'name-url(name);[`_choice_box_search`]' \
+            'name;[`_choice_box_search`]' \
 
     elif [[ "$*" == "vagrant package" ]]; then
         _patch_table_edit_options \

@@ -85,7 +85,7 @@
 # @flag --audit_force_reconfigure                  Configure the audit subsystem from scratch
 # @flag --audit_force_unconfigure                  Always uninstall all rules, regardless of whether they were already installed or not
 # @flag --audit_persist                            Attempt to retain control of audit
-# @option --augeas_lenses <file>                   Directory that contains augeas lenses files
+# @option --augeas_lenses <path>                   Directory that contains augeas lenses files
 # @option --aws_access_key_id <VALUE>              AWS access key ID
 # @flag --aws_debug                                Enable AWS SDK debug logging
 # @flag --aws_disable_imdsv1_fallback              Whether to disable support for IMDSv1 and fail if an IMDSv2 token could not be retrieved
@@ -157,7 +157,7 @@
 # @option --logger_min_status <VALUE>              Minimum level for status log recording
 # @option --logger_min_stderr <VALUE>              Minimum level for statuses written to stderr
 # @flag --logger_numerics                          Use numeric JSON syntax for numeric values
-# @option --logger_path <path>                     Directory path for ERROR/WARN/INFO and results logging
+# @option --logger_path <dir>                      Directory path for ERROR/WARN/INFO and results logging
 # @flag --logger_rotate                            Use filesystem log rotation
 # @option --logger_rotate_max_files <file>         Max number of files to keep in rotation
 # @option --logger_rotate_size <file>              Size for each filesystem log in bytes

@@ -10,8 +10,8 @@
 # @option -s --server <string>               Run a Local server (uses your cwd as the web root)
 # @option --cwd <dir>                        Working directory
 # @flag --json                               If true, certain logs will output as json only
-# @option --serveStatic* <file>              Directories to serve static files from
-# @option --ss* <file>                       Directories to serve static files from
+# @option --serveStatic* <path>              Directories to serve static files from
+# @option --ss* <path>                       Directories to serve static files from
 # @option --port <number>                    Specify a port to use
 # @option -p --proxy <string>                Proxy an existing server
 # @flag --ws                                 Proxy mode only - enable websocket proxying

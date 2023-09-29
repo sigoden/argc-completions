@@ -10,6 +10,7 @@ set -e
 # @arg subcmd                       Optional subcommand
 
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )"
+TEMPFILE_TABLE_HAHSES="$(mktemp)"
 
 handle_cmd() {
     local output table level nest_fn_prefix command_lines command_output line cmd_paths
@@ -86,13 +87,24 @@ get_table() {
         log_error "$@: loop"
         return
     fi
-    local path help_text table
+    local path help_text table table_hash parent_table_hash parent_key
     if [[ $(type -t _patch_help) = "function" ]]; then
         log_info "$@: patch help"
         help_text="$(_patch_help $@)"
     else
         help_text="$(_patch_help_run_help $@)"
     fi
+    table="$(echo "$help_text" | parse_table $@)"
+    table_hash="$(echo "$table" | shasum | sed 's/  -//')"
+    parent_key="${@:1:$(($#-1))} :: "
+    parent_table_hash="$(cat "$TEMPFILE_TABLE_HAHSES" | grep "$parent_key" | gawk -F ' :: ' '{print $2}')"
+    if [[ "$table_hash" == "$parent_table_hash" ]]; then
+        help_text=""
+        table=""
+        table_hash=""
+        log_info "$@: maybe no help"
+    fi
+    echo "$@ :: $table_hash" >> "$TEMPFILE_TABLE_HAHSES"
     if [[ -n "$help_output_file" ]]; then
         if [[ $# -eq 1 ]]; then
             echo -e "########### $@ ###########\n" >> "$help_output_file"
@@ -104,7 +116,6 @@ get_table() {
             echo >> "$help_output_file"
         fi
     fi
-    table="$(echo "$help_text" | parse_table $@)"
     if [[ $(type -t _patch_table) = "function" ]]; then
         log_info "$@: patch table"
         table="$(echo "$table" | _patch_table $@)"

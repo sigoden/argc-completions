@@ -30,8 +30,11 @@ EOF
 }
 
 _patch_table() {
-    if [[ "$*" == "supervisorctl add" ]] \
-    || [[ "$*" == "supervisorctl remove" ]] \
+    if [[ "$*" == "supervisorctl" ]]; then
+        _patch_table_edit_arguments ';;'
+
+    elif [[ "$*" == "supervisorctl add" ]] \
+      || [[ "$*" == "supervisorctl remove" ]] \
     ; then
         _patch_table_edit_arguments 'name;[`_choice_name`]'
 

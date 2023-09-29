@@ -2,9 +2,9 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # @flag -h --help                             Display this help and exit.
-# @flag -b --bun                              Force a script or package to use Bun.js instead of Node.js (via symlinking node)
+# @flag -b --bun                              Force a script or package to use Bun's runtime instead of Node.js (via symlinking node)
 # @option --cwd <DIR>                         Absolute path to resolve files & entry points from.
-# @option -c --config <<PATH>?>               Config file to load bun from (e.g. -c bunfig.toml
+# @option -c --config <<PATH>?>               Config file to load Bun from (e.g. -c bunfig.toml
 # @option --extension-order* <STR>            Defaults to: .tsx,.ts,.jsx,.js,.json
 # @option --jsx-factory <STR>                 Changes the function called when compiling JSX elements using the classic JSX runtime
 # @option --jsx-fragment <STR>                Changes the function called when compiling JSX fragments
@@ -14,34 +14,41 @@
 # @option --main-fields* <STR>                Main fields to lookup in package.json.
 # @flag --no-summary                          Don't print a summary (when generating .bun)
 # @flag -v --version                          Print version and exit
+# @flag --revision                            Print version with revision and exit
 # @option --tsconfig-override <STR>           Load tsconfig from path instead of cwd/tsconfig.json
 # @option -d --define* <STR>                  Substitute K:V while parsing, e.g. --define process.env.NODE_ENV:"development".
 # @option -e --external* <STR>                Exclude module from transpilation (can use * wildcards).
 # @option -l --loader*[js|jsx|ts|tsx|json|toml|text|file|wasm|napi] <STR>  Parse files with .ext:loader, e.g. --loader .js:jsx.
 # @option -u --origin <STR>                   Rewrite import URLs to start with --origin.
-# @option -p --port <STR>                     Port to serve bun's dev server on.
+# @option -p --port <STR>                     Port to serve Bun's dev server on.
+# @flag --smol                                Use less memory, but run garbage collection more often
 # @flag --minify                              Minify (experimental)
 # @flag --minify-syntax                       Minify syntax and inline data (experimental)
 # @flag --minify-whitespace                   Minify whitespace (experimental)
 # @flag --minify-identifiers                  Minify identifiers
 # @flag --no-macros                           Disable macros from being executed in the bundler, transpiler and runtime
 # @option --target[browser|bun|node] <STR>    The intended execution environment for the bundle.
-# @flag --hot                                 Enable auto reload in bun's JavaScript runtime
-# @flag --watch                               Automatically restart bun's JavaScript runtime on file change
-# @flag --no-install                          Disable auto install in bun's JavaScript runtime
-# @flag -i                                    Automatically install dependencies and use global cache in bun's runtime, equivalent to --install=fallback
+# @option --inspect <<STR>?>                  Activate Bun's Debugger
+# @option --inspect-wait <<STR>?>             Activate Bun's Debugger, wait for a connection before executing
+# @option --inspect-brk <<STR>?>              Activate Bun's Debugger, set breakpoint on first line of code and wait
+# @flag --hot                                 Enable auto reload in the Bun runtime, test runner, or bundler
+# @flag --watch                               Automatically restart the process on file change
+# @flag --no-install                          Disable auto install in the Bun runtime
+# @flag -i                                    Automatically install dependencies and use global cache in Bun's runtime, equivalent to --install=fallback
 # @option --install <STR>                     Install dependencies automatically when no node_modules are present, default: "auto".
-# @flag --prefer-offline                      Skip staleness checks for packages in bun's JavaScript runtime and resolve from disk
-# @flag --prefer-latest                       Use the latest matching versions of packages in bun's JavaScript runtime, always checking npm
+# @flag --prefer-offline                      Skip staleness checks for packages in the Bun runtime and resolve from disk
+# @flag --prefer-latest                       Use the latest matching versions of packages in the Bun runtime, always checking npm
 # @flag --silent                              Don't repeat the command for bun run
+# @flag --dump-environment-variables          Dump environment variables from .env and process as JSON and quit.
+# @flag --dump-limits                         Dump system limits.
 # @arg args*[`_choice_script_or_bin`]
 
 # {{ bun run
-# @cmd Run JavaScript with bun, a package.json script, or a bin
+# @cmd Run JavaScript with Bun, a package.json script, or a bin
 # @flag -h --help                             Display this help and exit.
-# @flag -b --bun                              Force a script or package to use Bun.js instead of Node.js (via symlinking node)
+# @flag -b --bun                              Force a script or package to use Bun's runtime instead of Node.js (via symlinking node)
 # @option --cwd <DIR>                         Absolute path to resolve files & entry points from.
-# @option -c --config <<PATH>?>               Config file to load bun from (e.g. -c bunfig.toml
+# @option -c --config <<PATH>?>               Config file to load Bun from (e.g. -c bunfig.toml
 # @option --extension-order* <STR>            Defaults to: .tsx,.ts,.jsx,.js,.json
 # @option --jsx-factory <STR>                 Changes the function called when compiling JSX elements using the classic JSX runtime
 # @option --jsx-fragment <STR>                Changes the function called when compiling JSX fragments
@@ -51,39 +58,94 @@
 # @option --main-fields* <STR>                Main fields to lookup in package.json.
 # @flag --no-summary                          Don't print a summary (when generating .bun)
 # @flag -v --version                          Print version and exit
+# @flag --revision                            Print version with revision and exit
 # @option --tsconfig-override <STR>           Load tsconfig from path instead of cwd/tsconfig.json
 # @option -d --define* <STR>                  Substitute K:V while parsing, e.g. --define process.env.NODE_ENV:"development".
 # @option -e --external* <STR>                Exclude module from transpilation (can use * wildcards).
 # @option -l --loader*[js|jsx|ts|tsx|json|toml|text|file|wasm|napi] <STR>  Parse files with .ext:loader, e.g. --loader .js:jsx.
 # @option -u --origin <STR>                   Rewrite import URLs to start with --origin.
-# @option -p --port <STR>                     Port to serve bun's dev server on.
+# @option -p --port <STR>                     Port to serve Bun's dev server on.
+# @flag --smol                                Use less memory, but run garbage collection more often
 # @flag --minify                              Minify (experimental)
 # @flag --minify-syntax                       Minify syntax and inline data (experimental)
 # @flag --minify-whitespace                   Minify whitespace (experimental)
 # @flag --minify-identifiers                  Minify identifiers
 # @flag --no-macros                           Disable macros from being executed in the bundler, transpiler and runtime
 # @option --target[browser|bun|node] <STR>    The intended execution environment for the bundle.
-# @flag --hot                                 Enable auto reload in bun's JavaScript runtime
-# @flag --watch                               Automatically restart bun's JavaScript runtime on file change
-# @flag --no-install                          Disable auto install in bun's JavaScript runtime
-# @flag -i                                    Automatically install dependencies and use global cache in bun's runtime, equivalent to --install=fallback
+# @option --inspect <<STR>?>                  Activate Bun's Debugger
+# @option --inspect-wait <<STR>?>             Activate Bun's Debugger, wait for a connection before executing
+# @option --inspect-brk <<STR>?>              Activate Bun's Debugger, set breakpoint on first line of code and wait
+# @flag --hot                                 Enable auto reload in the Bun runtime, test runner, or bundler
+# @flag --watch                               Automatically restart the process on file change
+# @flag --no-install                          Disable auto install in the Bun runtime
+# @flag -i                                    Automatically install dependencies and use global cache in Bun's runtime, equivalent to --install=fallback
 # @option --install <STR>                     Install dependencies automatically when no node_modules are present, default: "auto".
-# @flag --prefer-offline                      Skip staleness checks for packages in bun's JavaScript runtime and resolve from disk
-# @flag --prefer-latest                       Use the latest matching versions of packages in bun's JavaScript runtime, always checking npm
+# @flag --prefer-offline                      Skip staleness checks for packages in the Bun runtime and resolve from disk
+# @flag --prefer-latest                       Use the latest matching versions of packages in the Bun runtime, always checking npm
 # @flag --silent                              Don't repeat the command for bun run
+# @flag --dump-environment-variables          Dump environment variables from .env and process as JSON and quit.
+# @flag --dump-limits                         Dump system limits.
 # @arg script_or_bin[`_choice_script_or_bin`]
+# @arg args*
 run() {
     :;
 }
 # }} bun run
 
-# {{ bun build
-# @cmd Bundle TypeScript & JavaScript into a single file
-# @arg file*
-build() {
+# {{ bun test
+# @cmd Run unit tests with Bun
+# @flag -h --help                             Display this help and exit.
+# @flag -b --bun                              Force a script or package to use Bun's runtime instead of Node.js (via symlinking node)
+# @option --cwd <DIR>                         Absolute path to resolve files & entry points from.
+# @option -c --config <<PATH>?>               Config file to load Bun from (e.g. -c bunfig.toml
+# @option --extension-order* <STR>            Defaults to: .tsx,.ts,.jsx,.js,.json
+# @option --jsx-factory <STR>                 Changes the function called when compiling JSX elements using the classic JSX runtime
+# @option --jsx-fragment <STR>                Changes the function called when compiling JSX fragments
+# @option --jsx-import-source <STR>           Declares the module specifier to be used for importing the jsx and jsxs factory functions.
+# @option --jsx-runtime <STR>                 "automatic" (default) or "classic"
+# @option -r --preload* <STR>                 Import a module before other modules are loaded
+# @option --main-fields* <STR>                Main fields to lookup in package.json.
+# @flag --no-summary                          Don't print a summary (when generating .bun)
+# @flag -v --version                          Print version and exit
+# @flag --revision                            Print version with revision and exit
+# @option --tsconfig-override <STR>           Load tsconfig from path instead of cwd/tsconfig.json
+# @option -d --define* <STR>                  Substitute K:V while parsing, e.g. --define process.env.NODE_ENV:"development".
+# @option -e --external* <STR>                Exclude module from transpilation (can use * wildcards).
+# @option -l --loader*[js|jsx|ts|tsx|json|toml|text|file|wasm|napi] <STR>  Parse files with .ext:loader, e.g. --loader .js:jsx.
+# @option -u --origin <STR>                   Rewrite import URLs to start with --origin.
+# @option -p --port <STR>                     Port to serve Bun's dev server on.
+# @flag --smol                                Use less memory, but run garbage collection more often
+# @flag --minify                              Minify (experimental)
+# @flag --minify-syntax                       Minify syntax and inline data (experimental)
+# @flag --minify-whitespace                   Minify whitespace (experimental)
+# @flag --minify-identifiers                  Minify identifiers
+# @flag --no-macros                           Disable macros from being executed in the bundler, transpiler and runtime
+# @option --target[browser|bun|node] <STR>    The intended execution environment for the bundle.
+# @option --inspect <<STR>?>                  Activate Bun's Debugger
+# @option --inspect-wait <<STR>?>             Activate Bun's Debugger, wait for a connection before executing
+# @option --inspect-brk <<STR>?>              Activate Bun's Debugger, set breakpoint on first line of code and wait
+# @flag --hot                                 Enable auto reload in the Bun runtime, test runner, or bundler
+# @flag --watch                               Automatically restart the process on file change
+# @flag --no-install                          Disable auto install in the Bun runtime
+# @flag -i                                    Automatically install dependencies and use global cache in Bun's runtime, equivalent to --install=fallback
+# @option --install <STR>                     Install dependencies automatically when no node_modules are present, default: "auto".
+# @flag --prefer-offline                      Skip staleness checks for packages in the Bun runtime and resolve from disk
+# @flag --prefer-latest                       Use the latest matching versions of packages in the Bun runtime, always checking npm
+# @flag --silent                              Don't repeat the command for bun run
+# @flag --dump-environment-variables          Dump environment variables from .env and process as JSON and quit.
+# @flag --dump-limits                         Dump system limits.
+# @option --timeout <NUMBER>                  Set the per-test timeout in milliseconds, default is 5000.
+# @flag --update-snapshots                    Update snapshot files
+# @option --rerun-each <NUMBER>               Re-run each test file <NUMBER> times, helps catch certain bugs
+# @flag --only                                Only run tests that are marked with "test.only()"
+# @flag --todo                                Include tests that are marked with "test.todo()"
+# @flag --coverage                            Generate a coverage profile
+# @option --bail <<NUMBER>?>                  Exit the test suite after <NUMBER> failures.
+# @option -t --test-name-pattern <STR>        Run only tests with a name that matches the given regex.
+test() {
     :;
 }
-# }} bun build
+# }} bun test
 
 # {{ bun x
 # @cmd Install and execute a package bin (bunx)
@@ -93,6 +155,13 @@ x() {
     :;
 }
 # }} bun x
+
+# {{ bun repl
+# @cmd Start a REPL session with Bun
+repl() {
+    :;
+}
+# }} bun repl
 
 # {{ bun init
 # @cmd Start an empty Bun project from a blank template
@@ -104,12 +173,6 @@ init() {
 # {{ bun create
 # @cmd Create a new project from a template
 # @alias c
-# @flag --force              Overwrite existing files
-# @flag --no-install         Don't install node_modules
-# @flag --no-git             Don't create a git repository
-# @flag --verbose            Too many logs
-# @flag --no-package-json    Disable package.json transforms
-# @flag --open               On finish, start bun & open in-browser
 # @arg pkg!
 # @arg args*
 create() {
@@ -126,7 +189,7 @@ create() {
 # @flag --no-save                 Don't save a lockfile
 # @flag --save                    Save to package.json
 # @flag --dry-run                 Don't install anything
-# @option --lockfile <PATH>       Store & load a lockfile at a specific filepath
+# @flag --frozen-lockfile         Disallow changes to lockfile
 # @flag -f --force                Always request the latest versions from the registry & reinstall all dependencies
 # @option --cache-dir <PATH>      Store & load cached data from a specific directory path
 # @flag --no-cache                Ignore manifest cache entirely
@@ -141,6 +204,10 @@ create() {
 # @option --backend[hardlink|symlink|copyfile] <STR>  Platform-specific optimizations for installing dependencies.
 # @option --link-native-bins*[esbuild|turbo] <STR>  Link "bin" from a matching platform-specific "optionalDependencies" instead.
 # @flag --help                    Print this help menu
+# @flag -d --dev                  Add dependency to "devDependencies"
+# @flag -D --development
+# @flag --optional                Add dependency to "optionalDependencies"
+# @flag -E --exact                Add the exact version instead of the ^range
 # @arg pkg!
 install() {
     :;
@@ -156,7 +223,7 @@ install() {
 # @flag --no-save                 Don't save a lockfile
 # @flag --save                    Save to package.json
 # @flag --dry-run                 Don't install anything
-# @option --lockfile <PATH>       Store & load a lockfile at a specific filepath
+# @flag --frozen-lockfile         Disallow changes to lockfile
 # @flag -f --force                Always request the latest versions from the registry & reinstall all dependencies
 # @option --cache-dir <PATH>      Store & load cached data from a specific directory path
 # @flag --no-cache                Ignore manifest cache entirely
@@ -171,42 +238,15 @@ install() {
 # @option --backend[hardlink|symlink|copyfile] <STR>  Platform-specific optimizations for installing dependencies.
 # @option --link-native-bins*[esbuild|turbo] <STR>  Link "bin" from a matching platform-specific "optionalDependencies" instead.
 # @flag --help                    Print this help menu
-# @flag -d --development          Add dependency to "devDependencies"
+# @flag -d --dev                  Add dependency to "devDependencies"
+# @flag -D --development
 # @flag --optional                Add dependency to "optionalDependencies"
+# @flag -E --exact                Add the exact version instead of the ^range
 # @arg pkg!
 add() {
     :;
 }
 # }} bun add
-
-# {{ bun link
-# @cmd Link an npm package globally
-# @option -c --config <<STR>?>    Load config (bunfig.toml)
-# @flag -y --yarn                 Write a yarn.lock file (yarn v1)
-# @flag -p --production           Don't install devDependencies
-# @flag --no-save                 Don't save a lockfile
-# @flag --save                    Save to package.json
-# @flag --dry-run                 Don't install anything
-# @option --lockfile <PATH>       Store & load a lockfile at a specific filepath
-# @flag -f --force                Always request the latest versions from the registry & reinstall all dependencies
-# @option --cache-dir <PATH>      Store & load cached data from a specific directory path
-# @flag --no-cache                Ignore manifest cache entirely
-# @flag --silent                  Don't log anything
-# @flag --verbose                 Excessively verbose logging
-# @flag --no-progress             Disable the progress bar
-# @flag --no-summary              Don't print a summary
-# @flag --no-verify               Skip verifying integrity of newly downloaded packages
-# @flag --ignore-scripts          Skip lifecycle scripts in the project's package.json (dependency scripts are never run)
-# @flag -g --global               Install globally
-# @option --cwd <DIR>             Set a specific cwd
-# @option --backend[hardlink|symlink|copyfile] <STR>  Platform-specific optimizations for installing dependencies.
-# @option --link-native-bins*[esbuild|turbo] <STR>  Link "bin" from a matching platform-specific "optionalDependencies" instead.
-# @flag --help                    Print this help menu
-# @arg pkg!
-link() {
-    :;
-}
-# }} bun link
 
 # {{ bun remove
 # @cmd Remove a dependency from package.json
@@ -217,7 +257,7 @@ link() {
 # @flag --no-save                 Don't save a lockfile
 # @flag --save                    Save to package.json
 # @flag --dry-run                 Don't install anything
-# @option --lockfile <PATH>       Store & load a lockfile at a specific filepath
+# @flag --frozen-lockfile         Disallow changes to lockfile
 # @flag -f --force                Always request the latest versions from the registry & reinstall all dependencies
 # @option --cache-dir <PATH>      Store & load cached data from a specific directory path
 # @flag --no-cache                Ignore manifest cache entirely
@@ -238,6 +278,64 @@ remove() {
 }
 # }} bun remove
 
+# {{ bun update
+# @cmd Update outdated dependencies
+# @option -c --config <<STR>?>    Load config (bunfig.toml)
+# @flag -y --yarn                 Write a yarn.lock file (yarn v1)
+# @flag -p --production           Don't install devDependencies
+# @flag --no-save                 Don't save a lockfile
+# @flag --save                    Save to package.json
+# @flag --dry-run                 Don't install anything
+# @flag --frozen-lockfile         Disallow changes to lockfile
+# @flag -f --force                Always request the latest versions from the registry & reinstall all dependencies
+# @option --cache-dir <PATH>      Store & load cached data from a specific directory path
+# @flag --no-cache                Ignore manifest cache entirely
+# @flag --silent                  Don't log anything
+# @flag --verbose                 Excessively verbose logging
+# @flag --no-progress             Disable the progress bar
+# @flag --no-summary              Don't print a summary
+# @flag --no-verify               Skip verifying integrity of newly downloaded packages
+# @flag --ignore-scripts          Skip lifecycle scripts in the project's package.json (dependency scripts are never run)
+# @flag -g --global               Install globally
+# @option --cwd <DIR>             Set a specific cwd
+# @option --backend[hardlink|symlink|copyfile] <STR>  Platform-specific optimizations for installing dependencies.
+# @option --link-native-bins*[esbuild|turbo] <STR>  Link "bin" from a matching platform-specific "optionalDependencies" instead.
+# @flag --help                    Print this help menu
+# @arg pkg!
+update() {
+    :;
+}
+# }} bun update
+
+# {{ bun link
+# @cmd Link an npm package globally
+# @option -c --config <<STR>?>    Load config (bunfig.toml)
+# @flag -y --yarn                 Write a yarn.lock file (yarn v1)
+# @flag -p --production           Don't install devDependencies
+# @flag --no-save                 Don't save a lockfile
+# @flag --save                    Save to package.json
+# @flag --dry-run                 Don't install anything
+# @flag --frozen-lockfile         Disallow changes to lockfile
+# @flag -f --force                Always request the latest versions from the registry & reinstall all dependencies
+# @option --cache-dir <PATH>      Store & load cached data from a specific directory path
+# @flag --no-cache                Ignore manifest cache entirely
+# @flag --silent                  Don't log anything
+# @flag --verbose                 Excessively verbose logging
+# @flag --no-progress             Disable the progress bar
+# @flag --no-summary              Don't print a summary
+# @flag --no-verify               Skip verifying integrity of newly downloaded packages
+# @flag --ignore-scripts          Skip lifecycle scripts in the project's package.json (dependency scripts are never run)
+# @flag -g --global               Install globally
+# @option --cwd <DIR>             Set a specific cwd
+# @option --backend[hardlink|symlink|copyfile] <STR>  Platform-specific optimizations for installing dependencies.
+# @option --link-native-bins*[esbuild|turbo] <STR>  Link "bin" from a matching platform-specific "optionalDependencies" instead.
+# @flag --help                    Print this help menu
+# @arg pkg!
+link() {
+    :;
+}
+# }} bun link
+
 # {{ bun unlink
 # @cmd Globally unlink an npm package
 # @option -c --config <<STR>?>    Load config (bunfig.toml)
@@ -246,7 +344,7 @@ remove() {
 # @flag --no-save                 Don't save a lockfile
 # @flag --save                    Save to package.json
 # @flag --dry-run                 Don't install anything
-# @option --lockfile <PATH>       Store & load a lockfile at a specific filepath
+# @flag --frozen-lockfile         Disallow changes to lockfile
 # @flag -f --force                Always request the latest versions from the registry & reinstall all dependencies
 # @option --cache-dir <PATH>      Store & load cached data from a specific directory path
 # @flag --no-cache                Ignore manifest cache entirely
@@ -289,27 +387,6 @@ pm::ls() {
 }
 # }}} bun pm ls
 
-# {{{ bun pm hash
-# @cmd Generate & print the hash of the current lockfile
-pm::hash() {
-    :;
-}
-# }}} bun pm hash
-
-# {{{ bun pm hash-string
-# @cmd Print the string used to hash the lockfile
-pm::hash-string() {
-    :;
-}
-# }}} bun pm hash-string
-
-# {{{ bun pm hash-print
-# @cmd Print the hash stored in the current lockfile
-pm::hash-print() {
-    :;
-}
-# }}} bun pm hash-print
-
 # {{{ bun pm cache
 # @cmd Print the path to the cache folder
 pm::cache() {
@@ -325,19 +402,12 @@ pm::cache::rm() {
 # }}} bun pm cache
 # }} bun pm
 
-# {{ bun dev
-# @cmd Start a bun (frontend) Dev Server
-# @flag --disable-bun.js                      Disable bun.js from loading in the dev server
-# @flag --disable-react-fast-refresh          Disable React Fast Refresh
-# @option --bunfile <STR>                     Use a .bun file (default: node_modules.bun)
-# @option --server-bunfile <STR>              Use a .server.bun file (default: node_modules.server.bun)
-# @option --public-dir <STR>                  Top-level directory for .html files, fonts or anything external.
-# @flag --disable-hmr                         Disable Hot Module Reloading (disables fast refresh too) in bun dev
-# @option --use <STR>                         Choose a framework, e.g. "--use next".
+# {{ bun build
+# @cmd Bundle TypeScript & JavaScript into a single file
 # @flag -h --help                             Display this help and exit.
-# @flag -b --bun                              Force a script or package to use Bun.js instead of Node.js (via symlinking node)
+# @flag -b --bun                              Force a script or package to use Bun's runtime instead of Node.js (via symlinking node)
 # @option --cwd <DIR>                         Absolute path to resolve files & entry points from.
-# @option -c --config <<PATH>?>               Config file to load bun from (e.g. -c bunfig.toml
+# @option -c --config <<PATH>?>               Config file to load Bun from (e.g. -c bunfig.toml
 # @option --extension-order* <STR>            Defaults to: .tsx,.ts,.jsx,.js,.json
 # @option --jsx-factory <STR>                 Changes the function called when compiling JSX elements using the classic JSX runtime
 # @option --jsx-fragment <STR>                Changes the function called when compiling JSX fragments
@@ -347,45 +417,58 @@ pm::cache::rm() {
 # @option --main-fields* <STR>                Main fields to lookup in package.json.
 # @flag --no-summary                          Don't print a summary (when generating .bun)
 # @flag -v --version                          Print version and exit
+# @flag --revision                            Print version with revision and exit
 # @option --tsconfig-override <STR>           Load tsconfig from path instead of cwd/tsconfig.json
 # @option -d --define* <STR>                  Substitute K:V while parsing, e.g. --define process.env.NODE_ENV:"development".
 # @option -e --external* <STR>                Exclude module from transpilation (can use * wildcards).
 # @option -l --loader*[js|jsx|ts|tsx|json|toml|text|file|wasm|napi] <STR>  Parse files with .ext:loader, e.g. --loader .js:jsx.
 # @option -u --origin <STR>                   Rewrite import URLs to start with --origin.
-# @option -p --port <STR>                     Port to serve bun's dev server on.
+# @option -p --port <STR>                     Port to serve Bun's dev server on.
+# @flag --smol                                Use less memory, but run garbage collection more often
 # @flag --minify                              Minify (experimental)
 # @flag --minify-syntax                       Minify syntax and inline data (experimental)
 # @flag --minify-whitespace                   Minify whitespace (experimental)
 # @flag --minify-identifiers                  Minify identifiers
 # @flag --no-macros                           Disable macros from being executed in the bundler, transpiler and runtime
 # @option --target[browser|bun|node] <STR>    The intended execution environment for the bundle.
+# @option --inspect <<STR>?>                  Activate Bun's Debugger
+# @option --inspect-wait <<STR>?>             Activate Bun's Debugger, wait for a connection before executing
+# @option --inspect-brk <<STR>?>              Activate Bun's Debugger, set breakpoint on first line of code and wait
+# @flag --hot                                 Enable auto reload in the Bun runtime, test runner, or bundler
+# @flag --watch                               Automatically restart the process on file change
+# @flag --no-install                          Disable auto install in the Bun runtime
+# @flag -i                                    Automatically install dependencies and use global cache in Bun's runtime, equivalent to --install=fallback
+# @option --install <STR>                     Install dependencies automatically when no node_modules are present, default: "auto".
+# @flag --prefer-offline                      Skip staleness checks for packages in the Bun runtime and resolve from disk
+# @flag --prefer-latest                       Use the latest matching versions of packages in the Bun runtime, always checking npm
+# @flag --silent                              Don't repeat the command for bun run
+# @option --format <STR>                      Specifies the module format to build to.
+# @option --outdir <STR>                      Default to "dist" if multiple files
+# @option --outfile <STR>                     Write to a file
+# @option --root <STR>                        Root directory used for multiple entry points
+# @flag --splitting                           Enable code splitting
+# @option --public-path <STR>                 A prefix to be appended to any import paths in bundled code
+# @option --sourcemap <<STR>?>                Build with sourcemaps - 'inline', 'external', or 'none'
+# @option --entry-naming <STR>                Customize entry point filenames.
+# @option --chunk-naming <STR>                Customize chunk filenames.
+# @option --asset-naming <STR>                Customize asset filenames.
+# @flag --server-components                   Enable React Server Components (experimental)
+# @flag --no-bundle                           Transpile file only, do not bundle
+# @flag --compile                             Generate a standalone Bun executable containing your bundled code
 # @flag --dump-environment-variables          Dump environment variables from .env and process as JSON and quit.
-dev() {
+# @flag --dump-limits                         Dump system limits.
+# @arg files*
+build() {
     :;
 }
-# }} bun dev
+# }} bun build
 
 # {{ bun upgrade
-# @cmd Get the latest version of bun
+# @cmd Get the latest version of Bun
 upgrade() {
     :;
 }
 # }} bun upgrade
-
-# {{ bun completions
-# @cmd Install shell completions for tab-completion
-# @arg dir
-completions() {
-    :;
-}
-# }} bun completions
-
-# {{ bun discord
-# @cmd Open bun's Discord server
-discord() {
-    :;
-}
-# }} bun discord
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 

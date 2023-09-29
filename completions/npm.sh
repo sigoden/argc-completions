@@ -38,7 +38,7 @@ adduser() {
 # @flag --workspaces                           Set to true to run the command in the context of all configured workspaces.
 # @flag --include-workspace-root               Include the workspace root when workspaces are enabled for a command.
 # @flag --install-links                        When set file: protocol dependencies will be packed and installed as regular dependencies instead of creating a symlink.
-# @arg value[fix|signatures]
+# @arg enum[fix|signatures]
 audit() {
     :;
 }
@@ -610,7 +610,7 @@ org() {
 # @cmd Add user to org.
 # @arg orgname!
 # @arg username!
-# @arg value[developer|admin|owner]
+# @arg enum[developer|admin|owner]
 org::set() {
     :;
 }
@@ -782,7 +782,7 @@ profile::set() {
 
 # {{{ npm profile enable-2fa
 # @cmd Enables two-factor authentication.
-# @arg value[auth-only|auth-and-writes]
+# @arg enum[auth-only|auth-and-writes]
 profile::enable-2fa() {
     :;
 }

@@ -36,7 +36,7 @@ disable() {
 # {{ connmanctl tether
 # @cmd Enable or disable tethering on technology.
 # @arg technology![`_choice_technology`]
-# @arg value[on|off]
+# @arg enum[on|off]
 tether() {
     :;
 }
@@ -118,7 +118,7 @@ vpnconnections() {
 
 # {{ connmanctl agent
 # @cmd Enable or disable the wireless agent, used for entering wireless network passphrases.
-# @arg value[on|off]
+# @arg enum[on|off]
 agent() {
     :;
 }
@@ -126,7 +126,7 @@ agent() {
 
 # {{ connmanctl vpnagent
 # @cmd Enable or disable the vpn agent, used for entering vpn credentials.
-# @arg value[on|off]
+# @arg enum[on|off]
 vpnagent() {
     :;
 }
@@ -134,7 +134,7 @@ vpnagent() {
 
 # {{ connmanctl autoconnect
 # @cmd Sets the autoconnect property of the service.
-# @arg value[on|off]
+# @arg enum[on|off]
 autoconnect() {
     :;
 }
@@ -142,7 +142,7 @@ autoconnect() {
 
 # {{ connmanctl ipv4
 # @cmd Configures the IPv4 settings for the service.
-# @arg value[off|dhcp|manual]
+# @arg enum[off|dhcp|manual]
 # @arg address
 # @arg netmask
 # @arg gateway
@@ -153,7 +153,7 @@ ipv4() {
 
 # {{ connmanctl ipv6
 # @cmd Configures the IPv6 settings for the service.
-# @arg value[off|auto|manual]
+# @arg enum[off|auto|manual]
 # @arg address
 # @arg prefixlength
 # @arg gateway
@@ -188,7 +188,7 @@ domains() {
 
 # {{ connmanctl proxy
 # @cmd Configures the proxy settings for the service.
-# @arg value[direct|auto|manual]
+# @arg enum[direct|auto|manual]
 proxy() {
     :;
 }

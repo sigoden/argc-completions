@@ -99,7 +99,7 @@ pull() {
 # {{ adb sync
 # @cmd sync a local build from $ANDROID_PRODUCT_OUT to the device (default all)
 # @flag -l    list but don't copy
-# @arg value[all|data|odm|oem|product_services|product|system|vendor]
+# @arg enum[all|data|odm|oem|product_services|product|system|vendor]
 sync() {
     :;
 }
@@ -391,7 +391,7 @@ remount() {
 
 # {{ adb reboot
 # @cmd reboot the device; defaults to booting system image but
-# @arg value[bootloader|recovery|sideload|sideload-auto-reboot]
+# @arg enum[bootloader|recovery|sideload|sideload-auto-reboot]
 reboot() {
     :;
 }

@@ -6,43 +6,42 @@ _patch_help() {
             -e 's/^  \(\S\+\)\s\{2,\}\(\S\+\( \S\+\)*\)\?\s\{2,\}\(\S.*\)$/  \1\t\4/' \
             -e '/ (bun \w\+)$/ s/  \(\w\+\)\(.*\)(bun \(\w\+\))$/  \1, \3\2/' \
         
-    elif [[ "$*" == "bun run" ]]; then
-        echo "Usage: bun run [script_or_bin]..."
+    elif [[ "$*" == "bun run" ]] \
+      || [[ "$*" == "bun test" ]] \
+      || [[ "$*" == "bun build" ]] \
+    ; then
         $@ --help | sed '/----/,$ d'
 
     elif [[ "$*" == "bun create" ]]; then
         echo "Usage: bun create <pkg> [args]..."
-        $@ --help
 
     elif [[ "$*" == "bun install" ]] \
       || [[ "$*" == "bun add" ]] \
-      || [[ "$*" == "bun link" ]] \
       || [[ "$*" == "bun remove" ]] \
+      || [[ "$*" == "bun update" ]] \
+      || [[ "$*" == "bun link" ]] \
       || [[ "$*" == "bun unlink" ]] \
     ; then
         echo "Usage: $* <pkg>"
         $@ --help
 
-    elif [[ "$*" == "bun dev" ]]; then
-        $@ --help | sed '/----/,$ d'
-
     else
         cat <<-'EOF' | _patch_help_embed_help $@ 
+# x <cmd> args...
+
+# init
+
+# create <pkg>
+
 # pm
 ## bin - Print the path to bin folder
     -g, --global   Install globally
 ## ls - List the dependency tree according to the current lockfile
     --all         All installed dependencies, including nth-order dependencies.
-## hash - Generate & print the hash of the current lockfile
-## hash-string - Print the string used to hash the lockfile
-## hash-print - Print the hash stored in the current lockfile
 ## cache - Print the path to the cache folder
 ### rm - Clear Bun's global module cache
 
-# build [file]...
-# x <cmd> [args]...
-# completions [dir]
-# discord
+# upgrade
 EOF
     fi
 }
@@ -58,9 +57,14 @@ _patch_table() {
         _patch_table_edit_arguments ';;' '[args]...;[`_choice_script_or_bin`]'
 
     elif [[ "$*" == "bun run" ]]; then
-        echo "$table" | _patch_table_edit_arguments ';;' 'script_or_bin;[`_choice_script_or_bin`]'
+        echo "$table" | _patch_table_edit_arguments ';;' 'script_or_bin;[`_choice_script_or_bin`]' 'args...'
+
     elif [[ "$*" == "bun remove" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'pkg;[`_choice_dependency`]'
+
+    elif [[ "$*" == "bun build" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments ';;' 'files...'
 
     else
         echo "$table"

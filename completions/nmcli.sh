@@ -97,7 +97,7 @@ radio() {
 
 # {{{ nmcli radio wiff
 # @cmd Show or set status of Wi-Fi in NetworkManager.
-# @arg value[on|off]
+# @arg enum[on|off]
 radio::wiff() {
     :;
 }
@@ -105,7 +105,7 @@ radio::wiff() {
 
 # {{{ nmcli radio wwan
 # @cmd Show or set status of WWAN (mobile broadband) in NetworkManager.
-# @arg value[on|off]
+# @arg enum[on|off]
 radio::wwan() {
     :;
 }
@@ -113,7 +113,7 @@ radio::wwan() {
 
 # {{{ nmcli radio all
 # @cmd Show or set all previously mentioned radio switches at the same time.
-# @arg value[on|off]
+# @arg enum[on|off]
 radio::all() {
     :;
 }

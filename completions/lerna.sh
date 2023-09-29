@@ -369,6 +369,7 @@ watch() {
 # @flag --no-changelog                          Do not generate CHANGELOG.md files when using --conventional-commits.
 # @flag --no-commit-hooks                       Do not run git commit hooks when committing version changes.
 # @flag --no-git-tag-version                    Do not commit or tag version changes.
+# @flag --sync-dist-version                     Update the version of the package.json of the contents directory.
 # @flag --no-granular-pathspec                  Do not stage changes file-by-file, but globally.
 # @flag --no-private                            Do not version private packages.
 # @flag --no-push                               Do not push tagged commit to git remote.
@@ -379,6 +380,7 @@ watch() {
 # @flag --force-git-tag                         Pass the `--force` flag to `git tag`.
 # @option --tag-version-prefix <string>         Customize the tag prefix.
 # @option --git-tag-command <string>            Allows users to specify a custom command to be used when applying git tags.
+# @flag --run-scripts-on-lockfile-update        Do not disable all lifecycle scripts while updating the lock file after the version bump.
 # @option --npm-client-args* <string>           Additional arguments to pass to the npm client when performing 'npm install'.
 # @flag -y --yes                                Skip all confirmation prompts.
 # @option --loglevel[`_choice_log_level`] <string>  What level of logs to report.

@@ -38,7 +38,7 @@
 
 # {{ yq completion
 # @cmd Generate the autocompletion script for the specified shell
-# @arg value[bash|zsh|fish|powershell]
+# @arg enum[bash|zsh|fish|powershell]
 completion() {
     :;
 }

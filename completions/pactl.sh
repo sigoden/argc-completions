@@ -246,7 +246,7 @@ get-sink-mute() {
 # {{ pactl set-sink-mute
 # @cmd SINK 1|0|toggle Set the mute status of the specified sink (identified by its symbolic name or numerical index).
 # @arg sink[`_choice_sink`]
-# @arg value[1|0|toggle]
+# @arg enum[1|0|toggle]
 set-sink-mute() {
     :;
 }
@@ -263,7 +263,7 @@ get-source-mute() {
 # {{ pactl set-source-mute
 # @cmd SOURCE 1|0|toggle Set the mute status of the specified source (identified by its symbolic name or numerical index).
 # @arg source[`_choice_source`]
-# @arg value[1|0|toggle]
+# @arg enum[1|0|toggle]
 set-source-mute() {
     :;
 }
@@ -272,7 +272,7 @@ set-source-mute() {
 # {{ pactl set-sink-input-mute
 # @cmd INPUT 1|0|toggle Set the mute status of the specified sink input (identified by its numerical index).
 # @arg input[`_choice_sink`]
-# @arg value[1|0|toggle]
+# @arg enum[1|0|toggle]
 set-sink-input-mute() {
     :;
 }
@@ -281,7 +281,7 @@ set-sink-input-mute() {
 # {{ pactl set-source-output-mute
 # @cmd OUTPUT 1|0|toggle Set the mute status of the specified source output (identified by its numerical index).
 # @arg output[`_choice_source`]
-# @arg value[1|0|toggle]
+# @arg enum[1|0|toggle]
 set-source-output-mute() {
     :;
 }

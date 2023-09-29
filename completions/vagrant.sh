@@ -754,6 +754,7 @@ halt() {
 # @flag --no-tty               Enable non-interactive output
 # @flag -h --help              Print this help
 # @arg name[`_choice_box_search`]
+# @arg url
 init() {
     :;
 }

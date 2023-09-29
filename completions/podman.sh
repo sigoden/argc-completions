@@ -1040,7 +1040,7 @@ generate::kube() {
 # @option --restart-policy <string>      Systemd restart-policy (default "on-failure")
 # @option --separator <string>           Systemd unit name separator between name/id and prefix (default "-")
 # @option -t --time <uint>               Stop timeout override (default 10)
-# @arg container-pod <CONTAINER|POD>
+# @arg value[`_choice_container_pod`]
 generate::systemd() {
     :;
 }
@@ -1476,8 +1476,8 @@ init() {
 # @option -f --format <string>    Format the output to a Go template or json (default "json")
 # @flag -l --latest               Act on the latest container podman is aware of Not supported with the "--remote" flag
 # @flag -s --size                 Display total file size
-# @option -t --type <string>      Specify inspect-object type ("image", "container" or "all") (default "all")
-# @arg container-image-pod-network-volume <CONTAINER|IMAGE|POD|NETWORK|VOLUME>
+# @option -t --type[image|container|all] <string>  Specify inspect-object type ("image", "container" or "all") (default "all")
+# @arg name
 inspect() {
     :;
 }
@@ -1860,7 +1860,7 @@ play() {
 # @option --mac-address* <string>                  Static MAC addresses to assign to the pods
 # @option --network[`_choice_network`] <string>    Connect pod to CNI network(s)
 # @flag -q --quiet                                 Suppress output information when pulling images
-# @option --seccomp-profile-root <file>            Directory path for seccomp profiles (default "/var/lib/kubelet/seccomp")
+# @option --seccomp-profile-root <path>            Directory path for seccomp profiles (default "/var/lib/kubelet/seccomp")
 # @flag --start                                    Start the pod after creating it (default true)
 # @flag --tls-verify                               Require HTTPS and verify certificates when contacting registries (default true)
 # @arg kubefile <KUBEFILE|->
@@ -2768,6 +2768,10 @@ _choice_container_cp() {
 
 _choice_args() {
     _argc_util_comp_subcommand 1
+}
+
+_choice_container_pod() {
+    _argc_util_parallel _choice_container ::: _choice_pod
 }
 
 _choice_machine() {

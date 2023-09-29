@@ -4,6 +4,6 @@
 # @flag --help       Show command synopsis.
 # @flag --manual     Show this manual page.
 # @flag --version    Show the xdg-utils version information.
-# @arg file-url <file|URL>
+# @arg file-url
 
 command eval "$(argc --argc-eval "$0" "$@")"
