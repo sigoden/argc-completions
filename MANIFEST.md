@@ -18,16 +18,19 @@
 - [alsactl](https://manpages.ubuntu.com/manpages/jammy/en/man1/alsactl.1.html): advanced controls for ALSA soundcard driver
 - [alsamixer](https://manpages.ubuntu.com/manpages/jammy/en/man1/alsamixer.1.html): soundcard mixer for ALSA soundcard driver, with ncurses interface
 - [amixer](https://manpages.ubuntu.com/manpages/jammy/en/man1/amixer.1.html): command-line mixer for ALSA soundcard driver
+- [amplify](https://docs.amplify.aws/cli/): a unified toolchain to create AWS cloud services for your app.
 - [ansible](https://www.ansible.com): Define and run a single task 'playbook' against a set of hosts
 - [ansible-config](https://docs.ansible.com/ansible/latest/cli/ansible-config.html): View ansible configuration.:
 - [ansible-console](https://docs.ansible.com/ansible/latest/cli/ansible-console.html): REPL console for executing Ansible tasks.
 - [ansible-doc](https://docs.ansible.com/ansible/latest/cli/ansible-doc.html): plugin documentation tool
 - [ansible-galaxy](https://docs.ansible.com/ansible/latest/cli/ansible-galaxy.html): Perform various Role and Collection related operations.
+- [ansible-lint](https://github.com/ansible/ansible-lint): checks playbooks for practices and behavior that could potentially be improved.
 - [ansible-playbook](https://docs.ansible.com/ansible/latest/playbook_guide/index.html): Runs Ansible playbooks, executing the defined tasks on the targeted hosts.
 - [ansible-vault](https://docs.ansible.com/ansible/latest/cli/ansible-vault.html): encryption/decryption utility for Ansible data files
 - [ant](http://ant.apache.org): a Java based make tool.
 - [apk](https://wiki.alpinelinux.org/wiki/Alpine_Package_Keeper): Alpine Package Keeper
 - [aplay](https://manpages.ubuntu.com/manpages/jammy/en/man1/aplay.1.html): command-line sound recorder and player for ALSA soundcard driver
+- [appwrite](https://github.com/appwrite/appwrite): a backend platform for developing Web, Mobile, and Flutter applications.
 - [apropos](https://manpages.ubuntu.com/manpages/jammy/man1/apropos.1.html): search the manual page names and descriptions
 - [apt](https://manpages.ubuntu.com/manpages/jammy/en/man8/apt.8.html): Package manager for Debian-based Linux distributions
 - [ar](https://manpages.ubuntu.com/manpages/jammy/en/man1/ar.1.html): create, modify, and extract from archives
@@ -40,11 +43,14 @@
 - [asdf](https://github.com/asdf-vm/asdf): Extendable version manager with support for Ruby, Node.js, Elixir, Erlang & more
 - [asr](https://ss64.com/osx/asr.html): Apple Software Restore; copy volumes (macOS)
 - [at](https://manpages.ubuntu.com/manpages/jammy/en/man1/at.1.html): queue, examine, or delete jobs for later execution
+- [atlas](https://www.mongodb.com/docs/atlas/cli/stable/):  a command line interface built specifically for MongoDB Atlas.
 - [autoconf](https://manpages.ubuntu.com/manpages/jammy/en/man1/autoconf.1.html): Generate configuration scripts
 - [autojump](https://github.com/wting/autojump): Automatically jump to directory passed as an argument.
 - [awk](https://manpages.ubuntu.com/manpages/jammy/en/man1/gawk.1.html): pattern scanning and processing language
 - [aws](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html): The  AWS  Command  Line  Interface is a unified tool to manage your AWS services.
+- [awsume](https://github.com/trek10inc/awsume): A utility for easily assuming AWS IAM roles from the command line.
 - [az](https://learn.microsoft.com/en-us/cli/azure/): A set of commands used to create and manage Azure resources.
+- [babel](https://github.com/babel/babel): a compiler for writing next generation JavaScript.
 - [bandwhich](https://github.com/imsnif/bandwhich): Terminal bandwidth utilization tool.
 - [base64](https://manpages.ubuntu.com/manpages/jammy/en/man1/base64.1.html): base64 encode/decode data and print to standard output
 - [basename](https://manpages.ubuntu.com/manpages/jammy/en/man1/basename.1.html): strip directory and suffix from filenames
@@ -150,6 +156,7 @@
 - [curl](https://github.com/curl/curl): transfer a URL
 - [cut](https://manpages.ubuntu.com/manpages/jammy/en/man1/cut.1.html): remove sections from each line of files
 - [cwebp](https://developers.google.com/speed/webp/docs/cwebp): Compress an image file to a WebP file
+- [darcs](https://darcs.net): distributed, interactive, smart revision control system
 - [darktable](https://github.com/darktable-org/darktable): an open source photography workflow application and raw developer.
 - [darktable-cli](https://docs.darktable.org/usermanual/4.0/en/special-topics/program-invocation/darktable-cli/): a command line darktable variant
 - [dart](https://dart.dev/): A client-optimized language for fast apps on any platform
@@ -216,6 +223,7 @@
 - [esbuild](https://github.com/evanw/esbuild): An extremely fast bundler for the web
 - [eslint](https://github.com/eslint/eslint): Find and fix problems in your JavaScript code.
 - [ethtool](https://manpages.ubuntu.com/manpages/jammy/en/man8/ethtool.8.html): query or control network driver and hardware settings
+- [evince](https://manpages.ubuntu.com/manpages/jammy/en/man1/evince.1.html): GNOME document viewer
 - [exa](https://github.com/ogham/exa): A modern replacement for ‘ls’.
 - [exercism](https://github.com/exercism/cli): A Go based command line tool for exercism.org.
 - [expand](https://manpages.ubuntu.com/manpages/jammy/en/man1/expand.1.html): convert tabs to spaces
@@ -267,6 +275,7 @@
 - [git-lfs](https://github.com/git-lfs/git-lfs): Git extension for versioning large files
 - [git-open](https://github.com/paulirish/git-open): Open the repo website (GitHub, GitLab, Bitbucket) in your browser.
 - [git-quick-stats](https://github.com/arzzen/git-quick-stats): a simple and efficient way to access various statistics in a git repository.
+- [git-sizer](https://github.com/github/git-sizer): Compute various size metrics for a Git repository, flagging those that might cause problems.
 - [gitleaks](https://github.com/gitleaks/gitleaks): Audit git repos for secrets
 - [glab](https://gitlab.com/gitlab-org/cli): bringing GitLab to your command line
 - [glances](https://github.com/nicolargo/glances): Alternative to top/htop.
@@ -458,11 +467,13 @@
 - [nano](https://manpages.ubuntu.com/manpages/jammy/en/man1/nano.1.html): Nano's ANOther editor, inspired by Pico
 - [navi](https://github.com/denisidoro/navi): An interactive cheatsheet tool
 - [nc](https://linux.die.net/man/1/nc): arbitrary TCP and UDP connections and listens
+- [ncu](https://github.com/raineorshine/npm-check-updates): Find newer versions of package dependencies than what your package.json allows
 - [ncal](https://manpages.ubuntu.com/manpages/jammy/en/man1/ncal.1.html): displays a calendar and the date of Easter
 - [ncat](https://manpages.ubuntu.com/manpages/jammy/en/man1/ncat.1.html): Concatenate and redirect sockets
 - [ncdu](https://manpages.ubuntu.com/manpages/jammy/en/man1/ncdu.1.html): NCurses Disk Usage
 - [neofetch](https://github.com/dylanaraps/neofetch): Shows Linux System Information with Distribution Logo
 - [neomutt](https://manpages.ubuntu.com/manpages/jammy/en/man1/neomutt.1.html): The NeoMutt Mail User Agent (MUA)
+- [nest](https://github.com/nestjs/nest): A progressive Node.js framework for building efficient and scalable server-side applications.
 - [netcat](https://linux.die.net/man/1/nc): arbitrary TCP and UDP connections and listens
 - [netctl](https://git.archlinux.org/netctl.git): Control the netctl network profile manager
 - [netctl-auto](https://manpages.ubuntu.com/manpages/jammy/en/man1/netctl-auto.1.html): Control automatic selection of wireless netctl profiles
@@ -472,6 +483,7 @@
 - [newman](https://github.com/postmanlabs/newman): a command-line collection runner for Postman
 - [newrelic](https://github.com/newrelic/newrelic-cli): The New Relic CLI enables users to perform tasks against the New Relic APIs
 - [newsboat](https://github.com/newsboat/newsboat): An RSS/Atom feed reader for text terminals
+- [next](https://github.com/vercel/next.js): The React Framework
 - [nexttrace](https://github.com/nxtrace/NTrace-core): Open source visual route tracking CLI tool
 - [nfpm](https://github.com/goreleaser/nfpm): a simple and 0-dependencies deb, rpm, apk and arch linux packager written in Go.
 - [ng](https://github.com/angular/angular-cli): CLI tool for Angular
@@ -487,7 +499,8 @@
 - [node](https://nodejs.org/en): an open-source, cross-platform JavaScript runtime environment.
 - [nohup](https://manpages.ubuntu.com/manpages/jammy/en/man1/nohup.1.html): run a command immune to hangups, with output to a non-tty
 - [nomad](https://github.com/hashicorp/nomad): Orchestration made easy
-- [npm](https://github.com/npm/cli): the package manager for JavaScript
+- [npm](https://docs.npmjs.com/cli/commands): the package manager for JavaScript
+- [npx](https://docs.npmjs.com/cli/commands/npx): Run a command from an npm package
 - [nssm](https://github.com/kirillkovalenko/nssm): Non-Sucking Service Manager
 - [nu](https://github.com/nushell/nushell): A new type of shell
 - [nvim](https://neovim.io/): hyperextensible Vim-based text editor
@@ -542,6 +555,7 @@
 - [pm2](https://github.com/Unitech/pm2): Node.js Production Process Manager with a built-in Load Balancer.
 - [pmset](https://ss64.com/osx/pmset.html): Power management settings. (macOS)
 - [pnpm](https://github.com/pnpm/pnpm): Fast, disk space efficient package manager for Node.js
+- [pocketbase](https://github.com/pocketbase/pocketbase): Open Source realtime backend in 1 file
 - [pod](https://github.com/CocoaPods/CocoaPods): The Cocoa Dependency Manager.
 - [podman](https://github.com/containers/podman): A tool for managing OCI containers and pods.
 - [poetry](https://github.com/python-poetry/poetry): Python packaging and dependency management made easy
@@ -552,6 +566,7 @@
 - [powertop](https://manpages.ubuntu.com/manpages/jammy/en/man8/powertop.8.html): a power consumption and power management diagnosis tool.
 - [pr](https://manpages.ubuntu.com/manpages/jammy/en/man1/pr.1.html): convert text files for printing
 - [pre-commit](https://github.com/pre-commit/pre-commit): A framework for managing and maintaining multi-language pre-commit hooks.
+- [prettier](https://github.com/prettier/prettier): an opinionated code formatter.
 - [printenv](https://manpages.ubuntu.com/manpages/jammy/en/man1/printenv.1.html): print all or part of environment
 - [procs](https://github.com/dalance/procs): A modern replacement for ps written in Rust
 - [ps](https://manpages.ubuntu.com/manpages/jammy/en/man1/ps.1.html): report a snapshot of the current processes.
