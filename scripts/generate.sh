@@ -5,7 +5,6 @@ set -e
 # @describe Automaticlly generate completion script for commands
 
 # @option -o --output <file>        Specify output file. If omitted, output to stdout
-# @flag -E --extend                 Mark subcmd as an extension command
 # @flag -v --verbose                Show log
 # @arg cmd!                         Specify the command, must be able to run locally
 # @arg subcmd                       Optional subcommand
@@ -336,13 +335,11 @@ set_globals() {
     fi
 
     cmds_level=1
-    if [[ "$argc_extend" == "1" ]] && [[ -n $argc_subcmd ]]; then
-        if ! command -v $argc_cmd-$argc_subcmd >/dev/null; then
-            log_error "$argc_cmd-$argc_subcmd not found"
-            exit 1
+    if [[ -n $argc_subcmd ]]; then
+        if command -v $argc_cmd-$argc_subcmd >/dev/null; then
+            cmds_level=2
+            src_file="$src_dir/$argc_cmd/$argc_subcmd.sh"
         fi
-        cmds_level=2
-        src_file="$src_dir/$argc_cmd/$argc_subcmd.sh"
     fi
 
     if [[ ! -f "$src_file" ]]; then

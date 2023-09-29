@@ -22,7 +22,7 @@ generate() {
     fi
     if [[ -n $argc_subcmd ]]; then
         echo Generate $argc_cmd $argc_subcmd
-        ./scripts/generate.sh $generate_sh_args -E $argc_cmd $argc_subcmd
+        ./scripts/generate.sh $generate_sh_args $argc_cmd $argc_subcmd
     else
         echo Generate $argc_cmd
         ./scripts/generate.sh $generate_sh_args $argc_cmd
@@ -32,7 +32,7 @@ generate() {
                 for child in completions/$argc_cmd/*.sh; do
                     child="$(basename "$child" .sh)"
                     echo Generate $argc_cmd $child
-                    ./scripts/generate.sh $generate_sh_args -E $argc_cmd $child
+                    ./scripts/generate.sh $generate_sh_args $argc_cmd $child
                 done
             fi
         fi
