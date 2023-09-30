@@ -262,7 +262,7 @@ function parseCommand(words1, descVal) {
     for (i in words1) {
         word = words1[i]
         comma = gsub(/,$/, "", word)
-        if (prevComma != 0 && match(word, /^([a-z0-9]+[A-Za-z0-9_.-]*|-[A-Za-z0-9_.-]+)$/)) {
+        if (prevComma != 0 && match(word, /^([a-z0-9]+[A-Za-z0-9_:.-]*|-[A-Za-z0-9_.-]+)$/)) {
             if (match(tolower(word), RE_SKIP_SBUCOMMAND)) {
                 return
             }

@@ -172,6 +172,7 @@ Other:
     cmdb
     cmdc
     cmde
+    cmd:a
 
 The commands are:
 

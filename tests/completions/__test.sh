@@ -178,7 +178,7 @@ cmd3() {
 # {{ __test cmd4
 # @cmd
 # @alias c
-# @arg value[foo|bar|baz]
+# @arg enum[foo|bar|baz]
 cmd4() {
     :;
 }
@@ -263,6 +263,13 @@ cmde() {
     :;
 }
 # }} __test cmde
+
+# {{ __test cmd:a
+# @cmd
+cmd:a() {
+    :;
+}
+# }} __test cmd:a
 
 # {{ __test bug
 # @cmd start a bug report
