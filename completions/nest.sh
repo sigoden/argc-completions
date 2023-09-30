@@ -6,6 +6,7 @@
 
 # {{ nest new
 # @cmd Generate Nest application.
+# @alias n
 # @option --directory <directory>             Specify the destination directory
 # @flag -d --dry-run                          Report actions that would be performed without writing out results.
 # @flag -g --skip-git                         Skip git repository initialization.
@@ -65,6 +66,7 @@ start() {
 
 # {{ nest info
 # @cmd Display Nest project details.
+# @alias i
 # @flag -h --help    Output usage information.
 info() {
     :;
@@ -85,6 +87,7 @@ add() {
 
 # {{ nest generate
 # @cmd Generate a Nest element.
+# @alias g
 # @flag -d --dry-run                          Report actions that would be taken without writing out results.
 # @option -p --project[`_choice_project`] <project>  Project in which to generate files.
 # @flag --flat                                Enforce flat structure of generated element.

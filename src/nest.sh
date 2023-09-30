@@ -10,7 +10,13 @@ _patch_help() {
 }
 
 _patch_table() {
-    if [[ "$*" == "nest new" ]]; then
+    if [[ "$*" == "nest" ]]; then
+        _patch_table_edit_commands \
+            'new(new, n)' \
+            'info(info, i)' \
+            'generate(generate, g)' \
+
+    elif [[ "$*" == "nest new" ]]; then
         _patch_table_edit_options \
             '--package-manager;[npm|yarn|pnpm]' \
             '--language;[TypeScript|Javascript]' \

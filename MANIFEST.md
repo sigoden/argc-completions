@@ -78,6 +78,7 @@
 - [bundle](https://bundler.io/): Ruby Dependency Management
 - [bun](https://github.com/oven-sh/bun): Incredibly fast JavaScript runtime, bundler, test runner, and package manager – all in one
 - [bunzip2](https://manpages.ubuntu.com/manpages/jammy/en/man1/bzip2.1.html): a block-sorting file compressor
+- [bw](https://github.com/bitwarden/clients): Bitwarden Command-line Interface
 - [bzcat](https://manpages.ubuntu.com/manpages/jammy/en/man1/bzcat.1.html): decompresses files to stdout
 - [bzip2](https://manpages.ubuntu.com/manpages/jammy/en/man1/bzip2.1.html): a block-sorting file compressor
 - [bzip2recover](https://manpages.ubuntu.com/manpages/jammy/en/man1/bzip2recover.1.html): recovers data from damaged bzip2 files
@@ -227,6 +228,7 @@
 - [exa](https://github.com/ogham/exa): A modern replacement for ‘ls’.
 - [exercism](https://github.com/exercism/cli): A Go based command line tool for exercism.org.
 - [expand](https://manpages.ubuntu.com/manpages/jammy/en/man1/expand.1.html): convert tabs to spaces
+- [expo](https://github.com/expo/expo-cli): Tools for creating, running, and deploying universal Expo and React Native apps
 - [fab](https://github.com/fabric/fabric): Simple, Pythonic remote execution and deployment.
 - [fakeroot](https://manpages.ubuntu.com/manpages/jammy/man1/fakeroot-tcp.1.html): run a command in an environment faking root privileges for file manipulation
 - [fallocate](https://manpages.ubuntu.com/manpages/jammy/man1/fallocate.1.html): preallocate or deallocate space to a file
@@ -376,6 +378,7 @@
 - [kubectl](https://kubernetes.io/docs/reference/kubectl/): controls the Kubernetes cluster manager.
 - [kubectx](https://github.com/ahmetb/kubectx): a tool to switch between contexts (clusters) on kubectl faster.
 - [kubens](https://github.com/ahmetb/kubectx): a tool to switch between Kubernetes namespaces (and configure them for kubectl) easily.
+- [laravel](https://github.com/laravel/laravel): a web application framework with expressive, elegant syntax.
 - [last](https://manpages.ubuntu.com/manpages/jammy/en/man1/last.1.html): show a listing of last logged in users 
 - [lastb](https://manpages.ubuntu.com/manpages/jammy/en/man1/last.1.html): show a listing of last logged in users
 - [lastlog](https://manpages.ubuntu.com/manpages/jammy/en/man8/lastlog.8.html): reports the most recent login of all users or of a given user
@@ -504,6 +507,7 @@
 - [nssm](https://github.com/kirillkovalenko/nssm): Non-Sucking Service Manager
 - [nu](https://github.com/nushell/nushell): A new type of shell
 - [nvim](https://neovim.io/): hyperextensible Vim-based text editor
+- [nvm](https://github.com/nvm-sh/nvm): Node Version Manager
 - [nvram](https://ss64.com/osx/nvram.html): Manipulate firmware variables. (macOS)
 - [objdump](https://manpages.ubuntu.com/manpages/jammy/en/man1/objdump.1.html): display information from object files
 - [ocaml](https://ocaml.org/): The OCaml interactive toplevel
@@ -534,6 +538,7 @@
 - [pee](https://manpages.ubuntu.com/manpages/jammy/en/man1/pee.1.html): tee standard input to pipe
 - [percol](https://github.com/mooz/percol): adds flavor of interactive selection to the traditional pipe concept on UNIX.
 - [perl](https://www.perl.org/): The Perl 5 language interpreter
+- [pest](https://github.com/pestphp/pest): an elegant PHP testing Framework with a focus on simplicity, meticulously designed to bring back the joy of testing in PHP.
 - [pgcli](https://github.com/dbcli/pgcli): Postgres CLI with autocompletion and syntax highlighting
 - [pg_dump](https://www.postgresql.org/docs/current/app-pgdump.html): extract a PostgreSQL database into a script file or other archive file
 - [pg_dumpall](https://www.postgresql.org/docs/current/app-pg-dumpall.html): extract a PostgreSQL database cluster into a script file
@@ -551,6 +556,7 @@
 - [pkg-config](https://linux.die.net/man/1/pkg-config): Return metainformation about installed libraries
 - [pkgutil](https://ss64.com/osx/pkgutil.html): Query and manipulate MacOS Installer packages and receipts. (macOS)
 - [pkill](https://manpages.ubuntu.com/manpages/jammy/en/man1/pkill.1.html): look up or signal processes based on name and other attributes
+- [playwright](https://github.com/microsoft/playwright): a framework for Web Testing and Automation.
 - [plocate](https://manpages.ubuntu.com/manpages/jammy/en/man1/plocate.1.html): find files by name, quickly
 - [pm2](https://github.com/Unitech/pm2): Node.js Production Process Manager with a built-in Load Balancer.
 - [pmset](https://ss64.com/osx/pmset.html): Power management settings. (macOS)
@@ -606,6 +612,7 @@
 - [rmdir](https://manpages.ubuntu.com/manpages/jammy/en/man1/rmdir.1.html): remove empty directories
 - [rmmod](https://manpages.ubuntu.com/manpages/jammy/en/man8/rmmod.8.html): Simple program to remove a module from the Linux Kernel
 - [robot](https://github.com/robotframework/robotframework): Generic automation framework for acceptance testing and RPA
+- [rollup](https://github.com/rollup/rollup): Next-generation ES module bundler
 - [Rscript](https://manpages.ubuntu.com/manpages/jammy/en/man1/Rscript.1.html): front end for scripting with R
 - [rsync](https://manpages.ubuntu.com/manpages/jammy/en/man1/rsync.1.html): a fast, versatile, remote (and local) file-copying tool
 - [ruby](https://www.ruby-lang.org/en/): Interpreted object-oriented scripting language
@@ -696,6 +703,7 @@
 - [terragrunt](https://github.com/gruntwork-io/terragrunt): a thin wrapper for Terraform that provides extra tools for working with multiple Terraform modules.
 - [terramate](https://github.com/terramate-io/terramate): adds powerful capabilities such as code generation, stacks, orchestration, change detection, data sharing and more to Terraform.
 - [tesseract](https://github.com/tesseract-ocr/tesseract): Tesseract Open Source OCR Engine
+- [tfenv](https://github.com/tfutils/tfenv): Terraform version manager
 - [tfsec](https://github.com/aquasecurity/tfsec): Security scanner for your Terraform code
 - [tig](https://manpages.ubuntu.com/manpages/jammy/en/man1/tig.1.html): text-mode interface for Git
 - [timedatectl](https://manpages.ubuntu.com/manpages/jammy/en/man1/timedatectl.1.html): Control the system time and date
@@ -727,6 +735,7 @@
 - [tsc](https://github.com/Microsoft/TypeScript): The TypeScript Compiler
 - [tshark](https://manpages.ubuntu.com/manpages/jammy/en/man1/tshark.1.html): Dump and analyze network traffic
 - [ts-node](https://github.com/TypeStrong/ts-node): TypeScript execution and REPL for node.js
+- [tsx](https://github.com/esbuild-kit/tsx): Node.js enhanced to run TypeScript & ESM files
 - [ttyd](https://github.com/tsl0922/ttyd): a tool for sharing terminal over the web
 - [tty](https://manpages.ubuntu.com/manpages/jammy/en/man1/tty.1.html): print the file name of the terminal connected to standard input
 - [tuist](https://github.com/tuist/tuist): Create, maintain, and interact with Xcode projects at scale. (macOS)
@@ -758,6 +767,7 @@
 - [userdel](https://manpages.ubuntu.com/manpages/jammy/en/man8/userdel.8.html): delete a user account and related files
 - [usermod](https://manpages.ubuntu.com/manpages/jammy/en/man8/usermod.8.html): modify a user account
 - [vagrant](https://github.com/hashicorp/vagrant): building and distributing development environments.
+- [vale](https://github.com/errata-ai/vale): A markup-aware linter for prose built with speed and extensibility in mind.
 - [valgrind](http://www.valgrind.org/): a suite of tools for debugging and profiling programs
 - [vault](https://github.com/hashicorp/vault): Manage secrets and protect sensitive data
 - [vcpkg](https://github.com/microsoft/vcpkg): C++ Library Manager for Windows, Linux, and MacOS
@@ -770,6 +780,7 @@
 - [vimdiff](https://github.com/vim/vim): Similar to UNIX diff command we can use Vim to show diff in much better manner. 
 - [virsh](https://libvirt.org/manpages/virsh.html): the main interface for managing virsh guest domains
 - [visudo](https://manpages.ubuntu.com/manpages/jammy/en/man8/visudo.8.html): edit the sudoers file
+- [vite](https://github.com/vitejs/vite): Next generation frontend tooling.
 - [viu](https://github.com/atanunq/viu): View images right from the terminal.
 - [vivid](https://github.com/sharkdp/vivid): LS_COLORS manager with multiple themes
 - [vlc](https://github.com/videolan/vlc): the VLC media player
@@ -788,6 +799,7 @@
 - [waypoint](https://github.com/hashicorp/waypoint): Easy application deployment for Nomad, Kubernetes, and Amazon ECS
 - [wc](https://manpages.ubuntu.com/manpages/jammy/en/man1/wc.1.html): print newline, word, and byte counts for each file
 - [wdiff](https://manpages.ubuntu.com/manpages/jammy/en/man1/wdiff.1.html): display word differences between text files
+- [webpack](https://github.com/webpack/webpack): A bundler for javascript and friends.
 - [wezterm](https://github.com/wez/wezterm): A GPU-accelerated cross-platform terminal emulator and multiplexer 
 - [wget](https://manpages.ubuntu.com/manpages/jammy/en/man1/wget.1.html): The non-interactive network downloader.
 - [whatis](https://manpages.ubuntu.com/manpages/jammy/en/man1/whatis.1.html): display one-line manual page descriptions
@@ -802,6 +814,7 @@
 - [winget](https://github.com/microsoft/winget-cli): Windows Package Manager. (windows)
 - [wireshark](https://manpages.ubuntu.com/manpages/jammy/en/man1/wireshark.1.html): Interactively dump and analyze network traffic
 - [wp](https://github.com/wp-cli/wp-cli): The command-line interface for WordPress.
+- [wrangler](https://github.com/cloudflare/workers-sdk): command line tool for building Cloudflare Workers.
 - [wrk](https://github.com/wg/wrk): Modern HTTP benchmarking tool
 - [wscat](https://github.com/websockets/wscat): WebSocket cat
 - [wsl](https://learn.microsoft.com/en-us/windows/wsl/): CLI for Windows Subsytem for Linux. (windows)
