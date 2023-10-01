@@ -90,6 +90,8 @@
 # @option -o --output <FORMAT>                     Render output using given FORMAT.
 # @flag --incremental                              show blame entries as we find them, incrementally
 # @flag --line-porcelain                           show porcelain format with per-line commit information
+# @flag -spotlight                                 do (not) create a Spotlight™ index
+# @flag -nospotlight                               do (not) create a Spotlight™ index
 # @arg arg1!
 # @arg arg2+
 # @arg arg3

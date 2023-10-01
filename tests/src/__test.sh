@@ -145,6 +145,7 @@ Other:
 
     --incremental         show blame entries as we find them, incrementally
     --line-porcelain      show porcelain format with per-line commit information
+    -[no]spotlight        do (not) create a Spotlight™ index
 
 Environment variables:
 NO_COLOR                        Disable ansi color.
