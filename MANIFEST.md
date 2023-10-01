@@ -256,6 +256,7 @@
 - [fold](https://manpages.ubuntu.com/manpages/jammy/en/man1/fold.1.html): wrap each input line to fit in specified width
 - [fq](https://github.com/wader/fq): Tool, language and decoders for working with binary data.
 - [free](https://manpages.ubuntu.com/manpages/jammy/en/man1/free.1.html): Display amount of free and used memory in the system
+- [fs_usage](https://ss64.com/osx/fs_usage.html): Filesystem usage (process/pathname). (macOS)
 - [ftp](https://manpages.ubuntu.com/manpages/jammy/en/man1/tnftp.1.html): Internet file transfer program
 - [fuser](https://manpages.ubuntu.com/manpages/jammy/en/man1/fuser.1.html): identify processes using files or sockets
 - [fvm](https://github.com/fluttertools/fvm): Flutter Version Management
@@ -319,6 +320,7 @@
 - [hashcat](https://hashcat.net/hashcat/): Advanced CPU-based password recovery utility 
 - [hashdeep](https://manpages.ubuntu.com/manpages/jammy/en/man1/hashdeep.1.html): Compute, compare, or audit multiple message digests
 - [hasura](https://github.com/hasura/graphql-engine): accelerates API development by 10x by giving you GraphQL or REST APIs with built-in authorization on your data, instantly.
+- [hdiutil](https://ss64.com/osx/hdiutil.html): Manipulate disk images (attach, verify, burn, etc). (macOS)
 - [head](https://manpages.ubuntu.com/manpages/jammy/en/man1/head.1.html): output the first part of files
 - [helm](https://github.com/helm/helm): The Kubernetes package manager
 - [helmfile](https://github.com/roboll/helmfile): Declaratively deploy your Kubernetes manifests, Kustomize configs, and Charts as Helm releases in one shot
@@ -489,6 +491,7 @@
 - [nethogs](https://github.com/raboof/nethogs): Linux 'net top' tool
 - [networkQuality](https://ss64.com/osx/networkquality.html): Network quality testing tool. (macOS)
 - [networkctl](https://manpages.ubuntu.com/manpages/jammy/en/man1/networkctl.1.html): Query the status of network links
+- [networksetup](https://ss64.com/osx/networksetup.html): Configuration tool for network settings in System Preferences. (macOS)
 - [newman](https://github.com/postmanlabs/newman): a command-line collection runner for Postman
 - [newrelic](https://github.com/newrelic/newrelic-cli): The New Relic CLI enables users to perform tasks against the New Relic APIs
 - [newsboat](https://github.com/newsboat/newsboat): An RSS/Atom feed reader for text terminals
@@ -527,6 +530,7 @@
 - [optipng](https://manpages.ubuntu.com/manpages/jammy/en/man1/optipng.1.html): Optimize Portable Network Graphics files
 - [osascript](https://ss64.com/osx/osascript.html): Execute AppleScripts and other OSA language scripts. (macOS)
 - [osqueryi](https://github.com/osquery/osquery): your OS as a high-performance relational database
+- [otool](https://keith.github.io/xcode-man-pages/llvm-otool.1.html): the otool-compatible command line parser for llvm-objdump
 - [ouch](https://github.com/ouch-org/ouch): easily compressing and decompressing files and directories.
 - [packer](https://github.com/hashicorp/packer): Automate image builds
 - [pacman](https://archlinux.org/pacman/pacman.8.html): package manager utility for Arch linux
@@ -539,6 +543,7 @@
 - [pastel](https://github.com/sharkdp/pastel): A command-line tool to generate, analyze, convert and manipulate colors
 - [patch](https://manpages.ubuntu.com/manpages/jammy/en/man1/patch.1.html): apply a diff file to an original
 - [pathchk](https://manpages.ubuntu.com/manpages/jammy/en/man1/pathchk.1.html): check whether file names are valid or portable
+- [pbcopy](https://ss64.com/osx/pbcopy.html): Copy data from STDIN to the clipboard. (macOS)
 - [pdfgrep](https://manpages.ubuntu.com/manpages/jammy/en/man1/pdfgrep.1.html): search PDF files for a regular expression
 - [peco](https://github.com/peco/peco): Simplistic interactive filtering tool
 - [pee](https://manpages.ubuntu.com/manpages/jammy/en/man1/pee.1.html): tee standard input to pipe
@@ -564,6 +569,7 @@
 - [pkill](https://manpages.ubuntu.com/manpages/jammy/en/man1/pkill.1.html): look up or signal processes based on name and other attributes
 - [playwright](https://github.com/microsoft/playwright): a framework for Web Testing and Automation.
 - [plocate](https://manpages.ubuntu.com/manpages/jammy/en/man1/plocate.1.html): find files by name, quickly
+- [plutil](https://keith.github.io/xcode-man-pages/plutil.1.html): property list utility (macOS)
 - [pm2](https://github.com/Unitech/pm2): Node.js Production Process Manager with a built-in Load Balancer.
 - [pmset](https://ss64.com/osx/pmset.html): Power management settings. (macOS)
 - [pnpm](https://github.com/pnpm/pnpm): Fast, disk space efficient package manager for Node.js
@@ -696,6 +702,7 @@
 - [syft](https://github.com/anchore/syft): CLI tool and library for generating a Software Bill of Materials from container images and filesystems.
 - [sync](https://manpages.ubuntu.com/manpages/jammy/en/man1/sync.1.html): Synchronize cached writes to persistent storage
 - [sysctl](https://manpages.ubuntu.com/manpages/jammy/en/man8/sysctl.8.html): configure kernel parameters at runtime
+- [system_profiler](https://ss64.com/osx/system_profiler.html): Report system hardware and software configuration. (macOS)
 - [systemctl](https://manpages.ubuntu.com/manpages/jammy/en/man1/systemctl.1.html): Control the systemd system and service manager
 - [systemd-analyze](https://manpages.ubuntu.com/manpages/jammy/en/man1/systemd-analyze.1.html): Analyze and debug system manager
 - [systemd-nspawn](https://manpages.ubuntu.com/manpages/jammy/en/man1/systemd-nspawn.1.html): Spawn a command or OS in a light-weight container
