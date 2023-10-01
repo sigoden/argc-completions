@@ -199,7 +199,7 @@ END {
             if (i == 1 && (match(word, /\//) || match(word, /\.[A-Za-z0-9]{1,4}$/))) {
                 continue
             }
-            if (isCmd && match(word, /^[a-z0-9_][A-Za-z0-9_-]*$/)) {
+            if (isCmd && match(word, /^[a-z0-9_][A-Za-z0-9_:.-]*$/)) {
                 continue
             }
             isCmd = 0

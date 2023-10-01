@@ -79,7 +79,7 @@ _patch_help_fix_wrap() {
 
 # Preprocess only usage
 _patch_help_preprocess_usageonly() {
-    gawk -v LEVEL="$1" -f "$ROOT_DIR/utils/_patch_utils/preprocess-usageonly.awk"
+    gawk -v RAW_ARGS="$*" -f "$ROOT_DIR/utils/_patch_utils/preprocess-usageonly.awk"
 }
 
 # Preprocess corba-based cli
