@@ -1,12 +1,12 @@
 _patch_help() { 
     if [[ "$*" == "tmux" ]]; then
-        $@ --help 2>&1 | sed -e '{N; s/\n\s*/ /;}' | _patch_help_preprocess_usageonly 1
+        $@ --help 2>&1 | sed -e '{N; s/\n\s*/ /;}' | _patch_help_preprocess_usageonly $@
         echo "commands:"
         $@ list-commands | sed -e 's/^\([a-z0-9][a-z0-9-]\+\) (\(\S\+\)) .*/  \1, \2/' -e 's/\([a-z0-9][a-z0-9-]\+\) .*/  \1/'
     else
         $1 list-commands $2 | \
         sed 's/^\(\S\+\)\( (\(\S\+\))\)\?\(.*\)$/usage: tmux \1 \4/' | \
-        _patch_help_preprocess_usageonly 2
+        _patch_help_preprocess_usageonly $@
     fi
 }
 

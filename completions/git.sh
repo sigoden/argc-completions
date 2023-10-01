@@ -665,7 +665,7 @@ fetch() {
 # @flag --show-forced-updates                     check for forced-updates on all updated branches
 # @flag --set-upstream                            set upstream for git pull/fetch
 # @arg remote![`_choice_remote`]
-# @arg refspec+[`_choice_remote_branch`]
+# @arg refspec+[`_choice_branch`]
 pull() {
     :;
 }
@@ -2168,10 +2168,6 @@ _choice_remote() {
     _git remote
 }
 
-_choice_remote_branch() {
-    _git branch --remote --sort=-creatordate --format '%(refname:short)	%(subject)' | head -n 100
-}
-
 _choice_push() {
     _argc_util_mode_kv ':'
     _choice_branch
@@ -2241,6 +2237,10 @@ _choice_head_commit() {
 
 _choice_local_branch() {
     _git branch --format '%(refname:short)	%(subject)'
+}
+
+_choice_remote_branch() {
+    _git branch --remote --sort=-creatordate --format '%(refname:short)	%(subject)' | head -n 100
 }
 
 _choice_staged_file() {

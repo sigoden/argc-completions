@@ -1142,9 +1142,9 @@ unlink-window() {
 # {{ tmux wait-for
 # @cmd
 # @alias wait
-# @flag --L
-# @flag --S
-# @flag --U
+# @flag -L
+# @flag -S
+# @flag -U
 # @arg channel
 wait-for() {
     :;

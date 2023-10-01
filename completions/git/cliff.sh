@@ -26,10 +26,6 @@
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
-_choice_remote_branch() {
-    _git branch --remote --sort=-creatordate --format '%(refname:short)	%(subject)' | head -n 100
-}
-
 _choice_range() {
     _argc_util_mode_kv '..'
     _choice_ref 
@@ -53,6 +49,10 @@ _choice_head_commit() {
 
 _choice_local_branch() {
     _git branch --format '%(refname:short)	%(subject)'
+}
+
+_choice_remote_branch() {
+    _git branch --remote --sort=-creatordate --format '%(refname:short)	%(subject)' | head -n 100
 }
 
 _git() {

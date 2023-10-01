@@ -149,6 +149,7 @@
 - [cp](https://manpages.ubuntu.com/manpages/jammy/en/man1/cp.1.html): copy files and directories
 - [croc](https://github.com/schollz/croc): Easily and securely send things from one computer to another
 - [crontab](https://manpages.ubuntu.com/manpages/jammy/en/man1/crontab.1.html): Manage users crontab files
+- [cryptsetup](https://gitlab.com/cryptsetup/cryptsetup): manage plain dm-crypt and LUKS encrypted volumes
 - [c++](https://manpages.ubuntu.com/manpages/jammy/en/man1/gcc.1.html): GNU project C and C++ compiler
 - [csh](https://linux.die.net/man/1/csh): C shell with file name completion and command line editing
 - [csplit](https://manpages.ubuntu.com/manpages/jammy/en/man1/csplit.1.html): split a file into sections determined by context lines
@@ -232,6 +233,7 @@
 - [fab](https://github.com/fabric/fabric): Simple, Pythonic remote execution and deployment.
 - [fakeroot](https://manpages.ubuntu.com/manpages/jammy/man1/fakeroot-tcp.1.html): run a command in an environment faking root privileges for file manipulation
 - [fallocate](https://manpages.ubuntu.com/manpages/jammy/man1/fallocate.1.html): preallocate or deallocate space to a file
+- [fastlane](https://github.com/fastlane/fastlane): Automate Android and iOS development.
 - [fc-cache](https://manpages.ubuntu.com/manpages/jammy/man1/fc-cache.1.html): build font information cache files
 - [fc-cat](https://manpages.ubuntu.com/manpages/jammy/man1/fc-cat.1.html): read font information cache files
 - [fc-list](https://manpages.ubuntu.com/manpages/jammy/man1/fc-list.1.html): list available fonts
@@ -242,6 +244,7 @@
 - [fgrep](https://manpages.ubuntu.com/manpages/jammy/en/man1/grep.1.html): print lines that match patterns
 - [file](https://manpages.ubuntu.com/manpages/jammy/en/man1/file.1.html): determine file type
 - [find](https://manpages.ubuntu.com/manpages/jammy/en/man1/find.1.html): search for files in a directory hierarchy
+- [firebase](https://firebaseopensource.com): a set of cloud-based development tools that helps mobile app developers build, deploy and scale their apps.
 - [firefox](https://www.mozilla.org/en-US/firefox/new/): Mozilla Firefox Browser
 - [fish](https://github.com/fish-shell/fish-shell): The user-friendly command line shell. 
 - [flac](https://xiph.org/flac/): Free Lossless Audio Codec
@@ -378,6 +381,7 @@
 - [kubectl](https://kubernetes.io/docs/reference/kubectl/): controls the Kubernetes cluster manager.
 - [kubectx](https://github.com/ahmetb/kubectx): a tool to switch between contexts (clusters) on kubectl faster.
 - [kubens](https://github.com/ahmetb/kubectx): a tool to switch between Kubernetes namespaces (and configure them for kubectl) easily.
+- [kustomize](https://github.com/kubernetes-sigs/kustomize): Customization of kubernetes YAML configurations
 - [laravel](https://github.com/laravel/laravel): a web application framework with expressive, elegant syntax.
 - [last](https://manpages.ubuntu.com/manpages/jammy/en/man1/last.1.html): show a listing of last logged in users 
 - [lastb](https://manpages.ubuntu.com/manpages/jammy/en/man1/last.1.html): show a listing of last logged in users
@@ -401,6 +405,7 @@
 - [locust](https://github.com/locustio/locust): Write scalable load tests in plain Python
 - [loginctl](https://manpages.ubuntu.com/manpages/jammy/en/man1/loginctl.1.html): Control the systemd login manager
 - [lp](https://manpages.ubuntu.com/manpages/jammy/en/man1/lp.1.html): print files
+- [lpass](https://github.com/lastpass/lastpass-cli): LastPass command line interface tool
 - [ls](https://manpages.ubuntu.com/manpages/jammy/en/man1/ls.1.html): list directory contents
 - [lsblk](https://manpages.ubuntu.com/manpages/jammy/en/man8/lsblk.8.html): list block devices
 - [lsb_release](https://manpages.ubuntu.com/manpages/jammy/en/man1/lsb_release.1.html): print distribution-specific information
@@ -464,6 +469,7 @@
 - [mutt](http://www.mutt.org/): The Mutt Mail User Agent
 - [mv](https://manpages.ubuntu.com/manpages/jammy/en/man1/mv.1.html): move (rename) files
 - [mvn](https://maven.apache.org/): a software project management and comprehension tool.
+- [mypy](https://github.com/python/mypy): Optional static typing for Python.
 - [mysql](https://www.mysql.com/): the MySQL command-line client
 - [mysqldump](https://dev.mysql.com/doc/refman/8.0/en/mysqldump.html): a database backup program
 - [namei](https://manpages.ubuntu.com/manpages/jammy/en/man1/namei.1.html): follow a pathname until a terminal point is found
@@ -575,6 +581,7 @@
 - [prettier](https://github.com/prettier/prettier): an opinionated code formatter.
 - [printenv](https://manpages.ubuntu.com/manpages/jammy/en/man1/printenv.1.html): print all or part of environment
 - [procs](https://github.com/dalance/procs): A modern replacement for ps written in Rust
+- [pry](https://github.com/pry/pry): Interactive Ruby
 - [ps](https://manpages.ubuntu.com/manpages/jammy/en/man1/ps.1.html): report a snapshot of the current processes.
 - [psql](https://www.postgresql.org/docs/current/app-psql.html): PostgreSQL interactive terminal
 - [pstree](https://manpages.ubuntu.com/manpages/jammy/en/man1/pstree.1.html): display a tree of processes
@@ -631,6 +638,7 @@
 - [scrot](https://manpages.ubuntu.com/manpages/jammy/en/man1/scrot.1.html): command line screen capture utility
 - [scrypt](https://manpages.ubuntu.com/manpages/jammy/en/man1/scrypt.1.html): encrypt and decrypt files.
 - [sd](https://github.com/chmln/sd): Intuitive find & replace CLI (sed alternative)
+- [sdk](https://github.com/sdkman/sdkman-cli): a tool for managing parallel Versions of multiple Software Development Kits on any Unix based system.
 - [sed](https://manpages.ubuntu.com/manpages/jammy/en/man1/sed.1.html): stream editor for filtering and transforming text
 - [seq](https://manpages.ubuntu.com/manpages/jammy/en/man1/seq.1.html): print a sequence of numbers
 - [serve](https://github.com/vercel/serve): Static file serving and directory listing
