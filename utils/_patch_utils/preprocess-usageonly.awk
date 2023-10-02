@@ -45,9 +45,13 @@ BEGIN {
         }
         if (substr(value, 1, 1) == "-") {
             if (match(value, /\|\s*-/)) {
-                split(value, flags, "|")
-                for (i in flags) {
-                    options[length(options) + 1] = "  " flags[i]
+                split(value, items, "|")
+                if (length(items) == 2 && match(items[1], /^-\S$/)) {
+                    options[length(options) + 1] = items[1] ", " items[2]
+                } else {
+                    for (i in items) {
+                        options[length(options) + 1] = "  " items[i]
+                    }
                 }
             } else if (index(value, " ") > 0 || substr(value, 1, 2) == "--") {
                 options[length(options) + 1] = "  " value

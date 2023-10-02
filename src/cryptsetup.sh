@@ -20,7 +20,7 @@ _patch_table() {
 }
 
 _choice_device() {
-    compgen -c "${ARGC_CWORD:-/dev/}" filedir
+    _argc_util_comp_path
 }
 
 _choice_name() {

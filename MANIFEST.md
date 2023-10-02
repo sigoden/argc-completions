@@ -5,6 +5,7 @@
 - [abook](https://manpages.ubuntu.com/manpages/jammy/en/man1/abook.1.html): text-based address book program
 - [ack](https://manpages.ubuntu.com/manpages/jammy/en/man1/ack.1p.html): grep-like text finder
 - [acpi](https://manpages.ubuntu.com/manpages/jammy/en/man1/acpi.1.html): shows battery status and other ACPI information
+- [acpitool](https://manpages.ubuntu.com/manpages/jammy/en/man1/acpitool.1.html): a Linux ACPI client, allowing you to query or set ACPI values
 - [act](https://github.com/nektos/act): Run your GitHub Actions locally
 - [adb](https://developer.android.com/tools/adb): Android Debug Bridge
 - [adduser](https://manpages.ubuntu.com/manpages/jammy/en/man8/adduser.8.html): add a user or group to the system
@@ -66,6 +67,7 @@
 - [bosh](https://bosh.io/docs/): unifies release engineering, deployment, and lifecycle management of small and large-scale cloud software.
 - [boundary](https://github.com/hashicorp/boundary): Simple and secure remote access.
 - [br](https://github.com/Canop/broot): A new way to see and navigate directory trees
+- [brctl](https://manpages.ubuntu.com/manpages/jammy/en/man8/brctl.8.html): ethernet bridge administration
 - [brew](https://brew.sh/): The missing package manager for macOS. (macOS)
 - [brightnessctl](https://manpages.ubuntu.com/manpages/jammy/en/man1/brightnessctl.1.html): read and control device brightness
 - [broot](https://github.com/Canop/broot): A new way to see and navigate directory trees
@@ -111,15 +113,18 @@
 - [cc](https://manpages.ubuntu.com/manpages/jammy/en/man1/gcc.1.html): GNU project C and C++ compiler
 - [cf](https://github.com/cloudfoundry/cli): The official command line client for Cloud Foundry
 - [cfdisk](https://manpages.ubuntu.com/manpages/jammy/en/man8/cfdisk.8.html): display or manipulate a disk partition table
+- [chattr](https://manpages.ubuntu.com/manpages/jammy/en/man1/chattr.1.html): change file attributes on a Linux file system
 - [checkov](https://github.com/bridgecrewio/checkov): A static code analysis tool for scanning infrastructure as code (IaC) files for misconfigurations that may lead to security or compliance problems 
 - [chezmoi](https://github.com/twpayne/chezmoi): Manage your dotfiles across multiple diverse machines, securely
 - [chgrp](https://manpages.ubuntu.com/manpages/jammy/en/man1/chgrp.1.html): change group ownership 
 - [chmod](https://manpages.ubuntu.com/manpages/jammy/en/man1/chmod.1.html): chmod - change file mode bits
+- [choom](https://manpages.ubuntu.com/manpages/jammy/en/man1/choom.1.html): display and adjust OOM-killer score.
 - [choose](https://github.com/theryangeary/choose): A human-friendly and fast alternative to cut and (sometimes) awk
 - [chown](https://manpages.ubuntu.com/manpages/jammy/en/man1/chown.1.html): change file owner and group
 - [chpasswd](https://manpages.ubuntu.com/manpages/jammy/en/man8/chpasswd.8.html): update passwords in batch mode
 - [chroma](https://github.com/alecthomas/chroma): A general purpose syntax highlighting library and corresponding command, for Go
 - [chroot](https://manpages.ubuntu.com/manpages/jammy/en/man2/chroot.2.html): change root directory
+- [chrt](https://manpages.ubuntu.com/manpages/jammy/en/man1/chrt.1.html): manipulate the real-time attributes of a process
 - [chsh](https://manpages.ubuntu.com/manpages/jammy/en/man1/chsh.1.html): change login shell
 - [circleci](https://github.com/CircleCI-Public/circleci-cli): Use CircleCI from the command line
 - [cksum](https://manpages.ubuntu.com/manpages/jammy/en/man1/cksum.1.html): checksum and count the bytes in a file
@@ -147,6 +152,7 @@
 - [cosign](https://github.com/sigstore/cosign): Container Signing
 - [cowsay](https://manpages.ubuntu.com/manpages/jammy/en/man6/cowsay.6.html): configurable speaking/thinking cow (and a bit more)
 - [cp](https://manpages.ubuntu.com/manpages/jammy/en/man1/cp.1.html): copy files and directories
+- [cpupower](https://manpages.ubuntu.com/manpages/jammy/en/man1/cpupower.1.html): Shows and sets processor power related values
 - [croc](https://github.com/schollz/croc): Easily and securely send things from one computer to another
 - [crontab](https://manpages.ubuntu.com/manpages/jammy/en/man1/crontab.1.html): Manage users crontab files
 - [cryptsetup](https://gitlab.com/cryptsetup/cryptsetup): manage plain dm-crypt and LUKS encrypted volumes
@@ -189,6 +195,7 @@
 - [dirname](https://manpages.ubuntu.com/manpages/jammy/en/man1/dirname.1.html): strip last component from file name
 - [diskutil](https://ss64.com/osx/diskutil.html): Disk utilities - Format, Verify, Repair (local disks). (macOS)
 - [dive](https://github.com/wagoodman/dive): A tool for exploring a docker image, layer contents, and discovering ways to shrink the size of your Docker/OCI image.
+- [dkms](https://manpages.ubuntu.com/manpages/jammy/en/man8/dkms.8.html): Dynamic Kernel Module Support
 - [dmenu](https://manpages.ubuntu.com/manpages/jammy/en/man1/dmenu.1.html): dynamic menu
 - [dmesg](https://manpages.ubuntu.com/manpages/jammy/en/man1/dmesg.1.html): dmesg - print or control the kernel ring buffer
 - [dnf](https://dnf.readthedocs.io/en/latest/index.html): package managment for Fedora Linux and the successor to YUM
@@ -244,6 +251,7 @@
 - [fgrep](https://manpages.ubuntu.com/manpages/jammy/en/man1/grep.1.html): print lines that match patterns
 - [file](https://manpages.ubuntu.com/manpages/jammy/en/man1/file.1.html): determine file type
 - [find](https://manpages.ubuntu.com/manpages/jammy/en/man1/find.1.html): search for files in a directory hierarchy
+- [findmnt](https://manpages.ubuntu.com/manpages/jammy/en/man8/findmnt.8.html): find a filesystem
 - [firebase](https://firebaseopensource.com): a set of cloud-based development tools that helps mobile app developers build, deploy and scale their apps.
 - [firefox](https://www.mozilla.org/en-US/firefox/new/): Mozilla Firefox Browser
 - [fish](https://github.com/fish-shell/fish-shell): The user-friendly command line shell. 
@@ -258,6 +266,7 @@
 - [free](https://manpages.ubuntu.com/manpages/jammy/en/man1/free.1.html): Display amount of free and used memory in the system
 - [fs_usage](https://ss64.com/osx/fs_usage.html): Filesystem usage (process/pathname). (macOS)
 - [ftp](https://manpages.ubuntu.com/manpages/jammy/en/man1/tnftp.1.html): Internet file transfer program
+- [fusermount](https://manpages.ubuntu.com/manpages/jammy/en/man1/fusermount.1.html): mount and unmount FUSE filesystems
 - [fuser](https://manpages.ubuntu.com/manpages/jammy/en/man1/fuser.1.html): identify processes using files or sockets
 - [fvm](https://github.com/fluttertools/fvm): Flutter Version Management
 - [fx](https://github.com/antonmedv/fx): Terminal JSON viewer & processor
@@ -342,18 +351,21 @@
 - [hyperfine](https://github.com/sharkdp/hyperfine): A command-line benchmarking tool
 - [icdiff](https://manpages.ubuntu.com/manpages/jammy/en/man1/icdiff.1.html): terminal side-by-side colorized word diff
 - [iconv](https://manpages.ubuntu.com/manpages/jammy/en/man1/iconv.1.html): convert text from one character encoding to another
+- [iconvconfig](https://manpages.ubuntu.com/manpages/jammy/en/man8/iconvconfig.8.html): create iconv module configuration cache
 - [id](https://manpages.ubuntu.com/manpages/jammy/en/man1/id.1.html): print real and effective user and group IDs
 - [ifconfig](https://manpages.ubuntu.com/manpages/jammy/en/man8/ifconfig.8.html): configure a network interface
 - [ifdown](https://manpages.ubuntu.com/manpages/jammy/en/man8/ifdown.8.html): bring interfaces down
 - [iftop](https://manpages.ubuntu.com/manpages/jammy/en/man8/iftop.8.html): display bandwidth usage on an interface by host
 - [ifup](https://manpages.ubuntu.com/manpages/jammy/en/man8/ifup.8.html): bring a network interface up
 - [install](https://manpages.ubuntu.com/manpages/jammy/en/man1/install.1.html): copy files and set attributes
+- [ionice](https://manpages.ubuntu.com/manpages/jammy/en/man1/ionice.1.html): set or get process I/O scheduling class and priority
 - [iostat](https://manpages.ubuntu.com/manpages/jammy/en/man1/iostat.1.html): Report Central Processing Unit (CPU) statistics and input/output statistics for devices and partitions.
 - [ip](https://manpages.ubuntu.com/manpages/jammy/en/man8/ip.8.html): show / manipulate routing, network devices, interfaces and tunnels
 - [ipatool](https://github.com/majd/ipatool): searching and downloading app packages (known as ipa files) from the iOS App Store.
 - [ipset](http://ipset.netfilter.org/): administration tool for IP sets
 - [iptables](https://manpages.ubuntu.com/manpages/jammy/en/man8/iptables.8.html): administration tool for IPv4/IPv6 packet filtering and NAT
 - [istioctl](https://github.com/istio/istio/): Istio configuration command line utility for service operators to debug and diagnose their Istio mesh.
+- [iwconfig](https://manpages.ubuntu.com/manpages/jammy/en/man8/iwconfig.8.html): configure a wireless network interface 
 - [jar](https://docs.oracle.com/en/java/javase/16/docs/specs/man/jar.html): Manipulates Java Archive (JAR) files.
 - [java](https://docs.oracle.com/en/java/index.html): Launches a Java application. 
 - [jdupes](https://github.com/jbruchon/jdupes): identify and delete or link duplicate files
@@ -379,6 +391,7 @@
 - [kind](https://github.com/kubernetes-sigs/kind): Kubernetes IN Docker - local clusters for testing Kubernetes
 - [kmutil](https://keith.github.io/xcode-man-pages/kmutil.8.html): multipurpose tool for managing kernel extensions (kexts) and kext collections on disk. (macOS)
 - [kompose](https://github.com/kubernetes/kompose): Convert Compose to Kubernetes
+- [kpartx](https://manpages.ubuntu.com/manpages/jammy/en/man8/kpartx.8.html): Create device maps from partition tables.
 - [kubeadm](https://kubernetes.io/docs/reference/setup-tools/kubeadm/): Easily bootstrap a secure Kubernetes cluster  
 - [kubectl](https://kubernetes.io/docs/reference/kubectl/): controls the Kubernetes cluster manager.
 - [kubectx](https://github.com/ahmetb/kubectx): a tool to switch between contexts (clusters) on kubectl faster.
@@ -406,9 +419,11 @@
 - [locate](https://manpages.ubuntu.com/manpages/jammy/en/man1/plocate.1.html): find files by name, quickly
 - [locust](https://github.com/locustio/locust): Write scalable load tests in plain Python
 - [loginctl](https://manpages.ubuntu.com/manpages/jammy/en/man1/loginctl.1.html): Control the systemd login manager
+- [losetup](https://manpages.ubuntu.com/manpages/jammy/en/man8/losetup.8.html): set up and control loop devices
 - [lp](https://manpages.ubuntu.com/manpages/jammy/en/man1/lp.1.html): print files
 - [lpass](https://github.com/lastpass/lastpass-cli): LastPass command line interface tool
 - [ls](https://manpages.ubuntu.com/manpages/jammy/en/man1/ls.1.html): list directory contents
+- [lsattr](https://manpages.ubuntu.com/manpages/jammy/en/man1/lsattr.1.html): list file attributes on a Linux second extended file system
 - [lsblk](https://manpages.ubuntu.com/manpages/jammy/en/man8/lsblk.8.html): list block devices
 - [lsb_release](https://manpages.ubuntu.com/manpages/jammy/en/man1/lsb_release.1.html): print distribution-specific information
 - [lscpu](https://manpages.ubuntu.com/manpages/jammy/en/man1/lscpu.1.html): display information about the CPU architecture
@@ -419,6 +434,7 @@
 - [lsns](https://manpages.ubuntu.com/manpages/jammy/en/man8/lsns.8.html): list namespaces
 - [lsof](https://manpages.ubuntu.com/manpages/jammy/en/man8/lsof.8.html): utility to list open files
 - [lsusb](https://manpages.ubuntu.com/manpages/jammy/en/man8/lsusb.8.html): list USB devices
+- [ltrace](https://manpages.ubuntu.com/manpages/jammy/en/man1/ltrace.1.html): A library call tracer
 - [lua](https://www.lua.org/): Lua interpreter
 - [lzcat](https://manpages.ubuntu.com/manpages/jammy/en/man1/xz.1.html): Compress or decompress .xz and .lzma files
 - [lzma](https://manpages.ubuntu.com/manpages/jammy/en/man1/xz.1.html): Compress or decompress .xz and .lzma files
@@ -432,6 +448,7 @@
 - [mariner](https://gitlab.com/radek-sprta/mariner): Navigate torrents 
 - [mas](https://github.com/mas-cli/mas): Mac App Store command line interface. (macOS)
 - [mask](https://github.com/jacobdeichert/mask): A CLI task runner defined by a simple markdown file
+- [mat2](https://manpages.ubuntu.com/manpages/jammy/en/man1/mat2.1.html): the metadata anonymisation toolkit 2
 - [mbuffer](https://manpages.ubuntu.com/manpages/jammy/en/man1/mbuffer.1.html): measuring buffer
 - [md5sum](https://manpages.ubuntu.com/manpages/jammy/en/man1/md5sum.1.html): compute and check MD5 message digest
 - [mdbook](https://github.com/rust-lang/mdBook): Create book from markdown files. 
@@ -442,6 +459,7 @@
 - [meld](http://meldmerge.org): graphical tool to diff and merge files
 - [meson](https://github.com/mesonbuild/meson): a high productivity build system
 - [micro](https://github.com/zyedidia/micro): A modern and intuitive terminal-based text editor
+- [mii-tool](https://manpages.ubuntu.com/manpages/jammy/en/man8/mii-tool.8.html) view, manipulate media-independent interface status
 - [minikube](https://github.com/kubernetes/minikube): Run Kubernetes locally
 - [miniserve](https://github.com/svenstaro/miniserve): a CLI tool to serve files and dirs over HTTP
 - [mitmproxy](https://github.com/mitmproxy/mitmproxy): an interactive, SSL/TLS-capable intercepting proxy with a console interface for HTTP/1, HTTP/2, and WebSockets.
@@ -513,6 +531,7 @@
 - [nomad](https://github.com/hashicorp/nomad): Orchestration made easy
 - [npm](https://docs.npmjs.com/cli/commands): the package manager for JavaScript
 - [npx](https://docs.npmjs.com/cli/commands/npx): Run a command from an npm package
+- [nsenter](https://manpages.ubuntu.com/manpages/jammy/en/man1/nsenter.1.html): run program in different namespaces
 - [nssm](https://github.com/kirillkovalenko/nssm): Non-Sucking Service Manager
 - [nu](https://github.com/nushell/nushell): A new type of shell
 - [nvim](https://neovim.io/): hyperextensible Vim-based text editor
@@ -571,6 +590,7 @@
 - [plocate](https://manpages.ubuntu.com/manpages/jammy/en/man1/plocate.1.html): find files by name, quickly
 - [plutil](https://keith.github.io/xcode-man-pages/plutil.1.html): property list utility (macOS)
 - [pm2](https://github.com/Unitech/pm2): Node.js Production Process Manager with a built-in Load Balancer.
+- [pmap](https://manpages.ubuntu.com/manpages/jammy/en/man1/pmap.1.html): report memory map of a process
 - [pmset](https://ss64.com/osx/pmset.html): Power management settings. (macOS)
 - [pnpm](https://github.com/pnpm/pnpm): Fast, disk space efficient package manager for Node.js
 - [pocketbase](https://github.com/pocketbase/pocketbase): Open Source realtime backend in 1 file
@@ -637,6 +657,7 @@
 - [sass](https://sass-lang.com/): Compile Sass to CSS.
 - [sbt](https://github.com/sbt/sbt): An interactive build tool for Scala, Java, and more.
 - [scc](https://github.com/boyter/scc): Sloc, Cloc and Code. Count lines of code in a directory with complexity estimation.
+- [schedtool](https://manpages.ubuntu.com/manpages/jammy/en/man8/schedtool.8.html): query and set CPU scheduling parameters
 - [scons](https://github.com/SCons/scons): a software construction tool
 - [scoop](https://github.com/ScoopInstaller/Scoop): A command-line installer for Windows. (windows)
 - [scp](https://manpages.ubuntu.com/manpages/jammy/en/man1/scp.1.html): OpenSSH secure file copy
@@ -650,17 +671,20 @@
 - [serve](https://github.com/vercel/serve): Static file serving and directory listing
 - [service](https://manpages.ubuntu.com/manpages/jammy/en/man8/service.8.html): run a System V init script
 - [setfacl](https://manpages.ubuntu.com/manpages/jammy/en/man1/setfacl.1.html): set file access control lists
+- [setpriv](https://manpages.ubuntu.com/manpages/jammy/en/man1/setpriv.1.html): run a program with different Linux privilege settings 
 - [setsid](https://manpages.ubuntu.com/manpages/jammy/en/man1/setsid.1.html): run a program in a new session
 - [sftp](https://manpages.ubuntu.com/manpages/jammy/en/man1/sftp.1.html): OpenSSH secure file transfer
 - [sg](https://github.com/ast-grep/ast-grep): a CLI tool for code structural search, lint, and rewriting.
 - [sha1sum](https://manpages.ubuntu.com/manpages/jammy/en/man1/sha1sum.1.html): compute and check SHA1 message digest
 - [sha256sum](https://manpages.ubuntu.com/manpages/jammy/en/man1/sha256sum.1.html): compute and check SHA256 message digest
 - [sha512sum](https://manpages.ubuntu.com/manpages/jammy/en/man1/sha512sum.1.html): compute and check SHA512 message digest
+- [shasum](https://manpages.ubuntu.com/manpages/jammy/en/man1/shasum.1.html): Print or Check SHA Checksums
 - [shortcuts](https://ss64.com/osx/shortcuts.html): Manage macOS shortcuts. (macOS)
 - [shred](https://manpages.ubuntu.com/manpages/jammy/en/man1/shred.1.html): overwrite a file to hide its contents, and optionally delete it
 - [shuf](https://manpages.ubuntu.com/manpages/jammy/en/man1/shuf.1.html): generate random permutations
 - [shutdown](https://manpages.ubuntu.com/manpages/jammy/en/man8/shutdown.8.html): Halt, power-off or reboot the machine
-- [simctl](): Command line utility to control the Simulator. (macOS)
+- [simctl](#): Command line utility to control the Simulator. (macOS)
+- [slabtop](https://manpages.ubuntu.com/manpages/jammy/en/man1/slabtop.1.html): display kernel slab cache information in real time
 - [slides](https://github.com/maaslalani/slides): Terminal based presentation tool
 - [snap](https://snapcraft.io/): The app store for Linux
 - [softwareupdate](https://ss64.com/osx/softwareupdate.html): Check for new and updated versions of your software based on information about your computer and current software. (macOS)
@@ -676,11 +700,13 @@
 - [ssh-agent](https://manpages.ubuntu.com/manpages/jammy/en/man1/ssh-agent.1.html): OpenSSH authentication agent
 - [ssh-copy-id](https://manpages.ubuntu.com/manpages/jammy/en/man1/ssh-copy-id.1.html): use locally available keys to authorise logins on a remote machine
 - [ssh-keygen](https://manpages.ubuntu.com/manpages/jammy/en/man1/ssh-keygen.1.html): OpenSSH authentication key utility
+- [sshfs](https://github.com/libfuse/sshfs): A network filesystem client to connect to SSH servers
 - [stack](https://github.com/commercialhaskell/stack): The Haskell Tool Stack
 - [starship](https://github.com/starship/starship): The minimal, blazing-fast, and infinitely customizable prompt for any shell!
 - [stat](https://manpages.ubuntu.com/manpages/jammy/en/man1/stat.1.html): display file or file system status
 - [stdbuf](https://manpages.ubuntu.com/manpages/jammy/en/man1/stdbuf.1.html): Run COMMAND, with modified buffering operations for its standard streams.
 - [stow](https://manpages.ubuntu.com/manpages/jammy/en/man8/stow.8.html): manage farms of symbolic links
+- [strace](https://github.com/strace/strace): a diagnostic, debugging and instructional userspace utility for Linux
 - [strings](https://manpages.ubuntu.com/manpages/jammy/en/man1/strings.1.html): print the sequences of printable characters in files
 - [strip](https://manpages.ubuntu.com/manpages/jammy/en/man1/strip.1.html): discard symbols and other data from object files
 - [stripe](https://github.com/stripe/stripe-cli): A command-line tool for Stripe
@@ -727,6 +753,7 @@
 - [tinygo](https://github.com/tinygo-org/tinygo): a Go compiler for small places.
 - [tkn](https://github.com/tektoncd/cli): CLI for tekton pipelines
 - [tldr](https://github.com/tldr-pages/tldr): Collaborative cheatsheets for console commands
+- [tload](https://manpages.ubuntu.com/manpages/jammy/en/man1/tload.1.html): graphic representation of system load average
 - [tmate](https://tmate.io/): terminal multiplexer with instant terminal sharing
 - [tmutil](https://ss64.com/osx/tmutil.html): Time Machine utility. (macOS)
 - [tmux](https://github.com/tmux/tmux): terminal multiplexer
@@ -754,6 +781,7 @@
 - [ttyd](https://github.com/tsl0922/ttyd): a tool for sharing terminal over the web
 - [tty](https://manpages.ubuntu.com/manpages/jammy/en/man1/tty.1.html): print the file name of the terminal connected to standard input
 - [tuist](https://github.com/tuist/tuist): Create, maintain, and interact with Xcode projects at scale. (macOS)
+- [tune2fs](https://manpages.ubuntu.com/manpages/jammy/en/man8/tune2fs.8.html): adjust tunable file system parameters on ext2/ext3/ext4 file systems
 - [turbo](https://github.com/vercel/turbo): The build system that makes ship happen
 - [twiggy](https://github.com/rustwasm/twiggy): a code size profiler.
 - [type](https://manpages.ubuntu.com/manpages/lunar/en/man1/type.1posix.html): Display information about command type.
@@ -772,6 +800,7 @@
 - [unix2dos](https://manpages.ubuntu.com/manpages/jammy/en/man1/unix2dos.1.html): DOS/Mac to Unix and vice versa text file format converter
 - [unlink](https://manpages.ubuntu.com/manpages/jammy/en/man1/unlink.1.html): call the unlink function to remove the specified file
 - [unlzma](https://manpages.ubuntu.com/manpages/jammy/en/man1/xz.1.html): Compress or decompress .xz and .lzma files
+- [unshare](https://manpages.ubuntu.com/manpages/jammy/en/man1/unshare.1.html): run program in new namespaces
 - [unxz](https://manpages.ubuntu.com/manpages/jammy/en/man1/xz.1.html): Compress or decompress .xz and .lzma files
 - [unzip](https://manpages.ubuntu.com/manpages/jammy/en/man1/unzip.1.html): list, test and extract compressed files in a ZIP archive
 - [update-alternatives](https://manpages.ubuntu.com/manpages/jammy/en/man1/update-alternatives.1.html): maintain symbolic links determining default commands
@@ -827,7 +856,9 @@
 - [winepath](https://wiki.winehq.org/Winepath): Tool to convert Unix paths to/from Win32 paths
 - [winetricks](https://wiki.winehq.org/Winetricks): manage virtual Windows environments using Wine
 - [winget](https://github.com/microsoft/winget-cli): Windows Package Manager. (windows)
+- [wipefs](https://manpages.ubuntu.com/manpages/jammy/en/man8/wipefs.8.html): wipe a signature from a device
 - [wireshark](https://manpages.ubuntu.com/manpages/jammy/en/man1/wireshark.1.html): Interactively dump and analyze network traffic
+- [wpa_cli](https://manpages.ubuntu.com/manpages/jammy/en/man8/wpa_cli.8.html): WPA command line client
 - [wp](https://github.com/wp-cli/wp-cli): The command-line interface for WordPress.
 - [wrangler](https://github.com/cloudflare/workers-sdk): command line tool for building Cloudflare Workers.
 - [wrk](https://github.com/wg/wrk): Modern HTTP benchmarking tool

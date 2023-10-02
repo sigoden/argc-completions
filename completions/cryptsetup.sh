@@ -336,8 +336,10 @@ token() {
 }
 # }} cryptsetup token
 
+. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
+
 _choice_device() {
-    compgen -c "${ARGC_CWORD:-/dev/}" filedir
+    _argc_util_comp_path
 }
 
 _choice_name() {

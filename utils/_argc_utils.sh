@@ -65,7 +65,9 @@ _argc_util_comp_path() {
 # bar=v1,v2,v3;;desc bar
 # baz=__argc_value=file;;desc baz
 # qux=`_choice_fn`;;desc qux
-# quux;;desc qux
+# quux;;as flag, no value
+# quxs=`_choice_fn`,*;;comma seperated list
+# *=`_choice_fn`;;when nothing else matches
 # EOF
 # }
 # ```
@@ -87,8 +89,27 @@ _argc_util_comp_kv() {
         argc__kv_filter="$filter"
         echo "__argc_filter=$argc__kv_filter"
     fi
-    local line desc key key_value
+    local line desc key key_value asterisk_key_value
     local IFS=$'\n'
+    _eval_value() {
+        local vsep value="$1" filter="$2"
+        if [[ "$value" == $'`'*$'`' ]]; then
+            eval "${value:1:-1}" 2>/dev/null
+        elif [[ "$value" == *$'`'*$'`' ]]; then
+            vsep="${value%%$'`'*}"
+            value="${value:${#vsep}}"
+            if [[ "$filter" == *"$vsep"* ]]; then
+                argc__kv_local_prefix="${filter%$vsep*}$vsep"
+                argc__kv_prefix="$prefix$argc__kv_local_prefix"
+                argc__kv_filter="${filter##*$vsep}"
+                echo "__argc_prefix=$argc__kv_prefix"
+                echo "__argc_filter=$argc__kv_filter"
+            fi
+            eval "${value:1:-1}" 2>/dev/null | _argc_util_transform nospace
+        else
+            echo "$value" | command tr ',' '\n'
+        fi
+    }
     for line in $(command cat); do
         if [[ "$line" == *";;"* ]]; then
             desc="${line#*;;}"
@@ -98,6 +119,10 @@ _argc_util_comp_kv() {
             key_value="$line"
         fi
         key="${key_value%%=*}"
+        if [[ "$key" == "*" ]]; then
+            asterisk_key_value="$key_value"
+            continue
+        fi
         if [[ -z "$argc__kv_local_prefix" ]]; then
             if [[ "$key" == "$key_value" ]]; then
                 echo -e "$key\t$desc"
@@ -106,15 +131,14 @@ _argc_util_comp_kv() {
             fi
         else
             if [[ "$key" == "$argc__kv_key" ]]; then
-                local value="${key_value#*=}"
-                if [[ "$value" == $'`'* ]]; then
-                    eval "${value:1:-1}" 2>/dev/null
-                else
-                    echo $value | command tr ',' '\n'
-                fi
+                _eval_value "${key_value#*=}" "$filter"
+                return
             fi
         fi
     done
+    if [[ -n "$asterisk_key_value" ]]; then
+        _eval_value "${asterisk_key_value#*=}" "$filter"
+    fi
 }
 
 
@@ -747,7 +771,7 @@ _argc_util_transform_table() {
 
 # Use Filter
 # Args:
-#   `-i`: optional, if omit, filter out; if set, include.
+#   `-i`: optional, if set, only include words
 #   words: words to filter
 #   sep: chars teo seperate words
 #

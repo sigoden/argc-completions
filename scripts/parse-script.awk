@@ -372,6 +372,7 @@ function parseNotation(item, extra) {
         }
     }
     item = substr(item, start, end + 1 - start)
+    item = trim(item)
     item = takeHeadEllipsis(item, extra)
     extra2["multiple"] = 0
     item2 = takeTailEllipsis(item, extra2)
