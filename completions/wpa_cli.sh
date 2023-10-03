@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta inherit-flag-options
 # @option -p <path>                       Change the path where control sockets should be found.
 # @option -g <control> <socket> <path>    Connect to the global control socket at the indicated path rather than an interface-specific control socket.
 # @option -i <ifname>                     Specify the interface that is being configured.

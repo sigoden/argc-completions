@@ -1,8 +1,10 @@
 - [7z](https://www.7-zip.org/): A file archiver with high compression ratio format
 - [7za](https://www.7-zip.org/): A file archiver with high compression ratio format
 - [7zr](https://www.7-zip.org/): A file archiver with high compression ratio format
+- [a2ps](https://manpages.ubuntu.com/manpages/jammy/en/man1/a2ps.1.html): format files for printing on a PostScript printer
 - [ab](https://httpd.apache.org/docs/2.4/programs/ab.html): Apache HTTP server benchmarking tool
 - [abook](https://manpages.ubuntu.com/manpages/jammy/en/man1/abook.1.html): text-based address book program
+- [abcde](https://manpages.ubuntu.com/manpages/jammy/en/man1/abcde.1.html): A Better CD Encoder
 - [ack](https://manpages.ubuntu.com/manpages/jammy/en/man1/ack.1p.html): grep-like text finder
 - [acpi](https://manpages.ubuntu.com/manpages/jammy/en/man1/acpi.1.html): shows battery status and other ACPI information
 - [acpitool](https://manpages.ubuntu.com/manpages/jammy/en/man1/acpitool.1.html): a Linux ACPI client, allowing you to query or set ACPI values
@@ -29,6 +31,7 @@
 - [ansible-playbook](https://docs.ansible.com/ansible/latest/playbook_guide/index.html): Runs Ansible playbooks, executing the defined tasks on the targeted hosts.
 - [ansible-vault](https://docs.ansible.com/ansible/latest/cli/ansible-vault.html): encryption/decryption utility for Ansible data files
 - [ant](http://ant.apache.org): a Java based make tool.
+- [apachectl](https://manpages.ubuntu.com/manpages/jammy/en/man8/apachectl.8.html): Apache HTTP server control interface
 - [apk](https://wiki.alpinelinux.org/wiki/Alpine_Package_Keeper): Alpine Package Keeper
 - [aplay](https://manpages.ubuntu.com/manpages/jammy/en/man1/aplay.1.html): command-line sound recorder and player for ALSA soundcard driver
 - [appwrite](https://github.com/appwrite/appwrite): a backend platform for developing Web, Mobile, and Flutter applications.
@@ -38,15 +41,20 @@
 - [arecord](https://manpages.ubuntu.com/manpages/jammy/en/man1/aplay.1.html): command-line sound recorder and player for ALSA soundcard driver
 - [argo](https://github.com/argoproj/argo-workflows): Workflow engine for Kubernetes
 - [aria2c](https://github.com/aria2/aria2): The ultra fast download utility
+- [arping](https://manpages.ubuntu.com/manpages/jammy/en/man8/arping.8.html): send ARP REQUEST to a neighbour host
 - [arp](https://manpages.ubuntu.com/manpages/jammy/en/man8/arp.8.html): manipulate the system ARP cache
 - [asciidoctor](https://asciidoctor.org): converts AsciiDoc source files to HTML, DocBook, and other formats
 - [asciinema](https://asciinema.org): terminal session recorder
 - [asdf](https://github.com/asdf-vm/asdf): Extendable version manager with support for Ruby, Node.js, Elixir, Erlang & more
 - [asr](https://ss64.com/osx/asr.html): Apple Software Restore; copy volumes (macOS)
 - [at](https://manpages.ubuntu.com/manpages/jammy/en/man1/at.1.html): queue, examine, or delete jobs for later execution
-- [atlas](https://www.mongodb.com/docs/atlas/cli/stable/):  a command line interface built specifically for MongoDB Atlas.
+- [atlas](https://www.mongodb.com/docs/atlas/cli/stable/): a command line interface built specifically for MongoDB Atlas.
+- [attr](https://manpages.ubuntu.com/manpages/jammy/en/man1/attr.1.html): extended attributes on filesystem objects
+- [augtool](https://manpages.ubuntu.com/manpages/jammy/en/man1/augtool.1.html): inspect and modify configuration files
 - [autoconf](https://manpages.ubuntu.com/manpages/jammy/en/man1/autoconf.1.html): Generate configuration scripts
 - [autojump](https://github.com/wting/autojump): Automatically jump to directory passed as an argument.
+- [avahi-browse](https://manpages.ubuntu.com/manpages/jammy/en/man1/avahi-browse.1.html): Browse for mDNS/DNS-SD services using the Avahi daemon
+- [avahi-resolve](https://manpages.ubuntu.com/manpages/jammy/en/man1/avahi-resolve.1.html): Resolve  one  or  more mDNS/DNS host name(s) to IP address(es) (and vice versa) using the Avahi daemon
 - [awk](https://manpages.ubuntu.com/manpages/jammy/en/man1/gawk.1.html): pattern scanning and processing language
 - [aws](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html): The  AWS  Command  Line  Interface is a unified tool to manage your AWS services.
 - [awsume](https://github.com/trek10inc/awsume): A utility for easily assuming AWS IAM roles from the command line.
@@ -61,11 +69,13 @@
 - [bats](https://github.com/bats-core/bats-core): Bash Automated Testing System
 - [bazel](https://bazel.build/): tool to automate software builds and tests
 - [bc](https://manpages.ubuntu.com/manpages/jammy/en/man1/bc.1.html): An arbitrary precision calculator language
+- [beep](https://manpages.ubuntu.com/manpages/jammy/en/man1/beep.1.html): beep the pc speaker any number of ways
 - [bison](https://manpages.ubuntu.com/manpages/jammy/en/man1/bison.1.html): GNU Project parser generator (yacc replacement)
 - [black](https://github.com/psf/black): The uncompromising Python code formatter
 - [bootctl](https://manpages.ubuntu.com/manpages/jammy/en/man1/bootctl.1.html): Control EFI firmware boot settings and manage boot loader
 - [bosh](https://bosh.io/docs/): unifies release engineering, deployment, and lifecycle management of small and large-scale cloud software.
 - [boundary](https://github.com/hashicorp/boundary): Simple and secure remote access.
+- [bpython](https://github.com/bpython/bpython/): A fancy curses interface to the Python interactive interpreter 
 - [br](https://github.com/Canop/broot): A new way to see and navigate directory trees
 - [brctl](https://manpages.ubuntu.com/manpages/jammy/en/man8/brctl.8.html): ethernet bridge administration
 - [brew](https://brew.sh/): The missing package manager for macOS. (macOS)
@@ -88,6 +98,7 @@
 - [caddy](https://github.com/caddyserver/caddy): an extensible server platform written in Go.
 - [caffeinate](https://ss64.com/osx/caffeinate.html): Prevent the system from sleeping on behalf of a utility. (macOS)
 - [cal](https://manpages.ubuntu.com/manpages/jammy/en/man1/cal.1.html): displays a calendar and the date of Easter
+- [calendar](https://manpages.ubuntu.com/manpages/jammy/en/man1/calendar.1.html): display upcoming dates and provide reminders
 - [cargo](https://github.com/rust-lang/cargo): The Rust package manager
 - [cargo-audit](https://github.com/RustSec/rustsec/tree/main/cargo-audit): Audit your dependencies for crates with security vulnerabilities reported to the RustSec Advisory Database.
 - [cargo-binstall](https://github.com/cargo-bins/cargo-binstall): Binary installation for rust projects
@@ -111,6 +122,9 @@
 - [cargo-zigbuild](https://github.com/rust-cross/cargo-zigbuild): Compile Cargo project with zig as linker for easier cross compiling.
 - [cat](https://manpages.ubuntu.com/manpages/jammy/en/man1/cat.1.html):  concatenate files and print on the standard output
 - [cc](https://manpages.ubuntu.com/manpages/jammy/en/man1/gcc.1.html): GNU project C and C++ compiler
+- [ccal](https://manpages.ubuntu.com/manpages/jammy/en/man1/ccal.1.html): displays a calendar
+- [cdrdao](https://manpages.ubuntu.com/manpages/jammy/en/man1/cdrdao.1.html): reads and writes CDs in disc-at-once mode
+- [cdrecord](https://manpages.ubuntu.com/manpages/jammy/en/man1/cdrecord.1.html): write data to optical disk media
 - [cf](https://github.com/cloudfoundry/cli): The official command line client for Cloud Foundry
 - [cfdisk](https://manpages.ubuntu.com/manpages/jammy/en/man8/cfdisk.8.html): display or manipulate a disk partition table
 - [chattr](https://manpages.ubuntu.com/manpages/jammy/en/man1/chattr.1.html): change file attributes on a Linux file system
@@ -152,13 +166,16 @@
 - [cosign](https://github.com/sigstore/cosign): Container Signing
 - [cowsay](https://manpages.ubuntu.com/manpages/jammy/en/man6/cowsay.6.html): configurable speaking/thinking cow (and a bit more)
 - [cp](https://manpages.ubuntu.com/manpages/jammy/en/man1/cp.1.html): copy files and directories
+- [cpio](https://manpages.ubuntu.com/manpages/jammy/en/man1/cpio.1.html): copy files to and from archives
 - [cpupower](https://manpages.ubuntu.com/manpages/jammy/en/man1/cpupower.1.html): Shows and sets processor power related values
 - [croc](https://github.com/schollz/croc): Easily and securely send things from one computer to another
 - [crontab](https://manpages.ubuntu.com/manpages/jammy/en/man1/crontab.1.html): Manage users crontab files
 - [cryptsetup](https://gitlab.com/cryptsetup/cryptsetup): manage plain dm-crypt and LUKS encrypted volumes
+- [cscope](https://manpages.ubuntu.com/manpages/jammy/en/man1/cscope.1.html): interactively examine a C program
 - [c++](https://manpages.ubuntu.com/manpages/jammy/en/man1/gcc.1.html): GNU project C and C++ compiler
 - [csh](https://linux.die.net/man/1/csh): C shell with file name completion and command line editing
 - [csplit](https://manpages.ubuntu.com/manpages/jammy/en/man1/csplit.1.html): split a file into sections determined by context lines
+- [cssh](https://manpages.ubuntu.com/manpages/jammy/en/man1/cssh.1p.html): Cluster administration tool
 - [csview](https://github.com/wfxr/csview): A high performance csv viewer with cjk/emoji support.
 - [ctop](https://github.com/bcicen/ctop): Top-like interface for container metrics
 - [curl](https://github.com/curl/curl): transfer a URL
@@ -171,6 +188,9 @@
 - [dasel](https://github.com/TomWright/dasel): JSON, YAML, TOML, XML, and CSV query and modification tool
 - [date](https://manpages.ubuntu.com/manpages/jammy/en/man1/date.1.html): print or set the system date and time
 - [dbt](https://github.com/dbt-labs/dbt-core): An ELT tool for managing your SQL transformations and data models.
+- [dbus-launch](https://manpages.ubuntu.com/manpages/jammy/en/man1/dbus-launch.1.html): utility to start a message bus from a shell script
+- [dbus-monitor](https://manpages.ubuntu.com/manpages/jammy/en/man1/dbus-monitor.1.html): debug probe to print message bus messages
+- [dbus-send](https://manpages.ubuntu.com/manpages/jammy/en/man1/dbus-send.1.html): Send a message to a message bus
 - [dc](https://manpages.ubuntu.com/manpages/jammy/en/man1/dc.1.html): an arbitrary precision calculator
 - [dconf](https://manpages.ubuntu.com/manpages/jammy/en/man1/dconf.1.html): Simple tool for manipulating a dconf database
 - [dd](https://manpages.ubuntu.com/manpages/jammy/en/man1/dd.1.html): convert and copy a file
@@ -281,6 +301,7 @@
 - [gem](https://github.com/rubygems/rubygems): Library packaging and distribution for Ruby.
 - [getent](https://manpages.ubuntu.com/manpages/jammy/en/man1/getent.1.html): get entries from Name Service Switch libraries
 - [getfacl](https://manpages.ubuntu.com/manpages/jammy/en/man1/getfacl.1.html) - get file access control lists
+- [getfattr](https://manpages.ubuntu.com/manpages/jammy/en/man1/getfattr.1.html): get extended attributes of filesystem objects
 - [gh](https://cli.github.com/): Take GitHub to the command line
 - [ghq](https://github.com/x-motemen/ghq): Remote repository management made easy.
 - [gibo](https://github.com/simonwhitaker/gibo): Easy access to gitignore boilerplates
@@ -482,6 +503,7 @@
 - [mosh](https://github.com/mobile-shell/mosh): Mobile Shell
 - [most](https://manpages.ubuntu.com/manpages/jammy/en/man1/most.1.html): browse or page through a text file
 - [mount](https://manpages.ubuntu.com/manpages/jammy/en/man8/mount.8.html): mount a filesystem
+- [mpstat](https://manpages.ubuntu.com/manpages/jammy/en/man1/mpstat.1.html): Report processors related statistics.
 - [mpv](https://mpv.io/): video player based on MPlayer/mplayer2
 - [msfconsole](https://docs.metasploit.com/): main Metasploit command-line interface
 - [msfdb](https://docs.metasploit.com/): easily setup and control both a database and a Web Service capable of connecting this database with Metasploit
@@ -577,6 +599,7 @@
 - [php](https://www.php.net/): PHP Command Line Interface
 - [phpunit](https://github.com/sebastianbergmann/phpunit): The PHP Unit Testing framework.
 - [pidof](https://manpages.ubuntu.com/manpages/jammy/en/man8/pidof.8.html): find the process ID of a running program. 
+- [pidstat](https://manpages.ubuntu.com/manpages/jammy/en/man1/pidstat.1.html): Report statistics for Linux tasks.
 - [ping](https://manpages.ubuntu.com/manpages/jammy/en/man8/ping.8.html): send ICMP ECHO_REQUEST to network hosts
 - [pinky](https://manpages.ubuntu.com/manpages/jammy/en/man1/pinky.1.html): lightweight finger 
 - [pip](https://github.com/pypa/pip): The Python package installer
@@ -671,6 +694,7 @@
 - [serve](https://github.com/vercel/serve): Static file serving and directory listing
 - [service](https://manpages.ubuntu.com/manpages/jammy/en/man8/service.8.html): run a System V init script
 - [setfacl](https://manpages.ubuntu.com/manpages/jammy/en/man1/setfacl.1.html): set file access control lists
+- [setfattr](https://manpages.ubuntu.com/manpages/jammy/en/man1/setfattr.1.html): set extended attributes of filesystem objects
 - [setpriv](https://manpages.ubuntu.com/manpages/jammy/en/man1/setpriv.1.html): run a program with different Linux privilege settings 
 - [setsid](https://manpages.ubuntu.com/manpages/jammy/en/man1/setsid.1.html): run a program in a new session
 - [sftp](https://manpages.ubuntu.com/manpages/jammy/en/man1/sftp.1.html): OpenSSH secure file transfer
@@ -858,6 +882,7 @@
 - [winget](https://github.com/microsoft/winget-cli): Windows Package Manager. (windows)
 - [wipefs](https://manpages.ubuntu.com/manpages/jammy/en/man8/wipefs.8.html): wipe a signature from a device
 - [wireshark](https://manpages.ubuntu.com/manpages/jammy/en/man1/wireshark.1.html): Interactively dump and analyze network traffic
+- [wodim](https://manpages.ubuntu.com/manpages/jammy/en/man1/wodim.1.html): write data to optical disk media
 - [wpa_cli](https://manpages.ubuntu.com/manpages/jammy/en/man8/wpa_cli.8.html): WPA command line client
 - [wp](https://github.com/wp-cli/wp-cli): The command-line interface for WordPress.
 - [wrangler](https://github.com/cloudflare/workers-sdk): command line tool for building Cloudflare Workers.
@@ -865,6 +890,7 @@
 - [wscat](https://github.com/websockets/wscat): WebSocket cat
 - [wsl](https://learn.microsoft.com/en-us/windows/wsl/): CLI for Windows Subsytem for Linux. (windows)
 - [xargs](https://manpages.ubuntu.com/manpages/jammy/en/man1/xargs.1.html): build and execute command lines from standard input
+- [xattr](https://manpages.ubuntu.com/manpages/jammy/en/man1/xattr.1.html): sets or lists extended attributes on a file or directory
 - [xc](https://github.com/joerdav/xc): Markdown defined task runner.
 - [xcode-select](https://ss64.com/osx/xcode-select.html): Manage the active developer directory for Xcode and BSD tools. (macOS)
 - [xcodebuild](https://keith.github.io/xcode-man-pages/xcodebuild.1.html): build Xcode projects and workspaces. (macOS)

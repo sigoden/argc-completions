@@ -1,6 +1,6 @@
 _patch_help() { 
     if [[ "$*" == "iptables" ]]; then
-        _patch_help_run_man $1 | \
+        _patch_help_run_man $@ | \
         sed -e 's/^\(\s*\)\[!\]/\1/' | \
         sed -n '/^TABLES/,/^OPTIONS/ {//!p};/^\s*PARAMETERS/,/LOCK FILE/ {//!p}'
     fi

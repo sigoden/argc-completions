@@ -13,18 +13,11 @@ _patch_help() {
 }
 
 _patch_table() {
-    if [[ "$*" == "wpa_cli" ]]; then
-        _patch_table_add_metadata inherit-flag-options
+    if [[ "$*" == "cdrdao" ]]; then
+        _patch_table_add_metadata inherit-flag-options | \
+        _patch_table_edit_arguments ';;'
 
     else
-        _patch_table_edit_arguments \
-            'ifname;[`_module_os_network_interface`]' \
-            'network-id;[`_choice_network_id`]' \
-
+        cat
     fi
-    
-}
-
-_choice_network_id() {
-    wpa_cli list_networks | sed 's/^\(\S\+\)\s*\(.*\)$/\1\t\2/'
 }
