@@ -136,6 +136,8 @@ Options:
 
     --block-size=SIZE, -B    force a fixed checksum block-size
     --output FORMAT, -o FORMAT   Render output using given FORMAT. Valid options are 'json' or 'yaml'
+    -P <proto> | --proto <proto> | --protocol <proto>
+            Specify  the  protocol  to use when communicating with the remote mail server.
 -------
 
 Future runs of this module will trigger no downloads or compilation unless

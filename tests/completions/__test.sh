@@ -88,6 +88,9 @@
 # @option --forcearch <ARCH>                       Force the use of an architecture
 # @option -B --block-size <SIZE>                   force a fixed checksum block-size
 # @option -o --output <FORMAT>                     Render output using given FORMAT.
+# @option -P <proto>                               Specify  the  protocol  to use when communicating with the remote mail server.
+# @option --proto <proto>                          Specify  the  protocol  to use when communicating with the remote mail server.
+# @option --protocol <proto>                       Specify  the  protocol  to use when communicating with the remote mail server.
 # @flag --incremental                              show blame entries as we find them, incrementally
 # @flag --line-porcelain                           show porcelain format with per-line commit information
 # @flag -spotlight                                 do (not) create a Spotlight™ index

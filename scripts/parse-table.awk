@@ -289,6 +289,8 @@ function isOptionLine(idx) {
             yes = 1
         } else if (match(santizedLine, /^(-\S,? )?--[^-]\S* (\[|<)/)) {
             yes = 1
+        } else if (match(santizedLine, /^-{1,2}[^- \t]+ [^-]\S+\s*[|,]\s*-{1,2}[^- \t]+ [^-]\S+/)) {
+            yes = 1
         } else if (match(santizedLine, /^(-\S,? )?--[^-]\S*( \S+)?\s*$/) && !match(santizedLine, /\.$/)) {
             yes = 1
         } else if (match(santizedLine, /^-\S \S+\s*$/) && !match(santizedLine, /\.$/)) {
