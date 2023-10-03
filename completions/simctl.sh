@@ -205,7 +205,7 @@ location() {
 # {{ simctl logverbose
 # @cmd enable or disable verbose logging for a device
 # @arg device[`_choice_delete`]
-# @arg value[enable|disable]
+# @arg enum[enable|disable]
 logverbose() {
     :;
 }

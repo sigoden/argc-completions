@@ -50,7 +50,7 @@
 
 # {{ pmset schedule
 # @cmd
-# @arg value[cancel|cancelall]
+# @arg enum[cancel|cancelall]
 # @arg type!
 # @arg date_time!
 # @arg owner
@@ -70,7 +70,7 @@ repeat() {
 
 # {{ pmset relative
 # @cmd
-# @arg value[wake|poweron]
+# @arg enum[wake|poweron]
 # @arg seconds!
 relative() {
     :;

@@ -20,7 +20,7 @@ appearance() {
 
 # {{{ m appearance darkmode
 # @cmd Manage dark mode
-# @arg value[YES|NO]
+# @arg enum[YES|NO]
 appearance::darkmode() {
     :;
 }
@@ -28,7 +28,7 @@ appearance::darkmode() {
 
 # {{{ m appearance transparency
 # @cmd Manage transparency
-# @arg value[YES|NO]
+# @arg enum[YES|NO]
 appearance::transparency() {
     :;
 }
@@ -44,7 +44,7 @@ appearance::antialiasthreshold() {
 
 # {{{ m appearance sidebariconsize
 # @cmd Manage sidebar icon size
-# @arg value[small|medium|large]
+# @arg enum[small|medium|large]
 appearance::sidebariconsize() {
     :;
 }
@@ -52,7 +52,7 @@ appearance::sidebariconsize() {
 
 # {{{ m appearance maincolor
 # @cmd Manage main UI color
-# @arg value[blue|graphite]
+# @arg enum[blue|graphite]
 appearance::maincolor() {
     :;
 }
@@ -69,7 +69,7 @@ appearance::highlightcolor() {
 
 # {{ m battery
 # @cmd Get the battery status
-# @arg value[status|help]
+# @arg enum[status|help]
 battery() {
     :;
 }
@@ -99,7 +99,7 @@ dir::tree() {
 
 # {{{ m dir delete
 # @cmd delete empty folders recursively in the current of specified path
-# @arg value[empty|dsfiles]
+# @arg enum[empty|dsfiles]
 # @arg path
 dir::delete() {
     :;
@@ -108,7 +108,7 @@ dir::delete() {
 
 # {{{ m dir dsfiles
 # @cmd restore/prohibit generation of .DS_Store
-# @arg value[on|off]
+# @arg enum[on|off]
 dir::dsfiles() {
     :;
 }
@@ -161,7 +161,7 @@ disk::ejectall() {
 
 # {{{ m disk verify
 # @cmd verify volume or disk
-# @arg value[volume|disk]
+# @arg enum[volume|disk]
 # @arg path!
 disk::verify() {
     :;
@@ -170,7 +170,7 @@ disk::verify() {
 
 # {{{ m disk repair
 # @cmd repair volume or disk
-# @arg value[volume|disk]
+# @arg enum[volume|disk]
 # @arg path!
 disk::repair() {
     :;
@@ -201,7 +201,7 @@ disk::rename() {
 
 # {{ m display
 # @cmd Display settings
-# @arg value[status|help|up|down]
+# @arg enum[status|help|up|down]
 display() {
     :;
 }
@@ -209,7 +209,7 @@ display() {
 
 # {{ m dns
 # @cmd Manage dns
-# @arg value[flush|help]
+# @arg enum[flush|help]
 dns() {
     :;
 }
@@ -231,7 +231,7 @@ dock::showdelay() {
 
 # {{{ m dock autohide
 # @cmd enable or disable Dock's auto hide feature
-# @arg value[YES|NO]
+# @arg enum[YES|NO]
 dock::autohide() {
     :;
 }
@@ -247,7 +247,7 @@ dock::autohidedelay() {
 
 # {{{ m dock magnification
 # @cmd enable or disable magnification
-# @arg value[YES|NO]
+# @arg enum[YES|NO]
 dock::magnification() {
     :;
 }
@@ -255,7 +255,7 @@ dock::magnification() {
 
 # {{{ m dock position
 # @cmd change Dock's position
-# @arg value[BOTTOM|LEFT|RIGHT]
+# @arg enum[BOTTOM|LEFT|RIGHT]
 dock::position() {
     :;
 }
@@ -298,7 +298,7 @@ finder() {
 
 # {{{ m finder showhiddenfiles
 # @cmd manage hidden file visibitlity
-# @arg value[YES|NO]
+# @arg enum[YES|NO]
 finder::showhiddenfiles() {
     :;
 }
@@ -306,7 +306,7 @@ finder::showhiddenfiles() {
 
 # {{{ m finder showextensions
 # @cmd manage file extension visibitlity
-# @arg value[YES|NO]
+# @arg enum[YES|NO]
 finder::showextensions() {
     :;
 }
@@ -314,7 +314,7 @@ finder::showextensions() {
 
 # {{{ m finder showdesktop
 # @cmd manage desktop status
-# @arg value[YES|NO]
+# @arg enum[YES|NO]
 finder::showdesktop() {
     :;
 }
@@ -322,7 +322,7 @@ finder::showdesktop() {
 
 # {{{ m finder showpath
 # @cmd manage current opened folder path on the top bar of the Finder window
-# @arg value[YES|NO]
+# @arg enum[YES|NO]
 finder::showpath() {
     :;
 }
@@ -380,7 +380,7 @@ firewall::remove() {
 
 # {{ m flightmode
 # @cmd Manage flightmode
-# @arg value[on|off]
+# @arg enum[on|off]
 flightmode() {
     :;
 }
@@ -552,7 +552,7 @@ itunes::unmute() {
 
 # {{{ m itunes vol
 # @cmd increase and decrease volume
-# @arg value[up|down]
+# @arg enum[up|down]
 itunes::vol() {
     :;
 }
@@ -686,7 +686,7 @@ notification() {
 
 # {{{ m notification showcenter
 # @cmd enable or disable notification center
-# @arg value[YES|NO]
+# @arg enum[YES|NO]
 notification::showcenter() {
     :;
 }
@@ -780,7 +780,7 @@ restart() {
 
 # {{ m safeboot
 # @cmd Manage safeboot
-# @arg value[status|enable|disable]
+# @arg enum[status|enable|disable]
 safeboot() {
     :;
 }

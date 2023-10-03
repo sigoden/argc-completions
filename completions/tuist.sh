@@ -35,7 +35,7 @@ cache() {
 # @option --destination <destination>    Output type of xcframeworks when --xcframeworks is passed (device/simulator) (default: 3)
 # @flag --dependencies-only              If passed, the command doesn't cache the targets passed in the `--targets` argument, but only their dependencies
 # @flag -h --help                        Show help information.
-# @arg targets!                          A list of targets to cache.
+# @arg targets+                          A list of targets to cache.
 cache::warm() {
     :;
 }
@@ -58,7 +58,7 @@ cache::print-hashes() {
 # @cmd Clean all the artifacts stored locally
 # @option -p --path <path>    The path to the directory that contains the project that should be cleaned.
 # @flag -h --help             Show help information.
-# @arg clean-categories![plugins|builds|tests|generatedAutomationProjects|projectDescriptionHelpers|manifests|dependencies]  The cache and artifact categories to be cleaned.
+# @arg clean-categories+[plugins|builds|tests|generatedAutomationProjects|projectDescriptionHelpers|manifests|dependencies]  The cache and artifact categories to be cleaned.
 clean() {
     :;
 }
@@ -105,7 +105,7 @@ fetch() {
 # @flag --no-cache                       Ignore cached targets, and use their sources instead.
 # @option --skip-cache <skip-cache>      A list of targets which will not use cached binaries when using default `sources` list.
 # @flag -h --help                        Show help information.
-# @arg sources!                          A list of targets to focus on.
+# @arg sources+                          A list of targets to focus on.
 generate() {
     :;
 }
@@ -122,7 +122,7 @@ generate() {
 # @option -p --path <path>                  The path to the directory that contains the project whose targets will be cached.
 # @option -o --output-path <output-path>    The path where the graph will be generated.
 # @flag -h --help                           Show help information.
-# @arg targets!                             A list of targets to filter.
+# @arg targets+                             A list of targets to filter.
 graph() {
     :;
 }
@@ -437,7 +437,7 @@ plugin::build() {
 # @flag --skip-build                            Skip building the plugin.
 # @flag -h --help                               Show help information.
 # @arg task!                                    The plugin task to run.
-# @arg arguments!                               The arguments to pass to the plugin task.
+# @arg arguments+                               The arguments to pass to the plugin task.
 plugin::run() {
     :;
 }
@@ -466,7 +466,7 @@ plugin::test() {
 # @option -o --os <os>                          The OS version of the simulator.
 # @flag -h --help                               Show help information.
 # @arg scheme!                                  The scheme to be run.
-# @arg arguments!                               The arguments to pass to the runnable target during execution.
+# @arg arguments+                               The arguments to pass to the runnable target during execution.
 run() {
     :;
 }
@@ -484,10 +484,6 @@ scaffold() {
 
 # {{{ tuist scaffold list
 # @cmd Lists available scaffold templates
-# @flag --json                The output in JSON format
-# @option -p --path <path>    The path to the folder where the template will be generated (Default: Current directory)
-# @flag -h --help             Show help information.
-# @arg template!              Name of template you want to use
 scaffold::list() {
     :;
 }

@@ -72,6 +72,16 @@ generate:changed() {
     done
 }
 
+# @cmd Generate completions for macOS-only commands
+generate:mac() {
+    mapfile -t cmds < <(cat MANIFEST.md | grep '(macOS)' | sed -n 's/^- \[\(\S\+\)\].*/\1/p')
+    for cmd in ${cmds[@]}; do
+        if [[ -z "$(_helper_can_generate $cmd)" ]]; then
+            argc generate $cmd -E
+        fi
+    done
+}
+
 # @cmd Generate completions for all commands
 generate:all() {
     for f in completions/*; do

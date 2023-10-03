@@ -95,7 +95,7 @@ unload() {
 # {{ kmutil log
 # @cmd Display logging information about the KernelManagement subsystem.
 # @flag -h --help    Show help information.
-# @arg log-arguments!
+# @arg log-arguments+
 log() {
     :;
 }
@@ -261,8 +261,6 @@ showloaded() {
 # @cmd Delete and disable loading of third party kexts in order to safely boot into a target volume.
 # @option -R --volume-root <volume-root>    The target volume to fix
 # @flag -h --help                           Show help information.
-# @arg kmutil <`kmutil>
-# @arg trigger-panic-medic
 # @arg volumes-volumename </Volumes/<VolumeName>`>
 trigger-panic-medic() {
     :;

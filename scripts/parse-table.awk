@@ -226,7 +226,7 @@ END {
         argumentVal = gensub(/\([Ss]\)/, "...", 1, argumentVal)
         argumentVal = gensub(/(\s*\|\s*-[^)}|\]]+)+/, "", 1, argumentVal)
         if (argumentsNum == i) {
-            if (!match(argumentVal, /\|/) && !match(tolower(argumentVal), /(alias|ss)\>/)) {
+            if (!match(argumentVal, /\|/) && !match(tolower(argumentVal), /(alias|seconds|ss)\>/)) {
                 argumentVal = gensub(/([Ss]\s*)([>\]])?$/, "\\1...\\2", 1, argumentVal)
             }
         }

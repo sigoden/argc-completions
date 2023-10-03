@@ -74,13 +74,32 @@ EOF
 )"
         echo "$embed_help"
         if [[ -z "$embed_help" ]] || grep -q __HELP_CMD__ <<<"$embed_help"; then 
-            $@ --help | sed 's/^Usage: brew \(\S\+\)\(, [a-z0-9-]\+\)\+/Usage: brew \1/'
+            $@ --help | sed \
+                -e 's/^Usage: brew \(\S\+\)\(, [a-z0-9-]\+\)\+/Usage: brew \1/' \
+                -e 's/ \(--\S*dir\>\)/ \1 <dir>/' \
+                -e 's/ \(--\S*file\>\)/ \1 <file>/' \
+
         fi
     fi
 }
 
 _patch_table() {
+    table="$( \
+        _patch_table_edit_options \
+            '--arch(<value>)' \
+            '--language(<value>)' \
+            '--os(<value>)' \
+        | \
+        _patch_table_edit_arguments \
+            'formula-cask;[`_choice_suggest_formula_cask`]' \
+            'installed_formula-installed_cask;[`_choice_installed_formula_cask`]' \
+            'installed_formula;[`_choice_installed_formula`]' \
+            'formula;[`_choice_suggest_formula`]' \
+            'cask;[`_choice_suggest_cask`]' \
+            'tap;[`_choice_tap`]' \
+    )"
     if [[ "$*" == "brew" ]]; then
+        echo "$table" | \
         _patch_table_edit_options \
             '--cache;*[`_choice_suggest_formula_cask`]' \
             '--cellar;*[`_choice_suggest_formula`]' \
@@ -98,54 +117,193 @@ _patch_table() {
     elif [[ "$*" == "brew analytics" ]] \
       || [[ "$*" == "brew developer" ]] \
     ; then
+        echo "$table" | \
         _patch_table_edit_arguments \
             'subcommand;[state|on|off]' \
 
     elif [[ "$*" == "brew completions" ]]; then
+        echo "$table" | \
         _patch_table_edit_arguments \
             'subcommand;[state|link|unlink]' \
 
+    elif [[ "$*" == "brew doctor" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'diagnostic_check;[`_choice_suggest_diagnostic_check`]' \
+
+    elif [[ "$*" == "brew fetch" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--bottle-tag(<value>)' \
+
     elif [[ "$*" == "brew outdated" ]]; then
+        echo "$table" | \
         _patch_table_edit_arguments \
             'formula-cask;[`_choice_outdated_formula_cask`]' \
 
+    elif [[ "$*" == "brew upgrade" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'outdated_formula-outdated_cask;[`_choice_outdated_formula_cask`]' \
+
     elif [[ "$*" == "brew bottle" ]]; then
+        echo "$table" | \
         _patch_table_edit_arguments \
             'installed_formula-file;[`_choice_installed_formula_file`]' \
 
+    elif [[ "$*" == "brew bump-cask-pr" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--version(<value>)' \
+            '--version-arm(<value>)' \
+            '--version-intel(<value>)' \
+            '--message(<value>)' \
+            '--url(<value>)' \
+            '--sha256(<value>)' \
+            '--fork-org(<value>)' \
+
+    elif [[ "$*" == "brew bump-formula-pr" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--mirror(<value>)' \
+            '--fork-org(<value>)' \
+            '--version(<value>)' \
+            '--message(<value>)' \
+            '--url(<value>)' \
+            '--sha256(<value>)' \
+            '--tag(<value>)' \
+            '--revision(<value>)' \
+            '--python-package-name(<value>)' \
+            '--python-extra-packages(<value>...)' \
+            '--python-exclude-packages(<value>...)' \
+
+    elif [[ "$*" == "brew bump-unversioned-casks" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--limit(<value>)' \
+        | \
+        _patch_table_edit_arguments \
+            'cask-tap;[`_choice_cask_tap`]' \
+
+    elif [[ "$*" == "brew contributions" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--repositories(<value>)' \
+            '--from(<value>)' \
+            '--to(<value>)' \
+            '--user(<value>)' \
+            '--csv(<value>)' \
+
+    elif [[ "$*" == "brew create" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--set-name(<value>)' \
+            '--set-version(<value>)' \
+            '--set-license(<value>)' \
+
+    elif [[ "$*" == "brew dispatch-build-bottle" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--tap(<value>)' \
+            '--timeout(<value>)' \
+            '--issue(<value>)' \
+            '--macos(<value>)' \
+            '--workflow(<value>)' \
+
+    elif [[ "$*" == "brew install-bundler-gems" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--groups(<value>)' \
+            '--add-groups(<value>)' \
+
+    elif [[ "$*" == "brew pr-automerge" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--tap(<value>)' \
+            '--workflow(<value>)' \
+            '--with-label(<value>)' \
+            '--without-labels(<value>)' \
+    
+    elif [[ "$*" == "brew pr-publish" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--branch(<value>)' \
+            '--message(<value>)' \
+            '--tap(<value>)' \
+            '--workflow(<value>)' \
+
+    elif [[ "$*" == "brew pr-pull" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--committer(<value>)' \
+            '--message(<value>)' \
+            '--artifact(<value>)' \
+            '--tap(<value>)' \
+            '--root-url(<value>)' \
+            '--root-url-using(<value>)' \
+            '--workflows(<value>)' \
+            '--ignore-missing-artifacts(<value>)' \
+
+    elif [[ "$*" == "brew pr-upload" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--committer(<value>)' \
+            '--root-url(<value>)' \
+            '--root-url-using(<value>)' \
+
     elif [[ "$*" == "brew prof" ]]; then
+        echo "$table" | \
         _patch_table_edit_arguments \
             'command;~[`_choice_prof_command`]' \
 
     elif [[ "$*" == "brew style" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--only-cops(<value>)' \
+            '--except-cops(<value>)' \
+        | \
         _patch_table_edit_arguments \
             ';;' 'file-tap-formula-cask;*[`_choice_file_tap_formula_cask`]' \
 
+    elif [[ "$*" == "brew update-python-resources" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--version(<value>)' \
+            '--package-name(<value>)' \
+            '--extra-packages(<value>)' \
+            '--exclude-packages(<value>)' \
+
+    elif [[ "$*" == "brew update-test" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--commit(<value>)' \
+            '--before(<value>)' \
+
     elif [[ "$*" == "brew alias" ]]; then
+        echo "$table" | \
         _patch_table_edit_arguments \
             ';;' \
             'alias;*[`_choice_alias`]' \
 
     elif [[ "$*" == "brew services"* ]]; then
+        echo "$table" | \
         _patch_table_edit_arguments \
             'formula;[`_choice_suggest_service`]' \
 
+    elif [[ "$*" == "brew test-bot" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--root-url(<value>)' \
+            '--git-name(<value>)' \
+            '--git-email(<value>)' \
+
     elif [[ "$*" == "brew which-formula" ]]; then
+        echo "$table" | \
         _patch_table_edit_arguments \
             'command;[`_module_os_command`]' \
 
     else
-        _patch_table_edit_arguments \
-            'formula-cask;[`_choice_suggest_formula_cask`]' \
-            'installed_formula-installed_cask;[`_choice_installed_formula_cask`]' \
-            'outdated_formula-outdated_cask;[`_choice_outdated_formula_cask`]' \
-            'installed_formula;[`_choice_installed_formula`]' \
-            'formula;[`_choice_suggest_formula`]' \
-            'cask-tap;[`_choice_cask_tap`]' \
-            'cask;[`_choice_suggest_cask`]' \
-            'tap;[`_choice_tap`]' \
-            'diagnostic_check;[`_choice_suggest_diagnostic_check`]' \
-
+        echo "$table"
     fi
 }
 
