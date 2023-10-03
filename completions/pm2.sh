@@ -66,8 +66,6 @@
 # @flag --event-loop-inspector                   enable event-loop-inspector dump in pmx
 # @flag --deep-monitoring                        enable all monitoring tools (equivalent to --v8 --event-loop-inspector --trace)
 # @flag -h --help                                output usage information
-# @arg cmd
-# @arg app
 
 # {{ pm2 start
 # @cmd start and daemonize an app
@@ -243,6 +241,24 @@ scale() {
 }
 # }} pm2 scale
 
+# {{ pm2 profile:mem
+# @cmd Sample PM2 heap memory
+# @flag -h --help    output usage information
+# @arg time
+profile:mem() {
+    :;
+}
+# }} pm2 profile:mem
+
+# {{ pm2 profile:cpu
+# @cmd Profile PM2 cpu
+# @flag -h --help    output usage information
+# @arg time
+profile:cpu() {
+    :;
+}
+# }} pm2 profile:cpu
+
 # {{ pm2 reload
 # @cmd reload processes (note that its for app using HTTP/HTTPS)
 # @flag -h --help    output usage information
@@ -316,6 +332,7 @@ update() {
 
 # {{ pm2 install
 # @cmd install or update a module and run it forever
+# @alias module:install
 # @flag --tarball          is local tarball
 # @flag --install          run yarn install before starting module
 # @flag --docker           is docker container
@@ -328,8 +345,27 @@ install() {
 }
 # }} pm2 install
 
+# {{ pm2 module:update
+# @cmd update a module and run it forever
+# @flag -h --help    output usage information
+# @arg module-git! <module|git:/>
+module:update() {
+    :;
+}
+# }} pm2 module:update
+
+# {{ pm2 module:generate
+# @cmd Generate a sample module in current folder
+# @flag -h --help    output usage information
+# @arg app_name
+module:generate() {
+    :;
+}
+# }} pm2 module:generate
+
 # {{ pm2 uninstall
 # @cmd stop and uninstall a module
+# @alias module:uninstall
 # @flag -h --help    output usage information
 # @arg module!
 uninstall() {
@@ -348,6 +384,7 @@ package() {
 
 # {{ pm2 publish
 # @cmd Publish the module you are currently on
+# @alias module:publish
 # @flag --npm        publish on npm
 # @flag -h --help    output usage information
 # @arg dir!

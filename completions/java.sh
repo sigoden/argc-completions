@@ -1,22 +1,21 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @flag -zero                                  to select the "zero" VM
-# @flag -dcevm                                 to select the "dcevm" VM
 # @option -cp*:[`_choice_class_path`] <class search path of directories and zip/jar files>
 # @option -classpath*:[`_choice_class_path`] <class search path of directories and zip/jar files>
 # @option --class-path*:[`_choice_class_path`] <class search path of directories and zip/jar files>  A : separated list of directories, JAR archives, and ZIP archives to search for class files.
 # @option -p*: <dir>
-# @option --module-path*: <dir>                A : separated list of directories, each directory is a directory of modules.
-# @option --upgrade-module-path*: <dir>        A : separated list of directories, each directory is a directory of modules that replace upgradeable modules in the runtime image
+# @option --module-path*: <dir>                A : separated list of elements, each element is a file path to a module or a directory containing modules.
+# @option --upgrade-module-path*: <dir>        A : separated list of elements, each element is a file path to a module or a directory containing modules to replace upgradeable modules in the runtime image.
 # @option --add-modules*, <dir>                root modules to resolve in addition to the initial module.
+# @option --enable-native-access*, <module>    modules that are permitted to perform restricted native operations.
 # @flag --list-modules                         list observable modules and exit
 # @option -d <module name>
 # @option --describe-module <module name>      describe a module and exit
 # @flag --dry-run                              create VM and load main class but do not execute main method.
 # @flag --validate-modules                     validate all modules and exit The --validate-modules option may be useful for finding conflicts and other errors with modules on the module path.
 # @option -D <<name>=<value>>                  set a system property
-# @option -verbose[class|module|gc|jni]        enable verbose output
+# @option -verbose[class|module|gc|jni]        enable verbose output for the given subsystem
 # @flag -version                               print product version to the error stream and exit
 # @flag --version                              print product version to the output stream and exit
 # @flag -showversion                           print product version to the error stream and continue

@@ -90,13 +90,14 @@
 # @option -keysize <size>           key bit size
 # @option -groupname <name>         Group name.
 # @option -sigalg <alg>             signature algorithm name
-# @option -destalias <alias>        destination alias
 # @option -dname <name>             distinguished name
 # @option -startdate <date>         certificate validity start date/time
 # @option -ext <value>              X.509 extension
 # @option -validity <days>          validity number of days
 # @option -keypass <arg>            key password
 # @option -keystore <keystore>      keystore name
+# @option -signer <alias>           signer alias
+# @option -signerkeypass <arg>      signer key password
 # @option -storepass <arg>          keystore password
 # @option -storetype <type>         keystore type
 # @option -providername <name>      provider name
@@ -267,7 +268,16 @@
 # @option -file <file>                  input file name
 # @option -sslserver <server[:port]>    SSL server host and port
 # @option -jarfile <file>               signed jar file
+# @option -keystore <keystore>          keystore name
+# @option -storepass <arg>              keystore password
+# @option -storetype <type>             keystore type
+# @flag -trustcacerts                   trust certificates from cacerts
+# @option -providername <name>          provider name
+# @option -addprovider <name>           add security provider by name (e.g. SunPKCS11)
+# @option -providerclass <class>        add security provider by fully-qualified class name
+# @option -providerpath <list>          provider classpath
 # @flag -v                              verbose output
+# @flag -protected                      password through protected mechanism
 -printcert() {
     :;
 }
@@ -284,8 +294,17 @@
 
 # {{ keytool -printcrl
 # @cmd Prints the content of a CRL file
-# @option -file <file>    input file name
-# @flag -v                verbose output
+# @option -file <file>              input file name
+# @option -keystore <keystore>      keystore name
+# @option -storepass <arg>          keystore password
+# @option -storetype <type>         keystore type
+# @flag -trustcacerts               trust certificates from cacerts
+# @option -providername <name>      provider name
+# @option -addprovider <name>       add security provider by name (e.g. SunPKCS11)
+# @option -providerclass <class>    add security provider by fully-qualified class name
+# @option -providerpath <list>      provider classpath
+# @flag -v                          verbose output
+# @flag -protected                  password through protected mechanism
 -printcrl() {
     :;
 }
@@ -307,5 +326,21 @@
     :;
 }
 # }} keytool -storepasswd
+
+# {{ keytool -showinfo
+# @cmd Displays security-related information
+# @flag -tls    Displays TLS configuration information
+# @flag -v      verbose output
+-showinfo() {
+    :;
+}
+# }} keytool -showinfo
+
+# {{ keytool -version
+# @cmd Prints the program version
+-version() {
+    :;
+}
+# }} keytool -version
 
 command eval "$(argc --argc-eval "$0" "$@")"

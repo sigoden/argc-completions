@@ -10,14 +10,6 @@
 # @flag --skip-headers                  If true, avoid header prefixes in the log messages
 # @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                number for the log level verbosity
-# @arg create
-# @arg a
-# @arg two-machine
-# @arg cluster
-# @arg with
-# @arg one
-# @arg control-plane
-# @arg node
 
 # {{ kubeadm certs
 # @cmd Commands related to handling kubernetes certificates
@@ -117,7 +109,6 @@ certs::renew() {
 # @flag --skip-headers                  If true, avoid header prefixes in the log messages
 # @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                number for the log level verbosity
-# @arg admin-conf <admin.conf>
 certs::renew::admin.conf() {
     :;
 }
@@ -213,7 +204,6 @@ certs::renew::apiserver-kubelet-client() {
 # @flag --skip-headers                  If true, avoid header prefixes in the log messages
 # @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                number for the log level verbosity
-# @arg controller-manager-conf <controller-manager.conf>
 certs::renew::controller-manager.conf() {
     :;
 }
@@ -309,7 +299,6 @@ certs::renew::front-proxy-client() {
 # @flag --skip-headers                  If true, avoid header prefixes in the log messages
 # @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                number for the log level verbosity
-# @arg scheduler-conf <scheduler.conf>
 certs::renew::scheduler.conf() {
     :;
 }

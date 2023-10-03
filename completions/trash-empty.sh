@@ -10,6 +10,6 @@
 # @flag -i --interactive                       ask before emptying trash directories
 # @flag -f                                     don't ask before emptying trash directories
 # @flag --dry-run                              show which files would have been removed
-# @arg days
+# @arg days*
 
 command eval "$(argc --argc-eval "$0" "$@")"

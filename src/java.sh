@@ -14,6 +14,7 @@ _patch_table() {
     _patch_table_edit_options \
         '--add-modules(<dir>);*,' \
         '--class-path;*:[`_choice_class_path`]' \
+        '--enable-native-access(<module>);*,' \
         '--module-path(<dir>);*:' \
         '--upgrade-module-path(<dir>);*:' \
         '-agentpath;[`_choice_agent_path`]' \

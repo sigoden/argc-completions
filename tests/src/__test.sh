@@ -173,6 +173,7 @@ Other:
     cmdb
     cmdc
     cmde
+    cmdf
     cmd:a
 
 The commands are:
@@ -261,6 +262,8 @@ EOF
         echo "Usage: __test cmdc COMMAND [ARGS]..."
     elif [[ "$*" == "__test cmde" ]]; then
         echo "Usage: __test cmde [COMMAND [ARGS...]]"
+    elif [[ "$*" == "__test cmdf" ]]; then
+        echo "Usage: __test cmdf files" 
     fi
 }
 

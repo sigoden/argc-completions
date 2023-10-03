@@ -12,6 +12,6 @@
 # @option --trash-dir <TRASHDIR>               use TRASHDIR as trash folder
 # @flag -v --verbose                           explain what is being done
 # @flag --version                              show program's version number and exit
-# @arg files
+# @arg files*
 
 command eval "$(argc --argc-eval "$0" "$@")"

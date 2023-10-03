@@ -191,19 +191,19 @@ END {
         if (CMDS) { sub(CMDS " ", CMDS " -- ", usage) }
         sub(/\s+\.\.\.$/, "...", usage)
         sub(/ - [A-Z][a-z0-9].*/, "", usage)
-        usage = gensub(/\[(\S+) (\[[^\[\]]+\](\.\.\.)?)\]$/, "\\1 \\2", 1, usage)
+        usage = gensub(/\[\s*(\S+)\s+(\[\s*[^\[\]]+\](\.\.\.)?)\s*\]$/, "\\1 \\2", 1, usage)
         splitUsage(usage, words)
         isCmd = 1
         for (i in words) {
             word = words[i]
-            if (i == 1 && (match(word, /\//) || match(word, /\.[A-Za-z0-9]{1,4}$/))) {
+            if (i == 1) {
                 continue
             }
             if (isCmd && match(word, /^[a-z0-9_][A-Za-z0-9_:.-]*$/)) {
                 continue
             }
             isCmd = 0
-            if (match(word, /^(\[\s*-|\(\s*-|<\s*-|-)/)) {
+            if (match(word, /^([<([{]\s*)?-/)) {
                 continue
             }
             wordLower = tolower(word)
@@ -215,6 +215,7 @@ END {
     }
     split("", tidyArguments)
     tidyArgumentsNum = 0
+    argumentsNum = length(arguments)
     for (i in arguments) {
         argument = arguments[i]
         if (i < length(arguments) && extraArgName(argument) == extraArgName(arguments[i + 1])) {
@@ -224,6 +225,11 @@ END {
         argumentVal = substr(argument, 1, splitAt)
         argumentVal = gensub(/\([Ss]\)/, "...", 1, argumentVal)
         argumentVal = gensub(/(\s*\|\s*-[^)}|\]]+)+/, "", 1, argumentVal)
+        if (argumentsNum == i) {
+            if (!match(argumentVal, /\|/) && !match(tolower(argumentVal), /(alias|ss)\>/)) {
+                argumentVal = gensub(/([Ss]\s*)([>\]])?$/, "\\1...\\2", 1, argumentVal)
+            }
+        }
         split("", descValues)
         parseDesc(substr(argument, splitAt + 1), descValues, 1, "argument `" optionVal "`")
         if (match(argumentVal, /^\(([A-Za-z0-9_-]+\|)+[A-Za-z0-9_-]+\)$/) || match(argumentVal, /^\{([A-Za-z0-9_-]+\|)+[A-Za-z0-9_-]+\}$/)) {
@@ -243,7 +249,8 @@ END {
     prevSkipArgument = 0
     for (i = 1; i <= tidyArgumentsNum; i++) {
         argumentVal = tidyArguments[i, 1]
-        if (match(tolower(argumentVal), /\<(command|subcommand)\>/)) {
+        argumentValLower = tolower(argumentVal)
+        if (match(argumentValLower, /(command|subcommand)/)) {
             if (i == 1 && length(commands) > 0) {
                 prevSkipArgument = 1
                 continue
@@ -251,7 +258,7 @@ END {
                 prevSkipArgument = 1
                 continue
             }
-        } else if (match(tolower(argumentVal), /arg/)) {
+        } else if (match(argumentValLower, /arg/)) {
             if (i == tidyArgumentsNum && prevSkipArgument == 1) {
                 continue
             }

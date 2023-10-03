@@ -12,6 +12,6 @@
 # @flag --restore                      Do restore previously saved objects at startup
 # @flag --vanilla                      Combine --no-save, --no-restore, --no-site-file --no-init-file and --no-environ
 # @flag -e                             R expression to run
-# @arg args
+# @arg args*
 
 command eval "$(argc --argc-eval "$0" "$@")"

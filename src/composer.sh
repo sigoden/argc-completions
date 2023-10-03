@@ -8,7 +8,7 @@ _patch_help() {
     }
 
     if [[ "$*" == "composer" ]]; then
-        composer list | \
+        composer list --no-plugins | \
         sed '/^  \(\S\+\)\s*\[/ {s/^  \(\S\+\)\s*\[\(.*\)\]/  \1|\2   /; s/|/, /g;}' | \
         _common_edit
 

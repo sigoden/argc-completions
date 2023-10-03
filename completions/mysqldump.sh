@@ -116,7 +116,7 @@
 # @option --zstd-compression-level <#>             Use this compression level in the client/server protocol, in case --compression-algorithms=zstd.
 # @flag --skip-generated-invisible-primary-key     Controls whether generated invisible primary key and key column should be dumped or not.
 # @arg database
-# @arg tables
+# @arg tables*
 
 _module_os_hostname() {
     _etc_hosts() {

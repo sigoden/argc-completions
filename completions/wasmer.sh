@@ -246,7 +246,6 @@ config::get() {
 # @flag -q --quiet                      Do not print progress messages
 # @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
-# @arg registry-url <registry.url>
 config::get::registry.url() {
     :;
 }
@@ -258,7 +257,6 @@ config::get::registry.url() {
 # @flag -q --quiet                      Do not print progress messages
 # @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
-# @arg registry-token <registry.token>
 config::get::registry.token() {
     :;
 }
@@ -270,7 +268,6 @@ config::get::registry.token() {
 # @flag -q --quiet                      Do not print progress messages
 # @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
-# @arg telemetry-enabled <telemetry.enabled>
 config::get::telemetry.enabled() {
     :;
 }
@@ -282,7 +279,6 @@ config::get::telemetry.enabled() {
 # @flag -q --quiet                      Do not print progress messages
 # @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
-# @arg update-notifications-enabled <update-notifications.enabled>
 config::get::update-notifications.enabled() {
     :;
 }
@@ -294,7 +290,6 @@ config::get::update-notifications.enabled() {
 # @flag -q --quiet                      Do not print progress messages
 # @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
-# @arg proxy-url <proxy.url>
 config::get::proxy.url() {
     :;
 }

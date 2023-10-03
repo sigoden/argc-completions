@@ -46,6 +46,6 @@
 # @option -args0 <file>                     Read additional null character terminated command line arguments from <file>
 # @flag -help                               Display this list of options
 # @flag --help                              Display this list of options
-# @arg files!
+# @arg files+
 
 command eval "$(argc --argc-eval "$0" "$@")"

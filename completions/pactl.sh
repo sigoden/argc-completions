@@ -290,7 +290,7 @@ set-source-output-mute() {
 # {{ pactl set-sink-formats
 # @cmd Set the supported formats of the specified sink (identified by its numerical index) if supported by the sink.
 # @arg sink[`_choice_sink`]
-# @arg formats
+# @arg formats*
 set-sink-formats() {
     :;
 }
@@ -300,7 +300,7 @@ set-sink-formats() {
 # @cmd RECIPIENT MESSAGE MESSAGE_PARAMETERS Send a message to the specified recipient object.
 # @arg recipient
 # @arg message
-# @arg message_parameters
+# @arg message_parameters*
 send-message() {
     :;
 }

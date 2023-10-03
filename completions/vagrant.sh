@@ -967,7 +967,7 @@ port() {
 # @flag --debug-timestamp     Enable debug output with timestamps
 # @flag --no-tty              Enable non-interactive output
 # @flag -h --help             Print this help
-# @arg extra-powershell-args <extra powershell args>
+# @arg extra-powershell-args* <extra powershell args>
 powershell() {
     :;
 }
@@ -1020,7 +1020,7 @@ push() {
 # @flag --no-tty              Enable non-interactive output
 # @flag -h --help             Print this help
 # @arg name-id[`_choice_machine`] <name|id>
-# @arg extra-args <extra args>
+# @arg extra-args* <extra args>
 rdp() {
     :;
 }
@@ -1213,7 +1213,7 @@ snapshot::save() {
 # @flag --debug-timestamp     Enable debug output with timestamps
 # @flag -h --help             Print this help
 # @arg name-id[`_choice_machine`] <name|id>
-# @arg extra-ssh-args <extra ssh args>
+# @arg extra-ssh-args* <extra ssh args>
 ssh() {
     :;
 }

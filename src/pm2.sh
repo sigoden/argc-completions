@@ -18,6 +18,7 @@ _patch_table() {
             '--uid;[`_module_os_uid`]' \
             '--gid;[`_module_os_gid`]' \
         | \
+        _patch_table_edit_arguments ';;' | \
         _patch_table_edit_commands \
             'config(config, conf)' \
             'describe(describe, desc)' \

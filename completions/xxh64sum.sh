@@ -13,7 +13,7 @@
 # @flag --status                          Don't output anything, status code shows success
 # @flag --strict                          Exit non-zero for improperly formatted checksum lines
 # @flag --warn                            Warn about improperly formatted checksum lines
-# @arg files
+# @arg files*
 
 _choice_algorithm() {
     printf "%s\n" 0 32 64 128

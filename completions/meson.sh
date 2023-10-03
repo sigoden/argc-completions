@@ -268,7 +268,7 @@ wrap::install() {
 # @option --types                            Comma-separated list of subproject types.
 # @option --num-processes <NUM_PROCESSES>    How many parallel processes to use (Since 0.59.0).
 # @flag --allow-insecure                     Allow insecure server connections.
-# @arg subprojects                           List of subprojects (default: all)
+# @arg subprojects*                          List of subprojects (default: all)
 wrap::update() {
     :;
 }
@@ -329,7 +329,7 @@ subprojects() {
 # @option --types                            Comma-separated list of subproject types.
 # @option --num-processes <NUM_PROCESSES>    How many parallel processes to use (Since 0.59.0).
 # @flag --allow-insecure                     Allow insecure server connections.
-# @arg subprojects                           List of subprojects (default: all)
+# @arg subprojects*                          List of subprojects (default: all)
 subprojects::update() {
     :;
 }
@@ -344,7 +344,7 @@ subprojects::update() {
 # @option --num-processes <NUM_PROCESSES>    How many parallel processes to use (Since 0.59.0).
 # @flag --allow-insecure                     Allow insecure server connections.
 # @arg branch_name                           Name of the branch to checkout or create (default: revision set in wrap file)
-# @arg subprojects                           List of subprojects (default: all)
+# @arg subprojects*                          List of subprojects (default: all)
 subprojects::checkout() {
     :;
 }
@@ -357,7 +357,7 @@ subprojects::checkout() {
 # @option --types                            Comma-separated list of subproject types.
 # @option --num-processes <NUM_PROCESSES>    How many parallel processes to use (Since 0.59.0).
 # @flag --allow-insecure                     Allow insecure server connections.
-# @arg subprojects                           List of subprojects (default: all)
+# @arg subprojects*                          List of subprojects (default: all)
 subprojects::download() {
     :;
 }
@@ -385,7 +385,7 @@ subprojects::foreach() {
 # @flag --allow-insecure                     Allow insecure server connections.
 # @flag --include-cache                      Remove the package cache as well
 # @flag --confirm                            Confirm the removal of subproject artifacts
-# @arg subprojects                           List of subprojects (default: all)
+# @arg subprojects*                          List of subprojects (default: all)
 subprojects::purge() {
     :;
 }
@@ -400,7 +400,7 @@ subprojects::purge() {
 # @flag --allow-insecure                     Allow insecure server connections.
 # @flag --apply                              Apply packagefiles to the subproject
 # @flag --save                               Save packagefiles from the subproject
-# @arg subprojects                           List of subprojects (default: all)
+# @arg subprojects*                          List of subprojects (default: all)
 subprojects::packagefiles() {
     :;
 }
@@ -424,7 +424,7 @@ rewrite() {
 # @option --type[both_libraries|executable|jar|library|shared_library|shared_module|static_library]  Type of the target to add (only for the "add_target" action)
 # @arg target            Name or ID of the target
 # @arg add-rm-add_target-rm_target-add_extra_files-rm_extra_files-info <add,rm,add_target,rm_target,add_extra_files,rm_extra_files,info>  Action to execute
-# @arg sources           Sources to add/remove
+# @arg sources*          Sources to add/remove
 rewrite::target() {
     :;
 }
@@ -436,7 +436,7 @@ rewrite::target() {
 # @arg set-delete-add-remove-remove_regex-info <set,delete,add,remove,remove_regex,info>  Action to execute
 # @arg dependency-target-project <dependency,target,project>  Function type to modify
 # @arg id            ID of the function to modify (can be anything for "project")
-# @arg kwargs        Pairs of keyword and value
+# @arg kwargs*       Pairs of keyword and value
 rewrite::kwargs() {
     :;
 }
@@ -446,7 +446,7 @@ rewrite::kwargs() {
 # @cmd Modify the project default options
 # @flag -h --help                 show this help message and exit
 # @arg set-delete <set,delete>    Action to execute
-# @arg options                    Key, value pairs of configuration option
+# @arg options*                   Key, value pairs of configuration option
 rewrite::default-options() {
     :;
 }

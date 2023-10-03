@@ -178,7 +178,7 @@ uninstall() {
 # @cmd Validate .pre-commit-config.yaml files
 # @flag -h --help                       show this help message and exit
 # @option --color[auto|always|never]    Whether to use color in output.
-# @arg filenames
+# @arg filenames*
 validate-config() {
     :;
 }
@@ -188,7 +188,7 @@ validate-config() {
 # @cmd Validate .pre-commit-hooks.yaml files
 # @flag -h --help                       show this help message and exit
 # @option --color[auto|always|never]    Whether to use color in output.
-# @arg filenames
+# @arg filenames*
 validate-manifest() {
     :;
 }

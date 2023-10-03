@@ -41,8 +41,6 @@
 # @option -f --filter <filter>            filter debug logs
 # @option -m --mode <mode>                set env mode
 # @flag -h --help                         Display this message
-# @arg vite
-# @arg build
 # @arg root-path
 build() {
     :;
@@ -60,8 +58,6 @@ build() {
 # @option -f --filter <filter>     filter debug logs
 # @option -m --mode <mode>         set env mode
 # @flag -h --help                  Display this message
-# @arg vite
-# @arg optimize
 # @arg root-path
 optimize() {
     :;
@@ -84,8 +80,6 @@ optimize() {
 # @option -f --filter <filter>     filter debug logs
 # @option -m --mode <mode>         set env mode
 # @flag -h --help                  Display this message
-# @arg vite
-# @arg preview
 # @arg root-path
 preview() {
     :;

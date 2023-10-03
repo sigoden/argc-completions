@@ -267,7 +267,7 @@ admin::check() {
 # @flag -v --verbose                               Be more verbose.
 # @flag --version                                  Show version information.
 # @flag -w --working-dir                           Whenever updating packages that are bound to a local, version-controlled directory, update to the current working state of their source instead of the last committed state, or the ref they are pointing to.
-# @arg patterns                                    Package patterns with globs.
+# @arg patterns*                                   Package patterns with globs.
 admin::filter() {
     :;
 }
@@ -410,7 +410,7 @@ admin::lint() {
 # @flag -v --verbose                               Be more verbose.
 # @flag --version                                  Show version information.
 # @flag -w --working-dir                           Whenever updating packages that are bound to a local, version-controlled directory, update to the current working state of their source instead of the last committed state, or the ref they are pointing to.
-# @arg patterns                                    Package patterns with globs.
+# @arg patterns*                                   Package patterns with globs.
 admin::list() {
     :;
 }
@@ -908,7 +908,7 @@ install() {
 # @flag -v --verbose                              Be more verbose.
 # @flag --version                                 Show version information.
 # @flag -w --working-dir                          Whenever updating packages that are bound to a local, version-controlled directory, update to the current working state of their source instead of the last committed state, or the ref they are pointing to.
-# @arg files                                      Name of the opam files to check, or directory containing them.
+# @arg files*                                     Name of the opam files to check, or directory containing them.
 lint() {
     :;
 }
@@ -989,7 +989,7 @@ lint() {
 # @flag -v --verbose                              Be more verbose.
 # @flag --version                                 Show version information.
 # @flag -w --working-dir                          Whenever updating packages that are bound to a local, version-controlled directory, update to the current working state of their source instead of the last committed state, or the ref they are pointing to.
-# @arg patterns                                   Package patterns with globs.
+# @arg patterns*                                  Package patterns with globs.
 list() {
     :;
 }
@@ -1027,7 +1027,7 @@ list() {
 # @flag -v --verbose                              Be more verbose.
 # @flag --version                                 Show version information.
 # @flag -w --working-dir                          Whenever updating packages that are bound to a local, version-controlled directory, update to the current working state of their source instead of the last committed state, or the ref they are pointing to.
-# @arg packages                                   List of package names, with an optional version or constraint, e.g `pkg', `pkg.1.0' or `pkg>=0.5' ; or files or directory names containing package description, with explicit directory (e.g. `./foo.opam' or `.')
+# @arg packages*                                  List of package names, with an optional version or constraint, e.g `pkg', `pkg.1.0' or `pkg>=0.5' ; or files or directory names containing package description, with explicit directory (e.g. `./foo.opam' or `.')
 lock() {
     :;
 }
@@ -1346,7 +1346,7 @@ repository() {
 # @arg name*[`_choice_repository`]
 # @arg address
 # @arg quorum
-# @arg fingerprints
+# @arg fingerprints*
 repository::add() {
     :;
 }
@@ -1373,7 +1373,7 @@ repository::set-repos() {
 # @arg name*[`_choice_repository`]
 # @arg address
 # @arg quorum
-# @arg fingerprints
+# @arg fingerprints*
 repository::set-url() {
     :;
 }
@@ -1632,7 +1632,7 @@ switch::invariant() {
 
 # {{{ opam switch set-invariant
 # @cmd Updates the switch invariant, that is, the formula that the switch must keep verifying throughout all operations.
-# @arg packages
+# @arg packages*
 switch::set-invariant() {
     :;
 }
@@ -1665,7 +1665,7 @@ switch::install() {
 
 # {{{ opam switch set-base
 # @cmd Removed in 2.1, use set-invariant instead.
-# @arg packages
+# @arg packages*
 switch::set-base() {
     :;
 }
@@ -1889,7 +1889,7 @@ var() {
 # @flag -v --verbose                              Be more verbose.
 # @flag --version                                 Show version information.
 # @flag -w --working-dir                          Whenever updating packages that are bound to a local, version-controlled directory, update to the current working state of their source instead of the last committed state, or the ref they are pointing to.
-# @arg patterns                                   Package patterns with globs.
+# @arg patterns*                                  Package patterns with globs.
 search() {
     :;
 }

@@ -35,7 +35,7 @@ clock() {
 # {{ watchman find
 # @cmd Finds all files that match the optional list of patterns under the specified dir
 # @arg project-path![`_choice_project_path`]
-# @arg patterns
+# @arg patterns*
 find() {
     :;
 }
@@ -109,7 +109,7 @@ shutdown-server() {
 # @cmd Finds all files that were modified since the specified clockspec that match the optional list of patterns
 # @arg project-path![`_choice_project_path`]
 # @arg clockspec!
-# @arg patterns
+# @arg patterns*
 since() {
     :;
 }

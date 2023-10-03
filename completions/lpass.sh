@@ -256,7 +256,7 @@ share::rm() {
 # @flag --clear
 # @arg share
 # @arg username
-# @arg sites
+# @arg sites*
 share::limit() {
     :;
 }

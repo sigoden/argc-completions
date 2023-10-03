@@ -55,6 +55,6 @@
 # @flag --no-postprocess                       Do not postprocess anything
 # @flag --keep-original                        Do postprocessing while also keeping original files
 # @option --output-format[mp4|mkv]             format you want resulting file in (mkv or mp4), mp4 is default
-# @arg urls
+# @arg urls*
 
 command eval "$(argc --argc-eval "$0" "$@")"

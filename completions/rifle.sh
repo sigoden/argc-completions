@@ -8,7 +8,7 @@
 # @option -p <KEYWORD>                          pick a method to open the files.
 # @option -w[`_module_os_command`] <PROGRAM>    open the files with PROGRAM
 # @option -c <CONFIG_FILE>                      read config from specified file instead of default
-# @arg files
+# @arg files*
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 

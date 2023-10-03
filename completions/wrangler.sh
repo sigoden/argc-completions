@@ -245,7 +245,6 @@ secret:bulk() {
 # @flag -e --env                         Environment to use for operations and .env files  [string]
 # @flag -h --help                        Show help  [boolean]
 # @flag -v --version                     Show version number  [boolean]
-# @arg kv-namespace <kv:namespace>
 kv:namespace() {
     :;
 }
@@ -271,8 +270,6 @@ kv:namespace::create() {
 # @flag -e --env                         Environment to use for operations and .env files  [string]
 # @flag -h --help                        Show help  [boolean]
 # @flag -v --version                     Show version number  [boolean]
-# @arg kv-namespace <kv:namespace>
-# @arg list
 kv:namespace::list() {
     :;
 }
@@ -288,8 +285,6 @@ kv:namespace::list() {
 # @option --binding <string>             The name of the namespace to delete
 # @option --namespace-id <string>        The id of the namespace to delete
 # @flag --preview                        Interact with a preview namespace
-# @arg kv-namespace <kv:namespace>
-# @arg delete
 kv:namespace::delete() {
     :;
 }
@@ -303,7 +298,6 @@ kv:namespace::delete() {
 # @flag -e --env                         Environment to use for operations and .env files  [string]
 # @flag -h --help                        Show help  [boolean]
 # @flag -v --version                     Show version number  [boolean]
-# @arg kv-key <kv:key>
 kv:key() {
     :;
 }
@@ -344,8 +338,6 @@ kv:key::put() {
 # @option --prefix <string>              A prefix to filter listed keys
 # @flag --local                          Interact with local storage
 # @option --persist-to <dir>             Directory for local persistence
-# @arg kv-key <kv:key>
-# @arg list
 kv:key::list() {
     :;
 }
@@ -396,7 +388,6 @@ kv:key::delete() {
 # @flag -e --env                         Environment to use for operations and .env files  [string]
 # @flag -h --help                        Show help  [boolean]
 # @flag -v --version                     Show version number  [boolean]
-# @arg kv-bulk <kv:bulk>
 kv:bulk() {
     :;
 }

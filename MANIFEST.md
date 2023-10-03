@@ -611,7 +611,7 @@
 - [pkill](https://manpages.ubuntu.com/manpages/jammy/en/man1/pkill.1.html): look up or signal processes based on name and other attributes
 - [playwright](https://github.com/microsoft/playwright): a framework for Web Testing and Automation.
 - [plocate](https://manpages.ubuntu.com/manpages/jammy/en/man1/plocate.1.html): find files by name, quickly
-- [plutil](https://keith.github.io/xcode-man-pages/plutil.1.html): property list utility (macOS)
+- [plutil](https://manpages.ubuntu.com/manpages/jammy/en/man1/plutil.1.html): Property list utility
 - [pm2](https://github.com/Unitech/pm2): Node.js Production Process Manager with a built-in Load Balancer.
 - [pmap](https://manpages.ubuntu.com/manpages/jammy/en/man1/pmap.1.html): report memory map of a process
 - [pmset](https://ss64.com/osx/pmset.html): Power management settings. (macOS)

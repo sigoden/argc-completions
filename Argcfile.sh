@@ -42,14 +42,14 @@ generate() {
 
 # @cmd Generate completions for list of commands
 # @arg cmds*[?`_choice_completion`]
-regenerate:multi() {
+generate:multi() {
     for cmd in ${argc_cmds[@]}; do
         argc generate $cmd -E
     done
 }
 
 # @cmd Generate completions for src changed commands
-regenerate:changed() {
+generate:changed() {
     mapfile -t symlink_cmds <<<"$(find src -type l | sed -n 's|src/\([^/]\+\).sh|\1|p')"
     declare -A symlink_map
     for symlink_cmd in ${symlink_cmds[@]}; do
@@ -73,11 +73,11 @@ regenerate:changed() {
 }
 
 # @cmd Generate completions for all commands
-regenerate:all() {
+generate:all() {
     for f in completions/*; do
         if [ -f $f ]; then
             cmd="$(basename $f .sh)"
-            if [[ -z "$(_helper_can_generate $cmd)" ]]; then
+            if [[ " $SKIPS " != *" $cmd "* ]] && [[ -z "$(_helper_can_generate $cmd)" ]]; then
                 argc generate $cmd -E
             else
                 echo Skip $cmd
@@ -281,7 +281,7 @@ _helper_can_generate() {
     if [[ -f "$src_file" ]]; then
         if grep -q _patch_help_run_man "$src_file"; then
             if ! man -w $cmd > /dev/null 2>&1; then
-                echo man $cmd not found
+                echo error: $cmd manpage not found
                 return
             fi
         fi

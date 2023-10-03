@@ -408,7 +408,7 @@ init() {
 # @option -d --working-dir             If specified, use the given directory as working directory.
 # @flag --no-cache                     Prevent use of the cache
 # @flag -v --verbose*                  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
-# @arg packages                        Should not be provided, use composer require instead to add a given package to composer.json.
+# @arg packages*                       Should not be provided, use composer require instead to add a given package to composer.json.
 install() {
     :;
 }
@@ -603,7 +603,7 @@ remove() {
 # @option -d --working-dir                   If specified, use the given directory as working directory.
 # @flag --no-cache                           Prevent use of the cache
 # @flag -v --verbose*                        Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
-# @arg packages                              Optional package name can also include a version constraint, e.g. foo/bar or foo/bar:1.0.0 or foo/bar=1.0.0 or "foo/bar 1.0.0"
+# @arg packages*                             Optional package name can also include a version constraint, e.g. foo/bar or foo/bar:1.0.0 or foo/bar=1.0.0 or "foo/bar 1.0.0"
 require() {
     :;
 }
@@ -629,7 +629,7 @@ require() {
 # @flag --no-cache                 Prevent use of the cache
 # @flag -v --verbose*              Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 # @arg script[`_choice_script`]    Script name to run.
-# @arg args
+# @arg args*
 run-script() {
     :;
 }
@@ -653,7 +653,7 @@ run-script() {
 # @option -d --working-dir     If specified, use the given directory as working directory.
 # @flag --no-cache             Prevent use of the cache
 # @flag -v --verbose*          Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
-# @arg tokens                  tokens to search for
+# @arg tokens*                 tokens to search for
 search() {
     :;
 }

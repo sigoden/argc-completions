@@ -54,6 +54,6 @@
 # @flag --fromfile         Reads paths from files (.=stdin)
 # @flag --version          Print version and exit.
 # @flag --help             Print usage and this help message and exit.
-# @arg files*
+# @arg dirs*
 
 command eval "$(argc --argc-eval "$0" "$@")"

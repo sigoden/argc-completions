@@ -399,7 +399,7 @@ action::write() {
 # {{{ zellij action write-chars
 # @cmd Write characters to the terminal
 # @flag -h --help    Print help information
-# @arg chars!
+# @arg chars+
 action::write-chars() {
     :;
 }

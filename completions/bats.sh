@@ -14,6 +14,6 @@
 # @flag -t --tap                           Shorthand for "--formatter tap"
 # @flag -T --timing                        Add timing information to tests
 # @flag -v --version                       Display the version number
-# @arg tests!
+# @arg tests+
 
 command eval "$(argc --argc-eval "$0" "$@")"

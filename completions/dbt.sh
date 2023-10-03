@@ -64,8 +64,8 @@
 # @option --profile <TEXT>                   Which profile to load.
 # @option --profiles-dir <PATH>              Which directory to look in for the profiles.yml file.
 # @option --project-dir <PATH>               Which directory to look in for the dbt_project.yml file.
-# @option --resource-types[metric|source|analysis|model|test|exposure|snapshot|seed|default|all]  Restricts the types of resources that dbt will include
-# @option --resource-type[metric|source|analysis|model|test|exposure|snapshot|seed|default|all]  Restricts the types of resources that dbt will include
+# @option --resource-types[metric|semantic_model|source|analysis|model|test|exposure|snapshot|seed|default|all]  Restricts the types of resources that dbt will include
+# @option --resource-type[metric|semantic_model|source|analysis|model|test|exposure|snapshot|seed|default|all]  Restricts the types of resources that dbt will include
 # @option -s <TUPLE>                         Specify the nodes to include.
 # @option -m <TUPLE>                         Specify the nodes to include.
 # @option --select <TUPLE>                   Specify the nodes to include.
@@ -110,8 +110,8 @@ clean() {
 # @option --profile <TEXT>             Which profile to load.
 # @option --profiles-dir <PATH>        Which directory to look in for the profiles.yml file.
 # @option --project-dir <PATH>         Which directory to look in for the dbt_project.yml file.
-# @option --resource-types[metric|source|analysis|model|test|exposure|snapshot|seed|default|all]  Restricts the types of resources that dbt will include
-# @option --resource-type[metric|source|analysis|model|test|exposure|snapshot|seed|default|all]  Restricts the types of resources that dbt will include
+# @option --resource-types[metric|semantic_model|source|analysis|model|test|exposure|snapshot|seed|default|all]  Restricts the types of resources that dbt will include
+# @option --resource-type[metric|semantic_model|source|analysis|model|test|exposure|snapshot|seed|default|all]  Restricts the types of resources that dbt will include
 # @option -s <TUPLE>                   Specify the nodes to include.
 # @option -m <TUPLE>                   Specify the nodes to include.
 # @option --select <TUPLE>             Specify the nodes to include.
@@ -284,8 +284,8 @@ init() {
 # @option --profile <TEXT>                     Which profile to load.
 # @option --profiles-dir <PATH>                Which directory to look in for the profiles.yml file.
 # @option --project-dir <PATH>                 Which directory to look in for the dbt_project.yml file.
-# @option --resource-types[metric|source|analysis|model|test|exposure|snapshot|seed|default|all]  Restricts the types of resources that dbt will include
-# @option --resource-type[metric|source|analysis|model|test|exposure|snapshot|seed|default|all]  Restricts the types of resources that dbt will include
+# @option --resource-types[metric|semantic_model|source|analysis|model|test|exposure|snapshot|seed|default|all]  Restricts the types of resources that dbt will include
+# @option --resource-type[metric|semantic_model|source|analysis|model|test|exposure|snapshot|seed|default|all]  Restricts the types of resources that dbt will include
 # @option -s --select <TUPLE>                  Specify the nodes to include.
 # @option --selector <TEXT>                    The selector name to use, as defined in selectors.yml
 # @option --state <DIRECTORY>                  Unless overridden, use this state directory for both state comparison and deferral.

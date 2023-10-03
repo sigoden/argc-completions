@@ -459,7 +459,7 @@ dns() {
 
 # {{{ vercel dns add
 # @cmd Add a new DNS entry (see below for examples)
-# @arg details!
+# @arg details+
 dns::add() {
     :;
 }

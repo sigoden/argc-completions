@@ -13,7 +13,8 @@
 # @flag -deserialize               open the database using sqlite3_deserialize()
 # @flag -echo                      print commands before execution
 # @option -init <FILENAME>         read/process named file
-# @option -no <o]header>           turn headers on or off
+# @flag -header                    turn headers on or off
+# @flag -noheader                  turn headers on or off
 # @flag -help                      show this message
 # @flag -html                      set output mode to HTML
 # @flag -interactive               force interactive I/O

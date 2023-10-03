@@ -314,7 +314,7 @@ remove() {
 # @flag --no-cache             Disables Poetry source caches.
 # @option -C --directory       The working directory for the Poetry command (defaults to the current working directory).
 # @flag -v --verbose           Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug.
-# @arg args                    The command and arguments/options to run.
+# @arg args*                   The command and arguments/options to run.
 run() {
     :;
 }
@@ -332,7 +332,7 @@ run() {
 # @flag --no-cache             Disables Poetry source caches.
 # @option -C --directory       The working directory for the Poetry command (defaults to the current working directory).
 # @flag -v --verbose           Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug.
-# @arg tokens                  The tokens to search for.
+# @arg tokens*                 The tokens to search for.
 search() {
     :;
 }

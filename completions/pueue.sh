@@ -258,7 +258,7 @@ shutdown() {
 # @cmd Set the amount of allowed parallel tasks By default, adjusts the amount of the default group.
 # @option -g --group[`_choice_group`] <group>    Set the amount for a specific group
 # @flag -h --help                                Print help
-# @arg parallel_tasks                            The amount of allowed parallel tasks
+# @arg parallel_tasks*                           The amount of allowed parallel tasks
 parallel() {
     :;
 }

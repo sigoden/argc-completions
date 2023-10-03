@@ -856,7 +856,6 @@
 # @option -Xpreprocessor <arg>                     Pass <arg> to the preprocessor
 # @option -x <language>                            Treat subsequent input files as having type <language>
 # @option -z <arg>                                 Pass -z <arg> to the linker
-# @arg clang <clang++>
 # @arg file*
 
 command eval "$(argc --argc-eval "$0" "$@")"

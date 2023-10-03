@@ -10,7 +10,6 @@ set -e
 # @arg subcmd                       Optional subcommand
 
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )"
-TEMPFILE_TABLE_HAHSES="$(mktemp)"
 
 handle_cmd() {
     local output table level nest_fn_prefix command_lines command_output line cmd_paths
@@ -97,14 +96,14 @@ get_table() {
     table="$(echo "$help_text" | parse_table $@)"
     table_hash="$(echo "$table" | shasum | sed 's/  -//')"
     parent_key="${@:1:$(($#-1))} :: "
-    parent_table_hash="$(cat "$TEMPFILE_TABLE_HAHSES" | grep "$parent_key" | gawk -F ' :: ' '{print $2}')"
+    parent_table_hash="$(cat "$store_table_hash" | grep "$parent_key" | gawk -F ' :: ' '{print $2}')"
     if [[ "$table_hash" == "$parent_table_hash" ]]; then
         help_text=""
         table=""
         table_hash=""
         log_info "$@: maybe no help"
     fi
-    echo "$@ :: $table_hash" >> "$TEMPFILE_TABLE_HAHSES"
+    echo "$@ :: $table_hash" >> "$store_table_hash"
     if [[ -n "$help_output_file" ]]; then
         if [[ $# -eq 1 ]]; then
             echo -e "########### $@ ###########\n" >> "$help_output_file"
@@ -335,6 +334,8 @@ set_globals() {
     utils_dir="$ROOT_DIR/utils"
     helps_dir="$ROOT_DIR/helps"
     command_names=";$argc_cmd;"
+    join_cmds="$(echo "${cmds[@]}" | sed 's/ /-/g')"
+
     if [[ "$argc_cmd" == '__test' ]]; then
         src_dir="$ROOT_DIR/tests/src"
         argc_output="$ROOT_DIR/tests/completions"
@@ -364,7 +365,7 @@ set_globals() {
     fi
 
     if [[ -d "$helps_dir" ]]; then
-        help_output_file="$helps_dir/$(echo "${cmds[@]}" | sed 's/ /-/g').txt"
+        help_output_file="$helps_dir/$join_cmds.txt"
         rm -rf "$help_output_file"
     fi
 
@@ -372,6 +373,12 @@ set_globals() {
     if [[ -f "$src_file" ]]; then
         source "$src_file"
     fi
+
+    if [[ ! -d /tmp/argc_completions_table_hash ]]; then
+        mkdir -p /tmp/argc_completions_table_hash
+    fi
+    store_table_hash="/tmp/argc_completions_table_hash/$join_cmds"
+    echo -n > "$store_table_hash"
 }
 
 repeat_string() {

@@ -767,7 +767,7 @@ compose::create() {
 # @option --rmi[local|all] <string>    Remove images used by services.
 # @option -t --timeout <int>           Specify a shutdown timeout in seconds
 # @flag -v --volumes                   Remove named volumes declared in the "volumes" section of the Compose file and anonymous volumes attached to containers.
-# @arg services[`_choice_compose_service`]
+# @arg services*[`_choice_compose_service`]
 compose::down() {
     :;
 }

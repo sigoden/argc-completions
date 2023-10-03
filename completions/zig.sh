@@ -47,7 +47,7 @@
 # @flag --verbose-cimport                Enable compiler debug output for C imports
 # @flag --verbose-cc                     Enable compiler debug output for C compilation
 # @flag --verbose-llvm-cpu-features      Enable compiler debug output for LLVM CPU features
-# @arg steps[`_choice_steps`]
+# @arg steps*[`_choice_steps`]
 build() {
     :;
 }
@@ -252,7 +252,7 @@ ast-check() {
 # @option --debug-log <scope>             Enable printing debug/info log messages for scope
 # @flag --debug-compile-errors            Crash with helpful diagnostics at the first compile error
 # @flag --debug-link-snapshot             Enable dumping of the linker's state in JSON format
-# @arg files
+# @arg files*
 build-exe() {
     :;
 }
@@ -430,7 +430,7 @@ build-exe() {
 # @option --debug-log <scope>             Enable printing debug/info log messages for scope
 # @flag --debug-compile-errors            Crash with helpful diagnostics at the first compile error
 # @flag --debug-link-snapshot             Enable dumping of the linker's state in JSON format
-# @arg files
+# @arg files*
 build-lib() {
     :;
 }
@@ -608,7 +608,7 @@ build-lib() {
 # @option --debug-log <scope>             Enable printing debug/info log messages for scope
 # @flag --debug-compile-errors            Crash with helpful diagnostics at the first compile error
 # @flag --debug-link-snapshot             Enable dumping of the linker's state in JSON format
-# @arg files
+# @arg files*
 build-obj() {
     :;
 }
@@ -800,7 +800,7 @@ fmt() {
 # @option --debug-log <scope>             Enable printing debug/info log messages for scope
 # @flag --debug-compile-errors            Crash with helpful diagnostics at the first compile error
 # @flag --debug-link-snapshot             Enable dumping of the linker's state in JSON format
-# @arg files
+# @arg files*
 run() {
     :;
 }
@@ -978,7 +978,7 @@ run() {
 # @option --debug-log <scope>             Enable printing debug/info log messages for scope
 # @flag --debug-compile-errors            Crash with helpful diagnostics at the first compile error
 # @flag --debug-link-snapshot             Enable dumping of the linker's state in JSON format
-# @arg files
+# @arg files*
 test() {
     :;
 }
@@ -1156,7 +1156,7 @@ test() {
 # @option --debug-log <scope>             Enable printing debug/info log messages for scope
 # @flag --debug-compile-errors            Crash with helpful diagnostics at the first compile error
 # @flag --debug-link-snapshot             Enable dumping of the linker's state in JSON format
-# @arg files
+# @arg files*
 translate-c() {
     :;
 }
@@ -2133,7 +2133,6 @@ lib() {
 # @flag -v --version    - Display the version of this program
 # @flag -D              - Use zero for timestamps and uids/gids (default)
 # @flag -U              - Use actual timestamps and uids/gids
-# @arg archive*
 ranlib() {
     :;
 }

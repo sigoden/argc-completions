@@ -266,6 +266,14 @@ cmde() {
 }
 # }} __test cmde
 
+# {{ __test cmdf
+# @cmd
+# @arg files*
+cmdf() {
+    :;
+}
+# }} __test cmdf
+
 # {{ __test cmd:a
 # @cmd
 cmd:a() {

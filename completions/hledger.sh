@@ -45,7 +45,7 @@
 # @flag --version                        show version information
 # @arg cmd
 # @arg opts
-# @arg addoncmdopts
+# @arg addoncmdopts*
 
 # {{ hledger add
 # @cmd add transactions using terminal prompts
@@ -279,7 +279,7 @@ rewrite() {
 # @flag --info                           show info manual with info
 # @option --debug <N>                    show debug output (levels 1-9, default: 1)
 # @flag --version                        show version information
-# @arg checks
+# @arg checks*
 check() {
     :;
 }
@@ -1327,7 +1327,7 @@ tags() {
 # @flag --info           show info manual with info
 # @option --debug <N>    show debug output (levels 1-9, default: 1)
 # @flag --version        show version information
-# @arg tastyopts
+# @arg tastyopts*
 test() {
     :;
 }

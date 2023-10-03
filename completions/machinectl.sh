@@ -208,7 +208,7 @@ remove() {
 # {{ machinectl set-limit
 # @cmd Set image or pool size limit (disk quota)
 # @arg name[`_choice_image`]
-# @arg bytes
+# @arg bytes*
 set-limit() {
     :;
 }

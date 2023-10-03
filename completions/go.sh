@@ -116,7 +116,7 @@ env() {
 
 # {{ go fix
 # @cmd update packages to use new APIs
-# @arg packages
+# @arg packages*
 fix() {
     :;
 }
@@ -385,7 +385,7 @@ work::edit() {
 
 # {{{ go work init
 # @cmd initialize workspace file
-# @arg moddirs
+# @arg moddirs*
 work::init() {
     :;
 }

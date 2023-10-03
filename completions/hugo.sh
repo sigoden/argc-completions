@@ -192,7 +192,7 @@ config() {
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
-# @arg args
+# @arg args*
 config::mounts() {
     :;
 }
@@ -237,7 +237,7 @@ convert() {
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag --unsafe                          enable less safe operations, please backup first
 # @flag -v --verbose                      verbose output
-# @arg args
+# @arg args*
 convert::toJSON() {
     :;
 }
@@ -260,7 +260,7 @@ convert::toJSON() {
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag --unsafe                          enable less safe operations, please backup first
 # @flag -v --verbose                      verbose output
-# @arg args
+# @arg args*
 convert::toTOML() {
     :;
 }
@@ -283,7 +283,7 @@ convert::toTOML() {
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag --unsafe                          enable less safe operations, please backup first
 # @flag -v --verbose                      verbose output
-# @arg args
+# @arg args*
 convert::toYAML() {
     :;
 }
@@ -312,7 +312,7 @@ convert::toYAML() {
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
-# @arg args
+# @arg args*
 deploy() {
     :;
 }
@@ -333,7 +333,7 @@ deploy() {
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
-# @arg args
+# @arg args*
 env() {
     :;
 }
@@ -376,7 +376,7 @@ gen() {
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
-# @arg args
+# @arg args*
 gen::chromastyles() {
     :;
 }
@@ -398,7 +398,7 @@ gen::chromastyles() {
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
-# @arg args
+# @arg args*
 gen::doc() {
     :;
 }
@@ -420,7 +420,7 @@ gen::doc() {
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
-# @arg args
+# @arg args*
 gen::man() {
     :;
 }
@@ -462,7 +462,7 @@ import() {
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
-# @arg args
+# @arg args*
 import::jekyll() {
     :;
 }
@@ -503,7 +503,7 @@ list() {
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
-# @arg args
+# @arg args*
 list::all() {
     :;
 }
@@ -524,7 +524,7 @@ list::all() {
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
-# @arg args
+# @arg args*
 list::drafts() {
     :;
 }
@@ -545,7 +545,7 @@ list::drafts() {
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
-# @arg args
+# @arg args*
 list::expired() {
     :;
 }
@@ -566,7 +566,7 @@ list::expired() {
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
-# @arg args
+# @arg args*
 list::future() {
     :;
 }
@@ -613,7 +613,7 @@ mod() {
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
-# @arg args
+# @arg args*
 mod::clean() {
     :;
 }
@@ -634,7 +634,7 @@ mod::clean() {
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
-# @arg args
+# @arg args*
 mod::get() {
     :;
 }
@@ -660,7 +660,7 @@ mod::get() {
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
-# @arg args
+# @arg args*
 mod::graph() {
     :;
 }
@@ -685,7 +685,7 @@ mod::graph() {
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
-# @arg args
+# @arg args*
 mod::init() {
     :;
 }
@@ -729,7 +729,7 @@ mod::npm() {
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
-# @arg args
+# @arg args*
 mod::npm::pack() {
     :;
 }
@@ -755,7 +755,7 @@ mod::npm::pack() {
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
-# @arg args
+# @arg args*
 mod::tidy() {
     :;
 }
@@ -780,7 +780,7 @@ mod::tidy() {
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
-# @arg args
+# @arg args*
 mod::vendor() {
     :;
 }
@@ -806,7 +806,7 @@ mod::vendor() {
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
-# @arg args
+# @arg args*
 mod::verify() {
     :;
 }
@@ -922,7 +922,7 @@ server() {
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
-# @arg args
+# @arg args*
 server::trust() {
     :;
 }
@@ -944,7 +944,7 @@ server::trust() {
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
-# @arg args
+# @arg args*
 version() {
     :;
 }

@@ -229,7 +229,7 @@ chat::add-bot-member() {
 # @option --topic-type <"chat">    Specify topic type of the conversation.
 # @arg team!
 # @arg channel!
-# @arg usernames!
+# @arg usernames+
 chat::add-to-channel() {
     :;
 }
@@ -616,7 +616,7 @@ chat::remove-bot-member() {
 # @option --topic-type <"chat">    Specify topic type of the conversation.
 # @arg team!
 # @arg channel!
-# @arg usernames!
+# @arg usernames+
 chat::remove-from-channel() {
     :;
 }
