@@ -45,6 +45,7 @@ docs() {
 
 # {{ fastlane enable_auto_complete
 # @cmd Enable tab auto completion
+# @option -c --custom <STRING[,STRING2]>    Add custom command(s)
 enable_auto_complete() {
     :;
 }
@@ -59,6 +60,7 @@ env() {
 
 # {{ fastlane init
 # @cmd Helps you with your initial fastlane setup
+# @option -u --user <STRING>    iOS projects only: Your Apple ID
 init() {
     :;
 }
@@ -132,6 +134,7 @@ socket_server() {
 
 # {{ fastlane trigger
 # @cmd Run a specific lane.
+# @option --swift_server_port <INT>    Set specific port to communicate between
 # @arg lane[`_choice_lane`]
 trigger() {
     :;

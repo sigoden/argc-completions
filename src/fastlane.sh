@@ -8,7 +8,10 @@ _patch_help() {
             -e '/Aliases:/,/^\s*$/ d' \
 
     else
-        $@ --help 2>/dev/null
+        $@ --help 2>/dev/null | \
+        sed \
+            -e '/^\s*-/ s/\(-\S\+\) \([A-Z]\{2,\}\S\+\) \([A-Z][a-z]\|[a-z]\)/\1 \2  \3/' \
+
     fi
 }
 
