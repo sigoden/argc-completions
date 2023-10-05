@@ -11,7 +11,7 @@ BEGIN {
     PAIRS_CLOSE = ">])}"
     RE_SKIP_ARGUMENT = "^(flag|option|switches)"
     RE_SKIP_SBUCOMMAND =  "\\<(help|command|none|n\\/a)\\>"
-    RE_SHADOW_COMMAND = "^(do|echo|cat|tail|head|command|select|eval|function)$"
+    RE_SHADOW_COMMAND = "^(do|echo|cat|tail|head|command|select|eval|function|time)$"
     RE_REMOVE_NOTATION_PREFIX = "[=!]"
     EXISTS_SUBCOMMANDS = ",help,"
     argumentLine = 0

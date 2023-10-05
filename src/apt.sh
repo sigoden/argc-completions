@@ -74,20 +74,20 @@ _patch_table() {
       || [[ "$*" == "apt source" ]] \
       || [[ "$*" == "apt recommands" ]] \
     ; then
-        _patch_table_edit_arguments 'pkg;[`_choice_pkg`]'
+        _patch_table_edit_arguments 'pkg;[`_choice_package`]'
 
     elif [[ "$*" == "apt hold" ]] \
       || [[ "$*" == "apt purge" ]] \
       || [[ "$*" == "apt reinstall" ]] \
       || [[ "$*" == "apt remove" ]] \
     ; then
-        _patch_table_edit_arguments 'pkg;[`_choice_installed_pkg`]'
+        _patch_table_edit_arguments 'pkg;[`_choice_installed_package`]'
 
     elif [[ "$*" == "apt unhold" ]]; then
-        _patch_table_edit_arguments 'pkg;[`_choice_hold_pkg`]'
+        _patch_table_edit_arguments 'pkg;[`_choice_hold_package`]'
 
     elif [[ "$*" == "apt upgrade" ]]; then
-        _patch_table_edit_arguments 'pkg;[`_choice_upgradable_pkg`]'
+        _patch_table_edit_arguments 'pkg;[`_choice_upgradable_package`]'
 
     else
         cat
@@ -106,27 +106,18 @@ _choice_build() {
     printf "%s\n" ull source binary any all
 }
 
-_choice_pkg() {
-    if [[ -z "$ARGC_CWORD" ]]; then
-        return
-    fi
-    apt list $ARGC_CWORD* | gawk -F/ '{if (NR>1) {print $1}}'
+_choice_package() {
+    apt-cache --no-generate pkgnames
 }
 
-_choice_installed_pkg() {
-    if [[ -n "$ARGC_CWORD" ]]; then
-        pattern=$ARGC_CWORD*
-    fi
-    apt list --installed $pattern | gawk -F/ '{if (NR>1) {print $1}}'
+_choice_installed_package() {
+    dpkg --get-selections | gawk '{if (match($2, /(install|hold)/)) { print $1}}'
 }
 
-_choice_hold_pkg() {
+_choice_hold_package() {
     apt held
 }
 
-_choice_upgradable_pkg() {
-    if [[ -n "$ARGC_CWORD" ]]; then
-        pattern=$ARGC_CWORD*
-    fi
-    apt list --upgradable $pattern | gawk -F/ '{if (NR>1) {print $1}}'
+_choice_upgradable_package() {
+    apt list --upgradable "$ARGC_CWORD*" | gawk -F/ '{if (NR>1) {print $1}}'
 }

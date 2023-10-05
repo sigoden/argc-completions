@@ -9,6 +9,7 @@
 # @flag -v                            Print shell input lines as they are read.
 # @flag -x                            Print commands and their arguments as they are executed.
 # @flag -D                            A list of all double-quoted strings preceded by $ is printed on the standard output.
+# @option -O <shopt_option>           shopt_option is one of the shell options accepted by the shopt builtin (see SHELL BUILTIN COMMANDS below).
 # @flag --debugger                    Arrange for the debugger profile to be executed before the shell starts.
 # @flag --dump-po-strings             Equivalent to -D, but the output is in the GNU gettext po (portable object) file format.
 # @flag --dump-strings                Equivalent to -D.

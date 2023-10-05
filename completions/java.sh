@@ -1,45 +1,45 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @option -cp*:[`_choice_class_path`] <class search path of directories and zip/jar files>
-# @option -classpath*:[`_choice_class_path`] <class search path of directories and zip/jar files>
-# @option --class-path*:[`_choice_class_path`] <class search path of directories and zip/jar files>  A : separated list of directories, JAR archives, and ZIP archives to search for class files.
-# @option -p*: <dir>
-# @option --module-path*: <dir>                A : separated list of elements, each element is a file path to a module or a directory containing modules.
-# @option --upgrade-module-path*: <dir>        A : separated list of elements, each element is a file path to a module or a directory containing modules to replace upgradeable modules in the runtime image.
-# @option --add-modules*, <dir>                root modules to resolve in addition to the initial module.
-# @option --enable-native-access*, <module>    modules that are permitted to perform restricted native operations.
-# @flag --list-modules                         list observable modules and exit
-# @option -d <module name>
-# @option --describe-module <module name>      describe a module and exit
-# @flag --dry-run                              create VM and load main class but do not execute main method.
-# @flag --validate-modules                     validate all modules and exit The --validate-modules option may be useful for finding conflicts and other errors with modules on the module path.
-# @option -D <<name>=<value>>                  set a system property
-# @option -verbose[class|module|gc|jni]        enable verbose output for the given subsystem
-# @flag -version                               print product version to the error stream and exit
-# @flag --version                              print product version to the output stream and exit
-# @flag -showversion                           print product version to the error stream and continue
-# @flag --show-version                         print product version to the output stream and continue
-# @flag --show-module-resolution               show module resolution output during startup
-# @flag -?                                     print this help message to the error stream
-# @flag -h                                     print this help message to the error stream
-# @flag -help                                  print this help message to the error stream
-# @flag --help                                 print this help message to the output stream
-# @flag --help-extra                           print help on extra options to the output stream
+# @option -cp*:[`_choice_class_path`] <path>    A : separated list of directories, JAR archives and ZIP archives to search for class files.
+# @option -classpath*:[`_choice_class_path`] <path>  A : separated list of directories, JAR archives and ZIP archives to search for class files.
+# @option --class-path*:[`_choice_class_path`] <path>  A : separated list of directories, JAR archives and ZIP archives to search for class files.
+# @option -p*: <dir>                            A : separated list of elements, each element is a file path to a module or a directory containing modules.
+# @option --module-path*: <dir>                 A : separated list of elements, each element is a file path to a module or a directory containing modules.
+# @option --upgrade-module-path*: <dir>         A : separated list of elements, each element is a file path to a module or a directory containing modules to replace upgradeable modules in the runtime image.
+# @option --add-modules*, <dir>                 root modules to resolve in addition to the initial module.
+# @option --enable-native-access*, <module>     modules that are permitted to perform restricted native operations.
+# @flag --list-modules                          list observable modules and exit
+# @option -d <module name>                      describe a module and exit
+# @option --describe-module <module name>       describe a module and exit
+# @flag --dry-run                               create VM and load main class but do not execute main method.
+# @flag --validate-modules                      validate all modules and exit The --validate-modules option may be useful for finding conflicts and other errors with modules on the module path.
+# @option -D-* <<name>=<value>>                 set a system property
+# @option -verbose[class|module|gc|jni]         enable verbose output for the given subsystem
+# @flag -version                                print product version to the error stream and exit
+# @flag --version                               print product version to the output stream and exit
+# @flag -showversion                            print product version to the error stream and continue
+# @flag --show-version                          print product version to the output stream and continue
+# @flag --show-module-resolution                show module resolution output during startup
+# @flag -?                                      print this help message to the error stream
+# @flag -h                                      print this help message to the error stream
+# @flag -help                                   print this help message to the error stream
+# @flag --help                                  print this help message to the output stream
+# @flag --help-extra                            print help on extra options to the output stream
 # @option -ea*: <classes>
-# @option -enableassertions*: <classes>        enable assertions with specified granularity
+# @option -enableassertions*: <classes>         enable assertions with specified granularity
 # @option -da*: <classes>
-# @option -disableassertions*: <classes>       disable assertions with specified granularity
-# @flag -esa                                   enable system assertions
-# @flag -enablesystemassertions                enable system assertions
-# @flag -dsa                                   disable system assertions
-# @flag -disablesystemassertions               disable system assertions
-# @option -agentlib <<libname>[=<options>]>    load native agent library <libname>, e.g. -agentlib:jdwp see also -agentlib:jdwp=help
+# @option -disableassertions*: <classes>        disable assertions with specified granularity
+# @flag -esa                                    enable system assertions
+# @flag -enablesystemassertions                 enable system assertions
+# @flag -dsa                                    disable system assertions
+# @flag -disablesystemassertions                disable system assertions
+# @option -agentlib <<libname>[=<options>]>     load native agent library <libname>, e.g. -agentlib:jdwp see also -agentlib:jdwp=help
 # @option -agentpath[`_choice_agent_path`] <<pathname>[=<options>]>  load native agent library by full pathname
 # @option -javaagent*:[`_choice_class_path`] <<jarpath>[=<options>]>  load Java programming language agent, see java.lang.instrument
-# @option -splash <imagepath>                  show splash screen with specified image HiDPI scaled images are automatically supported and used if available.
-# @flag --enable-preview                       allow classes to depend on preview features of this release
-# @option -X-*[`_choice_option`]               pass additional options to JVM
+# @option -splash <imagepath>                   show splash screen with specified image HiDPI scaled images are automatically supported and used if available.
+# @flag --enable-preview                        allow classes to depend on preview features of this release
+# @option -X-*[`_choice_option`]                pass additional options to JVM
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 

@@ -119,7 +119,7 @@ build() {
 
 # {{ apt build-dep
 # @cmd Configure build-dependencies for source packages
-# @arg pkg![`_choice_pkg`]
+# @arg pkg![`_choice_package`]
 build-dep() {
     :;
 }
@@ -127,7 +127,7 @@ build-dep() {
 
 # {{ apt changelog
 # @cmd View a package's changelog
-# @arg pkg![`_choice_pkg`]
+# @arg pkg![`_choice_package`]
 changelog() {
     :;
 }
@@ -157,7 +157,7 @@ contains() {
 
 # {{ apt content
 # @cmd List files contained in a package
-# @arg pkg+[`_choice_pkg`]
+# @arg pkg+[`_choice_package`]
 content() {
     :;
 }
@@ -173,7 +173,7 @@ deb() {
 
 # {{ apt depends
 # @cmd Show raw dependency information for a package
-# @arg pkg+[`_choice_pkg`]
+# @arg pkg+[`_choice_package`]
 depends() {
     :;
 }
@@ -188,7 +188,7 @@ dist-upgrade() {
 
 # {{ apt download
 # @cmd Download the .deb file for a package
-# @arg pkg![`_choice_pkg`]
+# @arg pkg![`_choice_package`]
 download() {
     :;
 }
@@ -224,7 +224,7 @@ held() {
 
 # {{ apt hold
 # @cmd Hold a package
-# @arg pkg+[`_choice_installed_pkg`]
+# @arg pkg+[`_choice_installed_package`]
 hold() {
     :;
 }
@@ -234,7 +234,7 @@ hold() {
 # @cmd Install/upgrade packages
 # @flag --reinstall                Reinstall package
 # @flag --no-install-recommends    Do not consider recommended packages as a dependency for installin.
-# @arg pkg+[`_choice_pkg`]
+# @arg pkg+[`_choice_package`]
 install() {
     :;
 }
@@ -253,7 +253,7 @@ list() {
 
 # {{ apt policy
 # @cmd Show policy settings
-# @arg pkg+[`_choice_pkg`]
+# @arg pkg+[`_choice_package`]
 policy() {
     :;
 }
@@ -261,7 +261,7 @@ policy() {
 
 # {{ apt purge
 # @cmd Remove packages and their configuration files
-# @arg pkg+[`_choice_installed_pkg`]
+# @arg pkg+[`_choice_installed_package`]
 purge() {
     :;
 }
@@ -277,7 +277,7 @@ recommends() {
 
 # {{ apt rdepends
 # @cmd Show reverse dependency information for a package
-# @arg pkg+[`_choice_pkg`]
+# @arg pkg+[`_choice_package`]
 rdepends() {
     :;
 }
@@ -285,7 +285,7 @@ rdepends() {
 
 # {{ apt reinstall
 # @cmd Download and (possibly) reinstall a currently installed package
-# @arg pkg+[`_choice_installed_pkg`]
+# @arg pkg+[`_choice_installed_package`]
 reinstall() {
     :;
 }
@@ -293,7 +293,7 @@ reinstall() {
 
 # {{ apt remove
 # @cmd Remove packages
-# @arg pkg+[`_choice_installed_pkg`]
+# @arg pkg+[`_choice_installed_package`]
 remove() {
     :;
 }
@@ -309,7 +309,7 @@ search() {
 
 # {{ apt show
 # @cmd Display detailed information about a package
-# @arg pkg+[`_choice_pkg`]
+# @arg pkg+[`_choice_package`]
 show() {
     :;
 }
@@ -324,7 +324,7 @@ showhold() {
 
 # {{ apt showsrc
 # @cmd Display all the source package records that match the given package name
-# @arg pkg+[`_choice_pkg`]
+# @arg pkg+[`_choice_package`]
 showsrc() {
     :;
 }
@@ -332,7 +332,7 @@ showsrc() {
 
 # {{ apt source
 # @cmd Download source archives
-# @arg pkg+[`_choice_pkg`]
+# @arg pkg+[`_choice_package`]
 source() {
     :;
 }
@@ -347,7 +347,7 @@ sources() {
 
 # {{ apt unhold
 # @cmd Unhold a package
-# @arg pkg+[`_choice_hold_pkg`]
+# @arg pkg+[`_choice_hold_package`]
 unhold() {
     :;
 }
@@ -363,7 +363,7 @@ update() {
 # {{ apt upgrade
 # @cmd Perform a safe upgrade
 # @flag --with-new-pkgs    Allow installing new packages
-# @arg pkg*[`_choice_upgradable_pkg`]
+# @arg pkg*[`_choice_upgradable_package`]
 upgrade() {
     :;
 }
@@ -388,29 +388,20 @@ _choice_build() {
     printf "%s\n" ull source binary any all
 }
 
-_choice_pkg() {
-    if [[ -z "$ARGC_CWORD" ]]; then
-        return
-    fi
-    apt list $ARGC_CWORD* | gawk -F/ '{if (NR>1) {print $1}}'
+_choice_package() {
+    apt-cache --no-generate pkgnames
 }
 
-_choice_installed_pkg() {
-    if [[ -n "$ARGC_CWORD" ]]; then
-        pattern=$ARGC_CWORD*
-    fi
-    apt list --installed $pattern | gawk -F/ '{if (NR>1) {print $1}}'
+_choice_installed_package() {
+    dpkg --get-selections | gawk '{if (match($2, /(install|hold)/)) { print $1}}'
 }
 
-_choice_hold_pkg() {
+_choice_hold_package() {
     apt held
 }
 
-_choice_upgradable_pkg() {
-    if [[ -n "$ARGC_CWORD" ]]; then
-        pattern=$ARGC_CWORD*
-    fi
-    apt list --upgradable $pattern | gawk -F/ '{if (NR>1) {print $1}}'
+_choice_upgradable_package() {
+    apt list --upgradable "$ARGC_CWORD*" | gawk -F/ '{if (NR>1) {print $1}}'
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

@@ -37,6 +37,9 @@
 - [appwrite](https://github.com/appwrite/appwrite): a backend platform for developing Web, Mobile, and Flutter applications.
 - [apropos](https://manpages.ubuntu.com/manpages/jammy/man1/apropos.1.html): search the manual page names and descriptions
 - [apt](https://manpages.ubuntu.com/manpages/jammy/en/man8/apt.8.html): Package manager for Debian-based Linux distributions
+- [apt-cache](https://manpages.ubuntu.com/manpages/jammy/en/man8/apt-cache.8.html): query the APT cache
+- [apt-get](https://manpages.ubuntu.com/manpages/jammy/en/man8/apt-get.8.html): APT package handling utility
+- [aptitude](https://manpages.ubuntu.com/manpages/jammy/man8/aptitude-curses.8.html): high-level interface to the package manager
 - [ar](https://manpages.ubuntu.com/manpages/jammy/en/man1/ar.1.html): create, modify, and extract from archives
 - [arecord](https://manpages.ubuntu.com/manpages/jammy/en/man1/aplay.1.html): command-line sound recorder and player for ALSA soundcard driver
 - [argo](https://github.com/argoproj/argo-workflows): Workflow engine for Kubernetes
@@ -334,6 +337,7 @@
 - [glances](https://github.com/nicolargo/glances): Alternative to top/htop.
 - [global](https://manpages.ubuntu.com/manpages/jammy/en/man1/global.1.html): print locations of given symbols
 - [glow](https://github.com/charmbracelet/glow): Render markdown on the CLI, with pizzazz!
+- [gm](http://www.graphicsmagick.org/): GraphicsMagick Image Processing System
 - [gnutls-cli](https://manpages.ubuntu.com/manpages/jammy/en/man1/gnutls-cli.1.html): GnuTLS client
 - [gnutls-serv](https://manpages.ubuntu.com/manpages/jammy/en/man1/gnutls-serv.1.html): GnuTLS server
 - [go](https://go.dev/): a tool for managing Go source code.
@@ -436,6 +440,7 @@
 - [kind](https://github.com/kubernetes-sigs/kind): Kubernetes IN Docker - local clusters for testing Kubernetes
 - [kmutil](https://keith.github.io/xcode-man-pages/kmutil.8.html): multipurpose tool for managing kernel extensions (kexts) and kext collections on disk. (macOS)
 - [kompose](https://github.com/kubernetes/kompose): Convert Compose to Kubernetes
+- [kotlin](https://kotlinlang.org/): run Kotlin programs, scripts or REPL.
 - [kpartx](https://manpages.ubuntu.com/manpages/jammy/en/man8/kpartx.8.html): Create device maps from partition tables.
 - [kubeadm](https://kubernetes.io/docs/reference/setup-tools/kubeadm/): Easily bootstrap a secure Kubernetes cluster  
 - [kubectl](https://kubernetes.io/docs/reference/kubectl/): controls the Kubernetes cluster manager.
@@ -533,6 +538,7 @@
 - [mosh](https://github.com/mobile-shell/mosh): Mobile Shell
 - [most](https://manpages.ubuntu.com/manpages/jammy/en/man1/most.1.html): browse or page through a text file
 - [mount](https://manpages.ubuntu.com/manpages/jammy/en/man8/mount.8.html): mount a filesystem
+- [mpc](https://manpages.ubuntu.com/manpages/jammy/en/man1/mpc.1.html): a command-line client for the Music Player Daemon. 
 - [mpstat](https://manpages.ubuntu.com/manpages/jammy/en/man1/mpstat.1.html): Report processors related statistics.
 - [mpv](https://mpv.io/): video player based on MPlayer/mplayer2
 - [msfconsole](https://docs.metasploit.com/): main Metasploit command-line interface
@@ -600,6 +606,7 @@
 - [opa](https://github.com/open-policy-agent/opa): An open source project to policy-enable your service.
 - [opam](https://github.com/ocaml/opam): source-based package manager for ocaml.
 - [openssl](https://github.com/openssl/openssl): OpenSSL command line program
+- [opkg](https://openwrt.org/docs/guide-user/additional-software/opkg): a lightweight package management system
 - [optipng](https://manpages.ubuntu.com/manpages/jammy/en/man1/optipng.1.html): Optimize Portable Network Graphics files
 - [osascript](https://ss64.com/osx/osascript.html): Execute AppleScripts and other OSA language scripts. (macOS)
 - [osqueryi](https://github.com/osquery/osquery): your OS as a high-performance relational database
@@ -677,6 +684,7 @@
 - [python](https://www.python.org/): an interpreted, interactive, object-oriented programming language
 - [python3](https://www.python.org/): an interpreted, interactive, object-oriented programming language
 - [qrencode](https://manpages.ubuntu.com/manpages/jammy/en/man1/qrencode.1.html): Encode input data in a QR Code and save as a PNG or EPS image.
+- [quilt](https://manpages.ubuntu.com/manpages/jammy/en/man1/quilt.1.html): tool to manage series of patches
 - [rake](https://github.com/ruby/rake): A make-like build utility for Ruby
 - [ranger](https://github.com/ranger/ranger): A VIM-inspired filemanager for the console
 - [rar](https://manpages.ubuntu.com/manpages/jammy/en/man1/rar.1.html): archive files with compression
@@ -734,10 +742,12 @@
 - [setsid](https://manpages.ubuntu.com/manpages/jammy/en/man1/setsid.1.html): run a program in a new session
 - [sftp](https://manpages.ubuntu.com/manpages/jammy/en/man1/sftp.1.html): OpenSSH secure file transfer
 - [sg](https://github.com/ast-grep/ast-grep): a CLI tool for code structural search, lint, and rewriting.
+- [sh](https://manpages.ubuntu.com/manpages/jammy/en/man1/sh.1.html): command language interpreter
 - [sha1sum](https://manpages.ubuntu.com/manpages/jammy/en/man1/sha1sum.1.html): compute and check SHA1 message digest
 - [sha256sum](https://manpages.ubuntu.com/manpages/jammy/en/man1/sha256sum.1.html): compute and check SHA256 message digest
 - [sha512sum](https://manpages.ubuntu.com/manpages/jammy/en/man1/sha512sum.1.html): compute and check SHA512 message digest
 - [shasum](https://manpages.ubuntu.com/manpages/jammy/en/man1/shasum.1.html): Print or Check SHA Checksums
+- [shellcheck](https://github.com/koalaman/shellcheck): a static analysis tool for shell scripts
 - [shortcuts](https://ss64.com/osx/shortcuts.html): Manage macOS shortcuts. (macOS)
 - [shred](https://manpages.ubuntu.com/manpages/jammy/en/man1/shred.1.html): overwrite a file to hide its contents, and optionally delete it
 - [shuf](https://manpages.ubuntu.com/manpages/jammy/en/man1/shuf.1.html): generate random permutations
@@ -782,6 +792,7 @@
 - [supabase](https://github.com/supabase/supabase): The open source Firebase alternative.
 - [supervisorctl](http://supervisord.org/): control applications run by supervisord from the cmd line
 - [surreal](https://github.com/surrealdb/surrealdb): SurrealDB command-line interface and server 
+- [sv](https://manpages.ubuntu.com/manpages/jammy/en/man8/sv.8.html): control and manage services monitored by runsv
 - [svn](https://subversion.apache.org/): Subversion command line client tool
 - [svtplay-dl](https://github.com/spaam/svtplay-dl): Download videos from your favourite play services.
 - [swaks](https://manpages.ubuntu.com/manpages/jammy/en/man1/swaks.1.html): Swiss Army Knife SMTP, the all-purpose SMTP transaction tester
@@ -938,6 +949,7 @@
 - [xargs](https://manpages.ubuntu.com/manpages/jammy/en/man1/xargs.1.html): build and execute command lines from standard input
 - [xattr](https://manpages.ubuntu.com/manpages/jammy/en/man1/xattr.1.html): sets or lists extended attributes on a file or directory
 - [xc](https://github.com/joerdav/xc): Markdown defined task runner.
+- [xclip](https://manpages.ubuntu.com/manpages/jammy/en/man1/xclip.1.html): command line interface to X selections (clipboard)
 - [xcode-select](https://ss64.com/osx/xcode-select.html): Manage the active developer directory for Xcode and BSD tools. (macOS)
 - [xcodebuild](https://keith.github.io/xcode-man-pages/xcodebuild.1.html): build Xcode projects and workspaces. (macOS)
 - [xcodeproj](https://github.com/CocoaPods/Xcodeproj): Create and modify Xcode projects from Ruby. (macOS)
@@ -946,9 +958,11 @@
 - [xdg-mime](https://manpages.ubuntu.com/manpages/jammy/en/man1/xdg-mime.1.html): command line tool for querying information about file type handling and adding descriptions for new file types
 - [xdg-open](https://manpages.ubuntu.com/manpages/jammy/en/man1/xdg-open.1.html): opens a file or URL in the user's preferred application
 - [xh](https://github.com/ducaale/xh): Friendly and fast tool for sending HTTP requests.
+- [xinput](https://manpages.ubuntu.com/manpages/jammy/en/man1/xinput.1.html): utility to configure and test X input devices
 - [xmake](https://github.com/xmake-io/xmake): A cross-platform build utility based on Lua
 - [xmlstarlet](https://manpages.ubuntu.com/manpages/jammy/en/man1/xmlstarlet.1.html): command line XML/XSLT toolkit
 - [xonsh](https://github.com/xonsh/xonsh): Python-powered, cross-platform, Unix-gazing shell.
+- [xrandr](https://manpages.ubuntu.com/manpages/jammy/en/man1/xrandr.1.html): primitive command line interface to RandR extension
 - [xsel](https://manpages.ubuntu.com/manpages/jammy/en/man1/xsel.1.html): manipulate the X selection. 
 - [xsv](https://github.com/BurntSushi/xsv): A fast CSV command line toolkit written in Rust.
 - [xxd](https://manpages.ubuntu.com/manpages/jammy/en/man1/xxd.1.html): make a hexdump or do the reverse.

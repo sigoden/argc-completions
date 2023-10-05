@@ -13,19 +13,21 @@ _patch_help() {
 _patch_table() { 
     _patch_table_edit_options \
         '--add-modules(<dir>);*,' \
-        '--class-path;*:[`_choice_class_path`]' \
+        '--class-path(<path>);*:[`_choice_class_path`];A : separated list of directories, JAR archives and ZIP archives to search for class files.' \
         '--enable-native-access(<module>);*,' \
-        '--module-path(<dir>);*:' \
+        '--module-path(<dir>);*:;A : separated list of elements, each element is a file path to a module or a directory containing modules.' \
         '--upgrade-module-path(<dir>);*:' \
+        '-D;-*' \
         '-agentpath;[`_choice_agent_path`]' \
-        '-classpath;*:[`_choice_class_path`]' \
-        '-cp;*:[`_choice_class_path`]' \
+        '-classpath(<path>);*:[`_choice_class_path`];A : separated list of directories, JAR archives and ZIP archives to search for class files.' \
+        '-cp(<path>);*:[`_choice_class_path`];A : separated list of directories, JAR archives and ZIP archives to search for class files.' \
+        '-d;;describe a module and exit' \
         '-da;*:' \
         '-disableassertions;*:' \
         '-ea;*:' \
         '-enableassertions;*:' \
         '-javaagent;*:[`_choice_class_path`]' \
-        '-p(<dir>);*:' \
+        '-p(<dir>);*:;A : separated list of elements, each element is a file path to a module or a directory containing modules.' \
         ';;' \
         '-X;-*[`_choice_option`];pass additional options to JVM' \
 
