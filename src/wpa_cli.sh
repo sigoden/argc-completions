@@ -14,7 +14,7 @@ _patch_help() {
 
 _patch_table() {
     if [[ "$*" == "wpa_cli" ]]; then
-        _patch_table_add_metadata inherit-flag-options
+        _patch_table_add_metadata combine-shorts inherit-flag-options
 
     else
         _patch_table_edit_arguments \

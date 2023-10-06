@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @option -n <name>    specify the session token instead of getting a random one
 # @option -r <name>    same, but for the read-only token
 # @option -k <key>     specify an api-key, necessary for using named sessions on tmate.io

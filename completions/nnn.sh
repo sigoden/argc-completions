@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -a             auto NNN_FIFO
 # @flag -A             no dir auto-select
 # @option -b <key>     open bookmark key (trumps -s/S)

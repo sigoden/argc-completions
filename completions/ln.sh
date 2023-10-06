@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @option --backup[`_choice_backup`] <CONTROL>    make a backup of each existing destination file
 # @flag -b                                        like --backup but does not accept an argument
 # @flag -d                                        allow the superuser to attempt to hard link directories (note: will probably fail due to system restrictions, even for the superuser)

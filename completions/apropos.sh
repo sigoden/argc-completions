@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -d --debug                   emit debugging messages
 # @flag -v --verbose                 print verbose warning messages
 # @flag -e --exact                   search each keyword for exact match

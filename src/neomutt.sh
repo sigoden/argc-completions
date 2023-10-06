@@ -7,6 +7,7 @@ _patch_help() {
 }
 
 _patch_table() { 
+    _patch_table_add_metadata combine-shorts | \
     _patch_table_edit_options \
         '-F(<config-file>)' \
         '-d;[1|2|3|4|5]' \

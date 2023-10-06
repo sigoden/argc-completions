@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -4                                      Forces ssh to use IPv4 addresses only.
 # @flag -6                                      Forces ssh to use IPv6 addresses only.
 # @flag -A                                      Enables forwarding of connections from an authentication agent such as ssh-agent(1).

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -a --append             with -o FILE, append instead of overwriting
 # @option -f --format           use the specified FORMAT instead of the default
 # @option -o --output <FILE>    write to FILE instead of STDERR

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -4                             force connecting via IPv4
 # @flag -6                             force connecting via IPv6
 # @flag -a                             toggle color flag

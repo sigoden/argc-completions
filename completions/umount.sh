@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -a --all                                   unmount all filesystems
 # @flag -A --all-targets                           unmount all mountpoints for the given device in the current namespace
 # @flag -c --no-canonicalize                       don't canonicalize paths

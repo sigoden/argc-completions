@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -c --check            check-only mode
 # @option -f --file <file>    specify sudoers file location
 # @flag -h --help             display help message and exit

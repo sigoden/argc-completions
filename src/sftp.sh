@@ -8,6 +8,7 @@ _patch_table() {
         -e '/# -R \[bind_address:\]port:/ d' \
         -e '/# -R #/ d' \
     | \
+    _patch_table_add_metadata combine-shorts | \
     _patch_table_edit_options \
         '-J;[`_module_ssh_host`]' \
         '-R([bind_address:]port:host:hostport)' \

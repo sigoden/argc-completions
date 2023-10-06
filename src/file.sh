@@ -3,6 +3,7 @@ _patch_help() {
 }
 
 _patch_table() { 
+    _patch_table_add_metadata combine-shorts | \
     _patch_table_edit_options \
         '--exclude;[`_choice_test`]' \
         '--exclude-quiet;[`_choice_test`]' \

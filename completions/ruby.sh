@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @option -0-* <octal>                             specify record separator (\0, if no argument)
 # @flag -a                                         autosplit mode with -n or -p (splits $_ into $F)
 # @flag -c                                         check syntax only

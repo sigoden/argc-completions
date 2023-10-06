@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -a    Respond to all events which occur while the utility is running.
 # @flag -c    Clear the screen before invoking the utility specified on the command line.
 # @flag -d    Track the directories of regular files provided as input and exit if a new file is added.

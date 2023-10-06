@@ -10,6 +10,7 @@ _patch_help() {
 }
 
 _patch_table() { 
+    _patch_table_add_metadata combine-shorts | \
     _patch_table_dedup_options '-d' | \
     _patch_table_edit_options \
         '-c;*[`_choice_alg`]' \

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @option -c --cpu[system|user|idle|wait]          enable cpu stats, for more CPU related stats also see --cpu-adv and --cpu-use
 # @option -C <0,3,total>                           include cpu0, cpu3 and total (when using -c/--cpu); use all to show all CPUs
 # @option -d --disk[read|write]                    enable disk stats, for more disk related stats look into the other --disk plugins

@@ -13,6 +13,7 @@ _patch_help() {
 }
 
 _patch_table() { 
+    _patch_table_add_metadata combine-shorts | \
     _patch_table_edit_options \
         '--disable(<value>);*[`_choice_feature`]' \
         '--dump(<value>);*[`_choice_dump`]' \

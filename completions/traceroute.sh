@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -4                                        Use IPv4
 # @flag -6                                        Use IPv6
 # @flag -d --debug                                Enable socket level debugging

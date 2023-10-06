@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -a                                use audible ping
 # @flag -A                                use adaptive ping
 # @flag -B                                sticky source address

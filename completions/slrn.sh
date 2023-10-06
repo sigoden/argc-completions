@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -a                    Use active file for getting new news.
 # @option -f <newsrc-file>    Name of the newsrc file to use.
 # @flag -C                    use colors.

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @meta inherit-flag-options
 # @flag -p --pkg-cache                Select the file to store the package cache.
 # @flag -s --src-cache                Select the file to store the source cache.

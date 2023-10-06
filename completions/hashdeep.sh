@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @option -c*[`_choice_alg`] <alg1,[alg2]>    Compute hashes only.
 # @option -p <size>                           piecewise mode.
 # @flag -r                                    recursive mode.

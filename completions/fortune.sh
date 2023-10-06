@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -a                Choose from all lists of maxims, both offensive and not.
 # @flag -c                Show the cookie file from which the fortune came.
 # @flag -e                Consider all fortune files to be of equal size (see discussion below on multiple files).

@@ -15,6 +15,7 @@ _patch_help() {
 
 _patch_table() { 
     if [[ "$*" == "port" ]]; then
+        _patch_table_add_metadata combine-shorts | \
         _patch_table_edit_arguments ';;' | \
         _patch_table_edit_commands \
             'unsetrequested(unsetrequested, setunrequested)' \

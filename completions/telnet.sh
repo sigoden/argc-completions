@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -4                                Force IPv4 address resolution.
 # @flag -6                                Force IPv6 address resolution.
 # @flag -8                                Request 8-bit operation.

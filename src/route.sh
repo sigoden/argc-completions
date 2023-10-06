@@ -16,7 +16,7 @@ EOF
 
 _patch_table() {
     if [[ "$*" == "route" ]]; then
-        _patch_table_add_metadata inherit-flag-options | \
+        _patch_table_add_metadata combine-shorts inherit-flag-options | \
         _patch_table_edit_options \
             '-A;[`_choice_family`]' \
             '-net;[`_module_os_network_interface`]' \

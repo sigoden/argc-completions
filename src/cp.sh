@@ -1,4 +1,5 @@
 _patch_table() { 
+    _patch_table_add_metadata combine-shorts | \
     _patch_table_edit_options \
         '--backup;[`_choice_backup`]' \
         '--no-preserve;[`_choice_preserve`]' \

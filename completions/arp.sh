@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -v --verbose              Tell the user what is going on by being verbose.
 # @flag -n --numeric              shows numerical addresses instead of trying to determine symbolic host, port or user names.
 # @option -H <type>               When setting or reading the ARP cache, this optional parameter tells arp which class of entries it should check for.

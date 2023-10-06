@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -h                               print this message
 # @flag -v                               print version number
 # @flag -e                               preprocess with eqn

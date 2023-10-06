@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -h --help           print this usage and exit
 # @flag -i --interactive    force interactive mode
 # @flag -l --mathlib        use the predefined math routines

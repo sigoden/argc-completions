@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @option -A <alias>                         expand the given alias
 # @option -a <file>                          attach file(s) to the message the list of files must be terminated with the "--" sequence
 # @option -b[`_choice_address`] <address>    specify a blind carbon-copy (BCC) address

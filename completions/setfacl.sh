@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @option -m --modify[`_choice_acl`] <acl>    modify the current ACL(s) of file(s)
 # @option -M --modify-file <file>             read ACL entries to modify from file
 # @option -x --remove[`_choice_acl`] <acl>    remove entries from the ACL(s) of file(s)

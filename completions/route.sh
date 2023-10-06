@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @meta inherit-flag-options
 # @option -A[`_choice_family`] <family>    use the specified address family (eg `inet').
 # @flag -F                                 operate on the kernel's FIB (Forwarding Information Base) routing table.

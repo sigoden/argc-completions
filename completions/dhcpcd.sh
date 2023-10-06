@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -b --background                         Background immediately.
 # @option -c --script <script>                  Use this script instead of the default /lib/dhcpcd/dhcpcd-run-hooks.
 # @flag -D --duid                               Use a DHCP Unique Identifier.

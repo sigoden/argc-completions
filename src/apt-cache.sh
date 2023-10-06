@@ -12,7 +12,7 @@ _patch_help() {
 
 _patch_table() {
     if [[ "$*" == "apt-cache" ]]; then
-        _patch_table_add_metadata inherit-flag-options | \
+        _patch_table_add_metadata combine-shorts inherit-flag-options | \
         _patch_table_edit_arguments ';;'
 
     else

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @option -E --env <var=val>                       Run command with var=val in its list of environment variables.
 # @option -p --attach[`_module_os_pid`] <pid>      Attach to the process with the process ID pid and begin tracing.
 # @option -u --user[`_module_os_user`] <username>  Run command with the user ID, group ID, and supplementary groups of username.

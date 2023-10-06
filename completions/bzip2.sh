@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -h --help          print this message
 # @flag -d --decompress    force decompression
 # @flag -z --compress      force compression

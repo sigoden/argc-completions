@@ -11,7 +11,10 @@ _patch_help() {
 }
 
 _patch_table() { 
-    if [[ "$*" == "tmux list-commands" ]]; then
+    if [[ "$*" == "tmux" ]]; then
+        _patch_table_add_metadata combine-shorts
+
+    elif [[ "$*" == "tmux list-commands" ]]; then
         _patch_table_edit_arguments 'command;[`_choice_command`]'
         
     elif [[ "$*" == "tmux split-window" ]]; then

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -a --all                               do not ignore entries starting with .
 # @flag -A --almost-all                        do not list implied .
 # @flag --author                               with -l, print the author of each file

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -f                 quit on first reply
 # @flag -q                 be quiet
 # @flag -b                 keep on broadcasting, do not unicast

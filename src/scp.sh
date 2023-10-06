@@ -4,6 +4,7 @@ _patch_help() {
 }
 
 _patch_table() {
+    _patch_table_add_metadata combine-shorts | \
     _patch_table_edit_options \
         '-c;*,[`_module_ssh_cipher`]' \
         '-o;[`_module_ssh_option`]' \

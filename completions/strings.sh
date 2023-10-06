@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -a --all                               Scan the entire file, not just the data section [default]
 # @flag -d --data                              Only scan the data sections in the file
 # @flag -f --print-file-name                   Print the name of the file before each string

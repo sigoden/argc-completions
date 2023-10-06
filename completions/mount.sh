@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -a --all                                   mount all filesystems mentioned in fstab
 # @flag -c --no-canonicalize                       don't canonicalize paths
 # @flag -f --fake                                  dry run; skip the mount(2) syscall

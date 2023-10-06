@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -o --create                          Copy-out.
 # @flag -i --extract                         Copy-in.
 # @flag -p --pass-through                    Pass-through.

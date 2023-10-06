@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -E --error-on-no-fonts    raise an error if no fonts in a directory
 # @flag -f --force                scan directories with apparently valid caches
 # @flag -r --really-force         erase all existing caches, then rescan

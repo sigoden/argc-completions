@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -b                  Build the cross-reference only.
 # @flag -C                  Ignore letter case when searching.
 # @flag -c                  Use only ASCII characters in the cross-ref file (don't compress).

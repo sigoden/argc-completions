@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag --apple                              Causes the file command to output the file type and creator code as used by older MacOS versions.
 # @flag -b --brief                           Do not prepend filenames to output lines (brief mode).
 # @flag -C --compile                         Write a magic.mgc output file that contains a pre-parsed version of the magic file or directory.

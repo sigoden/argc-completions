@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -h                              display this message
 # @flag -n                              don't do hostname lookups
 # @flag -N                              don't convert port numbers to services

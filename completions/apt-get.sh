@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @meta inherit-flag-options
 # @flag --no-install-recommends             Do not consider recommended packages as a dependency for installing.
 # @flag --install-suggests                  Consider suggested packages as a dependency for installing.

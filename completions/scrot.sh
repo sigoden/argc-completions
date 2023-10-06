@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @option -a --autoselect <X,Y,W,H>    Non-interactively choose a rectangle starting at position X,Y and of W by H resolution.
 # @flag -b --border                    When selecting a window, grab the WM's border too.
 # @option -C --class <NAME>            NAME is a window class name.

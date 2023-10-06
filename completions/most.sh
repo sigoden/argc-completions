@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -1    VT100 mode.
 # @flag -b    Binary mode.
 # @flag -C    Disable color support.

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -a                 All files are listed.
 # @flag -d                 List directories only.
 # @flag -l                 Follow symbolic links like directories.

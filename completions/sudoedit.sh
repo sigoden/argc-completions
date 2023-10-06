@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -A --askpass                             use a helper program for password prompting
 # @flag -B --bell                                ring bell when prompting
 # @option -C --close-from <num>                  close all file descriptors >= num

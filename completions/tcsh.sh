@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @option -b <file>            batch mode, read and execute commands from `file'
 # @option -c <command>         run `command' from next argument
 # @flag -d                     load directory stack from `~/.cshdirs'

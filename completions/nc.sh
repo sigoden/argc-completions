@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -4                             Use IPv4 addresses only.
 # @flag -6                             Use IPv6 addresses only.
 # @flag -b                             Allow broadcast.

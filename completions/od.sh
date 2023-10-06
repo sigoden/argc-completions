@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @option -A --address-radix[`_choice_address_radix`] <RADIX>  output format for file offsets; RADIX is one of [doxn], for Decimal, Octal, Hex or None
 # @option --endian[big|little]                    swap input bytes according the specified order
 # @option -j --skip-bytes <BYTES>                 skip BYTES input bytes first

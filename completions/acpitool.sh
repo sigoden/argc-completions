@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -a --ac_adapter               AC adapter information
 # @flag -A --Asus                     show supported Asus ACPI extensions (LCD brightness level, video out routing DSTD/acpi4asus info)
 # @flag -b                            battery status, available batteries only

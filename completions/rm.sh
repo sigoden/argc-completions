@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -f --force                 ignore nonexistent files and arguments, never prompt
 # @flag -i                         prompt before every removal
 # @flag -I                         prompt once before removing more than three files, or when removing recursively; less intrusive than -i, while still giving protection against most mistakes

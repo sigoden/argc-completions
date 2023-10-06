@@ -5,3 +5,7 @@ _patch_help() {
         -e '/^-/ s/^\(\S\+\) \(\S\+\)/\1 [\2]/' \
 
 }
+
+_patch_table() {
+    _patch_table_add_metadata combine-shorts
+}

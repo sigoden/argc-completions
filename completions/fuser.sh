@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -a --all                               display unused files too
 # @flag -i --interactive                       ask before killing (ignored without -k)
 # @flag -I --inode                             use always inodes to compare files

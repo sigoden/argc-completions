@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @option -C <config-file>                Parse and check the configuration file config, then exit.
 # @flag -L                                Clear any persisted authentications from previous invocations, then immediately exit.
 # @flag -n                                Non interactive mode, fail if the matching rule doesn't have the nopass option.

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -a --archive                              same as -dR --preserve=all
 # @flag --attributes-only                         don't copy the file data, just the attributes
 # @option --backup[`_choice_backup`] <CONTROL>    make a backup of each existing destination file

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -V                 prints the version number to standard error and exit successfully.
 # @option -q <queue>       uses the specified queue.
 # @flag -m                 Send mail to the user when the job has completed even if there was no output.

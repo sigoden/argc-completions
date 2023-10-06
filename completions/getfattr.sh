@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @option -n --name <name>                       Dump the value of the named extended attribute.
 # @flag -d --dump                                Dump the values of all matched extended attributes.
 # @option -e --encoding[text|hex|base64] <en>    Encode values after retrieving them.

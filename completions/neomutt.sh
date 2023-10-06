@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @option -A <alias>                            Print an expanded version of the given alias to stdout and exit
 # @option -a <file>                             Attach one or more files to a message (must be the last option) Add any addresses after the '--' argument
 # @flag -B                                      Run in batch mode (do not start the ncurses UI)

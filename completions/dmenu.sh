@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -b                 dmenu appears at the bottom of the screen.
 # @flag -f                 dmenu grabs the keyboard before reading stdin if not reading from a tty.
 # @flag -i                 dmenu matches menu items case insensitively.
