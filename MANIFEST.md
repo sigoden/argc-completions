@@ -112,6 +112,7 @@
 - [cargo-ndk](https://github.com/bbqsrc/cargo-ndk): Compile Rust projects against the Android NDK without hassle
 - [cargo-nextest](https://github.com/nextest-rs/nextest): A new, faster test runner for Rust.
 - [cargo-outdated](https://github.com/kbknapp/cargo-outdated): displaying when dependencies have newer versions available.
+- [cargo-semver-checks](https://github.com/obi1kenobi/cargo-semver-checks): Scan your Rust crate for semver violations.
 - [cargo-sort](https://github.com/DevinR528/cargo-sort): Check if tables and items in a .toml file are lexically sorted
 - [cargo-tarpaulin](https://github.com/xd009642/tarpaulin): A code coverage tool for Rust projects
 - [cargo-tauri](https://github.com/tauri-apps/tauri): Build smaller, faster, and more secure desktop applications with a web frontend.
@@ -213,6 +214,7 @@
 - [dkms](https://github.com/dell-oss/dkms): Dynamic Kernel Module Support
 - [dmenu](https://tools.suckless.org/dmenu): dynamic menu
 - [dmesg](https://github.com/util-linux/util-linux): dmesg - print or control the kernel ring buffer
+- [dmidecode](https://savannah.nongnu.org/projects/dmidecode): DMI table decoder
 - [dnf](https://github.com/rpm-software-management/dnf): package managment for Fedora Linux and the successor to YUM
 - [dnsmasq](https://thekelleys.org.uk/dnsmasq/doc.html): A lightweight DHCP and caching DNS server.
 - [doas](https://github.com/Duncaen/OpenDoas): execute commands as another user
@@ -334,6 +336,7 @@
 - [godoc](https://github.com/golang/tools): extracts and generates documentation for Go programs.
 - [gofmt](https://github.com/golang/go): formats Go programs.
 - [gojq](https://github.com/itchyny/gojq): Pure Go implementation of jq
+- [goose](https://github.com/pressly/goose): a database migration tool.
 - [goreleaser](https://github.com/goreleaser/goreleaser): Deliver Go binaries as fast and easily as possible
 - [gource](https://github.com/acaudwell/Gource): software version control visualization
 - [gpasswd](https://github.com/shadow-maint/shadow): administer /etc/group and /etc/gshadow
@@ -366,6 +369,7 @@
 - [hashdeep](https://github.com/jessek/hashdeep): Compute, compare, or audit multiple message digests
 - [hasura](https://github.com/hasura/graphql-engine): accelerates API development by 10x by giving you GraphQL or REST APIs with built-in authorization on your data, instantly.
 - [hdiutil](https://ss64.com/osx/hdiutil.html): Manipulate disk images (attach, verify, burn, etc). (macOS)
+- [hdparm](http://sourceforge.net/projects/hdparm): get/set SATA/IDE device parameters
 - [head](http://gnu.org/software/coreutils): output the first part of files
 - [helm](https://github.com/helm/helm): The Kubernetes package manager
 - [helmfile](https://github.com/roboll/helmfile): Declaratively deploy your Kubernetes manifests, Kustomize configs, and Charts as Helm releases in one shot
@@ -382,12 +386,13 @@
 - [http](https://github.com/httpie/cli): a command-line HTTP client
 - [https](https://github.com/httpie/cli): a command-line HTTP client
 - [hugo](https://github.com/gohugoio/hugo): A fast and flexible static site generator
+- [hurl](https://github.com/Orange-OpenSource/hurl): run and test HTTP requests with plain text.
+- [hwclock](https://github.com/util-linux/util-linux): time clocks utility
 - [hwinfo](https://github.com/openSUSE/hwinfo): probe for hardware
 - [hx](https://github.com/helix-editor/helix): A post-modern text editor.
 - [hyperfine](https://github.com/sharkdp/hyperfine): A command-line benchmarking tool
 - [icdiff](https://github.com/jeffkaufman/icdiff): terminal side-by-side colorized word diff
 - [iconv](https://www.gnu.org/software/libiconv): convert text from one character encoding to another
-- [iconvconfig](https://www.gnu.org/software/libiconv): create iconv module configuration cache
 - [id](http://gnu.org/software/coreutils): print real and effective user and group IDs
 - [ifconfig](https://github.com/ecki/net-tools): configure a network interface
 - [ifdown](https://github.com/ifupdown-ng/ifupdown-ng): bring interfaces down
@@ -410,7 +415,7 @@
 - [jenv](https://github.com/jenv/jenv): Manage your Java environment
 - [jless](https://github.com/PaulJuliusMartinez/jless): JSON viewer designed for reading, exploring, and searching through JSON data.
 - [jmeter](https://github.com/apache/jmeter): Apache JMeter - Load testing tool
-- [jobs](https://manpages.ubuntu.com/manpages/jammy/en/man1/jobs.1posix.html): Display status of jobs.
+- [jobs](https://manned.org/jobs.1posix): Display status of jobs.
 - [join](http://gnu.org/software/coreutils): join lines of two files on a common field
 - [journalctl](https://github.com/systemd/systemd): Query the systemd journal
 - [jq](https://github.com/jqlang/jq): Command-line JSON processor
@@ -456,11 +461,12 @@
 - [lnav](https://github.com/tstack/lnav): Log file navigator
 - [lldb](https://github.com/llvm/llvm-project): Next generation, high-performance debugger
 - [loadkeys](https://github.com/legionus/kbd): load keyboard translation tables
-- [locale](https://manpages.ubuntu.com/manpages/jammy/en/man1/locale.1.html): get locale-specific information
+- [locale](https://manned.org/locale.1posix): get locale-specific information
 - [localectl](https://github.com/systemd/systemd): Control the system locale and keyboard layout settings
 - [locate](https://www.gnu.org/software/findutils): find files by name, quickly
 - [locust](https://github.com/locustio/locust): Write scalable load tests in plain Python
 - [loginctl](https://github.com/systemd/systemd): Control the systemd login manager
+- [logrotate](https://github.com/logrotate/logrotate): rotates, compresses, and mails system logs
 - [look](https://github.com/util-linux/util-linux): display lines beginning with a given string
 - [losetup](https://github.com/util-linux/util-linux): set up and control loop devices
 - [lp](https://github.com/OpenPrinting/cups): print files
@@ -471,6 +477,7 @@
 - [lsb_release](https://refspecs.linuxfoundation.org/lsb.shtml): print distribution-specific information
 - [lscpu](https://github.com/util-linux/util-linux): display information about the CPU architecture
 - [lsd](https://github.com/lsd-rs/lsd): The next gen ls command
+- [lshw](https://github.com/lyonel/lshw): HardWare LiSter for Linux
 - [lslocks](https://github.com/util-linux/util-linux): list local system locks
 - [lslogins](https://github.com/util-linux/util-linux): display information about known users in the system
 - [lsmem](https://github.com/util-linux/util-linux): list the ranges of available memory with their online status
@@ -480,6 +487,7 @@
 - [ltrace](https://github.com/dkogan/ltrace): A library call tracer
 - [lua](https://github.com/lua/lua): Lua interpreter
 - [luarocks](https://github.com/luarocks/luarocks): the package manager for the Lua programming language.
+- [lychee](https://github.com/lycheeverse/lychee): A fast, async, stream-based link checker written in Rust.
 - [lynx](https://invisible-island.net/lynx): a general purpose distributed information browser for the World Wide Web
 - [lzcat](https://github.com/tukaani-project/xz): Compress or decompress .xz and .lzma files
 - [lzma](https://github.com/tukaani-project/xz): Compress or decompress .xz and .lzma files
@@ -534,6 +542,7 @@
 - [msfdb](https://github.com/rapid7/metasploit-framework): easily setup and control both a database and a Web Service capable of connecting this database with Metasploit
 - [mtr](https://github.com/traviscross/mtr): a network diagnostic tool
 - [mutt](https://gitlab.com/muttmua/mutt): The Mutt Mail User Agent
+- [muffet](https://github.com/raviqqe/muffet): Fast website link checker in Go
 - [mv](http://gnu.org/software/coreutils): move (rename) files
 - [mvn](https://github.com/apache/maven): a software project management and comprehension tool.
 - [mypy](https://github.com/python/mypy): Optional static typing for Python.
@@ -564,6 +573,7 @@
 - [nfpm](https://github.com/goreleaser/nfpm): a simple and 0-dependencies deb, rpm, apk and arch linux packager written in Go.
 - [ng](https://github.com/angular/angular-cli): CLI tool for Angular
 - [nginx](http://nginx.org): HTTP and reverse proxy server, mail proxy server
+- [ngrep](https://github.com/jpr5/ngrep): network grep
 - [ngrok](https://github.com/inconshreveable/ngrok): Introspected tunnels to localhost
 - [nhost](https://github.com/newrelic/newrelic-cli): The New Relic Command Line Interface
 - [nice](http://gnu.org/software/coreutils): run a program with modified scheduling priority
@@ -707,6 +717,7 @@
 - [rustc](https://github.com/rust-lang/rust): Rust compiler
 - [rustfmt](https://github.com/rust-lang/rustfmt): Format Rust code
 - [rustup](https://github.com/rust-lang/rustup): The Rust toolchain installer
+- [rye](https://github.com/mitsuhiko/rye): An Experimental Package Management Solution for Python
 - [sad](https://github.com/ms-jpq/sad): Space Age seD.
 - [sbt](https://github.com/sbt/sbt): An interactive build tool for Scala, Java, and more.
 - [scc](https://github.com/boyter/scc): Sloc, Cloc and Code. Count lines of code in a directory with complexity estimation.
@@ -721,7 +732,7 @@
 - [sed](https://www.gnu.org/software/sed): stream editor for filtering and transforming text
 - [seq](http://gnu.org/software/coreutils): print a sequence of numbers
 - [serve](https://github.com/vercel/serve): Static file serving and directory listing
-- [service](https://manpages.ubuntu.com/manpages/jammy/en/man8/service.8.html): run a System V init script
+- [service](https://manned.org/service): run a System V init script
 - [setfacl](https://savannah.nongnu.org/projects/acl): set file access control lists
 - [setfattr](https://savannah.nongnu.org/projects/attr): set extended attributes of filesystem objects
 - [setpriv](https://github.com/util-linux/util-linux): run a program with different Linux privilege settings 
@@ -732,6 +743,7 @@
 - [sha1sum](http://gnu.org/software/coreutils): compute and check SHA1 message digest
 - [sha256sum](http://gnu.org/software/coreutils): compute and check SHA256 message digest
 - [sha512sum](http://gnu.org/software/coreutils): compute and check SHA512 message digest
+- [shar](https://www.gnu.org/software/sharutils): create a shell archive
 - [shasum](https://github.com/Perl/perl5): Print or Check SHA Checksums
 - [shellcheck](https://github.com/koalaman/shellcheck): a static analysis tool for shell scripts
 - [shortcuts](https://ss64.com/osx/shortcuts.html): Manage macOS shortcuts. (macOS)
@@ -829,7 +841,7 @@
 - [tr](http://gnu.org/software/coreutils): translate or delete characters
 - [tracepath](https://github.com/iputils/iputils) - traces path to a network host discovering MTU along this path
 - [traceroute](https://traceroute.sourceforge.net): print the route packets trace to network host
-- [trap](https://manpages.ubuntu.com/manpages/jammy/en/man1/trap.1posix.html): Trap signals and other events.
+- [trap](https://manned.org/trap.1posix): Trap signals and other events.
 - [trash-empty](https://github.com/andreafrancia/trash-cli): Empty for Command line trash utility.
 - [trash-list](https://github.com/andreafrancia/trash-cli): List trashed files.
 - [trash-put](https://github.com/andreafrancia/trash-cli): Command line trash utility.
@@ -854,8 +866,7 @@
 - [udevadm](https://github.com/systemd/systemd): udev management tool
 - [ug](https://github.com/Genivia/ugrep): Ultra fast grep with query UI, fuzzy search, archive search, and more 
 - [ugrep](https://github.com/Genivia/ugrep): Ultra fast grep with query UI, fuzzy search, archive search, and more
-- [ulimit](https://manpages.ubuntu.com/manpages/jammy/en/man1/ulimit.1posix.html): get and set user limits
-- [umask](https://manpages.ubuntu.com/manpages/jammy/en/man1/umask.1posix.html): set file mode creation mask
+- [ulimit](https://manned.org/ulimit.1posix): get and set user limits
 - [umount](https://github.com/util-linux/util-linux): unmount filesystems
 - [uname](http://gnu.org/software/coreutils): print system information
 - [unexpand](http://gnu.org/software/coreutils): convert spaces to tabs
@@ -874,6 +885,7 @@
 - [useradd](https://github.com/shadow-maint/shadow): create a new user or update default new user information
 - [userdel](https://github.com/shadow-maint/shadow): delete a user account and related files
 - [usermod](https://github.com/shadow-maint/shadow): modify a user account
+- [uuidgen](https://github.com/util-linux/util-linux): create a new UUID value
 - [vagrant](https://github.com/hashicorp/vagrant): building and distributing development environments.
 - [vale](https://github.com/errata-ai/vale): A markup-aware linter for prose built with speed and extensibility in mind.
 - [valgrind](http://www.valgrind.org): a suite of tools for debugging and profiling programs
@@ -962,6 +974,7 @@
 - [yj](https://github.com/sclevine/yj): Convert between YAML, TOML, JSON, and HCL. 
 - [ykman](https://github.com/Yubico/yubikey-manager): configuring any YubiKey over all USB interfaces.
 - [yomo](https://github.com/yomorun/yomo): Stateful Serverless Framework for Software Edge Infra
+- [you-get](https://github.com/soimort/you-get): Dumb downloader that scrapes the web
 - [youtube-dl](https://github.com/ytdl-org/youtube-dl): Command-line program to download videos from YouTube.com and other video sites
 - [yq](https://github.com/mikefarah/yq): a portable command-line YAML, JSON, XML, CSV, TOML and properties processor
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp): A youtube-dl fork with additional features and fixes
