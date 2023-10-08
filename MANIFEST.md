@@ -226,6 +226,7 @@
 - [dos2unix](https://dos2unix.sourceforge.io): DOS/Mac to Unix and vice versa text file format converter
 - [dotnet](https://github.com/dotnet/sdk):  A cross-platform toolchain for developing, building, running, and publishing .NET applications.
 - [dpkg](https://salsa.debian.org/dpkg-team/dpkg): package manager for Debian
+- [dpkg-deb](https://salsa.debian.org/dpkg-team/dpkg): Debian package archive (.deb) manipulation tool
 - [dpkg-reconfigure](http://joeyh.name/code/debconf): reconfigure an already installed package
 - [dprint](https://github.com/dprint/dprint): Pluggable and configurable code formatting platform written in Rust.
 - [drill](https://github.com/fcsonline/drill): Drill is an HTTP load testing application written in Rust
@@ -718,6 +719,7 @@
 - [rustfmt](https://github.com/rust-lang/rustfmt): Format Rust code
 - [rustup](https://github.com/rust-lang/rustup): The Rust toolchain installer
 - [rye](https://github.com/mitsuhiko/rye): An Experimental Package Management Solution for Python
+- [s3cmd](https://github.com/s3tools/s3cmd): Command-line tool for the Amazon S3 service
 - [sad](https://github.com/ms-jpq/sad): Space Age seD.
 - [sbt](https://github.com/sbt/sbt): An interactive build tool for Scala, Java, and more.
 - [scc](https://github.com/boyter/scc): Sloc, Cloc and Code. Count lines of code in a directory with complexity estimation.
@@ -738,6 +740,7 @@
 - [setpriv](https://github.com/util-linux/util-linux): run a program with different Linux privilege settings 
 - [setsid](https://github.com/util-linux/util-linux): run a program in a new session
 - [sftp](https://github.com/openssh/openssh-portable): OpenSSH secure file transfer
+- [sftpgo](https://github.com/drakkan/sftpgo): Fully featured SFTP server with optional HTTP/S, FTP/S and WebDAV support.
 - [sg](https://github.com/ast-grep/ast-grep): a CLI tool for code structural search, lint, and rewriting.
 - [sh](http://gondor.apana.org.au/~herbert/dash): command language interpreter
 - [sha1sum](http://gnu.org/software/coreutils): compute and check SHA1 message digest
@@ -885,6 +888,7 @@
 - [useradd](https://github.com/shadow-maint/shadow): create a new user or update default new user information
 - [userdel](https://github.com/shadow-maint/shadow): delete a user account and related files
 - [usermod](https://github.com/shadow-maint/shadow): modify a user account
+- [usql](https://github.com/xo/usql): Universal command-line interface for SQL databases
 - [uuidgen](https://github.com/util-linux/util-linux): create a new UUID value
 - [vagrant](https://github.com/hashicorp/vagrant): building and distributing development environments.
 - [vale](https://github.com/errata-ai/vale): A markup-aware linter for prose built with speed and extensibility in mind.
