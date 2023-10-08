@@ -810,7 +810,7 @@ BEGIN {
 # Args:
 #   timeout_secs: Timeout in seconds
 #   choice_fn: Cache data from choice fn
-#   key: Additional cache key
+#   key: optional cache key
 #
 # ```
 # _argc_util_cache 86400 _choice_fn
@@ -818,15 +818,19 @@ BEGIN {
 _argc_util_cache() {
     local cache_dir cache_key cache_file
     cache_dir=/tmp/argc_completions_cache
-    cache_key="$(printf "%s_" "${argc__args[@]:0:$(( $argc__cmd_arg_index + 1 ))}")"
-    cache_key="${cache_key}_$2"
-    if [[ -n "$3" ]]; then
-        local key="$(echo "$3" | md5sum)"
-        key="${key%% *}"
-        cache_key="${cache_key}_$key"
+    if [[ -z "$3" ]]; then
+        cache_key="$(printf "%s_" "${argc__args[@]:0:$(( $argc__cmd_arg_index + 1 ))}")$2"
+    else
+        if [[ "$3" == *':'* ]]; then
+            local key="$(echo "${3#*:}" | openssl sha1)"
+            key="${key#* }"
+            cache_key="${3%%:*}_$key"
+        else
+            cache_key="$3"
+        fi
     fi
     cache_file="$cache_dir/$cache_key"
-    if [[ -f "$cache_file" ]]; then
+    if [[ -s "$cache_file" ]]; then
         if [[ "$ARGC_OS" == "macos" ]]; then
           mod_time=$(command stat -f "%Sm" -t "%s" "$cache_file")
         else

@@ -201,7 +201,7 @@ _choice_name_urn() {
 }
 
 _choice_urn_cached() {
-    _argc_util_cache 180 _choice_urn "${argc_cwd:-`pwd`} ${argc_stack}"
+    _argc_util_cache 180 _choice_urn "pulumi__choice_urn:${argc_cwd:-`pwd`}:${argc_stack}"
 }
 
 _choice_inprogress_stack() {

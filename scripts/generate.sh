@@ -94,7 +94,7 @@ get_table() {
         help_text="$(_patch_help_run_help $@)"
     fi
     table="$(echo "$help_text" | parse_table $@)"
-    table_hash="$(get_table_hash "$table")"
+    table_hash="$(echo "$table" | openssl sha1 | gawk '{print $2}')"
     parent_key="${@:1:$(($#-1))} :: "
     parent_table_hash="$(cat "$store_table_hash" | grep "$parent_key" | gawk -F ' :: ' '{print $2}')"
     if [[ "$table_hash" == "$parent_table_hash" ]]; then
@@ -120,16 +120,6 @@ get_table() {
         table="$(echo "$table" | _patch_table $@)"
     fi
     echo "$table"
-}
-
-get_table_hash() {
-    local hash
-    if command -v shasum >/dev/null; then
-        hash="$(echo "$1" | sha1sum)"
-    elif command -v sha1sum >/dev/null; then
-        hash="$(echo "$1" | sha1sum)"
-    fi
-    echo "$hash" | sed 's/  -//'
 }
 
 embed_src_script() {
