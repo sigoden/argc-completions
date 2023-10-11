@@ -579,6 +579,16 @@
 - [nhost](https://github.com/newrelic/newrelic-cli): The New Relic Command Line Interface
 - [nice](http://gnu.org/software/coreutils): run a program with modified scheduling priority
 - [ninja](https://github.com/ninja-build/ninja): a small build system with a focus on speed
+- [nix-build](https://github.com/NixOS/nix): build a Nix expression
+- [nix-channel](https://github.com/NixOS/nix): manage Nix channels
+- [nix-collect-garbage](https://github.com/NixOS/nix): delete unreachable store objects
+- [nix-copy-closure](https://github.com/NixOS/nix): copy a closure to or from a remote machine via SSH
+- [nix-env](https://github.com/NixOS/nix): manipulate or query Nix user environments
+- [nix-hash](https://github.com/NixOS/nix): compute the cryptographic hash of a path
+- [nix-instantiate](https://github.com/NixOS/nix): instantiate store derivations from Nix expressions
+- [nix-prefetch-url](https://github.com/NixOS/nix): copy a file from a URL into the store and print its hash
+- [nix-shell](https://github.com/NixOS/nix): start an interactive shell based on a Nix expression
+- [nix-store](https://github.com/NixOS/nix): manipulate or query the Nix store
 - [nl](http://gnu.org/software/coreutils): number lines of files
 - [nm](https://www.gnu.org/software/binutils): list symbols from object files
 - [nmap](https://github.com/nmap/nmap): The Network Mapper

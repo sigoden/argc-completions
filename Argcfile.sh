@@ -234,7 +234,7 @@ _choice_completion() {
 
 _choice_fn_name() {
     if [[ -f "$argc_script_file" ]]; then
-        cat "$argc_script_file" | grep ^_choice | sed 's/\(_choice\w\+\).*/\1/'
+        cat "$argc_script_file" | grep '^\(_choice\|_module\)' | sed 's/\(\(_choice\|_module\)\w\+\).*/\1/'
     fi
 }
 
@@ -327,7 +327,7 @@ _helper_test_fn() {
 
 _helper_list_changed() {
     git status | \
-    gawk '/ (src|completions)\// {
+    gawk '/(src|completions)\// {
         if (match($0, /^\s+(deleted|renamed):\s+/)) {
             next
         }

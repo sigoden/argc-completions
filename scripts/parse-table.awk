@@ -126,7 +126,7 @@ END {
         } else if (groupName == "option") {
             if (testMultilineDesc(line)) {
                 options[length(options)] = options[length(options)] lineSeps line
-            } else if (!match(line, /^\s*$/)) {
+            } else if (!match(line, /^\s*$/) && spaces <= optionIndent) {
                 groupName = ""
             }
         } else if (groupName == "command") {
@@ -203,7 +203,7 @@ END {
                 continue
             }
             isCmd = 0
-            if (match(word, /^([<([{]\s*)?-/)) {
+            if (match(word, /^(\[\s*-|\(\s*-|<\s*-|\{\s*-|\[\{\s*-|-)/)) {
                 continue
             }
             wordLower = tolower(word)

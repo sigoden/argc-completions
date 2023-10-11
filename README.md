@@ -6,7 +6,7 @@ A multi-shell completion solution.
 
 - support bash/zsh/powershell/fish/nushell/elvish/xonsh
 - support windows/macos/linux
-- support 800+ commands
+- support 1000+ commands
 - easily/automaticlly generate argc completion script from help-text/man-page
 - lazy completion evaluation, fast startup and lower memory usage
 - enhanced plugin/addon completion for command such as cargo, git
