@@ -13,14 +13,14 @@
 # @option --tree <tree>              Which tree to operate on.
 # @flag --local                      Use the tree in the user's home directory.
 # @flag --global                     Use the system tree when `local_by_default` is `true`.
+# @flag --no-project                 Do not use project tree even if running from a project folder.
 # @flag --verbose                    Display verbose output of commands executed.
 # @option --timeout <seconds>        Timeout on network operations, in seconds.
-# @flag --pin                        Create a luarocks.lock file listing the exact versions of each dependency found for this rock (recursively), and store it in the rock's directory.
 
 # {{ luarocks completion
 # @cmd Output a shell completion script.
 # @flag -h --help             Show this help message and exit.
-# @arg enum[bash,zsh,fish]    The shell to output a completion script for.
+# @arg enum[bash|zsh|fish]    The shell to output a completion script for.
 completion() {
     :;
 }
@@ -30,6 +30,7 @@ completion() {
 # @cmd Build/compile a rock.
 # @flag -h --help               Show this help message and exit.
 # @option --branch <name>       Override the `source.branch` field in the loaded rockspec.
+# @flag --pin                   Create a luarocks.lock file listing the exact versions of each dependency found for this rock (recursively), and store it in the rock's directory.
 # @flag --no-install            Do not install the rock.
 # @flag --no-doc                Install the rock without its documentation.
 # @flag --pack-binary-rock      Do not install rock.
@@ -125,6 +126,7 @@ init() {
 # @flag --check-lua-versions    If the rock can't be found, check repository and report if it is available for another Lua version.
 # @option --deps-mode[`_choice_deps_mode`] <mode>  How to handle dependencies.
 # @flag --no-manifest           Skip creating/updating the manifest
+# @flag --pin                   If the installed rock is a Lua module, create a luarocks.lock file listing the exact versions of each dependency found for this rock (recursively), and store it in the rock's directory.
 # @arg rock                     The name of a rock to be fetched from a repository or a filename of a locally available rock.
 # @arg version                  Version of the rock.
 install() {

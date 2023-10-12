@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @option -h --host                    connect to server HOST
 # @option -p --port                    connect to PORT
 # @flag -I                             query whois.iana.org and follow its referral

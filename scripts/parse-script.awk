@@ -177,6 +177,12 @@ function parseOptions(words1, descVal, choicesVal) {
         }
     }
 
+    if (extra["multiple"] == 1 && length(notations) == 2 && notations[1] == notations[2]) {
+        extra["multiple"] = 0
+        delete notations[2] 
+        notations[1] = notations[1] "+"
+    }
+
     modifierVal = ""
     if (extra["multiple"] == 1 && (choicesVal == "" || substr(choicesVal, 0, 1) == "[")) {
         modifierVal = "*"

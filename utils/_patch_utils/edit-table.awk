@@ -337,8 +337,7 @@ function extractOptionName(optionBody,      len, idx, i) {
         }
     }
     value = substr(optionBody, 1, idx)
-    gsub(/\[\S+\]\s*$/, " ", value)
-    gsub(/[=<]\S+\s*$/, " ", value)
+    gsub(/(\[\S+\]|<\S+>|=\S*)\s*$/, " ", value)
     return value
 }
 

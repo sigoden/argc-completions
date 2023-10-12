@@ -6,7 +6,7 @@
 # @flag --support                                  Enable debug logs and upload the logs to the server.
 # @option -d --directory                           IaC root directory (can not be used together with --file).
 # @flag --add-check                                Generate a new check via CLI prompt
-# @option -f --file* <FILE> <FILE>                 File to scan (can not be used together with --directory).
+# @option -f --file <FILE+>                        File to scan (can not be used together with --directory).
 # @option --skip-path <SKIP_PATH>                  Path (file or directory) to skip, using regular expression logic, relative to current working directory.
 # @option --external-checks-dir <EXTERNAL_CHECKS_DIR>  Directory for custom checks to be loaded.
 # @option --external-checks-git <EXTERNAL_CHECKS_GIT>  Github url of external checks to be added.

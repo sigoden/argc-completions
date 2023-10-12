@@ -2,7 +2,7 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # @flag -a --all                          list all used devices
-# @option -d --detach*[`_choice_loopdev`] <loopdev> <loopdev>  detach one or more devices
+# @option -d --detach[`_choice_loopdev`] <loopdev+>  detach one or more devices
 # @flag -D --detach-all                   detach all used devices
 # @flag -f --find                         find first unused device
 # @option -c --set-capacity <loopdev>     resize the device

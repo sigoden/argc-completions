@@ -167,7 +167,7 @@ add() {
 # @flag --focus                                 Focus on a single workspace by installing remote copies of its sibling workspaces.
 # @option --otp <otpcode>                       one-time password for two factor authentication
 # @flag --summary                               Only print the summary.
-# @option --groups*[devDependencies|dependencies|optionalDependencies] <group_name> <group_name>  Only audit dependencies from listed groups.
+# @option --groups[devDependencies|dependencies|optionalDependencies] <group_name+>  Only audit dependencies from listed groups.
 # @option --level[info|low|moderate|high|critical] <severity>  Only print advisories with severity greater than or equal
 # @flag -h --help                               output usage information
 audit() {

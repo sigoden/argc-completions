@@ -10,7 +10,7 @@
 # @flag -t                           print the text section (disassemble with -v)
 # @flag -x                           print all text sections (disassemble with -v)
 # @option -p <routine name>          start dissassemble from routine name
-# @option -s* <segname> <segname>    print contents of section
+# @option -s <segname+>              print contents of section
 # @flag -d                           print the data section
 # @flag -o                           print the Objective-C segment
 # @flag -r                           print the relocation entries

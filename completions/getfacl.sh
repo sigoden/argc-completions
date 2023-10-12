@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -a --access            display the file access control list only
 # @flag -d --default           display the default access control list only
 # @flag -c --omit-header       do not display the comment header

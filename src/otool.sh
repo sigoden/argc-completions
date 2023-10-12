@@ -8,6 +8,6 @@ _patch_help() {
 
 _patch_table() {
     _patch_table_edit_options \
-        '-s(<segname> <segname>...)' \
+        '-s(<segname+>)' \
 
 }

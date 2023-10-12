@@ -193,7 +193,7 @@
 # @option --build_event_text_file <string>
 # @flag --build_event_text_file_path_conversion
 # @flag --nobuild_event_text_file_path_conversion
-# @option --dump[text|raw] <-d>
+# @option -d --dump[text|raw]
 # @flag --experimental_announce_profile_path
 # @flag --noexperimental_announce_profile_path
 # @flag --experimental_bep_target_summary
@@ -346,9 +346,10 @@ analyze-profile() {
 # @flag --noincompatible_sandbox_hermetic_tmp
 # @flag --internal_spawn_scheduler
 # @flag --nointernal_spawn_scheduler
-# @option --jobs[auto|HOST_CPUS|HOST_RAM] <-j> <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
-# @option --keep_going <-k>
-# @option --nokeep_going <-k>
+# @option -j --jobs[auto|HOST_CPUS|HOST_RAM]     <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
+# @flag -k
+# @flag --keep_going
+# @flag --nokeep_going
 # @option --loading_phase_threads[auto|HOST_CPUS|HOST_RAM] <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
 # @option --modify_execution_info* <regex=[+-]key,regex=[+-]key,>
 # @flag --persistent_android_dex_desugar
@@ -496,7 +497,7 @@ analyze-profile() {
 # @option --catalyst_cpus <value>                comma-separated list of options may be used multiple times
 # @flag --collect_code_coverage
 # @flag --nocollect_code_coverage
-# @option --compilation_mode[fastbuild|dbg|opt] <-c>
+# @option -c --compilation_mode[fastbuild|dbg|opt]
 # @option --conlyopt <string>                    may be used multiple times
 # @option --copt <string>                        may be used multiple times
 # @option --cpu <string>
@@ -957,8 +958,9 @@ analyze-profile() {
 # @flag --slim_profile
 # @flag --noslim_profile
 # @option --starlark_cpu_profile <string>
-# @option --subcommands[true|pretty_print|false] <-s>
-# @option --nosubcommands[true|pretty_print|false] <-s>
+# @option -s[true|pretty_print|false]
+# @option --subcommands[true|pretty_print|false]
+# @option --nosubcommands[true|pretty_print|false]
 # @option --test_output[summary|errors|all|streamed]
 # @option --test_summary[short|terse|detailed|none|testcase]
 # @option --tool_tag <string>
@@ -1050,8 +1052,9 @@ analyze-profile() {
 # @option --build_tag_filters <value>            comma-separated list of options
 # @flag --build_tests_only
 # @flag --nobuild_tests_only
-# @option --cache_test_results[auto|yes|no] <-t> <value>  a tri-state
-# @option --nocache_test_results[auto|yes|no] <-t> <value>  a tri-state
+# @option -t[auto|yes|no]                        <value>  a tri-state
+# @option --cache_test_results[auto|yes|no]      <value>  a tri-state
+# @option --nocache_test_results[auto|yes|no]    <value>  a tri-state
 # @option --color[yes|no|auto]
 # @option --combined_report[none|lcov]
 # @flag --compile_one_dependency
@@ -1262,9 +1265,10 @@ aquery() {
 # @flag --noincompatible_sandbox_hermetic_tmp
 # @flag --internal_spawn_scheduler
 # @flag --nointernal_spawn_scheduler
-# @option --jobs[auto|HOST_CPUS|HOST_RAM] <-j> <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
-# @option --keep_going <-k>
-# @option --nokeep_going <-k>
+# @option -j --jobs[auto|HOST_CPUS|HOST_RAM]     <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
+# @flag -k
+# @flag --keep_going
+# @flag --nokeep_going
 # @option --loading_phase_threads[auto|HOST_CPUS|HOST_RAM] <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
 # @option --modify_execution_info* <regex=[+-]key,regex=[+-]key,>
 # @flag --persistent_android_dex_desugar
@@ -1412,7 +1416,7 @@ aquery() {
 # @option --catalyst_cpus <value>                comma-separated list of options may be used multiple times
 # @flag --collect_code_coverage
 # @flag --nocollect_code_coverage
-# @option --compilation_mode[fastbuild|dbg|opt] <-c>
+# @option -c --compilation_mode[fastbuild|dbg|opt]
 # @option --conlyopt <string>                    may be used multiple times
 # @option --copt <string>                        may be used multiple times
 # @option --cpu <string>
@@ -1821,8 +1825,9 @@ aquery() {
 # @flag --slim_profile
 # @flag --noslim_profile
 # @option --starlark_cpu_profile <string>
-# @option --subcommands[true|pretty_print|false] <-s>
-# @option --nosubcommands[true|pretty_print|false] <-s>
+# @option -s[true|pretty_print|false]
+# @option --subcommands[true|pretty_print|false]
+# @option --nosubcommands[true|pretty_print|false]
 # @option --test_output[summary|errors|all|streamed]
 # @option --test_summary[short|terse|detailed|none|testcase]
 # @option --tool_tag <string>
@@ -1914,8 +1919,9 @@ aquery() {
 # @option --build_tag_filters <value>            comma-separated list of options
 # @flag --build_tests_only
 # @flag --nobuild_tests_only
-# @option --cache_test_results[auto|yes|no] <-t> <value>  a tri-state
-# @option --nocache_test_results[auto|yes|no] <-t> <value>  a tri-state
+# @option -t[auto|yes|no]                        <value>  a tri-state
+# @option --cache_test_results[auto|yes|no]      <value>  a tri-state
+# @option --nocache_test_results[auto|yes|no]    <value>  a tri-state
 # @option --color[yes|no|auto]
 # @option --combined_report[none|lcov]
 # @flag --compile_one_dependency
@@ -2126,9 +2132,10 @@ build() {
 # @flag --noincompatible_sandbox_hermetic_tmp
 # @flag --internal_spawn_scheduler
 # @flag --nointernal_spawn_scheduler
-# @option --jobs[auto|HOST_CPUS|HOST_RAM] <-j> <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
-# @option --keep_going <-k>
-# @option --nokeep_going <-k>
+# @option -j --jobs[auto|HOST_CPUS|HOST_RAM]     <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
+# @flag -k
+# @flag --keep_going
+# @flag --nokeep_going
 # @option --loading_phase_threads[auto|HOST_CPUS|HOST_RAM] <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
 # @option --modify_execution_info* <regex=[+-]key,regex=[+-]key,>
 # @flag --persistent_android_dex_desugar
@@ -2280,7 +2287,7 @@ build() {
 # @option --catalyst_cpus <value>                comma-separated list of options may be used multiple times
 # @flag --collect_code_coverage
 # @flag --nocollect_code_coverage
-# @option --compilation_mode[fastbuild|dbg|opt] <-c>
+# @option -c --compilation_mode[fastbuild|dbg|opt]
 # @option --conlyopt <string>                    may be used multiple times
 # @option --copt <string>                        may be used multiple times
 # @option --cpu <string>
@@ -2689,8 +2696,9 @@ build() {
 # @flag --slim_profile
 # @flag --noslim_profile
 # @option --starlark_cpu_profile <string>
-# @option --subcommands[true|pretty_print|false] <-s>
-# @option --nosubcommands[true|pretty_print|false] <-s>
+# @option -s[true|pretty_print|false]
+# @option --subcommands[true|pretty_print|false]
+# @option --nosubcommands[true|pretty_print|false]
 # @option --test_output[summary|errors|all|streamed]
 # @option --test_summary[short|terse|detailed|none|testcase]
 # @option --tool_tag <string>
@@ -2784,8 +2792,9 @@ build() {
 # @option --build_tag_filters <value>            comma-separated list of options
 # @flag --build_tests_only
 # @flag --nobuild_tests_only
-# @option --cache_test_results[auto|yes|no] <-t> <value>  a tri-state
-# @option --nocache_test_results[auto|yes|no] <-t> <value>  a tri-state
+# @option -t[auto|yes|no]                        <value>  a tri-state
+# @option --cache_test_results[auto|yes|no]      <value>  a tri-state
+# @option --nocache_test_results[auto|yes|no]    <value>  a tri-state
 # @option --color[yes|no|auto]
 # @option --combined_report[none|lcov]
 # @flag --compile_one_dependency
@@ -2995,9 +3004,10 @@ canonicalize-flags() {
 # @flag --noincompatible_sandbox_hermetic_tmp
 # @flag --internal_spawn_scheduler
 # @flag --nointernal_spawn_scheduler
-# @option --jobs[auto|HOST_CPUS|HOST_RAM] <-j> <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
-# @option --keep_going <-k>
-# @option --nokeep_going <-k>
+# @option -j --jobs[auto|HOST_CPUS|HOST_RAM]     <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
+# @flag -k
+# @flag --keep_going
+# @flag --nokeep_going
 # @option --loading_phase_threads[auto|HOST_CPUS|HOST_RAM] <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
 # @option --modify_execution_info* <regex=[+-]key,regex=[+-]key,>
 # @flag --persistent_android_dex_desugar
@@ -3152,7 +3162,7 @@ canonicalize-flags() {
 # @option --catalyst_cpus <value>                comma-separated list of options may be used multiple times
 # @flag --collect_code_coverage
 # @flag --nocollect_code_coverage
-# @option --compilation_mode[fastbuild|dbg|opt] <-c>
+# @option -c --compilation_mode[fastbuild|dbg|opt]
 # @option --conlyopt <string>                    may be used multiple times
 # @option --copt <string>                        may be used multiple times
 # @option --cpu <string>
@@ -3561,8 +3571,9 @@ canonicalize-flags() {
 # @flag --slim_profile
 # @flag --noslim_profile
 # @option --starlark_cpu_profile <string>
-# @option --subcommands[true|pretty_print|false] <-s>
-# @option --nosubcommands[true|pretty_print|false] <-s>
+# @option -s[true|pretty_print|false]
+# @option --subcommands[true|pretty_print|false]
+# @option --nosubcommands[true|pretty_print|false]
 # @option --test_output[summary|errors|all|streamed]
 # @option --test_summary[short|terse|detailed|none|testcase]
 # @option --tool_tag <string>
@@ -3654,8 +3665,9 @@ canonicalize-flags() {
 # @option --build_tag_filters <value>            comma-separated list of options
 # @flag --build_tests_only
 # @flag --nobuild_tests_only
-# @option --cache_test_results[auto|yes|no] <-t> <value>  a tri-state
-# @option --nocache_test_results[auto|yes|no] <-t> <value>  a tri-state
+# @option -t[auto|yes|no]                        <value>  a tri-state
+# @option --cache_test_results[auto|yes|no]      <value>  a tri-state
+# @option --nocache_test_results[auto|yes|no]    <value>  a tri-state
 # @option --color[yes|no|auto]
 # @option --combined_report[none|lcov]
 # @flag --compile_one_dependency
@@ -3865,9 +3877,10 @@ clean() {
 # @flag --noincompatible_sandbox_hermetic_tmp
 # @flag --internal_spawn_scheduler
 # @flag --nointernal_spawn_scheduler
-# @option --jobs[auto|HOST_CPUS|HOST_RAM] <-j> <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
-# @option --keep_going <-k>
-# @option --nokeep_going <-k>
+# @option -j --jobs[auto|HOST_CPUS|HOST_RAM]     <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
+# @flag -k
+# @flag --keep_going
+# @flag --nokeep_going
 # @option --loading_phase_threads[auto|HOST_CPUS|HOST_RAM] <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
 # @option --modify_execution_info* <regex=[+-]key,regex=[+-]key,>
 # @flag --persistent_android_dex_desugar
@@ -4015,7 +4028,7 @@ clean() {
 # @option --catalyst_cpus <value>                comma-separated list of options may be used multiple times
 # @flag --collect_code_coverage
 # @flag --nocollect_code_coverage
-# @option --compilation_mode[fastbuild|dbg|opt] <-c>
+# @option -c --compilation_mode[fastbuild|dbg|opt]
 # @option --conlyopt <string>                    may be used multiple times
 # @option --copt <string>                        may be used multiple times
 # @option --cpu <string>
@@ -4426,8 +4439,9 @@ clean() {
 # @flag --slim_profile
 # @flag --noslim_profile
 # @option --starlark_cpu_profile <string>
-# @option --subcommands[true|pretty_print|false] <-s>
-# @option --nosubcommands[true|pretty_print|false] <-s>
+# @option -s[true|pretty_print|false]
+# @option --subcommands[true|pretty_print|false]
+# @option --nosubcommands[true|pretty_print|false]
 # @option --test_output[summary|errors|all|streamed]
 # @option --test_summary[short|terse|detailed|none|testcase]
 # @flag --test_verbose_timeout_warnings
@@ -4523,8 +4537,9 @@ clean() {
 # @option --build_tag_filters <value>            comma-separated list of options
 # @flag --build_tests_only
 # @flag --nobuild_tests_only
-# @option --cache_test_results[auto|yes|no] <-t> <value>  a tri-state
-# @option --nocache_test_results[auto|yes|no] <-t> <value>  a tri-state
+# @option -t[auto|yes|no]                        <value>  a tri-state
+# @option --cache_test_results[auto|yes|no]      <value>  a tri-state
+# @option --nocache_test_results[auto|yes|no]    <value>  a tri-state
 # @option --color[yes|no|auto]
 # @option --combined_report[none|lcov]
 # @flag --compile_one_dependency
@@ -4735,9 +4750,10 @@ coverage() {
 # @flag --noincompatible_sandbox_hermetic_tmp
 # @flag --internal_spawn_scheduler
 # @flag --nointernal_spawn_scheduler
-# @option --jobs[auto|HOST_CPUS|HOST_RAM] <-j> <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
-# @option --keep_going <-k>
-# @option --nokeep_going <-k>
+# @option -j --jobs[auto|HOST_CPUS|HOST_RAM]     <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
+# @flag -k
+# @flag --keep_going
+# @flag --nokeep_going
 # @option --loading_phase_threads[auto|HOST_CPUS|HOST_RAM] <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
 # @option --modify_execution_info* <regex=[+-]key,regex=[+-]key,>
 # @flag --persistent_android_dex_desugar
@@ -4885,7 +4901,7 @@ coverage() {
 # @option --catalyst_cpus <value>                comma-separated list of options may be used multiple times
 # @flag --collect_code_coverage
 # @flag --nocollect_code_coverage
-# @option --compilation_mode[fastbuild|dbg|opt] <-c>
+# @option -c --compilation_mode[fastbuild|dbg|opt]
 # @option --conlyopt <string>                    may be used multiple times
 # @option --copt <string>                        may be used multiple times
 # @option --cpu <string>
@@ -5342,8 +5358,9 @@ coverage() {
 # @flag --slim_profile
 # @flag --noslim_profile
 # @option --starlark_cpu_profile <string>
-# @option --subcommands[true|pretty_print|false] <-s>
-# @option --nosubcommands[true|pretty_print|false] <-s>
+# @option -s[true|pretty_print|false]
+# @option --subcommands[true|pretty_print|false]
+# @option --nosubcommands[true|pretty_print|false]
 # @option --test_output[summary|errors|all|streamed]
 # @option --test_summary[short|terse|detailed|none|testcase]
 # @flag --test_verbose_timeout_warnings
@@ -5439,8 +5456,9 @@ coverage() {
 # @option --build_tag_filters <value>            comma-separated list of options
 # @flag --build_tests_only
 # @flag --nobuild_tests_only
-# @option --cache_test_results[auto|yes|no] <-t> <value>  a tri-state
-# @option --nocache_test_results[auto|yes|no] <-t> <value>  a tri-state
+# @option -t[auto|yes|no]                        <value>  a tri-state
+# @option --cache_test_results[auto|yes|no]      <value>  a tri-state
+# @option --nocache_test_results[auto|yes|no]    <value>  a tri-state
 # @option --color[yes|no|auto]
 # @option --combined_report[none|lcov]
 # @flag --compile_one_dependency
@@ -5836,8 +5854,9 @@ dump() {
 # @flag --noincompatible_remote_dangling_symlinks
 # @flag --incompatible_remote_symlinks
 # @flag --noincompatible_remote_symlinks
-# @option --keep_going <-k>
-# @option --nokeep_going <-k>
+# @flag -k
+# @flag --keep_going
+# @flag --nokeep_going
 # @option --loading_phase_threads[auto|HOST_CPUS|HOST_RAM] <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
 # @option --bep_maximum_open_remote_upload_files <integer>
 # @flag --remote_download_minimal
@@ -6196,9 +6215,10 @@ fetch() {
 # @flag --noincompatible_sandbox_hermetic_tmp
 # @flag --internal_spawn_scheduler
 # @flag --nointernal_spawn_scheduler
-# @option --jobs[auto|HOST_CPUS|HOST_RAM] <-j> <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
-# @option --keep_going <-k>
-# @option --nokeep_going <-k>
+# @option -j --jobs[auto|HOST_CPUS|HOST_RAM]     <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
+# @flag -k
+# @flag --keep_going
+# @flag --nokeep_going
 # @option --loading_phase_threads[auto|HOST_CPUS|HOST_RAM] <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
 # @option --modify_execution_info* <regex=[+-]key,regex=[+-]key,>
 # @flag --persistent_android_dex_desugar
@@ -6346,7 +6366,7 @@ fetch() {
 # @option --catalyst_cpus <value>                comma-separated list of options may be used multiple times
 # @flag --collect_code_coverage
 # @flag --nocollect_code_coverage
-# @option --compilation_mode[fastbuild|dbg|opt] <-c>
+# @option -c --compilation_mode[fastbuild|dbg|opt]
 # @option --conlyopt <string>                    may be used multiple times
 # @option --copt <string>                        may be used multiple times
 # @option --cpu <string>
@@ -6757,8 +6777,9 @@ fetch() {
 # @flag --slim_profile
 # @flag --noslim_profile
 # @option --starlark_cpu_profile <string>
-# @option --subcommands[true|pretty_print|false] <-s>
-# @option --nosubcommands[true|pretty_print|false] <-s>
+# @option -s[true|pretty_print|false]
+# @option --subcommands[true|pretty_print|false]
+# @option --nosubcommands[true|pretty_print|false]
 # @option --test_output[summary|errors|all|streamed]
 # @option --test_summary[short|terse|detailed|none|testcase]
 # @option --tool_tag <string>
@@ -6850,8 +6871,9 @@ fetch() {
 # @option --build_tag_filters <value>            comma-separated list of options
 # @flag --build_tests_only
 # @flag --nobuild_tests_only
-# @option --cache_test_results[auto|yes|no] <-t> <value>  a tri-state
-# @option --nocache_test_results[auto|yes|no] <-t> <value>  a tri-state
+# @option -t[auto|yes|no]                        <value>  a tri-state
+# @option --cache_test_results[auto|yes|no]      <value>  a tri-state
+# @option --nocache_test_results[auto|yes|no]    <value>  a tri-state
 # @option --color[yes|no|auto]
 # @option --combined_report[none|lcov]
 # @flag --compile_one_dependency
@@ -7287,9 +7309,10 @@ license() {
 # @flag --noincompatible_sandbox_hermetic_tmp
 # @flag --internal_spawn_scheduler
 # @flag --nointernal_spawn_scheduler
-# @option --jobs[auto|HOST_CPUS|HOST_RAM] <-j> <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
-# @option --keep_going <-k>
-# @option --nokeep_going <-k>
+# @option -j --jobs[auto|HOST_CPUS|HOST_RAM]     <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
+# @flag -k
+# @flag --keep_going
+# @flag --nokeep_going
 # @option --loading_phase_threads[auto|HOST_CPUS|HOST_RAM] <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
 # @option --mode[classic|classic_internal_test_do_not_use|skylark]
 # @option --modify_execution_info* <regex=[+-]key,regex=[+-]key,>
@@ -7444,7 +7467,7 @@ license() {
 # @option --catalyst_cpus <value>                comma-separated list of options may be used multiple times
 # @flag --collect_code_coverage
 # @flag --nocollect_code_coverage
-# @option --compilation_mode[fastbuild|dbg|opt] <-c>
+# @option -c --compilation_mode[fastbuild|dbg|opt]
 # @option --conlyopt <string>                    may be used multiple times
 # @option --copt <string>                        may be used multiple times
 # @option --cpu <string>
@@ -7858,8 +7881,9 @@ license() {
 # @flag --slim_profile
 # @flag --noslim_profile
 # @option --starlark_cpu_profile <string>
-# @option --subcommands[true|pretty_print|false] <-s>
-# @option --nosubcommands[true|pretty_print|false] <-s>
+# @option -s[true|pretty_print|false]
+# @option --subcommands[true|pretty_print|false]
+# @option --nosubcommands[true|pretty_print|false]
 # @option --test_output[summary|errors|all|streamed]
 # @option --test_summary[short|terse|detailed|none|testcase]
 # @option --tool_tag <string>
@@ -7951,8 +7975,9 @@ license() {
 # @option --build_tag_filters <value>            comma-separated list of options
 # @flag --build_tests_only
 # @flag --nobuild_tests_only
-# @option --cache_test_results[auto|yes|no] <-t> <value>  a tri-state
-# @option --nocache_test_results[auto|yes|no] <-t> <value>  a tri-state
+# @option -t[auto|yes|no]                        <value>  a tri-state
+# @option --cache_test_results[auto|yes|no]      <value>  a tri-state
+# @option --nocache_test_results[auto|yes|no]    <value>  a tri-state
 # @option --color[yes|no|auto]
 # @option --combined_report[none|lcov]
 # @flag --compile_one_dependency
@@ -8108,8 +8133,9 @@ mobile-install() {
 # @option --repository_cache <path>
 # @option --experimental_oom_more_eagerly_threshold <integer>
 # @option --experimental_ui_max_stdouterr_bytes <value>  an integer in (-1)-1073741819 range
-# @option --keep_going <-k>
-# @option --nokeep_going <-k>
+# @flag -k
+# @flag --keep_going
+# @flag --nokeep_going
 # @option --loading_phase_threads[auto|HOST_CPUS|HOST_RAM] <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
 # @option --repo_env <value>                     a 'name=value' assignment with an optional value part may be used multiple times
 # @flag --check_bzl_visibility
@@ -8417,9 +8443,10 @@ mod() {
 # @flag --noincompatible_sandbox_hermetic_tmp
 # @flag --internal_spawn_scheduler
 # @flag --nointernal_spawn_scheduler
-# @option --jobs[auto|HOST_CPUS|HOST_RAM] <-j> <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
-# @option --keep_going <-k>
-# @option --nokeep_going <-k>
+# @option -j --jobs[auto|HOST_CPUS|HOST_RAM]     <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
+# @flag -k
+# @flag --keep_going
+# @flag --nokeep_going
 # @option --loading_phase_threads[auto|HOST_CPUS|HOST_RAM] <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
 # @option --modify_execution_info* <regex=[+-]key,regex=[+-]key,>
 # @flag --persistent_android_dex_desugar
@@ -8567,7 +8594,7 @@ mod() {
 # @option --catalyst_cpus <value>                comma-separated list of options may be used multiple times
 # @flag --collect_code_coverage
 # @flag --nocollect_code_coverage
-# @option --compilation_mode[fastbuild|dbg|opt] <-c>
+# @option -c --compilation_mode[fastbuild|dbg|opt]
 # @option --conlyopt <string>                    may be used multiple times
 # @option --copt <string>                        may be used multiple times
 # @option --cpu <string>
@@ -8976,8 +9003,9 @@ mod() {
 # @flag --slim_profile
 # @flag --noslim_profile
 # @option --starlark_cpu_profile <string>
-# @option --subcommands[true|pretty_print|false] <-s>
-# @option --nosubcommands[true|pretty_print|false] <-s>
+# @option -s[true|pretty_print|false]
+# @option --subcommands[true|pretty_print|false]
+# @option --nosubcommands[true|pretty_print|false]
 # @option --test_output[summary|errors|all|streamed]
 # @option --test_summary[short|terse|detailed|none|testcase]
 # @option --tool_tag <string>
@@ -9069,8 +9097,9 @@ mod() {
 # @option --build_tag_filters <value>            comma-separated list of options
 # @flag --build_tests_only
 # @flag --nobuild_tests_only
-# @option --cache_test_results[auto|yes|no] <-t> <value>  a tri-state
-# @option --nocache_test_results[auto|yes|no] <-t> <value>  a tri-state
+# @option -t[auto|yes|no]                        <value>  a tri-state
+# @option --cache_test_results[auto|yes|no]      <value>  a tri-state
+# @option --nocache_test_results[auto|yes|no]    <value>  a tri-state
 # @option --color[yes|no|auto]
 # @option --combined_report[none|lcov]
 # @flag --compile_one_dependency
@@ -9231,8 +9260,9 @@ print_action() {
 # @flag --noincompatible_remote_dangling_symlinks
 # @flag --incompatible_remote_symlinks
 # @flag --noincompatible_remote_symlinks
-# @option --keep_going <-k>
-# @option --nokeep_going <-k>
+# @flag -k
+# @flag --keep_going
+# @flag --nokeep_going
 # @option --loading_phase_threads[auto|HOST_CPUS|HOST_RAM] <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
 # @option --bep_maximum_open_remote_upload_files <integer>
 # @flag --remote_download_minimal
@@ -9646,9 +9676,10 @@ query() {
 # @flag --noincompatible_sandbox_hermetic_tmp
 # @flag --internal_spawn_scheduler
 # @flag --nointernal_spawn_scheduler
-# @option --jobs[auto|HOST_CPUS|HOST_RAM] <-j> <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
-# @option --keep_going <-k>
-# @option --nokeep_going <-k>
+# @option -j --jobs[auto|HOST_CPUS|HOST_RAM]     <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
+# @flag -k
+# @flag --keep_going
+# @flag --nokeep_going
 # @option --loading_phase_threads[auto|HOST_CPUS|HOST_RAM] <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
 # @option --modify_execution_info* <regex=[+-]key,regex=[+-]key,>
 # @flag --persistent_android_dex_desugar
@@ -9796,7 +9827,7 @@ query() {
 # @option --catalyst_cpus <value>                comma-separated list of options may be used multiple times
 # @flag --collect_code_coverage
 # @flag --nocollect_code_coverage
-# @option --compilation_mode[fastbuild|dbg|opt] <-c>
+# @option -c --compilation_mode[fastbuild|dbg|opt]
 # @option --conlyopt <string>                    may be used multiple times
 # @option --copt <string>                        may be used multiple times
 # @option --cpu <string>
@@ -10206,8 +10237,9 @@ query() {
 # @flag --slim_profile
 # @flag --noslim_profile
 # @option --starlark_cpu_profile <string>
-# @option --subcommands[true|pretty_print|false] <-s>
-# @option --nosubcommands[true|pretty_print|false] <-s>
+# @option -s[true|pretty_print|false]
+# @option --subcommands[true|pretty_print|false]
+# @option --nosubcommands[true|pretty_print|false]
 # @option --test_output[summary|errors|all|streamed]
 # @option --test_summary[short|terse|detailed|none|testcase]
 # @option --tool_tag <string>
@@ -10299,8 +10331,9 @@ query() {
 # @option --build_tag_filters <value>            comma-separated list of options
 # @flag --build_tests_only
 # @flag --nobuild_tests_only
-# @option --cache_test_results[auto|yes|no] <-t> <value>  a tri-state
-# @option --nocache_test_results[auto|yes|no] <-t> <value>  a tri-state
+# @option -t[auto|yes|no]                        <value>  a tri-state
+# @option --cache_test_results[auto|yes|no]      <value>  a tri-state
+# @option --nocache_test_results[auto|yes|no]    <value>  a tri-state
 # @option --color[yes|no|auto]
 # @option --combined_report[none|lcov]
 # @flag --compile_one_dependency
@@ -10688,8 +10721,9 @@ shutdown() {
 # @flag --noincompatible_remote_dangling_symlinks
 # @flag --incompatible_remote_symlinks
 # @flag --noincompatible_remote_symlinks
-# @option --keep_going <-k>
-# @option --nokeep_going <-k>
+# @flag -k
+# @flag --keep_going
+# @flag --nokeep_going
 # @option --loading_phase_threads[auto|HOST_CPUS|HOST_RAM] <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
 # @option --only <string>                        may be used multiple times
 # @option --bep_maximum_open_remote_upload_files <integer>
@@ -11048,9 +11082,10 @@ sync() {
 # @flag --noincompatible_sandbox_hermetic_tmp
 # @flag --internal_spawn_scheduler
 # @flag --nointernal_spawn_scheduler
-# @option --jobs[auto|HOST_CPUS|HOST_RAM] <-j> <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
-# @option --keep_going <-k>
-# @option --nokeep_going <-k>
+# @option -j --jobs[auto|HOST_CPUS|HOST_RAM]     <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
+# @flag -k
+# @flag --keep_going
+# @flag --nokeep_going
 # @option --loading_phase_threads[auto|HOST_CPUS|HOST_RAM] <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
 # @option --modify_execution_info* <regex=[+-]key,regex=[+-]key,>
 # @flag --persistent_android_dex_desugar
@@ -11198,7 +11233,7 @@ sync() {
 # @option --catalyst_cpus <value>                comma-separated list of options may be used multiple times
 # @flag --collect_code_coverage
 # @flag --nocollect_code_coverage
-# @option --compilation_mode[fastbuild|dbg|opt] <-c>
+# @option -c --compilation_mode[fastbuild|dbg|opt]
 # @option --conlyopt <string>                    may be used multiple times
 # @option --copt <string>                        may be used multiple times
 # @option --cpu <string>
@@ -11609,8 +11644,9 @@ sync() {
 # @flag --slim_profile
 # @flag --noslim_profile
 # @option --starlark_cpu_profile <string>
-# @option --subcommands[true|pretty_print|false] <-s>
-# @option --nosubcommands[true|pretty_print|false] <-s>
+# @option -s[true|pretty_print|false]
+# @option --subcommands[true|pretty_print|false]
+# @option --nosubcommands[true|pretty_print|false]
 # @option --test_output[summary|errors|all|streamed]
 # @option --test_summary[short|terse|detailed|none|testcase]
 # @flag --test_verbose_timeout_warnings
@@ -11706,8 +11742,9 @@ sync() {
 # @option --build_tag_filters <value>            comma-separated list of options
 # @flag --build_tests_only
 # @flag --nobuild_tests_only
-# @option --cache_test_results[auto|yes|no] <-t> <value>  a tri-state
-# @option --nocache_test_results[auto|yes|no] <-t> <value>  a tri-state
+# @option -t[auto|yes|no]                        <value>  a tri-state
+# @option --cache_test_results[auto|yes|no]      <value>  a tri-state
+# @option --nocache_test_results[auto|yes|no]    <value>  a tri-state
 # @option --color[yes|no|auto]
 # @option --combined_report[none|lcov]
 # @flag --compile_one_dependency

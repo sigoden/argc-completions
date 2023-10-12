@@ -216,6 +216,7 @@ END {
     split("", tidyArguments)
     tidyArgumentsNum = 0
     argumentsNum = length(arguments)
+    enumIdx = 0
     for (i in arguments) {
         argument = arguments[i]
         if (i < length(arguments) && extraArgName(argument) == extraArgName(arguments[i + 1])) {
@@ -236,9 +237,16 @@ END {
             match(argumentVal, /^\{([A-Za-z0-9_-]+,)+[A-Za-z0-9_-]+\}$/) ||
             match(argumentVal, /^\(([A-Za-z0-9_-]+\|)+[A-Za-z0-9_-]+\)$/)) {
             tidyArgumentsNum = tidyArgumentsNum + 1
-            tidyArguments[tidyArgumentsNum, 1] = "enum"
+            if (enumIdx == 0) {
+                tidyArguments[tidyArgumentsNum, 1] = "enum"
+            } else {
+                tidyArguments[tidyArgumentsNum, 1] = "enum" enumIdx
+            }
+            enumIdx += 1
             tidyArguments[tidyArgumentsNum, 2] = descValues[1]
-            tidyArguments[tidyArgumentsNum, 3] = "[" substr(argumentVal, 2, length(argumentVal) -2) "]"
+            choicesVal = "[" substr(argumentVal, 2, length(argumentVal) -2) "]"
+            gsub(",", "|", choicesVal)
+            tidyArguments[tidyArgumentsNum, 3] = choicesVal
         } else {
             tidyArgumentsNum = tidyArgumentsNum + 1
             tidyArguments[tidyArgumentsNum, 1] = argumentVal

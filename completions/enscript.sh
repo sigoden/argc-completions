@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -#                                     an alias for option -n, --copies
 # @flag -1                                     same as --columns=1
 # @flag -2                                     same as --columns=2

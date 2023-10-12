@@ -63,7 +63,7 @@ attach() {
 # @option --stdin <stdin-path>        Sets the service's standard input to be stdin-path.
 # @option --stdout <stdout-path>      Sets the service's standard input to be stdout-path.
 # @option --stderr <stderr-path>      Sets the service's standard input to be stderr-path.
-# @option --environment* <variable0=value> <variable1=value>  Sets the given environment variables on the service.
+# @option --environment <variable=value+>  Sets the given environment variables on the service.
 debug() {
     :;
 }

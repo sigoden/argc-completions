@@ -496,7 +496,7 @@ clean() {
 # @flag --show-duplicates                      Query all versions of packages (default)
 # @option --arch <arch>                        show only results from this ARCH
 # @option --archlist <arch>                    show only results from this ARCH
-# @option -f --file* <FILE> <FILE>             show only results that owns FILE
+# @option -f --file <FILE+>                    show only results that owns FILE
 # @option --whatconflicts <REQ>                show only results that conflict REQ
 # @option --whatdepends <REQ>                  shows results that requires, suggests, supplements, enhances, or recommends package provides and files REQ
 # @option --whatobsoletes <REQ>                show only results that obsolete REQ
@@ -1656,7 +1656,7 @@ repolist() {
 # @flag --show-duplicates                      Query all versions of packages (default)
 # @option --arch <arch>                        show only results from this ARCH
 # @option --archlist <arch>                    show only results from this ARCH
-# @option -f --file* <FILE> <FILE>             show only results that owns FILE
+# @option -f --file <FILE+>                    show only results that owns FILE
 # @option --whatconflicts <REQ>                show only results that conflict REQ
 # @option --whatdepends <REQ>                  shows results that requires, suggests, supplements, enhances, or recommends package provides and files REQ
 # @option --whatobsoletes <REQ>                show only results that obsolete REQ

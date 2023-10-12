@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @flag -h --help                              Show this help
-# @flag -V --version                           Show version
-# @option -n --name*[`_module_os_hostname`] <hostname> <hostname>  Resolve host name
-# @option -a --address* <address> <address>    Resolve address
-# @flag -v --verbose                           Enable verbose mode
-# @flag -6                                     Lookup IPv6 address
-# @flag -4                                     Lookup IPv4 address
+# @flag -h --help                    Show this help
+# @flag -V --version                 Show version
+# @option -n --name[`_module_os_hostname`] <hostname+>  Resolve host name
+# @option -a --address <address+>    Resolve address
+# @flag -v --verbose                 Enable verbose mode
+# @flag -6                           Lookup IPv6 address
+# @flag -4                           Lookup IPv4 address
 
 _module_os_hostname() {
     _etc_hosts() {

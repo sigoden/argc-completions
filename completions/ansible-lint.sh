@@ -24,7 +24,7 @@
 # @option --enable-list*,[`_choice_rule`] <ENABLE_LIST>  activate optional rules by their tag name
 # @flag --nocolor                                 disable colored output, same as NO_COLOR=1
 # @flag --force-color                             Force colored output, same as FORCE_COLOR=1
-# @option --exclude* <EXCLUDE_PATHS> <EXCLUDE_PATHS>  path to directories or files to skip.
+# @option --exclude <EXCLUDE_PATHS+>              path to directories or files to skip.
 # @option -c --config-file <CONFIG_FILE>          Specify configuration file to use.
 # @option -i --ignore-file <IGNORE_FILE>          Specify ignore file to use.
 # @flag --offline                                 Disable installation of requirements.yml and schema refreshing

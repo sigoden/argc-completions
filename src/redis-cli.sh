@@ -1,4 +1,7 @@
 _patch_table() { 
+    _patch_table_edit_options \
+        '--cluster(<command> <args+>)' \
+    | \
     _patch_table_edit_arguments ';;' 'cmd;[`_choice_cmd`]' 'args...'
 }
 

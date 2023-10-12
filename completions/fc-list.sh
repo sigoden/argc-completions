@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -v --verbose     display entire font pattern verbosely
 # @flag -b --brief       display entire font pattern briefly
 # @option -f --format    use the given output format

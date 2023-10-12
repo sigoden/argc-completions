@@ -195,7 +195,7 @@ _choice_files() {
     || [[ -n $argc_get ]] \
     ; then
         if [[ -n "$argc_file" ]]; then
-            _argc_util_cache 3600 _choice_ls_tar_file "$argc_file" | _argc_util_comp_parts /
+            _argc_util_cache 3600 _choice_ls_tar_file "tar__choice_ls_tar_file:$argc_file" | _argc_util_comp_parts /
             return
         fi
     fi

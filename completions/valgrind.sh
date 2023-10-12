@@ -68,7 +68,7 @@
 # @option --valgrind-stacksize <number>            size of valgrind (host) thread's stack (in bytes) [1048576]
 # @option --show-emwarns[no|yes]                   show warnings about emulation limits? [no]
 # @option --require-text-symbol <:sonamepattern:symbolpattern>  abort run if the stated shared object doesn't have the stated text symbol.
-# @option --soname-synonyms* <syn1=pattern1,syn2=pattern2,> <synonym> <soname>  specify patterns for function wrapping or replacement.
+# @option --soname-synonyms*, <syn1=pattern1,syn2=pattern2,>  specify patterns for function wrapping or replacement.
 # @option --sigill-diagnostics[yes|no]             warn about illegal instructions? [yes]
 # @option --unw-stack-scan-thresh <number>         Enable stack-scan unwind if fewer than <number> good frames found  [0, meaning "disabled"] NOTE: stack scanning is only available on arm-linux.
 # @option --unw-stack-scan-frames <number>         Max number of frames that can be recovered by stack scanning [5]

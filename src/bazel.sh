@@ -5,6 +5,7 @@ _patch_help() {
             if (match($0, /^\s*-/)) {
                 if (match($0, / \((.*)\)$/, arr)) {
                     option = substr($0, 1, RSTART -1)
+                    option = gensub(/ \[(-\S)\]/, " \\1 ", 1, option)
                     notation = ""
                     bool = 0
                     desc = ""

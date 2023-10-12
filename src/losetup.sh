@@ -1,6 +1,6 @@
 _patch_table() {
     _patch_table_edit_options \
-        '--detach(loopdev loopdev...);[`_choice_loopdev`]' \
+        '--detach(loopdev+);[`_choice_loopdev`]' \
         '--direct-io;[on|off]' \
         '--output;*,[`_choice_column`]' \
 

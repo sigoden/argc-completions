@@ -423,7 +423,7 @@ rewrite() {
 # @option -s --subdir    Subdirectory of the new target (only for the "add_target" action)
 # @option --type[both_libraries|executable|jar|library|shared_library|shared_module|static_library]  Type of the target to add (only for the "add_target" action)
 # @arg target            Name or ID of the target
-# @arg add-rm-add_target-rm_target-add_extra_files-rm_extra_files-info <add,rm,add_target,rm_target,add_extra_files,rm_extra_files,info>  Action to execute
+# @arg enum[add|rm|add_target|rm_target|add_extra_files|rm_extra_files|info]  Action to execute
 # @arg sources*          Sources to add/remove
 rewrite::target() {
     :;
@@ -432,11 +432,11 @@ rewrite::target() {
 
 # {{{ meson rewrite kwargs
 # @cmd Modify keyword arguments
-# @flag -h --help    show this help message and exit
-# @arg set-delete-add-remove-remove_regex-info <set,delete,add,remove,remove_regex,info>  Action to execute
-# @arg dependency-target-project <dependency,target,project>  Function type to modify
-# @arg id            ID of the function to modify (can be anything for "project")
-# @arg kwargs*       Pairs of keyword and value
+# @flag -h --help                          show this help message and exit
+# @arg enum[set|delete|add|remove|remove_regex|info]  Action to execute
+# @arg enum1[dependency|target|project]    Function type to modify
+# @arg id                                  ID of the function to modify (can be anything for "project")
+# @arg kwargs*                             Pairs of keyword and value
 rewrite::kwargs() {
     :;
 }
@@ -444,9 +444,9 @@ rewrite::kwargs() {
 
 # {{{ meson rewrite default-options
 # @cmd Modify the project default options
-# @flag -h --help                 show this help message and exit
-# @arg set-delete <set,delete>    Action to execute
-# @arg options*                   Key, value pairs of configuration option
+# @flag -h --help          show this help message and exit
+# @arg enum[set|delete]    Action to execute
+# @arg options*            Key, value pairs of configuration option
 rewrite::default-options() {
     :;
 }

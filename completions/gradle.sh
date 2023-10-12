@@ -82,7 +82,7 @@ EOF
 }
 
 _choice_task_cached() {
-    _argc_util_cache 3600 _choice_task $PWD
+    _argc_util_cache 3600 _choice_task "gradle__choice_task:$PWD"
 }
 
 _choice_task() {

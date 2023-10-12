@@ -210,7 +210,7 @@ list() {
 # {{ conda package
 # @cmd Low-level conda package utility.
 # @flag -h --help                        Show this help message and exit.
-# @option -w --which* <PATH> <PATH>      Given some file's PATH, print which conda package the file came from.
+# @option -w --which <PATH+>             Given some file's PATH, print which conda package the file came from.
 # @flag -r --reset                       Remove all untracked files and exit.
 # @flag -u --untracked                   Display all untracked files and exit.
 # @option --pkg-name <PKG_NAME>          Designate package name of the package being created.

@@ -33,7 +33,7 @@
 # @flag -x --expanded                       turn on expanded table output
 # @flag -z --field-separator-zero           set field separator for unaligned output to zero byte
 # @flag -0 --record-separator-zero          set record separator for unaligned output to zero byte
-# @option -h --host[`_module_os_hostname`] <HOSTNAME>  database server host or socket directory (default: "local socket")
+# @option -h --host[`_module_os_hostname`] <HOSTNAME>  database server host or socket directory
 # @option -p --port                         database server port
 # @option -U --username                     database user name
 # @flag -w --no-password                    never prompt for password

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -c --stdout            write on standard output, keep original files unchanged
 # @flag -d --decompress        decompress
 # @flag -f --force             force overwrite of output file and compress links

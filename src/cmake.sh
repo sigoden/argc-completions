@@ -25,7 +25,7 @@ _patch_table() {
         '--list-presets;[`_choice_list_preset`]' \
         '--preset;[`_choice_preset`]' \
         '-D;-*[`_choice_set_cache_entry`]' \
-        '-E(<cmd> <args...>);[`_choice_cmd`]' \
+        '-E(<cmd> <args+>);[`_choice_cmd`]' \
         '-G;[`_choice_generator`]' \
         '-U;-*[`_choice_remove_cache_entry`]' \
         '-Werror(<value>);[dev|deprecated]' \

@@ -75,7 +75,7 @@
 # @option --trace-ascii <file>                     Like --trace, but without hex output
 # @option --prepend <KEY> <VALUE>                  Add one configuration value to the beginning of a list key.
 # @option --add <KEY> <VALUE>                      Add one configuration value to the beginning of a list key.
-# @option --which* <PATH> <PATH>                   Given some file's PATH, print which conda package the file came from.
+# @option --which <PATH+>                          Given some file's PATH, print which conda package the file came from.
 # @flag -backup                                    keep a backup of the modified files
 # @flag -keep                                      keep a backup of the modified files
 # @option --encoding[s|S|b|l|B|L]                  Select character size and endianness:

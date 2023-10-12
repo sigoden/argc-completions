@@ -19,7 +19,7 @@
 # @option -Wno-error[dev|deprecated] <value>       Make deprecated macro and function warnings not errors.
 # @option --preset[`_choice_preset`] <preset>      Specify a configure preset.
 # @option --list-presets[`_choice_list_preset`]    List available presets.
-# @option -E*[`_choice_cmd`] <cmd> <args>          CMake command mode.
+# @option -E[`_choice_cmd`] <cmd> <args+>          CMake command mode.
 # @flag -LA                                        List non-advanced cached variables.
 # @flag -LH                                        List non-advanced cached variables.
 # @option --build <dir>                            Build a CMake-generated project binary tree.

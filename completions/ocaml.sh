@@ -41,7 +41,7 @@
 # @option -warn-error <list>                Enable or disable error status for warnings according
 # @flag -warn-help                          Show description of warning numbers
 # @option -color[auto|always|never]         Enable or disable colors in compiler messages
-# @option -error-style[contextual|short]    Control the way error messages and warnings are printed
+# @option -error-style[contextual|short]    Control the way error messages and warnings are printed snippet corresponding to the location of the error
 # @option -args <file>                      Read additional newline-terminated command line arguments from <file>
 # @option -args0 <file>                     Read additional null character terminated command line arguments from <file>
 # @flag -help                               Display this list of options

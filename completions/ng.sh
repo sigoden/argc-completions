@@ -699,7 +699,7 @@ test() {
 # @flag --allow-dirty          Whether to allow updating when the repository contains modified or untracked files.
 # @flag --verbose              Display additional details about internal operations during execution.
 # @flag -C --create-commits    Create source control commits for updates and migrations.
-# @arg packages                The names of package(s) to update.
+# @arg packages*               The names of package(s) to update.
 update() {
     :;
 }

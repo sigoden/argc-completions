@@ -874,13 +874,13 @@ compose::port() {
 
 # {{{ docker compose ps
 # @cmd List containers
-# @flag -a --all                Show all stopped containers (including those created by the run command)
-# @flag --dry-run               Execute command in dry run mode
-# @option --filter <string>     Filter services by a property (supported filters: status).
-# @option --format <string>     Format the output.
-# @flag -q --quiet              Only display IDs
-# @flag --services              Display services
-# @option --status* <string>    Filter services by status.
+# @flag -a --all               Show all stopped containers (including those created by the run command)
+# @flag --dry-run              Execute command in dry run mode
+# @option --filter <string>    Filter services by a property (supported filters: status).
+# @option --format <string>    Format the output.
+# @flag -q --quiet             Only display IDs
+# @flag --services             Display services
+# @option --status*[paused|restarting|removing|running|dead|created|exited] <string>  Filter services by status.
 # @arg service*[`_choice_compose_service`]
 compose::ps() {
     :;

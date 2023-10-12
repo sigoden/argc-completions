@@ -22,7 +22,7 @@ _patch_help() {
 _patch_table() {
     if [[ "$*" == "launchctl debug" ]]; then
         _patch_table_edit_options \
-            '--environment(<variable0=value> <variable1=value> ...);;Sets the given environment variables on the service.' \
+            '--environment(<variable=value+>);;Sets the given environment variables on the service.' \
         | \
         _patch_table_edit_arguments ';;'
 

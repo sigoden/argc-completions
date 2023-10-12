@@ -4,8 +4,8 @@
 
 set -e
 
-argc_version=v1.10.0
-yq_version=v4.35.1
+argc_version=v1.11.0
+yq_version=v4.35.2
 sed_version=4.9.0-3
 
 download() {
