@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta combine-shorts
 # @flag -v                         Verbose mode, generates verbose messages
 # @flag -d                         Debug mode, generate debugging messages, implies -v
 # @flag -q                         Quiet mode, suppress informational messages to a minimum, implies -N

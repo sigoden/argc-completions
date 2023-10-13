@@ -52,18 +52,18 @@ attach() {
 
 # {{ launchctl debug
 # @cmd Configures the next invocation of a service for debugging.
-# @option --program <program-path>    Instructs launchd(8) to use program-path as the service's executable.
-# @flag --guard-malloc                Turns on libgmalloc(3) for the service.
-# @flag --malloc-stack-logging        Turns on malloc(3) stack logging for the service.
-# @flag --malloc-nano-allocator       Turns on the malloc(3) nano allocator for the service.
-# @flag --debug-libraries             Sets the DYLD_IMAGE_SUFFIX for the service to "_debug", which prefers the debug variants of libraries if they exist.
-# @flag --introspection-libraries     Adds /usr/lib/system/introspection to the DYLD_LIBRARY_PATH environment variable for the service.
-# @flag --NSZombie                    Enables NSZombie.
-# @flag --32                          Runs the service in the appropriate 32-bit architecture.
-# @option --stdin <stdin-path>        Sets the service's standard input to be stdin-path.
-# @option --stdout <stdout-path>      Sets the service's standard input to be stdout-path.
-# @option --stderr <stderr-path>      Sets the service's standard input to be stderr-path.
-# @option --environment <variable=value+>  Sets the given environment variables on the service.
+# @option --program <program-path>           Instructs launchd(8) to use program-path as the service's executable.
+# @flag --guard-malloc                       Turns on libgmalloc(3) for the service.
+# @flag --malloc-stack-logging               Turns on malloc(3) stack logging for the service.
+# @flag --malloc-nano-allocator              Turns on the malloc(3) nano allocator for the service.
+# @flag --debug-libraries                    Sets the DYLD_IMAGE_SUFFIX for the service to "_debug", which prefers the debug variants of libraries if they exist.
+# @flag --introspection-libraries            Adds /usr/lib/system/introspection to the DYLD_LIBRARY_PATH environment variable for the service.
+# @flag --NSZombie                           Enables NSZombie.
+# @flag --32                                 Runs the service in the appropriate 32-bit architecture.
+# @option --stdin <stdin-path>               Sets the service's standard input to be stdin-path.
+# @option --stdout <stdout-path>             Sets the service's standard input to be stdout-path.
+# @option --stderr <stderr-path>             Sets the service's standard input to be stderr-path.
+# @option --environment <variable=value+>    Sets the given environment variables on the service.
 debug() {
     :;
 }
