@@ -70,6 +70,9 @@ $commands
     worktree         Manage multiple working trees 
 EOF
 
+    elif [[ "$*" == "git crypt "* ]]; then
+        git crypt 2>&1  | sed -n "s/^  \($3\( [A-Z]\S\+\)*\) .*/Usage: git crypt \1/p"
+
     else
         embed_help="$( \
         cat <<-'EOF' | _patch_help_embed_help $@

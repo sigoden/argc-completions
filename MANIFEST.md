@@ -72,6 +72,7 @@
 - [bazel](https://github.com/bazelbuild/bazel): tool to automate software builds and tests
 - [bc](https://www.gnu.org/software/bc): An arbitrary precision calculator language
 - [beep](https://github.com/spkr-beep/beep): beep the pc speaker any number of ways
+- [binwalk](https://github.com/ReFirmLabs/binwalk): Firmware Analysis Tool
 - [bison](https://www.gnu.org/software/bison): GNU Project parser generator (yacc replacement)
 - [black](https://github.com/psf/black): The uncompromising Python code formatter
 - [bootctl](https://github.com/systemd/systemd): Control EFI firmware boot settings and manage boot loader
@@ -114,6 +115,7 @@
 - [cargo-outdated](https://github.com/kbknapp/cargo-outdated): displaying when dependencies have newer versions available.
 - [cargo-semver-checks](https://github.com/obi1kenobi/cargo-semver-checks): Scan your Rust crate for semver violations.
 - [cargo-sort](https://github.com/DevinR528/cargo-sort): Check if tables and items in a .toml file are lexically sorted
+- [cargo-sqlx](https://github.com/launchbadge/sqlx): Command-line utility for SQLx, the Rust SQL toolkit. 
 - [cargo-tarpaulin](https://github.com/xd009642/tarpaulin): A code coverage tool for Rust projects
 - [cargo-tauri](https://github.com/tauri-apps/tauri): Build smaller, faster, and more secure desktop applications with a web frontend.
 - [cargo-udeps](https://github.com/est31/cargo-udeps): Find unused dependencies in Cargo.toml
@@ -297,6 +299,7 @@
 - [fusermount](https://github.com/libfuse/libfuse): mount and unmount FUSE filesystems
 - [fuser](https://gitlab.com/psmisc/psmisc): identify processes using files or sockets
 - [fvm](https://github.com/fluttertools/fvm): Flutter Version Management
+- [fwupdmgr](https://github.com/fwupd/fwupd): firmware update manager client utility
 - [fx](https://github.com/antonmedv/fx): Terminal JSON viewer & processor
 - [fzf](https://github.com/junegunn/fzf): A command-line fuzzy finder
 - [fzy](https://github.com/jhawthorn/fzy): A simple, fast fuzzy finder for the terminal
@@ -320,6 +323,7 @@
 - [gio](https://gitlab.gnome.org/GNOME/glib): GIO commandline tool
 - [git](https://github.com/git/git): fast, scalable, distributed revision control system
 - [git-cliff](https://github.com/orhun/git-cliff): A highly customizable Changelog Generator that follows Conventional Commit specifications
+- [git-crypt](https://github.com/AGWA/git-crypt): Transparent file encryption in git
 - [git-lfs](https://github.com/git-lfs/git-lfs): Git extension for versioning large files
 - [git-open](https://github.com/paulirish/git-open): Open the repo website (GitHub, GitLab, Bitbucket) in your browser.
 - [git-quick-stats](https://github.com/arzzen/git-quick-stats): a simple and efficient way to access various statistics in a git repository.
@@ -374,6 +378,7 @@
 - [head](http://gnu.org/software/coreutils): output the first part of files
 - [helm](https://github.com/helm/helm): The Kubernetes package manager
 - [helmfile](https://github.com/roboll/helmfile): Declaratively deploy your Kubernetes manifests, Kustomize configs, and Charts as Helm releases in one shot
+- [help2man](https://www.gnu.org/software/help2man): generate a simple manual page
 - [hexchat](https://github.com/hexchat/hexchat): IRC client for X based on X-Chat 2
 - [hexdump](https://github.com/util-linux/util-linux): display file contents in hexadecimal, decimal, octal, or ascii
 - [hexyl](https://github.com/sharkdp/hexyl): A command-line hex viewer
@@ -387,6 +392,7 @@
 - [http](https://github.com/httpie/cli): a command-line HTTP client
 - [https](https://github.com/httpie/cli): a command-line HTTP client
 - [hugo](https://github.com/gohugoio/hugo): A fast and flexible static site generator
+- [hunspell](https://github.com/hunspell/hunspell): spell checker and morphological analyzer
 - [hurl](https://github.com/Orange-OpenSource/hurl): run and test HTTP requests with plain text.
 - [hwclock](https://github.com/util-linux/util-linux): time clocks utility
 - [hwinfo](https://github.com/openSUSE/hwinfo): probe for hardware
@@ -689,6 +695,7 @@
 - [pv](https://codeberg.org/a-j-wood/pv): monitor the progress of data through a pipe
 - [pwd](http://gnu.org/software/coreutils): print name of current/working directory
 - [pyenv](https://github.com/pyenv/pyenv): Simple Python version management
+- [pyright](https://github.com/microsoft/pyright): Static type checker for Python
 - [pytest](https://github.com/pytest-dev/pytest): testing framework for Python
 - [python](https://github.com/python/cpython): an interpreted, interactive, object-oriented programming language
 - [python3](https://github.com/python/cpython): an interpreted, interactive, object-oriented programming language
@@ -759,6 +766,7 @@
 - [shar](https://www.gnu.org/software/sharutils): create a shell archive
 - [shasum](https://github.com/Perl/perl5): Print or Check SHA Checksums
 - [shellcheck](https://github.com/koalaman/shellcheck): a static analysis tool for shell scripts
+- [shfmt](https://github.com/mvdan/sh): shell formatter, parser, and interpreter
 - [shortcuts](https://ss64.com/osx/shortcuts.html): Manage macOS shortcuts. (macOS)
 - [shred](http://gnu.org/software/coreutils): overwrite a file to hide its contents, and optionally delete it
 - [shuf](http://gnu.org/software/coreutils): generate random permutations
@@ -773,6 +781,7 @@
 - [softwareupdate](https://ss64.com/osx/softwareupdate.html): Check for new and updated versions of your software based on information about your computer and current software. (macOS)
 - [sops](https://github.com/getsops/sops): Simple and flexible tool for managing secrets
 - [sort](http://gnu.org/software/coreutils): sort lines of text files
+- [source-highlight](https://www.gnu.org/software/src-highlite): convert source code to syntax highlighted document
 - [speedtest](https://github.com/sivel/speedtest-cli): Command line interface for testing internet bandwidth using speedtest.net.
 - [speedtest-cli](https://github.com/sivel/speedtest-cli): Command line interface for testing internet bandwidth using speedtest.net.
 - [split](http://gnu.org/software/coreutils): split a file into pieces
@@ -906,6 +915,7 @@
 - [vault](https://github.com/hashicorp/vault): Manage secrets and protect sensitive data
 - [vcpkg](https://github.com/microsoft/vcpkg): C++ Library Manager for Windows, Linux, and MacOS
 - [vdir](http://gnu.org/software/coreutils): list directory contents
+- [vegeta](https://github.com/tsenart/vegeta): a versatile HTTP load testing tool built out of a need to drill HTTP services with a constant request rate.
 - [vela](https://github.com/kubevela/kubevela): A Highly Extensible Platform Engine based on Kubernetes and Open Application Model.
 - [vercel](https://github.com/vercel/vercel): CLI for vercel frontend cloud.
 - [vhs](https://github.com/charmbracelet/vhs): Your CLI home video recorder.
@@ -925,8 +935,9 @@
 - [w](https://gitlab.com/procps-ng/procps): Show who is logged on and what they are doing.
 - [w3m](https://github.com/tats/w3m): WWW browsable pager
 - [wasm-bindgen](https://github.com/rustwasm/wasm-bindgen): Generating JS bindings for a wasm file
-- [wasmer](https://github.com/wasmerio/wasmer): The leading WebAssembly Runtime supporting WASIX, WASI and Emscripten
 - [wasm-pack](https://github.com/rustwasm/wasm-pack): your favorite rust -> wasm workflow tool!
+- [wasm-tools](https://github.com/bytecodealliance/wasm-tools): Low level tooling for WebAssembly in Rust.
+- [wasmer](https://github.com/wasmerio/wasmer): The leading WebAssembly Runtime supporting WASIX, WASI and Emscripten
 - [watch](https://gitlab.com/procps-ng/procps): execute a program periodically, showing output fullscreen
 - [watchexec](https://github.com/watchexec/watchexec): Executes commands in response to file modifications
 - [watchgnupg](https://www.gnupg.org): Read and print logs from a socket
