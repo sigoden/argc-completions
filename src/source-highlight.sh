@@ -4,8 +4,8 @@ _patch_help() {
 
 _patch_table() {
     _patch_table_edit_options \
-        '--src-lang;[`_choice_src_lang`]' \
         '--out-format;[`_choice_out_format`]' \
+        '--src-lang;[`_choice_src_lang`]' \
 
 }
 

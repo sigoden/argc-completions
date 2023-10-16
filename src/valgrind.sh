@@ -22,8 +22,8 @@ _patch_table() {
         '--ignore-fn;[`_choice_function_prototype`]' \
         '--show-possibly-lost;[yes|no]' \
         '--show-reachable;[yes|no]' \
-        '--tool;[`_choice_tool`]' \
         '--soname-synonyms(syn1=pattern1,syn2=pattern2,...);*,' \
+        '--tool;[`_choice_tool`]' \
     | \
     _patch_table_edit_arguments \
         ';;' \

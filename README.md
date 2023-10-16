@@ -42,7 +42,7 @@ Argc-completions supports a lot of shells. Different shells need different confi
 Run the following script to see how argc-completions are integrated into the shell:
 
 ```sh
-./scripts/setup-shell.sh bash # supports shells: bash elvish fish nushell powershell xonsh zsh
+./scripts/setup-shell.sh bash # one of bash|elvish|fish|nushell|powershell|xonsh|zsh
 ```
 
 ## Generate custom completion script

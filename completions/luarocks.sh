@@ -30,7 +30,6 @@ completion() {
 # @cmd Build/compile a rock.
 # @flag -h --help               Show this help message and exit.
 # @option --branch <name>       Override the `source.branch` field in the loaded rockspec.
-# @flag --pin                   Create a luarocks.lock file listing the exact versions of each dependency found for this rock (recursively), and store it in the rock's directory.
 # @flag --no-install            Do not install the rock.
 # @flag --no-doc                Install the rock without its documentation.
 # @flag --pack-binary-rock      Do not install rock.
