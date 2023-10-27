@@ -9,7 +9,7 @@
 # @option -s --style <string>    style name or JSON path (default "auto")
 # @flag -v --version             version for glow
 # @option -w --width <uint>      word-wrap at width
-# @arg source-dir <SOURCE|DIR>
+# @arg path
 
 # {{ glow completion
 # @cmd Generate the autocompletion script for the specified shell
@@ -74,7 +74,7 @@ config() {
 # @flag -h --help               help for stash
 # @option -m --memo <string>    memo/note for stashing
 # @option --config <string>     config file (default /home/sigo/.config/glow/glow.yml)
-# @arg source
+# @arg path
 stash() {
     :;
 }
