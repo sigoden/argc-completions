@@ -3,15 +3,10 @@ ARGC_COMPLETIONS_SCRIPTS=( $(ls -p -1 "$ARGC_COMPLETIONS_DIR" | grep -v '/' | se
 ARGC_COMPLETIONS_EXTEND_CMDS=( $(ls -p -1 "$ARGC_COMPLETIONS_DIR" | grep '/$' | sed 's|/$||' | tr '\n' ' ') )
 
 _argc_completions_completer() {
-    local words=( ${COMP_LINE:0:${COMP_POINT}} )
-    local cur="${COMP_WORDS[COMP_CWORD]}"
-    if [[ "$cur" == "" ]]; then
-        words+=( "" )
-    fi
+    local words cword cmd extend scriptfile
+    _argc_completions_parse_comp_line
 
-    local cmd="$(basename "${words[0]}")"
-    local extend=0
-    local scriptfile
+    cmd="$(basename "${words[0]}")"
     if [[ ${#words[@]} -gt 2 ]] && [[ " ${ARGC_COMPLETIONS_EXTEND_CMDS[*]} " =~ " $cmd" ]]; then
         local subcmd="${words[1]}"
         if [[ "$subcmd" =~ ^[A-Za-z0-9] ]]; then
@@ -30,6 +25,42 @@ _argc_completions_completer() {
     while IFS=$'\n' read -r line; do
         COMPREPLY+=( "$line" )
     done < <(argc --argc-compgen bash "$scriptfile" "${words[@]}" 2>/dev/null)
+}
+
+_argc_completions_parse_comp_line() {
+    local line len i char prev_char word unbalance word_index
+    word_index=0
+    line="${COMP_LINE:0:$COMP_POINT}"
+    len="${#line}"
+    for ((i=0; i<len; i++)); do
+        char="${line:i:1}"
+        if [[ -n "$unbalance" ]]; then
+            word="$word$char"
+            if [[  "$unbalance" == "$char" ]]; then
+                unbalance=""
+            fi
+        elif [[ "$char" == " " ]]; then
+            if [[ "$prev_char" == "\\" ]]; then
+                word="$word$char"
+            elif [[ -n "$word" ]]; then
+                words[$word_index]="$word"
+                word_index=$((word_index+1))
+                word=""
+            fi
+        elif [[ "$char" == "'" || "$char" == '"' ]]; then
+            word="$word$char"
+            unbalance="$char"
+        elif [[ "$char" == "\\" ]]; then
+            if [[ "$prev_char" == "\\" ]]; then
+                word="$word$char"
+            fi
+        else
+            word="$word$char"
+        fi
+        prev_char="$char"
+    done
+    words[$word_index]="$word"
+    cword="$word"
 }
 
 complete -F _argc_completions_completer -o nospace -o nosort ${ARGC_COMPLETIONS_SCRIPTS[@]}

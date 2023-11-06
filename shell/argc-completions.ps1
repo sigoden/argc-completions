@@ -12,7 +12,11 @@ $_argc_completions_completer = {
     if ($PSVersionTable.PSVersion.Major -eq 5) {
         $emptyS = '""'
     }
-    if ($commandAst.CommandElements[-1].Extent.EndOffset -lt $cursorPosition) {
+    $lastElemIndex = -1
+    if ($words.Count -lt $commandAst.CommandElements.Count) {
+        $lastElemIndex = $words.Count - 1
+    }
+    if ($commandAst.CommandElements[$lastElemIndex].Extent.EndOffset -lt $cursorPosition) {
         $words += $emptyS
     }
     $cmd = $words[0]
