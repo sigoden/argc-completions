@@ -617,6 +617,7 @@
 - [od](http://gnu.org/software/coreutils): dump files in octal and other formats
 - [oh-my-posh](https://github.com/JanDeDobbeleer/oh-my-posh): The most customisable and low-latency cross platform/shell prompt renderer
 - [okteto](https://github.com/okteto/okteto): Remote Development Environments powered by Kubernetes
+- [ollama](https://github.com/jmorganca/ollama): Get up and running with Llama 2 and other large language models locally
 - [op](https://developer.1password.com): 1Password CLI provides commands to manage and administer a 1Password account.
 - [opa](https://github.com/open-policy-agent/opa): An open source project to policy-enable your service.
 - [opam](https://github.com/ocaml/opam): source-based package manager for ocaml.
