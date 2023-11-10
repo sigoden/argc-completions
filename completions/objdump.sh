@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta symbol @file
 # @flag -a --archive-header                      If any of the objfile files are archives, display the archive header information (in a format similar to ls -l).
 # @option --adjust-vma <offset>                  When dumping information, first add offset to all the section addresses.
 # @option -b --target[`_choice_target`] <bfdname>  Specify that the object-code format for the object files is bfdname.

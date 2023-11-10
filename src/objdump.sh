@@ -9,6 +9,7 @@ _patch_help() {
 }
 
 _patch_table() { 
+    _patch_table_add_metadata 'symbol @file' | \
     _patch_table_edit_options \
         '--architecture;[`_choice_architecture`]' \
         '--demangle;[`_choice_demangle`]' \

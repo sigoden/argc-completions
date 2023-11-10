@@ -3,6 +3,7 @@ _patch_help() {
 }
 
 _patch_table() {
+    _patch_table_add_metadata 'symbol @file' | \
     _patch_table_edit_options \
         '--debug-dump();-[`_choice_debug_dump`];Displays the contents of the DWARF debug sections in the file, if any are present.' \
         '--demangle;[none|auto|gnu-v3|java|gnat|dlang|rust];Decode mangled/processed symbol names.' \

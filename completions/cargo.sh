@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta symbol +toolchain[`_choice_toolchain`]
 # @flag -h --help                              Print help
 # @flag -V --version                           Print version info and exit
 # @flag --list                                 List installed commands
@@ -1205,6 +1206,14 @@ EOF
 
 _choice_fmt() {
     _argc_util_comp_subcommand 0 rustfmt
+}
+
+_choice_toolchain() {
+    rustup toolchain list | gawk '{
+        split($1, parts, "-")
+        print parts[1]
+        print $1
+    }'
 }
 
 _helper_metadata_json() {

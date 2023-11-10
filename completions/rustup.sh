@@ -373,14 +373,14 @@ completions() {
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
 _choice_channel() {
-    echo beta
     echo stable
+    echo beta
     echo nightly
 }
 
 _choice_toolchain() {
-    rustup toolchain list | gawk '{print $1}'
     _choice_channel
+    rustup toolchain list | gawk '{print $1}'
 }
 
 _choice_available_component() {

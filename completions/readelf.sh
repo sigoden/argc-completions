@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta symbol @file
 # @flag -a --all                               Equivalent to: -h -l -S -s -r -d -V -A -I
 # @flag -h --file-header                       Display the ELF file header
 # @flag -l --program-headers                   Display the program headers

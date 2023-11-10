@@ -26,7 +26,7 @@
 # @option --target-dir <DIRECTORY>               Directory for all generated artifacts
 # @option --manifest-path <PATH>                 Path to Cargo.toml
 # @option --message-format[human|json|short] <FMT>  Error format [default: human]
-# @flag -v --verbose                             Use verbose output (-vv very verbose/build.rs output)
+# @flag -v --verbose*                            Use verbose output (-vv very verbose/build.rs output)
 # @option --color[auto|always|never] <WHEN>      Coloring
 # @flag --frozen                                 Require Cargo.lock and cache are up to date
 # @flag --locked                                 Require Cargo.lock is up to date
@@ -35,8 +35,8 @@
 # @option --backend[save-analysis|depinfo]       Backend to use for determining unused deps [default: depinfo]
 # @flag --keep-going                             Needed because the keep-going flag is asked about by cargo code
 # @flag --show-unused-transitive                 Show unused dependencies that get used transitively by main dependencies.
-# @flag -h --help                                Print help information
-# @flag -V --version                             Print version information
+# @flag -h --help                                Print help
+# @flag -V --version                             Print version
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 

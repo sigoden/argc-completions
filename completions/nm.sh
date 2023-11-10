@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta symbol @file
 # @flag -a --debug-syms                  Display debugger-only symbols
 # @flag -A --print-file-name             Print name of the input file before every symbol
 # @flag -B                               Same as --format=bsd

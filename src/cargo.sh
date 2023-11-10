@@ -49,7 +49,9 @@ _patch_table() {
             '--test;[`_choice_test`]' \
     )"
     if [[ "$*" == "cargo" ]]; then
-        echo "$table" | _patch_table_edit_arguments 'cmd;[`_choice_cmd`]'
+        echo "$table" | \
+        _patch_table_add_metadata 'symbol +toolchain[`_choice_toolchain`]' | \
+        _patch_table_edit_arguments 'cmd;[`_choice_cmd`]'
 
     elif [[ "$*" == "cargo remove" ]]; then
         echo "$table" | _patch_table_edit_arguments 'dep_id;[`_choice_depid`]'
@@ -184,6 +186,14 @@ _choice_ndk_target() {
 
 _choice_nextest_cmd() {
     _argc_util_comp_subcommand 0 cargo nextest
+}
+
+_choice_toolchain() {
+    rustup toolchain list | gawk '{
+        split($1, parts, "-")
+        print parts[1]
+        print $1
+    }'
 }
 
 _choice_watch_exec() {

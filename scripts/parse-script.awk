@@ -34,7 +34,7 @@ BEGIN {
     if (length(words1) > 0) {
         if (kind == "meta") {
             metaLineNum += 1
-            metaLines[metaLineNum] = words1[1]
+            metaLines[metaLineNum] = join(words1, " ")
         } else if (kind == "option") {
             split("", descRet)
             extractDesc(descRet, part2)

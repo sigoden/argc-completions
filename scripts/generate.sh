@@ -130,7 +130,7 @@ embed_src_script() {
     local src_fns src_script 
     mapfile -t src_fns < <( \
         echo "$main_content" | \
-        sed -n '/^# @\(option\|arg\)/ s/.* \S\+\[`\(\S\+\)`\].*/\1/p' | \
+        sed -n '/^# @\(option\|arg\|meta\)/ s/.* \S\+\[`\(\S\+\)`\].*/\1/p' | \
         grep -v '^_module_' \
     )
 

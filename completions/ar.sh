@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @meta symbol @file
 # @option --target[`_choice_target`] <BFDNAME>    specify the target object format as BFDNAME
 # @option --output <DIRNAME>                      specify the output directory for extraction operations
 # @option --record-libdeps <text>                 specify the dependencies of this library
