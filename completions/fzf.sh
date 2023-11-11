@@ -9,6 +9,7 @@
 # @option -n --nth <N[,..]>                      Comma-separated list of field index expressions for limiting search scope.
 # @option --with-nth <N[,..]>                    Transform the presentation of each line using field index expressions
 # @option -d --delimiter <STR>                   Field delimiter regex (default: AWK-style)
+# @flag --no-sort                                Do not sort the result
 # @flag --track                                  Track the current selection when the result is updated
 # @flag --tac                                    Reverse the order of the input
 # @flag --disabled                               Do not perform search
@@ -64,5 +65,7 @@
 # @flag --sync                                   Synchronous search for multi-staged filtering
 # @option --listen <HTTP_PORT>                   Start HTTP server to receive actions (POST /)
 # @flag --version                                Display version information and exit
+# @flag +i                                       Case-sensitive match
+# @flag +s                                       Do not sort the result
 
 command eval "$(argc --argc-eval "$0" "$@")"

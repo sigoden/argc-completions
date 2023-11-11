@@ -118,28 +118,29 @@ function parseOptions(words1, descVal, choicesVal) {
                 }
                 notation = substr(word, length(name) + 1)
             }
-        } else if (index(word, "-") == 1) {
+        } else if (index(word, "-") == 1 || index(word, "+") == 1) {
+            sign = substr(word, 1, 1)
             notationGroupNum += 1
             notationListNum = 0
             word = substr(word, 2)
             if (index(word, "[no-]")) {
                 word = substr(word, 6)
                 name = extractName(word)
-                longs[length(longs) + 1] = "-" name
+                longs[length(longs) + 1] = sign name
                 longs[length(longs) + 1] = "-no-" name
                 notation = substr(word, length(name) + 1)
             } else if (index(word, "[no]")) {
                 word = substr(word, 5)
                 name = extractName(word)
-                longs[length(longs) + 1] = "-" name
+                longs[length(longs) + 1] = sign name
                 longs[length(longs) + 1] = "-no" name
                 notation = substr(word, length(name) + 1)
             } else if (length(word) > 1) {
                 name = extractName(word)
                 if (length(name) == 1) {
-                    shorts[length(shorts) + 1] = "-" name
+                    shorts[length(shorts) + 1] = sign name
                 } else {
-                    longValue = "-" name
+                    longValue =sign name
                     if (longsDedup[longValue] != 1) {
                         longsDedup[longValue] = 1
                         longs[length(longs) + 1] = longValue
@@ -147,7 +148,7 @@ function parseOptions(words1, descVal, choicesVal) {
                 }
                 notation = substr(word, length(name) + 1)
             } else {
-                shorts[length(shorts) + 1] = "-" word
+                shorts[length(shorts) + 1] = sign word
             }
         } else {
             notation = word
