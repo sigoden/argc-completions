@@ -21,7 +21,7 @@ Let's take `aichat` as an example.
 1. help-text: `aichat --help`
 
 ```
-A powerful chatgpt cli.
+Use ChatGPT, LocalAI and other LLMs in the terminal.
 
 Usage: aichat [OPTIONS] [TEXT]...
 
@@ -29,51 +29,60 @@ Arguments:
   [TEXT]...  Input text
 
 Options:
-  -m, --model <MODEL>    Choose a model
-  -p, --prompt <PROMPT>  Add a GPT prompt
-  -H, --no-highlight     Disable syntax highlighting
-  -S, --no-stream        No stream output
-      --list-roles       List all roles
-      --list-models      List all models
-  -r, --role <ROLE>      Select a role
-      --info             Print system-wide information
-      --dry-run          Run in dry run mode
-  -h, --help             Print help
-  -V, --version          Print version
+  -m, --model <MODEL>        Choose a LLM model
+  -r, --role <ROLE>          Choose a role
+  -s, --session [<SESSION>]  Create or reuse a session
+  -H, --no-highlight         Disable syntax highlighting
+  -S, --no-stream            No stream output
+  -w, --wrap <WRAP>          Specify the text-wrapping mode (no, auto, <max-width>)
+      --light-theme          Use light theme
+      --dry-run              Run in dry run mode
+      --info                 Print related information
+      --list-models          List all available models
+      --list-roles           List all available roles
+      --list-sessions        List all available sessions
+  -h, --help                 Print help
+  -V, --version              Print version
 ```
 
 2. table: `aichat --help | gawk -f scripts/parse-table.awk`
 
 ```
-option # -m, --model <MODEL> # Choose a model
-option # -p, --prompt <PROMPT> # Add a GPT prompt
+option # -m, --model <MODEL> # Choose a LLM model
+option # -r, --role <ROLE> # Choose a role
+option # -s, --session [<SESSION>] # Create or reuse a session
 option # -H, --no-highlight # Disable syntax highlighting
 option # -S, --no-stream # No stream output
-option # --list-roles # List all roles
-option # --list-models # List all models
-option # -r, --role <ROLE> # Select a role
-option # --info # Print system-wide information
+option # -w, --wrap <WRAP> # Specify the text-wrapping mode (no, auto, <max-width>)
+option # --light-theme # Use light theme
 option # --dry-run # Run in dry run mode
+option # --info # Print related information
+option # --list-models # List all available models
+option # --list-roles # List all available roles
+option # --list-sessions # List all available sessions
 option # -h, --help # Print help
 option # -V, --version # Print version
-argument # [TEXT]... # Input text
+argument # [TEXT]... # Input text # 
 ```
 
 3. script: `aichat --help | gawk -f scripts/parse-table.awk | gawk -f scripts/parse-script.awk`
 
 ```sh
-# @option -m --model         Choose a model
-# @option -p --prompt        Add a GPT prompt
+# @option -m --model         Choose a LLM model
+# @option -r --role          Choose a role
+# @option -s --session       Create or reuse a session
 # @flag -H --no-highlight    Disable syntax highlighting
 # @flag -S --no-stream       No stream output
-# @flag --list-roles         List all roles
-# @flag --list-models        List all models
-# @option -r --role          Select a role
-# @flag --info               Print system-wide information
+# @option -w --wrap          Specify the text-wrapping mode (no, auto, <max-width>)
+# @flag --light-theme        Use light theme
 # @flag --dry-run            Run in dry run mode
+# @flag --info               Print related information
+# @flag --list-models        List all available models
+# @flag --list-roles         List all available roles
+# @flag --list-sessions      List all available sessions
 # @flag -h --help            Print help
 # @flag -V --version         Print version
-# @arg TEXT*                 Input text
+# @arg text*                 Input text
 ```
 
 ## `_patch*` functions 
@@ -101,6 +110,7 @@ _patch_table() {
     _patch_table_edit_options \
         '--model;[`_choice_model`]' \
         '--role;[`_choice_role`]' \
+        '--session;[`_choice_session`]' \
 
 }
 ```
@@ -108,21 +118,15 @@ _patch_table() {
 With `_patch_table`, `_choice_*` is appended to fourth column.
 
 ```diff
-- option # -m, --model <MODEL> # Choose a model
-+ option # -m, --model <MODEL> # Choose a model # [`_choice_model`]
-...
-- option # -r, --role <ROLE> # Select a role
-+ option # -r, --role <ROLE> # Select a role # [`_choice_role`]
+- option # -r, --role <ROLE> # Choose a role
++ option # -r, --role <ROLE> # Choose a role # [`_choice_role`]
 ```
 
 This affects the final generated argc script.
 
 ```diff
-- # @option -m --model         Choose a model
-+ # @option -m --model[`_choice_model`]    Choose a model
-...
-- # @option -r --role          Select a role
-+ # @option -r --role[`_choice_role`]      Select a role
+- # @option -r --role          Choose a role
++ # @option -r --role[`_choice_role`]      Choose a role
 ```
 
 ## `_choice*` functions
@@ -141,7 +145,7 @@ We also privode some [utility functions](https://github.com/sigoden/argc-complet
 _choice_fn() {
     echo     abc                              # value only,
     echo -e "def\0"                           # value only, no space
-    echo -e "ijk\tWith Description"           # value with description
-    echo -e "nop\0\tWith Description 2"       # value with description, no space
+    echo -e "ijk\tDesc"                       # value with description
+    echo -e "nop\0\tDesc"                     # value with description, no space
 }
 ```

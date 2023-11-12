@@ -6,8 +6,9 @@ export ARGC_COMPLETIONS_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/n
 set -e
 
 # @cmd Automatically generate the completion script for <CMD>
-# @flag -E --with-extend-subcmds    Also regenerate extend subcommands
-# @flag -v --verbose                Show log
+# @flag -P --with-plugins           Wheter generate completion scripts for plugins simultaneously
+# @flag -v --verbose                Show verbose log
+# @option -o --output <dir>         Specify output dir
 # @arg cmd![?`_choice_command`]
 # @arg subcmd
 generate() {
@@ -16,7 +17,7 @@ generate() {
         echo "$err"
         exit 1
     fi
-    generate_sh_args=" -o completions"
+    generate_sh_args=" -o ${argc_output:-"completions"}"
     if [[ "$argc_verbose" ]]; then
         generate_sh_args="$generate_sh_args -v"
     fi
@@ -26,7 +27,7 @@ generate() {
     else
         echo Generate $argc_cmd
         ./scripts/generate.sh $generate_sh_args $argc_cmd
-        if [[ "$argc_with_extend_subcmds" -eq 1 ]] && [[ -d completions/$argc_cmd ]]; then
+        if [[ "$argc_with_plugins" -eq 1 ]] && [[ -d completions/$argc_cmd ]]; then
             if [[ -d completions/$argc_cmd ]]; then
                 local child
                 for child in completions/$argc_cmd/*.sh; do
@@ -40,15 +41,15 @@ generate() {
     fi
 }
 
-# @cmd Generate completions for list of commands
+# @cmd Generate completion scripts for multiple commands
 # @arg cmds*[?`_choice_completion`]
 generate:multi() {
     for cmd in ${argc_cmds[@]}; do
-        argc generate $cmd -E
+        argc generate $cmd -P
     done
 }
 
-# @cmd Generate completions for src changed commands
+# @cmd Generate completion scripts for commands whose files have changed
 generate:changed() {
     mapfile -t symlink_cmds <<<"$(find src -type l | sed -n 's|src/\([^/]\+\).sh|\1|p')"
     declare -A symlink_map
@@ -62,33 +63,33 @@ generate:changed() {
             echo Skip $cmd
             continue
         fi
-        argc generate $cmd -E
+        argc generate $cmd -P
         if [[ -n "${symlink_map[$cmd]}" ]]; then
             symlink_cmds=( ${symlink_map[$cmd]} )
             for symlink_cmd in ${symlink_cmds[@]}; do
-                argc generate $symlink_cmd -E
+                argc generate $symlink_cmd -P
             done
         fi
     done
 }
 
-# @cmd Generate completions for macOS-only commands
+# @cmd Generate completion scripts for macOS-only commands
 generate:mac() {
     mapfile -t cmds < <(cat MANIFEST.md | grep '(macOS)' | sed -n 's/^- \[\(\S\+\)\].*/\1/p')
     for cmd in ${cmds[@]}; do
         if [[ -z "$(_helper_can_generate $cmd)" ]]; then
-            argc generate $cmd -E
+            argc generate $cmd -P
         fi
     done
 }
 
-# @cmd Generate completions for all commands
+# @cmd Generate completion scripts for all commands
 generate:all() {
     for f in completions/*; do
         if [ -f $f ]; then
             cmd="$(basename $f .sh)"
             if [[ " $SKIPS " != *" $cmd "* ]] && [[ -z "$(_helper_can_generate $cmd)" ]]; then
-                argc generate $cmd -E
+                argc generate $cmd -P
             else
                 echo Skip $cmd
             fi
@@ -99,14 +100,14 @@ generate:all() {
 # @cmd Debug a choice fn 
 #
 # For example:
-#   argc choice-fn ./src/git.sh _choice_checkout
+#   argc choice-fn ./src/git.sh _choice_cmd
 #   argc choice-fn ./completions/git.sh _choice_checkout git checkout -- '' 
-# @option -C --dir  Change current workdir to <DIR>
-# @arg script_file!
-# @arg fn![?`_choice_fn_name`]
-# @arg args~ Command line args passed for compgen
+# @option -C --cwd <dir>            Change current workdir to <DIR>
+# @arg script_file!                 File contains choice fns
+# @arg fn![?`_choice_fn_name`]      Choice fn to debug
+# @arg args~                        Command line args passed for compgen
 choice-fn() {
-    argc_dir="${argc_dir:-`pwd`}"
+    argc_cwd="${argc_cwd:-`pwd`}"
     script_file="$(realpath "$argc_script_file")"
     if grep -q 'argc --argc-eval' "$script_file"; then
         if [[ "$OS" == "Windows_NT" ]]; then
@@ -127,7 +128,7 @@ choice-fn() {
         if [[ "$last_arg" =~ ^'-' ]] && [[ "$last_arg" =~ '=' ]]; then
             filter="${filter#*=}"
         fi
-        (cd $argc_dir && \
+        (cd $argc_cwd && \
             ARGC_COMPGEN=1 ARGC_OS="$os" ARGC_PATH_SEP="$sep" ARGC_CWORD="$filter" ARGC_LAST_ARG="$last_arg" \
             bash "$script_file" ___internal___ $argc_fn "${argc_args[@]}")
     else
@@ -136,13 +137,13 @@ choice-fn() {
         for f in utils/_modules/*; do
             . $f
         done
-        (cd $argc_dir && $argc_fn "${argc_args[@]}")
+        (cd $argc_cwd && $argc_fn "${argc_args[@]}")
     fi
 }
 
-# @cmd Print generated help/table/script, used to debug patch fn
-# @option -k --kind[=table|help|script]
-# @flag -P --no-patch  Do not apply _patch_* fn
+# @cmd Print intermediary file during the completion script process.
+# @option -k --kind[=table|help|script]     Intermediate file types
+# @flag -P --no-patch                       Do not apply `_patch_*` fn
 # @arg cmd_or_help_file![?`_choice_print_target`]
 # @arg subcmds*
 print() {
@@ -155,7 +156,7 @@ print() {
     fi
 }
 
-# @cmd Test generate.sh
+# @cmd Integrated Testing
 # @option -k --kind[table|help|script]
 xtest() {
     if [[ -z "$argc_kind" ]]; then
@@ -165,34 +166,34 @@ xtest() {
     fi
 }
 
-# @cmd Format the src file
+# @cmd Format the source file of a command
 # @alias fmt
 # @arg names*[?`_choice_src_name`]
 format() {
     for name in ${argc_names[@]}; do
         srcfile="src/$name.sh"
         if [[ ! -f "$srcfile" ]]; then
-            echo "missing $srcfile "
+            echo "Not found $srcfile "
         else
-            echo "format $srcfile "
+            echo "Format $srcfile "
             ./scripts/format.sh "$name"
         fi
     done
 }
 
-# @cmd Format changed files
+# @cmd Format source files for commands whose files have changed
 format:changed() {
     mapfile -t cmds < <(_helper_list_changed)
     argc format "${cmds[@]}"
 }
 
-# @cmd Format all src files
+# @cmd Format all source files
 format:all() {
     mapfile -t cmds < <(find src  -name "*.sh" -type f | sort | sed -n 's|src/\([[:alnum:]_-]\+\)\.sh|\1|p')
     argc format "${cmds[@]}"
 }
 
-# @cmd Check scripts
+# @cmd Check all completion scripts
 check:all() {
     mapfile -t cmds < <(_choice_completion)
     for cmd in "${cmds[@]}"; do
@@ -214,10 +215,32 @@ check:all() {
     done
 }
 
+# @cmd Shell setup to use argc-completions
+# @flag -i --install            Install to rc/config file
+# @arg shell[`_choice_shell`]   Shell type
+shell:setup() {
+    file="$(_helper_shell_file $argc_shell)"
+    setup="$(_helper_shell_setup $argc_shell)"
+    if [[ -n "$argc_install" ]]; then
+        if [[ ! -e "$file" ]]; then
+            mkdir -p "$(dirname "$file")" && touch "$file"
+        fi
+        if ! grep -q 'ARGC_COMPLETIONS_ROOT' "$file"; then
+            echo -e "\n# argc-completions\n$setup" >> "$file"
+        fi
+    else
+        file="$(echo "$file" | sed 's|'$HOME'|~|')"
+        echo "Add the following code to '$file'"
+        echo -e "\n\`\`\`\n# argc-completions\n$setup\n\`\`\`"
+    fi
+}
+
 # @cmd Print version
 version() {
     argc --argc-version
     yq --version
+    gawk --version | head -n 1
+    sed --version | head -n 1
 }
 
 _choice_command() {
@@ -245,6 +268,139 @@ _choice_src_name() {
 _choice_print_target() {
     echo __argc_value=file
     _choice_completion
+}
+
+_choice_shell() {
+    printf "%s\n" bash elvish fish nushell powershell xonsh zsh
+}
+
+_helper_shell_file() {
+    case $1 in
+    bash) echo "$HOME/.bashrc" ;;
+    elvish)
+        if [[ -n "$APPDATA" ]]; then
+            echo "$APPDATA\\elvish\\rc.elv"
+        else
+            echo "$HOME/.config/elvish/rc.elv"
+        fi
+        ;;
+    fish) echo "$HOME/.config/fish/config.fish" ;;
+    nushell) 
+        if [[ -n "$APPDATA" ]]; then
+            echo "$APPDATA\\nushell\\config.nu"
+        else
+            echo "$HOME/.config/nushell/config.nu"
+        fi
+        ;;
+    powershell)
+        if [[ -n "$USERPROFILE" ]]; then
+            echo "$USERPROFILE\\Documents\\WindowsPowerShell\\Microsoft.PowerShell_profile.ps1"
+        else
+            echo "$HOME/.config/powershell/Microsoft.PowerShell_profile.ps1"
+        fi
+        ;;
+    xonsh)
+        if [[ -n "$ALLUSERSPROFILE" ]]; then
+            echo "$ALLUSERSPROFILE\\xonsh\\xonshrc"
+        else
+            echo "$HOME/.config/xonsh/rc.xsh"
+        fi
+        ;;
+    zsh) echo "$HOME/.zshrc" ;;
+    esac
+}
+
+_helper_shell_setup() {
+    local argc_completions_root="$PWD"
+    local sep="/"
+    local argc_completions_path
+    if [[ "$1" == @(bash|fish|zsh) ]]; then
+        if [[ "$OS" == "Windows_NT" ]]; then
+            argc_completions_path="$(cygpath -w "$argc_completions_root/completions" | sed 's/\\/\\\\/g')"
+        else
+            argc_completions_path="\$ARGC_COMPLETIONS_ROOT/completions"
+        fi
+    else
+        if [[ "$OS" == "Windows_NT" ]]; then
+            argc_completions_root="$(cygpath -w "$argc_completions_root" | sed 's/\\/\\\\/g')"
+            sep="\\\\"
+        fi
+    fi
+    case $1 in
+    bash)
+        cat <<EOF
+export ARGC_COMPLETIONS_ROOT="$argc_completions_root"
+export ARGC_COMPLETIONS_PATH="$argc_completions_path"
+export PATH="\$ARGC_COMPLETIONS_ROOT/bin:\$PATH"
+source <(ls -p -1 "\$ARGC_COMPLETIONS_ROOT/completions" | sed -n 's/\.sh$//p' | xargs argc --argc-completions bash)
+EOF
+        ;;
+    elvish)
+        cat <<EOF
+set E:ARGC_COMPLETIONS_ROOT = '$argc_completions_root'
+set E:ARGC_COMPLETIONS_PATH = \$E:ARGC_COMPLETIONS_ROOT'${sep}completions'
+set paths = [(echo \$E:ARGC_COMPLETIONS_ROOT'${sep}bin') \$@paths]
+eval (ls -p -1 \$E:ARGC_COMPLETIONS_ROOT'${sep}completions' | sed -n 's/\.sh$//p' | xargs argc --argc-completions elvish | slurp)
+EOF
+        ;;
+    fish)
+        cat <<EOF
+set -gx ARGC_COMPLETIONS_ROOT "$argc_completions_root"
+set -gx ARGC_COMPLETIONS_PATH "$argc_completions_path"
+fish_add_path "\$ARGC_COMPLETIONS_ROOT/bin"
+ls -1 "\$ARGC_COMPLETIONS_ROOT/completions" | sed -n 's/\.sh$//p' | xargs argc --argc-completions fish | source
+EOF
+        ;;
+    nushell)
+        touch "${argc_completions_root}${sep}cache${sep}argc-completions.nu"
+        local path_name=PATH
+        if [[ "$OS" == "Windows_NT" ]]; then
+            path_name=Path
+        fi
+        cat <<EOF
+\$env.ARGC_COMPLETIONS_ROOT = '$argc_completions_root'
+\$env.ARGC_COMPLETIONS_PATH = (\$env.ARGC_COMPLETIONS_ROOT + '${sep}completions')
+\$env.$path_name = (\$env.$path_name | prepend (\$env.ARGC_COMPLETIONS_ROOT + '${sep}bin'))
+argc --argc-completions nushell (ls (\$env.ARGC_COMPLETIONS_ROOT + '${sep}completions') |
+    each {|it| if (\$it.name | str ends-with '.sh') { \$it.name | path basename | str replace -r '\.sh$' ''}}) |
+    save -f '${argc_completions_root}${sep}cache${sep}argc-completions.nu'
+source '${argc_completions_root}${sep}cache${sep}argc-completions.nu'
+EOF
+        ;;
+    powershell)
+        cat <<EOF
+\$env:ARGC_COMPLETIONS_ROOT = '$argc_completions_root'    
+\$env:ARGC_COMPLETIONS_PATH = (\$env:ARGC_COMPLETIONS_ROOT + '${sep}completions')    
+\$env:PATH = \$env:ARGC_COMPLETIONS_ROOT + '${sep}bin' + [IO.Path]::PathSeparator + \$env:PATH
+argc --argc-completions powershell (
+    (Get-ChildItem -File (\$env:ARGC_COMPLETIONS_ROOT + '${sep}completions')) |
+    ForEach-Object { \$_.Name -replace '\.sh$' }) | Out-String | Invoke-Expression
+EOF
+        ;;
+    xonsh)
+        if [[ "$OS" == "Windows_NT" ]]; then
+            argc_completions_root="$(echo "$argc_completions_root" | sed 's/\\/\\\\/g')"
+            sep="$sep$sep"
+        fi
+        cat <<EOF
+\$ARGC_COMPLETIONS_ROOT = '$argc_completions_root'
+\$ARGC_COMPLETIONS_PATH = \$ARGC_COMPLETIONS_ROOT + '${sep}completions'
+\$PATH.insert(0, \$ARGC_COMPLETIONS_ROOT + '${sep}bin')
+import os
+exec(\$(argc --argc-completions xonsh @(
+    list(map(lambda v: v.rstrip('.sh'), filter(lambda v: v.endswith('.sh'),
+        os.listdir(\$ARGC_COMPLETIONS_ROOT + '${sep}completions')))))))
+EOF
+        ;;
+    zsh)
+        cat <<EOF
+export ARGC_COMPLETIONS_ROOT="$argc_completions_root"
+export ARGC_COMPLETIONS_PATH="$argc_completions_path"
+export PATH="\$ARGC_COMPLETIONS_ROOT/bin:\$PATH"
+source <(ls -p -1 "\$ARGC_COMPLETIONS_ROOT/completions" | sed -n 's/\.sh$//p' | xargs argc --argc-completions zsh)
+EOF
+        ;;
+    esac
 }
 
 _helper_print_help() {

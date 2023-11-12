@@ -353,16 +353,7 @@ BEGIN {
 _argc_util_comp_subcommand() {
     local args=( "${@:2}" "${argc__positionals[@]:$1}" )
     args[-1]="$ARGC_LAST_ARG"
-    local scriptfile="$ARGC_COMPLETIONS_ROOT/completions/${args[0]}.sh"
-    if [[ ! -f "$scriptfile" ]]; then
-        scriptfile="$ARGC_COMPLETIONS_ROOT/completions/${args[0]}/${args[1]}.sh"
-        if [[ ! -f "$scriptfile" ]]; then
-            _argc_util_comp_path
-            return
-        fi
-    fi
-    scriptfile="$(_argc_util_path_resolve -p "$scriptfile")"
-    argc --argc-compgen generic "$scriptfile" "${args[@]}"
+    argc --argc-compgen generic "" "${args[@]}"
 }
 
 # Enetr kv complete mode
@@ -817,7 +808,7 @@ BEGIN {
 # ```
 _argc_util_cache() {
     local cache_dir cache_key cache_file
-    cache_dir=/tmp/argc_completions_cache
+    cache_dir="${ARGC_COMPLETIONS_ROOT:-/tmp}/cache"
     if [[ -z "$3" ]]; then
         cache_key="$(printf "%s_" "${argc__args[@]:0:$(( $argc__cmd_arg_index + 1 ))}")$2"
     else

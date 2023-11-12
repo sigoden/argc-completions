@@ -13,7 +13,7 @@ _choice_fn() {
   cat <<-'EOF'
 abc
 def
-...
+ijk
 EOF
 }
 ```
@@ -34,7 +34,6 @@ _choice_fn() {
 value	describe value"
 other value	describe other value"
 another value	describe another value"
-...
 EOF
 }
 ```

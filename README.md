@@ -4,54 +4,27 @@ A multi-shell completion solution.
 
 ## Features
 
-- support bash/zsh/powershell/fish/nushell/elvish/xonsh
-- support windows/macos/linux
-- support 1000+ commands
-- easily/automaticlly generate argc completion script from help-text/man-page
-- lazy completion evaluation, fast startup and lower memory usage
-- enhanced plugin/addon completion for command such as cargo, git
+- Support windows/macos/linux
+- Support bash/zsh/powershell/fish/nushell/elvish/xonsh
+- Support 1000+ commands
+- Automaticlly generate completion script from help-text/man-page
+- Lazy/dynamic loading, one single shellscript for all commands
+- Enhanced completion for commands with add-ons/plugins such as cargo/git
 
-## Setup
+## Install
 
-### 1. Clone the repository
-
-```
+```sh
 git clone https://github.com/sigoden/argc-completions.git
+./scripts/download-tools.sh   # download required tools
+./bin/argc shell:setup bash   # support shells: bash/zsh/powershell/fish/nushell/elvish/xonsh
 ```
 
-### 2. Install required tools
+> For Windows, run the above code in Git Bash.
 
-Argc-completions requires the following tools:
-
+Required tools:
 - [argc](https://github.com/sigoden/argc): completion engine
 - [yq](https://github.com/mikefarah/yq): YAML/JSON/XML/CSV/TOML processor
-
-Run the following script to download the tools to `./bin` folder:
-
-```sh
-./scripts/download-tools.sh
-```
-> For windows, run the script in git-bash
-
-> For macos, install bash and gawk with `brew install bash gawk`
-
-### 3. Setup shell
-
-Argc-completions supports a lot of shells. Different shells need different configurations.
-
-Run the following script to see how argc-completions are integrated into the shell:
-
-```sh
-./scripts/setup-shell.sh bash # one of bash|elvish|fish|nushell|powershell|xonsh|zsh
-```
-
-## Generate custom completion script
-
-You can run `generate.sh` to automatically generate the completion script for the command:
-
-```sh
-argc generate <cmd>
-```
+- macOS only: `brew install bash gawk gnu-sed`
 
 ## License
 

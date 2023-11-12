@@ -4,7 +4,7 @@ set -e
 
 # @describe Automaticlly generate completion script for commands
 
-# @option -o --output <file>        Specify output file. If omitted, output to stdout
+# @option -o --output <path>        Specify output dir or file. If omitted, output to stdout
 # @flag -v --verbose                Show log
 # @arg cmd!                         Specify the command, must be able to run locally
 # @arg subcmd                       Optional subcommand
@@ -332,7 +332,7 @@ set_globals() {
     scripts_dir="$ROOT_DIR/scripts"
     src_dir="$ROOT_DIR/src"
     utils_dir="$ROOT_DIR/utils"
-    helps_dir="$ROOT_DIR/helps"
+    help_dir="$ROOT_DIR/cache/help"
     command_names=";$argc_cmd;"
     join_cmds="$(echo "${cmds[@]}" | sed 's/ /-/g')"
 
@@ -364,8 +364,8 @@ set_globals() {
         output_file="$argc_output/$(echo "${cmds[@]}" | sed 's| |/|g').sh"
     fi
 
-    if [[ -d "$helps_dir" ]]; then
-        help_output_file="$helps_dir/$join_cmds.txt"
+    if [[ -d "$help_dir" ]]; then
+        help_output_file="$help_dir/$join_cmds.txt"
         rm -rf "$help_output_file"
     fi
 
@@ -374,10 +374,10 @@ set_globals() {
         source "$src_file"
     fi
 
-    if [[ ! -d /tmp/argc_completions_table_hash ]]; then
-        mkdir -p /tmp/argc_completions_table_hash
+    if [[ ! -d /tmp/argc_completions_hash ]]; then
+        mkdir -p /tmp/argc_completions_hash
     fi
-    store_table_hash="/tmp/argc_completions_table_hash/$join_cmds"
+    store_table_hash="/tmp/argc_completions_hash/$join_cmds"
     echo -n > "$store_table_hash"
 }
 
