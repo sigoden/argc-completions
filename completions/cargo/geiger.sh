@@ -2,7 +2,7 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # @option -p --package[`_choice_package`] <SPEC>  Package to be used as the root of the tree.
-# @option --features                           Space-separated list of features to activate.
+# @option --features*,[`_choice_feature`]      Space-separated list of features to activate.
 # @flag --all-features                         Activate all available features.
 # @flag --no-default-features                  Do not activate the `default` feature.
 # @option --target[`_choice_target`]           Set the target triple.
@@ -32,8 +32,14 @@
 # @flag -h --help                              Prints help information.
 # @flag -V --version                           Prints version information.
 
+. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
+
 _choice_package() {
     _helper_metadata_json | yq '.packages[].name'
+}
+
+_choice_feature() {
+    _helper_package_json | yq '.features | keys | .[]'
 }
 
 _choice_target() {
@@ -42,6 +48,17 @@ _choice_target() {
 
 _helper_metadata_json() {
     cargo metadata --format-version 1 --no-deps
+}
+
+_helper_package_json() {
+    metadata_json="$(_helper_metadata_json)"
+    if [[ -n "$argc_package" ]]; then
+        echo "$metadata_json" | yq '.packages[] | select(.name == "'"$argc_package"'")'
+    else
+        workspace_root="$(echo "$metadata_json" | yq '.workspace_root')"
+        manifest_path="$(_argc_util_path_resolve -p "$workspace_root" Cargo.toml)"
+        echo "$metadata_json" | yq '.packages[] | select(.manifest_path == "'"$manifest_path"'")'
+    fi
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

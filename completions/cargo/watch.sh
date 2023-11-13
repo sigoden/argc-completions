@@ -22,7 +22,7 @@
 # @option -d --delay <delay>         File updates debounce delay in seconds [default: 0.5]
 # @option --env-file* <env-files>    Set environment variables from a .env file
 # @option -E --env* <env-vars>       Set environment variables for the command
-# @option --features <features>      List of features passed to cargo invocations
+# @option --features*,[`_choice_feature`] <features>  List of features passed to cargo invocations
 # @option -i --ignore* <pattern>     Ignore a glob/gitignore-style pattern
 # @option -B <rust-backtrace>        Inject RUST_BACKTRACE=VALUE (generally you want to set it to 1) into the environment
 # @option -L <rust-log>              Inject RUST_LOG=VALUE into the environment
@@ -34,8 +34,27 @@
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
+_choice_feature() {
+    _helper_package_json | yq '.features | keys | .[]'
+}
+
 _choice_watch_exec() {
     cargo --list | sed -n 's/^    \(\S\S\+\).*/\1/p'
+}
+
+_helper_metadata_json() {
+    cargo metadata --format-version 1 --no-deps
+}
+
+_helper_package_json() {
+    metadata_json="$(_helper_metadata_json)"
+    if [[ -n "$argc_package" ]]; then
+        echo "$metadata_json" | yq '.packages[] | select(.name == "'"$argc_package"'")'
+    else
+        workspace_root="$(echo "$metadata_json" | yq '.workspace_root')"
+        manifest_path="$(_argc_util_path_resolve -p "$workspace_root" Cargo.toml)"
+        echo "$metadata_json" | yq '.packages[] | select(.manifest_path == "'"$manifest_path"'")'
+    fi
 }
 
 _module_os_command() {

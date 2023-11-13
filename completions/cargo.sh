@@ -39,7 +39,7 @@
 # @flag --all-targets                            Build all targets
 # @flag -r --release                             Build artifacts in release mode, with optimizations
 # @option --profile <PROFILE-NAME>               Build artifacts with the specified profile
-# @option -F --features                          Space or comma separated list of features to activate
+# @option -F --features*,[`_choice_feature`]     Space or comma separated list of features to activate
 # @flag --all-features                           Activate all available features
 # @flag --no-default-features                    Do not activate the `default` feature
 # @option --target[`_choice_target`] <TRIPLE>    Build for the target triple
@@ -87,7 +87,7 @@ build() {
 # @flag --all-targets                            Check all targets
 # @flag -r --release                             Check artifacts in release mode, with optimizations
 # @option --profile <PROFILE-NAME>               Check artifacts with the specified profile
-# @option -F --features                          Space or comma separated list of features to activate
+# @option -F --features*,[`_choice_feature`]     Space or comma separated list of features to activate
 # @flag --all-features                           Activate all available features
 # @flag --no-default-features                    Do not activate the `default` feature
 # @option --target[`_choice_target`] <TRIPLE>    Check for the target triple
@@ -154,7 +154,7 @@ clean() {
 # @option --example[`_choice_example`] <NAME>    Document only the specified example
 # @flag -r --release                             Build artifacts in release mode, with optimizations
 # @option --profile <PROFILE-NAME>               Build artifacts with the specified profile
-# @option -F --features                          Space or comma separated list of features to activate
+# @option -F --features*,[`_choice_feature`]     Space or comma separated list of features to activate
 # @flag --all-features                           Activate all available features
 # @flag --no-default-features                    Do not activate the `default` feature
 # @option --target[`_choice_target`] <TRIPLE>    Build for the target triple
@@ -227,7 +227,7 @@ init() {
 # @cmd Add dependencies to a manifest file
 # @flag --no-default-features                  Disable the default features
 # @flag --default-features                     Re-enable the default features
-# @option -F --features                        Space or comma separated list of features to activate
+# @option -F --features*,[`_choice_add_feature`]  Space or comma separated list of features to activate
 # @flag --optional                             Mark the dependency as optional
 # @flag --no-optional                          Mark the dependency as required
 # @option --rename <NAME>                      Rename the dependency
@@ -293,7 +293,7 @@ remove() {
 # @flag --keep-going                             Do not abort the build as soon as there is an error (unstable)
 # @flag -r --release                             Build artifacts in release mode, with optimizations
 # @option --profile <PROFILE-NAME>               Build artifacts with the specified profile
-# @option -F --features                          Space or comma separated list of features to activate
+# @option -F --features*,[`_choice_feature`]     Space or comma separated list of features to activate
 # @flag --all-features                           Activate all available features
 # @flag --no-default-features                    Do not activate the `default` feature
 # @option --target[`_choice_target`] <TRIPLE>    Build for the target triple
@@ -342,7 +342,7 @@ run() {
 # @flag --keep-going                             Do not abort the build as soon as there is an error (unstable)
 # @flag -r --release                             Build artifacts in release mode, with optimizations
 # @option --profile <PROFILE-NAME>               Build artifacts with the specified profile
-# @option -F --features                          Space or comma separated list of features to activate
+# @option -F --features*,[`_choice_feature`]     Space or comma separated list of features to activate
 # @flag --all-features                           Activate all available features
 # @flag --no-default-features                    Do not activate the `default` feature
 # @option --target[`_choice_target`] <TRIPLE>    Build for the target triple
@@ -389,7 +389,7 @@ test() {
 # @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs.
 # @flag --keep-going                             Do not abort the build as soon as there is an error (unstable)
 # @option --profile <PROFILE-NAME>               Build artifacts with the specified profile
-# @option -F --features                          Space or comma separated list of features to activate
+# @option -F --features*,[`_choice_feature`]     Space or comma separated list of features to activate
 # @flag --all-features                           Activate all available features
 # @flag --no-default-features                    Do not activate the `default` feature
 # @option --target[`_choice_target`] <TRIPLE>    Build for the target triple
@@ -468,7 +468,7 @@ search() {
 # @option --target-dir <DIRECTORY>               Directory for all generated artifacts
 # @option -p --package[`_choice_package`] <SPEC>  Package to publish
 # @option --manifest-path <PATH>                 Path to Cargo.toml
-# @option -F --features                          Space or comma separated list of features to activate
+# @option -F --features*,[`_choice_feature`]     Space or comma separated list of features to activate
 # @flag --all-features                           Activate all available features
 # @flag --no-default-features                    Do not activate the `default` feature
 # @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs.
@@ -502,7 +502,7 @@ publish() {
 # @flag --keep-going                             Do not abort the build as soon as there is an error (unstable)
 # @flag -f --force                               Force overwriting existing crates or binaries
 # @flag --no-track                               Do not save tracking information
-# @option -F --features                          Space or comma separated list of features to activate
+# @option -F --features*,[`_choice_feature`]     Space or comma separated list of features to activate
 # @flag --all-features                           Activate all available features
 # @flag --no-default-features                    Do not activate the `default` feature
 # @option --profile <PROFILE-NAME>               Install artifacts with the specified profile
@@ -574,7 +574,7 @@ uninstall() {
 # @flag --all-targets                            Fix all targets (default)
 # @flag -r --release                             Fix artifacts in release mode, with optimizations
 # @option --profile <PROFILE-NAME>               Build artifacts with the specified profile
-# @option -F --features                          Space or comma separated list of features to activate
+# @option -F --features*,[`_choice_feature`]     Space or comma separated list of features to activate
 # @flag --all-features                           Activate all available features
 # @flag --no-default-features                    Do not activate the `default` feature
 # @option --target[`_choice_target`] <TRIPLE>    Fix for the target triple
@@ -680,7 +680,7 @@ fetch() {
 # @flag --all-targets                            Fix all targets (default)
 # @flag -r --release                             Fix artifacts in release mode, with optimizations
 # @option --profile <PROFILE-NAME>               Build artifacts with the specified profile
-# @option -F --features                          Space or comma separated list of features to activate
+# @option -F --features*,[`_choice_feature`]     Space or comma separated list of features to activate
 # @flag --all-features                           Activate all available features
 # @flag --no-default-features                    Do not activate the `default` feature
 # @option --target[`_choice_target`] <TRIPLE>    Fix for the target triple
@@ -808,22 +808,22 @@ logout() {
 
 # {{ cargo metadata
 # @cmd Output the resolved dependencies of a package, the concrete used versions including overrides, in machine-readable format
-# @flag -q --quiet                             Do not print cargo log messages
-# @option -F --features                        Space or comma separated list of features to activate
-# @flag --all-features                         Activate all available features
-# @flag --no-default-features                  Do not activate the `default` feature
-# @option --filter-platform <TRIPLE>           Only include resolve dependencies matching the given target-triple
-# @flag --no-deps                              Output information only about the workspace members and don't fetch dependencies
-# @option --manifest-path <PATH>               Path to Cargo.toml
-# @option --format-version[1] <VERSION>        Format version
-# @flag -h --help                              Print help
-# @flag -v --verbose*                          Use verbose output (-vv very verbose/build.rs output)
-# @option --color[auto|always|never] <WHEN>    Coloring: auto, always, never
-# @flag --frozen                               Require Cargo.lock and cache are up to date
-# @flag --locked                               Require Cargo.lock is up to date
-# @flag --offline                              Run without accessing the network
-# @option --config <KEY=VALUE>                 Override a configuration value
-# @option -Z <FLAG>                            Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
+# @flag -q --quiet                              Do not print cargo log messages
+# @option -F --features*,[`_choice_feature`]    Space or comma separated list of features to activate
+# @flag --all-features                          Activate all available features
+# @flag --no-default-features                   Do not activate the `default` feature
+# @option --filter-platform <TRIPLE>            Only include resolve dependencies matching the given target-triple
+# @flag --no-deps                               Output information only about the workspace members and don't fetch dependencies
+# @option --manifest-path <PATH>                Path to Cargo.toml
+# @option --format-version[1] <VERSION>         Format version
+# @flag -h --help                               Print help
+# @flag -v --verbose*                           Use verbose output (-vv very verbose/build.rs output)
+# @option --color[auto|always|never] <WHEN>     Coloring: auto, always, never
+# @flag --frozen                                Require Cargo.lock and cache are up to date
+# @flag --locked                                Require Cargo.lock is up to date
+# @flag --offline                               Run without accessing the network
+# @option --config <KEY=VALUE>                  Override a configuration value
+# @option -Z <FLAG>                             Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
 metadata() {
     :;
 }
@@ -861,7 +861,7 @@ owner() {
 # @flag --allow-dirty                            Allow dirty working directories to be packaged
 # @option --target[`_choice_target`] <TRIPLE>    Build for the target triple
 # @option --target-dir <DIRECTORY>               Directory for all generated artifacts
-# @option -F --features                          Space or comma separated list of features to activate
+# @option -F --features*,[`_choice_feature`]     Space or comma separated list of features to activate
 # @flag --all-features                           Activate all available features
 # @flag --no-default-features                    Do not activate the `default` feature
 # @option -p --package[`_choice_package`] <SPEC>  Package(s) to assemble
@@ -969,7 +969,7 @@ report::future-incompatibilities() {
 # @flag --all-targets                            Build all targets
 # @flag -r --release                             Build artifacts in release mode, with optimizations
 # @option --profile <PROFILE-NAME>               Build artifacts with the specified profile
-# @option -F --features                          Space or comma separated list of features to activate
+# @option -F --features*,[`_choice_feature`]     Space or comma separated list of features to activate
 # @flag --all-features                           Activate all available features
 # @flag --no-default-features                    Do not activate the `default` feature
 # @option --target[`_choice_target`] <TRIPLE>    Target triple which compiles will be for
@@ -1015,7 +1015,7 @@ rustc() {
 # @flag --all-targets                            Build all targets
 # @flag -r --release                             Build artifacts in release mode, with optimizations
 # @option --profile <PROFILE-NAME>               Build artifacts with the specified profile
-# @option -F --features                          Space or comma separated list of features to activate
+# @option -F --features*,[`_choice_feature`]     Space or comma separated list of features to activate
 # @flag --all-features                           Activate all available features
 # @flag --no-default-features                    Do not activate the `default` feature
 # @option --target[`_choice_target`] <TRIPLE>    Build for the target triple
@@ -1046,7 +1046,7 @@ rustdoc() {
 # @option -p --package[`_choice_package`] <SPEC>  Package to be used as the root of the tree
 # @flag --workspace                              Display the tree for all packages in the workspace
 # @option --exclude <SPEC>                       Exclude specific workspace members
-# @option -F --features                          Space or comma separated list of features to activate
+# @option -F --features*,[`_choice_feature`]     Space or comma separated list of features to activate
 # @flag --all-features                           Activate all available features
 # @flag --no-default-features                    Do not activate the `default` feature
 # @option --target[`_choice_target`] <TRIPLE>    Filter dependencies matching the given target-triple (default host platform).
@@ -1175,8 +1175,18 @@ _choice_bench() {
     _helper_package_target bench
 }
 
+_choice_feature() {
+    _helper_package_json | yq '.features | keys | .[]'
+}
+
 _choice_target() {
     rustup target list --installed
+}
+
+_choice_add_feature() {
+    if [[ "${#argc_dep_id[@]}" -eq 1 ]]; then
+        curl -fsSL https://crates.io/api/v1/crates/$argc_dep_id | yq '.versions[0].features | keys | .[]'
+    fi
 }
 
 _choice_depid() {

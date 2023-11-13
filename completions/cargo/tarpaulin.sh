@@ -53,7 +53,7 @@
 # @option -e --exclude* <PACKAGE>                 Package id specifications to exclude from coverage.
 # @option --exclude-files* <FILE>                 Exclude given files from coverage results has * wildcard
 # @option --fail-under <PERCENTAGE>               Sets a percentage threshold for failure ranging from 0-100, if coverage is below exit with a non-zero code
-# @option --features*                             Features to be included in the target project
+# @option --features*,[`_choice_feature`]         Features to be included in the target project
 # @option -j --jobs <N>                           Number of parallel jobs, defaults to ♯ of CPUs
 # @option --manifest-path <PATH>                  Path to Cargo.toml
 # @option --objects* <objects>                    Other object files to load which contain information for llvm coverage - must have been compiled with llvm coverage instrumentation (ignored for ptrace)
@@ -88,6 +88,10 @@ _choice_test() {
 
 _choice_bench() {
     _helper_package_target bench
+}
+
+_choice_feature() {
+    _helper_package_json | yq '.features | keys | .[]'
 }
 
 _choice_target() {

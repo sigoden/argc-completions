@@ -8,14 +8,14 @@
 
 # {{ cargo leptos build
 # @cmd Build the server (feature ssr) and the client (wasm with feature hydrate)
-# @flag -r --release                       Build artifacts in release mode, with optimizations
-# @flag --hot-reload                       Turn on partial hot-reloading.
-# @option -p --project                     Which project to use, from a list of projects defined in a workspace
-# @option --features                       The features to use when compiling all targets
-# @option --lib-features <LIB_FEATURES>    The features to use when compiling the lib target
-# @option --bin-features <BIN_FEATURES>    The features to use when compiling the bin target
-# @flag -v*                                Verbosity (none: info, errors & warnings, -v: verbose, --vv: very verbose)
-# @flag -h --help                          Print help
+# @flag -r --release                         Build artifacts in release mode, with optimizations
+# @flag --hot-reload                         Turn on partial hot-reloading.
+# @option -p --project                       Which project to use, from a list of projects defined in a workspace
+# @option --features*,[`_choice_feature`]    The features to use when compiling all targets
+# @option --lib-features <LIB_FEATURES>      The features to use when compiling the lib target
+# @option --bin-features <BIN_FEATURES>      The features to use when compiling the bin target
+# @flag -v*                                  Verbosity (none: info, errors & warnings, -v: verbose, --vv: very verbose)
+# @flag -h --help                            Print help
 build() {
     :;
 }
@@ -23,14 +23,14 @@ build() {
 
 # {{ cargo leptos test
 # @cmd Run the cargo tests for app, client and server
-# @flag -r --release                       Build artifacts in release mode, with optimizations
-# @flag --hot-reload                       Turn on partial hot-reloading.
-# @option -p --project                     Which project to use, from a list of projects defined in a workspace
-# @option --features                       The features to use when compiling all targets
-# @option --lib-features <LIB_FEATURES>    The features to use when compiling the lib target
-# @option --bin-features <BIN_FEATURES>    The features to use when compiling the bin target
-# @flag -v*                                Verbosity (none: info, errors & warnings, -v: verbose, --vv: very verbose)
-# @flag -h --help                          Print help
+# @flag -r --release                         Build artifacts in release mode, with optimizations
+# @flag --hot-reload                         Turn on partial hot-reloading.
+# @option -p --project                       Which project to use, from a list of projects defined in a workspace
+# @option --features*,[`_choice_feature`]    The features to use when compiling all targets
+# @option --lib-features <LIB_FEATURES>      The features to use when compiling the lib target
+# @option --bin-features <BIN_FEATURES>      The features to use when compiling the bin target
+# @flag -v*                                  Verbosity (none: info, errors & warnings, -v: verbose, --vv: very verbose)
+# @flag -h --help                            Print help
 test() {
     :;
 }
@@ -38,14 +38,14 @@ test() {
 
 # {{ cargo leptos end-to-end
 # @cmd Start the server and end-2-end tests
-# @flag -r --release                       Build artifacts in release mode, with optimizations
-# @flag --hot-reload                       Turn on partial hot-reloading.
-# @option -p --project                     Which project to use, from a list of projects defined in a workspace
-# @option --features                       The features to use when compiling all targets
-# @option --lib-features <LIB_FEATURES>    The features to use when compiling the lib target
-# @option --bin-features <BIN_FEATURES>    The features to use when compiling the bin target
-# @flag -v*                                Verbosity (none: info, errors & warnings, -v: verbose, --vv: very verbose)
-# @flag -h --help                          Print help
+# @flag -r --release                         Build artifacts in release mode, with optimizations
+# @flag --hot-reload                         Turn on partial hot-reloading.
+# @option -p --project                       Which project to use, from a list of projects defined in a workspace
+# @option --features*,[`_choice_feature`]    The features to use when compiling all targets
+# @option --lib-features <LIB_FEATURES>      The features to use when compiling the lib target
+# @option --bin-features <BIN_FEATURES>      The features to use when compiling the bin target
+# @flag -v*                                  Verbosity (none: info, errors & warnings, -v: verbose, --vv: very verbose)
+# @flag -h --help                            Print help
 end-to-end() {
     :;
 }
@@ -53,14 +53,14 @@ end-to-end() {
 
 # {{ cargo leptos serve
 # @cmd Serve.
-# @flag -r --release                       Build artifacts in release mode, with optimizations
-# @flag --hot-reload                       Turn on partial hot-reloading.
-# @option -p --project                     Which project to use, from a list of projects defined in a workspace
-# @option --features                       The features to use when compiling all targets
-# @option --lib-features <LIB_FEATURES>    The features to use when compiling the lib target
-# @option --bin-features <BIN_FEATURES>    The features to use when compiling the bin target
-# @flag -v*                                Verbosity (none: info, errors & warnings, -v: verbose, --vv: very verbose)
-# @flag -h --help                          Print help
+# @flag -r --release                         Build artifacts in release mode, with optimizations
+# @flag --hot-reload                         Turn on partial hot-reloading.
+# @option -p --project                       Which project to use, from a list of projects defined in a workspace
+# @option --features*,[`_choice_feature`]    The features to use when compiling all targets
+# @option --lib-features <LIB_FEATURES>      The features to use when compiling the lib target
+# @option --bin-features <BIN_FEATURES>      The features to use when compiling the bin target
+# @flag -v*                                  Verbosity (none: info, errors & warnings, -v: verbose, --vv: very verbose)
+# @flag -h --help                            Print help
 serve() {
     :;
 }
@@ -68,14 +68,14 @@ serve() {
 
 # {{ cargo leptos watch
 # @cmd Serve and automatically reload when files change
-# @flag -r --release                       Build artifacts in release mode, with optimizations
-# @flag --hot-reload                       Turn on partial hot-reloading.
-# @option -p --project                     Which project to use, from a list of projects defined in a workspace
-# @option --features                       The features to use when compiling all targets
-# @option --lib-features <LIB_FEATURES>    The features to use when compiling the lib target
-# @option --bin-features <BIN_FEATURES>    The features to use when compiling the bin target
-# @flag -v*                                Verbosity (none: info, errors & warnings, -v: verbose, --vv: very verbose)
-# @flag -h --help                          Print help
+# @flag -r --release                         Build artifacts in release mode, with optimizations
+# @flag --hot-reload                         Turn on partial hot-reloading.
+# @option -p --project                       Which project to use, from a list of projects defined in a workspace
+# @option --features*,[`_choice_feature`]    The features to use when compiling all targets
+# @option --lib-features <LIB_FEATURES>      The features to use when compiling the lib target
+# @option --bin-features <BIN_FEATURES>      The features to use when compiling the bin target
+# @flag -v*                                  Verbosity (none: info, errors & warnings, -v: verbose, --vv: very verbose)
+# @flag -h --help                            Print help
 watch() {
     :;
 }
@@ -96,5 +96,26 @@ new() {
     :;
 }
 # }} cargo leptos new
+
+. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
+
+_choice_feature() {
+    _helper_package_json | yq '.features | keys | .[]'
+}
+
+_helper_metadata_json() {
+    cargo metadata --format-version 1 --no-deps
+}
+
+_helper_package_json() {
+    metadata_json="$(_helper_metadata_json)"
+    if [[ -n "$argc_package" ]]; then
+        echo "$metadata_json" | yq '.packages[] | select(.name == "'"$argc_package"'")'
+    else
+        workspace_root="$(echo "$metadata_json" | yq '.workspace_root')"
+        manifest_path="$(_argc_util_path_resolve -p "$workspace_root" Cargo.toml)"
+        echo "$metadata_json" | yq '.packages[] | select(.manifest_path == "'"$manifest_path"'")'
+    fi
+}
 
 command eval "$(argc --argc-eval "$0" "$@")"

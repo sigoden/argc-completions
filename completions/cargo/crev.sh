@@ -156,7 +156,7 @@ crate::goto() {
 # @flag -V --version                               Prints version information
 # @option --depth <depth>                          [trust-graph-traversal] Maximum allowed distance from the root identity when traversing trust graph [default: 20]
 # @option --distrust-cost <distrust-cost>          [trust-graph-traversal] Cost of traversing trust graph edge of distrust trust level [default: 21]
-# @option --features                               [cargo] Space-separated list of features to activate
+# @option --features*,[`_choice_feature`]          [cargo] Space-separated list of features to activate
 # @option --for-id <for-id>                        Root identity to calculate the Web of Trust for [default: current user id]
 # @option --high-cost <high-cost>                  [trust-graph-traversal] Cost of traversing trust graph edge of high trust level [default: 0]
 # @option --low-cost <low-cost>                    [trust-graph-traversal] Cost of traversing trust graph edge of low trust level [default: 5]
@@ -189,7 +189,7 @@ crate::info() {
 # @flag -V --version                               Prints version information
 # @option --depth <depth>                          [trust-graph-traversal] Maximum allowed distance from the root identity when traversing trust graph [default: 20]
 # @option --distrust-cost <distrust-cost>          [trust-graph-traversal] Cost of traversing trust graph edge of distrust trust level [default: 21]
-# @option --features                               [cargo] Space-separated list of features to activate
+# @option --features*,[`_choice_feature`]          [cargo] Space-separated list of features to activate
 # @option --for-id <for-id>                        Root identity to calculate the Web of Trust for [default: current user id]
 # @option --high-cost <high-cost>                  [trust-graph-traversal] Cost of traversing trust graph edge of high trust level [default: 0]
 # @option --low-cost <low-cost>                    [trust-graph-traversal] Cost of traversing trust graph edge of low trust level [default: 5]
@@ -244,7 +244,7 @@ crate::open() {
 # @flag -V --version                             Prints version information
 # @option --affected <affected>                  This release contains advisory (important fix)
 # @option --diff <base-version>                  Review the delta since the given version
-# @option --features                             [cargo] Space-separated list of features to activate
+# @option --features*,[`_choice_feature`]        [cargo] Space-separated list of features to activate
 # @option --manifest-path <PATH>                 [cargo] Path to Cargo.toml
 # @option --severity <severity>                  Severity of bug/security issue [none low medium high]
 # @option --target[`_choice_target`] <target>    [cargo] Skip targets other than specified (no value = autodetect)
@@ -287,7 +287,7 @@ crate::search() {
 # @flag -V --version                             Prints version information
 # @option --affected <affected>                  This release contains advisory (important fix)
 # @option --diff <base-version>                  Review the delta since the given version
-# @option --features                             [cargo] Space-separated list of features to activate
+# @option --features*,[`_choice_feature`]        [cargo] Space-separated list of features to activate
 # @option --manifest-path <PATH>                 [cargo] Path to Cargo.toml
 # @option --severity <severity>                  Severity of bug/security issue [none low medium high]
 # @option --target[`_choice_target`] <target>    [cargo] Skip targets other than specified (no value = autodetect)
@@ -318,7 +318,7 @@ crate::unreview() {
 # @flag -V --version                               Prints version information
 # @option --depth <depth>                          [trust-graph-traversal] Maximum allowed distance from the root identity when traversing trust graph [default: 20]
 # @option --distrust-cost <distrust-cost>          [trust-graph-traversal] Cost of traversing trust graph edge of distrust trust level [default: 21]
-# @option --features                               [cargo] Space-separated list of features to activate
+# @option --features*,[`_choice_feature`]          [cargo] Space-separated list of features to activate
 # @option --for-id <for-id>                        Root identity to calculate the Web of Trust for [default: current user id]
 # @option --high-cost <high-cost>                  [trust-graph-traversal] Cost of traversing trust graph edge of high trust level [default: 0]
 # @option --low-cost <low-cost>                    [trust-graph-traversal] Cost of traversing trust graph edge of low trust level [default: 5]
@@ -780,7 +780,7 @@ repo::query::review() {
 # @flag --no-default-features                    [cargo] Do not activate the `default` feature
 # @flag --no-dev-dependencies                    [cargo] Skip dev dependencies
 # @flag -V --version                             Prints version information
-# @option --features                             [cargo] Space-separated list of features to activate
+# @option --features*,[`_choice_feature`]        [cargo] Space-separated list of features to activate
 # @option --manifest-path <PATH>                 [cargo] Path to Cargo.toml
 # @option --target[`_choice_target`] <target>    [cargo] Skip targets other than specified (no value = autodetect)
 # @option -Z --unstable-flags* <FLAG>            [cargo] Unstable (nightly-only) flags to Cargo
@@ -888,7 +888,7 @@ publish() {
 # @flag -V --version                             Prints version information
 # @option --affected <affected>                  This release contains advisory (important fix)
 # @option --diff <base-version>                  Review the delta since the given version
-# @option --features                             [cargo] Space-separated list of features to activate
+# @option --features*,[`_choice_feature`]        [cargo] Space-separated list of features to activate
 # @option --manifest-path <PATH>                 [cargo] Path to Cargo.toml
 # @option --severity <severity>                  Severity of bug/security issue [none low medium high]
 # @option --target[`_choice_target`] <target>    [cargo] Skip targets other than specified (no value = autodetect)
@@ -909,7 +909,7 @@ review() {
 # @flag --no-default-features                    [cargo] Do not activate the `default` feature
 # @flag --no-dev-dependencies                    [cargo] Skip dev dependencies
 # @flag -V --version                             Prints version information
-# @option --features                             [cargo] Space-separated list of features to activate
+# @option --features*,[`_choice_feature`]        [cargo] Space-separated list of features to activate
 # @option --manifest-path <PATH>                 [cargo] Path to Cargo.toml
 # @option --target[`_choice_target`] <target>    [cargo] Skip targets other than specified (no value = autodetect)
 # @option -Z --unstable-flags* <FLAG>            [cargo] Unstable (nightly-only) flags to Cargo
@@ -936,7 +936,7 @@ update() {
 # @flag -V --version                               Prints version information
 # @option --depth <depth>                          [trust-graph-traversal] Maximum allowed distance from the root identity when traversing trust graph [default: 20]
 # @option --distrust-cost <distrust-cost>          [trust-graph-traversal] Cost of traversing trust graph edge of distrust trust level [default: 21]
-# @option --features                               [cargo] Space-separated list of features to activate
+# @option --features*,[`_choice_feature`]          [cargo] Space-separated list of features to activate
 # @option --for-id <for-id>                        Root identity to calculate the Web of Trust for [default: current user id]
 # @option --high-cost <high-cost>                  [trust-graph-traversal] Cost of traversing trust graph edge of high trust level [default: 0]
 # @option --low-cost <low-cost>                    [trust-graph-traversal] Cost of traversing trust graph edge of low trust level [default: 5]
@@ -967,8 +967,29 @@ verify() {
 }
 # }} cargo crev verify
 
+. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
+
+_choice_feature() {
+    _helper_package_json | yq '.features | keys | .[]'
+}
+
 _choice_target() {
     rustup target list --installed
+}
+
+_helper_metadata_json() {
+    cargo metadata --format-version 1 --no-deps
+}
+
+_helper_package_json() {
+    metadata_json="$(_helper_metadata_json)"
+    if [[ -n "$argc_package" ]]; then
+        echo "$metadata_json" | yq '.packages[] | select(.name == "'"$argc_package"'")'
+    else
+        workspace_root="$(echo "$metadata_json" | yq '.workspace_root')"
+        manifest_path="$(_argc_util_path_resolve -p "$workspace_root" Cargo.toml)"
+        echo "$metadata_json" | yq '.packages[] | select(.manifest_path == "'"$manifest_path"'")'
+    fi
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

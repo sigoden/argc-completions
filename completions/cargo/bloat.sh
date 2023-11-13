@@ -10,7 +10,7 @@
 # @option -p --package[`_choice_package`] <SPEC>  Package to build
 # @flag --release                                Build artifacts in release mode, with optimizations
 # @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs
-# @option --features                             Space-separated list of features to activate
+# @option --features*,[`_choice_feature`]        Space-separated list of features to activate
 # @flag --all-features                           Activate all available features
 # @flag --no-default-features                    Do not activate the `default` feature
 # @option --profile                              Build with the given profile.
@@ -46,6 +46,10 @@ _choice_example() {
 
 _choice_test() {
     _helper_package_target test
+}
+
+_choice_feature() {
+    _helper_package_json | yq '.features | keys | .[]'
 }
 
 _choice_target() {

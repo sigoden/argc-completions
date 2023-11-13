@@ -19,7 +19,7 @@
 # @flag --all-targets                            Check all targets
 # @flag --release                                Check artifacts in release mode, with optimizations
 # @option --profile <PROFILE-NAME>               Check artifacts with the specified profile
-# @option --features*                            Space-separated list of features to activate
+# @option --features*,[`_choice_feature`]        Space-separated list of features to activate
 # @flag --all-features                           Activate all available features
 # @flag --no-default-features                    Do not activate the `default` feature
 # @option --target[`_choice_target`] <TRIPLE>    Check for the target triple
@@ -58,6 +58,10 @@ _choice_test() {
 
 _choice_bench() {
     _helper_package_target bench
+}
+
+_choice_feature() {
+    _helper_package_json | yq '.features | keys | .[]'
 }
 
 _choice_target() {

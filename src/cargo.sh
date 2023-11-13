@@ -44,6 +44,7 @@ _patch_table() {
             '--bench;[`_choice_bench`]' \
             '--bin;[`_choice_bin`]' \
             '--example;[`_choice_example`]' \
+            '--features;*,[`_choice_feature`]' \
             '--package;[`_choice_package`]' \
             '--target;[`_choice_target`]' \
             '--test;[`_choice_test`]' \
@@ -53,6 +54,11 @@ _patch_table() {
         _patch_table_add_metadata 'symbol +toolchain[`_choice_toolchain`]' | \
         _patch_table_edit_arguments 'cmd;[`_choice_cmd`]'
 
+    elif [[ "$*" == "cargo add" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--features;*,[`_choice_add_feature`]' \
+    
     elif [[ "$*" == "cargo remove" ]]; then
         echo "$table" | _patch_table_edit_arguments 'dep_id;[`_choice_depid`]'
 
@@ -89,7 +95,7 @@ _patch_table() {
         | \
         _patch_table_edit_arguments \
             'cargo_args;~[`_choice_ndk_cmd`]' \
-    
+
     elif [[ "$*" == "cargo sort" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
@@ -138,8 +144,18 @@ _choice_bench() {
     _helper_package_target bench
 }
 
+_choice_feature() {
+    _helper_package_json | yq '.features | keys | .[]'
+}
+
 _choice_target() {
     rustup target list --installed
+}
+
+_choice_add_feature() {
+    if [[ "${#argc_dep_id[@]}" -eq 1 ]]; then
+        curl -fsSL https://crates.io/api/v1/crates/$argc_dep_id | yq '.versions[0].features | keys | .[]'
+    fi
 }
 
 _choice_depid() {

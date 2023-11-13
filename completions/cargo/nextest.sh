@@ -33,7 +33,7 @@
 # @flag -r --release                             Build artifacts in release mode, with optimizations
 # @option --cargo-profile <NAME>                 Build artifacts with the specified Cargo profile
 # @option --build-jobs <JOBS>                    Number of build jobs to run
-# @option -F --features                          Space or comma separated list of features to activate
+# @option -F --features*,[`_choice_feature`]     Space or comma separated list of features to activate
 # @flag --all-features                           Activate all available features
 # @flag --no-default-features                    Do not activate the `default` feature
 # @option --target[`_choice_target`] <TRIPLE>    Build for the target triple
@@ -102,7 +102,7 @@ list() {
 # @flag -r --release                             Build artifacts in release mode, with optimizations
 # @option --cargo-profile <NAME>                 Build artifacts with the specified Cargo profile
 # @option --build-jobs <JOBS>                    Number of build jobs to run
-# @option -F --features                          Space or comma separated list of features to activate
+# @option -F --features*,[`_choice_feature`]     Space or comma separated list of features to activate
 # @flag --all-features                           Activate all available features
 # @flag --no-default-features                    Do not activate the `default` feature
 # @option --target[`_choice_target`] <TRIPLE>    Build for the target triple
@@ -167,7 +167,7 @@ run() {
 # @flag -r --release                             Build artifacts in release mode, with optimizations
 # @option --cargo-profile <NAME>                 Build artifacts with the specified Cargo profile
 # @option --build-jobs <JOBS>                    Number of build jobs to run
-# @option -F --features                          Space or comma separated list of features to activate
+# @option -F --features*,[`_choice_feature`]     Space or comma separated list of features to activate
 # @flag --all-features                           Activate all available features
 # @flag --no-default-features                    Do not activate the `default` feature
 # @option --target[`_choice_target`] <TRIPLE>    Build for the target triple
@@ -246,7 +246,7 @@ show-config::version() {
 # @flag -r --release                             Build artifacts in release mode, with optimizations
 # @option --cargo-profile <NAME>                 Build artifacts with the specified Cargo profile
 # @option --build-jobs <JOBS>                    Number of build jobs to run
-# @option -F --features                          Space or comma separated list of features to activate
+# @option -F --features*,[`_choice_feature`]     Space or comma separated list of features to activate
 # @flag --all-features                           Activate all available features
 # @flag --no-default-features                    Do not activate the `default` feature
 # @option --target[`_choice_target`] <TRIPLE>    Build for the target triple
@@ -337,6 +337,10 @@ _choice_test() {
 
 _choice_bench() {
     _helper_package_target bench
+}
+
+_choice_feature() {
+    _helper_package_json | yq '.features | keys | .[]'
 }
 
 _choice_target() {

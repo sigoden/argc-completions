@@ -7,17 +7,17 @@
 
 # {{ cargo tauri build
 # @cmd Tauri build
-# @option -r --runner                      Binary to use to build the application, defaults to `cargo`
-# @flag -v --verbose*                      Enables verbose logging
-# @flag -d --debug                         Builds with the debug flag
-# @option -t --target[`_choice_target`]    Target triple to build against.
-# @option -f --features*                   Space or comma separated list of features to activate
-# @option -b --bundles*                    Space or comma separated list of bundles to package.
-# @option -c --config                      JSON string or path to JSON file to merge with tauri.conf.json
-# @flag --ci                               Skip prompting for values
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-# @arg args*                               Command line arguments passed to the runner
+# @option -r --runner                           Binary to use to build the application, defaults to `cargo`
+# @flag -v --verbose*                           Enables verbose logging
+# @flag -d --debug                              Builds with the debug flag
+# @option -t --target[`_choice_target`]         Target triple to build against.
+# @option -f --features*,[`_choice_feature`]    Space or comma separated list of features to activate
+# @option -b --bundles*                         Space or comma separated list of bundles to package.
+# @option -c --config                           JSON string or path to JSON file to merge with tauri.conf.json
+# @flag --ci                                    Skip prompting for values
+# @flag -h --help                               Print help (see a summary with '-h')
+# @flag -V --version                            Print version
+# @arg args*                                    Command line arguments passed to the runner
 build() {
     :;
 }
@@ -25,19 +25,19 @@ build() {
 
 # {{ cargo tauri dev
 # @cmd Tauri dev
-# @option -r --runner                      Binary to use to run the application
-# @flag -v --verbose*                      Enables verbose logging
-# @option -t --target[`_choice_target`]    Target triple to build against
-# @option -f --features*                   List of cargo features to activate
-# @flag -e --exit-on-panic                 Exit on panic
-# @option -c --config                      JSON string or path to JSON file to merge with tauri.conf.json
-# @flag --release                          Run the code in release mode
-# @flag --no-watch                         Disable the file watcher
-# @flag --no-dev-server                    Disable the dev server for static files
-# @option --port                           Specify port for the dev server for static files.
-# @flag -h --help                          Print help
-# @flag -V --version                       Print version
-# @arg args*                               Command line arguments passed to the runner.
+# @option -r --runner                           Binary to use to run the application
+# @flag -v --verbose*                           Enables verbose logging
+# @option -t --target[`_choice_target`]         Target triple to build against
+# @option -f --features*,[`_choice_feature`]    List of cargo features to activate
+# @flag -e --exit-on-panic                      Exit on panic
+# @option -c --config                           JSON string or path to JSON file to merge with tauri.conf.json
+# @flag --release                               Run the code in release mode
+# @flag --no-watch                              Disable the file watcher
+# @flag --no-dev-server                         Disable the dev server for static files
+# @option --port                                Specify port for the dev server for static files.
+# @flag -h --help                               Print help
+# @flag -V --version                            Print version
+# @arg args*                                    Command line arguments passed to the runner.
 dev() {
     :;
 }
@@ -165,8 +165,29 @@ completions() {
 }
 # }} cargo tauri completions
 
+. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
+
+_choice_feature() {
+    _helper_package_json | yq '.features | keys | .[]'
+}
+
 _choice_target() {
     rustup target list --installed
+}
+
+_helper_metadata_json() {
+    cargo metadata --format-version 1 --no-deps
+}
+
+_helper_package_json() {
+    metadata_json="$(_helper_metadata_json)"
+    if [[ -n "$argc_package" ]]; then
+        echo "$metadata_json" | yq '.packages[] | select(.name == "'"$argc_package"'")'
+    else
+        workspace_root="$(echo "$metadata_json" | yq '.workspace_root')"
+        manifest_path="$(_argc_util_path_resolve -p "$workspace_root" Cargo.toml)"
+        echo "$metadata_json" | yq '.packages[] | select(.manifest_path == "'"$manifest_path"'")'
+    fi
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

@@ -81,7 +81,7 @@ accept() {
 # @option -p --package[`_choice_package`] <package>  Package to run tests for
 # @flag --no-force-pass                          Disable force-passing of snapshot tests
 # @flag --fail-fast                              Prevent running all tests regardless of failure
-# @option --features                             Space-separated list of features to activate
+# @option --features*,[`_choice_feature`]        Space-separated list of features to activate
 # @option -j --jobs <jobs>                       Number of parallel jobs, defaults to ♯ of CPUs
 # @flag --release                                Build artifacts in release mode, with optimizations
 # @flag --all-features                           Activate all available features
@@ -158,6 +158,10 @@ _choice_example() {
 
 _choice_test() {
     _helper_package_target test
+}
+
+_choice_feature() {
+    _helper_package_json | yq '.features | keys | .[]'
 }
 
 _choice_target() {

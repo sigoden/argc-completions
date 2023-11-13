@@ -34,7 +34,7 @@ add() {
 # @flag -v --verbose                             Build target with verbose output from `cargo build`
 # @flag --no-default-features                    Build artifacts with default Cargo features disabled
 # @flag --all-features                           Build artifacts with all Cargo features enabled
-# @option --features                             Build artifacts with given Cargo feature enabled
+# @option --features*,[`_choice_feature`]        Build artifacts with given Cargo feature enabled
 # @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer
 # @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo
@@ -59,7 +59,7 @@ build() {
 # @flag -v --verbose                             Build target with verbose output from `cargo build`
 # @flag --no-default-features                    Build artifacts with default Cargo features disabled
 # @flag --all-features                           Build artifacts with all Cargo features enabled
-# @option --features                             Build artifacts with given Cargo feature enabled
+# @option --features*,[`_choice_feature`]        Build artifacts with given Cargo feature enabled
 # @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer
 # @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo
@@ -84,7 +84,7 @@ check() {
 # @flag -v --verbose                             Build target with verbose output from `cargo build`
 # @flag --no-default-features                    Build artifacts with default Cargo features disabled
 # @flag --all-features                           Build artifacts with all Cargo features enabled
-# @option --features                             Build artifacts with given Cargo feature enabled
+# @option --features*,[`_choice_feature`]        Build artifacts with given Cargo feature enabled
 # @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer
 # @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo
@@ -120,7 +120,7 @@ list() {
 # @flag -v --verbose                             Build target with verbose output from `cargo build`
 # @flag --no-default-features                    Build artifacts with default Cargo features disabled
 # @flag --all-features                           Build artifacts with all Cargo features enabled
-# @option --features                             Build artifacts with given Cargo feature enabled
+# @option --features*,[`_choice_feature`]        Build artifacts with given Cargo feature enabled
 # @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer
 # @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo
@@ -148,7 +148,7 @@ run() {
 # @flag -v --verbose                             Build target with verbose output from `cargo build`
 # @flag --no-default-features                    Build artifacts with default Cargo features disabled
 # @flag --all-features                           Build artifacts with all Cargo features enabled
-# @option --features                             Build artifacts with given Cargo feature enabled
+# @option --features*,[`_choice_feature`]        Build artifacts with given Cargo feature enabled
 # @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer
 # @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo
@@ -175,7 +175,7 @@ cmin() {
 # @flag -v --verbose                             Build target with verbose output from `cargo build`
 # @flag --no-default-features                    Build artifacts with default Cargo features disabled
 # @flag --all-features                           Build artifacts with all Cargo features enabled
-# @option --features                             Build artifacts with given Cargo feature enabled
+# @option --features*,[`_choice_feature`]        Build artifacts with given Cargo feature enabled
 # @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer
 # @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo
@@ -203,7 +203,7 @@ tmin() {
 # @flag -v --verbose                             Build target with verbose output from `cargo build`
 # @flag --no-default-features                    Build artifacts with default Cargo features disabled
 # @flag --all-features                           Build artifacts with all Cargo features enabled
-# @option --features                             Build artifacts with given Cargo feature enabled
+# @option --features*,[`_choice_feature`]        Build artifacts with given Cargo feature enabled
 # @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer
 # @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo
@@ -222,8 +222,29 @@ coverage() {
 }
 # }} cargo fuzz coverage
 
+. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
+
+_choice_feature() {
+    _helper_package_json | yq '.features | keys | .[]'
+}
+
 _choice_target() {
     rustup target list --installed
+}
+
+_helper_metadata_json() {
+    cargo metadata --format-version 1 --no-deps
+}
+
+_helper_package_json() {
+    metadata_json="$(_helper_metadata_json)"
+    if [[ -n "$argc_package" ]]; then
+        echo "$metadata_json" | yq '.packages[] | select(.name == "'"$argc_package"'")'
+    else
+        workspace_root="$(echo "$metadata_json" | yq '.workspace_root')"
+        manifest_path="$(_argc_util_path_resolve -p "$workspace_root" Cargo.toml)"
+        echo "$metadata_json" | yq '.packages[] | select(.manifest_path == "'"$manifest_path"'")'
+    fi
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"
