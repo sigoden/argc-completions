@@ -59,7 +59,7 @@ argc__positionals=([0]="")
 
 - ARGC_OS: OS kind, such as  `windows`, `linux`, `macos`
 - ARGC_LAST_ARG: The raw last arg. 
-- ARGC_CWORD: The processed last arg, completion value should `startsWith` this.
+- ARGC_CWORD: The processed last arg.
 
 Run command on linux zsh
 ```

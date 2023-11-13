@@ -1,4 +1,6 @@
-# How generate.sh works
+# Generate
+
+The core of `argc generate` is `./scripts/generate.sh`.
 
 `generate.sh` can directly generate completion scripts for most commands.
 
@@ -91,7 +93,7 @@ When `generate.sh <cmd>` is executed, it will look for a `<cmd>.sh` file in the 
 
 ### `_patch_help`
 
-`_patch_help` is a hook to provide/patch help text. If ommited, `generate.sh` runs `<cmd> <subcmd>... --help` to generate help text.
+`_patch_help` is a hook to provide/patch help text. If omitted, `generate.sh` runs `<cmd> <subcmd>... --help` to generate help text.
 
 Here are some use cases for `_patch_help`:
 

@@ -1,4 +1,24 @@
-# Complete Pattern
+# Completion Pattern
+
+## File/path/directory
+
+```sh
+# @option --output <file>
+# @option --cwd <dir>
+# @arg path...
+```
+
+```sh
+_choice_fn() {
+    echo __argc_value=path
+}
+```
+
+```sh
+_choice_fn() {
+    _argc_util_comp_path
+}
+```
 
 ## Multiple values
 
@@ -61,7 +81,6 @@ yes   ask   confirm   no
 
 ## Key value pairs, keys are dynamic
 
-choice fn for chown user:group
 ```sh
 _choice_user_group() {
     _argc_util_mode_kv ':'
@@ -176,7 +195,7 @@ $ find . -type f,<tab>
 b   c   d   ..
 ```
 
-## Sudo-like subcommands
+## Sudo-like subcmd
 
 ```sh
 # @arg cmd
@@ -209,4 +228,38 @@ add   remove    ...
 
 $ yarn workspace react <tab>
 add   remove    ...
+```
+
+## Prefixed option
+
+```sh
+# @option -X-*[`_choice_option`]                pass additional options to JVM
+
+_choice_option() {
+    cat <<-'EOF' | _argc_util_comp_kv ':'
+batch;;Disables background compilation.
+bootclasspath=`_choice_boot_class_path`;;Specifies a list of directories
+EOF
+}
+```
+
+```
+$ java -X<tab>
+batch   bootclasspath:
+```
+
+## Symbol parameter
+
+```sh
+# @meta symbol +toolchain[`_choice_toolchain`]
+
+_choice_toolchain() {
+    echo table
+    echo nightly
+}
+```
+
+```
+$ cargo +<tab>
+table   nightly
 ```

@@ -1,6 +1,6 @@
 # Argc Macros
 
-Argc macros are used to change compgen behaviour.
+Argc macros are used to change compgen behavior.
 
 ## __argc_filter=
 
