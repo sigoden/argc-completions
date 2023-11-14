@@ -352,7 +352,8 @@ ls -1 "\$ARGC_COMPLETIONS_ROOT/completions" | sed -n 's/\.sh$//p' | xargs argc -
 EOF
         ;;
     nushell)
-        touch "${argc_completions_root}${sep}cache${sep}argc-completions.nu"
+        mkdir -p "${argc_completions_root}${sep}tmp"
+        touch "${argc_completions_root}${sep}tmp${sep}argc-completions.nu"
         local path_name=PATH
         if [[ "$OS" == "Windows_NT" ]]; then
             path_name=Path
@@ -363,8 +364,8 @@ EOF
 \$env.$path_name = (\$env.$path_name | prepend (\$env.ARGC_COMPLETIONS_ROOT + '${sep}bin'))
 argc --argc-completions nushell (ls (\$env.ARGC_COMPLETIONS_ROOT + '${sep}completions') |
     each {|it| if (\$it.name | str ends-with '.sh') { \$it.name | path basename | str replace -r '\.sh$' ''}}) |
-    save -f '${argc_completions_root}${sep}cache${sep}argc-completions.nu'
-source '${argc_completions_root}${sep}cache${sep}argc-completions.nu'
+    save -f '${argc_completions_root}${sep}tmp${sep}argc-completions.nu'
+source '${argc_completions_root}${sep}tmp${sep}argc-completions.nu'
 EOF
         ;;
     powershell)

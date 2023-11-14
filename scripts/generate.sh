@@ -332,7 +332,7 @@ set_globals() {
     scripts_dir="$ROOT_DIR/scripts"
     src_dir="$ROOT_DIR/src"
     utils_dir="$ROOT_DIR/utils"
-    help_dir="$ROOT_DIR/cache/help"
+    help_dir="$ROOT_DIR/tmp/argc_completions_help"
     command_names=";$argc_cmd;"
     join_cmds="$(echo "${cmds[@]}" | sed 's/ /-/g')"
 

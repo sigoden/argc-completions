@@ -808,7 +808,7 @@ BEGIN {
 # ```
 _argc_util_cache() {
     local cache_dir cache_key cache_file
-    cache_dir="${ARGC_COMPLETIONS_ROOT:-/tmp}/cache"
+    cache_dir="$ARGC_COMPLETIONS_ROOT"/tmp/argc_completions_cache
     if [[ -z "$3" ]]; then
         cache_key="$(printf "%s_" "${argc__args[@]:0:$(( $argc__cmd_arg_index + 1 ))}")$2"
     else
