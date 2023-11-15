@@ -30,13 +30,15 @@ Argcomplete provides a multi-shell autocompletion solution that achieves three g
    
 ## Getting Started
 
+Open your terminal and execute the following commands:
+
 ```sh
 git clone https://github.com/sigoden/argc-completions.git
-./scripts/download-tools.sh   # download required tools
-./bin/argc shell:setup bash   # support shells: bash/zsh/powershell/fish/nushell/elvish/xonsh
+./scripts/download-tools.sh   # download required tools: argc/yq
+./bin/argc shell:setup bash   # supported shells: bash/zsh/powershell/fish/nushell/elvish/xonsh
 ```
 
-> For Windows, please run the above code in Git Bash.
+> For Windows, please run the above code in Git Bash (not wsl bash).
 
 Required tools downloaded by `download-tools.sh`:
 - [argc](https://github.com/sigoden/argc): completion engine
