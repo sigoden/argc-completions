@@ -294,7 +294,7 @@ _helper_shell_file() {
         ;;
     powershell)
         if [[ -n "$USERPROFILE" ]]; then
-            echo "$USERPROFILE\\Documents\\WindowsPowerShell\\Microsoft.PowerShell_profile.ps1"
+            echo "$USERPROFILE\\Documents\\PowerShell\\Microsoft.PowerShell_profile.ps1"
         else
             echo "$HOME/.config/powershell/Microsoft.PowerShell_profile.ps1"
         fi
@@ -362,9 +362,7 @@ EOF
 \$env.ARGC_COMPLETIONS_ROOT = '$argc_completions_root'
 \$env.ARGC_COMPLETIONS_PATH = (\$env.ARGC_COMPLETIONS_ROOT + '${sep}completions')
 \$env.$path_name = (\$env.$path_name | prepend (\$env.ARGC_COMPLETIONS_ROOT + '${sep}bin'))
-argc --argc-completions nushell (ls (\$env.ARGC_COMPLETIONS_ROOT + '${sep}completions') |
-    each {|it| if (\$it.name | str ends-with '.sh') { \$it.name | path basename | str replace -r '\.sh$' ''}}) |
-    save -f '${argc_completions_root}${sep}tmp${sep}argc-completions.nu'
+argc --argc-completions nushell | save -f '${argc_completions_root}${sep}tmp${sep}argc-completions.nu'
 source '${argc_completions_root}${sep}tmp${sep}argc-completions.nu'
 EOF
         ;;

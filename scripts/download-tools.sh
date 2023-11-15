@@ -4,11 +4,10 @@
 
 set -e
 
-ARGC_VERSION=v1.12.0
-YQ_VERSION=v4.35.2
-
-INSTALL_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )/bin"
+ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )"
+INSTALL_DIR="$ROOT_DIR/bin"
 TMP_DIR=/tmp/argc_completions_bin
+source "$ROOT_DIR/VERSIONS"
 
 download_tools() {
     mkdir -p "$INSTALL_DIR" "$TMP_DIR"
