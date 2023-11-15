@@ -102,6 +102,7 @@
 - [cargo-audit](https://github.com/RustSec/rustsec): Audit your dependencies for crates with security vulnerabilities reported to the RustSec Advisory Database.
 - [cargo-binstall](https://github.com/cargo-bins/cargo-binstall): Binary installation for rust projects
 - [cargo-bloat](https://github.com/RazrFalcon/cargo-bloat): Find out what takes most of the space in your executable.
+- [cargo-contract](https://github.com/paritytech/cargo-contract): Setup and deployment tool for developing Wasm based smart contracts via ink!
 - [cargo-crev](https://github.com/crev-dev/cargo-crev): A cryptographically verifiable code review system for the cargo (Rust) package manager.
 - [cargo-fuzz](https://github.com/rust-fuzz/cargo-fuzz): Command line helpers for fuzzing
 - [cargo-geiger](https://github.com/rust-secure-code/cargo-geiger): Detects usage of unsafe Rust in a Rust crate and its dependencies.
@@ -873,9 +874,10 @@
 - [trivy](https://github.com/aquasecurity/trivy): Scanner for vulnerabilities in container images, file systems, and Git repositories, as well as for configuration issues and hard-coded secrets
 - [truncate](http://gnu.org/software/coreutils): shrink or extend the size of a file to the specified size
 - [trunk](https://github.com/thedodd/trunk): Build, bundle & ship your Rust WASM application to the web.
+- [ts-node](https://github.com/TypeStrong/ts-node): TypeScript execution and REPL for node.js
 - [tsc](https://github.com/Microsoft/TypeScript): The TypeScript Compiler
 - [tshark](https://gitlab.com/wireshark/wireshark): Dump and analyze network traffic
-- [ts-node](https://github.com/TypeStrong/ts-node): TypeScript execution and REPL for node.js
+- [tspin](https://github.com/bensadeh/tailspin):  A log file highlighter
 - [tsx](https://github.com/esbuild-kit/tsx): Node.js enhanced to run TypeScript & ESM files
 - [tty](http://gnu.org/software/coreutils): print the file name of the terminal connected to standard input
 - [ttyd](https://github.com/tsl0922/ttyd): a tool for sharing terminal over the web
