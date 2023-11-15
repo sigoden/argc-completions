@@ -1,6 +1,6 @@
 # Argc-completions
 
-Argcomplete provides a multi-shell autocompletion solution that achieves three goals:
+Argc-completions provides a multi-shell autocompletion solution that achieves three goals:
 
 - One completion script works across multiple shells and multiple platforms.
 - Generate the completion script from the help text or man page automatically.
