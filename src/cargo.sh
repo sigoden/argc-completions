@@ -58,6 +58,16 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_options \
             '--features;*,[`_choice_add_feature`]' \
+        | \
+        _patch_table_edit_arguments 'dep_id;[`_choice_remote_crate`]'
+
+    elif [[ "$*" == "cargo install" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments 'crate;[`_choice_remote_crate`]'
+
+    elif [[ "$*" == "cargo search" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments 'query;[`_choice_remote_crate`]'
     
     elif [[ "$*" == "cargo remove" ]]; then
         echo "$table" | _patch_table_edit_arguments 'dep_id;[`_choice_depid`]'
@@ -155,6 +165,13 @@ _choice_target() {
 _choice_add_feature() {
     if [[ "${#argc_dep_id[@]}" -eq 1 ]]; then
         curl -fsSL https://crates.io/api/v1/crates/$argc_dep_id | yq '.versions[0].features | keys | .[]'
+    fi
+}
+
+_choice_remote_crate() {
+    if [[ "${#ARGC_CWORD}" -gt 2 ]]; then
+        curl -fsSL "https://crates.io/api/v1/crates?q=${ARGC_CWORD}&per_page=50" | \
+        yq '.crates[] | .name + "	" + .description'
     fi
 }
 

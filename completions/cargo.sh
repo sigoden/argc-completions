@@ -253,7 +253,7 @@ init() {
 # @flag --dev                                  Add as development dependency
 # @flag --build                                Add as build dependency
 # @option --target[`_choice_target`]           Add as dependency to the given target platform
-# @arg dep_id*                                 Reference to a package to add as a dependency
+# @arg dep_id*[`_choice_remote_crate`]         Reference to a package to add as a dependency
 add() {
     :;
 }
@@ -451,7 +451,7 @@ update() {
 # @flag --offline                              Run without accessing the network
 # @option --config <KEY=VALUE>                 Override a configuration value
 # @option -Z <FLAG>                            Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
-# @arg query*
+# @arg query*[`_choice_remote_crate`]
 search() {
     :;
 }
@@ -527,7 +527,7 @@ publish() {
 # @flag --offline                                Run without accessing the network
 # @option --config <KEY=VALUE>                   Override a configuration value
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
-# @arg crate*
+# @arg crate*[`_choice_remote_crate`]
 install() {
     :;
 }
@@ -1186,6 +1186,13 @@ _choice_target() {
 _choice_add_feature() {
     if [[ "${#argc_dep_id[@]}" -eq 1 ]]; then
         curl -fsSL https://crates.io/api/v1/crates/$argc_dep_id | yq '.versions[0].features | keys | .[]'
+    fi
+}
+
+_choice_remote_crate() {
+    if [[ "${#ARGC_CWORD}" -gt 2 ]]; then
+        curl -fsSL "https://crates.io/api/v1/crates?q=${ARGC_CWORD}&per_page=50" | \
+        yq '.crates[] | .name + "	" + .description'
     fi
 }
 
