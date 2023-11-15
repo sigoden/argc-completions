@@ -61,19 +61,19 @@ _patch_table() {
         | \
         _patch_table_edit_arguments 'dep_id;[`_choice_remote_crate`]'
 
-    elif [[ "$*" == "cargo install" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments 'crate;[`_choice_remote_crate`]'
-
-    elif [[ "$*" == "cargo search" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments 'query;[`_choice_remote_crate`]'
-    
     elif [[ "$*" == "cargo remove" ]]; then
         echo "$table" | _patch_table_edit_arguments 'dep_id;[`_choice_depid`]'
 
     elif [[ "$*" == "cargo test" ]]; then
         echo "$table" | _patch_table_edit_arguments 'testname;[`_choice_testname`]'
+
+    elif [[ "$*" == "cargo search" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments 'query;[`_choice_remote_crate`]'
+    
+    elif [[ "$*" == "cargo install" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments 'crate;[`_choice_remote_crate`]'
 
     elif [[ "$*" == "cargo clippy" ]]; then
         echo "$table" | \
