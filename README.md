@@ -34,6 +34,7 @@ Open your terminal and execute the following commands:
 
 ```sh
 git clone https://github.com/sigoden/argc-completions.git
+cd argc-completions
 ./scripts/download-tools.sh   # download required tools: argc/yq
 ./bin/argc shell:setup bash   # supported shells: bash/zsh/powershell/fish/nushell/elvish/xonsh
 ```
