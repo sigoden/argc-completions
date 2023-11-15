@@ -8,13 +8,27 @@ Argcomplete provides a multi-shell autocompletion solution that achieves three g
 
 ## Features
 
-- Support bash/zsh/powershell/fish/nushell/elvish/xonsh
+- Support multiple shells
+  - bash
+  - zsh
+  - powershell
+  - fish
+  - nushell
+  - elvish
+  - xonsh
+- Support multiple platforms: windows, macOS, linux
 - Support 1000+ commands ([full list](./MANIFEST.md))
 - Automatically generate completion script from help-text/man-page
-- Lazy-loading completion scripts, less memory, fast init speed
-- Enhanced command completion with addons/plugins such as Cargo/Git
-
-## Install
+- Enhanced autocompleting for addons/plugins (such as Cargo/Git)
+- Lazy loading, dynamic completions, reduced memory usage, and rapid initialization speed
+- More advanced features
+  - Using network 
+  - Parallel computing
+  - Caching
+  - Coloring
+  - ...
+   
+## Getting Started
 
 ```sh
 git clone https://github.com/sigoden/argc-completions.git
@@ -24,14 +38,12 @@ git clone https://github.com/sigoden/argc-completions.git
 
 > For Windows, please run the above code in Git Bash.
 
-Required tools:
+Required tools downloaded by `download-tools.sh`:
 - [argc](https://github.com/sigoden/argc): completion engine
 - [yq](https://github.com/mikefarah/yq): YAML/JSON/XML/CSV/TOML processor
 - macOS only: `brew install bash gawk gnu-sed`
 
-## Generate
-
-Generate completion scripts from command help-text:
+## Generate the completion script automatically
 
 ```sh
 argc generate your-command
