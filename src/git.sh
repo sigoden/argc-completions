@@ -239,7 +239,28 @@ EOF
 )"
         echo "$embed_help"
         if [[ -z "$embed_help" ]] || grep -q __HELP_CMD__ <<<"$embed_help"; then
-            $@ -h 2>&1
+            if [[ "$*" == "git reset" ]] \
+            || [[ "$*" == "git range-diff" ]] \
+            || [[ "$*" == "git stage" ]] \
+            || [[ "$*" == "git whatchanged" ]] \
+            ; then
+                $@ -h 2>&1
+            elif [[ "$*" == "git push" ]]; then
+                $@ --help 2>&1 | \
+                sed \
+                    -e '/^SYNOPSIS/,/^\s*$/ {s/(\|)//g; s/\[\s*\[\(--\[no-\]\S\+\)]/[\1/; s/\[<\(\S\+\)>\*\]/\1.../g;}' \
+                    -e '/^   History Simplification/, /^   \S/ {//!d}' \
+                    -e 's/--\[no-\]signed, --signed/--no-signed, --signed/' \
+                    -e 's/--\[no-\]force-with-lease, --force-with-lease=<refname>/--no-force-with-lease, --force-with-lease=<refname>/' \
+                    -e '/^\s*--force-with-lease/ d' \
+
+            else
+                $@ --help 2>&1 | \
+                sed \
+                    -e '/^SYNOPSIS/,/^\s*$/ {s/(\|)//g; s/\[\s*\[\(--\[no-\]\S\+\)]/[\1/; s/\[<\(\S\+\)>\*\]/\1.../g;}' \
+                    -e '/^   History Simplification/, /^   \S/ {//!d}' \
+
+            fi
         fi
     fi
 }
@@ -279,6 +300,7 @@ _patch_table() {
         _patch_table_edit_arguments ';;' '<remote>;[`_choice_remote`]' '<refspec>...;[`_choice_branch`]'
 
     elif [[ "$*" == "git push" ]]; then
+        _patch_table_dedup_options '--force-with-lease' | \
         _patch_table_edit_arguments ';;' '<remote>;[`_choice_remote`]' '<refspec>...;[`_choice_push`]'
 
     elif [[ "$*" == "git branch" ]]; then
@@ -287,11 +309,14 @@ _patch_table() {
     elif [[ "$*" == "git checkout" ]]; then
         _patch_table_edit_arguments 'branch([branch-path]...);[`_choice_checkout`]'
 
+    elif [[ "$*" == "git cherry" ]]; then
+        _patch_table_edit_arguments ';;' 'upstream;[`_choice_remote_branch`]' 'branch'
+
     elif [[ "$*" == "git cherry-pick" ]]; then
-        _patch_table_edit_arguments 'commit-ish;[`_choice_range`]'
+        _patch_table_edit_arguments 'commit;[`_choice_range`]'
 
     elif [[ "$*" == "git clean" ]]; then
-        _patch_table_edit_arguments 'paths;[`_choice_unstaged_file`]'
+        _patch_table_edit_arguments 'path;[`_choice_unstaged_file`]'
 
     elif [[ "$*" == "git config" ]]; then
         _patch_table_edit_arguments ';;' 'key;[`_choice_config_key`]'
@@ -309,9 +334,10 @@ _patch_table() {
         _patch_table_edit_arguments 'name;[`_choice_remote`]' 'old;[`_choice_remote`]' 'new;[`_choice_remote`]'
 
     elif [[ "$*" == "git restore" ]]; then
-        _patch_table_edit_arguments 'file;[`_choice_restore_file`]'
+        _patch_table_edit_arguments 'pathspec;[`_choice_restore_file`]'
 
     elif [[ "$*" == "git shortlog" ]]; then
+        _patch_table_dedup_options '--committer' | \
         _patch_table_edit_arguments ';;' '[commit-path]...;[`_choice_log`]'
 
     elif [[ "$*" == "git stash"* ]]; then
@@ -430,6 +456,10 @@ _choice_checkout() {
     fi
 }
 
+_choice_remote_branch() {
+    _git branch --remote --sort=-creatordate --format '%(refname:short)	%(subject)' | head -n 100
+}
+
 _choice_range() {
     _argc_util_mode_kv '..'
     _choice_ref 
@@ -479,10 +509,6 @@ _choice_head_commit() {
 
 _choice_local_branch() {
     _git branch --format '%(refname:short)	%(subject)'
-}
-
-_choice_remote_branch() {
-    _git branch --remote --sort=-creatordate --format '%(refname:short)	%(subject)' | head -n 100
 }
 
 _choice_staged_file() {
