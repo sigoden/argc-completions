@@ -35,16 +35,16 @@ Open your terminal and execute the following commands:
 ```sh
 git clone https://github.com/sigoden/argc-completions.git
 cd argc-completions
-./scripts/download-tools.sh   # download required tools: argc/yq
-./bin/argc shell:setup bash   # supported shells: bash/zsh/powershell/fish/nushell/elvish/xonsh
+./scripts/download-tools.sh
+./bin/argc shell:setup bash  # bash/zsh/powershell/fish/nushell/elvish/xonsh
 ```
 
 > For Windows, please run the above code in Git Bash (not wsl bash).
 
-Required tools downloaded by `download-tools.sh`:
-- [argc](https://github.com/sigoden/argc): completion engine
-- [yq](https://github.com/mikefarah/yq): YAML/JSON/XML/CSV/TOML processor
-- macOS only: `brew install bash gawk gnu-sed`
+> Tools downloaded by `download-tools.sh`
+>   - [argc](https://github.com/sigoden/argc): completion engine
+>   - [yq](https://github.com/mikefarah/yq): YAML/JSON/XML/CSV/TOML processor
+>   - macOS only: `brew install bash gawk gnu-sed`
 
 ## Generate the completion script automatically
 
