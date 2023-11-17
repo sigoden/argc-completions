@@ -368,6 +368,8 @@ EOF
         ;;
     powershell)
         cat <<EOF
+# Set-PSReadLineOption -Colors @{ "Selection" = "\`e[7m" }
+# Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete
 \$env:ARGC_COMPLETIONS_ROOT = '$argc_completions_root'    
 \$env:ARGC_COMPLETIONS_PATH = (\$env:ARGC_COMPLETIONS_ROOT + '${sep}completions')    
 \$env:PATH = \$env:ARGC_COMPLETIONS_ROOT + '${sep}bin' + [IO.Path]::PathSeparator + \$env:PATH
@@ -505,7 +507,7 @@ _helper_validate_script() {
 
 _helper_check_manifest() {
     if ! grep -q "^- \[$1\]" MANIFEST.md; then
-        echo "MANIFEST.md does not include $1"
+        echo "$1 is not found in MANIFEST.md"
         exit 1
     fi
 }
