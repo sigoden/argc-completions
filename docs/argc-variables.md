@@ -34,7 +34,7 @@ It will print:
   va: bar baz
 ```
 
-## builtin variables
+## argc builtin variables
 
 - `argc__args`:  Command line args
 - `argc__cmd_arg_index`: The index of the command word in `argc__args`
@@ -71,13 +71,4 @@ Argc will set variable value
 ARGC_OS=linux
 ARGC_LAST_ARG=--oa='ab
 ARGC_CWORD=ab
-```
-
-## tips
-
-You can use following code to inspect the argc variables and environment variables:
-
-```sh
-(set -o posix; set) | command grep argc_
-printenv | command grep ARGC_
 ```

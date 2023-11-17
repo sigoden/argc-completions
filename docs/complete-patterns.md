@@ -1,6 +1,8 @@
-# Completion Pattern
+# Complete Patterns
 
 ## File/path/directory
+
+1. Use value notation
 
 ```sh
 # @option --output <file>
@@ -8,17 +10,22 @@
 # @arg path...
 ```
 
+2. Use argc macro
+
 ```sh
 _choice_fn() {
     echo __argc_value=path
 }
 ```
 
+3. Use `argc_util_*`
+
 ```sh
 _choice_fn() {
     _argc_util_comp_path
 }
 ```
+
 
 ## Multiple values
 
@@ -97,7 +104,7 @@ $ scp <tab>
 user1:    user2:    user3:
 
 $ scp user1:<tab>
-group1    gruop2    group3
+group1    group2    group3
 ```
 
 ## Tag value pairs

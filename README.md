@@ -3,31 +3,20 @@
 Argc-completions provides a multi-shell autocompletion solution that achieves three goals:
 
 - One completion script works across multiple shells and multiple platforms.
-- Generate the completion script from the help text or man page automatically.
-- A repository for completion scripts for commonly used commands.
+- Automatically generate the completion script from the help text or man page.
+- A repository for completion scripts for 1000+ commands ([full list](MANIFEST.md)).
 
-## Features
+![argc-completions](https://github.com/sigoden/argc-completions/assets/4012553/30b0d2ba-f2dd-4ee5-9987-4b7ac46b89b6)
 
-- Support multiple shells
-  - bash
-  - zsh
-  - powershell
-  - fish
-  - nushell
-  - elvish
-  - xonsh
-- Support multiple platforms: windows, macOS, linux
-- Support 1000+ commands ([full list](./MANIFEST.md))
-- Automatically generate completion script from help-text/man-page
-- Enhanced autocompleting for addons/plugins (such as Cargo/Git)
-- Lazy loading, dynamic completions, reduced memory usage, and rapid initialization speed
-- More advanced features
-  - Using network 
-  - Parallel computing
-  - Caching
-  - Coloring
-  - ...
-   
+Supported Shells:
+  - [zsh](https://www.zsh.org/)
+  - [bash](https://www.gnu.org/software/bash/)
+  - [powershell](https://microsoft.com/powershell)
+  - [fish](https://fishshell.com/)
+  - [nushell](https://www.nushell.sh/)
+  - [elvish](https://elv.sh/)
+  - [xonsh](https://xon.sh/)
+
 ## Getting Started
 
 Open your terminal and execute the following commands:
@@ -41,20 +30,21 @@ cd argc-completions
 
 > For Windows, please run the above code in Git Bash (not wsl bash).
 
-> Tools downloaded by `download-tools.sh`
->   - [argc](https://github.com/sigoden/argc): completion engine
->   - [yq](https://github.com/mikefarah/yq): YAML/JSON/XML/CSV/TOML processor
->   - macOS only: `brew install bash gawk gnu-sed`
+> Tools downloaded by `./scripts/download-tools.sh`:\
+> &nbsp;&nbsp; * [argc](https://github.com/sigoden/argc): completion engine\
+> &nbsp;&nbsp; * [yq](https://github.com/mikefarah/yq): YAML/JSON/XML/CSV/TOML processor\
+> &nbsp;&nbsp; * macOS only: `brew install bash gawk gnu-sed`
 
-## Generate the completion script automatically
+## Generate the completion script by yourself
 
 ```sh
+cd $ARGC_COMPLETIONS_ROOT
 argc generate your-command
 ```
 
-To learn how `argc generate` works, see [docs/generate.md](docs/generate.md)
+To learn how `generate` works, see [docs/generate.md](docs/generate.md)
 
-To learn various completion pattern, see [docs/completion-pattern.md](docs/completion-pattern.md)
+To learn various complete patterns, see [docs/complete-pattern.md](docs/completion-pattern.md)
 
 ## License
 
