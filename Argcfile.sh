@@ -389,7 +389,7 @@ EOF
 \$PATH.insert(0, \$ARGC_COMPLETIONS_ROOT + '${sep}bin')
 import os
 exec(\$(argc --argc-completions xonsh @(
-    list(map(lambda v: v.rstrip('.sh'), filter(lambda v: v.endswith('.sh'),
+    list(map(lambda v: v.removesuffix('.sh'), filter(lambda v: v.endswith('.sh'),
         os.listdir(\$ARGC_COMPLETIONS_ROOT + '${sep}completions')))))))
 EOF
         ;;
