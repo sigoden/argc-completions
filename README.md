@@ -6,7 +6,7 @@ Argc-completions provides a multi-shell autocompletion solution that achieves th
 - One completion script works across multiple shells and multiple platforms.
 - A repository for completion scripts for 1000+ commands ([full list](MANIFEST.md)).
 
-![argc-completions](https://github.com/sigoden/argc-completions/assets/4012553/30b0d2ba-f2dd-4ee5-9987-4b7ac46b89b6)
+![argc-completions](https://github.com/sigoden/argc-completions/assets/4012553/235bd290-516c-4dec-83d8-17cb852d35ae)
 
 Supported Shells:
   - [bash](https://www.gnu.org/software/bash/)
