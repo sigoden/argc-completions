@@ -31,9 +31,9 @@ cd argc-completions
 > For Windows, please run the above code in Git Bash (not wsl bash).
 
 > Tools downloaded by `./scripts/download-tools.sh`:\
-> &nbsp;&nbsp; * [argc](https://github.com/sigoden/argc): completion engine\
-> &nbsp;&nbsp; * [yq](https://github.com/mikefarah/yq): YAML/JSON/XML/CSV/TOML processor\
-> &nbsp;&nbsp; * macOS only: `brew install bash gawk gnu-sed`
+> &nbsp;&nbsp; - [argc](https://github.com/sigoden/argc): completion engine\
+> &nbsp;&nbsp; - [yq](https://github.com/mikefarah/yq): YAML/JSON/XML/CSV/TOML processor\
+> &nbsp;&nbsp; - macOS only: `brew install bash gawk gnu-sed`
 
 ## Generate the completion script by yourself
 
@@ -44,7 +44,7 @@ argc generate your-command
 
 To learn how `generate` works, see [docs/generate.md](docs/generate.md)
 
-To learn various complete patterns, see [docs/complete-pattern.md](docs/completion-pattern.md)
+To learn various complete patterns, see [docs/complete-patterns.md](docs/complete-patterns.md)
 
 ## License
 
