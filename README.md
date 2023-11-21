@@ -1,21 +1,16 @@
 # Argc-completions
 
-Argc-completions provides a multi-shell autocompletion solution that achieves three goals:
-
-- Automatically generate the completion script from the help text or man page.
-- One completion script works across multiple shells and multiple platforms.
-- A repository for completion scripts for 1000+ commands ([full list](MANIFEST.md)).
+Argc-completions provides autocomplete for any shell and any command.
 
 ![argc-completions](https://github.com/sigoden/argc-completions/assets/4012553/235bd290-516c-4dec-83d8-17cb852d35ae)
 
-Supported Shells:
-  - [bash](https://www.gnu.org/software/bash/)
-  - [zsh](https://www.zsh.org/)
-  - [powershell](https://microsoft.com/powershell)
-  - [fish](https://fishshell.com/)
-  - [nushell](https://www.nushell.sh/)
-  - [elvish](https://elv.sh/)
-  - [xonsh](https://xon.sh/)
+## Features
+
+- Support multiple shells: bash/zsh/powershell/fish/nushell/elvish/xonsh
+- Support multiple platforms: windows/macOS/linux
+- Support 1000+ commands ([full list](./MANIFEST.md))
+- Automatically generate completion script from help-text/man-page
+- Lazy completing, lower memory consumption and faster startup time
 
 ## Getting Started
 
