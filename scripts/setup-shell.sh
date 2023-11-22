@@ -7,8 +7,8 @@ set -e
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )"
 
 main() {
-    if [[ "$1" != @(bash|zsh|powershell|fish|nushell|elvish|xonsh) ]]; then
-        echo "Usage: script-shell.sh <bash|zsh|powershell|fish|nushell|elvish|xonsh> [--install]"
+    if [[ "$1" != @(bash|zsh|powershell|fish|nushell|elvish|xonsh|tcsh) ]]; then
+        echo "Usage: script-shell.sh <bash|zsh|powershell|fish|nushell|elvish|xonsh|tcsh> [--install]"
         exit 1
     fi
     if [[ "$2" == "--install" ]]; then
@@ -70,6 +70,7 @@ _config_file() {
         fi
         ;;
     zsh) echo "$HOME/.zshrc" ;;
+    tcsh) echo "$HOME/.tcshrc"
     esac
 }
 
@@ -77,7 +78,7 @@ _setup_script() {
     local argc_completions_root="$PWD"
     local sep="/"
     local argc_completions_path
-    if [[ "$1" == @(bash|fish|zsh) ]]; then
+    if [[ "$1" == @(bash|fish|zsh|tcsh) ]]; then
         if [[ "$OS" == "Windows_NT" ]]; then
             argc_completions_path="$(cygpath -w "$argc_completions_root/completions" | sed 's/\\/\\\\/g')"
         else
@@ -162,6 +163,18 @@ export ARGC_COMPLETIONS_ROOT="$argc_completions_root"
 export ARGC_COMPLETIONS_PATH="$argc_completions_path"
 export PATH="\$ARGC_COMPLETIONS_ROOT/bin:\$PATH"
 source <(ls -p -1 "\$ARGC_COMPLETIONS_ROOT/completions" | sed -n 's/\.sh$//p' | xargs argc --argc-completions zsh)
+EOF
+        ;;
+    tcsh)
+        cat <<EOF
+setenv ARGC_COMPLETIONS_ROOT "$argc_completions_root"
+setenv ARGC_COMPLETIONS_PATH "$argc_completions_path"
+setenv PATH "\$ARGC_COMPLETIONS_ROOT/bin\\:\$PATH"
+setenv COMP_WORDBREAKS ""
+set autolist
+foreach cmd (argc \`ls -p -1 "\$ARGC_COMPLETIONS_ROOT/completions" | sed -n 's/\.sh$//p'\`)
+    complete "\$cmd" 'p@*@\`echo "\$COMMAND_LINE'"''"'" | xargs argc --argc-compgen bash "" | sed -e "s/\s*\\\\x24//" -e "s/ /_/g"\`@@';
+end
 EOF
         ;;
     esac

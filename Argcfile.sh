@@ -261,7 +261,7 @@ _choice_print_target() {
 }
 
 _choice_shell() {
-    printf "%s\n" bash elvish fish nushell powershell xonsh zsh
+    printf "%s\n" bash elvish fish nushell powershell xonsh zsh tcsh
 }
 
 _helper_print_help() {
