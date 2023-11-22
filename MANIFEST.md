@@ -76,6 +76,7 @@
 - [bison](https://www.gnu.org/software/bison): GNU Project parser generator (yacc replacement)
 - [black](https://github.com/psf/black): The uncompromising Python code formatter
 - [bootctl](https://github.com/systemd/systemd): Control EFI firmware boot settings and manage boot loader
+- [bore](https://github.com/ekzhang/bore): a simple CLI tool for making tunnels to localhost
 - [bosh](https://github.com/cloudfoundry/bosh-cli): unifies release engineering, deployment, and lifecycle management of small and large-scale cloud software.
 - [boundary](https://github.com/hashicorp/boundary): Simple and secure remote access.
 - [bpython](https://github.com/bpython/bpython): A fancy curses interface to the Python interactive interpreter 
