@@ -57,7 +57,7 @@ Open your terminal and execute the following commands:
 git clone https://github.com/sigoden/argc-completions.git
 cd argc-completions
 ./scripts/download-tools.sh
-./bin/argc shell:setup bash  # bash/zsh/powershell/fish/nushell/elvish/xonsh
+./scripts/setup-shell.sh bash  # bash/zsh/powershell/fish/nushell/elvish/xonsh
 ```
 
 > For Windows, please run the above code in Git Bash (not wsl bash).
