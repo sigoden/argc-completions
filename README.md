@@ -8,9 +8,46 @@ Argc-completions provides autocomplete for any shell and any command.
 
 - Support multiple shells: bash/zsh/powershell/fish/nushell/elvish/xonsh
 - Support multiple platforms: windows/macOS/linux
-- Support 1000+ commands ([full list](./MANIFEST.md))
+- Built-in completion for 1000+ commands ([full list](./MANIFEST.md))
 - Automatically generate completion script from help-text/man-page
 - Lazy completing, lower memory consumption and faster startup time
+
+<details>
+<summary>
+More amazing features that native completion lacks or is difficult to implement
+</summary>
+
+### Parallel computing
+
+![complete-git-checkout](https://github.com/sigoden/argc-completions/assets/4012553/9f062328-ad01-470e-963d-ae3f3777ca8c)
+
+```sh
+_choice_ref() {
+    _argc_util_parallel _choice_local_branch ::: _choice_remote_branch ::: _choice_tag ::: _choice_head_commit
+}
+```
+
+### Use network
+
+![complete-cargo-add](https://github.com/sigoden/argc-completions/assets/4012553/dda4b2b4-338c-4a82-8a9a-ec8d7afd2d33)
+
+### Complete comma-separated list 
+
+![complete-find-type](https://github.com/sigoden/argc-completions/assets/4012553/f29da10b-5d86-4a1c-add0-987a4172a182)
+
+### Complete multiple parts
+
+![complete-rustup-target-add](https://github.com/sigoden/argc-completions/assets/4012553/e0ca086f-52c1-4cff-be22-a9c0db7bf823)
+
+### Complete key-value pairs
+
+![complete-ssh-o](https://github.com/sigoden/argc-completions/assets/4012553/0d758936-035a-427b-9821-5e1b9274411a)
+
+### Reuse completion of other command/subcommand
+
+![complete-yarn-workspace](https://github.com/sigoden/argc-completions/assets/4012553/8b611145-9c25-478b-8d1c-d58671028b5d)
+
+</details>
 
 ## Getting Started
 
