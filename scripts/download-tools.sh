@@ -108,7 +108,7 @@ _fetch() {
     file_name=$(basename $url)
     tmp_file=$TMP_DIR/$file_name
     echo Downloading $bin_name from $url
-    $curl --fail --location --progress-bar --output $tmp_file ${gh_proxy:-}$url
+    $curl --fail --location --progress-bar --output $tmp_file ${GH_PROXY:-}$url
     if [[ "$os" == "windows" ]]; then
         install_path="$INSTALL_DIR/$bin_name.exe"
         unzip -o -d $TMP_DIR $tmp_file

@@ -8,7 +8,7 @@ Argc-completions provides autocomplete for any shell and any command.
 
 - Support multiple shells: bash/zsh/powershell/fish/nushell/elvish/xonsh
 - Support multiple platforms: windows/macOS/linux
-- Built-in completion for 1000+ commands ([full list](./MANIFEST.md))
+- Built-in completions for 1000+ commands ([full list](./MANIFEST.md))
 - Automatically generate completion script from help-text/man-page
 - Lazy completing, lower memory consumption and faster startup time
 
