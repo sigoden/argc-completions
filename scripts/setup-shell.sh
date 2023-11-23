@@ -169,9 +169,9 @@ EOF
         cat <<EOF
 setenv ARGC_COMPLETIONS_ROOT "$argc_completions_root"
 setenv ARGC_COMPLETIONS_PATH "$argc_completions_path"
-setenv PATH "\$ARGC_COMPLETIONS_ROOT/bin\\:\$PATH"
+setenv PATH "\$ARGC_COMPLETIONS_ROOT/bin:\$PATH"
 set autolist
-set ARGC_TCSH_SCRIPTS=\`ls -p -1 "\$ARGC_COMPLETIONS_ROOT/completions" | sed -n 's/\.sh$//p'\`
+set ARGC_TCSH_SCRIPTS=\`ls -p -1 \$ARGC_COMPLETIONS_ROOT/completions | sed -n 's/\.sh$//p'\`
 eval \`argc --argc-completions tcsh \$ARGC_TCSH_SCRIPTS\`
 EOF
         ;;
