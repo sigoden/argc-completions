@@ -217,7 +217,7 @@ check:all() {
 
 # @cmd Shell setup to use argc-completions
 # @flag -i --install            Install to rc/config file
-# @arg shell[`_choice_shell`]   Shell type
+# @arg shell[bash|elvish|fish|nushell|powershell|xonsh|zsh|tcsh]    Shell type
 shell:setup() {
     if [[ -n "$argc_install" ]]; then
         args=" --install"
@@ -258,10 +258,6 @@ _choice_src_name() {
 _choice_print_target() {
     echo __argc_value=file
     _choice_completion
-}
-
-_choice_shell() {
-    printf "%s\n" bash elvish fish nushell powershell xonsh zsh tcsh
 }
 
 _helper_print_help() {

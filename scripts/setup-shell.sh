@@ -170,11 +170,9 @@ EOF
 setenv ARGC_COMPLETIONS_ROOT "$argc_completions_root"
 setenv ARGC_COMPLETIONS_PATH "$argc_completions_path"
 setenv PATH "\$ARGC_COMPLETIONS_ROOT/bin\\:\$PATH"
-setenv COMP_WORDBREAKS ""
 set autolist
-foreach cmd (argc \`ls -p -1 "\$ARGC_COMPLETIONS_ROOT/completions" | sed -n 's/\.sh$//p'\`)
-    complete "\$cmd" 'p@*@\`echo "\$COMMAND_LINE'"''"'" | xargs argc --argc-compgen bash "" | sed -e "s/\s*\\\\x24//" -e "s/ /_/g"\`@@';
-end
+set ARGC_TCSH_SCRIPTS=\`ls -p -1 "\$ARGC_COMPLETIONS_ROOT/completions" | sed -n 's/\.sh$//p'\`
+eval \`argc --argc-completions tcsh \$ARGC_TCSH_SCRIPTS\`
 EOF
         ;;
     esac
