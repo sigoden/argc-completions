@@ -14,46 +14,49 @@ Argc-completions provides autocomplete for any shell and any command.
 
 <details>
 <summary>
-More amazing features that native completion lacks or is difficult to implement
+More amazing features that native completion lacks or is difficult to implement:
 </summary>
-
+<br>
 <table>
     <thead>
         <tr>
-            <th>Features</th>
-            <th>Screenshot</th>
+            <th>Feature</th>
+            <th>Showcase</th>
         </tr>
     </thead>
     <tbody>
         <tr>
             <td>Parallel Computing</td>
-            <td><img src="https://github.com/sigoden/argc-completions/assets/4012553/9f062328-ad01-470e-963d-ae3f3777ca8c" width="600px" alt="complete-git-checkout">
-                <pre> _choice_ref() { <br>&nbsp;&nbsp; _argc_util_parallel _choice_branch ::: _choice_tag ::: _choice_head_commit <br>} </pre>
+            <td><img src="https://github.com/sigoden/argc-completions/assets/4012553/9f062328-ad01-470e-963d-ae3f3777ca8c" width="550px" alt="complete-git-checkout">
+                <pre> _choice_ref() { <br>&nbsp;&nbsp; _argc_util_parallel _choice_branch ::: _choice_tag ::: _choice_head <br>} </pre>
             </td>
         </tr>
         <tr>
             <td>Fetch remote data</td>
-            <td><img src="https://github.com/sigoden/argc-completions/assets/4012553/dda4b2b4-338c-4a82-8a9a-ec8d7afd2d33" width="600px" alt="complete-cargo-add"></td>
+            <td><img src="https://github.com/sigoden/argc-completions/assets/4012553/dda4b2b4-338c-4a82-8a9a-ec8d7afd2d33" width="550px" alt="complete-cargo-add"></td>
         </tr>
         <tr>
             <td>Complete multiple values<br>(comma-spereated)</td>
-            <td><img src="https://github.com/sigoden/argc-completions/assets/4012553/f29da10b-5d86-4a1c-add0-987a4172a182" width="600px" alt="complete-find-type"></td>
+            <td><img src="https://github.com/sigoden/argc-completions/assets/4012553/f29da10b-5d86-4a1c-add0-987a4172a182" width="550px" alt="complete-find-type"></td>
         </tr>
         <tr>
             <td>Complete multiple parts</td>
-            <td><img src="https://github.com/sigoden/argc-completions/assets/4012553/e0ca086f-52c1-4cff-be22-a9c0db7bf823" width="600px" alt="complete-rustup-target-add"></td>
+            <td><img src="https://github.com/sigoden/argc-completions/assets/4012553/e0ca086f-52c1-4cff-be22-a9c0db7bf823" width="550px" alt="complete-rustup-target-add"></td>
         </tr>
         <tr>
             <td>Complete key-value pairs</td>
-            <td><img src="https://github.com/sigoden/argc-completions/assets/4012553/0d758936-035a-427b-9821-5e1b9274411a" width="600px" alt="complete-ssh-o"></td>
+            <td><img src="https://github.com/sigoden/argc-completions/assets/4012553/0d758936-035a-427b-9821-5e1b9274411a" width="550px" alt="complete-ssh-o"></td>
         </tr>
         <tr>
             <td>Delegate to another command<br>(sudo,doas,npx...)</td>
-            <td><img src="https://github.com/sigoden/argc-completions/assets/4012553/8b611145-9c25-478b-8d1c-d58671028b5d" width="600px" alt="complete-yarn-workspace"></td>
+            <td><img src="https://github.com/sigoden/argc-completions/assets/4012553/8b611145-9c25-478b-8d1c-d58671028b5d" width="550px" alt="complete-yarn-workspace"></td>
+        </tr>
+        <tr>
+            <td>Style &amp; color</td>
+            <td><img src="https://github.com/sigoden/argc-completions/assets/4012553/77531d0e-5857-4b53-9b0f-52fb48215216" width="550px" alt="complete-xtest-color"></td>
         </tr>
     </tbody>
 </table>
-
 </details>
 
 ## Getting Started
