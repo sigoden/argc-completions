@@ -56,10 +56,16 @@ _config_file() {
         fi
         ;;
     powershell)
-        if [[ -n "$USERPROFILE" ]]; then
-            echo "$USERPROFILE\\Documents\\PowerShell\\Microsoft.PowerShell_profile.ps1"
+        if command -v pwsh > /dev/null; then
+            pwsh -c 'echo $PROFILE'
+        elif command -v powershell > /dev/null; then
+            powershell -Command 'echo $PROFILE'
         else
-            echo "$HOME/.config/powershell/Microsoft.PowerShell_profile.ps1"
+            if [[ -n "$USERPROFILE" ]]; then
+                echo "$USERPROFILE\\Documents\\PowerShell\\Microsoft.PowerShell_profile.ps1"
+            else
+                echo "$HOME/.config/powershell/Microsoft.PowerShell_profile.ps1"
+            fi
         fi
         ;;
     xonsh)
@@ -131,7 +137,6 @@ EOF
         ;;
     powershell)
         cat <<EOF
-# Set-PSReadLineOption -Colors @{ "Selection" = "\`e[7m" }
 # Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete
 \$env:ARGC_COMPLETIONS_ROOT = '$argc_completions_root'    
 \$env:ARGC_COMPLETIONS_PATH = (\$env:ARGC_COMPLETIONS_ROOT + '${sep}completions')    
