@@ -11,28 +11,33 @@ main() {
         echo "Usage: script-shell.sh <bash|zsh|powershell|fish|nushell|elvish|xonsh|tcsh> [--install]"
         exit 1
     fi
-    if [[ "$2" == "--install" ]]; then
-        install=1
-    fi
     file="$(_config_file $1)"
     script="$(_setup_script $1)"
 
-    if [[ -n "$install" ]]; then
-        if [[ ! -e "$file" ]]; then
-            mkdir -p "$(dirname "$file")" && touch "$file"
+    display_file="$(echo "$file" | sed 's|'$HOME'|~|')"
+    if [[ "$1" == "powershell" ]]; then
+        file_alias=' ($PROFILE)'
+    elif [[ "$1" == "nushell" ]]; then
+        file_alias=' ($nu.config-path)'
+    fi
+    echo "Please add the following code to '$display_file'$file_alias"
+    echo -e "\n\`\`\`\n# argc-completions\n$script\n\`\`\`"
+
+    if grep -q ARGC_COMPLETIONS_ROOT "$file" 2>/dev/null; then
+        return
+    fi
+
+    if [ -t 0 ]; then
+        echo
+        read -p "Add the above code to '$display_file'? (y/N): " answer
+        if [[ $answer =~ ^[Yy]$ ]]; then
+            if [[ ! -e "$file" ]]; then
+                mkdir -p "$(dirname "$file")"
+                echo -e "# argc-completions\n$script" > "$file"
+            else
+                echo -e "\n# argc-completions\n$script" >> "$file"
+            fi
         fi
-        if ! grep -q 'ARGC_COMPLETIONS_ROOT' "$file"; then
-            echo -e "\n# argc-completions\n$script" >> "$file"
-        fi
-    else
-        file="$(echo "$file" | sed 's|'$HOME'|~|')"
-        if [[ "$1" == "powershell" ]]; then
-            file_alias=' ($PROFILE)'
-        elif [[ "$1" == "nushell" ]]; then
-            file_alias=' ($nu.config-path)'
-        fi
-        echo "Add the following code to '$file'$file_alias"
-        echo -e "\n\`\`\`\n# argc-completions\n$script\n\`\`\`"
     fi
 }
 
@@ -56,10 +61,16 @@ _config_file() {
         fi
         ;;
     powershell)
-        if [[ -n "$USERPROFILE" ]]; then
-            echo "$USERPROFILE\\Documents\\PowerShell\\Microsoft.PowerShell_profile.ps1"
+        if command -v pwsh > /dev/null; then
+            pwsh -c 'echo $PROFILE'
+        elif command -v powershell > /dev/null; then
+            powershell -Command 'echo $PROFILE'
         else
-            echo "$HOME/.config/powershell/Microsoft.PowerShell_profile.ps1"
+            if [[ -n "$USERPROFILE" ]]; then
+                echo "$USERPROFILE\\Documents\\PowerShell\\Microsoft.PowerShell_profile.ps1"
+            else
+                echo "$HOME/.config/powershell/Microsoft.PowerShell_profile.ps1"
+            fi
         fi
         ;;
     xonsh)
@@ -132,7 +143,6 @@ EOF
         ;;
     powershell)
         cat <<EOF
-# Set-PSReadLineOption -Colors @{ "Selection" = "\`e[7m" }
 # Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete
 \$env:ARGC_COMPLETIONS_ROOT = '$argc_completions_root'    
 \$env:ARGC_COMPLETIONS_PATH = (\$env:ARGC_COMPLETIONS_ROOT + '${sep}completions')    

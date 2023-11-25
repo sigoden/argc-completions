@@ -216,13 +216,15 @@ check:all() {
 }
 
 # @cmd Shell setup to use argc-completions
-# @flag -i --install            Install to rc/config file
-# @arg shell[bash|elvish|fish|nushell|powershell|xonsh|zsh|tcsh]    Shell type
+# @arg shell[bash|elvish|fish|nushell|powershell|xonsh|zsh|tcsh] Shell type
 shell:setup() {
-    if [[ -n "$argc_install" ]]; then
-        args=" --install"
-    fi
-    ./scripts/setup-shell.sh "$argc_shell" $args
+    ./scripts/setup-shell.sh $1
+}
+
+# @cmd Test colors
+# @arg arg[`_choice_color`]
+color() {
+    :;
 }
 
 # @cmd Print version
@@ -258,6 +260,35 @@ _choice_src_name() {
 _choice_print_target() {
     echo __argc_value=file
     _choice_completion
+}
+
+_choice_color() {
+    echo -e "type-flag\0\t/color:cyan"
+    echo -e "type-option\0\t/color:cyan,bold"
+    echo -e "type-command\0\t/color:magenta"
+    echo -e "type-dir\0\t/color:blue,bold"
+    echo -e "type-file\0\t/color:default"
+    echo -e "type-file-exe\0\t/color:green,bold"
+    echo -e "type-symlink\0\t/color:cyan,bold"
+    echo -e "type-value\0\t/color:green"
+    echo -e "color-black\0\t/color:black"
+    echo -e "color-black-bold\0\t/color:black,bold"
+    echo -e "color-red\0\t/color:red"
+    echo -e "color-red-bold\0\t/color:red,bold"
+    echo -e "color-green\0\t/color:green"
+    echo -e "color-green-bold\0\t/color:green,bold"
+    echo -e "color-yellow\0\t/color:yellow"
+    echo -e "color-yellow-bold\0\t/color:yellow,bold"
+    echo -e "color-blue\0\t/color:blue"
+    echo -e "color-blue-bold\0\t/color:blue,bold"
+    echo -e "color-magenta\0\t/color:magenta"
+    echo -e "color-magenta-bold\0\t/color:magenta,bold"
+    echo -e "color-cyan\0\t/color:cyan"
+    echo -e "color-cyan-bold\0\t/color:cyan,bold"
+    echo -e "color-white\0\t/color:white"
+    echo -e "color-white-bold\0\t/color:white,bold"
+    echo -e "color-default\0\t/color:default"
+    echo -e "color-default-bold\0\t/color:default,bold"
 }
 
 _helper_print_help() {
