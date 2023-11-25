@@ -64,7 +64,7 @@ EOF
 }
 
 _choice_oflag() {
-    cat <<-'EOF' | _argc_util_comp_multi , =
+    cat <<-'EOF' | _argc_util_comp_multi , "$argc__kv_filter" "$argc__kv_prefix" 
 append	append mode
 direct	use direct I/O for data
 directory	fail unless a directory
