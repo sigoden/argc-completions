@@ -66,7 +66,7 @@ Open your terminal and execute the following commands:
 ```sh
 git clone https://github.com/sigoden/argc-completions.git
 cd argc-completions
-./scripts/download-tools.sh
+./scripts/download-tools.sh    # download argc/yq to ./argc-completions/bin/
 ./scripts/setup-shell.sh bash  # bash/zsh/powershell/fish/nushell/elvish/xonsh
 ```
 
@@ -76,6 +76,13 @@ cd argc-completions
 > &nbsp;&nbsp; - [argc](https://github.com/sigoden/argc): completion engine\
 > &nbsp;&nbsp; - [yq](https://github.com/mikefarah/yq): YAML/JSON/XML/CSV/TOML processor\
 > &nbsp;&nbsp; - macOS only: `brew install bash gawk gnu-sed`
+
+### Uninstall easily
+
+1. Delete the `argc-completions` directory.
+2. Undo the changes made to the shell rcfile (`~/.bashrc`, `~/.zshrc` ...).
+
+That's all.
 
 ## Generate your own completion script
 
