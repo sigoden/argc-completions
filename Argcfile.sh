@@ -216,13 +216,9 @@ check:all() {
 }
 
 # @cmd Shell setup to use argc-completions
-# @flag -i --install            Install to rc/config file
 # @arg shell[`_choice_shell`]   Shell type
 shell:setup() {
-    if [[ -n "$argc_install" ]]; then
-        args=" --install"
-    fi
-    ./scripts/setup-shell.sh "$argc_shell" $args
+    ./scripts/setup-shell.sh $1
 }
 
 # @cmd Test colors
