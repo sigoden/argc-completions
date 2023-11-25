@@ -8,31 +8,36 @@ ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )"
 
 main() {
     if [[ "$1" != @(bash|zsh|powershell|fish|nushell|elvish|xonsh) ]]; then
-        echo "Usage: script-shell.sh <bash|zsh|powershell|fish|nushell|elvish|xonsh> [--install]"
+        echo "Usage: script-shell.sh <bash|zsh|powershell|fish|nushell|elvish|xonsh>"
         exit 1
-    fi
-    if [[ "$2" == "--install" ]]; then
-        install=1
     fi
     file="$(_config_file $1)"
     script="$(_setup_script $1)"
 
-    if [[ -n "$install" ]]; then
-        if [[ ! -e "$file" ]]; then
-            mkdir -p "$(dirname "$file")" && touch "$file"
+    display_file="$(echo "$file" | sed 's|'$HOME'|~|')"
+    if [[ "$1" == "powershell" ]]; then
+        file_alias=' ($PROFILE)'
+    elif [[ "$1" == "nushell" ]]; then
+        file_alias=' ($nu.config-path)'
+    fi
+    echo "Please add the following code to '$display_file'$file_alias"
+    echo -e "\n\`\`\`\n# argc-completions\n$script\n\`\`\`"
+
+    if grep -q ARGC_COMPLETIONS_ROOT "$file" 2>/dev/null; then
+        return
+    fi
+
+    if [ -t 0 ]; then
+        echo
+        read -p "Add the above code to '$display_file'? (y/N): " answer
+        if [[ $answer =~ ^[Yy]$ ]]; then
+            if [[ ! -e "$file" ]]; then
+                mkdir -p "$(dirname "$file")"
+                echo -e "# argc-completions\n$script" > "$file"
+            else
+                echo -e "\n# argc-completions\n$script" >> "$file"
+            fi
         fi
-        if ! grep -q 'ARGC_COMPLETIONS_ROOT' "$file"; then
-            echo -e "\n# argc-completions\n$script" >> "$file"
-        fi
-    else
-        file="$(echo "$file" | sed 's|'$HOME'|~|')"
-        if [[ "$1" == "powershell" ]]; then
-            file_alias=' ($PROFILE)'
-        elif [[ "$1" == "nushell" ]]; then
-            file_alias=' ($nu.config-path)'
-        fi
-        echo "Add the following code to '$file'$file_alias"
-        echo -e "\n\`\`\`\n# argc-completions\n$script\n\`\`\`"
     fi
 }
 
