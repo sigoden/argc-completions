@@ -83,15 +83,13 @@ cd argc-completions
 1. Delete the `argc-completions` directory that you have downloaded.
 2. Undo the changes made to the shell rcfile (`~/.bashrc`, `~/.zshrc` ...).
 
-That's all.
-
 ## Generate your own completion script
 
 ```sh
 ./scripts/generate.sh your-command
 ```
 
-![generate](https://github.com/sigoden/argc-completions/assets/4012553/38ddbeb7-8f43-4f31-aed5-45f8a8f36474)
+![generate](https://github.com/sigoden/argc-completions/assets/4012553/1bd7c6af-8dbb-4c83-9c40-d75fc8702bbc)
 
 To learn how `generate` works, see [docs/generate.md](docs/generate.md)
 
