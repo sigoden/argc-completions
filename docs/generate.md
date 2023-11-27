@@ -133,7 +133,7 @@ This affects the final generated argc script.
 
 ## `_choice*` functions
 
-`_choice_fn` will generate dynamic values for completion.
+`_choice_fn` will generate dynamic completion candidates.
 
 Let's also take `aichat` as an example.
 

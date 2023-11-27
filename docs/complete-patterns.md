@@ -2,30 +2,24 @@
 
 ## File/path/directory
 
-1. Use value notation
+1. Use argc sematic
 
 ```sh
 # @option --output <file>
 # @option --cwd <dir>
+# @option --file
 # @arg path...
 ```
 
-2. Use argc macro
+Automatically determine based on `<file>`, `<dir>`, `--file`, `path`, etc.
 
-```sh
-_choice_fn() {
-    echo __argc_value=path
-}
-```
-
-3. Use `argc_util_*`
+2. Use `_argc_util_comp_path`
 
 ```sh
 _choice_fn() {
     _argc_util_comp_path
 }
 ```
-
 
 ## Multiple values
 
@@ -44,8 +38,6 @@ ijk
 EOF
 }
 ```
-
-## Multiple values with description
 
 ```sh
 _choice_fn() {
@@ -109,6 +101,8 @@ group1    group2    group3
 
 ## Tag value pairs
 
+The preceding position argument determines how to complete the following position argument.
+
 ```sh
 _choice_address_add() {
     cat <<-'EOF' | _argc_util_comp_tv
@@ -130,7 +124,9 @@ $ ip address add 33.33.33.33 scope <tab>
 0 (global)     255 (nowhere)  200 (site) 
 ```
 
-## Multi parts
+## Multiple parts
+
+Complete values that are divided into sections by level, such as paths.
 
 ```sh
 _choice_unstaged_file() {
@@ -157,7 +153,9 @@ completions/git.sh
 completions/go.sh
 ```
 
-## Multi values seperated by a char
+## Multiple values
+
+Multiple values are separated by `,` `|` and so on.
 
 ### Use argc modifier
 ```sh
@@ -167,6 +165,8 @@ _choice_work_dropuse() {
 }
 ```
 
+> `*|` indicates that the option can occur multiple times and is separated by a "|" symbol.
+
 ```
 $ go work edit -dropuse <tab>
 ./mymod1  ./mymod2  ./mymod3
@@ -175,7 +175,7 @@ $ go work edit -dropuse './mymod1|<tab>
 ./mymod2  ./mymod3
 ```
 
-## Use _argc_util_comp_multi
+### Use `_argc_util_comp_multi`
 
 ```sh
 # @option -type[`_choice_type`] <c>             File is of type c
@@ -202,7 +202,7 @@ $ find . -type f,<tab>
 b   c   d   ..
 ```
 
-## Sudo-like subcmd
+## Delegate to other command
 
 ```sh
 # @arg cmd
@@ -220,9 +220,6 @@ $ sudo ls --
 ```sh
 # @arg workspace-name![`_choice_workspace`]
 # @arg workspace-args~[`_choice_workspace_args`]
-workspace() {
-    :;
-}
 
 _choice_workspace_args() {
     (cd "$workspace" && _argc_util_comp_subcommand 1 yarn)
