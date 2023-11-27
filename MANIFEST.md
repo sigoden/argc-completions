@@ -1,1021 +1,1021 @@
-- [7z](https://www.7-zip.org): A file archiver with high compression ratio format
-- [7za](https://www.7-zip.org): A file archiver with high compression ratio format
-- [7zr](https://www.7-zip.org): A file archiver with high compression ratio format
-- [a2ps](https://www.gnu.org/software/a2ps): format files for printing on a PostScript printer
-- [ab](https://github.com/apache/httpd): Apache HTTP server benchmarking tool
-- [abook](http://abook.sourceforge.net): text-based address book program
-- [abcde](https://abcde.einval.com): A Better CD Encoder
-- [ack](https://github.com/beyondgrep/ack3): grep-like text finder
-- [acpi](http://sourceforge.net/projects/acpiclient): shows battery status and other ACPI information
-- [acpitool](http://sourceforge.net/projects/acpitool): a Linux ACPI client, allowing you to query or set ACPI values
-- [act](https://github.com/nektos/act): Run your GitHub Actions locally
-- [adb](https://developer.android.com/tools/adb): Android Debug Bridge
-- [adduser](https://salsa.debian.org/debian/adduser): add a user or group to the system
-- [afplay](https://ss64.com/osx/afplay.html): Audio File Play. (macOS)
-- [ag](https://github.com/ggreer/the_silver_searcher): The Silver Searcher. Like ack, but faster.
-- [age](https://github.com/FiloSottile/age): A simple, modern, and secure file encryption
-- [age-keygen](https://github.com/FiloSottile/age): generate age key pairs
-- [aichat](https://github.com/sigoden/aichat): A powerful chatgpt cli.
-- [airflow](https://github.com/apache/airflow): A platform to programmatically author, schedule, and monitor workflows 
-- [alsactl](https://github.com/alsa-project/alsa-utils): advanced controls for ALSA soundcard driver
-- [alsamixer](https://github.com/alsa-project/alsa-utils): soundcard mixer for ALSA soundcard driver, with ncurses interface
-- [amixer](https://github.com/alsa-project/alsa-utils): command-line mixer for ALSA soundcard driver
-- [amplify](https://github.com/aws-amplify/amplify-cli): a unified toolchain to create AWS cloud services for your app.
-- [ansible](https://github.com/ansible/ansible): Define and run a single task 'playbook' against a set of hosts
-- [ansible-config](https://github.com/ansible/ansible): View ansible configuration.:
-- [ansible-console](https://github.com/ansible/ansible): REPL console for executing Ansible tasks.
-- [ansible-doc](https://github.com/ansible/ansible): plugin documentation tool
-- [ansible-galaxy](https://github.com/ansible/ansible): Perform various Role and Collection related operations.
-- [ansible-lint](https://github.com/ansible/ansible-lint): checks playbooks for practices and behavior that could potentially be improved.
-- [ansible-playbook](https://github.com/ansible/ansible): Runs Ansible playbooks, executing the defined tasks on the targeted hosts.
-- [ansible-vault](https://github.com/ansible/ansible): encryption/decryption utility for Ansible data files
-- [ant](https://github.com/apache/ant): a Java based make tool.
-- [apachectl](https://github.com/apache/httpd): Apache HTTP server control interface
-- [apk](https://gitlab.alpinelinux.org/alpine/apk-tools): Alpine Package Keeper
-- [aplay](https://github.com/alsa-project/alsa-utils): command-line sound recorder and player for ALSA soundcard driver
-- [appwrite](https://github.com/appwrite/appwrite): a backend platform for developing Web, Mobile, and Flutter applications.
-- [apropos](https://gitlab.com/man-db/man-db): search the manual page names and descriptions
-- [apt](https://salsa.debian.org/apt-team/apt): Package manager for Debian-based Linux distributions
-- [apt-cache](https://salsa.debian.org/apt-team/apt): query the APT cache
-- [apt-get](https://salsa.debian.org/apt-team/apt): APT package handling utility
-- [aptitude](https://salsa.debian.org/apt-team/aptitude): high-level interface to the package manager
-- [ar](https://www.gnu.org/software/binutils): create, modify, and extract from archives
-- [arecord](https://github.com/alsa-project/alsa-utils): command-line sound recorder and player for ALSA soundcard driver
-- [argo](https://github.com/argoproj/argo-workflows): Workflow engine for Kubernetes
-- [aria2c](https://github.com/aria2/aria2): The ultra fast download utility
-- [arp](https://github.com/ecki/net-tools): manipulate the system ARP cache
-- [arping](https://github.com/iputils/iputils): send ARP REQUEST to a neighbour host
-- [asciidoctor](https://github.com/asciidoctor/asciidoctor): converts AsciiDoc source files to HTML, DocBook, and other formats
-- [asciinema](https://github.com/asciinema/asciinema): terminal session recorder
-- [asdf](https://github.com/asdf-vm/asdf): Extendable version manager with support for Ruby, Node.js, Elixir, Erlang & more
-- [asr](https://ss64.com/osx/asr.html): Apple Software Restore; copy volumes (macOS)
-- [at](https://salsa.debian.org/debian/at): queue, examine, or delete jobs for later execution
-- [atlas](https://github.com/mongodb/mongodb-atlas-cli): a command line interface built specifically for MongoDB Atlas.
-- [attr](https://savannah.nongnu.org/projects/attr): extended attributes on filesystem objects
-- [augtool](https://github.com/hercules-team/augeas): inspect and modify configuration files
-- [autoconf](https://www.gnu.org/software/autoconf): Generate configuration scripts
-- [autojump](https://github.com/wting/autojump): Automatically jump to directory passed as an argument.
-- [avahi-browse](https://github.com/lathiat/avahi): Browse for mDNS/DNS-SD services using the Avahi daemon
-- [avahi-resolve](https://github.com/lathiat/avahi): Resolve one or more mDNS/DNS host name(s) to IP address(es) (and vice versa) using the Avahi daemon
-- [awk](http://www.gnu.org/software/gawk): pattern scanning and processing language
-- [aws](https://github.com/aws/aws-cli): The  AWS  Command  Line  Interface is a unified tool to manage your AWS services.
-- [awsume](https://github.com/trek10inc/awsume): A utility for easily assuming AWS IAM roles from the command line.
-- [az](https://github.com/Azure/azure-cli): A set of commands used to create and manage Azure resources.
-- [babel](https://github.com/babel/babel): a compiler for writing next generation JavaScript.
-- [bandwhich](https://github.com/imsnif/bandwhich): Terminal bandwidth utilization tool.
-- [base64](http://gnu.org/software/coreutils): base64 encode/decode data and print to standard output
-- [basename](http://gnu.org/software/coreutils): strip directory and suffix from filenames
-- [basenc](http://gnu.org/software/coreutils): Encode/decode data and print to standard output
-- [bash](https://www.gnu.org/software/bash): GNU Bourne-Again SHell
-- [bat](https://github.com/sharkdp/bat): A cat(1) clone with wings.
-- [bats](https://github.com/bats-core/bats-core): Bash Automated Testing System
-- [bazel](https://github.com/bazelbuild/bazel): tool to automate software builds and tests
-- [bc](https://www.gnu.org/software/bc): An arbitrary precision calculator language
-- [beep](https://github.com/spkr-beep/beep): beep the pc speaker any number of ways
-- [binwalk](https://github.com/ReFirmLabs/binwalk): Firmware Analysis Tool
-- [bison](https://www.gnu.org/software/bison): GNU Project parser generator (yacc replacement)
-- [black](https://github.com/psf/black): The uncompromising Python code formatter
-- [bootctl](https://github.com/systemd/systemd): Control EFI firmware boot settings and manage boot loader
-- [bore](https://github.com/ekzhang/bore): a simple CLI tool for making tunnels to localhost
-- [bosh](https://github.com/cloudfoundry/bosh-cli): unifies release engineering, deployment, and lifecycle management of small and large-scale cloud software.
-- [boundary](https://github.com/hashicorp/boundary): Simple and secure remote access.
-- [bpython](https://github.com/bpython/bpython): A fancy curses interface to the Python interactive interpreter 
-- [br](https://github.com/Canop/broot): A new way to see and navigate directory trees
-- [brctl](https://wiki.linuxfoundation.org/networking/bridge): ethernet bridge administration
-- [brew](https://github.com/Homebrew/brew): The missing package manager for macOS. (macOS)
-- [brightnessctl](https://github.com/Hummer12007/brightnessctl): read and control device brightness
-- [broot](https://github.com/Canop/broot): A new way to see and navigate directory trees
-- [brotli](https://github.com/google/brotli): lossless compression algorithm and format
-- [browser-sync](https://github.com/BrowserSync/browser-sync): Keep multiple browsers & devices in sync when building websites.
-- [btm](https://github.com/ClementTsang/bottom): A customizable cross-platform graphical process/system monitor for the terminal. Supports Linux, macOS, and Windows.
-- [btop](https://github.com/aristocratos/btop): Modern and colorful command line resource monitor that shows usage and stats
-- [buku](https://github.com/jarun/buku): Personal mini-web in text
-- [bundle](https://github.com/rubygems/rubygems): Ruby Dependency Management
-- [bun](https://github.com/oven-sh/bun): Incredibly fast JavaScript runtime, bundler, test runner, and package manager – all in one
-- [bunzip2](https://gitlab.com/bzip2/bzip2): a block-sorting file compressor
-- [bw](https://github.com/bitwarden/clients): Bitwarden Command-line Interface
-- [bzcat](https://gitlab.com/bzip2/bzip2): decompresses files to stdout
-- [bzip2](https://gitlab.com/bzip2/bzip2): a block-sorting file compressor
-- [cabal](https://github.com/haskell/cabal): a system for building and packaging Haskell libraries and programs
-- [caddy](https://github.com/caddyserver/caddy): an extensible server platform written in Go.
-- [caffeinate](https://ss64.com/osx/caffeinate.html): Prevent the system from sleeping on behalf of a utility. (macOS)
-- [cargo](https://github.com/rust-lang/cargo): The Rust package manager
-- [cargo-audit](https://github.com/RustSec/rustsec): Audit your dependencies for crates with security vulnerabilities reported to the RustSec Advisory Database.
-- [cargo-binstall](https://github.com/cargo-bins/cargo-binstall): Binary installation for rust projects
-- [cargo-bloat](https://github.com/RazrFalcon/cargo-bloat): Find out what takes most of the space in your executable.
-- [cargo-contract](https://github.com/paritytech/cargo-contract): Setup and deployment tool for developing Wasm based smart contracts via ink!
-- [cargo-crev](https://github.com/crev-dev/cargo-crev): A cryptographically verifiable code review system for the cargo (Rust) package manager.
-- [cargo-fuzz](https://github.com/rust-fuzz/cargo-fuzz): Command line helpers for fuzzing
-- [cargo-geiger](https://github.com/rust-secure-code/cargo-geiger): Detects usage of unsafe Rust in a Rust crate and its dependencies.
-- [cargo-insta](https://github.com/mitsuhiko/insta): A snapshot testing library for rust
-- [cargo-leptos](https://github.com/leptos-rs/cargo-leptos): Build tool for Leptos
-- [cargo-license](https://github.com/onur/cargo-license): Cargo subcommand to see license of dependencies
-- [cargo-llvm-cov](https://github.com/taiki-e/cargo-llvm-cov): Cargo subcommand to easily use LLVM source-based code coverage.
-- [cargo-make](https://github.com/sagiegurari/cargo-make): Rust task runner and build tool.
-- [cargo-ndk](https://github.com/bbqsrc/cargo-ndk): Compile Rust projects against the Android NDK without hassle
-- [cargo-nextest](https://github.com/nextest-rs/nextest): A new, faster test runner for Rust.
-- [cargo-outdated](https://github.com/kbknapp/cargo-outdated): displaying when dependencies have newer versions available.
-- [cargo-semver-checks](https://github.com/obi1kenobi/cargo-semver-checks): Scan your Rust crate for semver violations.
-- [cargo-sort](https://github.com/DevinR528/cargo-sort): Check if tables and items in a .toml file are lexically sorted
-- [cargo-sqlx](https://github.com/launchbadge/sqlx): Command-line utility for SQLx, the Rust SQL toolkit. 
-- [cargo-tarpaulin](https://github.com/xd009642/tarpaulin): A code coverage tool for Rust projects
-- [cargo-tauri](https://github.com/tauri-apps/tauri): Build smaller, faster, and more secure desktop applications with a web frontend.
-- [cargo-udeps](https://github.com/est31/cargo-udeps): Find unused dependencies in Cargo.toml
-- [cargo-watch](https://github.com/watchexec/cargo-watch): Watches over your Cargo project's source.
-- [cargo-zigbuild](https://github.com/rust-cross/cargo-zigbuild): Compile Cargo project with zig as linker for easier cross compiling.
-- [cat](http://gnu.org/software/coreutils):  concatenate files and print on the standard output
-- [cc](https://gcc.gnu.org): GNU project C and C++ compiler
-- [cdrdao](http://cdrdao.sourceforge.net): reads and writes CDs in disc-at-once mode
-- [cdrecord](https://sourceforge.net/projects/wodim): write data to optical disk media
-- [certtool](https://www.gnutls.org): GnuTLS certificate tool
-- [cf](https://github.com/cloudfoundry/cli): The official command line client for Cloud Foundry
-- [cfdisk](https://www.gnu.org/software/fdisk): display or manipulate a disk partition table
-- [chattr](http://e2fsprogs.sourceforge.net): change file attributes on a Linux file system
-- [checkov](https://github.com/bridgecrewio/checkov): A static code analysis tool for scanning infrastructure as code (IaC) files for misconfigurations that may lead to security or compliance problems 
-- [chezmoi](https://github.com/twpayne/chezmoi): Manage your dotfiles across multiple diverse machines, securely
-- [chgrp](http://gnu.org/software/coreutils): change group ownership 
-- [chmod](http://gnu.org/software/coreutils): chmod - change file mode bits
-- [choom](https://github.com/util-linux/util-linux): display and adjust OOM-killer score.
-- [choose](https://github.com/theryangeary/choose): A human-friendly and fast alternative to cut and (sometimes) awk
-- [chown](http://gnu.org/software/coreutils): change file owner and group
-- [chpasswd](https://github.com/shadow-maint/shadow): update passwords in batch mode
-- [chroma](https://github.com/alecthomas/chroma): A general purpose syntax highlighting library and corresponding command, for Go
-- [chroot](http://gnu.org/software/coreutils): change root directory
-- [chrt](https://github.com/util-linux/util-linux): manipulate the real-time attributes of a process
-- [chsh](https://github.com/shadow-maint/shadow): change login shell
-- [circleci](https://github.com/CircleCI-Public/circleci-cli): Use CircleCI from the command line
-- [cksum](http://gnu.org/software/coreutils): checksum and count the bytes in a file
-- [clang](https://clang.llvm.org): the Clang C, C++, and Objective-C compiler
-- [clang++](https://clang.llvm.org): the Clang C, C++, and Objective-C compiler
-- [clj](https://github.com/clojure/clojure): runners to launch Clojure programs
-- [clojure](https://github.com/clojure/clojure): runners to launch Clojure programs
-- [cloudflared](https://github.com/cloudflare/cloudflared): Cloudflare Tunnel client 
-- [cmake](https://gitlab.kitware.com/cmake/cmake): an open-source, cross-platform family of tools designed to build, test and package software. 
-- [cmark](https://github.com/commonmark/cmark): convert CommonMark formatted text to HTM
-- [cmus](https://github.com/cmus/cmus): C* Music Player
-- [code](https://github.com/microsoft/vscode): Visual Studio Code
-- [codesign](https://ss64.com/osx/codesign.html): create and manipulate code signatures. (macOS)
-- [code-insiders](https://github.com/microsoft/vscode): Visual Studio Code Insiders
-- [coffee](https://github.com/jashkenas/coffeescript): a little language that compiles into JavaScript.
-- [column](https://github.com/util-linux/util-linux): columnate lists
-- [comm](http://gnu.org/software/coreutils): compare two sorted files line by line
-- [composer](https://github.com/composer/composer): Dependency Manager for PHP
-- [conda](https://github.com/conda/conda): a tool for managing and deploying applications, environments and packages.
-- [conky](https://github.com/brndnmtthws/conky): highly configurable system monitor.
-- [consul](https://github.com/hashicorp/consul): a distributed, highly available, and data center aware solution to connect and configure applications across dynamic, distributed infrastructure. 
-- [coredumpctl](https://github.com/systemd/systemd): Tool for service discovery, monitoring and configuration
-- [coreutils](https://github.com/uutils/coreutils): Cross-platform Rust rewrite of the GNU coreutils
-- [cosign](https://github.com/sigstore/cosign): Container Signing
-- [cp](http://gnu.org/software/coreutils): copy files and directories
-- [cpio](https://www.gnu.org/software/cpio): copy files to and from archives
-- [cpupower](https://github.com/torvalds/linux): Shows and sets processor power related values
-- [croc](https://github.com/schollz/croc): Easily and securely send things from one computer to another
-- [crontab](https://github.com/bruceg/bcron): Manage users crontab files
-- [cryptsetup](https://gitlab.com/cryptsetup/cryptsetup): manage plain dm-crypt and LUKS encrypted volumes
-- [cscope](http://cscope.sourceforge.net): interactively examine a C program
-- [c++](https://gcc.gnu.org): GNU project C and C++ compiler
-- [csplit](http://gnu.org/software/coreutils): split a file into sections determined by context lines
-- [cssh](https://github.com/duncs/clusterssh): Cluster administration tool
-- [csview](https://github.com/wfxr/csview): A high performance csv viewer with cjk/emoji support.
-- [ctop](https://github.com/bcicen/ctop): Top-like interface for container metrics
-- [curl](https://github.com/curl/curl): transfer a URL
-- [cut](http://gnu.org/software/coreutils): remove sections from each line of files
-- [cwebp](https://github.com/webmproject/libwebp): Compress an image file to a WebP file
-- [darcs](https://darcs.net): distributed, interactive, smart revision control system
-- [darktable](https://github.com/darktable-org/darktable): an open source photography workflow application and raw developer.
-- [darktable-cli](https://github.com/darktable-org/darktable): a command line darktable variant
-- [dart](https://github.com/dart-lang/sdk): A client-optimized language for fast apps on any platform
-- [dasel](https://github.com/TomWright/dasel): JSON, YAML, TOML, XML, and CSV query and modification tool
-- [date](http://gnu.org/software/coreutils): print or set the system date and time
-- [dbt](https://github.com/dbt-labs/dbt-core): An ELT tool for managing your SQL transformations and data models.
-- [dbus-launch](https://gitlab.freedesktop.org/dbus/dbus): utility to start a message bus from a shell script
-- [dbus-monitor](https://gitlab.freedesktop.org/dbus/dbus): debug probe to print message bus messages
-- [dbus-send](https://gitlab.freedesktop.org/dbus/dbus): Send a message to a message bus
-- [dc](https://www.gnu.org/software/bc): an arbitrary precision calculator
-- [dconf](https://gitlab.gnome.org/GNOME/dconf): Simple tool for manipulating a dconf database
-- [dd](http://gnu.org/software/coreutils): convert and copy a file
-- [ddev](https://github.com/ddev/ddev): Create and maintain a local web development environment.
-- [ddgr](https://github.com/jarun/ddgr): DuckDuckGo from the terminal
-- [ddosify](https://github.com/ddosify/ddosify): Comprehensive Performance Testing Platform.
-- [defaults](https://ss64.com/osx/defaults.html): Set preferences, the macOS user defaults system works with both the OS and with individual applications. (macOS)
-- [delta](https://github.com/dandavison/delta): A syntax-highlighting pager for git, diff, and grep output
-- [deno](https://github.com/denoland/deno): A modern runtime for JavaScript and TypeScript.
-- [devbox](https://github.com/jetpack-io/devbox): Instant, easy, and predictable development environments
-- [df](http://gnu.org/software/coreutils): report file system disk space usage
-- [dhclient](https://gitlab.isc.org/isc-projects/dhcp): Dynamic Host Configuration Protocol Client
-- [dhcpcd](https://roy.marples.name/projects/dhcpcd): a DHCP client
-- [dict](https://sourceforge.net/projects/dict): DICT Protocol Client
-- [diff](https://www.gnu.org/software/diffutils): compare files line by line
-- [diff3](https://www.gnu.org/software/diffutils): compare three files line by line
-- [difft](https://github.com/Wilfred/difftastic): A structural diff that understands syntax.
-- [dig](https://gitlab.isc.org/isc-projects/bind9): DNS lookup utility
-- [dircolors](http://gnu.org/software/coreutils): color setup for ls
-- [direnv](https://github.com/direnv/direnv): unclutter your .profile
-- [dir](http://gnu.org/software/coreutils): list directory contents
-- [dirname](http://gnu.org/software/coreutils): strip last component from file name
-- [diskutil](https://ss64.com/osx/diskutil.html): Disk utilities - Format, Verify, Repair (local disks). (macOS)
-- [dive](https://github.com/wagoodman/dive): A tool for exploring a docker image, layer contents, and discovering ways to shrink the size of your Docker/OCI image.
-- [dkms](https://github.com/dell-oss/dkms): Dynamic Kernel Module Support
-- [dmenu](https://tools.suckless.org/dmenu): dynamic menu
-- [dmesg](https://github.com/util-linux/util-linux): dmesg - print or control the kernel ring buffer
-- [dmidecode](https://savannah.nongnu.org/projects/dmidecode): DMI table decoder
-- [dnf](https://github.com/rpm-software-management/dnf): package managment for Fedora Linux and the successor to YUM
-- [dnsmasq](https://thekelleys.org.uk/dnsmasq/doc.html): A lightweight DHCP and caching DNS server.
-- [doas](https://github.com/Duncaen/OpenDoas): execute commands as another user
-- [docker](https://www.docker.com): a software platform that allows you to build, test, and deploy applications quickly.
-- [docker-compose](https://github.com/docker/compose): Define and run multi-container applications with Docker
-- [doctl](https://github.com/digitalocean/doctl): The official command line interface for the DigitalOcean API.
-- [doggo](https://github.com/mr-karan/doggo): Command-line DNS Client for Humans.
-- [doppler](https://github.com/DopplerHQ/cli): The official Doppler CLI
-- [dos2unix](https://dos2unix.sourceforge.io): DOS/Mac to Unix and vice versa text file format converter
-- [dotnet](https://github.com/dotnet/sdk):  A cross-platform toolchain for developing, building, running, and publishing .NET applications.
-- [dpkg](https://salsa.debian.org/dpkg-team/dpkg): package manager for Debian
-- [dpkg-deb](https://salsa.debian.org/dpkg-team/dpkg): Debian package archive (.deb) manipulation tool
-- [dpkg-reconfigure](http://joeyh.name/code/debconf): reconfigure an already installed package
-- [dprint](https://github.com/dprint/dprint): Pluggable and configurable code formatting platform written in Rust.
-- [drill](https://github.com/fcsonline/drill): Drill is an HTTP load testing application written in Rust
-- [dropbox](https://www.dropbox.com): A command line interface to the Dropbox service
-- [dscacheutil](https://ss64.com/osx/dscacheutil.html): Directory Service cache - Gather information, statistics, initiate queries, flush the cache. (macOS)
-- [dstat](http://dag.wiee.rs/home-made/dstat): versatile tool for generating system resource statistics
-- [du](http://gnu.org/software/coreutils): estimate file space usage
-- [dua](https://github.com/Byron/dua-cli): View disk space usage and delete unwanted data, fast
-- [duf](https://github.com/muesli/duf): Disk Usage/Free Utility - a better 'df' alternative
-- [dufs](https://github.com/sigoden/dufs): A static file server
-- [dune](https://github.com/ocaml/dune): composable build system for OCaml
-- [dust](https://github.com/bootandy/dust): A more intuitive version of du in rust
-- [ed](https://www.gnu.org/software/ed): line-oriented text editor
-- [efibootmgr](https://github.com/rhboot/efibootmgr): manipulate the UEFI Boot Manager
-- [egrep](https://www.gnu.org/software/grep): print lines that match patterns
-- [elinks](https://github.com/rkd77/elinks): lynx-like alternative character mode WWW browser
-- [elixir](https://github.com/elixir-lang/elixir): The Elixir script runner
-- [elvish](https://github.com/elves/elvish): Expressive Programming Language + Versatile Interactive Shell
-- [emacs](https://www.gnu.org/software/emacs): An extensible, customizable, free/libre text editor — and more.
-- [emerge](https://github.com/gentoo/portage): package manager for Gentoo Linux.
-- [encfs](https://github.com/vgough/encfs): mounts or creates an encrypted virtual filesystem
-- [enscript](http://www.gnu.org/software/enscript): convert text files to PostScript, HTML, RTF, ANSI, and overstrikes
-- [entr](https://github.com/eradman/entr): run arbitrary commands when files change.
-- [env](http://gnu.org/software/coreutils): run a program in a modified environment
-- [esbuild](https://github.com/evanw/esbuild): An extremely fast bundler for the web
-- [eslint](https://github.com/eslint/eslint): Find and fix problems in your JavaScript code.
-- [espeak](https://espeak.sourceforge.net): A multi-lingual software speech synthesizer.
-- [ethtool](https://www.kernel.org/pub/software/network/ethtool): query or control network driver and hardware settings
-- [evince](https://gitlab.gnome.org/GNOME/evince): GNOME document viewer
-- [exa](https://github.com/ogham/exa): A modern replacement for ‘ls’.
-- [exercism](https://github.com/exercism/cli): A Go based command line tool for exercism.org.
-- [expand](http://gnu.org/software/coreutils): convert tabs to spaces
-- [expo](https://github.com/expo/expo-cli): Tools for creating, running, and deploying universal Expo and React Native apps
-- [fab](https://github.com/fabric/fabric): Simple, Pythonic remote execution and deployment.
-- [fakeroot](https://salsa.debian.org/clint/fakeroot): run a command in an environment faking root privileges for file manipulation
-- [fallocate](https://github.com/util-linux/util-linux): preallocate or deallocate space to a file
-- [fastlane](https://github.com/fastlane/fastlane): Automate Android and iOS development.
-- [fc-cache](https://gitlab.freedesktop.org/fontconfig/fontconfig): build font information cache files
-- [fc-cat](https://gitlab.freedesktop.org/fontconfig/fontconfig): read font information cache files
-- [fc-list](https://gitlab.freedesktop.org/fontconfig/fontconfig): list available fonts
-- [fclones](https://github.com/pkolaczk/fclones): Efficient Duplicate File Finder
-- [fd](https://github.com/sharkdp/fd): A simple, fast and user-friendly alternative to 'find'
-- [fdisk](https://github.com/util-linux/util-linux): manipulate disk partition table
-- [feh](https://feh.finalrewind.org): image viewer and cataloguer
-- [fetchmail](https://gitlab.com/fetchmail/fetchmail): fetch mail from a POP, IMAP, ETRN, or ODMR-capable server
-- [ffmpeg](https://ffmpeg.org): ffmpeg video converter
-- [fgrep](https://www.gnu.org/software/grep): print lines that match patterns
-- [figlet](https://github.com/cmatsuoka/figlet): Make large character ASCII banners out of ordinary text
-- [file](https://github.com/file/file): determine file type
-- [find](https://savannah.gnu.org/projects/findutils): search for files in a directory hierarchy
-- [findmnt](https://github.com/util-linux/util-linux): find a filesystem
-- [firebase](https://firebaseopensource.com): a set of cloud-based development tools that helps mobile app developers build, deploy and scale their apps.
-- [firefox](https://www.mozilla.org/en-US/firefox): Mozilla Firefox Browser
-- [fish](https://github.com/fish-shell/fish-shell): The user-friendly command line shell. 
-- [flac](https://github.com/xiph/flac): Free Lossless Audio Codec
-- [flamegraph](https://github.com/flamegraph-rs/flamegraph): A Rust-powered flamegraph generator with additional support for Cargo projects
-- [flatpak](https://github.com/flatpak/flatpak): Linux application sandboxing and distribution framework
-- [flex](https://github.com/westes/flex): the fast lexical analyser generator
-- [flutter](https://github.com/flutter/flutter): Build apps for any screen
-- [fmt](http://gnu.org/software/coreutils): simple optimal text formatter
-- [fnm](https://github.com/Schniz/fnm): Fast and simple Node.js version manager, built in Rust
-- [fold](http://gnu.org/software/coreutils): wrap each input line to fit in specified width
-- [fortune](https://github.com/shlomif/fortune-mod): print a random, hopefully interesting, adage
-- [fq](https://github.com/wader/fq): Tool, language and decoders for working with binary data.
-- [free](https://gitlab.com/procps-ng/procps): Display amount of free and used memory in the system
-- [fs_usage](https://ss64.com/osx/fs_usage.html): Filesystem usage (process/pathname). (macOS)
-- [ftp](https://www.gnu.org/software/inetutils): Internet file transfer program
-- [fusermount](https://github.com/libfuse/libfuse): mount and unmount FUSE filesystems
-- [fuser](https://gitlab.com/psmisc/psmisc): identify processes using files or sockets
-- [fvm](https://github.com/fluttertools/fvm): Flutter Version Management
-- [fwupdmgr](https://github.com/fwupd/fwupd): firmware update manager client utility
-- [fx](https://github.com/antonmedv/fx): Terminal JSON viewer & processor
-- [fzf](https://github.com/junegunn/fzf): A command-line fuzzy finder
-- [fzy](https://github.com/jhawthorn/fzy): A simple, fast fuzzy finder for the terminal
-- [g++](https://gcc.gnu.org): GNU project C and C++ compiler
-- [gatsby](https://github.com/gatsbyjs/gatsby): The best React-based framework with performance, scalability and security built in.
-- [gawk](http://www.gnu.org/software/gawk): pattern scanning and processing language
-- [gcc](https://gcc.gnu.org): GNU project C and C++ compiler
-- [gcloud](https://cloud.google.com/sdk/gcloud): a set of tools to create and manage Google Cloud resources.
-- [gdb](https://www.sourceware.org/gdb): The GNU Project Debugger
-- [gdu](https://github.com/dundee/gdu): Pretty fast disk usage analyzer written in Go.
-- [gem](https://github.com/rubygems/rubygems): Library packaging and distribution for Ruby.
-- [getent](https://www.gnu.org/software/libc): get entries from Name Service Switch libraries
-- [getfacl](https://savannah.nongnu.org/projects/acl) - get file access control lists
-- [getfattr](https://savannah.nongnu.org/projects/attr): get extended attributes of filesystem objects
-- [getmail](https://github.com/getmail6/getmail6): retrieve messages from one or more POP3, IMAP4, or SDPS mailboxes and deliver to a maildir, mboxrd-format mbox file, or external MDA
-- [getopt](https://github.com/util-linux/util-linux):parse command options enhanced
-- [gh](https://cli.github.com): Take GitHub to the command line
-- [ghostscript](https://www.ghostscript.com): PostScript and PDF language interpreter and previewer
-- [ghq](https://github.com/x-motemen/ghq): Remote repository management made easy.
-- [gibo](https://github.com/simonwhitaker/gibo): Easy access to gitignore boilerplates
-- [gio](https://gitlab.gnome.org/GNOME/glib): GIO commandline tool
-- [git](https://github.com/git/git): fast, scalable, distributed revision control system
-- [git-cliff](https://github.com/orhun/git-cliff): A highly customizable Changelog Generator that follows Conventional Commit specifications
-- [git-crypt](https://github.com/AGWA/git-crypt): Transparent file encryption in git
-- [git-lfs](https://github.com/git-lfs/git-lfs): Git extension for versioning large files
-- [git-open](https://github.com/paulirish/git-open): Open the repo website (GitHub, GitLab, Bitbucket) in your browser.
-- [git-quick-stats](https://github.com/arzzen/git-quick-stats): a simple and efficient way to access various statistics in a git repository.
-- [git-sizer](https://github.com/github/git-sizer): Compute various size metrics for a Git repository, flagging those that might cause problems.
-- [gitleaks](https://github.com/gitleaks/gitleaks): Audit git repos for secrets
-- [glab](https://gitlab.com/gitlab-org/cli): bringing GitLab to your command line
-- [glances](https://github.com/nicolargo/glances): Alternative to top/htop.
-- [global](https://www.gnu.org/software/global): print locations of given symbols
-- [glow](https://github.com/charmbracelet/glow): Render markdown on the CLI, with pizzazz!
-- [gm](http://www.graphicsmagick.org): GraphicsMagick Image Processing System
-- [gnutls-cli](https://www.gnutls.org): GnuTLS client
-- [gnutls-serv](https://www.gnutls.org): GnuTLS server
-- [go](https://github.com/golang/go): a tool for managing Go source code.
-- [goctl](https://github.com/zeromicro/go-zero): a go-zero's built-in handcuffle
-- [godoc](https://github.com/golang/tools): extracts and generates documentation for Go programs.
-- [gofmt](https://github.com/golang/go): formats Go programs.
-- [gojq](https://github.com/itchyny/gojq): Pure Go implementation of jq
-- [goose](https://github.com/pressly/goose): a database migration tool.
-- [goreleaser](https://github.com/goreleaser/goreleaser): Deliver Go binaries as fast and easily as possible
-- [gource](https://github.com/acaudwell/Gource): software version control visualization
-- [gpasswd](https://github.com/shadow-maint/shadow): administer /etc/group and /etc/gshadow
-- [gpg](https://www.gnupg.org): OpenPGP encryption and signing tool
-- [gpg-agent](https://www.gnupg.org): Secret key management for GnuPG
-- [gphoto2](https://github.com/gphoto/gphoto2): command-line gphoto2 client
-- [gping](https://github.com/orf/gping): Ping, but with a graph.
-- [gprof](https://www.gnu.org/software/binutils): display call graph profile data
-- [gradle](https://github.com/gradle/gradle): Powerful build system for the JVM
-- [grep](https://www.gnu.org/software/grep): print lines that match patterns
-- [grex](https://github.com/pemistahl/grex): generates regular expressions from user-provided test cases.
-- [groff](https://www.gnu.org/software/groff): front-end for the groff document formatting system
-- [gron](https://github.com/tomnomnom/gron): Make JSON greppable.
-- [groupadd](https://github.com/shadow-maint/shadow): create a new group
-- [groupdel](https://github.com/shadow-maint/shadow): delete a group
-- [groupmems](https://github.com/shadow-maint/shadow): administer members of a user's primary group
-- [groupmod](https://github.com/shadow-maint/shadow): modify a group definition on the system
-- [groups](http://gnu.org/software/coreutils): print the groups a user is in
-- [grpcurl](https://github.com/fullstorydev/grpcurl): Like cURL, but for gRPC
-- [grype](https://github.com/anchore/grype): A vulnerability scanner for container images, filesystems, and SBOMs.
-- [gs](https://www.ghostscript.com): PostScript and PDF language interpreter and previewer
-- [gsettings](https://gitlab.gnome.org/GNOME/glib): GSettings configuration tool
-- [guix](https://guix.gnu.org): functional cross-platform package manager for Unix-like OS.
-- [gum](https://github.com/charmbracelet/gum): A tool for glamorous shell scripts
-- [gunzip](https://www.gnu.org/software/gzip): decompress and concatenate files to standard output
-- [gzip](https://www.gnu.org/software/gzip): decompress and concatenate files to standard output
-- [hadolint](https://github.com/hadolint/hadolint): Dockerfile Linter written in Haskell
-- [halt](https://github.com/systemd/systemd): Halt, power-off or reboot the machine
-- [hashcat](https://github.com/hashcat/hashcat): Advanced CPU-based password recovery utility 
-- [hashdeep](https://github.com/jessek/hashdeep): Compute, compare, or audit multiple message digests
-- [hasura](https://github.com/hasura/graphql-engine): accelerates API development by 10x by giving you GraphQL or REST APIs with built-in authorization on your data, instantly.
-- [hdiutil](https://ss64.com/osx/hdiutil.html): Manipulate disk images (attach, verify, burn, etc). (macOS)
-- [hdparm](http://sourceforge.net/projects/hdparm): get/set SATA/IDE device parameters
-- [head](http://gnu.org/software/coreutils): output the first part of files
-- [helm](https://github.com/helm/helm): The Kubernetes package manager
-- [helmfile](https://github.com/roboll/helmfile): Declaratively deploy your Kubernetes manifests, Kustomize configs, and Charts as Helm releases in one shot
-- [help2man](https://www.gnu.org/software/help2man): generate a simple manual page
-- [hexchat](https://github.com/hexchat/hexchat): IRC client for X based on X-Chat 2
-- [hexdump](https://github.com/util-linux/util-linux): display file contents in hexadecimal, decimal, octal, or ascii
-- [hexyl](https://github.com/sharkdp/hexyl): A command-line hex viewer
-- [highlight](https://gitlab.com/saalen/highlight) - a universal sourcecode to formatted text converter
-- [hledger](https://github.com/simonmichael/hledger): lightweight, cross platform, multi-currency, double-entry accounting software.
-- [hostname](https://www.gnu.org/software/inetutils): show or set the system's host name
-- [hostnamectl](https://github.com/systemd/systemd): Control the system hostname 
-- [hrp](https://github.com/httprunner/httprunner): A API testing tools.
-- [htmlq](https://github.com/mgdm/htmlq): Like jq, but for HTML.
-- [htop](https://github.com/htop-dev/htop): interactive processes viewer
-- [http](https://github.com/httpie/cli): a command-line HTTP client
-- [https](https://github.com/httpie/cli): a command-line HTTP client
-- [hugo](https://github.com/gohugoio/hugo): A fast and flexible static site generator
-- [hunspell](https://github.com/hunspell/hunspell): spell checker and morphological analyzer
-- [hurl](https://github.com/Orange-OpenSource/hurl): run and test HTTP requests with plain text.
-- [hwclock](https://github.com/util-linux/util-linux): time clocks utility
-- [hwinfo](https://github.com/openSUSE/hwinfo): probe for hardware
-- [hx](https://github.com/helix-editor/helix): A post-modern text editor.
-- [hyperfine](https://github.com/sharkdp/hyperfine): A command-line benchmarking tool
-- [icdiff](https://github.com/jeffkaufman/icdiff): terminal side-by-side colorized word diff
-- [iconv](https://www.gnu.org/software/libiconv): convert text from one character encoding to another
-- [id](http://gnu.org/software/coreutils): print real and effective user and group IDs
-- [ifconfig](https://github.com/ecki/net-tools): configure a network interface
-- [ifdown](https://github.com/ifupdown-ng/ifupdown-ng): bring interfaces down
-- [iftop](http://www.ex-parrot.com/~pdw/iftop): display bandwidth usage on an interface by host
-- [ifup](https://github.com/ifupdown-ng/ifupdown-ng): bring a network interface up
-- [initctl](https://github.com/troglobit/finit): Control tool for Finit
-- [install](http://gnu.org/software/coreutils): copy files and set attributes
-- [ionice](https://github.com/util-linux/util-linux): set or get process I/O scheduling class and priority
-- [iostat](https://github.com/sysstat/sysstat): Report Central Processing Unit (CPU) statistics and input/output statistics for devices and partitions.
-- [ip](https://github.com/iproute2/iproute2): show / manipulate routing, network devices, interfaces and tunnels
-- [ipatool](https://github.com/majd/ipatool): searching and downloading app packages (known as ipa files) from the iOS App Store.
-- [ipset](http://ipset.netfilter.org): administration tool for IP sets
-- [iptables](https://www.netfilter.org): administration tool for IPv4/IPv6 packet filtering and NAT
-- [irssi](https://github.com/irssi/irssi): a modular IRC client for UNIX
-- [istioctl](https://github.com/istio/istio): Istio configuration command line utility for service operators to debug and diagnose their Istio mesh.
-- [iwconfig](https://github.com/HewlettPackard/wireless-tools): configure a wireless network interface 
-- [jar](https://openjdk.org): Manipulates Java Archive (JAR) files.
-- [java](https://openjdk.org): Launches a Java application. 
-- [jdupes](https://github.com/jbruchon/jdupes): identify and delete or link duplicate files
-- [jenv](https://github.com/jenv/jenv): Manage your Java environment
-- [jless](https://github.com/PaulJuliusMartinez/jless): JSON viewer designed for reading, exploring, and searching through JSON data.
-- [jmeter](https://github.com/apache/jmeter): Apache JMeter - Load testing tool
-- [jobs](https://manned.org/jobs.1posix): Display status of jobs.
-- [join](http://gnu.org/software/coreutils): join lines of two files on a common field
-- [journalctl](https://github.com/systemd/systemd): Query the systemd journal
-- [jq](https://github.com/jqlang/jq): Command-line JSON processor
-- [julia](https://github.com/JuliaLang/julia): Fast, Dynamic Programming Language
-- [just](https://github.com/casey/just): Just a command runner
-- [k3d](https://github.com/k3d-io/k3d): Little helper to run CNCF's k3s in Docker
-- [k6](https://github.com/grafana/k6): A modern load testing tool, using Go and JavaScript
-- [k9s](https://github.com/derailed/k9s): Kubernetes CLI To Manage Your Clusters In Style!
-- [kak](https://github.com/mawww/kakoune): mawww's experiment for a better code editor
-- [keepassxc-cli](https://github.com/keepassxreboot/keepassxc): Cross Platform Password Manager
-- [keybase](https://github.com/keybase/client): keybase: keeping everyone's chats and files safe, from families to communities to companies.
-- [keytool](https://openjdk.org): Manages a keystore (database) of cryptographic keys, X.509 certificate chains, and trusted certificates.
-- [khal](https://github.com/pimutils/khal): CLI calendar application
-- [kill](https://gitlab.com/procps-ng/procps): send a signal to a process
-- [killall](https://gitlab.com/psmisc/psmisc): kill processes by name
-- [kind](https://github.com/kubernetes-sigs/kind): Kubernetes IN Docker - local clusters for testing Kubernetes
-- [kmutil](https://keith.github.io/xcode-man-pages/kmutil.8.html): multipurpose tool for managing kernel extensions (kexts) and kext collections on disk. (macOS)
-- [kompose](https://github.com/kubernetes/kompose): Convert Compose to Kubernetes
-- [kotlin](https://github.com/JetBrains/kotlin): run Kotlin programs, scripts or REPL.
-- [kpartx](https://github.com/opensvc/multipath-tools): Create device maps from partition tables.
-- [kubeadm](https://github.com/kubernetes/kubeadm): Easily bootstrap a secure Kubernetes cluster  
-- [kubectl](https://github.com/kubernetes/kubectl): controls the Kubernetes cluster manager.
-- [kubectx](https://github.com/ahmetb/kubectx): a tool to switch between contexts (clusters) on kubectl faster.
-- [kubens](https://github.com/ahmetb/kubectx): a tool to switch between Kubernetes namespaces (and configure them for kubectl) easily.
-- [kustomize](https://github.com/kubernetes-sigs/kustomize): Customization of kubernetes YAML configurations
-- [laravel](https://github.com/laravel/laravel): a web application framework with expressive, elegant syntax.
-- [last](https://github.com/util-linux/util-linux): show a listing of last logged in users 
-- [lastb](https://github.com/util-linux/util-linux): show a listing of last logged in users
-- [lastlog](https://github.com/shadow-maint/shadow): reports the most recent login of all users or of a given user
-- [launchctl](https://ss64.com/osx/launchctl.html): Interfaces with launchd to load, unload daemons/agents and generally control launchd. (macOS)
-- [lazygit](https://github.com/jesseduffield/lazygit): simple terminal UI for git commands
-- [ldconfig](https://www.gnu.org/software/libc): configure dynamic linker run-time bindings
-- [ldd](https://www.gnu.org/software/libc): print shared object dependencies
-- [lerna](https://github.com/lerna/lerna): a fast, modern build system for managing and publishing multiple JavaScript/TypeScript packages from the same repository
-- [less](https://github.com/gwsw/less): opposite of more
-- [lf](https://github.com/gokcehan/lf): Terminal file manager 
-- [lightdm](https://github.com/canonical/lightdm): a display manager
-- [lima](https://github.com/lima-vm/lima): an alias for "limactl shell default".
-- [limactl](https://github.com/lima-vm/lima): Linux virtual machines
-- [link](http://gnu.org/software/coreutils): call the link function to create a link to a file
-- [links](http://links.twibright.com): lynx-like alternative character mode WWW browser
-- [ln](http://gnu.org/software/coreutils): make links between files
-- [lnav](https://github.com/tstack/lnav): Log file navigator
-- [lldb](https://github.com/llvm/llvm-project): Next generation, high-performance debugger
-- [loadkeys](https://github.com/legionus/kbd): load keyboard translation tables
-- [locale](https://manned.org/locale.1posix): get locale-specific information
-- [localectl](https://github.com/systemd/systemd): Control the system locale and keyboard layout settings
-- [locate](https://www.gnu.org/software/findutils): find files by name, quickly
-- [locust](https://github.com/locustio/locust): Write scalable load tests in plain Python
-- [loginctl](https://github.com/systemd/systemd): Control the systemd login manager
-- [logrotate](https://github.com/logrotate/logrotate): rotates, compresses, and mails system logs
-- [look](https://github.com/util-linux/util-linux): display lines beginning with a given string
-- [losetup](https://github.com/util-linux/util-linux): set up and control loop devices
-- [lp](https://github.com/OpenPrinting/cups): print files
-- [lpass](https://github.com/lastpass/lastpass-cli): LastPass command line interface tool
-- [ls](http://gnu.org/software/coreutils): list directory contents
-- [lsattr](https://e2fsprogs.sourceforge.net): list file attributes on a Linux second extended file system
-- [lsblk](https://github.com/util-linux/util-linux): list block devices
-- [lsb_release](https://refspecs.linuxfoundation.org/lsb.shtml): print distribution-specific information
-- [lscpu](https://github.com/util-linux/util-linux): display information about the CPU architecture
-- [lsd](https://github.com/lsd-rs/lsd): The next gen ls command
-- [lshw](https://github.com/lyonel/lshw): HardWare LiSter for Linux
-- [lslocks](https://github.com/util-linux/util-linux): list local system locks
-- [lslogins](https://github.com/util-linux/util-linux): display information about known users in the system
-- [lsmem](https://github.com/util-linux/util-linux): list the ranges of available memory with their online status
-- [lsns](https://github.com/util-linux/util-linux): list namespaces
-- [lsof](https://github.com/lsof-org/lsof): utility to list open files
-- [lsusb](https://github.com/gregkh/usbutils): list USB devices
-- [ltrace](https://github.com/dkogan/ltrace): A library call tracer
-- [lua](https://github.com/lua/lua): Lua interpreter
-- [luarocks](https://github.com/luarocks/luarocks): the package manager for the Lua programming language.
-- [lychee](https://github.com/lycheeverse/lychee): A fast, async, stream-based link checker written in Rust.
-- [lynx](https://invisible-island.net/lynx): a general purpose distributed information browser for the World Wide Web
-- [lzcat](https://github.com/tukaani-project/xz): Compress or decompress .xz and .lzma files
-- [lzma](https://github.com/tukaani-project/xz): Compress or decompress .xz and .lzma files
-- [m](https://github.com/rgcr/m-cli): Swiss Army Knife for macOS. (macOS)
-- [m4](https://www.gnu.org/software/m4): macro processor
-- [machinectl](https://github.com/systemd/systemd): Control the systemd machine manager
-- [mackup](https://github.com/lra/mackup): Keep your application settings in sync (OS X/Linux)
-- [make](https://www.gnu.org/software/make): GNU make utility to maintain groups of programs
-- [makepkg](https://gitlab.archlinux.org/pacman/pacman): package build utility for Arch linux
-- [man](https://gitlab.com/man-db/man-db): an interface to the system reference manuals
-- [mariner](https://gitlab.com/radek-sprta/mariner): Navigate torrents 
-- [mas](https://github.com/mas-cli/mas): Mac App Store command line interface. (macOS)
-- [mask](https://github.com/jacobdeichert/mask): A CLI task runner defined by a simple markdown file
-- [mat2](https://0xacab.org/jvoisin/mat2): the metadata anonymisation toolkit 2
-- [mbuffer](https://www.maier-komor.de/mbuffer.html): measuring buffer
-- [md5sum](http://gnu.org/software/coreutils): compute and check MD5 message digest
-- [mdbook](https://github.com/rust-lang/mdBook): Create book from markdown files. 
-- [mdfind](https://ss64.com/osx/mdfind.html): Spotlight search. (macOS)
-- [mdimport](https://ss64.com/osx/mdimport.html): Import file hierarchies into the Spotlight metadata datastore. (macOS)
-- [mdls](https://ss64.com/osx/mdls.html): List the metadata attributes for a specified file. (macOS)
-- [mdutil](https://ss64.com/osx/mdutil.html): Manage the metadata stores used by Spotlight. (macOS)
-- [meld](https://gitlab.gnome.org/GNOME/meld): graphical tool to diff and merge files
-- [meson](https://github.com/mesonbuild/meson): a high productivity build system
-- [micro](https://github.com/zyedidia/micro): A modern and intuitive terminal-based text editor
-- [mii-tool](https://github.com/ecki/net-tools) view, manipulate media-independent interface status
-- [minikube](https://github.com/kubernetes/minikube): Run Kubernetes locally
-- [miniserve](https://github.com/svenstaro/miniserve): a CLI tool to serve files and dirs over HTTP
-- [mitmproxy](https://github.com/mitmproxy/mitmproxy): an interactive, SSL/TLS-capable intercepting proxy with a console interface for HTTP/1, HTTP/2, and WebSockets.
-- [mix](https://github.com/elixir-lang/elixir): a build tool for Elixir
-- [mkdir](http://gnu.org/software/coreutils): make directories
-- [mkdocs](https://github.com/mkdocs/mkdocs): Project documentation with Markdown.
-- [mkfifo](http://gnu.org/software/coreutils): make FIFOs (named pipes)
-- [mkfs](https://github.com/util-linux/util-linux): build a Linux filesystem
-- [mknod](http://gnu.org/software/coreutils): make block or character special files
-- [mkpasswd](https://github.com/rfc1036/whois): Crypts the PASSWORD
-- [mkswap](https://github.com/util-linux/util-linux): set up a Linux swap area
-- [mktemp](http://gnu.org/software/coreutils): create a temporary file or directory
-- [modinfo](https://github.com/kmod-project/kmod): Show information about a Linux Kernel module
-- [modprobe](https://github.com/kmod-project/kmod): Add and remove modules from the Linux Kernel
-- [molecule](https://github.com/ansible/molecule): aids in the development and testing of Ansible roles.
-- [mongocli](https://www.mongodb.com): a modern command line interface that enables you to manage your MongoDB services from the terminal.
-- [mongoimport](https://www.mongodb.com): Import CSV, TSV or JSON data into MongoDB.
-- [mongosh](https://www.mongodb.com): a fully functional JavaScript and Node.js 16.x REPL environment for interacting with MongoDB deployments
-- [more](https://github.com/util-linux/util-linux): file perusal filter for crt viewing
-- [mosh](https://github.com/mobile-shell/mosh): Mobile Shell
-- [most](https://www.jedsoft.org/most): browse or page through a text file
-- [mount](https://github.com/util-linux/util-linux): mount a filesystem
-- [mpc](https://github.com/MusicPlayerDaemon/mpc): a command-line client for the Music Player Daemon. 
-- [mpstat](https://github.com/sysstat/sysstat): Report processors related statistics.
-- [mpv](https://github.com/mpv-player/mpv): video player based on MPlayer/mplayer2
-- [msfconsole](https://github.com/rapid7/metasploit-framework): main Metasploit command-line interface
-- [msfdb](https://github.com/rapid7/metasploit-framework): easily setup and control both a database and a Web Service capable of connecting this database with Metasploit
-- [mtr](https://github.com/traviscross/mtr): a network diagnostic tool
-- [mutt](https://gitlab.com/muttmua/mutt): The Mutt Mail User Agent
-- [muffet](https://github.com/raviqqe/muffet): Fast website link checker in Go
-- [mv](http://gnu.org/software/coreutils): move (rename) files
-- [mvn](https://github.com/apache/maven): a software project management and comprehension tool.
-- [mypy](https://github.com/python/mypy): Optional static typing for Python.
-- [mysql](https://www.mysql.com): the MySQL command-line client
-- [mysqldump](https://www.mysql.com): a database backup program
-- [namei](https://github.com/util-linux/util-linux): follow a pathname until a terminal point is found
-- [nano](https://www.nano-editor.org): Nano's ANOther editor, inspired by Pico
-- [navi](https://github.com/denisidoro/navi): An interactive cheatsheet tool
-- [nc](https://salsa.debian.org/debian/netcat-openbsd): arbitrary TCP and UDP connections and listens
-- [ncu](https://github.com/raineorshine/npm-check-updates): Find newer versions of package dependencies than what your package.json allows
-- [ncat](https://github.com/nmap/nmap): Concatenate and redirect sockets
-- [ncdu](https://dev.yorhel.nl/ncdu): NCurses Disk Usage
-- [neofetch](https://github.com/dylanaraps/neofetch): Shows Linux System Information with Distribution Logo
-- [neomutt](https://github.com/neomutt/neomutt): The NeoMutt Mail User Agent (MUA)
-- [nest](https://github.com/nestjs/nest): A progressive Node.js framework for building efficient and scalable server-side applications.
-- [netcat](https://netcat.sourceforge.net): arbitrary TCP and UDP connections and listens
-- [netctl](https://git.archlinux.org/netctl.git): Control the netctl network profile manager
-- [netctl-auto](https://gitlab.archlinux.org/archlinux/netctl): Control automatic selection of wireless netctl profiles
-- [nethogs](https://github.com/raboof/nethogs): Linux 'net top' tool
-- [networkQuality](https://ss64.com/osx/networkquality.html): Network quality testing tool. (macOS)
-- [networkctl](https://github.com/systemd/systemd): Query the status of network links
-- [networksetup](https://ss64.com/osx/networksetup.html): Configuration tool for network settings in System Preferences. (macOS)
-- [newman](https://github.com/postmanlabs/newman): a command-line collection runner for Postman
-- [newrelic](https://github.com/newrelic/newrelic-cli): The New Relic CLI enables users to perform tasks against the New Relic APIs
-- [newsboat](https://github.com/newsboat/newsboat): An RSS/Atom feed reader for text terminals
-- [next](https://github.com/vercel/next.js): The React Framework
-- [nexttrace](https://github.com/nxtrace/NTrace-core): Open source visual route tracking CLI tool
-- [nfpm](https://github.com/goreleaser/nfpm): a simple and 0-dependencies deb, rpm, apk and arch linux packager written in Go.
-- [ng](https://github.com/angular/angular-cli): CLI tool for Angular
-- [nginx](http://nginx.org): HTTP and reverse proxy server, mail proxy server
-- [ngrep](https://github.com/jpr5/ngrep): network grep
-- [ngrok](https://github.com/inconshreveable/ngrok): Introspected tunnels to localhost
-- [nhost](https://github.com/newrelic/newrelic-cli): The New Relic Command Line Interface
-- [nice](http://gnu.org/software/coreutils): run a program with modified scheduling priority
-- [ninja](https://github.com/ninja-build/ninja): a small build system with a focus on speed
-- [nix-build](https://github.com/NixOS/nix): build a Nix expression
-- [nix-channel](https://github.com/NixOS/nix): manage Nix channels
-- [nix-collect-garbage](https://github.com/NixOS/nix): delete unreachable store objects
-- [nix-copy-closure](https://github.com/NixOS/nix): copy a closure to or from a remote machine via SSH
-- [nix-env](https://github.com/NixOS/nix): manipulate or query Nix user environments
-- [nix-hash](https://github.com/NixOS/nix): compute the cryptographic hash of a path
-- [nix-instantiate](https://github.com/NixOS/nix): instantiate store derivations from Nix expressions
-- [nix-prefetch-url](https://github.com/NixOS/nix): copy a file from a URL into the store and print its hash
-- [nix-shell](https://github.com/NixOS/nix): start an interactive shell based on a Nix expression
-- [nix-store](https://github.com/NixOS/nix): manipulate or query the Nix store
-- [nl](http://gnu.org/software/coreutils): number lines of files
-- [nm](https://www.gnu.org/software/binutils): list symbols from object files
-- [nmap](https://github.com/nmap/nmap): The Network Mapper
-- [nmcli](https://gitlab.freedesktop.org/NetworkManager/NetworkManager): command-line tool for controlling NetworkManage
-- [nnn](https://github.com/jarun/nnn): Free, fast, friendly file manager
-- [node](https://github.com/nodejs/node): an open-source, cross-platform JavaScript runtime environment.
-- [nohup](http://gnu.org/software/coreutils): run a command immune to hangups, with output to a non-tty
-- [nomad](https://github.com/hashicorp/nomad): Orchestration made easy
-- [npm](https://github.com/npm/cli): the package manager for JavaScript
-- [npx](https://github.com/npm/cli): Run a command from an npm package
-- [nsenter](https://github.com/util-linux/util-linux): run program in different namespaces
-- [nssm](https://github.com/kirillkovalenko/nssm): Non-Sucking Service Manager
-- [nu](https://github.com/nushell/nushell): A new type of shell
-- [numfmt](http://gnu.org/software/coreutils): Convert numbers from/to human-readable strings
-- [nvim](https://github.com/neovim/neovim): hyperextensible Vim-based text editor
-- [nvm](https://github.com/nvm-sh/nvm): Node Version Manager
-- [nvram](https://ss64.com/osx/nvram.html): Manipulate firmware variables. (macOS)
-- [objdump](https://www.gnu.org/software/binutils): display information from object files
-- [ocaml](https://github.com/ocaml/ocaml): The OCaml interactive toplevel
-- [od](http://gnu.org/software/coreutils): dump files in octal and other formats
-- [oh-my-posh](https://github.com/JanDeDobbeleer/oh-my-posh): The most customisable and low-latency cross platform/shell prompt renderer
-- [okteto](https://github.com/okteto/okteto): Remote Development Environments powered by Kubernetes
-- [ollama](https://github.com/jmorganca/ollama): Get up and running with Llama 2 and other large language models locally
-- [op](https://developer.1password.com): 1Password CLI provides commands to manage and administer a 1Password account.
-- [opa](https://github.com/open-policy-agent/opa): An open source project to policy-enable your service.
-- [opam](https://github.com/ocaml/opam): source-based package manager for ocaml.
-- [openssl](https://github.com/openssl/openssl): OpenSSL command line program
-- [opkg](https://code.google.com/archive/p/opkg): a lightweight package management system
-- [optipng](http://optipng.sourceforge.net): Optimize Portable Network Graphics files
-- [osascript](https://ss64.com/osx/osascript.html): Execute AppleScripts and other OSA language scripts. (macOS)
-- [osqueryi](https://github.com/osquery/osquery): your OS as a high-performance relational database
-- [otool](https://keith.github.io/xcode-man-pages/llvm-otool.1.html): the otool-compatible command line parser for llvm-objdump
-- [ouch](https://github.com/ouch-org/ouch): easily compressing and decompressing files and directories.
-- [packer](https://github.com/hashicorp/packer): Automate image builds
-- [pacman](https://gitlab.archlinux.org/pacman/pacman): package manager utility for Arch linux
-- [pactl](http://www.pulseaudio.org): Control a running PulseAudio sound server
-- [pandoc](https://github.com/jgm/pandoc): Universal markup converter
-- [parallel](https://joeyh.name/code/moreutils): build and execute shell command lines from standard input in parallel
-- [pass](https://www.passwordstore.org): stores, retrieves, generates, and synchronizes passwords securely
-- [passwd](https://github.com/shadow-maint/shadow): change user password
-- [paste](http://gnu.org/software/coreutils): merge lines of files
-- [pastel](https://github.com/sharkdp/pastel): A command-line tool to generate, analyze, convert and manipulate colors
-- [patch](https://savannah.gnu.org/projects/patch): apply a diff file to an original
-- [pathchk](http://gnu.org/software/coreutils): check whether file names are valid or portable
-- [pbcopy](https://ss64.com/osx/pbcopy.html): Copy data from STDIN to the clipboard. (macOS)
-- [pdfgrep](https://gitlab.com/pdfgrep/pdfgrep): search PDF files for a regular expression
-- [peco](https://github.com/peco/peco): Simplistic interactive filtering tool
-- [pee](https://joeyh.name/code/moreutils): tee standard input to pipe
-- [percol](https://github.com/mooz/percol): adds flavor of interactive selection to the traditional pipe concept on UNIX.
-- [perf](https://github.com/torvalds/linux): Performance analysis tools for Linux
-- [perl](https://github.com/Perl/perl5): The Perl 5 language interpreter
-- [pest](https://github.com/pestphp/pest): an elegant PHP testing Framework with a focus on simplicity, meticulously designed to bring back the joy of testing in PHP.
-- [pgcli](https://github.com/dbcli/pgcli): Postgres CLI with autocompletion and syntax highlighting
-- [pg_dump](https://github.com/postgres/postgres): extract a PostgreSQL database into a script file or other archive file
-- [pg_dumpall](https://github.com/postgres/postgres): extract a PostgreSQL database cluster into a script file
-- [pg_restore](https://github.com/postgres/postgres): restore a PostgreSQL database from an archive file created by pg_dump
-- [pgrep](https://gitlab.com/procps-ng/procps): look up, signal, or wait for processes based on name and other attributes
-- [php](https://github.com/php/php-src): PHP Command Line Interface
-- [phpunit](https://github.com/sebastianbergmann/phpunit): The PHP Unit Testing framework.
-- [pidof](https://github.com/slicer69/sysvinit): find the process ID of a running program. 
-- [pidstat](https://github.com/sysstat/sysstat): Report statistics for Linux tasks.
-- [ping](https://github.com/iputils/iputils): send ICMP ECHO_REQUEST to network hosts
-- [pinky](http://gnu.org/software/coreutils): lightweight finger 
-- [pip](https://github.com/pypa/pip): The Python package installer
-- [pip3](https://github.com/pypa/pip): The Python package installer
-- [pipenv](https://github.com/pypa/pipenv): Python Development Workflow for Humans.
-- [pipx](https://github.com/pypa/pipx): Install and Run Python Applications in Isolated Environments
-- [pkg-config](https://gitlab.freedesktop.org/pkg-config/pkg-config): Return metainformation about installed libraries
-- [pkgutil](https://ss64.com/osx/pkgutil.html): Query and manipulate MacOS Installer packages and receipts. (macOS)
-- [pkill](https://gitlab.com/procps-ng/procps): look up or signal processes based on name and other attributes
-- [playwright](https://github.com/microsoft/playwright): a framework for Web Testing and Automation.
-- [plocate](https://plocate.sesse.net): find files by name, quickly
-- [plutil](https://github.com/gnustep/libs-base): Property list utility
-- [pm2](https://github.com/Unitech/pm2): Node.js Production Process Manager with a built-in Load Balancer.
-- [pmap](https://gitlab.com/procps-ng/procps): report memory map of a process
-- [pmset](https://ss64.com/osx/pmset.html): Power management settings. (macOS)
-- [pnpm](https://github.com/pnpm/pnpm): Fast, disk space efficient package manager for Node.js
-- [pocketbase](https://github.com/pocketbase/pocketbase): Open Source realtime backend in 1 file
-- [pod](https://github.com/CocoaPods/CocoaPods): The Cocoa Dependency Manager.
-- [podman](https://github.com/containers/podman): A tool for managing OCI containers and pods.
-- [poetry](https://github.com/python-poetry/poetry): Python packaging and dependency management made easy
-- [poff](https://ppp.samba.org/index.html): starts up, shuts down or lists the log of PPP connections
-- [pon](https://ppp.samba.org/index.html): starts up, shuts down or lists the log of PPP connections
-- [port](https://github.com/macports/macports-ports): Install and upgrade open source software on macOS. (macOS)
-- [poweroff](https://github.com/systemd/systemd): Halt, power-off or reboot the machine
-- [powertop](https://github.com/fenrus75/powertop): a power consumption and power management diagnosis tool.
-- [pr](http://gnu.org/software/coreutils): convert text files for printing
-- [pre-commit](https://github.com/pre-commit/pre-commit): A framework for managing and maintaining multi-language pre-commit hooks.
-- [prettier](https://github.com/prettier/prettier): an opinionated code formatter.
-- [printenv](http://gnu.org/software/coreutils): print all or part of environment
-- [procs](https://github.com/dalance/procs): A modern replacement for ps written in Rust
-- [pry](https://github.com/pry/pry): Interactive Ruby
-- [ps](https://gitlab.com/procps-ng/procps): report a snapshot of the current processes.
-- [psql](https://github.com/postgres/postgres): PostgreSQL interactive terminal
-- [pstree](https://gitlab.com/psmisc/psmisc): display a tree of processes
-- [ptx](http://gnu.org/software/coreutils): produce a permuted index of file contents
-- [pueue](https://github.com/Nukesor/pueue): a command-line task management tool for sequential and parallel execution of long-running tasks.
-- [pulumi](https://github.com/pulumi/pulumi): Modern Infrastructure as Code
-- [pv](https://codeberg.org/a-j-wood/pv): monitor the progress of data through a pipe
-- [pwd](http://gnu.org/software/coreutils): print name of current/working directory
-- [pyenv](https://github.com/pyenv/pyenv): Simple Python version management
-- [pyright](https://github.com/microsoft/pyright): Static type checker for Python
-- [pytest](https://github.com/pytest-dev/pytest): testing framework for Python
-- [python](https://github.com/python/cpython): an interpreted, interactive, object-oriented programming language
-- [python3](https://github.com/python/cpython): an interpreted, interactive, object-oriented programming language
-- [qrencode](https://github.com/fukuchi/libqrencode): Encode input data in a QR Code and save as a PNG or EPS image.
-- [quilt](https://savannah.nongnu.org/projects/quilt): tool to manage series of patches
-- [rake](https://github.com/ruby/rake): A make-like build utility for Ruby
-- [ranger](https://github.com/ranger/ranger): A VIM-inspired filemanager for the console
-- [rar](https://www.rarlabs.com): archive files with compression
-- [rbenv](https://github.com/rbenv/rbenv): Manage your app's Ruby environment
-- [rclone](https://github.com/rclone/rclone): rsync for cloud storage
-- [readelf](https://www.gnu.org/software/binutils): display information about ELF files
-- [readlink](http://gnu.org/software/coreutils): print resolved symbolic links or canonical file names
-- [realpath](http://gnu.org/software/coreutils): print the resolved path
-- [reboot](https://github.com/systemd/systemd): Halt, power-off or reboot the machine
-- [recode](https://github.com/rrthomas/recode): converts files between character sets
-- [redis-cli](https://github.com/redis/redis): Command-line client to redis-server
-- [renice](https://github.com/util-linux/util-linux): alter priority of running processes
-- [resolvectl](https://github.com/systemd/systemd): Resolve domain names, IPV4 and IPv6 addresses, DNS resource records, and services
-- [restic](https://github.com/restic/restic): Backup and restore files
-- [resume](https://github.com/jsonresume/resume-cli): CLI tool to easily setup a new resume
-- [rfkill](https://github.com/util-linux/util-linux): tool for enabling and disabling wireless devices
-- [rg](https://github.com/BurntSushi/ripgrep): recursively search the current directory for lines matching a pattern
-- [rgrep](https://www.gnu.org/software/grep): print lines that match patterns
-- [rhash](http://rhash.sourceforge.net): calculate/check CRC32, MD5, SHA1, GOST, TTH, BTIH or other message digests.
-- [rich](https://github.com/Textualize/rich): Rich text and formatting in the terminal 
-- [rifle](https://github.com/ranger/ranger): ranger's file opener
-- [rm](http://gnu.org/software/coreutils): remove files or directories
-- [rmdir](http://gnu.org/software/coreutils): remove empty directories
-- [rmmod](https://github.com/kmod-project/kmod): Simple program to remove a module from the Linux Kernel
-- [robot](https://github.com/robotframework/robotframework): Generic automation framework for acceptance testing and RPA
-- [rollup](https://github.com/rollup/rollup): Next-generation ES module bundler
-- [route](https://github.com/ecki/net-tools): show / manipulate the IP routing table
-- [Rscript](https://github.com/r-lib/rlang): front end for scripting with R
-- [rsync](https://rsync.samba.org): a fast, versatile, remote (and local) file-copying tool
-- [ruby](https://github.com/ruby/ruby): Interpreted object-oriented scripting language
-- [ruff](https://github.com/astral-sh/ruff): An extremely fast Python linter, written in Rust.
-- [rustc](https://github.com/rust-lang/rust): Rust compiler
-- [rustfmt](https://github.com/rust-lang/rustfmt): Format Rust code
-- [rustup](https://github.com/rust-lang/rustup): The Rust toolchain installer
-- [rye](https://github.com/mitsuhiko/rye): An Experimental Package Management Solution for Python
-- [s3cmd](https://github.com/s3tools/s3cmd): Command-line tool for the Amazon S3 service
-- [sad](https://github.com/ms-jpq/sad): Space Age seD.
-- [sbt](https://github.com/sbt/sbt): An interactive build tool for Scala, Java, and more.
-- [scc](https://github.com/boyter/scc): Sloc, Cloc and Code. Count lines of code in a directory with complexity estimation.
-- [scons](https://github.com/SCons/scons): a software construction tool
-- [scoop](https://github.com/ScoopInstaller/Scoop): A command-line installer for Windows. (windows)
-- [scp](https://github.com/openssh/openssh-portable): OpenSSH secure file copy
-- [screen](https://savannah.gnu.org/projects/screen): screen manager with VT100/ANSI terminal emulation
-- [scrot](https://github.com/resurrecting-open-source-projects/scrot): command line screen capture utility
-- [scrypt](https://github.com/Tarsnap/scrypt): encrypt and decrypt files.
-- [sd](https://github.com/chmln/sd): Intuitive find & replace CLI (sed alternative)
-- [sdk](https://github.com/sdkman/sdkman-cli): a tool for managing parallel Versions of multiple Software Development Kits on any Unix based system.
-- [sed](https://www.gnu.org/software/sed): stream editor for filtering and transforming text
-- [seq](http://gnu.org/software/coreutils): print a sequence of numbers
-- [serve](https://github.com/vercel/serve): Static file serving and directory listing
-- [service](https://manned.org/service): run a System V init script
-- [setfacl](https://savannah.nongnu.org/projects/acl): set file access control lists
-- [setfattr](https://savannah.nongnu.org/projects/attr): set extended attributes of filesystem objects
-- [setpriv](https://github.com/util-linux/util-linux): run a program with different Linux privilege settings 
-- [setsid](https://github.com/util-linux/util-linux): run a program in a new session
-- [sftp](https://github.com/openssh/openssh-portable): OpenSSH secure file transfer
-- [sftpgo](https://github.com/drakkan/sftpgo): Fully featured SFTP server with optional HTTP/S, FTP/S and WebDAV support.
-- [sg](https://github.com/ast-grep/ast-grep): a CLI tool for code structural search, lint, and rewriting.
-- [sh](http://gondor.apana.org.au/~herbert/dash): command language interpreter
-- [sha1sum](http://gnu.org/software/coreutils): compute and check SHA1 message digest
-- [sha256sum](http://gnu.org/software/coreutils): compute and check SHA256 message digest
-- [sha512sum](http://gnu.org/software/coreutils): compute and check SHA512 message digest
-- [shar](https://www.gnu.org/software/sharutils): create a shell archive
-- [shasum](https://github.com/Perl/perl5): Print or Check SHA Checksums
-- [shellcheck](https://github.com/koalaman/shellcheck): a static analysis tool for shell scripts
-- [shfmt](https://github.com/mvdan/sh): shell formatter, parser, and interpreter
-- [shortcuts](https://ss64.com/osx/shortcuts.html): Manage macOS shortcuts. (macOS)
-- [shred](http://gnu.org/software/coreutils): overwrite a file to hide its contents, and optionally delete it
-- [shuf](http://gnu.org/software/coreutils): generate random permutations
-- [shutdown](https://github.com/systemd/systemd): Halt, power-off or reboot the machine
-- [simctl](#): Command line utility to control the Simulator. (macOS)
-- [slabtop](https://gitlab.com/procps-ng/procps): display kernel slab cache information in real time
-- [slides](https://github.com/maaslalani/slides): Terminal based presentation tool
-- [slrn](https://slrn.info): An easy to use NNTP / spool based newsreader.
-- [smartctl](https://github.com/smartmontools/smartmontools): Control and Monitor Utility for SMART Disks
-- [smbclient](http://www.samba.org): ftp-like client to access SMB/CIFS resources on servers
-- [snap](https://snapcraft.io): The app store for Linux
-- [softwareupdate](https://ss64.com/osx/softwareupdate.html): Check for new and updated versions of your software based on information about your computer and current software. (macOS)
-- [sops](https://github.com/getsops/sops): Simple and flexible tool for managing secrets
-- [sort](http://gnu.org/software/coreutils): sort lines of text files
-- [source-highlight](https://www.gnu.org/software/src-highlite): convert source code to syntax highlighted document
-- [speedtest](https://github.com/sivel/speedtest-cli): Command line interface for testing internet bandwidth using speedtest.net.
-- [speedtest-cli](https://github.com/sivel/speedtest-cli): Command line interface for testing internet bandwidth using speedtest.net.
-- [split](http://gnu.org/software/coreutils): split a file into pieces
-- [sqlfluff](https://github.com/sqlfluff/sqlfluff): The SQL Linter for Humans
-- [sqlite3](https://www.sqlite.org): A command line interface for SQLite version 3
-- [ss](https://github.com/iproute2/iproute2): another utility to investigate sockets
-- [ssh](https://github.com/openssh/openssh-portable): OpenSSH remote login client
-- [ssh-agent](https://github.com/openssh/openssh-portable): OpenSSH authentication agent
-- [ssh-copy-id](https://github.com/openssh/openssh-portable): use locally available keys to authorise logins on a remote machine
-- [ssh-keygen](https://github.com/openssh/openssh-portable): OpenSSH authentication key utility
-- [sshfs](https://github.com/libfuse/sshfs): A network filesystem client to connect to SSH servers
-- [stack](https://github.com/commercialhaskell/stack): The Haskell Tool Stack
-- [starship](https://github.com/starship/starship): The minimal, blazing-fast, and infinitely customizable prompt for any shell!
-- [stat](http://gnu.org/software/coreutils): display file or file system status
-- [stdbuf](http://gnu.org/software/coreutils): Run COMMAND, with modified buffering operations for its standard streams.
-- [stow](https://www.gnu.org/software/stow): manage farms of symbolic links
-- [strace](https://github.com/strace/strace): a diagnostic, debugging and instructional userspace utility for Linux
-- [strings](https://www.gnu.org/software/binutils): print the sequences of printable characters in files
-- [strip](https://www.gnu.org/software/binutils): discard symbols and other data from object files
-- [stripe](https://github.com/stripe/stripe-cli): A command-line tool for Stripe
-- [stty](http://gnu.org/software/coreutils): change and print terminal line settings
-- [su](https://github.com/util-linux/util-linux): run a command with substitute user and group ID
-- [subl](https://www.sublimetext.com): Sublime Text Command Line Interface
-- [sudo](https://github.com/sudo-project/sudo): execute a command as another user
-- [sudoedit](https://github.com/sudo-project/sudo): edit files as another user
-- [sulogin](https://github.com/util-linux/util-linux): single-user login
-- [sum](http://gnu.org/software/coreutils): checksum and count the blocks in a file
-- [supabase](https://github.com/supabase/supabase): The open source Firebase alternative.
-- [supervisorctl](https://github.com/Supervisor/supervisor): control applications run by supervisord from the cmd line
-- [surreal](https://github.com/surrealdb/surrealdb): SurrealDB command-line interface and server 
-- [sv](https://github.com/void-linux/runit): control and manage services monitored by runsv
-- [svn](https://subversion.apache.org): Subversion command line client tool
-- [svtplay-dl](https://github.com/spaam/svtplay-dl): Download videos from your favourite play services.
-- [swaks](https://github.com/jetmore/swaks): Swiss Army Knife SMTP, the all-purpose SMTP transaction tester
-- [sw_vers](https://ss64.com/osx/sw_vers.html): Print macOS operating system version. (macOS)
-- [swc](https://github.com/swc-project/swc): a super-fast TypeScript / JavaScript compiler written in Rust
-- [swift](https://github.com/apple/swift): Swift compiler
-- [syft](https://github.com/anchore/syft): CLI tool and library for generating a Software Bill of Materials from container images and filesystems.
-- [sync](http://gnu.org/software/coreutils): Synchronize cached writes to persistent storage
-- [sysctl](https://gitlab.com/procps-ng/procps): configure kernel parameters at runtime
-- [system_profiler](https://ss64.com/osx/system_profiler.html): Report system hardware and software configuration. (macOS)
-- [systemctl](https://github.com/systemd/systemd): Control the systemd system and service manager
-- [systemd-analyze](https://github.com/systemd/systemd): Analyze and debug system manager
-- [systemd-nspawn](https://github.com/systemd/systemd): Spawn a command or OS in a light-weight container
-- [tac](http://gnu.org/software/coreutils): concatenate and print files in reverse
-- [tail](http://gnu.org/software/coreutils): output the last part of files 
-- [tar](https://www.gnu.org/software/tar): an archiving utility
-- [task](https://github.com/go-task/task): A task runner / simpler Make alternative written in Go
-- [tcpdump](https://github.com/the-tcpdump-group/tcpdump): dump traffic on a network
-- [tcsh](https://github.com/tcsh-org/tcsh): C shell with file name completion and command line editing
-- [tee](http://gnu.org/software/coreutils): read from standard input and write to standard output and files
-- [telnet](https://www.gnu.org/software/inetutils): user interface to the TELNET protocol
-- [terraform](https://github.com/hashicorp/terraform): Automate infrastructure on any cloud
-- [terragrunt](https://github.com/gruntwork-io/terragrunt): a thin wrapper for Terraform that provides extra tools for working with multiple Terraform modules.
-- [terramate](https://github.com/terramate-io/terramate): adds powerful capabilities such as code generation, stacks, orchestration, change detection, data sharing and more to Terraform.
-- [tesseract](https://github.com/tesseract-ocr/tesseract): Tesseract Open Source OCR Engine
-- [tex](https://www.tug.org/texlive): text formatting and typesetting
-- [tfenv](https://github.com/tfutils/tfenv): Terraform version manager
-- [tfsec](https://github.com/aquasecurity/tfsec): Security scanner for your Terraform code
-- [tidy](https://github.com/htacg/tidy-html5): check, correct, and pretty-print HTML files
-- [tig](https://github.com/jonas/tig): text-mode interface for Git
-- [timedatectl](https://github.com/systemd/systemd): Control the system time and date
-- [timeout](http://gnu.org/software/coreutils): run a command with a time limit
-- [time](https://www.gnu.org/software/time): run programs and summarize system resource usage
-- [tin](http://www.tin.org): Usenet newsreader
-- [tinygo](https://github.com/tinygo-org/tinygo): a Go compiler for small places.
-- [tkn](https://github.com/tektoncd/cli): CLI for tekton pipelines
-- [tldr](https://github.com/tldr-pages/tldr): Collaborative cheatsheets for console commands
-- [tload](https://gitlab.com/procps-ng/procps): graphic representation of system load average
-- [tmate](https://github.com/tmate-io/tmate): terminal multiplexer with instant terminal sharing
-- [tmutil](https://ss64.com/osx/tmutil.html): Time Machine utility. (macOS)
-- [tmux](https://github.com/tmux/tmux): terminal multiplexer
-- [tmuxinator](https://github.com/tmuxinator/tmuxinator): Manage complex tmux sessions easily
-- [tokei](https://github.com/XAMPPRocky/tokei): Count your code, quickly.
-- [top](https://gitlab.com/procps-ng/procps): display Linux processes
-- [torsocks](https://gitlab.torproject.org/tpo/core/torsocks): Shell wrapper to simplify the use of the torsocks(8) library to transparently torify an application.
-- [touch](http://gnu.org/software/coreutils): change file timestamps
-- [tput](https://invisible-island.net/ncurses): initialize a terminal or query terminfo database
-- [tr](http://gnu.org/software/coreutils): translate or delete characters
-- [tracepath](https://github.com/iputils/iputils) - traces path to a network host discovering MTU along this path
-- [traceroute](https://traceroute.sourceforge.net): print the route packets trace to network host
-- [trap](https://manned.org/trap.1posix): Trap signals and other events.
-- [trash-empty](https://github.com/andreafrancia/trash-cli): Empty for Command line trash utility.
-- [trash-list](https://github.com/andreafrancia/trash-cli): List trashed files.
-- [trash-put](https://github.com/andreafrancia/trash-cli): Command line trash utility.
-- [trash-restore](https://github.com/andreafrancia/trash-cli): Restore for Command line trash utility.
-- [tree](https://gitlab.com/OldManProgrammer/unix-tree): list contents of directories in a tree-like format.
-- [trivy](https://github.com/aquasecurity/trivy): Scanner for vulnerabilities in container images, file systems, and Git repositories, as well as for configuration issues and hard-coded secrets
-- [truncate](http://gnu.org/software/coreutils): shrink or extend the size of a file to the specified size
-- [trunk](https://github.com/thedodd/trunk): Build, bundle & ship your Rust WASM application to the web.
-- [ts-node](https://github.com/TypeStrong/ts-node): TypeScript execution and REPL for node.js
-- [tsc](https://github.com/Microsoft/TypeScript): The TypeScript Compiler
-- [tshark](https://gitlab.com/wireshark/wireshark): Dump and analyze network traffic
-- [tspin](https://github.com/bensadeh/tailspin):  A log file highlighter
-- [tsx](https://github.com/esbuild-kit/tsx): Node.js enhanced to run TypeScript & ESM files
-- [tty](http://gnu.org/software/coreutils): print the file name of the terminal connected to standard input
-- [ttyd](https://github.com/tsl0922/ttyd): a tool for sharing terminal over the web
-- [tuist](https://github.com/tuist/tuist): Create, maintain, and interact with Xcode projects at scale. (macOS)
-- [tune2fs](https://e2fsprogs.sourceforge.net): adjust tunable file system parameters on ext2/ext3/ext4 file systems
-- [turbo](https://github.com/vercel/turbo): The build system that makes ship happen
-- [twiggy](https://github.com/rustwasm/twiggy): a code size profiler.
-- [typos](https://github.com/crate-ci/typos): Source Code Spelling Correction
-- [typst](https://github.com/typst/typst): A new markup-based typesetting system that is powerful and easy to learn.
-- [uconv](https://github.com/unicode-org/icu): convert data from one encoding to another
-- [udevadm](https://github.com/systemd/systemd): udev management tool
-- [ug](https://github.com/Genivia/ugrep): Ultra fast grep with query UI, fuzzy search, archive search, and more 
-- [ugrep](https://github.com/Genivia/ugrep): Ultra fast grep with query UI, fuzzy search, archive search, and more
-- [ulimit](https://manned.org/ulimit.1posix): get and set user limits
-- [umount](https://github.com/util-linux/util-linux): unmount filesystems
-- [uname](http://gnu.org/software/coreutils): print system information
-- [unexpand](http://gnu.org/software/coreutils): convert spaces to tabs
-- [uniq](http://gnu.org/software/coreutils): report or omit repeated lines
-- [unison](https://github.com/bcpierce00/unison): a multi-platform bi-directional file synchronization tool
-- [unix2dos](https://dos2unix.sourceforge.io): DOS/Mac to Unix and vice versa text file format converter
-- [unlink](http://gnu.org/software/coreutils): call the unlink function to remove the specified file
-- [unlzma](https://github.com/tukaani-project/xz): Compress or decompress .xz and .lzma files
-- [unshare](https://github.com/util-linux/util-linux): run program in new namespaces
-- [unxz](https://github.com/tukaani-project/xz): Compress or decompress .xz and .lzma files
-- [unzip](https://infozip.sourceforge.net/UnZip.html): list, test and extract compressed files in a ZIP archive
-- [update-alternatives](https://salsa.debian.org/dpkg-team/dpkg): maintain symbolic links determining default commands
-- [upower](https://gitlab.freedesktop.org/upower/upower): abstraction for power management
-- [uptime](https://gitlab.com/procps-ng/procps): Tell how long the system has been running.
-- [upx](https://github.com/upx/upx): Ultimate Packer for eXecutables
-- [useradd](https://github.com/shadow-maint/shadow): create a new user or update default new user information
-- [userdel](https://github.com/shadow-maint/shadow): delete a user account and related files
-- [usermod](https://github.com/shadow-maint/shadow): modify a user account
-- [usql](https://github.com/xo/usql): Universal command-line interface for SQL databases
-- [uuidgen](https://github.com/util-linux/util-linux): create a new UUID value
-- [vagrant](https://github.com/hashicorp/vagrant): building and distributing development environments.
-- [vale](https://github.com/errata-ai/vale): A markup-aware linter for prose built with speed and extensibility in mind.
-- [valgrind](http://www.valgrind.org): a suite of tools for debugging and profiling programs
-- [vault](https://github.com/hashicorp/vault): Manage secrets and protect sensitive data
-- [vcpkg](https://github.com/microsoft/vcpkg): C++ Library Manager for Windows, Linux, and MacOS
-- [vdir](http://gnu.org/software/coreutils): list directory contents
-- [vegeta](https://github.com/tsenart/vegeta): a versatile HTTP load testing tool built out of a need to drill HTTP services with a constant request rate.
-- [vela](https://github.com/kubevela/kubevela): A Highly Extensible Platform Engine based on Kubernetes and Open Application Model.
-- [vercel](https://github.com/vercel/vercel): CLI for vercel frontend cloud.
-- [vhs](https://github.com/charmbracelet/vhs): Your CLI home video recorder.
-- [vi](https://github.com/vim/vim): compact version of vim
-- [vim](https://github.com/vim/vim): Vi IMproved, a programmer's text editor
-- [vimdiff](https://github.com/vim/vim): Similar to UNIX diff command we can use Vim to show diff in much better manner. 
-- [virsh](https://github.com/libvirt/libvirt): the main interface for managing virsh guest domains
-- [visudo](https://github.com/sudo-project/sudo): edit the sudoers file
-- [vite](https://github.com/vitejs/vite): Next generation frontend tooling.
-- [viu](https://github.com/atanunq/viu): View images right from the terminal.
-- [vivid](https://github.com/sharkdp/vivid): LS_COLORS manager with multiple themes
-- [vlc](https://github.com/videolan/vlc): the VLC media player
-- [vmstat](https://gitlab.com/procps-ng/procps): Report virtual memory statistics
-- [volta](https://github.com/volta-cli/volta): JS Toolchains as Code. 
-- [vpnc](https://github.com/streambinder/vpnc): client for Cisco VPN3000 Concentrator, IOS and PIX
-- [vultr-cli](https://github.com/vultr/vultr-cli): Official command line tool for Vultr services
-- [w](https://gitlab.com/procps-ng/procps): Show who is logged on and what they are doing.
-- [w3m](https://github.com/tats/w3m): WWW browsable pager
-- [wasm-bindgen](https://github.com/rustwasm/wasm-bindgen): Generating JS bindings for a wasm file
-- [wasm-pack](https://github.com/rustwasm/wasm-pack): your favorite rust -> wasm workflow tool!
-- [wasm-tools](https://github.com/bytecodealliance/wasm-tools): Low level tooling for WebAssembly in Rust.
-- [wasmer](https://github.com/wasmerio/wasmer): The leading WebAssembly Runtime supporting WASIX, WASI and Emscripten
-- [watch](https://gitlab.com/procps-ng/procps): execute a program periodically, showing output fullscreen
-- [watchexec](https://github.com/watchexec/watchexec): Executes commands in response to file modifications
-- [watchgnupg](https://www.gnupg.org): Read and print logs from a socket
-- [watchman](https://github.com/facebook/watchman): Watches files and records, or triggers actions, when they change.
-- [watson](https://github.com/TailorDev/Watson): A wonderful CLI to track your time!
-- [waypoint](https://github.com/hashicorp/waypoint): Easy application deployment for Nomad, Kubernetes, and Amazon ECS
-- [wc](http://gnu.org/software/coreutils): print newline, word, and byte counts for each file
-- [wdiff](http://www.gnu.org/software/wdiff): display word differences between text files
-- [webpack](https://github.com/webpack/webpack): A bundler for javascript and friends.
-- [wezterm](https://github.com/wez/wezterm): A GPU-accelerated cross-platform terminal emulator and multiplexer 
-- [wget](https://www.gnu.org/software/wget): The non-interactive network downloader.
-- [whatis](https://gitlab.com/man-db/man-db): display one-line manual page descriptions
-- [whereis](https://github.com/util-linux/util-linux): locate the binary, source, and manual page files for a command
-- [which](https://savannah.gnu.org/projects/which): locate a command
-- [who](http://gnu.org/software/coreutils): show who is logged on
-- [whois](https://github.com/rfc1036/whois): client for the whois directory service
-- [wine](https://gitlab.winehq.org/wine/wine): run Windows programs on Unix
-- [wineboot](https://gitlab.winehq.org/wine/wine): perform Wine initialization, startup, and shutdown tasks
-- [winepath](https://gitlab.winehq.org/wine/wine): Tool to convert Unix paths to/from Win32 paths
-- [winetricks](https://github.com/Winetricks/winetricks): manage virtual Windows environments using Wine
-- [winget](https://github.com/microsoft/winget-cli): Windows Package Manager. (windows)
-- [wipefs](https://github.com/util-linux/util-linux): wipe a signature from a device
-- [wireshark](https://gitlab.com/wireshark/wireshark): Interactively dump and analyze network traffic
-- [wodim](https://sourceforge.net/projects/wodim): write data to optical disk media
-- [wpa_cli](https://w1.fi/wpa_supplicant): WPA command line client
-- [wp](https://github.com/wp-cli/wp-cli): The command-line interface for WordPress.
-- [wrangler](https://github.com/cloudflare/workers-sdk): command line tool for building Cloudflare Workers.
-- [wrk](https://github.com/wg/wrk): Modern HTTP benchmarking tool
-- [wscat](https://github.com/websockets/wscat): WebSocket cat
-- [wsl](https://github.com/microsoft/WSL): CLI for Windows Subsytem for Linux. (windows)
-- [xargs](https://savannah.gnu.org/projects/findutils): build and execute command lines from standard input
-- [xattr](https://github.com/xattr/xattr): sets or lists extended attributes on a file or directory
-- [xc](https://github.com/joerdav/xc): Markdown defined task runner.
-- [xclip](https://github.com/astrand/xclip): command line interface to X selections (clipboard)
-- [xcode-select](https://ss64.com/osx/xcode-select.html): Manage the active developer directory for Xcode and BSD tools. (macOS)
-- [xcodebuild](https://keith.github.io/xcode-man-pages/xcodebuild.1.html): build Xcode projects and workspaces. (macOS)
-- [xcodeproj](https://github.com/CocoaPods/Xcodeproj): Create and modify Xcode projects from Ruby. (macOS)
-- [xcodes](https://github.com/XcodesOrg/xcodes): The best command-line tool to install and switch between multiple versions of Xcode. (macOS)
-- [xcrun](https://keith.github.io/xcode-man-pages/xcrun.1.html): Run or locate development tools and properties. (macOS)
-- [xdg-mime](https://gitlab.freedesktop.org/xdg/xdg-utils): command line tool for querying information about file type handling and adding descriptions for new file types
-- [xdg-open](https://gitlab.freedesktop.org/xdg/xdg-utils): opens a file or URL in the user's preferred application
-- [xh](https://github.com/ducaale/xh): Friendly and fast tool for sending HTTP requests.
-- [xinput](https://gitlab.freedesktop.org/xorg/app/xinput): utility to configure and test X input devices
-- [xmake](https://github.com/xmake-io/xmake): A cross-platform build utility based on Lua
-- [xmlstarlet](https://xmlstar.sourceforge.net): command line XML/XSLT toolkit
-- [xonsh](https://github.com/xonsh/xonsh): Python-powered, cross-platform, Unix-gazing shell.
-- [xrandr](https://gitlab.freedesktop.org/xorg/app/xrandr): primitive command line interface to RandR extension
-- [xsel](https://github.com/kfish/xsel): manipulate the X selection. 
-- [xsv](https://github.com/BurntSushi/xsv): A fast CSV command line toolkit written in Rust.
-- [xxd](https://github.com/vim/vim): make a hexdump or do the reverse.
-- [xxhsum](https://github.com/Cyan4973/xxHash) - print or check xxHash non-cryptographic checksums
-- [xxh32sum](https://github.com/Cyan4973/xxHash) - print or check xxHash non-cryptographic checksums
-- [xxh64sum](https://github.com/Cyan4973/xxHash) - print or check xxHash non-cryptographic checksums
-- [xxh128sum](https://github.com/Cyan4973/xxHash) - print or check xxHash non-cryptographic checksums
-- [xz](https://github.com/tukaani-project/xz): Compress or decompress .xz and .lzma files
-- [xzcat](https://github.com/tukaani-project/xz): Compress or decompress .xz and .lzma files
-- [yadm](https://github.com/TheLocehiliosan/yadm): Yet Another Dotfiles Manager
-- [yarn](https://github.com/yarnpkg/yarn): Fast, reliable, and secure dependency management.
-- [yj](https://github.com/sclevine/yj): Convert between YAML, TOML, JSON, and HCL. 
-- [ykman](https://github.com/Yubico/yubikey-manager): configuring any YubiKey over all USB interfaces.
-- [yomo](https://github.com/yomorun/yomo): Stateful Serverless Framework for Software Edge Infra
-- [you-get](https://github.com/soimort/you-get): Dumb downloader that scrapes the web
-- [youtube-dl](https://github.com/ytdl-org/youtube-dl): Command-line program to download videos from YouTube.com and other video sites
-- [yq](https://github.com/mikefarah/yq): a portable command-line YAML, JSON, XML, CSV, TOML and properties processor
-- [yt-dlp](https://github.com/yt-dlp/yt-dlp): A youtube-dl fork with additional features and fixes
-- [yum](https://github.com/rpm-software-management/yum): Package manager for Red Hat Enterprise Linux.
-- [z](https://github.com/rupa/z): jump around
-- [zathura](https://github.com/pwmt/zathura): a document viewer
-- [zcat](https://www.nongnu.org/zutils/zutils.html): decompress and concatenate files to standard output
-- [zellij](https://github.com/zellij-org/zellij): A terminal workspace with batteries included
-- [zfs](https://github.com/zfs-fuse/zfs-fuse): configures ZFS file systems
-- [zig](https://github.com/ziglang/zig): Programming language designed for robustness, optimality, and clarity
-- [zip](https://infozip.sourceforge.net/Zip.html): package and compress (archive) files
-- [zipcloak](https://infozip.sourceforge.net): encrypt entries in a zipfile
-- [zoxide](https://github.com/ajeetdsouza/zoxide): A smarter cd command.
-- [zpool](https://github.com/zfs-fuse/zfs-fuse): configures ZFS storage pools
-- [zypper](https://github.com/openSUSE/zypper): package manager for openSUSE linux
+- [7z](completions/7z.sh): A file archiver with high compression ratio format [🔗](https://www.7-zip.org)
+- [7za](completions/7za.sh): A file archiver with high compression ratio format [🔗](https://www.7-zip.org)
+- [7zr](completions/7zr.sh): A file archiver with high compression ratio format [🔗](https://www.7-zip.org)
+- [a2ps](completions/a2ps.sh): format files for printing on a PostScript printer [🔗](https://www.gnu.org/software/a2ps)
+- [ab](completions/ab.sh): Apache HTTP server benchmarking tool [🔗](https://github.com/apache/httpd)
+- [abook](completions/abook.sh): text-based address book program [🔗](http://abook.sourceforge.net)
+- [abcde](completions/abcde.sh): A Better CD Encoder [🔗](https://abcde.einval.com)
+- [ack](completions/ack.sh): grep-like text finder [🔗](https://github.com/beyondgrep/ack3)
+- [acpi](completions/acpi.sh): shows battery status and other ACPI information [🔗](http://sourceforge.net/projects/acpiclient)
+- [acpitool](completions/acpitool.sh): a Linux ACPI client, allowing you to query or set ACPI values [🔗](http://sourceforge.net/projects/acpitool)
+- [act](completions/act.sh): Run your GitHub Actions locally [🔗](https://github.com/nektos/act)
+- [adb](completions/adb.sh): Android Debug Bridge [🔗](https://developer.android.com/tools/adb)
+- [adduser](completions/adduser.sh): add a user or group to the system [🔗](https://salsa.debian.org/debian/adduser)
+- [afplay](completions/afplay.sh): Audio File Play. (macOS) [🔗](https://ss64.com/osx/afplay.html)
+- [ag](completions/ag.sh): The Silver Searcher. Like ack, but faster. [🔗](https://github.com/ggreer/the_silver_searcher)
+- [age](completions/age.sh): A simple, modern, and secure file encryption [🔗](https://github.com/FiloSottile/age)
+- [age-keygen](completions/age-keygen.sh): generate age key pairs [🔗](https://github.com/FiloSottile/age)
+- [aichat](completions/aichat.sh): A powerful chatgpt cli. [🔗](https://github.com/sigoden/aichat)
+- [airflow](completions/airflow.sh): A platform to programmatically author, schedule, and monitor workflows  [🔗](https://github.com/apache/airflow)
+- [alsactl](completions/alsactl.sh): advanced controls for ALSA soundcard driver [🔗](https://github.com/alsa-project/alsa-utils)
+- [alsamixer](completions/alsamixer.sh): soundcard mixer for ALSA soundcard driver, with ncurses interface [🔗](https://github.com/alsa-project/alsa-utils)
+- [amixer](completions/amixer.sh): command-line mixer for ALSA soundcard driver [🔗](https://github.com/alsa-project/alsa-utils)
+- [amplify](completions/amplify.sh): a unified toolchain to create AWS cloud services for your app. [🔗](https://github.com/aws-amplify/amplify-cli)
+- [ansible](completions/ansible.sh): Define and run a single task 'playbook' against a set of hosts [🔗](https://github.com/ansible/ansible)
+- [ansible-config](completions/ansible-config.sh): View ansible configuration.: [🔗](https://github.com/ansible/ansible)
+- [ansible-console](completions/ansible-console.sh): REPL console for executing Ansible tasks. [🔗](https://github.com/ansible/ansible)
+- [ansible-doc](completions/ansible-doc.sh): plugin documentation tool [🔗](https://github.com/ansible/ansible)
+- [ansible-galaxy](completions/ansible-galaxy.sh): Perform various Role and Collection related operations. [🔗](https://github.com/ansible/ansible)
+- [ansible-lint](completions/ansible-lint.sh): checks playbooks for practices and behavior that could potentially be improved. [🔗](https://github.com/ansible/ansible-lint)
+- [ansible-playbook](completions/ansible-playbook.sh): Runs Ansible playbooks, executing the defined tasks on the targeted hosts. [🔗](https://github.com/ansible/ansible)
+- [ansible-vault](completions/ansible-vault.sh): encryption/decryption utility for Ansible data files [🔗](https://github.com/ansible/ansible)
+- [ant](completions/ant.sh): a Java based make tool. [🔗](https://github.com/apache/ant)
+- [apachectl](completions/apachectl.sh): Apache HTTP server control interface [🔗](https://github.com/apache/httpd)
+- [apk](completions/apk.sh): Alpine Package Keeper [🔗](https://gitlab.alpinelinux.org/alpine/apk-tools)
+- [aplay](completions/aplay.sh): command-line sound recorder and player for ALSA soundcard driver [🔗](https://github.com/alsa-project/alsa-utils)
+- [appwrite](completions/appwrite.sh): a backend platform for developing Web, Mobile, and Flutter applications. [🔗](https://github.com/appwrite/appwrite)
+- [apropos](completions/apropos.sh): search the manual page names and descriptions [🔗](https://gitlab.com/man-db/man-db)
+- [apt](completions/apt.sh): Package manager for Debian-based Linux distributions [🔗](https://salsa.debian.org/apt-team/apt)
+- [apt-cache](completions/apt-cache.sh): query the APT cache [🔗](https://salsa.debian.org/apt-team/apt)
+- [apt-get](completions/apt-get.sh): APT package handling utility [🔗](https://salsa.debian.org/apt-team/apt)
+- [aptitude](completions/aptitude.sh): high-level interface to the package manager [🔗](https://salsa.debian.org/apt-team/aptitude)
+- [ar](completions/ar.sh): create, modify, and extract from archives [🔗](https://www.gnu.org/software/binutils)
+- [arecord](completions/arecord.sh): command-line sound recorder and player for ALSA soundcard driver [🔗](https://github.com/alsa-project/alsa-utils)
+- [argo](completions/argo.sh): Workflow engine for Kubernetes [🔗](https://github.com/argoproj/argo-workflows)
+- [aria2c](completions/aria2c.sh): The ultra fast download utility [🔗](https://github.com/aria2/aria2)
+- [arp](completions/arp.sh): manipulate the system ARP cache [🔗](https://github.com/ecki/net-tools)
+- [arping](completions/arping.sh): send ARP REQUEST to a neighbour host [🔗](https://github.com/iputils/iputils)
+- [asciidoctor](completions/asciidoctor.sh): converts AsciiDoc source files to HTML, DocBook, and other formats [🔗](https://github.com/asciidoctor/asciidoctor)
+- [asciinema](completions/asciinema.sh): terminal session recorder [🔗](https://github.com/asciinema/asciinema)
+- [asdf](completions/asdf.sh): Extendable version manager with support for Ruby, Node.js, Elixir, Erlang & more [🔗](https://github.com/asdf-vm/asdf)
+- [asr](completions/asr.sh): Apple Software Restore; copy volumes (macOS) [🔗](https://ss64.com/osx/asr.html)
+- [at](completions/at.sh): queue, examine, or delete jobs for later execution [🔗](https://salsa.debian.org/debian/at)
+- [atlas](completions/atlas.sh): a command line interface built specifically for MongoDB Atlas. [🔗](https://github.com/mongodb/mongodb-atlas-cli)
+- [attr](completions/attr.sh): extended attributes on filesystem objects [🔗](https://savannah.nongnu.org/projects/attr)
+- [augtool](completions/augtool.sh): inspect and modify configuration files [🔗](https://github.com/hercules-team/augeas)
+- [autoconf](completions/autoconf.sh): Generate configuration scripts [🔗](https://www.gnu.org/software/autoconf)
+- [autojump](completions/autojump.sh): Automatically jump to directory passed as an argument. [🔗](https://github.com/wting/autojump)
+- [avahi-browse](completions/avahi-browse.sh): Browse for mDNS/DNS-SD services using the Avahi daemon [🔗](https://github.com/lathiat/avahi)
+- [avahi-resolve](completions/avahi-resolve.sh): Resolve one or more mDNS/DNS host name(s) to IP address(es) (and vice versa) using the Avahi daemon [🔗](https://github.com/lathiat/avahi)
+- [awk](completions/awk.sh): pattern scanning and processing language [🔗](http://www.gnu.org/software/gawk)
+- [aws](completions/aws.sh): The  AWS  Command  Line  Interface is a unified tool to manage your AWS services. [🔗](https://github.com/aws/aws-cli)
+- [awsume](completions/awsume.sh): A utility for easily assuming AWS IAM roles from the command line. [🔗](https://github.com/trek10inc/awsume)
+- [az](completions/az.sh): A set of commands used to create and manage Azure resources. [🔗](https://github.com/Azure/azure-cli)
+- [babel](completions/babel.sh): a compiler for writing next generation JavaScript. [🔗](https://github.com/babel/babel)
+- [bandwhich](completions/bandwhich.sh): Terminal bandwidth utilization tool. [🔗](https://github.com/imsnif/bandwhich)
+- [base64](completions/base64.sh): base64 encode/decode data and print to standard output [🔗](http://gnu.org/software/coreutils)
+- [basename](completions/basename.sh): strip directory and suffix from filenames [🔗](http://gnu.org/software/coreutils)
+- [basenc](completions/basenc.sh): Encode/decode data and print to standard output [🔗](http://gnu.org/software/coreutils)
+- [bash](completions/bash.sh): GNU Bourne-Again SHell [🔗](https://www.gnu.org/software/bash)
+- [bat](completions/bat.sh): A cat(1) clone with wings. [🔗](https://github.com/sharkdp/bat)
+- [bats](completions/bats.sh): Bash Automated Testing System [🔗](https://github.com/bats-core/bats-core)
+- [bazel](completions/bazel.sh): tool to automate software builds and tests [🔗](https://github.com/bazelbuild/bazel)
+- [bc](completions/bc.sh): An arbitrary precision calculator language [🔗](https://www.gnu.org/software/bc)
+- [beep](completions/beep.sh): beep the pc speaker any number of ways [🔗](https://github.com/spkr-beep/beep)
+- [binwalk](completions/binwalk.sh): Firmware Analysis Tool [🔗](https://github.com/ReFirmLabs/binwalk)
+- [bison](completions/bison.sh): GNU Project parser generator (yacc replacement) [🔗](https://www.gnu.org/software/bison)
+- [black](completions/black.sh): The uncompromising Python code formatter [🔗](https://github.com/psf/black)
+- [bootctl](completions/bootctl.sh): Control EFI firmware boot settings and manage boot loader [🔗](https://github.com/systemd/systemd)
+- [bore](completions/bore.sh): a simple CLI tool for making tunnels to localhost [🔗](https://github.com/ekzhang/bore)
+- [bosh](completions/bosh.sh): unifies release engineering, deployment, and lifecycle management of small and large-scale cloud software. [🔗](https://github.com/cloudfoundry/bosh-cli)
+- [boundary](completions/boundary.sh): Simple and secure remote access. [🔗](https://github.com/hashicorp/boundary)
+- [bpython](completions/bpython.sh): A fancy curses interface to the Python interactive interpreter  [🔗](https://github.com/bpython/bpython)
+- [br](completions/br.sh): A new way to see and navigate directory trees [🔗](https://github.com/Canop/broot)
+- [brctl](completions/brctl.sh): ethernet bridge administration [🔗](https://wiki.linuxfoundation.org/networking/bridge)
+- [brew](completions/brew.sh): The missing package manager for macOS. (macOS) [🔗](https://github.com/Homebrew/brew)
+- [brightnessctl](completions/brightnessctl.sh): read and control device brightness [🔗](https://github.com/Hummer12007/brightnessctl)
+- [broot](completions/broot.sh): A new way to see and navigate directory trees [🔗](https://github.com/Canop/broot)
+- [brotli](completions/brotli.sh): lossless compression algorithm and format [🔗](https://github.com/google/brotli)
+- [browser-sync](completions/browser-sync.sh): Keep multiple browsers & devices in sync when building websites. [🔗](https://github.com/BrowserSync/browser-sync)
+- [btm](completions/btm.sh): A customizable cross-platform graphical process/system monitor for the terminal. Supports Linux, macOS, and Windows. [🔗](https://github.com/ClementTsang/bottom)
+- [btop](completions/btop.sh): Modern and colorful command line resource monitor that shows usage and stats [🔗](https://github.com/aristocratos/btop)
+- [buku](completions/buku.sh): Personal mini-web in text [🔗](https://github.com/jarun/buku)
+- [bundle](completions/bundle.sh): Ruby Dependency Management [🔗](https://github.com/rubygems/rubygems)
+- [bun](completions/bun.sh): Incredibly fast JavaScript runtime, bundler, test runner, and package manager – all in one [🔗](https://github.com/oven-sh/bun)
+- [bunzip2](completions/bunzip2.sh): a block-sorting file compressor [🔗](https://gitlab.com/bzip2/bzip2)
+- [bw](completions/bw.sh): Bitwarden Command-line Interface [🔗](https://github.com/bitwarden/clients)
+- [bzcat](completions/bzcat.sh): decompresses files to stdout [🔗](https://gitlab.com/bzip2/bzip2)
+- [bzip2](completions/bzip2.sh): a block-sorting file compressor [🔗](https://gitlab.com/bzip2/bzip2)
+- [cabal](completions/cabal.sh): a system for building and packaging Haskell libraries and programs [🔗](https://github.com/haskell/cabal)
+- [caddy](completions/caddy.sh): an extensible server platform written in Go. [🔗](https://github.com/caddyserver/caddy)
+- [caffeinate](completions/caffeinate.sh): Prevent the system from sleeping on behalf of a utility. (macOS) [🔗](https://ss64.com/osx/caffeinate.html)
+- [cargo](completions/cargo.sh): The Rust package manager [🔗](https://github.com/rust-lang/cargo)
+- [cargo-audit](completions/cargo/audit.sh): Audit your dependencies for crates with security vulnerabilities reported to the RustSec Advisory Database. [🔗](https://github.com/RustSec/rustsec)
+- [cargo-binstall](completions/cargo/binstall.sh): Binary installation for rust projects [🔗](https://github.com/cargo-bins/cargo-binstall)
+- [cargo-bloat](completions/cargo/bloat.sh): Find out what takes most of the space in your executable. [🔗](https://github.com/RazrFalcon/cargo-bloat)
+- [cargo-contract](completions/cargo/contract.sh): Setup and deployment tool for developing Wasm based smart contracts via ink! [🔗](https://github.com/paritytech/cargo-contract)
+- [cargo-crev](completions/cargo/crev.sh): A cryptographically verifiable code review system for the cargo (Rust) package manager. [🔗](https://github.com/crev-dev/cargo-crev)
+- [cargo-fuzz](completions/cargo/fuzz.sh): Command line helpers for fuzzing [🔗](https://github.com/rust-fuzz/cargo-fuzz)
+- [cargo-geiger](completions/cargo/geiger.sh): Detects usage of unsafe Rust in a Rust crate and its dependencies. [🔗](https://github.com/rust-secure-code/cargo-geiger)
+- [cargo-insta](completions/cargo/insta.sh): A snapshot testing library for rust [🔗](https://github.com/mitsuhiko/insta)
+- [cargo-leptos](completions/cargo/leptos.sh): Build tool for Leptos [🔗](https://github.com/leptos-rs/cargo-leptos)
+- [cargo-license](completions/cargo/license.sh): Cargo subcommand to see license of dependencies [🔗](https://github.com/onur/cargo-license)
+- [cargo-llvm-cov](completions/cargo/llvm-cov.sh): Cargo subcommand to easily use LLVM source-based code coverage. [🔗](https://github.com/taiki-e/cargo-llvm-cov)
+- [cargo-make](completions/cargo/make.sh): Rust task runner and build tool. [🔗](https://github.com/sagiegurari/cargo-make)
+- [cargo-ndk](completions/cargo/ndk.sh): Compile Rust projects against the Android NDK without hassle [🔗](https://github.com/bbqsrc/cargo-ndk)
+- [cargo-nextest](completions/cargo/nextest.sh): A new, faster test runner for Rust. [🔗](https://github.com/nextest-rs/nextest)
+- [cargo-outdated](completions/cargo/outdated.sh): displaying when dependencies have newer versions available. [🔗](https://github.com/kbknapp/cargo-outdated)
+- [cargo-semver-checks](completions/cargo/semver-checks.sh): Scan your Rust crate for semver violations. [🔗](https://github.com/obi1kenobi/cargo-semver-checks)
+- [cargo-sort](completions/cargo/sort.sh): Check if tables and items in a .toml file are lexically sorted [🔗](https://github.com/DevinR528/cargo-sort)
+- [cargo-sqlx](completions/cargo/sqlx.sh): Command-line utility for SQLx, the Rust SQL toolkit.  [🔗](https://github.com/launchbadge/sqlx)
+- [cargo-tarpaulin](completions/cargo/tarpaulin.sh): A code coverage tool for Rust projects [🔗](https://github.com/xd009642/tarpaulin)
+- [cargo-tauri](completions/cargo/tauri.sh): Build smaller, faster, and more secure desktop applications with a web frontend. [🔗](https://github.com/tauri-apps/tauri)
+- [cargo-udeps](completions/cargo/udeps.sh): Find unused dependencies in Cargo.toml [🔗](https://github.com/est31/cargo-udeps)
+- [cargo-watch](completions/cargo/watch.sh): Watches over your Cargo project's source. [🔗](https://github.com/watchexec/cargo-watch)
+- [cargo-zigbuild](completions/cargo/zigbuild.sh): Compile Cargo project with zig as linker for easier cross compiling. [🔗](https://github.com/rust-cross/cargo-zigbuild)
+- [cat](completions/cat.sh):  concatenate files and print on the standard output [🔗](http://gnu.org/software/coreutils)
+- [cc](completions/cc.sh): GNU project C and C++ compiler [🔗](https://gcc.gnu.org)
+- [cdrdao](completions/cdrdao.sh): reads and writes CDs in disc-at-once mode [🔗](http://cdrdao.sourceforge.net)
+- [cdrecord](completions/cdrecord.sh): write data to optical disk media [🔗](https://sourceforge.net/projects/wodim)
+- [certtool](completions/certtool.sh): GnuTLS certificate tool [🔗](https://www.gnutls.org)
+- [cf](completions/cf.sh): The official command line client for Cloud Foundry [🔗](https://github.com/cloudfoundry/cli)
+- [cfdisk](completions/cfdisk.sh): display or manipulate a disk partition table [🔗](https://www.gnu.org/software/fdisk)
+- [chattr](completions/chattr.sh): change file attributes on a Linux file system [🔗](http://e2fsprogs.sourceforge.net)
+- [checkov](completions/checkov.sh): A static code analysis tool for scanning infrastructure as code (IaC) files for misconfigurations that may lead to security or compliance problems  [🔗](https://github.com/bridgecrewio/checkov)
+- [chezmoi](completions/chezmoi.sh): Manage your dotfiles across multiple diverse machines, securely [🔗](https://github.com/twpayne/chezmoi)
+- [chgrp](completions/chgrp.sh): change group ownership  [🔗](http://gnu.org/software/coreutils)
+- [chmod](completions/chmod.sh): chmod - change file mode bits [🔗](http://gnu.org/software/coreutils)
+- [choom](completions/choom.sh): display and adjust OOM-killer score. [🔗](https://github.com/util-linux/util-linux)
+- [choose](completions/choose.sh): A human-friendly and fast alternative to cut and (sometimes) awk [🔗](https://github.com/theryangeary/choose)
+- [chown](completions/chown.sh): change file owner and group [🔗](http://gnu.org/software/coreutils)
+- [chpasswd](completions/chpasswd.sh): update passwords in batch mode [🔗](https://github.com/shadow-maint/shadow)
+- [chroma](completions/chroma.sh): A general purpose syntax highlighting library and corresponding command, for Go [🔗](https://github.com/alecthomas/chroma)
+- [chroot](completions/chroot.sh): change root directory [🔗](http://gnu.org/software/coreutils)
+- [chrt](completions/chrt.sh): manipulate the real-time attributes of a process [🔗](https://github.com/util-linux/util-linux)
+- [chsh](completions/chsh.sh): change login shell [🔗](https://github.com/shadow-maint/shadow)
+- [circleci](completions/circleci.sh): Use CircleCI from the command line [🔗](https://github.com/CircleCI-Public/circleci-cli)
+- [cksum](completions/cksum.sh): checksum and count the bytes in a file [🔗](http://gnu.org/software/coreutils)
+- [clang](completions/clang.sh): the Clang C, C++, and Objective-C compiler [🔗](https://clang.llvm.org)
+- [clang++](completions/clang++.sh): the Clang C, C++, and Objective-C compiler [🔗](https://clang.llvm.org)
+- [clj](completions/clj.sh): runners to launch Clojure programs [🔗](https://github.com/clojure/clojure)
+- [clojure](completions/clojure.sh): runners to launch Clojure programs [🔗](https://github.com/clojure/clojure)
+- [cloudflared](completions/cloudflared.sh): Cloudflare Tunnel client  [🔗](https://github.com/cloudflare/cloudflared)
+- [cmake](completions/cmake.sh): an open-source, cross-platform family of tools designed to build, test and package software.  [🔗](https://gitlab.kitware.com/cmake/cmake)
+- [cmark](completions/cmark.sh): convert CommonMark formatted text to HTM [🔗](https://github.com/commonmark/cmark)
+- [cmus](completions/cmus.sh): C* Music Player [🔗](https://github.com/cmus/cmus)
+- [code](completions/code.sh): Visual Studio Code [🔗](https://github.com/microsoft/vscode)
+- [codesign](completions/codesign.sh): create and manipulate code signatures. (macOS) [🔗](https://ss64.com/osx/codesign.html)
+- [code-insiders](completions/code-insiders.sh): Visual Studio Code Insiders [🔗](https://github.com/microsoft/vscode)
+- [coffee](completions/coffee.sh): a little language that compiles into JavaScript. [🔗](https://github.com/jashkenas/coffeescript)
+- [column](completions/column.sh): columnate lists [🔗](https://github.com/util-linux/util-linux)
+- [comm](completions/comm.sh): compare two sorted files line by line [🔗](http://gnu.org/software/coreutils)
+- [composer](completions/composer.sh): Dependency Manager for PHP [🔗](https://github.com/composer/composer)
+- [conda](completions/conda.sh): a tool for managing and deploying applications, environments and packages. [🔗](https://github.com/conda/conda)
+- [conky](completions/conky.sh): highly configurable system monitor. [🔗](https://github.com/brndnmtthws/conky)
+- [consul](completions/consul.sh): a distributed, highly available, and data center aware solution to connect and configure applications across dynamic, distributed infrastructure.  [🔗](https://github.com/hashicorp/consul)
+- [coredumpctl](completions/coredumpctl.sh): Tool for service discovery, monitoring and configuration [🔗](https://github.com/systemd/systemd)
+- [coreutils](completions/coreutils.sh): Cross-platform Rust rewrite of the GNU coreutils [🔗](https://github.com/uutils/coreutils)
+- [cosign](completions/cosign.sh): Container Signing [🔗](https://github.com/sigstore/cosign)
+- [cp](completions/cp.sh): copy files and directories [🔗](http://gnu.org/software/coreutils)
+- [cpio](completions/cpio.sh): copy files to and from archives [🔗](https://www.gnu.org/software/cpio)
+- [cpupower](completions/cpupower.sh): Shows and sets processor power related values [🔗](https://github.com/torvalds/linux)
+- [croc](completions/croc.sh): Easily and securely send things from one computer to another [🔗](https://github.com/schollz/croc)
+- [crontab](completions/crontab.sh): Manage users crontab files [🔗](https://github.com/bruceg/bcron)
+- [cryptsetup](completions/cryptsetup.sh): manage plain dm-crypt and LUKS encrypted volumes [🔗](https://gitlab.com/cryptsetup/cryptsetup)
+- [cscope](completions/cscope.sh): interactively examine a C program [🔗](http://cscope.sourceforge.net)
+- [c++](completions/c++.sh): GNU project C and C++ compiler [🔗](https://gcc.gnu.org)
+- [csplit](completions/csplit.sh): split a file into sections determined by context lines [🔗](http://gnu.org/software/coreutils)
+- [cssh](completions/cssh.sh): Cluster administration tool [🔗](https://github.com/duncs/clusterssh)
+- [csview](completions/csview.sh): A high performance csv viewer with cjk/emoji support. [🔗](https://github.com/wfxr/csview)
+- [ctop](completions/ctop.sh): Top-like interface for container metrics [🔗](https://github.com/bcicen/ctop)
+- [curl](completions/curl.sh): transfer a URL [🔗](https://github.com/curl/curl)
+- [cut](completions/cut.sh): remove sections from each line of files [🔗](http://gnu.org/software/coreutils)
+- [cwebp](completions/cwebp.sh): Compress an image file to a WebP file [🔗](https://github.com/webmproject/libwebp)
+- [darcs](completions/darcs.sh): distributed, interactive, smart revision control system [🔗](https://darcs.net)
+- [darktable](completions/darktable.sh): an open source photography workflow application and raw developer. [🔗](https://github.com/darktable-org/darktable)
+- [darktable-cli](completions/darktable-cli.sh): a command line darktable variant [🔗](https://github.com/darktable-org/darktable)
+- [dart](completions/dart.sh): A client-optimized language for fast apps on any platform [🔗](https://github.com/dart-lang/sdk)
+- [dasel](completions/dasel.sh): JSON, YAML, TOML, XML, and CSV query and modification tool [🔗](https://github.com/TomWright/dasel)
+- [date](completions/date.sh): print or set the system date and time [🔗](http://gnu.org/software/coreutils)
+- [dbt](completions/dbt.sh): An ELT tool for managing your SQL transformations and data models. [🔗](https://github.com/dbt-labs/dbt-core)
+- [dbus-launch](completions/dbus-launch.sh): utility to start a message bus from a shell script [🔗](https://gitlab.freedesktop.org/dbus/dbus)
+- [dbus-monitor](completions/dbus-monitor.sh): debug probe to print message bus messages [🔗](https://gitlab.freedesktop.org/dbus/dbus)
+- [dbus-send](completions/dbus-send.sh): Send a message to a message bus [🔗](https://gitlab.freedesktop.org/dbus/dbus)
+- [dc](completions/dc.sh): an arbitrary precision calculator [🔗](https://www.gnu.org/software/bc)
+- [dconf](completions/dconf.sh): Simple tool for manipulating a dconf database [🔗](https://gitlab.gnome.org/GNOME/dconf)
+- [dd](completions/dd.sh): convert and copy a file [🔗](http://gnu.org/software/coreutils)
+- [ddev](completions/ddev.sh): Create and maintain a local web development environment. [🔗](https://github.com/ddev/ddev)
+- [ddgr](completions/ddgr.sh): DuckDuckGo from the terminal [🔗](https://github.com/jarun/ddgr)
+- [ddosify](completions/ddosify.sh): Comprehensive Performance Testing Platform. [🔗](https://github.com/ddosify/ddosify)
+- [defaults](completions/defaults.sh): Set preferences, the macOS user defaults system works with both the OS and with individual applications. (macOS) [🔗](https://ss64.com/osx/defaults.html)
+- [delta](completions/delta.sh): A syntax-highlighting pager for git, diff, and grep output [🔗](https://github.com/dandavison/delta)
+- [deno](completions/deno.sh): A modern runtime for JavaScript and TypeScript. [🔗](https://github.com/denoland/deno)
+- [devbox](completions/devbox.sh): Instant, easy, and predictable development environments [🔗](https://github.com/jetpack-io/devbox)
+- [df](completions/df.sh): report file system disk space usage [🔗](http://gnu.org/software/coreutils)
+- [dhclient](completions/dhclient.sh): Dynamic Host Configuration Protocol Client [🔗](https://gitlab.isc.org/isc-projects/dhcp)
+- [dhcpcd](completions/dhcpcd.sh): a DHCP client [🔗](https://roy.marples.name/projects/dhcpcd)
+- [dict](completions/dict.sh): DICT Protocol Client [🔗](https://sourceforge.net/projects/dict)
+- [diff](completions/diff.sh): compare files line by line [🔗](https://www.gnu.org/software/diffutils)
+- [diff3](completions/diff3.sh): compare three files line by line [🔗](https://www.gnu.org/software/diffutils)
+- [difft](completions/difft.sh): A structural diff that understands syntax. [🔗](https://github.com/Wilfred/difftastic)
+- [dig](completions/dig.sh): DNS lookup utility [🔗](https://gitlab.isc.org/isc-projects/bind9)
+- [dircolors](completions/dircolors.sh): color setup for ls [🔗](http://gnu.org/software/coreutils)
+- [direnv](completions/direnv.sh): unclutter your .profile [🔗](https://github.com/direnv/direnv)
+- [dir](completions/dir.sh): list directory contents [🔗](http://gnu.org/software/coreutils)
+- [dirname](completions/dirname.sh): strip last component from file name [🔗](http://gnu.org/software/coreutils)
+- [diskutil](completions/diskutil.sh): Disk utilities - Format, Verify, Repair (local disks). (macOS) [🔗](https://ss64.com/osx/diskutil.html)
+- [dive](completions/dive.sh): A tool for exploring a docker image, layer contents, and discovering ways to shrink the size of your Docker/OCI image. [🔗](https://github.com/wagoodman/dive)
+- [dkms](completions/dkms.sh): Dynamic Kernel Module Support [🔗](https://github.com/dell-oss/dkms)
+- [dmenu](completions/dmenu.sh): dynamic menu [🔗](https://tools.suckless.org/dmenu)
+- [dmesg](completions/dmesg.sh): dmesg - print or control the kernel ring buffer [🔗](https://github.com/util-linux/util-linux)
+- [dmidecode](completions/dmidecode.sh): DMI table decoder [🔗](https://savannah.nongnu.org/projects/dmidecode)
+- [dnf](completions/dnf.sh): package managment for Fedora Linux and the successor to YUM [🔗](https://github.com/rpm-software-management/dnf)
+- [dnsmasq](completions/dnsmasq.sh): A lightweight DHCP and caching DNS server. [🔗](https://thekelleys.org.uk/dnsmasq/doc.html)
+- [doas](completions/doas.sh): execute commands as another user [🔗](https://github.com/Duncaen/OpenDoas)
+- [docker](completions/docker.sh): a software platform that allows you to build, test, and deploy applications quickly. [🔗](https://www.docker.com)
+- [docker-compose](completions/docker-compose.sh): Define and run multi-container applications with Docker [🔗](https://github.com/docker/compose)
+- [doctl](completions/doctl.sh): The official command line interface for the DigitalOcean API. [🔗](https://github.com/digitalocean/doctl)
+- [doggo](completions/doggo.sh): Command-line DNS Client for Humans. [🔗](https://github.com/mr-karan/doggo)
+- [doppler](completions/doppler.sh): The official Doppler CLI [🔗](https://github.com/DopplerHQ/cli)
+- [dos2unix](completions/dos2unix.sh): DOS/Mac to Unix and vice versa text file format converter [🔗](https://dos2unix.sourceforge.io)
+- [dotnet](completions/dotnet.sh):  A cross-platform toolchain for developing, building, running, and publishing .NET applications. [🔗](https://github.com/dotnet/sdk)
+- [dpkg](completions/dpkg.sh): package manager for Debian [🔗](https://salsa.debian.org/dpkg-team/dpkg)
+- [dpkg-deb](completions/dpkg-deb.sh): Debian package archive (.deb) manipulation tool [🔗](https://salsa.debian.org/dpkg-team/dpkg)
+- [dpkg-reconfigure](completions/dpkg-reconfigure.sh): reconfigure an already installed package [🔗](http://joeyh.name/code/debconf)
+- [dprint](completions/dprint.sh): Pluggable and configurable code formatting platform written in Rust. [🔗](https://github.com/dprint/dprint)
+- [drill](completions/drill.sh): Drill is an HTTP load testing application written in Rust [🔗](https://github.com/fcsonline/drill)
+- [dropbox](completions/dropbox.sh): A command line interface to the Dropbox service [🔗](https://www.dropbox.com)
+- [dscacheutil](completions/dscacheutil.sh): Directory Service cache - Gather information, statistics, initiate queries, flush the cache. (macOS) [🔗](https://ss64.com/osx/dscacheutil.html)
+- [dstat](completions/dstat.sh): versatile tool for generating system resource statistics [🔗](http://dag.wiee.rs/home-made/dstat)
+- [du](completions/du.sh): estimate file space usage [🔗](http://gnu.org/software/coreutils)
+- [dua](completions/dua.sh): View disk space usage and delete unwanted data, fast [🔗](https://github.com/Byron/dua-cli)
+- [duf](completions/duf.sh): Disk Usage/Free Utility - a better 'df' alternative [🔗](https://github.com/muesli/duf)
+- [dufs](completions/dufs.sh): A static file server [🔗](https://github.com/sigoden/dufs)
+- [dune](completions/dune.sh): composable build system for OCaml [🔗](https://github.com/ocaml/dune)
+- [dust](completions/dust.sh): A more intuitive version of du in rust [🔗](https://github.com/bootandy/dust)
+- [ed](completions/ed.sh): line-oriented text editor [🔗](https://www.gnu.org/software/ed)
+- [efibootmgr](completions/efibootmgr.sh): manipulate the UEFI Boot Manager [🔗](https://github.com/rhboot/efibootmgr)
+- [egrep](completions/egrep.sh): print lines that match patterns [🔗](https://www.gnu.org/software/grep)
+- [elinks](completions/elinks.sh): lynx-like alternative character mode WWW browser [🔗](https://github.com/rkd77/elinks)
+- [elixir](completions/elixir.sh): The Elixir script runner [🔗](https://github.com/elixir-lang/elixir)
+- [elvish](completions/elvish.sh): Expressive Programming Language + Versatile Interactive Shell [🔗](https://github.com/elves/elvish)
+- [emacs](completions/emacs.sh): An extensible, customizable, free/libre text editor — and more. [🔗](https://www.gnu.org/software/emacs)
+- [emerge](completions/emerge.sh): package manager for Gentoo Linux. [🔗](https://github.com/gentoo/portage)
+- [encfs](completions/encfs.sh): mounts or creates an encrypted virtual filesystem [🔗](https://github.com/vgough/encfs)
+- [enscript](completions/enscript.sh): convert text files to PostScript, HTML, RTF, ANSI, and overstrikes [🔗](http://www.gnu.org/software/enscript)
+- [entr](completions/entr.sh): run arbitrary commands when files change. [🔗](https://github.com/eradman/entr)
+- [env](completions/env.sh): run a program in a modified environment [🔗](http://gnu.org/software/coreutils)
+- [esbuild](completions/esbuild.sh): An extremely fast bundler for the web [🔗](https://github.com/evanw/esbuild)
+- [eslint](completions/eslint.sh): Find and fix problems in your JavaScript code. [🔗](https://github.com/eslint/eslint)
+- [espeak](completions/espeak.sh): A multi-lingual software speech synthesizer. [🔗](https://espeak.sourceforge.net)
+- [ethtool](completions/ethtool.sh): query or control network driver and hardware settings [🔗](https://www.kernel.org/pub/software/network/ethtool)
+- [evince](completions/evince.sh): GNOME document viewer [🔗](https://gitlab.gnome.org/GNOME/evince)
+- [exa](completions/exa.sh): A modern replacement for ‘ls’. [🔗](https://github.com/ogham/exa)
+- [exercism](completions/exercism.sh): A Go based command line tool for exercism.org. [🔗](https://github.com/exercism/cli)
+- [expand](completions/expand.sh): convert tabs to spaces [🔗](http://gnu.org/software/coreutils)
+- [expo](completions/expo.sh): Tools for creating, running, and deploying universal Expo and React Native apps [🔗](https://github.com/expo/expo-cli)
+- [fab](completions/fab.sh): Simple, Pythonic remote execution and deployment. [🔗](https://github.com/fabric/fabric)
+- [fakeroot](completions/fakeroot.sh): run a command in an environment faking root privileges for file manipulation [🔗](https://salsa.debian.org/clint/fakeroot)
+- [fallocate](completions/fallocate.sh): preallocate or deallocate space to a file [🔗](https://github.com/util-linux/util-linux)
+- [fastlane](completions/fastlane.sh): Automate Android and iOS development. [🔗](https://github.com/fastlane/fastlane)
+- [fc-cache](completions/fc-cache.sh): build font information cache files [🔗](https://gitlab.freedesktop.org/fontconfig/fontconfig)
+- [fc-cat](completions/fc-cat.sh): read font information cache files [🔗](https://gitlab.freedesktop.org/fontconfig/fontconfig)
+- [fc-list](completions/fc-list.sh): list available fonts [🔗](https://gitlab.freedesktop.org/fontconfig/fontconfig)
+- [fclones](completions/fclones.sh): Efficient Duplicate File Finder [🔗](https://github.com/pkolaczk/fclones)
+- [fd](completions/fd.sh): A simple, fast and user-friendly alternative to 'find' [🔗](https://github.com/sharkdp/fd)
+- [fdisk](completions/fdisk.sh): manipulate disk partition table [🔗](https://github.com/util-linux/util-linux)
+- [feh](completions/feh.sh): image viewer and cataloguer [🔗](https://feh.finalrewind.org)
+- [fetchmail](completions/fetchmail.sh): fetch mail from a POP, IMAP, ETRN, or ODMR-capable server [🔗](https://gitlab.com/fetchmail/fetchmail)
+- [ffmpeg](completions/ffmpeg.sh): ffmpeg video converter [🔗](https://ffmpeg.org)
+- [fgrep](completions/fgrep.sh): print lines that match patterns [🔗](https://www.gnu.org/software/grep)
+- [figlet](completions/figlet.sh): Make large character ASCII banners out of ordinary text [🔗](https://github.com/cmatsuoka/figlet)
+- [file](completions/file.sh): determine file type [🔗](https://github.com/file/file)
+- [find](completions/find.sh): search for files in a directory hierarchy [🔗](https://savannah.gnu.org/projects/findutils)
+- [findmnt](completions/findmnt.sh): find a filesystem [🔗](https://github.com/util-linux/util-linux)
+- [firebase](completions/firebase.sh): a set of cloud-based development tools that helps mobile app developers build, deploy and scale their apps. [🔗](https://firebaseopensource.com)
+- [firefox](completions/firefox.sh): Mozilla Firefox Browser [🔗](https://www.mozilla.org/en-US/firefox)
+- [fish](completions/fish.sh): The user-friendly command line shell.  [🔗](https://github.com/fish-shell/fish-shell)
+- [flac](completions/flac.sh): Free Lossless Audio Codec [🔗](https://github.com/xiph/flac)
+- [flamegraph](completions/flamegraph.sh): A Rust-powered flamegraph generator with additional support for Cargo projects [🔗](https://github.com/flamegraph-rs/flamegraph)
+- [flatpak](completions/flatpak.sh): Linux application sandboxing and distribution framework [🔗](https://github.com/flatpak/flatpak)
+- [flex](completions/flex.sh): the fast lexical analyser generator [🔗](https://github.com/westes/flex)
+- [flutter](completions/flutter.sh): Build apps for any screen [🔗](https://github.com/flutter/flutter)
+- [fmt](completions/fmt.sh): simple optimal text formatter [🔗](http://gnu.org/software/coreutils)
+- [fnm](completions/fnm.sh): Fast and simple Node.js version manager, built in Rust [🔗](https://github.com/Schniz/fnm)
+- [fold](completions/fold.sh): wrap each input line to fit in specified width [🔗](http://gnu.org/software/coreutils)
+- [fortune](completions/fortune.sh): print a random, hopefully interesting, adage [🔗](https://github.com/shlomif/fortune-mod)
+- [fq](completions/fq.sh): Tool, language and decoders for working with binary data. [🔗](https://github.com/wader/fq)
+- [free](completions/free.sh): Display amount of free and used memory in the system [🔗](https://gitlab.com/procps-ng/procps)
+- [fs_usage](completions/fs_usage.sh): Filesystem usage (process/pathname). (macOS) [🔗](https://ss64.com/osx/fs_usage.html)
+- [ftp](completions/ftp.sh): Internet file transfer program [🔗](https://www.gnu.org/software/inetutils)
+- [fusermount](completions/fusermount.sh): mount and unmount FUSE filesystems [🔗](https://github.com/libfuse/libfuse)
+- [fuser](completions/fuser.sh): identify processes using files or sockets [🔗](https://gitlab.com/psmisc/psmisc)
+- [fvm](completions/fvm.sh): Flutter Version Management [🔗](https://github.com/fluttertools/fvm)
+- [fwupdmgr](completions/fwupdmgr.sh): firmware update manager client utility [🔗](https://github.com/fwupd/fwupd)
+- [fx](completions/fx.sh): Terminal JSON viewer & processor [🔗](https://github.com/antonmedv/fx)
+- [fzf](completions/fzf.sh): A command-line fuzzy finder [🔗](https://github.com/junegunn/fzf)
+- [fzy](completions/fzy.sh): A simple, fast fuzzy finder for the terminal [🔗](https://github.com/jhawthorn/fzy)
+- [g++](completions/g++.sh): GNU project C and C++ compiler [🔗](https://gcc.gnu.org)
+- [gatsby](completions/gatsby.sh): The best React-based framework with performance, scalability and security built in. [🔗](https://github.com/gatsbyjs/gatsby)
+- [gawk](completions/gawk.sh): pattern scanning and processing language [🔗](http://www.gnu.org/software/gawk)
+- [gcc](completions/gcc.sh): GNU project C and C++ compiler [🔗](https://gcc.gnu.org)
+- [gcloud](completions/gcloud.sh): a set of tools to create and manage Google Cloud resources. [🔗](https://cloud.google.com/sdk/gcloud)
+- [gdb](completions/gdb.sh): The GNU Project Debugger [🔗](https://www.sourceware.org/gdb)
+- [gdu](completions/gdu.sh): Pretty fast disk usage analyzer written in Go. [🔗](https://github.com/dundee/gdu)
+- [gem](completions/gem.sh): Library packaging and distribution for Ruby. [🔗](https://github.com/rubygems/rubygems)
+- [getent](completions/getent.sh): get entries from Name Service Switch libraries [🔗](https://www.gnu.org/software/libc)
+- [getfacl](completions/getfacl.sh): get file access control lists [🔗](https://savannah.nongnu.org/projects/acl)
+- [getfattr](completions/getfattr.sh): get extended attributes of filesystem objects [🔗](https://savannah.nongnu.org/projects/attr)
+- [getmail](completions/getmail.sh): retrieve messages from one or more POP3, IMAP4, or SDPS mailboxes and deliver to a maildir, mboxrd-format mbox file, or external MDA [🔗](https://github.com/getmail6/getmail6)
+- [getopt](completions/getopt.sh): parse command options enhanced [🔗](https://github.com/util-linux/util-linux)
+- [gh](completions/gh.sh): Take GitHub to the command line [🔗](https://cli.github.com)
+- [ghostscript](completions/ghostscript.sh): PostScript and PDF language interpreter and previewer [🔗](https://www.ghostscript.com)
+- [ghq](completions/ghq.sh): Remote repository management made easy. [🔗](https://github.com/x-motemen/ghq)
+- [gibo](completions/gibo.sh): Easy access to gitignore boilerplates [🔗](https://github.com/simonwhitaker/gibo)
+- [gio](completions/gio.sh): GIO commandline tool [🔗](https://gitlab.gnome.org/GNOME/glib)
+- [git](completions/git.sh): fast, scalable, distributed revision control system [🔗](https://github.com/git/git)
+- [git-cliff](completions/git/cliff.sh): A highly customizable Changelog Generator that follows Conventional Commit specifications [🔗](https://github.com/orhun/git-cliff)
+- [git-crypt](completions/git/crypt.sh): Transparent file encryption in git [🔗](https://github.com/AGWA/git-crypt)
+- [git-lfs](completions/git/lfs.sh): Git extension for versioning large files [🔗](https://github.com/git-lfs/git-lfs)
+- [git-open](completions/git/open.sh): Open the repo website (GitHub, GitLab, Bitbucket) in your browser. [🔗](https://github.com/paulirish/git-open)
+- [git-quick-stats](completions/git/quick-stats.sh): a simple and efficient way to access various statistics in a git repository. [🔗](https://github.com/arzzen/git-quick-stats)
+- [git-sizer](completions/git/sizer.sh): Compute various size metrics for a Git repository, flagging those that might cause problems. [🔗](https://github.com/github/git-sizer)
+- [gitleaks](completions/gitleaks.sh): Audit git repos for secrets [🔗](https://github.com/gitleaks/gitleaks)
+- [glab](completions/glab.sh): bringing GitLab to your command line [🔗](https://gitlab.com/gitlab-org/cli)
+- [glances](completions/glances.sh): Alternative to top/htop. [🔗](https://github.com/nicolargo/glances)
+- [global](completions/global.sh): print locations of given symbols [🔗](https://www.gnu.org/software/global)
+- [glow](completions/glow.sh): Render markdown on the CLI, with pizzazz! [🔗](https://github.com/charmbracelet/glow)
+- [gm](completions/gm.sh): GraphicsMagick Image Processing System [🔗](http://www.graphicsmagick.org)
+- [gnutls-cli](completions/gnutls-cli.sh): GnuTLS client [🔗](https://www.gnutls.org)
+- [gnutls-serv](completions/gnutls-serv.sh): GnuTLS server [🔗](https://www.gnutls.org)
+- [go](completions/go.sh): a tool for managing Go source code. [🔗](https://github.com/golang/go)
+- [goctl](completions/goctl.sh): a go-zero's built-in handcuffle [🔗](https://github.com/zeromicro/go-zero)
+- [godoc](completions/godoc.sh): extracts and generates documentation for Go programs. [🔗](https://github.com/golang/tools)
+- [gofmt](completions/gofmt.sh): formats Go programs. [🔗](https://github.com/golang/go)
+- [gojq](completions/gojq.sh): Pure Go implementation of jq [🔗](https://github.com/itchyny/gojq)
+- [goose](completions/goose.sh): a database migration tool. [🔗](https://github.com/pressly/goose)
+- [goreleaser](completions/goreleaser.sh): Deliver Go binaries as fast and easily as possible [🔗](https://github.com/goreleaser/goreleaser)
+- [gource](completions/gource.sh): software version control visualization [🔗](https://github.com/acaudwell/Gource)
+- [gpasswd](completions/gpasswd.sh): administer /etc/group and /etc/gshadow [🔗](https://github.com/shadow-maint/shadow)
+- [gpg](completions/gpg.sh): OpenPGP encryption and signing tool [🔗](https://www.gnupg.org)
+- [gpg-agent](completions/gpg-agent.sh): Secret key management for GnuPG [🔗](https://www.gnupg.org)
+- [gphoto2](completions/gphoto2.sh): command-line gphoto2 client [🔗](https://github.com/gphoto/gphoto2)
+- [gping](completions/gping.sh): Ping, but with a graph. [🔗](https://github.com/orf/gping)
+- [gprof](completions/gprof.sh): display call graph profile data [🔗](https://www.gnu.org/software/binutils)
+- [gradle](completions/gradle.sh): Powerful build system for the JVM [🔗](https://github.com/gradle/gradle)
+- [grep](completions/grep.sh): print lines that match patterns [🔗](https://www.gnu.org/software/grep)
+- [grex](completions/grex.sh): generates regular expressions from user-provided test cases. [🔗](https://github.com/pemistahl/grex)
+- [groff](completions/groff.sh): front-end for the groff document formatting system [🔗](https://www.gnu.org/software/groff)
+- [gron](completions/gron.sh): Make JSON greppable. [🔗](https://github.com/tomnomnom/gron)
+- [groupadd](completions/groupadd.sh): create a new group [🔗](https://github.com/shadow-maint/shadow)
+- [groupdel](completions/groupdel.sh): delete a group [🔗](https://github.com/shadow-maint/shadow)
+- [groupmems](completions/groupmems.sh): administer members of a user's primary group [🔗](https://github.com/shadow-maint/shadow)
+- [groupmod](completions/groupmod.sh): modify a group definition on the system [🔗](https://github.com/shadow-maint/shadow)
+- [groups](completions/groups.sh): print the groups a user is in [🔗](http://gnu.org/software/coreutils)
+- [grpcurl](completions/grpcurl.sh): Like cURL, but for gRPC [🔗](https://github.com/fullstorydev/grpcurl)
+- [grype](completions/grype.sh): A vulnerability scanner for container images, filesystems, and SBOMs. [🔗](https://github.com/anchore/grype)
+- [gs](completions/gs.sh): PostScript and PDF language interpreter and previewer [🔗](https://www.ghostscript.com)
+- [gsettings](completions/gsettings.sh): GSettings configuration tool [🔗](https://gitlab.gnome.org/GNOME/glib)
+- [guix](completions/guix.sh): functional cross-platform package manager for Unix-like OS. [🔗](https://guix.gnu.org)
+- [gum](completions/gum.sh): A tool for glamorous shell scripts [🔗](https://github.com/charmbracelet/gum)
+- [gunzip](completions/gunzip.sh): decompress and concatenate files to standard output [🔗](https://www.gnu.org/software/gzip)
+- [gzip](completions/gzip.sh): decompress and concatenate files to standard output [🔗](https://www.gnu.org/software/gzip)
+- [hadolint](completions/hadolint.sh): Dockerfile Linter written in Haskell [🔗](https://github.com/hadolint/hadolint)
+- [halt](completions/halt.sh): Halt, power-off or reboot the machine [🔗](https://github.com/systemd/systemd)
+- [hashcat](completions/hashcat.sh): Advanced CPU-based password recovery utility  [🔗](https://github.com/hashcat/hashcat)
+- [hashdeep](completions/hashdeep.sh): Compute, compare, or audit multiple message digests [🔗](https://github.com/jessek/hashdeep)
+- [hasura](completions/hasura.sh): accelerates API development by 10x by giving you GraphQL or REST APIs with built-in authorization on your data, instantly. [🔗](https://github.com/hasura/graphql-engine)
+- [hdiutil](completions/hdiutil.sh): Manipulate disk images (attach, verify, burn, etc). (macOS) [🔗](https://ss64.com/osx/hdiutil.html)
+- [hdparm](completions/hdparm.sh): get/set SATA/IDE device parameters [🔗](http://sourceforge.net/projects/hdparm)
+- [head](completions/head.sh): output the first part of files [🔗](http://gnu.org/software/coreutils)
+- [helm](completions/helm.sh): The Kubernetes package manager [🔗](https://github.com/helm/helm)
+- [helmfile](completions/helmfile.sh): Declaratively deploy your Kubernetes manifests, Kustomize configs, and Charts as Helm releases in one shot [🔗](https://github.com/roboll/helmfile)
+- [help2man](completions/help2man.sh): generate a simple manual page [🔗](https://www.gnu.org/software/help2man)
+- [hexchat](completions/hexchat.sh): IRC client for X based on X-Chat 2 [🔗](https://github.com/hexchat/hexchat)
+- [hexdump](completions/hexdump.sh): display file contents in hexadecimal, decimal, octal, or ascii [🔗](https://github.com/util-linux/util-linux)
+- [hexyl](completions/hexyl.sh): A command-line hex viewer [🔗](https://github.com/sharkdp/hexyl)
+- [highlight](completions/highlight.sh): a universal sourcecode to formatted text converter [🔗](https://gitlab.com/saalen/highlight)
+- [hledger](completions/hledger.sh): lightweight, cross platform, multi-currency, double-entry accounting software. [🔗](https://github.com/simonmichael/hledger)
+- [hostname](completions/hostname.sh): show or set the system's host name [🔗](https://www.gnu.org/software/inetutils)
+- [hostnamectl](completions/hostnamectl.sh): Control the system hostname  [🔗](https://github.com/systemd/systemd)
+- [hrp](completions/hrp.sh): A API testing tools. [🔗](https://github.com/httprunner/httprunner)
+- [htmlq](completions/htmlq.sh): Like jq, but for HTML. [🔗](https://github.com/mgdm/htmlq)
+- [htop](completions/htop.sh): interactive processes viewer [🔗](https://github.com/htop-dev/htop)
+- [http](completions/http.sh): a command-line HTTP client [🔗](https://github.com/httpie/cli)
+- [https](completions/https.sh): a command-line HTTP client [🔗](https://github.com/httpie/cli)
+- [hugo](completions/hugo.sh): A fast and flexible static site generator [🔗](https://github.com/gohugoio/hugo)
+- [hunspell](completions/hunspell.sh): spell checker and morphological analyzer [🔗](https://github.com/hunspell/hunspell)
+- [hurl](completions/hurl.sh): run and test HTTP requests with plain text. [🔗](https://github.com/Orange-OpenSource/hurl)
+- [hwclock](completions/hwclock.sh): time clocks utility [🔗](https://github.com/util-linux/util-linux)
+- [hwinfo](completions/hwinfo.sh): probe for hardware [🔗](https://github.com/openSUSE/hwinfo)
+- [hx](completions/hx.sh): A post-modern text editor. [🔗](https://github.com/helix-editor/helix)
+- [hyperfine](completions/hyperfine.sh): A command-line benchmarking tool [🔗](https://github.com/sharkdp/hyperfine)
+- [icdiff](completions/icdiff.sh): terminal side-by-side colorized word diff [🔗](https://github.com/jeffkaufman/icdiff)
+- [iconv](completions/iconv.sh): convert text from one character encoding to another [🔗](https://www.gnu.org/software/libiconv)
+- [id](completions/id.sh): print real and effective user and group IDs [🔗](http://gnu.org/software/coreutils)
+- [ifconfig](completions/ifconfig.sh): configure a network interface [🔗](https://github.com/ecki/net-tools)
+- [ifdown](completions/ifdown.sh): bring interfaces down [🔗](https://github.com/ifupdown-ng/ifupdown-ng)
+- [iftop](completions/iftop.sh): display bandwidth usage on an interface by host [🔗](http://www.ex-parrot.com/~pdw/iftop)
+- [ifup](completions/ifup.sh): bring a network interface up [🔗](https://github.com/ifupdown-ng/ifupdown-ng)
+- [initctl](completions/initctl.sh): Control tool for Finit [🔗](https://github.com/troglobit/finit)
+- [install](completions/install.sh): copy files and set attributes [🔗](http://gnu.org/software/coreutils)
+- [ionice](completions/ionice.sh): set or get process I/O scheduling class and priority [🔗](https://github.com/util-linux/util-linux)
+- [iostat](completions/iostat.sh): Report Central Processing Unit (CPU) statistics and input/output statistics for devices and partitions. [🔗](https://github.com/sysstat/sysstat)
+- [ip](completions/ip.sh): show / manipulate routing, network devices, interfaces and tunnels [🔗](https://github.com/iproute2/iproute2)
+- [ipatool](completions/ipatool.sh): searching and downloading app packages (known as ipa files) from the iOS App Store. [🔗](https://github.com/majd/ipatool)
+- [ipset](completions/ipset.sh): administration tool for IP sets [🔗](http://ipset.netfilter.org)
+- [iptables](completions/iptables.sh): administration tool for IPv4/IPv6 packet filtering and NAT [🔗](https://www.netfilter.org)
+- [irssi](completions/irssi.sh): a modular IRC client for UNIX [🔗](https://github.com/irssi/irssi)
+- [istioctl](completions/istioctl.sh): Istio configuration command line utility for service operators to debug and diagnose their Istio mesh. [🔗](https://github.com/istio/istio)
+- [iwconfig](completions/iwconfig.sh): configure a wireless network interface  [🔗](https://github.com/HewlettPackard/wireless-tools)
+- [jar](completions/jar.sh): Manipulates Java Archive (JAR) files. [🔗](https://openjdk.org)
+- [java](completions/java.sh): Launches a Java application.  [🔗](https://openjdk.org)
+- [jdupes](completions/jdupes.sh): identify and delete or link duplicate files [🔗](https://github.com/jbruchon/jdupes)
+- [jenv](completions/jenv.sh): Manage your Java environment [🔗](https://github.com/jenv/jenv)
+- [jless](completions/jless.sh): JSON viewer designed for reading, exploring, and searching through JSON data. [🔗](https://github.com/PaulJuliusMartinez/jless)
+- [jmeter](completions/jmeter.sh): Apache JMeter - Load testing tool [🔗](https://github.com/apache/jmeter)
+- [jobs](completions/jobs.sh): Display status of jobs. [🔗](https://manned.org/jobs.1posix)
+- [join](completions/join.sh): join lines of two files on a common field [🔗](http://gnu.org/software/coreutils)
+- [journalctl](completions/journalctl.sh): Query the systemd journal [🔗](https://github.com/systemd/systemd)
+- [jq](completions/jq.sh): Command-line JSON processor [🔗](https://github.com/jqlang/jq)
+- [julia](completions/julia.sh): Fast, Dynamic Programming Language [🔗](https://github.com/JuliaLang/julia)
+- [just](completions/just.sh): Just a command runner [🔗](https://github.com/casey/just)
+- [k3d](completions/k3d.sh): Little helper to run CNCF's k3s in Docker [🔗](https://github.com/k3d-io/k3d)
+- [k6](completions/k6.sh): A modern load testing tool, using Go and JavaScript [🔗](https://github.com/grafana/k6)
+- [k9s](completions/k9s.sh): Kubernetes CLI To Manage Your Clusters In Style! [🔗](https://github.com/derailed/k9s)
+- [kak](completions/kak.sh): mawww's experiment for a better code editor [🔗](https://github.com/mawww/kakoune)
+- [keepassxc-cli](completions/keepassxc-cli.sh): Cross Platform Password Manager [🔗](https://github.com/keepassxreboot/keepassxc)
+- [keybase](completions/keybase.sh): keybase: keeping everyone's chats and files safe, from families to communities to companies. [🔗](https://github.com/keybase/client)
+- [keytool](completions/keytool.sh): Manages a keystore (database) of cryptographic keys, X.509 certificate chains, and trusted certificates. [🔗](https://openjdk.org)
+- [khal](completions/khal.sh): CLI calendar application [🔗](https://github.com/pimutils/khal)
+- [kill](completions/kill.sh): send a signal to a process [🔗](https://gitlab.com/procps-ng/procps)
+- [killall](completions/killall.sh): kill processes by name [🔗](https://gitlab.com/psmisc/psmisc)
+- [kind](completions/kind.sh): Kubernetes IN Docker - local clusters for testing Kubernetes [🔗](https://github.com/kubernetes-sigs/kind)
+- [kmutil](completions/kmutil.sh): multipurpose tool for managing kernel extensions (kexts) and kext collections on disk. (macOS) [🔗](https://keith.github.io/xcode-man-pages/kmutil.8.html)
+- [kompose](completions/kompose.sh): Convert Compose to Kubernetes [🔗](https://github.com/kubernetes/kompose)
+- [kotlin](completions/kotlin.sh): run Kotlin programs, scripts or REPL. [🔗](https://github.com/JetBrains/kotlin)
+- [kpartx](completions/kpartx.sh): Create device maps from partition tables. [🔗](https://github.com/opensvc/multipath-tools)
+- [kubeadm](completions/kubeadm.sh): Easily bootstrap a secure Kubernetes cluster   [🔗](https://github.com/kubernetes/kubeadm)
+- [kubectl](completions/kubectl.sh): controls the Kubernetes cluster manager. [🔗](https://github.com/kubernetes/kubectl)
+- [kubectx](completions/kubectx.sh): a tool to switch between contexts (clusters) on kubectl faster. [🔗](https://github.com/ahmetb/kubectx)
+- [kubens](completions/kubens.sh): a tool to switch between Kubernetes namespaces (and configure them for kubectl) easily. [🔗](https://github.com/ahmetb/kubectx)
+- [kustomize](completions/kustomize.sh): Customization of kubernetes YAML configurations [🔗](https://github.com/kubernetes-sigs/kustomize)
+- [laravel](completions/laravel.sh): a web application framework with expressive, elegant syntax. [🔗](https://github.com/laravel/laravel)
+- [last](completions/last.sh): show a listing of last logged in users  [🔗](https://github.com/util-linux/util-linux)
+- [lastb](completions/lastb.sh): show a listing of last logged in users [🔗](https://github.com/util-linux/util-linux)
+- [lastlog](completions/lastlog.sh): reports the most recent login of all users or of a given user [🔗](https://github.com/shadow-maint/shadow)
+- [launchctl](completions/launchctl.sh): Interfaces with launchd to load, unload daemons/agents and generally control launchd. (macOS) [🔗](https://ss64.com/osx/launchctl.html)
+- [lazygit](completions/lazygit.sh): simple terminal UI for git commands [🔗](https://github.com/jesseduffield/lazygit)
+- [ldconfig](completions/ldconfig.sh): configure dynamic linker run-time bindings [🔗](https://www.gnu.org/software/libc)
+- [ldd](completions/ldd.sh): print shared object dependencies [🔗](https://www.gnu.org/software/libc)
+- [lerna](completions/lerna.sh): a fast, modern build system for managing and publishing multiple JavaScript/TypeScript packages from the same repository [🔗](https://github.com/lerna/lerna)
+- [less](completions/less.sh): opposite of more [🔗](https://github.com/gwsw/less)
+- [lf](completions/lf.sh): Terminal file manager  [🔗](https://github.com/gokcehan/lf)
+- [lightdm](completions/lightdm.sh): a display manager [🔗](https://github.com/canonical/lightdm)
+- [lima](completions/lima.sh): an alias for "limactl shell default". [🔗](https://github.com/lima-vm/lima)
+- [limactl](completions/limactl.sh): Linux virtual machines [🔗](https://github.com/lima-vm/lima)
+- [link](completions/link.sh): call the link function to create a link to a file [🔗](http://gnu.org/software/coreutils)
+- [links](completions/links.sh): lynx-like alternative character mode WWW browser [🔗](http://links.twibright.com)
+- [ln](completions/ln.sh): make links between files [🔗](http://gnu.org/software/coreutils)
+- [lnav](completions/lnav.sh): Log file navigator [🔗](https://github.com/tstack/lnav)
+- [lldb](completions/lldb.sh): Next generation, high-performance debugger [🔗](https://github.com/llvm/llvm-project)
+- [loadkeys](completions/loadkeys.sh): load keyboard translation tables [🔗](https://github.com/legionus/kbd)
+- [locale](completions/locale.sh): get locale-specific information [🔗](https://manned.org/locale.1posix)
+- [localectl](completions/localectl.sh): Control the system locale and keyboard layout settings [🔗](https://github.com/systemd/systemd)
+- [locate](completions/locate.sh): find files by name, quickly [🔗](https://www.gnu.org/software/findutils)
+- [locust](completions/locust.sh): Write scalable load tests in plain Python [🔗](https://github.com/locustio/locust)
+- [loginctl](completions/loginctl.sh): Control the systemd login manager [🔗](https://github.com/systemd/systemd)
+- [logrotate](completions/logrotate.sh): rotates, compresses, and mails system logs [🔗](https://github.com/logrotate/logrotate)
+- [look](completions/look.sh): display lines beginning with a given string [🔗](https://github.com/util-linux/util-linux)
+- [losetup](completions/losetup.sh): set up and control loop devices [🔗](https://github.com/util-linux/util-linux)
+- [lp](completions/lp.sh): print files [🔗](https://github.com/OpenPrinting/cups)
+- [lpass](completions/lpass.sh): LastPass command line interface tool [🔗](https://github.com/lastpass/lastpass-cli)
+- [ls](completions/ls.sh): list directory contents [🔗](http://gnu.org/software/coreutils)
+- [lsattr](completions/lsattr.sh): list file attributes on a Linux second extended file system [🔗](https://e2fsprogs.sourceforge.net)
+- [lsblk](completions/lsblk.sh): list block devices [🔗](https://github.com/util-linux/util-linux)
+- [lsb_release](completions/lsb_release.sh): print distribution-specific information [🔗](https://refspecs.linuxfoundation.org/lsb.shtml)
+- [lscpu](completions/lscpu.sh): display information about the CPU architecture [🔗](https://github.com/util-linux/util-linux)
+- [lsd](completions/lsd.sh): The next gen ls command [🔗](https://github.com/lsd-rs/lsd)
+- [lshw](completions/lshw.sh): HardWare LiSter for Linux [🔗](https://github.com/lyonel/lshw)
+- [lslocks](completions/lslocks.sh): list local system locks [🔗](https://github.com/util-linux/util-linux)
+- [lslogins](completions/lslogins.sh): display information about known users in the system [🔗](https://github.com/util-linux/util-linux)
+- [lsmem](completions/lsmem.sh): list the ranges of available memory with their online status [🔗](https://github.com/util-linux/util-linux)
+- [lsns](completions/lsns.sh): list namespaces [🔗](https://github.com/util-linux/util-linux)
+- [lsof](completions/lsof.sh): utility to list open files [🔗](https://github.com/lsof-org/lsof)
+- [lsusb](completions/lsusb.sh): list USB devices [🔗](https://github.com/gregkh/usbutils)
+- [ltrace](completions/ltrace.sh): A library call tracer [🔗](https://github.com/dkogan/ltrace)
+- [lua](completions/lua.sh): Lua interpreter [🔗](https://github.com/lua/lua)
+- [luarocks](completions/luarocks.sh): the package manager for the Lua programming language. [🔗](https://github.com/luarocks/luarocks)
+- [lychee](completions/lychee.sh): A fast, async, stream-based link checker written in Rust. [🔗](https://github.com/lycheeverse/lychee)
+- [lynx](completions/lynx.sh): a general purpose distributed information browser for the World Wide Web [🔗](https://invisible-island.net/lynx)
+- [lzcat](completions/lzcat.sh): Compress or decompress .xz and .lzma files [🔗](https://github.com/tukaani-project/xz)
+- [lzma](completions/lzma.sh): Compress or decompress .xz and .lzma files [🔗](https://github.com/tukaani-project/xz)
+- [m](completions/m.sh): Swiss Army Knife for macOS. (macOS) [🔗](https://github.com/rgcr/m-cli)
+- [m4](completions/m4.sh): macro processor [🔗](https://www.gnu.org/software/m4)
+- [machinectl](completions/machinectl.sh): Control the systemd machine manager [🔗](https://github.com/systemd/systemd)
+- [mackup](completions/mackup.sh): Keep your application settings in sync (OS X/Linux) [🔗](https://github.com/lra/mackup)
+- [make](completions/make.sh): GNU make utility to maintain groups of programs [🔗](https://www.gnu.org/software/make)
+- [makepkg](completions/makepkg.sh): package build utility for Arch linux [🔗](https://gitlab.archlinux.org/pacman/pacman)
+- [man](completions/man.sh): an interface to the system reference manuals [🔗](https://gitlab.com/man-db/man-db)
+- [mariner](completions/mariner.sh): Navigate torrents  [🔗](https://gitlab.com/radek-sprta/mariner)
+- [mas](completions/mas.sh): Mac App Store command line interface. (macOS) [🔗](https://github.com/mas-cli/mas)
+- [mask](completions/mask.sh): A CLI task runner defined by a simple markdown file [🔗](https://github.com/jacobdeichert/mask)
+- [mat2](completions/mat2.sh): the metadata anonymisation toolkit 2 [🔗](https://0xacab.org/jvoisin/mat2)
+- [mbuffer](completions/mbuffer.sh): measuring buffer [🔗](https://www.maier-komor.de/mbuffer.html)
+- [md5sum](completions/md5sum.sh): compute and check MD5 message digest [🔗](http://gnu.org/software/coreutils)
+- [mdbook](completions/mdbook.sh): Create book from markdown files.  [🔗](https://github.com/rust-lang/mdBook)
+- [mdfind](completions/mdfind.sh): Spotlight search. (macOS) [🔗](https://ss64.com/osx/mdfind.html)
+- [mdimport](completions/mdimport.sh): Import file hierarchies into the Spotlight metadata datastore. (macOS) [🔗](https://ss64.com/osx/mdimport.html)
+- [mdls](completions/mdls.sh): List the metadata attributes for a specified file. (macOS) [🔗](https://ss64.com/osx/mdls.html)
+- [mdutil](completions/mdutil.sh): Manage the metadata stores used by Spotlight. (macOS) [🔗](https://ss64.com/osx/mdutil.html)
+- [meld](completions/meld.sh): graphical tool to diff and merge files [🔗](https://gitlab.gnome.org/GNOME/meld)
+- [meson](completions/meson.sh): a high productivity build system [🔗](https://github.com/mesonbuild/meson)
+- [micro](completions/micro.sh): A modern and intuitive terminal-based text editor [🔗](https://github.com/zyedidia/micro)
+- [mii-tool](completions/mii-tool.sh): view, manipulate media-independent interface status [🔗](https://github.com/ecki/net-tools)
+- [minikube](completions/minikube.sh): Run Kubernetes locally [🔗](https://github.com/kubernetes/minikube)
+- [miniserve](completions/miniserve.sh): a CLI tool to serve files and dirs over HTTP [🔗](https://github.com/svenstaro/miniserve)
+- [mitmproxy](completions/mitmproxy.sh): an interactive, SSL/TLS-capable intercepting proxy with a console interface for HTTP/1, HTTP/2, and WebSockets. [🔗](https://github.com/mitmproxy/mitmproxy)
+- [mix](completions/mix.sh): a build tool for Elixir [🔗](https://github.com/elixir-lang/elixir)
+- [mkdir](completions/mkdir.sh): make directories [🔗](http://gnu.org/software/coreutils)
+- [mkdocs](completions/mkdocs.sh): Project documentation with Markdown. [🔗](https://github.com/mkdocs/mkdocs)
+- [mkfifo](completions/mkfifo.sh): make FIFOs (named pipes) [🔗](http://gnu.org/software/coreutils)
+- [mkfs](completions/mkfs.sh): build a Linux filesystem [🔗](https://github.com/util-linux/util-linux)
+- [mknod](completions/mknod.sh): make block or character special files [🔗](http://gnu.org/software/coreutils)
+- [mkpasswd](completions/mkpasswd.sh): Crypts the PASSWORD [🔗](https://github.com/rfc1036/whois)
+- [mkswap](completions/mkswap.sh): set up a Linux swap area [🔗](https://github.com/util-linux/util-linux)
+- [mktemp](completions/mktemp.sh): create a temporary file or directory [🔗](http://gnu.org/software/coreutils)
+- [modinfo](completions/modinfo.sh): Show information about a Linux Kernel module [🔗](https://github.com/kmod-project/kmod)
+- [modprobe](completions/modprobe.sh): Add and remove modules from the Linux Kernel [🔗](https://github.com/kmod-project/kmod)
+- [molecule](completions/molecule.sh): aids in the development and testing of Ansible roles. [🔗](https://github.com/ansible/molecule)
+- [mongocli](completions/mongocli.sh): a modern command line interface that enables you to manage your MongoDB services from the terminal. [🔗](https://www.mongodb.com)
+- [mongoimport](completions/mongoimport.sh): Import CSV, TSV or JSON data into MongoDB. [🔗](https://www.mongodb.com)
+- [mongosh](completions/mongosh.sh): a fully functional JavaScript and Node.js 16.x REPL environment for interacting with MongoDB deployments [🔗](https://www.mongodb.com)
+- [more](completions/more.sh): file perusal filter for crt viewing [🔗](https://github.com/util-linux/util-linux)
+- [mosh](completions/mosh.sh): Mobile Shell [🔗](https://github.com/mobile-shell/mosh)
+- [most](completions/most.sh): browse or page through a text file [🔗](https://www.jedsoft.org/most)
+- [mount](completions/mount.sh): mount a filesystem [🔗](https://github.com/util-linux/util-linux)
+- [mpc](completions/mpc.sh): a command-line client for the Music Player Daemon.  [🔗](https://github.com/MusicPlayerDaemon/mpc)
+- [mpstat](completions/mpstat.sh): Report processors related statistics. [🔗](https://github.com/sysstat/sysstat)
+- [mpv](completions/mpv.sh): video player based on MPlayer/mplayer2 [🔗](https://github.com/mpv-player/mpv)
+- [msfconsole](completions/msfconsole.sh): main Metasploit command-line interface [🔗](https://github.com/rapid7/metasploit-framework)
+- [msfdb](completions/msfdb.sh): easily setup and control both a database and a Web Service capable of connecting this database with Metasploit [🔗](https://github.com/rapid7/metasploit-framework)
+- [mtr](completions/mtr.sh): a network diagnostic tool [🔗](https://github.com/traviscross/mtr)
+- [mutt](completions/mutt.sh): The Mutt Mail User Agent [🔗](https://gitlab.com/muttmua/mutt)
+- [muffet](completions/muffet.sh): Fast website link checker in Go [🔗](https://github.com/raviqqe/muffet)
+- [mv](completions/mv.sh): move (rename) files [🔗](http://gnu.org/software/coreutils)
+- [mvn](completions/mvn.sh): a software project management and comprehension tool. [🔗](https://github.com/apache/maven)
+- [mypy](completions/mypy.sh): Optional static typing for Python. [🔗](https://github.com/python/mypy)
+- [mysql](completions/mysql.sh): the MySQL command-line client [🔗](https://www.mysql.com)
+- [mysqldump](completions/mysqldump.sh): a database backup program [🔗](https://www.mysql.com)
+- [namei](completions/namei.sh): follow a pathname until a terminal point is found [🔗](https://github.com/util-linux/util-linux)
+- [nano](completions/nano.sh): Nano's ANOther editor, inspired by Pico [🔗](https://www.nano-editor.org)
+- [navi](completions/navi.sh): An interactive cheatsheet tool [🔗](https://github.com/denisidoro/navi)
+- [nc](completions/nc.sh): arbitrary TCP and UDP connections and listens [🔗](https://salsa.debian.org/debian/netcat-openbsd)
+- [ncu](completions/ncu.sh): Find newer versions of package dependencies than what your package.json allows [🔗](https://github.com/raineorshine/npm-check-updates)
+- [ncat](completions/ncat.sh): Concatenate and redirect sockets [🔗](https://github.com/nmap/nmap)
+- [ncdu](completions/ncdu.sh): NCurses Disk Usage [🔗](https://dev.yorhel.nl/ncdu)
+- [neofetch](completions/neofetch.sh): Shows Linux System Information with Distribution Logo [🔗](https://github.com/dylanaraps/neofetch)
+- [neomutt](completions/neomutt.sh): The NeoMutt Mail User Agent (MUA) [🔗](https://github.com/neomutt/neomutt)
+- [nest](completions/nest.sh): A progressive Node.js framework for building efficient and scalable server-side applications. [🔗](https://github.com/nestjs/nest)
+- [netcat](completions/netcat.sh): arbitrary TCP and UDP connections and listens [🔗](https://netcat.sourceforge.net)
+- [netctl](completions/netctl.sh): Control the netctl network profile manager [🔗](https://git.archlinux.org/netctl.git)
+- [netctl-auto](completions/netctl-auto.sh): Control automatic selection of wireless netctl profiles [🔗](https://gitlab.archlinux.org/archlinux/netctl)
+- [nethogs](completions/nethogs.sh): Linux 'net top' tool [🔗](https://github.com/raboof/nethogs)
+- [networkQuality](completions/networkQuality.sh): Network quality testing tool. (macOS) [🔗](https://ss64.com/osx/networkquality.html)
+- [networkctl](completions/networkctl.sh): Query the status of network links [🔗](https://github.com/systemd/systemd)
+- [networksetup](completions/networksetup.sh): Configuration tool for network settings in System Preferences. (macOS) [🔗](https://ss64.com/osx/networksetup.html)
+- [newman](completions/newman.sh): a command-line collection runner for Postman [🔗](https://github.com/postmanlabs/newman)
+- [newrelic](completions/newrelic.sh): The New Relic CLI enables users to perform tasks against the New Relic APIs [🔗](https://github.com/newrelic/newrelic-cli)
+- [newsboat](completions/newsboat.sh): An RSS/Atom feed reader for text terminals [🔗](https://github.com/newsboat/newsboat)
+- [next](completions/next.sh): The React Framework [🔗](https://github.com/vercel/next.js)
+- [nexttrace](completions/nexttrace.sh): Open source visual route tracking CLI tool [🔗](https://github.com/nxtrace/NTrace-core)
+- [nfpm](completions/nfpm.sh): a simple and 0-dependencies deb, rpm, apk and arch linux packager written in Go. [🔗](https://github.com/goreleaser/nfpm)
+- [ng](completions/ng.sh): CLI tool for Angular [🔗](https://github.com/angular/angular-cli)
+- [nginx](completions/nginx.sh): HTTP and reverse proxy server, mail proxy server [🔗](http://nginx.org)
+- [ngrep](completions/ngrep.sh): network grep [🔗](https://github.com/jpr5/ngrep)
+- [ngrok](completions/ngrok.sh): Introspected tunnels to localhost [🔗](https://github.com/inconshreveable/ngrok)
+- [nhost](completions/nhost.sh): The New Relic Command Line Interface [🔗](https://github.com/newrelic/newrelic-cli)
+- [nice](completions/nice.sh): run a program with modified scheduling priority [🔗](http://gnu.org/software/coreutils)
+- [ninja](completions/ninja.sh): a small build system with a focus on speed [🔗](https://github.com/ninja-build/ninja)
+- [nix-build](completions/nix-build.sh): build a Nix expression [🔗](https://github.com/NixOS/nix)
+- [nix-channel](completions/nix-channel.sh): manage Nix channels [🔗](https://github.com/NixOS/nix)
+- [nix-collect-garbage](completions/nix-collect-garbage.sh): delete unreachable store objects [🔗](https://github.com/NixOS/nix)
+- [nix-copy-closure](completions/nix-copy-closure.sh): copy a closure to or from a remote machine via SSH [🔗](https://github.com/NixOS/nix)
+- [nix-env](completions/nix-env.sh): manipulate or query Nix user environments [🔗](https://github.com/NixOS/nix)
+- [nix-hash](completions/nix-hash.sh): compute the cryptographic hash of a path [🔗](https://github.com/NixOS/nix)
+- [nix-instantiate](completions/nix-instantiate.sh): instantiate store derivations from Nix expressions [🔗](https://github.com/NixOS/nix)
+- [nix-prefetch-url](completions/nix-prefetch-url.sh): copy a file from a URL into the store and print its hash [🔗](https://github.com/NixOS/nix)
+- [nix-shell](completions/nix-shell.sh): start an interactive shell based on a Nix expression [🔗](https://github.com/NixOS/nix)
+- [nix-store](completions/nix-store.sh): manipulate or query the Nix store [🔗](https://github.com/NixOS/nix)
+- [nl](completions/nl.sh): number lines of files [🔗](http://gnu.org/software/coreutils)
+- [nm](completions/nm.sh): list symbols from object files [🔗](https://www.gnu.org/software/binutils)
+- [nmap](completions/nmap.sh): The Network Mapper [🔗](https://github.com/nmap/nmap)
+- [nmcli](completions/nmcli.sh): command-line tool for controlling NetworkManage [🔗](https://gitlab.freedesktop.org/NetworkManager/NetworkManager)
+- [nnn](completions/nnn.sh): Free, fast, friendly file manager [🔗](https://github.com/jarun/nnn)
+- [node](completions/node.sh): an open-source, cross-platform JavaScript runtime environment. [🔗](https://github.com/nodejs/node)
+- [nohup](completions/nohup.sh): run a command immune to hangups, with output to a non-tty [🔗](http://gnu.org/software/coreutils)
+- [nomad](completions/nomad.sh): Orchestration made easy [🔗](https://github.com/hashicorp/nomad)
+- [npm](completions/npm.sh): the package manager for JavaScript [🔗](https://github.com/npm/cli)
+- [npx](completions/npx.sh): Run a command from an npm package [🔗](https://github.com/npm/cli)
+- [nsenter](completions/nsenter.sh): run program in different namespaces [🔗](https://github.com/util-linux/util-linux)
+- [nssm](completions/nssm.sh): Non-Sucking Service Manager [🔗](https://github.com/kirillkovalenko/nssm)
+- [nu](completions/nu.sh): A new type of shell [🔗](https://github.com/nushell/nushell)
+- [numfmt](completions/numfmt.sh): Convert numbers from/to human-readable strings [🔗](http://gnu.org/software/coreutils)
+- [nvim](completions/nvim.sh): hyperextensible Vim-based text editor [🔗](https://github.com/neovim/neovim)
+- [nvm](completions/nvm.sh): Node Version Manager [🔗](https://github.com/nvm-sh/nvm)
+- [nvram](completions/nvram.sh): Manipulate firmware variables. (macOS) [🔗](https://ss64.com/osx/nvram.html)
+- [objdump](completions/objdump.sh): display information from object files [🔗](https://www.gnu.org/software/binutils)
+- [ocaml](completions/ocaml.sh): The OCaml interactive toplevel [🔗](https://github.com/ocaml/ocaml)
+- [od](completions/od.sh): dump files in octal and other formats [🔗](http://gnu.org/software/coreutils)
+- [oh-my-posh](completions/oh-my-posh.sh): The most customisable and low-latency cross platform/shell prompt renderer [🔗](https://github.com/JanDeDobbeleer/oh-my-posh)
+- [okteto](completions/okteto.sh): Remote Development Environments powered by Kubernetes [🔗](https://github.com/okteto/okteto)
+- [ollama](completions/ollama.sh): Get up and running with Llama 2 and other large language models locally [🔗](https://github.com/jmorganca/ollama)
+- [op](completions/op.sh): 1Password CLI provides commands to manage and administer a 1Password account. [🔗](https://developer.1password.com)
+- [opa](completions/opa.sh): An open source project to policy-enable your service. [🔗](https://github.com/open-policy-agent/opa)
+- [opam](completions/opam.sh): source-based package manager for ocaml. [🔗](https://github.com/ocaml/opam)
+- [openssl](completions/openssl.sh): OpenSSL command line program [🔗](https://github.com/openssl/openssl)
+- [opkg](completions/opkg.sh): a lightweight package management system [🔗](https://code.google.com/archive/p/opkg)
+- [optipng](completions/optipng.sh): Optimize Portable Network Graphics files [🔗](http://optipng.sourceforge.net)
+- [osascript](completions/osascript.sh): Execute AppleScripts and other OSA language scripts. (macOS) [🔗](https://ss64.com/osx/osascript.html)
+- [osqueryi](completions/osqueryi.sh): your OS as a high-performance relational database [🔗](https://github.com/osquery/osquery)
+- [otool](completions/otool.sh): the otool-compatible command line parser for llvm-objdump [🔗](https://keith.github.io/xcode-man-pages/llvm-otool.1.html)
+- [ouch](completions/ouch.sh): easily compressing and decompressing files and directories. [🔗](https://github.com/ouch-org/ouch)
+- [packer](completions/packer.sh): Automate image builds [🔗](https://github.com/hashicorp/packer)
+- [pacman](completions/pacman.sh): package manager utility for Arch linux [🔗](https://gitlab.archlinux.org/pacman/pacman)
+- [pactl](completions/pactl.sh): Control a running PulseAudio sound server [🔗](http://www.pulseaudio.org)
+- [pandoc](completions/pandoc.sh): Universal markup converter [🔗](https://github.com/jgm/pandoc)
+- [parallel](completions/parallel.sh): build and execute shell command lines from standard input in parallel [🔗](https://joeyh.name/code/moreutils)
+- [pass](completions/pass.sh): stores, retrieves, generates, and synchronizes passwords securely [🔗](https://www.passwordstore.org)
+- [passwd](completions/passwd.sh): change user password [🔗](https://github.com/shadow-maint/shadow)
+- [paste](completions/paste.sh): merge lines of files [🔗](http://gnu.org/software/coreutils)
+- [pastel](completions/pastel.sh): A command-line tool to generate, analyze, convert and manipulate colors [🔗](https://github.com/sharkdp/pastel)
+- [patch](completions/patch.sh): apply a diff file to an original [🔗](https://savannah.gnu.org/projects/patch)
+- [pathchk](completions/pathchk.sh): check whether file names are valid or portable [🔗](http://gnu.org/software/coreutils)
+- [pbcopy](completions/pbcopy.sh): Copy data from STDIN to the clipboard. (macOS) [🔗](https://ss64.com/osx/pbcopy.html)
+- [pdfgrep](completions/pdfgrep.sh): search PDF files for a regular expression [🔗](https://gitlab.com/pdfgrep/pdfgrep)
+- [peco](completions/peco.sh): Simplistic interactive filtering tool [🔗](https://github.com/peco/peco)
+- [pee](completions/pee.sh): tee standard input to pipe [🔗](https://joeyh.name/code/moreutils)
+- [percol](completions/percol.sh): adds flavor of interactive selection to the traditional pipe concept on UNIX. [🔗](https://github.com/mooz/percol)
+- [perf](completions/perf.sh): Performance analysis tools for Linux [🔗](https://github.com/torvalds/linux)
+- [perl](completions/perl.sh): The Perl 5 language interpreter [🔗](https://github.com/Perl/perl5)
+- [pest](completions/pest.sh): an elegant PHP testing Framework with a focus on simplicity, meticulously designed to bring back the joy of testing in PHP. [🔗](https://github.com/pestphp/pest)
+- [pgcli](completions/pgcli.sh): Postgres CLI with autocompletion and syntax highlighting [🔗](https://github.com/dbcli/pgcli)
+- [pg_dump](completions/pg_dump.sh): extract a PostgreSQL database into a script file or other archive file [🔗](https://github.com/postgres/postgres)
+- [pg_dumpall](completions/pg_dumpall.sh): extract a PostgreSQL database cluster into a script file [🔗](https://github.com/postgres/postgres)
+- [pg_restore](completions/pg_restore.sh): restore a PostgreSQL database from an archive file created by pg_dump [🔗](https://github.com/postgres/postgres)
+- [pgrep](completions/pgrep.sh): look up, signal, or wait for processes based on name and other attributes [🔗](https://gitlab.com/procps-ng/procps)
+- [php](completions/php.sh): PHP Command Line Interface [🔗](https://github.com/php/php-src)
+- [phpunit](completions/phpunit.sh): The PHP Unit Testing framework. [🔗](https://github.com/sebastianbergmann/phpunit)
+- [pidof](completions/pidof.sh): find the process ID of a running program.  [🔗](https://github.com/slicer69/sysvinit)
+- [pidstat](completions/pidstat.sh): Report statistics for Linux tasks. [🔗](https://github.com/sysstat/sysstat)
+- [ping](completions/ping.sh): send ICMP ECHO_REQUEST to network hosts [🔗](https://github.com/iputils/iputils)
+- [pinky](completions/pinky.sh): lightweight finger  [🔗](http://gnu.org/software/coreutils)
+- [pip](completions/pip.sh): The Python package installer [🔗](https://github.com/pypa/pip)
+- [pip3](completions/pip3.sh): The Python package installer [🔗](https://github.com/pypa/pip)
+- [pipenv](completions/pipenv.sh): Python Development Workflow for Humans. [🔗](https://github.com/pypa/pipenv)
+- [pipx](completions/pipx.sh): Install and Run Python Applications in Isolated Environments [🔗](https://github.com/pypa/pipx)
+- [pkg-config](completions/pkg-config.sh): Return metainformation about installed libraries [🔗](https://gitlab.freedesktop.org/pkg-config/pkg-config)
+- [pkgutil](completions/pkgutil.sh): Query and manipulate MacOS Installer packages and receipts. (macOS) [🔗](https://ss64.com/osx/pkgutil.html)
+- [pkill](completions/pkill.sh): look up or signal processes based on name and other attributes [🔗](https://gitlab.com/procps-ng/procps)
+- [playwright](completions/playwright.sh): a framework for Web Testing and Automation. [🔗](https://github.com/microsoft/playwright)
+- [plocate](completions/plocate.sh): find files by name, quickly [🔗](https://plocate.sesse.net)
+- [plutil](completions/plutil.sh): Property list utility [🔗](https://github.com/gnustep/libs-base)
+- [pm2](completions/pm2.sh): Node.js Production Process Manager with a built-in Load Balancer. [🔗](https://github.com/Unitech/pm2)
+- [pmap](completions/pmap.sh): report memory map of a process [🔗](https://gitlab.com/procps-ng/procps)
+- [pmset](completions/pmset.sh): Power management settings. (macOS) [🔗](https://ss64.com/osx/pmset.html)
+- [pnpm](completions/pnpm.sh): Fast, disk space efficient package manager for Node.js [🔗](https://github.com/pnpm/pnpm)
+- [pocketbase](completions/pocketbase.sh): Open Source realtime backend in 1 file [🔗](https://github.com/pocketbase/pocketbase)
+- [pod](completions/pod.sh): The Cocoa Dependency Manager. [🔗](https://github.com/CocoaPods/CocoaPods)
+- [podman](completions/podman.sh): A tool for managing OCI containers and pods. [🔗](https://github.com/containers/podman)
+- [poetry](completions/poetry.sh): Python packaging and dependency management made easy [🔗](https://github.com/python-poetry/poetry)
+- [poff](completions/poff.sh): starts up, shuts down or lists the log of PPP connections [🔗](https://ppp.samba.org/index.html)
+- [pon](completions/pon.sh): starts up, shuts down or lists the log of PPP connections [🔗](https://ppp.samba.org/index.html)
+- [port](completions/port.sh): Install and upgrade open source software on macOS. (macOS) [🔗](https://github.com/macports/macports-ports)
+- [poweroff](completions/poweroff.sh): Halt, power-off or reboot the machine [🔗](https://github.com/systemd/systemd)
+- [powertop](completions/powertop.sh): a power consumption and power management diagnosis tool. [🔗](https://github.com/fenrus75/powertop)
+- [pr](completions/pr.sh): convert text files for printing [🔗](http://gnu.org/software/coreutils)
+- [pre-commit](completions/pre-commit.sh): A framework for managing and maintaining multi-language pre-commit hooks. [🔗](https://github.com/pre-commit/pre-commit)
+- [prettier](completions/prettier.sh): an opinionated code formatter. [🔗](https://github.com/prettier/prettier)
+- [printenv](completions/printenv.sh): print all or part of environment [🔗](http://gnu.org/software/coreutils)
+- [procs](completions/procs.sh): A modern replacement for ps written in Rust [🔗](https://github.com/dalance/procs)
+- [pry](completions/pry.sh): Interactive Ruby [🔗](https://github.com/pry/pry)
+- [ps](completions/ps.sh): report a snapshot of the current processes. [🔗](https://gitlab.com/procps-ng/procps)
+- [psql](completions/psql.sh): PostgreSQL interactive terminal [🔗](https://github.com/postgres/postgres)
+- [pstree](completions/pstree.sh): display a tree of processes [🔗](https://gitlab.com/psmisc/psmisc)
+- [ptx](completions/ptx.sh): produce a permuted index of file contents [🔗](http://gnu.org/software/coreutils)
+- [pueue](completions/pueue.sh): a command-line task management tool for sequential and parallel execution of long-running tasks. [🔗](https://github.com/Nukesor/pueue)
+- [pulumi](completions/pulumi.sh): Modern Infrastructure as Code [🔗](https://github.com/pulumi/pulumi)
+- [pv](completions/pv.sh): monitor the progress of data through a pipe [🔗](https://codeberg.org/a-j-wood/pv)
+- [pwd](completions/pwd.sh): print name of current/working directory [🔗](http://gnu.org/software/coreutils)
+- [pyenv](completions/pyenv.sh): Simple Python version management [🔗](https://github.com/pyenv/pyenv)
+- [pyright](completions/pyright.sh): Static type checker for Python [🔗](https://github.com/microsoft/pyright)
+- [pytest](completions/pytest.sh): testing framework for Python [🔗](https://github.com/pytest-dev/pytest)
+- [python](completions/python.sh): an interpreted, interactive, object-oriented programming language [🔗](https://github.com/python/cpython)
+- [python3](completions/python3.sh): an interpreted, interactive, object-oriented programming language [🔗](https://github.com/python/cpython)
+- [qrencode](completions/qrencode.sh): Encode input data in a QR Code and save as a PNG or EPS image. [🔗](https://github.com/fukuchi/libqrencode)
+- [quilt](completions/quilt.sh): tool to manage series of patches [🔗](https://savannah.nongnu.org/projects/quilt)
+- [rake](completions/rake.sh): A make-like build utility for Ruby [🔗](https://github.com/ruby/rake)
+- [ranger](completions/ranger.sh): A VIM-inspired filemanager for the console [🔗](https://github.com/ranger/ranger)
+- [rar](completions/rar.sh): archive files with compression [🔗](https://www.rarlabs.com)
+- [rbenv](completions/rbenv.sh): Manage your app's Ruby environment [🔗](https://github.com/rbenv/rbenv)
+- [rclone](completions/rclone.sh): rsync for cloud storage [🔗](https://github.com/rclone/rclone)
+- [readelf](completions/readelf.sh): display information about ELF files [🔗](https://www.gnu.org/software/binutils)
+- [readlink](completions/readlink.sh): print resolved symbolic links or canonical file names [🔗](http://gnu.org/software/coreutils)
+- [realpath](completions/realpath.sh): print the resolved path [🔗](http://gnu.org/software/coreutils)
+- [reboot](completions/reboot.sh): Halt, power-off or reboot the machine [🔗](https://github.com/systemd/systemd)
+- [recode](completions/recode.sh): converts files between character sets [🔗](https://github.com/rrthomas/recode)
+- [redis-cli](completions/redis-cli.sh): Command-line client to redis-server [🔗](https://github.com/redis/redis)
+- [renice](completions/renice.sh): alter priority of running processes [🔗](https://github.com/util-linux/util-linux)
+- [resolvectl](completions/resolvectl.sh): Resolve domain names, IPV4 and IPv6 addresses, DNS resource records, and services [🔗](https://github.com/systemd/systemd)
+- [restic](completions/restic.sh): Backup and restore files [🔗](https://github.com/restic/restic)
+- [resume](completions/resume.sh): CLI tool to easily setup a new resume [🔗](https://github.com/jsonresume/resume-cli)
+- [rfkill](completions/rfkill.sh): tool for enabling and disabling wireless devices [🔗](https://github.com/util-linux/util-linux)
+- [rg](completions/rg.sh): recursively search the current directory for lines matching a pattern [🔗](https://github.com/BurntSushi/ripgrep)
+- [rgrep](completions/rgrep.sh): print lines that match patterns [🔗](https://www.gnu.org/software/grep)
+- [rhash](completions/rhash.sh): calculate/check CRC32, MD5, SHA1, GOST, TTH, BTIH or other message digests. [🔗](http://rhash.sourceforge.net)
+- [rich](completions/rich.sh): Rich text and formatting in the terminal  [🔗](https://github.com/Textualize/rich)
+- [rifle](completions/rifle.sh): ranger's file opener [🔗](https://github.com/ranger/ranger)
+- [rm](completions/rm.sh): remove files or directories [🔗](http://gnu.org/software/coreutils)
+- [rmdir](completions/rmdir.sh): remove empty directories [🔗](http://gnu.org/software/coreutils)
+- [rmmod](completions/rmmod.sh): Simple program to remove a module from the Linux Kernel [🔗](https://github.com/kmod-project/kmod)
+- [robot](completions/robot.sh): Generic automation framework for acceptance testing and RPA [🔗](https://github.com/robotframework/robotframework)
+- [rollup](completions/rollup.sh): Next-generation ES module bundler [🔗](https://github.com/rollup/rollup)
+- [route](completions/route.sh): show / manipulate the IP routing table [🔗](https://github.com/ecki/net-tools)
+- [Rscript](completions/Rscript.sh): front end for scripting with R [🔗](https://github.com/r-lib/rlang)
+- [rsync](completions/rsync.sh): a fast, versatile, remote (and local) file-copying tool [🔗](https://rsync.samba.org)
+- [ruby](completions/ruby.sh): Interpreted object-oriented scripting language [🔗](https://github.com/ruby/ruby)
+- [ruff](completions/ruff.sh): An extremely fast Python linter, written in Rust. [🔗](https://github.com/astral-sh/ruff)
+- [rustc](completions/rustc.sh): Rust compiler [🔗](https://github.com/rust-lang/rust)
+- [rustfmt](completions/rustfmt.sh): Format Rust code [🔗](https://github.com/rust-lang/rustfmt)
+- [rustup](completions/rustup.sh): The Rust toolchain installer [🔗](https://github.com/rust-lang/rustup)
+- [rye](completions/rye.sh): An Experimental Package Management Solution for Python [🔗](https://github.com/mitsuhiko/rye)
+- [s3cmd](completions/s3cmd.sh): Command-line tool for the Amazon S3 service [🔗](https://github.com/s3tools/s3cmd)
+- [sad](completions/sad.sh): Space Age seD. [🔗](https://github.com/ms-jpq/sad)
+- [sbt](completions/sbt.sh): An interactive build tool for Scala, Java, and more. [🔗](https://github.com/sbt/sbt)
+- [scc](completions/scc.sh): Sloc, Cloc and Code. Count lines of code in a directory with complexity estimation. [🔗](https://github.com/boyter/scc)
+- [scons](completions/scons.sh): a software construction tool [🔗](https://github.com/SCons/scons)
+- [scoop](completions/scoop.sh): A command-line installer for Windows. (windows) [🔗](https://github.com/ScoopInstaller/Scoop)
+- [scp](completions/scp.sh): OpenSSH secure file copy [🔗](https://github.com/openssh/openssh-portable)
+- [screen](completions/screen.sh): screen manager with VT100/ANSI terminal emulation [🔗](https://savannah.gnu.org/projects/screen)
+- [scrot](completions/scrot.sh): command line screen capture utility [🔗](https://github.com/resurrecting-open-source-projects/scrot)
+- [scrypt](completions/scrypt.sh): encrypt and decrypt files. [🔗](https://github.com/Tarsnap/scrypt)
+- [sd](completions/sd.sh): Intuitive find & replace CLI (sed alternative) [🔗](https://github.com/chmln/sd)
+- [sdk](completions/sdk.sh): a tool for managing parallel Versions of multiple Software Development Kits on any Unix based system. [🔗](https://github.com/sdkman/sdkman-cli)
+- [sed](completions/sed.sh): stream editor for filtering and transforming text [🔗](https://www.gnu.org/software/sed)
+- [seq](completions/seq.sh): print a sequence of numbers [🔗](http://gnu.org/software/coreutils)
+- [serve](completions/serve.sh): Static file serving and directory listing [🔗](https://github.com/vercel/serve)
+- [service](completions/service.sh): run a System V init script [🔗](https://manned.org/service)
+- [setfacl](completions/setfacl.sh): set file access control lists [🔗](https://savannah.nongnu.org/projects/acl)
+- [setfattr](completions/setfattr.sh): set extended attributes of filesystem objects [🔗](https://savannah.nongnu.org/projects/attr)
+- [setpriv](completions/setpriv.sh): run a program with different Linux privilege settings  [🔗](https://github.com/util-linux/util-linux)
+- [setsid](completions/setsid.sh): run a program in a new session [🔗](https://github.com/util-linux/util-linux)
+- [sftp](completions/sftp.sh): OpenSSH secure file transfer [🔗](https://github.com/openssh/openssh-portable)
+- [sftpgo](completions/sftpgo.sh): Fully featured SFTP server with optional HTTP/S, FTP/S and WebDAV support. [🔗](https://github.com/drakkan/sftpgo)
+- [sg](completions/sg.sh): a CLI tool for code structural search, lint, and rewriting. [🔗](https://github.com/ast-grep/ast-grep)
+- [sh](completions/sh.sh): command language interpreter [🔗](http://gondor.apana.org.au/~herbert/dash)
+- [sha1sum](completions/sha1sum.sh): compute and check SHA1 message digest [🔗](http://gnu.org/software/coreutils)
+- [sha256sum](completions/sha256sum.sh): compute and check SHA256 message digest [🔗](http://gnu.org/software/coreutils)
+- [sha512sum](completions/sha512sum.sh): compute and check SHA512 message digest [🔗](http://gnu.org/software/coreutils)
+- [shar](completions/shar.sh): create a shell archive [🔗](https://www.gnu.org/software/sharutils)
+- [shasum](completions/shasum.sh): Print or Check SHA Checksums [🔗](https://github.com/Perl/perl5)
+- [shellcheck](completions/shellcheck.sh): a static analysis tool for shell scripts [🔗](https://github.com/koalaman/shellcheck)
+- [shfmt](completions/shfmt.sh): shell formatter, parser, and interpreter [🔗](https://github.com/mvdan/sh)
+- [shortcuts](completions/shortcuts.sh): Manage macOS shortcuts. (macOS) [🔗](https://ss64.com/osx/shortcuts.html)
+- [shred](completions/shred.sh): overwrite a file to hide its contents, and optionally delete it [🔗](http://gnu.org/software/coreutils)
+- [shuf](completions/shuf.sh): generate random permutations [🔗](http://gnu.org/software/coreutils)
+- [shutdown](completions/shutdown.sh): Halt, power-off or reboot the machine [🔗](https://github.com/systemd/systemd)
+- [simctl](completions/simctl.sh): Command line utility to control the Simulator. (macOS) [🔗](#)
+- [slabtop](completions/slabtop.sh): display kernel slab cache information in real time [🔗](https://gitlab.com/procps-ng/procps)
+- [slides](completions/slides.sh): Terminal based presentation tool [🔗](https://github.com/maaslalani/slides)
+- [slrn](completions/slrn.sh): An easy to use NNTP / spool based newsreader. [🔗](https://slrn.info)
+- [smartctl](completions/smartctl.sh): Control and Monitor Utility for SMART Disks [🔗](https://github.com/smartmontools/smartmontools)
+- [smbclient](completions/smbclient.sh): ftp-like client to access SMB/CIFS resources on servers [🔗](http://www.samba.org)
+- [snap](completions/snap.sh): The app store for Linux [🔗](https://snapcraft.io)
+- [softwareupdate](completions/softwareupdate.sh): Check for new and updated versions of your software based on information about your computer and current software. (macOS) [🔗](https://ss64.com/osx/softwareupdate.html)
+- [sops](completions/sops.sh): Simple and flexible tool for managing secrets [🔗](https://github.com/getsops/sops)
+- [sort](completions/sort.sh): sort lines of text files [🔗](http://gnu.org/software/coreutils)
+- [source-highlight](completions/source-highlight.sh): convert source code to syntax highlighted document [🔗](https://www.gnu.org/software/src-highlite)
+- [speedtest](completions/speedtest.sh): Command line interface for testing internet bandwidth using speedtest.net. [🔗](https://github.com/sivel/speedtest-cli)
+- [speedtest-cli](completions/speedtest-cli.sh): Command line interface for testing internet bandwidth using speedtest.net. [🔗](https://github.com/sivel/speedtest-cli)
+- [split](completions/split.sh): split a file into pieces [🔗](http://gnu.org/software/coreutils)
+- [sqlfluff](completions/sqlfluff.sh): The SQL Linter for Humans [🔗](https://github.com/sqlfluff/sqlfluff)
+- [sqlite3](completions/sqlite3.sh): A command line interface for SQLite version 3 [🔗](https://www.sqlite.org)
+- [ss](completions/ss.sh): another utility to investigate sockets [🔗](https://github.com/iproute2/iproute2)
+- [ssh](completions/ssh.sh): OpenSSH remote login client [🔗](https://github.com/openssh/openssh-portable)
+- [ssh-agent](completions/ssh-agent.sh): OpenSSH authentication agent [🔗](https://github.com/openssh/openssh-portable)
+- [ssh-copy-id](completions/ssh-copy-id.sh): use locally available keys to authorise logins on a remote machine [🔗](https://github.com/openssh/openssh-portable)
+- [ssh-keygen](completions/ssh-keygen.sh): OpenSSH authentication key utility [🔗](https://github.com/openssh/openssh-portable)
+- [sshfs](completions/sshfs.sh): A network filesystem client to connect to SSH servers [🔗](https://github.com/libfuse/sshfs)
+- [stack](completions/stack.sh): The Haskell Tool Stack [🔗](https://github.com/commercialhaskell/stack)
+- [starship](completions/starship.sh): The minimal, blazing-fast, and infinitely customizable prompt for any shell! [🔗](https://github.com/starship/starship)
+- [stat](completions/stat.sh): display file or file system status [🔗](http://gnu.org/software/coreutils)
+- [stdbuf](completions/stdbuf.sh): Run COMMAND, with modified buffering operations for its standard streams. [🔗](http://gnu.org/software/coreutils)
+- [stow](completions/stow.sh): manage farms of symbolic links [🔗](https://www.gnu.org/software/stow)
+- [strace](completions/strace.sh): a diagnostic, debugging and instructional userspace utility for Linux [🔗](https://github.com/strace/strace)
+- [strings](completions/strings.sh): print the sequences of printable characters in files [🔗](https://www.gnu.org/software/binutils)
+- [strip](completions/strip.sh): discard symbols and other data from object files [🔗](https://www.gnu.org/software/binutils)
+- [stripe](completions/stripe.sh): A command-line tool for Stripe [🔗](https://github.com/stripe/stripe-cli)
+- [stty](completions/stty.sh): change and print terminal line settings [🔗](http://gnu.org/software/coreutils)
+- [su](completions/su.sh): run a command with substitute user and group ID [🔗](https://github.com/util-linux/util-linux)
+- [subl](completions/subl.sh): Sublime Text Command Line Interface [🔗](https://www.sublimetext.com)
+- [sudo](completions/sudo.sh): execute a command as another user [🔗](https://github.com/sudo-project/sudo)
+- [sudoedit](completions/sudoedit.sh): edit files as another user [🔗](https://github.com/sudo-project/sudo)
+- [sulogin](completions/sulogin.sh): single-user login [🔗](https://github.com/util-linux/util-linux)
+- [sum](completions/sum.sh): checksum and count the blocks in a file [🔗](http://gnu.org/software/coreutils)
+- [supabase](completions/supabase.sh): The open source Firebase alternative. [🔗](https://github.com/supabase/supabase)
+- [supervisorctl](completions/supervisorctl.sh): control applications run by supervisord from the cmd line [🔗](https://github.com/Supervisor/supervisor)
+- [surreal](completions/surreal.sh): SurrealDB command-line interface and server  [🔗](https://github.com/surrealdb/surrealdb)
+- [sv](completions/sv.sh): control and manage services monitored by runsv [🔗](https://github.com/void-linux/runit)
+- [svn](completions/svn.sh): Subversion command line client tool [🔗](https://subversion.apache.org)
+- [svtplay-dl](completions/svtplay-dl.sh): Download videos from your favourite play services. [🔗](https://github.com/spaam/svtplay-dl)
+- [swaks](completions/swaks.sh): Swiss Army Knife SMTP, the all-purpose SMTP transaction tester [🔗](https://github.com/jetmore/swaks)
+- [sw_vers](completions/sw_vers.sh): Print macOS operating system version. (macOS) [🔗](https://ss64.com/osx/sw_vers.html)
+- [swc](completions/swc.sh): a super-fast TypeScript / JavaScript compiler written in Rust [🔗](https://github.com/swc-project/swc)
+- [swift](completions/swift.sh): Swift compiler [🔗](https://github.com/apple/swift)
+- [syft](completions/syft.sh): CLI tool and library for generating a Software Bill of Materials from container images and filesystems. [🔗](https://github.com/anchore/syft)
+- [sync](completions/sync.sh): Synchronize cached writes to persistent storage [🔗](http://gnu.org/software/coreutils)
+- [sysctl](completions/sysctl.sh): configure kernel parameters at runtime [🔗](https://gitlab.com/procps-ng/procps)
+- [system_profiler](completions/system_profiler.sh): Report system hardware and software configuration. (macOS) [🔗](https://ss64.com/osx/system_profiler.html)
+- [systemctl](completions/systemctl.sh): Control the systemd system and service manager [🔗](https://github.com/systemd/systemd)
+- [systemd-analyze](completions/systemd-analyze.sh): Analyze and debug system manager [🔗](https://github.com/systemd/systemd)
+- [systemd-nspawn](completions/systemd-nspawn.sh): Spawn a command or OS in a light-weight container [🔗](https://github.com/systemd/systemd)
+- [tac](completions/tac.sh): concatenate and print files in reverse [🔗](http://gnu.org/software/coreutils)
+- [tail](completions/tail.sh): output the last part of files  [🔗](http://gnu.org/software/coreutils)
+- [tar](completions/tar.sh): an archiving utility [🔗](https://www.gnu.org/software/tar)
+- [task](completions/task.sh): A task runner / simpler Make alternative written in Go [🔗](https://github.com/go-task/task)
+- [tcpdump](completions/tcpdump.sh): dump traffic on a network [🔗](https://github.com/the-tcpdump-group/tcpdump)
+- [tcsh](completions/tcsh.sh): C shell with file name completion and command line editing [🔗](https://github.com/tcsh-org/tcsh)
+- [tee](completions/tee.sh): read from standard input and write to standard output and files [🔗](http://gnu.org/software/coreutils)
+- [telnet](completions/telnet.sh): user interface to the TELNET protocol [🔗](https://www.gnu.org/software/inetutils)
+- [terraform](completions/terraform.sh): Automate infrastructure on any cloud [🔗](https://github.com/hashicorp/terraform)
+- [terragrunt](completions/terragrunt.sh): a thin wrapper for Terraform that provides extra tools for working with multiple Terraform modules. [🔗](https://github.com/gruntwork-io/terragrunt)
+- [terramate](completions/terramate.sh): adds powerful capabilities such as code generation, stacks, orchestration, change detection, data sharing and more to Terraform. [🔗](https://github.com/terramate-io/terramate)
+- [tesseract](completions/tesseract.sh): Tesseract Open Source OCR Engine [🔗](https://github.com/tesseract-ocr/tesseract)
+- [tex](completions/tex.sh): text formatting and typesetting [🔗](https://www.tug.org/texlive)
+- [tfenv](completions/tfenv.sh): Terraform version manager [🔗](https://github.com/tfutils/tfenv)
+- [tfsec](completions/tfsec.sh): Security scanner for your Terraform code [🔗](https://github.com/aquasecurity/tfsec)
+- [tidy](completions/tidy.sh): check, correct, and pretty-print HTML files [🔗](https://github.com/htacg/tidy-html5)
+- [tig](completions/tig.sh): text-mode interface for Git [🔗](https://github.com/jonas/tig)
+- [timedatectl](completions/timedatectl.sh): Control the system time and date [🔗](https://github.com/systemd/systemd)
+- [timeout](completions/timeout.sh): run a command with a time limit [🔗](http://gnu.org/software/coreutils)
+- [time](completions/time.sh): run programs and summarize system resource usage [🔗](https://www.gnu.org/software/time)
+- [tin](completions/tin.sh): Usenet newsreader [🔗](http://www.tin.org)
+- [tinygo](completions/tinygo.sh): a Go compiler for small places. [🔗](https://github.com/tinygo-org/tinygo)
+- [tkn](completions/tkn.sh): CLI for tekton pipelines [🔗](https://github.com/tektoncd/cli)
+- [tldr](completions/tldr.sh): Collaborative cheatsheets for console commands [🔗](https://github.com/tldr-pages/tldr)
+- [tload](completions/tload.sh): graphic representation of system load average [🔗](https://gitlab.com/procps-ng/procps)
+- [tmate](completions/tmate.sh): terminal multiplexer with instant terminal sharing [🔗](https://github.com/tmate-io/tmate)
+- [tmutil](completions/tmutil.sh): Time Machine utility. (macOS) [🔗](https://ss64.com/osx/tmutil.html)
+- [tmux](completions/tmux.sh): terminal multiplexer [🔗](https://github.com/tmux/tmux)
+- [tmuxinator](completions/tmuxinator.sh): Manage complex tmux sessions easily [🔗](https://github.com/tmuxinator/tmuxinator)
+- [tokei](completions/tokei.sh): Count your code, quickly. [🔗](https://github.com/XAMPPRocky/tokei)
+- [top](completions/top.sh): display Linux processes [🔗](https://gitlab.com/procps-ng/procps)
+- [torsocks](completions/torsocks.sh): Shell wrapper to simplify the use of the torsocks(8) library to transparently torify an application. [🔗](https://gitlab.torproject.org/tpo/core/torsocks)
+- [touch](completions/touch.sh): change file timestamps [🔗](http://gnu.org/software/coreutils)
+- [tput](completions/tput.sh): initialize a terminal or query terminfo database [🔗](https://invisible-island.net/ncurses)
+- [tr](completions/tr.sh): translate or delete characters [🔗](http://gnu.org/software/coreutils)
+- [tracepath](completions/tracepath.sh): traces path to a network host discovering MTU along this path [🔗](https://github.com/iputils/iputils)
+- [traceroute](completions/traceroute.sh): print the route packets trace to network host [🔗](https://traceroute.sourceforge.net)
+- [trap](completions/trap.sh): Trap signals and other events. [🔗](https://manned.org/trap.1posix)
+- [trash-empty](completions/trash-empty.sh): Empty for Command line trash utility. [🔗](https://github.com/andreafrancia/trash-cli)
+- [trash-list](completions/trash-list.sh): List trashed files. [🔗](https://github.com/andreafrancia/trash-cli)
+- [trash-put](completions/trash-put.sh): Command line trash utility. [🔗](https://github.com/andreafrancia/trash-cli)
+- [trash-restore](completions/trash-restore.sh): Restore for Command line trash utility. [🔗](https://github.com/andreafrancia/trash-cli)
+- [tree](completions/tree.sh): list contents of directories in a tree-like format. [🔗](https://gitlab.com/OldManProgrammer/unix-tree)
+- [trivy](completions/trivy.sh): Scanner for vulnerabilities in container images, file systems, and Git repositories, as well as for configuration issues and hard-coded secrets [🔗](https://github.com/aquasecurity/trivy)
+- [truncate](completions/truncate.sh): shrink or extend the size of a file to the specified size [🔗](http://gnu.org/software/coreutils)
+- [trunk](completions/trunk.sh): Build, bundle & ship your Rust WASM application to the web. [🔗](https://github.com/thedodd/trunk)
+- [ts-node](completions/ts-node.sh): TypeScript execution and REPL for node.js [🔗](https://github.com/TypeStrong/ts-node)
+- [tsc](completions/tsc.sh): The TypeScript Compiler [🔗](https://github.com/Microsoft/TypeScript)
+- [tshark](completions/tshark.sh): Dump and analyze network traffic [🔗](https://gitlab.com/wireshark/wireshark)
+- [tspin](completions/tspin.sh):  A log file highlighter [🔗](https://github.com/bensadeh/tailspin)
+- [tsx](completions/tsx.sh): Node.js enhanced to run TypeScript & ESM files [🔗](https://github.com/esbuild-kit/tsx)
+- [tty](completions/tty.sh): print the file name of the terminal connected to standard input [🔗](http://gnu.org/software/coreutils)
+- [ttyd](completions/ttyd.sh): a tool for sharing terminal over the web [🔗](https://github.com/tsl0922/ttyd)
+- [tuist](completions/tuist.sh): Create, maintain, and interact with Xcode projects at scale. (macOS) [🔗](https://github.com/tuist/tuist)
+- [tune2fs](completions/tune2fs.sh): adjust tunable file system parameters on ext2/ext3/ext4 file systems [🔗](https://e2fsprogs.sourceforge.net)
+- [turbo](completions/turbo.sh): The build system that makes ship happen [🔗](https://github.com/vercel/turbo)
+- [twiggy](completions/twiggy.sh): a code size profiler. [🔗](https://github.com/rustwasm/twiggy)
+- [typos](completions/typos.sh): Source Code Spelling Correction [🔗](https://github.com/crate-ci/typos)
+- [typst](completions/typst.sh): A new markup-based typesetting system that is powerful and easy to learn. [🔗](https://github.com/typst/typst)
+- [uconv](completions/uconv.sh): convert data from one encoding to another [🔗](https://github.com/unicode-org/icu)
+- [udevadm](completions/udevadm.sh): udev management tool [🔗](https://github.com/systemd/systemd)
+- [ug](completions/ug.sh): Ultra fast grep with query UI, fuzzy search, archive search, and more  [🔗](https://github.com/Genivia/ugrep)
+- [ugrep](completions/ugrep.sh): Ultra fast grep with query UI, fuzzy search, archive search, and more [🔗](https://github.com/Genivia/ugrep)
+- [ulimit](completions/ulimit.sh): get and set user limits [🔗](https://manned.org/ulimit.1posix)
+- [umount](completions/umount.sh): unmount filesystems [🔗](https://github.com/util-linux/util-linux)
+- [uname](completions/uname.sh): print system information [🔗](http://gnu.org/software/coreutils)
+- [unexpand](completions/unexpand.sh): convert spaces to tabs [🔗](http://gnu.org/software/coreutils)
+- [uniq](completions/uniq.sh): report or omit repeated lines [🔗](http://gnu.org/software/coreutils)
+- [unison](completions/unison.sh): a multi-platform bi-directional file synchronization tool [🔗](https://github.com/bcpierce00/unison)
+- [unix2dos](completions/unix2dos.sh): DOS/Mac to Unix and vice versa text file format converter [🔗](https://dos2unix.sourceforge.io)
+- [unlink](completions/unlink.sh): call the unlink function to remove the specified file [🔗](http://gnu.org/software/coreutils)
+- [unlzma](completions/unlzma.sh): Compress or decompress .xz and .lzma files [🔗](https://github.com/tukaani-project/xz)
+- [unshare](completions/unshare.sh): run program in new namespaces [🔗](https://github.com/util-linux/util-linux)
+- [unxz](completions/unxz.sh): Compress or decompress .xz and .lzma files [🔗](https://github.com/tukaani-project/xz)
+- [unzip](completions/unzip.sh): list, test and extract compressed files in a ZIP archive [🔗](https://infozip.sourceforge.net/UnZip.html)
+- [update-alternatives](completions/update-alternatives.sh): maintain symbolic links determining default commands [🔗](https://salsa.debian.org/dpkg-team/dpkg)
+- [upower](completions/upower.sh): abstraction for power management [🔗](https://gitlab.freedesktop.org/upower/upower)
+- [uptime](completions/uptime.sh): Tell how long the system has been running. [🔗](https://gitlab.com/procps-ng/procps)
+- [upx](completions/upx.sh): Ultimate Packer for eXecutables [🔗](https://github.com/upx/upx)
+- [useradd](completions/useradd.sh): create a new user or update default new user information [🔗](https://github.com/shadow-maint/shadow)
+- [userdel](completions/userdel.sh): delete a user account and related files [🔗](https://github.com/shadow-maint/shadow)
+- [usermod](completions/usermod.sh): modify a user account [🔗](https://github.com/shadow-maint/shadow)
+- [usql](completions/usql.sh): Universal command-line interface for SQL databases [🔗](https://github.com/xo/usql)
+- [uuidgen](completions/uuidgen.sh): create a new UUID value [🔗](https://github.com/util-linux/util-linux)
+- [vagrant](completions/vagrant.sh): building and distributing development environments. [🔗](https://github.com/hashicorp/vagrant)
+- [vale](completions/vale.sh): A markup-aware linter for prose built with speed and extensibility in mind. [🔗](https://github.com/errata-ai/vale)
+- [valgrind](completions/valgrind.sh): a suite of tools for debugging and profiling programs [🔗](http://www.valgrind.org)
+- [vault](completions/vault.sh): Manage secrets and protect sensitive data [🔗](https://github.com/hashicorp/vault)
+- [vcpkg](completions/vcpkg.sh): C++ Library Manager for Windows, Linux, and MacOS [🔗](https://github.com/microsoft/vcpkg)
+- [vdir](completions/vdir.sh): list directory contents [🔗](http://gnu.org/software/coreutils)
+- [vegeta](completions/vegeta.sh): a versatile HTTP load testing tool built out of a need to drill HTTP services with a constant request rate. [🔗](https://github.com/tsenart/vegeta)
+- [vela](completions/vela.sh): A Highly Extensible Platform Engine based on Kubernetes and Open Application Model. [🔗](https://github.com/kubevela/kubevela)
+- [vercel](completions/vercel.sh): CLI for vercel frontend cloud. [🔗](https://github.com/vercel/vercel)
+- [vhs](completions/vhs.sh): Your CLI home video recorder. [🔗](https://github.com/charmbracelet/vhs)
+- [vi](completions/vi.sh): compact version of vim [🔗](https://github.com/vim/vim)
+- [vim](completions/vim.sh): Vi IMproved, a programmer's text editor [🔗](https://github.com/vim/vim)
+- [vimdiff](completions/vimdiff.sh): Similar to UNIX diff command we can use Vim to show diff in much better manner.  [🔗](https://github.com/vim/vim)
+- [virsh](completions/virsh.sh): the main interface for managing virsh guest domains [🔗](https://github.com/libvirt/libvirt)
+- [visudo](completions/visudo.sh): edit the sudoers file [🔗](https://github.com/sudo-project/sudo)
+- [vite](completions/vite.sh): Next generation frontend tooling. [🔗](https://github.com/vitejs/vite)
+- [viu](completions/viu.sh): View images right from the terminal. [🔗](https://github.com/atanunq/viu)
+- [vivid](completions/vivid.sh): LS_COLORS manager with multiple themes [🔗](https://github.com/sharkdp/vivid)
+- [vlc](completions/vlc.sh): the VLC media player [🔗](https://github.com/videolan/vlc)
+- [vmstat](completions/vmstat.sh): Report virtual memory statistics [🔗](https://gitlab.com/procps-ng/procps)
+- [volta](completions/volta.sh): JS Toolchains as Code.  [🔗](https://github.com/volta-cli/volta)
+- [vpnc](completions/vpnc.sh): client for Cisco VPN3000 Concentrator, IOS and PIX [🔗](https://github.com/streambinder/vpnc)
+- [vultr-cli](completions/vultr-cli.sh): Official command line tool for Vultr services [🔗](https://github.com/vultr/vultr-cli)
+- [w](completions/w.sh): Show who is logged on and what they are doing. [🔗](https://gitlab.com/procps-ng/procps)
+- [w3m](completions/w3m.sh): WWW browsable pager [🔗](https://github.com/tats/w3m)
+- [wasm-bindgen](completions/wasm-bindgen.sh): Generating JS bindings for a wasm file [🔗](https://github.com/rustwasm/wasm-bindgen)
+- [wasm-pack](completions/wasm-pack.sh): your favorite rust -> wasm workflow tool! [🔗](https://github.com/rustwasm/wasm-pack)
+- [wasm-tools](completions/wasm-tools.sh): Low level tooling for WebAssembly in Rust. [🔗](https://github.com/bytecodealliance/wasm-tools)
+- [wasmer](completions/wasmer.sh): The leading WebAssembly Runtime supporting WASIX, WASI and Emscripten [🔗](https://github.com/wasmerio/wasmer)
+- [watch](completions/watch.sh): execute a program periodically, showing output fullscreen [🔗](https://gitlab.com/procps-ng/procps)
+- [watchexec](completions/watchexec.sh): Executes commands in response to file modifications [🔗](https://github.com/watchexec/watchexec)
+- [watchgnupg](completions/watchgnupg.sh): Read and print logs from a socket [🔗](https://www.gnupg.org)
+- [watchman](completions/watchman.sh): Watches files and records, or triggers actions, when they change. [🔗](https://github.com/facebook/watchman)
+- [watson](completions/watson.sh): A wonderful CLI to track your time! [🔗](https://github.com/TailorDev/Watson)
+- [waypoint](completions/waypoint.sh): Easy application deployment for Nomad, Kubernetes, and Amazon ECS [🔗](https://github.com/hashicorp/waypoint)
+- [wc](completions/wc.sh): print newline, word, and byte counts for each file [🔗](http://gnu.org/software/coreutils)
+- [wdiff](completions/wdiff.sh): display word differences between text files [🔗](http://www.gnu.org/software/wdiff)
+- [webpack](completions/webpack.sh): A bundler for javascript and friends. [🔗](https://github.com/webpack/webpack)
+- [wezterm](completions/wezterm.sh): A GPU-accelerated cross-platform terminal emulator and multiplexer  [🔗](https://github.com/wez/wezterm)
+- [wget](completions/wget.sh): The non-interactive network downloader. [🔗](https://www.gnu.org/software/wget)
+- [whatis](completions/whatis.sh): display one-line manual page descriptions [🔗](https://gitlab.com/man-db/man-db)
+- [whereis](completions/whereis.sh): locate the binary, source, and manual page files for a command [🔗](https://github.com/util-linux/util-linux)
+- [which](completions/which.sh): locate a command [🔗](https://savannah.gnu.org/projects/which)
+- [who](completions/who.sh): show who is logged on [🔗](http://gnu.org/software/coreutils)
+- [whois](completions/whois.sh): client for the whois directory service [🔗](https://github.com/rfc1036/whois)
+- [wine](completions/wine.sh): run Windows programs on Unix [🔗](https://gitlab.winehq.org/wine/wine)
+- [wineboot](completions/wineboot.sh): perform Wine initialization, startup, and shutdown tasks [🔗](https://gitlab.winehq.org/wine/wine)
+- [winepath](completions/winepath.sh): Tool to convert Unix paths to/from Win32 paths [🔗](https://gitlab.winehq.org/wine/wine)
+- [winetricks](completions/winetricks.sh): manage virtual Windows environments using Wine [🔗](https://github.com/Winetricks/winetricks)
+- [winget](completions/winget.sh): Windows Package Manager. (windows) [🔗](https://github.com/microsoft/winget-cli)
+- [wipefs](completions/wipefs.sh): wipe a signature from a device [🔗](https://github.com/util-linux/util-linux)
+- [wireshark](completions/wireshark.sh): Interactively dump and analyze network traffic [🔗](https://gitlab.com/wireshark/wireshark)
+- [wodim](completions/wodim.sh): write data to optical disk media [🔗](https://sourceforge.net/projects/wodim)
+- [wpa_cli](completions/wpa_cli.sh): WPA command line client [🔗](https://w1.fi/wpa_supplicant)
+- [wp](completions/wp.sh): The command-line interface for WordPress. [🔗](https://github.com/wp-cli/wp-cli)
+- [wrangler](completions/wrangler.sh): command line tool for building Cloudflare Workers. [🔗](https://github.com/cloudflare/workers-sdk)
+- [wrk](completions/wrk.sh): Modern HTTP benchmarking tool [🔗](https://github.com/wg/wrk)
+- [wscat](completions/wscat.sh): WebSocket cat [🔗](https://github.com/websockets/wscat)
+- [wsl](completions/wsl.sh): CLI for Windows Subsytem for Linux. (windows) [🔗](https://github.com/microsoft/WSL)
+- [xargs](completions/xargs.sh): build and execute command lines from standard input [🔗](https://savannah.gnu.org/projects/findutils)
+- [xattr](completions/xattr.sh): sets or lists extended attributes on a file or directory [🔗](https://github.com/xattr/xattr)
+- [xc](completions/xc.sh): Markdown defined task runner. [🔗](https://github.com/joerdav/xc)
+- [xclip](completions/xclip.sh): command line interface to X selections (clipboard) [🔗](https://github.com/astrand/xclip)
+- [xcode-select](completions/xcode-select.sh): Manage the active developer directory for Xcode and BSD tools. (macOS) [🔗](https://ss64.com/osx/xcode-select.html)
+- [xcodebuild](completions/xcodebuild.sh): build Xcode projects and workspaces. (macOS) [🔗](https://keith.github.io/xcode-man-pages/xcodebuild.1.html)
+- [xcodeproj](completions/xcodeproj.sh): Create and modify Xcode projects from Ruby. (macOS) [🔗](https://github.com/CocoaPods/Xcodeproj)
+- [xcodes](completions/xcodes.sh): The best command-line tool to install and switch between multiple versions of Xcode. (macOS) [🔗](https://github.com/XcodesOrg/xcodes)
+- [xcrun](completions/xcrun.sh): Run or locate development tools and properties. (macOS) [🔗](https://keith.github.io/xcode-man-pages/xcrun.1.html)
+- [xdg-mime](completions/xdg-mime.sh): command line tool for querying information about file type handling and adding descriptions for new file types [🔗](https://gitlab.freedesktop.org/xdg/xdg-utils)
+- [xdg-open](completions/xdg-open.sh): opens a file or URL in the user's preferred application [🔗](https://gitlab.freedesktop.org/xdg/xdg-utils)
+- [xh](completions/xh.sh): Friendly and fast tool for sending HTTP requests. [🔗](https://github.com/ducaale/xh)
+- [xinput](completions/xinput.sh): utility to configure and test X input devices [🔗](https://gitlab.freedesktop.org/xorg/app/xinput)
+- [xmake](completions/xmake.sh): A cross-platform build utility based on Lua [🔗](https://github.com/xmake-io/xmake)
+- [xmlstarlet](completions/xmlstarlet.sh): command line XML/XSLT toolkit [🔗](https://xmlstar.sourceforge.net)
+- [xonsh](completions/xonsh.sh): Python-powered, cross-platform, Unix-gazing shell. [🔗](https://github.com/xonsh/xonsh)
+- [xrandr](completions/xrandr.sh): primitive command line interface to RandR extension [🔗](https://gitlab.freedesktop.org/xorg/app/xrandr)
+- [xsel](completions/xsel.sh): manipulate the X selection.  [🔗](https://github.com/kfish/xsel)
+- [xsv](completions/xsv.sh): A fast CSV command line toolkit written in Rust. [🔗](https://github.com/BurntSushi/xsv)
+- [xxd](completions/xxd.sh): make a hexdump or do the reverse. [🔗](https://github.com/vim/vim)
+- [xxhsum](completions/xxhsum.sh): print or check xxHash non-cryptographic checksums [🔗](https://github.com/Cyan4973/xxHash)
+- [xxh32sum](completions/xxh32sum.sh): print or check xxHash non-cryptographic checksums [🔗](https://github.com/Cyan4973/xxHash)
+- [xxh64sum](completions/xxh64sum.sh): print or check xxHash non-cryptographic checksums [🔗](https://github.com/Cyan4973/xxHash)
+- [xxh128sum](completions/xxh128sum.sh): print or check xxHash non-cryptographic checksums [🔗](https://github.com/Cyan4973/xxHash)
+- [xz](completions/xz.sh): Compress or decompress .xz and .lzma files [🔗](https://github.com/tukaani-project/xz)
+- [xzcat](completions/xzcat.sh): Compress or decompress .xz and .lzma files [🔗](https://github.com/tukaani-project/xz)
+- [yadm](completions/yadm.sh): Yet Another Dotfiles Manager [🔗](https://github.com/TheLocehiliosan/yadm)
+- [yarn](completions/yarn.sh): Fast, reliable, and secure dependency management. [🔗](https://github.com/yarnpkg/yarn)
+- [yj](completions/yj.sh): Convert between YAML, TOML, JSON, and HCL.  [🔗](https://github.com/sclevine/yj)
+- [ykman](completions/ykman.sh): configuring any YubiKey over all USB interfaces. [🔗](https://github.com/Yubico/yubikey-manager)
+- [yomo](completions/yomo.sh): Stateful Serverless Framework for Software Edge Infra [🔗](https://github.com/yomorun/yomo)
+- [you-get](completions/you-get.sh): Dumb downloader that scrapes the web [🔗](https://github.com/soimort/you-get)
+- [youtube-dl](completions/youtube-dl.sh): Command-line program to download videos from YouTube.com and other video sites [🔗](https://github.com/ytdl-org/youtube-dl)
+- [yq](completions/yq.sh): a portable command-line YAML, JSON, XML, CSV, TOML and properties processor [🔗](https://github.com/mikefarah/yq)
+- [yt-dlp](completions/yt-dlp.sh): A youtube-dl fork with additional features and fixes [🔗](https://github.com/yt-dlp/yt-dlp)
+- [yum](completions/yum.sh): Package manager for Red Hat Enterprise Linux. [🔗](https://github.com/rpm-software-management/yum)
+- [z](completions/z.sh): jump around [🔗](https://github.com/rupa/z)
+- [zathura](completions/zathura.sh): a document viewer [🔗](https://github.com/pwmt/zathura)
+- [zcat](completions/zcat.sh): decompress and concatenate files to standard output [🔗](https://www.nongnu.org/zutils/zutils.html)
+- [zellij](completions/zellij.sh): A terminal workspace with batteries included [🔗](https://github.com/zellij-org/zellij)
+- [zfs](completions/zfs.sh): configures ZFS file systems [🔗](https://github.com/zfs-fuse/zfs-fuse)
+- [zig](completions/zig.sh): Programming language designed for robustness, optimality, and clarity [🔗](https://github.com/ziglang/zig)
+- [zip](completions/zip.sh): package and compress (archive) files [🔗](https://infozip.sourceforge.net/Zip.html)
+- [zipcloak](completions/zipcloak.sh): encrypt entries in a zipfile [🔗](https://infozip.sourceforge.net)
+- [zoxide](completions/zoxide.sh): A smarter cd command. [🔗](https://github.com/ajeetdsouza/zoxide)
+- [zpool](completions/zpool.sh): configures ZFS storage pools [🔗](https://github.com/zfs-fuse/zfs-fuse)
+- [zypper](completions/zypper.sh): package manager for openSUSE linux [🔗](https://github.com/openSUSE/zypper)
