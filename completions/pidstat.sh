@@ -45,9 +45,9 @@ _module_os_command() {
 }
 
 _module_os_exec() {
-    if [[ -n "$argc__last_flag_option" ]]; then
-        option_var="argc_${argc__last_flag_option//-/_}[@]"
-        argc__positionals=( "${!option_var}" )
+    if [[ -n "$argc__option" ]]; then
+        argc__option="$argc__option[@]"
+        argc__positionals=( "${!argc__option}" )
     fi
     if [[ "${#argc__positionals[@]}" -lt 2 ]]; then
         _module_os_command
