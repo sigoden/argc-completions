@@ -216,7 +216,7 @@ check:all() {
 }
 
 # @cmd Shell setup to use argc-completions
-# @arg shell[`_choice_shell`]   Shell type
+# @arg shell[bash|elvish|fish|nushell|powershell|xonsh|zsh|tcsh] Shell type
 shell:setup() {
     ./scripts/setup-shell.sh $1
 }
@@ -260,10 +260,6 @@ _choice_src_name() {
 _choice_print_target() {
     echo __argc_value=file
     _choice_completion
-}
-
-_choice_shell() {
-    printf "%s\n" bash elvish fish nushell powershell xonsh zsh
 }
 
 _choice_color() {

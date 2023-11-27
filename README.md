@@ -6,7 +6,7 @@ Argc-completions provides completion definitions that work for any shell.
 
 ## Features
 
-- Support multiple shells: bash/zsh/powershell/fish/nushell/elvish/xonsh
+- Support multiple shells: bash/zsh/powershell/fish/nushell/elvish/xonsh/tcsh
 - Support multiple platforms: windows/macOS/linux
 - Add 1000+ completion definitions ([full list](./MANIFEST.md))
 - Automatically generate a completion script from the command's help text or man page.
@@ -68,7 +68,7 @@ Open your terminal and execute the following commands:
 git clone https://github.com/sigoden/argc-completions.git
 cd argc-completions
 ./scripts/download-tools.sh    # download argc/yq to ./argc-completions/bin/
-./scripts/setup-shell.sh bash  # bash/zsh/powershell/fish/nushell/elvish/xonsh
+./scripts/setup-shell.sh bash  # bash/zsh/powershell/fish/nushell/elvish/xonsh/tcsh
 ```
 
 > For Windows, please run the above code in Git Bash.
