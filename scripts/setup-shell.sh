@@ -33,9 +33,9 @@ main() {
         if [[ $answer =~ ^[Yy]$ ]]; then
             if [[ ! -e "$file" ]]; then
                 mkdir -p "$(dirname "$file")"
-                echo -e "# argc-completions\n$script" > "$file"
+                echo -e "# argc-completions\n$script\n" > "$file"
             else
-                echo -e "\n# argc-completions\n$script" >> "$file"
+                echo -e "\n# argc-completions\n$script\n" >> "$file"
             fi
         fi
     fi
@@ -107,6 +107,7 @@ _setup_script() {
 export ARGC_COMPLETIONS_ROOT="$argc_completions_root"
 export ARGC_COMPLETIONS_PATH="$argc_completions_path"
 export PATH="\$ARGC_COMPLETIONS_ROOT/bin:\$PATH"
+# To add a subset of completions only, change next line e.g. argc_scripts=( cargo git )
 argc_scripts=( \$(ls -p -1 "\$ARGC_COMPLETIONS_ROOT/completions" | sed -n 's/\.sh$//p') )
 source <(argc --argc-completions bash "\${argc_scripts[@]}")
 EOF
@@ -116,6 +117,7 @@ EOF
 set E:ARGC_COMPLETIONS_ROOT = '$argc_completions_root'
 set E:ARGC_COMPLETIONS_PATH = \$E:ARGC_COMPLETIONS_ROOT'${sep}completions'
 set paths = [(echo \$E:ARGC_COMPLETIONS_ROOT'${sep}bin') \$@paths]
+# To add a subset of completions only, change next line e.g. var argc_scripts = ["cargo" "git"]
 var argc_scripts = [(ls -p -1 \$E:ARGC_COMPLETIONS_ROOT'${sep}completions' | sed -n 's/\.sh$//p')]
 eval (argc --argc-completions elvish (all \$argc_scripts) | slurp)
 EOF
@@ -125,6 +127,7 @@ EOF
 set -gx ARGC_COMPLETIONS_ROOT "$argc_completions_root"
 set -gx ARGC_COMPLETIONS_PATH "$argc_completions_path"
 fish_add_path "\$ARGC_COMPLETIONS_ROOT/bin"
+# To add a subset of completions only, change next line e.g. set argc_scripts cargo git
 set argc_scripts (ls -1 "\$ARGC_COMPLETIONS_ROOT/completions" | sed -n 's/\.sh$//p')
 argc --argc-completions fish \$argc_scripts | source
 EOF
@@ -150,6 +153,7 @@ EOF
 \$env:ARGC_COMPLETIONS_ROOT = '$argc_completions_root'    
 \$env:ARGC_COMPLETIONS_PATH = (\$env:ARGC_COMPLETIONS_ROOT + '${sep}completions')    
 \$env:PATH = \$env:ARGC_COMPLETIONS_ROOT + '${sep}bin' + [IO.Path]::PathSeparator + \$env:PATH
+# To add a subset of completions only, change next line e.g. \$argc_scripts = @("cargo", "git")
 \$argc_scripts = ((Get-ChildItem -File (\$env:ARGC_COMPLETIONS_ROOT + '${sep}completions')) | ForEach-Object { \$_.Name -replace '\.sh$' })
 argc --argc-completions powershell \$argc_scripts | Out-String | Invoke-Expression
 EOF
@@ -164,8 +168,9 @@ EOF
 \$ARGC_COMPLETIONS_PATH = \$ARGC_COMPLETIONS_ROOT + '${sep}completions'
 \$PATH.insert(0, \$ARGC_COMPLETIONS_ROOT + '${sep}bin')
 import os
-\$argc_scripts = list(map(lambda v: v.removesuffix('.sh'), filter(lambda v: v.endswith('.sh'), os.listdir(\$ARGC_COMPLETIONS_ROOT + '${sep}completions'))))
-exec(\$(argc --argc-completions xonsh @(\$argc_scripts)))
+# To add a subset of completions only, change next line e.g. argc_scripts = ["cargo", "git"]
+argc_scripts = list(map(lambda v: v.removesuffix('.sh'), filter(lambda v: v.endswith('.sh'), os.listdir(\$ARGC_COMPLETIONS_ROOT + '${sep}completions'))))
+exec(\$(argc --argc-completions xonsh @(argc_scripts)))
 EOF
         ;;
     zsh)
@@ -173,6 +178,7 @@ EOF
 export ARGC_COMPLETIONS_ROOT="$argc_completions_root"
 export ARGC_COMPLETIONS_PATH="$argc_completions_path"
 export PATH="\$ARGC_COMPLETIONS_ROOT/bin:\$PATH"
+# To add a subset of completions only, change next line e.g. argc_scripts=( cargo git )
 argc_scripts=( \$(ls -p -1 "\$ARGC_COMPLETIONS_ROOT/completions" | sed -n 's/\.sh$//p') )
 source <(argc --argc-completions zsh \$argc_scripts)
 EOF
@@ -183,6 +189,7 @@ setenv ARGC_COMPLETIONS_ROOT "$argc_completions_root"
 setenv ARGC_COMPLETIONS_PATH "$argc_completions_path"
 setenv PATH "\$ARGC_COMPLETIONS_ROOT/bin:\$PATH"
 set autolist
+# To add a subset of completions only, change next line e.g. set argc_scripts=(cargo git)
 set argc_scripts=\`ls -p -1 \$ARGC_COMPLETIONS_ROOT/completions | sed -n 's/\.sh$//p'\`
 eval \`argc --argc-completions tcsh \$argc_scripts\`
 EOF

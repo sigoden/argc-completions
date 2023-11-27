@@ -98,6 +98,7 @@ _download_macos_tools() {
     if [[ -z "$installed_macos_tools" ]]; then
         echo "For macOS, you need to install tools:$macos_tools"
     fi
+    echo
 }
 
 _fetch() {
@@ -107,7 +108,8 @@ _fetch() {
 
     file_name=$(basename $url)
     tmp_file=$TMP_DIR/$file_name
-    echo Downloading $bin_name from $url
+    echo download $bin_name
+    echo fetch $url
     $curl --fail --location --progress-bar --output $tmp_file ${GH_PROXY:-}$url
     if [[ "$os" == "windows" ]]; then
         install_path="$INSTALL_DIR/$bin_name.exe"
@@ -118,7 +120,8 @@ _fetch() {
         tar -C $TMP_DIR -xf $tmp_file
         cp -f $TMP_DIR/$extract_file_path "$install_path"
     fi
-    echo Successfully installed $bin_name to $install_path
+    echo successfully installed $bin_name to $install_path
+    echo
 }
 
 _detect_os() {

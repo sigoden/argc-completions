@@ -6,11 +6,11 @@ Argc-completions provides completion definitions that work for any shell.
 
 ## Features
 
-- Support multiple shells: bash/zsh/powershell/fish/nushell/elvish/xonsh/tcsh
-- Support multiple platforms: windows/macOS/linux
 - Add 1000+ completion definitions ([full list](./MANIFEST.md))
 - Automatically generate a completion script from the command's help text or man page.
 - Lazy completing, lower memory consumption and faster startup time
+- Support multiple shells: bash/zsh/powershell/fish/nushell/elvish/xonsh/tcsh
+- Support multiple platforms: windows/macOS/linux
 
 #### Amazing features that native completion lacks or is difficult to implement
 
@@ -62,26 +62,27 @@ Argc-completions provides completion definitions that work for any shell.
 
 ## Getting Started
 
-Open your terminal and execute the following commands:
 
 ```sh
 git clone https://github.com/sigoden/argc-completions.git
 cd argc-completions
-./scripts/download-tools.sh    # download argc/yq to ./argc-completions/bin/
+./scripts/download-tools.sh
 ./scripts/setup-shell.sh bash  # bash/zsh/powershell/fish/nushell/elvish/xonsh/tcsh
 ```
 
 > For Windows, please run the above code in Git Bash.
 
-> Tools downloaded by `./scripts/download-tools.sh`:\
-> &nbsp;&nbsp; - [argc](https://github.com/sigoden/argc): completion engine\
-> &nbsp;&nbsp; - [yq](https://github.com/mikefarah/yq): YAML/JSON/XML/CSV/TOML processor\
-> &nbsp;&nbsp; - macOS only: `brew install bash gawk gnu-sed`
+![install](https://github.com/sigoden/argc-completions/assets/4012553/a06752d7-7179-417a-8038-f3c7defa9f12)
+
+Tools downloaded by `./scripts/download-tools.sh`:
+  - [argc](https://github.com/sigoden/argc): completion engine
+  - [yq](https://github.com/mikefarah/yq): YAML/JSON/XML/CSV/TOML processor
+  - macOS only: `brew install bash gawk gnu-sed`
 
 ### Uninstall easily
 
 1. Delete the `argc-completions` directory that you have downloaded.
-2. Undo the changes made to the shell rcfile (`~/.bashrc`, `~/.zshrc` ...).
+2. Undo the changes made to the shell rcfile (`~/.bashrc`, `~/.zshrc`, ...).
 
 ## Generate your own completion script
 
