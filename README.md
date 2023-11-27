@@ -1,6 +1,6 @@
 # Argc-completions
 
-Argc-completions provides autocomplete for any shell and any command.
+Argc-completions provides completion definitions that work for any shell.
 
 ![argc-completions](https://github.com/sigoden/argc-completions/assets/4012553/235bd290-516c-4dec-83d8-17cb852d35ae)
 
@@ -8,15 +8,12 @@ Argc-completions provides autocomplete for any shell and any command.
 
 - Support multiple shells: bash/zsh/powershell/fish/nushell/elvish/xonsh/tcsh
 - Support multiple platforms: windows/macOS/linux
-- Built-in completions for 1000+ commands ([full list](./MANIFEST.md))
-- Automatically generate completion script from help-text/man-page
+- Add 1000+ completion definitions ([full list](./MANIFEST.md))
+- Automatically generate a completion script from the command's help text or man page.
 - Lazy completing, lower memory consumption and faster startup time
 
-<details>
-<summary>
-More amazing features that native completion lacks or is difficult to implement:
-</summary>
-<br>
+#### Amazing features that native completion lacks or is difficult to implement
+
 <table>
     <thead>
         <tr>
@@ -33,11 +30,11 @@ More amazing features that native completion lacks or is difficult to implement:
         </tr>
         <tr>
             <td>Fetch remote data</td>
-            <td><img src="https://github.com/sigoden/argc-completions/assets/4012553/dda4b2b4-338c-4a82-8a9a-ec8d7afd2d33" width="550px" alt="complete-cargo-add"></td>
+            <td><img src="https://github.com/sigoden/argc-completions/assets/4012553/cc088b59-ee2f-413b-b2a4-c752c2796625" width="550px" alt="complete-cargo-add"></td>
         </tr>
         <tr>
             <td>Complete multiple values<br>(comma-spereated)</td>
-            <td><img src="https://github.com/sigoden/argc-completions/assets/4012553/f29da10b-5d86-4a1c-add0-987a4172a182" width="550px" alt="complete-find-type"></td>
+            <td><img src="https://github.com/sigoden/argc-completions/assets/4012553/ef95ebdc-9c97-4bd1-a485-c928ba614ce9" width="550px" alt="complete-dd-iflag"></td>
         </tr>
         <tr>
             <td>Complete multiple parts</td>
@@ -45,11 +42,15 @@ More amazing features that native completion lacks or is difficult to implement:
         </tr>
         <tr>
             <td>Complete key-value pairs</td>
-            <td><img src="https://github.com/sigoden/argc-completions/assets/4012553/0d758936-035a-427b-9821-5e1b9274411a" width="550px" alt="complete-ssh-o"></td>
+            <td><img src="https://github.com/sigoden/argc-completions/assets/4012553/4a31753b-0518-4d7f-8773-cb649ba58e32" width="550px" alt="complete-ssh-o"></td>
+        </tr>
+        <tr>
+            <td>Complete for plugins<br>(git,cargo ...)</td>
+            <td><img src="https://github.com/sigoden/argc-completions/assets/4012553/f9c7a3d6-08fe-48fd-bc23-7b10b6817fb4" width="550px" alt="complete-cargo-nextest"></td>
         </tr>
         <tr>
             <td>Delegate to another command<br>(sudo,doas,npx...)</td>
-            <td><img src="https://github.com/sigoden/argc-completions/assets/4012553/8b611145-9c25-478b-8d1c-d58671028b5d" width="550px" alt="complete-yarn-workspace"></td>
+            <td><img src="https://github.com/sigoden/argc-completions/assets/4012553/ce198381-997f-4a0c-9126-793b7b8a7324" width="550px" alt="complete-yarn-workspace"></td>
         </tr>
         <tr>
             <td>Style &amp; color</td>
@@ -57,7 +58,7 @@ More amazing features that native completion lacks or is difficult to implement:
         </tr>
     </tbody>
 </table>
-</details>
+
 
 ## Getting Started
 
@@ -66,7 +67,7 @@ Open your terminal and execute the following commands:
 ```sh
 git clone https://github.com/sigoden/argc-completions.git
 cd argc-completions
-./scripts/download-tools.sh
+./scripts/download-tools.sh    # download argc/yq to ./argc-completions/bin/
 ./scripts/setup-shell.sh bash  # bash/zsh/powershell/fish/nushell/elvish/xonsh/tcsh
 ```
 
@@ -77,13 +78,18 @@ cd argc-completions
 > &nbsp;&nbsp; - [yq](https://github.com/mikefarah/yq): YAML/JSON/XML/CSV/TOML processor\
 > &nbsp;&nbsp; - macOS only: `brew install bash gawk gnu-sed`
 
+### Uninstall easily
+
+1. Delete the `argc-completions` directory that you have downloaded.
+2. Undo the changes made to the shell rcfile (`~/.bashrc`, `~/.zshrc` ...).
+
 ## Generate your own completion script
 
 ```sh
 ./scripts/generate.sh your-command
 ```
 
-![generate](https://github.com/sigoden/argc-completions/assets/4012553/38ddbeb7-8f43-4f31-aed5-45f8a8f36474)
+![generate](https://github.com/sigoden/argc-completions/assets/4012553/1bd7c6af-8dbb-4c83-9c40-d75fc8702bbc)
 
 To learn how `generate` works, see [docs/generate.md](docs/generate.md)
 

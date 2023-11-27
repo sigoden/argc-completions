@@ -107,7 +107,8 @@ _setup_script() {
 export ARGC_COMPLETIONS_ROOT="$argc_completions_root"
 export ARGC_COMPLETIONS_PATH="$argc_completions_path"
 export PATH="\$ARGC_COMPLETIONS_ROOT/bin:\$PATH"
-source <(ls -p -1 "\$ARGC_COMPLETIONS_ROOT/completions" | sed -n 's/\.sh$//p' | xargs argc --argc-completions bash)
+argc_scripts=( \$(ls -p -1 "\$ARGC_COMPLETIONS_ROOT/completions" | sed -n 's/\.sh$//p') )
+source <(argc --argc-completions bash "\${argc_scripts[@]}")
 EOF
         ;;
     elvish)
@@ -115,7 +116,8 @@ EOF
 set E:ARGC_COMPLETIONS_ROOT = '$argc_completions_root'
 set E:ARGC_COMPLETIONS_PATH = \$E:ARGC_COMPLETIONS_ROOT'${sep}completions'
 set paths = [(echo \$E:ARGC_COMPLETIONS_ROOT'${sep}bin') \$@paths]
-eval (ls -p -1 \$E:ARGC_COMPLETIONS_ROOT'${sep}completions' | sed -n 's/\.sh$//p' | xargs argc --argc-completions elvish | slurp)
+var argc_scripts = [(ls -p -1 \$E:ARGC_COMPLETIONS_ROOT'${sep}completions' | sed -n 's/\.sh$//p')]
+eval (argc --argc-completions elvish (all \$argc_scripts) | slurp)
 EOF
         ;;
     fish)
@@ -123,20 +125,21 @@ EOF
 set -gx ARGC_COMPLETIONS_ROOT "$argc_completions_root"
 set -gx ARGC_COMPLETIONS_PATH "$argc_completions_path"
 fish_add_path "\$ARGC_COMPLETIONS_ROOT/bin"
-ls -1 "\$ARGC_COMPLETIONS_ROOT/completions" | sed -n 's/\.sh$//p' | xargs argc --argc-completions fish | source
+set argc_scripts (ls -1 "\$ARGC_COMPLETIONS_ROOT/completions" | sed -n 's/\.sh$//p')
+argc --argc-completions fish \$argc_scripts | source
 EOF
         ;;
     nushell)
         mkdir -p "${argc_completions_root}${sep}tmp"
         touch "${argc_completions_root}${sep}tmp${sep}argc-completions.nu"
-        local path_name=PATH
+        local path_var=PATH
         if [[ "$OS" == "Windows_NT" ]]; then
-            path_name=Path
+            path_var=Path
         fi
         cat <<EOF
 \$env.ARGC_COMPLETIONS_ROOT = '$argc_completions_root'
 \$env.ARGC_COMPLETIONS_PATH = (\$env.ARGC_COMPLETIONS_ROOT + '${sep}completions')
-\$env.$path_name = (\$env.$path_name | prepend (\$env.ARGC_COMPLETIONS_ROOT + '${sep}bin'))
+\$env.$path_var = (\$env.$path_var | prepend (\$env.ARGC_COMPLETIONS_ROOT + '${sep}bin'))
 argc --argc-completions nushell | save -f '${argc_completions_root}${sep}tmp${sep}argc-completions.nu'
 source '${argc_completions_root}${sep}tmp${sep}argc-completions.nu'
 EOF
@@ -147,9 +150,8 @@ EOF
 \$env:ARGC_COMPLETIONS_ROOT = '$argc_completions_root'    
 \$env:ARGC_COMPLETIONS_PATH = (\$env:ARGC_COMPLETIONS_ROOT + '${sep}completions')    
 \$env:PATH = \$env:ARGC_COMPLETIONS_ROOT + '${sep}bin' + [IO.Path]::PathSeparator + \$env:PATH
-argc --argc-completions powershell (
-    (Get-ChildItem -File (\$env:ARGC_COMPLETIONS_ROOT + '${sep}completions')) |
-    ForEach-Object { \$_.Name -replace '\.sh$' }) | Out-String | Invoke-Expression
+\$argc_scripts = ((Get-ChildItem -File (\$env:ARGC_COMPLETIONS_ROOT + '${sep}completions')) | ForEach-Object { \$_.Name -replace '\.sh$' })
+argc --argc-completions powershell \$argc_scripts | Out-String | Invoke-Expression
 EOF
         ;;
     xonsh)
@@ -162,9 +164,8 @@ EOF
 \$ARGC_COMPLETIONS_PATH = \$ARGC_COMPLETIONS_ROOT + '${sep}completions'
 \$PATH.insert(0, \$ARGC_COMPLETIONS_ROOT + '${sep}bin')
 import os
-exec(\$(argc --argc-completions xonsh @(
-    list(map(lambda v: v.removesuffix('.sh'), filter(lambda v: v.endswith('.sh'),
-        os.listdir(\$ARGC_COMPLETIONS_ROOT + '${sep}completions')))))))
+\$argc_scripts = list(map(lambda v: v.removesuffix('.sh'), filter(lambda v: v.endswith('.sh'), os.listdir(\$ARGC_COMPLETIONS_ROOT + '${sep}completions'))))
+exec(\$(argc --argc-completions xonsh @(\$argc_scripts)))
 EOF
         ;;
     zsh)
@@ -172,7 +173,8 @@ EOF
 export ARGC_COMPLETIONS_ROOT="$argc_completions_root"
 export ARGC_COMPLETIONS_PATH="$argc_completions_path"
 export PATH="\$ARGC_COMPLETIONS_ROOT/bin:\$PATH"
-source <(ls -p -1 "\$ARGC_COMPLETIONS_ROOT/completions" | sed -n 's/\.sh$//p' | xargs argc --argc-completions zsh)
+argc_scripts=( \$(ls -p -1 "\$ARGC_COMPLETIONS_ROOT/completions" | sed -n 's/\.sh$//p') )
+source <(argc --argc-completions zsh \$argc_scripts)
 EOF
         ;;
     tcsh)
@@ -181,8 +183,8 @@ setenv ARGC_COMPLETIONS_ROOT "$argc_completions_root"
 setenv ARGC_COMPLETIONS_PATH "$argc_completions_path"
 setenv PATH "\$ARGC_COMPLETIONS_ROOT/bin:\$PATH"
 set autolist
-set ARGC_TCSH_SCRIPTS=\`ls -p -1 \$ARGC_COMPLETIONS_ROOT/completions | sed -n 's/\.sh$//p'\`
-eval \`argc --argc-completions tcsh \$ARGC_TCSH_SCRIPTS\`
+set argc_scripts=\`ls -p -1 \$ARGC_COMPLETIONS_ROOT/completions | sed -n 's/\.sh$//p'\`
+eval \`argc --argc-completions tcsh \$argc_scripts\`
 EOF
         ;;
     esac
