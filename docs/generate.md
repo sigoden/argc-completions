@@ -87,7 +87,7 @@ argument # [TEXT]... # Input text #
 # @arg text*                 Input text
 ```
 
-## `_patch*` functions 
+## `_patch*` function
 
 When `generate.sh <cmd>` is executed, it will look for a `<cmd>.sh` file in the `src/` directory and run the `_patch_*` functions in it.
 
@@ -131,7 +131,7 @@ This affects the final generated argc script.
 + # @option -r --role[`_choice_role`]      Choose a role
 ```
 
-## `_choice*` functions
+## `_choice*` function
 
 `_choice_fn` will generate dynamic completion candidates.
 
@@ -150,4 +150,25 @@ _choice_fn() {
     echo -e "ijk\tDesc"                       # value with description
     echo -e "nop\0\tDesc"                     # value with description, no space
 }
+```
+
+## argc command
+
+`Argcfile.sh` provide a number of commands that can help with the development of the completion script.
+
+- print: Print help/table/script, used for debugging _patch_help and _patch_table
+- generate: Generate the completion script.
+- choice-fn: Run a choice fn directly
+
+```sh
+argc print aichat                # Run: _patch_help | awk -f ./scripts/parse-table.awk | _patch_table
+argc print aichat -P             # Run: _patch_help | awk -f ./scripts/parse-table.awk
+argc print aichat -k help        # Run: _patch_help
+argc print aichat -k help -P     # Run: aichat --help
+argc print aichat -k script      # Run: _patch_help | awk -f ./scripts/parse-table.awk | _patch_table | awk -f ./scripts/parse-script.awk 
+
+argc generate aichat             # Run: ./scripts/generate.sh -o completions/aichat.sh aichat
+
+argc choice-fn src/aichat.sh _choice_model            # Run _choice_model in src/aichat.sh
+argc choice-fn completions/aichat.sh _choice_model    # Run _choice_model in completions/aichat.sh
 ```

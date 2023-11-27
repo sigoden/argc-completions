@@ -5,7 +5,7 @@ export ARGC_COMPLETIONS_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/n
 
 set -e
 
-# @cmd Automatically generate the completion script for <CMD>
+# @cmd Generate the completion script
 # @flag -P --with-plugins           Wheter generate completion scripts for plugins simultaneously
 # @flag -v --verbose                Show verbose log
 # @option -o --output <dir>         Specify output dir
@@ -97,7 +97,7 @@ generate:all() {
     done
 }
 
-# @cmd Debug a choice fn 
+# @cmd Run a choice fn directly
 #
 # For example:
 #   argc choice-fn ./src/git.sh _choice_cmd
@@ -141,7 +141,7 @@ choice-fn() {
     fi
 }
 
-# @cmd Print intermediary file during the completion script process.
+# @cmd Print help/table/script, used for debugging _patch_help and _patch_table
 # @option -k --kind[=table|help|script]     Intermediate file types
 # @flag -P --no-patch                       Do not apply `_patch_*` fn
 # @arg cmd_or_help_file![?`_choice_print_target`]
