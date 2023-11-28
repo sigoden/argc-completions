@@ -156,11 +156,11 @@ update_plugins() {
 # }} fastlane update_plugins
 
 _choice_lane() {
-    if [[ -e "Fastfile" ]] then
+    if [[ -e "Fastfile" ]]; then
         file="Fastfile"
-    elif [[ -e "fastlane/Fastfile" ]] then
+    elif [[ -e "fastlane/Fastfile" ]]; then
         file="fastlane/Fastfile"
-    elif [[ -e ".fastlane/Fastfile" ]] then
+    elif [[ -e ".fastlane/Fastfile" ]]; then
         file=".fastlane/Fastfile"
     else
         return
