@@ -28,7 +28,7 @@
 # @option --curves <algorithm list>                (EC) TLS key exchange algorithm(s) to request
 # @option -d --data <data>                         HTTP POST data
 # @option --data-ascii <data>                      HTTP POST ASCII data
-# @option --data-binary <data>                     HTTP POST binary data
+# @option --data-binary[`_choice_data_binary`] <data>  HTTP POST binary data
 # @option --data-raw <data>                        HTTP POST data, '@' allowed
 # @option --data-urlencode <data>                  HTTP POST data url encoded
 # @option --delegation <LEVEL>                     GSS-API delegation permission
@@ -248,6 +248,12 @@
 # @arg url!
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
+
+_choice_data_binary() {
+    if [[ "$ARGC_CWORD" == '@'* ]]; then
+        _argc_util_comp_path prefix=@ filter="${ARGC_CWORD:1}"
+    fi
+}
 
 _choice_engine() {
     curl --engine list | tail -n +2

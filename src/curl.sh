@@ -6,6 +6,7 @@ _patch_help() {
 _patch_table() { 
     _patch_table_edit_options \
         '--cert-type;[DER|PEM|ENG]' \
+        '--data-binary;[`_choice_data_binary`]' \
         '--engine;[`_choice_engine`]' \
         '--ftp-method;[`_choice_ftp_method`]' \
         '--header;[`_module_http_header`]' \
@@ -14,6 +15,12 @@ _patch_table() {
         '--proxy-cert-type;[DER|PEM|ENG]' \
         '--request;[`_module_http_method`]' \
 
+}
+
+_choice_data_binary() {
+    if [[ "$ARGC_CWORD" == '@'* ]]; then
+        _argc_util_comp_path prefix=@ filter="${ARGC_CWORD:1}"
+    fi
 }
 
 _choice_engine() {
