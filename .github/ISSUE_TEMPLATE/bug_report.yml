@@ -38,14 +38,14 @@ body:
   - type: textarea
     id: shell
     attributes:
-      label: Shell*
+      label: Shell
       description: What shell is the bug occurring on?
       placeholder: |
         # For bash, run `bash --version | head -n 1` and paste the output
-        GNU bash, version 5.2.15(2)-release (x86_64-pc-linux-gnu)   # 
+        GNU bash, version 5.2.15(2)-release (x86_64-pc-linux-gnu)
 
         # For zsh, run `zsh --version` and paste the output
-        zsh 5.8.1 (x86_64-ubuntu-linux-gnu)                         # zsh --version
+        zsh 5.8.1 (x86_64-ubuntu-linux-gnu)
 
         # For powershell, run `$PSVersionTable` and paste the output
         Name                           Value
@@ -79,7 +79,7 @@ body:
   - type: textarea
     id: version
     attributes:
-      label: Version*
+      label: Version
       description: Please run `argc version` and paste the output
       placeholder: |
         argc-completions 30f7d9a
