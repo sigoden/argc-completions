@@ -193,25 +193,31 @@ format:all() {
     argc format "${cmds[@]}"
 }
 
+# @cmd Check the completion script
+# @arg cmd[`_choice_completion`]
+check() {
+    cmd="$1"
+    echo "check $cmd"
+    if [[ -f src/${cmd}.sh && ! -L src/${cmd}.sh ]]; then
+        ./scripts/format.sh -c $cmd
+    fi
+    _helper_validate_script ./completions/$cmd.sh
+    _helper_check_manifest $cmd
+    if [[ -d completions/$cmd ]]; then
+        for subcmd_file in completions/$cmd/*; do
+            subcmd="$(basename ${subcmd_file##*/} .sh)"
+            echo "check $cmd $subcmd"
+            _helper_validate_script $subcmd_file
+            _helper_check_manifest $cmd-$subcmd
+        done
+    fi
+}
+
 # @cmd Check all completion scripts
 check:all() {
     mapfile -t cmds < <(_choice_completion)
     for cmd in "${cmds[@]}"; do
-        echo "check $cmd"
-        if [[ -f src/${cmd}.sh && ! -L src/${cmd}.sh ]]; then
-            ./scripts/format.sh -c $cmd
-        else
-            _helper_validate_script ./completions/$cmd.sh
-        fi
-        _helper_check_manifest $cmd
-        if [[ -d completions/$cmd ]]; then
-            for subcmd_file in completions/$cmd/*; do
-                subcmd="$(basename ${subcmd_file##*/} .sh)"
-                echo "check $cmd $subcmd"
-                _helper_validate_script $subcmd_file
-                _helper_check_manifest $cmd-$subcmd
-            done
-        fi
+        check "$cmd"
     done
 }
 
