@@ -16,12 +16,18 @@ main() {
 
     display_file="$(echo "$file" | sed 's|'$HOME'|~|')"
     if [[ "$1" == "powershell" ]]; then
-        file_alias=' ($PROFILE)'
+        if [[ -z "$file" ]]; then
+            display_file="'\$PROFILE'"
+        fi
     elif [[ "$1" == "nushell" ]]; then
-        file_alias=' ($nu.config-path)'
+        display_file="$display_file (\$nu.config-path)"
     fi
-    echo "Please add the following code to '$display_file'$file_alias"
+    echo "Please add the following code to $display_file"
     echo -e "\n\`\`\`\n# argc-completions\n$script\n\`\`\`"
+
+    if [[ -z "$file" ]]; then
+        return
+    fi
 
     if grep -q ARGC_COMPLETIONS_ROOT "$file" 2>/dev/null; then
         return
@@ -29,13 +35,13 @@ main() {
 
     if [ -t 0 ]; then
         echo
-        read -p "Add the above code to '$display_file'? (y/N): " answer
+        read -p "Add the above code to $display_file? (y/N): " answer
         if [[ $answer =~ ^[Yy]$ ]]; then
             if [[ ! -e "$file" ]]; then
                 mkdir -p "$(dirname "$file")"
-                echo -e "# argc-completions\n$script\n" > "$file"
+                echo -e "# argc-completions\n$script" > "$file"
             else
-                echo -e "\n# argc-completions\n$script\n" >> "$file"
+                echo -e "\n# argc-completions\n$script" >> "$file"
             fi
         fi
     fi
@@ -62,15 +68,11 @@ _config_file() {
         ;;
     powershell)
         if command -v pwsh > /dev/null; then
-            pwsh -c 'echo $PROFILE'
+            if ! command -v powershell > /dev/null; then
+                pwsh -c 'echo $PROFILE'
+            fi
         elif command -v powershell > /dev/null; then
             powershell -Command 'echo $PROFILE'
-        else
-            if [[ -n "$USERPROFILE" ]]; then
-                echo "$USERPROFILE\\Documents\\PowerShell\\Microsoft.PowerShell_profile.ps1"
-            else
-                echo "$HOME/.config/powershell/Microsoft.PowerShell_profile.ps1"
-            fi
         fi
         ;;
     xonsh)
