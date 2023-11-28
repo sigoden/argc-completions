@@ -1,24 +1,26 @@
 #!/usr/bin/env bash
 
-# Download argc and yq to target directory. If no target directory is specified, use the bin directory under the repository.
+# Download argc and yq.
+# Usage: ./download-tools.sh [--force]
 
 set -e
+
+MIN_ARGC_VERSION=1.14.0
+MIN_YQ_VERSION=4.25.1
 
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )"
 INSTALL_DIR="$ROOT_DIR/bin"
 TMP_DIR=/tmp/argc_completions_bin
-source "$ROOT_DIR/VERSIONS"
+
+if [[ "$1" == "--force" || "$1" == "-f" ]]; then
+    force=1
+fi
 
 download_tools() {
     mkdir -p "$INSTALL_DIR" "$TMP_DIR"
-    os=$(_detect_os)
-    arch=$(_detect_arch)
-    os_arch="$os-$arch"
+    OS_ARCH="$OS-$ARCH"
 
-    argc_url_prefix="https://github.com/sigoden/argc/releases/download/${ARGC_VERSION}/argc-${ARGC_VERSION}-"
-    yq_url_prefix="https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_"
-
-    case $os_arch in
+    case $OS_ARCH in
     linux-amd64)
         argc_file_suffix="x86_64-unknown-linux-musl.tar.gz"
         yq_file_suffix="linux_amd64.tar.gz"
@@ -57,22 +59,46 @@ download_tools() {
         ;;
     esac
 
-    curl="curl"
-    if [ $os == "windows" ]; then
-        if command -v winpty >/dev/null 2>&1; then
-            curl="winpty curl"
+    download_argc=1
+    if [[ -z "$force" ]]; then
+        if command -v argc > /dev/null; then
+            argc_version=$(argc --argc-version | cut -d ' ' -f2)
+            if semver_ge "$argc_version" "$MIN_ARGC_VERSION"; then
+                download_argc=0
+            fi
         fi
     fi
+    if [[ $download_argc -eq 1 ]]; then
+        argc_version=$(curl -fsSL https://api.github.com/repos/sigoden/argc/releases/latest | sed -n 's/^  "tag_name": "v\(\S\+\)".*/\1/p')
+        fetch argc "https://github.com/sigoden/argc/releases/download/v${argc_version}/argc-v${argc_version}-${argc_file_suffix}" argc
+    else
+        echo no need to download argc
+        echo
+    fi
 
-    _fetch argc "${argc_url_prefix}${argc_file_suffix}" argc
-    _fetch yq "${yq_url_prefix}${yq_file_suffix}" "yq_${yq_file_suffix%%.*}"
+    download_yq=1
+    if [[ -z "$force" ]]; then
+        if command -v yq > /dev/null; then
+            yq_version=$(yq --version | cut -d ' ' -f4)
+            if semver_ge "$yq_version" "$MIN_YQ_VERSION"; then
+                download_yq=0
+            fi
+        fi
+    fi
+    if [[ $download_yq -eq 1 ]]; then
+        yq_version=$(curl -fsSL https://api.github.com/repos/mikefarah/yq/releases/latest | sed -n 's/^  "tag_name": "v\(\S\+\)".*/\1/p')
+        fetch yq "https://github.com/mikefarah/yq/releases/download/v${yq_version}/yq_${yq_file_suffix}" "yq_${yq_file_suffix%%.*}"
+    else
+        echo no need to download yq
+        echo
+    fi
 
-    if [[ "$os" == "macos" ]]; then
-        _download_macos_tools
+    if [[ "$OS" == "macos" ]]; then
+        download_macos_tools
     fi
 }
 
-_download_macos_tools() {
+download_macos_tools() {
     if [[ "$(bash --version | head -1)" == *"version 3"* ]]; then
         macos_tools="$macos_tools bash"
     fi
@@ -88,7 +114,7 @@ _download_macos_tools() {
         return
     fi
     if command -v brew > /dev/null && tty -s; then
-        read -p "Install tools with \`brew install$macos_tools\`? (Y/n): " answer
+        read -p "Install required tools with \`brew install$macos_tools\`? (Y/n): " answer
         if [[ -z "$answer" ]] || [[ "$answer" =~ [yY][eE][sS]|[yY] ]]; then
             brew install $macos_tools
             ln -sf `which gsed` "$INSTALL_DIR/sed"
@@ -101,7 +127,8 @@ _download_macos_tools() {
     echo
 }
 
-_fetch() {
+
+fetch() {
     bin_name=$1
     url=$2
     extract_file_path=$3
@@ -110,8 +137,16 @@ _fetch() {
     tmp_file=$TMP_DIR/$file_name
     echo download $bin_name
     echo fetch $url
-    $curl --fail --location --progress-bar --output $tmp_file ${GH_PROXY:-}$url
-    if [[ "$os" == "windows" ]]; then
+
+    _curl="curl"
+    if [ $OS == "windows" ]; then
+        if command -v winpty >/dev/null 2>&1; then
+            _curl="winpty curl"
+        fi
+    fi
+
+    $_curl -# -fLo $tmp_file ${GH_PROXY:-}$url
+    if [[ "$OS" == "windows" ]]; then
         install_path="$INSTALL_DIR/$bin_name.exe"
         unzip -o -d $TMP_DIR $tmp_file
         cp -f $TMP_DIR/$extract_file_path.exe "$install_path"
@@ -124,26 +159,59 @@ _fetch() {
     echo
 }
 
-_detect_os() {
+semver_ge() {
+    version1=$1
+    version2=$2
+
+    if [[ "$version1" == "$version2" ]]; then
+        return 0
+    fi
+
+    major1=$(echo $version1 | cut -d . -f1)
+    minor1=$(echo $version1 | cut -d . -f2)
+    patch1=$(echo $version1 | cut -d . -f3)
+
+    major2=$(echo $version2 | cut -d . -f1)
+    minor2=$(echo $version2 | cut -d . -f2)
+    patch2=$(echo $version2 | cut -d . -f3)
+
+    if [[ "$major1" -gt "$major2" ]]; then
+        return 0
+    fi
+
+    if [[ "$minor1" -gt "$minor2" ]]; then
+        return 0
+    fi
+
+    if [[ "$patch1" -gt "$patch2" ]]; then
+        return 0
+    fi
+
+    return 1
+}
+
+detect_os() {
     local s=$(uname)
     if [[ "$s" == "Linux" ]]; then
-        echo linux
+        OS=linux
     elif [[ "$s" == "Darwin" ]]; then
-        echo macos
+        OS=macos
     elif [[ "$s" =~ "_NT" ]]; then
-        echo windows
+        OS=windows
     fi
 }
 
-_detect_arch() {
+detect_arch() {
     local s=$(uname -m)
     if [[ "$s" == "x86_64" ]]; then
-        echo amd64
+        ARCH=amd64
     elif [[ "$s" == "i686" ]]; then
-        echo i686
+        ARCH=i686
     elif [[ "$s" == "aarch64" ]] || [[ "$s" == "arm64" ]]; then
-        echo aarch64
+        ARCH=aarch64
     fi
 }
 
+detect_os
+detect_arch
 download_tools
