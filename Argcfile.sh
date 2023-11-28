@@ -229,10 +229,12 @@ color() {
 
 # @cmd Print version
 version() {
+    echo "argc-completions $(git log --pretty=format:'%h' -n 1)"
     argc --argc-version
     yq --version
     gawk --version | head -n 1
     sed --version | head -n 1
+    uname -a
 }
 
 _choice_command() {
