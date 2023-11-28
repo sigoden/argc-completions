@@ -221,6 +221,16 @@ check:all() {
     done
 }
 
+# @cmd Update argc-completions
+update() {
+    remote_url="$(git remote get-url origin)"
+    if [[ "$remote_url" == *"sigoden/argc-completions"* ]]; then
+        git pull origin main
+        echo
+    fi
+    ./scripts/download-tools.sh 
+}
+
 # @cmd Shell setup to use argc-completions
 # @arg shell[bash|elvish|fish|nushell|powershell|xonsh|zsh|tcsh] Shell type
 shell:setup() {
