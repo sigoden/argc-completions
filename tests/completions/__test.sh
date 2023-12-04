@@ -20,6 +20,7 @@
 # @option -O --output-sync <TYPE>                  Synchronize output of parallel jobs by TYPE.
 # @option -p --package <SPEC>                      Package to modify
 # @option -w --workdir                             Working directory inside the container
+# @option --non-printable-format <FMT>             specify how non-printable chars are printed
 # @option --gdbserver                              Run the command with gdbserver
 # @option -x --proxy <[protocol://]host[:port]>    Use this proxy
 # @flag -v --verbose*                              Use verbose output (-vv very verbose/build.rs output)
@@ -91,6 +92,7 @@
 # @option -P <proto>                               Specify  the  protocol  to use when communicating with the remote mail server.
 # @option --proto <proto>                          Specify  the  protocol  to use when communicating with the remote mail server.
 # @option --protocol <proto>                       Specify  the  protocol  to use when communicating with the remote mail server.
+# @flag --disabled-login                           Do not run passwd to set the password.
 # @flag --incremental                              show blame entries as we find them, incrementally
 # @flag --line-porcelain                           show porcelain format with per-line commit information
 # @flag -spotlight                                 do (not) create a Spotlight™ index

@@ -25,6 +25,7 @@ BEGIN {
     split("", metaLines)
 }
 {
+    gsub(/‐/, "-", $0)
     index1 = index($0, "#")
     part1 = substr($0, index1 + 1)
     split("", words1)

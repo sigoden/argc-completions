@@ -51,7 +51,7 @@ END {
 
         if (spaces <= 8) {
             if (match(santizedLine, /^-{1,2}[^- \t]/)) {
-                if ((groupName == "option" && optionIndent == spaces) || isOptionLine(i)) {
+                if ((groupName == "option" && checkIndent(optionIndent, spaces)) || isOptionLine(i)) {
                     options[length(options) + 1] = trimStarts(line)
                     groupName = "option"
                     optionIndent = spaces
@@ -316,6 +316,14 @@ function isOptionLine(idx) {
 function isCommandLine(idx) {
     santizedLine = tolower(LINES[idx, 2])
     return match(santizedLine, /^([a-z0-9_-]+,( )?){0,2}([a-z0-9_-]+)(,)?($|  +|\t)/)
+}
+
+function checkIndent(indent1, indent2) {
+    if (indent1 == indent2 || indent1 - indent2 <= 4 || indent2 - indent1 <= 4) {
+        return 1
+    } else {
+        return 0
+    }
 }
 
 function splitOption(input) {

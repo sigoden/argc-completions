@@ -34,6 +34,7 @@ Options:
                                 Synchronize output of parallel jobs by TYPE.
     -p, --package [<SPEC>]      Package to modify
     -w, --workdir=""            Working directory inside the container
+        --non-printable-format=FMT specify how non-printable chars are printed
     --gdbserver=                Run the command with gdbserver
     -x, --proxy [protocol://]host[:port] Use this proxy
     -v, --verbose...            Use verbose output (-vv very verbose/build.rs output)
@@ -138,6 +139,8 @@ Options:
     --output FORMAT, -o FORMAT   Render output using given FORMAT. Valid options are 'json' or 'yaml'
     -P <proto> | --proto <proto> | --protocol <proto>
             Specify  the  protocol  to use when communicating with the remote mail server.
+    --disabled‐login
+          Do not run passwd to set the password.  The user won’t be able to use her account until the password is set.
 -------
 
 Future runs of this module will trigger no downloads or compilation unless

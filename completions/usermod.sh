@@ -7,7 +7,7 @@
 # @option -e --expiredate <EXPIRE_DATE>           set account expiration date to EXPIRE_DATE
 # @option -f --inactive                           set password inactive after expiration to INACTIVE
 # @option -g --gid[`_module_os_group`] <GROUP>    force use GROUP as new primary group
-# @option -G --groups                             new list of supplementary GROUPS
+# @option -G --groups*,[`_module_os_group`]       new list of supplementary GROUPS
 # @flag -a --append                               append the user to the supplemental GROUPS mentioned by the -G option without removing the user from other groups
 # @flag -h --help                                 display this help message and exit
 # @option -l --login <NEW_LOGIN>                  new value of the login name

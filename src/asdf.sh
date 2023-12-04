@@ -99,6 +99,7 @@ _choice_installed_version() {
 
 _choice_version() {
     asdf list-all "$argc_name"
+    echo latest
 }
 
 _choice_shim() {
