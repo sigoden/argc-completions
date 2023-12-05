@@ -32,7 +32,7 @@
 # @option -h --help <verbose>                Display help for commands and options.
 # @arg entries*
 
-# {{ webpack build
+# {{ webpack-cli build
 # @cmd Run webpack (default command, can be omitted).
 # @alias bundle,b
 # @option -c --config* <pathToConfigFile>    Provide path to one or more webpack configuration files to process, e.g. "./webpack.config.js".
@@ -69,9 +69,9 @@
 build() {
     :;
 }
-# }} webpack build
+# }} webpack-cli build
 
-# {{ webpack configtest
+# {{ webpack-cli configtest
 # @cmd Validate a webpack configuration.
 # @alias t
 # @flag --color                  Enable colors on console.
@@ -82,9 +82,9 @@ build() {
 configtest() {
     :;
 }
-# }} webpack configtest
+# }} webpack-cli configtest
 
-# {{ webpack info
+# {{ webpack-cli info
 # @cmd Outputs information about your system.
 # @alias i
 # @option -o --output <value>                 To get the output in a specified format ( accept json or markdown )
@@ -96,9 +96,9 @@ configtest() {
 info() {
     :;
 }
-# }} webpack info
+# }} webpack-cli info
 
-# {{ webpack serve
+# {{ webpack-cli serve
 # @cmd Run the webpack dev server and watch for source file changes while serving.
 # @alias server,s
 # @flag --color                  Enable colors on console.
@@ -110,9 +110,9 @@ info() {
 serve() {
     :;
 }
-# }} webpack serve
+# }} webpack-cli serve
 
-# {{ webpack version
+# {{ webpack-cli version
 # @cmd Output the version number of 'webpack', 'webpack-cli' and 'webpack-dev-server' and commands.
 # @alias v
 # @option -o --output <value>                 To get the output in a specified format ( accept json or markdown )
@@ -124,9 +124,9 @@ serve() {
 version() {
     :;
 }
-# }} webpack version
+# }} webpack-cli version
 
-# {{ webpack watch
+# {{ webpack-cli watch
 # @cmd Run webpack and watch for files changes.
 # @alias w
 # @option -c --config* <pathToConfigFile>    Provide path to one or more webpack configuration files to process, e.g. "./webpack.config.js".
@@ -160,7 +160,7 @@ version() {
 watch() {
     :;
 }
-# }} webpack watch
+# }} webpack-cli watch
 
 _choice_devtool() {
     cat <<-'EOF'

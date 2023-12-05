@@ -1,5 +1,5 @@
 _patch_help() {
-    if [[ "$*" == "webpack" ]]; then
+    if [[ "$*" == "webpack-cli" ]]; then
         $@ --help | \
         sed \
             -e 's/|\S\+ / /' \
@@ -23,7 +23,7 @@ _patch_table() {
             '--devtool;[`_choice_devtool`]' \    
     )"
 
-    if [[ "$*" == "webpack" ]]; then
+    if [[ "$*" == "webpack-cli" ]]; then
         echo "$table" | \
         _patch_table_edit_commands \
             'build(build, bundle, b)' \
