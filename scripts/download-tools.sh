@@ -72,7 +72,7 @@ download_tools() {
         argc_version=$(curl -fsSL https://api.github.com/repos/sigoden/argc/releases/latest | sed -n 's/^  "tag_name": "v\(\S\+\)".*/\1/p')
         fetch argc "https://github.com/sigoden/argc/releases/download/v${argc_version}/argc-v${argc_version}-${argc_file_suffix}" argc
     else
-        echo no need to download argc
+        echo argc found
         echo
     fi
 
@@ -89,12 +89,17 @@ download_tools() {
         yq_version=$(curl -fsSL https://api.github.com/repos/mikefarah/yq/releases/latest | sed -n 's/^  "tag_name": "v\(\S\+\)".*/\1/p')
         fetch yq "https://github.com/mikefarah/yq/releases/download/v${yq_version}/yq_${yq_file_suffix}" "yq_${yq_file_suffix%%.*}"
     else
-        echo no need to download yq
+        echo yq found
         echo
     fi
 
     if [[ "$OS" == "macos" ]]; then
         download_macos_tools
+    else
+        if ! command -v gawk > /dev/null; then
+            echo warning: gawk not found
+            echo
+        fi
     fi
 }
 
