@@ -41,6 +41,7 @@
 # @flag --purge                             Use purge instead of remove for anything that would be removed.
 # @flag --reinstall                         Re-install packages that are already installed and at the newest version.
 # @flag --list-cleanup                      This option is on by default; use --no-list-cleanup to turn it off.
+# @flag -S --snapshot                       This option controls the snapshot chosen for archives with Snapshot: enable in the source entry.
 # @flag -t                                  This option controls the default input to the policy engine; it creates a default pin at priority 990 using the specified release string.
 # @flag --target-release                    This option controls the default input to the policy engine; it creates a default pin at priority 990 using the specified release string.
 # @flag --default-release                   This option controls the default input to the policy engine; it creates a default pin at priority 990 using the specified release string.

@@ -110,7 +110,8 @@ collection::publish() {
 # @flag --disable-gpg-verify          Disable GPG signature verification when installing collections from a Galaxy server
 # @option --signature <SIGNATURES>    An additional signature source to verify the authenticity of the MANIFEST.json before installing the collection from a Galaxy server.
 # @option --required-valid-signature-count <REQUIRED_VALID_SIGNATURE_COUNT>  The number of signatures that must successfully verify the collection.
-# @option --ignore-signature-status-code[EXPSIG|EXPKEYSIG|REVKEYSIG|BADSIG|ERRSIG|NO_PUBKEY|MISSING_PASSPHRASE|BAD_PASSPHRASE|NODATA|UNEXPECTED|ERROR|FAILURE|BADARMOR|KEYEXPIRED|KEYREVOKED|NO_SECKEY]  A status code to ignore during signature verification (for example, NO_PUBKEY).
+# @option --ignore-signature-status-code[EXPSIG|EXPKEYSIG|REVKEYSIG|BADSIG|ERRSIG|NO_PUBKEY|MISSING_PASSPHRASE|BAD_PASSPHRASE|NODATA|UNEXPECTED|ERROR|FAILURE|BADARMOR|KEYEXPIRED|KEYREVOKED|NO_SECKEY]  ==SUPPRESS==.
+# @option --ignore-signature-status-codes*[EXPSIG|EXPKEYSIG|REVKEYSIG|BADSIG|ERRSIG|NO_PUBKEY|MISSING_PASSPHRASE|BAD_PASSPHRASE|NODATA|UNEXPECTED|ERROR|FAILURE|BADARMOR|KEYEXPIRED|KEYREVOKED|NO_SECKEY]  A space separated list of status codes to ignore during signature verification (for example, NO_PUBKEY FAILURE).
 # @flag --offline                     Install collection artifacts (tarballs) without contacting any distribution servers.
 # @arg collection_path                The collection(s) name or path/url to a tar.gz collection artifact.
 collection::install() {
@@ -151,7 +152,8 @@ collection::list() {
 # @option --keyring                   The keyring used during signature verification
 # @option --signature <SIGNATURES>    An additional signature source to verify the authenticity of the MANIFEST.json before using it to verify the rest of the contents of a collection from a Galaxy server.
 # @option --required-valid-signature-count <REQUIRED_VALID_SIGNATURE_COUNT>  The number of signatures that must successfully verify the collection.
-# @option --ignore-signature-status-code[EXPSIG|EXPKEYSIG|REVKEYSIG|BADSIG|ERRSIG|NO_PUBKEY|MISSING_PASSPHRASE|BAD_PASSPHRASE|NODATA|UNEXPECTED|ERROR|FAILURE|BADARMOR|KEYEXPIRED|KEYREVOKED|NO_SECKEY]  A status code to ignore during signature verification (for example, NO_PUBKEY).
+# @option --ignore-signature-status-code[EXPSIG|EXPKEYSIG|REVKEYSIG|BADSIG|ERRSIG|NO_PUBKEY|MISSING_PASSPHRASE|BAD_PASSPHRASE|NODATA|UNEXPECTED|ERROR|FAILURE|BADARMOR|KEYEXPIRED|KEYREVOKED|NO_SECKEY]  ==SUPPRESS==.
+# @option --ignore-signature-status-codes*[EXPSIG|EXPKEYSIG|REVKEYSIG|BADSIG|ERRSIG|NO_PUBKEY|MISSING_PASSPHRASE|BAD_PASSPHRASE|NODATA|UNEXPECTED|ERROR|FAILURE|BADARMOR|KEYEXPIRED|KEYREVOKED|NO_SECKEY]  A space separated list of status codes to ignore during signature verification (for example, NO_PUBKEY FAILURE).
 # @arg collection_path                The installed collection(s) name.
 collection::verify() {
     :;

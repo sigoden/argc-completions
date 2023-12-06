@@ -12,6 +12,7 @@
 # @flag -m                                    internet message mode
 # @flag -v                                    visual startup mode
 # @flag -M                                    monochrome display
+# @flag -H                                    use high-intensity colors
 # @flag -N                                    open URL of command line on each new tab
 # @flag -F                                    automatically render frames
 # @option -cols <width>                       specify column width (used with -dump)
@@ -28,6 +29,7 @@
 # @flag -no-proxy                             don't use proxy
 # @flag -4                                    IPv4 only (-o dns_order=4)
 # @flag -6                                    IPv6 only (-o dns_order=6)
+# @flag -insecure                             use insecure SSL config options
 # @flag -no-mouse                             don't use mouse
 # @flag -cookie                               use cookie (-no-cookie: don't use cookie)
 # @flag -graph                                use DEC special graphics for border of table and menu
@@ -39,10 +41,10 @@
 # @option -o[`_choice_option`] <opt=value>    assign value to config option
 # @flag -show-option                          print all config options
 # @option -config <file>                      specify config file
+# @flag -debug                                use debug mode (only for debugging)
+# @flag -reqlog                               write request logfile
 # @flag -help                                 print this usage message
 # @flag -version                              print w3m version
-# @flag -reqlog                               write request logfile
-# @flag -debug                                DO NOT USE
 # @arg url-or-filename[`_choice_url_file`]
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"

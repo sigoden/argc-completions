@@ -17,7 +17,9 @@ _patch_table() {
     elif [[ "$*" == "zellij attach" ]]; then
         _patch_table_edit_arguments 'session_name;[`_choice_session`]'
 
-    elif [[ "$*" == "zellij kill-session" ]]; then
+    elif [[ "$*" == "zellij delete-session" ]] \
+      || [[ "$*" == "zellij kill-session" ]] \
+    ; then
         _patch_table_edit_arguments 'target_session;[`_choice_session`]'
 
     elif [[ "$*" == "zellij run" ]]; then

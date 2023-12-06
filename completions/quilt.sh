@@ -130,7 +130,6 @@ grep() {
 # @flag --strip-diffstat               Strip diffstat output from the header.
 # @flag --strip-trailing-whitespace    Strip trailing whitespace at the end of lines of the header.
 # @flag --backup                       Create a backup copy of the old version of a patch as patch~.
-# @flag --dep3                         When editing (-e), insert a template with DEP-3 headers.
 # @arg patch
 header() {
     :;
@@ -302,20 +301,12 @@ series() {
 # @flag -v              Verbose debug output.
 # @option --fuzz <N>    Set the maximum fuzz factor (needs rpm 4.6 or later).
 # @flag --slow          Use the original, slow method to process the spec file.
-# @flag --fast          Use an alternative, faster method to process the spec file.
+# @flag --fast          Use the new, faster method to process the spec file.
 # @arg enum[specfile|seriesfile]
 setup() {
     :;
 }
 # }} quilt setup
-
-# {{ quilt shell
-# @cmd Launch a shell in a duplicate environment.
-# @arg command
-shell() {
-    :;
-}
-# }} quilt shell
 
 # {{ quilt snapshot
 # @cmd Take a snapshot of the current working state.

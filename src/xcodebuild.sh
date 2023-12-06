@@ -6,9 +6,5 @@ _patch_help() {
 }
 
 _patch_table() {
-    _patch_table_dedup_options \
-        '-only-testing' \
-        '-skip-testing' \
-    | \
     _patch_table_edit_arguments ';;'
 }

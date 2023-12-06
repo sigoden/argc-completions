@@ -461,6 +461,7 @@ pages() {
 # @option --d1* <string>                           D1 database to bind (--d1 D1_BINDING)
 # @option -o --do* <string>                        Durable Object to bind (--do DO_BINDING=CLASS_NAME@SCRIPT_NAME)
 # @option --r2* <string>                           R2 bucket to bind (--r2 R2_BINDING)
+# @option --service* <string>                      Service to bind (--service SERVICE=SCRIPT_NAME)
 # @flag --live-reload                              Auto reload HTML pages when change is detected
 # @option --local-protocol[http|https] <string>    Protocol to listen to requests on, defaults to http.
 # @option --persist-to <dir>                       Specify directory to use for local persistence (defaults to .wrangler/state)

@@ -9,11 +9,18 @@
 # @flag -e --random-example         Show a random example
 # @option -f --render <file>        Render a specific markdown [file]
 # @flag -m --markdown               Output in markdown format
-# @option -o --os[linux|osx|sunos|windows] <type>  Override the operating system
-# @flag --linux                     Override the operating system with Linux
-# @flag --osx                       Override the operating system with OSX
-# @flag --sunos                     Override the operating system with SunOS
-# @flag --windows                   Override the operating system with Windows
+# @option -p --platform[android|darwin|freebsd|linux|macos|netbsd|openbsd|osx|sunos|win32|windows] <type>  Override the current platform
+# @flag --android                   Override the platform with android
+# @flag --darwin                    Override the platform with darwin
+# @flag --freebsd                   Override the platform with freebsd
+# @flag --linux                     Override the platform with linux
+# @flag --macos                     Override the platform with macos
+# @flag --netbsd                    Override the platform with netbsd
+# @flag --openbsd                   Override the platform with openbsd
+# @flag --osx                       Override the platform with osx
+# @flag --sunos                     Override the platform with sunos
+# @flag --win32                     Override the platform with win32
+# @flag --windows                   Override the platform with windows
 # @option -t --theme[simple|base16|ocean] <theme>  Color theme
 # @option -s --search <keywords>    Search pages using keywords
 # @flag -u --update                 Update the local cache

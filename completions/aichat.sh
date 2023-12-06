@@ -4,6 +4,7 @@
 # @option -m --model[`_choice_model`]        Choose a LLM model
 # @option -r --role[`_choice_role`]          Choose a role
 # @option -s --session[`_choice_session`]    Create or reuse a session
+# @option -f --file*                         Attach files to the message to be sent
 # @flag -H --no-highlight                    Disable syntax highlighting
 # @flag -S --no-stream                       No stream output
 # @option -w --wrap                          Specify the text-wrapping mode (no, auto, <max-width>)

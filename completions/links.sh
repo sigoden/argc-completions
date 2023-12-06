@@ -4,11 +4,16 @@
 # @flag -help                                      Print a help screen
 # @flag -version                                   Prints the links version number and exit.
 # @option -lookup <hostname>                       Does name lookup, like command "host".
+# @flag -g                                         Run Links in graphics mode.
+# @flag -no-g                                      Run in text mode (overrides previous -g).
+# @option -driver[x|svgalib|fb|directfb|pmshell|atheos] <driver name>  Graphics driver to use.
+# @option -mode <parameter>                        Pass a parameter to the graphics driver.
+# @option -display <x-display>                     Set Xwindow display.
 # @flag -force-html                                Treat files with unknown type as html rather than text.
 # @option -source <url>                            Write unformatted data stream to stdout.
 # @option -dump <url>                              Write formatted document to stdout.
 # @option -width <number>                          For dump, document will be formatted to this screen width (but it can still exceed it if lines can't be broken).
-# @option -codepage <codepage>                     For dump, convert output to specified character set -- for example iso-8859-2, windows-1250.
+# @option -codepage <codepage>                     For dump, convert output to specified character set -- for eaxmple iso-8859-2, windows-1250.
 # @flag -anonymous                                 Restrict links so that it can run on an anonymous account.
 # @flag -no-connect                                Runs links as a separate instance - instead of connecting to existing instance.
 # @option -download-dir <path>                     Default download directory.
@@ -19,11 +24,10 @@
 # @option -receive-timeout <sec>                   Timeout on receive.
 # @option -unrestartable-receive-timeout <sec>     Timeout on non restartable connections.
 # @option -timeout-when-trying-multiple-addresses <sec>  Timeout for connection when trying multiple addresses or when resuming a keepalive connection.
-# @option -bind-address <ip address>               Use a specific local IP address.
-# @option -bind-address-ipv6 <ipv6 address>        Use a specific local IPv6 address.
+# @option -bind-address <ip address or interface name>  Use a specific local IP address.
+# @option -bind-address-ipv6 <ipv6 address or interface name>  Use a specific local IPv6 address.
 # @flag -no-libevent                               Don't use libevent library.
 # @flag -no-openmp                                 Don't use OpenMP.
-# @option -async-dns[0|1]                          Asynchronous DNS resolver on(1)/off(0).
 # @option -download-utime[0|1]                     Set time of downloaded files to last modification time reported by server.
 # @option -format-cache-size <num>                 Number of formatted document pages cached.
 # @option -memory-cache-size <bytes>               Cache memory in bytes.
@@ -43,6 +47,8 @@
 # @option -ssl.client-cert-key <filename>          Name of the PEM encoded file with the user private key for client certificate authentication.
 # @option -ssl.client-cert-crt <filename>          Name of the PEM encoded file with the user certificate for client certificate authentication.
 # @option -ssl.client-cert-password <text>         Password for the user private key.
+# @option -async-dns[0|1]                          Asynchronous DNS resolver on(1)/off(0).
+# @option -dns-over-https <url>                    DNS over HTTPS url.
 # @option -http-bugs.http10[0|1]                   (default 0) "1" forces using only HTTP/1.0 protocol.
 # @option -http-bugs.allow-blacklist[0|1]          (default 1) "1" defaults to using list of servers that have broken HTTP/1.1 support.
 # @option -http-bugs.bug-no-accept-charset[0|1]    (default 0) Do not send Accept-Charset field of HTTP header.

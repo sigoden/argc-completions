@@ -10,6 +10,7 @@
 # @option -d --display                  use X server DISPLAY
 # @flag --module-assertions             assert behavior of dynamic modules
 # @option --dump-file <FILE>            read dumped state from FILE
+# @option --sandbox <FILE>              read Seccomp BPF filter from FILE
 # @flag --no-build-details              do not add build details such as time stamps
 # @flag --no-desktop                    do not load a saved desktop
 # @flag -q --no-init-file               load neither ~/.emacs nor default.el

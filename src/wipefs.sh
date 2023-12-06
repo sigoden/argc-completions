@@ -1,5 +1,6 @@
 _patch_table() {
     _patch_table_edit_options \
+        '--lock;[yes|no|nonbloc]' \
         '--output;[`_choice_column`]' \
     | \
     _patch_table_edit_arguments ';;' 'device-path'

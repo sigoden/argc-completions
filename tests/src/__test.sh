@@ -141,6 +141,10 @@ Options:
             Specify  the  protocol  to use when communicating with the remote mail server.
     --disabled‐login
           Do not run passwd to set the password.  The user won’t be able to use her account until the password is set.
+    -fcf-protection=<value> Instrument control-flow architecture protection. Options: return, branch, full, none.
+    -fcf-protection         Enable cf-protection in 'full' mode
+    -only-testing                    constrains testing by specifying tests to include, and excluding other tests
+    -only-testing- <TEST-IDENTIFIER> constrains testing by specifying tests to include, and excluding other tests
 -------
 
 Future runs of this module will trigger no downloads or compilation unless

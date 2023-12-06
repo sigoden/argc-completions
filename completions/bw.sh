@@ -75,9 +75,12 @@ sync() {
 # @flag -p --passphrase              Generate a passphrase.
 # @option --length <length>          Length of the password.
 # @option --words <words>            Number of words.
+# @option --minNumber <count>        Minimum number of numeric characters.
+# @option --minSpecial <count>       Minimum number of special characters.
 # @option --separator <separator>    Word separator.
 # @flag -c --capitalize              Title case passphrase.
 # @flag --includeNumber              Passphrase includes number.
+# @flag --ambiguous                  Avoid ambiguous characters.
 # @flag -h --help                    display help for command
 generate() {
     :;

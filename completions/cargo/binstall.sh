@@ -28,9 +28,11 @@
 # @option --root-certificates <ROOT_CERTIFICATES>  Specify the root certificates to use for https connnections, in addition to default system-wide ones
 # @flag --json-output                             Print logs in json format to be parsable
 # @option --github-token <GITHUB_TOKEN>           Provide the github token for accessing the restful API of api.github.com
+# @flag --only-signed                             Only install packages that are signed
+# @flag --skip-signatures                         Don't check any signatures
 # @flag -V                                        Print version information
 # @option --log-level <LEVEL>                     Utility log level
-# @flag -v --verbose                              Used with `--version` to print out verbose information
+# @flag -v --verbose                              Implies `--log-level debug` and it can also be used with `--version` to print out verbose information,
 # @flag -q --quiet                                Equivalent to setting `log_level` to `off`.
 # @arg crate-version* <crate[@version]>
 

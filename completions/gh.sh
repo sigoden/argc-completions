@@ -37,9 +37,11 @@ auth::logout() {
 # {{{ gh auth refresh
 # @cmd Refresh stored authentication credentials
 # @option -h --hostname[`_choice_hostname`] <string>  The GitHub host to use for authentication
-# @flag --insecure-storage    Save authentication credentials in plain text instead of credential store
+# @flag --insecure-storage                Save authentication credentials in plain text instead of credential store
+# @option -r --remove-scopes* <string>    Authentication scopes to remove from gh
+# @flag --reset-scopes                    Reset authentication scopes to the default minimum set of scopes
 # @option -s --scopes*,[`_choice_auth_scope`] <string>  Additional authentication scopes for gh to have
-# @flag --help                Show help for command
+# @flag --help                            Show help for command
 auth::refresh() {
     :;
 }
@@ -353,6 +355,7 @@ gist::delete() {
 # @option -a --add <file>       Add a new file to the gist
 # @option -d --desc <string>    New description for the gist
 # @option -f --filename[`_choice_gist_file`] <file>  Select a file to edit
+# @option -r --remove <file>    Remove a file from the gist
 # @flag --help                  Show help for command
 # @arg gist[`_choice_gist`]
 # @arg filename[`_choice_gist_file`]
@@ -499,8 +502,8 @@ issue::delete() {
 # {{{ gh issue develop
 # @cmd Manage linked branches for an issue
 # @option -b --base[`_choice_branch`] <string>    Name of the base branch you want to make your new branch from
+# @option --branch-repo <string>                  Name or URL of the repository where you want to create your new branch
 # @flag -c --checkout                             Checkout the branch after creating it
-# @option -i --issue-repo <string>                Name or URL of the issue's repository
 # @flag -l --list                                 List linked branches for the issue
 # @option -n --name[`_choice_branch`] <string>    Name of the branch to create
 # @flag --help                                    Show help for command
@@ -642,7 +645,8 @@ pr() {
 # @option -b --body <string>                      Body for the pull request
 # @option -F --body-file <file>                   Read body text from file (use "-" to read from standard input)
 # @flag -d --draft                                Mark pull request as a draft
-# @flag -f --fill                                 Do not prompt for title/body and just use commit info
+# @flag -f --fill                                 Use commit info for title and body
+# @flag --fill-first                              Use first commit info for title and body
 # @option -H --head[`_choice_branch`] <branch>    The branch that contains commits for your pull request (default: current branch)
 # @option -l --label*,[`_choice_label`] <name>    Add labels by name
 # @option -m --milestone[`_choice_milestone`] <name>  Add the pull request to a milestone by name
@@ -1043,6 +1047,7 @@ project::item-delete() {
 # {{{ gh project item-edit
 # @cmd Edit an item in a project
 # @option --body <string>                       Body of the draft issue item
+# @flag --clear                                 Remove field value
 # @option --date <string>                       Date value for the field (YYYY-MM-DD)
 # @option --field-id <string>                   ID of the field to update
 # @option --format[json] <string>               Output format: {json}
@@ -1084,6 +1089,18 @@ project::list() {
 }
 # }}} gh project list
 
+# {{{ gh project mark-template
+# @cmd Mark a project as a template
+# @option --format[json] <string>              Output format: {json}
+# @option --owner[`_choice_owner`] <string>    Login of the org owner.
+# @flag --undo                                 Unmark the project as a template.
+# @flag --help                                 Show help for command
+# @arg project[`_choice_project`]
+project::mark-template() {
+    :;
+}
+# }}} gh project mark-template
+
 # {{{ gh project view
 # @cmd View a project
 # @option --format[json] <string>              Output format: {json}
@@ -1113,6 +1130,7 @@ release() {
 # @flag --latest                                   Mark this release as "Latest" (default: automatic based on date and version)
 # @option -n --notes <string>                      Release notes
 # @option -F --notes-file <file>                   Read release notes from file (use "-" to read from standard input)
+# @flag --notes-from-tag                           Automatically generate notes from annotated tag
 # @option --notes-start-tag <string>               Tag to use as the starting point for generating release notes
 # @flag -p --prerelease                            Mark the release as a prerelease
 # @option --target*,[`_choice_branch`] <branch>    Target branch or full commit SHA (default: main branch)
@@ -1190,6 +1208,7 @@ release::download() {
 # @option --tag <string>                           The name of the tag
 # @option --target*,[`_choice_branch`] <branch>    Target branch or full commit SHA (default: main branch)
 # @option -t --title <string>                      Release title
+# @flag --verify-tag                               Abort in case the git tag doesn't already exist in the remote repository
 # @flag --help                                     Show help for command
 # @option -R --repo[`_choice_search_repo`] <[HOST/]OWNER/REPO>  Select another repository using the [HOST/]OWNER/REPO format
 # @arg tag![`_choice_tag`]
@@ -1341,7 +1360,10 @@ repo::deploy-key::delete() {
 
 # {{{{ gh repo deploy-key list
 # @cmd List deploy keys in a GitHub repository
-# @flag --help    Show help for command
+# @option -q --jq <expression>                     Filter JSON output using a jq expression
+# @option --json[`_choice_repo_field`] <fields>    Output JSON with the specified fields
+# @option -t --template[`_choice_search_repo`] <string>  Format JSON output using a Go template; see "gh help formatting"
+# @flag --help                                     Show help for command
 # @option -R --repo[`_choice_search_repo`] <[HOST/]OWNER/REPO>  Select another repository using the [HOST/]OWNER/REPO format
 repo::deploy-key::list() {
     :;
@@ -1449,6 +1471,41 @@ repo::view() {
 }
 # }}} gh repo view
 # }} gh repo
+
+# {{ gh cache
+# @cmd Manage Github Actions caches
+# @option -R --repo[`_choice_search_repo`] <[HOST/]OWNER/REPO>  Select another repository using the [HOST/]OWNER/REPO format
+# @flag --help    Show help for command
+cache() {
+    :;
+}
+
+# {{{ gh cache delete
+# @cmd Delete Github Actions caches
+# @flag -a --all    Delete all caches
+# @flag --help      Show help for command
+# @option -R --repo[`_choice_search_repo`] <[HOST/]OWNER/REPO>  Select another repository using the [HOST/]OWNER/REPO format
+# @arg cache-id-cache-key <<cache-id>| <cache-key>>
+cache::delete() {
+    :;
+}
+# }}} gh cache delete
+
+# {{{ gh cache list
+# @cmd List Github Actions caches
+# @option -q --jq <expression>             Filter JSON output using a jq expression
+# @option --json <fields>                  Output JSON with the specified fields
+# @option -L --limit <int>                 Maximum number of caches to fetch (default 30)
+# @option -O --order[asc|desc] <string>    Order of caches returned:  (default "desc")
+# @option -S --sort[created_at|last_accessed_at|size_in_bytes] <string>  Sort fetched caches:  (default "last_accessed_at")
+# @option -t --template <string>           Format JSON output using a Go template; see "gh help formatting"
+# @flag --help                             Show help for command
+# @option -R --repo[`_choice_search_repo`] <[HOST/]OWNER/REPO>  Select another repository using the [HOST/]OWNER/REPO format
+cache::list() {
+    :;
+}
+# }}} gh cache list
+# }} gh cache
 
 # {{ gh run
 # @cmd View details about workflow runs
@@ -1586,9 +1643,12 @@ workflow::enable() {
 
 # {{{ gh workflow list
 # @cmd List workflows
-# @flag -a --all              Also show disabled workflows
-# @option -L --limit <int>    Maximum number of workflows to fetch (default 50)
-# @flag --help                Show help for command
+# @flag -a --all                    Include disabled workflows
+# @option -q --jq <expression>      Filter JSON output using a jq expression
+# @option --json <fields>           Output JSON with the specified fields
+# @option -L --limit <int>          Maximum number of workflows to fetch (default 50)
+# @option -t --template <string>    Format JSON output using a Go template; see "gh help formatting"
+# @flag --help                      Show help for command
 # @option -R --repo[`_choice_search_repo`] <[HOST/]OWNER/REPO>  Select another repository using the [HOST/]OWNER/REPO format
 workflow::list() {
     :;
@@ -1638,9 +1698,10 @@ alias() {
 }
 
 # {{{ gh alias delete
-# @cmd Delete an alias
+# @cmd Delete set aliases
+# @flag --all     Delete all aliases
 # @flag --help    Show help for command
-# @arg alias![`_choice_alias`]
+# @arg alias[`_choice_alias`]
 alias::delete() {
     :;
 }
@@ -1667,6 +1728,7 @@ alias::list() {
 
 # {{{ gh alias set
 # @cmd Create a shortcut for a gh command
+# @flag --clobber     Overwrite existing aliases of the same name
 # @flag -s --shell    Declare an alias to be passed through a shell interpreter
 # @flag --help        Show help for command
 # @arg alias![`_choice_alias`]
@@ -1692,6 +1754,7 @@ alias::set() {
 # @option -f --raw-field <key=value>    Add a string parameter in key=value format
 # @flag --silent                        Do not print the response body
 # @option -t --template <string>        Format JSON output using a Go template; see "gh help formatting"
+# @flag --verbose                       Include full HTTP request and response in the output
 # @flag --help                          Show help for command
 # @arg endpoint!
 api() {
@@ -1715,6 +1778,14 @@ completion() {
 config() {
     :;
 }
+
+# {{{ gh config clear-cache
+# @cmd Clear the cli cache
+# @flag --help    Show help for command
+config::clear-cache() {
+    :;
+}
+# }}} gh config clear-cache
 
 # {{{ gh config get
 # @cmd Print the value of a given configuration key
@@ -1950,6 +2021,53 @@ label::list() {
 # }}} gh label list
 # }} gh label
 
+# {{ gh ruleset
+# @cmd View info about repo rulesets
+# @option -R --repo[`_choice_search_repo`] <[HOST/]OWNER/REPO>  Select another repository using the [HOST/]OWNER/REPO format
+# @flag --help    Show help for command
+ruleset() {
+    :;
+}
+
+# {{{ gh ruleset check
+# @cmd View rules that would apply to a given branch
+# @flag --default    Check rules on default branch
+# @flag -w --web     Open the branch rules page in a web browser
+# @flag --help       Show help for command
+# @option -R --repo[`_choice_search_repo`] <[HOST/]OWNER/REPO>  Select another repository using the [HOST/]OWNER/REPO format
+# @arg branch[`_choice_branch`]
+ruleset::check() {
+    :;
+}
+# }}} gh ruleset check
+
+# {{{ gh ruleset list
+# @cmd List rulesets for a repository or organization
+# @option -L --limit <int>                    Maximum number of rulesets to list (default 30)
+# @option -o --org[`_choice_org`] <string>    List organization-wide rulesets for the provided organization
+# @flag -p --parents                          Whether to include rulesets configured at higher levels that also apply (default true)
+# @flag -w --web                              Open the list of rulesets in the web browser
+# @flag --help                                Show help for command
+# @option -R --repo[`_choice_search_repo`] <[HOST/]OWNER/REPO>  Select another repository using the [HOST/]OWNER/REPO format
+ruleset::list() {
+    :;
+}
+# }}} gh ruleset list
+
+# {{{ gh ruleset view
+# @cmd View information about a ruleset
+# @option -o --org[`_choice_org`] <string>    Organization name if the provided ID is an organization-level ruleset
+# @flag -p --parents                          Whether to include rulesets configured at higher levels that also apply (default true)
+# @flag -w --web                              Open the ruleset in the browser
+# @flag --help                                Show help for command
+# @option -R --repo[`_choice_search_repo`] <[HOST/]OWNER/REPO>  Select another repository using the [HOST/]OWNER/REPO format
+# @arg ruleset-id[`_choice_ruleset`]
+ruleset::view() {
+    :;
+}
+# }}} gh ruleset view
+# }} gh ruleset
+
 # {{ gh search
 # @cmd Search for repositories, issues, and pull requests
 # @flag --help    Show help for command
@@ -2167,7 +2285,10 @@ secret::delete() {
 # @cmd List secrets
 # @option -a --app[actions|codespaces|dependabot] <string>  List secrets for a specific application:
 # @option -e --env <string>                   List secrets for an environment
+# @option -q --jq <expression>                Filter JSON output using a jq expression
+# @option --json <fields>                     Output JSON with the specified fields
 # @option -o --org[`_choice_org`] <string>    List secrets for an organization
+# @option -t --template <string>              Format JSON output using a Go template; see "gh help formatting"
 # @flag -u --user                             List a secret for your user
 # @flag --help                                Show help for command
 # @option -R --repo[`_choice_search_repo`] <[HOST/]OWNER/REPO>  Select another repository using the [HOST/]OWNER/REPO format
@@ -2739,6 +2860,11 @@ _choice_config_key() {
 _choice_gpg_key() {
     gh api user/gpg_keys | \
     yq '.[] | .key_id + "	" + .name'
+}
+
+_choice_ruleset() {
+    gh ruleset list $(_argc_util_param_select_options --repo) | \
+    _argc_util_transform_table 'ID;NAME' '\t'
 }
 
 _choice_commit_field() {

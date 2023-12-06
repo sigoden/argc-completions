@@ -40,7 +40,7 @@
 # @flag --no-publications                         do not dump publications
 # @flag --no-security-labels                      do not dump security label assignments
 # @flag --no-subscriptions                        do not dump subscriptions
-# @flag --no-synchronized-snapshots               do not use synchronized snapshots in parallel jobs
+# @flag --no-table-access-method                  do not dump table access methods
 # @flag --no-tablespaces                          do not dump tablespace assignments
 # @flag --no-toast-compression                    do not dump TOAST compression methods
 # @flag --no-unlogged-table-data                  do not dump unlogged table data

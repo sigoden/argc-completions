@@ -66,22 +66,18 @@
 # @flag --asciidoc                           Filetype: .adoc .ad .asc .asciidoc
 # @flag --apl                                Filetype: .apl
 # @flag --asm                                Filetype: .asm .s
-# @flag --asp                                Filetype: .asp .asa .aspx .asax .ashx .ascx .asmx
-# @flag --aspx                               Filetype: .asp .asa .aspx .asax .ashx .ascx .asmx
 # @flag --batch                              Filetype: .bat .cmd
-# @flag --bazel                              Filetype: .bazel
 # @flag --bitbake                            Filetype: .bb .bbappend .bbclass .inc
+# @flag --bro                                Filetype: .bro .bif
 # @flag --cc                                 Filetype: .c .h .xs
 # @flag --cfmx                               Filetype: .cfc .cfm .cfml
 # @flag --chpl                               Filetype: .chpl
-# @flag --clojure                            Filetype: .clj .cljs .cljc .cljx .edn
+# @flag --clojure                            Filetype: .clj .cljs .cljc .cljx
 # @flag --coffee                             Filetype: .coffee .cjsx
-# @flag --config                             Filetype: .config
 # @flag --coq                                Filetype: .coq .g .v
 # @flag --cpp                                Filetype: .cpp .cc .C .cxx .m .hpp .hh .h .H .hxx .tpp
 # @flag --crystal                            Filetype: .cr .ecr
 # @flag --csharp                             Filetype: .cs
-# @flag --cshtml                             Filetype: .cshtml
 # @flag --css                                Filetype: .css
 # @flag --cython                             Filetype: .pyx .pxd .pxi
 # @flag --delphi                             Filetype: .pas .int .dfm .nfm .dof .dpk .dpr .dproj .groupproj .bdsgroup .bdsproj
@@ -94,12 +90,11 @@
 # @flag --elm                                Filetype: .elm
 # @flag --erlang                             Filetype: .erl .hrl
 # @flag --factor                             Filetype: .factor
-# @flag --fortran                            Filetype: .f .F .f77 .f90 .F90 .f95 .f03 .for .ftn .fpp .FPP
+# @flag --fortran                            Filetype: .f .f77 .f90 .f95 .f03 .for .ftn .fpp
 # @flag --fsharp                             Filetype: .fs .fsi .fsx
 # @flag --gettext                            Filetype: .po .pot .mo
 # @flag --glsl                               Filetype: .vert .tesc .tese .geom .frag .comp
 # @flag --go                                 Filetype: .go
-# @flag --gradle                             Filetype: .gradle
 # @flag --groovy                             Filetype: .groovy .gtmpl .gpp .grunit .gradle
 # @flag --haml                               Filetype: .haml
 # @flag --handlebars                         Filetype: .hbs
@@ -149,16 +144,13 @@
 # @flag --pike                               Filetype: .pike .pmod
 # @flag --plist                              Filetype: .plist
 # @flag --plone                              Filetype: .pt .cpt .metadata .cpy .py .xml .zcml
-# @flag --powershell                         Filetype: .ps1
 # @flag --proto                              Filetype: .proto
-# @flag --ps1                                Filetype: .ps1
 # @flag --pug                                Filetype: .pug
 # @flag --puppet                             Filetype: .pp
 # @flag --python                             Filetype: .py
 # @flag --qml                                Filetype: .qml
 # @flag --racket                             Filetype: .rkt .ss .scm
 # @flag --rake                               Filetype: .Rakefile
-# @flag --razor                              Filetype: .cshtml
 # @flag --restructuredtext                   Filetype: .rst
 # @flag --rs                                 Filetype: .rs
 # @flag --r                                  Filetype: .r .R .Rmd .Rnw .Rtex .Rrst
@@ -188,17 +180,14 @@
 # @flag --vala                               Filetype: .vala .vapi
 # @flag --vb                                 Filetype: .bas .cls .frm .ctl .vb .resx
 # @flag --velocity                           Filetype: .vm .vtl .vsl
-# @flag --verilog                            Filetype: .v .vh .sv .svh
+# @flag --verilog                            Filetype: .v .vh .sv
 # @flag --vhdl                               Filetype: .vhd .vhdl
 # @flag --vim                                Filetype: .vim
-# @flag --vue                                Filetype: .vue
 # @flag --wix                                Filetype: .wxi .wxs
 # @flag --wsdl                               Filetype: .wsdl
 # @flag --wadl                               Filetype: .wadl
-# @flag --xml                                Filetype: .xml .dtd .xsl .xslt .xsd .ent .tld .plist .wsdl
+# @flag --xml                                Filetype: .xml .dtd .xsl .xslt .ent .tld .plist
 # @flag --yaml                               Filetype: .yaml .yml
-# @flag --zeek                               Filetype: .zeek .bro .bif
-# @flag --zephir                             Filetype: .zep
 # @arg pattern
 # @arg path
 

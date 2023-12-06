@@ -22,8 +22,8 @@
 # @flag --new-first                              Run tests from new files first, then the rest of the tests sorted by file mtime
 # @option --cache-show <CACHESHOW>               Show cache contents, don't perform collection or tests.
 # @flag --cache-clear                            Remove all cache contents at start of test run
-# @option --lfnf[all|none]                       Which tests to run with no previously (known) failures
-# @option --last-failed-no-failures[all|none]    Which tests to run with no previously (known) failures
+# @option --lfnf[all|none]                       With ``--lf``, determines whether to execute tests when there are no previously (known) failures or when no cached ``lastfailed`` data was found.
+# @option --last-failed-no-failures[all|none]    With ``--lf``, determines whether to execute tests when there are no previously (known) failures or when no cached ``lastfailed`` data was found.
 # @flag --sw                                     Exit on test failure and continue from last failing test next time
 # @flag --stepwise                               Exit on test failure and continue from last failing test next time
 # @flag --sw-skip                                Ignore the first failing test but stop on the next failing test.
@@ -95,16 +95,6 @@
 # @option --log-file-date-format <LOG_FILE_DATE_FORMAT>  Log date format used by the logging module
 # @option --log-auto-indent <LOG_AUTO_INDENT>    Auto-indent multiline messages passed to the logging module.
 # @option --log-disable <LOGGER_DISABLE>         Disable a logger by name.
-# @option --cov <SOURCE>                         Path or package name to measure during execution (multi-allowed).
-# @flag --cov-reset                              Reset cov sources accumulated in options so far.
-# @option --cov-report <TYPE>                    Type of report to generate: term, term-missing, annotate, html, xml (multi-allowed).
-# @option --cov-config <PATH>                    Config file for coverage.
-# @flag --no-cov-on-fail                         Do not report coverage if test run fails.
-# @flag --no-cov                                 Disable coverage report completely (useful for debuggers).
-# @option --cov-fail-under <MIN>                 Fail if the total coverage is less than MIN.
-# @flag --cov-append                             Do not delete coverage but append to current.
-# @flag --cov-branch                             Enable branch coverage.
-# @option --cov-context <CONTEXT>                Dynamic contexts to use.
 # @arg file_or_dir
 
 command eval "$(argc --argc-eval "$0" "$@")"

@@ -249,16 +249,50 @@ show-trace() {
 # }} playwright show-trace
 
 # {{ playwright test
-# @cmd Run tests with Playwright Test.
-# @flag -h --help    display help for command
+# @cmd run tests with Playwright Test
+# @option --browser <browser>           Browser to use for tests, one of "all", "chromium", "firefox" or "webkit" (default: "chromium")
+# @option -c --config <file>            Configuration file, or a test directory with optional "playwright.config.{m,c}?{js,ts}"
+# @flag --debug                         Run tests with Playwright Inspector.
+# @flag --forbid-only                   Fail if test.only is called (default: false)
+# @flag --fully-parallel                Run all tests in parallel (default: false)
+# @option -g --grep <grep>              Only run tests matching this regular expression (default: ".*")
+# @option --global-timeout <timeout>    Maximum time this test suite can run in milliseconds (default: unlimited)
+# @option -gv <grep>                    Only run tests that do not match this regular expression
+# @option --grep-invert <grep>          Only run tests that do not match this regular expression
+# @flag --headed                        Run tests in headed browsers (default: headless)
+# @flag --ignore-snapshots              Ignore screenshot and snapshot expectations
+# @option -j --workers <workers>        Number of concurrent workers or percentage of logical CPU cores, use 1 to run in a single worker (default: 50%)
+# @flag --list                          Collect all the tests and report them, but do not run
+# @option --max-failures <N>            Stop after the first N failures
+# @flag --no-deps                       Do not run project dependencies
+# @option --output <dir>                Folder for output artifacts (default: "test-results")
+# @flag --pass-with-no-tests            Makes test run succeed even if no tests were found
+# @option --project* <project-name>     Only run tests from the specified list of projects (default: run all projects)
+# @flag --quiet                         Suppress stdio
+# @option --repeat-each <N>             Run each test N times (default: 1)
+# @option --reporter <reporter>         Reporter to use, comma-separated, can be "list", "line", "dot", "json", "junit", "null", "github", "html", "blob", "markdown" (default: "list")
+# @option --retries <retries>           Maximum retry count for flaky tests, zero for no retries (default: no retries)
+# @option --shard <shard>               Shard tests and execute only the selected shard, specify in the form "current/all", 1-based, for example "3/5"
+# @option --timeout <timeout>           Specify test timeout threshold in milliseconds, zero for unlimited (default: 30000)
+# @option --trace <mode>                Force tracing mode, can be "on", "off", "on-first-retry", "on-all-retries", "retain-on-failure"
+# @flag -u --update-snapshots           Update snapshots with actual results (default: only create missing snapshots)
+# @flag --ui                            Run tests in interactive UI mode
+# @option --ui-host <host>              Host to serve UI on; specifying this option opens UI in a browser tab
+# @option --ui-port <port>              Port to serve UI on, 0 for any free port; specifying this option opens UI in a browser tab
+# @flag -x                              Stop after the first failure
+# @flag -h --help                       display help for command
+# @arg test-filter*
 test() {
     :;
 }
 # }} playwright test
 
 # {{ playwright show-report
-# @cmd Show Playwright Test HTML report.
-# @flag -h --help    display help for command
+# @cmd show HTML report
+# @option --host <host>    Host to serve report on (default: "localhost")
+# @option --port <port>    Port to serve report on (default: "9323")
+# @flag -h --help          display help for command
+# @arg report
 show-report() {
     :;
 }

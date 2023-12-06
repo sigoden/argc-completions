@@ -6,6 +6,7 @@
 # @flag -q --quiet             suppress all warnings
 # @flag -r --recursive         operate recursively on directories
 # @option -S --suffix <SUF>    use suffix SUF on compressed files
+# @flag --synchronous          synchronous output (safer if system crashes, but slower)
 # @flag -t --test              test compressed file integrity
 # @flag -v --verbose           verbose mode
 # @flag --help                 display this help and exit

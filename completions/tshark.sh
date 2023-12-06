@@ -12,6 +12,7 @@
 # @flag -D --list-interfaces                      print list of interfaces and exit
 # @flag -L --list-data-link-types                 print list of link-layer types of iface and exit
 # @flag --list-time-stamp-types                   print list of timestamp types for iface and exit
+# @flag --update-interval                         interval between updates with new packets (def: 100ms)
 # @option -c <packet count>                       stop after n packets (def: infinite)
 # @option -a --autostop*[`_choice_autostop`] <autostop cond.>  duration:NUM - stop after NUM seconds
 # @option -b --ring-buffer*[`_choice_ring_buffer`] <ringbuffer opt.>  duration:NUM - switch to next file after NUM secs
@@ -26,6 +27,8 @@
 # @option -H <hosts file>                         read a list of entries from a hosts file, which will then be written to a capture file.
 # @option --enable-protocol[`_choice_protocol`] <proto_name>  enable dissection of proto_name
 # @option --disable-protocol[`_choice_protocol`] <proto_name>  disable dissection of proto_name
+# @option --only-protocols <protocols>            Only enable dissection of these protocols, comma separated.
+# @flag --disable-all-protocols                   Disable dissection of all protocols
 # @option --enable-heuristic <short_name>         enable dissection of heuristic protocol
 # @option --disable-heuristic <short_name>        disable dissection of heuristic protocol
 # @option -w <outfile|->                          write packets to a pcapng-format file named "outfile" (or '-' for stdout)
@@ -37,12 +40,13 @@
 # @flag -P --print                                print packet summary even when writing to a file
 # @option -S <separator>                          the line separator to print between packets
 # @flag -x                                        add output of hex and ASCII dump (Packet Bytes)
+# @option --hexdump <hexoption>                   add hexdump, set options for data source and ASCII dump
 # @option -T <pdml|ps|psml|json|jsonraw|ek|tabs|text|fields|?>  format of text output (def: text)
 # @option -j <protocolfilter>                     protocols layers filter if -T ek|pdml|json selected (e.g. "ip ip.flags text", filter does not expand child nodes, unless child is specified also in the filter)
 # @option -J <protocolfilter>                     top level protocol filter if -T ek|pdml|json selected (e.g. "http tcp", filter which expands all child nodes)
-# @option -e <field>                              field to print if -Tfields selected (e.g. tcp.port, _ws.col.Info) this option can be repeated to print multiple fields
+# @option -e <field>                              field to print if -Tfields selected (e.g. tcp.port, _ws.col.info) this option can be repeated to print multiple fields
 # @option -E[`_choice_output_option`] <<fieldsoption>=<value>>  set options for output when -Tfields selected: aggregator
-# @option -t <a|ad|adoy|d|dd|e|r|u|ud|udoy>       output format of time stamps (def: r: rel.
+# @option -t <(a|ad|adoy|d|dd|e|r|u|ud|udoy)[.[N]]|.[N]>  output format of time stamps (def: r: rel.
 # @option -u <s|hms>                              output format of seconds (def: s: seconds)
 # @flag -l                                        flush standard output after each packet
 # @flag -q                                        be more quiet on stdout (e.g. when using statistics)
@@ -57,11 +61,13 @@
 # @flag --color                                   color output text similarly to the Wireshark GUI, requires a terminal with 24-bit color support Also supplies color attributes to pdml and psml formats (Note that attributes are nonstandard)
 # @flag --no-duplicate-keys                       If -T json is specified, merge duplicate keys in an object into a single key with as value a json array containing all values
 # @option --elastic-mapping-filter*,[`_choice_protocol`] <protocols>  If -G elastic-mapping is specified, put only the specified protocols within the mapping file
+# @option --temp-dir <directory>                  write temporary files to this directory (default: /tmp)
 # @option --log-level <level>                     sets the active log level ("critical", "warning", etc.)
 # @option --log-fatal <level>                     sets level to abort the program ("critical" or "warning")
-# @option --log-domains <[!]list>                 comma separated list of the active log domains
-# @option --log-debug <[!]list>                   comma separated list of domains with "debug" level
-# @option --log-noisy <[!]list>                   comma separated list of domains with "noisy" level
+# @option --log-domains <[!]list>                 comma-separated list of the active log domains
+# @option --log-fatal-domains <list>              list of domains that cause the program to abort
+# @option --log-debug <[!]list>                   list of domains with "debug" level
+# @option --log-noisy <[!]list>                   list of domains with "noisy" level
 # @option --log-file <path>                       file to output messages to (in addition to stderr)
 # @flag -h --help                                 display this help and exit
 # @flag -v --version                              display version info and exit

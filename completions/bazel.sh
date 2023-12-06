@@ -104,6 +104,8 @@
 # @flag --noincompatible_always_check_depset_elements
 # @flag --incompatible_depset_for_libraries_to_link_getter
 # @flag --noincompatible_depset_for_libraries_to_link_getter
+# @flag --incompatible_disable_objc_library_transition
+# @flag --noincompatible_disable_objc_library_transition
 # @flag --incompatible_disable_starlark_host_transitions
 # @flag --noincompatible_disable_starlark_host_transitions
 # @flag --incompatible_disable_target_provider_fields
@@ -116,10 +118,14 @@
 # @flag --noincompatible_disallow_struct_provider_syntax
 # @flag --incompatible_existing_rules_immutable_view
 # @flag --noincompatible_existing_rules_immutable_view
+# @flag --incompatible_fail_on_unknown_attributes
+# @flag --noincompatible_fail_on_unknown_attributes
 # @flag --incompatible_fix_package_group_reporoot_syntax
 # @flag --noincompatible_fix_package_group_reporoot_syntax
 # @flag --incompatible_java_common_parameters
 # @flag --noincompatible_java_common_parameters
+# @flag --incompatible_merge_fixed_and_default_shell_env
+# @flag --noincompatible_merge_fixed_and_default_shell_env
 # @flag --incompatible_new_actions_api
 # @flag --noincompatible_new_actions_api
 # @flag --incompatible_no_attr_license
@@ -205,7 +211,7 @@
 # @option --experimental_build_event_upload_max_retries <integer>
 # @option --experimental_build_event_upload_retry_minimum_delay <value>  An immutable length of time.
 # @option --experimental_build_event_upload_strategy <string>
-# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
+# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|bzlmod|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
 # @flag --experimental_profile_include_primary_output
 # @flag --noexperimental_profile_include_primary_output
 # @flag --experimental_profile_include_target_label
@@ -489,7 +495,7 @@ analyze-profile() {
 # @option --android_manifest_merger_order[alphabetical|alphabetical_by_configuration|dependency]
 # @flag --android_resource_shrinking
 # @flag --noandroid_resource_shrinking
-# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, watchos, tvos, macos or catalyst may be used multiple times
+# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, visionos, watchos, tvos, macos or catalyst may be used multiple times
 # @option --aspects <value>                      comma-separated list of options may be used multiple times
 # @option --bep_maximum_open_remote_upload_files <integer>
 # @option --build_python_zip[auto|yes|no] <value>  a tri-state
@@ -603,6 +609,7 @@ analyze-profile() {
 # @option --symlink_prefix <string>
 # @option --tvos_cpus <value>                    comma-separated list of options may be used multiple times
 # @option --tvos_minimum_os <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --visionos_cpus <value>                comma-separated list of options may be used multiple times
 # @option --watchos_cpus <value>                 comma-separated list of options may be used multiple times
 # @option --watchos_minimum_os <value>           a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xbinary_fdo[`_choice_target`] <label>
@@ -701,6 +708,8 @@ analyze-profile() {
 # @flag --noincompatible_config_setting_private_default_visibility
 # @flag --incompatible_depset_for_libraries_to_link_getter
 # @flag --noincompatible_depset_for_libraries_to_link_getter
+# @flag --incompatible_disable_objc_library_transition
+# @flag --noincompatible_disable_objc_library_transition
 # @flag --incompatible_disable_starlark_host_transitions
 # @flag --noincompatible_disable_starlark_host_transitions
 # @flag --incompatible_disable_target_provider_fields
@@ -717,10 +726,14 @@ analyze-profile() {
 # @flag --noincompatible_enforce_config_setting_visibility
 # @flag --incompatible_existing_rules_immutable_view
 # @flag --noincompatible_existing_rules_immutable_view
+# @flag --incompatible_fail_on_unknown_attributes
+# @flag --noincompatible_fail_on_unknown_attributes
 # @flag --incompatible_fix_package_group_reporoot_syntax
 # @flag --noincompatible_fix_package_group_reporoot_syntax
 # @flag --incompatible_java_common_parameters
 # @flag --noincompatible_java_common_parameters
+# @flag --incompatible_merge_fixed_and_default_shell_env
+# @flag --noincompatible_merge_fixed_and_default_shell_env
 # @flag --incompatible_new_actions_api
 # @flag --noincompatible_new_actions_api
 # @flag --incompatible_no_attr_license
@@ -778,6 +791,8 @@ analyze-profile() {
 # @flag --zip_undeclared_test_outputs
 # @flag --nozip_undeclared_test_outputs
 # @option --aspect_deps[off|conservative|precise]
+# @flag --consistent_labels
+# @flag --noconsistent_labels
 # @flag --deduplicate_depsets
 # @flag --nodeduplicate_depsets
 # @flag --graph:factored
@@ -923,7 +938,7 @@ analyze-profile() {
 # @flag --noexperimental_docker_verbose
 # @flag --experimental_materialize_param_files_directly
 # @flag --noexperimental_materialize_param_files_directly
-# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
+# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|bzlmod|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
 # @flag --experimental_profile_include_primary_output
 # @flag --noexperimental_profile_include_primary_output
 # @flag --experimental_profile_include_target_label
@@ -1008,6 +1023,8 @@ analyze-profile() {
 # @flag --experimental_remote_merkle_tree_cache
 # @flag --noexperimental_remote_merkle_tree_cache
 # @option --experimental_remote_merkle_tree_cache_size <value>  a long integer
+# @flag --experimental_remote_require_cached
+# @flag --noexperimental_remote_require_cached
 # @flag --incompatible_remote_build_event_upload_respect_no_cache
 # @flag --noincompatible_remote_build_event_upload_respect_no_cache
 # @flag --incompatible_remote_downloader_send_all_headers
@@ -1045,6 +1062,8 @@ analyze-profile() {
 # @flag --noremote_upload_local_results
 # @flag --remote_verify_downloads
 # @flag --noremote_verify_downloads
+# @flag --allow_analysis_cache_discard
+# @flag --noallow_analysis_cache_discard
 # @option --auto_output_filter[none|all|packages|subpackages]
 # @flag --build_manual_tests
 # @flag --nobuild_manual_tests
@@ -1408,7 +1427,7 @@ aquery() {
 # @option --android_manifest_merger_order[alphabetical|alphabetical_by_configuration|dependency]
 # @flag --android_resource_shrinking
 # @flag --noandroid_resource_shrinking
-# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, watchos, tvos, macos or catalyst may be used multiple times
+# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, visionos, watchos, tvos, macos or catalyst may be used multiple times
 # @option --aspects <value>                      comma-separated list of options may be used multiple times
 # @option --bep_maximum_open_remote_upload_files <integer>
 # @option --build_python_zip[auto|yes|no] <value>  a tri-state
@@ -1522,6 +1541,7 @@ aquery() {
 # @option --symlink_prefix <string>
 # @option --tvos_cpus <value>                    comma-separated list of options may be used multiple times
 # @option --tvos_minimum_os <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --visionos_cpus <value>                comma-separated list of options may be used multiple times
 # @option --watchos_cpus <value>                 comma-separated list of options may be used multiple times
 # @option --watchos_minimum_os <value>           a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xbinary_fdo[`_choice_target`] <label>
@@ -1620,6 +1640,8 @@ aquery() {
 # @flag --noincompatible_config_setting_private_default_visibility
 # @flag --incompatible_depset_for_libraries_to_link_getter
 # @flag --noincompatible_depset_for_libraries_to_link_getter
+# @flag --incompatible_disable_objc_library_transition
+# @flag --noincompatible_disable_objc_library_transition
 # @flag --incompatible_disable_starlark_host_transitions
 # @flag --noincompatible_disable_starlark_host_transitions
 # @flag --incompatible_disable_target_provider_fields
@@ -1636,10 +1658,14 @@ aquery() {
 # @flag --noincompatible_enforce_config_setting_visibility
 # @flag --incompatible_existing_rules_immutable_view
 # @flag --noincompatible_existing_rules_immutable_view
+# @flag --incompatible_fail_on_unknown_attributes
+# @flag --noincompatible_fail_on_unknown_attributes
 # @flag --incompatible_fix_package_group_reporoot_syntax
 # @flag --noincompatible_fix_package_group_reporoot_syntax
 # @flag --incompatible_java_common_parameters
 # @flag --noincompatible_java_common_parameters
+# @flag --incompatible_merge_fixed_and_default_shell_env
+# @flag --noincompatible_merge_fixed_and_default_shell_env
 # @flag --incompatible_new_actions_api
 # @flag --noincompatible_new_actions_api
 # @flag --incompatible_no_attr_license
@@ -1790,7 +1816,7 @@ aquery() {
 # @flag --noexperimental_docker_verbose
 # @flag --experimental_materialize_param_files_directly
 # @flag --noexperimental_materialize_param_files_directly
-# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
+# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|bzlmod|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
 # @flag --experimental_profile_include_primary_output
 # @flag --noexperimental_profile_include_primary_output
 # @flag --experimental_profile_include_target_label
@@ -1875,6 +1901,8 @@ aquery() {
 # @flag --experimental_remote_merkle_tree_cache
 # @flag --noexperimental_remote_merkle_tree_cache
 # @option --experimental_remote_merkle_tree_cache_size <value>  a long integer
+# @flag --experimental_remote_require_cached
+# @flag --noexperimental_remote_require_cached
 # @flag --incompatible_remote_build_event_upload_respect_no_cache
 # @flag --noincompatible_remote_build_event_upload_respect_no_cache
 # @flag --incompatible_remote_downloader_send_all_headers
@@ -1912,6 +1940,8 @@ aquery() {
 # @flag --noremote_upload_local_results
 # @flag --remote_verify_downloads
 # @flag --noremote_verify_downloads
+# @flag --allow_analysis_cache_discard
+# @flag --noallow_analysis_cache_discard
 # @option --auto_output_filter[none|all|packages|subpackages]
 # @flag --build_manual_tests
 # @flag --nobuild_manual_tests
@@ -2279,7 +2309,7 @@ build() {
 # @option --android_manifest_merger_order[alphabetical|alphabetical_by_configuration|dependency]
 # @flag --android_resource_shrinking
 # @flag --noandroid_resource_shrinking
-# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, watchos, tvos, macos or catalyst may be used multiple times
+# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, visionos, watchos, tvos, macos or catalyst may be used multiple times
 # @option --aspects <value>                      comma-separated list of options may be used multiple times
 # @option --bep_maximum_open_remote_upload_files <integer>
 # @option --build_python_zip[auto|yes|no] <value>  a tri-state
@@ -2393,6 +2423,7 @@ build() {
 # @option --symlink_prefix <string>
 # @option --tvos_cpus <value>                    comma-separated list of options may be used multiple times
 # @option --tvos_minimum_os <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --visionos_cpus <value>                comma-separated list of options may be used multiple times
 # @option --watchos_cpus <value>                 comma-separated list of options may be used multiple times
 # @option --watchos_minimum_os <value>           a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xbinary_fdo[`_choice_target`] <label>
@@ -2491,6 +2522,8 @@ build() {
 # @flag --noincompatible_config_setting_private_default_visibility
 # @flag --incompatible_depset_for_libraries_to_link_getter
 # @flag --noincompatible_depset_for_libraries_to_link_getter
+# @flag --incompatible_disable_objc_library_transition
+# @flag --noincompatible_disable_objc_library_transition
 # @flag --incompatible_disable_starlark_host_transitions
 # @flag --noincompatible_disable_starlark_host_transitions
 # @flag --incompatible_disable_target_provider_fields
@@ -2507,10 +2540,14 @@ build() {
 # @flag --noincompatible_enforce_config_setting_visibility
 # @flag --incompatible_existing_rules_immutable_view
 # @flag --noincompatible_existing_rules_immutable_view
+# @flag --incompatible_fail_on_unknown_attributes
+# @flag --noincompatible_fail_on_unknown_attributes
 # @flag --incompatible_fix_package_group_reporoot_syntax
 # @flag --noincompatible_fix_package_group_reporoot_syntax
 # @flag --incompatible_java_common_parameters
 # @flag --noincompatible_java_common_parameters
+# @flag --incompatible_merge_fixed_and_default_shell_env
+# @flag --noincompatible_merge_fixed_and_default_shell_env
 # @flag --incompatible_new_actions_api
 # @flag --noincompatible_new_actions_api
 # @flag --incompatible_no_attr_license
@@ -2661,7 +2698,7 @@ build() {
 # @flag --noexperimental_docker_verbose
 # @flag --experimental_materialize_param_files_directly
 # @flag --noexperimental_materialize_param_files_directly
-# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
+# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|bzlmod|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
 # @flag --experimental_profile_include_primary_output
 # @flag --noexperimental_profile_include_primary_output
 # @flag --experimental_profile_include_target_label
@@ -2748,6 +2785,8 @@ build() {
 # @flag --experimental_remote_merkle_tree_cache
 # @flag --noexperimental_remote_merkle_tree_cache
 # @option --experimental_remote_merkle_tree_cache_size <value>  a long integer
+# @flag --experimental_remote_require_cached
+# @flag --noexperimental_remote_require_cached
 # @flag --incompatible_remote_build_event_upload_respect_no_cache
 # @flag --noincompatible_remote_build_event_upload_respect_no_cache
 # @flag --incompatible_remote_downloader_send_all_headers
@@ -2785,6 +2824,8 @@ build() {
 # @flag --noremote_upload_local_results
 # @flag --remote_verify_downloads
 # @flag --noremote_verify_downloads
+# @flag --allow_analysis_cache_discard
+# @flag --noallow_analysis_cache_discard
 # @option --auto_output_filter[none|all|packages|subpackages]
 # @flag --build_manual_tests
 # @flag --nobuild_manual_tests
@@ -3154,7 +3195,7 @@ canonicalize-flags() {
 # @option --android_manifest_merger_order[alphabetical|alphabetical_by_configuration|dependency]
 # @flag --android_resource_shrinking
 # @flag --noandroid_resource_shrinking
-# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, watchos, tvos, macos or catalyst may be used multiple times
+# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, visionos, watchos, tvos, macos or catalyst may be used multiple times
 # @option --aspects <value>                      comma-separated list of options may be used multiple times
 # @option --bep_maximum_open_remote_upload_files <integer>
 # @option --build_python_zip[auto|yes|no] <value>  a tri-state
@@ -3268,6 +3309,7 @@ canonicalize-flags() {
 # @option --symlink_prefix <string>
 # @option --tvos_cpus <value>                    comma-separated list of options may be used multiple times
 # @option --tvos_minimum_os <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --visionos_cpus <value>                comma-separated list of options may be used multiple times
 # @option --watchos_cpus <value>                 comma-separated list of options may be used multiple times
 # @option --watchos_minimum_os <value>           a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xbinary_fdo[`_choice_target`] <label>
@@ -3366,6 +3408,8 @@ canonicalize-flags() {
 # @flag --noincompatible_config_setting_private_default_visibility
 # @flag --incompatible_depset_for_libraries_to_link_getter
 # @flag --noincompatible_depset_for_libraries_to_link_getter
+# @flag --incompatible_disable_objc_library_transition
+# @flag --noincompatible_disable_objc_library_transition
 # @flag --incompatible_disable_starlark_host_transitions
 # @flag --noincompatible_disable_starlark_host_transitions
 # @flag --incompatible_disable_target_provider_fields
@@ -3382,10 +3426,14 @@ canonicalize-flags() {
 # @flag --noincompatible_enforce_config_setting_visibility
 # @flag --incompatible_existing_rules_immutable_view
 # @flag --noincompatible_existing_rules_immutable_view
+# @flag --incompatible_fail_on_unknown_attributes
+# @flag --noincompatible_fail_on_unknown_attributes
 # @flag --incompatible_fix_package_group_reporoot_syntax
 # @flag --noincompatible_fix_package_group_reporoot_syntax
 # @flag --incompatible_java_common_parameters
 # @flag --noincompatible_java_common_parameters
+# @flag --incompatible_merge_fixed_and_default_shell_env
+# @flag --noincompatible_merge_fixed_and_default_shell_env
 # @flag --incompatible_new_actions_api
 # @flag --noincompatible_new_actions_api
 # @flag --incompatible_no_attr_license
@@ -3536,7 +3584,7 @@ canonicalize-flags() {
 # @flag --noexperimental_docker_verbose
 # @flag --experimental_materialize_param_files_directly
 # @flag --noexperimental_materialize_param_files_directly
-# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
+# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|bzlmod|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
 # @flag --experimental_profile_include_primary_output
 # @flag --noexperimental_profile_include_primary_output
 # @flag --experimental_profile_include_target_label
@@ -3621,6 +3669,8 @@ canonicalize-flags() {
 # @flag --experimental_remote_merkle_tree_cache
 # @flag --noexperimental_remote_merkle_tree_cache
 # @option --experimental_remote_merkle_tree_cache_size <value>  a long integer
+# @flag --experimental_remote_require_cached
+# @flag --noexperimental_remote_require_cached
 # @flag --incompatible_remote_build_event_upload_respect_no_cache
 # @flag --noincompatible_remote_build_event_upload_respect_no_cache
 # @flag --incompatible_remote_downloader_send_all_headers
@@ -3658,6 +3708,8 @@ canonicalize-flags() {
 # @flag --noremote_upload_local_results
 # @flag --remote_verify_downloads
 # @flag --noremote_verify_downloads
+# @flag --allow_analysis_cache_discard
+# @flag --noallow_analysis_cache_discard
 # @option --auto_output_filter[none|all|packages|subpackages]
 # @flag --build_manual_tests
 # @flag --nobuild_manual_tests
@@ -4020,7 +4072,7 @@ clean() {
 # @option --android_manifest_merger_order[alphabetical|alphabetical_by_configuration|dependency]
 # @flag --android_resource_shrinking
 # @flag --noandroid_resource_shrinking
-# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, watchos, tvos, macos or catalyst may be used multiple times
+# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, visionos, watchos, tvos, macos or catalyst may be used multiple times
 # @option --aspects <value>                      comma-separated list of options may be used multiple times
 # @option --bep_maximum_open_remote_upload_files <integer>
 # @option --build_python_zip[auto|yes|no] <value>  a tri-state
@@ -4134,6 +4186,7 @@ clean() {
 # @option --symlink_prefix <string>
 # @option --tvos_cpus <value>                    comma-separated list of options may be used multiple times
 # @option --tvos_minimum_os <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --visionos_cpus <value>                comma-separated list of options may be used multiple times
 # @option --watchos_cpus <value>                 comma-separated list of options may be used multiple times
 # @option --watchos_minimum_os <value>           a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xbinary_fdo[`_choice_target`] <label>
@@ -4232,6 +4285,8 @@ clean() {
 # @flag --noincompatible_config_setting_private_default_visibility
 # @flag --incompatible_depset_for_libraries_to_link_getter
 # @flag --noincompatible_depset_for_libraries_to_link_getter
+# @flag --incompatible_disable_objc_library_transition
+# @flag --noincompatible_disable_objc_library_transition
 # @flag --incompatible_disable_starlark_host_transitions
 # @flag --noincompatible_disable_starlark_host_transitions
 # @flag --incompatible_disable_target_provider_fields
@@ -4248,10 +4303,14 @@ clean() {
 # @flag --noincompatible_enforce_config_setting_visibility
 # @flag --incompatible_existing_rules_immutable_view
 # @flag --noincompatible_existing_rules_immutable_view
+# @flag --incompatible_fail_on_unknown_attributes
+# @flag --noincompatible_fail_on_unknown_attributes
 # @flag --incompatible_fix_package_group_reporoot_syntax
 # @flag --noincompatible_fix_package_group_reporoot_syntax
 # @flag --incompatible_java_common_parameters
 # @flag --noincompatible_java_common_parameters
+# @flag --incompatible_merge_fixed_and_default_shell_env
+# @flag --noincompatible_merge_fixed_and_default_shell_env
 # @flag --incompatible_new_actions_api
 # @flag --noincompatible_new_actions_api
 # @flag --incompatible_no_attr_license
@@ -4402,7 +4461,7 @@ clean() {
 # @flag --noexperimental_docker_verbose
 # @flag --experimental_materialize_param_files_directly
 # @flag --noexperimental_materialize_param_files_directly
-# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
+# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|bzlmod|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
 # @flag --experimental_profile_include_primary_output
 # @flag --noexperimental_profile_include_primary_output
 # @flag --experimental_profile_include_target_label
@@ -4493,6 +4552,8 @@ clean() {
 # @flag --experimental_remote_merkle_tree_cache
 # @flag --noexperimental_remote_merkle_tree_cache
 # @option --experimental_remote_merkle_tree_cache_size <value>  a long integer
+# @flag --experimental_remote_require_cached
+# @flag --noexperimental_remote_require_cached
 # @flag --incompatible_remote_build_event_upload_respect_no_cache
 # @flag --noincompatible_remote_build_event_upload_respect_no_cache
 # @flag --incompatible_remote_downloader_send_all_headers
@@ -4530,6 +4591,8 @@ clean() {
 # @flag --noremote_upload_local_results
 # @flag --remote_verify_downloads
 # @flag --noremote_verify_downloads
+# @flag --allow_analysis_cache_discard
+# @flag --noallow_analysis_cache_discard
 # @option --auto_output_filter[none|all|packages|subpackages]
 # @flag --build_manual_tests
 # @flag --nobuild_manual_tests
@@ -4893,7 +4956,7 @@ coverage() {
 # @option --android_manifest_merger_order[alphabetical|alphabetical_by_configuration|dependency]
 # @flag --android_resource_shrinking
 # @flag --noandroid_resource_shrinking
-# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, watchos, tvos, macos or catalyst may be used multiple times
+# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, visionos, watchos, tvos, macos or catalyst may be used multiple times
 # @option --aspects <value>                      comma-separated list of options may be used multiple times
 # @option --bep_maximum_open_remote_upload_files <integer>
 # @option --build_python_zip[auto|yes|no] <value>  a tri-state
@@ -5007,6 +5070,7 @@ coverage() {
 # @option --symlink_prefix <string>
 # @option --tvos_cpus <value>                    comma-separated list of options may be used multiple times
 # @option --tvos_minimum_os <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --visionos_cpus <value>                comma-separated list of options may be used multiple times
 # @option --watchos_cpus <value>                 comma-separated list of options may be used multiple times
 # @option --watchos_minimum_os <value>           a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xbinary_fdo[`_choice_target`] <label>
@@ -5105,6 +5169,8 @@ coverage() {
 # @flag --noincompatible_config_setting_private_default_visibility
 # @flag --incompatible_depset_for_libraries_to_link_getter
 # @flag --noincompatible_depset_for_libraries_to_link_getter
+# @flag --incompatible_disable_objc_library_transition
+# @flag --noincompatible_disable_objc_library_transition
 # @flag --incompatible_disable_starlark_host_transitions
 # @flag --noincompatible_disable_starlark_host_transitions
 # @flag --incompatible_disable_target_provider_fields
@@ -5121,10 +5187,14 @@ coverage() {
 # @flag --noincompatible_enforce_config_setting_visibility
 # @flag --incompatible_existing_rules_immutable_view
 # @flag --noincompatible_existing_rules_immutable_view
+# @flag --incompatible_fail_on_unknown_attributes
+# @flag --noincompatible_fail_on_unknown_attributes
 # @flag --incompatible_fix_package_group_reporoot_syntax
 # @flag --noincompatible_fix_package_group_reporoot_syntax
 # @flag --incompatible_java_common_parameters
 # @flag --noincompatible_java_common_parameters
+# @flag --incompatible_merge_fixed_and_default_shell_env
+# @flag --noincompatible_merge_fixed_and_default_shell_env
 # @flag --incompatible_new_actions_api
 # @flag --noincompatible_new_actions_api
 # @flag --incompatible_no_attr_license
@@ -5182,6 +5252,8 @@ coverage() {
 # @flag --zip_undeclared_test_outputs
 # @flag --nozip_undeclared_test_outputs
 # @option --aspect_deps[off|conservative|precise]
+# @flag --consistent_labels
+# @flag --noconsistent_labels
 # @flag --graph:factored
 # @flag --nograph:factored
 # @option --graph:node_limit <integer>
@@ -5321,7 +5393,7 @@ coverage() {
 # @flag --noexperimental_docker_verbose
 # @flag --experimental_materialize_param_files_directly
 # @flag --noexperimental_materialize_param_files_directly
-# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
+# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|bzlmod|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
 # @flag --experimental_profile_include_primary_output
 # @flag --noexperimental_profile_include_primary_output
 # @flag --experimental_profile_include_target_label
@@ -5412,6 +5484,8 @@ coverage() {
 # @flag --experimental_remote_merkle_tree_cache
 # @flag --noexperimental_remote_merkle_tree_cache
 # @option --experimental_remote_merkle_tree_cache_size <value>  a long integer
+# @flag --experimental_remote_require_cached
+# @flag --noexperimental_remote_require_cached
 # @flag --incompatible_remote_build_event_upload_respect_no_cache
 # @flag --noincompatible_remote_build_event_upload_respect_no_cache
 # @flag --incompatible_remote_downloader_send_all_headers
@@ -5449,6 +5523,8 @@ coverage() {
 # @flag --noremote_upload_local_results
 # @flag --remote_verify_downloads
 # @flag --noremote_verify_downloads
+# @flag --allow_analysis_cache_discard
+# @flag --noallow_analysis_cache_discard
 # @option --auto_output_filter[none|all|packages|subpackages]
 # @flag --build_manual_tests
 # @flag --nobuild_manual_tests
@@ -5666,6 +5742,8 @@ cquery() {
 # @flag --noincompatible_always_check_depset_elements
 # @flag --incompatible_depset_for_libraries_to_link_getter
 # @flag --noincompatible_depset_for_libraries_to_link_getter
+# @flag --incompatible_disable_objc_library_transition
+# @flag --noincompatible_disable_objc_library_transition
 # @flag --incompatible_disable_starlark_host_transitions
 # @flag --noincompatible_disable_starlark_host_transitions
 # @flag --incompatible_disable_target_provider_fields
@@ -5678,10 +5756,14 @@ cquery() {
 # @flag --noincompatible_disallow_struct_provider_syntax
 # @flag --incompatible_existing_rules_immutable_view
 # @flag --noincompatible_existing_rules_immutable_view
+# @flag --incompatible_fail_on_unknown_attributes
+# @flag --noincompatible_fail_on_unknown_attributes
 # @flag --incompatible_fix_package_group_reporoot_syntax
 # @flag --noincompatible_fix_package_group_reporoot_syntax
 # @flag --incompatible_java_common_parameters
 # @flag --noincompatible_java_common_parameters
+# @flag --incompatible_merge_fixed_and_default_shell_env
+# @flag --noincompatible_merge_fixed_and_default_shell_env
 # @flag --incompatible_new_actions_api
 # @flag --noincompatible_new_actions_api
 # @flag --incompatible_no_attr_license
@@ -5766,7 +5848,7 @@ cquery() {
 # @option --experimental_build_event_upload_max_retries <integer>
 # @option --experimental_build_event_upload_retry_minimum_delay <value>  An immutable length of time.
 # @option --experimental_build_event_upload_strategy <string>
-# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
+# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|bzlmod|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
 # @flag --experimental_profile_include_primary_output
 # @flag --noexperimental_profile_include_primary_output
 # @flag --experimental_profile_include_target_label
@@ -5906,6 +5988,8 @@ dump() {
 # @flag --noincompatible_config_setting_private_default_visibility
 # @flag --incompatible_depset_for_libraries_to_link_getter
 # @flag --noincompatible_depset_for_libraries_to_link_getter
+# @flag --incompatible_disable_objc_library_transition
+# @flag --noincompatible_disable_objc_library_transition
 # @flag --incompatible_disable_starlark_host_transitions
 # @flag --noincompatible_disable_starlark_host_transitions
 # @flag --incompatible_disable_target_provider_fields
@@ -5920,10 +6004,14 @@ dump() {
 # @flag --noincompatible_enforce_config_setting_visibility
 # @flag --incompatible_existing_rules_immutable_view
 # @flag --noincompatible_existing_rules_immutable_view
+# @flag --incompatible_fail_on_unknown_attributes
+# @flag --noincompatible_fail_on_unknown_attributes
 # @flag --incompatible_fix_package_group_reporoot_syntax
 # @flag --noincompatible_fix_package_group_reporoot_syntax
 # @flag --incompatible_java_common_parameters
 # @flag --noincompatible_java_common_parameters
+# @flag --incompatible_merge_fixed_and_default_shell_env
+# @flag --noincompatible_merge_fixed_and_default_shell_env
 # @flag --incompatible_new_actions_api
 # @flag --noincompatible_new_actions_api
 # @flag --incompatible_no_attr_license
@@ -6008,7 +6096,7 @@ dump() {
 # @option --experimental_build_event_upload_max_retries <integer>
 # @option --experimental_build_event_upload_retry_minimum_delay <value>  An immutable length of time.
 # @option --experimental_build_event_upload_strategy <string>
-# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
+# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|bzlmod|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
 # @flag --experimental_profile_include_primary_output
 # @flag --noexperimental_profile_include_primary_output
 # @flag --experimental_profile_include_target_label
@@ -6060,6 +6148,8 @@ dump() {
 # @flag --experimental_remote_merkle_tree_cache
 # @flag --noexperimental_remote_merkle_tree_cache
 # @option --experimental_remote_merkle_tree_cache_size <value>  a long integer
+# @flag --experimental_remote_require_cached
+# @flag --noexperimental_remote_require_cached
 # @flag --incompatible_remote_build_event_upload_respect_no_cache
 # @flag --noincompatible_remote_build_event_upload_respect_no_cache
 # @flag --incompatible_remote_downloader_send_all_headers
@@ -6358,7 +6448,7 @@ fetch() {
 # @option --android_manifest_merger_order[alphabetical|alphabetical_by_configuration|dependency]
 # @flag --android_resource_shrinking
 # @flag --noandroid_resource_shrinking
-# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, watchos, tvos, macos or catalyst may be used multiple times
+# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, visionos, watchos, tvos, macos or catalyst may be used multiple times
 # @option --aspects <value>                      comma-separated list of options may be used multiple times
 # @option --bep_maximum_open_remote_upload_files <integer>
 # @option --build_python_zip[auto|yes|no] <value>  a tri-state
@@ -6472,6 +6562,7 @@ fetch() {
 # @option --symlink_prefix <string>
 # @option --tvos_cpus <value>                    comma-separated list of options may be used multiple times
 # @option --tvos_minimum_os <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --visionos_cpus <value>                comma-separated list of options may be used multiple times
 # @option --watchos_cpus <value>                 comma-separated list of options may be used multiple times
 # @option --watchos_minimum_os <value>           a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xbinary_fdo[`_choice_target`] <label>
@@ -6570,6 +6661,8 @@ fetch() {
 # @flag --noincompatible_config_setting_private_default_visibility
 # @flag --incompatible_depset_for_libraries_to_link_getter
 # @flag --noincompatible_depset_for_libraries_to_link_getter
+# @flag --incompatible_disable_objc_library_transition
+# @flag --noincompatible_disable_objc_library_transition
 # @flag --incompatible_disable_starlark_host_transitions
 # @flag --noincompatible_disable_starlark_host_transitions
 # @flag --incompatible_disable_target_provider_fields
@@ -6586,10 +6679,14 @@ fetch() {
 # @flag --noincompatible_enforce_config_setting_visibility
 # @flag --incompatible_existing_rules_immutable_view
 # @flag --noincompatible_existing_rules_immutable_view
+# @flag --incompatible_fail_on_unknown_attributes
+# @flag --noincompatible_fail_on_unknown_attributes
 # @flag --incompatible_fix_package_group_reporoot_syntax
 # @flag --noincompatible_fix_package_group_reporoot_syntax
 # @flag --incompatible_java_common_parameters
 # @flag --noincompatible_java_common_parameters
+# @flag --incompatible_merge_fixed_and_default_shell_env
+# @flag --noincompatible_merge_fixed_and_default_shell_env
 # @flag --incompatible_new_actions_api
 # @flag --noincompatible_new_actions_api
 # @flag --incompatible_no_attr_license
@@ -6740,7 +6837,7 @@ fetch() {
 # @flag --noexperimental_docker_verbose
 # @flag --experimental_materialize_param_files_directly
 # @flag --noexperimental_materialize_param_files_directly
-# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
+# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|bzlmod|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
 # @flag --experimental_profile_include_primary_output
 # @flag --noexperimental_profile_include_primary_output
 # @flag --experimental_profile_include_target_label
@@ -6827,6 +6924,8 @@ fetch() {
 # @flag --experimental_remote_merkle_tree_cache
 # @flag --noexperimental_remote_merkle_tree_cache
 # @option --experimental_remote_merkle_tree_cache_size <value>  a long integer
+# @flag --experimental_remote_require_cached
+# @flag --noexperimental_remote_require_cached
 # @flag --incompatible_remote_build_event_upload_respect_no_cache
 # @flag --noincompatible_remote_build_event_upload_respect_no_cache
 # @flag --incompatible_remote_downloader_send_all_headers
@@ -6864,6 +6963,8 @@ fetch() {
 # @flag --noremote_upload_local_results
 # @flag --remote_verify_downloads
 # @flag --noremote_verify_downloads
+# @flag --allow_analysis_cache_discard
+# @flag --noallow_analysis_cache_discard
 # @option --auto_output_filter[none|all|packages|subpackages]
 # @flag --build_manual_tests
 # @flag --nobuild_manual_tests
@@ -7070,6 +7171,8 @@ info() {
 # @flag --noincompatible_always_check_depset_elements
 # @flag --incompatible_depset_for_libraries_to_link_getter
 # @flag --noincompatible_depset_for_libraries_to_link_getter
+# @flag --incompatible_disable_objc_library_transition
+# @flag --noincompatible_disable_objc_library_transition
 # @flag --incompatible_disable_starlark_host_transitions
 # @flag --noincompatible_disable_starlark_host_transitions
 # @flag --incompatible_disable_target_provider_fields
@@ -7082,10 +7185,14 @@ info() {
 # @flag --noincompatible_disallow_struct_provider_syntax
 # @flag --incompatible_existing_rules_immutable_view
 # @flag --noincompatible_existing_rules_immutable_view
+# @flag --incompatible_fail_on_unknown_attributes
+# @flag --noincompatible_fail_on_unknown_attributes
 # @flag --incompatible_fix_package_group_reporoot_syntax
 # @flag --noincompatible_fix_package_group_reporoot_syntax
 # @flag --incompatible_java_common_parameters
 # @flag --noincompatible_java_common_parameters
+# @flag --incompatible_merge_fixed_and_default_shell_env
+# @flag --noincompatible_merge_fixed_and_default_shell_env
 # @flag --incompatible_new_actions_api
 # @flag --noincompatible_new_actions_api
 # @flag --incompatible_no_attr_license
@@ -7170,7 +7277,7 @@ info() {
 # @option --experimental_build_event_upload_max_retries <integer>
 # @option --experimental_build_event_upload_retry_minimum_delay <value>  An immutable length of time.
 # @option --experimental_build_event_upload_strategy <string>
-# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
+# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|bzlmod|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
 # @flag --experimental_profile_include_primary_output
 # @flag --noexperimental_profile_include_primary_output
 # @flag --experimental_profile_include_target_label
@@ -7459,7 +7566,7 @@ license() {
 # @option --android_manifest_merger_order[alphabetical|alphabetical_by_configuration|dependency]
 # @flag --android_resource_shrinking
 # @flag --noandroid_resource_shrinking
-# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, watchos, tvos, macos or catalyst may be used multiple times
+# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, visionos, watchos, tvos, macos or catalyst may be used multiple times
 # @option --aspects <value>                      comma-separated list of options may be used multiple times
 # @option --bep_maximum_open_remote_upload_files <integer>
 # @option --build_python_zip[auto|yes|no] <value>  a tri-state
@@ -7577,6 +7684,7 @@ license() {
 # @option --symlink_prefix <string>
 # @option --tvos_cpus <value>                    comma-separated list of options may be used multiple times
 # @option --tvos_minimum_os <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --visionos_cpus <value>                comma-separated list of options may be used multiple times
 # @option --watchos_cpus <value>                 comma-separated list of options may be used multiple times
 # @option --watchos_minimum_os <value>           a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xbinary_fdo[`_choice_target`] <label>
@@ -7675,6 +7783,8 @@ license() {
 # @flag --noincompatible_config_setting_private_default_visibility
 # @flag --incompatible_depset_for_libraries_to_link_getter
 # @flag --noincompatible_depset_for_libraries_to_link_getter
+# @flag --incompatible_disable_objc_library_transition
+# @flag --noincompatible_disable_objc_library_transition
 # @flag --incompatible_disable_starlark_host_transitions
 # @flag --noincompatible_disable_starlark_host_transitions
 # @flag --incompatible_disable_target_provider_fields
@@ -7691,10 +7801,14 @@ license() {
 # @flag --noincompatible_enforce_config_setting_visibility
 # @flag --incompatible_existing_rules_immutable_view
 # @flag --noincompatible_existing_rules_immutable_view
+# @flag --incompatible_fail_on_unknown_attributes
+# @flag --noincompatible_fail_on_unknown_attributes
 # @flag --incompatible_fix_package_group_reporoot_syntax
 # @flag --noincompatible_fix_package_group_reporoot_syntax
 # @flag --incompatible_java_common_parameters
 # @flag --noincompatible_java_common_parameters
+# @flag --incompatible_merge_fixed_and_default_shell_env
+# @flag --noincompatible_merge_fixed_and_default_shell_env
 # @flag --incompatible_new_actions_api
 # @flag --noincompatible_new_actions_api
 # @flag --incompatible_no_attr_license
@@ -7845,7 +7959,7 @@ license() {
 # @flag --noexperimental_docker_verbose
 # @flag --experimental_materialize_param_files_directly
 # @flag --noexperimental_materialize_param_files_directly
-# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
+# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|bzlmod|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
 # @flag --experimental_profile_include_primary_output
 # @flag --noexperimental_profile_include_primary_output
 # @flag --experimental_profile_include_target_label
@@ -7931,6 +8045,8 @@ license() {
 # @flag --experimental_remote_merkle_tree_cache
 # @flag --noexperimental_remote_merkle_tree_cache
 # @option --experimental_remote_merkle_tree_cache_size <value>  a long integer
+# @flag --experimental_remote_require_cached
+# @flag --noexperimental_remote_require_cached
 # @flag --incompatible_remote_build_event_upload_respect_no_cache
 # @flag --noincompatible_remote_build_event_upload_respect_no_cache
 # @flag --incompatible_remote_downloader_send_all_headers
@@ -7968,6 +8084,8 @@ license() {
 # @flag --noremote_upload_local_results
 # @flag --remote_verify_downloads
 # @flag --noremote_verify_downloads
+# @flag --allow_analysis_cache_discard
+# @flag --noallow_analysis_cache_discard
 # @option --auto_output_filter[none|all|packages|subpackages]
 # @flag --build_manual_tests
 # @flag --nobuild_manual_tests
@@ -8180,6 +8298,8 @@ mobile-install() {
 # @flag --noincompatible_config_setting_private_default_visibility
 # @flag --incompatible_depset_for_libraries_to_link_getter
 # @flag --noincompatible_depset_for_libraries_to_link_getter
+# @flag --incompatible_disable_objc_library_transition
+# @flag --noincompatible_disable_objc_library_transition
 # @flag --incompatible_disable_starlark_host_transitions
 # @flag --noincompatible_disable_starlark_host_transitions
 # @flag --incompatible_disable_target_provider_fields
@@ -8194,10 +8314,14 @@ mobile-install() {
 # @flag --noincompatible_enforce_config_setting_visibility
 # @flag --incompatible_existing_rules_immutable_view
 # @flag --noincompatible_existing_rules_immutable_view
+# @flag --incompatible_fail_on_unknown_attributes
+# @flag --noincompatible_fail_on_unknown_attributes
 # @flag --incompatible_fix_package_group_reporoot_syntax
 # @flag --noincompatible_fix_package_group_reporoot_syntax
 # @flag --incompatible_java_common_parameters
 # @flag --noincompatible_java_common_parameters
+# @flag --incompatible_merge_fixed_and_default_shell_env
+# @flag --noincompatible_merge_fixed_and_default_shell_env
 # @flag --incompatible_new_actions_api
 # @flag --noincompatible_new_actions_api
 # @flag --incompatible_no_attr_license
@@ -8298,7 +8422,7 @@ mobile-install() {
 # @option --experimental_build_event_upload_max_retries <integer>
 # @option --experimental_build_event_upload_retry_minimum_delay <value>  An immutable length of time.
 # @option --experimental_build_event_upload_strategy <string>
-# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
+# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|bzlmod|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
 # @flag --experimental_profile_include_primary_output
 # @flag --noexperimental_profile_include_primary_output
 # @flag --experimental_profile_include_target_label
@@ -8586,7 +8710,7 @@ mod() {
 # @option --android_manifest_merger_order[alphabetical|alphabetical_by_configuration|dependency]
 # @flag --android_resource_shrinking
 # @flag --noandroid_resource_shrinking
-# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, watchos, tvos, macos or catalyst may be used multiple times
+# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, visionos, watchos, tvos, macos or catalyst may be used multiple times
 # @option --aspects <value>                      comma-separated list of options may be used multiple times
 # @option --bep_maximum_open_remote_upload_files <integer>
 # @option --build_python_zip[auto|yes|no] <value>  a tri-state
@@ -8700,6 +8824,7 @@ mod() {
 # @option --symlink_prefix <string>
 # @option --tvos_cpus <value>                    comma-separated list of options may be used multiple times
 # @option --tvos_minimum_os <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --visionos_cpus <value>                comma-separated list of options may be used multiple times
 # @option --watchos_cpus <value>                 comma-separated list of options may be used multiple times
 # @option --watchos_minimum_os <value>           a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xbinary_fdo[`_choice_target`] <label>
@@ -8798,6 +8923,8 @@ mod() {
 # @flag --noincompatible_config_setting_private_default_visibility
 # @flag --incompatible_depset_for_libraries_to_link_getter
 # @flag --noincompatible_depset_for_libraries_to_link_getter
+# @flag --incompatible_disable_objc_library_transition
+# @flag --noincompatible_disable_objc_library_transition
 # @flag --incompatible_disable_starlark_host_transitions
 # @flag --noincompatible_disable_starlark_host_transitions
 # @flag --incompatible_disable_target_provider_fields
@@ -8814,10 +8941,14 @@ mod() {
 # @flag --noincompatible_enforce_config_setting_visibility
 # @flag --incompatible_existing_rules_immutable_view
 # @flag --noincompatible_existing_rules_immutable_view
+# @flag --incompatible_fail_on_unknown_attributes
+# @flag --noincompatible_fail_on_unknown_attributes
 # @flag --incompatible_fix_package_group_reporoot_syntax
 # @flag --noincompatible_fix_package_group_reporoot_syntax
 # @flag --incompatible_java_common_parameters
 # @flag --noincompatible_java_common_parameters
+# @flag --incompatible_merge_fixed_and_default_shell_env
+# @flag --noincompatible_merge_fixed_and_default_shell_env
 # @flag --incompatible_new_actions_api
 # @flag --noincompatible_new_actions_api
 # @flag --incompatible_no_attr_license
@@ -8968,7 +9099,7 @@ mod() {
 # @flag --noexperimental_docker_verbose
 # @flag --experimental_materialize_param_files_directly
 # @flag --noexperimental_materialize_param_files_directly
-# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
+# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|bzlmod|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
 # @flag --experimental_profile_include_primary_output
 # @flag --noexperimental_profile_include_primary_output
 # @flag --experimental_profile_include_target_label
@@ -9053,6 +9184,8 @@ mod() {
 # @flag --experimental_remote_merkle_tree_cache
 # @flag --noexperimental_remote_merkle_tree_cache
 # @option --experimental_remote_merkle_tree_cache_size <value>  a long integer
+# @flag --experimental_remote_require_cached
+# @flag --noexperimental_remote_require_cached
 # @flag --incompatible_remote_build_event_upload_respect_no_cache
 # @flag --noincompatible_remote_build_event_upload_respect_no_cache
 # @flag --incompatible_remote_downloader_send_all_headers
@@ -9090,6 +9223,8 @@ mod() {
 # @flag --noremote_upload_local_results
 # @flag --remote_verify_downloads
 # @flag --noremote_verify_downloads
+# @flag --allow_analysis_cache_discard
+# @flag --noallow_analysis_cache_discard
 # @option --auto_output_filter[none|all|packages|subpackages]
 # @flag --build_manual_tests
 # @flag --nobuild_manual_tests
@@ -9312,6 +9447,8 @@ print_action() {
 # @flag --noincompatible_config_setting_private_default_visibility
 # @flag --incompatible_depset_for_libraries_to_link_getter
 # @flag --noincompatible_depset_for_libraries_to_link_getter
+# @flag --incompatible_disable_objc_library_transition
+# @flag --noincompatible_disable_objc_library_transition
 # @flag --incompatible_disable_starlark_host_transitions
 # @flag --noincompatible_disable_starlark_host_transitions
 # @flag --incompatible_disable_target_provider_fields
@@ -9326,10 +9463,14 @@ print_action() {
 # @flag --noincompatible_enforce_config_setting_visibility
 # @flag --incompatible_existing_rules_immutable_view
 # @flag --noincompatible_existing_rules_immutable_view
+# @flag --incompatible_fail_on_unknown_attributes
+# @flag --noincompatible_fail_on_unknown_attributes
 # @flag --incompatible_fix_package_group_reporoot_syntax
 # @flag --noincompatible_fix_package_group_reporoot_syntax
 # @flag --incompatible_java_common_parameters
 # @flag --noincompatible_java_common_parameters
+# @flag --incompatible_merge_fixed_and_default_shell_env
+# @flag --noincompatible_merge_fixed_and_default_shell_env
 # @flag --incompatible_new_actions_api
 # @flag --noincompatible_new_actions_api
 # @flag --incompatible_no_attr_license
@@ -9359,6 +9500,8 @@ print_action() {
 # @option --max_computation_steps <value>        a long integer
 # @option --nested_set_depth_limit <integer>
 # @option --aspect_deps[off|conservative|precise]
+# @flag --consistent_labels
+# @flag --noconsistent_labels
 # @option --experimental_graphless_query[auto|yes|no] <value>  a tri-state
 # @option --noexperimental_graphless_query[auto|yes|no] <value>  a tri-state
 # @option --graph:conditional_edges_limit <integer>
@@ -9469,7 +9612,7 @@ print_action() {
 # @option --experimental_build_event_upload_max_retries <integer>
 # @option --experimental_build_event_upload_retry_minimum_delay <value>  An immutable length of time.
 # @option --experimental_build_event_upload_strategy <string>
-# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
+# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|bzlmod|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
 # @flag --experimental_profile_include_primary_output
 # @flag --noexperimental_profile_include_primary_output
 # @flag --experimental_profile_include_target_label
@@ -9521,6 +9664,8 @@ print_action() {
 # @flag --experimental_remote_merkle_tree_cache
 # @flag --noexperimental_remote_merkle_tree_cache
 # @option --experimental_remote_merkle_tree_cache_size <value>  a long integer
+# @flag --experimental_remote_require_cached
+# @flag --noexperimental_remote_require_cached
 # @flag --incompatible_remote_build_event_upload_respect_no_cache
 # @flag --noincompatible_remote_build_event_upload_respect_no_cache
 # @flag --incompatible_remote_downloader_send_all_headers
@@ -9819,7 +9964,7 @@ query() {
 # @option --android_manifest_merger_order[alphabetical|alphabetical_by_configuration|dependency]
 # @flag --android_resource_shrinking
 # @flag --noandroid_resource_shrinking
-# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, watchos, tvos, macos or catalyst may be used multiple times
+# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, visionos, watchos, tvos, macos or catalyst may be used multiple times
 # @option --aspects <value>                      comma-separated list of options may be used multiple times
 # @option --bep_maximum_open_remote_upload_files <integer>
 # @option --build_python_zip[auto|yes|no] <value>  a tri-state
@@ -9934,6 +10079,7 @@ query() {
 # @option --symlink_prefix <string>
 # @option --tvos_cpus <value>                    comma-separated list of options may be used multiple times
 # @option --tvos_minimum_os <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --visionos_cpus <value>                comma-separated list of options may be used multiple times
 # @option --watchos_cpus <value>                 comma-separated list of options may be used multiple times
 # @option --watchos_minimum_os <value>           a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xbinary_fdo[`_choice_target`] <label>
@@ -10032,6 +10178,8 @@ query() {
 # @flag --noincompatible_config_setting_private_default_visibility
 # @flag --incompatible_depset_for_libraries_to_link_getter
 # @flag --noincompatible_depset_for_libraries_to_link_getter
+# @flag --incompatible_disable_objc_library_transition
+# @flag --noincompatible_disable_objc_library_transition
 # @flag --incompatible_disable_starlark_host_transitions
 # @flag --noincompatible_disable_starlark_host_transitions
 # @flag --incompatible_disable_target_provider_fields
@@ -10048,10 +10196,14 @@ query() {
 # @flag --noincompatible_enforce_config_setting_visibility
 # @flag --incompatible_existing_rules_immutable_view
 # @flag --noincompatible_existing_rules_immutable_view
+# @flag --incompatible_fail_on_unknown_attributes
+# @flag --noincompatible_fail_on_unknown_attributes
 # @flag --incompatible_fix_package_group_reporoot_syntax
 # @flag --noincompatible_fix_package_group_reporoot_syntax
 # @flag --incompatible_java_common_parameters
 # @flag --noincompatible_java_common_parameters
+# @flag --incompatible_merge_fixed_and_default_shell_env
+# @flag --noincompatible_merge_fixed_and_default_shell_env
 # @flag --incompatible_new_actions_api
 # @flag --noincompatible_new_actions_api
 # @flag --incompatible_no_attr_license
@@ -10202,7 +10354,7 @@ query() {
 # @flag --noexperimental_docker_verbose
 # @flag --experimental_materialize_param_files_directly
 # @flag --noexperimental_materialize_param_files_directly
-# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
+# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|bzlmod|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
 # @flag --experimental_profile_include_primary_output
 # @flag --noexperimental_profile_include_primary_output
 # @flag --experimental_profile_include_target_label
@@ -10287,6 +10439,8 @@ query() {
 # @flag --experimental_remote_merkle_tree_cache
 # @flag --noexperimental_remote_merkle_tree_cache
 # @option --experimental_remote_merkle_tree_cache_size <value>  a long integer
+# @flag --experimental_remote_require_cached
+# @flag --noexperimental_remote_require_cached
 # @flag --incompatible_remote_build_event_upload_respect_no_cache
 # @flag --noincompatible_remote_build_event_upload_respect_no_cache
 # @flag --incompatible_remote_downloader_send_all_headers
@@ -10324,6 +10478,8 @@ query() {
 # @flag --noremote_upload_local_results
 # @flag --remote_verify_downloads
 # @flag --noremote_verify_downloads
+# @flag --allow_analysis_cache_discard
+# @flag --noallow_analysis_cache_discard
 # @option --auto_output_filter[none|all|packages|subpackages]
 # @flag --build_manual_tests
 # @flag --nobuild_manual_tests
@@ -10531,6 +10687,8 @@ run() {
 # @flag --noincompatible_always_check_depset_elements
 # @flag --incompatible_depset_for_libraries_to_link_getter
 # @flag --noincompatible_depset_for_libraries_to_link_getter
+# @flag --incompatible_disable_objc_library_transition
+# @flag --noincompatible_disable_objc_library_transition
 # @flag --incompatible_disable_starlark_host_transitions
 # @flag --noincompatible_disable_starlark_host_transitions
 # @flag --incompatible_disable_target_provider_fields
@@ -10543,10 +10701,14 @@ run() {
 # @flag --noincompatible_disallow_struct_provider_syntax
 # @flag --incompatible_existing_rules_immutable_view
 # @flag --noincompatible_existing_rules_immutable_view
+# @flag --incompatible_fail_on_unknown_attributes
+# @flag --noincompatible_fail_on_unknown_attributes
 # @flag --incompatible_fix_package_group_reporoot_syntax
 # @flag --noincompatible_fix_package_group_reporoot_syntax
 # @flag --incompatible_java_common_parameters
 # @flag --noincompatible_java_common_parameters
+# @flag --incompatible_merge_fixed_and_default_shell_env
+# @flag --noincompatible_merge_fixed_and_default_shell_env
 # @flag --incompatible_new_actions_api
 # @flag --noincompatible_new_actions_api
 # @flag --incompatible_no_attr_license
@@ -10631,7 +10793,7 @@ run() {
 # @option --experimental_build_event_upload_max_retries <integer>
 # @option --experimental_build_event_upload_retry_minimum_delay <value>  An immutable length of time.
 # @option --experimental_build_event_upload_strategy <string>
-# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
+# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|bzlmod|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
 # @flag --experimental_profile_include_primary_output
 # @flag --noexperimental_profile_include_primary_output
 # @flag --experimental_profile_include_target_label
@@ -10774,6 +10936,8 @@ shutdown() {
 # @flag --noincompatible_config_setting_private_default_visibility
 # @flag --incompatible_depset_for_libraries_to_link_getter
 # @flag --noincompatible_depset_for_libraries_to_link_getter
+# @flag --incompatible_disable_objc_library_transition
+# @flag --noincompatible_disable_objc_library_transition
 # @flag --incompatible_disable_starlark_host_transitions
 # @flag --noincompatible_disable_starlark_host_transitions
 # @flag --incompatible_disable_target_provider_fields
@@ -10788,10 +10952,14 @@ shutdown() {
 # @flag --noincompatible_enforce_config_setting_visibility
 # @flag --incompatible_existing_rules_immutable_view
 # @flag --noincompatible_existing_rules_immutable_view
+# @flag --incompatible_fail_on_unknown_attributes
+# @flag --noincompatible_fail_on_unknown_attributes
 # @flag --incompatible_fix_package_group_reporoot_syntax
 # @flag --noincompatible_fix_package_group_reporoot_syntax
 # @flag --incompatible_java_common_parameters
 # @flag --noincompatible_java_common_parameters
+# @flag --incompatible_merge_fixed_and_default_shell_env
+# @flag --noincompatible_merge_fixed_and_default_shell_env
 # @flag --incompatible_new_actions_api
 # @flag --noincompatible_new_actions_api
 # @flag --incompatible_no_attr_license
@@ -10876,7 +11044,7 @@ shutdown() {
 # @option --experimental_build_event_upload_max_retries <integer>
 # @option --experimental_build_event_upload_retry_minimum_delay <value>  An immutable length of time.
 # @option --experimental_build_event_upload_strategy <string>
-# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
+# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|bzlmod|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
 # @flag --experimental_profile_include_primary_output
 # @flag --noexperimental_profile_include_primary_output
 # @flag --experimental_profile_include_target_label
@@ -10928,6 +11096,8 @@ shutdown() {
 # @flag --experimental_remote_merkle_tree_cache
 # @flag --noexperimental_remote_merkle_tree_cache
 # @option --experimental_remote_merkle_tree_cache_size <value>  a long integer
+# @flag --experimental_remote_require_cached
+# @flag --noexperimental_remote_require_cached
 # @flag --incompatible_remote_build_event_upload_respect_no_cache
 # @flag --noincompatible_remote_build_event_upload_respect_no_cache
 # @flag --incompatible_remote_downloader_send_all_headers
@@ -11225,7 +11395,7 @@ sync() {
 # @option --android_manifest_merger_order[alphabetical|alphabetical_by_configuration|dependency]
 # @flag --android_resource_shrinking
 # @flag --noandroid_resource_shrinking
-# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, watchos, tvos, macos or catalyst may be used multiple times
+# @option --apple_bitcode <value>                'mode' or 'platform=mode', where 'mode' is none, embedded_markers or embedded, and 'platform' is ios, visionos, watchos, tvos, macos or catalyst may be used multiple times
 # @option --aspects <value>                      comma-separated list of options may be used multiple times
 # @option --bep_maximum_open_remote_upload_files <integer>
 # @option --build_python_zip[auto|yes|no] <value>  a tri-state
@@ -11339,6 +11509,7 @@ sync() {
 # @option --symlink_prefix <string>
 # @option --tvos_cpus <value>                    comma-separated list of options may be used multiple times
 # @option --tvos_minimum_os <value>              a dotted version (for example '2.3' or '3.3alpha2.4')
+# @option --visionos_cpus <value>                comma-separated list of options may be used multiple times
 # @option --watchos_cpus <value>                 comma-separated list of options may be used multiple times
 # @option --watchos_minimum_os <value>           a dotted version (for example '2.3' or '3.3alpha2.4')
 # @option --xbinary_fdo[`_choice_target`] <label>
@@ -11437,6 +11608,8 @@ sync() {
 # @flag --noincompatible_config_setting_private_default_visibility
 # @flag --incompatible_depset_for_libraries_to_link_getter
 # @flag --noincompatible_depset_for_libraries_to_link_getter
+# @flag --incompatible_disable_objc_library_transition
+# @flag --noincompatible_disable_objc_library_transition
 # @flag --incompatible_disable_starlark_host_transitions
 # @flag --noincompatible_disable_starlark_host_transitions
 # @flag --incompatible_disable_target_provider_fields
@@ -11453,10 +11626,14 @@ sync() {
 # @flag --noincompatible_enforce_config_setting_visibility
 # @flag --incompatible_existing_rules_immutable_view
 # @flag --noincompatible_existing_rules_immutable_view
+# @flag --incompatible_fail_on_unknown_attributes
+# @flag --noincompatible_fail_on_unknown_attributes
 # @flag --incompatible_fix_package_group_reporoot_syntax
 # @flag --noincompatible_fix_package_group_reporoot_syntax
 # @flag --incompatible_java_common_parameters
 # @flag --noincompatible_java_common_parameters
+# @flag --incompatible_merge_fixed_and_default_shell_env
+# @flag --noincompatible_merge_fixed_and_default_shell_env
 # @flag --incompatible_new_actions_api
 # @flag --noincompatible_new_actions_api
 # @flag --incompatible_no_attr_license
@@ -11607,7 +11784,7 @@ sync() {
 # @flag --noexperimental_docker_verbose
 # @flag --experimental_materialize_param_files_directly
 # @flag --noexperimental_materialize_param_files_directly
-# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
+# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|bzlmod|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
 # @flag --experimental_profile_include_primary_output
 # @flag --noexperimental_profile_include_primary_output
 # @flag --experimental_profile_include_target_label
@@ -11698,6 +11875,8 @@ sync() {
 # @flag --experimental_remote_merkle_tree_cache
 # @flag --noexperimental_remote_merkle_tree_cache
 # @option --experimental_remote_merkle_tree_cache_size <value>  a long integer
+# @flag --experimental_remote_require_cached
+# @flag --noexperimental_remote_require_cached
 # @flag --incompatible_remote_build_event_upload_respect_no_cache
 # @flag --noincompatible_remote_build_event_upload_respect_no_cache
 # @flag --incompatible_remote_downloader_send_all_headers
@@ -11735,6 +11914,8 @@ sync() {
 # @flag --noremote_upload_local_results
 # @flag --remote_verify_downloads
 # @flag --noremote_verify_downloads
+# @flag --allow_analysis_cache_discard
+# @flag --noallow_analysis_cache_discard
 # @option --auto_output_filter[none|all|packages|subpackages]
 # @flag --build_manual_tests
 # @flag --nobuild_manual_tests
@@ -11943,6 +12124,8 @@ test() {
 # @flag --noincompatible_always_check_depset_elements
 # @flag --incompatible_depset_for_libraries_to_link_getter
 # @flag --noincompatible_depset_for_libraries_to_link_getter
+# @flag --incompatible_disable_objc_library_transition
+# @flag --noincompatible_disable_objc_library_transition
 # @flag --incompatible_disable_starlark_host_transitions
 # @flag --noincompatible_disable_starlark_host_transitions
 # @flag --incompatible_disable_target_provider_fields
@@ -11955,10 +12138,14 @@ test() {
 # @flag --noincompatible_disallow_struct_provider_syntax
 # @flag --incompatible_existing_rules_immutable_view
 # @flag --noincompatible_existing_rules_immutable_view
+# @flag --incompatible_fail_on_unknown_attributes
+# @flag --noincompatible_fail_on_unknown_attributes
 # @flag --incompatible_fix_package_group_reporoot_syntax
 # @flag --noincompatible_fix_package_group_reporoot_syntax
 # @flag --incompatible_java_common_parameters
 # @flag --noincompatible_java_common_parameters
+# @flag --incompatible_merge_fixed_and_default_shell_env
+# @flag --noincompatible_merge_fixed_and_default_shell_env
 # @flag --incompatible_new_actions_api
 # @flag --noincompatible_new_actions_api
 # @flag --incompatible_no_attr_license
@@ -12043,7 +12230,7 @@ test() {
 # @option --experimental_build_event_upload_max_retries <integer>
 # @option --experimental_build_event_upload_retry_minimum_delay <value>  An immutable length of time.
 # @option --experimental_build_event_upload_strategy <string>
-# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
+# @option --experimental_profile_additional_tasks[phase|action|action_check|action_lock|action_release|action_update|action_complete|bzlmod|info|create_package|remote_execution|local_execution|scanner|local_parse|upload_time|process_time|remote_queue|remote_setup|fetch|vfs_stat|vfs_dir|vfs_readlink|vfs_md5|vfs_xattr|vfs_delete|vfs_open|vfs_read|vfs_write|vfs_glob|vfs_vmfs_stat|vfs_vmfs_dir|vfs_vmfs_read|wait|thread_name|thread_sort_index|skyframe_eval|skyfunction|critical_path|critical_path_component|handle_gc_notification|action_counts|local_cpu_usage|system_cpu_usage|local_memory_usage|system_memory_usage|system_network_up_usage|system_network_down_usage|workers_memory_usage|system_load_average|starlark_parser|starlark_user_fn|starlark_builtin_fn|starlark_user_compiled_fn|starlark_repository_fn|action_fs_staging|remote_cache_check|remote_download|remote_network|filesystem_traversal|worker_execution|worker_setup|worker_borrow|worker_working|worker_copying_outputs|credential_helper|unknown]  may be used multiple times
 # @flag --experimental_profile_include_primary_output
 # @flag --noexperimental_profile_include_primary_output
 # @flag --experimental_profile_include_target_label

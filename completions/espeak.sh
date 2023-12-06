@@ -18,15 +18,13 @@
 # @flag -X                  Write phonemes mnemonics and translation trace to stdout
 # @flag -z                  No final sentence pause at the end of the text
 # @option --compile <voice name>
-# @flag --ipa               Write phonemes to stdout using International Phonetic Alphabet
+# @flag --ipa               Write phonemes to stdout using International Phonetic Alphabet --ipa=1 Use ties, --ipa=2 Use ZWJ, --ipa=3 Separate with _
 # @option --path <path>
 # @flag --pho               Write mbrola phoneme data (.pho) to stdout or to the file in --phonout
 # @option --phonout <filename>
 # @option --punct <characters>
-# @option --sep <character>
 # @option --split <minutes>
 # @flag --stdout            Write speech output to stdout
-# @option --tie <character>
 # @flag --version           Shows version number and date, and location of espeak-data
 # @option --voices[`_choice_lang`] <language>
 

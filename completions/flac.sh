@@ -18,6 +18,7 @@
 # @flag --delete-input-file                        Automatically delete the input file after a successful encode or decode.
 # @flag --preserve-modtime                         Output files have their timestamps/permissions set to match those of their inputs (this is default).
 # @flag --keep-foreign-metadata                    If encoding, save WAVE, RF64, or AIFF non-audio chunks in FLAC metadata.
+# @flag --keep-foreign-metadata-if-present         Like --keep-foreign-metadata, but without throwing an error if foreign metadata cannot be found or restored, instead printing a warning.
 # @option --skip <<v>|mm:ss.ss>                    Skip over the first number of samples of the input.
 # @option --until <<v>|[+|-]mm:ss.ss>              Stop at the given sample number for each input file.
 # @flag --ogg                                      When encoding, generate Ogg FLAC output instead of native FLAC.
@@ -32,16 +33,23 @@
 # @flag --replay-gain                              Calculate ReplayGain values and store them as FLAC tags, similar to vorbisgain.
 # @option --cuesheet <filename>                    Import the given cuesheet file and store it in a CUESHEET metadata block.
 # @option --picture[FILENAME|SPECIFICATION]        Import a picture and store it in a PICTURE metadata block.
-# @flag --sector-align                             Align encoding of multiple CD format files on sector boundaries.
 # @flag --ignore-chunk-sizes                       When encoding to flac, ignore the file size headers in WAV and AIFF files to attempt to work around problems with over-sized or malformed files.
 # @option -S --seekpoint <<v>|X|<v>x|<v>s>         Include a point or points in a SEEKTABLE.
 # @option -P --padding <v>                         Tell the encoder to write a PADDING metadata block of the given length (in bytes) after the STREAMINFO block.
 # @option -T --tag <FIELD=VALUE>                   Add a FLAC tag.
 # @option --tag-from-file <FIELD=FILENAME>         Like --tag, except FILENAME is a file whose contents will be read verbatim to set the tag value.
-# @option -b --blocksize <v>                       Specify the block size in samples.
+# @option -b --blocksize <v>                       Specify the blocksize in samples.
 # @flag -m --mid-side                              Try mid-side coding for each frame (stereo input only)
 # @flag -M --adaptive-mid-side                     Adaptive mid-side coding for all frames (stereo input only)
-# @flag -0 --compression-level-0                   Fastest compression..highest compression (default is -5).
+# @flag -0 --compression-level-0                   Synonymous with -l 0 -b 1152 -r 3 --no-mid-side
+# @flag -1 --compression-level-1                   Synonymous with -l 0 -b 1152 -M -r 3
+# @flag -2 --compression-level-2                   Synonymous with -l 0 -b 1152 -m -r 3
+# @flag -3 --compression-level-3                   Synonymous with -l 6 -b 4096 -r 4 --no-mid-side
+# @flag -4 --compression-level-4                   Synonymous with -l 8 -b 4096 -M -r 4
+# @flag -5 --compression-level-5                   Synonymous with -l 8 -b 4096 -m -r 5
+# @flag -6 --compression-level-6                   Synonymous with -l 8 -b 4096 -m -r 6 -A subdivide_tukey(2)
+# @flag -7 --compression-level-7                   Synonymous with -l 12 -b 4096 -m -r 6 -A subdivide_tukey(2)
+# @flag -8 --compression-level-8                   Synonymous with -l 12 -b 4096 -m -r 6 -A subdivide_tukey(3)
 # @flag --fast                                     Fastest compression.
 # @flag --best                                     Highest compression.
 # @flag -e --exhaustive-model-search               Do exhaustive model search (expensive!)
@@ -54,12 +62,16 @@
 # @option --channels <v>                           Set number of channels.
 # @option --bps <v>                                Set bits per sample.
 # @option --sample-rate <v>                        Set sample rate (in Hz).
-# @option --sign[signed|unsigned]                  Set the sign of samples (the default is signed).
+# @option --sign[signed|unsigned]                  Set the sign of samples.
 # @option --input-size <v>                         Specify the size of the raw input in bytes.
 # @flag --force-raw-format                         Force input (when encoding) or output (when decoding) to be treated as raw samples (even if filename ends in .wav).
-# @flag --force-aiff-format                        Force the decoder to output AIFF format.
-# @flag --force-rf64-format                        Force the decoder to output RF64 format.
-# @flag --force-wave64-format                      Force the decoder to output Wave64 format.
+# @flag --force-aiff-format
+# @flag --force-rf64-format
+# @option --force-wave64-format <:>                Force the decoder to output AIFF/RF64/WAVE64 format respectively.
+# @flag --force-legacy-wave-format
+# @option --force-extensible-wave-format <:>       Instruct the decoder to output a WAVE file with WAVE_FORMAT_PCM and WAVE_FORMAT_EXTENSIBLE respectively.
+# @flag --force-aiff-c-none-format
+# @option --force-aiff-c-sowt-format <:>           Instruct the decoder to output an AIFF-C file with format NONE and sowt respectively.
 # @flag --no-adaptive-mid-side
 # @flag --no-cued-seekpoints
 # @flag --no-decode-through-errors
@@ -76,10 +88,9 @@
 # @flag --no-replay-gain
 # @flag --no-residual-gnuplot
 # @flag --no-residual-text
-# @flag --no-sector-align
 # @flag --no-seektable
 # @flag --no-silent
 # @flag --no-verify
-# @flag --no-warnings-as-errors                    These flags can be used to invert the sense of the corresponding normal option.
+# @flag --no-warnings-as-errors
 
 command eval "$(argc --argc-eval "$0" "$@")"

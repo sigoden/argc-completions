@@ -9,6 +9,7 @@
 # @flag --no-bracket-spacing                     Do not print spaces between brackets.
 # @option --embedded-language-formatting <auto|off>  Control how Prettier formats quoted code embedded in the file.
 # @option --end-of-line[lf|crlf|cr|auto]         Which end of line characters to apply.
+# @flag --no-experimental-ternaries              Default behavior of ternaries; keep question marks on the same line as the consequent.
 # @option --html-whitespace-sensitivity[css|strict|ignore]  How to handle whitespaces in HTML.
 # @flag --jsx-single-quote                       Use single quotes in JSX.
 # @option --parser[flow|babel|babel-flow|babel-ts|typescript|acorn|espree|meriyah|css|less|scss|json|json5|json-stringify|graphql|markdown|mdx|vue|yaml|glimmer|html|angular|lwc]  Which parser to use.

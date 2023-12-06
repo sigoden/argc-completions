@@ -5,7 +5,7 @@
 # @flag --version                                  Print program version and exit
 # @flag -U --update                                Check if updates are available.
 # @flag --no-update                                Do not check for updates (default)
-# @option --update-to[stable|nightly] <[CHANNEL]@[TAG]>  Upgrade/downgrade to a specific version.
+# @option --update-to[stable|nightly|master] <[CHANNEL]@[TAG]>  Upgrade/downgrade to a specific version.
 # @flag -i --ignore-errors                         Ignore download and postprocessing errors.
 # @flag --no-abort-on-error                        Continue with next video on download errors; e.g. to skip unavailable videos in a playlist (default)
 # @flag --abort-on-error                           Abort downloading of further videos if an error occurs (Alias: --no-ignore-errors)
@@ -185,7 +185,7 @@
 # @flag -n --netrc                                 Use .netrc authentication data
 # @option --netrc-location <PATH>                  Location of .netrc authentication data; either the path or its containing directory.
 # @option --netrc-cmd <NETRC_CMD>                  Command to execute to get the credentials for an extractor.
-# @option --video-password[vimeo|youku] <PASSWORD>  Video password
+# @option --video-password <PASSWORD>              Video-specific password
 # @option --ap-mso <MSO>                           Adobe Pass multiple-system operator (TV provider) identifier, use --ap-list-mso for a list of available MSOs
 # @option --ap-username <USERNAME>                 Multiple-system operator account login
 # @option --ap-password <PASSWORD>                 Multiple-system operator account password.

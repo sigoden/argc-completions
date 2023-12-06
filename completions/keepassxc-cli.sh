@@ -14,6 +14,7 @@
 # @option -y --yubikey <slot[:serial]>    Yubikey slot and optional serial used to access the database (e.g., 1:7370001).
 # @option -u --username <username>        Username for the entry.
 # @option --url                           URL for the entry.
+# @option --notes <Notes>                 Notes for the entry.
 # @flag -p --password-prompt              Prompt for the entry's password.
 # @flag -g --generate                     Generate a password for the entry.
 # @option -L --length <length>            Length of the generated password
@@ -25,6 +26,7 @@
 # @option -x --exclude <chars>            Exclude character set
 # @flag --exclude-similar                 Exclude similar looking characters
 # @flag --every-group                     Include characters from every selected group
+# @option -c --custom <chars>             Use custom character set
 # @flag -h --help                         Display this help.
 # @arg database                           Path of the database.
 # @arg entry                              Path of the entry to add.
@@ -40,12 +42,62 @@ add() {
 # @flag --no-password                     Deactivate password key for the database.
 # @option -y --yubikey <slot[:serial]>    Yubikey slot and optional serial used to access the database (e.g., 1:7370001).
 # @option -H --hibp <FILENAME>            Check if any passwords have been publicly leaked.
+# @option --okon <okon-cli>               Path to okon-cli to search a formatted HIBP file
 # @flag -h --help                         Display this help.
 # @arg database                           Path of the database.
 analyze() {
     :;
 }
 # }} keepassxc-cli analyze
+
+# {{ keepassxc-cli attachment-export
+# @cmd Export an attachment of an entry.
+# @flag -q --quiet                        Silence password prompt and other secondary outputs.
+# @option -k --key-file <path>            Key file of the database.
+# @flag --no-password                     Deactivate password key for the database.
+# @option -y --yubikey <slot[:serial]>    Yubikey slot and optional serial used to access the database (e.g., 1:7370001).
+# @flag --stdout
+# @flag -h --help                         Display this help.
+# @arg database                           Path of the database.
+# @arg entry                              Path of the entry with the target attachment.
+# @arg attachment-name                    Name of the attachment to be exported.
+# @arg export-file                        Path to which the attachment should be exported.
+attachment-export() {
+    :;
+}
+# }} keepassxc-cli attachment-export
+
+# {{ keepassxc-cli attachment-import
+# @cmd Imports an attachment to an entry.
+# @flag -q --quiet                        Silence password prompt and other secondary outputs.
+# @option -k --key-file <path>            Key file of the database.
+# @flag --no-password                     Deactivate password key for the database.
+# @option -y --yubikey <slot[:serial]>    Yubikey slot and optional serial used to access the database (e.g., 1:7370001).
+# @flag -f --force                        Overwrite existing attachments.
+# @flag -h --help                         Display this help.
+# @arg database                           Path of the database.
+# @arg entry                              Path of the entry.
+# @arg attachment-name                    Name of the attachment to be added.
+# @arg import-file                        Path of the attachment to be imported.
+attachment-import() {
+    :;
+}
+# }} keepassxc-cli attachment-import
+
+# {{ keepassxc-cli attachment-rm
+# @cmd Remove an attachment of an entry.
+# @flag -q --quiet                        Silence password prompt and other secondary outputs.
+# @option -k --key-file <path>            Key file of the database.
+# @flag --no-password                     Deactivate password key for the database.
+# @option -y --yubikey <slot[:serial]>    Yubikey slot and optional serial used to access the database (e.g., 1:7370001).
+# @flag -h --help                         Display this help.
+# @arg database                           Path of the database.
+# @arg entry                              Path of the entry with the target attachment.
+# @arg name                               Name of the attachment to be removed.
+attachment-rm() {
+    :;
+}
+# }} keepassxc-cli attachment-rm
 
 # {{ keepassxc-cli clip
 # @cmd Copy an entry's attribute to the clipboard.
@@ -55,10 +107,11 @@ analyze() {
 # @option -y --yubikey <slot[:serial]>    Yubikey slot and optional serial used to access the database (e.g., 1:7370001).
 # @option -a --attribute <attr>           Copy the given attribute to the clipboard.
 # @flag -t --totp                         Copy the current TOTP to the clipboard (equivalent to "-a totp").
+# @flag -b --best-match                   Must match only one entry, otherwise a list of possible matches is shown.
 # @flag -h --help                         Display this help.
 # @arg database                           Path of the database.
 # @arg entry                              Path of the entry to clip.
-# @arg timeout                            Timeout in seconds before clearing the clipboard.
+# @arg timeout                            Timeout before clearing the clipboard (default is 10 seconds, set to 0 for unlimited).
 clip() {
     :;
 }
@@ -74,7 +127,8 @@ close() {
 # {{ keepassxc-cli db-create
 # @cmd Create a new database.
 # @flag -q --quiet                       Silence password prompt and other secondary outputs.
-# @option -k --set-key-file <path>       Set the key file for the database.
+# @option --set-key-file <path>          Set the key file for the database.
+# @option -k <path>                      Set the key file for the database.
 # @flag -p --set-password                Set a password for the database.
 # @option -t --decryption-time <time>    Target decryption time in MS for the database.
 # @flag -h --help                        Display this help.
@@ -83,6 +137,23 @@ db-create() {
     :;
 }
 # }} keepassxc-cli db-create
+
+# {{ keepassxc-cli db-edit
+# @cmd Edit a database.
+# @flag -q --quiet                        Silence password prompt and other secondary outputs.
+# @option -k --key-file <path>            Key file of the database.
+# @flag --no-password                     Deactivate password key for the database.
+# @option -y --yubikey <slot[:serial]>    Yubikey slot and optional serial used to access the database (e.g., 1:7370001).
+# @option --set-key-file <path>           Set the key file for the database.
+# @flag -p --set-password                 Set a password for the database.
+# @flag --unset-key-file                  Unset the key file for the database.
+# @flag --unset-password                  Unset the password for the database.
+# @flag -h --help                         Display this help.
+# @arg database                           Path of the database.
+db-edit() {
+    :;
+}
+# }} keepassxc-cli db-edit
 
 # {{ keepassxc-cli db-info
 # @cmd Show a database's information.
@@ -116,6 +187,7 @@ diceware() {
 # @option -y --yubikey <slot[:serial]>    Yubikey slot and optional serial used to access the database (e.g., 1:7370001).
 # @option -u --username <username>        Username for the entry.
 # @option --url                           URL for the entry.
+# @option --notes <Notes>                 Notes for the entry.
 # @flag -p --password-prompt              Prompt for the entry's password.
 # @option -t --title <title>              Title for the entry.
 # @flag -g --generate                     Generate a password for the entry.
@@ -128,6 +200,7 @@ diceware() {
 # @option -x --exclude <chars>            Exclude character set
 # @flag --exclude-similar                 Exclude similar looking characters
 # @flag --every-group                     Include characters from every selected group
+# @option -c --custom <chars>             Use custom character set
 # @flag -h --help                         Display this help.
 # @arg database                           Path of the database.
 # @arg entry                              Path of the entry to edit.
@@ -173,6 +246,7 @@ export() {
 # @option -x --exclude <chars>    Exclude character set
 # @flag --exclude-similar         Exclude similar looking characters
 # @flag --every-group             Include characters from every selected group
+# @option -c --custom <chars>     Use custom character set
 # @flag -h --help                 Display this help.
 generate() {
     :;
@@ -181,28 +255,18 @@ generate() {
 
 # {{ keepassxc-cli import
 # @cmd Import the contents of an XML database.
-# @flag -q --quiet    Silence password prompt and other secondary outputs.
-# @flag -h --help     Display this help.
-# @arg xml            Path of the XML database export.
-# @arg database       Path of the new database.
+# @flag -q --quiet                       Silence password prompt and other secondary outputs.
+# @option --set-key-file <path>          Set the key file for the database.
+# @option -k <path>                      Set the key file for the database.
+# @flag -p --set-password                Set a password for the database.
+# @option -t --decryption-time <time>    Target decryption time in MS for the database.
+# @flag -h --help                        Display this help.
+# @arg xml                               Path of the XML database export.
+# @arg database                          Path of the new database.
 import() {
     :;
 }
 # }} keepassxc-cli import
-
-# {{ keepassxc-cli locate
-# @cmd Find entries quickly.
-# @flag -q --quiet                        Silence password prompt and other secondary outputs.
-# @option -k --key-file <path>            Key file of the database.
-# @flag --no-password                     Deactivate password key for the database.
-# @option -y --yubikey <slot[:serial]>    Yubikey slot and optional serial used to access the database (e.g., 1:7370001).
-# @flag -h --help                         Display this help.
-# @arg database                           Path of the database.
-# @arg term                               Search term.
-locate() {
-    :;
-}
-# }} keepassxc-cli locate
 
 # {{ keepassxc-cli ls
 # @cmd List database entries.
@@ -303,6 +367,20 @@ rmdir() {
 }
 # }} keepassxc-cli rmdir
 
+# {{ keepassxc-cli search
+# @cmd Find entries quickly.
+# @flag -q --quiet                        Silence password prompt and other secondary outputs.
+# @option -k --key-file <path>            Key file of the database.
+# @flag --no-password                     Deactivate password key for the database.
+# @option -y --yubikey <slot[:serial]>    Yubikey slot and optional serial used to access the database (e.g., 1:7370001).
+# @flag -h --help                         Display this help.
+# @arg database                           Path of the database.
+# @arg term                               Search term.
+search() {
+    :;
+}
+# }} keepassxc-cli search
+
 # {{ keepassxc-cli show
 # @cmd Show an entry's information.
 # @flag -q --quiet                        Silence password prompt and other secondary outputs.
@@ -312,6 +390,8 @@ rmdir() {
 # @flag -t --totp                         Show the entry's current TOTP.
 # @option -a --attributes <attribute>     Names of the attributes to show.
 # @flag -s --show-protected               Show the protected attributes in clear text.
+# @flag --all                             Show all the attributes of the entry.
+# @flag --show-attachments                Show the attachments of the entry.
 # @flag -h --help                         Display this help.
 # @arg database                           Path of the database.
 # @arg entry                              Name of the entry to show.

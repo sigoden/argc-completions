@@ -22,6 +22,7 @@
 # @option --markov-hcstat2 <File>             Specify hcstat2 file to use
 # @flag --markov-disable                      Disables markov-chains, emulates classic brute-force
 # @flag --markov-classic                      Enables classic markov-chains, no per-position
+# @flag --markov-inverse                      Enables inverse markov-chains, no per-position
 # @option -t --markov-threshold <Num>         Threshold X when to stop accepting new markov-chains
 # @option --runtime <Num>                     Abort session after X seconds of runtime
 # @option --session <Str>                     Define specific session name
@@ -68,8 +69,10 @@
 # @flag --hash-info                           Show information for each hash-mode
 # @flag --example-hashes                      Alias of --hash-info
 # @flag --backend-ignore-cuda                 Do not try to open CUDA interface on startup
+# @flag --backend-ignore-hip                  Do not try to open HIP interface on startup
+# @flag --backend-ignore-metal                Do not try to open Metal interface on startup
 # @flag --backend-ignore-opencl               Do not try to open OpenCL interface on startup
-# @flag -I --backend-info                     Show info about detected backend API devices
+# @flag -I --backend-info                     Show system/evironment/backend API info
 # @option -d --backend-devices <Str>          Backend devices to use, separated with commas
 # @option -D --opencl-device-types*,[`_choice_device_type`] <Str>  OpenCL device-types to use, separated with commas
 # @flag -O --optimized-kernel-enable          Enable optimized kernels (limits password length)

@@ -11,6 +11,7 @@
 # @flag -r --raw                                   use raw output format
 # @option -S --split*,[`_choice_column`] <list>    split ranges by specified columns
 # @option -s --sysroot <dir>                       use the specified directory as system root
+# @option --summary[never|always|only] <when>      print summary information (never,always or only)
 # @flag -h --help                                  display this help
 # @flag -V --version                               display version
 

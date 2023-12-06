@@ -2,13 +2,13 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # @option -d --debug <num>                  Enable debugging - it must be in the range:
-# @flag -V --verbose                        More verbose output - may appear multiple times
-# @flag --tofu                              Enable trust on first use authentication - disabled as '--no-tofu'
-# @flag --strict-tofu                       Fail to connect if a certificate is unknown or a known certificate has changed - disabled as '--no-strict-tofu'
-# @flag --dane                              Enable DANE certificate verification (DNSSEC) - disabled as '--no-dane'
-# @flag --local-dns                         Use the local DNS server for DNSSEC resolving - disabled as '--no-local-dns'
-# @flag --ca-verification                   Enable CA certificate verification - disabled as '--no-ca-verification' - enabled by default
-# @flag --ocsp                              Enable OCSP certificate verification - disabled as '--no-ocsp'
+# @flag -V --verbose                        More verbose output
+# @flag --tofu                              Enable trust on first use authentication
+# @flag --strict-tofu                       Fail to connect if a certificate is unknown or a known certificate has changed
+# @flag --dane                              Enable DANE certificate verification (DNSSEC)
+# @flag --local-dns                         Use the local DNS server for DNSSEC resolving
+# @flag --ca-verification                   Enable CA certificate verification - enabled by default - disabled as '--no-ca-verification'
+# @flag --ocsp                              Enable OCSP certificate verification
 # @flag -r --resume                         Establish a session and resume
 # @option --earlydata <str>                 Send early data on resumption from the specified file
 # @flag -e --rehandshake                    Establish a session and rehandshake
@@ -50,22 +50,24 @@
 # @flag --priority-list                     Print a list of the supported priority strings
 # @flag --noticket                          Don't allow session tickets
 # @option --srtp-profiles <str>             Offer SRTP profiles
-# @option --alpn <str>                      Application layer protocol - may appear multiple times
+# @option --alpn <str>                      Application layer protocol
+# @option --compress-cert <str>             Compress certificate
 # @flag -b --heartbeat                      Activate heartbeat support
 # @option --recordsize <num>                The maximum record size to advertise - it must be in the range:
 # @flag --disable-sni                       Do not send a Server Name Indication (SNI)
 # @flag --single-key-share                  Send a single key share under TLS1.3
 # @flag --post-handshake-auth               Enable post-handshake authentication under TLS1.3
 # @flag --inline-commands                   Inline commands of the form ^<cmd>^
-# @option --inline-commands-prefix <str>    Change the default delimiter for inline commands.
+# @option --inline-commands-prefix <str>    Change the default delimiter for inline commands
 # @option --provider <file>                 Specify the PKCS ♯11 provider library - file must pre-exist
 # @flag --fips140-mode                      Reports the status of the FIPS140-2 mode in gnutls library
 # @flag --list-config                       Reports the configuration of the library
-# @option --logfile <str>                   Redirect informational messages to a specific file.
+# @option --logfile <str>                   Redirect informational messages to a specific file
 # @option --keymatexport <str>              Label used for exporting keying material
 # @option --keymatexportsize <num>          Size of the exported keying material
 # @flag --waitresumption                    Block waiting for the resumption data under TLS1.3
-# @flag --ca-auto-retrieve                  Enable automatic retrieval of missing CA certificates - disabled as '--no-ca-auto-retrieve'
+# @flag --ca-auto-retrieve                  Enable automatic retrieval of missing CA certificates
+# @option --attime <str>                    Perform validation at the timestamp instead of the system time
 # @option -v --version <arg>                output version information and exit
 # @flag -h --help                           display extended usage information and exit
 # @flag -! --more-help                      extended usage information passed thru pager

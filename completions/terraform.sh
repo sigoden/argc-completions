@@ -22,6 +22,7 @@
 # @flag -upgrade                    Install the latest module and provider versions allowed within configured constraints, overriding the default behavior of selecting exactly the version recorded in the dependency lockfile.
 # @option -lockfile <MODE>          Set a dependency lockfile mode.
 # @flag -ignore-remote-version      A rare option used for Terraform Cloud and the remote backend only.
+# @option -test-directory <path>    Set the Terraform test directory, defaults to "tests".
 init() {
     :;
 }
@@ -29,8 +30,10 @@ init() {
 
 # {{ terraform validate
 # @cmd Check whether the configuration is valid
-# @flag -json        Produce output in a machine-readable JSON format, suitable for use in text editor integrations and other automated systems.
-# @flag -no-color    If specified, output won't contain any color.
+# @flag -json                       Produce output in a machine-readable JSON format, suitable for use in text editor integrations and other automated systems.
+# @flag -no-color                   If specified, output won't contain any color.
+# @flag -no-tests                   If specified, Terraform will not validate test files.
+# @option -test-directory <path>    Set the Terraform test directory, defaults to "tests".
 validate() {
     :;
 }
@@ -132,8 +135,9 @@ force-unlock() {
 
 # {{ terraform get
 # @cmd Install or upgrade remote Terraform modules
-# @flag -update      Check already-downloaded modules for available updates and install the newest versions available.
-# @flag -no-color    Disable text coloring in the output.
+# @flag -update                     Check already-downloaded modules for available updates and install the newest versions available.
+# @flag -no-color                   Disable text coloring in the output.
+# @option -test-directory <path>    Set the Terraform test directory, defaults to "tests".
 get() {
     :;
 }
@@ -212,6 +216,7 @@ output() {
 
 # {{ terraform providers
 # @cmd Show the providers required for this configuration
+# @option -test-directory <path>    Set the Terraform test directory, defaults to "tests".
 # @arg dir
 providers() {
     :;
@@ -372,10 +377,15 @@ taint() {
 # }} terraform taint
 
 # {{ terraform test
-# @cmd Experimental support for module integration testing
-# @flag -compact-warnings      Use a more compact representation for warnings, if this command produces only warnings and no errors.
-# @option -junit-xml <FILE>    In addition to the usual output, also write test results to the given file path in JUnit XML format.
-# @flag -no-color              Don't include virtual terminal formatting sequences in the output.
+# @cmd Execute integration tests for Terraform modules
+# @option -cloud-run <source>       If specified, Terraform will execute this test run remotely using Terraform Cloud.
+# @option -filter <testfile>        If specified, Terraform will only execute the test files specified by this flag.
+# @flag -json                       If specified, machine readable output will be printed in JSON format
+# @flag -no-color                   If specified, output won't contain any color.
+# @option -test-directory <path>    Set the Terraform test directory, defaults to "tests".
+# @option -var <foo=bar>            Set a value for one of the input variables in the root module of the configuration.
+# @option -var-file <filename>      Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars.
+# @flag -verbose                    Print the plan or state for each test run block as it executes.
 test() {
     :;
 }

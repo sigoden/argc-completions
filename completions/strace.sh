@@ -5,12 +5,16 @@
 # @option -E --env <var=val>                       Run command with var=val in its list of environment variables.
 # @option -p --attach[`_module_os_pid`] <pid>      Attach to the process with the process ID pid and begin tracing.
 # @option -u --user[`_module_os_user`] <username>  Run command with the user ID, group ID, and supplementary groups of username.
+# @option --argv0 <name>                           Set argv[0] of the command being executed to name.
 # @option -b --detach-on <syscall>                 If specified syscall is reached, detach from traced process.
 # @option -D --daemonize[`_choice_daemonize`] <grandchild>  Run tracer process as a grandchild, not as the parent of the tracee.
 # @flag -f --follow-forks                          Trace child processes as they are created by currently traced processes as a result of the fork(2), vfork(2) and clone(2) system calls.
 # @flag --output-separately                        If the --output=filename option is in effect, each processes trace is written to filename.pid where pid is the numeric process id of each process.
 # @option -I --interruptible[`_choice_interruptible`] <interruptible>  When strace can be interrupted by signals (such as pressing CTRL-C).
+# @option --syscall-limit <limit>                  Detach all tracees when limit number of syscalls have been captured.
+# @flag --kill-on-exit                             Set PTRACE_O_EXITKILL ptrace option to all tracee processes (which send a SIGKILL signal to the tracee if the tracer exits) and do not detach them on cleanup so they will not be left running after the tracer exit.
 # @option --trace*,[`_choice_trace`] <syscall_set>  Trace only the specified set of system calls.
+# @option --trace-fds <set>                        Trace only the syscalls that operate on the specified subset of (non-negative) file descriptors.
 # @option --signal*,[`_module_os_signal`] <set>    Trace only the specified subset of signals.
 # @option --status*,[`_choice_status`] <set>       Print only system calls with the specified return status.
 # @option -P --trace-path <path>                   Trace only system calls accessing path.
@@ -53,6 +57,7 @@
 # @flag -F                                         This option is deprecated.
 # @flag -h --help                                  Print the help summary.
 # @flag --seccomp-bpf                              Try to enable use of seccomp-bpf (see seccomp(2)) to have ptrace(2)-stops only when system calls that are being traced occur in the traced processes.
+# @option --tips <[[id:]id],[[format:]format]>     Show strace tips, tricks, and tweaks before exit.
 # @flag -V --version                               Print the version number of strace.
 # @option -e*[`_choice_filter`]                    A qualifying expression which modifies which events to trace or how to trace them.
 # @arg command[`_module_os_command`]

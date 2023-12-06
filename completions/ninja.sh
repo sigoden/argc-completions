@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @flag --version                       print ninja version ("1.10.1")
+# @flag --version                       print ninja version ("1.11.1")
 # @flag -v --verbose                    show all command lines while building
+# @flag --quiet                         don't show progress status, just command output
 # @option -C <DIR>                      change to DIR before doing anything else
 # @option -f <FILE>                     specify input build file [default=build.ninja]
 # @option -j <N>                        run N jobs in parallel (0 means infinity) [default=22 on this system]

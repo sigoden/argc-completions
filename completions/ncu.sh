@@ -22,6 +22,7 @@
 # @option --filterVersion <p>                 Filter on package version using comma-or-space-delimited list, /regex/, or predicate function.
 # @option --format[group|ownerChanged|repo|time|lines] <value>  Modify the output formatting or show additional information.
 # @flag -g --global                           Check global packages instead of in the current project.
+# @option --install[always|never|prompt] <value>  Control the auto-install behavior: always, never, prompt.
 # @flag -i --interactive                      Enable interactive prompts for each dependency; implies -u unless one of the json options are set.
 # @flag -j --jsonAll                          Output new package file instead of human-readable message.
 # @flag --jsonDeps                            Like jsonAll but only lists dependencies, devDependencies, optionalDependencies, etc of the new package data.
@@ -31,11 +32,12 @@
 # @flag -m --minimal                          Do not upgrade newer versions that are already satisfied by the version range according to semver.
 # @option --packageData <value>               Package file data (you can also use stdin).
 # @option --packageFile <path|glob>           Package file(s) location.
-# @option -p --packageManager <s>             npm, yarn, pnpm, deno, staticRegistry (default: npm).
+# @option -p --packageManager <s>             npm, yarn, pnpm, deno, bun, staticRegistry (default: npm).
 # @flag --peer                                Check peer dependencies of installed packages and filter updates to compatible versions.
 # @option --pre <n>                           Include prerelease versions, e.g. -alpha.0, -beta.5, -rc.2.
 # @option --prefix <path>                     Current working directory of npm.
-# @option -r --registry <uri>                 Third-party npm registry.
+# @option -r --registry <uri>                 Specify the registry to use when looking up package versions.
+# @option --registryType[npm|json] <type>     Specify whether --registry refers to a full npm registry or a simple JSON file or url: npm, json.
 # @option -x --reject <p>                     Exclude packages matching the given string, wildcard, glob, comma-or-space-delimited list, /regex/, or predicate function.
 # @option --rejectVersion <p>                 Exclude package.json versions using comma-or-space-delimited list, /regex/, or predicate function.
 # @flag --removeRange                         Remove version ranges from the final package version.
@@ -43,7 +45,7 @@
 # @flag --root                                Runs updates on the root project in addition to specified workspaces.
 # @flag -s --silent                           Don't output anything.
 # @flag --stdin                               Read package.json from stdin.
-# @option -t --target <value>                 Determines the version to upgrade to: latest, newest, greatest, minor, patch, @[tag], or [function].
+# @option -t --target <value>                 Determines the version to upgrade to: latest, newest, greatest, minor, patch, semver, @[tag], or [function].
 # @option --timeout <ms>                      Global timeout in milliseconds.
 # @flag -u --upgrade                          Overwrite package file with upgraded versions instead of just outputting to console.
 # @flag --verbose                             Log additional information for debugging.

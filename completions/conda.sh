@@ -2,6 +2,8 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # @flag -h --help       Show this help message and exit.
+# @flag -v --verbose    Can be used multiple times.
+# @flag --no-plugins    Disable all plugins that are not built into conda.
 # @flag -V --version    Show the conda version number and exit.
 
 # {{ conda clean
@@ -14,10 +16,10 @@
 # @flag -f --force-pkgs-dirs    Remove *all* writable package caches.
 # @option -c --tempfiles*       Remove temporary files that could not be deleted earlier due to being in-use.
 # @flag -l --logfiles           Remove log files.
-# @flag -d --dry-run            Only display what would have been done.
 # @flag --json                  Report all output as json.
-# @flag -q --quiet              Do not display progress bar.
 # @flag -v --verbose            Can be used multiple times.
+# @flag -q --quiet              Do not display progress bar.
+# @flag -d --dry-run            Only display what would have been done.
 # @flag -y --yes                Sets any confirmation values to 'yes' automatically.
 clean() {
     :;
@@ -28,7 +30,7 @@ clean() {
 # @cmd Compare packages between conda environments.
 # @flag -h --help               Show this help message and exit.
 # @flag --json                  Report all output as json.
-# @flag -v --verbose            Use once for info, twice for debug, three times for trace.
+# @flag -v --verbose            Can be used multiple times.
 # @flag -q --quiet              Do not display progress bar.
 # @option -n --name[`_choice_env_var`] <ENVIRONMENT>  Name of environment.
 # @option -p --prefix <PATH>    Full path to environment location (i.e.
@@ -42,7 +44,7 @@ compare() {
 # @cmd Modify configuration values in .condarc.
 # @flag -h --help                               Show this help message and exit.
 # @flag --json                                  Report all output as json.
-# @flag -v --verbose                            Use once for info, twice for debug, three times for trace.
+# @flag -v --verbose                            Can be used multiple times.
 # @flag -q --quiet                              Do not display progress bar.
 # @flag --system                                Write to the system .condarc file at '/home/sigo/.miniconda3/.condarc'.
 # @flag --env                                   Write to the active conda environment .condarc file (<no active environment>).
@@ -65,6 +67,64 @@ config() {
 }
 # }} conda config
 
+# {{ conda content-trust
+# @cmd Signing and verification tools for Conda
+# @flag -h --help       show this help message and exit
+# @flag -V --version    Show the conda-content-trust version number and exit.
+# @arg enum*[sign-artifacts|verify-metadata|modify-metadata|gpg-key-lookup|gpg-sign]
+content-trust() {
+    :;
+}
+
+# {{{ conda content-trust sign-artifacts
+# @cmd Given a repodata.json file, produce signatures over the metadata for each artifact listed, and update the repodata.json file with their individual signatures.
+# @flag -h --help           show this help message and exit
+# @arg repodata_fname       the filename of a repodata.json file from which to retrieve metadata for individual artifacts.
+# @arg private_key_fname    the filename of a file containing a hex string representation of an ed25519 private key to be used to sign each artifact's metadata
+content-trust::sign-artifacts() {
+    :;
+}
+# }}} conda content-trust sign-artifacts
+
+# {{{ conda content-trust verify-metadata
+# @cmd Uses the first (trusted) metadata file to verify the second (not yet trusted) metadata file.
+# @flag -h --help                     show this help message and exit
+# @arg trusted_metadata_filename      the filename of the already-trusted metadata file that sets the rules for verifying the untrusted metadata file
+# @arg untrusted_metadata_filename    the filename of the (untrusted) metadata file to verify
+content-trust::verify-metadata() {
+    :;
+}
+# }}} conda content-trust verify-metadata
+
+# {{{ conda content-trust modify-metadata
+# @cmd Interactive metadata modification.
+# @flag -h --help           show this help message and exit
+# @arg metadata_filename    the filename of the existing metadata file to modify
+content-trust::modify-metadata() {
+    :;
+}
+# }}} conda content-trust modify-metadata
+
+# {{{ conda content-trust gpg-key-lookup
+# @cmd [Unavailable]: Requires optional dependencies: securesystemslib and gpg.
+# @flag -h --help             show this help message and exit
+# @arg gpg_key_fingerprint    the 40-hex-character key fingerprint (long keyid) for the OpenPGP/GPG key that you want to sign something with.
+content-trust::gpg-key-lookup() {
+    :;
+}
+# }}} conda content-trust gpg-key-lookup
+
+# {{{ conda content-trust gpg-sign
+# @cmd [Unavailable]: Requires optional dependencies: securesystemslib and gpg.
+# @flag -h --help             show this help message and exit
+# @arg gpg_key_fingerprint    the 40-hex-character key fingerprint (long keyid) for the OpenPGP/GPG key that you want to sign something with.
+# @arg filename               the filename of the file that will be signed
+content-trust::gpg-sign() {
+    :;
+}
+# }}} conda content-trust gpg-sign
+# }} conda content-trust
+
 # {{ conda create
 # @cmd Create a new conda environment from a list of specified packages.
 # @flag -h --help                         Show this help message and exit.
@@ -78,6 +138,9 @@ config() {
 # @flag --override-channels               Do not search default or .condarc channels.
 # @option --repodata-fn <REPODATA_FNS>    Specify file name of repodata on the remote server where your channels are configured or within local backups.
 # @option --experimental <jlap|lock>      jlap: Download incremental package index data from repodata.jlap; implies 'lock'.
+# @flag --no-lock                         Disable locking when reading, updating index (repodata.json) cache.
+# @option --subdir <SUBDIR>               Use packages built for this platform.
+# @option --platform <SUBDIR>             Use packages built for this platform.
 # @flag --strict-channel-priority         Packages in lower priority channels are not considered if a package with the same name appears in a higher priority channel.
 # @flag --no-channel-priority             Package version takes precedence over channel priority.
 # @flag --no-deps                         Do not install, update, remove, or change dependencies.
@@ -85,15 +148,14 @@ config() {
 # @flag --no-pin                          Ignore pinned file.
 # @flag --no-default-packages             Ignore create_default_packages in the .condarc file.
 # @option --solver <classic|libmamba>     Choose which solver backend to use.
-# @option --experimental-solver <classic|libmamba>  DEPRECATED.
 # @flag --copy                            Install all packages using copies instead of hard- or soft-linking.
 # @flag -C --use-index-cache              Use cache of channel index files, even if it has expired.
 # @flag -k --insecure                     Allow conda to perform "insecure" SSL connections and transfers.
 # @flag --offline                         Offline mode.
-# @flag -d --dry-run                      Only display what would have been done.
 # @flag --json                            Report all output as json.
-# @flag -q --quiet                        Do not display progress bar.
 # @flag -v --verbose                      Can be used multiple times.
+# @flag -q --quiet                        Do not display progress bar.
+# @flag -d --dry-run                      Only display what would have been done.
 # @flag -y --yes                          Sets any confirmation values to 'yes' automatically.
 # @flag --download-only                   Solve an environment and ensure package caches are populated, but exit prior to unlinking and linking packages into the prefix.
 # @flag --show-channel-urls               Show channel urls.
@@ -103,16 +165,132 @@ create() {
 }
 # }} conda create
 
+# {{ conda doctor
+# @cmd Display a health report for your environment.
+# @flag -v --verbose            Can be used multiple times.
+# @flag -h --help               Show this help message and exit.
+# @option -n --name[`_choice_env_var`] <ENVIRONMENT>  Name of environment.
+# @option -p --prefix <PATH>    Full path to environment location (i.e.
+doctor() {
+    :;
+}
+# }} conda doctor
+
+# {{ conda env
+# @cmd See `conda env --help`.
+# @flag -h --help    Show this help message and exit.
+env() {
+    :;
+}
+
+# {{{ conda env create
+# @cmd Create an environment based on an environment definition file.
+# @flag -h --help                        Show this help message and exit.
+# @option -f --file                      Environment definition file (default: environment.yml)
+# @flag --force                          `--force` is deprecated and will be removed in 24.3.
+# @flag --no-default-packages            Ignore create_default_packages in the .condarc file.
+# @option --subdir <SUBDIR>              Use packages built for this platform.
+# @option --platform <SUBDIR>            Use packages built for this platform.
+# @option --solver <classic|libmamba>    Choose which solver backend to use.
+# @option -n --name[`_choice_env_var`] <ENVIRONMENT>  Name of environment.
+# @option -p --prefix <PATH>             Full path to environment location (i.e.
+# @flag -C --use-index-cache             Use cache of channel index files, even if it has expired.
+# @flag -k --insecure                    Allow conda to perform "insecure" SSL connections and transfers.
+# @flag --offline                        Offline mode.
+# @flag --json                           Report all output as json.
+# @flag -v --verbose                     Can be used multiple times.
+# @flag -q --quiet                       Do not display progress bar.
+# @flag -d --dry-run                     Only display what would have been done.
+# @flag -y --yes                         Sets any confirmation values to 'yes' automatically.
+# @arg remote_definition                 Remote environment definition / IPython notebook
+env::create() {
+    :;
+}
+# }}} conda env create
+
+# {{{ conda env export
+# @cmd Export a given environment
+# @flag -h --help               Show this help message and exit.
+# @option -c --channel          Additional channel to include in the export
+# @flag --override-channels     Do not include .condarc channels
+# @option -f --file             File name or path for the exported environment.
+# @flag --no-builds             Remove build specification from dependencies
+# @flag --ignore-channels       Do not include channel names with package names.
+# @flag --from-history          Build environment spec from explicit specs in history
+# @option -n --name[`_choice_env_var`] <ENVIRONMENT>  Name of environment.
+# @option -p --prefix <PATH>    Full path to environment location (i.e.
+# @flag --json                  Report all output as json.
+# @flag -v --verbose            Can be used multiple times.
+# @flag -q --quiet              Do not display progress bar.
+env::export() {
+    :;
+}
+# }}} conda env export
+
+# {{{ conda env list
+# @cmd List the Conda environments
+# @flag -h --help       Show this help message and exit.
+# @flag --json          Report all output as json.
+# @flag -v --verbose    Can be used multiple times.
+# @flag -q --quiet      Do not display progress bar.
+env::list() {
+    :;
+}
+# }}} conda env list
+
+# {{{ conda env remove
+# @cmd Remove an environment
+# @flag -h --help                        Show this help message and exit.
+# @option --solver <classic|libmamba>    Choose which solver backend to use.
+# @option -n --name[`_choice_env_var`] <ENVIRONMENT>  Name of environment.
+# @option -p --prefix <PATH>             Full path to environment location (i.e.
+# @flag --json                           Report all output as json.
+# @flag -v --verbose                     Can be used multiple times.
+# @flag -q --quiet                       Do not display progress bar.
+# @flag -d --dry-run                     Only display what would have been done.
+# @flag -y --yes                         Sets any confirmation values to 'yes' automatically.
+env::remove() {
+    :;
+}
+# }}} conda env remove
+
+# {{{ conda env update
+# @cmd Update the current environment based on environment file
+# @flag -h --help                        Show this help message and exit.
+# @option -f --file                      environment definition (default: environment.yml)
+# @flag --prune                          remove installed packages not defined in environment.yml
+# @option --solver <classic|libmamba>    Choose which solver backend to use.
+# @option -n --name[`_choice_env_var`] <ENVIRONMENT>  Name of environment.
+# @option -p --prefix <PATH>             Full path to environment location (i.e.
+# @flag --json                           Report all output as json.
+# @flag -v --verbose                     Can be used multiple times.
+# @flag -q --quiet                       Do not display progress bar.
+# @arg remote_definition                 remote environment definition / IPython notebook
+env::update() {
+    :;
+}
+# }}} conda env update
+
+# {{{ conda env config
+# @cmd Configure a conda environment
+# @flag -h --help    Show this help message and exit.
+# @arg vars*         Interact with environment variables associated with Conda environments
+env::config() {
+    :;
+}
+# }}} conda env config
+# }} conda env
+
 # {{ conda info
 # @cmd Display information about current conda install.
 # @flag -h --help            Show this help message and exit.
-# @flag -a --all             Show all information.
+# @flag -a --all             `--all` is pending deprecation and will be removed in 24.9.
 # @flag --base               Display base environment path.
 # @flag -e --envs            List all known conda environments.
 # @flag -s --system          List environment variables.
 # @flag --unsafe-channels    Display list of channels with tokens exposed.
 # @flag --json               Report all output as json.
-# @flag -v --verbose         Use once for info, twice for debug, three times for trace.
+# @flag -v --verbose         Can be used multiple times.
 # @flag -q --quiet           Do not display progress bar.
 info() {
     :;
@@ -129,7 +307,7 @@ info() {
 # @flag --system        Initialize conda for all users on the system.
 # @flag --reverse       Undo effects of last conda init.
 # @flag --json          Report all output as json.
-# @flag -v --verbose    Use once for info, twice for debug, three times for trace.
+# @flag -v --verbose    Can be used multiple times.
 # @flag -q --quiet      Do not display progress bar.
 # @arg shells*[bash|fish|powershell|tcsh|xonsh|zsh]
 init() {
@@ -138,7 +316,7 @@ init() {
 # }} conda init
 
 # {{ conda install
-# @cmd Installs a list of packages into a specified conda environment.
+# @cmd Install a list of packages into a specified conda environment.
 # @flag -h --help                         Show this help message and exit.
 # @option --revision                      Revert to the specified REVISION.
 # @option --file                          Read package versions from the given file.
@@ -150,13 +328,13 @@ init() {
 # @flag --override-channels               Do not search default or .condarc channels.
 # @option --repodata-fn <REPODATA_FNS>    Specify file name of repodata on the remote server where your channels are configured or within local backups.
 # @option --experimental <jlap|lock>      jlap: Download incremental package index data from repodata.jlap; implies 'lock'.
+# @flag --no-lock                         Disable locking when reading, updating index (repodata.json) cache.
 # @flag --strict-channel-priority         Packages in lower priority channels are not considered if a package with the same name appears in a higher priority channel.
 # @flag --no-channel-priority             Package version takes precedence over channel priority.
 # @flag --no-deps                         Do not install, update, remove, or change dependencies.
 # @flag --only-deps                       Only install dependencies.
 # @flag --no-pin                          Ignore pinned file.
 # @option --solver <classic|libmamba>     Choose which solver backend to use.
-# @option --experimental-solver <classic|libmamba>  DEPRECATED.
 # @flag --force-reinstall                 Ensure that any user-requested package for the current operation is uninstalled and reinstalled, even if that package already exists in the environment.
 # @flag --freeze-installed                Do not update or change already-installed dependencies.
 # @flag --no-update-deps                  Do not update or change already-installed dependencies.
@@ -171,10 +349,10 @@ init() {
 # @flag -C --use-index-cache              Use cache of channel index files, even if it has expired.
 # @flag -k --insecure                     Allow conda to perform "insecure" SSL connections and transfers.
 # @flag --offline                         Offline mode.
-# @flag -d --dry-run                      Only display what would have been done.
 # @flag --json                            Report all output as json.
-# @flag -q --quiet                        Do not display progress bar.
 # @flag -v --verbose                      Can be used multiple times.
+# @flag -q --quiet                        Do not display progress bar.
+# @flag -d --dry-run                      Only display what would have been done.
 # @flag -y --yes                          Sets any confirmation values to 'yes' automatically.
 # @flag --download-only                   Solve an environment and ensure package caches are populated, but exit prior to unlinking and linking packages into the prefix.
 # @flag --show-channel-urls               Show channel urls.
@@ -199,7 +377,7 @@ install() {
 # @option -n --name[`_choice_env_var`] <ENVIRONMENT>  Name of environment.
 # @option -p --prefix <PATH>    Full path to environment location (i.e.
 # @flag --json                  Report all output as json.
-# @flag -v --verbose            Use once for info, twice for debug, three times for trace.
+# @flag -v --verbose            Can be used multiple times.
 # @flag -q --quiet              Do not display progress bar.
 # @arg regex                    List only packages matching this regular expression.
 list() {
@@ -207,8 +385,22 @@ list() {
 }
 # }} conda list
 
+# {{ conda notices
+# @cmd Retrieve latest channel notifications.
+# @flag -h --help                         Show this help message and exit.
+# @option -c --channel                    Additional channel to search for packages.
+# @flag --use-local                       Use locally built packages.
+# @flag --override-channels               Do not search default or .condarc channels.
+# @option --repodata-fn <REPODATA_FNS>    Specify file name of repodata on the remote server where your channels are configured or within local backups.
+# @option --experimental <jlap|lock>      jlap: Download incremental package index data from repodata.jlap; implies 'lock'.
+# @flag --no-lock                         Disable locking when reading, updating index (repodata.json) cache.
+notices() {
+    :;
+}
+# }} conda notices
+
 # {{ conda package
-# @cmd Low-level conda package utility.
+# @cmd Create low-level conda packages.
 # @flag -h --help                        Show this help message and exit.
 # @option -w --which <PATH+>             Given some file's PATH, print which conda package the file came from.
 # @flag -r --reset                       Remove all untracked files and exit.
@@ -234,20 +426,20 @@ package() {
 # @flag --override-channels               Do not search default or .condarc channels.
 # @option --repodata-fn <REPODATA_FNS>    Specify file name of repodata on the remote server where your channels are configured or within local backups.
 # @option --experimental <jlap|lock>      jlap: Download incremental package index data from repodata.jlap; implies 'lock'.
+# @flag --no-lock                         Disable locking when reading, updating index (repodata.json) cache.
 # @flag --all                             Remove all packages, i.e., the entire environment.
 # @flag --features                        Remove features (instead of packages).
 # @flag --force-remove                    Forces removal of a package without removing packages that depend on it.
 # @flag --force                           Forces removal of a package without removing packages that depend on it.
 # @flag --no-pin                          Ignore pinned package(s) that apply to the current operation.
 # @option --solver <classic|libmamba>     Choose which solver backend to use.
-# @option --experimental-solver <classic|libmamba>  DEPRECATED.
 # @flag -C --use-index-cache              Use cache of channel index files, even if it has expired.
 # @flag -k --insecure                     Allow conda to perform "insecure" SSL connections and transfers.
 # @flag --offline                         Offline mode.
-# @flag -d --dry-run                      Only display what would have been done.
 # @flag --json                            Report all output as json.
-# @flag -q --quiet                        Do not display progress bar.
 # @flag -v --verbose                      Can be used multiple times.
+# @flag -q --quiet                        Do not display progress bar.
+# @flag -d --dry-run                      Only display what would have been done.
 # @flag -y --yes                          Sets any confirmation values to 'yes' automatically.
 # @arg package_name[`_choice_package`]
 remove() {
@@ -256,7 +448,7 @@ remove() {
 # }} conda remove
 
 # {{ conda rename
-# @cmd Renames an existing environment.
+# @cmd Rename an existing environment.
 # @flag -h --help               Show this help message and exit.
 # @flag --force                 Force rename of an environment.
 # @flag -d --dry-run            Only display what would have been done by the current command, arguments, and other flags.
@@ -268,10 +460,22 @@ rename() {
 }
 # }} conda rename
 
+# {{ conda repoquery
+# @cmd Advanced search for repodata.
+# @flag -h --help    Show this help message and exit.
+# @arg enum[whoneeds|depends|search]
+# @arg whoneeds      Show packages that depend on this package.
+# @arg depends       Show dependencies of this package.
+# @arg search        Show all available package versions.
+repoquery() {
+    :;
+}
+# }} conda repoquery
+
 # {{ conda run
 # @cmd Run an executable in a conda environment.
 # @flag -h --help                  Show this help message and exit.
-# @flag -v --verbose               Use once for info, twice for debug, three times for trace.
+# @flag -v --verbose               Can be used multiple times.
 # @flag --dev                      Sets `CONDA_EXE` to `python -m conda`, assuming the current working directory contains the root of conda development sources.
 # @flag --debug-wrapper-scripts    When this is set, where implemented, the shell wrapper scriptswill use the echo command to print debugging information to stderr (standard error).
 # @option --cwd                    Current working directory for command to run in.
@@ -286,7 +490,7 @@ run() {
 # }} conda run
 
 # {{ conda search
-# @cmd Search for packages and display associated information.The input is a MatchSpec, a query language for conda packages.
+# @cmd Search for packages and display associated information using the MatchSpec format.
 # @flag -h --help                         Show this help message and exit.
 # @flag --envs                            Search all of the current user's environments.
 # @flag -i --info                         Provide detailed information about each package.
@@ -297,11 +501,12 @@ run() {
 # @flag --override-channels               Do not search default or .condarc channels.
 # @option --repodata-fn <REPODATA_FNS>    Specify file name of repodata on the remote server where your channels are configured or within local backups.
 # @option --experimental <jlap|lock>      jlap: Download incremental package index data from repodata.jlap; implies 'lock'.
+# @flag --no-lock                         Disable locking when reading, updating index (repodata.json) cache.
 # @flag -C --use-index-cache              Use cache of channel index files, even if it has expired.
 # @flag -k --insecure                     Allow conda to perform "insecure" SSL connections and transfers.
 # @flag --offline                         Offline mode.
 # @flag --json                            Report all output as json.
-# @flag -v --verbose                      Use once for info, twice for debug, three times for trace.
+# @flag -v --verbose                      Can be used multiple times.
 # @flag -q --quiet                        Do not display progress bar.
 search() {
     :;
@@ -309,7 +514,7 @@ search() {
 # }} conda search
 
 # {{ conda update
-# @cmd Updates conda packages to the latest compatible version.
+# @cmd Update conda packages to the latest compatible version.
 # @flag -h --help                         Show this help message and exit.
 # @option --file                          Read package versions from the given file.
 # @option -n --name[`_choice_env_var`] <ENVIRONMENT>  Name of environment.
@@ -319,13 +524,13 @@ search() {
 # @flag --override-channels               Do not search default or .condarc channels.
 # @option --repodata-fn <REPODATA_FNS>    Specify file name of repodata on the remote server where your channels are configured or within local backups.
 # @option --experimental <jlap|lock>      jlap: Download incremental package index data from repodata.jlap; implies 'lock'.
+# @flag --no-lock                         Disable locking when reading, updating index (repodata.json) cache.
 # @flag --strict-channel-priority         Packages in lower priority channels are not considered if a package with the same name appears in a higher priority channel.
 # @flag --no-channel-priority             Package version takes precedence over channel priority.
 # @flag --no-deps                         Do not install, update, remove, or change dependencies.
 # @flag --only-deps                       Only install dependencies.
 # @flag --no-pin                          Ignore pinned file.
 # @option --solver <classic|libmamba>     Choose which solver backend to use.
-# @option --experimental-solver <classic|libmamba>  DEPRECATED.
 # @flag --force-reinstall                 Ensure that any user-requested package for the current operation is uninstalled and reinstalled, even if that package already exists in the environment.
 # @flag --freeze-installed                Do not update or change already-installed dependencies.
 # @flag --no-update-deps                  Do not update or change already-installed dependencies.
@@ -339,10 +544,10 @@ search() {
 # @flag -C --use-index-cache              Use cache of channel index files, even if it has expired.
 # @flag -k --insecure                     Allow conda to perform "insecure" SSL connections and transfers.
 # @flag --offline                         Offline mode.
-# @flag -d --dry-run                      Only display what would have been done.
 # @flag --json                            Report all output as json.
-# @flag -q --quiet                        Do not display progress bar.
 # @flag -v --verbose                      Can be used multiple times.
+# @flag -q --quiet                        Do not display progress bar.
+# @flag -d --dry-run                      Only display what would have been done.
 # @flag -y --yes                          Sets any confirmation values to 'yes' automatically.
 # @flag --download-only                   Solve an environment and ensure package caches are populated, but exit prior to unlinking and linking packages into the prefix.
 # @flag --show-channel-urls               Show channel urls.
@@ -351,19 +556,6 @@ update() {
     :;
 }
 # }} conda update
-
-# {{ conda notices
-# @cmd Retrieves latest channel notifications.
-# @flag -h --help                         Show this help message and exit.
-# @option -c --channel                    Additional channel to search for packages.
-# @flag --use-local                       Use locally built packages.
-# @flag --override-channels               Do not search default or .condarc channels.
-# @option --repodata-fn <REPODATA_FNS>    Specify file name of repodata on the remote server where your channels are configured or within local backups.
-# @option --experimental <jlap|lock>      jlap: Download incremental package index data from repodata.jlap; implies 'lock'.
-notices() {
-    :;
-}
-# }} conda notices
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 

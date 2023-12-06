@@ -242,11 +242,12 @@ config() {
 # @flag --tree                    Show dependencies as a tree.
 # @flag --graph                   Show dependencies as a directed graph.
 # @flag --dot                     Show text-based graph description in DOT format.
-# @flag --annotate                Mark any build, test, optional, or recommended dependencies as such in the output.
+# @flag --annotate                Mark any build, test, implicit, optional, or recommended dependencies as such in the output.
 # @flag --installed               List dependencies for formulae that are currently installed.
 # @flag --missing                 Show only missing dependencies.
 # @flag --eval-all                Evaluate all available formulae and casks, whether installed or not, to list their dependencies.
-# @flag --for-each                Switch into the mode used by the --all option, but only list dependencies for each provided formula, one formula per line.
+# @flag --for-each                Switch into the mode used by the --eval-all option, but only list dependencies for each provided formula, one formula per line.
+# @flag --HEAD                    Show dependencies for HEAD version instead of stable version.
 # @flag --formula                 Treat all named arguments as formulae.
 # @flag --formulae                Treat all named arguments as formulae.
 # @flag --cask                    Treat all named arguments as casks.
@@ -321,8 +322,8 @@ doctor() {
 
 # {{ brew fetch
 # @cmd Download a bottle (if available) or source packages for formulae and binaries for casks.
-# @option --os <value>            Download for the given operating system.(Pass all to download for all operating systems.)
-# @option --arch <value>          Download for the given CPU architecture.(Pass all to download for all architectures.)
+# @option --os <value>            Download for the given operating system.
+# @option --arch <value>          Download for the given CPU architecture.
 # @option --bottle-tag <value>    Download a bottle for given tag.
 # @flag --HEAD                    Fetch HEAD version instead of stable version.
 # @flag -f --force                Remove a previously cached version and re-fetch.
@@ -652,6 +653,19 @@ reinstall() {
     :;
 }
 # }} brew reinstall
+
+# {{ brew setup-ruby
+# @cmd Installs and configures Homebrew´s Ruby.
+# @flag --groups        Installs the specified comma-separated list of gem groups (default: last used).
+# @flag --add-groups    Installs the specified comma-separated list of gem groups, in addition to those already installed.
+# @flag -d --debug      Display any debugging information.
+# @flag -q --quiet      Make some output more quiet.
+# @flag -v --verbose    Make some output more verbose.
+# @flag -h --help       Show this message.
+setup-ruby() {
+    :;
+}
+# }} brew setup-ruby
 
 # {{ brew shellenv
 # @cmd Print export statements.
@@ -1421,7 +1435,7 @@ tap-new() {
 # {{ brew test
 # @cmd Run the test method provided by an installed formula.
 # @flag -f --force      Test formulae even if they are unlinked.
-# @flag --HEAD          Test the head version of a formula.
+# @flag --HEAD          Test the HEAD version of a formula.
 # @flag --keep-tmp      Retain the temporary files created for the test.
 # @flag --retry         Retry if a testing fails.
 # @flag -d --debug      Display any debugging information.
@@ -1477,6 +1491,7 @@ typecheck() {
 # @flag --tag           Use the specified bottle tag (e.g. big_sur) instead of the current OS.
 # @flag --dependents    Skip getting analytics data and sort by number of dependents instead.
 # @flag --total         Print the number of unbottled and total formulae.
+# @flag --lost          Print the homebrew/core commits where bottles were lost in the last week.
 # @flag --eval-all      Evaluate all available formulae and casks, whether installed or not, to check them.
 # @flag -d --debug      Display any debugging information.
 # @flag -q --quiet      Make some output more quiet.
@@ -1603,7 +1618,8 @@ alias() {
 # @flag --greedy                 Upgrade casks with --greedy (include auto-updating casks).
 # @flag --cleanup                Automatically clean brew's cache and logs.
 # @flag --enable-notification    Send a notification when the autoupdate process has finished successfully, if terminal-notifier is installed and found.
-# @flag --immediate              Starts the autoupdate command immediately, instead of waiting for one interval (24 hours by default) to pass first.
+# @flag --immediate              Starts the autoupdate command immediately and on system boot, instead of waiting for one interval (24 hours by default) to pass first.
+# @flag --sudo                   If a Cask requires sudo, autoupdate will open a GUI to ask for the password.
 # @flag -d --debug               Display any debugging information.
 # @flag -q --quiet               Make some output more quiet.
 # @flag -v --verbose             Make some output more verbose.
@@ -1645,10 +1661,10 @@ autoupdate::version() {
 # {{ brew bundle
 # @cmd Bundler for non-Ruby dependencies from Homebrew, Homebrew Cask, Mac App Store and Whalebrew.
 # @option --file <file>    Read the Brewfile from this location.
-# @flag --global           Read the Brewfile from ~/.Brewfile.
+# @flag --global           Read the Brewfile from ~/.Brewfile or the HOMEBREW_BUNDLE_FILE_GLOBAL environment variable, if set.
 # @flag -v --verbose       install prints output from commands as they are run.
 # @flag --no-upgrade       install won't run brew upgrade on outdated dependencies.
-# @flag -f --force         dump overwrites an existing Brewfile.
+# @flag -f --force         install runs with --force/--overwrite.
 # @flag --cleanup          install performs cleanup operation, same as running cleanup --force.
 # @flag --no-lock          install won't output a Brewfile.lock.json.
 # @flag --all              list all dependencies.
@@ -1708,14 +1724,16 @@ bundle::exec() {
 # }} brew bundle
 
 # {{ brew services
-# @cmd Manage background services with macOS´ launchctl(1) daemon manager.
-# @option --file <file>    Use the service file from this location to start the service.
-# @flag --all              Run subcommand on all services.
-# @flag --json             Output as JSON.
-# @flag -d --debug         Display any debugging information.
-# @flag -q --quiet         Make some output more quiet.
-# @flag -v --verbose       Make some output more verbose.
-# @flag -h --help          Show this message.
+# @cmd Manage background services with macOS´ launchctl(1) daemon manager or Linux´s systemctl(1) service manager.
+# @option --file <file>        Use the service file from this location to start the service.
+# @flag --sudo-service-user    When run as root on macOS, run the service(s) as this user.
+# @flag --all                  Run subcommand on all services.
+# @flag --json                 Output as JSON.
+# @flag --no-wait              Don't wait for stop to finish stopping the service.
+# @flag -d --debug             Display any debugging information.
+# @flag -q --quiet             Make some output more quiet.
+# @flag -v --verbose           Make some output more verbose.
+# @flag -h --help              Show this message.
 services() {
     :;
 }
@@ -1869,6 +1887,7 @@ which-formula() {
 # @flag --commit             Commit the changes using git.
 # @flag --update-existing    Update database entries with outdated formula versions.
 # @flag --install-missing    Install and update formulae that are missing from the database and don't have bottles.
+# @flag --eval-all           Evaluate all installed taps, rather than just the core tap.
 # @flag --max-downloads      Specify a maximum number of formulae to download and update.
 # @flag -d --debug           Display any debugging information.
 # @flag -q --quiet           Make some output more quiet.

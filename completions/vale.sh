@@ -13,6 +13,13 @@
 # @flag -v --version                    Print the current version.
 # @arg paths*
 
+# {{ vale ls-config
+# @cmd Print the current configuration to stdout.
+ls-config() {
+    :;
+}
+# }} vale ls-config
+
 # {{ vale ls-metrics
 # @cmd Print the given file's internal metrics to stdout.
 ls-metrics() {
@@ -26,13 +33,6 @@ sync() {
     :;
 }
 # }} vale sync
-
-# {{ vale ls-config
-# @cmd Print the current configuration to stdout.
-ls-config() {
-    :;
-}
-# }} vale ls-config
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 

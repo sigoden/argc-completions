@@ -18,11 +18,18 @@
 # @flag --mono                                    change look
 # @flag --color                                   change look
 # @flag --no-progress                             change look
+# @flag --lzma                                    try LZMA [slower but tighter than NRV]
 # @flag --brute                                   try all available compression methods & filters [slow]
 # @flag --ultra-brute                             try even more compression variants [very slow]
 # @flag -k --backup                               keep backup files
 # @flag --no-backup                               no backup files [default]
 # @option --overlay[`__choice_overlay`] <copy>    copy any extra data attached to the file [default]
+# @flag --force-overwrite                         force overwrite of output files
+# @flag --link                                    preserve hard links (Unix only) [USE WITH CARE]
+# @flag --no-link                                 do not preserve hard links but rename files [default]
+# @flag --no-mode                                 do not preserve file mode (aka permissions)
+# @flag --no-owner                                do not preserve file ownership
+# @flag --no-time                                 do not preserve file timestamp
 # @flag --coff                                    produce COFF output [default: EXE]
 # @flag --8086                                    make compressed com work on any 8086
 # @flag --no-reloc                                put no relocations in to the exe header

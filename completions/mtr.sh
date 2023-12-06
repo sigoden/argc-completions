@@ -31,6 +31,7 @@
 # @flag -p --split                      split output
 # @flag -t --curses                     use curses terminal interface
 # @option --displaymode[`_choice_displaymode`] <MODE>  select initial display mode
+# @flag -g --gtk                        use GTK+ xwindow interface
 # @flag -n --no-dns                     do not resolve host names
 # @flag -b --show-ips                   show IP numbers and host names
 # @option -o --order <FIELDS>           select output fields

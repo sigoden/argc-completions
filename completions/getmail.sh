@@ -8,7 +8,6 @@
 # @flag --dump                              dump configuration and exit (debugging)
 # @flag --trace                             print extended trace information (extremely verbose)
 # @option -i --idle <FOLDER>                maintain connection and listen for new messages in FOLDER.
-# @flag --store-password-in-keyring         store the POP/IMAP password using the Python keyring package
 # @option -s --searchset <OVERRIDE_IMAP>    override imap_search and imap_on_delete to set flags.
 # @flag -v --verbose                        operate more verbosely (may be given multiple times)
 # @flag --fingerprint                       show SSL/TLS fingerprint and connection information
@@ -17,5 +16,6 @@
 # @flag -l --dont-delete                    do not delete messages from server after retrieving
 # @flag -a --all                            retrieve all messages
 # @flag -n --new                            retrieve only unread messages
+# @flag --to-oldmail-on-each-mail           store retrieved mails in oldmail file after every mail
 
 command eval "$(argc --argc-eval "$0" "$@")"

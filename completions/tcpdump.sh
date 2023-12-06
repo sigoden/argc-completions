@@ -5,7 +5,7 @@
 # @flag -b                                      Print the AS number in BGP packets in ASDOT notation rather than ASPLAIN notation.
 # @option -B --buffer-size <buffer_size>        Set the operating system capture buffer size to buffer_size, in units of KiB (1024 bytes).
 # @option -c <count>                            Exit after receiving count packets.
-# @flag --count                                 Print only on stderr the packet count when reading capture file(s) instead of parsing/printing the packets.
+# @flag --count                                 Print only on stdout the packet count when reading capture file(s) instead of parsing/printing the packets.
 # @option -C <file_size>                        Before writing a raw packet to a savefile, check whether the file is currently larger than file_size and, if so, close the current savefile and open a new one.
 # @flag -d                                      Dump the compiled packet-matching code in a human readable form to standard output and stop.
 # @flag -dd                                     Dump packet-matching code as a C program fragment.
@@ -63,7 +63,7 @@
 # @flag -XX                                     When parsing and printing, in addition to printing the headers of each packet, print the data of each packet, including its link level header, in hex and ASCII.
 # @option -y --linktype <datalinktype>          Set the data link type to use while capturing packets (see -L) or just compiling and dumping packet-matching code (see -d) to datalinktype.
 # @option -z <postrotate-command>               Used in conjunction with the -C or -G options, this will make tcpdump run " postrotate-command file " where file is the savefile being closed after each rotation.
-# @option -Z --relinquish-privileges <user>     If tcpdump is running as root, after opening the capture device or input savefile, change the user ID to user and the group ID to the primary group of user.
+# @option -Z --relinquish-privileges <user>     If tcpdump is running as root, after opening the capture device or input savefile, but before opening any savefiles for output, change the user ID to user and the group ID to the primary group of user.
 # @arg expression
 
 _choice_tcp_interface() {

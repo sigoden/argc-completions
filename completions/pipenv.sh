@@ -77,7 +77,7 @@ graph() {
 # @flag --site-packages                Enable site-packages for the virtualenv.
 # @flag --no-site-packages             Enable site-packages for the virtualenv.
 # @flag --selective-upgrade            Update specified packages.
-# @flag --skip-lock                    [env var: PIPENV_SKIP_LOCK]
+# @flag --skip-lock                    Install from Pipfile bypassing lock mechanisms.
 # @option -e --editable <DIRECTORY>    An editable Python package URL or path, often to a VCS repository.
 # @flag --ignore-pipfile               Ignore Pipfile when installing, using the Pipfile.lock.
 # @option -r --requirements <FILE>     Import a requirements.txt file.
@@ -175,6 +175,7 @@ scripts() {
 # @cmd Spawns a shell within the virtualenv.
 # @flag --fancy                   Run in shell in fancy mode.
 # @flag --anyway                  Always spawn a sub-shell, even if one is already spawned.
+# @flag --quiet                   Quiet standard output, except vulnerability report.
 # @option --pypi-mirror <TEXT>    Specify a PyPI mirror.
 # @option --python <TEXT>         Specify which version of Python virtualenv should use.
 # @flag -h --help                 Show this message and exit.
@@ -209,7 +210,7 @@ sync() {
 # @cmd Uninstalls a provided package and removes it from Pipfile.
 # @flag --all-dev                      Uninstall all package from [dev-packages].
 # @flag --all                          Purge all package(s) from virtualenv.
-# @flag --skip-lock                    [env var: PIPENV_SKIP_LOCK]
+# @flag --skip-lock                    Install from Pipfile bypassing lock mechanisms.
 # @option -e --editable <DIRECTORY>    An editable Python package URL or path, often to a VCS repository.
 # @flag -d --dev                       Deprecated (as it has no effect).
 # @option --categories <TEXT>
@@ -233,7 +234,7 @@ uninstall() {
 # @flag --outdated                     List out-of-date dependencies.
 # @flag --dry-run                      List out-of-date dependencies.
 # @flag --selective-upgrade            Update specified packages.
-# @flag --skip-lock                    [env var: PIPENV_SKIP_LOCK]
+# @flag --skip-lock                    Install from Pipfile bypassing lock mechanisms.
 # @option -e --editable <DIRECTORY>    An editable Python package URL or path, often to a VCS repository.
 # @flag --ignore-pipfile               Ignore Pipfile when installing, using the Pipfile.lock.
 # @option -r --requirements <FILE>     Import a requirements.txt file.
@@ -261,7 +262,7 @@ update() {
 # @flag --site-packages                Enable site-packages for the virtualenv.
 # @flag --no-site-packages             Enable site-packages for the virtualenv.
 # @flag --selective-upgrade            Update specified packages.
-# @flag --skip-lock                    [env var: PIPENV_SKIP_LOCK]
+# @flag --skip-lock                    Install from Pipfile bypassing lock mechanisms.
 # @option -e --editable <DIRECTORY>    An editable Python package URL or path, often to a VCS repository.
 # @flag --ignore-pipfile               Ignore Pipfile when installing, using the Pipfile.lock.
 # @option -r --requirements <FILE>     Import a requirements.txt file.

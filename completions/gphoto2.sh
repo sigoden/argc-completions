@@ -13,11 +13,13 @@
 # @flag --list-ports                      List supported port devices.
 # @flag --stdout                          Send file to stdout.
 # @flag --stdout-size                     Print filesize before data.
+# @flag --parsable                        Outputs the filelist in a line based format that could be passed into a shellscript or other filter.
 # @flag --auto-detect                     List auto-detected cameras and the ports to which they are connected.
 # @option --port <PATH>                   Specify port device.
 # @option --speed                         Specify serial transfer speed.
 # @option --camera <MODEL>                Specify camera model.
 # @option --filename                      When downloading files from the camera, specify the file name or file name pattern to use when storing the downloaded file on the local disk.
+# @option --filenumber                    If you specify the filename using the --filename option and use the %n pattern, this pattern usually starts at 1.
 # @option --usbid <USBIDS>                (Expert only) Override USB IDs.
 # @flag -a --abilities                    Display the camera and driver abilities specified in the libgphoto2 driver.
 # @option -f --folder                     Specify camera folder (default="/").

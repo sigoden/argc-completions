@@ -10,12 +10,14 @@
 # @cmd Create new vault encrypted file
 # @flag -h --help                                  show this help message and exit
 # @option --encrypt-vault-id <ENCRYPT_VAULT_ID>    the vault id used to encrypt (required if more than one vault-id is provided)
-# @option --vault-id <VAULT_IDS>                   the vault identity to use
+# @option --vault-id <VAULT_IDS>                   the vault identity to use.
+# @flag -J                                         ask for vault password
 # @flag --ask-vault-password                       ask for vault password
 # @flag --ask-vault-pass                           ask for vault password
 # @option --vault-password-file <VAULT_PASSWORD_FILES>  vault password file
 # @option --vault-pass-file <VAULT_PASSWORD_FILES>  vault password file
 # @flag -v --verbose                               Causes Ansible to print more debug messages.
+# @flag --skip-tty-check                           allows editor to be opened when no tty attached
 # @arg file_name                                   Filename
 create() {
     :;
@@ -26,7 +28,8 @@ create() {
 # @cmd Decrypt vault encrypted file
 # @flag -h --help                   show this help message and exit
 # @option --output <OUTPUT_FILE>    output file name for encrypt or decrypt; use - for stdout
-# @option --vault-id <VAULT_IDS>    the vault identity to use
+# @option --vault-id <VAULT_IDS>    the vault identity to use.
+# @flag -J                          ask for vault password
 # @flag --ask-vault-password        ask for vault password
 # @flag --ask-vault-pass            ask for vault password
 # @option --vault-password-file <VAULT_PASSWORD_FILES>  vault password file
@@ -42,7 +45,8 @@ decrypt() {
 # @cmd Edit vault encrypted file
 # @flag -h --help                                  show this help message and exit
 # @option --encrypt-vault-id <ENCRYPT_VAULT_ID>    the vault id used to encrypt (required if more than one vault-id is provided)
-# @option --vault-id <VAULT_IDS>                   the vault identity to use
+# @option --vault-id <VAULT_IDS>                   the vault identity to use.
+# @flag -J                                         ask for vault password
 # @flag --ask-vault-password                       ask for vault password
 # @flag --ask-vault-pass                           ask for vault password
 # @option --vault-password-file <VAULT_PASSWORD_FILES>  vault password file
@@ -57,7 +61,8 @@ edit() {
 # {{ ansible-vault view
 # @cmd View vault encrypted file
 # @flag -h --help                   show this help message and exit
-# @option --vault-id <VAULT_IDS>    the vault identity to use
+# @option --vault-id <VAULT_IDS>    the vault identity to use.
+# @flag -J                          ask for vault password
 # @flag --ask-vault-password        ask for vault password
 # @flag --ask-vault-pass            ask for vault password
 # @option --vault-password-file <VAULT_PASSWORD_FILES>  vault password file
@@ -72,7 +77,8 @@ view() {
 # {{ ansible-vault encrypt
 # @cmd Encrypt YAML file
 # @flag -h --help                                  show this help message and exit
-# @option --vault-id <VAULT_IDS>                   the vault identity to use
+# @option --vault-id <VAULT_IDS>                   the vault identity to use.
+# @flag -J                                         ask for vault password
 # @flag --ask-vault-password                       ask for vault password
 # @flag --ask-vault-pass                           ask for vault password
 # @option --vault-password-file <VAULT_PASSWORD_FILES>  vault password file
@@ -89,7 +95,8 @@ encrypt() {
 # {{ ansible-vault encrypt_string
 # @cmd Encrypt a string
 # @flag -h --help                                  show this help message and exit
-# @option --vault-id <VAULT_IDS>                   the vault identity to use
+# @option --vault-id <VAULT_IDS>                   the vault identity to use.
+# @flag -J                                         ask for vault password
 # @flag --ask-vault-password                       ask for vault password
 # @flag --ask-vault-pass                           ask for vault password
 # @option --vault-password-file <VAULT_PASSWORD_FILES>  vault password file
@@ -99,7 +106,7 @@ encrypt() {
 # @option --encrypt-vault-id <ENCRYPT_VAULT_ID>    the vault id used to encrypt (required if more than one vault-id is provided)
 # @flag -p --prompt                                Prompt for the string to encrypt
 # @flag --show-input                               Do not hide input when prompted for the string to encrypt
-# @option -n --name <ENCRYPT_STRING_NAMES>         Specify the variable name
+# @option -n --name <ENCRYPT_STRING_NAMES>         Specify the variable name.
 # @option --stdin-name <ENCRYPT_STRING_STDIN_NAME>  Specify the variable name for stdin
 # @arg string_to_encrypt                           String to encrypt
 encrypt_string() {
@@ -110,7 +117,8 @@ encrypt_string() {
 # {{ ansible-vault rekey
 # @cmd Re-key a vault encrypted file
 # @flag -h --help                                  show this help message and exit
-# @option --vault-id <VAULT_IDS>                   the vault identity to use
+# @option --vault-id <VAULT_IDS>                   the vault identity to use.
+# @flag -J                                         ask for vault password
 # @flag --ask-vault-password                       ask for vault password
 # @flag --ask-vault-pass                           ask for vault password
 # @option --vault-password-file <VAULT_PASSWORD_FILES>  vault password file

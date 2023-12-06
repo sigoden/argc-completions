@@ -1,5 +1,6 @@
 _patch_help() { 
-    if [[ "$*" == "guix import "* ]] \
+    if [[ "$*" == "guix copy" ]] \
+    || [[ "$*" == "guix import "* ]] \
     || [[ "$*" == "guix system "* ]] \
     ; then
         :;
@@ -20,16 +21,22 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_arguments 'packages;[`_choice_installed_package`]'
 
-    elif [[ "$*" == "guix system" ]] \
-      || [[ "$*" == "guix container" ]] \
-      || [[ "$*" == "guix import" ]] \
-    ; then
+    elif [[ "$*" == "guix system" ]]; then
         echo "$table" | \
+        _patch_table_dedup_options \
+            '--target' \
+        | \
         _patch_table_edit_arguments ';;'
 
     elif [[ "$*" == "guix time-machine" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments ';;' 'command;~[`_choice_time_machine_command`]'
+
+    elif [[ "$*" == "guix container" ]] \
+      || [[ "$*" == "guix import" ]] \
+    ; then
+        echo "$table" | \
+        _patch_table_edit_arguments ';;'
 
     elif [[ "$*" == "guix container exec" ]]; then
         echo "$table" | \

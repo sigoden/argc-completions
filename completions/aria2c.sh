@@ -31,13 +31,13 @@
 # @option --server-stat-if <FILE>                  Specify the file name to load performance profile of the servers.
 # @option --server-stat-timeout <SEC>              Specifies timeout in seconds to invalidate performance profile of the servers since the last contact to them.
 # @option -s --split <N>                           Download a file using N connections.
-# @option --stream-piece-selector <SELECTOR>       Specify  piece  selection  algorithm used in HTTP/FTP download.
+# @option --stream-piece-selector <SELECTOR>       Specify piece selection algorithm used in HTTP/FTP download.
 # @option -t --timeout <SEC>                       Set timeout in seconds.
 # @option --uri-selector <SELECTOR>                Specify URI selection algorithm.
 # @option --ca-certificate <FILE>                  Use the certificate authorities in FILE to verify the peers.
 # @option --certificate <FILE>                     Use the client certificate in FILE.
 # @option --check-certificate[true|false]          Verify the peer using certificates specified in --ca-certificate option.
-# @option --http-accept-gzip[true|false]           Send Accept: deflate, gzip request header and inflate response if remote server responds with Content-Encoding: gzip or Content-Encoding: deflate.
+# @option --http-accept-gzip[true|false]           Send Accept-Encoding: deflate, gzip request header and inflate response if remote server responds with Content-Encoding: gzip or Content-Encoding: deflate.
 # @option --http-auth-challenge[true|false]        Send HTTP authorization header only when it is requested by the server.
 # @option --http-no-cache[true|false]              Send Cache-Control: no-cache and Pragma: no-cache header to avoid cached content.
 # @option --http-user <USER>                       Set HTTP user.
@@ -56,6 +56,7 @@
 # @option --load-cookies <FILE>                    Load Cookies from FILE using the Firefox3 format (SQLite3), Chromium/Google Chrome (SQLite3) and the Mozilla/Firefox(1.x/2.x)/Netscape format.
 # @option --save-cookies <FILE>                    Save Cookies to FILE in Mozilla/Firefox(1.x/2.x)/ Netscape format.
 # @option --use-head[true|false]                   Use HEAD method for the first request to the HTTP server.
+# @option --no-want-digest-header[true|false]      Whether to disable Want-Digest header when doing requests.
 # @option -U --user-agent <USER_AGENT>             Set user agent for HTTP(S) downloads.
 # @option --ftp-user <USER>                        Set FTP user.
 # @option --ftp-passwd <PASSWD>                    Set FTP password.
@@ -79,13 +80,13 @@
 # @option --bt-lpd-interface <INTERFACE>           Use given interface for Local Peer Discovery.
 # @option --bt-max-open-files <NUM>                Specify maximum number of files to open in multi-file BitTorrent/Metalink download globally.
 # @option --bt-max-peers <NUM>                     Specify the maximum number of peers per torrent.
-# @option --bt-metadata-only[true|false]           Download meta data only.
+# @option --bt-metadata-only[true|false]           Download metadata only.
 # @option --bt-min-crypto-level <plain|arc4>       Set minimum level of encryption method.
 # @option --bt-prioritize-piece <head[=<SIZE>],tail[=<SIZE>]>  Try to download first and last pieces of each file first.
 # @option --bt-remove-unselected-file[true|false]  Removes the unselected files when download is completed in BitTorrent.
 # @option --bt-require-crypto[true|false]          If true is given, aria2 doesn't accept and establish connection with legacy BitTorrent handshake(\19BitTorrent protocol).
 # @option --bt-request-peer-speed-limit <SPEED>    If the whole download speed of every torrent is lower than SPEED, aria2 temporarily increases the number of peers to try for more download speed.
-# @option --bt-save-metadata[true|false]           Save meta data as ".torrent" file.
+# @option --bt-save-metadata[true|false]           Save metadata as ".torrent" file.
 # @option --bt-seed-unverified[true|false]         Seed previously downloaded files without verifying piece hashes.
 # @option --bt-stop-timeout <SEC>                  Stop BitTorrent download if download speed is 0 in consecutive SEC seconds.
 # @option --bt-tracker <<URI>[,...]>               Comma separated list of additional BitTorrent tracker's announce URI.
@@ -131,7 +132,7 @@
 # @option --rpc-max-request-size <SIZE>            Set max size of JSON-RPC/XML-RPC request.
 # @option --rpc-passwd <PASSWD>                    Set JSON-RPC/XML-RPC password.
 # @option --rpc-private-key <FILE>                 Use the private key in FILE for RPC server.
-# @option --rpc-save-upload-metadata[true|false]   Save the uploaded torrent or metalink meta data in the directory specified by --dir option.
+# @option --rpc-save-upload-metadata[true|false]   Save the uploaded torrent or metalink metadata in the directory specified by --dir option.
 # @option --rpc-secret <TOKEN>                     Set RPC secret authorization token.
 # @option --rpc-secure[true|false]                 RPC transport will be encrypted by SSL/TLS.
 # @option --rpc-user <USER>                        Set JSON-RPC/XML-RPC user.

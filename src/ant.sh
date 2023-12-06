@@ -1,5 +1,5 @@
 _patch_help() { 
-    $@ --help | sed -e 's/-\(\S\+\)\s\+\(\S\)/-\1 \2/'
+    $@ -h | sed -e 's/-\(\S\+\)\s\+\(\S\)/-\1 \2/'
 }
 
 _patch_table() { 

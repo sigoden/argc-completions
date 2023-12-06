@@ -19,7 +19,7 @@
 # @option --prompt-dsn <TEXT>                     Prompt format for connections using DSN aliases (Default: "\u@\h:\d> ").
 # @flag -l --list                                 list available databases, then exit.
 # @flag --auto-vertical-output                    Automatically switch to vertical output mode if the result is wider than the terminal width.
-# @option --warn[all|moderate|off]                Warn before running a destructive query.
+# @option --warn <TEXT>                           Warn before running a destructive query.
 # @option --ssh-tunnel <TEXT>                     Open an SSH tunnel to the given address and connect to the database from it.
 # @flag --help                                    Show this message and exit.
 # @arg dbname[`_choice_database`]

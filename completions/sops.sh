@@ -4,6 +4,7 @@
 # @flag -d --decrypt                          decrypt a file and output the result to stdout
 # @flag -e --encrypt                          encrypt a file and output the result to stdout
 # @flag -r --rotate                           generate a new data encryption key and reencrypt all values with the new key
+# @flag --disable-version-check               do not check whether the current version is latest during --version
 # @option -k --kms*, <value>                  comma separated list of KMS ARNs [$SOPS_KMS_ARN]
 # @option --aws-profile <file>                The AWS profile to use for requests to AWS
 # @option --gcp-kms*, <value>                 comma separated list of GCP KMS resource IDs [$SOPS_GCP_KMS_IDS]
@@ -31,8 +32,8 @@
 # @flag --ignore-mac                          ignore Message Authentication Code during decryption
 # @option --unencrypted-suffix <value>        override the unencrypted key suffix.
 # @option --encrypted-suffix <value>          override the encrypted key suffix.
-# @option --unencrypted-regex <value>         set the unencrypted key suffix.
-# @option --encrypted-regex <value>           set the encrypted key suffix.
+# @option --unencrypted-regex <value>         set the unencrypted key regex.
+# @option --encrypted-regex <value>           set the encrypted key regex.
 # @option --config <file>                     path to sops' config file.
 # @option --encryption-context*, <value>      comma separated list of KMS encryption context key:value pairs
 # @option --set <value>                       set a specific key or branch in the input document.
@@ -62,8 +63,8 @@ exec-env() {
 # @flag --background                 background the process and don't wait for it to complete
 # @flag --no-fifo                    use a regular file instead of a fifo to temporarily hold the decrypted contents
 # @option --user <value>             the user to run the command as
-# @option --input-type <value>       currently json, yaml, dotenv and binary are supported.
-# @option --output-type <value>      currently json, yaml, dotenv and binary are supported.
+# @option --input-type <value>       currently ini, json, yaml, dotenv and binary are supported.
+# @option --output-type <value>      currently ini, json, yaml, dotenv and binary are supported.
 # @option --filename <file>          filename for the temporarily file (default: tmp-file)
 # @flag --enable-local-keyservice    use local key service
 # @option --keyservice <value>       Specify the key services to use in addition to the local one.
@@ -145,6 +146,7 @@ groups::delete() {
 # {{ sops updatekeys
 # @cmd update the keys of a SOPS file using the config file
 # @flag -y --yes                     pre-approve all changes and run non-interactively
+# @option --input-type <value>       currently ini, json, yaml, dotenv and binary are supported.
 # @flag --enable-local-keyservice    use local key service
 # @option --keyservice <value>       Specify the key services to use in addition to the local one.
 # @arg file

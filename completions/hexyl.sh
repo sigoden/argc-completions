@@ -18,8 +18,8 @@
 # @option --endianness[big|little] <FORMAT>       Whether to print out groups in little-endian or big-endian format.
 # @option -b --base <B>                           Sets the base used for the bytes.
 # @option --terminal-width <N>                    Sets the number of terminal columns to be displayed.
-# @flag -h --help                                 Print help information
-# @flag -V --version                              Print version information
+# @flag -h --help                                 Print help
+# @flag -V --version                              Print version
 # @arg file                                       The file to display.
 
 command eval "$(argc --argc-eval "$0" "$@")"

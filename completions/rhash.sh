@@ -37,19 +37,23 @@
 # @flag -a --all                         Calculate all supported hash functions.
 # @flag -c --check                       Check hash files specified by command line.
 # @option -u --update <file>             Update the specified hash file.
+# @option --missing <file>               Read the hash file and print missing and inaccessible files.
+# @option --unverified <file>            Print files that can't be verified by the hash file.
 # @flag -e --embed-crc                   Rename files by inserting crc32 sum into name.
 # @flag -k --check-embedded              Verify files by crc32 sum embedded in their names.
 # @flag --list-hashes                    List the names of supported hash functions, one per line.
 # @flag -B --benchmark                   Benchmark selected algorithm.
 # @flag -v --verbose                     Be verbose.
+# @flag --brief                          Use brief form of hash file verification report.
 # @flag -r --recursive                   Process directories recursively.
+# @option --file-list <file>             Process a list of files.
 # @option -m --message <text>            Process the text message.
 # @flag --skip-ok                        Don't print OK messages for successfully verified files.
+# @flag --ignore-missing                 Ignore missing files, while verifying a hash file.
 # @flag -i --ignore-case                 Ignore case of filenames when updating hash files.
 # @flag -P --percents                    Show percents, while calculating or verifying message digests.
 # @flag --speed                          Output per-file and total processing speed.
-# @option --maxdepth <n>                 Descend at most <n> levels of directories.
-# @option --openssl <list>               Specify hash functions to be calculated using OpenSSL.
+# @option --max-depth <n>                Descend at most <n> levels of directories.
 # @option -o --output <file>             File to output calculation or checking results.
 # @option -l --log <file>                File to log errors and verbose information.
 # @flag --sfv                            Print message digests, using SFV format (default).

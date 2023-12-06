@@ -5,6 +5,7 @@
 
 # {{ git crypt init
 # @cmd generate a key and prepare repo to use git-crypt
+# @option -k --key-name <KEY_NAME>
 init() {
     :;
 }
@@ -12,6 +13,9 @@ init() {
 
 # {{ git crypt status
 # @cmd display which files are encrypted
+# @flag -e
+# @flag -u
+# @flag -f --fix
 status() {
     :;
 }
@@ -26,7 +30,10 @@ lock() {
 
 # {{ git crypt add-gpg-user
 # @cmd add the user with the given GPG user ID as a collaborator
-# @arg userid
+# @option -k --key-name <KEY_NAME>
+# @flag -n --no-commit
+# @flag --trusted
+# @arg gpg_user_id*
 add-gpg-user() {
     :;
 }
@@ -34,6 +41,7 @@ add-gpg-user() {
 
 # {{ git crypt unlock
 # @cmd decrypt this repo using the in-repo GPG-encrypted key
+# @arg key_file*
 unlock() {
     :;
 }
@@ -41,7 +49,8 @@ unlock() {
 
 # {{ git crypt export-key
 # @cmd export this repo's symmetric key to the given file
-# @arg file
+# @option -k --key-name <KEY_NAME>
+# @arg filename
 export-key() {
     :;
 }
@@ -49,7 +58,6 @@ export-key() {
 
 # {{ git crypt keygen
 # @cmd generate a git-crypt key in the given file
-# @arg keyfile
 keygen() {
     :;
 }
@@ -57,8 +65,6 @@ keygen() {
 
 # {{ git crypt migrate-key
 # @cmd migrate the legacy key file OLD to the new format in NEW
-# @arg old
-# @arg new
 migrate-key() {
     :;
 }

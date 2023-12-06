@@ -1,5 +1,5 @@
 _patch_help() {
-    $@ --help | sed 's/-V, /    /'
+    $@ --help 2>&1 | sed 's/-V, //'
 }
 
 _patch_table() {

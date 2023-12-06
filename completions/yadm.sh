@@ -41,7 +41,7 @@ clone() {
 # @flag -e --edit                                 open an editor
 # @option --get-color <slot>                      find the color configured: slot [default]
 # @option --get-colorbool <slot>                  find the color setting: slot [stdout-is-tty]
-# @option -t --type <value>                       value is given this type
+# @option -t --type <type>                        value is given this type
 # @flag --bool                                    value is "true" or "false"
 # @flag --int                                     value is decimal number
 # @flag --bool-or-int                             value is --bool or --int

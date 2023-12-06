@@ -1,3 +1,7 @@
+_patch_help() {
+    $@ --help | sed 's/\x0//g'
+}
+
 _patch_table() {
     table="$( \
         _patch_table_detect_value_type \

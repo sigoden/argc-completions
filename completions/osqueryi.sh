@@ -5,6 +5,7 @@
 # @flag --D                                        Run as a daemon process
 # @flag --S                                        Run as a shell process
 # @option --alarm_timeout <VALUE>                  Seconds to allow for shutdown.
+# @flag --aws_enforce_fips                         Whether to enforce AWS FIPS endpoints for all services or not
 # @option --carver_block_size <VALUE>              Size of blocks used for POSTing data back to remote endpoints
 # @flag --carver_compression                       Compress archives using zstd prior to upload (default false)
 # @option --carver_continue_endpoint <VALUE>       TLS/HTTPS endpoint that receives carved content after session creation
@@ -31,6 +32,7 @@
 # @flag --disable_watchdog                         Disable userland watchdog process
 # @flag --enable_extensions_watchdog               Enable userland watchdog for extensions processes
 # @option --enable_tables*,[`_choice_table`] <VALUE>  Comma-delimited list of table names to be enabled
+# @flag --enable_watchdog_debug                    Enable logging of CPU and memory footprint of watched processes
 # @flag --enroll_always                            On startup, send a new enrollment request
 # @option --enroll_secret_env <VALUE>              Name of environment variable holding enrollment-auth secret
 # @option --enroll_secret_path <path>              Path to an optional client enrollment-auth secret
@@ -116,7 +118,7 @@
 # @option --bpf_buffer_storage_size <VALUE>        How many slots each buffer storage should have
 # @option --bpf_perf_event_array_exp <VALUE>       Size of the perf event array as a power of 2
 # @option --buffered_log_max <VALUE>               Maximum number of logs in buffered output plugins (0 = unlimited)
-# @flag --decorations_top_level                    Add decorators as top level JSON objects
+# @flag --decorations_top_level                    Add decorators as top level JSON object members
 # @flag --disable_audit                            Disable receiving events from the audit subsystem
 # @flag --disable_caching                          Disable scheduled query caching
 # @flag --disable_database                         Disable the persistent RocksDB storage
@@ -190,7 +192,7 @@
 # @option --syslog_events_max <VALUE>              Maximum number of events per type to buffer
 # @option --syslog_pipe_path <path>                Path to the named pipe used for forwarding rsyslog events
 # @option --syslog_rate_limit <VALUE>              Maximum number of logs to ingest per run (~200ms between runs)
-# @option --table_delay <VALUE>                    Add an optional microsecond delay between table scans
+# @option --table_delay <VALUE>                    Add an optional millisecond delay between table scans
 # @option --thrift_string_size_limit <VALUE>       Sets the maximum string size allowed in a thrift message, use 0 for unlimited
 # @option --thrift_timeout <VALUE>                 Timeout for thrift socket operations
 # @flag --thrift_verbose                           Enable the thrift log handler

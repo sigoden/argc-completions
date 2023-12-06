@@ -7,7 +7,7 @@
 # @option -s --signal[`_module_os_signal`]    Send a signal to the process when it's still running
 # @option --stop-signal[`_module_os_signal`] <SIGNAL>  Signal to send to stop the command
 # @option --stop-timeout <TIMEOUT>            Time to wait for the command to exit gracefully
-# @option --debounce <TIMEOUT>                Time to wait for new events before taking action
+# @option -d --debounce <TIMEOUT>             Time to wait for new events before taking action
 # @flag --stdin-quit                          Exit when stdin closes
 # @flag -p --postpone                         Wait until first change before running command
 # @option --delay-run <DURATION>              Sleep before running the command
@@ -22,6 +22,7 @@
 # @flag --no-project-ignore                   Don't load project-local ignores
 # @flag --no-global-ignore                    Don't load global ignores
 # @flag --no-default-ignore                   Don't use internal default ignores
+# @flag --no-discover-ignore                  Don't discover ignore files at all
 # @option -e --exts <EXTENSIONS>              Filename extensions to filter to
 # @option -f --filter <PATTERN>               Filename patterns to filter to
 # @option --filter-file <PATH>                Files to load filters from

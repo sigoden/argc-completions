@@ -3,7 +3,6 @@
 
 # @flag -h --help                                Prints help information
 # @flag -V --version                             Prints version information
-# @flag --lib                                    Build only this package's library
 # @option --bin[`_choice_bin`] <NAME>            Build only the specified binary
 # @option --example[`_choice_example`] <NAME>    Build only the specified example
 # @option --test[`_choice_test`] <NAME>          Build only the specified test target
@@ -13,17 +12,14 @@
 # @option --features*,[`_choice_feature`]        Space-separated list of features to activate
 # @flag --all-features                           Activate all available features
 # @flag --no-default-features                    Do not activate the `default` feature
-# @option --profile                              Build with the given profile.
 # @option --target[`_choice_target`]             Build for the target triple
 # @option --target-dir <DIRECTORY>               Directory for all generated artifacts
 # @flag --frozen                                 Require Cargo.lock and cache are up to date
 # @flag --locked                                 Require Cargo.lock is up to date
-# @option -Z* <FLAG>                             Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
 # @flag --crates                                 Per crate bloatedness
 # @flag --time                                   Per crate build time.
 # @option --filter <CRATE|REGEXP>                Filter functions by crate
 # @flag --split-std                              Split the 'std' crate to original crates like core, alloc, etc.
-# @option --symbols-section <NAME>               Use custom symbols section (ELF-only) [default: .text]
 # @flag --no-relative-size                       Hide 'File' and '.text' columns
 # @flag --full-fn                                Print full function name with hash values
 # @option -n <NUM>                               Number of lines to show, 0 to show all [default: 20]

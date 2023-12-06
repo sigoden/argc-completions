@@ -677,7 +677,7 @@ buildx::version() {
 # }} docker buildx
 
 # {{ docker compose
-# @cmd Docker Compose (Docker Inc., v2.20.2)
+# @cmd Docker Compose (Docker Inc., v2.21.0)
 # @option --ansi[never|always|auto] <string>    Control when to print ANSI control characters (default "auto")
 # @flag --compatibility                         Run compose in backward compatibility mode
 # @flag --dry-run                               Execute command in dry run mode
@@ -877,7 +877,7 @@ compose::port() {
 # @flag -a --all               Show all stopped containers (including those created by the run command)
 # @flag --dry-run              Execute command in dry run mode
 # @option --filter <string>    Filter services by a property (supported filters: status).
-# @option --format <string>    Format the output.
+# @option --format <string>    Format output using a custom template:
 # @flag -q --quiet             Only display IDs
 # @flag --services             Display services
 # @option --status*[paused|restarting|removing|running|dead|created|exited] <string>  Filter services by status.
@@ -1007,14 +1007,14 @@ compose::unpause() {
 # @cmd Create and start containers
 # @flag --abort-on-container-exit                  Stops all containers if any container was stopped.
 # @flag --always-recreate-deps                     Recreate dependent containers.
-# @option --attach* <string>                       Attach to service output.
-# @flag --attach-dependencies                      Attach to dependent containers.
+# @option --attach* <string>                       Restrict attaching to the specified services.
+# @flag --attach-dependencies                      Automatically attach to log output of dependent services.
 # @flag --build                                    Build images before starting containers.
 # @flag -d --detach                                Detached mode: Run containers in the background
 # @flag --dry-run                                  Execute command in dry run mode
 # @option --exit-code-from <string>                Return the exit code of the selected service container.
 # @flag --force-recreate                           Recreate containers even if their configuration and image haven't changed.
-# @option --no-attach* <string>                    Don't attach to specified service.
+# @option --no-attach* <string>                    Do not attach (stream logs) to the specified services.
 # @flag --no-build                                 Don't build an image, even if it's missing.
 # @flag --no-color                                 Produce monochrome output.
 # @flag --no-deps                                  Don't start linked services.
@@ -1029,7 +1029,7 @@ compose::unpause() {
 # @option -t --timeout <int>                       Use this timeout in seconds for container shutdown when attached or when containers are already running.
 # @flag --timestamps                               Show timestamps.
 # @flag --wait                                     Wait for services to be running|healthy.
-# @option --wait-timeout <int>                     timeout waiting for application to be running|healthy.
+# @option --wait-timeout <int>                     Maximum duration to wait for the project to be running|healthy.
 # @arg service*[`_choice_compose_service`]
 compose::up() {
     :;
@@ -2048,25 +2048,6 @@ plugin::upgrade() {
 # }}} docker plugin upgrade
 # }} docker plugin
 
-# {{ docker scan
-# @cmd Docker Scan (Docker Inc., v0.23.0)
-# @flag --accept-license         Accept using a third party scanning provider
-# @flag --dependency-tree        Show dependency tree with scan results
-# @flag --exclude-base           Exclude base image from vulnerability scanning (requires --file)
-# @option -f --file <file>       Dockerfile associated with image, provides more detailed results
-# @flag --group-issues           Aggregate duplicated vulnerabilities and group them to a single one (requires --json)
-# @flag --json                   Output results in JSON format
-# @flag --login                  Authenticate to the scan provider using an optional token (with --token), or web base token if empty
-# @flag --reject-license         Reject using a third party scanning provider
-# @option --severity <string>    Only report vulnerabilities of provided level or higher (low|medium|high)
-# @option --token <string>       Authentication token to login to the third party scanning provider
-# @flag --version                Display version of the scan plugin
-# @arg image[`_module_oci_docker_image`]
-scan() {
-    :;
-}
-# }} docker scan
-
 # {{ docker system
 # @cmd Manage Docker
 system() {
@@ -2085,7 +2066,7 @@ system::df() {
 # {{{ docker system events
 # @cmd Get real time events from the server
 # @option -f --filter <filter>    Filter output based on conditions provided
-# @option --format <string>       Format the output using the given Go template
+# @option --format <string>       Format output using a custom template:
 # @option --since <string>        Show all events created since timestamp
 # @option --until <string>        Stream events until this timestamp
 system::events() {
@@ -2106,7 +2087,7 @@ system::info() {
 # @flag -a --all               Remove all unused images not just dangling ones
 # @option --filter <filter>    Provide filter values (e.g. "label=<key>=<value>")
 # @flag -f --force             Do not prompt for confirmation
-# @flag --volumes              Prune volumes
+# @flag --volumes              Prune anonymous volumes
 system::prune() {
     :;
 }
@@ -2236,7 +2217,7 @@ volume::ls() {
 # }}} docker volume ls
 
 # {{{ docker volume prune
-# @cmd Remove all unused local volumes
+# @cmd Remove unused local volumes
 # @flag -a --all               Remove all unused volumes, not just anonymous ones
 # @option --filter <filter>    Provide filter values (e.g. "label=<label>")
 # @flag -f --force             Do not prompt for confirmation
@@ -2449,7 +2430,7 @@ diff() {
 # {{ docker events
 # @cmd Get real time events from the server
 # @option -f --filter[`_choice_event_filter`] <filter>  Filter output based on conditions provided
-# @option --format <string>    Format the output using the given Go template
+# @option --format <string>    Format output using a custom template:
 # @option --since <string>     Show all events created since timestamp
 # @option --until <string>     Stream events until this timestamp
 events() {

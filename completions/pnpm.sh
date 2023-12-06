@@ -92,6 +92,7 @@ import() {
 # @flag -P --prod                             Packages in `devDependencies` won't be installed
 # @option --public-hoist-pattern <pattern>    Hoist all dependencies matching the pattern to the root of the modules directory
 # @flag -r --recursive                        Run installation recursively in every package found in subdirectories.
+# @flag --resolution-only                     Re-runs resolution: useful for printing out peer dependency issues
 # @flag --shamefully-hoist                    All the subdeps will be hoisted into the root node_modules.
 # @flag --side-effects-cache                  Use or cache the results of (pre/post)install hooks
 # @flag --side-effects-cache-readonly         Only use the side effects cache if present, do not create it for new packages
@@ -277,11 +278,15 @@ audit() {
 
 # {{ pnpm licenses
 # @cmd Check licenses in consumed packages
-# @flag -D --dev         Check only "devDependencies"
-# @flag --json           Show information in JSON format
-# @flag --long           Show more details (such as a link to the repo) are not displayed.
-# @flag --no-optional    Don't check "optionalDependencies"
-# @flag -P --prod        Check only "dependencies" and "optionalDependencies"
+# @flag -D --dev                      Check only "devDependencies"
+# @flag --json                        Show information in JSON format
+# @flag --long                        Show more details (such as a link to the repo) are not displayed.
+# @flag --no-optional                 Don't check "optionalDependencies"
+# @flag -P --prod                     Check only "dependencies" and "optionalDependencies"
+# @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
+# @option --filter[`_choice_workspace`] <selector>  Filtering allows you to restrict commands to specific subsets of packages.
+# @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
+# @option --test-pattern <pattern>    Defines files related to tests.
 # @arg cmd[list]
 licenses() {
     :;
@@ -377,6 +382,7 @@ exec() {
 # @flag --parallel                    Completely disregard concurrency and topological sorting, running a given script immediately in all matching packages with prefixed streaming output.
 # @flag -r --recursive                Run the defined package script in every package found in subdirectories or every workspace package, when executed inside a workspace.
 # @flag --report-summary              Save the execution results of every package to "pnpm-exec-summary.json".
+# @flag --reporter-hide-prefix        Hide project name prefix from output of running scripts.
 # @flag --resume-from                 Command executed from given package
 # @flag --sequential                  Run the specified scripts one by one
 # @flag --stream                      Stream output from child processes immediately, prefixed with the originating package directory.
@@ -481,6 +487,13 @@ store::prune() {
 }
 # }}} pnpm store prune
 
+# {{{ pnpm store --force
+# @cmd If there are alien directories in the store, this command removes them.
+store::--force() {
+    :;
+}
+# }}} pnpm store --force
+
 # {{{ pnpm store status
 # @cmd Checks for modified packages in the store.
 store::status() {
@@ -494,11 +507,11 @@ store::status() {
 # @flag --color                Controls colors in the output.
 # @flag --no-color             Controls colors in the output.
 # @flag --aggregate-output     Aggregate output from child processes that are run in parallel, and only print output when child process is finished.
-# @flag --dev                  Only development packages will be fetched
+# @flag -D --dev               Only development packages will be fetched
 # @option -C --dir <dir>       Change to directory <dir> (default: /home/sigo/w/argc-completions)
 # @flag -h --help              Output usage information
 # @option --loglevel[debug|info|warn|error|silent] <level>  What level of logs to report.
-# @flag --prod                 Development packages will not be fetched
+# @flag -P --prod              Development packages will not be fetched
 # @flag --stream               Stream output from child processes immediately, prefixed with the originating package directory.
 # @flag --use-stderr           Divert all output to stderr
 # @flag -w --workspace-root    Run the command on the root workspace project
@@ -538,6 +551,7 @@ dedup() {
 # @flag --color                       Controls colors in the output.
 # @flag --no-color                    Controls colors in the output.
 # @flag --aggregate-output            Aggregate output from child processes that are run in parallel, and only print output when child process is finished.
+# @option --depth <number>            Max display depth of the dependency graph
 # @flag -D --dev                      Display only the dependency graph for packages in `devDependencies`
 # @option -C --dir <dir>              Change to directory <dir> (default: /home/sigo/w/argc-completions)
 # @flag -g --global                   List packages in the global install prefix instead of in the current project
@@ -590,6 +604,14 @@ env() {
     :;
 }
 
+# {{{ pnpm env add
+# @cmd Installs the specified version(s) of Node.js without activating them as the current version.
+# @arg pkg+
+env::add() {
+    :;
+}
+# }}} pnpm env add
+
 # {{{ pnpm env ls
 # @cmd List Node.js versions available locally or remotely
 # @alias list
@@ -600,7 +622,7 @@ env::ls() {
 # }}} pnpm env ls
 
 # {{{ pnpm env rm
-# @cmd Removes the specified version of Node.js.
+# @cmd Removes the specified version(s) of Node.js.
 # @alias remove
 # @flag -g --global    Manages Node.js versions globally
 env::rm() {
@@ -714,6 +736,7 @@ docker() {
 # {{ pnpm config
 # @cmd Manage the configuration files.
 # @flag -g --global                      Sets the configuration in the global config file
+# @flag --json                           Show all the config settings in JSON format
 # @option --location <project|global>    When set to "project", the .npmrc file at the nearest package.json will be used
 config() {
     :;

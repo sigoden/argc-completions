@@ -7,7 +7,9 @@
 # @flag -I --fineta                           show absolute estimated time of arrival (completion)
 # @flag -r --rate                             show data transfer rate counter
 # @flag -a --average-rate                     show data transfer average rate counter
+# @option -m --average-rate-window <SEC>      compute average rate over past SEC seconds (default 30s)
 # @flag -b --bytes                            show number of bytes transferred
+# @flag -8 --bits                             show number of bits transferred
 # @flag -T --buffer-percent                   show percentage of transfer buffer in use
 # @option -A --last-written <NUM>             show NUM bytes last written
 # @option -F --format                         set output format to FORMAT
@@ -28,7 +30,11 @@
 # @option -B --buffer-size <BYTES>            use a buffer size of BYTES
 # @flag -C --no-splice                        never use splice(), always use read/write
 # @flag -E --skip-errors                      skip read errors in input
+# @option -Z --error-skip-block <BYTES>       skip errors in BYTES blocks at a time
 # @flag -S --stop-at-size                     stop after --size bytes have been transferred
+# @flag -Y --sync                             flush cache to disk after every write
+# @flag -K --direct-io                        use direct I/O to bypass cache
+# @flag -X --discard                          discard input instead of writing to output
 # @option -R --remote[`_choice_pid`] <PID>    update settings of process PID
 # @option -P --pidfile <FILE>                 save process ID in FILE
 # @option -d --watchfd <PID[:FD]>             watch file FD opened by process PID

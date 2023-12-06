@@ -14,7 +14,6 @@
 # @flag -v            Invert the match; only display packets that don't match.
 # @flag -x            Dump packet contents as hexadecimal as well as ASCII.
 # @flag -l            Make stdout line buffered.
-# @flag -C            Colorize matches in ASCII output.
 # @flag -D            When reading pcap_dump files, replay them at their recorded time intervals (mimic realtime).
 # @flag -t            Print a timestamp in the form of YYYY/MM/DD HH:MM:SS.UUUUUU everytime a packet is matched.
 # @flag -T            Print a timestamp in the form of +S.UUUUUU, indicating the delta between packet matches.

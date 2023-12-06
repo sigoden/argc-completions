@@ -13,8 +13,6 @@
 # @flag -r --resolve           Resolve services found
 # @flag -f --no-fail           Don't fail if the daemon is not available
 # @flag -p --parsable          Output in parsable format
-# @flag -k --no-db-lookup      Don't lookup service types
-# @flag -b --dump-db           Dump service type database
 # @arg service-type[`_choice_service_type`]
 
 _choice_service_type() {

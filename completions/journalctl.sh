@@ -19,6 +19,7 @@
 # @option -p --priority[`_choice_priority`] <RANGE>  Show entries with the specified priority
 # @option --facility*,[`_choice_facility`]    Show entries with the specified facilities
 # @option -g --grep <PATTERN>                 Show entries with MESSAGE matching PATTERN
+# @option --case-sensitive <BOOL>             Force case sensitive or insensitive matching
 # @flag -e --pager-end                        Immediately jump to the end in the pager
 # @flag -f --follow                           Follow the journal
 # @option -n --lines <INTEGER>                Number of journal entries to show

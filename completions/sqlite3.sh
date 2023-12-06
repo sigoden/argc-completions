@@ -11,7 +11,7 @@
 # @option -cmd <COMMAND>           run "COMMAND" before reading stdin
 # @flag -csv                       set output mode to 'csv'
 # @flag -deserialize               open the database using sqlite3_deserialize()
-# @flag -echo                      print commands before execution
+# @flag -echo                      print inputs before execution
 # @option -init <FILENAME>         read/process named file
 # @flag -header                    turn headers on or off
 # @flag -noheader                  turn headers on or off
@@ -31,6 +31,7 @@
 # @option -nonce <STRING>          set the safe-mode escape nonce
 # @option -nullvalue <TEXT>        set text string for NULL values.
 # @option -pagecache <SIZE> <N>    use N slots of SZ bytes each for page cache memory
+# @flag -pcachetrace               trace all page cache operations
 # @flag -quote                     set output mode to 'quote'
 # @flag -readonly                  open the database read-only
 # @flag -safe                      enable safe-mode
@@ -38,6 +39,7 @@
 # @flag -stats                     print memory stats before each finalize
 # @flag -table                     set output mode to 'table'
 # @flag -tabs                      set output mode to 'tabs'
+# @flag -unsafe-testing            allow unsafe commands and modes for testing
 # @flag -version                   show SQLite version
 # @option -vfs <NAME>              use NAME as the default VFS
 # @flag -zip                       open the file as a ZIP Archive

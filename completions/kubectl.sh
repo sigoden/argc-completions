@@ -691,7 +691,7 @@ create::rolebinding() {
 # }}} kubectl create rolebinding
 
 # {{{ kubectl create secret
-# @cmd Create a secret using specified subcommand
+# @cmd Create a secret using a specified subcommand
 # @option --as <value>                            Username to impersonate for the operation.
 # @option --as-group* <value>                     Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --as-uid <value>                        UID to impersonate for the operation.
@@ -719,6 +719,7 @@ create::rolebinding() {
 # @option -v --v <0>                              number for the log level verbosity
 # @option --vmodule*, <value>                     comma-separated list of pattern=N settings for file-filtered logging (only works for the default text log format)
 # @flag --warnings-as-errors                      Treat warnings received from the server as errors and exit with a non-zero exit code
+# @arg enum[docker-registry|generic|tls]
 create::secret() {
     :;
 }
@@ -1652,10 +1653,10 @@ set::subject() {
 # @option -v --v <0>                              number for the log level verbosity
 # @option --vmodule*, <value>                     comma-separated list of pattern=N settings for file-filtered logging (only works for the default text log format)
 # @flag --warnings-as-errors                      Treat warnings received from the server as errors and exit with a non-zero exit code
-# @option --api-version <value>                   Get different explanations for particular API version (API group/version)
-# @option --output[plaintext|plaintext-openapiv2] <plaintext>  Format in which to render the schema
-# @flag --recursive                               Print the fields of fields (Currently only 1 level deep)
-# @arg resource[`_choice_all_type`]
+# @option --api-version <value>                   Use given api-version (group/version) of the resource.
+# @option --output[plaintext|plaintext-openapiv2] <plaintext>  Format in which to render the schema.
+# @flag --recursive                               When true, print the name of all the fields recursively.
+# @arg type
 explain() {
     :;
 }
@@ -2218,7 +2219,7 @@ autoscale() {
 # }} kubectl autoscale
 
 # {{ kubectl certificate
-# @cmd Modify certificate resources.
+# @cmd Modify certificate resources
 # @option --as <value>                            Username to impersonate for the operation.
 # @option --as-group* <value>                     Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 # @option --as-uid <value>                        UID to impersonate for the operation.
@@ -3279,6 +3280,7 @@ events() {
 # @option -v --v <0>                              number for the log level verbosity
 # @option --vmodule*, <value>                     comma-separated list of pattern=N settings for file-filtered logging (only works for the default text log format)
 # @flag --warnings-as-errors                      Treat warnings received from the server as errors and exit with a non-zero exit code
+# @option --concurrency <1>                       Number of objects to process in parallel when diffing against the live version.
 # @option --field-manager <kubectl-client-side-apply>  Name of the manager used to track field ownership.
 # @option -f --filename <file>                    Filename, directory, or URL to files contains the configuration to diff
 # @flag --force-conflicts                         If true, server-side apply will force the changes against conflicts.
@@ -3615,7 +3617,7 @@ replace() {
 # @flag --allow-missing-template-keys             If true, ignore any errors in templates when a field or map key is missing in the template.
 # @option --field-selector <value>                Selector (field query) to filter on, supports '=', '==', and '!='.(e.g. --field-selector key1=value1,key2=value2).
 # @option -f --filename <file>                    identifying the resource.
-# @option --for <value>                           The condition to wait on: [delete|condition=condition-name[=condition-value]|jsonpath='{JSONPath expression}'=JSONPath Condition].
+# @option --for <value>                           The condition to wait on: [delete|condition=condition-name[=condition-value]|jsonpath='{JSONPath expression}'=[JSONPath value]].
 # @flag --local                                   If true, annotation will NOT contact api-server but run locally.
 # @option -o --output[json|yaml|name|go-template|go-template-file|template|templatefile|jsonpath|jsonpath-as-json|jsonpath-file] <value>  Output format.
 # @flag -R --recursive                            Process the directory used in -f, --filename recursively.
@@ -3849,7 +3851,7 @@ completion() {
 # @flag --warnings-as-errors                      Treat warnings received from the server as errors and exit with a non-zero exit code
 # @option --api-group <value>                     Limit to resources in the specified API group.
 # @flag --cached                                  Use the cached list of resources if available.
-# @option --categories* <value>                   Limit to resources that belong the the specified categories.
+# @option --categories* <value>                   Limit to resources that belong to the specified categories.
 # @flag --namespaced                              If false, non-namespaced resources will be returned, otherwise returning namespaced resources by default.
 # @flag --no-headers                              When using the default or custom-column output format, don't print headers (default print headers).
 # @option -o --output[wide|name] <value>          Output format.

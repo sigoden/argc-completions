@@ -143,7 +143,6 @@ Options:
     -bench <value>          run only those benchmarks matching a regular expression
     -benchtime <value>      Run enough iterations of each benchmark to take given duration
     -count <value>          run each test and benchmark n times
-    -covermode <value>      set the mode for coverage analysis for the package
     -cpu                    specify a list of GOMAXPROCS values for which the tests or benchmarks should be executed
     -failfast               Do not start new tests after the first test failure
     -i                      install packages that are dependencies of the test

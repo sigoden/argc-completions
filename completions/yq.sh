@@ -9,7 +9,7 @@
 # @flag --header-preprocess                  Slurp any header comments and separators before processing expression.
 # @flag -h --help                            help for yq
 # @option -I --indent <int>                  sets indent level for output (default 2)
-# @flag -i --inplace                         update the file inplace of first file given.
+# @flag -i --inplace                         update the file in place of first file given.
 # @option -p --input-format[auto|a|yaml|y|props|p|xml|x|tsv|t|csv|c|toml] <string>  parse format for input.
 # @flag --lua-globals                        output keys as top-level global variables
 # @option --lua-prefix <string>              prefix (default "return ")
@@ -54,7 +54,7 @@ completion() {
 # @option -f --front-matter <string>         (extract|process) first input as yaml front-matter.
 # @flag --header-preprocess                  Slurp any header comments and separators before processing expression.
 # @option -I --indent <int>                  sets indent level for output (default 2)
-# @flag -i --inplace                         update the file inplace of first file given.
+# @flag -i --inplace                         update the file in place of first file given.
 # @option -p --input-format[auto|a|yaml|y|props|p|xml|x|tsv|t|csv|c|toml] <string>  parse format for input.
 # @flag --lua-globals                        output keys as top-level global variables
 # @option --lua-prefix <string>              prefix (default "return ")
@@ -95,7 +95,7 @@ eval_() {
 # @option -f --front-matter <string>         (extract|process) first input as yaml front-matter.
 # @flag --header-preprocess                  Slurp any header comments and separators before processing expression.
 # @option -I --indent <int>                  sets indent level for output (default 2)
-# @flag -i --inplace                         update the file inplace of first file given.
+# @flag -i --inplace                         update the file in place of first file given.
 # @option -p --input-format[auto|a|yaml|y|props|p|xml|x|tsv|t|csv|c|toml] <string>  parse format for input.
 # @flag --lua-globals                        output keys as top-level global variables
 # @option --lua-prefix <string>              prefix (default "return ")

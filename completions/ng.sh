@@ -67,43 +67,42 @@ analytics::prompt() {
 # {{ ng build
 # @cmd Compiles an Angular application or library into an output directory named dist/ at the given output path.
 # @alias b
-# @flag --help                               Shows a help message for this command in the console.
+# @flag --help                                 Shows a help message for this command in the console.
 # @option -c --configuration*,[`_choice_configuration`] <string>  One or more named builder configurations as a comma-separated list as specified in the "configurations" section in angular.json.
 # @option --allowed-common-js-dependencies* <string>  A list of CommonJS packages that are allowed to be used without a build time warning.
-# @flag --aot                                Build using Ahead of Time compilation.
-# @option --base-href <string>               Base url for the application being built.
-# @flag --build-optimizer                    Enables advanced build optimizations when using the 'aot' option.
-# @flag --common-chunk                       Generate a seperate bundle containing code used across multiple bundles.
+# @flag --aot                                  Build using Ahead of Time compilation.
+# @flag --app-shell                            Generates an application shell during build time.
+# @option --base-href <string>                 Base url for the application being built.
+# @option --browser <path>                     The full path for the browser entry point to the application, relative to the current workspace.
 # @option --cross-origin[none|anonymous|use-credentials] <string>  Define the crossorigin attribute setting of elements that provide CORS support.
-# @flag --delete-output-path                 Delete the output path before building.
-# @option --deploy-url <file>                URL where files will be deployed.
-# @flag --extract-licenses                   Extract all licenses in a separate file.
+# @flag --delete-output-path                   Delete the output path before building.
+# @option --external-dependencies* <string>    Exclude the listed external dependencies from being bundled into the bundle.
+# @flag --extract-licenses                     Extract all licenses in a separate file.
 # @option --i18n-duplicate-translation[warning|error|ignore] <string>  How to handle duplicate translations for i18n.
 # @option --i18n-missing-translation[warning|error|ignore] <string>  How to handle missing translations for i18n.
-# @option --index <string>                   Configures the generation of the application's HTML index.
+# @option --index <string>                     Configures the generation of the application's HTML index.
 # @option --inline-style-language[css|less|sass|scss] <string>  The stylesheet language to use for the application's inline component styles.
-# @flag --localize                           Translate the bundles in one or more locales.
-# @option --main <path>                      The full path for the main entry point to the app, relative to the current workspace.
-# @flag --named-chunks                       Use file name for lazy loaded chunks.
-# @option --ngsw-config-path <path>          Path to ngsw-config.json.
-# @flag --optimization                       Enables optimization of the build output.
+# @flag --localize                             Translate the bundles in one or more locales.
+# @flag --named-chunks                         Use file name for lazy loaded chunks.
+# @flag --optimization                         Enables optimization of the build output.
 # @option --output-hashing[none|all|media|bundles] <file>  Define the output filename cache-busting hashing mode.
-# @option --output-path <dir>                The full path for the new output directory, relative to the current workspace.
-# @option --poll <number>                    Enable and define the file watching poll time period in milliseconds.
-# @option --polyfills <string>               Polyfills to be included in the build.
-# @flag --preserve-symlinks                  Do not use the real path when resolving modules.
-# @flag --progress                           Log progress to the console while building.
-# @option --resources-output-path <path>     The path where style resources will be placed, relative to outputPath.
-# @flag --service-worker                     Generates a service worker config for production builds.
-# @flag --source-map                         Output source maps for scripts and styles.
-# @flag --stats-json                         Generates a 'stats.json' file which can be analyzed using tools such as 'webpack-bundle-analyzer'.
-# @flag --subresource-integrity              Enables the use of subresource integrity validation.
-# @option --ts-config <file>                 The full path for the TypeScript configuration file, relative to the current workspace.
-# @flag --vendor-chunk                       Generate a seperate bundle containing only vendor libraries.
-# @flag --verbose                            Adds more details to output logging.
-# @flag --watch                              Run build when files change.
-# @option --web-worker-ts-config <string>    TypeScript configuration for Web Worker modules.
-# @arg project[`_choice_project`]            The name of the project to build.
+# @option --output-path <dir>                  The full path for the new output directory, relative to the current workspace.
+# @option --poll <number>                      Enable and define the file watching poll time period in milliseconds.
+# @option --polyfills* <string>                A list of polyfills to include in the build.
+# @flag --prerender                            Prerender (SSG) pages of your application during build time.
+# @flag --preserve-symlinks                    Do not use the real path when resolving modules.
+# @flag --progress                             Log progress to the console while building.
+# @option --server <path>                      The full path for the server entry point to the application, relative to the current workspace.
+# @option --service-worker <string>            Generates a service worker configuration.
+# @flag --source-map                           Output source maps for scripts and styles.
+# @flag --ssr                                  Server side render (SSR) pages of your application during runtime.
+# @flag --stats-json                           Generates a 'stats.json' file which can be analyzed with https://esbuild.github.io/analyze/.
+# @flag --subresource-integrity                Enables the use of subresource integrity validation.
+# @option --ts-config <file>                   The full path for the TypeScript configuration file, relative to the current workspace.
+# @flag --verbose                              Adds more details to output logging.
+# @flag --watch                                Run build when files change.
+# @option --web-worker-ts-config <string>      TypeScript configuration for Web Worker modules.
+# @arg project[`_choice_project`]              The name of the project to build.
 build() {
     :;
 }
@@ -216,6 +215,7 @@ e2e() {
 # @flag --help                         Shows a help message for this command in the console.
 # @option -c --configuration*,[`_choice_configuration`] <string>  One or more named builder configurations as a comma-separated list as specified in the "configurations" section in angular.json.
 # @option --browser-target <string>    A browser builder target to extract i18n messages in the format of `project:target[:configuration]`.
+# @option --build-target <string>      A builder target to extract i18n messages in the format of `project:target[:configuration]`.
 # @option --format[xmb|xlf|xlif|xliff|xlf2|xliff2|json|arb|legacy-migrate] <file>  Output format for the generated file.
 # @option --out-file <file>            Name of the file to output.
 # @option --output-path <path>         Path where output will be placed.
@@ -241,17 +241,12 @@ generate() {
 
 # {{{ ng generate app-shell
 # @cmd Generates an application shell for running a server-side version of an app.
-# @flag --help                                 Shows a help message for this command in the console.
-# @flag --interactive                          Enable interactive input prompts.
-# @flag --dry-run                              Run through and reports activity without writing out results.
-# @flag --defaults                             Disable interactive input prompts for options with a default.
-# @flag --force                                Force overwriting of existing files.
-# @option --app-id <string>                    The application ID to use in withServerTransition().
-# @option --main <file>                        The name of the main entry-point file.
-# @option --project <string>                   The name of the related client app.
-# @option --root-module-class-name <string>    The name of the root module class.
-# @option --root-module-file-name <file>       The name of the root module file
-# @option --route <path>                       Route path used to produce the application shell.
+# @flag --help                  Shows a help message for this command in the console.
+# @flag --interactive           Enable interactive input prompts.
+# @flag --dry-run               Run through and reports activity without writing out results.
+# @flag --defaults              Disable interactive input prompts for options with a default.
+# @flag --force                 Force overwriting of existing files.
+# @option --project <string>    The name of the related client app.
 generate::app-shell() {
     :;
 }
@@ -270,10 +265,11 @@ generate::app-shell() {
 # @flag --minimal                               Create a bare-bones project without any testing frameworks.
 # @option -p --prefix <string>                  A prefix to apply to generated selectors.
 # @option --project-root <dir>                  The root directory of the new application.
-# @flag --routing                               Create a routing NgModule.
+# @flag --routing                               Creates an application with routing enabled.
 # @flag --skip-install                          Skip installing dependency packages.
 # @flag --skip-package-json                     Do not add dependencies to the "package.json" file.
 # @flag -S --skip-tests                         Do not create "spec.ts" test files for the application.
+# @flag --ssr                                   Creates an application with Server-Side Rendering (SSR) and Static Site Generation (SSG/Prerendering) enabled.
 # @flag --standalone                            Creates an application based upon the standalone API, without NgModules.
 # @flag --strict                                Creates an application with stricter bundle budgets settings.
 # @option --style[css|scss|sass|less] <file>    The file extension or preprocessor to use for style files.
@@ -607,10 +603,11 @@ lint() {
 # @option --new-project-root <path>             The path where new projects will be created, relative to the new workspace root.
 # @option --package-manager[npm|yarn|pnpm|cnpm] <string>  The package manager used to install dependencies.
 # @option -p --prefix <string>                  The prefix to apply to generated selectors for the initial project.
-# @flag --routing                               Generate a routing module for the initial project.
+# @flag --routing                               Enable routing in the initial project.
 # @flag -g --skip-git                           Do not initialize a git repository.
 # @flag --skip-install                          Do not install dependency packages.
 # @flag -S --skip-tests                         Do not generate "spec.ts" test files for the new project.
+# @flag --ssr                                   Creates an application with Server-Side Rendering (SSR) and Static Site Generation (SSG/Prerendering) enabled.
 # @flag --standalone                            Creates an application based upon the standalone API, without NgModules.
 # @flag --strict                                Creates a workspace with stricter type checking and stricter bundle budgets settings.
 # @option --style[css|scss|sass|less] <file>    The file extension or preprocessor to use for style files.
@@ -637,6 +634,7 @@ run() {
 # @option -c --configuration*,[`_choice_configuration`] <string>  One or more named builder configurations as a comma-separated list as specified in the "configurations" section in angular.json.
 # @option --allowed-hosts* <string>    List of hosts that are allowed to access the dev server.
 # @option --browser-target <string>    A browser builder target to serve in the format of `project:target[:configuration]`.
+# @option --build-target <string>      A build builder target to serve in the format of `project:target[:configuration]`.
 # @flag --disable-host-check           Don't verify connected clients are part of allowed hosts.
 # @flag --force-esbuild                Force the development server to use the 'browser-esbuild' builder when building.
 # @flag --hmr                          Enable hot module replacement.

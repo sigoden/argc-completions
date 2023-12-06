@@ -17,6 +17,7 @@
 # @option --range-start <PATTERN>               Specify PATTERN as the start of a match range.
 # @option --range-end <PATTERN>                 Specify PATTERN as the end of a match range.
 # @option --match <PATTERN>                     Specify PATTERN explicitly.
+# @option --not <PATTERN>                       Specifies PATTERN that must not be found on the line for a match to occur.
 # @option --output <expr>                       Output the evaluation of expr for each line (turns off text highlighting)
 # @flag -o                                      Show only the part of a line matching PATTERN Same as --output='$&'
 # @flag --passthru                              Print all lines, whether matching or not

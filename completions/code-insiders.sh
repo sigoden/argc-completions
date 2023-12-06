@@ -209,4 +209,24 @@ tunnel::service::log() {
 # }}} code-insiders tunnel service
 # }} code-insiders tunnel
 
+# {{ code-insiders serve-web
+# @cmd Run a server that displays the editor UI in browsers.
+# @option --host                                   Host to listen on, defaults to 'localhost'
+# @option --socket-path <SOCKET_PATH>
+# @option --port                                   Port to listen on.
+# @option --connection-token <CONNECTION_TOKEN>    A secret that must be included with all requests
+# @flag --without-connection-token                 Run without a connection token.
+# @flag --accept-server-license-terms              If set, the user accepts the server license terms and the server will be started without a user prompt
+# @option --server-data-dir <SERVER_DATA_DIR>      Specifies the directory that server data is kept in
+# @option --user-data-dir <USER_DATA_DIR>          Specifies the directory that user data is kept in.
+# @option --extensions-dir <EXTENSIONS_DIR>        Set the root path for extensions
+# @flag -h --help                                  Print help
+# @option --cli-data-dir <CLI_DATA_DIR>            Directory where CLI metadata should be stored [env: VSCODE_CLI_DATA_DIR=]
+# @flag --verbose                                  Print verbose output (implies --wait)
+# @option --log[trace|debug|info|warn|error|critical|off] <level>  Log level to use
+serve-web() {
+    :;
+}
+# }} code-insiders serve-web
+
 command eval "$(argc --argc-eval "$0" "$@")"

@@ -3,7 +3,6 @@
 
 # @option --host <host>            specify hostname
 # @option --port <port>            specify port
-# @flag --https                    use TLS + HTTP/2
 # @option --open <path>            open browser on startup
 # @flag --cors                     enable CORS
 # @flag --strictPort               exit if specified port is already in use
@@ -69,7 +68,6 @@ optimize() {
 # @option --host <host>            specify hostname
 # @option --port <port>            specify port
 # @flag --strictPort               exit if specified port is already in use
-# @flag --https                    use TLS + HTTP/2
 # @option --open <path>            open browser on startup
 # @option --outDir <dir>           output directory (default: dist)
 # @option -c --config <file>       use specified config file

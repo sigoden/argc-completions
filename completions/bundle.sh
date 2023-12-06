@@ -67,7 +67,7 @@ cache() {
 
 # {{ bundle exec
 # @cmd Execute a script in the current bundle
-# @flag --keep-file-descriptors    Exec in Ruby 2.0 began discarding non-standard file descriptors.
+# @flag --keep-file-descriptors    Passes all file descriptors to the new processes.
 exec() {
     :;
 }

@@ -6,7 +6,7 @@
 # @flag --check-only                             Report whether there are any changes, but don't calculate them.
 # @option --color[always|auto|never] <WHEN>      When to use color output.
 # @option --context <LINES>                      The number of contextual lines to show around changed lines.[env: DFT_CONTEXT=] [default: 3]
-# @option --display[side-by-side|side-by-side-show-both|inline] <MODE>  Display mode for showing results.
+# @option --display[side-by-side|side-by-side-show-both|inline|json] <MODE>  Display mode for showing results.
 # @flag --exit-code                              Set the exit code to 1 if there are syntactic changes in any files.
 # @option --graph-limit <LIMIT>                  Use a text diff if the structural graph exceed this number of nodes in memory.
 # @flag -h --help                                Print help information
@@ -16,6 +16,8 @@
 # @option --override*[`_choice_override`] <GLOB:NAME>  Associate this glob pattern with this language, overriding normal language detection.
 # @option --parse-error-limit <LIMIT>            Use a text diff if the number of parse errors exceeds this value.
 # @flag --skip-unchanged                         Don't display anything if a file is unchanged.
+# @flag --sort-paths                             When diffing a directory, output the results sorted by path.
+# @flag --strip-cr                               Remove any carriage return characters before diffing.
 # @option --syntax-highlight[on|off] <on/off>    Enable or disable syntax highlighting.
 # @option --tab-width <NUM_SPACES>               Treat a tab as this many spaces.[env: DFT_TAB_WIDTH=] [default: 8]
 # @flag -V --version                             Print version information

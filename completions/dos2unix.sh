@@ -13,6 +13,7 @@
 # @flag -7                      convert 8 bit characters to 7 bit space
 # @flag -b --keep-bom           keep Byte Order Mark
 # @flag -c --convmode           conversion mode
+# @flag -e --add-eol            add a line break to the last line if there isn't one
 # @flag -f --force              force conversion of binary files
 # @flag -h --help               display this help text
 # @option -i --info <FLAGS>     display file information
@@ -22,6 +23,8 @@
 # @flag -m --add-bom            add Byte Order Mark (default UTF-8)
 # @flag -n --newfile            write to new file
 # @flag --no-allow-chown        don't allow file ownership change (default)
+# @flag --no-add-eol            don't add a line break to the last line if there isn't one (default)
+# @flag -O --to-stdout          write to standard output
 # @flag -o --oldfile            write to old file (default)
 # @flag -q --quiet              quiet mode, suppress all warnings
 # @flag -r --remove-bom         remove Byte Order Mark (default)

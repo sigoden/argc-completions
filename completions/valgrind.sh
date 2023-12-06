@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @option --tool[`_choice_tool`] <name>            use the Valgrind tool named <name> [memcheck]
+# @option --tool[`_choice_tool`] <name>            use the Valgrind tool named <name> [memcheck] available tools are: memcheck cachegrind callgrind helgrind drd massif dhat lackey none exp-bbv
 # @flag -h --help                                  show this message
 # @flag --help-debug                               show this message, plus debugging options
 # @flag --help-dyn-options                         show the dynamically changeable options
@@ -20,6 +20,7 @@
 # @option --log-fd <number>                        log messages to file descriptor [2=stderr]
 # @option --log-file <file>                        log messages to <file>
 # @option --log-socket <ipaddr:port>               log messages to socket ipaddr:port
+# @option --enable-debuginfod[no|yes]              query debuginfod servers for missing debuginfo [yes]
 # @option --xml <yes>                              emit error output in XML (some tools only)
 # @option --xml-fd <number>                        XML output to file descriptor
 # @option --xml-file <file>                        XML output to <file>
@@ -59,6 +60,7 @@
 # @option --run-libc-freeres[no|yes]               free up glibc memory at exit on Linux? [yes]
 # @option --run-cxx-freeres[no|yes]                free up libstdc++ memory at exit on Linux and Solaris? [yes]
 # @option --sim-hints* <hint1,hint2,>              activate unusual sim behaviours [none] where hint is one of:
+# @option --scheduling-quantum <number>            thread-scheduling timeslice in number of basic blocks [100000]
 # @option --fair-sched[no|yes|try]                 schedule threads fairly on multicore systems [no]
 # @option --kernel-variant* <variant1,variant2,>   handle non-standard kernel variants [none] where variant is one of:
 # @option --merge-recursive-frames <number>        merge frames between identical program counters in max <number> frames) [0]
@@ -74,6 +76,7 @@
 # @option --unw-stack-scan-frames <number>         Max number of frames that can be recovered by stack scanning [5]
 # @option --resync-filter[no|yes|verbose] <yes on MacOS no on other OSes>  attempt to avoid expensive address-space-resync operations
 # @option --max-threads <number>                   maximum number of threads that valgrind can handle [500]
+# @option --realloc-zero-bytes-frees[yes|no] <yes on Linux glibc no otherwise>  should calls to realloc with a size of 0 free memory and return NULL or allocate/resize and return non-NULL
 # @option --leak-check[no|summary|full]            search for memory leaks at exit?  [summary]
 # @option --leak-resolution[low|med|high]          differentiation of leak stack traces [high]
 # @option --show-leak-kinds* <kind1,kind2,>        which leak kinds to show? [definite,possible]
@@ -96,15 +99,18 @@
 # @option --free-fill <hexnumber>                  fill free'd areas with given value
 # @option --keep-stacktraces[alloc|free|alloc-and-free|alloc-then-free|none]  stack trace(s) to keep for malloc'd/free'd areas  [alloc-and-free]
 # @option --show-mismatched-frees[no|yes]          show frees that don't match the allocator? [yes]
+# @option --show-realloc-size-zero[no|yes]         show realocs with a size of zero? [yes]
+# @option --cachegrind-out-file <file>             output file name [cachegrind.out.%p]
+# @option --cache-sim[yes|no]                      collect cache stats? [no]
+# @option --branch-sim[yes|no]                     collect branch prediction stats? [no]
+# @option --instr-at-start[yes|no]                 instrument at start? [yes]
 # @option --I1 <<size>,<assoc>,<line_size>>        set I1 cache manually
 # @option --D1 <<size>,<assoc>,<line_size>>        set D1 cache manually
 # @option --LL <<size>,<assoc>,<line_size>>        set LL cache manually
-# @option --cache-sim[yes|no]                      collect cache stats? [yes]
-# @option --branch-sim[yes|no]                     collect branch prediction stats? [no]
-# @option --cachegrind-out-file <file>             output file name [cachegrind.out.%p]
 # @option --free-is-write[no|yes]                  treat heap frees as writes [no]
 # @option --track-lockorders[no|yes]               show lock ordering errors? [yes]
 # @option --history-level[none|approx|full] <full>
+# @option --history-backtrace-size <number>        record <number> callers for full history level [8]
 # @option --delta-stacktrace[no|yes] <yes on linux amd64/x86>  no : always compute a full history stacktrace from unwind info yes : derive a stacktrace from the previous stacktrace
 # @option --conflict-cache-size <N>                size of 'full' history cache [2000000]
 # @option --check-stack-refs[no|yes]               race-check reads and writes on the main stack and thread stacks? [yes]

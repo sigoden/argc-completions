@@ -7,11 +7,12 @@
 # @flag -a --append                                Append to target file when uploading
 # @option --aws-sigv4 <provider1[:provider2[:region[:service]]]>  Use AWS V4 signature authentication
 # @flag --basic                                    Use HTTP Basic Authentication
+# @flag --ca-native                                Use CA certificates from the native OS
 # @option --cacert <file>                          CA certificate to verify peer against
 # @option --capath <dir>                           CA directory to verify peer against
 # @option -E --cert <certificate[:password]>       Client certificate file and password
 # @flag --cert-status                              Verify the status of the server cert via OCSP-staple
-# @option --cert-type[DER|PEM|ENG] <type>          Certificate type (DER/PEM/ENG)
+# @option --cert-type[DER|PEM|ENG] <type>          Certificate type (DER/PEM/ENG/P12)
 # @option --ciphers <list of ciphers>              SSL ciphers to use
 # @flag --compressed                               Request compressed response
 # @flag --compressed-ssh                           Enable SSH compression
@@ -30,13 +31,13 @@
 # @option --data-ascii <data>                      HTTP POST ASCII data
 # @option --data-binary[`_choice_data_binary`] <data>  HTTP POST binary data
 # @option --data-raw <data>                        HTTP POST data, '@' allowed
-# @option --data-urlencode <data>                  HTTP POST data url encoded
+# @option --data-urlencode <data>                  HTTP POST data URL encoded
 # @option --delegation <LEVEL>                     GSS-API delegation permission
 # @flag --digest                                   Use HTTP Digest Authentication
 # @flag -q --disable                               Disable .curlrc
 # @flag --disable-eprt                             Inhibit using EPRT or LPRT
 # @flag --disable-epsv                             Inhibit using EPSV
-# @flag --disallow-username-in-url                 Disallow username in url
+# @flag --disallow-username-in-url                 Disallow username in URL
 # @option --dns-interface <interface>              Interface to use for DNS requests
 # @option --dns-ipv4-addr <address>                IPv4 address to use for DNS requests
 # @option --dns-ipv6-addr <address>                IPv6 address to use for DNS requests
@@ -50,7 +51,7 @@
 # @option --etag-compare <file>                    Pass an ETag from a file as a custom header
 # @option --etag-save <file>                       Parse ETag from a request and save it to a file
 # @option --expect100-timeout <seconds>            How long to wait for 100-continue
-# @flag -f --fail                                  Fail silently (no output at all) on HTTP errors
+# @flag -f --fail                                  Fail fast with no output on HTTP errors
 # @flag --fail-early                               Fail on first transfer error, do not continue
 # @flag --fail-with-body                           Fail on HTTP errors but save the body
 # @flag --false-start                              Enable TLS False Start
@@ -71,6 +72,7 @@
 # @flag -G --get                                   Put the post data in the URL and use GET
 # @flag -g --globoff                               Disable URL sequences and ranges using {} and []
 # @option --happy-eyeballs-timeout-ms <milliseconds>  Time for IPv6 before trying IPv4
+# @flag --haproxy-clientip                         Sets client IP in HAProxy PROXY protocol v1 header
 # @flag --haproxy-protocol                         Send HAProxy PROXY protocol v1 header
 # @flag -I --head                                  Show document info only
 # @option -H --header[`_module_http_header`] <header/@file>  Pass custom header(s) to server
@@ -81,15 +83,18 @@
 # @flag --http0.9                                  Allow HTTP 0.9 responses
 # @flag -0 --http1.0                               Use HTTP 1.0
 # @flag --http1.1                                  Use HTTP 1.1
-# @flag --http2                                    Use HTTP 2
+# @flag --http2                                    Use HTTP/2
 # @flag --http2-prior-knowledge                    Use HTTP 2 without HTTP/1.1 Upgrade
 # @flag --http3                                    Use HTTP v3
+# @flag --http3-only                               Use HTTP v3 only
 # @flag --ignore-content-length                    Ignore the size of the remote resource
 # @flag -i --include                               Include protocol response headers in the output
 # @flag -k --insecure                              Allow insecure server connections
 # @option --interface <name>                       Use network INTERFACE (or address)
+# @option --ipfs-gateway <URL>                     Gateway for IPFS
 # @flag -4 --ipv4                                  Resolve names to IPv4 addresses
 # @flag -6 --ipv6                                  Resolve names to IPv6 addresses
+# @option --json <data>                            HTTP POST JSON
 # @flag -j --junk-session-cookies                  Ignore session cookies read from file
 # @option --keepalive-time <seconds>               Interval time for keepalive probes
 # @option --key <key>                              Private key file name
@@ -118,6 +123,7 @@
 # @flag -: --next                                  Make next URL use its separate set of options
 # @flag --no-alpn                                  Disable the ALPN TLS extension
 # @flag -N --no-buffer                             Disable buffering of the output stream
+# @flag --no-clobber                               Do not overwrite files that already exist
 # @flag --no-keepalive                             Disable TCP keepalive on the connection
 # @flag --no-npn                                   Disable the NPN TLS extension
 # @flag --no-progress-meter                        Do not show the progress meter
@@ -145,6 +151,7 @@
 # @option -x --proxy <[protocol://]host[:port]>    Use this proxy
 # @flag --proxy-anyauth                            Pick any proxy authentication method
 # @flag --proxy-basic                              Use Basic authentication on the proxy
+# @flag --proxy-ca-native                          Use CA certificates from the native OS for proxy
 # @option --proxy-cacert <file>                    CA certificate to verify peer against for proxy
 # @option --proxy-capath <dir>                     CA directory to verify peer against for proxy
 # @option --proxy-cert <cert[:passwd]>             Set client certificate for proxy
@@ -153,6 +160,7 @@
 # @option --proxy-crlfile <file>                   Set a CRL list for proxy
 # @flag --proxy-digest                             Use Digest authentication on the proxy
 # @option --proxy-header <header/@file>            Pass custom header(s) to proxy
+# @flag --proxy-http2                              Use HTTP/2 with HTTPS proxy
 # @flag --proxy-insecure                           Do HTTPS proxy connections without verifying the proxy
 # @option --proxy-key <key>                        Private key for HTTPS proxy
 # @option --proxy-key-type <type>                  Private key file type for proxy
@@ -175,12 +183,14 @@
 # @option -Q --quote <command>                     Send command(s) to server before transfer
 # @option --random-file <file>                     File for reading random data from
 # @option -r --range <range>                       Retrieve only the bytes within RANGE
+# @option --rate <max request rate>                Request rate for serial transfers
 # @flag --raw                                      Do HTTP "raw"; no transfer decoding
 # @option -e --referer <URL>                       Referrer URL
 # @flag -J --remote-header-name                    Use the header-provided filename
 # @flag -O --remote-name                           Write output to a file named as the remote file
 # @flag --remote-name-all                          Use the remote file name for all URLs
 # @flag -R --remote-time                           Set the remote file's time on the local output
+# @flag --remove-on-error                          Remove output file on errors
 # @option -X --request[`_module_http_method`] <method>  Specify request method to use
 # @option --request-target <path>                  Specify the target for this request
 # @option --resolve <[+]host:port:addr[,addr]...>  Resolve the host+port to this address
@@ -209,7 +219,7 @@
 # @flag --ssl-auto-client-cert                     Use auto client certificate (Schannel)
 # @flag --ssl-no-revoke                            Disable cert revocation checks (Schannel)
 # @flag --ssl-reqd                                 Require SSL/TLS
-# @flag --ssl-revoke-best-effort                   Ignore missing/offline cert CRL dist points
+# @flag --ssl-revoke-best-effort                   Ignore missing/offline cert CRL dist points (Schannel)
 # @flag -2 --sslv2                                 Use SSLv2
 # @flag -3 --sslv3                                 Use SSLv3
 # @option --stderr <file>                          Where to redirect stderr
@@ -234,13 +244,17 @@
 # @flag --tr-encoding                              Request compressed transfer encoding
 # @option --trace <file>                           Write a debug trace to FILE
 # @option --trace-ascii <file>                     Like --trace, but without hex output
+# @option --trace-config <string>                  Details to log in trace/verbose output
+# @flag --trace-ids                                Add transfer and connection identifiers to trace/verbose output
 # @flag --trace-time                               Add time stamps to trace/verbose output
 # @option --unix-socket <path>                     Connect through this Unix domain socket
 # @option -T --upload-file <file>                  Transfer local FILE to destination
 # @option --url <url>                              URL to work with
+# @option --url-query <data>                       Add a URL query part
 # @flag -B --use-ascii                             Use ASCII/text transfer
 # @option -u --user <user:password>                Server user and password
 # @option -A --user-agent <name>                   Send User-Agent <name> to server
+# @option --variable <[%]name=text/@file>          Set variable
 # @flag -v --verbose                               Make the operation more talkative
 # @flag -V --version                               Show version number and quit
 # @option -w --write-out <format>                  Use output FORMAT after completion

@@ -30,10 +30,6 @@ start() {
 
 # {{ next export
 # @cmd
-# @flag -o --outdir    Set the output dir (defaults to 'out')
-# @flag -s --silent    Do not print any messages to console
-# @flag --threads      Max number of threads to use
-# @flag -h --help      List this help
 export() {
     :;
 }

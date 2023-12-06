@@ -3,9 +3,9 @@
 
 # @option --country <CC>     Set country code to CC and don't detect your IP address
 # @flag -f --force           Don't check whether packages were already installed
-# @flag --gui                Show gui diagnostics even when driven by commandline
+# @option --gui <OPT>        Set OPT to kdialog or zenity to override GUI engine
 # @flag --isolate            Install each app or game in its own bottle (WINEPREFIX)
-# @flag --self-update        Update this application to the latest version (non-Debian)
+# @flag --self-update        Update this application to the last version
 # @flag --update-rollback    Rollback the last self update
 # @flag -k --keep_isos       Cache isos (allows later installation without disc)
 # @flag --no-clean           Don't delete temp directories (useful during debugging)

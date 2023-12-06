@@ -10,7 +10,7 @@
 # @flag --audio-time-stretch                       Enable time stretching audio (default enabled)
 # @flag --no-audio-time-stretch                    Enable time stretching audio (default enabled)
 # @option --audio-filter <string>                  Audio filters
-# @option --audio-visual[any|visual|glspectrum|none]  Audio visualizations
+# @option --audio-visual[any|glspectrum|visual|none]  Audio visualizations
 # @flag -f                                         Fullscreen video output (default disabled)
 # @flag --fullscreen                               Fullscreen video output (default disabled)
 # @flag --no-fullscreen                            Fullscreen video output (default disabled)

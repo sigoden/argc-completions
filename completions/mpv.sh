@@ -44,6 +44,7 @@
 # @option --alang-set <value>
 # @option --alang-toggle <value>
 # @option --alang-remove <value>
+# @flag --allow-delayed-peak-detect
 # @option --alpha <value>                          Choices: no yes blend blend-tiles (default: blend-tiles)
 # @option --alsa-buffer-time <value>               Integer (0 to 2147483647) (default: 100000)
 # @flag --alsa-ignore-chmap
@@ -121,6 +122,7 @@
 # @option --audio-swresample-o-set <value>
 # @option --audio-swresample-o-remove <value>
 # @option --audio-wait-open <value>                Float (0 to 60) (default: 0.000)
+# @flag --auto-window-resize
 # @option --autofit <value>                        Window size (default: )
 # @option --autofit-larger <value>                 Window size (default: )
 # @option --autofit-smaller <value>                Window size (default: )
@@ -130,7 +132,7 @@
 # @option --blend-subtitles <value>                Choices: no yes video (default: no)
 # @option --bluray-device <file>                   String (default: ) [file]
 # @flag --border
-# @option --brightness <value>                     Integer (-100 to 100) (default: 0)
+# @option --brightness <value>                     Float (-100 to 100) (default: 0.000)
 # @option --cache <value>                          Choices: no auto yes (default: auto)
 # @option --cache-dir <file>                       String (default: ) [file]
 # @flag --cache-on-disk
@@ -139,28 +141,18 @@
 # @option --cache-pause-wait <value>               Float (0 to any) (default: 1.000)
 # @option --cache-secs <value>                     Double (0 to any) (default: 3600000.000)
 # @option --cache-unlink-files <value>             Choices: immediate whendone no (default: immediate)
-# @flag --cdda-cdtext
-# @option --cdda-overlap <value>                   Integer (0 to 75) (default: -1)
-# @option --cdda-paranoia <value>                  Integer (0 to 2) (default: 0)
-# @option --cdda-sector-size <value>               Integer (1 to 100) (default: 0)
-# @flag --cdda-skip
-# @option --cdda-span-a <value>                    Integer (default: 0)
-# @option --cdda-span-b <value>                    Integer (default: 0)
-# @option --cdda-speed <value>                     Integer (1 to 100) (default: 0)
-# @option --cdda-toc-bias <value>                  Integer (default: 0)
-# @option --cdda-toc-offset <value>                Integer (default: 0)
-# @option --cdrom-device <file>                    String (default: ) [file]
 # @option --chapter-merge-threshold <value>        Integer (0 to 10000) (default: 100)
 # @option --chapter-seek-threshold <value>         Double (default: 5.000)
 # @option --chapters-file <file>                   String (default: ) [file]
 # @flag --config
 # @option --config-dir <file>                      String (default: ) [not in config files] [file]
-# @option --contrast <value>                       Integer (-100 to 100) (default: 0)
+# @option --contrast <value>                       Float (-100 to 100) (default: 0.000)
 # @flag --cookies
 # @option --cookies-file <file>                    String (default: ) [file]
+# @option --corner-rounding <value>                Float (0 to 1) (default: 0.000)
 # @flag --correct-downscaling
 # @flag --correct-pts
-# @option --cover-art-auto <value>                 Choices: no exact fuzzy all (default: fuzzy)
+# @option --cover-art-auto <value>                 Choices: no exact fuzzy all (default: exact)
 # @option --cover-art-file <value>                 alias for --cover-art-files-append (CLI/config files only)
 # @option --cover-art-files-add <value>
 # @option --cover-art-files-append <value>
@@ -170,6 +162,7 @@
 # @option --cover-art-files-set <value>
 # @option --cover-art-files-toggle <value>
 # @option --cover-art-files-remove <value>
+# @flag --cover-art-whitelist
 # @option --cscale <value>                         String (default: bilinear)
 # @option --cscale-antiring <value>                Float (0 to 1) (default: 0.000)
 # @option --cscale-blur <value>                    Float (default: 0.000)
@@ -183,7 +176,6 @@
 # @option --cscale-window <value>                  String (default: )
 # @option --cscale-wparam <value>                  Float (default: default)
 # @option --cscale-wtaper <value>                  Float (0 to 1) (default: 0.000)
-# @option --cuda-decode-device <value>             Choices: auto (or an integer) (0 to 2147483647) (default: auto)
 # @option --cursor-autohide <value>                Choices: no always (or an integer) (0 to 30000) (default: 1000)
 # @flag --cursor-autohide-fs-only
 # @flag --deband
@@ -197,6 +189,7 @@
 # @flag --demuxer-cache-wait
 # @option --demuxer-cue-codepage <value>           String (default: auto)
 # @flag --demuxer-donate-buffer
+# @option --demuxer-hysteresis-secs <value>        Double (0 to any) (default: 0.000)
 # @flag --demuxer-lavf-allow-mimetype
 # @option --demuxer-lavf-analyzeduration <value>   Float (0 to 3600) (default: 0.000)
 # @option --demuxer-lavf-buffersize <value>        Integer (1 to 10485760) (default: 32768)
@@ -232,6 +225,7 @@
 # @option --demuxer-seekable-cache <value>         Choices: auto no yes (default: auto)
 # @option --demuxer-termination-timeout <value>    Double (default: 0.100)
 # @flag --demuxer-thread
+# @option --directory-mode <value>                 Choices: recursive lazy ignore (default: recursive)
 # @option --display-tags-add <value>
 # @option --display-tags-append <value>
 # @option --display-tags-clr <value>
@@ -243,14 +237,15 @@
 # @option --dither <value>                         Choices: fruit ordered error-diffusion no (default: fruit)
 # @option --dither-depth <value>                   Choices: no auto (or an integer) (-1 to 16) (default: no)
 # @option --dither-size-fruit <value>              Integer (2 to 8) (default: 6)
-# @option --drm-atomic <value>                     Choices: no auto (default: auto)
+# @option --drag-and-drop <value>                  Choices: no auto replace append (default: auto)
 # @option --drm-connector <value>                  String (default: )
 # @option --drm-device <file>                      String (default: ) [file]
 # @option --drm-draw-plane <value>                 Choices: primary overlay (or an integer) (0 to 2147483647) (default: primary)
 # @option --drm-draw-surface-size <value>          Window size (default: )
 # @option --drm-drmprime-video-plane <value>       Choices: primary overlay (or an integer) (0 to 2147483647) (default: overlay)
-# @option --drm-format <value>                     Choices: xrgb8888 xrgb2101010 (default: xrgb8888)
+# @option --drm-format <value>                     Choices: xrgb8888 xrgb2101010 xbgr8888 xbgr2101010 (default: xrgb8888)
 # @option --drm-mode <value>                       String (default: preferred)
+# @option --drm-vrr-enabled <value>                Choices: no yes auto (default: no)
 # @option --dscale <value>                         String (default: )
 # @option --dscale-antiring <value>                Float (0 to 1) (default: 0.000)
 # @option --dscale-blur <value>                    Float (default: 0.000)
@@ -290,6 +285,7 @@
 # @option --fbo-format <value>                     String (default: auto)
 # @flag --focus-on-open
 # @option --force-media-title <value>              String (default: )
+# @flag --force-render
 # @flag --force-rgba-osd-rendering
 # @flag --force-seekable
 # @option --force-window <value>                   Choices: no yes immediate (default: no)
@@ -301,14 +297,15 @@
 # @option --fs-screen <value>                      Choices: all current (or an integer) (0 to 32) (default: current)
 # @option --fs-screen-name <value>                 String (default: )
 # @flag --fullscreen
-# @option --gamma <value>                          Integer (-100 to 100) (default: 0)
-# @flag --gamma-auto
-# @option --gamma-factor <value>                   Float (0.1 to 2) (default: 1.000)
-# @flag --gamut-clipping
-# @flag --gamut-warning
+# @option --gamma <value>                          Float (-100 to 100) (default: 0.000)
+# @option --gamut-mapping-mode <value>             Choices: auto clip perceptual relative saturation absolute desaturate darken warn linear (default: auto)
 # @option --gapless-audio <value>                  Choices: no yes weak (default: weak)
 # @option --geometry <value>                       Window geometry (default: )
 # @option --glsl-shader <value>                    alias for --glsl-shaders-append (CLI/config files only)
+# @option --glsl-shader-opts-add <value>
+# @option --glsl-shader-opts-append <value>
+# @option --glsl-shader-opts-set <value>
+# @option --glsl-shader-opts-remove <value>
 # @option --glsl-shaders-add <value>
 # @option --glsl-shaders-append <value>
 # @option --glsl-shaders-clr <value>
@@ -322,12 +319,15 @@
 # @flag --gpu-debug
 # @option --gpu-dumb-mode <value>                  Choices: auto yes no (default: auto)
 # @option --gpu-hwdec-interop <value>              String (default: auto)
+# @flag --gpu-shader-cache
 # @option --gpu-shader-cache-dir <file>            String (default: ) [file]
 # @flag --gpu-sw
 # @option --gpu-tex-pad-x <value>                  Integer (0 to 4096) (default: 0)
 # @option --gpu-tex-pad-y <value>                  Integer (0 to 4096) (default: 0)
 # @option --h <value>                              String (default: ) [not in config files]
 # @option --hdr-compute-peak <value>               Choices: auto yes no (default: auto)
+# @option --hdr-contrast-recovery <value>          Float (0 to 2) (default: 0.000)
+# @option --hdr-contrast-smoothness <value>        Float (1 to 100) (default: 3.500)
 # @option --hdr-peak-decay-rate <value>            Float (1 to 1000) (default: 100.000)
 # @option --hdr-scene-threshold-high <value>       Float (0 to 20) (default: 10.000)
 # @option --hdr-scene-threshold-low <value>        Float (0 to 20) (default: 5.500)
@@ -346,20 +346,31 @@
 # @option --http-header-fields-toggle <value>
 # @option --http-header-fields-remove <value>
 # @option --http-proxy <value>                     String (default: )
-# @option --hue <value>                            Integer (-100 to 100) (default: 0)
-# @option --hwdec <value>                          String (default: no)
-# @option --hwdec-codecs[h264|vc1|hevc|vp8|vp9|av1] <value>  String
+# @option --hue <value>                            Float (-100 to 100) (default: 0.000)
+# @option --hwdec-add <value>
+# @option --hwdec-append <value>
+# @option --hwdec-clr <value>
+# @option --hwdec-del <value>
+# @option --hwdec-pre <value>
+# @option --hwdec-set <value>
+# @option --hwdec-toggle <value>
+# @option --hwdec-remove <value>
+# @option --hwdec-codecs[h264|vc1|hevc|vp8|vp9|av1|prores] <value>  String
 # @option --hwdec-extra-frames <value>             Integer (0 to 256) (default: 6)
 # @option --hwdec-image-format <value>             Image format (default: no)
 # @option --icc-3dlut-size <value>                 String (default: 64x64x64)
+# @flag --icc-cache
 # @option --icc-cache-dir <file>                   String (default: ) [file]
 # @option --icc-force-contrast <value>             Choices: no inf (or an integer) (0 to 1000000) (default: no)
 # @option --icc-intent <value>                     Integer (default: 1)
 # @option --icc-profile <file>                     String (default: ) [file]
 # @flag --icc-profile-auto
+# @flag --icc-use-luma
 # @option --idle <value>                           Choices: no once yes (default: no)
 # @flag --ignore-path-in-watch-later-config
 # @option --image-display-duration <value>         Double (0 to inf) (default: 1.000)
+# @option --image-lut <file>                       String (default: ) [file]
+# @option --image-lut-type <value>                 Choices: auto native normalized conversion (default: auto)
 # @flag --image-subs-video-resolution
 # @option --include <file>                         String (default: ) [file]
 # @option --index <value>                          Choices: default recreate (default: default)
@@ -370,6 +381,7 @@
 # @option --input-cmdlist <value>                  Print [not in config files]
 # @option --input-conf <file>                      String (default: ) [file]
 # @flag --input-cursor
+# @flag --input-cursor-passthrough
 # @flag --input-default-bindings
 # @option --input-doubleclick-time <value>         Integer (0 to 1000) (default: 300)
 # @flag --input-gamepad
@@ -383,12 +395,9 @@
 # @flag --input-test
 # @flag --input-vo-keyboard
 # @flag --interpolation
+# @flag --interpolation-preserve
 # @option --interpolation-threshold <value>        Float (default: 0.010)
-# @flag --jack-autostart
-# @flag --jack-connect
-# @option --jack-name <value>                      String (default: mpv)
-# @option --jack-port <value>                      String (default: )
-# @option --jack-std-channel-layout <value>        Choices: waveext any (default: waveext)
+# @flag --inverse-tone-mapping
 # @option --keep-open <value>                      Choices: no yes always (default: no)
 # @flag --keep-open-pause
 # @flag --keepaspect
@@ -409,6 +418,8 @@
 # @option --loop <value>                           alias for loop-file
 # @option --loop-file <value>                      Choices: no inf yes (or an integer) (0 to 10000) (default: no)
 # @option --loop-playlist <value>                  Choices: no inf yes force (or an integer) (1 to 10000) (default: no)
+# @option --lut <file>                             String (default: ) [file]
+# @option --lut-type <value>                       Choices: auto native normalized conversion (default: auto)
 # @option --mc <value>                             Float (0 to 100) (default: -1.000)
 # @flag --merge-files
 # @option --metadata-codepage <value>              String (default: utf-8)
@@ -439,6 +450,9 @@
 # @flag --on-all-workspaces
 # @flag --ontop
 # @option --ontop-level <value>                    Choices: window system desktop (or an integer) (0 to 2147483647) (default: window)
+# @flag --openal-direct-channels
+# @option --openal-num-buffers <value>             Integer (2 to 128) (default: 4)
+# @option --openal-num-samples <value>             Integer (256 to 32768) (default: 8192)
 # @option --opengl-check-pattern-a <value>         Integer (default: 0)
 # @option --opengl-check-pattern-b <value>         Integer (default: 0)
 # @option --opengl-early-flush <value>             Choices: no yes auto (default: no)
@@ -477,6 +491,7 @@
 # @option --osd-font <value>                       String (default: sans-serif)
 # @option --osd-font-provider <value>              Choices: auto none fontconfig (default: auto)
 # @option --osd-font-size <value>                  Float (1 to 9000) (default: 55.000)
+# @option --osd-fonts-dir <file>                   String (default: ) [file]
 # @flag --osd-fractions
 # @flag --osd-italic
 # @option --osd-justify <value>                    Choices: auto left center right (default: auto)
@@ -488,6 +503,7 @@
 # @option --osd-msg3 <value>                       String (default: )
 # @option --osd-on-seek <value>                    Choices: no bar msg msg-bar (default: bar)
 # @option --osd-playing-msg <value>                String (default: )
+# @option --osd-playing-msg-duration <value>       Integer (0 to 3600000) (default: 0)
 # @option --osd-scale <value>                      Float (0 to 100) (default: 1.000)
 # @flag --osd-scale-by-window
 # @option --osd-shadow-color <value>               Color (default: ♯80F0F0F0)
@@ -506,6 +522,9 @@
 # @option --override-display-fps <value>           Double (0 to any) (default: 0.000)
 # @option --panscan <value>                        Float (0 to 1) (default: 0.000)
 # @flag --pause
+# @option --pipewire-buffer <value>                Choices: native (or an integer) (1 to 2000) (default: native)
+# @option --pipewire-remote <value>                String (default: )
+# @option --pipewire-volume-mode <value>           Choices: channel global (default: channel)
 # @option --play-dir <value>                       Choices: forward + backward - (default: forward)
 # @option --player-operation-mode <value>          Choices: cplayer pseudo-gui (default: cplayer)
 # @option --playlist <file>                        String (default: ) [not in config files] [file]
@@ -543,7 +562,7 @@
 # @flag --resume-playback
 # @flag --resume-playback-check-mtime
 # @option --rtsp-transport <value>                 Choices: lavf udp tcp http udp_multicast (default: tcp)
-# @option --saturation <value>                     Integer (-100 to 100) (default: 0)
+# @option --saturation <value>                     Float (-100 to 100) (default: 0.000)
 # @flag --save-position-on-quit
 # @option --scale <value>                          String (default: bilinear)
 # @option --scale-antiring <value>                 Float (0 to 1) (default: 0.000)
@@ -562,11 +581,19 @@
 # @flag --scaler-resizes-only
 # @option --screen <value>                         Choices: default (or an integer) (0 to 32) (default: default)
 # @option --screen-name <value>                    String (default: )
+# @option --screenshot-avif-encoder <value>        String (default: libaom-av1)
+# @option --screenshot-avif-opts-add <value>
+# @option --screenshot-avif-opts-append <value>
+# @option --screenshot-avif-opts-set <value>
+# @option --screenshot-avif-opts-remove <value>
+# @option --screenshot-avif-pixfmt <value>         String (default: yuv420p)
 # @option --screenshot-directory <file>            String (default: ) [file]
-# @option --screenshot-format <value>              Choices: jpg jpeg png webp (default: jpg)
+# @option --screenshot-format <value>              Choices: jpg jpeg png webp jxl avif (default: jpg)
 # @flag --screenshot-high-bit-depth
 # @option --screenshot-jpeg-quality <value>        Integer (0 to 100) (default: 90)
 # @flag --screenshot-jpeg-source-chroma
+# @option --screenshot-jxl-distance <value>        Double (0 to 15) (default: 1.000)
+# @option --screenshot-jxl-effort <value>          Integer (1 to 9) (default: 4)
 # @option --screenshot-png-compression <value>     Integer (0 to 9) (default: 7)
 # @option --screenshot-png-filter <value>          Integer (0 to 5) (default: 5)
 # @flag --screenshot-sw
@@ -611,11 +638,11 @@
 # @option --slang-remove <value>
 # @flag --snap-window
 # @option --speed <value>                          Double (0.01 to 100) (default: 1.000)
-# @option --spirv-compiler <value>                 Choices: auto (default: auto)
+# @option --spirv-compiler <value>                 Choices: auto shaderc (default: auto)
 # @option --sstep <value>                          Double (0 to any) (default: 0.000)
 # @option --start <value>                          Relative time or percent position (default: none)
 # @flag --stop-playback-on-init-failure
-# @flag --stop-screensaver
+# @option --stop-screensaver <value>               Choices: no yes always (default: yes)
 # @option --stream-buffer-size <value>             ByteSize (4096 to 536870912) (default: 128.000 KiB)
 # @option --stream-dump <file>                     String (default: ) [file]
 # @option --stream-lavf-o-add <value>
@@ -702,6 +729,7 @@
 # @option --sub-font <value>                       String (default: sans-serif)
 # @option --sub-font-provider <value>              Choices: auto none fontconfig (default: auto)
 # @option --sub-font-size <value>                  Float (1 to 9000) (default: 55.000)
+# @option --sub-fonts-dir <file>                   String (default: ) [file]
 # @option --sub-forced-only <value>                Choices: auto no yes (default: auto)
 # @option --sub-fps <value>                        Float (default: 0.000)
 # @option --sub-gauss <value>                      Float (0 to 3) (default: 0.000)
@@ -721,6 +749,8 @@
 # @option --sub-speed <value>                      Float (default: 1.000)
 # @flag --sub-use-margins
 # @flag --sub-visibility
+# @option --subs-fallback <value>                  Choices: no default yes (default: no)
+# @flag --subs-fallback-forced
 # @flag --subs-with-matching-audio
 # @option --swapchain-depth <value>                Integer (1 to 8) (default: 3)
 # @flag --sws-allow-zimg
@@ -733,9 +763,12 @@
 # @option --sws-lgb <value>                        Float (0 to 100) (default: 0.000)
 # @option --sws-ls <value>                         Float (-100 to 100) (default: 0.000)
 # @option --sws-scaler <value>                     Choices: fast-bilinear bilinear bicubic x point area bicublin gauss sinc lanczos spline (default: lanczos)
+# @flag --target-colorspace-hint
+# @option --target-contrast <value>                Choices: auto inf (or an integer) (10 to 1000000) (default: auto)
+# @option --target-lut <file>                      String (default: ) [file]
 # @option --target-peak <value>                    Choices: auto (or an integer) (10 to 10000) (default: auto)
-# @option --target-prim <value>                    Choices: auto bt.601-525 bt.601-625 bt.709 bt.2020 bt.470m apple adobe prophoto cie1931 dci-p3 display-p3 v-gamut s-gamut (default: auto)
-# @option --target-trc <value>                     Choices: auto bt.1886 srgb linear gamma1.8 gamma2.0 gamma2.2 gamma2.4 gamma2.6 gamma2.8 prophoto pq hlg v-log s-log1 s-log2 (default: auto)
+# @option --target-prim <value>                    Choices: auto bt.601-525 bt.601-625 bt.709 bt.2020 bt.470m apple adobe prophoto cie1931 dci-p3 display-p3 v-gamut s-gamut ebu3213 film-c aces-ap0 aces-ap1 (default: auto)
+# @option --target-trc <value>                     Choices: auto bt.1886 srgb linear gamma1.8 gamma2.0 gamma2.2 gamma2.4 gamma2.6 gamma2.8 prophoto pq hlg v-log s-log1 s-log2 st428 (default: auto)
 # @flag --taskbar-progress
 # @option --teletext-page <value>                  Integer (1 to 999) (default: 100)
 # @flag --temporal-dither
@@ -752,11 +785,11 @@
 # @option --tls-cert-file <file>                   String (default: ) [file]
 # @option --tls-key-file <file>                    String (default: ) [file]
 # @flag --tls-verify
-# @option --tone-mapping <value>                   Choices: clip mobius reinhard hable gamma linear bt.2390 (default: bt.2390)
-# @option --tone-mapping-desaturate <value>        Float (default: 0.750)
-# @option --tone-mapping-desaturate-exponent <value>  Float (0 to 20) (default: 1.500)
+# @option --tone-mapping <value>                   Choices: auto clip mobius reinhard hable gamma linear spline bt.2390 bt.2446a st2094-40 st2094-10 (default: auto)
 # @option --tone-mapping-max-boost <value>         Float (1 to 10) (default: 1.000)
+# @option --tone-mapping-mode <value>              Choices: auto rgb max hybrid luma (default: auto)
 # @option --tone-mapping-param <value>             Float (default: default)
+# @flag --tone-mapping-visualize
 # @flag --track-auto-selection
 # @option --tscale <value>                         String (default: mitchell)
 # @option --tscale-antiring <value>                Float (0 to 1) (default: 0.000)
@@ -782,8 +815,9 @@
 # @flag --vd-lavc-assume-old-x264
 # @flag --vd-lavc-bitexact
 # @flag --vd-lavc-check-hw-profile
-# @flag --vd-lavc-dr
+# @option --vd-lavc-dr <value>                     Choices: auto no yes (default: auto)
 # @flag --vd-lavc-fast
+# @option --vd-lavc-film-grain <value>             Choices: auto cpu gpu (default: auto)
 # @option --vd-lavc-framedrop <value>              Choices: none default nonref bidir nonkey all (default: nonref)
 # @option --vd-lavc-o-add <value>
 # @option --vd-lavc-o-append <value>
@@ -839,7 +873,7 @@
 # @option --video-rotate <value>                   Choices: no (or an integer) (0 to 359) (default: 0)
 # @option --video-scale-x <value>                  Float (0 to 10000) (default: 1.000)
 # @option --video-scale-y <value>                  Float (0 to 10000) (default: 1.000)
-# @option --video-sync <value>                     Choices: audio display-resample display-resample-vdrop display-resample-desync display-adrop display-vdrop display-desync desync (default: audio)
+# @option --video-sync <value>                     Choices: audio display-resample display-resample-vdrop display-resample-desync display-tempo display-adrop display-vdrop display-desync desync (default: audio)
 # @option --video-sync-max-audio-change <value>    Double (0 to 1) (default: 0.125)
 # @option --video-sync-max-factor <value>          Integer (1 to 10) (default: 5)
 # @option --video-sync-max-video-change <value>    Double (0 to any) (default: 1.000)
@@ -863,10 +897,18 @@
 # @option --vo-set <value>
 # @option --vo-toggle <value>
 # @option --vo-remove <value>
-# @option --vo-image-format <value>                Choices: jpg jpeg png webp (default: jpg)
+# @option --vo-image-avif-encoder <value>          String (default: libaom-av1)
+# @option --vo-image-avif-opts-add <value>
+# @option --vo-image-avif-opts-append <value>
+# @option --vo-image-avif-opts-set <value>
+# @option --vo-image-avif-opts-remove <value>
+# @option --vo-image-avif-pixfmt <value>           String (default: yuv420p)
+# @option --vo-image-format <value>                Choices: jpg jpeg png webp jxl avif (default: jpg)
 # @flag --vo-image-high-bit-depth
 # @option --vo-image-jpeg-quality <value>          Integer (0 to 100) (default: 90)
 # @flag --vo-image-jpeg-source-chroma
+# @option --vo-image-jxl-distance <value>          Double (0 to 15) (default: 1.000)
+# @option --vo-image-jxl-effort <value>            Integer (1 to 9) (default: 4)
 # @option --vo-image-outdir <file>                 String (default: ) [file]
 # @option --vo-image-png-compression <value>       Integer (0 to 9) (default: 7)
 # @option --vo-image-png-filter <value>            Integer (0 to 5) (default: 5)
@@ -874,20 +916,16 @@
 # @option --vo-image-webp-compression <value>      Integer (0 to 6) (default: 4)
 # @flag --vo-image-webp-lossless
 # @option --vo-image-webp-quality <value>          Integer (0 to 100) (default: 75)
+# @flag --vo-kitty-alt-screen
+# @option --vo-kitty-cols <value>                  Integer (default: 0)
+# @flag --vo-kitty-config-clear
+# @option --vo-kitty-height <value>                Integer (default: 0)
+# @option --vo-kitty-left <value>                  Integer (default: 0)
+# @option --vo-kitty-rows <value>                  Integer (default: 0)
+# @option --vo-kitty-top <value>                   Integer (default: 0)
+# @flag --vo-kitty-use-shm
+# @option --vo-kitty-width <value>                 Integer (default: 0)
 # @option --vo-null-fps <value>                    Double (0 to 10000) (default: 0.000)
-# @option --vo-sixel-cols <value>                  Integer (default: 0)
-# @option --vo-sixel-dither <value>                Choices: auto none atkinson fs jajuni stucki burkes arithmetic xor (default: auto)
-# @flag --vo-sixel-exit-clear
-# @flag --vo-sixel-fixedpalette
-# @option --vo-sixel-height <value>                Integer (default: 0)
-# @option --vo-sixel-left <value>                  Integer (default: 0)
-# @option --vo-sixel-pad-x <value>                 Integer (default: -1)
-# @option --vo-sixel-pad-y <value>                 Integer (default: -1)
-# @option --vo-sixel-reqcolors <value>             Integer (default: 256)
-# @option --vo-sixel-rows <value>                  Integer (default: 0)
-# @option --vo-sixel-threshold <value>             Integer (default: -1)
-# @option --vo-sixel-top <value>                   Integer (default: 0)
-# @option --vo-sixel-width <value>                 Integer (default: 0)
 # @flag --vo-tct-256
 # @option --vo-tct-algo <value>                    Choices: plain half-blocks (default: half-blocks)
 # @option --vo-tct-height <value>                  Integer (default: 0)
@@ -911,7 +949,6 @@
 # @flag --vulkan-async-compute
 # @flag --vulkan-async-transfer
 # @option --vulkan-device <value>                  String (default: )
-# @flag --vulkan-disable-events
 # @option --vulkan-display-display <value>         Integer (default: 0)
 # @option --vulkan-display-mode <value>            Integer (default: 0)
 # @option --vulkan-display-plane <value>           Integer (default: 0)
@@ -927,8 +964,10 @@
 # @option --watch-later-options-toggle <value>
 # @option --watch-later-options-remove <value>
 # @option --wayland-app-id <value>                 String (default: mpv)
+# @option --wayland-configure-bounds <value>       Choices: auto no yes (default: auto)
+# @option --wayland-content-type <value>           Choices: auto none photo video game (default: auto)
 # @flag --wayland-disable-vsync
-# @option --wayland-edge-pixels-pointer <value>    Integer (0 to 2147483647) (default: 10)
+# @option --wayland-edge-pixels-pointer <value>    Integer (0 to 2147483647) (default: 16)
 # @option --wayland-edge-pixels-touch <value>      Integer (0 to 2147483647) (default: 32)
 # @option --wid <value>                            Integer64 (default: -1)
 # @flag --window-dragging
@@ -939,6 +978,7 @@
 # @option --x11-bypass-compositor <value>          Choices: no yes fs-only never (default: fs-only)
 # @option --x11-name <value>                       String (default: )
 # @option --x11-netwm <value>                      Choices: auto no yes (default: auto)
+# @option --x11-present <value>                    Choices: no auto yes (default: auto)
 # @option --xv-adaptor <value>                     Integer (-1 to any) (default: -1)
 # @option --xv-buffers <value>                     Integer (1 to 10) (default: 2)
 # @option --xv-ck <value>                          Choices: use set cur (default: cur)

@@ -475,11 +475,12 @@ new() {
 # }} mix new
 
 # {{ mix phx.new
-# @cmd Creates a new Phoenix v1.7.7 application
+# @cmd Creates a new Phoenix v1.7.10 application
 # @flag --umbrella               generate an umbrella project, with one application for your domain, and a second application for the web interface.
 # @option --app <name>           the name of the OTP application
 # @option --module <name>        the name of the base module in the generated skeleton
 # @option --database[postgres|mysql|mssql|sqlite3]  specify the database adapter for Ecto.
+# @flag --adapter                specify the http adapter.
 # @flag --no-assets              equivalent to --no-esbuild and --no-tailwind
 # @flag --no-dashboard           do not include Phoenix.LiveDashboard
 # @flag --no-ecto                do not generate Ecto files

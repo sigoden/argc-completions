@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @option --color[auto|always|never] <WHEN>    Coloring [default: auto]
+# @option --color[auto|always|never] <WHEN>    Coloring
 # @flag -h --help                              Prints help information
 # @flag -V --version                           Prints version information
 
@@ -16,7 +16,7 @@
 # @flag --include-hidden                       Also include hidden paths
 # @option --snapshot* <snapshot-filter>        Limits the operation to one or more snapshots
 # @flag -q --quiet                             Do not print to stdout
-# @option --color[auto|always|never] <WHEN>    Coloring [default: auto]
+# @option --color[auto|always|never] <WHEN>    Coloring
 # @flag -h --help                              Prints help information
 # @flag -V --version                           Prints version information
 review() {
@@ -35,7 +35,7 @@ review() {
 # @flag --include-hidden                       Also include hidden paths
 # @option --snapshot* <snapshot-filter>        Limits the operation to one or more snapshots
 # @flag -q --quiet                             Do not print to stdout
-# @option --color[auto|always|never] <WHEN>    Coloring [default: auto]
+# @option --color[auto|always|never] <WHEN>    Coloring
 # @flag -h --help                              Prints help information
 # @flag -V --version                           Prints version information
 reject() {
@@ -54,7 +54,7 @@ reject() {
 # @flag --include-hidden                       Also include hidden paths
 # @option --snapshot* <snapshot-filter>        Limits the operation to one or more snapshots
 # @flag -q --quiet                             Do not print to stdout
-# @option --color[auto|always|never] <WHEN>    Coloring [default: auto]
+# @option --color[auto|always|never] <WHEN>    Coloring
 # @flag -h --help                              Prints help information
 # @flag -V --version                           Prints version information
 accept() {
@@ -79,11 +79,14 @@ accept() {
 # @option --test[`_choice_test`] <test>          Test only the specified test target
 # @flag --tests                                  Test all tests
 # @option -p --package[`_choice_package`] <package>  Package to run tests for
+# @option --exclude <SPEC>                       Exclude packages from the test
 # @flag --no-force-pass                          Disable force-passing of snapshot tests
 # @flag --fail-fast                              Prevent running all tests regardless of failure
 # @option --features*,[`_choice_feature`]        Space-separated list of features to activate
 # @option -j --jobs <jobs>                       Number of parallel jobs, defaults to ♯ of CPUs
 # @flag --release                                Build artifacts in release mode, with optimizations
+# @option --profile <profile>                    Build artifacts with the specified profile
+# @flag --all-targets                            Test all targets (does not include doctests)
 # @flag --all-features                           Activate all available features
 # @flag --no-default-features                    Do not activate the `default` feature
 # @option --target[`_choice_target`] <target>    Build for the target triple
@@ -97,7 +100,7 @@ accept() {
 # @option --glob-filter* <glob-filter>           Filters to apply to the insta glob feature
 # @flag -Q --no-quiet                            Do not pass the quiet flag (`-q`) to tests
 # @option --test-runner[auto|cargo-test|nextest] <test-runner>  Picks the test runner [default: auto]
-# @option --color[auto|always|never] <WHEN>      Coloring [default: auto]
+# @option --color[auto|always|never] <WHEN>      Coloring
 # @flag -h --help                                Prints help information
 # @flag -V --version                             Prints version information
 # @arg cargo_test_args+                          Options passed to cargo test
@@ -116,7 +119,7 @@ test() {
 # @flag --include-ignored                      Also walk into ignored paths
 # @flag --include-hidden                       Also include hidden paths
 # @flag --as-json                              Changes the output from human readable to JSON
-# @option --color[auto|always|never] <WHEN>    Coloring [default: auto]
+# @option --color[auto|always|never] <WHEN>    Coloring
 # @flag -h --help                              Prints help information
 # @flag -V --version                           Prints version information
 pending-snapshots() {
@@ -133,7 +136,7 @@ pending-snapshots() {
 # @flag --all                                  Alias for --workspace (deprecated)
 # @flag --include-ignored                      Also walk into ignored paths
 # @flag --include-hidden                       Also include hidden paths
-# @option --color[auto|always|never] <WHEN>    Coloring [default: auto]
+# @option --color[auto|always|never] <WHEN>    Coloring
 # @flag -h --help                              Prints help information
 # @flag -V --version                           Prints version information
 # @arg path!                                   The path to the snapshot file

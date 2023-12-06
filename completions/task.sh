@@ -11,10 +11,12 @@
 # @flag -g --global                        Runs global Taskfile, from $HOME/{T,t}askfile.{yml,yaml}.
 # @flag -h --help                          Shows Task usage.
 # @flag -i --init                          Creates a new Taskfile.yml in the current folder.
+# @flag --insecure                         Forces Task to download Taskfiles over insecure connections.
 # @option -I --interval <duration>         Interval to watch for changes.
 # @flag -j --json                          Formats task list as JSON.
 # @flag -l --list                          Lists tasks with description of current Taskfile.
 # @flag -a --list-all                      Lists tasks with or without a description.
+# @flag --no-status                        Ignore status when listing tasks as JSON
 # @option -o --output[interleaved|group|prefixed] <string>  Sets output style:.
 # @option --output-group-begin <string>    Message template to print before a task's grouped output.
 # @option --output-group-end <string>      Message template to print after a task's grouped output.

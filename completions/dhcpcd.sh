@@ -3,8 +3,8 @@
 
 # @meta combine-shorts
 # @flag -b --background                         Background immediately.
-# @option -c --script <script>                  Use this script instead of the default /lib/dhcpcd/dhcpcd-run-hooks.
-# @flag -D --duid                               Use a DHCP Unique Identifier.
+# @option -c --script <script>                  Use this script instead of the default /nix/store/n4c23v4n4q4y94dscc9zj9bl0zjyc926-dhcpcd-9.4.1/libexec/dhcpcd-run-hooks.
+# @option -D --duid <ll | lt | uuid | value>    Use a DHCP Unique Identifier.
 # @flag -d --debug                              Echo debug messages to the stderr and syslog.
 # @flag -E --lastlease                          If dhcpcd cannot obtain a lease, then try to use the last lease acquired for the interface.
 # @flag --lastleaseextend                       Same as the above, but the lease will be retained even if it expires.
@@ -15,14 +15,14 @@
 # @option -h --hostname <hostname>              Sends hostname to the DHCP server so it can be registered in DNS.
 # @option -I --clientid <clientid>              Send the clientid.
 # @option -i --vendorclassid <vendorclassid>    Override the DHCPv4 vendorclassid field sent.
-# @option -j --logfile <logfile>                Writes to the specified logfile rather than syslog(3).
+# @option -j --logfile <logfile>                Writes to the specified logfile.
 # @option -k --release <interface>              This causes an existing dhcpcd process running on the interface to release its lease and de-configure the interface regardless of the -p, --persistent option.
-# @option -l --leasetime <seconds>              Request a specific lease time in seconds.
-# @flag -M --master                             Start dhcpcd in Master mode even if only one interface specified on the command line.
+# @option -l --leasetime <seconds>              Request a lease time of seconds.
+# @flag -M --manager                            Start dhcpcd in Manager mode even if only one interface specified on the command line.
 # @option -m --metric <metric>                  Metrics are used to prefer an interface over another one, lowest wins.
 # @option -n --rebind <interface>               Notifies dhcpcd to reload its configuration and rebind the specified interface.
 # @option -N --renew <interface>                Notifies dhcpcd to renew existing addresses on the specified interface.
-# @option -o --option <option>                  Request the DHCP option variable for use in /lib/dhcpcd/dhcpcd-run-hooks.
+# @option -o --option <option>                  Request the DHCP option variable for use in /nix/store/n4c23v4n4q4y94dscc9zj9bl0zjyc926-dhcpcd-9.4.1/libexec/dhcpcd-run-hooks.
 # @flag -p --persistent                         dhcpcd normally de-configures the interface and configuration when it exits.
 # @option -r --request <address>                Request the address in the DHCP DISCOVER message.
 # @option -s --inform <address[/cidr[/broadcast_address]]>  Behaves like -r, --request as above, but sends a DHCP INFORM instead of DISCOVER/REQUEST.
@@ -51,14 +51,16 @@
 # @flag -P --printpidfile                       Print the pidfile dhcpcd will use based on commmand-line arguments to stdout.
 # @option -Q --require <option>                 Requires the option to be present in all DHCP messages, otherwise the message is ignored.
 # @flag -q --quiet                              Quiet dhcpcd on the command line, only warnings and errors will be displayed.
-# @flag -T --test                               On receipt of DHCP messages just call /lib/dhcpcd/dhcpcd-run-hooks with the reason of TEST which echos the DHCP variables found in the message to the console.
-# @option -U --dumplease <interface>            Dumps the last lease for the interface to stdout.
+# @flag -T --test                               On receipt of DHCP messages just call /nix/store/n4c23v4n4q4y94dscc9zj9bl0zjyc926-dhcpcd-9.4.1/libexec/dhcpcd-run-hooks with the reason of TEST which echos the DHCP variables found in the message to the console.
+# @option -U --dumplease <interface>            Dumps the current lease for the interface to stdout.
 # @flag -V --variables                          Display a list of option codes, the associated variable and encoding for use in dhcpcd-run-hooks(8).
 # @option -W --whitelist <address[/cidr]>       Only accept packets from address[/cidr].
 # @option -X --blacklist <address[/cidr]>       Ignore all packets from address[/cidr].
 # @option -Z --denyinterfaces <pattern>         When discovering interfaces, the interface name must not match pattern which is a space or comma separated list of patterns passed to fnmatch(3).
 # @option -z --allowinterfaces <pattern>        When discovering interfaces, the interface name must match pattern which is a space or comma separated list of patterns passed to fnmatch(3).
 # @flag --inactive                              Don't start any interfaces other than those specified on the command line.
+# @flag --configure                             Allows dhcpcd to configure the system.
+# @flag --noconfigure                           dhcpcd will not configure the system at all.
 # @flag --nodev                                 Don't load any /dev management modules.
 # @arg ifaces*[`_module_os_network_interface`]
 

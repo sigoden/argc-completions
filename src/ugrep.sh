@@ -3,6 +3,7 @@ _patch_help() {
     sed \
         -e 's/^\s*\(--and\|--andnot\) .*/    \1/' \
         -e 's/^\s*\(--depth\S\+\), .*/    \1/' \
+        -e 's/, -%%//' \
 
 }
 

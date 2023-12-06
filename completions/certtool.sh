@@ -2,9 +2,10 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # @option -d --debug <num>               Enable debugging - it must be in the range:
-# @flag -V --verbose                     More verbose output - may appear multiple times
+# @flag -V --verbose                     More verbose output
 # @option --infile <file>                Input file - file must pre-exist
 # @option --outfile <str>                Output file
+# @option --attime <str>                 Perform validation at the timestamp instead of the system time
 # @flag -i --certificate-info            Print information on the given certificate
 # @flag --pubkey-info                    Print information on a public key
 # @flag -s --generate-self-signed        Generate a self-signed certificate
@@ -47,9 +48,9 @@
 # @flag --p7-generate                    Generate a PKCS ♯7 structure
 # @flag --p7-sign                        Signs using a PKCS ♯7 structure
 # @flag --p7-detached-sign               Signs using a detached PKCS ♯7 structure
-# @flag --p7-include-cert                The signer's certificate will be included in the cert list.
-# @flag --p7-time                        Will include a timestamp in the PKCS ♯7 structure - disabled as '--no-p7-time'
-# @flag --p7-show-data                   Will show the embedded data in the PKCS ♯7 structure - disabled as '--no-p7-show-data'
+# @flag --p7-include-cert                The signer's certificate will be included in the cert list - enabled by default - disabled as '--no-p7-include-cert'
+# @flag --p7-time                        Will include a timestamp in the PKCS ♯7 structure
+# @flag --p7-show-data                   Will show the embedded data in the PKCS ♯7 structure
 # @flag --p7-info                        Print information on a PKCS ♯7 structure
 # @flag --p7-verify                      Verify the provided PKCS ♯7 structure
 # @flag --smime-to-p7                    Convert S/MIME to PKCS ♯7 structure
@@ -70,16 +71,16 @@
 # @flag --cprint                         In certain operations it prints the information in C-friendly format
 # @option --hash <str>                   Hash algorithm to use for signing
 # @option --salt-size <num>              Specify the RSA-PSS key default salt size
-# @flag --inder                          Use DER format for input certificates, private keys, and DH parameters - disabled as '--no-inder'
+# @flag --inder                          Use DER format for input certificates, private keys, and DH parameters
 # @flag --inraw                          an alias for the 'inder' option
-# @flag --outder                         Use DER format for output certificates, private keys, and DH parameters - disabled as '--no-outder'
+# @flag --outder                         Use DER format for output certificates, private keys, and DH parameters
 # @flag --outraw                         an alias for the 'outder' option
 # @option --template <str>               Template file to use for non-interactive operation
 # @flag --stdout-info                    Print information to stdout instead of stderr
-# @flag --ask-pass                       Enable interaction for entering password when in batch mode.
+# @flag --ask-pass                       Enable interaction for entering password when in batch mode
 # @option --pkcs-cipher <str>            Cipher to use for PKCS ♯8 and ♯12 operations
 # @option --provider <str>               Specify the PKCS ♯11 provider library
-# @flag --text                           Output textual information before PEM-encoded certificates, private keys, etc - disabled as '--no-text' - enabled by default
+# @flag --text                           Output textual information before PEM-encoded certificates, private keys, etc - enabled by default - disabled as '--no-text'
 # @option -v --version <arg>             output version information and exit
 # @flag -h --help                        display extended usage information and exit
 # @flag -! --more-help                   extended usage information passed thru pager

@@ -34,7 +34,7 @@
 # @option --autounmask-license[y|n]               Allow autounmask package.license changes.
 # @option --autounmask-use[y|n]                   Allow autounmask package.use changes.
 # @option --autounmask-write[y|n]                 If --autounmask is enabled, changes are written to config files, respecting CONFIG_PROTECT and --ask.
-# @option --backtrack <COUNT>                     Specifies an integer number of times to backtrack if dependency calculation fails due to a conflict or an unsatisfied dependency (default: ´10´).
+# @option --backtrack <COUNT>                     Specifies an integer number of times to backtrack if dependency calculation fails due to a conflict or an unsatisfied dependency (default: ´20´).
 # @option --binpkg-changed-deps[y|n]              Tells emerge to ignore binary packages for which the corresponding ebuild dependencies have changed since the packages were built.
 # @option --binpkg-respect-use[y|n]               Tells emerge to ignore binary packages if their USE flags don't match the current configuration.
 # @option -b --buildpkg[y|n]                      Tells emerge to build binary packages for all ebuilds processed in addition to actually merging the packages.

@@ -10,6 +10,7 @@
 # @flag -V                                   Show version
 # @flag --version                            Show version
 # @flag --defer-module-loads                 Defer module loading unless explicitly asked
+# @flag --no-defer-module-loads              Defer module loading unless explicitly asked
 # @option -m --module-path <DIRECTORY>       Load an additional module path
 # @flag -a --ask                             Ask before exiting Metasploit or accept 'exit -y'
 # @option -H --history-file <FILE>           Save command history to the specified file

@@ -8,6 +8,7 @@
 # @flag -F             set the foreground mode, useful for setting remote access
 # @option -f <path>    set the config file path
 # @option -S <path>    set the socket path, useful to issue commands to a running tmate instance
+# @option -a <path>    limit access to ssh public keys listed in provided file
 # @flag -v             set verbosity (can be repeated)
 # @flag -V             print version
 # @arg command~[`_choice_command`]

@@ -43,9 +43,10 @@
 # @option -C --client-replay <PATH>          Replay client requests from a saved file.
 # @option -S --server-replay <PATH>          Replay server responses from a saved file.
 # @flag --no-server-replay-kill-extra
-# @flag --server-replay-kill-extra           Kill extra requests during replay (for which no replayable response was found).
-# @flag --no-server-replay-nopop
-# @flag --server-replay-nopop                Don't remove flows from server replay state after use.
+# @flag --server-replay-kill-extra           Kill extra requests during replay (for which no replayable response was found).[Deprecated, prefer to use server_replay_extra='kill']
+# @option --server-replay-extra[forward|kill|204|400|404|500]  Behaviour for extra requests during replay for which no replayable response was found.
+# @flag --no-server-replay-reuse
+# @flag --server-replay-reuse                Don't remove flows from server replay state after use.
 # @flag --no-server-replay-refresh
 # @flag --server-replay-refresh              Refresh server replay responses by adjusting date, expires and last-modified headers, as well as adjusting cookie expiration.
 # @option -M --map-remote <PATTERN>          Map remote resources to another remote URL using a pattern of the form "[/flow-filter]/url-regex/replacement", where the separator can be any character.

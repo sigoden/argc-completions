@@ -9,26 +9,10 @@ _patch_help() {
 _patch_table() {
     _patch_table_dedup_options \
         ';;' \
-        '-fcf-protection' \
-        '-fcs-profile-generate' \
-        '-fembed-bitcode' \
         '-flto' \
-        '-fmemory-profile' \
-        '-fno-builtin' \
-        '-fno-sanitize-trap' \
-        '-foffload-lto' \
-        '-fprofile-generate' \
-        '-fprofile-instr-generate' \
-        '-fsanitize-memory-track-origins' \
-        '-fsanitize-trap' \
-        '-fsave-optimization-record' \
         '-mabi' \
         '-mcmodel' \
-        '-mhvx' \
         '-ObjC' \
-        '-save-stats' \
-        '-save-temps' \
         '-Xopenmp-target' \
-
 
 }

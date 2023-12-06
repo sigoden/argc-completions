@@ -33,7 +33,6 @@ compile() {
 # @option -o --output <file>                      Write the output to <file name>.
 # @option --verbosity[`_choice_log_verbosity`]    Sets the verbosity level of the compilation.
 # @option -D --define <key=value>                 Define an environment declaration.
-# @flag --enable-asserts                          Enable assert statements.
 # @option -p --packages <path>                    Get package locations from the specified file instead of .dart_tool/package_config.json.
 # @option -S --save-debugging-info <path>         Remove debugging information from the output and save it separately to the specified file.
 # @option --target-os[android|fuchsia|ios|linux|macos|windows]  Compile to a specific target operating system.
@@ -73,9 +72,14 @@ compile::jit-snapshot() {
 
 # {{{ dart compile js
 # @cmd Compile Dart to JavaScript.
-# @flag -h --help               Print this usage information (add -v for information about all options).
+# @flag -h --help               Print this usage information.
 # @option -o --output <file>    Write the output to <file name>.
 # @option -O <0,1,2,3,4>        Set the compiler optimization level (defaults to -O1).
+# @flag -O0                     No optimizations (only meant for debugging the compiler).
+# @flag -O1                     Default (includes whole program analyses and inlining).
+# @flag -O2                     Safe production-oriented optimizations (like minification).
+# @flag -O3                     Potentially unsafe optimizations (see -h -v for details).
+# @flag -O4                     More agressive unsafe optimizations (see -h -v for details).
 # @arg dart-entry-point <file:.dart>
 compile::js() {
     :;
@@ -357,8 +361,8 @@ pub::logout() {
 # @flag --json                       Output the results using a json format.
 # @flag --prereleases                Include prereleases in latest version.
 # @flag --no-prereleases             Include prereleases in latest version.
-# @flag --show-all                   Include dependencies that are already fullfilling --mode.
-# @flag --no-show-all                Include dependencies that are already fullfilling --mode.
+# @flag --show-all                   Include dependencies that are already fulfilling --mode.
+# @flag --no-show-all                Include dependencies that are already fulfilling --mode.
 # @flag --transitive                 Show transitive dependencies.
 # @flag --no-transitive              Show transitive dependencies.
 # @option -C --directory <dir>       Run this in the directory <dir>.
@@ -372,6 +376,7 @@ pub::outdated() {
 # @flag -h --help                 Print this usage information.
 # @flag -n --dry-run              Validate but do not publish the package.
 # @flag -f --force                Publish without confirmation if there are no errors.
+# @flag --skip-validation         Publish without validation and resolution (this will ignore errors).
 # @option -C --directory <dir>    Run this in the directory <dir>.
 pub::publish() {
     :;
@@ -437,6 +442,7 @@ pub::token::remove() {
 # @flag -n --dry-run              Report what dependencies would change but don't change any.
 # @flag --precompile              Precompile executables in immediate dependencies.
 # @flag --no-precompile           Precompile executables in immediate dependencies.
+# @flag --tighten                 Updates lower bounds in pubspec.yaml to match the resolved version.
 # @flag --major-versions          Upgrades packages to their latest resolvable versions, and updates pubspec.yaml.
 # @option -C --directory <dir>    Run this in the directory <dir>.
 # @arg dependencies*[`_choice_package`]
@@ -465,7 +471,7 @@ pub::upgrade() {
 # @flag --no-pause-isolates-on-start              Pause isolates on start when running with --enable-vm-service.
 # @flag --enable-asserts                          Enable assert statements.
 # @flag --no-enable-asserts                       Enable assert statements.
-# @option --timeline-recorder[none|ring|endless|startup|systrace|file|callback] <recorder>  Selects the timeline recorder to use.
+# @option --timeline-recorder[none|ring|endless|startup|systrace|file|callback|perfettofile] <recorder>  Selects the timeline recorder to use.
 # @option --verbosity[`_choice_log_verbosity`]    Sets the verbosity level of the compilation.
 # @option -D --define <key=value>                 Define an environment declaration.
 # @arg dart-file-package-target! <dart-file|package-target>

@@ -1071,7 +1071,7 @@ deploy::function_() {
 
 # {{{ appwrite deploy collection
 # @cmd Deploy collections in the current project.
-# @flag --all        Flag to deploy all functions
+# @flag --all        Flag to deploy all collections
 # @flag --yes        Flag to confirm all warnings
 # @flag -h --help    display help for command
 deploy::collection() {
@@ -1270,7 +1270,7 @@ functions::createBuild() {
 # }}} appwrite functions createBuild
 
 # {{{ appwrite functions downloadDeployment
-# @cmd
+# @cmd Get a Deployment's contents by its unique ID.
 # @option --functionId <functionId>        Function ID.
 # @option --deploymentId <deploymentId>    Deployment ID.
 # @option --destination <path>             output file path.
@@ -1459,17 +1459,47 @@ health::getQueue() {
 }
 # }}} appwrite health getQueue
 
+# {{{ appwrite health getQueueBuilds
+# @cmd Get the number of builds that are waiting to be processed in the Appwrite internal queue server.
+# @option --threshold <threshold>    Queue size threshold.
+# @flag -h --help                    display help for command
+health::getQueueBuilds() {
+    :;
+}
+# }}} appwrite health getQueueBuilds
+
 # {{{ appwrite health getQueueCertificates
 # @cmd Get the number of certificates that are waiting to be issued against [Letsencrypt](https://letsencrypt.org/) in the Appwrite internal queue server.
-# @flag -h --help    display help for command
+# @option --threshold <threshold>    Queue size threshold.
+# @flag -h --help                    display help for command
 health::getQueueCertificates() {
     :;
 }
 # }}} appwrite health getQueueCertificates
 
+# {{{ appwrite health getQueueDatabases
+# @cmd Get the number of database changes that are waiting to be processed in the Appwrite internal queue server.
+# @option --name <name>              Queue name for which to check the queue size
+# @option --threshold <threshold>    Queue size threshold.
+# @flag -h --help                    display help for command
+health::getQueueDatabases() {
+    :;
+}
+# }}} appwrite health getQueueDatabases
+
+# {{{ appwrite health getQueueDeletes
+# @cmd Get the number of background destructive changes that are waiting to be processed in the Appwrite internal queue server.
+# @option --threshold <threshold>    Queue size threshold.
+# @flag -h --help                    display help for command
+health::getQueueDeletes() {
+    :;
+}
+# }}} appwrite health getQueueDeletes
+
 # {{{ appwrite health getQueueFunctions
 # @cmd
-# @flag -h --help    display help for command
+# @option --threshold <threshold>    Queue size threshold.
+# @flag -h --help                    display help for command
 health::getQueueFunctions() {
     :;
 }
@@ -1477,15 +1507,44 @@ health::getQueueFunctions() {
 
 # {{{ appwrite health getQueueLogs
 # @cmd Get the number of logs that are waiting to be processed in the Appwrite internal queue server.
-# @flag -h --help    display help for command
+# @option --threshold <threshold>    Queue size threshold.
+# @flag -h --help                    display help for command
 health::getQueueLogs() {
     :;
 }
 # }}} appwrite health getQueueLogs
 
+# {{{ appwrite health getQueueMails
+# @cmd Get the number of mails that are waiting to be processed in the Appwrite internal queue server.
+# @option --threshold <threshold>    Queue size threshold.
+# @flag -h --help                    display help for command
+health::getQueueMails() {
+    :;
+}
+# }}} appwrite health getQueueMails
+
+# {{{ appwrite health getQueueMessaging
+# @cmd Get the number of messages that are waiting to be processed in the Appwrite internal queue server.
+# @option --threshold <threshold>    Queue size threshold.
+# @flag -h --help                    display help for command
+health::getQueueMessaging() {
+    :;
+}
+# }}} appwrite health getQueueMessaging
+
+# {{{ appwrite health getQueueMigrations
+# @cmd Get the number of migrations that are waiting to be processed in the Appwrite internal queue server.
+# @option --threshold <threshold>    Queue size threshold.
+# @flag -h --help                    display help for command
+health::getQueueMigrations() {
+    :;
+}
+# }}} appwrite health getQueueMigrations
+
 # {{{ appwrite health getQueueWebhooks
 # @cmd Get the number of webhooks that are waiting to be processed in the Appwrite internal queue server.
-# @flag -h --help    display help for command
+# @option --threshold <threshold>    Queue size threshold.
+# @flag -h --help                    display help for command
 health::getQueueWebhooks() {
     :;
 }

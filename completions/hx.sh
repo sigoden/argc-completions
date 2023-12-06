@@ -7,10 +7,11 @@
 # @option -g --grammar[fetch|build]                Fetches or builds tree-sitter grammars listed in languages.toml
 # @option -c --config <file>                       Specifies a file to use for configuration
 # @flag -v                                         Increases logging verbosity each use for up to 3 times
-# @flag --log                                      Specifies a file to use for logging (default file: /home/sigo/.cache/helix/helix.log)
+# @option --log <file>                             Specifies a file to use for logging (default file: /home/sigo/.cache/helix/helix.log)
 # @flag -V --version                               Prints version information
 # @flag --vsplit                                   Splits all given files vertically into different windows
 # @flag --hsplit                                   Splits all given files horizontally into different windows
+# @option -w --working-dir <path>                  Specify an initial working directory
 # @arg files+                                      Sets the input file to use, position can also be specified via file[:row[:col]]
 
 _choice_health() {

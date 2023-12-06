@@ -1,7 +1,7 @@
 _patch_help() {
     echo "USAGE: $1 NAME"
     $@ --help | \
-    sed -n 's/^\s\+'$1' -/  -/p' | \
+    sed -n "s/^  $1 -/  -/p" | \
     sed -e 's/ : /   /'
 }
 

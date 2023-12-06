@@ -18,7 +18,7 @@
 # @option -D --destination-dir <DIR>       destination output directory (default: directory of source file)
 # @option -I --load-path <DIRECTORY>       add a directory to the $LOAD_PATH may be specified more than once
 # @option -r --require <LIBRARY>           require the specified library before executing the processor (using require) may be specified more than once
-# @option --failure-level[WARN|ERROR|INFO] <LEVEL>  set minimum logging level that triggers non-zero exit code: (default: FATAL)
+# @option --failure-level[INFO|WARN|ERROR|FATAL] <LEVEL>  set minimum log level that yields a non-zero exit code: (default: FATAL)
 # @flag -q --quiet                         silence application log messages and script warnings (default: false)
 # @flag --trace                            include backtrace information when reporting errors (default: false)
 # @flag -v --verbose                       directs application messages logged at DEBUG or INFO level to STDERR (default: false)

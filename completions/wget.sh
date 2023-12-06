@@ -21,6 +21,7 @@
 # @option --rejected-log <FILE>              log reasons for URL rejection to FILE
 # @option -t --tries <NUMBER>                set number of retries to NUMBER (0 unlimits)
 # @flag --retry-connrefused                  retry even if connection is refused
+# @flag --retry-on-host-error                consider host errors as non-fatal, transient errors
 # @option --retry-on-http-error <ERRORS>     comma-separated list of HTTP errors to retry
 # @option -O --output-document <FILE>        write documents to FILE
 # @flag -nc                                  skip downloads that would download to existing files (overwriting them)
@@ -96,7 +97,7 @@
 # @flag --content-disposition                honor the Content-Disposition header when choosing local file names (EXPERIMENTAL)
 # @flag --content-on-error                   output the received content on server errors
 # @flag --auth-no-challenge                  send Basic HTTP authentication information without first waiting for the server's challenge
-# @option --secure-protocol <PR>             choose secure protocol, one of auto, SSLv2, SSLv3, TLSv1, TLSv1_1, TLSv1_2 and PFS
+# @option --secure-protocol <PR>             choose secure protocol, one of auto, SSLv2, SSLv3, TLSv1, TLSv1_1, TLSv1_2, TLSv1_3 and PFS
 # @flag --https-only                         only follow secure HTTPS links
 # @flag --no-check-certificate               don't validate the server's certificate
 # @option --certificate <FILE>               client certificate file

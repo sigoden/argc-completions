@@ -30,7 +30,7 @@
 # @option -t <title>                        Set title.
 # @option -T <term>                         Use term as $TERM for windows, rather than "screen".
 # @flag -U                                  Tell screen to use UTF-8 encoding.
-# @flag -v                                  Print "Screen version 4.09.00 (GNU) 30-Jan-22".
+# @flag -v                                  Print "Screen version 4.09.01 (GNU) 20-Aug-23".
 # @option -wipe <match>                     Do nothing, just clean up SockDir [on possible matches].
 # @option -x[`_choice_attached_screen`]     Attach to a not detached screen.
 # @flag -X                                  Execute <cmd> as a screen command in the specified session.

@@ -2,14 +2,14 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # @meta inherit-flag-options
-# @option -o[plain|save|xml]    Specify output mode for listing sets.
-# @flag -s                      Print elements sorted (if supported by the set type).
-# @flag -q                      Suppress any notice or warning message.
-# @flag -r                      Try to resolve IP addresses in the output (slow!)
-# @flag -!                      Ignore errors when creating or adding sets or elements that do exist or when deleting elements that don't exist.
-# @flag -n                      When listing, just list setnames from the kernel.
-# @flag -t                      When listing, list setnames and set headers from kernel only.
-# @flag -f                      Read from the given file instead of standard input (restore) or write to given file instead of standard output (list/save).
+# @option -o[plain|save|xml|json]    Specify output mode for listing sets.
+# @flag -s                           Print elements sorted (if supported by the set type).
+# @flag -q                           Suppress any notice or warning message.
+# @flag -r                           Try to resolve IP addresses in the output (slow!)
+# @flag -!                           Ignore errors when creating or adding sets or elements that do exist or when deleting elements that don't exist.
+# @flag -n                           When listing, just list setnames from the kernel.
+# @flag -t                           When listing, list setnames and set headers from kernel only.
+# @flag -f                           Read from the given file instead of standard input (restore) or write to given file instead of standard output (list/save).
 
 # {{ ipset create
 # @cmd Create a new set

@@ -3,6 +3,7 @@ _patch_help() {
 }
 
 _patch_table() {
+    _patch_table_dedup_options '--gui' | \
     _patch_table_edit_arguments ';;' 'args;*[`_choice_args`]'
 }
 

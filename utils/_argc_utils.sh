@@ -172,10 +172,15 @@ _argc_util_comp_tv() {
         fi
         key="${key_value%%=*}"
         value="${key_value#*=}"
-        IFS=';' read -a value_parts <<<"$value"
-        parts_len="${#value_parts[@]}"
         if [[ "$key" == "$value" ]]; then
             parts_len=0
+        else
+            IFS=';' read -a value_parts <<<"$value"
+            parts_len="${#value_parts[@]}"
+            if [[ "$parts_len" == 0 ]]; then
+                value_parts=( "" )
+                parts_len=1
+            fi
         fi
         for ((i = parts_len; i >= 1; i--)); do
             if [[ $args_len -gt $i ]]; then
@@ -184,7 +189,7 @@ _argc_util_comp_tv() {
                     part_value="${value_parts[$((i - 1))]}"
                     if [[ "$part_value" == $'`'* ]]; then
                         eval "${part_value:1:-1}" 2>/dev/null
-                    else
+                    elif [[ -n "$part_value" ]]; then
                         echo $part_value | command tr ',' '\n'
                     fi
                     return

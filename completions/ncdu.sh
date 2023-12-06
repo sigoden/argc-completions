@@ -21,6 +21,7 @@
 # @flag --exclude-caches                Exclude directories containing CACHEDIR.TAG
 # @flag --exclude-kernfs                Exclude Linux pseudo filesystems (procfs,sysfs,cgroup,...)
 # @flag --confirm-quit                  Confirm quitting ncdu
-# @option --color[off|dark] <SCHEME>    Set color scheme (off/dark)
+# @option --color[off|dark] <SCHEME>    Set color scheme (off/dark/dark-bg)
+# @flag --ignore-config                 Don't load config files
 
 command eval "$(argc --argc-eval "$0" "$@")"

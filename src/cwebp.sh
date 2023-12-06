@@ -5,3 +5,10 @@ _patch_help() {
         -e '/^\s*-/ s| / |, |' \
 
 }
+
+_patch_table() {
+    _patch_table_dedup_options \
+        ';;' \
+        '-preset' \
+
+}

@@ -3,17 +3,17 @@
 
 # @option --base-path <dir>            base directory for scanning, no links will be followed above this directory, and all paths will be reported relative to this directory
 # @option --catalogers* <string>       enable one or more package catalogers
-# @option -c --config <file>           application config file
+# @option -c --config <file>           syft configuration file
 # @option --exclude* <path>            exclude paths from being scanned using a glob expression
-# @option --file <file>                file to write the default report output to (default is STDOUT)
+# @option --file <file>                file to write the default report output to (default is STDOUT) (DEPRECATED: use: output)
 # @flag -h --help                      help for syft
 # @option --name <string>              set the name of the target being analyzed (DEPRECATED: use: source-name)
-# @option -o --output*[syft-json|cyclonedx-xml|cyclonedx-json|github-json|spdx-tag-value|spdx-json|syft-table|syft-text|template]|(default|[syft-table] <string>  report output format, options=[syft-json cyclonedx-xml cyclonedx-json github-json spdx-tag-value spdx-json syft-table syft-text template] (default [syft-table])
+# @option -o --output*[cyclonedx-json|cyclonedx-xml|github-json|spdx-json|spdx-tag-value|syft-json|syft-table|syft-text|template]|(default|[syft-table] <file>  report output format (<format>=<file> to output to a file), formats=[cyclonedx-json cyclonedx-xml github-json spdx-json spdx-tag-value syft-json syft-table syft-text template] (default [syft-table])
 # @option --platform[`_module_oci_docker_platform`] <string>  an optional platform specifier for container image sources (e.g. 'linux/arm64', 'linux/arm64/v8', 'arm64', 'linux')
 # @flag -q --quiet                     suppress all logging output
-# @option -s --scope[Squashed|AllLayers] <string>  selection of layers to catalog, options=[Squashed AllLayers] (default "Squashed")
+# @option -s --scope[squashed|all-layers] <string>  selection of layers to catalog, options=[squashed all-layers] (default "squashed")
 # @option --source-name <string>       set the name of the target being analyzed
-# @option --source-version <string>    set the name of the target being analyzed
+# @option --source-version <string>    set the version of the target being analyzed
 # @option -t --template <file>         specify the path to a Go template file
 # @option -v --verbose <count>         increase verbosity (-v = info, -vv = debug)
 # @flag --version                      version for syft
@@ -24,17 +24,14 @@
 # @option --base-path <dir>            base directory for scanning, no links will be followed above this directory, and all paths will be reported relative to this directory
 # @option --catalogers* <string>       enable one or more package catalogers
 # @option --exclude* <path>            exclude paths from being scanned using a glob expression
-# @option --file <file>                file to write the default report output to (default is STDOUT)
 # @flag -h --help                      help for attest
-# @option -k --key <string>            the key to use for the attestation
 # @option --name <string>              set the name of the target being analyzed (DEPRECATED: use: source-name)
-# @option -o --output*[syft-json|cyclonedx-xml|cyclonedx-json|github-json|spdx-tag-value|spdx-json|syft-table|syft-text|template]|(default|[syft-table] <string>  report output format, options=[syft-json cyclonedx-xml cyclonedx-json github-json spdx-tag-value spdx-json syft-table syft-text template] (default [syft-table])
+# @option -o --output*[cyclonedx-json|cyclonedx-xml|github-json|spdx-json|spdx-tag-value|syft-json|syft-table|syft-text|template]|(default|[syft-json] <file>  report output format (<format>=<file> to output to a file), formats=[cyclonedx-json cyclonedx-xml github-json spdx-json spdx-tag-value syft-json syft-table syft-text template] (default [syft-json])
 # @option --platform[`_module_oci_docker_platform`] <string>  an optional platform specifier for container image sources (e.g. 'linux/arm64', 'linux/arm64/v8', 'arm64', 'linux')
-# @option -s --scope[Squashed|AllLayers] <string>  selection of layers to catalog, options=[Squashed AllLayers] (default "Squashed")
+# @option -s --scope[squashed|all-layers] <string>  selection of layers to catalog, options=[squashed all-layers] (default "squashed")
 # @option --source-name <string>       set the name of the target being analyzed
-# @option --source-version <string>    set the name of the target being analyzed
-# @option -t --template <file>         specify the path to a Go template file
-# @option -c --config <file>           application config file
+# @option --source-version <string>    set the version of the target being analyzed
+# @option -c --config <file>           syft configuration file
 # @flag -q --quiet                     suppress all logging output
 # @option -v --verbose <count>         increase verbosity (-v = info, -vv = debug)
 # @arg source[`_choice_source`]
@@ -46,7 +43,7 @@ attest() {
 # {{ syft completion
 # @cmd Generate the autocompletion script for the specified shell
 # @flag -h --help                 help for completion
-# @option -c --config <file>      application config file
+# @option -c --config <file>      syft configuration file
 # @flag -q --quiet                suppress all logging output
 # @option -v --verbose <count>    increase verbosity (-v = info, -vv = debug)
 completion() {
@@ -57,7 +54,7 @@ completion() {
 # @cmd Generate the autocompletion script for bash
 # @flag -h --help                 help for bash
 # @flag --no-descriptions         disable completion descriptions
-# @option -c --config <file>      application config file
+# @option -c --config <file>      syft configuration file
 # @flag -q --quiet                suppress all logging output
 # @option -v --verbose <count>    increase verbosity (-v = info, -vv = debug)
 completion::bash() {
@@ -69,7 +66,7 @@ completion::bash() {
 # @cmd Generate the autocompletion script for fish
 # @flag -h --help                 help for fish
 # @flag --no-descriptions         disable completion descriptions
-# @option -c --config <file>      application config file
+# @option -c --config <file>      syft configuration file
 # @flag -q --quiet                suppress all logging output
 # @option -v --verbose <count>    increase verbosity (-v = info, -vv = debug)
 completion::fish() {
@@ -81,7 +78,7 @@ completion::fish() {
 # @cmd Generate the autocompletion script for powershell
 # @flag -h --help                 help for powershell
 # @flag --no-descriptions         disable completion descriptions
-# @option -c --config <file>      application config file
+# @option -c --config <file>      syft configuration file
 # @flag -q --quiet                suppress all logging output
 # @option -v --verbose <count>    increase verbosity (-v = info, -vv = debug)
 completion::powershell() {
@@ -93,7 +90,7 @@ completion::powershell() {
 # @cmd Generate the autocompletion script for zsh
 # @flag -h --help                 help for zsh
 # @flag --no-descriptions         disable completion descriptions
-# @option -c --config <file>      application config file
+# @option -c --config <file>      syft configuration file
 # @flag -q --quiet                suppress all logging output
 # @option -v --verbose <count>    increase verbosity (-v = info, -vv = debug)
 completion::zsh() {
@@ -104,21 +101,13 @@ completion::zsh() {
 
 # {{ syft convert
 # @cmd Convert between SBOM formats
-# @option --base-path <dir>            base directory for scanning, no links will be followed above this directory, and all paths will be reported relative to this directory
-# @option --catalogers* <string>       enable one or more package catalogers
-# @option --exclude* <path>            exclude paths from being scanned using a glob expression
-# @option --file <file>                file to write the default report output to (default is STDOUT)
-# @flag -h --help                      help for convert
-# @option --name <string>              set the name of the target being analyzed (DEPRECATED: use: source-name)
-# @option -o --output*[syft-json|cyclonedx-xml|cyclonedx-json|github-json|spdx-tag-value|spdx-json|syft-table|syft-text|template]|(default|[syft-table] <string>  report output format, options=[syft-json cyclonedx-xml cyclonedx-json github-json spdx-tag-value spdx-json syft-table syft-text template] (default [syft-table])
-# @option --platform[`_module_oci_docker_platform`] <string>  an optional platform specifier for container image sources (e.g. 'linux/arm64', 'linux/arm64/v8', 'arm64', 'linux')
-# @option -s --scope[Squashed|AllLayers] <string>  selection of layers to catalog, options=[Squashed AllLayers] (default "Squashed")
-# @option --source-name <string>       set the name of the target being analyzed
-# @option --source-version <string>    set the name of the target being analyzed
-# @option -t --template <file>         specify the path to a Go template file
-# @option -c --config <file>           application config file
-# @flag -q --quiet                     suppress all logging output
-# @option -v --verbose <count>         increase verbosity (-v = info, -vv = debug)
+# @option --file <file>           file to write the default report output to (default is STDOUT) (DEPRECATED: use: output)
+# @flag -h --help                 help for convert
+# @option -o --output*[cyclonedx-json|cyclonedx-xml|github-json|spdx-json|spdx-tag-value|syft-json|syft-table|syft-text|template]|(default|[syft-table] <file>  report output format (<format>=<file> to output to a file), formats=[cyclonedx-json cyclonedx-xml github-json spdx-json spdx-tag-value syft-json syft-table syft-text template] (default [syft-table])
+# @option -t --template <file>    specify the path to a Go template file
+# @option -c --config <file>      syft configuration file
+# @flag -q --quiet                suppress all logging output
+# @option -v --verbose <count>    increase verbosity (-v = info, -vv = debug)
 # @arg source-sbom-file
 # @arg format[`_choice_convert_format`]
 convert() {
@@ -132,7 +121,7 @@ convert() {
 # @option -p --password <string>    Password
 # @flag --password-stdin            Take the password from stdin
 # @option -u --username <string>    Username
-# @option -c --config <file>        application config file
+# @option -c --config <file>        syft configuration file
 # @flag -q --quiet                  suppress all logging output
 # @option -v --verbose <count>      increase verbosity (-v = info, -vv = debug)
 # @arg server
@@ -146,16 +135,16 @@ login() {
 # @option --base-path <dir>            base directory for scanning, no links will be followed above this directory, and all paths will be reported relative to this directory
 # @option --catalogers* <string>       enable one or more package catalogers
 # @option --exclude* <path>            exclude paths from being scanned using a glob expression
-# @option --file <file>                file to write the default report output to (default is STDOUT)
+# @option --file <file>                file to write the default report output to (default is STDOUT) (DEPRECATED: use: output)
 # @flag -h --help                      help for packages
 # @option --name <string>              set the name of the target being analyzed (DEPRECATED: use: source-name)
-# @option -o --output*[syft-json|cyclonedx-xml|cyclonedx-json|github-json|spdx-tag-value|spdx-json|syft-table|syft-text|template]|(default|[syft-table] <string>  report output format, options=[syft-json cyclonedx-xml cyclonedx-json github-json spdx-tag-value spdx-json syft-table syft-text template] (default [syft-table])
+# @option -o --output*[cyclonedx-json|cyclonedx-xml|github-json|spdx-json|spdx-tag-value|syft-json|syft-table|syft-text|template]|(default|[syft-table] <file>  report output format (<format>=<file> to output to a file), formats=[cyclonedx-json cyclonedx-xml github-json spdx-json spdx-tag-value syft-json syft-table syft-text template] (default [syft-table])
 # @option --platform[`_module_oci_docker_platform`] <string>  an optional platform specifier for container image sources (e.g. 'linux/arm64', 'linux/arm64/v8', 'arm64', 'linux')
-# @option -s --scope[Squashed|AllLayers] <string>  selection of layers to catalog, options=[Squashed AllLayers] (default "Squashed")
+# @option -s --scope[squashed|all-layers] <string>  selection of layers to catalog, options=[squashed all-layers] (default "squashed")
 # @option --source-name <string>       set the name of the target being analyzed
-# @option --source-version <string>    set the name of the target being analyzed
+# @option --source-version <string>    set the version of the target being analyzed
 # @option -t --template <file>         specify the path to a Go template file
-# @option -c --config <file>           application config file
+# @option -c --config <file>           syft configuration file
 # @flag -q --quiet                     suppress all logging output
 # @option -v --verbose <count>         increase verbosity (-v = info, -vv = debug)
 # @arg source
@@ -165,10 +154,10 @@ packages() {
 # }} syft packages
 
 # {{ syft version
-# @cmd show the version
+# @cmd show version information
 # @flag -h --help                            help for version
-# @option -o --output[text|json] <string>    format to show version information (available=[text, json]) (default "text")
-# @option -c --config <file>                 application config file
+# @option -o --output[text|json] <string>    the format to show the results (allowable: [text json]) (default "text")
+# @option -c --config <file>                 syft configuration file
 # @flag -q --quiet                           suppress all logging output
 # @option -v --verbose <count>               increase verbosity (-v = info, -vv = debug)
 version() {

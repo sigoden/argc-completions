@@ -2,6 +2,10 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # @flag --abort-on-uncaught-exception              aborting instead of exiting causes a core file to be generated for analysis
+# @flag --allow-child-process                      allow use of child process when any permissions are set
+# @option --allow-fs-read <value>                  allow permissions to read the filesystem
+# @option --allow-fs-write <value>                 allow permissions to write in the filesystem
+# @flag --allow-worker                             allow worker threads when any permissions are set
 # @flag --build-snapshot                           Generate a snapshot blob when the process exits.
 # @flag -c --check                                 syntax check script without executing
 # @flag --completion-bash                          print source-able bash completion script
@@ -14,20 +18,22 @@
 # @option --disable-proto <value>                  disable Object.prototype.__proto__
 # @flag --disallow-code-generation-from-strings    disallow eval and friends
 # @option --dns-result-order <value>               set default value of verbatim in dns.lookup.
+# @flag --enable-etw-stack-walking                 provides heap data to ETW Windows native tracing
 # @flag --enable-fips                              enable FIPS crypto at startup
 # @flag --enable-source-maps                       Source Map V3 support for stack traces
+# @option --env-file <value>                       set environment variables from supplied file
 # @option -e --eval <value>                        evaluate script
-# @flag --experimental-global-customevent          expose experimental CustomEvent on the global scope
-# @flag --experimental-global-webcrypto            expose experimental Web Crypto API on the global scope
-# @flag --experimental-import-meta-resolve         experimental ES Module import.meta.resolve() support
+# @option --experimental-default-type <value>      set module system to use by default
+# @flag --experimental-detect-module               when ambiguous modules fail to evaluate because they contain ES module syntax, try again to evaluate them as ES modules
+# @flag --experimental-import-meta-resolve         experimental ES Module import.meta.resolve() parentURL support
 # @option --loader <value>                         use the specified module as a custom loader
 # @option --experimental-loader <value>            use the specified module as a custom loader
 # @flag --experimental-network-imports             experimental https: support for the ES Module loader
+# @flag --experimental-permission                  enable the permission system
 # @option --experimental-policy <file>             use the specified file as a security policy
-# @option --es-module-specifier-resolution <value>  Select extension resolution algorithm for es modules; either 'explicit' (default) or 'node'
-# @option --experimental-specifier-resolution <value>  Select extension resolution algorithm for es modules; either 'explicit' (default) or 'node'
+# @option --experimental-sea-config <value>        Generate a blob that can be embedded into the single executable application
+# @flag --experimental-test-coverage               enable code coverage in the test runner
 # @flag --experimental-vm-modules                  experimental ES Module support in vm module
-# @flag --experimental-wasi-unstable-preview1      experimental WASI support
 # @flag --experimental-wasm-modules                experimental ES Module support for webassembly modules
 # @flag --force-context-aware                      disable loading non-context-aware addons
 # @flag --force-fips                               force FIPS crypto (cannot be disabled)
@@ -42,6 +48,7 @@
 # @flag -h --help                                  print node command line options (currently set)
 # @flag --huge-max-old-generation-size             increase default maximum heap size on machines with 16GB memory or more
 # @option --icu-data-dir <dir>                     set ICU data load path to dir (overrides NODE_ICU_DATA) (note: linked-in ICU data is present)
+# @option --import <value>                         ES module to preload (option can be repeated)
 # @option --input-type <value>                     set module type for string input
 # @flag --insecure-http-parser                     use an insecure HTTP parser that accepts invalid HTTP headers
 # @option --inspect <[host:]port>                  activate inspector on host:port (default: 127.0.0.1:9229)
@@ -56,10 +63,15 @@
 # @flag --no-addons                                disable loading native addons
 # @flag --no-deprecation                           silence deprecation warnings
 # @flag --no-experimental-fetch                    experimental Fetch API
+# @flag --no-experimental-global-customevent       expose experimental CustomEvent on the global scope
+# @flag --no-experimental-global-webcrypto         expose experimental Web Crypto API on the global scope
 # @flag --no-experimental-repl-await               experimental await keyword support in REPL
+# @flag --no-experimental-websocket                experimental WebSocket API (currently set)
 # @flag --no-extra-info-on-fatal-exception         hide extra information on fatal exception that causes exit
 # @flag --no-force-async-hooks-checks              disable checks for async_hooks
 # @flag --no-global-search-paths                   disable global module search paths
+# @flag --enable-network-family-autoselection      Disable network address family autodetection algorithm
+# @flag --no-network-family-autoselection          Disable network address family autodetection algorithm
 # @flag --no-warnings                              silence all process warnings
 # @flag --node-memory-debug                        Run with extra debug checks for memory leaks in Node.js itself
 # @option --openssl-config <file>                  load OpenSSL configuration from the specified file (overrides OPENSSL_CONF)
@@ -81,13 +93,17 @@
 # @flag --report-on-signal                         generate diagnostic report upon receiving signals
 # @option --report-signal <value>                  causes diagnostic report to be produced on provided signal, unsupported in Windows.
 # @flag --report-uncaught-exception                generate diagnostic report on uncaught exceptions
-# @option -r --require <value>                     module to preload (option can be repeated)
+# @option -r --require <value>                     CommonJS module to preload (option can be repeated)
 # @option --secure-heap <value>                    total size of the OpenSSL secure heap
 # @option --secure-heap-min <value>                minimum allocation size from the OpenSSL secure heap
 # @option --snapshot-blob <value>                  Path to the snapshot blob that's either the result of snapshotbuilding, or the blob that is used to restore the application state
 # @flag --test                                     launch test runner on startup
+# @option --test-concurrency <value>               specify test runner concurrency
 # @option --test-name-pattern <value>              run tests whose name matches this regular expression
 # @flag --test-only                                run tests with 'only' option set
+# @option --test-reporter <value>                  report test output using the given reporter
+# @option --test-reporter-destination <value>      report given reporter to the given destination
+# @option --test-shard <value>                     run test at specific shard
 # @flag --throw-deprecation                        throw an exception on deprecations
 # @option --title <value>                          the process title to use on startup
 # @option --tls-cipher-list <value>                use an alternative default TLS cipher list

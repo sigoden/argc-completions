@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @flag -h --help       Print help information
-# @flag -V --version    Print version information
+# @flag -h --help       Print help
+# @flag -V --version    Print version
 
 # {{ mdbook init
 # @cmd Creates the boilerplate structure and files for a new book
@@ -10,8 +10,8 @@
 # @flag --force                          Skips confirmation prompts
 # @option --title <title>                Sets the book title
 # @option --ignore[none|git] <ignore>    Creates a VCS ignore file (i.e.
-# @flag -h --help                        Print help information
-# @flag -V --version                     Print version information
+# @flag -h --help                        Print help
+# @flag -V --version                     Print version
 # @arg dir                               Directory to create the book in (Defaults to the current directory when omitted)
 init() {
     :;
@@ -22,8 +22,8 @@ init() {
 # @cmd Builds a book from its markdown files
 # @option -d --dest-dir <dest-dir>    Output directory for the book Relative paths are interpreted relative to the book's root directory.
 # @flag -o --open                     Opens the compiled book in a web browser
-# @flag -h --help                     Print help information
-# @flag -V --version                  Print version information
+# @flag -h --help                     Print help
+# @flag -V --version                  Print version
 # @arg dir                            Root directory for the book (Defaults to the current directory when omitted)
 build() {
     :;
@@ -35,8 +35,8 @@ build() {
 # @option -d --dest-dir <dest-dir>    Output directory for the book Relative paths are interpreted relative to the book's root directory.
 # @option -c --chapter <chapter>
 # @option -L --library-path <dir>     A comma-separated list of directories to add to the crate search path when building tests
-# @flag -h --help                     Print help information
-# @flag -V --version                  Print version information
+# @flag -h --help                     Print help
+# @flag -V --version                  Print version
 # @arg dir                            Root directory for the book (Defaults to the current directory when omitted)
 test() {
     :;
@@ -46,8 +46,8 @@ test() {
 # {{ mdbook clean
 # @cmd Deletes a built book
 # @option -d --dest-dir <dest-dir>    Output directory for the book Relative paths are interpreted relative to the book's root directory.
-# @flag -h --help                     Print help information
-# @flag -V --version                  Print version information
+# @flag -h --help                     Print help
+# @flag -V --version                  Print version
 # @arg dir                            Root directory for the book (Defaults to the current directory when omitted)
 clean() {
     :;
@@ -56,8 +56,8 @@ clean() {
 
 # {{ mdbook completions
 # @cmd Generate shell completions for your shell to stdout
-# @flag -h --help                                 Print help information
-# @flag -V --version                              Print version information
+# @flag -h --help                                 Print help
+# @flag -V --version                              Print version
 # @arg shell![bash|elvish|fish|powershell|zsh]    the shell to generate completions for
 completions() {
     :;
@@ -68,8 +68,8 @@ completions() {
 # @cmd Watches a book's files and rebuilds it on changes
 # @option -d --dest-dir <dest-dir>    Output directory for the book Relative paths are interpreted relative to the book's root directory.
 # @flag -o --open                     Opens the compiled book in a web browser
-# @flag -h --help                     Print help information
-# @flag -V --version                  Print version information
+# @flag -h --help                     Print help
+# @flag -V --version                  Print version
 # @arg dir                            Root directory for the book (Defaults to the current directory when omitted)
 watch() {
     :;
@@ -82,8 +82,8 @@ watch() {
 # @option -n --hostname <hostname>    Hostname to listen on for HTTP connections [default: localhost]
 # @option -p --port <port>            Port to use for HTTP connections [default: 3000]
 # @flag -o --open                     Opens the compiled book in a web browser
-# @flag -h --help                     Print help information
-# @flag -V --version                  Print version information
+# @flag -h --help                     Print help
+# @flag -V --version                  Print version
 # @arg dir                            Root directory for the book (Defaults to the current directory when omitted)
 serve() {
     :;

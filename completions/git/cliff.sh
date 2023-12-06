@@ -4,6 +4,7 @@
 # @flag -h --help                                 Prints help information
 # @flag -V --version                              Prints version information
 # @flag -v --verbose*                             Increases the logging verbosity
+# @flag --bump                                    Bumps the version for unreleased changes
 # @flag -i --init                                 Writes the default configuration file to cliff.toml
 # @flag -l --latest                               Processes the commits starting from the latest tag
 # @flag --current                                 Processes the commits that belong to the current tag
@@ -25,6 +26,10 @@
 # @arg range[`_choice_range`]                     Sets the commit range to process
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
+
+_choice_remote_branch() {
+    _git branch --remote --sort=-creatordate --format '%(refname:short)	%(subject)' | head -n 100
+}
 
 _choice_range() {
     _argc_util_mode_kv '..'
@@ -49,10 +54,6 @@ _choice_head_commit() {
 
 _choice_local_branch() {
     _git branch --format '%(refname:short)	%(subject)'
-}
-
-_choice_remote_branch() {
-    _git branch --remote --sort=-creatordate --format '%(refname:short)	%(subject)' | head -n 100
 }
 
 _git() {

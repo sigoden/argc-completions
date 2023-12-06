@@ -60,8 +60,8 @@ END {
     }
     paramLineWidth = paramLineWidth + 2
     for (i = 1; i <= paramLineNum; i++) {
-        body = paramLines[i, 1]
-        description = paramLines[i, 2]
+        body = "# @" paramLines[i, 1] " " paramLines[i, 2]
+        description = paramLines[i, 3]
         if (length(description) == 0) {
             print body
         } else {
@@ -120,6 +120,9 @@ function parseOptions(words1, descVal, choicesVal) {
                 notation = substr(word, length(name) + 1)
             }
         } else if (index(word, "-") == 1 || index(word, "+") == 1) {
+            if (word == "-" || word == "+") {
+                continue
+            }
             sign = substr(word, 1, 1)
             notationGroupNum += 1
             notationListNum = 0
@@ -198,9 +201,9 @@ function parseOptions(words1, descVal, choicesVal) {
             notationVal = notationVal " <" notations[i] ">"
         }
     }
-    kindVal = "# @option "
+    kindVal = "option"
     if (choicesVal == "" && notationVal == "") {
-        kindVal = "# @flag "
+        kindVal = "flag"
     }
     if (notationVal == " <\"\">" || notationVal == " <=>") {
         notationVal = ""
@@ -211,18 +214,18 @@ function parseOptions(words1, descVal, choicesVal) {
             tailVal = modifierVal choicesVal
         }
         if (shortsLen == 0) {
-            addParamLine(kindVal longs[1] tailVal, descVal)
+            addParamLine(kindVal, longs[1] tailVal, descVal)
         } else {
-            addParamLine(kindVal shorts[1] " " longs[1] tailVal, descVal)
+            addParamLine(kindVal, shorts[1] " " longs[1] tailVal, descVal)
         }
     }  else {
         tailVal = modifierVal choicesVal notationVal
 
         for (i in shorts) {
-            addParamLine(kindVal shorts[i] tailVal, descVal)
+            addParamLine(kindVal, shorts[i] tailVal, descVal)
         }
         for (i in longs) {
-            addParamLine(kindVal longs[i] tailVal, descVal)
+            addParamLine(kindVal, longs[i] tailVal, descVal)
         }
     }
 }
@@ -273,7 +276,7 @@ function parseArgument(words1, descVal, choicesVal) {
         notationVal = " <"  notation ">"
     }
     argumentLine += 1
-    addParamLine("# @arg " name modifierVal choicesVal notationVal, descVal)
+    addParamLine("arg", name modifierVal choicesVal notationVal, descVal)
 }
 
 function parseCommand(words1, descVal) {
@@ -399,20 +402,35 @@ function parseNotation(item, extra) {
     }
 }
 
-function addParamLine(text, descVal) {
+function addParamLine(kind, text, descVal) {
     nextParam = 1
     if (paramLineNum > 0) {
-        textIdx = index(text, paramLines[paramLineNum, 1])
-        if (textIdx == 1 && match(substr(text, length(paramLines[paramLineNum, 1]) + 1), /^(|\*|-N)$/)) {
-            nextParam = 0
+        prevKind = paramLines[paramLineNum, 1]
+        if (kind == prevKind) {
+            prevText = paramLines[paramLineNum, 2]
+            textIdx = index(text, prevText)
+            if (textIdx == 1 && match(substr(text, length(prevText) + 1), /^(|\*|-N)$/)) {
+                nextParam = 0
+            }
+        } else if (kind == "option" && prevKind == "flag") {
+            prevText = paramLines[paramLineNum, 2]
+            if (!match(prevText, /-$/) && match(text, "^" prevText "($| |\\[|-$|- |-\\[)")) {
+                nextParam = 0
+            }
+        } else if (kind == "flag" && prevKind == "option") {
+            prevText = paramLines[paramLineNum, 2]
+            if (!match(text, /-$/) && match(prevText, "^" text "($| |\\[|-$|- |-\\[)")) {
+                return
+            }
         }
     }
     paramLineNum = paramLineNum + nextParam
-    paramLines[paramLineNum, 1] = text
-    paramLines[paramLineNum, 2] = descVal
-    textLen = length(text)
-    if (length(descVal) > 0 && textLen < paramLineMaxWidth && paramLineWidth < textLen) {
-        paramLineWidth = textLen
+    paramLines[paramLineNum, 1] = kind
+    paramLines[paramLineNum, 2] = text
+    paramLines[paramLineNum, 3] = descVal
+    bodyLen = length(text) + length(kind) + 4
+    if (length(descVal) > 0 && bodyLen < paramLineMaxWidth && paramLineWidth < bodyLen) {
+        paramLineWidth = bodyLen
     }
 }
 

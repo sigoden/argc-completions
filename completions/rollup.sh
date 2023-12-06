@@ -30,11 +30,12 @@
 # @flag --no-esModule                              Do not add __esModule property
 # @option --exports[auto|default|named|none] <mode>  Specify export mode
 # @flag --extend                                   Extend global variable defined by --name
-# @flag --no-externalImportAssertions              Omit import assertions in "es" output
+# @flag --no-externalImportAttributes              Omit import attributes in "es" output
 # @flag --no-externalLiveBindings                  Do not generate code to support live bindings
 # @flag --failAfterWarnings                        Exit with an error if the build produced warnings
 # @option --filterLogs <filter>                    Filter log messages
 # @option --footer <text>                          Code to insert at end of bundle (outside wrapper)
+# @flag --forceExit                                Force exit the process when done
 # @flag --no-freeze                                Do not freeze namespace objects
 # @option --generatedCode <preset>                 Which code features to use (es5/es2015)
 # @flag --generatedCode.arrowFunctions             Use arrow functions in generated code

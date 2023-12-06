@@ -19,7 +19,8 @@ bug() {
 # @flag -race                                 enable data race detection.
 # @flag -msan                                 enable interoperation with memory sanitizer.
 # @flag -asan                                 enable interoperation with address sanitizer.
-# @flag -cover                                enable code coverage instrumentation (requires that GOEXPERIMENT=coverageredesign be set).
+# @flag -cover                                enable code coverage instrumentation.
+# @option -covermode <set,count,atomic>       set the mode for coverage analysis.
 # @option -coverpkg <pattern1,pattern2,pattern3>  For a build that targets package 'main' (e.g. building a Go executable), apply coverage analysis to each package matching the patterns.
 # @flag -v                                    print the names of packages as they are compiled.
 # @flag -work                                 print the name of the temporary work directory and do not delete it when exiting.
@@ -57,7 +58,8 @@ build() {
 # @flag -race                                 enable data race detection.
 # @flag -msan                                 enable interoperation with memory sanitizer.
 # @flag -asan                                 enable interoperation with address sanitizer.
-# @flag -cover                                enable code coverage instrumentation (requires that GOEXPERIMENT=coverageredesign be set).
+# @flag -cover                                enable code coverage instrumentation.
+# @option -covermode <set,count,atomic>       set the mode for coverage analysis.
 # @option -coverpkg <pattern1,pattern2,pattern3>  For a build that targets package 'main' (e.g. building a Go executable), apply coverage analysis to each package matching the patterns.
 # @flag -v                                    print the names of packages as they are compiled.
 # @flag -work                                 print the name of the temporary work directory and do not delete it when exiting.
@@ -155,7 +157,8 @@ generate() {
 # @flag -race                                 enable data race detection.
 # @flag -msan                                 enable interoperation with memory sanitizer.
 # @flag -asan                                 enable interoperation with address sanitizer.
-# @flag -cover                                enable code coverage instrumentation (requires that GOEXPERIMENT=coverageredesign be set).
+# @flag -cover                                enable code coverage instrumentation.
+# @option -covermode <set,count,atomic>       set the mode for coverage analysis.
 # @option -coverpkg <pattern1,pattern2,pattern3>  For a build that targets package 'main' (e.g. building a Go executable), apply coverage analysis to each package matching the patterns.
 # @flag -v                                    print the names of packages as they are compiled.
 # @flag -work                                 print the name of the temporary work directory and do not delete it when exiting.
@@ -196,7 +199,8 @@ get() {
 # @flag -race                                 enable data race detection.
 # @flag -msan                                 enable interoperation with memory sanitizer.
 # @flag -asan                                 enable interoperation with address sanitizer.
-# @flag -cover                                enable code coverage instrumentation (requires that GOEXPERIMENT=coverageredesign be set).
+# @flag -cover                                enable code coverage instrumentation.
+# @option -covermode <set,count,atomic>       set the mode for coverage analysis.
 # @option -coverpkg <pattern1,pattern2,pattern3>  For a build that targets package 'main' (e.g. building a Go executable), apply coverage analysis to each package matching the patterns.
 # @flag -v                                    print the names of packages as they are compiled.
 # @flag -work                                 print the name of the temporary work directory and do not delete it when exiting.
@@ -235,7 +239,8 @@ install() {
 # @flag -race                                 enable data race detection.
 # @flag -msan                                 enable interoperation with memory sanitizer.
 # @flag -asan                                 enable interoperation with address sanitizer.
-# @flag -cover                                enable code coverage instrumentation (requires that GOEXPERIMENT=coverageredesign be set).
+# @flag -cover                                enable code coverage instrumentation.
+# @option -covermode <set,count,atomic>       set the mode for coverage analysis.
 # @option -coverpkg <pattern1,pattern2,pattern3>  For a build that targets package 'main' (e.g. building a Go executable), apply coverage analysis to each package matching the patterns.
 # @flag -v                                    print the names of packages as they are compiled.
 # @flag -work                                 print the name of the temporary work directory and do not delete it when exiting.
@@ -416,7 +421,8 @@ work::use() {
 # @flag -race                                 enable data race detection.
 # @flag -msan                                 enable interoperation with memory sanitizer.
 # @flag -asan                                 enable interoperation with address sanitizer.
-# @flag -cover                                enable code coverage instrumentation (requires that GOEXPERIMENT=coverageredesign be set).
+# @flag -cover                                enable code coverage instrumentation.
+# @option -covermode <set,count,atomic>       set the mode for coverage analysis.
 # @option -coverpkg <pattern1,pattern2,pattern3>  For a build that targets package 'main' (e.g. building a Go executable), apply coverage analysis to each package matching the patterns.
 # @flag -v                                    print the names of packages as they are compiled.
 # @flag -work                                 print the name of the temporary work directory and do not delete it when exiting.
@@ -454,7 +460,8 @@ run() {
 # @flag -race                                 enable data race detection.
 # @flag -msan                                 enable interoperation with memory sanitizer.
 # @flag -asan                                 enable interoperation with address sanitizer.
-# @flag -cover                                enable code coverage instrumentation (requires that GOEXPERIMENT=coverageredesign be set).
+# @flag -cover                                enable code coverage instrumentation.
+# @option -covermode <set,count,atomic>       set the mode for coverage analysis.
 # @option -coverpkg <pattern1,pattern2,pattern3>  For a build that targets package 'main' (e.g. building a Go executable), apply coverage analysis to each package matching the patterns.
 # @flag -v                                    print the names of packages as they are compiled.
 # @flag -work                                 print the name of the temporary work directory and do not delete it when exiting.
@@ -478,14 +485,13 @@ run() {
 # @flag -trimpath                             remove all file system paths from the resulting executable.
 # @option -toolexec <cmd args>                a program to use to invoke toolchain programs like vet and asm.
 # @flag -args                                 Pass the remainder of the command line (everything after -args) to the test binary, uninterpreted and unchanged.
-# @flag -c                                    Compile the test binary to pkg.test but do not run it (where pkg is the last element of the package's import path).
+# @flag -c                                    Compile the test binary to pkg.test in the current directory but do not run it (where pkg is the last element of the package's import path).
 # @option -exec <xprog>                       Run the test binary using xprog.
 # @flag -json                                 Convert test output to JSON suitable for automated processing.
 # @option -o <file>                           Compile the test binary to the named file.
 # @option -bench*|[`_choice_bench_target`] <value>  run only those benchmarks matching a regular expression
 # @option -benchtime <value>                  Run enough iterations of each benchmark to take given duration
 # @option -count <value>                      run each test and benchmark n times
-# @option -covermode <value>                  set the mode for coverage analysis for the package
 # @flag -cpu                                  specify a list of GOMAXPROCS values for which the tests or benchmarks should be executed
 # @flag -failfast                             Do not start new tests after the first test failure
 # @flag -i                                    install packages that are dependencies of the test

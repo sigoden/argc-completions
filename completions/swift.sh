@@ -4,10 +4,12 @@
 # @option -access-notes-path <value>               Specify YAML file to override attributes on Swift declarations in this module
 # @option -allowable-client <vers>                 Module names that are allowed to import this module
 # @option -assert-config <value>                   Specify the assert_configuration replacement.
+# @option -clang-build-session-file <value>        Use the last modification time of <file> as the underlying Clang build session timestamp
 # @option -clang-target <value>                    Separately set the target we should use for internal Clang instance
 # @flag -color-diagnostics                         Print diagnostics in color
 # @flag -continue-building-after-errors            Continue building, even after errors are encountered
 # @option -coverage-prefix-map <prefix=replacement>  Remap source paths in coverage info
+# @option -cxx-interoperability-mode <value>       Enables C++ interoperability; pass 'default' to enable or 'off' to disable
 # @option -debug-info-format <value>               Specify the debug info format type to either 'dwarf' or 'codeview'
 # @flag -debug-info-store-invocation               Emit the compiler invocation in the debug info.
 # @option -debug-prefix-map <prefix=replacement>   Remap source paths in debug info
@@ -27,6 +29,7 @@
 # @flag -enable-actor-data-race-checks             Emit runtime checks for actor data races
 # @flag -enable-autolinking-runtime-compatibility-bytecode-layouts  Enable autolinking for the bytecode layouts runtime compatibility library
 # @flag -enable-bare-slash-regex                   Enable the use of forward slash regular-expression literal syntax
+# @flag -enable-builtin-module                     Enables the explicit import of the Builtin module
 # @flag -enable-experimental-additive-arithmetic-derivation  Enable experimental 'AdditiveArithmetic' derived conformances
 # @flag -enable-experimental-concise-pound-file    Enable experimental concise '#file' identifier
 # @option -enable-experimental-feature <value>     Enable an experimental feature
@@ -36,6 +39,9 @@
 # @flag -enable-only-one-dependency-file           Enables incremental build optimization that only produces one dependencies file
 # @option -enable-upcoming-feature <value>         Enable a feature that will be introduced in an upcoming language version
 # @option -enforce-exclusivity <enforcement>       Enforce law of exclusivity
+# @option -explain-module-dependency <value>       Emit remark/notes describing why compilaiton may depend on a module with a given name.
+# @option -export-as <value>                       Module name to use when referenced in clients module interfaces
+# @option -external-plugin-path <<path>#<plugin-server-path>>  Add directory to the plugin search path with a plugin server executable
 # @option -e <value>                               Executes a line of code provided on the command line
 # @option -file-compilation-dir <path>             The compilation directory to embed in the debug info.
 # @option -file-prefix-map <prefix=replacement>    Remap source paths in debug, coverage, and index info
@@ -55,6 +61,7 @@
 # @option -j <n>                                   Number of commands to execute in parallel
 # @option -libc <value>                            libc runtime library to use
 # @flag -link-objc-runtime                         Deprecated
+# @option -load-plugin-executable <<path>#<module-names>>  Path to an executable compiler plugins and providing module names such as macros
 # @option -load-plugin-library <path>              Path to a dynamic library containing compiler plugins such as macros
 # @option -locale <locale-code>                    Choose a language for diagnostic messages
 # @option -localization-path <path>                Path to localized diagnostic messages directory
@@ -74,6 +81,7 @@
 # @flag -Ounchecked                                Compile with optimizations and remove runtime safety checks
 # @flag -O                                         Compile with optimizations
 # @option -package-name <value>                    Name of the package the module belongs to
+# @option -plugin-path <value>                     Add directory to the plugin search path
 # @flag -prefix-serialized-debugging-options       Apply debug prefix mappings to serialized debug info in Swiftmodule files
 # @flag -pretty-print                              Pretty-print the output JSON
 # @flag -print-educational-notes                   Include educational notes in printed diagnostic output, if available
@@ -105,46 +113,55 @@
 # @option -target <triple>                         Generate code for the given target <triple>, such as x86_64-apple-macos10.9
 # @option -use-ld <value>                          Specifies the linker to be used
 # @option -user-module-version <vers>              Module version specified from Swift module authors
+# @flag -validate-clang-modules-once               Don't verify input files for Clang modules if the module has been successfully validated or loaded during this build session
 # @flag -version                                   Print version information and exit
 # @option -vfsoverlay <value>                      Add directory to VFS overlay file
+# @option -visualc-tools-root <root>               VisualC++ Tools Root
+# @option -visualc-tools-version <version>         VisualC++ ToolSet Version
 # @flag -v                                         Show commands to run and use verbose output
 # @flag -warn-concurrency                          Warn about code that is unsafe according to the Swift Concurrency model and will become ill-formed in a future language version
 # @flag -warn-implicit-overrides                   Warn about implicit overrides of protocol members
 # @flag -warn-swift3-objc-inference-complete       Warn about deprecated @objc inference in Swift 3 for every declaration that will no longer be inferred as @objc in Swift 4
 # @flag -warn-swift3-objc-inference-minimal        Warn about deprecated @objc inference in Swift 3 based on direct uses of the Objective-C entrypoint
 # @flag -warnings-as-errors                        Treat warnings as errors
+# @option -windows-sdk-root <root>                 Windows SDK Root
+# @option -windows-sdk-version <version>           Windows SDK Version
 # @option -working-directory <path>                Resolve file paths relative to the specified directory
 # @option -Xcc <arg>                               Pass <arg> to the C/C++/Objective-C compiler
 # @option -Xlinker <value>                         Specifies an option which should be passed to the linker
 
 # {{ swift build
-# @cmd Build sources into binary products
+# @cmd Build Swift packages
 # @option --package-path <package-path>           Specify the package path to operate on (default current directory).
 # @option --cache-path <cache-path>               Specify the shared cache directory path
 # @option --config-path <config-path>             Specify the shared configuration directory path
 # @option --security-path <security-path>         Specify the shared security directory path
 # @option --scratch-path <scratch-path>           Specify a custom scratch directory path (default .build)
 # @option --pkg-config-path <pkg-config-path>     Specify alternative path to search for pkg-config `.pc` files.
-# @option --enable-dependency-cache </--disable-dependency-cache>  Use a shared cache when fetching dependencies (default: true)
-# @option --enable-build-manifest-caching </--disable-build-manifest-caching>  (default: true)
+# @option --enable-dependency-cache </--disable-dependency-cache>  Use a shared cache when fetching dependencies (default: --enable-dependency-cache)
+# @option --enable-build-manifest-caching </--disable-build-manifest-caching>  (default: --enable-build-manifest-caching)
 # @option --manifest-cache <manifest-cache>       Caching mode of Package.swift manifests (shared: shared cache, local: package's build directory, none: disabled (default: shared)
 # @flag -v --verbose                              Increase verbosity to include informational output
 # @flag --very-verbose                            Increase verbosity to include debug output
 # @flag --vv                                      Increase verbosity to include debug output
+# @flag -q --quiet                                Decrease verbosity to only include error output.
 # @flag --disable-sandbox                         Disable using the sandbox when executing subprocesses
 # @flag --netrc                                   Use netrc file even in cases where other credential stores are preferred
-# @option --enable-netrc </--disable-netrc>       Load credentials from a netrc file (default: true)
+# @option --enable-netrc </--disable-netrc>       Load credentials from a netrc file (default: --enable-netrc)
 # @option --netrc-file <netrc-file>               Specify the netrc file path
-# @option --enable-keychain </--disable-keychain>  Search credentials in macOS keychain (default: true)
+# @option --enable-keychain </--disable-keychain>  Search credentials in macOS keychain (default: --enable-keychain)
 # @option --resolver-fingerprint-checking <resolver-fingerprint-checking>  (default: strict)
-# @option --enable-prefetching </--disable-prefetching>  (default: true)
+# @option --resolver-signing-entity-checking <resolver-signing-entity-checking>  (default: warn)
+# @option --enable-signature-validation </--disable-signature-validation>  Validate signature of a signed package release downloaded from registry (default: --enable-signature-validation)
+# @option --enable-prefetching </--disable-prefetching>  (default: --enable-prefetching)
 # @flag --force-resolved-versions                 Only use versions from the Package.resolved file and fail resolution if it is out-of-date
 # @flag --disable-automatic-resolution            Only use versions from the Package.resolved file and fail resolution if it is out-of-date
 # @flag --only-use-versions-from-resolved-file    Only use versions from the Package.resolved file and fail resolution if it is out-of-date
 # @flag --skip-update                             Skip updating dependencies from their remote during a resolution
-# @flag --disable-scm-to-registry-transformation  disable source control to registry transformation (default: swizzle)
-# @flag --use-registry-identity-for-scm           look up source control dependencies in the registry and use their registry identity when possible to help deduplicate across the two origins (default: swizzle)
-# @flag --replace-scm-with-registry               look up source control dependencies in the registry and use the registry to retrieve them instead of source control when possible (default: swizzle)
+# @flag --disable-scm-to-registry-transformation  disable source control to registry transformation (default: --disable-scm-to-registry-transformation)
+# @flag --use-registry-identity-for-scm           look up source control dependencies in the registry and use their registry identity when possible to help deduplicate across the two origins
+# @flag --replace-scm-with-registry               look up source control dependencies in the registry and use the registry to retrieve them instead of source control when possible
+# @option --default-registry-url <default-registry-url>  Default registry URL to use, instead of the registries.json configuration file
 # @option -c --configuration <configuration>      Build with configuration (default: debug)
 # @option -Xcc <Xcc>                              Pass flag through to all C compiler invocations
 # @option -Xswiftc <Xswiftc>                      Pass flag through to all Swift compiler invocations
@@ -154,7 +171,7 @@
 # @option --sdk <sdk>
 # @option --toolchain <toolchain>
 # @option --sanitize[address|thread|undefined|scudo] <sanitize>  Turn on runtime checks for erroneous behavior, possible values: address, thread, undefined, scudo
-# @option --auto-index-store </--enable-index-store/--disable-index-store>  Enable or disable indexing-while-building feature (default: autoIndexStore)
+# @option --auto-index-store </--enable-index-store/--disable-index-store>  Enable or disable indexing-while-building feature (default: --auto-index-store)
 # @flag --enable-parseable-module-interfaces
 # @option -j --jobs <jobs>                        The number of jobs to spawn in parallel during the build process
 # @flag --emit-swift-module-separately
@@ -162,8 +179,8 @@
 # @option --explicit-target-dependency-import-check <explicit-target-dependency-import-check>  (default: none)
 # @flag --experimental-explicit-module-build
 # @option --build-system <build-system>           (default: native)
-# @option --enable-dead-strip </--disable-dead-strip>  Disable/enable dead code stripping by the linker (default: true)
-# @option --static-swift-stdlib </--no-static-swift-stdlib>  Link Swift stdlib statically (default: false)
+# @option --enable-dead-strip </--disable-dead-strip>  Disable/enable dead code stripping by the linker (default: --enable-dead-strip)
+# @option --static-swift-stdlib </--no-static-swift-stdlib>  Link Swift stdlib statically (default: --no-static-swift-stdlib)
 # @flag --build-tests                             Build both source and test targets
 # @flag --show-bin-path                           Print the binary output path
 # @flag --print-manifest-job-graph                Write the command graph for the build manifest as a graphviz file
@@ -179,33 +196,37 @@ build() {
 # }} swift build
 
 # {{ swift package
-# @cmd Perform operations on Swift packages
+# @cmd Create and work on packages
 # @option --package-path <package-path>           Specify the package path to operate on (default current directory).
 # @option --cache-path <cache-path>               Specify the shared cache directory path
 # @option --config-path <config-path>             Specify the shared configuration directory path
 # @option --security-path <security-path>         Specify the shared security directory path
 # @option --scratch-path <scratch-path>           Specify a custom scratch directory path (default .build)
 # @option --pkg-config-path <pkg-config-path>     Specify alternative path to search for pkg-config `.pc` files.
-# @option --enable-dependency-cache </--disable-dependency-cache>  Use a shared cache when fetching dependencies (default: true)
-# @option --enable-build-manifest-caching </--disable-build-manifest-caching>  (default: true)
+# @option --enable-dependency-cache </--disable-dependency-cache>  Use a shared cache when fetching dependencies (default: --enable-dependency-cache)
+# @option --enable-build-manifest-caching </--disable-build-manifest-caching>  (default: --enable-build-manifest-caching)
 # @option --manifest-cache <manifest-cache>       Caching mode of Package.swift manifests (shared: shared cache, local: package's build directory, none: disabled (default: shared)
 # @flag -v --verbose                              Increase verbosity to include informational output
 # @flag --very-verbose                            Increase verbosity to include debug output
 # @flag --vv                                      Increase verbosity to include debug output
+# @flag -q --quiet                                Decrease verbosity to only include error output.
 # @flag --disable-sandbox                         Disable using the sandbox when executing subprocesses
 # @flag --netrc                                   Use netrc file even in cases where other credential stores are preferred
-# @option --enable-netrc </--disable-netrc>       Load credentials from a netrc file (default: true)
+# @option --enable-netrc </--disable-netrc>       Load credentials from a netrc file (default: --enable-netrc)
 # @option --netrc-file <netrc-file>               Specify the netrc file path
-# @option --enable-keychain </--disable-keychain>  Search credentials in macOS keychain (default: true)
+# @option --enable-keychain </--disable-keychain>  Search credentials in macOS keychain (default: --enable-keychain)
 # @option --resolver-fingerprint-checking <resolver-fingerprint-checking>  (default: strict)
-# @option --enable-prefetching </--disable-prefetching>  (default: true)
+# @option --resolver-signing-entity-checking <resolver-signing-entity-checking>  (default: warn)
+# @option --enable-signature-validation </--disable-signature-validation>  Validate signature of a signed package release downloaded from registry (default: --enable-signature-validation)
+# @option --enable-prefetching </--disable-prefetching>  (default: --enable-prefetching)
 # @flag --force-resolved-versions                 Only use versions from the Package.resolved file and fail resolution if it is out-of-date
 # @flag --disable-automatic-resolution            Only use versions from the Package.resolved file and fail resolution if it is out-of-date
 # @flag --only-use-versions-from-resolved-file    Only use versions from the Package.resolved file and fail resolution if it is out-of-date
 # @flag --skip-update                             Skip updating dependencies from their remote during a resolution
-# @flag --disable-scm-to-registry-transformation  disable source control to registry transformation (default: swizzle)
-# @flag --use-registry-identity-for-scm           look up source control dependencies in the registry and use their registry identity when possible to help deduplicate across the two origins (default: swizzle)
-# @flag --replace-scm-with-registry               look up source control dependencies in the registry and use the registry to retrieve them instead of source control when possible (default: swizzle)
+# @flag --disable-scm-to-registry-transformation  disable source control to registry transformation (default: --disable-scm-to-registry-transformation)
+# @flag --use-registry-identity-for-scm           look up source control dependencies in the registry and use their registry identity when possible to help deduplicate across the two origins
+# @flag --replace-scm-with-registry               look up source control dependencies in the registry and use the registry to retrieve them instead of source control when possible
+# @option --default-registry-url <default-registry-url>  Default registry URL to use, instead of the registries.json configuration file
 # @option -c --configuration <configuration>      Build with configuration (default: debug)
 # @option -Xcc <Xcc>                              Pass flag through to all C compiler invocations
 # @option -Xswiftc <Xswiftc>                      Pass flag through to all Swift compiler invocations
@@ -215,7 +236,7 @@ build() {
 # @option --sdk <sdk>
 # @option --toolchain <toolchain>
 # @option --sanitize[address|thread|undefined|scudo] <sanitize>  Turn on runtime checks for erroneous behavior, possible values: address, thread, undefined, scudo
-# @option --auto-index-store </--enable-index-store/--disable-index-store>  Enable or disable indexing-while-building feature (default: autoIndexStore)
+# @option --auto-index-store </--enable-index-store/--disable-index-store>  Enable or disable indexing-while-building feature (default: --auto-index-store)
 # @flag --enable-parseable-module-interfaces
 # @option -j --jobs <jobs>                        The number of jobs to spawn in parallel during the build process
 # @flag --emit-swift-module-separately
@@ -223,8 +244,8 @@ build() {
 # @option --explicit-target-dependency-import-check <explicit-target-dependency-import-check>  (default: none)
 # @flag --experimental-explicit-module-build
 # @option --build-system <build-system>           (default: native)
-# @option --enable-dead-strip </--disable-dead-strip>  Disable/enable dead code stripping by the linker (default: true)
-# @option --static-swift-stdlib </--no-static-swift-stdlib>  Link Swift stdlib statically (default: false)
+# @option --enable-dead-strip </--disable-dead-strip>  Disable/enable dead code stripping by the linker (default: --enable-dead-strip)
+# @option --static-swift-stdlib </--no-static-swift-stdlib>  Link Swift stdlib statically (default: --no-static-swift-stdlib)
 # @flag --version                                 Show the version.
 # @flag -h                                        Show help information.
 # @flag -help                                     Show help information.
@@ -273,7 +294,7 @@ package::reset() {
 # @flag -h              Show help information.
 # @flag -help           Show help information.
 # @flag --help          Show help information.
-# @arg packages!        The packages to update
+# @arg packages+        The packages to update
 package::update() {
     :;
 }
@@ -338,18 +359,6 @@ package::dump-symbol-graph() {
 }
 # }}} swift package dump-symbol-graph
 
-# {{{ swift package dump-pif
-# @cmd
-# @flag --preserve-structure    Preserve the internal structure of PIF
-# @flag --version               Show the version.
-# @flag -h                      Show help information.
-# @flag -help                   Show help information.
-# @flag --help                  Show help information.
-package::dump-pif() {
-    :;
-}
-# }}} swift package dump-pif
-
 # {{{ swift package dump-package
 # @cmd Print parsed Package.swift as JSON
 # @flag --version    Show the version.
@@ -401,14 +410,12 @@ package::config() {
 
 # {{{{ swift package config set-mirror
 # @cmd Set a mirror for a dependency
-# @option --package-url <package-url>      The package dependency url
-# @option --original-url <original-url>    The original url
-# @option --mirror-url <mirror-url>        The mirror url
-# @flag --version                          Show the version.
-# @flag -h                                 Show help information.
-# @flag -help                              Show help information.
-# @flag --help                             Show help information.
-# @arg mirror-url!
+# @option --original <original>    The original url or identity
+# @option --mirror <mirror>        The mirror url or identity
+# @flag --version                  Show the version.
+# @flag -h                         Show help information.
+# @flag -help                      Show help information.
+# @flag --help                     Show help information.
 package::config::set-mirror() {
     :;
 }
@@ -416,13 +423,12 @@ package::config::set-mirror() {
 
 # {{{{ swift package config unset-mirror
 # @cmd Remove an existing mirror
-# @option --package-url <package-url>      The package dependency url
-# @option --original-url <original-url>    The original url
-# @option --mirror-url <mirror-url>        The mirror url
-# @flag --version                          Show the version.
-# @flag -h                                 Show help information.
-# @flag -help                              Show help information.
-# @flag --help                             Show help information.
+# @option --original <original>    The original url or identity
+# @option --mirror <mirror>        The mirror url or identity
+# @flag --version                  Show the version.
+# @flag -h                         Show help information.
+# @flag -help                      Show help information.
+# @flag --help                     Show help information.
 package::config::unset-mirror() {
     :;
 }
@@ -430,12 +436,11 @@ package::config::unset-mirror() {
 
 # {{{{ swift package config get-mirror
 # @cmd Print mirror configuration for the given package dependency
-# @option --package-url <package-url>      The package dependency url
-# @option --original-url <original-url>    The original url
-# @flag --version                          Show the version.
-# @flag -h                                 Show help information.
-# @flag -help                              Show help information.
-# @flag --help                             Show help information.
+# @option --original <original>    The original url or identity
+# @flag --version                  Show the version.
+# @flag -h                         Show help information.
+# @flag -help                      Show help information.
+# @flag --help                     Show help information.
 package::config::get-mirror() {
     :;
 }
@@ -523,12 +528,13 @@ package::completion-tool() {
 # @flag --list                                  List the available command plugins
 # @flag --allow-writing-to-package-directory    Allow the plugin to write to the package directory
 # @option --allow-writing-to-directory <allow-writing-to-directory>  Allow the plugin to write to an additional directory
+# @option --allow-network-connections <allow-network-connections>  (default: none)
 # @flag --version                               Show the version.
 # @flag -h                                      Show help information.
 # @flag -help                                   Show help information.
 # @flag --help                                  Show help information.
 # @arg command!                                 Verb of the command plugin to invoke
-# @arg arguments!                               Arguments to pass to the command plugin
+# @arg arguments+                               Arguments to pass to the command plugin
 package::plugin() {
     :;
 }
@@ -536,33 +542,37 @@ package::plugin() {
 # }} swift package
 
 # {{ swift run
-# @cmd Build and run an executable product
+# @cmd Run a program from a package
 # @option --package-path <package-path>           Specify the package path to operate on (default current directory).
 # @option --cache-path <cache-path>               Specify the shared cache directory path
 # @option --config-path <config-path>             Specify the shared configuration directory path
 # @option --security-path <security-path>         Specify the shared security directory path
 # @option --scratch-path <scratch-path>           Specify a custom scratch directory path (default .build)
 # @option --pkg-config-path <pkg-config-path>     Specify alternative path to search for pkg-config `.pc` files.
-# @option --enable-dependency-cache </--disable-dependency-cache>  Use a shared cache when fetching dependencies (default: true)
-# @option --enable-build-manifest-caching </--disable-build-manifest-caching>  (default: true)
+# @option --enable-dependency-cache </--disable-dependency-cache>  Use a shared cache when fetching dependencies (default: --enable-dependency-cache)
+# @option --enable-build-manifest-caching </--disable-build-manifest-caching>  (default: --enable-build-manifest-caching)
 # @option --manifest-cache <manifest-cache>       Caching mode of Package.swift manifests (shared: shared cache, local: package's build directory, none: disabled (default: shared)
 # @flag -v --verbose                              Increase verbosity to include informational output
 # @flag --very-verbose                            Increase verbosity to include debug output
 # @flag --vv                                      Increase verbosity to include debug output
+# @flag -q --quiet                                Decrease verbosity to only include error output.
 # @flag --disable-sandbox                         Disable using the sandbox when executing subprocesses
 # @flag --netrc                                   Use netrc file even in cases where other credential stores are preferred
-# @option --enable-netrc </--disable-netrc>       Load credentials from a netrc file (default: true)
+# @option --enable-netrc </--disable-netrc>       Load credentials from a netrc file (default: --enable-netrc)
 # @option --netrc-file <netrc-file>               Specify the netrc file path
-# @option --enable-keychain </--disable-keychain>  Search credentials in macOS keychain (default: true)
+# @option --enable-keychain </--disable-keychain>  Search credentials in macOS keychain (default: --enable-keychain)
 # @option --resolver-fingerprint-checking <resolver-fingerprint-checking>  (default: strict)
-# @option --enable-prefetching </--disable-prefetching>  (default: true)
+# @option --resolver-signing-entity-checking <resolver-signing-entity-checking>  (default: warn)
+# @option --enable-signature-validation </--disable-signature-validation>  Validate signature of a signed package release downloaded from registry (default: --enable-signature-validation)
+# @option --enable-prefetching </--disable-prefetching>  (default: --enable-prefetching)
 # @flag --force-resolved-versions                 Only use versions from the Package.resolved file and fail resolution if it is out-of-date
 # @flag --disable-automatic-resolution            Only use versions from the Package.resolved file and fail resolution if it is out-of-date
 # @flag --only-use-versions-from-resolved-file    Only use versions from the Package.resolved file and fail resolution if it is out-of-date
 # @flag --skip-update                             Skip updating dependencies from their remote during a resolution
-# @flag --disable-scm-to-registry-transformation  disable source control to registry transformation (default: swizzle)
-# @flag --use-registry-identity-for-scm           look up source control dependencies in the registry and use their registry identity when possible to help deduplicate across the two origins (default: swizzle)
-# @flag --replace-scm-with-registry               look up source control dependencies in the registry and use the registry to retrieve them instead of source control when possible (default: swizzle)
+# @flag --disable-scm-to-registry-transformation  disable source control to registry transformation (default: --disable-scm-to-registry-transformation)
+# @flag --use-registry-identity-for-scm           look up source control dependencies in the registry and use their registry identity when possible to help deduplicate across the two origins
+# @flag --replace-scm-with-registry               look up source control dependencies in the registry and use the registry to retrieve them instead of source control when possible
+# @option --default-registry-url <default-registry-url>  Default registry URL to use, instead of the registries.json configuration file
 # @option -c --configuration <configuration>      Build with configuration (default: debug)
 # @option -Xcc <Xcc>                              Pass flag through to all C compiler invocations
 # @option -Xswiftc <Xswiftc>                      Pass flag through to all Swift compiler invocations
@@ -572,7 +582,7 @@ package::plugin() {
 # @option --sdk <sdk>
 # @option --toolchain <toolchain>
 # @option --sanitize[address|thread|undefined|scudo] <sanitize>  Turn on runtime checks for erroneous behavior, possible values: address, thread, undefined, scudo
-# @option --auto-index-store </--enable-index-store/--disable-index-store>  Enable or disable indexing-while-building feature (default: autoIndexStore)
+# @option --auto-index-store </--enable-index-store/--disable-index-store>  Enable or disable indexing-while-building feature (default: --auto-index-store)
 # @flag --enable-parseable-module-interfaces
 # @option -j --jobs <jobs>                        The number of jobs to spawn in parallel during the build process
 # @flag --emit-swift-module-separately
@@ -580,11 +590,11 @@ package::plugin() {
 # @option --explicit-target-dependency-import-check <explicit-target-dependency-import-check>  (default: none)
 # @flag --experimental-explicit-module-build
 # @option --build-system <build-system>           (default: native)
-# @option --enable-dead-strip </--disable-dead-strip>  Disable/enable dead code stripping by the linker (default: true)
-# @option --static-swift-stdlib </--no-static-swift-stdlib>  Link Swift stdlib statically (default: false)
-# @flag --repl                                    Launch Swift REPL for the package (default: run)
-# @flag --debugger                                Launch the executable in a debugger session (default: run)
-# @flag --run                                     Launch the executable with the provided arguments (default: run)
+# @option --enable-dead-strip </--disable-dead-strip>  Disable/enable dead code stripping by the linker (default: --enable-dead-strip)
+# @option --static-swift-stdlib </--no-static-swift-stdlib>  Link Swift stdlib statically (default: --no-static-swift-stdlib)
+# @flag --repl                                    Launch Swift REPL for the package
+# @flag --debugger                                Launch the executable in a debugger session
+# @flag --run                                     Launch the executable with the provided arguments (default: --run)
 # @flag --skip-build                              Skip building the executable product
 # @flag --build-tests                             Build both source and test targets
 # @flag --version                                 Show the version.
@@ -592,40 +602,44 @@ package::plugin() {
 # @flag -help                                     Show help information.
 # @flag --help                                    Show help information.
 # @arg executable!                                The executable to run
-# @arg arguments!                                 The arguments to pass to the executable
+# @arg arguments+                                 The arguments to pass to the executable
 run() {
     :;
 }
 # }} swift run
 
 # {{ swift test
-# @cmd Build and run tests
+# @cmd Run package tests
 # @option --package-path <package-path>           Specify the package path to operate on (default current directory).
 # @option --cache-path <cache-path>               Specify the shared cache directory path
 # @option --config-path <config-path>             Specify the shared configuration directory path
 # @option --security-path <security-path>         Specify the shared security directory path
 # @option --scratch-path <scratch-path>           Specify a custom scratch directory path (default .build)
 # @option --pkg-config-path <pkg-config-path>     Specify alternative path to search for pkg-config `.pc` files.
-# @option --enable-dependency-cache </--disable-dependency-cache>  Use a shared cache when fetching dependencies (default: true)
-# @option --enable-build-manifest-caching </--disable-build-manifest-caching>  (default: true)
+# @option --enable-dependency-cache </--disable-dependency-cache>  Use a shared cache when fetching dependencies (default: --enable-dependency-cache)
+# @option --enable-build-manifest-caching </--disable-build-manifest-caching>  (default: --enable-build-manifest-caching)
 # @option --manifest-cache <manifest-cache>       Caching mode of Package.swift manifests (shared: shared cache, local: package's build directory, none: disabled (default: shared)
 # @flag -v --verbose                              Increase verbosity to include informational output
 # @flag --very-verbose                            Increase verbosity to include debug output
 # @flag --vv                                      Increase verbosity to include debug output
+# @flag -q --quiet                                Decrease verbosity to only include error output.
 # @flag --disable-sandbox                         Disable using the sandbox when executing subprocesses
 # @flag --netrc                                   Use netrc file even in cases where other credential stores are preferred
-# @option --enable-netrc </--disable-netrc>       Load credentials from a netrc file (default: true)
+# @option --enable-netrc </--disable-netrc>       Load credentials from a netrc file (default: --enable-netrc)
 # @option --netrc-file <netrc-file>               Specify the netrc file path
-# @option --enable-keychain </--disable-keychain>  Search credentials in macOS keychain (default: true)
+# @option --enable-keychain </--disable-keychain>  Search credentials in macOS keychain (default: --enable-keychain)
 # @option --resolver-fingerprint-checking <resolver-fingerprint-checking>  (default: strict)
-# @option --enable-prefetching </--disable-prefetching>  (default: true)
+# @option --resolver-signing-entity-checking <resolver-signing-entity-checking>  (default: warn)
+# @option --enable-signature-validation </--disable-signature-validation>  Validate signature of a signed package release downloaded from registry (default: --enable-signature-validation)
+# @option --enable-prefetching </--disable-prefetching>  (default: --enable-prefetching)
 # @flag --force-resolved-versions                 Only use versions from the Package.resolved file and fail resolution if it is out-of-date
 # @flag --disable-automatic-resolution            Only use versions from the Package.resolved file and fail resolution if it is out-of-date
 # @flag --only-use-versions-from-resolved-file    Only use versions from the Package.resolved file and fail resolution if it is out-of-date
 # @flag --skip-update                             Skip updating dependencies from their remote during a resolution
-# @flag --disable-scm-to-registry-transformation  disable source control to registry transformation (default: swizzle)
-# @flag --use-registry-identity-for-scm           look up source control dependencies in the registry and use their registry identity when possible to help deduplicate across the two origins (default: swizzle)
-# @flag --replace-scm-with-registry               look up source control dependencies in the registry and use the registry to retrieve them instead of source control when possible (default: swizzle)
+# @flag --disable-scm-to-registry-transformation  disable source control to registry transformation (default: --disable-scm-to-registry-transformation)
+# @flag --use-registry-identity-for-scm           look up source control dependencies in the registry and use their registry identity when possible to help deduplicate across the two origins
+# @flag --replace-scm-with-registry               look up source control dependencies in the registry and use the registry to retrieve them instead of source control when possible
+# @option --default-registry-url <default-registry-url>  Default registry URL to use, instead of the registries.json configuration file
 # @option -c --configuration <configuration>      Build with configuration (default: debug)
 # @option -Xcc <Xcc>                              Pass flag through to all C compiler invocations
 # @option -Xswiftc <Xswiftc>                      Pass flag through to all Swift compiler invocations
@@ -635,7 +649,7 @@ run() {
 # @option --sdk <sdk>
 # @option --toolchain <toolchain>
 # @option --sanitize[address|thread|undefined|scudo] <sanitize>  Turn on runtime checks for erroneous behavior, possible values: address, thread, undefined, scudo
-# @option --auto-index-store </--enable-index-store/--disable-index-store>  Enable or disable indexing-while-building feature (default: autoIndexStore)
+# @option --auto-index-store </--enable-index-store/--disable-index-store>  Enable or disable indexing-while-building feature (default: --auto-index-store)
 # @flag --enable-parseable-module-interfaces
 # @option -j --jobs <jobs>                        The number of jobs to spawn in parallel during the build process
 # @flag --emit-swift-module-separately
@@ -643,8 +657,8 @@ run() {
 # @option --explicit-target-dependency-import-check <explicit-target-dependency-import-check>  (default: none)
 # @flag --experimental-explicit-module-build
 # @option --build-system <build-system>           (default: native)
-# @option --enable-dead-strip </--disable-dead-strip>  Disable/enable dead code stripping by the linker (default: true)
-# @option --static-swift-stdlib </--no-static-swift-stdlib>  Link Swift stdlib statically (default: false)
+# @option --enable-dead-strip </--disable-dead-strip>  Disable/enable dead code stripping by the linker (default: --enable-dead-strip)
+# @option --static-swift-stdlib </--no-static-swift-stdlib>  Link Swift stdlib statically (default: --no-static-swift-stdlib)
 # @flag --skip-build                              Skip building the test target
 # @option --test-product <test-product>           Test the specified product.
 # @flag --parallel                                Run the tests in parallel.
@@ -658,7 +672,7 @@ run() {
 # @option --skip <skip>                           Skip test cases matching regular expression, Example: --skip PerformanceTests
 # @option --xunit-output <xunit-output>           Path where the xUnit xml file should be generated.
 # @option --enable-testable-imports </--disable-testable-imports>  Enable or disable testable imports.
-# @option --enable-code-coverage </--disable-code-coverage>  Enable code coverage (default: false)
+# @option --enable-code-coverage </--disable-code-coverage>  Enable code coverage (default: --disable-code-coverage)
 # @flag --version                                 Show the version.
 # @flag -h                                        Show help information.
 # @flag -help                                     Show help information.
@@ -691,5 +705,12 @@ test::generate-linuxmain() {
 }
 # }}} swift test generate-linuxmain
 # }} swift test
+
+# {{ swift repl
+# @cmd Experiment with Swift code interactively
+repl() {
+    :;
+}
+# }} swift repl
 
 command eval "$(argc --argc-eval "$0" "$@")"

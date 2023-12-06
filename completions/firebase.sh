@@ -338,7 +338,7 @@ database:update() {
 
 # {{ firebase deploy
 # @cmd deploy code and assets to your Firebase project
-# @flag -f --force                  delete Cloud Functions missing from the current working directory without confirmation
+# @flag -f --force                  delete Cloud Functions missing from the current working directory and bypass interactive prompts
 # @option -p --public <path>        override the Hosting public directory specified in firebase.json
 # @option -m --message <message>    an optional message describing this deploy
 # @option --only <targets>          only deploy to specified, comma-separated targets (e.g. "hosting,storage").
@@ -355,6 +355,7 @@ deploy() {
 # @option --inspect-functions <port>    emulate Cloud Functions in debug mode with the node inspector on the given port (9229 if not specified)
 # @option --import <dir>                import emulator data from a previous export (see emulators:export)
 # @option --export-on-exit <dir>        automatically export emulator data (emulators:export) when the emulators make a clean exit (SIGINT), when no dir is provided the location of --import [dir] is used
+# @option --log-verbosity[DEBUG|INFO|QUIET|SILENT] <verbosity>  One of: DEBUG, INFO, QUIET, SILENT.
 # @flag --ui                            run the Emulator UI
 # @flag -h --help                       output usage information
 # @arg script!
@@ -380,6 +381,7 @@ emulators:export() {
 # @option --inspect-functions <port>    emulate Cloud Functions in debug mode with the node inspector on the given port (9229 if not specified)
 # @option --import <dir>                import emulator data from a previous export (see emulators:export)
 # @option --export-on-exit <dir>        automatically export emulator data (emulators:export) when the emulators make a clean exit (SIGINT), when no dir is provided the location of --import [dir] is used
+# @option --log-verbosity[DEBUG|INFO|QUIET|SILENT] <verbosity>  One of: DEBUG, INFO, QUIET, SILENT.
 # @flag -h --help                       output usage information
 emulators:start() {
     :;
@@ -645,9 +647,10 @@ firestore:databases:get() {
 
 # {{ firebase firestore:databases:create
 # @cmd Create a database in your Firebase project.
-# @option --location <locationId>    Region to create database, for example 'nam5'.
+# @option --location <locationId>                  Region to create database, for example 'nam5'.
 # @option --delete-protection <deleteProtectionState>  Whether or not to prevent deletion of database, for example 'ENABLED' or 'DISABLED'.
-# @flag -h --help                    output usage information
+# @option --point-in-time-recovery <enablement>    Whether to enable the PITR feature on this database, for example 'ENABLED' or 'DISABLED'.
+# @flag -h --help                                  output usage information
 # @arg database!
 firestore:databases:create() {
     :;
@@ -656,9 +659,10 @@ firestore:databases:create() {
 
 # {{ firebase firestore:databases:update
 # @cmd Update a database in your Firebase project.
-# @flag --json       Prints raw json response of the create API call if specified
+# @flag --json                                     Prints raw json response of the create API call if specified
 # @option --delete-protection <deleteProtectionState>  Whether or not to prevent deletion of database, for example 'ENABLED' or 'DISABLED'.
-# @flag -h --help    output usage information
+# @option --point-in-time-recovery <enablement>    Whether to enable the PITR feature on this database, for example 'ENABLED' or 'DISABLED'.
+# @flag -h --help                                  output usage information
 # @arg database!
 firestore:databases:update() {
     :;
@@ -928,6 +932,45 @@ init() {
     :;
 }
 # }} firebase init
+
+# {{ firebase backends:list
+# @cmd List backends of a Firebase project.
+# @option -l --location <location>    App Backend location (default: "us-central1")
+# @flag -h --help                     output usage information
+backends:list() {
+    :;
+}
+# }} firebase backends:list
+
+# {{ firebase backends:create
+# @cmd Create a backend in a Firebase project
+# @flag -h --help    output usage information
+backends:create() {
+    :;
+}
+# }} firebase backends:create
+
+# {{ firebase backends:get
+# @cmd Get backend details of a Firebase project
+# @option -l --location <location>    App Backend location (default: "us-central1")
+# @option --s <backendId>             Backend Id (default: "")
+# @option --backendId <backendId>     Backend Id (default: "")
+# @flag -h --help                     output usage information
+backends:get() {
+    :;
+}
+# }} firebase backends:get
+
+# {{ firebase backends:delete
+# @cmd Delete a backend from a Firebase project
+# @option -l --location <location>      App Backend location (default: "us-central1")
+# @option -s --backendId <backendId>    Backend Id (default: "")
+# @flag -f --force                      automatically accept all interactive prompts
+# @flag -h --help                       output usage information
+backends:delete() {
+    :;
+}
+# }} firebase backends:delete
 
 # {{ firebase login
 # @cmd log the CLI into Firebase

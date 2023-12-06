@@ -5,6 +5,7 @@
 # @option --user-words <PATH>                   Specify the location of user words file.
 # @option --user-patterns <PATH>                Specify the location of user patterns file.
 # @option --dpi <VALUE>                         Specify DPI for input image.
+# @option --loglevel <LEVEL>                    Specify logging level.
 # @option -l[`_choice_lang`] <LANG[+LANG]>      Specify language(s) used for OCR.
 # @option -c*[`_choice_set_var`] <VAR=VALUE>    Set value for config variables.
 # @option --psm[`_choice_psm`] <NUM>            Specify page segmentation mode.
@@ -15,6 +16,7 @@
 # @flag --help-oem                              Show OCR Engine modes.
 # @flag -v --version                            Show version information.
 # @flag --list-langs                            List available languages for tesseract engine.
+# @flag --print-fonts-table                     Print tesseract fonts table.
 # @flag --print-parameters                      Print tesseract parameters.
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"

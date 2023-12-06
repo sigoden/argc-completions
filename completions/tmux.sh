@@ -141,6 +141,15 @@ clear-history() {
 }
 # }} tmux clear-history
 
+# {{ tmux clear-prompt-history
+# @cmd
+# @alias clearphist
+# @option -T <type>
+clear-prompt-history() {
+    :;
+}
+# }} tmux clear-prompt-history
+
 # {{ tmux clock-mode
 # @cmd
 # @option -t <target-pane>
@@ -152,6 +161,7 @@ clock-mode() {
 # {{ tmux confirm-before
 # @cmd
 # @alias confirm
+# @flag -b
 # @option -p <prompt>
 # @option -t <target-client>
 # @arg command
@@ -246,16 +256,22 @@ display-message() {
 # {{ tmux display-popup
 # @cmd
 # @alias popup
+# @flag -B
 # @flag -C
 # @flag -E
+# @option -b <border-lines>
 # @option -c <target-client>
 # @option -d <start-directory>
+# @option -e <environment>
 # @option -h <height>
+# @option -s <style>
+# @option -S <border-style>
 # @option -t <target-pane>
+# @option -T <title>
 # @option -w <width>
 # @option -x <position>
 # @option -y <position>
-# @arg command
+# @arg shell-command
 display-popup() {
     :;
 }
@@ -565,7 +581,7 @@ move-window() {
 # @option -t <target-session>
 # @option -x <width>
 # @option -y <height>
-# @arg command
+# @arg shell-command
 new-session() {
     :;
 }
@@ -585,7 +601,7 @@ new-session() {
 # @option -F <format>
 # @option -n <window-name>
 # @option -t <target-window>
-# @arg command
+# @arg shell-command
 new-window() {
     :;
 }
@@ -631,7 +647,7 @@ paste-buffer() {
 # @flag -O
 # @flag -o
 # @option -t <target-pane>
-# @arg command
+# @arg shell-command
 pipe-pane() {
     :;
 }
@@ -741,7 +757,7 @@ resize-window() {
 # @option -c <start-directory>
 # @option -e <environment>
 # @option -t <target-pane>
-# @arg command
+# @arg shell-command
 respawn-pane() {
     :;
 }
@@ -754,7 +770,7 @@ respawn-pane() {
 # @option -c <start-directory>
 # @option -e <environment>
 # @option -t <target-window>
-# @arg command
+# @arg shell-command
 respawn-window() {
     :;
 }
@@ -868,6 +884,20 @@ send-prefix() {
     :;
 }
 # }} tmux send-prefix
+
+# {{ tmux server-access
+# @cmd
+# @flag -a
+# @flag -d
+# @flag -l
+# @flag -r
+# @flag -w
+# @option -t <target-pane>
+# @arg user
+server-access() {
+    :;
+}
+# }} tmux server-access
 
 # {{ tmux set-buffer
 # @cmd
@@ -1012,6 +1042,15 @@ show-options() {
 }
 # }} tmux show-options
 
+# {{ tmux show-prompt-history
+# @cmd
+# @alias showphist
+# @option -T <type>
+show-prompt-history() {
+    :;
+}
+# }} tmux show-prompt-history
+
 # {{ tmux show-window-options
 # @cmd
 # @alias showw
@@ -1052,7 +1091,7 @@ source-file() {
 # @option -F <format>
 # @option -l <size>
 # @option -t <target-pane>
-# @arg command
+# @arg shell-command
 split-window() {
     :;
 }
