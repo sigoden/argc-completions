@@ -2,8 +2,7 @@ _patch_help() {
     if [[ "$*" == "swift" ]]; then
         $@ --help | \
         sed \
-            -e '/COMMANDS:/,$ s/^\s\+"swift \(\S\+\)" /  \1    /' \
-            -e '/COMMANDS:/ cCommands:' \
+            -e '/Subcommands:/,$ s/^\s\+swift \(\S\+\) /    \1    /' \
 
     else
         $@ --help
@@ -20,6 +19,11 @@ _patch_table() {
         _patch_table_dedup_options \
             ';;' \
             '--version' \
+
+    elif [[ "$*" == "swift repl" ]]; then
+        _patch_table_dedup_options \
+            ';;' \
+            '-save-optimization-record' \
 
     else
         cat
