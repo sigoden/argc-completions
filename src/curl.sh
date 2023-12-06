@@ -1,12 +1,12 @@
 _patch_help() {
     curl --help all | \
-    sed -e '/--curves/ s/<algorithm list> (EC)/<algorithm list>  (EC)/'
+    sed \
+        -e 's/\(>\|\]\) \([A-Z(]\)/\1  \2/' \
+        -e 's/\(--\S\+\) \([A-Z(]\)/\1  \2/' \
+
 }
 
 _patch_table() { 
-    _patch_table_dedup_options \
-        '--location' \
-    | \
     _patch_table_edit_options \
         '--cert-type;[DER|PEM|ENG]' \
         '--data-binary;[`_choice_data_binary`]' \

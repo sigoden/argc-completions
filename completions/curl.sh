@@ -94,7 +94,7 @@
 # @option --ipfs-gateway <URL>                     Gateway for IPFS
 # @flag -4 --ipv4                                  Resolve names to IPv4 addresses
 # @flag -6 --ipv6                                  Resolve names to IPv6 addresses
-# @option --json <data> <HTTP> <POST> <JSON>
+# @option --json <data>                            HTTP POST JSON
 # @flag -j --junk-session-cookies                  Ignore session cookies read from file
 # @option --keepalive-time <seconds>               Interval time for keepalive probes
 # @option --key <key>                              Private key file name
@@ -104,8 +104,8 @@
 # @option --limit-rate <speed>                     Limit transfer speed to RATE
 # @flag -l --list-only                             List only mode
 # @option --local-port <num/range>                 Force use of RANGE for local port numbers
-# @option --location-trusted <Like>                and send auth to other hosts
-# @option --location <Like>                        and send auth to other hosts
+# @flag -L --location                              Follow redirects
+# @flag --location-trusted                         Like --location, and send auth to other hosts
 # @option --login-options <options>                Server login options
 # @option --mail-auth <address>                    Originator address of the original email
 # @option --mail-from <address>                    Mail from this address

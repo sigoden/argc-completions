@@ -93,6 +93,8 @@
 # @option --proto <proto>                          Specify  the  protocol  to use when communicating with the remote mail server.
 # @option --protocol <proto>                       Specify  the  protocol  to use when communicating with the remote mail server.
 # @flag --disabled-login                           Do not run passwd to set the password.
+# @option -fcf-protection[return|branch|full|none] <value>  Instrument control-flow architecture protection.
+# @option -only-testing- <TEST-IDENTIFIER>         constrains testing by specifying tests to include, and excluding other tests
 # @flag --incremental                              show blame entries as we find them, incrementally
 # @flag --line-porcelain                           show porcelain format with per-line commit information
 # @flag -spotlight                                 do (not) create a Spotlight™ index

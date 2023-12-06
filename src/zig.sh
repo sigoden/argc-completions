@@ -54,28 +54,10 @@ _patch_table() {
         echo "$table" | \
         _patch_table_dedup_options \
             ';;' \
-            '-fcf-protection' \
-            '-fcrash-diagnostics' \
-            '-fcs-profile-generate' \
-            '-fembed-bitcode' \
             '-flto' \
-            '-fmemory-profile' \
-            '-fmodule-header' \
-            '-fmodule-output' \
-            '-fno-builtin' \
-            '-fno-sanitize-trap' \
-            '-foffload-lto' \
-            '-fprofile-generate' \
-            '-fprofile-instr-generate' \
-            '-fsanitize-memory-track-origins' \
-            '-fsanitize-trap' \
-            '-fsave-optimization-record' \
-            '-ftime-trace' \
             '-mabi' \
-            '-mhvx' \
+            '-mcmodel' \
             '-ObjC' \
-            '-save-stats' \
-            '-save-temps' \
             '-Xopenmp-target' \
 
     else

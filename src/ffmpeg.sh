@@ -8,9 +8,7 @@ _patch_help() {
 
 _patch_table() { 
     _patch_table_dedup_options \
-        '-bits_per_raw_sample' \
         '-s' \
-        '-vol' \
     | \
     _patch_table_edit_options \
         '--help;[`_choice_help_topic`]' \
