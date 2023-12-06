@@ -19,19 +19,23 @@
 # @option --cache-max-age <AGE>             Maximum AGE (in minutes) for index in cache before it's refreshed
 # @flag --force-binary-stdout               Continue even if binary data will be printed to the terminal
 # @flag --force-broken-world                Continue even if WORLD cannot be satisfied
+# @flag --force-missing-repositories        Continue even if some of the repository indexes are not available
 # @flag --force-non-repository              Continue even if packages may be lost on reboot
 # @flag --force-old-apk                     Continue even if packages use unsupported features
 # @flag --force-overwrite                   Overwrite files in other packages
 # @flag --force-refresh                     Do not use cached files (local or from proxy)
 # @option --keys-dir <KEYSDIR>              Override directory of trusted keys
 # @flag --no-cache                          Do not use any local cache path
+# @flag --no-check-certificate              Do not validate the HTTPS server certificates
+# @flag --no-interactive                    Disable interactive mode
 # @flag --no-network                        Do not use the network
 # @flag --no-progress                       Disable progress bar even for TTYs
 # @flag --print-arch                        Print default arch and exit
 # @flag --progress                          Show progress
 # @option --progress-fd <FD>                Write progress to the specified file descriptor
-# @flag --purge                             Delete modified configuration files on package removal and uninstalled packages from cache on cache clean
+# @flag --purge                             Purge modified configuration and cached packages
 # @option --repositories-file <REPOFILE>    Override system repositories, see repositories
+# @option --timeout <TIME>                  Timeout network connections if no progress is made in TIME seconds
 # @option --wait <TIME>                     Wait for TIME seconds to get an exclusive repository lock before failing
 # @flag -s --simulate                       Simulate the requested operation without making any changes
 # @flag --clean-protected                   Do not create .apk-new files in configuration directories
@@ -66,19 +70,23 @@ add() {
 # @option --cache-max-age <AGE>             Maximum AGE (in minutes) for index in cache before it's refreshed
 # @flag --force-binary-stdout               Continue even if binary data will be printed to the terminal
 # @flag --force-broken-world                Continue even if WORLD cannot be satisfied
+# @flag --force-missing-repositories        Continue even if some of the repository indexes are not available
 # @flag --force-non-repository              Continue even if packages may be lost on reboot
 # @flag --force-old-apk                     Continue even if packages use unsupported features
 # @flag --force-overwrite                   Overwrite files in other packages
 # @flag --force-refresh                     Do not use cached files (local or from proxy)
 # @option --keys-dir <KEYSDIR>              Override directory of trusted keys
 # @flag --no-cache                          Do not use any local cache path
+# @flag --no-check-certificate              Do not validate the HTTPS server certificates
+# @flag --no-interactive                    Disable interactive mode
 # @flag --no-network                        Do not use the network
 # @flag --no-progress                       Disable progress bar even for TTYs
 # @flag --print-arch                        Print default arch and exit
 # @flag --progress                          Show progress
 # @option --progress-fd <FD>                Write progress to the specified file descriptor
-# @flag --purge                             Delete modified configuration files on package removal and uninstalled packages from cache on cache clean
+# @flag --purge                             Purge modified configuration and cached packages
 # @option --repositories-file <REPOFILE>    Override system repositories, see repositories
+# @option --timeout <TIME>                  Timeout network connections if no progress is made in TIME seconds
 # @option --wait <TIME>                     Wait for TIME seconds to get an exclusive repository lock before failing
 # @flag -s --simulate                       Simulate the requested operation without making any changes
 # @flag --clean-protected                   Do not create .apk-new files in configuration directories
@@ -109,19 +117,23 @@ del() {
 # @option --cache-max-age <AGE>             Maximum AGE (in minutes) for index in cache before it's refreshed
 # @flag --force-binary-stdout               Continue even if binary data will be printed to the terminal
 # @flag --force-broken-world                Continue even if WORLD cannot be satisfied
+# @flag --force-missing-repositories        Continue even if some of the repository indexes are not available
 # @flag --force-non-repository              Continue even if packages may be lost on reboot
 # @flag --force-old-apk                     Continue even if packages use unsupported features
 # @flag --force-overwrite                   Overwrite files in other packages
 # @flag --force-refresh                     Do not use cached files (local or from proxy)
 # @option --keys-dir <KEYSDIR>              Override directory of trusted keys
 # @flag --no-cache                          Do not use any local cache path
+# @flag --no-check-certificate              Do not validate the HTTPS server certificates
+# @flag --no-interactive                    Disable interactive mode
 # @flag --no-network                        Do not use the network
 # @flag --no-progress                       Disable progress bar even for TTYs
 # @flag --print-arch                        Print default arch and exit
 # @flag --progress                          Show progress
 # @option --progress-fd <FD>                Write progress to the specified file descriptor
-# @flag --purge                             Delete modified configuration files on package removal and uninstalled packages from cache on cache clean
+# @flag --purge                             Purge modified configuration and cached packages
 # @option --repositories-file <REPOFILE>    Override system repositories, see repositories
+# @option --timeout <TIME>                  Timeout network connections if no progress is made in TIME seconds
 # @option --wait <TIME>                     Wait for TIME seconds to get an exclusive repository lock before failing
 # @flag -s --simulate                       Simulate the requested operation without making any changes
 # @flag --clean-protected                   Do not create .apk-new files in configuration directories
@@ -163,19 +175,23 @@ update() {
 # @option --cache-max-age <AGE>             Maximum AGE (in minutes) for index in cache before it's refreshed
 # @flag --force-binary-stdout               Continue even if binary data will be printed to the terminal
 # @flag --force-broken-world                Continue even if WORLD cannot be satisfied
+# @flag --force-missing-repositories        Continue even if some of the repository indexes are not available
 # @flag --force-non-repository              Continue even if packages may be lost on reboot
 # @flag --force-old-apk                     Continue even if packages use unsupported features
 # @flag --force-overwrite                   Overwrite files in other packages
 # @flag --force-refresh                     Do not use cached files (local or from proxy)
 # @option --keys-dir <KEYSDIR>              Override directory of trusted keys
 # @flag --no-cache                          Do not use any local cache path
+# @flag --no-check-certificate              Do not validate the HTTPS server certificates
+# @flag --no-interactive                    Disable interactive mode
 # @flag --no-network                        Do not use the network
 # @flag --no-progress                       Disable progress bar even for TTYs
 # @flag --print-arch                        Print default arch and exit
 # @flag --progress                          Show progress
 # @option --progress-fd <FD>                Write progress to the specified file descriptor
-# @flag --purge                             Delete modified configuration files on package removal and uninstalled packages from cache on cache clean
+# @flag --purge                             Purge modified configuration and cached packages
 # @option --repositories-file <REPOFILE>    Override system repositories, see repositories
+# @option --timeout <TIME>                  Timeout network connections if no progress is made in TIME seconds
 # @option --wait <TIME>                     Wait for TIME seconds to get an exclusive repository lock before failing
 # @flag -s --simulate                       Simulate the requested operation without making any changes
 # @flag --clean-protected                   Do not create .apk-new files in configuration directories
@@ -211,19 +227,23 @@ upgrade() {
 # @option --cache-max-age <AGE>             Maximum AGE (in minutes) for index in cache before it's refreshed
 # @flag --force-binary-stdout               Continue even if binary data will be printed to the terminal
 # @flag --force-broken-world                Continue even if WORLD cannot be satisfied
+# @flag --force-missing-repositories        Continue even if some of the repository indexes are not available
 # @flag --force-non-repository              Continue even if packages may be lost on reboot
 # @flag --force-old-apk                     Continue even if packages use unsupported features
 # @flag --force-overwrite                   Overwrite files in other packages
 # @flag --force-refresh                     Do not use cached files (local or from proxy)
 # @option --keys-dir <KEYSDIR>              Override directory of trusted keys
 # @flag --no-cache                          Do not use any local cache path
+# @flag --no-check-certificate              Do not validate the HTTPS server certificates
+# @flag --no-interactive                    Disable interactive mode
 # @flag --no-network                        Do not use the network
 # @flag --no-progress                       Disable progress bar even for TTYs
 # @flag --print-arch                        Print default arch and exit
 # @flag --progress                          Show progress
 # @option --progress-fd <FD>                Write progress to the specified file descriptor
-# @flag --purge                             Delete modified configuration files on package removal and uninstalled packages from cache on cache clean
+# @flag --purge                             Purge modified configuration and cached packages
 # @option --repositories-file <REPOFILE>    Override system repositories, see repositories
+# @option --timeout <TIME>                  Timeout network connections if no progress is made in TIME seconds
 # @option --wait <TIME>                     Wait for TIME seconds to get an exclusive repository lock before failing
 # @flag --add-dependencies                  Add the argument dependencies to WORLD dependencies when determining which packages to download
 # @flag -a --available                      Selected packages to be downloaded from active repositories even if it means replacing or downgrading the installed package
@@ -275,20 +295,25 @@ cache::sync() {
 # @option --cache-max-age <AGE>             Maximum AGE (in minutes) for index in cache before it's refreshed
 # @flag --force-binary-stdout               Continue even if binary data will be printed to the terminal
 # @flag --force-broken-world                Continue even if WORLD cannot be satisfied
+# @flag --force-missing-repositories        Continue even if some of the repository indexes are not available
 # @flag --force-non-repository              Continue even if packages may be lost on reboot
 # @flag --force-old-apk                     Continue even if packages use unsupported features
 # @flag --force-overwrite                   Overwrite files in other packages
 # @flag --force-refresh                     Do not use cached files (local or from proxy)
 # @option --keys-dir <KEYSDIR>              Override directory of trusted keys
 # @flag --no-cache                          Do not use any local cache path
+# @flag --no-check-certificate              Do not validate the HTTPS server certificates
+# @flag --no-interactive                    Disable interactive mode
 # @flag --no-network                        Do not use the network
 # @flag --no-progress                       Disable progress bar even for TTYs
 # @flag --print-arch                        Print default arch and exit
 # @flag --progress                          Show progress
 # @option --progress-fd <FD>                Write progress to the specified file descriptor
-# @flag --purge                             Delete modified configuration files on package removal and uninstalled packages from cache on cache clean
+# @flag --purge                             Purge modified configuration and cached packages
 # @option --repositories-file <REPOFILE>    Override system repositories, see repositories
+# @option --timeout <TIME>                  Timeout network connections if no progress is made in TIME seconds
 # @option --wait <TIME>                     Wait for TIME seconds to get an exclusive repository lock before failing
+# @option --from <FROMSPEC>                 Search packages from: system (all system sources), repositories (exclude installed database), installed (exclude normal repositories) or none (commandline repositories only)
 # @flag -a --all                            List all information known about the package
 # @flag -d --description                    Print the package description
 # @flag -e --installed                      Check package installed status
@@ -326,20 +351,25 @@ info() {
 # @option --cache-max-age <AGE>             Maximum AGE (in minutes) for index in cache before it's refreshed
 # @flag --force-binary-stdout               Continue even if binary data will be printed to the terminal
 # @flag --force-broken-world                Continue even if WORLD cannot be satisfied
+# @flag --force-missing-repositories        Continue even if some of the repository indexes are not available
 # @flag --force-non-repository              Continue even if packages may be lost on reboot
 # @flag --force-old-apk                     Continue even if packages use unsupported features
 # @flag --force-overwrite                   Overwrite files in other packages
 # @flag --force-refresh                     Do not use cached files (local or from proxy)
 # @option --keys-dir <KEYSDIR>              Override directory of trusted keys
 # @flag --no-cache                          Do not use any local cache path
+# @flag --no-check-certificate              Do not validate the HTTPS server certificates
+# @flag --no-interactive                    Disable interactive mode
 # @flag --no-network                        Do not use the network
 # @flag --no-progress                       Disable progress bar even for TTYs
 # @flag --print-arch                        Print default arch and exit
 # @flag --progress                          Show progress
 # @option --progress-fd <FD>                Write progress to the specified file descriptor
-# @flag --purge                             Delete modified configuration files on package removal and uninstalled packages from cache on cache clean
+# @flag --purge                             Purge modified configuration and cached packages
 # @option --repositories-file <REPOFILE>    Override system repositories, see repositories
+# @option --timeout <TIME>                  Timeout network connections if no progress is made in TIME seconds
 # @option --wait <TIME>                     Wait for TIME seconds to get an exclusive repository lock before failing
+# @option --from <FROMSPEC>                 Search packages from: system (all system sources), repositories (exclude installed database), installed (exclude normal repositories) or none (commandline repositories only)
 # @flag -I --installed                      Consider only installed packages
 # @flag -O --orphaned                       Consider only orphaned packages
 # @flag -a --available                      Consider only available packages
@@ -371,20 +401,25 @@ list() {
 # @option --cache-max-age <AGE>             Maximum AGE (in minutes) for index in cache before it's refreshed
 # @flag --force-binary-stdout               Continue even if binary data will be printed to the terminal
 # @flag --force-broken-world                Continue even if WORLD cannot be satisfied
+# @flag --force-missing-repositories        Continue even if some of the repository indexes are not available
 # @flag --force-non-repository              Continue even if packages may be lost on reboot
 # @flag --force-old-apk                     Continue even if packages use unsupported features
 # @flag --force-overwrite                   Overwrite files in other packages
 # @flag --force-refresh                     Do not use cached files (local or from proxy)
 # @option --keys-dir <KEYSDIR>              Override directory of trusted keys
 # @flag --no-cache                          Do not use any local cache path
+# @flag --no-check-certificate              Do not validate the HTTPS server certificates
+# @flag --no-interactive                    Disable interactive mode
 # @flag --no-network                        Do not use the network
 # @flag --no-progress                       Disable progress bar even for TTYs
 # @flag --print-arch                        Print default arch and exit
 # @flag --progress                          Show progress
 # @option --progress-fd <FD>                Write progress to the specified file descriptor
-# @flag --purge                             Delete modified configuration files on package removal and uninstalled packages from cache on cache clean
+# @flag --purge                             Purge modified configuration and cached packages
 # @option --repositories-file <REPOFILE>    Override system repositories, see repositories
+# @option --timeout <TIME>                  Timeout network connections if no progress is made in TIME seconds
 # @option --wait <TIME>                     Wait for TIME seconds to get an exclusive repository lock before failing
+# @option --from <FROMSPEC>                 Search packages from: system (all system sources), repositories (exclude installed database), installed (exclude normal repositories) or none (commandline repositories only)
 # @flag --errors                            Consider only packages with errors
 # @flag --installed                         Consider only installed packages
 # @arg pkgmask*
@@ -417,20 +452,25 @@ policy() {
 # @option --cache-max-age <AGE>             Maximum AGE (in minutes) for index in cache before it's refreshed
 # @flag --force-binary-stdout               Continue even if binary data will be printed to the terminal
 # @flag --force-broken-world                Continue even if WORLD cannot be satisfied
+# @flag --force-missing-repositories        Continue even if some of the repository indexes are not available
 # @flag --force-non-repository              Continue even if packages may be lost on reboot
 # @flag --force-old-apk                     Continue even if packages use unsupported features
 # @flag --force-overwrite                   Overwrite files in other packages
 # @flag --force-refresh                     Do not use cached files (local or from proxy)
 # @option --keys-dir <KEYSDIR>              Override directory of trusted keys
 # @flag --no-cache                          Do not use any local cache path
+# @flag --no-check-certificate              Do not validate the HTTPS server certificates
+# @flag --no-interactive                    Disable interactive mode
 # @flag --no-network                        Do not use the network
 # @flag --no-progress                       Disable progress bar even for TTYs
 # @flag --print-arch                        Print default arch and exit
 # @flag --progress                          Show progress
 # @option --progress-fd <FD>                Write progress to the specified file descriptor
-# @flag --purge                             Delete modified configuration files on package removal and uninstalled packages from cache on cache clean
+# @flag --purge                             Purge modified configuration and cached packages
 # @option --repositories-file <REPOFILE>    Override system repositories, see repositories
+# @option --timeout <TIME>                  Timeout network connections if no progress is made in TIME seconds
 # @option --wait <TIME>                     Wait for TIME seconds to get an exclusive repository lock before failing
+# @option --from <FROMSPEC>                 Search packages from: system (all system sources), repositories (exclude installed database), installed (exclude normal repositories) or none (commandline repositories only)
 # @flag -a --all                            Print all matching package versions
 # @flag -d --description                    Also search for PATTERN in the package description
 # @flag -e                                  Match package names exactly
@@ -461,22 +501,28 @@ search() {
 # @option --cache-max-age <AGE>             Maximum AGE (in minutes) for index in cache before it's refreshed
 # @flag --force-binary-stdout               Continue even if binary data will be printed to the terminal
 # @flag --force-broken-world                Continue even if WORLD cannot be satisfied
+# @flag --force-missing-repositories        Continue even if some of the repository indexes are not available
 # @flag --force-non-repository              Continue even if packages may be lost on reboot
 # @flag --force-old-apk                     Continue even if packages use unsupported features
 # @flag --force-overwrite                   Overwrite files in other packages
 # @flag --force-refresh                     Do not use cached files (local or from proxy)
 # @option --keys-dir <KEYSDIR>              Override directory of trusted keys
 # @flag --no-cache                          Do not use any local cache path
+# @flag --no-check-certificate              Do not validate the HTTPS server certificates
+# @flag --no-interactive                    Disable interactive mode
 # @flag --no-network                        Do not use the network
 # @flag --no-progress                       Disable progress bar even for TTYs
 # @flag --print-arch                        Print default arch and exit
 # @flag --progress                          Show progress
 # @option --progress-fd <FD>                Write progress to the specified file descriptor
-# @flag --purge                             Delete modified configuration files on package removal and uninstalled packages from cache on cache clean
+# @flag --purge                             Purge modified configuration and cached packages
 # @option --repositories-file <REPOFILE>    Override system repositories, see repositories
+# @option --timeout <TIME>                  Timeout network connections if no progress is made in TIME seconds
 # @option --wait <TIME>                     Wait for TIME seconds to get an exclusive repository lock before failing
 # @option -d --description <TEXT>           Add a description to the index
+# @flag --merge                             Merge PACKAGES into the existing INDEX
 # @option -o --output <FILE>                Output generated index to FILE
+# @flag --prune-origin                      Prune packages from the existing INDEX with same origin as any of the new PACKAGES during merge
 # @option -x --index                        Read an existing index from INDEX to speed up the creation of the new index by reusing data when possible
 # @flag --no-warnings                       Disable the warning about missing dependencies
 # @option --rewrite-arch <ARCH>             Set all package's architecture to ARCH
@@ -487,7 +533,7 @@ index() {
 # }} apk index
 
 # {{ apk fetch
-# @cmd Download packages from global repositories to a local directory
+# @cmd Download packages from repositories to a local directory
 # @flag -f --force                          Enable selected --force-* options (deprecated)
 # @flag -i --interactive                    Ask confirmation before performing certain operations
 # @option -p --root                         Manage file system at ROOT
@@ -502,21 +548,27 @@ index() {
 # @option --cache-max-age <AGE>             Maximum AGE (in minutes) for index in cache before it's refreshed
 # @flag --force-binary-stdout               Continue even if binary data will be printed to the terminal
 # @flag --force-broken-world                Continue even if WORLD cannot be satisfied
+# @flag --force-missing-repositories        Continue even if some of the repository indexes are not available
 # @flag --force-non-repository              Continue even if packages may be lost on reboot
 # @flag --force-old-apk                     Continue even if packages use unsupported features
 # @flag --force-overwrite                   Overwrite files in other packages
 # @flag --force-refresh                     Do not use cached files (local or from proxy)
 # @option --keys-dir <KEYSDIR>              Override directory of trusted keys
 # @flag --no-cache                          Do not use any local cache path
+# @flag --no-check-certificate              Do not validate the HTTPS server certificates
+# @flag --no-interactive                    Disable interactive mode
 # @flag --no-network                        Do not use the network
 # @flag --no-progress                       Disable progress bar even for TTYs
 # @flag --print-arch                        Print default arch and exit
 # @flag --progress                          Show progress
 # @option --progress-fd <FD>                Write progress to the specified file descriptor
-# @flag --purge                             Delete modified configuration files on package removal and uninstalled packages from cache on cache clean
+# @flag --purge                             Purge modified configuration and cached packages
 # @option --repositories-file <REPOFILE>    Override system repositories, see repositories
+# @option --timeout <TIME>                  Timeout network connections if no progress is made in TIME seconds
 # @option --wait <TIME>                     Wait for TIME seconds to get an exclusive repository lock before failing
-# @flag -L --link                           Create hard links if possible
+# @option --from <FROMSPEC>                 Search packages from: system (all system sources), repositories (exclude installed database), installed (exclude normal repositories) or none (commandline repositories only)
+# @option --built-after <TIMESPEC>          Only fetch packages that have buildtime more recent than TIMESPEC
+# @flag -l --link                           Create hard links if possible
 # @option -o --output <DIR>                 Write the downloaded file(s) to DIR
 # @flag -R --recursive                      Fetch packages and all of their dependencies
 # @flag -s --stdout                         Dump the .apk file(s) to stdout
@@ -561,23 +613,31 @@ verify() {
 # @option --cache-max-age <AGE>             Maximum AGE (in minutes) for index in cache before it's refreshed
 # @flag --force-binary-stdout               Continue even if binary data will be printed to the terminal
 # @flag --force-broken-world                Continue even if WORLD cannot be satisfied
+# @flag --force-missing-repositories        Continue even if some of the repository indexes are not available
 # @flag --force-non-repository              Continue even if packages may be lost on reboot
 # @flag --force-old-apk                     Continue even if packages use unsupported features
 # @flag --force-overwrite                   Overwrite files in other packages
 # @flag --force-refresh                     Do not use cached files (local or from proxy)
 # @option --keys-dir <KEYSDIR>              Override directory of trusted keys
 # @flag --no-cache                          Do not use any local cache path
+# @flag --no-check-certificate              Do not validate the HTTPS server certificates
+# @flag --no-interactive                    Disable interactive mode
 # @flag --no-network                        Do not use the network
 # @flag --no-progress                       Disable progress bar even for TTYs
 # @flag --print-arch                        Print default arch and exit
 # @flag --progress                          Show progress
 # @option --progress-fd <FD>                Write progress to the specified file descriptor
-# @flag --purge                             Delete modified configuration files on package removal and uninstalled packages from cache on cache clean
+# @flag --purge                             Purge modified configuration and cached packages
 # @option --repositories-file <REPOFILE>    Override system repositories, see repositories
+# @option --timeout <TIME>                  Timeout network connections if no progress is made in TIME seconds
 # @option --wait <TIME>                     Wait for TIME seconds to get an exclusive repository lock before failing
 # @flag --backup                            Audit configuration files only (default)
 # @flag --check-permissions                 Check file permissions too
+# @flag --details                           Enable reporting of detail records
+# @flag --full                              Audit all system files
+# @flag --ignore-busybox-symlinks           Ignore symlinks whose target is the busybox binary
 # @flag --packages                          Print only the packages with changed files
+# @option --protected-paths <FILE>          Use given FILE for protected paths listings
 # @flag --system                            Audit all system files
 # @flag -r --recursive                      Descend into directories and audit them as well
 # @arg directories*
@@ -609,19 +669,23 @@ stats() {
 # @option --cache-max-age <AGE>              Maximum AGE (in minutes) for index in cache before it's refreshed
 # @flag --force-binary-stdout                Continue even if binary data will be printed to the terminal
 # @flag --force-broken-world                 Continue even if WORLD cannot be satisfied
+# @flag --force-missing-repositories         Continue even if some of the repository indexes are not available
 # @flag --force-non-repository               Continue even if packages may be lost on reboot
 # @flag --force-old-apk                      Continue even if packages use unsupported features
 # @flag --force-overwrite                    Overwrite files in other packages
 # @flag --force-refresh                      Do not use cached files (local or from proxy)
 # @option --keys-dir <KEYSDIR>               Override directory of trusted keys
 # @flag --no-cache                           Do not use any local cache path
+# @flag --no-check-certificate               Do not validate the HTTPS server certificates
+# @flag --no-interactive                     Disable interactive mode
 # @flag --no-network                         Do not use the network
 # @flag --no-progress                        Disable progress bar even for TTYs
 # @flag --print-arch                         Print default arch and exit
 # @flag --progress                           Show progress
 # @option --progress-fd <FD>                 Write progress to the specified file descriptor
-# @flag --purge                              Delete modified configuration files on package removal and uninstalled packages from cache on cache clean
+# @flag --purge                              Purge modified configuration and cached packages
 # @option --repositories-file <REPOFILE>     Override system repositories, see repositories
+# @option --timeout <TIME>                   Timeout network connections if no progress is made in TIME seconds
 # @option --wait <TIME>                      Wait for TIME seconds to get an exclusive repository lock before failing
 # @flag -a --all                             Consider packages from all repository tags
 # @option -c --check* <VERSIONS>             Check versions for validity

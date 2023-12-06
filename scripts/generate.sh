@@ -94,7 +94,7 @@ get_table() {
         help_text="$(_patch_help_run_help $@)"
     fi
     table="$(echo "$help_text" | parse_table $@)"
-    table_hash="$(echo "$table" | openssl sha1 | gawk '{print $2}')"
+    table_hash="$(echo "$table" | get_hash)"
     parent_key="${@:1:$(($#-1))} :: "
     parent_table_hash="$(cat "$store_table_hash" | grep "$parent_key" | gawk -F ' :: ' '{print $2}')"
     if [[ "$table_hash" == "$parent_table_hash" ]]; then
@@ -407,6 +407,15 @@ print_cmd_fn() {
 sanitize_cmds() {
     echo "$@" | gawk '{for(i = 1; i <= NF; i++) { gsub(/_*$/, "", $i); value = value " "  $i}; print value}'
 }
+
+get_hash() {
+    if command -v md5sum >/dev/null; then
+        md5sum | gawk '{print $1}'
+    elif command -v md5 >/dev/null; then
+        md5
+    fi
+}
+
 
 log_info() {
     if [[ "$argc_verbose" -eq 1 ]]; then
