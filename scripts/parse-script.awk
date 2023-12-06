@@ -414,12 +414,12 @@ function addParamLine(kind, text, descVal) {
             }
         } else if (kind == "option" && prevKind == "flag") {
             prevText = paramLines[paramLineNum, 2]
-            if (match(text, "^" prevText "($| |\\[|-$|- |-\\[)")) {
+            if (!match(prevText, /-$/) && match(text, "^" prevText "($| |\\[|-$|- |-\\[)")) {
                 nextParam = 0
             }
         } else if (kind == "flag" && prevKind == "option") {
             prevText = paramLines[paramLineNum, 2]
-            if (match(prevText, "^" text "($| |\\[|-$|- |-\\[)")) {
+            if (!match(text, /-$/) && match(prevText, "^" text "($| |\\[|-$|- |-\\[)")) {
                 return
             }
         }
