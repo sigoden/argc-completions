@@ -13,6 +13,7 @@
 # @flag --preview                           Enable potentially disruptive style changes that may be added to Black's main functionality in the next major release.
 # @flag --check                             Don't write the files back, just return the status.
 # @flag --diff                              Don't write the files back, just output a diff for each file on stdout.
+# @option --line-ranges <START-END>         When specified, _Black_ will try its best to only format these lines.
 # @flag --color                             Show colored diff.
 # @flag --no-color                          Show colored diff.
 # @flag --fast                              If --fast given, skip temporary sanity checks.

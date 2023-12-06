@@ -25,6 +25,7 @@
 # @flag -H                                Start in Hebrew mode
 # @option -T <terminal>                   Set terminal type to <terminal>
 # @flag --not-a-term                      Skip warning for input/output not being a terminal
+# @option --gui-dialog-file <fname>       For testing: write dialog text
 # @flag --ttyfail                         Exit if input or output is not a terminal
 # @option -u <vimrc-file>                 Use <vimrc> instead of any .vimrc
 # @option -U <gvimrc-file>                Use <gvimrc> instead of any .gvimrc
@@ -50,6 +51,7 @@
 # @flag --serverlist                      List available Vim server names and exit
 # @option --servername <name>             Send to/become the Vim server <name>
 # @option --startuptime <file>            Write startup timing messages to <file>
+# @option --log <file>                    Start logging to <file> early
 # @option -i <viminfo-file>               Use <viminfo> instead of .viminfo
 # @flag --clean                           'nocompatible', Vim defaults, no plugins, no viminfo
 # @flag -h --help                         Print Help (this message) and exit

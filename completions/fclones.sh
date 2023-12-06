@@ -17,6 +17,7 @@
 # @flag -H --match-links                          Treat files reachable from multiple paths through links as duplicates.
 # @flag -S --symbolic-links                       Don't ignore symbolic links to files.
 # @flag -I --isolate                              Don't count matching files found within the same directory argument as duplicates
+# @flag -1 --one-fs                               Don't match files on different filesystems or devices
 # @option --transform <COMMAND>                   Transform each file by the specified program before matching.
 # @flag --in-place                                Read the transform output from the same path as the transform input file.
 # @flag --no-copy                                 Don't copy the file to a temporary location before transforming, when `$IN` parameter is specified in the `--transform` command.

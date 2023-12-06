@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @flag -h --help    help for caddy
+# @flag -h --help       help for caddy
+# @flag -v --version    version for caddy
 
 # {{ caddy adapt
 # @cmd Adapts a configuration to Caddy's native JSON
 # @option -a --adapter <file>    Name of config adapter (default "caddyfile")
 # @option -c --config <file>     Configuration file to adapt (required)
+# @option --envfile* <file>      Environment file(s) to load
 # @flag -h --help                help for adapt
 # @flag -p --pretty              Format the output for human readability
 # @flag --validate               Validate the output
@@ -43,7 +45,8 @@ completion() {
 
 # {{ caddy environ
 # @cmd Prints the environment
-# @flag -h --help    help for environ
+# @option --envfile* <file>    Environment file(s) to load
+# @flag -h --help              help for environ
 environ() {
     :;
 }
@@ -51,14 +54,14 @@ environ() {
 
 # {{ caddy file-server
 # @cmd Spins up a production-ready file server
-# @flag --access-log            Enable the access log
-# @flag -b --browse             Enable directory browsing
-# @flag -v --debug              Enable verbose debug logs
-# @option -d --domain <file>    Domain name at which to serve the files
-# @flag -h --help               help for file-server
-# @option --listen <string>     The address to which to bind the listener
-# @option -r --root <path>      The path to the root of the site
-# @flag -t --templates          Enable template rendering
+# @flag -a --access-log           Enable the access log
+# @flag -b --browse               Enable directory browsing
+# @flag -v --debug                Enable verbose debug logs
+# @option -d --domain <file>      Domain name at which to serve the files
+# @flag -h --help                 help for file-server
+# @option -l --listen <string>    The address to which to bind the listener
+# @option -r --root <path>        The path to the root of the site
+# @flag -t --templates            Enable template rendering
 file-server() {
     :;
 }
@@ -170,7 +173,7 @@ reverse-proxy() {
 # @cmd Starts the Caddy process and blocks indefinitely
 # @option -a --adapter <string>    Name of config adapter to apply
 # @option -c --config <file>       Configuration file
-# @option --envfile <file>         Environment file to load
+# @option --envfile* <file>        Environment file(s) to load
 # @flag -e --environ               Print environment
 # @flag -h --help                  help for run
 # @option --pidfile <file>         Path of file to which to write process ID
@@ -186,7 +189,7 @@ run() {
 # @cmd Starts the Caddy process in the background and then returns
 # @option -a --adapter <string>    Name of config adapter to apply
 # @option -c --config <file>       Configuration file
-# @option --envfile <file>         Environment file to load
+# @option --envfile* <file>        Environment file(s) to load
 # @flag -h --help                  help for start
 # @option --pidfile <file>         Path of file to which to write process ID
 # @flag -w --watch                 Reload changed config file automatically
@@ -274,7 +277,7 @@ upgrade() {
 # @cmd Tests whether a configuration file is valid
 # @option -a --adapter <string>    Name of config adapter
 # @option -c --config <file>       Input configuration file
-# @option --envfile <file>         Environment file to load
+# @option --envfile* <file>        Environment file(s) to load
 # @flag -h --help                  help for validate
 validate() {
     :;

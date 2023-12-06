@@ -50,7 +50,7 @@ dev() {
 # @option -p --png       Custom PNG icon sizes to generate.
 # @flag -h --help        Print help
 # @flag -V --version     Print version
-# @arg input             Path to the source icon (png, 1240x1240px with transparency) [default: ./app-icon.png]
+# @arg input             Path to the source icon (png, 1024x1024px with transparency) [default: ./app-icon.png]
 icon() {
     :;
 }
@@ -125,9 +125,9 @@ signer() {
 
 # {{{ cargo tauri signer sign
 # @cmd Sign a file
-# @option -k --private-key <PRIVATE_KEY>    Load the private key from a file
+# @option -k --private-key <PRIVATE_KEY>    Load the private key from a string
 # @flag -v --verbose*                       Enables verbose logging
-# @option -f --private-key-path <PRIVATE_KEY_PATH>  Load the private key from a string
+# @option -f --private-key-path <PRIVATE_KEY_PATH>  Load the private key from a file
 # @option -p --password                     Set private key password when signing
 # @flag -h --help                           Print help
 # @flag -V --version                        Print version

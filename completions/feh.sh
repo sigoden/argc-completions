@@ -4,8 +4,8 @@
 # @option -A --action <[flag][[title]]action>     Specify a shell command as an action to perform on the image.
 # @option --action1* <[flag][[title]]action>      Extra actions which can be set and triggered using the appropriate number key.
 # @option --action9* <[flag][[title]]action>      Extra actions which can be set and triggered using the appropriate number key.
-# @flag --auto-reload                             (optional feature, disabled in this build) automatically reload image when the underlying file changes.
-# @flag --auto-rotate                             (optional feature, available in this build) Automatically rotate images based on EXIF data.
+# @flag --auto-reload                             (optional feature, enabled in this build) automatically reload image when the underlying file changes.
+# @flag --auto-rotate                             (optional feature, available in this build) (deprecated in favor of Imlib2's auto-orientation support) Automatically rotate images based on EXIF data.
 # @flag -Z --auto-zoom                            Zoom pictures to screen size in fullscreen / fixed geometry mode.
 # @flag -x --borderless                           Create borderless windows.
 # @option --cache-size <size>                     Set imlib2 in-memory cache to size MiB.
@@ -57,7 +57,7 @@
 # @flag -. --scale-down                           Scale images to fit window geometry (defaults to screen size when no geometry was specified).
 # @option --scroll-step <count>                   Scroll count pixels whenever scroll_up, scroll_down, scroll_left or scroll_right is pressed.
 # @option -D --slideshow-delay <float>            For slideshow mode, wait float seconds between automatically changing slides.
-# @option -S --sort[name|filename|dirname|mtime|width|height|pixels|size|format] <sort_type>  Sort file list according to image parameters.
+# @option -S --sort[name|none|filename|dirname|mtime|width|height|pixels|size|format] <sort_type>  Sort file list according to image parameters.
 # @option --start-at <filename>                   Start the filelist at filename.
 # @option -T --theme <theme>                      Load options from config file with name theme - see THEMES CONFIG SYNTAX for more info.
 # @flag -t --thumbnails                           Same as Index mode, but the thumbnails are clickable image launchers.
@@ -67,8 +67,10 @@
 # @flag -V --verbose                              output useful information, progress bars, etc.
 # @flag -v --version                              output version information and exit.
 # @flag --version-sort                            When combined with --sort name, --sort filename, or --sort dirname: use natural sorting for file and directory names.
-# @option --xinerama-index <screen>               (optional feature, enabled in this build) Override feh's idea of the active Xinerama screen.
+# @option --window-id <windowid>                  Draw to an existing X11 window by its ID windowid.
+# @option --xinerama-index <monitor>              (optional feature, enabled in this build) Override feh's idea of the active Xinerama monitor.
 # @flag --zoom                                    percent | max | fill Zoom images by percent when in full screen mode or when window geometry is fixed.
+# @option --zoom-step <percent>                   Zoom images in and out by percent (default: 25) when using the zoom keys and buttons.
 # @option -a --alpha <int>                        When drawing thumbnails onto the background, set their transparency level to int (0 - 255).
 # @flag -b --bg                                   file | trans Use file as background for your montage.
 # @flag -X --ignore-aspect                        By default, the montage thumbnails will retain their aspect ratios, while fitting into thumb-width/-height.

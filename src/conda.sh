@@ -1,9 +1,13 @@
 _patch_help() { 
-    if [[ "$*" == "conda" ]]; then
+    if [[ "$*" == "conda" ]] \
+    || [[ "$*" == "conda env" ]] \
+    ; then
         $@ --help | \
         sed '/^positional arguments:/,+1 c\commands:' | \
         sed '/(legacy):/,/^$/ d'
 
+    elif [[ "$*" == "conda shell" ]]; then
+        :;
     else
         $@ --help | \
         sed -e 's/^\(\s\+-\S\+\)\( \S\+\)\+, -/\1 -/' \

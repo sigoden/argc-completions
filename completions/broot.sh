@@ -24,6 +24,8 @@
 # @flag --sort-by-date                      Sort by date (only show one level of the tree)
 # @flag --sort-by-size                      Sort by size (only show one level of the tree)
 # @flag --sort-by-type                      Same as sort-by-type-dirs-first
+# @flag --no-tree                           Do not show the tree, even if allowed by sorting mode
+# @flag --tree                              Show the tree, when allowed by sorting mode
 # @flag --sort-by-type-dirs-first           Sort by type, directories first (only show one level of the tree)
 # @flag --sort-by-type-dirs-last            Sort by type, directories last (only show one level of the tree)
 # @flag --no-sort                           Don't sort

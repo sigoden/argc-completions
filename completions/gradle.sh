@@ -7,15 +7,20 @@
 # @flag -a --no-rebuild                            Do not rebuild project dependencies.
 # @option -b --build-file <file>                   Specify the build file.
 # @flag --build-cache                              Enables the Gradle build cache.
+# @flag --no-build-cache                           Disables the Gradle build cache.
 # @option -c --settings-file <file>                Specify the settings file.
 # @flag --configuration-cache                      Enables the configuration cache.
+# @flag --no-configuration-cache                   Disables the configuration cache.
 # @option --configuration-cache-problems[fail|warn]  Configures how the configuration cache handles problems (fail or warn).
 # @flag --configure-on-demand                      Configure necessary projects only.
+# @flag --no-configure-on-demand                   Disables the use of configuration on demand.
 # @option --console[plain|auto|rich|verbose]       Specifies which type of console output to generate.
 # @flag --continue                                 Continue task execution after a task failure.
+# @flag --no-continue                              Stop task execution after a task failure.
 # @option -D --system-prop[`_choice_system_prop`]  Set system property of the JVM (e.g. -Dmyprop=myvalue).
 # @flag -d --debug                                 Log in debug mode (includes normal stacktrace).
 # @flag --daemon                                   Uses the Gradle daemon to run the build.
+# @flag --no-daemon                                Do not use the Gradle daemon to run the build.
 # @flag --export-keys                              Exports the public keys used for dependency verification.
 # @option -F --dependency-verification[strict|lenient|off]  Configures the dependency verification mode.
 # @flag --foreground                               Starts the Gradle daemon in the foreground.
@@ -26,18 +31,11 @@
 # @option -M --write-verification-metadata*, <value>  Generates checksums for dependencies used in the project (comma-separated list)
 # @flag -m --dry-run                               Run the builds with all task actions disabled.
 # @option --max-workers <n>                        Configure the number of concurrent workers Gradle is allowed to use.
-# @flag --no-build-cache                           Disables the Gradle build cache.
-# @flag --no-configuration-cache                   Disables the configuration cache.
-# @flag --no-configure-on-demand                   Disables the use of configuration on demand.
-# @flag --no-continue                              Stop task execution after a task failure.
-# @flag --no-daemon                                Do not use the Gradle daemon to run the build.
-# @flag --no-parallel                              Disables parallel execution to build projects.
-# @flag --no-scan                                  Disables the creation of a build scan.
-# @flag --no-watch-fs                              Disables watching the file system.
 # @flag --offline                                  Execute the build without accessing network resources.
 # @option -P --project-prop <value>                Set project property for the build script (e.g. -Pmyprop=myvalue).
 # @option -p --project-dir <dir>                   Specifies the start directory for Gradle.
 # @flag --parallel                                 Build projects in parallel.
+# @flag --no-parallel                              Disables parallel execution to build projects.
 # @option --priority[normal|low]                   Specifies the scheduling priority for the Gradle daemon and all processes launched by it.
 # @flag --profile                                  Profile build execution time and generates a report in the <build_dir>/reports/profile directory.
 # @option --project-cache-dir <dir>                Specify the project-specific cache directory.
@@ -47,6 +45,7 @@
 # @flag -S --full-stacktrace                       Print out the full (very verbose) stacktrace for all exceptions.
 # @flag -s --stacktrace                            Print out the stacktrace for all exceptions.
 # @flag --scan                                     Creates a build scan.
+# @flag --no-scan                                  Disables the creation of a build scan.
 # @flag --status                                   Shows status of running and recently stopped Gradle daemon(s).
 # @flag --stop                                     Stops the Gradle daemon if it is running.
 # @flag -t --continuous                            Enables continuous build.
@@ -57,6 +56,7 @@
 # @flag -w --warn                                  Set log level to warn.
 # @option --warning-mode[all|fail|summary|none]    Specifies which mode of warnings to generate.
 # @flag --watch-fs                                 Enables watching the file system for changes, allowing data about the file system to be re-used for the next build.
+# @flag --no-watch-fs                              Disables watching the file system.
 # @flag --write-locks                              Persists dependency resolution for locked configurations, ignoring existing locking information if it exists
 # @option -x --exclude-task[`_choice_task_cached`]  Specify a task to be excluded from execution.
 # @arg task*[`_choice_task_cached`]

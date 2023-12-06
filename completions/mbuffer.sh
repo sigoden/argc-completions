@@ -4,7 +4,7 @@
 # @option -b <num>        use <num> blocks for buffer (default: 160)
 # @option -s <size>       use blocks of <size> bytes for processing (default: 8388608)
 # @option -m <size>       memory <size> of buffer in b,k,M,G,% (default: 2% = 1280M)
-# @flag -L                lock buffer in memory (unusable with file-based buffers)
+# @flag -L                lock buffer in memory (unusable with file based buffers)
 # @flag -d                use blocksize of device for output
 # @option -D <size>       assumed output device size (default: infinite/auto-detect)
 # @option -P <num>        start writing after buffer has been filled more than <num>%
@@ -14,9 +14,9 @@
 # @flag --append          append to output file (must be passed before -o)
 # @flag --truncate        truncate next file (must be passed before -o)
 # @option -I <p>          use network port <port> as input
-# @option -O <<h>:<p>>    output data to host <h> and port <p> (MULTIPLE outputs supported)
+# @option -O <<h>:<p>>    output data to host <h> and port <p> (MUTLIPLE outputs supported)
 # @option -n <num>        <num> volumes for input, '0' to prompt interactively
-# @flag -t                use memory-mapped temporary file (for huge buffer)
+# @flag -t                use memory mapped temporary file (for huge buffer)
 # @option -T <file>       as -t but uses <file> as buffer
 # @option -l <file>       use <file> for logging messages
 # @option -u <num>        pause <num> milliseconds after each write
@@ -30,6 +30,9 @@
 # @flag -Q                quiet - do not log the status
 # @flag -c                write with synchronous data integrity support
 # @flag -e                stop processing on any kind of error
+# @flag -H
+# @flag --md5             generate md5 hash of transfered data
+# @option --hash <a>      use algorithm <a>, if <a> is 'list' possible algorithms are listed
 # @flag --pid             print PID of this instance
 # @option -W <time>       set watchdog timeout to <time> seconds
 # @flag -4                force use of IPv4

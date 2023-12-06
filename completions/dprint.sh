@@ -3,7 +3,7 @@
 
 # @option -c --config <config>       Path or url to JSON configuration file.
 # @option --plugins* <urls/files>    List of urls or file paths of plugins to use.
-# @flag --verbose                    Prints additional diagnostic information.
+# @option -L --log-level[debug|info|warn|error|silent] <log-level>  Set log level [default: info]
 # @arg file-patterns* <file patterns>
 
 # {{ dprint init
@@ -20,9 +20,10 @@ init() {
 # @option --incremental[true|false] <incremental>  Only format files when they change.
 # @option --stdin <extension/file-name/file-path>  Format stdin and output the result to stdout.
 # @flag --diff                       Outputs a check-like diff of every formatted file.
+# @flag --allow-no-files             Causes dprint to exit with exit code 0 when no files are found instead of exit code 14.
 # @option -c --config <config>       Path or url to JSON configuration file.
 # @option --plugins* <urls/files>    List of urls or file paths of plugins to use.
-# @flag --verbose                    Prints additional diagnostic information.
+# @option -L --log-level[debug|info|warn|error|silent] <log-level>  Set log level [default: info]
 # @flag -h --help                    Print help
 # @arg files*                        List of file patterns in quotes to format.
 fmt() {
@@ -35,9 +36,11 @@ fmt() {
 # @option --excludes* <patterns>     List of file patterns or directories in quotes to exclude when formatting.
 # @flag --allow-node-modules         Allows traversing node module directories (unstable - This flag will be renamed to be non-node specific in the future).
 # @option --incremental[true|false] <incremental>  Only format files when they change.
+# @flag --allow-no-files             Causes dprint to exit with exit code 0 when no files are found instead of exit code 14.
+# @flag --list-different             Only outputs file paths that aren't formatted and doesn't output diffs.
 # @option -c --config <config>       Path or url to JSON configuration file.
 # @option --plugins* <urls/files>    List of urls or file paths of plugins to use.
-# @flag --verbose                    Prints additional diagnostic information.
+# @option -L --log-level[debug|info|warn|error|silent] <log-level>  Set log level [default: info]
 # @flag -h --help                    Print help
 # @arg files*                        List of file patterns in quotes to format.
 check() {
@@ -49,7 +52,7 @@ check() {
 # @cmd Functionality related to the configuration file.
 # @option -c --config <config>       Path or url to JSON configuration file.
 # @option --plugins* <urls/files>    List of urls or file paths of plugins to use.
-# @flag --verbose                    Prints additional diagnostic information.
+# @option -L --log-level[debug|info|warn|error|silent] <log-level>  Set log level [default: info]
 # @flag -h --help                    Print help
 config() {
     :;
@@ -67,7 +70,7 @@ config::init() {
 # @flag -y --yes                     Upgrade process plugins without prompting to confirm checksums.
 # @option -c --config <config>       Path or url to JSON configuration file.
 # @option --plugins* <urls/files>    List of urls or file paths of plugins to use.
-# @flag --verbose                    Prints additional diagnostic information.
+# @option -L --log-level[debug|info|warn|error|silent] <log-level>  Set log level [default: info]
 # @flag -h --help                    Print help
 config::update() {
     :;
@@ -78,7 +81,7 @@ config::update() {
 # @cmd Adds a plugin to the configuration file.
 # @option -c --config <config>       Path or url to JSON configuration file.
 # @option --plugins* <urls/files>    List of urls or file paths of plugins to use.
-# @flag --verbose                    Prints additional diagnostic information.
+# @option -L --log-level[debug|info|warn|error|silent] <log-level>  Set log level [default: info]
 # @flag -h --help                    Print help
 # @arg url-or-plugin-name
 config::add() {
@@ -93,7 +96,7 @@ config::add() {
 # @flag --allow-node-modules         Allows traversing node module directories (unstable - This flag will be renamed to be non-node specific in the future).
 # @option -c --config <config>       Path or url to JSON configuration file.
 # @option --plugins* <urls/files>    List of urls or file paths of plugins to use.
-# @flag --verbose                    Prints additional diagnostic information.
+# @option -L --log-level[debug|info|warn|error|silent] <log-level>  Set log level [default: info]
 # @flag -h --help                    Print help
 # @arg files*                        List of file patterns in quotes to format.
 output-file-paths() {
@@ -112,9 +115,10 @@ output-resolved-config() {
 # @cmd Prints the amount of time it takes to format each file.
 # @option --excludes* <patterns>     List of file patterns or directories in quotes to exclude when formatting.
 # @flag --allow-node-modules         Allows traversing node module directories (unstable - This flag will be renamed to be non-node specific in the future).
+# @flag --allow-no-files             Causes dprint to exit with exit code 0 when no files are found instead of exit code 14.
 # @option -c --config <config>       Path or url to JSON configuration file.
 # @option --plugins* <urls/files>    List of urls or file paths of plugins to use.
-# @flag --verbose                    Prints additional diagnostic information.
+# @option -L --log-level[debug|info|warn|error|silent] <log-level>  Set log level [default: info]
 # @flag -h --help                    Print help
 # @arg files*                        List of file patterns in quotes to format.
 output-format-times() {
@@ -140,7 +144,7 @@ upgrade() {
 # @cmd Generate shell completions script for dprint
 # @option -c --config <config>       Path or url to JSON configuration file.
 # @option --plugins* <urls/files>    List of urls or file paths of plugins to use.
-# @flag --verbose                    Prints additional diagnostic information.
+# @option -L --log-level[debug|info|warn|error|silent] <log-level>  Set log level [default: info]
 # @flag -h --help                    Print help
 # @arg shell![bash|elvish|fish|powershell|zsh]
 completions() {

@@ -80,7 +80,7 @@ module() {
 # @option -o --output    Output the preset to a file instead of stdout
 # @flag -l --list        List out all preset names
 # @flag -h --help        Print help
-# @arg name[bracketed-segments|no-nerd-font|tokyo-night|plain-text-symbols|nerd-font-symbols|no-runtime-versions|pure-preset|no-empty-icons|pastel-powerline]  The name of preset to be printed
+# @arg name[bracketed-segments|plain-text-symbols|pure-preset|no-nerd-font|tokyo-night|nerd-font-symbols|pastel-powerline|no-runtime-versions|no-empty-icons]  The name of preset to be printed
 preset() {
     :;
 }

@@ -10,6 +10,7 @@
 # @option --apiserver-name <minikubeCA>          The authoritative apiserver hostname for apiserver certificates and connectivity.
 # @option --apiserver-names* <value>             A set of apiserver names which are used in the generated certificate for kubernetes.
 # @option --apiserver-port <8443>                The apiserver listening port
+# @option --auto-pause-interval <1m0s>           Duration of inactivity before the minikube VM is paused (default 1m0s).
 # @flag --auto-update-drivers                    If set, automatically updates drivers to the latest version.
 # @option --base-image[`_module_oci_docker_image`] <image>  The base image to use for docker/podman drivers.
 # @option --binary-mirror <value>                Location to fetch kubectl, kubelet, & kubeadm binaries from.
@@ -29,15 +30,16 @@
 # @option --docker-env* <value>                  Environment variables to pass to the Docker daemon.
 # @option --docker-opt* <value>                  Specify arbitrary flags to pass to the Docker daemon.
 # @flag --download-only                          If true, only download and cache files for later use - don't install or start anything.
-# @option --driver[virtualbox|vmwarefusion|kvm2|qemu2|qemu|vmware|none|docker|podman|ssh|auto-detect] <value>  Driver is one of: virtualbox, vmwarefusion, kvm2, qemu2, qemu, vmware, none, docker, podman, ssh (defaults to auto-detect)
+# @option --driver[virtualbox|vmwarefusion|kvm2|qemu2|qemu|vmware|none|docker|podman|ssh|auto-detect] <value>  Driver is one of: virtualbox, kvm2, qemu2, qemu, vmware, none, docker, podman, ssh (defaults to auto-detect)
 # @flag --dry-run                                dry-run mode.
 # @flag --embed-certs                            if true, will embed the certs in kubeconfig.
 # @flag --enable-default-cni                     DEPRECATED: Replaced by --cni=bridge
 # @option --extra-config[ignore-preflight-errors|dry-run|kubeconfig|kubeconfig-dir|node-name|cri-socket|experimental-upload-certs|certificate-key|rootfs|skip-phases|pod-network-cidr] <value>  A set of key=value pairs that describe configuration that may be passed to different components.
-# @option --extra-disks <0>                      Number of extra disks created and attached to the minikube VM (currently only implemented for hyperkit and kvm2 drivers)
+# @option --extra-disks <0>                      Number of extra disks created and attached to the minikube VM (currently only implemented for hyperkit, kvm2, and qemu2 drivers)
 # @option --feature-gates <value>                A set of key=value pairs that describe feature gates for alpha/experimental features.
 # @flag --force                                  Force minikube to perform possibly dangerous operations
 # @flag --force-systemd                          If set, force the container runtime to use systemd as cgroup manager.
+# @option -g --gpus <value>                      Allow pods to use your NVIDIA GPUs.
 # @flag --host-dns-resolver                      Enable host resolver for NAT DNS requests (virtualbox driver only)
 # @option --host-only-cidr <192.168.59.1/24>     The CIDR to be used for the minikube VM (virtualbox driver only)
 # @option --host-only-nic-type[Am79C970A|Am79C973|82540EM|82543GC|82545EM|virtio] <virtio>  NIC Type used for host only network.
@@ -53,7 +55,7 @@
 # @flag --interactive                            Allow user prompts for more information
 # @option --iso-url*, <url>                      Locations to fetch the minikube ISO from.
 # @flag --keep-context                           This will keep the existing kubectl context and will create a minikube context.
-# @option --kubernetes-version <value>           The Kubernetes version that the minikube VM will use (ex: v1.2.3, 'stable' for v1.26.3, 'latest' for v1.27.0-rc.0).
+# @option --kubernetes-version <value>           The Kubernetes version that the minikube VM will use (ex: v1.2.3, 'stable' for v1.28.3, 'latest' for v1.28.3).
 # @flag --kvm-gpu                                Enable experimental NVIDIA GPU support in minikube
 # @flag --kvm-hidden                             Hide the hypervisor signature from the guest in minikube (kvm2 driver only)
 # @option --kvm-network <default>                The KVM default network name.
@@ -651,6 +653,13 @@ completion::fish() {
     :;
 }
 # }}} minikube completion fish
+
+# {{{ minikube completion powershell
+# @cmd powershell completion.
+completion::powershell() {
+    :;
+}
+# }}} minikube completion powershell
 
 # {{{ minikube completion zsh
 # @cmd zsh completion.

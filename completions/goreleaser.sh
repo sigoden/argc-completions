@@ -15,9 +15,7 @@
 # @option -o --output <path>        Copy the binary to the path after the build.
 # @option -p --parallelism <int>    Amount tasks to run concurrently (default: number of CPUs)
 # @flag --single-target             Builds only for current GOOS and GOARCH, regardless of what's set in the configuration file
-# @flag --skip-before               Skips global before hooks
-# @flag --skip-post-hooks           Skips all post-build hooks
-# @flag --skip-validate             Skips several sanity checks
+# @option --skip* <string>          Skip the given options (valid options are before, post-hooks, pre-hooks, validate)
 # @flag --snapshot                  Generate an unversioned snapshot build, skipping all validations
 # @option --timeout <duration>      Timeout to the entire build process (default 30m0s)
 # @flag --debug                     Enable verbose mode
@@ -141,15 +139,8 @@ jsonschema() {
 # @option --release-header-tmpl <file>    Load custom release notes header from a templated markdown file (overrides --release-header)
 # @option --release-notes <file>          Load custom release notes from a markdown file (will skip GoReleaser changelog generation)
 # @option --release-notes-tmpl <file>     Load custom release notes from a templated markdown file (overrides --release-notes)
-# @flag --skip-announce                   Skips announcing releases (implies --skip-validate)
-# @flag --skip-before                     Skips global before hooks
-# @flag --skip-docker                     Skips Docker Images/Manifests builds
-# @flag --skip-ko                         Skips Ko builds
-# @flag --skip-publish                    Skips publishing artifacts (implies --skip-announce)
-# @flag --skip-sbom                       Skips cataloging artifacts
-# @flag --skip-sign                       Skips signing artifacts
-# @flag --skip-validate                   Skips git checks
-# @flag --snapshot                        Generate an unversioned snapshot release, skipping all validations and without publishing any artifacts (implies --skip-publish, --skip-announce and --skip-validate)
+# @option --skip* <string>                Skip the given options (valid options are announce, aur, before, docker, homebrew, ko, nix, publish, sbom, scoop, sign, snapcraft, validate, winget)
+# @flag --snapshot                        Generate an unversioned snapshot release, skipping all validations and without publishing any artifacts (implies --skip=announce,publish,validate)
 # @option --timeout <duration>            Timeout to the entire release process (default 30m0s)
 # @flag --debug                           Enable verbose mode
 # @flag --verbose                         Enable verbose mode

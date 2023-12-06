@@ -2,27 +2,31 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # @flag -q --quiet                               Do not print cargo log messages
-# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs
-# @flag --keep-going                             Do not abort the build as soon as there is an error (unstable)
-# @option --profile <PROFILE-NAME>               Build artifacts with the specified Cargo profile
-# @option -F --features*,[`_choice_feature`]     Space or comma separated list of features to activate
-# @flag --all-features                           Activate all available features
-# @flag --no-default-features                    Do not activate the `default` feature
-# @option --target[`_choice_target`] <TRIPLE>    Build for the target triple [env: CARGO_BUILD_TARGET=]
-# @option --target-dir <DIRECTORY>               Directory for all generated artifacts
 # @option --message-format <FMT>                 Error format
 # @flag -v --verbose*                            Use verbose output (-vv very verbose/build.rs output)
 # @option --color[auto|always|never] <WHEN>      Coloring: auto, always, never
+# @option --config <KEY=VALUE>                   Override a configuration value (unstable)
+# @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
+# @flag --ignore-rust-version                    Ignore `rust-version` specification in packages
+# @flag --future-incompat-report                 Outputs a future incompatibility report at the end of the build (unstable)
+# @flag -h --help                                Print help
+# @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs
+# @flag --keep-going                             Do not abort the build as soon as there is an error (unstable)
+# @option --profile <PROFILE-NAME>               Build artifacts with the specified Cargo profile
+# @option --target[`_choice_target`] <TRIPLE>    Build for the target triple [env: CARGO_BUILD_TARGET=]
+# @option --target-dir <DIRECTORY>               Directory for all generated artifacts
+# @option --timings*[html|json] <FMTS>           Timing output formats (unstable) (comma separated): html, json
+# @flag -r --release                             Build artifacts in release mode, with optimizations
+# @flag --unit-graph                             Output build graph in JSON (unstable)
+# @option --out-dir <PATH>                       Copy final artifacts to this directory (unstable)
+# @flag --build-plan                             Output the build plan in JSON (unstable)
+# @option -F --features*,[`_choice_feature`]     Space or comma separated list of features to activate
+# @flag --all-features                           Activate all available features
+# @flag --no-default-features                    Do not activate the `default` feature
 # @flag --frozen                                 Require Cargo.lock and cache are up to date
 # @flag --locked                                 Require Cargo.lock is up to date
 # @flag --offline                                Run without accessing the network
-# @option --config <KEY=VALUE>                   Override a configuration value (unstable)
-# @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
-# @option --timings*[html|json] <FMTS>           Timing output formats (unstable) (comma separated): html, json
 # @option --manifest-path <PATH>                 Path to Cargo.toml
-# @flag -r --release                             Build artifacts in release mode, with optimizations
-# @flag --ignore-rust-version                    Ignore `rust-version` specification in packages
-# @flag --unit-graph                             Output build graph in JSON (unstable)
 # @option -p --package[`_choice_package`] <SPEC>  Package to build (see `cargo help pkgid`)
 # @flag --workspace                              Build all packages in the workspace
 # @option --exclude <SPEC>                       Exclude packages from the build
@@ -37,10 +41,6 @@
 # @option --bench[`_choice_bench`] <NAME>        Build only the specified bench target
 # @flag --benches                                Build all benches
 # @flag --all-targets                            Build all targets
-# @option --out-dir <PATH>                       Copy final artifacts to this directory (unstable)
-# @flag --build-plan                             Output the build plan in JSON (unstable)
-# @flag --future-incompat-report                 Outputs a future incompatibility report at the end of the build (unstable)
-# @flag -h --help                                Print help
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 

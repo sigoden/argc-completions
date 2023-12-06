@@ -19,6 +19,8 @@
 # @flag --gui-browser                      open a bang directly in gui browser
 # @flag --np                               perform search and exit, do not prompt
 # @flag --noprompt                         perform search and exit, do not prompt
+# @flag --rev                              list entries in reversed order
+# @flag --reverse                          list entries in reversed order
 # @option --url-handler <UTIL>             custom script or cli utility to open results
 # @flag --show-browser-logs                do not suppress browser output (stdout and stderr)
 # @flag -v --version                       show program's version number and exit

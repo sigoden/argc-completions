@@ -29,11 +29,16 @@ completion() {
 # @flag --build-repo                        Specify source repository for buildconfig (default is current branch's remote url)
 # @flag --insecure-repository               Specify to use insecure docker repository while generating Openshift image stream object
 # @option --build[local|build-config|none] <string>  Set the type of build ("local"|"build-config"(OpenShift only)|"none") (default "none")
+# @option --build-command <string>          Set the command used to build the container image.
 # @option --controller[deployment|daemonSet|replicationController] <string>  Set the output controller
+# @flag --generate-network-policies         Specify whether to generate network policies or not.
 # @flag -h --help                           help for convert
 # @option --indent <int>                    Spaces length to indent generated yaml files (default 2)
 # @flag -j --json                           Generate resource files into JSON format
+# @option -n --namespace <string>           Specify the namespace of the generated resources
 # @option -o --out <path>                   Specify a file name or directory to save objects to (if path does not exist, a file will be created)
+# @option --profile* <file>                 Specify the profile to use, can use multiple profiles
+# @option --push-command <string>           Set the command used to push the container image.
 # @flag --push-image                        If we should push the docker image we built
 # @option --push-image-registry <string>    Specify registry for pushing image, which will override registry from image name.
 # @option --pvc-request-size <string>       Specify the size of pvc storage requests in the generated resource spec

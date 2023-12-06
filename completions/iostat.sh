@@ -2,6 +2,7 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # @flag -c                             Display the CPU utilization report.
+# @flag --compact                      Don't break the Device Utilization Report into sub-reports so that all the metrics get displayed on a single line.
 # @flag -d                             Display the device utilization report.
 # @option --dec[0|1|2] <value>         Specify the number of decimal places to use (0 to 2, default value is 2).
 # @option -f <directory>
@@ -13,7 +14,7 @@
 # @flag -k                             Display statistics in kilobytes per second.
 # @flag -m                             Display statistics in megabytes per second.
 # @flag -N                             Display the registered device mapper names for any device mapper devices.
-# @option -o <JSON>                    Display the statistics in JSON (Javascript Object Notation) format.
+# @option -o <JSON>                    Display the statistics in JSON (JavaScript Object Notation) format.
 # @option -p <device+>                 Display statistics for block devices and all their partitions that are used by the system.
 # @flag --pretty                       Make the Device Utilization Report easier to read by a human.
 # @flag -s                             Display a short (narrow) version of the report that should fit in 80 characters wide screens.

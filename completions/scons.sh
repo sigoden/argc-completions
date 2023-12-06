@@ -14,7 +14,7 @@
 # @flag --cache-show                           Print build actions for files from CacheDir
 # @option --config[auto|force|cache] <MODE>    Controls Configure subsystem
 # @flag -D                                     Search up directory tree for SConstruct, build all Default() targets
-# @option --debug[count|duplicate|explain|findlibs|includes|memoizer|memory|objects|pdb|prepare|presub|stacktrace|time|action-timestamps] <TYPE>  Print various types of debugging information
+# @option --debug[count|duplicate|explain|findlibs|includes|memoizer|memory|objects|pdb|prepare|presub|stacktrace|time|action-timestamps|json|sconscript] <TYPE>  Print various types of debugging information
 # @option --diskcheck <TYPE>                   Enable specific on-disk checks
 # @option --duplicate[hard-soft-copy|soft-hard-copy|hard-copy|soft-copy|copy]  Set the preferred duplication methods
 # @flag --enable-virtualenv                    Import certain virtualenv variables to SCons

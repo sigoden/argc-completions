@@ -12,7 +12,7 @@
 # @option -m[`_choice_model_cached`] <mod>    run library module as a script (terminates option list)
 # @flag -O                                    remove assert and __debug__-dependent statements; add .opt-1 before .pyc extension; also PYTHONOPTIMIZE=x
 # @flag -OO                                   do -O changes and also discard docstrings; add .opt-2 before .pyc extension
-# @flag -P                                    don't prepend a potentially unsafe path to sys.path
+# @flag -P                                    don't prepend a potentially unsafe path to sys.path; also PYTHONSAFEPATH
 # @flag -q                                    don't print version and copyright messages on interactive startup
 # @flag -s                                    don't add user site directory to sys.path; also PYTHONNOUSERSITE
 # @flag -S                                    don't imply 'import site' on initialization

@@ -3,7 +3,7 @@
 
 # @flag -v --verbose*                   Verbose mode (-v, -vv, -vvv)
 # @option --color[auto|never|always]    Colorize the output; auto enables color output when connected to a tty [default: auto]
-# @option -c --config                   Path to a specific pueue config file to use.
+# @option -c --config                   If provided, Pueue only uses this config file.
 # @option -p --profile                  The name of the profile that should be loaded from your config file
 # @flag -h --help                       Print help
 # @flag -V --version                    Print version
@@ -79,7 +79,7 @@ start() {
 
 # {{ pueue restart
 # @cmd Restart failed or successful task(s).
-# @flag -a --all-failed                Restart all failed tasks accross all groups.
+# @flag -a --all-failed                Restart all failed tasks across all groups.
 # @option -g --failed-in-group[`_choice_group`] <FAILED_IN_GROUP>  Like `--all-failed`, but only restart tasks failed tasks of a specific group.
 # @flag -k --start-immediately         Immediately start the tasks, no matter how many open slots there are.
 # @flag -s --stashed                   Set the restarted task to a "Stashed" state.

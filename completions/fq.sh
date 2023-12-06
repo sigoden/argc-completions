@@ -10,14 +10,14 @@
 # @option -f --from-file <PATH>                   Read EXPR from file
 # @option -h --help <TOPIC>                       Show help for TOPIC (ex: -h formats, -h mp4)
 # @option -L --include-path <PATH>                Include search path
-# @flag -j --join-output                          No newline between outputs
+# @flag -j --join-output                          No newline after each output
 # @flag -M --monochrome-output                    Force monochrome output
 # @flag -n --null-input                           Null input (use input and inputs functions to read)
-# @flag -0 --null-output                          Null byte between outputs
 # @option -o --option[`_choice_option`] <KEY=VALUE/@PATH>  Set option (ex: -o color=true, see --help options)
 # @option --raw-file <NAME> <PATH>                Set variable $NAME to string content of file
 # @flag -R --raw-input                            Read raw input strings (don't decode)
 # @flag -r --raw-output                           Raw string output (without quotes)
+# @flag --raw-output0                             NUL (zero) byte after each output
 # @flag -i --repl                                 Interactive REPL
 # @flag -s --slurp                                Slurp all inputs into an array or string (-Rs)
 # @flag -U --unicode-output                       Force unicode output

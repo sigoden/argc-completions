@@ -15,6 +15,7 @@
 # @flag --silent-semi                          only show a message when the file is downloaded
 # @option -u --username                        username
 # @option -p --password                        password
+# @option --token                              token
 # @flag -t --thumbnail                         download thumbnail from the site if available
 # @flag -g --get-url                           do not download any video, but instead print the URL.
 # @flag --get-only-episode-url                 do not get video URLs, only print the episode URL.

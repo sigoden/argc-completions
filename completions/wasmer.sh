@@ -9,11 +9,12 @@
 
 # {{ wasmer login
 # @cmd Login into a wasmer.io-like registry
-# @option --wasmer-dir <WASMER_DIR>     Set Wasmer's home directory [env: WASMER_DIR=/home/sigo/.wasmer] [default: /home/sigo/.wasmer]
-# @option --registry                    The registry to fetch packages from (inferred from the environment by default) [env: WASMER_REGISTRY=]
+# @flag --no-browser                    Variable to login without opening a browser
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
-# @option --cache-dir <CACHE_DIR>       The directory cached artefacts are saved to [env: WASMER_CACHE_DIR=/home/sigo/.wasmer/cache]
+# @option --wasmer-dir <WASMER_DIR>     Set Wasmer's home directory [env: WASMER_DIR=] [default: /home/sigo/.wasmer]
 # @flag -q --quiet                      Do not print progress messages
+# @option --registry                    The registry to fetch packages from (inferred from the environment by default) [env: WASMER_REGISTRY=]
+# @option --cache-dir <CACHE_DIR>       The directory cached artefacts are saved to [env: WASMER_CACHE_DIR=]
 # @option --color[auto|always|never]    When to display colored output [default: auto]
 # @flag -h --help                       Print help
 # @arg token                            The API token to use when communicating with the registry (inferred from the environment by default)
@@ -35,6 +36,8 @@ login() {
 # @option --package-name <PACKAGE_NAME>    Override the package of the uploaded package in the wasmer.toml
 # @option --version                        Override the package version of the uploaded package in the wasmer.toml
 # @flag --no-validate                      Skip validation of the uploaded package
+# @flag --wait                             Wait for package to be available on the registry before exiting
+# @option --timeout                        Timeout (in seconds) for the publish query to the registry.
 # @flag -h --help                          Print help (see a summary with '-h')
 # @arg package_path                        Directory containing the `wasmer.toml`, or a custom *.toml manifest file.
 publish() {
@@ -44,9 +47,13 @@ publish() {
 
 # {{ wasmer cache
 # @cmd Wasmer cache
+# @option --wasmer-dir <WASMER_DIR>     Set Wasmer's home directory [env: WASMER_DIR=] [default: /home/sigo/.wasmer]
+# @option --registry                    The registry to fetch packages from (inferred from the environment by default) [env: WASMER_REGISTRY=]
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @option --cache-dir <CACHE_DIR>       The directory cached artefacts are saved to [env: WASMER_CACHE_DIR=]
 # @flag -q --quiet                      Do not print progress messages
 # @option --color[auto|always|never]    When to display colored output [default: auto]
+# @option --token                       The API token to use when communicating with the registry (inferred from the environment by default) [env: WASMER_TOKEN=]
 # @flag -h --help                       Print help
 cache() {
     :;
@@ -138,7 +145,7 @@ compile() {
 # @option --use-wasmer-release <URL_OR_RELEASE_VERSION>  Can specify either a release version (such as "3.0.1") or a URL to a tarball to use for linking.
 # @option -m --cpu-features <CPU_FEATURES>
 # @option -l --libraries                           Additional libraries to link against.
-# @flag --use-system-linker                        Use the system linker instead of zig instead of zig for linking
+# @flag --use-system-linker                        Use the system linker instead of zig for linking
 # @option --library-path <LIBRARY_PATH>            Cross-compilation library path (path to libwasmer.a / wasmer.lib)
 # @option --tarball                                Cross-compilation tarball library path
 # @option --zig-binary-path <ZIG_BINARY_PATH>      Specify `zig` binary path (defaults to `zig` in $PATH if not present)
@@ -210,10 +217,10 @@ gen-c-header() {
 
 # {{ wasmer config
 # @cmd Get various configuration information needed to compile programs which use Wasmer
-# @option --wasmer-dir <WASMER_DIR>     Set Wasmer's home directory [env: WASMER_DIR=/home/sigo/.wasmer] [default: /home/sigo/.wasmer]
+# @option --wasmer-dir <WASMER_DIR>     Set Wasmer's home directory [env: WASMER_DIR=] [default: /home/sigo/.wasmer]
 # @option --registry                    The registry to fetch packages from (inferred from the environment by default) [env: WASMER_REGISTRY=]
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
-# @option --cache-dir <CACHE_DIR>       The directory cached artefacts are saved to [env: WASMER_CACHE_DIR=/home/sigo/.wasmer/cache]
+# @option --cache-dir <CACHE_DIR>       The directory cached artefacts are saved to [env: WASMER_CACHE_DIR=]
 # @flag -q --quiet                      Do not print progress messages
 # @option --color[auto|always|never]    When to display colored output [default: auto]
 # @option --token                       The API token to use when communicating with the registry (inferred from the environment by default) [env: WASMER_TOKEN=]
@@ -501,10 +508,10 @@ binfmt::reregister() {
 
 # {{ wasmer whoami
 # @cmd Shows the current logged in user for the current active registry
-# @option --wasmer-dir <WASMER_DIR>     Set Wasmer's home directory [env: WASMER_DIR=/home/sigo/.wasmer] [default: /home/sigo/.wasmer]
+# @option --wasmer-dir <WASMER_DIR>     Set Wasmer's home directory [env: WASMER_DIR=] [default: /home/sigo/.wasmer]
 # @option --registry                    The registry to fetch packages from (inferred from the environment by default) [env: WASMER_REGISTRY=]
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
-# @option --cache-dir <CACHE_DIR>       The directory cached artefacts are saved to [env: WASMER_CACHE_DIR=/home/sigo/.wasmer/cache]
+# @option --cache-dir <CACHE_DIR>       The directory cached artefacts are saved to [env: WASMER_CACHE_DIR=]
 # @flag -q --quiet                      Do not print progress messages
 # @option --color[auto|always|never]    When to display colored output [default: auto]
 # @option --token                       The API token to use when communicating with the registry (inferred from the environment by default) [env: WASMER_TOKEN=]
@@ -516,15 +523,16 @@ whoami() {
 
 # {{ wasmer add
 # @cmd Add a Wasmer package's bindings to your application
-# @option --wasmer-dir <WASMER_DIR>     Set Wasmer's home directory [env: WASMER_DIR=/home/sigo/.wasmer] [default: /home/sigo/.wasmer]
+# @option --wasmer-dir <WASMER_DIR>     Set Wasmer's home directory [env: WASMER_DIR=] [default: /home/sigo/.wasmer]
 # @option --registry                    The registry to fetch packages from (inferred from the environment by default) [env: WASMER_REGISTRY=]
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
-# @option --cache-dir <CACHE_DIR>       The directory cached artefacts are saved to [env: WASMER_CACHE_DIR=/home/sigo/.wasmer/cache]
+# @option --cache-dir <CACHE_DIR>       The directory cached artefacts are saved to [env: WASMER_CACHE_DIR=]
 # @flag -q --quiet                      Do not print progress messages
 # @option --color[auto|always|never]    When to display colored output [default: auto]
 # @option --token                       The API token to use when communicating with the registry (inferred from the environment by default) [env: WASMER_TOKEN=]
 # @flag --npm                           Add the JavaScript bindings using "npm install"
 # @flag --yarn                          Add the JavaScript bindings using "yarn add"
+# @flag --pnpm                          Add the JavaScript bindings using "pnpm add"
 # @flag --dev                           Add the package as a dev-dependency
 # @flag --pip                           Add the Python bindings using "pip install"
 # @flag -h --help                       Print help
@@ -558,7 +566,7 @@ add() {
 # @option --dir                                WASI pre-opened directory
 # @option --mapdir <GUEST_DIR:HOST_DIR>        Map a host directory to a different location for the Wasm module
 # @option --env <KEY=VALUE>                    Pass custom environment variables
-# @flag --forward-host-env                     Forward all host env variables to the wcgi task
+# @flag --forward-host-env                     Forward all host env variables to guest
 # @option --use                                List of other containers this module depends on
 # @option --include-webc <WEBC>                List of webc packages that are explicitly included for execution Note: these packages will be used instead of those in the registry
 # @option --map-command <MAPCMD>               List of injected atoms
@@ -579,8 +587,75 @@ run() {
 }
 # }} wasmer run
 
+# {{ wasmer package
+# @cmd Package related commands
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto]
+# @flag -h --help                       Print help
+package() {
+    :;
+}
+
+# {{{ wasmer package download
+# @cmd Download a package from the registry
+# @option --wasmer-dir <WASMER_DIR>     Set Wasmer's home directory [env: WASMER_DIR=] [default: /home/sigo/.wasmer]
+# @option --registry                    The registry to fetch packages from (inferred from the environment by default) [env: WASMER_REGISTRY=]
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @option --cache-dir <CACHE_DIR>       The directory cached artefacts are saved to [env: WASMER_CACHE_DIR=]
+# @option --color[auto|always|never]    When to display colored output [default: auto]
+# @option --token                       The API token to use when communicating with the registry (inferred from the environment by default) [env: WASMER_TOKEN=]
+# @flag --validate                      Verify that the downloaded file is a valid package
+# @option -o --out-path <OUT_PATH>      Path where the package file should be written to.
+# @flag --quiet                         Run the download command without any output
+# @flag -h --help                       Print help
+# @arg package!                         The package to download.
+package::download() {
+    :;
+}
+# }}} wasmer package download
+
+# {{{ wasmer package build
+# @cmd Build a container from a package manifest
+# @option -o --out                      Output path for the package file.
+# @flag --quiet                         Run the publish command without any output
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @option --color[auto|always|never]    When to display colored output
+# @flag -h --help                       Print help (see a summary with '-h')
+# @arg package                          Path of the package or wasmer.toml manifest.
+package::build() {
+    :;
+}
+# }}} wasmer package build
+# }} wasmer package
+
+# {{ wasmer container
+# @cmd Container related commands.
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output [default: auto]
+# @flag -h --help                       Print help
+container() {
+    :;
+}
+
+# {{{ wasmer container unpack
+# @cmd Extract contents of a container to a directory
+# @option -o --out-dir <OUT_DIR>        The output directory
+# @flag --overwrite                     Overwrite existing directories/files
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @flag --quiet                         Run the unpack command without any output
+# @option --color[auto|always|never]    When to display colored output [default: auto]
+# @flag -h --help                       Print help
+# @arg package_path!                    Path to the package
+container::unpack() {
+    :;
+}
+# }}} wasmer container unpack
+# }} wasmer container
+
 # {{ wasmer deploy
-# @cmd Deploy apps to the Wasmer Edge
+# @cmd Deploy apps to Wasmer Edge
 # @option --token                       [env: WASMER_TOKEN=]
 # @option --registry
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
@@ -590,16 +665,19 @@ run() {
 # @flag --no-validate                   Skip local schema validation
 # @flag --non-interactive               Do not prompt for user input
 # @flag --publish-package               Automatically publish the package referenced by this app.
-# @option --path                        The path to a YAML file
+# @option --path                        The path to the app.yaml file
+# @flag --no-wait                       Do not wait for the app to become reachable
+# @flag --no-default                    Do not make the new app version the default (active) version.
+# @flag --no-persist-id                 Do not persist the app version ID in the app.yaml
+# @option --owner                       Specify the owner (user or namespace) of the app.
 # @flag -h --help                       Print help (see a summary with '-h')
-# @arg owner
 deploy() {
     :;
 }
 # }} wasmer deploy
 
 # {{ wasmer app
-# @cmd Manage deployed apps
+# @cmd Manage deployed Edge apps
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
 # @flag -q --quiet                      Do not print progress messages
 # @option --color[auto|always|never]    When to display colored output [default: auto]
@@ -617,11 +695,26 @@ app() {
 # @flag -q --quiet                      Do not print progress messages
 # @option --color[auto|always|never]    When to display colored output
 # @flag -h --help                       Print help (see a summary with '-h')
-# @arg ident!                           Identifier of the app.
+# @arg ident                            Identifier of the app.
 app::get() {
     :;
 }
 # }}} wasmer app get
+
+# {{{ wasmer app info
+# @cmd Formatting options for a single item
+# @option --token                       [env: WASMER_TOKEN=]
+# @option --registry
+# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
+# @option -f --format[json|text]        Output format.
+# @flag -q --quiet                      Do not print progress messages
+# @option --color[auto|always|never]    When to display colored output
+# @flag -h --help                       Print help (see a summary with '-h')
+# @arg ident                            Identifier of the app.
+app::info() {
+    :;
+}
+# }}} wasmer app info
 
 # {{{ wasmer app list
 # @cmd List apps
@@ -648,7 +741,7 @@ app::list() {
 # @flag -q --quiet                      Do not print progress messages
 # @option --color[auto|always|never]    When to display colored output
 # @option --from                        The date of the earliest log entry.
-# @option --until                       The date of the latest log entry
+# @option --until                       The date of the latest log entry.
 # @option --max                         Maximum log lines to fetch.
 # @flag -h --help                       Print help (see a summary with '-h')
 # @arg ident!                           The name of the app.
@@ -658,46 +751,48 @@ app::logs() {
 # }}} wasmer app logs
 
 # {{{ wasmer app create
-# @cmd Deploy an app
-# @option --token                       [env: WASMER_TOKEN=]
-# @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
-# @flag -q --quiet                      Do not print progress messages
-# @option --registry
-# @option --color[auto|always|never]    When to display colored output [default: auto]
-# @option -f --format[json|text]        Output format.
+# @cmd Formatting options for a single item
+# @option -t --type <type>                         Possible values:
 # @flag --publish-package
-# @flag --no-validate                   Skip local schema validation
-# @flag --non-interactive               Do not prompt for user input
-# @option --owner                       The owner of the app
-# @option --name                        The name of the app (can be changed later)
-# @option --path                        The path to a YAML file the app config
-# @flag -h --help                       Print help
-# @arg package                          The package path
+# @flag -v --verbose*                              Generate verbose output (repeat for more verbosity)
+# @flag --no-validate                              Skip local schema validation
+# @flag -q --quiet                                 Do not print progress messages
+# @option --color[auto|always|never]               When to display colored output
+# @flag --non-interactive                          Do not prompt for user input
+# @flag --offline                                  Do not interact with any APIs
+# @option --owner                                  The owner of the app
+# @option --new-package-name <NEW_PACKAGE_NAME>    Name to use when creating a new package
+# @option --name                                   The name of the app (can be changed later)
+# @option --path                                   The path to a YAML file the app config
+# @flag --no-wait                                  Do not wait for the app to become reachable
+# @option --token                                  [env: WASMER_TOKEN=]
+# @option --registry
+# @option -f --format[json|text]                   Output format.
+# @option -p --package                             Name of the package to use
+# @flag -h --help                                  Print help (see a summary with '-h')
 app::create() {
     :;
 }
+# }}} wasmer app create
 
-# {{{{ wasmer app create static-site
-# @cmd Initialize a static site
+# {{{ wasmer app delete
+# @cmd Show an app
 # @option --token                       [env: WASMER_TOKEN=]
 # @option --registry
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)
-# @option --name                        Name of the site
+# @flag --non-interactive
 # @flag -q --quiet                      Do not print progress messages
 # @option --color[auto|always|never]    When to display colored output
-# @option --path                        Directory to initialize the static site in.
-# @flag --publish                       Publish the package and the app
 # @flag -h --help                       Print help (see a summary with '-h')
-# @arg public_path                      Path to the public directory.
-app::create::static-site() {
+# @arg ident!                           Identifier of the app.
+app::delete() {
     :;
 }
-# }}}} wasmer app create static-site
-# }}} wasmer app create
+# }}} wasmer app delete
 # }} wasmer app
 
 # {{ wasmer ssh
-# @cmd Create a dynamic on the Deploy Edge, and connect to it through SSH
+# @cmd Run commands/packages on Wasmer Edge in an interactive shell session
 # @option --token                       [env: WASMER_TOKEN=]
 # @option --registry
 # @flag -v --verbose*                   Generate verbose output (repeat for more verbosity)

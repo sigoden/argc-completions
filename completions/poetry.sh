@@ -127,6 +127,7 @@ config() {
 # @option --with*,[`_choice_group`]       The optional dependency groups to include.
 # @option --only*,[`_choice_group`]       The only dependency groups to include.
 # @option -E --extras                     Extra sets of dependencies to include.
+# @flag --all-extras                      Include all sets of extra dependencies.
 # @flag --with-credentials                Include credentials for extra indices.
 # @flag -h --help                         Display help for the given command.
 # @flag -q --quiet                        Do not output any message.
@@ -411,6 +412,7 @@ update() {
 # @cmd Shows the version of the project or bumps it when a valid bump rule is provided.
 # @flag -s --short             Output the version number only
 # @flag --dry-run              Do not update pyproject.toml file
+# @flag --next-phase           Increment the phase of the current version
 # @flag -h --help              Display help for the given command.
 # @flag -q --quiet             Do not output any message.
 # @flag -V --version           Display this application version.

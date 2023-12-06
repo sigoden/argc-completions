@@ -202,6 +202,7 @@ blockcommit() {
 # @flag --bytes                                  the bandwidth limit is in bytes/s rather than MiB/s
 # @flag --transient-job                          the copy job is not persisted if VM is turned off
 # @flag --synchronous-writes                     the copy job forces guest writes to be synchronously written to the destination
+# @flag --print-xml                              print the XML used to start the copy job instead of starting the job
 # @arg domain![`_choice_domain`]
 # @arg path!
 blockcopy() {
@@ -285,6 +286,7 @@ change-media() {
 # @option --domain[`_choice_domain`] <string>    domain name, id or uuid
 # @option --devname <string>                     character device name
 # @flag --force                                  force console connection (disconnect already connected sessions)
+# @flag --resume                                 resume a paused guest after connecting to console
 # @flag --safe                                   only connect if safe console handling is supported
 # @arg domain![`_choice_domain`]
 console() {
@@ -312,6 +314,7 @@ cpu-stats() {
 # @flag --autodestroy          automatically destroy the guest when virsh disconnects
 # @option --pass-fds <file>    pass file descriptors N,M,... to the guest
 # @flag --validate             validate the XML against the schema
+# @flag --reset-nvram          re-initialize NVRAM from its pristine template
 # @arg file!
 create() {
     :;
@@ -348,6 +351,7 @@ desc() {
 # @cmd destroy (stop) a domain
 # @option --domain[`_choice_domain`] <string>    domain name, id or uuid
 # @flag --graceful                               terminate gracefully
+# @flag --remove-logs                            remove domain logs
 # @arg domain![`_choice_domain`]
 destroy() {
     :;
@@ -408,6 +412,7 @@ detach-disk() {
 # @flag --config                                 affect next boot
 # @flag --live                                   affect running domain
 # @flag --current                                affect current domain
+# @flag --print-xml                              print XML document rather than detach the interface
 # @arg domain![`_choice_domain`]
 # @arg type!
 detach-interface() {
@@ -419,7 +424,7 @@ detach-interface() {
 # @cmd domain display connection URI
 # @option --domain[`_choice_domain`] <string>    domain name, id or uuid
 # @flag --include-password                       includes the password into the connection URI if available
-# @option --type <string>                        select particular graphical display (e.g. "vnc", "spice", "rdp")
+# @option --type <string>                        select particular graphical display (e.g. "vnc", "spice", "rdp", "dbus")
 # @flag --all                                    show all possible graphical displays
 # @arg domain![`_choice_domain`]
 domdisplay() {
@@ -494,6 +499,7 @@ domid() {
 # @option --interface <string>                   interface device (MAC Address)
 # @option --state <string>                       new state of the device
 # @flag --config                                 affect next boot
+# @flag --print-xml                              print XML document rather than set the interface link state
 # @arg domain![`_choice_domain`]
 # @arg interface!
 # @arg state!
@@ -521,6 +527,7 @@ domiftune() {
 # {{ virsh domjobabort
 # @cmd abort active domain job
 # @option --domain[`_choice_domain`] <string>    domain name, id or uuid
+# @flag --postcopy                               interrupt post-copy migration
 # @arg domain![`_choice_domain`]
 domjobabort() {
     :;
@@ -658,6 +665,8 @@ dump() {
 # @flag --security-info                          include security sensitive information in XML dump
 # @flag --update-cpu                             update guest CPU according to host CPU
 # @flag --migratable                             provide XML suitable for migrations
+# @option --xpath <path>                         xpath expression to filter the XML document
+# @flag --wrap                                   wrap xpath results in an common root element
 # @arg domain![`_choice_domain`]
 dumpxml() {
     :;
@@ -673,20 +682,6 @@ edit() {
     :;
 }
 # }} virsh edit
-
-# {{ virsh event
-# @cmd Domain Events
-# @option --domain[`_choice_domain`] <string>    filter by domain name, id or uuid
-# @option --event <string>                       which event type to wait for
-# @flag --all                                    wait for all events instead of just one type
-# @flag --loop                                   loop until timeout or interrupt, rather than one-shot
-# @option --timeout <number>                     timeout seconds
-# @flag --list                                   list valid event types
-# @flag --timestamp                              show timestamp for each printed event
-event() {
-    :;
-}
-# }} virsh event
 
 # {{ virsh get-user-sshkeys
 # @cmd list authorized SSH keys for given user (via agent)
@@ -757,6 +752,9 @@ iothreadadd() {
 # @option --poll-max-ns <number>                 set the maximum IOThread polling time in ns
 # @option --poll-grow <number>                   set the value to increase the IOThread polling time
 # @option --poll-shrink <number>                 set the value for reduction of the IOThread polling time
+# @option --thread-pool-min <number>             lower boundary for worker thread pool
+# @option --thread-pool-max <number>             upper boundary for worker thread pool
+# @flag --config                                 affect next boot
 # @flag --live                                   affect running domain
 # @flag --current                                affect current domain
 # @arg domain![`_choice_domain`]
@@ -853,6 +851,8 @@ managedsave-edit() {
 # @cmd Domain information of managed save state file in XML
 # @option --domain[`_choice_domain`] <string>    domain name, id or uuid
 # @flag --security-info                          include security sensitive information in XML dump
+# @option --xpath <path>                         xpath expression to filter the XML document
+# @flag --wrap                                   wrap xpath results in an common root element
 # @arg domain![`_choice_domain`]
 managedsave-dumpxml() {
     :;
@@ -944,6 +944,8 @@ metadata() {
 # @flag --abort-on-error                         abort on soft errors during migration
 # @flag --postcopy                               enable post-copy migration; switch to it using migrate-postcopy command
 # @flag --postcopy-after-precopy                 automatically switch to post-copy migration after one pass of pre-copy
+# @flag --postcopy-resume                        resume failed post-copy migration
+# @flag --zerocopy                               use zero-copy mechanism for migrating memory pages
 # @option --migrateuri <string>                  migration URI, usually can be omitted
 # @option --graphicsuri <string>                 graphics URI to be used for seamless graphics migration
 # @option --listen-address <path>                listen address that destination should bind to for incoming migration
@@ -969,6 +971,8 @@ metadata() {
 # @option --parallel-connections <number>        number of connections for parallel migration
 # @option --bandwidth <number>                   migration bandwidth limit in MiB/s
 # @option --tls-destination <path>               override the destination host name used for TLS verification
+# @option --comp-zlib-level <number>             compress level for zlib compression
+# @option --comp-zstd-level <number>             compress level for zstd compression
 # @arg domain![`_choice_domain`]
 # @arg desturi!
 migrate() {
@@ -1111,6 +1115,7 @@ reset() {
 # @option --xml <file>     filename containing updated XML for the target
 # @flag --running          restore domain into running state
 # @flag --paused           restore domain into paused state
+# @flag --reset-nvram      re-initialize NVRAM from its pristine template
 # @arg file!
 restore() {
     :;
@@ -1157,8 +1162,10 @@ save-image-define() {
 
 # {{ virsh save-image-dumpxml
 # @cmd saved state domain information in XML
-# @option --file <file>    saved state file to read
-# @flag --security-info    include security sensitive information in XML dump
+# @option --file <file>     saved state file to read
+# @flag --security-info     include security sensitive information in XML dump
+# @option --xpath <path>    xpath expression to filter the XML document
+# @flag --wrap              wrap xpath results in an common root element
 # @arg file!
 save-image-dumpxml() {
     :;
@@ -1311,6 +1318,7 @@ shutdown() {
 # @flag --bypass-cache                           avoid file system cache when loading
 # @flag --force-boot                             force fresh boot by discarding any managed save
 # @option --pass-fds <file>                      pass file descriptors N,M,... to the guest
+# @flag --reset-nvram                            re-initialize NVRAM from its pristine template
 # @arg domain![`_choice_domain`]
 start() {
     :;
@@ -1347,6 +1355,8 @@ ttyconsole() {
 # @flag --checkpoints-metadata                   remove all domain checkpoint metadata (vm must be inactive)
 # @flag --nvram                                  remove nvram file
 # @flag --keep-nvram                             keep nvram file
+# @flag --tpm                                    remove TPM state
+# @flag --keep-tpm                               keep TPM state
 # @arg domain![`_choice_domain`]
 undefine() {
     :;
@@ -1507,11 +1517,27 @@ guestinfo() {
 # @cmd Calculate a vm's memory dirty rate
 # @option --domain[`_choice_domain`] <string>    domain name, id or uuid
 # @option --seconds <number>                     calculate memory dirty rate within specified seconds, the supported value range from 1 to 60, default to 1.
+# @option --mode <dir>                           dirty page rate calculation mode, either of these 3 options 'page-sampling, dirty-bitmap, dirty-ring' can be specified.
 # @arg domain![`_choice_domain`]
 domdirtyrate-calc() {
     :;
 }
 # }} virsh domdirtyrate-calc
+
+# {{ virsh dom-fd-associate
+# @cmd associate a FD with a domain
+# @option --domain[`_choice_domain`] <string>    domain name, id or uuid
+# @option --name <string>                        name of the FD group
+# @option --pass-fds <file>                      file descriptors N,M,... to associate
+# @flag --seclabel-writable                      use seclabels allowing writes
+# @flag --seclabel-restore                       try to restore security label after use if possible
+# @arg domain![`_choice_domain`]
+# @arg name!
+# @arg pass-fds!
+dom-fd-associate() {
+    :;
+}
+# }} virsh dom-fd-associate
 
 # {{ virsh domblkerror
 # @cmd Show errors on block devices
@@ -1654,6 +1680,7 @@ domstate() {
 # @flag --iothread           report domain IOThread information
 # @flag --memory             report domain memory usage
 # @flag --dirtyrate          report domain dirty rate information
+# @flag --vm                 report hypervisor-specific statistics
 # @flag --list-active        list only active domains
 # @flag --list-inactive      list only inactive domains
 # @flag --list-persistent    list only persistent domains
@@ -1714,6 +1741,20 @@ list() {
 }
 # }} virsh list
 
+# {{ virsh event
+# @cmd Domain Events
+# @option --domain[`_choice_domain`] <string>    filter by domain name, id or uuid
+# @option --event <string>                       which event type to wait for
+# @flag --all                                    wait for all events instead of just one type
+# @flag --loop                                   loop until timeout or interrupt, rather than one-shot
+# @option --timeout <number>                     timeout seconds
+# @flag --list                                   list valid event types
+# @flag --timestamp                              show timestamp for each printed event
+event() {
+    :;
+}
+# }} virsh event
+
 # {{ virsh allocpages
 # @cmd Manipulate pages pool size
 # @option --pagesize <number>     page size (in kibibytes)
@@ -1730,6 +1771,8 @@ allocpages() {
 
 # {{ virsh capabilities
 # @cmd capabilities
+# @option --xpath <path>    xpath expression to filter the XML document
+# @flag --wrap              wrap xpath results in an common root element
 capabilities() {
     :;
 }
@@ -1772,6 +1815,8 @@ cpu-models() {
 # @option --emulatorbin <path>    path to emulator binary (/domain/devices/emulator)
 # @option --arch <string>         domain architecture (/domain/os/type/@arch)
 # @option --machine <string>      machine type (/domain/os/type/@machine)
+# @option --xpath <path>          xpath expression to filter the XML document
+# @flag --wrap                    wrap xpath results in an common root element
 domcapabilities() {
     :;
 }
@@ -1812,7 +1857,7 @@ hostname() {
 # @option --machine <string>     machine type (/domain/os/type/@machine)
 # @flag --features               Show features that are part of the CPU model type
 # @flag --migratable             Do not include features that block migration
-# @arg file!
+# @option --model <string>       Shortcut for calling the command with a single CPU model and no additional features
 hypervisor-cpu-baseline() {
     :;
 }
@@ -1971,6 +2016,8 @@ checkpoint-delete() {
 # @flag --security-info                          include security sensitive information in XML dump
 # @flag --no-domain                              exclude <domain> from XML
 # @flag --size                                   include backup size estimate in XML dump
+# @option --xpath <path>                         xpath expression to filter the XML document
+# @flag --wrap                                   wrap xpath results in an common root element
 # @arg domain![`_choice_domain`]
 checkpoint-dumpxml() {
     :;
@@ -2076,6 +2123,8 @@ iface-destroy() {
 # @cmd interface information in XML
 # @option --interface <string>    interface name or MAC address
 # @flag --inactive                show inactive defined XML
+# @option --xpath <path>          xpath expression to filter the XML document
+# @flag --wrap                    wrap xpath results in an common root element
 # @arg interface!
 iface-dumpxml() {
     :;
@@ -2166,6 +2215,8 @@ nwfilter-define() {
 # {{ virsh nwfilter-dumpxml
 # @cmd network filter information in XML
 # @option --nwfilter <string>    network filter name or uuid
+# @option --xpath <path>         xpath expression to filter the XML document
+# @flag --wrap                   wrap xpath results in an common root element
 # @arg nwfilter!
 nwfilter-dumpxml() {
     :;
@@ -2219,6 +2270,8 @@ nwfilter-binding-delete() {
 # {{ virsh nwfilter-binding-dumpxml
 # @cmd network filter information in XML
 # @option --binding <string>    network filter binding portdev
+# @option --xpath <path>        xpath expression to filter the XML document
+# @flag --wrap                  wrap xpath results in an common root element
 # @arg binding!
 nwfilter-binding-dumpxml() {
     :;
@@ -2262,6 +2315,22 @@ net-define() {
 }
 # }} virsh net-define
 
+# {{ virsh net-desc
+# @cmd show or set network's description or title
+# @option --network <string>     network name or uuid
+# @flag --live                   modify/get running state
+# @flag --config                 modify/get persistent configuration
+# @flag --current                modify/get current state configuration
+# @flag --title                  modify/get the title instead of description
+# @flag --edit                   open an editor to modify the description
+# @option --new-desc <string>    message
+# @arg network![`_choice_network`]
+# @arg new-desc-string* <[--new-desc] <string>>
+net-desc() {
+    :;
+}
+# }} virsh net-desc
+
 # {{ virsh net-destroy
 # @cmd destroy (stop) a network
 # @option --network <string>    network name or uuid
@@ -2285,6 +2354,8 @@ net-dhcp-leases() {
 # @cmd network information in XML
 # @option --network <string>    network name or uuid
 # @flag --inactive              show inactive defined XML
+# @option --xpath <path>        xpath expression to filter the XML document
+# @flag --wrap                  wrap xpath results in an common root element
 # @arg network![`_choice_network`]
 net-dumpxml() {
     :;
@@ -2333,10 +2404,29 @@ net-info() {
 # @flag --uuid            list uuid's only
 # @flag --name            list network names only
 # @flag --table           list table (default)
+# @flag --title           show network title
 net-list() {
     :;
 }
 # }} virsh net-list
+
+# {{ virsh net-metadata
+# @cmd show or set network's custom XML metadata
+# @option --network <string>    network name or uuid
+# @option --uri <string>        URI of the namespace
+# @flag --live                  modify/get running state
+# @flag --config                modify/get persistent configuration
+# @flag --current               modify/get current state configuration
+# @flag --edit                  use an editor to change the metadata
+# @option --key <string>        key to be used as a namespace identifier
+# @option --set <string>        new metadata to set
+# @flag --remove                remove the metadata corresponding to an uri
+# @arg network![`_choice_network`]
+# @arg uri!
+net-metadata() {
+    :;
+}
+# }} virsh net-metadata
 
 # {{ virsh net-name
 # @cmd convert a network UUID to network name
@@ -2420,6 +2510,8 @@ net-port-create() {
 # @cmd network port information in XML
 # @option --network <string>    network name or uuid
 # @option --port <string>       port UUID
+# @option --xpath <path>        xpath expression to filter the XML document
+# @flag --wrap                  wrap xpath results in an common root element
 # @arg network![`_choice_network`]
 # @arg port!
 net-port-dumpxml() {
@@ -2441,6 +2533,7 @@ net-port-delete() {
 # {{ virsh nodedev-create
 # @cmd create a device defined by an XML file on the node
 # @option --file <file>    file containing an XML description of the device
+# @flag --validate         validate the XML against the schema
 # @arg file!
 nodedev-create() {
     :;
@@ -2459,7 +2552,7 @@ nodedev-destroy() {
 # {{ virsh nodedev-detach
 # @cmd detach node device from its device driver
 # @option --device <string>    device key
-# @option --driver <string>    pci device assignment backend driver (e.g. 'vfio' or 'kvm')
+# @option --driver <string>    pci device assignment backend driver (e.g. 'vfio' or 'xen')
 # @arg device!
 nodedev-detach() {
     :;
@@ -2469,6 +2562,8 @@ nodedev-detach() {
 # {{ virsh nodedev-dumpxml
 # @cmd node device details in XML
 # @option --device <string>    device name or wwn pair in 'wwnn,wwpn' format
+# @option --xpath <path>       xpath expression to filter the XML document
+# @flag --wrap                 wrap xpath results in an common root element
 # @arg device!
 nodedev-dumpxml() {
     :;
@@ -2520,6 +2615,7 @@ nodedev-event() {
 # {{ virsh nodedev-define
 # @cmd Define a device by an xml file on a node
 # @option --file <file>    file containing an XML description of the device
+# @flag --validate         validate the XML against the schema
 # @arg file!
 nodedev-define() {
     :;
@@ -2576,6 +2672,8 @@ secret-define() {
 # {{ virsh secret-dumpxml
 # @cmd secret attributes in XML
 # @option --secret <string>    secret UUID
+# @option --xpath <path>       xpath expression to filter the XML document
+# @flag --wrap                 wrap xpath results in an common root element
 # @arg secret!
 secret-dumpxml() {
     :;
@@ -2712,6 +2810,8 @@ snapshot-delete() {
 # @option --domain[`_choice_domain`] <string>    domain name, id or uuid
 # @option --snapshotname <string>                snapshot name
 # @flag --security-info                          include security sensitive information in XML dump
+# @option --xpath <path>                         xpath expression to filter the XML document
+# @flag --wrap                                   wrap xpath results in an common root element
 # @arg domain![`_choice_domain`]
 # @arg snapshotname!
 snapshot-dumpxml() {
@@ -2788,6 +2888,7 @@ snapshot-parent() {
 # @flag --running                                after reverting, change state to running
 # @flag --paused                                 after reverting, change state to paused
 # @flag --force                                  try harder on risky reverts
+# @flag --reset-nvram                            re-initialize NVRAM from its pristine template
 # @arg domain![`_choice_domain`]
 snapshot-revert() {
     :;
@@ -2809,6 +2910,8 @@ backup-begin() {
 # {{ virsh backup-dumpxml
 # @cmd Dump XML for an ongoing domain block backup job
 # @option --domain[`_choice_domain`] <string>    domain name, id or uuid
+# @option --xpath <path>                         xpath expression to filter the XML document
+# @flag --wrap                                   wrap xpath results in an common root element
 # @arg domain![`_choice_domain`]
 backup-dumpxml() {
     :;
@@ -2967,6 +3070,8 @@ pool-destroy() {
 # @cmd pool information in XML
 # @option --pool <string>    pool name or uuid
 # @flag --inactive           show inactive defined XML
+# @option --xpath <path>     xpath expression to filter the XML document
+# @flag --wrap               wrap xpath results in an common root element
 # @arg pool!
 pool-dumpxml() {
     :;
@@ -3084,6 +3189,7 @@ pool-capabilities() {
 # @option --pool <string>       pool name or uuid
 # @flag --prealloc-metadata     preallocate metadata (for qcow2 instead of full allocation)
 # @flag --reflink               use btrfs COW lightweight copy
+# @flag --print-xml             print XML document rather than clone the volume
 # @arg vol!
 # @arg newname!
 vol-clone() {
@@ -3115,6 +3221,7 @@ vol-create-as() {
 # @option --pool <string>      pool name
 # @option --file <file>        file containing an XML vol description
 # @flag --prealloc-metadata    preallocate metadata (for qcow2 instead of full allocation)
+# @flag --validate             validate the XML against the schema
 # @arg pool!
 # @arg file!
 vol-create() {
@@ -3130,6 +3237,7 @@ vol-create() {
 # @option --inputpool <string>    pool name or uuid of the input volume's pool
 # @flag --prealloc-metadata       preallocate metadata (for qcow2 instead of full allocation)
 # @flag --reflink                 use btrfs COW lightweight copy
+# @flag --validate                validate the XML against the schema
 # @arg pool!
 # @arg file!
 # @arg vol!
@@ -3168,6 +3276,8 @@ vol-download() {
 # @cmd vol information in XML
 # @option --vol <path>       vol name, key or path
 # @option --pool <string>    pool name or uuid
+# @option --xpath <path>     xpath expression to filter the XML document
+# @flag --wrap               wrap xpath results in an common root element
 # @arg vol!
 vol-dumpxml() {
     :;

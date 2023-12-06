@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @option --action-cache-path <path>            Defines the path where the actions get cached and host workspaces created.
 # @option -a --actor <string>                   user that triggered the event (default "nektos/act")
 # @option --artifact-server-addr <string>       Defines the address to which the artifact server binds.
 # @option --artifact-server-path <path>         Defines the path where the artifact server stores uploads and retrieves downloads from.
@@ -31,7 +32,9 @@
 # @option -j --job[`_choice_job`] <string>      run a specific job ID
 # @flag --json                                  Output logs in json format
 # @flag -l --list                               list workflows
+# @flag --log-prefix-job-id                     Output the job id within non-json logs instead of the entire name
 # @option --matrix* <string>                    specify which matrix configuration to include (e.g. --matrix java:13
+# @option --network <string>                    Sets a docker network name.
 # @flag --no-cache-server                       Disable cache server
 # @flag --no-recurse                            Flag to disable running workflows from subdirectories of specified path in '--workflows'/'-W' flag
 # @flag --no-skip-checkout                      Do not skip actions/checkout
@@ -49,6 +52,8 @@
 # @option --secret-file <file>                  file with list of secrets to read from (e.g. --secret-file .secrets) (default ".secrets")
 # @flag --use-gitignore                         Controls whether paths specified in .gitignore should be copied into container (default true)
 # @option --userns <string>                     user namespace to use
+# @option --var* <string>                       variable to make available to actions with optional value (e.g. --var myvar=foo or --var myvar)
+# @option --var-file <file>                     file with list of vars to read from (e.g. --var-file .vars) (default ".vars")
 # @flag -v --verbose                            verbose output
 # @flag --version                               version for act
 # @flag -w --watch                              watch the contents of the local repo and run when files change

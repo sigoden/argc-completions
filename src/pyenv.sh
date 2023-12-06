@@ -2,6 +2,7 @@ _patch_help() {
     _common_edit() {
         sed \
             -e '/^\s*-/ s|/-|, -|' \
+            -e '/--version/ d' \
             -e 's/Usage: eval "$(\(.*\))"$/Usage: \1/' \
 
     }
@@ -51,6 +52,12 @@ _patch_table() {
         _patch_table_edit_arguments \
             'prefix;[`_choice_prefix`]' \
 
+    elif [[ "$*" == "pyenv whence" ]] \
+      || [[ "$*" == "pyenv which" ]] \
+    ; then
+        _patch_table_edit_arguments \
+            'command;[`_module_os_command`]' \
+
     else
         cat
     fi
@@ -77,5 +84,5 @@ _choice_prefix() {
 }
 
 _choice_available_version() {
-    pyenv install --list | sed "s/^[[:space:]]*//"
+    pyenv install --list | sed '1d'
 }

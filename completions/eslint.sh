@@ -27,7 +27,7 @@
 # @flag --color                               Force enabling/disabling of color
 # @flag --no-color                            Force enabling/disabling of color
 # @flag --no-inline-config                    Prevent comments from changing config or rules
-# @flag --report-unused-disable-directives    Adds reported errors for unused eslint-disable directives
+# @flag --report-unused-disable-directives    Adds reported errors for unused eslint-disable and eslint-enable directives
 # @flag --cache                               Only check changed files - default: false
 # @option --cache-file <path::String>         Path to the cache file.
 # @option --cache-location <path::String>     Path to the cache file or directory

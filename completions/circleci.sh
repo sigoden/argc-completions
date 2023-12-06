@@ -949,6 +949,46 @@ setup() {
 }
 # }} circleci setup
 
+# {{ circleci telemetry
+# @cmd Configure telemetry preferences
+# @flag -h --help              help for telemetry
+# @option --host <string>      URL to your CircleCI host, also CIRCLECI_CLI_HOST (default "https://circleci.com")
+# @flag --skip-update-check    Skip the check for updates check run before every command.
+# @option --token <string>     your token for using CircleCI, also CIRCLECI_CLI_TOKEN
+telemetry() {
+    :;
+}
+
+# {{{ circleci telemetry disabled
+# @cmd
+telemetry::disabled() {
+    :;
+}
+# }}} circleci telemetry disabled
+
+# {{{ circleci telemetry disable
+# @cmd Make sure no telemetry events is sent to CircleCI servers
+# @flag -h --help              help for disable
+# @option --host <string>      URL to your CircleCI host, also CIRCLECI_CLI_HOST (default "https://circleci.com")
+# @flag --skip-update-check    Skip the check for updates check run before every command.
+# @option --token <string>     your token for using CircleCI, also CIRCLECI_CLI_TOKEN
+telemetry::disable() {
+    :;
+}
+# }}} circleci telemetry disable
+
+# {{{ circleci telemetry enable
+# @cmd Allow telemetry events to be sent to CircleCI servers
+# @flag -h --help              help for enable
+# @option --host <string>      URL to your CircleCI host, also CIRCLECI_CLI_HOST (default "https://circleci.com")
+# @flag --skip-update-check    Skip the check for updates check run before every command.
+# @option --token <string>     your token for using CircleCI, also CIRCLECI_CLI_TOKEN
+telemetry::enable() {
+    :;
+}
+# }}} circleci telemetry enable
+# }} circleci telemetry
+
 # {{ circleci update
 # @cmd Update the tool to the latest version
 # @flag --check                Check if there are any updates available without installing

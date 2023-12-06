@@ -126,7 +126,7 @@ throttle() {
 # }} dropbox throttle
 
 # {{ dropbox update
-# @cmd download latest version of Dropbox
+# @cmd download latest version of dropbox
 update() {
     :;
 }

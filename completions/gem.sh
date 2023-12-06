@@ -28,25 +28,26 @@ build() {
 
 # {{ gem cert
 # @cmd Manage RubyGems certificates and signing settings
-# @option -a --add <CERT>               Add a trusted certificate.
-# @option -l --list <FILTER>            List trusted certificates where the subject contains FILTER
-# @option -r --remove <FILTER>          Remove trusted certificates where the subject contains FILTER
-# @option -b --build <EMAIL_ADDR>       Build private key and self-signed certificate for EMAIL_ADDR
-# @option -C --certificate <CERT>       Signing certificate for --sign
-# @option -K --private-key <KEY>        Key for --sign or --build
-# @option -s --sign <CERT>              Signs CERT with the key from -K and the certificate from -C
-# @option -d --days <NUMBER_OF_DAYS>    Days before the certificate expires
-# @flag -R --re-sign                    Re-signs the certificate from -C with the key from -K
-# @flag -h --help                       Get help on this command
-# @flag -V                              Set the verbose level of output
-# @flag --verbose                       Set the verbose level of output
-# @flag --no-verbose                    Set the verbose level of output
-# @flag -q --quiet                      Silence command progress meter
-# @flag --silent                        Silence RubyGems output
-# @option --config-file <FILE>          Use this config file instead of default
-# @flag --backtrace                     Show stack backtrace on errors
-# @flag --debug                         Turn on Ruby debugging
-# @flag --norc                          Avoid loading any .gemrc file
+# @option -a --add <CERT>                   Add a trusted certificate.
+# @option -l --list <FILTER>                List trusted certificates where the subject contains FILTER
+# @option -r --remove <FILTER>              Remove trusted certificates where the subject contains FILTER
+# @option -b --build <EMAIL_ADDR>           Build private key and self-signed certificate for EMAIL_ADDR
+# @option -C --certificate <CERT>           Signing certificate for --sign
+# @option -K --private-key <KEY>            Key for --sign or --build
+# @option -A --key-algorithm <ALGORITHM>    Select which key algorithm to use for --build
+# @option -s --sign <CERT>                  Signs CERT with the key from -K and the certificate from -C
+# @option -d --days <NUMBER_OF_DAYS>        Days before the certificate expires
+# @flag -R --re-sign                        Re-signs the certificate from -C with the key from -K
+# @flag -h --help                           Get help on this command
+# @flag -V                                  Set the verbose level of output
+# @flag --verbose                           Set the verbose level of output
+# @flag --no-verbose                        Set the verbose level of output
+# @flag -q --quiet                          Silence command progress meter
+# @flag --silent                            Silence RubyGems output
+# @option --config-file <FILE>              Use this config file instead of default
+# @flag --backtrace                         Show stack backtrace on errors
+# @flag --debug                             Turn on Ruby debugging
+# @flag --norc                              Avoid loading any .gemrc file
 cert() {
     :;
 }
@@ -191,12 +192,37 @@ environment() {
 }
 # }} gem environment
 
+# {{ gem exec
+# @cmd Run a command from a gem
+# @option -v --version            Specify version of gem to exec
+# @flag --prerelease              Allow prerelease versions of a gem to be installed
+# @flag --no-prerelease           Allow prerelease versions of a gem to be installed
+# @option -g --gem                run the executable from the given gem
+# @flag --conservative            Prefer the most recent installed version, rather than the latest version overall
+# @flag -h --help                 Get help on this command
+# @flag -V                        Set the verbose level of output
+# @flag --verbose                 Set the verbose level of output
+# @flag --no-verbose              Set the verbose level of output
+# @flag -q --quiet                Silence command progress meter
+# @flag --silent                  Silence RubyGems output
+# @option --config-file <FILE>    Use this config file instead of default
+# @flag --backtrace               Show stack backtrace on errors
+# @flag --debug                   Turn on Ruby debugging
+# @flag --norc                    Avoid loading any .gemrc file
+# @arg command                    the executable command to run
+exec() {
+    :;
+}
+# }} gem exec
+
 # {{ gem fetch
 # @cmd Download a gem and place it in the current directory
 # @option -v --version                   Specify version of gem to fetch
 # @option --platform                     Specify the platform of gem to fetch
 # @flag --prerelease                     Allow prerelease versions of a gem
 # @flag --no-prerelease                  Allow prerelease versions of a gem
+# @flag --suggestions                    Suggest alternates when gems are not found
+# @flag --no-suggestions                 Suggest alternates when gems are not found
 # @option -B --bulk-threshold <COUNT>    Threshold for switching to bulk synchronization (default 1000)
 # @option -p <URL>                       Use HTTP proxy for remote operations
 # @option --http-proxy <URL>             Use HTTP proxy for remote operations
@@ -485,24 +511,24 @@ outdated() {
 
 # {{ gem owner
 # @cmd Manage gem owners of a gem on the push server
-# @option -k --key <KEYNAME>       Use the given API key from /home/sigo/.local/share/gem/credentials
-# @option --otp <CODE>             Digit code for multifactor authentication
-# @option -a --add <EMAIL>         Add an owner
-# @option -r --remove <EMAIL>      Remove an owner
-# @option --host                   Use another gemcutter-compatible host (e.g. https://rubygems.org)
-# @option -p <URL>                 Use HTTP proxy for remote operations
-# @option --http-proxy <URL>       Use HTTP proxy for remote operations
-# @option --no-http-proxy <URL>    Use HTTP proxy for remote operations
-# @flag -h --help                  Get help on this command
-# @flag -V                         Set the verbose level of output
-# @flag --verbose                  Set the verbose level of output
-# @flag --no-verbose               Set the verbose level of output
-# @flag -q --quiet                 Silence command progress meter
-# @flag --silent                   Silence RubyGems output
-# @option --config-file <FILE>     Use this config file instead of default
-# @flag --backtrace                Show stack backtrace on errors
-# @flag --debug                    Turn on Ruby debugging
-# @flag --norc                     Avoid loading any .gemrc file
+# @option -k --key <KEYNAME>         Use the given API key from /home/sigo/.local/share/gem/credentials
+# @option --otp <CODE>               Digit code for multifactor authentication You can also use the environment variable GEM_HOST_OTP_CODE
+# @option -a --add <NEW_OWNER>       Add an owner by user identifier
+# @option -r --remove <OLD_OWNER>    Remove an owner by user identifier
+# @option --host                     Use another gemcutter-compatible host (e.g. https://rubygems.org)
+# @option -p <URL>                   Use HTTP proxy for remote operations
+# @option --http-proxy <URL>         Use HTTP proxy for remote operations
+# @option --no-http-proxy <URL>      Use HTTP proxy for remote operations
+# @flag -h --help                    Get help on this command
+# @flag -V                           Set the verbose level of output
+# @flag --verbose                    Set the verbose level of output
+# @flag --no-verbose                 Set the verbose level of output
+# @flag -q --quiet                   Silence command progress meter
+# @flag --silent                     Silence RubyGems output
+# @option --config-file <FILE>       Use this config file instead of default
+# @flag --backtrace                  Show stack backtrace on errors
+# @flag --debug                      Turn on Ruby debugging
+# @flag --norc                       Avoid loading any .gemrc file
 # @arg gemname[`_choice_package`]
 owner() {
     :;
@@ -511,27 +537,29 @@ owner() {
 
 # {{ gem pristine
 # @cmd Restores installed gems to pristine condition from files located in the gem cache
-# @flag --all                     Restore all installed gems to pristine condition
-# @option --skip <gem_name>       used on --all, skip if name == gem_name
-# @flag --extensions              Restore gems with extensions in addition to regular gems
-# @flag --no-extensions           Restore gems with extensions in addition to regular gems
-# @flag --only-executables        Only restore executables
-# @flag --only-plugins            Only restore plugins
-# @flag -E                        Rewrite executables with a shebang of /usr/bin/env
-# @flag --env-shebang             Rewrite executables with a shebang of /usr/bin/env
-# @flag --no-env-shebang          Rewrite executables with a shebang of /usr/bin/env
-# @option -n --bindir <DIR>       Directory where executables are located
-# @option -v --version            Specify version of gem to restore to pristine condition
-# @flag -h --help                 Get help on this command
-# @flag -V                        Set the verbose level of output
-# @flag --verbose                 Set the verbose level of output
-# @flag --no-verbose              Set the verbose level of output
-# @flag -q --quiet                Silence command progress meter
-# @flag --silent                  Silence RubyGems output
-# @option --config-file <FILE>    Use this config file instead of default
-# @flag --backtrace               Show stack backtrace on errors
-# @flag --debug                   Turn on Ruby debugging
-# @flag --norc                    Avoid loading any .gemrc file
+# @flag --all                        Restore all installed gems to pristine condition
+# @option --skip <gem_name>          used on --all, skip if name == gem_name
+# @flag --extensions                 Restore gems with extensions in addition to regular gems
+# @flag --no-extensions              Restore gems with extensions in addition to regular gems
+# @flag --only-missing-extensions    Only restore gems with missing extensions
+# @flag --only-executables           Only restore executables
+# @flag --only-plugins               Only restore plugins
+# @flag -E                           Rewrite executables with a shebang of /usr/bin/env
+# @flag --env-shebang                Rewrite executables with a shebang of /usr/bin/env
+# @flag --no-env-shebang             Rewrite executables with a shebang of /usr/bin/env
+# @option -i --install-dir <DIR>     Gem repository to get binstubs and plugins installed
+# @option -n --bindir <DIR>          Directory where executables are located
+# @option -v --version               Specify version of gem to restore to pristine condition
+# @flag -h --help                    Get help on this command
+# @flag -V                           Set the verbose level of output
+# @flag --verbose                    Set the verbose level of output
+# @flag --no-verbose                 Set the verbose level of output
+# @flag -q --quiet                   Silence command progress meter
+# @flag --silent                     Silence RubyGems output
+# @option --config-file <FILE>       Use this config file instead of default
+# @flag --backtrace                  Show stack backtrace on errors
+# @flag --debug                      Turn on Ruby debugging
+# @flag --norc                       Avoid loading any .gemrc file
 # @arg gemname[`_choice_installed_package`]
 pristine() {
     :;
@@ -541,7 +569,7 @@ pristine() {
 # {{ gem push
 # @cmd Push a gem up to the gem server
 # @option -k --key <KEYNAME>       Use the given API key from /home/sigo/.local/share/gem/credentials
-# @option --otp <CODE>             Digit code for multifactor authentication
+# @option --otp <CODE>             Digit code for multifactor authentication You can also use the environment variable GEM_HOST_OTP_CODE
 # @option --host                   Push to another gemcutter-compatible host (e.g. https://rubygems.org)
 # @option -p <URL>                 Use HTTP proxy for remote operations
 # @option --http-proxy <URL>       Use HTTP proxy for remote operations
@@ -632,10 +660,27 @@ search() {
 }
 # }} gem search
 
+# {{ gem server
+# @cmd Starts up a web server that hosts the RDoc (requires rubygems-server)
+# @flag -h --help                 Get help on this command
+# @flag -V                        Set the verbose level of output
+# @flag --verbose                 Set the verbose level of output
+# @flag --no-verbose              Set the verbose level of output
+# @flag -q --quiet                Silence command progress meter
+# @flag --silent                  Silence RubyGems output
+# @option --config-file <FILE>    Use this config file instead of default
+# @flag --backtrace               Show stack backtrace on errors
+# @flag --debug                   Turn on Ruby debugging
+# @flag --norc                    Avoid loading any .gemrc file
+server() {
+    :;
+}
+# }} gem server
+
 # {{ gem signin
 # @cmd Sign in to any gemcutter-compatible host.
 # @option --host                  Push to another gemcutter-compatible host
-# @option --otp <CODE>            Digit code for multifactor authentication
+# @option --otp <CODE>            Digit code for multifactor authentication You can also use the environment variable GEM_HOST_OTP_CODE
 # @flag -h --help                 Get help on this command
 # @flag -V                        Set the verbose level of output
 # @flag --verbose                 Set the verbose level of output
@@ -915,7 +960,7 @@ which() {
 # @cmd Remove a pushed gem from the index
 # @option -v --version            Specify version of gem to remove
 # @option --platform              Specify the platform of gem to remove
-# @option --otp <CODE>            Digit code for multifactor authentication
+# @option --otp <CODE>            Digit code for multifactor authentication You can also use the environment variable GEM_HOST_OTP_CODE
 # @option --host                  Yank from another gemcutter-compatible host (e.g. https://rubygems.org)
 # @option -k --key <KEYNAME>      Use the given API key from /home/sigo/.local/share/gem/credentials
 # @flag -h --help                 Get help on this command

@@ -14,7 +14,6 @@
 # @flag --no-site-packages                         Do not search for installed PEP 561 compliant packages
 # @flag --no-silence-site-packages                 Do not silence errors in PEP 561 compliant installed packages
 # @option --python-version <x.y>                   Type check code assuming it will be running on Python x.y
-# @flag -2 --py2                                   Use Python 2 mode (same as --python-version 2.7)
 # @option --platform                               Type check special-cased code for the given OS platform (defaults to sys.platform)
 # @option --always-true <NAME>                     Additional variable to be considered True (may be repeated)
 # @option --always-false <NAME>                    Additional variable to be considered False (may be repeated)
@@ -25,6 +24,7 @@
 # @flag --disallow-any-generics                    Disallow usage of generic types that do not specify explicit type parameters (inverse: --allow-any-generics)
 # @flag --disallow-subclassing-any                 Disallow subclassing values of type 'Any' when defining classes (inverse: --allow-subclassing-any)
 # @flag --disallow-untyped-calls                   Disallow calling functions without type annotations from functions with type annotations (inverse: --allow-untyped-calls)
+# @option --untyped-calls-exclude <MODULE>         Disable --disallow-untyped-calls for functions/methods coming from specific package, module, or class
 # @flag --disallow-untyped-defs                    Disallow defining functions without type annotations or with incomplete type annotations (inverse: --allow-untyped-defs)
 # @flag --disallow-incomplete-defs                 Disallow defining functions with incomplete type annotations (while still allowing entirely unannotated definitions) (inverse: --allow-incomplete-defs)
 # @flag --check-untyped-defs                       Type check the interior of functions without type annotations (inverse: --no-check-untyped-defs)
@@ -64,8 +64,7 @@
 # @flag --tb                                       Show traceback on fatal error
 # @flag --raise-exceptions                         Raise exception on fatal error
 # @option --custom-typing-module <MODULE>          Use a custom typing module
-# @flag --new-type-inference                       Enable new experimental type inference algorithm
-# @flag --disable-recursive-aliases                Disable experimental support for recursive type aliases
+# @flag --old-type-inference                       Disable new experimental type inference algorithm
 # @option --custom-typeshed-dir <DIR>              Use the custom typeshed in DIR
 # @flag --warn-incomplete-stub                     Warn if missing type annotation in typeshed, only relevant with --disallow-untyped-defs or --disallow-incomplete-defs enabled (inverse: --no-warn-incomplete-stub)
 # @flag --shadow-file                              SOURCE_FILE SHADOW_FILE When encountering SOURCE_FILE, read and type check the contents of SHADOW_FILE instead.

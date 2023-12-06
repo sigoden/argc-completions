@@ -38,15 +38,4 @@ bin() {
 }
 # }} cargo audit bin
 
-# {{ cargo audit fix
-# @cmd automatically upgrade vulnerable dependencies
-# @flag --dry-run       perform a dry run for the fix
-# @option -f --file     Cargo lockfile to inspect
-# @flag -h --help       Print help information
-# @flag -V --version    Print version information
-fix() {
-    :;
-}
-# }} cargo audit fix
-
 command eval "$(argc --argc-eval "$0" "$@")"

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @option -always-load-config[0|1]     Load config also for slave instances
 # @option -anonymous[0|1]              Restrict to anonymous mode
 # @option -auto-submit[0|1]            Autosubmit first form
 # @option -base-session <num>          Clone internal session with given ID

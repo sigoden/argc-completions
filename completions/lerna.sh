@@ -29,6 +29,7 @@ add-caching() {
 # @cmd List local packages that have changed since the last tagged release
 # @alias updated
 # @option --conventional-graduate <string>    Detect currently prereleased packages that would change to a non-prerelease version.
+# @flag --force-conventional-graduate         Always include all packages by specified by --conventional-graduate whether or not they are a prerelease or have changes since the previous version.
 # @option --force-publish[`_choice_package`] <string>  Always include targeted packages when detecting changed packages, skipping default logic.
 # @option --ignore-changes* <file>            Ignore changes in files matched by glob(s) when detecting changed packages.
 # @flag --include-merged-tags                 Include tags from merged branches when detecting changed packages.
@@ -349,49 +350,15 @@ watch() {
 
 # {{ lerna version
 # @cmd Bump version of packages changed since the last release
-# @option --allow-branch* <string>              Specify which branches to allow versioning from.
-# @flag --amend                                 Amend the existing commit, instead of generating a new one.
-# @option --build-metadata <string>             Apply semver-compatible build metadata to the release
-# @flag --conventional-commits                  Use conventional-changelog to determine version bump and generate CHANGELOG.
-# @option --conventional-graduate <string>      Version currently prereleased packages to a non-prerelease version.
-# @option --conventional-prerelease <string>    Version changed packages as prereleases when using --conventional-commits.
-# @flag --conventional-bump-prerelease          Bumps prerelease versions if conventional commits requires it.
-# @option --changelog-preset <string>           Custom conventional-changelog preset.
-# @option --changelog-entry-additional-markdown <string>  Additional markdown to add to CHANGELOG.md entries.
-# @flag --exact                                 Specify cross-dependency version numbers exactly rather than with a caret (^).
-# @option --force-publish[`_choice_package`] <string>  Always include targeted packages in versioning operations, skipping default logic.
-# @option --git-remote <string>                 Push git changes to the specified remote.
-# @option --create-release[gitlab|github] <string>  Create an official GitHub or GitLab release for every version.
-# @option --ignore-changes* <file>              Ignore changes in files matched by glob(s) when detecting changed packages.
-# @flag --ignore-scripts                        Disable all lifecycle scripts
-# @flag --include-merged-tags                   Include tags from merged branches when detecting changed packages.
-# @option -m --message <string>                 Use a custom commit message when creating the version commit.
-# @flag --no-changelog                          Do not generate CHANGELOG.md files when using --conventional-commits.
-# @flag --no-commit-hooks                       Do not run git commit hooks when committing version changes.
-# @flag --no-git-tag-version                    Do not commit or tag version changes.
-# @flag --sync-dist-version                     Update the version of the package.json of the contents directory.
-# @flag --no-granular-pathspec                  Do not stage changes file-by-file, but globally.
-# @flag --no-private                            Do not version private packages.
-# @flag --no-push                               Do not push tagged commit to git remote.
-# @option --preid <string>                      Specify the prerelease identifier when versioning a prerelease
-# @flag --sign-git-commit                       Pass the `--gpg-sign` flag to `git commit`.
-# @flag --signoff-git-commit                    Pass the `--signoff` flag to `git commit`.
-# @flag --sign-git-tag                          Pass the `--sign` flag to `git tag`.
-# @flag --force-git-tag                         Pass the `--force` flag to `git tag`.
-# @option --tag-version-prefix <string>         Customize the tag prefix.
-# @option --git-tag-command <string>            Allows users to specify a custom command to be used when applying git tags.
-# @flag --run-scripts-on-lockfile-update        Do not disable all lifecycle scripts while updating the lock file after the version bump.
-# @option --npm-client-args* <string>           Additional arguments to pass to the npm client when performing 'npm install'.
-# @flag -y --yes                                Skip all confirmation prompts.
 # @option --loglevel[`_choice_log_level`] <string>  What level of logs to report.
-# @option --concurrency <number>                How many processes to use when lerna parallelizes tasks.
-# @flag --reject-cycles                         Fail if a cycle is detected among dependencies.
-# @flag --no-progress                           Disable progress bars.
-# @flag --no-sort                               Do not sort packages topologically (dependencies before dependents).
-# @option --max-buffer <number>                 Set max-buffer (in bytes) for subcommand execution
-# @flag -h --help                               Show help
-# @flag -v --version                            Show version number
-# @arg bump                                     Increment version(s) by explicit version _or_ semver keyword, 'major', 'minor', 'patch', 'premajor', 'preminor', 'prepatch', or 'prerelease'.
+# @option --concurrency <number>    How many processes to use when lerna parallelizes tasks.
+# @flag --reject-cycles             Fail if a cycle is detected among dependencies.
+# @flag --no-progress               Disable progress bars.
+# @flag --no-sort                   Do not sort packages topologically (dependencies before dependents).
+# @option --max-buffer <number>     Set max-buffer (in bytes) for subcommand execution
+# @flag -h --help                   Show help
+# @flag -v --version                Show version number
+# @arg bump
 version() {
     :;
 }

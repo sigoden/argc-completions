@@ -33,6 +33,7 @@
 # @flag --no-publications                          do not restore publications
 # @flag --no-security-labels                       do not restore security labels
 # @flag --no-subscriptions                         do not restore subscriptions
+# @flag --no-table-access-method                   do not restore table access methods
 # @flag --no-tablespaces                           do not restore tablespace assignments
 # @option --section[pre-data|data|post-data]       restore named section (pre-data, data, or post-data)
 # @flag --strict-names                             require table and/or schema include patterns to match at least one entity each

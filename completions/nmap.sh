@@ -15,7 +15,7 @@
 # @option -p <port ranges>                     Only scan specified ports
 # @option --exclude-ports <port ranges>        Exclude the specified ports from scanning
 # @flag -F                                     Fast mode - Scan fewer ports than the default scan
-# @flag -r                                     Scan ports consecutively - don't randomize
+# @flag -r                                     Scan ports sequentially - don't randomize
 # @option --top-ports <number>                 Scan <number> most common ports
 # @option --port-ratio <ratio>                 Scan ports more common than <ratio>
 # @option --version-intensity <level>          Set from 0 (light) to 9 (try all probes)
@@ -66,6 +66,7 @@
 # @flag --iflist                               Print host interfaces and routes (for debugging)
 # @flag --append-output                        Append to rather than clobber specified output files
 # @option --resume <filename>                  Resume an aborted scan
+# @flag --noninteractive                       Disable runtime interactions via keyboard
 # @option --stylesheet <path/URL>              XSL stylesheet to transform XML output to HTML
 # @flag --webxml                               Reference stylesheet from Nmap.Org for more portable XML
 # @flag --no-stylesheet                        Prevent associating of XSL stylesheet w/XML output

@@ -2,7 +2,8 @@ _patch_help() {
     if [[ "$*" == "adb" ]]; then
         adb --help | sed -n '/^global options/,/^$/ p'
     fi
-    cat <<-'EOF' | _patch_help_embed_help $@
+    embed_help="$( \
+        cat <<-'EOF' | _patch_help_embed_help $@
 # devices - list connected devices (-l for long output)
     -l                      long output
 # help - show this help message
@@ -21,52 +22,14 @@ _patch_help() {
     --no-rebind             don't replace existing connection
     --remove REMOTE         remove specific reverse socket connection
     --remove-all            remove all reverse socket connections from device
-# push LOCAL... REMOTE - copy local files/directories to device
-    --sync                  only push files that are newer on the host than the device
-# pull REMOTE... LOCAL - copy files/dirs from device
-    -a                      preserve file timestamp and mode
-# sync (all|data|odm|oem|product_services|product|system|vendor) - sync a local build from $ANDROID_PRODUCT_OUT to the device (default all)
-    -l                      list but don't copy
-# shell [COMMAND...] - run remote shell command (interactive shell if no command given)
-    -e ESCAPE              choose escape character, or "none"; default '~'
-    -n                     don't read from stdin
-    -T                     disable PTY allocation
-    -t                     force PTY allocation
-    -x                     disable remote exit codes and stdout/stderr separation
+# push% - copy local files/directories to device
+# pull% - copy files/dirs from device
+# sync% - sync a local build from $ANDROID_PRODUCT_OUT to the device (default all) 
+# shell% - run remote shell command (interactive shell if no command given)
 # emu COMMAND - run emulator console command
 # install PACKAGE - push a single package to the device and install it
-    -l                     specify that the APK file being installed should be retained, even if the installation is successful.
-    -r                     replace existing application
-    -t                     allow test packages
-    -s                     install the app on the device's SD card if it supports external storage
-    -d                     allow version code downgrade (debuggable packages only)
-    -p                     partial application install (install-multiple only)
-    -g                     grant all runtime permissions
-    --instant              cause the app to be installed as an ephemeral install app
 # install-multiple PACKAGE... - push multiple APKs to the device for a single package and install them
-    -l                     specify that the APK file being installed should be retained, even if the installation is successful.
-    -r                     replace existing application
-    -t                     allow test packages
-    -s                     install the app on the device's SD card if it supports external storage
-    -d                     allow version code downgrade (debuggable packages only)
-    -p                     partial application install (install-multiple only)
-    -g                     grant all runtime permissions
-    --instant              cause the app to be installed as an ephemeral install app
-# install-multi-package PACKAGE... - push one or more packages to the device and install them atomically
-    -r                     replace existing application
-    -t                     allow test packages
-    -d                     allow version code downgrade (debuggable packages only)
-    -p                     partial application install (install-multiple only)
-    -g                     grant all runtime permissions
-    --instant              cause the app to be installed as an ephemeral install app
-    --no-streaming         always push APK to device and invoke Package Manager as separate steps
-    --streaming            force streaming APK directly into Package Manager
-    --fastdeploy           use fast deploy
-    --no-fastdeploy        prevent use of fast deploy
-    --force-agent          force update of deployment agent when using fast deploy
-    --date-check-agent     update deployment agent when local version is newer and using fast deploy
-    --version-check-agent  update deployment agent when local version has different version code and using fast deploy
-    --local-agent          locate agent files from local source build (instead of SDK location)
+# install-multi-package% - push one or more packages to the device and install them atomically
 # uninstall PACKAGE - remove this app package from the device
     -k                     keep the data and cache directories
 # bugreport [PATH] - write bugreport to given PATH
@@ -108,6 +71,12 @@ _patch_help() {
 # kill-server - kill the server if it is running
 # reconnect - kick connection from host side to force reconnect
 EOF
+)"
+        echo "$embed_help"
+        if [[ -z "$embed_help" ]] || grep -q __HELP_CMD__ <<<"$embed_help"; then
+            subcmd_help_text="$($1 --help | sed -n "/^ $2 /,/^ [a-z]/ p" | head -n -1 | sed 's/\(-\S\+\):/\1 /')"
+            echo "Usage:$subcmd_help_text"
+        fi
 }
 
 _patch_table() {
@@ -120,6 +89,11 @@ _patch_table() {
     elif [[ "$*" == "adb emu" ]]; then
         _patch_table_edit_arguments \
             'command;[`_module_os_command`]' \
+
+    elif [[ "$*" == "adb install" ]] \
+      || [[ "$*" == "adb install-multiple" ]] \
+    ; then
+        _patch_table_copy_options adb install-multi-package
 
     elif [[ "$*" == "adb reconnect" ]]; then
         _patch_table_edit_arguments ';;' 'type;[`_choice_reconnect_type`]'

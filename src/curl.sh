@@ -4,6 +4,9 @@ _patch_help() {
 }
 
 _patch_table() { 
+    _patch_table_dedup_options \
+        '--location' \
+    | \
     _patch_table_edit_options \
         '--cert-type;[DER|PEM|ENG]' \
         '--data-binary;[`_choice_data_binary`]' \

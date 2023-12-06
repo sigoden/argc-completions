@@ -1,7 +1,7 @@
 _patch_table() {
     _extract_choices() {
         gawk '{
-            if (match($0, /\[(\S+( \S+)+)\]/, arr)) {
+            if (match($0, /\[([^A-Z]\S+( [^A-Z]\S+)+)\]/, arr)) {
                 gsub(" ", "|", arr[1])
                 gsub(",", "", arr[1])
                 print $0 " # [" arr[1] "]" 
@@ -18,7 +18,7 @@ _patch_table() {
 
     if [[ "$*" == "grype" ]]; then
         echo "$table" | \
-        _patch_table_edit_arguments 'image;[`_choice_image`]'
+        _patch_table_edit_arguments ';;' 'image;[`_choice_image`]'
 
     else
         echo "$table"

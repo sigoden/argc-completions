@@ -20,6 +20,7 @@
 # @flag -pix_fmts                                  show available pixel formats
 # @flag -layouts                                   show standard channel layouts
 # @flag -sample_fmts                               show available audio sample formats
+# @flag -dispositions                              show available stream dispositions
 # @flag -colors                                    show available color names
 # @option -sources*,[`_choice_device`] <device>    list sources of the input device
 # @option -sinks*,[`_choice_device`] <device>      list sinks of the output device
@@ -61,13 +62,14 @@
 # @option -r <rate>                                set frame rate (Hz value, fraction or abbreviation)
 # @option -fpsmax <rate>                           set max frame rate (Hz value, fraction or abbreviation)
 # @option -aspect <aspect>                         set aspect ratio (4:3, 16:9 or 1.3333, 1.7777)
-# @option -bits_per_raw_sample <number>            set the number of bits per raw sample
+# @option -display_rotation <angle>                set pure counter-clockwise rotation in degrees for stream(s)
+# @flag -display_hflip                             set display horizontal flip for stream(s) (overrides any display rotation if it is not set)
+# @flag -display_vflip                             set display vertical flip for stream(s) (overrides any display rotation if it is not set)
 # @flag -vn                                        disable video
 # @option -vcodec[`_choice_codec`] <codec>         force video codec ('copy' to copy stream)
 # @option -timecode <hh:mm:ss[:;.]ff>              set initial TimeCode value.
 # @option -pass <n>                                select the pass number (1 to 3)
 # @option -vf*[`_choice_filter_kv`] <filter_graph>  set video filters
-# @option -ab[16|32|64|128|192|256|320] <bitrate>  audio bitrate (please use -b:a)
 # @option -b <bitrate>                             video bitrate (please use -b:v)
 # @flag -dn                                        disable data
 # @option -aframes <number>                        set the number of audio frames to output
@@ -76,7 +78,7 @@
 # @option -ac <channels>                           set number of audio channels
 # @flag -an                                        disable audio
 # @option -acodec[`_choice_codec`] <codec>         force audio codec ('copy' to copy stream)
-# @option -vol <volume>                            change audio volume (256=normal)
+# @option -ab[16|32|64|128|192|256|320] <bitrate>  audio bitrate (please use -b:a)
 # @option -af*[`_choice_filter_kv`] <filter_graph>  set audio filters
 # @option -s <size>                                set frame size (WxH or abbreviation)
 # @flag -sn                                        disable subtitle

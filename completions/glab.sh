@@ -193,11 +193,11 @@ ci::lint() {
 
 # {{{ glab ci list
 # @cmd Get the list of CI/CD pipelines
-# @option -o --orderBy <string>        Order pipeline by <string>
+# @option -o --orderBy[id|status|ref|updated_at|user_id] <string>  Order pipeline by  (default "id")
 # @option -p --page <int>              Page number (default 1)
-# @option -P --per-page <int>          Number of items to list per page.
-# @option --sort[asc|desc] <string>    Sort pipeline by .
-# @option -s --status[running|pending|success|failed|canceled|skipped|created|manual] <string>  Get pipeline with status:
+# @option -P --per-page <int>          Number of items to list per page (default 30)
+# @option --sort[asc|desc] <string>    Sort pipeline by  (default "desc")
+# @option -s --status[running|pending|success|failed|canceled|skipped|created|manual|waiting_for_resource|preparing|scheduled] <string>  Get pipeline with status:
 # @flag --help                         Show help for command
 # @option -R --repo[`_choice_search_repo`] <OWNER/REPO>  Select another repository using the OWNER/REPO or `GROUP/NAMESPACE/REPO` format or full URL or git URL
 ci::list() {
@@ -263,6 +263,57 @@ ci::view() {
 }
 # }}} glab ci view
 # }} glab ci
+
+# {{ glab cluster
+# @cmd Manage GitLab Agents for Kubernetes and their clusters
+# @option -R --repo[`_choice_search_repo`] <OWNER/REPO>  Select another repository using the OWNER/REPO or `GROUP/NAMESPACE/REPO` format or full URL or git URL
+# @flag --help    Show help for command
+cluster() {
+    :;
+}
+
+# {{{ glab cluster agent
+# @cmd Manage GitLab Agents for Kubernetes
+# @option -R --repo[`_choice_search_repo`] <OWNER/REPO>  Select another repository using the OWNER/REPO or `GROUP/NAMESPACE/REPO` format or full URL or git URL
+# @flag --help    Show help for command
+cluster::agent() {
+    :;
+}
+
+# {{{{ glab cluster agent get-token
+# @cmd Create and return a k8s_proxy-scoped Personal Access Token to authenticate with a GitLab Agents for Kubernetes
+# @option -a --agent <int>    The numerical Agent ID to connect to
+# @flag --help                Show help for command
+# @option -R --repo[`_choice_search_repo`] <OWNER/REPO>  Select another repository using the OWNER/REPO or `GROUP/NAMESPACE/REPO` format or full URL or git URL
+cluster::agent::get-token() {
+    :;
+}
+# }}}} glab cluster agent get-token
+
+# {{{{ glab cluster agent list
+# @cmd List GitLab Agents for Kubernetes in a project
+# @option -p --page <uint>        Page number (default 1)
+# @option -P --per-page <uint>    Number of items to list per page.
+# @flag --help                    Show help for command
+# @option -R --repo[`_choice_search_repo`] <OWNER/REPO>  Select another repository using the OWNER/REPO or `GROUP/NAMESPACE/REPO` format or full URL or git URL
+cluster::agent::list() {
+    :;
+}
+# }}}} glab cluster agent list
+
+# {{{{ glab cluster agent update-kubeconfig
+# @cmd Update selected kubeconfig
+# @option -a --agent <int>       The numeric agent ID to create the kubeconfig entry for
+# @option --kubeconfig <file>    Use a particular kubeconfig file
+# @flag -u --use-context         Use as default context
+# @flag --help                   Show help for command
+# @option -R --repo[`_choice_search_repo`] <OWNER/REPO>  Select another repository using the OWNER/REPO or `GROUP/NAMESPACE/REPO` format or full URL or git URL
+cluster::agent::update-kubeconfig() {
+    :;
+}
+# }}}} glab cluster agent update-kubeconfig
+# }}} glab cluster agent
+# }} glab cluster
 
 # {{ glab completion
 # @cmd Generate shell completion scripts
@@ -356,6 +407,17 @@ incident::list() {
     :;
 }
 # }}} glab incident list
+
+# {{{ glab incident note
+# @cmd Comment on an incident in GitLab
+# @option -m --message <string>    Comment/Note message
+# @flag --help                     Show help for command
+# @option -R --repo[`_choice_search_repo`] <OWNER/REPO>  Select another repository using the OWNER/REPO or `GROUP/NAMESPACE/REPO` format or full URL or git URL
+# @arg incident-id!
+incident::note() {
+    :;
+}
+# }}} glab incident note
 
 # {{{ glab incident reopen
 # @cmd Reopen a resolved incident
@@ -514,7 +576,7 @@ issue::list() {
 # }}} glab issue list
 
 # {{{ glab issue note
-# @cmd Add a comment or note to an issue on GitLab
+# @cmd Comment on an issue in GitLab
 # @option -m --message <string>    Comment/Note message
 # @flag --help                     Show help for command
 # @option -R --repo[`_choice_search_repo`] <OWNER/REPO>  Select another repository using the OWNER/REPO or `GROUP/NAMESPACE/REPO` format or full URL or git URL
@@ -925,7 +987,7 @@ release() {
 
 # {{{ glab release create
 # @cmd Create a new or update a GitLab Release for a repository
-# @option -a --assets-links <JSON>    JSON string representation of assets links (e.g. `--assets='[{"name": "Asset1", "url":"https://<domain>/some/location/1", "link_type": "other", "filepath": "path/to/file"}]')`
+# @option -a --assets-links <JSON>    JSON string representation of assets links (e.g. `--assets-links='[{"name": "Asset1", "url":"https://<domain>/some/location/1", "link_type": "other", "filepath": "path/to/file"}]')`
 # @option -m --milestone*[`_choice_milestone`] <string>  The title of each milestone the release is associated with
 # @option -n --name <string>          The release name or title
 # @option -N --notes <string>         The release notes/description.
@@ -976,7 +1038,7 @@ release::list() {
 
 # {{{ glab release upload
 # @cmd Upload release asset files or links to GitLab Release
-# @option -a --assets-links <JSON>    JSON string representation of assets links (e.g. `--assets='[{"name": "Asset1", "url":"https://<domain>/some/location/1", "link_type": "other", "filepath": "path/to/file"}]')`
+# @option -a --assets-links <JSON>    JSON string representation of assets links (e.g. `--assets-links='[{"name": "Asset1", "url":"https://<domain>/some/location/1", "link_type": "other", "filepath": "path/to/file"}]')`
 # @flag --help                        Show help for command
 # @option -R --repo[`_choice_search_repo`] <OWNER/REPO>  Select another repository using the OWNER/REPO or `GROUP/NAMESPACE/REPO` format or full URL or git URL
 # @arg tag![`_choice_tag`]
@@ -1253,9 +1315,21 @@ ssh-key::add() {
 }
 # }}} glab ssh-key add
 
+# {{{ glab ssh-key delete
+# @cmd Deletes a single SSH key specified by the ID.
+# @flag --help    Show help for command
+# @option -R --repo[`_choice_search_repo`] <OWNER/REPO>  Select another repository using the OWNER/REPO or `GROUP/NAMESPACE/REPO` format or full URL or git URL
+# @arg key-id!
+ssh-key::delete() {
+    :;
+}
+# }}} glab ssh-key delete
+
 # {{{ glab ssh-key get
 # @cmd Returns a single SSH key specified by the ID.
-# @flag --help    Show help for command
+# @option -p --page <int>        Page number (default 1)
+# @option -P --per-page <int>    Number of items to list per page (default 20)
+# @flag --help                   Show help for command
 # @option -R --repo[`_choice_search_repo`] <OWNER/REPO>  Select another repository using the OWNER/REPO or `GROUP/NAMESPACE/REPO` format or full URL or git URL
 # @arg id[`_choice_ssh_key`]
 ssh-key::get() {
@@ -1265,8 +1339,10 @@ ssh-key::get() {
 
 # {{{ glab ssh-key list
 # @cmd Get a list of currently authenticated user's SSH keys.
-# @flag --show-id    Show IDs of SSH Keys
-# @flag --help       Show help for command
+# @option -p --page <int>        Page number (default 1)
+# @option -P --per-page <int>    Number of items to list per page (default 30)
+# @flag --show-id                Shows IDs of SSH Keys
+# @flag --help                   Show help for command
 # @option -R --repo[`_choice_search_repo`] <OWNER/REPO>  Select another repository using the OWNER/REPO or `GROUP/NAMESPACE/REPO` format or full URL or git URL
 ssh-key::list() {
     :;
@@ -1352,6 +1428,7 @@ variable::list() {
 # @option -g --group[`_choice_search_group_subgroup`] <string>  Set variable for a group
 # @flag -m --masked                         Whether the variable is masked
 # @flag -p --protected                      Whether the variable is protected
+# @flag -r --raw                            Whether the variable is treated as a raw string
 # @option -s --scope <string>               The environment_scope of the variable.
 # @option -t --type[env_var|file] <file>    The type of a variable:  (default "env_var")
 # @option -v --value <string>               The value of a variable
@@ -1369,6 +1446,7 @@ variable::set() {
 # @option -g --group[`_choice_search_group_subgroup`] <string>  Set variable for a group
 # @flag -m --masked                         Whether the variable is masked
 # @flag -p --protected                      Whether the variable is protected
+# @flag -r --raw                            Whether the variable is treated as a raw string
 # @option -s --scope <string>               The environment_scope of the variable.
 # @option -t --type[env_var|file] <file>    The type of a variable:  (default "env_var")
 # @option -v --value <string>               The value of a variable

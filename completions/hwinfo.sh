@@ -32,6 +32,7 @@
 # @flag --mouse                                  Show mouse info.
 # @flag --netcard                                Show netcard info.
 # @flag --network                                Show network info.
+# @flag --nvme                                   Show nvme info.
 # @flag --partition                              Show partition info.
 # @flag --pci                                    Show pci info.
 # @flag --pcmcia                                 Show pcmcia info.
@@ -58,9 +59,9 @@
 # @flag --short                                  Show only a summary.
 # @flag --listmd                                 Normally hwinfo does not report RAID devices.
 # @option --only*[`_choice_device`] <DEVNAME>    This option can be given more than once.
-# @option --save-config[`_choice_save_config`] <SPEC>  Store config  for a particular device below /var/lib/hardware.
+# @option --save-config[`_choice_save_config`] <SPEC>  Store config for a particular device below /var/lib/hardware.
 # @option --show-config[`_choice_device_udi`] <UDI>  Show saved config data for a particular device.
-# @flag --map                                    If disk names have  changed (e.g. after a kernel update) this prints a list of disk name mappings.
+# @flag --map                                    If disk names have changed (e.g. after a kernel update) this prints a list of disk name mappings.
 # @option --debug <N>                            Set debug level to N.
 # @flag --verbose                                Increase verbosity.
 # @option --log <FILE>                           Write log info to FILE.

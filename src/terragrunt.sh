@@ -1,8 +1,10 @@
 _patch_help() {
-    if [[ $# -le 2 ]]; then
-        $@ --help
-    else
+    if [[ "$*" == "terragrunt run-all" ]]; then
+        $@ --help | sed '/^GLOBAL OPTIONS:/,/^\s*$/ d'
+    elif [[ $# -gt 2 ]]; then
         :;
+    else
+        $@ --help
     fi
 }
 

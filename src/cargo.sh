@@ -3,7 +3,7 @@ _patch_help() {
         cargo --help
         cat <<-'EOF'
 Miss commands:
-    clippy                  Checks a package to catch common mistakes and improve your Rust code.
+    clippy               Checks a package to catch common mistakes and improve your Rust code.
     config               Inspect configuration values
     fetch                Fetch dependencies of a package from the network
     fix                  Automatically fix lint warnings reported by rustc

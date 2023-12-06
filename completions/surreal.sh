@@ -1,25 +1,38 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @flag -h --help    Print help information
+# @flag -h --help    Print help
 
 # {{ surreal start
 # @cmd Start the database server
-# @option --addr <addr>          The allowed networks for master authentication [env: SURREAL_ADDR=] [default: 127.0.0.1/32]
-# @option -b --bind <bind>       The hostname or ip address to listen for connections on [env: SURREAL_BIND=] [default: 0.0.0.0:8000]
-# @flag -h --help                Print help information
-# @option -k --key <key>         Encryption key to use for on-disk encryption [env: SURREAL_KEY=]
-# @option --kvs-ca <kvs-ca>      Path to the CA file used when connecting to the remote KV store [env: SURREAL_KVS_CA=]
-# @option --kvs-crt <kvs-crt>    Path to the certificate file used when connecting to the remote KV store [env: SURREAL_KVS_CRT=]
-# @option --kvs-key <kvs-key>    Path to the private key file used when connecting to the remote KV store [env: SURREAL_KVS_KEY=]
-# @option -l --log <log>         The logging level for the database server.
-# @flag --no-banner              Whether to hide the startup banner [env: SURREAL_NO_BANNER=]
-# @option -p --pass <pass>       The master password for the database [env: SURREAL_PASS=]
-# @flag -s --strict              Whether strict mode is enabled on this database instance [env: SURREAL_STRICT=]
-# @option -u --user <user>       The master username for the database [env: SURREAL_USER=] [default: root]
-# @option --web-crt <web-crt>    Path to the certificate file for encrypted client connections [env: SURREAL_WEB_CRT=]
-# @option --web-key <web-key>    Path to the private key file for encrypted client connections [env: SURREAL_WEB_KEY=]
-# @arg path!                     Database path used for storing data [env: SURREAL_PATH=] [default: memory]
+# @option -l --log[none|full|error|warn|info|debug|trace]  The logging level for the database server
+# @flag --no-banner                          Whether to hide the startup banner
+# @flag -h --help                            Print help (see a summary with '-h')
+# @option --tick-interval <TICK_INTERVAL>    The interval at which to run node agent tick (including garbage collection)
+# @flag -s --strict                          Whether strict mode is enabled on this database instance
+# @option --query-timeout <QUERY_TIMEOUT>    The maximum duration that a set of statements can run for
+# @option --transaction-timeout <TRANSACTION_TIMEOUT>  The maximum duration that any single transaction can run for
+# @option -u --username                      The username for the initial database root user.
+# @option -p --password                      The password for the initial database root user.
+# @flag --auth                               Whether to enable authentication
+# @option --kvs-ca <KVS_CA>                  Path to the CA file used when connecting to the remote KV store
+# @option --kvs-crt <KVS_CRT>                Path to the certificate file used when connecting to the remote KV store
+# @option --kvs-key <KVS_KEY>                Path to the private key file used when connecting to the remote KV store
+# @option --web-crt <WEB_CRT>                Path to the certificate file for encrypted client connections
+# @option --web-key <WEB_KEY>                Path to the private key file for encrypted client connections
+# @option --client-ip <CLIENT_IP>            The method of detecting the client's IP address
+# @option -b --bind <LISTEN_ADDRESSES>       The hostname or ip address to listen for connections on
+# @flag -A --allow-all                       Allow all capabilities
+# @flag --allow-scripting                    Allow execution of embedded scripting functions
+# @flag --allow-guests                       Allow guest users to execute queries
+# @option --allow-funcs* <ALLOW_FUNCS>       Allow execution of functions.
+# @option --allow-net* <ALLOW_NET>           Allow all outbound network access.
+# @flag -D --deny-all                        Deny all capabilities
+# @flag --deny-scripting                     Deny execution of embedded scripting functions
+# @flag --deny-guests                        Deny guest users to execute queries
+# @option --deny-funcs* <DENY_FUNCS>         Deny execution of functions.
+# @option --deny-net* <DENY_NET>             Deny all outbound network access.
+# @arg path                                  Database path used for storing data
 start() {
     :;
 }
@@ -27,11 +40,11 @@ start() {
 
 # {{ surreal backup
 # @cmd Backup data to or from an existing database
-# @flag -h --help             Print help information
-# @option -p --pass <pass>    Database authentication password to use when connecting [default: root]
-# @option -u --user <user>    Database authentication username to use when connecting [default: root]
-# @arg from!                  Path to the remote database or file from which to export
-# @arg into!                  Path to the remote database or file into which to import
+# @option -u --username    Database authentication username to use when connecting [env: SURREAL_USER=] [aliases: user]
+# @option -p --password    Database authentication password to use when connecting [env: SURREAL_PASS=] [aliases: pass]
+# @flag -h --help          Print help
+# @arg from!               Path to the remote database or file from which to export
+# @arg into                Path to the remote database or file into which to import [default: -]
 backup() {
     :;
 }
@@ -39,13 +52,13 @@ backup() {
 
 # {{ surreal import
 # @cmd Import a SurrealQL script into an existing database
-# @option -c --conn <conn>    Remote database server url to connect to [default: https://cloud.surrealdb.com]
-# @option --db <db>           The database to import the data into
-# @flag -h --help             Print help information
-# @option --ns <ns>           The namespace to import the data into
-# @option -p --pass <pass>    Database authentication password to use when connecting [default: root]
-# @option -u --user <user>    Database authentication username to use when connecting [default: root]
-# @arg file!                  Path to the sql file to import
+# @option -e --endpoint    Remote database server url to connect to [default: ws://localhost:8000] [aliases: conn]
+# @option -u --username    Database authentication username to use when connecting [env: SURREAL_USER=] [aliases: user]
+# @option -p --password    Database authentication password to use when connecting [env: SURREAL_PASS=] [aliases: pass]
+# @option --namespace      The namespace selected for the operation [env: SURREAL_NAMESPACE=] [aliases: ns]
+# @option --database       The database selected for the operation [env: SURREAL_DATABASE=] [aliases: db]
+# @flag -h --help          Print help
+# @arg file!               Path to the sql file to import
 import() {
     :;
 }
@@ -53,47 +66,70 @@ import() {
 
 # {{ surreal export
 # @cmd Export an existing database as a SurrealQL script
-# @option -c --conn <conn>    Remote database server url to connect to [default: https://cloud.surrealdb.com]
-# @option --db <db>           The database to export the data from
-# @flag -h --help             Print help information
-# @option --ns <ns>           The namespace to export the data from
-# @option -p --pass <pass>    Database authentication password to use when connecting [default: root]
-# @option -u --user <user>    Database authentication username to use when connecting [default: root]
-# @arg file!                  Path to the sql file to export.
+# @option -e --endpoint    Remote database server url to connect to [default: ws://localhost:8000] [aliases: conn]
+# @option -u --username    Database authentication username to use when connecting [env: SURREAL_USER=] [aliases: user]
+# @option -p --password    Database authentication password to use when connecting [env: SURREAL_PASS=] [aliases: pass]
+# @option --namespace      The namespace selected for the operation [env: SURREAL_NAMESPACE=] [aliases: ns]
+# @option --database       The database selected for the operation [env: SURREAL_DATABASE=] [aliases: db]
+# @flag -h --help          Print help
+# @arg file                Path to the sql file to export.
 export() {
     :;
 }
 # }} surreal export
 
 # {{ surreal version
-# @cmd Output the command-line tool version information
-# @flag -h --help    Print help information
+# @cmd Output the command-line tool and remote server version information
+# @option -e --endpoint    Remote database server url to connect to [aliases: conn]
+# @flag -h --help          Print help
 version() {
     :;
 }
 # }} surreal version
 
+# {{ surreal upgrade
+# @cmd Upgrade to the latest stable version
+# @flag --nightly      Install the latest nightly version
+# @option --version    Install a specific version
+# @flag --dry-run      Don't actually replace the executable
+# @flag -h --help      Print help
+upgrade() {
+    :;
+}
+# }} surreal upgrade
+
 # {{ surreal sql
 # @cmd Start an SQL REPL in your terminal with pipe support
-# @option -c --conn <conn>    Remote database server url to connect to [default: wss://cloud.surrealdb.com]
-# @option --db <db>           The database to export the data from
-# @flag -h --help             Print help information
-# @option --ns <ns>           The namespace to export the data from
-# @option -p --pass <pass>    Database authentication password to use when connecting [default: root]
-# @flag --pretty              Whether database responses should be pretty printed
-# @option -u --user <user>    Database authentication username to use when connecting [default: root]
+# @option -e --endpoint    Remote database server url to connect to [default: ws://localhost:8000] [aliases: conn]
+# @option -u --username    Database authentication username to use when connecting [env: SURREAL_USER=] [aliases: user]
+# @option -p --password    Database authentication password to use when connecting [env: SURREAL_PASS=] [aliases: pass]
+# @option --namespace      The namespace selected for the operation [env: SURREAL_NAMESPACE=] [aliases: ns]
+# @option --database       The database selected for the operation [env: SURREAL_DATABASE=] [aliases: db]
+# @flag --pretty           Whether database responses should be pretty printed
+# @flag --json             Whether to emit results in JSON
+# @flag --multi            Whether omitting semicolon causes a newline
+# @flag -h --help          Print help
 sql() {
     :;
 }
 # }} surreal sql
 
-# {{ surreal isready
-# @cmd Check if the SurrealDB server is ready to accept connections
-# @option -c --conn <conn>    Remote database server url to connect to [default: http://localhost:8000]
-# @flag -h --help             Print help information
-isready() {
+# {{ surreal is-ready
+# @cmd Check if the SurrealDB server is ready to accept connections [aliases: isready]
+# @option -e --endpoint    Remote database server url to connect to [default: ws://localhost:8000] [aliases: conn]
+# @flag -h --help          Print help
+is-ready() {
     :;
 }
-# }} surreal isready
+# }} surreal is-ready
+
+# {{ surreal validate
+# @cmd Validate SurrealQL query files
+# @flag -h --help    Print help
+# @arg pattern       Glob pattern for the files to validate [default: **/*.surql]
+validate() {
+    :;
+}
+# }} surreal validate
 
 command eval "$(argc --argc-eval "$0" "$@")"

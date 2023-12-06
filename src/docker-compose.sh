@@ -1,5 +1,6 @@
 _patch_table() {
     table="$( \
+        _patch_table_detect_value_type | \
         _patch_table_edit_arguments \
             'service;[`_choice_service`]'  \
             'service-num;[`_choice_service`]' \

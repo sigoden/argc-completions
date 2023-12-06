@@ -93,7 +93,7 @@ open() {
 # @flag -L --legal                                Search trackers with legal content only
 # @option -l --limit                              Limit the number of results shown.
 # @flag -n --newest                               Sort results by newest
-# @option -t --trackers[nyaapantsu|distrowatch|limetorrents|lime|tokyotosho|tt|archive|linuxtracker|nyaa|etree]  Trackers that should be searched
+# @option -t --trackers[etree|tokyotosho|tt|nyaa|linuxtracker|limetorrents|lime|archive|nyaapantsu|distrowatch]  Trackers that should be searched
 # @option -f --format[csv|json|table|value|yaml]  the output format, defaults to table
 # @option -c --column                             specify the column(s) to include, can be repeated to show multiple columns
 # @option --sort-column <SORT_COLUMN>             specify the column(s) to sort the data (columns specified first have a priority, non-existing columns are ignored), can be repeated

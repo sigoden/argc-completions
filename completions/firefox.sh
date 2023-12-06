@@ -29,6 +29,7 @@
 # @flag --setDefaultBrowser                   Set this app as the default browser.
 # @flag --first-startup                       Run post-install actions before opening a new window.
 # @flag --kiosk                               Start the browser in kiosk mode.
+# @option --kiosk-monitor <num>               Place kiosk browser window on given monitor.
 # @flag --disable-pinch                       Disable touch-screen and touch-pad pinch gestures.
 # @flag --jsconsole                           Open the Browser Console.
 # @flag --devtools                            Open DevTools on initial load.

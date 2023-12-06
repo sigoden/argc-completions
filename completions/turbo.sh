@@ -29,6 +29,7 @@
 # @option --framework-inference[true|false] <BOOL>  Specify whether or not to do framework inference for tasks [default: true]
 # @option --global-deps <GLOBAL_DEPS>         Specify glob of global filesystem dependencies to be hashed.
 # @option --graph                             Generate a graph of the task execution and output to a file when a filename is specified (.svg, .png, .jpg, .pdf, .json, .html).
+# @option --env-mode[infer|loose|strict] <ENV_MODE>  Environment variable mode.
 # @option --ignore                            Files to ignore when calculating changed files (i.e.
 # @flag --include-dependencies                Include the dependencies of tasks in execution
 # @flag --no-cache                            Avoid saving task results to the cache.
@@ -36,6 +37,7 @@
 # @flag --no-deps                             Exclude dependent task consumers from execution
 # @option --output-logs[full|none|hash-only|new-only|errors-only] <OUTPUT_LOGS>  Set type of process output logging.
 # @option --log-order[auto|stream|grouped] <LOG_ORDER>  Set type of task output order.
+# @flag --only                                Only executes the tasks specified, does not execute parent tasks
 # @flag --parallel                            Execute all tasks in parallel
 # @option --profile <PROFILE_FILE>            File to write turbo's performance profile output into.
 # @option --remote-only[true|false] <BOOL>    Ignore the local filesystem cache for all tasks.
@@ -64,7 +66,6 @@
 # @option --trace <TRACE_FILE>                Specify a file to save a pprof trace
 # @option --verbosity <COUNT>                 Verbosity level
 # @flag -h --help                             Print help
-# @flag --single-package                      Run turbo in single-package mode
 bin() {
     :;
 }
@@ -89,7 +90,6 @@ bin() {
 # @option --trace <TRACE_FILE>                Specify a file to save a pprof trace
 # @option --verbosity <COUNT>                 Verbosity level
 # @flag -h --help                             Print help
-# @flag --single-package                      Run turbo in single-package mode
 # @arg shell![bash|elvish|fish|powershell|zsh]
 completion() {
     :;
@@ -116,7 +116,6 @@ completion() {
 # @option --trace <TRACE_FILE>                Specify a file to save a pprof trace
 # @option --verbosity <COUNT>                 Verbosity level
 # @flag -h --help                             Print help
-# @flag --single-package                      Run turbo in single-package mode
 daemon() {
     :;
 }
@@ -140,7 +139,6 @@ daemon() {
 # @option --trace <TRACE_FILE>                Specify a file to save a pprof trace
 # @option --verbosity <COUNT>                 Verbosity level
 # @flag -h --help                             Print help
-# @flag --single-package                      Run turbo in single-package mode
 daemon::restart() {
     :;
 }
@@ -165,7 +163,6 @@ daemon::restart() {
 # @option --trace <TRACE_FILE>                Specify a file to save a pprof trace
 # @option --verbosity <COUNT>                 Verbosity level
 # @flag -h --help                             Print help
-# @flag --single-package                      Run turbo in single-package mode
 daemon::start() {
     :;
 }
@@ -191,7 +188,6 @@ daemon::start() {
 # @option --trace <TRACE_FILE>                Specify a file to save a pprof trace
 # @option --verbosity <COUNT>                 Verbosity level
 # @flag -h --help                             Print help
-# @flag --single-package                      Run turbo in single-package mode
 daemon::status() {
     :;
 }
@@ -216,7 +212,6 @@ daemon::status() {
 # @option --trace <TRACE_FILE>                Specify a file to save a pprof trace
 # @option --verbosity <COUNT>                 Verbosity level
 # @flag -h --help                             Print help
-# @flag --single-package                      Run turbo in single-package mode
 daemon::stop() {
     :;
 }
@@ -241,7 +236,6 @@ daemon::stop() {
 # @option --trace <TRACE_FILE>                Specify a file to save a pprof trace
 # @option --verbosity <COUNT>                 Verbosity level
 # @flag -h --help                             Print help
-# @flag --single-package                      Run turbo in single-package mode
 daemon::clean() {
     :;
 }
@@ -270,7 +264,6 @@ daemon::clean() {
 # @option --trace <TRACE_FILE>                Specify a file to save a pprof trace
 # @option --verbosity <COUNT>                 Verbosity level
 # @flag -h --help                             Print help
-# @flag --single-package                      Run turbo in single-package mode
 # @arg generator_name                         The name of the generator to run
 generate() {
     :;
@@ -303,7 +296,6 @@ generate() {
 # @option --trace <TRACE_FILE>                Specify a file to save a pprof trace
 # @option --verbosity <COUNT>                 Verbosity level
 # @flag -h --help                             Print help
-# @flag --single-package                      Run turbo in single-package mode
 generate::workspace() {
     :;
 }
@@ -331,7 +323,6 @@ generate::workspace() {
 # @option --trace <TRACE_FILE>                Specify a file to save a pprof trace
 # @option --verbosity <COUNT>                 Verbosity level
 # @flag -h --help                             Print help
-# @flag --single-package                      Run turbo in single-package mode
 # @arg generator_name                         The name of the generator to run
 generate::run() {
     :;
@@ -360,7 +351,6 @@ generate::run() {
 # @option --trace <TRACE_FILE>                Specify a file to save a pprof trace
 # @option --verbosity <COUNT>                 Verbosity level
 # @flag -h --help                             Print help
-# @flag --single-package                      Run turbo in single-package mode
 link() {
     :;
 }
@@ -386,7 +376,6 @@ link() {
 # @option --trace <TRACE_FILE>                Specify a file to save a pprof trace
 # @option --verbosity <COUNT>                 Verbosity level
 # @flag -h --help                             Print help
-# @flag --single-package                      Run turbo in single-package mode
 login() {
     :;
 }
@@ -411,7 +400,6 @@ login() {
 # @option --trace <TRACE_FILE>                Specify a file to save a pprof trace
 # @option --verbosity <COUNT>                 Verbosity level
 # @flag -h --help                             Print help
-# @flag --single-package                      Run turbo in single-package mode
 logout() {
     :;
 }
@@ -419,7 +407,6 @@ logout() {
 
 # {{ turbo prune
 # @cmd Prepare a subset of your monorepo
-# @option --scope
 # @flag --version
 # @flag --docker
 # @flag --skip-infer                          Skip any attempts to infer which version of Turbo the project is configured to use
@@ -439,7 +426,7 @@ logout() {
 # @option --trace <TRACE_FILE>                Specify a file to save a pprof trace
 # @option --verbosity <COUNT>                 Verbosity level
 # @flag -h --help                             Print help
-# @flag --single-package                      Run turbo in single-package mode
+# @arg scope*                                 Workspaces that should be included in the subset
 prune() {
     :;
 }
@@ -469,6 +456,7 @@ prune() {
 # @flag --no-color                            Suppress color usage in the terminal
 # @option --graph                             Generate a graph of the task execution and output to a file when a filename is specified (.svg, .png, .jpg, .pdf, .json, .html).
 # @flag --preflight                           When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization
+# @option --env-mode[infer|loose|strict] <ENV_MODE>  Environment variable mode.
 # @option --remote-cache-timeout <TIMEOUT>    Set a timeout for all HTTP requests
 # @option --ignore                            Files to ignore when calculating changed files (i.e.
 # @option --team                              Set the team slug for API calls
@@ -481,6 +469,7 @@ prune() {
 # @flag --no-deps                             Exclude dependent task consumers from execution
 # @option --output-logs[full|none|hash-only|new-only|errors-only] <OUTPUT_LOGS>  Set type of process output logging.
 # @option --log-order[auto|stream|grouped] <LOG_ORDER>  Set type of task output order.
+# @flag --only                                Only executes the tasks specified, does not execute parent tasks
 # @flag --parallel                            Execute all tasks in parallel
 # @option --profile <PROFILE_FILE>            File to write turbo's performance profile output into.
 # @option --remote-only[true|false] <BOOL>    Ignore the local filesystem cache for all tasks.
@@ -515,7 +504,6 @@ run() {
 # @option --trace <TRACE_FILE>                Specify a file to save a pprof trace
 # @option --verbosity <COUNT>                 Verbosity level
 # @flag -h --help                             Print help
-# @flag --single-package                      Run turbo in single-package mode
 unlink() {
     :;
 }

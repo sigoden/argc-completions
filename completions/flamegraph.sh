@@ -15,7 +15,7 @@
 # @option --notes <STRING>                 Set embedded notes in SVG
 # @option --min-width <FLOAT>              Omit functions smaller than <FLOAT> pixels [default: 0.01]
 # @option --image-width <IMAGE_WIDTH>      Image width in pixels
-# @option --palette[hot|mem|io|red|green|blue|aqua|yellow|purple|orange|wakeup|java|perl|js|rust]  Color palette
+# @option --palette[aqua|blue|green|hot|io|java|js|mem|orange|perl|python|purple|red|rust|wakeup|yellow]  Color palette
 # @option --skip-after <FUNCTION>          Cut off stack frames below <FUNCTION>; may be repeated
 # @flag --flamechart                       Produce a flame chart (sort by time, do not merge stacks)
 # @flag --ignore-status                    Ignores perf's exit code

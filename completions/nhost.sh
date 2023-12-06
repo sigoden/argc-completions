@@ -35,6 +35,7 @@ config::example() {
 # {{{ nhost config pull
 # @cmd Get cloud configuration
 # @option --subdomain <value>    Pull this subdomain's configuration.
+# @flag --yes                    Skip confirmation (default: false) [$NHOST_YES]
 # @flag -h --help                show help
 config::pull() {
     :;
@@ -105,6 +106,7 @@ dev::hasura() {
 # @option --functions-port <value>         If specified, expose functions on this port.
 # @option --hasura-port <value>            If specified, expose hasura on this port.
 # @option --hasura-console-port <value>    If specified, expose hasura console on this port.
+# @option --dashboard-version <value>      Dashboard version to use (default: "nhost/dashboard:0.20.28") [$NHOST_DASHBOARD_VERSION]
 # @flag -h --help                          show help
 up() {
     :;
@@ -113,6 +115,7 @@ up() {
 
 # {{ nhost down
 # @cmd Stop local development environment
+# @flag --volumes    Remove volumes (default: false)
 # @flag -h --help    show help
 down() {
     :;
@@ -224,6 +227,14 @@ run::config-validate() {
     :;
 }
 # }}} nhost run config-validate
+
+# {{{ nhost run config-example
+# @cmd Shows an example config file
+# @flag -h --help    show help
+run::config-example() {
+    :;
+}
+# }}} nhost run config-example
 # }} nhost run
 
 # {{ nhost secrets

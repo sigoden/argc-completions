@@ -331,7 +331,7 @@ tunnel::route::ip::show() {
 # @option --vnet <value>    The ID or name of the virtual network to which the route is associated to.
 # @option --vn <value>      The ID or name of the virtual network to which the route is associated to.
 # @flag -h --help           show help (default: false)
-# @arg cidr[`_choice_cidr`]
+# @arg route-id-or-cidr[`_choice_cidr`] <Route ID or CIDR>
 tunnel::route::ip::delete() {
     :;
 }
@@ -529,7 +529,7 @@ tunnel::info() {
 # @option --trace-output <file>         Name of trace output file, generated when cloudflared stops.
 # @option --credentials-file <value>    Filepath at which to read/write the tunnel credentials [$TUNNEL_CRED_FILE]
 # @option --cred-file <value>           Filepath at which to read/write the tunnel credentials [$TUNNEL_CRED_FILE]
-# @flag -f --force                      Cleans up any stale connections before the tunnel is deleted.
+# @flag -f --force                      Deletes a tunnel even if tunnel is connected and it has dependencies associated to it.
 # @flag -h --help                       show help (default: false)
 # @arg tunnel[`_choice_tunnel`]
 tunnel::delete() {

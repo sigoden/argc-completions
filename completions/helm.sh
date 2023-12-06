@@ -386,6 +386,32 @@ get::manifest() {
 }
 # }}} helm get manifest
 
+# {{{ helm get metadata
+# @cmd This command fetches metadata for a given release
+# @flag -h --help                                  help for metadata
+# @option -o --output[table|json|yaml] <format>    prints the output in the specified format.
+# @option --revision <int>                         specify release revision
+# @option --burst-limit <int>                      client-side default throttling limit (default 100)
+# @flag --debug                                    enable verbose output
+# @option --kube-apiserver <string>                the address and the port for the Kubernetes API server
+# @option --kube-as-group* <string>                group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+# @option --kube-as-user <string>                  username to impersonate for the operation
+# @option --kube-ca-file <file>                    the certificate authority file for the Kubernetes API server connection
+# @option --kube-context[`_choice_kube_context`] <string>  name of the kubeconfig context to use
+# @flag --kube-insecure-skip-tls-verify            if true, the Kubernetes API server's certificate will not be checked for validity.
+# @option --kube-tls-server-name <string>          server name to use for Kubernetes API server certificate validation.
+# @option --kube-token <string>                    bearer token used for authentication
+# @option --kubeconfig <file>                      path to the kubeconfig file
+# @option -n --namespace[`_choice_kube_namespace`] <string>  namespace scope for this request
+# @option --registry-config <file>                 path to the registry config file (default "/home/sigo/.config/helm/registry/config.json")
+# @option --repository-cache <file>                path to the file containing cached repository indexes (default "/home/sigo/.cache/helm/repository")
+# @option --repository-config <file>               path to the file containing repository names and URLs (default "/home/sigo/.config/helm/repositories.yaml")
+# @arg release_name[`_choice_release`]
+get::metadata() {
+    :;
+}
+# }}} helm get metadata
+
 # {{{ helm get notes
 # @cmd download the notes for a named release
 # @flag -h --help                            help for notes
@@ -476,7 +502,7 @@ history() {
 # @option --description <string>                   add a custom description
 # @flag --devel                                    use development versions, too.
 # @flag --disable-openapi-validation               if set, the installation process will not validate rendered templates against the Kubernetes OpenAPI Schema
-# @flag --dry-run                                  simulate an install
+# @option --dry-run <string[="client"]>            simulate an install.
 # @flag --enable-dns                               enable DNS lookups when rendering templates
 # @flag --force                                    force resource updates through a replacement strategy
 # @flag -g --generate-name                         generate the name (and omit the NAME parameter)
@@ -484,11 +510,13 @@ history() {
 # @flag --insecure-skip-tls-verify                 skip tls certificate checks for the chart download
 # @option --key-file <file>                        identify HTTPS client using this SSL key file
 # @option --keyring <file>                         location of public keys used for verification (default "/home/sigo/.gnupg/pubring.gpg")
+# @option -l --labels <stringToString>             Labels that would be added to release metadata.
 # @option --name-template <string>                 specify template used to name the release
 # @flag --no-hooks                                 prevent hooks from running during install
 # @option -o --output[table|json|yaml] <format>    prints the output in the specified format.
 # @flag --pass-credentials                         pass credentials to all domains
 # @option --password <string>                      chart repository password where to locate the requested chart
+# @flag --plain-http                               use insecure HTTP connections for the chart download
 # @option --post-renderer <path>                   the path to an executable to be used for post rendering.
 # @option --post-renderer-args <postRendererArgsSlice>  an argument to the post-renderer (can specify multiple) (default [])
 # @flag --render-subchart-notes                    if set, render subchart notes along with the parent
@@ -772,6 +800,7 @@ plugin::update() {
 # @option --keyring <file>                   location of public keys used for verification (default "/home/sigo/.gnupg/pubring.gpg")
 # @flag --pass-credentials                   pass credentials to all domains
 # @option --password <string>                chart repository password where to locate the requested chart
+# @flag --plain-http                         use insecure HTTP connections for the chart download
 # @flag --prov                               fetch the provenance file, but don't perform verification
 # @option --repo <string>                    chart repository url where to locate the requested chart
 # @flag --untar                              if set to true, will untar the chart after downloading it
@@ -807,6 +836,7 @@ pull() {
 # @flag -h --help                            help for push
 # @flag --insecure-skip-tls-verify           skip tls certificate checks for the chart upload
 # @option --key-file <file>                  identify registry client using this SSL key file
+# @flag --plain-http                         use insecure HTTP connections for the chart upload
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
 # @flag --debug                              enable verbose output
 # @option --kube-apiserver <string>          the address and the port for the Kubernetes API server
@@ -968,6 +998,7 @@ repo::add() {
 # {{{ helm repo index
 # @cmd generate an index file given a directory containing packaged charts
 # @flag -h --help                            help for index
+# @flag --json                               output in JSON format
 # @option --merge <string>                   merge the generated index into the given index
 # @option --url <string>                     url of chart repository
 # @option --burst-limit <int>                client-side default throttling limit (default 100)
@@ -1127,6 +1158,7 @@ search() {
 # {{{ helm search hub
 # @cmd search for charts in the Artifact Hub or your own hub instance
 # @option --endpoint <string>                      Hub instance to query for charts (default "https://hub.helm.sh")
+# @flag --fail-on-no-result                        search fails if no results are found
 # @flag -h --help                                  help for hub
 # @flag --list-repo-url                            print charts repository URL
 # @option --max-col-width <uint>                   maximum column width for output table (default 50)
@@ -1155,6 +1187,7 @@ search::hub() {
 # {{{ helm search repo
 # @cmd search repositories for a keyword in charts
 # @flag --devel                                    use development versions (alpha, beta, and release candidate releases), too.
+# @flag --fail-on-no-result                        search fails if no results are found
 # @flag -h --help                                  help for repo
 # @option --max-col-width <uint>                   maximum column width for output table (default 50)
 # @option -o --output[table|json|yaml] <format>    prints the output in the specified format.
@@ -1217,6 +1250,7 @@ show() {
 # @option --keyring <file>                   location of public keys used for verification (default "/home/sigo/.gnupg/pubring.gpg")
 # @flag --pass-credentials                   pass credentials to all domains
 # @option --password <string>                chart repository password where to locate the requested chart
+# @flag --plain-http                         use insecure HTTP connections for the chart download
 # @option --repo <string>                    chart repository url where to locate the requested chart
 # @option --username <string>                chart repository username where to locate the requested chart
 # @flag --verify                             verify the package before using it
@@ -1253,6 +1287,7 @@ show::all() {
 # @option --keyring <file>                   location of public keys used for verification (default "/home/sigo/.gnupg/pubring.gpg")
 # @flag --pass-credentials                   pass credentials to all domains
 # @option --password <string>                chart repository password where to locate the requested chart
+# @flag --plain-http                         use insecure HTTP connections for the chart download
 # @option --repo <string>                    chart repository url where to locate the requested chart
 # @option --username <string>                chart repository username where to locate the requested chart
 # @flag --verify                             verify the package before using it
@@ -1289,6 +1324,7 @@ show::chart() {
 # @option --keyring <file>                   location of public keys used for verification (default "/home/sigo/.gnupg/pubring.gpg")
 # @flag --pass-credentials                   pass credentials to all domains
 # @option --password <string>                chart repository password where to locate the requested chart
+# @flag --plain-http                         use insecure HTTP connections for the chart download
 # @option --repo <string>                    chart repository url where to locate the requested chart
 # @option --username <string>                chart repository username where to locate the requested chart
 # @flag --verify                             verify the package before using it
@@ -1325,6 +1361,7 @@ show::crds() {
 # @option --keyring <file>                   location of public keys used for verification (default "/home/sigo/.gnupg/pubring.gpg")
 # @flag --pass-credentials                   pass credentials to all domains
 # @option --password <string>                chart repository password where to locate the requested chart
+# @flag --plain-http                         use insecure HTTP connections for the chart download
 # @option --repo <string>                    chart repository url where to locate the requested chart
 # @option --username <string>                chart repository username where to locate the requested chart
 # @flag --verify                             verify the package before using it
@@ -1362,6 +1399,7 @@ show::readme() {
 # @option --keyring <file>                   location of public keys used for verification (default "/home/sigo/.gnupg/pubring.gpg")
 # @flag --pass-credentials                   pass credentials to all domains
 # @option --password <string>                chart repository password where to locate the requested chart
+# @flag --plain-http                         use insecure HTTP connections for the chart download
 # @option --repo <string>                    chart repository url where to locate the requested chart
 # @option --username <string>                chart repository username where to locate the requested chart
 # @flag --verify                             verify the package before using it
@@ -1427,7 +1465,7 @@ status() {
 # @option --description <string>             add a custom description
 # @flag --devel                              use development versions, too.
 # @flag --disable-openapi-validation         if set, the installation process will not validate rendered templates against the Kubernetes OpenAPI Schema
-# @flag --dry-run                            simulate an install
+# @option --dry-run <string[="client"]>      simulate an install.
 # @flag --enable-dns                         enable DNS lookups when rendering templates
 # @flag --force                              force resource updates through a replacement strategy
 # @flag -g --generate-name                   generate the name (and omit the NAME parameter)
@@ -1438,11 +1476,13 @@ status() {
 # @option --key-file <file>                  identify HTTPS client using this SSL key file
 # @option --keyring <file>                   location of public keys used for verification (default "/home/sigo/.gnupg/pubring.gpg")
 # @option --kube-version <string>            Kubernetes version used for Capabilities.KubeVersion
+# @option -l --labels <stringToString>       Labels that would be added to release metadata.
 # @option --name-template <string>           specify template used to name the release
 # @flag --no-hooks                           prevent hooks from running during install
 # @option --output-dir <path>                writes the executed templates to files in output-dir instead of stdout
 # @flag --pass-credentials                   pass credentials to all domains
 # @option --password <string>                chart repository password where to locate the requested chart
+# @flag --plain-http                         use insecure HTTP connections for the chart download
 # @option --post-renderer <path>             the path to an executable to be used for post rendering.
 # @option --post-renderer-args <postRendererArgsSlice>  an argument to the post-renderer (can specify multiple) (default [])
 # @flag --release-name                       use release name in the output-dir path.
@@ -1521,6 +1561,7 @@ test() {
 # @option --description <string>             add a custom description
 # @flag --dry-run                            simulate a uninstall
 # @flag -h --help                            help for uninstall
+# @flag --ignore-not-found                   Treat "release not found" as a successful uninstall
 # @flag --keep-history                       remove all associated resources and mark the release as deleted, but retain the release history
 # @flag --no-hooks                           prevent hooks from running during uninstallation
 # @option --timeout <duration>               time to wait for any individual Kubernetes operation (like Jobs for hooks) (default 5m0s)
@@ -1557,7 +1598,7 @@ uninstall() {
 # @option --description <string>                   add a custom description
 # @flag --devel                                    use development versions, too.
 # @flag --disable-openapi-validation               if set, the upgrade process will not validate rendered templates against the Kubernetes OpenAPI Schema
-# @flag --dry-run                                  simulate an upgrade
+# @option --dry-run <string[="client"]>            simulate an install.
 # @flag --enable-dns                               enable DNS lookups when rendering templates
 # @flag --force                                    force resource updates through a replacement strategy
 # @flag -h --help                                  help for upgrade
@@ -1566,14 +1607,17 @@ uninstall() {
 # @flag -i --install                               if a release by this name doesn't already exist, run an install
 # @option --key-file <file>                        identify HTTPS client using this SSL key file
 # @option --keyring <file>                         location of public keys used for verification (default "/home/sigo/.gnupg/pubring.gpg")
+# @option -l --labels <stringToString>             Labels that would be added to release metadata.
 # @flag --no-hooks                                 disable pre/post upgrade hooks
 # @option -o --output[table|json|yaml] <format>    prints the output in the specified format.
 # @flag --pass-credentials                         pass credentials to all domains
 # @option --password <string>                      chart repository password where to locate the requested chart
+# @flag --plain-http                               use insecure HTTP connections for the chart download
 # @option --post-renderer <path>                   the path to an executable to be used for post rendering.
 # @option --post-renderer-args <postRendererArgsSlice>  an argument to the post-renderer (can specify multiple) (default [])
 # @flag --render-subchart-notes                    if set, render subchart notes along with the parent
 # @option --repo <string>                          chart repository url where to locate the requested chart
+# @flag --reset-then-reuse-values                  when upgrading, reset the values to the ones built into the chart, apply the last release's values and merge in any overrides from the command line via --set and -f.
 # @flag --reset-values                             when upgrading, reset the values to the ones built into the chart
 # @flag --reuse-values                             when upgrading, reuse the last release's values and merge in any overrides from the command line via --set and -f.
 # @option --set* <string>                          set values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2)

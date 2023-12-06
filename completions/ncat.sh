@@ -22,6 +22,7 @@
 # @option --ssl-key <keyfile.pem>       This option gives the location of the PEM-encoded private key file that goes with the certificate named with --ssl-cert.
 # @option --ssl-trustfile <file>        This option sets a list of certificates that are trusted for purposes of certificate verification.
 # @option --ssl-ciphers <cipherlist>    This option sets the list of ciphersuites that Ncat will use when connecting to servers or when accepting SSL connections from clients.
+# @option --ssl-servername <name>       In client mode, this option sets the TLS SNI (Server Name Indication) extension, which tells the server the name of the logical server Ncat is contacting.
 # @flag --ssl-alpn                      ALPN list This option allows you to specify a comma-separated list of protocols to send via the Application-Layer Protocol Negotiation (ALPN) TLS extension.
 # @option --proxy <host[:port]>         Requests proxying through host:port, using the protocol specified by --proxy-type.
 # @option --proxy-type[`_choice_proxy_type`] <proto>  In connect mode, this option requests the protocol proto to connect through the proxy host specified by --proxy.

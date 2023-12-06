@@ -14,6 +14,25 @@ _patch_table() {
     _patch_table_edit_arguments 'pattern;[`_choice_pattern`]'
 }
 
+_choice_type() {
+    rg --type-list | sed 's/:.*$//'
+}
+
+_choice_type_spec() {
+    if [[ "$ARGC_CWORD" != *':'* ]]; then
+        _choice_type | _argc_util_transform suffix=: nospace
+    elif [[ "$ARGC_CWORD" == *:include:* ]]; then
+        if [[ "$ARGC_CWORD" == *,* ]]; then
+            _argc_util_mode_parts ,
+            _choice_type | _argc_util_transform nospace
+        else
+            echo "__argc_prefix=${ARGC_CWORD%:*}:"
+            echo "__argc_filter=${ARGC_CWORD##*:}"
+            _choice_type | _argc_util_transform nospace
+        fi
+    fi
+}
+
 _choice_color() {
     cat <<-'EOF'
 never	Colors will never be used.
@@ -51,25 +70,6 @@ modified	Sort by the last modified time on a file. Always single-threaded.
 accessed	Sort by the last accessed time on a file. Always single-threaded.
 created	Sort by the creation time on a file. Always single-threaded.
 EOF
-}
-
-_choice_type() {
-    rg --type-list | sed 's/:.*$//'
-}
-
-_choice_type_spec() {
-    if [[ "$ARGC_CWORD" != *':'* ]]; then
-        _choice_type | _argc_util_transform suffix=: nospace
-    elif [[ "$ARGC_CWORD" == *:include:* ]]; then
-        if [[ "$ARGC_CWORD" == *,* ]]; then
-            _argc_util_mode_parts ,
-            _choice_type | _argc_util_transform nospace
-        else
-            echo "__argc_prefix=${ARGC_CWORD%:*}:"
-            echo "__argc_filter=${ARGC_CWORD##*:}"
-            _choice_type | _argc_util_transform nospace
-        fi
-    fi
 }
 
 _choice_pattern() {

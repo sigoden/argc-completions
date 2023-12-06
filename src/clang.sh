@@ -22,6 +22,10 @@ _patch_table() {
         '-fsanitize-memory-track-origins' \
         '-fsanitize-trap' \
         '-fsave-optimization-record' \
+        '-fcrash-diagnostics' \
+        '-fmodule-header' \
+        '-fmodule-output' \
+        '-ftime-trace' \
         '-mabi' \
         '-mcmodel' \
         '-mhvx' \

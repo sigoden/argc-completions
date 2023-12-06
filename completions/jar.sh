@@ -2,7 +2,7 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # @flag -c --create                      Create the archive.
-# @option -i --generate-index <FILE>     Generate index information for the specified jar archives.
+# @option -i --generate-index <FILE>     Generate index information for the specified jar archives
 # @flag -t --list                        List the table of contents for the archive
 # @flag -u --update                      Update an existing jar archive
 # @flag -x --extract                     Extract named (or all) files from the archive

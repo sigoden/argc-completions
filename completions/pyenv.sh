@@ -1,15 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @flag --version    Display the version of pyenv
 
-# {{ pyenv activate
-# @cmd Activate virtual environment
-# @arg virtualenv!
-activate() {
-    :;
-}
-# }} pyenv activate
 
 # {{ pyenv commands
 # @cmd List all available pyenv commands
@@ -17,26 +9,6 @@ commands() {
     :;
 }
 # }} pyenv commands
-
-# {{ pyenv deactivate
-# @cmd Deactivate virtual environment
-deactivate() {
-    :;
-}
-# }} pyenv deactivate
-
-# {{ pyenv doctor
-# @cmd Verify pyenv installation and development tools to build pythons.
-# @flag -a --all          Check all
-# @flag -c --cpython      Check for CPython
-# @flag -j --jython       Check for Jython
-# @flag -p --pypy         Check for PyPy
-# @flag -s --stackless    Check for Stackless Python
-# @flag -v --verbose      Increase verbosity
-doctor() {
-    :;
-}
-# }} pyenv doctor
 
 # {{ pyenv exec
 # @cmd Run an executable with the selected Python version
@@ -83,7 +55,6 @@ init() {
 # @option -k --keep <path>    Keep source tree in $PYENV_BUILD_ROOT after installation (defaults to $PYENV_ROOT/sources)
 # @flag -p --patch            Apply a patch from stdin before building
 # @flag -v --verbose          Verbose mode: print compilation status to stdout
-# @flag --version             Show version of python-build
 # @flag -g --debug            Build a debug version
 # @arg version+[`_choice_install`]
 install() {
@@ -155,6 +126,58 @@ uninstall() {
 }
 # }} pyenv uninstall
 
+# {{ pyenv version
+# @cmd Show the current Python version(s) and its origin
+version() {
+    :;
+}
+# }} pyenv version
+
+# {{ pyenv version-file
+# @cmd Detect the file that sets the current pyenv version
+# @arg dir
+version-file() {
+    :;
+}
+# }} pyenv version-file
+
+# {{ pyenv version-name
+# @cmd Show the current Python version
+version-name() {
+    :;
+}
+# }} pyenv version-name
+
+# {{ pyenv version-origin
+# @cmd Explain how the current Python version is set
+version-origin() {
+    :;
+}
+# }} pyenv version-origin
+
+# {{ pyenv versions
+# @cmd List all Python versions available to pyenv
+versions() {
+    :;
+}
+# }} pyenv versions
+
+# {{ pyenv whence
+# @cmd List all Python versions that contain the given executable
+# @arg command![`_module_os_command`]
+whence() {
+    :;
+}
+# }} pyenv whence
+
+# {{ pyenv which
+# @cmd Display the full path to an executable
+# @arg command![`_module_os_command`]
+which() {
+    :;
+}
+# }} pyenv which
+
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
 _choice_command() {
@@ -178,7 +201,19 @@ _choice_prefix() {
 }
 
 _choice_available_version() {
-    pyenv install --list | sed "s/^[[:space:]]*//"
+    pyenv install --list | sed '1d'
+}
+
+_module_os_command() {
+    if _argc_util_has_path_prefix; then
+        _argc_util_comp_path
+        return
+    fi
+    if [[ "$ARGC_OS" == "windows" ]]; then
+        PATH="$(echo "$PATH" | sed 's|:[^:]*/windows/system32:|:|Ig')" compgen -c
+    else
+        compgen -c
+    fi
 }
 
 _module_os_command_args() {

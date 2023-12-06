@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @flag --init                                Initialise a standard Pest configuration
 # @option --bootstrap <file>                  A PHP script that is included before the tests run
 # @option -c --configuration <file>           Read configuration from XML file
 # @flag --no-configuration                    Ignore default configuration file (phpunit.xml)
@@ -11,23 +10,21 @@
 # @option --cache-directory <dir>             Specify cache directory
 # @flag --generate-configuration              Generate configuration file with suggested settings
 # @flag --migrate-configuration               Migrate configuration file to current format
-# @flag --bail                                Stop execution upon first not-passed test
-# @flag --todos                               Output to standard output the list of todos
-# @flag --retry                               Run non-passing tests first and stop execution upon first error or failure
+# @option --generate-baseline <file>          Generate baseline for issues
+# @option --use-baseline <file>               Use baseline to ignore issues
+# @flag --ignore-baseline                     Do not use baseline to ignore issues
 # @flag --list-suites                         List available test suites
 # @option --testsuite*[`_choice_testsuite`] <name>  Only run tests from the specified test suite(s)
 # @option --exclude-testsuite*[`_choice_testsuite`] <name>  Exclude tests from the specified test suite(s)
 # @flag --list-groups                         List available test groups
 # @option --group*[`_choice_group`] <name>    Only run tests from the specified group(s)
 # @option --exclude-group*[`_choice_group`] <name>  Exclude tests from the specified group(s)
-# @option --covers <name>                     Only run tests that intend to cover [name]
-# @option --uses <name>                       Only run tests that intend to use [name]
+# @option --covers <name>                     Only run tests that intend to cover <name>
+# @option --uses <name>                       Only run tests that intend to use <name>
 # @flag --list-tests                          List available tests
 # @option --list-tests-xml <file>             List available tests in XML format
 # @option --filter <pattern>                  Filter which tests to run
 # @option --test-suffix <suffixes>            Only search for test in files with specified suffix(es).
-# @flag --parallel                            Run tests in parallel
-# @flag --update-snapshots                    Update snapshots for tests using the "toMatchSnapshot" expectation
 # @flag --process-isolation                   Run each test in a separate PHP process
 # @flag --globals-backup                      Backup and restore $GLOBALS for each test
 # @flag --static-backup                       Backup and restore static properties for each test
@@ -71,16 +68,13 @@
 # @flag --reverse-list                        Print defects in reverse order
 # @flag --teamcity                            Replace default progress and result output with TeamCity format
 # @flag --testdox                             Replace default result output with TestDox format
-# @flag --compact                             Replace default result output with Compact format
 # @option --log-junit <file>                  Write test results in JUnit XML format to file
 # @option --log-teamcity <file>               Write test results in TeamCity format to file
 # @option --testdox-html <file>               Write test results in TestDox format (HTML) to file
 # @option --testdox-text <file>               Write test results in TestDox format (plain text) to file
 # @option --log-events-text <file>            Stream events as plain text to file
-# @option --log-events-verbose-text <file>    Stream events as plain text (with telemetry information) to file
+# @option --log-events-verbose-text <file>    Stream events as plain text with extended information to file
 # @flag --no-logging                          Ignore logging configured in the XML configuration file
-# @flag --coverage                            Set the minimum required coverage percentage, and fail if not met
-# @flag --min                                 Set the minimum required coverage percentage, and fail if not met
 # @option --coverage-clover <file>            Write code coverage report in Clover XML format to file
 # @option --coverage-cobertura <file>         Write code coverage report in Cobertura XML format to file
 # @option --coverage-crap4j <file>            Write code coverage report in Crap4J XML format to file
@@ -89,12 +83,15 @@
 # @option --coverage-text <file>              Write code coverage report in text format to file [default: standard output]
 # @option --coverage-xml <dir>                Write code coverage report in XML format to directory
 # @flag --warm-coverage-cache                 Warm static analysis cache
-# @option --coverage-filter <dir>             Include [dir] in code coverage reporting
+# @option --coverage-filter <dir>             Include <dir> in code coverage reporting
 # @flag --path-coverage                       Report path coverage in addition to line coverage
 # @flag --disable-coverage-ignore             Disable metadata for ignoring code coverage
 # @flag --no-coverage                         Ignore code coverage reporting configured in the XML configuration file
-# @flag --profile                             Output to standard output the top ten slowest tests
-# @arg file!
+# @flag -h --help                             Prints this usage information
+# @flag --version                             Prints the version and exits
+# @option --atleast-version <min>             Checks that version is greater than <min> and exits
+# @flag --check-version                       Check whether PHPUnit is the latest version and exits.
+# @arg directory-file+ <directory|file>
 
 _choice_testsuite() {
     composer exec -- pest --list-suites | \

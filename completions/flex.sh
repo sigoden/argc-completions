@@ -28,7 +28,6 @@
 # @option --yyclass <NAME>        name of C++ class
 # @option --header-file <FILE>    create a C header file in addition to the scanner
 # @option --tables-file <FILE>    write tables to FILE
-# @option --backup-file <FILE>    write backing-up information to FILE
 # @flag -7 --7bit                 generate 7-bit scanner
 # @flag -8 --8bit                 generate 8-bit scanner
 # @flag -B --batch                generate batch scanner (opposite of -I)

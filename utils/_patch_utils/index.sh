@@ -19,7 +19,7 @@ _patch_help_run_help() {
 
 # Run --help to get help
 _patch_help_run_help_flag() {
-    $@ --help 2>&1 
+    $@ --help 2>&1
 }
 
 # Run help subcommand to get help

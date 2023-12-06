@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @flag -h --help       Print help
-# @flag -V --version    Print version
+# @flag -h --help       Print help information
+# @flag -V --version    Print version information
 
 # {{ cargo fuzz init
 # @cmd Initialize the fuzz directory
 # @option -t --target[`_choice_target`]    Name of the first fuzz target to create [default: fuzz_target_1]
 # @option --fuzz-dir <FUZZ_DIR>            The path to the fuzz project directory
-# @flag -h --help                          Print help
-# @flag -V --version                       Print version
+# @flag -h --help                          Print help information
+# @flag -V --version                       Print version information
 init() {
     :;
 }
@@ -18,8 +18,8 @@ init() {
 # {{ cargo fuzz add
 # @cmd Add a new fuzz target
 # @option --fuzz-dir <FUZZ_DIR>    The path to the fuzz project directory
-# @flag -h --help                  Print help
-# @flag -V --version               Print version
+# @flag -h --help                  Print help information
+# @flag -V --version               Print version information
 # @arg target!                     Name of the new fuzz target
 add() {
     :;
@@ -43,8 +43,8 @@ add() {
 # @flag --no-cfg-fuzzing                         By default the 'cfg(fuzzing)' compilation configuration is set.
 # @flag --no-trace-compares                      Don't build with the `sanitizer-coverage-trace-compares` LLVM argument
 # @option --fuzz-dir <FUZZ_DIR>                  The path to the fuzz project directory
-# @flag -h --help                                Print help (see a summary with '-h')
-# @flag -V --version                             Print version
+# @flag -h --help                                Print help information (use `-h` for a summary)
+# @flag -V --version                             Print version information
 # @arg target                                    Name of the fuzz target to build, or build all targets if not supplied
 build() {
     :;
@@ -68,8 +68,8 @@ build() {
 # @flag --no-cfg-fuzzing                         By default the 'cfg(fuzzing)' compilation configuration is set.
 # @flag --no-trace-compares                      Don't build with the `sanitizer-coverage-trace-compares` LLVM argument
 # @option --fuzz-dir <FUZZ_DIR>                  The path to the fuzz project directory
-# @flag -h --help                                Print help (see a summary with '-h')
-# @flag -V --version                             Print version
+# @flag -h --help                                Print help information (use `-h` for a summary)
+# @flag -V --version                             Print version information
 # @arg target                                    Name of the fuzz target to check, or check all targets if not supplied
 check() {
     :;
@@ -93,8 +93,8 @@ check() {
 # @flag --no-cfg-fuzzing                         By default the 'cfg(fuzzing)' compilation configuration is set.
 # @flag --no-trace-compares                      Don't build with the `sanitizer-coverage-trace-compares` LLVM argument
 # @option --fuzz-dir <FUZZ_DIR>                  The path to the fuzz project directory
-# @flag -h --help                                Print help (see a summary with '-h')
-# @flag -V --version                             Print version
+# @flag -h --help                                Print help information (use `-h` for a summary)
+# @flag -V --version                             Print version information
 # @arg target!                                   Name of fuzz target
 # @arg input!                                    Path to the input testcase to debug print
 fmt() {
@@ -105,8 +105,8 @@ fmt() {
 # {{ cargo fuzz list
 # @cmd List all the existing fuzz targets
 # @option --fuzz-dir <FUZZ_DIR>    The path to the fuzz project directory
-# @flag -h --help                  Print help
-# @flag -V --version               Print version
+# @flag -h --help                  Print help information
+# @flag -V --version               Print version information
 list() {
     :;
 }
@@ -130,8 +130,8 @@ list() {
 # @flag --no-trace-compares                      Don't build with the `sanitizer-coverage-trace-compares` LLVM argument
 # @option --fuzz-dir <FUZZ_DIR>                  The path to the fuzz project directory
 # @option -j --jobs                              Number of concurrent jobs to run
-# @flag -h --help                                Print help (see a summary with '-h')
-# @flag -V --version                             Print version
+# @flag -h --help                                Print help information (use `-h` for a summary)
+# @flag -V --version                             Print version information
 # @arg target!                                   Name of the fuzz target
 # @arg corpus*                                   Custom corpus directories or artifact files
 # @arg args*                                     Additional libFuzzer arguments passed through to the binary
@@ -157,8 +157,8 @@ run() {
 # @flag --no-cfg-fuzzing                         By default the 'cfg(fuzzing)' compilation configuration is set.
 # @flag --no-trace-compares                      Don't build with the `sanitizer-coverage-trace-compares` LLVM argument
 # @option --fuzz-dir <FUZZ_DIR>                  The path to the fuzz project directory
-# @flag -h --help                                Print help (see a summary with '-h')
-# @flag -V --version                             Print version
+# @flag -h --help                                Print help information (use `-h` for a summary)
+# @flag -V --version                             Print version information
 # @arg target!                                   Name of the fuzz target
 # @arg corpus                                    The corpus directory to minify into
 # @arg args*                                     Additional libFuzzer arguments passed through to the binary
@@ -185,8 +185,8 @@ cmin() {
 # @flag --no-trace-compares                      Don't build with the `sanitizer-coverage-trace-compares` LLVM argument
 # @option --fuzz-dir <FUZZ_DIR>                  The path to the fuzz project directory
 # @option -r --runs                              Number of minimization attempts to perform
-# @flag -h --help                                Print help (see a summary with '-h')
-# @flag -V --version                             Print version
+# @flag -h --help                                Print help information (use `-h` for a summary)
+# @flag -V --version                             Print version information
 # @arg target!                                   Name of the fuzz target
 # @arg test_case!                                Path to the failing test case to be minimized
 # @arg args*                                     Additional libFuzzer arguments passed through to the binary
@@ -212,8 +212,8 @@ tmin() {
 # @flag --no-cfg-fuzzing                         By default the 'cfg(fuzzing)' compilation configuration is set.
 # @flag --no-trace-compares                      Don't build with the `sanitizer-coverage-trace-compares` LLVM argument
 # @option --fuzz-dir <FUZZ_DIR>                  The path to the fuzz project directory
-# @flag -h --help                                Print help (see a summary with '-h')
-# @flag -V --version                             Print version
+# @flag -h --help                                Print help information (use `-h` for a summary)
+# @flag -V --version                             Print version information
 # @arg target!                                   Name of the fuzz target
 # @arg corpus*                                   Custom corpus directories or artifact files
 # @arg args*                                     Additional libFuzzer arguments passed through to the binary

@@ -30,6 +30,7 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_arguments \
             'cidr;[`_choice_cidr`]' \
+            'route-id-or-cidr;[`_choice_cidr`]' \
             'tunnel;[`_choice_tunnel`]' \
             'virtual_network;[`_choice_vnet`]' \
 

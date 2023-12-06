@@ -12,6 +12,7 @@
 # @option --eaf <float>                     the effort adjustment factor derived from the cost drivers (1.0 if rated nominal) (default 1)
 # @option --exclude-dir* <dir>              directories to exclude (default [.git,.hg,.svn])
 # @option -x --exclude-ext* <file>          ignore file extensions (overrides include-ext) [comma separated list: e.g. go,java,js]
+# @option -n --exclude-file* <file>         ignore files with matching names [comma separated list: e.g. main.go,_test.go]
 # @option --file-gc-count <int>             number of files to parse before turning the GC on (default 10000)
 # @option -f --format[tabular|wide|json|csv|csv-stream|cloc-yaml|html|html-table|sql|sql-insert|openmetrics] <string>  set output format (default "tabular")
 # @option --format-multi <file>             have multiple format output overriding --format [e.g. tabular:stdout,csv:file.csv,json:file.json]

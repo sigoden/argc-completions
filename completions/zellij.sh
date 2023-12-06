@@ -42,6 +42,14 @@ action::close-tab() {
 }
 # }}} zellij action close-tab
 
+# {{{ zellij action dump-layout
+# @cmd Dump current layout to stdout
+# @flag -h --help    Print help information
+action::dump-layout() {
+    :;
+}
+# }}} zellij action dump-layout
+
 # {{{ zellij action dump-screen
 # @cmd Dump the focused pane to a file
 # @flag -f --full    Dump the pane with full scrollback
@@ -58,6 +66,7 @@ action::dump-screen() {
 # @option -d --direction                    Direction to open the new pane in
 # @flag -f --floating                       Open the new pane in floating mode
 # @flag -h --help                           Print help information
+# @flag -i --in-place                       Open the new pane in place of the current pane, temporarily suspending it
 # @option -l --line-number <LINE_NUMBER>    Open the file in the specified line number
 # @arg file!
 action::edit() {
@@ -142,13 +151,28 @@ action::half-page-scroll-up() {
 
 # {{{ zellij action launch-or-focus-plugin
 # @cmd
+# @option -c --configuration
 # @flag -f --floating
 # @flag -h --help    Print help information
+# @flag -i --in-place
+# @flag -m --move-to-focused-tab
 # @arg url!
 action::launch-or-focus-plugin() {
     :;
 }
 # }}} zellij action launch-or-focus-plugin
+
+# {{{ zellij action launch-plugin
+# @cmd
+# @option -c --configuration
+# @flag -f --floating
+# @flag -h --help    Print help information
+# @flag -i --in-place
+# @arg url!
+action::launch-plugin() {
+    :;
+}
+# }}} zellij action launch-plugin
 
 # {{{ zellij action move-focus
 # @cmd Move the focused pane in the specified direction.
@@ -188,10 +212,12 @@ action::move-pane-backwards() {
 # {{{ zellij action new-pane
 # @cmd Open a new pane in the specified direction [right|down] If no direction is specified, will try to use the biggest available space
 # @flag -c --close-on-exit      Close the pane immediately when its command exits
+# @option --configuration
 # @option --cwd                 Change the working directory of the new pane
 # @option -d --direction        Direction to open the new pane in
 # @flag -f --floating           Open the new pane in floating mode
 # @flag -h --help               Print help information
+# @flag -i --in-place           Open the new pane in place of the current pane, temporarily suspending it
 # @option -n --name             Name of the new pane
 # @option -p --plugin
 # @flag -s --start-suspended    Start the command suspended, only running it after the you first press ENTER
@@ -262,6 +288,15 @@ action::rename-pane() {
 }
 # }}} zellij action rename-pane
 
+# {{{ zellij action rename-session
+# @cmd
+# @flag -h --help    Print help information
+# @arg name!
+action::rename-session() {
+    :;
+}
+# }}} zellij action rename-session
+
 # {{{ zellij action rename-tab
 # @cmd Renames the focused pane
 # @flag -h --help    Print help information
@@ -315,6 +350,7 @@ action::scroll-up() {
 
 # {{{ zellij action start-or-reload-plugin
 # @cmd
+# @option -c --configuration
 # @flag -h --help    Print help information
 # @arg url!
 action::start-or-reload-plugin() {
@@ -340,7 +376,7 @@ action::toggle-active-sync-tab() {
 # }}} zellij action toggle-active-sync-tab
 
 # {{{ zellij action toggle-floating-panes
-# @cmd Toggle the visibility of all fdirectionloating panes in the current Tab, open one if none exist
+# @cmd Toggle the visibility of all floating panes in the current Tab, open one if none exist
 # @flag -h --help    Print help information
 action::toggle-floating-panes() {
     :;
@@ -409,6 +445,7 @@ action::write-chars() {
 # {{ zellij attach
 # @cmd Attach to a session [aliases: a]
 # @flag -c --create                        Create a session if one does not exist
+# @flag -f --force-run-commands            If resurrecting a dead session, immediately run all its commands on startup
 # @flag -h --help                          Print help information
 # @option --index                          Number of the session index in the active sessions ordered creation date
 # @arg session_name![`_choice_session`]    Name of the session to attach to
@@ -437,8 +474,13 @@ attach() {
 # @option --pane-frames[true|false] <PANE_FRAMES>  Set display of the pane frames (true or false)
 # @option --scroll-buffer-size <SCROLL_BUFFER_SIZE>
 # @option --scrollback-editor <SCROLLBACK_EDITOR>  Explicit full path to open the scrollback editor (default is $EDITOR or $VISUAL)
+# @option --scrollback-lines-to-serialize <SCROLLBACK_LINES_TO_SERIALIZE>  Scrollback lines to serialize along with the pane viewport when serializing sessions, 0 defaults to the scrollback size.
+# @option --serialization-interval <SERIALIZATION_INTERVAL>  The interval at which to serialize sessions for resurrection (in seconds)
+# @option --serialize-pane-viewport[true|false] <SERIALIZE_PANE_VIEWPORT>  Whether pane viewports are serialized along with the session, default is false
 # @option --session-name <SESSION_NAME>            The name of the session to create when starting Zellij
+# @option --session-serialization[true|false] <SESSION_SERIALIZATION>  Whether sessions should be serialized to the HD so that they can be later resurrected, default is true
 # @option --simplified-ui[true|false] <SIMPLIFIED_UI>  Allow plugins to use a more simplified layout that is compatible with more fonts (true or false)
+# @option --styled-underlines[true|false] <STYLED_UNDERLINES>  Whether to use ANSI styled underlines
 # @option --theme                                  Set the default theme
 # @option --theme-dir <THEME_DIR>                  Set the theme_dir, defaults to subdirectory of config dir
 attach::options() {
@@ -474,12 +516,33 @@ convert-theme() {
 }
 # }} zellij convert-theme
 
+# {{ zellij delete-all-sessions
+# @cmd Delete all sessions [aliases: da]
+# @flag -f --force    Kill the sessions if they're running before deleting them
+# @flag -h --help     Print help information
+# @flag -y --yes      Automatic yes to prompts
+delete-all-sessions() {
+    :;
+}
+# }} zellij delete-all-sessions
+
+# {{ zellij delete-session
+# @cmd Delete a specific session [aliases: d]
+# @flag -f --force                           Kill the session if it's running before deleting it
+# @flag -h --help                            Print help information
+# @arg target_session![`_choice_session`]    Name of target session
+delete-session() {
+    :;
+}
+# }} zellij delete-session
+
 # {{ zellij edit
 # @cmd Edit file with default $EDITOR / $VISUAL [aliases: e]
 # @option --cwd                             Change the working directory of the editor
 # @option -d --direction                    Direction to open the new pane in
 # @flag -f --floating                       Open the new pane in floating mode
 # @flag -h --help                           Print help information
+# @flag -i --in-place                       Open the new pane in place of the current pane, temporarily suspending it
 # @option -l --line-number <LINE_NUMBER>    Open the file in the specified line number
 # @arg file!
 edit() {
@@ -497,7 +560,7 @@ kill-all-sessions() {
 # }} zellij kill-all-sessions
 
 # {{ zellij kill-session
-# @cmd Kill the specific session [aliases: k]
+# @cmd Kill a specific session [aliases: k]
 # @flag -h --help                            Print help information
 # @arg target_session![`_choice_session`]    Name of target session
 kill-session() {
@@ -507,7 +570,9 @@ kill-session() {
 
 # {{ zellij list-sessions
 # @cmd List active sessions [aliases: ls]
-# @flag -h --help    Print help information
+# @flag -h --help             Print help information
+# @flag -n --no-formatting    Do not add colors and formatting to the list (useful for parsing)
+# @flag -s --short            Print just the session name
 list-sessions() {
     :;
 }
@@ -534,14 +599,31 @@ list-sessions() {
 # @option --pane-frames[true|false] <PANE_FRAMES>  Set display of the pane frames (true or false)
 # @option --scroll-buffer-size <SCROLL_BUFFER_SIZE>
 # @option --scrollback-editor <SCROLLBACK_EDITOR>  Explicit full path to open the scrollback editor (default is $EDITOR or $VISUAL)
+# @option --scrollback-lines-to-serialize <SCROLLBACK_LINES_TO_SERIALIZE>  Scrollback lines to serialize along with the pane viewport when serializing sessions, 0 defaults to the scrollback size.
+# @option --serialization-interval <SERIALIZATION_INTERVAL>  The interval at which to serialize sessions for resurrection (in seconds)
+# @option --serialize-pane-viewport[true|false] <SERIALIZE_PANE_VIEWPORT>  Whether pane viewports are serialized along with the session, default is false
 # @option --session-name <SESSION_NAME>            The name of the session to create when starting Zellij
+# @option --session-serialization[true|false] <SESSION_SERIALIZATION>  Whether sessions should be serialized to the HD so that they can be later resurrected, default is true
 # @option --simplified-ui[true|false] <SIMPLIFIED_UI>  Allow plugins to use a more simplified layout that is compatible with more fonts (true or false)
+# @option --styled-underlines[true|false] <STYLED_UNDERLINES>  Whether to use ANSI styled underlines
 # @option --theme                                  Set the default theme
 # @option --theme-dir <THEME_DIR>                  Set the theme_dir, defaults to subdirectory of config dir
 options() {
     :;
 }
 # }} zellij options
+
+# {{ zellij plugin
+# @cmd Load a plugin [aliases: r]
+# @option -c --configuration    Plugin configuration
+# @flag -f --floating           Open the new pane in floating mode
+# @flag -h --help               Print help information
+# @flag -i --in-place           Open the new pane in place of the current pane, temporarily suspending it
+# @arg url!                     Plugin URL, can either start with http(s), file: or zellij:
+plugin() {
+    :;
+}
+# }} zellij plugin
 
 # {{ zellij run
 # @cmd Run a command in a new pane [aliases: r]
@@ -550,6 +632,7 @@ options() {
 # @option -d --direction              Direction to open the new pane in
 # @flag -f --floating                 Open the new pane in floating mode
 # @flag -h --help                     Print help information
+# @flag -i --in-place                 Open the new pane in place of the current pane, temporarily suspending it
 # @option -n --name                   Name of the new pane
 # @flag -s --start-suspended          Start the command suspended, only running after you first presses ENTER
 # @arg command~[`_module_os_exec`]    Command to run
@@ -563,7 +646,7 @@ run() {
 # @flag --check                                    Checks the configuration of zellij and displays currently used directories
 # @flag --clean                                    Disables loading of configuration file at default location, loads the defaults that zellij ships with
 # @flag --dump-config                              Dump the default configuration file to stdout
-# @option --dump-layout <DUMP_LAYOUT>              Dump the specified layout file to stdout
+# @option --dump-layout <DUMP_LAYOUT>              Dump specified layout to stdout
 # @option --dump-plugins* <DIR>                    Dump the builtin plugins to DIR or "DATA DIR" if unspecified
 # @option --dump-swap-layout <DUMP_SWAP_LAYOUT>    Dump the specified swap layout file to stdout
 # @option --generate-auto-start <SHELL>            Generates auto-start script for the specified shell

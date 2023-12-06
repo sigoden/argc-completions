@@ -6,7 +6,7 @@
 # @option --playbook-dir <BASEDIR>                 Since this tool does not use playbooks, use this as a substitute playbook directory.
 # @flag --version                                  show program's version number, config file location, configured module search path, module location, executable location and exit
 # @flag -F --list_files                            Show plugin names and their source files without summaries (implies --list).
-# @option -M --module-path <MODULE_PATH>           prepend colon-separated path(s) to module library (default={{ ANSIBLE_HOME ~ "/plugins/modules:/usr/share/ansible/plugins/modules" }})
+# @option -M --module-path <MODULE_PATH>           prepend colon-separated path(s) to module library (default={{ ANSIBLE_HOME ~ "/plugins/modules:/usr/share/ansible/plugins/modules" }}).
 # @option -e --entry-point <ENTRY_POINT>           Select the entry point for role(s).
 # @flag -h --help                                  show this help message and exit
 # @flag -j --json                                  Change output into json format.

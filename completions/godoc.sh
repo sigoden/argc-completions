@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @option -goroot <dir>                 Go root directory (default "/usr/local/go")
+# @option -goroot <dir>                 Go root directory (default "/home/sigo/.asdf/installs/golang/1.21.4/go")
 # @option -http <string>                HTTP service address (default "localhost:6060")
 # @flag -index                          enable search index
 # @option -index_files <file>           glob pattern specifying index files; if not empty, the index is read from these files in sorted order

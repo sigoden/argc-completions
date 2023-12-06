@@ -6,7 +6,7 @@
 # @option --class-path*:[`_choice_class_path`] <path>  A : separated list of directories, JAR archives and ZIP archives to search for class files.
 # @option -p*: <dir>                            A : separated list of elements, each element is a file path to a module or a directory containing modules.
 # @option --module-path*: <dir>                 A : separated list of elements, each element is a file path to a module or a directory containing modules.
-# @option --upgrade-module-path*: <dir>         A : separated list of elements, each element is a file path to a module or a directory containing modules to replace upgradeable modules in the runtime image.
+# @option --upgrade-module-path*: <dir>         A : separated list of directories, each directory is a directory of modules that replace upgradeable modules in the runtime image
 # @option --add-modules*, <dir>                 root modules to resolve in addition to the initial module.
 # @option --enable-native-access*, <module>     modules that are permitted to perform restricted native operations.
 # @flag --list-modules                          list observable modules and exit

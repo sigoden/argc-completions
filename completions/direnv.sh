@@ -4,23 +4,58 @@
 
 
 # {{ direnv allow
-# @cmd Grants direnv to load the given .envrc
+# @cmd
 # @arg file[`_choice_path_to_rc`]
 allow() {
     :;
 }
 # }} direnv allow
 
+# {{ direnv permit
+# @cmd
+permit() {
+    :;
+}
+# }} direnv permit
+
+# {{ direnv grant
+# @cmd Grants direnv permission to load the given .envrc or .env file.
+grant() {
+    :;
+}
+# }} direnv grant
+
+# {{ direnv block
+# @cmd
+block() {
+    :;
+}
+# }} direnv block
+
 # {{ direnv deny
-# @cmd Revokes the authorization of a given .envrc
+# @cmd
 # @arg file[`_choice_path_to_rc`]
 deny() {
     :;
 }
 # }} direnv deny
 
+# {{ direnv disallow
+# @cmd
+disallow() {
+    :;
+}
+# }} direnv disallow
+
+# {{ direnv revoke
+# @cmd Revokes the authorization of a given .envrc or .env file.
+revoke() {
+    :;
+}
+# }} direnv revoke
+
 # {{ direnv edit
-# @cmd Opens PATH_TO_RC or the current .envrc into an $EDITOR and allow the file to be loaded afterwards.
+# @cmd Opens PATH_TO_RC or the current .envrc or .env into an $EDITOR and allow the file to be loaded afterwards.
 # @arg file[`_choice_path_to_rc`]
 edit() {
     :;
@@ -28,7 +63,7 @@ edit() {
 # }} direnv edit
 
 # {{ direnv exec
-# @cmd Executes a command after loading the first .envrc found in DIR
+# @cmd Executes a command after loading the first .envrc or .env found in DIR
 # @arg dir
 # @arg command[`_module_os_command`]
 # @arg args~[`_choice_args`]
@@ -82,7 +117,7 @@ stdlib() {
 # }} direnv stdlib
 
 # {{ direnv version
-# @cmd prints the version (2.25.2) or checks that direnv is older than VERSION_AT_LEAST.
+# @cmd prints the version or checks that direnv is older than VERSION_AT_LEAST.
 version() {
     :;
 }

@@ -63,7 +63,7 @@
 # @flag --read0                                  Read input delimited by ASCII NUL characters
 # @flag --print0                                 Print output delimited by ASCII NUL characters
 # @flag --sync                                   Synchronous search for multi-staged filtering
-# @option --listen <HTTP_PORT>                   Start HTTP server to receive actions (POST /)
+# @option --listen <[ADDR:]PORT>                 Start HTTP server to receive actions (POST /) (To allow remote process execution, use --listen-unsafe)
 # @flag --version                                Display version information and exit
 # @flag +i                                       Case-sensitive match
 # @flag +s                                       Do not sort the result

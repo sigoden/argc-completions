@@ -20,7 +20,7 @@
 # @flag -S                            suspend to disk (sleep state S4), if supported
 # @flag -t --thermal                  thermal information, including trip_points
 # @flag -T --Toshiba                  show supported Toshiba ACPI extensions (LCD brightness level, video out routing, fan status)
-# @flag -v                            be more verbose (more detailed error messages, only useful combined with other options)
+# @flag -v                            be more verbose (more detailed error messages, only usefull combined with other options)
 # @flag -V --version                  show application version number and release date
 # @flag -w --wakeup                   show wakeup capable devices
 # @option -W <x>                      enable/disable wakeup capable device x.

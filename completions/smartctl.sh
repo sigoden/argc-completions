@@ -10,7 +10,7 @@
 # @flag --license                                 Prints version, copyright, license, home page and SVN revision information for your copy of smartctl to STDOUT and then exits.
 # @flag -i --info                                 Prints the device model number, serial number, firmware version, and ATA Standard version/revision information.
 # @option --identify[`_choice_identify`] <value>  [ATA only] Prints an annotated table of the IDENTIFY DEVICE data.
-# @flag -a --all                                  Prints all SMART information about the disk, or TapeAlert information about the tape drive or changer.
+# @flag -a --all                                  Prints all SMART information about the device.
 # @flag -x --xall                                 Prints all SMART and non-SMART information about the device.
 # @flag --scan                                    Scans for devices and prints each device name, device type and protocol ([ATA] or [SCSI]) info.
 # @flag --scan-open                               Same as --scan, but also tries to open each device before printing device info.
@@ -21,12 +21,12 @@
 # @option -T --tolerance[`_choice_tolerance`] <TYPE>  [ATA only] Specifies how tolerant smartctl should be of ATA and SMART command failures.
 # @option -b --badsum[warn|exit|ignore] <TYPE>    [ATA only] Specifies the action smartctl should take if a checksum error is detected in the: (1) Device Identity Structure, (2) SMART Self-Test Log Structure, (3) SMART Attribute Value Structure, (4) SMART Attribute Threshold Structure, or (5) ATA Error Log Structure.
 # @option -r --report[`_choice_report`] <TYPE>    Intended primarily to help smartmontools developers understand the behavior of smartmontools on non-conforming or poorly conforming hardware.
-# @option -n --nocheck <POWERMODE[,STATUS]>       [ATA] [SCSI: NEW EXPERIMENTAL SMARTCTL FEATURE] Specifies if smartctl should exit before performing any checks when the device is in a low-power mode.
+# @option -n --nocheck <POWERMODE[,STATUS[,STATUS2]]>  [ATA, SCSI] Specifies if smartctl should exit before performing any checks when the device is in a low-power mode.
 # @option -s --smart[on|off] <VALUE>              Enables or disables SMART on device.
 # @option -o --offlineauto[on|off] <VALUE>        [ATA only] Enables or disables SMART automatic offline test, which scans the drive every four hours for disk defects.
 # @option -S --saveauto[on|off] <VALUE>           [ATA] Enables or disables SMART autosave of device vendor-specific Attributes.
 # @option --set*[`_choice_setting_set`] <NAME[,VALUE]>  Gets/sets non-SMART device settings.
-# @flag -H --health                               Prints the health status of the device or pending TapeAlert messages.
+# @flag -H --health                               Prints the health status of the device.
 # @flag -c --capabilities                         [ATA] Prints only the generic SMART capabilities.
 # @flag -A --attributes                           [ATA] Prints only the vendor specific SMART Attributes.
 # @option -f --format[`_choice_format`]           [ATA only] Selects the output format of the attributes:

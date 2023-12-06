@@ -107,9 +107,10 @@ crate::diff() {
 
 # {{{ cargo crev crate dir
 # @cmd Display the path of the source code directory of a crate
-# @flag -h --help         Prints help information
-# @flag -u --unrelated    This crate is not neccesarily a dependency of the current cargo project
-# @flag -V --version      Prints version information
+# @flag -h --help                  Prints help information
+# @flag -u --unrelated             This crate is not neccesarily a dependency of the current cargo project
+# @flag -V --version               Prints version information
+# @option --diff <base-version>    Review the delta since the given version
 # @option -v --vers <version>
 # @arg name!
 # @arg version-positional!
@@ -120,9 +121,10 @@ crate::dir() {
 
 # {{{ cargo crev crate expand
 # @cmd WIP: Expand the crate source using `cargo-expand` like functionality
-# @flag -h --help         Prints help information
-# @flag -u --unrelated    This crate is not neccesarily a dependency of the current cargo project
-# @flag -V --version      Prints version information
+# @flag -h --help                  Prints help information
+# @flag -u --unrelated             This crate is not neccesarily a dependency of the current cargo project
+# @flag -V --version               Prints version information
+# @option --diff <base-version>    Review the delta since the given version
 # @option -v --vers <version>
 # @arg name!
 # @arg version-positional!
@@ -212,11 +214,12 @@ crate::mvp() {
 
 # {{{ cargo crev crate open
 # @cmd Open the source code of a crate
-# @flag --cmd-save        Save the `--cmd` argument to be used a default in the future
-# @flag -h --help         Prints help information
-# @flag -u --unrelated    This crate is not neccesarily a dependency of the current cargo project
-# @flag -V --version      Prints version information
-# @option --cmd <cmd>     Shell command to execute with crate directory as an argument.
+# @flag --cmd-save                 Save the `--cmd` argument to be used a default in the future
+# @flag -h --help                  Prints help information
+# @flag -u --unrelated             This crate is not neccesarily a dependency of the current cargo project
+# @flag -V --version               Prints version information
+# @option --diff <base-version>    Review the delta since the given version
+# @option --cmd <cmd>              Shell command to execute with crate directory as an argument.
 # @option -v --vers <version>
 # @arg name!
 # @arg version-positional!
@@ -847,11 +850,12 @@ goto() {
 
 # {{ cargo crev open
 # @cmd Shortcut for `crate open`
-# @flag --cmd-save        Save the `--cmd` argument to be used a default in the future
-# @flag -h --help         Prints help information
-# @flag -u --unrelated    This crate is not neccesarily a dependency of the current cargo project
-# @flag -V --version      Prints version information
-# @option --cmd <cmd>     Shell command to execute with crate directory as an argument.
+# @flag --cmd-save                 Save the `--cmd` argument to be used a default in the future
+# @flag -h --help                  Prints help information
+# @flag -u --unrelated             This crate is not neccesarily a dependency of the current cargo project
+# @flag -V --version               Prints version information
+# @option --diff <base-version>    Review the delta since the given version
+# @option --cmd <cmd>              Shell command to execute with crate directory as an argument.
 # @option -v --vers <version>
 # @arg name!
 # @arg version-positional!

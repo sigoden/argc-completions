@@ -120,6 +120,9 @@ function parseOptions(words1, descVal, choicesVal) {
                 notation = substr(word, length(name) + 1)
             }
         } else if (index(word, "-") == 1 || index(word, "+") == 1) {
+            if (word == "-" || word == "+") {
+                continue
+            }
             sign = substr(word, 1, 1)
             notationGroupNum += 1
             notationListNum = 0

@@ -50,7 +50,7 @@ init() {
 
 # {{ zoxide query
 # @cmd Search for a directory in the database
-# @flag --all                 Show deleted directories
+# @flag -a --all              Show unavailable directories
 # @flag -i --interactive      Use interactive selection
 # @flag -l --list             List all matching directories
 # @flag -s --score            Print score with results

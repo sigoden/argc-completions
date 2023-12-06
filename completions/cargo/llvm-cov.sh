@@ -18,7 +18,9 @@
 # @flag --no-cfg-coverage-nightly                Unset cfg(coverage_nightly), which is enabled when code is built using cargo-llvm-cov and nightly compiler
 # @flag --no-report                              Run tests, but don't generate coverage report
 # @flag --no-clean                               Build without cleaning any old build artifacts
+# @option --fail-under-functions <MIN>           Exit with a status of 1 if the total function coverage is less than MIN percent
 # @option --fail-under-lines <MIN>               Exit with a status of 1 if the total line coverage is less than MIN percent
+# @option --fail-under-regions <MIN>             Exit with a status of 1 if the total region coverage is less than MIN percent
 # @option --fail-uncovered-lines <MAX>           Exit with a status of 1 if the uncovered lines are greater than MAX
 # @option --fail-uncovered-regions <MAX>         Exit with a status of 1 if the uncovered regions are greater than MAX
 # @option --fail-uncovered-functions <MAX>       Exit with a status of 1 if the uncovered functions are greater than MAX
@@ -88,7 +90,9 @@
 # @flag --no-cfg-coverage-nightly                Unset cfg(coverage_nightly), which is enabled when code is built using cargo-llvm-cov and nightly compiler
 # @flag --no-report                              Run tests, but don't generate coverage report
 # @flag --no-clean                               Build without cleaning any old build artifacts
+# @option --fail-under-functions <MIN>           Exit with a status of 1 if the total function coverage is less than MIN percent
 # @option --fail-under-lines <MIN>               Exit with a status of 1 if the total line coverage is less than MIN percent
+# @option --fail-under-regions <MIN>             Exit with a status of 1 if the total region coverage is less than MIN percent
 # @option --fail-uncovered-lines <MAX>           Exit with a status of 1 if the uncovered lines are greater than MAX
 # @option --fail-uncovered-regions <MAX>         Exit with a status of 1 if the uncovered regions are greater than MAX
 # @option --fail-uncovered-functions <MAX>       Exit with a status of 1 if the uncovered functions are greater than MAX
@@ -161,7 +165,9 @@ test() {
 # @flag --no-cfg-coverage-nightly                Unset cfg(coverage_nightly), which is enabled when code is built using cargo-llvm-cov and nightly compiler
 # @flag --no-report                              Run tests, but don't generate coverage report
 # @flag --no-clean                               Build without cleaning any old build artifacts
+# @option --fail-under-functions <MIN>           Exit with a status of 1 if the total function coverage is less than MIN percent
 # @option --fail-under-lines <MIN>               Exit with a status of 1 if the total line coverage is less than MIN percent
+# @option --fail-under-regions <MIN>             Exit with a status of 1 if the total region coverage is less than MIN percent
 # @option --fail-uncovered-lines <MAX>           Exit with a status of 1 if the uncovered lines are greater than MAX
 # @option --fail-uncovered-regions <MAX>         Exit with a status of 1 if the uncovered regions are greater than MAX
 # @option --fail-uncovered-functions <MAX>       Exit with a status of 1 if the uncovered functions are greater than MAX
@@ -214,12 +220,15 @@ run() {
 # @option --failure-mode <any|all>               Fail if `any` or `all` profiles cannot be merged (default to `any`)
 # @option --ignore-filename-regex <PATTERN>      Skip source code files with file paths that match the given regular expression
 # @flag --hide-instantiations                    Hide instantiations from report
+# @option --fail-under-functions <MIN>           Exit with a status of 1 if the total function coverage is less than MIN percent
 # @option --fail-under-lines <MIN>               Exit with a status of 1 if the total line coverage is less than MIN percent
+# @option --fail-under-regions <MIN>             Exit with a status of 1 if the total region coverage is less than MIN percent
 # @option --fail-uncovered-lines <MAX>           Exit with a status of 1 if the uncovered lines are greater than MAX
 # @option --fail-uncovered-regions <MAX>         Exit with a status of 1 if the uncovered regions are greater than MAX
 # @option --fail-uncovered-functions <MAX>       Exit with a status of 1 if the uncovered functions are greater than MAX
 # @flag --show-missing-lines                     Show lines with no coverage
 # @flag --include-build-script                   Include build script in coverage report
+# @flag --doctests                               Including doc tests (unstable)
 # @flag -q --quiet                               Display one character per test instead of one line
 # @option -p --package[`_choice_package`] <SPEC>  Package to run tests for
 # @option -j --jobs <N>                          Number of parallel jobs, defaults to ♯ of CPUs

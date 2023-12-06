@@ -2,86 +2,95 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # @meta inherit-flag-options
-# @flag -?                        Display help on commands and switches.
-# @flag -ad                       Append archive name to destination path.
-# @option -ag- <format>           Generate archive name using the current date and time.
-# @flag -ai                       Ignore file attributes.
-# @option -ap- <path>             Set path inside archive.
-# @flag -as                       Synchronize archive contents.
-# @flag -cfg-                     Disable reading configuration and environment.
-# @flag -cl                       Convert file names to lower case.
-# @flag -cu                       Convert file names to upper case.
-# @flag -c-                       Disable showing comments.
-# @flag -df                       Delete files after archiving.
-# @flag -dh                       Open shared files.
-# @flag -ds                       Do not sort files while adding to a solid archive.
-# @flag -dw                       Wipe files after archiving.
-# @flag -ed                       Do not add empty directories.
-# @flag -en                       Do not add "end of archive" block.
-# @flag -ep                       Exclude paths from names.
-# @flag -ep1                      Exclude base dir from names.
-# @flag -ep2                      Expand paths to full.
-# @option -e- <[+]<attr>>         Set file exclude [or include] attributes.
-# @flag -f                        Freshen files.
-# @option -hp- <password>         Encrypt both file data and headers.
-# @option -ht- <b|c>              Select hash type [BLAKE2,CRC32] for file checksum.
-# @option -id- <c,d,p,q>          Disable messages.
-# @flag -ierr                     Send all messages to stderr.
-# @option -ilog- <name>           Log errors to file (registered versions only).
-# @flag -inul                     Disable all messages.
-# @flag -isnd                     Enable sound.
-# @flag -iver                     Display the version number
-# @flag -k                        Lock archive.
-# @flag -kb                       Keep broken extracted files.
-# @option -log- <[f][=name]>      Write names to log file.
-# @option -m- <0..5>              Set compression level (0-store...3-default...5-best).
-# @option -ma- <4|5>              Specify a version of archiving format.
-# @option -mc- <par>              Set advanced compression parameters.
-# @option -md- <<size>[k,m,g]>    Set dictionary size in KB, MB or GB.
-# @option -ms- <ext;ext>          Specify file types (extensions) to store.
-# @option -mt- <threads>          Set the number of threads.
-# @option -n- <file>              Additionally filter included files.
-# @flag -o-                       Do not overwrite existing files.
-# @flag -oh                       Save hard links as the link instead of the file.
-# @option -oi- <[0-4][:min]>      Save identical files as references.
-# @option -ol- <a>                Process symbolic links as the link [absolute paths].
-# @flag -or                       Rename files automatically.
-# @flag -ow                       Save or restore file owner and group.
-# @option -p- <password>          Encrypt files with the given string as password while archiving.
-# @flag -p-                       Do not query password.
-# @option -qo- <-|+>              Add quick open information [none|force].
-# @flag -r                        Recurse subdirectories.
-# @flag -r-                       Disable recursion.
-# @flag -r0                       Similar to -r, but when used with the commands 'a', 'u', 'f', 'm' will recurse subdirectories only for wildcard names.
-# @option -rr- <N>                Add data recovery record.
-# @option -rv- <N>                Create recovery volumes.
-# @option -s- <N>                 Create solid groups using file count.
-# @flag -se                       Create solid groups using extension.
-# @flag -sv                       Create independent solid volumes.
-# @flag -sv-                      Create dependent solid volumes.
-# @flag -s-                       Disable solid archiving.
-# @option -sc- <<chr>[obj]>       Specify the character set.
-# @option -sfx- <name>            Create SFX archives.
-# @option -si- <name>             Read data from standard input (stdin).
-# @option -sl- <size>             Process files with size less than specified.
-# @option -sm- <size>             Process files with size more than specified.
-# @flag -t                        Test files after archiving.
-# @option -ta- <date>             Process files modified after <date> in YYYYMMDDHHMMSS format.
-# @option -tb- <date>             Process files modified before <date> in YYYYMMDDHHMMSS format.
-# @flag -tk                       Keep original archive time.
-# @flag -tl                       Set archive time to latest file.
-# @option -tn- <time>             Process files newer than <time>.
-# @option -to- <time>             Process files older than <time>.
-# @option -ts-[modification|creation|access] <m|c|a>  Save or restore file time.
-# @flag -u                        Update files.
-# @option -v- <<size>[k|b]>       Create volumes with size=<size>*1000 [*1024, *1] bytes.
-# @option -ver- <n>               File version control.
-# @flag -vn                       Use the old style volume naming scheme.
-# @flag -vp                       Pause before each volume.
-# @option -w- <path>              Assign work directory.
-# @option -x- <file>              Exclude specified file.
-# @flag -y                        Assume Yes on all queries.
-# @option -z- <file>              Read archive comment from file.
+# @flag -?                               Display help on commands and switches.
+# @option -ag- <format>                  Generate archive name using the current date and time.
+# @flag -ai                              Ignore file attributes.
+# @flag -ao                              Add files with Archive attribute set (Windows version only).
+# @flag -ap                              Set path inside archive.
+# @flag -as                              Synchronize archive contents
+# @flag -cfg-                            Ignore configuration file and RAR environment variable.
+# @flag -cl                              Convert file names to lower case.
+# @flag -cu                              Convert file names to upper case.
+# @flag -c-                              Disable comments show.
+# @flag -df                              Delete files after archiving
+# @flag -dh                              Open shared files
+# @flag -dr                              Delete files to Recycle Bin
+# @flag -ds                              Do not sort files while adding to a solid archive.
+# @flag -dw                              Wipe files after archiving
+# @flag -ed                              Do not add empty directories
+# @flag -ee                              Do not process extended attributes
+# @flag -en                              Do not add "end of archive" block
+# @flag -ep                              Exclude paths from names.
+# @flag -ep1                             Exclude base dir from names.
+# @flag -ep2                             Expand paths to full.
+# @flag -ep3                             Expand paths to full including the drive letter.
+# @option -e- <[+]<attr>>                Specifies file exclude or include attributes mask.
+# @flag -f                               Freshen files.
+# @option -hp- <p>                       Encrypt both file data and headers.
+# @option -ht- <b|c>                     Select hash type [BLAKE2,CRC32] for file checksum.
+# @option -id- <c,d,p,q>                 Disable messages.
+# @option -ieml- <[.][addr]>             Send archive by email.
+# @flag -ierr                            Send all messages to stderr.
+# @option -ilog- <name>                  Log errors to file (registered version only).
+# @flag -inul                            Disable all messages.
+# @flag -ioff                            Turn PC off after completing an operation.
+# @flag -isnd                            Enable sound.
+# @flag -k                               Lock archive.
+# @flag -kb                              Keep broken extracted files.
+# @option -log- <[fmt][=name]>           Write names to log file.
+# @option -m- <n>                        Set compression method:
+# @option -ma- <4|5>                     Specify a version of archiving format.
+# @option -mc- <par>                     Set advanced compression parameters.
+# @option -md- <<n>[k,m,g]>              Select the dictionary size.
+# @option -ms- <list>                    Specify file types to store.
+# @option -mt- <threads>                 Set the number of threads.
+# @option -n- <f>                        Additionally filter included files.
+# @flag -oc                              Set NTFS Compressed attribute.
+# @flag -oh                              Save hard links as the link instead of the file.
+# @option -oi- <[0-4][:<minsize>]>       Save identical files as references.
+# @flag -ol                              Save symbolic links as the link instead of the file.
+# @flag -or                              Rename extracted files automatically if file with the same name already exists.
+# @flag -os                              Save NTFS streams.
+# @flag -ow                              Use this switch when archiving to save file security information and when extracting to restore it.
+# @option -o- <+|->                      Set the overwrite mode.
+# @option -p- <p>                        Encrypt files with the string <p> as password while archiving.
+# @flag -p-                              Do not query password
+# @option -qo- <-|+>                     Add quick open information [none|force]
+# @flag -r                               Recurse subdirectories.
+# @flag -r-                              Disable recursion.
+# @flag -r0                              Similar to -r, but when used with the commands 'a', 'u', 'f', 'm' will recurse into subdirectories only for those file masks, which include wildcard characters '*' and '?'.
+# @option -ri- <<p>[:<s>]>               Set priority and sleep time.
+# @option -rr- <N>                       Add data recovery record.
+# @option -rv- <N>                       Create recovery volumes.
+# @flag -s                               Create solid archive.
+# @flag -sN                              Create solid groups using file count
+# @option -sc- <<charset>[objects]>      Specify the character set for list files, log files and archive comment files.
+# @flag -se                              Create solid groups using extension
+# @option -sfx- <name>                   Create SFX archives.
+# @option -si- <name>                    Read data from stdin (standard input), when creating an archive.
+# @option -sl- <size>                    Process only those files, which size is less than specified in <size> parameter of this switch.
+# @option -sm- <size>                    Process only those files, which size is more than specified in <size> parameter of this switch.
+# @flag -sv                              Create independent solid volumes
+# @flag -sv-                             Create dependent solid volumes
+# @flag -s-                              Disable solid archiving
+# @flag -t                               Test files after archiving.
+# @option -ta- <date>                    Process only files modified after the specified date.
+# @option -tb- <date>                    Process only files modified before the specified date.
+# @flag -tk                              Keep original archive date.
+# @flag -tl                              Set archive time to newest file.
+# @option -tn- <time>                    Process files newer than the specified time period.
+# @option -to- <time>                    Process files older than the specified time period.
+# @option -ts-[modification|creation|access] <<m,c,a>[N]>  Save or restore file time.
+# @flag -u                               Update files.
+# @option -v- <<size>[k|b|f|m|M|g|G]>    Create volumes with size=<size>*1000 [*1024 | *1].
+# @flag -vd                              Erase disk contents before creating volume
+# @option -ver- <n>                      File version control
+# @flag -vn                              Use the old style volume naming scheme
+# @flag -vp                              Pause before each volume
+# @option -w- <p>                        Assign work directory as <p>.
+# @option -x- <f>                        Exclude the specified <f> file or directory.
+# @flag -y                               Assume Yes on all queries.
+# @option -z- <f>                        Read archive comment from file <f>.
 
 # {{ rar a
 # @cmd Add files to archive.
@@ -105,7 +114,7 @@ ch() {
 # }} rar ch
 
 # {{ rar cw
-# @cmd Write archive comment to a specified file.
+# @cmd Write archive comment to specified file.
 cw() {
     :;
 }
@@ -119,7 +128,7 @@ d() {
 # }} rar d
 
 # {{ rar e
-# @cmd Extract files to current directory.
+# @cmd Extract files without archived paths.
 e() {
     :;
 }
@@ -139,20 +148,6 @@ k() {
 }
 # }} rar k
 
-# {{ rar l
-# @cmd List content of archive.
-l() {
-    :;
-}
-# }} rar l
-
-# {{ rar m
-# @cmd Move to archive.
-m() {
-    :;
-}
-# }} rar m
-
 # {{ rar p
 # @cmd Print file to stdout.
 p() {
@@ -168,7 +163,7 @@ r() {
 # }} rar r
 
 # {{ rar rc
-# @cmd Reconstruct missing volumes using recovery volumes (.rev files).
+# @cmd Reconstruct missing and damaged volumes using recovery volumes (.rev files).
 rc() {
     :;
 }
@@ -181,26 +176,12 @@ rn() {
 }
 # }} rar rn
 
-# {{ rar rr
-# @cmd Add data recovery record.
-rr() {
+# {{ rar s-
+# @cmd Remove SFX module from the already existing SFX archive.
+s-() {
     :;
 }
-# }} rar rr
-
-# {{ rar rv
-# @cmd Create recovery volumes (.rev files), which can be later used to reconstruct missing files in a volume set.
-rv() {
-    :;
-}
-# }} rar rv
-
-# {{ rar s
-# @cmd Convert archive to or from SFX.
-s() {
-    :;
-}
-# }} rar s
+# }} rar s-
 
 # {{ rar t
 # @cmd Test archive files.
@@ -215,13 +196,6 @@ u() {
     :;
 }
 # }} rar u
-
-# {{ rar v
-# @cmd Verbosely list archive
-v() {
-    :;
-}
-# }} rar v
 
 # {{ rar x
 # @cmd Extract files with full path.

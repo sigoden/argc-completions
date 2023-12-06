@@ -13,6 +13,7 @@
 # @option -T --time <file>                       enter time namespace
 # @option -S --setuid[`_module_os_uid`] <uid>    set uid in entered namespace
 # @option -G --setgid[`_module_os_gid`] <gid>    set gid in entered namespace
+# @flag --preserve-credentials                   do not touch uids or gids
 # @option -r --root <dir>                        set the root directory
 # @option -w --wd <dir>                          set the working directory
 # @flag -F --no-fork                             do not fork before exec'ing <program>

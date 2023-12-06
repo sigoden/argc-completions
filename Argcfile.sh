@@ -84,10 +84,23 @@ generate:mac() {
 }
 
 # @cmd Generate completion scripts for all commands
+# @option -s --start-cmd[`_choice_completion`] Start generate from
 generate:all() {
+    local need_gen=0
+    if [[ -z "$argc_start_cmd" ]]; then
+        need_gen=1
+    fi
     for f in completions/*; do
         if [ -f $f ]; then
             cmd="$(basename $f .sh)"
+
+            if [[ "$need_gen" -eq 0 ]]; then
+                if [[ "$argc_start_cmd" == "$cmd" ]]; then
+                    need_gen=1
+                else
+                    continue
+                fi
+            fi
             if [[ " $SKIPS " != *" $cmd "* ]] && [[ -z "$(_helper_can_generate $cmd)" ]]; then
                 argc generate $cmd -P
             else
@@ -214,9 +227,21 @@ check() {
 }
 
 # @cmd Check all completion scripts
+# @option -s --start-cmd[`_choice_completion`] Start generate from
 check:all() {
+    local need_check=0
+    if [[ -z "$argc_start_cmd" ]]; then
+        need_check=1
+    fi
     mapfile -t cmds < <(_choice_completion)
     for cmd in "${cmds[@]}"; do
+        if [[ "$need_check" -eq 0 ]]; then
+            if [[ "$argc_start_cmd" == "$cmd" ]]; then
+                need_check=1
+            else
+                continue
+            fi
+        fi
         check "$cmd"
     done
 }

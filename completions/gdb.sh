@@ -26,7 +26,6 @@
 # @flag -w                                 Use the GUI interface.
 # @flag --nw                               Do not use the GUI interface.
 # @flag --tui                              Use a terminal user interface.
-# @flag --dbx                              DBX compatibility mode.
 # @flag -q                                 Do not print version number on startup.
 # @flag --quiet                            Do not print version number on startup.
 # @flag --silent                           Do not print version number on startup.

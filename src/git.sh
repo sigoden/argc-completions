@@ -70,8 +70,26 @@ $commands
     worktree         Manage multiple working trees 
 EOF
 
+    elif [[ "$*" == "git crypt" ]]; then
+        git crypt 2>&1
+
     elif [[ "$*" == "git crypt "* ]]; then
-        git crypt 2>&1  | sed -n "s/^  \($3\( [A-Z]\S\+\)*\) .*/Usage: git crypt \1/p"
+        git crypt --help 2>&1 | \
+        gawk -v SUBCMD=$3 '{
+            if (match($0, "^       " SUBCMD))  {
+                sub(/^\s*/, "", $0)
+                print "Usage: " $0 
+                subcmdZone = 1
+            } else if (subcmdZone)  {
+                if (match($0, /^       \S/)) {
+                    subcmdZone = 0
+                }
+                if (subcmdZone) {
+                    print gensub(/^         /, "", 1, $0)
+                }
+            }
+        }'
+
 
     else
         embed_help="$( \
@@ -236,29 +254,41 @@ EOF
 ## remove% <worktree>
 ## unlock% <path>
 EOF
-)"
+        )"
         echo "$embed_help"
         if [[ -z "$embed_help" ]] || grep -q __HELP_CMD__ <<<"$embed_help"; then
+            _common_edit() {
+                sed \
+                    -e '/^SYNOPSIS/,/^\s*$/ {s/(\|)//g; s/\[\s*\[\(--\[no-\]\S\+\)]/[\1/; s/\[<\(\S\+\)>\*\]/\1.../g;}' \
+
+            }
             if [[ "$*" == "git reset" ]] \
             || [[ "$*" == "git range-diff" ]] \
             || [[ "$*" == "git stage" ]] \
             || [[ "$*" == "git whatchanged" ]] \
             ; then
                 $@ -h 2>&1
+
             elif [[ "$*" == "git push" ]]; then
-                $@ --help 2>&1 | \
+                $@ --help 2>&1 | _common_edit | \
                 sed \
-                    -e '/^SYNOPSIS/,/^\s*$/ {s/(\|)//g; s/\[\s*\[\(--\[no-\]\S\+\)]/[\1/; s/\[<\(\S\+\)>\*\]/\1.../g;}' \
-                    -e '/^   History Simplification/, /^   \S/ {//!d}' \
                     -e 's/--\[no-\]signed, --signed/--no-signed, --signed/' \
                     -e 's/--\[no-\]force-with-lease, --force-with-lease=<refname>/--no-force-with-lease, --force-with-lease=<refname>/' \
                     -e '/^\s*--force-with-lease/ d' \
 
-            else
-                $@ --help 2>&1 | \
+            elif [[ "$*" == "git log" ]] \
+              || [[ "$*" == "git shortlog" ]] \
+            ; then
+                $@ --help 2>&1 | _common_edit | \
                 sed \
-                    -e '/^SYNOPSIS/,/^\s*$/ {s/(\|)//g; s/\[\s*\[\(--\[no-\]\S\+\)]/[\1/; s/\[<\(\S\+\)>\*\]/\1.../g;}' \
                     -e '/^   History Simplification/, /^   \S/ {//!d}' \
+
+            else
+                help_text="$($@ --help 2>&1)"
+                if [[ $? -ne 0 ]]; then
+                    help_text="$($@ -h 2>&1)"
+                fi
+                echo "$help_text" | _common_edit
 
             fi
         fi
@@ -366,6 +396,13 @@ _patch_table() {
             'branch;[`_choice_local_branch`]' \
 
     elif [[ "$*" == "git quick-stats" ]]; then
+        _patch_table_edit_arguments ';;'
+
+    elif [[ "$*" == "git sizer" ]]; then
+        _patch_table_dedup_options \
+            '--exclude' \
+            '--include' \
+        | \
         _patch_table_edit_arguments ';;'
 
     elif [[ "$*" == "git standup" ]]; then

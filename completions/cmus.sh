@@ -5,6 +5,6 @@
 # @flag --plugins            list available plugins and exit
 # @flag --show-cursor        always visible cursor
 # @flag --help               display this help and exit
-# @flag --version            v2.9.1
+# @flag --version            v2.10.0
 
 command eval "$(argc --argc-eval "$0" "$@")"

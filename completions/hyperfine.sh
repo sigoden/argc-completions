@@ -16,7 +16,7 @@
 # @flag -i --ignore-failure                        Ignore non-zero exit codes of the benchmarked programs.
 # @option --style[`_choice_style`] <TYPE>          Set output style type (default: auto).
 # @option --sort[`_choice_sort`] <METHOD>          Specify the sort order of the speed comparison summary and the exported tables for markup formats:
-# @option -u --time-unit[millisecond|second] <UNIT>  Set the time unit to be used.
+# @option -u --time-unit[microsecond|millisecond|second] <UNIT>  Set the time unit to be used.
 # @option --export-asciidoc <FILE>                 Export the timing summary statistics as an AsciiDoc table to the given FILE.
 # @option --export-csv <FILE>                      Export the timing summary statistics as CSV to the given FILE.
 # @option --export-json <FILE>                     Export the timing summary statistics and timings of individual runs as JSON to the given FILE.

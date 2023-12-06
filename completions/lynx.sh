@@ -39,7 +39,6 @@
 # @flag -emacskeys                              enable emacs-like key movement (off)
 # @flag -enable_scrollback                      toggles compatibility with comm programs' scrollback keys (may be incompatible with some curses packages) (off)
 # @option -error_file <FILE>                    write the HTTP status code here
-# @flag -exec                                   enable local program execution
 # @flag -force_empty_hrefless_a                 force HREF-less 'A' elements to be empty (close them as soon as they are seen) (off)
 # @flag -force_html                             forces the first document to be interpreted as HTML (off)
 # @flag -force_secure                           toggles forcing of the secure flag for SSL cookies (off)
@@ -62,18 +61,15 @@
 # @flag -list_inline                            with -dump, forces it to show links inline with text (off)
 # @flag -listonly                               with -dump, forces it to show only the list of links (off)
 # @flag -localhost                              disable URLs that point to remote hosts (off)
-# @flag -locexec                                enable local program execution from local files only (off)
 # @option -lss <FILENAME>                       specifies a lynx.lss file other than the default
 # @flag -mime_header                            include mime headers and force source dump
 # @flag -minimal                                toggles minimal versus valid comment parsing (on)
-# @flag -nested_tables                          toggles nested-tables logic (off)
 # @option -newschunksize <NUMBER>               number of articles in chunked news listings
 # @option -newsmaxchunk <NUMBER>                maximum news articles in listings before chunking
 # @flag -nobold                                 disable bold video-attribute
 # @flag -nobrowse                               disable directory browsing
 # @flag -nocc                                   disable Cc: prompts for self copies of mailings (off)
 # @flag -nocolor                                turn off color support
-# @flag -noexec                                 disable local program execution (DEFAULT) (on)
 # @flag -nofilereferer                          disable transmission of Referer headers for file URLs (on)
 # @flag -nolist                                 disable the link list feature in dumps (off)
 # @flag -nolog                                  disable mailing of error messages to document owners (on)
@@ -126,8 +122,6 @@
 # @flag -startfile_ok                           allow non-http startfile and homepage with -validate (off)
 # @flag -stderr                                 write warning messages to standard error when -dump or -source is used (off)
 # @flag -stdin                                  read startfile from standard input (off)
-# @option -syslog <text>                        information for syslog call
-# @flag -syslog_urls                            log requested URLs with syslog (off)
 # @flag -tagsoup                                use TagSoup rather than SortaSGML parser (off)
 # @flag -telnet                                 disable telnets (off)
 # @option -term                                 set terminal type to TERM

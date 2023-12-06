@@ -380,6 +380,22 @@ _patch_table() {
             'name;[`_choice_label`]' \
             'source-repository;[`_choice_search_repo`]' \
 
+    elif [[ "$*" == "gh ruleset"* ]]; then
+        if [[ "$*" == "gh ruleset check" ]]; then
+            echo "$table" | \
+            _patch_table_edit_arguments \
+                'branch;[`_choice_branch`]' \
+
+        elif [[ "$*" == "gh ruleset view" ]]; then
+            echo "$table" | \
+            _patch_table_edit_arguments \
+                'ruleset-id;[`_choice_ruleset`]' \
+
+        else
+            echo "$table"
+
+        fi
+
     elif [[ "$*" == "gh search"* ]]; then
         table="$(
             echo "$table" | \
@@ -854,6 +870,11 @@ _choice_gpg_key() {
     yq '.[] | .key_id + "	" + .name'
 }
 
+_choice_ruleset() {
+    gh ruleset list $(_argc_util_param_select_options --repo) | \
+    _argc_util_transform_table 'ID;NAME' '\t'
+}
+
 _choice_commit_field() {
     gh search commits --json 2>&1 | tail -n +2
 }
@@ -894,10 +915,6 @@ _choice_variable() {
        _helper_repo_curl 'actions/variables?per_page=100' | \
         yq '.variables[] | .name + "	" + .value'
     fi
-}
-
-_choice_all_pr() {
-    _helper_query_pr
 }
 
 _helper_get_user() {

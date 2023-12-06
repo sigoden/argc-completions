@@ -16,7 +16,7 @@
 # @option --on-cancel[success|error]      specify action on user cancel.
 # @option --selection-prefix <value>      use a prefix instead of changing line color to indicate currently selected lines.
 # @option --exec[`_module_os_command`]    execute command instead of finishing/terminating peco.
-# @flag --print-query
+# @flag --print-query                     print out the current query as first line of output
 # @arg file
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"

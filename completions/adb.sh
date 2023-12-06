@@ -1,14 +1,16 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @flag -a               listen on all network interfaces, not just localhost
-# @flag -d               use USB device (error if multiple devices connected)
-# @flag -e               use TCP/IP device (error if multiple TCP/IP devices available)
-# @option -s <SERIAL>    use device with given serial (overrides $ANDROID_SERIAL)
-# @option -t <ID>        use device with given transport id
-# @flag -H               name of adb server host [default=localhost]
-# @flag -P               port of adb server [default=5037]
-# @option -L <SOCKET>    listen on given socket for adb server [default=tcp:localhost:5037]
+# @flag -a                             listen on all network interfaces, not just localhost
+# @flag -d                             use USB device (error if multiple devices connected)
+# @flag -e                             use TCP/IP device (error if multiple TCP/IP devices available)
+# @option -s <SERIAL>                  use device with given serial (overrides $ANDROID_SERIAL)
+# @option -t <ID>                      use device with given transport id
+# @flag -H                             name of adb server host [default=localhost]
+# @flag -P                             port of adb server [default=5037]
+# @option -L <SOCKET>                  listen on given socket for adb server [default=tcp:localhost:5037]
+# @option --one-device <SERIAL|USB>    only allowed with 'start-server' or 'server nodaemon', server will only connect to one USB device, specified by a serial number or USB device address.
+# @flag --exit-on-write-error          exit if stdout is closed
 
 # {{ adb devices
 # @cmd list connected devices (-l for long output)
@@ -79,6 +81,9 @@ reverse() {
 # {{ adb push
 # @cmd copy local files/directories to device
 # @flag --sync    only push files that are newer on the host than the device
+# @flag -n        dry run: push files to device without storing to the filesystem
+# @flag -z        enable compression with a specified algorithm (any/none/brotli/lz4/zstd)
+# @flag -Z        disable compression
 # @arg local*
 # @arg remote
 push() {
@@ -89,6 +94,8 @@ push() {
 # {{ adb pull
 # @cmd copy files/dirs from device
 # @flag -a    preserve file timestamp and mode
+# @flag -z    enable compression with a specified algorithm (any/none/brotli/lz4/zstd)
+# @flag -Z    disable compression
 # @arg remote*
 # @arg local
 pull() {
@@ -98,8 +105,11 @@ pull() {
 
 # {{ adb sync
 # @cmd sync a local build from $ANDROID_PRODUCT_OUT to the device (default all)
-# @flag -l    list but don't copy
-# @arg enum[all|data|odm|oem|product_services|product|system|vendor]
+# @flag -n    dry run: push files to device without storing to the filesystem
+# @flag -l    list files that would be copied, but don't copy them
+# @flag -z    enable compression with a specified algorithm (any/none/brotli/lz4/zstd)
+# @flag -Z    disable compression
+# @arg enum[all|data|odm|oem|product|system|system_ext|vendor]
 sync() {
     :;
 }
@@ -107,11 +117,11 @@ sync() {
 
 # {{ adb shell
 # @cmd run remote shell command (interactive shell if no command given)
-# @option -e <ESCAPE>    choose escape character, or "none"; default '~'
-# @flag -n               don't read from stdin
-# @flag -T               disable PTY allocation
-# @flag -t               force PTY allocation
-# @flag -x               disable remote exit codes and stdout/stderr separation
+# @flag -e    choose escape character, or "none"; default '~'
+# @flag -n    don't read from stdin
+# @flag -T    disable pty allocation
+# @flag -t    allocate a pty if on a tty (-tt: force pty allocation)
+# @flag -x    disable remote exit codes and stdout/stderr separation
 # @arg command[`_module_os_command`]
 # @arg args~[`_module_os_command_args`]
 shell() {
@@ -129,14 +139,21 @@ emu() {
 
 # {{ adb install
 # @cmd push a single package to the device and install it
-# @flag -l           specify that the APK file being installed should be retained, even if the installation is successful.
-# @flag -r           replace existing application
-# @flag -t           allow test packages
-# @flag -s           install the app on the device's SD card if it supports external storage
-# @flag -d           allow version code downgrade (debuggable packages only)
-# @flag -p           partial application install (install-multiple only)
-# @flag -g           grant all runtime permissions
-# @flag --instant    cause the app to be installed as an ephemeral install app
+# @flag -r                       replace existing application
+# @flag -t                       allow test packages
+# @flag -d                       allow version code downgrade (debuggable packages only)
+# @flag -p                       partial application install (install-multiple only)
+# @flag -g                       grant all runtime permissions
+# @flag --abi                    ABI: override platform's default ABI
+# @flag --instant                cause the app to be installed as an ephemeral install app
+# @flag --no-streaming           always push APK to device and invoke Package Manager as separate steps
+# @flag --streaming              force streaming APK directly into Package Manager
+# @flag --fastdeploy             use fast deploy
+# @flag --no-fastdeploy          prevent use of fast deploy
+# @flag --force-agent            force update of deployment agent when using fast deploy
+# @flag --date-check-agent       update deployment agent when local version is newer and using fast deploy
+# @flag --version-check-agent    update deployment agent when local version has different version code and using fast deploy
+# @flag --local-agent            locate agent files from local source build (instead of SDK location)
 # @arg package
 install() {
     :;
@@ -145,14 +162,21 @@ install() {
 
 # {{ adb install-multiple
 # @cmd push multiple APKs to the device for a single package and install them
-# @flag -l           specify that the APK file being installed should be retained, even if the installation is successful.
-# @flag -r           replace existing application
-# @flag -t           allow test packages
-# @flag -s           install the app on the device's SD card if it supports external storage
-# @flag -d           allow version code downgrade (debuggable packages only)
-# @flag -p           partial application install (install-multiple only)
-# @flag -g           grant all runtime permissions
-# @flag --instant    cause the app to be installed as an ephemeral install app
+# @flag -r                       replace existing application
+# @flag -t                       allow test packages
+# @flag -d                       allow version code downgrade (debuggable packages only)
+# @flag -p                       partial application install (install-multiple only)
+# @flag -g                       grant all runtime permissions
+# @flag --abi                    ABI: override platform's default ABI
+# @flag --instant                cause the app to be installed as an ephemeral install app
+# @flag --no-streaming           always push APK to device and invoke Package Manager as separate steps
+# @flag --streaming              force streaming APK directly into Package Manager
+# @flag --fastdeploy             use fast deploy
+# @flag --no-fastdeploy          prevent use of fast deploy
+# @flag --force-agent            force update of deployment agent when using fast deploy
+# @flag --date-check-agent       update deployment agent when local version is newer and using fast deploy
+# @flag --version-check-agent    update deployment agent when local version has different version code and using fast deploy
+# @flag --local-agent            locate agent files from local source build (instead of SDK location)
 # @arg package*
 install-multiple() {
     :;
@@ -166,6 +190,7 @@ install-multiple() {
 # @flag -d                       allow version code downgrade (debuggable packages only)
 # @flag -p                       partial application install (install-multiple only)
 # @flag -g                       grant all runtime permissions
+# @flag --abi                    ABI: override platform's default ABI
 # @flag --instant                cause the app to be installed as an ephemeral install app
 # @flag --no-streaming           always push APK to device and invoke Package Manager as separate steps
 # @flag --streaming              force streaming APK directly into Package Manager

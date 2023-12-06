@@ -1067,6 +1067,13 @@ resume() {
 }
 # }} vagrant resume
 
+# {{ vagrant serve
+# @cmd start Vagrant server
+serve() {
+    :;
+}
+# }} vagrant serve
+
 # {{ vagrant snapshot
 # @cmd manages snapshots: saving, restoring, etc.
 # @flag --color               Enable or disable color output

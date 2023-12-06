@@ -1,5 +1,9 @@
 _patch_help() {
-    $@ --help | sed 's/ <subcommand> \[arguments...\]//'
+    $@ --help | \
+        sed \
+            -e 's/ <subcommand> \[arguments...\]//' \
+            -e '/^\s*-h -v/ d' \
+
 }
 
 _patch_table() { 

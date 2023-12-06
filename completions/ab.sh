@@ -34,7 +34,7 @@
 # @flag -h                                         Display usage information (this message)
 # @flag -I                                         Disable TLS Server Name Indication (SNI) extension
 # @option -Z <ciphersuite>                         Specify SSL/TLS cipher suite (See openssl ciphers)
-# @option -f <protocol>                            Specify SSL/TLS protocol (SSL2, TLS1, TLS1.1, TLS1.2 or ALL)
+# @option -f <protocol>                            Specify SSL/TLS protocol (SSL2, TLS1, TLS1.1, TLS1.2, TLS1.3 or ALL)
 # @option -E <certfile>                            Specify optional client certificate chain and private key
 # @arg url
 

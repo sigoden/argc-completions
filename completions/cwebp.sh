@@ -22,7 +22,7 @@
 # @option -pass <int>               analysis pass number (1..10)
 # @option -qrange <min> <max>       specifies the permissible quality range (default: 0 100)
 # @option -crop <x> <y> <w> <h>     crop picture with the given rectangle
-# @option -resize <w> <h>           resize picture (after any cropping)
+# @option -resize <w> <h>           resize picture (*after* any cropping)
 # @flag -mt                         use multi-threading if available
 # @flag -low_memory                 reduce memory usage (slower encoding)
 # @option -map <int>                print map of extra info

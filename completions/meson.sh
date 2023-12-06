@@ -46,6 +46,7 @@
 # @option --python.install-env[auto|prefix|system|venv]  Which python environment to install to (default: prefix).
 # @option --python.platlibdir                      Directory for site-specific, platform-specific files (default: ).
 # @option --python.purelibdir                      Directory for site-specific, non-platform-specific files (default: ).
+# @flag --python.allow-limited-api                 Whether to allow use of the Python Limited API
 # @option --pkg-config-path <PKG_CONFIG_PATH>      List of additional paths for pkg-config to search (default: []).
 # @option --build.pkg-config-path <BUILD.PKG_CONFIG_PATH>  List of additional paths for pkg-config to search (default: []).
 # @option --cmake-prefix-path <CMAKE_PREFIX_PATH>  List of additional prefixes for cmake to search (default: []).
@@ -57,6 +58,7 @@
 # @flag --fatal-meson-warnings                     Make all Meson warnings fatal
 # @flag --reconfigure                              Set options and reconfigure the project.
 # @flag --wipe                                     Wipe build directory and reconfigure using previous command line options.
+# @flag --clearcache                               Clear cached state (e.g. found dependencies).
 # @arg builddir
 # @arg sourcedir
 setup() {
@@ -106,6 +108,7 @@ setup() {
 # @option --python.install-env[auto|prefix|system|venv]  Which python environment to install to (default: prefix).
 # @option --python.platlibdir                      Directory for site-specific, platform-specific files (default: ).
 # @option --python.purelibdir                      Directory for site-specific, non-platform-specific files (default: ).
+# @flag --python.allow-limited-api                 Whether to allow use of the Python Limited API
 # @option --pkg-config-path <PKG_CONFIG_PATH>      List of additional paths for pkg-config to search (default: []).
 # @option --build.pkg-config-path <BUILD.PKG_CONFIG_PATH>  List of additional paths for pkg-config to search (default: []).
 # @option --cmake-prefix-path <CMAKE_PREFIX_PATH>  List of additional prefixes for cmake to search (default: []).
@@ -196,28 +199,28 @@ init() {
 
 # {{ meson test
 # @cmd Run tests
-# @flag -h --help                            show this help message and exit
-# @option --maxfail                          Number of failing tests before aborting the test run.
-# @option --repeat                           Number of times to run the tests.
-# @flag --no-rebuild                         Do not rebuild before running tests.
-# @flag --gdb                                Run test under gdb.
-# @option --gdb-path <GDB_PATH>              Path to the gdb binary (default: gdb).
-# @flag --list                               List available tests.
-# @option --wrapper                          wrapper to run tests with (e.g. Valgrind)
-# @option -C <WD>                            directory to cd into before running
-# @option --suite[`_choice_test_suit`]       Only run tests belonging to the given suite.
+# @flag -h --help                               show this help message and exit
+# @option --maxfail                             Number of failing tests before aborting the test run.
+# @option --repeat                              Number of times to run the tests.
+# @flag --no-rebuild                            Do not rebuild before running tests.
+# @flag --gdb                                   Run test under gdb.
+# @option --gdb-path <GDB_PATH>                 Path to the gdb binary (default: gdb).
+# @flag --list                                  List available tests.
+# @option --wrapper                             wrapper to run tests with (e.g. Valgrind)
+# @option -C <WD>                               directory to cd into before running
+# @option --suite[`_choice_test_suit`]          Only run tests belonging to the given suite.
 # @option --no-suite[`_choice_test_suit`] <SUITE>  Do not run tests belonging to the given suite.
-# @flag --no-stdsplit                        Do not split stderr and stdout in test logs.
-# @flag --print-errorlogs                    Whether to print failing tests' logs.
-# @flag --benchmark                          Run benchmarks instead of tests.
-# @option --logbase                          Base name for log file.
-# @option --num-processes <NUM_PROCESSES>    How many parallel processes to use.
-# @flag -v --verbose                         Do not redirect stdout and stderr
-# @flag -q --quiet                           Produce less output to the terminal.
+# @flag --no-stdsplit                           Do not split stderr and stdout in test logs.
+# @flag --print-errorlogs                       Whether to print failing tests' logs.
+# @flag --benchmark                             Run benchmarks instead of tests.
+# @option --logbase                             Base name for log file.
+# @option -j --num-processes <NUM_PROCESSES>    How many parallel processes to use.
+# @flag -v --verbose                            Do not redirect stdout and stderr
+# @flag -q --quiet                              Produce less output to the terminal.
 # @option -t --timeout-multiplier <TIMEOUT_MULTIPLIER>  Define a multiplier for test timeout, for example when running tests in particular conditions they might take more time to execute.
-# @option --setup                            Which test setup to use.
-# @option --test-args <TEST_ARGS>            Arguments to pass to the specified test(s) or all tests
-# @arg args*[`_choice_test`]                 Optional list of test names to run.
+# @option --setup                               Which test setup to use.
+# @option --test-args <TEST_ARGS>               Arguments to pass to the specified test(s) or all tests
+# @arg args*[`_choice_test`]                    Optional list of test names to run.
 test() {
     :;
 }
@@ -262,13 +265,13 @@ wrap::install() {
 
 # {{{ meson wrap update
 # @cmd Update wrap files from WrapDB (Since 0.63.0)
-# @flag -h --help                            show this help message and exit
-# @flag --force                              Update wraps that does not seems to come from WrapDB
-# @option --sourcedir                        Path to source directory
-# @option --types                            Comma-separated list of subproject types.
-# @option --num-processes <NUM_PROCESSES>    How many parallel processes to use (Since 0.59.0).
-# @flag --allow-insecure                     Allow insecure server connections.
-# @arg subprojects*                          List of subprojects (default: all)
+# @flag -h --help                               show this help message and exit
+# @flag --force                                 Update wraps that does not seems to come from WrapDB
+# @option --sourcedir                           Path to source directory
+# @option --types                               Comma-separated list of subproject types.
+# @option -j --num-processes <NUM_PROCESSES>    How many parallel processes to use (Since 0.59.0).
+# @flag --allow-insecure                        Allow insecure server connections.
+# @arg subprojects*                             List of subprojects (default: all)
 wrap::update() {
     :;
 }
@@ -322,14 +325,14 @@ subprojects() {
 
 # {{{ meson subprojects update
 # @cmd Update all subprojects from wrap files
-# @flag -h --help                            show this help message and exit
-# @flag --rebase                             Rebase your branch on top of wrap's revision.
-# @flag --reset                              Checkout wrap's revision and hard reset to that commit.
-# @option --sourcedir                        Path to source directory
-# @option --types                            Comma-separated list of subproject types.
-# @option --num-processes <NUM_PROCESSES>    How many parallel processes to use (Since 0.59.0).
-# @flag --allow-insecure                     Allow insecure server connections.
-# @arg subprojects*                          List of subprojects (default: all)
+# @flag -h --help                               show this help message and exit
+# @flag --rebase                                Rebase your branch on top of wrap's revision.
+# @flag --reset                                 Checkout wrap's revision and hard reset to that commit.
+# @option --sourcedir                           Path to source directory
+# @option --types                               Comma-separated list of subproject types.
+# @option -j --num-processes <NUM_PROCESSES>    How many parallel processes to use (Since 0.59.0).
+# @flag --allow-insecure                        Allow insecure server connections.
+# @arg subprojects*                             List of subprojects (default: all)
 subprojects::update() {
     :;
 }
@@ -337,14 +340,14 @@ subprojects::update() {
 
 # {{{ meson subprojects checkout
 # @cmd Checkout a branch (git only)
-# @flag -h --help                            show this help message and exit
-# @flag -b                                   Create a new branch
-# @option --sourcedir                        Path to source directory
-# @option --types                            Comma-separated list of subproject types.
-# @option --num-processes <NUM_PROCESSES>    How many parallel processes to use (Since 0.59.0).
-# @flag --allow-insecure                     Allow insecure server connections.
-# @arg branch_name                           Name of the branch to checkout or create (default: revision set in wrap file)
-# @arg subprojects*                          List of subprojects (default: all)
+# @flag -h --help                               show this help message and exit
+# @flag -b                                      Create a new branch
+# @option --sourcedir                           Path to source directory
+# @option --types                               Comma-separated list of subproject types.
+# @option -j --num-processes <NUM_PROCESSES>    How many parallel processes to use (Since 0.59.0).
+# @flag --allow-insecure                        Allow insecure server connections.
+# @arg branch_name                              Name of the branch to checkout or create (default: revision set in wrap file)
+# @arg subprojects*                             List of subprojects (default: all)
 subprojects::checkout() {
     :;
 }
@@ -352,12 +355,12 @@ subprojects::checkout() {
 
 # {{{ meson subprojects download
 # @cmd Ensure subprojects are fetched, even if not in use.
-# @flag -h --help                            show this help message and exit
-# @option --sourcedir                        Path to source directory
-# @option --types                            Comma-separated list of subproject types.
-# @option --num-processes <NUM_PROCESSES>    How many parallel processes to use (Since 0.59.0).
-# @flag --allow-insecure                     Allow insecure server connections.
-# @arg subprojects*                          List of subprojects (default: all)
+# @flag -h --help                               show this help message and exit
+# @option --sourcedir                           Path to source directory
+# @option --types                               Comma-separated list of subproject types.
+# @option -j --num-processes <NUM_PROCESSES>    How many parallel processes to use (Since 0.59.0).
+# @flag --allow-insecure                        Allow insecure server connections.
+# @arg subprojects*                             List of subprojects (default: all)
 subprojects::download() {
     :;
 }
@@ -365,12 +368,12 @@ subprojects::download() {
 
 # {{{ meson subprojects foreach
 # @cmd Execute a command in each subproject directory.
-# @flag -h --help                            show this help message and exit
-# @option --sourcedir                        Path to source directory
-# @option --types                            Comma-separated list of subproject types.
-# @option --num-processes <NUM_PROCESSES>    How many parallel processes to use (Since 0.59.0).
-# @flag --allow-insecure                     Allow insecure server connections.
-# @arg command                               ...  Command to execute in each subproject directory
+# @flag -h --help                               show this help message and exit
+# @option --sourcedir                           Path to source directory
+# @option --types                               Comma-separated list of subproject types.
+# @option -j --num-processes <NUM_PROCESSES>    How many parallel processes to use (Since 0.59.0).
+# @flag --allow-insecure                        Allow insecure server connections.
+# @arg command                                  ...  Command to execute in each subproject directory
 subprojects::foreach() {
     :;
 }
@@ -378,14 +381,14 @@ subprojects::foreach() {
 
 # {{{ meson subprojects purge
 # @cmd Remove all wrap-based subproject artifacts
-# @flag -h --help                            show this help message and exit
-# @option --sourcedir                        Path to source directory
-# @option --types                            Comma-separated list of subproject types.
-# @option --num-processes <NUM_PROCESSES>    How many parallel processes to use (Since 0.59.0).
-# @flag --allow-insecure                     Allow insecure server connections.
-# @flag --include-cache                      Remove the package cache as well
-# @flag --confirm                            Confirm the removal of subproject artifacts
-# @arg subprojects*                          List of subprojects (default: all)
+# @flag -h --help                               show this help message and exit
+# @option --sourcedir                           Path to source directory
+# @option --types                               Comma-separated list of subproject types.
+# @option -j --num-processes <NUM_PROCESSES>    How many parallel processes to use (Since 0.59.0).
+# @flag --allow-insecure                        Allow insecure server connections.
+# @flag --include-cache                         Remove the package cache as well
+# @flag --confirm                               Confirm the removal of subproject artifacts
+# @arg subprojects*                             List of subprojects (default: all)
 subprojects::purge() {
     :;
 }
@@ -393,14 +396,14 @@ subprojects::purge() {
 
 # {{{ meson subprojects packagefiles
 # @cmd Manage the packagefiles overlay
-# @flag -h --help                            show this help message and exit
-# @option --sourcedir                        Path to source directory
-# @option --types                            Comma-separated list of subproject types.
-# @option --num-processes <NUM_PROCESSES>    How many parallel processes to use (Since 0.59.0).
-# @flag --allow-insecure                     Allow insecure server connections.
-# @flag --apply                              Apply packagefiles to the subproject
-# @flag --save                               Save packagefiles from the subproject
-# @arg subprojects*                          List of subprojects (default: all)
+# @flag -h --help                               show this help message and exit
+# @option --sourcedir                           Path to source directory
+# @option --types                               Comma-separated list of subproject types.
+# @option -j --num-processes <NUM_PROCESSES>    How many parallel processes to use (Since 0.59.0).
+# @flag --allow-insecure                        Allow insecure server connections.
+# @flag --apply                                 Apply packagefiles to the subproject
+# @flag --save                                  Save packagefiles from the subproject
+# @arg subprojects*                             List of subprojects (default: all)
 subprojects::packagefiles() {
     :;
 }

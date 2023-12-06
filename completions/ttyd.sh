@@ -11,7 +11,7 @@
 # @option -s --signal[`_module_os_signal`]       Signal to send to the command when exit it
 # @option -w --cwd <dir>                         Working directory to be set for the child program
 # @option -a --url-arg <value>                   Allow client to send command line arguments in URL (eg: http://localhost:7681?arg=foo&arg=bar)
-# @flag -R --readonly                            Do not allow clients to write to the TTY
+# @flag -W --writable                            Allow clients to write to the TTY (readonly by default)
 # @option -t --client-option* <value>            Send option to client (format: key=value), repeat to add more options
 # @option -T --terminal-type <value>             Terminal type to report, default: xterm-256color
 # @flag -O --check-origin                        Do not allow websocket connection from different origin

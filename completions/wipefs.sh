@@ -12,6 +12,7 @@
 # @flag -p --parsable                             print out in parsable instead of printable format
 # @flag -q --quiet                                suppress output messages
 # @option -t --types <list>                       limit the set of filesystem, RAIDs or partition tables
+# @option --lock[yes|no|nonbloc] <mode>           use exclusive device lock (yes, no or nonblock)
 # @flag -h --help                                 display this help
 # @flag -V --version                              display version
 # @arg device-path

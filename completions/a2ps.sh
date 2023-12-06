@@ -20,8 +20,8 @@
 # @option --columns <NUM>                        number of columns per sheet
 # @option --rows <NUM>                           number of rows per sheet
 # @option --major <DIRECTION>                    first fill (DIRECTION=) rows, or columns
-# @flag -1                                       predefined font sizes and layouts for 1.. 9 virtuals
-# @flag -9                                       predefined font sizes and layouts for 1.. 9 virtuals
+# @flag -1                                       predefined font sizes and layouts for 1..9 virtuals
+# @flag -9                                       predefined font sizes and layouts for 1..9 virtuals
 # @option -A --file-align[fill|rank|page|sheet|<num>] <MODE>  align separate files according to MODE (fill, rank page, sheet, or a number)
 # @option -j --borders <*>                       print borders around columns
 # @option --margin <NUM>                         define an interior margin of size NUM

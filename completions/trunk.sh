@@ -2,7 +2,8 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # @option --config <FILE>    Path to the Trunk config file [default: Trunk.toml] [env: TRUNK_CONFIG=]
-# @flag -v                   Enable verbose logging
+# @flag -v --verbose         Enable verbose logging
+# @flag -q --quiet           Be more quiet, conflicts with --verbose
 # @flag -h --help            Print help
 # @flag -V --version         Print version
 
@@ -13,8 +14,11 @@
 # @option --public-url <PUBLIC_URL>    The public URL from which assets are to be served [default: /]
 # @flag --no-default-features          Build without default features [default: false]
 # @flag --all-features                 Build with all features [default: false]
+# @option --config <FILE>              Path to the Trunk config file [default: Trunk.toml] [env: TRUNK_CONFIG=]
 # @option --features                   A comma-separated list of features to activate, must not be used with all-features [default: ""]
 # @option --filehash[true|false]       Whether to include hash values in the output file names [default: true]
+# @flag -v --verbose                   Enable verbose logging
+# @flag -q --quiet                     Be more quiet, conflicts with --verbose
 # @flag -h --help                      Print help
 # @arg target                          The index HTML file to drive the bundling process [default: index.html]
 build() {
@@ -29,8 +33,11 @@ build() {
 # @option --public-url <PUBLIC_URL>    The public URL from which assets are to be served [default: /]
 # @flag --no-default-features          Build without default features [default: false]
 # @flag --all-features                 Build with all features [default: false]
+# @option --config <FILE>              Path to the Trunk config file [default: Trunk.toml] [env: TRUNK_CONFIG=]
 # @option --features                   A comma-separated list of features to activate, must not be used with all-features [default: ""]
 # @option --filehash[true|false]       Whether to include hash values in the output file names [default: true]
+# @flag -v --verbose                   Enable verbose logging
+# @flag -q --quiet                     Be more quiet, conflicts with --verbose
 # @option -w --watch <path>            Watch specific file(s) or folder(s) [default: build target parent folder]
 # @option -i --ignore <path>           Paths to ignore [default: []]
 # @flag -h --help                      Print help
@@ -47,8 +54,11 @@ watch() {
 # @option --public-url <PUBLIC_URL>          The public URL from which assets are to be served [default: /]
 # @flag --no-default-features                Build without default features [default: false]
 # @flag --all-features                       Build with all features [default: false]
+# @option --config <FILE>                    Path to the Trunk config file [default: Trunk.toml] [env: TRUNK_CONFIG=]
 # @option --features                         A comma-separated list of features to activate, must not be used with all-features [default: ""]
 # @option --filehash[true|false]             Whether to include hash values in the output file names [default: true]
+# @flag -v --verbose                         Enable verbose logging
+# @flag -q --quiet                           Be more quiet, conflicts with --verbose
 # @option -w --watch <path>                  Watch specific file(s) or folder(s) [default: build target parent folder]
 # @option -i --ignore <path>                 Paths to ignore [default: []]
 # @option --address                          The address to serve on [default: 127.0.0.1]
@@ -71,6 +81,9 @@ serve() {
 # @option -d --dist <DIR>    The output dir for all final assets [default: dist]
 # @flag --cargo              Optionally perform a cargo clean [default: false]
 # @flag -t --tools           Optionally clean any cached tools used by Trunk
+# @option --config <FILE>    Path to the Trunk config file [default: Trunk.toml]
+# @flag -v --verbose         Enable verbose logging
+# @flag -q --quiet           Be more quiet, conflicts with --verbose
 # @flag -h --help            Print help (see a summary with '-h')
 clean() {
     :;
@@ -79,14 +92,20 @@ clean() {
 
 # {{ trunk config
 # @cmd Trunk config controls
-# @flag -h --help    Print help
+# @option --config <FILE>    Path to the Trunk config file [default: Trunk.toml] [env: TRUNK_CONFIG=]
+# @flag -v --verbose         Enable verbose logging
+# @flag -q --quiet           Be more quiet, conflicts with --verbose
+# @flag -h --help            Print help
 config() {
     :;
 }
 
 # {{{ trunk config show
 # @cmd Show Trunk's current config pre-CLI
-# @flag -h --help    Print help
+# @option --config <FILE>    Path to the Trunk config file [default: Trunk.toml] [env: TRUNK_CONFIG=]
+# @flag -v --verbose         Enable verbose logging
+# @flag -q --quiet           Be more quiet, conflicts with --verbose
+# @flag -h --help            Print help
 config::show() {
     :;
 }

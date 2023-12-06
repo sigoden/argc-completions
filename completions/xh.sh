@@ -6,6 +6,7 @@
 # @flag --multipart                              Like --form, but force a multipart/form-data request even without files
 # @option --raw                                  Pass raw request data without extra processing
 # @option --pretty[all|colors|format|none] <STYLE>  Controls output processing
+# @option --format-options <FORMAT_OPTIONS>      Set output formatting options
 # @option -s --style[auto|solarized|monokai|fruity] <THEME>  Output coloring style
 # @option --response-charset <ENCODING>          Override the response encoding for terminal display purposes
 # @option --response-mime <MIME_TYPE>            Override the response mime type for coloring and formatting for the terminal
@@ -13,11 +14,9 @@
 # @flag -h --headers                             Print only the response headers.
 # @flag -b --body                                Print only the response body.
 # @flag -m --meta                                Print only the response metadata.
-# @flag -v --verbose                             Print the whole request as well as the response
+# @flag -v --verbose*                            Print the whole request as well as the response
 # @flag --all                                    Show any intermediary requests/responses while following redirects with --follow
 # @option -P --history-print <FORMAT>            The same as --print but applies only to intermediary requests/responses
-# @flag -4 --ipv4                                Resolve hostname to ipv4 addresses only
-# @flag -6 --ipv6                                Resolve hostname to ipv6 addresses only
 # @flag -q --quiet                               Do not print to stdout or stderr
 # @flag -S --stream                              Always stream the response body
 # @option -o --output <FILE>                     Save output to FILE instead of stdout
@@ -40,11 +39,15 @@
 # @option --ssl[auto|tls1|tls1.1|tls1.2|tls1.3] <VERSION>  Force a particular TLS version
 # @flag --https                                  Make HTTPS requests if not specified in the URL
 # @option --http-version[1.0|1.1|2] <VERSION>    HTTP version to use
+# @option --resolve <HOST:ADDRESS>               Override DNS resolution for specific domain to a custom IP
+# @option --interface <NAME>                     Bind to a network interface or local IP address
+# @flag -4 --ipv4                                Resolve hostname to ipv4 addresses only
+# @flag -6 --ipv6                                Resolve hostname to ipv6 addresses only
 # @flag -I --ignore-stdin                        Do not attempt to read stdin
 # @flag --curl                                   Print a translation to a curl command
 # @flag --curl-long                              Use the long versions of curl's flags
-# @flag --help                                   Print help information
-# @flag -V --version                             Print version information
+# @flag --help                                   Print help
+# @flag -V --version                             Print version
 # @arg args*[`_choice_args`]
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"

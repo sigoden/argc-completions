@@ -12,6 +12,7 @@
 # @option -i <[r[-|0]]{@listfile|!wildcard}>     Include filenames
 # @option -m <Parameters>                        set compression Method
 # @option -mmt <N>                               set number of CPU threads
+# @option -mx <N>                                set compression level: -mx1 (fastest) ... -mx9 (ultra)
 # @option -o <Directory>                         set Output directory
 # @option -r <-|0>                               Recurse subdirectories
 # @option -sa-[a|e|s]                            set Archive name mode

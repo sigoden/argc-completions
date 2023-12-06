@@ -38,10 +38,11 @@ show() {
 
 # {{ ollama run
 # @cmd Run a model
-# @flag -h --help       help for run
-# @flag --insecure      Use an insecure registry
-# @flag --nowordwrap    Don't wrap words to the next line automatically
-# @flag --verbose       Show timings for response
+# @option --format <string>    Response format (e.g. json)
+# @flag -h --help              help for run
+# @flag --insecure             Use an insecure registry
+# @flag --nowordwrap           Don't wrap words to the next line automatically
+# @flag --verbose              Show timings for response
 # @arg model[`_choice_model`]
 # @arg prompt
 run() {

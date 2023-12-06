@@ -61,7 +61,7 @@
 # @flag --no-warn-conflicts                        Do not warn about broken dependencies
 # @option --no-binary <format_control>             Do not use binary packages.
 # @option --only-binary <format_control>           Do not use source packages.
-# @flag --prefer-binary                            Prefer older binary packages over newer source packages.
+# @flag --prefer-binary                            Prefer binary packages over source packages, even if the source packages are newer.
 # @flag --require-hashes                           Require a hash to check each requirement against, for repeatable installs.
 # @option --progress-bar[off|on|ascii|pretty|emoji] <progress_bar>  Specify whether the progress bar should be used [on, off] (default: on)
 # @option --root-user-action <root_user_action>    Action if pip is run as a root user.
@@ -109,7 +109,7 @@ install() {
 # @option --global-option <options>            Extra global options to be supplied to the setup.py call before the install or bdist_wheel command.
 # @option --no-binary <format_control>         Do not use binary packages.
 # @option --only-binary <format_control>       Do not use source packages.
-# @flag --prefer-binary                        Prefer older binary packages over newer source packages.
+# @flag --prefer-binary                        Prefer binary packages over source packages, even if the source packages are newer.
 # @option --src <dir>                          Directory to check out editable projects into.
 # @flag --pre                                  Include pre-release and development versions.
 # @flag --require-hashes                       Require a hash to check each requirement against, for repeatable installs.
@@ -619,7 +619,7 @@ index() {
 # @option -w --wheel-dir <dir>               Build wheels into <dir>, where the default is the current working directory.
 # @option --no-binary <format_control>       Do not use binary packages.
 # @option --only-binary <format_control>     Do not use source packages.
-# @flag --prefer-binary                      Prefer older binary packages over newer source packages.
+# @flag --prefer-binary                      Prefer binary packages over source packages, even if the source packages are newer.
 # @flag --no-build-isolation                 Disable isolation when building a modern source distribution.
 # @flag --use-pep517                         Use PEP 517 for building source distributions (use --no-use-pep517 to force legacy behaviour).
 # @flag --check-build-dependencies           Check the build dependencies when PEP517 is used.

@@ -46,7 +46,7 @@
 # @option -m --mda <command>                     This option lets fetchmail use a Message or Local Delivery Agent (MDA or LDA) directly, rather than forward via SMTP or LMTP.
 # @flag --lmtp                                   Cause delivery via LMTP (Local Mail Transfer Protocol).
 # @option --bsmtp <filename>                     Append fetched mail to a BSMTP file.
-# @option --bad-header[reject|accept]            Specify how fetchmail is supposed to treat messages with bad headers, i.
+# @option --bad-header[reject|accept]            Specify how fetchmail is supposed to treat messages with bad headers, i.e., headers with bad syntax.
 # @option -l --limit <maxbytes>                  Takes a maximum octet size argument, where 0 is the default and also the special value designating "no limit".
 # @option -w --warnings <interval>               Takes an interval in seconds.
 # @option -b --batchlimit <count>                Specify the maximum number of messages that will be shipped to an SMTP listener before the connection is deliberately torn down and rebuilt (defaults to 0, meaning no limit).

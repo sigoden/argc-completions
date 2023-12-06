@@ -2,8 +2,8 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # @flag -r --raw-output               output raw strings
-# @flag -j --join-output              output without newlines
-# @flag -0 --nul-output               output with NUL character
+# @flag --raw-output0                 implies -r with NUL character delimiter
+# @flag -j --join-output              implies -r with no newline delimiter
 # @flag -c --compact-output           output without pretty-printing
 # @option --indent                    number of spaces for indentation
 # @flag --tab                         use tabs for indentation
@@ -15,7 +15,7 @@
 # @flag --stream                      parse input in stream fashion
 # @flag --yaml-input                  read input as YAML format
 # @flag -s --slurp                    read all inputs into an array
-# @option -f --from-file              load query from file
+# @flag -f --from-file                load query from file
 # @option -L                          directory to search modules from
 # @option --arg <name> <value>        set a string value to a variable
 # @option --argjson <name> <value>    set a JSON value to a variable

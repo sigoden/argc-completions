@@ -5,7 +5,7 @@
 # @flag -D --buildDrafts                  include content marked as draft
 # @flag -E --buildExpired                 include expired content
 # @flag -F --buildFuture                  include content with publishdate in the future
-# @option --cacheDir <string>             filesystem path to cache directory.
+# @option --cacheDir <string>             filesystem path to cache directory
 # @flag --cleanDestinationDir             remove files from destination not found in static directories
 # @option --clock <string>                set the clock used by Hugo, e.g. --clock 2021-11-06T22:30:00.00+09:00
 # @option --config <string>               config file (default is hugo.yaml|json|toml)
@@ -151,7 +151,7 @@ completion::zsh() {
 # {{ hugo config
 # @cmd Print the site configuration
 # @option -b --baseURL <string>           hostname (and path) to the root, e.g. https://spf13.com/
-# @option --cacheDir <string>             filesystem path to cache directory.
+# @option --cacheDir <string>             filesystem path to cache directory
 # @option -c --contentDir <string>        filesystem path to content directory
 # @option --format <string>               preferred file format (toml, yaml or json) (default "toml")
 # @flag -h --help                         help for config
@@ -176,7 +176,7 @@ config() {
 # {{{ hugo config mounts
 # @cmd Print the configured file mounts
 # @option -b --baseURL <string>           hostname (and path) to the root, e.g. https://spf13.com/
-# @option --cacheDir <string>             filesystem path to cache directory.
+# @option --cacheDir <string>             filesystem path to cache directory
 # @option -c --contentDir <string>        filesystem path to content directory
 # @flag -h --help                         help for mounts
 # @option -t --theme <strings>            themes to use (located in /themes/THEMENAME/)
@@ -361,7 +361,7 @@ gen() {
 # {{{ hugo gen chromastyles
 # @cmd Generate CSS stylesheet for the Chroma code highlighter
 # @flag -h --help                         help for chromastyles
-# @option --highlightStyle <string>       style used for highlighting lines (see https://github.com/alecthomas/chroma) (default "bg:#ffffcc")
+# @option --highlightStyle <string>       style used for highlighting lines (see https://github.com/alecthomas/chroma)
 # @option --linesStyle <string>           style used for line numbers (see https://github.com/alecthomas/chroma)
 # @option --style <string>                highlighter style (see https://xyproto.github.io/splash/docs/) (default "friendly")
 # @option --clock <string>                set the clock used by Hugo, e.g. --clock 2021-11-06T22:30:00.00+09:00
@@ -596,7 +596,7 @@ mod() {
 # @cmd Delete the Hugo Module cache for the current project.
 # @flag --all                             clean entire module cache
 # @option -b --baseURL <string>           hostname (and path) to the root, e.g. https://spf13.com/
-# @option --cacheDir <string>             filesystem path to cache directory.
+# @option --cacheDir <string>             filesystem path to cache directory
 # @option -c --contentDir <string>        filesystem path to content directory
 # @flag -h --help                         help for clean
 # @option --pattern <string>              pattern matching module paths to clean (all if not set), e.g. "**hugo*"
@@ -643,7 +643,7 @@ mod::get() {
 # {{{ hugo mod graph
 # @cmd Print a module dependency graph.
 # @option -b --baseURL <string>           hostname (and path) to the root, e.g. https://spf13.com/
-# @option --cacheDir <string>             filesystem path to cache directory.
+# @option --cacheDir <string>             filesystem path to cache directory
 # @flag --clean                           delete module cache for dependencies that fail verification
 # @option -c --contentDir <string>        filesystem path to content directory
 # @flag -h --help                         help for graph
@@ -669,7 +669,7 @@ mod::graph() {
 # {{{ hugo mod init
 # @cmd Initialize this project as a Hugo Module.
 # @option -b --baseURL <string>           hostname (and path) to the root, e.g. https://spf13.com/
-# @option --cacheDir <string>             filesystem path to cache directory.
+# @option --cacheDir <string>             filesystem path to cache directory
 # @option -c --contentDir <string>        filesystem path to content directory
 # @flag -h --help                         help for init
 # @option -t --theme <strings>            themes to use (located in /themes/THEMENAME/)
@@ -713,7 +713,7 @@ mod::npm() {
 # {{{{ hugo mod npm pack
 # @cmd Experimental: Prepares and writes a composite package.json file for your project.
 # @option -b --baseURL <string>           hostname (and path) to the root, e.g. https://spf13.com/
-# @option --cacheDir <string>             filesystem path to cache directory.
+# @option --cacheDir <string>             filesystem path to cache directory
 # @option -c --contentDir <string>        filesystem path to content directory
 # @flag -h --help                         help for pack
 # @option -t --theme <strings>            themes to use (located in /themes/THEMENAME/)
@@ -739,7 +739,7 @@ mod::npm::pack() {
 # {{{ hugo mod tidy
 # @cmd Remove unused entries in go.mod and go.sum.
 # @option -b --baseURL <string>           hostname (and path) to the root, e.g. https://spf13.com/
-# @option --cacheDir <string>             filesystem path to cache directory.
+# @option --cacheDir <string>             filesystem path to cache directory
 # @option -c --contentDir <string>        filesystem path to content directory
 # @flag -h --help                         help for tidy
 # @option -t --theme <strings>            themes to use (located in /themes/THEMENAME/)
@@ -764,7 +764,7 @@ mod::tidy() {
 # {{{ hugo mod vendor
 # @cmd Vendor all module dependencies into the _vendor directory.
 # @option -b --baseURL <string>           hostname (and path) to the root, e.g. https://spf13.com/
-# @option --cacheDir <string>             filesystem path to cache directory.
+# @option --cacheDir <string>             filesystem path to cache directory
 # @option -c --contentDir <string>        filesystem path to content directory
 # @flag -h --help                         help for vendor
 # @option -t --theme <strings>            themes to use (located in /themes/THEMENAME/)
@@ -789,7 +789,7 @@ mod::vendor() {
 # {{{ hugo mod verify
 # @cmd Verify dependencies.
 # @option -b --baseURL <string>           hostname (and path) to the root, e.g. https://spf13.com/
-# @option --cacheDir <string>             filesystem path to cache directory.
+# @option --cacheDir <string>             filesystem path to cache directory
 # @flag --clean                           delete module cache for dependencies that fail verification
 # @option -c --contentDir <string>        filesystem path to content directory
 # @flag -h --help                         help for verify
@@ -816,11 +816,10 @@ mod::verify() {
 # {{ hugo new
 # @cmd Create new content for your site
 # @option -b --baseURL <string>           hostname (and path) to the root, e.g. https://spf13.com/
-# @option --cacheDir <string>             filesystem path to cache directory.
+# @option --cacheDir <string>             filesystem path to cache directory
 # @option -c --contentDir <string>        filesystem path to content directory
 # @option --editor <string>               edit new content with this editor, if provided
 # @flag -f --force                        overwrite file if it already exists
-# @option --format <string>               preferred file format (toml, yaml or json) (default "toml")
 # @flag -h --help                         help for content
 # @option -k --kind <string>              content type to create
 # @option -t --theme <strings>            themes to use (located in /themes/THEMENAME/)
@@ -851,7 +850,7 @@ new() {
 # @flag -D --buildDrafts                  include content marked as draft
 # @flag -E --buildExpired                 include expired content
 # @flag -F --buildFuture                  include content with publishdate in the future
-# @option --cacheDir <string>             filesystem path to cache directory.
+# @option --cacheDir <string>             filesystem path to cache directory
 # @flag --cleanDestinationDir             remove files from destination not found in static directories
 # @option -c --contentDir <string>        filesystem path to content directory
 # @flag --disableBrowserError             do not show build errors in the browser

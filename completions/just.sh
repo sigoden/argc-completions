@@ -27,6 +27,7 @@
 # @option --chooser                             Override binary invoked by `--choose`
 # @option --color[auto|always|never]            Print colorful output [default: auto]
 # @option -c --command[`_module_os_command`]    Run an arbitrary command with the working directory, `.env`, overrides, and exports set
+# @option --command-color[black|blue|cyan|green|purple|red|yellow]  Echo recipe lines in <COMMAND-COLOR>
 # @option --completions[zsh|bash|fish|powershell|elvish] <SHELL>  Print shell completion script for <SHELL>
 # @option --dotenv-filename                     Search for environment file named <DOTENV-FILENAME> instead of `.env`
 # @option --dotenv-path                         Load environment file at <DOTENV-PATH> instead of searching for one

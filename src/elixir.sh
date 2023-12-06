@@ -9,6 +9,8 @@ _patch_help() {
                 line = gensub(/^  ((\S+)( \S+)+)/, "  \\1...", "g", line)
             }
             print line
+        } else if (match($0, /^-/)) {
+            echo "The " $0
         } else {
             print $0
         }

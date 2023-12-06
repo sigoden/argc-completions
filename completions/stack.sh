@@ -14,6 +14,8 @@
 # @flag --no-time-in-log                    Enable/disable inclusion of timings in logs, for the purposes of using diff with logs.
 # @flag --rsl-in-log                        Enable/disable inclusion of raw snapshot layer (rsl) in logs.
 # @flag --no-rsl-in-log                     Enable/disable inclusion of raw snapshot layer (rsl) in logs.
+# @flag --plan-in-log                       Enable/disable inclusion of information about build plan construction in logs.
+# @flag --no-plan-in-log                    Enable/disable inclusion of information about build plan construction in logs.
 # @option --stack-root                      Absolute path to the global Stack root directory.
 # @option --work-dir                        Relative path to Stack's work directory.
 # @flag --system-ghc                        Enable/disable using the system installed GHC (on the PATH) if it is available and its version matches.
@@ -133,10 +135,11 @@
 # @option --skip <ARG>                          Skip given component (can be specified multiple times).
 # @flag --interleaved-output                    Enable/disable printing concurrent GHC output to the console with a prefix for the package name.
 # @flag --no-interleaved-output                 Enable/disable printing concurrent GHC output to the console with a prefix for the package name.
+# @option --progress-bar <FORMAT>               Progress bar format (accepts none, count-only, capped and full).
 # @option --ddump-dir <ARG>                     Specify output directory for ddump-files.
 # @option --setup-info-yaml <URL>               Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>        The base location of LTS/Nightly snapshots.
-# @flag --help                                  Show this help text.
+# @flag -h --help                               Show this help text
 # @arg target[`_choice_target`]
 build() {
     :;
@@ -220,10 +223,11 @@ build() {
 # @option --skip <ARG>                          Skip given component (can be specified multiple times).
 # @flag --interleaved-output                    Enable/disable printing concurrent GHC output to the console with a prefix for the package name.
 # @flag --no-interleaved-output                 Enable/disable printing concurrent GHC output to the console with a prefix for the package name.
+# @option --progress-bar <FORMAT>               Progress bar format (accepts none, count-only, capped and full).
 # @option --ddump-dir <ARG>                     Specify output directory for ddump-files.
 # @option --setup-info-yaml <URL>               Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>        The base location of LTS/Nightly snapshots.
-# @flag --help                                  Show this help text.
+# @flag -h --help                               Show this help text
 # @arg target
 install() {
     :;
@@ -234,7 +238,7 @@ install() {
 # @cmd Show how to uninstall Stack or a Stack-supplied tool.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 uninstall() {
     :;
 }
@@ -317,10 +321,11 @@ uninstall() {
 # @option --skip <ARG>                          Skip given component (can be specified multiple times).
 # @flag --interleaved-output                    Enable/disable printing concurrent GHC output to the console with a prefix for the package name.
 # @flag --no-interleaved-output                 Enable/disable printing concurrent GHC output to the console with a prefix for the package name.
+# @option --progress-bar <FORMAT>               Progress bar format (accepts none, count-only, capped and full).
 # @option --ddump-dir <ARG>                     Specify output directory for ddump-files.
 # @option --setup-info-yaml <URL>               Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>        The base location of LTS/Nightly snapshots.
-# @flag --help                                  Show this help text.
+# @flag -h --help                               Show this help text
 # @arg target[`_choice_target`]
 test() {
     :;
@@ -404,10 +409,11 @@ test() {
 # @option --skip <ARG>                          Skip given component (can be specified multiple times).
 # @flag --interleaved-output                    Enable/disable printing concurrent GHC output to the console with a prefix for the package name.
 # @flag --no-interleaved-output                 Enable/disable printing concurrent GHC output to the console with a prefix for the package name.
+# @option --progress-bar <FORMAT>               Progress bar format (accepts none, count-only, capped and full).
 # @option --ddump-dir <ARG>                     Specify output directory for ddump-files.
 # @option --setup-info-yaml <URL>               Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>        The base location of LTS/Nightly snapshots.
-# @flag --help                                  Show this help text.
+# @flag -h --help                               Show this help text
 # @arg target[`_choice_target`]
 bench() {
     :;
@@ -491,10 +497,11 @@ bench() {
 # @option --skip <ARG>                          Skip given component (can be specified multiple times).
 # @flag --interleaved-output                    Enable/disable printing concurrent GHC output to the console with a prefix for the package name.
 # @flag --no-interleaved-output                 Enable/disable printing concurrent GHC output to the console with a prefix for the package name.
+# @option --progress-bar <FORMAT>               Progress bar format (accepts none, count-only, capped and full).
 # @option --ddump-dir <ARG>                     Specify output directory for ddump-files.
 # @option --setup-info-yaml <URL>               Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>        The base location of LTS/Nightly snapshots.
-# @flag --help                                  Show this help text.
+# @flag -h --help                               Show this help text
 # @arg target[`_choice_target`]
 haddock() {
     :;
@@ -510,7 +517,7 @@ haddock() {
 # @flag --ignore-subdirs                    Do not search for Cabal files in subdirectories, when initialising.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 # @arg package_name
 # @arg template_name
 # @arg dir*
@@ -523,7 +530,7 @@ new() {
 # @cmd Show how to find templates available for 'stack new'.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 templates() {
     :;
 }
@@ -536,7 +543,7 @@ templates() {
 # @flag --ignore-subdirs                    Do not search for Cabal files in subdirectories, when initialising.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 # @arg dir*
 init() {
     :;
@@ -553,7 +560,7 @@ init() {
 # @flag --no-ghcjs-boot-clean                  Enable/disable Control if ghcjs-boot should have --clean option present.
 # @option --setup-info-yaml <URL>              Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>       The base location of LTS/Nightly snapshots.
-# @flag --help                                 Show this help text.
+# @flag -h --help                              Show this help text
 # @arg ghc_version
 setup() {
     :;
@@ -587,7 +594,7 @@ setup() {
 # @flag --local-hpc-root                    Where HPC reports and tix files are stored
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 path() {
     :;
 }
@@ -597,7 +604,7 @@ path() {
 # @cmd List command.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 ls() {
     :;
 }
@@ -720,7 +727,7 @@ ls::tools() {
 # @option --to <ARG>                        Optional path to unpack the package into (will unpack into subdirectory).
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 # @arg package[`_choice_dependency`]
 unpack() {
     :;
@@ -731,7 +738,7 @@ unpack() {
 # @cmd Update the package index.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 update() {
     :;
 }
@@ -753,7 +760,7 @@ update() {
 # @option --git-branch <BRANCH>             Clone from specified Git branch.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 upgrade() {
     :;
 }
@@ -769,7 +776,7 @@ upgrade() {
 # @flag --candidate                              Upload as a package candidate.
 # @option --setup-info-yaml <URL>                Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>         The base location of LTS/Nightly snapshots.
-# @flag --help                                   Show this help text.
+# @flag -h --help                                Show this help text
 # @arg dir
 upload() {
     :;
@@ -785,7 +792,7 @@ upload() {
 # @option --tar-dir <ARG>                        If specified, copy all the tar to this directory.
 # @option --setup-info-yaml <URL>                Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>         The base location of LTS/Nightly snapshots.
-# @flag --help                                   Show this help text.
+# @flag -h --help                                Show this help text
 # @arg dir
 sdist() {
     :;
@@ -806,7 +813,7 @@ sdist() {
 # @flag --global-hints                      Do not require an install GHC; instead, use a hints file for global packages.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 # @arg target[`_choice_target`]
 dot() {
     :;
@@ -824,7 +831,7 @@ dot() {
 # @option --cwd <DIR>                       Sets the working directory before executing.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 ghc() {
     :;
 }
@@ -838,7 +845,7 @@ ghc() {
 # @flag --server                            Start local Hoogle server.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 hoogle() {
     :;
 }
@@ -855,7 +862,7 @@ hoogle() {
 # @option --cwd <DIR>                       Sets the working directory before executing.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 # @arg command[`_module_os_command`]
 # @arg args~[`_module_os_command_args`]
 exec() {
@@ -874,7 +881,7 @@ exec() {
 # @option --cwd <DIR>                       Sets the working directory before executing.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 run() {
     :;
 }
@@ -905,7 +912,7 @@ run() {
 # @flag --no-bench                          Enable/disable benchmarking the package(s) in this directory/configuration.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 # @arg target-file[`_choice_target_or_file`] <TARGET/FILE>
 ghci() {
     :;
@@ -924,7 +931,7 @@ ghci() {
 # @option --cwd <DIR>                       Sets the working directory before executing.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 runghc() {
     :;
 }
@@ -942,7 +949,7 @@ runghc() {
 # @flag --no-run                            Do not run, just compile.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 # @arg file
 script() {
     :;
@@ -960,7 +967,7 @@ script() {
 # @option --cwd <DIR>                       Sets the working directory before executing.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 # @arg code
 eval_() {
     :;
@@ -972,7 +979,7 @@ eval_() {
 # @flag --full                              Delete the project's Stack working directories (.stack-work by default).
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 # @arg package
 clean() {
     :;
@@ -983,7 +990,7 @@ clean() {
 # @cmd Delete the project Stack working directories (.stack-work by default).
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 purge() {
     :;
 }
@@ -993,7 +1000,7 @@ purge() {
 # @cmd Query general build information (experimental).
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 # @arg selector*
 query() {
     :;
@@ -1004,7 +1011,7 @@ query() {
 # @cmd List package id's in snapshot (experimental).
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 # @arg package[`_choice_dependency`]
 list() {
     :;
@@ -1015,7 +1022,7 @@ list() {
 # @cmd IDE-specific commands.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 ide() {
     :;
 }
@@ -1026,18 +1033,21 @@ ide() {
 # @flag --cabal-files                       Print paths to package Cabal files instead of package names.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 ide::packages() {
     :;
 }
 # }}} stack ide packages
 
 # {{{ stack ide targets
-# @cmd List all available Stack targets.
+# @cmd List all targets or pick component types to list.
+# @flag --exes                              Include executables.
+# @flag --tests                             Include test suites.
+# @flag --benchmarks                        Include benchmarks.
 # @flag --stdout                            Send output to the standard output stream instead of the default, the standard error stream.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 ide::targets() {
     :;
 }
@@ -1048,7 +1058,7 @@ ide::targets() {
 # @cmd Subcommands specific to Docker use.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 docker() {
     :;
 }
@@ -1057,7 +1067,7 @@ docker() {
 # @cmd Pull latest version of Docker image from registry.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 docker::pull() {
     :;
 }
@@ -1068,7 +1078,7 @@ docker::pull() {
 # @flag --keep-home                         Do not delete sandbox's home directory.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 docker::reset() {
     :;
 }
@@ -1079,7 +1089,7 @@ docker::reset() {
 # @cmd Subcommands for accessing and modifying configuration values.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 config() {
     :;
 }
@@ -1088,7 +1098,7 @@ config() {
 # @cmd Sets a key in YAML configuration file to value.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 config::set() {
     :;
 }
@@ -1155,7 +1165,7 @@ config::set::package-index::download-prefix() {
 # @flag --no-keep-ghc-rts                   Enable/disable keep any GHCRTS environment variable (default: disabled)
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 config::env() {
     :;
 }
@@ -1166,7 +1176,7 @@ config::env() {
 # @cmd Subcommands specific to Haskell Program Coverage.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 hpc() {
     :;
 }
@@ -1178,7 +1188,7 @@ hpc() {
 # @flag --open                              Open the report in the browser.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text
 # @arg target_or_tix
 hpc::report() {
     :;

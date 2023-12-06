@@ -5,8 +5,9 @@
 # @flag -v --verbose                          Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]    Target device id or name (prefixes allowed).
 # @flag --version                             Reports the version of this tool.
+# @flag --enable-analytics                    Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                   Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                  Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                   Disable telemetry reporting when this command runs.
 
 # {{ flutter bash-completion
 # @cmd Output command line shell completion setup scripts.
@@ -14,8 +15,9 @@
 # @flag -v --verbose                          Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]    Target device id or name (prefixes allowed).
 # @flag --version                             Reports the version of this tool.
+# @flag --enable-analytics                    Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                   Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                  Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                   Disable telemetry reporting when this command runs.
 # @flag --overwrite                           Causes the given shell completion setup script to be overwritten if it already exists.
 # @flag --no-overwrite                        Causes the given shell completion setup script to be overwritten if it already exists.
 bash-completion() {
@@ -29,8 +31,11 @@ bash-completion() {
 # @flag -v --verbose                          Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]    Target device id or name (prefixes allowed).
 # @flag --version                             Reports the version of this tool.
+# @flag --enable-analytics                    Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                   Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                  Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                   Disable telemetry reporting when this command runs.
+# @flag --cache-artifacts                     After switching channels, download all required binary artifacts.
+# @flag --no-cache-artifacts                  After switching channels, download all required binary artifacts.
 # @arg channel-name[`_choice_channel`]
 channel() {
     :;
@@ -39,37 +44,40 @@ channel() {
 
 # {{ flutter config
 # @cmd Configure Flutter settings.
-# @flag -h --help                                 Print this usage information.
-# @flag -v --verbose                              Noisy logging, including all shell commands executed.
-# @option -d --device-id[`_choice_device`]        Target device id or name (prefixes allowed).
-# @flag --version                                 Reports the version of this tool.
-# @flag --suppress-analytics                      Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                       Disable telemetry reporting when this command runs.
-# @flag --analytics                               Enable or disable reporting anonymously tool usage statistics and crash reports.
-# @flag --no-analytics                            Enable or disable reporting anonymously tool usage statistics and crash reports.
-# @flag --clear-ios-signing-cert                  Clear the saved development certificate choice used to sign apps for iOS device deployment.
-# @option --android-sdk <dir>                     The Android SDK directory.
-# @option --android-studio-dir <dir>              The Android Studio install directory.
-# @option --build-dir <dir>                       The relative path to override a projects build directory.
-# @flag --enable-web                              Enable or disable Flutter for web.
-# @flag --no-enable-web                           Enable or disable Flutter for web.
-# @flag --enable-linux-desktop                    Enable or disable support for desktop on Linux.
-# @flag --no-enable-linux-desktop                 Enable or disable support for desktop on Linux.
-# @flag --enable-macos-desktop                    Enable or disable support for desktop on macOS.
-# @flag --no-enable-macos-desktop                 Enable or disable support for desktop on macOS.
-# @flag --enable-windows-desktop                  Enable or disable support for desktop on Windows.
-# @flag --no-enable-windows-desktop               Enable or disable support for desktop on Windows.
-# @flag --single-widget-reload-optimization       Enable or disable Hot reload optimization for changes to class body of a single widget.
-# @flag --no-single-widget-reload-optimization    Enable or disable Hot reload optimization for changes to class body of a single widget.
-# @flag --enable-android                          Enable or disable Flutter for Android.
-# @flag --no-enable-android                       Enable or disable Flutter for Android.
-# @flag --enable-ios                              Enable or disable Flutter for iOS.
-# @flag --no-enable-ios                           Enable or disable Flutter for iOS.
-# @flag --enable-fuchsia                          Enable or disable Flutter for Fuchsia.
-# @flag --no-enable-fuchsia                       Enable or disable Flutter for Fuchsia.
-# @flag --enable-custom-devices                   Enable or disable Early support for custom device types.
-# @flag --no-enable-custom-devices                Enable or disable Early support for custom device types.
-# @flag --clear-features                          Remove all configured features and restore them to the default values.
+# @flag -h --help                             Print this usage information.
+# @flag -v --verbose                          Noisy logging, including all shell commands executed.
+# @option -d --device-id[`_choice_device`]    Target device id or name (prefixes allowed).
+# @flag --version                             Reports the version of this tool.
+# @flag --enable-analytics                    Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                   Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
+# @flag --suppress-analytics                  Suppress analytics reporting for the current CLI invocation.
+# @flag --list                                List all settings and their current values.
+# @flag --clear-ios-signing-cert              Clear the saved development certificate choice used to sign apps for iOS device deployment.
+# @option --android-sdk <dir>                 The Android SDK directory.
+# @option --android-studio-dir <dir>          The Android Studio installation directory.
+# @flag --jdk-dir                             The Java Development Kit (JDK) installation directory.
+# @option --build-dir <dir>                   The relative path to override a projects build directory.
+# @flag --enable-web                          Enable or disable Flutter for web.
+# @flag --no-enable-web                       Enable or disable Flutter for web.
+# @flag --enable-linux-desktop                Enable or disable support for desktop on Linux.
+# @flag --no-enable-linux-desktop             Enable or disable support for desktop on Linux.
+# @flag --enable-macos-desktop                Enable or disable support for desktop on macOS.
+# @flag --no-enable-macos-desktop             Enable or disable support for desktop on macOS.
+# @flag --enable-windows-desktop              Enable or disable support for desktop on Windows.
+# @flag --no-enable-windows-desktop           Enable or disable support for desktop on Windows.
+# @flag --enable-android                      Enable or disable Flutter for Android.
+# @flag --no-enable-android                   Enable or disable Flutter for Android.
+# @flag --enable-ios                          Enable or disable Flutter for iOS.
+# @flag --no-enable-ios                       Enable or disable Flutter for iOS.
+# @flag --enable-fuchsia                      Enable or disable Flutter for Fuchsia.
+# @flag --no-enable-fuchsia                   Enable or disable Flutter for Fuchsia.
+# @flag --enable-custom-devices               Enable or disable early support for custom device types.
+# @flag --no-enable-custom-devices            Enable or disable early support for custom device types.
+# @flag --cli-animations                      Enable or disable animations in the command line interface.
+# @flag --no-cli-animations                   Enable or disable animations in the command line interface.
+# @flag --enable-native-assets                Enable or disable native assets compilation and bundling.
+# @flag --no-enable-native-assets             Enable or disable native assets compilation and bundling.
+# @flag --clear-features                      Remove all configured features and restore them to the default values.
 config() {
     :;
 }
@@ -81,8 +89,9 @@ config() {
 # @flag -v --verbose                          Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]    Target device id or name (prefixes allowed).
 # @flag --version                             Reports the version of this tool.
+# @flag --enable-analytics                    Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                   Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                  Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                   Disable telemetry reporting when this command runs.
 # @flag --android-licenses                    Run the Android SDK manager tool to accept the SDK's licenses.
 doctor() {
     :;
@@ -95,8 +104,9 @@ doctor() {
 # @flag -v --verbose                          Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]    Target device id or name (prefixes allowed).
 # @flag --version                             Reports the version of this tool.
+# @flag --enable-analytics                    Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                   Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                  Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                   Disable telemetry reporting when this command runs.
 downgrade() {
     :;
 }
@@ -108,8 +118,9 @@ downgrade() {
 # @flag -v --verbose                          Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]    Target device id or name (prefixes allowed).
 # @flag --version                             Reports the version of this tool.
+# @flag --enable-analytics                    Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                   Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                  Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                   Disable telemetry reporting when this command runs.
 # @flag -a --all-platforms                    Precache artifacts for all host platforms.
 # @flag -f --force                            Force re-downloading of artifacts.
 # @flag --ios                                 Precache artifacts for iOS development.
@@ -137,8 +148,9 @@ precache() {
 # @flag -v --verbose                          Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]    Target device id or name (prefixes allowed).
 # @flag --version                             Reports the version of this tool.
+# @flag --enable-analytics                    Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                   Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                  Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                   Disable telemetry reporting when this command runs.
 # @flag -f --force                            Force upgrade the flutter branch, potentially discarding local changes.
 # @flag --verify-only                         Checks for any new Flutter updates, without actually fetching them.
 upgrade() {
@@ -152,8 +164,9 @@ upgrade() {
 # @flag -v --verbose                          Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]    Target device id or name (prefixes allowed).
 # @flag --version                             Reports the version of this tool.
+# @flag --enable-analytics                    Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                   Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                  Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                   Disable telemetry reporting when this command runs.
 # @flag --current-package                     Analyze the current project, if applicable.
 # @flag --no-current-package                  Analyze the current project, if applicable.
 # @flag --watch                               Run analysis continuously, watching the filesystem for changes.
@@ -181,8 +194,9 @@ analyze() {
 # @flag -v --verbose                              Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]        Target device id or name (prefixes allowed).
 # @flag --version                                 Reports the version of this tool.
+# @flag --enable-analytics                        Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                       Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                      Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                       Disable telemetry reporting when this command runs.
 # @option --define <target=key=value>             Allows passing configuration to a target, as in "--define=target=key=value".
 # @flag --performance-measurement-file            Output individual target performance to a JSON file.
 # @option -i --input <key=value>                  Allows passing additional inputs with "--input=key=value".
@@ -190,8 +204,8 @@ analyze() {
 # @option --build-inputs <file>                   A file path where a newline-separated file containing all inputs used will be written after a build.
 # @option --build-outputs <file>                  A file path where a newline-separated file containing all outputs created will be written after a build.
 # @option -o --output <dir>                       A directory where output files will be written.
-# @option --dart-define <foo=bar>                 Additional key-value pairs that will be available as constants from the String.fromEnvironment, bool.fromEnvironment, int.fromEnvironment, and double.fromEnvironment constructors.
-# @option --dart-define-from-file <file:.json>    The path of a json format file where flutter define a global constant pool.
+# @option --dart-define <foo=bar>                 Additional key-value pairs that will be available as constants from the String.fromEnvironment, bool.fromEnvironment, and int.fromEnvironment constructors.
+# @option --dart-define-from-file <file:.json>    The path of a .json or .env file containing key-value pairs that will be available as environment variables.
 # @option --resource-pool-size <n>                The maximum number of concurrent tasks the build system will run.
 assemble() {
     :;
@@ -204,8 +218,9 @@ assemble() {
 # @flag -v --verbose                          Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]    Target device id or name (prefixes allowed).
 # @flag --version                             Reports the version of this tool.
+# @flag --enable-analytics                    Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                   Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                  Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                   Disable telemetry reporting when this command runs.
 build() {
     :;
 }
@@ -216,8 +231,9 @@ build() {
 # @flag -v --verbose                              Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]        Target device id or name (prefixes allowed).
 # @flag --version                                 Reports the version of this tool.
+# @flag --enable-analytics                        Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                       Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                      Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                       Disable telemetry reporting when this command runs.
 # @flag --debug                                   Build a debug version of the current project.
 # @flag --no-debug                                Build a debug version of the current project.
 # @flag --profile                                 Build a version of the current project specialized for performance profiling.
@@ -234,8 +250,8 @@ build() {
 # @option --split-debug-info <v1.2.3/>            In a release build, this flag reduces application size by storing Dart program symbols in a separate file on the host rather than in the application.
 # @flag --obfuscate                               In a release build, this flag removes identifiers and replaces them with randomized values for the purposes of source code obfuscation.
 # @flag --no-obfuscate                            In a release build, this flag removes identifiers and replaces them with randomized values for the purposes of source code obfuscation.
-# @option --dart-define <foo=bar>                 Additional key-value pairs that will be available as constants from the String.fromEnvironment, bool.fromEnvironment, int.fromEnvironment, and double.fromEnvironment constructors.
-# @option --dart-define-from-file <file:.json>    The path of a json format file where flutter define a global constant pool.
+# @option --dart-define <foo=bar>                 Additional key-value pairs that will be available as constants from the String.fromEnvironment, bool.fromEnvironment, and int.fromEnvironment constructors.
+# @option --dart-define-from-file <file:.json>    The path of a .json or .env file containing key-value pairs that will be available as environment variables.
 # @flag --track-widget-creation                   Track widget creation locations.
 # @flag --no-track-widget-creation                Track widget creation locations.
 # @option -P --android-project-arg <value>        Additional arguments specified as key=value that are passed directly to the gradle project via the -P flag.
@@ -251,8 +267,9 @@ build::aar() {
 # @flag -v --verbose                              Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]        Target device id or name (prefixes allowed).
 # @flag --version                                 Reports the version of this tool.
+# @flag --enable-analytics                        Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                       Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                      Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                       Disable telemetry reporting when this command runs.
 # @flag --tree-shake-icons                        Tree shake icon fonts so that only glyphs used by the application remain.
 # @flag --no-tree-shake-icons                     Tree shake icon fonts so that only glyphs used by the application remain.
 # @option -t --target <path>                      The main entry-point file of the application, as run on the device.
@@ -267,8 +284,8 @@ build::aar() {
 # @option --split-debug-info <v1.2.3/>            In a release build, this flag reduces application size by storing Dart program symbols in a separate file on the host rather than in the application.
 # @flag --obfuscate                               In a release build, this flag removes identifiers and replaces them with randomized values for the purposes of source code obfuscation.
 # @flag --no-obfuscate                            In a release build, this flag removes identifiers and replaces them with randomized values for the purposes of source code obfuscation.
-# @option --dart-define <foo=bar>                 Additional key-value pairs that will be available as constants from the String.fromEnvironment, bool.fromEnvironment, int.fromEnvironment, and double.fromEnvironment constructors.
-# @option --dart-define-from-file <file:.json>    The path of a json format file where flutter define a global constant pool.
+# @option --dart-define <foo=bar>                 Additional key-value pairs that will be available as constants from the String.fromEnvironment, bool.fromEnvironment, and int.fromEnvironment constructors.
+# @option --dart-define-from-file <file:.json>    The path of a .json or .env file containing key-value pairs that will be available as environment variables.
 # @flag --analyze-size                            Whether to produce additional profile information for artifact output size.
 # @flag --no-analyze-size                         Whether to produce additional profile information for artifact output size.
 # @flag --code-size-directory                     The location to write code size analysis files.
@@ -293,8 +310,9 @@ build::apk() {
 # @flag -v --verbose                              Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]        Target device id or name (prefixes allowed).
 # @flag --version                                 Reports the version of this tool.
+# @flag --enable-analytics                        Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                       Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                      Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                       Disable telemetry reporting when this command runs.
 # @flag --tree-shake-icons                        Tree shake icon fonts so that only glyphs used by the application remain.
 # @flag --no-tree-shake-icons                     Tree shake icon fonts so that only glyphs used by the application remain.
 # @option -t --target <path>                      The main entry-point file of the application, as run on the device.
@@ -309,8 +327,8 @@ build::apk() {
 # @option --split-debug-info <v1.2.3/>            In a release build, this flag reduces application size by storing Dart program symbols in a separate file on the host rather than in the application.
 # @flag --obfuscate                               In a release build, this flag removes identifiers and replaces them with randomized values for the purposes of source code obfuscation.
 # @flag --no-obfuscate                            In a release build, this flag removes identifiers and replaces them with randomized values for the purposes of source code obfuscation.
-# @option --dart-define <foo=bar>                 Additional key-value pairs that will be available as constants from the String.fromEnvironment, bool.fromEnvironment, int.fromEnvironment, and double.fromEnvironment constructors.
-# @option --dart-define-from-file <file:.json>    The path of a json format file where flutter define a global constant pool.
+# @option --dart-define <foo=bar>                 Additional key-value pairs that will be available as constants from the String.fromEnvironment, bool.fromEnvironment, and int.fromEnvironment constructors.
+# @option --dart-define-from-file <file:.json>    The path of a .json or .env file containing key-value pairs that will be available as environment variables.
 # @flag --track-widget-creation                   Track widget creation locations.
 # @flag --no-track-widget-creation                Track widget creation locations.
 # @flag --analyze-size                            Whether to produce additional profile information for artifact output size.
@@ -336,15 +354,16 @@ build::appbundle() {
 # @flag -v --verbose                              Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]        Target device id or name (prefixes allowed).
 # @flag --version                                 Reports the version of this tool.
+# @flag --enable-analytics                        Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                       Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                      Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                       Disable telemetry reporting when this command runs.
 # @option -t --target <path>                      The main entry-point file of the application, as run on the device.
 # @option --build-number <value>                  An identifier used as an internal version number.
 # @flag --debug                                   Build a debug version of your app (default mode).
 # @flag --profile                                 Build a version of your app specialized for performance profiling.
 # @flag --release                                 Build a release version of your app.
-# @option --dart-define <foo=bar>                 Additional key-value pairs that will be available as constants from the String.fromEnvironment, bool.fromEnvironment, int.fromEnvironment, and double.fromEnvironment constructors.
-# @option --dart-define-from-file <file:.json>    The path of a json format file where flutter define a global constant pool.
+# @option --dart-define <foo=bar>                 Additional key-value pairs that will be available as constants from the String.fromEnvironment, bool.fromEnvironment, and int.fromEnvironment constructors.
+# @option --dart-define-from-file <file:.json>    The path of a .json or .env file containing key-value pairs that will be available as environment variables.
 # @option --depfile <file>                        A file path where a depfile will be written.
 # @option --target-platform[android-arm|android-arm64|android-x64|ios|darwin|linux-x64|linux-arm64|windows-x64]  The architecture for which to build the application.
 # @flag --asset-dir                               The output directory for the kernel_blob.bin file, the native snapshot, the assets, etc.
@@ -363,8 +382,9 @@ build::bundle() {
 # @flag -v --verbose                              Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]        Target device id or name (prefixes allowed).
 # @flag --version                                 Reports the version of this tool.
+# @flag --enable-analytics                        Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                       Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                      Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                       Disable telemetry reporting when this command runs.
 # @flag --debug                                   Build a debug version of your app.
 # @flag --profile                                 Build a version of your app specialized for performance profiling.
 # @flag --release                                 Build a release version of your app (default mode).
@@ -376,8 +396,8 @@ build::bundle() {
 # @flag --analyze-size                            Whether to produce additional profile information for artifact output size.
 # @flag --no-analyze-size                         Whether to produce additional profile information for artifact output size.
 # @flag --code-size-directory                     The location to write code size analysis files.
-# @option --dart-define <foo=bar>                 Additional key-value pairs that will be available as constants from the String.fromEnvironment, bool.fromEnvironment, int.fromEnvironment, and double.fromEnvironment constructors.
-# @option --dart-define-from-file <file:.json>    The path of a json format file where flutter define a global constant pool.
+# @option --dart-define <foo=bar>                 Additional key-value pairs that will be available as constants from the String.fromEnvironment, bool.fromEnvironment, and int.fromEnvironment constructors.
+# @option --dart-define-from-file <file:.json>    The path of a .json or .env file containing key-value pairs that will be available as environment variables.
 # @flag --pub                                     Whether to run "flutter pub get" before executing this command.
 # @flag --no-pub                                  Whether to run "flutter pub get" before executing this command.
 # @option -t --target <path>                      The main entry-point file of the application, as run on the device.
@@ -398,8 +418,9 @@ build::linux() {
 # @flag -v --verbose                              Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]        Target device id or name (prefixes allowed).
 # @flag --version                                 Reports the version of this tool.
+# @flag --enable-analytics                        Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                       Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                      Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                       Disable telemetry reporting when this command runs.
 # @flag --tree-shake-icons                        Tree shake icon fonts so that only glyphs used by the application remain.
 # @flag --no-tree-shake-icons                     Tree shake icon fonts so that only glyphs used by the application remain.
 # @option -t --target <path>                      The main entry-point file of the application, as run on the device.
@@ -410,8 +431,8 @@ build::linux() {
 # @option --build-name <x.y.z>                    A "x.y.z" string used as the version number shown to users.
 # @flag --profile                                 Build a version of your app specialized for performance profiling.
 # @flag --release                                 Build a release version of your app (default mode).
-# @option --dart-define <foo=bar>                 Additional key-value pairs that will be available as constants from the String.fromEnvironment, bool.fromEnvironment, int.fromEnvironment, and double.fromEnvironment constructors.
-# @option --dart-define-from-file <file:.json>    The path of a json format file where flutter define a global constant pool.
+# @option --dart-define <foo=bar>                 Additional key-value pairs that will be available as constants from the String.fromEnvironment, bool.fromEnvironment, and int.fromEnvironment constructors.
+# @option --dart-define-from-file <file:.json>    The path of a .json or .env file containing key-value pairs that will be available as environment variables.
 # @flag --native-null-assertions                  Enables additional runtime null checks in web applications to ensure the correct nullability of native (such as in dart:html) and external (such as with JS interop) types.
 # @flag --no-native-null-assertions               Enables additional runtime null checks in web applications to ensure the correct nullability of native (such as in dart:html) and external (such as with JS interop) types.
 # @flag --base-href                               Overrides the href attribute of the <base> tag in web/index.html.
@@ -422,7 +443,7 @@ build::linux() {
 # @flag --csp                                     Disable dynamic generation of code in the generated output.
 # @flag --source-maps                             Generate a sourcemap file.
 # @flag --no-source-maps                          Generate a sourcemap file.
-# @flag --dart2js-optimization                    Sets the optimization level used for Dart compilation to JavaScript.
+# @option --dart2js-optimization[O1|O2|O3|O4]     Sets the optimization level used for Dart compilation to JavaScript.
 # @flag --dump-info                               Passes "--dump-info" to the Javascript compiler which generates information about the generated code is a .js.info.json file.
 # @flag --no-frequency-based-minification         Disables the frequency based minifier.
 build::web() {
@@ -437,8 +458,9 @@ build::web() {
 # @flag -v --verbose                          Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]    Target device id or name (prefixes allowed).
 # @flag --version                             Reports the version of this tool.
+# @flag --enable-analytics                    Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                   Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                  Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                   Disable telemetry reporting when this command runs.
 # @option --scheme <value>                    When cleaning Xcode schemes, clean only the specified scheme.
 clean() {
     :;
@@ -451,8 +473,9 @@ clean() {
 # @flag -v --verbose                            Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]      Target device id or name (prefixes allowed).
 # @flag --version                               Reports the version of this tool.
+# @flag --enable-analytics                      Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                     Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                    Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                     Disable telemetry reporting when this command runs.
 # @flag --pub                                   Whether to run "flutter pub get" after the project has been created.
 # @flag --no-pub                                Whether to run "flutter pub get" after the project has been created.
 # @flag --offline                               When "flutter pub get" is run by the create command, this indicates whether to run it in offline mode or not.
@@ -483,13 +506,14 @@ create() {
 # @flag -v --verbose                              Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]        Target device id or name (prefixes allowed).
 # @flag --version                                 Reports the version of this tool.
+# @flag --enable-analytics                        Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                       Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                      Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                       Disable telemetry reporting when this command runs.
 # @flag --debug                                   Build a debug version of your app (default mode).
 # @flag --profile                                 Build a version of your app specialized for performance profiling.
 # @flag --release                                 Build a release version of your app.
-# @option --dart-define <foo=bar>                 Additional key-value pairs that will be available as constants from the String.fromEnvironment, bool.fromEnvironment, int.fromEnvironment, and double.fromEnvironment constructors.
-# @option --dart-define-from-file <file:.json>    The path of a json format file where flutter define a global constant pool.
+# @option --dart-define <foo=bar>                 Additional key-value pairs that will be available as constants from the String.fromEnvironment, bool.fromEnvironment, and int.fromEnvironment constructors.
+# @option --dart-define-from-file <file:.json>    The path of a .json or .env file containing key-value pairs that will be available as environment variables.
 # @option --flavor <value>                        Build a custom app flavor as defined by platform-specific build setup.
 # @option --web-renderer[auto|canvaskit|html]     The renderer implementation to use when building for the web.
 # @flag --web-resources-cdn                       Use Web static resources hosted on a CDN.
@@ -510,8 +534,6 @@ create() {
 # @flag --trace-skia                              Enable tracing of Skia code.
 # @flag --enable-dart-profiling                   Whether the Dart VM sampling CPU profiler is enabled.
 # @flag --no-enable-dart-profiling                Whether the Dart VM sampling CPU profiler is enabled.
-# @flag --enable-software-rendering               Enable rendering using the Skia software backend.
-# @flag --skia-deterministic-rendering            When combined with "--enable-software-rendering", this should provide completely deterministic (i.e.
 # @option -a --dart-entrypoint-args <value>       Pass a list of arguments to the Dart entrypoint at application startup.
 # @option --web-launch-url <url>                  The URL to provide to the browser.
 # @option -t --target <path>                      The main entry-point file of the application, as run on the device.
@@ -558,8 +580,9 @@ drive() {
 # @flag -v --verbose                             Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]       Target device id or name (prefixes allowed).
 # @flag --version                                Reports the version of this tool.
+# @flag --enable-analytics                       Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                      Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                     Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                      Disable telemetry reporting when this command runs.
 # @option --arb-dir <dir>                        The directory where the template and translated arb files are located.
 # @option --output-dir <dir>                     The directory where the generated localization classes will be written if the synthetic-package flag is set to false.
 # @option --template-arb-file <file>             The template arb file that will be used as the basis for generating the Dart localization and messages files.
@@ -585,6 +608,8 @@ drive() {
 # @flag --no-use-escaping                        Whether or not to use escaping for messages.
 # @flag --suppress-warnings                      When specified, all warnings will be suppressed.
 # @flag --no-suppress-warnings                   When specified, all warnings will be suppressed.
+# @flag --relax-syntax                           When specified, the syntax will be relaxed so that the special character "{" is treated as a string if it is not followed by a valid placeholder and "}" is treated as a string if it does not close any previous "{" that is treated as a special character.
+# @flag --no-relax-syntax                        When specified, the syntax will be relaxed so that the special character "{" is treated as a string if it is not followed by a valid placeholder and "}" is treated as a string if it does not close any previous "{" that is treated as a special character.
 gen-l10n() {
     :;
 }
@@ -596,8 +621,9 @@ gen-l10n() {
 # @flag -v --verbose                          Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]    Target device id or name (prefixes allowed).
 # @flag --version                             Reports the version of this tool.
+# @flag --enable-analytics                    Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                   Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                  Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                   Disable telemetry reporting when this command runs.
 pub() {
     :;
 }
@@ -760,8 +786,8 @@ pub::logout() {
 # @flag --json                       Output the results using a json format.
 # @flag --prereleases                Include prereleases in latest version.
 # @flag --no-prereleases             Include prereleases in latest version.
-# @flag --show-all                   Include dependencies that are already fullfilling --mode.
-# @flag --no-show-all                Include dependencies that are already fullfilling --mode.
+# @flag --show-all                   Include dependencies that are already fulfilling --mode.
+# @flag --no-show-all                Include dependencies that are already fulfilling --mode.
 # @flag --transitive                 Show transitive dependencies.
 # @flag --no-transitive              Show transitive dependencies.
 # @option -C --directory <dir>       Run this in the directory <dir>.
@@ -774,6 +800,7 @@ pub::outdated() {
 # @cmd Publish the current package to pub.dartlang.org.
 # @flag -n --dry-run              Validate but do not publish the package.
 # @flag -f --force                Publish without confirmation if there are no errors.
+# @flag --skip-validation         Publish without validation and resolution (this will ignore errors).
 # @option -C --directory <dir>    Run this in the directory <dir>.
 pub::publish() {
     :;
@@ -812,8 +839,9 @@ pub::run() {
 # @flag -v --verbose                          Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]    Target device id or name (prefixes allowed).
 # @flag --version                             Reports the version of this tool.
+# @flag --enable-analytics                    Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                   Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                  Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                   Disable telemetry reporting when this command runs.
 # @arg tests*
 pub::test() {
     :;
@@ -859,6 +887,7 @@ pub::token::remove() {
 # @flag -n --dry-run              Report what dependencies would change but don't change any.
 # @flag --precompile              Precompile executables in immediate dependencies.
 # @flag --no-precompile           Precompile executables in immediate dependencies.
+# @flag --tighten                 Updates lower bounds in pubspec.yaml to match the resolved version.
 # @flag --major-versions          Upgrades packages to their latest resolvable versions, and updates pubspec.yaml.
 # @option -C --directory <dir>    Run this in the directory <dir>.
 # @arg dependencies*[`_choice_package`]
@@ -892,13 +921,14 @@ pub::version() {
 # @flag -v --verbose                              Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]        Target device id or name (prefixes allowed).
 # @flag --version                                 Reports the version of this tool.
+# @flag --enable-analytics                        Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                       Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                      Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                       Disable telemetry reporting when this command runs.
 # @flag --debug                                   Build a debug version of your app (default mode).
 # @flag --profile                                 Build a version of your app specialized for performance profiling.
 # @flag --release                                 Build a release version of your app.
-# @option --dart-define <foo=bar>                 Additional key-value pairs that will be available as constants from the String.fromEnvironment, bool.fromEnvironment, int.fromEnvironment, and double.fromEnvironment constructors.
-# @option --dart-define-from-file <file:.json>    The path of a json format file where flutter define a global constant pool.
+# @option --dart-define <foo=bar>                 Additional key-value pairs that will be available as constants from the String.fromEnvironment, bool.fromEnvironment, and int.fromEnvironment constructors.
+# @option --dart-define-from-file <file:.json>    The path of a .json or .env file containing key-value pairs that will be available as environment variables.
 # @option --flavor <value>                        Build a custom app flavor as defined by platform-specific build setup.
 # @option --web-renderer[auto|canvaskit|html]     The renderer implementation to use when building for the web.
 # @flag --web-resources-cdn                       Use Web static resources hosted on a CDN.
@@ -919,8 +949,6 @@ pub::version() {
 # @flag --trace-skia                              Enable tracing of Skia code.
 # @flag --enable-dart-profiling                   Whether the Dart VM sampling CPU profiler is enabled.
 # @flag --no-enable-dart-profiling                Whether the Dart VM sampling CPU profiler is enabled.
-# @flag --enable-software-rendering               Enable rendering using the Skia software backend.
-# @flag --skia-deterministic-rendering            When combined with "--enable-software-rendering", this should provide completely deterministic (i.e.
 # @option -a --dart-entrypoint-args <value>       Pass a list of arguments to the Dart entrypoint at application startup.
 # @option --web-launch-url <url>                  The URL to provide to the browser.
 # @option -t --target <path>                      The main entry-point file of the application, as run on the device.
@@ -958,14 +986,15 @@ run() {
 # @flag -v --verbose                              Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]        Target device id or name (prefixes allowed).
 # @flag --version                                 Reports the version of this tool.
+# @flag --enable-analytics                        Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                       Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                      Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                       Disable telemetry reporting when this command runs.
 # @flag --pub                                     Whether to run "flutter pub get" before executing this command.
 # @flag --no-pub                                  Whether to run "flutter pub get" before executing this command.
 # @flag --track-widget-creation                   Track widget creation locations.
 # @flag --no-track-widget-creation                Track widget creation locations.
-# @option --dart-define <foo=bar>                 Additional key-value pairs that will be available as constants from the String.fromEnvironment, bool.fromEnvironment, int.fromEnvironment, and double.fromEnvironment constructors.
-# @option --dart-define-from-file <file:.json>    The path of a json format file where flutter define a global constant pool.
+# @option --dart-define <foo=bar>                 Additional key-value pairs that will be available as constants from the String.fromEnvironment, bool.fromEnvironment, and int.fromEnvironment constructors.
+# @option --dart-define-from-file <file:.json>    The path of a .json or .env file containing key-value pairs that will be available as environment variables.
 # @option --web-renderer[auto|canvaskit|html]     The renderer implementation to use when building for the web.
 # @option --device-user <10>                      Identifier number for a user or work profile on Android only.
 # @option --flavor <value>                        Build a custom app flavor as defined by platform-specific build setup.
@@ -980,6 +1009,7 @@ run() {
 # @flag --merge-coverage                          Whether to merge coverage data with "coverage/lcov.base.info".
 # @flag --branch-coverage                         Whether to collect branch coverage information.
 # @flag --coverage-path                           Where to store coverage information (if coverage is enabled).
+# @option --coverage-package <package-name-regexp>  A regular expression matching packages names to include in the coverage report (if coverage is enabled).
 # @flag --update-goldens                          Whether "matchesGoldenFile()" calls within your test methods should update the golden files rather than test for an existing match.
 # @option -j --concurrency <jobs>                 The number of concurrent test processes to run.
 # @flag --test-assets                             Whether to build the assets bundle for testing.
@@ -1002,15 +1032,16 @@ test() {
 # @flag -v --verbose                              Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]        Target device id or name (prefixes allowed).
 # @flag --version                                 Reports the version of this tool.
+# @flag --enable-analytics                        Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                       Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                      Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                       Disable telemetry reporting when this command runs.
 # @flag --debug                                   Build a debug version of your app (default mode).
 # @flag --profile                                 Build a version of your app specialized for performance profiling.
 # @option -t --target <path>                      The main entry-point file of the application, as run on the device.
 # @option --device-vmservice-port <port>          Look for vmservice connections only from the specified port.
 # @option --host-vmservice-port <port>            When a device-side vmservice port is forwarded to a host-side port, use this value as the host port.
-# @option --dart-define <foo=bar>                 Additional key-value pairs that will be available as constants from the String.fromEnvironment, bool.fromEnvironment, int.fromEnvironment, and double.fromEnvironment constructors.
-# @option --dart-define-from-file <file:.json>    The path of a json format file where flutter define a global constant pool.
+# @option --dart-define <foo=bar>                 Additional key-value pairs that will be available as constants from the String.fromEnvironment, bool.fromEnvironment, and int.fromEnvironment constructors.
+# @option --dart-define-from-file <file:.json>    The path of a .json or .env file containing key-value pairs that will be available as environment variables.
 # @option --device-user <10>                      Identifier number for a user or work profile on Android only.
 # @option --debug-url <url>                       The URL at which the Dart VM Service is listening.
 # @option --app-id <url>                          The package name (Android) or bundle identifier (iOS) for the app.
@@ -1031,8 +1062,9 @@ attach() {
 # @flag -v --verbose                          Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]    Target device id or name (prefixes allowed).
 # @flag --version                             Reports the version of this tool.
+# @flag --enable-analytics                    Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                   Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                  Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                   Disable telemetry reporting when this command runs.
 custom-devices() {
     :;
 }
@@ -1043,8 +1075,9 @@ custom-devices() {
 # @flag -v --verbose                          Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]    Target device id or name (prefixes allowed).
 # @flag --version                             Reports the version of this tool.
+# @flag --enable-analytics                    Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                   Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                  Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                   Disable telemetry reporting when this command runs.
 # @flag --check                               Make sure the config actually works.
 # @flag --no-check                            Make sure the config actually works.
 # @option --json* <"id": "pi">                Add the custom device described by this JSON-encoded string to the list of custom-devices instead of using the normal, interactive way of configuring.
@@ -1060,8 +1093,9 @@ custom-devices::add() {
 # @flag -v --verbose                          Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]    Target device id or name (prefixes allowed).
 # @flag --version                             Reports the version of this tool.
+# @flag --enable-analytics                    Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                   Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                  Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                   Disable telemetry reporting when this command runs.
 custom-devices::delete() {
     :;
 }
@@ -1073,8 +1107,9 @@ custom-devices::delete() {
 # @flag -v --verbose                          Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]    Target device id or name (prefixes allowed).
 # @flag --version                             Reports the version of this tool.
+# @flag --enable-analytics                    Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                   Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                  Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                   Disable telemetry reporting when this command runs.
 custom-devices::list() {
     :;
 }
@@ -1086,8 +1121,9 @@ custom-devices::list() {
 # @flag -v --verbose                          Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]    Target device id or name (prefixes allowed).
 # @flag --version                             Reports the version of this tool.
+# @flag --enable-analytics                    Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                   Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                  Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                   Disable telemetry reporting when this command runs.
 custom-devices::reset() {
     :;
 }
@@ -1100,8 +1136,9 @@ custom-devices::reset() {
 # @flag -v --verbose                          Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]    Target device id or name (prefixes allowed).
 # @flag --version                             Reports the version of this tool.
+# @flag --enable-analytics                    Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                   Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                  Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                   Disable telemetry reporting when this command runs.
 # @flag --machine                             Output device information in machine readable structured JSON format.
 # @option --device-timeout <10>               Time in seconds to wait for devices to attach.
 # @option --device-connection[attached|both|wireless]  Discover devices based on connection type.
@@ -1116,8 +1153,9 @@ devices() {
 # @flag -v --verbose                          Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]    Target device id or name (prefixes allowed).
 # @flag --version                             Reports the version of this tool.
+# @flag --enable-analytics                    Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                   Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                  Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                   Disable telemetry reporting when this command runs.
 # @option --launch[`_choice_emulator`]        The full or partial ID of the emulator to launch.
 # @flag --cold                                Used with the "--launch" flag to cold boot the emulator instance (Android only).
 # @flag --create                              Creates a new Android emulator based on a Pixel device.
@@ -1133,8 +1171,9 @@ emulators() {
 # @flag -v --verbose                          Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]    Target device id or name (prefixes allowed).
 # @flag --version                             Reports the version of this tool.
+# @flag --enable-analytics                    Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                   Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                  Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                   Disable telemetry reporting when this command runs.
 # @flag --debug                               Build a debug version of your app.
 # @flag --profile                             Build a version of your app specialized for performance profiling.
 # @flag --release                             Build a release version of your app (default mode).
@@ -1156,8 +1195,9 @@ install() {
 # @flag -v --verbose                          Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]    Target device id or name (prefixes allowed).
 # @flag --version                             Reports the version of this tool.
+# @flag --enable-analytics                    Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                   Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                  Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                   Disable telemetry reporting when this command runs.
 # @flag -c --clear                            Clear log history before reading from logs.
 # @option --device-timeout <10>               Time in seconds to wait for devices to attach.
 # @option --device-connection[attached|both|wireless]  Discover devices based on connection type.
@@ -1172,8 +1212,9 @@ logs() {
 # @flag -v --verbose                               Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]         Target device id or name (prefixes allowed).
 # @flag --version                                  Reports the version of this tool.
+# @flag --enable-analytics                         Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                        Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                       Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                        Disable telemetry reporting when this command runs.
 # @option -o --out <path/to/file>                  Location to write the screenshot.
 # @option --vm-service-url <URI>                   The VM Service URL to which to connect.
 # @option --type[device|rasterizer|skia] <type>    The type of screenshot to retrieve.
@@ -1190,8 +1231,9 @@ screenshot() {
 # @flag -v --verbose                          Noisy logging, including all shell commands executed.
 # @option -d --device-id[`_choice_device`]    Target device id or name (prefixes allowed).
 # @flag --version                             Reports the version of this tool.
+# @flag --enable-analytics                    Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                   Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
 # @flag --suppress-analytics                  Suppress analytics reporting for the current CLI invocation.
-# @flag --disable-telemetry                   Disable telemetry reporting when this command runs.
 # @option --debug-info <file>                 A path to the symbols file generated with "--split-debug-info".
 # @option -i --input <path>                   A file path containing a Dart stack trace.
 # @option -o --output <path>                  A file path for a symbolized stack trace to be written to.

@@ -115,5 +115,5 @@ _choice_available() {
 }
 
 _choice_available_cached() {
-    _argc_util_cache 86400 _choice_available nix-env__choice_available
+    _argc_util_cache 86400 _choice_available
 }
