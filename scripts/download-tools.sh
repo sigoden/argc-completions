@@ -11,6 +11,7 @@ MIN_YQ_VERSION=4.25.1
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )"
 INSTALL_DIR="$ROOT_DIR/bin"
 TMP_DIR=/tmp/argc_completions_bin
+TAG_SED_COMMAND='s/.*"tag_name": "v\([0-9.]*\)".*/\1/p'
 
 if [[ "$1" == "--force" || "$1" == "-f" ]]; then
     force=1
@@ -69,7 +70,7 @@ download_tools() {
         fi
     fi
     if [[ $download_argc -eq 1 ]]; then
-        argc_version=$(curl -fsSL https://api.github.com/repos/sigoden/argc/releases/latest | sed -n 's/^  "tag_name": "v\(\S\+\)".*/\1/p')
+        argc_version=$(curl -fsSL https://api.github.com/repos/sigoden/argc/releases/latest | sed -n "$TAG_SED_COMMAND")
         fetch argc "https://github.com/sigoden/argc/releases/download/v${argc_version}/argc-v${argc_version}-${argc_file_suffix}" argc
     else
         echo argc found
@@ -86,7 +87,7 @@ download_tools() {
         fi
     fi
     if [[ $download_yq -eq 1 ]]; then
-        yq_version=$(curl -fsSL https://api.github.com/repos/mikefarah/yq/releases/latest | sed -n 's/^  "tag_name": "v\(\S\+\)".*/\1/p')
+        yq_version=$(curl -fsSL https://api.github.com/repos/mikefarah/yq/releases/latest | sed -n "$TAG_SED_COMMAND")
         fetch yq "https://github.com/mikefarah/yq/releases/download/v${yq_version}/yq_${yq_file_suffix}" "yq_${yq_file_suffix%%.*}"
     else
         echo yq found
