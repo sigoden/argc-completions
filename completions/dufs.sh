@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @option -c --config <config>     Specify configuration file
+# @option -c --config <file>       Specify configuration file
 # @option -b --bind <addrs>        Specify bind address or unix socket
 # @option -p --port <port>         Specify port to listen on [default: 5000]
 # @option --path-prefix <path>     Specify a path prefix
@@ -19,6 +19,7 @@
 # @flag --render-spa               Serve SPA(Single Page Application)
 # @option --assets <path>          Set the path to the assets directory for overriding the built-in assets
 # @option --log-format <format>    Customize http log format
+# @option --compress[none|low|medium|high] <level>  Set zip compress level [default: low]
 # @option --completions[bash|elvish|fish|powershell|zsh] <shell>  Print shell completion script for <shell>
 # @option --tls-cert <path>        Path to an SSL/TLS certificate to serve with HTTPS
 # @option --tls-key <path>         Path to the SSL/TLS certificate's private key
