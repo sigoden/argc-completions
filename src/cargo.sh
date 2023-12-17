@@ -31,6 +31,8 @@ Args:
 EOF
     elif [[ "$*" == "cargo clippy" ]]; then
         $@ --help | sed '/^\s*-W --/,/^$/ d'
+    elif [[ "$*" == "cargo hack "* ]]; then
+        :;
     elif [[ "$*" == "cargo udeps" ]]; then
         $@ --help | sed 's/\[cargo\]//g'
     else
@@ -85,6 +87,22 @@ _patch_table() {
 
     elif [[ "$*" == "cargo fmt" ]]; then
         echo "$table" | _patch_table_edit_arguments 'rustfmt_options;~[`_choice_fmt`]'
+
+    elif [[ "$*" == "cargo hack build" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments ';;' 'args;~[`_choice_proxy_build`]'
+
+    elif [[ "$*" == "cargo hack check" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments ';;' 'args;~[`_choice_proxy_check`]'
+
+    elif [[ "$*" == "cargo hack run" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments ';;' 'args;~[`_choice_proxy_run`]'
+
+    elif [[ "$*" == "cargo hack test" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments ';;' 'args;~[`_choice_proxy_test`]'
 
     elif [[ "$*" == "cargo llvm-cov nextest" ]]; then
         echo "$table" | \
@@ -219,6 +237,22 @@ _choice_ndk_target() {
 
 _choice_nextest_cmd() {
     _argc_util_comp_subcommand 0 cargo nextest
+}
+
+_choice_proxy_build() {
+    _argc_util_comp_subcommand 0 cargo build
+}
+
+_choice_proxy_check() {
+    _argc_util_comp_subcommand 0 cargo check
+}
+
+_choice_proxy_run() {
+    _argc_util_comp_subcommand 0 cargo run
+}
+
+_choice_proxy_test() {
+    _argc_util_comp_subcommand 0 cargo test
 }
 
 _choice_toolchain() {
