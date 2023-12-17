@@ -72,8 +72,6 @@ cd argc-completions
 
 > For Windows, please run the above code in Git Bash.
 
-![install](https://github.com/sigoden/argc-completions/assets/4012553/a06752d7-7179-417a-8038-f3c7defa9f12)
-
 Tools downloaded by `./scripts/download-tools.sh`:
   - [argc](https://github.com/sigoden/argc): completion engine
   - [yq](https://github.com/mikefarah/yq): YAML/JSON/XML/CSV/TOML processor

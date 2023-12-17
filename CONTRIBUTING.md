@@ -58,7 +58,7 @@ argc check <COMMAND>
 
 Our prefered commit message format:
 
-- `add: COMMAND`  if your add a new completion script. e.g. `add: cargo binstall`
+- `add: COMMAND`  if your add a new completion script. e.g. `add: cargo-binstall`
 
 - `COMMAND: ...`  if your modify a completion script.
 
