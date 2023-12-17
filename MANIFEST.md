@@ -106,6 +106,7 @@
 - [cargo-crev](completions/cargo/crev.sh): A cryptographically verifiable code review system for the cargo (Rust) package manager. [🔗](https://github.com/crev-dev/cargo-crev)
 - [cargo-fuzz](completions/cargo/fuzz.sh): Command line helpers for fuzzing [🔗](https://github.com/rust-fuzz/cargo-fuzz)
 - [cargo-geiger](completions/cargo/geiger.sh): Detects usage of unsafe Rust in a Rust crate and its dependencies. [🔗](https://github.com/rust-secure-code/cargo-geiger)
+- [cargo-hack](completions/cargo/hack.sh): Cargo subcommand to provide various options useful for testing and continuous integration. [🔗](https://github.com/taiki-e/cargo-hack)
 - [cargo-insta](completions/cargo/insta.sh): A snapshot testing library for rust [🔗](https://github.com/mitsuhiko/insta)
 - [cargo-leptos](completions/cargo/leptos.sh): Build tool for Leptos [🔗](https://github.com/leptos-rs/cargo-leptos)
 - [cargo-license](completions/cargo/license.sh): Cargo subcommand to see license of dependencies [🔗](https://github.com/onur/cargo-license)
