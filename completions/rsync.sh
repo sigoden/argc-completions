@@ -56,7 +56,7 @@
 # @flag --preallocate                  allocate dest files before writing them
 # @flag -n --dry-run                   perform a trial run with no changes made
 # @flag -W --whole-file                copy files whole (w/o delta-xfer algorithm)
-# @option --checksum-choice <STR>      choose the checksum algorithm (aka --cc)
+# @option --checksum-choice[`_choice_checksum`] <STR>  choose the checksum algorithm (aka --cc)
 # @flag -x --one-file-system           don't cross filesystem boundaries
 # @option -B --block-size <SIZE>       force a fixed checksum block-size
 # @option -e --rsh <COMMAND>           specify the remote shell to use
@@ -98,7 +98,7 @@
 # @option --copy-dest <DIR>            ... and include copies of unchanged files
 # @option --link-dest <DIR>            hardlink to files in DIR when unchanged
 # @flag -z --compress                  compress file data during the transfer
-# @option --compress-choice <STR>      choose the compression algorithm (aka --zc)
+# @option --compress-choice[`_choice_compress`] <STR>  choose the compression algorithm (aka --zc)
 # @option --compress-level <NUM>       explicitly set compression level (aka --zl)
 # @option --skip-compress <LIST>       skip compressing files with suffix in LIST
 # @flag -C --cvs-exclude               auto-ignore files in the same way CVS does
@@ -146,7 +146,15 @@
 # @flag -6 --ipv6                      prefer IPv6
 # @flag -V --version                   print the version + other info and exit
 # @flag --help                         show this help (* -h is help only on its own)
-# @arg src*
-# @arg dest
+# @arg src-path
+# @arg dest-path
+
+_choice_checksum() {
+    printf "%s\n" xxh128 xxh3 xxh64 md5 md4 sha1 none
+}
+
+_choice_compress() {
+    printf "%s\n" zstd lz4 zlibx zlib none
+}
 
 command eval "$(argc --argc-eval "$0" "$@")"
