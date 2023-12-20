@@ -1,7 +1,10 @@
 _patch_help() { 
     _patch_help_run_man $@ | \
     sed -n '/^OPTIONS/,/^EXIT/ {//!p}' | \
-    sed -e 's/--reference-location = /--reference-location=/'
+    sed \
+        -e 's/--reference-location = /--reference-location=/' \
+        -e 's/\[=true|false\]/{true|false}/' \
+
 }
 
 _patch_table() { 
@@ -9,7 +12,7 @@ _patch_table() {
         '--from;[`_choice_input_format`]' \
         '--highlight-style;[`_choice_highlight_style`]' \
         '--list-extensions;[`_choice_format`]' \
-        '--output;[docx|odt|epub2|epub3]' \
+        '--output; ;' \
         '--print-highlight-style;[`_choice_highlight_style`]' \
         '--read;[`_choice_input_format`]' \
         '--to;[`_choice_output_format`]' \
