@@ -706,6 +706,7 @@
 - [rbenv](completions/rbenv.sh): Manage your app's Ruby environment [🔗](https://github.com/rbenv/rbenv)
 - [rclone](completions/rclone.sh): rsync for cloud storage [🔗](https://github.com/rclone/rclone)
 - [readelf](completions/readelf.sh): display information about ELF files [🔗](https://www.gnu.org/software/binutils)
+- [rebar3](completions/rebar3.sh): Erlang build tool [🔗](https://github.com/erlang/rebar3)
 - [readlink](completions/readlink.sh): print resolved symbolic links or canonical file names [🔗](http://gnu.org/software/coreutils)
 - [realpath](completions/realpath.sh): print the resolved path [🔗](http://gnu.org/software/coreutils)
 - [reboot](completions/reboot.sh): Halt, power-off or reboot the machine [🔗](https://github.com/systemd/systemd)
