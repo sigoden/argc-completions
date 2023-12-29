@@ -181,6 +181,7 @@ _patch_table_add_metadata() {
 _patch_table_detect_value_type() {
     sed \
         -e 's/^\(option # -\S\+\( -\S\+\)*\) \(array\|stringarray\|strings\|<array>\|<stringarray>\|<strings>\)/\1 string.../I' \
+        -e 's/^\(option # -\S\+\( -\S\+\)*\) string\[\]/\1 string.../I' \
         -e '/[Dd]ir.*file/ s/^\(option # -\S\+\( -\S\+\)*\) \S*\(string\|value\|<string>\|<value>\)/\1 path/I' \
         -e '/[Dd]ir/ s/^\(option # -\S\+\( -\S\+\)*\) \S*\(string\|value\|<string>\|<value>\)/\1 dir/I' \
         -e '/[Ff]ile/ s/^\(option # -\S\+\( -\S\+\)*\) \S*\(string\|value\|<string>\|<value>\)/\1 file/I' \

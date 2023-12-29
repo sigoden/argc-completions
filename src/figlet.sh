@@ -1,5 +1,5 @@
 _patch_help() {
-    cat <<-'EOF'
+    cat <<-'EOF' | _patch_help_embed_help $@
 Usage: figlet [options] <message>
 Options:
   -c                  center justify

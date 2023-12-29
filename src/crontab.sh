@@ -1,6 +1,7 @@
 _patch_help() {
-    cat <<-'EOF'
-usage:  crontab [-u user] file
+    cat <<-'EOF' | _patch_help_embed_help $@
+usage:  crontab [options] file
+Options:
     -u <user>     specific user
     -e            edit user's crontab
     -l            list user's crontab

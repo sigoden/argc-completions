@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
+set -e
+
 export PATH="$(pwd)/bin:$PATH"
 export ARGC_COMPLETIONS_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-
-set -e
 
 # @cmd Generate the completion script
 # @flag -P --with-plugins           Wheter generate completion scripts for plugins simultaneously

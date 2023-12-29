@@ -67,8 +67,8 @@
 # @option -xtype[`_choice_type`] <c>             The same as -type unless the file is a symbolic link.
 # @option -context <pattern>                     Security context of the file matches glob pattern.
 # @flag -delete                                  Delete  files.
-# @option -exec <command>                        Execute command.
-# @option -execdir <command>                     Like -exec, but the specified command is run from the subdirectory containing the matched file.
+# @option -exec~[`_module_os_exec`] <command>    Execute command.
+# @option -execdir~[`_module_os_exec`] <command>  Like -exec, but the specified command is run from the subdirectory containing the matched file.
 # @flag -fls                                     Unusual characters are always escaped.
 # @flag -fprint                                  Quoting is handled in the same way as for -printf and -fprintf.
 # @flag -fprint0                                 Always print the exact filename, unchanged, even if the output is going to a terminal.
@@ -145,6 +145,29 @@ l	symbolic link
 s	socket
 D	door (Solaris)
 EOF
+}
+
+_module_os_command() {
+    if _argc_util_has_path_prefix; then
+        _argc_util_comp_path
+        return
+    fi
+    if [[ "$ARGC_OS" == "windows" ]]; then
+        PATH="$(echo "$PATH" | sed 's|:[^:]*/windows/system32:|:|Ig')" compgen -c
+    else
+        compgen -c
+    fi
+}
+
+_module_os_exec() {
+    if [[ -n "$argc__option" ]]; then
+        argc__positionals=( "${!argc__option}" )
+    fi
+    if [[ "${#argc__positionals[@]}" -lt 2 ]]; then
+        _module_os_command
+    else
+        _argc_util_comp_subcommand 0
+    fi
 }
 
 _module_os_group() {
