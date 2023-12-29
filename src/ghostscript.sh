@@ -1,5 +1,5 @@
 _patch_help() {
-    cat <<-'EOF'
+    cat <<-'EOF' | _patch_help_embed_help $@
 Usage: ghostscript [options] files...
 -D- name=token               Define a name in "systemdict" with the given definition. 
 -d- name=token               Define a name in "systemdict" with the given definition.

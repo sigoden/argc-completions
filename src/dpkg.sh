@@ -1,5 +1,5 @@
 _patch_help() {
-    cat <<-'EOF'
+    cat <<-'EOF' | _patch_help_embed_help $@
   -i, --install <path>...           Install the package.
   --unpack <path>...                Unpack the package, but don't configure it.
   -A, --record-avail <path>...      Unpack the package, but don't configure it.

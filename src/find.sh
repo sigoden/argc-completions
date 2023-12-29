@@ -1,5 +1,5 @@
 _patch_help() { 
-    cat <<-'EOF'
+    cat <<-'EOF' | _patch_help_embed_help $@
 Usage: find [options] dirs...
 Options:
     -P                          Never follow symbolic links
@@ -86,6 +86,8 @@ EOF
 _patch_table() { 
     _patch_table_edit_options \
         '-D;[`_choice_debugopts`]' \
+        '-exec;~[`_module_os_exec`]' \
+        '-execdir;~[`_module_os_exec`]' \
         '-fstype;[`_choice_fstype`]' \
         '-group;[`_module_os_group`]' \
         '-regextype;[`_choice_regextype`]' \
