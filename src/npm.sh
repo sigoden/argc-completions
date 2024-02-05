@@ -501,7 +501,7 @@ _choice_config_key() {
 _choice_script() {
     _helper_find_pkg_json_path
     if [[ -n "$pkg_json_path" ]]; then
-        cat "$pkg_json_path" | yq '(.scripts // {}) | keys | .[]'
+        cat "$pkg_json_path" | yq -r '(.scripts // {}) | keys | .[]'
     fi
 }
 
