@@ -73,11 +73,11 @@ EOF
 _patch_table() {
     if [[ "$*" == "nmcli" ]]; then
         _patch_table_edit_options \
+            '--color;[auto|yes|no]' \
             '--escape;[yes|no]' \
             '--fields;[`_choice_field`]' \
             '--get-values;[`_choice_field`]' \
             '--mode;[tabular|multiline]' \
-            '--color;[auto|yes|no]' \
 
     elif [[ "$*" == "nmcli general logging" ]]; then
         _patch_table_edit_arguments ';;'  'args;*[`_choice_general_logging_args`]'

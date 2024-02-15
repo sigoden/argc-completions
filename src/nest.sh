@@ -18,8 +18,8 @@ _patch_table() {
 
     elif [[ "$*" == "nest new" ]]; then
         _patch_table_edit_options \
-            '--package-manager;[npm|yarn|pnpm]' \
             '--language;[TypeScript|Javascript]' \
+            '--package-manager;[npm|yarn|pnpm]' \
 
     elif [[ "$*" == "nest build" ]] \
       || [[ "$*" == "nest start" ]] \

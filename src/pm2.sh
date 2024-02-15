@@ -12,11 +12,11 @@ _patch_help() {
 _patch_table() {
     if [[ "$*" == "pm2" ]]; then
         _patch_table_edit_options \
+            '--gid;[`_module_os_gid`]' \
             '--log-type;[raw|json]' \
             '--pid(<path>)' \
-            '--user;[`_module_os_user`]' \
             '--uid;[`_module_os_uid`]' \
-            '--gid;[`_module_os_gid`]' \
+            '--user;[`_module_os_user`]' \
         | \
         _patch_table_edit_arguments ';;' | \
         _patch_table_edit_commands \
@@ -31,8 +31,8 @@ _patch_table() {
     elif [[ "$*" == "pm2 start" ]]; then
         _patch_table_copy_options pm2 | \
         _patch_table_dedup_options \
-            '--watch' \
             '--help' \
+            '--watch' \
         | \
         _patch_table_edit_arguments ';;' 'target;[`_choice_start`]'
 

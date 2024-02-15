@@ -21,13 +21,13 @@ _patch_table() {
 
         elif [[ "$*" == "vagrant box prune" ]]; then
             _patch_table_edit_options \
-                '--provider;[`_choice_provider`]' \
                 '--name;[`_choice_box`]' \
+                '--provider;[`_choice_provider`]' \
 
         elif [[ "$*" == "vagrant box remove" ]]; then
             _patch_table_edit_options \
-                '--provider;[`_choice_box_provider`]' \
                 '--box-version;[`_choice_box_version`]' \
+                '--provider;[`_choice_box_provider`]' \
             | \
             _patch_table_edit_arguments \
                 'name;[`_choice_box`]' \

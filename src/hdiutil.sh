@@ -27,15 +27,15 @@ _patch_table() {
     if [[ "$*" == "hdiutil create" ]]; then
         echo "$table" | \
         _patch_table_dedup_options \
-            '-format' \
             '-\\[no\\]spotlight' \
+            '-format' \
         | \
         _patch_table_edit_options \
-            '-layout;[`_choice_layout`]; ' \
-            '-type;[`_choice_type`]; ' \
-            '-srcowners;[`_choice_srcowners`]; ' \
             '-format;[`_choice_format`]; ' \
             '-fs;[`_choice_fs`]; ' \
+            '-layout;[`_choice_layout`]; ' \
+            '-srcowners;[`_choice_srcowners`]; ' \
+            '-type;[`_choice_type`]; ' \
 
     else
         echo "$table"

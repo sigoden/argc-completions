@@ -3,6 +3,7 @@ _patch_help() {
     sed \
         -e 's/ (Arg-Required, From-Prompt)//' \
         -e 's/\[ 1 | 2 | 3 \]/{1|2|3}/' \
+        -e 's/--h-<header> <data>/--h-<header-data>/' \
         -e 's/^           -/      -/' \
 
 }

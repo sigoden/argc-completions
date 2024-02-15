@@ -68,14 +68,14 @@ _patch_table() {
     elif [[ "$*" == "flutter assemble" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '--input(<key=value>)' \
-            '--depfile(<file>)' \
+            '--asset-dir(<dir>)' \
             '--build-inputs(<file>)' \
             '--build-outputs(<file>)' \
+            '--code-size-directory(<dir>)' \
+            '--depfile(<file>)' \
+            '--input(<key=value>)' \
             '--output(<dir>)' \
             '--resource-pool-size(<n>)' \
-            '--asset-dir(<dir>)' \
-            '--code-size-directory(<dir>)' \
 
     elif [[ "$*" == "flutter build"* ]]; then
         table="$( \
@@ -130,38 +130,38 @@ _patch_table() {
     elif [[ "$*" == "flutter create" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '--description(<text>)' \
-            '--org(<text>)' \
-            '--ios-language;[objc|swift]' \
             '--android-language;[java|kotlin]' \
+            '--description(<text>)' \
+            '--ios-language;[objc|swift]' \
+            '--org(<text>)' \
             '--platforms;[ios|android|windows|linux|macos|web]' \
-            '--template;[`_choice_create_template`]' \
             '--roject-name(<text>)' \
+            '--template;[`_choice_create_template`]' \
 
     elif [[ "$*" == "flutter drive" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '--use-application-binary(<file:.apk>)' \
-            '--route(<value>)' \
-            '--dart-entrypoint-args(<value>)' \
-            '--web-launch-url(<url>)' \
             '--android-project-arg(<value)' \
             '--browser-name;[android-chrome|chrome|edge|firefox|ios-safari|safari]' \
             '--chrome-binary(<path>)' \
-            '--test-arguments(<value>)' \
+            '--dart-entrypoint-args(<value>)' \
             '--profile-memory(<file:.json>)' \
+            '--route(<value>)' \
+            '--test-arguments(<value>)' \
+            '--use-application-binary(<file:.apk>)' \
+            '--web-launch-url(<url>)' \
 
     elif [[ "$*" == "flutter gen-l10n" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
             '--arb-dir(<dir>)' \
-            '--output-dir(<dir>)' \
-            '--template-arb-file(<file>)' \
-            '--output-localization-file(<file>)' \
-            '--untranslated-messages-file(<file>)' \
-            '--output-class(<value>)' \
             '--header(<value>)' \
             '--header-file(<file>)' \
+            '--output-class(<value>)' \
+            '--output-dir(<dir>)' \
+            '--output-localization-file(<file>)' \
+            '--template-arb-file(<file>)' \
+            '--untranslated-messages-file(<file>)' \
 
     elif [[ "$*" == "flutter pub deps" ]]; then
         echo "$table" | _patch_table_edit_options '--style;[=tree|compact|list]'
@@ -183,29 +183,29 @@ _patch_table() {
     elif [[ "$*" == "flutter run" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '--use-application-binary(<path>)' \
-            '--route(<value>)' \
-            '--dart-entrypoint-args(<value>)' \
-            '--web-launch-url(<url>)' \
             '--android-project-arg(<value)' \
+            '--dart-entrypoint-args(<value>)' \
             '--pid-file(<file>)' \
+            '--route(<value>)' \
+            '--use-application-binary(<path>)' \
+            '--web-launch-url(<url>)' \
 
     elif [[ "$*" == "flutter test" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '--tags(<tag...>)' \
             '--exclude-tags(<tag...>)' \
-            '--test-randomize-ordering-seed(<value>)' \
-            '--total-shards(<n>)' \
-            '--shard-index(<n>)' \
             '--reporter;[`_choice_test_reporter`]' \
+            '--shard-index(<n>)' \
+            '--tags(<tag...>)' \
+            '--test-randomize-ordering-seed(<value>)' \
             '--timeout(<value>)' \
+            '--total-shards(<n>)' \
 
     elif [[ "$*" == "flutter attach" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '--debug-url(<url>)' \
             '--app-id(<url>)' \
+            '--debug-url(<url>)' \
             '--pid-file(<file>)' \
 
 

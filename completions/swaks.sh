@@ -101,8 +101,8 @@
 # @option --attach-name <name>                     This option sets the filename that will be included in the MIME part created for the next "--attach" option.
 # @option -ah <header>                             This option allows headers to be added to the DATA.
 # @option --add-header <header>                    This option allows headers to be added to the DATA.
-# @option --header <header> <data>                 These options allow a way to change headers that already exist in the DATA.
-# @option --h- <header> <data>                     These options allow a way to change headers that already exist in the DATA.
+# @option --header <header-data>                   These options allow a way to change headers that already exist in the DATA.
+# @option --h- <header-data>                       These options allow a way to change headers that already exist in the DATA.
 # @option -g[Arg-None|Deprecated]                  This option is a direct alias to "--data -" (read DATA from "STDIN").
 # @flag --no-data-fixup                            This option forces Swaks to do no massaging of the DATA portion of the email.
 # @flag -ndf                                       This option forces Swaks to do no massaging of the DATA portion of the email.

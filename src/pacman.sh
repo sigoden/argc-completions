@@ -35,8 +35,8 @@ _patch_table() {
     elif [[ "$*" == "pacman --query" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '--groups;[`_choice_package_group`]' \
             '--file(<package-file>)' \
+            '--groups;[`_choice_package_group`]' \
         | \
         _patch_table_edit_arguments 'package;[`_choice_installed_package`]'
 
@@ -48,9 +48,9 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_options \
             '--groups;[`_choice_package_group`]' \
-            '--list;[`_choice_repo`]' \
             '--ignore;[`_choice_package`]' \
             '--ignoregroup;[`_choice_package_group`]' \
+            '--list;[`_choice_repo`]' \
         | \
         _patch_table_edit_arguments 'package;[`_choice_sync_package`]'
 

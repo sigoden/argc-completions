@@ -16,9 +16,9 @@ _patch_table() {
     if [[ "$*" == "dkms" ]]; then
         _patch_table_add_metadata 'combine-shorts' | \
         _patch_table_edit_options \
-            '-k;[`_choice_kernel_arch`]' \
             '--arch;[`_choice_arch`]' \
             '--templatekernel;[`_choice_kernel_arch`]' \
+            '-k;[`_choice_kernel_arch`]' \
 
     else
         _patch_table_edit_arguments \

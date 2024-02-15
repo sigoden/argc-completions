@@ -9,8 +9,8 @@ _patch_table() {
 
     elif [[ "$*" == "meson test" ]]; then
         _patch_table_edit_options \
-            '--suite;[`_choice_test_suit`]' \
             '--no-suite;[`_choice_test_suit`]' \
+            '--suite;[`_choice_test_suit`]' \
         | \
         _patch_table_edit_arguments 'args;*[`_choice_test`]'
 
