@@ -460,7 +460,7 @@ _choice_branch() {
 }
 
 _choice_reset() {
-    if [[ -n "$argc__dashes" ]]; then
+    if [[ -n "$argc__dash" ]]; then
         _choice_changed_file
     elif [[ ${#argc__positionals[@]} -gt 1 ]]; then
         :;
@@ -480,8 +480,8 @@ _choice_push() {
 }
 
 _choice_checkout() {
-    if [[ -n "$argc__dashes" ]]; then
-        if [[ "$argc__dashes" -gt 0 ]]; then
+    if [[ -n "$argc__dash" ]]; then
+        if [[ "$argc__dash" -gt 0 ]]; then
             _helper_ref_change "${argc__positionals[0]}"
         else
             _choice_changed_file
