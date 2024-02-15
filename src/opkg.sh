@@ -19,8 +19,8 @@ _patch_table() {
     if [[ "$*" == "opkg" ]]; then
         _patch_table_add_metadata inherit-flag-options | \
         _patch_table_edit_options \
-            '-V;[`_choice_verbosity_level`]' \
             '--verbosity;[`_choice_verbosity_level`]' \
+            '-V;[`_choice_verbosity_level`]' \
 
     elif [[ "$*" == "opkg upgrade" ]] \
       || [[ "$*" == "opkg configure" ]] \

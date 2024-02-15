@@ -25,15 +25,15 @@ _patch_table() {
     if [[ "$*" == "conda config" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '--show;[`_choice_config_key`]' \
+            '--add;[`_choice_config_kv`]' \
+            '--append;[`_choice_config_kv`]' \
             '--describe;[`_choice_config_key`]' \
             '--get;[`_choice_config_key`]' \
-            '--append;[`_choice_config_kv`]' \
             '--prepend;[`_choice_config_kv`]' \
-            '--add;[`_choice_config_kv`]' \
-            '--set;[`_choice_config_kv`]' \
             '--remove;[`_choice_config_kv`]' \
             '--remove-key;[`_choice_config_key`]' \
+            '--set;[`_choice_config_kv`]' \
+            '--show;[`_choice_config_key`]' \
 
     elif [[ "$*" == "conda init" ]]; then
         echo "$table" | \

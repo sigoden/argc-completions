@@ -9,17 +9,17 @@ _patch_help() {
 _patch_table() {
     if [[ "$*" == "wsl" ]]; then
         _patch_table_edit_options \
-            '--exec;~[`_module_os_exec`]' \
             '--distribution;[`_choice_distro`]' \
-            '--set-default-version;[`_choice_version`]' \
+            '--exec;~[`_module_os_exec`]' \
             '--export;~[`_choice_export`]' \
-            '--set-default;[`_choice_distro`]' \
-            '--set-version;~[`_choice_set_version`]' \
-            '--terminate;[`_choice_distro`]' \
-            '--unregister;[`_choice_distro`]' \
             '--import' \
             '--install' \
             '--list' \
+            '--set-default;[`_choice_distro`]' \
+            '--set-default-version;[`_choice_version`]' \
+            '--set-version;~[`_choice_set_version`]' \
+            '--terminate;[`_choice_distro`]' \
+            '--unregister;[`_choice_distro`]' \
             '--update' \
         | \
         _patch_table_edit_commands \

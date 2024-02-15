@@ -154,28 +154,28 @@ _patch_table() {
     elif [[ "$*" == "brew bump-cask-pr" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
+            '--fork-org(<value>)' \
+            '--message(<value>)' \
+            '--sha256(<value>)' \
+            '--url(<value>)' \
             '--version(<value>)' \
             '--version-arm(<value>)' \
             '--version-intel(<value>)' \
-            '--message(<value>)' \
-            '--url(<value>)' \
-            '--sha256(<value>)' \
-            '--fork-org(<value>)' \
 
     elif [[ "$*" == "brew bump-formula-pr" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '--mirror(<value>)' \
             '--fork-org(<value>)' \
-            '--version(<value>)' \
             '--message(<value>)' \
-            '--url(<value>)' \
+            '--mirror(<value>)' \
+            '--python-exclude-packages(<value>...)' \
+            '--python-extra-packages(<value>...)' \
+            '--python-package-name(<value>)' \
+            '--revision(<value>)' \
             '--sha256(<value>)' \
             '--tag(<value>)' \
-            '--revision(<value>)' \
-            '--python-package-name(<value>)' \
-            '--python-extra-packages(<value>...)' \
-            '--python-exclude-packages(<value>...)' \
+            '--url(<value>)' \
+            '--version(<value>)' \
 
     elif [[ "$*" == "brew bump-unversioned-casks" ]]; then
         echo "$table" | \
@@ -188,41 +188,41 @@ _patch_table() {
     elif [[ "$*" == "brew contributions" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '--repositories(<value>)' \
+            '--csv(<value>)' \
             '--from(<value>)' \
+            '--repositories(<value>)' \
             '--to(<value>)' \
             '--user(<value>)' \
-            '--csv(<value>)' \
 
     elif [[ "$*" == "brew create" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
+            '--set-license(<value>)' \
             '--set-name(<value>)' \
             '--set-version(<value>)' \
-            '--set-license(<value>)' \
 
     elif [[ "$*" == "brew dispatch-build-bottle" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '--tap(<value>)' \
-            '--timeout(<value>)' \
             '--issue(<value>)' \
             '--macos(<value>)' \
+            '--tap(<value>)' \
+            '--timeout(<value>)' \
             '--workflow(<value>)' \
 
     elif [[ "$*" == "brew install-bundler-gems" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '--groups(<value>)' \
             '--add-groups(<value>)' \
+            '--groups(<value>)' \
 
     elif [[ "$*" == "brew pr-automerge" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
             '--tap(<value>)' \
-            '--workflow(<value>)' \
             '--with-label(<value>)' \
             '--without-labels(<value>)' \
+            '--workflow(<value>)' \
     
     elif [[ "$*" == "brew pr-publish" ]]; then
         echo "$table" | \
@@ -235,14 +235,14 @@ _patch_table() {
     elif [[ "$*" == "brew pr-pull" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '--committer(<value>)' \
-            '--message(<value>)' \
             '--artifact(<value>)' \
-            '--tap(<value>)' \
+            '--committer(<value>)' \
+            '--ignore-missing-artifacts(<value>)' \
+            '--message(<value>)' \
             '--root-url(<value>)' \
             '--root-url-using(<value>)' \
+            '--tap(<value>)' \
             '--workflows(<value>)' \
-            '--ignore-missing-artifacts(<value>)' \
 
     elif [[ "$*" == "brew pr-upload" ]]; then
         echo "$table" | \
@@ -259,8 +259,8 @@ _patch_table() {
     elif [[ "$*" == "brew style" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '--only-cops(<value>)' \
             '--except-cops(<value>)' \
+            '--only-cops(<value>)' \
         | \
         _patch_table_edit_arguments \
             ';;' 'file-tap-formula-cask;*[`_choice_file_tap_formula_cask`]' \
@@ -268,16 +268,16 @@ _patch_table() {
     elif [[ "$*" == "brew update-python-resources" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '--version(<value>)' \
-            '--package-name(<value>)' \
-            '--extra-packages(<value>)' \
             '--exclude-packages(<value>)' \
+            '--extra-packages(<value>)' \
+            '--package-name(<value>)' \
+            '--version(<value>)' \
 
     elif [[ "$*" == "brew update-test" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '--commit(<value>)' \
             '--before(<value>)' \
+            '--commit(<value>)' \
 
     elif [[ "$*" == "brew alias" ]]; then
         echo "$table" | \
@@ -293,9 +293,9 @@ _patch_table() {
     elif [[ "$*" == "brew test-bot" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '--root-url(<value>)' \
-            '--git-name(<value>)' \
             '--git-email(<value>)' \
+            '--git-name(<value>)' \
+            '--root-url(<value>)' \
 
     elif [[ "$*" == "brew which-formula" ]]; then
         echo "$table" | \

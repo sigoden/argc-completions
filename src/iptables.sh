@@ -25,9 +25,9 @@ _patch_table() {
     if [[ "$*" == "iptables" ]]; then
         _patch_table_add_metadata 'inherit-flag-options' | \
         _patch_table_edit_options \
-            '--table;[`_choice_table`]' \
-            '--protocol;[`_choice_protocol`]' \
             '--jump;[`_choice_target`]' \
+            '--protocol;[`_choice_protocol`]' \
+            '--table;[`_choice_table`]' \
 
         return
     fi

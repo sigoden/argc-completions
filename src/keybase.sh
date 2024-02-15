@@ -41,8 +41,8 @@ _patch_table() {
     elif [[ "$*" == "keybase chat forward-message" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '--src-channel(<value>)' \
             '--dst-channel(<value>)' \
+            '--src-channel(<value>)' \
 
     elif [[ "$*" == "keybase chat upload" ]]; then
         echo "$table" | \
@@ -89,11 +89,11 @@ _patch_table() {
     elif [[ "$*" == "keybase team add-members-bulk" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
+            '--admins(<value>...)' \
             '--bots(<value>...)' \
+            '--owners(<value>...)' \
             '--readers(<value>...)' \
             '--writers(<value>...)' \
-            '--admins(<value>...)' \
-            '--owners(<value>...)' \
 
     elif [[ "$*" == "keybase team generate-invite-token" ]]; then
         echo "$table" | \
@@ -119,12 +119,12 @@ _patch_table() {
     elif [[ "$*" == "keybase service" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
+            '--auto-forked(<value>)' \
             '--chdir(<dir>)' \
             '--label(<value>)' \
-            '--auto-forked(<value>)' \
-            '--watchdog-forked(<value>)' \
-            '--oneshot-username(<value>)' \
             '--oneshot-paperkey(<value>)' \
+            '--oneshot-username(<value>)' \
+            '--watchdog-forked(<value>)' \
 
     else
         echo "$table"

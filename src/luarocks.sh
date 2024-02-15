@@ -6,9 +6,9 @@ _patch_table() {
     if [[ "$*" == "luarocks build" ]]; then
         echo "$table" | \
         _patch_table_dedup_options \
-            '--pin' \
-            '--deps-only' \
             '--build-deps' \
+            '--deps-only' \
+            '--pin' \
 
     else
         echo "$table"

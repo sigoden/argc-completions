@@ -20,18 +20,18 @@ _patch_table() {
 
     elif [[ "$*" == "yadm config" ]]; then
         _patch_table_edit_options \
+            '--add(<name> <value>)' \
             '--get(<name>);[`_choice_config_key`]' \
             '--get-all(<name>);[`_choice_config_key`]' \
-            '--get-regexp(<name-regex>)' \
-            '--get-urlmatch(<section>)' \
-            '--replace-all(<name> <value>);[`_choice_replace_key`]' \
-            '--add(<name> <value>)' \
-            '--unset(<name>);[`_choice_config_key`]' \
-            '--unset-all(<name>);~[`_choice_config_key`]' \
-            '--rename-section(<old-name> <new-name>)' \
-            '--remove-section(<old-name>)' \
             '--get-color(<slot>)' \
             '--get-colorbool(<slot>)' \
+            '--get-regexp(<name-regex>)' \
+            '--get-urlmatch(<section>)' \
+            '--remove-section(<old-name>)' \
+            '--rename-section(<old-name> <new-name>)' \
+            '--replace-all(<name> <value>);[`_choice_replace_key`]' \
+            '--unset(<name>);[`_choice_config_key`]' \
+            '--unset-all(<name>);~[`_choice_config_key`]' \
 
     else
         cat

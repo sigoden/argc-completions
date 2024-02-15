@@ -27,8 +27,8 @@ _patch_table() {
     elif [[ "$*" == "simctl runtime" ]]; then
         echo "$table" | \
         _patch_table_dedup_options \
-            '-v' \
             '-j' \
+            '-v' \
 
     else
         echo "$table"

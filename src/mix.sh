@@ -212,8 +212,8 @@ _patch_table() {
 
     elif [[ "$*" == "mix archive.build" ]]; then
         _patch_table_edit_options  \
-            '-o(<path>)' \
             '-i(<name>)' \
+            '-o(<path>)' \
 
     elif [[ "$*" == "mix cmd" ]]; then
         _patch_table_edit_options  \
@@ -236,10 +236,10 @@ _patch_table() {
 
     elif [[ "$*" == "mix deps.tree" ]]; then
         _patch_table_edit_options  \
-            '--only(<value>)' \
-            '--target(<value>)' \
             '--exclude;*[`_choice_dependency`]' \
             '--format;[pretty|plain|dot]' \
+            '--only(<value>)' \
+            '--target(<value>)' \
 
     elif [[ "$*" == "mix deps.unlock" ]]; then
         _patch_table_edit_options  \
@@ -312,24 +312,24 @@ _patch_table() {
     ; then
         _patch_table_edit_options  \
             '--app(<name>)' \
-            '--module(<name>)' \
-            '--database;[postgres|mysql|mssql|sqlite3]' \
             '--binary-id(<value>)' \
+            '--database;[postgres|mysql|mssql|sqlite3]' \
+            '--module(<name>)' \
 
     elif [[ "$*" == "mix profile.cprof" ]]; then
         _patch_table_edit_options  \
-            '--matching(<pattern>)' \
-            '--limit(<n>)' \
-            '--module(<name>)' \
             '--eval(<code>)' \
+            '--limit(<n>)' \
+            '--matching(<pattern>)' \
+            '--module(<name>)' \
 
 
     elif [[ "$*" == "mix profile.fprof" ]]; then
         _patch_table_edit_options  \
-            '--sort;[acc|own]' \
-            '--trace-to-file(<file>)' \
             '--eval(<code>)' \
             '--require(<file>)' \
+            '--sort;[acc|own]' \
+            '--trace-to-file(<file>)' \
 
     elif [[ "$*" == "mix release" ]]; then
         _patch_table_edit_options  \
@@ -345,6 +345,7 @@ _patch_table() {
         _patch_table_edit_options  \
             '--cover(<value>)' \
             '--exit-status(<n>)' \
+            '--export-converage(<value>)' \
             '--formatter(<value>)' \
             '--include(<value...>)' \
             '--max-cases(<n>)' \
@@ -352,7 +353,6 @@ _patch_table() {
             '--partitions(<n>)' \
             '--seed(<n>)' \
             '--timeout(<n>)' \
-            '--export-converage(<value>)' \
 
     elif [[ "$*" == "mix xref" ]]; then
         _patch_table_edit_options  \

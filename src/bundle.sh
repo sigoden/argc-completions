@@ -72,14 +72,14 @@ _patch_table() {
 
     elif [[ "$*" == "bundle add" ]]; then
         _patch_table_edit_options \
-            '--version(<value>)' \
-            '--group(<value>)' \
-            '--source(<value>)' \
-            '--path(<path>)' \
+            '--branch(<value>)' \
             '--git(<value>)' \
             '--github(<value>)' \
-            '--branch(<value>)' \
+            '--group(<value>)' \
+            '--path(<path>)' \
             '--ref(<value>)' \
+            '--source(<value>)' \
+            '--version(<value>)' \
         | \
         _patch_table_edit_arguments ';;' 'gem;[`_choice_package`]'
 
@@ -115,8 +115,8 @@ _patch_table() {
 
     elif [[ "$*" == "bundle init" ]]; then
         _patch_table_edit_options \
-            '--gemspec(<file:.gemspec>)' \
             '--gemfile(<file>)' \
+            '--gemspec(<file:.gemspec>)' \
 
 
     elif [[ "$*" == "bundle remove" ]]; then

@@ -24,10 +24,10 @@ _patch_table() {
     elif [[ "$*" == "pre-commit run" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '--remote-branch;[`_module_git_remote_branch`]' \
             '--local-branch;[`_module_git_local_branch`]' \
-            '--source;[`_module_git_ref`]' \
             '--origin;[`_module_git_ref`]' \
+            '--remote-branch;[`_module_git_remote_branch`]' \
+            '--source;[`_module_git_ref`]' \
         | \
         _patch_table_edit_arguments \
             'hook;[`_choice_hook`]' \
@@ -35,9 +35,9 @@ _patch_table() {
     elif [[ "$*" == "pre-commit try-repo" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
+            '--origin;[`_module_git_ref`]' \
             '--ref;[`_module_git_ref`]' \
             '--source;[`_module_git_ref`]' \
-            '--origin;[`_module_git_ref`]' \
 
     else
         echo "$table"

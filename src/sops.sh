@@ -15,27 +15,27 @@ _patch_table() {
     if [[ "$*" == "sops" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '--kms(<value>);*,' \
-            '--gcp-kms(<value>);*,' \
-            '--azure-kv(<value>);*,' \
-            '--hc-vault-transit(<value>);*,' \
-            '--pgp(<value>);*,' \
-            '--age(<value>);*,' \
-            '--input-type;[json|yaml|dotenv|binary]' \
-            '--output-type;[json|yaml|dotenv|binary]' \
-            '--add-gcp-kms(<value>);*,' \
-            '--rm-gcp-kms(<value>);*,' \
             '--add-azure-kv(<value>);*,' \
-            '--rm-azure-kv(<value>);*,' \
-            '--add-kms(<value>);*,' \
-            '--rm-kms(<value>);*,' \
+            '--add-gcp-kms(<value>);*,' \
             '--add-hc-vault-transit(<value>);*,' \
-            '--rm-hc-vault-transit(<value>);*,' \
-            '--add-pgp(<value>);*,' \
-            '--rm-pgp(<value>);*,' \
-            '--encryption-context(<value>);*,' \
+            '--add-kms(<value>);*,' \
             '--add-page(<value>);*,' \
+            '--add-pgp(<value>);*,' \
+            '--age(<value>);*,' \
+            '--azure-kv(<value>);*,' \
+            '--encryption-context(<value>);*,' \
+            '--gcp-kms(<value>);*,' \
+            '--hc-vault-transit(<value>);*,' \
+            '--input-type;[json|yaml|dotenv|binary]' \
+            '--kms(<value>);*,' \
+            '--output-type;[json|yaml|dotenv|binary]' \
+            '--pgp(<value>);*,' \
+            '--rm-azure-kv(<value>);*,' \
+            '--rm-gcp-kms(<value>);*,' \
+            '--rm-hc-vault-transit(<value>);*,' \
+            '--rm-kms(<value>);*,' \
             '--rm-page(<value>);*,' \
+            '--rm-pgp(<value>);*,' \
 
     elif [[ "$*" == "sops groups add" ]]; then
         echo "$table" | \
