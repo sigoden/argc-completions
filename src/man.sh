@@ -15,8 +15,8 @@ _patch_table() {
 }
 
 _choice_page() {
-    if [[ -n $argc_local_file ]]; then
-        _argc_util_comp_path exts=.man
+    if _argc_util_has_path_prefix || [[ -n $argc_local_file ]]; then
+        _argc_util_comp_path
     else
         len=${#argc__positionals[@]}
         if [[ $len -gt 1 ]]; then
