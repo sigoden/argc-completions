@@ -843,3 +843,12 @@ _argc_util_cache() {
     fi
     $2 2>/dev/null | command tee "$cache_file"
 }
+
+# Strip ansi color/code
+#
+# ```
+# cat | _argc_util_strip_ansi
+# ```
+_argc_util_strip_ansi() {
+    gawk '{gsub(/[\x1B\x9B][[\]()#;?]*((((;[-a-zA-Z0-9\/#&.:=?%@~_]+)*|[a-zA-Z0-9]+(;[-a-zA-Z0-9\/#&.:=?%@~_]*)*)?\x07)|(([0-9]{1,4}(;[0-9]{0,4})*)?[0-9A-PR-TZcf-ntqry=><~]))/, ""); gsub(/.\x08/, ""); print}'
+}

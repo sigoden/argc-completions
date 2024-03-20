@@ -958,6 +958,7 @@
 - [vegeta](completions/vegeta.sh): a versatile HTTP load testing tool built out of a need to drill HTTP services with a constant request rate. [🔗](https://github.com/tsenart/vegeta)
 - [vela](completions/vela.sh): A Highly Extensible Platform Engine based on Kubernetes and Open Application Model. [🔗](https://github.com/kubevela/kubevela)
 - [vercel](completions/vercel.sh): CLI for vercel frontend cloud. [🔗](https://github.com/vercel/vercel)
+- [vfox](completions/vfox.sh): A cross-platform and extendable version manager with support for Java, Node.js, Flutter, .Net & more. [🔗](https://github.com/version-fox/vfox)
 - [vhs](completions/vhs.sh): Your CLI home video recorder. [🔗](https://github.com/charmbracelet/vhs)
 - [vi](completions/vi.sh): compact version of vim [🔗](https://github.com/vim/vim)
 - [viddy](completions/viddy.sh): A modern watch command. Time machine and pager etc. [🔗](https://github.com/sachaos/viddy)
