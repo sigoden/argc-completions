@@ -71,11 +71,11 @@ cd argc-completions
 ```
 
 > For Windows, please run the above code in Git Bash.
+> For macOS, `brew install bash gawk gnu-sed` to avoid compatibility issues.
 
 Tools downloaded by `./scripts/download-tools.sh`:
   - [argc](https://github.com/sigoden/argc): completion engine
   - [yq](https://github.com/mikefarah/yq): YAML/JSON/XML/CSV/TOML processor
-  - macOS only: `brew install bash gawk gnu-sed`
 
 ### Uninstall easily
 

@@ -98,8 +98,17 @@ download_tools() {
         download_macos_tools
     else
         if ! command -v gawk > /dev/null; then
-            echo warning: gawk not found
-            echo
+            exist_awk=0
+            if command -v awk > /dev/null; then
+                if awk --version 2>/dev/null | grep -q 'GNU Awk'; then
+                    ln -sf `which awk` "$INSTALL_DIR/gawk"
+                    exist_awk=1
+                fi
+            fi
+            if [[ "$exist_awk" -eq 0 ]]; then
+                echo warning: gawk was not found
+                echo
+            fi
         fi
     fi
 }
