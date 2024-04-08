@@ -1785,7 +1785,7 @@ ar() {
 # @option --hip-version <value>                    HIP version in the format of major.minor.patch
 # @option --hipspv-pass-plugin <dsopath>           path to a pass plugin for HIP to SPIR-V passes.
 # @flag -H                                         Show header includes and nesting depth
-# @flag -I-                                        Restrict all prior -I flags to double-quoted inclusion and remove current directory from include path
+# @flag -I--                                       Restrict all prior -I flags to double-quoted inclusion and remove current directory from include path
 # @flag -ibuiltininc                               Enable builtin ♯include directories even when -nostdinc is used before or after -ibuiltininc.
 # @option -idirafter <value>                       Add directory to AFTER include search path
 # @option -iframeworkwithsysroot <directory>       Add directory to SYSTEM framework search path, absolute paths are relative to -isysroot

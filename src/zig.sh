@@ -24,6 +24,7 @@ _patch_help() {
             -e '/^\s*-###/ d' \
             -e '/^\s*-cflags/ s/ --/   /' \
             -e '/^\s*-stdlib++-isystem/ d' \
+            -e '/^\s*-I- / s/-I-/-I--/' \
 
     fi
 }

@@ -5,7 +5,7 @@
 
 set -e
 
-MIN_ARGC_VERSION=1.15.0
+MIN_ARGC_VERSION=1.17.0
 MIN_YQ_VERSION=4.25.1
 
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )"
