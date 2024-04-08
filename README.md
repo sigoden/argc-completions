@@ -1,16 +1,17 @@
 # Argc-completions
 
-Argc-completions provides completion definitions that work for any shell.
+{bash,zsh,fish,powershell,nushell}-completions for 1000+ commands.
 
 ![argc-completions](https://github.com/sigoden/argc-completions/assets/4012553/235bd290-516c-4dec-83d8-17cb852d35ae)
 
 ## Features
 
-- Add 1000+ completion definitions ([full list](./MANIFEST.md))
-- Automatically generate a completion script from the command's help text or man page.
-- Lazy completing, lower memory consumption and faster startup time
-- Support multiple shells: bash/zsh/powershell/fish/nushell/elvish/xonsh/tcsh
-- Support multiple platforms: windows/macOS/linux
+- Autocomplete for 1000+ commands ([full list](./MANIFEST.md)).
+- Automatically generate completion scripts from the help text or man pages.
+- Autocomplete on demand, fewer loading scripts and faster terminal startup.
+- Easily Upgrade completion scripts as command are upgraded.
+- Cross shells: bash/zsh/powershell/fish/nushell/elvish/xonsh/tcsh.
+- Cross platforms: linux, macOS, and Windows.
 
 #### Amazing features that native completion lacks or is difficult to implement
 
@@ -33,7 +34,7 @@ Argc-completions provides completion definitions that work for any shell.
             <td><img src="https://github.com/sigoden/argc-completions/assets/4012553/cc088b59-ee2f-413b-b2a4-c752c2796625" width="550px" alt="complete-cargo-add"></td>
         </tr>
         <tr>
-            <td>Complete multiple values<br>(comma-spereated)</td>
+            <td>Complete multiple values<br>(comma-seperated)</td>
             <td><img src="https://github.com/sigoden/argc-completions/assets/4012553/ef95ebdc-9c97-4bd1-a485-c928ba614ce9" width="550px" alt="complete-dd-iflag"></td>
         </tr>
         <tr>
@@ -54,7 +55,7 @@ Argc-completions provides completion definitions that work for any shell.
         </tr>
         <tr>
             <td>Style &amp; color</td>
-            <td><img src="https://github.com/sigoden/argc-completions/assets/4012553/77531d0e-5857-4b53-9b0f-52fb48215216" width="550px" alt="complete-xtest-color"></td>
+            <td><img src="https://github.com/sigoden/argc-completions/assets/4012553/77531d0e-5857-4b53-9b0f-52fb48215216" width="550px" alt="complete-colors"></td>
         </tr>
     </tbody>
 </table>
