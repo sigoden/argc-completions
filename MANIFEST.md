@@ -563,6 +563,7 @@
 - [mongocli](completions/mongocli.sh): a modern command line interface that enables you to manage your MongoDB services from the terminal. [🔗](https://www.mongodb.com)
 - [mongoimport](completions/mongoimport.sh): Import CSV, TSV or JSON data into MongoDB. [🔗](https://www.mongodb.com)
 - [mongosh](completions/mongosh.sh): a fully functional JavaScript and Node.js 16.x REPL environment for interacting with MongoDB deployments [🔗](https://www.mongodb.com)
+- [monolith](completions/monolith.sh): CLI tool for saving complete web pages as a single HTML file. [🔗](https://github.com/Y2Z/monolith)
 - [more](completions/more.sh): file perusal filter for crt viewing [🔗](https://github.com/util-linux/util-linux)
 - [mosh](completions/mosh.sh): Mobile Shell [🔗](https://github.com/mobile-shell/mosh)
 - [most](completions/most.sh): browse or page through a text file [🔗](https://www.jedsoft.org/most)
