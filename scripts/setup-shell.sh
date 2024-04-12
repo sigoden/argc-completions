@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Setup argc-completions in the shell.
-
+shopt -s extglob
 set -e
 
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )"
