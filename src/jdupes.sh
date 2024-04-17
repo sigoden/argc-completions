@@ -1,5 +1,9 @@
 _patch_help() {
-    _patch_help_run_man $@ | sed '/^NOTES/,$ d'
+    $@ --help | \
+    sed \
+        -e '/^NOTES/,$ d' \
+        -e 's/--recurse: /--recurse:-/' \
+
 }
 
 _patch_table() {

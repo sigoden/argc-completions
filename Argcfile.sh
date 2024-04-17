@@ -84,10 +84,10 @@ generate:mac() {
 }
 
 # @cmd Generate completion scripts for all commands
-# @option -s --start-cmd[`_choice_completion`] Start generate from
+# @option -s --start-after-cmd[`_choice_completion`] Start generate after the command
 generate:all() {
     local need_gen=0
-    if [[ -z "$argc_start_cmd" ]]; then
+    if [[ -z "$argc_start_after_cmd" ]]; then
         need_gen=1
     fi
     for f in completions/*; do
@@ -95,11 +95,10 @@ generate:all() {
             cmd="$(basename $f .sh)"
 
             if [[ "$need_gen" -eq 0 ]]; then
-                if [[ "$argc_start_cmd" == "$cmd" ]]; then
+                if [[ "$argc_start_after_cmd" == "$cmd" ]]; then
                     need_gen=1
-                else
-                    continue
                 fi
+                continue
             fi
             if [[ " $SKIPS " != *" $cmd "* ]] && [[ -z "$(_helper_can_generate $cmd)" ]]; then
                 argc generate $cmd -P
@@ -227,20 +226,19 @@ check() {
 }
 
 # @cmd Check all completion scripts
-# @option -s --start-cmd[`_choice_completion`] Start generate from
+# @option -s --start-after-cmd[`_choice_completion`] Start generate after the command
 check:all() {
     local need_check=0
-    if [[ -z "$argc_start_cmd" ]]; then
+    if [[ -z "$argc_start_after_cmd" ]]; then
         need_check=1
     fi
     mapfile -t cmds < <(_choice_completion)
     for cmd in "${cmds[@]}"; do
         if [[ "$need_check" -eq 0 ]]; then
-            if [[ "$argc_start_cmd" == "$cmd" ]]; then
+            if [[ "$argc_start_after_cmd" == "$cmd" ]]; then
                 need_check=1
-            else
-                continue
             fi
+            continue
         fi
         check "$cmd"
     done

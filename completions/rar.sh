@@ -54,10 +54,10 @@
 # @flag -ow                              Use this switch when archiving to save file security information and when extracting to restore it.
 # @option -o- <+|->                      Set the overwrite mode.
 # @option -p- <p>                        Encrypt files with the string <p> as password while archiving.
-# @flag -p-                              Do not query password
+# @flag -p--                             Do not query password
 # @option -qo- <-|+>                     Add quick open information [none|force]
 # @flag -r                               Recurse subdirectories.
-# @flag -r-                              Disable recursion.
+# @flag -r--                             Disable recursion.
 # @flag -r0                              Similar to -r, but when used with the commands 'a', 'u', 'f', 'm' will recurse into subdirectories only for those file masks, which include wildcard characters '*' and '?'.
 # @option -ri- <<p>[:<s>]>               Set priority and sleep time.
 # @option -rr- <N>                       Add data recovery record.
@@ -71,8 +71,8 @@
 # @option -sl- <size>                    Process only those files, which size is less than specified in <size> parameter of this switch.
 # @option -sm- <size>                    Process only those files, which size is more than specified in <size> parameter of this switch.
 # @flag -sv                              Create independent solid volumes
-# @flag -sv-                             Create dependent solid volumes
-# @flag -s-                              Disable solid archiving
+# @flag -sv--                            Create dependent solid volumes
+# @flag -s--                             Disable solid archiving
 # @flag -t                               Test files after archiving.
 # @option -ta- <date>                    Process only files modified after the specified date.
 # @option -tb- <date>                    Process only files modified before the specified date.

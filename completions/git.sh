@@ -442,7 +442,7 @@ grep() {
 # @flag --no-use-mailmap                        Use mailmap file to map author and committer names and email addresses to canonical real names and email addresses.
 # @flag --full-diff                             Without this flag, git log -p <path>...  shows commits that touch the specified paths, and diffs about the same specified paths.
 # @flag --log-size                              Include a line “log size <number>” in the output for each commit, where <number> is the length of that commit’s message in bytes.
-# @option -L -L: <<funcname>:<file>>            Trace the evolution of the line range given by <start>,<end>, or by the function name regex <funcname>, within the <file>.
+# @option -L <<start>,<end>:<file>>             Trace the evolution of the line range given by <start>,<end>, or by the function name regex <funcname>, within the <file>.
 # @option --skip <number>                       Skip number commits before starting to show the commit output.
 # @option --since <date>                        Show commits more recent than a specific date.
 # @option --after <date>                        Show commits more recent than a specific date.

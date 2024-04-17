@@ -281,6 +281,7 @@ EOF
             ; then
                 $@ --help 2>&1 | _common_edit | \
                 sed \
+                    -e 's/, -L:<funcname>:<file>//' \
                     -e '/^   History Simplification/, /^   \S/ {//!d}' \
 
             else

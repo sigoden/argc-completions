@@ -3,6 +3,7 @@ _patch_help() {
     sed \
         -e '/^\s*-###/ d' \
         -e '/^\s*-stdlib++-isystem/ d' \
+        -e '/^\s*-I- / s/-I-/-I--/' \
 
 }
 

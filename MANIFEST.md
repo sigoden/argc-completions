@@ -436,7 +436,7 @@
 - [iwconfig](completions/iwconfig.sh): configure a wireless network interface [🔗](https://github.com/HewlettPackard/wireless-tools)
 - [jar](completions/jar.sh): Manipulates Java Archive (JAR) files. [🔗](https://openjdk.org)
 - [java](completions/java.sh): Launches a Java application. [🔗](https://openjdk.org)
-- [jdupes](completions/jdupes.sh): identify and delete or link duplicate files [🔗](https://github.com/jbruchon/jdupes)
+- [jdupes](completions/jdupes.sh): identify and delete or link duplicate files [🔗](https://codeberg.org/jbruchon/jdupes)
 - [jenv](completions/jenv.sh): Manage your Java environment [🔗](https://github.com/jenv/jenv)
 - [jless](completions/jless.sh): JSON viewer designed for reading, exploring, and searching through JSON data. [🔗](https://github.com/PaulJuliusMartinez/jless)
 - [jmeter](completions/jmeter.sh): Apache JMeter - Load testing tool [🔗](https://github.com/apache/jmeter)
