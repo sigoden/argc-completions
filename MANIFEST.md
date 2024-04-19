@@ -129,6 +129,7 @@
 - [cargo-zigbuild](completions/cargo/zigbuild.sh): Compile Cargo project with zig as linker for easier cross compiling. [🔗](https://github.com/rust-cross/cargo-zigbuild)
 - [cat](completions/cat.sh):  concatenate files and print on the standard output [🔗](http://gnu.org/software/coreutils)
 - [cc](completions/cc.sh): GNU project C and C++ compiler [🔗](https://gcc.gnu.org)
+- [cd](completions/cd.sh): hange the shell working directory. [🔗](#)
 - [cdrdao](completions/cdrdao.sh): reads and writes CDs in disc-at-once mode [🔗](http://cdrdao.sourceforge.net)
 - [cdrecord](completions/cdrecord.sh): write data to optical disk media [🔗](https://sourceforge.net/projects/wodim)
 - [certtool](completions/certtool.sh): GnuTLS certificate tool [🔗](https://www.gnutls.org)
