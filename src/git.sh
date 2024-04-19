@@ -508,7 +508,7 @@ _choice_config_key() {
 }
 
 _choice_ref() {
-    _argc_util_parallel _choice_local_branch ::: _choice_remote_branch ::: _choice_tag ::: _choice_head_commit
+    _argc_util_parallel _choice_local_branch ::: _choice_remote_branch ::: _choice_tag
 }
 
 _choice_restore_file() {
@@ -535,14 +535,6 @@ _choice_changed_file() {
         print substr($0, 4)
     }
 }' | _argc_util_comp_parts /
-}
-
-_choice_head_commit() {
-    _git log --no-notes --pretty='tformat:%h	%<(64,trunc)%s' --max-count=100 | gawk -F '\t' '{
-        if (NR == 1) { head="HEAD" } else { head=sprintf("HEAD~%02d", NR - 1) }
-        print head "\t" $2
-        print $1 "\t" $2
-    }'
 }
 
 _choice_local_branch() {
