@@ -2,7 +2,7 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # @flag -h --help       help for ollama
-# @flag -v --version    version for ollama
+# @flag -v --version    Show version information
 
 # {{ ollama serve
 # @cmd Start ollama
@@ -14,8 +14,9 @@ serve() {
 
 # {{ ollama create
 # @cmd Create a model from a Modelfile
-# @option -f --file <file>    Name of the Modelfile (default "Modelfile") (default "Modelfile")
-# @flag -h --help             help for create
+# @option -f --file <file>          Name of the Modelfile (default "Modelfile")
+# @flag -h --help                   help for create
+# @option -q --quantize <string>    Quantize model to this level (e.g. q4_0)
 # @arg model[`_choice_model`]
 create() {
     :;
@@ -28,7 +29,7 @@ create() {
 # @flag --license       Show license of a model
 # @flag --modelfile     Show Modelfile of a model
 # @flag --parameters    Show parameters of a model
-# @flag --system        Show system prompt of a model
+# @flag --system        Show system message of a model
 # @flag --template      Show template of a model
 # @arg model[`_choice_model`]
 show() {
@@ -38,11 +39,12 @@ show() {
 
 # {{ ollama run
 # @cmd Run a model
-# @option --format <string>    Response format (e.g. json)
-# @flag -h --help              help for run
-# @flag --insecure             Use an insecure registry
-# @flag --nowordwrap           Don't wrap words to the next line automatically
-# @flag --verbose              Show timings for response
+# @option --format <string>       Response format (e.g. json)
+# @flag -h --help                 help for run
+# @flag --insecure                Use an insecure registry
+# @option --keepalive <string>    Duration to keep a model loaded (e.g. 5m)
+# @flag --nowordwrap              Don't wrap words to the next line automatically
+# @flag --verbose                 Show timings for response
 # @arg model[`_choice_model`]
 # @arg prompt
 run() {
@@ -78,11 +80,19 @@ list() {
 }
 # }} ollama list
 
+# {{ ollama ps
+# @cmd List running models
+# @flag -h --help    help for ps
+ps() {
+    :;
+}
+# }} ollama ps
+
 # {{ ollama cp
 # @cmd Copy a model
 # @flag -h --help    help for cp
 # @arg source
-# @arg target
+# @arg destination
 cp() {
     :;
 }

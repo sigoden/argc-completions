@@ -19,6 +19,7 @@
 # @flag --render-spa               Serve SPA(Single Page Application)
 # @option --assets <path>          Set the path to the assets directory for overriding the built-in assets
 # @option --log-format <format>    Customize http log format
+# @option --log-file <file>        Specify the file to save logs to, other than stdout/stderr
 # @option --compress[none|low|medium|high] <level>  Set zip compress level [default: low]
 # @option --completions[bash|elvish|fish|powershell|zsh] <shell>  Print shell completion script for <shell>
 # @option --tls-cert <path>        Path to an SSL/TLS certificate to serve with HTTPS

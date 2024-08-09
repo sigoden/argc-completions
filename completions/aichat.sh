@@ -1,21 +1,25 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @option -m --model[`_choice_model`]        Choose a LLM model
-# @option -r --role[`_choice_role`]          Choose a role
-# @option -s --session[`_choice_session`]    Create or reuse a session
-# @flag -e --execute                         Execute commands using natural language
-# @flag -c --code                            Generate only code
-# @option -f --file*                         Attach files to the message to be sent
-# @flag -H --no-highlight                    Disable syntax highlighting
-# @flag -S --no-stream                       No stream output
-# @option -w --wrap                          Specify the text-wrapping mode (no, auto, <max-width>)
-# @flag --light-theme                        Use light theme
-# @flag --dry-run                            Run in dry run mode
-# @flag --info                               Print related information
-# @flag --list-models                        List all available models
-# @flag --list-roles                         List all available roles
-# @flag --list-sessions                      List all available sessions
+# @option -m --model[`_choice_model`]        Select a LLM model
+# @option --prompt                           Use the system prompt
+# @option -r --role[`_choice_role`]          Select a role
+# @option -s --session[`_choice_session`]    Start or join a session
+# @flag --save-session                       Forces the session to be saved
+# @option -a --agent[`_choice_agent`]        Start a agent
+# @option -R --rag[`_choice_rag`]            Start a RAG
+# @option --serve <ADDRESS>                  Serve the LLM API and WebAPP
+# @flag -e --execute                         Execute commands in natural language
+# @flag -c --code                            Output code only
+# @option -f --file                          Include files with the message
+# @flag -S --no-stream                       Turn off stream mode
+# @flag --dry-run                            Display the message without sending it
+# @flag --info                               Display information
+# @flag --list-models                        List all available chat models
+# @flag --list-roles                         List all roles
+# @flag --list-sessions                      List all sessions
+# @flag --list-agents                        List all agents
+# @flag --list-rags                          List all RAGs
 # @flag -h --help                            Print help
 # @flag -V --version                         Print version
 # @arg text*                                 Input text
@@ -30,6 +34,14 @@ _choice_role() {
 
 _choice_session() {
     aichat --list-sessions
+}
+
+_choice_agent() {
+    aichat --list-agents
+}
+
+_choice_rag() {
+    aichat --list-rags
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"
