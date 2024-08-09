@@ -116,7 +116,7 @@ EOF
 }
 
 _module_http_cache_control() {
-    command cat <<-'EOF' | sed 's/=\t/=\0\t/'
+    command cat <<-'EOF' | sed 's/=\t/=\x00\t/'
 max-age=	The maximum amount of time a resource is considered fresh.
 max-stale	Indicates the client will accept a stale response.
 min-fresh=	Indicates the client wants a response that will still be fresh for at least the specified number of seconds.
