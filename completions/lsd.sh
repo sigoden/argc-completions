@@ -16,10 +16,10 @@
 # @flag --tree                                     Recurse into directories and present the result as a tree
 # @option --depth <NUM>                            Stop recursing into directories after reaching specified depth
 # @flag -d --directory-only                        Display directories themselves, and not their contents (recursively when used with --tree)
-# @option --permission[rwx|octal] <MODE>           How to display permissions [default: rwx]
+# @option --permission[rwx|octal|attributes|disable] <MODE>  How to display permissions [default: rwx for linux, attributes for windows]
 # @option --size[default|short|bytes] <MODE>       How to display size [default: default]
 # @flag --total-size                               Display the total size of directories
-# @option --date                                   How to display date [default: date] [possible values: date, relative, +date-time-format]
+# @option --date                                   How to display date [default: date] [possible values: date, locale, relative, +date-time-format]
 # @flag -t --timesort                              Sort by time modified
 # @flag -S --sizesort                              Sort by size
 # @flag -X --extensionsort                         Sort by file extension
@@ -40,6 +40,9 @@
 # @flag -Z --context                               Print security context (label) of each file
 # @option --hyperlink[always|auto|never] <MODE>    Attach hyperlink to filenames [default: never]
 # @flag --header                                   Display block headers
+# @option --truncate-owner-after <NUM>             Truncate the user and group names if they exceed a certain number of characters
+# @option --truncate-owner-marker <STR>            Truncation marker appended to a truncated user or group name
+# @flag -N --literal                               Print entry names without quoting
 # @flag --help                                     Print help information
 # @flag -V --version                               Print version
 # @arg file*                                       [default: .]

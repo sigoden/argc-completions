@@ -11,6 +11,7 @@
 # @option -body <file>                 Requests body file
 # @option -cert <file>                 TLS client PEM encoded certificate file
 # @flag -chunked                       Send body with chunked transfer encoding
+# @option -connect-to <value>          A mapping of (ip|host):port to use instead of a target URL's (ip|host):port.
 # @option -connections <int>           Max open idle connections per target host (default 10000)
 # @option -dns-ttl <value>             Cache DNS lookups for the given duration [-1 = disabled, 0 = forever] (default 0s)
 # @option -duration <duration>         Duration of the test [0 = forever]

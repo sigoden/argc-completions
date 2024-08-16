@@ -43,7 +43,9 @@
 # @flag --generatedCode.objectShorthand            Use shorthand properties in generated code
 # @flag --no-generatedCode.reservedNamesAsProps    Always quote reserved names as props
 # @flag --generatedCode.symbols                    Use symbols in generated code
+# @option --hashCharacters <name>                  Use the specified character set for file hashes
 # @flag --no-hoistTransitiveImports                Do not hoist transitive imports into entry chunks
+# @option --importAttributesKey <name>             Use the specified keyword for import attributes
 # @flag --no-indent                                Don't indent result
 # @flag --inlineDynamicImports                     Create single bundle when using dynamic imports
 # @flag --no-interop                               Do not include interop block
@@ -59,6 +61,7 @@
 # @flag --preserveModules                          Preserve module structure
 # @flag --preserveModulesRoot                      Put preserved modules under this path at root level
 # @flag --preserveSymlinks                         Do not follow symlinks when resolving files
+# @flag --no-reexportProtoFromExternal             Ignore `__proto__` in star re-exports
 # @flag --no-sanitizeFileName                      Do not replace invalid characters in file names
 # @flag --shimMissingExports                       Create shim variables for missing exports
 # @flag --silent                                   Don't print warnings

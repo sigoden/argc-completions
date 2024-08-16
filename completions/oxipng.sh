@@ -10,7 +10,7 @@
 # @flag -P --pretend                               Do not write any files, only show compression results
 # @flag -s                                         Strip safely-removable chunks, same as '--strip safe'
 # @option --strip*,[`_choice_strip`] <mode>        Strip metadata chunks, where <mode> is one of:
-# @option --keep*,[`_choice_chunk_name`] <list>    Strip all metadata except in the comma-separated list
+# @option --keep*,[`_choice_chunk_name`] <list>    Strip all metadata chunks except those in the comma-separated list.
 # @flag -a --alpha                                 Perform additional optimization on images with an alpha channel, by altering the color values of fully transparent pixels.
 # @option -i --interlace[`_choice_interlace`] <type>  Set the PNG interlacing type, where <type> is one of:
 # @flag --scale16                                  Forcibly reduce images with 16 bits per channel to 8 bits per channel.

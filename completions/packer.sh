@@ -5,18 +5,19 @@
 
 # {{ packer build
 # @cmd build image(s) from template
-# @option -color <false>           Disable color output.
-# @flag -debug                     Debug mode enabled for builds.
-# @option -except <foo,bar,baz>    Run all builds and post-processors other than these.
-# @option -only <foo,bar,baz>      Build only the specified builds.
-# @flag -force                     Force a build to continue if artifacts exist, deletes existing artifacts.
-# @flag -machine-readable          Produce machine-readable output.
+# @option -color <false>              Disable color output.
+# @flag -debug                        Debug mode enabled for builds.
+# @option -except <foo,bar,baz>       Run all builds and post-processors other than these.
+# @option -only <foo,bar,baz>         Build only the specified builds.
+# @flag -force                        Force a build to continue if artifacts exist, deletes existing artifacts.
+# @flag -machine-readable             Produce machine-readable output.
 # @option -on-error[cleanup|abort|ask|run-cleanup-provisioner]  If the build fails do: clean up (default), abort, ask, or run-cleanup-provisioner.
-# @option -parallel-builds <1>     Number of builds to run in parallel.
-# @flag -timestamp-ui              Enable prefixing of each ui output with an RFC3339 timestamp.
-# @option -var <key=value>         Variable for templates, can be used multiple times.
-# @option -var-file <path>         JSON or HCL2 file containing user variables, can be used multiple times.
-# @flag -warn-on-undeclared-var    Display warnings for user variable files containing undeclared variables.
+# @option -parallel-builds <1>        Number of builds to run in parallel.
+# @flag -timestamp-ui                 Enable prefixing of each ui output with an RFC3339 timestamp.
+# @option -var <key=value>            Variable for templates, can be used multiple times.
+# @option -var-file <path>            JSON or HCL2 file containing user variables, can be used multiple times.
+# @flag -warn-on-undeclared-var       Display warnings for user variable files containing undeclared variables.
+# @flag -ignore-prerelease-plugins    Disable the loading of prerelease plugin binaries (x.y.z-dev).
 # @arg template
 build() {
     :;
@@ -299,6 +300,7 @@ hcl2_upgrade() {
 # {{ packer init
 # @cmd Install missing plugins or upgrade plugins
 # @flag -upgrade    On top of installing missing plugins, update installed plugins to the latest available version, if there is a new higher one.
+# @flag -force      Forces reinstallation of plugins, even if already installed.
 # @arg template
 init() {
     :;
@@ -351,14 +353,15 @@ plugins::required() {
 
 # {{ packer validate
 # @cmd check that a template is valid
-# @flag -syntax-only               Only check syntax.
-# @option -except <foo,bar,baz>    Validate all builds other than these.
-# @option -only <foo,bar,baz>      Validate only these builds.
-# @flag -machine-readable          Produce machine-readable output.
-# @option -var <key=value>         Variable for templates, can be used multiple times.
-# @option -var-file <path>         JSON or HCL2 file containing user variables, can be used multiple times.
-# @flag -no-warn-undeclared-var    Disable warnings for user variable files containing undeclared variables.
-# @flag -evaluate-datasources      Evaluate data sources during validation (HCL2 only, may incur costs); Defaults to false.
+# @flag -syntax-only                  Only check syntax.
+# @option -except <foo,bar,baz>       Validate all builds other than these.
+# @option -only <foo,bar,baz>         Validate only these builds.
+# @flag -machine-readable             Produce machine-readable output.
+# @option -var <key=value>            Variable for templates, can be used multiple times.
+# @option -var-file <path>            JSON or HCL2 file containing user variables, can be used multiple times.
+# @flag -no-warn-undeclared-var       Disable warnings for user variable files containing undeclared variables.
+# @flag -evaluate-datasources         Evaluate data sources during validation (HCL2 only, may incur costs); Defaults to false.
+# @flag -ignore-prerelease-plugins    Disable the loading of prerelease plugin binaries (x.y.z-dev).
 # @arg template
 validate() {
     :;

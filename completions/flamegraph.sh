@@ -6,7 +6,7 @@
 # @flag -v --verbose                       Print extra output to help debug problems
 # @option -o --output                      Output file [default: flamegraph.svg]
 # @flag --open                             Open the output .svg file with default program
-# @flag --root                             Run with root privileges (using `sudo`)
+# @option --root <SUDO FLAGS>              Run with root privileges (using `sudo`).
 # @option -F --freq <FREQUENCY>            Sampling frequency
 # @option -c --cmd[`_module_os_command`] <CUSTOM_CMD>  Custom command for invoking perf/dtrace
 # @flag --deterministic                    Colors are selected such that the color of a function does not change between runs

@@ -17,7 +17,7 @@
 # @flag --ci                                    Skip prompting for values
 # @flag -h --help                               Print help (see a summary with '-h')
 # @flag -V --version                            Print version
-# @arg args*                                    Command line arguments passed to the runner
+# @arg args*                                    Command line arguments passed to the runner.
 build() {
     :;
 }

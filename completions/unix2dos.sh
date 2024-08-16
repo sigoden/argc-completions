@@ -2,7 +2,7 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # @flag --allow-chown           allow file ownership change
-# @flag -ascii                  convert only line breaks (default)
+# @flag -ascii                  default conversion mode
 # @flag -iso                    conversion between DOS and ISO-8859-1 character set
 # @flag -1252                   use Windows code page 1252 (Western European)
 # @flag -437                    use DOS code page 437 (US) (default)

@@ -137,17 +137,6 @@ status() {
 }
 # }} bw status
 
-# {{ bw serve
-# @cmd Start a RESTful API webserver.
-# @option --hostname <hostname>        The hostname to bind your API webserver to.
-# @option --port <port>                The port to run your API webserver on.
-# @flag --disable-origin-protection    If set, allows requests with origin header.
-# @flag -h --help                      display help for command
-serve() {
-    :;
-}
-# }} bw serve
-
 # {{ bw list
 # @cmd List an array of objects from the vault.
 # @option --search <search>                    Perform a search on the listed objects.
@@ -393,6 +382,72 @@ receive() {
     :;
 }
 # }} bw receive
+
+# {{ bw device-approval
+# @cmd Manage device approval requests sent to organizations that use SSO with trusted devices.
+# @flag -h --help    display help for command
+device-approval() {
+    :;
+}
+
+# {{{ bw device-approval list
+# @cmd List all pending requests for an organization
+# @option --organizationid <organizationid>    The organization id (required)
+# @flag -h --help                              display help for command
+device-approval::list() {
+    :;
+}
+# }}} bw device-approval list
+
+# {{{ bw device-approval approve
+# @cmd Approve a pending request
+# @option --organizationid <organizationid>    The organization id (required)
+# @flag -h --help                              display help for command
+# @arg requestid                               The id of the request to approve
+device-approval::approve() {
+    :;
+}
+# }}} bw device-approval approve
+
+# {{{ bw device-approval approve-all
+# @cmd Approve all pending requests for an organization
+# @option --organizationid <organizationid>    The organization id (required)
+# @flag -h --help                              display help for command
+device-approval::approve-all() {
+    :;
+}
+# }}} bw device-approval approve-all
+
+# {{{ bw device-approval deny
+# @cmd Deny a pending request
+# @option --organizationid <organizationid>    The organization id (required)
+# @flag -h --help                              display help for command
+# @arg requestid                               The id of the request to deny
+device-approval::deny() {
+    :;
+}
+# }}} bw device-approval deny
+
+# {{{ bw device-approval deny-all
+# @cmd Deny all pending requests for an organization
+# @option --organizationid <organizationid>    The organization id (required)
+# @flag -h --help                              display help for command
+device-approval::deny-all() {
+    :;
+}
+# }}} bw device-approval deny-all
+# }} bw device-approval
+
+# {{ bw serve
+# @cmd Start a RESTful API webserver.
+# @option --hostname <hostname>        The hostname to bind your API webserver to.
+# @option --port <port>                The port to run your API webserver on.
+# @flag --disable-origin-protection    If set, allows requests with origin header.
+# @flag -h --help                      display help for command
+serve() {
+    :;
+}
+# }} bw serve
 
 # {{ bw echo
 # @cmd

@@ -2,6 +2,7 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # @option --action-cache-path <path>            Defines the path where the actions get cached and host workspaces created.
+# @flag --action-offline-mode                   If action contents exists, it will not be fetch and pull again.
 # @option -a --actor <string>                   user that triggered the event (default "nektos/act")
 # @option --artifact-server-addr <string>       Defines the address to which the artifact server binds.
 # @option --artifact-server-path <path>         Defines the path where the artifact server stores uploads and retrieves downloads from.
@@ -19,7 +20,7 @@
 # @option --defaultbranch <string>              the name of the main branch
 # @flag --detect-event                          Use first event type from workflow as event that triggered the workflow
 # @option -C --directory <dir>                  working directory (default ".")
-# @flag -n --dryrun                             dryrun mode
+# @flag -n --dryrun                             disable container creation, validates only workflow correctness
 # @option --env* <string>                       env to make available to actions with optional value (e.g. --env myenv=foo or --env myenv)
 # @option --env-file <file>                     environment file to read and use as env in the containers (default ".env")
 # @option -e --eventpath <file>                 path to event JSON file
@@ -32,6 +33,7 @@
 # @option -j --job[`_choice_job`] <string>      run a specific job ID
 # @flag --json                                  Output logs in json format
 # @flag -l --list                               list workflows
+# @option --local-repository* <string>          Replaces the specified repository and ref with a local folder (e.g. https://github.com/test/test@v0=/home/act/test or test/test@v0=/home/act/test, the latter matches any hosts or protocols)
 # @flag --log-prefix-job-id                     Output the job id within non-json logs instead of the entire name
 # @option --matrix* <string>                    specify which matrix configuration to include (e.g. --matrix java:13
 # @option --network <string>                    Sets a docker network name.
@@ -51,6 +53,7 @@
 # @option -s --secret* <string>                 secret to make available to actions with optional value (e.g. -s mysecret=foo or -s mysecret)
 # @option --secret-file <file>                  file with list of secrets to read from (e.g. --secret-file .secrets) (default ".secrets")
 # @flag --use-gitignore                         Controls whether paths specified in .gitignore should be copied into container (default true)
+# @flag --use-new-action-cache                  Enable using the new Action Cache for storing Actions locally
 # @option --userns <string>                     user namespace to use
 # @option --var* <string>                       variable to make available to actions with optional value (e.g. --var myvar=foo or --var myvar)
 # @option --var-file <file>                     file with list of vars to read from (e.g. --var-file .vars) (default ".vars")

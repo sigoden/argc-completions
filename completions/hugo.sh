@@ -34,7 +34,8 @@
 # @flag --printPathWarnings               print warnings on duplicate target paths etc.
 # @flag --printUnusedTemplates            print warnings on unused templates.
 # @flag --quiet                           build in quiet mode
-# @flag --renderToMemory                  render to memory (only useful for benchmark testing)
+# @option --renderSegments <strings>      named segments to render (configured in the segments config)
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @flag --templateMetrics                 display metrics about template executions
 # @flag --templateMetricsHints            calculate some improvement hints when combined with --templateMetrics
@@ -56,6 +57,7 @@
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -76,6 +78,7 @@ completion() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -97,6 +100,7 @@ completion::bash() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -118,6 +122,7 @@ completion::fish() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -139,6 +144,7 @@ completion::powershell() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -156,6 +162,7 @@ completion::zsh() {
 # @option --format <string>               preferred file format (toml, yaml or json) (default "toml")
 # @flag -h --help                         help for config
 # @option --lang <string>                 the language to display config for.
+# @option --renderSegments <strings>      named segments to render (configured in the segments config)
 # @option -t --theme <strings>            themes to use (located in /themes/THEMENAME/)
 # @option --clock <string>                set the clock used by Hugo, e.g. --clock 2021-11-06T22:30:00.00+09:00
 # @option --config <string>               config file (default is hugo.yaml|json|toml)
@@ -166,6 +173,7 @@ completion::zsh() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -179,6 +187,7 @@ config() {
 # @option --cacheDir <string>             filesystem path to cache directory
 # @option -c --contentDir <string>        filesystem path to content directory
 # @flag -h --help                         help for mounts
+# @option --renderSegments <strings>      named segments to render (configured in the segments config)
 # @option -t --theme <strings>            themes to use (located in /themes/THEMENAME/)
 # @option --clock <string>                set the clock used by Hugo, e.g. --clock 2021-11-06T22:30:00.00+09:00
 # @option --config <string>               config file (default is hugo.yaml|json|toml)
@@ -189,6 +198,7 @@ config() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -213,6 +223,7 @@ config::mounts() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -233,6 +244,7 @@ convert() {
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @option -o --output <string>            filesystem path to write files to
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag --unsafe                          enable less safe operations, please backup first
@@ -256,6 +268,7 @@ convert::toJSON() {
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @option -o --output <string>            filesystem path to write files to
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag --unsafe                          enable less safe operations, please backup first
@@ -279,6 +292,7 @@ convert::toTOML() {
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @option -o --output <string>            filesystem path to write files to
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag --unsafe                          enable less safe operations, please backup first
@@ -309,6 +323,7 @@ convert::toYAML() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -330,6 +345,7 @@ deploy() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -351,6 +367,7 @@ env() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -360,22 +377,24 @@ gen() {
 
 # {{{ hugo gen chromastyles
 # @cmd Generate CSS stylesheet for the Chroma code highlighter
-# @flag -h --help                         help for chromastyles
-# @option --highlightStyle <string>       style used for highlighting lines (see https://github.com/alecthomas/chroma)
-# @option --linesStyle <string>           style used for line numbers (see https://github.com/alecthomas/chroma)
-# @option --style <string>                highlighter style (see https://xyproto.github.io/splash/docs/) (default "friendly")
-# @option --clock <string>                set the clock used by Hugo, e.g. --clock 2021-11-06T22:30:00.00+09:00
-# @option --config <string>               config file (default is hugo.yaml|json|toml)
-# @option --configDir <string>            config dir (default "config")
-# @flag --debug                           debug output
-# @option -d --destination <string>       filesystem path to write files to
-# @option -e --environment <string>       build environment
-# @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
-# @option --logLevel <string>             log level (debug|info|warn|error)
-# @flag --quiet                           build in quiet mode
-# @option -s --source <string>            filesystem path to read files relative from
-# @option --themesDir <string>            filesystem path to themes directory
-# @flag -v --verbose                      verbose output
+# @flag -h --help                              help for chromastyles
+# @option --highlightStyle <string>            foreground and background colors for highlighted lines, e.g. --highlightStyle "#fff000 bg:#000fff"
+# @option --lineNumbersInlineStyle <string>    foreground and background colors for inline line numbers, e.g. --lineNumbersInlineStyle "#fff000 bg:#000fff"
+# @option --lineNumbersTableStyle <string>     foreground and background colors for table line numbers, e.g. --lineNumbersTableStyle "#fff000 bg:#000fff"
+# @option --style <string>                     highlighter style (see https://xyproto.github.io/splash/docs/) (default "friendly")
+# @option --clock <string>                     set the clock used by Hugo, e.g. --clock 2021-11-06T22:30:00.00+09:00
+# @option --config <string>                    config file (default is hugo.yaml|json|toml)
+# @option --configDir <string>                 config dir (default "config")
+# @flag --debug                                debug output
+# @option -d --destination <string>            filesystem path to write files to
+# @option -e --environment <string>            build environment
+# @option --ignoreVendorPaths <string>         ignores any _vendor for module paths matching the given Glob pattern
+# @option --logLevel <string>                  log level (debug|info|warn|error)
+# @flag --quiet                                build in quiet mode
+# @flag -M --renderToMemory                    render to memory (mostly useful when running the server)
+# @option -s --source <string>                 filesystem path to read files relative from
+# @option --themesDir <string>                 filesystem path to themes directory
+# @flag -v --verbose                           verbose output
 # @arg args*
 gen::chromastyles() {
     :;
@@ -395,6 +414,7 @@ gen::chromastyles() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -417,6 +437,7 @@ gen::doc() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -439,6 +460,7 @@ gen::man() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -459,6 +481,7 @@ import() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -481,6 +504,7 @@ import::jekyll() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -489,7 +513,7 @@ list() {
 }
 
 # {{{ hugo list all
-# @cmd List all posts
+# @cmd List all content
 # @flag -h --help                         help for all
 # @option --clock <string>                set the clock used by Hugo, e.g. --clock 2021-11-06T22:30:00.00+09:00
 # @option --config <string>               config file (default is hugo.yaml|json|toml)
@@ -500,6 +524,7 @@ list() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -510,7 +535,7 @@ list::all() {
 # }}} hugo list all
 
 # {{{ hugo list drafts
-# @cmd List all drafts
+# @cmd List draft content
 # @flag -h --help                         help for drafts
 # @option --clock <string>                set the clock used by Hugo, e.g. --clock 2021-11-06T22:30:00.00+09:00
 # @option --config <string>               config file (default is hugo.yaml|json|toml)
@@ -521,6 +546,7 @@ list::all() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -531,7 +557,7 @@ list::drafts() {
 # }}} hugo list drafts
 
 # {{{ hugo list expired
-# @cmd List all posts already expired
+# @cmd List expired content
 # @flag -h --help                         help for expired
 # @option --clock <string>                set the clock used by Hugo, e.g. --clock 2021-11-06T22:30:00.00+09:00
 # @option --config <string>               config file (default is hugo.yaml|json|toml)
@@ -542,6 +568,7 @@ list::drafts() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -552,7 +579,7 @@ list::expired() {
 # }}} hugo list expired
 
 # {{{ hugo list future
-# @cmd List all posts dated in the future
+# @cmd List future content
 # @flag -h --help                         help for future
 # @option --clock <string>                set the clock used by Hugo, e.g. --clock 2021-11-06T22:30:00.00+09:00
 # @option --config <string>               config file (default is hugo.yaml|json|toml)
@@ -563,6 +590,7 @@ list::expired() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -571,6 +599,28 @@ list::future() {
     :;
 }
 # }}} hugo list future
+
+# {{{ hugo list published
+# @cmd List published content
+# @flag -h --help                         help for published
+# @option --clock <string>                set the clock used by Hugo, e.g. --clock 2021-11-06T22:30:00.00+09:00
+# @option --config <string>               config file (default is hugo.yaml|json|toml)
+# @option --configDir <string>            config dir (default "config")
+# @flag --debug                           debug output
+# @option -d --destination <string>       filesystem path to write files to
+# @option -e --environment <string>       build environment
+# @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
+# @option --logLevel <string>             log level (debug|info|warn|error)
+# @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
+# @option -s --source <string>            filesystem path to read files relative from
+# @option --themesDir <string>            filesystem path to themes directory
+# @flag -v --verbose                      verbose output
+# @arg args*
+list::published() {
+    :;
+}
+# }}} hugo list published
 # }} hugo list
 
 # {{ hugo mod
@@ -585,6 +635,7 @@ list::future() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -600,6 +651,7 @@ mod() {
 # @option -c --contentDir <string>        filesystem path to content directory
 # @flag -h --help                         help for clean
 # @option --pattern <string>              pattern matching module paths to clean (all if not set), e.g. "**hugo*"
+# @option --renderSegments <strings>      named segments to render (configured in the segments config)
 # @option -t --theme <strings>            themes to use (located in /themes/THEMENAME/)
 # @option --clock <string>                set the clock used by Hugo, e.g. --clock 2021-11-06T22:30:00.00+09:00
 # @option --config <string>               config file (default is hugo.yaml|json|toml)
@@ -610,6 +662,7 @@ mod() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -631,6 +684,7 @@ mod::clean() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -647,6 +701,7 @@ mod::get() {
 # @flag --clean                           delete module cache for dependencies that fail verification
 # @option -c --contentDir <string>        filesystem path to content directory
 # @flag -h --help                         help for graph
+# @option --renderSegments <strings>      named segments to render (configured in the segments config)
 # @option -t --theme <strings>            themes to use (located in /themes/THEMENAME/)
 # @option --clock <string>                set the clock used by Hugo, e.g. --clock 2021-11-06T22:30:00.00+09:00
 # @option --config <string>               config file (default is hugo.yaml|json|toml)
@@ -657,6 +712,7 @@ mod::get() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -672,6 +728,7 @@ mod::graph() {
 # @option --cacheDir <string>             filesystem path to cache directory
 # @option -c --contentDir <string>        filesystem path to content directory
 # @flag -h --help                         help for init
+# @option --renderSegments <strings>      named segments to render (configured in the segments config)
 # @option -t --theme <strings>            themes to use (located in /themes/THEMENAME/)
 # @option --clock <string>                set the clock used by Hugo, e.g. --clock 2021-11-06T22:30:00.00+09:00
 # @option --config <string>               config file (default is hugo.yaml|json|toml)
@@ -682,6 +739,7 @@ mod::graph() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -703,6 +761,7 @@ mod::init() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -716,6 +775,7 @@ mod::npm() {
 # @option --cacheDir <string>             filesystem path to cache directory
 # @option -c --contentDir <string>        filesystem path to content directory
 # @flag -h --help                         help for pack
+# @option --renderSegments <strings>      named segments to render (configured in the segments config)
 # @option -t --theme <strings>            themes to use (located in /themes/THEMENAME/)
 # @option --clock <string>                set the clock used by Hugo, e.g. --clock 2021-11-06T22:30:00.00+09:00
 # @option --config <string>               config file (default is hugo.yaml|json|toml)
@@ -726,6 +786,7 @@ mod::npm() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -742,6 +803,7 @@ mod::npm::pack() {
 # @option --cacheDir <string>             filesystem path to cache directory
 # @option -c --contentDir <string>        filesystem path to content directory
 # @flag -h --help                         help for tidy
+# @option --renderSegments <strings>      named segments to render (configured in the segments config)
 # @option -t --theme <strings>            themes to use (located in /themes/THEMENAME/)
 # @option --clock <string>                set the clock used by Hugo, e.g. --clock 2021-11-06T22:30:00.00+09:00
 # @option --config <string>               config file (default is hugo.yaml|json|toml)
@@ -752,6 +814,7 @@ mod::npm::pack() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -767,6 +830,7 @@ mod::tidy() {
 # @option --cacheDir <string>             filesystem path to cache directory
 # @option -c --contentDir <string>        filesystem path to content directory
 # @flag -h --help                         help for vendor
+# @option --renderSegments <strings>      named segments to render (configured in the segments config)
 # @option -t --theme <strings>            themes to use (located in /themes/THEMENAME/)
 # @option --clock <string>                set the clock used by Hugo, e.g. --clock 2021-11-06T22:30:00.00+09:00
 # @option --config <string>               config file (default is hugo.yaml|json|toml)
@@ -777,6 +841,7 @@ mod::tidy() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -793,6 +858,7 @@ mod::vendor() {
 # @flag --clean                           delete module cache for dependencies that fail verification
 # @option -c --contentDir <string>        filesystem path to content directory
 # @flag -h --help                         help for verify
+# @option --renderSegments <strings>      named segments to render (configured in the segments config)
 # @option -t --theme <strings>            themes to use (located in /themes/THEMENAME/)
 # @option --clock <string>                set the clock used by Hugo, e.g. --clock 2021-11-06T22:30:00.00+09:00
 # @option --config <string>               config file (default is hugo.yaml|json|toml)
@@ -803,6 +869,7 @@ mod::vendor() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -822,6 +889,7 @@ mod::verify() {
 # @flag -f --force                        overwrite file if it already exists
 # @flag -h --help                         help for content
 # @option -k --kind <string>              content type to create
+# @option --renderSegments <strings>      named segments to render (configured in the segments config)
 # @option -t --theme <strings>            themes to use (located in /themes/THEMENAME/)
 # @option --clock <string>                set the clock used by Hugo, e.g. --clock 2021-11-06T22:30:00.00+09:00
 # @option --config <string>               config file (default is hugo.yaml|json|toml)
@@ -832,6 +900,7 @@ mod::verify() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -864,10 +933,8 @@ new() {
 # @flag --ignoreCache                     ignores the cache directory
 # @option -l --layoutDir <string>         filesystem path to layout directory
 # @option --liveReloadPort <int>          port for live reloading (i.e.
-# @option --meminterval <string>          interval to poll memory usage (requires --memstats), valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h".
-# @option --memstats <string>             log memory usage to this file
 # @flag --minify                          minify any supported output format (HTML, XML etc.)
-# @flag --navigateToChanged               navigate to changed content file on live browser reload
+# @flag -N --navigateToChanged            navigate to changed content file on live browser reload
 # @flag --noBuildLock                     don't create .hugo_build.lock file
 # @flag --noChmod                         don't sync permission mode of files
 # @flag --noHTTPCache                     prevent HTTP caching
@@ -875,12 +942,13 @@ new() {
 # @flag --panicOnWarning                  panic on first WARNING log
 # @option --poll <string>                 set this to a poll interval, e.g --poll 700ms, to use a poll based approach to watch for file system changes
 # @option -p --port <int>                 port on which the server will listen (default 1313)
+# @flag --pprof                           enable the pprof server (port 8080)
 # @flag --printI18nWarnings               print missing translations
 # @flag --printMemoryUsage                print memory usage to screen at intervals
 # @flag --printPathWarnings               print warnings on duplicate target paths etc.
 # @flag --printUnusedTemplates            print warnings on unused templates.
+# @option --renderSegments <strings>      named segments to render (configured in the segments config)
 # @flag --renderStaticToDisk              serve static files from disk and dynamic files from memory
-# @flag --renderToDisk                    serve all files from disk (default is from memory)
 # @flag --templateMetrics                 display metrics about template executions
 # @flag --templateMetricsHints            calculate some improvement hints when combined with --templateMetrics
 # @option -t --theme <strings>            themes to use (located in /themes/THEMENAME/)
@@ -898,6 +966,7 @@ new() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -918,6 +987,7 @@ server() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output
@@ -940,6 +1010,7 @@ server::trust() {
 # @option --ignoreVendorPaths <string>    ignores any _vendor for module paths matching the given Glob pattern
 # @option --logLevel <string>             log level (debug|info|warn|error)
 # @flag --quiet                           build in quiet mode
+# @flag -M --renderToMemory               render to memory (mostly useful when running the server)
 # @option -s --source <string>            filesystem path to read files relative from
 # @option --themesDir <string>            filesystem path to themes directory
 # @flag -v --verbose                      verbose output

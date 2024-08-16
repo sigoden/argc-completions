@@ -63,8 +63,8 @@
 # @option --only-binary <format_control>           Do not use source packages.
 # @flag --prefer-binary                            Prefer binary packages over source packages, even if the source packages are newer.
 # @flag --require-hashes                           Require a hash to check each requirement against, for repeatable installs.
-# @option --progress-bar[off|on|ascii|pretty|emoji] <progress_bar>  Specify whether the progress bar should be used [on, off] (default: on)
-# @option --root-user-action <root_user_action>    Action if pip is run as a root user.
+# @option --progress-bar[off|on|ascii|pretty|emoji] <progress_bar>  Specify whether the progress bar should be used (default: on)
+# @option --root-user-action <root_user_action>    Action if pip is run as a root user [warn, ignore] (default: warn)
 # @option --report <file>                          Generate a JSON file describing what pip did to install the provided requirements.
 # @flag --no-clean                                 Don't clean up build directories.
 # @option -i --index-url <url>                     Base URL of the Python Package Index (default https://pypi.org/simple).
@@ -113,7 +113,7 @@ install() {
 # @option --src <dir>                          Directory to check out editable projects into.
 # @flag --pre                                  Include pre-release and development versions.
 # @flag --require-hashes                       Require a hash to check each requirement against, for repeatable installs.
-# @option --progress-bar[off|on|ascii|pretty|emoji] <progress_bar>  Specify whether the progress bar should be used [on, off] (default: on)
+# @option --progress-bar[off|on|ascii|pretty|emoji] <progress_bar>  Specify whether the progress bar should be used (default: on)
 # @flag --no-build-isolation                   Disable isolation when building a modern source distribution.
 # @flag --use-pep517                           Use PEP 517 for building source distributions (use --no-use-pep517 to force legacy behaviour).
 # @flag --check-build-dependencies             Check the build dependencies when PEP517 is used.
@@ -162,7 +162,7 @@ download() {
 # @cmd Uninstall packages.
 # @option -r --requirement <file>                  Uninstall all the packages listed in the given requirements file.
 # @flag -y --yes                                   Don't ask for confirmation of uninstall deletions.
-# @option --root-user-action <root_user_action>    Action if pip is run as a root user.
+# @option --root-user-action <root_user_action>    Action if pip is run as a root user [warn, ignore] (default: warn)
 # @flag --break-system-packages                    Allow pip to modify an EXTERNALLY-MANAGED Python installation
 # @flag -h --help                                  Show help.
 # @flag --debug                                    Let unhandled exceptions propagate outside the main subroutine, instead of logging them to stderr.
@@ -629,7 +629,7 @@ index() {
 # @option --src <dir>                        Directory to check out editable projects into.
 # @flag --ignore-requires-python             Ignore the Requires-Python information.
 # @flag --no-deps                            Don't install package dependencies.
-# @option --progress-bar[off|on|ascii|pretty|emoji] <progress_bar>  Specify whether the progress bar should be used [on, off] (default: on)
+# @option --progress-bar[off|on|ascii|pretty|emoji] <progress_bar>  Specify whether the progress bar should be used (default: on)
 # @flag --no-verify                          Don't verify if built wheel is valid.
 # @option -C --config-settings <settings>    Configuration settings to be passed to the PEP 517 build backend.
 # @option --build-option <options>           Extra arguments to be supplied to 'setup.py bdist_wheel'.

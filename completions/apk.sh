@@ -14,11 +14,11 @@
 # @flag -V --version                        Print program version and exit
 # @option -X --repository <REPO>            Specify additional package repository
 # @flag --allow-untrusted                   Install packages with untrusted signature or no signature
-# @option --arch                            Temporarily override architecture, to be combined with --root
+# @option --arch                            Temporarily override architecture
 # @option --cache-dir <CACHEDIR>            Temporarily override the cache directory
 # @option --cache-max-age <AGE>             Maximum AGE (in minutes) for index in cache before it's refreshed
 # @flag --force-binary-stdout               Continue even if binary data will be printed to the terminal
-# @flag --force-broken-world                Continue even if WORLD cannot be satisfied
+# @flag --force-broken-world                DANGEROUS: Delete world constraints until a solution without conflicts is found
 # @flag --force-missing-repositories        Continue even if some of the repository indexes are not available
 # @flag --force-non-repository              Continue even if packages may be lost on reboot
 # @flag --force-old-apk                     Continue even if packages use unsupported features
@@ -48,7 +48,7 @@
 # @flag -u --upgrade                        Upgrade PACKAGES and it's dependencies
 # @option -t --virtual <NAME>               Create virtual package NAME with given dependencies
 # @flag --no-chown                          Do not change file owner or group
-# @arg packages*[`_choice_package`]
+# @arg constraints*
 add() {
     :;
 }
@@ -65,11 +65,11 @@ add() {
 # @flag -V --version                        Print program version and exit
 # @option -X --repository <REPO>            Specify additional package repository
 # @flag --allow-untrusted                   Install packages with untrusted signature or no signature
-# @option --arch                            Temporarily override architecture, to be combined with --root
+# @option --arch                            Temporarily override architecture
 # @option --cache-dir <CACHEDIR>            Temporarily override the cache directory
 # @option --cache-max-age <AGE>             Maximum AGE (in minutes) for index in cache before it's refreshed
 # @flag --force-binary-stdout               Continue even if binary data will be printed to the terminal
-# @flag --force-broken-world                Continue even if WORLD cannot be satisfied
+# @flag --force-broken-world                DANGEROUS: Delete world constraints until a solution without conflicts is found
 # @flag --force-missing-repositories        Continue even if some of the repository indexes are not available
 # @flag --force-non-repository              Continue even if packages may be lost on reboot
 # @flag --force-old-apk                     Continue even if packages use unsupported features
@@ -95,7 +95,7 @@ add() {
 # @flag --no-commit-hooks                   Skip pre/post hook scripts (but not other scripts)
 # @flag --initramfs-diskless-boot           Used by initramfs when it's recreating root tmpfs
 # @flag -r --rdepends                       Recursively delete all top-level reverse dependencies, too
-# @arg packages*[`_choice_installed_package`]
+# @arg constraints*
 del() {
     :;
 }
@@ -112,11 +112,11 @@ del() {
 # @flag -V --version                        Print program version and exit
 # @option -X --repository <REPO>            Specify additional package repository
 # @flag --allow-untrusted                   Install packages with untrusted signature or no signature
-# @option --arch                            Temporarily override architecture, to be combined with --root
+# @option --arch                            Temporarily override architecture
 # @option --cache-dir <CACHEDIR>            Temporarily override the cache directory
 # @option --cache-max-age <AGE>             Maximum AGE (in minutes) for index in cache before it's refreshed
 # @flag --force-binary-stdout               Continue even if binary data will be printed to the terminal
-# @flag --force-broken-world                Continue even if WORLD cannot be satisfied
+# @flag --force-broken-world                DANGEROUS: Delete world constraints until a solution without conflicts is found
 # @flag --force-missing-repositories        Continue even if some of the repository indexes are not available
 # @flag --force-non-repository              Continue even if packages may be lost on reboot
 # @flag --force-old-apk                     Continue even if packages use unsupported features
@@ -170,11 +170,11 @@ update() {
 # @flag -V --version                        Print program version and exit
 # @option -X --repository <REPO>            Specify additional package repository
 # @flag --allow-untrusted                   Install packages with untrusted signature or no signature
-# @option --arch                            Temporarily override architecture, to be combined with --root
+# @option --arch                            Temporarily override architecture
 # @option --cache-dir <CACHEDIR>            Temporarily override the cache directory
 # @option --cache-max-age <AGE>             Maximum AGE (in minutes) for index in cache before it's refreshed
 # @flag --force-binary-stdout               Continue even if binary data will be printed to the terminal
-# @flag --force-broken-world                Continue even if WORLD cannot be satisfied
+# @flag --force-broken-world                DANGEROUS: Delete world constraints until a solution without conflicts is found
 # @flag --force-missing-repositories        Continue even if some of the repository indexes are not available
 # @flag --force-non-repository              Continue even if packages may be lost on reboot
 # @flag --force-old-apk                     Continue even if packages use unsupported features
@@ -222,11 +222,11 @@ upgrade() {
 # @flag -V --version                        Print program version and exit
 # @option -X --repository <REPO>            Specify additional package repository
 # @flag --allow-untrusted                   Install packages with untrusted signature or no signature
-# @option --arch                            Temporarily override architecture, to be combined with --root
+# @option --arch                            Temporarily override architecture
 # @option --cache-dir <CACHEDIR>            Temporarily override the cache directory
 # @option --cache-max-age <AGE>             Maximum AGE (in minutes) for index in cache before it's refreshed
 # @flag --force-binary-stdout               Continue even if binary data will be printed to the terminal
-# @flag --force-broken-world                Continue even if WORLD cannot be satisfied
+# @flag --force-broken-world                DANGEROUS: Delete world constraints until a solution without conflicts is found
 # @flag --force-missing-repositories        Continue even if some of the repository indexes are not available
 # @flag --force-non-repository              Continue even if packages may be lost on reboot
 # @flag --force-old-apk                     Continue even if packages use unsupported features
@@ -290,11 +290,11 @@ cache::sync() {
 # @flag -V --version                        Print program version and exit
 # @option -X --repository <REPO>            Specify additional package repository
 # @flag --allow-untrusted                   Install packages with untrusted signature or no signature
-# @option --arch                            Temporarily override architecture, to be combined with --root
+# @option --arch                            Temporarily override architecture
 # @option --cache-dir <CACHEDIR>            Temporarily override the cache directory
 # @option --cache-max-age <AGE>             Maximum AGE (in minutes) for index in cache before it's refreshed
 # @flag --force-binary-stdout               Continue even if binary data will be printed to the terminal
-# @flag --force-broken-world                Continue even if WORLD cannot be satisfied
+# @flag --force-broken-world                DANGEROUS: Delete world constraints until a solution without conflicts is found
 # @flag --force-missing-repositories        Continue even if some of the repository indexes are not available
 # @flag --force-non-repository              Continue even if packages may be lost on reboot
 # @flag --force-old-apk                     Continue even if packages use unsupported features
@@ -328,7 +328,7 @@ cache::sync() {
 # @flag --license                           Print the package SPDX license identifier
 # @flag --replaces                          List the other packages for which this package is marked as a replacement
 # @flag --rinstall-if                       List other packages whose install_if rules refer to this package
-# @flag --triggers                          Print active triggers for the package
+# @flag -t --triggers                       Print active triggers for the package
 # @arg packages*[`_choice_package`]
 info() {
     :;
@@ -346,11 +346,11 @@ info() {
 # @flag -V --version                        Print program version and exit
 # @option -X --repository <REPO>            Specify additional package repository
 # @flag --allow-untrusted                   Install packages with untrusted signature or no signature
-# @option --arch                            Temporarily override architecture, to be combined with --root
+# @option --arch                            Temporarily override architecture
 # @option --cache-dir <CACHEDIR>            Temporarily override the cache directory
 # @option --cache-max-age <AGE>             Maximum AGE (in minutes) for index in cache before it's refreshed
 # @flag --force-binary-stdout               Continue even if binary data will be printed to the terminal
-# @flag --force-broken-world                Continue even if WORLD cannot be satisfied
+# @flag --force-broken-world                DANGEROUS: Delete world constraints until a solution without conflicts is found
 # @flag --force-missing-repositories        Continue even if some of the repository indexes are not available
 # @flag --force-non-repository              Continue even if packages may be lost on reboot
 # @flag --force-old-apk                     Continue even if packages use unsupported features
@@ -396,11 +396,11 @@ list() {
 # @flag -V --version                        Print program version and exit
 # @option -X --repository <REPO>            Specify additional package repository
 # @flag --allow-untrusted                   Install packages with untrusted signature or no signature
-# @option --arch                            Temporarily override architecture, to be combined with --root
+# @option --arch                            Temporarily override architecture
 # @option --cache-dir <CACHEDIR>            Temporarily override the cache directory
 # @option --cache-max-age <AGE>             Maximum AGE (in minutes) for index in cache before it's refreshed
 # @flag --force-binary-stdout               Continue even if binary data will be printed to the terminal
-# @flag --force-broken-world                Continue even if WORLD cannot be satisfied
+# @flag --force-broken-world                DANGEROUS: Delete world constraints until a solution without conflicts is found
 # @flag --force-missing-repositories        Continue even if some of the repository indexes are not available
 # @flag --force-non-repository              Continue even if packages may be lost on reboot
 # @flag --force-old-apk                     Continue even if packages use unsupported features
@@ -447,11 +447,11 @@ policy() {
 # @flag -V --version                        Print program version and exit
 # @option -X --repository <REPO>            Specify additional package repository
 # @flag --allow-untrusted                   Install packages with untrusted signature or no signature
-# @option --arch                            Temporarily override architecture, to be combined with --root
+# @option --arch                            Temporarily override architecture
 # @option --cache-dir <CACHEDIR>            Temporarily override the cache directory
 # @option --cache-max-age <AGE>             Maximum AGE (in minutes) for index in cache before it's refreshed
 # @flag --force-binary-stdout               Continue even if binary data will be printed to the terminal
-# @flag --force-broken-world                Continue even if WORLD cannot be satisfied
+# @flag --force-broken-world                DANGEROUS: Delete world constraints until a solution without conflicts is found
 # @flag --force-missing-repositories        Continue even if some of the repository indexes are not available
 # @flag --force-non-repository              Continue even if packages may be lost on reboot
 # @flag --force-old-apk                     Continue even if packages use unsupported features
@@ -496,11 +496,11 @@ search() {
 # @flag -V --version                        Print program version and exit
 # @option -X --repository <REPO>            Specify additional package repository
 # @flag --allow-untrusted                   Install packages with untrusted signature or no signature
-# @option --arch                            Temporarily override architecture, to be combined with --root
+# @option --arch                            Temporarily override architecture
 # @option --cache-dir <CACHEDIR>            Temporarily override the cache directory
 # @option --cache-max-age <AGE>             Maximum AGE (in minutes) for index in cache before it's refreshed
 # @flag --force-binary-stdout               Continue even if binary data will be printed to the terminal
-# @flag --force-broken-world                Continue even if WORLD cannot be satisfied
+# @flag --force-broken-world                DANGEROUS: Delete world constraints until a solution without conflicts is found
 # @flag --force-missing-repositories        Continue even if some of the repository indexes are not available
 # @flag --force-non-repository              Continue even if packages may be lost on reboot
 # @flag --force-old-apk                     Continue even if packages use unsupported features
@@ -543,11 +543,11 @@ index() {
 # @flag -V --version                        Print program version and exit
 # @option -X --repository <REPO>            Specify additional package repository
 # @flag --allow-untrusted                   Install packages with untrusted signature or no signature
-# @option --arch                            Temporarily override architecture, to be combined with --root
+# @option --arch                            Temporarily override architecture
 # @option --cache-dir <CACHEDIR>            Temporarily override the cache directory
 # @option --cache-max-age <AGE>             Maximum AGE (in minutes) for index in cache before it's refreshed
 # @flag --force-binary-stdout               Continue even if binary data will be printed to the terminal
-# @flag --force-broken-world                Continue even if WORLD cannot be satisfied
+# @flag --force-broken-world                DANGEROUS: Delete world constraints until a solution without conflicts is found
 # @flag --force-missing-repositories        Continue even if some of the repository indexes are not available
 # @flag --force-non-repository              Continue even if packages may be lost on reboot
 # @flag --force-old-apk                     Continue even if packages use unsupported features
@@ -608,11 +608,11 @@ verify() {
 # @flag -V --version                        Print program version and exit
 # @option -X --repository <REPO>            Specify additional package repository
 # @flag --allow-untrusted                   Install packages with untrusted signature or no signature
-# @option --arch                            Temporarily override architecture, to be combined with --root
+# @option --arch                            Temporarily override architecture
 # @option --cache-dir <CACHEDIR>            Temporarily override the cache directory
 # @option --cache-max-age <AGE>             Maximum AGE (in minutes) for index in cache before it's refreshed
 # @flag --force-binary-stdout               Continue even if binary data will be printed to the terminal
-# @flag --force-broken-world                Continue even if WORLD cannot be satisfied
+# @flag --force-broken-world                DANGEROUS: Delete world constraints until a solution without conflicts is found
 # @flag --force-missing-repositories        Continue even if some of the repository indexes are not available
 # @flag --force-non-repository              Continue even if packages may be lost on reboot
 # @flag --force-old-apk                     Continue even if packages use unsupported features
@@ -655,43 +655,43 @@ stats() {
 
 # {{ apk version
 # @cmd Compare package versions or perform tests on version strings
-# @flag -f --force                           Enable selected --force-* options (deprecated)
-# @flag -i --interactive                     Ask confirmation before performing certain operations
-# @option -p --root                          Manage file system at ROOT
-# @flag -q --quiet                           Print less information
-# @flag -U --update-cache                    Alias for '--cache-max-age 1'
-# @flag -v --verbose                         Print more information (can be specified twice)
-# @flag -V --version                         Print program version and exit
-# @option -X --repository <REPO>             Specify additional package repository
-# @flag --allow-untrusted                    Install packages with untrusted signature or no signature
-# @option --arch                             Temporarily override architecture, to be combined with --root
-# @option --cache-dir <CACHEDIR>             Temporarily override the cache directory
-# @option --cache-max-age <AGE>              Maximum AGE (in minutes) for index in cache before it's refreshed
-# @flag --force-binary-stdout                Continue even if binary data will be printed to the terminal
-# @flag --force-broken-world                 Continue even if WORLD cannot be satisfied
-# @flag --force-missing-repositories         Continue even if some of the repository indexes are not available
-# @flag --force-non-repository               Continue even if packages may be lost on reboot
-# @flag --force-old-apk                      Continue even if packages use unsupported features
-# @flag --force-overwrite                    Overwrite files in other packages
-# @flag --force-refresh                      Do not use cached files (local or from proxy)
-# @option --keys-dir <KEYSDIR>               Override directory of trusted keys
-# @flag --no-cache                           Do not use any local cache path
-# @flag --no-check-certificate               Do not validate the HTTPS server certificates
-# @flag --no-interactive                     Disable interactive mode
-# @flag --no-network                         Do not use the network
-# @flag --no-progress                        Disable progress bar even for TTYs
-# @flag --print-arch                         Print default arch and exit
-# @flag --progress                           Show progress
-# @option --progress-fd <FD>                 Write progress to the specified file descriptor
-# @flag --purge                              Purge modified configuration and cached packages
-# @option --repositories-file <REPOFILE>     Override system repositories, see repositories
-# @option --timeout <TIME>                   Timeout network connections if no progress is made in TIME seconds
-# @option --wait <TIME>                      Wait for TIME seconds to get an exclusive repository lock before failing
-# @flag -a --all                             Consider packages from all repository tags
-# @option -c --check* <VERSIONS>             Check versions for validity
-# @flag -I --indexes                         Print the version and description for each repository's index
-# @option -l --limit <OPERAND>               Limit to packages with output matching given OPERAND
-# @option -t --test <VERSION1> <VERSION2>    Compare two version strings
+# @flag -f --force                          Enable selected --force-* options (deprecated)
+# @flag -i --interactive                    Ask confirmation before performing certain operations
+# @option -p --root                         Manage file system at ROOT
+# @flag -q --quiet                          Print less information
+# @flag -U --update-cache                   Alias for '--cache-max-age 1'
+# @flag -v --verbose                        Print more information (can be specified twice)
+# @flag -V --version                        Print program version and exit
+# @option -X --repository <REPO>            Specify additional package repository
+# @flag --allow-untrusted                   Install packages with untrusted signature or no signature
+# @option --arch                            Temporarily override architecture
+# @option --cache-dir <CACHEDIR>            Temporarily override the cache directory
+# @option --cache-max-age <AGE>             Maximum AGE (in minutes) for index in cache before it's refreshed
+# @flag --force-binary-stdout               Continue even if binary data will be printed to the terminal
+# @flag --force-broken-world                DANGEROUS: Delete world constraints until a solution without conflicts is found
+# @flag --force-missing-repositories        Continue even if some of the repository indexes are not available
+# @flag --force-non-repository              Continue even if packages may be lost on reboot
+# @flag --force-old-apk                     Continue even if packages use unsupported features
+# @flag --force-overwrite                   Overwrite files in other packages
+# @flag --force-refresh                     Do not use cached files (local or from proxy)
+# @option --keys-dir <KEYSDIR>              Override directory of trusted keys
+# @flag --no-cache                          Do not use any local cache path
+# @flag --no-check-certificate              Do not validate the HTTPS server certificates
+# @flag --no-interactive                    Disable interactive mode
+# @flag --no-network                        Do not use the network
+# @flag --no-progress                       Disable progress bar even for TTYs
+# @flag --print-arch                        Print default arch and exit
+# @flag --progress                          Show progress
+# @option --progress-fd <FD>                Write progress to the specified file descriptor
+# @flag --purge                             Purge modified configuration and cached packages
+# @option --repositories-file <REPOFILE>    Override system repositories, see repositories
+# @option --timeout <TIME>                  Timeout network connections if no progress is made in TIME seconds
+# @option --wait <TIME>                     Wait for TIME seconds to get an exclusive repository lock before failing
+# @flag -a --all                            Consider packages from all repository tags
+# @flag -c --check                          Check versions for validity
+# @flag -I --indexes                        Print the version and description for each repository's index
+# @option -l --limit <OPERAND>              Limit to packages with output matching given OPERAND
+# @flag -t --test                           Compare two version strings
 # @arg packages*[`_choice_installed_package`]
 version() {
     :;

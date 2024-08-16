@@ -6,8 +6,9 @@
 # @option --audio-buffer <ms>                    Configure the audio buffering delay (in milliseconds).
 # @option --audio-codec[opus|aac|flac|raw] <name>  Select an audio codec (opus, aac, flac or raw).
 # @option --audio-codec-options <key[:type]=value[,...]>  Set a list of comma-separated key:type=value options for the device audio encoder.
+# @flag --audio-dup                              Duplicate audio (capture and keep playing on the device).
 # @option --audio-encoder <name>                 Use a specific MediaCodec audio encoder (depending on the codec provided by --audio-codec).
-# @option --audio-source[output|mic] <source>    Select the audio source (output or mic).
+# @option --audio-source[output|mic] <source>    Select the audio source (output, mic or playback).
 # @option --audio-output-buffer <ms>             Configure the size of the SDL audio output buffer (in milliseconds).
 # @option -b --video-bit-rate <value>            Encode the video at the given bit rate, expressed in bits/s.
 # @option --camera-ar <ar>                       Select the camera size by its aspect ratio (+/- 10%).
@@ -25,10 +26,10 @@
 # @flag -e --select-tcpip                        Use TCP/IP device (if there is exactly one, like adb -e).
 # @flag -f --fullscreen                          Start in fullscreen.
 # @flag --force-adb-forward                      Do not attempt to use "adb reverse" to connect to the device.
-# @flag --forward-all-clicks                     By default, right-click triggers BACK (or POWER on) and middle-click triggers HOME.
 # @flag -h --help                                Print this help.
+# @flag -K                                       Same as --keyboard=uhid.
+# @option --keyboard <mode>                      Select how to send keyboard inputs to the device.
 # @flag --kill-adb-on-close                      Kill adb when scrcpy terminates.
-# @flag -K --hid-keyboard                        Simulate a physical keyboard by using HID over AOAv2.
 # @flag --legacy-paste                           Inject computer clipboard text as a sequence of key events on Ctrl+v (like MOD+Shift+v).
 # @flag --list-cameras                           List device cameras.
 # @flag --list-camera-sizes                      List the valid camera capture sizes.
@@ -36,8 +37,10 @@
 # @flag --list-encoders                          List video and audio encoders available on the device.
 # @option --lock-video-orientation[unlocked|initial|0|90|180|270] <value>  Lock capture video orientation to value.
 # @option -m --max-size <value>                  Limit both the width and height of the video to value.
-# @flag -M --hid-mouse                           Simulate a physical mouse by using HID over AOAv2.
+# @flag -M                                       Same as --mouse=uhid.
 # @option --max-fps <value>                      Limit the frame rate of screen capture (officially supported since Android 10, but may work on earlier versions).
+# @option --mouse <mode>                         Select how to send mouse inputs to the device.
+# @option --mouse-bind <xxxx[:xxxx]>             Configure bindings of secondary clicks.
 # @flag -n --no-control                          Disable device control (mirror the device in read-only).
 # @flag -N --no-playback                         Disable video and audio playback on the computer (equivalent to --no-video-playback --no-audio-playback).
 # @flag --no-audio                               Disable audio forwarding.
@@ -47,9 +50,11 @@
 # @flag --no-downsize-on-error                   By default, on MediaCodec error, scrcpy automatically tries again with a lower definition.
 # @flag --no-key-repeat                          Do not forward repeated key events when a key is held down.
 # @flag --no-mipmaps                             If the renderer is OpenGL 3.0+ or OpenGL ES 2.0+, then mipmaps are automatically generated to improve downscaling quality.
+# @flag --no-mouse-hover                         Do not forward mouse hover (mouse motion without any clicks) events.
 # @flag --no-power-on                            Do not power on the device on start.
 # @flag --no-video                               Disable video forwarding.
 # @flag --no-video-playback                      Disable video playback on the computer.
+# @flag --no-window                              Disable scrcpy window.
 # @option --orientation <value>                  Same as --display-orientation=value --record-orientation=value.
 # @flag --otg                                    Run in OTG mode: simulate physical keyboard and mouse, as if the computer keyboard and mouse were plugged directly to the device via an OTG cable.
 # @option -p --port <port[:port]>                Set the TCP port (range) used by the client to listen.

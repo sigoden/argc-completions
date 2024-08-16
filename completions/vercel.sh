@@ -17,12 +17,15 @@
 # @option -b --build-env <key=value>    Specify environment variables during build-time (e.g. `-b KEY1=value1 -b KEY2=value2`)
 # @option -e --env <key=value>          Specify environment variables during run-time (e.g. `-e KEY1=value1 -e KEY2=value2`)
 # @flag -f --force                      Force a new deployment even if nothing has changed
+# @flag -l --logs                       Print the build logs
 # @option -m --meta <key=value>         Specify metadata for the deployment (e.g. `-m KEY1=value1 -m KEY2=value2`)
 # @flag --no-wait                       Don't wait for the deployment to finish
 # @flag --prebuilt                      Use in combination with `vc build`.
-# @flag --prod                          Create a production deployment
+# @flag --prod                          Create a production deployment (shorthand for `--target=production`)
 # @flag -p --public                     Deployment is public (`/_src`) is exposed)
 # @flag --regions                       Set default regions to enable the deployment on
+# @flag --skip-domain                   Disable the automatic promotion (aliasing) of the relevant domains to a new production deployment.
+# @flag --target                        Specify the target deployment environment
 # @flag --with-cache                    Retain build cache when using "--force"
 # @flag -y --yes                        Use default options to skip all prompts
 # @option --cwd <DIR>                   Sets the current working directory for a single run of a command
@@ -42,7 +45,7 @@ deploy() {
 
 # {{ vercel dev
 # @cmd Start a local development server
-# @option --listen <uri>              Specify a URI endpoint on which to listen [0.0.0.0:3000]
+# @option -l --listen <uri>           Specify a URI endpoint on which to listen [0.0.0.0:3000]
 # @option --cwd <DIR>                 Sets the current working directory for a single run of a command
 # @flag -d --debug                    Debug mode (default off)
 # @option -Q --global-config <DIR>    Path to the global `.vercel` directory
@@ -116,6 +119,7 @@ init() {
 
 # {{ vercel inspect
 # @cmd Displays information related to a deployment
+# @flag -l --logs                     Prints the build logs instead of the deployment summary
 # @option --timeout <TIME>            Time to wait for deployment completion [3m]
 # @flag --wait                        Blocks until deployment completes
 # @option --cwd <DIR>                 Sets the current working directory for a single run of a command
@@ -156,8 +160,8 @@ link() {
 # @cmd Lists deployments
 # @alias list
 # @option --environment <production|preview>
-# @option --meta <KEY=value>          Filter deployments by metadata (e.g.: `-m KEY=value`).
-# @option --next <MS>                 Show next page of results
+# @option -m --meta <KEY=value>       Filter deployments by metadata (e.g.: `-m KEY=value`).
+# @option -N --next <MS>              Show next page of results
 # @option --cwd <DIR>                 Sets the current working directory for a single run of a command
 # @flag -d --debug                    Debug mode (default off)
 # @option -Q --global-config <DIR>    Path to the global `.vercel` directory
@@ -285,7 +289,6 @@ rollback() {
 
 # {{ vercel switch
 # @cmd Switches between different scopes
-# @option -N --next <MS>              Show next page of results
 # @option --cwd <DIR>                 Sets the current working directory for a single run of a command
 # @flag -d --debug                    Debug mode (default off)
 # @option -Q --global-config <DIR>    Path to the global `.vercel` directory
@@ -302,8 +305,8 @@ switch() {
 
 # {{ vercel alias
 # @cmd Manages your domain aliases
-# @option -n --limit <NUMBER>         Number of results to return per page (default: 20, max: 100)
-# @option --next <MS>                 Show next page of results
+# @option --limit <NUMBER>            Number of results to return per page (default: 20, max: 100)
+# @option -N --next <MS>              Show next page of results
 # @flag -y --yes                      Skip the confirmation prompt when removing an alias
 # @option --cwd <DIR>                 Sets the current working directory for a single run of a command
 # @flag -d --debug                    Debug mode (default off)
@@ -334,7 +337,7 @@ bisect() {
 # @option --crt <FILE>                Certificate file
 # @option --key <FILE>                Certificate key file
 # @option --limit <VALUE>             Number of results to return per page (default: 20, max: 100)
-# @flag --next                        Show next page of results
+# @flag -N --next                     Show next page of results
 # @option --cwd <DIR>                 Sets the current working directory for a single run of a command
 # @flag -d --debug                    Debug mode (default off)
 # @option -Q --global-config <DIR>    Path to the global `.vercel` directory
@@ -352,8 +355,8 @@ certs() {
 
 # {{ vercel dns
 # @cmd Manages your DNS records
-# @option -n --limit <NUMBER>         Number of results to return per page (default: 20, max: 100)
-# @option --next <MS>                 Show next page of results
+# @option --limit <NUMBER>            Number of results to return per page (default: 20, max: 100)
+# @option -N --next <MS>              Show next page of results
 # @option --cwd <DIR>                 Sets the current working directory for a single run of a command
 # @flag -d --debug                    Debug mode (default off)
 # @option -Q --global-config <DIR>    Path to the global `.vercel` directory
@@ -371,8 +374,8 @@ dns() {
 
 # {{ vercel domains
 # @cmd Manages your domain names
-# @flag -f --force                    Force a domain on a project and remove it from an existing one
-# @option -n --limit <NUMBER>         Number of results to return per page (default: 20, max: 100)
+# @flag --force                       Force a domain on a project and remove it from an existing one
+# @option --limit <NUMBER>            Number of results to return per page (default: 20, max: 100)
 # @flag -N --next                     Show next page of results
 # @flag -y --yes                      Skip the confirmation prompt when removing a domain
 # @option --cwd <DIR>                 Sets the current working directory for a single run of a command
@@ -392,11 +395,7 @@ domains() {
 
 # {{ vercel logs
 # @cmd Displays the logs for a deployment
-# @flag -f --follow                   Wait for additional data [off]
-# @option -n --limit <NUMBER>         Number of log entries [100]
-# @option -o --output <MODE>          Specify the output format (short|raw) [short]
-# @option --since                     Only return logs after date (ISO 8601)
-# @option --until                     Only return logs before date (ISO 8601), ignored when used with --follow
+# @flag -j --json                     print each log line as a JSON object (compatible with JQ)
 # @option --cwd <DIR>                 Sets the current working directory for a single run of a command
 # @flag -d --debug                    Debug mode (default off)
 # @option -Q --global-config <DIR>    Path to the global `.vercel` directory
@@ -448,27 +447,8 @@ rm() {
 }
 # }} vercel rm
 
-# {{ vercel secrets
-# @cmd Manages your global Secrets, for use in Environment Variables
-# @option --next <MS>                 Show next page of results
-# @option --cwd <DIR>                 Sets the current working directory for a single run of a command
-# @flag -d --debug                    Debug mode (default off)
-# @option -Q --global-config <DIR>    Path to the global `.vercel` directory
-# @flag -h --help                     Output usage information
-# @option -A --local-config <FILE>    Path to the local `vercel.json` file
-# @flag --no-color                    No color mode (default off)
-# @flag -S --scope                    Set a custom scope
-# @option -t --token                  Login token
-# @flag -v --version                  Output the version number
-# @arg command
-secrets() {
-    :;
-}
-# }} vercel secrets
-
 # {{ vercel teams
 # @cmd Manages your teams
-# @option -N --next <MS>              Show next page of results
 # @option --cwd <DIR>                 Sets the current working directory for a single run of a command
 # @flag -d --debug                    Debug mode (default off)
 # @option -Q --global-config <DIR>    Path to the global `.vercel` directory

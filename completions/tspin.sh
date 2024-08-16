@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @flag -f --follow                               Follow (tail) the contents of the file
-# @flag -t --tail                                 Start at the end of the file
+# @flag -f --follow                               Follow the contents of a file
+# @flag -e --start-at-end                         Start at the end of the file
 # @flag -p --print                                Print the output to stdout
-# @option -c --config-path <CONFIG_PATH>          Path to a custom configuration file
-# @option -l --follow-command <LISTEN_COMMAND>    Continuously listens to the stdout of the provided command and prevents interrupt events (Ctrl + C) from reaching the command
+# @option --config-path <CONFIG_PATH>             Provide a custom path to a configuration file
+# @option -c --listen-command <LISTEN_COMMAND>    Continuously listen to stdout from the provided command and prevent interrupt events (Ctrl + C) from reaching the command
 # @option --words-red <WORDS_RED>                 Highlight the provided words in red
 # @option --words-green <WORDS_GREEN>             Highlight the provided words in green
 # @option --words-yellow <WORDS_YELLOW>           Highlight the provided words in yellow

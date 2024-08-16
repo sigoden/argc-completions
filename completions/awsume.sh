@@ -11,6 +11,7 @@
 # @flag -a --auto-refresh                          Auto refresh credentials
 # @flag -k --kill-refresher                        Kill autoawsume
 # @option -l --list-profiles <more>                List profiles, "more" for detail (slow)
+# @option -t --tags* <Key=Value,>                  A Key=Value list of session tags
 # @flag --refresh-autocomplete                     Refresh all plugin autocomplete profiles
 # @option --role-arn <role_arn>                    Role ARN or <partition>:<a ccount_id>:<role_name>
 # @option --principal-arn <principal_arn>          Principal ARN or <partitio n>:<account_id>:<provider_ name>
@@ -22,6 +23,7 @@
 # @option --role-duration <role_duration>          Seconds to get role creds for
 # @flag --with-saml                                Use saml (requires plugin)
 # @flag --with-web-identity                        Use web identity (requires plugin)
+# @flag --who                                      Show current/active aws profile
 # @option --json <json>                            Use json credentials
 # @option --credentials-file <credentials_file>    Target a shared credentials file
 # @option --config-file <config_file>              Target a config file

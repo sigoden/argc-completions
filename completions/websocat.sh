@@ -4,7 +4,7 @@
 # @flag -e --set-environment                       Set WEBSOCAT_* environment variables when doing exec:/cmd:/sh-c: Currently it's WEBSOCAT_URI and WEBSOCAT_CLIENT for request URI and client address (if TCP) Beware of ShellShock or similar security problems.
 # @flag -E --exit-on-eof                           Close a data transfer direction if the other one reached EOF
 # @flag --jsonrpc                                  Format messages you type as JSON RPC 2.0 method calls.
-# @flag -0 --null-terminated                       Use \0 instead of \n for linemode
+# @flag -0 --null-terminated                       Use \0 instead of \n for linemode --no-fixups to discover what is being inserted automatically and read the full manual about Websocat internal workings.
 # @flag -1 --one-message                           Send and/or receive only one message.
 # @flag --oneshot                                  Serve only once.
 # @flag --print-ping-rtts                          Print measured round-trip-time to stderr after each received WebSocket pong.

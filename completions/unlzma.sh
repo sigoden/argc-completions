@@ -11,7 +11,7 @@
 # @flag -0*                     compression preset; default is 6; take compressor *and* decompressor memory usage into account before using 7-9!
 # @flag -9*                     compression preset; default is 6; take compressor *and* decompressor memory usage into account before using 7-9!
 # @flag -e --extreme            try to improve compression ratio by using more CPU time; does not affect decompressor memory requirements
-# @option -T --threads <NUM>    use at most NUM threads; the default is 1; set to 0 to use as many threads as there are processor cores
+# @option -T --threads <NUM>    use at most NUM threads; the default is 0 which uses as many threads as there are processor cores
 # @flag -q --quiet              suppress warnings; specify twice to suppress errors too
 # @flag -v --verbose            be verbose; specify twice for even more verbose
 # @flag -h --help               display this short help and exit

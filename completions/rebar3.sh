@@ -4,6 +4,13 @@
 # @flag -h --help       Print this help.
 # @flag -v --version    Show version information.
 
+# {{ rebar3 alias
+# @cmd List aliases' definitions.
+alias() {
+    :;
+}
+# }} rebar3 alias
+
 # {{ rebar3 as
 # @cmd Higher order provider for running multiple tasks in a sequence as a certain profiles.
 as() {
@@ -28,6 +35,16 @@ compile() {
     :;
 }
 # }} rebar3 compile
+
+# {{ rebar3 completion
+# @cmd Generate completion file for your shell.
+# @flag -a --aliases    Comma separated list of OS level aliases on which rebar3 completion will be triggered (e.g. "rebar" or "r3").
+# @flag -f --file       Completion file name.
+# @flag -s --shell      Shell type, 'bash' or 'zsh'.
+completion() {
+    :;
+}
+# }} rebar3 completion
 
 # {{ rebar3 cover
 # @cmd Perform coverage analysis.
@@ -252,11 +269,11 @@ report() {
 # @flag --setcookie        Sets the cookie if the node is distributed.
 # @flag --script           Path to an escript file to run before starting the project apps.
 # @flag --apps             A list of apps to boot before starting the shell.
-# @flag -r --relname       Name of the release to use as a template for the shell session
-# @flag -v --relvsn        Version of the release to use for the shell session
+# @flag -r --relname       Name of the release to use as a template for the shell session.
+# @flag -v --relvsn        Version of the release to use for the shell session.
 # @flag --start-clean      Cancel any applications in the 'apps' list or release.
 # @flag --env-file         Path to file of os environment variables to setup before expanding vars in config files.
-# @flag --user_drv_args    Arguments passed to user_drv start function for creating custom shells.
+# @flag --user_drv_args    For versions of Erlang prior to 26, this option can be used to pass arguments to the user_drv start function for creating custom shells.
 # @flag --eval             Erlang term(s) to execute after the apps have been started, but before the shell is presented to the user.
 shell() {
     :;
@@ -338,6 +355,13 @@ xref() {
 experimental() {
     :;
 }
+
+# {{{ rebar3 experimental manifest
+# @cmd Produce a project manifest
+experimental::manifest() {
+    :;
+}
+# }}} rebar3 experimental manifest
 
 # {{{ rebar3 experimental vendor
 # @cmd Turns dependencies into top-level apps

@@ -9,6 +9,7 @@
 # @flag -p    Postpone the first execution of the utility until a file is modified.
 # @flag -r    Reload a persistent child process.
 # @flag -s    Evaluate the first argument using the interpreter specified by the SHELL environment variable.
+# @flag -x    Format custom exit status messages using a persistent awk(1) process.
 # @flag -z    Exit after the utility completes.
 # @arg command[`_module_os_command`]
 # @arg args~[`_module_os_command_args`]

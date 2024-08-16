@@ -2,10 +2,7 @@ _patch_help() {
     cat <<-'EOF' | _patch_help_embed_help $@
 # plugin - Plugin management
 ## add <name> [<git-url>] - Add a plugin from the plugin repo OR, add a Git repo as a plugin by specifying the name and repo url
-## list - List installed plugins.
-    --urls  Show git urls
-    --refs  Show git refs
-## list-all - List installed plugins.
+## list [arg] - List installed plugins.
     --urls  Show git urls
     --refs  Show git refs
 ## remove <name> - Remove plugin and package versions
@@ -18,14 +15,15 @@ _patch_help() {
 # latest [name] [<version>] - Show latest stable version of a package
     --all       Show all packages
 # list <name> - List installed versions of a package
-# list-all <name> - List all versions of a package
 # local <name> [<version>] - Set the package local version to the latest provided version
 # shell <name> [<version>] - Set the package version to `ASDF_${LANG}_VERSION` in the current shell
 # uninstall <name> <version> - Remove a specific version of a package
 # where <name> [<version>] - Display install path for an installed or current version
 # which <command> - Display the path to an executable
 # exec <command> [args...] - Executes the command shim for current version
+# env <command> [arg] - Runs util (default: `env`) inside the environment used for command shim execution.
 # info - Print OS, Shell and ASDF debug information.
+# version - Print the currently installed version of ASDF.
 # reshim <name> <version> - Recreate shims for version of a package
 # shim-versions <command> - List the plugins and versions that provide a command
 # update - Update asdf to the latest stable release
@@ -51,6 +49,7 @@ _patch_table() {
 
     elif [[ "$*" == "asdf current" ]] \
       || [[ "$*" == "asdf global" ]] \
+      || [[ "$*" == "asdf list" ]] \
       || [[ "$*" == "asdf local" ]] \
       || [[ "$*" == "asdf shell" ]] \
       || [[ "$*" == "asdf uninstall" ]] \
@@ -70,6 +69,7 @@ _patch_table() {
             'version;[`_choice_version`]' \
 
     elif [[ "$*" == "asdf which" ]] \
+      || [[ "$*" == "asdf env" ]] \
       || [[ "$*" == "asdf shim-versions" ]] \
     ; then
         _patch_table_edit_arguments \

@@ -47,14 +47,14 @@ _choice_target() {
     stack ide targets
 }
 
-_choice_dependency() {
-    stack ls dependencies | gawk '{print $1}'
-}
-
 _choice_target_or_file() {
     if _argc_util_has_path_prefix; then
         _argc_util_comp_path
         return
     fi
     _choice_target
+}
+
+_choice_dependency() {
+    stack ls dependencies | gawk '{print $1}'
 }

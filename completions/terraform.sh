@@ -7,7 +7,7 @@
 
 # {{ terraform init
 # @cmd Prepare your working directory for other commands
-# @option -backend <false>          Disable backend or Terraform Cloud initialization for this configuration and use what was previously initialized instead.
+# @option -backend <false>          Disable backend or HCP Terraform initialization for this configuration and use what was previously initialized instead.
 # @option -backend-config <path>    Configuration to be merged with what is in the configuration file's 'backend' block.
 # @flag -force-copy                 Suppress prompts about copying state data when initializating a new state backend.
 # @option -from-module <SOURCE>     Copy the contents of the given module into the target directory before initialization.
@@ -16,12 +16,13 @@
 # @option -lock <false>             Don't hold a state lock during backend migration.
 # @option -lock-timeout <0s>        Duration to retry a state lock.
 # @flag -no-color                   If specified, output won't contain any color.
+# @flag -json                       If specified, machine readable output will be printed in JSON format.
 # @flag -plugin-dir                 Directory containing plugin binaries.
 # @flag -reconfigure                Reconfigure a backend, ignoring any saved configuration.
 # @flag -migrate-state              Reconfigure a backend, and attempt to migrate any existing state.
 # @flag -upgrade                    Install the latest module and provider versions allowed within configured constraints, overriding the default behavior of selecting exactly the version recorded in the dependency lockfile.
 # @option -lockfile <MODE>          Set a dependency lockfile mode.
-# @flag -ignore-remote-version      A rare option used for Terraform Cloud and the remote backend only.
+# @flag -ignore-remote-version      A rare option used for HCP Terraform and the remote backend only.
 # @option -test-directory <path>    Set the Terraform test directory, defaults to "tests".
 init() {
     :;
@@ -103,6 +104,7 @@ destroy() {
 # {{ terraform console
 # @cmd Try Terraform expressions at an interactive command prompt
 # @option -state <path>      Legacy option for the local backend only.
+# @flag -plan                Create a new plan (as if running "terraform plan") and then evaluate expressions against its planned state, instead of evaluating against the current state.
 # @option -var <foo=bar>     Set a variable in the Terraform configuration.
 # @option -var-file <foo>    Set variables in the Terraform configuration from a file.
 console() {
@@ -147,7 +149,7 @@ get() {
 # @cmd Generate a Graphviz graph of the steps in an operation
 # @option -plan <tfplan>       Render graph using the specified plan file instead of the configuration in the current directory.
 # @flag -draw-cycles           Highlight any cycles in the graph with colored edges.
-# @option -type <plan>         Type of graph to output.
+# @option -type                Type of operation graph to output.
 # @option -module-depth <n>    (deprecated) In prior versions of Terraform, specified the depth of modules to show in the output.
 graph() {
     :;
@@ -227,6 +229,7 @@ providers() {
 # @option -fs-mirror <dir>       Consult the given filesystem mirror directory instead of the origin registry for each of the given providers.
 # @option -net-mirror <url>      Consult the given network mirror (given as a base URL) instead of the origin registry for each of the given providers.
 # @option -platform <os_arch>    Choose a target platform to request package checksums for.
+# @flag -enable-plugin-cache     Enable the usage of the globally configured plugin cache.
 # @arg providers*
 providers::lock() {
     :;
@@ -236,6 +239,7 @@ providers::lock() {
 # {{{ terraform providers mirror
 # @cmd Save local copies of all required provider plugins
 # @option -platform <os_arch>    Choose which target platform to build a mirror for.
+# @option -lock-file <false>     Ignore the provider lock file when fetching providers.
 # @arg target-dir!
 providers::mirror() {
     :;
@@ -378,7 +382,7 @@ taint() {
 
 # {{ terraform test
 # @cmd Execute integration tests for Terraform modules
-# @option -cloud-run <source>       If specified, Terraform will execute this test run remotely using Terraform Cloud.
+# @option -cloud-run <source>       If specified, Terraform will execute this test run remotely using HCP Terraform or Terraform Enterpise.
 # @option -filter <testfile>        If specified, Terraform will only execute the test files specified by this flag.
 # @flag -json                       If specified, machine readable output will be printed in JSON format
 # @flag -no-color                   If specified, output won't contain any color.

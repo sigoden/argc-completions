@@ -1,10 +1,10 @@
 _patch_help() {
     if [[ "$*" == "vagrant login" ]]; then
         :;
-    elif [[ "$*" == "vagrant serve" ]]; then
-        :;
     elif [[ "$*" == "vagrant ssh" ]]; then
         $@ --help | sed -e '/^\s*--no-tty/ d'
+    elif [[ "$*" == "vagrant serve" ]]; then
+        :;
     else
         $@ --help
     fi

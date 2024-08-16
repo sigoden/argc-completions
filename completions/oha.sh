@@ -28,12 +28,14 @@
 # @flag --disable-compression               Disable compression.
 # @option -r --redirect                     Limit for number of Redirect.
 # @flag --disable-keepalive                 Disable keep-alive, prevents re-use of TCP connections between different HTTP requests.
+# @flag --no-pre-lookup                     *Not* perform a DNS lookup at beginning to cache it
 # @flag --ipv6                              Lookup only ipv6.
 # @flag --ipv4                              Lookup only ipv4.
 # @flag --insecure                          Accept invalid certs.
 # @option --connect-to <CONNECT_TO>         Override DNS resolution and default port numbers with strings like 'example.org:443:localhost:8443'
 # @flag --disable-color                     Disable the color scheme.
 # @option --unix-socket <UNIX_SOCKET>       Connect to a unix socket instead of the domain in the URL.
+# @option --vsock-addr <VSOCK_ADDR>         Connect to a VSOCK socket using 'cid:port' instead of the domain in the URL.
 # @flag --stats-success-breakdown           Include a response status code successful or not successful breakdown for the time histogram and distribution statistics
 # @flag -h --help                           Print help
 # @flag -V --version                        Print version

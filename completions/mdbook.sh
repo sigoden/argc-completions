@@ -66,11 +66,12 @@ completions() {
 
 # {{ mdbook watch
 # @cmd Watches a book's files and rebuilds it on changes
-# @option -d --dest-dir <dest-dir>    Output directory for the book Relative paths are interpreted relative to the book's root directory.
-# @flag -o --open                     Opens the compiled book in a web browser
-# @flag -h --help                     Print help
-# @flag -V --version                  Print version
-# @arg dir                            Root directory for the book (Defaults to the current directory when omitted)
+# @option -d --dest-dir <dest-dir>            Output directory for the book Relative paths are interpreted relative to the book's root directory.
+# @flag -o --open                             Opens the compiled book in a web browser
+# @option --watcher[poll|native] <watcher>    The filesystem watching technique [default: poll]
+# @flag -h --help                             Print help
+# @flag -V --version                          Print version
+# @arg dir                                    Root directory for the book (Defaults to the current directory when omitted)
 watch() {
     :;
 }
@@ -78,13 +79,14 @@ watch() {
 
 # {{ mdbook serve
 # @cmd Serves a book at http://localhost:3000, and rebuilds it on changes
-# @option -d --dest-dir <dest-dir>    Output directory for the book Relative paths are interpreted relative to the book's root directory.
-# @option -n --hostname <hostname>    Hostname to listen on for HTTP connections [default: localhost]
-# @option -p --port <port>            Port to use for HTTP connections [default: 3000]
-# @flag -o --open                     Opens the compiled book in a web browser
-# @flag -h --help                     Print help
-# @flag -V --version                  Print version
-# @arg dir                            Root directory for the book (Defaults to the current directory when omitted)
+# @option -d --dest-dir <dest-dir>            Output directory for the book Relative paths are interpreted relative to the book's root directory.
+# @option -n --hostname <hostname>            Hostname to listen on for HTTP connections [default: localhost]
+# @option -p --port <port>                    Port to use for HTTP connections [default: 3000]
+# @flag -o --open                             Opens the compiled book in a web browser
+# @option --watcher[poll|native] <watcher>    The filesystem watching technique [default: poll]
+# @flag -h --help                             Print help
+# @flag -V --version                          Print version
+# @arg dir                                    Root directory for the book (Defaults to the current directory when omitted)
 serve() {
     :;
 }

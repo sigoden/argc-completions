@@ -54,7 +54,9 @@
 # @option --watch-delay <delay>                  specify a restart delay after changing files (--watch-delay 4 (in sec) or 4000ms)
 # @flag --no-color                               skip colors
 # @flag --no-vizion                              start an app without vizion feature (versioning control)
+# @flag --no-autostart                           add an app without automatic start
 # @flag --no-autorestart                         start an app without automatic restart
+# @option --stop-exit-codes* <exit_codes>        specify a list of exit codes that should skip automatic restart
 # @flag --no-treekill                            Only kill the main process, not detached children
 # @flag --no-pmx                                 start an app without pmx
 # @flag --no-automation                          start an app without pmx
@@ -121,7 +123,9 @@
 # @option --watch-delay <delay>                  specify a restart delay after changing files (--watch-delay 4 (in sec) or 4000ms)
 # @flag --no-color                               skip colors
 # @flag --no-vizion                              start an app without vizion feature (versioning control)
+# @flag --no-autostart                           add an app without automatic start
 # @flag --no-autorestart                         start an app without automatic restart
+# @option --stop-exit-codes* <exit_codes>        specify a list of exit codes that should skip automatic restart
 # @flag --no-treekill                            Only kill the main process, not detached children
 # @flag --no-pmx                                 start an app without pmx
 # @flag --no-automation                          start an app without pmx

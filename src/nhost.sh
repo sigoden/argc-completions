@@ -3,6 +3,8 @@ _patch_help() {
     || [[ "$*" == "nhost dev hasura" ]] \
     ; then
         :;
+    elif [[ "$*" == "nhost up" ]]; then
+        $@ --help | sed 's/ \[ --run-service value \]/.../'
     else
         $@ --help
     fi

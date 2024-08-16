@@ -2,6 +2,8 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # @flag -C --colors                          force print with colors
+# @flag --csv-auto-parse                     parse CSV YAML/JSON values (default true)
+# @option --csv-separator <char>             CSV Separator character (default ,)
 # @flag -e --exit-status                     set exit status if there are no matches or null or false is returned
 # @option --expression <string>              forcibly set the expression argument.
 # @option --from-file <file>                 Load expression from specified file.
@@ -10,7 +12,7 @@
 # @flag -h --help                            help for yq
 # @option -I --indent <int>                  sets indent level for output (default 2)
 # @flag -i --inplace                         update the file in place of first file given.
-# @option -p --input-format[auto|a|yaml|y|props|p|xml|x|tsv|t|csv|c|toml] <string>  parse format for input.
+# @option -p --input-format[auto|a|yaml|y|json|j|props|p|csv|c|tsv|t|xml|x|base64|uri|toml|lua|l] <string>  parse format for input.
 # @flag --lua-globals                        output keys as top-level global variables
 # @option --lua-prefix <string>              prefix (default "return ")
 # @option --lua-suffix <string>              suffix (default ";\n")
@@ -19,10 +21,14 @@
 # @flag -N --no-doc                          Don't print document separators (---)
 # @flag -0 --nul-output                      Use NUL char to separate values.
 # @flag -n --null-input                      Don't read input, simply evaluate the expression given.
-# @option -o --output-format[auto|a|yaml|y|json|j|props|p|xml|x|tsv|t|csv|c] <string>  output format type.
+# @option -o --output-format[auto|a|yaml|y|json|j|props|p|csv|c|tsv|t|xml|x|base64|uri|toml|shell|s|lua|l] <string>  output format type.
 # @flag -P --prettyPrint                     pretty print, shorthand for '... style = ""'
+# @flag --properties-array-brackets          use [x] in array paths (e.g. for SpringBoot)
+# @option --properties-separator <string>    separator to use between keys and values (default " = ")
 # @option -s --split-exp <string>            print each result (or doc) into a file named (exp).
 # @option --split-exp-file <file>            Use a file to specify the split-exp expression.
+# @flag --string-interpolation               Toggles strings interpolation of \(exp) (default true)
+# @flag --tsv-auto-parse                     parse TSV YAML/JSON values (default true)
 # @flag -r --unwrapScalar                    unwrap scalar, print the value with no quotes, colors or comments.
 # @flag -v --verbose                         verbose mode
 # @flag -V --version                         Print version information and quit
@@ -48,6 +54,8 @@ completion() {
 # @cmd (default) Apply the expression to each document in each yaml file in sequence
 # @flag -h --help                            help for eval
 # @flag -C --colors                          force print with colors
+# @flag --csv-auto-parse                     parse CSV YAML/JSON values (default true)
+# @option --csv-separator <char>             CSV Separator character (default ,)
 # @flag -e --exit-status                     set exit status if there are no matches or null or false is returned
 # @option --expression <string>              forcibly set the expression argument.
 # @option --from-file <file>                 Load expression from specified file.
@@ -55,7 +63,7 @@ completion() {
 # @flag --header-preprocess                  Slurp any header comments and separators before processing expression.
 # @option -I --indent <int>                  sets indent level for output (default 2)
 # @flag -i --inplace                         update the file in place of first file given.
-# @option -p --input-format[auto|a|yaml|y|props|p|xml|x|tsv|t|csv|c|toml] <string>  parse format for input.
+# @option -p --input-format[auto|a|yaml|y|json|j|props|p|csv|c|tsv|t|xml|x|base64|uri|toml|lua|l] <string>  parse format for input.
 # @flag --lua-globals                        output keys as top-level global variables
 # @option --lua-prefix <string>              prefix (default "return ")
 # @option --lua-suffix <string>              suffix (default ";\n")
@@ -64,10 +72,14 @@ completion() {
 # @flag -N --no-doc                          Don't print document separators (---)
 # @flag -0 --nul-output                      Use NUL char to separate values.
 # @flag -n --null-input                      Don't read input, simply evaluate the expression given.
-# @option -o --output-format[auto|a|yaml|y|json|j|props|p|xml|x|tsv|t|csv|c] <string>  output format type.
+# @option -o --output-format[auto|a|yaml|y|json|j|props|p|csv|c|tsv|t|xml|x|base64|uri|toml|shell|s|lua|l] <string>  output format type.
 # @flag -P --prettyPrint                     pretty print, shorthand for '... style = ""'
+# @flag --properties-array-brackets          use [x] in array paths (e.g. for SpringBoot)
+# @option --properties-separator <string>    separator to use between keys and values (default " = ")
 # @option -s --split-exp <string>            print each result (or doc) into a file named (exp).
 # @option --split-exp-file <file>            Use a file to specify the split-exp expression.
+# @flag --string-interpolation               Toggles strings interpolation of \(exp) (default true)
+# @flag --tsv-auto-parse                     parse TSV YAML/JSON values (default true)
 # @flag -r --unwrapScalar                    unwrap scalar, print the value with no quotes, colors or comments.
 # @flag -v --verbose                         verbose mode
 # @option --xml-attribute-prefix <string>    prefix for xml attributes (default "+@")
@@ -89,6 +101,8 @@ eval_() {
 # @cmd Loads _all_ yaml documents of _all_ yaml files and runs expression once
 # @flag -h --help                            help for eval-all
 # @flag -C --colors                          force print with colors
+# @flag --csv-auto-parse                     parse CSV YAML/JSON values (default true)
+# @option --csv-separator <char>             CSV Separator character (default ,)
 # @flag -e --exit-status                     set exit status if there are no matches or null or false is returned
 # @option --expression <string>              forcibly set the expression argument.
 # @option --from-file <file>                 Load expression from specified file.
@@ -96,7 +110,7 @@ eval_() {
 # @flag --header-preprocess                  Slurp any header comments and separators before processing expression.
 # @option -I --indent <int>                  sets indent level for output (default 2)
 # @flag -i --inplace                         update the file in place of first file given.
-# @option -p --input-format[auto|a|yaml|y|props|p|xml|x|tsv|t|csv|c|toml] <string>  parse format for input.
+# @option -p --input-format[auto|a|yaml|y|json|j|props|p|csv|c|tsv|t|xml|x|base64|uri|toml|lua|l] <string>  parse format for input.
 # @flag --lua-globals                        output keys as top-level global variables
 # @option --lua-prefix <string>              prefix (default "return ")
 # @option --lua-suffix <string>              suffix (default ";\n")
@@ -105,10 +119,14 @@ eval_() {
 # @flag -N --no-doc                          Don't print document separators (---)
 # @flag -0 --nul-output                      Use NUL char to separate values.
 # @flag -n --null-input                      Don't read input, simply evaluate the expression given.
-# @option -o --output-format[auto|a|yaml|y|json|j|props|p|xml|x|tsv|t|csv|c] <string>  output format type.
+# @option -o --output-format[auto|a|yaml|y|json|j|props|p|csv|c|tsv|t|xml|x|base64|uri|toml|shell|s|lua|l] <string>  output format type.
 # @flag -P --prettyPrint                     pretty print, shorthand for '... style = ""'
+# @flag --properties-array-brackets          use [x] in array paths (e.g. for SpringBoot)
+# @option --properties-separator <string>    separator to use between keys and values (default " = ")
 # @option -s --split-exp <string>            print each result (or doc) into a file named (exp).
 # @option --split-exp-file <file>            Use a file to specify the split-exp expression.
+# @flag --string-interpolation               Toggles strings interpolation of \(exp) (default true)
+# @flag --tsv-auto-parse                     parse TSV YAML/JSON values (default true)
 # @flag -r --unwrapScalar                    unwrap scalar, print the value with no quotes, colors or comments.
 # @flag -v --verbose                         verbose mode
 # @option --xml-attribute-prefix <string>    prefix for xml attributes (default "+@")
@@ -125,12 +143,5 @@ eval-all() {
     :;
 }
 # }} yq eval-all
-
-# {{ yq shell-completion
-# @cmd Generate completion script
-shell-completion() {
-    :;
-}
-# }} yq shell-completion
 
 command eval "$(argc --argc-eval "$0" "$@")"

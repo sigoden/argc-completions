@@ -10,7 +10,8 @@
 # @option -d --display                  use X server DISPLAY
 # @flag --module-assertions             assert behavior of dynamic modules
 # @option --dump-file <FILE>            read dumped state from FILE
-# @option --sandbox <FILE>              read Seccomp BPF filter from FILE
+# @flag --fingerprint                   output fingerprint and exit
+# @option --seccomp <FILE>              read Seccomp BPF filter from FILE
 # @flag --no-build-details              do not add build details such as time stamps
 # @flag --no-desktop                    do not load a saved desktop
 # @flag -q --no-init-file               load neither ~/.emacs nor default.el
@@ -23,8 +24,10 @@
 # @flag --no-splash                     do not display a splash screen on startup
 # @flag --no-window-system              do not communicate with X, ignoring $DISPLAY
 # @flag -nw                             do not communicate with X, ignoring $DISPLAY
+# @option --init-directory <DIR>        use DIR when looking for the Emacs init files.
 # @flag -Q --quick                      equivalent to: -q --no-site-file --no-site-lisp --no-splash --no-x-resources
 # @option --script <FILE>               run FILE as an Emacs Lisp script
+# @flag -x                              to be used in ♯!/usr/bin/emacs -x and has approximately the same meaning as -Q --script
 # @option -t --terminal <DEVICE>        use DEVICE for terminal I/O
 # @option -u --user                     load ~USER/.emacs instead of your own
 # @option -L --directory <DIR>          prepend DIR to load-path (with :DIR, append DIR)

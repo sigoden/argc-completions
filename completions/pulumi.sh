@@ -1,21 +1,23 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag -h --help                       help for pulumi
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag -h --help                         help for pulumi
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 
 # {{ pulumi new
 # @cmd Create a new Pulumi project
+# @option --ai <string>                           Prompt to use for Pulumi AI
 # @option -c --config* <path>                     Config to save
 # @flag --config-path                             Config keys contain a path to a property in a map or list to set
 # @option -d --description <string>               The project description; if not specified, a prompt will request it
@@ -23,16 +25,20 @@
 # @flag -f --force                                Forces content to be generated even if it would change existing files
 # @flag -g --generate-only                        Generate the project only; do not create a stack, save config, or install dependencies
 # @flag -h --help                                 help for new
+# @option --language <pulumiAILanguage>           Language to use for Pulumi AI (must be one of TypeScript, JavaScript, Python, Go, C#, Java, or YAML)
 # @flag -l --list-templates                       List locally installed templates and exit
 # @option -n --name <string>                      The project name; if not specified, a prompt will request it
 # @flag -o --offline                              Use locally cached templates without making any network requests
+# @option --runtime-options* <string>             Additional options for the language runtime (format: key1=value1,key2=value2)
 # @option --secrets-provider[default|passphrase|awskms|azurekeyvault|gcpkms|hashivault] <string>  The type of the provider that should be used to encrypt and decrypt secrets (default "default")
 # @option -s --stack[`_choice_stack`] <string>    The stack name; either an existing stack or stack to create; if not specified, a prompt will request it
+# @flag -t --template-mode                        Run in template mode, which will skip prompting for AI or Template functionality
 # @flag -y --yes                                  Skip prompts and proceed with default values
 # @option --color <string>                        Colorize output.
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -51,12 +57,14 @@ new() {
 # @option --config-file <file>                    Use the configuration values in the specified file rather than detecting the file name
 # @flag -h --help                                 help for config
 # @flag -j --json                                 Emit output as JSON
+# @flag --open                                    Open and resolve any environments listed in the stack configuration.
 # @flag --show-secrets                            Show secret values when listing config instead of displaying blinded values
 # @option -s --stack[`_choice_stack`] <string>    The name of the stack to operate on.
 # @option --color <string>                        Colorize output.
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -78,6 +86,7 @@ config() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -100,6 +109,7 @@ config::cp() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -122,6 +132,7 @@ config::env() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -147,6 +158,7 @@ config::env::add() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -160,6 +172,29 @@ config::env::init() {
 }
 # }}}} pulumi config env init
 
+# {{{{ pulumi config env ls
+# @cmd Lists imported environments.
+# @flag -h --help                                 help for ls
+# @flag -j --json                                 Emit output as JSON
+# @option --color <string>                        Colorize output.
+# @option --config-file <file>                    Use the configuration values in the specified file rather than detecting the file name
+# @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
+# @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
+# @flag --logflow                                 Flow log settings to child processes (like plugins)
+# @flag --logtostderr                             Log to stderr instead of to files
+# @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                         Disable interactive mode for all commands
+# @option --profiling <file>                      Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option -s --stack[`_choice_stack`] <string>    The name of the stack to operate on.
+# @option --tracing <file:>                       Emit tracing to the specified endpoint.
+# @option -v --verbose <int>                      Enable verbose logging (e.g., v=3); anything >3 is very verbose
+config::env::ls() {
+    :;
+}
+# }}}} pulumi config env ls
+
 # {{{{ pulumi config env rm
 # @cmd Remove environments from a stack
 # @flag -h --help                                 help for rm
@@ -170,6 +205,7 @@ config::env::init() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -188,12 +224,14 @@ config::env::rm() {
 # @cmd Get a single configuration value
 # @flag -h --help                                 help for get
 # @flag -j --json                                 Emit output as JSON
+# @flag --open                                    Open and resolve any environments listed in the stack configuration (default true)
 # @flag --path                                    The key contains a path to a property in a map or list to get
 # @option --color <string>                        Colorize output.
 # @option --config-file <file>                    Use the configuration values in the specified file rather than detecting the file name
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -217,6 +255,7 @@ config::get() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -239,6 +278,7 @@ config::refresh() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -262,6 +302,7 @@ config::rm() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -287,6 +328,7 @@ config::rm-all() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -313,6 +355,7 @@ config::set() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -340,6 +383,7 @@ config::set-all() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -359,6 +403,7 @@ stack() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -383,6 +428,7 @@ stack::change-secrets-provider() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -398,6 +444,7 @@ stack::export() {
 # {{{ pulumi stack graph
 # @cmd Export a stack's dependency graph to a file
 # @option --dependency-edge-color <string>        Sets the color of dependency edges in the graph (default "#246C60")
+# @option --dot-fragment <string>                 An optional DOT fragment that will be inserted at the top of the digraph element.
 # @flag -h --help                                 help for graph
 # @flag --ignore-dependency-edges                 Ignores edges introduced by dependency resource relationships
 # @flag --ignore-parent-edges                     Ignores edges introduced by parent/child resource relationships
@@ -408,6 +455,7 @@ stack::export() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -434,6 +482,7 @@ stack::graph() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -456,6 +505,7 @@ stack::history() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -480,6 +530,7 @@ stack::import() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -505,6 +556,7 @@ stack::init() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -529,6 +581,7 @@ stack::ls() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -550,6 +603,7 @@ stack::output() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -574,6 +628,7 @@ stack::rename() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -597,6 +652,7 @@ stack::rm() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -618,6 +674,7 @@ stack::select_() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -636,6 +693,7 @@ stack::tag() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -658,6 +716,7 @@ stack::tag::get() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -678,6 +737,7 @@ stack::tag::ls() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -699,6 +759,7 @@ stack::tag::rm() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -722,6 +783,7 @@ stack::tag::set() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -744,6 +806,7 @@ stack::unselect() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -765,10 +828,12 @@ console() {
 # @option --from <string>                          Invoke a converter to import the resources
 # @flag --generate-code                            Generate resource declaration code for the imported resources (default true)
 # @flag -h --help                                  help for import
+# @flag -j --json                                  Serialize the import diffs, operations, and overall output as JSON
 # @option -m --message <string>                    Optional message to associate with the update operation
 # @option -o --out <file>                          The path to the file that will contain the generated resource declarations
 # @option -p --parallel <int>                      Allow P resource operations to run in parallel at once (1 for no parallelism).
 # @option --parent[`_choice_name_urn`] <string>    The name and URN of the parent resource in the format name=urn, where name is the variable name of the parent resource
+# @flag --preview-only                             Only show a preview of the import, but don't perform the import itself
 # @option --properties* <string>                   The property names to use for the import in the format name1,name2
 # @flag --protect                                  Allow resources to be imported with protection from deletion enabled (default true)
 # @option --provider[`_choice_name_urn`] <string>  The name and URN of the provider to use for the import in the format name=urn, where name is the variable name for the provider resource
@@ -776,11 +841,13 @@ console() {
 # @option -s --stack[`_choice_stack`] <string>     The name of the stack to operate on.
 # @flag --suppress-outputs                         Suppress display of stack outputs (in case they contain sensitive values)
 # @option --suppress-permalink <string[="false"]>  Suppress display of the state permalink
+# @flag --suppress-progress                        Suppress display of periodic progress dots
 # @flag -y --yes                                   Automatically approve and perform the import after previewing it
 # @option --color <string>                         Colorize output.
 # @option -C --cwd <dir>                           Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking               Disable integrity checking of checkpoint files
 # @flag -e --emoji                                 Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names             Show fully-qualified stack names
 # @flag --logflow                                  Flow log settings to child processes (like plugins)
 # @flag --logtostderr                              Log to stderr instead of to files
 # @option --memprofilerate <int>                   Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -808,6 +875,7 @@ import() {
 # @flag -j --json                                 Serialize the refresh diffs, operations, and overall output as JSON
 # @option -m --message <string>                   Optional message to associate with the update operation
 # @option -p --parallel <int>                     Allow P resource operations to run in parallel at once (1 for no parallelism).
+# @flag --preview-only                            Only show a preview of the refresh, but don't perform the refresh itself
 # @flag --show-replacement-steps                  Show detailed resource replacement creates and deletes instead of a single step
 # @flag --show-sames                              Show resources that needn't be updated because they haven't changed, alongside those that do
 # @flag --skip-pending-creates                    Skip importing pending creates in interactive mode
@@ -815,12 +883,14 @@ import() {
 # @option -s --stack[`_choice_stack`] <string>    The name of the stack to operate on.
 # @flag --suppress-outputs                        Suppress display of stack outputs (in case they contain sensitive values)
 # @option --suppress-permalink <string[="false"]>  Suppress display of the state permalink
+# @flag --suppress-progress                       Suppress display of periodic progress dots
 # @option -t --target* <string>                   Specify a single resource URN to refresh.
 # @flag -y --yes                                  Automatically approve and perform the refresh after previewing it
 # @option --color <string>                        Colorize output.
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -835,18 +905,19 @@ refresh() {
 
 # {{ pulumi state
 # @cmd Edit the current stack's state
-# @flag -h --help                       help for state
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @flag -h --help                         help for state
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 state() {
     :;
 }
@@ -862,6 +933,7 @@ state() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -875,22 +947,48 @@ state::delete() {
 }
 # }}} pulumi state delete
 
+# {{{ pulumi state move
+# @cmd Move resources from one stack to another
+# @option --dest <string>                 The name of the stack to move resources to
+# @flag -h --help                         help for move
+# @flag --include-parents                 Include all the parents of the moved resources as well
+# @option --source <string>               The name of the stack to move resources from
+# @flag -y --yes                          Automatically approve and perform the move
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @arg urn+
+state::move() {
+    :;
+}
+# }}} pulumi state move
+
 # {{{ pulumi state rename
 # @cmd Renames a resource from a stack's state
-# @flag -h --help                       help for rename
+# @flag -h --help                         help for rename
 # @option -s --stack[`_choice_all_stack`] <string>  The name of the stack to operate on.
-# @flag -y --yes                        Skip confirmation prompts
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @flag -y --yes                          Skip confirmation prompts
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 # @arg resource-urn[`_choice_urn_cached`] <resource URN>
 # @arg new-name <new name>
 state::rename() {
@@ -908,6 +1006,7 @@ state::rename() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -923,18 +1022,20 @@ state::unprotect() {
 
 # {{{ pulumi state upgrade
 # @cmd Migrates the current backend to the latest supported version
-# @flag -h --help                       help for upgrade
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @flag -h --help                         help for upgrade
+# @flag -y --yes                          Automatically approve and perform the upgrade
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 state::upgrade() {
     :;
 }
@@ -942,20 +1043,23 @@ state::upgrade() {
 # }} pulumi state
 
 # {{ pulumi install
-# @cmd Install packages and plugins for the current program
-# @flag -h --help                       help for install
-# @flag --reinstall                     Reinstall a plugin even if it already exists
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @cmd Install packages and plugins for the current program or policy pack.
+# @flag -h --help                         help for install
+# @flag --no-dependencies                 Skip installing dependencies
+# @flag --no-plugins                      Skip installing plugins
+# @flag --reinstall                       Reinstall a plugin even if it already exists
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 install() {
     :;
 }
@@ -963,9 +1067,10 @@ install() {
 
 # {{ pulumi up
 # @cmd Create or update the resources in a stack
-# @option -c --config* <string>                   Config to use during the update
+# @option -c --config* <file>                     Config to use during the update and save to the stack config file
 # @option --config-file <file>                    Use the configuration values in the specified file rather than detecting the file name
 # @flag --config-path                             Config keys contain a path to a property in a map or list to set
+# @flag --continue-on-error                       Continue updating resources even if an error is encountered (can also be set with PULUMI_CONTINUE_ON_ERROR environment variable)
 # @flag -d --debug                                Print detailed debugging output during resource operations
 # @flag --diff                                    Display operation as a rich diff showing the overall change
 # @flag --expect-no-changes                       Return an error if any changes occur during this update
@@ -988,6 +1093,7 @@ install() {
 # @option -s --stack[`_choice_stack`] <string>    The name of the stack to operate on.
 # @flag --suppress-outputs                        Suppress display of stack outputs (in case they contain sensitive values)
 # @option --suppress-permalink <string[="false"]>  Suppress display of the state permalink
+# @flag --suppress-progress                       Suppress display of periodic progress dots
 # @option -t --target*[`_choice_urn_cached`] <string>  Specify a single resource URN to update.
 # @flag --target-dependents                       Allows updating of dependent targets discovered but not specified in --target list
 # @option --target-replace*[`_choice_urn_cached`] <string>  Specify a single resource URN to replace.
@@ -996,6 +1102,7 @@ install() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -1012,6 +1119,7 @@ up() {
 # {{ pulumi destroy
 # @cmd Destroy all existing resources in the stack
 # @option --config-file <file>                    Use the configuration values in the specified file rather than detecting the file name
+# @flag --continue-on-error                       Continue to perform the destroy operation despite the occurrence of errors (can also be set with PULUMI_CONTINUE_ON_ERROR env var)
 # @flag -d --debug                                Print detailed debugging output during resource operations
 # @flag --diff                                    Display operation as a rich diff showing the overall change
 # @flag --exclude-protected                       Do not destroy protected resources.
@@ -1019,6 +1127,7 @@ up() {
 # @flag -j --json                                 Serialize the destroy diffs, operations, and overall output as JSON
 # @option -m --message <string>                   Optional message to associate with the destroy operation
 # @option -p --parallel <int>                     Allow P resource operations to run in parallel at once (1 for no parallelism).
+# @flag --preview-only                            Only show a preview of the destroy, but don't perform the destroy itself
 # @option -r --refresh <string[="true"]>          Refresh the state of the stack's resources before this update
 # @flag --remove                                  Remove the stack and its config file after all resources in the stack have been deleted
 # @flag --show-config                             Show configuration keys and variables
@@ -1028,6 +1137,7 @@ up() {
 # @option -s --stack[`_choice_stack`] <string>    The name of the stack to operate on.
 # @flag --suppress-outputs                        Suppress display of stack outputs (in case they contain sensitive values)
 # @option --suppress-permalink <string[="false"]>  Suppress display of the state permalink
+# @flag --suppress-progress                       Suppress display of periodic progress dots
 # @option -t --target*[`_choice_urn_cached`] <string>  Specify a single resource URN to destroy.
 # @flag --target-dependents                       Allows destroying of dependent targets discovered but not specified in --target list
 # @flag -y --yes                                  Automatically approve and perform the destroy after previewing it
@@ -1035,6 +1145,7 @@ up() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -1049,13 +1160,14 @@ destroy() {
 
 # {{ pulumi preview
 # @cmd Show a preview of updates to a stack's resources
-# @option -c --config* <string>                   Config to use during the preview
+# @option -c --config* <file>                     Config to use during the preview and save to the stack config file
 # @option --config-file <file>                    Use the configuration values in the specified file rather than detecting the file name
 # @flag --config-path                             Config keys contain a path to a property in a map or list to set
 # @flag -d --debug                                Print detailed debugging output during resource operations
 # @flag --diff                                    Display operation as a rich diff showing the overall change
 # @flag --expect-no-changes                       Return an error if any changes are proposed by this preview
 # @flag -h --help                                 help for preview
+# @option --import-file <file>                    Save any creates seen during the preview into an import file to use with 'pulumi import'
 # @flag -j --json                                 Serialize the preview diffs, operations, and overall output as JSON
 # @option -m --message <string>                   Optional message to associate with the preview operation
 # @option -p --parallel <int>                     Allow P resource operations to run in parallel at once (1 for no parallelism).
@@ -1072,6 +1184,7 @@ destroy() {
 # @option -s --stack[`_choice_stack`] <string>    The name of the stack to operate on.
 # @flag --suppress-outputs                        Suppress display of stack outputs (in case they contain sensitive values)
 # @option --suppress-permalink <string[="false"]>  Suppress display of the state permalink
+# @flag --suppress-progress                       Suppress display of periodic progress dots
 # @option -t --target*[`_choice_urn_cached`] <string>  Specify a single resource URN to update.
 # @flag --target-dependents                       Allows updating of dependent targets discovered but not specified in --target list
 # @option --target-replace*[`_choice_urn_cached`] <string>  Specify a single resource URN to replace.
@@ -1079,6 +1192,7 @@ destroy() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -1100,6 +1214,7 @@ preview() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -1115,40 +1230,68 @@ cancel() {
 
 # {{ pulumi env
 # @cmd Manage environments
-# @option --env <string>                The name of the environment to operate on.
-# @flag -h --help                       help for env
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @option --env <string>                  The name of the environment to operate on.
+# @flag -h --help                         help for env
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 env() {
     :;
 }
 
+# {{{ pulumi env diff
+# @cmd Show changes between versions.
+# @option -f --format <string>            the output format to use.
+# @flag -h --help                         help for diff
+# @option --path <path>                   Show the diff for a specific path
+# @flag --show-secrets                    Show static secrets in plaintext rather than ciphertext
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @option --env <string>                  The name of the environment to operate on.
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @arg org-name-environment-name-version <[[org-name/]<environment-name>]@<version>>
+env::diff() {
+    :;
+}
+# }}} pulumi env diff
+
 # {{{ pulumi env edit
 # @cmd Edit an environment definition
-# @option --editor <string>             the command to use to edit the environment definition
-# @flag -h --help                       help for edit
-# @flag --show-secrets                  Show static secrets in plaintext rather than ciphertext
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @option --env <string>                The name of the environment to operate on.
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @option --editor <string>               the command to use to edit the environment definition
+# @flag -f --file                         the file that contains the updated environment, if any.
+# @flag -h --help                         help for edit
+# @flag --show-secrets                    Show static secrets in plaintext rather than ciphertext
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @option --env <string>                  The name of the environment to operate on.
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 # @arg org-name-environment-name <[<org-name>/]<environment-name>>
 env::edit() {
     :;
@@ -1157,22 +1300,23 @@ env::edit() {
 
 # {{{ pulumi env get
 # @cmd Get a value within an environment.
-# @flag -h --help                       help for get
-# @flag --show-secrets                  Show static secrets in plaintext rather than ciphertext
-# @option --value <string>              set to print just the value in the given format.
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @option --env <string>                The name of the environment to operate on.
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
-# @arg org-name-environment-name <[<org-name>/]<environment-name>>
+# @flag -h --help                         help for get
+# @flag --show-secrets                    Show static secrets in plaintext rather than ciphertext
+# @option --value <string>                set to print just the value in the given format.
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @option --env <string>                  The name of the environment to operate on.
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @arg org-name-environment-name-version <[<org-name>/]<environment-name>[@<version>]>
 # @arg path!
 env::get() {
     :;
@@ -1181,20 +1325,21 @@ env::get() {
 
 # {{{ pulumi env init
 # @cmd Create an empty environment with the given name.
-# @flag -f --file                       the file to use to initialize the environment, if any.
-# @flag -h --help                       help for init
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @option --env <string>                The name of the environment to operate on.
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @flag -f --file                         the file to use to initialize the environment, if any.
+# @flag -h --help                         help for init
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @option --env <string>                  The name of the environment to operate on.
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 # @arg org-name-environment-name <[<org-name>/]<environment-name>>
 env::init() {
     :;
@@ -1203,20 +1348,21 @@ env::init() {
 
 # {{{ pulumi env ls
 # @cmd List environments.
-# @flag -h --help                       help for ls
-# @option -o --organization <string>    Filter returned stacks to those in a specific organization
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @option --env <string>                The name of the environment to operate on.
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @flag -h --help                         help for ls
+# @option -o --organization <string>      Filter returned stacks to those in a specific organization
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @option --env <string>                  The name of the environment to operate on.
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 env::ls() {
     :;
 }
@@ -1224,22 +1370,23 @@ env::ls() {
 
 # {{{ pulumi env open
 # @cmd Open the environment with the given name.
-# @option -f --format <string>          the output format to use.
-# @flag -h --help                       help for open
-# @option -l --lifetime <duration>      the lifetime of the opened environment in the form HhMm (e.g. 2h, 1h30m, 15m) (default 2h0m0s)
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @option --env <string>                The name of the environment to operate on.
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
-# @arg org-name-environment-name <[<org-name>/]<environment-name>>
+# @option -f --format <string>            the output format to use.
+# @flag -h --help                         help for open
+# @option -l --lifetime <duration>        the lifetime of the opened environment in the form HhMm (e.g. 2h, 1h30m, 15m) (default 2h0m0s)
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @option --env <string>                  The name of the environment to operate on.
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @arg org-name-environment-name-version <[<org-name>/]<environment-name>[@<version>]>
 # @arg property-path <property path>
 env::open() {
     :;
@@ -1248,20 +1395,21 @@ env::open() {
 
 # {{{ pulumi env rm
 # @cmd Remove an environment or a value from an environment.
-# @flag -h --help                       help for rm
-# @flag -y --yes                        Skip confirmation prompts, and proceed with removal anyway
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @option --env <string>                The name of the environment to operate on.
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @flag -h --help                         help for rm
+# @flag -y --yes                          Skip confirmation prompts, and proceed with removal anyway
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @option --env <string>                  The name of the environment to operate on.
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 # @arg org-name-environment-name <[<org-name>/]<environment-name>>
 # @arg path
 env::rm() {
@@ -1271,21 +1419,22 @@ env::rm() {
 
 # {{{ pulumi env run
 # @cmd Open the environment with the given name and run a command.
-# @flag -h --help                       help for run
-# @flag -i --interactive                true to treat the command as interactive and disable output filters
-# @option -l --lifetime <duration>      the lifetime of the opened environment (default 2h0m0s)
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @option --env <string>                The name of the environment to operate on.
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @flag -h --help                         help for run
+# @flag -i --interactive                  true to treat the command as interactive and disable output filters
+# @option -l --lifetime <duration>        the lifetime of the opened environment (default 2h0m0s)
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @option --env <string>                  The name of the environment to operate on.
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 # @arg org-name-environment-name <[<org-name>/]<environment-name>>
 # @arg command
 env::run() {
@@ -1295,21 +1444,22 @@ env::run() {
 
 # {{{ pulumi env set
 # @cmd Set a value within an environment.
-# @flag -h --help                       help for set
-# @flag --plaintext                     true to leave the value in plaintext
-# @flag --secret                        true to mark the value as secret
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @option --env <string>                The name of the environment to operate on.
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @flag -h --help                         help for set
+# @flag --plaintext                       true to leave the value in plaintext
+# @flag --secret                          true to mark the value as secret
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @option --env <string>                  The name of the environment to operate on.
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 # @arg org-name-environment-name <[<org-name>/]<environment-name>>
 # @arg path!
 # @arg value!
@@ -1317,26 +1467,190 @@ env::set() {
     :;
 }
 # }}} pulumi env set
+
+# {{{ pulumi env version
+# @cmd Manage versions
+# @flag -h --help                         help for version
+# @flag --utc                             display times in UTC
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @option --env <string>                  The name of the environment to operate on.
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @arg org-name-environment-name-version <[<org-name>/]<environment-name>@<version>>
+env::version() {
+    :;
+}
+
+# {{{{ pulumi env version history
+# @cmd Show revision history.
+# @flag -h --help                         help for history
+# @option --pager <string>                the command to use to page through the environment's revisions
+# @flag --utc                             display times in UTC
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @option --env <string>                  The name of the environment to operate on.
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @arg org-name-environment-name-version <[<org-name>/]<environment-name>[@<version>]>
+env::version::history() {
+    :;
+}
+# }}}} pulumi env version history
+
+# {{{{ pulumi env version retract
+# @cmd Retract a specific revision of an environment
+# @flag -h --help                         help for retract
+# @option --reason <string>               the reason for the retraction
+# @option --replace-with <string>         the version to use to replace the retracted revision
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @option --env <string>                  The name of the environment to operate on.
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @arg org-name-environment-name-version <[<org-name>/]<environment-name>@<version>>
+env::version::retract() {
+    :;
+}
+# }}}} pulumi env version retract
+
+# {{{{ pulumi env version rollback
+# @cmd Roll back to a specific version
+# @flag -h --help                         help for rollback
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @option --env <string>                  The name of the environment to operate on.
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @arg org-name-environment-name-version <[<org-name>/]<environment-name>@<version>>
+env::version::rollback() {
+    :;
+}
+# }}}} pulumi env version rollback
+
+# {{{{ pulumi env version tag
+# @cmd Manage tagged versions
+# @flag -h --help                         help for tag
+# @flag --utc                             display times in UTC
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @option --env <string>                  The name of the environment to operate on.
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @arg org-name-environment-name-tag <[<org-name>/]<environment-name>@<tag>>
+# @arg version <@<version>>
+env::version::tag() {
+    :;
+}
+
+# {{{{{ pulumi env version tag ls
+# @cmd List tagged versions.
+# @flag -h --help                         help for ls
+# @option --pager <string>                the command to use to page through the environment's version tags
+# @flag --utc                             display times in UTC
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @option --env <string>                  The name of the environment to operate on.
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @arg org-name-environment-name <[<org-name>/]<environment-name>>
+env::version::tag::ls() {
+    :;
+}
+# }}}}} pulumi env version tag ls
+
+# {{{{{ pulumi env version tag rm
+# @cmd Remove a tagged version.
+# @flag -h --help                         help for rm
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @option --env <string>                  The name of the environment to operate on.
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @arg org-name-environment-name-tag <[<org-name>/]<environment-name>@<tag>>
+env::version::tag::rm() {
+    :;
+}
+# }}}}} pulumi env version tag rm
+# }}}} pulumi env version tag
+# }}} pulumi env version
 # }} pulumi env
 
 # {{ pulumi login
 # @cmd Log in to the Pulumi Cloud
-# @option -c --cloud-url <string>       A cloud URL to log in to
-# @option --default-org <string>        A default org to associate with the login.
-# @flag -h --help                       help for login
-# @flag --insecure                      Allow insecure server connections when using SSL
-# @flag -l --local                      Use Pulumi in local-only mode
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @option -c --cloud-url <string>         A cloud URL to log in to
+# @option --default-org <string>          A default org to associate with the login.
+# @flag -h --help                         help for login
+# @flag --insecure                        Allow insecure server connections when using SSL
+# @flag -l --local                        Use Pulumi in local-only mode
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 # @arg url
 login() {
     :;
@@ -1345,21 +1659,22 @@ login() {
 
 # {{ pulumi logout
 # @cmd Log out of the Pulumi Cloud
-# @flag --all                           Logout of all backends
-# @option -c --cloud-url <string>       A cloud URL to log out of (defaults to current cloud)
-# @flag -h --help                       help for logout
-# @flag -l --local                      Log out of using local mode
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @flag --all                             Logout of all backends
+# @option -c --cloud-url <string>         A cloud URL to log out of (defaults to current cloud)
+# @flag -h --help                         help for logout
+# @flag -l --local                        Log out of using local mode
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 # @arg url!
 logout() {
     :;
@@ -1368,19 +1683,20 @@ logout() {
 
 # {{ pulumi whoami
 # @cmd Display the current logged-in user
-# @flag -h --help                       help for whoami
-# @flag -j --json                       Emit output as JSON
-# @flag -v --verbose                    Print detailed whoami information
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
+# @flag -h --help                         help for whoami
+# @flag -j --json                         Emit output as JSON
+# @flag -v --verbose                      Print detailed whoami information
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
 whoami() {
     :;
 }
@@ -1388,36 +1704,38 @@ whoami() {
 
 # {{ pulumi org
 # @cmd Manage Organization configuration
-# @flag -h --help                       help for org
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @flag -h --help                         help for org
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 org() {
     :;
 }
 
 # {{{ pulumi org get-default
 # @cmd Get the default org for the current backend
-# @flag -h --help                       help for get-default
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @flag -h --help                         help for get-default
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 org::get-default() {
     :;
 }
@@ -1425,46 +1743,48 @@ org::get-default() {
 
 # {{{ pulumi org search
 # @cmd Search for resources in Pulumi Cloud
-# @option --delimiter <Delimiter>       Delimiter to use when rendering CSV output.
-# @flag -h --help                       help for search
-# @option --org <string>                Name of the organization to search.
-# @option -o --output <outputFormat>    Output format.
-# @option -q --query* <string>          A Pulumi Query to send to Pulumi Cloud for resource search.May be formatted as a single query, or multiple: -q "type:aws:s3/bucket:Bucket modified:>=2023-09-01" -q "type:aws:s3/bucket:Bucket" -q "modified:>=2023-09-01" See https://www.pulumi.com/docs/pulumi-cloud/insights/search/#query-syntax for syntax reference.
-# @flag --web                           Open the search results in a web browser.
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @option --delimiter <Delimiter>         Delimiter to use when rendering CSV output.
+# @flag -h --help                         help for search
+# @option --org <string>                  Name of the organization to search.
+# @option -o --output <outputFormat>      Output format.
+# @option -q --query* <string>            A Pulumi Query to send to Pulumi Cloud for resource search.May be formatted as a single query, or multiple: -q "type:aws:s3/bucket:Bucket modified:>=2023-09-01" -q "type:aws:s3/bucket:Bucket" -q "modified:>=2023-09-01" See https://www.pulumi.com/docs/pulumi-cloud/insights/search/#query-syntax for syntax reference.
+# @flag --web                             Open the search results in a web browser.
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 org::search() {
     :;
 }
 
 # {{{{ pulumi org search ai
 # @cmd Search for resources in Pulumi Cloud using Pulumi AI
-# @option --delimiter <Delimiter>       Delimiter to use when rendering CSV output.
-# @flag -h --help                       help for ai
-# @option --org <string>                Organization name to search within
-# @option -o --output <outputFormat>    Output format.
-# @option -q --query <string>           Plaintext natural language query
-# @flag --web                           Open the search results in a web browser.
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @option --delimiter <Delimiter>         Delimiter to use when rendering CSV output.
+# @flag -h --help                         help for ai
+# @option --org <string>                  Organization name to search within
+# @option -o --output <outputFormat>      Output format.
+# @option -q --query <string>             Plaintext natural language query
+# @flag --web                             Open the search results in a web browser.
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 org::search::ai() {
     :;
 }
@@ -1472,19 +1792,20 @@ org::search::ai() {
 # }}} pulumi org search
 
 # {{{ pulumi org set-default
-# @cmd Set the default organization for the current backend
-# @flag -h --help                       help for set-default
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @cmd Set the local default organization for the current backend
+# @flag -h --help                         help for set-default
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 # @arg name
 org::set-default() {
     :;
@@ -1494,38 +1815,40 @@ org::set-default() {
 
 # {{ pulumi policy
 # @cmd Manage resource policies
-# @flag -h --help                       help for policy
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @flag -h --help                         help for policy
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 policy() {
     :;
 }
 
 # {{{ pulumi policy disable
 # @cmd Disable a Policy Pack for a Pulumi organization
-# @flag -h --help                       help for disable
-# @option --policy-group <string>       The Policy Group for which the Policy Pack will be disabled; if not specified, the default Policy Group is used
-# @option --version <string>            The version of the Policy Pack that will be disabled; if not specified, any enabled version of the Policy Pack will be disabled
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @flag -h --help                         help for disable
+# @option --policy-group <string>         The Policy Group for which the Policy Pack will be disabled; if not specified, the default Policy Group is used
+# @option --version <string>              The version of the Policy Pack that will be disabled; if not specified, any enabled version of the Policy Pack will be disabled
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 # @arg org-name-policy-pack-name <<org-name>/<policy-pack-name>>
 policy::disable() {
     :;
@@ -1534,20 +1857,21 @@ policy::disable() {
 
 # {{{ pulumi policy enable
 # @cmd Enable a Policy Pack for a Pulumi organization
-# @option --config <file>               The file path for the Policy Pack configuration file
-# @flag -h --help                       help for enable
-# @option --policy-group <string>       The Policy Group for which the Policy Pack will be enabled; if not specified, the default Policy Group is used
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @option --config <file>                 The file path for the Policy Pack configuration file
+# @flag -h --help                         help for enable
+# @option --policy-group <string>         The Policy Group for which the Policy Pack will be enabled; if not specified, the default Policy Group is used
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 # @arg org-name-policy-pack-name <<org-name>/<policy-pack-name>>
 # @arg latest-version! <latest|version>
 policy::enable() {
@@ -1557,37 +1881,39 @@ policy::enable() {
 
 # {{{ pulumi policy group
 # @cmd Manage policy groups
-# @flag -h --help                       help for group
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @flag -h --help                         help for group
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 policy::group() {
     :;
 }
 
 # {{{{ pulumi policy group ls
 # @cmd List all Policy Groups for a Pulumi organization
-# @flag -h --help                       help for ls
-# @flag -j --json                       Emit output as JSON
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @flag -h --help                         help for ls
+# @flag -j --json                         Emit output as JSON
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 # @arg org-name
 policy::group::ls() {
     :;
@@ -1597,19 +1923,20 @@ policy::group::ls() {
 
 # {{{ pulumi policy ls
 # @cmd List all Policy Packs for a Pulumi organization
-# @flag -h --help                       help for ls
-# @flag -j --json                       Emit output as JSON
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @flag -h --help                         help for ls
+# @flag -j --json                         Emit output as JSON
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 # @arg org-name
 policy::ls() {
     :;
@@ -1618,22 +1945,23 @@ policy::ls() {
 
 # {{{ pulumi policy new
 # @cmd Create a new Pulumi Policy Pack
-# @option --dir <dir>                   The location to place the generated Policy Pack; if not specified, the current directory is used
-# @flag -f --force                      Forces content to be generated even if it would change existing files
-# @flag -g --generate-only              Generate the Policy Pack only; do not install dependencies
-# @flag -h --help                       help for new
-# @flag -o --offline                    Use locally cached templates without making any network requests
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @option --dir <dir>                     The location to place the generated Policy Pack; if not specified, the current directory is used
+# @flag -f --force                        Forces content to be generated even if it would change existing files
+# @flag -g --generate-only                Generate the Policy Pack only; do not install dependencies
+# @flag -h --help                         help for new
+# @flag -o --offline                      Use locally cached templates without making any network requests
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 # @arg template-url <template|url>
 policy::new() {
     :;
@@ -1642,18 +1970,19 @@ policy::new() {
 
 # {{{ pulumi policy publish
 # @cmd Publish a Policy Pack to the Pulumi Cloud
-# @flag -h --help                       help for publish
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @flag -h --help                         help for publish
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 # @arg org-name
 policy::publish() {
     :;
@@ -1662,19 +1991,20 @@ policy::publish() {
 
 # {{{ pulumi policy rm
 # @cmd Removes a Policy Pack from a Pulumi organization
-# @flag -h --help                       help for rm
-# @flag -y --yes                        Skip confirmation prompts, and proceed with removal anyway
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @flag -h --help                         help for rm
+# @flag -y --yes                          Skip confirmation prompts, and proceed with removal anyway
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 # @arg org-name-policy-pack-name <<org-name>/<policy-pack-name>>
 # @arg all-version! <all|version>
 policy::rm() {
@@ -1684,19 +2014,20 @@ policy::rm() {
 
 # {{{ pulumi policy validate-config
 # @cmd Validate a Policy Pack configuration
-# @option --config <file>               The file path for the Policy Pack configuration file
-# @flag -h --help                       help for validate-config
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @option --config <file>                 The file path for the Policy Pack configuration file
+# @flag -h --help                         help for validate-config
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 # @arg org-name-policy-pack-name <<org-name>/<policy-pack-name>>
 # @arg version!
 policy::validate-config() {
@@ -1707,41 +2038,43 @@ policy::validate-config() {
 
 # {{ pulumi plugin
 # @cmd Manage language and resource provider plugins
-# @flag -h --help                       help for plugin
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @flag -h --help                         help for plugin
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 plugin() {
     :;
 }
 
 # {{{ pulumi plugin install
 # @cmd Install one or more plugins
-# @option --checksum <string>           The expected SHA256 checksum for the plugin archive
-# @flag --exact                         Force installation of an exact version match (usually >= is accepted)
-# @option -f --file <file>              Install a plugin from a binary, folder or tarball, instead of downloading it
-# @flag -h --help                       help for install
-# @flag --reinstall                     Reinstall a plugin even if it already exists
-# @option --server <string>             A URL to download plugins from
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @option --checksum <string>             The expected SHA256 checksum for the plugin archive
+# @flag --exact                           Force installation of an exact version match (usually >= is accepted)
+# @option -f --file <file>                Install a plugin from a binary, folder or tarball, instead of downloading it
+# @flag -h --help                         help for install
+# @flag --reinstall                       Reinstall a plugin even if it already exists
+# @option --server <string>               A URL to download plugins from
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 # @arg kind[`_choice_plugin_kind`]
 # @arg name[`_choice_plugin_name`]
 # @arg version[`_choice_plugin_version`]
@@ -1752,20 +2085,21 @@ plugin::install() {
 
 # {{{ pulumi plugin ls
 # @cmd List plugins
-# @flag -h --help                       help for ls
-# @flag -j --json                       Emit output as JSON
-# @flag -p --project                    List only the plugins used by the current project
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @flag -h --help                         help for ls
+# @flag -j --json                         Emit output as JSON
+# @flag -p --project                      List only the plugins used by the current project
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 plugin::ls() {
     :;
 }
@@ -1773,20 +2107,21 @@ plugin::ls() {
 
 # {{{ pulumi plugin rm
 # @cmd Remove one or more plugins from the download cache
-# @flag -a --all                        Remove all plugins
-# @flag -h --help                       help for rm
-# @flag -y --yes                        Skip confirmation prompts, and proceed with removal anyway
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @flag -a --all                          Remove all plugins
+# @flag -h --help                         help for rm
+# @flag -y --yes                          Skip confirmation prompts, and proceed with removal anyway
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 # @arg kind[`_choice_plugin_kind`]
 # @arg name[`_choice_plugin_name`]
 # @arg version[`_choice_plugin_version`]
@@ -1798,36 +2133,38 @@ plugin::rm() {
 
 # {{ pulumi schema
 # @cmd Analyze package schemas
-# @flag -h --help                       help for schema
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @flag -h --help                         help for schema
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 schema() {
     :;
 }
 
 # {{{ pulumi schema check
 # @cmd Check a Pulumi package schema for errors
-# @flag -h --help                       help for check
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @flag -h --help                         help for check
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 schema::check() {
     :;
 }
@@ -1836,39 +2173,66 @@ schema::check() {
 
 # {{ pulumi package
 # @cmd Work with Pulumi packages
-# @flag -h --help                       help for package
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @flag -h --help                         help for package
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 package() {
     :;
 }
 
+# {{{ pulumi package add
+# @cmd Add a package to your Pulumi project
+# @flag -h --help                         help for add
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @arg provider!
+# @arg provider-parameter*
+package::add() {
+    :;
+}
+# }}} pulumi package add
+
 # {{{ pulumi package gen-sdk
 # @cmd Generate SDK(s) from a package or schema
-# @flag -h --help                       help for gen-sdk
+# @flag -h --help                         help for gen-sdk
 # @option --language[nodejs|python|go|dotnet|java|all] <string>  The SDK language to generate: (default "all")
-# @option -o --out <dir>                The directory to write the SDK to (default "./sdk")
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @flag --local                           Generate an SDK appropriate for local usage
+# @option -o --out <dir>                  The directory to write the SDK to (default "./sdk")
+# @option --version <string>              The provider plugin version to generate the SDK for
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 # @arg schema_source!
+# @arg provider-parameters* <provider parameters>
 package::gen-sdk() {
     :;
 }
@@ -1876,19 +2240,20 @@ package::gen-sdk() {
 
 # {{{ pulumi package get-mapping
 # @cmd Get the mapping information for a given key from a package
-# @flag -h --help                       help for get-mapping
-# @option -o --out <file>               The file to write the mapping data to
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @flag -h --help                         help for get-mapping
+# @option -o --out <file>                 The file to write the mapping data to
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 # @arg key!
 # @arg schema_source!
 # @arg provider-key <provider key>
@@ -1899,19 +2264,21 @@ package::get-mapping() {
 
 # {{{ pulumi package get-schema
 # @cmd Get the schema.json from a package
-# @flag -h --help                       help for get-schema
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @flag -h --help                         help for get-schema
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 # @arg schema_source!
+# @arg provider-parameters* <provider parameters>
 package::get-schema() {
     :;
 }
@@ -1920,18 +2287,19 @@ package::get-schema() {
 
 # {{ pulumi version
 # @cmd Print Pulumi's version number
-# @flag -h --help                       help for version
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @flag -h --help                         help for version
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 version() {
     :;
 }
@@ -1947,6 +2315,7 @@ version() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -1961,18 +2330,19 @@ about() {
 
 # {{ pulumi gen-completion
 # @cmd Generate completion scripts for the Pulumi CLI
-# @flag -h --help                       help for gen-completion
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @flag -h --help                         help for gen-completion
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 # @arg shell!
 gen-completion() {
     :;
@@ -1981,24 +2351,26 @@ gen-completion() {
 
 # {{ pulumi convert
 # @cmd Convert Pulumi programs from a supported source program into other supported languages
-# @option --from <string>               Which converter plugin to use to read the source program (default "yaml")
-# @flag --generate-only                 Generate the converted program(s) only; do not install dependencies
-# @flag -h --help                       help for convert
-# @option --language <string>           Which language plugin to use to generate the pulumi project
-# @option --mappings* <file>            Any mapping files to use in the conversion
-# @option --out <dir>                   The output directory to write the converted project to (default ".")
-# @flag --strict                        If strict is set the conversion will fail on errors such as missing variables
-# @option --color <string>              Colorize output.
-# @option -C --cwd <dir>                Run pulumi as if it had been started in another directory
-# @flag --disable-integrity-checking    Disable integrity checking of checkpoint files
-# @flag -e --emoji                      Enable emojis in the output
-# @flag --logflow                       Flow log settings to child processes (like plugins)
-# @flag --logtostderr                   Log to stderr instead of to files
-# @option --memprofilerate <int>        Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
-# @flag --non-interactive               Disable interactive mode for all commands
-# @option --profiling <file>            Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
-# @option --tracing <file:>             Emit tracing to the specified endpoint.
-# @option -v --verbose <int>            Enable verbose logging (e.g., v=3); anything >3 is very verbose
+# @option --from <string>                 Which converter plugin to use to read the source program (default "yaml")
+# @flag --generate-only                   Generate the converted program(s) only; do not install dependencies
+# @flag -h --help                         help for convert
+# @option --language <string>             Which language plugin to use to generate the Pulumi project
+# @option --mappings* <file>              Any mapping files to use in the conversion
+# @option --name <dir>                    The name to use for the converted project; defaults to the directory of the source project
+# @option --out <dir>                     The output directory to write the converted project to (default ".")
+# @flag --strict                          Fail the conversion on errors such as missing variables
+# @option --color <string>                Colorize output.
+# @option -C --cwd <dir>                  Run pulumi as if it had been started in another directory
+# @flag --disable-integrity-checking      Disable integrity checking of checkpoint files
+# @flag -e --emoji                        Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names    Show fully-qualified stack names
+# @flag --logflow                         Flow log settings to child processes (like plugins)
+# @flag --logtostderr                     Log to stderr instead of to files
+# @option --memprofilerate <int>          Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+# @flag --non-interactive                 Disable interactive mode for all commands
+# @option --profiling <file>              Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+# @option --tracing <file:>               Emit tracing to the specified endpoint.
+# @option -v --verbose <int>              Enable verbose logging (e.g., v=3); anything >3 is very verbose
 # @arg yaml
 # @arg java
 convert() {
@@ -2028,6 +2400,7 @@ convert() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
@@ -2053,6 +2426,7 @@ watch() {
 # @option -C --cwd <dir>                          Run pulumi as if it had been started in another directory
 # @flag --disable-integrity-checking              Disable integrity checking of checkpoint files
 # @flag -e --emoji                                Enable emojis in the output
+# @flag -Q --fully-qualify-stack-names            Show fully-qualified stack names
 # @flag --logflow                                 Flow log settings to child processes (like plugins)
 # @flag --logtostderr                             Log to stderr instead of to files
 # @option --memprofilerate <int>                  Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate

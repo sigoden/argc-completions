@@ -68,10 +68,11 @@ completion::zsh() {
 
 # {{ lima daemon
 # @cmd run the daemon
-# @flag -h --help               help for daemon
-# @option --tick <duration>     tick for polling events (default 3s)
-# @option --vsock-port <int>    use vsock server instead a UNIX socket
-# @flag --debug                 debug mode
+# @flag -h --help                   help for daemon
+# @option --tick <duration>         tick for polling events (default 3s)
+# @option --virtio-port <string>    use virtio server instead a UNIX socket
+# @option --vsock-port <int>        use vsock server instead a UNIX socket
+# @flag --debug                     debug mode
 # @arg command[`_module_os_command`]
 # @arg args~[`_module_os_command_args`]
 daemon() {
@@ -81,9 +82,10 @@ daemon() {
 
 # {{ lima install-systemd
 # @cmd install a systemd unit (user)
-# @flag -h --help               help for install-systemd
-# @option --vsock-port <int>    use vsock server on specified port
-# @flag --debug                 debug mode
+# @flag -h --help                   help for install-systemd
+# @option --virtio-port <string>    use virtio server instead a UNIX socket
+# @option --vsock-port <int>        use vsock server on specified port
+# @flag --debug                     debug mode
 # @arg command[`_module_os_command`]
 # @arg args~[`_module_os_command_args`]
 install-systemd() {

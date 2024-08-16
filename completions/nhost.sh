@@ -106,7 +106,9 @@ dev::hasura() {
 # @option --functions-port <value>         If specified, expose functions on this port.
 # @option --hasura-port <value>            If specified, expose hasura on this port.
 # @option --hasura-console-port <value>    If specified, expose hasura console on this port.
-# @option --dashboard-version <value>      Dashboard version to use (default: "nhost/dashboard:0.20.28") [$NHOST_DASHBOARD_VERSION]
+# @option --dashboard-version <value>      Dashboard version to use (default: "nhost/dashboard:1.19.0") [$NHOST_DASHBOARD_VERSION]
+# @option --run-service* <value>           Run service to add to the development environment.
+# @flag --down-on-error                    Skip confirmation (default: false) [$NHOST_YES]
 # @flag -h --help                          show help
 up() {
     :;
@@ -125,12 +127,13 @@ down() {
 # {{ nhost logs
 # @cmd Show logs from local development environment
 # @flag --dry-run               Execute command in dry run mode
-# @flag -f --follow             Follow log output.
-# @flag --no-color              Produce monochrome output.
-# @flag --no-log-prefix         Don't print prefix in logs.
+# @flag -f --follow             Follow log output
+# @option --index <int>         index of the container if service has multiple replicas
+# @flag --no-color              Produce monochrome output
+# @flag --no-log-prefix         Don't print prefix in logs
 # @option --since <string>      Show logs since timestamp (e.g. 2013-01-02T13:23:37Z) or relative (e.g. 42m for 42 minutes)
-# @option -n --tail <string>    Number of lines to show from the end of the logs for each container.
-# @flag -t --timestamps         Show timestamps.
+# @option -n --tail <string>    Number of lines to show from the end of the logs for each container (default "all")
+# @flag -t --timestamps         Show timestamps
 # @option --until <string>      Show logs before a timestamp (e.g. 2013-01-02T13:23:37Z) or relative (e.g. 42m for 42 minutes)
 # @arg service*
 logs() {
@@ -188,19 +191,40 @@ run() {
     :;
 }
 
+# {{{ nhost run config-show
+# @cmd Shows Run service configuration after resolving secrets
+# @option --config <file>           Service configuration file (default: "nhost-run-service.toml") [$NHOST_RUN_SERVICE_CONFIG]
+# @option --overlay-name <value>    If specified, apply this overlay [$NHOST_RUN_SERVICE_ID, $NHOST_SERVICE_OVERLAY_NAME]
+# @flag -h --help                   show help
+run::config-show() {
+    :;
+}
+# }}} nhost run config-show
+
 # {{{ nhost run config-deploy
 # @cmd Deploy service configuration
-# @option --config <file>         Service configuration file [$NHOST_RUN_SERVICE_CONFIG]
-# @option --service-id <value>    Service ID to update [$NHOST_RUN_SERVICE_ID]
+# @option --config <file>         Service configuration file (default: "nhost-run-service.toml") [$NHOST_RUN_SERVICE_CONFIG]
+# @option --service-id <value>    Service ID to update.
 # @flag -h --help                 show help
 run::config-deploy() {
     :;
 }
 # }}} nhost run config-deploy
 
+# {{{ nhost run config-edit
+# @cmd Edit service configuration
+# @option --config <file>           Service configuration file (default: "nhost-run-service.toml") [$NHOST_RUN_SERVICE_CONFIG]
+# @option --editor <value>          Editor to use (default: "vim") [$EDITOR]
+# @option --overlay-name <value>    If specified, apply this overlay [$NHOST_RUN_SERVICE_ID, $NHOST_SERVICE_OVERLAY_NAME]
+# @flag -h --help                   show help
+run::config-edit() {
+    :;
+}
+# }}} nhost run config-edit
+
 # {{{ nhost run config-edit-image
 # @cmd Edits configuration file and sets the image
-# @option --config <file>    Service configuration file [$NHOST_RUN_SERVICE_CONFIG]
+# @option --config <file>    Service configuration file (default: "nhost-run-service.toml") [$NHOST_RUN_SERVICE_CONFIG]
 # @option --image <value>    Image to use [$NHOST_RUN_SERVICE_IMAGE]
 # @flag -h --help            show help
 run::config-edit-image() {
@@ -210,7 +234,7 @@ run::config-edit-image() {
 
 # {{{ nhost run config-pull
 # @cmd Download service configuration
-# @option --config <file>         Service configuration file [$NHOST_RUN_SERVICE_CONFIG]
+# @option --config <file>         Service configuration file (default: "nhost-run-service.toml") [$NHOST_RUN_SERVICE_CONFIG]
 # @option --service-id <value>    Service ID to update [$NHOST_RUN_SERVICE_ID]
 # @flag -h --help                 show help
 run::config-pull() {
@@ -219,10 +243,11 @@ run::config-pull() {
 # }}} nhost run config-pull
 
 # {{{ nhost run config-validate
-# @cmd Validates service configuration after resolving secrets (only validation against cloud project supported)
-# @option --config <file>         Service configuration file [$NHOST_RUN_SERVICE_CONFIG]
-# @option --service-id <value>    Service ID to update [$NHOST_RUN_SERVICE_ID]
-# @flag -h --help                 show help
+# @cmd Validates service configuration after resolving secrets
+# @option --config <file>           Service configuration file (default: "nhost-run-service.toml") [$NHOST_RUN_SERVICE_CONFIG]
+# @option --overlay-name <value>    If specified, apply this overlay [$NHOST_SERVICE_OVERLAY_NAME]
+# @option --service-id <value>      If specified, apply this overlay and remote secrets for this service [$NHOST_RUN_SERVICE_ID]
+# @flag -h --help                   show help
 run::config-validate() {
     :;
 }
@@ -235,6 +260,17 @@ run::config-example() {
     :;
 }
 # }}} nhost run config-example
+
+# {{{ nhost run env
+# @cmd Outputs environment variables.
+# @option --config <file>           Service configuration file (default: "nhost-run-service.toml") [$NHOST_RUN_SERVICE_CONFIG]
+# @option --overlay-name <value>    If specified, apply this overlay [$NHOST_RUN_SERVICE_ID, $NHOST_SERVICE_OVERLAY_NAME]
+# @flag --prepend-export            Prepend 'export' to each line (default: false) [$NHOST_RuN_SERVICE_ENV_PREPEND_EXPORT]
+# @flag -h --help                   show help
+run::env() {
+    :;
+}
+# }}} nhost run env
 # }} nhost run
 
 # {{ nhost secrets
@@ -321,9 +357,9 @@ sw::version() {
 
 # {{ nhost login
 # @cmd Login to Nhost
+# @option --pat <value>         Use this Personal Access Token instead of generating a new one with your email/password [$NHOST_PAT]
 # @option --email <value>       Email address [$NHOST_EMAIL]
 # @option --password <value>    Password [$NHOST_PASSWORD]
-# @option --pat <value>         Use this Personal Access Token instead of generating a new one with your email/password [$NHOST_PAT]
 # @flag -h --help               show help
 login() {
     :;

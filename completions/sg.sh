@@ -2,9 +2,11 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # @option -p --pattern                           AST pattern to match
+# @option --selector <KIND>                      AST kind to extract sub-part of pattern to match.
 # @option -r --rewrite <FIX>                     String to replace the matched AST node
 # @option -l --lang[`_choice_lang`]              The language of the pattern.
-# @flag --debug-query                            Print query pattern's tree-sitter AST.
+# @option --debug-query <format>                 Print query pattern's tree-sitter AST.
+# @option --strictness                           The strictness of the pattern
 # @option --no-ignore[`_choice_no_ignore`] <FILE_TYPE>  Do not respect hidden file system or ignore files (.gitignore, .ignore, etc.).
 # @flag --stdin                                  Enable search code from StdIn.
 # @flag -i --interactive                         Start interactive edit session.
@@ -21,9 +23,11 @@
 # {{ sg run
 # @cmd Run one time search or rewrite in command line.
 # @option -p --pattern                           AST pattern to match
+# @option --selector <KIND>                      AST kind to extract sub-part of pattern to match.
 # @option -r --rewrite <FIX>                     String to replace the matched AST node
 # @option -l --lang[`_choice_lang`]              The language of the pattern.
-# @flag --debug-query                            Print query pattern's tree-sitter AST.
+# @option --debug-query <format>                 Print query pattern's tree-sitter AST.
+# @option --strictness                           The strictness of the pattern
 # @option --no-ignore[`_choice_no_ignore`] <FILE_TYPE>  Do not respect hidden file system or ignore files (.gitignore, .ignore, etc.).
 # @flag --stdin                                  Enable search code from StdIn.
 # @flag -i --interactive                         Start interactive edit session.
@@ -45,6 +49,7 @@ run() {
 # @cmd Scan and rewrite code by configuration
 # @option -c --config <CONFIG_FILE>          Path to ast-grep root config, default is sgconfig.yml
 # @option -r --rule <RULE_FILE>              Scan the codebase with the single rule located at the path RULE_FILE.
+# @option --inline-rules <RULE_TEXT>         Scan the codebase with a rule defined by the provided RULE_TEXT.
 # @option --filter <REGEX>                   Scan the codebase with rules with ids matching REGEX.
 # @option --format[github]                   Output warning/error messages in GitHub Action format.
 # @option --report-style <REPORT_STYLE>      [default: rich]
@@ -138,7 +143,8 @@ new::util() {
 
 # {{ sg lsp
 # @cmd Start language server
-# @flag -h --help    Print help
+# @option -c --config <CONFIG_FILE>    Path to ast-grep root config, default is sgconfig.yml
+# @flag -h --help                      Print help
 lsp() {
     :;
 }

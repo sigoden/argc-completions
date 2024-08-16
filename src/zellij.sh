@@ -1,7 +1,12 @@
 _patch_table() {
-    if [[ "$*" == "zellij action move-focus" ]] \
-    || [[ "$*" == "zellij action move-focus-or-tab" ]] \
-    || [[ "$*" == "zellij action move-pane" ]] \
+    if [[ "$*" == "zellij action edit" ]]; then
+        _patch_table_edit_options \
+            '--direction;[`_choice_direction`]' \
+
+    elif [[ "$*" == "zellij action move-focus" ]] \
+      || [[ "$*" == "zellij action move-focus-or-tab" ]] \
+      || [[ "$*" == "zellij action move-pane" ]] \
+      || [[ "$*" == "zellij action move-tab" ]] \
     ; then
         _patch_table_edit_arguments 'direction;[`_choice_direction`]'
 

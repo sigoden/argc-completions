@@ -20,9 +20,9 @@
 # @option -x --exclude* <value>              omit records matching specified keywords
 # @option -l --lock <N>                      encrypt DB in N (default 8) ♯ iterations
 # @option -k --unlock <N>                    decrypt DB in N (default 8) ♯ iterations
-# @flag --ai                                 auto-import (Firefox/Chrome/Chromium/Edge)
+# @flag --ai                                 auto-import bookmarks from web browsers Firefox, Chrome, Chromium, Vivaldi, Edge (Firefox profile can be specified using environment variable FIREFOX_PROFILE)
 # @option -e --export <file>                 export bookmarks to Firefox format HTML export XBEL, if file ends with '.xbel' export Markdown, if file ends with '.md'
-# @option -i --import[html|xbel|json|md|org|db] <file>  import bookmarks based on file extension supports 'html', 'xbel', 'json', 'md', 'org', 'db'
+# @option -i --import[html|xbel|json|md|org|db] <file>  import bookmarks from file supports .html .xbel .json .md .org .db
 # @option -p --print* <value>                show record details by indices, ranges print all bookmarks, if no arguments -n shows the last n results (like tail)
 # @option -f --format[10|20|30|40|50] <N>    limit fields in -p or JSON search output N=1: URL; N=2: URL, tag; N=3: title; N=4: URL, title, tag; N=5: title, tag; N0 omits DB index
 # @option -j --json <file>                   JSON formatted output for -p and search.
@@ -33,9 +33,15 @@
 # @option -o --open* <value>                 browse bookmarks by indices and ranges open a random bookmark, if no arguments
 # @flag --oa                                 browse all search results immediately
 # @option --replace <old> <new>              replace old tag with new tag everywhere delete old tag, if new tag not specified
+# @flag --url-redirect                       when fetching an URL, use the resulting URL from following *permanent* redirects (when combined with --export, the old URL is included as additional metadata)
+# @option --tag-redirect <tag>               when fetching an URL that causes permanent redirect, add a tag in specified pattern (using 'http:{}' if not specified)
+# @option --tag-error <tag>                  when fetching an URL that causes an HTTP error, add a tag in specified pattern (using 'http:{}' if not specified)
+# @option --del-error* <value>               when fetching an URL causes any (given) HTTP error, delete/do not add it
+# @option --export-on* <value>               export records affected by the above options, including removed info (requires --update and --export; specific HTTP response filter can be provided)
 # @option --shorten <index|URL>              fetch shortened url from tny.im service
 # @option --expand <index|URL>               expand a tny.im shortened url
 # @option --cached <index|URL>               browse a cached page from Wayback Machine
+# @flag --offline                            add a bookmark without connecting to web
 # @flag --suggest                            show similar tags when adding bookmarks
 # @flag --tacit                              reduce verbosity, skip some confirmations
 # @flag --nostdin                            do not wait for input (must be first arg)

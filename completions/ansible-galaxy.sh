@@ -37,17 +37,18 @@ collection::download() {
 
 # {{{ ansible-galaxy collection init
 # @cmd Initialize new collection with the base structure of a collection.
-# @flag -h --help                     show this help message and exit
-# @option -s --server <API_SERVER>    The Galaxy API server URL
-# @option --token <API_KEY>           The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
-# @option --api-key <API_KEY>         The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
-# @flag -c --ignore-certs             Ignore SSL certificate validation errors.
-# @option --timeout                   The time to wait for operations against the galaxy server, defaults to 60s.
-# @flag -v --verbose                  Causes Ansible to print more debug messages.
-# @flag -f --force                    Force overwriting an existing role or collection
-# @option --init-path <INIT_PATH>     The path in which the skeleton collection will be created.
+# @flag -h --help                         show this help message and exit
+# @option -s --server <API_SERVER>        The Galaxy API server URL
+# @option --token <API_KEY>               The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
+# @option --api-key <API_KEY>             The Ansible Galaxy API key which can be found at https://galaxy.ansible.com/me/preferences.
+# @flag -c --ignore-certs                 Ignore SSL certificate validation errors.
+# @option --timeout                       The time to wait for operations against the galaxy server, defaults to 60s.
+# @flag -v --verbose                      Causes Ansible to print more debug messages.
+# @flag -f --force                        Force overwriting an existing role or collection
+# @option --init-path <INIT_PATH>         The path in which the skeleton collection will be created.
 # @option --collection-skeleton <COLLECTION_SKELETON>  The path to a collection skeleton that the new collection should be based upon.
-# @arg collection_path                Collection name
+# @option -e --extra-vars <EXTRA_VARS>    set additional variables as key=value or YAML/JSON, if filename prepend with @.
+# @arg collection_path                    Collection name
 collection::init() {
     :;
 }
@@ -183,6 +184,7 @@ role() {
 # @option --init-path <INIT_PATH>            The path in which the skeleton role will be created.
 # @option --role-skeleton <ROLE_SKELETON>    The path to a role skeleton that the new role should be based upon.
 # @option --type <ROLE_TYPE>                 Initialize using an alternate role type.
+# @option -e --extra-vars <EXTRA_VARS>       set additional variables as key=value or YAML/JSON, if filename prepend with @.
 # @arg role_name                             Role name
 role::init() {
     :;

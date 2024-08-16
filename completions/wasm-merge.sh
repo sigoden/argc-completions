@@ -2,6 +2,12 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # @flag -o --output                            Output file (stdout if not specified)
+# @flag --input-source-map                     Consume source maps from the specified files
+# @flag -ism                                   Consume source maps from the specified files
+# @flag --output-source-map                    Emit source map to the specified file
+# @flag -osm                                   Emit source map to the specified file
+# @flag --output-source-map-url                Emit specified string as source map URL
+# @flag -osu                                   Emit specified string as source map URL
 # @flag --rename-export-conflicts              Rename exports to avoid conflicts (rather than error)
 # @flag -rec                                   Rename exports to avoid conflicts (rather than error)
 # @flag --skip-export-conflicts                Skip exports that conflict with previous ones
@@ -47,6 +53,10 @@
 # @flag --disable-strings                      Disable strings
 # @flag --enable-multimemory                   Enable multimemory
 # @flag --disable-multimemory                  Disable multimemory
+# @flag --enable-typed-continuations           Enable typed continuations
+# @flag --disable-typed-continuations          Disable typed continuations
+# @flag --enable-shared-everything             Enable shared-everything threads
+# @flag --disable-shared-everything            Disable shared-everything threads
 # @flag --enable-typed-function-references     Deprecated compatibility flag
 # @flag --disable-typed-function-references    Deprecated compatibility flag
 # @flag -n --no-validation                     Disables validation, assumes inputs are correct
@@ -54,6 +64,9 @@
 # @flag -pa                                    An argument passed along to optimization passes being run.
 # @flag --closed-world                         Assume code outside of the module does not inspect or interact with GC and function references, even if they are passed out.
 # @flag -cw                                    Assume code outside of the module does not inspect or interact with GC and function references, even if they are passed out.
+# @flag --generate-stack-ir                    generate StackIR during writing
+# @flag --optimize-stack-ir                    optimize StackIR during writing
+# @flag --print-stack-ir                       print StackIR during writing
 # @flag --version                              Output version information and exit
 # @flag -h --help                              Show this help message and exit
 # @flag -d --debug                             Print debug information to stderr

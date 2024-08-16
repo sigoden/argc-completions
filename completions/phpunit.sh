@@ -43,6 +43,7 @@
 # @flag --stop-on-notice                         Stop after first test that triggered a notice
 # @flag --stop-on-skipped                        Stop after first skipped test
 # @flag --stop-on-incomplete                     Stop after first incomplete test
+# @flag --fail-on-empty-test-suite               Signal failure using shell exit code when no tests were run
 # @flag --fail-on-warning                        Signal failure using shell exit code when a warning was triggered
 # @flag --fail-on-risky                          Signal failure using shell exit code when a test was considered risky
 # @flag --fail-on-deprecation                    Signal failure using shell exit code when a deprecation was triggered
@@ -68,6 +69,7 @@
 # @flag --reverse-list                           Print defects in reverse order
 # @flag --teamcity                               Replace default progress and result output with TeamCity format
 # @flag --testdox                                Replace default result output with TestDox format
+# @flag --debug                                  Replace default progress and result output with debugging information
 # @option --log-junit <file>                     Write test results in JUnit XML format to file
 # @option --log-teamcity <file>                  Write test results in TeamCity format to file
 # @option --testdox-html <file>                  Write test results in TestDox format (HTML) to file
@@ -90,7 +92,7 @@
 # @option -h <|--help>                           Prints this usage information
 # @flag --version                                Prints the version and exits
 # @option --atleast-version <min>                Checks that version is greater than <min> and exits
-# @flag --check-version                          Check whether PHPUnit is the latest version and exits
+# @flag --check-version                          Checks whether PHPUnit is the latest version and exits
 # @arg directory-file+ <directory|file>
 
 _choice_suite() {

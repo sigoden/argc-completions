@@ -18,20 +18,19 @@ init() {
 # {{ clib install
 # @cmd Install one or more packages
 # @alias i
-# @flag -V --version                   output program version
-# @flag -h --help                      output help information
-# @option -o --out <dir>               change the output directory [deps]
-# @option -P --prefix <dir>            change the prefix directory (usually '/usr/local')
-# @flag -q --quiet                     disable verbose output
-# @flag -d --dev                       install development dependencies
-# @flag -S --save                      [DEPRECATED] save dependency in clib.json or package.json
-# @flag -D --save-dev                  save development dependency in clib.json or package.json
-# @flag -N --no-save                   don't save dependency in clib.json or package.json
-# @flag -f --force                     force the action of something, like overwriting a file
-# @flag -c --skip-cache                skip cache when installing
-# @flag -g --global                    global install, don't write to output dir (default: deps/)
-# @option -t --token <token>           Access token used to read private content
-# @option -C --concurrency <number>    Set concurrency (default: 12)
+# @flag -V --version            output program version
+# @flag -h --help               output help information
+# @option -o --out <dir>        change the output directory [deps]
+# @option -P --prefix <dir>     change the prefix directory (usually '/usr/local')
+# @flag -q --quiet              disable verbose output
+# @flag -d --dev                install development dependencies
+# @flag -S --save               [DEPRECATED] save dependency in clib.json or package.json
+# @flag -D --save-dev           save development dependency in clib.json or package.json
+# @flag -N --no-save            don't save dependency in clib.json or package.json
+# @flag -f --force              force the action of something, like overwriting a file
+# @flag -c --skip-cache         skip cache when installing
+# @flag -g --global             global install, don't write to output dir (default: deps/)
+# @option -t --token <token>    Access token used to read private content
 # @arg name*
 install() {
     :;
@@ -41,14 +40,13 @@ install() {
 # {{ clib up
 # @cmd Update one or more packages
 # @alias update
-# @flag -V --version                   output program version
-# @flag -h --help                      output help information
-# @option -o --out <dir>               change the output directory [deps]
-# @option -P --prefix <dir>            change the prefix directory (usually '/usr/local')
-# @flag -q --quiet                     disable verbose output
-# @flag -d --dev                       install development dependencies
-# @option -t --token <token>           Access token used to read private content
-# @option -C --concurrency <number>    Set concurrency (default: 12)
+# @flag -V --version            output program version
+# @flag -h --help               output help information
+# @option -o --out <dir>        change the output directory [deps]
+# @option -P --prefix <dir>     change the prefix directory (usually '/usr/local')
+# @flag -q --quiet              disable verbose output
+# @flag -d --dev                install development dependencies
+# @option -t --token <token>    Access token used to read private content
 # @arg name*
 up() {
     :;
@@ -68,15 +66,14 @@ uninstall() {
 
 # {{ clib upgrade
 # @cmd Upgrade clib to a specified or latest version
-# @flag -V --version                   output program version
-# @flag -h --help                      output help information
-# @option -P --prefix <dir>            change the prefix directory (usually '/usr/local')
-# @flag -q --quiet                     disable verbose output
-# @flag -f --force                     force the action of something, like overwriting a file
-# @option -t --token <token>           Access token used to read private content
-# @option -S --slug <slug>             The slug where the clib project lives (usually 'clibs/clib')
-# @option -T --tag <tag>               The tag to upgrade to (usually it is the latest)
-# @option -C --concurrency <number>    Set concurrency (default: 12)
+# @flag -V --version            output program version
+# @flag -h --help               output help information
+# @option -P --prefix <dir>     change the prefix directory (usually '/usr/local')
+# @flag -q --quiet              disable verbose output
+# @flag -f --force              force the action of something, like overwriting a file
+# @option -t --token <token>    Access token used to read private content
+# @option -S --slug <slug>      The slug where the clib project lives (usually 'clibs/clib')
+# @option -T --tag <tag>        The tag to upgrade to (usually it is the latest)
 # @arg name*
 upgrade() {
     :;
@@ -85,17 +82,16 @@ upgrade() {
 
 # {{ clib configure
 # @cmd Configure one or more packages
-# @flag -V --version                   output program version
-# @flag -h --help                      output help information
-# @option -o --out <dir>               change the output directory [deps]
-# @option -P --prefix <dir>            change the prefix directory (usually '/usr/local')
-# @flag -q --quiet                     disable verbose output
-# @flag -d --dev                       configure development dependencies
-# @flag -f --force                     force the action of something, like overwriting a file
-# @flag --cflags                       output compiler flags instead of configuring
-# @flag --flags                        output compiler flags instead of configuring
-# @flag -c --skip-cache                skip cache when configuring
-# @option -C --concurrency <number>    Set concurrency (default: 12)
+# @flag -V --version           output program version
+# @flag -h --help              output help information
+# @option -o --out <dir>       change the output directory [deps]
+# @option -P --prefix <dir>    change the prefix directory (usually '/usr/local')
+# @flag -q --quiet             disable verbose output
+# @flag -d --dev               configure development dependencies
+# @flag -f --force             force the action of something, like overwriting a file
+# @flag --cflags               output compiler flags instead of configuring
+# @flag --flags                output compiler flags instead of configuring
+# @flag -c --skip-cache        skip cache when configuring
 # @arg name*
 configure() {
     :;
@@ -104,18 +100,17 @@ configure() {
 
 # {{ clib build
 # @cmd Build one or more packages
-# @flag -V --version                   output program version
-# @flag -h --help                      output help information
-# @option -o --out <dir>               change the output directory [deps]
-# @option -P --prefix <dir>            change the prefix directory (usually '/usr/local')
-# @flag -q --quiet                     disable verbose output
-# @flag -g --global                    use global target
-# @option --clean <clean_target>       clean target before building (default: clean)
-# @option -T --test <test_target>      test target instead of building (default: test)
-# @flag -d --dev                       build development dependencies
-# @flag -f --force                     force the action of something, like overwriting a file
-# @flag -c --skip-cache                skip cache when configuring
-# @option -C --concurrency <number>    Set concurrency (default: 12)
+# @flag -V --version                 output program version
+# @flag -h --help                    output help information
+# @option -o --out <dir>             change the output directory [deps]
+# @option -P --prefix <dir>          change the prefix directory (usually '/usr/local')
+# @flag -q --quiet                   disable verbose output
+# @flag -g --global                  use global target
+# @option --clean <clean_target>     clean target before building (default: clean)
+# @option -T --test <test_target>    test target instead of building (default: test)
+# @flag -d --dev                     build development dependencies
+# @flag -f --force                   force the action of something, like overwriting a file
+# @flag -c --skip-cache              skip cache when configuring
 # @arg name*
 build() {
     :;

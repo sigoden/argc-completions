@@ -14,7 +14,7 @@
 # @flag --no-typescript                         By default a *.d.ts file is generated for the generated JS file, but this flag will disable generating this TypeScript file
 # @flag --weak-refs                             Enable usage of the JS weak references proposal
 # @flag --reference-types                       Enable usage of WebAssembly reference types
-# @option -t --target[bundler|nodejs|web|no-modules]  Sets the target environment.
+# @option -t --target[bundler|nodejs|web|no-modules|deno]  Sets the target environment.
 # @flag --debug                                 Deprecated.
 # @flag --dev                                   Create a development build.
 # @flag --release                               Create a release build.
@@ -22,6 +22,7 @@
 # @option -d --out-dir <OUT_DIR>                Sets the output directory with a relative path [default: pkg]
 # @option --out-name <OUT_NAME>                 Sets the output file names.
 # @flag --no-pack                               Option to not generate a package.json
+# @flag --no-opt                                Option to skip optimization with wasm-opt
 # @flag -h --help                               Print help
 # @arg path                                     The path to the Rust crate.
 # @arg extra_options*                           List of extra options to pass to `cargo build`
@@ -32,8 +33,9 @@ build() {
 
 # {{ wasm-pack pack
 # @cmd 🍱  create a tar of your npm package but don't publish!
-# @flag -h --help    Print help
-# @arg path          The path to the Rust crate.
+# @option -d --pkg-dir <PKG_DIRECTORY>    The name of the output directory where the npm package is stored [default: pkg]
+# @flag -h --help                         Print help
+# @arg path                               The path to the Rust crate.
 pack() {
     :;
 }
@@ -53,10 +55,11 @@ new() {
 # {{ wasm-pack publish
 # @cmd 🎆  pack up your npm package and publish!
 # @option -t --target[bundler|nodejs|web|no-modules]  Sets the target environment.
-# @option -a --access    The access level for the package to be published
-# @option --tag          The distribution tag being used for publishing.
-# @flag -h --help        Print help
-# @arg path              The path to the Rust crate.
+# @option -a --access                     The access level for the package to be published
+# @option --tag                           The distribution tag being used for publishing.
+# @option -d --pkg-dir <PKG_DIRECTORY>    The name of the output directory where the npm package is stored [default: pkg]
+# @flag -h --help                         Print help
+# @arg path                               The path to the Rust crate.
 publish() {
     :;
 }

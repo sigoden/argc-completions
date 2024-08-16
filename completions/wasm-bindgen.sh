@@ -4,7 +4,7 @@
 # @flag -h --help                      Show this screen.
 # @option --out-dir <DIR>              Output directory
 # @option --out-name <VAR>             Set a custom output filename (Without extension.
-# @option --target[web|bundler|nodejs|no-modules|deno]  What type of output to generate, valid values are, and the default is [bundler]
+# @option --target[web|bundler|nodejs|no-modules|deno|experimental-nodejs-module]  What type of output to generate, valid values are, and the default is [bundler]
 # @option --no-modules-global <VAR>    Name of the global variable to initialize
 # @flag --browser                      Hint that JS should only be compatible with a browser
 # @flag --typescript                   Output a TypeScript definition file (on by default)
@@ -22,7 +22,7 @@
 # @flag --nodejs                       Deprecated, use `--target nodejs`
 # @flag --web                          Deprecated, use `--target web`
 # @flag --no-modules                   Deprecated, use `--target no-modules`
-# @flag --weak-refs                    Enable usage of the JS weak references proposal
+# @flag --weak-refs                    Deprecated, is runtime-detected
 # @flag --reference-types              Enable usage of WebAssembly reference types
 # @flag -V --version                   Print the version number of wasm-bindgen
 # @arg paths*

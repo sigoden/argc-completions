@@ -17,6 +17,7 @@
 # @flag -O --check-origin                        Do not allow websocket connection from different origin
 # @option -m --max-clients <num>                 Maximum clients to support (default: 0, no limit)
 # @flag -o --once                                Accept only one client and exit on disconnection
+# @flag -q --exit-no-conn                        Exit on all clients disconnection
 # @flag -B --browser                             Open terminal with the default system browser
 # @option -I --index <path>                      Custom index.html path
 # @option -b --base-path <path>                  Expected base path for requests coming from a reverse proxy (eg: /mounted/here, max length: 128)

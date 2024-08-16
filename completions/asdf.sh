@@ -22,19 +22,11 @@ plugin::add() {
 # @cmd List installed plugins.
 # @flag --urls    Show git urls
 # @flag --refs    Show git refs
+# @arg arg[all]
 plugin::list() {
     :;
 }
 # }}} asdf plugin list
-
-# {{{ asdf plugin list-all
-# @cmd List installed plugins.
-# @flag --urls    Show git urls
-# @flag --refs    Show git refs
-plugin::list-all() {
-    :;
-}
-# }}} asdf plugin list-all
 
 # {{{ asdf plugin remove
 # @cmd Remove plugin and package versions
@@ -93,19 +85,11 @@ latest() {
 
 # {{ asdf list
 # @cmd List installed versions of a package
-# @arg name!
+# @arg name![`_choice_installed_plugin`]
 list() {
     :;
 }
 # }} asdf list
-
-# {{ asdf list-all
-# @cmd List all versions of a package
-# @arg name!
-list-all() {
-    :;
-}
-# }} asdf list-all
 
 # {{ asdf local
 # @cmd Set the package local version to the latest provided version
@@ -160,12 +144,28 @@ exec() {
 }
 # }} asdf exec
 
+# {{ asdf env
+# @cmd Runs util (default: `env`) inside the environment used for command shim execution.
+# @arg command![`_choice_shim`]
+# @arg arg
+env() {
+    :;
+}
+# }} asdf env
+
 # {{ asdf info
 # @cmd Print OS, Shell and ASDF debug information.
 info() {
     :;
 }
 # }} asdf info
+
+# {{ asdf version
+# @cmd Print the currently installed version of ASDF.
+version() {
+    :;
+}
+# }} asdf version
 
 # {{ asdf reshim
 # @cmd Recreate shims for version of a package

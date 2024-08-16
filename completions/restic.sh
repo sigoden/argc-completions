@@ -6,12 +6,15 @@
 # @flag --cleanup-cache                   auto remove old cache directories
 # @option --compression <mode>            compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
 # @flag -h --help                         help for restic
+# @option --http-user-agent <string>      set a http user agent for outgoing http requests
+# @flag --insecure-no-password            use an empty password for the repository, must be passed to every restic command (insecure)
 # @flag --insecure-tls                    skip TLS certificate verification when connecting to the repository (insecure)
 # @flag --json                            set output mode to JSON for commands that support it
 # @option --key-hint <key>                key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
 # @option --limit-download <rate>         limits downloads to a maximum rate in KiB/s.
 # @option --limit-upload <rate>           limits uploads to a maximum rate in KiB/s.
 # @flag --no-cache                        do not use a local cache
+# @flag --no-extra-verify                 skip additional verification of data before upload (see documentation)
 # @flag --no-lock                         do not lock the repository, this allows some operations on read-only repositories
 # @option -o --option <key=value>         set extended option (key=value, can be specified multiple times)
 # @option --pack-size <size>              set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
@@ -35,20 +38,22 @@
 # @option --files-from <file>             read the files to backup from file (can be combined with file args; can be specified multiple times)
 # @option --files-from-raw <file>         read the files to backup from file (can be combined with file args; can be specified multiple times)
 # @option --files-from-verbatim <file>    read the files to backup from file (can be combined with file args; can be specified multiple times)
-# @flag -f --force                        force re-reading the target files/directories (overrides the "parent" flag)
+# @flag -f --force                        force re-reading the source files/directories (overrides the "parent" flag)
 # @option -g --group-by <group>           group snapshots by host, paths and/or tags, separated by comma (disable grouping with '') (default host,paths)
 # @flag -h --help                         help for backup
-# @option -H --host <hostname>            set the hostname for the snapshot manually.
+# @option -H --host <hostname>            set the hostname for the snapshot manually (default: $RESTIC_HOST).
 # @option --iexclude <pattern>            same as --exclude pattern but ignores the casing of filenames
 # @option --iexclude-file <file>          same as --exclude-file but ignores casing of filenames in patterns
 # @flag --ignore-ctime                    ignore ctime changes when checking for modified files
-# @flag --ignore-inode                    ignore inode number changes when checking for modified files
+# @flag --ignore-inode                    ignore inode number and ctime changes when checking for modified files
 # @flag --no-scan                         do not run scanner to estimate size of backup
 # @flag -x --one-file-system              exclude other file systems, don't cross filesystem boundaries and subvolumes
 # @option --parent <snapshot>             use this parent snapshot (default: latest snapshot in the group determined by --group-by and not newer than the timestamp determined by --time)
 # @option --read-concurrency <n>          read n files concurrently (default: $RESTIC_READ_CONCURRENCY or 2)
+# @flag --skip-if-unchanged               skip snapshot creation if identical to parent snapshot
 # @flag --stdin                           read backup from stdin
 # @option --stdin-filename <filename>     filename to use when reading from stdin (default "stdin")
+# @flag --stdin-from-command              interpret arguments as command to execute and store its stdout
 # @option --tag <tags>                    add tags for the new snapshot in the format `tag[,tag,...]` (can be specified multiple times) (default [])
 # @option --time <time>                   time of the backup (ex.
 # @flag --with-atime                      store the atime for all files and directories
@@ -56,12 +61,15 @@
 # @option --cache-dir <directory>         set the cache directory.
 # @flag --cleanup-cache                   auto remove old cache directories
 # @option --compression <mode>            compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>      set a http user agent for outgoing http requests
+# @flag --insecure-no-password            use an empty password for the repository, must be passed to every restic command (insecure)
 # @flag --insecure-tls                    skip TLS certificate verification when connecting to the repository (insecure)
 # @flag --json                            set output mode to JSON for commands that support it
 # @option --key-hint <key>                key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
 # @option --limit-download <rate>         limits downloads to a maximum rate in KiB/s.
 # @option --limit-upload <rate>           limits uploads to a maximum rate in KiB/s.
 # @flag --no-cache                        do not use a local cache
+# @flag --no-extra-verify                 skip additional verification of data before upload (see documentation)
 # @flag --no-lock                         do not lock the repository, this allows some operations on read-only repositories
 # @option -o --option <key=value>         set extended option (key=value, can be specified multiple times)
 # @option --pack-size <size>              set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
@@ -89,12 +97,15 @@ backup() {
 # @option --cache-dir <directory>         set the cache directory.
 # @flag --cleanup-cache                   auto remove old cache directories
 # @option --compression <mode>            compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>      set a http user agent for outgoing http requests
+# @flag --insecure-no-password            use an empty password for the repository, must be passed to every restic command (insecure)
 # @flag --insecure-tls                    skip TLS certificate verification when connecting to the repository (insecure)
 # @flag --json                            set output mode to JSON for commands that support it
 # @option --key-hint <key>                key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
 # @option --limit-download <rate>         limits downloads to a maximum rate in KiB/s.
 # @option --limit-upload <rate>           limits uploads to a maximum rate in KiB/s.
 # @flag --no-cache                        do not use a local cache
+# @flag --no-extra-verify                 skip additional verification of data before upload (see documentation)
 # @flag --no-lock                         do not lock the repository, this allows some operations on read-only repositories
 # @option -o --option <key=value>         set extended option (key=value, can be specified multiple times)
 # @option --pack-size <size>              set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
@@ -118,12 +129,15 @@ cache() {
 # @option --cache-dir <directory>         set the cache directory.
 # @flag --cleanup-cache                   auto remove old cache directories
 # @option --compression <mode>            compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>      set a http user agent for outgoing http requests
+# @flag --insecure-no-password            use an empty password for the repository, must be passed to every restic command (insecure)
 # @flag --insecure-tls                    skip TLS certificate verification when connecting to the repository (insecure)
 # @flag --json                            set output mode to JSON for commands that support it
 # @option --key-hint <key>                key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
 # @option --limit-download <rate>         limits downloads to a maximum rate in KiB/s.
 # @option --limit-upload <rate>           limits uploads to a maximum rate in KiB/s.
 # @flag --no-cache                        do not use a local cache
+# @flag --no-extra-verify                 skip additional verification of data before upload (see documentation)
 # @flag --no-lock                         do not lock the repository, this allows some operations on read-only repositories
 # @option -o --option <key=value>         set extended option (key=value, can be specified multiple times)
 # @option --pack-size <size>              set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
@@ -151,12 +165,15 @@ cat_() {
 # @option --cache-dir <directory>         set the cache directory.
 # @flag --cleanup-cache                   auto remove old cache directories
 # @option --compression <mode>            compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>      set a http user agent for outgoing http requests
+# @flag --insecure-no-password            use an empty password for the repository, must be passed to every restic command (insecure)
 # @flag --insecure-tls                    skip TLS certificate verification when connecting to the repository (insecure)
 # @flag --json                            set output mode to JSON for commands that support it
 # @option --key-hint <key>                key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
 # @option --limit-download <rate>         limits downloads to a maximum rate in KiB/s.
 # @option --limit-upload <rate>           limits uploads to a maximum rate in KiB/s.
 # @flag --no-cache                        do not use a local cache
+# @flag --no-extra-verify                 skip additional verification of data before upload (see documentation)
 # @flag --no-lock                         do not lock the repository, this allows some operations on read-only repositories
 # @option -o --option <key=value>         set extended option (key=value, can be specified multiple times)
 # @option --pack-size <size>              set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
@@ -175,25 +192,29 @@ check() {
 
 # {{ restic copy
 # @cmd Copy snapshots from one repository to another
+# @flag --from-insecure-no-password            use an empty password for the source repository, must be passed to every restic command (insecure)
 # @option --from-key-hint <string>             key ID of key to try decrypting the source repository first (default: $RESTIC_FROM_KEY_HINT)
 # @option --from-password-command <command>    shell command to obtain the source repository password from (default: $RESTIC_FROM_PASSWORD_COMMAND)
 # @option --from-password-file <file>          file to read the source repository password from (default: $RESTIC_FROM_PASSWORD_FILE)
 # @option --from-repo <repository>             source repository to copy snapshots from (default: $RESTIC_FROM_REPOSITORY)
 # @option --from-repository-file <file>        file from which to read the source repository location to copy snapshots from (default: $RESTIC_FROM_REPOSITORY_FILE)
 # @flag -h --help                              help for copy
-# @option -H --host <host>                     only consider snapshots for this host (can be specified multiple times)
-# @option --path <path>                        only consider snapshots including this (absolute) path (can be specified multiple times)
+# @option -H --host <host>                     only consider snapshots for this host (can be specified multiple times) (default: $RESTIC_HOST)
+# @option --path <path>                        only consider snapshots including this (absolute) path (can be specified multiple times, snapshots must include all specified paths)
 # @option --tag <tag[,tag,...]>                only consider snapshots including tag[,tag,...] (can be specified multiple times) (default [])
 # @option --cacert <file>                      file to load root certificates from (default: use system certificates or $RESTIC_CACERT)
 # @option --cache-dir <directory>              set the cache directory.
 # @flag --cleanup-cache                        auto remove old cache directories
 # @option --compression <mode>                 compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>           set a http user agent for outgoing http requests
+# @flag --insecure-no-password                 use an empty password for the repository, must be passed to every restic command (insecure)
 # @flag --insecure-tls                         skip TLS certificate verification when connecting to the repository (insecure)
 # @flag --json                                 set output mode to JSON for commands that support it
 # @option --key-hint <key>                     key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
 # @option --limit-download <rate>              limits downloads to a maximum rate in KiB/s.
 # @option --limit-upload <rate>                limits uploads to a maximum rate in KiB/s.
 # @flag --no-cache                             do not use a local cache
+# @flag --no-extra-verify                      skip additional verification of data before upload (see documentation)
 # @flag --no-lock                              do not lock the repository, this allows some operations on read-only repositories
 # @option -o --option <key=value>              set extended option (key=value, can be specified multiple times)
 # @option --pack-size <size>                   set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
@@ -219,12 +240,15 @@ copy() {
 # @option --cache-dir <directory>         set the cache directory.
 # @flag --cleanup-cache                   auto remove old cache directories
 # @option --compression <mode>            compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>      set a http user agent for outgoing http requests
+# @flag --insecure-no-password            use an empty password for the repository, must be passed to every restic command (insecure)
 # @flag --insecure-tls                    skip TLS certificate verification when connecting to the repository (insecure)
 # @flag --json                            set output mode to JSON for commands that support it
 # @option --key-hint <key>                key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
 # @option --limit-download <rate>         limits downloads to a maximum rate in KiB/s.
 # @option --limit-upload <rate>           limits uploads to a maximum rate in KiB/s.
 # @flag --no-cache                        do not use a local cache
+# @flag --no-extra-verify                 skip additional verification of data before upload (see documentation)
 # @flag --no-lock                         do not lock the repository, this allows some operations on read-only repositories
 # @option -o --option <key=value>         set extended option (key=value, can be specified multiple times)
 # @option --pack-size <size>              set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
@@ -246,19 +270,23 @@ diff() {
 # @cmd Print a backed-up file to stdout
 # @option -a --archive <format>           set archive format as "tar" or "zip" (default "tar")
 # @flag -h --help                         help for dump
-# @option -H --host <host>                only consider snapshots for this host, when snapshot ID "latest" is given (can be specified multiple times)
-# @option --path <path>                   only consider snapshots including this (absolute) path, when snapshot ID "latest" is given (can be specified multiple times)
+# @option -H --host <host>                only consider snapshots for this host, when snapshot ID "latest" is given (can be specified multiple times) (default: $RESTIC_HOST)
+# @option --path <path>                   only consider snapshots including this (absolute) path, when snapshot ID "latest" is given (can be specified multiple times, snapshots must include all specified paths)
 # @option --tag <tag[,tag,...]>           only consider snapshots including tag[,tag,...], when snapshot ID "latest" is given (can be specified multiple times) (default [])
+# @option -t --target <path>              write the output to target path
 # @option --cacert <file>                 file to load root certificates from (default: use system certificates or $RESTIC_CACERT)
 # @option --cache-dir <directory>         set the cache directory.
 # @flag --cleanup-cache                   auto remove old cache directories
 # @option --compression <mode>            compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>      set a http user agent for outgoing http requests
+# @flag --insecure-no-password            use an empty password for the repository, must be passed to every restic command (insecure)
 # @flag --insecure-tls                    skip TLS certificate verification when connecting to the repository (insecure)
 # @flag --json                            set output mode to JSON for commands that support it
 # @option --key-hint <key>                key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
 # @option --limit-download <rate>         limits downloads to a maximum rate in KiB/s.
 # @option --limit-upload <rate>           limits uploads to a maximum rate in KiB/s.
 # @flag --no-cache                        do not use a local cache
+# @flag --no-extra-verify                 skip additional verification of data before upload (see documentation)
 # @flag --no-lock                         do not lock the repository, this allows some operations on read-only repositories
 # @option -o --option <key=value>         set extended option (key=value, can be specified multiple times)
 # @option --pack-size <size>              set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
@@ -281,14 +309,14 @@ dump() {
 # @cmd Find a file, a directory or restic IDs
 # @flag --blob                            pattern is a blob-ID
 # @flag -h --help                         help for find
-# @option -H --host <host>                only consider snapshots for this host (can be specified multiple times)
+# @option -H --host <host>                only consider snapshots for this host (can be specified multiple times) (default: $RESTIC_HOST)
 # @flag --human-readable                  print sizes in human readable format
 # @flag -i --ignore-case                  ignore case for pattern
 # @flag -l --long                         use a long listing format showing size and mode
 # @option -N --newest <string>            newest modification date/time
 # @option -O --oldest <string>            oldest modification date/time
 # @flag --pack                            pattern is a pack-ID
-# @option --path <path>                   only consider snapshots including this (absolute) path (can be specified multiple times)
+# @option --path <path>                   only consider snapshots including this (absolute) path (can be specified multiple times, snapshots must include all specified paths)
 # @flag --show-pack-id                    display the pack-ID the blobs belong to (with --blob or --tree)
 # @option -s --snapshot <id>              snapshot id to search in (can be given multiple times)
 # @option --tag <tag[,tag,...]>           only consider snapshots including tag[,tag,...] (can be specified multiple times) (default [])
@@ -297,12 +325,15 @@ dump() {
 # @option --cache-dir <directory>         set the cache directory.
 # @flag --cleanup-cache                   auto remove old cache directories
 # @option --compression <mode>            compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>      set a http user agent for outgoing http requests
+# @flag --insecure-no-password            use an empty password for the repository, must be passed to every restic command (insecure)
 # @flag --insecure-tls                    skip TLS certificate verification when connecting to the repository (insecure)
 # @flag --json                            set output mode to JSON for commands that support it
 # @option --key-hint <key>                key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
 # @option --limit-download <rate>         limits downloads to a maximum rate in KiB/s.
 # @option --limit-upload <rate>           limits uploads to a maximum rate in KiB/s.
 # @flag --no-cache                        do not use a local cache
+# @flag --no-extra-verify                 skip additional verification of data before upload (see documentation)
 # @flag --no-lock                         do not lock the repository, this allows some operations on read-only repositories
 # @option -o --option <key=value>         set extended option (key=value, can be specified multiple times)
 # @option --pack-size <size>              set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
@@ -335,9 +366,10 @@ find() {
 # @option --keep-within-monthly <duration>    keep monthly snapshots that are newer than duration (eg.
 # @option --keep-within-yearly <duration>     keep yearly snapshots that are newer than duration (eg.
 # @option --keep-tag <taglist>                keep snapshots with this taglist (can be specified multiple times) (default [])
-# @option --host <host>                       only consider snapshots for this host (can be specified multiple times)
+# @flag --unsafe-allow-remove-all             allow deleting all snapshots of a snapshot group
+# @option --host <host>                       only consider snapshots for this host (can be specified multiple times) (default: $RESTIC_HOST)
 # @option --tag <tag[,tag,...]>               only consider snapshots including tag[,tag,...] (can be specified multiple times) (default [])
-# @option --path <path>                       only consider snapshots including this (absolute) path (can be specified multiple times)
+# @option --path <path>                       only consider snapshots including this (absolute) path (can be specified multiple times, snapshots must include all specified paths)
 # @flag -c --compact                          use compact output format
 # @option -g --group-by <group>               group snapshots by host, paths and/or tags, separated by comma (disable grouping with '') (default host,paths)
 # @flag -n --dry-run                          do not delete anything, just print what would be done
@@ -352,12 +384,15 @@ find() {
 # @option --cache-dir <directory>             set the cache directory.
 # @flag --cleanup-cache                       auto remove old cache directories
 # @option --compression <mode>                compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>          set a http user agent for outgoing http requests
+# @flag --insecure-no-password                use an empty password for the repository, must be passed to every restic command (insecure)
 # @flag --insecure-tls                        skip TLS certificate verification when connecting to the repository (insecure)
 # @flag --json                                set output mode to JSON for commands that support it
 # @option --key-hint <key>                    key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
 # @option --limit-download <rate>             limits downloads to a maximum rate in KiB/s.
 # @option --limit-upload <rate>               limits uploads to a maximum rate in KiB/s.
 # @flag --no-cache                            do not use a local cache
+# @flag --no-extra-verify                     skip additional verification of data before upload (see documentation)
 # @flag --no-lock                             do not lock the repository, this allows some operations on read-only repositories
 # @option -o --option <key=value>             set extended option (key=value, can be specified multiple times)
 # @option --pack-size <size>                  set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
@@ -387,12 +422,15 @@ forget() {
 # @option --cache-dir <directory>           set the cache directory.
 # @flag --cleanup-cache                     auto remove old cache directories
 # @option --compression <mode>              compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>        set a http user agent for outgoing http requests
+# @flag --insecure-no-password              use an empty password for the repository, must be passed to every restic command (insecure)
 # @flag --insecure-tls                      skip TLS certificate verification when connecting to the repository (insecure)
 # @flag --json                              set output mode to JSON for commands that support it
 # @option --key-hint <key>                  key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
 # @option --limit-download <rate>           limits downloads to a maximum rate in KiB/s.
 # @option --limit-upload <rate>             limits uploads to a maximum rate in KiB/s.
 # @flag --no-cache                          do not use a local cache
+# @flag --no-extra-verify                   skip additional verification of data before upload (see documentation)
 # @flag --no-lock                           do not lock the repository, this allows some operations on read-only repositories
 # @option -o --option <key=value>           set extended option (key=value, can be specified multiple times)
 # @option --pack-size <size>                set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
@@ -412,6 +450,7 @@ generate() {
 # {{ restic init
 # @cmd Initialize a new repository
 # @flag --copy-chunker-params                  copy chunker parameters from the secondary repository (useful with the copy command)
+# @flag --from-insecure-no-password            use an empty password for the source repository, must be passed to every restic command (insecure)
 # @option --from-key-hint <string>             key ID of key to try decrypting the source repository first (default: $RESTIC_FROM_KEY_HINT)
 # @option --from-password-command <command>    shell command to obtain the source repository password from (default: $RESTIC_FROM_PASSWORD_COMMAND)
 # @option --from-password-file <file>          file to read the source repository password from (default: $RESTIC_FROM_PASSWORD_FILE)
@@ -423,12 +462,15 @@ generate() {
 # @option --cache-dir <directory>              set the cache directory.
 # @flag --cleanup-cache                        auto remove old cache directories
 # @option --compression <mode>                 compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>           set a http user agent for outgoing http requests
+# @flag --insecure-no-password                 use an empty password for the repository, must be passed to every restic command (insecure)
 # @flag --insecure-tls                         skip TLS certificate verification when connecting to the repository (insecure)
 # @flag --json                                 set output mode to JSON for commands that support it
 # @option --key-hint <key>                     key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
 # @option --limit-download <rate>              limits downloads to a maximum rate in KiB/s.
 # @option --limit-upload <rate>                limits uploads to a maximum rate in KiB/s.
 # @flag --no-cache                             do not use a local cache
+# @flag --no-extra-verify                      skip additional verification of data before upload (see documentation)
 # @flag --no-lock                              do not lock the repository, this allows some operations on read-only repositories
 # @option -o --option <key=value>              set extended option (key=value, can be specified multiple times)
 # @option --pack-size <size>                   set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
@@ -448,19 +490,19 @@ init() {
 # {{ restic key
 # @cmd Manage keys (passwords)
 # @flag -h --help                         help for key
-# @option --host <string>                 the hostname for new keys
-# @option --new-password-file <file>      file from which to read the new password
-# @option --user <string>                 the username for new keys
 # @option --cacert <file>                 file to load root certificates from (default: use system certificates or $RESTIC_CACERT)
 # @option --cache-dir <directory>         set the cache directory.
 # @flag --cleanup-cache                   auto remove old cache directories
 # @option --compression <mode>            compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>      set a http user agent for outgoing http requests
+# @flag --insecure-no-password            use an empty password for the repository, must be passed to every restic command (insecure)
 # @flag --insecure-tls                    skip TLS certificate verification when connecting to the repository (insecure)
 # @flag --json                            set output mode to JSON for commands that support it
 # @option --key-hint <key>                key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
 # @option --limit-download <rate>         limits downloads to a maximum rate in KiB/s.
 # @option --limit-upload <rate>           limits uploads to a maximum rate in KiB/s.
 # @flag --no-cache                        do not use a local cache
+# @flag --no-extra-verify                 skip additional verification of data before upload (see documentation)
 # @flag --no-lock                         do not lock the repository, this allows some operations on read-only repositories
 # @option -o --option <key=value>         set extended option (key=value, can be specified multiple times)
 # @option --pack-size <size>              set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
@@ -472,11 +514,146 @@ init() {
 # @option --retry-lock <duration>         retry to lock the repository if it is already locked, takes a value like 5m or 2h (default: no retries)
 # @option --tls-client-cert <file>        path to a file containing PEM encoded TLS client certificate and private key (default: $RESTIC_TLS_CLIENT_CERT)
 # @flag -v --verbose                      be verbose (specify multiple times or a level using --verbose=n, max level/times is 2)
-# @arg enum[list|add|remove|passwd]
-# @arg id
 key() {
     :;
 }
+
+# {{{ restic key add
+# @cmd Add a new key (password) to the repository; returns the new key ID
+# @flag -h --help                         help for add
+# @option --host <string>                 the hostname for new key
+# @flag --new-insecure-no-password        add an empty password for the repository (insecure)
+# @option --new-password-file <file>      file from which to read the new password
+# @option --user <string>                 the username for new key
+# @option --cacert <file>                 file to load root certificates from (default: use system certificates or $RESTIC_CACERT)
+# @option --cache-dir <directory>         set the cache directory.
+# @flag --cleanup-cache                   auto remove old cache directories
+# @option --compression <mode>            compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>      set a http user agent for outgoing http requests
+# @flag --insecure-no-password            use an empty password for the repository, must be passed to every restic command (insecure)
+# @flag --insecure-tls                    skip TLS certificate verification when connecting to the repository (insecure)
+# @flag --json                            set output mode to JSON for commands that support it
+# @option --key-hint <key>                key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
+# @option --limit-download <rate>         limits downloads to a maximum rate in KiB/s.
+# @option --limit-upload <rate>           limits uploads to a maximum rate in KiB/s.
+# @flag --no-cache                        do not use a local cache
+# @flag --no-extra-verify                 skip additional verification of data before upload (see documentation)
+# @flag --no-lock                         do not lock the repository, this allows some operations on read-only repositories
+# @option -o --option <key=value>         set extended option (key=value, can be specified multiple times)
+# @option --pack-size <size>              set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
+# @option --password-command <command>    shell command to obtain the repository password from (default: $RESTIC_PASSWORD_COMMAND)
+# @option -p --password-file <file>       file to read the repository password from (default: $RESTIC_PASSWORD_FILE)
+# @flag -q --quiet                        do not output comprehensive progress report
+# @option -r --repo[`_choice_repo`] <repository>  repository to backup to or restore from (default: $RESTIC_REPOSITORY)
+# @option --repository-file <file>        file to read the repository location from (default: $RESTIC_REPOSITORY_FILE)
+# @option --retry-lock <duration>         retry to lock the repository if it is already locked, takes a value like 5m or 2h (default: no retries)
+# @option --tls-client-cert <file>        path to a file containing PEM encoded TLS client certificate and private key (default: $RESTIC_TLS_CLIENT_CERT)
+# @flag -v --verbose                      be verbose (specify multiple times or a level using --verbose=n, max level/times is 2)
+key::add() {
+    :;
+}
+# }}} restic key add
+
+# {{{ restic key list
+# @cmd List keys (passwords)
+# @flag -h --help                         help for list
+# @option --cacert <file>                 file to load root certificates from (default: use system certificates or $RESTIC_CACERT)
+# @option --cache-dir <directory>         set the cache directory.
+# @flag --cleanup-cache                   auto remove old cache directories
+# @option --compression <mode>            compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>      set a http user agent for outgoing http requests
+# @flag --insecure-no-password            use an empty password for the repository, must be passed to every restic command (insecure)
+# @flag --insecure-tls                    skip TLS certificate verification when connecting to the repository (insecure)
+# @flag --json                            set output mode to JSON for commands that support it
+# @option --key-hint <key>                key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
+# @option --limit-download <rate>         limits downloads to a maximum rate in KiB/s.
+# @option --limit-upload <rate>           limits uploads to a maximum rate in KiB/s.
+# @flag --no-cache                        do not use a local cache
+# @flag --no-extra-verify                 skip additional verification of data before upload (see documentation)
+# @flag --no-lock                         do not lock the repository, this allows some operations on read-only repositories
+# @option -o --option <key=value>         set extended option (key=value, can be specified multiple times)
+# @option --pack-size <size>              set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
+# @option --password-command <command>    shell command to obtain the repository password from (default: $RESTIC_PASSWORD_COMMAND)
+# @option -p --password-file <file>       file to read the repository password from (default: $RESTIC_PASSWORD_FILE)
+# @flag -q --quiet                        do not output comprehensive progress report
+# @option -r --repo[`_choice_repo`] <repository>  repository to backup to or restore from (default: $RESTIC_REPOSITORY)
+# @option --repository-file <file>        file to read the repository location from (default: $RESTIC_REPOSITORY_FILE)
+# @option --retry-lock <duration>         retry to lock the repository if it is already locked, takes a value like 5m or 2h (default: no retries)
+# @option --tls-client-cert <file>        path to a file containing PEM encoded TLS client certificate and private key (default: $RESTIC_TLS_CLIENT_CERT)
+# @flag -v --verbose                      be verbose (specify multiple times or a level using --verbose=n, max level/times is 2)
+key::list() {
+    :;
+}
+# }}} restic key list
+
+# {{{ restic key passwd
+# @cmd Change key (password); creates a new key ID and removes the old key ID, returns new key ID
+# @flag -h --help                         help for passwd
+# @option --host <string>                 the hostname for new key
+# @flag --new-insecure-no-password        add an empty password for the repository (insecure)
+# @option --new-password-file <file>      file from which to read the new password
+# @option --user <string>                 the username for new key
+# @option --cacert <file>                 file to load root certificates from (default: use system certificates or $RESTIC_CACERT)
+# @option --cache-dir <directory>         set the cache directory.
+# @flag --cleanup-cache                   auto remove old cache directories
+# @option --compression <mode>            compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>      set a http user agent for outgoing http requests
+# @flag --insecure-no-password            use an empty password for the repository, must be passed to every restic command (insecure)
+# @flag --insecure-tls                    skip TLS certificate verification when connecting to the repository (insecure)
+# @flag --json                            set output mode to JSON for commands that support it
+# @option --key-hint <key>                key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
+# @option --limit-download <rate>         limits downloads to a maximum rate in KiB/s.
+# @option --limit-upload <rate>           limits uploads to a maximum rate in KiB/s.
+# @flag --no-cache                        do not use a local cache
+# @flag --no-extra-verify                 skip additional verification of data before upload (see documentation)
+# @flag --no-lock                         do not lock the repository, this allows some operations on read-only repositories
+# @option -o --option <key=value>         set extended option (key=value, can be specified multiple times)
+# @option --pack-size <size>              set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
+# @option --password-command <command>    shell command to obtain the repository password from (default: $RESTIC_PASSWORD_COMMAND)
+# @option -p --password-file <file>       file to read the repository password from (default: $RESTIC_PASSWORD_FILE)
+# @flag -q --quiet                        do not output comprehensive progress report
+# @option -r --repo[`_choice_repo`] <repository>  repository to backup to or restore from (default: $RESTIC_REPOSITORY)
+# @option --repository-file <file>        file to read the repository location from (default: $RESTIC_REPOSITORY_FILE)
+# @option --retry-lock <duration>         retry to lock the repository if it is already locked, takes a value like 5m or 2h (default: no retries)
+# @option --tls-client-cert <file>        path to a file containing PEM encoded TLS client certificate and private key (default: $RESTIC_TLS_CLIENT_CERT)
+# @flag -v --verbose                      be verbose (specify multiple times or a level using --verbose=n, max level/times is 2)
+key::passwd() {
+    :;
+}
+# }}} restic key passwd
+
+# {{{ restic key remove
+# @cmd Remove key ID (password) from the repository.
+# @flag -h --help                         help for remove
+# @option --cacert <file>                 file to load root certificates from (default: use system certificates or $RESTIC_CACERT)
+# @option --cache-dir <directory>         set the cache directory.
+# @flag --cleanup-cache                   auto remove old cache directories
+# @option --compression <mode>            compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>      set a http user agent for outgoing http requests
+# @flag --insecure-no-password            use an empty password for the repository, must be passed to every restic command (insecure)
+# @flag --insecure-tls                    skip TLS certificate verification when connecting to the repository (insecure)
+# @flag --json                            set output mode to JSON for commands that support it
+# @option --key-hint <key>                key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
+# @option --limit-download <rate>         limits downloads to a maximum rate in KiB/s.
+# @option --limit-upload <rate>           limits uploads to a maximum rate in KiB/s.
+# @flag --no-cache                        do not use a local cache
+# @flag --no-extra-verify                 skip additional verification of data before upload (see documentation)
+# @flag --no-lock                         do not lock the repository, this allows some operations on read-only repositories
+# @option -o --option <key=value>         set extended option (key=value, can be specified multiple times)
+# @option --pack-size <size>              set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
+# @option --password-command <command>    shell command to obtain the repository password from (default: $RESTIC_PASSWORD_COMMAND)
+# @option -p --password-file <file>       file to read the repository password from (default: $RESTIC_PASSWORD_FILE)
+# @flag -q --quiet                        do not output comprehensive progress report
+# @option -r --repo[`_choice_repo`] <repository>  repository to backup to or restore from (default: $RESTIC_REPOSITORY)
+# @option --repository-file <file>        file to read the repository location from (default: $RESTIC_REPOSITORY_FILE)
+# @option --retry-lock <duration>         retry to lock the repository if it is already locked, takes a value like 5m or 2h (default: no retries)
+# @option --tls-client-cert <file>        path to a file containing PEM encoded TLS client certificate and private key (default: $RESTIC_TLS_CLIENT_CERT)
+# @flag -v --verbose                      be verbose (specify multiple times or a level using --verbose=n, max level/times is 2)
+# @arg id
+key::remove() {
+    :;
+}
+# }}} restic key remove
 # }} restic key
 
 # {{ restic list
@@ -486,12 +663,15 @@ key() {
 # @option --cache-dir <directory>         set the cache directory.
 # @flag --cleanup-cache                   auto remove old cache directories
 # @option --compression <mode>            compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>      set a http user agent for outgoing http requests
+# @flag --insecure-no-password            use an empty password for the repository, must be passed to every restic command (insecure)
 # @flag --insecure-tls                    skip TLS certificate verification when connecting to the repository (insecure)
 # @flag --json                            set output mode to JSON for commands that support it
 # @option --key-hint <key>                key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
 # @option --limit-download <rate>         limits downloads to a maximum rate in KiB/s.
 # @option --limit-upload <rate>           limits uploads to a maximum rate in KiB/s.
 # @flag --no-cache                        do not use a local cache
+# @flag --no-extra-verify                 skip additional verification of data before upload (see documentation)
 # @flag --no-lock                         do not lock the repository, this allows some operations on read-only repositories
 # @option -o --option <key=value>         set extended option (key=value, can be specified multiple times)
 # @option --pack-size <size>              set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
@@ -512,22 +692,26 @@ list() {
 # {{ restic ls
 # @cmd List files in a snapshot
 # @flag -h --help                         help for ls
-# @option -H --host <host>                only consider snapshots for this host, when snapshot ID "latest" is given (can be specified multiple times)
+# @option -H --host <host>                only consider snapshots for this host, when snapshot ID "latest" is given (can be specified multiple times) (default: $RESTIC_HOST)
 # @flag --human-readable                  print sizes in human readable format
 # @flag -l --long                         use a long listing format showing size and mode
-# @option --path <path>                   only consider snapshots including this (absolute) path, when snapshot ID "latest" is given (can be specified multiple times)
+# @flag --ncdu                            output NCDU export format (pipe into 'ncdu -f -')
+# @option --path <path>                   only consider snapshots including this (absolute) path, when snapshot ID "latest" is given (can be specified multiple times, snapshots must include all specified paths)
 # @flag --recursive                       include files in subfolders of the listed directories
 # @option --tag <tag[,tag,...]>           only consider snapshots including tag[,tag,...], when snapshot ID "latest" is given (can be specified multiple times) (default [])
 # @option --cacert <file>                 file to load root certificates from (default: use system certificates or $RESTIC_CACERT)
 # @option --cache-dir <directory>         set the cache directory.
 # @flag --cleanup-cache                   auto remove old cache directories
 # @option --compression <mode>            compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>      set a http user agent for outgoing http requests
+# @flag --insecure-no-password            use an empty password for the repository, must be passed to every restic command (insecure)
 # @flag --insecure-tls                    skip TLS certificate verification when connecting to the repository (insecure)
 # @flag --json                            set output mode to JSON for commands that support it
 # @option --key-hint <key>                key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
 # @option --limit-download <rate>         limits downloads to a maximum rate in KiB/s.
 # @option --limit-upload <rate>           limits uploads to a maximum rate in KiB/s.
 # @flag --no-cache                        do not use a local cache
+# @flag --no-extra-verify                 skip additional verification of data before upload (see documentation)
 # @flag --no-lock                         do not lock the repository, this allows some operations on read-only repositories
 # @option -o --option <key=value>         set extended option (key=value, can be specified multiple times)
 # @option --pack-size <size>              set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
@@ -554,12 +738,15 @@ ls() {
 # @option --cache-dir <directory>         set the cache directory.
 # @flag --cleanup-cache                   auto remove old cache directories
 # @option --compression <mode>            compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>      set a http user agent for outgoing http requests
+# @flag --insecure-no-password            use an empty password for the repository, must be passed to every restic command (insecure)
 # @flag --insecure-tls                    skip TLS certificate verification when connecting to the repository (insecure)
 # @flag --json                            set output mode to JSON for commands that support it
 # @option --key-hint <key>                key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
 # @option --limit-download <rate>         limits downloads to a maximum rate in KiB/s.
 # @option --limit-upload <rate>           limits uploads to a maximum rate in KiB/s.
 # @flag --no-cache                        do not use a local cache
+# @flag --no-extra-verify                 skip additional verification of data before upload (see documentation)
 # @flag --no-lock                         do not lock the repository, this allows some operations on read-only repositories
 # @option -o --option <key=value>         set extended option (key=value, can be specified multiple times)
 # @option --pack-size <size>              set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
@@ -581,10 +768,10 @@ migrate() {
 # @cmd Mount the repository
 # @flag --allow-other                     allow other users to access the data in the mounted directory
 # @flag -h --help                         help for mount
-# @option -H --host <host>                only consider snapshots for this host (can be specified multiple times)
+# @option -H --host <host>                only consider snapshots for this host (can be specified multiple times) (default: $RESTIC_HOST)
 # @flag --no-default-permissions          for 'allow-other', ignore Unix permissions and allow users to read all snapshot files
 # @flag --owner-root                      use 'root' as the owner of files and dirs
-# @option --path <path>                   only consider snapshots including this (absolute) path (can be specified multiple times)
+# @option --path <path>                   only consider snapshots including this (absolute) path (can be specified multiple times, snapshots must include all specified paths)
 # @option --path-template <template>      set template for path names (can be specified multiple times)
 # @option --tag <tag[,tag,...]>           only consider snapshots including tag[,tag,...] (can be specified multiple times) (default [])
 # @option --time-template <template>      set template to use for times (default "2006-01-02T15:04:05Z07:00")
@@ -592,12 +779,15 @@ migrate() {
 # @option --cache-dir <directory>         set the cache directory.
 # @flag --cleanup-cache                   auto remove old cache directories
 # @option --compression <mode>            compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>      set a http user agent for outgoing http requests
+# @flag --insecure-no-password            use an empty password for the repository, must be passed to every restic command (insecure)
 # @flag --insecure-tls                    skip TLS certificate verification when connecting to the repository (insecure)
 # @flag --json                            set output mode to JSON for commands that support it
 # @option --key-hint <key>                key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
 # @option --limit-download <rate>         limits downloads to a maximum rate in KiB/s.
 # @option --limit-upload <rate>           limits uploads to a maximum rate in KiB/s.
 # @flag --no-cache                        do not use a local cache
+# @flag --no-extra-verify                 skip additional verification of data before upload (see documentation)
 # @flag --no-lock                         do not lock the repository, this allows some operations on read-only repositories
 # @option -o --option <key=value>         set extended option (key=value, can be specified multiple times)
 # @option --pack-size <size>              set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
@@ -629,12 +819,15 @@ mount() {
 # @option --cache-dir <directory>         set the cache directory.
 # @flag --cleanup-cache                   auto remove old cache directories
 # @option --compression <mode>            compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>      set a http user agent for outgoing http requests
+# @flag --insecure-no-password            use an empty password for the repository, must be passed to every restic command (insecure)
 # @flag --insecure-tls                    skip TLS certificate verification when connecting to the repository (insecure)
 # @flag --json                            set output mode to JSON for commands that support it
 # @option --key-hint <key>                key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
 # @option --limit-download <rate>         limits downloads to a maximum rate in KiB/s.
 # @option --limit-upload <rate>           limits uploads to a maximum rate in KiB/s.
 # @flag --no-cache                        do not use a local cache
+# @flag --no-extra-verify                 skip additional verification of data before upload (see documentation)
 # @flag --no-lock                         do not lock the repository, this allows some operations on read-only repositories
 # @option -o --option <key=value>         set extended option (key=value, can be specified multiple times)
 # @option --pack-size <size>              set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
@@ -658,12 +851,15 @@ prune() {
 # @option --cache-dir <directory>         set the cache directory.
 # @flag --cleanup-cache                   auto remove old cache directories
 # @option --compression <mode>            compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>      set a http user agent for outgoing http requests
+# @flag --insecure-no-password            use an empty password for the repository, must be passed to every restic command (insecure)
 # @flag --insecure-tls                    skip TLS certificate verification when connecting to the repository (insecure)
 # @flag --json                            set output mode to JSON for commands that support it
 # @option --key-hint <key>                key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
 # @option --limit-download <rate>         limits downloads to a maximum rate in KiB/s.
 # @option --limit-upload <rate>           limits uploads to a maximum rate in KiB/s.
 # @flag --no-cache                        do not use a local cache
+# @flag --no-extra-verify                 skip additional verification of data before upload (see documentation)
 # @flag --no-lock                         do not lock the repository, this allows some operations on read-only repositories
 # @option -o --option <key=value>         set extended option (key=value, can be specified multiple times)
 # @option --pack-size <size>              set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
@@ -687,12 +883,15 @@ recover() {
 # @option --cache-dir <directory>         set the cache directory.
 # @flag --cleanup-cache                   auto remove old cache directories
 # @option --compression <mode>            compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>      set a http user agent for outgoing http requests
+# @flag --insecure-no-password            use an empty password for the repository, must be passed to every restic command (insecure)
 # @flag --insecure-tls                    skip TLS certificate verification when connecting to the repository (insecure)
 # @flag --json                            set output mode to JSON for commands that support it
 # @option --key-hint <key>                key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
 # @option --limit-download <rate>         limits downloads to a maximum rate in KiB/s.
 # @option --limit-upload <rate>           limits uploads to a maximum rate in KiB/s.
 # @flag --no-cache                        do not use a local cache
+# @flag --no-extra-verify                 skip additional verification of data before upload (see documentation)
 # @flag --no-lock                         do not lock the repository, this allows some operations on read-only repositories
 # @option -o --option <key=value>         set extended option (key=value, can be specified multiple times)
 # @option --pack-size <size>              set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
@@ -716,12 +915,15 @@ repair() {
 # @option --cache-dir <directory>         set the cache directory.
 # @flag --cleanup-cache                   auto remove old cache directories
 # @option --compression <mode>            compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>      set a http user agent for outgoing http requests
+# @flag --insecure-no-password            use an empty password for the repository, must be passed to every restic command (insecure)
 # @flag --insecure-tls                    skip TLS certificate verification when connecting to the repository (insecure)
 # @flag --json                            set output mode to JSON for commands that support it
 # @option --key-hint <key>                key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
 # @option --limit-download <rate>         limits downloads to a maximum rate in KiB/s.
 # @option --limit-upload <rate>           limits uploads to a maximum rate in KiB/s.
 # @flag --no-cache                        do not use a local cache
+# @flag --no-extra-verify                 skip additional verification of data before upload (see documentation)
 # @flag --no-lock                         do not lock the repository, this allows some operations on read-only repositories
 # @option -o --option <key=value>         set extended option (key=value, can be specified multiple times)
 # @option --pack-size <size>              set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
@@ -745,12 +947,15 @@ repair::index() {
 # @option --cache-dir <directory>         set the cache directory.
 # @flag --cleanup-cache                   auto remove old cache directories
 # @option --compression <mode>            compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>      set a http user agent for outgoing http requests
+# @flag --insecure-no-password            use an empty password for the repository, must be passed to every restic command (insecure)
 # @flag --insecure-tls                    skip TLS certificate verification when connecting to the repository (insecure)
 # @flag --json                            set output mode to JSON for commands that support it
 # @option --key-hint <key>                key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
 # @option --limit-download <rate>         limits downloads to a maximum rate in KiB/s.
 # @option --limit-upload <rate>           limits uploads to a maximum rate in KiB/s.
 # @flag --no-cache                        do not use a local cache
+# @flag --no-extra-verify                 skip additional verification of data before upload (see documentation)
 # @flag --no-lock                         do not lock the repository, this allows some operations on read-only repositories
 # @option -o --option <key=value>         set extended option (key=value, can be specified multiple times)
 # @option --pack-size <size>              set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
@@ -773,19 +978,22 @@ repair::packs() {
 # @flag -n --dry-run                      do not do anything, just print what would be done
 # @flag --forget                          remove original snapshots after creating new ones
 # @flag -h --help                         help for snapshots
-# @option -H --host <host>                only consider snapshots for this host (can be specified multiple times)
-# @option --path <path>                   only consider snapshots including this (absolute) path (can be specified multiple times)
+# @option -H --host <host>                only consider snapshots for this host (can be specified multiple times) (default: $RESTIC_HOST)
+# @option --path <path>                   only consider snapshots including this (absolute) path (can be specified multiple times, snapshots must include all specified paths)
 # @option --tag <tag[,tag,...]>           only consider snapshots including tag[,tag,...] (can be specified multiple times) (default [])
 # @option --cacert <file>                 file to load root certificates from (default: use system certificates or $RESTIC_CACERT)
 # @option --cache-dir <directory>         set the cache directory.
 # @flag --cleanup-cache                   auto remove old cache directories
 # @option --compression <mode>            compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>      set a http user agent for outgoing http requests
+# @flag --insecure-no-password            use an empty password for the repository, must be passed to every restic command (insecure)
 # @flag --insecure-tls                    skip TLS certificate verification when connecting to the repository (insecure)
 # @flag --json                            set output mode to JSON for commands that support it
 # @option --key-hint <key>                key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
 # @option --limit-download <rate>         limits downloads to a maximum rate in KiB/s.
 # @option --limit-upload <rate>           limits uploads to a maximum rate in KiB/s.
 # @flag --no-cache                        do not use a local cache
+# @flag --no-extra-verify                 skip additional verification of data before upload (see documentation)
 # @flag --no-lock                         do not lock the repository, this allows some operations on read-only repositories
 # @option -o --option <key=value>         set extended option (key=value, can be specified multiple times)
 # @option --pack-size <size>              set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
@@ -806,13 +1014,20 @@ repair::snapshots() {
 
 # {{ restic restore
 # @cmd Extract the data from a snapshot
+# @flag --delete                          delete files from target directory if they do not exist in snapshot.
+# @flag --dry-run                         do not write any data, just show what would be done
 # @option -e --exclude <pattern>          exclude a pattern (can be specified multiple times)
+# @option --exclude-file <file>           read exclude patterns from a file (can be specified multiple times)
 # @flag -h --help                         help for restore
-# @option -H --host <host>                only consider snapshots for this host, when snapshot ID "latest" is given (can be specified multiple times)
-# @option --iexclude <pattern>            same as --exclude but ignores the casing of pattern
-# @option --iinclude <pattern>            same as --include but ignores the casing of pattern
-# @option -i --include <pattern>          include a pattern, exclude everything else (can be specified multiple times)
-# @option --path <path>                   only consider snapshots including this (absolute) path, when snapshot ID "latest" is given (can be specified multiple times)
+# @option -H --host <host>                only consider snapshots for this host, when snapshot ID "latest" is given (can be specified multiple times) (default: $RESTIC_HOST)
+# @option --iexclude <pattern>            same as --exclude pattern but ignores the casing of filenames
+# @option --iexclude-file <file>          same as --exclude-file but ignores casing of filenames in patterns
+# @option --iinclude <pattern>            same as --include pattern but ignores the casing of filenames
+# @option --iinclude-file <file>          same as --include-file but ignores casing of filenames in patterns
+# @option -i --include <pattern>          include a pattern (can be specified multiple times)
+# @option --include-file <file>           read include patterns from a file (can be specified multiple times)
+# @option --overwrite <behavior>          overwrite behavior, one of (always|if-changed|if-newer|never) (default: always) (default always)
+# @option --path <path>                   only consider snapshots including this (absolute) path, when snapshot ID "latest" is given (can be specified multiple times, snapshots must include all specified paths)
 # @flag --sparse                          restore files as sparse
 # @option --tag <tag[,tag,...]>           only consider snapshots including tag[,tag,...], when snapshot ID "latest" is given (can be specified multiple times) (default [])
 # @option -t --target <string>            directory to extract data to
@@ -821,12 +1036,15 @@ repair::snapshots() {
 # @option --cache-dir <directory>         set the cache directory.
 # @flag --cleanup-cache                   auto remove old cache directories
 # @option --compression <mode>            compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>      set a http user agent for outgoing http requests
+# @flag --insecure-no-password            use an empty password for the repository, must be passed to every restic command (insecure)
 # @flag --insecure-tls                    skip TLS certificate verification when connecting to the repository (insecure)
 # @flag --json                            set output mode to JSON for commands that support it
 # @option --key-hint <key>                key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
 # @option --limit-download <rate>         limits downloads to a maximum rate in KiB/s.
 # @option --limit-upload <rate>           limits uploads to a maximum rate in KiB/s.
 # @flag --no-cache                        do not use a local cache
+# @flag --no-extra-verify                 skip additional verification of data before upload (see documentation)
 # @flag --no-lock                         do not lock the repository, this allows some operations on read-only repositories
 # @option -o --option <key=value>         set extended option (key=value, can be specified multiple times)
 # @option --pack-size <size>              set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
@@ -851,21 +1069,26 @@ restore() {
 # @option --exclude-file <file>           read exclude patterns from a file (can be specified multiple times)
 # @flag --forget                          remove original snapshots after creating new ones
 # @flag -h --help                         help for rewrite
-# @option -H --host <host>                only consider snapshots for this host (can be specified multiple times)
+# @option -H --host <host>                only consider snapshots for this host (can be specified multiple times) (default: $RESTIC_HOST)
 # @option --iexclude <pattern>            same as --exclude pattern but ignores the casing of filenames
 # @option --iexclude-file <file>          same as --exclude-file but ignores casing of filenames in patterns
-# @option --path <path>                   only consider snapshots including this (absolute) path (can be specified multiple times)
+# @option --new-host <string>             replace hostname
+# @option --new-time <string>             replace time of the backup
+# @option --path <path>                   only consider snapshots including this (absolute) path (can be specified multiple times, snapshots must include all specified paths)
 # @option --tag <tag[,tag,...]>           only consider snapshots including tag[,tag,...] (can be specified multiple times) (default [])
 # @option --cacert <file>                 file to load root certificates from (default: use system certificates or $RESTIC_CACERT)
 # @option --cache-dir <directory>         set the cache directory.
 # @flag --cleanup-cache                   auto remove old cache directories
 # @option --compression <mode>            compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>      set a http user agent for outgoing http requests
+# @flag --insecure-no-password            use an empty password for the repository, must be passed to every restic command (insecure)
 # @flag --insecure-tls                    skip TLS certificate verification when connecting to the repository (insecure)
 # @flag --json                            set output mode to JSON for commands that support it
 # @option --key-hint <key>                key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
 # @option --limit-download <rate>         limits downloads to a maximum rate in KiB/s.
 # @option --limit-upload <rate>           limits uploads to a maximum rate in KiB/s.
 # @flag --no-cache                        do not use a local cache
+# @flag --no-extra-verify                 skip additional verification of data before upload (see documentation)
 # @flag --no-lock                         do not lock the repository, this allows some operations on read-only repositories
 # @option -o --option <key=value>         set extended option (key=value, can be specified multiple times)
 # @option --pack-size <size>              set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
@@ -891,12 +1114,15 @@ rewrite() {
 # @option --cache-dir <directory>         set the cache directory.
 # @flag --cleanup-cache                   auto remove old cache directories
 # @option --compression <mode>            compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>      set a http user agent for outgoing http requests
+# @flag --insecure-no-password            use an empty password for the repository, must be passed to every restic command (insecure)
 # @flag --insecure-tls                    skip TLS certificate verification when connecting to the repository (insecure)
 # @flag --json                            set output mode to JSON for commands that support it
 # @option --key-hint <key>                key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
 # @option --limit-download <rate>         limits downloads to a maximum rate in KiB/s.
 # @option --limit-upload <rate>           limits uploads to a maximum rate in KiB/s.
 # @flag --no-cache                        do not use a local cache
+# @flag --no-extra-verify                 skip additional verification of data before upload (see documentation)
 # @flag --no-lock                         do not lock the repository, this allows some operations on read-only repositories
 # @option -o --option <key=value>         set extended option (key=value, can be specified multiple times)
 # @option --pack-size <size>              set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
@@ -918,20 +1144,23 @@ self-update() {
 # @flag -c --compact                      use compact output format
 # @option -g --group-by <group>           group snapshots by host, paths and/or tags, separated by comma
 # @flag -h --help                         help for snapshots
-# @option -H --host <host>                only consider snapshots for this host (can be specified multiple times)
+# @option -H --host <host>                only consider snapshots for this host (can be specified multiple times) (default: $RESTIC_HOST)
 # @option --latest <n>                    only show the last n snapshots for each host and path
-# @option --path <path>                   only consider snapshots including this (absolute) path (can be specified multiple times)
+# @option --path <path>                   only consider snapshots including this (absolute) path (can be specified multiple times, snapshots must include all specified paths)
 # @option --tag <tag[,tag,...]>           only consider snapshots including tag[,tag,...] (can be specified multiple times) (default [])
 # @option --cacert <file>                 file to load root certificates from (default: use system certificates or $RESTIC_CACERT)
 # @option --cache-dir <directory>         set the cache directory.
 # @flag --cleanup-cache                   auto remove old cache directories
 # @option --compression <mode>            compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>      set a http user agent for outgoing http requests
+# @flag --insecure-no-password            use an empty password for the repository, must be passed to every restic command (insecure)
 # @flag --insecure-tls                    skip TLS certificate verification when connecting to the repository (insecure)
 # @flag --json                            set output mode to JSON for commands that support it
 # @option --key-hint <key>                key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
 # @option --limit-download <rate>         limits downloads to a maximum rate in KiB/s.
 # @option --limit-upload <rate>           limits uploads to a maximum rate in KiB/s.
 # @flag --no-cache                        do not use a local cache
+# @flag --no-extra-verify                 skip additional verification of data before upload (see documentation)
 # @flag --no-lock                         do not lock the repository, this allows some operations on read-only repositories
 # @option -o --option <key=value>         set extended option (key=value, can be specified multiple times)
 # @option --pack-size <size>              set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
@@ -952,20 +1181,23 @@ snapshots() {
 # {{ restic stats
 # @cmd Scan the repository and show basic statistics
 # @flag -h --help                         help for stats
-# @option -H --host <host>                only consider snapshots for this host (can be specified multiple times)
+# @option -H --host <host>                only consider snapshots for this host (can be specified multiple times) (default: $RESTIC_HOST)
 # @option --mode <string>                 counting mode: restore-size (default), files-by-contents, blobs-per-file or raw-data (default "restore-size")
-# @option --path <path>                   only consider snapshots including this (absolute) path (can be specified multiple times)
+# @option --path <path>                   only consider snapshots including this (absolute) path (can be specified multiple times, snapshots must include all specified paths)
 # @option --tag <tag[,tag,...]>           only consider snapshots including tag[,tag,...] (can be specified multiple times) (default [])
 # @option --cacert <file>                 file to load root certificates from (default: use system certificates or $RESTIC_CACERT)
 # @option --cache-dir <directory>         set the cache directory.
 # @flag --cleanup-cache                   auto remove old cache directories
 # @option --compression <mode>            compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>      set a http user agent for outgoing http requests
+# @flag --insecure-no-password            use an empty password for the repository, must be passed to every restic command (insecure)
 # @flag --insecure-tls                    skip TLS certificate verification when connecting to the repository (insecure)
 # @flag --json                            set output mode to JSON for commands that support it
 # @option --key-hint <key>                key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
 # @option --limit-download <rate>         limits downloads to a maximum rate in KiB/s.
 # @option --limit-upload <rate>           limits uploads to a maximum rate in KiB/s.
 # @flag --no-cache                        do not use a local cache
+# @flag --no-extra-verify                 skip additional verification of data before upload (see documentation)
 # @flag --no-lock                         do not lock the repository, this allows some operations on read-only repositories
 # @option -o --option <key=value>         set extended option (key=value, can be specified multiple times)
 # @option --pack-size <size>              set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
@@ -987,8 +1219,8 @@ stats() {
 # @cmd Modify tags on snapshots
 # @option --add <tags>                    tags which will be added to the existing tags in the format `tag[,tag,...]` (can be given multiple times) (default [])
 # @flag -h --help                         help for tag
-# @option -H --host <host>                only consider snapshots for this host (can be specified multiple times)
-# @option --path <path>                   only consider snapshots including this (absolute) path (can be specified multiple times)
+# @option -H --host <host>                only consider snapshots for this host (can be specified multiple times) (default: $RESTIC_HOST)
+# @option --path <path>                   only consider snapshots including this (absolute) path (can be specified multiple times, snapshots must include all specified paths)
 # @option --remove <tags>                 tags which will be removed from the existing tags in the format `tag[,tag,...]` (can be given multiple times) (default [])
 # @option --set <tags>                    tags which will replace the existing tags in the format `tag[,tag,...]` (can be given multiple times) (default [])
 # @option --tag <tag[,tag,...]>           only consider snapshots including tag[,tag,...] (can be specified multiple times) (default [])
@@ -996,12 +1228,15 @@ stats() {
 # @option --cache-dir <directory>         set the cache directory.
 # @flag --cleanup-cache                   auto remove old cache directories
 # @option --compression <mode>            compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>      set a http user agent for outgoing http requests
+# @flag --insecure-no-password            use an empty password for the repository, must be passed to every restic command (insecure)
 # @flag --insecure-tls                    skip TLS certificate verification when connecting to the repository (insecure)
 # @flag --json                            set output mode to JSON for commands that support it
 # @option --key-hint <key>                key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
 # @option --limit-download <rate>         limits downloads to a maximum rate in KiB/s.
 # @option --limit-upload <rate>           limits uploads to a maximum rate in KiB/s.
 # @flag --no-cache                        do not use a local cache
+# @flag --no-extra-verify                 skip additional verification of data before upload (see documentation)
 # @flag --no-lock                         do not lock the repository, this allows some operations on read-only repositories
 # @option -o --option <key=value>         set extended option (key=value, can be specified multiple times)
 # @option --pack-size <size>              set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
@@ -1027,12 +1262,15 @@ tag() {
 # @option --cache-dir <directory>         set the cache directory.
 # @flag --cleanup-cache                   auto remove old cache directories
 # @option --compression <mode>            compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>      set a http user agent for outgoing http requests
+# @flag --insecure-no-password            use an empty password for the repository, must be passed to every restic command (insecure)
 # @flag --insecure-tls                    skip TLS certificate verification when connecting to the repository (insecure)
 # @flag --json                            set output mode to JSON for commands that support it
 # @option --key-hint <key>                key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
 # @option --limit-download <rate>         limits downloads to a maximum rate in KiB/s.
 # @option --limit-upload <rate>           limits uploads to a maximum rate in KiB/s.
 # @flag --no-cache                        do not use a local cache
+# @flag --no-extra-verify                 skip additional verification of data before upload (see documentation)
 # @flag --no-lock                         do not lock the repository, this allows some operations on read-only repositories
 # @option -o --option <key=value>         set extended option (key=value, can be specified multiple times)
 # @option --pack-size <size>              set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)
@@ -1056,12 +1294,15 @@ unlock() {
 # @option --cache-dir <directory>         set the cache directory.
 # @flag --cleanup-cache                   auto remove old cache directories
 # @option --compression <mode>            compression mode (only available for repository format version 2), one of (auto|off|max) (default: $RESTIC_COMPRESSION) (default auto)
+# @option --http-user-agent <string>      set a http user agent for outgoing http requests
+# @flag --insecure-no-password            use an empty password for the repository, must be passed to every restic command (insecure)
 # @flag --insecure-tls                    skip TLS certificate verification when connecting to the repository (insecure)
 # @flag --json                            set output mode to JSON for commands that support it
 # @option --key-hint <key>                key ID of key to try decrypting first (default: $RESTIC_KEY_HINT)
 # @option --limit-download <rate>         limits downloads to a maximum rate in KiB/s.
 # @option --limit-upload <rate>           limits uploads to a maximum rate in KiB/s.
 # @flag --no-cache                        do not use a local cache
+# @flag --no-extra-verify                 skip additional verification of data before upload (see documentation)
 # @flag --no-lock                         do not lock the repository, this allows some operations on read-only repositories
 # @option -o --option <key=value>         set extended option (key=value, can be specified multiple times)
 # @option --pack-size <size>              set target pack size in MiB, created pack files may be larger (default: $RESTIC_PACK_SIZE)

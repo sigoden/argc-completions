@@ -252,9 +252,10 @@ blockpull() {
 # @option --domain[`_choice_domain`] <string>    domain name, id or uuid
 # @option --path <path>                          Fully-qualified path of block device
 # @option --size <number>                        New size of the block device, as scaled integer (default KiB)
+# @flag --capacity                               resize to capacity of source (block device)
 # @arg domain![`_choice_domain`]
 # @arg path!
-# @arg size!
+# @arg size
 blockresize() {
     :;
 }
@@ -276,6 +277,7 @@ blockresize() {
 # @flag --block                                  source media is a block device
 # @arg domain![`_choice_domain`]
 # @arg path!
+# @arg source
 change-media() {
     :;
 }
@@ -339,9 +341,9 @@ define() {
 # @flag --current                                modify/get current state configuration
 # @flag --title                                  modify/get the title instead of description
 # @flag --edit                                   open an editor to modify the description
-# @option --new-desc <string>                    message
+# @option --new-desc* <string>                   message
 # @arg domain![`_choice_domain`]
-# @arg new-desc-string* <[--new-desc] <string>>
+# @arg new-desc*
 desc() {
     :;
 }
@@ -427,6 +429,7 @@ detach-interface() {
 # @option --type <string>                        select particular graphical display (e.g. "vnc", "spice", "rdp", "dbus")
 # @flag --all                                    show all possible graphical displays
 # @arg domain![`_choice_domain`]
+# @arg type
 domdisplay() {
     :;
 }
@@ -435,9 +438,9 @@ domdisplay() {
 # {{ virsh domfsfreeze
 # @cmd Freeze domain's mounted filesystems.
 # @option --domain[`_choice_domain`] <string>    domain name, id or uuid
-# @option --mountpoint <path>                    mountpoint path to be frozen
+# @option --mountpoint* <path>                   mountpoint path to be frozen
 # @arg domain![`_choice_domain`]
-# @arg mountpoint-string* <[--mountpoint] <string>>
+# @arg mountpoint*
 domfsfreeze() {
     :;
 }
@@ -446,9 +449,9 @@ domfsfreeze() {
 # {{ virsh domfsthaw
 # @cmd Thaw domain's mounted filesystems.
 # @option --domain[`_choice_domain`] <string>    domain name, id or uuid
-# @option --mountpoint <path>                    mountpoint path to be thawed
+# @option --mountpoint* <path>                   mountpoint path to be thawed
 # @arg domain![`_choice_domain`]
-# @arg mountpoint-string* <[--mountpoint] <string>>
+# @arg mountpoint*
 domfsthaw() {
     :;
 }
@@ -783,8 +786,9 @@ iothreaddel() {
 # @option --domain[`_choice_domain`] <string>    domain name, id or uuid
 # @option --codeset <string>                     the codeset of keycodes, default:linux
 # @option --holdtime <number>                    the time (in milliseconds) how long the keys will be held
-# @option --keycode <string>                     the key code
+# @option --keycode* <string>                    the key code
 # @arg domain![`_choice_domain`]
+# @arg keycode+
 send-key() {
     :;
 }
@@ -807,8 +811,9 @@ send-process-signal() {
 # @cmd LXC Guest Enter Namespace
 # @option --domain[`_choice_domain`] <string>    domain name, id or uuid
 # @flag --noseclabel                             Do not change process security label
-# @option --cmd <string>                         command to run
+# @option --cmd* <string>                        command to run
 # @arg domain![`_choice_domain`]
+# @arg cmd+
 lxc-enter-namespace() {
     :;
 }
@@ -1044,7 +1049,7 @@ migrate-postcopy() {
 # {{ virsh numatune
 # @cmd Get or set numa parameters
 # @option --domain[`_choice_domain`] <string>    domain name, id or uuid
-# @option --mode <string>                        NUMA mode, one of strict, preferred and interleave
+# @option --mode <string>                        NUMA mode, one of strict, preferred and interleave or a number from the virDomainNumatuneMemMode enum
 # @option --nodeset <string>                     NUMA node selections to set
 # @flag --config                                 affect next boot
 # @flag --live                                   affect running domain
@@ -1094,6 +1099,7 @@ guest-agent-timeout() {
 # @option --domain[`_choice_domain`] <string>    domain name, id or uuid
 # @option --mode <string>                        shutdown mode: acpi|agent|initctl|signal|paravirt
 # @arg domain![`_choice_domain`]
+# @arg mode
 reboot() {
     :;
 }
@@ -1191,9 +1197,9 @@ save-image-edit() {
 # @flag --current                                get/set current scheduler info
 # @flag --config                                 get/set value to be used on next boot
 # @flag --live                                   get/set value from running domain
-# @option --set <string>                         parameter=value
+# @option --set* <string>                        parameter=value
 # @arg domain![`_choice_domain`]
-# @arg set-string* <[--set] <string>>
+# @arg set*
 schedinfo() {
     :;
 }
@@ -1235,6 +1241,7 @@ set-lifecycle-action() {
 # @flag --remove                                 remove keys from the authorized keys file
 # @arg domain![`_choice_domain`]
 # @arg user!
+# @arg file
 set-user-sshkeys() {
     :;
 }
@@ -1304,6 +1311,7 @@ setvcpus() {
 # @option --domain[`_choice_domain`] <string>    domain name, id or uuid
 # @option --mode <string>                        shutdown mode: acpi|agent|initctl|signal|paravirt
 # @arg domain![`_choice_domain`]
+# @arg mode
 shutdown() {
     :;
 }
@@ -1539,6 +1547,16 @@ dom-fd-associate() {
 }
 # }} virsh dom-fd-associate
 
+# {{ virsh domdisplay-reload
+# @cmd Reload domain's graphics display certificates
+# @option --domain[`_choice_domain`] <string>    domain name, id or uuid
+# @option --type <number>                        graphics display type
+# @arg domain![`_choice_domain`]
+domdisplay-reload() {
+    :;
+}
+# }} virsh domdisplay-reload
+
 # {{ virsh domblkerror
 # @cmd Show errors on block devices
 # @option --domain[`_choice_domain`] <string>    domain name, id or uuid
@@ -1555,6 +1573,7 @@ domblkerror() {
 # @flag --human                                  Human readable output
 # @flag --all                                    display all block devices info
 # @arg domain![`_choice_domain`]
+# @arg device
 domblkinfo() {
     :;
 }
@@ -1577,6 +1596,7 @@ domblklist() {
 # @option --device <string>                      block device
 # @flag --human                                  print a more human readable output
 # @arg domain![`_choice_domain`]
+# @arg device
 domblkstat() {
     :;
 }
@@ -1610,6 +1630,7 @@ domif-getlink() {
 # @flag --full                                   always display names and MACs of interfaces
 # @option --source <string>                      address source: 'lease', 'agent', or 'arp'
 # @arg domain![`_choice_domain`]
+# @arg interface
 domifaddr() {
     :;
 }
@@ -1670,29 +1691,30 @@ domstate() {
 
 # {{ virsh domstats
 # @cmd get statistics about one or multiple domains
-# @flag --state              report domain state
-# @flag --cpu-total          report domain physical cpu usage
-# @flag --balloon            report domain balloon statistics
-# @flag --vcpu               report domain virtual cpu information
-# @flag --interface          report domain network interface information
-# @flag --block              report domain block device statistics
-# @flag --perf               report domain perf event statistics
-# @flag --iothread           report domain IOThread information
-# @flag --memory             report domain memory usage
-# @flag --dirtyrate          report domain dirty rate information
-# @flag --vm                 report hypervisor-specific statistics
-# @flag --list-active        list only active domains
-# @flag --list-inactive      list only inactive domains
-# @flag --list-persistent    list only persistent domains
-# @flag --list-transient     list only transient domains
-# @flag --list-running       list only running domains
-# @flag --list-paused        list only paused domains
-# @flag --list-shutoff       list only shutoff domains
-# @flag --list-other         list only domains in other states
-# @flag --raw                do not pretty-print the fields
-# @flag --enforce            enforce requested stats parameters
-# @flag --backing            add backing chain information to block stats
-# @flag --nowait             report only stats that are accessible instantly
+# @flag --state                                   report domain state
+# @flag --cpu-total                               report domain physical cpu usage
+# @flag --balloon                                 report domain balloon statistics
+# @flag --vcpu                                    report domain virtual cpu information
+# @flag --interface                               report domain network interface information
+# @flag --block                                   report domain block device statistics
+# @flag --perf                                    report domain perf event statistics
+# @flag --iothread                                report domain IOThread information
+# @flag --memory                                  report domain memory usage
+# @flag --dirtyrate                               report domain dirty rate information
+# @flag --vm                                      report hypervisor-specific statistics
+# @flag --list-active                             list only active domains
+# @flag --list-inactive                           list only inactive domains
+# @flag --list-persistent                         list only persistent domains
+# @flag --list-transient                          list only transient domains
+# @flag --list-running                            list only running domains
+# @flag --list-paused                             list only paused domains
+# @flag --list-shutoff                            list only shutoff domains
+# @flag --list-other                              list only domains in other states
+# @flag --raw                                     do not pretty-print the fields
+# @flag --enforce                                 enforce requested stats parameters
+# @flag --backing                                 add backing chain information to block stats
+# @flag --nowait                                  report only stats that are accessible instantly
+# @option --domain*[`_choice_domain`] <string>    list of domains to get stats for
 # @arg domain*[`_choice_domain`]
 domstats() {
     :;
@@ -1976,6 +1998,7 @@ version() {
 # @flag --redefine-validate                      validate the redefined checkpoint
 # @flag --quiesce                                quiesce guest's file systems
 # @arg domain![`_choice_domain`]
+# @arg xmlfile
 checkpoint-create() {
     :;
 }
@@ -1988,9 +2011,8 @@ checkpoint-create() {
 # @option --description <string>                 description of checkpoint
 # @flag --print-xml                              print XML document rather than create
 # @flag --quiesce                                quiesce guest's file systems
-# @option --diskspec <string>                    disk attributes: disk[,checkpoint=type][,bitmap=name]
+# @option --diskspec* <string>                   disk attributes: disk[,checkpoint=type][,bitmap=name]
 # @arg domain![`_choice_domain`]
-# @arg diskspec-string* <[--diskspec] <string>>
 checkpoint-create-as() {
     :;
 }
@@ -2004,6 +2026,7 @@ checkpoint-create-as() {
 # @flag --children-only                          delete children but not checkpoint
 # @flag --metadata                               delete only libvirt metadata, leaving checkpoint contents behind
 # @arg domain![`_choice_domain`]
+# @arg checkpointname!
 checkpoint-delete() {
     :;
 }
@@ -2019,6 +2042,7 @@ checkpoint-delete() {
 # @option --xpath <path>                         xpath expression to filter the XML document
 # @flag --wrap                                   wrap xpath results in an common root element
 # @arg domain![`_choice_domain`]
+# @arg checkpointname!
 checkpoint-dumpxml() {
     :;
 }
@@ -2029,6 +2053,7 @@ checkpoint-dumpxml() {
 # @option --domain[`_choice_domain`] <string>    domain name, id or uuid
 # @option --checkpointname <string>              checkpoint name
 # @arg domain![`_choice_domain`]
+# @arg checkpointname!
 checkpoint-edit() {
     :;
 }
@@ -2039,6 +2064,7 @@ checkpoint-edit() {
 # @option --domain[`_choice_domain`] <string>    domain name, id or uuid
 # @option --checkpointname <string>              checkpoint name
 # @arg domain![`_choice_domain`]
+# @arg checkpointname!
 checkpoint-info() {
     :;
 }
@@ -2067,6 +2093,7 @@ checkpoint-list() {
 # @option --domain[`_choice_domain`] <string>    domain name, id or uuid
 # @option --checkpointname <string>              find parent of checkpoint name
 # @arg domain![`_choice_domain`]
+# @arg checkpointname!
 checkpoint-parent() {
     :;
 }
@@ -2317,15 +2344,15 @@ net-define() {
 
 # {{ virsh net-desc
 # @cmd show or set network's description or title
-# @option --network <string>     network name or uuid
-# @flag --live                   modify/get running state
-# @flag --config                 modify/get persistent configuration
-# @flag --current                modify/get current state configuration
-# @flag --title                  modify/get the title instead of description
-# @flag --edit                   open an editor to modify the description
-# @option --new-desc <string>    message
+# @option --network <string>      network name or uuid
+# @flag --live                    modify/get running state
+# @flag --config                  modify/get persistent configuration
+# @flag --current                 modify/get current state configuration
+# @flag --title                   modify/get the title instead of description
+# @flag --edit                    open an editor to modify the description
+# @option --new-desc* <string>    message
 # @arg network![`_choice_network`]
-# @arg new-desc-string* <[--new-desc] <string>>
+# @arg new-desc*
 net-desc() {
     :;
 }
@@ -2562,6 +2589,7 @@ nodedev-detach() {
 # {{ virsh nodedev-dumpxml
 # @cmd node device details in XML
 # @option --device <string>    device name or wwn pair in 'wwnn,wwpn' format
+# @flag --inactive             show inactive defined XML
 # @option --xpath <path>       xpath expression to filter the XML document
 # @flag --wrap                 wrap xpath results in an common root element
 # @arg device!
@@ -2576,6 +2604,8 @@ nodedev-dumpxml() {
 # @option --cap <string>    capability names, separated by comma
 # @flag --inactive          list inactive devices
 # @flag --all               list inactive & active devices
+# @flag --persistent        list persistent devices
+# @flag --transient         list transient devices
 nodedev-list() {
     :;
 }
@@ -2613,7 +2643,7 @@ nodedev-event() {
 # }} virsh nodedev-event
 
 # {{ virsh nodedev-define
-# @cmd Define a device by an xml file on a node
+# @cmd Define or modify a device by an xml file on a node
 # @option --file <file>    file containing an XML description of the device
 # @flag --validate         validate the XML against the schema
 # @arg file!
@@ -2658,6 +2688,20 @@ nodedev-info() {
     :;
 }
 # }} virsh nodedev-info
+
+# {{ virsh nodedev-update
+# @cmd Update a active and/or inactive node device
+# @option --device <string>    device name or wwn pair in 'wwnn,wwpn' format
+# @option --file <file>        file containing an XML description of the device
+# @flag --config               affect next node device startup
+# @flag --live                 affect running node device
+# @flag --current              affect current state of node device
+# @arg device!
+# @arg file!
+nodedev-update() {
+    :;
+}
+# }} virsh nodedev-update
 
 # {{ virsh secret-define
 # @cmd define or modify a secret from an XML file
@@ -2751,6 +2795,7 @@ secret-undefine() {
 # @flag --live                                   take a live snapshot
 # @flag --validate                               validate the XML against the schema
 # @arg domain![`_choice_domain`]
+# @arg xmlfile
 snapshot-create() {
     :;
 }
@@ -2771,9 +2816,8 @@ snapshot-create() {
 # @flag --live                                   take a live snapshot
 # @flag --validate                               validate the XML against the schema
 # @option --memspec <file>                       memory attributes: [file=]name[,snapshot=type]
-# @option --diskspec <file>                      disk attributes: disk[,snapshot=type][,driver=type][,stype=type][,file=name]
+# @option --diskspec* <file>                     disk attributes: disk[,snapshot=type][,driver=type][,stype=type][,file=name]
 # @arg domain![`_choice_domain`]
-# @arg diskspec-string* <[--diskspec] <string>>
 snapshot-create-as() {
     :;
 }
@@ -2786,6 +2830,7 @@ snapshot-create-as() {
 # @flag --security-info                          include security sensitive information in XML dump
 # @option --snapshotname <string>                name of existing snapshot to make current
 # @arg domain![`_choice_domain`]
+# @arg snapshotname
 snapshot-current() {
     :;
 }
@@ -2800,6 +2845,7 @@ snapshot-current() {
 # @flag --children-only                          delete children but not snapshot
 # @flag --metadata                               delete only libvirt metadata, leaving snapshot contents behind
 # @arg domain![`_choice_domain`]
+# @arg snapshotname
 snapshot-delete() {
     :;
 }
@@ -2827,6 +2873,7 @@ snapshot-dumpxml() {
 # @flag --rename                                 allow renaming an existing snapshot
 # @flag --clone                                  allow cloning to new name
 # @arg domain![`_choice_domain`]
+# @arg snapshotname
 snapshot-edit() {
     :;
 }
@@ -2838,6 +2885,7 @@ snapshot-edit() {
 # @option --snapshotname <string>                snapshot name
 # @flag --current                                info on current snapshot
 # @arg domain![`_choice_domain`]
+# @arg snapshotname
 snapshot-info() {
     :;
 }
@@ -2875,6 +2923,7 @@ snapshot-list() {
 # @option --snapshotname <string>                find parent of snapshot name
 # @flag --current                                find parent of current snapshot
 # @arg domain![`_choice_domain`]
+# @arg snapshotname
 snapshot-parent() {
     :;
 }
@@ -2890,6 +2939,7 @@ snapshot-parent() {
 # @flag --force                                  try harder on risky reverts
 # @flag --reset-nvram                            re-initialize NVRAM from its pristine template
 # @arg domain![`_choice_domain`]
+# @arg snapshotname
 snapshot-revert() {
     :;
 }
@@ -2902,6 +2952,7 @@ snapshot-revert() {
 # @option --checkpointxml <string>               domain checkpoint XML
 # @flag --reuse-external                         reuse files provided by caller
 # @arg domain![`_choice_domain`]
+# @arg backupxml
 backup-begin() {
     :;
 }
@@ -2942,9 +2993,9 @@ find-storage-pool-sources() {
 
 # {{ virsh pool-autostart
 # @cmd autostart a pool
-# @option --pool <string>    pool name or uuid
-# @flag --disable            disable autostarting
-# @arg pool!
+# @option --pool[`_choice_pool`] <string>    pool name or uuid
+# @flag --disable                            disable autostarting
+# @arg pool![`_choice_pool`]
 pool-autostart() {
     :;
 }
@@ -2952,10 +3003,10 @@ pool-autostart() {
 
 # {{ virsh pool-build
 # @cmd build a pool
-# @option --pool <string>    pool name or uuid
-# @flag --no-overwrite       do not overwrite any existing data
-# @flag --overwrite          overwrite any existing data
-# @arg pool!
+# @option --pool[`_choice_pool`] <string>    pool name or uuid
+# @flag --no-overwrite                       do not overwrite any existing data
+# @flag --overwrite                          overwrite any existing data
+# @arg pool![`_choice_pool`]
 pool-build() {
     :;
 }
@@ -3050,8 +3101,8 @@ pool-define() {
 
 # {{ virsh pool-delete
 # @cmd delete a pool
-# @option --pool <string>    pool name or uuid
-# @arg pool!
+# @option --pool[`_choice_pool`] <string>    pool name or uuid
+# @arg pool![`_choice_pool`]
 pool-delete() {
     :;
 }
@@ -3059,8 +3110,8 @@ pool-delete() {
 
 # {{ virsh pool-destroy
 # @cmd destroy (stop) a pool
-# @option --pool <string>    pool name or uuid
-# @arg pool!
+# @option --pool[`_choice_pool`] <string>    pool name or uuid
+# @arg pool![`_choice_pool`]
 pool-destroy() {
     :;
 }
@@ -3068,11 +3119,11 @@ pool-destroy() {
 
 # {{ virsh pool-dumpxml
 # @cmd pool information in XML
-# @option --pool <string>    pool name or uuid
-# @flag --inactive           show inactive defined XML
-# @option --xpath <path>     xpath expression to filter the XML document
-# @flag --wrap               wrap xpath results in an common root element
-# @arg pool!
+# @option --pool[`_choice_pool`] <string>    pool name or uuid
+# @flag --inactive                           show inactive defined XML
+# @option --xpath <path>                     xpath expression to filter the XML document
+# @flag --wrap                               wrap xpath results in an common root element
+# @arg pool![`_choice_pool`]
 pool-dumpxml() {
     :;
 }
@@ -3080,8 +3131,8 @@ pool-dumpxml() {
 
 # {{ virsh pool-edit
 # @cmd edit XML configuration for a storage pool
-# @option --pool <string>    pool name or uuid
-# @arg pool!
+# @option --pool[`_choice_pool`] <string>    pool name or uuid
+# @arg pool![`_choice_pool`]
 pool-edit() {
     :;
 }
@@ -3089,9 +3140,9 @@ pool-edit() {
 
 # {{ virsh pool-info
 # @cmd storage pool information
-# @option --pool <string>    pool name or uuid
-# @flag --bytes              Return pool info in bytes
-# @arg pool!
+# @option --pool[`_choice_pool`] <string>    pool name or uuid
+# @flag --bytes                              Return pool info in bytes
+# @arg pool![`_choice_pool`]
 pool-info() {
     :;
 }
@@ -3116,8 +3167,8 @@ pool-list() {
 
 # {{ virsh pool-name
 # @cmd convert a pool UUID to pool name
-# @option --pool <string>    pool name or uuid
-# @arg pool!
+# @option --pool[`_choice_pool`] <string>    pool name or uuid
+# @arg pool![`_choice_pool`]
 pool-name() {
     :;
 }
@@ -3125,8 +3176,8 @@ pool-name() {
 
 # {{ virsh pool-refresh
 # @cmd refresh a pool
-# @option --pool <string>    pool name or uuid
-# @arg pool!
+# @option --pool[`_choice_pool`] <string>    pool name or uuid
+# @arg pool![`_choice_pool`]
 pool-refresh() {
     :;
 }
@@ -3134,11 +3185,11 @@ pool-refresh() {
 
 # {{ virsh pool-start
 # @cmd start a (previously defined) inactive pool
-# @option --pool <string>    pool name or uuid
-# @flag --build              build the pool as normal
-# @flag --no-overwrite       do not overwrite any existing data
-# @flag --overwrite          overwrite any existing data
-# @arg pool!
+# @option --pool[`_choice_pool`] <string>    pool name or uuid
+# @flag --build                              build the pool as normal
+# @flag --no-overwrite                       do not overwrite any existing data
+# @flag --overwrite                          overwrite any existing data
+# @arg pool![`_choice_pool`]
 pool-start() {
     :;
 }
@@ -3146,8 +3197,8 @@ pool-start() {
 
 # {{ virsh pool-undefine
 # @cmd undefine an inactive pool
-# @option --pool <string>    pool name or uuid
-# @arg pool!
+# @option --pool[`_choice_pool`] <string>    pool name or uuid
+# @arg pool![`_choice_pool`]
 pool-undefine() {
     :;
 }
@@ -3155,8 +3206,8 @@ pool-undefine() {
 
 # {{ virsh pool-uuid
 # @cmd convert a pool name to pool UUID
-# @option --pool <string>    pool name or uuid
-# @arg pool!
+# @option --pool[`_choice_pool`] <string>    pool name or uuid
+# @arg pool![`_choice_pool`]
 pool-uuid() {
     :;
 }
@@ -3164,12 +3215,12 @@ pool-uuid() {
 
 # {{ virsh pool-event
 # @cmd Storage Pool Events
-# @option --pool <string>       filter by storage pool name or uuid
-# @option --event <string>      which event type to wait for
-# @flag --loop                  loop until timeout or interrupt, rather than one-shot
-# @option --timeout <number>    timeout seconds
-# @flag --list                  list valid event types
-# @flag --timestamp             show timestamp for each printed event
+# @option --pool[`_choice_pool`] <string>    filter by storage pool name or uuid
+# @option --event <string>                   which event type to wait for
+# @flag --loop                               loop until timeout or interrupt, rather than one-shot
+# @option --timeout <number>                 timeout seconds
+# @flag --list                               list valid event types
+# @flag --timestamp                          show timestamp for each printed event
 pool-event() {
     :;
 }
@@ -3184,14 +3235,15 @@ pool-capabilities() {
 
 # {{ virsh vol-clone
 # @cmd clone a volume.
-# @option --vol <path>          vol name, key or path
-# @option --newname <string>    clone name
-# @option --pool <string>       pool name or uuid
-# @flag --prealloc-metadata     preallocate metadata (for qcow2 instead of full allocation)
-# @flag --reflink               use btrfs COW lightweight copy
-# @flag --print-xml             print XML document rather than clone the volume
+# @option --vol <path>                       vol name, key or path
+# @option --newname <string>                 clone name
+# @option --pool[`_choice_pool`] <string>    pool name or uuid
+# @flag --prealloc-metadata                  preallocate metadata (for qcow2 instead of full allocation)
+# @flag --reflink                            use btrfs COW lightweight copy
+# @flag --print-xml                          print XML document rather than clone the volume
 # @arg vol!
 # @arg newname!
+# @arg pool[`_choice_pool`]
 vol-clone() {
     :;
 }
@@ -3199,16 +3251,16 @@ vol-clone() {
 
 # {{ virsh vol-create-as
 # @cmd create a volume from a set of args
-# @option --pool <string>                  pool name
-# @option --name <string>                  name of the volume
-# @option --capacity <string>              size of the vol, as scaled integer (default bytes)
-# @option --allocation <string>            initial allocation size, as scaled integer (default bytes)
-# @option --format <file>                  file format type raw,bochs,qcow,qcow2,qed,vmdk
-# @option --backing-vol <string>           the backing volume if taking a snapshot
-# @option --backing-vol-format <string>    format of backing volume if taking a snapshot
-# @flag --prealloc-metadata                preallocate metadata (for qcow2 instead of full allocation)
-# @flag --print-xml                        print XML document, but don't define/create
-# @arg pool!
+# @option --pool[`_choice_pool`] <string>    pool name
+# @option --name <string>                    name of the volume
+# @option --capacity <string>                size of the vol, as scaled integer (default bytes)
+# @option --allocation <string>              initial allocation size, as scaled integer (default bytes)
+# @option --format <file>                    file format type raw,bochs,qcow,qcow2,qed,vmdk
+# @option --backing-vol <string>             the backing volume if taking a snapshot
+# @option --backing-vol-format <string>      format of backing volume if taking a snapshot
+# @flag --prealloc-metadata                  preallocate metadata (for qcow2 instead of full allocation)
+# @flag --print-xml                          print XML document, but don't define/create
+# @arg pool![`_choice_pool`]
 # @arg name!
 # @arg capacity!
 vol-create-as() {
@@ -3218,11 +3270,11 @@ vol-create-as() {
 
 # {{ virsh vol-create
 # @cmd create a vol from an XML file
-# @option --pool <string>      pool name
-# @option --file <file>        file containing an XML vol description
-# @flag --prealloc-metadata    preallocate metadata (for qcow2 instead of full allocation)
-# @flag --validate             validate the XML against the schema
-# @arg pool!
+# @option --pool[`_choice_pool`] <string>    pool name
+# @option --file <file>                      file containing an XML vol description
+# @flag --prealloc-metadata                  preallocate metadata (for qcow2 instead of full allocation)
+# @flag --validate                           validate the XML against the schema
+# @arg pool![`_choice_pool`]
 # @arg file!
 vol-create() {
     :;
@@ -3231,14 +3283,14 @@ vol-create() {
 
 # {{ virsh vol-create-from
 # @cmd create a vol, using another volume as input
-# @option --pool <string>         pool name or uuid
-# @option --file <file>           file containing an XML vol description
-# @option --vol <path>            vol name, key or path
-# @option --inputpool <string>    pool name or uuid of the input volume's pool
-# @flag --prealloc-metadata       preallocate metadata (for qcow2 instead of full allocation)
-# @flag --reflink                 use btrfs COW lightweight copy
-# @flag --validate                validate the XML against the schema
-# @arg pool!
+# @option --pool[`_choice_pool`] <string>    pool name or uuid
+# @option --file <file>                      file containing an XML vol description
+# @option --vol <path>                       vol name, key or path
+# @option --inputpool <string>               pool name or uuid of the input volume's pool
+# @flag --prealloc-metadata                  preallocate metadata (for qcow2 instead of full allocation)
+# @flag --reflink                            use btrfs COW lightweight copy
+# @flag --validate                           validate the XML against the schema
+# @arg pool![`_choice_pool`]
 # @arg file!
 # @arg vol!
 vol-create-from() {
@@ -3248,10 +3300,11 @@ vol-create-from() {
 
 # {{ virsh vol-delete
 # @cmd delete a vol
-# @option --vol <path>        vol name, key or path
-# @option --pool <string>     pool name or uuid
-# @flag --delete-snapshots    delete snapshots associated with volume (must be supported by storage driver)
+# @option --vol <path>                       vol name, key or path
+# @option --pool[`_choice_pool`] <string>    pool name or uuid
+# @flag --delete-snapshots                   delete snapshots associated with volume (must be supported by storage driver)
 # @arg vol!
+# @arg pool[`_choice_pool`]
 vol-delete() {
     :;
 }
@@ -3259,14 +3312,15 @@ vol-delete() {
 
 # {{ virsh vol-download
 # @cmd download volume contents to a file
-# @option --vol <path>         vol name, key or path
-# @option --file <file>        file
-# @option --pool <string>      pool name or uuid
-# @option --offset <number>    volume offset to download from
-# @option --length <number>    amount of data to download
-# @flag --sparse               preserve sparseness of volume
+# @option --vol <path>                       vol name, key or path
+# @option --file <file>                      file
+# @option --pool[`_choice_pool`] <string>    pool name or uuid
+# @option --offset <number>                  volume offset to download from
+# @option --length <number>                  amount of data to download
+# @flag --sparse                             preserve sparseness of volume
 # @arg vol!
 # @arg file!
+# @arg pool[`_choice_pool`]
 vol-download() {
     :;
 }
@@ -3274,11 +3328,12 @@ vol-download() {
 
 # {{ virsh vol-dumpxml
 # @cmd vol information in XML
-# @option --vol <path>       vol name, key or path
-# @option --pool <string>    pool name or uuid
-# @option --xpath <path>     xpath expression to filter the XML document
-# @flag --wrap               wrap xpath results in an common root element
+# @option --vol <path>                       vol name, key or path
+# @option --pool[`_choice_pool`] <string>    pool name or uuid
+# @option --xpath <path>                     xpath expression to filter the XML document
+# @flag --wrap                               wrap xpath results in an common root element
 # @arg vol!
+# @arg pool[`_choice_pool`]
 vol-dumpxml() {
     :;
 }
@@ -3286,11 +3341,12 @@ vol-dumpxml() {
 
 # {{ virsh vol-info
 # @cmd storage vol information
-# @option --vol <path>       vol name, key or path
-# @option --pool <string>    pool name or uuid
-# @flag --bytes              sizes are represented in bytes rather than pretty units
-# @flag --physical           return the physical size of the volume in allocation field
+# @option --vol <path>                       vol name, key or path
+# @option --pool[`_choice_pool`] <string>    pool name or uuid
+# @flag --bytes                              sizes are represented in bytes rather than pretty units
+# @flag --physical                           return the physical size of the volume in allocation field
 # @arg vol!
+# @arg pool[`_choice_pool`]
 vol-info() {
     :;
 }
@@ -3298,9 +3354,10 @@ vol-info() {
 
 # {{ virsh vol-key
 # @cmd returns the volume key for a given volume name or path
-# @option --vol <path>       volume name or path
-# @option --pool <string>    pool name or uuid
+# @option --vol <path>                       volume name or path
+# @option --pool[`_choice_pool`] <string>    pool name or uuid
 # @arg vol!
+# @arg pool[`_choice_pool`]
 vol-key() {
     :;
 }
@@ -3308,9 +3365,9 @@ vol-key() {
 
 # {{ virsh vol-list
 # @cmd list vols
-# @option --pool <string>    pool name or uuid
-# @flag --details            display extended details for volumes
-# @arg pool!
+# @option --pool[`_choice_pool`] <string>    pool name or uuid
+# @flag --details                            display extended details for volumes
+# @arg pool![`_choice_pool`]
 vol-list() {
     :;
 }
@@ -3327,9 +3384,10 @@ vol-name() {
 
 # {{ virsh vol-path
 # @cmd returns the volume path for a given volume name or key
-# @option --vol <string>     volume name or key
-# @option --pool <string>    pool name or uuid
+# @option --vol <string>                     volume name or key
+# @option --pool[`_choice_pool`] <string>    pool name or uuid
 # @arg vol!
+# @arg pool[`_choice_pool`]
 vol-path() {
     :;
 }
@@ -3347,14 +3405,15 @@ vol-pool() {
 
 # {{ virsh vol-resize
 # @cmd resize a vol
-# @option --vol <path>           vol name, key or path
-# @option --capacity <string>    new capacity for the vol, as scaled integer (default bytes)
-# @option --pool <string>        pool name or uuid
-# @flag --allocate               allocate the new capacity, rather than leaving it sparse
-# @flag --delta                  use capacity as a delta to current size, rather than the new size
-# @flag --shrink                 allow the resize to shrink the volume
+# @option --vol <path>                       vol name, key or path
+# @option --capacity <string>                new capacity for the vol, as scaled integer (default bytes)
+# @option --pool[`_choice_pool`] <string>    pool name or uuid
+# @flag --allocate                           allocate the new capacity, rather than leaving it sparse
+# @flag --delta                              use capacity as a delta to current size, rather than the new size
+# @flag --shrink                             allow the resize to shrink the volume
 # @arg vol!
 # @arg capacity!
+# @arg pool[`_choice_pool`]
 vol-resize() {
     :;
 }
@@ -3362,14 +3421,15 @@ vol-resize() {
 
 # {{ virsh vol-upload
 # @cmd upload file contents to a volume
-# @option --vol <path>         vol name, key or path
-# @option --file <file>        file
-# @option --pool <string>      pool name or uuid
-# @option --offset <number>    volume offset to upload to
-# @option --length <number>    amount of data to upload
-# @flag --sparse               preserve sparseness of volume
+# @option --vol <path>                       vol name, key or path
+# @option --file <file>                      file
+# @option --pool[`_choice_pool`] <string>    pool name or uuid
+# @option --offset <number>                  volume offset to upload to
+# @option --length <number>                  amount of data to upload
+# @flag --sparse                             preserve sparseness of volume
 # @arg vol!
 # @arg file!
+# @arg pool[`_choice_pool`]
 vol-upload() {
     :;
 }
@@ -3377,10 +3437,11 @@ vol-upload() {
 
 # {{ virsh vol-wipe
 # @cmd wipe a vol
-# @option --vol <path>            vol name, key or path
-# @option --pool <string>         pool name or uuid
-# @option --algorithm <string>    perform selected wiping algorithm
+# @option --vol <path>                       vol name, key or path
+# @option --pool[`_choice_pool`] <string>    pool name or uuid
+# @option --algorithm <string>               perform selected wiping algorithm
 # @arg vol!
+# @arg pool[`_choice_pool`]
 vol-wipe() {
     :;
 }
@@ -3389,6 +3450,7 @@ vol-wipe() {
 # {{ virsh cd
 # @cmd change the current directory
 # @option --dir <dir>    directory to switch to (default: home or else root)
+# @arg dir
 cd() {
     :;
 }
@@ -3396,10 +3458,12 @@ cd() {
 
 # {{ virsh echo
 # @cmd echo arguments.
-# @flag --shell    escape for shell use
-# @flag --xml      escape for XML use
-# @flag --split    split each argument on ','; ',,' is an escape sequence
-# @flag --err      output to stderr
+# @flag --shell                 escape for shell use
+# @flag --xml                   escape for XML use
+# @flag --split                 split each argument on ','; ',,' is an escape sequence
+# @flag --err                   output to stderr
+# @option --prefix <string>     prefix the message
+# @option --string* <string>    arguments to echo
 # @arg string*
 echo_() {
     :;
@@ -3431,6 +3495,7 @@ quit() {
 # @cmd (re)connect to hypervisor
 # @option --name <string>    hypervisor connection URI
 # @flag --readonly           read-only connection
+# @arg name
 connect() {
     :;
 }
@@ -3442,6 +3507,10 @@ _choice_domain() {
 
 _choice_network() {
     virsh -q net-list --name --all
+}
+
+_choice_pool() {
+    virsh -q pool-list --name --all
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

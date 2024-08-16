@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @option -s --signal[`_module_os_signal`] <SIG>  SIG is a signal name [default: sigterm]
-# @flag -v --verbose*    More output per occurrence
-# @flag -q --quiet*      Less output per occurrence
-# @flag -h --help        Print help
-# @flag -V --version     Print version
-# @arg ports+            The list of port numbers to kill processes on
+# @option -m --mode[auto|process|container]    Mode of operation: auto (default, kill both), process (only processes), container (only containers) [default: auto]
+# @option -s --signal[`_module_os_signal`] <SIG>  SIG is a signal name [default: sigkill]
+# @flag -v --verbose*                          Increase logging verbosity
+# @flag -q --quiet*                            Decrease logging verbosity
+# @flag --dry-run                              Perform a dry run without killing any processes or containers
+# @flag -h --help                              Print help
+# @flag -V --version                           Print version
+# @arg ports+                                  The list of port numbers to kill processes or containers on
 
 _module_os_signal() {
     command cat <<-'EOF'

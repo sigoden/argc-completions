@@ -8,6 +8,7 @@
 # @flag -h --help                       Print this help message.
 # @flag --ignore-syntax                 Lint all files line-by-line.
 # @flag --no-exit                       Don't return a nonzero exit code on errors.
+# @flag --no-global                     Don't load the global configuration.
 # @flag --no-wrap                       Don't wrap CLI output.
 # @option --output[`_choice_output`]    An output style ("line", "JSON", or a template file).
 # @flag -v --version                    Print the current version.
@@ -20,12 +21,26 @@ ls-config() {
 }
 # }} vale ls-config
 
+# {{ vale ls-dirs
+# @cmd Print the default configuration directories to stdout.
+ls-dirs() {
+    :;
+}
+# }} vale ls-dirs
+
 # {{ vale ls-metrics
 # @cmd Print the given file's internal metrics to stdout.
 ls-metrics() {
     :;
 }
 # }} vale ls-metrics
+
+# {{ vale ls-vars
+# @cmd Print the supported environment variables to stdout.
+ls-vars() {
+    :;
+}
+# }} vale ls-vars
 
 # {{ vale sync
 # @cmd Download and install external configuration sources.

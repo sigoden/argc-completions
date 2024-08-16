@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @option --client <PATH>                          mosh client on local machine (default: "/nix/store/fszaxnbg0nw2b5j5m3fggw74crfgd724-mosh-1.4.0/bin/mosh-client")
+# @option --client <PATH>                          mosh client on local machine (default: "/nix/store/x9s32j08df1n6gv5vqaw6mq61fqgrzjh-mosh-1.4.0/bin/mosh-client")
 # @option --server <COMMAND>                       mosh server on remote machine (default: "mosh-server")
 # @option --predict[`_choice_predict`] <experimental>  Predict setting"
 # @flag -o --predict-overwrite                     prediction overwrites instead of inserting

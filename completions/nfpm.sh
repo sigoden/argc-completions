@@ -70,7 +70,7 @@ jsonschema() {
 # @cmd Creates a package based on the given config file and flags
 # @option -f --config <file>    config file to be used (default "nfpm.yaml")
 # @flag -h --help               help for package
-# @option -p --packager[apk|deb|rpm|archlinux] <string>  which packager implementation to use
+# @option -p --packager[apk|archlinux|deb|ipk|rpm] <string>  which packager implementation to use
 # @option -t --target <file>    where to save the generated package (filename, folder or empty for current folder)
 package() {
     :;

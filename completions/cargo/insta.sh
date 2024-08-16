@@ -76,9 +76,9 @@ accept() {
 # @flag --bins                                   Test all binaries
 # @option --example[`_choice_example`] <example>  Test only the specified example
 # @flag --examples                               Test all examples
-# @option --test[`_choice_test`] <test>          Test only the specified test target
+# @option --test*[`_choice_test`] <test>         Test only the specified test targets
 # @flag --tests                                  Test all tests
-# @option -p --package[`_choice_package`] <package>  Package to run tests for
+# @option -p --package*[`_choice_package`] <package>  Package to run tests for
 # @option --exclude <SPEC>                       Exclude packages from the test
 # @flag --no-force-pass                          Disable force-passing of snapshot tests
 # @flag --fail-fast                              Prevent running all tests regardless of failure
@@ -96,7 +96,8 @@ accept() {
 # @flag --check                                  Instructs the test command to just assert
 # @flag --keep-pending                           Do not reject pending snapshots before run
 # @flag --force-update-snapshots                 Update all snapshots even if they are still matching
-# @option --unreferenced[ignore|warn|reject|delete|auto] <unreferenced>  Controls what happens with unreferenced snapshots [default: ignore]
+# @flag --require-full-match                     Require metadata as well as snapshots' contents to match
+# @option --unreferenced[ignore|warn|reject|delete|auto] <unreferenced>  Handle unreferenced snapshots after a successful test run [default: ignore]
 # @option --glob-filter* <glob-filter>           Filters to apply to the insta glob feature
 # @flag -Q --no-quiet                            Do not pass the quiet flag (`-q`) to tests
 # @option --test-runner[auto|cargo-test|nextest] <test-runner>  Picks the test runner [default: auto]

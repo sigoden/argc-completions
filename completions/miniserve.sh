@@ -4,13 +4,17 @@
 # @flag -v --verbose                              Be verbose, includes emitting access logs
 # @option --index                                 The name of a directory index file to serve, like "index.html"
 # @flag --spa                                     Activate SPA (Single Page Application) mode
+# @flag --pretty-urls                             Activate Pretty URLs mode
 # @option -p --port                               Port to use
 # @option -i --interfaces                         Interface to listen on
-# @option -a --auth                               Set authentication.
+# @option -a --auth                               Set authentication
+# @option --auth-file <AUTH_FILE>                 Read authentication values from a file
 # @option --route-prefix <ROUTE_PREFIX>           Use a specific route prefix
 # @flag --random-route                            Generate a random 6-hexdigit route
 # @flag -P --no-symlinks                          Hide symlinks in listing and prevent them from being followed
 # @flag -H --hidden                               Show hidden files
+# @option -S --default-sorting-method <DEFAULT_SORTING_METHOD>  Default sorting method for file list
+# @option -O --default-sorting-order <DEFAULT_SORTING_ORDER>  Default sorting order for file list
 # @option -c --color-scheme[squirrel|archlinux|zenburn|monokai] <COLOR_SCHEME>  Default color scheme
 # @option -d --color-scheme-dark[squirrel|archlinux|zenburn|monokai] <COLOR_SCHEME_DARK>  Default color scheme
 # @flag -q --qrcode                               Enable QR code display
@@ -22,6 +26,7 @@
 # @flag -r --enable-tar                           Enable uncompressed tar archive generation
 # @flag -g --enable-tar-gz                        Enable gz-compressed tar archive generation
 # @flag -z --enable-zip                           Enable zip archive generation
+# @flag -C --compress-response                    Compress response
 # @flag -D --dirs-first                           List directories first
 # @option -t --title                              Shown instead of host in page title and heading
 # @option --header                                Set custom header for responses
@@ -34,6 +39,7 @@
 # @option --tls-cert <TLS_CERT>                   TLS certificate to use
 # @option --tls-key <TLS_KEY>                     TLS private key to use
 # @flag --readme                                  Enable README.md rendering in directories
+# @flag -I --disable-indexing                     Disable indexing
 # @flag -h --help                                 Print help (see a summary with '-h')
 # @flag -V --version                              Print version
 # @arg path                                       Which path to serve

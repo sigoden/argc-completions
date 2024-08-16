@@ -48,6 +48,9 @@ _patch_table() {
     ; then
         _patch_table_edit_arguments 'gem(file:.gem)'
 
+    elif [[ "$*" == "gem rebuild" ]]; then
+        _patch_table_edit_arguments 'gem_name;[`_choice_package`]' 
+
     elif [[ "$*" == "gem specification" ]]; then
         _patch_table_edit_arguments \
             'field;[`_choice_spec_field`]' \

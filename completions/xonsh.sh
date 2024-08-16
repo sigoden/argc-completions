@@ -8,9 +8,11 @@
 # @flag -l --login                              Run as a login shell.
 # @option --rc*,[`_choice_file`]                The xonshrc files to load, these may be either xonsh files or directories containing xonsh files
 # @flag --no-rc                                 Do not load any xonsh RC files.
+# @flag --no-env                                Do not inherit parent environment variables.
 # @flag --no-script-cache                       Do not cache scripts as they are run.
 # @flag --cache-everything                      Use a cache, even for interactive commands.
 # @option -D <ITEM>                             Define an environment variable, in the form of -DNAME=VAL.
+# @option -st[`_choice_shell_type`] <SHELL_TYPE>  What kind of shell should be used.
 # @option --shell-type[`_choice_shell_type`] <SHELL_TYPE>  What kind of shell should be used.
 # @flag --timings                               Prints timing information before the prompt is shown.
 # @arg file

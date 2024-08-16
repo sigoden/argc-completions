@@ -12,6 +12,7 @@
 # @flag --asyncify                               async/await style transform, allowing pausing and resuming
 # @flag --avoid-reinterprets                     Tries to avoid reinterpret operations via more loads
 # @flag --cfp                                    propagate constant struct field values
+# @flag --cfp-reftest                            propagate constant struct field values, using ref.test
 # @flag --coalesce-locals                        reduce ♯ of locals by coalescing
 # @flag --coalesce-locals-learning               reduce ♯ of locals by coalescing and learning
 # @flag --code-folding                           fold code, merging duplicates
@@ -37,7 +38,6 @@
 # @flag --generate-dyncalls                      generate dynCall fuctions used by emscripten ABI
 # @flag --generate-global-effects                generate global effect info (helps later passes)
 # @flag --generate-i64-dyncalls                  generate dynCall functions used by emscripten ABI, but only for functions with i64 in their signature (which cannot be invoked via the wasm table without JavaScript BigInt support).
-# @flag --generate-stack-ir                      generate Stack IR
 # @flag --global-refining                        refine the types of globals
 # @flag --gsi                                    globally optimize struct values
 # @flag --gto                                    globally optimize GC types
@@ -53,8 +53,8 @@
 # @flag --instrument-memory                      instrument the build with code to intercept all loads and stores
 # @flag --intrinsic-lowering                     lower away binaryen intrinsics
 # @flag --jspi                                   wrap imports and exports for JavaScript promise integration
+# @flag --legalize-and-prune-js-interface        legalizes the import/export boundary and prunes when needed
 # @flag --legalize-js-interface                  legalizes i64 types on the import/export boundary
-# @flag --legalize-js-interface-minimally        legalizes i64 types on the import/export boundary in a minimal manner, only on things only JS will call
 # @flag --licm                                   loop invariant code motion
 # @flag --limit-segments                         attempt to merge segments to fit within web limits
 # @flag --local-cse                              common subexpression elimination inside basic blocks
@@ -77,13 +77,17 @@
 # @flag --multi-memory-lowering-with-bounds-checks  combines multiple memories into a single memory, trapping if the read or write is larger than the length of the memory's data
 # @flag --name-types                             (re)name all heap types
 # @flag --nm                                     name list
+# @flag --no-full-inline                         mark functions as no-inline (for full inlining only)
+# @flag --no-inline                              mark functions as no-inline
+# @flag --no-partial-inline                      mark functions as no-inline (for partial inlining only)
 # @flag --once-reduction                         reduces calls to code that only runs once
 # @flag --optimize-added-constants               optimizes added constants into load/store offsets
 # @flag --optimize-added-constants-propagate     optimizes added constants into load/store offsets, propagating them across locals too
 # @flag --optimize-casts                         eliminate and reuse casts
 # @flag --optimize-for-js                        early optimize of the instruction combinations for js
 # @flag --optimize-instructions                  optimizes instruction combinations
-# @flag --optimize-stack-ir                      optimize Stack IR
+# @flag --optimize-j2cl                          optimizes J2CL specific constructs.
+# @flag --outlining                              outline instructions
 # @flag --pick-load-signs                        pick load signs based on their uses
 # @flag --poppify                                Tranform Binaryen IR into Poppy IR
 # @flag --post-emscripten                        miscellaneous optimizations for Emscripten-generated code
@@ -95,7 +99,8 @@
 # @flag --print-full                             print in full s-expression format
 # @flag --print-function-map                     print a map of function indexes to names
 # @flag --print-minified                         print in minified s-expression format
-# @flag --print-stack-ir                         print out Stack IR (useful for internal debugging)
+# @flag --propagate-debug-locs                   propagate debug location from parents or previous siblings to child nodes
+# @flag --propagate-globals-globally             propagate global values to other globals (useful for tests)
 # @flag --remove-imports                         removes imports and replaces them with nops
 # @flag --remove-memory                          removes memory segments
 # @flag --remove-non-js-ops                      removes operations incompatible with js
@@ -112,6 +117,7 @@
 # @flag --roundtrip                              write the module to binary, then read it
 # @flag --rse                                    remove redundant local.sets
 # @flag --safe-heap                              instrument loads and stores to check for invalid behavior
+# @flag --separate-data-segments                 write data segments to a file and strip them from the module
 # @flag --set-globals                            sets specified globals to specified values
 # @flag --signature-pruning                      remove params from function signature types where possible
 # @flag --signature-refining                     apply more specific subtypes to signature types where possible
@@ -129,6 +135,9 @@
 # @flag --ssa                                    ssa-ify variables so that they have a single assignment
 # @flag --ssa-nomerge                            ssa-ify variables so that they have a single assignment, ignoring merges
 # @flag --stack-check                            enforce limits on llvm's __stack_pointer global
+# @flag --string-gathering                       gathers wasm strings to globals
+# @flag --string-lowering                        lowers wasm strings and operations to imports
+# @flag --string-lowering-magic-imports          same as string-lowering, but encodes well-formed strings as magic imports
 # @flag --strip                                  deprecated; same as strip-debug
 # @flag --strip-debug                            strip debug info (including the names section)
 # @flag --strip-dwarf                            strip dwarf debug info
@@ -137,11 +146,19 @@
 # @flag --strip-target-features                  strip the wasm target features section
 # @flag --stub-unsupported-js                    stub out unsupported JS operations
 # @flag --symbolmap                              (alias for print-function-map)
+# @flag --table64-lowering                       lower 64-bit tables 32-bit ones
+# @flag --trace-calls                            instrument the build with code to intercept specific function calls
+# @flag --translate-to-exnref                    translate old Phase 3 EH instructions to new ones with exnref
+# @flag --translate-to-new-eh                    deprecated; same as translate-to-exnref
 # @flag --trap-mode-clamp                        replace trapping operations with clamping semantics
 # @flag --trap-mode-js                           replace trapping operations with js semantics
+# @flag --tuple-optimization                     optimize trivial tuples away
+# @flag --type-finalizing                        mark all leaf types as final
 # @flag --type-merging                           merge types to their supertypes where possible
 # @flag --type-refining                          apply more specific subtypes to type fields where possible
 # @flag --type-ssa                               create new nominal types to help other optimizations
+# @flag --type-unfinalizing                      mark all types as non-final (open)
+# @flag --unsubtyping                            removes unnecessary subtyping relationships
 # @flag --untee                                  removes local.tees, replacing them with sets and gets
 # @flag --vacuum                                 removes obviously unneeded code
 # @flag -O                                       execute default optimization passes (equivalent to -Os)
@@ -217,6 +234,10 @@
 # @flag --disable-strings                        Disable strings
 # @flag --enable-multimemory                     Enable multimemory
 # @flag --disable-multimemory                    Disable multimemory
+# @flag --enable-typed-continuations             Enable typed continuations
+# @flag --disable-typed-continuations            Disable typed continuations
+# @flag --enable-shared-everything               Enable shared-everything threads
+# @flag --disable-shared-everything              Disable shared-everything threads
 # @flag --enable-typed-function-references       Deprecated compatibility flag
 # @flag --disable-typed-function-references      Deprecated compatibility flag
 # @flag -n --no-validation                       Disables validation, assumes inputs are correct
@@ -224,6 +245,9 @@
 # @flag -pa                                      An argument passed along to optimization passes being run.
 # @flag --closed-world                           Assume code outside of the module does not inspect or interact with GC and function references, even if they are passed out.
 # @flag -cw                                      Assume code outside of the module does not inspect or interact with GC and function references, even if they are passed out.
+# @flag --generate-stack-ir                      generate StackIR during writing
+# @flag --optimize-stack-ir                      optimize StackIR during writing
+# @flag --print-stack-ir                         print StackIR during writing
 # @flag --version                                Output version information and exit
 # @flag -h --help                                Show this help message and exit
 # @flag -d --debug                               Print debug information to stderr

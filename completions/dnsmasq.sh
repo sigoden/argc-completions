@@ -12,6 +12,9 @@
 # @flag -e --selfmx                                Return self-pointing MX records for local hosts.
 # @flag -E --expand-hosts                          Expand simple names in /etc/hosts with domain-suffix.
 # @flag -f --filterwin2k                           Don't forward spurious DNS requests from Windows hosts.
+# @flag --filter-A                                 Don't include IPv4 addresses in DNS answers.
+# @flag --filter-AAAA                              Don't include IPv6 addresses in DNS answers.
+# @option --filter-rr <RR-type>                    Don't include resource records of the given type in DNS answers.
 # @option -F --dhcp-range* <<ipaddr>,>             Enable DHCP in the range given with lease duration.
 # @option -g --group[`_module_os_group`] <groupname>  Change to this group after startup (defaults to dip).
 # @option -G --dhcp-host <hostspec>                Set address or hostname for a specified machine.
@@ -40,6 +43,7 @@
 # @option -M --dhcp-boot <bootp opts>              Specify BOOTP options to DHCP server.
 # @flag -n --no-poll                               Do NOT poll /etc/resolv.conf file, reload only on SIGHUP.
 # @flag -N --no-negcache                           Do NOT cache failed search results.
+# @option --use-stale-cache <max_expired>          Use expired cache data for faster reply.
 # @flag -o --strict-order                          Use nameservers strictly in the order given in /etc/resolv.conf.
 # @option -O --dhcp-option <optspec>               Specify options to be sent to DHCP clients.
 # @option --dhcp-option-force <optspec>            DHCP option sent even if the client does not request it.
@@ -47,6 +51,7 @@
 # @option -P --edns-packet-max <integer>           Maximum supported UDP packet size for EDNS.0 (defaults to 1232).
 # @flag -q --log-queries                           Log DNS queries.
 # @option -Q --query-port <integer>                Force the originating port for upstream DNS queries.
+# @option --port-limit <#ports>                    Set maximum number of random originating ports for a query.
 # @flag -R --no-resolv                             Do NOT read resolv.conf.
 # @option -r --resolv-file <path>                  Specify path to resolv.conf (defaults to /etc/resolv.conf).
 # @option --servers-file <path>                    Specify path to file with server= options
@@ -60,6 +65,7 @@
 # @option --max-ttl <integer>                      Specify time-to-live in seconds for maximum TTL to send to clients.
 # @option --max-cache-ttl <integer>                Specify time-to-live ceiling for cache.
 # @option --min-cache-ttl <integer>                Specify time-to-live floor for cache.
+# @option --fast-dns-retry <milliseconds>          Retry DNS queries after this many milliseconds.
 # @option -u --user[`_module_os_user`] <username>  Change to this user after startup.
 # @option -U --dhcp-vendorclass <set:<tag>,<class>>  Map DHCP vendor class to tag.
 # @flag -v --version                               Display dnsmasq version and copyright information.
@@ -77,6 +83,8 @@
 # @option -1 --enable-dbus <busname>               Enable the DBus interface for setting upstream servers, etc.
 # @option --enable-ubus <busname>                  Enable the UBus interface.
 # @option -2 --no-dhcp-interface <interface>       Do not provide DHCP on this interface, only provide DNS.
+# @option --no-dhcpv6-interface <interface>        Do not provide DHCPv6 on this interface.
+# @option --no-dhcpv4-interface <interface>        Do not provide DHCPv4 on this interface.
 # @option -3 --bootp-dynamic* <tag:<tag>>          Enable dynamic address allocation for bootp.
 # @option -4 --dhcp-mac <set:<tag>,<mac address>>  Map MAC address (with wildcards) to option set.
 # @option --bridge-interface* <<iface>,<alias>>    Treat DHCP requests on aliases as arriving from interface.
@@ -87,6 +95,7 @@
 # @option --dhcp-scriptuser[`_module_os_user`] <username>  Run lease-change scripts as this user.
 # @flag --script-arp                               Call dhcp-script with changes to local ARP table.
 # @option -7 --conf-dir <path>                     Read configuration from all the files in this directory.
+# @option --conf-script <path>                     Execute file and read configuration from stdin.
 # @option -8 --log-facility <<facility>|<file>>    Log to this syslog facility or file.
 # @flag -9 --leasefile-ro                          Do not use leasefile.
 # @option -0 --dns-forward-max <integer>           Maximum number of concurrent DNS queries.
@@ -125,7 +134,9 @@
 # @option --pxe-service <service>                  Boot service for PXE menu.
 # @flag --test                                     Check configuration syntax.
 # @option --add-mac <base64|text>                  Add requestor's MAC address to forwarded DNS queries.
+# @flag --strip-mac                                Strip MAC information from queries.
 # @option --add-subnet <<v4 pref>[,<v6 pref>]>     Add specified IP subnet to forwarded DNS queries.
+# @flag --strip-subnet                             Strip ECS information from queries.
 # @option --add-cpe-id <text>                      Add client identification to forwarded DNS queries.
 # @flag --proxy-dnssec                             Proxy DNSSEC validation results from upstream nameservers.
 # @flag --dhcp-sequential-ip                       Attempt to allocate sequential IP addresses to DHCP clients.
@@ -146,6 +157,7 @@
 # @option --auth-sec-servers <<NS>[,<NS>...]>      Secondary authoritative nameservers for forward domains
 # @option --auth-peer <<ipaddr>[,<ipaddr>...]>     Peers which are allowed to do zone transfer
 # @option --ipset* </<domain>[/<domain>...]/<ipset>>  Specify ipsets to which matching domains should be added
+# @option --nftset* </<domain>[/<domain>...]/<nftset>>  Specify nftables sets to which matching domains should be added
 # @option --connmark-allowlist-enable <mask>       Enable filtering of DNS queries with connection-track marks.
 # @option --connmark-allowlist <<connmark>[/<mask>][,<pattern>Set allowed DNS patterns for a connection-track mark. #>
 # @option --synth-domain <<domain>,<range>,[<prefix>]>  Specify a domain and address range for synthesised names
@@ -155,6 +167,7 @@
 # @flag --dnssec-check-unsigned                    Ensure answers without DNSSEC are in unsigned zones.
 # @flag --dnssec-no-timecheck                      Don't check DNSSEC signature timestamps until first cache-reload
 # @option --dnssec-timestamp <path>                Timestamp file to verify system clock for DNSSEC
+# @option --dnssec-limits* <<limit>,>              Set resource limits for DNSSEC validation
 # @option --ra-param <<iface>,[mtu:<value>|<interface>|off,][<Set MTU priority resend-interval and router-lifetime #>
 # @flag --quiet-dhcp                               Do not log routine DHCP.
 # @flag --quiet-dhcp6                              Do not log routine DHCPv6.
@@ -166,11 +179,15 @@
 # @option --dhcp-ttl <ttl>                         Set TTL in DNS responses with DHCP-derived addresses.
 # @option --dhcp-reply-delay <integer>             Delay DHCP replies for at least number of seconds.
 # @flag --dhcp-rapid-commit                        Enables DHCPv4 Rapid Commit option.
-# @option --dumpfile <path>                        Path to debug packet dump file
-# @option --dumpmask <hex>                         Mask which packets to dump
+# @option --dumpfile <path>                        Path to debug packet dump file.
+# @option --dumpmask <hex>                         Mask which packets to dump.
 # @flag --script-on-renewal                        Call dhcp-script when lease expiry changes.
 # @option --umbrella <optspec>                     Send Cisco Umbrella identifiers including remote IP.
 # @flag --quiet-tftp                               Do not log routine TFTP.
+# @flag --no-round-robin                           Suppress round-robin ordering of DNS records.
+# @flag --no-ident                                 Do not add CHAOS TXT records.
+# @option --cache-rr <RR-type>                     Cache this DNS resource record type.
+# @option --max-tcp-connections <integer>          Maximum number of concurrent tcp connections.
 
 _choice_net_device() {
     ifconfig | gawk '/^[0-9a-zA-Z]/ { split($0, arr, ":"); print arr[1] }'

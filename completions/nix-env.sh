@@ -31,7 +31,7 @@
 # @option --argstr*[`_module_nix_arg_name`] <name> <value>  This option is like --arg, only the value is not a Nix expression but a string.
 # @option -A --attr*[`_module_nix_attr`] <attrPath+>  Select an attribute from the top-level Nix expression being evaluated.
 # @flag -E --expr                                 Interpret the command line arguments as a list of Nix expressions to be parsed and evaluated, rather than as a list of file names of Nix expressions.
-# @option -I <path>                               Add an entry to the Nix expression search path.
+# @option -I --include <path>                     Add an entry to the list of search paths used to resolve lookup paths.
 # @option --option <name> <value>                 Set the Nix configuration option name to value.
 # @flag --repair                                  Fix corrupted or missing store paths by redownloading or rebuilding them.
 # @arg args*[`_choice_package`]
@@ -71,7 +71,7 @@
 # @option --argstr*[`_module_nix_arg_name`] <name> <value>  This option is like --arg, only the value is not a Nix expression but a string.
 # @option -A --attr*[`_module_nix_attr`] <attrPath+>  Select an attribute from the top-level Nix expression being evaluated.
 # @flag -E --expr                                 Interpret the command line arguments as a list of Nix expressions to be parsed and evaluated, rather than as a list of file names of Nix expressions.
-# @option -I <path>                               Add an entry to the Nix expression search path.
+# @option -I --include <path>                     Add an entry to the list of search paths used to resolve lookup paths.
 # @option --option <name> <value>                 Set the Nix configuration option name to value.
 # @flag --repair                                  Fix corrupted or missing store paths by redownloading or rebuilding them.
 # @arg args*[`_choice_installed_package`]
@@ -104,7 +104,7 @@
 # @option --argstr*[`_module_nix_arg_name`] <name> <value>  This option is like --arg, only the value is not a Nix expression but a string.
 # @option -A --attr*[`_module_nix_attr`] <attrPath+>  Select an attribute from the top-level Nix expression being evaluated.
 # @flag -E --expr                                 Interpret the command line arguments as a list of Nix expressions to be parsed and evaluated, rather than as a list of file names of Nix expressions.
-# @option -I <path>                               Add an entry to the Nix expression search path.
+# @option -I --include <path>                     Add an entry to the list of search paths used to resolve lookup paths.
 # @option --option <name> <value>                 Set the Nix configuration option name to value.
 # @flag --repair                                  Fix corrupted or missing store paths by redownloading or rebuilding them.
 # @arg drvnames*[`_choice_installed_package`]
@@ -137,7 +137,7 @@
 # @option --argstr*[`_module_nix_arg_name`] <name> <value>  This option is like --arg, only the value is not a Nix expression but a string.
 # @option -A --attr*[`_module_nix_attr`] <attrPath+>  Select an attribute from the top-level Nix expression being evaluated.
 # @flag -E --expr                                 Interpret the command line arguments as a list of Nix expressions to be parsed and evaluated, rather than as a list of file names of Nix expressions.
-# @option -I <path>                               Add an entry to the Nix expression search path.
+# @option -I --include <path>                     Add an entry to the list of search paths used to resolve lookup paths.
 # @option --option <name> <value>                 Set the Nix configuration option name to value.
 # @flag --repair                                  Fix corrupted or missing store paths by redownloading or rebuilding them.
 # @arg drvname[`_choice_installed_package`]
@@ -170,7 +170,7 @@
 # @option --argstr*[`_module_nix_arg_name`] <name> <value>  This option is like --arg, only the value is not a Nix expression but a string.
 # @option -A --attr*[`_module_nix_attr`] <attrPath+>  Select an attribute from the top-level Nix expression being evaluated.
 # @flag -E --expr                                 Interpret the command line arguments as a list of Nix expressions to be parsed and evaluated, rather than as a list of file names of Nix expressions.
-# @option -I <path>                               Add an entry to the Nix expression search path.
+# @option -I --include <path>                     Add an entry to the list of search paths used to resolve lookup paths.
 # @option --option <name> <value>                 Set the Nix configuration option name to value.
 # @flag --repair                                  Fix corrupted or missing store paths by redownloading or rebuilding them.
 # @arg name[`_choice_flag_name`]
@@ -185,12 +185,12 @@
 # @cmd display information about packages
 # @alias -q
 # @flag --installed                               The query operates on the store paths that are installed in the current generation of the active profile.
-# @option -a --available <;>                      The query operates on the derivations that are available in the active Nix expression.
+# @flag -a --available                            The query operates on the derivations that are available in the active Nix expression.
 # @flag --xml                                     Print the result in an XML representation suitable for automatic processing by other tools.
 # @flag --json                                    Print the result in a JSON representation suitable for automatic processing by other tools.
 # @flag -b --prebuilt-only                        Show only derivations for which a substitute is registered, i.e., there is a pre-built binary available that can be downloaded in lieu of building the derivation.
-# @option -s --status <;>                         Print the status of the derivation.
-# @option -P --attr-path <;>                      Print the attribute path of the derivation, which can be used to unambiguously select it using the --attr option available in commands that install derivations like nix-env --install.
+# @flag -s --status                               Print the status of the derivation.
+# @flag -P --attr-path                            Print the attribute path of the derivation, which can be used to unambiguously select it using the --attr option available in commands that install derivations like nix-env --install.
 # @flag --no-name                                 Suppress printing of the name attribute of each derivation.
 # @flag -c --compare-versions                     Compare installed versions to available versions, or vice versa (if --available is given).
 # @flag --system                                  Print the system attribute of the derivation.
@@ -220,7 +220,7 @@
 # @option --argstr*[`_module_nix_arg_name`] <name> <value>  This option is like --arg, only the value is not a Nix expression but a string.
 # @option -A --attr*[`_module_nix_attr`] <attrPath+>  Select an attribute from the top-level Nix expression being evaluated.
 # @flag -E --expr                                 Interpret the command line arguments as a list of Nix expressions to be parsed and evaluated, rather than as a list of file names of Nix expressions.
-# @option -I <path>                               Add an entry to the Nix expression search path.
+# @option -I --include <path>                     Add an entry to the list of search paths used to resolve lookup paths.
 # @option --option <name> <value>                 Set the Nix configuration option name to value.
 # @flag --repair                                  Fix corrupted or missing store paths by redownloading or rebuilding them.
 # @arg names*
@@ -254,7 +254,7 @@
 # @option --argstr*[`_module_nix_arg_name`] <name> <value>  This option is like --arg, only the value is not a Nix expression but a string.
 # @option -A --attr*[`_module_nix_attr`] <attrPath+>  Select an attribute from the top-level Nix expression being evaluated.
 # @flag -E --expr                                 Interpret the command line arguments as a list of Nix expressions to be parsed and evaluated, rather than as a list of file names of Nix expressions.
-# @option -I <path>                               Add an entry to the Nix expression search path.
+# @option -I --include <path>                     Add an entry to the list of search paths used to resolve lookup paths.
 # @option --option <name> <value>                 Set the Nix configuration option name to value.
 # @flag --repair                                  Fix corrupted or missing store paths by redownloading or rebuilding them.
 # @arg path[`_module_nix_profile`]
@@ -287,7 +287,7 @@
 # @option --argstr*[`_module_nix_arg_name`] <name> <value>  This option is like --arg, only the value is not a Nix expression but a string.
 # @option -A --attr*[`_module_nix_attr`] <attrPath+>  Select an attribute from the top-level Nix expression being evaluated.
 # @flag -E --expr                                 Interpret the command line arguments as a list of Nix expressions to be parsed and evaluated, rather than as a list of file names of Nix expressions.
-# @option -I <path>                               Add an entry to the Nix expression search path.
+# @option -I --include <path>                     Add an entry to the list of search paths used to resolve lookup paths.
 # @option --option <name> <value>                 Set the Nix configuration option name to value.
 # @flag --repair                                  Fix corrupted or missing store paths by redownloading or rebuilding them.
 --list-generations() {
@@ -319,7 +319,7 @@
 # @option --argstr*[`_module_nix_arg_name`] <name> <value>  This option is like --arg, only the value is not a Nix expression but a string.
 # @option -A --attr*[`_module_nix_attr`] <attrPath+>  Select an attribute from the top-level Nix expression being evaluated.
 # @flag -E --expr                                 Interpret the command line arguments as a list of Nix expressions to be parsed and evaluated, rather than as a list of file names of Nix expressions.
-# @option -I <path>                               Add an entry to the Nix expression search path.
+# @option -I --include <path>                     Add an entry to the list of search paths used to resolve lookup paths.
 # @option --option <name> <value>                 Set the Nix configuration option name to value.
 # @flag --repair                                  Fix corrupted or missing store paths by redownloading or rebuilding them.
 # @arg generations*[`_choice_generation`]
@@ -352,7 +352,7 @@
 # @option --argstr*[`_module_nix_arg_name`] <name> <value>  This option is like --arg, only the value is not a Nix expression but a string.
 # @option -A --attr*[`_module_nix_attr`] <attrPath+>  Select an attribute from the top-level Nix expression being evaluated.
 # @flag -E --expr                                 Interpret the command line arguments as a list of Nix expressions to be parsed and evaluated, rather than as a list of file names of Nix expressions.
-# @option -I <path>                               Add an entry to the Nix expression search path.
+# @option -I --include <path>                     Add an entry to the list of search paths used to resolve lookup paths.
 # @option --option <name> <value>                 Set the Nix configuration option name to value.
 # @flag --repair                                  Fix corrupted or missing store paths by redownloading or rebuilding them.
 # @arg generation[`_choice_generation`]
@@ -385,7 +385,7 @@
 # @option --argstr*[`_module_nix_arg_name`] <name> <value>  This option is like --arg, only the value is not a Nix expression but a string.
 # @option -A --attr*[`_module_nix_attr`] <attrPath+>  Select an attribute from the top-level Nix expression being evaluated.
 # @flag -E --expr                                 Interpret the command line arguments as a list of Nix expressions to be parsed and evaluated, rather than as a list of file names of Nix expressions.
-# @option -I <path>                               Add an entry to the Nix expression search path.
+# @option -I --include <path>                     Add an entry to the list of search paths used to resolve lookup paths.
 # @option --option <name> <value>                 Set the Nix configuration option name to value.
 # @flag --repair                                  Fix corrupted or missing store paths by redownloading or rebuilding them.
 --rollback() {

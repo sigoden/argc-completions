@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @flag --trace               Runs the command in bash trace mode (-x).
-# @option --quiltrc <file>    Use the specified configuration file instead of ~/.quiltrc (or /etc/quilt.quiltrc if ~/.quiltrc does not exist).
-# @flag --version             Print the version number and exit immediately.
+# @flag -h                    Print a usage message (for the given command, if one is specified, otherwise for quilt itself) and exit.
+# @option --quiltrc <file>    Use file as the configuration file instead of ~/.quiltrc (or /etc/quilt.quiltrc if ~/.quiltrc does not exist).
+# @flag --trace               Run the command in the shell's trace mode (-x) for debugging of internal operations.
+# @flag --version             Print the version number and exit.
 
 # {{ quilt add
 # @cmd Add one or more files to the topmost or named patch.

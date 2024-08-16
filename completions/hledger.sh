@@ -4,7 +4,6 @@
 # @option -f --file                      use a different input file.
 # @option --rules-file <RFILE>           CSV conversion rules file (default: FILE.rules)
 # @option --alias <OLD=NEW>              rename accounts named OLD to NEW
-# @flag --anon                           anonymize accounts and payees
 # @option --pivot <TAGNAME>              use some other field/tag for account names
 # @flag -I --ignore-assertions           ignore any balance assertions
 # @flag -s --strict                      do extra error checking (check that all posted accounts are declared)
@@ -53,7 +52,6 @@
 # @option -f --file               use a different input file.
 # @option --rules-file <RFILE>    CSV conversion rules file (default: FILE.rules)
 # @option --alias <OLD=NEW>       rename accounts named OLD to NEW
-# @flag --anon                    anonymize accounts and payees
 # @option --pivot <TAGNAME>       use some other field/tag for account names
 # @flag -I --ignore-assertions    ignore any balance assertions
 # @flag -s --strict               do extra error checking (check that all posted accounts are declared)
@@ -75,7 +73,6 @@ add() {
 # @option -f --file                      use a different input file.
 # @option --rules-file <RFILE>           CSV conversion rules file (default: FILE.rules)
 # @option --alias <OLD=NEW>              rename accounts named OLD to NEW
-# @flag --anon                           anonymize accounts and payees
 # @option --pivot <TAGNAME>              use some other field/tag for account names
 # @flag -I --ignore-assertions           ignore any balance assertions
 # @flag -s --strict                      do extra error checking (check that all posted accounts are declared)
@@ -136,7 +133,6 @@ import() {
 # @option -f --file                      use a different input file.
 # @option --rules-file <RFILE>           CSV conversion rules file (default: FILE.rules)
 # @option --alias <OLD=NEW>              rename accounts named OLD to NEW
-# @flag --anon                           anonymize accounts and payees
 # @option --pivot <TAGNAME>              use some other field/tag for account names
 # @flag -I --ignore-assertions           ignore any balance assertions
 # @flag -s --strict                      do extra error checking (check that all posted accounts are declared)
@@ -188,7 +184,6 @@ close() {
 # @option -f --file                          use a different input file.
 # @option --rules-file <RFILE>               CSV conversion rules file (default: FILE.rules)
 # @option --alias <OLD=NEW>                  rename accounts named OLD to NEW
-# @flag --anon                               anonymize accounts and payees
 # @option --pivot <TAGNAME>                  use some other field/tag for account names
 # @flag -I --ignore-assertions               ignore any balance assertions
 # @flag -s --strict                          do extra error checking (check that all posted accounts are declared)
@@ -240,7 +235,6 @@ rewrite() {
 # @option -f --file                      use a different input file.
 # @option --rules-file <RFILE>           CSV conversion rules file (default: FILE.rules)
 # @option --alias <OLD=NEW>              rename accounts named OLD to NEW
-# @flag --anon                           anonymize accounts and payees
 # @option --pivot <TAGNAME>              use some other field/tag for account names
 # @flag -I --ignore-assertions           ignore any balance assertions
 # @flag -s --strict                      do extra error checking (check that all posted accounts are declared)
@@ -290,7 +284,6 @@ check() {
 # @option -f --file               use a different input file.
 # @option --rules-file <RFILE>    CSV conversion rules file (default: FILE.rules)
 # @option --alias <OLD=NEW>       rename accounts named OLD to NEW
-# @flag --anon                    anonymize accounts and payees
 # @option --pivot <TAGNAME>       use some other field/tag for account names
 # @flag -I --ignore-assertions    ignore any balance assertions
 # @flag -s --strict               do extra error checking (check that all posted accounts are declared)
@@ -307,26 +300,6 @@ diff() {
 }
 # }} hledger diff
 
-# {{ hledger files
-# @cmd show data files in use
-# @option -f --file               use a different input file.
-# @option --rules-file <RFILE>    CSV conversion rules file (default: FILE.rules)
-# @option --alias <OLD=NEW>       rename accounts named OLD to NEW
-# @flag --anon                    anonymize accounts and payees
-# @option --pivot <TAGNAME>       use some other field/tag for account names
-# @flag -I --ignore-assertions    ignore any balance assertions
-# @flag -s --strict               do extra error checking (check that all posted accounts are declared)
-# @flag -h --help                 show general help (or after CMD, command help)
-# @flag --man                     show user manual with man
-# @flag --info                    show info manual with info
-# @option --debug <N>             show debug output (levels 1-9, default: 1)
-# @flag --version                 show version information
-# @arg regex
-files() {
-    :;
-}
-# }} hledger files
-
 # {{ hledger aregister
 # @cmd show transactions in a particular account
 # @alias areg
@@ -334,12 +307,11 @@ files() {
 # @flag --no-elide                       don't show only 2 commodities per amount
 # @option -w --width <N>                 set output width (default: terminal width or $COLUMNS).
 # @flag --align-all                      guarantee alignment across all lines (slower)
-# @option -O --output-format[txt|html|csv|json] <FMT>  select the output format.
+# @option -O --output-format[txt|html|csv|tsv|json] <FMT>  select the output format.
 # @option -o --output-file <FILE>        write output to FILE.
 # @option -f --file                      use a different input file.
 # @option --rules-file <RFILE>           CSV conversion rules file (default: FILE.rules)
 # @option --alias <OLD=NEW>              rename accounts named OLD to NEW
-# @flag --anon                           anonymize accounts and payees
 # @option --pivot <TAGNAME>              use some other field/tag for account names
 # @flag -I --ignore-assertions           ignore any balance assertions
 # @flag -s --strict                      do extra error checking (check that all posted accounts are declared)
@@ -395,7 +367,6 @@ aregister() {
 # @option -f --file                      use a different input file.
 # @option --rules-file <RFILE>           CSV conversion rules file (default: FILE.rules)
 # @option --alias <OLD=NEW>              rename accounts named OLD to NEW
-# @flag --anon                           anonymize accounts and payees
 # @option --pivot <TAGNAME>              use some other field/tag for account names
 # @flag -I --ignore-assertions           ignore any balance assertions
 # @flag -s --strict                      do extra error checking (check that all posted accounts are declared)
@@ -449,7 +420,6 @@ balancesheet() {
 # @option -f --file                      use a different input file.
 # @option --rules-file <RFILE>           CSV conversion rules file (default: FILE.rules)
 # @option --alias <OLD=NEW>              rename accounts named OLD to NEW
-# @flag --anon                           anonymize accounts and payees
 # @option --pivot <TAGNAME>              use some other field/tag for account names
 # @flag -I --ignore-assertions           ignore any balance assertions
 # @flag -s --strict                      do extra error checking (check that all posted accounts are declared)
@@ -504,7 +474,6 @@ balancesheetequity() {
 # @option -f --file                      use a different input file.
 # @option --rules-file <RFILE>           CSV conversion rules file (default: FILE.rules)
 # @option --alias <OLD=NEW>              rename accounts named OLD to NEW
-# @flag --anon                           anonymize accounts and payees
 # @option --pivot <TAGNAME>              use some other field/tag for account names
 # @flag -I --ignore-assertions           ignore any balance assertions
 # @flag -s --strict                      do extra error checking (check that all posted accounts are declared)
@@ -559,7 +528,6 @@ cashflow() {
 # @option -f --file                      use a different input file.
 # @option --rules-file <RFILE>           CSV conversion rules file (default: FILE.rules)
 # @option --alias <OLD=NEW>              rename accounts named OLD to NEW
-# @flag --anon                           anonymize accounts and payees
 # @option --pivot <TAGNAME>              use some other field/tag for account names
 # @flag -I --ignore-assertions           ignore any balance assertions
 # @flag -s --strict                      do extra error checking (check that all posted accounts are declared)
@@ -609,7 +577,6 @@ incomestatement() {
 # @option -f --file                      use a different input file.
 # @option --rules-file <RFILE>           CSV conversion rules file (default: FILE.rules)
 # @option --alias <OLD=NEW>              rename accounts named OLD to NEW
-# @flag --anon                           anonymize accounts and payees
 # @option --pivot <TAGNAME>              use some other field/tag for account names
 # @flag -I --ignore-assertions           ignore any balance assertions
 # @flag -s --strict                      do extra error checking (check that all posted accounts are declared)
@@ -668,7 +635,6 @@ activity() {
 # @option -f --file                      use a different input file.
 # @option --rules-file <RFILE>           CSV conversion rules file (default: FILE.rules)
 # @option --alias <OLD=NEW>              rename accounts named OLD to NEW
-# @flag --anon                           anonymize accounts and payees
 # @option --pivot <TAGNAME>              use some other field/tag for account names
 # @flag -I --ignore-assertions           ignore any balance assertions
 # @flag -s --strict                      do extra error checking (check that all posted accounts are declared)
@@ -713,25 +679,18 @@ balance() {
 }
 # }} hledger balance
 
-# {{ hledger bar
-# @cmd show a balance report as a simple bar chart
-bar() {
-    :;
-}
-# }} hledger bar
-
 # {{ hledger print
 # @cmd show transactions or export journal data
-# @option -m --match <DESC>              fuzzy search for one recent transaction with description closest to DESC
 # @flag -x --explicit                    show all amounts explicitly
 # @flag --show-costs                     show transaction prices even with conversion postings
+# @option --round <TYPE>                 how much rounding or padding should be done when displaying amounts ? none - show original decimal digits,
 # @flag --new                            show only newer-dated transactions added in each file since last run
-# @option -O --output-format[txt|csv|json|sql] <FMT>  select the output format.
+# @option -m --match <DESC>              fuzzy search for one recent transaction with description closest to DESC
+# @option -O --output-format[txt|beancount|csv|tsv|json|sql] <FMT>  select the output format.
 # @option -o --output-file <FILE>        write output to FILE.
 # @option -f --file                      use a different input file.
 # @option --rules-file <RFILE>           CSV conversion rules file (default: FILE.rules)
 # @option --alias <OLD=NEW>              rename accounts named OLD to NEW
-# @flag --anon                           anonymize accounts and payees
 # @option --pivot <TAGNAME>              use some other field/tag for account names
 # @flag -I --ignore-assertions           ignore any balance assertions
 # @flag -s --strict                      do extra error checking (check that all posted accounts are declared)
@@ -784,7 +743,6 @@ print() {
 # @option -f --file                      use a different input file.
 # @option --rules-file <RFILE>           CSV conversion rules file (default: FILE.rules)
 # @option --alias <OLD=NEW>              rename accounts named OLD to NEW
-# @flag --anon                           anonymize accounts and payees
 # @option --pivot <TAGNAME>              use some other field/tag for account names
 # @flag -I --ignore-assertions           ignore any balance assertions
 # @flag -s --strict                      do extra error checking (check that all posted accounts are declared)
@@ -838,7 +796,6 @@ register() {
 # @option -f --file                      use a different input file.
 # @option --rules-file <RFILE>           CSV conversion rules file (default: FILE.rules)
 # @option --alias <OLD=NEW>              rename accounts named OLD to NEW
-# @flag --anon                           anonymize accounts and payees
 # @option --pivot <TAGNAME>              use some other field/tag for account names
 # @flag -I --ignore-assertions           ignore any balance assertions
 # @flag -s --strict                      do extra error checking (check that all posted accounts are declared)
@@ -899,7 +856,6 @@ roi() {
 # @option -f --file                      use a different input file.
 # @option --rules-file <RFILE>           CSV conversion rules file (default: FILE.rules)
 # @option --alias <OLD=NEW>              rename accounts named OLD to NEW
-# @flag --anon                           anonymize accounts and payees
 # @option --pivot <TAGNAME>              use some other field/tag for account names
 # @flag -I --ignore-assertions           ignore any balance assertions
 # @flag -s --strict                      do extra error checking (check that all posted accounts are declared)
@@ -949,7 +905,6 @@ accounts() {
 # @option -f --file                      use a different input file.
 # @option --rules-file <RFILE>           CSV conversion rules file (default: FILE.rules)
 # @option --alias <OLD=NEW>              rename accounts named OLD to NEW
-# @flag --anon                           anonymize accounts and payees
 # @option --pivot <TAGNAME>              use some other field/tag for account names
 # @flag -I --ignore-assertions           ignore any balance assertions
 # @flag -s --strict                      do extra error checking (check that all posted accounts are declared)
@@ -999,7 +954,6 @@ codes() {
 # @option -f --file               use a different input file.
 # @option --rules-file <RFILE>    CSV conversion rules file (default: FILE.rules)
 # @option --alias <OLD=NEW>       rename accounts named OLD to NEW
-# @flag --anon                    anonymize accounts and payees
 # @option --pivot <TAGNAME>       use some other field/tag for account names
 # @flag -I --ignore-assertions    ignore any balance assertions
 # @flag -s --strict               do extra error checking (check that all posted accounts are declared)
@@ -1018,7 +972,6 @@ commodities() {
 # @option -f --file                      use a different input file.
 # @option --rules-file <RFILE>           CSV conversion rules file (default: FILE.rules)
 # @option --alias <OLD=NEW>              rename accounts named OLD to NEW
-# @flag --anon                           anonymize accounts and payees
 # @option --pivot <TAGNAME>              use some other field/tag for account names
 # @flag -I --ignore-assertions           ignore any balance assertions
 # @flag -s --strict                      do extra error checking (check that all posted accounts are declared)
@@ -1063,12 +1016,30 @@ descriptions() {
 }
 # }} hledger descriptions
 
+# {{ hledger files
+# @cmd show data files in use
+# @option -f --file               use a different input file.
+# @option --rules-file <RFILE>    CSV conversion rules file (default: FILE.rules)
+# @option --alias <OLD=NEW>       rename accounts named OLD to NEW
+# @option --pivot <TAGNAME>       use some other field/tag for account names
+# @flag -I --ignore-assertions    ignore any balance assertions
+# @flag -s --strict               do extra error checking (check that all posted accounts are declared)
+# @flag -h --help                 show general help (or after CMD, command help)
+# @flag --man                     show user manual with man
+# @flag --info                    show info manual with info
+# @option --debug <N>             show debug output (levels 1-9, default: 1)
+# @flag --version                 show version information
+# @arg regex
+files() {
+    :;
+}
+# }} hledger files
+
 # {{ hledger notes
 # @cmd show note part of transaction descriptions
 # @option -f --file                      use a different input file.
 # @option --rules-file <RFILE>           CSV conversion rules file (default: FILE.rules)
 # @option --alias <OLD=NEW>              rename accounts named OLD to NEW
-# @flag --anon                           anonymize accounts and payees
 # @option --pivot <TAGNAME>              use some other field/tag for account names
 # @flag -I --ignore-assertions           ignore any balance assertions
 # @flag -s --strict                      do extra error checking (check that all posted accounts are declared)
@@ -1120,7 +1091,6 @@ notes() {
 # @option -f --file                      use a different input file.
 # @option --rules-file <RFILE>           CSV conversion rules file (default: FILE.rules)
 # @option --alias <OLD=NEW>              rename accounts named OLD to NEW
-# @flag --anon                           anonymize accounts and payees
 # @option --pivot <TAGNAME>              use some other field/tag for account names
 # @flag -I --ignore-assertions           ignore any balance assertions
 # @flag -s --strict                      do extra error checking (check that all posted accounts are declared)
@@ -1167,11 +1137,10 @@ payees() {
 
 # {{ hledger prices
 # @cmd show historical market prices
-# @flag --infer-reverse-prices           also show prices obtained by inverting transaction prices
+# @flag --show-reverse                   also show the prices inferred by reversing known prices
 # @option -f --file                      use a different input file.
 # @option --rules-file <RFILE>           CSV conversion rules file (default: FILE.rules)
 # @option --alias <OLD=NEW>              rename accounts named OLD to NEW
-# @flag --anon                           anonymize accounts and payees
 # @option --pivot <TAGNAME>              use some other field/tag for account names
 # @flag -I --ignore-assertions           ignore any balance assertions
 # @flag -s --strict                      do extra error checking (check that all posted accounts are declared)
@@ -1222,7 +1191,6 @@ prices() {
 # @option -f --file                      use a different input file.
 # @option --rules-file <RFILE>           CSV conversion rules file (default: FILE.rules)
 # @option --alias <OLD=NEW>              rename accounts named OLD to NEW
-# @flag --anon                           anonymize accounts and payees
 # @option --pivot <TAGNAME>              use some other field/tag for account names
 # @flag -I --ignore-assertions           ignore any balance assertions
 # @flag -s --strict                      do extra error checking (check that all posted accounts are declared)
@@ -1274,7 +1242,6 @@ stats() {
 # @option -f --file                      use a different input file.
 # @option --rules-file <RFILE>           CSV conversion rules file (default: FILE.rules)
 # @option --alias <OLD=NEW>              rename accounts named OLD to NEW
-# @flag --anon                           anonymize accounts and payees
 # @option --pivot <TAGNAME>              use some other field/tag for account names
 # @flag -I --ignore-assertions           ignore any balance assertions
 # @flag -s --strict                      do extra error checking (check that all posted accounts are declared)
@@ -1319,18 +1286,5 @@ tags() {
     :;
 }
 # }} hledger tags
-
-# {{ hledger test
-# @cmd run self tests
-# @flag -h --help        show general help (or after CMD, command help)
-# @flag --man            show user manual with man
-# @flag --info           show info manual with info
-# @option --debug <N>    show debug output (levels 1-9, default: 1)
-# @flag --version        show version information
-# @arg tastyopts*
-test() {
-    :;
-}
-# }} hledger test
 
 command eval "$(argc --argc-eval "$0" "$@")"

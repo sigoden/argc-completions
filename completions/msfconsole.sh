@@ -14,7 +14,7 @@
 # @option -m --module-path <DIRECTORY>       Load an additional module path
 # @flag -a --ask                             Ask before exiting Metasploit or accept 'exit -y'
 # @option -H --history-file <FILE>           Save command history to the specified file
-# @option -l --logger[TimestampColorlessFlatfile|Flatfile|Stderr|Stdout|StdoutWithoutTimestamps] <STRING>  Specify a logger to use
+# @option -l --logger[Stdout|StdoutWithoutTimestamps|TimestampColorlessFlatfile|Flatfile|Stderr] <STRING>  Specify a logger to use
 # @flag --readline
 # @flag --no-readline
 # @flag -L --real-readline                   Use the system Readline library instead of RbReadline

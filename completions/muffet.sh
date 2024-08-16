@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @option --accepted-status-codes <codes>       Accepted HTTP response status codes (default: 200..300)
 # @option -b --buffer-size <size>               HTTP response buffer size in bytes (default: 4096)
 # @option -c --max-connections <count>          Maximum number of HTTP connections (default: 512)
 # @option --max-connections-per-host <count>    Maximum number of HTTP connections per host (default: 512)

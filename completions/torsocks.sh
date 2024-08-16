@@ -8,6 +8,7 @@
 # @option -u --user <NAME>    Username for the SOCKS5 authentication
 # @option -p --pass <NAME>    Password for the SOCKS5 authentication
 # @flag -i --isolate          Automatic tor isolation.
+# @flag -6 --ipv6             Enable creation of IPv6 sockets
 # @flag -a --address          HOST Specify Tor address
 # @option -P --port           Specify Tor port
 # @arg command[`_module_os_command`]

@@ -30,7 +30,8 @@ alias() {
 # @option --format <value>            Output format.
 # @option -o --output-file <value>    Output filename.
 # @option --template <value>          HTML template.
-# @flag --failed                      Report only entries that failed validation.
+# @flag --full                        Print full details of all findings.
+# @flag --summary                     Print a summary of the audit results.
 # @flag -h --help                     show help
 # @arg filter
 audit() {

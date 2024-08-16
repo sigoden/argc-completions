@@ -529,7 +529,6 @@
 - [make](completions/make.sh): GNU make utility to maintain groups of programs [🔗](https://www.gnu.org/software/make)
 - [makepkg](completions/makepkg.sh): package build utility for Arch linux [🔗](https://gitlab.archlinux.org/pacman/pacman)
 - [man](completions/man.sh): an interface to the system reference manuals [🔗](https://gitlab.com/man-db/man-db)
-- [mariner](completions/mariner.sh): Navigate torrents [🔗](https://gitlab.com/radek-sprta/mariner)
 - [mas](completions/mas.sh): Mac App Store command line interface. (macOS) [🔗](https://github.com/mas-cli/mas)
 - [mask](completions/mask.sh): A CLI task runner defined by a simple markdown file [🔗](https://github.com/jacobdeichert/mask)
 - [mat2](completions/mat2.sh): the metadata anonymisation toolkit 2 [🔗](https://0xacab.org/jvoisin/mat2)

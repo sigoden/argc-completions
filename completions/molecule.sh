@@ -21,7 +21,7 @@ check() {
 # }} molecule check
 
 # {{ molecule cleanup
-# @cmd Use the provisioner to cleanup any changes made to...
+# @cmd Use the provisioner to cleanup any changes.
 # @option -s --scenario-name <TEXT>    Name of the scenario to target.
 # @flag --help                         Show this message and exit.
 cleanup() {
@@ -82,7 +82,7 @@ drivers() {
 # }} molecule drivers
 
 # {{ molecule idempotence
-# @cmd Use the provisioner to configure the instances and parse...
+# @cmd Use the provisioner to configure the instances.
 # @option -s --scenario-name <TEXT>    Name of the scenario to target.
 # @flag --help                         Show this message and exit.
 # @arg ansible_args*

@@ -7,6 +7,7 @@
 # @flag -B                                      Run in batch mode (do not start the ncurses UI)
 # @option -b <address>                          Specify a blind carbon copy (Bcc) recipient
 # @option -c <address>                          Specify a carbon copy (Cc) recipient
+# @flag -C                                      Enable Command-line Crypto (signing/encryption)
 # @flag -D                                      Dump all config variables as 'name=value' pairs to stdout
 # @flag -O                                      Like -D, but show one-liner documentation
 # @flag -S                                      Like -D, but hide the value of sensitive variables

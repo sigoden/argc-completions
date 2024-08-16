@@ -10,7 +10,11 @@ _patch_help() {
   version                 Print the version of yadm.
 EOF
     elif [[ "$*" == "yadm config" ]]; then
-        $@ --help | sed '/^\s*-/ s/ <> / <value> /'
+        $@ --help | \
+            sed \
+                -e '/^Action$/,/^[A-Z]/ s/\[no-\]//g' \
+                -e '/^\s*-/ s/ <> / <value> /' \
+
     fi
 }
 

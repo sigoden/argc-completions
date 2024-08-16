@@ -9,7 +9,7 @@
 # @option -f --file <FILE+>                        File to scan (can not be used together with --directory).
 # @option --skip-path <SKIP_PATH>                  Path (file or directory) to skip, using regular expression logic, relative to current working directory.
 # @option --external-checks-dir <EXTERNAL_CHECKS_DIR>  Directory for custom checks to be loaded.
-# @option --external-checks-git <EXTERNAL_CHECKS_GIT>  Github url of external checks to be added.
+# @option --external-checks-git <EXTERNAL_CHECKS_GIT>  GitHub url of external checks to be added.
 # @flag -l --list                                  List checks
 # @option -o --output[cli|csv|cyclonedx|cyclonedx_json|json|junitxml|github_failed_only|gitlab_sast|sarif|spdx]  Report output format.
 # @option --output-file-path <OUTPUT_FILE_PATH>    Name of the output folder to save the chosen output formats.
@@ -18,7 +18,7 @@
 # @flag --quiet                                    in case of CLI output, display only failed checks.
 # @flag --compact                                  in case of CLI output, do not display code blocks
 # @option --framework <FRAMEWORK+>                 Filter scan to run only on specific infrastructure as code frameworks.
-# @option --skip-framework[ansible|argo_workflows|arm|azure_pipelines|bicep|bitbucket_pipelines|cdk|circleci_pipelines|cloudformation|dockerfile|github_configuration|github_actions|gitlab_configuration|gitlab_ci|bitbucket_configuration|helm|json|yaml|kubernetes|kustomize|openapi|sca_package|sca_image|secrets|serverless|terraform|terraform_json|terraform_plan|sast|sast_python|sast_java|sast_javascript|3d_policy] <SKIP_FRAMEWORK+>  Filter scan to skip specific infrastructure as code frameworks.
+# @option --skip-framework[ansible|argo_workflows|arm|azure_pipelines|bicep|bitbucket_pipelines|cdk|circleci_pipelines|cloudformation|dockerfile|github_configuration|github_actions|gitlab_configuration|gitlab_ci|bitbucket_configuration|helm|json|yaml|kubernetes|kustomize|openapi|sca_package|sca_image|secrets|serverless|terraform|terraform_json|terraform_plan|sast|sast_python|sast_java|sast_javascript|sast_typescript|sast_golang|3d_policy] <SKIP_FRAMEWORK+>  Filter scan to skip specific infrastructure as code frameworks.
 # @option -c --check                               Checks to run; any other checks will be skipped.
 # @option --skip-check <SKIP_CHECK>                Checks to skip; any other checks will not be run.
 # @flag --run-all-external-checks                  Run all external checks (loaded via --external-checks options) even if the checks are not present in the --check list.
@@ -51,6 +51,7 @@
 # @flag --output-baseline-as-skipped               output checks that are skipped due to baseline file presence
 # @option --skip-cve-package <SKIP_CVE_PACKAGE>    filter scan to run on all packages but a specific package identifier (denylist), You can specify this argument multiple times to skip multiple packages
 # @option --policy-metadata-filter <POLICY_METADATA_FILTER>  comma separated key:value string to filter policies based on Prisma Cloud policy metadata.
+# @option --policy-metadata-filter-exception <POLICY_METADATA_FILTER_EXCEPTION>  comma separated key:value string to exclude filtered policies based on Prisma Cloud policy metadata.
 # @option --secrets-scan-file-type <SECRETS_SCAN_FILE_TYPE>  not in use [env var: CKV_SECRETS_SCAN_FILE_TYPE]
 # @flag --enable-secret-scan-all-files             enable secret scan for all files [env var: CKV_SECRETS_SCAN_ENABLE_ALL]
 # @option --block-list-secret-scan <BLOCK_LIST_SECRET_SCAN>  List of files to filter out from the secret scanner [env var: CKV_SECRETS_SCAN_BLOCK_LIST]

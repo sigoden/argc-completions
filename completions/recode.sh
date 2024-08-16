@@ -5,7 +5,7 @@
 # @option -k --known <PAIRS>         restrict charsets according to known PAIRS list
 # @option -h --header <[LN/]NAME>    write table NAME on stdout using LN, then exit
 # @flag -T --find-subsets            report all charsets being subset of others
-# @flag -C --copyright               display Copyright and copying conditions
+# @flag -C --copyright               display copyright and copying conditions
 # @flag --help                       display this help and exit
 # @flag --version                    output version information and exit
 # @flag -v --verbose                 explain sequence of steps and report progress

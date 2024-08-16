@@ -257,6 +257,9 @@ list() {
 # @flag --require-scripts                Execute ./scripts/prepublish.js and ./scripts/postpublish.js, relative to package root.
 # @flag --no-git-reset                   Do not reset changes to working tree after publishing is complete.
 # @flag --temp-tag                       Create a temporary tag while publishing.
+# @flag --throttle                       Throttle module publication.
+# @option --throttle-size <number>       Bucket size used to throttle module publication.
+# @option --throttle-delay <number>      Delay between throttle bucket items publications (in seconds).
 # @flag --no-verify-access               Do not verify package read-write access for current npm user.
 # @flag --verify-access                  Verify package read-write access for current npm user.
 # @option --summary-file <file>          Generate a json summary report after all packages have been successfully published, you can pass an optional path for where to save the file.

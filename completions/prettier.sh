@@ -12,7 +12,7 @@
 # @flag --no-experimental-ternaries              Default behavior of ternaries; keep question marks on the same line as the consequent.
 # @option --html-whitespace-sensitivity[css|strict|ignore]  How to handle whitespaces in HTML.
 # @flag --jsx-single-quote                       Use single quotes in JSX.
-# @option --parser[flow|babel|babel-flow|babel-ts|typescript|acorn|espree|meriyah|css|less|scss|json|json5|json-stringify|graphql|markdown|mdx|vue|yaml|glimmer|html|angular|lwc]  Which parser to use.
+# @option --parser[flow|babel|babel-flow|babel-ts|typescript|acorn|espree|meriyah|css|less|scss|json|json5|jsonc|json-stringify|graphql|markdown|mdx|vue|yaml|glimmer|html|angular|lwc]  Which parser to use.
 # @option --print-width <int>                    The line length where Prettier will try wrap.
 # @option --prose-wrap[always|never|preserve]    How to wrap prose.
 # @option --quote-props[as-needed|consistent|preserve]  Change when properties in objects are quoted.

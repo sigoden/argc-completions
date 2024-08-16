@@ -30,7 +30,7 @@ about() {
 # }} poetry about
 
 # {{ poetry add
-# @cmd Adds a new dependency to pyproject.toml.
+# @cmd Adds a new dependency to pyproject.toml and installs it.
 # @option -G --group           The group to add the dependency to.
 # @flag -D --dev               Add as a development dependency.
 # @flag -e --editable          Add vcs/path dependencies as editable.
@@ -61,6 +61,7 @@ add() {
 # {{ poetry build
 # @cmd Builds a package, as a tarball and a wheel by default.
 # @option -f --format          Limit the format to either sdist or wheel.
+# @option -o --output          Set output directory for build artifacts.
 # @flag -h --help              Display help for the given command.
 # @flag -q --quiet             Do not output any message.
 # @flag -V --version           Display this application version.
@@ -263,6 +264,7 @@ new() {
 # @option -p --password        The password to access the repository.
 # @option --cert               Certificate authority to access the repository.
 # @option --client-cert        Client certificate to access the repository.
+# @option --dist-dir           Dist directory where built artifact are stored.
 # @flag --build                Build the package before publishing.
 # @flag --dry-run              Perform all actions except upload the package.
 # @flag --skip-existing        Ignore errors from files already existing in the repository.
@@ -363,7 +365,7 @@ shell() {
 # @option --only*,[`_choice_group`]       The only dependency groups to include.
 # @flag --no-dev                          Do not list the development dependencies.
 # @flag -t --tree                         List the dependencies as a tree.
-# @flag --why                             When showing the full list, or a --tree for a single package, also display why it's included.
+# @flag --why                             When showing the full list, or a --tree for a single package, display whether they are a direct dependency or required by other packages
 # @flag -l --latest                       Show the latest version.
 # @flag -o --outdated                     Show the latest version but only for packages that are outdated.
 # @flag -a --all                          Show all packages (even those not compatible with current system).
@@ -390,6 +392,7 @@ show() {
 # @option --with*,[`_choice_group`]       The optional dependency groups to include.
 # @option --only*,[`_choice_group`]       The only dependency groups to include.
 # @flag --no-dev                          Do not update the development dependencies.
+# @flag --sync                            Synchronize the environment with the locked packages and the specified groups.
 # @flag --dry-run                         Output the operations but do not execute anything (implicitly enables --verbose).
 # @flag --lock                            Do not perform operations (only update the lockfile).
 # @flag -h --help                         Display help for the given command.

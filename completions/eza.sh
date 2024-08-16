@@ -10,13 +10,14 @@
 # @flag -R --recurse                            recurse into directories
 # @flag -T --tree                               recurse into directories as a tree
 # @flag -X --dereference                        dereference symbolic links when displaying information
-# @flag -F --classify                           display type indicator by file names
+# @option -F --classify[always|auto|never] <WHEN>  display type indicator by file names
 # @option --color[always|auto|never] <WHEN>     when to use terminal colours
 # @option --color-scale[all|age|size]           highlight levels of 'field' distinctly
 # @option --color-scale-mode[fixed|gradient]    use gradient or fixed colors in --color-scale
 # @option --icons[always|auto|never] <WHEN>     when to display icons
 # @flag --no-quotes                             don't quote file names with spaces
 # @flag --hyperlink                             display entries as hyperlinks
+# @option --absolute[on|follow|off]             display entries with their absolute path
 # @option -w --width <COLS>                     set screen width in columns
 # @flag -a --all                                show hidden and 'dot' files.
 # @flag -A --almost-all                         equivalent to --all; included for compatibility with `ls -A`

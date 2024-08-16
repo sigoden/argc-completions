@@ -410,6 +410,13 @@ work::use() {
     :;
 }
 # }}} go work use
+
+# {{{ go work vendor
+# @cmd make vendored copy of dependencies
+work::vendor() {
+    :;
+}
+# }}} go work vendor
 # }} go work
 
 # {{ go run
@@ -450,6 +457,14 @@ run() {
     :;
 }
 # }} go run
+
+# {{ go telemetry
+# @cmd manage telemetry data and settings
+# @arg enum[off|local|on]
+telemetry() {
+    :;
+}
+# }} go telemetry
 
 # {{ go test
 # @cmd test packages

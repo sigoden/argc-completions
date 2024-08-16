@@ -14,6 +14,7 @@
 # @flag --local                      Use the tree in the user's home directory.
 # @flag --global                     Use the system tree when `local_by_default` is `true`.
 # @flag --no-project                 Do not use project tree even if running from a project folder.
+# @flag --force-lock                 Attempt to overwrite the lock for commands that require exclusive access, such as 'install'
 # @flag --verbose                    Display verbose output of commands executed.
 # @option --timeout <seconds>        Timeout on network operations, in seconds.
 
@@ -94,19 +95,22 @@ download() {
 
 # {{ luarocks init
 # @cmd Initialize a directory for a Lua project using LuaRocks.
-# @option --output <file>            Write the rockspec with the given filename.
-# @option --license <string>         A license string, such as "MIT/X11" or "GNU GPL v3".
-# @option --summary <txt>            A short one-line description summary.
-# @option --detailed <txt>           A longer description string.
-# @option --homepage <txt>           Project homepage.
-# @option --lua-versions <ver>       Supported Lua versions.
-# @option --rockspec-format <ver>    Rockspec format version, such as "1.0" or "1.1".
-# @option --tag <tag>                Tag to use.
-# @option --lib <libs>               A comma-separated list of libraries that C files need to link to.
-# @flag -h --help                    Show this help message and exit.
-# @flag --reset                      Delete .luarocks/config-5.x.lua and ./lua and generate new ones.
-# @arg name                          The project name.
-# @arg version                       An optional project version.
+# @option --output <file>                Write the rockspec with the given filename.
+# @option --license <string>             A license string, such as "MIT/X11" or "GNU GPL v3".
+# @option --summary <txt>                A short one-line description summary.
+# @option --detailed <txt>               A longer description string.
+# @option --homepage <txt>               Project homepage.
+# @option --lua-versions <ver>           Supported Lua versions.
+# @option --rockspec-format <ver>        Rockspec format version, such as "1.0" or "1.1".
+# @option --tag <tag>                    Tag to use.
+# @option --lib <libs>                   A comma-separated list of libraries that C files need to link to.
+# @flag -h --help                        Show this help message and exit.
+# @option --wrapper-dir <wrapper_dir>    Location where the 'lua' and 'luarocks' wrapper scripts should be generated; if not given, the current directory is used as a default.
+# @flag --reset                          Delete any .luarocks/config-5.x.lua and ./lua and generate new ones.
+# @flag --no-wrapper-scripts             Do not generate wrapper ./lua and ./luarocks launcher scripts.
+# @flag --no-gitignore                   Do not generate a .gitignore file.
+# @arg name                              The project name.
+# @arg version                           An optional project version.
 init() {
     :;
 }
@@ -206,8 +210,9 @@ pack() {
 # @flag -h --help     Show this help message and exit.
 # @flag --no-bin      Do not export the PATH variable.
 # @flag --append      Appends the paths to the existing paths.
-# @flag --lr-path     Exports the Lua path (not formatted as shell command).
-# @flag --lr-cpath    Exports the Lua cpath (not formatted as shell command).
+# @flag --lr-path     Prints Lua path components defined by the configured rocks trees (not formatted as a shell command)
+# @flag --lr-cpath    Prints Lua cpath components defined by the configured rocks trees (not formatted as a shell command)
+# @flag --full        By default, --lr-path and --lr-cpath only include the paths derived by the LuaRocks rocks_trees.
 # @flag --lr-bin      Exports the system path (not formatted as shell command).
 path() {
     :;

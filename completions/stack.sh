@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @flag --help                              Show this help text.
+# @flag -h --help                           Show this help text.
 # @flag --version                           Show version.
 # @flag --numeric-version                   Show only version number.
 # @flag --hpack-numeric-version             Show only Hpack's version number.
@@ -22,7 +22,7 @@
 # @flag --no-system-ghc                     Enable/disable using the system installed GHC (on the PATH) if it is available and its version matches.
 # @flag --install-ghc                       Enable/disable downloading and installing GHC if necessary.
 # @flag --no-install-ghc                    Enable/disable downloading and installing GHC if necessary.
-# @option --arch                            System architecture, e.g. i386, x86_64.
+# @option --arch                            System architecture, e.g. i386, x86_64, aarch64.
 # @option --ghc-variant <VARIANT>           Specialized GHC variant, e.g. int-native or integersimple (incompatible with --system-ghc).
 # @option --ghc-build <BUILD>               Specialized GHC build, e.g. 'gmp4' or 'standard' (usually auto-detected).
 # @option -j --jobs                         Number of concurrent jobs to run.
@@ -31,6 +31,8 @@
 # @option --custom-preprocessor-extensions <EXT>  Extensions used for custom preprocessors.
 # @option --with-gcc <PATH-TO-GCC>          Use gcc found at PATH-TO-GCC.
 # @option --with-hpack <HPACK>              Use HPACK executable (overrides bundled Hpack).
+# @flag --hpack-force                       Enable/disable overwriting of Cabal files that have been modified manually.
+# @flag --no-hpack-force                    Enable/disable overwriting of Cabal files that have been modified manually.
 # @flag --skip-ghc-check                    Enable/disable skipping the GHC version and architecture check.
 # @flag --no-skip-ghc-check                 Enable/disable skipping the GHC version and architecture check.
 # @flag --skip-msys                         Enable/disable skipping the local MSYS installation (Windows only).
@@ -41,14 +43,15 @@
 # @flag --no-modify-code-page               Enable/disable setting the codepage to support UTF-8 (Windows only).
 # @flag --allow-different-user              Enable/disable permission for users other than the owner of the Stack root directory to use a Stack installation (POSIX only).
 # @flag --no-allow-different-user           Enable/disable permission for users other than the owner of the Stack root directory to use a Stack installation (POSIX only).
-# @flag --dump-logs                         Enable/disable dump the build output logs for local packages to the console.
-# @flag --no-dump-logs                      Enable/disable dump the build output logs for local packages to the console.
+# @flag --dump-logs                         Enable/disable dump the build output logs for project packages to the console.
+# @flag --no-dump-logs                      Enable/disable dump the build output logs for project packages to the console.
 # @option --color <WHEN>                    Specify when to use color in output; WHEN is 'always', 'never', or 'auto'.
 # @option --colour <WHEN>                   Specify when to use color in output; WHEN is 'always', 'never', or 'auto'.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
 # @flag --script-no-run-compile             Enable/disable the use of options `--no-run --compile` with `stack script`.
 # @flag --no-script-no-run-compile          Enable/disable the use of options `--no-run --compile` with `stack script`.
-# @option --resolver                        Override resolver in project file.
+# @option --resolver <SNAPSHOT>             Override snapshot in the project configuration file.
+# @option --snapshot <SNAPSHOT>             Override snapshot in the project configuration file.
 # @option --compiler                        Use the specified compiler.
 # @flag --terminal                          Enable/disable overriding terminal detection in the case of running in a false terminal.
 # @flag --no-terminal                       Enable/disable overriding terminal detection in the case of running in a false terminal.
@@ -61,11 +64,13 @@
 # {{ stack build
 # @cmd Build the package(s) in this directory/configuration.
 # @flag --dry-run                               Don't build anything, just prepare to.
-# @flag --pedantic                              Turn on -Wall and -Werror.
-# @flag --fast                                  Turn off optimizations (-O0).
-# @option --ghc-options <OPTIONS>               Additional options passed to GHC (can be specified multiple times).
+# @flag --pedantic                              Pass the -Wall and -Werror flags to GHC, turning on all warnings that indicate potentially suspicious code and making all warnings into fatal errors.
+# @flag --fast                                  Pass a -O0 flag to GHC, turning off any GHC optimsations that have been set.
+# @option --ghc-options <OPTIONS>               Additional options to be passed to GHC (can be specified multiple times).
 # @option --PROG-option <ARG>                   Pass an argument to PROG (can be specified multiple times).
-# @option --flag <PACKAGE:[-]FLAG>              Override flags set in stack.yaml (applies to local packages and extra-deps).
+# @option --flag <PACKAGE:[-]FLAG>              Set (or unset) the Cabal flag for the package (or use '*' for all packages) (can be specified multiple times).
+# @flag --allow-newer                           Enable/disable ignoring of lower and upper version bounds in Cabal files.
+# @flag --no-allow-newer                        Enable/disable ignoring of lower and upper version bounds in Cabal files.
 # @flag --dependencies-only                     A synonym for --only-dependencies.
 # @flag --only-snapshot                         Only build packages for the snapshot database, not the local database.
 # @flag --only-dependencies                     Only build packages that are dependencies of targets on the command line.
@@ -93,10 +98,18 @@
 # @flag --no-open                               Enable/disable opening the local Haddock documentation in the browser.
 # @flag --haddock-deps                          Enable/disable building Haddock documentation for dependencies.
 # @flag --no-haddock-deps                       Enable/disable building Haddock documentation for dependencies.
+# @flag --haddock-executables                   Enable/disable also building Haddock documentation for all executables (like 'cabal haddock --executables').
+# @flag --no-haddock-executables                Enable/disable also building Haddock documentation for all executables (like 'cabal haddock --executables').
+# @flag --haddock-tests                         Enable/disable also building Haddock documentation for all test suites (like 'cabal haddock --tests').
+# @flag --no-haddock-tests                      Enable/disable also building Haddock documentation for all test suites (like 'cabal haddock --tests').
+# @flag --haddock-benchmarks                    Enable/disable also building Haddock documentation for all benchmarks (like 'cabal haddock --benchmarks').
+# @flag --no-haddock-benchmarks                 Enable/disable also building Haddock documentation for all benchmarks (like 'cabal haddock --benchmarks').
 # @flag --haddock-internal                      Enable/disable building Haddock documentation for internal modules (like 'cabal haddock --internal').
 # @flag --no-haddock-internal                   Enable/disable building Haddock documentation for internal modules (like 'cabal haddock --internal').
 # @flag --haddock-hyperlink-source              Enable/disable building hyperlinked source for Haddock documentation (like 'haddock --hyperlinked-source').
 # @flag --no-haddock-hyperlink-source           Enable/disable building hyperlinked source for Haddock documentation (like 'haddock --hyperlinked-source').
+# @flag --haddock-for-hackage                   Enable/disable building with flags to generate Haddock documentation suitable for upload to Hackage.
+# @flag --no-haddock-for-hackage                Enable/disable building with flags to generate Haddock documentation suitable for upload to Hackage.
 # @flag --copy-bins                             Enable/disable copying binaries to local-bin (see 'stack path').
 # @flag --no-copy-bins                          Enable/disable copying binaries to local-bin (see 'stack path').
 # @flag --copy-compiler-tool                    Enable/disable copying binaries of targets to compiler-tools-bin (see 'stack path').
@@ -107,8 +120,8 @@
 # @flag --no-keep-going                         Enable/disable continue running after a step fails.
 # @flag --keep-tmp-files                        Enable/disable keep intermediate files and build directories.
 # @flag --no-keep-tmp-files                     Enable/disable keep intermediate files and build directories.
-# @flag --force-dirty                           Enable/disable forcing the treatment of all local packages as having dirty files.
-# @flag --no-force-dirty                        Enable/disable forcing the treatment of all local packages as having dirty files.
+# @flag --force-dirty                           Enable/disable forcing the treatment of all project packages and local extra-deps as having dirty files.
+# @flag --no-force-dirty                        Enable/disable forcing the treatment of all project packages and local extra-deps as having dirty files.
 # @flag --test                                  Enable/disable testing the package(s) in this directory/configuration.
 # @flag --no-test                               Enable/disable testing the package(s) in this directory/configuration.
 # @flag --rerun-tests                           Enable/disable running already successful tests.
@@ -149,11 +162,13 @@ build() {
 # {{ stack install
 # @cmd Shortcut for 'build --copy-bins'.
 # @flag --dry-run                               Don't build anything, just prepare to.
-# @flag --pedantic                              Turn on -Wall and -Werror.
-# @flag --fast                                  Turn off optimizations (-O0).
-# @option --ghc-options <OPTIONS>               Additional options passed to GHC (can be specified multiple times).
+# @flag --pedantic                              Pass the -Wall and -Werror flags to GHC, turning on all warnings that indicate potentially suspicious code and making all warnings into fatal errors.
+# @flag --fast                                  Pass a -O0 flag to GHC, turning off any GHC optimsations that have been set.
+# @option --ghc-options <OPTIONS>               Additional options to be passed to GHC (can be specified multiple times).
 # @option --PROG-option <ARG>                   Pass an argument to PROG (can be specified multiple times).
-# @option --flag <PACKAGE:[-]FLAG>              Override flags set in stack.yaml (applies to local packages and extra-deps).
+# @option --flag <PACKAGE:[-]FLAG>              Set (or unset) the Cabal flag for the package (or use '*' for all packages) (can be specified multiple times).
+# @flag --allow-newer                           Enable/disable ignoring of lower and upper version bounds in Cabal files.
+# @flag --no-allow-newer                        Enable/disable ignoring of lower and upper version bounds in Cabal files.
 # @flag --dependencies-only                     A synonym for --only-dependencies.
 # @flag --only-snapshot                         Only build packages for the snapshot database, not the local database.
 # @flag --only-dependencies                     Only build packages that are dependencies of targets on the command line.
@@ -181,10 +196,18 @@ build() {
 # @flag --no-open                               Enable/disable opening the local Haddock documentation in the browser.
 # @flag --haddock-deps                          Enable/disable building Haddock documentation for dependencies.
 # @flag --no-haddock-deps                       Enable/disable building Haddock documentation for dependencies.
+# @flag --haddock-executables                   Enable/disable also building Haddock documentation for all executables (like 'cabal haddock --executables').
+# @flag --no-haddock-executables                Enable/disable also building Haddock documentation for all executables (like 'cabal haddock --executables').
+# @flag --haddock-tests                         Enable/disable also building Haddock documentation for all test suites (like 'cabal haddock --tests').
+# @flag --no-haddock-tests                      Enable/disable also building Haddock documentation for all test suites (like 'cabal haddock --tests').
+# @flag --haddock-benchmarks                    Enable/disable also building Haddock documentation for all benchmarks (like 'cabal haddock --benchmarks').
+# @flag --no-haddock-benchmarks                 Enable/disable also building Haddock documentation for all benchmarks (like 'cabal haddock --benchmarks').
 # @flag --haddock-internal                      Enable/disable building Haddock documentation for internal modules (like 'cabal haddock --internal').
 # @flag --no-haddock-internal                   Enable/disable building Haddock documentation for internal modules (like 'cabal haddock --internal').
 # @flag --haddock-hyperlink-source              Enable/disable building hyperlinked source for Haddock documentation (like 'haddock --hyperlinked-source').
 # @flag --no-haddock-hyperlink-source           Enable/disable building hyperlinked source for Haddock documentation (like 'haddock --hyperlinked-source').
+# @flag --haddock-for-hackage                   Enable/disable building with flags to generate Haddock documentation suitable for upload to Hackage.
+# @flag --no-haddock-for-hackage                Enable/disable building with flags to generate Haddock documentation suitable for upload to Hackage.
 # @flag --copy-bins                             Enable/disable copying binaries to local-bin (see 'stack path').
 # @flag --no-copy-bins                          Enable/disable copying binaries to local-bin (see 'stack path').
 # @flag --copy-compiler-tool                    Enable/disable copying binaries of targets to compiler-tools-bin (see 'stack path').
@@ -195,8 +218,8 @@ build() {
 # @flag --no-keep-going                         Enable/disable continue running after a step fails.
 # @flag --keep-tmp-files                        Enable/disable keep intermediate files and build directories.
 # @flag --no-keep-tmp-files                     Enable/disable keep intermediate files and build directories.
-# @flag --force-dirty                           Enable/disable forcing the treatment of all local packages as having dirty files.
-# @flag --no-force-dirty                        Enable/disable forcing the treatment of all local packages as having dirty files.
+# @flag --force-dirty                           Enable/disable forcing the treatment of all project packages and local extra-deps as having dirty files.
+# @flag --no-force-dirty                        Enable/disable forcing the treatment of all project packages and local extra-deps as having dirty files.
 # @flag --test                                  Enable/disable testing the package(s) in this directory/configuration.
 # @flag --no-test                               Enable/disable testing the package(s) in this directory/configuration.
 # @flag --rerun-tests                           Enable/disable running already successful tests.
@@ -247,11 +270,13 @@ uninstall() {
 # {{ stack test
 # @cmd Shortcut for 'build --test'.
 # @flag --dry-run                               Don't build anything, just prepare to.
-# @flag --pedantic                              Turn on -Wall and -Werror.
-# @flag --fast                                  Turn off optimizations (-O0).
-# @option --ghc-options <OPTIONS>               Additional options passed to GHC (can be specified multiple times).
+# @flag --pedantic                              Pass the -Wall and -Werror flags to GHC, turning on all warnings that indicate potentially suspicious code and making all warnings into fatal errors.
+# @flag --fast                                  Pass a -O0 flag to GHC, turning off any GHC optimsations that have been set.
+# @option --ghc-options <OPTIONS>               Additional options to be passed to GHC (can be specified multiple times).
 # @option --PROG-option <ARG>                   Pass an argument to PROG (can be specified multiple times).
-# @option --flag <PACKAGE:[-]FLAG>              Override flags set in stack.yaml (applies to local packages and extra-deps).
+# @option --flag <PACKAGE:[-]FLAG>              Set (or unset) the Cabal flag for the package (or use '*' for all packages) (can be specified multiple times).
+# @flag --allow-newer                           Enable/disable ignoring of lower and upper version bounds in Cabal files.
+# @flag --no-allow-newer                        Enable/disable ignoring of lower and upper version bounds in Cabal files.
 # @flag --dependencies-only                     A synonym for --only-dependencies.
 # @flag --only-snapshot                         Only build packages for the snapshot database, not the local database.
 # @flag --only-dependencies                     Only build packages that are dependencies of targets on the command line.
@@ -279,10 +304,18 @@ uninstall() {
 # @flag --no-open                               Enable/disable opening the local Haddock documentation in the browser.
 # @flag --haddock-deps                          Enable/disable building Haddock documentation for dependencies.
 # @flag --no-haddock-deps                       Enable/disable building Haddock documentation for dependencies.
+# @flag --haddock-executables                   Enable/disable also building Haddock documentation for all executables (like 'cabal haddock --executables').
+# @flag --no-haddock-executables                Enable/disable also building Haddock documentation for all executables (like 'cabal haddock --executables').
+# @flag --haddock-tests                         Enable/disable also building Haddock documentation for all test suites (like 'cabal haddock --tests').
+# @flag --no-haddock-tests                      Enable/disable also building Haddock documentation for all test suites (like 'cabal haddock --tests').
+# @flag --haddock-benchmarks                    Enable/disable also building Haddock documentation for all benchmarks (like 'cabal haddock --benchmarks').
+# @flag --no-haddock-benchmarks                 Enable/disable also building Haddock documentation for all benchmarks (like 'cabal haddock --benchmarks').
 # @flag --haddock-internal                      Enable/disable building Haddock documentation for internal modules (like 'cabal haddock --internal').
 # @flag --no-haddock-internal                   Enable/disable building Haddock documentation for internal modules (like 'cabal haddock --internal').
 # @flag --haddock-hyperlink-source              Enable/disable building hyperlinked source for Haddock documentation (like 'haddock --hyperlinked-source').
 # @flag --no-haddock-hyperlink-source           Enable/disable building hyperlinked source for Haddock documentation (like 'haddock --hyperlinked-source').
+# @flag --haddock-for-hackage                   Enable/disable building with flags to generate Haddock documentation suitable for upload to Hackage.
+# @flag --no-haddock-for-hackage                Enable/disable building with flags to generate Haddock documentation suitable for upload to Hackage.
 # @flag --copy-bins                             Enable/disable copying binaries to local-bin (see 'stack path').
 # @flag --no-copy-bins                          Enable/disable copying binaries to local-bin (see 'stack path').
 # @flag --copy-compiler-tool                    Enable/disable copying binaries of targets to compiler-tools-bin (see 'stack path').
@@ -293,8 +326,8 @@ uninstall() {
 # @flag --no-keep-going                         Enable/disable continue running after a step fails.
 # @flag --keep-tmp-files                        Enable/disable keep intermediate files and build directories.
 # @flag --no-keep-tmp-files                     Enable/disable keep intermediate files and build directories.
-# @flag --force-dirty                           Enable/disable forcing the treatment of all local packages as having dirty files.
-# @flag --no-force-dirty                        Enable/disable forcing the treatment of all local packages as having dirty files.
+# @flag --force-dirty                           Enable/disable forcing the treatment of all project packages and local extra-deps as having dirty files.
+# @flag --no-force-dirty                        Enable/disable forcing the treatment of all project packages and local extra-deps as having dirty files.
 # @flag --test                                  Enable/disable testing the package(s) in this directory/configuration.
 # @flag --no-test                               Enable/disable testing the package(s) in this directory/configuration.
 # @flag --rerun-tests                           Enable/disable running already successful tests.
@@ -335,11 +368,13 @@ test() {
 # {{ stack bench
 # @cmd Shortcut for 'build --bench'.
 # @flag --dry-run                               Don't build anything, just prepare to.
-# @flag --pedantic                              Turn on -Wall and -Werror.
-# @flag --fast                                  Turn off optimizations (-O0).
-# @option --ghc-options <OPTIONS>               Additional options passed to GHC (can be specified multiple times).
+# @flag --pedantic                              Pass the -Wall and -Werror flags to GHC, turning on all warnings that indicate potentially suspicious code and making all warnings into fatal errors.
+# @flag --fast                                  Pass a -O0 flag to GHC, turning off any GHC optimsations that have been set.
+# @option --ghc-options <OPTIONS>               Additional options to be passed to GHC (can be specified multiple times).
 # @option --PROG-option <ARG>                   Pass an argument to PROG (can be specified multiple times).
-# @option --flag <PACKAGE:[-]FLAG>              Override flags set in stack.yaml (applies to local packages and extra-deps).
+# @option --flag <PACKAGE:[-]FLAG>              Set (or unset) the Cabal flag for the package (or use '*' for all packages) (can be specified multiple times).
+# @flag --allow-newer                           Enable/disable ignoring of lower and upper version bounds in Cabal files.
+# @flag --no-allow-newer                        Enable/disable ignoring of lower and upper version bounds in Cabal files.
 # @flag --dependencies-only                     A synonym for --only-dependencies.
 # @flag --only-snapshot                         Only build packages for the snapshot database, not the local database.
 # @flag --only-dependencies                     Only build packages that are dependencies of targets on the command line.
@@ -367,10 +402,18 @@ test() {
 # @flag --no-open                               Enable/disable opening the local Haddock documentation in the browser.
 # @flag --haddock-deps                          Enable/disable building Haddock documentation for dependencies.
 # @flag --no-haddock-deps                       Enable/disable building Haddock documentation for dependencies.
+# @flag --haddock-executables                   Enable/disable also building Haddock documentation for all executables (like 'cabal haddock --executables').
+# @flag --no-haddock-executables                Enable/disable also building Haddock documentation for all executables (like 'cabal haddock --executables').
+# @flag --haddock-tests                         Enable/disable also building Haddock documentation for all test suites (like 'cabal haddock --tests').
+# @flag --no-haddock-tests                      Enable/disable also building Haddock documentation for all test suites (like 'cabal haddock --tests').
+# @flag --haddock-benchmarks                    Enable/disable also building Haddock documentation for all benchmarks (like 'cabal haddock --benchmarks').
+# @flag --no-haddock-benchmarks                 Enable/disable also building Haddock documentation for all benchmarks (like 'cabal haddock --benchmarks').
 # @flag --haddock-internal                      Enable/disable building Haddock documentation for internal modules (like 'cabal haddock --internal').
 # @flag --no-haddock-internal                   Enable/disable building Haddock documentation for internal modules (like 'cabal haddock --internal').
 # @flag --haddock-hyperlink-source              Enable/disable building hyperlinked source for Haddock documentation (like 'haddock --hyperlinked-source').
 # @flag --no-haddock-hyperlink-source           Enable/disable building hyperlinked source for Haddock documentation (like 'haddock --hyperlinked-source').
+# @flag --haddock-for-hackage                   Enable/disable building with flags to generate Haddock documentation suitable for upload to Hackage.
+# @flag --no-haddock-for-hackage                Enable/disable building with flags to generate Haddock documentation suitable for upload to Hackage.
 # @flag --copy-bins                             Enable/disable copying binaries to local-bin (see 'stack path').
 # @flag --no-copy-bins                          Enable/disable copying binaries to local-bin (see 'stack path').
 # @flag --copy-compiler-tool                    Enable/disable copying binaries of targets to compiler-tools-bin (see 'stack path').
@@ -381,8 +424,8 @@ test() {
 # @flag --no-keep-going                         Enable/disable continue running after a step fails.
 # @flag --keep-tmp-files                        Enable/disable keep intermediate files and build directories.
 # @flag --no-keep-tmp-files                     Enable/disable keep intermediate files and build directories.
-# @flag --force-dirty                           Enable/disable forcing the treatment of all local packages as having dirty files.
-# @flag --no-force-dirty                        Enable/disable forcing the treatment of all local packages as having dirty files.
+# @flag --force-dirty                           Enable/disable forcing the treatment of all project packages and local extra-deps as having dirty files.
+# @flag --no-force-dirty                        Enable/disable forcing the treatment of all project packages and local extra-deps as having dirty files.
 # @flag --test                                  Enable/disable testing the package(s) in this directory/configuration.
 # @flag --no-test                               Enable/disable testing the package(s) in this directory/configuration.
 # @flag --rerun-tests                           Enable/disable running already successful tests.
@@ -423,11 +466,13 @@ bench() {
 # {{ stack haddock
 # @cmd Shortcut for 'build --haddock'.
 # @flag --dry-run                               Don't build anything, just prepare to.
-# @flag --pedantic                              Turn on -Wall and -Werror.
-# @flag --fast                                  Turn off optimizations (-O0).
-# @option --ghc-options <OPTIONS>               Additional options passed to GHC (can be specified multiple times).
+# @flag --pedantic                              Pass the -Wall and -Werror flags to GHC, turning on all warnings that indicate potentially suspicious code and making all warnings into fatal errors.
+# @flag --fast                                  Pass a -O0 flag to GHC, turning off any GHC optimsations that have been set.
+# @option --ghc-options <OPTIONS>               Additional options to be passed to GHC (can be specified multiple times).
 # @option --PROG-option <ARG>                   Pass an argument to PROG (can be specified multiple times).
-# @option --flag <PACKAGE:[-]FLAG>              Override flags set in stack.yaml (applies to local packages and extra-deps).
+# @option --flag <PACKAGE:[-]FLAG>              Set (or unset) the Cabal flag for the package (or use '*' for all packages) (can be specified multiple times).
+# @flag --allow-newer                           Enable/disable ignoring of lower and upper version bounds in Cabal files.
+# @flag --no-allow-newer                        Enable/disable ignoring of lower and upper version bounds in Cabal files.
 # @flag --dependencies-only                     A synonym for --only-dependencies.
 # @flag --only-snapshot                         Only build packages for the snapshot database, not the local database.
 # @flag --only-dependencies                     Only build packages that are dependencies of targets on the command line.
@@ -455,10 +500,18 @@ bench() {
 # @flag --no-open                               Enable/disable opening the local Haddock documentation in the browser.
 # @flag --haddock-deps                          Enable/disable building Haddock documentation for dependencies.
 # @flag --no-haddock-deps                       Enable/disable building Haddock documentation for dependencies.
+# @flag --haddock-executables                   Enable/disable also building Haddock documentation for all executables (like 'cabal haddock --executables').
+# @flag --no-haddock-executables                Enable/disable also building Haddock documentation for all executables (like 'cabal haddock --executables').
+# @flag --haddock-tests                         Enable/disable also building Haddock documentation for all test suites (like 'cabal haddock --tests').
+# @flag --no-haddock-tests                      Enable/disable also building Haddock documentation for all test suites (like 'cabal haddock --tests').
+# @flag --haddock-benchmarks                    Enable/disable also building Haddock documentation for all benchmarks (like 'cabal haddock --benchmarks').
+# @flag --no-haddock-benchmarks                 Enable/disable also building Haddock documentation for all benchmarks (like 'cabal haddock --benchmarks').
 # @flag --haddock-internal                      Enable/disable building Haddock documentation for internal modules (like 'cabal haddock --internal').
 # @flag --no-haddock-internal                   Enable/disable building Haddock documentation for internal modules (like 'cabal haddock --internal').
 # @flag --haddock-hyperlink-source              Enable/disable building hyperlinked source for Haddock documentation (like 'haddock --hyperlinked-source').
 # @flag --no-haddock-hyperlink-source           Enable/disable building hyperlinked source for Haddock documentation (like 'haddock --hyperlinked-source').
+# @flag --haddock-for-hackage                   Enable/disable building with flags to generate Haddock documentation suitable for upload to Hackage.
+# @flag --no-haddock-for-hackage                Enable/disable building with flags to generate Haddock documentation suitable for upload to Hackage.
 # @flag --copy-bins                             Enable/disable copying binaries to local-bin (see 'stack path').
 # @flag --no-copy-bins                          Enable/disable copying binaries to local-bin (see 'stack path').
 # @flag --copy-compiler-tool                    Enable/disable copying binaries of targets to compiler-tools-bin (see 'stack path').
@@ -469,8 +522,8 @@ bench() {
 # @flag --no-keep-going                         Enable/disable continue running after a step fails.
 # @flag --keep-tmp-files                        Enable/disable keep intermediate files and build directories.
 # @flag --no-keep-tmp-files                     Enable/disable keep intermediate files and build directories.
-# @flag --force-dirty                           Enable/disable forcing the treatment of all local packages as having dirty files.
-# @flag --no-force-dirty                        Enable/disable forcing the treatment of all local packages as having dirty files.
+# @flag --force-dirty                           Enable/disable forcing the treatment of all project packages and local extra-deps as having dirty files.
+# @flag --no-force-dirty                        Enable/disable forcing the treatment of all project packages and local extra-deps as having dirty files.
 # @flag --test                                  Enable/disable testing the package(s) in this directory/configuration.
 # @flag --no-test                               Enable/disable testing the package(s) in this directory/configuration.
 # @flag --rerun-tests                           Enable/disable running already successful tests.
@@ -511,6 +564,8 @@ haddock() {
 # {{ stack new
 # @cmd Create a new project from a template.
 # @flag --bare                              Do not create a subdirectory for the project.
+# @flag --init                              Enable/disable the initialisation of the project for use with Stack.
+# @flag --no-init                           Enable/disable the initialisation of the project for use with Stack.
 # @option -p --param <KEY:VALUE>            Parameter for the template in the format key:value.
 # @flag --omit-packages                     Exclude conflicting or incompatible user packages, when initialising.
 # @flag --force                             Force an initialisation that overwrites any existing stack.yaml file.
@@ -570,15 +625,15 @@ setup() {
 # {{ stack path
 # @cmd Print out handy path information.
 # @flag --stack-root                        Global Stack root directory
-# @flag --global-config                     Global Stack configuration file
-# @flag --project-root                      Project root (derived from stack.yaml file)
-# @flag --config-location                   Configuration location (where the stack.yaml file is)
-# @flag --bin-path                          PATH environment variable
+# @flag --global-config                     User-specific global configuration file
 # @flag --programs                          Install location for GHC and other core tools (see 'stack ls tools' command)
+# @flag --local-bin                         Directory where Stack installs executables (e.g. ~/.local/bin (Unix-like OSs) or %APPDATA%\local\bin (Windows))
+# @flag --project-root                      Project root (derived from the project-level configuration file; stack.yaml, by default)
+# @flag --config-location                   Project-level configuration file (stack.yaml, by default)
+# @flag --bin-path                          PATH environment variable
 # @flag --compiler-exe                      Compiler binary (e.g. ghc)
 # @flag --compiler-bin                      Directory containing the compiler binary (e.g. ghc)
-# @flag --compiler-tools-bin                Directory containing binaries specific to a particular compiler (e.g. intero)
-# @flag --local-bin                         Directory where Stack installs executables (e.g. ~/.local/bin (Unix-like OSs) or %APPDATA%\local\bin (Windows))
+# @flag --compiler-tools-bin                Directory containing binaries specific to a particular compiler
 # @flag --extra-include-dirs                Extra include directories
 # @flag --extra-library-dirs                Extra library directories
 # @flag --snapshot-pkg-db                   Snapshot package database
@@ -635,21 +690,32 @@ ls::snapshots::local() {
 # }}}} stack ls snapshots local
 # }}} stack ls snapshots
 
+# {{{ stack ls globals
+# @cmd View global packages.
+# @flag --global-hints       Enable/disable use of a hints file for global packages, rather than an installed GHC (default: enabled)
+# @flag --no-global-hints    Enable/disable use of a hints file for global packages, rather than an installed GHC (default: enabled)
+# @flag -h --help            Show this help text
+ls::globals() {
+    :;
+}
+# }}} stack ls globals
+
 # {{{ stack ls dependencies
-# @cmd View the dependencies.
+# @cmd View the packages and versions used for a project.
 # @option --separator <SEP>           Separator between package name and package version.
 # @flag --license                     Enable/disable printing of dependency licenses instead of versions.
 # @flag --no-license                  Enable/disable printing of dependency licenses instead of versions.
+# @option --filter <ITEM>             Item to be filtered out of the results, if present, being either $locals (for all project packages) or a package name (can be specified multiple times).
 # @flag --external                    Enable/disable inclusion of external dependencies.
 # @flag --no-external                 Enable/disable inclusion of external dependencies.
 # @flag --include-base                Enable/disable inclusion of dependencies on base.
 # @flag --no-include-base             Enable/disable inclusion of dependencies on base.
 # @option --depth                     Limit the depth of dependency resolution.
 # @option --prune <PACKAGES>          Prune specified package(s).
-# @option --flag <PACKAGE:[-]FLAG>    Override flags set in stack.yaml (applies to local packages and extra-deps).
+# @option --flag <PACKAGE:[-]FLAG>    Set (or unset) the Cabal flag for the package (or use '*' for all packages) (can be specified multiple times).
 # @flag --test                        Consider dependencies of test components.
 # @flag --bench                       Consider dependencies of benchmark components.
-# @flag --global-hints                Do not require an install GHC; instead, use a hints file for global packages.
+# @flag --global-hints                Do not require an installed GHC; instead, use a hints file for global packages.
 # @flag -h --help                     Show this help text
 ls::dependencies() {
     :;
@@ -657,6 +723,7 @@ ls::dependencies() {
 
 # {{{{ stack ls dependencies text
 # @cmd Print dependencies as text (default).
+# @arg target
 ls::dependencies::text() {
     :;
 }
@@ -723,12 +790,13 @@ ls::tools() {
 # }} stack ls
 
 # {{ stack unpack
-# @cmd Unpack one or more packages locally.
-# @option --to <ARG>                        Optional path to unpack the package into (will unpack into subdirectory).
+# @cmd Unpack one or more packages, or one or more package candidates, locally.
+# @flag --candidate                         Each target is a package candidate.
+# @option --to <DIR>                        Optionally, a directory to unpack into.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
 # @flag -h --help                           Show this help text
-# @arg package[`_choice_dependency`]
+# @arg target
 unpack() {
     :;
 }
@@ -767,17 +835,20 @@ upgrade() {
 # }} stack upgrade
 
 # {{ stack upload
-# @cmd Upload a package to Hackage.
-# @option --pvp-bounds[none|lower|upper|both]    How PVP version bounds should be added to Cabal file: none, lower, upper, both.
-# @flag --ignore-check                           Do not check package for common mistakes.
-# @flag --test-tarball                           Enable/disable building of the resulting tarball.
-# @flag --no-test-tarball                        Enable/disable building of the resulting tarball.
-# @option --tar-dir <ARG>                        If specified, copy all the tar to this directory.
-# @flag --candidate                              Upload as a package candidate.
+# @cmd Upload one or more packages, or documentation for one or more packages, to Hackage.
+# @flag -d --documentation                       Upload documentation for packages (not packages).
+# @option --pvp-bounds[none|lower|upper|both]    For package upload, how PVP version bounds should be added to Cabal file: none, lower, upper, both.
+# @flag --ignore-check                           For package upload, do not check packages for common mistakes.
+# @flag --test-tarball                           Enable/disable building of the resulting sdist tarball(s), for package upload.
+# @flag --no-test-tarball                        Enable/disable building of the resulting sdist tarball(s), for package upload.
+# @option --tar-dir <ARG>                        For package upload, if specified, copy all the tar to this directory.
+# @flag --candidate                              Upload as, or for, a package candidate.
+# @flag --save-hackage-creds                     Enable/disable saving user's Hackage username and password in a local file.
+# @flag --no-save-hackage-creds                  Enable/disable saving user's Hackage username and password in a local file.
 # @option --setup-info-yaml <URL>                Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>         The base location of LTS/Nightly snapshots.
 # @flag -h --help                                Show this help text
-# @arg dir
+# @arg item
 upload() {
     :;
 }
@@ -807,10 +878,10 @@ sdist() {
 # @flag --no-include-base                   Enable/disable inclusion of dependencies on base.
 # @option --depth                           Limit the depth of dependency resolution.
 # @option --prune <PACKAGES>                Prune specified package(s).
-# @option --flag <PACKAGE:[-]FLAG>          Override flags set in stack.yaml (applies to local packages and extra-deps).
+# @option --flag <PACKAGE:[-]FLAG>          Set (or unset) the Cabal flag for the package (or use '*' for all packages) (can be specified multiple times).
 # @flag --test                              Consider dependencies of test components.
 # @flag --bench                             Consider dependencies of benchmark components.
-# @flag --global-hints                      Do not require an install GHC; instead, use a hints file for global packages.
+# @flag --global-hints                      Do not require an installed GHC; instead, use a hints file for global packages.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
 # @flag -h --help                           Show this help text
@@ -826,8 +897,8 @@ dot() {
 # @flag --no-ghc-package-path               Enable/disable setting the GHC_PACKAGE_PATH variable for the subprocess.
 # @flag --stack-exe                         Enable/disable setting the STACK_EXE environment variable to the path for the stack executable.
 # @flag --no-stack-exe                      Enable/disable setting the STACK_EXE environment variable to the path for the stack executable.
-# @option --package                         Add a package (can be specified multiple times).
-# @option --rts-options <RTSFLAG>           Explicit RTS options to pass to application.
+# @option --package <PACKAGE(S)>            Add package(s) as a list of names or identifiers separated by spaces (can be specified multiple times).
+# @option --rts-options <RTSFLAG>           Explicit RTS options to pass to application (can be specified multiple times).
 # @option --cwd <DIR>                       Sets the working directory before executing.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
@@ -857,8 +928,8 @@ hoogle() {
 # @flag --no-ghc-package-path               Enable/disable setting the GHC_PACKAGE_PATH variable for the subprocess.
 # @flag --stack-exe                         Enable/disable setting the STACK_EXE environment variable to the path for the stack executable.
 # @flag --no-stack-exe                      Enable/disable setting the STACK_EXE environment variable to the path for the stack executable.
-# @option --package                         Add a package (can be specified multiple times).
-# @option --rts-options <RTSFLAG>           Explicit RTS options to pass to application.
+# @option --package <PACKAGE(S)>            Add package(s) as a list of names or identifiers separated by spaces (can be specified multiple times).
+# @option --rts-options <RTSFLAG>           Explicit RTS options to pass to application (can be specified multiple times).
 # @option --cwd <DIR>                       Sets the working directory before executing.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
@@ -876,8 +947,8 @@ exec() {
 # @flag --no-ghc-package-path               Enable/disable setting the GHC_PACKAGE_PATH variable for the subprocess.
 # @flag --stack-exe                         Enable/disable setting the STACK_EXE environment variable to the path for the stack executable.
 # @flag --no-stack-exe                      Enable/disable setting the STACK_EXE environment variable to the path for the stack executable.
-# @option --package                         Add a package (can be specified multiple times).
-# @option --rts-options <RTSFLAG>           Explicit RTS options to pass to application.
+# @option --package <PACKAGE(S)>            Add package(s) as a list of names or identifiers separated by spaces (can be specified multiple times).
+# @option --rts-options <RTSFLAG>           Explicit RTS options to pass to application (can be specified multiple times).
 # @option --cwd <DIR>                       Sets the working directory before executing.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
@@ -893,7 +964,7 @@ run() {
 # @flag --pedantic                          Turn on -Wall and -Werror.
 # @option --ghci-options <OPTIONS>          Additional options passed to GHCi (can be specified multiple times).
 # @option --ghc-options <OPTIONS>           Additional options passed to both GHC and GHCi (can be specified multiple times).
-# @option --flag <PACKAGE:[-]FLAG>          Override flags set in stack.yaml (applies to local packages and extra-deps).
+# @option --flag <PACKAGE:[-]FLAG>          Set (or unset) the Cabal flag for the package (or use '*' for all packages) (can be specified multiple times).
 # @option --with-ghc <GHC>                  Use this GHC to run GHCi.
 # @flag --load                              Enable/disable load modules on start-up.
 # @flag --no-load                           Enable/disable load modules on start-up.
@@ -926,8 +997,8 @@ ghci() {
 # @flag --no-ghc-package-path               Enable/disable setting the GHC_PACKAGE_PATH variable for the subprocess.
 # @flag --stack-exe                         Enable/disable setting the STACK_EXE environment variable to the path for the stack executable.
 # @flag --no-stack-exe                      Enable/disable setting the STACK_EXE environment variable to the path for the stack executable.
-# @option --package                         Add a package (can be specified multiple times).
-# @option --rts-options <RTSFLAG>           Explicit RTS options to pass to application.
+# @option --package <PACKAGE(S)>            Add package(s) as a list of names or identifiers separated by spaces (can be specified multiple times).
+# @option --rts-options <RTSFLAG>           Explicit RTS options to pass to application (can be specified multiple times).
 # @option --cwd <DIR>                       Sets the working directory before executing.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
@@ -962,8 +1033,8 @@ script() {
 # @flag --no-ghc-package-path               Enable/disable setting the GHC_PACKAGE_PATH variable for the subprocess.
 # @flag --stack-exe                         Enable/disable setting the STACK_EXE environment variable to the path for the stack executable.
 # @flag --no-stack-exe                      Enable/disable setting the STACK_EXE environment variable to the path for the stack executable.
-# @option --package                         Add a package (can be specified multiple times).
-# @option --rts-options <RTSFLAG>           Explicit RTS options to pass to application.
+# @option --package <PACKAGE(S)>            Add package(s) as a list of names or identifiers separated by spaces (can be specified multiple times).
+# @option --rts-options <RTSFLAG>           Explicit RTS options to pass to application (can be specified multiple times).
 # @option --cwd <DIR>                       Sets the working directory before executing.
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
@@ -1008,7 +1079,7 @@ query() {
 # }} stack query
 
 # {{ stack list
-# @cmd List package id's in snapshot (experimental).
+# @cmd List package versions included in the package index, or in a specified snapshot (directly or indirectly).
 # @option --setup-info-yaml <URL>           Alternate URL or path (relative or absolute) for Stack dependencies.
 # @option --snapshot-location-base <URL>    The base location of LTS/Nightly snapshots.
 # @flag -h --help                           Show this help text
@@ -1103,8 +1174,17 @@ config::set() {
     :;
 }
 
+# {{{{ stack config set snapshot
+# @cmd Change the snapshot of the current project.
+# @flag -h --help    Show this help text
+# @arg snapshot
+config::set::snapshot() {
+    :;
+}
+# }}}} stack config set snapshot
+
 # {{{{ stack config set resolver
-# @cmd Change the resolver of the current project.
+# @cmd Change the snapshot of the current project, using the resolver key.
 # @flag -h --help    Show this help text
 # @arg snapshot
 config::set::resolver() {
@@ -1113,7 +1193,7 @@ config::set::resolver() {
 # }}}} stack config set resolver
 
 # {{{{ stack config set system-ghc
-# @cmd Configure whether Stack should use a system GHC installation or not.
+# @cmd Configure whether or not Stack should use a system GHC installation.
 # @flag --global     Modify the user-specific global configuration file ('config.yaml') instead of the project-level configuration file ('stack.yaml').
 # @flag -h --help    Show this help text
 # @arg bool[true|false]
@@ -1123,7 +1203,7 @@ config::set::system-ghc() {
 # }}}} stack config set system-ghc
 
 # {{{{ stack config set install-ghc
-# @cmd Configure whether Stack should automatically install GHC when necessary.
+# @cmd Configure whether or not Stack should automatically install GHC when necessary.
 # @flag --global     Modify the user-specific global configuration file ('config.yaml') instead of the project-level configuration file ('stack.yaml').
 # @flag -h --help    Show this help text
 # @arg bool[true|false]
@@ -1131,6 +1211,16 @@ config::set::install-ghc() {
     :;
 }
 # }}}} stack config set install-ghc
+
+# {{{{ stack config set recommend-stack-upgrade
+# @cmd Configure whether or not Stack should notify the user if it identifes a new version of Stack is available.
+# @flag --project    Modify the project-level configuration file ('stack.yaml') instead of the user-specific global configuration file ('config.yaml').
+# @flag -h --help    Show this help text
+# @arg bool[true|false]
+config::set::recommend-stack-upgrade() {
+    :;
+}
+# }}}} stack config set recommend-stack-upgrade
 
 # {{{{ stack config set package-index
 # @cmd Configure Stack's package index
@@ -1153,8 +1243,8 @@ config::set::package-index::download-prefix() {
 
 # {{{ stack config env
 # @cmd Print environment variables for use in a shell.
-# @flag --locals                            Enable/disable include local package information (default: enabled)
-# @flag --no-locals                         Enable/disable include local package information (default: enabled)
+# @flag --locals                            Enable/disable include information about local packages (default: enabled)
+# @flag --no-locals                         Enable/disable include information about local packages (default: enabled)
 # @flag --ghc-package-path                  Enable/disable set GHC_PACKAGE_PATH environment variable (default: enabled)
 # @flag --no-ghc-package-path               Enable/disable set GHC_PACKAGE_PATH environment variable (default: enabled)
 # @flag --stack-exe                         Enable/disable set STACK_EXE environment variable (default: enabled)
@@ -1202,16 +1292,16 @@ _choice_target() {
     stack ide targets
 }
 
-_choice_dependency() {
-    stack ls dependencies | gawk '{print $1}'
-}
-
 _choice_target_or_file() {
     if _argc_util_has_path_prefix; then
         _argc_util_comp_path
         return
     fi
     _choice_target
+}
+
+_choice_dependency() {
+    stack ls dependencies | gawk '{print $1}'
 }
 
 _module_os_command() {

@@ -266,7 +266,7 @@ refresh-services() {
 # @flag -C --capability                           Select packages solely by capability.
 # @flag --details                                 Show the detailed installation summary.
 # @option --from[`_choice_repo`] <ALIAS|#|URI>    Select packages from the specified repository.
-# @flag --oldpackage                              Allow to replace a newer item with an older one.
+# @flag --oldpackage                              Allows one to replace a newer item with an older one.
 # @flag --allow-unsigned-rpm                      Silently install unsigned rpm packages given as commandline parameters.
 # @flag -f --force                                Install even if the item is already installed (reinstall), downgraded or changes vendor or architecture.
 # @option -r --repo[`_choice_repo`] <ALIAS|#|URI>  Work only with the specified repository.
@@ -326,7 +326,7 @@ remove() {
 # @flag -C --capability                           Select packages solely by capability.
 # @flag --details                                 Show the detailed installation summary.
 # @option --from[`_choice_repo`] <ALIAS|#|URI>    Select packages from the specified repository.
-# @flag --oldpackage                              Allow to replace a newer item with an older one.
+# @flag --oldpackage                              Allows one to replace a newer item with an older one.
 # @flag --allow-unsigned-rpm                      Silently install unsigned rpm packages given as commandline parameters.
 # @flag -f --force                                Install even if the item is already installed (reinstall), downgraded or changes vendor or architecture.
 # @option -r --repo[`_choice_repo`] <ALIAS|#|URI>  Work only with the specified repository.
@@ -497,6 +497,7 @@ list-updates() {
 # {{ zypper patch
 # @cmd Install needed patches.
 # @flag --updatestack-only               Consider only patches which affect the package management itself.
+# @flag --skip-not-applicable-patches    Skip needed patches which do not apply without conflict.
 # @flag --with-update                    Additionally try to update all packages not covered by patches.
 # @flag --details                        Show the detailed installation summary.
 # @flag --replacefiles                   Install the packages even if they replace files from other, already installed, packages.
@@ -556,6 +557,7 @@ list-patches() {
 # @cmd Perform a distribution upgrade.
 # @alias dup
 # @option --from[`_choice_repo`] <ALIAS|#|URI>    Restrict upgrade to specified repository.
+# @flag --remove-orphaned                         Remove unneeded orphaned packages.
 # @flag --details                                 Show the detailed installation summary.
 # @flag --replacefiles                            Install the packages even if they replace files from other, already installed, packages.
 # @option -r --repo[`_choice_repo`] <ALIAS|#|URI>  Work only with the specified repository.
@@ -689,7 +691,10 @@ patches() {
 # {{ zypper packages
 # @cmd List all available packages.
 # @alias pa
-# @flag --orphaned                 Show packages which are orphaned (without repository).
+# @flag --autoinstalled            Show installed packages which were automatically selected by the resolver.
+# @flag --userinstalled            Show installed packages which were explicitly selected by the user.
+# @flag --system                   Show installed packages which are not provided by any repository.
+# @flag --orphaned                 Show system packages which are orphaned (without repository and without update candidate).
 # @flag --suggested                Show packages which are suggested.
 # @flag --recommended              Show packages which are recommended.
 # @flag --unneeded                 Show packages which are unneeded.

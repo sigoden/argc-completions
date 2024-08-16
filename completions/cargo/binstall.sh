@@ -10,14 +10,17 @@
 # @option --pkg-fmt <PKG_FMT>                     Override Cargo.toml package manifest pkg-fmt.
 # @option --pkg-url <PKG_URL>                     Override Cargo.toml package manifest pkg-url
 # @option --rate-limit <RATE_LIMIT>               Override the rate limit duration.
-# @option --strategies                            Specify the strategies to be used, binstall will run the strategies specified in order.
-# @option --disable-strategies <DISABLE_STRATEGIES>  Disable the strategies specified.
+# @option --strategies[crate-meta-data|quick-install|compile]  Specify the strategies to be used, binstall will run the strategies specified in order.
+# @option --disable-strategies[crate-meta-data|quick-install|compile] <DISABLE_STRATEGIES>  Disable the strategies specified.
 # @flag --no-discover-github-token                If `--github-token` or environment variable `GITHUB_TOKEN`/`GH_TOKEN` is not specified, then cargo-binstall will try to extract github token from `$HOME/.git-credentials` or `$HOME/.config/gh/hosts.yml` by default.
+# @option --maximum-resolution-timeout <MAXIMUM_RESOLUTION_TIMEOUT>  Maximum time each resolution (one for each possible target and each strategy), in seconds
 # @flag --no-symlinks                             This flag is now enabled by default thus a no-op.
 # @flag --dry-run                                 Dry run, fetch and show changes without installing binaries
 # @flag -y --no-confirm                           Disable interactive mode / confirmation prompts
 # @flag --no-cleanup                              Do not cleanup temporary files
+# @flag --continue-on-failure                     Continue installing other crates even if one of the crate failed to install
 # @flag --no-track                                By default, binstall keeps track of the installed packages with metadata files stored in the installation root directory.
+# @flag --disable-telemetry                       Disable statistics collection on popular crates.
 # @option --install-path <INSTALL_PATH>           Install binaries in a custom location.
 # @option --root                                  Install binaries with a custom cargo root.
 # @option --index                                 The URL of the registry index to use.

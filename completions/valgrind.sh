@@ -32,7 +32,7 @@
 # @option --exit-on-first-error[no|yes]            exit code on the first error found? [no]
 # @option --error-exitcode <number>                exit code to return if errors found [0=disable]
 # @option --error-markers <<begin>,<end>>          add lines with begin/end markers before/after each error output in plain text mode [none]
-# @option --show-error-list[no|yes]                show detected errors list and suppression counts at exit [no]
+# @option --show-error-list[no|yes|all]            show detected errors list and suppression counts at exit [no].
 # @flag -s                                         same as --show-error-list=yes
 # @option --keep-debuginfo[no|yes]                 Keep symbols etc for unloaded code [no] This allows saved stack traces (e.g. memory leaks) to include file/line info for code that has been dlclose'd (or similar)
 # @option --show-below-main[no|yes]                continue stack traces below main() [no]
@@ -47,6 +47,7 @@
 # @option --redzone-size <number>                  set minimum size of redzones added before/after heap blocks (in bytes).
 # @option --xtree-memory[none|allocs|full]         profile heap memory in an xtree [none] and produces a report at the end of the execution none: no profiling, allocs: current allocated size/blocks, full: profile current and cumulative allocated size/blocks and freed size/blocks.
 # @option --xtree-memory-file <file>               xtree memory report file [xtmemory.kcg.%p]
+# @option --realloc-zero-bytes-frees[yes|no] <yes on Linux glibc no otherwise>  should calls to realloc with a size of 0 free memory and return NULL or allocate/resize and return non-NULL
 # @option --fullpath-after <string>                like --fullpath-after=, but only show the part of the path after 'string'.
 # @option --extra-debuginfo-path <path>            absolute path to search for additional debug symbols, in addition to existing default well known search paths.
 # @option --debuginfo-server <ipaddr:port>         also query this server (valgrind-di-server) for debug symbols
@@ -76,7 +77,6 @@
 # @option --unw-stack-scan-frames <number>         Max number of frames that can be recovered by stack scanning [5]
 # @option --resync-filter[no|yes|verbose] <yes on MacOS no on other OSes>  attempt to avoid expensive address-space-resync operations
 # @option --max-threads <number>                   maximum number of threads that valgrind can handle [500]
-# @option --realloc-zero-bytes-frees[yes|no] <yes on Linux glibc no otherwise>  should calls to realloc with a size of 0 free memory and return NULL or allocate/resize and return non-NULL
 # @option --leak-check[no|summary|full]            search for memory leaks at exit?  [summary]
 # @option --leak-resolution[low|med|high]          differentiation of leak stack traces [high]
 # @option --show-leak-kinds* <kind1,kind2,>        which leak kinds to show? [definite,possible]

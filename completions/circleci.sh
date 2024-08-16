@@ -120,12 +120,11 @@ context() {
 # {{{ circleci context create
 # @cmd Create a new context
 # @flag -h --help              help for create
-# @option --org-id <string>    The id of your organization.
+# @option --org-id <string>    Your organization id.
 # @option --host <string>      URL to your CircleCI host, also CIRCLECI_CLI_HOST (default "https://circleci.com")
 # @flag --skip-update-check    Skip the check for updates check run before every command.
 # @option --token <string>     your token for using CircleCI, also CIRCLECI_CLI_TOKEN
-# @arg vcs-type[github|bitbucket]
-# @arg org-name
+# @arg org-id!
 # @arg context-name!
 context::create() {
     :;
@@ -136,11 +135,11 @@ context::create() {
 # @cmd Delete the named context
 # @flag -f --force             Delete the context without asking for confirmation.
 # @flag -h --help              help for delete
+# @option --org-id <string>    Your organization id.
 # @option --host <string>      URL to your CircleCI host, also CIRCLECI_CLI_HOST (default "https://circleci.com")
 # @flag --skip-update-check    Skip the check for updates check run before every command.
 # @option --token <string>     your token for using CircleCI, also CIRCLECI_CLI_TOKEN
-# @arg vcs-type![github|bitbucket]
-# @arg org-name!
+# @arg org-id!
 # @arg context-name!
 context::delete() {
     :;
@@ -150,11 +149,11 @@ context::delete() {
 # {{{ circleci context list
 # @cmd List all contexts
 # @flag -h --help              help for list
+# @option --org-id <string>    Your organization id.
 # @option --host <string>      URL to your CircleCI host, also CIRCLECI_CLI_HOST (default "https://circleci.com")
 # @flag --skip-update-check    Skip the check for updates check run before every command.
 # @option --token <string>     your token for using CircleCI, also CIRCLECI_CLI_TOKEN
-# @arg vcs-type![github|bitbucket]
-# @arg org-name!
+# @arg org-id!
 context::list() {
     :;
 }
@@ -163,11 +162,11 @@ context::list() {
 # {{{ circleci context remove-secret
 # @cmd Remove an environment variable from the named context
 # @flag -h --help              help for remove-secret
+# @option --org-id <string>    Your organization id.
 # @option --host <string>      URL to your CircleCI host, also CIRCLECI_CLI_HOST (default "https://circleci.com")
 # @flag --skip-update-check    Skip the check for updates check run before every command.
 # @option --token <string>     your token for using CircleCI, also CIRCLECI_CLI_TOKEN
-# @arg vcs-type![github|bitbucket]
-# @arg org-name!
+# @arg org-id!
 # @arg context-name!
 # @arg secret-name! <secret name>
 context::remove-secret() {
@@ -178,11 +177,11 @@ context::remove-secret() {
 # {{{ circleci context show
 # @cmd Show a context
 # @flag -h --help              help for show
+# @option --org-id <string>    Your organization id.
 # @option --host <string>      URL to your CircleCI host, also CIRCLECI_CLI_HOST (default "https://circleci.com")
 # @flag --skip-update-check    Skip the check for updates check run before every command.
 # @option --token <string>     your token for using CircleCI, also CIRCLECI_CLI_TOKEN
-# @arg vcs-type![github|bitbucket]
-# @arg org-name!
+# @arg org-id!
 # @arg context-name!
 context::show() {
     :;
@@ -192,13 +191,13 @@ context::show() {
 # {{{ circleci context store-secret
 # @cmd Store a new environment variable in the named context.
 # @flag -h --help              help for store-secret
+# @option --org-id <string>    Your organization id.
 # @option --host <string>      URL to your CircleCI host, also CIRCLECI_CLI_HOST (default "https://circleci.com")
 # @flag --skip-update-check    Skip the check for updates check run before every command.
 # @option --token <string>     your token for using CircleCI, also CIRCLECI_CLI_TOKEN
-# @arg vcs-type![github|bitbucket]
-# @arg org-name!
+# @arg org-id!
 # @arg context-name!
-# @arg secret-name! <secret name>
+# @arg secret-name!
 context::store-secret() {
     :;
 }
@@ -238,17 +237,6 @@ env::subst() {
 # }}} circleci env subst
 # }} circleci env
 
-# {{ circleci follow
-# @cmd Attempt to follow the project for the current git repository.
-# @flag -h --help              help for follow
-# @option --host <string>      URL to your CircleCI host, also CIRCLECI_CLI_HOST (default "https://circleci.com")
-# @flag --skip-update-check    Skip the check for updates check run before every command.
-# @option --token <string>     your token for using CircleCI, also CIRCLECI_CLI_TOKEN
-follow() {
-    :;
-}
-# }} circleci follow
-
 # {{ circleci info
 # @cmd Check information associated to your user account.
 # @flag -h --help              help for info
@@ -283,22 +271,23 @@ local() {
 
 # {{{ circleci local execute
 # @cmd Run a job in a container on the local machine
-# @option --branch <string>                 Git branch
+# @option --branch <string>                 git branch
 # @option --build-agent-version <string>    The version of the build agent image you want to use.
-# @option --checkout-key <string>           Git Checkout key (default "~/.ssh/id_rsa")
+# @option --checkout-key <string>           git checkout key (default "~/.ssh/id_rsa")
 # @option -c --config <file>                config file (default ".circleci/config.yml")
-# @option --docker-socket-path <path>       Path to the host's docker socket (default "/var/run/docker.sock")
-# @option -e <VAR=VAL>                      Set environment variables, e.g. -e VAR=VAL
-# @option --env <VAR=VAL>                   Set environment variables, e.g. -e VAR=VAL
+# @option --docker-socket-path <path>       path to the host's docker socket (default "/var/run/docker.sock")
+# @option -e <VAR=VAL>                      set environment variables, e.g. -e VAR=VAL
+# @option --env <VAR=VAL>                   set environment variables, e.g. -e VAR=VAL
 # @flag -h --help                           help for execute
 # @option --index <int>                     node index of parallelism
 # @option --node-total <int>                total number of parallel nodes (default 1)
 # @option --org-id <string>                 organization id, used when a config depends on private orbs belonging to that org
 # @option -o --org-slug <string>            organization slug (for example: github/example-org), used when a config depends o
-# @option --repo-url <string>               Git Url
-# @option --revision <string>               Git Revision
+# @option --repo-url <string>               git URL
+# @option --revision <string>               git revision
 # @flag --skip-checkout                     use local path as-is (default true)
-# @option -v --volume* <string>             Volume bind-mounting
+# @option --temp-dir <path>                 path to local directory to store temporary config files
+# @option -v --volume* <string>             volume bind-mounting
 # @option --host <string>                   URL to your CircleCI host, also CIRCLECI_CLI_HOST (default "https://circleci.com")
 # @flag --skip-update-check                 Skip the check for updates check run before every command.
 # @option --token <string>                  your token for using CircleCI, also CIRCLECI_CLI_TOKEN
@@ -328,8 +317,7 @@ namespace() {
 # @flag --skip-update-check    Skip the check for updates check run before every command.
 # @option --token <string>     your token for using CircleCI, also CIRCLECI_CLI_TOKEN
 # @arg name!
-# @arg vcs-type[github|bitbucket]
-# @arg org-name
+# @arg your-organization-id!
 namespace::create() {
     :;
 }

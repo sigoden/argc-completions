@@ -6,7 +6,7 @@
 # @flag -compileonly                  Parse and compile Elvish code without executing it
 # @flag -daemon                       [internal flag] Run the storage daemon instead of an Elvish shell
 # @option -db <file>                  [internal flag] Path to the database file
-# @option -deprecation-level <int>    Show warnings for all features deprecated as of version 0.X (default 19)
+# @option -deprecation-level <int>    Show warnings for all features deprecated as of version 0.X (default 20)
 # @flag -help                         Show usage help and quit
 # @flag -i                            A no-op flag, introduced for POSIX compatibility
 # @flag -json                         Show the output from -buildinfo, -compileonly or -version in JSON

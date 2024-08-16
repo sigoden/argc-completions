@@ -30,7 +30,7 @@ Args:
     <cmd>
 EOF
     elif [[ "$*" == "cargo clippy" ]]; then
-        $@ --help | sed '/^\s*-W --/,/^$/ d'
+        $@ --help | sed '/See all options/,$ d'
     elif [[ "$*" == "cargo hack "* ]]; then
         :;
     elif [[ "$*" == "cargo udeps" ]]; then
@@ -75,7 +75,7 @@ _patch_table() {
     
     elif [[ "$*" == "cargo install" ]]; then
         echo "$table" | \
-        _patch_table_edit_arguments 'crate;[`_choice_remote_crate`]'
+        _patch_table_edit_arguments ';;' 'crate;[`_choice_remote_crate`]'
 
     elif [[ "$*" == "cargo clippy" ]]; then
         echo "$table" | \
@@ -83,7 +83,7 @@ _patch_table() {
         _patch_table_dedup_options \
             '--help' \
         | \
-         _patch_table_edit_arguments 'opts;~[`_choice_clippy`]'
+         _patch_table_edit_arguments ';;' 'args;~[`_choice_clippy`]'
 
     elif [[ "$*" == "cargo fmt" ]]; then
         echo "$table" | _patch_table_edit_arguments 'rustfmt_options;~[`_choice_fmt`]'

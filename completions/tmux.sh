@@ -8,8 +8,8 @@
 # @flag -l
 # @flag -N
 # @flag -u
-# @flag -v
 # @flag -V
+# @flag -v
 # @option -c <shell-command>
 # @option -f <file>
 # @option -L <socket-name>
@@ -72,6 +72,7 @@ break-pane() {
 # @flag -p
 # @flag -P
 # @flag -q
+# @flag -T
 # @option -b <buffer-name>
 # @option -E <end-line>
 # @option -S <start-line>
@@ -135,6 +136,7 @@ choose-tree() {
 # {{ tmux clear-history
 # @cmd
 # @alias clearhist
+# @flag -H
 # @option -t <target-pane>
 clear-history() {
     :;
@@ -162,6 +164,8 @@ clock-mode() {
 # @cmd
 # @alias confirm
 # @flag -b
+# @flag -y
+# @option -c <confirm_key>
 # @option -p <prompt>
 # @option -t <target-client>
 # @arg command
@@ -222,7 +226,12 @@ detach-client() {
 # @cmd
 # @alias menu
 # @flag -O
+# @option -b <border-lines>
 # @option -c <target-client>
+# @option -C <starting-choice>
+# @option -H <selected-style>
+# @option -s <style>
+# @option -S <border-style>
 # @option -t <target-pane>
 # @option -T <title>
 # @option -x <position>
@@ -240,6 +249,7 @@ display-menu() {
 # @alias display
 # @flag -a
 # @flag -I
+# @flag -l
 # @flag -N
 # @flag -p
 # @flag -v
@@ -430,6 +440,7 @@ list-buffers() {
 # @cmd
 # @alias lsc
 # @option -F <format>
+# @option -f <filter>
 # @option -t <target-session>
 list-clients() {
     :;
@@ -793,6 +804,7 @@ rotate-window() {
 # @alias run
 # @flag -b
 # @flag -C
+# @option -c <start-directory>
 # @option -d <delay>
 # @option -t <target-pane>
 # @arg shell-command
@@ -864,10 +876,12 @@ select-window() {
 # @alias send
 # @flag -F
 # @flag -H
+# @flag -K
 # @flag -l
 # @flag -M
 # @flag -R
 # @flag -X
+# @option -c <target-client>
 # @option -N <repeat-count>
 # @option -t <target-pane>
 # @arg key*
@@ -1069,6 +1083,7 @@ show-window-options() {
 # @flag -n
 # @flag -q
 # @flag -v
+# @option -t <target-pane>
 # @arg path*
 source-file() {
     :;

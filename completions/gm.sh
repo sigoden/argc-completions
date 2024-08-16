@@ -22,7 +22,7 @@
 # @option -geometry <geometry>                preferred size and location of the Image window
 # @flag -help                                 print program options
 # @option -interlace[None|Line|Plane|Partition] <type>  None, Line, Plane, or Partition
-# @option -limit <type> <value>               Disk, File, Map, Memory, Pixels, Width, Height or Threads resource limit
+# @option -limit <type> <value>               Disk, File, Map, Memory, Pixels, Width, Height Threads, Read, or Write resource limit
 # @option -log <format>                       format of debugging information
 # @flag -matte                                store matte channel if the image has one
 # @option -map[`_choice_map`] <type>          display image using this Standard Colormap
@@ -68,6 +68,7 @@ animate() {
 # @option -pass <text>               when feedback is on, output the designated text if the command executed successfully, default is 'PASS'
 # @option -prompt <text>             use the given text as command prompt.
 # @option -stop-on-error <on|off>    when turned on, batch execution quits prematurely when any command returns error
+# @option -tap-mode <on|off>         when turned on, a simple implementation of Test Anything Protocol (TAP) is enabled to produce "ok N" and "not ok N" feedback to indicate the test number, and to supplant the function of -fail, -pass, -feedback in order to support simple TAP output messaging
 # @arg file <file|->
 batch() {
     :;
@@ -104,7 +105,7 @@ benchmark() {
 # @option -highlight-color <color>                color to use when annotating difference pixels
 # @option -highlight-style[Assign|Threshold|Tint|XOR] <style>  pixel highlight style
 # @option -interlace[None|Line|Plane|Partition] <type>  None, Line, Plane, or Partition
-# @option -limit <type> <value>                   Disk, File, Map, Memory, Pixels, Width, Height or Threads resource limit
+# @option -limit <type> <value>                   Disk, File, Map, Memory, Pixels, Width, Height Threads, Read, or Write resource limit
 # @option -log <format>                           format of debugging information
 # @flag -matte                                    store matte channel if the image has one
 # @flag -maximum-error                            maximum total difference before returning error
@@ -151,7 +152,7 @@ compare() {
 # @flag -help                                     print program options
 # @option -interlace[None|Line|Plane|Partition] <type>  None, Line, Plane, or Partition
 # @option -label <name>                           ssign a label to an image
-# @option -limit <type> <value>                   Disk, File, Map, Memory, Pixels, Width, Height or Threads resource limit
+# @option -limit <type> <value>                   Disk, File, Map, Memory, Pixels, Width, Height Threads, Read, or Write resource limit
 # @option -log <format>                           format of debugging information
 # @flag -matte                                    store matte channel if the image has one
 # @flag -monitor                                  show progress indication
@@ -268,7 +269,7 @@ conjure() {
 # @option -fuzz <distance>                        colors within this distance are considered equal
 # @option -gamma <value>                          level of gamma correction
 # @option -gaussian <geometry>                    gaussian blur an image
-# @option -geometry <geometry>                    perferred size or location of the image
+# @option -geometry <geometry>                    preferred size or location of the image
 # @flag -green-primary                            point chomaticity green primary point
 # @option -gravity <type>                         horizontal and vertical text/object placement
 # @option -hald-clut <clut>                       apply a Hald CLUT to the image
@@ -279,7 +280,7 @@ conjure() {
 # @option -label <name>                           assign a label to an image
 # @option -lat <geometry>                         local adaptive thresholding
 # @option -level <value>                          adjust the level of image contrast
-# @option -limit <type> <value>                   Disk, File, Map, Memory, Pixels, Width, Height or Threads resource limit
+# @option -limit <type> <value>                   Disk, File, Map, Memory, Pixels, Width, Height Threads, Read, or Write resource limit
 # @option -linewidth <width>                      the line width for subsequent draw operations
 # @option -list[Color|Delegate|Format|Magic|Module|Resource|Type] <type>  Color, Delegate, Format, Magic, Module, Resource, or Type
 # @option -log <format>                           format of debugging information
@@ -495,7 +496,7 @@ identify() {
 # @flag -frame                                    include window manager frame
 # @option -encoding[`_choice_encoding`] <type>    text encoding type
 # @option -endian[MSB|LSB|Native] <type>          multibyte word order (LSB, MSB, or Native)
-# @option -geometry <geometry>                    perferred size or location of the image
+# @option -geometry <geometry>                    preferred size or location of the image
 # @option -interlace[None|Line|Plane|Partition] <type>  None, Line, Plane, or Partition
 # @flag -help                                     print program options
 # @option -label <name>                           assign a label to an image
@@ -585,7 +586,7 @@ import() {
 # @option -fuzz <distance>                        colors within this distance are considered equal
 # @option -gamma <value>                          level of gamma correction
 # @option -gaussian <geometry>                    gaussian blur an image
-# @option -geometry <geometry>                    perferred size or location of the image
+# @option -geometry <geometry>                    preferred size or location of the image
 # @option -gravity <type>                         horizontal and vertical text/object placement
 # @flag -green-primary                            point chomaticity green primary point
 # @option -implode <amount>                       implode image pixels about the center
@@ -635,7 +636,7 @@ import() {
 # @flag -render                                   render vector graphics
 # @option -resample <geometry>                    resample to horizontal and vertical resolution
 # @option -repage <geometry>                      adjust current page offsets by geometry
-# @option -resize <geometry>                      perferred size or location of the image
+# @option -resize <geometry>                      preferred size or location of the image
 # @option -roll <geometry>                        roll an image vertically or horizontally
 # @option -rotate <degrees>                       apply Paeth rotation to the image
 # @option -sample <geometry>                      scale image with pixel sampling

@@ -35,7 +35,7 @@ config() {
 # @cmd Explains the currently showing modules
 # @option -s --status <STATUS_CODE>               The status code of the previously run command as an unsigned or signed 32bit integer
 # @option --pipestatus                            Bash, Fish and Zsh support returning codes for each process in a pipeline
-# @option -w --terminal-width <TERMINAL_WIDTH>    The width of the current interactive terminal [default: 80]
+# @option -w --terminal-width <TERMINAL_WIDTH>    The width of the current interactive terminal [default: 145]
 # @option -p --path                               The path that the prompt should render for
 # @option -P --logical-path <LOGICAL_PATH>        The logical path that the prompt should render for.
 # @option -d --cmd-duration <CMD_DURATION>        The execution duration of the last command, in milliseconds
@@ -62,7 +62,7 @@ init() {
 # @flag -l --list                                 List out all supported modules
 # @option -s --status <STATUS_CODE>               The status code of the previously run command as an unsigned or signed 32bit integer
 # @option --pipestatus                            Bash, Fish and Zsh support returning codes for each process in a pipeline
-# @option -w --terminal-width <TERMINAL_WIDTH>    The width of the current interactive terminal [default: 80]
+# @option -w --terminal-width <TERMINAL_WIDTH>    The width of the current interactive terminal [default: 145]
 # @option -p --path                               The path that the prompt should render for
 # @option -P --logical-path <LOGICAL_PATH>        The logical path that the prompt should render for.
 # @option -d --cmd-duration <CMD_DURATION>        The execution duration of the last command, in milliseconds
@@ -80,7 +80,7 @@ module() {
 # @option -o --output    Output the preset to a file instead of stdout
 # @flag -l --list        List out all preset names
 # @flag -h --help        Print help
-# @arg name[bracketed-segments|plain-text-symbols|pure-preset|no-nerd-font|tokyo-night|nerd-font-symbols|pastel-powerline|no-runtime-versions|no-empty-icons]  The name of preset to be printed
+# @arg name[bracketed-segments|gruvbox-rainbow|jetpack|nerd-font-symbols|no-empty-icons|no-nerd-font|no-runtime-versions|pastel-powerline|plain-text-symbols|pure-preset|tokyo-night]  The name of preset to be printed
 preset() {
     :;
 }
@@ -103,7 +103,7 @@ print-config() {
 # @flag --continuation                            Print the continuation prompt (instead of the standard left prompt)
 # @option -s --status <STATUS_CODE>               The status code of the previously run command as an unsigned or signed 32bit integer
 # @option --pipestatus                            Bash, Fish and Zsh support returning codes for each process in a pipeline
-# @option -w --terminal-width <TERMINAL_WIDTH>    The width of the current interactive terminal [default: 80]
+# @option -w --terminal-width <TERMINAL_WIDTH>    The width of the current interactive terminal [default: 145]
 # @option -p --path                               The path that the prompt should render for
 # @option -P --logical-path <LOGICAL_PATH>        The logical path that the prompt should render for.
 # @option -d --cmd-duration <CMD_DURATION>        The execution duration of the last command, in milliseconds
@@ -127,7 +127,7 @@ session() {
 # @cmd Prints timings of all active modules
 # @option -s --status <STATUS_CODE>               The status code of the previously run command as an unsigned or signed 32bit integer
 # @option --pipestatus                            Bash, Fish and Zsh support returning codes for each process in a pipeline
-# @option -w --terminal-width <TERMINAL_WIDTH>    The width of the current interactive terminal [default: 80]
+# @option -w --terminal-width <TERMINAL_WIDTH>    The width of the current interactive terminal [default: 145]
 # @option -p --path                               The path that the prompt should render for
 # @option -P --logical-path <LOGICAL_PATH>        The logical path that the prompt should render for.
 # @option -d --cmd-duration <CMD_DURATION>        The execution duration of the last command, in milliseconds

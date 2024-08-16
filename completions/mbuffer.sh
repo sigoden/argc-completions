@@ -14,33 +14,33 @@
 # @flag --append          append to output file (must be passed before -o)
 # @flag --truncate        truncate next file (must be passed before -o)
 # @option -I <p>          use network port <port> as input
-# @option -O <<h>:<p>>    output data to host <h> and port <p> (MUTLIPLE outputs supported)
-# @option -n <num>        <num> volumes for input, '0' to prompt interactively
+# @option -O <<h>:<p>>    output data to host <h> and port <p> (MULTIPLE outputs supported)
+# @option -n <num>        <num> volumes for input, '0' to prompt interactively (requires -i)
 # @flag -t                use memory mapped temporary file (for huge buffer)
 # @option -T <file>       as -t but uses <file> as buffer
 # @option -l <file>       use <file> for logging messages
-# @option -u <num>        pause <num> milliseconds after each write
+# @option -u <num>        pause <num> microseconds after each write
 # @option -r <rate>       limit read rate to <rate> B/s, where <rate> can be given in b,k,M,G
 # @option -R <rate>       same as -r for writing; use either one, if your tape is too fast
 # @flag -f                overwrite existing files
-# @option -a <time>       autoloader which needs <time> seconds to reload
-# @option -A <cmd>        issue command <cmd> to request new volume
+# @option -a <time>       device is autoloader which needs <time> seconds to reload
+# @option -A <cmd>        issue command <cmd> to request new volume from autoloader
 # @option -v <level>      set verbose level to <level> (valid values are 0..6)
 # @flag -q                quiet - do not display the status on stderr
 # @flag -Q                quiet - do not log the status
 # @flag -c                write with synchronous data integrity support
 # @flag -e                stop processing on any kind of error
 # @flag -H
-# @flag --md5             generate md5 hash of transfered data
+# @flag --md5             generate md5 hash of transferred data
 # @option --hash <a>      use algorithm <a>, if <a> is 'list' possible algorithms are listed
 # @flag --pid             print PID of this instance
 # @option -W <time>       set watchdog timeout to <time> seconds
-# @flag -4                force use of IPv4
-# @flag -6                force use of IPv6
+# @flag -4                force use of IPv4 on following network I/O options
+# @flag -6                force use of IPv6 on following network I/O options
 # @flag -0                use IPv4 or IPv6
 # @flag --no-direct       omit use of O_DIRECT - e.g. to enable compression on btrfs
-# @flag --tcpbuffer       size for TCP buffer
-# @flag --tcptimeo        TCP send/receive time-out limit in msec
+# @flag --tcpbuffer       size for TCP buffer in b,k,M,G
+# @flag --tcptimeo        TCP send/receive time-out limit in usec
 # @flag --tapeaware       write to end of tape instead of stopping when the drive signals the media end is approaching (write until 2x ENOSPC errors)
 # @flag --direct          use direct I/O for temporary file buffer
 # @flag -V

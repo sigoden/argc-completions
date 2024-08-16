@@ -13,7 +13,7 @@ acme() {
 
 # {{{ sftpgo acme run
 # @cmd Register your account and obtain certificates
-# @option -c --config-dir <dir>    Location for the config dir.
+# @option -c --config-dir <dir>    Location of the config dir.
 # @option --config-file <file>     Path to SFTPGo configuration file.
 # @flag -h --help                  help for run
 acme::run() {
@@ -81,7 +81,7 @@ gen::man() {
 
 # {{ sftpgo initprovider
 # @cmd Initialize and/or updates the configured data provider
-# @option -c --config-dir <dir>     Location for the config dir.
+# @option -c --config-dir <dir>     Location of the config dir.
 # @option --config-file <file>      Path to SFTPGo configuration file.
 # @flag -h --help                   help for initprovider
 # @flag --loaddata-clean            Determine if the loaddata-from file should be removed after a successful load.
@@ -94,7 +94,7 @@ initprovider() {
 
 # {{ sftpgo ping
 # @cmd Issues an health check to SFTPGo
-# @option -c --config-dir <dir>    Location for the config dir.
+# @option -c --config-dir <dir>    Location of the config dir.
 # @option --config-file <file>     Path to SFTPGo configuration file.
 # @flag -h --help                  help for ping
 ping() {
@@ -117,6 +117,8 @@ ping() {
 # @option --az-upload-concurrency <int>        How many parts are uploaded in parallel (default 5)
 # @option --az-upload-part-size <int>          The buffer size for multipart uploads (MB) (default 5)
 # @flag --az-use-emulator
+# @option -c --config-dir <dir>                Location of the config dir.
+# @option --config-file <file>                 Path to SFTPGo configuration file.
 # @option --crypto-passphrase <string>         Passphrase for encryption/decryption
 # @option --denied-patterns* <file>            Denied file patterns case insensitive.
 # @option -d --directory <dir>                 Path to the directory to serve.
@@ -131,6 +133,9 @@ ping() {
 # @option --gcs-storage-class <string>
 # @option --grace-time <int>                   This grace time defines the number of seconds allowed for existing transfers to get completed before shutting down.
 # @flag -h --help                              help for portable
+# @option --httpd-cert <file>                  Path to the certificate file for WebClient over HTTPS
+# @option --httpd-key <file>                   Path to the key file for WebClient over HTTPS
+# @option --httpd-port <int>                   0 means a random unprivileged port, < 0 disabled (default -1)
 # @option -l --log-file-path <file>            Leave empty to disable logging
 # @option --log-level[debug|info|warn|error] <string>  Set the log level.
 # @flag --log-utc-time                         Use UTC time for logging
@@ -147,6 +152,7 @@ ping() {
 # @option --s3-key-prefix <string>             Allows to restrict access to the virtual folder identified by this prefix and its contents
 # @option --s3-region <string>
 # @option --s3-role-arn <string>
+# @flag --s3-skip-tls-verify                   If enabled the S3 client accepts any TLS certificate presented by the server and any host name in that certificate.
 # @option --s3-storage-class <string>
 # @option --s3-upload-concurrency <int>        How many parts are uploaded in parallel (default 2)
 # @option --s3-upload-part-size <int>          The buffer size for multipart uploads (MB) (default 5)
@@ -159,7 +165,7 @@ ping() {
 # @option --sftp-prefix <path>                 SFTP prefix allows restrict all operations to a given path within the remote SFTP server
 # @option --sftp-username <string>             SFTP user for SFTP provider
 # @option -s --sftpd-port <int>                0 means a random unprivileged port, < 0 disabled
-# @option -c --ssh-commands*[md5sum|sha1sum|sha256sum|cd|pwd|scp] <string>  SSH commands to enable.
+# @option --ssh-commands*[md5sum|sha1sum|sha256sum|cd|pwd|scp] <string>  SSH commands to enable.
 # @option --start-directory <dir>              Alternate start directory.
 # @option -u --username <string>               Leave empty to use an auto generated value
 # @option --webdav-cert <file>                 Path to the certificate file for WebDAV over HTTPS
@@ -172,7 +178,7 @@ portable() {
 
 # {{ sftpgo resetprovider
 # @cmd Reset the configured provider, any data will be lost
-# @option -c --config-dir <dir>    Location for the config dir.
+# @option -c --config-dir <dir>    Location of the config dir.
 # @option --config-file <file>     Path to SFTPGo configuration file.
 # @flag --force                    reset the provider without asking for confirmation
 # @flag -h --help                  help for resetprovider
@@ -184,7 +190,7 @@ resetprovider() {
 # {{ sftpgo resetpwd
 # @cmd Reset the password for the specified administrator
 # @option --admin <string>         Administrator username whose password to reset
-# @option -c --config-dir <dir>    Location for the config dir.
+# @option -c --config-dir <dir>    Location of the config dir.
 # @option --config-file <file>     Path to SFTPGo configuration file.
 # @flag -h --help                  help for resetpwd
 resetpwd() {
@@ -194,10 +200,10 @@ resetpwd() {
 
 # {{ sftpgo revertprovider
 # @cmd Revert the configured data provider to a previous version
-# @option -c --config-dir <dir>    Location for the config dir.
+# @option -c --config-dir <dir>    Location of the config dir.
 # @option --config-file <file>     Path to SFTPGo configuration file.
 # @flag -h --help                  help for revertprovider
-# @option --to-version <int>       23 means the version supported in v2.4.x (default 23)
+# @option --to-version <int>       28 means the version supported in v2.5.x (default 28)
 revertprovider() {
     :;
 }
@@ -205,7 +211,7 @@ revertprovider() {
 
 # {{ sftpgo serve
 # @cmd Start the SFTPGo service
-# @option -c --config-dir <dir>         Location for the config dir.
+# @option -c --config-dir <dir>         Location of the config dir.
 # @option --config-file <file>          Path to SFTPGo configuration file.
 # @option --grace-time <int>            Graceful shutdown is an option to initiate a shutdown without abrupt cancellation of the currently ongoing client-initiated transfer sessions.
 # @flag -h --help                       help for serve
@@ -227,7 +233,7 @@ serve() {
 
 # {{ sftpgo smtptest
 # @cmd Test the SMTP configuration
-# @option -c --config-dir <dir>    Location for the config dir.
+# @option -c --config-dir <dir>    Location of the config dir.
 # @option --config-file <file>     Path to SFTPGo configuration file.
 # @flag -h --help                  help for smtptest
 # @option --recipient <string>     email address to send the test e-mail to
@@ -239,7 +245,7 @@ smtptest() {
 # {{ sftpgo startsubsys
 # @cmd Use sftpgo as SFTP file transfer subsystem
 # @option -d --base-home-dir <dir>    If the user does not exist specify an alternate starting directory.
-# @option -c --config-dir <dir>       Location for the config dir.
+# @option -c --config-dir <dir>       Location of the config dir.
 # @option --config-file <file>        Path to SFTPGo configuration file.
 # @flag -h --help                     help for startsubsys
 # @option --log-level <string>        Set the log level.

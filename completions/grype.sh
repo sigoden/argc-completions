@@ -36,6 +36,30 @@ completion() {
 }
 # }} grype completion
 
+# {{ grype config
+# @cmd show the grype configuration
+# @flag -h --help                 help for config
+# @flag --load                    load and validate the grype configuration
+# @option -c --config <file>      grype configuration file
+# @flag -q --quiet                suppress all logging output
+# @option -v --verbose <count>    increase verbosity (-v = info, -vv = debug)
+config() {
+    :;
+}
+
+# {{{ grype config locations
+# @cmd shows all locations and the order in which grype will look for a configuration file
+# @flag --all                     include every file extension supported
+# @flag -h --help                 help for locations
+# @option -c --config <file>      grype configuration file
+# @flag -q --quiet                suppress all logging output
+# @option -v --verbose <count>    increase verbosity (-v = info, -vv = debug)
+config::locations() {
+    :;
+}
+# }}} grype config locations
+# }} grype config
+
 # {{ grype db
 # @cmd vulnerability database operations
 # @flag -h --help                 help for db

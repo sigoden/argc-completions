@@ -5,12 +5,14 @@
 # @option -C --color[auto|always|never] <WHEN>    Use color
 # @option -i --include* <CODE1,CODE2>             Consider only given types of warnings
 # @option -e --exclude* <CODE1,CODE2>             Exclude types of warnings
+# @option --extended-analysis <bool>              Perform dataflow analysis (default true)
 # @option -f --format[checkstyle|diff|gcc|json|json1|quiet|tty]  Output format
 # @flag --list-optional                           List checks disabled by default
 # @flag --norc                                    Don't look for .shellcheckrc files
+# @option --rcfile                                Prefer the specified configuration file over searching for one
 # @option -o --enable*,[`_choice_check`] <check1,check2>  List of optional checks to enable (or 'all')
 # @option -P --source-path <SOURCEPATHS>          Specify path when looking for sourced files ("SCRIPTDIR" for script's dir)
-# @option -s --shell[sh|bash|dash|ksh] <SHELLNAME>  Specify dialect
+# @option -s --shell[sh|bash|dash|ksh|busybox] <SHELLNAME>  Specify dialect
 # @option -S --severity[error|warning|info|style]  Minimum severity of errors to consider
 # @flag -V --version                              Print version information
 # @option -W --wiki-link-count <NUM>              The number of wiki links to show, when applicable

@@ -10,13 +10,13 @@
 # @flag -V             Print version information.
 # @flag -r             Recursively load files from the given directory hierarchies.
 # @flag -R             Load older rotated log files as well.
-# @flag -t             Prepend timestamps to the lines of data being read in from the standard input.
-# @option -w <file>    Write the contents of the standard input to this file.
 # @option -c <cmd>     Execute a command after the files have been loaded.
 # @option -f <file>    Execute the commands in the given file.
+# @option -e <cmd>     Execute a shell command-line.
+# @flag -t             Treat data piped into standard in as a log file.
 # @flag -n             Run without the curses UI.
 # @flag -N             Do not open the default syslog file if no files are given.
-# @flag -q             Do not print the log messages after executing all of the commands.
+# @flag -q             Do not print informational messages.
 # @flag -i             Install the given format files and exit.
 # @flag -m             Switch to the management command-line mode.
 # @arg logfilen        The log files, directories, or remote paths to view.

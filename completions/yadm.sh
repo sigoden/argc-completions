@@ -21,11 +21,18 @@ clone() {
 # {{ yadm config
 # @cmd Configure a setting
 # @flag --global                                  use global config file
+# @flag --no-global                               use global config file
 # @flag --system                                  use system config file
+# @flag --no-system                               use system config file
 # @flag --local                                   use repository config file
+# @flag --no-local                                use repository config file
 # @flag --worktree                                use per-worktree config file
-# @option -f --file <file>                        use given config file
+# @flag --no-worktree                             use per-worktree config file
+# @option -f <file>                               use given config file
+# @option --file <file>                           use given config file
+# @option --no-file <file>                        use given config file
 # @option --blob <blob-id>                        read config from given blob object
+# @option --no-blob <blob-id>                     read config from given blob object
 # @option --get[`_choice_config_key`] <name>      get value: name [value-pattern]
 # @option --get-all[`_choice_config_key`] <name>  get all values: key [value-pattern]
 # @option --get-regexp <name-regex>               get values for regexp: name-regex [value-pattern]
@@ -41,19 +48,30 @@ clone() {
 # @flag -e --edit                                 open an editor
 # @option --get-color <slot>                      find the color configured: slot [default]
 # @option --get-colorbool <slot>                  find the color setting: slot [stdout-is-tty]
-# @option -t --type <type>                        value is given this type
+# @option -t <type>                               value is given this type
+# @option --type <type>                           value is given this type
+# @option --no-type <type>                        value is given this type
 # @flag --bool                                    value is "true" or "false"
 # @flag --int                                     value is decimal number
 # @flag --bool-or-int                             value is --bool or --int
 # @flag --bool-or-str                             value is --bool or string
 # @flag --path                                    value is a path (file or directory name)
 # @flag --expiry-date                             value is an expiry date
-# @flag -z --null                                 terminate values with NUL byte
+# @flag -z                                        terminate values with NUL byte
+# @flag --null                                    terminate values with NUL byte
+# @flag --no-null                                 terminate values with NUL byte
 # @flag --name-only                               show variable names only
+# @flag --no-name-only                            show variable names only
 # @flag --includes                                respect include directives on lookup
+# @flag --no-includes                             respect include directives on lookup
 # @flag --show-origin                             show origin of config (file, standard input, blob, command line)
+# @flag --no-show-origin                          show origin of config (file, standard input, blob, command line)
 # @option --show-scope[worktree|local|global|system|command]  show scope of config
+# @option --no-show-scope[worktree|local|global|system|command]  show scope of config
 # @option --default <value>                       with --get, use default value when missing entry
+# @option --no-default <value>                    with --get, use default value when missing entry
+# @option --comment <value>                       human-readable comment string (# will be prepended as needed)
+# @option --no-comment <value>                    human-readable comment string (# will be prepended as needed)
 config() {
     :;
 }

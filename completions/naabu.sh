@@ -29,12 +29,13 @@
 # @option -o -output <file>                     file to write output to (optional)
 # @flag -j -json                                write output in JSON lines format
 # @flag -csv                                    write output in csv format
+# @option -config <file>                        path to the naabu configuration file (default $HOME/.config/naabu/config.yaml)
 # @flag -scan-all-ips                           scan all the IP's associated with DNS record
 # @flag -sa                                     scan all the IP's associated with DNS record
-# @option -ip-version*[4|6] <string>            ip version to scan of hostname - (default 4)
-# @option -iv*[4|6] <string>                    ip version to scan of hostname - (default 4)
+# @option -ip-version*[4|6] <string>            ip version to scan of hostname - (default 4) (default ["4"])
+# @option -iv*[4|6] <string>                    ip version to scan of hostname - (default 4) (default ["4"])
 # @option -s -scan-type <string>                type of port scan (SYN/CONNECT) (default "s")
-# @option -source-ip <string>                   source ip and port (x.x.x.x:yyy)
+# @option -source-ip <string>                   source ip and port (x.x.x.x:yyy - might not work on OSX)
 # @flag -interface-list                         list available interfaces and public ip
 # @flag -il                                     list available interfaces and public ip
 # @option -i -interface <string>                network Interface to use for port scan
@@ -88,7 +89,7 @@
 # @flag -stats                                  display stats of the running scan (deprecated)
 # @option -si <int>                             number of seconds to wait between showing a statistics update (deprecated) (default 5)
 # @option -stats-interval <int>                 number of seconds to wait between showing a statistics update (deprecated) (default 5)
-# @option -mp <int>                             port to expose nuclei metrics on (default 63636)
-# @option -metrics-port <int>                   port to expose nuclei metrics on (default 63636)
+# @option -mp <int>                             port to expose naabu metrics on (default 63636)
+# @option -metrics-port <int>                   port to expose naabu metrics on (default 63636)
 
 command eval "$(argc --argc-eval "$0" "$@")"

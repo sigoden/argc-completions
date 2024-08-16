@@ -35,6 +35,13 @@ add_plugin() {
 }
 # }} fastlane add_plugin
 
+# {{ fastlane console
+# @cmd Opens an interactive developer console
+console() {
+    :;
+}
+# }} fastlane console
+
 # {{ fastlane docs
 # @cmd Generate a markdown based documentation based on the Fastfile
 # @flag -f --force    Overwrite the existing README.md in the ./fastlane

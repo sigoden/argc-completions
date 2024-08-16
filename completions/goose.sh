@@ -1,18 +1,19 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @flag -allow-missing        applies missing (out-of-order) migrations
-# @option -certfile <file>    file path to root CA's certificates in pem format (only support on mysql)
-# @option -dir <path>         directory with migration files (default ".")
-# @flag -h                    print help
-# @flag -no-color             disable color output (NO_COLOR env variable supported)
-# @flag -no-versioning        apply migration commands with no versioning, in file order, from directory pointed to
-# @flag -s                    use sequential numbering for new migrations
-# @option -ssl-cert <file>    file path to SSL certificates in pem format (only support on mysql)
-# @option -ssl-key <file>     file path to SSL key in pem format (only support on mysql)
-# @option -table <string>     migrations table name (default "goose_db_version")
-# @flag -v                    enable verbose mode
-# @flag -version              print version
+# @flag -allow-missing           applies missing (out-of-order) migrations
+# @option -certfile <file>       file path to root CA's certificates in pem format (only support on mysql)
+# @option -dir <path>            directory with migration files, (GOOSE_MIGRATION_DIR env variable supported) (default ".")
+# @flag -h                       print help
+# @flag -no-color                disable color output (NO_COLOR env variable supported)
+# @flag -no-versioning           apply migration commands with no versioning, in file order, from directory pointed to
+# @flag -s                       use sequential numbering for new migrations
+# @option -ssl-cert <file>       file path to SSL certificates in pem format (only support on mysql)
+# @option -ssl-key <file>        file path to SSL key in pem format (only support on mysql)
+# @option -table <string>        migrations table name (default "goose_db_version")
+# @option -timeout <duration>    maximum allowed duration for queries to run; e.g., 1h13m
+# @flag -v                       enable verbose mode
+# @flag -version                 print version
 # @arg args*[`_choice_args`]
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"

@@ -26,7 +26,7 @@
 # @flag -long-help                     Print detailed usage help and exit
 # @flag -lookup                        Look up specified host
 # @option -no-connect[0|1]             Run as separate instance
-# @option -no-home[0|1]                Disable use of files in ~/.elinks
+# @option -no-home[0|1]                Disable use of files in ~/.config/elinks
 # @option -no-libevent[0|1]            Disable libevent
 # @flag -no-numbering                  Disable link numbering in dump output
 # @flag -no-references                 Disable printing of link references in dump output
@@ -34,7 +34,7 @@
 # @option -session-ring <num>          Connect to session ring with given ID
 # @option -source[0|1]                 Print the source of given URLs to stdout
 # @option -terminfo[0|1]               Whether to use terminfo
-# @option -touch-files[0|1]            Touch files in ~/.elinks when running with -no-connect/-session-ring
+# @option -touch-files[0|1]            Touch files in ~/.config/elinks when running with -no-connect/-session-ring
 # @option -verbose <num>               Verbose level
 # @flag -version                       Print version information and exit
 # @arg url*[`_choice_url`]

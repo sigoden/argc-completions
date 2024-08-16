@@ -15,17 +15,20 @@ init() {
 
 # {{ dprint fmt
 # @cmd Formats the source files and writes the result to the file system.
-# @option --excludes* <patterns>     List of file patterns or directories in quotes to exclude when formatting.
-# @flag --allow-node-modules         Allows traversing node module directories (unstable - This flag will be renamed to be non-node specific in the future).
+# @option --includes-override* <patterns>    List of file patterns in quotes to format.
+# @option --excludes* <patterns>             List of file patterns or directories in quotes to exclude when formatting.
+# @option --excludes-override* <patterns>    List of file patterns or directories in quotes to exclude when formatting.
+# @flag --allow-node-modules                 Allows traversing node module directories (unstable - This flag will be renamed to be non-node specific in the future).
 # @option --incremental[true|false] <incremental>  Only format files when they change.
 # @option --stdin <extension/file-name/file-path>  Format stdin and output the result to stdout.
-# @flag --diff                       Outputs a check-like diff of every formatted file.
-# @flag --allow-no-files             Causes dprint to exit with exit code 0 when no files are found instead of exit code 14.
-# @option -c --config <config>       Path or url to JSON configuration file.
-# @option --plugins* <urls/files>    List of urls or file paths of plugins to use.
+# @flag --diff                               Outputs a check-like diff of every formatted file.
+# @flag --staged                             Format only the staged files.
+# @flag --allow-no-files                     Causes dprint to exit with exit code 0 when no files are found instead of exit code 14.
+# @option -c --config <config>               Path or url to JSON configuration file.
+# @option --plugins* <urls/files>            List of urls or file paths of plugins to use.
 # @option -L --log-level[debug|info|warn|error|silent] <log-level>  Set log level [default: info]
-# @flag -h --help                    Print help
-# @arg files*                        List of file patterns in quotes to format.
+# @flag -h --help                            Print help
+# @arg files*                                List of file patterns in quotes to format.
 fmt() {
     :;
 }
@@ -33,16 +36,19 @@ fmt() {
 
 # {{ dprint check
 # @cmd Checks for any files that haven't been formatted.
-# @option --excludes* <patterns>     List of file patterns or directories in quotes to exclude when formatting.
-# @flag --allow-node-modules         Allows traversing node module directories (unstable - This flag will be renamed to be non-node specific in the future).
+# @option --includes-override* <patterns>    List of file patterns in quotes to format.
+# @option --excludes* <patterns>             List of file patterns or directories in quotes to exclude when formatting.
+# @option --excludes-override* <patterns>    List of file patterns or directories in quotes to exclude when formatting.
+# @flag --allow-node-modules                 Allows traversing node module directories (unstable - This flag will be renamed to be non-node specific in the future).
 # @option --incremental[true|false] <incremental>  Only format files when they change.
-# @flag --allow-no-files             Causes dprint to exit with exit code 0 when no files are found instead of exit code 14.
-# @flag --list-different             Only outputs file paths that aren't formatted and doesn't output diffs.
-# @option -c --config <config>       Path or url to JSON configuration file.
-# @option --plugins* <urls/files>    List of urls or file paths of plugins to use.
+# @flag --allow-no-files                     Causes dprint to exit with exit code 0 when no files are found instead of exit code 14.
+# @flag --staged                             Format only the staged files.
+# @flag --list-different                     Only outputs file paths that aren't formatted and doesn't output diffs.
+# @option -c --config <config>               Path or url to JSON configuration file.
+# @option --plugins* <urls/files>            List of urls or file paths of plugins to use.
 # @option -L --log-level[debug|info|warn|error|silent] <log-level>  Set log level [default: info]
-# @flag -h --help                    Print help
-# @arg files*                        List of file patterns in quotes to format.
+# @flag -h --help                            Print help
+# @arg files*                                List of file patterns in quotes to format.
 check() {
     :;
 }
@@ -92,13 +98,16 @@ config::add() {
 
 # {{ dprint output-file-paths
 # @cmd Prints the resolved file paths for the plugins based on the args and configuration.
-# @option --excludes* <patterns>     List of file patterns or directories in quotes to exclude when formatting.
-# @flag --allow-node-modules         Allows traversing node module directories (unstable - This flag will be renamed to be non-node specific in the future).
-# @option -c --config <config>       Path or url to JSON configuration file.
-# @option --plugins* <urls/files>    List of urls or file paths of plugins to use.
+# @option --includes-override* <patterns>    List of file patterns in quotes to format.
+# @option --excludes* <patterns>             List of file patterns or directories in quotes to exclude when formatting.
+# @option --excludes-override* <patterns>    List of file patterns or directories in quotes to exclude when formatting.
+# @flag --allow-node-modules                 Allows traversing node module directories (unstable - This flag will be renamed to be non-node specific in the future).
+# @flag --staged                             Format only the staged files.
+# @option -c --config <config>               Path or url to JSON configuration file.
+# @option --plugins* <urls/files>            List of urls or file paths of plugins to use.
 # @option -L --log-level[debug|info|warn|error|silent] <log-level>  Set log level [default: info]
-# @flag -h --help                    Print help
-# @arg files*                        List of file patterns in quotes to format.
+# @flag -h --help                            Print help
+# @arg files*                                List of file patterns in quotes to format.
 output-file-paths() {
     :;
 }
@@ -113,14 +122,17 @@ output-resolved-config() {
 
 # {{ dprint output-format-times
 # @cmd Prints the amount of time it takes to format each file.
-# @option --excludes* <patterns>     List of file patterns or directories in quotes to exclude when formatting.
-# @flag --allow-node-modules         Allows traversing node module directories (unstable - This flag will be renamed to be non-node specific in the future).
-# @flag --allow-no-files             Causes dprint to exit with exit code 0 when no files are found instead of exit code 14.
-# @option -c --config <config>       Path or url to JSON configuration file.
-# @option --plugins* <urls/files>    List of urls or file paths of plugins to use.
+# @option --includes-override* <patterns>    List of file patterns in quotes to format.
+# @option --excludes* <patterns>             List of file patterns or directories in quotes to exclude when formatting.
+# @option --excludes-override* <patterns>    List of file patterns or directories in quotes to exclude when formatting.
+# @flag --allow-node-modules                 Allows traversing node module directories (unstable - This flag will be renamed to be non-node specific in the future).
+# @flag --allow-no-files                     Causes dprint to exit with exit code 0 when no files are found instead of exit code 14.
+# @flag --staged                             Format only the staged files.
+# @option -c --config <config>               Path or url to JSON configuration file.
+# @option --plugins* <urls/files>            List of urls or file paths of plugins to use.
 # @option -L --log-level[debug|info|warn|error|silent] <log-level>  Set log level [default: info]
-# @flag -h --help                    Print help
-# @arg files*                        List of file patterns in quotes to format.
+# @flag -h --help                            Print help
+# @arg files*                                List of file patterns in quotes to format.
 output-format-times() {
     :;
 }
@@ -158,5 +170,12 @@ license() {
     :;
 }
 # }} dprint license
+
+# {{ dprint lsp
+# @cmd Starts up a language server for formatting files.
+lsp() {
+    :;
+}
+# }} dprint lsp
 
 command eval "$(argc --argc-eval "$0" "$@")"

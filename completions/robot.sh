@@ -23,6 +23,7 @@
 # @option -V --variablefile* <path>                Python or YAML file file to read variables from.
 # @option -d --outputdir <dir>                     Where to create output files.
 # @option -o --output <file>                       XML output file.
+# @flag --legacyoutput                             Create XML output file in format compatible with Robot Framework 6.x and earlier.
 # @option -l --log <file>                          HTML log file.
 # @option -r --report <file>                       HTML report file.
 # @option -x --xunit <file>                        xUnit compatible result file.

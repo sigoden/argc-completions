@@ -48,6 +48,18 @@ _patch_table() {
         _patch_table_edit_arguments \
             'alias-or-snap;[`_choice_alias_or_snap`]' \
 
+    elif [[ "$*" == "snap set-quota" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'snap-or-service;[`_choice_snap_or_service`]' \
+
+    elif [[ "$*" == "snap remove-quota" ]] \
+      || [[ "$*" == "snap quota" ]] \
+    ; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'group-name;[`_choice_quota`]' \
+
     else
         echo "$table"
     fi
@@ -87,5 +99,17 @@ _choice_snap_slot() {
 }
 
 _choice_alias_or_snap() {
+    _argc_util_parallel _choice_alias ::: _choice_installed_snap
+}
+
+_choice_snap_or_service() {
+    _argc_util_parallel _choice_installed_snap ::: _choice_service
+}
+
+_choice_quota() {
+    snap quotas | tail -n +2 |  gawk '{print $1}'
+}
+
+_choice_alias() {
     snap aliases | _argc_util_transform_table 'Command;Alias' '\n'
 }

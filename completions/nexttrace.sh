@@ -5,7 +5,7 @@
 # @flag -4 --ipv4                                  Use IPv4 only
 # @flag -6 --ipv6                                  Use IPv6 only
 # @flag -T --tcp                                   Use TCP SYN for tracerouting (default port is 80)
-# @flag -U --udp                                   Use UDP SYN for tracerouting (default port is 53)
+# @flag -U --udp                                   Use UDP SYN for tracerouting (default port is 33494)
 # @flag -F --fast-trace                            One-Key Fast Trace to China ISPs
 # @option -p --port <integer>                      Set the destination port to use.
 # @option -q --queries <integer>                   Set the number of probes per each hop.
@@ -32,12 +32,13 @@
 # @option -z --send-time <integer>                 Set how many [milliseconds] between sending each packet.. Useful when some routers use rate-limit for ICMP messages.
 # @option -i --ttl-time <integer>                  Set how many [milliseconds] between sending packets groups by TTL.
 # @option --timeout <integer>                      The number of [milliseconds] to keep probe sockets open before giving up on the connection.. Default: 1000
-# @option --psize <integer>                        Set the packet size (payload size).
+# @option --psize <integer>                        Set the payload size.
 # @option --_positionalArg_nexttrace_32 <value>    IP Address or domain name
 # @option --dot-server[dnssb|aliyun|dnspod|google|cloudflare]  Use DoT Server for DNS Parse
 # @option -g --language[en|cn]                     Choose the language for displaying [en, cn].
 # @flag --file                                     Read IP Address or domain name from file
 # @flag -C --nocolor                               Disable Colorful Output
+# @flag --dont-fragment                            Set the Don't Fragment bit (IPv4 TCP only).
 
 _choice_data_provider() {
     printf "%s\n" Ip2region ip2region IP.SB ip.sb IPInfo ipinfo IPInsight ipinsight \

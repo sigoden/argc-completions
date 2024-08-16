@@ -17,9 +17,9 @@
 # @option --parse-error-limit <LIMIT>            Use a text diff if the number of parse errors exceeds this value.
 # @flag --skip-unchanged                         Don't display anything if a file is unchanged.
 # @flag --sort-paths                             When diffing a directory, output the results sorted by path.
-# @flag --strip-cr                               Remove any carriage return characters before diffing.
+# @option --strip-cr[on|off] <on/off>            Remove any carriage return characters before diffing.
 # @option --syntax-highlight[on|off] <on/off>    Enable or disable syntax highlighting.
-# @option --tab-width <NUM_SPACES>               Treat a tab as this many spaces.[env: DFT_TAB_WIDTH=] [default: 8]
+# @option --tab-width <NUM_SPACES>               Treat a tab as this many spaces.[env: DFT_TAB_WIDTH=] [default: 4]
 # @flag -V --version                             Print version information
 # @option --width <COLUMNS>                      Use this many columns when calculating line wrapping.
 # @option --dump-syntax <PATH>                   Parse a single file with tree-sitter and display the difftastic syntax tree.

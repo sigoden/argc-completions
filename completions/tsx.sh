@@ -4,11 +4,14 @@
 # @flag --no-cache                                 Disable caching
 # @option --tsconfig <string>                      Custom tsconfig.json path
 # @flag --abort-on-uncaught-exception              aborting instead of exiting causes a core file to be generated for analysis
+# @flag --allow-addons                             allow use of addons when any permissions are set
 # @flag --allow-child-process                      allow use of child process when any permissions are set
 # @option --allow-fs-read <string>                 allow permissions to read the filesystem
 # @option --allow-fs-write <string>                allow permissions to write in the filesystem
+# @flag --allow-wasi                               allow wasi when any permissions are set
 # @flag --allow-worker                             allow worker threads when any permissions are set
 # @flag --build-snapshot                           Generate a snapshot blob when the process exits.
+# @flag --build-snapshot-config                    string Generate a snapshot blob when the process exits using aJSON configuration in the specified path.
 # @flag -c --check                                 syntax check script without executing
 # @flag --completion-bash                          print source-able bash completion script
 # @option -C --conditions <string>                 additional user conditions for conditional exports and imports
@@ -18,6 +21,8 @@
 # @option --cpu-prof-name <string>                 specified file name of the V8 CPU profile generated with --cpu-prof
 # @option --diagnostic-dir <string>                set dir for all output files (default: current working directory)
 # @option --disable-proto <string>                 disable Object.prototype.__proto__
+# @option --disable-warning <string>               silence specific process warnings
+# @flag --disable-wasm-trap-handler                Disable trap-handler-based WebAssembly bound checks.
 # @flag --disallow-code-generation-from-strings    disallow eval and friends
 # @option --dns-result-order[`_choice_dns_result_order`] <string>  set default value of verbatim in dns.lookup.
 # @flag --enable-etw-stack-walking                 provides heap data to ETW Windows native tracing
@@ -27,16 +32,24 @@
 # @option -e --eval <string>                       evaluate script
 # @option --experimental-default-type <string>     set module system to use by default
 # @flag --experimental-detect-module               when ambiguous modules fail to evaluate because they contain ES module syntax, try again to evaluate them as ES modules
+# @flag --experimental-eventsource                 experimental EventSource API
 # @flag --experimental-import-meta-resolve         experimental ES Module import.meta.resolve() parentURL support
 # @option --loader <string>                        use the specified module as a custom loader
 # @option --experimental-loader <string>           use the specified module as a custom loader
-# @flag --experimental-network-imports             experimental https: support for the ES Module loader
+# @flag --experimental-network-inspection          experimental network inspection support
 # @flag --experimental-permission                  enable the permission system
-# @option --experimental-policy <string>           use the specified file as a security policy
+# @flag --experimental-print-required-tla          Print pending top-level await.
+# @flag --experimental-require-module              Allow loading explicit ES Modules in require().
 # @option --experimental-sea-config <string>       Generate a blob that can be embedded into the single executable application
+# @flag --experimental-sqlite                      experimental node:sqlite module
+# @flag --experimental-strip-types                 Experimental type-stripping for TypeScript files.
 # @flag --experimental-test-coverage               enable code coverage in the test runner
+# @flag --experimental-test-module-mocks           enable module mocking in the test runner
+# @flag --experimental-test-snapshots              enable snapshot testing in the test runner
 # @flag --experimental-vm-modules                  experimental ES Module support in vm module
 # @flag --experimental-wasm-modules                experimental ES Module support for webassembly modules
+# @flag --experimental-webstorage                  experimental Web Storage API
+# @flag --expose-gc                                expose gc extension
 # @flag --force-context-aware                      disable loading non-context-aware addons
 # @flag --force-fips                               force FIPS crypto (cannot be disabled)
 # @flag --force-node-api-uncaught-exceptions-policy  enforces 'uncaughtException' event on Node API asynchronous callbacks
@@ -58,17 +71,21 @@
 # @option --debug-port <stringst:]port>            set host:port for inspector
 # @option --inspect-port <stringst:]port>          set host:port for inspector
 # @option --inspect-publish-uid[stderr|http] <string>  comma separated list of destinations for inspector uid
+# @option --inspect-wait <[ stringst:]port]>       activate inspector on host:port and wait for debugger to be attached
 # @flag -i --interactive                           always enter the REPL even if stdin does not appear to be a terminal
 # @flag --interpreted-frames-native-stack          help system profilers to translate JavaScript interpreted frames
 # @flag --jitless                                  disable runtime allocation of executable memory
+# @option --localstorage-file <string>             file used to persist localStorage data
 # @option --max-http-header-size <string>          set the maximum size of HTTP headers (default: 16384 (16KB))
+# @option --network-family-autoselection-attempt-timeout <string>  Sets the default value for the network family autoselection attempt timeout.
 # @flag --no-addons                                disable loading native addons
 # @flag --no-deprecation                           silence deprecation warnings
 # @flag --no-experimental-fetch                    experimental Fetch API
 # @flag --no-experimental-global-customevent       expose experimental CustomEvent on the global scope
+# @flag --no-experimental-global-navigator         expose experimental Navigator API on the global scope
 # @flag --no-experimental-global-webcrypto         expose experimental Web Crypto API on the global scope
 # @flag --no-experimental-repl-await               experimental await keyword support in REPL
-# @flag --no-experimental-websocket                experimental WebSocket API (currently set)
+# @flag --no-experimental-websocket                experimental WebSocket API
 # @flag --no-extra-info-on-fatal-exception         hide extra information on fatal exception that causes exit
 # @flag --no-force-async-hooks-checks              disable checks for async_hooks
 # @flag --no-global-search-paths                   disable global module search paths
@@ -80,7 +97,6 @@
 # @flag --openssl-legacy-provider                  enable OpenSSL 3.0 legacy provider
 # @flag --openssl-shared-config                    enable OpenSSL shared configuration
 # @flag --pending-deprecation                      emit pending deprecation warnings
-# @option --policy-integrity <string>              ensure the security policy contents match the specified integrity
 # @flag --preserve-symlinks                        preserve symbolic links when resolving
 # @flag --preserve-symlinks-main                   preserve symbolic links when resolving the main module
 # @flag -p --print*                                evaluate script and print result
@@ -90,22 +106,30 @@
 # @flag --report-compact                           output compact single-line JSON
 # @option --report-directory <string>              define custom report pathname.
 # @option --report-dir <string>                    define custom report pathname.
+# @flag --report-exclude-network                   exclude network interface diagnostics.
 # @option --report-filename <string>               define custom report file name.
 # @flag --report-on-fatalerror                     generate diagnostic report on fatal (internal) errors
 # @flag --report-on-signal                         generate diagnostic report upon receiving signals
 # @option --report-signal <string>                 causes diagnostic report to be produced on provided signal, unsupported in Windows.
 # @flag --report-uncaught-exception                generate diagnostic report on uncaught exceptions
 # @option -r --require <string>                    CommonJS module to preload (option can be repeated)
+# @option --run <string>                           Run a script specified in package.json
 # @option --secure-heap <string>                   total size of the OpenSSL secure heap
 # @option --secure-heap-min <string>               minimum allocation size from the OpenSSL secure heap
 # @option --snapshot-blob <string>                 Path to the snapshot blob that's either the result of snapshotbuilding, or the blob that is used to restore the application state
 # @flag --test                                     launch test runner on startup
 # @option --test-concurrency <string>              specify test runner concurrency
+# @flag --test-coverage-exclude                    string exclude files from coverage report that match this glob pattern
+# @flag --test-coverage-include                    string include files in coverage report that match this glob pattern
+# @flag --test-force-exit                          force test runner to exit upon completion
 # @option --test-name-pattern <string>             run tests whose name matches this regular expression
 # @flag --test-only                                run tests with 'only' option set
 # @option --test-reporter <string>                 report test output using the given reporter
 # @option --test-reporter-destination <string>     report given reporter to the given destination
 # @option --test-shard <string>                    run test at specific shard
+# @option --test-skip-pattern <string>             run tests whose name do not match this regular expression
+# @option --test-timeout <string>                  specify test runner timeout
+# @flag --test-update-snapshots                    regenerate test snapshots
 # @flag --throw-deprecation                        throw an exception on deprecations
 # @option --title <string>                         the process title to use on startup
 # @option --tls-cipher-list <string>               use an alternative default TLS cipher list
@@ -121,6 +145,7 @@
 # @option --trace-event-categories <string>        comma separated list of trace event categories to record
 # @option --trace-event-file-pattern <string>      Template string specifying the filepath for the trace-events data, it supports ${rotation} and ${pid}.
 # @flag --trace-exit                               show stack trace when an environment exits
+# @flag --trace-promises                           show stack traces on promise initialization and resolution
 # @flag --trace-sigint                             enable printing JavaScript stacktrace on SIGINT
 # @flag --trace-sync-io                            show stack trace when use of sync IO is detected after the first tick
 # @flag --trace-tls                                prints TLS packet trace information to stderr

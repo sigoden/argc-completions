@@ -94,6 +94,7 @@
 # @flag --aws_enable_proxy                         Enable proxying of HTTP/HTTPS requests in AWS client config
 # @option --aws_firehose_endpoint <VALUE>          Custom Firehose endpoint
 # @option --aws_firehose_period <VALUE>            Seconds between flushing logs to Firehose (default 10)
+# @option --aws_firehose_region <VALUE>            Region to use for Firehose instead of the default.
 # @option --aws_firehose_stream <VALUE>            Name of Firehose stream for logging
 # @option --aws_imdsv2_request_attempts <VALUE>    How many attempts to do at requesting an IMDSv2 token
 # @option --aws_imdsv2_request_interval <VALUE>    Base seconds to wait between attempts at requesting an IMDSv2 token.
@@ -101,6 +102,7 @@
 # @option --aws_kinesis_endpoint <VALUE>           Custom Kinesis endpoint
 # @option --aws_kinesis_period <VALUE>             Seconds between flushing logs to Kinesis (default 10)
 # @flag --aws_kinesis_random_partition_key         Enable random kinesis partition keys
+# @option --aws_kinesis_region <VALUE>             Region to use for Kinesis instead of the default.
 # @option --aws_kinesis_stream <VALUE>             Name of Kinesis stream for logging
 # @option --aws_profile_name <file>                AWS profile for authentication and region configuration
 # @option --aws_proxy_host <VALUE>                 Proxy host for use in AWS client config
@@ -108,7 +110,7 @@
 # @option --aws_proxy_port <VALUE>                 Proxy port for use in AWS client config
 # @option --aws_proxy_scheme <VALUE>               Proxy HTTP scheme for use in AWS client config (http or https, default https)
 # @option --aws_proxy_username <VALUE>             Proxy username for use in AWS client config
-# @option --aws_region <VALUE>                     AWS region
+# @option --aws_region <VALUE>                     Default AWS region for all services
 # @option --aws_secret_access_key <VALUE>          AWS secret access key
 # @option --aws_session_token <VALUE>              AWS STS session token
 # @option --aws_sts_arn_role <VALUE>               AWS STS ARN role
@@ -166,6 +168,7 @@
 # @flag --logger_snapshot_event_type               Log scheduled snapshot results as events
 # @option --logger_syslog_facility <VALUE>         Syslog facility for status and results logs (0-23, default 19)
 # @flag --logger_syslog_prepend_cee                Prepend @cee: tag to logged JSON messages
+# @option --logger_tls_backoff_max <VALUE>         Maximum seconds to wait before flushing logs over TLS/HTTPS.
 # @flag --logger_tls_compress                      GZip compress TLS/HTTPS request body
 # @option --logger_tls_endpoint <VALUE>            TLS/HTTPS endpoint for results logging
 # @option --logger_tls_max_lines <VALUE>           Max number of logs to send per period
@@ -198,7 +201,6 @@
 # @flag --thrift_verbose                           Enable the thrift log handler
 # @flag --tls_disable_status_log                   Disable sending status logs
 # @flag --verbose                                  Enable verbose informational messages
-# @option --worker_threads <VALUE>                 Number of work dispatch threads
 # @option --yara_delay <file>                      Time in ms to sleep after scan of each file (default 50) to reduce memory spikes
 # @option --A <VALUE>                              Select all from a table
 # @flag --L                                        List all table names

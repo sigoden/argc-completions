@@ -7,14 +7,16 @@
 # @flag -l --count-hard-links               Count hard-linked files each time they are seen
 # @flag -x --stay-on-filesystem             If set, we will not cross filesystems or traverse mount points
 # @option -i --ignore-dirs <IGNORE_DIRS>    One or more absolute directories to ignore.
+# @option --log-file <LOG_FILE>             Write a log file with debug information, including panics
 # @flag -h --help                           Print help (see a summary with '-h')
 # @flag -V --version                        Print version
 # @arg paths*                               One or more input files or directories.
 
 # {{ dua interactive
 # @cmd Launch the terminal user interface [aliases: i]
-# @flag -h --help    Print help
-# @arg paths*        One or more input files or directories.
+# @flag -e --no-entry-check    Do not check entries for presence when listing a directory to avoid slugging performance on slow filesystems
+# @flag -h --help              Print help
+# @arg paths*                  One or more input files or directories.
 interactive() {
     :;
 }

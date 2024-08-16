@@ -35,7 +35,7 @@
 # @option -user-agent <string>                    If set, the specified value will be added to the User-Agent header set by the grpc-go library.
 # @flag -v                                        Enable verbose output.
 # @flag -version                                  Print version.
-# @flag -vv                                       Enable very verbose output.
+# @flag -vv                                       Enable very verbose output (includes timing data).
 # @arg address
 # @arg enum[list|describe]
 # @arg symbol

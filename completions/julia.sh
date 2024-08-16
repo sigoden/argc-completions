@@ -16,6 +16,7 @@
 # @option -E --print <expr>                 Evaluate <expr> and display the result
 # @option -L --load <file>                  Load <file> immediately on all processors
 # @option -t --threads <auto|N,auto|M>      Enable N[+M] threads; N threads are assigned to the `default` threadpool, and if M is specified, M threads are assigned to the `interactive` threadpool; "auto" tries to infer a useful default number of threads to use but the exact behavior might change in the future.
+# @option --gcthreads <N,M>                 Use N threads for the mark phase of GC and M (0 or 1) threads for the concurrent sweeping phase of GC.
 # @option -p --procs[N|auto]                Integer value N launches N additional local worker processes "auto" launches as many workers as the number of local CPU threads (logical cores)
 # @option --machine-file <file>             Run processes on hosts listed in <file>
 # @flag -i --interactive                    Interactive mode; REPL runs and `isinteractive()` is true

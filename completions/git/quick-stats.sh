@@ -16,7 +16,7 @@
 # @flag -m --commits-by-month                 displays a list of commits per month
 # @flag -Y --commits-by-year                  displays a list of commits per year
 # @flag -w --commits-by-weekday               displays a list of commits per weekday
-# @flag -W --commits-byuthor-by-weekday       displays a list of commits per weekday by author
+# @flag -W --commits-by-author-by-weekday     displays a list of commits per weekday by author
 # @flag -o --commits-by-hour                  displays a list of commits per hour
 # @flag -A --commits-by-author-by-hour        displays a list of commits per hour by author
 # @flag -z --commits-by-timezone              displays a list of commits per timezone

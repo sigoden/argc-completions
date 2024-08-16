@@ -18,7 +18,7 @@ _patch_table() {
 
     elif [[ "$*" == "rtx uninstall" ]]; then
         echo "$table" | \
-        _patch_table_edit_arguments 'tool-version;[`_choice_installed_tool_version`]'
+        _patch_table_edit_arguments ';;' 'tool-version;[`_choice_installed_tool_version`]'
 
     else
         echo "$table"

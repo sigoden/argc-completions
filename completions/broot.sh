@@ -30,14 +30,16 @@
 # @flag --sort-by-type-dirs-last            Sort by type, directories last (only show one level of the tree)
 # @flag --no-sort                           Don't sort
 # @flag -w --whale-spotting                 Sort by size, show ignored and hidden files
+# @flag -W --no-whale-spotting              No sort, no show hidden, no show git ignored
 # @flag -t --trim-root                      Trim the root too and don't show a scrollbar
 # @flag -T --no-trim-root                   Don't trim the root level, show a scrollbar
 # @option --outcmd <path>                   Where to write the produced cmd (if any)
+# @option --verb-output <verb-output>       Optional path for verbs using :write_output
 # @option -c --cmd <cmd>                    Semicolon separated commands to execute
-# @option --color[auto|yes|no] <color>      Whether to have styles and colors (default is usually OK)Possible values:Default: auto
+# @option --color[auto|yes|no] <color>      Whether to have styles and colors Default: auto
 # @option --height <height>                 Height (if you don't want to fill the screen or for file export)
 # @flag --install                           Install or reinstall the br shell function
-# @option --set-install-state[undefined|refused|installed] <state>  Where to write the produced cmd (if any)Possible values:
+# @option --set-install-state[undefined|refused|installed] <state>  Manually set installation state
 # @option --print-shell-function <shell>    Print to stdout the br function for a given shell
 # @option --listen <socket>                 A socket to listen to for commands
 # @flag --get-root                          Ask for the current root of the remote broot

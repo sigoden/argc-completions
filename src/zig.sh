@@ -4,7 +4,7 @@ _patch_help() {
         if [[ ! -d "$workspace_dir" ]]; then
             mkdir -p "$workspace_dir" && \
             cd "$workspace_dir" && \
-            zig init-exe >/dev/null 2>&1 && \
+            zig init >/dev/null 2>&1 && \
             zig build >/dev/null 2>&1
         fi
         cd "$workspace_dir"
@@ -15,6 +15,7 @@ _patch_help() {
         sed -n '/^OPTIONS:/,/^\s*$/ {s/ - /   /;p}'
 
     elif [[ "$*" == "zig lib" ]] \
+      || [[ "$*" == "zig rc" ]] \
       || [[ "$*" == "zig targets" ]] \
     ; then
         :;
@@ -58,6 +59,7 @@ _patch_table() {
             '-flto' \
             '-mabi' \
             '-mcmodel' \
+            '-mllvm' \
             '-ObjC' \
             '-Xopenmp-target' \
 

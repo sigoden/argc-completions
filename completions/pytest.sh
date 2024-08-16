@@ -33,6 +33,7 @@
 # @flag -v --verbose                             Increase verbosity
 # @flag --no-header                              Disable header
 # @flag --no-summary                             Disable summary
+# @flag --no-fold-skipped                        Do not fold skipped tests in short summary.
 # @flag -q --quiet                               Decrease verbosity
 # @option --verbosity <VERBOSE>                  Set verbosity.
 # @option -r <chars>                             Show extra test summary info as specified by chars: (f)ailed, (E)rror, (s)kipped, (x)failed, (X)passed, (p)assed, (P)assed with output, (a)ll except passed (p/P), or (A)ll.
@@ -41,6 +42,7 @@
 # @flag -l --showlocals                          Show locals in tracebacks (disabled by default)
 # @flag --no-showlocals                          Hide locals in tracebacks (negate --showlocals passed through addopts)
 # @option --tb <style>                           Traceback print mode (auto/long/short/line/native/no)
+# @flag --xfail-tb                               Show tracebacks for xfail (as long as --tb != no)
 # @option --show-capture[no|stdout|stderr|log|all]  Controls how captured stdout/stderr/log is shown on failed tests.
 # @flag --full-trace                             Don't cut any tracebacks (default is to cut)
 # @option --color <color>                        Color terminal output (yes/no/auto)
@@ -70,7 +72,7 @@
 # @flag --doctest-modules                        Run doctests in all .py modules
 # @option --doctest-report[none|cdiff|ndiff|udiff|only_first_failure]  Choose another output format for diffs on doctest failure
 # @option --doctest-glob <pat>                   Doctests file matching pattern, default: test*.txt
-# @flag --doctest-ignore-import-errors           Ignore doctest ImportErrors
+# @flag --doctest-ignore-import-errors           Ignore doctest collection errors
 # @flag --doctest-continue-on-failure            For a given doctest, continue to run after the first failure
 # @option --basetemp <dir>                       Base temporary directory for this test run.
 # @flag -V --version                             Display pytest version and information about plugins.
@@ -90,6 +92,7 @@
 # @option --log-cli-format <LOG_CLI_FORMAT>      Log format used by the logging module
 # @option --log-cli-date-format <LOG_CLI_DATE_FORMAT>  Log date format used by the logging module
 # @option --log-file <LOG_FILE>                  Path to a file when logging will be written to
+# @option --log-file-mode[w|a]                   Log file open mode
 # @option --log-file-level <LOG_FILE_LEVEL>      Log file logging level
 # @option --log-file-format <LOG_FILE_FORMAT>    Log format used by the logging module
 # @option --log-file-date-format <LOG_FILE_DATE_FORMAT>  Log date format used by the logging module

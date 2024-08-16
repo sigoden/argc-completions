@@ -43,7 +43,7 @@
 # @flag --frozen                                 Require Cargo.lock and cache are up to date
 # @flag --locked                                 Require Cargo.lock is up to date
 # @flag --offline                                Run without accessing the network
-# @flag --cargo-quiet                            Do not print cargo log messages
+# @flag --cargo-quiet*                           Do not print cargo log messages (specify twice for no Cargo output at all)
 # @flag --cargo-verbose*                         Use cargo verbose output (specify twice for very verbose/build.rs output)
 # @flag --ignore-rust-version                    Ignore `rust-version` specification in packages
 # @flag --future-incompat-report                 Outputs a future incompatibility report at the end of the build
@@ -67,7 +67,8 @@
 # @option --config-file <PATH>                   Config file [default: workspace-root/.config/nextest.toml]
 # @option --tool-config-file <TOOL:ABS_PATH>     Tool-specific config files
 # @flag --override-version-check                 Override checks for the minimum version defined in nextest's config.
-# @arg filters*                                  Test name filters and emulated test binary arguments (partially supported)
+# @arg filters*                                  Test name filters
+# @arg filters_and_args*                         Test name filters and emulated test binary arguments (partially supported)
 list() {
     :;
 }
@@ -107,7 +108,7 @@ list() {
 # @flag --frozen                                 Require Cargo.lock and cache are up to date
 # @flag --locked                                 Require Cargo.lock is up to date
 # @flag --offline                                Run without accessing the network
-# @flag --cargo-quiet                            Do not print cargo log messages
+# @flag --cargo-quiet*                           Do not print cargo log messages (specify twice for no Cargo output at all)
 # @flag --cargo-verbose*                         Use cargo verbose output (specify twice for very verbose/build.rs output)
 # @flag --ignore-rust-version                    Ignore `rust-version` specification in packages
 # @flag --future-incompat-report                 Outputs a future incompatibility report at the end of the build
@@ -128,6 +129,8 @@ list() {
 # @option --status-level[none|fail|retry|slow|leak|pass|skip|all] <LEVEL>  Test statuses to output
 # @option --final-status-level[none|fail|flaky|slow|skip|pass|all] <LEVEL>  Test statuses to output at the end of the run
 # @flag --hide-progress-bar                      Do not display the progress bar
+# @option --message-format <FORMAT>              Format to use for test results (experimental)
+# @option --message-format-version <VERSION>     Version of structured message-format to use (experimental).
 # @option --archive-file <PATH>                  Path to nextest archive
 # @option --archive-format[auto|tar-zst] <FORMAT>  Archive format
 # @option --extract-to <DIR>                     Destination directory to extract archive to [default: temporary directory]
@@ -140,7 +143,8 @@ list() {
 # @option --config-file <PATH>                   Config file [default: workspace-root/.config/nextest.toml]
 # @option --tool-config-file <TOOL:ABS_PATH>     Tool-specific config files
 # @flag --override-version-check                 Override checks for the minimum version defined in nextest's config.
-# @arg filters*                                  Test name filters and emulated test binary arguments (partially supported)
+# @arg filters*                                  Test name filters
+# @arg filters_and_args*                         Test name filters and emulated test binary arguments (partially supported)
 run() {
     :;
 }
@@ -150,6 +154,7 @@ run() {
 # @cmd Build and archive tests
 # @flag -v --verbose                             Verbose output
 # @option --color <WHEN>                         Produce color output: auto, always, never
+# @option -P --profile                           Nextest profile to use
 # @flag -h --help                                Print help (see a summary with '-h')
 # @option -p --package[`_choice_package`] <PACKAGES>  Package to test
 # @flag --workspace                              Test all packages in the workspace
@@ -179,7 +184,7 @@ run() {
 # @flag --frozen                                 Require Cargo.lock and cache are up to date
 # @flag --locked                                 Require Cargo.lock is up to date
 # @flag --offline                                Run without accessing the network
-# @flag --cargo-quiet                            Do not print cargo log messages
+# @flag --cargo-quiet*                           Do not print cargo log messages (specify twice for no Cargo output at all)
 # @flag --cargo-verbose*                         Use cargo verbose output (specify twice for very verbose/build.rs output)
 # @flag --ignore-rust-version                    Ignore `rust-version` specification in packages
 # @flag --future-incompat-report                 Outputs a future incompatibility report at the end of the build
@@ -260,7 +265,7 @@ show-config::version() {
 # @flag --frozen                                 Require Cargo.lock and cache are up to date
 # @flag --locked                                 Require Cargo.lock is up to date
 # @flag --offline                                Run without accessing the network
-# @flag --cargo-quiet                            Do not print cargo log messages
+# @flag --cargo-quiet*                           Do not print cargo log messages (specify twice for no Cargo output at all)
 # @flag --cargo-verbose*                         Use cargo verbose output (specify twice for very verbose/build.rs output)
 # @flag --ignore-rust-version                    Ignore `rust-version` specification in packages
 # @flag --future-incompat-report                 Outputs a future incompatibility report at the end of the build
@@ -282,7 +287,8 @@ show-config::version() {
 # @option --config-file <PATH>                   Config file [default: workspace-root/.config/nextest.toml]
 # @option --tool-config-file <TOOL:ABS_PATH>     Tool-specific config files
 # @flag --override-version-check                 Override checks for the minimum version defined in nextest's config.
-# @arg filters*                                  Test name filters and emulated test binary arguments (partially supported)
+# @arg filters*                                  Test name filters
+# @arg filters_and_args*                         Test name filters and emulated test binary arguments (partially supported)
 show-config::test-groups() {
     :;
 }

@@ -1,9 +1,9 @@
 _patch_table() {
     if [[ "$*" == "vfox info" ]] \
-    || [[ "$*" == "vfox list" ]] \
     || [[ "$*" == "vfox available" ]] \
-    || [[ "$*" == "vfox search" ]] \
     || [[ "$*" == "vfox update" ]] \
+    || [[ "$*" == "vfox list" ]] \
+    || [[ "$*" == "vfox search" ]] \
     ; then
         _patch_table_edit_arguments ';;' 'plugin;[`_choice_installed_plugin`]'
 

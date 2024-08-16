@@ -22,6 +22,7 @@
 # @flag --p12-info                       Print information on a PKCS ♯12 structure
 # @option --p12-name <str>               The PKCS ♯12 friendly name to use
 # @flag --to-p12                         Generate a PKCS ♯12 structure
+# @flag --pbmac1                         Use PBMAC1 in a PKCS ♯12 structure
 # @flag -k --key-info                    Print information on a private key
 # @flag --p8-info                        Print information on a PKCS ♯8 structure
 # @flag --to-rsa                         Convert an RSA-PSS key to raw RSA format
@@ -71,6 +72,7 @@
 # @flag --cprint                         In certain operations it prints the information in C-friendly format
 # @option --hash <str>                   Hash algorithm to use for signing
 # @option --salt-size <num>              Specify the RSA-PSS key default salt size
+# @option --label <str>                  Specify the RSA-OAEP label, encoded in hexadecimal
 # @flag --inder                          Use DER format for input certificates, private keys, and DH parameters
 # @flag --inraw                          an alias for the 'inder' option
 # @flag --outder                         Use DER format for output certificates, private keys, and DH parameters

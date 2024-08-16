@@ -80,7 +80,7 @@ reverse() {
 
 # {{ adb push
 # @cmd copy local files/directories to device
-# @flag --sync    only push files that are newer on the host than the device
+# @flag --sync    only push files that have different timestamps on the host than the device
 # @flag -n        dry run: push files to device without storing to the filesystem
 # @flag -z        enable compression with a specified algorithm (any/none/brotli/lz4/zstd)
 # @flag -Z        disable compression

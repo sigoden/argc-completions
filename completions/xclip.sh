@@ -9,7 +9,7 @@
 # @option -selection[primary|secondary|clipboard|buffer-cut]  selection to access
 # @flag -noutf8        don't treat text as utf-8, use old unicode
 # @flag -target        use the given target atom
-# @flag -rmlastnl      remove the last newline charater if present
+# @flag -rmlastnl      remove the last newline character if present
 # @flag -version       version information
 # @flag -silent        errors only, run in background (default)
 # @flag -quiet         run in foreground, show what's happening

@@ -8,7 +8,7 @@
 # @flag --no-strip                              disable stripping debug symbols (default: false)
 # @option --manifest-path <PATH>                path to Cargo.toml
 # @flag --bindgen                               set bindgen-specific environment variables (BINDGEN_EXTRA_CLANG_ARGS_*) when building (default: false)
-# @option -t --target*[`_choice_ndk_target`]    Triples for the target(s).
+# @option -t --target*[`_choice_ndk_target`]    triples for the target(s).
 # @arg cargo_args~[`_choice_ndk_cmd`]           args to be passed to cargo
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"

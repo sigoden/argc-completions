@@ -1,53 +1,53 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @flag -j --json                                (default) Serialize data items from the command line as a JSON object
-# @flag -f --form                                Serialize data items from the command line as form fields
-# @flag --multipart                              Like --form, but force a multipart/form-data request even without files
-# @option --raw                                  Pass raw request data without extra processing
+# @flag -j --json                              (default) Serialize data items from the command line as a JSON object
+# @flag -f --form                              Serialize data items from the command line as form fields
+# @flag --multipart                            Like --form, but force a multipart/form-data request even without files
+# @option --raw                                Pass raw request data without extra processing
 # @option --pretty[all|colors|format|none] <STYLE>  Controls output processing
-# @option --format-options <FORMAT_OPTIONS>      Set output formatting options
+# @option --format-options <FORMAT_OPTIONS>    Set output formatting options
 # @option -s --style[auto|solarized|monokai|fruity] <THEME>  Output coloring style
-# @option --response-charset <ENCODING>          Override the response encoding for terminal display purposes
-# @option --response-mime <MIME_TYPE>            Override the response mime type for coloring and formatting for the terminal
-# @option -p --print <FORMAT>                    String specifying what the output should contain
-# @flag -h --headers                             Print only the response headers.
-# @flag -b --body                                Print only the response body.
-# @flag -m --meta                                Print only the response metadata.
-# @flag -v --verbose*                            Print the whole request as well as the response
-# @flag --all                                    Show any intermediary requests/responses while following redirects with --follow
-# @option -P --history-print <FORMAT>            The same as --print but applies only to intermediary requests/responses
-# @flag -q --quiet                               Do not print to stdout or stderr
-# @flag -S --stream                              Always stream the response body
-# @option -o --output <FILE>                     Save output to FILE instead of stdout
-# @flag -d --download                            Download the body to a file instead of printing it
-# @flag -c --continue                            Resume an interrupted download.
-# @option --session <FILE>                       Create, or reuse and update a session
-# @option --session-read-only <FILE>             Create or read a session without updating it form the request/response exchange
+# @option --response-charset <ENCODING>        Override the response encoding for terminal display purposes
+# @option --response-mime <MIME_TYPE>          Override the response mime type for coloring and formatting for the terminal
+# @option -p --print <FORMAT>                  String specifying what the output should contain
+# @flag -h --headers                           Print only the response headers.
+# @flag -b --body                              Print only the response body.
+# @flag -m --meta                              Print only the response metadata.
+# @flag -v --verbose*                          Print the whole request as well as the response
+# @flag --all                                  Show any intermediary requests/responses while following redirects with --follow
+# @option -P --history-print <FORMAT>          The same as --print but applies only to intermediary requests/responses
+# @flag -q --quiet                             Do not print to stdout or stderr
+# @flag -S --stream                            Always stream the response body
+# @option -o --output <FILE>                   Save output to FILE instead of stdout
+# @flag -d --download                          Download the body to a file instead of printing it
+# @flag -c --continue                          Resume an interrupted download.
+# @option --session <FILE>                     Create, or reuse and update a session
+# @option --session-read-only <FILE>           Create or read a session without updating it form the request/response exchange
 # @option -A --auth-type[basic|bearer|digest] <AUTH_TYPE>  Specify the auth mechanism
-# @option -a --auth <USER[:PASS] | TOKEN>        Authenticate as USER with PASS (-A basic|digest) or with TOKEN (-A bearer)
-# @flag --ignore-netrc                           Do not use credentials from .netrc
-# @flag --offline                                Construct HTTP requests without sending them anywhere
-# @flag --check-status                           (default) Exit with an error status code if the server replies with an error
-# @flag -F --follow                              Do follow redirects
-# @option --max-redirects <NUM>                  Number of redirects to follow.
-# @option --timeout <SEC>                        Connection timeout of the request
-# @option --proxy <PROTOCOL:URL>                 Use a proxy for a protocol.
-# @option --verify                               If "no", skip SSL verification.
-# @option --cert <FILE>                          Use a client side certificate for SSL
-# @option --cert-key <FILE>                      A private key file to use with --cert
+# @option -a --auth <USER[:PASS] | TOKEN>      Authenticate as USER with PASS (-A basic|digest) or with TOKEN (-A bearer)
+# @flag --ignore-netrc                         Do not use credentials from .netrc
+# @flag --offline                              Construct HTTP requests without sending them anywhere
+# @flag --check-status                         (default) Exit with an error status code if the server replies with an error
+# @flag -F --follow                            Do follow redirects
+# @option --max-redirects <NUM>                Number of redirects to follow.
+# @option --timeout <SEC>                      Connection timeout of the request
+# @option --proxy <PROTOCOL:URL>               Use a proxy for a protocol.
+# @option --verify                             If "no", skip SSL verification.
+# @option --cert <FILE>                        Use a client side certificate for SSL
+# @option --cert-key <FILE>                    A private key file to use with --cert
 # @option --ssl[auto|tls1|tls1.1|tls1.2|tls1.3] <VERSION>  Force a particular TLS version
-# @flag --https                                  Make HTTPS requests if not specified in the URL
-# @option --http-version[1.0|1.1|2] <VERSION>    HTTP version to use
-# @option --resolve <HOST:ADDRESS>               Override DNS resolution for specific domain to a custom IP
-# @option --interface <NAME>                     Bind to a network interface or local IP address
-# @flag -4 --ipv4                                Resolve hostname to ipv4 addresses only
-# @flag -6 --ipv6                                Resolve hostname to ipv6 addresses only
-# @flag -I --ignore-stdin                        Do not attempt to read stdin
-# @flag --curl                                   Print a translation to a curl command
-# @flag --curl-long                              Use the long versions of curl's flags
-# @flag --help                                   Print help
-# @flag -V --version                             Print version
+# @flag --https                                Make HTTPS requests if not specified in the URL
+# @option --http-version[1.0|1.1|2|2-prior-knowledge] <VERSION>  HTTP version to use
+# @option --resolve <HOST:ADDRESS>             Override DNS resolution for specific domain to a custom IP
+# @option --interface <NAME>                   Bind to a network interface or local IP address
+# @flag -4 --ipv4                              Resolve hostname to ipv4 addresses only
+# @flag -6 --ipv6                              Resolve hostname to ipv6 addresses only
+# @flag -I --ignore-stdin                      Do not attempt to read stdin
+# @flag --curl                                 Print a translation to a curl command
+# @flag --curl-long                            Use the long versions of curl's flags
+# @flag --help                                 Print help
+# @flag -V --version                           Print version
 # @arg args*[`_choice_args`]
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"

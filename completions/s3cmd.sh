@@ -38,6 +38,7 @@
 # @flag --delete-after-fetch                     Delete remote objects after fetching to local file (only for [get] and [sync] commands).
 # @option -p --preserve[mode|ownership|timestamps]  Preserve filesystem attributes.
 # @flag --no-preserve                            Don't store FS attributes
+# @flag --keep-dirs                              Preserve all local directories as remote objects including empty directories.
 # @option --exclude <GLOB>                       Filenames and paths matching GLOB will be excluded from sync
 # @option --exclude-from <FILE>                  Read --exclude GLOBs from FILE
 # @option --rexclude <REGEXP>                    Filenames and paths matching REGEXP (regular expression) will be excluded from sync
@@ -80,6 +81,7 @@
 # @option --expiry-date <EXPIRY_DATE>            Indicates when the expiration rule takes effect.
 # @option --expiry-days <EXPIRY_DAYS>            Indicates the number of days after object creation the expiration rule takes effect.
 # @option --expiry-prefix <EXPIRY_PREFIX>        Identifying one or more objects with the prefix to which the expiration rule applies.
+# @flag --skip-destination-validation            Skips validation of Amazon SQS, Amazon SNS, and AWS Lambda destinations when applying notification configuration.
 # @flag --progress                               Display progress meter (default on TTY).
 # @flag --no-progress                            Don't display progress meter (default on non-TTY).
 # @flag --stats                                  Give some file-transfer stats.
@@ -94,7 +96,7 @@
 # @option --cf-default-root-object <DEFAULT_ROOT_OBJECT>  Set the default root object to return when no object is specified in the URL.
 # @flag -v --verbose                             Enable verbose output.
 # @flag -d --debug                               Enable debug output.
-# @flag --version                                Show s3cmd version (2.3.0) and exit.
+# @flag --version                                Show s3cmd version (2.4.0) and exit.
 # @flag -F --follow-symlinks                     Follow symbolic links as if they are regular files
 # @option --cache-file <FILE>                    Cache FILE containing local source MD5 values
 # @flag -q --quiet                               Silence output on stdout
@@ -107,10 +109,11 @@
 # @flag --no-check-hostname                      Do not check SSL certificate hostname validity
 # @flag --signature-v2                           Use AWS Signature version 2 instead of newer signature methods.
 # @option --limit-rate <LIMITRATE>               Limit the upload or download speed to amount bytes per second.
-# @flag --no-connection-pooling                  Disable connection re-use
+# @flag --no-connection-pooling                  Disable connection reuse
 # @flag --requester-pays                         Set the REQUESTER PAYS flag for operations
 # @flag -l --long-listing                        Produce long listing [ls]
 # @flag --stop-on-error                          stop if error in transfer
+# @option --max-retries <NUM>                    Maximum number of times to retry a failed request before giving up.
 # @option --content-disposition <CONTENT_DISPOSITION>  Provide a Content-Disposition for signed URLs, e.g., "inline; filename=myvideo.mp4"
 # @option --content-type <CONTENT_TYPE>          Provide a Content-Type for signed URLs, e.g., "video/mp4"
 
@@ -246,6 +249,49 @@ setacl() {
 }
 # }} s3cmd setacl
 
+# {{ s3cmd setversioning
+# @cmd Modify Bucket Versioning
+# @arg state[enabled|disabled]
+setversioning() {
+    :;
+}
+# }} s3cmd setversioning
+
+# {{ s3cmd setownership
+# @cmd Modify Bucket Object Ownership
+# @arg ownership[BucketOwnerPreferred|BucketOwnerEnforced|ObjectWriter]
+setownership() {
+    :;
+}
+# }} s3cmd setownership
+
+# {{ s3cmd setblockpublicaccess
+# @cmd Modify Block Public Access rules
+# @arg access[BlockPublicAcls|IgnorePublicAcls|BlockPublicPolicy|RestrictPublicBuckets]
+setblockpublicaccess() {
+    :;
+}
+# }} s3cmd setblockpublicaccess
+
+# {{ s3cmd setobjectlegalhold
+# @cmd Modify Object Legal Hold
+# @arg status
+# @arg s3-bucket-object[`_choice_s3_path`] <s3://BUCKET/OBJECT>
+setobjectlegalhold() {
+    :;
+}
+# }} s3cmd setobjectlegalhold
+
+# {{ s3cmd setobjectretention
+# @cmd Modify Object Retention
+# @arg mode
+# @arg retain_until_date
+# @arg s3-bucket-object[`_choice_s3_path`] <s3://BUCKET/OBJECT>
+setobjectretention() {
+    :;
+}
+# }} s3cmd setobjectretention
+
 # {{ s3cmd setpolicy
 # @cmd Modify Bucket Policy
 # @arg file
@@ -347,6 +393,31 @@ fixbucket() {
     :;
 }
 # }} s3cmd fixbucket
+
+# {{ s3cmd settagging
+# @cmd Modify tagging for Bucket or Files
+# @arg s3-bucket-object[`_choice_s3_path`] <s3://BUCKET[/OBJECT]>
+# @arg key-value-key-value <"KEY=VALUE[&KEY=VALUE ...]">
+settagging() {
+    :;
+}
+# }} s3cmd settagging
+
+# {{ s3cmd gettagging
+# @cmd Get tagging for Bucket or Files
+# @arg s3-bucket-object[`_choice_s3_path`] <s3://BUCKET[/OBJECT]>
+gettagging() {
+    :;
+}
+# }} s3cmd gettagging
+
+# {{ s3cmd deltagging
+# @cmd Delete tagging for Bucket or Files
+# @arg s3-bucket-object[`_choice_s3_path`] <s3://BUCKET[/OBJECT]>
+deltagging() {
+    :;
+}
+# }} s3cmd deltagging
 
 # {{ s3cmd ws-create
 # @cmd Create Website from bucket
@@ -468,6 +539,14 @@ cfmodify() {
     :;
 }
 # }} s3cmd cfmodify
+
+# {{ s3cmd cfinval
+# @cmd Invalidate CloudFront objects
+# @arg s3-bucket-object*[`_choice_s3_path`]
+cfinval() {
+    :;
+}
+# }} s3cmd cfinval
 
 # {{ s3cmd cfinvalinfo
 # @cmd Display CloudFront invalidation request(s) status

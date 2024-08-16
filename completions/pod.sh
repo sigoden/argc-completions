@@ -229,7 +229,7 @@ lib::create() {
 # @flag --use-modular-headers                   Lint uses modular headers during installation
 # @flag --use-static-frameworks                 Lint uses static frameworks during installation
 # @option --sources <https://cdn.cocoapods.org/>  The sources from which to pull dependent pods (defaults to https://cdn.cocoapods.org/).
-# @option --platforms <ios,macos>               Lint against specific platforms (defaults to all platforms supported by the podspec).
+# @option --platforms <ios,macos,visionos>      Lint against specific platforms (defaults to all platforms supported by the podspec).
 # @flag --private                               Lint skips checks that apply only to public specs
 # @option --swift-version <VERSION>             The `SWIFT_VERSION` that should be used to lint the spec.
 # @option --include-podspecs <**/*.podspec>     Additional ancillary podspecs which are used for linting via :path

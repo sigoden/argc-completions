@@ -40,7 +40,7 @@
 # @flag --delete-dir-on-start                    Delete the out directory before compilation.
 # @option --out-file-extension <string>          Use a specific extension for the output files
 # @flag -V --version                             output the version number
-# @flag -h --help                                output usage information
+# @flag -h --help                                display help for command
 # @arg files+
 
 command eval "$(argc --argc-eval "$0" "$@")"

@@ -303,7 +303,7 @@ create::cronjob() {
 # @option --field-manager <kubectl-create>        Name of the manager used to track field ownership.
 # @option --image* <value>                        Image names to run.
 # @option -o --output[json|yaml|name|go-template|go-template-file|template|templatefile|jsonpath|jsonpath-as-json|jsonpath-file] <value>  Output format.
-# @option --port <-1>                             The port that this container exposes.
+# @option --port <-1>                             The containerPort that this deployment exposes.
 # @option -r --replicas <1>                       Number of replicas to create.
 # @flag --save-config                             If true, the configuration of current object will be saved in its annotation.
 # @flag --show-managed-fields                     If true, keep the managedFields when printing objects in JSON or YAML format.
@@ -1808,6 +1808,7 @@ edit() {
 # @flag --force                                   If true, immediately remove resources from API and bypass graceful deletion.
 # @option --grace-period <-1>                     Period of time in seconds given to the resource to terminate gracefully.
 # @flag --ignore-not-found                        Treat "resource not found" as a successful delete.
+# @flag -i --interactive                          If true, delete resource only when user confirms.
 # @option -k --kustomize <dir>                    Process a kustomization directory.
 # @flag --now                                     If true, resources are signaled for immediate shutdown (same as --grace-period=1).
 # @option -o --output <value>                     Output mode.
@@ -3191,7 +3192,7 @@ auth::whoami() {
 # @option -f --filename <file>                    identifying the resource to debug
 # @option --image[`_module_oci_docker_image`] <value>  Container image to use for debug container.
 # @option --image-pull-policy <value>             The image pull policy for the container.
-# @option --profile[legacy|general|baseline|netadmin|restricted] <legacy>  Debugging profile.
+# @option --profile[legacy|general|baseline|netadmin|restricted] <legacy>  Options are "legacy", "general", "baseline", "netadmin", "restricted" or "sysadmin".
 # @flag -q --quiet                                If true, suppress informational messages.
 # @flag --replace                                 When used with '--copy-to', delete the original Pod.
 # @flag --same-node                               When used with '--copy-to', schedule the copy of target Pod on the same node.
@@ -3286,7 +3287,7 @@ events() {
 # @flag --force-conflicts                         If true, server-side apply will force the changes against conflicts.
 # @option -k --kustomize <dir>                    Process the kustomization directory.
 # @flag --prune                                   Include resources that would be deleted by pruning.
-# @option --prune-allowlist* <value>              Overwrite the default whitelist with <group/version/kind> for --prune
+# @option --prune-allowlist* <value>              Overwrite the default allowlist with <group/version/kind> for --prune
 # @flag -R --recursive                            Process the directory used in -f, --filename recursively.
 # @option -l --selector <value>                   Selector (label query) to filter on, supports '=', '==', and '!='.(e.g. -l key1=value1,key2=value2).
 # @flag --server-side                             If true, apply runs in the server instead of the client.
@@ -4351,6 +4352,8 @@ config::set-context() {
 # @option --exec-arg* <value>                     New arguments for the exec credential plugin command for the user entry in kubeconfig
 # @option --exec-command <value>                  Command for the exec credential plugin for the user entry in kubeconfig
 # @option --exec-env* <value>                     'key=value' environment values for the exec credential plugin
+# @option --exec-interactive-mode <value>         InteractiveMode of the exec credentials plugin for the user entry in kubeconfig
+# @flag --exec-provide-cluster-info               ProvideClusterInfo of the exec credentials plugin for the user entry in kubeconfig
 # @option --password <value>                      password for the user entry in kubeconfig
 # @option --token <value>                         token for the user entry in kubeconfig
 # @option --username <value>                      username for the user entry in kubeconfig

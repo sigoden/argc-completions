@@ -20,10 +20,12 @@ _patch_table() {
     _patch_table_detect_value_type | \
     _patch_table_edit_options \
         '--domain;[`_choice_domain`]' \
+        '--pool;[`_choice_pool`]' \
     | \
     _patch_table_edit_arguments \
         'domain;[`_choice_domain`]' \
         'network;[`_choice_network`]' \
+        'pool;[`_choice_pool`]' \
 
 }
 
@@ -33,4 +35,8 @@ _choice_domain() {
 
 _choice_network() {
     virsh -q net-list --name --all
+}
+
+_choice_pool() {
+    virsh -q pool-list --name --all
 }

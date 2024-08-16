@@ -14,6 +14,7 @@
 # @option --category <category>                  Filters installed extensions by provided category, when using --list-extensions.
 # @option --install-extension <ext-id | path>    Installs or updates an extension.
 # @option --uninstall-extension <ext-id>         Uninstalls an extension.
+# @flag --update-extensions                      Update the installed extensions.
 # @flag -v --version                             Print version.
 # @flag --verbose                                Print verbose output (implies --wait).
 # @flag -s --status                              Print process usage and diagnostics information.

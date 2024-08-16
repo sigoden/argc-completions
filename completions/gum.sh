@@ -11,16 +11,19 @@
 # @flag --ordered                        Maintain the order of the selected options ($GUM_CHOOSE_ORDERED)
 # @option --height <10>                  Height of the list ($GUM_CHOOSE_HEIGHT)
 # @option --cursor <value>               Prefix to show on item that corresponds to the cursor position ($GUM_CHOOSE_CURSOR)
-# @option --header <value>               Header value ($GUM_CHOOSE_HEADER)
-# @option --cursor-prefix <○>            Prefix to show on the cursor item (hidden if limit is 1) ($GUM_CHOOSE_CURSOR_PREFIX)
-# @option --selected-prefix <◉>          Prefix to show on selected items (hidden if limit is 1) ($GUM_CHOOSE_SELECTED_PREFIX)
-# @option --unselected-prefix <○>        Prefix to show on unselected items (hidden if limit is 1) ($GUM_CHOOSE_UNSELECTED_PREFIX)
+# @flag --show-help                      Show help keybinds ($GUM_CHOOSE_SHOW_HELP)
+# @flag --no-show-help                   Show help keybinds ($GUM_CHOOSE_SHOW_HELP)
+# @option --header <Choose:>             Header value ($GUM_CHOOSE_HEADER)
+# @option --cursor-prefix <•>            Prefix to show on the cursor item (hidden if limit is 1) ($GUM_CHOOSE_CURSOR_PREFIX)
+# @option --selected-prefix <✓>          Prefix to show on selected items (hidden if limit is 1) ($GUM_CHOOSE_SELECTED_PREFIX)
+# @option --unselected-prefix <•>        Prefix to show on unselected items (hidden if limit is 1) ($GUM_CHOOSE_UNSELECTED_PREFIX)
 # @option --selected* <,>                Options that should start as selected ($GUM_CHOOSE_SELECTED)
 # @option --timeout <0>                  Timeout until choose returns selected element ($GUM_CCHOOSE_TIMEOUT)
 # @option --limit <1>                    Maximum number of options to pick
 # @flag --no-limit                       Pick unlimited number of options (ignores limit)
+# @flag --select-if-one                  Select the given option if there is only one
 # @option --cursor.foreground <212>      Foreground Color ($GUM_CHOOSE_CURSOR_FOREGROUND)
-# @option --header.foreground <240>      Foreground Color ($GUM_CHOOSE_HEADER_FOREGROUND)
+# @option --header.foreground <99>       Foreground Color ($GUM_CHOOSE_HEADER_FOREGROUND)
 # @option --item.foreground <value>      Foreground Color ($GUM_CHOOSE_ITEM_FOREGROUND)
 # @option --selected.foreground <212>    Foreground Color ($GUM_CHOOSE_SELECTED_FOREGROUND)
 choose() {
@@ -35,8 +38,10 @@ choose() {
 # @flag --default                          Default confirmation action
 # @option --affirmative <Yes>              The title of the affirmative action
 # @option --negative <No>                  The title of the negative action
+# @flag --show-help                        Show help key binds ($GUM_CONFIRM_SHOW_HELP)
+# @flag --no-show-help                     Show help key binds ($GUM_CONFIRM_SHOW_HELP)
 # @option --timeout <0>                    Timeout until confirm returns selected value or default if provided ($GUM_CONFIRM_TIMEOUT)
-# @option --prompt.foreground <value>      Foreground Color ($GUM_CONFIRM_PROMPT_FOREGROUND)
+# @option --prompt.foreground <#7571F9>    Foreground Color ($GUM_CONFIRM_PROMPT_FOREGROUND)
 # @option --selected.foreground <230>      Foreground Color ($GUM_CONFIRM_SELECTED_FOREGROUND)
 # @option --unselected.foreground <254>    Foreground Color ($GUM_CONFIRM_UNSELECTED_FOREGROUND)
 # @arg prompt                              Prompt to display.
@@ -53,7 +58,9 @@ confirm() {
 # @flag -a --all                            Show hidden and 'dot' files ($GUM_FILE_ALL)
 # @flag --file                              Allow files selection ($GUM_FILE_FILE)
 # @flag --directory                         Allow directories selection ($GUM_FILE_DIRECTORY)
-# @option --height <0>                      Maximum number of files to display ($GUM_FILE_HEIGHT)
+# @flag --show-help                         Show help key binds ($GUM_FILE_SHOW_HELP)
+# @flag --no-show-help                      Show help key binds ($GUM_FILE_SHOW_HELP)
+# @option --height <10>                     Maximum number of files to display ($GUM_FILE_HEIGHT)
 # @option --timeout <0>                     Timeout until command aborts without a selection ($GUM_FILE_TIMEOUT)
 # @option --cursor.foreground <212>         Foreground Color ($GUM_FILE_CURSOR_FOREGROUND)
 # @option --symlink.foreground <36>         Foreground Color ($GUM_FILE_SYMLINK_FOREGROUND)
@@ -95,8 +102,10 @@ file() {
 # @option --cursor-text.foreground <value>         Foreground Color ($GUM_FILTER_CURSOR_TEXT_FOREGROUND)
 # @option --match.foreground <212>                 Foreground Color ($GUM_FILTER_MATCH_FOREGROUND)
 # @option --prompt.foreground <240>                Foreground Color ($GUM_FILTER_PROMPT_FOREGROUND)
+# @option --placeholder.foreground <240>           Foreground Color ($GUM_FILTER_PLACEHOLDER_FOREGROUND)
 # @option --limit <1>                              Maximum number of options to pick
 # @flag --no-limit                                 Pick unlimited number of options (ignores limit)
+# @flag --select-if-one                            Select the given option if there is only one
 # @flag --strict                                   Only returns if anything matched.
 # @flag --no-strict                                Only returns if anything matched.
 filter() {
@@ -128,9 +137,12 @@ format() {
 # @option --char-limit <400>                 Maximum value length (0 for no limit)
 # @option --width <40>                       Input width (0 for terminal width) ($GUM_INPUT_WIDTH)
 # @flag --password                           Mask input characters
+# @flag --show-help                          Show help keybinds ($GUM_INPUT_SHOW_HELP)
+# @flag --no-show-help                       Show help keybinds ($GUM_INPUT_SHOW_HELP)
 # @option --header <value>                   Header value ($GUM_INPUT_HEADER)
 # @option --timeout <0>                      Timeout until input aborts ($GUM_INPUT_TIMEOUT)
 # @option --prompt.foreground <value>        Foreground Color ($GUM_INPUT_PROMPT_FOREGROUND)
+# @option --placeholder.foreground <240>     Foreground Color ($GUM_INPUT_PLACEHOLDER_FOREGROUND)
 # @option --cursor.foreground <212>          Foreground Color ($GUM_INPUT_CURSOR_FOREGROUND)
 # @option --header.foreground <240>          Foreground Color ($GUM_INPUT_HEADER_FOREGROUND)
 input() {
@@ -158,6 +170,7 @@ join() {
 # @flag --show-line-numbers                     Show line numbers
 # @flag --soft-wrap                             Soft wrap lines
 # @option --timeout <0>                         Timeout until command exits ($GUM_PAGER_TIMEOUT)
+# @option --foreground <value>                  Foreground Color ($GUM_PAGER_FOREGROUND)
 # @option --help.foreground <241>               Foreground Color ($GUM_PAGER_HELP_FOREGROUND)
 # @option --line-number.foreground <237>        Foreground Color ($GUM_PAGER_LINE_NUMBER_FOREGROUND)
 # @option --match.foreground <212>              Foreground Color ($GUM_PAGER_MATCH_FOREGROUND)
@@ -173,6 +186,7 @@ pager() {
 # @flag -h --help                       Show context-sensitive help.
 # @flag -v --version                    Print the version number
 # @flag --show-output                   Show or pipe output of command during execution ($GUM_SPIN_SHOW_OUTPUT)
+# @flag --show-error                    Show output of command only if the command fails ($GUM_SPIN_SHOW_ERROR)
 # @option -s --spinner <dot>            Spinner type ($GUM_SPIN_SPINNER)
 # @option --title* <Loading>            Text to display to user while spinning ($GUM_SPIN_TITLE)
 # @option -a --align <left>             Alignment of spinner with regard to the title ($GUM_SPIN_ALIGN)
@@ -190,8 +204,8 @@ spin() {
 # @cmd Apply coloring, borders, spacing to text
 # @flag -h --help                        Show context-sensitive help.
 # @flag -v --version                     Print the version number
-# @option --background <value>           Background Color ($BACKGROUND)
 # @option --foreground <value>           Foreground Color ($FOREGROUND)
+# @option --background <value>           Background Color ($BACKGROUND)
 # @option --border <none>                Border Style ($BORDER)
 # @option --border-background <value>    Border Background Color ($BORDER_BACKGROUND)
 # @option --border-foreground <value>    Border Foreground Color ($BORDER_FOREGROUND)
@@ -244,16 +258,18 @@ table() {
 # @flag --show-line-numbers                      Show line numbers ($GUM_WRITE_SHOW_LINE_NUMBERS)
 # @option --value <value>                        Initial value (can be passed via stdin) ($GUM_WRITE_VALUE)
 # @option --char-limit <400>                     Maximum value length (0 for no limit)
+# @flag --show-help                              Show help key binds ($GUM_WRITE_SHOW_HELP)
+# @flag --no-show-help                           Show help key binds ($GUM_WRITE_SHOW_HELP)
 # @option --cursor.mode <blink>                  Cursor mode ($GUM_WRITE_CURSOR_MODE)
 # @option --base.foreground <value>              Foreground Color ($GUM_WRITE_BASE_FOREGROUND)
-# @option --cursor-line-number.foreground <7>    Foreground Color ($GUM_WRITE_CURSOR_LINE_NUMBER_FOREGROUND)
-# @option --cursor-line.foreground <value>       Foreground Color ($GUM_WRITE_CURSOR_LINE_FOREGROUND)
 # @option --cursor.foreground <212>              Foreground Color ($GUM_WRITE_CURSOR_FOREGROUND)
-# @option --end-of-buffer.foreground <0>         Foreground Color ($GUM_WRITE_END_OF_BUFFER_FOREGROUND)
-# @option --line-number.foreground <7>           Foreground Color ($GUM_WRITE_LINE_NUMBER_FOREGROUND)
 # @option --header.foreground <240>              Foreground Color ($GUM_WRITE_HEADER_FOREGROUND)
 # @option --placeholder.foreground <240>         Foreground Color ($GUM_WRITE_PLACEHOLDER_FOREGROUND)
 # @option --prompt.foreground <7>                Foreground Color ($GUM_WRITE_PROMPT_FOREGROUND)
+# @option --end-of-buffer.foreground <0>         Foreground Color ($GUM_WRITE_END_OF_BUFFER_FOREGROUND)
+# @option --line-number.foreground <7>           Foreground Color ($GUM_WRITE_LINE_NUMBER_FOREGROUND)
+# @option --cursor-line-number.foreground <7>    Foreground Color ($GUM_WRITE_CURSOR_LINE_NUMBER_FOREGROUND)
+# @option --cursor-line.foreground <value>       Foreground Color ($GUM_WRITE_CURSOR_LINE_FOREGROUND)
 write() {
     :;
 }

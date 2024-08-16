@@ -6,11 +6,12 @@
 # @option -s --skip <N>                           Skip the first N bytes of the input.
 # @option --block-size <SIZE>                     Sets the size of the `block` unit to SIZE (default is 512).
 # @flag -v --no-squeezing                         Displays all input data.
-# @option --color[always|auto|never] <WHEN>       When to use colors.
+# @option --color[always|auto|never|force] <WHEN>  When to use colors.
 # @option --border[unicode|ascii|none] <STYLE>    Whether to draw a border with Unicode characters, ASCII characters, or none at all [default: unicode]
 # @flag -p --plain                                Display output with --no-characters, --no-position, --border=none, and --color=never.
 # @flag --no-characters                           Do not show the character panel on the right.
 # @flag -C --characters                           Show the character panel on the right.
+# @option --character-table[default|ascii|codepage-437] <FORMAT>  Defines how bytes are mapped to characters:
 # @flag -P --no-position                          Whether to display the position panel on the left.
 # @option -o --display-offset <N>                 Add N bytes to the displayed file position.
 # @option --panels <N>                            Sets the number of hex data panels to be displayed.

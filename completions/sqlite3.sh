@@ -29,6 +29,7 @@
 # @option -newline <SEP>           set output row separator.
 # @flag -nofollow                  refuse to open symbolic links to database files
 # @option -nonce <STRING>          set the safe-mode escape nonce
+# @flag -no-rowid-in-view          Disable rowid-in-view using sqlite3_config()
 # @option -nullvalue <TEXT>        set text string for NULL values.
 # @option -pagecache <SIZE> <N>    use N slots of SZ bytes each for page cache memory
 # @flag -pcachetrace               trace all page cache operations

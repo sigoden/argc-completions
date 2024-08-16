@@ -507,6 +507,7 @@ list() {
 # @flag -M --major-only                 Show only packages that have major SemVer-compatible updates.
 # @flag -m --minor-only                 Show only packages that have minor SemVer-compatible updates.
 # @flag -p --patch-only                 Show only packages that have patch SemVer-compatible updates.
+# @flag -A --sort-by-age                Displays the installed version's age, and sorts packages oldest first.
 # @option -f --format                   Format of the output: text or json [default: "text"]
 # @option --ignore                      Ignore specified package(s).
 # @flag --no-dev                        Disables search in require-dev packages.
@@ -588,7 +589,7 @@ reinstall() {
 
 # {{ composer remove
 # @cmd Removes a package from the require or require-dev
-# @alias rm
+# @alias rm,uninstall
 # @flag --dev                                Removes a package from the require-dev section.
 # @flag --dry-run                            Outputs the operations but will not execute anything (implicitly enables --verbose).
 # @flag --no-progress                        Do not output download progress.
@@ -601,6 +602,7 @@ reinstall() {
 # @flag -W --update-with-all-dependencies    Allows all inherited dependencies to be updated, including those that are root requirements.
 # @flag --with-all-dependencies              Alias for --update-with-all-dependencies
 # @flag --no-update-with-dependencies        Does not allow inherited dependencies to be updated with explicit dependencies.
+# @flag -m --minimal-changes                 During an update with -w/-W, only perform absolutely necessary changes to transitive dependencies (can also be set via the COMPOSER_MINIMAL_CHANGES=1 env var).
 # @flag --unused                             Remove all packages which are locked but not required by any other package.
 # @option --ignore-platform-req              Ignore a specific platform requirement (php & ext- packages).
 # @flag --ignore-platform-reqs               Ignore all platform requirements (php & ext- packages).
@@ -650,6 +652,7 @@ remove() {
 # @flag --ignore-platform-reqs               Ignore all platform requirements (php & ext- packages).
 # @flag --prefer-stable                      Prefer stable versions of dependencies (can also be set via the COMPOSER_PREFER_STABLE=1 env var).
 # @flag --prefer-lowest                      Prefer lowest versions of dependencies (can also be set via the COMPOSER_PREFER_LOWEST=1 env var).
+# @flag -m --minimal-changes                 During an update with -w/-W, only perform absolutely necessary changes to transitive dependencies (can also be set via the COMPOSER_MINIMAL_CHANGES=1 env var).
 # @flag --sort-packages                      Sorts packages when adding/updating a new dependency
 # @flag -o --optimize-autoloader             Optimize autoloader during autoloader dump
 # @flag -a --classmap-authoritative          Autoload classes from the classmap only.
@@ -741,6 +744,7 @@ search() {
 # @flag -M --major-only                 Show only packages that have major SemVer-compatible updates.
 # @flag -m --minor-only                 Show only packages that have minor SemVer-compatible updates.
 # @flag --patch-only                    Show only packages that have patch SemVer-compatible updates.
+# @flag -A --sort-by-age                Displays the installed version's age, and sorts packages oldest first.
 # @flag -D --direct                     Shows only packages that are directly required by the root package
 # @flag --strict                        Return a non-zero exit code when there are outdated packages
 # @option -f --format                   Format of the output: text or json [default: "text"]
@@ -837,6 +841,7 @@ suggests() {
 # @flag --ignore-platform-reqs            Ignore all platform requirements (php & ext- packages).
 # @flag --prefer-stable                   Prefer stable versions of dependencies (can also be set via the COMPOSER_PREFER_STABLE=1 env var).
 # @flag --prefer-lowest                   Prefer lowest versions of dependencies (can also be set via the COMPOSER_PREFER_LOWEST=1 env var).
+# @flag -m --minimal-changes              During a partial update with -w/-W, only perform absolutely necessary changes to transitive dependencies (can also be set via the COMPOSER_MINIMAL_CHANGES=1 env var).
 # @flag -i --interactive                  Interactive interface with autocompletion to select the packages to update.
 # @flag --root-reqs                       Restricts the update to your first degree dependencies.
 # @flag -h --help                         Display help for the given command.

@@ -32,9 +32,8 @@
 # @flag --locked                                 Require Cargo.lock is up to date
 # @flag --offline                                Run without accessing the network
 # @option --output[human|json]                   Output format [default: human]
-# @option --backend[save-analysis|depinfo]       Backend to use for determining unused deps [default: depinfo]
+# @option --backend[depinfo]                     Backend to use for determining unused deps [default: depinfo]
 # @flag --keep-going                             Needed because the keep-going flag is asked about by cargo code
-# @flag --show-unused-transitive                 Show unused dependencies that get used transitively by main dependencies.
 # @flag -h --help                                Print help
 # @flag -V --version                             Print version
 
