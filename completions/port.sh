@@ -11,7 +11,7 @@
 # @flag -u                         Uninstall inactive ports when upgrading and uninstalling
 # @flag -y                         Perform a dry run.
 # @flag -s                         Source-only mode, build and install from source; do not attempt to fetch binary archives.
-# @flag -b                         Binary-only mode, build and install from binary archives, ignore source, abort if no archive available.
+# @flag -b                         Binary-only mode, install from binary archives, ignore source, abort if no archive available.
 # @flag -c                         Autoclean mode, execute clean after install
 # @flag -k                         Keep mode, do not autoclean after install
 # @flag -p                         Despite any errors encountered, proceed to process multiple ports and commands.
@@ -149,6 +149,8 @@ rdependents() {
 
 # {{ port install
 # @cmd Install and activate portname.
+# @flag --allow-failing     Attempt installation even if the specified port or one of its dependencies indicates that it is known to fail.
+# @flag --no-replace        Attempt to install the specified port even if it indicates that it is replaced by another port.
 # @flag --no-rev-upgrade    Do not run rev-upgrade after installation.
 # @flag --unrequested       Do not mark the installed ports as requested.
 # @arg package[`_choice_package_cached`]
@@ -274,7 +276,7 @@ sync() {
 # }} port sync
 
 # {{ port outdated
-# @cmd Lists the installed ports which need a upgrade.
+# @cmd Lists the installed ports which need an upgrade.
 # @flag -q    Do not list the header line or the message that no ports are outdated.
 # @arg package*[`_choice_package_cached`]
 outdated() {
@@ -376,6 +378,8 @@ version() {
 # {{ port selfupdate
 # @cmd Updates the MacPorts system, ports tree(s) and base tools if needed, from the MacPorts rsync server, installing the newest infrastructure available.
 # @flag --no-sync    Only check for updates - and install if available - for MacPorts itself.
+# @flag --migrate    Rebuild even if no new version is available, upgrade if a new version is available.
+# @flag --rsync      Use the older rsync method for downloading the new version of MacPorts.
 # @flag -q           Suppress status output, be as silent as possible.
 # @flag -f           Do not check whether the downloaded MacPorts version is newer than the currently installed one, but always rebuild and reinstall MacPorts.
 # @arg package*[`_choice_package_cached`]
@@ -483,6 +487,7 @@ edit() {
 
 # {{ port fetch
 # @cmd Fetches the distribution files required to build portname.
+# @flag --no-mirrors    Only fetch files from URLs in master_sites
 # @arg package*[`_choice_package_cached`]
 fetch() {
     :;
