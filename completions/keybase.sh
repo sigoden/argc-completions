@@ -260,6 +260,52 @@ chat::api-listen() {
 }
 # }}} keybase chat api-listen
 
+# {{{ keybase chat archive
+# @cmd Archive all messages of chat conversation(s)
+# @option --topic-type <"chat">    Specify topic type of the conversation.
+# @flag --public                   Only select public conversations.
+# @flag --private                  Only select private conversations.
+# @option --channel <value>        Specify the conversation channel.
+# @flag --compress                 Compress the output
+# @option -o --outfile <file>      Output directory name for the archive
+# @arg conversation
+chat::archive() {
+    :;
+}
+# }}} keybase chat archive
+
+# {{{ keybase chat archive-delete
+# @cmd Clear the metadata of an archive job
+# @flag --delete-output-path    Delete the locally archived data
+# @arg job-id
+chat::archive-delete() {
+    :;
+}
+# }}} keybase chat archive-delete
+
+# {{{ keybase chat archive-list
+# @cmd List metadata about chat archive jobs
+chat::archive-list() {
+    :;
+}
+# }}} keybase chat archive-list
+
+# {{{ keybase chat archive-pause
+# @cmd Pause a running archive job
+# @arg job-id
+chat::archive-pause() {
+    :;
+}
+# }}} keybase chat archive-pause
+
+# {{{ keybase chat archive-resume
+# @cmd Continue a paused archive job
+# @arg job-id
+chat::archive-resume() {
+    :;
+}
+# }}} keybase chat archive-resume
+
 # {{{ keybase chat bot-member-settings
 # @cmd View or modify a restricted bot's isolation settings.
 # @option --topic-type <"chat">    Specify topic type of the conversation.
@@ -566,6 +612,7 @@ chat::mute() {
 # @flag --plaintext-desktop       Show plaintext notifications on desktop devices
 # @flag --default-sound-mobile    Use the default system sound on mobile devices
 # @flag --disable-typing          Disable sending/receiving typing notifications
+# @flag --convert-heic            Convert HEIC images to JPEG for chat attachments (macOS and iOS only)
 chat::notification-settings() {
     :;
 }
@@ -1218,6 +1265,49 @@ fs::cancel-uploads() {
 }
 # }}} keybase fs cancel-uploads
 
+# {{{ keybase fs archive
+# @cmd manage KBFS archiving activities
+fs::archive() {
+    :;
+}
+
+# {{{{ keybase fs archive start
+# @cmd start archiving a KBFS path or git repo
+# @flag -j --job-id           [optional] specify a job ID
+# @flag -o --output-path      [optional] specify a output path
+# @flag -f --overwrite-zip    [optional] overwrite zip file if it already exists
+# @flag -g --git              [optional] treat <archiving target> as a git repo instead of KBFS directory
+# @arg archiving-target! <archiving target>
+fs::archive::start() {
+    :;
+}
+# }}}} keybase fs archive start
+
+# {{{{ keybase fs archive dismiss
+# @cmd cancel or dismiss a KBFS archiving job
+# @alias cancel
+# @arg job-id+ <job ID>
+fs::archive::dismiss() {
+    :;
+}
+# }}}} keybase fs archive dismiss
+
+# {{{{ keybase fs archive check
+# @cmd check one or more previously created KBFS archive(s)
+# @arg kbfs-archive-zip-file-path+ <KBFS archive zip file path>
+fs::archive::check() {
+    :;
+}
+# }}}} keybase fs archive check
+
+# {{{{ keybase fs archive status
+# @cmd display the status of all archiving activities
+fs::archive::status() {
+    :;
+}
+# }}}} keybase fs archive status
+# }}} keybase fs archive
+
 # {{{ keybase fs search
 # @cmd [disabled] search locally-synced folders
 # @option -n --num-results <"10">    how many results to return
@@ -1248,6 +1338,13 @@ fs::index-progress() {
 git() {
     :;
 }
+
+# {{{ keybase git archive
+# @cmd view instructions on archiving git repos
+git::archive() {
+    :;
+}
+# }}} keybase git archive
 
 # {{{ keybase git create
 # @cmd Create a personal or team git repository.

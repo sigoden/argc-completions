@@ -67,7 +67,8 @@
 # @option --supported-* <:F=string>                Consider syntax F to be supported
 # @option --tree-shaking[false|true] <string>      Force tree shaking on or off
 # @option --tsconfig <file>                        Use this tsconfig.json file instead of other ones
-# @flag --version                                  Print the current version (0.19.8) and exit
+# @option --tsconfig-raw <file>                    Override all tsconfig.json files with this string
+# @flag --version                                  Print the current version (0.23.0) and exit
 # @arg paths*
 
 command eval "$(argc --argc-eval "$0" "$@")"

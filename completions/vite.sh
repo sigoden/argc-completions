@@ -29,7 +29,6 @@
 # @option --minify <minifier>             [boolean | "terser" | "esbuild"] enable/disable minification, or specify minifier to use (default: esbuild)
 # @option --manifest <name>               emit build manifest json
 # @option --ssrManifest <name>            emit ssr manifest json
-# @flag --force                           force the optimizer to ignore the cache and re-bundle (experimental)
 # @flag --emptyOutDir                     force empty outDir when it's outside of root
 # @flag -w --watch                        rebuilds when modules have changed on disk
 # @option -c --config <file>              use specified config file

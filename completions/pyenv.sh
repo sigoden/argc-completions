@@ -64,8 +64,9 @@ install() {
 
 # {{ pyenv latest
 # @cmd Print the latest installed or known version with the given prefix
-# @flag -k --known    Select from all known versions instead of installed
-# @flag -q --quiet    Do not print an error message on resolution failure
+# @flag -k --known     Select from all known versions instead of installed
+# @flag -b --bypass    (internal) On a resolution failure, do not print an error message but rather print the argument unchanged
+# @flag -f --force     (internal) Same as -b but also do not return a failure exit code
 # @arg prefix![`_choice_prefix`]
 latest() {
     :;

@@ -62,12 +62,16 @@ action::dump-screen() {
 
 # {{{ zellij action edit
 # @cmd Open the specified file in a new zellij pane with your default EDITOR
-# @option --cwd                             Change the working directory of the editor
-# @option -d --direction                    Direction to open the new pane in
-# @flag -f --floating                       Open the new pane in floating mode
-# @flag -h --help                           Print help information
-# @flag -i --in-place                       Open the new pane in place of the current pane, temporarily suspending it
-# @option -l --line-number <LINE_NUMBER>    Open the file in the specified line number
+# @option --cwd                                  Change the working directory of the editor
+# @option -d --direction[`_choice_direction`]    Direction to open the new pane in
+# @flag -f --floating                            Open the new pane in floating mode
+# @flag -h --help                                Print help information
+# @option --height                               The height if the pane is floating as a bare integer (eg.
+# @flag -i --in-place                            Open the new pane in place of the current pane, temporarily suspending it
+# @option -l --line-number <LINE_NUMBER>         Open the file in the specified line number
+# @option --width                                The width if the pane is floating as a bare integer (eg.
+# @option -x --x                                 The x coordinates if the pane is floating as a bare integer (eg.
+# @option -y --y                                 The y coordinates if the pane is floating as a bare integer (eg.
 # @arg file!
 action::edit() {
     :;
@@ -156,6 +160,7 @@ action::half-page-scroll-up() {
 # @flag -h --help    Print help information
 # @flag -i --in-place
 # @flag -m --move-to-focused-tab
+# @flag -s --skip-plugin-cache
 # @arg url!
 action::launch-or-focus-plugin() {
     :;
@@ -168,11 +173,20 @@ action::launch-or-focus-plugin() {
 # @flag -f --floating
 # @flag -h --help    Print help information
 # @flag -i --in-place
+# @flag -s --skip-plugin-cache
 # @arg url!
 action::launch-plugin() {
     :;
 }
 # }}} zellij action launch-plugin
+
+# {{{ zellij action list-clients
+# @cmd
+# @flag -h --help    Print help information
+action::list-clients() {
+    :;
+}
+# }}} zellij action list-clients
 
 # {{{ zellij action move-focus
 # @cmd Move the focused pane in the specified direction.
@@ -209,6 +223,15 @@ action::move-pane-backwards() {
 }
 # }}} zellij action move-pane-backwards
 
+# {{{ zellij action move-tab
+# @cmd Move the focused tab in the specified direction.
+# @flag -h --help    Print help information
+# @arg direction![`_choice_direction`]
+action::move-tab() {
+    :;
+}
+# }}} zellij action move-tab
+
 # {{{ zellij action new-pane
 # @cmd Open a new pane in the specified direction [right|down] If no direction is specified, will try to use the biggest available space
 # @flag -c --close-on-exit      Close the pane immediately when its command exits
@@ -217,10 +240,15 @@ action::move-pane-backwards() {
 # @option -d --direction        Direction to open the new pane in
 # @flag -f --floating           Open the new pane in floating mode
 # @flag -h --help               Print help information
+# @option --height              The height if the pane is floating as a bare integer (eg.
 # @flag -i --in-place           Open the new pane in place of the current pane, temporarily suspending it
 # @option -n --name             Name of the new pane
 # @option -p --plugin
 # @flag -s --start-suspended    Start the command suspended, only running it after the you first press ENTER
+# @flag --skip-plugin-cache
+# @option --width               The width if the pane is floating as a bare integer (eg.
+# @option -x --x                The x coordinates if the pane is floating as a bare integer (eg.
+# @option -y --y                The y coordinates if the pane is floating as a bare integer (eg.
 # @arg command~[`_module_os_exec`]
 action::new-pane() {
     :;
@@ -262,6 +290,25 @@ action::page-scroll-up() {
     :;
 }
 # }}} zellij action page-scroll-up
+
+# {{{ zellij action pipe
+# @cmd Send data to one or more plugins, launch them if they are not running
+# @option -n --name                           The name of the pipe
+# @option -a --args                           The args of the pipe
+# @option -p --plugin                         The plugin url (eg.
+# @option -c --plugin-configuration <PLUGIN_CONFIGURATION>  The plugin configuration (note: the same plugin with different configuration is considered a different plugin for the purposes of determining the pipe destination)
+# @flag -l --force-launch-plugin              Launch a new plugin even if one is already running
+# @flag -s --skip-plugin-cache                If launching a new plugin, skip cache and force-compile the plugin
+# @option -f --floating-plugin[true|false] <FLOATING_PLUGIN>  If launching a plugin, should it be floating or not, defaults to floating
+# @option -i --in-place-plugin[true|false] <IN_PLACE_PLUGIN>  If launching a plugin, launch it in-place (on top of the current pane)
+# @option -w --plugin-cwd <PLUGIN_CWD>        If launching a plugin, specify its working directory
+# @option -t --plugin-title <PLUGIN_TITLE>    If launching a plugin, specify its pane title
+# @flag -h --help                             Print help information
+# @arg payload!                               The data to send down this pipe (if blank, will listen to STDIN)
+action::pipe() {
+    :;
+}
+# }}} zellij action pipe
 
 # {{{ zellij action previous-swap-layout
 # @cmd
@@ -444,6 +491,7 @@ action::write-chars() {
 
 # {{ zellij attach
 # @cmd Attach to a session [aliases: a]
+# @flag -b --create-background             Create a detached session in the background if one does not exist
 # @flag -c --create                        Create a session if one does not exist
 # @flag -f --force-run-commands            If resurrecting a dead session, immediately run all its commands on startup
 # @flag -h --help                          Print help information
@@ -465,6 +513,7 @@ attach() {
 # @option --default-mode <DEFAULT_MODE>            Set the default mode
 # @option --default-shell <DEFAULT_SHELL>          Set the default shell
 # @flag --disable-mouse-mode                       Disable handling of mouse events
+# @option --disable-session-metadata[true|false] <DISABLE_SESSION_METADATA>  If true, will disable writing session metadata to disk
 # @flag -h --help                                  Print help information
 # @option --layout-dir <LAYOUT_DIR>                Set the layout_dir, defaults to subdirectory of config dir
 # @option --mirror-session[true|false] <MIRROR_SESSION>  Mirror session when multiple users are connected (true or false)
@@ -542,8 +591,12 @@ delete-session() {
 # @option -d --direction                    Direction to open the new pane in
 # @flag -f --floating                       Open the new pane in floating mode
 # @flag -h --help                           Print help information
+# @option --height                          The height if the pane is floating as a bare integer (eg.
 # @flag -i --in-place                       Open the new pane in place of the current pane, temporarily suspending it
 # @option -l --line-number <LINE_NUMBER>    Open the file in the specified line number
+# @option --width                           The width if the pane is floating as a bare integer (eg.
+# @option -x --x                            The x coordinates if the pane is floating as a bare integer (eg.
+# @option -y --y                            The y coordinates if the pane is floating as a bare integer (eg.
 # @arg file!
 edit() {
     :;
@@ -568,10 +621,19 @@ kill-session() {
 }
 # }} zellij kill-session
 
+# {{ zellij list-aliases
+# @cmd List existing plugin aliases [aliases: la]
+# @flag -h --help    Print help information
+list-aliases() {
+    :;
+}
+# }} zellij list-aliases
+
 # {{ zellij list-sessions
 # @cmd List active sessions [aliases: ls]
 # @flag -h --help             Print help information
 # @flag -n --no-formatting    Do not add colors and formatting to the list (useful for parsing)
+# @flag -r --reverse          List the sessions in reverse order (default is ascending order)
 # @flag -s --short            Print just the session name
 list-sessions() {
     :;
@@ -590,6 +652,7 @@ list-sessions() {
 # @option --default-mode <DEFAULT_MODE>            Set the default mode
 # @option --default-shell <DEFAULT_SHELL>          Set the default shell
 # @flag --disable-mouse-mode                       Disable handling of mouse events
+# @option --disable-session-metadata[true|false] <DISABLE_SESSION_METADATA>  If true, will disable writing session metadata to disk
 # @flag -h --help                                  Print help information
 # @option --layout-dir <LAYOUT_DIR>                Set the layout_dir, defaults to subdirectory of config dir
 # @option --mirror-session[true|false] <MIRROR_SESSION>  Mirror session when multiple users are connected (true or false)
@@ -613,13 +676,31 @@ options() {
 }
 # }} zellij options
 
+# {{ zellij pipe
+# @cmd Send data to one or more plugins, launch them if they are not running
+# @option -n --name      The name of the pipe
+# @option -a --args      The args of the pipe
+# @option -p --plugin    The plugin url (eg.
+# @option -c --plugin-configuration <PLUGIN_CONFIGURATION>  The plugin configuration (note: the same plugin with different configuration is considered a different plugin for the purposes of determining the pipe destination)
+# @flag -h --help        Print help information
+# @arg payload!          The data to send down this pipe (if blank, will listen to STDIN)
+pipe() {
+    :;
+}
+# }} zellij pipe
+
 # {{ zellij plugin
-# @cmd Load a plugin [aliases: r]
-# @option -c --configuration    Plugin configuration
-# @flag -f --floating           Open the new pane in floating mode
-# @flag -h --help               Print help information
-# @flag -i --in-place           Open the new pane in place of the current pane, temporarily suspending it
-# @arg url!                     Plugin URL, can either start with http(s), file: or zellij:
+# @cmd Load a plugin [aliases: p]
+# @option -c --configuration      Plugin configuration
+# @flag -f --floating             Open the new pane in floating mode
+# @flag -h --help                 Print help information
+# @option --height                The height if the pane is floating as a bare integer (eg.
+# @flag -i --in-place             Open the new pane in place of the current pane, temporarily suspending it
+# @flag -s --skip-plugin-cache    Skip the memory and HD cache and force recompile of the plugin (good for development)
+# @option --width                 The width if the pane is floating as a bare integer (eg.
+# @option -x --x                  The x coordinates if the pane is floating as a bare integer (eg.
+# @option -y --y                  The y coordinates if the pane is floating as a bare integer (eg.
+# @arg url!                       Plugin URL, can either start with http(s), file: or zellij:
 plugin() {
     :;
 }
@@ -632,9 +713,13 @@ plugin() {
 # @option -d --direction              Direction to open the new pane in
 # @flag -f --floating                 Open the new pane in floating mode
 # @flag -h --help                     Print help information
+# @option --height                    The height if the pane is floating as a bare integer (eg.
 # @flag -i --in-place                 Open the new pane in place of the current pane, temporarily suspending it
 # @option -n --name                   Name of the new pane
 # @flag -s --start-suspended          Start the command suspended, only running after you first presses ENTER
+# @option --width                     The width if the pane is floating as a bare integer (eg.
+# @option -x --x                      The x coordinates if the pane is floating as a bare integer (eg.
+# @option -y --y                      The y coordinates if the pane is floating as a bare integer (eg.
 # @arg command~[`_module_os_exec`]    Command to run
 run() {
     :;

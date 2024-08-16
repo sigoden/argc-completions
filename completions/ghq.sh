@@ -6,6 +6,7 @@
 
 # {{ ghq get
 # @cmd Clone/sync with a remote repository
+# @alias clone
 # @flag -u --update               Update local repository if cloned already (default: false)
 # @flag -p                        Clone with SSH (default: false)
 # @flag --shallow                 Do a shallow clone (default: false)
@@ -29,12 +30,23 @@ get() {
 # @option --vcs <vcs>     Specify vcs backend for matching
 # @flag -p --full-path    Print full paths (default: false)
 # @flag --unique          Print unique subpaths (default: false)
+# @flag --bare            Query bare repositories (default: false)
 # @flag -h --help         show help
 # @arg query
 list() {
     :;
 }
 # }} ghq list
+
+# {{ ghq rm
+# @cmd Remove local repository
+# @flag --dry-run    Do not remove actually (default: false)
+# @flag -h --help    show help
+# @arg project-user-project-host-user-project <<project>|<user>/<project>|<host>/<user>/<project>>
+rm() {
+    :;
+}
+# }} ghq rm
 
 # {{ ghq root
 # @cmd Show repositories' root
@@ -48,6 +60,7 @@ root() {
 # {{ ghq create
 # @cmd Create a new repository
 # @option --vcs <vcs>    Specify vcs backend explicitly
+# @flag --bare           Create a bare repository (default: false)
 # @flag -h --help        show help
 # @arg project-user-project-host-user-project <<project>|<user>/<project>|<host>/<user>/<project>>
 create() {

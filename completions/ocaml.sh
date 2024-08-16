@@ -5,6 +5,7 @@
 # @flag -no-absname                         Do not try to show absolute filenames in error messages (default)
 # @option -alert <list>                     Enable or disable alerts according to <list>: +<alertname>  enable alert <alertname> -<alertname>  disable alert <alertname> ++<alertname> treat <alertname> as fatal error --<alertname> treat <alertname> as non-fatal @<alertname>  enable <alertname> and treat it as fatal error
 # @option -I <dir>                          Add <dir> to the list of include directories
+# @option -H <dir>                          Add <dir> to the list of "hidden" include directories
 # @option -init <file>                      Load <file> instead of default init file
 # @flag -labels                             Use commuting label mode
 # @flag -alias-deps                         Do record dependencies for module aliases
@@ -14,6 +15,7 @@
 # @flag -noassert                           Do not compile assertion checks
 # @flag -noinit                             Do not load any init file
 # @flag -nolabels                           Ignore non-optional labels in types
+# @flag -prompt                             Output prompts (default)
 # @flag -noprompt                           Suppress all prompts
 # @flag -nopromptcont                       Suppress prompts for continuation lines of multi-line inputs
 # @flag -nostdlib                           Do not add default directory to the list of include directories

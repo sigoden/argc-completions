@@ -14,10 +14,10 @@
 # @flag -e --escape                           Escape any special shell characters (" ", "&", "!", etc.).
 # @flag -i --immediate                        Immediately start the task
 # @flag -s --stashed                          Create the task in Stashed state.
-# @option -d --delay <delay>                  Prevents the task from being enqueued until <delay> elapses.
+# @option -d --delay <delay>                  Prevents the task from being enqueued until 'delay' elapses.
 # @option -g --group[`_choice_group`]         Assign the task to a group.
 # @option -a --after* <after>                 Start the task once all specified tasks have successfully finished.
-# @option -o --priority*                      Start this task with a higher priority.
+# @option -o --priority                       Start this task with a higher priority.
 # @option -l --label                          Add some information for yourself.
 # @flag -p --print-task-id                    Only return the task id instead of a text.
 # @flag -h --help                             Print help
@@ -57,7 +57,7 @@ stash() {
 
 # {{ pueue enqueue
 # @cmd Enqueue stashed tasks.
-# @option -d --delay <delay>           Delay enqueuing these tasks until <delay> elapses.
+# @option -d --delay <delay>           Delay enqueuing these tasks until 'delay' elapses.
 # @flag -h --help                      Print help
 # @arg task_ids*[`_choice_task_id`]    Enqueue these specific tasks
 enqueue() {
@@ -88,6 +88,7 @@ start() {
 # @flag -e --edit                      Edit the tasks' commands before restarting
 # @flag -p --edit-path                 Edit the tasks' paths before restarting
 # @flag -l --edit-label                Edit the tasks' labels before restarting
+# @flag -o --edit-priority             Edit the tasks' priorities before restarting
 # @flag -h --help                      Print help
 # @arg task_ids*[`_choice_task_id`]    Restart these specific tasks
 restart() {
@@ -132,10 +133,11 @@ send() {
 # }} pueue send
 
 # {{ pueue edit
-# @cmd Edit the command, path or label of a stashed or queued task.
+# @cmd Edit the command, path, label, or priority of a stashed or queued task.
 # @flag -c --command                  Edit the task's command
 # @flag -p --path                     Edit the task's path
 # @flag -l --label                    Edit the task's label
+# @flag -o --priority                 Edit the task's priority
 # @flag -h --help                     Print help
 # @arg task_id![`_choice_task_id`]    The task's id
 edit() {
@@ -153,7 +155,7 @@ group() {
 
 # {{{ pueue group add
 # @cmd Add a group by name
-# @option -p --parallel    Set the amount of parallel tasks this group can have
+# @option -p --parallel    Set the amount of parallel tasks this group can have.
 # @flag -h --help          Print help
 # @arg name!
 group::add() {
@@ -258,7 +260,7 @@ shutdown() {
 # @cmd Set the amount of allowed parallel tasks By default, adjusts the amount of the default group.
 # @option -g --group[`_choice_group`] <group>    Set the amount for a specific group
 # @flag -h --help                                Print help
-# @arg parallel_tasks*                           The amount of allowed parallel tasks
+# @arg parallel_tasks*                           The amount of allowed parallel tasks.
 parallel() {
     :;
 }
@@ -266,9 +268,9 @@ parallel() {
 
 # {{ pueue completions
 # @cmd Generates shell completion files.
-# @flag -h --help                                  Print help
-# @arg shell![bash|elvish|fish|power-shell|zsh]    The target shell
-# @arg output_directory!                           The output directory to which the file should be written
+# @flag -h --help          Print help
+# @arg shell![bash|elvish|fish|power-shell|zsh|nushell]  The target shell
+# @arg output_directory    The output directory to which the file should be written
 completions() {
     :;
 }

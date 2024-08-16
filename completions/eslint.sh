@@ -1,23 +1,19 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @flag --no-eslintrc                         Disable use of configuration from .eslintrc.*
-# @option -c --config <path::String>          Use this configuration, overriding .eslintrc.* config options if present
-# @option --env <String>                      Specify environments
-# @option --ext <String>                      Specify JavaScript file extensions
+# @flag --no-config-lookup                    Disable look up for eslint.config.js
+# @option -c --config <path::String>          Use this configuration instead of eslint.config.js, eslint.config.mjs, or eslint.config.cjs
+# @flag --inspect-config                      Open the config inspector with the current configuration
 # @option --global <String>                   Define global variables
 # @option --parser <String>                   Specify the parser to be used
 # @option --parser-options <Object>           Specify parser options
-# @option --resolve-plugins-relative-to <path::String>  A folder where plugins should be resolved from, CWD by default
 # @option --plugin <String>                   Specify plugins
 # @option --rule <Object>                     Specify rules
-# @option --rulesdir <path::String>           Load additional rules from this directory.
 # @flag --fix                                 Automatically fix problems
 # @flag --fix-dry-run                         Automatically fix problems without saving the changes to the file system
 # @option --fix-type[directive|problem|suggestion|layout] <Array>  Specify the types of fixes to apply
-# @option --ignore-path <path::String>        Specify path of ignore file
 # @flag --no-ignore                           Disable use of ignore files and patterns
-# @option --ignore-pattern <String>           Pattern of files to ignore (in addition to those in .eslintignore)
+# @option --ignore-pattern <String>           Patterns of files to ignore
 # @flag --stdin                               Lint code provided on <STDIN> - default: false
 # @option --stdin-filename <String>           Specify filename to process STDIN as
 # @flag --quiet                               Report errors only - default: false
@@ -28,6 +24,7 @@
 # @flag --no-color                            Force enabling/disabling of color
 # @flag --no-inline-config                    Prevent comments from changing config or rules
 # @flag --report-unused-disable-directives    Adds reported errors for unused eslint-disable and eslint-enable directives
+# @option --report-unused-disable-directives-severity <String>  Chooses severity level for reporting unused eslint-disable and eslint-enable directives - either: off, warn, error, 0, 1, or 2
 # @flag --cache                               Only check changed files - default: false
 # @option --cache-file <path::String>         Path to the cache file.
 # @option --cache-location <path::String>     Path to the cache file or directory
@@ -36,9 +33,13 @@
 # @flag --env-info                            Output execution environment information - default: false
 # @flag --no-error-on-unmatched-pattern       Prevent errors when pattern is unmatched
 # @flag --exit-on-fatal-error                 Exit with exit code 2 in case of fatal error - default: false
+# @flag --no-warn-ignored                     Suppress warnings when the file list includes ignored files
+# @flag --pass-on-no-patterns                 Exit with exit code 0 in case no file patterns are passed
 # @flag --debug                               Output debugging information
 # @flag -h --help                             Show help
 # @flag -v --version                          Output the version number
 # @option --print-config <path::String>       Print the configuration for the given file
+# @flag --stats                               Add statistics to the lint report - default: false
+# @option --flag <String>                     Enable a feature flag
 
 command eval "$(argc --argc-eval "$0" "$@")"

@@ -9,22 +9,22 @@
 # @cmd Install the gems specified by the Gemfile or Gemfile.lock
 # @option --binstubs <directory>         Binstubs are scripts that wrap around executables.
 # @flag --clean                          On finishing the installation Bundler is going to remove any gems not present in the current Gemfile(5).
-# @flag --deployment                     In deployment mode, Bundler will ´roll-out´ the bundle for production or CI use.
+# @flag --deployment                     In deployment mode, Bundler will 'roll-out' the bundle for production or CI use.
 # @flag --redownload                     Force download every gem, even if the required versions are already available locally.
 # @flag --frozen                         Do not allow the Gemfile.lock to be updated after this install.
-# @flag --full-index                     Bundler will not call Rubygems´ API endpoint (default) but download and cache a (currently big) index file of all gems.
+# @flag --full-index                     Bundler will not call Rubygems' API endpoint (default) but download and cache a (currently big) index file of all gems.
 # @option --gemfile <gemfile>            The location of the Gemfile(5) which Bundler should use.
 # @option -j --jobs <number>             The maximum number of parallel download and install jobs.
 # @flag --local                          Do not attempt to connect to rubygems.org.
-# @flag --prefer-local                   Force using locally installed gems, or gems already present in Rubygems´ cache or in vendor/cache, when resolving, even if newer versions are available remotely.
+# @flag --prefer-local                   Force using locally installed gems, or gems already present in Rubygems' cache or in vendor/cache, when resolving, even if newer versions are available remotely.
 # @flag --no-cache                       Do not update the cache in vendor/cache with the newly bundled gems.
-# @flag --no-prune                       Don´t remove stale gems from the cache when the installation finishes.
+# @flag --no-prune                       Don't remove stale gems from the cache when the installation finishes.
 # @option --path <path>                  The location to install the specified gems to.
 # @flag --quiet                          Do not print progress information to the standard output.
 # @option --retry <number>               Retry failed network or git requests for number times.
 # @option --shebang <ruby-executable>    Uses the specified ruby executable (usually ruby) to execute the scripts created with --binstubs.
 # @option --standalone <list>            Makes a bundle that can work without depending on Rubygems or Bundler at runtime.
-# @flag --system                         Installs the gems specified in the bundle to the system´s Rubygems location.
+# @flag --system                         Installs the gems specified in the bundle to the system's Rubygems location.
 # @option --trust-policy <policy>        Apply the Rubygems security policy policy, where policy is one of HighSecurity, MediumSecurity, LowSecurity, AlmostNoSecurity, or NoSecurity.
 # @option --with <list>                  A space-separated list of groups referencing gems to install.
 # @option --without <list>               A space-separated list of groups referencing gems to skip during installation.
@@ -145,7 +145,7 @@ add() {
 # @flag --force                Overwrite existing binstubs if they exist.
 # @option --path <path>        The location to install the specified binstubs to.
 # @flag --standalone           Makes binstubs that can work without depending on Rubygems or Bundler at runtime.
-# @option --shebang <value>    Specify a different shebang executable name than the default (default ´ruby´)
+# @option --shebang <value>    Specify a different shebang executable name than the default (default 'ruby')
 # @flag --all                  Create binstubs for all gems in the bundle.
 # @arg gem[`_choice_package`]
 binstubs() {
@@ -263,8 +263,11 @@ init() {
 # @flag --mit                      Add an MIT license to a LICENSE.txt file in the root of the generated project.
 # @flag --no-mit                   Do not create a LICENSE.txt (overrides --mit specified in the global config).
 # @option -t --test <test-unit>    Specify the test framework that Bundler should use when generating the project.
+# @flag --no-test                  Do not use a test framework (overrides --test specified in the global config).
 # @option --ci <circle>            Specify the continuous integration service that Bundler should use when generating the project.
-# @option --linter <standard>      Specify the linter and code formatter that Bundler should add to the project´s development dependencies.
+# @flag --no-ci                    Do not use a continuous integration service (overrides --ci specified in the global config).
+# @option --linter <standard>      Specify the linter and code formatter that Bundler should add to the project's development dependencies.
+# @flag --no-linter                Do not add a linter (overrides --linter specified in the global config).
 # @option -e --edit <EDITOR>       Open the resulting GEM_NAME.gemspec in EDITOR, or the default editor if not specified.
 gem() {
     :;
@@ -273,7 +276,7 @@ gem() {
 
 # {{ bundle platform
 # @cmd Display platform compatibility information
-# @flag --ruby    It will display the ruby directive information, so you don´t have to parse it from the Gemfile(5).
+# @flag --ruby    It will display the ruby directive information, so you don't have to parse it from the Gemfile(5).
 platform() {
     :;
 }

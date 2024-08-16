@@ -8,6 +8,7 @@
 # @flag --version                       Print version
 # @flag -x                              Same filesystem
 # @flag -e                              Enable extended information
+# @option -t <NUM>                      Number of threads to use
 # @flag -r                              Read only
 # @option -o <FILE>                     Export scanned directory to FILE
 # @option -f <FILE>                     Import scanned directory from FILE

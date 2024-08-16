@@ -3,22 +3,24 @@
 
 # @option -A --after-context <NUM>                 Output NUM lines of trailing context after matching lines.
 # @flag -a --text                                  Process a binary file as if it were text.
-# @flag --and                                      Specify additional patterns to match.
+# @flag -@ --all                                   Search all files except hidden: cancel previous file and directory search restrictions and cancel --ignore-binary and --ignore-files when specified.
+# @flag --and                                      Specify additional PATTERN that must match.
 # @flag --andnot                                   Combines --and --not.
 # @option -B --before-context <NUM>                Output NUM lines of leading context before matching lines.
-# @flag -b --byte-offset                           The offset in bytes of a matched line is displayed in front of the respective matched line.
+# @flag -b --byte-offset                           The offset in bytes of a pattern match is displayed in front of the respective matched line.
 # @option --binary-files <TYPE>                    Controls searching and reporting pattern matches in binary files.
 # @flag -% --bool                                  Specifies Boolean query patterns.
 # @flag --break                                    Adds a line break between results from different files.
 # @option -C --context <NUM>                       Output NUM lines of leading and trailing context surrounding each matching line.
 # @flag -c --count                                 Only a count of selected lines is written to standard output.
-# @option --color[`_choice_color`] <WHEN>          Mark up the matching text with the expression stored in the GREP_COLOR or GREP_COLORS environment variable.
-# @option --colour[`_choice_color`] <WHEN>         Mark up the matching text with the expression stored in the GREP_COLOR or GREP_COLORS environment variable.
+# @option --color[`_choice_color`] <WHEN>          Mark up the matching text with the colors specified with option --colors or the GREP_COLOR or GREP_COLORS environment variable.
+# @option --colour[`_choice_color`] <WHEN>         Mark up the matching text with the colors specified with option --colors or the GREP_COLOR or GREP_COLORS environment variable.
 # @option --colors <COLORS>                        Use COLORS to mark up text.
 # @option --colours <COLORS>                       Use COLORS to mark up text.
 # @option --config <FILE>                          Use configuration FILE.
 # @option --- <FILE>                               Use configuration FILE.
-# @flag --confirm                                  Confirm actions in -Q query TUI.
+# @flag --no-config                                Do not automatically load the default .ugrep configuration file.
+# @flag --no-confirm                               Do not confirm actions in -Q query TUI.
 # @flag --cpp                                      Output file matches in C++.
 # @flag --csv                                      Output file matches in CSV.
 # @option -D --devices <ACTION>                    If an input file is a device, FIFO or socket, use ACTION to process it.
@@ -27,24 +29,25 @@
 # @option --depth <[MIN,][MAX]>                    Restrict recursive searches from MIN to MAX directory levels deep, where -1 (--depth=1) searches the specified path without recursing into subdirectories.
 # @flag --dotall                                   Dot `.' in regular expressions matches anything, including newline.
 # @flag -E --extended-regexp                       Interpret patterns as extended regular expressions (EREs).
-# @option -e --regexp <PATTERN>                    Specify a PATTERN used during the search of the input: an input line is selected if it matches any of the specified patterns.
+# @option -e --regexp <PATTERN>                    Specify a PATTERN to search the input.
 # @option --encoding[`_choice_encoding`]           The encoding format of the input.
-# @option --exclude <GLOB>                         Skip files whose name matches GLOB using wildcard matching, same as -g ^GLOB.
+# @option --exclude <GLOB>                         Exclude files whose name matches GLOB, same as -g ^GLOB.
 # @option --exclude-dir <GLOB>                     Exclude directories whose name matches GLOB from recursive searches, same as -g ^GLOB/.
 # @option --exclude-from <FILE>                    Read the globs from FILE and skip files and directories whose name matches one or more globs.
-# @option --exclude-fs <MOUNTS>                    Exclude file systems specified by MOUNTS from recursive searches, MOUNTS is a comma-separated list of mount points or pathnames of directories on file systems.
+# @option --exclude-fs <MOUNTS>                    Exclude file systems specified by MOUNTS from recursive searches.
 # @flag -F --fixed-strings                         Interpret pattern as a set of fixed strings, separated by newlines, any of which is to be matched.
 # @option -f --file                                Read newline-separated patterns from FILE.
 # @option --filter <COMMANDS>                      Filter files through the specified COMMANDS first before searching.
 # @option --filter-magic-label <[+]LABEL:MAGIC>    Associate LABEL with files whose signature "magic bytes" match the MAGIC regex pattern.
 # @option --format                                 Output FORMAT-formatted matches.
 # @flag --free-space                               Spacing (blanks and tabs) in regular expressions are ignored.
-# @flag -G --basic-regexp                          Interpret patterns as basic regular expressions (BREs), i.e.
-# @option -g <GLOBS>                               Search only files whose name matches the specified comma-separated list of GLOBS, same as --include='glob' for each `glob' in GLOBS.
-# @option --glob <GLOBS>                           Search only files whose name matches the specified comma-separated list of GLOBS, same as --include='glob' for each `glob' in GLOBS.
-# @option --iglob <GLOBS>                          Search only files whose name matches the specified comma-separated list of GLOBS, same as --include='glob' for each `glob' in GLOBS.
+# @flag -G --basic-regexp                          Interpret patterns as basic regular expressions (BREs).
+# @option -g <GLOBS>                               Only search files whose name matches the specified comma-separated list of GLOBS, same as --include=glob for each `glob' in GLOBS.
+# @option --glob <GLOBS>                           Only search files whose name matches the specified comma-separated list of GLOBS, same as --include=glob for each `glob' in GLOBS.
+# @option --iglob <GLOBS>                          Only search files whose name matches the specified comma-separated list of GLOBS, same as --include=glob for each `glob' in GLOBS.
 # @flag --glob-ignore-case                         Perform case-insensitive glob matching in general.
 # @option --group-separator <SEP>                  Use SEP as a group separator for context options -A, -B and -C.
+# @flag --no-group-separator                       Removes the group separator line from the output for context options -A, -B and -C.
 # @flag -H --with-filename                         Always print the filename with output lines.
 # @flag -h --no-filename                           Never print filenames with output lines.
 # @flag -+ --heading                               Group matches per file.
@@ -55,38 +58,38 @@
 # @flag -I --ignore-binary                         Ignore matches in binary files.
 # @flag -i --ignore-case                           Perform case insensitive matching.
 # @option --ignore-files <FILE>                    Ignore files and directories matching the globs in each FILE that is encountered in recursive searches.
-# @option --include <GLOB>                         Search only files whose name matches GLOB using wildcard matching, same as -g GLOB.
+# @flag --no-ignore-files                          Do not ignore files, i.e.
+# @option --include <GLOB>                         Only search files whose name matches GLOB, same as -g GLOB.
 # @option --include-dir <GLOB>                     Only directories whose name matches GLOB are included in recursive searches, same as -g GLOB/.
 # @option --include-from <FILE>                    Read the globs from FILE and search only files and directories whose name matches one or more globs.
 # @option --include-fs <MOUNTS>                    Only file systems specified by MOUNTS are included in recursive searches.
-# @flag --index                                    Perform indexing-based search on files indexed with ugrep-indexer.
+# @flag --index                                    Perform fast index-based recursive search.
 # @option -J --jobs <NUM>                          Specifies the number of threads spawned to search files.
-# @flag -j --smart-case                            Perform case insensitive matching like option -i, unless a pattern is specified with a literal ASCII upper case letter.
+# @flag -j --smart-case                            Perform case insensitive matching, unless a pattern is specified with a literal upper case ASCII letter.
 # @flag --json                                     Output file matches in JSON.
 # @option -K <MAX>                                 Start searching at line MIN, stop at line MAX when specified.
 # @option --range <MAX>                            Start searching at line MIN, stop at line MAX when specified.
 # @option --min-line <MAX>                         Start searching at line MIN, stop at line MAX when specified.
 # @option --max-line <MAX>                         Start searching at line MIN, stop at line MAX when specified.
-# @flag -k --column-number                         The column number of a matched pattern is displayed in front of the respective matched line, starting at column 1.
+# @flag -k --column-number                         The column number of a pattern match is displayed in front of the respective matched line, starting at column 1.
 # @flag -L --files-without-match                   Only the names of files not containing selected lines are written to standard output.
 # @flag -l --files-with-matches                    Only the names of files containing selected lines are written to standard output.
 # @option --label                                  Displays the LABEL value when input is read from standard input where a file name would normally be printed in the output.
 # @flag --line-buffered                            Force output to be line buffered instead of block buffered.
 # @flag --lines                                    Boolean line matching mode for option --bool, the default mode.
-# @option -M --file-magic <MAGIC>                  Only files matching the signature pattern MAGIC are searched.
+# @option -M --file-magic <MAGIC>                  Only search files matching the magic signature pattern MAGIC.
 # @option -m <MAX>                                 Require MIN matches, stop after MAX matches when specified.
 # @option --min-count <MAX>                        Require MIN matches, stop after MAX matches when specified.
 # @option --max-count <MAX>                        Require MIN matches, stop after MAX matches when specified.
 # @flag --match                                    Match all input.
 # @option --max-files <NUM>                        Restrict the number of files matched to NUM.
 # @option --mmap <MAX>                             Use memory maps to search files.
-# @option -N --neg-regexp <PATTERN>                Specify a negative PATTERN used during the search of the input: an input line is selected only if it matches the specified patterns unless it matches the negative PATTERN.
+# @option -N --neg-regexp <PATTERN>                Specify a negative PATTERN to reject specific -e PATTERN matches with a counter pattern.
 # @flag -n --line-number                           Each output line is preceded by its relative line number in the file, starting at line 1.
-# @flag --no-group-separator                       Removes the group separator line from the output for context options -A, -B and -C.
 # @option --not <-e> <PATTERN>                     Specifies that PATTERN should not match.
-# @option -O --file-extension <EXTENSIONS>         Search only files whose filename extensions match the specified comma-separated list of EXTENSIONS, same as --include='*.ext' for each `ext' in EXTENSIONS.
-# @flag -o --only-matching                         Output only the matching part of lines.
-# @flag --only-line-number                         The line number of the matching line in the file is output without displaying the match.
+# @option -O --file-extension <EXTENSIONS>         Only search files whose filename extensions match the specified comma-separated list of EXTENSIONS, same as -g '*.ext' for each `ext' in EXTENSIONS.
+# @flag -o --only-matching                         Only the matching part of a pattern match is output.
+# @flag --only-line-number                         Only the line number of a matching line is output.
 # @flag --files                                    Boolean file matching mode, the opposite of --lines.
 # @flag -P --perl-regexp                           Interpret PATTERN as a Perl regular expression using PCRE2.
 # @flag -p --no-dereference                        If -R or -r is specified, do not follow symbolic links, even when symbolic links are specified on the command line.
@@ -96,11 +99,11 @@
 # @flag -q                                         Quiet mode: suppress all output.
 # @flag --quiet                                    Quiet mode: suppress all output.
 # @flag --silent                                   Quiet mode: suppress all output.
-# @flag -R --dereference-recursive                 Recursively read all files under each directory.
+# @flag -R --dereference-recursive                 Recursively read all files under each directory, following symbolic links to files and directories, unlike -r.
 # @flag -r --recursive                             Recursively read all files under each directory, following symbolic links only if they are on the command line.
-# @option --replace <FORMAT>                       Replace matching patterns in the output by the specified FORMAT with `%' fields.
+# @option --replace <FORMAT>                       Replace matching patterns in the output by FORMAT with `%' fields.
 # @flag -S --dereference-files                     When -r is specified, follow symbolic links to files, but not to directories.
-# @flag -s --no-messages                           Silent mode: nonexistent and unreadable files are ignored, i.e.
+# @flag -s --no-messages                           Silent mode: nonexistent and unreadable files are ignored and their error messages and warnings are suppressed.
 # @option --save-config <FILE> <OPTIONS>           Save configuration FILE to include OPTIONS.
 # @option --separator <SEP>                        Use SEP as field separator between file name, line number, column number, byte offset and the matched line.
 # @flag --split                                    Split the -Q query TUI screen on startup.
@@ -110,7 +113,7 @@
 # @option -t --file-type[`_choice_type`] <TYPES>   Search only files associated with TYPES, a comma-separated list of file types.
 # @option --tabs <NUM>                             Set the tab size to NUM to expand tabs for option -k.
 # @option --tag <TAG[,END]>                        Disables colors to mark up matches with TAG.
-# @flag -^ --tree                                  Output directories with matching files in a tree-like format when options -c, -l or -L are used.
+# @flag -^ --tree                                  Output directories with matching files in a tree-like format for option -c or --count, -l or --files-with-matches, -L or --files-without-match.
 # @flag -U                                         Disables Unicode matching for ASCII and binary matching.
 # @flag --ascii                                    Disables Unicode matching for ASCII and binary matching.
 # @flag --binary                                   Disables Unicode matching for ASCII and binary matching.
@@ -130,7 +133,7 @@
 # @flag --passthru                                 Any line is output (passthru).
 # @option -Z --fuzzy <[best][+-~][MAX]>            Fuzzy mode: report approximate pattern matches within MAX errors.
 # @flag -z --decompress                            Search compressed files and archives.
-# @option --zmax <NUM>                             When used with option -z (--decompress), searches the contents of compressed files and archives stored within archives by up to NUM expansion levels deep.
+# @option --zmax <NUM>                             When used with option -z (--decompress), searches the contents of compressed files and archives stored within archives by up to NUM expansion stages.
 # @flag -0 --null                                  Output a zero-byte (NUL) after the file name.
 # @arg pattern[`_choice_pattern`]
 # @arg file*

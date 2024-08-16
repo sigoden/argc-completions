@@ -19,6 +19,7 @@
 # @option --install-extension <ext-id | path>    Installs or updates an extension.
 # @flag --pre-release                            Installs the pre-release version of the extension, when using --install-extension
 # @option --uninstall-extension <ext-id>         Uninstalls an extension.
+# @flag --update-extensions                      Update the installed extensions.
 # @option --enable-proposed-api <ext-id>         Enables proposed API features for extensions.
 # @flag -v --version                             Print version.
 # @flag --verbose                                Print verbose output (implies --wait).
@@ -30,6 +31,7 @@
 # @option --sync <on | off>                      Turn sync on or off.
 # @option --inspect-extensions <port>            Allow debugging and profiling of extensions.
 # @option --inspect-brk-extensions <port>        Allow debugging and profiling of extensions with the extension host being paused after start.
+# @flag --disable-lcd-text                       Disable LCD font rendering.
 # @flag --disable-gpu                            Disable GPU hardware acceleration.
 # @flag --disable-chromium-sandbox               Use this option only when there is requirement to launch the application as sudo user on Linux or when running as an elevated user in an applocker environment on Windows.
 # @flag --telemetry                              Shows all telemetry events which VS code collects.
@@ -37,13 +39,16 @@
 
 # {{ code-insiders tunnel
 # @cmd Make the current machine accessible from vscode.dev or other machines through a secure tunnel
-# @flag -h --help                          Print help
-# @flag --random-name                      Randomly name machine for port forwarding service
-# @flag --no-sleep                         Prevents the machine going to sleep while this command runs
-# @option --name                           Sets the machine name for port forwarding service
-# @flag --accept-server-license-terms      If set, the user accepts the server license terms and the server will be started without a user prompt
-# @option --cli-data-dir <CLI_DATA_DIR>    Directory where CLI metadata should be stored [env: VSCODE_CLI_DATA_DIR=]
-# @flag --verbose                          Print verbose output (implies --wait)
+# @flag -h --help                                Print help
+# @flag --random-name                            Randomly name machine for port forwarding service
+# @flag --no-sleep                               Prevents the machine going to sleep while this command runs
+# @option --name                                 Sets the machine name for port forwarding service
+# @flag --accept-server-license-terms            If set, the user accepts the server license terms and the server will be started without a user prompt
+# @option --install-extension <INSTALL_EXTENSION>  Requests that extensions be preloaded and installed on connecting servers
+# @option --server-data-dir <SERVER_DATA_DIR>    Specifies the directory that server data is kept in
+# @option --extensions-dir <EXTENSIONS_DIR>      Set the root path for extensions
+# @option --cli-data-dir <CLI_DATA_DIR>          Directory where CLI metadata should be stored [env: VSCODE_CLI_DATA_DIR=]
+# @flag --verbose                                Print verbose output (implies --wait)
 # @option --log[trace|debug|info|warn|error|critical|off] <level>  Log level to use
 tunnel() {
     :;
@@ -128,11 +133,12 @@ tunnel::user() {
 
 # {{{{ code-insiders tunnel user login
 # @cmd Log in to port forwarding service
-# @option --access-token <ACCESS_TOKEN>    An access token to store for authentication.
-# @option --provider[microsoft|github]     The auth provider to use.
-# @flag -h --help                          Print help
-# @option --cli-data-dir <CLI_DATA_DIR>    Directory where CLI metadata should be stored [env: VSCODE_CLI_DATA_DIR=]
-# @flag --verbose                          Print verbose output (implies --wait)
+# @option --access-token <ACCESS_TOKEN>      An access token to store for authentication [env: VSCODE_CLI_ACCESS_TOKEN=]
+# @option --refresh-token <REFRESH_TOKEN>    An access token to store for authentication [env: VSCODE_CLI_REFRESH_TOKEN=]
+# @option --provider[microsoft|github]       The auth provider to use.
+# @flag -h --help                            Print help
+# @option --cli-data-dir <CLI_DATA_DIR>      Directory where CLI metadata should be stored [env: VSCODE_CLI_DATA_DIR=]
+# @flag --verbose                            Print verbose output (implies --wait)
 # @option --log[trace|debug|info|warn|error|critical|off] <level>  Log level to use
 tunnel::user::login() {
     :;
@@ -215,8 +221,10 @@ tunnel::service::log() {
 # @option --socket-path <SOCKET_PATH>
 # @option --port                                   Port to listen on.
 # @option --connection-token <CONNECTION_TOKEN>    A secret that must be included with all requests
+# @option --connection-token-file <CONNECTION_TOKEN_FILE>  A file containing a secret that must be included with all requests
 # @flag --without-connection-token                 Run without a connection token.
 # @flag --accept-server-license-terms              If set, the user accepts the server license terms and the server will be started without a user prompt
+# @option --server-base-path <SERVER_BASE_PATH>    Specifies the path under which the web UI and the code server is provided
 # @option --server-data-dir <SERVER_DATA_DIR>      Specifies the directory that server data is kept in
 # @option --user-data-dir <USER_DATA_DIR>          Specifies the directory that user data is kept in.
 # @option --extensions-dir <EXTENSIONS_DIR>        Set the root path for extensions

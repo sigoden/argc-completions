@@ -12,7 +12,7 @@
 # @flag --metadata                                Transfers pregenerated metadata cache from ${repository_location}/metadata/md5-cache/ to /var/cache/edb/dep/ as is normally done on the tail end of an rsync update using emerge --sync.
 # @flag -P --prune                                Removes all but the highest installed version of a package from your system.
 # @flag --regen                                   Causes portage to check and update the dependency cache of all ebuilds in the repository.
-# @flag -r --resume                               Resumes  the most recent merge list that has been aborted due to an error.
+# @flag -r --resume                               Resumes the most recent merge list that has been aborted due to an error.
 # @flag -s --search                               Searches for matches of the supplied string in the ebuild repository.
 # @flag -S --searchdesc                           Matches the search string against the description field as well as the package name.
 # @flag --sync                                    Updates repositories, for which auto-sync, sync-type and sync-uri attributes are set in repos.conf.
@@ -28,13 +28,13 @@
 # @option --autounmask-backtrack[y|n]             Allow backtracking after autounmask has detected that configuration changes are necessary.
 # @option --autounmask-continue[y|n]              Automatically apply autounmask changes to configuration files, and continue to execute the specified command.
 # @option --autounmask-only[y|n]                  Instead of doing any package building, just unmask packages and generate package.use settings as necessary to satisfy dependencies.
-# @option --autounmask-unrestricted-atoms[y|n]    If --autounmask is enabled, keyword and mask changes using the ´=´ operator will be written.
+# @option --autounmask-unrestricted-atoms[y|n]    If --autounmask is enabled, keyword and mask changes using the '=' operator will be written.
 # @option --autounmask-keep-keywords[y|n]         If --autounmask is enabled, no package.accept_keywords changes will be created.
 # @option --autounmask-keep-masks[y|n]            If --autounmask is enabled, no package.unmask or ** keyword changes will be created.
 # @option --autounmask-license[y|n]               Allow autounmask package.license changes.
 # @option --autounmask-use[y|n]                   Allow autounmask package.use changes.
 # @option --autounmask-write[y|n]                 If --autounmask is enabled, changes are written to config files, respecting CONFIG_PROTECT and --ask.
-# @option --backtrack <COUNT>                     Specifies an integer number of times to backtrack if dependency calculation fails due to a conflict or an unsatisfied dependency (default: ´20´).
+# @option --backtrack <COUNT>                     Specifies an integer number of times to backtrack if dependency calculation fails due to a conflict or an unsatisfied dependency (default: '20').
 # @option --binpkg-changed-deps[y|n]              Tells emerge to ignore binary packages for which the corresponding ebuild dependencies have changed since the packages were built.
 # @option --binpkg-respect-use[y|n]               Tells emerge to ignore binary packages if their USE flags don't match the current configuration.
 # @option -b --buildpkg[y|n]                      Tells emerge to build binary packages for all ebuilds processed in addition to actually merging the packages.
@@ -164,7 +164,7 @@ file() {
 # }} emerge file
 
 # {{ emerge set
-# @cmd A  set  is a convenient shorthand for a large group of packages.
+# @cmd A  set is a convenient shorthand for a large group of packages.
 set() {
     :;
 }

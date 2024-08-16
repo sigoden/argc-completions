@@ -11,6 +11,7 @@
 # @cmd Start the GUI, optionally running an alternative program [aliases: -e]
 # @flag --no-auto-connect          If true, do not connect to domains marked as connect_automatically in your wezterm configuration file
 # @flag --always-new-process       If enabled, don't try to ask an existing wezterm GUI instance to start the command.
+# @flag --new-tab                  When spawning into an existing GUI instance, spawn a new tab into the active window rather than spawn a new window
 # @option --cwd <dir>              Specify the current working directory for the initially spawned program
 # @option --class                  Override the default windowing system class.
 # @option --workspace              Override the default workspace with the provided name.
@@ -52,6 +53,7 @@ serial() {
 
 # {{ wezterm connect
 # @cmd Connect to wezterm multiplexer
+# @flag --new-tab                  When spawning into an existing GUI instance, spawn a new tab into the active window rather than spawn a new window
 # @option --class                  Override the default windowing system class.
 # @option --workspace              Override the default workspace with the provided name.
 # @option --position               Override the position for the initial window launched by this process.
@@ -294,15 +296,37 @@ cli::rename-workspace() {
     :;
 }
 # }}} wezterm cli rename-workspace
+
+# {{{ wezterm cli zoom-pane
+# @cmd Zoom, unzoom, or toggle zoom state
+# @option --pane-id[`_choice_pane`] <PANE_ID>    Specify the target pane.
+# @flag --zoom                                   Zooms the pane if it wasn't already zoomed
+# @flag --unzoom                                 Unzooms the pane if it was zoomed
+# @flag --toggle                                 Toggles the zoom state of the pane
+# @flag -h --help                                Print help
+cli::zoom-pane() {
+    :;
+}
+# }}} wezterm cli zoom-pane
 # }} wezterm cli
 
 # {{ wezterm imgcat
 # @cmd Output an image to the terminal
-# @option --width                     Specify the display width; defaults to "auto" which automatically selects an appropriate size.
-# @option --height                    Specify the display height; defaults to "auto" which automatically selects an appropriate size.
-# @flag --no-preserve-aspect-ratio    Do not respect the aspect ratio.
-# @flag -h --help                     Print help
-# @arg file_name                      The name of the image file to be displayed.
+# @option --width                      Specify the display width; defaults to "auto" which automatically selects an appropriate size.
+# @option --height                     Specify the display height; defaults to "auto" which automatically selects an appropriate size.
+# @flag --no-preserve-aspect-ratio     Do not respect the aspect ratio.
+# @option --position                   Set the cursor position prior to displaying the image.
+# @flag --no-move-cursor               Do not move the cursor after displaying the image.
+# @flag --hold                         Wait for enter to be pressed after displaying the image
+# @option --tmux-passthru[disable|enable|detect] <TMUX_PASSTHRU>  How to manage passing the escape through to tmux
+# @option --max-pixels <MAX_PIXELS>    Set the maximum number of pixels per image frame.
+# @flag --no-resample                  Do not resample images whose frames are larger than the max-pixels value.
+# @option --resample-format[png|jpeg|input] <RESAMPLE_FORMAT>  Specify the image format to use to encode resampled/resized images.
+# @option --resample-filter[nearest|triangle|catmull-rom|gaussian|lanczos3] <RESAMPLE_FILTER>  Specify the filtering technique used when resizing/resampling images.
+# @option --resize <WIDTHxHEIGHT>      Pre-process the image to resize it to the specified dimensions, expressed as eg: 800x600 (width x height).
+# @flag --show-resample-timing         When resampling or resizing, display some diagnostics around the timing/performance of that operation
+# @flag -h --help                      Print help (see a summary with '-h')
+# @arg file_name                       The name of the image file to be displayed.
 imgcat() {
     :;
 }
@@ -310,6 +334,7 @@ imgcat() {
 
 # {{ wezterm set-working-directory
 # @cmd Advise the terminal of the current working directory by emitting an OSC 7 escape sequence
+# @option --tmux-passthru[disable|enable|detect] <TMUX_PASSTHRU>  How to manage passing the escape through to tmux
 # @flag -h --help    Print help
 # @arg dir!          The directory to specify.
 # @arg host          The hostname to use in the constructed file:// URL.
@@ -320,8 +345,9 @@ set-working-directory() {
 
 # {{ wezterm record
 # @cmd Record a terminal session as an asciicast
-# @flag -h --help    Print help
-# @arg prog~[`_module_os_exec`]
+# @option --cwd <dir>              Start in the specified directory, instead of the default_cwd defined by your wezterm configuration
+# @flag -h --help                  Print help
+# @arg prog~[`_module_os_exec`]    Start prog instead of the default_prog defined by your wezterm configuration
 record() {
     :;
 }

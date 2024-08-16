@@ -7,6 +7,7 @@
 # @flag -h --help                                  Print this help screen
 # @option -H --highlight-changes <DELAY>           Highlight new and old processes
 # @flag -M --no-mouse                              Disable the mouse
+# @option -n --max-iterations <NUMBER>             Exit htop after NUMBER iterations/frame updates
 # @option -p --pid*,[`_module_os_pid`] <PID[,PID,PID...]>  Show only the given PIDs
 # @flag --readonly                                 Disable all system and process changing features
 # @option -s --sort-key[`_choice_sort_key`] <COLUMN>  Sort by COLUMN in list view (try --sort-key=help for a list)

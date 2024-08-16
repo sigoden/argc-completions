@@ -1,5 +1,6 @@
 _patch_help() {
     if [[ "$*" == "fvm dart" ]] \
+    || [[ "$*" == "fvm exec" ]] \
     || [[ "$*" == "fvm flutter" ]] \
     || [[ "$*" == "fvm spawn" ]] \
     ; then

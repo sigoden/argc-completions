@@ -43,6 +43,8 @@ develop() {
 # @flag --profile                              Build site with react profiling (this can add some additional overhead).
 # @flag --graphql-tracing                      Trace every graphql resolver, may have performance implications
 # @option --open-tracing-config-file <file>    Tracer configuration file (OpenTracing compatible).
+# @option --functions-platform <string>        The platform bundled functions will execute on.
+# @option --functions-arch <string>            The architecture bundled functions will execute on.
 # @flag -h --help                              Show help
 # @flag -v --version                           Show the version of the Gatsby CLI and the Gatsby package in the current project
 build() {

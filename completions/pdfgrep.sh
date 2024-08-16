@@ -2,7 +2,7 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # @flag -i --ignore-case              Ignore case distinctions
-# @flag -P --pcre                     Use Perl compatible regular expressions (PCRE)
+# @flag -P --perl-regexp              Use Perl compatible regular expressions (PCRE)
 # @flag -H --with-filename            Print the file name for each match
 # @flag -h --no-filename              Suppress the prefixing of file name on output
 # @flag -n --page-number              Print page number with output lines

@@ -14,6 +14,7 @@
 # @flag --skipunannotated                     Skip analysis of functions with no type annotations
 # @flag --stats                               Print detailed performance stats
 # @option -t --typeshedpath <DIRECTORY>       Use typeshed type stubs at this location
+# @option --threads <optional COUNT>          Use separate threads to parallelize type checking
 # @option -v --venvpath <DIRECTORY>           Directory that contains virtual environments
 # @flag --verbose                             Emit verbose diagnostics
 # @option --verifytypes <PACKAGE>             Verify type completeness of a py.typed package

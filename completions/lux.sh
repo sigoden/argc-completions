@@ -5,6 +5,8 @@
 # @option --aria2-addr <value>          Aria2 Address (default: "localhost:6800")
 # @option --aria2-method <value>        Aria2 Method (default: "http")
 # @option --aria2-token <value>         Aria2 RPC Token
+# @flag --audio-only                    Download audio only at best quality (default: false)
+# @flag --ao                            Download audio only at best quality (default: false)
 # @flag -C --caption                    Download captions (default: false)
 # @option --chunk-size <value>          HTTP chunk size for downloading (in MB) (default: 1)
 # @option --cs <value>                  HTTP chunk size for downloading (in MB) (default: 1)

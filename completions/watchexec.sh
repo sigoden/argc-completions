@@ -1,46 +1,56 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @option -c --clear[clear|reset] <MODE>      Clear screen before running command
 # @option -o --on-busy-update[queue|do-nothing|restart|signal] <MODE>  What to do when receiving events while the command is running
 # @flag -r --restart                          Restart the process if it's still running
 # @option -s --signal[`_module_os_signal`]    Send a signal to the process when it's still running
 # @option --stop-signal[`_module_os_signal`] <SIGNAL>  Signal to send to stop the command
 # @option --stop-timeout <TIMEOUT>            Time to wait for the command to exit gracefully
+# @option --map-signal <SIGNAL:SIGNAL>        Translate signals from the OS to signals to send to the command
 # @option -d --debounce <TIMEOUT>             Time to wait for new events before taking action
 # @flag --stdin-quit                          Exit when stdin closes
 # @flag -p --postpone                         Wait until first change before running command
 # @option --delay-run <DURATION>              Sleep before running the command
 # @option --poll <INTERVAL>                   Poll for filesystem changes
-# @flag -N --notify                           Alert when commands start and end
 # @option --project-origin <DIRECTORY>        Set the project origin
 # @option --workdir <DIRECTORY>               Set the working directory
 # @flag -h --help                             Print help (see a summary with '-h')
 # @flag -V --version                          Print version
 # @option -w --watch <PATH>                   Watch a specific file or directory
+# @option -W --watch-non-recursive <PATH>     Watch a specific directory, non-recursively
+# @option -F --watch-file <PATH>              Watch files and directories from a file
 # @flag --no-vcs-ignore                       Don't load gitignores
 # @flag --no-project-ignore                   Don't load project-local ignores
 # @flag --no-global-ignore                    Don't load global ignores
 # @flag --no-default-ignore                   Don't use internal default ignores
 # @flag --no-discover-ignore                  Don't discover ignore files at all
+# @flag --ignore-nothing                      Don't ignore anything at all
 # @option -e --exts <EXTENSIONS>              Filename extensions to filter to
 # @option -f --filter <PATTERN>               Filename patterns to filter to
 # @option --filter-file <PATH>                Files to load filters from
+# @option -j --filter-prog <EXPRESSION>       [experimental] Filter programs.
 # @option -i --ignore <PATTERN>               Filename patterns to filter out
 # @option --ignore-file <PATH>                Files to load ignores from
 # @option --fs-events[access|create|remove|rename|modify|metadata] <EVENTS>  Filesystem events to filter to
 # @flag --no-meta                             Don't emit fs events for metadata changes
+# @option -c --clear[clear|reset] <MODE>      Clear screen before running command
+# @flag --only-emit-events                    Only emit events to stdout, run no commands.
+# @flag -N --notify                           Alert when commands start and end
+# @option --color <MODE>                      When to use terminal colours
+# @flag --timings                             Print how long the command took to run
+# @flag -q --quiet                            Don't print starting and stopping messages
+# @flag --bell                                Ring the terminal bell on command completion
 # @option --shell[`_module_os_shell`]         Use a different shell
-# @flag -n                                    Don't use a shell
-# @flag --no-environment                      Shorthand for '--emit-events=none'
+# @flag -n                                    Shorthand for '--shell=none'
 # @option --emit-events-to[environment|stdin|file|json-stdin|json-file|none] <MODE>  Configure event emission
 # @option -E --env <KEY=VALUE>                Add env vars to the command
 # @flag --no-process-group                    Don't use a process group
+# @option --wrap-process <MODE>               Configure how the process is wrapped
 # @flag --print-events                        Print events that trigger actions
-# @flag -v --verbose*                         Set diagnostic log level
-# @option --log-file <PATH>                   Write diagnostic logs to a file
 # @flag --manual                              Show the manual page
 # @option --completions[bash|elvish|fish|nu|powershell|zsh]  Generate a shell completions script
+# @flag -v --verbose*                         Set diagnostic log level
+# @option --log-file <PATH>                   Write diagnostic logs to a file
 # @arg command[`_module_os_command`]
 # @arg args~[`_module_os_command_args`]
 

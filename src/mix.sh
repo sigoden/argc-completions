@@ -197,7 +197,7 @@ Options:
 EOF
 
     else
-        _patch_help_run_help_subcmd $@ | _common_edit
+        _patch_help_run_help_subcmd $@ | _common_edit | sed '/^\s*-/ s/(\(--no-\S\+\))/\1/g'
     fi
 }
 

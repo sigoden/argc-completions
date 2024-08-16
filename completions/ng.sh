@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @flag --help    Shows a help message for this command in the console.
+# @flag --help       Shows a help message for this command in the console.
+# @flag --version    Show Angular CLI version.
 
 # {{ ng add
 # @cmd Adds support for an external library to your project.
 # @flag --help                   Shows a help message for this command in the console.
 # @flag --interactive            Enable interactive input prompts.
-# @flag --dry-run                Run through and reports activity without writing out results.
+# @flag -d --dry-run             Run through and reports activity without writing out results.
 # @flag --defaults               Disable interactive input prompts for options with a default.
 # @flag --force                  Force overwriting of existing files.
 # @option --registry <string>    The NPM registry to use.
@@ -69,13 +70,15 @@ analytics::prompt() {
 # @alias b
 # @flag --help                                 Shows a help message for this command in the console.
 # @option -c --configuration*,[`_choice_configuration`] <string>  One or more named builder configurations as a comma-separated list as specified in the "configurations" section in angular.json.
-# @option --allowed-common-js-dependencies* <string>  A list of CommonJS packages that are allowed to be used without a build time warning.
+# @option --allowed-common-js-dependencies* <string>  A list of CommonJS or AMD packages that are allowed to be used without a build time warning.
 # @flag --aot                                  Build using Ahead of Time compilation.
 # @flag --app-shell                            Generates an application shell during build time.
 # @option --base-href <string>                 Base url for the application being built.
 # @option --browser <path>                     The full path for the browser entry point to the application, relative to the current workspace.
+# @flag --clear-screen                         Automatically clear the terminal screen during rebuilds.
 # @option --cross-origin[none|anonymous|use-credentials] <string>  Define the crossorigin attribute setting of elements that provide CORS support.
 # @flag --delete-output-path                   Delete the output path before building.
+# @option --deploy-url <path>                  Customize the base path for the URLs of resources in 'index.html' and component stylesheets.
 # @option --external-dependencies* <string>    Exclude the listed external dependencies from being bundled into the bundle.
 # @flag --extract-licenses                     Extract all licenses in a separate file.
 # @option --i18n-duplicate-translation[warning|error|ignore] <string>  How to handle duplicate translations for i18n.
@@ -86,7 +89,7 @@ analytics::prompt() {
 # @flag --named-chunks                         Use file name for lazy loaded chunks.
 # @flag --optimization                         Enables optimization of the build output.
 # @option --output-hashing[none|all|media|bundles] <file>  Define the output filename cache-busting hashing mode.
-# @option --output-path <dir>                  The full path for the new output directory, relative to the current workspace.
+# @option --output-path <path>                 Specify the output path relative to workspace root.
 # @option --poll <number>                      Enable and define the file watching poll time period in milliseconds.
 # @option --polyfills* <string>                A list of polyfills to include in the build.
 # @flag --prerender                            Prerender (SSG) pages of your application during build time.
@@ -187,18 +190,6 @@ deploy() {
 }
 # }} ng deploy
 
-# {{ ng doc
-# @cmd Opens the official Angular documentation (angular.io) in a browser, and searches for a given keyword.
-# @alias d
-# @flag --help                  Shows a help message for this command in the console.
-# @flag -s --search             Search all of angular.io.
-# @option --version <string>    The version of Angular to use for the documentation.
-# @arg keyword                  The keyword to search for, as provided in the search bar in angular.io.
-doc() {
-    :;
-}
-# }} ng doc
-
 # {{ ng e2e
 # @cmd Builds and serves an Angular application, then runs end-to-end tests.
 # @alias e
@@ -231,7 +222,7 @@ extract-i18n() {
 # @alias g
 # @flag --help           Shows a help message for this command in the console.
 # @flag --interactive    Enable interactive input prompts.
-# @flag --dry-run        Run through and reports activity without writing out results.
+# @flag -d --dry-run     Run through and reports activity without writing out results.
 # @flag --defaults       Disable interactive input prompts for options with a default.
 # @flag --force          Force overwriting of existing files.
 # @arg schematic         The [collection:schematic] to run.
@@ -243,7 +234,7 @@ generate() {
 # @cmd Generates an application shell for running a server-side version of an app.
 # @flag --help                  Shows a help message for this command in the console.
 # @flag --interactive           Enable interactive input prompts.
-# @flag --dry-run               Run through and reports activity without writing out results.
+# @flag -d --dry-run            Run through and reports activity without writing out results.
 # @flag --defaults              Disable interactive input prompts for options with a default.
 # @flag --force                 Force overwriting of existing files.
 # @option --project <string>    The name of the related client app.
@@ -257,7 +248,7 @@ generate::app-shell() {
 # @alias app
 # @flag --help                                  Shows a help message for this command in the console.
 # @flag --interactive                           Enable interactive input prompts.
-# @flag --dry-run                               Run through and reports activity without writing out results.
+# @flag -d --dry-run                            Run through and reports activity without writing out results.
 # @flag --defaults                              Disable interactive input prompts for options with a default.
 # @flag --force                                 Force overwriting of existing files.
 # @flag -s --inline-style                       Include styles inline in the root component.ts file.
@@ -285,7 +276,7 @@ generate::application() {
 # @alias cl
 # @flag --help                  Shows a help message for this command in the console.
 # @flag --interactive           Enable interactive input prompts.
-# @flag --dry-run               Run through and reports activity without writing out results.
+# @flag -d --dry-run            Run through and reports activity without writing out results.
 # @flag --defaults              Disable interactive input prompts for options with a default.
 # @flag --force                 Force overwriting of existing files.
 # @option --project <string>    The name of the project.
@@ -302,7 +293,7 @@ generate::class() {
 # @alias c
 # @flag --help                    Shows a help message for this command in the console.
 # @flag --interactive             Enable interactive input prompts.
-# @flag --dry-run                 Run through and reports activity without writing out results.
+# @flag -d --dry-run              Run through and reports activity without writing out results.
 # @flag --defaults                Disable interactive input prompts for options with a default.
 # @flag --force                   Force overwriting of existing files.
 # @option -c --change-detection[Default|OnPush] <string>  The change detection strategy to use in the new component.
@@ -332,7 +323,7 @@ generate::component() {
 # @cmd Generates a configuration file in the given project.
 # @flag --help                     Shows a help message for this command in the console.
 # @flag --interactive              Enable interactive input prompts.
-# @flag --dry-run                  Run through and reports activity without writing out results.
+# @flag -d --dry-run               Run through and reports activity without writing out results.
 # @flag --defaults                 Disable interactive input prompts for options with a default.
 # @flag --force                    Force overwriting of existing files.
 # @option --project <string>       The name of the project.
@@ -347,7 +338,7 @@ generate::config() {
 # @alias d
 # @flag --help                    Shows a help message for this command in the console.
 # @flag --interactive             Enable interactive input prompts.
-# @flag --dry-run                 Run through and reports activity without writing out results.
+# @flag -d --dry-run              Run through and reports activity without writing out results.
 # @flag --defaults                Disable interactive input prompts for options with a default.
 # @flag --force                   Force overwriting of existing files.
 # @flag --export                  The declaring NgModule exports this directive.
@@ -370,7 +361,7 @@ generate::directive() {
 # @alias e
 # @flag --help                  Shows a help message for this command in the console.
 # @flag --interactive           Enable interactive input prompts.
-# @flag --dry-run               Run through and reports activity without writing out results.
+# @flag -d --dry-run            Run through and reports activity without writing out results.
 # @flag --defaults              Disable interactive input prompts for options with a default.
 # @flag --force                 Force overwriting of existing files.
 # @option --project <string>    The name of the project in which to create the enum.
@@ -385,7 +376,7 @@ generate::enum() {
 # @cmd Generates and configures environment files for a project.
 # @flag --help                  Shows a help message for this command in the console.
 # @flag --interactive           Enable interactive input prompts.
-# @flag --dry-run               Run through and reports activity without writing out results.
+# @flag -d --dry-run            Run through and reports activity without writing out results.
 # @flag --defaults              Disable interactive input prompts for options with a default.
 # @flag --force                 Force overwriting of existing files.
 # @option --project <string>    The name of the project.
@@ -399,7 +390,7 @@ generate::environments() {
 # @alias g
 # @flag --help                      Shows a help message for this command in the console.
 # @flag --interactive               Enable interactive input prompts.
-# @flag --dry-run                   Run through and reports activity without writing out results.
+# @flag -d --dry-run                Run through and reports activity without writing out results.
 # @flag --defaults                  Disable interactive input prompts for options with a default.
 # @flag --force                     Force overwriting of existing files.
 # @flag --flat                      When true (the default), creates the new files at the top level of the current project.
@@ -418,7 +409,7 @@ generate::guard() {
 # @cmd Creates a new, generic interceptor definition in the given project.
 # @flag --help                  Shows a help message for this command in the console.
 # @flag --interactive           Enable interactive input prompts.
-# @flag --dry-run               Run through and reports activity without writing out results.
+# @flag -d --dry-run            Run through and reports activity without writing out results.
 # @flag --defaults              Disable interactive input prompts for options with a default.
 # @flag --force                 Force overwriting of existing files.
 # @flag --flat                  When true (the default), creates files at the top level of the project.
@@ -436,7 +427,7 @@ generate::interceptor() {
 # @alias i
 # @flag --help                  Shows a help message for this command in the console.
 # @flag --interactive           Enable interactive input prompts.
-# @flag --dry-run               Run through and reports activity without writing out results.
+# @flag -d --dry-run            Run through and reports activity without writing out results.
 # @flag --defaults              Disable interactive input prompts for options with a default.
 # @flag --force                 Force overwriting of existing files.
 # @option --prefix <string>     A prefix to apply to generated selectors.
@@ -453,7 +444,7 @@ generate::interface() {
 # @alias lib
 # @flag --help                    Shows a help message for this command in the console.
 # @flag --interactive             Enable interactive input prompts.
-# @flag --dry-run                 Run through and reports activity without writing out results.
+# @flag -d --dry-run              Run through and reports activity without writing out results.
 # @flag --defaults                Disable interactive input prompts for options with a default.
 # @flag --force                   Force overwriting of existing files.
 # @option --entry-file <file>     The path at which to create the library's public API file, relative to the workspace root.
@@ -474,7 +465,7 @@ generate::library() {
 # @alias m
 # @flag --help                                    Shows a help message for this command in the console.
 # @flag --interactive                             Enable interactive input prompts.
-# @flag --dry-run                                 Run through and reports activity without writing out results.
+# @flag -d --dry-run                              Run through and reports activity without writing out results.
 # @flag --defaults                                Disable interactive input prompts for options with a default.
 # @flag --force                                   Force overwriting of existing files.
 # @flag --flat                                    Create the new files at the top level of the current project root.
@@ -494,7 +485,7 @@ generate::module() {
 # @alias p
 # @flag --help                    Shows a help message for this command in the console.
 # @flag --interactive             Enable interactive input prompts.
-# @flag --dry-run                 Run through and reports activity without writing out results.
+# @flag -d --dry-run              Run through and reports activity without writing out results.
 # @flag --defaults                Disable interactive input prompts for options with a default.
 # @flag --force                   Force overwriting of existing files.
 # @flag --export                  The declaring NgModule exports this pipe.
@@ -515,7 +506,7 @@ generate::pipe() {
 # @alias r
 # @flag --help                  Shows a help message for this command in the console.
 # @flag --interactive           Enable interactive input prompts.
-# @flag --dry-run               Run through and reports activity without writing out results.
+# @flag -d --dry-run            Run through and reports activity without writing out results.
 # @flag --defaults              Disable interactive input prompts for options with a default.
 # @flag --force                 Force overwriting of existing files.
 # @flag --flat                  When true (the default), creates the new files at the top level of the current project.
@@ -533,7 +524,7 @@ generate::resolver() {
 # @alias s
 # @flag --help                  Shows a help message for this command in the console.
 # @flag --interactive           Enable interactive input prompts.
-# @flag --dry-run               Run through and reports activity without writing out results.
+# @flag -d --dry-run            Run through and reports activity without writing out results.
 # @flag --defaults              Disable interactive input prompts for options with a default.
 # @flag --force                 Force overwriting of existing files.
 # @flag --flat                  When true (the default), creates files at the top level of the project.
@@ -549,7 +540,7 @@ generate::service() {
 # @cmd Pass this schematic to the "run" command to create a service worker
 # @flag --help                  Shows a help message for this command in the console.
 # @flag --interactive           Enable interactive input prompts.
-# @flag --dry-run               Run through and reports activity without writing out results.
+# @flag -d --dry-run            Run through and reports activity without writing out results.
 # @flag --defaults              Disable interactive input prompts for options with a default.
 # @flag --force                 Force overwriting of existing files.
 # @option --project <string>    The name of the project.
@@ -563,7 +554,7 @@ generate::service-worker() {
 # @cmd Creates a new, generic web worker definition in the given project.
 # @flag --help                  Shows a help message for this command in the console.
 # @flag --interactive           Enable interactive input prompts.
-# @flag --dry-run               Run through and reports activity without writing out results.
+# @flag -d --dry-run            Run through and reports activity without writing out results.
 # @flag --defaults              Disable interactive input prompts for options with a default.
 # @flag --force                 Force overwriting of existing files.
 # @option --project <string>    The name of the project.
@@ -590,7 +581,7 @@ lint() {
 # @alias n
 # @flag --help                                  Shows a help message for this command in the console.
 # @flag --interactive                           Enable interactive input prompts.
-# @flag --dry-run                               Run through and reports activity without writing out results.
+# @flag -d --dry-run                            Run through and reports activity without writing out results.
 # @flag --defaults                              Disable interactive input prompts for options with a default.
 # @flag --force                                 Force overwriting of existing files.
 # @option -c --collection <string>              A collection of schematics to use in generating the initial application.
@@ -601,7 +592,7 @@ lint() {
 # @flag -t --inline-template                    Include template inline in the component TS file.
 # @flag --minimal                               Create a workspace without any testing frameworks.
 # @option --new-project-root <path>             The path where new projects will be created, relative to the new workspace root.
-# @option --package-manager[npm|yarn|pnpm|cnpm] <string>  The package manager used to install dependencies.
+# @option --package-manager[npm|yarn|pnpm|cnpm|bun] <string>  The package manager used to install dependencies.
 # @option -p --prefix <string>                  The prefix to apply to generated selectors for the initial project.
 # @flag --routing                               Enable routing in the initial project.
 # @flag -g --skip-git                           Do not initialize a git repository.
@@ -629,7 +620,7 @@ run() {
 
 # {{ ng serve
 # @cmd Builds and serves your application, rebuilding on file changes.
-# @alias s
+# @alias dev,s
 # @flag --help                         Shows a help message for this command in the console.
 # @option -c --configuration*,[`_choice_configuration`] <string>  One or more named builder configurations as a comma-separated list as specified in the "configurations" section in angular.json.
 # @option --allowed-hosts* <string>    List of hosts that are allowed to access the dev server.
@@ -643,6 +634,7 @@ run() {
 # @flag -o --open                      Opens the url in default browser.
 # @option --poll <number>              Enable and define the file watching poll time period in milliseconds.
 # @option --port <number>              Port to listen on.
+# @flag --prebundle                    Enable and control the Vite-based development server's prebundling capabilities.
 # @option --proxy-config <file>        Proxy configuration file.
 # @option --public-host <string>       The URL that the browser client (or live-reload client, if enabled) should use to connect to the development server.
 # @option --serve-path <path>          The pathname where the application will be served.

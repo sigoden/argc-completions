@@ -75,6 +75,9 @@ _patch_table() {
     ; then
         echo "$table" | _patch_table_edit_arguments ';;' 'package;[`_choice_dependency`]'
 
+    elif [[ "$*" == "bun patch" ]]; then
+        echo "$table" | _patch_table_edit_arguments ';;' 'name;[`_choice_patch`]'
+
     elif [[ "$*" == "bun build" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments ';;' 'files...'
@@ -97,6 +100,14 @@ _choice_dependency() {
     if [[ -n "$pkg_json_path" ]]; then
         cat "$pkg_json_path" | yq '(.dependencies // {}) + (.devDependencies // {}) + (.optionalDependencies // {}) | keys | .[]'
     fi
+}
+
+_choice_patch() {
+    if _argc_util_has_path_prefix; then
+        _argc_util_comp_path
+        return
+    fi
+    _choice_dependency
 }
 
 _choice_script() {

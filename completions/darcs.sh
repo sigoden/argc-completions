@@ -22,7 +22,11 @@
 # @flag --no-patch-index           don't build patch index [DEFAULT]
 # @flag --hashed                   deprecated, use --darcs-1 instead
 # @option --umask                  specify umask to use when writing
+# @flag --with-prefs-templates     create template-filled preferences [DEFAULT]
+# @flag --no-prefs-templates       create empty preferences
 # @flag --no-cache                 don't use patch caches
+# @flag --ignore-times             don't trust the file modification times
+# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>      specify command to run before this darcs command
 # @flag --no-prehook               don't run prehook command [DEFAULT]
 # @flag --prompt-prehook           prompt before running prehook
@@ -32,7 +36,6 @@
 # @flag --prompt-posthook          prompt before running posthook
 # @flag --run-posthook             run posthook command without prompting [DEFAULT]
 # @flag --debug                    enable general debug output
-# @flag --debug-http               debug output from libcurl
 # @flag --timings                  provide debugging timings information
 # @arg directory
 initialize() {
@@ -52,7 +55,7 @@ initialize() {
 # @flag --not-recursive
 # @flag --no-recursive             don't recurse into subdirectories [DEFAULT]
 # @option --repodir <DIRECTORY>    specify the repository directory in which to run
-# @flag --dry-run                  don't actually take the action
+# @flag -n --dry-run               don't actually take the action
 # @flag --help                     show a description of the command and its options
 # @flag --list-options             show plain list of available options and commands, for auto-completion
 # @flag --disable                  disable this command
@@ -61,6 +64,8 @@ initialize() {
 # @flag -v --verbose               enable verbose output
 # @option --umask                  specify umask to use when writing
 # @flag --no-cache                 don't use patch caches
+# @flag --ignore-times             don't trust the file modification times
+# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>      specify command to run before this darcs command
 # @flag --no-prehook               don't run prehook command [DEFAULT]
 # @flag --prompt-prehook           prompt before running prehook
@@ -70,7 +75,6 @@ initialize() {
 # @flag --prompt-posthook          prompt before running posthook
 # @flag --run-posthook             run posthook command without prompting [DEFAULT]
 # @flag --debug                    enable general debug output
-# @flag --debug-http               debug output from libcurl
 # @flag --timings                  provide debugging timings information
 # @arg file-or-directory+ <FILE or DIRECTORY>
 add() {
@@ -86,9 +90,10 @@ add() {
 # @flag --no-unified               output changes in darcs' usual format [DEFAULT]
 # @flag --human-readable           normal human-readable output [DEFAULT]
 # @flag --machine-readable         machine-readable output
-# @flag -l --look-for-adds         look for (non-boring) files that could be added
 # @flag --dont-look-for-adds
-# @flag --no-look-for-adds         don't look for any files that could be added [DEFAULT]
+# @flag --no-look-for-adds         don't look for files that could be added [DEFAULT]
+# @flag -l --look-for-adds         look for files that could be added
+# @flag --boring                   look for any file that could be added, even boring files
 # @flag --look-for-replaces        look for replaces that could be marked
 # @flag --dont-look-for-replaces
 # @flag --no-look-for-replaces     don't look for any replaces [DEFAULT]
@@ -107,11 +112,9 @@ add() {
 # @flag -q --quiet                 suppress informational output
 # @flag --standard-verbosity       neither verbose nor quiet output [DEFAULT]
 # @flag -v --verbose               enable verbose output
+# @flag --no-cache                 don't use patch caches
 # @flag --ignore-times             don't trust the file modification times
 # @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
-# @flag --boring                   don't skip boring files
-# @flag --no-boring                skip boring files [DEFAULT]
-# @flag --no-cache                 don't use patch caches
 # @option --prehook <COMMAND>      specify command to run before this darcs command
 # @flag --no-prehook               don't run prehook command [DEFAULT]
 # @flag --prompt-prehook           prompt before running prehook
@@ -121,7 +124,6 @@ add() {
 # @flag --prompt-posthook          prompt before running posthook
 # @flag --run-posthook             run posthook command without prompting [DEFAULT]
 # @flag --debug                    enable general debug output
-# @flag --debug-http               debug output from libcurl
 # @flag --timings                  provide debugging timings information
 # @arg file-or-directory* <FILE or DIRECTORY>
 whatsnew() {
@@ -146,9 +148,10 @@ whatsnew() {
 # @flag --edit-long-comment            edit the long comment by default
 # @flag --skip-long-comment            don't give a long comment
 # @flag --prompt-long-comment          prompt for whether to edit the long comment
-# @flag -l --look-for-adds             look for (non-boring) files that could be added
 # @flag --dont-look-for-adds
-# @flag --no-look-for-adds             don't look for any files that could be added [DEFAULT]
+# @flag --no-look-for-adds             don't look for files that could be added [DEFAULT]
+# @flag -l --look-for-adds             look for files that could be added
+# @flag --boring                       look for any file that could be added, even boring files
 # @flag --look-for-replaces            look for replaces that could be marked
 # @flag --dont-look-for-replaces
 # @flag --no-look-for-replaces         don't look for any replaces [DEFAULT]
@@ -156,8 +159,6 @@ whatsnew() {
 # @flag --dont-look-for-moves
 # @flag --no-look-for-moves            don't look for any files that could be moved/renamed [DEFAULT]
 # @option --repodir <DIRECTORY>        specify the repository directory in which to run
-# @flag -u --unified                   output changes in a darcs-specific format similar to diff -u
-# @flag --no-unified                   output changes in darcs' usual format [DEFAULT]
 # @flag --myers                        use myers diff algorithm
 # @flag --patience                     use patience diff algorithm [DEFAULT]
 # @flag --help                         show a description of the command and its options
@@ -169,18 +170,13 @@ whatsnew() {
 # @option --logfile <FILE>             give patch name and comment in file
 # @flag --delete-logfile               delete the logfile when done
 # @flag --no-delete-logfile            keep the logfile when done [DEFAULT]
-# @flag --compress                     compress patch data [DEFAULT]
-# @flag --dont-compress
-# @flag --no-compress                  don't compress patch data
-# @flag --ignore-times                 don't trust the file modification times
-# @flag --no-ignore-times              trust modification times to find modified files [DEFAULT]
 # @option --umask                      specify umask to use when writing
 # @flag --set-scripts-executable       make scripts executable
 # @flag --dont-set-scripts-executable
 # @flag --no-set-scripts-executable    don't make scripts executable [DEFAULT]
-# @flag --boring                       don't skip boring files
-# @flag --no-boring                    skip boring files [DEFAULT]
 # @flag --no-cache                     don't use patch caches
+# @flag --ignore-times                 don't trust the file modification times
+# @flag --no-ignore-times              trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>          specify command to run before this darcs command
 # @flag --no-prehook                   don't run prehook command [DEFAULT]
 # @flag --prompt-prehook               prompt before running prehook
@@ -190,7 +186,6 @@ whatsnew() {
 # @flag --prompt-posthook              prompt before running posthook
 # @flag --run-posthook                 run posthook command without prompting [DEFAULT]
 # @flag --debug                        enable general debug output
-# @flag --debug-http                   debug output from libcurl
 # @flag --timings                      provide debugging timings information
 # @arg file-or-directory* <FILE or DIRECTORY>
 record() {
@@ -206,7 +201,7 @@ record() {
 # @flag --complete                     get a complete copy of the repository
 # @option --to-match <PATTERN>         select changes up to a patch matching PATTERN
 # @option --to-patch <REGEXP>          select changes up to a patch matching REGEXP
-# @option --to-hash <HASH>             select changes up to a patch with HASH
+# @option --to-hash <HASH>             select changes up to a patch whose hash prefix matches HASH
 # @option -t --tag <REGEXP>            select tag matching REGEXP
 # @option --context <FILENAME>         version specified by the context in FILENAME
 # @flag --set-default                  set default repository
@@ -229,9 +224,12 @@ record() {
 # @flag --with-patch-index             build patch index
 # @flag --no-patch-index               don't build patch index [DEFAULT]
 # @option --umask                      specify umask to use when writing
-# @flag --no-http-pipelining           disable HTTP pipelining
 # @option --remote-darcs <COMMAND>     name of the darcs executable on the remote server
+# @flag --with-prefs-templates         create template-filled preferences [DEFAULT]
+# @flag --no-prefs-templates           create empty preferences
 # @flag --no-cache                     don't use patch caches
+# @flag --ignore-times                 don't trust the file modification times
+# @flag --no-ignore-times              trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>          specify command to run before this darcs command
 # @flag --no-prehook                   don't run prehook command [DEFAULT]
 # @flag --prompt-prehook               prompt before running prehook
@@ -241,7 +239,6 @@ record() {
 # @flag --prompt-posthook              prompt before running posthook
 # @flag --run-posthook                 run posthook command without prompting [DEFAULT]
 # @flag --debug                        enable general debug output
-# @flag --debug-http                   debug output from libcurl
 # @flag --timings                      provide debugging timings information
 # @arg repository!
 # @arg directory
@@ -255,7 +252,7 @@ clone() {
 # @option --matches <PATTERN>             select patches matching PATTERN
 # @option -p --patches <REGEXP>           select patches matching REGEXP
 # @option -t --tags <REGEXP>              select tags matching REGEXP
-# @option -h --hash                       select a single patch with HASH
+# @option -h --hash                       select a single patch whose hash prefix matches HASH
 # @flag --reorder-patches                 put local-only patches on top of remote ones
 # @flag --no-reorder-patches              put remote-only patches on top of local ones [DEFAULT]
 # @flag -a --all
@@ -263,14 +260,16 @@ clone() {
 # @flag -i --interactive                  prompt user interactively
 # @flag --mark-conflicts                  mark conflicts [DEFAULT]
 # @flag --allow-conflicts                 allow conflicts, but don't mark them
+# @option --external-merge <COMMAND>      use external tool to merge conflicts
 # @flag --dont-allow-conflicts
 # @flag --no-allow-conflicts
 # @flag --no-resolve-conflicts            fail if there are patches that would create conflicts
 # @flag --skip-conflicts                  filter out any patches that would create conflicts
-# @option --external-merge <COMMAND>      use external tool to merge conflicts
 # @flag --test                            run the test script
 # @flag --no-test                         don't run the test script [DEFAULT]
-# @flag --dry-run                         don't actually take the action
+# @flag --leave-test-directory            don't remove the test directory
+# @flag --remove-test-directory           remove the test directory [DEFAULT]
+# @flag -n --dry-run                      don't actually take the action
 # @flag --xml-output                      generate XML formatted output
 # @flag -s --summary                      summarize changes
 # @flag --no-summary                      don't summarize changes
@@ -296,12 +295,6 @@ clone() {
 # @flag --intersection                    take intersection of all repositories
 # @flag --union                           take union of all repositories [DEFAULT]
 # @flag --complement                      take complement of repositories (in order listed)
-# @flag --compress                        compress patch data [DEFAULT]
-# @flag --dont-compress
-# @flag --no-compress                     don't compress patch data
-# @flag --ignore-times                    don't trust the file modification times
-# @flag --no-ignore-times                 trust modification times to find modified files [DEFAULT]
-# @option --remote-repo <URL>             specify the remote repository URL to work with
 # @flag --set-scripts-executable          make scripts executable
 # @flag --dont-set-scripts-executable
 # @flag --no-set-scripts-executable       don't make scripts executable [DEFAULT]
@@ -310,9 +303,10 @@ clone() {
 # @flag --no-reverse                      show/consider changes in the usual order [DEFAULT]
 # @flag --pause-for-gui                   pause for an external diff or merge command to finish [DEFAULT]
 # @flag --no-pause-for-gui                return immediately after external diff or merge command finishes
-# @flag --no-http-pipelining              disable HTTP pipelining
 # @option --remote-darcs <COMMAND>        name of the darcs executable on the remote server
 # @flag --no-cache                        don't use patch caches
+# @flag --ignore-times                    don't trust the file modification times
+# @flag --no-ignore-times                 trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>             specify command to run before this darcs command
 # @flag --no-prehook                      don't run prehook command [DEFAULT]
 # @flag --prompt-prehook                  prompt before running prehook
@@ -322,7 +316,6 @@ clone() {
 # @flag --prompt-posthook                 prompt before running posthook
 # @flag --run-posthook                    run posthook command without prompting [DEFAULT]
 # @flag --debug                           enable general debug output
-# @flag --debug-http                      debug output from libcurl
 # @flag --timings                         provide debugging timings information
 # @arg repository*
 pull() {
@@ -335,7 +328,7 @@ pull() {
 # @option --matches <PATTERN>             select patches matching PATTERN
 # @option -p --patches <REGEXP>           select patches matching REGEXP
 # @option -t --tags <REGEXP>              select tags matching REGEXP
-# @option -h --hash                       select a single patch with HASH
+# @option -h --hash                       select a single patch whose hash prefix matches HASH
 # @flag --no-deps                         don't automatically fulfill dependencies
 # @flag --auto-deps
 # @flag --dont-prompt-for-dependencies    don't ask about patches that are depended on by matched patches (with --match or --patch)
@@ -349,7 +342,7 @@ pull() {
 # @option --sign-ssl <IDFILE>             sign the patch using openssl with a given private key
 # @flag --dont-sign
 # @flag --no-sign                         don't sign the patch [DEFAULT]
-# @flag --dry-run                         don't actually take the action
+# @flag -n --dry-run                      don't actually take the action
 # @flag --xml-output                      generate XML formatted output
 # @flag -s --summary                      summarize changes
 # @flag --no-summary                      don't summarize changes
@@ -359,6 +352,8 @@ pull() {
 # @flag --inherit-default                 inherit default repository
 # @flag --no-inherit-default              don't inherit default repository [DEFAULT]
 # @flag --ignore-unrelated-repos          do not check if repositories are unrelated
+# @flag --reorder-patches                 put remote-only patches on top of local ones
+# @flag --no-reorder-patches              put local-only patches on top of remote ones [DEFAULT]
 # @flag --help                            show a description of the command and its options
 # @flag --list-options                    show plain list of available options and commands, for auto-completion
 # @flag --disable                         disable this command
@@ -367,15 +362,15 @@ pull() {
 # @flag -v --verbose                      enable verbose output
 # @option --apply-as <USERNAME>           apply patch as another user using sudo
 # @flag --no-apply-as                     don't use sudo to apply as another user [DEFAULT]
-# @option --remote-repo <URL>             specify the remote repository URL to work with
 # @flag --reverse                         show/consider changes in reverse order
 # @flag --no-reverse                      show/consider changes in the usual order [DEFAULT]
 # @flag --compress                        compress patch data [DEFAULT]
 # @flag --dont-compress
 # @flag --no-compress                     don't compress patch data
-# @flag --no-http-pipelining              disable HTTP pipelining
 # @option --remote-darcs <COMMAND>        name of the darcs executable on the remote server
 # @flag --no-cache                        don't use patch caches
+# @flag --ignore-times                    don't trust the file modification times
+# @flag --no-ignore-times                 trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>             specify command to run before this darcs command
 # @flag --no-prehook                      don't run prehook command [DEFAULT]
 # @flag --prompt-prehook                  prompt before running prehook
@@ -385,7 +380,6 @@ pull() {
 # @flag --prompt-posthook                 prompt before running posthook
 # @flag --run-posthook                    run posthook command without prompting [DEFAULT]
 # @flag --debug                           enable general debug output
-# @flag --debug-http                      debug output from libcurl
 # @flag --timings                         provide debugging timings information
 # @arg repository
 push() {
@@ -408,6 +402,8 @@ push() {
 # @flag -v --verbose               enable verbose output
 # @option --umask                  specify umask to use when writing
 # @flag --no-cache                 don't use patch caches
+# @flag --ignore-times             don't trust the file modification times
+# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>      specify command to run before this darcs command
 # @flag --no-prehook               don't run prehook command [DEFAULT]
 # @flag --prompt-prehook           prompt before running prehook
@@ -417,7 +413,6 @@ push() {
 # @flag --prompt-posthook          prompt before running posthook
 # @flag --run-posthook             run posthook command without prompting [DEFAULT]
 # @flag --debug                    enable general debug output
-# @flag --debug-http               debug output from libcurl
 # @flag --timings                  provide debugging timings information
 # @arg source!
 # @arg destination!
@@ -438,10 +433,10 @@ move() {
 # @flag -q --quiet                 suppress informational output
 # @flag --standard-verbosity       neither verbose nor quiet output [DEFAULT]
 # @flag -v --verbose               enable verbose output
-# @flag --ignore-times             don't trust the file modification times
-# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @option --umask                  specify umask to use when writing
 # @flag --no-cache                 don't use patch caches
+# @flag --ignore-times             don't trust the file modification times
+# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>      specify command to run before this darcs command
 # @flag --no-prehook               don't run prehook command [DEFAULT]
 # @flag --prompt-prehook           prompt before running prehook
@@ -451,7 +446,6 @@ move() {
 # @flag --prompt-posthook          prompt before running posthook
 # @flag --run-posthook             run posthook command without prompting [DEFAULT]
 # @flag --debug                    enable general debug output
-# @flag --debug-http               debug output from libcurl
 # @flag --timings                  provide debugging timings information
 # @arg file-or-directory+ <FILE or DIRECTORY>
 remove() {
@@ -471,10 +465,10 @@ remove() {
 # @flag -q --quiet                     suppress informational output
 # @flag --standard-verbosity           neither verbose nor quiet output [DEFAULT]
 # @flag -v --verbose                   enable verbose output
-# @flag --ignore-times                 don't trust the file modification times
-# @flag --no-ignore-times              trust modification times to find modified files [DEFAULT]
 # @option --umask                      specify umask to use when writing
 # @flag --no-cache                     don't use patch caches
+# @flag --ignore-times                 don't trust the file modification times
+# @flag --no-ignore-times              trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>          specify command to run before this darcs command
 # @flag --no-prehook                   don't run prehook command [DEFAULT]
 # @flag --prompt-prehook               prompt before running prehook
@@ -484,7 +478,6 @@ remove() {
 # @flag --prompt-posthook              prompt before running posthook
 # @flag --run-posthook                 run posthook command without prompting [DEFAULT]
 # @flag --debug                        enable general debug output
-# @flag --debug-http                   debug output from libcurl
 # @flag --timings                      provide debugging timings information
 # @arg old!
 # @arg new!
@@ -498,18 +491,18 @@ replace() {
 # @cmd List patches in the repository.
 # @option --to-match <PATTERN>        select changes up to a patch matching PATTERN
 # @option --to-patch <REGEXP>         select changes up to a patch matching REGEXP
-# @option --to-hash <HASH>            select changes up to a patch with HASH
+# @option --to-hash <HASH>            select changes up to a patch whose hash prefix matches HASH
 # @option --to-tag <REGEXP>           select changes up to a tag matching REGEXP
 # @option --from-match <PATTERN>      select changes starting with a patch matching PATTERN
 # @option --from-patch <REGEXP>       select changes starting with a patch matching REGEXP
-# @option --from-hash <HASH>          select changes starting with a patch with HASH
+# @option --from-hash <HASH>          select changes starting with a patch whose hash prefix matches HASH
 # @option --from-tag <REGEXP>         select changes starting with a tag matching REGEXP
 # @option --last <NUMBER>             select the last NUMBER patches
 # @option -n --index <N-M>            select a range of patches
 # @option --matches <PATTERN>         select patches matching PATTERN
 # @option -p --patches <REGEXP>       select patches matching REGEXP
 # @option -t --tags <REGEXP>          select tags matching REGEXP
-# @option -h --hash                   select a single patch with HASH
+# @option -h --hash                   select a single patch whose hash prefix matches HASH
 # @option --max-count <NUMBER>        return only NUMBER results
 # @flag --only-to-files               show only changes to specified files
 # @flag --no-only-to-files            show changes to all files [DEFAULT]
@@ -534,11 +527,12 @@ replace() {
 # @flag -q --quiet                    suppress informational output
 # @flag --standard-verbosity          neither verbose nor quiet output [DEFAULT]
 # @flag -v --verbose                  enable verbose output
-# @flag --no-http-pipelining          disable HTTP pipelining
 # @option --remote-darcs <COMMAND>    name of the darcs executable on the remote server
 # @flag --with-patch-index            build patch index [DEFAULT]
 # @flag --no-patch-index              don't build patch index
 # @flag --no-cache                    don't use patch caches
+# @flag --ignore-times                don't trust the file modification times
+# @flag --no-ignore-times             trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>         specify command to run before this darcs command
 # @flag --no-prehook                  don't run prehook command [DEFAULT]
 # @flag --prompt-prehook              prompt before running prehook
@@ -548,7 +542,6 @@ replace() {
 # @flag --prompt-posthook             prompt before running posthook
 # @flag --run-posthook                run posthook command without prompting [DEFAULT]
 # @flag --debug                       enable general debug output
-# @flag --debug-http                  debug output from libcurl
 # @flag --timings                     provide debugging timings information
 # @arg file-or-directory* <FILE or DIRECTORY>
 log() {
@@ -562,7 +555,7 @@ log() {
 # @flag --machine-readable         machine-readable output
 # @option --match <PATTERN>        select a single patch matching PATTERN
 # @option -p --patch <REGEXP>      select a single patch matching REGEXP
-# @option -h --hash                select a single patch with HASH
+# @option -h --hash                select a single patch whose hash prefix matches HASH
 # @option -t --tag <REGEXP>        select tag matching REGEXP
 # @option -n --index <N>           select one patch
 # @option --repodir <DIRECTORY>    specify the repository directory in which to run
@@ -575,6 +568,8 @@ log() {
 # @flag --with-patch-index         build patch index [DEFAULT]
 # @flag --no-patch-index           don't build patch index
 # @flag --no-cache                 don't use patch caches
+# @flag --ignore-times             don't trust the file modification times
+# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>      specify command to run before this darcs command
 # @flag --no-prehook               don't run prehook command [DEFAULT]
 # @flag --prompt-prehook           prompt before running prehook
@@ -584,7 +579,6 @@ log() {
 # @flag --prompt-posthook          prompt before running posthook
 # @flag --run-posthook             run posthook command without prompting [DEFAULT]
 # @flag --debug                    enable general debug output
-# @flag --debug-http               debug output from libcurl
 # @flag --timings                  provide debugging timings information
 # @arg file-or-directory <FILE or DIRECTORY>
 annotate() {
@@ -596,14 +590,14 @@ annotate() {
 # @cmd Create a diff between two versions of the repository.
 # @option --match <PATTERN>           select a single patch matching PATTERN
 # @option -p --patch <REGEXP>         select a single patch matching REGEXP
-# @option -h --hash                   select a single patch with HASH
+# @option -h --hash                   select a single patch whose hash prefix matches HASH
 # @option --to-match <PATTERN>        select changes up to a patch matching PATTERN
 # @option --to-patch <REGEXP>         select changes up to a patch matching REGEXP
-# @option --to-hash <HASH>            select changes up to a patch with HASH
+# @option --to-hash <HASH>            select changes up to a patch whose hash prefix matches HASH
 # @option --to-tag <REGEXP>           select changes up to a tag matching REGEXP
 # @option --from-match <PATTERN>      select changes starting with a patch matching PATTERN
 # @option --from-patch <REGEXP>       select changes starting with a patch matching REGEXP
-# @option --from-hash <HASH>          select changes starting with a patch with HASH
+# @option --from-hash <HASH>          select changes starting with a patch whose hash prefix matches HASH
 # @option --from-tag <REGEXP>         select changes starting with a tag matching REGEXP
 # @option --last <NUMBER>             select the last NUMBER patches
 # @option -n --index <N-M>            select a range of patches
@@ -611,6 +605,13 @@ annotate() {
 # @option --diff-opts <OPTIONS>       options to pass to diff
 # @flag -u --unified                  pass -u option to diff [DEFAULT]
 # @flag --no-unified                  output patch in diff's dumb format
+# @flag --dont-look-for-adds
+# @flag --no-look-for-adds            don't look for files that could be added [DEFAULT]
+# @flag -l --look-for-adds            look for files that could be added
+# @flag --boring                      look for any file that could be added, even boring files
+# @flag --look-for-moves              look for files that may be moved/renamed
+# @flag --dont-look-for-moves
+# @flag --no-look-for-moves           don't look for any files that could be moved/renamed [DEFAULT]
 # @option --repodir <DIRECTORY>       specify the repository directory in which to run
 # @flag --store-in-memory             do patch application in memory rather than on disk
 # @flag --no-store-in-memory          do patch application on disk [DEFAULT]
@@ -622,9 +623,9 @@ annotate() {
 # @flag -v --verbose                  enable verbose output
 # @flag --pause-for-gui               pause for an external diff or merge command to finish [DEFAULT]
 # @flag --no-pause-for-gui            return immediately after external diff or merge command finishes
+# @flag --no-cache                    don't use patch caches
 # @flag --ignore-times                don't trust the file modification times
 # @flag --no-ignore-times             trust modification times to find modified files [DEFAULT]
-# @flag --no-cache                    don't use patch caches
 # @option --prehook <COMMAND>         specify command to run before this darcs command
 # @flag --no-prehook                  don't run prehook command [DEFAULT]
 # @flag --prompt-prehook              prompt before running prehook
@@ -634,7 +635,6 @@ annotate() {
 # @flag --prompt-posthook             prompt before running posthook
 # @flag --run-posthook                run posthook command without prompting [DEFAULT]
 # @flag --debug                       enable general debug output
-# @flag --debug-http                  debug output from libcurl
 # @flag --timings                     provide debugging timings information
 # @arg file-or-directory* <FILE or DIRECTORY>
 diff() {
@@ -655,7 +655,7 @@ show() {
 # @cmd Outputs a specific version of a file.
 # @option --match <PATTERN>        select a single patch matching PATTERN
 # @option -p --patch <REGEXP>      select a single patch matching REGEXP
-# @option -h --hash                select a single patch with HASH
+# @option -h --hash                select a single patch whose hash prefix matches HASH
 # @option -t --tag <REGEXP>        select tag matching REGEXP
 # @option -n --index <N>           select one patch
 # @option --repodir <DIRECTORY>    specify the repository directory in which to run
@@ -666,6 +666,8 @@ show() {
 # @flag --standard-verbosity       neither verbose nor quiet output [DEFAULT]
 # @flag -v --verbose               enable verbose output
 # @flag --no-cache                 don't use patch caches
+# @flag --ignore-times             don't trust the file modification times
+# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>      specify command to run before this darcs command
 # @flag --no-prehook               don't run prehook command [DEFAULT]
 # @flag --prompt-prehook           prompt before running prehook
@@ -675,7 +677,6 @@ show() {
 # @flag --prompt-posthook          prompt before running posthook
 # @flag --run-posthook             run posthook command without prompting [DEFAULT]
 # @flag --debug                    enable general debug output
-# @flag --debug-http               debug output from libcurl
 # @flag --timings                  provide debugging timings information
 # @arg file*
 show::contents() {
@@ -687,11 +688,11 @@ show::contents() {
 # @cmd Generate the graph of dependencies.
 # @option --to-match <PATTERN>      select changes up to a patch matching PATTERN
 # @option --to-patch <REGEXP>       select changes up to a patch matching REGEXP
-# @option --to-hash <HASH>          select changes up to a patch with HASH
+# @option --to-hash <HASH>          select changes up to a patch whose hash prefix matches HASH
 # @option --to-tag <REGEXP>         select changes up to a tag matching REGEXP
 # @option --from-match <PATTERN>    select changes starting with a patch matching PATTERN
 # @option --from-patch <REGEXP>     select changes starting with a patch matching REGEXP
-# @option --from-hash <HASH>        select changes starting with a patch with HASH
+# @option --from-hash <HASH>        select changes starting with a patch whose hash prefix matches HASH
 # @option --from-tag <REGEXP>       select changes starting with a tag matching REGEXP
 # @option --last <NUMBER>           select the last NUMBER patches
 # @option -n --index <N-M>          select a range of patches
@@ -702,6 +703,8 @@ show::contents() {
 # @flag --standard-verbosity        neither verbose nor quiet output [DEFAULT]
 # @flag -v --verbose                enable verbose output
 # @flag --no-cache                  don't use patch caches
+# @flag --ignore-times              don't trust the file modification times
+# @flag --no-ignore-times           trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>       specify command to run before this darcs command
 # @flag --no-prehook                don't run prehook command [DEFAULT]
 # @flag --prompt-prehook            prompt before running prehook
@@ -711,7 +714,6 @@ show::contents() {
 # @flag --prompt-posthook           prompt before running posthook
 # @flag --run-posthook              run posthook command without prompting [DEFAULT]
 # @flag --debug                     enable general debug output
-# @flag --debug-http                debug output from libcurl
 # @flag --timings                   provide debugging timings information
 show::dependencies() {
     :;
@@ -729,7 +731,7 @@ show::dependencies() {
 # @flag -0 --null                  separate file names by NUL characters
 # @option --match <PATTERN>        select a single patch matching PATTERN
 # @option -p --patch <REGEXP>      select a single patch matching REGEXP
-# @option -h --hash                select a single patch with HASH
+# @option -h --hash                select a single patch whose hash prefix matches HASH
 # @option -t --tag <REGEXP>        select tag matching REGEXP
 # @option -n --index <N>           select one patch
 # @option --repodir <DIRECTORY>    specify the repository directory in which to run
@@ -740,6 +742,8 @@ show::dependencies() {
 # @flag --standard-verbosity       neither verbose nor quiet output [DEFAULT]
 # @flag -v --verbose               enable verbose output
 # @flag --no-cache                 don't use patch caches
+# @flag --ignore-times             don't trust the file modification times
+# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>      specify command to run before this darcs command
 # @flag --no-prehook               don't run prehook command [DEFAULT]
 # @flag --prompt-prehook           prompt before running prehook
@@ -749,7 +753,6 @@ show::dependencies() {
 # @flag --prompt-posthook          prompt before running posthook
 # @flag --run-posthook             run posthook command without prompting [DEFAULT]
 # @flag --debug                    enable general debug output
-# @flag --debug-http               debug output from libcurl
 # @flag --timings                  provide debugging timings information
 # @arg file-or-directory* <FILE or DIRECTORY>
 show::files() {
@@ -768,6 +771,8 @@ show::files() {
 # @flag --standard-verbosity       neither verbose nor quiet output [DEFAULT]
 # @flag -v --verbose               enable verbose output
 # @flag --no-cache                 don't use patch caches
+# @flag --ignore-times             don't trust the file modification times
+# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>      specify command to run before this darcs command
 # @flag --no-prehook               don't run prehook command [DEFAULT]
 # @flag --prompt-prehook           prompt before running prehook
@@ -777,7 +782,6 @@ show::files() {
 # @flag --prompt-posthook          prompt before running posthook
 # @flag --run-posthook             run posthook command without prompting [DEFAULT]
 # @flag --debug                    enable general debug output
-# @flag --debug-http               debug output from libcurl
 # @flag --timings                  provide debugging timings information
 show::index() {
     :;
@@ -795,6 +799,8 @@ show::index() {
 # @flag --standard-verbosity       neither verbose nor quiet output [DEFAULT]
 # @flag -v --verbose               enable verbose output
 # @flag --no-cache                 don't use patch caches
+# @flag --ignore-times             don't trust the file modification times
+# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>      specify command to run before this darcs command
 # @flag --no-prehook               don't run prehook command [DEFAULT]
 # @flag --prompt-prehook           prompt before running prehook
@@ -804,7 +810,6 @@ show::index() {
 # @flag --prompt-posthook          prompt before running posthook
 # @flag --run-posthook             run posthook command without prompting [DEFAULT]
 # @flag --debug                    enable general debug output
-# @flag --debug-http               debug output from libcurl
 # @flag --timings                  provide debugging timings information
 show::pristine() {
     :;
@@ -824,6 +829,8 @@ show::pristine() {
 # @flag --standard-verbosity       neither verbose nor quiet output [DEFAULT]
 # @flag -v --verbose               enable verbose output
 # @flag --no-cache                 don't use patch caches
+# @flag --ignore-times             don't trust the file modification times
+# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>      specify command to run before this darcs command
 # @flag --no-prehook               don't run prehook command [DEFAULT]
 # @flag --prompt-prehook           prompt before running prehook
@@ -833,7 +840,6 @@ show::pristine() {
 # @flag --prompt-posthook          prompt before running posthook
 # @flag --run-posthook             run posthook command without prompting [DEFAULT]
 # @flag --debug                    enable general debug output
-# @flag --debug-http               debug output from libcurl
 # @flag --timings                  provide debugging timings information
 show::repo() {
     :;
@@ -850,6 +856,8 @@ show::repo() {
 # @flag --standard-verbosity       neither verbose nor quiet output [DEFAULT]
 # @flag -v --verbose               enable verbose output
 # @flag --no-cache                 don't use patch caches
+# @flag --ignore-times             don't trust the file modification times
+# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>      specify command to run before this darcs command
 # @flag --no-prehook               don't run prehook command [DEFAULT]
 # @flag --prompt-prehook           prompt before running prehook
@@ -859,7 +867,6 @@ show::repo() {
 # @flag --prompt-posthook          prompt before running posthook
 # @flag --run-posthook             run posthook command without prompting [DEFAULT]
 # @flag --debug                    enable general debug output
-# @flag --debug-http               debug output from libcurl
 # @flag --timings                  provide debugging timings information
 show::authors() {
     :;
@@ -876,6 +883,8 @@ show::authors() {
 # @flag --standard-verbosity      neither verbose nor quiet output [DEFAULT]
 # @flag -v --verbose              enable verbose output
 # @flag --no-cache                don't use patch caches
+# @flag --ignore-times            don't trust the file modification times
+# @flag --no-ignore-times         trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>     specify command to run before this darcs command
 # @flag --no-prehook              don't run prehook command [DEFAULT]
 # @flag --prompt-prehook          prompt before running prehook
@@ -885,7 +894,6 @@ show::authors() {
 # @flag --prompt-posthook         prompt before running posthook
 # @flag --run-posthook            run posthook command without prompting [DEFAULT]
 # @flag --debug                   enable general debug output
-# @flag --debug-http              debug output from libcurl
 # @flag --timings                 provide debugging timings information
 show::tags() {
     :;
@@ -903,6 +911,8 @@ show::tags() {
 # @flag --standard-verbosity       neither verbose nor quiet output [DEFAULT]
 # @flag -v --verbose               enable verbose output
 # @flag --no-cache                 don't use patch caches
+# @flag --ignore-times             don't trust the file modification times
+# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>      specify command to run before this darcs command
 # @flag --no-prehook               don't run prehook command [DEFAULT]
 # @flag --prompt-prehook           prompt before running prehook
@@ -912,7 +922,6 @@ show::tags() {
 # @flag --prompt-posthook          prompt before running posthook
 # @flag --run-posthook             run posthook command without prompting [DEFAULT]
 # @flag --debug                    enable general debug output
-# @flag --debug-http               debug output from libcurl
 # @flag --timings                  provide debugging timings information
 show::patch-index() {
     :;
@@ -938,7 +947,11 @@ show::patch-index() {
 # @flag --set-scripts-executable       make scripts executable
 # @flag --dont-set-scripts-executable
 # @flag --no-set-scripts-executable    don't make scripts executable [DEFAULT]
+# @flag --shrink-failure               try to cut down the set of patches causing a test failure [DEFAULT]
+# @flag --no-shrink-failure            don't try to cut down the set of patches causing a test failure
 # @flag --no-cache                     don't use patch caches
+# @flag --ignore-times                 don't trust the file modification times
+# @flag --no-ignore-times              trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>          specify command to run before this darcs command
 # @flag --no-prehook                   don't run prehook command [DEFAULT]
 # @flag --prompt-prehook               prompt before running prehook
@@ -948,7 +961,6 @@ show::patch-index() {
 # @flag --prompt-posthook              prompt before running posthook
 # @flag --run-posthook                 run posthook command without prompting [DEFAULT]
 # @flag --debug                        enable general debug output
-# @flag --debug-http                   debug output from libcurl
 # @flag --timings                      provide debugging timings information
 # @arg initialization-command <[INITIALIZATION] COMMAND>
 test() {
@@ -962,20 +974,22 @@ test() {
 # @flag --no-interactive           answer yes to all patches
 # @flag -i --interactive           prompt user interactively
 # @option --repodir <DIRECTORY>    specify the repository directory in which to run
-# @flag -u --unified               output changes in a darcs-specific format similar to diff -u
-# @flag --no-unified               output changes in darcs' usual format [DEFAULT]
 # @flag --myers                    use myers diff algorithm
 # @flag --patience                 use patience diff algorithm [DEFAULT]
+# @flag --dont-look-for-adds
+# @flag --no-look-for-adds         don't look for files that could be added [DEFAULT]
+# @flag -l --look-for-adds         look for files that could be added
+# @flag --boring                   look for any file that could be added, even boring files
 # @flag --help                     show a description of the command and its options
 # @flag --list-options             show plain list of available options and commands, for auto-completion
 # @flag --disable                  disable this command
 # @flag -q --quiet                 suppress informational output
 # @flag --standard-verbosity       neither verbose nor quiet output [DEFAULT]
 # @flag -v --verbose               enable verbose output
-# @flag --ignore-times             don't trust the file modification times
-# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @option --umask                  specify umask to use when writing
 # @flag --no-cache                 don't use patch caches
+# @flag --ignore-times             don't trust the file modification times
+# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>      specify command to run before this darcs command
 # @flag --no-prehook               don't run prehook command [DEFAULT]
 # @flag --prompt-prehook           prompt before running prehook
@@ -985,7 +999,6 @@ test() {
 # @flag --prompt-posthook          prompt before running posthook
 # @flag --run-posthook             run posthook command without prompting [DEFAULT]
 # @flag --debug                    enable general debug output
-# @flag --debug-http               debug output from libcurl
 # @flag --timings                  provide debugging timings information
 # @arg file-or-directory* <FILE or DIRECTORY>
 revert() {
@@ -995,14 +1008,10 @@ revert() {
 
 # {{ darcs unrevert
 # @cmd Undo the last revert.
-# @flag --ignore-times             don't trust the file modification times
-# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @flag -a --all
 # @flag --no-interactive           answer yes to all patches
 # @flag -i --interactive           prompt user interactively
 # @option --repodir <DIRECTORY>    specify the repository directory in which to run
-# @flag -u --unified               output changes in a darcs-specific format similar to diff -u
-# @flag --no-unified               output changes in darcs' usual format [DEFAULT]
 # @flag --myers                    use myers diff algorithm
 # @flag --patience                 use patience diff algorithm [DEFAULT]
 # @flag --help                     show a description of the command and its options
@@ -1013,6 +1022,8 @@ revert() {
 # @flag -v --verbose               enable verbose output
 # @option --umask                  specify umask to use when writing
 # @flag --no-cache                 don't use patch caches
+# @flag --ignore-times             don't trust the file modification times
+# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>      specify command to run before this darcs command
 # @flag --no-prehook               don't run prehook command [DEFAULT]
 # @flag --prompt-prehook           prompt before running prehook
@@ -1022,7 +1033,6 @@ revert() {
 # @flag --prompt-posthook          prompt before running posthook
 # @flag --run-posthook             run posthook command without prompting [DEFAULT]
 # @flag --debug                    enable general debug output
-# @flag --debug-http               debug output from libcurl
 # @flag --timings                  provide debugging timings information
 unrevert() {
     :;
@@ -1036,7 +1046,7 @@ unrevert() {
 # @option --not-in-remote <URL/PATH>    select all patches not in the default push/pull repository or at location URL/PATH
 # @option --match <PATTERN>             select a single patch matching PATTERN
 # @option -p --patch <REGEXP>           select a single patch matching REGEXP
-# @option -h --hash                     select a single patch with HASH
+# @option -h --hash                     select a single patch whose hash prefix matches HASH
 # @flag --test                          run the test script
 # @flag --no-test                       don't run the test script [DEFAULT]
 # @flag --leave-test-directory          don't remove the test directory
@@ -1054,9 +1064,10 @@ unrevert() {
 # @flag --prompt-long-comment           prompt for whether to edit the long comment
 # @flag --keep-date                     keep the date of the original patch
 # @flag --no-keep-date                  use the current date for the amended patch [DEFAULT]
-# @flag -l --look-for-adds              look for (non-boring) files that could be added
 # @flag --dont-look-for-adds
-# @flag --no-look-for-adds              don't look for any files that could be added [DEFAULT]
+# @flag --no-look-for-adds              don't look for files that could be added [DEFAULT]
+# @flag -l --look-for-adds              look for files that could be added
+# @flag --boring                        look for any file that could be added, even boring files
 # @flag --look-for-replaces             look for replaces that could be marked
 # @flag --dont-look-for-replaces
 # @flag --no-look-for-replaces          don't look for any replaces [DEFAULT]
@@ -1064,8 +1075,6 @@ unrevert() {
 # @flag --dont-look-for-moves
 # @flag --no-look-for-moves             don't look for any files that could be moved/renamed [DEFAULT]
 # @option --repodir <DIRECTORY>         specify the repository directory in which to run
-# @flag -u --unified                    output changes in a darcs-specific format similar to diff -u
-# @flag --no-unified                    output changes in darcs' usual format [DEFAULT]
 # @flag --myers                         use myers diff algorithm
 # @flag --patience                      use patience diff algorithm [DEFAULT]
 # @flag --help                          show a description of the command and its options
@@ -1074,16 +1083,13 @@ unrevert() {
 # @flag -q --quiet                      suppress informational output
 # @flag --standard-verbosity            neither verbose nor quiet output [DEFAULT]
 # @flag -v --verbose                    enable verbose output
-# @flag --compress                      compress patch data [DEFAULT]
-# @flag --dont-compress
-# @flag --no-compress                   don't compress patch data
-# @flag --ignore-times                  don't trust the file modification times
-# @flag --no-ignore-times               trust modification times to find modified files [DEFAULT]
 # @option --umask                       specify umask to use when writing
 # @flag --set-scripts-executable        make scripts executable
 # @flag --dont-set-scripts-executable
 # @flag --no-set-scripts-executable     don't make scripts executable [DEFAULT]
 # @flag --no-cache                      don't use patch caches
+# @flag --ignore-times                  don't trust the file modification times
+# @flag --no-ignore-times               trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>           specify command to run before this darcs command
 # @flag --no-prehook                    don't run prehook command [DEFAULT]
 # @flag --prompt-prehook                prompt before running prehook
@@ -1093,7 +1099,6 @@ unrevert() {
 # @flag --prompt-posthook               prompt before running posthook
 # @flag --run-posthook                  run posthook command without prompting [DEFAULT]
 # @flag --debug                         enable general debug output
-# @flag --debug-http                    debug output from libcurl
 # @flag --timings                       provide debugging timings information
 # @arg file-or-directory* <FILE or DIRECTORY>
 amend() {
@@ -1115,7 +1120,7 @@ rebase() {
 # @option --matches <PATTERN>             select patches matching PATTERN
 # @option -p --patches <REGEXP>           select patches matching REGEXP
 # @option -t --tags <REGEXP>              select tags matching REGEXP
-# @option -h --hash                       select a single patch with HASH
+# @option -h --hash                       select a single patch whose hash prefix matches HASH
 # @flag --reorder-patches                 put local-only patches on top of remote ones
 # @flag --no-reorder-patches              put remote-only patches on top of local ones [DEFAULT]
 # @flag -a --all
@@ -1123,14 +1128,16 @@ rebase() {
 # @flag -i --interactive                  prompt user interactively
 # @flag --mark-conflicts                  mark conflicts [DEFAULT]
 # @flag --allow-conflicts                 allow conflicts, but don't mark them
+# @option --external-merge <COMMAND>      use external tool to merge conflicts
 # @flag --dont-allow-conflicts
 # @flag --no-allow-conflicts
 # @flag --no-resolve-conflicts            fail if there are patches that would create conflicts
 # @flag --skip-conflicts                  filter out any patches that would create conflicts
-# @option --external-merge <COMMAND>      use external tool to merge conflicts
 # @flag --test                            run the test script
 # @flag --no-test                         don't run the test script [DEFAULT]
-# @flag --dry-run                         don't actually take the action
+# @flag --leave-test-directory            don't remove the test directory
+# @flag --remove-test-directory           remove the test directory [DEFAULT]
+# @flag -n --dry-run                      don't actually take the action
 # @flag --xml-output                      generate XML formatted output
 # @flag -s --summary                      summarize changes
 # @flag --no-summary                      don't summarize changes
@@ -1152,21 +1159,16 @@ rebase() {
 # @flag --intersection                    take intersection of all repositories
 # @flag --union                           take union of all repositories [DEFAULT]
 # @flag --complement                      take complement of repositories (in order listed)
-# @flag --compress                        compress patch data [DEFAULT]
-# @flag --dont-compress
-# @flag --no-compress                     don't compress patch data
-# @flag --ignore-times                    don't trust the file modification times
-# @flag --no-ignore-times                 trust modification times to find modified files [DEFAULT]
-# @option --remote-repo <URL>             specify the remote repository URL to work with
 # @flag --set-scripts-executable          make scripts executable
 # @flag --dont-set-scripts-executable
 # @flag --no-set-scripts-executable       don't make scripts executable [DEFAULT]
 # @option --umask                         specify umask to use when writing
 # @flag --reverse                         show/consider changes in reverse order
 # @flag --no-reverse                      show/consider changes in the usual order [DEFAULT]
-# @flag --no-http-pipelining              disable HTTP pipelining
 # @option --remote-darcs <COMMAND>        name of the darcs executable on the remote server
 # @flag --no-cache                        don't use patch caches
+# @flag --ignore-times                    don't trust the file modification times
+# @flag --no-ignore-times                 trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>             specify command to run before this darcs command
 # @flag --no-prehook                      don't run prehook command [DEFAULT]
 # @flag --prompt-prehook                  prompt before running prehook
@@ -1176,7 +1178,6 @@ rebase() {
 # @flag --prompt-posthook                 prompt before running posthook
 # @flag --run-posthook                    run posthook command without prompting [DEFAULT]
 # @flag --debug                           enable general debug output
-# @flag --debug-http                      debug output from libcurl
 # @flag --timings                         provide debugging timings information
 # @arg repository*
 rebase::pull() {
@@ -1194,12 +1195,12 @@ rebase::pull() {
 # @flag -a --all
 # @flag --no-interactive               answer yes to all patches
 # @flag -i --interactive               prompt user interactively
-# @flag --dry-run                      don't actually take the action
+# @flag -n --dry-run                   don't actually take the action
 # @flag --xml-output                   generate XML formatted output
 # @option --matches <PATTERN>          select patches matching PATTERN
 # @option -p --patches <REGEXP>        select patches matching REGEXP
 # @option -t --tags <REGEXP>           select tags matching REGEXP
-# @option -h --hash                    select a single patch with HASH
+# @option -h --hash                    select a single patch whose hash prefix matches HASH
 # @option --repodir <DIRECTORY>        specify the repository directory in which to run
 # @flag --myers                        use myers diff algorithm
 # @flag --patience                     use patience diff algorithm [DEFAULT]
@@ -1209,11 +1210,6 @@ rebase::pull() {
 # @flag -q --quiet                     suppress informational output
 # @flag --standard-verbosity           neither verbose nor quiet output [DEFAULT]
 # @flag -v --verbose                   enable verbose output
-# @flag --ignore-times                 don't trust the file modification times
-# @flag --no-ignore-times              trust modification times to find modified files [DEFAULT]
-# @flag --compress                     compress patch data [DEFAULT]
-# @flag --dont-compress
-# @flag --no-compress                  don't compress patch data
 # @flag --set-scripts-executable       make scripts executable
 # @flag --dont-set-scripts-executable
 # @flag --no-set-scripts-executable    don't make scripts executable [DEFAULT]
@@ -1223,6 +1219,8 @@ rebase::pull() {
 # @flag --pause-for-gui                pause for an external diff or merge command to finish [DEFAULT]
 # @flag --no-pause-for-gui             return immediately after external diff or merge command finishes
 # @flag --no-cache                     don't use patch caches
+# @flag --ignore-times                 don't trust the file modification times
+# @flag --no-ignore-times              trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>          specify command to run before this darcs command
 # @flag --no-prehook                   don't run prehook command [DEFAULT]
 # @flag --prompt-prehook               prompt before running prehook
@@ -1232,7 +1230,6 @@ rebase::pull() {
 # @flag --prompt-posthook              prompt before running posthook
 # @flag --run-posthook                 run posthook command without prompting [DEFAULT]
 # @flag --debug                        enable general debug output
-# @flag --debug-http                   debug output from libcurl
 # @flag --timings                      provide debugging timings information
 # @arg patchfile!
 rebase::apply() {
@@ -1245,13 +1242,13 @@ rebase::apply() {
 # @option --not-in-remote <URL/PATH>      select all patches not in the default push/pull repository or at location URL/PATH
 # @option --from-match <PATTERN>          select changes starting with a patch matching PATTERN
 # @option --from-patch <REGEXP>           select changes starting with a patch matching REGEXP
-# @option --from-hash <HASH>              select changes starting with a patch with HASH
+# @option --from-hash <HASH>              select changes starting with a patch whose hash prefix matches HASH
 # @option --from-tag <REGEXP>             select changes starting with a tag matching REGEXP
 # @option --last <NUMBER>                 select the last NUMBER patches
 # @option --matches <PATTERN>             select patches matching PATTERN
 # @option -p --patches <REGEXP>           select patches matching REGEXP
 # @option -t --tags <REGEXP>              select tags matching REGEXP
-# @option -h --hash                       select a single patch with HASH
+# @option -h --hash                       select a single patch whose hash prefix matches HASH
 # @flag --no-deps                         don't automatically fulfill dependencies
 # @flag --auto-deps
 # @flag --dont-prompt-for-dependencies    don't ask about patches that are depended on by matched patches (with --match or --patch)
@@ -1272,10 +1269,10 @@ rebase::apply() {
 # @flag -v --verbose                      enable verbose output
 # @flag --reverse                         show/consider changes in reverse order
 # @flag --no-reverse                      show/consider changes in the usual order [DEFAULT]
-# @flag --ignore-times                    don't trust the file modification times
-# @flag --no-ignore-times                 trust modification times to find modified files [DEFAULT]
 # @option --umask                         specify umask to use when writing
 # @flag --no-cache                        don't use patch caches
+# @flag --ignore-times                    don't trust the file modification times
+# @flag --no-ignore-times                 trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>             specify command to run before this darcs command
 # @flag --no-prehook                      don't run prehook command [DEFAULT]
 # @flag --prompt-prehook                  prompt before running prehook
@@ -1285,7 +1282,6 @@ rebase::apply() {
 # @flag --prompt-posthook                 prompt before running posthook
 # @flag --run-posthook                    run posthook command without prompting [DEFAULT]
 # @flag --debug                           enable general debug output
-# @flag --debug-http                      debug output from libcurl
 # @flag --timings                         provide debugging timings information
 rebase::suspend() {
     :;
@@ -1296,28 +1292,35 @@ rebase::suspend() {
 # @cmd Select suspended patches to restore to the end of the repo.
 # @flag --mark-conflicts                mark conflicts [DEFAULT]
 # @flag --allow-conflicts               allow conflicts, but don't mark them
+# @option --external-merge <COMMAND>    use external tool to merge conflicts
 # @flag --dont-allow-conflicts
 # @flag --no-allow-conflicts
 # @flag --no-resolve-conflicts          fail if there are patches that would create conflicts
 # @flag --skip-conflicts                filter out any patches that would create conflicts
 # @option --to-match <PATTERN>          select changes up to a patch matching PATTERN
 # @option --to-patch <REGEXP>           select changes up to a patch matching REGEXP
-# @option --to-hash <HASH>              select changes up to a patch with HASH
+# @option --to-hash <HASH>              select changes up to a patch whose hash prefix matches HASH
 # @option --to-tag <REGEXP>             select changes up to a tag matching REGEXP
 # @option --last <NUMBER>               select the last NUMBER patches
 # @option --matches <PATTERN>           select patches matching PATTERN
 # @option -p --patches <REGEXP>         select patches matching REGEXP
 # @option -t --tags <REGEXP>            select tags matching REGEXP
-# @option -h --hash                     select a single patch with HASH
+# @option -h --hash                     select a single patch whose hash prefix matches HASH
 # @flag -a --all
 # @flag --no-interactive                answer yes to all patches
 # @flag -i --interactive                prompt user interactively
 # @flag -s --summary                    summarize changes
 # @flag --no-summary                    don't summarize changes
-# @option --external-merge <COMMAND>    use external tool to merge conflicts
+# @option -A --author <EMAIL>           specify author id
+# @flag --select-author                 select author id from a menu
+# @option -m --name <PATCHNAME>         name of patch
+# @flag --ask-deps                      manually select dependencies
+# @flag --no-ask-deps                   automatically select dependencies [DEFAULT]
+# @flag --edit-long-comment             edit the long comment by default
+# @flag --skip-long-comment             don't give a long comment
+# @flag --prompt-long-comment           prompt for whether to edit the long comment
 # @flag --keep-date                     keep the date of the original patch
 # @flag --no-keep-date                  use the current date for the amended patch [DEFAULT]
-# @option -A --author <EMAIL>           specify author id
 # @flag --myers                         use myers diff algorithm
 # @flag --patience                      use patience diff algorithm [DEFAULT]
 # @flag --help                          show a description of the command and its options
@@ -1326,9 +1329,9 @@ rebase::suspend() {
 # @flag -q --quiet                      suppress informational output
 # @flag --standard-verbosity            neither verbose nor quiet output [DEFAULT]
 # @flag -v --verbose                    enable verbose output
+# @flag --no-cache                      don't use patch caches
 # @flag --ignore-times                  don't trust the file modification times
 # @flag --no-ignore-times               trust modification times to find modified files [DEFAULT]
-# @flag --no-cache                      don't use patch caches
 # @option --prehook <COMMAND>           specify command to run before this darcs command
 # @flag --no-prehook                    don't run prehook command [DEFAULT]
 # @flag --prompt-prehook                prompt before running prehook
@@ -1338,12 +1341,42 @@ rebase::suspend() {
 # @flag --prompt-posthook               prompt before running posthook
 # @flag --run-posthook                  run posthook command without prompting [DEFAULT]
 # @flag --debug                         enable general debug output
-# @flag --debug-http                    debug output from libcurl
 # @flag --timings                       provide debugging timings information
 rebase::unsuspend() {
     :;
 }
 # }}} darcs rebase unsuspend
+
+# {{{ darcs rebase edit
+# @cmd Edit suspended patches.
+# @flag --myers                   use myers diff algorithm
+# @flag --patience                use patience diff algorithm [DEFAULT]
+# @flag -s --summary              summarize changes
+# @flag --no-summary              don't summarize changes
+# @flag --help                    show a description of the command and its options
+# @flag --list-options            show plain list of available options and commands, for auto-completion
+# @flag --disable                 disable this command
+# @flag -q --quiet                suppress informational output
+# @flag --standard-verbosity      neither verbose nor quiet output [DEFAULT]
+# @flag -v --verbose              enable verbose output
+# @option --umask                 specify umask to use when writing
+# @flag --no-cache                don't use patch caches
+# @flag --ignore-times            don't trust the file modification times
+# @flag --no-ignore-times         trust modification times to find modified files [DEFAULT]
+# @option --prehook <COMMAND>     specify command to run before this darcs command
+# @flag --no-prehook              don't run prehook command [DEFAULT]
+# @flag --prompt-prehook          prompt before running prehook
+# @flag --run-prehook             run prehook command without prompting [DEFAULT]
+# @option --posthook <COMMAND>    specify command to run after this darcs command
+# @flag --no-posthook             don't run posthook command [DEFAULT]
+# @flag --prompt-posthook         prompt before running posthook
+# @flag --run-posthook            run posthook command without prompting [DEFAULT]
+# @flag --debug                   enable general debug output
+# @flag --timings                 provide debugging timings information
+rebase::edit() {
+    :;
+}
+# }}} darcs rebase edit
 
 # {{{ darcs rebase obliterate
 # @cmd Obliterate a patch that is currently suspended.
@@ -1355,7 +1388,10 @@ rebase::unsuspend() {
 # @flag -q --quiet                suppress informational output
 # @flag --standard-verbosity      neither verbose nor quiet output [DEFAULT]
 # @flag -v --verbose              enable verbose output
+# @option --umask                 specify umask to use when writing
 # @flag --no-cache                don't use patch caches
+# @flag --ignore-times            don't trust the file modification times
+# @flag --no-ignore-times         trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>     specify command to run before this darcs command
 # @flag --no-prehook              don't run prehook command [DEFAULT]
 # @flag --prompt-prehook          prompt before running prehook
@@ -1365,7 +1401,6 @@ rebase::unsuspend() {
 # @flag --prompt-posthook         prompt before running posthook
 # @flag --run-posthook            run posthook command without prompting [DEFAULT]
 # @flag --debug                   enable general debug output
-# @flag --debug-http              debug output from libcurl
 # @flag --timings                 provide debugging timings information
 rebase::obliterate() {
     :;
@@ -1386,6 +1421,8 @@ rebase::obliterate() {
 # @flag --standard-verbosity      neither verbose nor quiet output [DEFAULT]
 # @flag -v --verbose              enable verbose output
 # @flag --no-cache                don't use patch caches
+# @flag --ignore-times            don't trust the file modification times
+# @flag --no-ignore-times         trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>     specify command to run before this darcs command
 # @flag --no-prehook              don't run prehook command [DEFAULT]
 # @flag --prompt-prehook          prompt before running prehook
@@ -1395,7 +1432,6 @@ rebase::obliterate() {
 # @flag --prompt-posthook         prompt before running posthook
 # @flag --run-posthook            run posthook command without prompting [DEFAULT]
 # @flag --debug                   enable general debug output
-# @flag --debug-http              debug output from libcurl
 # @flag --timings                 provide debugging timings information
 rebase::log() {
     :;
@@ -1410,7 +1446,10 @@ rebase::log() {
 # @flag -q --quiet                suppress informational output
 # @flag --standard-verbosity      neither verbose nor quiet output [DEFAULT]
 # @flag -v --verbose              enable verbose output
+# @option --umask                 specify umask to use when writing
 # @flag --no-cache                don't use patch caches
+# @flag --ignore-times            don't trust the file modification times
+# @flag --no-ignore-times         trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>     specify command to run before this darcs command
 # @flag --no-prehook              don't run prehook command [DEFAULT]
 # @flag --prompt-prehook          prompt before running prehook
@@ -1420,7 +1459,6 @@ rebase::log() {
 # @flag --prompt-posthook         prompt before running posthook
 # @flag --run-posthook            run posthook command without prompting [DEFAULT]
 # @flag --debug                   enable general debug output
-# @flag --debug-http              debug output from libcurl
 # @flag --timings                 provide debugging timings information
 rebase::upgrade() {
     :;
@@ -1432,13 +1470,13 @@ rebase::upgrade() {
 # @cmd Apply the inverse of recorded changes to the working tree.
 # @option --from-match <PATTERN>    select changes starting with a patch matching PATTERN
 # @option --from-patch <REGEXP>     select changes starting with a patch matching REGEXP
-# @option --from-hash <HASH>        select changes starting with a patch with HASH
+# @option --from-hash <HASH>        select changes starting with a patch whose hash prefix matches HASH
 # @option --from-tag <REGEXP>       select changes starting with a tag matching REGEXP
 # @option --last <NUMBER>           select the last NUMBER patches
 # @option --matches <PATTERN>       select patches matching PATTERN
 # @option -p --patches <REGEXP>     select patches matching REGEXP
 # @option -t --tags <REGEXP>        select tags matching REGEXP
-# @option -h --hash                 select a single patch with HASH
+# @option -h --hash                 select a single patch whose hash prefix matches HASH
 # @flag -a --all
 # @flag --no-interactive            answer yes to all patches
 # @flag -i --interactive            prompt user interactively
@@ -1453,6 +1491,8 @@ rebase::upgrade() {
 # @flag -v --verbose                enable verbose output
 # @option --umask                   specify umask to use when writing
 # @flag --no-cache                  don't use patch caches
+# @flag --ignore-times              don't trust the file modification times
+# @flag --no-ignore-times           trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>       specify command to run before this darcs command
 # @flag --no-prehook                don't run prehook command [DEFAULT]
 # @flag --prompt-prehook            prompt before running prehook
@@ -1462,7 +1502,6 @@ rebase::upgrade() {
 # @flag --prompt-posthook           prompt before running posthook
 # @flag --run-posthook              run posthook command without prompting [DEFAULT]
 # @flag --debug                     enable general debug output
-# @flag --debug-http                debug output from libcurl
 # @flag --timings                   provide debugging timings information
 # @arg file-or-directory* <FILE or DIRECTORY>
 rollback() {
@@ -1475,13 +1514,13 @@ rollback() {
 # @option --not-in-remote <URL/PATH>      select all patches not in the default push/pull repository or at location URL/PATH
 # @option --from-match <PATTERN>          select changes starting with a patch matching PATTERN
 # @option --from-patch <REGEXP>           select changes starting with a patch matching REGEXP
-# @option --from-hash <HASH>              select changes starting with a patch with HASH
+# @option --from-hash <HASH>              select changes starting with a patch whose hash prefix matches HASH
 # @option --from-tag <REGEXP>             select changes starting with a tag matching REGEXP
 # @option --last <NUMBER>                 select the last NUMBER patches
 # @option --matches <PATTERN>             select patches matching PATTERN
 # @option -p --patches <REGEXP>           select patches matching REGEXP
 # @option -t --tags <REGEXP>              select tags matching REGEXP
-# @option -h --hash                       select a single patch with HASH
+# @option -h --hash                       select a single patch whose hash prefix matches HASH
 # @flag --no-deps                         don't automatically fulfill dependencies
 # @flag --auto-deps
 # @flag --dont-prompt-for-dependencies    don't ask about patches that are depended on by matched patches (with --match or --patch)
@@ -1497,13 +1536,12 @@ rollback() {
 # @flag -q --quiet                        suppress informational output
 # @flag --standard-verbosity              neither verbose nor quiet output [DEFAULT]
 # @flag -v --verbose                      enable verbose output
-# @flag --compress                        compress patch data [DEFAULT]
-# @flag --dont-compress
-# @flag --no-compress                     don't compress patch data
 # @option --umask                         specify umask to use when writing
 # @flag --reverse                         show/consider changes in reverse order
 # @flag --no-reverse                      show/consider changes in the usual order [DEFAULT]
 # @flag --no-cache                        don't use patch caches
+# @flag --ignore-times                    don't trust the file modification times
+# @flag --no-ignore-times                 trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>             specify command to run before this darcs command
 # @flag --no-prehook                      don't run prehook command [DEFAULT]
 # @flag --prompt-prehook                  prompt before running prehook
@@ -1513,7 +1551,6 @@ rollback() {
 # @flag --prompt-posthook                 prompt before running posthook
 # @flag --run-posthook                    run posthook command without prompting [DEFAULT]
 # @flag --debug                           enable general debug output
-# @flag --debug-http                      debug output from libcurl
 # @flag --timings                         provide debugging timings information
 unrecord() {
     :;
@@ -1525,13 +1562,13 @@ unrecord() {
 # @option --not-in-remote <URL/PATH>           select all patches not in the default push/pull repository or at location URL/PATH
 # @option --from-match <PATTERN>               select changes starting with a patch matching PATTERN
 # @option --from-patch <REGEXP>                select changes starting with a patch matching REGEXP
-# @option --from-hash <HASH>                   select changes starting with a patch with HASH
+# @option --from-hash <HASH>                   select changes starting with a patch whose hash prefix matches HASH
 # @option --from-tag <REGEXP>                  select changes starting with a tag matching REGEXP
 # @option --last <NUMBER>                      select the last NUMBER patches
 # @option --matches <PATTERN>                  select patches matching PATTERN
 # @option -p --patches <REGEXP>                select patches matching REGEXP
 # @option -t --tags <REGEXP>                   select tags matching REGEXP
-# @option -h --hash                            select a single patch with HASH
+# @option -h --hash                            select a single patch whose hash prefix matches HASH
 # @flag --no-deps                              don't automatically fulfill dependencies
 # @flag --auto-deps
 # @flag --dont-prompt-for-dependencies         don't ask about patches that are depended on by matched patches (with --match or --patch)
@@ -1549,7 +1586,7 @@ unrecord() {
 # @flag --no-minimize                          don't minimize context of patch bundle
 # @flag --myers                                use myers diff algorithm
 # @flag --patience                             use patience diff algorithm [DEFAULT]
-# @flag --dry-run                              don't actually take the action
+# @flag -n --dry-run                           don't actually take the action
 # @flag --xml-output                           generate XML formatted output
 # @flag --help                                 show a description of the command and its options
 # @flag --list-options                         show plain list of available options and commands, for auto-completion
@@ -1557,15 +1594,12 @@ unrecord() {
 # @flag -q --quiet                             suppress informational output
 # @flag --standard-verbosity                   neither verbose nor quiet output [DEFAULT]
 # @flag -v --verbose                           enable verbose output
-# @flag --compress                             compress patch data [DEFAULT]
-# @flag --dont-compress
-# @flag --no-compress                          don't compress patch data
-# @flag --ignore-times                         don't trust the file modification times
-# @flag --no-ignore-times                      trust modification times to find modified files [DEFAULT]
 # @option --umask                              specify umask to use when writing
 # @flag --reverse                              show/consider changes in reverse order
 # @flag --no-reverse                           show/consider changes in the usual order [DEFAULT]
 # @flag --no-cache                             don't use patch caches
+# @flag --ignore-times                         don't trust the file modification times
+# @flag --no-ignore-times                      trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>                  specify command to run before this darcs command
 # @flag --no-prehook                           don't run prehook command [DEFAULT]
 # @flag --prompt-prehook                       prompt before running prehook
@@ -1575,12 +1609,49 @@ unrecord() {
 # @flag --prompt-posthook                      prompt before running posthook
 # @flag --run-posthook                         run posthook command without prompting [DEFAULT]
 # @flag --debug                                enable general debug output
-# @flag --debug-http                           debug output from libcurl
 # @flag --timings                              provide debugging timings information
 obliterate() {
     :;
 }
 # }} darcs obliterate
+
+# {{ darcs clean
+# @cmd Alias for `darcs revert -l`.
+# @flag -a --all
+# @flag --no-interactive           answer yes to all patches
+# @flag -i --interactive           prompt user interactively
+# @option --repodir <DIRECTORY>    specify the repository directory in which to run
+# @flag --myers                    use myers diff algorithm
+# @flag --patience                 use patience diff algorithm [DEFAULT]
+# @flag --dont-look-for-adds
+# @flag --no-look-for-adds         don't look for files that could be added
+# @flag -l --look-for-adds         look for files that could be added [DEFAULT]
+# @flag --boring                   look for any file that could be added, even boring files
+# @flag --help                     show a description of the command and its options
+# @flag --list-options             show plain list of available options and commands, for auto-completion
+# @flag --disable                  disable this command
+# @flag -q --quiet                 suppress informational output
+# @flag --standard-verbosity       neither verbose nor quiet output [DEFAULT]
+# @flag -v --verbose               enable verbose output
+# @option --umask                  specify umask to use when writing
+# @flag --no-cache                 don't use patch caches
+# @flag --ignore-times             don't trust the file modification times
+# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
+# @option --prehook <COMMAND>      specify command to run before this darcs command
+# @flag --no-prehook               don't run prehook command [DEFAULT]
+# @flag --prompt-prehook           prompt before running prehook
+# @flag --run-prehook              run prehook command without prompting [DEFAULT]
+# @option --posthook <COMMAND>     specify command to run after this darcs command
+# @flag --no-posthook              don't run posthook command [DEFAULT]
+# @flag --prompt-posthook          prompt before running posthook
+# @flag --run-posthook             run posthook command without prompting [DEFAULT]
+# @flag --debug                    enable general debug output
+# @flag --timings                  provide debugging timings information
+# @arg file-or-directory* <FILE or DIRECTORY>
+clean() {
+    :;
+}
+# }} darcs clean
 
 # {{ darcs tag
 # @cmd Name the current repository state for future reference.
@@ -1599,11 +1670,10 @@ obliterate() {
 # @flag -q --quiet                 suppress informational output
 # @flag --standard-verbosity       neither verbose nor quiet output [DEFAULT]
 # @flag -v --verbose               enable verbose output
-# @flag --compress                 compress patch data [DEFAULT]
-# @flag --dont-compress
-# @flag --no-compress              don't compress patch data
 # @option --umask                  specify umask to use when writing
 # @flag --no-cache                 don't use patch caches
+# @flag --ignore-times             don't trust the file modification times
+# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>      specify command to run before this darcs command
 # @flag --no-prehook               don't run prehook command [DEFAULT]
 # @flag --prompt-prehook           prompt before running prehook
@@ -1613,7 +1683,6 @@ obliterate() {
 # @flag --prompt-posthook          prompt before running posthook
 # @flag --run-posthook             run posthook command without prompting [DEFAULT]
 # @flag --debug                    enable general debug output
-# @flag --debug-http               debug output from libcurl
 # @flag --timings                  provide debugging timings information
 # @arg tagname
 tag() {
@@ -1632,6 +1701,8 @@ tag() {
 # @flag -v --verbose               enable verbose output
 # @option --umask                  specify umask to use when writing
 # @flag --no-cache                 don't use patch caches
+# @flag --ignore-times             don't trust the file modification times
+# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>      specify command to run before this darcs command
 # @flag --no-prehook               don't run prehook command [DEFAULT]
 # @flag --prompt-prehook           prompt before running prehook
@@ -1641,7 +1712,6 @@ tag() {
 # @flag --prompt-posthook          prompt before running posthook
 # @flag --run-posthook             run posthook command without prompting [DEFAULT]
 # @flag --debug                    enable general debug output
-# @flag --debug-http               debug output from libcurl
 # @flag --timings                  provide debugging timings information
 # @arg pref!
 # @arg value!
@@ -1655,7 +1725,7 @@ setpref() {
 # @option --matches <PATTERN>                  select patches matching PATTERN
 # @option -p --patches <REGEXP>                select patches matching REGEXP
 # @option -t --tags <REGEXP>                   select tags matching REGEXP
-# @option -h --hash                            select a single patch with HASH
+# @option -h --hash                            select a single patch whose hash prefix matches HASH
 # @flag --no-deps                              don't automatically fulfill dependencies
 # @flag --auto-deps
 # @flag --dont-prompt-for-dependencies         don't ask about patches that are depended on by matched patches (with --match or --patch)
@@ -1680,7 +1750,7 @@ setpref() {
 # @option --sign-ssl <IDFILE>                  sign the patch using openssl with a given private key
 # @flag --dont-sign
 # @flag --no-sign                              don't sign the patch [DEFAULT]
-# @flag --dry-run                              don't actually take the action
+# @flag -n --dry-run                           don't actually take the action
 # @flag --xml-output                           generate XML formatted output
 # @flag -s --summary                           summarize changes
 # @flag --no-summary                           don't summarize changes
@@ -1704,13 +1774,13 @@ setpref() {
 # @option --logfile <FILE>                     give patch name and comment in file
 # @flag --delete-logfile                       delete the logfile when done
 # @flag --no-delete-logfile                    keep the logfile when done [DEFAULT]
-# @option --remote-repo <URL>                  specify the remote repository URL to work with
 # @option --context <FILENAME>                 send to context stored in FILENAME
 # @flag --reverse                              show/consider changes in reverse order
 # @flag --no-reverse                           show/consider changes in the usual order [DEFAULT]
-# @flag --no-http-pipelining                   disable HTTP pipelining
 # @option --remote-darcs <COMMAND>             name of the darcs executable on the remote server
 # @flag --no-cache                             don't use patch caches
+# @flag --ignore-times                         don't trust the file modification times
+# @flag --no-ignore-times                      trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>                  specify command to run before this darcs command
 # @flag --no-prehook                           don't run prehook command [DEFAULT]
 # @flag --prompt-prehook                       prompt before running prehook
@@ -1720,7 +1790,6 @@ setpref() {
 # @flag --prompt-posthook                      prompt before running posthook
 # @flag --run-posthook                         run posthook command without prompting [DEFAULT]
 # @flag --debug                                enable general debug output
-# @flag --debug-http                           debug output from libcurl
 # @flag --timings                              provide debugging timings information
 # @arg repository
 send() {
@@ -1738,19 +1807,19 @@ send() {
 # @flag -a --all
 # @flag --no-interactive                answer yes to all patches
 # @flag -i --interactive                prompt user interactively
-# @flag --dry-run                       don't actually take the action
+# @flag -n --dry-run                    don't actually take the action
 # @flag --xml-output                    generate XML formatted output
 # @option --matches <PATTERN>           select patches matching PATTERN
 # @option -p --patches <REGEXP>         select patches matching REGEXP
 # @option -t --tags <REGEXP>            select tags matching REGEXP
-# @option -h --hash                     select a single patch with HASH
+# @option -h --hash                     select a single patch whose hash prefix matches HASH
 # @flag --mark-conflicts                mark conflicts
 # @flag --allow-conflicts               allow conflicts, but don't mark them
+# @option --external-merge <COMMAND>    use external tool to merge conflicts
 # @flag --dont-allow-conflicts
 # @flag --no-allow-conflicts
 # @flag --no-resolve-conflicts          fail if there are patches that would create conflicts [DEFAULT]
 # @flag --skip-conflicts                filter out any patches that would create conflicts
-# @option --external-merge <COMMAND>    use external tool to merge conflicts
 # @flag --test                          run the test script
 # @flag --no-test                       don't run the test script [DEFAULT]
 # @flag --leave-test-directory          don't remove the test directory
@@ -1764,11 +1833,6 @@ send() {
 # @flag -q --quiet                      suppress informational output
 # @flag --standard-verbosity            neither verbose nor quiet output [DEFAULT]
 # @flag -v --verbose                    enable verbose output
-# @flag --ignore-times                  don't trust the file modification times
-# @flag --no-ignore-times               trust modification times to find modified files [DEFAULT]
-# @flag --compress                      compress patch data [DEFAULT]
-# @flag --dont-compress
-# @flag --no-compress                   don't compress patch data
 # @flag --set-scripts-executable        make scripts executable
 # @flag --dont-set-scripts-executable
 # @flag --no-set-scripts-executable     don't make scripts executable [DEFAULT]
@@ -1778,6 +1842,8 @@ send() {
 # @flag --pause-for-gui                 pause for an external diff or merge command to finish [DEFAULT]
 # @flag --no-pause-for-gui              return immediately after external diff or merge command finishes
 # @flag --no-cache                      don't use patch caches
+# @flag --ignore-times                  don't trust the file modification times
+# @flag --no-ignore-times               trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>           specify command to run before this darcs command
 # @flag --no-prehook                    don't run prehook command [DEFAULT]
 # @flag --prompt-prehook                prompt before running prehook
@@ -1787,7 +1853,6 @@ send() {
 # @flag --prompt-posthook               prompt before running posthook
 # @flag --run-posthook                  run posthook command without prompting [DEFAULT]
 # @flag --debug                         enable general debug output
-# @flag --debug-http                    debug output from libcurl
 # @flag --timings                       provide debugging timings information
 # @arg patchfile!
 apply() {
@@ -1805,7 +1870,7 @@ optimize() {
 }
 
 # {{{ darcs optimize clean
-# @cmd garbage collect pristine, inventories and patches
+# @cmd Garbage collect pristine, inventories and patches
 # @option --repodir <DIRECTORY>    specify the repository directory in which to run
 # @flag --help                     show a description of the command and its options
 # @flag --list-options             show plain list of available options and commands, for auto-completion
@@ -1815,6 +1880,8 @@ optimize() {
 # @flag -v --verbose               enable verbose output
 # @option --umask                  specify umask to use when writing
 # @flag --no-cache                 don't use patch caches
+# @flag --ignore-times             don't trust the file modification times
+# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>      specify command to run before this darcs command
 # @flag --no-prehook               don't run prehook command [DEFAULT]
 # @flag --prompt-prehook           prompt before running prehook
@@ -1824,7 +1891,6 @@ optimize() {
 # @flag --prompt-posthook          prompt before running posthook
 # @flag --run-posthook             run posthook command without prompting [DEFAULT]
 # @flag --debug                    enable general debug output
-# @flag --debug-http               debug output from libcurl
 # @flag --timings                  provide debugging timings information
 optimize::clean() {
     :;
@@ -1832,7 +1898,7 @@ optimize::clean() {
 # }}} darcs optimize clean
 
 # {{{ darcs optimize http
-# @cmd optimize repository for getting over network
+# @cmd Optimize repository for getting over network
 # @option --repodir <DIRECTORY>    specify the repository directory in which to run
 # @flag --help                     show a description of the command and its options
 # @flag --list-options             show plain list of available options and commands, for auto-completion
@@ -1842,6 +1908,8 @@ optimize::clean() {
 # @flag -v --verbose               enable verbose output
 # @option --umask                  specify umask to use when writing
 # @flag --no-cache                 don't use patch caches
+# @flag --ignore-times             don't trust the file modification times
+# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>      specify command to run before this darcs command
 # @flag --no-prehook               don't run prehook command [DEFAULT]
 # @flag --prompt-prehook           prompt before running prehook
@@ -1851,7 +1919,6 @@ optimize::clean() {
 # @flag --prompt-posthook          prompt before running posthook
 # @flag --run-posthook             run posthook command without prompting [DEFAULT]
 # @flag --debug                    enable general debug output
-# @flag --debug-http               debug output from libcurl
 # @flag --timings                  provide debugging timings information
 optimize::http() {
     :;
@@ -1859,8 +1926,10 @@ optimize::http() {
 # }}} darcs optimize http
 
 # {{{ darcs optimize reorder
-# @cmd reorder the patches in the repository
+# @cmd Reorder the patches in the repository
 # @option --repodir <DIRECTORY>    specify the repository directory in which to run
+# @flag --deep                     also optimize clean tags in the complete history
+# @flag --shallow                  only reorder recent patches (works with lazy repo) [DEFAULT]
 # @flag --help                     show a description of the command and its options
 # @flag --list-options             show plain list of available options and commands, for auto-completion
 # @flag --disable                  disable this command
@@ -1869,6 +1938,8 @@ optimize::http() {
 # @flag -v --verbose               enable verbose output
 # @option --umask                  specify umask to use when writing
 # @flag --no-cache                 don't use patch caches
+# @flag --ignore-times             don't trust the file modification times
+# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>      specify command to run before this darcs command
 # @flag --no-prehook               don't run prehook command [DEFAULT]
 # @flag --prompt-prehook           prompt before running prehook
@@ -1878,7 +1949,6 @@ optimize::http() {
 # @flag --prompt-posthook          prompt before running posthook
 # @flag --run-posthook             run posthook command without prompting [DEFAULT]
 # @flag --debug                    enable general debug output
-# @flag --debug-http               debug output from libcurl
 # @flag --timings                  provide debugging timings information
 optimize::reorder() {
     :;
@@ -1896,6 +1966,8 @@ optimize::reorder() {
 # @flag -v --verbose               enable verbose output
 # @option --umask                  specify umask to use when writing
 # @flag --no-cache                 don't use patch caches
+# @flag --ignore-times             don't trust the file modification times
+# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>      specify command to run before this darcs command
 # @flag --no-prehook               don't run prehook command [DEFAULT]
 # @flag --prompt-prehook           prompt before running prehook
@@ -1905,7 +1977,6 @@ optimize::reorder() {
 # @flag --prompt-posthook          prompt before running posthook
 # @flag --run-posthook             run posthook command without prompting [DEFAULT]
 # @flag --debug                    enable general debug output
-# @flag --debug-http               debug output from libcurl
 # @flag --timings                  provide debugging timings information
 optimize::enable-patch-index() {
     :;
@@ -1923,6 +1994,8 @@ optimize::enable-patch-index() {
 # @flag -v --verbose               enable verbose output
 # @option --umask                  specify umask to use when writing
 # @flag --no-cache                 don't use patch caches
+# @flag --ignore-times             don't trust the file modification times
+# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>      specify command to run before this darcs command
 # @flag --no-prehook               don't run prehook command [DEFAULT]
 # @flag --prompt-prehook           prompt before running prehook
@@ -1932,7 +2005,6 @@ optimize::enable-patch-index() {
 # @flag --prompt-posthook          prompt before running posthook
 # @flag --run-posthook             run posthook command without prompting [DEFAULT]
 # @flag --debug                    enable general debug output
-# @flag --debug-http               debug output from libcurl
 # @flag --timings                  provide debugging timings information
 optimize::disable-patch-index() {
     :;
@@ -1940,7 +2012,7 @@ optimize::disable-patch-index() {
 # }}} darcs optimize disable-patch-index
 
 # {{{ darcs optimize compress
-# @cmd compress patches and inventories
+# @cmd Compress hashed files
 # @option --repodir <DIRECTORY>    specify the repository directory in which to run
 # @flag --help                     show a description of the command and its options
 # @flag --list-options             show plain list of available options and commands, for auto-completion
@@ -1950,6 +2022,8 @@ optimize::disable-patch-index() {
 # @flag -v --verbose               enable verbose output
 # @option --umask                  specify umask to use when writing
 # @flag --no-cache                 don't use patch caches
+# @flag --ignore-times             don't trust the file modification times
+# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>      specify command to run before this darcs command
 # @flag --no-prehook               don't run prehook command [DEFAULT]
 # @flag --prompt-prehook           prompt before running prehook
@@ -1959,7 +2033,6 @@ optimize::disable-patch-index() {
 # @flag --prompt-posthook          prompt before running posthook
 # @flag --run-posthook             run posthook command without prompting [DEFAULT]
 # @flag --debug                    enable general debug output
-# @flag --debug-http               debug output from libcurl
 # @flag --timings                  provide debugging timings information
 optimize::compress() {
     :;
@@ -1967,7 +2040,7 @@ optimize::compress() {
 # }}} darcs optimize compress
 
 # {{{ darcs optimize uncompress
-# @cmd uncompress patches and inventories
+# @cmd Uncompress hashed files (for debugging)
 # @option --repodir <DIRECTORY>    specify the repository directory in which to run
 # @flag --help                     show a description of the command and its options
 # @flag --list-options             show plain list of available options and commands, for auto-completion
@@ -1977,6 +2050,8 @@ optimize::compress() {
 # @flag -v --verbose               enable verbose output
 # @option --umask                  specify umask to use when writing
 # @flag --no-cache                 don't use patch caches
+# @flag --ignore-times             don't trust the file modification times
+# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>      specify command to run before this darcs command
 # @flag --no-prehook               don't run prehook command [DEFAULT]
 # @flag --prompt-prehook           prompt before running prehook
@@ -1986,7 +2061,6 @@ optimize::compress() {
 # @flag --prompt-posthook          prompt before running posthook
 # @flag --run-posthook             run posthook command without prompting [DEFAULT]
 # @flag --debug                    enable general debug output
-# @flag --debug-http               debug output from libcurl
 # @flag --timings                  provide debugging timings information
 optimize::uncompress() {
     :;
@@ -1994,7 +2068,7 @@ optimize::uncompress() {
 # }}} darcs optimize uncompress
 
 # {{{ darcs optimize relink
-# @cmd relink random internal data to a sibling
+# @cmd Replace copies of hashed files with hard links
 # @option --repodir <DIRECTORY>    specify the repository directory in which to run
 # @option --sibling <DIRECTORY>    specify a sibling directory
 # @flag --help                     show a description of the command and its options
@@ -2005,6 +2079,8 @@ optimize::uncompress() {
 # @flag -v --verbose               enable verbose output
 # @option --umask                  specify umask to use when writing
 # @flag --no-cache                 don't use patch caches
+# @flag --ignore-times             don't trust the file modification times
+# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>      specify command to run before this darcs command
 # @flag --no-prehook               don't run prehook command [DEFAULT]
 # @flag --prompt-prehook           prompt before running prehook
@@ -2014,42 +2090,14 @@ optimize::uncompress() {
 # @flag --prompt-posthook          prompt before running posthook
 # @flag --run-posthook             run posthook command without prompting [DEFAULT]
 # @flag --debug                    enable general debug output
-# @flag --debug-http               debug output from libcurl
 # @flag --timings                  provide debugging timings information
 optimize::relink() {
     :;
 }
 # }}} darcs optimize relink
 
-# {{{ darcs optimize pristine
-# @cmd optimize hashed pristine layout
-# @option --repodir <DIRECTORY>    specify the repository directory in which to run
-# @flag --help                     show a description of the command and its options
-# @flag --list-options             show plain list of available options and commands, for auto-completion
-# @flag --disable                  disable this command
-# @flag -q --quiet                 suppress informational output
-# @flag --standard-verbosity       neither verbose nor quiet output [DEFAULT]
-# @flag -v --verbose               enable verbose output
-# @option --umask                  specify umask to use when writing
-# @flag --no-cache                 don't use patch caches
-# @option --prehook <COMMAND>      specify command to run before this darcs command
-# @flag --no-prehook               don't run prehook command [DEFAULT]
-# @flag --prompt-prehook           prompt before running prehook
-# @flag --run-prehook              run prehook command without prompting [DEFAULT]
-# @option --posthook <COMMAND>     specify command to run after this darcs command
-# @flag --no-posthook              don't run posthook command [DEFAULT]
-# @flag --prompt-posthook          prompt before running posthook
-# @flag --run-posthook             run posthook command without prompting [DEFAULT]
-# @flag --debug                    enable general debug output
-# @flag --debug-http               debug output from libcurl
-# @flag --timings                  provide debugging timings information
-optimize::pristine() {
-    :;
-}
-# }}} darcs optimize pristine
-
 # {{{ darcs optimize upgrade
-# @cmd upgrade repository to latest compatible format
+# @cmd Upgrade repository to latest compatible format
 # @option --repodir <DIRECTORY>    specify the repository directory in which to run
 # @flag --help                     show a description of the command and its options
 # @flag --list-options             show plain list of available options and commands, for auto-completion
@@ -2059,6 +2107,8 @@ optimize::pristine() {
 # @flag -v --verbose               enable verbose output
 # @option --umask                  specify umask to use when writing
 # @flag --no-cache                 don't use patch caches
+# @flag --ignore-times             don't trust the file modification times
+# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>      specify command to run before this darcs command
 # @flag --no-prehook               don't run prehook command [DEFAULT]
 # @flag --prompt-prehook           prompt before running prehook
@@ -2068,7 +2118,6 @@ optimize::pristine() {
 # @flag --prompt-posthook          prompt before running posthook
 # @flag --run-posthook             run posthook command without prompting [DEFAULT]
 # @flag --debug                    enable general debug output
-# @flag --debug-http               debug output from libcurl
 # @flag --timings                  provide debugging timings information
 optimize::upgrade() {
     :;
@@ -2076,7 +2125,7 @@ optimize::upgrade() {
 # }}} darcs optimize upgrade
 
 # {{{ darcs optimize cache
-# @cmd garbage collect global cache
+# @cmd Garbage collect global cache
 # @option --repodir <DIRECTORY>    specify the repository directory in which to run
 # @flag --help                     show a description of the command and its options
 # @flag --list-options             show plain list of available options and commands, for auto-completion
@@ -2086,6 +2135,8 @@ optimize::upgrade() {
 # @flag -v --verbose               enable verbose output
 # @option --umask                  specify umask to use when writing
 # @flag --no-cache                 don't use patch caches
+# @flag --ignore-times             don't trust the file modification times
+# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>      specify command to run before this darcs command
 # @flag --no-prehook               don't run prehook command [DEFAULT]
 # @flag --prompt-prehook           prompt before running prehook
@@ -2095,9 +2146,7 @@ optimize::upgrade() {
 # @flag --prompt-posthook          prompt before running posthook
 # @flag --run-posthook             run posthook command without prompting [DEFAULT]
 # @flag --debug                    enable general debug output
-# @flag --debug-http               debug output from libcurl
 # @flag --timings                  provide debugging timings information
-# @arg directory+
 optimize::cache() {
     :;
 }
@@ -2111,7 +2160,7 @@ optimize::cache() {
 # @option --repodir <DIRECTORY>        specify the repository directory in which to run
 # @option --match <PATTERN>            select a single patch matching PATTERN
 # @option -p --patch <REGEXP>          select a single patch matching REGEXP
-# @option -h --hash                    select a single patch with HASH
+# @option -h --hash                    select a single patch whose hash prefix matches HASH
 # @option -t --tag <REGEXP>            select tag matching REGEXP
 # @option -n --index <N>               select one patch
 # @flag --set-scripts-executable       make scripts executable
@@ -2126,6 +2175,8 @@ optimize::cache() {
 # @flag --standard-verbosity           neither verbose nor quiet output [DEFAULT]
 # @flag -v --verbose                   enable verbose output
 # @flag --no-cache                     don't use patch caches
+# @flag --ignore-times                 don't trust the file modification times
+# @flag --no-ignore-times              trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>          specify command to run before this darcs command
 # @flag --no-prehook                   don't run prehook command [DEFAULT]
 # @flag --prompt-prehook               prompt before running prehook
@@ -2135,7 +2186,6 @@ optimize::cache() {
 # @flag --prompt-posthook              prompt before running posthook
 # @flag --run-posthook                 run posthook command without prompting [DEFAULT]
 # @flag --debug                        enable general debug output
-# @flag --debug-http                   debug output from libcurl
 # @flag --timings                      provide debugging timings information
 dist() {
     :;
@@ -2144,12 +2194,10 @@ dist() {
 
 # {{ darcs mark-conflicts
 # @cmd Mark unresolved conflicts in working tree, for manual resolution.
-# @flag --ignore-times             don't trust the file modification times
-# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @option --repodir <DIRECTORY>    specify the repository directory in which to run
 # @flag --myers                    use myers diff algorithm
 # @flag --patience                 use patience diff algorithm [DEFAULT]
-# @flag --dry-run                  don't actually take the action
+# @flag -n --dry-run               don't actually take the action
 # @flag --xml-output               generate XML formatted output
 # @flag --help                     show a description of the command and its options
 # @flag --list-options             show plain list of available options and commands, for auto-completion
@@ -2159,6 +2207,8 @@ dist() {
 # @flag -v --verbose               enable verbose output
 # @option --umask                  specify umask to use when writing
 # @flag --no-cache                 don't use patch caches
+# @flag --ignore-times             don't trust the file modification times
+# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>      specify command to run before this darcs command
 # @flag --no-prehook               don't run prehook command [DEFAULT]
 # @flag --prompt-prehook           prompt before running prehook
@@ -2168,7 +2218,6 @@ dist() {
 # @flag --prompt-posthook          prompt before running posthook
 # @flag --run-posthook             run posthook command without prompting [DEFAULT]
 # @flag --debug                    enable general debug output
-# @flag --debug-http               debug output from libcurl
 # @flag --timings                  provide debugging timings information
 # @arg file-or-directory* <FILE or DIRECTORY>
 mark-conflicts() {
@@ -2179,11 +2228,9 @@ mark-conflicts() {
 # {{ darcs repair
 # @cmd Repair a corrupted repository.
 # @option --repodir <DIRECTORY>    specify the repository directory in which to run
-# @flag --ignore-times             don't trust the file modification times
-# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @flag --myers                    use myers diff algorithm
 # @flag --patience                 use patience diff algorithm [DEFAULT]
-# @flag --dry-run                  don't actually take the action
+# @flag -n --dry-run               don't actually take the action
 # @flag --help                     show a description of the command and its options
 # @flag --list-options             show plain list of available options and commands, for auto-completion
 # @flag --disable                  disable this command
@@ -2192,6 +2239,8 @@ mark-conflicts() {
 # @flag -v --verbose               enable verbose output
 # @option --umask                  specify umask to use when writing
 # @flag --no-cache                 don't use patch caches
+# @flag --ignore-times             don't trust the file modification times
+# @flag --no-ignore-times          trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>      specify command to run before this darcs command
 # @flag --no-prehook               don't run prehook command [DEFAULT]
 # @flag --prompt-prehook           prompt before running prehook
@@ -2201,7 +2250,6 @@ mark-conflicts() {
 # @flag --prompt-posthook          prompt before running posthook
 # @flag --run-posthook             run posthook command without prompting [DEFAULT]
 # @flag --debug                    enable general debug output
-# @flag --debug-http               debug output from libcurl
 # @flag --timings                  provide debugging timings information
 repair() {
     :;
@@ -2232,12 +2280,16 @@ convert() {
 # @flag -q --quiet                     suppress informational output
 # @flag --standard-verbosity           neither verbose nor quiet output [DEFAULT]
 # @flag -v --verbose                   enable verbose output
-# @flag --no-http-pipelining           disable HTTP pipelining
 # @option --remote-darcs <COMMAND>     name of the darcs executable on the remote server
 # @flag --with-patch-index             build patch index
 # @flag --no-patch-index               don't build patch index [DEFAULT]
 # @option --umask                      specify umask to use when writing
+# @flag --darcs-3                      New darcs patch format
+# @flag --darcs-2                      Standard darcs patch format [DEFAULT]
+# @flag --darcs-1                      Older patch format (for compatibility)
 # @flag --no-cache                     don't use patch caches
+# @flag --ignore-times                 don't trust the file modification times
+# @flag --no-ignore-times              trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>          specify command to run before this darcs command
 # @flag --no-prehook                   don't run prehook command [DEFAULT]
 # @flag --prompt-prehook               prompt before running prehook
@@ -2247,7 +2299,6 @@ convert() {
 # @flag --prompt-posthook              prompt before running posthook
 # @flag --run-posthook                 run posthook command without prompting [DEFAULT]
 # @flag --debug                        enable general debug output
-# @flag --debug-http                   debug output from libcurl
 # @flag --timings                      provide debugging timings information
 # @arg source!
 # @arg destination
@@ -2267,9 +2318,10 @@ convert::darcs-2() {
 # @flag -q --quiet                    suppress informational output
 # @flag --standard-verbosity          neither verbose nor quiet output [DEFAULT]
 # @flag -v --verbose                  enable verbose output
-# @flag --no-http-pipelining          disable HTTP pipelining
 # @option --remote-darcs <COMMAND>    name of the darcs executable on the remote server
 # @flag --no-cache                    don't use patch caches
+# @flag --ignore-times                don't trust the file modification times
+# @flag --no-ignore-times             trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>         specify command to run before this darcs command
 # @flag --no-prehook                  don't run prehook command [DEFAULT]
 # @flag --prompt-prehook              prompt before running prehook
@@ -2279,7 +2331,6 @@ convert::darcs-2() {
 # @flag --prompt-posthook             prompt before running posthook
 # @flag --run-posthook                run posthook command without prompting [DEFAULT]
 # @flag --debug                       enable general debug output
-# @flag --debug-http                  debug output from libcurl
 # @flag --timings                     provide debugging timings information
 convert::export() {
     :;
@@ -2304,10 +2355,16 @@ convert::export() {
 # @flag -q --quiet                     suppress informational output
 # @flag --standard-verbosity           neither verbose nor quiet output [DEFAULT]
 # @flag -v --verbose                   enable verbose output
+# @flag --myers                        use myers diff algorithm
+# @flag --patience                     use patience diff algorithm [DEFAULT]
 # @flag --with-patch-index             build patch index
 # @flag --no-patch-index               don't build patch index [DEFAULT]
 # @option --umask                      specify umask to use when writing
+# @flag --with-prefs-templates         create template-filled preferences [DEFAULT]
+# @flag --no-prefs-templates           create empty preferences
 # @flag --no-cache                     don't use patch caches
+# @flag --ignore-times                 don't trust the file modification times
+# @flag --no-ignore-times              trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>          specify command to run before this darcs command
 # @flag --no-prehook                   don't run prehook command [DEFAULT]
 # @flag --prompt-prehook               prompt before running prehook
@@ -2317,7 +2374,6 @@ convert::export() {
 # @flag --prompt-posthook              prompt before running posthook
 # @flag --run-posthook                 run posthook command without prompting [DEFAULT]
 # @flag --debug                        enable general debug output
-# @flag --debug-http                   debug output from libcurl
 # @flag --timings                      provide debugging timings information
 # @arg directory
 convert::import() {
@@ -2331,11 +2387,11 @@ convert::import() {
 # @option --matches <PATTERN>                  select patches matching PATTERN
 # @option -p --patches <REGEXP>                select patches matching REGEXP
 # @option -t --tags <REGEXP>                   select tags matching REGEXP
-# @option -h --hash                            select a single patch with HASH
+# @option -h --hash                            select a single patch whose hash prefix matches HASH
 # @flag -a --all
 # @flag --no-interactive                       answer yes to all patches
 # @flag -i --interactive                       prompt user interactively
-# @flag --dry-run                              don't actually take the action
+# @flag -n --dry-run                           don't actually take the action
 # @flag -s --summary                           summarize changes
 # @flag --no-summary                           don't summarize changes
 # @flag --no-deps                              don't automatically fulfill dependencies
@@ -2362,10 +2418,10 @@ convert::import() {
 # @flag --intersection                         take intersection of all repositories
 # @flag --union                                take union of all repositories [DEFAULT]
 # @flag --complement                           take complement of repositories (in order listed)
-# @option --remote-repo <URL>                  specify the remote repository URL to work with
-# @flag --no-http-pipelining                   disable HTTP pipelining
 # @option --remote-darcs <COMMAND>             name of the darcs executable on the remote server
 # @flag --no-cache                             don't use patch caches
+# @flag --ignore-times                         don't trust the file modification times
+# @flag --no-ignore-times                      trust modification times to find modified files [DEFAULT]
 # @option --prehook <COMMAND>                  specify command to run before this darcs command
 # @flag --no-prehook                           don't run prehook command [DEFAULT]
 # @flag --prompt-prehook                       prompt before running prehook
@@ -2375,7 +2431,6 @@ convert::import() {
 # @flag --prompt-posthook                      prompt before running posthook
 # @flag --run-posthook                         run posthook command without prompting [DEFAULT]
 # @flag --debug                                enable general debug output
-# @flag --debug-http                           debug output from libcurl
 # @flag --timings                              provide debugging timings information
 # @arg repository*
 fetch() {

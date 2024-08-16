@@ -18,7 +18,7 @@
 # @option --MOZ_LOG <modules>                 Treated as MOZ_LOG=<modules> environment variable, overrides it.
 # @option --MOZ_LOG_FILE <file>               Treated as MOZ_LOG_FILE=<file> environment variable, overrides it.
 # @flag --headless                            Run without a GUI.
-# @flag --browser                             Open a browser window.
+# @option --dbus-service <launcher>           Run as DBus service for org.freedesktop.Application and set a launcher (usually /usr/bin/appname script) for it.
 # @option --new-window <url>                  Open <url> in a new window.
 # @option --new-tab <url>                     Open <url> in a new tab.
 # @option --private-window <url>              Open <url> in a new private window.

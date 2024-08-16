@@ -1,20 +1,70 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
+# @flag -h --help       Print this usage information.
+# @flag --verbose       Print verbose output.
+# @flag -v --version    Print the current version.
+
+# {{ fvm api
+# @cmd JSON API for FVM data
 # @flag -h --help    Print this usage information.
-# @flag --verbose    Print verbose output.
-# @flag --version    current version
+api() {
+    :;
+}
+
+# {{{ fvm api context
+# @cmd Gets context data for FVM
+# @flag -h --help        Print this usage information.
+# @flag -c --compress    Prints JSON with no whitespace
+api::context() {
+    :;
+}
+# }}} fvm api context
+
+# {{{ fvm api list
+# @cmd Lists installed Flutter SDK Versions
+# @flag -h --help                     Print this usage information.
+# @flag -c --compress                 Prints JSON with no whitespace
+# @flag -s --skip-size-calculation    Skips calculating the size of the versions, useful for large caches
+api::list() {
+    :;
+}
+# }}} fvm api list
+
+# {{{ fvm api project
+# @cmd Gets project data for FVM
+# @flag -h --help        Print this usage information.
+# @flag -c --compress    Prints JSON with no whitespace
+# @flag -p --path        Path to project, defaults to working directory if not provided
+api::project() {
+    :;
+}
+# }}} fvm api project
+
+# {{{ fvm api releases
+# @cmd Lists Flutter SDK Releases
+# @flag -h --help                              Print this usage information.
+# @flag -c --compress                          Prints JSON with no whitespace
+# @option --limit <limit>                      Limits the amount of releases
+# @option --filter-channel[stable|beta|dev]    Filter by channel name
+api::releases() {
+    :;
+}
+# }}} fvm api releases
+# }} fvm api
 
 # {{ fvm config
-# @cmd Set configuration for FVM
-# @flag -h --help                   Print this usage information.
-# @option -c --cache-path <path>    Set the path which FVM will cache the version.Priority over FVM_HOME.
-# @flag -s                          Skip setup after a version install.
-# @flag --skip-setup                Skip setup after a version install.
-# @flag --no-skip-setup             Skip setup after a version install.
-# @flag -g                          ADVANCED: Will cache a local version of Flutter repo for faster version install.
-# @flag --git-cache                 ADVANCED: Will cache a local version of Flutter repo for faster version install.
-# @flag --no-git-cache              ADVANCED: Will cache a local version of Flutter repo for faster version install.
+# @cmd Set global configuration settings for FVM
+# @flag -h --help                  Print this usage information.
+# @option --cache-path <path>      Path where fvm will cache versions
+# @flag --use-git-cache            Enable/Disable git cache globally, which is used for faster version installs.
+# @flag --no-use-git-cache         Enable/Disable git cache globally, which is used for faster version installs.
+# @flag --git-cache-path           Path where local Git reference cache is stored
+# @flag --flutter-url              Flutter repository Git URL to clone from
+# @flag --priviledged-access       Enable/Disable priviledged access for FVM (defaults to on)
+# @flag --no-priviledged-access    Enable/Disable priviledged access for FVM (defaults to on)
+# @flag --update-check             Checks if there is a new version of fvm available.
+# @flag --no-update-check          Checks if there is a new version of fvm available.
 config() {
     :;
 }
@@ -51,15 +101,6 @@ exec() {
 }
 # }} fvm exec
 
-# {{ fvm flavor
-# @cmd Switches between different project flavors
-# @flag -h --help    Print this usage information.
-# @arg flavor_name
-flavor() {
-    :;
-}
-# }} fvm flavor
-
 # {{ fvm flutter
 # @cmd Proxies Flutter Commands
 # @arg command~[`_choice_flutter`]
@@ -70,7 +111,9 @@ flutter() {
 
 # {{ fvm global
 # @cmd Sets Flutter SDK Version as a global
-# @flag -h --help    Print this usage information.
+# @flag -h --help      Print this usage information.
+# @flag -u --unlink    Unlinks the global version
+# @flag -f --force     Skips validation checks
 # @arg version[`_choice_version`]
 global() {
     :;
@@ -79,8 +122,9 @@ global() {
 
 # {{ fvm install
 # @cmd Installs Flutter SDK Version
-# @flag -h --help          Print this usage information.
-# @flag -s --skip-setup    Skips Flutter setup after install
+# @flag -h --help         Print this usage information.
+# @flag -s --setup        Builds SDK after install after install
+# @flag --skip-pub-get    Skip resolving dependencies after switching Flutter SDK
 # @arg version[`_choice_available_version_cached`]
 install() {
     :;
@@ -97,7 +141,8 @@ list() {
 
 # {{ fvm releases
 # @cmd View all Flutter SDK releases available for install.
-# @flag -h --help    Print this usage information.
+# @flag -h --help                              Print this usage information.
+# @option -c --channel[stable|beta|dev|all]    Filter by channel name [stable (default), beta, dev, all]
 releases() {
     :;
 }
@@ -106,7 +151,7 @@ releases() {
 # {{ fvm remove
 # @cmd Removes Flutter SDK Version
 # @flag -h --help    Print this usage information.
-# @flag --force      Skips version global check.
+# @flag -a --all     Removes all versions
 # @arg version[`_choice_version`]
 remove() {
     :;
@@ -126,6 +171,7 @@ spawn() {
 # @flag -f --force         Skips command guards that does Flutter project checks.
 # @flag -p --pin           If version provided is a channel.
 # @flag --flavor           Sets version for a project flavor
+# @flag --skip-pub-get     Skip resolving dependencies after switching Flutter SDK
 # @flag -s --skip-setup    Skips Flutter setup after install
 # @arg version[`_choice_version`]
 use() {

@@ -1,6 +1,7 @@
 _patch_help() { 
     $@ --help | \
     sed \
+        -e 's/List(\(.*\))/\1.../g' \
         -e "s/\x1B\[[0-9;]*[a-zA-Z]//g" \
         -e '/^Flags:/, /^$/ s/ - /   /' \
 

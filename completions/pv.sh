@@ -10,6 +10,7 @@
 # @option -m --average-rate-window <SEC>      compute average rate over past SEC seconds (default 30s)
 # @flag -b --bytes                            show number of bytes transferred
 # @flag -8 --bits                             show number of bits transferred
+# @flag -k --si                               treat suffixes as multiples of 1000 rather than 1024
 # @flag -T --buffer-percent                   show percentage of transfer buffer in use
 # @option -A --last-written <NUM>             show NUM bytes last written
 # @option -F --format                         set output format to FORMAT
@@ -26,6 +27,7 @@
 # @option -N --name                           prefix visual information with NAME
 # @flag -f --force                            output even if standard error is not a terminal
 # @flag -c --cursor                           use cursor positioning escape sequences
+# @option -o --output <FILE>                  write output to FILE instead of stdout
 # @option -L --rate-limit <RATE>              limit transfer to RATE bytes per second
 # @option -B --buffer-size <BYTES>            use a buffer size of BYTES
 # @flag -C --no-splice                        never use splice(), always use read/write

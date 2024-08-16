@@ -17,6 +17,7 @@
 # @flag -s --starttls                       Connect, establish a plain session and start TLS
 # @option --app-proto[`_choice_proto`]      an alias for the 'starttls-proto' option
 # @option --starttls-proto[`_choice_proto`] <str>  The application protocol to be used to obtain the server's certificate - prohibits the option 'starttls'
+# @option --starttls-name <str>             The hostname presented to the application protocol for STARTTLS (for smtp, xmpp, lmtp) - prohibits the option 'starttls' - requires the option 'starttls-proto'
 # @flag -u --udp                            Use DTLS (datagram TLS) over UDP
 # @option --mtu <num>                       Set MTU for datagram TLS - it must be in the range:
 # @flag --crlf                              Send CR LF instead of LF

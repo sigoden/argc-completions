@@ -41,10 +41,10 @@ _patch_table() {
     fi
 }
 
-_choice_package() {
-    apk search -q
-}
-
 _choice_installed_package() {
     apk info -q
+}
+
+_choice_package() {
+    apk search -q
 }

@@ -13,7 +13,7 @@
 # @option -p --proxy                              Proxy to use for requests (ex: http(s)://host:port, socks5(h)://host:port)
 # @option -P --replay-proxy <REPLAY_PROXY>        Send only unfiltered requests through a Replay Proxy, instead of all requests
 # @option -R --replay-codes* <REPLAY_CODE>        Status Codes to send through a Replay Proxy when found (default: --status-codes value)
-# @option -a --user-agent <USER_AGENT>            Sets the User-Agent (default: feroxbuster/2.10.1)
+# @option -a --user-agent <USER_AGENT>            Sets the User-Agent (default: feroxbuster/2.10.4)
 # @flag -A --random-agent                         Use a random User-Agent
 # @option -x --extensions* <FILE_EXTENSION>       File extension(s) to search for (ex: -x php -x pdf js); reads values (newline-separated) from file if input starts with an @ (ex: @ext.txt)
 # @option -m --methods* <HTTP_METHODS>            Which HTTP request method(s) should be sent (default: GET)
@@ -24,7 +24,7 @@
 # @flag -f --add-slash                            Append / to each request's URL
 # @option --dont-scan* <URL>                      URL(s) or Regex Pattern(s) to exclude from recursion/scans
 # @option -S --filter-size* <SIZE>                Filter out messages of a particular size (ex: -S 5120 -S 4927,1970)
-# @option -X --filter-regex* <REGEX>              Filter out messages via regular expression matching on the response's body (ex: -X '^ignore me$')
+# @option -X --filter-regex* <REGEX>              Filter out messages via regular expression matching on the response's body/headers (ex: -X '^ignore me$')
 # @option -W --filter-words* <WORDS>              Filter out messages of a particular word count (ex: -W 312 -W 91,82)
 # @option -N --filter-lines* <LINES>              Filter out messages of a particular line count (ex: -N 20 -N 31,30)
 # @option -C --filter-status* <STATUS_CODE>       Filter out status codes (deny list) (ex: -C 200 -C 401)
@@ -41,16 +41,16 @@
 # @option -d --depth <RECURSION_DEPTH>            Maximum recursion depth, a depth of 0 is infinite recursion (default: 4)
 # @flag --force-recursion                         Force recursion attempts on all 'found' endpoints (still respects recursion depth)
 # @flag --dont-extract-links                      Don't extract links from response body (html, javascript, etc...)
-# @option -L --scan-limit[0|i] <SCAN_LIMIT>       Limit total number of concurrent scans (default: 0, i.e.
+# @option -L --scan-limit <SCAN_LIMIT>            Limit total number of concurrent scans (default: 0)
 # @option --parallel <PARALLEL_SCANS>             Run parallel feroxbuster instances (one child process per url passed via stdin)
-# @option --rate-limit[0|i] <RATE_LIMIT>          Limit number of requests per second (per directory) (default: 0, i.e.
+# @option --rate-limit <RATE_LIMIT>               Limit number of requests per second (per directory) (default: 0)
 # @option --time-limit <TIME_SPEC>                Limit total run time of all scans (ex: --time-limit 10m)
 # @option -w --wordlist <FILE>                    Path or URL of the wordlist
 # @flag --auto-tune                               Automatically lower scan rate when an excessive amount of errors are encountered
 # @flag --auto-bail                               Automatically stop scanning when an excessive amount of errors are encountered
 # @flag -D --dont-filter                          Don't auto-filter wildcard responses
 # @flag -E --collect-extensions                   Automatically discover extensions and add them to --extensions (unless they're in --dont-collect)
-# @flag -B --collect-backups                      Automatically request likely backup extensions for "found" urls
+# @option -B --collect-backups* <collect_backups>  Automatically request likely backup extensions for "found" urls (default: ~, .bak, .bak2, .old, .1)
 # @flag -g --collect-words                        Automatically discover important words from within responses and add them to the wordlist
 # @option -I --dont-collect* <FILE_EXTENSION>     File extension(s) to Ignore while collecting extensions (only used with --collect-extensions)
 # @flag -v --verbosity*                           Increase verbosity level (use -vv or more for greater effect.

@@ -20,6 +20,7 @@ dialects() {
 # @flag -n --nocolor                             No color - output will be without ANSI color codes.
 # @flag -v --verbose                             Verbosity, how detailed should the output be.
 # @flag --version                                Show the version and exit.
+# @option --stdin-filename <PATH>                When using stdin as an input, load the configuration as if the contents of stdin was in a file in the listed location.
 # @option --library-path <TEXT>                  Override the `library_path` value from the [sqlfluff:templater:jinja] configuration value.
 # @flag --disable-noqa                           Set this flag to ignore inline noqa comments.
 # @option --logger[templater|lexer|parser|linter|rules|config]  Choose to limit the logging to one of the loggers.
@@ -34,10 +35,10 @@ dialects() {
 # @option -d --dialect[`_choice_dialect`] <TEXT>  The dialect of SQL to lint
 # @flag --warn-unused-ignores                    Warn about unneeded '-- noqa:' comments.
 # @option --persist-timing <TEXT>                A filename to persist the timing information for a linting run to in csv format for external analysis.
-# @flag --disable_progress_bar                   Disables progress bars.
 # @flag --disable-progress-bar                   Disables progress bars.
 # @option -p --processes <INTEGER>               The number of parallel processes to run.
-# @flag -f --force                               Skip the confirmation prompt and go straight to applying fixes.
+# @flag -f --force                               [DEPRECATED - From 3.0 onward this is the default behaviour] Apply fixes will also be applied file by file, during the linting process, rather than waiting until all files are linted before fixing.
+# @flag --check                                  Analyse all files and ask for confirmation before applying any fixes.
 # @flag -q --quiet                               Reduces the amount of output to stdout to a minimal level.
 # @option -x --fixed-suffix <TEXT>               An optional suffix to add to fixed files.
 # @flag --FIX-EVEN-UNPARSABLE                    Enables fixing of files that have templating or parse errors.
@@ -54,6 +55,7 @@ fix() {
 # @flag -n --nocolor                             No color - output will be without ANSI color codes.
 # @flag -v --verbose                             Verbosity, how detailed should the output be.
 # @flag --version                                Show the version and exit.
+# @option --stdin-filename <PATH>                When using stdin as an input, load the configuration as if the contents of stdin was in a file in the listed location.
 # @option --library-path <TEXT>                  Override the `library_path` value from the [sqlfluff:templater:jinja] configuration value.
 # @flag --disable-noqa                           Set this flag to ignore inline noqa comments.
 # @option --logger[templater|lexer|parser|linter|rules|config]  Choose to limit the logging to one of the loggers.
@@ -68,7 +70,6 @@ fix() {
 # @option -d --dialect[`_choice_dialect`] <TEXT>  The dialect of SQL to lint
 # @flag --warn-unused-ignores                    Warn about unneeded '-- noqa:' comments.
 # @option --persist-timing <TEXT>                A filename to persist the timing information for a linting run to in csv format for external analysis.
-# @flag --disable_progress_bar                   Disables progress bars.
 # @flag --disable-progress-bar                   Disables progress bars.
 # @option -p --processes <INTEGER>               The number of parallel processes to run.
 # @option -x --fixed-suffix <TEXT>               An optional suffix to add to fixed files.
@@ -84,6 +85,7 @@ format() {
 # @flag -n --nocolor                             No color - output will be without ANSI color codes.
 # @flag -v --verbose                             Verbosity, how detailed should the output be.
 # @flag --version                                Show the version and exit.
+# @option --stdin-filename <PATH>                When using stdin as an input, load the configuration as if the contents of stdin was in a file in the listed location.
 # @option --library-path <TEXT>                  Override the `library_path` value from the [sqlfluff:templater:jinja] configuration value.
 # @flag --disable-noqa                           Set this flag to ignore inline noqa comments.
 # @option --logger[templater|lexer|parser|linter|rules|config]  Choose to limit the logging to one of the loggers.
@@ -98,12 +100,11 @@ format() {
 # @option -d --dialect[`_choice_dialect`] <TEXT>  The dialect of SQL to lint
 # @flag --warn-unused-ignores                    Warn about unneeded '-- noqa:' comments.
 # @option --persist-timing <TEXT>                A filename to persist the timing information for a linting run to in csv format for external analysis.
-# @flag --disable_progress_bar                   Disables progress bars.
 # @flag --disable-progress-bar                   Disables progress bars.
 # @option -p --processes <INTEGER>               The number of parallel processes to run.
 # @option -f --format[human|json|yaml|github-annotation|github-annotation-native|none]  What format to return the lint result in (default=human).
 # @option --write-output <TEXT>                  Optionally provide a filename to write the results to, mostly used in tandem with --format.
-# @option --annotation-level[notice|warning|failure|error]  When format is set to github-annotation or github-annotation-native, default annotation level (default=notice).
+# @option --annotation-level[notice|warning|failure|error]  When format is set to "github-annotation" or "github-annotation-native", default annotation level (default="warning").
 # @flag --nofail                                 If set, the exit code will always be zero, regardless of violations found.
 # @flag --disregard-sqlfluffignores              Perform the operation regardless of .sqlfluffignore configurations
 # @flag -h --help                                Show this message and exit.
@@ -118,6 +119,7 @@ lint() {
 # @flag -n --nocolor                             No color - output will be without ANSI color codes.
 # @flag -v --verbose                             Verbosity, how detailed should the output be.
 # @flag --version                                Show the version and exit.
+# @option --stdin-filename <PATH>                When using stdin as an input, load the configuration as if the contents of stdin was in a file in the listed location.
 # @option --library-path <TEXT>                  Override the `library_path` value from the [sqlfluff:templater:jinja] configuration value.
 # @flag --disable-noqa                           Set this flag to ignore inline noqa comments.
 # @option --logger[templater|lexer|parser|linter|rules|config]  Choose to limit the logging to one of the loggers.
@@ -148,6 +150,7 @@ parse() {
 # @flag -n --nocolor                             No color - output will be without ANSI color codes.
 # @flag -v --verbose                             Verbosity, how detailed should the output be.
 # @flag --version                                Show the version and exit.
+# @option --stdin-filename <PATH>                When using stdin as an input, load the configuration as if the contents of stdin was in a file in the listed location.
 # @option --library-path <TEXT>                  Override the `library_path` value from the [sqlfluff:templater:jinja] configuration value.
 # @flag --disable-noqa                           Set this flag to ignore inline noqa comments.
 # @option --logger[templater|lexer|parser|linter|rules|config]  Choose to limit the logging to one of the loggers.

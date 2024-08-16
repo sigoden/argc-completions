@@ -14,7 +14,7 @@
 # @flag --extractor-descriptions                   Output descriptions of all supported extractors and exit
 # @option --use-extractors <NAMES>                 Extractor names to use separated by commas.
 # @option --default-search <PREFIX>                Use this prefix for unqualified URLs.
-# @flag --ignore-config                            Don't load any more configuration files except those given by --config-locations.
+# @flag --ignore-config                            Don't load any more configuration files except those given to --config-locations.
 # @flag --no-config-locations                      Do not load any custom configuration files (default).
 # @option --config-locations <PATH>                Location of the main configuration file; either the path to the config or its containing directory ("-" for stdin).
 # @flag --flat-playlist                            Do not extract the videos of a playlist, only list them
@@ -31,6 +31,8 @@
 # @option --proxy <URL>                            Use the specified HTTP/HTTPS/SOCKS proxy.
 # @option --socket-timeout <SECONDS>               Time to wait before giving up, in seconds
 # @option --source-address <IP>                    Client-side IP address to bind to
+# @option --impersonate <CLIENT[:OS]>              Client to impersonate for requests.
+# @flag --list-impersonate-targets                 List available clients to impersonate.
 # @flag -4 --force-ipv4                            Make all connections via IPv4
 # @flag -6 --force-ipv6                            Make all connections via IPv6
 # @flag --enable-file-urls                         Enable file:// URLs.
@@ -53,6 +55,7 @@
 # @flag --no-download-archive                      Do not use archive file (default)
 # @option --max-downloads <NUMBER>                 Abort after downloading NUMBER files
 # @flag --break-on-existing                        Stop the download process when encountering a file that is in the archive
+# @flag --no-break-on-existing                     Do not stop the download process when encountering a file that is in the archive (default)
 # @flag --break-per-input                          Alters --max-downloads, --break-on-existing, --break-match-filter, and autonumber to reset per input URL
 # @flag --no-break-per-input                       --break-on-existing and similar options terminates the entire download queue
 # @option --skip-playlist-after-errors <N>         Number of allowed failures until the rest of the playlist is skipped
@@ -84,7 +87,7 @@
 # @flag --no-batch-file                            Do not read URLs from batch file (default)
 # @option -P --paths <[TYPES:]PATH>                The paths where the files should be downloaded.
 # @option -o --output <[TYPES:]TEMPLATE>           Output filename template; see "OUTPUT TEMPLATE" for details
-# @option --output-na-placeholder <TEXT>           Placeholder for unavailable fields in "OUTPUT TEMPLATE" (default: "NA")
+# @option --output-na-placeholder <TEXT>           Placeholder for unavailable fields in --output (default: "NA")
 # @flag --restrict-filenames                       Restrict filenames to only ASCII characters, and avoid "&" and spaces in filenames
 # @flag --no-restrict-filenames                    Allow Unicode characters, "&" and spaces in filenames (default)
 # @flag --windows-filenames                        Force filenames to be Windows-compatible
@@ -112,7 +115,7 @@
 # @option --load-info-json <FILE>                  JSON file containing the video information (created with the "--write-info-json" option)
 # @option --cookies <FILE>                         Netscape formatted file to read cookies from and dump cookie jar in
 # @flag --no-cookies                               Do not read/dump cookies from/to file (default)
-# @option --cookies-from-browser[brave|chrome|chromium|edge|firefox|opera|safari|vivaldi] <BROWSER[+KEYRING][:PROFILE][::CONTAINER]>  The name of the browser to load cookies from.
+# @option --cookies-from-browser[brave|chrome|chromium|edge|firefox|opera|safari|vivaldi|whale] <BROWSER[+KEYRING][:PROFILE][::CONTAINER]>  The name of the browser to load cookies from.
 # @flag --no-cookies-from-browser                  Do not load cookies from browser (default)
 # @option --cache-dir <DIR>                        Location in the filesystem where yt-dlp can store some downloaded information (such as client ids and signatures) permanently.
 # @flag --no-cache-dir                             Disable filesystem caching
@@ -143,6 +146,7 @@
 # @flag --progress                                 Show progress bar, even if in quiet mode
 # @flag --console-title                            Display progress in console titlebar
 # @option --progress-template <[TYPES:]TEMPLATE>   Template for progress outputs, optionally prefixed with one of "download:" (default), "download-title:" (the console title), "postprocess:",  or "postprocess-title:".
+# @option --progress-delta <SECONDS>               Time between progress output (default: 0)
 # @flag -v --verbose                               Print various debugging information
 # @flag --dump-pages                               Print downloaded pages encoded using base64 to debug problems (very verbose)
 # @flag --write-pages                              Write downloaded intermediary pages to files in the current directory to debug problems

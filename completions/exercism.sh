@@ -6,6 +6,65 @@
 # @flag --unmask-token       will unmask the API during a request/response dump
 # @flag -v --verbose         verbose output
 
+# {{ exercism completion
+# @cmd Generate the autocompletion script for the specified shell
+# @flag -h --help            help for completion
+# @option --timeout <int>    override the default HTTP timeout (seconds)
+# @flag --unmask-token       will unmask the API during a request/response dump
+# @flag -v --verbose         verbose output
+completion() {
+    :;
+}
+
+# {{{ exercism completion bash
+# @cmd Generate the autocompletion script for bash
+# @flag -h --help            help for bash
+# @flag --no-descriptions    disable completion descriptions
+# @option --timeout <int>    override the default HTTP timeout (seconds)
+# @flag --unmask-token       will unmask the API during a request/response dump
+# @flag -v --verbose         verbose output
+completion::bash() {
+    :;
+}
+# }}} exercism completion bash
+
+# {{{ exercism completion fish
+# @cmd Generate the autocompletion script for fish
+# @flag -h --help            help for fish
+# @flag --no-descriptions    disable completion descriptions
+# @option --timeout <int>    override the default HTTP timeout (seconds)
+# @flag --unmask-token       will unmask the API during a request/response dump
+# @flag -v --verbose         verbose output
+completion::fish() {
+    :;
+}
+# }}} exercism completion fish
+
+# {{{ exercism completion powershell
+# @cmd Generate the autocompletion script for powershell
+# @flag -h --help            help for powershell
+# @flag --no-descriptions    disable completion descriptions
+# @option --timeout <int>    override the default HTTP timeout (seconds)
+# @flag --unmask-token       will unmask the API during a request/response dump
+# @flag -v --verbose         verbose output
+completion::powershell() {
+    :;
+}
+# }}} exercism completion powershell
+
+# {{{ exercism completion zsh
+# @cmd Generate the autocompletion script for zsh
+# @flag -h --help            help for zsh
+# @flag --no-descriptions    disable completion descriptions
+# @option --timeout <int>    override the default HTTP timeout (seconds)
+# @flag --unmask-token       will unmask the API during a request/response dump
+# @flag -v --verbose         verbose output
+completion::zsh() {
+    :;
+}
+# }}} exercism completion zsh
+# }} exercism completion
+
 # {{ exercism configure
 # @cmd Configure the command-line client.
 # @option -a --api <string>          API base url
@@ -66,8 +125,7 @@ prepare() {
 # @option --timeout <int>    override the default HTTP timeout (seconds)
 # @flag --unmask-token       will unmask the API during a request/response dump
 # @flag -v --verbose         verbose output
-# @arg file1
-# @arg file2*
+# @arg file*
 submit() {
     :;
 }

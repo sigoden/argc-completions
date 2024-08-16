@@ -3,13 +3,14 @@
 
 # @flag -h --help                            Display this message
 # @option --cfg <SPEC>                       Configure the compilation environment.
+# @option --check-cfg <SPEC>                 Provide list of expected cfgs for checking
 # @option -L[`_choice_lib`] <[KIND=]PATH>    Add a directory to the library search path.
 # @option -l[`_choice_link`] <[KIND[:MODIFIERS]=]NAME[:RENAME]>  Link the generated crate(s) to the specified native library NAME.
 # @option --crate-type[bin|lib|rlib|dylib|cdylib|staticlib|proc-macro]  Comma separated list of types of crates for the compiler to emit
 # @option --crate-name <NAME>                Specify the name of the crate being built
 # @option --edition[2015|2018|2021|2024]     Specify which edition of the compiler to use when compiling code.
 # @option --emit[asm|llvm-bc|llvm-ir|obj|metadata|link|dep-info|mir]  Comma separated list of types of output for the compiler to emit
-# @option --print[crate-name|file-names|sysroot|target-libdir|cfg|calling-conventions|target-list|target-cpus|target-features|relocation-models|code-models|tls-models|target-spec-json|all-target-specs-json|native-static-libs|stack-protector-strategies|link-args|deployment-target]  Compiler information to print on stdout
+# @option --print[crate-name|file-names|sysroot|target-libdir|cfg|check-cfg|calling-conventions|target-list|target-cpus|target-features|relocation-models|code-models|tls-models|target-spec-json|all-target-specs-json|native-static-libs|stack-protector-strategies|link-args|deployment-target]  Compiler information to print on stdout
 # @flag -g                                   Equivalent to -C debuginfo=2
 # @flag -O                                   Equivalent to -C opt-level=2
 # @option -o <FILENAME>                      Write output to <filename>

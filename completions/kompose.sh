@@ -23,15 +23,15 @@ completion() {
 # }} kompose completion
 
 # {{ kompose convert
-# @cmd Convert a Docker Compose file
+# @cmd Convert a Compose file
 # @flag -c --chart                          Create a Helm chart for converted objects
 # @flag --build-branch                      Specify repository branch to use for buildconfig (default is current branch name)
 # @flag --build-repo                        Specify source repository for buildconfig (default is current branch's remote url)
 # @flag --insecure-repository               Specify to use insecure docker repository while generating Openshift image stream object
 # @option --build[local|build-config|none] <string>  Set the type of build ("local"|"build-config"(OpenShift only)|"none") (default "none")
-# @option --build-command <string>          Set the command used to build the container image.
+# @option --build-command <string>          Set the command used to build the container image, which will override the docker build command.
 # @option --controller[deployment|daemonSet|replicationController] <string>  Set the output controller
-# @flag --generate-network-policies         Specify whether to generate network policies or not.
+# @flag --generate-network-policies         Specify whether to generate network policies or not
 # @flag -h --help                           help for convert
 # @option --indent <int>                    Spaces length to indent generated yaml files (default 2)
 # @flag -j --json                           Generate resource files into JSON format
@@ -40,10 +40,10 @@ completion() {
 # @option --profile* <file>                 Specify the profile to use, can use multiple profiles
 # @option --push-command <string>           Set the command used to push the container image.
 # @flag --push-image                        If we should push the docker image we built
-# @option --push-image-registry <string>    Specify registry for pushing image, which will override registry from image name.
+# @option --push-image-registry <string>    Specify registry for pushing image, which will override registry from image name
 # @option --pvc-request-size <string>       Specify the size of pvc storage requests in the generated resource spec
 # @option --replicas <int>                  Specify the number of replicas in the generated resource spec (default 1)
-# @flag --secrets-as-files                  Always convert docker-compose secrets into files instead of symlinked directories.
+# @flag --secrets-as-files                  Always convert docker-compose secrets into files instead of symlinked directories
 # @option --service-group-mode <label>      Group multiple service to create single workload by label(`kompose.service.group`) or `volume`(shared volumes)
 # @option --service-group-name <string>     Using with --service-group-mode=volume to specific a final service name for the group
 # @flag --stdout                            Print converted objects to stdout

@@ -125,7 +125,7 @@ _patch_table_edit_options() {
 #      'foo;[`_choice_foo`]' \ |                # bind choice fn
 #      'foo;;desc' \ |                          # change description
 #      'foo(path)' \ |                          # rename value name
-#      'foo(path <file:.json)' \ |              # change value name and notation
+#      'foo(path <file:.json>)' \ |              # change value name and notation
 #      'foo(path);[`_choice_foo`];desc' \ |     # change everything
 #      'foo; ; ' \ |                            # use space to clear text
 #      'foo' \ |                                # delete argument

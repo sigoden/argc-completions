@@ -63,6 +63,8 @@
 # @option --repository_cache <path>
 # @option --experimental_oom_more_eagerly_threshold <integer>
 # @option --experimental_ui_max_stdouterr_bytes <value>  an integer in (-1)-1073741819 range
+# @flag --incompatible_enable_proto_toolchain_resolution
+# @flag --noincompatible_enable_proto_toolchain_resolution
 # @option --repo_env <value>                     a 'name=value' assignment with an optional value part may be used multiple times
 # @flag --check_bzl_visibility
 # @flag --nocheck_bzl_visibility
@@ -116,6 +118,8 @@
 # @flag --noincompatible_disallow_legacy_javainfo
 # @flag --incompatible_disallow_struct_provider_syntax
 # @flag --noincompatible_disallow_struct_provider_syntax
+# @flag --incompatible_enable_deprecated_label_apis
+# @flag --noincompatible_enable_deprecated_label_apis
 # @flag --incompatible_existing_rules_immutable_view
 # @flag --noincompatible_existing_rules_immutable_view
 # @flag --incompatible_fail_on_unknown_attributes
@@ -423,6 +427,8 @@ analyze-profile() {
 # @flag --noincompatible_enable_android_toolchain_resolution
 # @flag --incompatible_enable_apple_toolchain_resolution
 # @flag --noincompatible_enable_apple_toolchain_resolution
+# @flag --incompatible_enable_proto_toolchain_resolution
+# @flag --noincompatible_enable_proto_toolchain_resolution
 # @flag --incompatible_linkopts_in_user_link_flags
 # @flag --noincompatible_linkopts_in_user_link_flags
 # @flag --incompatible_make_thinlto_command_lines_standalone
@@ -722,6 +728,8 @@ analyze-profile() {
 # @flag --noincompatible_disallow_legacy_py_provider
 # @flag --incompatible_disallow_struct_provider_syntax
 # @flag --noincompatible_disallow_struct_provider_syntax
+# @flag --incompatible_enable_deprecated_label_apis
+# @flag --noincompatible_enable_deprecated_label_apis
 # @flag --incompatible_enforce_config_setting_visibility
 # @flag --noincompatible_enforce_config_setting_visibility
 # @flag --incompatible_existing_rules_immutable_view
@@ -1355,6 +1363,8 @@ aquery() {
 # @flag --noincompatible_enable_android_toolchain_resolution
 # @flag --incompatible_enable_apple_toolchain_resolution
 # @flag --noincompatible_enable_apple_toolchain_resolution
+# @flag --incompatible_enable_proto_toolchain_resolution
+# @flag --noincompatible_enable_proto_toolchain_resolution
 # @flag --incompatible_linkopts_in_user_link_flags
 # @flag --noincompatible_linkopts_in_user_link_flags
 # @flag --incompatible_make_thinlto_command_lines_standalone
@@ -1654,6 +1664,8 @@ aquery() {
 # @flag --noincompatible_disallow_legacy_py_provider
 # @flag --incompatible_disallow_struct_provider_syntax
 # @flag --noincompatible_disallow_struct_provider_syntax
+# @flag --incompatible_enable_deprecated_label_apis
+# @flag --noincompatible_enable_deprecated_label_apis
 # @flag --incompatible_enforce_config_setting_visibility
 # @flag --noincompatible_enforce_config_setting_visibility
 # @flag --incompatible_existing_rules_immutable_view
@@ -2233,6 +2245,8 @@ build() {
 # @flag --noincompatible_enable_android_toolchain_resolution
 # @flag --incompatible_enable_apple_toolchain_resolution
 # @flag --noincompatible_enable_apple_toolchain_resolution
+# @flag --incompatible_enable_proto_toolchain_resolution
+# @flag --noincompatible_enable_proto_toolchain_resolution
 # @flag --incompatible_linkopts_in_user_link_flags
 # @flag --noincompatible_linkopts_in_user_link_flags
 # @flag --incompatible_make_thinlto_command_lines_standalone
@@ -2536,6 +2550,8 @@ build() {
 # @flag --noincompatible_disallow_legacy_py_provider
 # @flag --incompatible_disallow_struct_provider_syntax
 # @flag --noincompatible_disallow_struct_provider_syntax
+# @flag --incompatible_enable_deprecated_label_apis
+# @flag --noincompatible_enable_deprecated_label_apis
 # @flag --incompatible_enforce_config_setting_visibility
 # @flag --noincompatible_enforce_config_setting_visibility
 # @flag --incompatible_existing_rules_immutable_view
@@ -3116,6 +3132,8 @@ canonicalize-flags() {
 # @flag --noincompatible_enable_android_toolchain_resolution
 # @flag --incompatible_enable_apple_toolchain_resolution
 # @flag --noincompatible_enable_apple_toolchain_resolution
+# @flag --incompatible_enable_proto_toolchain_resolution
+# @flag --noincompatible_enable_proto_toolchain_resolution
 # @flag --incompatible_linkopts_in_user_link_flags
 # @flag --noincompatible_linkopts_in_user_link_flags
 # @flag --incompatible_make_thinlto_command_lines_standalone
@@ -3422,6 +3440,8 @@ canonicalize-flags() {
 # @flag --noincompatible_disallow_legacy_py_provider
 # @flag --incompatible_disallow_struct_provider_syntax
 # @flag --noincompatible_disallow_struct_provider_syntax
+# @flag --incompatible_enable_deprecated_label_apis
+# @flag --noincompatible_enable_deprecated_label_apis
 # @flag --incompatible_enforce_config_setting_visibility
 # @flag --noincompatible_enforce_config_setting_visibility
 # @flag --incompatible_existing_rules_immutable_view
@@ -4000,6 +4020,8 @@ clean() {
 # @flag --noincompatible_enable_android_toolchain_resolution
 # @flag --incompatible_enable_apple_toolchain_resolution
 # @flag --noincompatible_enable_apple_toolchain_resolution
+# @flag --incompatible_enable_proto_toolchain_resolution
+# @flag --noincompatible_enable_proto_toolchain_resolution
 # @flag --incompatible_linkopts_in_user_link_flags
 # @flag --noincompatible_linkopts_in_user_link_flags
 # @flag --incompatible_make_thinlto_command_lines_standalone
@@ -4299,6 +4321,8 @@ clean() {
 # @flag --noincompatible_disallow_legacy_py_provider
 # @flag --incompatible_disallow_struct_provider_syntax
 # @flag --noincompatible_disallow_struct_provider_syntax
+# @flag --incompatible_enable_deprecated_label_apis
+# @flag --noincompatible_enable_deprecated_label_apis
 # @flag --incompatible_enforce_config_setting_visibility
 # @flag --noincompatible_enforce_config_setting_visibility
 # @flag --incompatible_existing_rules_immutable_view
@@ -4884,6 +4908,8 @@ coverage() {
 # @flag --noincompatible_enable_android_toolchain_resolution
 # @flag --incompatible_enable_apple_toolchain_resolution
 # @flag --noincompatible_enable_apple_toolchain_resolution
+# @flag --incompatible_enable_proto_toolchain_resolution
+# @flag --noincompatible_enable_proto_toolchain_resolution
 # @flag --incompatible_linkopts_in_user_link_flags
 # @flag --noincompatible_linkopts_in_user_link_flags
 # @flag --incompatible_make_thinlto_command_lines_standalone
@@ -5183,6 +5209,8 @@ coverage() {
 # @flag --noincompatible_disallow_legacy_py_provider
 # @flag --incompatible_disallow_struct_provider_syntax
 # @flag --noincompatible_disallow_struct_provider_syntax
+# @flag --incompatible_enable_deprecated_label_apis
+# @flag --noincompatible_enable_deprecated_label_apis
 # @flag --incompatible_enforce_config_setting_visibility
 # @flag --noincompatible_enforce_config_setting_visibility
 # @flag --incompatible_existing_rules_immutable_view
@@ -5690,6 +5718,8 @@ cquery() {
 # @option --repository_cache <path>
 # @option --experimental_oom_more_eagerly_threshold <integer>
 # @option --experimental_ui_max_stdouterr_bytes <value>  an integer in (-1)-1073741819 range
+# @flag --incompatible_enable_proto_toolchain_resolution
+# @flag --noincompatible_enable_proto_toolchain_resolution
 # @flag --action_cache
 # @flag --noaction_cache
 # @flag --packages
@@ -5754,6 +5784,8 @@ cquery() {
 # @flag --noincompatible_disallow_legacy_javainfo
 # @flag --incompatible_disallow_struct_provider_syntax
 # @flag --noincompatible_disallow_struct_provider_syntax
+# @flag --incompatible_enable_deprecated_label_apis
+# @flag --noincompatible_enable_deprecated_label_apis
 # @flag --incompatible_existing_rules_immutable_view
 # @flag --noincompatible_existing_rules_immutable_view
 # @flag --incompatible_fail_on_unknown_attributes
@@ -5940,6 +5972,8 @@ dump() {
 # @flag --keep_going
 # @flag --nokeep_going
 # @option --loading_phase_threads[auto|HOST_CPUS|HOST_RAM] <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
+# @flag --incompatible_enable_proto_toolchain_resolution
+# @flag --noincompatible_enable_proto_toolchain_resolution
 # @option --bep_maximum_open_remote_upload_files <integer>
 # @flag --remote_download_minimal
 # @option --remote_download_outputs[all|minimal|toplevel]
@@ -6000,6 +6034,8 @@ dump() {
 # @flag --noincompatible_disallow_legacy_javainfo
 # @flag --incompatible_disallow_struct_provider_syntax
 # @flag --noincompatible_disallow_struct_provider_syntax
+# @flag --incompatible_enable_deprecated_label_apis
+# @flag --noincompatible_enable_deprecated_label_apis
 # @flag --incompatible_enforce_config_setting_visibility
 # @flag --noincompatible_enforce_config_setting_visibility
 # @flag --incompatible_existing_rules_immutable_view
@@ -6376,6 +6412,8 @@ fetch() {
 # @flag --noincompatible_enable_android_toolchain_resolution
 # @flag --incompatible_enable_apple_toolchain_resolution
 # @flag --noincompatible_enable_apple_toolchain_resolution
+# @flag --incompatible_enable_proto_toolchain_resolution
+# @flag --noincompatible_enable_proto_toolchain_resolution
 # @flag --incompatible_linkopts_in_user_link_flags
 # @flag --noincompatible_linkopts_in_user_link_flags
 # @flag --incompatible_make_thinlto_command_lines_standalone
@@ -6675,6 +6713,8 @@ fetch() {
 # @flag --noincompatible_disallow_legacy_py_provider
 # @flag --incompatible_disallow_struct_provider_syntax
 # @flag --noincompatible_disallow_struct_provider_syntax
+# @flag --incompatible_enable_deprecated_label_apis
+# @flag --noincompatible_enable_deprecated_label_apis
 # @flag --incompatible_enforce_config_setting_visibility
 # @flag --noincompatible_enforce_config_setting_visibility
 # @flag --incompatible_existing_rules_immutable_view
@@ -7130,6 +7170,8 @@ info() {
 # @option --repository_cache <path>
 # @option --experimental_oom_more_eagerly_threshold <integer>
 # @option --experimental_ui_max_stdouterr_bytes <value>  an integer in (-1)-1073741819 range
+# @flag --incompatible_enable_proto_toolchain_resolution
+# @flag --noincompatible_enable_proto_toolchain_resolution
 # @option --repo_env <value>                     a 'name=value' assignment with an optional value part may be used multiple times
 # @flag --check_bzl_visibility
 # @flag --nocheck_bzl_visibility
@@ -7183,6 +7225,8 @@ info() {
 # @flag --noincompatible_disallow_legacy_javainfo
 # @flag --incompatible_disallow_struct_provider_syntax
 # @flag --noincompatible_disallow_struct_provider_syntax
+# @flag --incompatible_enable_deprecated_label_apis
+# @flag --noincompatible_enable_deprecated_label_apis
 # @flag --incompatible_existing_rules_immutable_view
 # @flag --noincompatible_existing_rules_immutable_view
 # @flag --incompatible_fail_on_unknown_attributes
@@ -7489,6 +7533,8 @@ license() {
 # @flag --noincompatible_enable_android_toolchain_resolution
 # @flag --incompatible_enable_apple_toolchain_resolution
 # @flag --noincompatible_enable_apple_toolchain_resolution
+# @flag --incompatible_enable_proto_toolchain_resolution
+# @flag --noincompatible_enable_proto_toolchain_resolution
 # @flag --incompatible_linkopts_in_user_link_flags
 # @flag --noincompatible_linkopts_in_user_link_flags
 # @flag --incompatible_make_thinlto_command_lines_standalone
@@ -7797,6 +7843,8 @@ license() {
 # @flag --noincompatible_disallow_legacy_py_provider
 # @flag --incompatible_disallow_struct_provider_syntax
 # @flag --noincompatible_disallow_struct_provider_syntax
+# @flag --incompatible_enable_deprecated_label_apis
+# @flag --noincompatible_enable_deprecated_label_apis
 # @flag --incompatible_enforce_config_setting_visibility
 # @flag --noincompatible_enforce_config_setting_visibility
 # @flag --incompatible_existing_rules_immutable_view
@@ -8255,6 +8303,8 @@ mobile-install() {
 # @flag --keep_going
 # @flag --nokeep_going
 # @option --loading_phase_threads[auto|HOST_CPUS|HOST_RAM] <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
+# @flag --incompatible_enable_proto_toolchain_resolution
+# @flag --noincompatible_enable_proto_toolchain_resolution
 # @option --repo_env <value>                     a 'name=value' assignment with an optional value part may be used multiple times
 # @flag --check_bzl_visibility
 # @flag --nocheck_bzl_visibility
@@ -8310,6 +8360,8 @@ mobile-install() {
 # @flag --noincompatible_disallow_legacy_javainfo
 # @flag --incompatible_disallow_struct_provider_syntax
 # @flag --noincompatible_disallow_struct_provider_syntax
+# @flag --incompatible_enable_deprecated_label_apis
+# @flag --noincompatible_enable_deprecated_label_apis
 # @flag --incompatible_enforce_config_setting_visibility
 # @flag --noincompatible_enforce_config_setting_visibility
 # @flag --incompatible_existing_rules_immutable_view
@@ -8638,6 +8690,8 @@ mod() {
 # @flag --noincompatible_enable_android_toolchain_resolution
 # @flag --incompatible_enable_apple_toolchain_resolution
 # @flag --noincompatible_enable_apple_toolchain_resolution
+# @flag --incompatible_enable_proto_toolchain_resolution
+# @flag --noincompatible_enable_proto_toolchain_resolution
 # @flag --incompatible_linkopts_in_user_link_flags
 # @flag --noincompatible_linkopts_in_user_link_flags
 # @flag --incompatible_make_thinlto_command_lines_standalone
@@ -8937,6 +8991,8 @@ mod() {
 # @flag --noincompatible_disallow_legacy_py_provider
 # @flag --incompatible_disallow_struct_provider_syntax
 # @flag --noincompatible_disallow_struct_provider_syntax
+# @flag --incompatible_enable_deprecated_label_apis
+# @flag --noincompatible_enable_deprecated_label_apis
 # @flag --incompatible_enforce_config_setting_visibility
 # @flag --noincompatible_enforce_config_setting_visibility
 # @flag --incompatible_existing_rules_immutable_view
@@ -9399,6 +9455,8 @@ print_action() {
 # @flag --keep_going
 # @flag --nokeep_going
 # @option --loading_phase_threads[auto|HOST_CPUS|HOST_RAM] <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
+# @flag --incompatible_enable_proto_toolchain_resolution
+# @flag --noincompatible_enable_proto_toolchain_resolution
 # @option --bep_maximum_open_remote_upload_files <integer>
 # @flag --remote_download_minimal
 # @option --remote_download_outputs[all|minimal|toplevel]
@@ -9459,6 +9517,8 @@ print_action() {
 # @flag --noincompatible_disallow_legacy_javainfo
 # @flag --incompatible_disallow_struct_provider_syntax
 # @flag --noincompatible_disallow_struct_provider_syntax
+# @flag --incompatible_enable_deprecated_label_apis
+# @flag --noincompatible_enable_deprecated_label_apis
 # @flag --incompatible_enforce_config_setting_visibility
 # @flag --noincompatible_enforce_config_setting_visibility
 # @flag --incompatible_existing_rules_immutable_view
@@ -9892,6 +9952,8 @@ query() {
 # @flag --noincompatible_enable_android_toolchain_resolution
 # @flag --incompatible_enable_apple_toolchain_resolution
 # @flag --noincompatible_enable_apple_toolchain_resolution
+# @flag --incompatible_enable_proto_toolchain_resolution
+# @flag --noincompatible_enable_proto_toolchain_resolution
 # @flag --incompatible_linkopts_in_user_link_flags
 # @flag --noincompatible_linkopts_in_user_link_flags
 # @flag --incompatible_make_thinlto_command_lines_standalone
@@ -10192,6 +10254,8 @@ query() {
 # @flag --noincompatible_disallow_legacy_py_provider
 # @flag --incompatible_disallow_struct_provider_syntax
 # @flag --noincompatible_disallow_struct_provider_syntax
+# @flag --incompatible_enable_deprecated_label_apis
+# @flag --noincompatible_enable_deprecated_label_apis
 # @flag --incompatible_enforce_config_setting_visibility
 # @flag --noincompatible_enforce_config_setting_visibility
 # @flag --incompatible_existing_rules_immutable_view
@@ -10645,6 +10709,8 @@ run() {
 # @option --repository_cache <path>
 # @option --experimental_oom_more_eagerly_threshold <integer>
 # @option --experimental_ui_max_stdouterr_bytes <value>  an integer in (-1)-1073741819 range
+# @flag --incompatible_enable_proto_toolchain_resolution
+# @flag --noincompatible_enable_proto_toolchain_resolution
 # @option --iff_heap_size_greater_than <integer>
 # @option --repo_env <value>                     a 'name=value' assignment with an optional value part may be used multiple times
 # @flag --check_bzl_visibility
@@ -10699,6 +10765,8 @@ run() {
 # @flag --noincompatible_disallow_legacy_javainfo
 # @flag --incompatible_disallow_struct_provider_syntax
 # @flag --noincompatible_disallow_struct_provider_syntax
+# @flag --incompatible_enable_deprecated_label_apis
+# @flag --noincompatible_enable_deprecated_label_apis
 # @flag --incompatible_existing_rules_immutable_view
 # @flag --noincompatible_existing_rules_immutable_view
 # @flag --incompatible_fail_on_unknown_attributes
@@ -10888,6 +10956,8 @@ shutdown() {
 # @flag --nokeep_going
 # @option --loading_phase_threads[auto|HOST_CPUS|HOST_RAM] <value>  an integer, or a keyword, optionally followed by an operation ([-|*]<float>) eg.
 # @option --only <string>                        may be used multiple times
+# @flag --incompatible_enable_proto_toolchain_resolution
+# @flag --noincompatible_enable_proto_toolchain_resolution
 # @option --bep_maximum_open_remote_upload_files <integer>
 # @flag --remote_download_minimal
 # @option --remote_download_outputs[all|minimal|toplevel]
@@ -10948,6 +11018,8 @@ shutdown() {
 # @flag --noincompatible_disallow_legacy_javainfo
 # @flag --incompatible_disallow_struct_provider_syntax
 # @flag --noincompatible_disallow_struct_provider_syntax
+# @flag --incompatible_enable_deprecated_label_apis
+# @flag --noincompatible_enable_deprecated_label_apis
 # @flag --incompatible_enforce_config_setting_visibility
 # @flag --noincompatible_enforce_config_setting_visibility
 # @flag --incompatible_existing_rules_immutable_view
@@ -11323,6 +11395,8 @@ sync() {
 # @flag --noincompatible_enable_android_toolchain_resolution
 # @flag --incompatible_enable_apple_toolchain_resolution
 # @flag --noincompatible_enable_apple_toolchain_resolution
+# @flag --incompatible_enable_proto_toolchain_resolution
+# @flag --noincompatible_enable_proto_toolchain_resolution
 # @flag --incompatible_linkopts_in_user_link_flags
 # @flag --noincompatible_linkopts_in_user_link_flags
 # @flag --incompatible_make_thinlto_command_lines_standalone
@@ -11622,6 +11696,8 @@ sync() {
 # @flag --noincompatible_disallow_legacy_py_provider
 # @flag --incompatible_disallow_struct_provider_syntax
 # @flag --noincompatible_disallow_struct_provider_syntax
+# @flag --incompatible_enable_deprecated_label_apis
+# @flag --noincompatible_enable_deprecated_label_apis
 # @flag --incompatible_enforce_config_setting_visibility
 # @flag --noincompatible_enforce_config_setting_visibility
 # @flag --incompatible_existing_rules_immutable_view
@@ -12081,6 +12157,8 @@ test() {
 # @option --repository_cache <path>
 # @option --experimental_oom_more_eagerly_threshold <integer>
 # @option --experimental_ui_max_stdouterr_bytes <value>  an integer in (-1)-1073741819 range
+# @flag --incompatible_enable_proto_toolchain_resolution
+# @flag --noincompatible_enable_proto_toolchain_resolution
 # @flag --gnu_format
 # @flag --nognu_format
 # @option --repo_env <value>                     a 'name=value' assignment with an optional value part may be used multiple times
@@ -12136,6 +12214,8 @@ test() {
 # @flag --noincompatible_disallow_legacy_javainfo
 # @flag --incompatible_disallow_struct_provider_syntax
 # @flag --noincompatible_disallow_struct_provider_syntax
+# @flag --incompatible_enable_deprecated_label_apis
+# @flag --noincompatible_enable_deprecated_label_apis
 # @flag --incompatible_existing_rules_immutable_view
 # @flag --noincompatible_existing_rules_immutable_view
 # @flag --incompatible_fail_on_unknown_attributes

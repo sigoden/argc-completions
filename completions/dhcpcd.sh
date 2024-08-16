@@ -3,14 +3,14 @@
 
 # @meta combine-shorts
 # @flag -b --background                         Background immediately.
-# @option -c --script <script>                  Use this script instead of the default /nix/store/n4c23v4n4q4y94dscc9zj9bl0zjyc926-dhcpcd-9.4.1/libexec/dhcpcd-run-hooks.
+# @option -c --script <script>                  Use this script instead of the default /nix/store/fi5grp4d3ha4f2wqzbbvnjmwnwgrrpk5-dhcpcd-10.0.8/libexec/dhcpcd-run-hooks.
 # @option -D --duid <ll | lt | uuid | value>    Use a DHCP Unique Identifier.
 # @flag -d --debug                              Echo debug messages to the stderr and syslog.
 # @flag -E --lastlease                          If dhcpcd cannot obtain a lease, then try to use the last lease acquired for the interface.
 # @flag --lastleaseextend                       Same as the above, but the lease will be retained even if it expires.
 # @option -e --env <value>                      Push value to the environment for use in dhcpcd-run-hooks(8).
 # @flag -g --reconfigure                        dhcpcd will re-apply IP address, routing and run dhcpcd-run-hooks(8) for each interface.
-# @option -F --fqdn <fqdn>                      Requests that the DHCP server updates DNS using FQDN instead of just a hostname.
+# @option -F --fqdn <fqdn>                      Requests that the DHCP server update DNS using FQDN instead of just a hostname.
 # @option -f --config <file>                    Specify a config to load instead of /etc/dhcpcd.conf.
 # @option -h --hostname <hostname>              Sends hostname to the DHCP server so it can be registered in DNS.
 # @option -I --clientid <clientid>              Send the clientid.
@@ -22,8 +22,8 @@
 # @option -m --metric <metric>                  Metrics are used to prefer an interface over another one, lowest wins.
 # @option -n --rebind <interface>               Notifies dhcpcd to reload its configuration and rebind the specified interface.
 # @option -N --renew <interface>                Notifies dhcpcd to renew existing addresses on the specified interface.
-# @option -o --option <option>                  Request the DHCP option variable for use in /nix/store/n4c23v4n4q4y94dscc9zj9bl0zjyc926-dhcpcd-9.4.1/libexec/dhcpcd-run-hooks.
-# @flag -p --persistent                         dhcpcd normally de-configures the interface and configuration when it exits.
+# @option -o --option <option>                  Request the DHCP option variable for use in /nix/store/fi5grp4d3ha4f2wqzbbvnjmwnwgrrpk5-dhcpcd-10.0.8/libexec/dhcpcd-run-hooks.
+# @flag -p --persistent                         dhcpcd de-configures the interface when it exits unless this option is enabled.
 # @option -r --request <address>                Request the address in the DHCP DISCOVER message.
 # @option -s --inform <address[/cidr[/broadcast_address]]>  Behaves like -r, --request as above, but sends a DHCP INFORM instead of DISCOVER/REQUEST.
 # @flag --inform6                               Performs a DHCPv6 Information Request.
@@ -48,10 +48,10 @@
 # @flag -K --nolink                             Don't receive link messages for carrier status.
 # @flag -L --noipv4ll                           Don't use IPv4LL (aka APIPA, aka Bonjour, aka ZeroConf).
 # @option -O --nooption <option>                Removes the option from the DHCP message before processing.
-# @flag -P --printpidfile                       Print the pidfile dhcpcd will use based on commmand-line arguments to stdout.
+# @flag -P --printpidfile                       Print the pidfile dhcpcd will use based on command-line arguments to stdout.
 # @option -Q --require <option>                 Requires the option to be present in all DHCP messages, otherwise the message is ignored.
 # @flag -q --quiet                              Quiet dhcpcd on the command line, only warnings and errors will be displayed.
-# @flag -T --test                               On receipt of DHCP messages just call /nix/store/n4c23v4n4q4y94dscc9zj9bl0zjyc926-dhcpcd-9.4.1/libexec/dhcpcd-run-hooks with the reason of TEST which echos the DHCP variables found in the message to the console.
+# @flag -T --test                               On receipt of DHCP messages just call /nix/store/fi5grp4d3ha4f2wqzbbvnjmwnwgrrpk5-dhcpcd-10.0.8/libexec/dhcpcd-run-hooks with the reason of TEST which echos the DHCP variables found in the message to the console.
 # @option -U --dumplease <interface>            Dumps the current lease for the interface to stdout.
 # @flag -V --variables                          Display a list of option codes, the associated variable and encoding for use in dhcpcd-run-hooks(8).
 # @option -W --whitelist <address[/cidr]>       Only accept packets from address[/cidr].

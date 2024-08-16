@@ -417,7 +417,7 @@ _helper_list_changed() {
             next
         }
         split($NF, p, "/");
-        print gensub(/^([a-z0-9_+-]+).*$/, "\\1", 1, p[2])
+        print gensub(/^([a-zA-Z0-9_+-]+).*$/, "\\1", 1, p[2])
     }' | \
     sort | uniq
 }

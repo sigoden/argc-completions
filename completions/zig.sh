@@ -5,69 +5,1048 @@
 
 # {{ zig build
 # @cmd Build project from build.zig
-# @option -p --prefix <path>             Override default install prefix
-# @option --prefix-lib-dir <path>        Override default library directory path
-# @option --prefix-exe-dir <path>        Override default executable directory path
-# @option --prefix-include-dir <path>    Override default include directory path
-# @option --sysroot <path>               Set the system root directory (usually /)
-# @option --search-prefix <path>         Add a path to look for binaries, libraries, headers
-# @option --libc <file>                  Provide a file which specifies libc paths
-# @flag -fdarling                        Integration with system-installed Darling to execute macOS programs on Linux hosts (default: no)
-# @flag -fno-darling                     Integration with system-installed Darling to execute macOS programs on Linux hosts (default: no)
-# @flag -fqemu                           -fno-qemu  Integration with system-installed QEMU to execute foreign-architecture programs on Linux hosts (default: no)
-# @option --glibc-runtimes <path>        Enhances QEMU integration by providing glibc built for multiple foreign architectures, allowing execution of non-native programs that link with glibc.
-# @flag -frosetta                        Rely on Rosetta to execute x86_64 programs on ARM64 macOS hosts.
-# @flag -fno-rosetta                     Rely on Rosetta to execute x86_64 programs on ARM64 macOS hosts.
-# @flag -fwasmtime                       Integration with system-installed wasmtime to execute WASI binaries.
-# @flag -fno-wasmtime                    Integration with system-installed wasmtime to execute WASI binaries.
-# @flag -fwine                           -fno-wine  Integration with system-installed Wine to execute Windows programs on Linux hosts.
-# @flag -h --help                        Print this help and exit
-# @flag -l --list-steps                  Print available steps
-# @flag --verbose                        Print commands before executing them
-# @option --color[auto|off|on]           Enable or disable colored error messages
-# @option --summary <mode>               Control the printing of the build summary
-# @option -j <N>                         Limit concurrent jobs (default is to use all CPU cores)
-# @option --maxrss <bytes>               Limit memory usage (default is to use available memory)
-# @option -Dtarget <string>              The CPU architecture, OS, and ABI to build for
-# @option -Dcpu <string>                 Target CPU features to add or subtract
-# @option -Doptimize <enum>              Prioritize performance, safety, or binary size (-O flag) Supported Values:
-# @option -freference-trace <num>        How many lines of reference trace should be shown per compile error
-# @flag -fno-reference-trace             Disable reference trace
-# @option --build-file <file>            Override path to build.zig
-# @option --cache-dir <path>             Override path to local Zig cache directory
-# @option --global-cache-dir <path>      Override path to global Zig cache directory
-# @option --zig-lib-dir <arg>            Override path to Zig lib directory
-# @option --build-runner <file>          Override path to build runner
-# @option --debug-log <scope>            Enable debugging the compiler
-# @flag --debug-pkg-config               Fail if unknown pkg-config flags encountered
-# @flag --verbose-link                   Enable compiler debug output for linking
-# @flag --verbose-air                    Enable compiler debug output for Zig AIR
-# @option --verbose-llvm-ir <file>       Enable compiler debug output for LLVM IR
-# @option --verbose-llvm-bc <file>       Enable compiler debug output for LLVM BC
-# @flag --verbose-cimport                Enable compiler debug output for C imports
-# @flag --verbose-cc                     Enable compiler debug output for C compilation
-# @flag --verbose-llvm-cpu-features      Enable compiler debug output for LLVM CPU features
+# @option -p --prefix <path>                   Where to install files (default: zig-out)
+# @option --prefix-lib-dir <path>              Where to install libraries
+# @option --prefix-exe-dir <path>              Where to install executables
+# @option --prefix-include-dir <path>          Where to install C header files
+# @option --release[fast|safe|small] <mode>    Request release mode, optionally specifying a preferred optimization mode: fast, safe, small
+# @flag -fdarling                              Integration with system-installed Darling to execute macOS programs on Linux hosts (default: no)
+# @flag -fno-darling                           Integration with system-installed Darling to execute macOS programs on Linux hosts (default: no)
+# @flag -fqemu                                 -fno-qemu  Integration with system-installed QEMU to execute foreign-architecture programs on Linux hosts (default: no)
+# @option --glibc-runtimes <path>              Enhances QEMU integration by providing glibc built for multiple foreign architectures, allowing execution of non-native programs that link with glibc.
+# @flag -frosetta                              Rely on Rosetta to execute x86_64 programs on ARM64 macOS hosts.
+# @flag -fno-rosetta                           Rely on Rosetta to execute x86_64 programs on ARM64 macOS hosts.
+# @flag -fwasmtime                             Integration with system-installed wasmtime to execute WASI binaries.
+# @flag -fno-wasmtime                          Integration with system-installed wasmtime to execute WASI binaries.
+# @flag -fwine                                 -fno-wine  Integration with system-installed Wine to execute Windows programs on Linux hosts.
+# @flag -h --help                              Print this help and exit
+# @flag -l --list-steps                        Print available steps
+# @flag --verbose                              Print commands before executing them
+# @option --color[auto|off|on]                 Enable or disable colored error messages
+# @flag --prominent-compile-errors             Buffer compile errors and display at end
+# @option --summary <mode>                     Control the printing of the build summary
+# @option -j <N>                               Limit concurrent jobs (default is to use all CPU cores)
+# @option --maxrss <bytes>                     Limit memory usage (default is to use available memory)
+# @flag --skip-oom-steps                       Instead of failing, skip steps that would exceed --maxrss
+# @flag --fetch                                Exit after fetching dependency tree
+# @option -Dtarget <string>                    The CPU architecture, OS, and ABI to build for
+# @option -Dcpu <string>                       Target CPU features to add or subtract
+# @option -Ddynamic-linker <string>            Path to interpreter on the target system
+# @option -Doptimize <enum>                    Prioritize performance, safety, or binary size Supported Values:
+# @option --search-prefix <path>               Add a path to look for binaries, libraries, headers
+# @option --sysroot <path>                     Set the system root directory (usually /)
+# @option --libc <file>                        Provide a file which specifies libc paths
+# @option --system <pkgdir>                    Disable package fetching; enable all integrations
+# @option -fsys <name>                         Enable a system integration
+# @option -fno-sys <name>                      Disable a system integration
+# @option -freference-trace <num>              How many lines of reference trace should be shown per compile error
+# @flag -fno-reference-trace                   Disable reference trace
+# @option --build-file <file>                  Override path to build.zig
+# @option --cache-dir <path>                   Override path to local Zig cache directory
+# @option --global-cache-dir <path>            Override path to global Zig cache directory
+# @option --zig-lib-dir <arg>                  Override path to Zig lib directory
+# @option --build-runner <file>                Override path to build runner
+# @option --seed <integer>                     For shuffling dependency traversal order (default: random)
+# @option --debug-log <scope>                  Enable debugging the compiler
+# @flag --debug-pkg-config                     Fail if unknown pkg-config flags encountered
+# @flag --verbose-link                         Enable compiler debug output for linking
+# @flag --verbose-air                          Enable compiler debug output for Zig AIR
+# @option --verbose-llvm-ir <file>             Enable compiler debug output for LLVM IR
+# @option --verbose-llvm-bc <file>             Enable compiler debug output for LLVM BC
+# @flag --verbose-cimport                      Enable compiler debug output for C imports
+# @flag --verbose-cc                           Enable compiler debug output for C compilation
+# @flag --verbose-llvm-cpu-features            Enable compiler debug output for LLVM CPU features
 # @arg steps*[`_choice_steps`]
 build() {
     :;
 }
 # }} zig build
 
-# {{ zig init-exe
-# @cmd Initialize a `zig build` application in the cwd
-# @flag -h --help    Print this help and exit
-init-exe() {
+# {{ zig fetch
+# @cmd Copy a package into global cache and print its hash
+# @flag -h --help                      Print this help and exit
+# @option --global-cache-dir <path>    Override path to global Zig cache directory
+# @flag --debug-hash                   Print verbose hash information to stdout
+# @option --save <name>                Add the fetched package to build.zig.zon as name
+# @option --save-exact <name>          Add the fetched package to build.zig.zon as name, storing the URL verbatim
+# @arg url!
+fetch() {
     :;
 }
-# }} zig init-exe
+# }} zig fetch
 
-# {{ zig init-lib
-# @cmd Initialize a `zig build` library in the cwd
+# {{ zig init
+# @cmd Initialize a Zig package in the current directory
 # @flag -h --help    Print this help and exit
-init-lib() {
+init() {
     :;
 }
-# }} zig init-lib
+# }} zig init
+
+# {{ zig build-exe
+# @cmd Create executable from source or object files
+# @flag -h --help                        Print this help and exit
+# @option --color[auto|off|on]           Enable or disable colored error messages
+# @option -femit-bin <path>              (default) Output machine code
+# @flag -fno-emit-bin                    Do not output machine code
+# @option -femit-asm <path>              Output .s (assembly code)
+# @flag -fno-emit-asm                    (default) Do not output .s (assembly code)
+# @option -femit-llvm-ir <path>          Produce a .ll file with optimized LLVM IR (requires LLVM extensions)
+# @flag -fno-emit-llvm-ir                (default) Do not produce a .ll file with optimized LLVM IR
+# @option -femit-llvm-bc <path>          Produce an optimized LLVM module as a .bc file (requires LLVM extensions)
+# @flag -fno-emit-llvm-bc                (default) Do not produce an optimized LLVM module as a .bc file
+# @option -femit-h <path>                Generate a C header file (.h)
+# @flag -fno-emit-h                      (default) Do not generate a C header file (.h)
+# @option -femit-docs <path>             Create a docs/ dir with html documentation
+# @flag -fno-emit-docs                   (default) Do not produce docs/ dir with html documentation
+# @option -femit-implib <path>           (default) Produce an import .lib when building a Windows DLL
+# @flag -fno-emit-implib                 Do not produce an import .lib when building a Windows DLL
+# @flag --show-builtin                   Output the source of @import("builtin") then exit
+# @option --cache-dir <path>             Override the local cache directory
+# @option --global-cache-dir <path>      Override the global cache directory
+# @option --zig-lib-dir <path>           Override path to Zig installation lib directory
+# @option --name <name>                  Compilation unit name (not a file path)
+# @option --libc <file>                  Provide a file which specifies libc paths
+# @option -x <language>                  Treat subsequent input files as having type <language>
+# @option --dep <[import=]name>          Add an entry to the next module's import table
+# @option -M <[name][=src]>              Create a module based on the current per-module settings.
+# @option --error-limit <num>            Set the maximum amount of distinct error values
+# @flag -fllvm                           Force using LLVM as the codegen backend
+# @flag -fno-llvm                        Prevent using LLVM as the codegen backend
+# @flag -flibllvm                        Force using the LLVM API in the codegen backend
+# @flag -fno-libllvm                     Prevent using the LLVM API in the codegen backend
+# @flag -fclang                          Force using Clang as the C/C++ compilation backend
+# @flag -fno-clang                       Prevent using Clang as the C/C++ compilation backend
+# @flag -fPIE                            Force-enable Position Independent Executable
+# @flag -fno-PIE                         Force-disable Position Independent Executable
+# @flag -flto                            Force-enable Link Time Optimization (requires LLVM extensions)
+# @flag -fno-lto                         Force-disable Link Time Optimization
+# @flag -fdll-export-fns                 Mark exported functions as DLL exports (Windows)
+# @flag -fno-dll-export-fns              Force-disable marking exported functions as DLL exports
+# @option -freference-trace <num>        Show num lines of reference trace per compile error
+# @flag -fno-reference-trace             Disable reference trace
+# @flag -fbuiltin                        Enable implicit builtin knowledge of functions
+# @flag -fno-builtin                     Disable implicit builtin knowledge of functions
+# @flag -ffunction-sections              Places each function in a separate section
+# @flag -fno-function-sections           All functions go into same section
+# @flag -fdata-sections                  Places each data in a separate section
+# @flag -fno-data-sections               All data go into same section
+# @flag -fformatted-panics               Enable formatted safety panics
+# @flag -fno-formatted-panics            Disable formatted safety panics
+# @flag -fstructured-cfg                 (SPIR-V) force SPIR-V kernels to use structured control flow
+# @flag -fno-structured-cfg              (SPIR-V) force SPIR-V kernels to not use structured control flow
+# @option -mexec-model <value>           (WASI) Execution model
+# @flag -municode                        (Windows) Use wmain/wWinMain as entry point
+# @option -target <name>                 <arch><sub>-<os>-<abi> see the targets command
+# @option -O <mode>                      Choose what to optimize for
+# @option -ofmt[`_choice_ofmt`] <fmt>    Override target object format
+# @option -mcpu <cpu>                    Specify target CPU and feature set
+# @option -mcmodel[default|tiny|small|kernel|medium|large] <kind>  Limit range of code and data virtual addresses
+# @flag -mred-zone                       Force-enable the "red-zone"
+# @flag -mno-red-zone                    Force-disable the "red-zone"
+# @flag -fomit-frame-pointer             Omit the stack frame pointer
+# @flag -fno-omit-frame-pointer          Store the stack frame pointer
+# @flag -fPIC                            Force-enable Position Independent Code
+# @flag -fno-PIC                         Force-disable Position Independent Code
+# @flag -fstack-check                    Enable stack probing in unsafe builds
+# @flag -fno-stack-check                 Disable stack probing in safe builds
+# @flag -fstack-protector                Enable stack protection in unsafe builds
+# @flag -fno-stack-protector             Disable stack protection in safe builds
+# @flag -fsanitize-c                     Enable C undefined behavior detection in unsafe builds
+# @flag -fno-sanitize-c                  Disable C undefined behavior detection in safe builds
+# @flag -fvalgrind                       Include valgrind client requests in release builds
+# @flag -fno-valgrind                    Omit valgrind client requests in debug builds
+# @flag -fsanitize-thread                Enable Thread Sanitizer
+# @flag -fno-sanitize-thread             Disable Thread Sanitizer
+# @flag -funwind-tables                  Always produce unwind table entries for all functions
+# @flag -fno-unwind-tables               Never produce unwind table entries
+# @flag -ferror-tracing                  Enable error tracing in ReleaseFast mode
+# @flag -fno-error-tracing               Disable error tracing in Debug and ReleaseSafe mode
+# @flag -fsingle-threaded                Code assumes there is only one thread
+# @flag -fno-single-threaded             Code may not assume there is only one thread
+# @flag -fstrip                          Omit debug symbols
+# @flag -fno-strip                       Keep debug symbols
+# @option -idirafter <dir>               Add directory to AFTER include search path
+# @flag -isystem                         [dir]  Add directory to SYSTEM include search path
+# @option -I <dir>                       Add directory to include search path
+# @option -D <[macro]=[value]>           Define C [macro] to [value] (1 if [value] omitted)
+# @option -cflags <flags>                Set extra flags for the next positional C source files
+# @option -rcflags <flags>               Set extra flags for the next positional .rc source files
+# @option -- <flags>                     Set extra flags for the next positional .rc source files
+# @option -rcincludes <type>             Set the type of includes to use when compiling .rc source files
+# @option -T --script <script>           Use a custom linker script
+# @option --version-script <path>        Provide a version .map file
+# @flag --undefined-version              Allow version scripts to refer to undefined symbols
+# @flag --no-undefined-version           (default) Disallow version scripts from referring to undefined symbols
+# @flag --enable-new-dtags               Use the new behavior for dynamic tags (RUNPATH)
+# @flag --disable-new-dtags              Use the old behavior for dynamic tags (RPATH)
+# @option --dynamic-linker <path>        Set the dynamic interpreter path (usually ld.so)
+# @option --sysroot <path>               Set the system root directory (usually /)
+# @option --version <ver>                Dynamic library semver
+# @option -fentry <name>                 Override the entry point symbol name
+# @flag -fno-entry                       Do not output any entry point
+# @option --force_undefined <name>       Specify the symbol must be defined for the link to succeed
+# @option -fsoname <name>                Override the default SONAME value
+# @flag -fno-soname                      Disable emitting a SONAME
+# @flag -flld                            Force using LLD as the linker
+# @flag -fno-lld                         Prevent using LLD as the linker
+# @flag -fcompiler-rt                    Always include compiler-rt symbols in output
+# @flag -fno-compiler-rt                 Prevent including compiler-rt symbols in output
+# @flag -rdynamic                        Add all symbols to the dynamic symbol table
+# @flag -feach-lib-rpath                 Ensure adding rpath for each used dynamic library
+# @flag -fno-each-lib-rpath              Prevent adding rpath for each used dynamic library
+# @flag -fallow-shlib-undefined          Allows undefined symbols in shared libraries
+# @flag -fno-allow-shlib-undefined       Disallows undefined symbols in shared libraries
+# @option --build-id[fast|uuid|sha1|md5|none] <style>  At a minor link-time expense, coordinates stripped binaries
+# @flag --eh-frame-hdr                   Enable C++ exception handling by passing --eh-frame-hdr to linker
+# @flag --emit-relocs                    Enable output of relocation sections for post build tools
+# @option -z <arg>                       Set linker extension flags
+# @flag -dynamic                         Force output to be dynamically linked
+# @flag -static                          Force output to be statically linked
+# @flag -Bsymbolic                       Bind global references locally
+# @option --compress-debug-sections[none|zlib] <e>  Debug section compression settings
+# @flag --gc-sections                    Force removal of functions and data that are unreachable by the entry point or exported symbols
+# @flag --no-gc-sections                 Don't force removal of unreachable functions and data
+# @option --sort-section <value>         Sort wildcard section patterns by 'name' or 'alignment'
+# @option --subsystem <subsystem>        (Windows) /SUBSYSTEM:<subsystem> to the linker
+# @option --stack <size>                 Override default stack size
+# @option --image-base <addr>            Set base address for executable image
+# @option -install_name <value>          (Darwin) add dylib's install name
+# @option --entitlements <path>          (Darwin) add path to entitlements file for embedding in code signature
+# @option -pagezero_size <value>         (Darwin) size of the __PAGEZERO segment in hexadecimal notation
+# @option -headerpad <value>             (Darwin) set minimum space for future expansion of the load commands in hexadecimal notation
+# @flag -headerpad_max_install_names     (Darwin) set enough space as if all paths were MAXPATHLEN
+# @flag -dead_strip                      (Darwin) remove functions and data that are unreachable by the entry point or exported symbols
+# @flag -dead_strip_dylibs               (Darwin) remove dylibs that are unreachable by the entry point or exported symbols
+# @flag -ObjC                            (Darwin) force load all members of static archives that implement an Objective-C class or category
+# @flag --import-memory                  (WebAssembly) import memory from the environment
+# @flag --export-memory                  (WebAssembly) export memory to the host (Default unless --import-memory used)
+# @flag --import-symbols                 (WebAssembly) import missing symbols from the host environment
+# @flag --import-table                   (WebAssembly) import function table from the host environment
+# @flag --export-table                   (WebAssembly) export function table to the host environment
+# @option --initial-memory <bytes>       (WebAssembly) initial size of the linear memory
+# @option --max-memory <bytes>           (WebAssembly) maximum size of the linear memory
+# @flag --shared-memory                  (WebAssembly) use shared linear memory
+# @option --global-base <addr>           (WebAssembly) where to start to place global data
+# @option -l --library <lib>             Link against system library (only if actually used)
+# @option -needed-l <lib>                Link against system library (even if unused)
+# @option --needed-library <lib>
+# @option -weak-l <lib>                  link against system library marking it and all
+# @option -weak_library <lib>            referenced symbols as weak
+# @option -L --library-directory <d>     Add a directory to the library search path
+# @flag -search_paths_first              For each library search path, check for dynamic lib then static lib before proceeding to next path.
+# @flag -search_paths_first_static       For each library search path, check for static lib then dynamic lib before proceeding to next path.
+# @flag -search_dylibs_first             Search for dynamic libs in all library search paths, then static libs.
+# @flag -search_static_first             Search for static libs in all library search paths, then dynamic libs.
+# @flag -search_dylibs_only              Only search for dynamic libs.
+# @flag -search_static_only              Only search for static libs.
+# @option -rpath <path>                  Add directory to the runtime library search path
+# @option -framework <name>              (Darwin) link against framework
+# @option -needed_framework <name>       (Darwin) link against framework (even if unused)
+# @option -needed_library <lib>          (Darwin) link against system library (even if unused)
+# @option -weak_framework <name>         (Darwin) link against framework and mark it and all referenced symbols as weak
+# @option -F <dir>                       (Darwin) add search path for frameworks
+# @option --export <value>               (WebAssembly) Force a symbol to be exported
+# @option --test-filter <text>           Skip tests that do not match any filter
+# @option --test-name-prefix <text>      Add prefix to all tests
+# @option --test-cmd <arg>               Specify test execution command one arg at a time
+# @flag --test-cmd-bin                   Appends test binary path to test cmd args
+# @flag --test-evented-io                Runs the test in evented I/O mode
+# @flag --test-no-exec                   Compiles test binary without running it
+# @option --test-runner <path>           Specify a custom test runner
+# @option -fopt-bisect-limit <limit>     Only run [limit] first LLVM optimization passes
+# @flag -ftime-report                    Print timing diagnostics
+# @flag -fstack-report                   Print stack size diagnostics
+# @flag --verbose-link                   Display linker invocations
+# @flag --verbose-cc                     Display C compiler invocations
+# @flag --verbose-air                    Enable compiler debug output for Zig AIR
+# @flag --verbose-intern-pool            Enable compiler debug output for InternPool
+# @flag --verbose-generic-instances      Enable compiler debug output for generic instance generation
+# @option --verbose-llvm-ir <path>       Enable compiler debug output for unoptimized LLVM IR
+# @option --verbose-llvm-bc <path>       Enable compiler debug output for unoptimized LLVM BC
+# @flag --verbose-cimport                Enable compiler debug output for C imports
+# @flag --verbose-llvm-cpu-features      Enable compiler debug output for LLVM CPU features
+# @option --debug-log <scope>            Enable printing debug/info log messages for scope
+# @flag --debug-compile-errors           Crash with helpful diagnostics at the first compile error
+# @flag --debug-link-snapshot            Enable dumping of the linker's state in JSON format
+# @flag --debug-incremental              Enable experimental feature: incremental compilation
+# @arg files*
+build-exe() {
+    :;
+}
+# }} zig build-exe
+
+# {{ zig build-lib
+# @cmd Create library from source or object files
+# @flag -h --help                        Print this help and exit
+# @option --color[auto|off|on]           Enable or disable colored error messages
+# @option -femit-bin <path>              (default) Output machine code
+# @flag -fno-emit-bin                    Do not output machine code
+# @option -femit-asm <path>              Output .s (assembly code)
+# @flag -fno-emit-asm                    (default) Do not output .s (assembly code)
+# @option -femit-llvm-ir <path>          Produce a .ll file with optimized LLVM IR (requires LLVM extensions)
+# @flag -fno-emit-llvm-ir                (default) Do not produce a .ll file with optimized LLVM IR
+# @option -femit-llvm-bc <path>          Produce an optimized LLVM module as a .bc file (requires LLVM extensions)
+# @flag -fno-emit-llvm-bc                (default) Do not produce an optimized LLVM module as a .bc file
+# @option -femit-h <path>                Generate a C header file (.h)
+# @flag -fno-emit-h                      (default) Do not generate a C header file (.h)
+# @option -femit-docs <path>             Create a docs/ dir with html documentation
+# @flag -fno-emit-docs                   (default) Do not produce docs/ dir with html documentation
+# @option -femit-implib <path>           (default) Produce an import .lib when building a Windows DLL
+# @flag -fno-emit-implib                 Do not produce an import .lib when building a Windows DLL
+# @flag --show-builtin                   Output the source of @import("builtin") then exit
+# @option --cache-dir <path>             Override the local cache directory
+# @option --global-cache-dir <path>      Override the global cache directory
+# @option --zig-lib-dir <path>           Override path to Zig installation lib directory
+# @option --name <name>                  Compilation unit name (not a file path)
+# @option --libc <file>                  Provide a file which specifies libc paths
+# @option -x <language>                  Treat subsequent input files as having type <language>
+# @option --dep <[import=]name>          Add an entry to the next module's import table
+# @option -M <[name][=src]>              Create a module based on the current per-module settings.
+# @option --error-limit <num>            Set the maximum amount of distinct error values
+# @flag -fllvm                           Force using LLVM as the codegen backend
+# @flag -fno-llvm                        Prevent using LLVM as the codegen backend
+# @flag -flibllvm                        Force using the LLVM API in the codegen backend
+# @flag -fno-libllvm                     Prevent using the LLVM API in the codegen backend
+# @flag -fclang                          Force using Clang as the C/C++ compilation backend
+# @flag -fno-clang                       Prevent using Clang as the C/C++ compilation backend
+# @flag -fPIE                            Force-enable Position Independent Executable
+# @flag -fno-PIE                         Force-disable Position Independent Executable
+# @flag -flto                            Force-enable Link Time Optimization (requires LLVM extensions)
+# @flag -fno-lto                         Force-disable Link Time Optimization
+# @flag -fdll-export-fns                 Mark exported functions as DLL exports (Windows)
+# @flag -fno-dll-export-fns              Force-disable marking exported functions as DLL exports
+# @option -freference-trace <num>        Show num lines of reference trace per compile error
+# @flag -fno-reference-trace             Disable reference trace
+# @flag -fbuiltin                        Enable implicit builtin knowledge of functions
+# @flag -fno-builtin                     Disable implicit builtin knowledge of functions
+# @flag -ffunction-sections              Places each function in a separate section
+# @flag -fno-function-sections           All functions go into same section
+# @flag -fdata-sections                  Places each data in a separate section
+# @flag -fno-data-sections               All data go into same section
+# @flag -fformatted-panics               Enable formatted safety panics
+# @flag -fno-formatted-panics            Disable formatted safety panics
+# @flag -fstructured-cfg                 (SPIR-V) force SPIR-V kernels to use structured control flow
+# @flag -fno-structured-cfg              (SPIR-V) force SPIR-V kernels to not use structured control flow
+# @option -mexec-model <value>           (WASI) Execution model
+# @flag -municode                        (Windows) Use wmain/wWinMain as entry point
+# @option -target <name>                 <arch><sub>-<os>-<abi> see the targets command
+# @option -O <mode>                      Choose what to optimize for
+# @option -ofmt[`_choice_ofmt`] <fmt>    Override target object format
+# @option -mcpu <cpu>                    Specify target CPU and feature set
+# @option -mcmodel[default|tiny|small|kernel|medium|large] <kind>  Limit range of code and data virtual addresses
+# @flag -mred-zone                       Force-enable the "red-zone"
+# @flag -mno-red-zone                    Force-disable the "red-zone"
+# @flag -fomit-frame-pointer             Omit the stack frame pointer
+# @flag -fno-omit-frame-pointer          Store the stack frame pointer
+# @flag -fPIC                            Force-enable Position Independent Code
+# @flag -fno-PIC                         Force-disable Position Independent Code
+# @flag -fstack-check                    Enable stack probing in unsafe builds
+# @flag -fno-stack-check                 Disable stack probing in safe builds
+# @flag -fstack-protector                Enable stack protection in unsafe builds
+# @flag -fno-stack-protector             Disable stack protection in safe builds
+# @flag -fsanitize-c                     Enable C undefined behavior detection in unsafe builds
+# @flag -fno-sanitize-c                  Disable C undefined behavior detection in safe builds
+# @flag -fvalgrind                       Include valgrind client requests in release builds
+# @flag -fno-valgrind                    Omit valgrind client requests in debug builds
+# @flag -fsanitize-thread                Enable Thread Sanitizer
+# @flag -fno-sanitize-thread             Disable Thread Sanitizer
+# @flag -funwind-tables                  Always produce unwind table entries for all functions
+# @flag -fno-unwind-tables               Never produce unwind table entries
+# @flag -ferror-tracing                  Enable error tracing in ReleaseFast mode
+# @flag -fno-error-tracing               Disable error tracing in Debug and ReleaseSafe mode
+# @flag -fsingle-threaded                Code assumes there is only one thread
+# @flag -fno-single-threaded             Code may not assume there is only one thread
+# @flag -fstrip                          Omit debug symbols
+# @flag -fno-strip                       Keep debug symbols
+# @option -idirafter <dir>               Add directory to AFTER include search path
+# @flag -isystem                         [dir]  Add directory to SYSTEM include search path
+# @option -I <dir>                       Add directory to include search path
+# @option -D <[macro]=[value]>           Define C [macro] to [value] (1 if [value] omitted)
+# @option -cflags <flags>                Set extra flags for the next positional C source files
+# @option -rcflags <flags>               Set extra flags for the next positional .rc source files
+# @option -- <flags>                     Set extra flags for the next positional .rc source files
+# @option -rcincludes <type>             Set the type of includes to use when compiling .rc source files
+# @option -T --script <script>           Use a custom linker script
+# @option --version-script <path>        Provide a version .map file
+# @flag --undefined-version              Allow version scripts to refer to undefined symbols
+# @flag --no-undefined-version           (default) Disallow version scripts from referring to undefined symbols
+# @flag --enable-new-dtags               Use the new behavior for dynamic tags (RUNPATH)
+# @flag --disable-new-dtags              Use the old behavior for dynamic tags (RPATH)
+# @option --dynamic-linker <path>        Set the dynamic interpreter path (usually ld.so)
+# @option --sysroot <path>               Set the system root directory (usually /)
+# @option --version <ver>                Dynamic library semver
+# @option -fentry <name>                 Override the entry point symbol name
+# @flag -fno-entry                       Do not output any entry point
+# @option --force_undefined <name>       Specify the symbol must be defined for the link to succeed
+# @option -fsoname <name>                Override the default SONAME value
+# @flag -fno-soname                      Disable emitting a SONAME
+# @flag -flld                            Force using LLD as the linker
+# @flag -fno-lld                         Prevent using LLD as the linker
+# @flag -fcompiler-rt                    Always include compiler-rt symbols in output
+# @flag -fno-compiler-rt                 Prevent including compiler-rt symbols in output
+# @flag -rdynamic                        Add all symbols to the dynamic symbol table
+# @flag -feach-lib-rpath                 Ensure adding rpath for each used dynamic library
+# @flag -fno-each-lib-rpath              Prevent adding rpath for each used dynamic library
+# @flag -fallow-shlib-undefined          Allows undefined symbols in shared libraries
+# @flag -fno-allow-shlib-undefined       Disallows undefined symbols in shared libraries
+# @option --build-id[fast|uuid|sha1|md5|none] <style>  At a minor link-time expense, coordinates stripped binaries
+# @flag --eh-frame-hdr                   Enable C++ exception handling by passing --eh-frame-hdr to linker
+# @flag --emit-relocs                    Enable output of relocation sections for post build tools
+# @option -z <arg>                       Set linker extension flags
+# @flag -dynamic                         Force output to be dynamically linked
+# @flag -static                          Force output to be statically linked
+# @flag -Bsymbolic                       Bind global references locally
+# @option --compress-debug-sections[none|zlib] <e>  Debug section compression settings
+# @flag --gc-sections                    Force removal of functions and data that are unreachable by the entry point or exported symbols
+# @flag --no-gc-sections                 Don't force removal of unreachable functions and data
+# @option --sort-section <value>         Sort wildcard section patterns by 'name' or 'alignment'
+# @option --subsystem <subsystem>        (Windows) /SUBSYSTEM:<subsystem> to the linker
+# @option --stack <size>                 Override default stack size
+# @option --image-base <addr>            Set base address for executable image
+# @option -install_name <value>          (Darwin) add dylib's install name
+# @option --entitlements <path>          (Darwin) add path to entitlements file for embedding in code signature
+# @option -pagezero_size <value>         (Darwin) size of the __PAGEZERO segment in hexadecimal notation
+# @option -headerpad <value>             (Darwin) set minimum space for future expansion of the load commands in hexadecimal notation
+# @flag -headerpad_max_install_names     (Darwin) set enough space as if all paths were MAXPATHLEN
+# @flag -dead_strip                      (Darwin) remove functions and data that are unreachable by the entry point or exported symbols
+# @flag -dead_strip_dylibs               (Darwin) remove dylibs that are unreachable by the entry point or exported symbols
+# @flag -ObjC                            (Darwin) force load all members of static archives that implement an Objective-C class or category
+# @flag --import-memory                  (WebAssembly) import memory from the environment
+# @flag --export-memory                  (WebAssembly) export memory to the host (Default unless --import-memory used)
+# @flag --import-symbols                 (WebAssembly) import missing symbols from the host environment
+# @flag --import-table                   (WebAssembly) import function table from the host environment
+# @flag --export-table                   (WebAssembly) export function table to the host environment
+# @option --initial-memory <bytes>       (WebAssembly) initial size of the linear memory
+# @option --max-memory <bytes>           (WebAssembly) maximum size of the linear memory
+# @flag --shared-memory                  (WebAssembly) use shared linear memory
+# @option --global-base <addr>           (WebAssembly) where to start to place global data
+# @option -l --library <lib>             Link against system library (only if actually used)
+# @option -needed-l <lib>                Link against system library (even if unused)
+# @option --needed-library <lib>
+# @option -weak-l <lib>                  link against system library marking it and all
+# @option -weak_library <lib>            referenced symbols as weak
+# @option -L --library-directory <d>     Add a directory to the library search path
+# @flag -search_paths_first              For each library search path, check for dynamic lib then static lib before proceeding to next path.
+# @flag -search_paths_first_static       For each library search path, check for static lib then dynamic lib before proceeding to next path.
+# @flag -search_dylibs_first             Search for dynamic libs in all library search paths, then static libs.
+# @flag -search_static_first             Search for static libs in all library search paths, then dynamic libs.
+# @flag -search_dylibs_only              Only search for dynamic libs.
+# @flag -search_static_only              Only search for static libs.
+# @option -rpath <path>                  Add directory to the runtime library search path
+# @option -framework <name>              (Darwin) link against framework
+# @option -needed_framework <name>       (Darwin) link against framework (even if unused)
+# @option -needed_library <lib>          (Darwin) link against system library (even if unused)
+# @option -weak_framework <name>         (Darwin) link against framework and mark it and all referenced symbols as weak
+# @option -F <dir>                       (Darwin) add search path for frameworks
+# @option --export <value>               (WebAssembly) Force a symbol to be exported
+# @option --test-filter <text>           Skip tests that do not match any filter
+# @option --test-name-prefix <text>      Add prefix to all tests
+# @option --test-cmd <arg>               Specify test execution command one arg at a time
+# @flag --test-cmd-bin                   Appends test binary path to test cmd args
+# @flag --test-evented-io                Runs the test in evented I/O mode
+# @flag --test-no-exec                   Compiles test binary without running it
+# @option --test-runner <path>           Specify a custom test runner
+# @option -fopt-bisect-limit <limit>     Only run [limit] first LLVM optimization passes
+# @flag -ftime-report                    Print timing diagnostics
+# @flag -fstack-report                   Print stack size diagnostics
+# @flag --verbose-link                   Display linker invocations
+# @flag --verbose-cc                     Display C compiler invocations
+# @flag --verbose-air                    Enable compiler debug output for Zig AIR
+# @flag --verbose-intern-pool            Enable compiler debug output for InternPool
+# @flag --verbose-generic-instances      Enable compiler debug output for generic instance generation
+# @option --verbose-llvm-ir <path>       Enable compiler debug output for unoptimized LLVM IR
+# @option --verbose-llvm-bc <path>       Enable compiler debug output for unoptimized LLVM BC
+# @flag --verbose-cimport                Enable compiler debug output for C imports
+# @flag --verbose-llvm-cpu-features      Enable compiler debug output for LLVM CPU features
+# @option --debug-log <scope>            Enable printing debug/info log messages for scope
+# @flag --debug-compile-errors           Crash with helpful diagnostics at the first compile error
+# @flag --debug-link-snapshot            Enable dumping of the linker's state in JSON format
+# @flag --debug-incremental              Enable experimental feature: incremental compilation
+# @arg files*
+build-lib() {
+    :;
+}
+# }} zig build-lib
+
+# {{ zig build-obj
+# @cmd Create object from source or object files
+# @flag -h --help                        Print this help and exit
+# @option --color[auto|off|on]           Enable or disable colored error messages
+# @option -femit-bin <path>              (default) Output machine code
+# @flag -fno-emit-bin                    Do not output machine code
+# @option -femit-asm <path>              Output .s (assembly code)
+# @flag -fno-emit-asm                    (default) Do not output .s (assembly code)
+# @option -femit-llvm-ir <path>          Produce a .ll file with optimized LLVM IR (requires LLVM extensions)
+# @flag -fno-emit-llvm-ir                (default) Do not produce a .ll file with optimized LLVM IR
+# @option -femit-llvm-bc <path>          Produce an optimized LLVM module as a .bc file (requires LLVM extensions)
+# @flag -fno-emit-llvm-bc                (default) Do not produce an optimized LLVM module as a .bc file
+# @option -femit-h <path>                Generate a C header file (.h)
+# @flag -fno-emit-h                      (default) Do not generate a C header file (.h)
+# @option -femit-docs <path>             Create a docs/ dir with html documentation
+# @flag -fno-emit-docs                   (default) Do not produce docs/ dir with html documentation
+# @option -femit-implib <path>           (default) Produce an import .lib when building a Windows DLL
+# @flag -fno-emit-implib                 Do not produce an import .lib when building a Windows DLL
+# @flag --show-builtin                   Output the source of @import("builtin") then exit
+# @option --cache-dir <path>             Override the local cache directory
+# @option --global-cache-dir <path>      Override the global cache directory
+# @option --zig-lib-dir <path>           Override path to Zig installation lib directory
+# @option --name <name>                  Compilation unit name (not a file path)
+# @option --libc <file>                  Provide a file which specifies libc paths
+# @option -x <language>                  Treat subsequent input files as having type <language>
+# @option --dep <[import=]name>          Add an entry to the next module's import table
+# @option -M <[name][=src]>              Create a module based on the current per-module settings.
+# @option --error-limit <num>            Set the maximum amount of distinct error values
+# @flag -fllvm                           Force using LLVM as the codegen backend
+# @flag -fno-llvm                        Prevent using LLVM as the codegen backend
+# @flag -flibllvm                        Force using the LLVM API in the codegen backend
+# @flag -fno-libllvm                     Prevent using the LLVM API in the codegen backend
+# @flag -fclang                          Force using Clang as the C/C++ compilation backend
+# @flag -fno-clang                       Prevent using Clang as the C/C++ compilation backend
+# @flag -fPIE                            Force-enable Position Independent Executable
+# @flag -fno-PIE                         Force-disable Position Independent Executable
+# @flag -flto                            Force-enable Link Time Optimization (requires LLVM extensions)
+# @flag -fno-lto                         Force-disable Link Time Optimization
+# @flag -fdll-export-fns                 Mark exported functions as DLL exports (Windows)
+# @flag -fno-dll-export-fns              Force-disable marking exported functions as DLL exports
+# @option -freference-trace <num>        Show num lines of reference trace per compile error
+# @flag -fno-reference-trace             Disable reference trace
+# @flag -fbuiltin                        Enable implicit builtin knowledge of functions
+# @flag -fno-builtin                     Disable implicit builtin knowledge of functions
+# @flag -ffunction-sections              Places each function in a separate section
+# @flag -fno-function-sections           All functions go into same section
+# @flag -fdata-sections                  Places each data in a separate section
+# @flag -fno-data-sections               All data go into same section
+# @flag -fformatted-panics               Enable formatted safety panics
+# @flag -fno-formatted-panics            Disable formatted safety panics
+# @flag -fstructured-cfg                 (SPIR-V) force SPIR-V kernels to use structured control flow
+# @flag -fno-structured-cfg              (SPIR-V) force SPIR-V kernels to not use structured control flow
+# @option -mexec-model <value>           (WASI) Execution model
+# @flag -municode                        (Windows) Use wmain/wWinMain as entry point
+# @option -target <name>                 <arch><sub>-<os>-<abi> see the targets command
+# @option -O <mode>                      Choose what to optimize for
+# @option -ofmt[`_choice_ofmt`] <fmt>    Override target object format
+# @option -mcpu <cpu>                    Specify target CPU and feature set
+# @option -mcmodel[default|tiny|small|kernel|medium|large] <kind>  Limit range of code and data virtual addresses
+# @flag -mred-zone                       Force-enable the "red-zone"
+# @flag -mno-red-zone                    Force-disable the "red-zone"
+# @flag -fomit-frame-pointer             Omit the stack frame pointer
+# @flag -fno-omit-frame-pointer          Store the stack frame pointer
+# @flag -fPIC                            Force-enable Position Independent Code
+# @flag -fno-PIC                         Force-disable Position Independent Code
+# @flag -fstack-check                    Enable stack probing in unsafe builds
+# @flag -fno-stack-check                 Disable stack probing in safe builds
+# @flag -fstack-protector                Enable stack protection in unsafe builds
+# @flag -fno-stack-protector             Disable stack protection in safe builds
+# @flag -fsanitize-c                     Enable C undefined behavior detection in unsafe builds
+# @flag -fno-sanitize-c                  Disable C undefined behavior detection in safe builds
+# @flag -fvalgrind                       Include valgrind client requests in release builds
+# @flag -fno-valgrind                    Omit valgrind client requests in debug builds
+# @flag -fsanitize-thread                Enable Thread Sanitizer
+# @flag -fno-sanitize-thread             Disable Thread Sanitizer
+# @flag -funwind-tables                  Always produce unwind table entries for all functions
+# @flag -fno-unwind-tables               Never produce unwind table entries
+# @flag -ferror-tracing                  Enable error tracing in ReleaseFast mode
+# @flag -fno-error-tracing               Disable error tracing in Debug and ReleaseSafe mode
+# @flag -fsingle-threaded                Code assumes there is only one thread
+# @flag -fno-single-threaded             Code may not assume there is only one thread
+# @flag -fstrip                          Omit debug symbols
+# @flag -fno-strip                       Keep debug symbols
+# @option -idirafter <dir>               Add directory to AFTER include search path
+# @flag -isystem                         [dir]  Add directory to SYSTEM include search path
+# @option -I <dir>                       Add directory to include search path
+# @option -D <[macro]=[value]>           Define C [macro] to [value] (1 if [value] omitted)
+# @option -cflags <flags>                Set extra flags for the next positional C source files
+# @option -rcflags <flags>               Set extra flags for the next positional .rc source files
+# @option -- <flags>                     Set extra flags for the next positional .rc source files
+# @option -rcincludes <type>             Set the type of includes to use when compiling .rc source files
+# @option -T --script <script>           Use a custom linker script
+# @option --version-script <path>        Provide a version .map file
+# @flag --undefined-version              Allow version scripts to refer to undefined symbols
+# @flag --no-undefined-version           (default) Disallow version scripts from referring to undefined symbols
+# @flag --enable-new-dtags               Use the new behavior for dynamic tags (RUNPATH)
+# @flag --disable-new-dtags              Use the old behavior for dynamic tags (RPATH)
+# @option --dynamic-linker <path>        Set the dynamic interpreter path (usually ld.so)
+# @option --sysroot <path>               Set the system root directory (usually /)
+# @option --version <ver>                Dynamic library semver
+# @option -fentry <name>                 Override the entry point symbol name
+# @flag -fno-entry                       Do not output any entry point
+# @option --force_undefined <name>       Specify the symbol must be defined for the link to succeed
+# @option -fsoname <name>                Override the default SONAME value
+# @flag -fno-soname                      Disable emitting a SONAME
+# @flag -flld                            Force using LLD as the linker
+# @flag -fno-lld                         Prevent using LLD as the linker
+# @flag -fcompiler-rt                    Always include compiler-rt symbols in output
+# @flag -fno-compiler-rt                 Prevent including compiler-rt symbols in output
+# @flag -rdynamic                        Add all symbols to the dynamic symbol table
+# @flag -feach-lib-rpath                 Ensure adding rpath for each used dynamic library
+# @flag -fno-each-lib-rpath              Prevent adding rpath for each used dynamic library
+# @flag -fallow-shlib-undefined          Allows undefined symbols in shared libraries
+# @flag -fno-allow-shlib-undefined       Disallows undefined symbols in shared libraries
+# @option --build-id[fast|uuid|sha1|md5|none] <style>  At a minor link-time expense, coordinates stripped binaries
+# @flag --eh-frame-hdr                   Enable C++ exception handling by passing --eh-frame-hdr to linker
+# @flag --emit-relocs                    Enable output of relocation sections for post build tools
+# @option -z <arg>                       Set linker extension flags
+# @flag -dynamic                         Force output to be dynamically linked
+# @flag -static                          Force output to be statically linked
+# @flag -Bsymbolic                       Bind global references locally
+# @option --compress-debug-sections[none|zlib] <e>  Debug section compression settings
+# @flag --gc-sections                    Force removal of functions and data that are unreachable by the entry point or exported symbols
+# @flag --no-gc-sections                 Don't force removal of unreachable functions and data
+# @option --sort-section <value>         Sort wildcard section patterns by 'name' or 'alignment'
+# @option --subsystem <subsystem>        (Windows) /SUBSYSTEM:<subsystem> to the linker
+# @option --stack <size>                 Override default stack size
+# @option --image-base <addr>            Set base address for executable image
+# @option -install_name <value>          (Darwin) add dylib's install name
+# @option --entitlements <path>          (Darwin) add path to entitlements file for embedding in code signature
+# @option -pagezero_size <value>         (Darwin) size of the __PAGEZERO segment in hexadecimal notation
+# @option -headerpad <value>             (Darwin) set minimum space for future expansion of the load commands in hexadecimal notation
+# @flag -headerpad_max_install_names     (Darwin) set enough space as if all paths were MAXPATHLEN
+# @flag -dead_strip                      (Darwin) remove functions and data that are unreachable by the entry point or exported symbols
+# @flag -dead_strip_dylibs               (Darwin) remove dylibs that are unreachable by the entry point or exported symbols
+# @flag -ObjC                            (Darwin) force load all members of static archives that implement an Objective-C class or category
+# @flag --import-memory                  (WebAssembly) import memory from the environment
+# @flag --export-memory                  (WebAssembly) export memory to the host (Default unless --import-memory used)
+# @flag --import-symbols                 (WebAssembly) import missing symbols from the host environment
+# @flag --import-table                   (WebAssembly) import function table from the host environment
+# @flag --export-table                   (WebAssembly) export function table to the host environment
+# @option --initial-memory <bytes>       (WebAssembly) initial size of the linear memory
+# @option --max-memory <bytes>           (WebAssembly) maximum size of the linear memory
+# @flag --shared-memory                  (WebAssembly) use shared linear memory
+# @option --global-base <addr>           (WebAssembly) where to start to place global data
+# @option -l --library <lib>             Link against system library (only if actually used)
+# @option -needed-l <lib>                Link against system library (even if unused)
+# @option --needed-library <lib>
+# @option -weak-l <lib>                  link against system library marking it and all
+# @option -weak_library <lib>            referenced symbols as weak
+# @option -L --library-directory <d>     Add a directory to the library search path
+# @flag -search_paths_first              For each library search path, check for dynamic lib then static lib before proceeding to next path.
+# @flag -search_paths_first_static       For each library search path, check for static lib then dynamic lib before proceeding to next path.
+# @flag -search_dylibs_first             Search for dynamic libs in all library search paths, then static libs.
+# @flag -search_static_first             Search for static libs in all library search paths, then dynamic libs.
+# @flag -search_dylibs_only              Only search for dynamic libs.
+# @flag -search_static_only              Only search for static libs.
+# @option -rpath <path>                  Add directory to the runtime library search path
+# @option -framework <name>              (Darwin) link against framework
+# @option -needed_framework <name>       (Darwin) link against framework (even if unused)
+# @option -needed_library <lib>          (Darwin) link against system library (even if unused)
+# @option -weak_framework <name>         (Darwin) link against framework and mark it and all referenced symbols as weak
+# @option -F <dir>                       (Darwin) add search path for frameworks
+# @option --export <value>               (WebAssembly) Force a symbol to be exported
+# @option --test-filter <text>           Skip tests that do not match any filter
+# @option --test-name-prefix <text>      Add prefix to all tests
+# @option --test-cmd <arg>               Specify test execution command one arg at a time
+# @flag --test-cmd-bin                   Appends test binary path to test cmd args
+# @flag --test-evented-io                Runs the test in evented I/O mode
+# @flag --test-no-exec                   Compiles test binary without running it
+# @option --test-runner <path>           Specify a custom test runner
+# @option -fopt-bisect-limit <limit>     Only run [limit] first LLVM optimization passes
+# @flag -ftime-report                    Print timing diagnostics
+# @flag -fstack-report                   Print stack size diagnostics
+# @flag --verbose-link                   Display linker invocations
+# @flag --verbose-cc                     Display C compiler invocations
+# @flag --verbose-air                    Enable compiler debug output for Zig AIR
+# @flag --verbose-intern-pool            Enable compiler debug output for InternPool
+# @flag --verbose-generic-instances      Enable compiler debug output for generic instance generation
+# @option --verbose-llvm-ir <path>       Enable compiler debug output for unoptimized LLVM IR
+# @option --verbose-llvm-bc <path>       Enable compiler debug output for unoptimized LLVM BC
+# @flag --verbose-cimport                Enable compiler debug output for C imports
+# @flag --verbose-llvm-cpu-features      Enable compiler debug output for LLVM CPU features
+# @option --debug-log <scope>            Enable printing debug/info log messages for scope
+# @flag --debug-compile-errors           Crash with helpful diagnostics at the first compile error
+# @flag --debug-link-snapshot            Enable dumping of the linker's state in JSON format
+# @flag --debug-incremental              Enable experimental feature: incremental compilation
+# @arg files*
+build-obj() {
+    :;
+}
+# }} zig build-obj
+
+# {{ zig test
+# @cmd Perform unit testing
+# @flag -h --help                        Print this help and exit
+# @option --color[auto|off|on]           Enable or disable colored error messages
+# @option -femit-bin <path>              (default) Output machine code
+# @flag -fno-emit-bin                    Do not output machine code
+# @option -femit-asm <path>              Output .s (assembly code)
+# @flag -fno-emit-asm                    (default) Do not output .s (assembly code)
+# @option -femit-llvm-ir <path>          Produce a .ll file with optimized LLVM IR (requires LLVM extensions)
+# @flag -fno-emit-llvm-ir                (default) Do not produce a .ll file with optimized LLVM IR
+# @option -femit-llvm-bc <path>          Produce an optimized LLVM module as a .bc file (requires LLVM extensions)
+# @flag -fno-emit-llvm-bc                (default) Do not produce an optimized LLVM module as a .bc file
+# @option -femit-h <path>                Generate a C header file (.h)
+# @flag -fno-emit-h                      (default) Do not generate a C header file (.h)
+# @option -femit-docs <path>             Create a docs/ dir with html documentation
+# @flag -fno-emit-docs                   (default) Do not produce docs/ dir with html documentation
+# @option -femit-implib <path>           (default) Produce an import .lib when building a Windows DLL
+# @flag -fno-emit-implib                 Do not produce an import .lib when building a Windows DLL
+# @flag --show-builtin                   Output the source of @import("builtin") then exit
+# @option --cache-dir <path>             Override the local cache directory
+# @option --global-cache-dir <path>      Override the global cache directory
+# @option --zig-lib-dir <path>           Override path to Zig installation lib directory
+# @option --name <name>                  Compilation unit name (not a file path)
+# @option --libc <file>                  Provide a file which specifies libc paths
+# @option -x <language>                  Treat subsequent input files as having type <language>
+# @option --dep <[import=]name>          Add an entry to the next module's import table
+# @option -M <[name][=src]>              Create a module based on the current per-module settings.
+# @option --error-limit <num>            Set the maximum amount of distinct error values
+# @flag -fllvm                           Force using LLVM as the codegen backend
+# @flag -fno-llvm                        Prevent using LLVM as the codegen backend
+# @flag -flibllvm                        Force using the LLVM API in the codegen backend
+# @flag -fno-libllvm                     Prevent using the LLVM API in the codegen backend
+# @flag -fclang                          Force using Clang as the C/C++ compilation backend
+# @flag -fno-clang                       Prevent using Clang as the C/C++ compilation backend
+# @flag -fPIE                            Force-enable Position Independent Executable
+# @flag -fno-PIE                         Force-disable Position Independent Executable
+# @flag -flto                            Force-enable Link Time Optimization (requires LLVM extensions)
+# @flag -fno-lto                         Force-disable Link Time Optimization
+# @flag -fdll-export-fns                 Mark exported functions as DLL exports (Windows)
+# @flag -fno-dll-export-fns              Force-disable marking exported functions as DLL exports
+# @option -freference-trace <num>        Show num lines of reference trace per compile error
+# @flag -fno-reference-trace             Disable reference trace
+# @flag -fbuiltin                        Enable implicit builtin knowledge of functions
+# @flag -fno-builtin                     Disable implicit builtin knowledge of functions
+# @flag -ffunction-sections              Places each function in a separate section
+# @flag -fno-function-sections           All functions go into same section
+# @flag -fdata-sections                  Places each data in a separate section
+# @flag -fno-data-sections               All data go into same section
+# @flag -fformatted-panics               Enable formatted safety panics
+# @flag -fno-formatted-panics            Disable formatted safety panics
+# @flag -fstructured-cfg                 (SPIR-V) force SPIR-V kernels to use structured control flow
+# @flag -fno-structured-cfg              (SPIR-V) force SPIR-V kernels to not use structured control flow
+# @option -mexec-model <value>           (WASI) Execution model
+# @flag -municode                        (Windows) Use wmain/wWinMain as entry point
+# @option -target <name>                 <arch><sub>-<os>-<abi> see the targets command
+# @option -O <mode>                      Choose what to optimize for
+# @option -ofmt[`_choice_ofmt`] <fmt>    Override target object format
+# @option -mcpu <cpu>                    Specify target CPU and feature set
+# @option -mcmodel[default|tiny|small|kernel|medium|large] <kind>  Limit range of code and data virtual addresses
+# @flag -mred-zone                       Force-enable the "red-zone"
+# @flag -mno-red-zone                    Force-disable the "red-zone"
+# @flag -fomit-frame-pointer             Omit the stack frame pointer
+# @flag -fno-omit-frame-pointer          Store the stack frame pointer
+# @flag -fPIC                            Force-enable Position Independent Code
+# @flag -fno-PIC                         Force-disable Position Independent Code
+# @flag -fstack-check                    Enable stack probing in unsafe builds
+# @flag -fno-stack-check                 Disable stack probing in safe builds
+# @flag -fstack-protector                Enable stack protection in unsafe builds
+# @flag -fno-stack-protector             Disable stack protection in safe builds
+# @flag -fsanitize-c                     Enable C undefined behavior detection in unsafe builds
+# @flag -fno-sanitize-c                  Disable C undefined behavior detection in safe builds
+# @flag -fvalgrind                       Include valgrind client requests in release builds
+# @flag -fno-valgrind                    Omit valgrind client requests in debug builds
+# @flag -fsanitize-thread                Enable Thread Sanitizer
+# @flag -fno-sanitize-thread             Disable Thread Sanitizer
+# @flag -funwind-tables                  Always produce unwind table entries for all functions
+# @flag -fno-unwind-tables               Never produce unwind table entries
+# @flag -ferror-tracing                  Enable error tracing in ReleaseFast mode
+# @flag -fno-error-tracing               Disable error tracing in Debug and ReleaseSafe mode
+# @flag -fsingle-threaded                Code assumes there is only one thread
+# @flag -fno-single-threaded             Code may not assume there is only one thread
+# @flag -fstrip                          Omit debug symbols
+# @flag -fno-strip                       Keep debug symbols
+# @option -idirafter <dir>               Add directory to AFTER include search path
+# @flag -isystem                         [dir]  Add directory to SYSTEM include search path
+# @option -I <dir>                       Add directory to include search path
+# @option -D <[macro]=[value]>           Define C [macro] to [value] (1 if [value] omitted)
+# @option -cflags <flags>                Set extra flags for the next positional C source files
+# @option -rcflags <flags>               Set extra flags for the next positional .rc source files
+# @option -- <flags>                     Set extra flags for the next positional .rc source files
+# @option -rcincludes <type>             Set the type of includes to use when compiling .rc source files
+# @option -T --script <script>           Use a custom linker script
+# @option --version-script <path>        Provide a version .map file
+# @flag --undefined-version              Allow version scripts to refer to undefined symbols
+# @flag --no-undefined-version           (default) Disallow version scripts from referring to undefined symbols
+# @flag --enable-new-dtags               Use the new behavior for dynamic tags (RUNPATH)
+# @flag --disable-new-dtags              Use the old behavior for dynamic tags (RPATH)
+# @option --dynamic-linker <path>        Set the dynamic interpreter path (usually ld.so)
+# @option --sysroot <path>               Set the system root directory (usually /)
+# @option --version <ver>                Dynamic library semver
+# @option -fentry <name>                 Override the entry point symbol name
+# @flag -fno-entry                       Do not output any entry point
+# @option --force_undefined <name>       Specify the symbol must be defined for the link to succeed
+# @option -fsoname <name>                Override the default SONAME value
+# @flag -fno-soname                      Disable emitting a SONAME
+# @flag -flld                            Force using LLD as the linker
+# @flag -fno-lld                         Prevent using LLD as the linker
+# @flag -fcompiler-rt                    Always include compiler-rt symbols in output
+# @flag -fno-compiler-rt                 Prevent including compiler-rt symbols in output
+# @flag -rdynamic                        Add all symbols to the dynamic symbol table
+# @flag -feach-lib-rpath                 Ensure adding rpath for each used dynamic library
+# @flag -fno-each-lib-rpath              Prevent adding rpath for each used dynamic library
+# @flag -fallow-shlib-undefined          Allows undefined symbols in shared libraries
+# @flag -fno-allow-shlib-undefined       Disallows undefined symbols in shared libraries
+# @option --build-id[fast|uuid|sha1|md5|none] <style>  At a minor link-time expense, coordinates stripped binaries
+# @flag --eh-frame-hdr                   Enable C++ exception handling by passing --eh-frame-hdr to linker
+# @flag --emit-relocs                    Enable output of relocation sections for post build tools
+# @option -z <arg>                       Set linker extension flags
+# @flag -dynamic                         Force output to be dynamically linked
+# @flag -static                          Force output to be statically linked
+# @flag -Bsymbolic                       Bind global references locally
+# @option --compress-debug-sections[none|zlib] <e>  Debug section compression settings
+# @flag --gc-sections                    Force removal of functions and data that are unreachable by the entry point or exported symbols
+# @flag --no-gc-sections                 Don't force removal of unreachable functions and data
+# @option --sort-section <value>         Sort wildcard section patterns by 'name' or 'alignment'
+# @option --subsystem <subsystem>        (Windows) /SUBSYSTEM:<subsystem> to the linker
+# @option --stack <size>                 Override default stack size
+# @option --image-base <addr>            Set base address for executable image
+# @option -install_name <value>          (Darwin) add dylib's install name
+# @option --entitlements <path>          (Darwin) add path to entitlements file for embedding in code signature
+# @option -pagezero_size <value>         (Darwin) size of the __PAGEZERO segment in hexadecimal notation
+# @option -headerpad <value>             (Darwin) set minimum space for future expansion of the load commands in hexadecimal notation
+# @flag -headerpad_max_install_names     (Darwin) set enough space as if all paths were MAXPATHLEN
+# @flag -dead_strip                      (Darwin) remove functions and data that are unreachable by the entry point or exported symbols
+# @flag -dead_strip_dylibs               (Darwin) remove dylibs that are unreachable by the entry point or exported symbols
+# @flag -ObjC                            (Darwin) force load all members of static archives that implement an Objective-C class or category
+# @flag --import-memory                  (WebAssembly) import memory from the environment
+# @flag --export-memory                  (WebAssembly) export memory to the host (Default unless --import-memory used)
+# @flag --import-symbols                 (WebAssembly) import missing symbols from the host environment
+# @flag --import-table                   (WebAssembly) import function table from the host environment
+# @flag --export-table                   (WebAssembly) export function table to the host environment
+# @option --initial-memory <bytes>       (WebAssembly) initial size of the linear memory
+# @option --max-memory <bytes>           (WebAssembly) maximum size of the linear memory
+# @flag --shared-memory                  (WebAssembly) use shared linear memory
+# @option --global-base <addr>           (WebAssembly) where to start to place global data
+# @option -l --library <lib>             Link against system library (only if actually used)
+# @option -needed-l <lib>                Link against system library (even if unused)
+# @option --needed-library <lib>
+# @option -weak-l <lib>                  link against system library marking it and all
+# @option -weak_library <lib>            referenced symbols as weak
+# @option -L --library-directory <d>     Add a directory to the library search path
+# @flag -search_paths_first              For each library search path, check for dynamic lib then static lib before proceeding to next path.
+# @flag -search_paths_first_static       For each library search path, check for static lib then dynamic lib before proceeding to next path.
+# @flag -search_dylibs_first             Search for dynamic libs in all library search paths, then static libs.
+# @flag -search_static_first             Search for static libs in all library search paths, then dynamic libs.
+# @flag -search_dylibs_only              Only search for dynamic libs.
+# @flag -search_static_only              Only search for static libs.
+# @option -rpath <path>                  Add directory to the runtime library search path
+# @option -framework <name>              (Darwin) link against framework
+# @option -needed_framework <name>       (Darwin) link against framework (even if unused)
+# @option -needed_library <lib>          (Darwin) link against system library (even if unused)
+# @option -weak_framework <name>         (Darwin) link against framework and mark it and all referenced symbols as weak
+# @option -F <dir>                       (Darwin) add search path for frameworks
+# @option --export <value>               (WebAssembly) Force a symbol to be exported
+# @option --test-filter <text>           Skip tests that do not match any filter
+# @option --test-name-prefix <text>      Add prefix to all tests
+# @option --test-cmd <arg>               Specify test execution command one arg at a time
+# @flag --test-cmd-bin                   Appends test binary path to test cmd args
+# @flag --test-evented-io                Runs the test in evented I/O mode
+# @flag --test-no-exec                   Compiles test binary without running it
+# @option --test-runner <path>           Specify a custom test runner
+# @option -fopt-bisect-limit <limit>     Only run [limit] first LLVM optimization passes
+# @flag -ftime-report                    Print timing diagnostics
+# @flag -fstack-report                   Print stack size diagnostics
+# @flag --verbose-link                   Display linker invocations
+# @flag --verbose-cc                     Display C compiler invocations
+# @flag --verbose-air                    Enable compiler debug output for Zig AIR
+# @flag --verbose-intern-pool            Enable compiler debug output for InternPool
+# @flag --verbose-generic-instances      Enable compiler debug output for generic instance generation
+# @option --verbose-llvm-ir <path>       Enable compiler debug output for unoptimized LLVM IR
+# @option --verbose-llvm-bc <path>       Enable compiler debug output for unoptimized LLVM BC
+# @flag --verbose-cimport                Enable compiler debug output for C imports
+# @flag --verbose-llvm-cpu-features      Enable compiler debug output for LLVM CPU features
+# @option --debug-log <scope>            Enable printing debug/info log messages for scope
+# @flag --debug-compile-errors           Crash with helpful diagnostics at the first compile error
+# @flag --debug-link-snapshot            Enable dumping of the linker's state in JSON format
+# @flag --debug-incremental              Enable experimental feature: incremental compilation
+# @arg files*
+test() {
+    :;
+}
+# }} zig test
+
+# {{ zig run
+# @cmd Create executable and run immediately
+# @flag -h --help                        Print this help and exit
+# @option --color[auto|off|on]           Enable or disable colored error messages
+# @option -femit-bin <path>              (default) Output machine code
+# @flag -fno-emit-bin                    Do not output machine code
+# @option -femit-asm <path>              Output .s (assembly code)
+# @flag -fno-emit-asm                    (default) Do not output .s (assembly code)
+# @option -femit-llvm-ir <path>          Produce a .ll file with optimized LLVM IR (requires LLVM extensions)
+# @flag -fno-emit-llvm-ir                (default) Do not produce a .ll file with optimized LLVM IR
+# @option -femit-llvm-bc <path>          Produce an optimized LLVM module as a .bc file (requires LLVM extensions)
+# @flag -fno-emit-llvm-bc                (default) Do not produce an optimized LLVM module as a .bc file
+# @option -femit-h <path>                Generate a C header file (.h)
+# @flag -fno-emit-h                      (default) Do not generate a C header file (.h)
+# @option -femit-docs <path>             Create a docs/ dir with html documentation
+# @flag -fno-emit-docs                   (default) Do not produce docs/ dir with html documentation
+# @option -femit-implib <path>           (default) Produce an import .lib when building a Windows DLL
+# @flag -fno-emit-implib                 Do not produce an import .lib when building a Windows DLL
+# @flag --show-builtin                   Output the source of @import("builtin") then exit
+# @option --cache-dir <path>             Override the local cache directory
+# @option --global-cache-dir <path>      Override the global cache directory
+# @option --zig-lib-dir <path>           Override path to Zig installation lib directory
+# @option --name <name>                  Compilation unit name (not a file path)
+# @option --libc <file>                  Provide a file which specifies libc paths
+# @option -x <language>                  Treat subsequent input files as having type <language>
+# @option --dep <[import=]name>          Add an entry to the next module's import table
+# @option -M <[name][=src]>              Create a module based on the current per-module settings.
+# @option --error-limit <num>            Set the maximum amount of distinct error values
+# @flag -fllvm                           Force using LLVM as the codegen backend
+# @flag -fno-llvm                        Prevent using LLVM as the codegen backend
+# @flag -flibllvm                        Force using the LLVM API in the codegen backend
+# @flag -fno-libllvm                     Prevent using the LLVM API in the codegen backend
+# @flag -fclang                          Force using Clang as the C/C++ compilation backend
+# @flag -fno-clang                       Prevent using Clang as the C/C++ compilation backend
+# @flag -fPIE                            Force-enable Position Independent Executable
+# @flag -fno-PIE                         Force-disable Position Independent Executable
+# @flag -flto                            Force-enable Link Time Optimization (requires LLVM extensions)
+# @flag -fno-lto                         Force-disable Link Time Optimization
+# @flag -fdll-export-fns                 Mark exported functions as DLL exports (Windows)
+# @flag -fno-dll-export-fns              Force-disable marking exported functions as DLL exports
+# @option -freference-trace <num>        Show num lines of reference trace per compile error
+# @flag -fno-reference-trace             Disable reference trace
+# @flag -fbuiltin                        Enable implicit builtin knowledge of functions
+# @flag -fno-builtin                     Disable implicit builtin knowledge of functions
+# @flag -ffunction-sections              Places each function in a separate section
+# @flag -fno-function-sections           All functions go into same section
+# @flag -fdata-sections                  Places each data in a separate section
+# @flag -fno-data-sections               All data go into same section
+# @flag -fformatted-panics               Enable formatted safety panics
+# @flag -fno-formatted-panics            Disable formatted safety panics
+# @flag -fstructured-cfg                 (SPIR-V) force SPIR-V kernels to use structured control flow
+# @flag -fno-structured-cfg              (SPIR-V) force SPIR-V kernels to not use structured control flow
+# @option -mexec-model <value>           (WASI) Execution model
+# @flag -municode                        (Windows) Use wmain/wWinMain as entry point
+# @option -target <name>                 <arch><sub>-<os>-<abi> see the targets command
+# @option -O <mode>                      Choose what to optimize for
+# @option -ofmt[`_choice_ofmt`] <fmt>    Override target object format
+# @option -mcpu <cpu>                    Specify target CPU and feature set
+# @option -mcmodel[default|tiny|small|kernel|medium|large] <kind>  Limit range of code and data virtual addresses
+# @flag -mred-zone                       Force-enable the "red-zone"
+# @flag -mno-red-zone                    Force-disable the "red-zone"
+# @flag -fomit-frame-pointer             Omit the stack frame pointer
+# @flag -fno-omit-frame-pointer          Store the stack frame pointer
+# @flag -fPIC                            Force-enable Position Independent Code
+# @flag -fno-PIC                         Force-disable Position Independent Code
+# @flag -fstack-check                    Enable stack probing in unsafe builds
+# @flag -fno-stack-check                 Disable stack probing in safe builds
+# @flag -fstack-protector                Enable stack protection in unsafe builds
+# @flag -fno-stack-protector             Disable stack protection in safe builds
+# @flag -fsanitize-c                     Enable C undefined behavior detection in unsafe builds
+# @flag -fno-sanitize-c                  Disable C undefined behavior detection in safe builds
+# @flag -fvalgrind                       Include valgrind client requests in release builds
+# @flag -fno-valgrind                    Omit valgrind client requests in debug builds
+# @flag -fsanitize-thread                Enable Thread Sanitizer
+# @flag -fno-sanitize-thread             Disable Thread Sanitizer
+# @flag -funwind-tables                  Always produce unwind table entries for all functions
+# @flag -fno-unwind-tables               Never produce unwind table entries
+# @flag -ferror-tracing                  Enable error tracing in ReleaseFast mode
+# @flag -fno-error-tracing               Disable error tracing in Debug and ReleaseSafe mode
+# @flag -fsingle-threaded                Code assumes there is only one thread
+# @flag -fno-single-threaded             Code may not assume there is only one thread
+# @flag -fstrip                          Omit debug symbols
+# @flag -fno-strip                       Keep debug symbols
+# @option -idirafter <dir>               Add directory to AFTER include search path
+# @flag -isystem                         [dir]  Add directory to SYSTEM include search path
+# @option -I <dir>                       Add directory to include search path
+# @option -D <[macro]=[value]>           Define C [macro] to [value] (1 if [value] omitted)
+# @option -cflags <flags>                Set extra flags for the next positional C source files
+# @option -rcflags <flags>               Set extra flags for the next positional .rc source files
+# @option -- <flags>                     Set extra flags for the next positional .rc source files
+# @option -rcincludes <type>             Set the type of includes to use when compiling .rc source files
+# @option -T --script <script>           Use a custom linker script
+# @option --version-script <path>        Provide a version .map file
+# @flag --undefined-version              Allow version scripts to refer to undefined symbols
+# @flag --no-undefined-version           (default) Disallow version scripts from referring to undefined symbols
+# @flag --enable-new-dtags               Use the new behavior for dynamic tags (RUNPATH)
+# @flag --disable-new-dtags              Use the old behavior for dynamic tags (RPATH)
+# @option --dynamic-linker <path>        Set the dynamic interpreter path (usually ld.so)
+# @option --sysroot <path>               Set the system root directory (usually /)
+# @option --version <ver>                Dynamic library semver
+# @option -fentry <name>                 Override the entry point symbol name
+# @flag -fno-entry                       Do not output any entry point
+# @option --force_undefined <name>       Specify the symbol must be defined for the link to succeed
+# @option -fsoname <name>                Override the default SONAME value
+# @flag -fno-soname                      Disable emitting a SONAME
+# @flag -flld                            Force using LLD as the linker
+# @flag -fno-lld                         Prevent using LLD as the linker
+# @flag -fcompiler-rt                    Always include compiler-rt symbols in output
+# @flag -fno-compiler-rt                 Prevent including compiler-rt symbols in output
+# @flag -rdynamic                        Add all symbols to the dynamic symbol table
+# @flag -feach-lib-rpath                 Ensure adding rpath for each used dynamic library
+# @flag -fno-each-lib-rpath              Prevent adding rpath for each used dynamic library
+# @flag -fallow-shlib-undefined          Allows undefined symbols in shared libraries
+# @flag -fno-allow-shlib-undefined       Disallows undefined symbols in shared libraries
+# @option --build-id[fast|uuid|sha1|md5|none] <style>  At a minor link-time expense, coordinates stripped binaries
+# @flag --eh-frame-hdr                   Enable C++ exception handling by passing --eh-frame-hdr to linker
+# @flag --emit-relocs                    Enable output of relocation sections for post build tools
+# @option -z <arg>                       Set linker extension flags
+# @flag -dynamic                         Force output to be dynamically linked
+# @flag -static                          Force output to be statically linked
+# @flag -Bsymbolic                       Bind global references locally
+# @option --compress-debug-sections[none|zlib] <e>  Debug section compression settings
+# @flag --gc-sections                    Force removal of functions and data that are unreachable by the entry point or exported symbols
+# @flag --no-gc-sections                 Don't force removal of unreachable functions and data
+# @option --sort-section <value>         Sort wildcard section patterns by 'name' or 'alignment'
+# @option --subsystem <subsystem>        (Windows) /SUBSYSTEM:<subsystem> to the linker
+# @option --stack <size>                 Override default stack size
+# @option --image-base <addr>            Set base address for executable image
+# @option -install_name <value>          (Darwin) add dylib's install name
+# @option --entitlements <path>          (Darwin) add path to entitlements file for embedding in code signature
+# @option -pagezero_size <value>         (Darwin) size of the __PAGEZERO segment in hexadecimal notation
+# @option -headerpad <value>             (Darwin) set minimum space for future expansion of the load commands in hexadecimal notation
+# @flag -headerpad_max_install_names     (Darwin) set enough space as if all paths were MAXPATHLEN
+# @flag -dead_strip                      (Darwin) remove functions and data that are unreachable by the entry point or exported symbols
+# @flag -dead_strip_dylibs               (Darwin) remove dylibs that are unreachable by the entry point or exported symbols
+# @flag -ObjC                            (Darwin) force load all members of static archives that implement an Objective-C class or category
+# @flag --import-memory                  (WebAssembly) import memory from the environment
+# @flag --export-memory                  (WebAssembly) export memory to the host (Default unless --import-memory used)
+# @flag --import-symbols                 (WebAssembly) import missing symbols from the host environment
+# @flag --import-table                   (WebAssembly) import function table from the host environment
+# @flag --export-table                   (WebAssembly) export function table to the host environment
+# @option --initial-memory <bytes>       (WebAssembly) initial size of the linear memory
+# @option --max-memory <bytes>           (WebAssembly) maximum size of the linear memory
+# @flag --shared-memory                  (WebAssembly) use shared linear memory
+# @option --global-base <addr>           (WebAssembly) where to start to place global data
+# @option -l --library <lib>             Link against system library (only if actually used)
+# @option -needed-l <lib>                Link against system library (even if unused)
+# @option --needed-library <lib>
+# @option -weak-l <lib>                  link against system library marking it and all
+# @option -weak_library <lib>            referenced symbols as weak
+# @option -L --library-directory <d>     Add a directory to the library search path
+# @flag -search_paths_first              For each library search path, check for dynamic lib then static lib before proceeding to next path.
+# @flag -search_paths_first_static       For each library search path, check for static lib then dynamic lib before proceeding to next path.
+# @flag -search_dylibs_first             Search for dynamic libs in all library search paths, then static libs.
+# @flag -search_static_first             Search for static libs in all library search paths, then dynamic libs.
+# @flag -search_dylibs_only              Only search for dynamic libs.
+# @flag -search_static_only              Only search for static libs.
+# @option -rpath <path>                  Add directory to the runtime library search path
+# @option -framework <name>              (Darwin) link against framework
+# @option -needed_framework <name>       (Darwin) link against framework (even if unused)
+# @option -needed_library <lib>          (Darwin) link against system library (even if unused)
+# @option -weak_framework <name>         (Darwin) link against framework and mark it and all referenced symbols as weak
+# @option -F <dir>                       (Darwin) add search path for frameworks
+# @option --export <value>               (WebAssembly) Force a symbol to be exported
+# @option --test-filter <text>           Skip tests that do not match any filter
+# @option --test-name-prefix <text>      Add prefix to all tests
+# @option --test-cmd <arg>               Specify test execution command one arg at a time
+# @flag --test-cmd-bin                   Appends test binary path to test cmd args
+# @flag --test-evented-io                Runs the test in evented I/O mode
+# @flag --test-no-exec                   Compiles test binary without running it
+# @option --test-runner <path>           Specify a custom test runner
+# @option -fopt-bisect-limit <limit>     Only run [limit] first LLVM optimization passes
+# @flag -ftime-report                    Print timing diagnostics
+# @flag -fstack-report                   Print stack size diagnostics
+# @flag --verbose-link                   Display linker invocations
+# @flag --verbose-cc                     Display C compiler invocations
+# @flag --verbose-air                    Enable compiler debug output for Zig AIR
+# @flag --verbose-intern-pool            Enable compiler debug output for InternPool
+# @flag --verbose-generic-instances      Enable compiler debug output for generic instance generation
+# @option --verbose-llvm-ir <path>       Enable compiler debug output for unoptimized LLVM IR
+# @option --verbose-llvm-bc <path>       Enable compiler debug output for unoptimized LLVM BC
+# @flag --verbose-cimport                Enable compiler debug output for C imports
+# @flag --verbose-llvm-cpu-features      Enable compiler debug output for LLVM CPU features
+# @option --debug-log <scope>            Enable printing debug/info log messages for scope
+# @flag --debug-compile-errors           Crash with helpful diagnostics at the first compile error
+# @flag --debug-link-snapshot            Enable dumping of the linker's state in JSON format
+# @flag --debug-incremental              Enable experimental feature: incremental compilation
+# @arg files*
+run() {
+    :;
+}
+# }} zig run
 
 # {{ zig ast-check
 # @cmd Look for simple compile errors in any set of files
@@ -79,540 +1058,6 @@ ast-check() {
     :;
 }
 # }} zig ast-check
-
-# {{ zig build-exe
-# @cmd Create executable from source or object files
-# @flag -h --help                         Print this help and exit
-# @option --color[auto|off|on]            Enable or disable colored error messages
-# @option -femit-bin <path>               (default) Output machine code
-# @flag -fno-emit-bin                     Do not output machine code
-# @option -femit-asm <path>               Output .s (assembly code)
-# @flag -fno-emit-asm                     (default) Do not output .s (assembly code)
-# @option -femit-llvm-ir <path>           Produce a .ll file with optimized LLVM IR (requires LLVM extensions)
-# @flag -fno-emit-llvm-ir                 (default) Do not produce a .ll file with optimized LLVM IR
-# @option -femit-llvm-bc <path>           Produce an optimized LLVM module as a .bc file (requires LLVM extensions)
-# @flag -fno-emit-llvm-bc                 (default) Do not produce an optimized LLVM module as a .bc file
-# @option -femit-h <path>                 Generate a C header file (.h)
-# @flag -fno-emit-h                       (default) Do not generate a C header file (.h)
-# @option -femit-docs <path>              Create a docs/ dir with html documentation
-# @flag -fno-emit-docs                    (default) Do not produce docs/ dir with html documentation
-# @option -femit-implib <path>            (default) Produce an import .lib when building a Windows DLL
-# @flag -fno-emit-implib                  Do not produce an import .lib when building a Windows DLL
-# @flag --show-builtin                    Output the source of @import("builtin") then exit
-# @option --cache-dir <path>              Override the local cache directory
-# @option --global-cache-dir <path>       Override the global cache directory
-# @option --zig-lib-dir <path>            Override path to Zig installation lib directory
-# @option -target <name>                  <arch><sub>-<os>-<abi> see the targets command
-# @option -mcpu <cpu>                     Specify target CPU and feature set
-# @option -mcmodel[default|tiny|small|kernel|medium|large] <kind>  Limit range of code and data virtual addresses
-# @option -x <language>                   Treat subsequent input files as having type <language>
-# @flag -mred-zone                        Force-enable the "red-zone"
-# @flag -mno-red-zone                     Force-disable the "red-zone"
-# @flag -fomit-frame-pointer              Omit the stack frame pointer
-# @flag -fno-omit-frame-pointer           Store the stack frame pointer
-# @option -mexec-model <value>            (WASI) Execution model
-# @option --name <name>                   Override root name (not a file path)
-# @option -O <mode>                       Choose what to optimize for
-# @option --mod <[name]:[deps]:[src]>     Make a module available for dependency under the given name
-# @option --deps* <[dep],[dep],>          Set dependency names for the root package
-# @flag --main-pkg-path                   Set the directory of the root package
-# @flag -fPIC                             Force-enable Position Independent Code
-# @flag -fno-PIC                          Force-disable Position Independent Code
-# @flag -fPIE                             Force-enable Position Independent Executable
-# @flag -fno-PIE                          Force-disable Position Independent Executable
-# @flag -flto                             Force-enable Link Time Optimization (requires LLVM extensions)
-# @flag -fno-lto                          Force-disable Link Time Optimization
-# @flag -fstack-check                     Enable stack probing in unsafe builds
-# @flag -fno-stack-check                  Disable stack probing in safe builds
-# @flag -fstack-protector                 Enable stack protection in unsafe builds
-# @flag -fno-stack-protector              Disable stack protection in safe builds
-# @flag -fsanitize-c                      Enable C undefined behavior detection in unsafe builds
-# @flag -fno-sanitize-c                   Disable C undefined behavior detection in safe builds
-# @flag -fvalgrind                        Include valgrind client requests in release builds
-# @flag -fno-valgrind                     Omit valgrind client requests in debug builds
-# @flag -fsanitize-thread                 Enable Thread Sanitizer
-# @flag -fno-sanitize-thread              Disable Thread Sanitizer
-# @flag -fdll-export-fns                  Mark exported functions as DLL exports (Windows)
-# @flag -fno-dll-export-fns               Force-disable marking exported functions as DLL exports
-# @flag -funwind-tables                   Always produce unwind table entries for all functions
-# @flag -fno-unwind-tables                Never produce unwind table entries
-# @flag -fllvm                            Force using LLVM as the codegen backend
-# @flag -fno-llvm                         Prevent using LLVM as the codegen backend
-# @flag -flibllvm                         Force using the LLVM API in the codegen backend
-# @flag -fno-libllvm                      Prevent using the LLVM API in the codegen backend
-# @flag -fclang                           Force using Clang as the C/C++ compilation backend
-# @flag -fno-clang                        Prevent using Clang as the C/C++ compilation backend
-# @option -freference-trace <num>         How many lines of reference trace should be shown per compile error
-# @flag -fno-reference-trace              Disable reference trace
-# @flag -ferror-tracing                   Enable error tracing in ReleaseFast mode
-# @flag -fno-error-tracing                Disable error tracing in Debug and ReleaseSafe mode
-# @flag -fsingle-threaded                 Code assumes there is only one thread
-# @flag -fno-single-threaded              Code may not assume there is only one thread
-# @flag -fbuiltin                         Enable implicit builtin knowledge of functions
-# @flag -fno-builtin                      Disable implicit builtin knowledge of functions
-# @flag -ffunction-sections               Places each function in a separate section
-# @flag -fno-function-sections            All functions go into same section
-# @flag -fstrip                           Omit debug symbols
-# @flag -fno-strip                        Keep debug symbols
-# @flag -fformatted-panics                Enable formatted safety panics
-# @flag -fno-formatted-panics             Disable formatted safety panics
-# @option -ofmt[`_choice_ofmt`] <mode>    Override target object format
-# @option -idirafter <dir>                Add directory to AFTER include search path
-# @flag -isystem                          [dir]  Add directory to SYSTEM include search path
-# @option -I <dir>                        Add directory to include search path
-# @option -D <[macro]=[value]>            Define C [macro] to [value] (1 if [value] omitted)
-# @option --libc <file>                   Provide a file which specifies libc paths
-# @option -cflags <flags>                 Set extra flags for the next positional C source files
-# @option -l --library <lib>              Link against system library (only if actually used)
-# @option -needed-l <lib>                 Link against system library (even if unused)
-# @option --needed-library <lib>
-# @option -weak-l <lib>                   link against system library marking it and all
-# @option -weak_library <lib>             referenced symbols as weak
-# @option -L --library-directory <d>      Add a directory to the library search path
-# @flag -search_paths_first               For each library search path, check for dynamic lib then static lib before proceeding to next path.
-# @flag -search_paths_first_static        For each library search path, check for static lib then dynamic lib before proceeding to next path.
-# @flag -search_dylibs_first              Search for dynamic libs in all library search paths, then static libs.
-# @flag -search_static_first              Search for static libs in all library search paths, then dynamic libs.
-# @flag -search_dylibs_only               Only search for dynamic libs.
-# @flag -search_static_only               Only search for static libs.
-# @option -T --script <script>            Use a custom linker script
-# @option --version-script <path>         Provide a version .map file
-# @option --dynamic-linker <path>         Set the dynamic interpreter path (usually ld.so)
-# @option --sysroot <path>                Set the system root directory (usually /)
-# @option --version <ver>                 Dynamic library semver
-# @option --entry <name>                  Set the entrypoint symbol name
-# @option --force_undefined <name>        Specify the symbol must be defined for the link to succeed
-# @option -fsoname <name>                 Override the default SONAME value
-# @flag -fno-soname                       Disable emitting a SONAME
-# @flag -flld                             Force using LLD as the linker
-# @flag -fno-lld                          Prevent using LLD as the linker
-# @flag -fcompiler-rt                     Always include compiler-rt symbols in output
-# @flag -fno-compiler-rt                  Prevent including compiler-rt symbols in output
-# @flag -rdynamic                         Add all symbols to the dynamic symbol table
-# @option -rpath <path>                   Add directory to the runtime library search path
-# @flag -feach-lib-rpath                  Ensure adding rpath for each used dynamic library
-# @flag -fno-each-lib-rpath               Prevent adding rpath for each used dynamic library
-# @flag -fallow-shlib-undefined           Allows undefined symbols in shared libraries
-# @flag -fno-allow-shlib-undefined        Disallows undefined symbols in shared libraries
-# @option --build-id[fast|uuid|sha1|md5|none] <style>  At a minor link-time expense, coordinates stripped binaries
-# @flag --eh-frame-hdr                    Enable C++ exception handling by passing --eh-frame-hdr to linker
-# @flag --emit-relocs                     Enable output of relocation sections for post build tools
-# @option -z <arg>                        Set linker extension flags
-# @flag -dynamic                          Force output to be dynamically linked
-# @flag -static                           Force output to be statically linked
-# @flag -Bsymbolic                        Bind global references locally
-# @option --compress-debug-sections[none|zlib] <e>  Debug section compression settings
-# @flag --gc-sections                     Force removal of functions and data that are unreachable by the entry point or exported symbols
-# @flag --no-gc-sections                  Don't force removal of unreachable functions and data
-# @option --sort-section <value>          Sort wildcard section patterns by 'name' or 'alignment'
-# @option --subsystem <subsystem>         (Windows) /SUBSYSTEM:<subsystem> to the linker
-# @option --stack <size>                  Override default stack size
-# @option --image-base <addr>             Set base address for executable image
-# @option -framework <name>               (Darwin) link against framework
-# @option -needed_framework <name>        (Darwin) link against framework (even if unused)
-# @option -needed_library <lib>           link against system library (even if unused)
-# @option -weak_framework <name>          (Darwin) link against framework and mark it and all referenced symbols as weak
-# @option -F <dir>                        (Darwin) add search path for frameworks
-# @option -install_name <value>           (Darwin) add dylib's install name
-# @option --entitlements <path>           (Darwin) add path to entitlements file for embedding in code signature
-# @option -pagezero_size <value>          (Darwin) size of the __PAGEZERO segment in hexadecimal notation
-# @option -headerpad <value>              (Darwin) set minimum space for future expansion of the load commands in hexadecimal notation
-# @flag -headerpad_max_install_names      (Darwin) set enough space as if all paths were MAXPATHLEN
-# @flag -dead_strip                       (Darwin) remove functions and data that are unreachable by the entry point or exported symbols
-# @flag -dead_strip_dylibs                (Darwin) remove dylibs that are unreachable by the entry point or exported symbols
-# @flag --import-memory                   (WebAssembly) import memory from the environment
-# @flag --export-memory                   (WebAssembly) export memory to the host (Default unless --import-memory used)
-# @flag --import-symbols                  (WebAssembly) import missing symbols from the host environment
-# @flag --import-table                    (WebAssembly) import function table from the host environment
-# @flag --export-table                    (WebAssembly) export function table to the host environment
-# @option --initial-memory <bytes>        (WebAssembly) initial size of the linear memory
-# @option --max-memory <bytes>            (WebAssembly) maximum size of the linear memory
-# @flag --shared-memory                   (WebAssembly) use shared linear memory
-# @option --global-base <addr>            (WebAssembly) where to start to place global data
-# @option --export <value>                (WebAssembly) Force a symbol to be exported
-# @option --test-filter <text>            Skip tests that do not match filter
-# @option --test-name-prefix <text>       Add prefix to all tests
-# @option --test-cmd <arg>                Specify test execution command one arg at a time
-# @flag --test-cmd-bin                    Appends test binary path to test cmd args
-# @flag --test-evented-io                 Runs the test in evented I/O mode
-# @flag --test-no-exec                    Compiles test binary without running it
-# @option --test-runner <path>            Specify a custom test runner
-# @option -fopt-bisect-limit <limit>      Only run [limit] first LLVM optimization passes
-# @flag -ftime-report                     Print timing diagnostics
-# @flag -fstack-report                    Print stack size diagnostics
-# @flag --verbose-link                    Display linker invocations
-# @flag --verbose-cc                      Display C compiler invocations
-# @flag --verbose-air                     Enable compiler debug output for Zig AIR
-# @flag --verbose-intern-pool             Enable compiler debug output for InternPool
-# @flag --verbose-generic-instances       Enable compiler debug output for generic instance generation
-# @option --verbose-llvm-ir <path>        Enable compiler debug output for unoptimized LLVM IR
-# @option --verbose-llvm-bc <path>        Enable compiler debug output for unoptimized LLVM BC
-# @flag --verbose-cimport                 Enable compiler debug output for C imports
-# @flag --verbose-llvm-cpu-features       Enable compiler debug output for LLVM CPU features
-# @option --debug-log <scope>             Enable printing debug/info log messages for scope
-# @flag --debug-compile-errors            Crash with helpful diagnostics at the first compile error
-# @flag --debug-link-snapshot             Enable dumping of the linker's state in JSON format
-# @arg files*
-build-exe() {
-    :;
-}
-# }} zig build-exe
-
-# {{ zig build-lib
-# @cmd Create library from source or object files
-# @flag -h --help                         Print this help and exit
-# @option --color[auto|off|on]            Enable or disable colored error messages
-# @option -femit-bin <path>               (default) Output machine code
-# @flag -fno-emit-bin                     Do not output machine code
-# @option -femit-asm <path>               Output .s (assembly code)
-# @flag -fno-emit-asm                     (default) Do not output .s (assembly code)
-# @option -femit-llvm-ir <path>           Produce a .ll file with optimized LLVM IR (requires LLVM extensions)
-# @flag -fno-emit-llvm-ir                 (default) Do not produce a .ll file with optimized LLVM IR
-# @option -femit-llvm-bc <path>           Produce an optimized LLVM module as a .bc file (requires LLVM extensions)
-# @flag -fno-emit-llvm-bc                 (default) Do not produce an optimized LLVM module as a .bc file
-# @option -femit-h <path>                 Generate a C header file (.h)
-# @flag -fno-emit-h                       (default) Do not generate a C header file (.h)
-# @option -femit-docs <path>              Create a docs/ dir with html documentation
-# @flag -fno-emit-docs                    (default) Do not produce docs/ dir with html documentation
-# @option -femit-implib <path>            (default) Produce an import .lib when building a Windows DLL
-# @flag -fno-emit-implib                  Do not produce an import .lib when building a Windows DLL
-# @flag --show-builtin                    Output the source of @import("builtin") then exit
-# @option --cache-dir <path>              Override the local cache directory
-# @option --global-cache-dir <path>       Override the global cache directory
-# @option --zig-lib-dir <path>            Override path to Zig installation lib directory
-# @option -target <name>                  <arch><sub>-<os>-<abi> see the targets command
-# @option -mcpu <cpu>                     Specify target CPU and feature set
-# @option -mcmodel[default|tiny|small|kernel|medium|large] <kind>  Limit range of code and data virtual addresses
-# @option -x <language>                   Treat subsequent input files as having type <language>
-# @flag -mred-zone                        Force-enable the "red-zone"
-# @flag -mno-red-zone                     Force-disable the "red-zone"
-# @flag -fomit-frame-pointer              Omit the stack frame pointer
-# @flag -fno-omit-frame-pointer           Store the stack frame pointer
-# @option -mexec-model <value>            (WASI) Execution model
-# @option --name <name>                   Override root name (not a file path)
-# @option -O <mode>                       Choose what to optimize for
-# @option --mod <[name]:[deps]:[src]>     Make a module available for dependency under the given name
-# @option --deps* <[dep],[dep],>          Set dependency names for the root package
-# @flag --main-pkg-path                   Set the directory of the root package
-# @flag -fPIC                             Force-enable Position Independent Code
-# @flag -fno-PIC                          Force-disable Position Independent Code
-# @flag -fPIE                             Force-enable Position Independent Executable
-# @flag -fno-PIE                          Force-disable Position Independent Executable
-# @flag -flto                             Force-enable Link Time Optimization (requires LLVM extensions)
-# @flag -fno-lto                          Force-disable Link Time Optimization
-# @flag -fstack-check                     Enable stack probing in unsafe builds
-# @flag -fno-stack-check                  Disable stack probing in safe builds
-# @flag -fstack-protector                 Enable stack protection in unsafe builds
-# @flag -fno-stack-protector              Disable stack protection in safe builds
-# @flag -fsanitize-c                      Enable C undefined behavior detection in unsafe builds
-# @flag -fno-sanitize-c                   Disable C undefined behavior detection in safe builds
-# @flag -fvalgrind                        Include valgrind client requests in release builds
-# @flag -fno-valgrind                     Omit valgrind client requests in debug builds
-# @flag -fsanitize-thread                 Enable Thread Sanitizer
-# @flag -fno-sanitize-thread              Disable Thread Sanitizer
-# @flag -fdll-export-fns                  Mark exported functions as DLL exports (Windows)
-# @flag -fno-dll-export-fns               Force-disable marking exported functions as DLL exports
-# @flag -funwind-tables                   Always produce unwind table entries for all functions
-# @flag -fno-unwind-tables                Never produce unwind table entries
-# @flag -fllvm                            Force using LLVM as the codegen backend
-# @flag -fno-llvm                         Prevent using LLVM as the codegen backend
-# @flag -flibllvm                         Force using the LLVM API in the codegen backend
-# @flag -fno-libllvm                      Prevent using the LLVM API in the codegen backend
-# @flag -fclang                           Force using Clang as the C/C++ compilation backend
-# @flag -fno-clang                        Prevent using Clang as the C/C++ compilation backend
-# @option -freference-trace <num>         How many lines of reference trace should be shown per compile error
-# @flag -fno-reference-trace              Disable reference trace
-# @flag -ferror-tracing                   Enable error tracing in ReleaseFast mode
-# @flag -fno-error-tracing                Disable error tracing in Debug and ReleaseSafe mode
-# @flag -fsingle-threaded                 Code assumes there is only one thread
-# @flag -fno-single-threaded              Code may not assume there is only one thread
-# @flag -fbuiltin                         Enable implicit builtin knowledge of functions
-# @flag -fno-builtin                      Disable implicit builtin knowledge of functions
-# @flag -ffunction-sections               Places each function in a separate section
-# @flag -fno-function-sections            All functions go into same section
-# @flag -fstrip                           Omit debug symbols
-# @flag -fno-strip                        Keep debug symbols
-# @flag -fformatted-panics                Enable formatted safety panics
-# @flag -fno-formatted-panics             Disable formatted safety panics
-# @option -ofmt[`_choice_ofmt`] <mode>    Override target object format
-# @option -idirafter <dir>                Add directory to AFTER include search path
-# @flag -isystem                          [dir]  Add directory to SYSTEM include search path
-# @option -I <dir>                        Add directory to include search path
-# @option -D <[macro]=[value]>            Define C [macro] to [value] (1 if [value] omitted)
-# @option --libc <file>                   Provide a file which specifies libc paths
-# @option -cflags <flags>                 Set extra flags for the next positional C source files
-# @option -l --library <lib>              Link against system library (only if actually used)
-# @option -needed-l <lib>                 Link against system library (even if unused)
-# @option --needed-library <lib>
-# @option -weak-l <lib>                   link against system library marking it and all
-# @option -weak_library <lib>             referenced symbols as weak
-# @option -L --library-directory <d>      Add a directory to the library search path
-# @flag -search_paths_first               For each library search path, check for dynamic lib then static lib before proceeding to next path.
-# @flag -search_paths_first_static        For each library search path, check for static lib then dynamic lib before proceeding to next path.
-# @flag -search_dylibs_first              Search for dynamic libs in all library search paths, then static libs.
-# @flag -search_static_first              Search for static libs in all library search paths, then dynamic libs.
-# @flag -search_dylibs_only               Only search for dynamic libs.
-# @flag -search_static_only               Only search for static libs.
-# @option -T --script <script>            Use a custom linker script
-# @option --version-script <path>         Provide a version .map file
-# @option --dynamic-linker <path>         Set the dynamic interpreter path (usually ld.so)
-# @option --sysroot <path>                Set the system root directory (usually /)
-# @option --version <ver>                 Dynamic library semver
-# @option --entry <name>                  Set the entrypoint symbol name
-# @option --force_undefined <name>        Specify the symbol must be defined for the link to succeed
-# @option -fsoname <name>                 Override the default SONAME value
-# @flag -fno-soname                       Disable emitting a SONAME
-# @flag -flld                             Force using LLD as the linker
-# @flag -fno-lld                          Prevent using LLD as the linker
-# @flag -fcompiler-rt                     Always include compiler-rt symbols in output
-# @flag -fno-compiler-rt                  Prevent including compiler-rt symbols in output
-# @flag -rdynamic                         Add all symbols to the dynamic symbol table
-# @option -rpath <path>                   Add directory to the runtime library search path
-# @flag -feach-lib-rpath                  Ensure adding rpath for each used dynamic library
-# @flag -fno-each-lib-rpath               Prevent adding rpath for each used dynamic library
-# @flag -fallow-shlib-undefined           Allows undefined symbols in shared libraries
-# @flag -fno-allow-shlib-undefined        Disallows undefined symbols in shared libraries
-# @option --build-id[fast|uuid|sha1|md5|none] <style>  At a minor link-time expense, coordinates stripped binaries
-# @flag --eh-frame-hdr                    Enable C++ exception handling by passing --eh-frame-hdr to linker
-# @flag --emit-relocs                     Enable output of relocation sections for post build tools
-# @option -z <arg>                        Set linker extension flags
-# @flag -dynamic                          Force output to be dynamically linked
-# @flag -static                           Force output to be statically linked
-# @flag -Bsymbolic                        Bind global references locally
-# @option --compress-debug-sections[none|zlib] <e>  Debug section compression settings
-# @flag --gc-sections                     Force removal of functions and data that are unreachable by the entry point or exported symbols
-# @flag --no-gc-sections                  Don't force removal of unreachable functions and data
-# @option --sort-section <value>          Sort wildcard section patterns by 'name' or 'alignment'
-# @option --subsystem <subsystem>         (Windows) /SUBSYSTEM:<subsystem> to the linker
-# @option --stack <size>                  Override default stack size
-# @option --image-base <addr>             Set base address for executable image
-# @option -framework <name>               (Darwin) link against framework
-# @option -needed_framework <name>        (Darwin) link against framework (even if unused)
-# @option -needed_library <lib>           link against system library (even if unused)
-# @option -weak_framework <name>          (Darwin) link against framework and mark it and all referenced symbols as weak
-# @option -F <dir>                        (Darwin) add search path for frameworks
-# @option -install_name <value>           (Darwin) add dylib's install name
-# @option --entitlements <path>           (Darwin) add path to entitlements file for embedding in code signature
-# @option -pagezero_size <value>          (Darwin) size of the __PAGEZERO segment in hexadecimal notation
-# @option -headerpad <value>              (Darwin) set minimum space for future expansion of the load commands in hexadecimal notation
-# @flag -headerpad_max_install_names      (Darwin) set enough space as if all paths were MAXPATHLEN
-# @flag -dead_strip                       (Darwin) remove functions and data that are unreachable by the entry point or exported symbols
-# @flag -dead_strip_dylibs                (Darwin) remove dylibs that are unreachable by the entry point or exported symbols
-# @flag --import-memory                   (WebAssembly) import memory from the environment
-# @flag --export-memory                   (WebAssembly) export memory to the host (Default unless --import-memory used)
-# @flag --import-symbols                  (WebAssembly) import missing symbols from the host environment
-# @flag --import-table                    (WebAssembly) import function table from the host environment
-# @flag --export-table                    (WebAssembly) export function table to the host environment
-# @option --initial-memory <bytes>        (WebAssembly) initial size of the linear memory
-# @option --max-memory <bytes>            (WebAssembly) maximum size of the linear memory
-# @flag --shared-memory                   (WebAssembly) use shared linear memory
-# @option --global-base <addr>            (WebAssembly) where to start to place global data
-# @option --export <value>                (WebAssembly) Force a symbol to be exported
-# @option --test-filter <text>            Skip tests that do not match filter
-# @option --test-name-prefix <text>       Add prefix to all tests
-# @option --test-cmd <arg>                Specify test execution command one arg at a time
-# @flag --test-cmd-bin                    Appends test binary path to test cmd args
-# @flag --test-evented-io                 Runs the test in evented I/O mode
-# @flag --test-no-exec                    Compiles test binary without running it
-# @option --test-runner <path>            Specify a custom test runner
-# @option -fopt-bisect-limit <limit>      Only run [limit] first LLVM optimization passes
-# @flag -ftime-report                     Print timing diagnostics
-# @flag -fstack-report                    Print stack size diagnostics
-# @flag --verbose-link                    Display linker invocations
-# @flag --verbose-cc                      Display C compiler invocations
-# @flag --verbose-air                     Enable compiler debug output for Zig AIR
-# @flag --verbose-intern-pool             Enable compiler debug output for InternPool
-# @flag --verbose-generic-instances       Enable compiler debug output for generic instance generation
-# @option --verbose-llvm-ir <path>        Enable compiler debug output for unoptimized LLVM IR
-# @option --verbose-llvm-bc <path>        Enable compiler debug output for unoptimized LLVM BC
-# @flag --verbose-cimport                 Enable compiler debug output for C imports
-# @flag --verbose-llvm-cpu-features       Enable compiler debug output for LLVM CPU features
-# @option --debug-log <scope>             Enable printing debug/info log messages for scope
-# @flag --debug-compile-errors            Crash with helpful diagnostics at the first compile error
-# @flag --debug-link-snapshot             Enable dumping of the linker's state in JSON format
-# @arg files*
-build-lib() {
-    :;
-}
-# }} zig build-lib
-
-# {{ zig build-obj
-# @cmd Create object from source or object files
-# @flag -h --help                         Print this help and exit
-# @option --color[auto|off|on]            Enable or disable colored error messages
-# @option -femit-bin <path>               (default) Output machine code
-# @flag -fno-emit-bin                     Do not output machine code
-# @option -femit-asm <path>               Output .s (assembly code)
-# @flag -fno-emit-asm                     (default) Do not output .s (assembly code)
-# @option -femit-llvm-ir <path>           Produce a .ll file with optimized LLVM IR (requires LLVM extensions)
-# @flag -fno-emit-llvm-ir                 (default) Do not produce a .ll file with optimized LLVM IR
-# @option -femit-llvm-bc <path>           Produce an optimized LLVM module as a .bc file (requires LLVM extensions)
-# @flag -fno-emit-llvm-bc                 (default) Do not produce an optimized LLVM module as a .bc file
-# @option -femit-h <path>                 Generate a C header file (.h)
-# @flag -fno-emit-h                       (default) Do not generate a C header file (.h)
-# @option -femit-docs <path>              Create a docs/ dir with html documentation
-# @flag -fno-emit-docs                    (default) Do not produce docs/ dir with html documentation
-# @option -femit-implib <path>            (default) Produce an import .lib when building a Windows DLL
-# @flag -fno-emit-implib                  Do not produce an import .lib when building a Windows DLL
-# @flag --show-builtin                    Output the source of @import("builtin") then exit
-# @option --cache-dir <path>              Override the local cache directory
-# @option --global-cache-dir <path>       Override the global cache directory
-# @option --zig-lib-dir <path>            Override path to Zig installation lib directory
-# @option -target <name>                  <arch><sub>-<os>-<abi> see the targets command
-# @option -mcpu <cpu>                     Specify target CPU and feature set
-# @option -mcmodel[default|tiny|small|kernel|medium|large] <kind>  Limit range of code and data virtual addresses
-# @option -x <language>                   Treat subsequent input files as having type <language>
-# @flag -mred-zone                        Force-enable the "red-zone"
-# @flag -mno-red-zone                     Force-disable the "red-zone"
-# @flag -fomit-frame-pointer              Omit the stack frame pointer
-# @flag -fno-omit-frame-pointer           Store the stack frame pointer
-# @option -mexec-model <value>            (WASI) Execution model
-# @option --name <name>                   Override root name (not a file path)
-# @option -O <mode>                       Choose what to optimize for
-# @option --mod <[name]:[deps]:[src]>     Make a module available for dependency under the given name
-# @option --deps* <[dep],[dep],>          Set dependency names for the root package
-# @flag --main-pkg-path                   Set the directory of the root package
-# @flag -fPIC                             Force-enable Position Independent Code
-# @flag -fno-PIC                          Force-disable Position Independent Code
-# @flag -fPIE                             Force-enable Position Independent Executable
-# @flag -fno-PIE                          Force-disable Position Independent Executable
-# @flag -flto                             Force-enable Link Time Optimization (requires LLVM extensions)
-# @flag -fno-lto                          Force-disable Link Time Optimization
-# @flag -fstack-check                     Enable stack probing in unsafe builds
-# @flag -fno-stack-check                  Disable stack probing in safe builds
-# @flag -fstack-protector                 Enable stack protection in unsafe builds
-# @flag -fno-stack-protector              Disable stack protection in safe builds
-# @flag -fsanitize-c                      Enable C undefined behavior detection in unsafe builds
-# @flag -fno-sanitize-c                   Disable C undefined behavior detection in safe builds
-# @flag -fvalgrind                        Include valgrind client requests in release builds
-# @flag -fno-valgrind                     Omit valgrind client requests in debug builds
-# @flag -fsanitize-thread                 Enable Thread Sanitizer
-# @flag -fno-sanitize-thread              Disable Thread Sanitizer
-# @flag -fdll-export-fns                  Mark exported functions as DLL exports (Windows)
-# @flag -fno-dll-export-fns               Force-disable marking exported functions as DLL exports
-# @flag -funwind-tables                   Always produce unwind table entries for all functions
-# @flag -fno-unwind-tables                Never produce unwind table entries
-# @flag -fllvm                            Force using LLVM as the codegen backend
-# @flag -fno-llvm                         Prevent using LLVM as the codegen backend
-# @flag -flibllvm                         Force using the LLVM API in the codegen backend
-# @flag -fno-libllvm                      Prevent using the LLVM API in the codegen backend
-# @flag -fclang                           Force using Clang as the C/C++ compilation backend
-# @flag -fno-clang                        Prevent using Clang as the C/C++ compilation backend
-# @option -freference-trace <num>         How many lines of reference trace should be shown per compile error
-# @flag -fno-reference-trace              Disable reference trace
-# @flag -ferror-tracing                   Enable error tracing in ReleaseFast mode
-# @flag -fno-error-tracing                Disable error tracing in Debug and ReleaseSafe mode
-# @flag -fsingle-threaded                 Code assumes there is only one thread
-# @flag -fno-single-threaded              Code may not assume there is only one thread
-# @flag -fbuiltin                         Enable implicit builtin knowledge of functions
-# @flag -fno-builtin                      Disable implicit builtin knowledge of functions
-# @flag -ffunction-sections               Places each function in a separate section
-# @flag -fno-function-sections            All functions go into same section
-# @flag -fstrip                           Omit debug symbols
-# @flag -fno-strip                        Keep debug symbols
-# @flag -fformatted-panics                Enable formatted safety panics
-# @flag -fno-formatted-panics             Disable formatted safety panics
-# @option -ofmt[`_choice_ofmt`] <mode>    Override target object format
-# @option -idirafter <dir>                Add directory to AFTER include search path
-# @flag -isystem                          [dir]  Add directory to SYSTEM include search path
-# @option -I <dir>                        Add directory to include search path
-# @option -D <[macro]=[value]>            Define C [macro] to [value] (1 if [value] omitted)
-# @option --libc <file>                   Provide a file which specifies libc paths
-# @option -cflags <flags>                 Set extra flags for the next positional C source files
-# @option -l --library <lib>              Link against system library (only if actually used)
-# @option -needed-l <lib>                 Link against system library (even if unused)
-# @option --needed-library <lib>
-# @option -weak-l <lib>                   link against system library marking it and all
-# @option -weak_library <lib>             referenced symbols as weak
-# @option -L --library-directory <d>      Add a directory to the library search path
-# @flag -search_paths_first               For each library search path, check for dynamic lib then static lib before proceeding to next path.
-# @flag -search_paths_first_static        For each library search path, check for static lib then dynamic lib before proceeding to next path.
-# @flag -search_dylibs_first              Search for dynamic libs in all library search paths, then static libs.
-# @flag -search_static_first              Search for static libs in all library search paths, then dynamic libs.
-# @flag -search_dylibs_only               Only search for dynamic libs.
-# @flag -search_static_only               Only search for static libs.
-# @option -T --script <script>            Use a custom linker script
-# @option --version-script <path>         Provide a version .map file
-# @option --dynamic-linker <path>         Set the dynamic interpreter path (usually ld.so)
-# @option --sysroot <path>                Set the system root directory (usually /)
-# @option --version <ver>                 Dynamic library semver
-# @option --entry <name>                  Set the entrypoint symbol name
-# @option --force_undefined <name>        Specify the symbol must be defined for the link to succeed
-# @option -fsoname <name>                 Override the default SONAME value
-# @flag -fno-soname                       Disable emitting a SONAME
-# @flag -flld                             Force using LLD as the linker
-# @flag -fno-lld                          Prevent using LLD as the linker
-# @flag -fcompiler-rt                     Always include compiler-rt symbols in output
-# @flag -fno-compiler-rt                  Prevent including compiler-rt symbols in output
-# @flag -rdynamic                         Add all symbols to the dynamic symbol table
-# @option -rpath <path>                   Add directory to the runtime library search path
-# @flag -feach-lib-rpath                  Ensure adding rpath for each used dynamic library
-# @flag -fno-each-lib-rpath               Prevent adding rpath for each used dynamic library
-# @flag -fallow-shlib-undefined           Allows undefined symbols in shared libraries
-# @flag -fno-allow-shlib-undefined        Disallows undefined symbols in shared libraries
-# @option --build-id[fast|uuid|sha1|md5|none] <style>  At a minor link-time expense, coordinates stripped binaries
-# @flag --eh-frame-hdr                    Enable C++ exception handling by passing --eh-frame-hdr to linker
-# @flag --emit-relocs                     Enable output of relocation sections for post build tools
-# @option -z <arg>                        Set linker extension flags
-# @flag -dynamic                          Force output to be dynamically linked
-# @flag -static                           Force output to be statically linked
-# @flag -Bsymbolic                        Bind global references locally
-# @option --compress-debug-sections[none|zlib] <e>  Debug section compression settings
-# @flag --gc-sections                     Force removal of functions and data that are unreachable by the entry point or exported symbols
-# @flag --no-gc-sections                  Don't force removal of unreachable functions and data
-# @option --sort-section <value>          Sort wildcard section patterns by 'name' or 'alignment'
-# @option --subsystem <subsystem>         (Windows) /SUBSYSTEM:<subsystem> to the linker
-# @option --stack <size>                  Override default stack size
-# @option --image-base <addr>             Set base address for executable image
-# @option -framework <name>               (Darwin) link against framework
-# @option -needed_framework <name>        (Darwin) link against framework (even if unused)
-# @option -needed_library <lib>           link against system library (even if unused)
-# @option -weak_framework <name>          (Darwin) link against framework and mark it and all referenced symbols as weak
-# @option -F <dir>                        (Darwin) add search path for frameworks
-# @option -install_name <value>           (Darwin) add dylib's install name
-# @option --entitlements <path>           (Darwin) add path to entitlements file for embedding in code signature
-# @option -pagezero_size <value>          (Darwin) size of the __PAGEZERO segment in hexadecimal notation
-# @option -headerpad <value>              (Darwin) set minimum space for future expansion of the load commands in hexadecimal notation
-# @flag -headerpad_max_install_names      (Darwin) set enough space as if all paths were MAXPATHLEN
-# @flag -dead_strip                       (Darwin) remove functions and data that are unreachable by the entry point or exported symbols
-# @flag -dead_strip_dylibs                (Darwin) remove dylibs that are unreachable by the entry point or exported symbols
-# @flag --import-memory                   (WebAssembly) import memory from the environment
-# @flag --export-memory                   (WebAssembly) export memory to the host (Default unless --import-memory used)
-# @flag --import-symbols                  (WebAssembly) import missing symbols from the host environment
-# @flag --import-table                    (WebAssembly) import function table from the host environment
-# @flag --export-table                    (WebAssembly) export function table to the host environment
-# @option --initial-memory <bytes>        (WebAssembly) initial size of the linear memory
-# @option --max-memory <bytes>            (WebAssembly) maximum size of the linear memory
-# @flag --shared-memory                   (WebAssembly) use shared linear memory
-# @option --global-base <addr>            (WebAssembly) where to start to place global data
-# @option --export <value>                (WebAssembly) Force a symbol to be exported
-# @option --test-filter <text>            Skip tests that do not match filter
-# @option --test-name-prefix <text>       Add prefix to all tests
-# @option --test-cmd <arg>                Specify test execution command one arg at a time
-# @flag --test-cmd-bin                    Appends test binary path to test cmd args
-# @flag --test-evented-io                 Runs the test in evented I/O mode
-# @flag --test-no-exec                    Compiles test binary without running it
-# @option --test-runner <path>            Specify a custom test runner
-# @option -fopt-bisect-limit <limit>      Only run [limit] first LLVM optimization passes
-# @flag -ftime-report                     Print timing diagnostics
-# @flag -fstack-report                    Print stack size diagnostics
-# @flag --verbose-link                    Display linker invocations
-# @flag --verbose-cc                      Display C compiler invocations
-# @flag --verbose-air                     Enable compiler debug output for Zig AIR
-# @flag --verbose-intern-pool             Enable compiler debug output for InternPool
-# @flag --verbose-generic-instances       Enable compiler debug output for generic instance generation
-# @option --verbose-llvm-ir <path>        Enable compiler debug output for unoptimized LLVM IR
-# @option --verbose-llvm-bc <path>        Enable compiler debug output for unoptimized LLVM BC
-# @flag --verbose-cimport                 Enable compiler debug output for C imports
-# @flag --verbose-llvm-cpu-features       Enable compiler debug output for LLVM CPU features
-# @option --debug-log <scope>             Enable printing debug/info log messages for scope
-# @flag --debug-compile-errors            Crash with helpful diagnostics at the first compile error
-# @flag --debug-link-snapshot             Enable dumping of the linker's state in JSON format
-# @arg files*
-build-obj() {
-    :;
-}
-# }} zig build-obj
 
 # {{ zig fmt
 # @cmd Reformat Zig source into canonical form
@@ -628,534 +1073,205 @@ fmt() {
 }
 # }} zig fmt
 
-# {{ zig run
-# @cmd Create executable and run immediately
-# @flag -h --help                         Print this help and exit
-# @option --color[auto|off|on]            Enable or disable colored error messages
-# @option -femit-bin <path>               (default) Output machine code
-# @flag -fno-emit-bin                     Do not output machine code
-# @option -femit-asm <path>               Output .s (assembly code)
-# @flag -fno-emit-asm                     (default) Do not output .s (assembly code)
-# @option -femit-llvm-ir <path>           Produce a .ll file with optimized LLVM IR (requires LLVM extensions)
-# @flag -fno-emit-llvm-ir                 (default) Do not produce a .ll file with optimized LLVM IR
-# @option -femit-llvm-bc <path>           Produce an optimized LLVM module as a .bc file (requires LLVM extensions)
-# @flag -fno-emit-llvm-bc                 (default) Do not produce an optimized LLVM module as a .bc file
-# @option -femit-h <path>                 Generate a C header file (.h)
-# @flag -fno-emit-h                       (default) Do not generate a C header file (.h)
-# @option -femit-docs <path>              Create a docs/ dir with html documentation
-# @flag -fno-emit-docs                    (default) Do not produce docs/ dir with html documentation
-# @option -femit-implib <path>            (default) Produce an import .lib when building a Windows DLL
-# @flag -fno-emit-implib                  Do not produce an import .lib when building a Windows DLL
-# @flag --show-builtin                    Output the source of @import("builtin") then exit
-# @option --cache-dir <path>              Override the local cache directory
-# @option --global-cache-dir <path>       Override the global cache directory
-# @option --zig-lib-dir <path>            Override path to Zig installation lib directory
-# @option -target <name>                  <arch><sub>-<os>-<abi> see the targets command
-# @option -mcpu <cpu>                     Specify target CPU and feature set
-# @option -mcmodel[default|tiny|small|kernel|medium|large] <kind>  Limit range of code and data virtual addresses
-# @option -x <language>                   Treat subsequent input files as having type <language>
-# @flag -mred-zone                        Force-enable the "red-zone"
-# @flag -mno-red-zone                     Force-disable the "red-zone"
-# @flag -fomit-frame-pointer              Omit the stack frame pointer
-# @flag -fno-omit-frame-pointer           Store the stack frame pointer
-# @option -mexec-model <value>            (WASI) Execution model
-# @option --name <name>                   Override root name (not a file path)
-# @option -O <mode>                       Choose what to optimize for
-# @option --mod <[name]:[deps]:[src]>     Make a module available for dependency under the given name
-# @option --deps* <[dep],[dep],>          Set dependency names for the root package
-# @flag --main-pkg-path                   Set the directory of the root package
-# @flag -fPIC                             Force-enable Position Independent Code
-# @flag -fno-PIC                          Force-disable Position Independent Code
-# @flag -fPIE                             Force-enable Position Independent Executable
-# @flag -fno-PIE                          Force-disable Position Independent Executable
-# @flag -flto                             Force-enable Link Time Optimization (requires LLVM extensions)
-# @flag -fno-lto                          Force-disable Link Time Optimization
-# @flag -fstack-check                     Enable stack probing in unsafe builds
-# @flag -fno-stack-check                  Disable stack probing in safe builds
-# @flag -fstack-protector                 Enable stack protection in unsafe builds
-# @flag -fno-stack-protector              Disable stack protection in safe builds
-# @flag -fsanitize-c                      Enable C undefined behavior detection in unsafe builds
-# @flag -fno-sanitize-c                   Disable C undefined behavior detection in safe builds
-# @flag -fvalgrind                        Include valgrind client requests in release builds
-# @flag -fno-valgrind                     Omit valgrind client requests in debug builds
-# @flag -fsanitize-thread                 Enable Thread Sanitizer
-# @flag -fno-sanitize-thread              Disable Thread Sanitizer
-# @flag -fdll-export-fns                  Mark exported functions as DLL exports (Windows)
-# @flag -fno-dll-export-fns               Force-disable marking exported functions as DLL exports
-# @flag -funwind-tables                   Always produce unwind table entries for all functions
-# @flag -fno-unwind-tables                Never produce unwind table entries
-# @flag -fllvm                            Force using LLVM as the codegen backend
-# @flag -fno-llvm                         Prevent using LLVM as the codegen backend
-# @flag -flibllvm                         Force using the LLVM API in the codegen backend
-# @flag -fno-libllvm                      Prevent using the LLVM API in the codegen backend
-# @flag -fclang                           Force using Clang as the C/C++ compilation backend
-# @flag -fno-clang                        Prevent using Clang as the C/C++ compilation backend
-# @option -freference-trace <num>         How many lines of reference trace should be shown per compile error
-# @flag -fno-reference-trace              Disable reference trace
-# @flag -ferror-tracing                   Enable error tracing in ReleaseFast mode
-# @flag -fno-error-tracing                Disable error tracing in Debug and ReleaseSafe mode
-# @flag -fsingle-threaded                 Code assumes there is only one thread
-# @flag -fno-single-threaded              Code may not assume there is only one thread
-# @flag -fbuiltin                         Enable implicit builtin knowledge of functions
-# @flag -fno-builtin                      Disable implicit builtin knowledge of functions
-# @flag -ffunction-sections               Places each function in a separate section
-# @flag -fno-function-sections            All functions go into same section
-# @flag -fstrip                           Omit debug symbols
-# @flag -fno-strip                        Keep debug symbols
-# @flag -fformatted-panics                Enable formatted safety panics
-# @flag -fno-formatted-panics             Disable formatted safety panics
-# @option -ofmt[`_choice_ofmt`] <mode>    Override target object format
-# @option -idirafter <dir>                Add directory to AFTER include search path
-# @flag -isystem                          [dir]  Add directory to SYSTEM include search path
-# @option -I <dir>                        Add directory to include search path
-# @option -D <[macro]=[value]>            Define C [macro] to [value] (1 if [value] omitted)
-# @option --libc <file>                   Provide a file which specifies libc paths
-# @option -cflags <flags>                 Set extra flags for the next positional C source files
-# @option -l --library <lib>              Link against system library (only if actually used)
-# @option -needed-l <lib>                 Link against system library (even if unused)
-# @option --needed-library <lib>
-# @option -weak-l <lib>                   link against system library marking it and all
-# @option -weak_library <lib>             referenced symbols as weak
-# @option -L --library-directory <d>      Add a directory to the library search path
-# @flag -search_paths_first               For each library search path, check for dynamic lib then static lib before proceeding to next path.
-# @flag -search_paths_first_static        For each library search path, check for static lib then dynamic lib before proceeding to next path.
-# @flag -search_dylibs_first              Search for dynamic libs in all library search paths, then static libs.
-# @flag -search_static_first              Search for static libs in all library search paths, then dynamic libs.
-# @flag -search_dylibs_only               Only search for dynamic libs.
-# @flag -search_static_only               Only search for static libs.
-# @option -T --script <script>            Use a custom linker script
-# @option --version-script <path>         Provide a version .map file
-# @option --dynamic-linker <path>         Set the dynamic interpreter path (usually ld.so)
-# @option --sysroot <path>                Set the system root directory (usually /)
-# @option --version <ver>                 Dynamic library semver
-# @option --entry <name>                  Set the entrypoint symbol name
-# @option --force_undefined <name>        Specify the symbol must be defined for the link to succeed
-# @option -fsoname <name>                 Override the default SONAME value
-# @flag -fno-soname                       Disable emitting a SONAME
-# @flag -flld                             Force using LLD as the linker
-# @flag -fno-lld                          Prevent using LLD as the linker
-# @flag -fcompiler-rt                     Always include compiler-rt symbols in output
-# @flag -fno-compiler-rt                  Prevent including compiler-rt symbols in output
-# @flag -rdynamic                         Add all symbols to the dynamic symbol table
-# @option -rpath <path>                   Add directory to the runtime library search path
-# @flag -feach-lib-rpath                  Ensure adding rpath for each used dynamic library
-# @flag -fno-each-lib-rpath               Prevent adding rpath for each used dynamic library
-# @flag -fallow-shlib-undefined           Allows undefined symbols in shared libraries
-# @flag -fno-allow-shlib-undefined        Disallows undefined symbols in shared libraries
-# @option --build-id[fast|uuid|sha1|md5|none] <style>  At a minor link-time expense, coordinates stripped binaries
-# @flag --eh-frame-hdr                    Enable C++ exception handling by passing --eh-frame-hdr to linker
-# @flag --emit-relocs                     Enable output of relocation sections for post build tools
-# @option -z <arg>                        Set linker extension flags
-# @flag -dynamic                          Force output to be dynamically linked
-# @flag -static                           Force output to be statically linked
-# @flag -Bsymbolic                        Bind global references locally
-# @option --compress-debug-sections[none|zlib] <e>  Debug section compression settings
-# @flag --gc-sections                     Force removal of functions and data that are unreachable by the entry point or exported symbols
-# @flag --no-gc-sections                  Don't force removal of unreachable functions and data
-# @option --sort-section <value>          Sort wildcard section patterns by 'name' or 'alignment'
-# @option --subsystem <subsystem>         (Windows) /SUBSYSTEM:<subsystem> to the linker
-# @option --stack <size>                  Override default stack size
-# @option --image-base <addr>             Set base address for executable image
-# @option -framework <name>               (Darwin) link against framework
-# @option -needed_framework <name>        (Darwin) link against framework (even if unused)
-# @option -needed_library <lib>           link against system library (even if unused)
-# @option -weak_framework <name>          (Darwin) link against framework and mark it and all referenced symbols as weak
-# @option -F <dir>                        (Darwin) add search path for frameworks
-# @option -install_name <value>           (Darwin) add dylib's install name
-# @option --entitlements <path>           (Darwin) add path to entitlements file for embedding in code signature
-# @option -pagezero_size <value>          (Darwin) size of the __PAGEZERO segment in hexadecimal notation
-# @option -headerpad <value>              (Darwin) set minimum space for future expansion of the load commands in hexadecimal notation
-# @flag -headerpad_max_install_names      (Darwin) set enough space as if all paths were MAXPATHLEN
-# @flag -dead_strip                       (Darwin) remove functions and data that are unreachable by the entry point or exported symbols
-# @flag -dead_strip_dylibs                (Darwin) remove dylibs that are unreachable by the entry point or exported symbols
-# @flag --import-memory                   (WebAssembly) import memory from the environment
-# @flag --export-memory                   (WebAssembly) export memory to the host (Default unless --import-memory used)
-# @flag --import-symbols                  (WebAssembly) import missing symbols from the host environment
-# @flag --import-table                    (WebAssembly) import function table from the host environment
-# @flag --export-table                    (WebAssembly) export function table to the host environment
-# @option --initial-memory <bytes>        (WebAssembly) initial size of the linear memory
-# @option --max-memory <bytes>            (WebAssembly) maximum size of the linear memory
-# @flag --shared-memory                   (WebAssembly) use shared linear memory
-# @option --global-base <addr>            (WebAssembly) where to start to place global data
-# @option --export <value>                (WebAssembly) Force a symbol to be exported
-# @option --test-filter <text>            Skip tests that do not match filter
-# @option --test-name-prefix <text>       Add prefix to all tests
-# @option --test-cmd <arg>                Specify test execution command one arg at a time
-# @flag --test-cmd-bin                    Appends test binary path to test cmd args
-# @flag --test-evented-io                 Runs the test in evented I/O mode
-# @flag --test-no-exec                    Compiles test binary without running it
-# @option --test-runner <path>            Specify a custom test runner
-# @option -fopt-bisect-limit <limit>      Only run [limit] first LLVM optimization passes
-# @flag -ftime-report                     Print timing diagnostics
-# @flag -fstack-report                    Print stack size diagnostics
-# @flag --verbose-link                    Display linker invocations
-# @flag --verbose-cc                      Display C compiler invocations
-# @flag --verbose-air                     Enable compiler debug output for Zig AIR
-# @flag --verbose-intern-pool             Enable compiler debug output for InternPool
-# @flag --verbose-generic-instances       Enable compiler debug output for generic instance generation
-# @option --verbose-llvm-ir <path>        Enable compiler debug output for unoptimized LLVM IR
-# @option --verbose-llvm-bc <path>        Enable compiler debug output for unoptimized LLVM BC
-# @flag --verbose-cimport                 Enable compiler debug output for C imports
-# @flag --verbose-llvm-cpu-features       Enable compiler debug output for LLVM CPU features
-# @option --debug-log <scope>             Enable printing debug/info log messages for scope
-# @flag --debug-compile-errors            Crash with helpful diagnostics at the first compile error
-# @flag --debug-link-snapshot             Enable dumping of the linker's state in JSON format
-# @arg files*
-run() {
+# {{ zig reduce
+# @cmd Minimize a bug report
+# @option --seed <integer>               Override the random seed.
+# @flag --skip-smoke-test                Skip interestingness check smoke test
+# @option --mod <[name]:[deps]:[src]>    Make a module available for dependency under the given name
+# @option --deps* <[dep],[dep],>         Set dependency names for the root package
+# @flag --main-mod-path                  Set the directory of the root module
+reduce() {
     :;
 }
-# }} zig run
-
-# {{ zig test
-# @cmd Create and run a test build
-# @flag -h --help                         Print this help and exit
-# @option --color[auto|off|on]            Enable or disable colored error messages
-# @option -femit-bin <path>               (default) Output machine code
-# @flag -fno-emit-bin                     Do not output machine code
-# @option -femit-asm <path>               Output .s (assembly code)
-# @flag -fno-emit-asm                     (default) Do not output .s (assembly code)
-# @option -femit-llvm-ir <path>           Produce a .ll file with optimized LLVM IR (requires LLVM extensions)
-# @flag -fno-emit-llvm-ir                 (default) Do not produce a .ll file with optimized LLVM IR
-# @option -femit-llvm-bc <path>           Produce an optimized LLVM module as a .bc file (requires LLVM extensions)
-# @flag -fno-emit-llvm-bc                 (default) Do not produce an optimized LLVM module as a .bc file
-# @option -femit-h <path>                 Generate a C header file (.h)
-# @flag -fno-emit-h                       (default) Do not generate a C header file (.h)
-# @option -femit-docs <path>              Create a docs/ dir with html documentation
-# @flag -fno-emit-docs                    (default) Do not produce docs/ dir with html documentation
-# @option -femit-implib <path>            (default) Produce an import .lib when building a Windows DLL
-# @flag -fno-emit-implib                  Do not produce an import .lib when building a Windows DLL
-# @flag --show-builtin                    Output the source of @import("builtin") then exit
-# @option --cache-dir <path>              Override the local cache directory
-# @option --global-cache-dir <path>       Override the global cache directory
-# @option --zig-lib-dir <path>            Override path to Zig installation lib directory
-# @option -target <name>                  <arch><sub>-<os>-<abi> see the targets command
-# @option -mcpu <cpu>                     Specify target CPU and feature set
-# @option -mcmodel[default|tiny|small|kernel|medium|large] <kind>  Limit range of code and data virtual addresses
-# @option -x <language>                   Treat subsequent input files as having type <language>
-# @flag -mred-zone                        Force-enable the "red-zone"
-# @flag -mno-red-zone                     Force-disable the "red-zone"
-# @flag -fomit-frame-pointer              Omit the stack frame pointer
-# @flag -fno-omit-frame-pointer           Store the stack frame pointer
-# @option -mexec-model <value>            (WASI) Execution model
-# @option --name <name>                   Override root name (not a file path)
-# @option -O <mode>                       Choose what to optimize for
-# @option --mod <[name]:[deps]:[src]>     Make a module available for dependency under the given name
-# @option --deps* <[dep],[dep],>          Set dependency names for the root package
-# @flag --main-pkg-path                   Set the directory of the root package
-# @flag -fPIC                             Force-enable Position Independent Code
-# @flag -fno-PIC                          Force-disable Position Independent Code
-# @flag -fPIE                             Force-enable Position Independent Executable
-# @flag -fno-PIE                          Force-disable Position Independent Executable
-# @flag -flto                             Force-enable Link Time Optimization (requires LLVM extensions)
-# @flag -fno-lto                          Force-disable Link Time Optimization
-# @flag -fstack-check                     Enable stack probing in unsafe builds
-# @flag -fno-stack-check                  Disable stack probing in safe builds
-# @flag -fstack-protector                 Enable stack protection in unsafe builds
-# @flag -fno-stack-protector              Disable stack protection in safe builds
-# @flag -fsanitize-c                      Enable C undefined behavior detection in unsafe builds
-# @flag -fno-sanitize-c                   Disable C undefined behavior detection in safe builds
-# @flag -fvalgrind                        Include valgrind client requests in release builds
-# @flag -fno-valgrind                     Omit valgrind client requests in debug builds
-# @flag -fsanitize-thread                 Enable Thread Sanitizer
-# @flag -fno-sanitize-thread              Disable Thread Sanitizer
-# @flag -fdll-export-fns                  Mark exported functions as DLL exports (Windows)
-# @flag -fno-dll-export-fns               Force-disable marking exported functions as DLL exports
-# @flag -funwind-tables                   Always produce unwind table entries for all functions
-# @flag -fno-unwind-tables                Never produce unwind table entries
-# @flag -fllvm                            Force using LLVM as the codegen backend
-# @flag -fno-llvm                         Prevent using LLVM as the codegen backend
-# @flag -flibllvm                         Force using the LLVM API in the codegen backend
-# @flag -fno-libllvm                      Prevent using the LLVM API in the codegen backend
-# @flag -fclang                           Force using Clang as the C/C++ compilation backend
-# @flag -fno-clang                        Prevent using Clang as the C/C++ compilation backend
-# @option -freference-trace <num>         How many lines of reference trace should be shown per compile error
-# @flag -fno-reference-trace              Disable reference trace
-# @flag -ferror-tracing                   Enable error tracing in ReleaseFast mode
-# @flag -fno-error-tracing                Disable error tracing in Debug and ReleaseSafe mode
-# @flag -fsingle-threaded                 Code assumes there is only one thread
-# @flag -fno-single-threaded              Code may not assume there is only one thread
-# @flag -fbuiltin                         Enable implicit builtin knowledge of functions
-# @flag -fno-builtin                      Disable implicit builtin knowledge of functions
-# @flag -ffunction-sections               Places each function in a separate section
-# @flag -fno-function-sections            All functions go into same section
-# @flag -fstrip                           Omit debug symbols
-# @flag -fno-strip                        Keep debug symbols
-# @flag -fformatted-panics                Enable formatted safety panics
-# @flag -fno-formatted-panics             Disable formatted safety panics
-# @option -ofmt[`_choice_ofmt`] <mode>    Override target object format
-# @option -idirafter <dir>                Add directory to AFTER include search path
-# @flag -isystem                          [dir]  Add directory to SYSTEM include search path
-# @option -I <dir>                        Add directory to include search path
-# @option -D <[macro]=[value]>            Define C [macro] to [value] (1 if [value] omitted)
-# @option --libc <file>                   Provide a file which specifies libc paths
-# @option -cflags <flags>                 Set extra flags for the next positional C source files
-# @option -l --library <lib>              Link against system library (only if actually used)
-# @option -needed-l <lib>                 Link against system library (even if unused)
-# @option --needed-library <lib>
-# @option -weak-l <lib>                   link against system library marking it and all
-# @option -weak_library <lib>             referenced symbols as weak
-# @option -L --library-directory <d>      Add a directory to the library search path
-# @flag -search_paths_first               For each library search path, check for dynamic lib then static lib before proceeding to next path.
-# @flag -search_paths_first_static        For each library search path, check for static lib then dynamic lib before proceeding to next path.
-# @flag -search_dylibs_first              Search for dynamic libs in all library search paths, then static libs.
-# @flag -search_static_first              Search for static libs in all library search paths, then dynamic libs.
-# @flag -search_dylibs_only               Only search for dynamic libs.
-# @flag -search_static_only               Only search for static libs.
-# @option -T --script <script>            Use a custom linker script
-# @option --version-script <path>         Provide a version .map file
-# @option --dynamic-linker <path>         Set the dynamic interpreter path (usually ld.so)
-# @option --sysroot <path>                Set the system root directory (usually /)
-# @option --version <ver>                 Dynamic library semver
-# @option --entry <name>                  Set the entrypoint symbol name
-# @option --force_undefined <name>        Specify the symbol must be defined for the link to succeed
-# @option -fsoname <name>                 Override the default SONAME value
-# @flag -fno-soname                       Disable emitting a SONAME
-# @flag -flld                             Force using LLD as the linker
-# @flag -fno-lld                          Prevent using LLD as the linker
-# @flag -fcompiler-rt                     Always include compiler-rt symbols in output
-# @flag -fno-compiler-rt                  Prevent including compiler-rt symbols in output
-# @flag -rdynamic                         Add all symbols to the dynamic symbol table
-# @option -rpath <path>                   Add directory to the runtime library search path
-# @flag -feach-lib-rpath                  Ensure adding rpath for each used dynamic library
-# @flag -fno-each-lib-rpath               Prevent adding rpath for each used dynamic library
-# @flag -fallow-shlib-undefined           Allows undefined symbols in shared libraries
-# @flag -fno-allow-shlib-undefined        Disallows undefined symbols in shared libraries
-# @option --build-id[fast|uuid|sha1|md5|none] <style>  At a minor link-time expense, coordinates stripped binaries
-# @flag --eh-frame-hdr                    Enable C++ exception handling by passing --eh-frame-hdr to linker
-# @flag --emit-relocs                     Enable output of relocation sections for post build tools
-# @option -z <arg>                        Set linker extension flags
-# @flag -dynamic                          Force output to be dynamically linked
-# @flag -static                           Force output to be statically linked
-# @flag -Bsymbolic                        Bind global references locally
-# @option --compress-debug-sections[none|zlib] <e>  Debug section compression settings
-# @flag --gc-sections                     Force removal of functions and data that are unreachable by the entry point or exported symbols
-# @flag --no-gc-sections                  Don't force removal of unreachable functions and data
-# @option --sort-section <value>          Sort wildcard section patterns by 'name' or 'alignment'
-# @option --subsystem <subsystem>         (Windows) /SUBSYSTEM:<subsystem> to the linker
-# @option --stack <size>                  Override default stack size
-# @option --image-base <addr>             Set base address for executable image
-# @option -framework <name>               (Darwin) link against framework
-# @option -needed_framework <name>        (Darwin) link against framework (even if unused)
-# @option -needed_library <lib>           link against system library (even if unused)
-# @option -weak_framework <name>          (Darwin) link against framework and mark it and all referenced symbols as weak
-# @option -F <dir>                        (Darwin) add search path for frameworks
-# @option -install_name <value>           (Darwin) add dylib's install name
-# @option --entitlements <path>           (Darwin) add path to entitlements file for embedding in code signature
-# @option -pagezero_size <value>          (Darwin) size of the __PAGEZERO segment in hexadecimal notation
-# @option -headerpad <value>              (Darwin) set minimum space for future expansion of the load commands in hexadecimal notation
-# @flag -headerpad_max_install_names      (Darwin) set enough space as if all paths were MAXPATHLEN
-# @flag -dead_strip                       (Darwin) remove functions and data that are unreachable by the entry point or exported symbols
-# @flag -dead_strip_dylibs                (Darwin) remove dylibs that are unreachable by the entry point or exported symbols
-# @flag --import-memory                   (WebAssembly) import memory from the environment
-# @flag --export-memory                   (WebAssembly) export memory to the host (Default unless --import-memory used)
-# @flag --import-symbols                  (WebAssembly) import missing symbols from the host environment
-# @flag --import-table                    (WebAssembly) import function table from the host environment
-# @flag --export-table                    (WebAssembly) export function table to the host environment
-# @option --initial-memory <bytes>        (WebAssembly) initial size of the linear memory
-# @option --max-memory <bytes>            (WebAssembly) maximum size of the linear memory
-# @flag --shared-memory                   (WebAssembly) use shared linear memory
-# @option --global-base <addr>            (WebAssembly) where to start to place global data
-# @option --export <value>                (WebAssembly) Force a symbol to be exported
-# @option --test-filter <text>            Skip tests that do not match filter
-# @option --test-name-prefix <text>       Add prefix to all tests
-# @option --test-cmd <arg>                Specify test execution command one arg at a time
-# @flag --test-cmd-bin                    Appends test binary path to test cmd args
-# @flag --test-evented-io                 Runs the test in evented I/O mode
-# @flag --test-no-exec                    Compiles test binary without running it
-# @option --test-runner <path>            Specify a custom test runner
-# @option -fopt-bisect-limit <limit>      Only run [limit] first LLVM optimization passes
-# @flag -ftime-report                     Print timing diagnostics
-# @flag -fstack-report                    Print stack size diagnostics
-# @flag --verbose-link                    Display linker invocations
-# @flag --verbose-cc                      Display C compiler invocations
-# @flag --verbose-air                     Enable compiler debug output for Zig AIR
-# @flag --verbose-intern-pool             Enable compiler debug output for InternPool
-# @flag --verbose-generic-instances       Enable compiler debug output for generic instance generation
-# @option --verbose-llvm-ir <path>        Enable compiler debug output for unoptimized LLVM IR
-# @option --verbose-llvm-bc <path>        Enable compiler debug output for unoptimized LLVM BC
-# @flag --verbose-cimport                 Enable compiler debug output for C imports
-# @flag --verbose-llvm-cpu-features       Enable compiler debug output for LLVM CPU features
-# @option --debug-log <scope>             Enable printing debug/info log messages for scope
-# @flag --debug-compile-errors            Crash with helpful diagnostics at the first compile error
-# @flag --debug-link-snapshot             Enable dumping of the linker's state in JSON format
-# @arg files*
-test() {
-    :;
-}
-# }} zig test
+# }} zig reduce
 
 # {{ zig translate-c
 # @cmd Convert C code to Zig code
-# @flag -h --help                         Print this help and exit
-# @option --color[auto|off|on]            Enable or disable colored error messages
-# @option -femit-bin <path>               (default) Output machine code
-# @flag -fno-emit-bin                     Do not output machine code
-# @option -femit-asm <path>               Output .s (assembly code)
-# @flag -fno-emit-asm                     (default) Do not output .s (assembly code)
-# @option -femit-llvm-ir <path>           Produce a .ll file with optimized LLVM IR (requires LLVM extensions)
-# @flag -fno-emit-llvm-ir                 (default) Do not produce a .ll file with optimized LLVM IR
-# @option -femit-llvm-bc <path>           Produce an optimized LLVM module as a .bc file (requires LLVM extensions)
-# @flag -fno-emit-llvm-bc                 (default) Do not produce an optimized LLVM module as a .bc file
-# @option -femit-h <path>                 Generate a C header file (.h)
-# @flag -fno-emit-h                       (default) Do not generate a C header file (.h)
-# @option -femit-docs <path>              Create a docs/ dir with html documentation
-# @flag -fno-emit-docs                    (default) Do not produce docs/ dir with html documentation
-# @option -femit-implib <path>            (default) Produce an import .lib when building a Windows DLL
-# @flag -fno-emit-implib                  Do not produce an import .lib when building a Windows DLL
-# @flag --show-builtin                    Output the source of @import("builtin") then exit
-# @option --cache-dir <path>              Override the local cache directory
-# @option --global-cache-dir <path>       Override the global cache directory
-# @option --zig-lib-dir <path>            Override path to Zig installation lib directory
-# @option -target <name>                  <arch><sub>-<os>-<abi> see the targets command
-# @option -mcpu <cpu>                     Specify target CPU and feature set
+# @flag -h --help                        Print this help and exit
+# @option --color[auto|off|on]           Enable or disable colored error messages
+# @option -femit-bin <path>              (default) Output machine code
+# @flag -fno-emit-bin                    Do not output machine code
+# @option -femit-asm <path>              Output .s (assembly code)
+# @flag -fno-emit-asm                    (default) Do not output .s (assembly code)
+# @option -femit-llvm-ir <path>          Produce a .ll file with optimized LLVM IR (requires LLVM extensions)
+# @flag -fno-emit-llvm-ir                (default) Do not produce a .ll file with optimized LLVM IR
+# @option -femit-llvm-bc <path>          Produce an optimized LLVM module as a .bc file (requires LLVM extensions)
+# @flag -fno-emit-llvm-bc                (default) Do not produce an optimized LLVM module as a .bc file
+# @option -femit-h <path>                Generate a C header file (.h)
+# @flag -fno-emit-h                      (default) Do not generate a C header file (.h)
+# @option -femit-docs <path>             Create a docs/ dir with html documentation
+# @flag -fno-emit-docs                   (default) Do not produce docs/ dir with html documentation
+# @option -femit-implib <path>           (default) Produce an import .lib when building a Windows DLL
+# @flag -fno-emit-implib                 Do not produce an import .lib when building a Windows DLL
+# @flag --show-builtin                   Output the source of @import("builtin") then exit
+# @option --cache-dir <path>             Override the local cache directory
+# @option --global-cache-dir <path>      Override the global cache directory
+# @option --zig-lib-dir <path>           Override path to Zig installation lib directory
+# @option --name <name>                  Compilation unit name (not a file path)
+# @option --libc <file>                  Provide a file which specifies libc paths
+# @option -x <language>                  Treat subsequent input files as having type <language>
+# @option --dep <[import=]name>          Add an entry to the next module's import table
+# @option -M <[name][=src]>              Create a module based on the current per-module settings.
+# @option --error-limit <num>            Set the maximum amount of distinct error values
+# @flag -fllvm                           Force using LLVM as the codegen backend
+# @flag -fno-llvm                        Prevent using LLVM as the codegen backend
+# @flag -flibllvm                        Force using the LLVM API in the codegen backend
+# @flag -fno-libllvm                     Prevent using the LLVM API in the codegen backend
+# @flag -fclang                          Force using Clang as the C/C++ compilation backend
+# @flag -fno-clang                       Prevent using Clang as the C/C++ compilation backend
+# @flag -fPIE                            Force-enable Position Independent Executable
+# @flag -fno-PIE                         Force-disable Position Independent Executable
+# @flag -flto                            Force-enable Link Time Optimization (requires LLVM extensions)
+# @flag -fno-lto                         Force-disable Link Time Optimization
+# @flag -fdll-export-fns                 Mark exported functions as DLL exports (Windows)
+# @flag -fno-dll-export-fns              Force-disable marking exported functions as DLL exports
+# @option -freference-trace <num>        Show num lines of reference trace per compile error
+# @flag -fno-reference-trace             Disable reference trace
+# @flag -fbuiltin                        Enable implicit builtin knowledge of functions
+# @flag -fno-builtin                     Disable implicit builtin knowledge of functions
+# @flag -ffunction-sections              Places each function in a separate section
+# @flag -fno-function-sections           All functions go into same section
+# @flag -fdata-sections                  Places each data in a separate section
+# @flag -fno-data-sections               All data go into same section
+# @flag -fformatted-panics               Enable formatted safety panics
+# @flag -fno-formatted-panics            Disable formatted safety panics
+# @flag -fstructured-cfg                 (SPIR-V) force SPIR-V kernels to use structured control flow
+# @flag -fno-structured-cfg              (SPIR-V) force SPIR-V kernels to not use structured control flow
+# @option -mexec-model <value>           (WASI) Execution model
+# @flag -municode                        (Windows) Use wmain/wWinMain as entry point
+# @option -target <name>                 <arch><sub>-<os>-<abi> see the targets command
+# @option -O <mode>                      Choose what to optimize for
+# @option -ofmt[`_choice_ofmt`] <fmt>    Override target object format
+# @option -mcpu <cpu>                    Specify target CPU and feature set
 # @option -mcmodel[default|tiny|small|kernel|medium|large] <kind>  Limit range of code and data virtual addresses
-# @option -x <language>                   Treat subsequent input files as having type <language>
-# @flag -mred-zone                        Force-enable the "red-zone"
-# @flag -mno-red-zone                     Force-disable the "red-zone"
-# @flag -fomit-frame-pointer              Omit the stack frame pointer
-# @flag -fno-omit-frame-pointer           Store the stack frame pointer
-# @option -mexec-model <value>            (WASI) Execution model
-# @option --name <name>                   Override root name (not a file path)
-# @option -O <mode>                       Choose what to optimize for
-# @option --mod <[name]:[deps]:[src]>     Make a module available for dependency under the given name
-# @option --deps* <[dep],[dep],>          Set dependency names for the root package
-# @flag --main-pkg-path                   Set the directory of the root package
-# @flag -fPIC                             Force-enable Position Independent Code
-# @flag -fno-PIC                          Force-disable Position Independent Code
-# @flag -fPIE                             Force-enable Position Independent Executable
-# @flag -fno-PIE                          Force-disable Position Independent Executable
-# @flag -flto                             Force-enable Link Time Optimization (requires LLVM extensions)
-# @flag -fno-lto                          Force-disable Link Time Optimization
-# @flag -fstack-check                     Enable stack probing in unsafe builds
-# @flag -fno-stack-check                  Disable stack probing in safe builds
-# @flag -fstack-protector                 Enable stack protection in unsafe builds
-# @flag -fno-stack-protector              Disable stack protection in safe builds
-# @flag -fsanitize-c                      Enable C undefined behavior detection in unsafe builds
-# @flag -fno-sanitize-c                   Disable C undefined behavior detection in safe builds
-# @flag -fvalgrind                        Include valgrind client requests in release builds
-# @flag -fno-valgrind                     Omit valgrind client requests in debug builds
-# @flag -fsanitize-thread                 Enable Thread Sanitizer
-# @flag -fno-sanitize-thread              Disable Thread Sanitizer
-# @flag -fdll-export-fns                  Mark exported functions as DLL exports (Windows)
-# @flag -fno-dll-export-fns               Force-disable marking exported functions as DLL exports
-# @flag -funwind-tables                   Always produce unwind table entries for all functions
-# @flag -fno-unwind-tables                Never produce unwind table entries
-# @flag -fllvm                            Force using LLVM as the codegen backend
-# @flag -fno-llvm                         Prevent using LLVM as the codegen backend
-# @flag -flibllvm                         Force using the LLVM API in the codegen backend
-# @flag -fno-libllvm                      Prevent using the LLVM API in the codegen backend
-# @flag -fclang                           Force using Clang as the C/C++ compilation backend
-# @flag -fno-clang                        Prevent using Clang as the C/C++ compilation backend
-# @option -freference-trace <num>         How many lines of reference trace should be shown per compile error
-# @flag -fno-reference-trace              Disable reference trace
-# @flag -ferror-tracing                   Enable error tracing in ReleaseFast mode
-# @flag -fno-error-tracing                Disable error tracing in Debug and ReleaseSafe mode
-# @flag -fsingle-threaded                 Code assumes there is only one thread
-# @flag -fno-single-threaded              Code may not assume there is only one thread
-# @flag -fbuiltin                         Enable implicit builtin knowledge of functions
-# @flag -fno-builtin                      Disable implicit builtin knowledge of functions
-# @flag -ffunction-sections               Places each function in a separate section
-# @flag -fno-function-sections            All functions go into same section
-# @flag -fstrip                           Omit debug symbols
-# @flag -fno-strip                        Keep debug symbols
-# @flag -fformatted-panics                Enable formatted safety panics
-# @flag -fno-formatted-panics             Disable formatted safety panics
-# @option -ofmt[`_choice_ofmt`] <mode>    Override target object format
-# @option -idirafter <dir>                Add directory to AFTER include search path
-# @flag -isystem                          [dir]  Add directory to SYSTEM include search path
-# @option -I <dir>                        Add directory to include search path
-# @option -D <[macro]=[value]>            Define C [macro] to [value] (1 if [value] omitted)
-# @option --libc <file>                   Provide a file which specifies libc paths
-# @option -cflags <flags>                 Set extra flags for the next positional C source files
-# @option -l --library <lib>              Link against system library (only if actually used)
-# @option -needed-l <lib>                 Link against system library (even if unused)
-# @option --needed-library <lib>
-# @option -weak-l <lib>                   link against system library marking it and all
-# @option -weak_library <lib>             referenced symbols as weak
-# @option -L --library-directory <d>      Add a directory to the library search path
-# @flag -search_paths_first               For each library search path, check for dynamic lib then static lib before proceeding to next path.
-# @flag -search_paths_first_static        For each library search path, check for static lib then dynamic lib before proceeding to next path.
-# @flag -search_dylibs_first              Search for dynamic libs in all library search paths, then static libs.
-# @flag -search_static_first              Search for static libs in all library search paths, then dynamic libs.
-# @flag -search_dylibs_only               Only search for dynamic libs.
-# @flag -search_static_only               Only search for static libs.
-# @option -T --script <script>            Use a custom linker script
-# @option --version-script <path>         Provide a version .map file
-# @option --dynamic-linker <path>         Set the dynamic interpreter path (usually ld.so)
-# @option --sysroot <path>                Set the system root directory (usually /)
-# @option --version <ver>                 Dynamic library semver
-# @option --entry <name>                  Set the entrypoint symbol name
-# @option --force_undefined <name>        Specify the symbol must be defined for the link to succeed
-# @option -fsoname <name>                 Override the default SONAME value
-# @flag -fno-soname                       Disable emitting a SONAME
-# @flag -flld                             Force using LLD as the linker
-# @flag -fno-lld                          Prevent using LLD as the linker
-# @flag -fcompiler-rt                     Always include compiler-rt symbols in output
-# @flag -fno-compiler-rt                  Prevent including compiler-rt symbols in output
-# @flag -rdynamic                         Add all symbols to the dynamic symbol table
-# @option -rpath <path>                   Add directory to the runtime library search path
-# @flag -feach-lib-rpath                  Ensure adding rpath for each used dynamic library
-# @flag -fno-each-lib-rpath               Prevent adding rpath for each used dynamic library
-# @flag -fallow-shlib-undefined           Allows undefined symbols in shared libraries
-# @flag -fno-allow-shlib-undefined        Disallows undefined symbols in shared libraries
+# @flag -mred-zone                       Force-enable the "red-zone"
+# @flag -mno-red-zone                    Force-disable the "red-zone"
+# @flag -fomit-frame-pointer             Omit the stack frame pointer
+# @flag -fno-omit-frame-pointer          Store the stack frame pointer
+# @flag -fPIC                            Force-enable Position Independent Code
+# @flag -fno-PIC                         Force-disable Position Independent Code
+# @flag -fstack-check                    Enable stack probing in unsafe builds
+# @flag -fno-stack-check                 Disable stack probing in safe builds
+# @flag -fstack-protector                Enable stack protection in unsafe builds
+# @flag -fno-stack-protector             Disable stack protection in safe builds
+# @flag -fsanitize-c                     Enable C undefined behavior detection in unsafe builds
+# @flag -fno-sanitize-c                  Disable C undefined behavior detection in safe builds
+# @flag -fvalgrind                       Include valgrind client requests in release builds
+# @flag -fno-valgrind                    Omit valgrind client requests in debug builds
+# @flag -fsanitize-thread                Enable Thread Sanitizer
+# @flag -fno-sanitize-thread             Disable Thread Sanitizer
+# @flag -funwind-tables                  Always produce unwind table entries for all functions
+# @flag -fno-unwind-tables               Never produce unwind table entries
+# @flag -ferror-tracing                  Enable error tracing in ReleaseFast mode
+# @flag -fno-error-tracing               Disable error tracing in Debug and ReleaseSafe mode
+# @flag -fsingle-threaded                Code assumes there is only one thread
+# @flag -fno-single-threaded             Code may not assume there is only one thread
+# @flag -fstrip                          Omit debug symbols
+# @flag -fno-strip                       Keep debug symbols
+# @option -idirafter <dir>               Add directory to AFTER include search path
+# @flag -isystem                         [dir]  Add directory to SYSTEM include search path
+# @option -I <dir>                       Add directory to include search path
+# @option -D <[macro]=[value]>           Define C [macro] to [value] (1 if [value] omitted)
+# @option -cflags <flags>                Set extra flags for the next positional C source files
+# @option -rcflags <flags>               Set extra flags for the next positional .rc source files
+# @option -- <flags>                     Set extra flags for the next positional .rc source files
+# @option -rcincludes <type>             Set the type of includes to use when compiling .rc source files
+# @option -T --script <script>           Use a custom linker script
+# @option --version-script <path>        Provide a version .map file
+# @flag --undefined-version              Allow version scripts to refer to undefined symbols
+# @flag --no-undefined-version           (default) Disallow version scripts from referring to undefined symbols
+# @flag --enable-new-dtags               Use the new behavior for dynamic tags (RUNPATH)
+# @flag --disable-new-dtags              Use the old behavior for dynamic tags (RPATH)
+# @option --dynamic-linker <path>        Set the dynamic interpreter path (usually ld.so)
+# @option --sysroot <path>               Set the system root directory (usually /)
+# @option --version <ver>                Dynamic library semver
+# @option -fentry <name>                 Override the entry point symbol name
+# @flag -fno-entry                       Do not output any entry point
+# @option --force_undefined <name>       Specify the symbol must be defined for the link to succeed
+# @option -fsoname <name>                Override the default SONAME value
+# @flag -fno-soname                      Disable emitting a SONAME
+# @flag -flld                            Force using LLD as the linker
+# @flag -fno-lld                         Prevent using LLD as the linker
+# @flag -fcompiler-rt                    Always include compiler-rt symbols in output
+# @flag -fno-compiler-rt                 Prevent including compiler-rt symbols in output
+# @flag -rdynamic                        Add all symbols to the dynamic symbol table
+# @flag -feach-lib-rpath                 Ensure adding rpath for each used dynamic library
+# @flag -fno-each-lib-rpath              Prevent adding rpath for each used dynamic library
+# @flag -fallow-shlib-undefined          Allows undefined symbols in shared libraries
+# @flag -fno-allow-shlib-undefined       Disallows undefined symbols in shared libraries
 # @option --build-id[fast|uuid|sha1|md5|none] <style>  At a minor link-time expense, coordinates stripped binaries
-# @flag --eh-frame-hdr                    Enable C++ exception handling by passing --eh-frame-hdr to linker
-# @flag --emit-relocs                     Enable output of relocation sections for post build tools
-# @option -z <arg>                        Set linker extension flags
-# @flag -dynamic                          Force output to be dynamically linked
-# @flag -static                           Force output to be statically linked
-# @flag -Bsymbolic                        Bind global references locally
+# @flag --eh-frame-hdr                   Enable C++ exception handling by passing --eh-frame-hdr to linker
+# @flag --emit-relocs                    Enable output of relocation sections for post build tools
+# @option -z <arg>                       Set linker extension flags
+# @flag -dynamic                         Force output to be dynamically linked
+# @flag -static                          Force output to be statically linked
+# @flag -Bsymbolic                       Bind global references locally
 # @option --compress-debug-sections[none|zlib] <e>  Debug section compression settings
-# @flag --gc-sections                     Force removal of functions and data that are unreachable by the entry point or exported symbols
-# @flag --no-gc-sections                  Don't force removal of unreachable functions and data
-# @option --sort-section <value>          Sort wildcard section patterns by 'name' or 'alignment'
-# @option --subsystem <subsystem>         (Windows) /SUBSYSTEM:<subsystem> to the linker
-# @option --stack <size>                  Override default stack size
-# @option --image-base <addr>             Set base address for executable image
-# @option -framework <name>               (Darwin) link against framework
-# @option -needed_framework <name>        (Darwin) link against framework (even if unused)
-# @option -needed_library <lib>           link against system library (even if unused)
-# @option -weak_framework <name>          (Darwin) link against framework and mark it and all referenced symbols as weak
-# @option -F <dir>                        (Darwin) add search path for frameworks
-# @option -install_name <value>           (Darwin) add dylib's install name
-# @option --entitlements <path>           (Darwin) add path to entitlements file for embedding in code signature
-# @option -pagezero_size <value>          (Darwin) size of the __PAGEZERO segment in hexadecimal notation
-# @option -headerpad <value>              (Darwin) set minimum space for future expansion of the load commands in hexadecimal notation
-# @flag -headerpad_max_install_names      (Darwin) set enough space as if all paths were MAXPATHLEN
-# @flag -dead_strip                       (Darwin) remove functions and data that are unreachable by the entry point or exported symbols
-# @flag -dead_strip_dylibs                (Darwin) remove dylibs that are unreachable by the entry point or exported symbols
-# @flag --import-memory                   (WebAssembly) import memory from the environment
-# @flag --export-memory                   (WebAssembly) export memory to the host (Default unless --import-memory used)
-# @flag --import-symbols                  (WebAssembly) import missing symbols from the host environment
-# @flag --import-table                    (WebAssembly) import function table from the host environment
-# @flag --export-table                    (WebAssembly) export function table to the host environment
-# @option --initial-memory <bytes>        (WebAssembly) initial size of the linear memory
-# @option --max-memory <bytes>            (WebAssembly) maximum size of the linear memory
-# @flag --shared-memory                   (WebAssembly) use shared linear memory
-# @option --global-base <addr>            (WebAssembly) where to start to place global data
-# @option --export <value>                (WebAssembly) Force a symbol to be exported
-# @option --test-filter <text>            Skip tests that do not match filter
-# @option --test-name-prefix <text>       Add prefix to all tests
-# @option --test-cmd <arg>                Specify test execution command one arg at a time
-# @flag --test-cmd-bin                    Appends test binary path to test cmd args
-# @flag --test-evented-io                 Runs the test in evented I/O mode
-# @flag --test-no-exec                    Compiles test binary without running it
-# @option --test-runner <path>            Specify a custom test runner
-# @option -fopt-bisect-limit <limit>      Only run [limit] first LLVM optimization passes
-# @flag -ftime-report                     Print timing diagnostics
-# @flag -fstack-report                    Print stack size diagnostics
-# @flag --verbose-link                    Display linker invocations
-# @flag --verbose-cc                      Display C compiler invocations
-# @flag --verbose-air                     Enable compiler debug output for Zig AIR
-# @flag --verbose-intern-pool             Enable compiler debug output for InternPool
-# @flag --verbose-generic-instances       Enable compiler debug output for generic instance generation
-# @option --verbose-llvm-ir <path>        Enable compiler debug output for unoptimized LLVM IR
-# @option --verbose-llvm-bc <path>        Enable compiler debug output for unoptimized LLVM BC
-# @flag --verbose-cimport                 Enable compiler debug output for C imports
-# @flag --verbose-llvm-cpu-features       Enable compiler debug output for LLVM CPU features
-# @option --debug-log <scope>             Enable printing debug/info log messages for scope
-# @flag --debug-compile-errors            Crash with helpful diagnostics at the first compile error
-# @flag --debug-link-snapshot             Enable dumping of the linker's state in JSON format
+# @flag --gc-sections                    Force removal of functions and data that are unreachable by the entry point or exported symbols
+# @flag --no-gc-sections                 Don't force removal of unreachable functions and data
+# @option --sort-section <value>         Sort wildcard section patterns by 'name' or 'alignment'
+# @option --subsystem <subsystem>        (Windows) /SUBSYSTEM:<subsystem> to the linker
+# @option --stack <size>                 Override default stack size
+# @option --image-base <addr>            Set base address for executable image
+# @option -install_name <value>          (Darwin) add dylib's install name
+# @option --entitlements <path>          (Darwin) add path to entitlements file for embedding in code signature
+# @option -pagezero_size <value>         (Darwin) size of the __PAGEZERO segment in hexadecimal notation
+# @option -headerpad <value>             (Darwin) set minimum space for future expansion of the load commands in hexadecimal notation
+# @flag -headerpad_max_install_names     (Darwin) set enough space as if all paths were MAXPATHLEN
+# @flag -dead_strip                      (Darwin) remove functions and data that are unreachable by the entry point or exported symbols
+# @flag -dead_strip_dylibs               (Darwin) remove dylibs that are unreachable by the entry point or exported symbols
+# @flag -ObjC                            (Darwin) force load all members of static archives that implement an Objective-C class or category
+# @flag --import-memory                  (WebAssembly) import memory from the environment
+# @flag --export-memory                  (WebAssembly) export memory to the host (Default unless --import-memory used)
+# @flag --import-symbols                 (WebAssembly) import missing symbols from the host environment
+# @flag --import-table                   (WebAssembly) import function table from the host environment
+# @flag --export-table                   (WebAssembly) export function table to the host environment
+# @option --initial-memory <bytes>       (WebAssembly) initial size of the linear memory
+# @option --max-memory <bytes>           (WebAssembly) maximum size of the linear memory
+# @flag --shared-memory                  (WebAssembly) use shared linear memory
+# @option --global-base <addr>           (WebAssembly) where to start to place global data
+# @option -l --library <lib>             Link against system library (only if actually used)
+# @option -needed-l <lib>                Link against system library (even if unused)
+# @option --needed-library <lib>
+# @option -weak-l <lib>                  link against system library marking it and all
+# @option -weak_library <lib>            referenced symbols as weak
+# @option -L --library-directory <d>     Add a directory to the library search path
+# @flag -search_paths_first              For each library search path, check for dynamic lib then static lib before proceeding to next path.
+# @flag -search_paths_first_static       For each library search path, check for static lib then dynamic lib before proceeding to next path.
+# @flag -search_dylibs_first             Search for dynamic libs in all library search paths, then static libs.
+# @flag -search_static_first             Search for static libs in all library search paths, then dynamic libs.
+# @flag -search_dylibs_only              Only search for dynamic libs.
+# @flag -search_static_only              Only search for static libs.
+# @option -rpath <path>                  Add directory to the runtime library search path
+# @option -framework <name>              (Darwin) link against framework
+# @option -needed_framework <name>       (Darwin) link against framework (even if unused)
+# @option -needed_library <lib>          (Darwin) link against system library (even if unused)
+# @option -weak_framework <name>         (Darwin) link against framework and mark it and all referenced symbols as weak
+# @option -F <dir>                       (Darwin) add search path for frameworks
+# @option --export <value>               (WebAssembly) Force a symbol to be exported
+# @option --test-filter <text>           Skip tests that do not match any filter
+# @option --test-name-prefix <text>      Add prefix to all tests
+# @option --test-cmd <arg>               Specify test execution command one arg at a time
+# @flag --test-cmd-bin                   Appends test binary path to test cmd args
+# @flag --test-evented-io                Runs the test in evented I/O mode
+# @flag --test-no-exec                   Compiles test binary without running it
+# @option --test-runner <path>           Specify a custom test runner
+# @option -fopt-bisect-limit <limit>     Only run [limit] first LLVM optimization passes
+# @flag -ftime-report                    Print timing diagnostics
+# @flag -fstack-report                   Print stack size diagnostics
+# @flag --verbose-link                   Display linker invocations
+# @flag --verbose-cc                     Display C compiler invocations
+# @flag --verbose-air                    Enable compiler debug output for Zig AIR
+# @flag --verbose-intern-pool            Enable compiler debug output for InternPool
+# @flag --verbose-generic-instances      Enable compiler debug output for generic instance generation
+# @option --verbose-llvm-ir <path>       Enable compiler debug output for unoptimized LLVM IR
+# @option --verbose-llvm-bc <path>       Enable compiler debug output for unoptimized LLVM BC
+# @flag --verbose-cimport                Enable compiler debug output for C imports
+# @flag --verbose-llvm-cpu-features      Enable compiler debug output for LLVM CPU features
+# @option --debug-log <scope>            Enable printing debug/info log messages for scope
+# @flag --debug-compile-errors           Crash with helpful diagnostics at the first compile error
+# @flag --debug-link-snapshot            Enable dumping of the linker's state in JSON format
+# @flag --debug-incremental              Enable experimental feature: incremental compilation
 # @arg files*
 translate-c() {
     :;
@@ -1224,14 +1340,18 @@ ar() {
 # @flag -dI                                        Print include directives in -E mode in addition to normal output
 # @flag -dM                                        Print macro definitions in -E mode instead of normal output
 # @option -dsym-dir <dir>                          Directory to output dSYM's (if any) to
+# @option -dumpdir <dumppfx>                       Use <dumpfpx> as a prefix to form auxiliary and dump file names
+# @flag -dumpmachine                               Display the compiler's target processor
+# @flag -dumpversion                               Display the version of the compiler
 # @option -D <<macro>=<value>>                     Define <macro> to <value> (or 1 if <value> omitted)
 # @flag -emit-ast                                  Emit Clang AST files for source inputs
 # @flag -emit-interface-stubs                      Generate Interface Stub Files.
 # @flag -emit-llvm                                 Use the LLVM representation for assembler and object files
 # @flag -emit-merged-ifs                           Generate Interface Stub Files, emit merged text not binary.
 # @flag --emit-static-lib                          Enable linker job to emit a static library.
+# @option --emit-symbol-graph <=> <value>          Generate Extract API information as a side effect of compilation.
 # @flag --end-no-unused-arguments                  Start emitting warnings for unused driver arguments
-# @option --extract-api-ignores <value>            File containing a new line separated list of API symbols to ignore when extracting API information.
+# @option --extract-api-ignores <value>            Comma separated list of files containing a new line separated list of API symbols to ignore when extracting API information.
 # @flag -extract-api                               Extract API information
 # @flag -E                                         Only run the preprocessor
 # @flag -faapcs-bitfield-load                      Follows the AAPCS standard that all volatile bit-field write generates at least one load.
@@ -1242,12 +1362,17 @@ ar() {
 # @flag -fallow-editor-placeholders                Treat editor placeholders as valid source code
 # @option -faltivec-src-compat <value>             Source-level compatibility for Altivec vectors (for PowerPC targets).
 # @flag -fansi-escape-codes                        Use ANSI escape codes for diagnostics
+# @flag -fapinotes-modules                         Enablemodule-based external API notes support
+# @option -fapinotes-swift-version <version>       Specify the Swift version to use when filtering API notes
+# @flag -fapinotes                                 Enableexternal API notes support
 # @flag -fapple-kext                               Use Apple's kernel extensions ABI
 # @flag -fapple-link-rtlib                         Force linking the clang builtins runtime library
 # @flag -fapple-pragma-pack                        Enable Apple gcc-compatible ♯pragma pack handling
 # @flag -fapplication-extension                    Restrict code to those available for App Extensions
 # @flag -fapprox-func                              Allow certain math function calls to be replaced with an approximately equivalent calculation
+# @flag -fassume-nothrow-exception-dtor            Assume that exception objects' destructors are non-throwing
 # @flag -fasync-exceptions                         Enable EH Asynchronous exceptions
+# @flag -fauto-import                              MinGW specific.
 # @option -fbasic-block-sections <value>           Place each function's basic blocks in unique sections (ELF Only)
 # @option -fbinutils-version <major.minor>         Produced object files can use all ELF features supported by this binutils version and newer.
 # @flag -fblocks                                   Enable the 'blocks' language feature
@@ -1265,24 +1390,30 @@ ar() {
 # @flag -fcall-saved-x18                           Make the x18 register call-saved (AArch64 only)
 # @flag -fcall-saved-x8                            Make the x8 register call-saved (AArch64 only)
 # @flag -fcall-saved-x9                            Make the x9 register call-saved (AArch64 only)
+# @option -fcaret-diagnostics-max-lines <value>    Set the maximum number of source lines to show in a caret diagnostic (0 = no limit).
 # @option -fcf-protection <value>                  Instrument control-flow architecture protection
 # @flag -fchar8_t                                  Enable C++ builtin type char8_t
+# @flag -fcheck-new                                Do not assume C++ operator new may not return NULL
 # @option -fclang-abi-compat <version>             Attempt to match the ABI of Clang <version>
 # @flag -fcolor-diagnostics                        Enable colors in diagnostics
 # @option -fcomment-block-commands <arg>           Treat each comma separated argument in <arg> as a documentation comment block command
 # @flag -fcommon                                   Place uninitialized global variables in a common block
 # @flag -fcomplete-member-pointers                 Require member pointer base types to be complete if they would be significant under the Microsoft ABI
-# @flag -fconvergent-functions                     Assume functions may be convergent
+# @option -fconstexpr-backtrace-limit <value>      Set the maximum number of entries to print in a constexpr evaluation backtrace (0 = no limit)
+# @option -fconstexpr-depth <value>                Set the maximum depth of recursive constexpr function calls
+# @option -fconstexpr-steps <value>                Set the maximum number of steps in constexpr function evaluation
 # @flag -fcoro-aligned-allocation                  Prefer aligned allocation for C++ Coroutines
-# @flag -fcoroutines-ts                            Enable support for the C++ Coroutines TS
+# @flag -fcoroutines                               Enable support for the C++ Coroutines
 # @option -fcoverage-compilation-dir <value>       The compilation directory to embed in the coverage mapping.
 # @flag -fcoverage-mapping                         Generate coverage mapping to enable code coverage analysis
-# @option -fcoverage-prefix-map <value>            remap file source paths in coverage mapping
+# @flag -fcoverage-mcdc                            Enable MC/DC criteria when generating code coverage
+# @option -fcoverage-prefix-map <<old>=<new>>      remap file source paths <old> to <new> in coverage mapping.
 # @option -fcrash-diagnostics-dir <dir>            Put crash-report files in <dir>
 # @option -fcrash-diagnostics[off|compiler|all] <value>  Set level of crash diagnostic reporting,
 # @option -fcs-profile-generate <directory>        Generate instrumented code to collect context sensitive execution counts into <directory>/default.profraw (overridden by LLVM_PROFILE_FILE env var)
-# @flag -fcuda-approx-transcendentals              Use approximate transcendental functions
 # @flag -fcuda-short-ptr                           Use 32-bit pointers for accessing const/local/shared address spaces
+# @option -fcx-fortran-rules <value>               Range reduction is enabled for complex arithmetic operations.
+# @option -fcx-limited-range <value>               Basic algebraic expansions of complex arithmetic operations involving are enabled.
 # @flag -fcxx-exceptions                           Enable C++ exceptions
 # @flag -fcxx-modules                              Enable modules for C++
 # @flag -fdata-sections                            Place each data in its own section
@@ -1290,10 +1421,11 @@ ar() {
 # @option -fdebug-default-version <value>          Default DWARF version to use, if a -g option caused DWARF debug info to be produced
 # @flag -fdebug-info-for-profiling                 Emit extra debug info to make sample profile more accurate
 # @flag -fdebug-macro                              Emit macro debug information
-# @option -fdebug-prefix-map <value>               remap file source paths in debug info
+# @option -fdebug-prefix-map <<old>=<new>>         For paths in debug info, remap directory <old> to <new>.
 # @flag -fdebug-ranges-base-address                Use DWARF base address selection entries in .debug_ranges
 # @flag -fdebug-types-section                      Place debug types in their own section (ELF Only)
 # @flag -fdeclspec                                 Allow __declspec as a keyword
+# @flag -fdefine-target-os-macros                  Enable predefined target OS macros
 # @flag -fdelayed-template-parsing                 Parse templated function definitions at the end of the translation unit
 # @flag -fdelete-null-pointer-checks               Treat usage of null pointers as undefined behavior (default)
 # @flag -fdiagnostics-absolute-paths               Print absolute paths in diagnostics
@@ -1309,7 +1441,6 @@ ar() {
 # @flag -fdirect-access-external-data              Don't use GOT indirection to reference external data symbols
 # @flag -fdiscard-value-names                      Discard value names in LLVM IR
 # @flag -fdollars-in-identifiers                   Allow '$' in identifiers
-# @flag -fdouble-square-bracket-attributes         Enable '[[]]' attributes in all C and C++ language modes
 # @flag -fdriver-only                              Only run the driver.
 # @flag -fdwarf-exceptions                         Use DWARF style exceptions
 # @flag -feliminate-unused-debug-types             Do not emit  debug info for defined but unused types
@@ -1317,6 +1448,7 @@ ar() {
 # @option -fembed-bitcode <option>                 Embed LLVM bitcode
 # @option -fembed-offload-object <value>           Embed Offloading device-side binary into host object file as a section.
 # @flag -femit-all-decls                           Emit all declarations, even if unused
+# @flag -femit-compact-unwind-non-canonical        Try emitting Compact-Unwind for non-canonical entries.
 # @option -femit-dwarf-unwind <value>              When to emit DWARF unwind (EH frame) info
 # @flag -femulated-tls                             Use emutls functions to access thread_local variables
 # @flag -fenable-matrix                            Enable matrix data type and related builtin functions
@@ -1324,16 +1456,20 @@ ar() {
 # @option -fexcess-precision <value>               Allows control over excess precision on targets where native support for the precision types is not available.
 # @flag -fexperimental-library                     Control whether unstable and experimental library features are enabled.
 # @flag -fexperimental-new-constant-interpreter    Enable the experimental new constant interpreter
+# @option -fexperimental-openacc-macro-override <value>  Overrides the _OPENACC macro value for experimental testing during OpenACC support development
 # @option -fexperimental-relative-c <++-abi-vtables>  Use the experimental C++ class ABI for classes with virtual tables
+# @option -fexperimental-sanitize-metadata-ignorelist <value>  Disable sanitizer metadata for modules and functions that match the provided special case list
 # @option -fexperimental-sanitize-metadata <value>  Specify the type of metadata to emit for binary analysis sanitizers
-# @flag -fexperimental-strict-floating-point       Enables experimental strict floating point in LLVM.
+# @flag -fexperimental-strict-floating-point       Enables the use of non-default rounding modes and non-default exception handling on targets that are not currently ready.
 # @option -fextend-arguments <value>               Controls how scalar integer arguments are extended in calls to unprototyped and varargs functions
 # @flag -ffast-math                                Allow aggressive, lossy floating-point optimizations
+# @flag -ffat-lto-objects                          Enable fat LTO object support
 # @option -ffile-compilation-dir <value>           The compilation directory to embed in the debug info and coverage mapping.
 # @option -ffile-prefix-map <value>                remap file source paths in debug info, predefined preprocessor macros and __builtin_FILE().
 # @flag -ffile-reproducible                        Use the target's platform-specific path separator character when expanding the __FILE__ macro
 # @flag -ffine-grained-bitfield-accesses           Use separate accesses for consecutive bitfield runs with legal widths and alignments.
 # @flag -ffinite-loops                             Assume all loops are finite.
+# @flag -ffinite-math-only                         Allow floating-point optimizations that assume arguments and results are not NaNs or +-inf.
 # @flag -ffixed-a0                                 Reserve the a0 register (M68k only)
 # @flag -ffixed-a1                                 Reserve the a1 register (M68k only)
 # @flag -ffixed-a2                                 Reserve the a2 register (M68k only)
@@ -1349,6 +1485,33 @@ ar() {
 # @flag -ffixed-d5                                 Reserve the d5 register (M68k only)
 # @flag -ffixed-d6                                 Reserve the d6 register (M68k only)
 # @flag -ffixed-d7                                 Reserve the d7 register (M68k only)
+# @flag -ffixed-g1                                 Reserve the G1 register (SPARC only)
+# @flag -ffixed-g2                                 Reserve the G2 register (SPARC only)
+# @flag -ffixed-g3                                 Reserve the G3 register (SPARC only)
+# @flag -ffixed-g4                                 Reserve the G4 register (SPARC only)
+# @flag -ffixed-g5                                 Reserve the G5 register (SPARC only)
+# @flag -ffixed-g6                                 Reserve the G6 register (SPARC only)
+# @flag -ffixed-g7                                 Reserve the G7 register (SPARC only)
+# @flag -ffixed-i0                                 Reserve the I0 register (SPARC only)
+# @flag -ffixed-i1                                 Reserve the I1 register (SPARC only)
+# @flag -ffixed-i2                                 Reserve the I2 register (SPARC only)
+# @flag -ffixed-i3                                 Reserve the I3 register (SPARC only)
+# @flag -ffixed-i4                                 Reserve the I4 register (SPARC only)
+# @flag -ffixed-i5                                 Reserve the I5 register (SPARC only)
+# @flag -ffixed-l0                                 Reserve the L0 register (SPARC only)
+# @flag -ffixed-l1                                 Reserve the L1 register (SPARC only)
+# @flag -ffixed-l2                                 Reserve the L2 register (SPARC only)
+# @flag -ffixed-l3                                 Reserve the L3 register (SPARC only)
+# @flag -ffixed-l4                                 Reserve the L4 register (SPARC only)
+# @flag -ffixed-l5                                 Reserve the L5 register (SPARC only)
+# @flag -ffixed-l6                                 Reserve the L6 register (SPARC only)
+# @flag -ffixed-l7                                 Reserve the L7 register (SPARC only)
+# @flag -ffixed-o0                                 Reserve the O0 register (SPARC only)
+# @flag -ffixed-o1                                 Reserve the O1 register (SPARC only)
+# @flag -ffixed-o2                                 Reserve the O2 register (SPARC only)
+# @flag -ffixed-o3                                 Reserve the O3 register (SPARC only)
+# @flag -ffixed-o4                                 Reserve the O4 register (SPARC only)
+# @flag -ffixed-o5                                 Reserve the O5 register (SPARC only)
 # @flag -ffixed-point                              Enable fixed point types
 # @flag -ffixed-r19                                Reserve register r19 (Hexagon only)
 # @flag -ffixed-r9                                 Reserve the r9 register (ARM only)
@@ -1383,6 +1546,7 @@ ar() {
 # @flag -ffixed-x7                                 Reserve the x7 register (AArch64/RISC-V only)
 # @flag -ffixed-x8                                 Reserve the x8 register (AArch64/RISC-V only)
 # @flag -ffixed-x9                                 Reserve the x9 register (AArch64/RISC-V only)
+# @flag -fforce-check-cxx20-modules-input-files    Check the input source files from C++20 modules explicitly
 # @flag -fforce-dwarf-frame                        Always emit a debug frame section
 # @flag -fforce-emit-vtables                       Emits more virtual tables to improve devirtualization
 # @flag -fforce-enable-int128                      Enable support for int128_t type
@@ -1399,14 +1563,18 @@ ar() {
 # @flag -fgnu89-inline                             Use the gnu89 inline semantics
 # @option -fgnuc-version <value>                   Sets various macros to claim compatibility with the given GCC version (default is 4.2.1)
 # @flag -fgpu-allow-device-init                    Allow device side init function in HIP (experimental)
+# @flag -fgpu-approx-transcendentals               Use approximate transcendental functions
 # @option -fgpu-default-stream <value>             Specify default stream.
 # @flag -fgpu-defer-diag                           Defer host/device related diagnostic messages for CUDA/HIP
 # @flag -fgpu-flush-denormals-to-zero              Flush denormal floating point values to zero in CUDA/HIP device mode.
 # @flag -fgpu-rdc                                  Generate relocatable device code, also known as separate compilation mode
-# @flag -fgpu-sanitize                             Enable sanitizer for AMDGPU target
+# @flag -fgpu-sanitize                             Enable sanitizer for supported offloading devices
+# @flag -fhip-emit-relocatable                     Compile HIP source to relocatable
 # @flag -fhip-fp32-correctly-rounded-divide-sqrt   Specify that single precision floating-point divide and sqrt used in the program source are correctly rounded (HIP device compilation only)
 # @flag -fhip-kernel-arg-name                      Specify that kernel argument names are preserved (HIP only)
 # @flag -fhip-new-launch-api                       Use new kernel launching API for HIP
+# @flag -fhonor-infinities                         Specify that floating-point optimizations are not allowed that assume arguments and results are not +-inf.
+# @flag -fhonor-nans                               Specify that floating-point optimizations are not allowed that assume arguments and results are not NANs.
 # @flag -fignore-exceptions                        Enable support for ignoring exception handling constructs
 # @flag -fimplicit-module-maps                     Implicitly search the file system for module map files.
 # @flag -fincremental-extensions                   Enable incremental processing extensions such as processingstatements on the global scope.
@@ -1422,18 +1590,22 @@ ar() {
 # @flag -fintegrated-objemitter                    Use internal machine object code emitter.
 # @flag -fjmc                                      Enable just-my-code debugging
 # @flag -fjump-tables                              Use jump tables for lowering switches
-# @flag -fkeep-static-consts                       Keep static const variables if unused
+# @flag -fkeep-persistent-storage-variables        Enable keeping all variables that have a persistent storage duration, including global, static and thread-local variables, to guarantee that they can be directly addressed
+# @flag -fkeep-static-consts                       Keep static const variables even if unused
+# @flag -fkeep-system-includes                     Instead of expanding system headers when emitting preprocessor output, preserve the ♯include directive.
 # @option -flax-vector-conversions <value>         Enable implicit vector bit-casts
 # @option -flto-jobs <value>                       Controls the backend parallelism of -flto=thin (default of 0 means the number of threads will be derived from the number of CPUs detected)
 # @option -flto <auto>                             Enable LTO in 'full' mode
+# @option -fmacro-backtrace-limit <value>          Set the maximum number of entries to print in a macro expansion backtrace (0 = no limit)
 # @option -fmacro-prefix-map <value>               remap file source paths in predefined preprocessor macros and __builtin_FILE().
 # @flag -fmath-errno                               Require math functions to indicate errors by setting errno
 # @option -fmax-tokens <value>                     Max total number of preprocessed tokens for -Wmax-tokens.
 # @option -fmax-type-align <value>                 Specify the maximum alignment to enforce on pointers lacking an explicit alignment
+# @option -fmemory-profile-use <pathname>          Use memory profile for profile-guided memory optimization
 # @option -fmemory-profile <directory>             Enable heap memory profiling and dump results into <directory>
 # @flag -fmerge-all-constants                      Allow merging of constants
 # @option -fmessage-length <value>                 Format message diagnostics so that they fit within N columns
-# @flag -fminimize-whitespace                      Minimize whitespace when emitting preprocessor output
+# @flag -fminimize-whitespace                      Ignore the whitespace from the input file when emitting preprocessor output.
 # @option -fmodule-file <[<name>=]<file>>          Specify the mapping of module name to precompiled module file, or load a module file if name is omitted.
 # @option -fmodule-header <kind>                   Build a C++20 Header Unit from a header that should be found in the user (fmodule-header=user) or system (fmodule-header=system) search path.
 # @option -fmodule-map-file <file>                 Load this module map file
@@ -1447,7 +1619,6 @@ ar() {
 # @option -fmodules-prune-interval <seconds>       Specify the interval (in seconds) between attempts to prune the module cache
 # @flag -fmodules-search-all                       Search even non-imported modules to resolve references
 # @flag -fmodules-strict-decluse                   Like -fmodules-decluse but requires all headers to be in modules
-# @flag -fmodules-ts                               Enable support for the C++ Modules TS
 # @option -fmodules-user-build-path <directory>    Specify the module user build path
 # @flag -fmodules-validate-input-files-content     Validate PCM input files based on content if mtime differs
 # @flag -fmodules-validate-once-per-build-session  Don't verify input files for the modules if the module has been successfully validated or loaded during this build session
@@ -1458,13 +1629,18 @@ ar() {
 # @flag -fms-extensions                            Accept some non-standard constructs supported by the Microsoft compiler
 # @flag -fms-hotpatch                              Ensure that all functions can be hotpatched at runtime
 # @option -fms-runtime-lib <value>                 Select Windows run-time library
+# @flag -fms-volatile                              Volatile loads and stores have acquire and release semantics
 # @option -fmsc-version <value>                    Microsoft compiler version number to report in _MSC_VER (0 = don't define it (default))
 # @option -fnew-alignment <align>                  Specifies the largest alignment guaranteed by '::operator new(size_t)'
 # @flag -fnew-infallible                           Enable treating throwing global C++ operator new as always returning valid memory (annotates with __attribute__((returns_nonnull)) and throw()).
 # @flag -fno-aapcs-bitfield-width                  Do not follow the AAPCS standard requirement stating that volatile bit-field width is dictated by the field container type.
 # @flag -fno-access-control                        Disable C++ access control
 # @flag -fno-addrsig                               Don't emit an address-significance table
+# @flag -fno-apinotes-modules                      Disablemodule-based external API notes support
+# @flag -fno-apinotes                              Disableexternal API notes support
 # @flag -fno-assume-sane-operator-new              Don't assume that C++'s global operator new can't alias any pointer
+# @flag -fno-assume-unique-vtables                 Disable optimizations based on vtable pointer identity
+# @flag -fno-auto-import                           MinGW specific.
 # @flag -fno-autolink                              Disable generation of linker directives for automatic library linking
 # @option -fno-builtin- <value>                    Disable implicit builtin knowledge of a specific function
 # @option -fno-c <++-static-destructors>           Disable C++ static destructor registration
@@ -1473,26 +1649,31 @@ ar() {
 # @flag -fno-common                                Compile common globals like normal definitions
 # @flag -fno-complete-member-pointers              Do not require member pointer base types to be complete if they would be significant under the Microsoft ABI
 # @flag -fno-constant-cfstrings                    Disable creation of CodeFoundation-type constant strings
+# @flag -fno-convergent-functions                  Assume all functions may be convergent.
 # @flag -fno-coverage-mapping                      Disable code coverage analysis
+# @flag -fno-coverage-mcdc                         Disable MC/DC coverage criteria
 # @flag -fno-crash-diagnostics                     Disable auto-generation of preprocessed source files and a script for reproduction during a clang crash
-# @flag -fno-cuda-approx-transcendentals           Don't use approximate transcendental functions
+# @option -fno-cx-fortran-rules <value>            Range reduction is disabled for complex arithmetic operations.
+# @option -fno-cx-limited-range <value>            Basic algebraic expansions of complex arithmetic operations involving are disabled.
 # @flag -fno-cxx-modules                           Disable modules for C++
 # @flag -fno-debug-macro                           Do not emit macro debug information
 # @flag -fno-declspec                              Disallow __declspec as a keyword
+# @flag -fno-define-target-os-macros               Disable predefined target OS macros
 # @flag -fno-delayed-template-parsing              Disable delayed template parsing
 # @flag -fno-delete-null-pointer-checks            Do not treat usage of null pointers as undefined behavior
 # @flag -fno-diagnostics-fixit-info                Do not include fixit information in diagnostics
+# @flag -fno-diagnostics-show-line-numbers         Show line numbers in diagnostic code snippets
 # @flag -fno-digraphs                              Disallow alternative token representations '<:', ':>', '<%', '%>', '%:', '%:%:'
 # @flag -fno-direct-access-external-data           Use GOT indirection to reference external data symbols
 # @flag -fno-discard-value-names                   Do not discard value names in LLVM IR
 # @flag -fno-dollars-in-identifiers                Disallow '$' in identifiers
-# @flag -fno-double-square-bracket-attributes      Disable '[[]]' attributes in all C and C++ language modes
 # @flag -fno-elide-constructors                    Disable C++ copy constructor elision
 # @flag -fno-elide-type                            Do not elide types when printing diagnostics
 # @flag -fno-eliminate-unused-debug-types          Emit  debug info for defined but unused types
 # @flag -fno-exceptions                            Disable support for exception handling
 # @option -fno-experimental-relative-c <++-abi-vtables>  Do not use the experimental C++ class ABI for classes with virtual tables
 # @option -fno-experimental-sanitize-metadata <value>  Disable emitting metadata for binary analysis sanitizers
+# @flag -fno-fat-lto-objects                       Disable fat LTO object support
 # @flag -fno-file-reproducible                     Use the host's platform-specific path separator character when expanding the __FILE__ macro
 # @flag -fno-fine-grained-bitfield-accesses        Use large-integer access for consecutive bitfield runs.
 # @flag -fno-finite-loops                          Do not assume that any loop is finite.
@@ -1501,7 +1682,9 @@ ar() {
 # @flag -fno-global-isel                           Disables the global instruction selector
 # @flag -fno-gnu-inline-asm                        Disable GNU style inline asm
 # @flag -fno-gpu-allow-device-init                 Don't allow device side init function in HIP (experimental)
+# @flag -fno-gpu-approx-transcendentals            Don't use approximate transcendental functions
 # @flag -fno-gpu-defer-diag                        Don't defer host/device related diagnostic messages for CUDA/HIP
+# @flag -fno-hip-emit-relocatable                  Do not override toolchain to compile HIP source to relocatable
 # @flag -fno-hip-fp32-correctly-rounded-divide-sqrt  Don't specify that single precision floating-point divide and sqrt used in the program source are correctly rounded (HIP device compilation only)
 # @flag -fno-hip-kernel-arg-name                   Don't specify that kernel argument names are preserved (HIP only)
 # @flag -fno-hip-new-launch-api                    Don't use new kernel launching API for HIP
@@ -1509,15 +1692,19 @@ ar() {
 # @flag -fno-integrated-cc1                        Spawn a separate process for each cc1
 # @flag -fno-integrated-objemitter                 Use external machine object code emitter.
 # @flag -fno-jump-tables                           Do not use jump tables for lowering switches
-# @flag -fno-keep-static-consts                    Don't keep static const variables if unused
+# @flag -fno-keep-persistent-storage-variables     Disable keeping all variables that have a persistent storage duration, including global, static and thread-local variables, to guarantee that they can be directly addressed
+# @flag -fno-keep-static-consts                    Don't keep static const variables even if unused
 # @flag -fno-knr-functions                         Disable support for K&R C function declarations
 # @flag -fno-lto                                   Disable LTO mode (default)
 # @flag -fno-memory-profile                        Disable heap memory profiling
 # @flag -fno-merge-all-constants                   Disallow merging of constants
+# @option -fno-modules-check-relocated <value>     Skip checks for relocated modules when loading PCM files
 # @flag -fno-modules-validate-textual-header-includes  Do not enforce -fmodules-decluse and private header restrictions for textual headers.
 # @flag -fno-new-infallible                        Disable treating throwing global C++ operator new as always returning valid memory (annotates with __attribute__((returns_nonnull)) and throw()).
+# @flag -fno-objc-avoid-heapify-local-blocks       Don't try to avoid heapifying local blocks
 # @flag -fno-objc-infer-related-result-type        do not infer Objective-C related result type based on method family
 # @flag -fno-offload-lto                           Disable LTO mode (default) for offload compilation
+# @flag -fno-offload-uniform-block                 Don't assume that kernels are launched with uniform block sizes (default true for CUDA/HIP and false otherwise)
 # @flag -fno-openmp-extensions                     Disable all Clang extensions for OpenMP directives and clauses
 # @flag -fno-operator-names                        Do not treat C++ operator name keywords as synonyms for operators
 # @flag -fno-optimize-sibling-calls                Disable tail call optimization, keeping the call stack accurate
@@ -1530,7 +1717,7 @@ ar() {
 # @flag -fno-profile-instr-use                     Disable using instrumentation data for profile-guided optimization
 # @flag -fno-pseudo-probe-for-profiling            Do not emit pseudo probes for sample profiling
 # @flag -fno-register-global-dtors-with-atexit     Don't use atexit or __cxa_atexit to register global destructors
-# @flag -fno-rtlib-add-rpath                       Do not add -rpath with architecture-specific resource directory to the linker flags
+# @flag -fno-rtlib-add-rpath                       Do not add -rpath with architecture-specific resource directory to the linker flags.
 # @flag -fno-rtti-data                             Disable generation of RTTI data
 # @flag -fno-rtti                                  Disable generation of rtti information
 # @flag -fno-sanitize-address-globals-dead-stripping  Disable linker dead stripping of globals in AddressSanitizer
@@ -1547,6 +1734,7 @@ ar() {
 # @flag -fno-sanitize-memory-track-origins         Disable origins tracking in MemorySanitizer
 # @flag -fno-sanitize-memory-use-after-dtor        Disable use-after-destroy detection in MemorySanitizer
 # @option -fno-sanitize-recover <value>            Disable recovery for specified sanitizers
+# @flag -fno-sanitize-stable-abi                   Conventional ABI instrumentation for sanitizer runtime.
 # @flag -fno-sanitize-stats                        Disable sanitizer statistics gathering.
 # @flag -fno-sanitize-thread-atomics               Disable atomic operations instrumentation in ThreadSanitizer
 # @flag -fno-sanitize-thread-func-entry-exit       Disable function entry/exit instrumentation in ThreadSanitizer
@@ -1557,42 +1745,52 @@ ar() {
 # @flag -fno-show-source-location                  Do not include source location information with diagnostics
 # @flag -fno-signed-char                           char is unsigned
 # @flag -fno-signed-zeros                          Allow optimizations that ignore the sign of floating point zeros
+# @flag -fno-skip-odr-check-in-gmf                 Perform ODR checks for decls in the global module fragment.
 # @flag -fno-spell-checking                        Disable spell-checking
 # @flag -fno-split-machine-functions               Disable late function splitting using profile information (x86 ELF)
 # @flag -fno-split-stack                           Wouldn't use segmented stack
 # @flag -fno-stack-clash-protection                Disable stack clash protection
 # @flag -fno-stack-protector                       Disable the use of stack protectors
 # @flag -fno-standalone-debug                      Limit debug information produced to reduce size of debug binary
+# @flag -fno-strict-aliasing                       Disable optimizations based on strict aliasing rules
 # @flag -fno-strict-float-cast-overflow            Relax language rules and try to match the behavior of the target's native float-to-int conversion instructions
 # @flag -fno-strict-return                         Don't treat control flow paths that fall off the end of a non-void function as unreachable
 # @flag -fno-sycl                                  Disables SYCL kernels compilation for device
 # @flag -fno-temp-file                             Directly create compilation output files.
 # @flag -fno-threadsafe-statics                    Do not emit code to make initialization of local statics thread safe
 # @flag -fno-trigraphs                             Do not process trigraph sequences
+# @flag -fno-unified-lto                           Use distinct LTO pipelines
 # @flag -fno-unique-section-names                  Don't use unique names for text and data sections
 # @flag -fno-unroll-loops                          Turn off loop unroller
 # @flag -fno-use-cxa-atexit                        Don't use __cxa_atexit for calling destructors
 # @flag -fno-use-init-array                        Use .ctors/.dtors instead of .init_array/.fini_array
+# @flag -fno-verify-intermediate-code              Disable verification of LLVM IR
 # @flag -fno-visibility-inlines-hidden-static-local-var  Disables -fvisibility-inlines-hidden-static-local-var (this is the default on non-darwin targets)
 # @flag -fno-xray-function-index                   Omit function index section at the expense of single-function patching performance
 # @flag -fno-zero-initialized-in-bss               Don't place zero initialized data in BSS
 # @flag -fobjc-arc-exceptions                      Use EH-safe code when synthesizing retains and releases in -fobjc-arc
 # @flag -fobjc-arc                                 Synthesize retain and release calls for Objective-C pointers
+# @flag -fobjc-avoid-heapify-local-blocks          Try to avoid heapifying local blocks
 # @flag -fobjc-disable-direct-methods-for-testing  Ignore attribute objc_direct so that direct methods can be tested
 # @flag -fobjc-encode-cxx-class-template-spec      Fully encode c++ class template specialization
 # @flag -fobjc-exceptions                          Enable Objective-C exceptions
 # @option -fobjc-runtime <value>                   Specify the target Objective-C runtime kind and version
 # @flag -fobjc-weak                                Enable ARC-style weak references in Objective-C
+# @flag -foffload-implicit-host-device-templates   Template functions or specializations without host, device and global attributes have implicit host device attributes (CUDA/HIP only)
 # @option -foffload-lto <value>                    Set LTO mode for offload compilation
+# @flag -foffload-uniform-block                    Assume that kernels are launched with uniform block sizes (default true for CUDA/HIP and false otherwise)
+# @flag -fomit-frame-pointer                       Omit the frame pointer from functions that don't need it.
+# @flag -fopenacc                                  Enable OpenACC
 # @flag -fopenmp-extensions                        Enable all Clang extensions for OpenMP directives and clauses
-# @flag -fopenmp-implicit-rpath                    Set rpath on OpenMP executables
+# @flag -fopenmp-force-usm                         Force behvaior as if the user specified pragma omp requires unified_shared_memory.
 # @flag -fopenmp-offload-mandatory                 Do not create a host fallback if offloading to the device fails.
 # @flag -fopenmp-simd                              Emit OpenMP code only for SIMD-based constructs.
 # @flag -fopenmp-target-debug                      Enable debugging in the OpenMP offloading device RTL
 # @flag -fopenmp-target-jit                        Emit code that can be JIT compiled for OpenMP offloading.
 # @option -fopenmp-targets <value>                 Specify comma-separated list of triples OpenMP offloading targets to be supported
-# @option -fopenmp-version <value>                 Set OpenMP version (e.g. 45 for OpenMP 4.5, 50 for OpenMP 5.0).
+# @option -fopenmp-version <value>                 Set OpenMP version (e.g. 45 for OpenMP 4.5, 51 for OpenMP 5.1).
 # @flag -fopenmp                                   Parse OpenMP pragmas and generate parallel code.
+# @option -foperator-arrow-depth <value>           Maximum number of 'operator->'s to call for a member access
 # @option -foptimization-record-file <file>        Specify the output name of the file containing the optimization remarks.
 # @option -foptimization-record-passes <regex>     Only include passes which match a specified regular expression in the generated optimization record (by default, include all passes)
 # @flag -forder-file-instrumentation               Generate instrumented code to collect order file into default.profraw file (overridden by '=' form of option or LLVM_PROFILE_FILE env var)
@@ -1610,13 +1808,14 @@ ar() {
 # @flag -fprebuilt-implicit-modules                Look up implicit modules in the prebuilt module path
 # @option -fprebuilt-module-path <directory>       Specify the prebuilt module path
 # @option -fproc-stat-report <value>               Print subprocess statistics
+# @flag -fprofile-arcs                             Instrument code to produce gcov data files (*.gcda)
 # @option -fprofile-exclude-files <value>          Instrument only functions from files where names don't match all the regexes separated by a semi-colon
 # @option -fprofile-filter-files <value>           Instrument only functions from files where names match any regex separated by a semi-colon
 # @option -fprofile-function-groups <N>            Partition functions into N groups and select only functions in group i to be instrumented using -fprofile-selected-function-group
 # @option -fprofile-generate <directory>           Generate instrumented code to collect execution counts into <directory>/default.profraw (overridden by LLVM_PROFILE_FILE env var)
 # @option -fprofile-instr-generate <file>          Generate instrumented code to collect execution counts into <file> (overridden by LLVM_PROFILE_FILE env var)
 # @option -fprofile-instr-use <value>              Use instrumentation data for profile-guided optimization
-# @option -fprofile-list <value>                   Filename defining the list of functions/files to instrument
+# @option -fprofile-list <value>                   Filename defining the list of functions/files to instrument.
 # @option -fprofile-remapping-file <file>          Use the remappings described in <file> to match the profile data against names in the program
 # @flag -fprofile-sample-accurate                  Specifies that the sample profile is accurate
 # @option -fprofile-sample-use <value>             Enable sample-based profile guided optimizations
@@ -1633,10 +1832,11 @@ ar() {
 # @flag -frelaxed-template-template-args           Enable C++17 relaxed template template argument matching
 # @flag -freroll-loops                             Turn on loop reroller
 # @flag -fropi                                     Generate read-only position independent code (ARM only)
-# @flag -frtlib-add-rpath                          Add -rpath with architecture-specific resource directory to the linker flags
+# @flag -frtlib-add-rpath                          Add -rpath with architecture-specific resource directory to the linker flags.
 # @flag -frwpi                                     Generate read-write position independent code (ARM only)
+# @flag -fsafe-buffer-usage-suggestions            Display suggestions to update code associated with -Wunsafe-buffer-usage warnings
 # @flag -fsample-profile-use-profi                 Use profi to infer block and edge counts
-# @option -fsanitize-address-destructor <value>    Set destructor type used in ASan instrumentation
+# @option -fsanitize-address-destructor <value>    Set the kind of module destructors emitted by AddressSanitizer instrumentation.
 # @option -fsanitize-address-field-padding <value>  Level of field padding for AddressSanitizer
 # @flag -fsanitize-address-globals-dead-stripping  Enable linker dead stripping of globals in AddressSanitizer
 # @flag -fsanitize-address-outline-instrumentation  Always generate function calls for address sanitizer instrumentation
@@ -1644,9 +1844,9 @@ ar() {
 # @option -fsanitize-address-use-after-return <mode>  Select the mode of detecting stack use-after-return in AddressSanitizer
 # @flag -fsanitize-address-use-after-scope         Enable use-after-scope detection in AddressSanitizer
 # @flag -fsanitize-address-use-odr-indicator       Enable ODR indicator globals to avoid false ODR violation reports in partially sanitized programs at the cost of an increase in binary size
-# @option -fsanitize-blacklist <value>             Alias for -fsanitize-ignorelist=
 # @flag -fsanitize-cfi-canonical-jump-tables       Make the jump table addresses canonical in the symbol table
 # @flag -fsanitize-cfi-cross-dso                   Enable control flow integrity (CFI) checks for cross-DSO calls.
+# @flag -fsanitize-cfi-icall-experimental-normalize-integers  Normalize integers in CFI indirect call type signature checks
 # @flag -fsanitize-cfi-icall-generalize-pointers   Generalize pointers in CFI indirect call type signature checks
 # @option -fsanitize-coverage-allowlist <value>    Restrict sanitizer coverage instrumentation exclusively to modules and functions that match the provided special case list, except the blocked ones
 # @option -fsanitize-coverage-ignorelist <value>   Disable sanitizer coverage instrumentation for modules and functions that match the provided special case list, even the allowed ones
@@ -1659,8 +1859,8 @@ ar() {
 # @flag -fsanitize-memory-use-after-dtor           Enable use-after-destroy detection in MemorySanitizer
 # @option -fsanitize-memtag-mode <value>           Set default MTE mode to 'sync' (default) or 'async'
 # @option -fsanitize-recover <value>               Enable recovery for specified sanitizers
+# @flag -fsanitize-stable-abi                      Stable  ABI instrumentation for sanitizer runtime.
 # @flag -fsanitize-stats                           Enable sanitizer statistics gathering.
-# @option -fsanitize-system-blacklist <value>      Alias for -fsanitize-system-ignorelist=
 # @option -fsanitize-system-ignorelist <value>     Path to system ignorelist file for sanitizers
 # @flag -fsanitize-thread-atomics                  Enable atomic operations instrumentation in ThreadSanitizer (default)
 # @flag -fsanitize-thread-func-entry-exit          Enable function entry/exit instrumentation in ThreadSanitizer (default)
@@ -1677,7 +1877,9 @@ ar() {
 # @flag -fsigned-char                              char is signed
 # @flag -fsized-deallocation                       Enable C++14 sized global deallocation functions
 # @flag -fsjlj-exceptions                          Use SjLj style exceptions
+# @flag -fskip-odr-check-in-gmf                    Skip ODR checks for decls in the global module fragment.
 # @flag -fslp-vectorize                            Enable the superword-level parallelism vectorization passes
+# @option -fspell-checking-limit <value>           Set the maximum number of times to perform spell checking on unrecognized identifiers (0 = no limit)
 # @flag -fsplit-dwarf-inlining                     Provide minimal debug info in the object/executable to facilitate online symbolication/stack traces in the absence of .dwo/.dwp files when using Split DWARF
 # @flag -fsplit-lto-unit                           Enables splitting of the LTO unit
 # @flag -fsplit-machine-functions                  Enable late function splitting using profile information (x86 ELF)
@@ -1689,6 +1891,7 @@ ar() {
 # @flag -fstack-size-section                       Emit section containing metadata on function stack sizes
 # @flag -fstack-usage                              Emit .su file containing information on function stack sizes
 # @flag -fstandalone-debug                         Emit full debug info for all types used by the program
+# @flag -fstrict-aliasing                          Enable optimizations based on strict aliasing rules
 # @flag -fstrict-enums                             Enable optimizations based on the strict definition of an enum's value range
 # @option -fstrict-flex-arrays <n>                 Enable optimizations based on the strict definition of flexible arrays
 # @flag -fstrict-float-cast-overflow               Assume that overflowing float-to-int casts are undefined (default)
@@ -1697,6 +1900,9 @@ ar() {
 # @flag -fsycl                                     Enables SYCL kernels compilation for device
 # @flag -fsyntax-only                              Run the preprocessor, parser and semantic analysis stages
 # @flag -fsystem-module                            Build this module as a system module.
+# @option -ftemplate-backtrace-limit <value>       Set the maximum number of entries to print in a template instantiation backtrace (0 = no limit)
+# @option -ftemplate-depth <value>                 Set the maximum depth of recursive template instantiation
+# @flag -ftest-coverage                            Produce gcov notes files (*.gcno)
 # @option -fthin-link-bitcode <value>              Write minimized bitcode to <file> for the ThinLTO thin link only
 # @option -fthinlto-index <value>                  Perform ThinLTO importing using provided function summary index
 # @option -ftime-report <value>                    (For new pass manager) 'per-pass': one report for each pass; 'per-pass-run': one report for each pass invocation
@@ -1706,8 +1912,10 @@ ar() {
 # @option -ftrapv-handler <function name>          Specify the function to be called on overflow
 # @flag -ftrapv                                    Trap on integer overflow
 # @flag -ftrigraphs                                Process trigraph sequences
+# @option -ftrivial-auto-var-init-max-size <value>  Stop initializing trivial automatic stack variables if var size exceeds the specified number of instances (in bytes)
 # @option -ftrivial-auto-var-init-stop-after <value>  Stop initializing trivial automatic stack variables after the specified number of instances
 # @option -ftrivial-auto-var-init <value>          Initialize trivial automatic stack variables.
+# @flag -funified-lto                              Use the unified LTO pipeline
 # @flag -funique-basic-block-section-names         Use unique names for basic block sections (ELF Only)
 # @flag -funique-internal-linkage-names            Uniqueify Internal Linkage Symbol Names by appending the MD5 hash of the module path
 # @flag -funroll-loops                             Turn on loop unroller
@@ -1718,16 +1926,18 @@ ar() {
 # @option -fveclib <value>                         Use the given vector functions library
 # @flag -fvectorize                                Enable the loop vectorization passes
 # @flag -fverbose-asm                              Generate verbose assembly output
+# @flag -fverify-intermediate-code                 Enable verification of LLVM IR
 # @flag -fvirtual-function-elimination             Enables dead virtual function elimination optimization.
-# @option -fvisibility-dllexport <value>           The visibility for dllexport definitions [-fvisibility-from-dllstorageclass]
-# @option -fvisibility-externs-dllimport <value>   The visibility for dllimport external declarations [-fvisibility-from-dllstorageclass]
-# @option -fvisibility-externs-nodllstorageclass <value>  The visibility for external declarations without an explicit DLL dllstorageclass [-fvisibility-from-dllstorageclass]
-# @flag -fvisibility-from-dllstorageclass          Set the visibility of symbols in the generated code from their DLL storage class
+# @option -fvisibility-dllexport <value>           The visibility for dllexport definitions.
+# @option -fvisibility-externs-dllimport <value>   The visibility for dllimport external declarations.
+# @option -fvisibility-externs-nodllstorageclass <value>  The visibility for external declarations without an explicit DLL storage class.
+# @flag -fvisibility-from-dllstorageclass          Override the visibility of globals based on their final DLL storage class.
 # @flag -fvisibility-global-new-delete-hidden      Give global C++ operator new and delete declarations hidden visibility
+# @option -fvisibility-global-new-delete <value>   The visibility for global C++ operator new and delete declarations.
 # @flag -fvisibility-inlines-hidden-static-local-var  When -fvisibility-inlines-hidden is enabled, static variables in inline C++ member functions will also be given hidden visibility by default
 # @flag -fvisibility-inlines-hidden                Give inline C++ member functions hidden visibility by default
 # @flag -fvisibility-ms-compat                     Give global types 'default' visibility and global functions and variables 'hidden' visibility by default
-# @option -fvisibility-nodllstorageclass <value>   The visibility for definitions without an explicit DLL export class [-fvisibility-from-dllstorageclass]
+# @option -fvisibility-nodllstorageclass <value>   The visibility for definitions without an explicit DLL storage class.
 # @option -fvisibility <value>                     Set the default symbol visibility for all global definitions
 # @flag -fwasm-exceptions                          Use WebAssembly style exceptions
 # @flag -fwhole-program-vtables                    Enables whole-program vtable optimization.
@@ -1743,7 +1953,7 @@ ar() {
 # @option -fxray-instruction-threshold <value>     Sets the minimum function size to instrument with XRay
 # @option -fxray-instrumentation-bundle[all|none|function-entry|function-exit|function|custom] <value>  Select which XRay instrumentation points to emit.
 # @flag -fxray-instrument                          Generate XRay instrumentation sleds on function entry and exit
-# @flag -fxray-link-deps                           Tells clang to add the link dependencies for XRay.
+# @flag -fxray-link-deps                           Link XRay runtime library when -fxray-instrument is specified (default)
 # @option -fxray-modes <value>                     List of modes to link in by default into XRay instrumented binaries.
 # @option -fxray-never-instrument <value>          DEPRECATED: Filename defining the whitelist for imbuing the 'never instrument' XRay attribute.
 # @option -fxray-selected-function-group <value>   When using -fxray-function-groups, select which group of functions to instrument.
@@ -1752,6 +1962,7 @@ ar() {
 # @option -F <value>                               Add directory to framework include search path
 # @option --gcc-install-dir <value>                Use GCC installation in the specified directory.
 # @option --gcc-toolchain <value>                  Specify a directory where Clang can find 'include' and 'lib{,32,64}/gcc{,-cross}/$triple/$version'.
+# @option --gcc-triple <value>                     Search for the GCC installation with the specified triple.
 # @flag -gcodeview-command-line                    Emit compiler path and command line into CodeView debug information
 # @flag -gcodeview-ghash                           Emit type record hashes in a .debug$H section
 # @flag -gcodeview                                 Generate CodeView debug information
@@ -1773,7 +1984,9 @@ ar() {
 # @flag --gpu-bundle-output                        Bundle output files of HIP device compilation
 # @option --gpu-instrument-lib <value>             Instrument device library for HIP, which is a LLVM bitcode containing __cyg_profile_func_enter and __cyg_profile_func_exit
 # @option --gpu-max-threads-per-block <value>      Default max threads per block for kernel launch bounds for HIP
+# @flag -gpulibc                                   Link the LLVM C Library for GPUs
 # @option -gsplit-dwarf <value>                    Set DWARF fission mode
+# @flag -gstrict-dwarf                             Restrict DWARF features to those defined in the specified version, avoiding features from later versions.
 # @option -gz <value>                              DWARF debug sections compression type
 # @option -G <size>                                Put objects of at most <size> bytes into small data section (MIPS / Hexagon)
 # @flag -g                                         Generate source-level debug information
@@ -1784,8 +1997,14 @@ ar() {
 # @option --hip-path <value>                       HIP runtime installation path, used for finding HIP version and adding HIP include path.
 # @option --hip-version <value>                    HIP version in the format of major.minor.patch
 # @option --hipspv-pass-plugin <dsopath>           path to a pass plugin for HIP to SPIR-V passes.
+# @flag --hipstdpar-interpose-alloc                Replace all memory allocation / deallocation calls with hipManagedMalloc / hipFree equivalents
+# @option --hipstdpar-path <value>                 HIP Standard Parallel Algorithm Acceleration library path, used for finding and implicitly including the library header
+# @option --hipstdpar-prim-path <value>            rocPrim path, required by the HIP Standard Parallel Algorithm Acceleration library, used to implicitly include the rocPrim library
+# @option --hipstdpar-thrust-path <value>          rocThrust path, required by the HIP Standard Parallel Algorithm Acceleration library, used to implicitly include the rocThrust library
+# @flag --hipstdpar                                Enable HIP acceleration for standard parallel algorithms
 # @flag -H                                         Show header includes and nesting depth
 # @flag -I--                                       Restrict all prior -I flags to double-quoted inclusion and remove current directory from include path
+# @option -iapinotes-modules <directory>           Add directory to the API notes search path referenced by module name
 # @flag -ibuiltininc                               Enable builtin ♯include directories even when -nostdinc is used before or after -ibuiltininc.
 # @option -idirafter <value>                       Add directory to AFTER include search path
 # @option -iframeworkwithsysroot <directory>       Add directory to SYSTEM framework search path, absolute paths are relative to -isysroot
@@ -1810,19 +2029,23 @@ ar() {
 # @option -L <dir>                                 Add directory to library search path
 # @option -mabi[quadword-atomics|vec-default|vec-extabi] <quadword-atomics>  Set ABI on AIX
 # @flag -mabicalls                                 Enable SVR4-style position-independent code (Mips only)
+# @flag -maix-small-local-exec-tls                 Produce a faster access sequence for local-exec TLS variables where the offset from the TLS base is encoded as an immediate operand (AIX 64-bit only).
 # @flag -maix-struct-return                        Return all structs in memory (PPC32 only)
 # @option -malign-branch-boundary <value>          Specify the boundary's size to align branches
 # @option -malign-branch <value>                   Specify types of branches to align
 # @flag -malign-double                             Align doubles to two words in structs (x86 only)
+# @flag -maltivec                                  Enable AltiVec vector initializer syntax
 # @flag -mamdgpu-ieee                              Sets the IEEE bit in the expected default floating point  mode register.
+# @option -mapx-features <value>                   Enable features of APX
+# @option -march <value>                           For a list of available architectures for the target use '-mcpu=help'
 # @flag -mbackchain                                Link stack frames through backchain on System Z
 # @option -mbranch-protection <value>              Enforce targets of indirect branches and function returns
 # @option -mbranches-within-32B-boundaries[fused|jcc|jmp]  Align selected branches within 32-byte boundary
 # @flag -mcabac                                    Enable CABAC instructions
-# @option -mcmodel[default|tiny|small|kernel|medium|large] <kind>  Limit range of code and data virtual addresses
 # @flag -mcmse                                     Allow use of CMSE (Armv8-M Security Extensions)
-# @flag -mcode-object-v3                           Legacy option to specify code object ABI V3 (AMDGPU only)
 # @option -mcode-object-version <value>            Specify code object ABI version.
+# @option -mcpu <value>                            For a list of available CPUs for the target use '-mcpu=help'
+# @flag -mcrbits                                   Control the CR-bit tracking feature on PowerPC.
 # @flag -mcrc                                      Allow use of CRC instructions (ARM/Mips only)
 # @flag -mcumode                                   Specify CU wavefront execution mode (AMDGPU only)
 # @option -mdefault-visibility-export-mapping <value>  Mapping between default visibility and export
@@ -1862,12 +2085,14 @@ ar() {
 # @option -mindirect-jump <value>                  Change indirect jump instructions to inhibit speculation
 # @option -mios-version-min <value>                Set iOS deployment target
 # @option -MJ <value>                              Write a compilation database entry per input
-# @option -mllvm <value>                           Additional arguments to forward to LLVM's option processing
+# @flag -mlasx                                     Enable Loongson Advanced SIMD Extension (LASX).
+# @option -mllvm <arg>                             Alias for -mllvm
 # @flag -mlocal-sdata                              Extend the -G behaviour to object local data (MIPS)
 # @flag -mlong-calls                               Generate branches with extended addressability, usually via indirect jumps.
 # @flag -mlong-double-128                          Force long double to be 128 bits
 # @flag -mlong-double-64                           Force long double to be 64 bits
 # @flag -mlong-double-80                           Force long double to be 80 bits, padded to 128 bits for storage
+# @flag -mlsx                                      Enable Loongson SIMD Extension (LSX).
 # @flag -mlvi-cfi                                  Enable only control-flow mitigations for Load Value Injection (LVI)
 # @flag -mlvi-hardening                            Enable all mitigations for Load Value Injection (LVI)
 # @option -mmacos-version-min <value>              Set macOS deployment target
@@ -1881,8 +2106,8 @@ ar() {
 # @flag -mmt                                       Enable MT ASE (MIPS only)
 # @flag -MM                                        Like -MMD, but also implies -E and writes to stdout by default
 # @flag -mno-abicalls                              Disable SVR4-style position-independent code (Mips only)
+# @option -mno-apx-features <value>                Disable features of APX
 # @flag -mno-bti-at-return-twice                   Do not add a BTI instruction after a setjmp or other return-twice construct (Arm/AArch64 only)
-# @flag -mno-code-object-v3                        Legacy option to specify code object ABI V2 (AMDGPU only)
 # @flag -mno-crc                                   Disallow use of CRC instructions (Mips only)
 # @flag -mno-cumode                                Specify WGP wavefront execution mode (AMDGPU only)
 # @flag -mno-embedded-data                         Do not place constants in the .rodata section instead of the .sdata if they meet the -G <size> threshold (MIPS)
@@ -1893,6 +2118,7 @@ ar() {
 # @flag -mno-fix-cortex-a57-aes-1742098            Don't work around Cortex-A57 Erratum 1742098 (ARM only)
 # @flag -mno-fix-cortex-a72-aes-1655431            Don't work around Cortex-A72 Erratum 1655431 (ARM only)
 # @flag -mno-fmv                                   Disable function multiversioning
+# @flag -mno-gather                                Disable generation of gather instructions in auto-vectorization(x86 only)
 # @flag -mno-global-merge                          Disable merging of globals
 # @flag -mno-gpopt                                 Do not use GP relative accesses for symbols known to be in a small data section (MIPS)
 # @flag -mno-hvx-ieee-fp                           Disable Hexagon HVX IEEE floating-point
@@ -1900,8 +2126,10 @@ ar() {
 # @flag -mno-hvx                                   Disable Hexagon Vector eXtensions
 # @flag -mno-implicit-float                        Don't generate implicit floating point or vector instructions
 # @flag -mno-incremental-linker-compatible         (integrated-as) Emit an object file which cannot be used with an incremental linker
+# @flag -mno-lasx                                  Disable Loongson Advanced SIMD Extension (LASX).
 # @flag -mno-local-sdata                           Do not extend the -G behaviour to object local data (MIPS)
 # @flag -mno-long-calls                            Restore the default behaviour of not generating long calls
+# @flag -mno-lsx                                   Disable Loongson SIMD Extension (LSX).
 # @flag -mno-lvi-cfi                               Disable control-flow mitigations for Load Value Injection (LVI)
 # @flag -mno-lvi-hardening                         Disable mitigations for Load Value Injection (LVI)
 # @flag -mno-madd4                                 Disable the generation of 4-operand madd.s, madd.d and related instructions.
@@ -1917,14 +2145,16 @@ ar() {
 # @flag -mno-outline                               Disable function outlining (AArch64 only)
 # @flag -mno-packets                               Disable generation of instruction packets
 # @flag -mno-pic-data-is-text-relative             Don't assume data segments are relative to text segment
+# @flag -mno-regnames                              Use only register numbers when writing assembly output
 # @flag -mno-relax                                 Disable linker relaxation
 # @flag -mno-restrict-it                           Allow generation of complex IT blocks.
 # @flag -mno-save-restore                          Disable using library calls for save and restore
+# @flag -mno-scatter                               Disable generation of scatter instructions in auto-vectorization(x86 only)
 # @flag -mno-seses                                 Disable speculative execution side effect suppression (SESES)
 # @flag -mno-stack-arg-probe                       Disable stack probes which are enabled by default
 # @flag -mno-tgsplit                               Disable threadgroup split execution mode (AMDGPU only)
 # @flag -mno-tls-direct-seg-refs                   Disable direct TLS access through segment registers
-# @flag -mno-unaligned-access                      Force all memory accesses to be aligned (AArch32/AArch64 only)
+# @flag -mno-unaligned-access                      Force all memory accesses to be aligned (AArch32/AArch64/LoongArch/RISC-V only)
 # @flag -mno-wavefrontsize64                       Specify wavefront size 32 mode (AMDGPU only)
 # @flag -mnocrc                                    Disallow use of CRC instructions (ARM only)
 # @flag -mnop-mcount                               Generate mcount/__fentry__ calls as nops.
@@ -1940,14 +2170,18 @@ ar() {
 # @option -mpad-max-prefix-size <value>            Specify maximum number of prefixes to use for padding
 # @flag -mpic-data-is-text-relative                Assume data segments are relative to text segment
 # @option -mprefer-vector-width <value>            Specifies preferred vector width for auto-vectorization.
+# @option -mprintf-kind <value>                    Specify the printf lowering scheme (AMDGPU only), allowed values are "hostcall"(printing happens during kernel execution, this scheme relies on hostcalls which require system to support pcie atomics) and "buffered"(printing happens after all kernel threads exit, this uses a printf buffer and does not rely on pcie atomic support)
 # @flag -MP                                        Create phony target for each dependency (other than main file)
 # @flag -mqdsp6-compat                             Enable hexagon-qdsp6 backward compatibility
 # @option -MQ <value>                              Specify name of main file output to quote in depfile
+# @option -mrecip <value>                          Control use of approximate reciprocal and reciprocal square root instructions followed by <n> iterations of Newton-Raphson refinement.
 # @flag -mrecord-mcount                            Generate a __mcount_loc section entry for each __fentry__ call.
+# @flag -mregnames                                 Use full register names when writing assembly output
 # @flag -mrelax-all                                (integrated-as) Relax all machine instructions
 # @flag -mrelax                                    Enable linker relaxation
 # @flag -mrestrict-it                              Disallow generation of complex IT blocks.
 # @flag -mrtd                                      Make StdCall calling convention the default
+# @option -mrvv-vector-bits <value>                Specify the size in bits of an RVV vector register
 # @flag -msave-restore                             Enable using library calls for save and restore
 # @flag -mseses                                    Enable speculative execution side effect suppression (SESES).
 # @option -msign-return-address <value>            Select return address signing scope
@@ -1967,24 +2201,29 @@ ar() {
 # @option -mtargetos <value>                       Set the deployment target to be the specified OS and OS version
 # @flag -mtgsplit                                  Enable threadgroup split execution mode (AMDGPU only)
 # @option -mthread-model <value>                   The thread model to use.
+# @option -mtls-dialect <value>                    Which thread-local storage dialect to use for dynamic accesses of TLS variables
 # @flag -mtls-direct-seg-refs                      Enable direct TLS access through segment registers (default)
 # @option -mtls-size <value>                       Specify bit size of immediate TLS offsets (AArch64 ELF only): 12 (for 4KB) | 24 (for 16MB, default) | 32 (for 4GB) | 48 (for 256TB, needs -mcmodel=large)
-# @option -mtp <value>                             Thread pointer access method (AArch32/AArch64 only)
-# @option -mtune <value>                           Only supported on AArch64, PowerPC, RISC-V, SystemZ, and X86
+# @option -mtp <value>                             Thread pointer access method.
+# @option -mtune <value>                           Only supported on AArch64, PowerPC, RISC-V, SPARC, SystemZ, and X86
 # @option -MT <value>                              Specify name of main file output in depfile
-# @flag -munaligned-access                         Allow memory accesses to be unaligned (AArch32/AArch64 only)
-# @flag -munsafe-fp-atomics                        Enable unsafe floating point atomic instructions (AMDGPU only)
-# @option -mvscale-max <value>                     Specify the vscale maximum.
-# @option -mvscale-min <value>                     Specify the vscale minimum.
+# @flag -munaligned-access                         Allow memory accesses to be unaligned (AArch32/AArch64/LoongArch/RISC-V only)
+# @flag -munsafe-fp-atomics                        Enable generation of unsafe floating point atomic instructions.
+# @flag -mvevpu                                    Emit VPU instructions for VE
 # @flag -MV                                        Use NMake/Jom format for the depfile
 # @flag -mwavefrontsize64                          Specify wavefront size 64 mode (AMDGPU only)
+# @option -mxcoff-build-id <0xHEXSTRING>           On AIX, request creation of a build-id string, "0xHEXSTRING", in the string table of the loader section inside the linked binary
+# @flag -mxcoff-roptr                              Place constant objects with relocatable address values in the RO data section and add -bforceimprw to the linker flags (AIX only)
+# @option -mzos-hlq-clang <ClangHLQ>               High level qualifier for z/OS C++RT side deck datasets
+# @option -mzos-hlq-csslib <CsslibHLQ>             High level qualifier for z/OS CSSLIB dataset
+# @option -mzos-hlq-le <LeHLQ>                     High level qualifier for z/OS Language Environment datasets
+# @option -mzos-sys-include <SysInclude>           Path to system headers on z/OS
 # @flag -M                                         Like -MD, but also implies -E and writes to stdout by default
 # @option --no-cuda-include-ptx <value>            Do not include PTX for the following GPU architecture (e.g. sm_35) or 'all'.
 # @flag --no-cuda-version-check                    Don't error out if the detected version of the CUDA install is too low for the requested CUDA gpu architecture.
 # @flag --no-default-config                        Disable loading default configuration files
 # @flag --no-gpu-bundle-output                     Do not bundle output files of HIP device compilation
 # @flag -no-hip-rt                                 Do not link against HIP runtime libraries
-# @flag --no-offload-add-rpath                     Do not add -rpath with HIP runtime library directory to the linker flags
 # @option --no-offload-arch <value>                Remove CUDA/HIP offloading device architecture (e.g. sm_35, gfx906) from the list of devices to compile for.
 # @flag --no-offload-new-driver                    Don't Use the new driver for offloading compilation.
 # @option --no-system-header-prefix <prefix>       Treat all ♯include paths starting with <prefix> as not including a system header.
@@ -2013,10 +2252,10 @@ ar() {
 # @flag -objcmt-returns-innerpointer-property      Enable migration to annotate property with NS_RETURNS_INNER_POINTER
 # @option -objcmt-whitelist-dir-path <value>       Alias for -objcmt-allowlist-dir-path
 # @option -object-file-name <file>                 Set the output <file> for debug infos
-# @flag --offload-add-rpath                        Add -rpath with HIP runtime library directory to the linker flags
 # @option --offload-arch <value>                   Specify an offloading device architecture for CUDA, HIP, or OpenMP.
+# @flag --offload-compress                         Compress offload device binaries (HIP only)
 # @flag --offload-device-only                      Only compile for the offloading device.
-# @flag --offload-host-device                      Only compile for the offloading host.
+# @flag --offload-host-device                      Compile for both the offloading host and device (default).
 # @flag --offload-host-only                        Only compile for the offloading host.
 # @flag --offload-link                             Use the new offloading linker to perform the link job.
 # @flag --offload-new-driver                       Use the new driver for offloading compilation.
@@ -2031,20 +2270,24 @@ ar() {
 # @option -print-file-name <file>                  Print the full library path of <file>
 # @flag -print-ivar-layout                         Enable Objective-C Ivar layout bitmap print trace
 # @flag -print-libgcc-file-name                    Print the library path for the currently used compiler runtime library ("libgcc.a" or "libclang_rt.builtins.*.a")
+# @flag -print-multi-flags-experimental            Print the flags used for selecting multilibs (experimental)
 # @option -print-prog-name <name>                  Print the full program path of <name>
 # @flag -print-resource-dir                        Print the resource directory pathname
 # @flag -print-rocm-search-dirs                    Print the paths used for finding ROCm installation
 # @flag -print-runtime-dir                         Print the directory pathname containing clangs runtime libraries
 # @flag -print-search-dirs                         Print the paths used for finding libraries and programs
 # @flag -print-supported-cpus                      Print supported cpu models for the given target (if target is not specified, it will print the supported cpus for the default target)
+# @flag -print-supported-extensions                Print supported -march extensions (RISC-V, AArch64 and ARM only)
 # @flag -print-target-triple                       Print the normalized target triple
 # @flag -print-targets                             Print the registered targets
 # @flag -pthread                                   Support POSIX threads in generated code
 # @option --ptxas-path <value>                     Path to ptxas (used for compiling CUDA code)
 # @flag -P                                         Disable linemarker output in -E mode
+# @flag -p                                         Enable mcount instrumentation with prof
 # @flag -Qn                                        Do not emit metadata containing compiler name and version
 # @flag -Qunused-arguments                         Don't emit warning for unused driver arguments
 # @flag -Qy                                        Emit metadata containing compiler name and version
+# @flag -regcall4                                  Set __regcall4 as a default calling convention to respect __regcall ABI v.4
 # @flag -relocatable-pch                           Whether to build a relocatable precompiled header
 # @flag -rewrite-legacy-objc                       Rewrite Legacy Objective-C source to C++
 # @flag -rewrite-objc                              Rewrite Objective-C source to C++
@@ -2060,7 +2303,7 @@ ar() {
 # @option -serialize-diagnostics <value>           Serialize compiler diagnostics to a file
 # @flag -shared-libsan                             Dynamically link the sanitizer runtime
 # @flag --start-no-unused-arguments                Don't emit warnings about unused arguments for the following arguments
-# @flag -static-libsan                             Statically link the sanitizer runtime
+# @flag -static-libsan                             Statically link the sanitizer runtime (Not supported for ASan, TSan or UBSan on darwin)
 # @flag -static-openmp                             Use the static host OpenMP runtime while linking.
 # @option -std <value>                             Language standard to compile for Use directory as the C++ standard library include path
 # @option -stdlib <value>                          C++ standard library to use
@@ -2078,6 +2321,7 @@ ar() {
 # @flag --verify-debug-info                        Verify the binary representation of debug output
 # @flag -verify-pch                                Load and verify that a pre-compiled header file is not stale
 # @flag --version                                  Print version information
+# @option -vfsoverlay <value>                      Overlay the virtual filesystem described by file over the real file system.
 # @flag -v                                         Show commands to run and use verbose output
 # @option -Wa <,<arg>>                             Pass the comma separated arguments in <arg> to the assembler
 # @flag -Wdeprecated                               Enable warnings for deprecated constructs and define __DEPRECATED
@@ -2099,6 +2343,9 @@ ar() {
 # @option -Xpreprocessor <arg>                     Pass <arg> to the preprocessor
 # @option -x <language>                            Treat subsequent input files as having type <language>
 # @option -z <arg>                                 Pass -z <arg> to the linker
+# @option --dxv-path <value>                       DXIL validator installation path
+# @option -fspv-target-env <value>                 Specify the target environment
+# @option -hlsl-entry <value>                      Entry point name for hlsl
 # @arg file*
 cc() {
     :;
@@ -2107,13 +2354,15 @@ cc() {
 
 # {{ zig dlltool
 # @cmd Use Zig as a drop-in dlltool.exe
-# @option -D <value>    Specify the input DLL Name
-# @option -d <value>    Input .def File
-# @option -f <value>    Assembler Flags
-# @flag -k              Kill @n Symbol from export
-# @option -l <value>    Generate an import lib
-# @option -m <value>    Set target machine
-# @option -S <value>    Assembler
+# @option -D <value>               Specify the input DLL Name
+# @option -d <value>               Input .def File
+# @option -f <value>               Assembler Flags
+# @flag -k                         Kill @n Symbol from export
+# @option -l <value>               Generate an import lib
+# @option -m <value>               Set target machine
+# @flag --no-leading-underscore    Don't add leading underscores on symbols
+# @option -S <value>               Assembler
+# @option -t <value>               Prefix for temporary files (ignored)
 # @arg file*
 dlltool() {
     :;
@@ -2129,10 +2378,11 @@ lib() {
 
 # {{ zig ranlib
 # @cmd Use Zig as a drop-in ranlib
-# @flag -h --help       - Display available options
-# @flag -v --version    - Display the version of this program
-# @flag -D              - Use zero for timestamps and uids/gids (default)
-# @flag -U              - Use actual timestamps and uids/gids
+# @flag -h --help                - Display available options
+# @flag -v --version             - Display the version of this program
+# @flag -D                       - Use zero for timestamps and uids/gids (default)
+# @flag -U                       - Use actual timestamps and uids/gids
+# @option -X[32|64|32_64|any]    - Specify which archive symbol tables should be generated if they do not already exist (AIX OS only)
 ranlib() {
     :;
 }
@@ -2159,6 +2409,13 @@ objcopy() {
 }
 # }} zig objcopy
 
+# {{ zig rc
+# @cmd Use Zig as a drop-in rc.exe
+rc() {
+    :;
+}
+# }} zig rc
+
 # {{ zig env
 # @cmd Print lib path, std path, cache directory, and version
 env() {
@@ -2166,10 +2423,22 @@ env() {
 }
 # }} zig env
 
+# {{ zig std
+# @cmd View standard library documentation in a browser
+# @flag -h --help             Print this help and exit
+# @option -p --port <port>    Port to listen on.
+# @flag --open-browser        Force enabling or disabling opening a browser tab to the served website.
+# @flag --no-open-browser     Force enabling or disabling opening a browser tab to the served website.
+std() {
+    :;
+}
+# }} zig std
+
 # {{ zig libc
 # @cmd Display native libc paths file or validate one
 # @flag -h --help           Print this help and exit
 # @option -target <name>    <arch><sub>-<os>-<abi> see the targets command
+# @flag -includes           Print the libc include directories for the target
 libc() {
     :;
 }

@@ -9,6 +9,7 @@
 # @flag --escape-html                 Escape HTML tags when writing output.
 # @option -f --file <file>            The file to query.
 # @flag -h --help                     help for dasel
+# @option --indent <int>              The indention level when writing files.
 # @flag --pretty                      Pretty print the output.
 # @option -r --read[json|yaml|toml|xml|csv] <string>  The parser to use when reading.
 # @option -s --selector <string>      The selector to use when querying the data structure.
@@ -70,6 +71,7 @@ completion::zsh() {
 # @flag --escape-html                 Escape HTML tags when writing output.
 # @option -f --file <file>            The file to query.
 # @flag -h --help                     help for delete
+# @option --indent <int>              The indention level when writing files.
 # @option -o --out <file>             The file to write output to.
 # @flag --pretty                      Pretty print the output.
 # @option -r --read[json|yaml|toml|xml|csv] <string>  The parser to use when reading.
@@ -101,6 +103,7 @@ man() {
 # @flag --escape-html                 Escape HTML tags when writing output.
 # @option -f --file <file>            The file to query.
 # @flag -h --help                     help for put
+# @option --indent <int>              The indention level when writing files.
 # @option -o --out <file>             The file to write output to.
 # @flag --pretty                      Pretty print the output.
 # @option -r --read[json|yaml|toml|xml|csv] <string>  The parser to use when reading.

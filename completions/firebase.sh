@@ -14,14 +14,22 @@
 
 # {{ firebase appdistribution:distribute
 # @cmd upload a release binary
-# @option --app <app_id>                 the app id of your Firebase app
-# @option --release-notes <string>       release notes to include
-# @option --release-notes-file <file>    path to file with release notes
-# @option --testers <string>             a comma separated list of tester emails to distribute to
-# @option --testers-file <file>          path to file with a comma separated list of tester emails to distribute to
-# @option --groups <string>              a comma separated list of group aliases to distribute to
-# @option --groups-file <file>           path to file with a comma separated list of group aliases to distribute to
-# @flag -h --help                        output usage information
+# @option --app <app_id>                       the app id of your Firebase app
+# @option --release-notes <string>             release notes to include
+# @option --release-notes-file <file>          path to file with release notes
+# @option --testers <string>                   a comma separated list of tester emails to distribute to
+# @option --testers-file <file>                path to file with a comma separated list of tester emails to distribute to
+# @option --groups <string>                    a comma separated list of group aliases to distribute to
+# @option --groups-file <file>                 path to file with a comma separated list of group aliases to distribute to
+# @option --test-devices <string>              semicolon-separated list of devices to run automated tests on, in the format 'model=<model-id>,version=<os-version-id>,locale=<locale>,orientation=<orientation>'.
+# @option --test-devices-file <string>         path to file containing a list of semicolon- or newline-separated devices to run automated tests on, in the format 'model=<model-id>,version=<os-version-id>,locale=<locale>,orientation=<orientation>'.
+# @option --test-username <string>             username for automatic login
+# @option --test-password <string>             password for automatic login.
+# @option --test-password-file <string>        path to file containing password for automatic login
+# @option --test-username-resource <string>    resource name for the username field for automatic login
+# @option --test-password-resource <string>    resource name for the password field for automatic login
+# @flag --test-non-blocking                    run automated tests without waiting for them to complete.
+# @flag -h --help                              output usage information
 # @arg release-binary-file!
 appdistribution:distribute() {
     :;
@@ -351,7 +359,7 @@ deploy() {
 
 # {{ firebase emulators:exec
 # @cmd start the local Firebase emulators, run a test script, then shut down the emulators
-# @option --only[auth|functions|firestore|database|hosting|pubsub|storage|eventarc] <emulators>  only specific emulators.
+# @option --only[auth|functions|firestore|database|hosting|pubsub|storage|eventarc|dataconnect] <emulators>  only specific emulators.
 # @option --inspect-functions <port>    emulate Cloud Functions in debug mode with the node inspector on the given port (9229 if not specified)
 # @option --import <dir>                import emulator data from a previous export (see emulators:export)
 # @option --export-on-exit <dir>        automatically export emulator data (emulators:export) when the emulators make a clean exit (SIGINT), when no dir is provided the location of --import [dir] is used
@@ -367,7 +375,7 @@ emulators:exec() {
 # {{ firebase emulators:export
 # @cmd export data from running emulators
 # @flag -f --force    overwrite any export data in the target directory
-# @option --only[auth|functions|firestore|database|hosting|pubsub|storage|eventarc] <emulators>  only specific emulators.
+# @option --only[auth|functions|firestore|database|hosting|pubsub|storage|eventarc|dataconnect] <emulators>  only specific emulators.
 # @flag -h --help     output usage information
 # @arg path!
 emulators:export() {
@@ -377,7 +385,7 @@ emulators:export() {
 
 # {{ firebase emulators:start
 # @cmd start the local Firebase emulators
-# @option --only[auth|functions|firestore|database|hosting|pubsub|storage|eventarc] <emulators>  only specific emulators.
+# @option --only[auth|functions|firestore|database|hosting|pubsub|storage|eventarc|dataconnect] <emulators>  only specific emulators.
 # @option --inspect-functions <port>    emulate Cloud Functions in debug mode with the node inspector on the given port (9229 if not specified)
 # @option --import <dir>                import emulator data from a previous export (see emulators:export)
 # @option --export-on-exit <dir>        automatically export emulator data (emulators:export) when the emulators make a clean exit (SIGINT), when no dir is provided the location of --import [dir] is used
@@ -573,20 +581,6 @@ ext:dev:upload() {
 }
 # }} firebase ext:dev:upload
 
-# {{ firebase ext:dev:publish
-# @cmd Deprecated.
-# @option -s --stage <stage>    release stage (supports "alpha", "beta", "rc", and "stable")
-# @option --repo <repo>         Public GitHub repo URI that contains the extension source
-# @option --ref <ref>           commit hash, branch, or tag to build from the repo (defaults to HEAD)
-# @option --root <root>         root directory that contains this extension (defaults to last uploaded root or "/" if none set)
-# @flag -f --force              automatically accept all interactive prompts
-# @flag -h --help               output usage information
-# @arg extensionref!
-ext:dev:publish() {
-    :;
-}
-# }} firebase ext:dev:publish
-
 # {{ firebase ext:dev:usage
 # @cmd get usage for an extension
 # @flag -h --help    output usage information
@@ -650,6 +644,7 @@ firestore:databases:get() {
 # @option --location <locationId>                  Region to create database, for example 'nam5'.
 # @option --delete-protection <deleteProtectionState>  Whether or not to prevent deletion of database, for example 'ENABLED' or 'DISABLED'.
 # @option --point-in-time-recovery <enablement>    Whether to enable the PITR feature on this database, for example 'ENABLED' or 'DISABLED'.
+# @option -k --kms-key-name <kmsKeyName>           The resource ID of a Cloud KMS key.
 # @flag -h --help                                  output usage information
 # @arg database!
 firestore:databases:create() {
@@ -678,6 +673,85 @@ firestore:databases:delete() {
     :;
 }
 # }} firebase firestore:databases:delete
+
+# {{ firebase firestore:databases:restore
+# @cmd Restore a Firestore database in your Firebase project.
+# @option -d --database <databaseID>    ID of the database to restore into
+# @option -b --backup <backup>          Backup from which to restore
+# @flag -h --help                       output usage information
+firestore:databases:restore() {
+    :;
+}
+# }} firebase firestore:databases:restore
+
+# {{ firebase firestore:backups:list
+# @cmd List all Cloud Firestore backups in a given location
+# @option -l --location <locationId>    Location to search for backups, for example 'nam5'.
+# @flag -h --help                       output usage information
+firestore:backups:list() {
+    :;
+}
+# }} firebase firestore:backups:list
+
+# {{ firebase firestore:backups:get
+# @cmd Get a Cloud Firestore database backup.
+# @flag -h --help    output usage information
+# @arg backup!
+firestore:backups:get() {
+    :;
+}
+# }} firebase firestore:backups:get
+
+# {{ firebase firestore:backups:delete
+# @cmd Delete a backup under your Cloud Firestore database.
+# @flag --force      Attempt to delete backup without prompting for confirmation.
+# @flag -h --help    output usage information
+# @arg backup!
+firestore:backups:delete() {
+    :;
+}
+# }} firebase firestore:backups:delete
+
+# {{ firebase firestore:backups:schedules:list
+# @cmd List backup schedules under your Cloud Firestore database.
+# @option -d --database <databaseId>    Database whose schedules you wish to list.
+# @flag -h --help                       output usage information
+firestore:backups:schedules:list() {
+    :;
+}
+# }} firebase firestore:backups:schedules:list
+
+# {{ firebase firestore:backups:schedules:create
+# @cmd Create a backup schedule under your Cloud Firestore database.
+# @option -d --database <databaseId>    Database under which you want to create a schedule.
+# @option --retention <duration>        duration string (e.g. 12h or 30d) for backup retention
+# @option --recurrence <recurrence>     Recurrence settings; either DAILY or WEEKLY
+# @option --day-of-week <dayOfWeek>     On which day of the week to perform backups; one of MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, or SUNDAY
+# @flag -h --help                       output usage information
+firestore:backups:schedules:create() {
+    :;
+}
+# }} firebase firestore:backups:schedules:create
+
+# {{ firebase firestore:backups:schedules:update
+# @cmd Update a backup schedule under your Cloud Firestore database.
+# @option --retention <duration>    duration string (e.g. 12h or 30d) for backup retention
+# @flag -h --help                   output usage information
+# @arg backupschedule!
+firestore:backups:schedules:update() {
+    :;
+}
+# }} firebase firestore:backups:schedules:update
+
+# {{ firebase firestore:backups:schedules:delete
+# @cmd Delete a backup schedule under your Cloud Firestore database.
+# @flag --force      Attempt to delete backup schedule without prompting for confirmation.
+# @flag -h --help    output usage information
+# @arg backupschedule!
+firestore:backups:schedules:delete() {
+    :;
+}
+# }} firebase firestore:backups:schedules:delete
 
 # {{ firebase functions:config:clone
 # @cmd clone environment config from another project
@@ -792,6 +866,15 @@ functions:secrets:get() {
     :;
 }
 # }} firebase functions:secrets:get
+
+# {{ firebase functions:secrets:describe
+# @cmd Get metadata for secret and its versions.
+# @flag -h --help    output usage information
+# @arg key!
+functions:secrets:describe() {
+    :;
+}
+# }} firebase functions:secrets:describe
 
 # {{ firebase functions:secrets:prune
 # @cmd Destroys unused secrets
@@ -933,44 +1016,87 @@ init() {
 }
 # }} firebase init
 
-# {{ firebase backends:list
-# @cmd List backends of a Firebase project.
-# @option -l --location <location>    App Backend location (default: "us-central1")
+# {{ firebase apphosting:backends:list
+# @cmd list Firebase App Hosting backends
+# @option -l --location <location>    list backends in the specified location (default: "-")
 # @flag -h --help                     output usage information
-backends:list() {
+apphosting:backends:list() {
     :;
 }
-# }} firebase backends:list
+# }} firebase apphosting:backends:list
 
-# {{ firebase backends:create
-# @cmd Create a backend in a Firebase project
+# {{ firebase apphosting:backends:create
+# @cmd create a Firebase App Hosting backend
+# @option -a --app <webAppId>                      specify an existing Firebase web app's ID to associate your App Hosting backend with
+# @option -l --location <location>                 specify the location of the backend (default: "")
+# @option -s --service-account <serviceAccount>    specify the service account used to run the server (default: "")
+# @flag -h --help                                  output usage information
+apphosting:backends:create() {
+    :;
+}
+# }} firebase apphosting:backends:create
+
+# {{ firebase apphosting:backends:get
+# @cmd print info about a Firebase App Hosting backend
+# @option -l --location <location>    backend location (default: "-")
+# @flag -h --help                     output usage information
+# @arg backend!
+apphosting:backends:get() {
+    :;
+}
+# }} firebase apphosting:backends:get
+
+# {{ firebase apphosting:backends:delete
+# @cmd delete a Firebase App Hosting backend
+# @option -l --location <location>    specify the location of the backend (default: "-")
+# @flag -f --force                    automatically accept all interactive prompts
+# @flag -h --help                     output usage information
+# @arg backend!
+apphosting:backends:delete() {
+    :;
+}
+# }} firebase apphosting:backends:delete
+
+# {{ firebase apphosting:secrets:set
+# @cmd create or update a secret for use in Firebase App Hosting
+# @option -l --location <location>    optional location to retrict secret replication
+# @flag -f --force                    Automatically create a secret, grant permissions, and add to YAML.
+# @option --data-file <dataFile>      File path from which to read secret data.
+# @flag -h --help                     output usage information
+# @arg secretname!
+apphosting:secrets:set() {
+    :;
+}
+# }} firebase apphosting:secrets:set
+
+# {{ firebase apphosting:secrets:grantaccess
+# @cmd grant service accounts permissions to the provided secret
+# @option -l --location <location>    backend location (default: "-")
+# @option -b --backend <backend>      backend name
+# @flag -h --help                     output usage information
+# @arg secretname!
+apphosting:secrets:grantaccess() {
+    :;
+}
+# }} firebase apphosting:secrets:grantaccess
+
+# {{ firebase apphosting:secrets:describe
+# @cmd Get metadata for secret and its versions.
 # @flag -h --help    output usage information
-backends:create() {
+# @arg secretname!
+apphosting:secrets:describe() {
     :;
 }
-# }} firebase backends:create
+# }} firebase apphosting:secrets:describe
 
-# {{ firebase backends:get
-# @cmd Get backend details of a Firebase project
-# @option -l --location <location>    App Backend location (default: "us-central1")
-# @option --s <backendId>             Backend Id (default: "")
-# @option --backendId <backendId>     Backend Id (default: "")
-# @flag -h --help                     output usage information
-backends:get() {
+# {{ firebase apphosting:secrets:access
+# @cmd Access secret value given secret and its version.
+# @flag -h --help    output usage information
+# @arg secretname-version! <secretName[@version]>
+apphosting:secrets:access() {
     :;
 }
-# }} firebase backends:get
-
-# {{ firebase backends:delete
-# @cmd Delete a backend from a Firebase project
-# @option -l --location <location>      App Backend location (default: "us-central1")
-# @option -s --backendId <backendId>    Backend Id (default: "")
-# @flag -f --force                      automatically accept all interactive prompts
-# @flag -h --help                       output usage information
-backends:delete() {
-    :;
-}
-# }} firebase backends:delete
+# }} firebase apphosting:secrets:access
 
 # {{ firebase login
 # @cmd log the CLI into Firebase
@@ -1010,7 +1136,7 @@ login:list() {
 # }} firebase login:list
 
 # {{ firebase login:use
-# @cmd set the default account to use for this project directory
+# @cmd set the default account to use for this project directory or the global default account if not in a Firebase project directory
 # @flag -h --help    output usage information
 # @arg email!
 login:use() {
@@ -1145,6 +1271,49 @@ setup:emulators:ui() {
     :;
 }
 # }} firebase setup:emulators:ui
+
+# {{ firebase setup:emulators:dataconnect
+# @cmd downloads the dataconnect emulator
+# @flag -h --help    output usage information
+setup:emulators:dataconnect() {
+    :;
+}
+# }} firebase setup:emulators:dataconnect
+
+# {{ firebase dataconnect:services:list
+# @cmd list all deployed services in your Firebase project
+# @flag -h --help    output usage information
+dataconnect:services:list() {
+    :;
+}
+# }} firebase dataconnect:services:list
+
+# {{ firebase dataconnect:sql:diff
+# @cmd displays the differences between  a local DataConnect schema and your CloudSQL database's current schema
+# @flag -h --help    output usage information
+# @arg serviceid
+dataconnect:sql:diff() {
+    :;
+}
+# }} firebase dataconnect:sql:diff
+
+# {{ firebase dataconnect:sql:migrate
+# @cmd migrates your CloudSQL database's schema to match your local DataConnect schema
+# @flag -f --force    Execute any required database changes without prompting
+# @flag -h --help     output usage information
+# @arg serviceid
+dataconnect:sql:migrate() {
+    :;
+}
+# }} firebase dataconnect:sql:migrate
+
+# {{ firebase dataconnect:sdk:generate
+# @cmd generates typed SDKs for your Data Connect connectors
+# @flag -h --help    output usage information
+dataconnect:sdk:generate() {
+    :;
+}
+# }} firebase dataconnect:sdk:generate
 
 # {{ firebase target
 # @cmd display configured deploy targets for the current project

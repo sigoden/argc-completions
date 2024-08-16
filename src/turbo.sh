@@ -14,6 +14,9 @@ _patch_table() {
     if [[ "$*" == "turbo" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'task;*[`_choice_task`]'
 
+    elif [[ "$*" == "turbo ls" ]]; then
+        echo "$table" | _patch_table_edit_arguments ';;' 'package;*[`_choice_package`]'
+
     elif [[ "$*" == "turbo run" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'task;*[`_choice_task`]'
 
@@ -27,6 +30,12 @@ _choice_task() {
     if [[ -f "$turo_json_path" ]]; then
         cat "$turo_json_path" | yq '.pipeline | keys | .[]'
     fi
+}
+
+_choice_package() {
+    _helper_find_turbo_json_path
+    cd "$(dirname "$turo_json_path")"
+    ls -1 packages
 }
 
 _helper_find_turbo_json_path() {

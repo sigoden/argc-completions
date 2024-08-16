@@ -30,6 +30,8 @@
 # @option -gt <file:.xml>                          Alternate path for the global toolchains file
 # @option --global-toolchains <file:.xml>          Alternate path for the global toolchains file
 # @flag -h --help                                  Display help information
+# @flag -itr                                       If set, Maven will ignore remote repositories introduced by transitive dependencies.
+# @flag --ignore-transitive-repositories           If set, Maven will ignore remote repositories introduced by transitive dependencies.
 # @option -l --log-file <file>                     Log file where all build output will go (disables output color)
 # @flag -llr                                       UNSUPPORTED: Use of this option will make Maven invocation fail.
 # @flag --legacy-local-repository                  UNSUPPORTED: Use of this option will make Maven invocation fail.

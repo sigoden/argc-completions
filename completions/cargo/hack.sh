@@ -6,6 +6,7 @@
 # @flag --workspace                             Perform command for all packages in the workspace.
 # @option --exclude* <SPEC>                     Exclude packages from the check.
 # @option --manifest-path <PATH>                Path to Cargo.toml.
+# @flag --locked                                Require Cargo.lock is up to date.
 # @option -F --features*,[`_choice_feature`]    Space or comma separated list of features to activate.
 # @flag --each-feature                          Perform for each feature of the package.
 # @flag --feature-powerset                      Perform for the feature powerset of the package.
@@ -16,6 +17,7 @@
 # @flag --exclude-all-features                  Exclude run of just --all-features flag.
 # @option --depth <NUM>                         Specify a max number of simultaneous feature flags of --feature-powerset.
 # @option --group-features* <FEATURES>          Space or comma separated list of features to group.
+# @option --mutually-exclusive-features* <FEATURES>  Space or comma separated list of features to not use together.
 # @option --at-least-one-of* <FEATURES>         Space or comma separated list of features.
 # @option --include-features* <FEATURES>        Include only the specified features in the feature combinations instead of package features.
 # @flag --no-dev-deps                           Perform without dev-dependencies.
@@ -29,6 +31,7 @@
 # @flag --clean-per-run                         Remove artifacts for that package before running the command.
 # @flag --clean-per-version                     Remove artifacts per Rust version.
 # @flag --keep-going                            Keep going on failure.
+# @option --partition <M/N>                     Partition runs and execute only its subset according to M/N.
 # @option --log-group[none|github-actions] <KIND>  Log grouping: none, github-actions.
 # @flag --print-command-list                    Print commands without run (Unstable).
 # @flag --no-manifest-path                      Do not pass --manifest-path option to cargo (Unstable).

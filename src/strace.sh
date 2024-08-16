@@ -16,6 +16,7 @@ _patch_table() {
         '--quiet' \
         '--absolute-timestamps' \
         '--strings-in-hex' \
+        '--stack-trace' \
         '--decode-fds' \
         '--decode-pids' \
     | \

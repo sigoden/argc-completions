@@ -3,13 +3,14 @@
 
 # @flag -x --extended                            Extended-search mode (enabled by default; +x or --no-extended to disable)
 # @flag -e --exact                               Enable Exact-match
-# @flag -i                                       Case-insensitive match (default: smart-case match)
+# @flag -i --ignore-case                         Case-insensitive match (default: smart-case match)
 # @option --scheme[default|path|history]         Scoring scheme
 # @flag --literal                                Do not normalize latin script letters before matching
 # @option -n --nth <N[,..]>                      Comma-separated list of field index expressions for limiting search scope.
 # @option --with-nth <N[,..]>                    Transform the presentation of each line using field index expressions
 # @option -d --delimiter <STR>                   Field delimiter regex (default: AWK-style)
 # @flag --no-sort                                Do not sort the result
+# @option --tail <NUM>                           Maximum number of items to keep in memory
 # @flag --track                                  Track the current selection when the result is updated
 # @flag --tac                                    Reverse the order of the input
 # @flag --disabled                               Do not perform search
@@ -18,28 +19,34 @@
 # @flag --no-mouse                               Disable mouse
 # @option --bind <KEYBINDS>                      Custom key bindings.
 # @flag --cycle                                  Enable cyclic scroll
+# @flag --wrap                                   Enable line wrap
+# @option --wrap-sign <STR>                      Indicator for wrapped lines
+# @flag --no-multi-line                          Disable multi-line display of items when using --read0
 # @flag --keep-right                             Keep the right end of the line visible on overflow
 # @option --scroll-off <LINES>                   Number of screen lines to keep above or below when scrolling to the top or to the bottom (default: 0)
 # @flag --no-hscroll                             Disable horizontal scroll
 # @option --hscroll-off <COLS>                   Number of screen columns to keep to the right of the highlighted substring (default: 10)
 # @flag --filepath-word                          Make word-wise movements respect path separators
-# @option --jump-labels <CHARS>                  Label characters for jump and jump-accept
+# @option --jump-labels <CHARS>                  Label characters for jump mode
 # @option --height <[~]HEIGHT[%]>                Display fzf window below the cursor with the given height instead of using fullscreen.
 # @option --min-height <HEIGHT>                  Minimum height when --height is given in percent (default: 10)
+# @option --tmux[center|top|bottom|left|right] <OPTS>  Start fzf in a tmux popup (requires tmux 3.3+)[,SIZE[%]][,SIZE[%]] (default: center,50%)
 # @option --layout[default|reverse|reverse-list]  Choose layout:
 # @option --border[rounded|sharp|bold|block|thinblock|double|horizontal|vertical|top|bottom|left|right|none] <STYLE>  Draw border around the finder [rounded|sharp|bold|block|thinblock|double|horizontal|vertical|
 # @option --border-label <LABEL>                 Label to print on the border
 # @option --border-label-pos <COL>               Position of the border label [POSITIVE_INTEGER: columns from left|
 # @option --margin                               Screen margin (TRBL | TB,RL | T,RL,B | T,R,B,L)
 # @option --padding                              Padding inside border (TRBL | TB,RL | T,RL,B | T,R,B,L)
-# @option --info[default|right|hidden|inline|inline-right] <STYLE>  Finder info style [default|right|hidden|inline[:SEPARATOR]|inline-right]
+# @option --info[default|right|hidden|inline|inline-right] <STYLE>  Finder info style [default|right|hidden|inline[-right][:PREFIX]]
+# @option --info-command <COMMAND>               Command to generate info line
 # @option --separator <STR>                      String to form horizontal separator on info line
 # @flag --no-separator                           Hide info line separator
 # @option --scrollbar <C1[C2]>                   Scrollbar character(s) (each for main and preview window)
 # @flag --no-scrollbar                           Hide scrollbar
 # @option --prompt <STR>                         Input prompt (default: '> ')
-# @option --pointer <STR>                        Pointer to the current line (default: '>')
-# @option --marker <STR>                         Multi-select marker (default: '>')
+# @option --pointer <STR>                        Pointer to the current line (default: '▌' or '>')
+# @option --marker <STR>                         Multi-select marker (default: '┃' or '>')
+# @option --marker-multi-line <STR>              Multi-select marker for multi-line entries; 3 elements for top, middle, and bottom (default: '╻┃╹')
 # @option --header <STR>                         String to print as header
 # @option --header-lines <N>                     The first N lines of the input are treated as header
 # @flag --header-first                           Print header before the prompt line
@@ -47,6 +54,7 @@
 # @flag --ansi                                   Enable processing of ANSI color codes
 # @option --tabstop <SPACES>                     Number of spaces for a tab character (default: 8)
 # @option --color[dark|light|16|bw] <COLSPEC>    Base scheme (dark|light|16|bw) and/or custom colors
+# @flag --highlight-line                         Highlight the whole current line
 # @flag --no-bold                                Do not use bold text
 # @option --history <FILE>                       History file
 # @option --history-size <N>                     Maximum number of history entries (default: 1000)
@@ -63,8 +71,17 @@
 # @flag --read0                                  Read input delimited by ASCII NUL characters
 # @flag --print0                                 Print output delimited by ASCII NUL characters
 # @flag --sync                                   Synchronous search for multi-staged filtering
+# @option --with-shell <STR>                     Shell command and flags to start child processes with
 # @option --listen <[ADDR:]PORT>                 Start HTTP server to receive actions (POST /) (To allow remote process execution, use --listen-unsafe)
+# @option --walker[file|follow|hidden] <OPTS>    [file][,dir][,follow][,hidden]
+# @option --walker-root <DIR>                    Root directory from which to start walker (default: .)
+# @option --walker-skip <DIRS>                   Comma-separated list of directory names to skip (default: .git,node_modules)
+# @flag --bash                                   Print script to set up Bash shell integration
+# @flag --zsh                                    Print script to set up Zsh shell integration
+# @flag --fish                                   Print script to set up Fish shell integration
 # @flag --version                                Display version information and exit
+# @flag --help                                   Show this message
+# @flag --man                                    Show man page
 # @flag +i                                       Case-sensitive match
 # @flag +s                                       Do not sort the result
 

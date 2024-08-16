@@ -250,7 +250,9 @@ fetch() {
 # @option -d --directory <DIRNAME>    repository base dir containing gems subdir
 # @flag --modern                      Generate indexes for RubyGems (always true)
 # @flag --no-modern                   Generate indexes for RubyGems (always true)
-# @flag --update                      Update modern indexes with gems added since the last update
+# @flag --compact                     Generate compact index files
+# @flag --no-compact                  Generate compact index files
+# @flag --update                      Update modern and compact indices with gems added since the last update
 # @flag -h --help                     Get help on this command
 # @flag -V                            Set the verbose level of output
 # @flag --verbose                     Set the verbose level of output
@@ -547,7 +549,7 @@ owner() {
 # @flag -E                           Rewrite executables with a shebang of /usr/bin/env
 # @flag --env-shebang                Rewrite executables with a shebang of /usr/bin/env
 # @flag --no-env-shebang             Rewrite executables with a shebang of /usr/bin/env
-# @option -i --install-dir <DIR>     Gem repository to get binstubs and plugins installed
+# @option -i --install-dir <DIR>     Gem repository to get gems restored
 # @option -n --bindir <DIR>          Directory where executables are located
 # @option -v --version               Specify version of gem to restore to pristine condition
 # @flag -h --help                    Get help on this command
@@ -615,6 +617,32 @@ rdoc() {
     :;
 }
 # }} gem rdoc
+
+# {{ gem rebuild
+# @cmd Attempt to reproduce a build of a gem.
+# @flag --diff                        If the files don't match, compare them using diffoscope.
+# @flag --force                       Skip validation of the spec.
+# @flag --strict                      Consider warnings as errors when validating the spec.
+# @option --source <GEM_SOURCE>       Specify the source to download the gem from.
+# @option --original <GEM_FILE>       Specify a local file to compare against (instead of downloading it).
+# @option --gemspec <GEMSPEC_FILE>    Specify the name of the gemspec file.
+# @option -C <PATH>                   Run as if gem build was started in <PATH> instead of the current working directory.
+# @flag -h --help                     Get help on this command
+# @flag -V                            Set the verbose level of output
+# @flag --verbose                     Set the verbose level of output
+# @flag --no-verbose                  Set the verbose level of output
+# @flag -q --quiet                    Silence command progress meter
+# @flag --silent                      Silence RubyGems output
+# @option --config-file <FILE>        Use this config file instead of default
+# @flag --backtrace                   Show stack backtrace on errors
+# @flag --debug                       Turn on Ruby debugging
+# @flag --norc                        Avoid loading any .gemrc file
+# @arg gem_name[`_choice_package`]    gem name on gem server
+# @arg gem_version                    gem version you are attempting to rebuild
+rebuild() {
+    :;
+}
+# }} gem rebuild
 
 # {{ gem search
 # @cmd Display remote gems whose name matches REGEXP

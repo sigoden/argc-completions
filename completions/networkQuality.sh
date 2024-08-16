@@ -7,10 +7,12 @@
 # @option -r <host>                        Connect to host or IP, overriding DNS for initial config request
 # @option -S <port>                        Create a networkQuality server-instance running locally on the specified port.
 # @flag -c                                 Produce computer-readable output.
+# @flag -d                                 Do not run a download test (implies -s)
 # @flag -h                                 Show help
 # @flag -k                                 Disable verification of the server identity via TLS.
 # @flag -p                                 Use iCloud Private Relay.
 # @flag -s                                 Run tests sequentially instead of parallel upload/download.
+# @flag -u                                 Do not run an upload test (implies -s)
 # @flag -v                                 Verbose output.
 
 _module_os_network_interface() {

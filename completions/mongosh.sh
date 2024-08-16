@@ -5,6 +5,7 @@
 # @option -f --file <file>                      Load the specified mongosh script
 # @option --host <string>                       Server to connect to
 # @option --port <string>                       Port to connect to
+# @flag --build-info                            Show build information
 # @flag --version                               Show version information
 # @flag --quiet                                 Silence output from the shell during the connection process
 # @flag --shell                                 Run the shell after executing files

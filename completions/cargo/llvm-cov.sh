@@ -13,7 +13,7 @@
 # @option --output-dir <DIRECTORY>               Specify a directory to write coverage report into (default to `target/llvm-cov`).
 # @option --failure-mode <any|all>               Fail if `any` or `all` profiles cannot be merged (default to `any`)
 # @option --ignore-filename-regex <PATTERN>      Skip source code files with file paths that match the given regular expression
-# @flag --hide-instantiations                    Hide instantiations from report
+# @flag --show-instantiations                    Show instantiations in report
 # @flag --no-cfg-coverage                        Unset cfg(coverage), which is enabled when code is built using cargo-llvm-cov
 # @flag --no-cfg-coverage-nightly                Unset cfg(coverage_nightly), which is enabled when code is built using cargo-llvm-cov and nightly compiler
 # @flag --no-report                              Run tests, but don't generate coverage report
@@ -26,6 +26,9 @@
 # @option --fail-uncovered-functions <MAX>       Exit with a status of 1 if the uncovered functions are greater than MAX
 # @flag --show-missing-lines                     Show lines with no coverage
 # @flag --include-build-script                   Include build script in coverage report
+# @option --dep-coverage <NAME>                  Show coverage of the specified dependency instead of the crates in the current workspace.
+# @flag --skip-functions                         Skip exporting per-function coverage data.
+# @flag --branch                                 Enable branch coverage.
 # @flag --doctests                               Including doc tests (unstable)
 # @flag --no-run                                 Generate coverage report without running tests
 # @flag --no-fail-fast                           Run all tests regardless of failure
@@ -85,7 +88,7 @@
 # @option --output-dir <DIRECTORY>               Specify a directory to write coverage report into (default to `target/llvm-cov`).
 # @option --failure-mode <any|all>               Fail if `any` or `all` profiles cannot be merged (default to `any`)
 # @option --ignore-filename-regex <PATTERN>      Skip source code files with file paths that match the given regular expression
-# @flag --hide-instantiations                    Hide instantiations from report
+# @flag --show-instantiations                    Show instantiations in report
 # @flag --no-cfg-coverage                        Unset cfg(coverage), which is enabled when code is built using cargo-llvm-cov
 # @flag --no-cfg-coverage-nightly                Unset cfg(coverage_nightly), which is enabled when code is built using cargo-llvm-cov and nightly compiler
 # @flag --no-report                              Run tests, but don't generate coverage report
@@ -98,6 +101,9 @@
 # @option --fail-uncovered-functions <MAX>       Exit with a status of 1 if the uncovered functions are greater than MAX
 # @flag --show-missing-lines                     Show lines with no coverage
 # @flag --include-build-script                   Include build script in coverage report
+# @option --dep-coverage <NAME>                  Show coverage of the specified dependency instead of the crates in the current workspace.
+# @flag --skip-functions                         Skip exporting per-function coverage data.
+# @flag --branch                                 Enable branch coverage.
 # @flag --doctests                               Including doc tests (unstable)
 # @flag --no-fail-fast                           Run all tests regardless of failure
 # @flag --ignore-run-fail                        Run all tests regardless of failure and generate report
@@ -160,7 +166,7 @@ test() {
 # @option --output-dir <DIRECTORY>               Specify a directory to write coverage report into (default to `target/llvm-cov`).
 # @option --failure-mode <any|all>               Fail if `any` or `all` profiles cannot be merged (default to `any`)
 # @option --ignore-filename-regex <PATTERN>      Skip source code files with file paths that match the given regular expression
-# @flag --hide-instantiations                    Hide instantiations from report
+# @flag --show-instantiations                    Show instantiations in report
 # @flag --no-cfg-coverage                        Unset cfg(coverage), which is enabled when code is built using cargo-llvm-cov
 # @flag --no-cfg-coverage-nightly                Unset cfg(coverage_nightly), which is enabled when code is built using cargo-llvm-cov and nightly compiler
 # @flag --no-report                              Run tests, but don't generate coverage report
@@ -173,6 +179,9 @@ test() {
 # @option --fail-uncovered-functions <MAX>       Exit with a status of 1 if the uncovered functions are greater than MAX
 # @flag --show-missing-lines                     Show lines with no coverage
 # @flag --include-build-script                   Include build script in coverage report
+# @option --dep-coverage <NAME>                  Show coverage of the specified dependency instead of the crates in the current workspace.
+# @flag --skip-functions                         Skip exporting per-function coverage data.
+# @flag --branch                                 Enable branch coverage.
 # @flag --ignore-run-fail                        Run all tests regardless of failure and generate report
 # @flag -q --quiet                               No output printed to stdout
 # @option --bin[`_choice_bin`] <NAME>            Name of the bin target to run
@@ -217,9 +226,10 @@ run() {
 # @flag --summary-only                           Export only summary information for each file in the coverage data
 # @option --output-path <PATH>                   Specify a file to write coverage data into.
 # @option --output-dir <DIRECTORY>               Specify a directory to write coverage report into (default to `target/llvm-cov`).
+# @option --nextest-archive-file <PATH>          Path to nextest archive
 # @option --failure-mode <any|all>               Fail if `any` or `all` profiles cannot be merged (default to `any`)
 # @option --ignore-filename-regex <PATTERN>      Skip source code files with file paths that match the given regular expression
-# @flag --hide-instantiations                    Hide instantiations from report
+# @flag --show-instantiations                    Show instantiations in report
 # @option --fail-under-functions <MIN>           Exit with a status of 1 if the total function coverage is less than MIN percent
 # @option --fail-under-lines <MIN>               Exit with a status of 1 if the total line coverage is less than MIN percent
 # @option --fail-under-regions <MIN>             Exit with a status of 1 if the total region coverage is less than MIN percent
@@ -228,6 +238,8 @@ run() {
 # @option --fail-uncovered-functions <MAX>       Exit with a status of 1 if the uncovered functions are greater than MAX
 # @flag --show-missing-lines                     Show lines with no coverage
 # @flag --include-build-script                   Include build script in coverage report
+# @option --dep-coverage <NAME>                  Show coverage of the specified dependency instead of the crates in the current workspace.
+# @flag --skip-functions                         Skip exporting per-function coverage data.
 # @flag --doctests                               Including doc tests (unstable)
 # @flag -q --quiet                               Display one character per test instead of one line
 # @option -p --package[`_choice_package`] <SPEC>  Package to run tests for

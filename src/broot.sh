@@ -19,29 +19,25 @@ _patch_help() {
                 split($0, parts, "│")
                 long = trim(parts[3])
                 if (long == "") {
-                    OPTIONS[NUM, 4] = OPTIONS[NUM, 4]  trim(parts[5])
-                    next
-                } else if (substr(long, 1, 1) != "-") {
+                    OPTIONS[NUM, 3] = OPTIONS[NUM, 3] " " trim(parts[4])
                     next
                 }
                 NUM = NUM + 1
                 OPTIONS[NUM, 1] = trim(parts[2])
                 OPTIONS[NUM, 2] = long
                 OPTIONS[NUM, 3] = trim(parts[4])
-                OPTIONS[NUM, 4] = trim(parts[5])
             }
         }
         END {
             for (i = i; i <= NUM; i++) {
                 short = OPTIONS[i, 1]
+                long = OPTIONS[i, 2]
+                description = OPTIONS[i, 3]
+                gsub(/ Possible values: /, " ", description)
                 if (short != "") {
                     short = " " short ", "
                 }
-                notation = OPTIONS[i, 3]
-                if (notation != "") {
-                    notation = " <" notation ">"
-                }
-                print "  " short OPTIONS[i, 2] notation "    " OPTIONS[i, 4]
+                print "  " short long "    " description
             }
         }
         function trim(input) {

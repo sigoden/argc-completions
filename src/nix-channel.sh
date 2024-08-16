@@ -3,19 +3,19 @@ _patch_help() {
         echo Commands:
         $@ --help | \
         sed -n '/^\s*This command has the following operations:/,/^[A-Z]/ {//!p}' | \
-        sed 's/^       • /  \\/'
+        sed 's/^       •  /  \\/'
     else
         help_text="$($1 --help)"
         
         echo "$help_text" | \
-        sed -n "s/^       • $2\( \|$\)/Usage: $1 $2\1/p" | \
+        sed -n "s/^       •  $2\( \|$\)/Usage: $1 $2\1/p" | \
         sed 's/…/.../g'
 
         echo "$help_text" | \
         sed -n '/^Common Options/,/^[A-Z]/ p' | \
         sed \
             -e 's/…/.../g' \
-            -e '/^       • -/ {s| / |, |;s/^       • -/    -/;}' \
+            -e '/^       •  -/ {s| \(--\S\+\) / \(-\S\)| \2, \1|;s/^       •  -/    -/;}' \
 
     fi
 }

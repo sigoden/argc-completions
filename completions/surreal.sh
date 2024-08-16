@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @flag -h --help    Print help
+# @flag --online-version-check    Whether to allow web check for client version upgrades at start [env: SURREAL_ONLINE_VERSION_CHECK=]
+# @flag -h --help                 Print help
+# @flag -V --version              Print version
 
 # {{ surreal start
 # @cmd Start the database server
@@ -15,6 +17,7 @@
 # @option -u --username                      The username for the initial database root user.
 # @option -p --password                      The password for the initial database root user.
 # @flag --auth                               Whether to enable authentication
+# @flag --auth-level-enabled                 Whether to enable explicit authentication level selection
 # @option --kvs-ca <KVS_CA>                  Path to the CA file used when connecting to the remote KV store
 # @option --kvs-crt <KVS_CRT>                Path to the certificate file used when connecting to the remote KV store
 # @option --kvs-key <KVS_KEY>                Path to the private key file used when connecting to the remote KV store
@@ -38,27 +41,16 @@ start() {
 }
 # }} surreal start
 
-# {{ surreal backup
-# @cmd Backup data to or from an existing database
-# @option -u --username    Database authentication username to use when connecting [env: SURREAL_USER=] [aliases: user]
-# @option -p --password    Database authentication password to use when connecting [env: SURREAL_PASS=] [aliases: pass]
-# @flag -h --help          Print help
-# @arg from!               Path to the remote database or file from which to export
-# @arg into                Path to the remote database or file into which to import [default: -]
-backup() {
-    :;
-}
-# }} surreal backup
-
 # {{ surreal import
 # @cmd Import a SurrealQL script into an existing database
 # @option -e --endpoint    Remote database server url to connect to [default: ws://localhost:8000] [aliases: conn]
 # @option -u --username    Database authentication username to use when connecting [env: SURREAL_USER=] [aliases: user]
 # @option -p --password    Database authentication password to use when connecting [env: SURREAL_PASS=] [aliases: pass]
+# @option --auth-level[root|namespace|ns|database|db] <AUTH_LEVEL>  Authentication level to use when connecting Must be enabled in the server and uses the values of '--namespace' and '--database'
 # @option --namespace      The namespace selected for the operation [env: SURREAL_NAMESPACE=] [aliases: ns]
 # @option --database       The database selected for the operation [env: SURREAL_DATABASE=] [aliases: db]
 # @flag -h --help          Print help
-# @arg file!               Path to the sql file to import
+# @arg file!               Path to the SurrealQL file to import
 import() {
     :;
 }
@@ -69,10 +61,11 @@ import() {
 # @option -e --endpoint    Remote database server url to connect to [default: ws://localhost:8000] [aliases: conn]
 # @option -u --username    Database authentication username to use when connecting [env: SURREAL_USER=] [aliases: user]
 # @option -p --password    Database authentication password to use when connecting [env: SURREAL_PASS=] [aliases: pass]
+# @option --auth-level[root|namespace|ns|database|db] <AUTH_LEVEL>  Authentication level to use when connecting Must be enabled in the server and uses the values of '--namespace' and '--database'
 # @option --namespace      The namespace selected for the operation [env: SURREAL_NAMESPACE=] [aliases: ns]
 # @option --database       The database selected for the operation [env: SURREAL_DATABASE=] [aliases: db]
 # @flag -h --help          Print help
-# @arg file                Path to the sql file to export.
+# @arg file                Path to the SurrealQL file to export.
 export() {
     :;
 }
@@ -90,6 +83,8 @@ version() {
 # {{ surreal upgrade
 # @cmd Upgrade to the latest stable version
 # @flag --nightly      Install the latest nightly version
+# @flag --alpha        Install the latest beta version
+# @flag --beta         Install the latest beta version
 # @option --version    Install a specific version
 # @flag --dry-run      Don't actually replace the executable
 # @flag -h --help      Print help
@@ -103,16 +98,58 @@ upgrade() {
 # @option -e --endpoint    Remote database server url to connect to [default: ws://localhost:8000] [aliases: conn]
 # @option -u --username    Database authentication username to use when connecting [env: SURREAL_USER=] [aliases: user]
 # @option -p --password    Database authentication password to use when connecting [env: SURREAL_PASS=] [aliases: pass]
-# @option --namespace      The namespace selected for the operation [env: SURREAL_NAMESPACE=] [aliases: ns]
-# @option --database       The database selected for the operation [env: SURREAL_DATABASE=] [aliases: db]
+# @option --auth-level[root|namespace|ns|database|db] <AUTH_LEVEL>  Authentication level to use when connecting Must be enabled in the server and uses the values of '--namespace' and '--database'
+# @option --namespace      The selected namespace [env: SURREAL_NAMESPACE=] [aliases: ns]
+# @option --database       The selected database [env: SURREAL_DATABASE=] [aliases: db]
 # @flag --pretty           Whether database responses should be pretty printed
 # @flag --json             Whether to emit results in JSON
 # @flag --multi            Whether omitting semicolon causes a newline
+# @flag --hide-welcome     Whether to show welcome message [env: SURREAL_HIDE_WELCOME=]
 # @flag -h --help          Print help
 sql() {
     :;
 }
 # }} surreal sql
+
+# {{ surreal ml
+# @cmd Manage SurrealML models within an existing database
+# @flag -h --help    Print help
+ml() {
+    :;
+}
+
+# {{{ surreal ml import
+# @cmd Import a SurrealML model into an existing database
+# @option -e --endpoint    Remote database server url to connect to [default: ws://localhost:8000] [aliases: conn]
+# @option -u --username    Database authentication username to use when connecting [env: SURREAL_USER=] [aliases: user]
+# @option -p --password    Database authentication password to use when connecting [env: SURREAL_PASS=] [aliases: pass]
+# @option --auth-level[root|namespace|ns|database|db] <AUTH_LEVEL>  Authentication level to use when connecting Must be enabled in the server and uses the values of '--namespace' and '--database'
+# @option --namespace      The namespace selected for the operation [env: SURREAL_NAMESPACE=] [aliases: ns]
+# @option --database       The database selected for the operation [env: SURREAL_DATABASE=] [aliases: db]
+# @flag -h --help          Print help
+# @arg file!               Path to the SurrealML file to import
+ml::import() {
+    :;
+}
+# }}} surreal ml import
+
+# {{{ surreal ml export
+# @cmd Export a SurrealML model from an existing database
+# @option --name           The name of the model [env: SURREAL_NAME=]
+# @option --version        The version of the model [env: SURREAL_VERSION=]
+# @option -e --endpoint    Remote database server url to connect to [default: ws://localhost:8000] [aliases: conn]
+# @option -u --username    Database authentication username to use when connecting [env: SURREAL_USER=] [aliases: user]
+# @option -p --password    Database authentication password to use when connecting [env: SURREAL_PASS=] [aliases: pass]
+# @option --auth-level[root|namespace|ns|database|db] <AUTH_LEVEL>  Authentication level to use when connecting Must be enabled in the server and uses the values of '--namespace' and '--database'
+# @option --namespace      The namespace selected for the operation [env: SURREAL_NAMESPACE=] [aliases: ns]
+# @option --database       The database selected for the operation [env: SURREAL_DATABASE=] [aliases: db]
+# @flag -h --help          Print help
+# @arg file                Path to the SurrealML file to export.
+ml::export() {
+    :;
+}
+# }}} surreal ml export
+# }} surreal ml
 
 # {{ surreal is-ready
 # @cmd Check if the SurrealDB server is ready to accept connections [aliases: isready]

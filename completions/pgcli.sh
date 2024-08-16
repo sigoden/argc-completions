@@ -14,6 +14,7 @@
 # @option -D --dsn <TEXT>                         Use DSN configured into the [alias_dsn] section of pgclirc file.
 # @flag --list-dsn                                list of DSN configured into the [alias_dsn] section of pgclirc file.
 # @option --row-limit <INTEGER>                   Set threshold for row limit prompt.
+# @option --application-name <TEXT>               Application name for the connection.
 # @flag --less-chatty                             Skip intro on startup and goodbye on exit.
 # @option --prompt <TEXT>                         Prompt format (Default: "\u@\h:\d> ").
 # @option --prompt-dsn <TEXT>                     Prompt format for connections using DSN aliases (Default: "\u@\h:\d> ").
@@ -21,6 +22,7 @@
 # @flag --auto-vertical-output                    Automatically switch to vertical output mode if the result is wider than the terminal width.
 # @option --warn <TEXT>                           Warn before running a destructive query.
 # @option --ssh-tunnel <TEXT>                     Open an SSH tunnel to the given address and connect to the database from it.
+# @option --log-file <TEXT>                       Write all queries & output into a file, in addition to the normal output destination.
 # @flag --help                                    Show this message and exit.
 # @arg dbname[`_choice_database`]
 # @arg username[`_choice_user`]

@@ -8,7 +8,10 @@
 # @flag --json                                Print extracted URLs in JSON format
 # @flag -n --no-merge                         Do not merge video parts
 # @flag --no-caption                          Do not download captions (subtitles, lyrics, danmaku, ...)
+# @flag --post                                Postfix downloaded files with unique identifiers
 # @flag --postfix                             Postfix downloaded files with unique identifiers
+# @option --pre <PREFIX>                      Prefix downloaded files with string
+# @option --prefix <PREFIX>                   Prefix downloaded files with string
 # @flag -f --force                            Force overwriting existing files
 # @flag --skip-existing-file-size-check       Skip existing file without checking file size
 # @option -F --format <STREAM_ID>             Set video format to STREAM_ID

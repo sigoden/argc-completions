@@ -84,7 +84,6 @@
 # @option -copymax <n>                             maximum number of simultaneous copyprog transfers
 # @option -copyprog <xxx>                          external program for copying large files
 # @option -copyprogrest <xxx>                      variant of copyprog for resuming partial transfers
-# @option -copyquoterem <xxx>                      add quotes to remote file name for copyprog (true/false/default)
 # @option -copythreshold <n>                       use copyprog on files bigger than this (if >=0, in Kb)
 # @option -diff <xxx>                              set command for showing differences between files
 # @flag -ignorelocks                               ignore locks left over from previous run (dangerous!)

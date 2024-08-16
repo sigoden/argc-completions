@@ -10,6 +10,7 @@
 # @option --defer <REGEX>       Don't stow files beginning with this Perl regex if the file is already stowed to another package
 # @option --override <REGEX>    Force stowing files beginning with this Perl regex if the file is already stowed to another package
 # @flag --adopt                 (Use with care!)  Import existing files into stow package from target.
+# @flag --dotfiles              Enables special handling for dotfiles that are Stow packages that start with "dot-" and not "."
 # @flag -p --compat             Use legacy algorithm for unstowing
 # @flag -n                      Do not actually make any filesystem changes
 # @flag --no                    Do not actually make any filesystem changes

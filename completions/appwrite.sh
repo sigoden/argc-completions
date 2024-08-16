@@ -23,7 +23,7 @@ account::get() {
 
 # {{{ appwrite account create
 # @cmd Use this endpoint to allow a new user to register a new account in your project.
-# @option --userId <userId>        Unique Id.
+# @option --userId <userId>        User ID.
 # @option --email <email>          User email.
 # @option --password <password>    New user password.
 # @option --name <name>            User name.
@@ -32,6 +32,14 @@ account::create() {
     :;
 }
 # }}} appwrite account create
+
+# {{{ appwrite account delete
+# @cmd Delete the currently logged in user.
+# @flag -h --help    display help for command
+account::delete() {
+    :;
+}
+# }}} appwrite account delete
 
 # {{{ appwrite account updateEmail
 # @cmd Update currently logged in user account email address.
@@ -45,7 +53,7 @@ account::updateEmail() {
 
 # {{{ appwrite account listIdentities
 # @cmd Get the list of identities for the currently logged in user.
-# @option --queries[userId|provider|providerUid|providerEmail|providerAccessTokenExpiry] <queries>  Array of query strings generated using the Query class provided by the SDK.
+# @option --queries*[userId|provider|providerUid|providerEmail|providerAccessTokenExpiry] <queries>  Array of query strings generated using the Query class provided by the SDK.
 # @flag -h --help    display help for command
 account::listIdentities() {
     :;
@@ -77,6 +85,95 @@ account::listLogs() {
     :;
 }
 # }}} appwrite account listLogs
+
+# {{{ appwrite account updateMFA
+# @cmd Enable or disable MFA on an account.
+# @option --mfa <mfa>    Enable or disable MFA.
+# @flag -h --help        display help for command
+account::updateMFA() {
+    :;
+}
+# }}} appwrite account updateMFA
+
+# {{{ appwrite account createMfaAuthenticator
+# @cmd Add an authenticator app to be used as an MFA factor.
+# @option --type <type>    Type of authenticator.
+# @flag -h --help          display help for command
+account::createMfaAuthenticator() {
+    :;
+}
+# }}} appwrite account createMfaAuthenticator
+
+# {{{ appwrite account updateMfaAuthenticator
+# @cmd createMfaAuthenticator) method.
+# @option --type <type>    Type of authenticator.
+# @option --otp <otp>      Valid verification token.
+# @flag -h --help          display help for command
+account::updateMfaAuthenticator() {
+    :;
+}
+# }}} appwrite account updateMfaAuthenticator
+
+# {{{ appwrite account deleteMfaAuthenticator
+# @cmd Delete an authenticator for a user by ID.
+# @option --type <type>    Type of authenticator.
+# @option --otp <otp>      Valid verification token.
+# @flag -h --help          display help for command
+account::deleteMfaAuthenticator() {
+    :;
+}
+# }}} appwrite account deleteMfaAuthenticator
+
+# {{{ appwrite account createMfaChallenge
+# @cmd Begin the process of MFA verification after sign-in.
+# @option --factor <factor>    Factor used for verification.
+# @flag -h --help              display help for command
+account::createMfaChallenge() {
+    :;
+}
+# }}} appwrite account createMfaChallenge
+
+# {{{ appwrite account updateMfaChallenge
+# @cmd Complete the MFA challenge by providing the one-time password.
+# @option --challengeId <challengeId>    ID of the challenge.
+# @option --otp <otp>                    Valid verification token.
+# @flag -h --help                        display help for command
+account::updateMfaChallenge() {
+    :;
+}
+# }}} appwrite account updateMfaChallenge
+
+# {{{ appwrite account listMfaFactors
+# @cmd List the factors available on the account to be used as a MFA challange.
+# @flag -h --help    display help for command
+account::listMfaFactors() {
+    :;
+}
+# }}} appwrite account listMfaFactors
+
+# {{{ appwrite account getMfaRecoveryCodes
+# @cmd Get recovery codes that can be used as backup for MFA flow.
+# @flag -h --help    display help for command
+account::getMfaRecoveryCodes() {
+    :;
+}
+# }}} appwrite account getMfaRecoveryCodes
+
+# {{{ appwrite account createMfaRecoveryCodes
+# @cmd Generate recovery codes as backup for MFA flow.
+# @flag -h --help    display help for command
+account::createMfaRecoveryCodes() {
+    :;
+}
+# }}} appwrite account createMfaRecoveryCodes
+
+# {{{ appwrite account updateMfaRecoveryCodes
+# @cmd Regenerate recovery codes that can be used as backup for MFA flow.
+# @flag -h --help    display help for command
+account::updateMfaRecoveryCodes() {
+    :;
+}
+# }}} appwrite account updateMfaRecoveryCodes
 
 # {{{ appwrite account updateName
 # @cmd Update currently logged in user account name.
@@ -136,11 +233,10 @@ account::createRecovery() {
 
 # {{{ appwrite account updateRecovery
 # @cmd Use this endpoint to complete the user account password reset.
-# @option --userId <userId>                  User ID.
-# @option --secret <secret>                  Valid reset token.
-# @option --password <password>              New user password.
-# @option --passwordAgain <passwordAgain>    Repeat new user password.
-# @flag -h --help                            display help for command
+# @option --userId <userId>        User ID.
+# @option --secret <secret>        Valid reset token.
+# @option --password <password>    New user password.
+# @flag -h --help                  display help for command
 account::updateRecovery() {
     :;
 }
@@ -170,29 +266,18 @@ account::createAnonymousSession() {
 }
 # }}} appwrite account createAnonymousSession
 
-# {{{ appwrite account createEmailSession
+# {{{ appwrite account createEmailPasswordSession
 # @cmd Allow the user to login into their account by providing a valid email and password combination.
 # @option --email <email>          User email.
 # @option --password <password>    User password.
 # @flag -h --help                  display help for command
-account::createEmailSession() {
+account::createEmailPasswordSession() {
     :;
 }
-# }}} appwrite account createEmailSession
-
-# {{{ appwrite account createMagicURLSession
-# @cmd Sends the user an email with a secret key for creating a session.
-# @option --userId <userId>    Unique Id.
-# @option --email <email>      User email.
-# @option --url <url>          URL to redirect the user back to your app from the magic URL login.
-# @flag -h --help              display help for command
-account::createMagicURLSession() {
-    :;
-}
-# }}} appwrite account createMagicURLSession
+# }}} appwrite account createEmailPasswordSession
 
 # {{{ appwrite account updateMagicURLSession
-# @cmd Use this endpoint to complete creating the session with the Magic URL.
+# @cmd Use this endpoint to create a session from token.
 # @option --userId <userId>    User ID.
 # @option --secret <secret>    Valid verification token.
 # @flag -h --help              display help for command
@@ -203,7 +288,7 @@ account::updateMagicURLSession() {
 
 # {{{ appwrite account createOAuth2Session
 # @cmd Allow the user to login to their account using the OAuth2 provider of their choice.
-# @option --provider[amazon|apple|auth0|authentik|autodesk|bitbucket|bitly|box|dailymotion|discord|disqus|dropbox|etsy|facebook|github|gitlab|google|linkedin|microsoft|notion|oidc|okta|paypal|paypalSandbox|podio|salesforce|slack|spotify|stripe|tradeshift|tradeshiftBox|twitch|wordpress|yahoo|yammer|yandex|zoom] <provider>  OAuth2 Provider.
+# @option --provider[amazon|apple|auth0|authentik|autodesk|bitbucket|bitly|box|dailymotion|discord|disqus|dropbox|etsy|facebook|github|gitlab|google|linkedin|microsoft|notion|oidc|okta|paypal|paypalSandbox|podio|salesforce|slack|spotify|stripe|tradeshift|tradeshiftBox|twitch|wordpress|yahoo|yammer|yandex|zoho|zoom] <provider>  OAuth2 Provider.
 # @option --success <success>    URL to redirect back to your app after a successful login attempt.
 # @option --failure <failure>    URL to redirect back to your app after a failed login attempt.
 # @option --scopes* <scopes>     A list of custom OAuth2 scopes.
@@ -213,18 +298,8 @@ account::createOAuth2Session() {
 }
 # }}} appwrite account createOAuth2Session
 
-# {{{ appwrite account createPhoneSession
-# @cmd Sends the user an SMS with a secret key for creating a session.
-# @option --userId <userId>    Unique Id.
-# @option --phone <phone>      Phone number.
-# @flag -h --help              display help for command
-account::createPhoneSession() {
-    :;
-}
-# }}} appwrite account createPhoneSession
-
 # {{{ appwrite account updatePhoneSession
-# @cmd Use this endpoint to complete creating a session with SMS.
+# @cmd Use this endpoint to create a session from token.
 # @option --userId <userId>    User ID.
 # @option --secret <secret>    Valid verification token.
 # @flag -h --help              display help for command
@@ -232,6 +307,16 @@ account::updatePhoneSession() {
     :;
 }
 # }}} appwrite account updatePhoneSession
+
+# {{{ appwrite account createSession
+# @cmd Use this endpoint to create a session from token.
+# @option --userId <userId>    User ID.
+# @option --secret <secret>    Secret of a token generated by login methods.
+# @flag -h --help              display help for command
+account::createSession() {
+    :;
+}
+# }}} appwrite account createSession
 
 # {{{ appwrite account getSession
 # @cmd Use this endpoint to get a logged in user's session using a Session ID.
@@ -243,7 +328,7 @@ account::getSession() {
 # }}} appwrite account getSession
 
 # {{{ appwrite account updateSession
-# @cmd Access tokens have limited lifespan and expire to mitigate security risks.
+# @cmd Use this endpoint to extend a session's length.
 # @option --sessionId <sessionId>    Session ID.
 # @flag -h --help                    display help for command
 account::updateSession() {
@@ -267,6 +352,81 @@ account::updateStatus() {
     :;
 }
 # }}} appwrite account updateStatus
+
+# {{{ appwrite account createPushTarget
+# @cmd
+# @option --targetId <targetId>        Target ID.
+# @option --identifier <identifier>    The target identifier (token, email, phone etc.)
+# @option --providerId <providerId>    Provider ID.
+# @flag -h --help                      display help for command
+account::createPushTarget() {
+    :;
+}
+# }}} appwrite account createPushTarget
+
+# {{{ appwrite account updatePushTarget
+# @cmd
+# @option --targetId <targetId>        Target ID.
+# @option --identifier <identifier>    The target identifier (token, email, phone etc.)
+# @flag -h --help                      display help for command
+account::updatePushTarget() {
+    :;
+}
+# }}} appwrite account updatePushTarget
+
+# {{{ appwrite account deletePushTarget
+# @cmd
+# @option --targetId <targetId>    Target ID.
+# @flag -h --help                  display help for command
+account::deletePushTarget() {
+    :;
+}
+# }}} appwrite account deletePushTarget
+
+# {{{ appwrite account createEmailToken
+# @cmd Sends the user an email with a secret key for creating a session.
+# @option --userId <userId>    User ID.
+# @option --email <email>      User email.
+# @option --phrase <phrase>    Toggle for security phrase.
+# @flag -h --help              display help for command
+account::createEmailToken() {
+    :;
+}
+# }}} appwrite account createEmailToken
+
+# {{{ appwrite account createMagicURLToken
+# @cmd Sends the user an email with a secret key for creating a session.
+# @option --userId <userId>    Unique Id.
+# @option --email <email>      User email.
+# @option --url <url>          URL to redirect the user back to your app from the magic URL login.
+# @option --phrase <phrase>    Toggle for security phrase.
+# @flag -h --help              display help for command
+account::createMagicURLToken() {
+    :;
+}
+# }}} appwrite account createMagicURLToken
+
+# {{{ appwrite account createOAuth2Token
+# @cmd Allow the user to login to their account using the OAuth2 provider of their choice.
+# @option --provider[amazon|apple|auth0|authentik|autodesk|bitbucket|bitly|box|dailymotion|discord|disqus|dropbox|etsy|facebook|github|gitlab|google|linkedin|microsoft|notion|oidc|okta|paypal|paypalSandbox|podio|salesforce|slack|spotify|stripe|tradeshift|tradeshiftBox|twitch|wordpress|yahoo|yammer|yandex|zoho|zoom] <provider>  OAuth2 Provider.
+# @option --success <success>    URL to redirect back to your app after a successful login attempt.
+# @option --failure <failure>    URL to redirect back to your app after a failed login attempt.
+# @option --scopes* <scopes>     A list of custom OAuth2 scopes.
+# @flag -h --help                display help for command
+account::createOAuth2Token() {
+    :;
+}
+# }}} appwrite account createOAuth2Token
+
+# {{{ appwrite account createPhoneToken
+# @cmd Sends the user an SMS with a secret key for creating a session.
+# @option --userId <userId>    Unique Id.
+# @option --phone <phone>      Phone number.
+# @flag -h --help              display help for command
+account::createPhoneToken() {
+    :;
+}
+# }}} appwrite account createPhoneToken
 
 # {{{ appwrite account createVerification
 # @cmd Use this endpoint to send a verification message to your user email address to confirm they are the valid owners of that address.
@@ -345,7 +505,7 @@ avatars::getBrowser() {
 
 # {{{ appwrite avatars getCreditCard
 # @cmd The credit card endpoint will return you the icon of the credit card provider you need.
-# @option --code[amex|argencard|cabal|censosud|diners|discover|elo|hipercard|jcb|mastercard|naranja|targeta-shopping|union-china-pay|visa|mir|maestro] <code>  Credit Card Code.
+# @option --code[amex|argencard|cabal|cencosud|diners|discover|elo|hipercard|jcb|mastercard|naranja|targeta-shopping|union-china-pay|visa|mir|maestro] <code>  Credit Card Code.
 # @option --width <width>         Image width.
 # @option --height <height>       Image height.
 # @option --quality <quality>     Image quality.
@@ -574,7 +734,7 @@ databases::deleteCollection() {
 # }}} appwrite databases deleteCollection
 
 # {{{ appwrite databases listAttributes
-# @cmd
+# @cmd List attributes in the collection.
 # @option --databaseId <databaseId>        Database ID.
 # @option --collectionId <collectionId>    Collection ID.
 # @option --queries*[key|type|size|required|array|status|error] <queries>  Array of query strings generated using the Query class provided by the SDK.
@@ -599,7 +759,7 @@ databases::createBooleanAttribute() {
 # }}} appwrite databases createBooleanAttribute
 
 # {{{ appwrite databases updateBooleanAttribute
-# @cmd
+# @cmd Update a boolean attribute.
 # @option --databaseId <databaseId>        Database ID.
 # @option --collectionId <collectionId>    Collection ID.
 # @option --key <key>                      Attribute Key.
@@ -612,12 +772,12 @@ databases::updateBooleanAttribute() {
 # }}} appwrite databases updateBooleanAttribute
 
 # {{{ appwrite databases createDatetimeAttribute
-# @cmd
+# @cmd Create a date time attribute according to the ISO 8601 standard.
 # @option --databaseId <databaseId>        Database ID.
 # @option --collectionId <collectionId>    Collection ID.
 # @option --key <key>                      Attribute Key.
 # @option --required <required>            Is attribute required?
-# @option --xdefault <xdefault>            Default value for the attribute in ISO 8601 format.
+# @option --xdefault <xdefault>            Default value for the attribute in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
 # @option --array <array>                  Is attribute an array?
 # @flag -h --help                          display help for command
 databases::createDatetimeAttribute() {
@@ -626,7 +786,7 @@ databases::createDatetimeAttribute() {
 # }}} appwrite databases createDatetimeAttribute
 
 # {{{ appwrite databases updateDatetimeAttribute
-# @cmd
+# @cmd Update a date time attribute.
 # @option --databaseId <databaseId>        Database ID.
 # @option --collectionId <collectionId>    Collection ID.
 # @option --key <key>                      Attribute Key.
@@ -666,7 +826,7 @@ databases::updateEmailAttribute() {
 # }}} appwrite databases updateEmailAttribute
 
 # {{{ appwrite databases createEnumAttribute
-# @cmd
+# @cmd Create an enumeration attribute.
 # @option --databaseId <databaseId>        Database ID.
 # @option --collectionId <collectionId>    Collection ID.
 # @option --key <key>                      Attribute Key.
@@ -856,7 +1016,7 @@ databases::updateUrlAttribute() {
 # }}} appwrite databases updateUrlAttribute
 
 # {{{ appwrite databases getAttribute
-# @cmd
+# @cmd Get attribute by ID.
 # @option --databaseId <databaseId>        Database ID.
 # @option --collectionId <collectionId>    Collection ID.
 # @option --key <key>                      Attribute Key.
@@ -867,7 +1027,7 @@ databases::getAttribute() {
 # }}} appwrite databases getAttribute
 
 # {{{ appwrite databases deleteAttribute
-# @cmd
+# @cmd Deletes an attribute.
 # @option --databaseId <databaseId>        Database ID.
 # @option --collectionId <collectionId>    Collection ID.
 # @option --key <key>                      Attribute Key.
@@ -962,7 +1122,7 @@ databases::listDocumentLogs() {
 # }}} appwrite databases listDocumentLogs
 
 # {{{ appwrite databases listIndexes
-# @cmd
+# @cmd List indexes in the collection.
 # @option --databaseId <databaseId>        Database ID.
 # @option --collectionId <collectionId>    Collection ID.
 # @option --queries*[key|type|status|attributes|error] <queries>  Array of query strings generated using the Query class provided by the SDK.
@@ -973,7 +1133,7 @@ databases::listIndexes() {
 # }}} appwrite databases listIndexes
 
 # {{{ appwrite databases createIndex
-# @cmd
+# @cmd Creates an index on the attributes listed.
 # @option --databaseId <databaseId>        Database ID.
 # @option --collectionId <collectionId>    Collection ID.
 # @option --key <key>                      Index Key.
@@ -987,7 +1147,7 @@ databases::createIndex() {
 # }}} appwrite databases createIndex
 
 # {{{ appwrite databases getIndex
-# @cmd
+# @cmd Get index by ID.
 # @option --databaseId <databaseId>        Database ID.
 # @option --collectionId <collectionId>    Collection ID.
 # @option --key <key>                      Index Key.
@@ -998,7 +1158,7 @@ databases::getIndex() {
 # }}} appwrite databases getIndex
 
 # {{{ appwrite databases deleteIndex
-# @cmd
+# @cmd Delete an index.
 # @option --databaseId <databaseId>        Database ID.
 # @option --collectionId <collectionId>    Collection ID.
 # @option --key <key>                      Index Key.
@@ -1435,6 +1595,15 @@ health::getCache() {
 }
 # }}} appwrite health getCache
 
+# {{{ appwrite health getCertificate
+# @cmd Get the SSL certificate for a domain
+# @option --domain <domain>    string
+# @flag -h --help              display help for command
+health::getCertificate() {
+    :;
+}
+# }}} appwrite health getCertificate
+
 # {{{ appwrite health getDB
 # @cmd Check the Appwrite database servers are up and connection is successful.
 # @flag -h --help    display help for command
@@ -1496,8 +1665,18 @@ health::getQueueDeletes() {
 }
 # }}} appwrite health getQueueDeletes
 
+# {{{ appwrite health getFailedJobs
+# @cmd Returns the amount of failed jobs in a given queue.
+# @option --name <name>              The name of the queue
+# @option --threshold <threshold>    Queue size threshold.
+# @flag -h --help                    display help for command
+health::getFailedJobs() {
+    :;
+}
+# }}} appwrite health getFailedJobs
+
 # {{{ appwrite health getQueueFunctions
-# @cmd
+# @cmd Get the number of function executions that are waiting to be processed in the Appwrite internal queue server.
 # @option --threshold <threshold>    Queue size threshold.
 # @flag -h --help                    display help for command
 health::getQueueFunctions() {
@@ -1541,6 +1720,24 @@ health::getQueueMigrations() {
 }
 # }}} appwrite health getQueueMigrations
 
+# {{{ appwrite health getQueueUsage
+# @cmd Get the number of metrics that are waiting to be processed in the Appwrite internal queue server.
+# @option --threshold <threshold>    Queue size threshold.
+# @flag -h --help                    display help for command
+health::getQueueUsage() {
+    :;
+}
+# }}} appwrite health getQueueUsage
+
+# {{{ appwrite health getQueueUsageDump
+# @cmd Get the number of projects containing metrics that are waiting to be processed in the Appwrite internal queue server.
+# @option --threshold <threshold>    Queue size threshold.
+# @flag -h --help                    display help for command
+health::getQueueUsageDump() {
+    :;
+}
+# }}} appwrite health getQueueUsageDump
+
 # {{{ appwrite health getQueueWebhooks
 # @cmd Get the number of webhooks that are waiting to be processed in the Appwrite internal queue server.
 # @option --threshold <threshold>    Queue size threshold.
@@ -1549,6 +1746,14 @@ health::getQueueWebhooks() {
     :;
 }
 # }}} appwrite health getQueueWebhooks
+
+# {{{ appwrite health getStorage
+# @cmd Check the Appwrite storage device is up and connection is successful.
+# @flag -h --help    display help for command
+health::getStorage() {
+    :;
+}
+# }}} appwrite health getStorage
 
 # {{{ appwrite health getStorageLocal
 # @cmd Check the Appwrite local storage device is up and connection is successful.
@@ -1705,6 +1910,638 @@ logout() {
 }
 # }} appwrite logout
 
+# {{ appwrite messaging
+# @cmd The messaging command allows you to send messages.
+# @flag -h --help    display help for command
+messaging() {
+    :;
+}
+
+# {{{ appwrite messaging listMessages
+# @cmd Get a list of all messages from the current Appwrite project.
+# @option --queries*[scheduledAt|deliveredAt|deliveredTotal|status|description|providerType] <queries>  Array of query strings generated using the Query class provided by the SDK.
+# @option --search <search>    Search term to filter your list results.
+# @flag -h --help              display help for command
+messaging::listMessages() {
+    :;
+}
+# }}} appwrite messaging listMessages
+
+# {{{ appwrite messaging createEmail
+# @cmd Create a new email message.
+# @option --messageId <messageId>         Message ID.
+# @option --subject <subject>             Email Subject.
+# @option --content <content>             Email Content.
+# @option --topics* <topics>              List of Topic IDs.
+# @option --users* <users>                List of User IDs.
+# @option --targets* <targets>            List of Targets IDs.
+# @option --cc* <cc>                      Array of target IDs to be added as CC.
+# @option --bcc* <bcc>                    Array of target IDs to be added as BCC.
+# @option --attachments* <attachments>    Array of compound ID strings of bucket IDs and file IDs to be attached to the email.
+# @option --draft <draft>                 Is message a draft
+# @option --html <html>                   Is content of type HTML
+# @option --scheduledAt <scheduledAt>     Scheduled delivery time for message in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+# @flag -h --help                         display help for command
+messaging::createEmail() {
+    :;
+}
+# }}} appwrite messaging createEmail
+
+# {{{ appwrite messaging updateEmail
+# @cmd Update an email message by its unique ID.
+# @option --messageId <messageId>         Message ID.
+# @option --topics* <topics>              List of Topic IDs.
+# @option --users* <users>                List of User IDs.
+# @option --targets* <targets>            List of Targets IDs.
+# @option --subject <subject>             Email Subject.
+# @option --content <content>             Email Content.
+# @option --draft <draft>                 Is message a draft
+# @option --html <html>                   Is content of type HTML
+# @option --cc* <cc>                      Array of target IDs to be added as CC.
+# @option --bcc* <bcc>                    Array of target IDs to be added as BCC.
+# @option --scheduledAt <scheduledAt>     Scheduled delivery time for message in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+# @option --attachments* <attachments>    Array of compound ID strings of bucket IDs and file IDs to be attached to the email.
+# @flag -h --help                         display help for command
+messaging::updateEmail() {
+    :;
+}
+# }}} appwrite messaging updateEmail
+
+# {{{ appwrite messaging createPush
+# @cmd Create a new push notification.
+# @option --messageId <messageId>        Message ID.
+# @option --title <title>                Title for push notification.
+# @option --body <body>                  Body for push notification.
+# @option --topics* <topics>             List of Topic IDs.
+# @option --users* <users>               List of User IDs.
+# @option --targets* <targets>           List of Targets IDs.
+# @option --data <data>                  Additional Data for push notification.
+# @option --action <action>              Action for push notification.
+# @option --image <image>                Image for push notification.
+# @option --icon <icon>                  Icon for push notification.
+# @option --sound <sound>                Sound for push notification.
+# @option --color <color>                Color for push notification.
+# @option --tag <tag>                    Tag for push notification.
+# @option --badge <badge>                Badge for push notification.
+# @option --draft <draft>                Is message a draft
+# @option --scheduledAt <scheduledAt>    Scheduled delivery time for message in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+# @flag -h --help                        display help for command
+messaging::createPush() {
+    :;
+}
+# }}} appwrite messaging createPush
+
+# {{{ appwrite messaging updatePush
+# @cmd Update a push notification by its unique ID.
+# @option --messageId <messageId>        Message ID.
+# @option --topics* <topics>             List of Topic IDs.
+# @option --users* <users>               List of User IDs.
+# @option --targets* <targets>           List of Targets IDs.
+# @option --title <title>                Title for push notification.
+# @option --body <body>                  Body for push notification.
+# @option --data <data>                  Additional Data for push notification.
+# @option --action <action>              Action for push notification.
+# @option --image <image>                Image for push notification.
+# @option --icon <icon>                  Icon for push notification.
+# @option --sound <sound>                Sound for push notification.
+# @option --color <color>                Color for push notification.
+# @option --tag <tag>                    Tag for push notification.
+# @option --badge <badge>                Badge for push notification.
+# @option --draft <draft>                Is message a draft
+# @option --scheduledAt <scheduledAt>    Scheduled delivery time for message in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+# @flag -h --help                        display help for command
+messaging::updatePush() {
+    :;
+}
+# }}} appwrite messaging updatePush
+
+# {{{ appwrite messaging createSms
+# @cmd Create a new SMS message.
+# @option --messageId <messageId>        Message ID.
+# @option --content <content>            SMS Content.
+# @option --topics* <topics>             List of Topic IDs.
+# @option --users* <users>               List of User IDs.
+# @option --targets* <targets>           List of Targets IDs.
+# @option --draft <draft>                Is message a draft
+# @option --scheduledAt <scheduledAt>    Scheduled delivery time for message in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+# @flag -h --help                        display help for command
+messaging::createSms() {
+    :;
+}
+# }}} appwrite messaging createSms
+
+# {{{ appwrite messaging updateSms
+# @cmd Update an email message by its unique ID.
+# @option --messageId <messageId>        Message ID.
+# @option --topics* <topics>             List of Topic IDs.
+# @option --users* <users>               List of User IDs.
+# @option --targets* <targets>           List of Targets IDs.
+# @option --content <content>            Email Content.
+# @option --draft <draft>                Is message a draft
+# @option --scheduledAt <scheduledAt>    Scheduled delivery time for message in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+# @flag -h --help                        display help for command
+messaging::updateSms() {
+    :;
+}
+# }}} appwrite messaging updateSms
+
+# {{{ appwrite messaging getMessage
+# @cmd Get a message by its unique ID.
+# @option --messageId <messageId>    Message ID.
+# @flag -h --help                    display help for command
+messaging::getMessage() {
+    :;
+}
+# }}} appwrite messaging getMessage
+
+# {{{ appwrite messaging delete
+# @cmd Delete a message.
+# @option --messageId <messageId>    Message ID.
+# @flag -h --help                    display help for command
+messaging::delete() {
+    :;
+}
+# }}} appwrite messaging delete
+
+# {{{ appwrite messaging listMessageLogs
+# @cmd Get the message activity logs listed by its unique ID.
+# @option --messageId <messageId>    Message ID.
+# @option --queries* <queries>       Array of query strings generated using the Query class provided by the SDK.
+# @flag -h --help                    display help for command
+messaging::listMessageLogs() {
+    :;
+}
+# }}} appwrite messaging listMessageLogs
+
+# {{{ appwrite messaging listTargets
+# @cmd Get a list of the targets associated with a message.
+# @option --messageId <messageId>    Message ID.
+# @option --queries*[userId|providerId|identifier|providerType] <queries>  Array of query strings generated using the Query class provided by the SDK.
+# @flag -h --help                    display help for command
+messaging::listTargets() {
+    :;
+}
+# }}} appwrite messaging listTargets
+
+# {{{ appwrite messaging listProviders
+# @cmd Get a list of all providers from the current Appwrite project.
+# @option --queries*[name|provider|type|enabled] <queries>  Array of query strings generated using the Query class provided by the SDK.
+# @option --search <search>    Search term to filter your list results.
+# @flag -h --help              display help for command
+messaging::listProviders() {
+    :;
+}
+# }}} appwrite messaging listProviders
+
+# {{{ appwrite messaging createApnsProvider
+# @cmd Create a new Apple Push Notification service provider.
+# @option --providerId <providerId>    Provider ID.
+# @option --name <name>                Provider name.
+# @option --authKey <authKey>          APNS authentication key.
+# @option --authKeyId <authKeyId>      APNS authentication key ID.
+# @option --teamId <teamId>            APNS team ID.
+# @option --bundleId <bundleId>        APNS bundle ID.
+# @option --sandbox <sandbox>          Use APNS sandbox environment.
+# @option --enabled <enabled>          Set as enabled.
+# @flag -h --help                      display help for command
+messaging::createApnsProvider() {
+    :;
+}
+# }}} appwrite messaging createApnsProvider
+
+# {{{ appwrite messaging updateApnsProvider
+# @cmd Update a Apple Push Notification service provider by its unique ID.
+# @option --providerId <providerId>    Provider ID.
+# @option --name <name>                Provider name.
+# @option --enabled <enabled>          Set as enabled.
+# @option --authKey <authKey>          APNS authentication key.
+# @option --authKeyId <authKeyId>      APNS authentication key ID.
+# @option --teamId <teamId>            APNS team ID.
+# @option --bundleId <bundleId>        APNS bundle ID.
+# @option --sandbox <sandbox>          Use APNS sandbox environment.
+# @flag -h --help                      display help for command
+messaging::updateApnsProvider() {
+    :;
+}
+# }}} appwrite messaging updateApnsProvider
+
+# {{{ appwrite messaging createFcmProvider
+# @cmd Create a new Firebase Cloud Messaging provider.
+# @option --providerId <providerId>    Provider ID.
+# @option --name <name>                Provider name.
+# @option --serviceAccountJSON <serviceAccountJSON>  FCM service account JSON.
+# @option --enabled <enabled>          Set as enabled.
+# @flag -h --help                      display help for command
+messaging::createFcmProvider() {
+    :;
+}
+# }}} appwrite messaging createFcmProvider
+
+# {{{ appwrite messaging updateFcmProvider
+# @cmd Update a Firebase Cloud Messaging provider by its unique ID.
+# @option --providerId <providerId>    Provider ID.
+# @option --name <name>                Provider name.
+# @option --enabled <enabled>          Set as enabled.
+# @option --serviceAccountJSON <serviceAccountJSON>  FCM service account JSON.
+# @flag -h --help                      display help for command
+messaging::updateFcmProvider() {
+    :;
+}
+# }}} appwrite messaging updateFcmProvider
+
+# {{{ appwrite messaging createMailgunProvider
+# @cmd Create a new Mailgun provider.
+# @option --providerId <providerId>        Provider ID.
+# @option --name <name>                    Provider name.
+# @option --apiKey <apiKey>                Mailgun API Key.
+# @option --domain <domain>                Mailgun Domain.
+# @option --isEuRegion <isEuRegion>        Set as EU region.
+# @option --fromName <fromName>            Sender Name.
+# @option --fromEmail <fromEmail>          Sender email address.
+# @option --replyToName <replyToName>      Name set in the reply to field for the mail.
+# @option --replyToEmail <replyToEmail>    Email set in the reply to field for the mail.
+# @option --enabled <enabled>              Set as enabled.
+# @flag -h --help                          display help for command
+messaging::createMailgunProvider() {
+    :;
+}
+# }}} appwrite messaging createMailgunProvider
+
+# {{{ appwrite messaging updateMailgunProvider
+# @cmd Update a Mailgun provider by its unique ID.
+# @option --providerId <providerId>        Provider ID.
+# @option --name <name>                    Provider name.
+# @option --apiKey <apiKey>                Mailgun API Key.
+# @option --domain <domain>                Mailgun Domain.
+# @option --isEuRegion <isEuRegion>        Set as EU region.
+# @option --enabled <enabled>              Set as enabled.
+# @option --fromName <fromName>            Sender Name.
+# @option --fromEmail <fromEmail>          Sender email address.
+# @option --replyToName <replyToName>      Name set in the reply to field for the mail.
+# @option --replyToEmail <replyToEmail>    Email set in the reply to field for the mail.
+# @flag -h --help                          display help for command
+messaging::updateMailgunProvider() {
+    :;
+}
+# }}} appwrite messaging updateMailgunProvider
+
+# {{{ appwrite messaging createMsg91Provider
+# @cmd Create a new MSG91 provider.
+# @option --providerId <providerId>    Provider ID.
+# @option --name <name>                Provider name.
+# @option --templateId <templateId>    Msg91 template ID
+# @option --senderId <senderId>        Msg91 sender ID.
+# @option --authKey <authKey>          Msg91 auth key.
+# @option --enabled <enabled>          Set as enabled.
+# @flag -h --help                      display help for command
+messaging::createMsg91Provider() {
+    :;
+}
+# }}} appwrite messaging createMsg91Provider
+
+# {{{ appwrite messaging updateMsg91Provider
+# @cmd Update a MSG91 provider by its unique ID.
+# @option --providerId <providerId>    Provider ID.
+# @option --name <name>                Provider name.
+# @option --enabled <enabled>          Set as enabled.
+# @option --templateId <templateId>    Msg91 template ID.
+# @option --senderId <senderId>        Msg91 sender ID.
+# @option --authKey <authKey>          Msg91 auth key.
+# @flag -h --help                      display help for command
+messaging::updateMsg91Provider() {
+    :;
+}
+# }}} appwrite messaging updateMsg91Provider
+
+# {{{ appwrite messaging createSendgridProvider
+# @cmd Create a new Sendgrid provider.
+# @option --providerId <providerId>        Provider ID.
+# @option --name <name>                    Provider name.
+# @option --apiKey <apiKey>                Sendgrid API key.
+# @option --fromName <fromName>            Sender Name.
+# @option --fromEmail <fromEmail>          Sender email address.
+# @option --replyToName <replyToName>      Name set in the reply to field for the mail.
+# @option --replyToEmail <replyToEmail>    Email set in the reply to field for the mail.
+# @option --enabled <enabled>              Set as enabled.
+# @flag -h --help                          display help for command
+messaging::createSendgridProvider() {
+    :;
+}
+# }}} appwrite messaging createSendgridProvider
+
+# {{{ appwrite messaging updateSendgridProvider
+# @cmd Update a Sendgrid provider by its unique ID.
+# @option --providerId <providerId>        Provider ID.
+# @option --name <name>                    Provider name.
+# @option --enabled <enabled>              Set as enabled.
+# @option --apiKey <apiKey>                Sendgrid API key.
+# @option --fromName <fromName>            Sender Name.
+# @option --fromEmail <fromEmail>          Sender email address.
+# @option --replyToName <replyToName>      Name set in the Reply To field for the mail.
+# @option --replyToEmail <replyToEmail>    Email set in the Reply To field for the mail.
+# @flag -h --help                          display help for command
+messaging::updateSendgridProvider() {
+    :;
+}
+# }}} appwrite messaging updateSendgridProvider
+
+# {{{ appwrite messaging createSmtpProvider
+# @cmd Create a new SMTP provider.
+# @option --providerId <providerId>        Provider ID.
+# @option --name <name>                    Provider name.
+# @option --host <host>                    SMTP hosts.
+# @option --port <port>                    The default SMTP server port.
+# @option --username <username>            Authentication username.
+# @option --password <password>            Authentication password.
+# @option --encryption <encryption>        Encryption type.
+# @option --autoTLS <autoTLS>              Enable SMTP AutoTLS feature.
+# @option --mailer <mailer>                The value to use for the X-Mailer header.
+# @option --fromName <fromName>            Sender Name.
+# @option --fromEmail <fromEmail>          Sender email address.
+# @option --replyToName <replyToName>      Name set in the reply to field for the mail.
+# @option --replyToEmail <replyToEmail>    Email set in the reply to field for the mail.
+# @option --enabled <enabled>              Set as enabled.
+# @flag -h --help                          display help for command
+messaging::createSmtpProvider() {
+    :;
+}
+# }}} appwrite messaging createSmtpProvider
+
+# {{{ appwrite messaging updateSmtpProvider
+# @cmd Update a SMTP provider by its unique ID.
+# @option --providerId <providerId>        Provider ID.
+# @option --name <name>                    Provider name.
+# @option --host <host>                    SMTP hosts.
+# @option --port <port>                    SMTP port.
+# @option --username <username>            Authentication username.
+# @option --password <password>            Authentication password.
+# @option --encryption <encryption>        Encryption type.
+# @option --autoTLS <autoTLS>              Enable SMTP AutoTLS feature.
+# @option --mailer <mailer>                The value to use for the X-Mailer header.
+# @option --fromName <fromName>            Sender Name.
+# @option --fromEmail <fromEmail>          Sender email address.
+# @option --replyToName <replyToName>      Name set in the Reply To field for the mail.
+# @option --replyToEmail <replyToEmail>    Email set in the Reply To field for the mail.
+# @option --enabled <enabled>              Set as enabled.
+# @flag -h --help                          display help for command
+messaging::updateSmtpProvider() {
+    :;
+}
+# }}} appwrite messaging updateSmtpProvider
+
+# {{{ appwrite messaging createTelesignProvider
+# @cmd Create a new Telesign provider.
+# @option --providerId <providerId>    Provider ID.
+# @option --name <name>                Provider name.
+# @option --from <from>                Sender Phone number.
+# @option --customerId <customerId>    Telesign customer ID.
+# @option --apiKey <apiKey>            Telesign API key.
+# @option --enabled <enabled>          Set as enabled.
+# @flag -h --help                      display help for command
+messaging::createTelesignProvider() {
+    :;
+}
+# }}} appwrite messaging createTelesignProvider
+
+# {{{ appwrite messaging updateTelesignProvider
+# @cmd Update a Telesign provider by its unique ID.
+# @option --providerId <providerId>    Provider ID.
+# @option --name <name>                Provider name.
+# @option --enabled <enabled>          Set as enabled.
+# @option --customerId <customerId>    Telesign customer ID.
+# @option --apiKey <apiKey>            Telesign API key.
+# @option --from <from>                Sender number.
+# @flag -h --help                      display help for command
+messaging::updateTelesignProvider() {
+    :;
+}
+# }}} appwrite messaging updateTelesignProvider
+
+# {{{ appwrite messaging createTextmagicProvider
+# @cmd Create a new Textmagic provider.
+# @option --providerId <providerId>    Provider ID.
+# @option --name <name>                Provider name.
+# @option --from <from>                Sender Phone number.
+# @option --username <username>        Textmagic username.
+# @option --apiKey <apiKey>            Textmagic apiKey.
+# @option --enabled <enabled>          Set as enabled.
+# @flag -h --help                      display help for command
+messaging::createTextmagicProvider() {
+    :;
+}
+# }}} appwrite messaging createTextmagicProvider
+
+# {{{ appwrite messaging updateTextmagicProvider
+# @cmd Update a Textmagic provider by its unique ID.
+# @option --providerId <providerId>    Provider ID.
+# @option --name <name>                Provider name.
+# @option --enabled <enabled>          Set as enabled.
+# @option --username <username>        Textmagic username.
+# @option --apiKey <apiKey>            Textmagic apiKey.
+# @option --from <from>                Sender number.
+# @flag -h --help                      display help for command
+messaging::updateTextmagicProvider() {
+    :;
+}
+# }}} appwrite messaging updateTextmagicProvider
+
+# {{{ appwrite messaging createTwilioProvider
+# @cmd Create a new Twilio provider.
+# @option --providerId <providerId>    Provider ID.
+# @option --name <name>                Provider name.
+# @option --from <from>                Sender Phone number.
+# @option --accountSid <accountSid>    Twilio account secret ID.
+# @option --authToken <authToken>      Twilio authentication token.
+# @option --enabled <enabled>          Set as enabled.
+# @flag -h --help                      display help for command
+messaging::createTwilioProvider() {
+    :;
+}
+# }}} appwrite messaging createTwilioProvider
+
+# {{{ appwrite messaging updateTwilioProvider
+# @cmd Update a Twilio provider by its unique ID.
+# @option --providerId <providerId>    Provider ID.
+# @option --name <name>                Provider name.
+# @option --enabled <enabled>          Set as enabled.
+# @option --accountSid <accountSid>    Twilio account secret ID.
+# @option --authToken <authToken>      Twilio authentication token.
+# @option --from <from>                Sender number.
+# @flag -h --help                      display help for command
+messaging::updateTwilioProvider() {
+    :;
+}
+# }}} appwrite messaging updateTwilioProvider
+
+# {{{ appwrite messaging createVonageProvider
+# @cmd Create a new Vonage provider.
+# @option --providerId <providerId>    Provider ID.
+# @option --name <name>                Provider name.
+# @option --from <from>                Sender Phone number.
+# @option --apiKey <apiKey>            Vonage API key.
+# @option --apiSecret <apiSecret>      Vonage API secret.
+# @option --enabled <enabled>          Set as enabled.
+# @flag -h --help                      display help for command
+messaging::createVonageProvider() {
+    :;
+}
+# }}} appwrite messaging createVonageProvider
+
+# {{{ appwrite messaging updateVonageProvider
+# @cmd Update a Vonage provider by its unique ID.
+# @option --providerId <providerId>    Provider ID.
+# @option --name <name>                Provider name.
+# @option --enabled <enabled>          Set as enabled.
+# @option --apiKey <apiKey>            Vonage API key.
+# @option --apiSecret <apiSecret>      Vonage API secret.
+# @option --from <from>                Sender number.
+# @flag -h --help                      display help for command
+messaging::updateVonageProvider() {
+    :;
+}
+# }}} appwrite messaging updateVonageProvider
+
+# {{{ appwrite messaging getProvider
+# @cmd Get a provider by its unique ID.
+# @option --providerId <providerId>    Provider ID.
+# @flag -h --help                      display help for command
+messaging::getProvider() {
+    :;
+}
+# }}} appwrite messaging getProvider
+
+# {{{ appwrite messaging deleteProvider
+# @cmd Delete a provider by its unique ID.
+# @option --providerId <providerId>    Provider ID.
+# @flag -h --help                      display help for command
+messaging::deleteProvider() {
+    :;
+}
+# }}} appwrite messaging deleteProvider
+
+# {{{ appwrite messaging listProviderLogs
+# @cmd Get the provider activity logs listed by its unique ID.
+# @option --providerId <providerId>    Provider ID.
+# @option --queries* <queries>         Array of query strings generated using the Query class provided by the SDK.
+# @flag -h --help                      display help for command
+messaging::listProviderLogs() {
+    :;
+}
+# }}} appwrite messaging listProviderLogs
+
+# {{{ appwrite messaging listSubscriberLogs
+# @cmd Get the subscriber activity logs listed by its unique ID.
+# @option --subscriberId <subscriberId>    Subscriber ID.
+# @option --queries* <queries>             Array of query strings generated using the Query class provided by the SDK.
+# @flag -h --help                          display help for command
+messaging::listSubscriberLogs() {
+    :;
+}
+# }}} appwrite messaging listSubscriberLogs
+
+# {{{ appwrite messaging listTopics
+# @cmd Get a list of all topics from the current Appwrite project.
+# @option --queries*[name|description|emailTotal|smsTotal|pushTotal] <queries>  Array of query strings generated using the Query class provided by the SDK.
+# @option --search <search>    Search term to filter your list results.
+# @flag -h --help              display help for command
+messaging::listTopics() {
+    :;
+}
+# }}} appwrite messaging listTopics
+
+# {{{ appwrite messaging createTopic
+# @cmd Create a new topic.
+# @option --topicId <topicId>         Topic ID.
+# @option --name <name>               Topic Name.
+# @option --subscribe* <subscribe>    An array of role strings with subscribe permission.
+# @flag -h --help                     display help for command
+messaging::createTopic() {
+    :;
+}
+# }}} appwrite messaging createTopic
+
+# {{{ appwrite messaging getTopic
+# @cmd Get a topic by its unique ID.
+# @option --topicId <topicId>    Topic ID.
+# @flag -h --help                display help for command
+messaging::getTopic() {
+    :;
+}
+# }}} appwrite messaging getTopic
+
+# {{{ appwrite messaging updateTopic
+# @cmd Update a topic by its unique ID.
+# @option --topicId <topicId>         Topic ID.
+# @option --name <name>               Topic Name.
+# @option --subscribe* <subscribe>    An array of role strings with subscribe permission.
+# @flag -h --help                     display help for command
+messaging::updateTopic() {
+    :;
+}
+# }}} appwrite messaging updateTopic
+
+# {{{ appwrite messaging deleteTopic
+# @cmd Delete a topic by its unique ID.
+# @option --topicId <topicId>    Topic ID.
+# @flag -h --help                display help for command
+messaging::deleteTopic() {
+    :;
+}
+# }}} appwrite messaging deleteTopic
+
+# {{{ appwrite messaging listTopicLogs
+# @cmd Get the topic activity logs listed by its unique ID.
+# @option --topicId <topicId>     Topic ID.
+# @option --queries* <queries>    Array of query strings generated using the Query class provided by the SDK.
+# @flag -h --help                 display help for command
+messaging::listTopicLogs() {
+    :;
+}
+# }}} appwrite messaging listTopicLogs
+
+# {{{ appwrite messaging listSubscribers
+# @cmd Get a list of all subscribers from the current Appwrite project.
+# @option --topicId <topicId>    Topic ID.
+# @option --queries*[name|provider|type|enabled] <queries>  Array of query strings generated using the Query class provided by the SDK.
+# @option --search <search>      Search term to filter your list results.
+# @flag -h --help                display help for command
+messaging::listSubscribers() {
+    :;
+}
+# }}} appwrite messaging listSubscribers
+
+# {{{ appwrite messaging createSubscriber
+# @cmd Create a new subscriber.
+# @option --topicId <topicId>              Topic ID.
+# @option --subscriberId <subscriberId>    Subscriber ID.
+# @option --targetId <targetId>            Target ID.
+# @flag -h --help                          display help for command
+messaging::createSubscriber() {
+    :;
+}
+# }}} appwrite messaging createSubscriber
+
+# {{{ appwrite messaging getSubscriber
+# @cmd Get a subscriber by its unique ID.
+# @option --topicId <topicId>              Topic ID.
+# @option --subscriberId <subscriberId>    Subscriber ID.
+# @flag -h --help                          display help for command
+messaging::getSubscriber() {
+    :;
+}
+# }}} appwrite messaging getSubscriber
+
+# {{{ appwrite messaging deleteSubscriber
+# @cmd Delete a subscriber by its unique ID.
+# @option --topicId <topicId>              Topic ID.
+# @option --subscriberId <subscriberId>    Subscriber ID.
+# @flag -h --help                          display help for command
+messaging::deleteSubscriber() {
+    :;
+}
+# }}} appwrite messaging deleteSubscriber
+# }} appwrite messaging
+
 # {{ appwrite migrations
 # @cmd The migrations command allows you to migrate data between services.
 # @flag -h --help    display help for command
@@ -1714,7 +2551,7 @@ migrations() {
 
 # {{{ appwrite migrations list
 # @cmd
-# @option --queries[status|stage|source|resources|statusCounters|resourceData|errors] <queries>  Array of query strings generated using the Query class provided by the SDK.
+# @option --queries*[status|stage|source|resources|statusCounters|resourceData|errors] <queries>  Array of query strings generated using the Query class provided by the SDK.
 # @option --search <search>    Search term to filter your list results.
 # @flag -h --help              display help for command
 migrations::list() {
@@ -1901,8 +2738,10 @@ project() {
 
 # {{{ appwrite project getUsage
 # @cmd
-# @option --range <range>    Date range.
-# @flag -h --help            display help for command
+# @option --startDate <startDate>    Starting date for the usage
+# @option --endDate <endDate>        End date for the usage
+# @option --period <period>          Period used
+# @flag -h --help                    display help for command
 project::getUsage() {
     :;
 }
@@ -2031,6 +2870,27 @@ projects::delete() {
 }
 # }}} appwrite projects delete
 
+# {{{ appwrite projects updateApiStatus
+# @cmd
+# @option --projectId <projectId>    Project unique ID.
+# @option --api <api>                API name.
+# @option --status <status>          API status.
+# @flag -h --help                    display help for command
+projects::updateApiStatus() {
+    :;
+}
+# }}} appwrite projects updateApiStatus
+
+# {{{ appwrite projects updateApiStatusAll
+# @cmd
+# @option --projectId <projectId>    Project unique ID.
+# @option --status <status>          API status.
+# @flag -h --help                    display help for command
+projects::updateApiStatusAll() {
+    :;
+}
+# }}} appwrite projects updateApiStatusAll
+
 # {{{ appwrite projects updateAuthDuration
 # @cmd
 # @option --projectId <projectId>    Project unique ID.
@@ -2116,7 +2976,7 @@ projects::listKeys() {
 # @option --projectId <projectId>    Project unique ID.
 # @option --name <name>              Key name.
 # @option --scopes* <scopes>         Key scopes list.
-# @option --expire <expire>          Expiration time in ISO 8601 format.
+# @option --expire <expire>          Expiration time in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
 # @flag -h --help                    display help for command
 projects::createKey() {
     :;
@@ -2139,7 +2999,7 @@ projects::getKey() {
 # @option --keyId <keyId>            Key unique ID.
 # @option --name <name>              Key name.
 # @option --scopes* <scopes>         Key scopes list.
-# @option --expire <expire>          Expiration time in ISO 8601 format.
+# @option --expire <expire>          Expiration time in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
 # @flag -h --help                    display help for command
 projects::updateKey() {
     :;
@@ -2247,7 +3107,7 @@ projects::updateServiceStatusAll() {
 }
 # }}} appwrite projects updateServiceStatusAll
 
-# {{{ appwrite projects updateSmtpConfiguration
+# {{{ appwrite projects updateSmtp
 # @cmd
 # @option --projectId <projectId>        Project unique ID.
 # @option --enabled <enabled>            Enable custom SMTP service
@@ -2260,10 +3120,28 @@ projects::updateServiceStatusAll() {
 # @option --password <password>          SMTP server password
 # @option --secure <secure>              Does SMTP server use secure connection
 # @flag -h --help                        display help for command
-projects::updateSmtpConfiguration() {
+projects::updateSmtp() {
     :;
 }
-# }}} appwrite projects updateSmtpConfiguration
+# }}} appwrite projects updateSmtp
+
+# {{{ appwrite projects createSmtpTest
+# @cmd
+# @option --projectId <projectId>        Project unique ID.
+# @option --emails* <emails>             Array of emails to send test email to.
+# @option --senderName <senderName>      Name of the email sender
+# @option --senderEmail <senderEmail>    Email of the sender
+# @option --host <host>                  SMTP server host name
+# @option --replyTo <replyTo>            Reply to email
+# @option --port <port>                  SMTP server port
+# @option --username <username>          SMTP server username
+# @option --password <password>          SMTP server password
+# @option --secure <secure>              Does SMTP server use secure connection
+# @flag -h --help                        display help for command
+projects::createSmtpTest() {
+    :;
+}
+# }}} appwrite projects createSmtpTest
 
 # {{{ appwrite projects updateTeam
 # @cmd
@@ -2347,16 +3225,6 @@ projects::deleteSmsTemplate() {
 }
 # }}} appwrite projects deleteSmsTemplate
 
-# {{{ appwrite projects getUsage
-# @cmd
-# @option --projectId <projectId>    Project unique ID.
-# @option --range <range>            Date range.
-# @flag -h --help                    display help for command
-projects::getUsage() {
-    :;
-}
-# }}} appwrite projects getUsage
-
 # {{{ appwrite projects listWebhooks
 # @cmd
 # @option --projectId <projectId>    Project unique ID.
@@ -2373,6 +3241,7 @@ projects::listWebhooks() {
 # @option --events* <events>         Events list.
 # @option --url <url>                Webhook URL.
 # @option --security <security>      Certificate verification, false for disabled or true for enabled.
+# @option --enabled <enabled>        Enable or disable a webhook.
 # @option --httpUser <httpUser>      Webhook HTTP user.
 # @option --httpPass <httpPass>      Webhook HTTP password.
 # @flag -h --help                    display help for command
@@ -2399,6 +3268,7 @@ projects::getWebhook() {
 # @option --events* <events>         Events list.
 # @option --url <url>                Webhook URL.
 # @option --security <security>      Certificate verification, false for disabled or true for enabled.
+# @option --enabled <enabled>        Enable or disable a webhook.
 # @option --httpUser <httpUser>      Webhook HTTP user.
 # @option --httpPass <httpPass>      Webhook HTTP password.
 # @flag -h --help                    display help for command
@@ -2683,9 +3553,9 @@ teams() {
 
 # {{{ appwrite teams list
 # @cmd Get a list of all the teams in which the current user is a member.
-# @option --queries*[name|total] <queries>    Array of query strings generated using the Query class provided by the SDK.
-# @option --search <search>                   Search term to filter your list results.
-# @flag -h --help                             display help for command
+# @option --queries*[name|total|billingPlan] <queries>  Array of query strings generated using the Query class provided by the SDK.
+# @option --search <search>    Search term to filter your list results.
+# @flag -h --help              display help for command
 teams::list() {
     :;
 }
@@ -2838,7 +3708,7 @@ users() {
 
 # {{{ appwrite users list
 # @cmd Get a list of all the project's users.
-# @option --queries*[name|email|phone|status|passwordUpdate|registration|emailVerification|phoneVerification] <queries>  Array of query strings generated using the Query class provided by the SDK.
+# @option --queries*[name|email|phone|status|passwordUpdate|registration|emailVerification|phoneVerification|labels] <queries>  Array of query strings generated using the Query class provided by the SDK.
 # @option --search <search>    Search term to filter your list results.
 # @flag -h --help              display help for command
 users::list() {
@@ -2885,7 +3755,7 @@ users::createBcryptUser() {
 
 # {{{ appwrite users listIdentities
 # @cmd Get identities for all users.
-# @option --queries[userId|provider|providerUid|providerEmail|providerAccessTokenExpiry] <queries>  Array of query strings generated using the Query class provided by the SDK.
+# @option --queries*[userId|provider|providerUid|providerEmail|providerAccessTokenExpiry] <queries>  Array of query strings generated using the Query class provided by the SDK.
 # @option --search <search>    Search term to filter your list results.
 # @flag -h --help              display help for command
 users::listIdentities() {
@@ -2973,9 +3843,8 @@ users::createSHAUser() {
 
 # {{{ appwrite users getUsage
 # @cmd
-# @option --range <range>          Date range.
-# @option --provider <provider>    Provider Name.
-# @flag -h --help                  display help for command
+# @option --range <range>    Date range.
+# @flag -h --help            display help for command
 users::getUsage() {
     :;
 }
@@ -3038,6 +3907,62 @@ users::listMemberships() {
 }
 # }}} appwrite users listMemberships
 
+# {{{ appwrite users updateMfa
+# @cmd Enable or disable MFA on a user account.
+# @option --userId <userId>    User ID.
+# @option --mfa <mfa>          Enable or disable MFA.
+# @flag -h --help              display help for command
+users::updateMfa() {
+    :;
+}
+# }}} appwrite users updateMfa
+
+# {{{ appwrite users deleteMfaAuthenticator
+# @cmd Delete an authenticator app.
+# @option --userId <userId>    User ID.
+# @option --type <type>        Type of authenticator.
+# @flag -h --help              display help for command
+users::deleteMfaAuthenticator() {
+    :;
+}
+# }}} appwrite users deleteMfaAuthenticator
+
+# {{{ appwrite users listMfaFactors
+# @cmd List the factors available on the account to be used as a MFA challange.
+# @option --userId <userId>    User ID.
+# @flag -h --help              display help for command
+users::listMfaFactors() {
+    :;
+}
+# }}} appwrite users listMfaFactors
+
+# {{{ appwrite users getMfaRecoveryCodes
+# @cmd Get recovery codes that can be used as backup for MFA flow by User ID.
+# @option --userId <userId>    User ID.
+# @flag -h --help              display help for command
+users::getMfaRecoveryCodes() {
+    :;
+}
+# }}} appwrite users getMfaRecoveryCodes
+
+# {{{ appwrite users updateMfaRecoveryCodes
+# @cmd Regenerate recovery codes that can be used as backup for MFA flow by User ID.
+# @option --userId <userId>    User ID.
+# @flag -h --help              display help for command
+users::updateMfaRecoveryCodes() {
+    :;
+}
+# }}} appwrite users updateMfaRecoveryCodes
+
+# {{{ appwrite users createMfaRecoveryCodes
+# @cmd Generate recovery codes used as backup for MFA flow for User ID.
+# @option --userId <userId>    User ID.
+# @flag -h --help              display help for command
+users::createMfaRecoveryCodes() {
+    :;
+}
+# }}} appwrite users createMfaRecoveryCodes
+
 # {{{ appwrite users updateName
 # @cmd Update the user name by its unique ID.
 # @option --userId <userId>    User ID.
@@ -3096,6 +4021,15 @@ users::listSessions() {
 }
 # }}} appwrite users listSessions
 
+# {{{ appwrite users createSession
+# @cmd Creates a session for a user.
+# @option --userId <userId>    User ID.
+# @flag -h --help              display help for command
+users::createSession() {
+    :;
+}
+# }}} appwrite users createSession
+
 # {{{ appwrite users deleteSessions
 # @cmd Delete all user's sessions by using the user's unique ID.
 # @option --userId <userId>    User ID.
@@ -3124,6 +4058,74 @@ users::updateStatus() {
     :;
 }
 # }}} appwrite users updateStatus
+
+# {{{ appwrite users listTargets
+# @cmd List the messaging targets that are associated with a user.
+# @option --userId <userId>    User ID.
+# @option --queries*[name|email|phone|status|passwordUpdate|registration|emailVerification|phoneVerification|labels] <queries>  Array of query strings generated using the Query class provided by the SDK.
+# @flag -h --help              display help for command
+users::listTargets() {
+    :;
+}
+# }}} appwrite users listTargets
+
+# {{{ appwrite users createTarget
+# @cmd Create a messaging target.
+# @option --userId <userId>                User ID.
+# @option --targetId <targetId>            Target ID.
+# @option --providerType <providerType>    The target provider type.
+# @option --identifier <identifier>        The target identifier (token, email, phone etc.)
+# @option --providerId <providerId>        Provider ID.
+# @option --name <name>                    Target name.
+# @flag -h --help                          display help for command
+users::createTarget() {
+    :;
+}
+# }}} appwrite users createTarget
+
+# {{{ appwrite users getTarget
+# @cmd Get a user's push notification target by ID.
+# @option --userId <userId>        User ID.
+# @option --targetId <targetId>    Target ID.
+# @flag -h --help                  display help for command
+users::getTarget() {
+    :;
+}
+# }}} appwrite users getTarget
+
+# {{{ appwrite users updateTarget
+# @cmd Update a messaging target.
+# @option --userId <userId>            User ID.
+# @option --targetId <targetId>        Target ID.
+# @option --identifier <identifier>    The target identifier (token, email, phone etc.)
+# @option --providerId <providerId>    Provider ID.
+# @option --name <name>                Target name.
+# @flag -h --help                      display help for command
+users::updateTarget() {
+    :;
+}
+# }}} appwrite users updateTarget
+
+# {{{ appwrite users deleteTarget
+# @cmd Delete a messaging target.
+# @option --userId <userId>        User ID.
+# @option --targetId <targetId>    Target ID.
+# @flag -h --help                  display help for command
+users::deleteTarget() {
+    :;
+}
+# }}} appwrite users deleteTarget
+
+# {{{ appwrite users createToken
+# @cmd Returns a token with a secret key for creating a session.
+# @option --userId <userId>    User ID.
+# @option --length <length>    Token length in characters.
+# @option --expire <expire>    Token expiration period in seconds.
+# @flag -h --help              display help for command
+users::createToken() {
+    :;
+}
+# }}} appwrite users createToken
 
 # {{{ appwrite users updateEmailVerification
 # @cmd Update the user email verification status by its unique ID.

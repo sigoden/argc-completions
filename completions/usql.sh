@@ -1,58 +1,33 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @option -c --command*               run only single command (SQL or internal) and exit
-# @option -f --file*                  execute commands from file and exit
-# @flag -X                            do not read start up file
-# @flag --no-rc                       do not read start up file
-# @flag --no-no-rc                    do not read start up file
-# @option -o --out                    output file
-# @flag -W                            force password prompt (should happen automatically)
-# @flag --password                    force password prompt (should happen automatically)
-# @flag --no-password                 force password prompt (should happen automatically)
-# @flag -1                            execute as a single transaction (if non-interactive)
-# @flag --single-transaction          execute as a single transaction (if non-interactive)
-# @flag --no-single-transaction       execute as a single transaction (if non-interactive)
-# @option -v* <NAME=VALUE>            set variable NAME to VALUE
-# @option --set* <NAME=VALUE>         set variable NAME to VALUE
-# @option --variable* <NAME=VALUE>    set variable NAME to VALUE
-# @option -P --pset* <VAR[=ARG]>      set printing option VAR to ARG (see \pset command)
-# @option -F --field-separator*       field separator for unaligned and CSV output (default "|" and ",")
-# @option -R --record-separator*      record separator for unaligned and CSV output (default \n)
-# @option -T --table-attr*            set HTML table tag attributes (e.g., width, border)
-# @flag -A                            unaligned table output mode
-# @flag --no-align                    unaligned table output mode
-# @flag --no-no-align                 unaligned table output mode
-# @flag -H                            HTML table output mode
-# @flag --html                        HTML table output mode
-# @flag --no-html                     HTML table output mode
-# @flag -t                            print rows only
-# @flag --tuples-only                 print rows only
-# @flag --no-tuples-only              print rows only
-# @flag -x                            turn on expanded table output
-# @flag --expanded                    turn on expanded table output
-# @flag --no-expanded                 turn on expanded table output
-# @flag -z                            set field separator for unaligned and CSV output to zero byte
-# @flag --field-separator-zero        set field separator for unaligned and CSV output to zero byte
-# @flag --no-field-separator-zero     set field separator for unaligned and CSV output to zero byte
-# @flag -0                            set record separator for unaligned and CSV output to zero byte
-# @flag --record-separator-zero       set record separator for unaligned and CSV output to zero byte
-# @flag --no-record-separator-zero    set record separator for unaligned and CSV output to zero byte
-# @flag -J                            JSON output mode
-# @flag --json                        JSON output mode
-# @flag --no-json                     JSON output mode
-# @flag -C                            CSV output mode
-# @flag --csv                         CSV output mode
-# @flag --no-csv                      CSV output mode
-# @flag -G                            vertical output mode
-# @flag --vertical                    vertical output mode
-# @flag --no-vertical                 vertical output mode
-# @flag -q                            run quietly (no messages, only query output)
-# @flag --quiet                       run quietly (no messages, only query output)
-# @flag --no-quiet                    run quietly (no messages, only query output)
-# @flag --version                     display version and exit
-# @flag --no-version                  display version and exit
-# @arg dsn[`_choice_dsn`]             database url
+# @option -c --command                run only single command (SQL or internal) and exit
+# @option -f --file                   execute commands from file and exit
+# @flag -w --no-password              never prompt for password
+# @flag -X --no-init                  do not execute initialization scripts (aliases: --no-rc --no-psqlrc --no-usqlrc)
+# @option -o --out <FILE>             output file
+# @flag -W --password                 force password prompt (should happen automatically)
+# @flag -1 --single-transaction       execute as a single transaction (if non-interactive)
+# @option -v --set <NAME=VALUE>       set variable NAME to VALUE (see \set command, aliases: --var --variable)
+# @option -N --cset <NAME=DSN>        set named connection NAME to DSN (see \cset command)
+# @option -P --pset <VAR=ARG>         set printing option VAR to ARG (see \pset command)
+# @option -F --field-separator        field separator for unaligned and CSV output (default "|" and ",")
+# @option -R --record-separator       record separator for unaligned and CSV output (default \n)
+# @option -T --table-attr             set HTML table tag attributes (e.g., width, border)
+# @flag -A --no-align                 unaligned table output mode
+# @flag -H --html                     HTML table output mode
+# @flag -t --tuples-only              print rows only
+# @flag -x --expanded                 turn on expanded table output
+# @flag -z --field-separator-zero     set field separator for unaligned and CSV output to zero byte
+# @flag -0 --record-separator-zero    set record separator for unaligned and CSV output to zero byte
+# @flag -J --json                     JSON output mode
+# @flag -C --csv                      CSV output mode
+# @flag -G --vertical                 vertical output mode
+# @flag -q --quiet                    run quietly (no messages, only query output)
+# @option --config <string>           config file
+# @flag -V --version                  output version information, then exit
+# @flag -? --help                     show this help, then exit
+# @arg dsn[`_choice_dsn`]             database url or connection name
 
 _choice_dsn() {
     cat <<-'EOF' | sed 's|:|://\x00\t|'

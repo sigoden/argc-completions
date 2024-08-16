@@ -14,7 +14,6 @@
 # @flag -f --force                                Force actions associated to aliases to be re-executed even if their dependencies haven't changed.
 # @option --file-watcher <VAL>                    Mechanism to detect changes in the source.
 # @flag --passive-watch-mode                      Similar to [--watch], but only start a build when instructed externally by an RPC.
-# @flag --react-to-insignificant-changes          React to insignificant file system changes; this is only useful for benchmarking dune.
 # @option --sandbox[none|symlink|copy|hardlink] <VAL>  Set sandboxing mode.
 # @flag --stop-on-first-error                     Stop the build as soon as an error is encountered.
 # @flag -w --watch                                Instead of terminating build after completion, wait continuously for file changes.
@@ -32,7 +31,6 @@
 # @flag --debug-dependency-path                   In case of error, print the dependency path from the targets on the command line to the rule that failed.
 # @flag --debug-digests                           Explain why Dune decides to re-digest some files
 # @flag --debug-load-dir                          Print debugging info about directory loading
-# @flag --debug-store-digest-preimage             Store digest preimage for all computed digests, so that it's possible to reverse them later, for debugging.
 # @option --default-target <TARGET>               Set the default target that is used when none is specified to dune build.
 # @option --diff-command <VAL>                    Shell command to use to diff files.
 # @flag --disable-promotion                       Disable all promotion rules
@@ -42,7 +40,7 @@
 # @option --dump-memo-graph-format <FORMAT>       Set the file format used by --dump-memo-graph
 # @flag --dump-memo-graph-with-timing             Re-run each cached node in the Memo graph after building and include the run duration in the output of --dump-memo-graph.
 # @option --help[auto|pager|groff|plain] <FMT>    Show this help in format FMT.
-# @flag --ignore-lock-directory                   Ignore dune.lock/ directory.
+# @flag --ignore-lock-dir                         Ignore dune.lock/ directory.
 # @flag --ignore-promoted-rules                   Ignore rules with (mode promote), except ones with (only ...).
 # @option --instrument-with <BACKENDS>            Enable instrumentation by BACKENDS.
 # @option -j <JOBS>                               Run no more than JOBS commands simultaneously.
@@ -79,6 +77,13 @@ cache() {
     :;
 }
 
+# {{{ dune cache clear
+# @cmd Clear the Dune cache.
+cache::clear() {
+    :;
+}
+# }}} dune cache clear
+
 # {{{ dune cache size
 # @cmd Query the size of the Dune cache.
 cache::size() {
@@ -104,7 +109,6 @@ cache::trim() {
 # @flag -f --force                                Force actions associated to aliases to be re-executed even if their dependencies haven't changed.
 # @option --file-watcher <VAL>                    Mechanism to detect changes in the source.
 # @flag --passive-watch-mode                      Similar to [--watch], but only start a build when instructed externally by an RPC.
-# @flag --react-to-insignificant-changes          React to insignificant file system changes; this is only useful for benchmarking dune.
 # @option --sandbox[none|symlink|copy|hardlink] <VAL>  Set sandboxing mode.
 # @flag --stop-on-first-error                     Stop the build as soon as an error is encountered.
 # @flag -w --watch                                Instead of terminating build after completion, wait continuously for file changes.
@@ -122,7 +126,6 @@ cache::trim() {
 # @flag --debug-dependency-path                   In case of error, print the dependency path from the targets on the command line to the rule that failed.
 # @flag --debug-digests                           Explain why Dune decides to re-digest some files
 # @flag --debug-load-dir                          Print debugging info about directory loading
-# @flag --debug-store-digest-preimage             Store digest preimage for all computed digests, so that it's possible to reverse them later, for debugging.
 # @option --default-target <TARGET>               Set the default target that is used when none is specified to dune build.
 # @option --diff-command <VAL>                    Shell command to use to diff files.
 # @flag --disable-promotion                       Disable all promotion rules
@@ -132,7 +135,7 @@ cache::trim() {
 # @option --dump-memo-graph-format <FORMAT>       Set the file format used by --dump-memo-graph
 # @flag --dump-memo-graph-with-timing             Re-run each cached node in the Memo graph after building and include the run duration in the output of --dump-memo-graph.
 # @option --help[auto|pager|groff|plain] <FMT>    Show this help in format FMT.
-# @flag --ignore-lock-directory                   Ignore dune.lock/ directory.
+# @flag --ignore-lock-dir                         Ignore dune.lock/ directory.
 # @flag --ignore-promoted-rules                   Ignore rules with (mode promote), except ones with (only ...).
 # @option --instrument-with <BACKENDS>            Enable instrumentation by BACKENDS.
 # @option -j <JOBS>                               Run no more than JOBS commands simultaneously.
@@ -181,7 +184,6 @@ coq() {
 # @option --format                                FORMAT must be either sexp or csexp
 # @option --lang <VERSION>                        Behave the same as this version of Dune.
 # @flag --passive-watch-mode                      Similar to [--watch], but only start a build when instructed externally by an RPC.
-# @flag --react-to-insignificant-changes          React to insignificant file system changes; this is only useful for benchmarking dune.
 # @option --sandbox[none|symlink|copy|hardlink] <VAL>  Set sandboxing mode.
 # @flag --sanitize-for-tests                      Sanitize the absolute paths in workspace items, and the associated UIDs, so that the output is reproducible.
 # @flag --stop-on-first-error                     Stop the build as soon as an error is encountered.
@@ -202,7 +204,6 @@ coq() {
 # @flag --debug-dependency-path                   In case of error, print the dependency path from the targets on the command line to the rule that failed.
 # @flag --debug-digests                           Explain why Dune decides to re-digest some files
 # @flag --debug-load-dir                          Print debugging info about directory loading
-# @flag --debug-store-digest-preimage             Store digest preimage for all computed digests, so that it's possible to reverse them later, for debugging.
 # @option --default-target <TARGET>               Set the default target that is used when none is specified to dune build.
 # @option --diff-command <VAL>                    Shell command to use to diff files.
 # @flag --disable-promotion                       Disable all promotion rules
@@ -212,7 +213,7 @@ coq() {
 # @option --dump-memo-graph-format <FORMAT>       Set the file format used by --dump-memo-graph
 # @flag --dump-memo-graph-with-timing             Re-run each cached node in the Memo graph after building and include the run duration in the output of --dump-memo-graph.
 # @option --help[auto|pager|groff|plain] <FMT>    Show this help in format FMT.
-# @flag --ignore-lock-directory                   Ignore dune.lock/ directory.
+# @flag --ignore-lock-dir                         Ignore dune.lock/ directory.
 # @flag --ignore-promoted-rules                   Ignore rules with (mode promote), except ones with (only ...).
 # @option --instrument-with <BACKENDS>            Enable instrumentation by BACKENDS.
 # @option -j <JOBS>                               Run no more than JOBS commands simultaneously.
@@ -248,8 +249,15 @@ describe::aliases() {
 }
 # }}} dune describe aliases
 
+# {{{ dune describe contexts
+# @cmd List the build contexts available in the workspace.
+describe::contexts() {
+    :;
+}
+# }}} dune describe contexts
+
 # {{{ dune describe env
-# @cmd Print the environment of a directory
+# @cmd Print the environment of a directory.
 # @option --action-stderr-on-success <VAL>        Same as --action-stdout-on-success but for standard error instead of standard output.
 # @option --action-stdout-on-success <VAL>        Specify how to deal with the standard output of actions when they succeed.
 # @flag --build-info                              Show build information.
@@ -259,7 +267,6 @@ describe::aliases() {
 # @option --field                                 Only print this field.
 # @option --file-watcher <VAL>                    Mechanism to detect changes in the source.
 # @flag --passive-watch-mode                      Similar to [--watch], but only start a build when instructed externally by an RPC.
-# @flag --react-to-insignificant-changes          React to insignificant file system changes; this is only useful for benchmarking dune.
 # @option --sandbox[none|symlink|copy|hardlink] <VAL>  Set sandboxing mode.
 # @flag --stop-on-first-error                     Stop the build as soon as an error is encountered.
 # @flag -w --watch                                Instead of terminating build after completion, wait continuously for file changes.
@@ -277,7 +284,6 @@ describe::aliases() {
 # @flag --debug-dependency-path                   In case of error, print the dependency path from the targets on the command line to the rule that failed.
 # @flag --debug-digests                           Explain why Dune decides to re-digest some files
 # @flag --debug-load-dir                          Print debugging info about directory loading
-# @flag --debug-store-digest-preimage             Store digest preimage for all computed digests, so that it's possible to reverse them later, for debugging.
 # @option --default-target <TARGET>               Set the default target that is used when none is specified to dune build.
 # @option --diff-command <VAL>                    Shell command to use to diff files.
 # @flag --disable-promotion                       Disable all promotion rules
@@ -287,7 +293,7 @@ describe::aliases() {
 # @option --dump-memo-graph-format <FORMAT>       Set the file format used by --dump-memo-graph
 # @flag --dump-memo-graph-with-timing             Re-run each cached node in the Memo graph after building and include the run duration in the output of --dump-memo-graph.
 # @option --help[auto|pager|groff|plain] <FMT>    Show this help in format FMT.
-# @flag --ignore-lock-directory                   Ignore dune.lock/ directory.
+# @flag --ignore-lock-dir                         Ignore dune.lock/ directory.
 # @flag --ignore-promoted-rules                   Ignore rules with (mode promote), except ones with (only ...).
 # @option --instrument-with <BACKENDS>            Enable instrumentation by BACKENDS.
 # @option -j <JOBS>                               Run no more than JOBS commands simultaneously.
@@ -338,7 +344,7 @@ describe::opam-files() {
 # }}} dune describe opam-files
 
 # {{{ dune describe package-entries
-# @cmd prints information about the entries per package
+# @cmd prints information about the entries per package.
 describe::package-entries() {
     :;
 }
@@ -371,7 +377,6 @@ describe::pp() {
 # @option -o <FILE>                               Output to a file instead of stdout.
 # @flag --passive-watch-mode                      Similar to [--watch], but only start a build when instructed externally by an RPC.
 # @flag -r --recursive                            Print all rules needed to build the transitive dependencies of the given targets.
-# @flag --react-to-insignificant-changes          React to insignificant file system changes; this is only useful for benchmarking dune.
 # @option --sandbox[none|symlink|copy|hardlink] <VAL>  Set sandboxing mode.
 # @flag --stop-on-first-error                     Stop the build as soon as an error is encountered.
 # @flag -w --watch                                Instead of terminating build after completion, wait continuously for file changes.
@@ -389,7 +394,6 @@ describe::pp() {
 # @flag --debug-dependency-path                   In case of error, print the dependency path from the targets on the command line to the rule that failed.
 # @flag --debug-digests                           Explain why Dune decides to re-digest some files
 # @flag --debug-load-dir                          Print debugging info about directory loading
-# @flag --debug-store-digest-preimage             Store digest preimage for all computed digests, so that it's possible to reverse them later, for debugging.
 # @option --default-target <TARGET>               Set the default target that is used when none is specified to dune build.
 # @option --diff-command <VAL>                    Shell command to use to diff files.
 # @flag --disable-promotion                       Disable all promotion rules
@@ -399,7 +403,7 @@ describe::pp() {
 # @option --dump-memo-graph-format <FORMAT>       Set the file format used by --dump-memo-graph
 # @flag --dump-memo-graph-with-timing             Re-run each cached node in the Memo graph after building and include the run duration in the output of --dump-memo-graph.
 # @option --help[auto|pager|groff|plain] <FMT>    Show this help in format FMT.
-# @flag --ignore-lock-directory                   Ignore dune.lock/ directory.
+# @flag --ignore-lock-dir                         Ignore dune.lock/ directory.
 # @flag --ignore-promoted-rules                   Ignore rules with (mode promote), except ones with (only ...).
 # @option --instrument-with <BACKENDS>            Enable instrumentation by BACKENDS.
 # @option -j <JOBS>                               Run no more than JOBS commands simultaneously.
@@ -462,7 +466,6 @@ diagnostics() {
 # @option --file-watcher <VAL>                    Mechanism to detect changes in the source.
 # @flag --no-build                                don't rebuild target before executing
 # @flag --passive-watch-mode                      Similar to [--watch], but only start a build when instructed externally by an RPC.
-# @flag --react-to-insignificant-changes          React to insignificant file system changes; this is only useful for benchmarking dune.
 # @option --sandbox[none|symlink|copy|hardlink] <VAL>  Set sandboxing mode.
 # @flag --stop-on-first-error                     Stop the build as soon as an error is encountered.
 # @flag -w --watch                                Instead of terminating build after completion, wait continuously for file changes.
@@ -480,7 +483,6 @@ diagnostics() {
 # @flag --debug-dependency-path                   In case of error, print the dependency path from the targets on the command line to the rule that failed.
 # @flag --debug-digests                           Explain why Dune decides to re-digest some files
 # @flag --debug-load-dir                          Print debugging info about directory loading
-# @flag --debug-store-digest-preimage             Store digest preimage for all computed digests, so that it's possible to reverse them later, for debugging.
 # @option --default-target <TARGET>               Set the default target that is used when none is specified to dune build.
 # @option --diff-command <VAL>                    Shell command to use to diff files.
 # @flag --disable-promotion                       Disable all promotion rules
@@ -490,7 +492,7 @@ diagnostics() {
 # @option --dump-memo-graph-format <FORMAT>       Set the file format used by --dump-memo-graph
 # @flag --dump-memo-graph-with-timing             Re-run each cached node in the Memo graph after building and include the run duration in the output of --dump-memo-graph.
 # @option --help[auto|pager|groff|plain] <FMT>    Show this help in format FMT.
-# @flag --ignore-lock-directory                   Ignore dune.lock/ directory.
+# @flag --ignore-lock-dir                         Ignore dune.lock/ directory.
 # @flag --ignore-promoted-rules                   Ignore rules with (mode promote), except ones with (only ...).
 # @option --instrument-with <BACKENDS>            Enable instrumentation by BACKENDS.
 # @option -j <JOBS>                               Run no more than JOBS commands simultaneously.
@@ -530,7 +532,6 @@ exec() {
 # @option --file-watcher <VAL>                    Mechanism to detect changes in the source.
 # @flag --missing                                 unused
 # @flag --passive-watch-mode                      Similar to [--watch], but only start a build when instructed externally by an RPC.
-# @flag --react-to-insignificant-changes          React to insignificant file system changes; this is only useful for benchmarking dune.
 # @option --sandbox[none|symlink|copy|hardlink] <VAL>  Set sandboxing mode.
 # @flag --sexp                                    unused
 # @flag --stop-on-first-error                     Stop the build as soon as an error is encountered.
@@ -550,7 +551,6 @@ exec() {
 # @flag --debug-dependency-path                   In case of error, print the dependency path from the targets on the command line to the rule that failed.
 # @flag --debug-digests                           Explain why Dune decides to re-digest some files
 # @flag --debug-load-dir                          Print debugging info about directory loading
-# @flag --debug-store-digest-preimage             Store digest preimage for all computed digests, so that it's possible to reverse them later, for debugging.
 # @option --default-target <TARGET>               Set the default target that is used when none is specified to dune build.
 # @option --diff-command <VAL>                    Shell command to use to diff files.
 # @flag --disable-promotion                       Disable all promotion rules
@@ -560,7 +560,7 @@ exec() {
 # @option --dump-memo-graph-format <FORMAT>       Set the file format used by --dump-memo-graph
 # @flag --dump-memo-graph-with-timing             Re-run each cached node in the Memo graph after building and include the run duration in the output of --dump-memo-graph.
 # @option --help[auto|pager|groff|plain] <FMT>    Show this help in format FMT.
-# @flag --ignore-lock-directory                   Ignore dune.lock/ directory.
+# @flag --ignore-lock-dir                         Ignore dune.lock/ directory.
 # @flag --ignore-promoted-rules                   Ignore rules with (mode promote), except ones with (only ...).
 # @option --instrument-with <BACKENDS>            Enable instrumentation by BACKENDS.
 # @option -j <JOBS>                               Run no more than JOBS commands simultaneously.
@@ -600,7 +600,6 @@ external-lib-deps() {
 # @option --file-watcher <VAL>                    Mechanism to detect changes in the source.
 # @flag --passive-watch-mode                      Similar to [--watch], but only start a build when instructed externally by an RPC.
 # @flag --preview                                 Just print the changes that would be made without actually applying them.
-# @flag --react-to-insignificant-changes          React to insignificant file system changes; this is only useful for benchmarking dune.
 # @option --sandbox[none|symlink|copy|hardlink] <VAL>  Set sandboxing mode.
 # @flag --stop-on-first-error                     Stop the build as soon as an error is encountered.
 # @flag -w --watch                                Instead of terminating build after completion, wait continuously for file changes.
@@ -618,7 +617,6 @@ external-lib-deps() {
 # @flag --debug-dependency-path                   In case of error, print the dependency path from the targets on the command line to the rule that failed.
 # @flag --debug-digests                           Explain why Dune decides to re-digest some files
 # @flag --debug-load-dir                          Print debugging info about directory loading
-# @flag --debug-store-digest-preimage             Store digest preimage for all computed digests, so that it's possible to reverse them later, for debugging.
 # @option --default-target <TARGET>               Set the default target that is used when none is specified to dune build.
 # @option --diff-command <VAL>                    Shell command to use to diff files.
 # @flag --disable-promotion                       Disable all promotion rules
@@ -628,7 +626,7 @@ external-lib-deps() {
 # @option --dump-memo-graph-format <FORMAT>       Set the file format used by --dump-memo-graph
 # @flag --dump-memo-graph-with-timing             Re-run each cached node in the Memo graph after building and include the run duration in the output of --dump-memo-graph.
 # @option --help[auto|pager|groff|plain] <FMT>    Show this help in format FMT.
-# @flag --ignore-lock-directory                   Ignore dune.lock/ directory.
+# @flag --ignore-lock-dir                         Ignore dune.lock/ directory.
 # @flag --ignore-promoted-rules                   Ignore rules with (mode promote), except ones with (only ...).
 # @option --instrument-with <BACKENDS>            Enable instrumentation by BACKENDS.
 # @option -j <JOBS>                               Run no more than JOBS commands simultaneously.
@@ -744,7 +742,6 @@ internal::dune-internal() {
 # @option --file-watcher <VAL>                    Mechanism to detect changes in the source.
 # @flag --passive-watch-mode                      Similar to [--watch], but only start a build when instructed externally by an RPC.
 # @flag --quit-on-disconnect                      Quit if the connection to the server is lost.
-# @flag --react-to-insignificant-changes          React to insignificant file system changes; this is only useful for benchmarking dune.
 # @option --sandbox[none|symlink|copy|hardlink] <VAL>  Set sandboxing mode.
 # @flag --stop-on-first-error                     Stop the build as soon as an error is encountered.
 # @flag -w --watch                                Instead of terminating build after completion, wait continuously for file changes.
@@ -762,7 +759,6 @@ internal::dune-internal() {
 # @flag --debug-dependency-path                   In case of error, print the dependency path from the targets on the command line to the rule that failed.
 # @flag --debug-digests                           Explain why Dune decides to re-digest some files
 # @flag --debug-load-dir                          Print debugging info about directory loading
-# @flag --debug-store-digest-preimage             Store digest preimage for all computed digests, so that it's possible to reverse them later, for debugging.
 # @option --default-target <TARGET>               Set the default target that is used when none is specified to dune build.
 # @option --diff-command <VAL>                    Shell command to use to diff files.
 # @flag --disable-promotion                       Disable all promotion rules
@@ -772,7 +768,7 @@ internal::dune-internal() {
 # @option --dump-memo-graph-format <FORMAT>       Set the file format used by --dump-memo-graph
 # @flag --dump-memo-graph-with-timing             Re-run each cached node in the Memo graph after building and include the run duration in the output of --dump-memo-graph.
 # @option --help[auto|pager|groff|plain] <FMT>    Show this help in format FMT.
-# @flag --ignore-lock-directory                   Ignore dune.lock/ directory.
+# @flag --ignore-lock-dir                         Ignore dune.lock/ directory.
 # @flag --ignore-promoted-rules                   Ignore rules with (mode promote), except ones with (only ...).
 # @option --instrument-with <BACKENDS>            Enable instrumentation by BACKENDS.
 # @option -j <JOBS>                               Run no more than JOBS commands simultaneously.
@@ -813,12 +809,12 @@ ocaml() {
 # @option --action-stderr-on-success <VAL>        Same as --action-stdout-on-success but for standard error instead of standard output.
 # @option --action-stdout-on-success <VAL>        Specify how to deal with the standard output of actions when they succeed.
 # @flag --build-info                              Show build information.
+# @option --context                               Select the Dune build context that will be used to return information
 # @flag --display-separate-messages               Separate error messages with a blank line.
 # @option --error-reporting <VAL>                 Controls when the build errors are reported.
 # @flag -f --force                                Force actions associated to aliases to be re-executed even if their dependencies haven't changed.
 # @option --file-watcher <VAL>                    Mechanism to detect changes in the source.
 # @flag --passive-watch-mode                      Similar to [--watch], but only start a build when instructed externally by an RPC.
-# @flag --react-to-insignificant-changes          React to insignificant file system changes; this is only useful for benchmarking dune.
 # @option --sandbox[none|symlink|copy|hardlink] <VAL>  Set sandboxing mode.
 # @flag --stop-on-first-error                     Stop the build as soon as an error is encountered.
 # @flag -w --watch                                Instead of terminating build after completion, wait continuously for file changes.
@@ -836,7 +832,6 @@ ocaml() {
 # @flag --debug-dependency-path                   In case of error, print the dependency path from the targets on the command line to the rule that failed.
 # @flag --debug-digests                           Explain why Dune decides to re-digest some files
 # @flag --debug-load-dir                          Print debugging info about directory loading
-# @flag --debug-store-digest-preimage             Store digest preimage for all computed digests, so that it's possible to reverse them later, for debugging.
 # @option --default-target <TARGET>               Set the default target that is used when none is specified to dune build.
 # @option --diff-command <VAL>                    Shell command to use to diff files.
 # @flag --disable-promotion                       Disable all promotion rules
@@ -846,7 +841,7 @@ ocaml() {
 # @option --dump-memo-graph-format <FORMAT>       Set the file format used by --dump-memo-graph
 # @flag --dump-memo-graph-with-timing             Re-run each cached node in the Memo graph after building and include the run duration in the output of --dump-memo-graph.
 # @option --help[auto|pager|groff|plain] <FMT>    Show this help in format FMT.
-# @flag --ignore-lock-directory                   Ignore dune.lock/ directory.
+# @flag --ignore-lock-dir                         Ignore dune.lock/ directory.
 # @flag --ignore-promoted-rules                   Ignore rules with (mode promote), except ones with (only ...).
 # @option --instrument-with <BACKENDS>            Enable instrumentation by BACKENDS.
 # @option -j <JOBS>                               Run no more than JOBS commands simultaneously.
@@ -894,17 +889,13 @@ pkg::lock() {
 # @cmd Check for outdated packages
 # @option --action-stderr-on-success <VAL>        Same as --action-stdout-on-success but for standard error instead of standard output.
 # @option --action-stdout-on-success <VAL>        Specify how to deal with the standard output of actions when they succeed.
-# @flag --all-contexts                            Check for outdated packages in all contexts
+# @flag --all                                     Check all lock directories in the workspace for outdated packages.
 # @flag --build-info                              Show build information.
-# @option --context                               Check for outdated packages in this context
 # @flag --display-separate-messages               Separate error messages with a blank line.
 # @option --error-reporting <VAL>                 Controls when the build errors are reported.
 # @flag -f --force                                Force actions associated to aliases to be re-executed even if their dependencies haven't changed.
 # @option --file-watcher <VAL>                    Mechanism to detect changes in the source.
-# @option --opam-repository-path <PATH>           Path to a local opam repository.
-# @option --opam-repository-url <URL>             URL of opam repository to download.
 # @flag --passive-watch-mode                      Similar to [--watch], but only start a build when instructed externally by an RPC.
-# @flag --react-to-insignificant-changes          React to insignificant file system changes; this is only useful for benchmarking dune.
 # @option --sandbox[none|symlink|copy|hardlink] <VAL>  Set sandboxing mode.
 # @flag --stop-on-first-error                     Stop the build as soon as an error is encountered.
 # @flag --transitive                              Check for outdated packages in transitive dependencies
@@ -923,7 +914,6 @@ pkg::lock() {
 # @flag --debug-dependency-path                   In case of error, print the dependency path from the targets on the command line to the rule that failed.
 # @flag --debug-digests                           Explain why Dune decides to re-digest some files
 # @flag --debug-load-dir                          Print debugging info about directory loading
-# @flag --debug-store-digest-preimage             Store digest preimage for all computed digests, so that it's possible to reverse them later, for debugging.
 # @option --default-target <TARGET>               Set the default target that is used when none is specified to dune build.
 # @option --diff-command <VAL>                    Shell command to use to diff files.
 # @flag --disable-promotion                       Disable all promotion rules
@@ -933,7 +923,7 @@ pkg::lock() {
 # @option --dump-memo-graph-format <FORMAT>       Set the file format used by --dump-memo-graph
 # @flag --dump-memo-graph-with-timing             Re-run each cached node in the Memo graph after building and include the run duration in the output of --dump-memo-graph.
 # @option --help[auto|pager|groff|plain] <FMT>    Show this help in format FMT.
-# @flag --ignore-lock-directory                   Ignore dune.lock/ directory.
+# @flag --ignore-lock-dir                         Ignore dune.lock/ directory.
 # @flag --ignore-promoted-rules                   Ignore rules with (mode promote), except ones with (only ...).
 # @option --instrument-with <BACKENDS>            Enable instrumentation by BACKENDS.
 # @option -j <JOBS>                               Run no more than JOBS commands simultaneously.
@@ -957,6 +947,7 @@ pkg::lock() {
 # @option --watch-exclusions <REGEX>              Adds a POSIX regular expression that will exclude matching directories from `dune build --watch`.
 # @option --workspace <FILE>                      Use this specific workspace file instead of looking it up.
 # @option -x <VAL>                                Cross-compile using this toolchain.
+# @arg lockdirs*                                  Lock directories to check for outdated packages.
 pkg::outdated() {
     :;
 }
@@ -973,15 +964,13 @@ pkg::print-solver-env() {
 # @cmd Validate that a lockdir contains a solution for local packages
 # @option --action-stderr-on-success <VAL>        Same as --action-stdout-on-success but for standard error instead of standard output.
 # @option --action-stdout-on-success <VAL>        Specify how to deal with the standard output of actions when they succeed.
-# @flag --all-contexts                            Validate all lockdirs
+# @flag --all                                     Check all lock directories in the workspace for outdated packages.
 # @flag --build-info                              Show build information.
-# @option --context                               Validate the lockdir associated with this context
 # @flag --display-separate-messages               Separate error messages with a blank line.
 # @option --error-reporting <VAL>                 Controls when the build errors are reported.
 # @flag -f --force                                Force actions associated to aliases to be re-executed even if their dependencies haven't changed.
 # @option --file-watcher <VAL>                    Mechanism to detect changes in the source.
 # @flag --passive-watch-mode                      Similar to [--watch], but only start a build when instructed externally by an RPC.
-# @flag --react-to-insignificant-changes          React to insignificant file system changes; this is only useful for benchmarking dune.
 # @option --sandbox[none|symlink|copy|hardlink] <VAL>  Set sandboxing mode.
 # @flag --stop-on-first-error                     Stop the build as soon as an error is encountered.
 # @flag -w --watch                                Instead of terminating build after completion, wait continuously for file changes.
@@ -999,7 +988,6 @@ pkg::print-solver-env() {
 # @flag --debug-dependency-path                   In case of error, print the dependency path from the targets on the command line to the rule that failed.
 # @flag --debug-digests                           Explain why Dune decides to re-digest some files
 # @flag --debug-load-dir                          Print debugging info about directory loading
-# @flag --debug-store-digest-preimage             Store digest preimage for all computed digests, so that it's possible to reverse them later, for debugging.
 # @option --default-target <TARGET>               Set the default target that is used when none is specified to dune build.
 # @option --diff-command <VAL>                    Shell command to use to diff files.
 # @flag --disable-promotion                       Disable all promotion rules
@@ -1009,7 +997,7 @@ pkg::print-solver-env() {
 # @option --dump-memo-graph-format <FORMAT>       Set the file format used by --dump-memo-graph
 # @flag --dump-memo-graph-with-timing             Re-run each cached node in the Memo graph after building and include the run duration in the output of --dump-memo-graph.
 # @option --help[auto|pager|groff|plain] <FMT>    Show this help in format FMT.
-# @flag --ignore-lock-directory                   Ignore dune.lock/ directory.
+# @flag --ignore-lock-dir                         Ignore dune.lock/ directory.
 # @flag --ignore-promoted-rules                   Ignore rules with (mode promote), except ones with (only ...).
 # @option --instrument-with <BACKENDS>            Enable instrumentation by BACKENDS.
 # @option -j <JOBS>                               Run no more than JOBS commands simultaneously.
@@ -1033,6 +1021,7 @@ pkg::print-solver-env() {
 # @option --watch-exclusions <REGEX>              Adds a POSIX regular expression that will exclude matching directories from `dune build --watch`.
 # @option --workspace <FILE>                      Use this specific workspace file instead of looking it up.
 # @option -x <VAL>                                Cross-compile using this toolchain.
+# @arg lockdirs*                                  Lock directories to check for outdated packages.
 pkg::validate-lockdir() {
     :;
 }
@@ -1089,7 +1078,6 @@ rpc::status() {
 # @option -o <FILE>                               Output to a file instead of stdout.
 # @flag --passive-watch-mode                      Similar to [--watch], but only start a build when instructed externally by an RPC.
 # @flag -r --recursive                            Print all rules needed to build the transitive dependencies of the given targets.
-# @flag --react-to-insignificant-changes          React to insignificant file system changes; this is only useful for benchmarking dune.
 # @option --sandbox[none|symlink|copy|hardlink] <VAL>  Set sandboxing mode.
 # @flag --stop-on-first-error                     Stop the build as soon as an error is encountered.
 # @flag -w --watch                                Instead of terminating build after completion, wait continuously for file changes.
@@ -1107,7 +1095,6 @@ rpc::status() {
 # @flag --debug-dependency-path                   In case of error, print the dependency path from the targets on the command line to the rule that failed.
 # @flag --debug-digests                           Explain why Dune decides to re-digest some files
 # @flag --debug-load-dir                          Print debugging info about directory loading
-# @flag --debug-store-digest-preimage             Store digest preimage for all computed digests, so that it's possible to reverse them later, for debugging.
 # @option --default-target <TARGET>               Set the default target that is used when none is specified to dune build.
 # @option --diff-command <VAL>                    Shell command to use to diff files.
 # @flag --disable-promotion                       Disable all promotion rules
@@ -1117,7 +1104,7 @@ rpc::status() {
 # @option --dump-memo-graph-format <FORMAT>       Set the file format used by --dump-memo-graph
 # @flag --dump-memo-graph-with-timing             Re-run each cached node in the Memo graph after building and include the run duration in the output of --dump-memo-graph.
 # @option --help[auto|pager|groff|plain] <FMT>    Show this help in format FMT.
-# @flag --ignore-lock-directory                   Ignore dune.lock/ directory.
+# @flag --ignore-lock-dir                         Ignore dune.lock/ directory.
 # @flag --ignore-promoted-rules                   Ignore rules with (mode promote), except ones with (only ...).
 # @option --instrument-with <BACKENDS>            Enable instrumentation by BACKENDS.
 # @option -j <JOBS>                               Run no more than JOBS commands simultaneously.
@@ -1157,7 +1144,6 @@ rules() {
 # @flag -f --force                                Force actions associated to aliases to be re-executed even if their dependencies haven't changed.
 # @option --file-watcher <VAL>                    Mechanism to detect changes in the source.
 # @flag --passive-watch-mode                      Similar to [--watch], but only start a build when instructed externally by an RPC.
-# @flag --react-to-insignificant-changes          React to insignificant file system changes; this is only useful for benchmarking dune.
 # @option --sandbox[none|symlink|copy|hardlink] <VAL>  Set sandboxing mode.
 # @flag --stop-on-first-error                     Stop the build as soon as an error is encountered.
 # @flag -w --watch                                Instead of terminating build after completion, wait continuously for file changes.
@@ -1175,7 +1161,6 @@ rules() {
 # @flag --debug-dependency-path                   In case of error, print the dependency path from the targets on the command line to the rule that failed.
 # @flag --debug-digests                           Explain why Dune decides to re-digest some files
 # @flag --debug-load-dir                          Print debugging info about directory loading
-# @flag --debug-store-digest-preimage             Store digest preimage for all computed digests, so that it's possible to reverse them later, for debugging.
 # @option --default-target <TARGET>               Set the default target that is used when none is specified to dune build.
 # @option --diff-command <VAL>                    Shell command to use to diff files.
 # @flag --disable-promotion                       Disable all promotion rules
@@ -1185,7 +1170,7 @@ rules() {
 # @option --dump-memo-graph-format <FORMAT>       Set the file format used by --dump-memo-graph
 # @flag --dump-memo-graph-with-timing             Re-run each cached node in the Memo graph after building and include the run duration in the output of --dump-memo-graph.
 # @option --help[auto|pager|groff|plain] <FMT>    Show this help in format FMT.
-# @flag --ignore-lock-directory                   Ignore dune.lock/ directory.
+# @flag --ignore-lock-dir                         Ignore dune.lock/ directory.
 # @flag --ignore-promoted-rules                   Ignore rules with (mode promote), except ones with (only ...).
 # @option --instrument-with <BACKENDS>            Enable instrumentation by BACKENDS.
 # @option -j <JOBS>                               Run no more than JOBS commands simultaneously.
@@ -1250,7 +1235,6 @@ subst() {
 # @flag -f --force                                Force actions associated to aliases to be re-executed even if their dependencies haven't changed.
 # @option --file-watcher <VAL>                    Mechanism to detect changes in the source.
 # @flag --passive-watch-mode                      Similar to [--watch], but only start a build when instructed externally by an RPC.
-# @flag --react-to-insignificant-changes          React to insignificant file system changes; this is only useful for benchmarking dune.
 # @option --sandbox[none|symlink|copy|hardlink] <VAL>  Set sandboxing mode.
 # @flag --stop-on-first-error                     Stop the build as soon as an error is encountered.
 # @flag -w --watch                                Instead of terminating build after completion, wait continuously for file changes.
@@ -1268,7 +1252,6 @@ subst() {
 # @flag --debug-dependency-path                   In case of error, print the dependency path from the targets on the command line to the rule that failed.
 # @flag --debug-digests                           Explain why Dune decides to re-digest some files
 # @flag --debug-load-dir                          Print debugging info about directory loading
-# @flag --debug-store-digest-preimage             Store digest preimage for all computed digests, so that it's possible to reverse them later, for debugging.
 # @option --default-target <TARGET>               Set the default target that is used when none is specified to dune build.
 # @option --diff-command <VAL>                    Shell command to use to diff files.
 # @flag --disable-promotion                       Disable all promotion rules
@@ -1278,7 +1261,7 @@ subst() {
 # @option --dump-memo-graph-format <FORMAT>       Set the file format used by --dump-memo-graph
 # @flag --dump-memo-graph-with-timing             Re-run each cached node in the Memo graph after building and include the run duration in the output of --dump-memo-graph.
 # @option --help[auto|pager|groff|plain] <FMT>    Show this help in format FMT.
-# @flag --ignore-lock-directory                   Ignore dune.lock/ directory.
+# @flag --ignore-lock-dir                         Ignore dune.lock/ directory.
 # @flag --ignore-promoted-rules                   Ignore rules with (mode promote), except ones with (only ...).
 # @option --instrument-with <BACKENDS>            Enable instrumentation by BACKENDS.
 # @option -j <JOBS>                               Run no more than JOBS commands simultaneously.
@@ -1324,7 +1307,6 @@ uninstall() {
 # @flag -f --force                                Force actions associated to aliases to be re-executed even if their dependencies haven't changed.
 # @option --file-watcher <VAL>                    Mechanism to detect changes in the source.
 # @flag --passive-watch-mode                      Similar to [--watch], but only start a build when instructed externally by an RPC.
-# @flag --react-to-insignificant-changes          React to insignificant file system changes; this is only useful for benchmarking dune.
 # @option --sandbox[none|symlink|copy|hardlink] <VAL>  Set sandboxing mode.
 # @flag --stop-on-first-error                     Stop the build as soon as an error is encountered.
 # @flag -w --watch                                Instead of terminating build after completion, wait continuously for file changes.
@@ -1342,7 +1324,6 @@ uninstall() {
 # @flag --debug-dependency-path                   In case of error, print the dependency path from the targets on the command line to the rule that failed.
 # @flag --debug-digests                           Explain why Dune decides to re-digest some files
 # @flag --debug-load-dir                          Print debugging info about directory loading
-# @flag --debug-store-digest-preimage             Store digest preimage for all computed digests, so that it's possible to reverse them later, for debugging.
 # @option --default-target <TARGET>               Set the default target that is used when none is specified to dune build.
 # @option --diff-command <VAL>                    Shell command to use to diff files.
 # @flag --disable-promotion                       Disable all promotion rules
@@ -1352,7 +1333,7 @@ uninstall() {
 # @option --dump-memo-graph-format <FORMAT>       Set the file format used by --dump-memo-graph
 # @flag --dump-memo-graph-with-timing             Re-run each cached node in the Memo graph after building and include the run duration in the output of --dump-memo-graph.
 # @option --help[auto|pager|groff|plain] <FMT>    Show this help in format FMT.
-# @flag --ignore-lock-directory                   Ignore dune.lock/ directory.
+# @flag --ignore-lock-dir                         Ignore dune.lock/ directory.
 # @flag --ignore-promoted-rules                   Ignore rules with (mode promote), except ones with (only ...).
 # @option --instrument-with <BACKENDS>            Enable instrumentation by BACKENDS.
 # @option -j <JOBS>                               Run no more than JOBS commands simultaneously.
@@ -1392,7 +1373,6 @@ upgrade() {
 # @flag -f --force                                Force actions associated to aliases to be re-executed even if their dependencies haven't changed.
 # @option --file-watcher <VAL>                    Mechanism to detect changes in the source.
 # @flag --passive-watch-mode                      Similar to [--watch], but only start a build when instructed externally by an RPC.
-# @flag --react-to-insignificant-changes          React to insignificant file system changes; this is only useful for benchmarking dune.
 # @option --sandbox[none|symlink|copy|hardlink] <VAL>  Set sandboxing mode.
 # @flag --stop-on-first-error                     Stop the build as soon as an error is encountered.
 # @flag -w --watch                                Instead of terminating build after completion, wait continuously for file changes.
@@ -1410,7 +1390,6 @@ upgrade() {
 # @flag --debug-dependency-path                   In case of error, print the dependency path from the targets on the command line to the rule that failed.
 # @flag --debug-digests                           Explain why Dune decides to re-digest some files
 # @flag --debug-load-dir                          Print debugging info about directory loading
-# @flag --debug-store-digest-preimage             Store digest preimage for all computed digests, so that it's possible to reverse them later, for debugging.
 # @option --default-target <TARGET>               Set the default target that is used when none is specified to dune build.
 # @option --diff-command <VAL>                    Shell command to use to diff files.
 # @flag --disable-promotion                       Disable all promotion rules
@@ -1420,7 +1399,7 @@ upgrade() {
 # @option --dump-memo-graph-format <FORMAT>       Set the file format used by --dump-memo-graph
 # @flag --dump-memo-graph-with-timing             Re-run each cached node in the Memo graph after building and include the run duration in the output of --dump-memo-graph.
 # @option --help[auto|pager|groff|plain] <FMT>    Show this help in format FMT.
-# @flag --ignore-lock-directory                   Ignore dune.lock/ directory.
+# @flag --ignore-lock-dir                         Ignore dune.lock/ directory.
 # @flag --ignore-promoted-rules                   Ignore rules with (mode promote), except ones with (only ...).
 # @option --instrument-with <BACKENDS>            Enable instrumentation by BACKENDS.
 # @option -j <JOBS>                               Run no more than JOBS commands simultaneously.

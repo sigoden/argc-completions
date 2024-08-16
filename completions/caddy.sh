@@ -12,6 +12,7 @@
 # @flag -h --help                help for adapt
 # @flag -p --pretty              Format the output for human readability
 # @flag --validate               Validate the output
+# @arg path!
 adapt() {
     :;
 }
@@ -21,6 +22,7 @@ adapt() {
 # @cmd Adds Caddy packages (EXPERIMENTAL)
 # @flag -h --help           help for add-package
 # @flag -k --keep-backup    Keep the backed up binary, instead of deleting it
+# @arg packages+
 add-package() {
     :;
 }
@@ -54,14 +56,17 @@ environ() {
 
 # {{ caddy file-server
 # @cmd Spins up a production-ready file server
-# @flag -a --access-log           Enable the access log
-# @flag -b --browse               Enable directory browsing
-# @flag -v --debug                Enable verbose debug logs
-# @option -d --domain <file>      Domain name at which to serve the files
-# @flag -h --help                 help for file-server
-# @option -l --listen <string>    The address to which to bind the listener
-# @option -r --root <path>        The path to the root of the site
-# @flag -t --templates            Enable template rendering
+# @flag -a --access-log                 Enable the access log
+# @flag -b --browse                     Enable directory browsing
+# @flag -v --debug                      Enable verbose debug logs
+# @option -d --domain <file>            Domain name at which to serve the files
+# @flag -h --help                       help for file-server
+# @option -l --listen <string>          The address to which to bind the listener
+# @flag --no-compress                   Disable Zstandard and Gzip compression
+# @option -p --precompressed* <file>    Specify precompression file extensions.
+# @flag --reveal-symlinks               Show symlink paths when browse is enabled.
+# @option -r --root <path>              The path to the root of the site
+# @flag -t --templates                  Enable template rendering
 file-server() {
     :;
 }
@@ -80,6 +85,7 @@ file-server::export-template() {
 # @flag -d --diff         Print the differences between the input file and the formatted output
 # @flag -h --help         help for fmt
 # @flag -w --overwrite    Overwrite the input file with the results
+# @arg path
 fmt() {
     :;
 }
@@ -90,7 +96,6 @@ fmt() {
 # @option -a --algorithm <string>    Name of the hash algorithm (default "bcrypt")
 # @flag -h --help                    help for hash-password
 # @option -p --plaintext <string>    The plaintext password
-# @option -s --salt <string>         The password salt
 hash-password() {
     :;
 }
@@ -111,6 +116,7 @@ list-modules() {
 # @cmd Generates the manual pages for Caddy commands
 # @option -o --directory <dir>    The output directory where the manpages are generated
 # @flag -h --help                 help for manpage
+# @arg path!
 manpage() {
     :;
 }
@@ -123,6 +129,7 @@ manpage() {
 # @option -c --config <file>       Configuration file (required)
 # @flag -f --force                 Force config reload, even if it is the same
 # @flag -h --help                  help for reload
+# @arg path!
 reload() {
     :;
 }
@@ -132,6 +139,7 @@ reload() {
 # @cmd Removes Caddy packages (EXPERIMENTAL)
 # @flag -h --help           help for remove-package
 # @flag -k --keep-backup    Keep the backed up binary, instead of deleting it
+# @arg packages+
 remove-package() {
     :;
 }
@@ -146,6 +154,7 @@ remove-package() {
 # @flag -h --help                  help for respond
 # @option -l --listen <string>     The address to which to bind the listener (default ":0")
 # @option -s --status <int>        The response status code (default 200)
+# @arg body-status! <body|status>
 respond() {
     :;
 }
@@ -279,6 +288,7 @@ upgrade() {
 # @option -c --config <file>       Input configuration file
 # @option --envfile* <file>        Environment file(s) to load
 # @flag -h --help                  help for validate
+# @arg path!
 validate() {
     :;
 }

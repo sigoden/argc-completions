@@ -11,6 +11,7 @@ _patch_help() {
 
 _patch_table() { 
     _patch_table_dedup_options \
+        '--help' \
         '--preset' \
         '-Werror' \
         '-Wno-error' \

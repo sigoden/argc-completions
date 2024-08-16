@@ -107,6 +107,7 @@
 # @flag --rga-no-cache                             Disable caching of results
 # @flag -h --help                                  Prints help information
 # @flag --rga-list-adapters                        List all known adapters
+# @flag --rga-no-prefix-filenames                  Don't prefix lines of files within archive with the path inside the archive.
 # @flag --rga-print-config-schema                  Print the JSON Schema of the configuration file
 # @flag --rg-help                                  Show help for ripgrep itself
 # @flag --rg-version                               Show version of ripgrep itself
@@ -114,7 +115,7 @@
 # @option --rga-adapters* <adapters>               Change which adapters to use and in which priority order (descending)
 # @option --rga-cache-compression-level <compression-level>  ZSTD compression level to apply to adapter outputs before storing in cache db
 # @option --rga-config-file <config-file-path>
-# @option --rga-max-archive-recursion <max-archive-recursion>  Maximum nestedness of archives to recurse into [default: 4]
+# @option --rga-max-archive-recursion <max-archive-recursion>  Maximum nestedness of archives to recurse into
 # @option --rga-cache-max-blob-len <max-blob-len>  Max compressed size to cache
 # @option --rga-cache-path <path>                  Path to store cache db [default: /home/sigo/.cache/ripgrep-all]
 # @arg pattern![`_choice_pattern`]                 A regular expression used for searching.

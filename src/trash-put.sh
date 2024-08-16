@@ -1,3 +1,3 @@
 _patch_help() {
-    $@ --help | sed '/^use one of these commands:/,$ d'
+    $@ --help | sed '/^all trash-cli commands:/,$ d'
 }

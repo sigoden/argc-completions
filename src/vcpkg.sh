@@ -1,19 +1,26 @@
 _patch_help() { 
     if [[ "$*" == "vcpkg" ]]; then
-        $@ --help | \
+        $@ help | \
         sed \
-            -e 's/^  vcpkg \(\S\+\)\( \S\+\)*/  \1/' \
             -e '/^  @response_file/ d' \
 
     else
-        vcpkg --help | grep "^  vcpkg $2 " | sed -e '/^error:/ d' -e 's/^ \(\( \S\+\)\+\).*/usage: \1/' | head -n 1
-        $@ --help | sed 's/=\.\.\./ string/'
+        _patch_help_run_help_subcmd $@ | \
+            sed \
+                -e '/^Synopsis:/ d' \
+                -e '/^Examples:$/ {N;s/.*\n\s*/Usage: /}' \
+                -e 's/^Examples: /Usage: /' \
+                -e 's/=\.\.\./ string/' \
+
     fi
 }
 
 _patch_table() { 
     table="$( \
-        _patch_table_detect_value_type \
+        _patch_table_detect_value_type | \
+        _patch_table_edit_arguments \
+            'package-name;[`_choice_installed_package`]' \
+            'port-name;[`_choice_package_cached`]' \
     )"
 
     if [[ "$*" == "vcpkg" ]]; then
@@ -23,22 +30,19 @@ _patch_table() {
     
     elif [[ "$*" == "vcpkg export" ]]; then
         echo "$table" | \
-        _patch_table_edit_arguments ';;' 'pkg;*[`_choice_installed_package`]'
-
-    elif [[ "$*" == "vcpkg install" ]] \
-      || [[ "$*" == "vcpkg depend-info" ]] \
-      || [[ "$*" == "vcpkg edit" ]] \
-    ; then
-        echo "$table" | \
-        _patch_table_edit_arguments 'pkg;[`_choice_package_cached`]'
-
-    elif [[ "$*" == "vcpkg remove" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments 'pkg;[`_choice_installed_package`]'
+        _patch_table_edit_arguments 'port-names;*[`_choice_installed_package`]'
 
     elif [[ "$*" == "vcpkg search" ]]; then
         echo "$table" | \
-        _patch_table_edit_arguments 'pat;[`_choice_package_cached`]'
+        _patch_table_edit_arguments 'pattern;[`_choice_package_cached`]'
+
+    elif [[ "$*" == "vcpkg env" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments ';;' '[name]'
+
+    elif [[ "$*" == "vcpkg fetch" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments ';;' 'value'
 
     elif [[ "$*" == "vcpkg integrate" ]]; then
         echo "$table" | \
@@ -55,6 +59,10 @@ _choice_installed_package() {
     vcpkg list --x-json | yq 'to_entries | .[] | .value.package_name'
 }
 
+_choice_package_cached() {
+    _argc_util_cache 3600 _choice_package
+}
+
 _choice_integrate_action() {
     cat <<-'EOF'
 install	Make installed packages available user-wide.
@@ -69,8 +77,4 @@ EOF
 
 _choice_package() {
     vcpkg search --x-json | yq 'to_entries | .[] | .key + "	" + .value.description[0]'
-}
-
-_choice_package_cached() {
-    _argc_util_cache 3600 _choice_package
 }

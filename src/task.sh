@@ -1,3 +1,7 @@
+_patch_help() {
+    $@ --help 2>&1 | sed  '/^Usage of /,/^Usage:/ c\Usage:'
+}
+
 _patch_table() { 
     _patch_table_edit_options \
         '--dir(<dir>)' \

@@ -54,35 +54,37 @@ detect() {
 
 # {{ nixpacks build
 # @cmd Build an app
-# @option -n --name                         Name for the built image
-# @option -o --out                          Save output directory instead of building it with Docker
-# @option --json-plan <JSON_PLAN>           Specify an entire build plan in json format that should be used to configure the build
-# @option -t --tag                          Additional tags to add to the output image
-# @option -i --install-cmd <INSTALL_CMD>    Specify the install command to use
-# @option -l --label                        Additional labels to add to the output image
-# @option -b --build-cmd <BUILD_CMD>        Specify the build command to use
-# @option --platform                        Set target platform for your output image
-# @option --cache-key <CACHE_KEY>           Unique identifier to key cache by.
-# @option -s --start-cmd <START_CMD>        Specify the start command to use
-# @flag --current-dir                       Output Nixpacks related files to the current directory
-# @option -p --pkgs                         Provide additional nix packages to install in the environment
-# @option -a --apt                          Provide additional apt packages to install in the environment
-# @flag --no-cache                          Disable building with the cache
+# @option -n --name                          Name for the built image
+# @option -o --out                           Save output directory instead of building it with Docker
+# @option --json-plan <JSON_PLAN>            Specify an entire build plan in json format that should be used to configure the build
+# @option -t --tag                           Additional tags to add to the output image
+# @option -i --install-cmd <INSTALL_CMD>     Specify the install command to use
+# @option -l --label                         Additional labels to add to the output image
+# @option -b --build-cmd <BUILD_CMD>         Specify the build command to use
+# @option --platform                         Set target platform for your output image
+# @option --cache-key <CACHE_KEY>            Unique identifier to key cache by.
+# @option -s --start-cmd <START_CMD>         Specify the start command to use
+# @flag --current-dir                        Output Nixpacks related files to the current directory
+# @option -p --pkgs                          Provide additional nix packages to install in the environment
+# @option -a --apt                           Provide additional apt packages to install in the environment
+# @flag --no-cache                           Disable building with the cache
 # @option --incremental-cache-image <INCREMENTAL_CACHE_IMAGE>  Image to hold the cached directories between builds
-# @option --libs                            Provide additional nix libraries to install in the environment
-# @option --cache-from <CACHE_FROM>         Image to consider as cache sources
-# @option -e --env                          Provide environment variables to your build
-# @option -c --config                       Path to config file
-# @option --docker-host <DOCKER_HOST>       Image to consider as cache sources
-# @option --docker-tls-verify <DOCKER_TLS_VERIFY>  Image to consider as cache sources
-# @flag --inline-cache                      Enable writing cache metadata into the output image
-# @flag --no-error-without-start            Do not error when no start command can be found
-# @option --cpu-quota <CPU_QUOTA>           Limit the CPU CFS (Completely Fair Scheduler) quota.
-# @option --memory                          Memory limit.
-# @flag -v --verbose                        Display more info during build
-# @flag -h --help                           Print help information
-# @flag -V --version                        Print version information
-# @arg path!                                App source
+# @option --libs                             Provide additional nix libraries to install in the environment
+# @option --cache-from <CACHE_FROM>          Image to consider as cache sources
+# @option -e --env                           Provide environment variables to your build
+# @option -c --config                        Path to config file
+# @option --docker-host <DOCKER_HOST>        Specify host for Docker client
+# @option --add-host <ADD_HOST>              Adds hosts to the Docker build
+# @option --docker-tls-verify <DOCKER_TLS_VERIFY>  Specify if Docker client should verify the TLS (Transport Layer Security) certificates
+# @option --docker-output <DOCKER_OUTPUT>    Specify output destination for Docker build.
+# @flag --inline-cache                       Enable writing cache metadata into the output image
+# @flag --no-error-without-start             Do not error when no start command can be found
+# @option --cpu-quota <CPU_QUOTA>            Limit the CPU CFS (Completely Fair Scheduler) quota.
+# @option --memory                           Memory limit.
+# @flag -v --verbose                         Display more info during build
+# @flag -h --help                            Print help information
+# @flag -V --version                         Print version information
+# @arg path!                                 App source
 build() {
     :;
 }

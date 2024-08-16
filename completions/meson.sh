@@ -2,7 +2,7 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # @flag -h --help    show this help message and exit
-# @arg setup-configure-dist-install-introspect-init-test-wrap-subprojects-rewrite-compile-devenv-env2mfile-help* <setup,configure,dist,install,introspect,init,test,wrap,subprojects,rewrite,compile,devenv,env2mfile,help>
+# @arg setup-configure-dist-install-introspect-init-test-wrap-subprojects-rewrite-compile-devenv-env2mfile-format-fmt-help* <setup,configure,dist,install,introspect,init,test,wrap,subprojects,rewrite,compile,devenv,env2mfile,format,fmt,help>
 
 # {{ meson setup
 # @cmd Configure the project
@@ -205,6 +205,7 @@ init() {
 # @flag --no-rebuild                            Do not rebuild before running tests.
 # @flag --gdb                                   Run test under gdb.
 # @option --gdb-path <GDB_PATH>                 Path to the gdb binary (default: gdb).
+# @flag -i --interactive                        Run tests with interactive input/output.
 # @flag --list                                  List available tests.
 # @option --wrapper                             wrapper to run tests with (e.g. Valgrind)
 # @option -C <WD>                               directory to cd into before running
@@ -220,6 +221,7 @@ init() {
 # @option -t --timeout-multiplier <TIMEOUT_MULTIPLIER>  Define a multiplier for test timeout, for example when running tests in particular conditions they might take more time to execute.
 # @option --setup                               Which test setup to use.
 # @option --test-args <TEST_ARGS>               Arguments to pass to the specified test(s) or all tests
+# @option --max-lines <MAX_LINES>               Maximum number of lines to show from a long test log.
 # @arg args*[`_choice_test`]                    Optional list of test names to run.
 test() {
     :;
@@ -505,6 +507,21 @@ env2mfile() {
     :;
 }
 # }} meson env2mfile
+
+# {{ meson format
+# @cmd Format meson source file
+# @flag -h --help                              show this help message and exit
+# @flag -q --check-only                        exit with 1 if files would be modified by meson format
+# @flag -i --inplace                           format files in-place
+# @flag -r --recursive                         recurse subdirs (requires --check-only or --inplace option)
+# @option -c --configuration <meson.format>    read configuration from meson.format
+# @flag -e --editor-config                     try to read configuration from .editorconfig
+# @option -o --output                          output file (implies having exactly one input)
+# @arg files*                                  meson source files
+format() {
+    :;
+}
+# }} meson format
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 

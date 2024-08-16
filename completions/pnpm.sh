@@ -40,6 +40,7 @@
 # @flag --workspace                     Only adds the new dependency if it is found in the workspace
 # @flag -w --workspace-root             Run the command on the root workspace project
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
+# @flag --fail-if-no-match              If no projects are matched by the command, exit with exit code 1 (fail)
 # @option --filter[`_choice_workspace`] <selector>  Filtering allows you to restrict commands to specific subsets of packages.
 # @option --filter-prod <pattern>       Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>      Defines files related to tests.
@@ -76,6 +77,7 @@ import() {
 # @option --hoist-pattern <pattern>           Hoist all dependencies matching the pattern to `node_modules/.pnpm/node_modules`.
 # @flag --ignore-pnpmfile                     Disable pnpm hooks defined in .pnpmfile.cjs
 # @flag --ignore-scripts                      Don't run lifecycle scripts
+# @flag --ignore-workspace                    Ignore pnpm-workspace.yaml if exists in the parent directory, and treat the installation as normal non-workspace installation.
 # @option --lockfile-dir <dir>                The directory in which the pnpm-lock.yaml of the package will be created.
 # @flag --lockfile-only                       Dependencies are not downloaded.
 # @option --loglevel[debug|info|warn|error|silent] <level>  What level of logs to report.
@@ -107,6 +109,7 @@ import() {
 # @option --reporter[`_choice_reporter`] <append-only>  Set reporter.
 # @flag -s --silent                           No output is logged to the console, except fatal errors
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
+# @flag --fail-if-no-match                    If no projects are matched by the command, exit with exit code 1 (fail)
 # @option --filter[`_choice_workspace`] <selector>  Filtering allows you to restrict commands to specific subsets of packages.
 # @option --filter-prod <pattern>             Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>            Defines files related to tests.
@@ -149,6 +152,7 @@ ln() {
 # @flag --aggregate-output     Aggregate output from child processes that are run in parallel, and only print output when child process is finished.
 # @option -C --dir <dir>       Change to directory <dir> (default: /home/sigo/w/argc-completions)
 # @flag -h --help              Output usage information
+# @flag --ignore-scripts       Don't run lifecycle scripts
 # @option --loglevel[debug|info|warn|error|silent] <level>  What level of logs to report.
 # @flag --no-optional          Remove the packages specified in `optionalDependencies`
 # @flag --prod                 Remove the packages specified in `devDependencies`
@@ -176,6 +180,7 @@ prune() {
 # @flag --use-stderr                  Divert all output to stderr
 # @flag -w --workspace-root           Run the command on the root workspace project
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
+# @flag --fail-if-no-match            If no projects are matched by the command, exit with exit code 1 (fail)
 # @option --filter[`_choice_workspace`] <selector>  Filtering allows you to restrict commands to specific subsets of packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
@@ -203,6 +208,7 @@ rb() {
 # @flag --use-stderr                  Divert all output to stderr
 # @flag -w --workspace-root           Run the command on the root workspace project
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
+# @flag --fail-if-no-match            If no projects are matched by the command, exit with exit code 1 (fail)
 # @option --filter[`_choice_workspace`] <selector>  Filtering allows you to restrict commands to specific subsets of packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
@@ -253,6 +259,7 @@ unlink() {
 # @flag --workspace                   Tries to link all packages from the workspace.
 # @flag -w --workspace-root           Run the command on the root workspace project
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
+# @flag --fail-if-no-match            If no projects are matched by the command, exit with exit code 1 (fail)
 # @option --filter[`_choice_workspace`] <selector>  Filtering allows you to restrict commands to specific subsets of packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
@@ -284,6 +291,7 @@ audit() {
 # @flag --no-optional                 Don't check "optionalDependencies"
 # @flag -P --prod                     Check only "dependencies" and "optionalDependencies"
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
+# @flag --fail-if-no-match            If no projects are matched by the command, exit with exit code 1 (fail)
 # @option --filter[`_choice_workspace`] <selector>  Filtering allows you to restrict commands to specific subsets of packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
@@ -317,6 +325,7 @@ licenses() {
 # @flag --use-stderr                  Divert all output to stderr
 # @flag -w --workspace-root           Run the command on the root workspace project
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
+# @flag --fail-if-no-match            If no projects are matched by the command, exit with exit code 1 (fail)
 # @option --filter[`_choice_workspace`] <selector>  Filtering allows you to restrict commands to specific subsets of packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
@@ -346,6 +355,7 @@ ls() {
 # @flag --use-stderr                  Divert all output to stderr
 # @flag -w --workspace-root           Run the command on the root workspace project
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
+# @flag --fail-if-no-match            If no projects are matched by the command, exit with exit code 1 (fail)
 # @option --filter[`_choice_workspace`] <selector>  Filtering allows you to restrict commands to specific subsets of packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
@@ -389,6 +399,7 @@ exec() {
 # @flag --use-stderr                  Divert all output to stderr
 # @flag -w --workspace-root           Run the command on the root workspace project
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
+# @flag --fail-if-no-match            If no projects are matched by the command, exit with exit code 1 (fail)
 # @option --filter[`_choice_workspace`] <selector>  Filtering allows you to restrict commands to specific subsets of packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
@@ -411,6 +422,7 @@ start() {
 # @alias t
 # @flag -r --recursive                Run the tests in every package found in subdirectories or every workspace package, when executed inside a workspace.
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
+# @flag --fail-if-no-match            If no projects are matched by the command, exit with exit code 1 (fail)
 # @option --filter[`_choice_workspace`] <selector>  Filtering allows you to restrict commands to specific subsets of packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
@@ -420,8 +432,32 @@ test() {
 }
 # }} pnpm test
 
+# {{ pnpm cat-file
+# @cmd Prints the contents of a file based on the hash value stored in the index file
+# @arg hash!
+cat-file() {
+    :;
+}
+# }} pnpm cat-file
+
+# {{ pnpm cat-index
+# @cmd Prints the index file of a specific package from the store
+# @arg pkg-name-pkg-version <<pkg name>@<pkg version>>
+cat-index() {
+    :;
+}
+# }} pnpm cat-index
+
+# {{ pnpm find-hash
+# @cmd Experimental! Lists the packages that include the file with the specified hash.
+# @arg hash!
+find-hash() {
+    :;
+}
+# }} pnpm find-hash
+
 # {{ pnpm pack
-# @cmd
+# @cmd Create a tarball from a package
 # @option --pack-destination <dir>    Directory in which `pnpm pack` will save tarballs.
 pack() {
     :;
@@ -442,6 +478,7 @@ pack() {
 # @flag --report-summary                  Save the list of the newly published packages to "pnpm-publish-summary.json".
 # @option --tag <tag>                     Registers the published package with the given tag.
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
+# @flag --fail-if-no-match                If no projects are matched by the command, exit with exit code 1 (fail)
 # @option --filter[`_choice_workspace`] <selector>  Filtering allows you to restrict commands to specific subsets of packages.
 # @option --filter-prod <pattern>         Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>        Defines files related to tests.
@@ -452,7 +489,7 @@ publish() {
 # }} pnpm publish
 
 # {{ pnpm root
-# @cmd
+# @cmd Prints the effective modules directory
 # @flag -g --global    Print the global `node_modules` directory
 root() {
     :;
@@ -568,6 +605,7 @@ dedup() {
 # @flag --use-stderr                  Divert all output to stderr
 # @flag -w --workspace-root           Run the command on the root workspace project
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
+# @flag --fail-if-no-match            If no projects are matched by the command, exit with exit code 1 (fail)
 # @option --filter[`_choice_workspace`] <selector>  Filtering allows you to restrict commands to specific subsets of packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.
@@ -716,6 +754,7 @@ init() {
 # @flag --no-optional                 `optionalDependencies` are not installed
 # @flag -P --prod                     Packages in `devDependencies` won't be installed
 # @option --changed-files-ignore-pattern <pattern>  Defines files to ignore when filtering for changed projects since the specified commit/branch.
+# @flag --fail-if-no-match            If no projects are matched by the command, exit with exit code 1 (fail)
 # @option --filter[`_choice_workspace`] <selector>  Filtering allows you to restrict commands to specific subsets of packages.
 # @option --filter-prod <pattern>     Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
 # @option --test-pattern <pattern>    Defines files related to tests.

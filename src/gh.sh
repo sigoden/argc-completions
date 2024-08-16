@@ -1,6 +1,7 @@
 _patch_help() { 
     _common_edit() {
         sed \
+            -e '/^EXAMPLES/,$ d' \
             -e 's/^  \(\S\+\):/  \1 /' \
             -e 's/^ARGUMENTS/^ARGUMENTS EXAMPLES:/' \
             -e '/^USAGE/,+1 {N; s/\n//; s/USAGE /USAGE:/;}'
@@ -191,6 +192,10 @@ _patch_table() {
         || [[ "$*" == "gh pr close" ]] \
         || [[ "$*" == "gh pr comment" ]] \
         || [[ "$*" == "gh pr diff" ]] \
+        || [[ "$*" == "gh pr lock" ]] \
+        || [[ "$*" == "gh pr review" ]] \
+        || [[ "$*" == "gh pr unlock" ]] \
+        || [[ "$*" == "gh pr view" ]] \
         ; then
             echo "$table" | \
             _patch_table_edit_arguments ';;'  'pr;[`_choice_open_pr`]' \
@@ -213,14 +218,6 @@ _patch_table() {
                 '--remove-project;*,[`_choice_pr_project`]' \
                 '--remove-reviewer;*,[`_choice_pr_reviewer`]' \
             | \
-            _patch_table_edit_arguments ';;'  'pr;[`_choice_open_pr`]' \
-
-        elif [[ "$*" == "gh pr lock" ]] \
-          || [[ "$*" == "gh pr review" ]] \
-          || [[ "$*" == "gh pr unlock" ]] \
-          || [[ "$*" == "gh pr view" ]] \
-        ; then
-            echo "$table" | \
             _patch_table_edit_arguments ';;'  'pr;[`_choice_open_pr`]' \
 
         elif [[ "$*" == "gh pr merge" ]]; then

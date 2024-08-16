@@ -26,7 +26,7 @@
 # @option --argstr <name> <value>      This option is like --arg, only the value is not a Nix expression but a string.
 # @option -A --attr <attrPath>         Select an attribute from the top-level Nix expression being evaluated.
 # @flag -E --expr                      Interpret the command line arguments as a list of Nix expressions to be parsed and evaluated, rather than as a list of file names of Nix expressions.
-# @option -I <path>                    Add an entry to the Nix expression search path.
+# @option -I --include <path>          Add an entry to the list of search paths used to resolve lookup paths.
 # @option --option <name> <value>      Set the Nix configuration option name to value.
 # @flag --repair                       Fix corrupted or missing store paths by redownloading or rebuilding them.
 # @arg path[`_module_nix_path`]

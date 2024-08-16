@@ -9,7 +9,7 @@
 # @flag -h --help       Show this message and exit.
 
 # {{ mkdocs build
-# @cmd Build the MkDocs documentation
+# @cmd Build the MkDocs documentation.
 # @flag -c                                   Remove old files from the site_dir before building (the default).
 # @flag --clean                              Remove old files from the site_dir before building (the default).
 # @flag --dirty                              Remove old files from the site_dir before building (the default).
@@ -30,7 +30,7 @@ build() {
 # }} mkdocs build
 
 # {{ mkdocs get-deps
-# @cmd Show required PyPI packages inferred from plugins in mkdocs.yml
+# @cmd Show required PyPI packages inferred from plugins in...
 # @flag -v --verbose                     Enable verbose output
 # @option -f --config-file <FILENAME>    Provide a specific MkDocs config.
 # @option -p --projects-file <TEXT>      URL or local path of the registry file that declares all known MkDocs-related projects.
@@ -41,7 +41,7 @@ get-deps() {
 # }} mkdocs get-deps
 
 # {{ mkdocs gh-deploy
-# @cmd Deploy your documentation to GitHub Pages
+# @cmd Deploy your documentation to GitHub Pages.
 # @flag -c                                   Remove old files from the site_dir before building (the default).
 # @flag --clean                              Remove old files from the site_dir before building (the default).
 # @flag --dirty                              Remove old files from the site_dir before building (the default).
@@ -69,7 +69,7 @@ gh-deploy() {
 # }} mkdocs gh-deploy
 
 # {{ mkdocs new
-# @cmd Create a new MkDocs project
+# @cmd Create a new MkDocs project.
 # @flag -q --quiet      Silence warnings
 # @flag -v --verbose    Enable verbose output
 # @flag -h --help       Show this message and exit.
@@ -80,8 +80,9 @@ new() {
 # }} mkdocs new
 
 # {{ mkdocs serve
-# @cmd Run the builtin development server
+# @cmd Run the builtin development server.
 # @option -a --dev-addr <IP:PORT>            IP address and port to serve documentation locally (default: localhost:8000)
+# @flag -o --open                            Open the website in a Web browser after the initial build finishes.
 # @flag --no-livereload                      Disable the live reloading in the development server.
 # @flag --dirty                              Only re-build files that have changed.
 # @flag -c --clean                           Build the site without any effects of `mkdocs serve` - pure `mkdocs build`, then serve.

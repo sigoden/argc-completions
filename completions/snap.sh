@@ -41,9 +41,10 @@ info() {
 # @flag --devmode                               Put snap in development mode and disable security confinement
 # @flag --jailmode                              Put snap in enforced confinement mode
 # @flag --classic                               Put snap in classic mode and disable security confinement
-# @option --revision                            Install the given revision of a snap, to which you must have developer access
+# @option --revision                            Install the given revision of a snap
 # @flag --dangerous                             Install the given snap file even if there are no pre-acknowledged signatures for it, meaning it was not verified and could be dangerous (--devmode implies this)
 # @flag --unaliased                             Install the given snap without enabling its automatic aliases
+# @flag --prefer                                Enable all aliases of the given snap in preference to conflicting aliases of other snaps
 # @option --name                                Install the snap file under the given instance name
 # @option --cohort                              Install the snap in the given cohort
 # @flag --ignore-validation                     Ignore validation by other snaps blocking the installation
@@ -92,7 +93,7 @@ list() {
 # @flag --jailmode                              Put snap in enforced confinement mode
 # @flag --classic                               Put snap in classic mode and disable security confinement
 # @flag --amend                                 Allow refresh attempt on snap unknown to the store
-# @option --revision                            Refresh to the given revision, to which you must have developer access
+# @option --revision                            Refresh to the given revision
 # @option --cohort                              Refresh the snap into the given cohort
 # @flag --leave-cohort                          Refresh the snap out of its cohort
 # @flag --list                                  Show the new versions of snaps that would be updated with the next refresh
@@ -201,6 +202,8 @@ watch() {
 
 # {{ snap services
 # @cmd Query the status of services
+# @flag -g --global                               Show the global enable status for user services instead of the status for the current user.
+# @flag -u --user                                 Show the current status of the user services instead of the global enable status.
 # @arg service[`_choice_service`] <<service>:>    A service specification, which can be just a snap name (for all services in the snap), or <snap>.<app> for a single service.
 services() {
     :;
@@ -210,6 +213,9 @@ services() {
 # {{ snap start
 # @cmd Start services
 # @flag --no-wait                                 Do not wait for the operation to finish but just print the change id.
+# @flag --system                                  The operation should only affect system services.
+# @flag --user                                    The operation should only affect user services for the current user.
+# @option --users                                 If provided and set to 'all', the operation should affect services for all users.
 # @flag --enable                                  As well as starting the service now, arrange for it to be started on boot.
 # @arg service[`_choice_service`] <<service>:>    A service specification, which can be just a snap name (for all services in the snap), or <snap>.<app> for a single service.
 start() {
@@ -220,6 +226,9 @@ start() {
 # {{ snap stop
 # @cmd Stop services
 # @flag --no-wait                                 Do not wait for the operation to finish but just print the change id.
+# @flag --system                                  The operation should only affect system services.
+# @flag --user                                    The operation should only affect user services for the current user.
+# @option --users                                 If provided and set to 'all', the operation should affect services for all users.
 # @flag --disable                                 As well as stopping the service now, arrange for it to no longer be started on boot.
 # @arg service[`_choice_service`] <<service>:>    A service specification, which can be just a snap name (for all services in the snap), or <snap>.<app> for a single service.
 stop() {
@@ -230,6 +239,9 @@ stop() {
 # {{ snap restart
 # @cmd Restart services
 # @flag --no-wait                                 Do not wait for the operation to finish but just print the change id.
+# @flag --system                                  The operation should only affect system services.
+# @flag --user                                    The operation should only affect user services for the current user.
+# @option --users                                 If provided and set to 'all', the operation should affect services for all users.
 # @flag --reload                                  If the service has a reload command, use it instead of restarting.
 # @arg service[`_choice_service`] <<service>:>    A service specification, which can be just a snap name (for all services in the snap), or <snap>.<app> for a single service.
 restart() {
@@ -471,6 +483,18 @@ model() {
 }
 # }} snap model
 
+# {{ snap remodel
+# @cmd Remodel this device
+# @flag --no-wait                            Do not wait for the operation to finish but just print the change id.
+# @option --snap                             Use one or more locally available snaps.
+# @option --assertion                        Use one or more locally available assertion files.
+# @flag --offline                            Use only pre-installed and locally provided snaps and assertions.
+# @arg new-model-file <<new model file>:>    New model file
+remodel() {
+    :;
+}
+# }} snap remodel
+
 # {{ snap reboot
 # @cmd Reboot into selected system and mode
 # @flag --run              Boot into run mode
@@ -627,7 +651,7 @@ debug::timings() {
 # @flag --beta                                     Install from the beta channel
 # @flag --candidate                                Install from the candidate channel
 # @flag --stable                                   Install from the stable channel
-# @option --revision                               Download the given revision of a snap, to which you must have developer access
+# @option --revision                               Download the given revision of a snap
 # @option --basename                               Use this basename for the snap and assertion files (defaults to <snap>_<revision>)
 # @option --target-directory                       Download to this directory (defaults to the current directory)
 # @option --cohort                                 Download from the given cohort
@@ -685,12 +709,70 @@ try() {
 # @option --arch                               Specify an architecture for snaps for --classic when the model does not
 # @option --channel                            The channel to use
 # @option --snap <<snap>[=<channel>]>          Include the given snap from the store or a local file and/or specify the channel to track for the given snap
+# @option --revisions                          Specify a seeds.manifest file referencing the exact revisions of the provided snaps which should be installed
+# @option --write-revisions                    Writes a manifest file containing references to the exact snap revisions used for the image.
 # @arg model-assertion <<model-assertion>:>    The model assertion name
 # @arg target-dir <<target-dir>:>              The target directory
 prepare-image() {
     :;
 }
 # }} snap prepare-image
+
+# {{ snap set-quota
+# @cmd Create or update a quota group.
+# @flag --no-wait                 Do not wait for the operation to finish but just print the change id.
+# @option --memory                Memory quota
+# @option --cpu                   CPU quota
+# @option --cpu-set               CPU set quota
+# @option --threads               Threads quota
+# @option --journal-size          Journal size quota
+# @option --journal-rate-limit    Journal rate limit as <message count>/<message period>
+# @option --parent                Parent quota group
+# @arg group-name!
+# @arg snap-or-service*[`_choice_snap_or_service`]
+set-quota() {
+    :;
+}
+# }} snap set-quota
+
+# {{ snap remove-quota
+# @cmd Remove quota group
+# @flag --no-wait
+# @arg group-name![`_choice_quota`]
+remove-quota() {
+    :;
+}
+# }} snap remove-quota
+
+# {{ snap quotas
+# @cmd Show quota groups
+quotas() {
+    :;
+}
+# }} snap quotas
+
+# {{ snap quota
+# @cmd Show quota group for a set of snaps
+# @arg group-name![`_choice_quota`]
+quota() {
+    :;
+}
+# }} snap quota
+
+# {{ snap validate
+# @cmd List or apply validation sets
+# @flag --monitor                            Monitor the given validations set
+# @flag --enforce                            Enforce the given validation set
+# @flag --forget                             Forget the given validation set
+# @flag --refresh                            Refresh or install snaps to satisfy enforced validation sets
+# @option --color[auto|never|always]         Use a little bit of color to highlight some things.
+# @option --unicode[auto|never|always]       Use a little bit of Unicode to improve legibility.
+# @flag --no-wait                            Do not wait for the operation to finish but just print the change id.
+# @arg validation-set <<validation-set>:>    Validation set with an optional pinned sequence point, i.e.
+validate() {
+    :;
+}
+# }} snap validate
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
@@ -727,6 +809,18 @@ _choice_snap_slot() {
 }
 
 _choice_alias_or_snap() {
+    _argc_util_parallel _choice_alias ::: _choice_installed_snap
+}
+
+_choice_snap_or_service() {
+    _argc_util_parallel _choice_installed_snap ::: _choice_service
+}
+
+_choice_quota() {
+    snap quotas | tail -n +2 |  gawk '{print $1}'
+}
+
+_choice_alias() {
     snap aliases | _argc_util_transform_table 'Command;Alias' '\n'
 }
 

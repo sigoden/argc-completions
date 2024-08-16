@@ -5,7 +5,46 @@
 
 # {{ vcpkg export
 # @cmd Creates a standalone deployment of installed ports
-# @arg pkg*[`_choice_installed_package`]
+# @flag --7zip                                     Exports to a 7zip (.7z) file
+# @flag --x-all-installed                          Exports all installed packages
+# @option --x-asset-sources <string>               Asset caching sources.
+# @option --binarysource <string>                  Binary caching sources.
+# @option --x-buildtrees-root <dir>                Buildtrees directory (experimental)
+# @flag --x-chocolatey                             Exports a Chocolatey package (experimental)
+# @option --downloads-root <dir>                   Downloads directory (default: $VCPKG_DOWNLOADS)
+# @flag --dry-run                                  Does not actually export
+# @option --host-triplet <string>                  Host triplet.
+# @flag --ifw                                      Exports to an IFW-based installer
+# @option --ifw-configuration-file-path <file>     The temporary file path for the installer configuration
+# @option --ifw-installer-file-path <file>         The file path for the exported installer
+# @option --ifw-packages-directory-path <dir>      The temporary directory path for the repacked packages
+# @option --ifw-repository-directory-path <dir>    The directory path for the exported repository
+# @option --ifw-repository-url <string>            The remote repository URL for the online installer
+# @option --x-install-root <dir>                   Installed directory (experimental)
+# @option --x-maintainer <string>                  The maintainer for the exported Chocolatey package (experimental)
+# @flag --nuget                                    Exports a NuGet package
+# @option --nuget-description <string>             Description for the exported NuGet package
+# @option --nuget-id <string>                      Id for the exported NuGet package (overrides --output)
+# @option --nuget-version <string>                 The version for the exported NuGet package
+# @option --output-dir <dir>                       The output directory for produced artifacts
+# @option --output <file>                          The output name (used to construct filename)
+# @option --overlay-ports <dir>                    Directories of overlay ports (also: $VCPKG_OVERLAY_PORTS)
+# @flag --overlay-triplets                         string Directories of overlay triplets (also: $VCPKG_OVERLAY_TRIPLETS)
+# @option --x-packages-root <dir>                  Packages directory (experimental)
+# @flag --prefab                                   Exports to Prefab format
+# @option --prefab-artifact-id <string>            Artifact Id is the name of the project according Maven specifications
+# @flag --prefab-debug                             Enables prefab debug
+# @option --prefab-group-id <string>               GroupId uniquely identifies your project according Maven specifications
+# @flag --prefab-maven                             Enables Maven
+# @option --prefab-min-sdk <string>                The Android minimum supported SDK version
+# @option --prefab-target-sdk <string>             The Android target sdk version
+# @option --prefab-version <string>                Version is the name of the project according Maven specifications
+# @flag --raw                                      Exports to an uncompressed directory
+# @option --triplet <string>                       Target triplet.
+# @option --vcpkg-root <dir>                       The vcpkg root directory (default: $VCPKG_ROOT)
+# @flag --x-version-suffix                         string The version suffix to add for the exported Chocolatey package (experimental)
+# @flag --zip                                      Exports to a zip file
+# @arg port-names*[`_choice_installed_package`] <port names>
 export() {
     :;
 }
@@ -43,6 +82,7 @@ export() {
 # @flag --x-use-aria2                     Uses aria2 to perform download tasks
 # @option --vcpkg-root <dir>              The vcpkg root directory (default: $VCPKG_ROOT)
 # @option --x-write-nuget-packages-config <file>  Writes a NuGet packages.config-formatted file for use with external binary caching.
+# @arg port-name+[`_choice_package_cached`] <port name>
 install() {
     :;
 }
@@ -64,6 +104,7 @@ install() {
 # @flag --recurse                       Allows removal of dependent packages not explicitly specified
 # @option --triplet <string>            Target triplet.
 # @option --vcpkg-root <dir>            The vcpkg root directory (default: $VCPKG_ROOT)
+# @arg package-name+[`_choice_installed_package`] <package name>
 remove() {
     :;
 }
@@ -80,6 +121,7 @@ remove() {
 # @flag --enforce-port-checks           Fails install if a port has detected problems or attempts to use a deprecated feature
 # @option --host-triplet <string>       Host triplet.
 # @option --x-install-root <dir>        Installed directory (experimental)
+# @flag --keep-going                    Continues installing packages on failure
 # @flag --no-print-usage                Does not print CMake usage information after install
 # @flag --only-downloads                Makes best-effort attempt to download sources without building
 # @option --overlay-ports <dir>         Directories of overlay ports (also: $VCPKG_OVERLAY_PORTS)
@@ -88,6 +130,7 @@ remove() {
 # @option --triplet <string>            Target triplet.
 # @option --vcpkg-root <dir>            The vcpkg root directory (default: $VCPKG_ROOT)
 # @option --x-write-nuget-packages-config <file>  Writes a NuGet packages.config-formatted file for use with external binary caching.
+# @arg package-name+[`_choice_installed_package`] <package name>
 x-set-installed() {
     :;
 }
@@ -128,6 +171,7 @@ upgrade() {
 # @option --x-packages-root <dir>       Packages directory (experimental)
 # @option --triplet <string>            Target triplet.
 # @option --vcpkg-root <dir>            The vcpkg root directory (default: $VCPKG_ROOT)
+# @arg port-name![`_choice_package_cached`] <port name>
 x-check-support() {
     :;
 }
@@ -150,6 +194,7 @@ x-check-support() {
 # @option --sort <string>               Chooses sort order for the `list` format, one of `lexicographical`, `topological` (default), `reverse`
 # @option --triplet <string>            Target triplet.
 # @option --vcpkg-root <dir>            The vcpkg root directory (default: $VCPKG_ROOT)
+# @arg port-name![`_choice_package_cached`] <port name>
 depend-info() {
     :;
 }
@@ -188,6 +233,7 @@ list() {
 # @option --x-packages-root <dir>       Packages directory (experimental)
 # @option --triplet <string>            Target triplet.
 # @option --vcpkg-root <dir>            The vcpkg root directory (default: $VCPKG_ROOT)
+# @arg pattern!
 owns() {
     :;
 }
@@ -209,6 +255,7 @@ owns() {
 # @flag --x-transitive                  (experimental) Also reports dependencies of installed packages
 # @option --triplet <string>            Target triplet.
 # @option --vcpkg-root <dir>            The vcpkg root directory (default: $VCPKG_ROOT)
+# @arg package-name+[`_choice_installed_package`] <package name>
 x-package-info() {
     :;
 }
@@ -227,6 +274,7 @@ x-package-info() {
 # @option --x-packages-root <dir>       Packages directory (experimental)
 # @option --triplet <string>            Target triplet.
 # @option --vcpkg-root <dir>            The vcpkg root directory (default: $VCPKG_ROOT)
+# @arg branch-name! <branch name>
 portsdiff() {
     :;
 }
@@ -247,6 +295,7 @@ portsdiff() {
 # @option --x-packages-root <dir>       Packages directory (experimental)
 # @option --triplet <string>            Target triplet.
 # @option --vcpkg-root <dir>            The vcpkg root directory (default: $VCPKG_ROOT)
+# @arg pattern![`_choice_package_cached`]
 search() {
     :;
 }
@@ -284,6 +333,8 @@ update() {
 # @option --triplet <string>            Target triplet.
 # @option --vcpkg-root <dir>            The vcpkg root directory (default: $VCPKG_ROOT)
 # @option --version <string>            A version or version range to match; only valid for artifacts
+# @arg port
+# @arg port-name![`_choice_package_cached`] <port name>
 add() {
     :;
 }
@@ -307,6 +358,7 @@ add() {
 # @option --triplet <string>            Target triplet.
 # @option --vcpkg-root <dir>            The vcpkg root directory (default: $VCPKG_ROOT)
 # @flag --verbose                       Prints success messages rather than only errors
+# @arg port-name![`_choice_package_cached`] <port name>
 x-add-version() {
     :;
 }
@@ -325,6 +377,8 @@ x-add-version() {
 # @option --x-packages-root <dir>       Packages directory (experimental)
 # @option --triplet <string>            Target triplet.
 # @option --vcpkg-root <dir>            The vcpkg root directory (default: $VCPKG_ROOT)
+# @arg port-name![`_choice_package_cached`] <port name>
+# @arg uri!
 create() {
     :;
 }
@@ -345,6 +399,7 @@ create() {
 # @option --x-packages-root <dir>       Packages directory (experimental)
 # @option --triplet <string>            Target triplet.
 # @option --vcpkg-root <dir>            The vcpkg root directory (default: $VCPKG_ROOT)
+# @arg port-name![`_choice_package_cached`] <port name>
 edit() {
     :;
 }
@@ -368,6 +423,7 @@ edit() {
 # @flag --tools                         Adds installed tools/*/ to $PATH
 # @option --triplet <string>            Target triplet.
 # @option --vcpkg-root <dir>            The vcpkg root directory (default: $VCPKG_ROOT)
+# @arg name
 env() {
     :;
 }
@@ -388,6 +444,7 @@ env() {
 # @option --x-packages-root <dir>       Packages directory (experimental)
 # @option --triplet <string>            Target triplet.
 # @option --vcpkg-root <dir>            The vcpkg root directory (default: $VCPKG_ROOT)
+# @arg vcpkg-json-path! <vcpkg.json path>
 format-manifest() {
     :;
 }
@@ -406,6 +463,7 @@ format-manifest() {
 # @option --x-packages-root <dir>       Packages directory (experimental)
 # @option --triplet <string>            Target triplet.
 # @option --vcpkg-root <dir>            The vcpkg root directory (default: $VCPKG_ROOT)
+# @arg path!
 hash() {
     :;
 }
@@ -424,6 +482,7 @@ hash() {
 # @option --x-packages-root <dir>       Packages directory (experimental)
 # @option --triplet <string>            Target triplet.
 # @option --vcpkg-root <dir>            The vcpkg root directory (default: $VCPKG_ROOT)
+# @arg path!
 x-init-registry() {
     :;
 }
@@ -510,7 +569,6 @@ ci() {
 # @option --binarysource <string>       Binary caching sources.
 # @option --x-buildtrees-root <dir>     Buildtrees directory (experimental)
 # @option --downloads-root <dir>        Downloads directory (default: $VCPKG_DOWNLOADS)
-# @option --exclude <string>            Comma-separated list of ports to skip
 # @option --host-triplet <string>       Host triplet.
 # @option --x-install-root <dir>        Installed directory (experimental)
 # @option --overlay-ports <dir>         Directories of overlay ports (also: $VCPKG_OVERLAY_PORTS)
@@ -557,6 +615,7 @@ contact() {
 # @flag --x-stderr-status               Prints status/downloading messages to stderr rather than stdout (Errors/failures still go to stdout)
 # @option --triplet <string>            Target triplet.
 # @option --vcpkg-root <dir>            The vcpkg root directory (default: $VCPKG_ROOT)
+# @arg value
 fetch() {
     :;
 }
@@ -581,8 +640,14 @@ integrate() {
 }
 # }} vcpkg integrate
 
+. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
+
 _choice_installed_package() {
     vcpkg list --x-json | yq 'to_entries | .[] | .value.package_name'
+}
+
+_choice_package_cached() {
+    _argc_util_cache 3600 _choice_package
 }
 
 _choice_integrate_action() {
@@ -595,6 +660,10 @@ bash	Enable bash tab-completion.
 zsh	Enable zsh tab-completion.
 x-fish	Enable fish tab-completion.
 EOF
+}
+
+_choice_package() {
+    vcpkg search --x-json | yq 'to_entries | .[] | .key + "	" + .value.description[0]'
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

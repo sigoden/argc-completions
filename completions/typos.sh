@@ -3,6 +3,7 @@
 
 # @option --file-list <FILE_LIST>                 Read the list of newline separated paths from file or stdin (if `-`)
 # @option -j --threads                            The approximate number of threads to use [default: 0]
+# @flag --sort                                    Sort results
 # @flag --force-exclude                           Respect excluded files even for paths passed explicitly
 # @flag -h --help                                 Print help
 # @flag -V --version                              Print version
@@ -30,8 +31,8 @@
 # @flag --type-list                               Show all supported file types
 # @option --format[silent|brief|long|json]        Render style for messages [default: long]
 # @option --color[auto|always|never] <WHEN>       Controls when to use color [default: auto]
-# @flag -v --verbose*                             More output per occurrence
-# @flag -q --quiet*                               Less output per occurrence
+# @flag -v --verbose*                             Increase logging verbosity
+# @flag -q --quiet*                               Decrease logging verbosity
 # @arg path*                                      Paths to check with `-` for stdin [default: .]
 
 command eval "$(argc --argc-eval "$0" "$@")"

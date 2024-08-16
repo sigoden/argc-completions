@@ -8,6 +8,7 @@
 # @flag -s --simplify                        simplify the code
 # @flag -mn                                  minify the code to reduce its size (implies -s)
 # @flag --minify                             minify the code to reduce its size (implies -s)
+# @flag --apply-ignore                       always apply EditorConfig ignore rules
 # @option -ln[bash|posix|mksh|bats] <str>    bash/posix/mksh/bats, default "auto"
 # @option --language-dialect[bash|posix|mksh|bats] <str>  bash/posix/mksh/bats, default "auto"
 # @flag -p --posix                           shorthand for -ln=posix

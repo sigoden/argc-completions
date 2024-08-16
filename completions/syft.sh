@@ -1,44 +1,73 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @option --base-path <dir>            base directory for scanning, no links will be followed above this directory, and all paths will be reported relative to this directory
-# @option --catalogers* <string>       enable one or more package catalogers
-# @option -c --config <file>           syft configuration file
-# @option --exclude* <path>            exclude paths from being scanned using a glob expression
-# @option --file <file>                file to write the default report output to (default is STDOUT) (DEPRECATED: use: output)
-# @flag -h --help                      help for syft
-# @option --name <string>              set the name of the target being analyzed (DEPRECATED: use: source-name)
+# @option --base-path <dir>                       base directory for scanning, no links will be followed above this directory, and all paths will be reported relative to this directory
+# @option -c --config <file>                      syft configuration file
+# @option --exclude* <path>                       exclude paths from being scanned using a glob expression
+# @option --file <file>                           file to write the default report output to (default is STDOUT) (DEPRECATED: use: output)
+# @option --from* <dir>                           specify the source behavior to use (e.g. docker, registry, oci-dir, ...)
+# @flag -h --help                                 help for syft
 # @option -o --output*[cyclonedx-json|cyclonedx-xml|github-json|spdx-json|spdx-tag-value|syft-json|syft-table|syft-text|template]|(default|[syft-table] <file>  report output format (<format>=<file> to output to a file), formats=[cyclonedx-json cyclonedx-xml github-json spdx-json spdx-tag-value syft-json syft-table syft-text template] (default [syft-table])
+# @option --override-default-catalogers* <dir>    set the base set of catalogers to use (defaults to 'image' or 'directory' depending on the scan source)
 # @option --platform[`_module_oci_docker_platform`] <string>  an optional platform specifier for container image sources (e.g. 'linux/arm64', 'linux/arm64/v8', 'arm64', 'linux')
-# @flag -q --quiet                     suppress all logging output
+# @flag -q --quiet                                suppress all logging output
 # @option -s --scope[squashed|all-layers] <string>  selection of layers to catalog, options=[squashed all-layers] (default "squashed")
-# @option --source-name <string>       set the name of the target being analyzed
-# @option --source-version <string>    set the version of the target being analyzed
-# @option -t --template <file>         specify the path to a Go template file
-# @option -v --verbose <count>         increase verbosity (-v = info, -vv = debug)
-# @flag --version                      version for syft
+# @option --select-catalogers* <string>           add, remove, and filter the catalogers to be used
+# @option --source-name <string>                  set the name of the target being analyzed
+# @option --source-version <string>               set the version of the target being analyzed
+# @option -t --template <file>                    specify the path to a Go template file
+# @option -v --verbose <count>                    increase verbosity (-v = info, -vv = debug)
+# @flag --version                                 version for syft
 # @arg source[`_choice_source`]
 
 # {{ syft attest
 # @cmd Generate an SBOM as an attestation for the given [SOURCE] container image
-# @option --base-path <dir>            base directory for scanning, no links will be followed above this directory, and all paths will be reported relative to this directory
-# @option --catalogers* <string>       enable one or more package catalogers
-# @option --exclude* <path>            exclude paths from being scanned using a glob expression
-# @flag -h --help                      help for attest
-# @option --name <string>              set the name of the target being analyzed (DEPRECATED: use: source-name)
+# @option --base-path <dir>                       base directory for scanning, no links will be followed above this directory, and all paths will be reported relative to this directory
+# @option --exclude* <path>                       exclude paths from being scanned using a glob expression
+# @option --from* <dir>                           specify the source behavior to use (e.g. docker, registry, oci-dir, ...)
+# @flag -h --help                                 help for attest
+# @option -k --key <string>                       the key to use for the attestation
 # @option -o --output*[cyclonedx-json|cyclonedx-xml|github-json|spdx-json|spdx-tag-value|syft-json|syft-table|syft-text|template]|(default|[syft-json] <file>  report output format (<format>=<file> to output to a file), formats=[cyclonedx-json cyclonedx-xml github-json spdx-json spdx-tag-value syft-json syft-table syft-text template] (default [syft-json])
+# @option --override-default-catalogers* <dir>    set the base set of catalogers to use (defaults to 'image' or 'directory' depending on the scan source)
 # @option --platform[`_module_oci_docker_platform`] <string>  an optional platform specifier for container image sources (e.g. 'linux/arm64', 'linux/arm64/v8', 'arm64', 'linux')
 # @option -s --scope[squashed|all-layers] <string>  selection of layers to catalog, options=[squashed all-layers] (default "squashed")
-# @option --source-name <string>       set the name of the target being analyzed
-# @option --source-version <string>    set the version of the target being analyzed
-# @option -c --config <file>           syft configuration file
-# @flag -q --quiet                     suppress all logging output
-# @option -v --verbose <count>         increase verbosity (-v = info, -vv = debug)
+# @option --select-catalogers* <string>           add, remove, and filter the catalogers to be used
+# @option --source-name <string>                  set the name of the target being analyzed
+# @option --source-version <string>               set the version of the target being analyzed
+# @option -c --config <file>                      syft configuration file
+# @flag -q --quiet                                suppress all logging output
+# @option -v --verbose <count>                    increase verbosity (-v = info, -vv = debug)
 # @arg source[`_choice_source`]
 attest() {
     :;
 }
 # }} syft attest
+
+# {{ syft cataloger
+# @cmd Show available catalogers and configuration
+# @flag -h --help                 help for cataloger
+# @option -c --config <file>      syft configuration file
+# @flag -q --quiet                suppress all logging output
+# @option -v --verbose <count>    increase verbosity (-v = info, -vv = debug)
+cataloger() {
+    :;
+}
+
+# {{{ syft cataloger list
+# @cmd List available catalogers
+# @flag -h --help                             help for list
+# @option -o --output[table|json] <string>    format to output the cataloger list
+# @option --override-default-catalogers* <string>  override the default catalogers with an expression (default [all])
+# @option --select-catalogers* <string>       select catalogers with an expression
+# @flag -s --show-hidden                      show catalogers that have been de-selected
+# @option -c --config <file>                  syft configuration file
+# @flag -q --quiet                            suppress all logging output
+# @option -v --verbose <count>                increase verbosity (-v = info, -vv = debug)
+cataloger::list() {
+    :;
+}
+# }}} syft cataloger list
+# }} syft cataloger
 
 # {{ syft completion
 # @cmd Generate the autocompletion script for the specified shell
@@ -99,6 +128,30 @@ completion::zsh() {
 # }}} syft completion zsh
 # }} syft completion
 
+# {{ syft config
+# @cmd show the syft configuration
+# @flag -h --help                 help for config
+# @flag --load                    load and validate the syft configuration
+# @option -c --config <file>      syft configuration file
+# @flag -q --quiet                suppress all logging output
+# @option -v --verbose <count>    increase verbosity (-v = info, -vv = debug)
+config() {
+    :;
+}
+
+# {{{ syft config locations
+# @cmd shows all locations and the order in which syft will look for a configuration file
+# @flag --all                     include every file extension supported
+# @flag -h --help                 help for locations
+# @option -c --config <file>      syft configuration file
+# @flag -q --quiet                suppress all logging output
+# @option -v --verbose <count>    increase verbosity (-v = info, -vv = debug)
+config::locations() {
+    :;
+}
+# }}} syft config locations
+# }} syft config
+
 # {{ syft convert
 # @cmd Convert between SBOM formats
 # @option --file <file>           file to write the default report output to (default is STDOUT) (DEPRECATED: use: output)
@@ -130,28 +183,29 @@ login() {
 }
 # }} syft login
 
-# {{ syft packages
-# @cmd Generate a package SBOM
-# @option --base-path <dir>            base directory for scanning, no links will be followed above this directory, and all paths will be reported relative to this directory
-# @option --catalogers* <string>       enable one or more package catalogers
-# @option --exclude* <path>            exclude paths from being scanned using a glob expression
-# @option --file <file>                file to write the default report output to (default is STDOUT) (DEPRECATED: use: output)
-# @flag -h --help                      help for packages
-# @option --name <string>              set the name of the target being analyzed (DEPRECATED: use: source-name)
+# {{ syft scan
+# @cmd Generate an SBOM
+# @option --base-path <dir>                       base directory for scanning, no links will be followed above this directory, and all paths will be reported relative to this directory
+# @option --exclude* <path>                       exclude paths from being scanned using a glob expression
+# @option --file <file>                           file to write the default report output to (default is STDOUT) (DEPRECATED: use: output)
+# @option --from* <dir>                           specify the source behavior to use (e.g. docker, registry, oci-dir, ...)
+# @flag -h --help                                 help for scan
 # @option -o --output*[cyclonedx-json|cyclonedx-xml|github-json|spdx-json|spdx-tag-value|syft-json|syft-table|syft-text|template]|(default|[syft-table] <file>  report output format (<format>=<file> to output to a file), formats=[cyclonedx-json cyclonedx-xml github-json spdx-json spdx-tag-value syft-json syft-table syft-text template] (default [syft-table])
+# @option --override-default-catalogers* <dir>    set the base set of catalogers to use (defaults to 'image' or 'directory' depending on the scan source)
 # @option --platform[`_module_oci_docker_platform`] <string>  an optional platform specifier for container image sources (e.g. 'linux/arm64', 'linux/arm64/v8', 'arm64', 'linux')
 # @option -s --scope[squashed|all-layers] <string>  selection of layers to catalog, options=[squashed all-layers] (default "squashed")
-# @option --source-name <string>       set the name of the target being analyzed
-# @option --source-version <string>    set the version of the target being analyzed
-# @option -t --template <file>         specify the path to a Go template file
-# @option -c --config <file>           syft configuration file
-# @flag -q --quiet                     suppress all logging output
-# @option -v --verbose <count>         increase verbosity (-v = info, -vv = debug)
+# @option --select-catalogers* <string>           add, remove, and filter the catalogers to be used
+# @option --source-name <string>                  set the name of the target being analyzed
+# @option --source-version <string>               set the version of the target being analyzed
+# @option -t --template <file>                    specify the path to a Go template file
+# @option -c --config <file>                      syft configuration file
+# @flag -q --quiet                                suppress all logging output
+# @option -v --verbose <count>                    increase verbosity (-v = info, -vv = debug)
 # @arg source
-packages() {
+scan() {
     :;
 }
-# }} syft packages
+# }} syft scan
 
 # {{ syft version
 # @cmd show version information

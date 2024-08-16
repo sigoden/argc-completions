@@ -3,13 +3,13 @@
 
 # @flag -v --verbose    Enable verbose output
 # @flag -q --quiet      Disable progress output
-# @flag -h --help       Print help information
-# @flag -V --version    Print version information
+# @flag -h --help       Print help
+# @flag -V --version    Print version
 
 # {{ rustup show
 # @cmd Show the active and installed toolchains or profiles
 # @flag -v --verbose    Enable verbose output with rustc information for all installed toolchains
-# @flag -h --help       Print help information
+# @flag -h --help       Print help
 show() {
     :;
 }
@@ -17,7 +17,7 @@ show() {
 # {{{ rustup show active-toolchain
 # @cmd Show the active toolchain
 # @flag -v --verbose    Enable verbose output with rustc information
-# @flag -h --help       Print help information
+# @flag -h --help       Print help
 show::active-toolchain() {
     :;
 }
@@ -25,15 +25,15 @@ show::active-toolchain() {
 
 # {{{ rustup show home
 # @cmd Display the computed value of RUSTUP_HOME
-# @flag -h --help    Print help information
+# @flag -h --help    Print help
 show::home() {
     :;
 }
 # }}} rustup show home
 
 # {{{ rustup show profile
-# @cmd Show the current profile
-# @flag -h --help    Print help information
+# @cmd Show the default profile used for the `rustup install` command
+# @flag -h --help    Print help
 show::profile() {
     :;
 }
@@ -45,8 +45,8 @@ show::profile() {
 # @flag --no-self-update                Don't perform self update when running the `rustup update` command
 # @flag --force                         Force an update, even if some components are missing
 # @flag --force-non-host                Install toolchains that require an emulator.
-# @flag -h --help                       Print help information
-# @arg toolchain+[`_choice_channel`]    Toolchain name, such as 'stable', 'nightly', or '1.8.0'.
+# @flag -h --help                       Print help
+# @arg toolchain*[`_choice_channel`]    Toolchain name, such as 'stable', 'nightly', or '1.8.0'.
 update() {
     :;
 }
@@ -54,7 +54,7 @@ update() {
 
 # {{ rustup check
 # @cmd Check for updates to Rust toolchains and rustup
-# @flag -h --help    Print help information
+# @flag -h --help    Print help
 check() {
     :;
 }
@@ -62,8 +62,8 @@ check() {
 
 # {{ rustup default
 # @cmd Set the default toolchain
-# @flag -h --help                         Print help information
-# @arg toolchain![`_choice_toolchain`]    Toolchain name, such as 'stable', 'nightly', or '1.8.0'.
+# @flag -h --help                        Print help
+# @arg toolchain[`_choice_toolchain`]    'none', a toolchain name, such as 'stable', 'nightly', '1.8.0', or a custom toolchain name.
 default() {
     :;
 }
@@ -71,7 +71,7 @@ default() {
 
 # {{ rustup toolchain
 # @cmd Modify or query the installed toolchains
-# @flag -h --help    Print help information
+# @flag -h --help    Print help
 toolchain() {
     :;
 }
@@ -79,7 +79,7 @@ toolchain() {
 # {{{ rustup toolchain list
 # @cmd List installed toolchains
 # @flag -v --verbose    Enable verbose output with toolchain information
-# @flag -h --help       Print help information
+# @flag -h --help       Print help
 toolchain::list() {
     :;
 }
@@ -94,7 +94,7 @@ toolchain::list() {
 # @flag --force                         Force an update, even if some components are missing
 # @flag --allow-downgrade               Allow rustup to downgrade the toolchain to satisfy your component choice
 # @flag --force-non-host                Install toolchains that require an emulator.
-# @flag -h --help                       Print help information
+# @flag -h --help                       Print help
 # @arg toolchain+[`_choice_channel`]    Toolchain name, such as 'stable', 'nightly', or '1.8.0'.
 toolchain::install() {
     :;
@@ -103,8 +103,8 @@ toolchain::install() {
 
 # {{{ rustup toolchain uninstall
 # @cmd Uninstall a toolchain
-# @flag -h --help                         Print help information
-# @arg toolchain+[`_choice_toolchain`]    Toolchain name, such as 'stable', 'nightly', or '1.8.0'.
+# @flag -h --help                         Print help
+# @arg toolchain+[`_choice_toolchain`]    Toolchain name, such as 'stable', 'nightly', '1.8.0', or a custom toolchain name.
 toolchain::uninstall() {
     :;
 }
@@ -112,7 +112,7 @@ toolchain::uninstall() {
 
 # {{{ rustup toolchain link
 # @cmd Create a custom toolchain by symlinking to a directory
-# @flag -h --help                         Print help information
+# @flag -h --help                         Print help
 # @arg toolchain![`_choice_toolchain`]    Custom toolchain name
 # @arg path!                              Path to the directory
 toolchain::link() {
@@ -123,7 +123,7 @@ toolchain::link() {
 
 # {{ rustup target
 # @cmd Modify a toolchain's supported targets
-# @flag -h --help    Print help information
+# @flag -h --help    Print help
 target() {
     :;
 }
@@ -132,7 +132,7 @@ target() {
 # @cmd List installed and available targets
 # @option --toolchain[`_choice_toolchain`] <toolchain>  Toolchain name, such as 'stable', 'nightly', or '1.8.0'.
 # @flag --installed    List only installed targets
-# @flag -h --help      Print help information
+# @flag -h --help      Print help
 target::list() {
     :;
 }
@@ -141,7 +141,7 @@ target::list() {
 # {{{ rustup target add
 # @cmd Add a target to a Rust toolchain
 # @option --toolchain[`_choice_toolchain`] <toolchain>  Toolchain name, such as 'stable', 'nightly', or '1.8.0'.
-# @flag -h --help                   Print help information
+# @flag -h --help                   Print help
 # @arg target+[`_choice_target`]    List of targets to install; "all" installs all available targets
 target::add() {
     :;
@@ -151,7 +151,7 @@ target::add() {
 # {{{ rustup target remove
 # @cmd Remove a target from a Rust toolchain
 # @option --toolchain[`_choice_toolchain`] <toolchain>  Toolchain name, such as 'stable', 'nightly', or '1.8.0'.
-# @flag -h --help                   Print help information
+# @flag -h --help                   Print help
 # @arg target+[`_choice_target`]    List of targets to uninstall
 target::remove() {
     :;
@@ -161,7 +161,7 @@ target::remove() {
 
 # {{ rustup component
 # @cmd Modify a toolchain's installed components
-# @flag -h --help    Print help information
+# @flag -h --help    Print help
 component() {
     :;
 }
@@ -170,7 +170,7 @@ component() {
 # @cmd List installed and available components
 # @option --toolchain[`_choice_toolchain`] <toolchain>  Toolchain name, such as 'stable', 'nightly', or '1.8.0'.
 # @flag --installed    List only installed components
-# @flag -h --help      Print help information
+# @flag -h --help      Print help
 component::list() {
     :;
 }
@@ -180,7 +180,7 @@ component::list() {
 # @cmd Add a component to a Rust toolchain
 # @option --toolchain[`_choice_toolchain`] <toolchain>  Toolchain name, such as 'stable', 'nightly', or '1.8.0'.
 # @option --target[`_choice_target`] <target>
-# @flag -h --help    Print help information
+# @flag -h --help    Print help
 # @arg component+[`_choice_available_component`]
 component::add() {
     :;
@@ -191,7 +191,7 @@ component::add() {
 # @cmd Remove a component from a Rust toolchain
 # @option --toolchain[`_choice_toolchain`] <toolchain>  Toolchain name, such as 'stable', 'nightly', or '1.8.0'.
 # @option --target[`_choice_target`] <target>
-# @flag -h --help    Print help information
+# @flag -h --help    Print help
 # @arg component+[`_choice_installed_component`]
 component::remove() {
     :;
@@ -200,15 +200,15 @@ component::remove() {
 # }} rustup component
 
 # {{ rustup override
-# @cmd Modify directory toolchain overrides
-# @flag -h --help    Print help information
+# @cmd Modify toolchain overrides for directories
+# @flag -h --help    Print help
 override() {
     :;
 }
 
 # {{{ rustup override list
 # @cmd List directory toolchain overrides
-# @flag -h --help    Print help information
+# @flag -h --help    Print help
 override::list() {
     :;
 }
@@ -217,8 +217,8 @@ override::list() {
 # {{{ rustup override set
 # @cmd Set the override toolchain for a directory
 # @option --path <path>                   Path to the directory
-# @flag -h --help                         Print help information
-# @arg toolchain![`_choice_toolchain`]    Toolchain name, such as 'stable', 'nightly', or '1.8.0'.
+# @flag -h --help                         Print help
+# @arg toolchain![`_choice_toolchain`]    Toolchain name, such as 'stable', 'nightly', '1.8.0', or a custom toolchain name.
 override::set() {
     :;
 }
@@ -228,7 +228,7 @@ override::set() {
 # @cmd Remove the override toolchain for a directory
 # @option --path[`_choice_override`] <path>    Path to the directory
 # @flag --nonexistent                          Remove override toolchain for all nonexistent directories
-# @flag -h --help                              Print help information
+# @flag -h --help                              Print help
 override::unset() {
     :;
 }
@@ -238,8 +238,8 @@ override::unset() {
 # {{ rustup run
 # @cmd Run a command with an environment configured for a given toolchain
 # @flag --install                         Install the requested toolchain if needed
-# @flag -h --help                         Print help information
-# @arg toolchain![`_choice_toolchain`]    Toolchain name, such as 'stable', 'nightly', or '1.8.0'.
+# @flag -h --help                         Print help
+# @arg toolchain![`_choice_toolchain`]    Toolchain name, such as 'stable', 'nightly', '1.8.0', or a custom toolchain name, or an absolute path.
 # @arg command+[`_choice_toolchain_command`]
 run() {
     :;
@@ -248,8 +248,8 @@ run() {
 
 # {{ rustup which
 # @cmd Display which binary will be run for a given command
-# @option --toolchain[`_choice_toolchain`] <toolchain>  Toolchain name, such as 'stable', 'nightly', or '1.8.0'.
-# @flag -h --help    Print help information
+# @option --toolchain[`_choice_toolchain`] <toolchain>  Toolchain name, such as 'stable', 'nightly', '1.8.0', or a custom toolchain name.
+# @flag -h --help    Print help
 # @arg command![`_choice_toolchain_command`]
 which() {
     :;
@@ -275,8 +275,8 @@ which() {
 # @flag --test               Support code for rustc's built in unit-test and micro-benchmarking framework
 # @flag --unstable-book      The Unstable Book
 # @flag --embedded-book      The Embedded Rust Book
-# @flag -h --help            Print help information
-# @arg topic!                Topic such as 'core', 'fn', 'usize', 'eprintln!', 'core::arch', 'alloc::format!', 'std::fs', 'std::fs::read_dir', 'std::io::Bytes', 'std::iter::Sum', 'std::io::error::Result' etc...
+# @flag -h --help            Print help
+# @arg topic                 Topic such as 'core', 'fn', 'usize', 'eprintln!', 'core::arch', 'alloc::format!', 'std::fs', 'std::fs::read_dir', 'std::io::Bytes', 'std::iter::Sum', 'std::io::error::Result' etc...
 doc() {
     :;
 }
@@ -285,7 +285,7 @@ doc() {
 # {{ rustup man
 # @cmd View the man page for a given command
 # @option --toolchain[`_choice_toolchain`] <toolchain>  Toolchain name, such as 'stable', 'nightly', or '1.8.0'.
-# @flag -h --help    Print help information
+# @flag -h --help    Print help
 # @arg command![`_choice_toolchain_command`]
 man() {
     :;
@@ -294,14 +294,14 @@ man() {
 
 # {{ rustup self
 # @cmd Modify the rustup installation
-# @flag -h --help    Print help information
+# @flag -h --help    Print help
 self() {
     :;
 }
 
 # {{{ rustup self update
 # @cmd Download and install updates to rustup
-# @flag -h --help    Print help information
+# @flag -h --help    Print help
 self::update() {
     :;
 }
@@ -310,7 +310,7 @@ self::update() {
 # {{{ rustup self uninstall
 # @cmd Uninstall rustup.
 # @flag -y
-# @flag -h --help    Print help information
+# @flag -h --help    Print help
 self::uninstall() {
     :;
 }
@@ -318,7 +318,7 @@ self::uninstall() {
 
 # {{{ rustup self upgrade-data
 # @cmd Upgrade the internal data format.
-# @flag -h --help    Print help information
+# @flag -h --help    Print help
 self::upgrade-data() {
     :;
 }
@@ -327,14 +327,14 @@ self::upgrade-data() {
 
 # {{ rustup set
 # @cmd Alter rustup settings
-# @flag -h --help    Print help information
+# @flag -h --help    Print help
 set() {
     :;
 }
 
 # {{{ rustup set default-host
 # @cmd The triple used to identify toolchains when not specified
-# @flag -h --help    Print help information
+# @flag -h --help    Print help
 # @arg host_triple!
 set::default-host() {
     :;
@@ -342,8 +342,8 @@ set::default-host() {
 # }}} rustup set default-host
 
 # {{{ rustup set profile
-# @cmd The default components installed
-# @flag -h --help                                 Print help information
+# @cmd The default components installed with a toolchain
+# @flag -h --help                                 Print help
 # @arg profile-name![minimal|default|complete]    [default: default]
 set::profile() {
     :;
@@ -352,7 +352,7 @@ set::profile() {
 
 # {{{ rustup set auto-self-update
 # @cmd The rustup auto self update mode
-# @flag -h --help    Print help information
+# @flag -h --help    Print help
 # @arg auto-self-update-mode![enable|disable|check-only]  [default: enable]
 set::auto-self-update() {
     :;
@@ -362,9 +362,9 @@ set::auto-self-update() {
 
 # {{ rustup completions
 # @cmd Generate tab-completion scripts for your shell
-# @flag -h --help    Print help information
-# @arg shell![bash|elvish|fish|powershell|zsh]
-# @arg command![rustup|cargo]
+# @flag -h --help    Print help
+# @arg shell[bash|elvish|fish|powershell|zsh]
+# @arg command[rustup|cargo]
 completions() {
     :;
 }

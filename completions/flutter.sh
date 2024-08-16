@@ -77,6 +77,10 @@ channel() {
 # @flag --no-cli-animations                   Enable or disable animations in the command line interface.
 # @flag --enable-native-assets                Enable or disable native assets compilation and bundling.
 # @flag --no-enable-native-assets             Enable or disable native assets compilation and bundling.
+# @flag --enable-flutter-preview              Enable or disable Flutter preview prebuilt device.
+# @flag --no-enable-flutter-preview           Enable or disable Flutter preview prebuilt device.
+# @flag --enable-swift-package-manager        Enable or disable support for Swift Package Manager for iOS and macOS.
+# @flag --no-enable-swift-package-manager     Enable or disable support for Swift Package Manager for iOS and macOS.
 # @flag --clear-features                      Remove all configured features and restore them to the default values.
 config() {
     :;
@@ -254,6 +258,8 @@ build() {
 # @option --dart-define-from-file <file:.json>    The path of a .json or .env file containing key-value pairs that will be available as environment variables.
 # @flag --track-widget-creation                   Track widget creation locations.
 # @flag --no-track-widget-creation                Track widget creation locations.
+# @flag --android-skip-build-dependency-validation  Whether to skip version checking for Java, Gradle, the Android Gradle Plugin (AGP), and the Kotlin Gradle Plugin (KGP) during Android builds.
+# @flag --no-android-skip-build-dependency-validation  Whether to skip version checking for Java, Gradle, the Android Gradle Plugin (AGP), and the Kotlin Gradle Plugin (KGP) during Android builds.
 # @option -P --android-project-arg <value>        Additional arguments specified as key=value that are passed directly to the gradle project via the -P flag.
 # @option --target-platform[android-arm|android-arm64|android-x86|android-x64]  The target platform for which the project is compiled.
 build::aar() {
@@ -289,9 +295,9 @@ build::aar() {
 # @flag --analyze-size                            Whether to produce additional profile information for artifact output size.
 # @flag --no-analyze-size                         Whether to produce additional profile information for artifact output size.
 # @flag --code-size-directory                     The location to write code size analysis files.
+# @flag --android-skip-build-dependency-validation  Whether to skip version checking for Java, Gradle, the Android Gradle Plugin (AGP), and the Kotlin Gradle Plugin (KGP) during Android builds.
+# @flag --no-android-skip-build-dependency-validation  Whether to skip version checking for Java, Gradle, the Android Gradle Plugin (AGP), and the Kotlin Gradle Plugin (KGP) during Android builds.
 # @option -P --android-project-arg <value>        Additional arguments specified as key=value that are passed directly to the gradle project via the -P flag.
-# @flag --multidex                                When enabled, indicates that the app should be built with multidex support.
-# @flag --no-multidex                             When enabled, indicates that the app should be built with multidex support.
 # @flag --ignore-deprecation                      Indicates that the app should ignore deprecation warnings and continue to build using deprecated APIs.
 # @flag --split-per-abi                           Whether to split the APKs per ABIs.
 # @flag --config-only                             Generate build files used by flutter but do not build any artifacts.
@@ -334,9 +340,9 @@ build::apk() {
 # @flag --analyze-size                            Whether to produce additional profile information for artifact output size.
 # @flag --no-analyze-size                         Whether to produce additional profile information for artifact output size.
 # @flag --code-size-directory                     The location to write code size analysis files.
+# @flag --android-skip-build-dependency-validation  Whether to skip version checking for Java, Gradle, the Android Gradle Plugin (AGP), and the Kotlin Gradle Plugin (KGP) during Android builds.
+# @flag --no-android-skip-build-dependency-validation  Whether to skip version checking for Java, Gradle, the Android Gradle Plugin (AGP), and the Kotlin Gradle Plugin (KGP) during Android builds.
 # @option -P --android-project-arg <value>        Additional arguments specified as key=value that are passed directly to the gradle project via the -P flag.
-# @flag --multidex                                When enabled, indicates that the app should be built with multidex support.
-# @flag --no-multidex                             When enabled, indicates that the app should be built with multidex support.
 # @flag --ignore-deprecation                      Indicates that the app should ignore deprecation warnings and continue to build using deprecated APIs.
 # @option --target-platform[android-arm|android-arm64|android-x64]  The target platform for which the app is compiled.
 # @flag --deferred-components                     Setting to false disables building with deferred components.
@@ -440,12 +446,16 @@ build::linux() {
 # @option --web-renderer[auto|canvaskit|html]     The renderer implementation to use when building for the web.
 # @flag --web-resources-cdn                       Use Web static resources hosted on a CDN.
 # @flag --no-web-resources-cdn                    Use Web static resources hosted on a CDN.
+# @option -O --optimization-level[0|1|2|3|4]      Sets the optimization level used for Dart compilation to JavaScript/Wasm.
 # @flag --csp                                     Disable dynamic generation of code in the generated output.
 # @flag --source-maps                             Generate a sourcemap file.
 # @flag --no-source-maps                          Generate a sourcemap file.
 # @option --dart2js-optimization[O1|O2|O3|O4]     Sets the optimization level used for Dart compilation to JavaScript.
 # @flag --dump-info                               Passes "--dump-info" to the Javascript compiler which generates information about the generated code is a .js.info.json file.
 # @flag --no-frequency-based-minification         Disables the frequency based minifier.
+# @flag --wasm                                    Compile to WebAssembly (with fallback to JavaScript).
+# @flag --strip-wasm                              Whether to strip the resulting wasm file of static symbol names.
+# @flag --no-strip-wasm                           Whether to strip the resulting wasm file of static symbol names.
 build::web() {
     :;
 }
@@ -502,73 +512,79 @@ create() {
 
 # {{ flutter drive
 # @cmd Run integration tests for the project on an attached device or emulator.
-# @flag -h --help                                 Print this usage information.
-# @flag -v --verbose                              Noisy logging, including all shell commands executed.
-# @option -d --device-id[`_choice_device`]        Target device id or name (prefixes allowed).
-# @flag --version                                 Reports the version of this tool.
-# @flag --enable-analytics                        Enable telemetry reporting each time a flutter or dart command runs.
-# @flag --disable-analytics                       Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
-# @flag --suppress-analytics                      Suppress analytics reporting for the current CLI invocation.
-# @flag --debug                                   Build a debug version of your app (default mode).
-# @flag --profile                                 Build a version of your app specialized for performance profiling.
-# @flag --release                                 Build a release version of your app.
-# @option --dart-define <foo=bar>                 Additional key-value pairs that will be available as constants from the String.fromEnvironment, bool.fromEnvironment, and int.fromEnvironment constructors.
-# @option --dart-define-from-file <file:.json>    The path of a .json or .env file containing key-value pairs that will be available as environment variables.
-# @option --flavor <value>                        Build a custom app flavor as defined by platform-specific build setup.
-# @option --web-renderer[auto|canvaskit|html]     The renderer implementation to use when building for the web.
-# @flag --web-resources-cdn                       Use Web static resources hosted on a CDN.
-# @flag --no-web-resources-cdn                    Use Web static resources hosted on a CDN.
-# @option --use-application-binary <file:.apk>    Specify a pre-built application binary to use when running.
-# @flag --trace-startup                           Trace application startup, then exit, saving the trace to a file.
-# @flag --cache-startup-profile                   Caches the CPU profile collected before the first frame for startup analysis.
-# @flag --no-cache-startup-profile                Caches the CPU profile collected before the first frame for startup analysis.
-# @flag --verbose-system-logs                     Include verbose logging from the Flutter engine.
-# @flag --cache-sksl                              Cache the shader in the SkSL format instead of in binary or GLSL formats.
-# @flag --dump-skp-on-shader-compilation          Automatically dump the skp that triggers new shader compilations.
-# @flag --purge-persistent-cache                  Removes all existing persistent caches.
-# @option --route <value>                         Which route to load when running the app.
-# @flag --start-paused                            Start in a paused mode and wait for a debugger to connect.
-# @flag --no-start-paused                         Start in a paused mode and wait for a debugger to connect.
-# @flag --endless-trace-buffer                    Enable tracing to an infinite buffer, instead of a ring buffer.
-# @flag --trace-systrace                          Enable tracing to the system tracer.
-# @flag --trace-skia                              Enable tracing of Skia code.
-# @flag --enable-dart-profiling                   Whether the Dart VM sampling CPU profiler is enabled.
-# @flag --no-enable-dart-profiling                Whether the Dart VM sampling CPU profiler is enabled.
-# @option -a --dart-entrypoint-args <value>       Pass a list of arguments to the Dart entrypoint at application startup.
-# @option --web-launch-url <url>                  The URL to provide to the browser.
-# @option -t --target <path>                      The main entry-point file of the application, as run on the device.
-# @option --device-vmservice-port <port>          Look for vmservice connections only from the specified port.
-# @option --host-vmservice-port <port>            When a device-side vmservice port is forwarded to a host-side port, use this value as the host port.
-# @flag --pub                                     Whether to run "flutter pub get" before executing this command.
-# @flag --no-pub                                  Whether to run "flutter pub get" before executing this command.
-# @flag --track-widget-creation                   Track widget creation locations.
-# @flag --no-track-widget-creation                Track widget creation locations.
-# @option --device-user <10>                      Identifier number for a user or work profile on Android only.
-# @option --device-timeout <10>                   Time in seconds to wait for devices to attach.
+# @flag -h --help                                  Print this usage information.
+# @flag -v --verbose                               Noisy logging, including all shell commands executed.
+# @option -d --device-id[`_choice_device`]         Target device id or name (prefixes allowed).
+# @flag --version                                  Reports the version of this tool.
+# @flag --enable-analytics                         Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                        Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
+# @flag --suppress-analytics                       Suppress analytics reporting for the current CLI invocation.
+# @flag --debug                                    Build a debug version of your app (default mode).
+# @flag --profile                                  Build a version of your app specialized for performance profiling.
+# @flag --release                                  Build a release version of your app.
+# @option --dart-define <foo=bar>                  Additional key-value pairs that will be available as constants from the String.fromEnvironment, bool.fromEnvironment, and int.fromEnvironment constructors.
+# @option --dart-define-from-file <file:.json>     The path of a .json or .env file containing key-value pairs that will be available as environment variables.
+# @option --flavor <value>                         Build a custom app flavor as defined by platform-specific build setup.
+# @option --web-renderer[auto|canvaskit|html]      The renderer implementation to use when building for the web.
+# @flag --web-resources-cdn                        Use Web static resources hosted on a CDN.
+# @flag --no-web-resources-cdn                     Use Web static resources hosted on a CDN.
+# @option --use-application-binary <file:.apk>     Specify a pre-built application binary to use when running.
+# @flag --trace-startup                            Trace application startup, then exit, saving the trace to a file.
+# @flag --cache-startup-profile                    Caches the CPU profile collected before the first frame for startup analysis.
+# @flag --no-cache-startup-profile                 Caches the CPU profile collected before the first frame for startup analysis.
+# @flag --verbose-system-logs                      Include verbose logging from the Flutter engine.
+# @flag --cache-sksl                               Cache the shader in the SkSL format instead of in binary or GLSL formats.
+# @flag --dump-skp-on-shader-compilation           Automatically dump the skp that triggers new shader compilations.
+# @flag --purge-persistent-cache                   Removes all existing persistent caches.
+# @option --route <value>                          Which route to load when running the app.
+# @flag --start-paused                             Start in a paused mode and wait for a debugger to connect.
+# @flag --no-start-paused                          Start in a paused mode and wait for a debugger to connect.
+# @flag --endless-trace-buffer                     Enable tracing to an infinite buffer, instead of a ring buffer.
+# @flag --trace-systrace                           Enable tracing to the system tracer.
+# @option --trace-to-file <path/to/trace.binpb>    Write the timeline trace to a file at the specified path.
+# @flag --trace-skia                               Enable tracing of Skia code.
+# @flag --enable-dart-profiling                    Whether the Dart VM sampling CPU profiler is enabled.
+# @flag --no-enable-dart-profiling                 Whether the Dart VM sampling CPU profiler is enabled.
+# @option -a --dart-entrypoint-args <value>        Pass a list of arguments to the Dart entrypoint at application startup.
+# @flag --wasm                                     Compile to WebAssembly rather than JavaScript.
+# @flag --web-tls-cert-path                        The certificate that host will use to serve using TLS connection.
+# @flag --web-tls-cert-key-path                    The certificate key that host will use to authenticate cert.
+# @option --web-launch-url <url>                   The URL to provide to the browser.
+# @option -t --target <path>                       The main entry-point file of the application, as run on the device.
+# @option --device-vmservice-port <port>           Look for vmservice connections only from the specified port.
+# @option --host-vmservice-port <port>             When a device-side vmservice port is forwarded to a host-side port, use this value as the host port.
+# @flag --pub                                      Whether to run "flutter pub get" before executing this command.
+# @flag --no-pub                                   Whether to run "flutter pub get" before executing this command.
+# @flag --track-widget-creation                    Track widget creation locations.
+# @flag --no-track-widget-creation                 Track widget creation locations.
+# @option --device-user <10>                       Identifier number for a user or work profile on Android only.
+# @option --device-timeout <10>                    Time in seconds to wait for devices to attach.
 # @option --device-connection[attached|both|wireless]  Discover devices based on connection type.
-# @option --dds-port <port>                       When this value is provided, the Dart Development Service (DDS) will be bound to the provided port.
+# @option --dds-port <port>                        When this value is provided, the Dart Development Service (DDS) will be bound to the provided port.
+# @flag --dds                                      Enable the Dart Developer Service (DDS).
+# @flag --no-dds                                   Enable the Dart Developer Service (DDS).
+# @flag --android-skip-build-dependency-validation  Whether to skip version checking for Java, Gradle, the Android Gradle Plugin (AGP), and the Kotlin Gradle Plugin (KGP) during Android builds.
+# @flag --no-android-skip-build-dependency-validation  Whether to skip version checking for Java, Gradle, the Android Gradle Plugin (AGP), and the Kotlin Gradle Plugin (KGP) during Android builds.
 # @option -P --android-project-arg <<value # Additional arguments specified as key=value that are passed directly to the gradle project via the -P flag. #>
-# @flag --multidex                                When enabled, indicates that the app should be built with multidex support.
-# @flag --no-multidex                             When enabled, indicates that the app should be built with multidex support.
-# @flag --keep-app-running                        Will keep the Flutter application running when done testing.
-# @flag --no-keep-app-running                     Will keep the Flutter application running when done testing.
-# @option --use-existing-app <url>                Connect to an already running instance via the given Dart VM Service URL.
-# @option --driver <path>                         The test file to run on the host (as opposed to the target file to run on the device).
-# @flag --build                                   (deprecated) Build the app before running.
-# @flag --no-build                                (deprecated) Build the app before running.
-# @option --screenshot <path/to/directory>        Directory location to write screenshots on test failure.
-# @option --driver-port <4444>                    The port where Webdriver server is launched at.
-# @flag --headless                                Whether the driver browser is going to be launched in headless mode.
-# @flag --no-headless                             Whether the driver browser is going to be launched in headless mode.
+# @flag --keep-app-running                         Will keep the Flutter application running when done testing.
+# @flag --no-keep-app-running                      Will keep the Flutter application running when done testing.
+# @option --use-existing-app <url>                 Connect to an already running instance via the given Dart VM Service URL.
+# @option --driver <path>                          The test file to run on the host (as opposed to the target file to run on the device).
+# @flag --build                                    (deprecated) Build the app before running.
+# @flag --no-build                                 (deprecated) Build the app before running.
+# @option --screenshot <path/to/directory>         Directory location to write screenshots on test failure.
+# @option --driver-port <4444>                     The port where Webdriver server is launched at.
+# @flag --headless                                 Whether the driver browser is going to be launched in headless mode.
+# @flag --no-headless                              Whether the driver browser is going to be launched in headless mode.
 # @option --browser-name[android-chrome|chrome|edge|firefox|ios-safari|safari]  Name of the browser where tests will be executed.
-# @option --browser-dimension <width,height>      The dimension of the browser when running a Flutter Web test.
-# @flag --android-emulator                        Whether to perform Flutter Driver testing using an Android Emulator.
-# @flag --no-android-emulator                     Whether to perform Flutter Driver testing using an Android Emulator.
-# @option --chrome-binary <path>                  Location of the Chrome binary.
-# @flag --write-sksl-on-exit                      Attempts to write an SkSL file when the drive process is finished to the provided file, overwriting it if necessary.
-# @option --test-arguments <value>                Additional arguments to pass to the Dart VM running The test script.
-# @option --profile-memory <file:.json>           Launch devtools and profile application memory, writing The output data to the file path provided to this argument as JSON.
-# @option --timeout <360>                         Timeout the test after the given number of seconds.
+# @option --browser-dimension <width,height>       The dimension of the browser when running a Flutter Web test.
+# @flag --android-emulator                         Whether to perform Flutter Driver testing using an Android Emulator.
+# @flag --no-android-emulator                      Whether to perform Flutter Driver testing using an Android Emulator.
+# @option --chrome-binary <path>                   Location of the Chrome binary.
+# @flag --write-sksl-on-exit                       Attempts to write an SkSL file when the drive process is finished to the provided file, overwriting it if necessary.
+# @option --test-arguments <value>                 Additional arguments to pass to the Dart VM running The test script.
+# @option --profile-memory <file:.json>            Launch devtools and profile application memory, writing The output data to the file path provided to this argument as JSON.
+# @option --timeout <360>                          Timeout the test after the given number of seconds.
 drive() {
     :;
 }
@@ -610,6 +626,8 @@ drive() {
 # @flag --no-suppress-warnings                   When specified, all warnings will be suppressed.
 # @flag --relax-syntax                           When specified, the syntax will be relaxed so that the special character "{" is treated as a string if it is not followed by a valid placeholder and "}" is treated as a string if it does not close any previous "{" that is treated as a special character.
 # @flag --no-relax-syntax                        When specified, the syntax will be relaxed so that the special character "{" is treated as a string if it is not followed by a valid placeholder and "}" is treated as a string if it does not close any previous "{" that is treated as a special character.
+# @flag --use-named-parameters                   Whether or not to use named parameters for the generated localization methods.
+# @flag --no-use-named-parameters                Whether or not to use named parameters for the generated localization methods.
 gen-l10n() {
     :;
 }
@@ -693,6 +711,7 @@ pub::deps() {
 # @flag --no-offline              Use cached packages instead of accessing the network.
 # @flag -n --dry-run              Report what dependencies would change but don't change any.
 # @option -C --directory <dir>    Run this in the directory <dir>.
+# @flag --tighten                 Updates lower bounds in pubspec.yaml to match the resolved version.
 # @arg dependencies*[`_choice_package`]
 pub::downgrade() {
     :;
@@ -917,64 +936,70 @@ pub::version() {
 
 # {{ flutter run
 # @cmd Run your Flutter app on an attached device.
-# @flag -h --help                                 Print this usage information.
-# @flag -v --verbose                              Noisy logging, including all shell commands executed.
-# @option -d --device-id[`_choice_device`]        Target device id or name (prefixes allowed).
-# @flag --version                                 Reports the version of this tool.
-# @flag --enable-analytics                        Enable telemetry reporting each time a flutter or dart command runs.
-# @flag --disable-analytics                       Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
-# @flag --suppress-analytics                      Suppress analytics reporting for the current CLI invocation.
-# @flag --debug                                   Build a debug version of your app (default mode).
-# @flag --profile                                 Build a version of your app specialized for performance profiling.
-# @flag --release                                 Build a release version of your app.
-# @option --dart-define <foo=bar>                 Additional key-value pairs that will be available as constants from the String.fromEnvironment, bool.fromEnvironment, and int.fromEnvironment constructors.
-# @option --dart-define-from-file <file:.json>    The path of a .json or .env file containing key-value pairs that will be available as environment variables.
-# @option --flavor <value>                        Build a custom app flavor as defined by platform-specific build setup.
-# @option --web-renderer[auto|canvaskit|html]     The renderer implementation to use when building for the web.
-# @flag --web-resources-cdn                       Use Web static resources hosted on a CDN.
-# @flag --no-web-resources-cdn                    Use Web static resources hosted on a CDN.
-# @option --use-application-binary <path>         Specify a pre-built application binary to use when running.
-# @flag --trace-startup                           Trace application startup, then exit, saving the trace to a file.
-# @flag --cache-startup-profile                   Caches the CPU profile collected before the first frame for startup analysis.
-# @flag --no-cache-startup-profile                Caches the CPU profile collected before the first frame for startup analysis.
-# @flag --verbose-system-logs                     Include verbose logging from the Flutter engine.
-# @flag --cache-sksl                              Cache the shader in the SkSL format instead of in binary or GLSL formats.
-# @flag --dump-skp-on-shader-compilation          Automatically dump the skp that triggers new shader compilations.
-# @flag --purge-persistent-cache                  Removes all existing persistent caches.
-# @option --route <value>                         Which route to load when running the app.
-# @flag --start-paused                            Start in a paused mode and wait for a debugger to connect.
-# @flag --no-start-paused                         Start in a paused mode and wait for a debugger to connect.
-# @flag --endless-trace-buffer                    Enable tracing to an infinite buffer, instead of a ring buffer.
-# @flag --trace-systrace                          Enable tracing to the system tracer.
-# @flag --trace-skia                              Enable tracing of Skia code.
-# @flag --enable-dart-profiling                   Whether the Dart VM sampling CPU profiler is enabled.
-# @flag --no-enable-dart-profiling                Whether the Dart VM sampling CPU profiler is enabled.
-# @option -a --dart-entrypoint-args <value>       Pass a list of arguments to the Dart entrypoint at application startup.
-# @option --web-launch-url <url>                  The URL to provide to the browser.
-# @option -t --target <path>                      The main entry-point file of the application, as run on the device.
-# @option --device-vmservice-port <port>          Look for vmservice connections only from the specified port.
-# @option --host-vmservice-port <port>            When a device-side vmservice port is forwarded to a host-side port, use this value as the host port.
-# @flag --pub                                     Whether to run "flutter pub get" before executing this command.
-# @flag --no-pub                                  Whether to run "flutter pub get" before executing this command.
-# @flag --track-widget-creation                   Track widget creation locations.
-# @flag --no-track-widget-creation                Track widget creation locations.
-# @option --device-user <10>                      Identifier number for a user or work profile on Android only.
-# @option --device-timeout <10>                   Time in seconds to wait for devices to attach.
+# @flag -h --help                                  Print this usage information.
+# @flag -v --verbose                               Noisy logging, including all shell commands executed.
+# @option -d --device-id[`_choice_device`]         Target device id or name (prefixes allowed).
+# @flag --version                                  Reports the version of this tool.
+# @flag --enable-analytics                         Enable telemetry reporting each time a flutter or dart command runs.
+# @flag --disable-analytics                        Disable telemetry reporting each time a flutter or dart command runs, until it is re-enabled.
+# @flag --suppress-analytics                       Suppress analytics reporting for the current CLI invocation.
+# @flag --debug                                    Build a debug version of your app (default mode).
+# @flag --profile                                  Build a version of your app specialized for performance profiling.
+# @flag --release                                  Build a release version of your app.
+# @option --dart-define <foo=bar>                  Additional key-value pairs that will be available as constants from the String.fromEnvironment, bool.fromEnvironment, and int.fromEnvironment constructors.
+# @option --dart-define-from-file <file:.json>     The path of a .json or .env file containing key-value pairs that will be available as environment variables.
+# @option --flavor <value>                         Build a custom app flavor as defined by platform-specific build setup.
+# @option --web-renderer[auto|canvaskit|html]      The renderer implementation to use when building for the web.
+# @flag --web-resources-cdn                        Use Web static resources hosted on a CDN.
+# @flag --no-web-resources-cdn                     Use Web static resources hosted on a CDN.
+# @option --use-application-binary <path>          Specify a pre-built application binary to use when running.
+# @flag --trace-startup                            Trace application startup, then exit, saving the trace to a file.
+# @flag --cache-startup-profile                    Caches the CPU profile collected before the first frame for startup analysis.
+# @flag --no-cache-startup-profile                 Caches the CPU profile collected before the first frame for startup analysis.
+# @flag --verbose-system-logs                      Include verbose logging from the Flutter engine.
+# @flag --cache-sksl                               Cache the shader in the SkSL format instead of in binary or GLSL formats.
+# @flag --dump-skp-on-shader-compilation           Automatically dump the skp that triggers new shader compilations.
+# @flag --purge-persistent-cache                   Removes all existing persistent caches.
+# @option --route <value>                          Which route to load when running the app.
+# @flag --start-paused                             Start in a paused mode and wait for a debugger to connect.
+# @flag --no-start-paused                          Start in a paused mode and wait for a debugger to connect.
+# @flag --endless-trace-buffer                     Enable tracing to an infinite buffer, instead of a ring buffer.
+# @flag --trace-systrace                           Enable tracing to the system tracer.
+# @option --trace-to-file <path/to/trace.binpb>    Write the timeline trace to a file at the specified path.
+# @flag --trace-skia                               Enable tracing of Skia code.
+# @flag --enable-dart-profiling                    Whether the Dart VM sampling CPU profiler is enabled.
+# @flag --no-enable-dart-profiling                 Whether the Dart VM sampling CPU profiler is enabled.
+# @option -a --dart-entrypoint-args <value>        Pass a list of arguments to the Dart entrypoint at application startup.
+# @flag --wasm                                     Compile to WebAssembly rather than JavaScript.
+# @flag --web-tls-cert-path                        The certificate that host will use to serve using TLS connection.
+# @flag --web-tls-cert-key-path                    The certificate key that host will use to authenticate cert.
+# @option --web-launch-url <url>                   The URL to provide to the browser.
+# @option -t --target <path>                       The main entry-point file of the application, as run on the device.
+# @option --device-vmservice-port <port>           Look for vmservice connections only from the specified port.
+# @option --host-vmservice-port <port>             When a device-side vmservice port is forwarded to a host-side port, use this value as the host port.
+# @flag --pub                                      Whether to run "flutter pub get" before executing this command.
+# @flag --no-pub                                   Whether to run "flutter pub get" before executing this command.
+# @flag --track-widget-creation                    Track widget creation locations.
+# @flag --no-track-widget-creation                 Track widget creation locations.
+# @option --device-user <10>                       Identifier number for a user or work profile on Android only.
+# @option --device-timeout <10>                    Time in seconds to wait for devices to attach.
 # @option --device-connection[attached|both|wireless]  Discover devices based on connection type.
-# @option --dds-port <port>                       When this value is provided, the Dart Development Service (DDS) will be bound to the provided port.
+# @option --dds-port <port>                        When this value is provided, the Dart Development Service (DDS) will be bound to the provided port.
+# @flag --dds                                      Enable the Dart Developer Service (DDS).
+# @flag --no-dds                                   Enable the Dart Developer Service (DDS).
+# @flag --android-skip-build-dependency-validation  Whether to skip version checking for Java, Gradle, the Android Gradle Plugin (AGP), and the Kotlin Gradle Plugin (KGP) during Android builds.
+# @flag --no-android-skip-build-dependency-validation  Whether to skip version checking for Java, Gradle, the Android Gradle Plugin (AGP), and the Kotlin Gradle Plugin (KGP) during Android builds.
 # @option -P --android-project-arg <<value # Additional arguments specified as key=value that are passed directly to the gradle project via the -P flag. #>
-# @flag --multidex                                When enabled, indicates that the app should be built with multidex support.
-# @flag --no-multidex                             When enabled, indicates that the app should be built with multidex support.
-# @flag --ignore-deprecation                      Indicates that the app should ignore deprecation warnings and continue to build using deprecated APIs.
-# @flag --await-first-frame-when-tracing          Whether to wait for the first frame when tracing startup ("--trace-startup"), or just dump the trace as soon as the application is running.
-# @flag --no-await-first-frame-when-tracing       Whether to wait for the first frame when tracing startup ("--trace-startup"), or just dump the trace as soon as the application is running.
-# @flag --use-test-fonts                          Enable (and default to) the "Ahem" font.
-# @flag --no-use-test-fonts                       Enable (and default to) the "Ahem" font.
-# @flag --build                                   If necessary, build the app before running.
-# @flag --no-build                                If necessary, build the app before running.
-# @flag --hot                                     Run with support for hot reloading.
-# @flag --no-hot                                  Run with support for hot reloading.
-# @option --pid-file <file>                       Specify a file to write the process ID to.
+# @flag --ignore-deprecation                       Indicates that the app should ignore deprecation warnings and continue to build using deprecated APIs.
+# @flag --await-first-frame-when-tracing           Whether to wait for the first frame when tracing startup ("--trace-startup"), or just dump the trace as soon as the application is running.
+# @flag --no-await-first-frame-when-tracing        Whether to wait for the first frame when tracing startup ("--trace-startup"), or just dump the trace as soon as the application is running.
+# @flag --use-test-fonts                           Enable (and default to) the "Ahem" font.
+# @flag --no-use-test-fonts                        Enable (and default to) the "Ahem" font.
+# @flag --build                                    If necessary, build the app before running.
+# @flag --no-build                                 If necessary, build the app before running.
+# @flag --hot                                      Run with support for hot reloading.
+# @flag --no-hot                                   Run with support for hot reloading.
+# @option --pid-file <file>                        Specify a file to write the process ID to.
 run() {
     :;
 }
@@ -1003,6 +1028,8 @@ run() {
 # @option -t --tags* <tag>                        Run only tests associated with the specified tags.
 # @option -x --exclude-tags* <tag>                Run only tests that do not have the specified tags.
 # @flag --start-paused                            Start in a paused mode and wait for a debugger to connect.
+# @flag --fail-fast                               Stop running tests after the first failure.
+# @flag --no-fail-fast                            Stop running tests after the first failure.
 # @flag --run-skipped                             Run skipped tests instead of skipping them.
 # @flag --no-run-skipped                          Run skipped tests instead of skipping them.
 # @flag --coverage                                Whether to collect coverage information.
@@ -1020,7 +1047,10 @@ run() {
 # @option -r --reporter[`_choice_test_reporter`]  Set how to print test results.
 # @flag --file-reporter                           Enable an additional reporter writing test results to a file.
 # @option --timeout <value>                       The default test timeout, specified either in seconds (e.g. "60s"), as a multiplier of the default timeout (e.g. "2x"), or as the string "none" to disable the timeout entirely.
+# @flag --wasm                                    Compile to WebAssembly rather than JavaScript.
 # @option --dds-port <port>                       When this value is provided, the Dart Development Service (DDS) will be bound to the provided port.
+# @flag --dds                                     Enable the Dart Developer Service (DDS).
+# @flag --no-dds                                  Enable the Dart Developer Service (DDS).
 test() {
     :;
 }
@@ -1049,6 +1079,8 @@ test() {
 # @flag --track-widget-creation                   Track widget creation locations.
 # @flag --no-track-widget-creation                Track widget creation locations.
 # @option --dds-port <port>                       When this value is provided, the Dart Development Service (DDS) will be bound to the provided port.
+# @flag --dds                                     Enable the Dart Developer Service (DDS).
+# @flag --no-dds                                  Enable the Dart Developer Service (DDS).
 # @option --device-timeout <10>                   Time in seconds to wait for devices to attach.
 # @option --device-connection[attached|both|wireless]  Discover devices based on connection type.
 attach() {

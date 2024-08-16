@@ -1,614 +1,684 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -a --account <STRING>            Set the account
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
 
-# {{ himalaya completion
-# @cmd Generates the completion script for the given shell
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -a --account <STRING>            Set the account
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-# @arg shell![bash|elvish|fish|powershell|zsh]
-completion() {
-    :;
-}
-# }} himalaya completion
-
-# {{ himalaya man
-# @cmd Generate all man pages to the given directory
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -a --account <STRING>            Set the account
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-# @arg dir!                                Represents the directory where all man files of all commands and subcommands should be generated in.
-man() {
-    :;
-}
-# }} himalaya man
-
-# {{ himalaya accounts
+# {{ himalaya account
 # @cmd Manage accounts
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -a --account <STRING>            Set the account
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-accounts() {
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+account() {
     :;
 }
 
-# {{{ himalaya accounts list
-# @cmd List all accounts from the config file
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -w --max-width <INT>             Defines a maximum width for the table
-# @option -a --account <STRING>            Set the account
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-accounts::list() {
+# {{{ himalaya account check-up
+# @cmd Check up the given account
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+# @arg account                                The name of the account.
+account::check-up() {
     :;
 }
-# }}} himalaya accounts list
+# }}} himalaya account check-up
 
-# {{{ himalaya accounts sync
-# @cmd Synchronize the given account locally
-# @flag -A --all-folders                   Synchronize all folders
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -a --account <STRING>            Set the account
-# @option -F --include-folder* <FOLDER>    Synchronize only the given folders
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -x --exclude-folder* <FOLDER>    Synchronize all folders except the given ones
-# @flag -d --dry-run                       Do not apply changes of the synchronization.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-accounts::sync() {
+# {{{ himalaya account configure
+# @cmd Configure an account
+# @flag -r --reset                            Reset keyring passwords.
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+# @arg account!                               The name of the account.
+account::configure() {
     :;
 }
-# }}} himalaya accounts sync
+# }}} himalaya account configure
 
-# {{{ himalaya accounts configure
-# @cmd Configure the current selected account
-# @option -c --config <PATH>               Set a custom configuration file path
-# @flag -r --reset                         Reset the configuration
-# @option -a --account <STRING>            Set the account
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-accounts::configure() {
+# {{{ himalaya account list
+# @cmd List all accounts
+# @option -w --max-width <PIXELS>             The maximum width the table should not exceed.
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+account::list() {
     :;
 }
-# }}} himalaya accounts configure
-# }} himalaya accounts
+# }}} himalaya account list
 
-# {{ himalaya folders
-# @cmd Manage folders
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -a --account <STRING>            Set the account
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-folders() {
+# {{{ himalaya account sync
+# @cmd Synchronize an account
+# @flag -d --dry-run                          Run the synchronization without applying any changes.
+# @option -f --include-folder <FOLDER>        Synchronize only specific folders.
+# @option -x --exclude-folder <FOLDER>        Omit specific folders from the synchronization.
+# @flag -A --all-folders                      Synchronize all exsting folders
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+# @arg account                                The name of the account.
+account::sync() {
     :;
 }
+# }}} himalaya account sync
+# }} himalaya account
 
-# {{{ himalaya folders expunge
-# @cmd Delete emails marked for deletion
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -a --account <STRING>            Set the account
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-folders::expunge() {
-    :;
-}
-# }}} himalaya folders expunge
-
-# {{{ himalaya folders create
-# @cmd Create a new folder
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -a --account <STRING>            Set the account
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-folders::create() {
-    :;
-}
-# }}} himalaya folders create
-
-# {{{ himalaya folders list
-# @cmd List folders
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -w --max-width <INT>             Defines a maximum width for the table
-# @option -a --account <STRING>            Set the account
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-folders::list() {
-    :;
-}
-# }}} himalaya folders list
-
-# {{{ himalaya folders delete
-# @cmd Delete a folder with all its emails
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -a --account <STRING>            Set the account
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-folders::delete() {
-    :;
-}
-# }}} himalaya folders delete
-# }} himalaya folders
-
-# {{ himalaya flags
-# @cmd Handles email flags
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -a --account <STRING>            Set the account
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-flags() {
+# {{ himalaya folder
+# @cmd Manage folders [aliases: mailbox]
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+folder() {
     :;
 }
 
-# {{{ himalaya flags add
-# @cmd Adds flags to an email
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -a --account <STRING>            Set the account
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-# @arg ids+                                Email ids
-# @arg flags+                              The list of flags.
-flags::add() {
+# {{{ himalaya folder add
+# @cmd Create a new folder [aliases: create]
+# @flag --disable-cache                       Disable any sort of cache.
+# @option -a --account <NAME>                 Override the default account.
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+# @arg folder!                                The name of the folder
+folder::add() {
     :;
 }
-# }}} himalaya flags add
+# }}} himalaya folder add
 
-# {{{ himalaya flags remove
-# @cmd Removes flags from an email
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -a --account <STRING>            Set the account
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-# @arg ids+                                Email ids
-# @arg flags+                              The list of flags.
-flags::remove() {
+# {{{ himalaya folder list
+# @cmd List all folders
+# @option -w --max-width <PIXELS>             The maximum width the table should not exceed.
+# @flag --disable-cache                       Disable any sort of cache.
+# @option -a --account <NAME>                 Override the default account.
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+folder::list() {
     :;
 }
-# }}} himalaya flags remove
+# }}} himalaya folder list
 
-# {{{ himalaya flags set
-# @cmd Sets flags of an email
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -a --account <STRING>            Set the account
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-# @arg ids+                                Email ids
-# @arg flags+                              The list of flags.
-flags::set() {
+# {{{ himalaya folder expunge
+# @cmd Expunge a folder
+# @flag --disable-cache                       Disable any sort of cache.
+# @option -a --account <NAME>                 Override the default account.
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+# @arg folder!                                The name of the folder
+folder::expunge() {
     :;
 }
-# }}} himalaya flags set
-# }} himalaya flags
+# }}} himalaya folder expunge
+
+# {{{ himalaya folder purge
+# @cmd Purge a folder
+# @flag --disable-cache                       Disable any sort of cache.
+# @option -a --account <NAME>                 Override the default account.
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+# @arg folder!                                The name of the folder
+folder::purge() {
+    :;
+}
+# }}} himalaya folder purge
+
+# {{{ himalaya folder delete
+# @cmd Delete a folder
+# @flag --disable-cache                       Disable any sort of cache.
+# @option -a --account <NAME>                 Override the default account.
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+# @arg folder!                                The name of the folder
+folder::delete() {
+    :;
+}
+# }}} himalaya folder delete
+# }} himalaya folder
+
+# {{ himalaya envelope
+# @cmd Manage envelopes
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+envelope() {
+    :;
+}
+
+# {{{ himalaya envelope list
+# @cmd List all envelopes
+# @option -f --folder <NAME>                  The name of the folder
+# @option -p --page <NUMBER>                  The page number.
+# @option -s --page-size <NUMBER>             The page size.
+# @option -w --max-width <PIXELS>             The maximum width the table should not exceed.
+# @flag --disable-cache                       Disable any sort of cache.
+# @option -a --account <NAME>                 Override the default account.
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+# @arg query*                                 The list envelopes filter and sort query.
+envelope::list() {
+    :;
+}
+# }}} himalaya envelope list
+
+# {{{ himalaya envelope watch
+# @cmd Watch envelopes for changes
+# @option -f --folder <NAME>                  The name of the folder
+# @flag --disable-cache                       Disable any sort of cache.
+# @option -a --account <NAME>                 Override the default account.
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+envelope::watch() {
+    :;
+}
+# }}} himalaya envelope watch
+# }} himalaya envelope
+
+# {{ himalaya flag
+# @cmd Manage flags
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+flag() {
+    :;
+}
+
+# {{{ himalaya flag add
+# @cmd Add flag(s) to an envelope
+# @option -f --folder <NAME>                  The name of the folder
+# @flag --disable-cache                       Disable any sort of cache.
+# @option -a --account <NAME>                 Override the default account.
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+# @arg id-or-flag+                            The list of ids and/or flags.
+flag::add() {
+    :;
+}
+# }}} himalaya flag add
+
+# {{{ himalaya flag set
+# @cmd Replace flag(s) of an envelope
+# @option -f --folder <NAME>                  The name of the folder
+# @flag --disable-cache                       Disable any sort of cache.
+# @option -a --account <NAME>                 Override the default account.
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+# @arg id-or-flag+                            The list of ids and/or flags.
+flag::set() {
+    :;
+}
+# }}} himalaya flag set
+
+# {{{ himalaya flag remove
+# @cmd Remove flag(s) from an envelope
+# @option -f --folder <NAME>                  The name of the folder
+# @flag --disable-cache                       Disable any sort of cache.
+# @option -a --account <NAME>                 Override the default account.
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+# @arg id-or-flag+                            The list of ids and/or flags.
+flag::remove() {
+    :;
+}
+# }}} himalaya flag remove
+# }} himalaya flag
+
+# {{ himalaya message
+# @cmd Manage messages
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+message() {
+    :;
+}
+
+# {{{ himalaya message read
+# @cmd Read a message
+# @option -f --folder <NAME>                  The name of the folder
+# @flag -p --preview                          Read the message without applying the "seen" flag to its corresponding envelope
+# @flag -r --raw                              Read the raw version of the given message.
+# @flag --html                                Read only body of text/html parts.
+# @flag --no-headers                          Read only the body of the message.
+# @option -H --header <NAME>                  List of headers that should be visible at the top of the message.
+# @flag --disable-cache                       Disable any sort of cache.
+# @option -a --account <NAME>                 Override the default account.
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+# @arg id+                                    The list of envelopes ids
+message::read() {
+    :;
+}
+# }}} himalaya message read
+
+# {{{ himalaya message write
+# @cmd Write a new message
+# @option -H --header <KEY:VAL>               Prefill the template with custom headers.
+# @flag --disable-cache                       Disable any sort of cache.
+# @option -a --account <NAME>                 Override the default account.
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+# @arg body*                                  Prefill the template with a custom body
+message::write() {
+    :;
+}
+# }}} himalaya message write
+
+# {{{ himalaya message reply
+# @cmd Reply to a message
+# @option -f --folder <NAME>                  The name of the folder
+# @flag -A --all                              Reply to all recipients.
+# @option -H --header <KEY:VAL>               Prefill the template with custom headers.
+# @flag --disable-cache                       Disable any sort of cache.
+# @option -a --account <NAME>                 Override the default account.
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+# @arg id!                                    The envelope id
+# @arg body*                                  Prefill the template with a custom body
+message::reply() {
+    :;
+}
+# }}} himalaya message reply
+
+# {{{ himalaya message forward
+# @cmd Forward a message
+# @option -f --folder <NAME>                  The name of the folder
+# @option -H --header <KEY:VAL>               Prefill the template with custom headers.
+# @flag --disable-cache                       Disable any sort of cache.
+# @option -a --account <NAME>                 Override the default account.
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+# @arg id!                                    The envelope id
+# @arg body*                                  Prefill the template with a custom body
+message::forward() {
+    :;
+}
+# }}} himalaya message forward
+
+# {{{ himalaya message mailto
+# @cmd Parse and edit a message from a mailto URL string
+# @flag --disable-cache                       Disable any sort of cache.
+# @option -a --account <NAME>                 Override the default account.
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+# @arg url!                                   The mailto url
+message::mailto() {
+    :;
+}
+# }}} himalaya message mailto
+
+# {{{ himalaya message save
+# @cmd Save a message to a folder
+# @option -f --folder <NAME>                  The name of the folder
+# @flag --disable-cache                       Disable any sort of cache.
+# @option -a --account <NAME>                 Override the default account.
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+# @arg message*                               The raw message, including headers and body
+message::save() {
+    :;
+}
+# }}} himalaya message save
+
+# {{{ himalaya message send
+# @cmd Send a message
+# @flag --disable-cache                       Disable any sort of cache.
+# @option -a --account <NAME>                 Override the default account.
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+# @arg message*                               The raw message, including headers and body
+message::send() {
+    :;
+}
+# }}} himalaya message send
+
+# {{{ himalaya message copy
+# @cmd Copy a message from a source folder to a target folder
+# @option -f --folder <SOURCE>                The name of the source folder
+# @flag --disable-cache                       Disable any sort of cache.
+# @option -a --account <NAME>                 Override the default account.
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+# @arg target!                                The name of the target folder
+# @arg id+                                    The list of envelopes ids
+message::copy() {
+    :;
+}
+# }}} himalaya message copy
+
+# {{{ himalaya message move
+# @cmd Move a message from a source folder to a target folder
+# @option -f --folder <SOURCE>                The name of the source folder
+# @flag --disable-cache                       Disable any sort of cache.
+# @option -a --account <NAME>                 Override the default account.
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+# @arg target!                                The name of the target folder
+# @arg id+                                    The list of envelopes ids
+message::move() {
+    :;
+}
+# }}} himalaya message move
+
+# {{{ himalaya message delete
+# @cmd Mark as deleted a message from a folder
+# @option -f --folder <NAME>                  The name of the folder
+# @flag --disable-cache                       Disable any sort of cache.
+# @option -a --account <NAME>                 Override the default account.
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+# @arg id+                                    The list of envelopes ids
+message::delete() {
+    :;
+}
+# }}} himalaya message delete
+# }} himalaya message
+
+# {{ himalaya attachment
+# @cmd Manage attachments
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+attachment() {
+    :;
+}
+
+# {{{ himalaya attachment download
+# @cmd Download all attachments for the given message
+# @option -f --folder <NAME>                  The name of the folder
+# @flag --disable-cache                       Disable any sort of cache.
+# @option -a --account <NAME>                 Override the default account.
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+# @arg id+                                    The list of envelopes ids
+attachment::download() {
+    :;
+}
+# }}} himalaya attachment download
+# }} himalaya attachment
 
 # {{ himalaya template
-# @cmd Handles email templates
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -a --account <STRING>            Set the account
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
+# @cmd Manage templates
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
 template() {
     :;
 }
 
-# {{{ himalaya template forward
-# @cmd Generates a template for forwarding an email
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -H --header <KEY:VAL>            Overrides a specific header
-# @option -a --account <STRING>            Set the account
-# @option -B --body <STRING>               Overrides the body
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-# @arg id!                                 Specifies the target email
-template::forward() {
+# {{{ himalaya template write
+# @cmd Generate a template for writing a new message from scratch
+# @option -H --header <KEY:VAL>               Prefill the template with custom headers.
+# @flag --disable-cache                       Disable any sort of cache.
+# @option -a --account <NAME>                 Override the default account.
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+# @arg body*                                  Prefill the template with a custom MML body
+template::write() {
     :;
 }
-# }}} himalaya template forward
+# }}} himalaya template write
 
 # {{{ himalaya template reply
-# @cmd Generates a template for replying to an email
-# @flag -A --all                           Include all recipients
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -a --account <STRING>            Set the account
-# @option -H --header <KEY:VAL>            Overrides a specific header
-# @option -B --body <STRING>               Overrides the body
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-# @arg id!                                 Specifies the target email
+# @cmd Generate a template for replying to a message
+# @option -f --folder <NAME>                  The name of the folder
+# @flag -A --all                              Reply to all recipients.
+# @option -H --header <KEY:VAL>               Prefill the template with custom headers.
+# @flag --disable-cache                       Disable any sort of cache.
+# @option -a --account <NAME>                 Override the default account.
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+# @arg id!                                    The envelope id
+# @arg body*                                  Prefill the template with a custom body
 template::reply() {
     :;
 }
 # }}} himalaya template reply
 
+# {{{ himalaya template forward
+# @cmd Generate a template for forwarding a message
+# @option -f --folder <NAME>                  The name of the folder
+# @option -H --header <KEY:VAL>               Prefill the template with custom headers.
+# @flag --disable-cache                       Disable any sort of cache.
+# @option -a --account <NAME>                 Override the default account.
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+# @arg id!                                    The envelope id
+# @arg body*                                  Prefill the template with a custom body
+template::forward() {
+    :;
+}
+# }}} himalaya template forward
+
 # {{{ himalaya template save
-# @cmd Compiles the template into a valid email then saves it
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -a --account <STRING>            Set the account
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-# @arg template*
+# @cmd Save a template to a folder
+# @option -f --folder <NAME>                  The name of the folder
+# @flag --disable-cache                       Disable any sort of cache.
+# @option -a --account <NAME>                 Override the default account.
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+# @arg template*                              The raw template, including headers and MML body
 template::save() {
     :;
 }
 # }}} himalaya template save
 
 # {{{ himalaya template send
-# @cmd Compiles the template into a valid email then sends it
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -a --account <STRING>            Set the account
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-# @arg template*
+# @cmd Send a template
+# @flag --disable-cache                       Disable any sort of cache.
+# @option -a --account <NAME>                 Override the default account.
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+# @arg template*                              The raw template, including headers and MML body
 template::send() {
     :;
 }
 # }}} himalaya template send
-
-# {{{ himalaya template write
-# @cmd Generates a template for writing a new email
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -H --header <KEY:VAL>            Overrides a specific header
-# @option -a --account <STRING>            Set the account
-# @option -B --body <STRING>               Overrides the body
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-template::write() {
-    :;
-}
-# }}} himalaya template write
 # }} himalaya template
 
-# {{ himalaya attachments
-# @cmd Downloads all emails attachments
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -a --account <STRING>            Set the account
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-# @arg ids+                                Email ids
-attachments() {
+# {{ himalaya manual
+# @cmd Generate manual pages to a directory
+# @option -c --config <PATH>                  Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>    Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                               Enable logs with spantrace.
+# @flag --trace                               Enable verbose logs with backtrace.
+# @flag -h --help                             Print help (see a summary with '-h')
+# @flag -V --version                          Print version
+# @arg dir!                                   Directory where man files should be generated in
+manual() {
     :;
 }
-# }} himalaya attachments
+# }} himalaya manual
 
-# {{ himalaya list
-# @cmd List envelopes
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -s --page-size <INT>             Page size
-# @option -a --account <STRING>            Set the account
-# @option -p --page <INT>                  Page number
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -w --max-width <INT>             Defines a maximum width for the table
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-list() {
+# {{ himalaya completion
+# @cmd Print completion script for a shell to stdout
+# @option -c --config <PATH>                      Override the default configuration file path.
+# @option -o --output[plain|json] <FORMAT>        Customize the output format.
+# @option -C --color[never|always|ansi|auto] <MODE>  Control when to use colors
+# @flag --debug                                   Enable logs with spantrace.
+# @flag --trace                                   Enable verbose logs with backtrace.
+# @flag -h --help                                 Print help (see a summary with '-h')
+# @flag -V --version                              Print version
+# @arg shell![bash|elvish|fish|powershell|zsh]    Shell for which completion script should be generated for
+completion() {
     :;
 }
-# }} himalaya list
-
-# {{ himalaya search
-# @cmd Filter envelopes matching the given query
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -s --page-size <INT>             Page size
-# @option -a --account <STRING>            Set the account
-# @option -p --page <INT>                  Page number
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -w --max-width <INT>             Defines a maximum width for the table
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-# @arg query+                              The query system depends on the backend, see the wiki for more details
-search() {
-    :;
-}
-# }} himalaya search
-
-# {{ himalaya sort
-# @cmd Sort envelopes by the given criteria and matching the given query
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -s --page-size <INT>             Page size
-# @option -a --account <STRING>            Set the account
-# @option -p --page <INT>                  Page number
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -w --max-width <INT>             Defines a maximum width for the table
-# @option --criterion[arrival|arrival:asc|arrival:desc|cc|cc:asc|cc:desc|date|date:asc|date:desc|from|from:asc|from:desc|size|size:asc|size:desc|subject|subject:asc|subject:desc|to|to:asc|to:desc] <CRITERION:ORDER>  Email sorting preferences
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-# @arg query+                              The query system depends on the backend, see the wiki for more details
-sort() {
-    :;
-}
-# }} himalaya sort
-
-# {{ himalaya write
-# @cmd Write a new email
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -H --header <KEY:VAL>            Overrides a specific header
-# @option -a --account <STRING>            Set the account
-# @option -B --body <STRING>               Overrides the body
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-write() {
-    :;
-}
-# }} himalaya write
-
-# {{ himalaya send
-# @cmd Send a raw email
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -a --account <STRING>            Set the account
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-# @arg raw*
-send() {
-    :;
-}
-# }} himalaya send
-
-# {{ himalaya save
-# @cmd Save a raw email
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -a --account <STRING>            Set the account
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-# @arg raw*
-save() {
-    :;
-}
-# }} himalaya save
-
-# {{ himalaya read
-# @cmd Read text bodies of emails
-# @option -c --config <PATH>                   Set a custom configuration file path
-# @option -t --mime-type[plain|html] <MIME>    MIME type to use
-# @option -a --account <STRING>                Set the account
-# @flag -r --raw                               Returns raw version of email
-# @flag --disable-cache                        Disable any sort of cache.
-# @option -H --header <STRING>                 Shows additional headers with the email
-# @option -o --output[plain|json] <FMT>        Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>                 Set the source folder
-# @flag -h --help                              Print help (see a summary with '-h')
-# @flag -V --version                           Print version
-# @arg ids+                                    Email ids
-read() {
-    :;
-}
-# }} himalaya read
-
-# {{ himalaya reply
-# @cmd Answer to an email
-# @flag -A --all                           Include all recipients
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -a --account <STRING>            Set the account
-# @option -H --header <KEY:VAL>            Overrides a specific header
-# @option -B --body <STRING>               Overrides the body
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-# @arg id!                                 Specifies the target email
-reply() {
-    :;
-}
-# }} himalaya reply
-
-# {{ himalaya forward
-# @cmd Forward an email
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -H --header <KEY:VAL>            Overrides a specific header
-# @option -a --account <STRING>            Set the account
-# @option -B --body <STRING>               Overrides the body
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-# @arg id!                                 Specifies the target email
-forward() {
-    :;
-}
-# }} himalaya forward
-
-# {{ himalaya copy
-# @cmd Copy emails to the given folder
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -a --account <STRING>            Set the account
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-# @arg target!                             Specifies the target folder
-# @arg ids+                                Email ids
-copy() {
-    :;
-}
-# }} himalaya copy
-
-# {{ himalaya move
-# @cmd Move emails to the given folder
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -a --account <STRING>            Set the account
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-# @arg target!                             Specifies the target folder
-# @arg ids+                                Email ids
-move() {
-    :;
-}
-# }} himalaya move
-
-# {{ himalaya delete
-# @cmd Delete emails
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -a --account <STRING>            Set the account
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-# @arg ids+                                Email ids
-delete() {
-    :;
-}
-# }} himalaya delete
-
-# {{ himalaya notify
-# @cmd Notifies when new messages arrive in the given folder
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -k --keepalive <SECS>            Specifies the keepalive duration.
-# @option -a --account <STRING>            Set the account
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-notify() {
-    :;
-}
-# }} himalaya notify
-
-# {{ himalaya watch
-# @cmd Watches IMAP server changes
-# @option -c --config <PATH>               Set a custom configuration file path
-# @option -k --keepalive <SECS>            Specifies the keepalive duration.
-# @option -a --account <STRING>            Set the account
-# @flag --disable-cache                    Disable any sort of cache.
-# @option -o --output[plain|json] <FMT>    Set the output format
-# @option -C --color[never|auto|always|ansi] <WHEN>  This flag controls when to use colors.
-# @option -f --folder <SOURCE>             Set the source folder
-# @flag -h --help                          Print help (see a summary with '-h')
-# @flag -V --version                       Print version
-watch() {
-    :;
-}
-# }} himalaya watch
+# }} himalaya completion
 
 command eval "$(argc --argc-eval "$0" "$@")"

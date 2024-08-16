@@ -24,9 +24,9 @@
 # @option --gen-completion[bash|elvish|fish|powershell|zsh] <shell>  Generate shell completion file
 # @option --gen-completion-out[bash|elvish|fish|powershell|zsh] <shell>  Generate shell completion file and write to stdout
 # @flag --no-header                             Suppress header
-# @flag -h --help                               Print help information
-# @flag -V --version                            Print version information
-# @arg keyword+                                 Keywords for search
+# @flag -h --help                               Print help (see a summary with '-h')
+# @flag -V --version                            Print version
+# @arg keyword*                                 Keywords for search
 
 _choice_kind() {
     printf "%s\n" PID User TTY MEM Time Command

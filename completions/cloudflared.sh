@@ -7,7 +7,7 @@
 # @option --edge-ip-version[4|6|auto] <value>    Cloudflare Edge IP address version to connect with.
 # @option --edge-bind-address <value>            Bind to IP address for outgoing connections to Cloudflare Edge.
 # @option --label <value>                        Use this option to give a meaningful label to a specific connector.
-# @flag --management-diagnostics                 Enables the in-depth diagnostic routes to be made available over the management service (/debug/pprof, /metrics, etc.) (default: false) [$TUNNEL_MANAGEMENT_DIAGNOSTICS]
+# @flag --management-diagnostics                 Enables the in-depth diagnostic routes to be made available over the management service (/debug/pprof, /metrics, etc.) (default: true) [$TUNNEL_MANAGEMENT_DIAGNOSTICS]
 # @flag -f --overwrite-dns                       Overwrites existing DNS records with this hostname (default: false) [$TUNNEL_FORCE_PROVISIONING_DNS]
 # @flag -h --help                                show help (default: false)
 # @flag -v                                       Print the version (default: false)
@@ -26,7 +26,8 @@ update() {
 
 # {{ cloudflared version
 # @cmd Print the version
-# @flag -h --help    show help (default: false)
+# @flag -s --short    print just the version number (default: false)
+# @flag -h --help     show help (default: false)
 version() {
     :;
 }
@@ -97,7 +98,8 @@ access() {
 
 # {{{ cloudflared access login
 # @cmd login <url of access application>
-# @flag -h --help    show help (default: false)
+# @flag -q --quiet    do not print the jwt to the command line (default: false)
+# @flag -h --help     show help (default: false)
 access::login() {
     :;
 }
@@ -213,13 +215,12 @@ access::ssh-gen() {
 # @option --hostname <value>                     Set a hostname on a Cloudflare zone to route traffic through this tunnel.
 # @option --lb-pool <value>                      The name of a (new/existing) load balancing pool to add this origin to.
 # @option --metrics-update-freq <value>          Frequency to update tunnel metrics (default: 5s) [$TUNNEL_METRICS_UPDATE_FREQ]
-# @option --tag <KEY=VALUE>                      Custom tags used to identify this tunnel, in format KEY=VALUE.
 # @option --retries <value>                      Maximum number of retries for connection/protocol errors.
 # @option --label <value>                        Use this option to give a meaningful label to a specific connector.
 # @option --grace-period <value>                 When cloudflared receives SIGINT/SIGTERM it will stop accepting new requests, wait for in-progress requests to terminate, then shutdown.
 # @option --compression-quality <value>          (beta) Use cross-stream compression instead HTTP compression.
 # @option -n --name <value>                      Stable name to identify the tunnel.
-# @flag --management-diagnostics                 Enables the in-depth diagnostic routes to be made available over the management service (/debug/pprof, /metrics, etc.) (default: false) [$TUNNEL_MANAGEMENT_DIAGNOSTICS]
+# @flag --management-diagnostics                 Enables the in-depth diagnostic routes to be made available over the management service (/debug/pprof, /metrics, etc.) (default: true) [$TUNNEL_MANAGEMENT_DIAGNOSTICS]
 # @flag -f --overwrite-dns                       Overwrites existing DNS records with this hostname (default: false) [$TUNNEL_FORCE_PROVISIONING_DNS]
 # @flag -h --help                                show help (default: false)
 tunnel() {

@@ -72,6 +72,13 @@ exec() {
 }
 # }} direnv exec
 
+# {{ direnv export
+# @cmd Loads an .envrc or .env and prints the diff in terms of exports.
+export() {
+    :;
+}
+# }} direnv export
+
 # {{ direnv fetchurl
 # @cmd Fetches a given URL into direnv's CAS
 # @arg urls*
@@ -89,21 +96,21 @@ hook() {
 # }} direnv hook
 
 # {{ direnv prune
-# @cmd removes old allowed files
+# @cmd Removes old allowed files
 prune() {
     :;
 }
 # }} direnv prune
 
 # {{ direnv reload
-# @cmd triggers an env reload
+# @cmd Triggers an env reload
 reload() {
     :;
 }
 # }} direnv reload
 
 # {{ direnv status
-# @cmd prints some debug status information
+# @cmd Prints some debug status information
 status() {
     :;
 }

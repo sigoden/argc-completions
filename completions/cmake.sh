@@ -49,13 +49,9 @@
 # @option --compile-no-warning-as-error          Ignore COMPILE_WARNING_AS_ERROR property and CMAKE_COMPILE_WARNING_AS_ERROR variable.
 # @option --profiling-format <fmt>               Output data for profiling CMake scripts.
 # @option --profiling-output <file>              Select an output path for the profiling data enabled through --profiling-format.
-# @flag -h                                       Print usage information and exit.
-# @flag -H                                       Print usage information and exit.
-# @flag --help                                   Print usage information and exit.
-# @flag -help                                    Print usage information and exit.
-# @flag -usage                                   Print usage information and exit.
 # @option --version <file>                       Print version number and exit.
 # @option -version <file>                        Print version number and exit.
+# @option --help <keyword> <file>                Print help for one keyword and exit.
 # @option --help-full <file>                     Print all help manuals and exit.
 # @option --help-manual[`_choice_help_manual`] <man> <file>  Print one help manual and exit.
 # @option --help-manual-list <file>              List help manuals available and exit.

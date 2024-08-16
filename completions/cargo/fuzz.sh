@@ -7,6 +7,7 @@
 # {{ cargo fuzz init
 # @cmd Initialize the fuzz directory
 # @option -t --target[`_choice_target`]    Name of the first fuzz target to create [default: fuzz_target_1]
+# @option --fuzzing-workspace[true|false] <FUZZING_WORKSPACE>  Whether to create a separate workspace for fuzz targets crate [default: false]
 # @option --fuzz-dir <FUZZ_DIR>            The path to the fuzz project directory
 # @flag -h --help                          Print help information
 # @flag -V --version                       Print version information
@@ -36,6 +37,8 @@ add() {
 # @flag --all-features                           Build artifacts with all Cargo features enabled
 # @option --features*,[`_choice_feature`]        Build artifacts with given Cargo feature enabled
 # @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer
+# @flag --build-std                              Pass -Zbuild-std to Cargo, which will build the standard library with all the build settings for the fuzz target, including debug assertions, and a sanitizer if requested.
+# @flag -c --careful                             enable "careful" mode: inspired by https://github.com/RalfJung/cargo-careful, this enables building the fuzzing harness along with the standard library (implies --build-std) with debug assertions and extra const UB and init checks
 # @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo
 # @option --target-dir <TARGET_DIR>              Target dir option to pass to cargo build
@@ -61,6 +64,8 @@ build() {
 # @flag --all-features                           Build artifacts with all Cargo features enabled
 # @option --features*,[`_choice_feature`]        Build artifacts with given Cargo feature enabled
 # @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer
+# @flag --build-std                              Pass -Zbuild-std to Cargo, which will build the standard library with all the build settings for the fuzz target, including debug assertions, and a sanitizer if requested.
+# @flag -c --careful                             enable "careful" mode: inspired by https://github.com/RalfJung/cargo-careful, this enables building the fuzzing harness along with the standard library (implies --build-std) with debug assertions and extra const UB and init checks
 # @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo
 # @option --target-dir <TARGET_DIR>              Target dir option to pass to cargo build
@@ -86,6 +91,8 @@ check() {
 # @flag --all-features                           Build artifacts with all Cargo features enabled
 # @option --features*,[`_choice_feature`]        Build artifacts with given Cargo feature enabled
 # @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer
+# @flag --build-std                              Pass -Zbuild-std to Cargo, which will build the standard library with all the build settings for the fuzz target, including debug assertions, and a sanitizer if requested.
+# @flag -c --careful                             enable "careful" mode: inspired by https://github.com/RalfJung/cargo-careful, this enables building the fuzzing harness along with the standard library (implies --build-std) with debug assertions and extra const UB and init checks
 # @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo
 # @option --target-dir <TARGET_DIR>              Target dir option to pass to cargo build
@@ -122,6 +129,8 @@ list() {
 # @flag --all-features                           Build artifacts with all Cargo features enabled
 # @option --features*,[`_choice_feature`]        Build artifacts with given Cargo feature enabled
 # @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer
+# @flag --build-std                              Pass -Zbuild-std to Cargo, which will build the standard library with all the build settings for the fuzz target, including debug assertions, and a sanitizer if requested.
+# @flag -c --careful                             enable "careful" mode: inspired by https://github.com/RalfJung/cargo-careful, this enables building the fuzzing harness along with the standard library (implies --build-std) with debug assertions and extra const UB and init checks
 # @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo
 # @option --target-dir <TARGET_DIR>              Target dir option to pass to cargo build
@@ -150,6 +159,8 @@ run() {
 # @flag --all-features                           Build artifacts with all Cargo features enabled
 # @option --features*,[`_choice_feature`]        Build artifacts with given Cargo feature enabled
 # @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer
+# @flag --build-std                              Pass -Zbuild-std to Cargo, which will build the standard library with all the build settings for the fuzz target, including debug assertions, and a sanitizer if requested.
+# @flag -c --careful                             enable "careful" mode: inspired by https://github.com/RalfJung/cargo-careful, this enables building the fuzzing harness along with the standard library (implies --build-std) with debug assertions and extra const UB and init checks
 # @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo
 # @option --target-dir <TARGET_DIR>              Target dir option to pass to cargo build
@@ -177,6 +188,8 @@ cmin() {
 # @flag --all-features                           Build artifacts with all Cargo features enabled
 # @option --features*,[`_choice_feature`]        Build artifacts with given Cargo feature enabled
 # @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer
+# @flag --build-std                              Pass -Zbuild-std to Cargo, which will build the standard library with all the build settings for the fuzz target, including debug assertions, and a sanitizer if requested.
+# @flag -c --careful                             enable "careful" mode: inspired by https://github.com/RalfJung/cargo-careful, this enables building the fuzzing harness along with the standard library (implies --build-std) with debug assertions and extra const UB and init checks
 # @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo
 # @option --target-dir <TARGET_DIR>              Target dir option to pass to cargo build
@@ -205,6 +218,8 @@ tmin() {
 # @flag --all-features                           Build artifacts with all Cargo features enabled
 # @option --features*,[`_choice_feature`]        Build artifacts with given Cargo feature enabled
 # @option -s --sanitizer[address|leak|memory|thread|none]  Use a specific sanitizer
+# @flag --build-std                              Pass -Zbuild-std to Cargo, which will build the standard library with all the build settings for the fuzz target, including debug assertions, and a sanitizer if requested.
+# @flag -c --careful                             enable "careful" mode: inspired by https://github.com/RalfJung/cargo-careful, this enables building the fuzzing harness along with the standard library (implies --build-std) with debug assertions and extra const UB and init checks
 # @option --target[`_choice_target`] <TRIPLE>    Target triple of the fuzz target
 # @option -Z <FLAG>                              Unstable (nightly-only) flags to Cargo
 # @option --target-dir <TARGET_DIR>              Target dir option to pass to cargo build
@@ -212,6 +227,7 @@ tmin() {
 # @flag --no-cfg-fuzzing                         By default the 'cfg(fuzzing)' compilation configuration is set.
 # @flag --no-trace-compares                      Don't build with the `sanitizer-coverage-trace-compares` LLVM argument
 # @option --fuzz-dir <FUZZ_DIR>                  The path to the fuzz project directory
+# @option --llvm-path <LLVM_PATH>                Sets the path to the LLVM bin directory.
 # @flag -h --help                                Print help information (use `-h` for a summary)
 # @flag -V --version                             Print version information
 # @arg target!                                   Name of the fuzz target

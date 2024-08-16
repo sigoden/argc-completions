@@ -15,6 +15,7 @@
 # @option --commit-style <STYLE>                   Style string for the commit hash line.
 # @flag --dark                                     Use default colors appropriate for a dark terminal background.
 # @option --default-language <LANG>                Default language used for syntax highlighting.
+# @option --detect-dark-light <DETECT_DARK_LIGHT>  Detect whether or not the terminal is dark or light by querying for its colors.
 # @flag --diff-highlight                           Emulate diff-highlight.
 # @flag --diff-so-fancy                            Emulate diff-so-fancy.
 # @option --diff-stat-align-width <N>              Width allocated for file paths in a diff stat section.
@@ -27,12 +28,13 @@
 # @option --file-renamed-label <STRING>            Text to display before a renamed file path.
 # @option --file-style <STYLE>                     Style string for the file section.
 # @option --file-transformation <SED_CMD>          Sed-style command transforming file paths for display
+# @option --generate-completion[bash|elvish|fish|powershell|zsh] <GENERATE_COMPLETION>  Print completion file for the given shell
 # @option --grep-context-line-style <STYLE>        Style string for non-matching lines of grep output.
 # @option --grep-file-style <STYLE>                Style string for file paths in grep output.
 # @option --grep-header-decoration-style <STYLE>   Style string for the header decoration in grep output.
 # @option --grep-header-file-style <STYLE>         Style string for the file path part of the header in grep output.
 # @option --grep-line-number-style <STYLE>         Style string for line numbers in grep output.
-# @option --grep-output-type <OUTPUT_TYPE>         Grep output format.
+# @option --grep-output-type[ripgrep|classic] <OUTPUT_TYPE>  Grep output format.
 # @option --grep-match-line-style <STYLE>          Style string for matching lines of grep output.
 # @option --grep-match-word-style <STYLE>          Style string for the matching substrings within a matching line of grep output.
 # @option --grep-separator-symbol <STRING>         Separator symbol printed after the file path and line number in grep output.
@@ -49,7 +51,7 @@
 # @flag --keep-plus-minus-markers                  Prefix added/removed lines with a +/- character, as git does.
 # @flag --light                                    Use default colors appropriate for a light terminal background.
 # @option --line-buffer-size <N>                   Size of internal line buffer.
-# @option --line-fill-method <STRING>              Line-fill method in side-by-side mode.
+# @option --line-fill-method[ansi|spaces] <STRING>  Line-fill method in side-by-side mode.
 # @flag -n --line-numbers                          Display line numbers next to the diff.
 # @option --line-numbers-left-format <FMT>         Format string for the left column of line numbers.
 # @option --line-numbers-left-style <STYLE>        Style string for the left column of line numbers.
@@ -77,7 +79,7 @@
 # @option --navigate-regex <REGEX>                 Regular expression defining navigation stop points
 # @flag --no-gitconfig                             Do not read any settings from git config.
 # @option --pager[`_module_os_command`] <CMD>      Which pager to use.
-# @option --paging[auto|always|never]              Whether to use a pager when displaying output.
+# @option --paging[auto|always|never] <auto|always|never>  Whether to use a pager when displaying output.
 # @flag --parse-ansi                               Display ANSI color escape sequences in human-readable form.
 # @option --plus-emph-style <STYLE>                Style string for emphasized sections of added lines.
 # @option --plus-empty-line-marker-style <STYLE>   Style string for added empty line marker.
@@ -93,7 +95,7 @@
 # @flag -s --side-by-side                          Display diffs in side-by-side layout
 # @option --syntax-theme[`_choice_theme`] <SYNTAX_THEME>  The syntax-highlighting theme to use.
 # @option --tabs <N>                               The number of spaces to replace tab characters with.
-# @option --true-color[auto|always|never]          Whether to emit 24-bit ("true color") RGB color codes.
+# @option --true-color[auto|always|never] <auto|always|never>  Whether to emit 24-bit ("true color") RGB color codes.
 # @option --whitespace-error-style <STYLE>         Style string for whitespace errors.
 # @option -w --width <N>                           The width of underline/overline decorations.
 # @option --word-diff-regex <REGEX>                Regular expression defining a 'word' in within-line diff algorithm.
@@ -103,7 +105,7 @@
 # @option --wrap-right-prefix-symbol <STRING>      Pre-wrapped content symbol (right-aligned).
 # @option --wrap-right-symbol <STRING>             End-of-line wrapped content symbol (right-aligned).
 # @option --zero-style <STYLE>                     Style string for unchanged lines.
-# @option --24-bit-color[auto|always|never]        Deprecated: use --true-color
+# @option --24-bit-color[auto|always|never] <auto|always|never>  Deprecated: use --true-color
 # @flag -h --help                                  Print help (see a summary with '-h')
 # @flag -V --version                               Print version
 # @arg minus_file                                  First file to be compared when delta is being used in diff mode

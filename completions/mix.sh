@@ -66,6 +66,7 @@ archive.build() {
 # @flag --sha512          checks the archive matches the given SHA-512 checksum.
 # @flag --force           forces installation without a shell prompt; primarily intended for automation in build systems like Make
 # @flag --submodules      fetches repository submodules before building archive from Git or GitHub
+# @flag --sparse          checkout a single directory inside the Git repository and use it as the archive root directory
 # @flag --app             specifies a custom app name to be used for building the archive from Git, GitHub, or Hex
 # @flag --organization    set this for Hex private packages belonging to an organization
 # @flag --repo            set this for self-hosted Hex instances, defaults to hexpm
@@ -84,6 +85,8 @@ archive.uninstall() {
 
 # {{ mix clean
 # @cmd Deletes generated application files
+# @flag --deps    clean dependencies as well as the current project's files
+# @flag --only    only clean the given environment
 clean() {
     :;
 }
@@ -100,17 +103,18 @@ cmd() {
 
 # {{ mix compile
 # @cmd Compiles source files
+# @flag --all-warnings                 prints all warnings, including previous compilations (default is true except on errors)
+# @flag --no-all-warnings              prints all warnings, including previous compilations (default is true except on errors)
 # @option --erl-config <path>          path to an Erlang term file that will be loaded as Mix config
 # @flag --force                        forces compilation
 # @flag --list                         lists all enabled compilers
-# @flag --no-all-warnings              prints only warnings from files currently compiled (instead of all)
 # @flag --no-app-loading               does not load .app resource file after compilation
 # @flag --no-archives-check            skips checking of archives
 # @flag --no-compile                   does not actually compile, only loads code and perform checks
 # @flag --no-deps-check                skips checking of dependencies
 # @flag --no-elixir-version-check      does not check Elixir version
 # @flag --no-optional-deps             does not compile or load optional deps.
-# @flag --no-prune-code-paths          do not prune code paths before compilation, this keeps the entirety of Erlang/OTP available on the project starts
+# @flag --no-prune-code-paths          do not prune code paths before compilation, this keeps the entirety of Erlang/OTP available when the project starts
 # @flag --no-protocol-consolidation    skips protocol consolidation
 # @flag --no-validate-compile-env      does not validate the application compile environment
 # @flag --return-errors                returns error status and diagnostics instead of exiting on error
@@ -221,6 +225,7 @@ escript.build() {
 # @flag --sha512                  checks the escript matches the given SHA-512 checksum.
 # @flag --force                   forces installation without a shell prompt; primarily intended for automation in build systems like Make
 # @flag --submodules              fetches repository submodules before building escript from Git or GitHub
+# @flag --sparse                  checkout a single directory inside the Git repository and use it as the escript project directory
 # @option --app <name>            specifies a custom app name to be used for building the escript from Git, GitHub, or Hex
 # @option --organization <org>    set this for Hex private packages belonging to an organization
 # @option --repo <repo>           set this for self-hosted Hex instances, defaults to hexpm
@@ -475,7 +480,7 @@ new() {
 # }} mix new
 
 # {{ mix phx.new
-# @cmd Creates a new Phoenix v1.7.10 application
+# @cmd Creates a new Phoenix v1.7.14 application
 # @flag --umbrella               generate an umbrella project, with one application for your domain, and a second application for the web interface.
 # @option --app <name>           the name of the OTP application
 # @option --module <name>        the name of the base module in the generated skeleton
@@ -487,7 +492,7 @@ new() {
 # @flag --no-esbuild             do not include esbuild dependencies and assets.
 # @flag --no-gettext             do not generate gettext files
 # @flag --no-html                do not generate HTML views
-# @flag --no-live                comment out LiveView socket setup in assets/js/app.js.
+# @flag --no-live                comment out LiveView socket setup in your Endpoint and assets/js/app.js.
 # @flag --no-mailer              do not generate Swoosh mailer files
 # @flag --no-tailwind            do not include tailwind dependencies and assets.
 # @option --binary-id <value>    use binary_id as primary key type in Ecto schemas
@@ -583,7 +588,7 @@ profile.fprof() {
 # @flag --no-deps-check              does not check dependencies
 # @flag --no-elixir-version-check    does not check Elixir version
 # @flag --no-compile                 does not compile before assembling the release
-# @flag --overwrite                  if there is an existing release version, overwrite it
+# @flag --overwrite                  overwrite existing files instead of prompting the user for action
 # @option --path <path>              the path of the release
 # @flag --quiet                      does not write progress to the standard output
 # @option --version <value>          the version of the release
@@ -619,6 +624,8 @@ run() {
 
 # {{ mix test
 # @cmd Runs a project's tests
+# @flag --all-warnings                prints all warnings, including previous compilations (default is true except on errors)
+# @flag --no-all-warnings             prints all warnings, including previous compilations (default is true except on errors)
 # @flag --color                       enables color in the output
 # @option --cover <value>             runs coverage tool.
 # @flag --exclude                     excludes tests that match the filter
@@ -631,7 +638,6 @@ run() {
 # @flag --listen-on-stdin             runs tests, and then listens on stdin.
 # @option --max-cases <n>             sets the maximum number of tests running asynchronously.
 # @option --max-failures <n>          the suite stops evaluating tests when this number of test failures is reached.
-# @flag --no-all-warnings             prints only warnings from files currently compiled (instead of all)
 # @flag --no-archives-check           does not check archives
 # @flag --no-color                    disables color in the output
 # @flag --no-compile                  does not compile, even if files require compilation

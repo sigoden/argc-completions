@@ -7,6 +7,7 @@
 # @flag -v --version                    Print the current version
 # @flag -d --debug                      Run in debug mode with logging (see --logs flag below).
 # @flag -l --logs                       Tail lazygit logs (intended to be used when `lazygit --debug` is called in a separate terminal tab)
+# @flag --profile                       Start the profiler and serve it on http port 6060.
 # @flag -c --config                     Print the default config
 # @flag -cd                             Print the config directory
 # @flag --print-config-dir              Print the config directory

@@ -10,7 +10,7 @@
 # @option --apiserver-name <minikubeCA>          The authoritative apiserver hostname for apiserver certificates and connectivity.
 # @option --apiserver-names* <value>             A set of apiserver names which are used in the generated certificate for kubernetes.
 # @option --apiserver-port <8443>                The apiserver listening port
-# @option --auto-pause-interval <1m0s>           Duration of inactivity before the minikube VM is paused (default 1m0s).
+# @option --auto-pause-interval <1m0s>           Duration of inactivity before the minikube VM is paused (default 1m0s)
 # @flag --auto-update-drivers                    If set, automatically updates drivers to the latest version.
 # @option --base-image[`_module_oci_docker_image`] <image>  The base image to use for docker/podman drivers.
 # @option --binary-mirror <value>                Location to fetch kubectl, kubelet, & kubeadm binaries from.
@@ -40,6 +40,7 @@
 # @flag --force                                  Force minikube to perform possibly dangerous operations
 # @flag --force-systemd                          If set, force the container runtime to use systemd as cgroup manager.
 # @option -g --gpus <value>                      Allow pods to use your NVIDIA GPUs.
+# @flag --ha                                     Create Highly Available Multi-Control Plane Cluster with a minimum of three control-plane nodes that will also be marked for work.
 # @flag --host-dns-resolver                      Enable host resolver for NAT DNS requests (virtualbox driver only)
 # @option --host-only-cidr <192.168.59.1/24>     The CIDR to be used for the minikube VM (virtualbox driver only)
 # @option --host-only-nic-type[Am79C970A|Am79C973|82540EM|82543GC|82545EM|virtio] <virtio>  NIC Type used for host only network.
@@ -55,7 +56,7 @@
 # @flag --interactive                            Allow user prompts for more information
 # @option --iso-url*, <url>                      Locations to fetch the minikube ISO from.
 # @flag --keep-context                           This will keep the existing kubectl context and will create a minikube context.
-# @option --kubernetes-version <value>           The Kubernetes version that the minikube VM will use (ex: v1.2.3, 'stable' for v1.28.3, 'latest' for v1.28.3).
+# @option --kubernetes-version <value>           The Kubernetes version that the minikube VM will use (ex: v1.2.3, 'stable' for v1.30.0, 'latest' for v1.30.0).
 # @flag --kvm-gpu                                Enable experimental NVIDIA GPU support in minikube
 # @flag --kvm-hidden                             Hide the hypervisor signature from the guest in minikube (kvm2 driver only)
 # @option --kvm-network <default>                The KVM default network name.
@@ -82,7 +83,7 @@
 # @option --nfs-shares-root </nfsshares>         Where to root the NFS Shares, defaults to /nfsshares (hyperkit driver only)
 # @flag --no-kubernetes                          If set, minikube VM/container will start without starting or configuring Kubernetes.
 # @flag --no-vtx-check                           Disable checking for the availability of hardware virtualization before the vm is started (virtualbox driver only)
-# @option -n --nodes <1>                         The number of nodes to spin up.
+# @option -n --nodes <1>                         The total number of nodes to spin up.
 # @option -o --output[text|json] <text>          Format to print stdout in.
 # @option --ports* <value>                       List of ports that should be exposed (docker and podman driver only)
 # @flag --preload                                If set, download tarball of preloaded images if available to improve start time.
@@ -523,9 +524,9 @@ node() {
 
 # {{{ minikube node add
 # @cmd Adds a node to the given cluster.
-# @flag --control-plane        This flag is currently unsupported.
+# @flag --control-plane        If set, added node will become a control-plane.
 # @flag --delete-on-failure    If set, delete the current cluster if start fails and try again.
-# @flag --worker               If true, the added node will be marked for work.
+# @flag --worker               If set, added node will be available as worker.
 node::add() {
     :;
 }

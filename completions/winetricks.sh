@@ -9,6 +9,8 @@
 # @flag --update-rollback    Rollback the last self update
 # @flag -k --keep_isos       Cache isos (allows later installation without disc)
 # @flag --no-clean           Don't delete temp directories (useful during debugging)
+# @flag --optin              Opt in to reporting which verbs you use to the Winetricks maintainers
+# @flag --optout             Opt out of reporting which verbs you use to the Winetricks maintainers
 # @flag -q --unattended      Don't ask any questions, just install automatically
 # @flag -r --ddrescue        Retry hard when caching scratched discs
 # @flag -t --torify          Run downloads under torify, if available

@@ -2,7 +2,7 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # @flag -H --hidden                                Include hidden directories and files in the search results (default: hidden files and directories are skipped).
-# @flag -I --no-ignore                             Show search results from files and directories that would otherwise be ignored by '.gitignore', '.ignore', '.fdignore', or the global ignore file.
+# @flag -I --no-ignore                             Show search results from files and directories that would otherwise be ignored by '.gitignore', '.ignore', '.fdignore', or the global ignore file, The flag can be overridden with --ignore.
 # @flag --no-ignore-vcs                            Show search results from files and directories that would otherwise be ignored by '.gitignore' files.
 # @flag --no-require-git                           Do not require a git repository to respect gitignores.
 # @flag --no-ignore-parent                         Show search results from files and directories that would otherwise be ignored by '.gitignore', '.ignore', or '.fdignore' files in parent directories.
@@ -29,6 +29,7 @@
 # @option --changed-within <date|dur>              Filter results based on the file modification time.
 # @option --changed-before <date|dur>              Filter results based on the file modification time.
 # @option -o --owner <user:group>                  Filter files by their user and/or group.
+# @option --format <fmt>                           Print results according to template
 # @option -x --exec* <args>                        Execute a command for each search result in parallel (use --threads=1 for sequential command execution).
 # @option -X --exec-batch* <args>                  Execute the given command once, with all search results as arguments.
 # @option --batch-size <size>                      Maximum number of arguments to pass to the command given with -X.
@@ -42,7 +43,7 @@
 # @option --base-directory <path>                  Change the current working directory of fd to the provided path.
 # @option --path-separator <separator>             Set the path separator to use when printing file paths.
 # @option --search-path <search-path>              Provide paths to search as an alternative to the positional <path> argument.
-# @flag --strip-cwd-prefix                         By default, relative paths are prefixed with './' when -x/--exec, -X/--exec-batch, or -0/--print0 are given, to reduce the risk of a path starting with '-' being treated as a command line option.
+# @option --strip-cwd-prefix <when>                By default, relative paths are prefixed with './' when -x/--exec, -X/--exec-batch, or -0/--print0 are given, to reduce the risk of a path starting with '-' being treated as a command line option.
 # @flag --one-file-system                          By default, fd will traverse the file system tree as far as other options dictate.
 # @flag -h --help                                  Print help (see a summary with '-h')
 # @flag -V --version                               Print version

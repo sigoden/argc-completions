@@ -17,6 +17,9 @@ _patch_table() {
     elif [[ "$*" == "meson compile" ]]; then
         _patch_table_edit_arguments 'target;[`_choice_target`]'
 
+    elif [[ "$*" == "meson format" ]]; then
+        _patch_table_edit_arguments 'sources(files...)'
+
     else
         cat
     fi

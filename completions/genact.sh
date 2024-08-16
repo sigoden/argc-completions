@@ -2,7 +2,7 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # @flag -l --list-modules                        List available modules
-# @option -m --modules[ansible|bootlog|botnet|bruteforce|cargo|cc|composer|cryptomining|docker_build|docker_image_rm|download|julia|kernel_compile|memdump|mkinitcpio|rkhunter|simcity|weblog]  Run only these modules
+# @option -m --modules[ansible|bootlog|botnet|bruteforce|cargo|cc|composer|cryptomining|docker_build|docker_image_rm|download|julia|kernel_compile|memdump|mkinitcpio|rkhunter|simcity|terraform|weblog]  Run only these modules
 # @option -s --speed-factor <SPEED_FACTOR>       Global speed factor [default: 1]
 # @option -i --instant-print-lines <INSTANT_PRINT_LINES>  Instantly print this many lines [default: 0]
 # @option --exit-after-time <EXIT_AFTER_TIME>    Exit after running for this long (format example: 2h10min)

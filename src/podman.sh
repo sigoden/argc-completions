@@ -54,6 +54,22 @@ _patch_table() {
             'command;[`_module_os_command`]' \
             'arg;~[`_choice_args`]' \
 
+    elif [[ "$*" == "podman farm"* ]]; then
+        table="$( \
+            echo "$table" | \
+            _patch_table_edit_arguments \
+                'farm;[`_choice_farm`]' \
+        )"
+
+        if [[ "$*" == "podman farm" ]]; then
+            echo "$table" | \
+            _patch_table_edit_commands \
+                'ls(ls, list)' \
+
+        else
+            echo "$table"
+        fi
+
     elif [[ "$*" == "podman generate systemd" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments \
@@ -216,6 +232,10 @@ _choice_container_cp() {
 
 _choice_args() {
     _argc_util_comp_subcommand 1
+}
+
+_choice_farm() {
+    podman farm list --format '{{.Name}}'
 }
 
 _choice_container_pod() {

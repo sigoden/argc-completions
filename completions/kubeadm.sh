@@ -1,42 +1,30 @@
 #!/usr/bin/env bash
 # Automatic generated, DON'T MODIFY IT.
 
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @flag -h --help                       help for kubeadm
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag --add-dir-header     If true, adds the file directory to the header of the log messages
+# @flag -h --help            help for kubeadm
+# @option --rootfs <file>    The path to the 'real' host root filesystem.
+# @flag --skip-headers       If true, avoid header prefixes in the log messages
+# @option -v --v <Level>     number for the log level verbosity
 
 # {{ kubeadm certs
 # @cmd Commands related to handling kubernetes certificates
-# @flag -h --help                       help for certs
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag -h --help            help for certs
+# @flag --add-dir-header     If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>    The path to the 'real' host root filesystem.
+# @flag --skip-headers       If true, avoid header prefixes in the log messages
+# @option -v --v <Level>     number for the log level verbosity
 certs() {
     :;
 }
 
 # {{{ kubeadm certs certificate-key
 # @cmd Generate certificate keys
-# @flag -h --help                       help for certificate-key
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag -h --help            help for certificate-key
+# @flag --add-dir-header     If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>    The path to the 'real' host root filesystem.
+# @flag --skip-headers       If true, avoid header prefixes in the log messages
+# @option -v --v <Level>     number for the log level verbosity
 certs::certificate-key() {
     :;
 }
@@ -44,18 +32,17 @@ certs::certificate-key() {
 
 # {{{ kubeadm certs check-expiration
 # @cmd Check certificates expiration for a Kubernetes cluster
-# @option --cert-dir <dir>              The path where to save the certificates (default "/etc/kubernetes/pki")
-# @option --config <file>               Path to a kubeadm configuration file.
-# @flag -h --help                       help for check-expiration
-# @option --kubeconfig <file>           The kubeconfig file to use when talking to the cluster.
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag --allow-missing-template-keys    If true, ignore any errors in templates when a field or map key is missing in the template.
+# @option --cert-dir <dir>               The path where to save the certificates (default "/etc/kubernetes/pki")
+# @option --config <file>                Path to a kubeadm configuration file.
+# @flag -h --help                        help for check-expiration
+# @option --kubeconfig <file>            The kubeconfig file to use when talking to the cluster.
+# @option -o --output <string>           Output format.
+# @flag --show-managed-fields            If true, keep the managedFields when printing objects in JSON or YAML format.
+# @flag --add-dir-header                 If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>                The path to the 'real' host root filesystem.
+# @flag --skip-headers                   If true, avoid header prefixes in the log messages
+# @option -v --v <Level>                 number for the log level verbosity
 certs::check-expiration() {
     :;
 }
@@ -63,18 +50,14 @@ certs::check-expiration() {
 
 # {{{ kubeadm certs generate-csr
 # @cmd Generate keys and certificate signing requests
-# @option --cert-dir <dir>              The path where to save the certificates
-# @option --config <file>               Path to a kubeadm configuration file.
-# @flag -h --help                       help for generate-csr
-# @option --kubeconfig-dir <path>       The path where to save the kubeconfig file.
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @option --cert-dir <dir>           The path where to save the certificates
+# @option --config <file>            Path to a kubeadm configuration file.
+# @flag -h --help                    help for generate-csr
+# @option --kubeconfig-dir <path>    The path where to save the kubeconfig file.
+# @flag --add-dir-header             If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>            The path to the 'real' host root filesystem.
+# @flag --skip-headers               If true, avoid header prefixes in the log messages
+# @option -v --v <Level>             number for the log level verbosity
 certs::generate-csr() {
     :;
 }
@@ -82,33 +65,25 @@ certs::generate-csr() {
 
 # {{{ kubeadm certs renew
 # @cmd Renew certificates for a Kubernetes cluster
-# @flag -h --help                       help for renew
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag -h --help            help for renew
+# @flag --add-dir-header     If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>    The path to the 'real' host root filesystem.
+# @flag --skip-headers       If true, avoid header prefixes in the log messages
+# @option -v --v <Level>     number for the log level verbosity
 certs::renew() {
     :;
 }
 
 # {{{{ kubeadm certs renew admin.conf
 # @cmd Renew the certificate embedded in the kubeconfig file for the admin to use and for kubeadm itself
-# @option --cert-dir <dir>              The path where to save the certificates (default "/etc/kubernetes/pki")
-# @option --config <file>               Path to a kubeadm configuration file.
-# @flag -h --help                       help for admin.conf
-# @option --kubeconfig <file>           The kubeconfig file to use when talking to the cluster.
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @option --cert-dir <dir>       The path where to save the certificates (default "/etc/kubernetes/pki")
+# @option --config <file>        Path to a kubeadm configuration file.
+# @flag -h --help                help for admin.conf
+# @option --kubeconfig <file>    The kubeconfig file to use when talking to the cluster.
+# @flag --add-dir-header         If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>        The path to the 'real' host root filesystem.
+# @flag --skip-headers           If true, avoid header prefixes in the log messages
+# @option -v --v <Level>         number for the log level verbosity
 certs::renew::admin.conf() {
     :;
 }
@@ -116,18 +91,14 @@ certs::renew::admin.conf() {
 
 # {{{{ kubeadm certs renew all
 # @cmd Renew all available certificates
-# @option --cert-dir <dir>              The path where to save the certificates (default "/etc/kubernetes/pki")
-# @option --config <file>               Path to a kubeadm configuration file.
-# @flag -h --help                       help for all
-# @option --kubeconfig <file>           The kubeconfig file to use when talking to the cluster.
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @option --cert-dir <dir>       The path where to save the certificates (default "/etc/kubernetes/pki")
+# @option --config <file>        Path to a kubeadm configuration file.
+# @flag -h --help                help for all
+# @option --kubeconfig <file>    The kubeconfig file to use when talking to the cluster.
+# @flag --add-dir-header         If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>        The path to the 'real' host root filesystem.
+# @flag --skip-headers           If true, avoid header prefixes in the log messages
+# @option -v --v <Level>         number for the log level verbosity
 certs::renew::all() {
     :;
 }
@@ -135,18 +106,14 @@ certs::renew::all() {
 
 # {{{{ kubeadm certs renew apiserver
 # @cmd Renew the certificate for serving the Kubernetes API
-# @option --cert-dir <dir>              The path where to save the certificates (default "/etc/kubernetes/pki")
-# @option --config <file>               Path to a kubeadm configuration file.
-# @flag -h --help                       help for apiserver
-# @option --kubeconfig <file>           The kubeconfig file to use when talking to the cluster.
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @option --cert-dir <dir>       The path where to save the certificates (default "/etc/kubernetes/pki")
+# @option --config <file>        Path to a kubeadm configuration file.
+# @flag -h --help                help for apiserver
+# @option --kubeconfig <file>    The kubeconfig file to use when talking to the cluster.
+# @flag --add-dir-header         If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>        The path to the 'real' host root filesystem.
+# @flag --skip-headers           If true, avoid header prefixes in the log messages
+# @option -v --v <Level>         number for the log level verbosity
 certs::renew::apiserver() {
     :;
 }
@@ -154,18 +121,14 @@ certs::renew::apiserver() {
 
 # {{{{ kubeadm certs renew apiserver-etcd-client
 # @cmd Renew the certificate the apiserver uses to access etcd
-# @option --cert-dir <dir>              The path where to save the certificates (default "/etc/kubernetes/pki")
-# @option --config <file>               Path to a kubeadm configuration file.
-# @flag -h --help                       help for apiserver-etcd-client
-# @option --kubeconfig <file>           The kubeconfig file to use when talking to the cluster.
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @option --cert-dir <dir>       The path where to save the certificates (default "/etc/kubernetes/pki")
+# @option --config <file>        Path to a kubeadm configuration file.
+# @flag -h --help                help for apiserver-etcd-client
+# @option --kubeconfig <file>    The kubeconfig file to use when talking to the cluster.
+# @flag --add-dir-header         If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>        The path to the 'real' host root filesystem.
+# @flag --skip-headers           If true, avoid header prefixes in the log messages
+# @option -v --v <Level>         number for the log level verbosity
 certs::renew::apiserver-etcd-client() {
     :;
 }
@@ -173,18 +136,14 @@ certs::renew::apiserver-etcd-client() {
 
 # {{{{ kubeadm certs renew apiserver-kubelet-client
 # @cmd Renew the certificate for the API server to connect to kubelet
-# @option --cert-dir <dir>              The path where to save the certificates (default "/etc/kubernetes/pki")
-# @option --config <file>               Path to a kubeadm configuration file.
-# @flag -h --help                       help for apiserver-kubelet-client
-# @option --kubeconfig <file>           The kubeconfig file to use when talking to the cluster.
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @option --cert-dir <dir>       The path where to save the certificates (default "/etc/kubernetes/pki")
+# @option --config <file>        Path to a kubeadm configuration file.
+# @flag -h --help                help for apiserver-kubelet-client
+# @option --kubeconfig <file>    The kubeconfig file to use when talking to the cluster.
+# @flag --add-dir-header         If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>        The path to the 'real' host root filesystem.
+# @flag --skip-headers           If true, avoid header prefixes in the log messages
+# @option -v --v <Level>         number for the log level verbosity
 certs::renew::apiserver-kubelet-client() {
     :;
 }
@@ -192,18 +151,14 @@ certs::renew::apiserver-kubelet-client() {
 
 # {{{{ kubeadm certs renew controller-manager.conf
 # @cmd Renew the certificate embedded in the kubeconfig file for the controller manager to use
-# @option --cert-dir <dir>              The path where to save the certificates (default "/etc/kubernetes/pki")
-# @option --config <file>               Path to a kubeadm configuration file.
-# @flag -h --help                       help for controller-manager.conf
-# @option --kubeconfig <file>           The kubeconfig file to use when talking to the cluster.
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @option --cert-dir <dir>       The path where to save the certificates (default "/etc/kubernetes/pki")
+# @option --config <file>        Path to a kubeadm configuration file.
+# @flag -h --help                help for controller-manager.conf
+# @option --kubeconfig <file>    The kubeconfig file to use when talking to the cluster.
+# @flag --add-dir-header         If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>        The path to the 'real' host root filesystem.
+# @flag --skip-headers           If true, avoid header prefixes in the log messages
+# @option -v --v <Level>         number for the log level verbosity
 certs::renew::controller-manager.conf() {
     :;
 }
@@ -211,18 +166,14 @@ certs::renew::controller-manager.conf() {
 
 # {{{{ kubeadm certs renew etcd-healthcheck-client
 # @cmd Renew the certificate for liveness probes to healthcheck etcd
-# @option --cert-dir <dir>              The path where to save the certificates (default "/etc/kubernetes/pki")
-# @option --config <file>               Path to a kubeadm configuration file.
-# @flag -h --help                       help for etcd-healthcheck-client
-# @option --kubeconfig <file>           The kubeconfig file to use when talking to the cluster.
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @option --cert-dir <dir>       The path where to save the certificates (default "/etc/kubernetes/pki")
+# @option --config <file>        Path to a kubeadm configuration file.
+# @flag -h --help                help for etcd-healthcheck-client
+# @option --kubeconfig <file>    The kubeconfig file to use when talking to the cluster.
+# @flag --add-dir-header         If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>        The path to the 'real' host root filesystem.
+# @flag --skip-headers           If true, avoid header prefixes in the log messages
+# @option -v --v <Level>         number for the log level verbosity
 certs::renew::etcd-healthcheck-client() {
     :;
 }
@@ -230,18 +181,14 @@ certs::renew::etcd-healthcheck-client() {
 
 # {{{{ kubeadm certs renew etcd-peer
 # @cmd Renew the certificate for etcd nodes to communicate with each other
-# @option --cert-dir <dir>              The path where to save the certificates (default "/etc/kubernetes/pki")
-# @option --config <file>               Path to a kubeadm configuration file.
-# @flag -h --help                       help for etcd-peer
-# @option --kubeconfig <file>           The kubeconfig file to use when talking to the cluster.
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @option --cert-dir <dir>       The path where to save the certificates (default "/etc/kubernetes/pki")
+# @option --config <file>        Path to a kubeadm configuration file.
+# @flag -h --help                help for etcd-peer
+# @option --kubeconfig <file>    The kubeconfig file to use when talking to the cluster.
+# @flag --add-dir-header         If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>        The path to the 'real' host root filesystem.
+# @flag --skip-headers           If true, avoid header prefixes in the log messages
+# @option -v --v <Level>         number for the log level verbosity
 certs::renew::etcd-peer() {
     :;
 }
@@ -249,18 +196,14 @@ certs::renew::etcd-peer() {
 
 # {{{{ kubeadm certs renew etcd-server
 # @cmd Renew the certificate for serving etcd
-# @option --cert-dir <dir>              The path where to save the certificates (default "/etc/kubernetes/pki")
-# @option --config <file>               Path to a kubeadm configuration file.
-# @flag -h --help                       help for etcd-server
-# @option --kubeconfig <file>           The kubeconfig file to use when talking to the cluster.
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @option --cert-dir <dir>       The path where to save the certificates (default "/etc/kubernetes/pki")
+# @option --config <file>        Path to a kubeadm configuration file.
+# @flag -h --help                help for etcd-server
+# @option --kubeconfig <file>    The kubeconfig file to use when talking to the cluster.
+# @flag --add-dir-header         If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>        The path to the 'real' host root filesystem.
+# @flag --skip-headers           If true, avoid header prefixes in the log messages
+# @option -v --v <Level>         number for the log level verbosity
 certs::renew::etcd-server() {
     :;
 }
@@ -268,18 +211,14 @@ certs::renew::etcd-server() {
 
 # {{{{ kubeadm certs renew front-proxy-client
 # @cmd Renew the certificate for the front proxy client
-# @option --cert-dir <dir>              The path where to save the certificates (default "/etc/kubernetes/pki")
-# @option --config <file>               Path to a kubeadm configuration file.
-# @flag -h --help                       help for front-proxy-client
-# @option --kubeconfig <file>           The kubeconfig file to use when talking to the cluster.
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @option --cert-dir <dir>       The path where to save the certificates (default "/etc/kubernetes/pki")
+# @option --config <file>        Path to a kubeadm configuration file.
+# @flag -h --help                help for front-proxy-client
+# @option --kubeconfig <file>    The kubeconfig file to use when talking to the cluster.
+# @flag --add-dir-header         If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>        The path to the 'real' host root filesystem.
+# @flag --skip-headers           If true, avoid header prefixes in the log messages
+# @option -v --v <Level>         number for the log level verbosity
 certs::renew::front-proxy-client() {
     :;
 }
@@ -287,36 +226,43 @@ certs::renew::front-proxy-client() {
 
 # {{{{ kubeadm certs renew scheduler.conf
 # @cmd Renew the certificate embedded in the kubeconfig file for the scheduler manager to use
-# @option --cert-dir <dir>              The path where to save the certificates (default "/etc/kubernetes/pki")
-# @option --config <file>               Path to a kubeadm configuration file.
-# @flag -h --help                       help for scheduler.conf
-# @option --kubeconfig <file>           The kubeconfig file to use when talking to the cluster.
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @option --cert-dir <dir>       The path where to save the certificates (default "/etc/kubernetes/pki")
+# @option --config <file>        Path to a kubeadm configuration file.
+# @flag -h --help                help for scheduler.conf
+# @option --kubeconfig <file>    The kubeconfig file to use when talking to the cluster.
+# @flag --add-dir-header         If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>        The path to the 'real' host root filesystem.
+# @flag --skip-headers           If true, avoid header prefixes in the log messages
+# @option -v --v <Level>         number for the log level verbosity
 certs::renew::scheduler.conf() {
     :;
 }
 # }}}} kubeadm certs renew scheduler.conf
+
+# {{{{ kubeadm certs renew super-admin.conf
+# @cmd Renew the certificate embedded in the kubeconfig file for the super-admin
+# @option --cert-dir <dir>       The path where to save the certificates (default "/etc/kubernetes/pki")
+# @option --config <file>        Path to a kubeadm configuration file.
+# @flag -h --help                help for super-admin.conf
+# @option --kubeconfig <file>    The kubeconfig file to use when talking to the cluster.
+# @flag --add-dir-header         If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>        The path to the 'real' host root filesystem.
+# @flag --skip-headers           If true, avoid header prefixes in the log messages
+# @option -v --v <Level>         number for the log level verbosity
+certs::renew::super-admin.conf() {
+    :;
+}
+# }}}} kubeadm certs renew super-admin.conf
 # }}} kubeadm certs renew
 # }} kubeadm certs
 
 # {{ kubeadm completion
 # @cmd Output shell completion code for the specified shell (bash or zsh)
-# @flag -h --help                       help for completion
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag -h --help            help for completion
+# @flag --add-dir-header     If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>    The path to the 'real' host root filesystem.
+# @flag --skip-headers       If true, avoid header prefixes in the log messages
+# @option -v --v <Level>     number for the log level verbosity
 # @arg shell
 completion() {
     :;
@@ -325,55 +271,43 @@ completion() {
 
 # {{ kubeadm config
 # @cmd Manage configuration for a kubeadm cluster persisted in a ConfigMap in the cluster
-# @flag -h --help                       help for config
-# @option --kubeconfig <file>           The kubeconfig file to use when talking to the cluster.
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag -h --help                help for config
+# @option --kubeconfig <file>    The kubeconfig file to use when talking to the cluster.
+# @flag --add-dir-header         If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>        The path to the 'real' host root filesystem.
+# @flag --skip-headers           If true, avoid header prefixes in the log messages
+# @option -v --v <Level>         number for the log level verbosity
 config() {
     :;
 }
 
 # {{{ kubeadm config images
 # @cmd Interact with container images used by kubeadm
-# @flag -h --help                       help for images
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --kubeconfig <file>           The kubeconfig file to use when talking to the cluster.
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag -h --help                help for images
+# @flag --add-dir-header         If true, adds the file directory to the header of the log messages
+# @option --kubeconfig <file>    The kubeconfig file to use when talking to the cluster.
+# @option --rootfs <file>        The path to the 'real' host root filesystem.
+# @flag --skip-headers           If true, avoid header prefixes in the log messages
+# @option -v --v <Level>         number for the log level verbosity
 config::images() {
     :;
 }
 
 # {{{{ kubeadm config images list
 # @cmd Print a list of images kubeadm will use.
-# @flag --allow-missing-template-keys          If true, ignore any errors in templates when a field or map key is missing in the template.
-# @option --config <file>                      Path to a kubeadm configuration file.
-# @option -o --experimental-output <string>    Output format.
-# @option --feature-gates <string>             A set of key=value pairs that describe feature gates for various features.
-# @flag -h --help                              help for list
-# @option --image-repository <string>          Choose a container registry to pull control plane images from (default "registry.k8s.io")
-# @option --kubernetes-version <string>        Choose a specific Kubernetes version for the control plane.
-# @flag --show-managed-fields                  If true, keep the managedFields when printing objects in JSON or YAML format.
-# @flag --add-dir-header                       If true, adds the file directory to the header of the log messages
-# @option --kubeconfig <file>                  The kubeconfig file to use when talking to the cluster.
-# @option --log-file <file>                    If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>           Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                           If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                      [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                         If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                     If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                       number for the log level verbosity
+# @flag --allow-missing-template-keys      If true, ignore any errors in templates when a field or map key is missing in the template.
+# @option --config <file>                  Path to a kubeadm configuration file.
+# @option --feature-gates <string>         A set of key=value pairs that describe feature gates for various features.
+# @flag -h --help                          help for list
+# @option --image-repository <string>      Choose a container registry to pull control plane images from (default "registry.k8s.io")
+# @option --kubernetes-version <string>    Choose a specific Kubernetes version for the control plane.
+# @option -o --output <string>             Output format.
+# @flag --show-managed-fields              If true, keep the managedFields when printing objects in JSON or YAML format.
+# @flag --add-dir-header                   If true, adds the file directory to the header of the log messages
+# @option --kubeconfig <file>              The kubeconfig file to use when talking to the cluster.
+# @option --rootfs <file>                  The path to the 'real' host root filesystem.
+# @flag --skip-headers                     If true, avoid header prefixes in the log messages
+# @option -v --v <Level>                   number for the log level verbosity
 config::images::list() {
     :;
 }
@@ -389,12 +323,8 @@ config::images::list() {
 # @option --kubernetes-version <string>    Choose a specific Kubernetes version for the control plane.
 # @flag --add-dir-header                   If true, adds the file directory to the header of the log messages
 # @option --kubeconfig <file>              The kubeconfig file to use when talking to the cluster.
-# @option --log-file <file>                If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>       Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                       If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                  [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                  The path to the 'real' host root filesystem.
 # @flag --skip-headers                     If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                 If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                   number for the log level verbosity
 config::images::pull() {
     :;
@@ -404,19 +334,15 @@ config::images::pull() {
 
 # {{{ kubeadm config migrate
 # @cmd Read an older version of the kubeadm configuration API types from a file, and output the similar config object for the newer version
-# @flag --allow-experimental-api        Allow migration to experimental, unreleased APIs.
-# @flag -h --help                       help for migrate
-# @option --new-config <file>           Path to the resulting equivalent kubeadm config file using the new API version.
-# @option --old-config <file>           Path to the kubeadm config file that is using an old API version and should be converted.
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --kubeconfig <file>           The kubeconfig file to use when talking to the cluster.
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag --allow-experimental-api    Allow migration to experimental, unreleased APIs.
+# @flag -h --help                   help for migrate
+# @option --new-config <file>       Path to the resulting equivalent kubeadm config file using the new API version.
+# @option --old-config <file>       Path to the kubeadm config file that is using an old API version and should be converted.
+# @flag --add-dir-header            If true, adds the file directory to the header of the log messages
+# @option --kubeconfig <file>       The kubeconfig file to use when talking to the cluster.
+# @option --rootfs <file>           The path to the 'real' host root filesystem.
+# @flag --skip-headers              If true, avoid header prefixes in the log messages
+# @option -v --v <Level>            number for the log level verbosity
 config::migrate() {
     :;
 }
@@ -424,16 +350,12 @@ config::migrate() {
 
 # {{{ kubeadm config print
 # @cmd Print configuration
-# @flag -h --help                       help for print
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --kubeconfig <file>           The kubeconfig file to use when talking to the cluster.
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag -h --help                help for print
+# @flag --add-dir-header         If true, adds the file directory to the header of the log messages
+# @option --kubeconfig <file>    The kubeconfig file to use when talking to the cluster.
+# @option --rootfs <file>        The path to the 'real' host root filesystem.
+# @flag --skip-headers           If true, avoid header prefixes in the log messages
+# @option -v --v <Level>         number for the log level verbosity
 config::print() {
     :;
 }
@@ -444,12 +366,8 @@ config::print() {
 # @flag -h --help                          help for init-defaults
 # @flag --add-dir-header                   If true, adds the file directory to the header of the log messages
 # @option --kubeconfig <file>              The kubeconfig file to use when talking to the cluster.
-# @option --log-file <file>                If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>       Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                       If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                  [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                  The path to the 'real' host root filesystem.
 # @flag --skip-headers                     If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                 If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                   number for the log level verbosity
 config::print::init-defaults() {
     :;
@@ -458,17 +376,12 @@ config::print::init-defaults() {
 
 # {{{{ kubeadm config print join-defaults
 # @cmd Print default join configuration, that can be used for 'kubeadm join'
-# @option --component-configs* <string>    A comma-separated list for component config API objects to print the default values for.
-# @flag -h --help                          help for join-defaults
-# @flag --add-dir-header                   If true, adds the file directory to the header of the log messages
-# @option --kubeconfig <file>              The kubeconfig file to use when talking to the cluster.
-# @option --log-file <file>                If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>       Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                       If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                  [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                     If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                 If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                   number for the log level verbosity
+# @flag -h --help                help for join-defaults
+# @flag --add-dir-header         If true, adds the file directory to the header of the log messages
+# @option --kubeconfig <file>    The kubeconfig file to use when talking to the cluster.
+# @option --rootfs <file>        The path to the 'real' host root filesystem.
+# @flag --skip-headers           If true, avoid header prefixes in the log messages
+# @option -v --v <Level>         number for the log level verbosity
 config::print::join-defaults() {
     :;
 }
@@ -476,37 +389,41 @@ config::print::join-defaults() {
 
 # {{{{ kubeadm config print reset-defaults
 # @cmd Print default reset configuration, that can be used for 'kubeadm reset'
-# @option --component-configs* <string>    A comma-separated list for component config API objects to print the default values for.
-# @flag -h --help                          help for reset-defaults
-# @flag --add-dir-header                   If true, adds the file directory to the header of the log messages
-# @option --kubeconfig <file>              The kubeconfig file to use when talking to the cluster.
-# @option --log-file <file>                If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>       Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                       If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                  [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                     If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                 If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                   number for the log level verbosity
+# @flag -h --help                help for reset-defaults
+# @flag --add-dir-header         If true, adds the file directory to the header of the log messages
+# @option --kubeconfig <file>    The kubeconfig file to use when talking to the cluster.
+# @option --rootfs <file>        The path to the 'real' host root filesystem.
+# @flag --skip-headers           If true, avoid header prefixes in the log messages
+# @option -v --v <Level>         number for the log level verbosity
 config::print::reset-defaults() {
     :;
 }
 # }}}} kubeadm config print reset-defaults
+
+# {{{{ kubeadm config print upgrade-defaults
+# @cmd Print default upgrade configuration, that can be used for 'kubeadm upgrade'
+# @flag -h --help                help for upgrade-defaults
+# @flag --add-dir-header         If true, adds the file directory to the header of the log messages
+# @option --kubeconfig <file>    The kubeconfig file to use when talking to the cluster.
+# @option --rootfs <file>        The path to the 'real' host root filesystem.
+# @flag --skip-headers           If true, avoid header prefixes in the log messages
+# @option -v --v <Level>         number for the log level verbosity
+config::print::upgrade-defaults() {
+    :;
+}
+# }}}} kubeadm config print upgrade-defaults
 # }}} kubeadm config print
 
 # {{{ kubeadm config validate
 # @cmd Read a file containing the kubeadm configuration API and report any validation problems
-# @flag --allow-experimental-api        Allow validation of experimental, unreleased APIs.
-# @option --config <file>               Path to a kubeadm configuration file.
-# @flag -h --help                       help for validate
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --kubeconfig <file>           The kubeconfig file to use when talking to the cluster.
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag --allow-experimental-api    Allow validation of experimental, unreleased APIs.
+# @option --config <file>           Path to a kubeadm configuration file.
+# @flag -h --help                   help for validate
+# @flag --add-dir-header            If true, adds the file directory to the header of the log messages
+# @option --kubeconfig <file>       The kubeconfig file to use when talking to the cluster.
+# @option --rootfs <file>           The path to the 'real' host root filesystem.
+# @flag --skip-headers              If true, avoid header prefixes in the log messages
+# @option -v --v <Level>            number for the log level verbosity
 config::validate() {
     :;
 }
@@ -541,12 +458,8 @@ config::validate() {
 # @option --token-ttl <duration>                   The duration before the token is automatically deleted (e.g. 1s, 2m, 3h).
 # @flag --upload-certs                             Upload control-plane certificates to the kubeadm-certs Secret.
 # @flag --add-dir-header                           If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                        If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>               Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                               If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                          [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                          The path to the 'real' host root filesystem.
 # @flag --skip-headers                             If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                         If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                           number for the log level verbosity
 init() {
     :;
@@ -554,30 +467,22 @@ init() {
 
 # {{{ kubeadm init phase
 # @cmd Use this command to invoke single phase of the init workflow
-# @flag -h --help                       help for phase
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag -h --help            help for phase
+# @flag --add-dir-header     If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>    The path to the 'real' host root filesystem.
+# @flag --skip-headers       If true, avoid header prefixes in the log messages
+# @option -v --v <Level>     number for the log level verbosity
 init::phase() {
     :;
 }
 
 # {{{{ kubeadm init phase addon
 # @cmd Install required addons for passing conformance tests
-# @flag -h --help                       help for addon
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag -h --help            help for addon
+# @flag --add-dir-header     If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>    The path to the 'real' host root filesystem.
+# @flag --skip-headers       If true, avoid header prefixes in the log messages
+# @option -v --v <Level>     number for the log level verbosity
 init::phase::addon() {
     :;
 }
@@ -598,12 +503,8 @@ init::phase::addon() {
 # @option --service-cidr <string>              Use alternative range of IP address for service VIPs.
 # @option --service-dns-domain <string>        Use alternative domain for services, e.g. "myorg.internal".
 # @flag --add-dir-header                       If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                    If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>           Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                           If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                      [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                      The path to the 'real' host root filesystem.
 # @flag --skip-headers                         If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                     If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                       number for the log level verbosity
 init::phase::addon::all() {
     :;
@@ -623,12 +524,8 @@ init::phase::addon::all() {
 # @option --service-cidr <string>          Use alternative range of IP address for service VIPs.
 # @option --service-dns-domain <string>    Use alternative domain for services, e.g. "myorg.internal".
 # @flag --add-dir-header                   If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>       Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                       If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                  [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                  The path to the 'real' host root filesystem.
 # @flag --skip-headers                     If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                 If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                   number for the log level verbosity
 init::phase::addon::coredns() {
     :;
@@ -649,12 +546,8 @@ init::phase::addon::coredns() {
 # @option --pod-network-cidr <string>          Specify range of IP addresses for the pod network.
 # @flag --print-manifest                       Print the addon manifests to STDOUT instead of installing them
 # @flag --add-dir-header                       If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                    If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>           Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                           If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                      [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                      The path to the 'real' host root filesystem.
 # @flag --skip-headers                         If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                     If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                       number for the log level verbosity
 init::phase::addon::kube-proxy() {
     :;
@@ -664,19 +557,15 @@ init::phase::addon::kube-proxy() {
 
 # {{{{ kubeadm init phase bootstrap-token
 # @cmd Generates bootstrap tokens used to join a node to a cluster
-# @option --config <file>               Path to a kubeadm configuration file.
-# @flag --dry-run                       Don't apply any changes; just output what would be done.
-# @flag -h --help                       help for bootstrap-token
-# @option --kubeconfig <file>           The kubeconfig file to use when talking to the cluster.
-# @flag --skip-token-print              Skip printing of the default bootstrap token generated by 'kubeadm init'.
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @option --config <file>        Path to a kubeadm configuration file.
+# @flag --dry-run                Don't apply any changes; just output what would be done.
+# @flag -h --help                help for bootstrap-token
+# @option --kubeconfig <file>    The kubeconfig file to use when talking to the cluster.
+# @flag --skip-token-print       Skip printing of the default bootstrap token generated by 'kubeadm init'.
+# @flag --add-dir-header         If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>        The path to the 'real' host root filesystem.
+# @flag --skip-headers           If true, avoid header prefixes in the log messages
+# @option -v --v <Level>         number for the log level verbosity
 init::phase::bootstrap-token() {
     :;
 }
@@ -684,15 +573,11 @@ init::phase::bootstrap-token() {
 
 # {{{{ kubeadm init phase certs
 # @cmd Certificate generation
-# @flag -h --help                       help for certs
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag -h --help            help for certs
+# @flag --add-dir-header     If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>    The path to the 'real' host root filesystem.
+# @flag --skip-headers       If true, avoid header prefixes in the log messages
+# @option -v --v <Level>     number for the log level verbosity
 init::phase::certs() {
     :;
 }
@@ -710,12 +595,8 @@ init::phase::certs() {
 # @option --service-cidr <string>                  Use alternative range of IP address for service VIPs.
 # @option --service-dns-domain <string>            Use alternative domain for services, e.g. "myorg.internal".
 # @flag --add-dir-header                           If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                        If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>               Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                               If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                          [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                          The path to the 'real' host root filesystem.
 # @flag --skip-headers                             If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                         If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                           number for the log level verbosity
 init::phase::certs::all() {
     :;
@@ -735,12 +616,8 @@ init::phase::certs::all() {
 # @option --service-cidr <string>                  Use alternative range of IP address for service VIPs.
 # @option --service-dns-domain <string>            Use alternative domain for services, e.g. "myorg.internal".
 # @flag --add-dir-header                           If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                        If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>               Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                               If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                          [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                          The path to the 'real' host root filesystem.
 # @flag --skip-headers                             If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                         If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                           number for the log level verbosity
 init::phase::certs::apiserver() {
     :;
@@ -755,12 +632,8 @@ init::phase::certs::apiserver() {
 # @flag -h --help                          help for apiserver-etcd-client
 # @option --kubernetes-version <string>    Choose a specific Kubernetes version for the control plane.
 # @flag --add-dir-header                   If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>       Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                       If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                  [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                  The path to the 'real' host root filesystem.
 # @flag --skip-headers                     If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                 If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                   number for the log level verbosity
 init::phase::certs::apiserver-etcd-client() {
     :;
@@ -775,12 +648,8 @@ init::phase::certs::apiserver-etcd-client() {
 # @flag -h --help                          help for apiserver-kubelet-client
 # @option --kubernetes-version <string>    Choose a specific Kubernetes version for the control plane.
 # @flag --add-dir-header                   If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>       Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                       If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                  [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                  The path to the 'real' host root filesystem.
 # @flag --skip-headers                     If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                 If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                   number for the log level verbosity
 init::phase::certs::apiserver-kubelet-client() {
     :;
@@ -795,12 +664,8 @@ init::phase::certs::apiserver-kubelet-client() {
 # @flag -h --help                          help for ca
 # @option --kubernetes-version <string>    Choose a specific Kubernetes version for the control plane.
 # @flag --add-dir-header                   If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>       Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                       If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                  [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                  The path to the 'real' host root filesystem.
 # @flag --skip-headers                     If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                 If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                   number for the log level verbosity
 init::phase::certs::ca() {
     :;
@@ -815,12 +680,8 @@ init::phase::certs::ca() {
 # @flag -h --help                          help for etcd-ca
 # @option --kubernetes-version <string>    Choose a specific Kubernetes version for the control plane.
 # @flag --add-dir-header                   If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>       Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                       If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                  [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                  The path to the 'real' host root filesystem.
 # @flag --skip-headers                     If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                 If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                   number for the log level verbosity
 init::phase::certs::etcd-ca() {
     :;
@@ -835,12 +696,8 @@ init::phase::certs::etcd-ca() {
 # @flag -h --help                          help for etcd-healthcheck-client
 # @option --kubernetes-version <string>    Choose a specific Kubernetes version for the control plane.
 # @flag --add-dir-header                   If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>       Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                       If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                  [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                  The path to the 'real' host root filesystem.
 # @flag --skip-headers                     If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                 If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                   number for the log level verbosity
 init::phase::certs::etcd-healthcheck-client() {
     :;
@@ -855,12 +712,8 @@ init::phase::certs::etcd-healthcheck-client() {
 # @flag -h --help                          help for etcd-peer
 # @option --kubernetes-version <string>    Choose a specific Kubernetes version for the control plane.
 # @flag --add-dir-header                   If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>       Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                       If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                  [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                  The path to the 'real' host root filesystem.
 # @flag --skip-headers                     If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                 If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                   number for the log level verbosity
 init::phase::certs::etcd-peer() {
     :;
@@ -875,12 +728,8 @@ init::phase::certs::etcd-peer() {
 # @flag -h --help                          help for etcd-server
 # @option --kubernetes-version <string>    Choose a specific Kubernetes version for the control plane.
 # @flag --add-dir-header                   If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>       Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                       If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                  [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                  The path to the 'real' host root filesystem.
 # @flag --skip-headers                     If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                 If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                   number for the log level verbosity
 init::phase::certs::etcd-server() {
     :;
@@ -895,12 +744,8 @@ init::phase::certs::etcd-server() {
 # @flag -h --help                          help for front-proxy-ca
 # @option --kubernetes-version <string>    Choose a specific Kubernetes version for the control plane.
 # @flag --add-dir-header                   If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>       Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                       If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                  [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                  The path to the 'real' host root filesystem.
 # @flag --skip-headers                     If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                 If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                   number for the log level verbosity
 init::phase::certs::front-proxy-ca() {
     :;
@@ -915,12 +760,8 @@ init::phase::certs::front-proxy-ca() {
 # @flag -h --help                          help for front-proxy-client
 # @option --kubernetes-version <string>    Choose a specific Kubernetes version for the control plane.
 # @flag --add-dir-header                   If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>       Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                       If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                  [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                  The path to the 'real' host root filesystem.
 # @flag --skip-headers                     If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                 If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                   number for the log level verbosity
 init::phase::certs::front-proxy-client() {
     :;
@@ -929,16 +770,15 @@ init::phase::certs::front-proxy-client() {
 
 # {{{{{ kubeadm init phase certs sa
 # @cmd Generate a private key for signing service account tokens along with its public key
-# @option --cert-dir <dir>              The path where to save and store the certificates.
-# @flag -h --help                       help for sa
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @option --cert-dir <dir>                 The path where to save and store the certificates.
+# @option --config <file>                  Path to a kubeadm configuration file.
+# @flag --dry-run                          Don't apply any changes; just output what would be done.
+# @flag -h --help                          help for sa
+# @option --kubernetes-version <string>    Choose a specific Kubernetes version for the control plane.
+# @flag --add-dir-header                   If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>                  The path to the 'real' host root filesystem.
+# @flag --skip-headers                     If true, avoid header prefixes in the log messages
+# @option -v --v <Level>                   number for the log level verbosity
 init::phase::certs::sa() {
     :;
 }
@@ -947,15 +787,11 @@ init::phase::certs::sa() {
 
 # {{{{ kubeadm init phase control-plane
 # @cmd Generate all static Pod manifest files necessary to establish the control plane
-# @flag -h --help                       help for control-plane
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag -h --help            help for control-plane
+# @flag --add-dir-header     If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>    The path to the 'real' host root filesystem.
+# @flag --skip-headers       If true, avoid header prefixes in the log messages
+# @option -v --v <Level>     number for the log level verbosity
 init::phase::control-plane() {
     :;
 }
@@ -964,11 +800,9 @@ init::phase::control-plane() {
 # @cmd Generate all static Pod manifest files
 # @option --apiserver-advertise-address <string>  The IP address the API Server will advertise it's listening on.
 # @option --apiserver-bind-port <int32>        Port for the API Server to bind to.
-# @option --apiserver-extra-args <mapStringString>  A set of extra flags to pass to the API Server or override default ones in form of <flagname>=<value>
 # @option --cert-dir <dir>                     The path where to save and store the certificates.
 # @option --config <file>                      Path to a kubeadm configuration file.
 # @option --control-plane-endpoint <string>    Specify a stable IP address or DNS name for the control plane.
-# @option --controller-manager-extra-args <mapStringString>  A set of extra flags to pass to the Controller Manager or override default ones in form of <flagname>=<value>
 # @flag --dry-run                              Don't apply any changes; just output what would be done.
 # @option --feature-gates <string>             A set of key=value pairs that describe feature gates for various features.
 # @flag -h --help                              help for all
@@ -976,15 +810,10 @@ init::phase::control-plane() {
 # @option --kubernetes-version <string>        Choose a specific Kubernetes version for the control plane.
 # @option --patches <path>                     Path to a directory that contains files named "target[suffix][+patchtype].extension".
 # @option --pod-network-cidr <string>          Specify range of IP addresses for the pod network.
-# @option --scheduler-extra-args <mapStringString>  A set of extra flags to pass to the Scheduler or override default ones in form of <flagname>=<value>
 # @option --service-cidr <string>              Use alternative range of IP address for service VIPs.
 # @flag --add-dir-header                       If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                    If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>           Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                           If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                      [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                      The path to the 'real' host root filesystem.
 # @flag --skip-headers                         If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                     If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                       number for the log level verbosity
 init::phase::control-plane::all() {
     :;
@@ -995,7 +824,6 @@ init::phase::control-plane::all() {
 # @cmd Generates the kube-apiserver static Pod manifest
 # @option --apiserver-advertise-address <string>  The IP address the API Server will advertise it's listening on.
 # @option --apiserver-bind-port <int32>        Port for the API Server to bind to.
-# @option --apiserver-extra-args <mapStringString>  A set of extra flags to pass to the API Server or override default ones in form of <flagname>=<value>
 # @option --cert-dir <dir>                     The path where to save and store the certificates.
 # @option --config <file>                      Path to a kubeadm configuration file.
 # @option --control-plane-endpoint <string>    Specify a stable IP address or DNS name for the control plane.
@@ -1007,12 +835,8 @@ init::phase::control-plane::all() {
 # @option --patches <path>                     Path to a directory that contains files named "target[suffix][+patchtype].extension".
 # @option --service-cidr <string>              Use alternative range of IP address for service VIPs.
 # @flag --add-dir-header                       If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                    If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>           Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                           If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                      [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                      The path to the 'real' host root filesystem.
 # @flag --skip-headers                         If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                     If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                       number for the log level verbosity
 init::phase::control-plane::apiserver() {
     :;
@@ -1023,7 +847,6 @@ init::phase::control-plane::apiserver() {
 # @cmd Generates the kube-controller-manager static Pod manifest
 # @option --cert-dir <dir>                 The path where to save and store the certificates.
 # @option --config <file>                  Path to a kubeadm configuration file.
-# @option --controller-manager-extra-args <mapStringString>  A set of extra flags to pass to the Controller Manager or override default ones in form of <flagname>=<value>
 # @flag --dry-run                          Don't apply any changes; just output what would be done.
 # @flag -h --help                          help for controller-manager
 # @option --image-repository <string>      Choose a container registry to pull control plane images from (default "registry.k8s.io")
@@ -1031,12 +854,8 @@ init::phase::control-plane::apiserver() {
 # @option --patches <path>                 Path to a directory that contains files named "target[suffix][+patchtype].extension".
 # @option --pod-network-cidr <string>      Specify range of IP addresses for the pod network.
 # @flag --add-dir-header                   If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>       Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                       If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                  [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                  The path to the 'real' host root filesystem.
 # @flag --skip-headers                     If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                 If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                   number for the log level verbosity
 init::phase::control-plane::controller-manager() {
     :;
@@ -1052,14 +871,9 @@ init::phase::control-plane::controller-manager() {
 # @option --image-repository <string>      Choose a container registry to pull control plane images from (default "registry.k8s.io")
 # @option --kubernetes-version <string>    Choose a specific Kubernetes version for the control plane.
 # @option --patches <path>                 Path to a directory that contains files named "target[suffix][+patchtype].extension".
-# @option --scheduler-extra-args <mapStringString>  A set of extra flags to pass to the Scheduler or override default ones in form of <flagname>=<value>
 # @flag --add-dir-header                   If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>       Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                       If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                  [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                  The path to the 'real' host root filesystem.
 # @flag --skip-headers                     If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                 If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                   number for the log level verbosity
 init::phase::control-plane::scheduler() {
     :;
@@ -1069,15 +883,11 @@ init::phase::control-plane::scheduler() {
 
 # {{{{ kubeadm init phase etcd
 # @cmd Generate static Pod manifest file for local etcd
-# @flag -h --help                       help for etcd
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag -h --help            help for etcd
+# @flag --add-dir-header     If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>    The path to the 'real' host root filesystem.
+# @flag --skip-headers       If true, avoid header prefixes in the log messages
+# @option -v --v <Level>     number for the log level verbosity
 init::phase::etcd() {
     :;
 }
@@ -1091,12 +901,8 @@ init::phase::etcd() {
 # @option --image-repository <string>    Choose a container registry to pull control plane images from (default "registry.k8s.io")
 # @option --patches <path>               Path to a directory that contains files named "target[suffix][+patchtype].extension".
 # @flag --add-dir-header                 If true, adds the file directory to the header of the log messages
-# @option --log-file <file>              If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>     Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                     If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                The path to the 'real' host root filesystem.
 # @flag --skip-headers                   If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers               If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                 number for the log level verbosity
 init::phase::etcd::local() {
     :;
@@ -1106,15 +912,11 @@ init::phase::etcd::local() {
 
 # {{{{ kubeadm init phase kubeconfig
 # @cmd Generate all kubeconfig files necessary to establish the control plane and the admin kubeconfig file
-# @flag -h --help                       help for kubeconfig
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag -h --help            help for kubeconfig
+# @flag --add-dir-header     If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>    The path to the 'real' host root filesystem.
+# @flag --skip-headers       If true, avoid header prefixes in the log messages
+# @option -v --v <Level>     number for the log level verbosity
 init::phase::kubeconfig() {
     :;
 }
@@ -1131,12 +933,8 @@ init::phase::kubeconfig() {
 # @option --kubeconfig-dir <path>              The path where to save the kubeconfig file.
 # @option --kubernetes-version <string>        Choose a specific Kubernetes version for the control plane.
 # @flag --add-dir-header                       If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                    If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>           Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                           If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                      [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                      The path to the 'real' host root filesystem.
 # @flag --skip-headers                         If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                     If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                       number for the log level verbosity
 init::phase::kubeconfig::admin() {
     :;
@@ -1156,12 +954,8 @@ init::phase::kubeconfig::admin() {
 # @option --kubernetes-version <string>        Choose a specific Kubernetes version for the control plane.
 # @option --node-name <string>                 Specify the node name.
 # @flag --add-dir-header                       If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                    If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>           Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                           If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                      [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                      The path to the 'real' host root filesystem.
 # @flag --skip-headers                         If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                     If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                       number for the log level verbosity
 init::phase::kubeconfig::all() {
     :;
@@ -1180,12 +974,8 @@ init::phase::kubeconfig::all() {
 # @option --kubeconfig-dir <path>              The path where to save the kubeconfig file.
 # @option --kubernetes-version <string>        Choose a specific Kubernetes version for the control plane.
 # @flag --add-dir-header                       If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                    If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>           Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                           If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                      [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                      The path to the 'real' host root filesystem.
 # @flag --skip-headers                         If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                     If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                       number for the log level verbosity
 init::phase::kubeconfig::controller-manager() {
     :;
@@ -1205,12 +995,8 @@ init::phase::kubeconfig::controller-manager() {
 # @option --kubernetes-version <string>        Choose a specific Kubernetes version for the control plane.
 # @option --node-name <string>                 Specify the node name.
 # @flag --add-dir-header                       If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                    If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>           Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                           If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                      [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                      The path to the 'real' host root filesystem.
 # @flag --skip-headers                         If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                     If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                       number for the log level verbosity
 init::phase::kubeconfig::kubelet() {
     :;
@@ -1229,67 +1015,86 @@ init::phase::kubeconfig::kubelet() {
 # @option --kubeconfig-dir <path>              The path where to save the kubeconfig file.
 # @option --kubernetes-version <string>        Choose a specific Kubernetes version for the control plane.
 # @flag --add-dir-header                       If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                    If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>           Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                           If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                      [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                      The path to the 'real' host root filesystem.
 # @flag --skip-headers                         If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                     If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                       number for the log level verbosity
 init::phase::kubeconfig::scheduler() {
     :;
 }
 # }}}}} kubeadm init phase kubeconfig scheduler
+
+# {{{{{ kubeadm init phase kubeconfig super-admin
+# @cmd Generate a kubeconfig file for the super-admin
+# @option --apiserver-advertise-address <string>  The IP address the API Server will advertise it's listening on.
+# @option --apiserver-bind-port <int32>        Port for the API Server to bind to.
+# @option --cert-dir <dir>                     The path where to save and store the certificates.
+# @option --config <file>                      Path to a kubeadm configuration file.
+# @option --control-plane-endpoint <string>    Specify a stable IP address or DNS name for the control plane.
+# @flag --dry-run                              Don't apply any changes; just output what would be done.
+# @flag -h --help                              help for super-admin
+# @option --kubeconfig-dir <path>              The path where to save the kubeconfig file.
+# @option --kubernetes-version <string>        Choose a specific Kubernetes version for the control plane.
+# @flag --add-dir-header                       If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>                      The path to the 'real' host root filesystem.
+# @flag --skip-headers                         If true, avoid header prefixes in the log messages
+# @option -v --v <Level>                       number for the log level verbosity
+init::phase::kubeconfig::super-admin() {
+    :;
+}
+# }}}}} kubeadm init phase kubeconfig super-admin
 # }}}} kubeadm init phase kubeconfig
 
 # {{{{ kubeadm init phase kubelet-finalize
 # @cmd Updates settings relevant to the kubelet after TLS bootstrap
-# @flag -h --help                       help for kubelet-finalize
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag -h --help            help for kubelet-finalize
+# @flag --add-dir-header     If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>    The path to the 'real' host root filesystem.
+# @flag --skip-headers       If true, avoid header prefixes in the log messages
+# @option -v --v <Level>     number for the log level verbosity
 init::phase::kubelet-finalize() {
     :;
 }
 
 # {{{{{ kubeadm init phase kubelet-finalize all
 # @cmd Run all kubelet-finalize phases
-# @option --cert-dir <dir>              The path where to save and store the certificates.
-# @option --config <file>               Path to a kubeadm configuration file.
-# @flag --dry-run                       Don't apply any changes; just output what would be done.
-# @flag -h --help                       help for all
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @option --cert-dir <dir>    The path where to save and store the certificates.
+# @option --config <file>     Path to a kubeadm configuration file.
+# @flag --dry-run             Don't apply any changes; just output what would be done.
+# @flag -h --help             help for all
+# @flag --add-dir-header      If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>     The path to the 'real' host root filesystem.
+# @flag --skip-headers        If true, avoid header prefixes in the log messages
+# @option -v --v <Level>      number for the log level verbosity
 init::phase::kubelet-finalize::all() {
     :;
 }
 # }}}}} kubeadm init phase kubelet-finalize all
 
-# {{{{{ kubeadm init phase kubelet-finalize experimental-cert-rotation
+# {{{{{ kubeadm init phase kubelet-finalize enable-client-cert-rotation
 # @cmd Enable kubelet client certificate rotation
-# @option --cert-dir <dir>              The path where to save and store the certificates.
-# @option --config <file>               Path to a kubeadm configuration file.
-# @flag --dry-run                       Don't apply any changes; just output what would be done.
-# @flag -h --help                       help for experimental-cert-rotation
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @option --cert-dir <dir>    The path where to save and store the certificates.
+# @option --config <file>     Path to a kubeadm configuration file.
+# @flag --dry-run             Don't apply any changes; just output what would be done.
+# @flag -h --help             help for enable-client-cert-rotation
+# @flag --add-dir-header      If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>     The path to the 'real' host root filesystem.
+# @flag --skip-headers        If true, avoid header prefixes in the log messages
+# @option -v --v <Level>      number for the log level verbosity
+init::phase::kubelet-finalize::enable-client-cert-rotation() {
+    :;
+}
+# }}}}} kubeadm init phase kubelet-finalize enable-client-cert-rotation
+
+# {{{{{ kubeadm init phase kubelet-finalize experimental-cert-rotation
+# @cmd Enable kubelet client certificate rotation (DEPRECATED: use 'enable-client-cert-rotation' instead)
+# @option --cert-dir <dir>    The path where to save and store the certificates.
+# @option --config <file>     Path to a kubeadm configuration file.
+# @flag --dry-run             Don't apply any changes; just output what would be done.
+# @flag -h --help             help for experimental-cert-rotation
+# @flag --add-dir-header      If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>     The path to the 'real' host root filesystem.
+# @flag --skip-headers        If true, avoid header prefixes in the log messages
+# @option -v --v <Level>      number for the log level verbosity
 init::phase::kubelet-finalize::experimental-cert-rotation() {
     :;
 }
@@ -1298,20 +1103,17 @@ init::phase::kubelet-finalize::experimental-cert-rotation() {
 
 # {{{{ kubeadm init phase kubelet-start
 # @cmd Write kubelet settings and (re)start the kubelet
-# @option --config <file>               Path to a kubeadm configuration file.
-# @option --cri-socket <path>           Path to the CRI socket to connect.
-# @flag --dry-run                       Don't apply any changes; just output what would be done.
-# @flag -h --help                       help for kubelet-start
-# @option --node-name <string>          Specify the node name.
-# @option --patches <path>              Path to a directory that contains files named "target[suffix][+patchtype].extension".
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @option --config <file>                Path to a kubeadm configuration file.
+# @option --cri-socket <path>            Path to the CRI socket to connect.
+# @flag --dry-run                        Don't apply any changes; just output what would be done.
+# @flag -h --help                        help for kubelet-start
+# @option --image-repository <string>    Choose a container registry to pull control plane images from (default "registry.k8s.io")
+# @option --node-name <string>           Specify the node name.
+# @option --patches <path>               Path to a directory that contains files named "target[suffix][+patchtype].extension".
+# @flag --add-dir-header                 If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>                The path to the 'real' host root filesystem.
+# @flag --skip-headers                   If true, avoid header prefixes in the log messages
+# @option -v --v <Level>                 number for the log level verbosity
 init::phase::kubelet-start() {
     :;
 }
@@ -1319,18 +1121,14 @@ init::phase::kubelet-start() {
 
 # {{{{ kubeadm init phase mark-control-plane
 # @cmd Mark a node as a control-plane
-# @option --config <file>               Path to a kubeadm configuration file.
-# @flag --dry-run                       Don't apply any changes; just output what would be done.
-# @flag -h --help                       help for mark-control-plane
-# @option --node-name <string>          Specify the node name.
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @option --config <file>         Path to a kubeadm configuration file.
+# @flag --dry-run                 Don't apply any changes; just output what would be done.
+# @flag -h --help                 help for mark-control-plane
+# @option --node-name <string>    Specify the node name.
+# @flag --add-dir-header          If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>         The path to the 'real' host root filesystem.
+# @flag --skip-headers            If true, avoid header prefixes in the log messages
+# @option -v --v <Level>          number for the log level verbosity
 init::phase::mark-control-plane() {
     :;
 }
@@ -1338,19 +1136,16 @@ init::phase::mark-control-plane() {
 
 # {{{{ kubeadm init phase preflight
 # @cmd Run pre-flight checks
-# @option --config <file>               Path to a kubeadm configuration file.
-# @option --cri-socket <path>           Path to the CRI socket to connect.
-# @flag --dry-run                       Don't apply any changes; just output what would be done.
-# @flag -h --help                       help for preflight
+# @option --config <file>                Path to a kubeadm configuration file.
+# @option --cri-socket <path>            Path to the CRI socket to connect.
+# @flag --dry-run                        Don't apply any changes; just output what would be done.
+# @flag -h --help                        help for preflight
 # @option --ignore-preflight-errors*,[`_choice_preflight_error`] <string>  A list of checks whose errors will be shown as warnings.
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @option --image-repository <string>    Choose a container registry to pull control plane images from (default "registry.k8s.io")
+# @flag --add-dir-header                 If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>                The path to the 'real' host root filesystem.
+# @flag --skip-headers                   If true, avoid header prefixes in the log messages
+# @option -v --v <Level>                 number for the log level verbosity
 init::phase::preflight() {
     :;
 }
@@ -1366,12 +1161,8 @@ init::phase::preflight() {
 # @flag --skip-certificate-key-print    Don't print the key used to encrypt the control-plane certificates.
 # @flag --upload-certs                  Upload control-plane certificates to the kubeadm-certs Secret.
 # @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>               The path to the 'real' host root filesystem.
 # @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                number for the log level verbosity
 init::phase::upload-certs() {
     :;
@@ -1380,34 +1171,26 @@ init::phase::upload-certs() {
 
 # {{{{ kubeadm init phase upload-config
 # @cmd Upload the kubeadm and kubelet configuration to a ConfigMap
-# @flag -h --help                       help for upload-config
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag -h --help            help for upload-config
+# @flag --add-dir-header     If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>    The path to the 'real' host root filesystem.
+# @flag --skip-headers       If true, avoid header prefixes in the log messages
+# @option -v --v <Level>     number for the log level verbosity
 init::phase::upload-config() {
     :;
 }
 
 # {{{{{ kubeadm init phase upload-config all
 # @cmd Upload all configuration to a config map
-# @option --config <file>               Path to a kubeadm configuration file.
-# @option --cri-socket <path>           Path to the CRI socket to connect.
-# @flag --dry-run                       Don't apply any changes; just output what would be done.
-# @flag -h --help                       help for all
-# @option --kubeconfig <file>           The kubeconfig file to use when talking to the cluster.
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @option --config <file>        Path to a kubeadm configuration file.
+# @option --cri-socket <path>    Path to the CRI socket to connect.
+# @flag --dry-run                Don't apply any changes; just output what would be done.
+# @flag -h --help                help for all
+# @option --kubeconfig <file>    The kubeconfig file to use when talking to the cluster.
+# @flag --add-dir-header         If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>        The path to the 'real' host root filesystem.
+# @flag --skip-headers           If true, avoid header prefixes in the log messages
+# @option -v --v <Level>         number for the log level verbosity
 init::phase::upload-config::all() {
     :;
 }
@@ -1415,19 +1198,15 @@ init::phase::upload-config::all() {
 
 # {{{{{ kubeadm init phase upload-config kubelet
 # @cmd Upload the kubelet component config to a ConfigMap
-# @option --config <file>               Path to a kubeadm configuration file.
-# @option --cri-socket <path>           Path to the CRI socket to connect.
-# @flag --dry-run                       Don't apply any changes; just output what would be done.
-# @flag -h --help                       help for kubelet
-# @option --kubeconfig <file>           The kubeconfig file to use when talking to the cluster.
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @option --config <file>        Path to a kubeadm configuration file.
+# @option --cri-socket <path>    Path to the CRI socket to connect.
+# @flag --dry-run                Don't apply any changes; just output what would be done.
+# @flag -h --help                help for kubelet
+# @option --kubeconfig <file>    The kubeconfig file to use when talking to the cluster.
+# @flag --add-dir-header         If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>        The path to the 'real' host root filesystem.
+# @flag --skip-headers           If true, avoid header prefixes in the log messages
+# @option -v --v <Level>         number for the log level verbosity
 init::phase::upload-config::kubelet() {
     :;
 }
@@ -1457,12 +1236,8 @@ init::phase::upload-config::kubelet() {
 # @option --tls-bootstrap-token <string>    Specify the token used to temporarily authenticate with the Kubernetes Control Plane while joining the node.
 # @option --token <string>                  Use this token for both discovery-token and tls-bootstrap-token when those values are not provided.
 # @flag --add-dir-header                    If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                 If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>        Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                        If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                   [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                   The path to the 'real' host root filesystem.
 # @flag --skip-headers                      If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                  If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                    number for the log level verbosity
 # @arg api-server-endpoint
 join() {
@@ -1471,30 +1246,22 @@ join() {
 
 # {{{ kubeadm join phase
 # @cmd Use this command to invoke single phase of the join workflow
-# @flag -h --help                       help for phase
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag -h --help            help for phase
+# @flag --add-dir-header     If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>    The path to the 'real' host root filesystem.
+# @flag --skip-headers       If true, avoid header prefixes in the log messages
+# @option -v --v <Level>     number for the log level verbosity
 join::phase() {
     :;
 }
 
 # {{{{ kubeadm join phase control-plane-join
 # @cmd Join a machine as a control plane instance
-# @flag -h --help                       help for control-plane-join
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag -h --help            help for control-plane-join
+# @flag --add-dir-header     If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>    The path to the 'real' host root filesystem.
+# @flag --skip-headers       If true, avoid header prefixes in the log messages
+# @option -v --v <Level>     number for the log level verbosity
 join::phase::control-plane-join() {
     :;
 }
@@ -1502,20 +1269,16 @@ join::phase::control-plane-join() {
 # {{{{{ kubeadm join phase control-plane-join all
 # @cmd Join a machine as a control plane instance
 # @option --apiserver-advertise-address <string>  If the node should host a new control plane instance, the IP address the API Server will advertise it's listening on.
-# @option --config <file>               Path to a kubeadm configuration file.
-# @flag --control-plane                 Create a new control plane instance on this node
-# @flag --dry-run                       Don't apply any changes; just output what would be done.
-# @flag -h --help                       help for all
-# @option --node-name <string>          Specify the node name.
-# @option --patches <path>              Path to a directory that contains files named "target[suffix][+patchtype].extension".
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @option --config <file>         Path to a kubeadm configuration file.
+# @flag --control-plane           Create a new control plane instance on this node
+# @flag --dry-run                 Don't apply any changes; just output what would be done.
+# @flag -h --help                 help for all
+# @option --node-name <string>    Specify the node name.
+# @option --patches <path>        Path to a directory that contains files named "target[suffix][+patchtype].extension".
+# @flag --add-dir-header          If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>         The path to the 'real' host root filesystem.
+# @flag --skip-headers            If true, avoid header prefixes in the log messages
+# @option -v --v <Level>          number for the log level verbosity
 join::phase::control-plane-join::all() {
     :;
 }
@@ -1524,20 +1287,16 @@ join::phase::control-plane-join::all() {
 # {{{{{ kubeadm join phase control-plane-join etcd
 # @cmd Add a new local etcd member
 # @option --apiserver-advertise-address <string>  If the node should host a new control plane instance, the IP address the API Server will advertise it's listening on.
-# @option --config <file>               Path to a kubeadm configuration file.
-# @flag --control-plane                 Create a new control plane instance on this node
-# @flag --dry-run                       Don't apply any changes; just output what would be done.
-# @flag -h --help                       help for etcd
-# @option --node-name <string>          Specify the node name.
-# @option --patches <path>              Path to a directory that contains files named "target[suffix][+patchtype].extension".
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @option --config <file>         Path to a kubeadm configuration file.
+# @flag --control-plane           Create a new control plane instance on this node
+# @flag --dry-run                 Don't apply any changes; just output what would be done.
+# @flag -h --help                 help for etcd
+# @option --node-name <string>    Specify the node name.
+# @option --patches <path>        Path to a directory that contains files named "target[suffix][+patchtype].extension".
+# @flag --add-dir-header          If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>         The path to the 'real' host root filesystem.
+# @flag --skip-headers            If true, avoid header prefixes in the log messages
+# @option -v --v <Level>          number for the log level verbosity
 join::phase::control-plane-join::etcd() {
     :;
 }
@@ -1545,56 +1304,28 @@ join::phase::control-plane-join::etcd() {
 
 # {{{{{ kubeadm join phase control-plane-join mark-control-plane
 # @cmd Mark a node as a control-plane
-# @option --config <file>               Path to a kubeadm configuration file.
-# @flag --control-plane                 Create a new control plane instance on this node
-# @flag --dry-run                       Don't apply any changes; just output what would be done.
-# @flag -h --help                       help for mark-control-plane
-# @option --node-name <string>          Specify the node name.
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @option --config <file>         Path to a kubeadm configuration file.
+# @flag --control-plane           Create a new control plane instance on this node
+# @flag --dry-run                 Don't apply any changes; just output what would be done.
+# @flag -h --help                 help for mark-control-plane
+# @option --node-name <string>    Specify the node name.
+# @flag --add-dir-header          If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>         The path to the 'real' host root filesystem.
+# @flag --skip-headers            If true, avoid header prefixes in the log messages
+# @option -v --v <Level>          number for the log level verbosity
 join::phase::control-plane-join::mark-control-plane() {
     :;
 }
 # }}}}} kubeadm join phase control-plane-join mark-control-plane
-
-# {{{{{ kubeadm join phase control-plane-join update-status
-# @cmd Register the new control-plane node into the ClusterStatus maintained in the kubeadm-config ConfigMap (DEPRECATED)
-# @option --apiserver-advertise-address <string>  If the node should host a new control plane instance, the IP address the API Server will advertise it's listening on.
-# @option --config <file>               Path to a kubeadm configuration file.
-# @flag --control-plane                 Create a new control plane instance on this node
-# @flag -h --help                       help for update-status
-# @option --node-name <string>          Specify the node name.
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
-join::phase::control-plane-join::update-status() {
-    :;
-}
-# }}}}} kubeadm join phase control-plane-join update-status
 # }}}} kubeadm join phase control-plane-join
 
 # {{{{ kubeadm join phase control-plane-prepare
 # @cmd Prepare the machine for serving a control plane
-# @flag -h --help                       help for control-plane-prepare
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag -h --help            help for control-plane-prepare
+# @flag --add-dir-header     If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>    The path to the 'real' host root filesystem.
+# @flag --skip-headers       If true, avoid header prefixes in the log messages
+# @option -v --v <Level>     number for the log level verbosity
 join::phase::control-plane-prepare() {
     :;
 }
@@ -1617,12 +1348,8 @@ join::phase::control-plane-prepare() {
 # @option --tls-bootstrap-token <string>    Specify the token used to temporarily authenticate with the Kubernetes Control Plane while joining the node.
 # @option --token <string>                  Use this token for both discovery-token and tls-bootstrap-token when those values are not provided.
 # @flag --add-dir-header                    If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                 If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>        Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                        If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                   [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                   The path to the 'real' host root filesystem.
 # @flag --skip-headers                      If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                  If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                    number for the log level verbosity
 # @arg api-server-endpoint
 join::phase::control-plane-prepare::all() {
@@ -1645,12 +1372,8 @@ join::phase::control-plane-prepare::all() {
 # @option --tls-bootstrap-token <string>    Specify the token used to temporarily authenticate with the Kubernetes Control Plane while joining the node.
 # @option --token <string>                  Use this token for both discovery-token and tls-bootstrap-token when those values are not provided.
 # @flag --add-dir-header                    If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                 If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>        Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                        If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                   [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                   The path to the 'real' host root filesystem.
 # @flag --skip-headers                      If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                  If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                    number for the log level verbosity
 # @arg api-server-endpoint
 join::phase::control-plane-prepare::certs() {
@@ -1668,12 +1391,8 @@ join::phase::control-plane-prepare::certs() {
 # @flag -h --help                          help for control-plane
 # @option --patches <path>                 Path to a directory that contains files named "target[suffix][+patchtype].extension".
 # @flag --add-dir-header                   If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>       Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                       If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                  [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                  The path to the 'real' host root filesystem.
 # @flag --skip-headers                     If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                 If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                   number for the log level verbosity
 join::phase::control-plane-prepare::control-plane() {
     :;
@@ -1694,12 +1413,8 @@ join::phase::control-plane-prepare::control-plane() {
 # @option --tls-bootstrap-token <string>    Specify the token used to temporarily authenticate with the Kubernetes Control Plane while joining the node.
 # @option --token <string>                  Use this token for both discovery-token and tls-bootstrap-token when those values are not provided.
 # @flag --add-dir-header                    If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                 If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>        Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                        If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                   [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                   The path to the 'real' host root filesystem.
 # @flag --skip-headers                      If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                  If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                    number for the log level verbosity
 # @arg api-server-endpoint
 join::phase::control-plane-prepare::download-certs() {
@@ -1721,12 +1436,8 @@ join::phase::control-plane-prepare::download-certs() {
 # @option --tls-bootstrap-token <string>    Specify the token used to temporarily authenticate with the Kubernetes Control Plane while joining the node.
 # @option --token <string>                  Use this token for both discovery-token and tls-bootstrap-token when those values are not provided.
 # @flag --add-dir-header                    If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                 If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>        Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                        If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                   [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                   The path to the 'real' host root filesystem.
 # @flag --skip-headers                      If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                  If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                    number for the log level verbosity
 # @arg api-server-endpoint
 join::phase::control-plane-prepare::kubeconfig() {
@@ -1750,12 +1461,8 @@ join::phase::control-plane-prepare::kubeconfig() {
 # @option --tls-bootstrap-token <string>    Specify the token used to temporarily authenticate with the Kubernetes Control Plane while joining the node.
 # @option --token <string>                  Use this token for both discovery-token and tls-bootstrap-token when those values are not provided.
 # @flag --add-dir-header                    If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                 If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>        Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                        If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                   [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                   The path to the 'real' host root filesystem.
 # @flag --skip-headers                      If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                  If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                    number for the log level verbosity
 # @arg api-server-endpoint
 join::phase::kubelet-start() {
@@ -1782,32 +1489,36 @@ join::phase::kubelet-start() {
 # @option --tls-bootstrap-token <string>    Specify the token used to temporarily authenticate with the Kubernetes Control Plane while joining the node.
 # @option --token <string>                  Use this token for both discovery-token and tls-bootstrap-token when those values are not provided.
 # @flag --add-dir-header                    If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                 If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>        Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                        If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                   [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                   The path to the 'real' host root filesystem.
 # @flag --skip-headers                      If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                  If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                    number for the log level verbosity
 # @arg api-server-endpoint
 join::phase::preflight() {
     :;
 }
 # }}}} kubeadm join phase preflight
+
+# {{{{ kubeadm join phase wait-control-plane
+# @cmd EXPERIMENTAL: Wait for the control plane to start
+# @flag -h --help            help for wait-control-plane
+# @flag --add-dir-header     If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>    The path to the 'real' host root filesystem.
+# @flag --skip-headers       If true, avoid header prefixes in the log messages
+# @option -v --v <Level>     number for the log level verbosity
+join::phase::wait-control-plane() {
+    :;
+}
+# }}}} kubeadm join phase wait-control-plane
 # }}} kubeadm join phase
 # }} kubeadm join
 
 # {{ kubeadm kubeconfig
 # @cmd Kubeconfig file utilities
-# @flag -h --help                       help for kubeconfig
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag -h --help            help for kubeconfig
+# @flag --add-dir-header     If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>    The path to the 'real' host root filesystem.
+# @flag --skip-headers       If true, avoid header prefixes in the log messages
+# @option -v --v <Level>     number for the log level verbosity
 kubeconfig() {
     :;
 }
@@ -1821,12 +1532,8 @@ kubeconfig() {
 # @option --token <string>                The token that should be used as the authentication mechanism for this kubeconfig, instead of client certificates
 # @option --validity-period <duration>    The validity period of the client certificate.
 # @flag --add-dir-header                  If true, adds the file directory to the header of the log messages
-# @option --log-file <file>               If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>      Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                      If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                 [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                 The path to the 'real' host root filesystem.
 # @flag --skip-headers                    If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                  number for the log level verbosity
 kubeconfig::user() {
     :;
@@ -1836,58 +1543,46 @@ kubeconfig::user() {
 
 # {{ kubeadm reset
 # @cmd Performs a best effort revert of changes made to this host by 'kubeadm init' or 'kubeadm join'
-# @option --cert-dir <dir>              The path to the directory where the certificates are stored.
-# @flag --cleanup-tmp-dir               Cleanup the "/etc/kubernetes/tmp" directory
-# @option --config <file>               Path to a kubeadm configuration file.
-# @option --cri-socket <path>           Path to the CRI socket to connect.
-# @flag --dry-run                       Don't apply any changes; just output what would be done.
-# @flag -f --force                      Reset the node without prompting for confirmation.
-# @flag -h --help                       help for reset
+# @option --cert-dir <dir>       The path to the directory where the certificates are stored.
+# @flag --cleanup-tmp-dir        Cleanup the "/etc/kubernetes/tmp" directory
+# @option --config <file>        Path to a kubeadm configuration file.
+# @option --cri-socket <path>    Path to the CRI socket to connect.
+# @flag --dry-run                Don't apply any changes; just output what would be done.
+# @flag -f --force               Reset the node without prompting for confirmation.
+# @flag -h --help                help for reset
 # @option --ignore-preflight-errors*,[`_choice_preflight_error`] <string>  A list of checks whose errors will be shown as warnings.
-# @option --kubeconfig <file>           The kubeconfig file to use when talking to the cluster.
+# @option --kubeconfig <file>    The kubeconfig file to use when talking to the cluster.
 # @option --skip-phases*,[`_choice_phase`] <string>  List of phases to be skipped
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag --add-dir-header         If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>        The path to the 'real' host root filesystem.
+# @flag --skip-headers           If true, avoid header prefixes in the log messages
+# @option -v --v <Level>         number for the log level verbosity
 reset() {
     :;
 }
 
 # {{{ kubeadm reset phase
 # @cmd Use this command to invoke single phase of the reset workflow
-# @flag -h --help                       help for phase
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag -h --help            help for phase
+# @flag --add-dir-header     If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>    The path to the 'real' host root filesystem.
+# @flag --skip-headers       If true, avoid header prefixes in the log messages
+# @option -v --v <Level>     number for the log level verbosity
 reset::phase() {
     :;
 }
 
 # {{{{ kubeadm reset phase cleanup-node
 # @cmd Run cleanup node.
-# @option --cert-dir <dir>              The path to the directory where the certificates are stored.
-# @flag --cleanup-tmp-dir               Cleanup the "/etc/kubernetes/tmp" directory
-# @option --cri-socket <path>           Path to the CRI socket to connect.
-# @flag --dry-run                       Don't apply any changes; just output what would be done.
-# @flag -h --help                       help for cleanup-node
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @option --cert-dir <dir>       The path to the directory where the certificates are stored.
+# @flag --cleanup-tmp-dir        Cleanup the "/etc/kubernetes/tmp" directory
+# @option --cri-socket <path>    Path to the CRI socket to connect.
+# @flag --dry-run                Don't apply any changes; just output what would be done.
+# @flag -h --help                help for cleanup-node
+# @flag --add-dir-header         If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>        The path to the 'real' host root filesystem.
+# @flag --skip-headers           If true, avoid header prefixes in the log messages
+# @option -v --v <Level>         number for the log level verbosity
 reset::phase::cleanup-node() {
     :;
 }
@@ -1895,18 +1590,14 @@ reset::phase::cleanup-node() {
 
 # {{{{ kubeadm reset phase preflight
 # @cmd Run reset pre-flight checks
-# @flag --dry-run                       Don't apply any changes; just output what would be done.
-# @flag -f --force                      Reset the node without prompting for confirmation.
-# @flag -h --help                       help for preflight
+# @flag --dry-run            Don't apply any changes; just output what would be done.
+# @flag -f --force           Reset the node without prompting for confirmation.
+# @flag -h --help            help for preflight
 # @option --ignore-preflight-errors*,[`_choice_preflight_error`] <string>  A list of checks whose errors will be shown as warnings.
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag --add-dir-header     If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>    The path to the 'real' host root filesystem.
+# @flag --skip-headers       If true, avoid header prefixes in the log messages
+# @option -v --v <Level>     number for the log level verbosity
 reset::phase::preflight() {
     :;
 }
@@ -1914,17 +1605,13 @@ reset::phase::preflight() {
 
 # {{{{ kubeadm reset phase remove-etcd-member
 # @cmd Remove a local etcd member.
-# @flag --dry-run                       Don't apply any changes; just output what would be done.
-# @flag -h --help                       help for remove-etcd-member
-# @option --kubeconfig <file>           The kubeconfig file to use when talking to the cluster.
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag --dry-run                Don't apply any changes; just output what would be done.
+# @flag -h --help                help for remove-etcd-member
+# @option --kubeconfig <file>    The kubeconfig file to use when talking to the cluster.
+# @flag --add-dir-header         If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>        The path to the 'real' host root filesystem.
+# @flag --skip-headers           If true, avoid header prefixes in the log messages
+# @option -v --v <Level>         number for the log level verbosity
 reset::phase::remove-etcd-member() {
     :;
 }
@@ -1934,17 +1621,13 @@ reset::phase::remove-etcd-member() {
 
 # {{ kubeadm token
 # @cmd Manage bootstrap tokens
-# @flag --dry-run                       Whether to enable dry-run mode or not
-# @flag -h --help                       help for token
-# @option --kubeconfig <file>           The kubeconfig file to use when talking to the cluster.
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag --dry-run                Whether to enable dry-run mode or not
+# @flag -h --help                help for token
+# @option --kubeconfig <file>    The kubeconfig file to use when talking to the cluster.
+# @flag --add-dir-header         If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>        The path to the 'real' host root filesystem.
+# @flag --skip-headers           If true, avoid header prefixes in the log messages
+# @option -v --v <Level>         number for the log level verbosity
 token() {
     :;
 }
@@ -1962,12 +1645,8 @@ token() {
 # @flag --add-dir-header                If true, adds the file directory to the header of the log messages
 # @flag --dry-run                       Whether to enable dry-run mode or not
 # @option --kubeconfig <file>           The kubeconfig file to use when talking to the cluster.
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>               The path to the 'real' host root filesystem.
 # @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                number for the log level verbosity
 # @arg token
 token::create() {
@@ -1977,17 +1656,13 @@ token::create() {
 
 # {{{ kubeadm token delete
 # @cmd Delete bootstrap tokens on the server
-# @flag -h --help                       help for delete
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @flag --dry-run                       Whether to enable dry-run mode or not
-# @option --kubeconfig <file>           The kubeconfig file to use when talking to the cluster.
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag -h --help                help for delete
+# @flag --add-dir-header         If true, adds the file directory to the header of the log messages
+# @flag --dry-run                Whether to enable dry-run mode or not
+# @option --kubeconfig <file>    The kubeconfig file to use when talking to the cluster.
+# @option --rootfs <file>        The path to the 'real' host root filesystem.
+# @flag --skip-headers           If true, avoid header prefixes in the log messages
+# @option -v --v <Level>         number for the log level verbosity
 # @arg token-value*
 token::delete() {
     :;
@@ -1996,17 +1671,13 @@ token::delete() {
 
 # {{{ kubeadm token generate
 # @cmd Generate and print a bootstrap token, but do not create it on the server
-# @flag -h --help                       help for generate
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @flag --dry-run                       Whether to enable dry-run mode or not
-# @option --kubeconfig <file>           The kubeconfig file to use when talking to the cluster.
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag -h --help                help for generate
+# @flag --add-dir-header         If true, adds the file directory to the header of the log messages
+# @flag --dry-run                Whether to enable dry-run mode or not
+# @option --kubeconfig <file>    The kubeconfig file to use when talking to the cluster.
+# @option --rootfs <file>        The path to the 'real' host root filesystem.
+# @flag --skip-headers           If true, avoid header prefixes in the log messages
+# @option -v --v <Level>         number for the log level verbosity
 token::generate() {
     :;
 }
@@ -2014,20 +1685,16 @@ token::generate() {
 
 # {{{ kubeadm token list
 # @cmd List bootstrap tokens on the server
-# @flag --allow-missing-template-keys          If true, ignore any errors in templates when a field or map key is missing in the template.
-# @option -o --experimental-output <string>    Output format.
-# @flag -h --help                              help for list
-# @flag --show-managed-fields                  If true, keep the managedFields when printing objects in JSON or YAML format.
-# @flag --add-dir-header                       If true, adds the file directory to the header of the log messages
-# @flag --dry-run                              Whether to enable dry-run mode or not
-# @option --kubeconfig <file>                  The kubeconfig file to use when talking to the cluster.
-# @option --log-file <file>                    If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>           Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                           If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                      [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                         If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                     If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                       number for the log level verbosity
+# @flag --allow-missing-template-keys    If true, ignore any errors in templates when a field or map key is missing in the template.
+# @flag -h --help                        help for list
+# @option -o --output <string>           Output format.
+# @flag --show-managed-fields            If true, keep the managedFields when printing objects in JSON or YAML format.
+# @flag --add-dir-header                 If true, adds the file directory to the header of the log messages
+# @flag --dry-run                        Whether to enable dry-run mode or not
+# @option --kubeconfig <file>            The kubeconfig file to use when talking to the cluster.
+# @option --rootfs <file>                The path to the 'real' host root filesystem.
+# @flag --skip-headers                   If true, avoid header prefixes in the log messages
+# @option -v --v <Level>                 number for the log level verbosity
 token::list() {
     :;
 }
@@ -2036,15 +1703,11 @@ token::list() {
 
 # {{ kubeadm upgrade
 # @cmd Upgrade your cluster smoothly to a newer version with this command
-# @flag -h --help                       help for upgrade
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag -h --help            help for upgrade
+# @flag --add-dir-header     If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>    The path to the 'real' host root filesystem.
+# @flag --skip-headers       If true, avoid header prefixes in the log messages
+# @option -v --v <Level>     number for the log level verbosity
 upgrade() {
     :;
 }
@@ -2057,7 +1720,6 @@ upgrade() {
 # @option --config <file>                     Path to a kubeadm configuration file.
 # @flag --dry-run                             Do not change any state, just output what actions would be performed.
 # @flag --etcd-upgrade                        Perform the upgrade of etcd.
-# @option --feature-gates <string>            A set of key=value pairs that describe feature gates for various features.
 # @flag -f --force                            Force upgrading although some requirements might not be met.
 # @flag -h --help                             help for apply
 # @option --ignore-preflight-errors*,[`_choice_preflight_error`] <string>  A list of checks whose errors will be shown as warnings.
@@ -2066,12 +1728,8 @@ upgrade() {
 # @flag --print-config                        Specifies whether the configuration file that will be used in the upgrade should be printed or not.
 # @flag -y --yes                              Perform the upgrade and do not prompt for confirmation (non-interactive mode).
 # @flag --add-dir-header                      If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                   If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>          Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                          If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                     [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                     The path to the 'real' host root filesystem.
 # @flag --skip-headers                        If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                    If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                      number for the log level verbosity
 # @arg version
 upgrade::apply() {
@@ -2081,21 +1739,14 @@ upgrade::apply() {
 
 # {{{ kubeadm upgrade diff
 # @cmd Show what differences would be applied to existing static pod manifests.
-# @option --api-server-manifest <path>            path to API server manifest (default "/etc/kubernetes/manifests/kube-apiserver.yaml")
-# @option --config <file>                         Path to a kubeadm configuration file.
-# @option -c --context-lines <int>                How many lines of context in the diff (default 3)
-# @option --controller-manager-manifest <path>    path to controller manifest (default "/etc/kubernetes/manifests/kube-controller-manager.yaml")
-# @flag -h --help                                 help for diff
-# @option --kubeconfig <file>                     The kubeconfig file to use when talking to the cluster.
-# @option --scheduler-manifest <path>             path to scheduler manifest (default "/etc/kubernetes/manifests/kube-scheduler.yaml")
-# @flag --add-dir-header                          If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                       If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>              Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                              If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                         [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                            If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                        If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                          number for the log level verbosity
+# @option --config <file>             Path to a kubeadm configuration file.
+# @option -c --context-lines <int>    How many lines of context in the diff (default 3)
+# @flag -h --help                     help for diff
+# @option --kubeconfig <file>         The kubeconfig file to use when talking to the cluster.
+# @flag --add-dir-header              If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>             The path to the 'real' host root filesystem.
+# @flag --skip-headers                If true, avoid header prefixes in the log messages
+# @option -v --v <Level>              number for the log level verbosity
 # @arg version
 upgrade::diff() {
     :;
@@ -2104,57 +1755,46 @@ upgrade::diff() {
 
 # {{{ kubeadm upgrade node
 # @cmd Upgrade commands for a node in the cluster
-# @flag --certificate-renewal           Perform the renewal of certificates used by component changed during upgrades.
-# @flag --dry-run                       Do not change any state, just output the actions that would be performed.
-# @flag --etcd-upgrade                  Perform the upgrade of etcd.
-# @flag -h --help                       help for node
+# @flag --certificate-renewal    Perform the renewal of certificates used by component changed during upgrades.
+# @option --config <file>        Path to a kubeadm configuration file.
+# @flag --dry-run                Do not change any state, just output the actions that would be performed.
+# @flag --etcd-upgrade           Perform the upgrade of etcd.
+# @flag -h --help                help for node
 # @option --ignore-preflight-errors*,[`_choice_preflight_error`] <string>  A list of checks whose errors will be shown as warnings.
-# @option --kubeconfig <file>           The kubeconfig file to use when talking to the cluster.
-# @option --patches <path>              Path to a directory that contains files named "target[suffix][+patchtype].extension".
+# @option --kubeconfig <file>    The kubeconfig file to use when talking to the cluster.
+# @option --patches <path>       Path to a directory that contains files named "target[suffix][+patchtype].extension".
 # @option --skip-phases*,[`_choice_phase`] <string>  List of phases to be skipped
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag --add-dir-header         If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>        The path to the 'real' host root filesystem.
+# @flag --skip-headers           If true, avoid header prefixes in the log messages
+# @option -v --v <Level>         number for the log level verbosity
 upgrade::node() {
     :;
 }
 
 # {{{{ kubeadm upgrade node phase
 # @cmd Use this command to invoke single phase of the node workflow
-# @flag -h --help                       help for phase
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag -h --help            help for phase
+# @flag --add-dir-header     If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>    The path to the 'real' host root filesystem.
+# @flag --skip-headers       If true, avoid header prefixes in the log messages
+# @option -v --v <Level>     number for the log level verbosity
 upgrade::node::phase() {
     :;
 }
 
 # {{{{{ kubeadm upgrade node phase control-plane
 # @cmd Upgrade the control plane instance deployed on this node, if any
-# @flag --certificate-renewal           Perform the renewal of certificates used by component changed during upgrades.
-# @flag --dry-run                       Do not change any state, just output the actions that would be performed.
-# @flag --etcd-upgrade                  Perform the upgrade of etcd.
-# @flag -h --help                       help for control-plane
-# @option --kubeconfig <file>           The kubeconfig file to use when talking to the cluster.
-# @option --patches <path>              Path to a directory that contains files named "target[suffix][+patchtype].extension".
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag --certificate-renewal    Perform the renewal of certificates used by component changed during upgrades.
+# @flag --dry-run                Do not change any state, just output the actions that would be performed.
+# @flag --etcd-upgrade           Perform the upgrade of etcd.
+# @flag -h --help                help for control-plane
+# @option --kubeconfig <file>    The kubeconfig file to use when talking to the cluster.
+# @option --patches <path>       Path to a directory that contains files named "target[suffix][+patchtype].extension".
+# @flag --add-dir-header         If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>        The path to the 'real' host root filesystem.
+# @flag --skip-headers           If true, avoid header prefixes in the log messages
+# @option -v --v <Level>         number for the log level verbosity
 upgrade::node::phase::control-plane() {
     :;
 }
@@ -2162,18 +1802,14 @@ upgrade::node::phase::control-plane() {
 
 # {{{{{ kubeadm upgrade node phase kubelet-config
 # @cmd Upgrade the kubelet configuration for this node
-# @flag --dry-run                       Do not change any state, just output the actions that would be performed.
-# @flag -h --help                       help for kubelet-config
-# @option --kubeconfig <file>           The kubeconfig file to use when talking to the cluster.
-# @option --patches <path>              Path to a directory that contains files named "target[suffix][+patchtype].extension".
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag --dry-run                Do not change any state, just output the actions that would be performed.
+# @flag -h --help                help for kubelet-config
+# @option --kubeconfig <file>    The kubeconfig file to use when talking to the cluster.
+# @option --patches <path>       Path to a directory that contains files named "target[suffix][+patchtype].extension".
+# @flag --add-dir-header         If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>        The path to the 'real' host root filesystem.
+# @flag --skip-headers           If true, avoid header prefixes in the log messages
+# @option -v --v <Level>         number for the log level verbosity
 upgrade::node::phase::kubelet-config() {
     :;
 }
@@ -2181,16 +1817,12 @@ upgrade::node::phase::kubelet-config() {
 
 # {{{{{ kubeadm upgrade node phase preflight
 # @cmd Run upgrade node pre-flight checks
-# @flag -h --help                       help for preflight
+# @flag -h --help            help for preflight
 # @option --ignore-preflight-errors*,[`_choice_preflight_error`] <string>  A list of checks whose errors will be shown as warnings.
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag --add-dir-header     If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>    The path to the 'real' host root filesystem.
+# @flag --skip-headers       If true, avoid header prefixes in the log messages
+# @option -v --v <Level>     number for the log level verbosity
 upgrade::node::phase::preflight() {
     :;
 }
@@ -2201,22 +1833,18 @@ upgrade::node::phase::preflight() {
 # {{{ kubeadm upgrade plan
 # @cmd Check which versions are available to upgrade to and validate whether your current cluster is upgradeable.
 # @flag --allow-experimental-upgrades         Show unstable versions of Kubernetes as an upgrade alternative and allow upgrading to an alpha/beta/release candidate versions of Kubernetes.
+# @flag --allow-missing-template-keys         If true, ignore any errors in templates when a field or map key is missing in the template.
 # @flag --allow-release-candidate-upgrades    Show release candidate versions of Kubernetes as an upgrade alternative and allow upgrading to a release candidate versions of Kubernetes.
 # @option --config <file>                     Path to a kubeadm configuration file.
-# @option --feature-gates <string>            A set of key=value pairs that describe feature gates for various features.
 # @flag -h --help                             help for plan
 # @option --ignore-preflight-errors*,[`_choice_preflight_error`] <string>  A list of checks whose errors will be shown as warnings.
 # @option --kubeconfig <file>                 The kubeconfig file to use when talking to the cluster.
-# @option -o --output <string>                EXPERIMENTAL: Output format.
+# @option -o --output <string>                Output format.
 # @flag --print-config                        Specifies whether the configuration file that will be used in the upgrade should be printed or not.
 # @flag --show-managed-fields                 If true, keep the managedFields when printing objects in JSON or YAML format.
 # @flag --add-dir-header                      If true, adds the file directory to the header of the log messages
-# @option --log-file <file>                   If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>          Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                          If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>                     [EXPERIMENTAL] The path to the 'real' host root filesystem.
+# @option --rootfs <file>                     The path to the 'real' host root filesystem.
 # @flag --skip-headers                        If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers                    If true, avoid headers when opening log files (no effect when -logtostderr=true)
 # @option -v --v <Level>                      number for the log level verbosity
 # @arg version
 upgrade::plan() {
@@ -2227,16 +1855,12 @@ upgrade::plan() {
 
 # {{ kubeadm version
 # @cmd Print the version of kubeadm
-# @flag -h --help                       help for version
-# @option -o --output <string>          Output format; available options are 'yaml', 'json' and 'short'
-# @flag --add-dir-header                If true, adds the file directory to the header of the log messages
-# @option --log-file <file>             If non-empty, use this log file (no effect when -logtostderr=true)
-# @option --log-file-max-size <uint>    Defines the maximum size a log file can grow to (no effect when -logtostderr=true).
-# @flag --one-output                    If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
-# @option --rootfs <file>               [EXPERIMENTAL] The path to the 'real' host root filesystem.
-# @flag --skip-headers                  If true, avoid header prefixes in the log messages
-# @flag --skip-log-headers              If true, avoid headers when opening log files (no effect when -logtostderr=true)
-# @option -v --v <Level>                number for the log level verbosity
+# @flag -h --help                 help for version
+# @option -o --output <string>    Output format; available options are 'yaml', 'json' and 'short'
+# @flag --add-dir-header          If true, adds the file directory to the header of the log messages
+# @option --rootfs <file>         The path to the 'real' host root filesystem.
+# @flag --skip-headers            If true, avoid header prefixes in the log messages
+# @option -v --v <Level>          number for the log level verbosity
 version() {
     :;
 }

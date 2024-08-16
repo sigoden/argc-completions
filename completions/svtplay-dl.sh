@@ -8,7 +8,6 @@
 # @flag --subfolder                            Create a subfolder titled as the show, non-series gets in folder movies
 # @option --config <configfile>                Specify configuration file
 # @flag -f --force                             overwrite if file exists already
-# @flag -r --resume                            resume a download (RTMP obsolete)
 # @flag -l --live                              enable for live streams (RTMP based ones)
 # @option -c --capture_time <capture_time>     define capture time in minutes of a live stream
 # @flag -s --silent                            be less verbose
@@ -37,7 +36,7 @@
 # @option --stream-priority <dash,hls,http>    If two streams have the same quality, choose the one you prefer
 # @option --format-preferred <h264,h264-51>    Choose the format you prefer, --list-quality to show which one to choose from
 # @option --audio-language <AUDIO_LANGUAGE>    Choose the language of the audio (it can override the default one), --list-quality to show which one to choose from
-# @option --audio-role <AUDIO_ROLE>            Choose the role of the audio (it can override the default one), --list-quality to show which one to choose from
+# @option --video-role <VIDEO_ROLE>            Choose the role of the video (it can override the default one), --list-quality to show which one to choose from
 # @option --resolution                         Choose what video resolution to download e.g. 480,720,1080.
 # @flag -S --subtitle                          download subtitle from the site if available.
 # @flag -M --merge-subtitle                    merge subtitle with video/audio file with corresponding ISO639-3 language code.
@@ -49,6 +48,7 @@
 # @flag -A --all-episodes                      try to download all episodes
 # @option --all-last <NN>                      get last NN episodes instead of all episodes
 # @flag --include-clips                        include clips from websites when using -A
+# @flag -R --reverse                           Reverse download order
 # @flag --cmore-operatorlist                   show operatorlist for cmore
 # @option --cmore-operator <operator>
 # @flag --no-remux                             Do not automatically remux to mp4

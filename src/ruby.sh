@@ -14,6 +14,8 @@ _patch_help() {
 
 _patch_table() { 
     _patch_table_add_metadata combine-shorts | \
+    _patch_table_dedup_options \
+        '--parser' \
     _patch_table_edit_options \
         '--disable(<value>);*[`_choice_feature`]' \
         '--dump(<value>);*[`_choice_dump`]' \
@@ -32,40 +34,12 @@ _patch_table() {
     
 }
 
-_choice_encoding_combined() {
-    _argc_util_mode_kv :
-    if [[ -z "$argc__kv_prefix" ]]; then
-        _choice_encoding
-        return
-    fi
-    _choice_encoding
-}
-
-_choice_warning_level_combined() {
-    _argc_util_mode_kv :
-    if [[ -z "$argc__kv_prefix" ]]; then
-        _choice_warning_level
-        return
-    fi
-    _choice_warning_category
-}
-
 _choice_dump() {
     cat <<-'EOF'
 insns	instruction sequences
 yydebug	yydebug of yacc parser generator
 parsetree	AST
 parsetree_with_comment	AST with comments
-EOF
-}
-
-_choice_feature() {
-    cat <<-'EOF'
-gems	rubygems (default: enabled)
-did_you_mean	did_you_mean (default: enabled)
-rubyopt	RUBYOPT environment variable (default: enabled)
-frozen-string-literal	freeze all string literals (default: disabled)
-jit	JIT compiler (default: disabled)
 EOF
 }
 
@@ -76,6 +50,25 @@ UTF-8	Specifies the UTF-8 encoding (default).
 ISO-8859-1	Specifies the ISO-8859-1 (Latin-1) encoding.
 EUC-JP	Specifies the EUC-JP encoding for Japanese text.
 Shift_JIS	Specifies the Shift_JIS encoding for Japanese text.
+EOF
+}
+
+_choice_encoding_combined() {
+    _argc_util_mode_kv :
+    if [[ -z "$argc__kv_prefix" ]]; then
+        _choice_encoding
+        return
+    fi
+    _choice_encoding
+}
+
+_choice_feature() {
+    cat <<-'EOF'
+gems	rubygems (default: enabled)
+did_you_mean	did_you_mean (default: enabled)
+rubyopt	RUBYOPT environment variable (default: enabled)
+frozen-string-literal	freeze all string literals (default: disabled)
+jit	JIT compiler (default: disabled)
 EOF
 }
 
@@ -92,4 +85,13 @@ _choice_warning_level() {
 1	medium
 2	verbose
 EOF
+}
+
+_choice_warning_level_combined() {
+    _argc_util_mode_kv :
+    if [[ -z "$argc__kv_prefix" ]]; then
+        _choice_warning_level
+        return
+    fi
+    _choice_warning_category
 }

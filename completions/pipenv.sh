@@ -137,6 +137,7 @@ open() {
 # @flag --hash                   Add package hashes.
 # @flag --exclude-markers        Exclude markers.
 # @option --categories <TEXT>    Only add requirement of the specified categories.
+# @flag --from-pipfile           Only include dependencies from Pipfile.
 # @flag -h --help                Show this message and exit.
 requirements() {
     :;

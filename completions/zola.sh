@@ -34,7 +34,7 @@ build() {
 # @option -p --port                       Which port to use [default: 1111]
 # @option -o --output-dir <OUTPUT_DIR>    Outputs assets of the generated site in the given path (by default 'public' dir in project root).
 # @flag --force                           Force use of the directory for serving the site even if output directory is non-empty
-# @option -u --base-url <BASE_URL>        Changes the base_url [default: 127.0.0.1]
+# @option -u --base-url <BASE_URL>        Changes the base_url
 # @flag --drafts                          Include drafts when loading the site
 # @flag -O --open                         Open site in the default browser
 # @flag -f --fast                         Only rebuild the minimum on change - useful when working on a specific page/section

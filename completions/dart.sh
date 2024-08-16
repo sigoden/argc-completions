@@ -33,8 +33,10 @@ compile() {
 # @option -o --output <file>                      Write the output to <file name>.
 # @option --verbosity[`_choice_log_verbosity`]    Sets the verbosity level of the compilation.
 # @option -D --define <key=value>                 Define an environment declaration.
+# @flag --enable-asserts                          Enable assert statements.
 # @option -p --packages <path>                    Get package locations from the specified file instead of .dart_tool/package_config.json.
 # @option -S --save-debugging-info <path>         Remove debugging information from the output and save it separately to the specified file.
+# @option --depfile <path>                        Path to output Ninja depfile
 # @option --target-os[android|fuchsia|ios|linux|macos|windows]  Compile to a specific target operating system.
 # @arg dart-entry-point <file:.dart>
 compile::aot-snapshot() {
@@ -48,8 +50,10 @@ compile::aot-snapshot() {
 # @option -o --output <file>                      Write the output to <file name>.
 # @option --verbosity[`_choice_log_verbosity`]    Sets the verbosity level of the compilation.
 # @option -D --define <key=value>                 Define an environment declaration.
+# @flag --enable-asserts                          Enable assert statements.
 # @option -p --packages <path>                    Get package locations from the specified file instead of .dart_tool/package_config.json.
 # @option -S --save-debugging-info <path>         Remove debugging information from the output and save it separately to the specified file.
+# @option --depfile <path>                        Path to output Ninja depfile
 # @option --target-os[android|fuchsia|ios|linux|macos|windows]  Compile to a specific target operating system.
 # @arg dart-entry-point <file:.dart>
 compile::exe() {
@@ -92,12 +96,29 @@ compile::js() {
 # @option -o --output <file>                      Write the output to <file name>.
 # @option --verbosity[`_choice_log_verbosity`]    Sets the verbosity level of the compilation.
 # @option -p --packages <path>                    Get package locations from the specified file instead of .dart_tool/package_config.json.
+# @flag --link-platform                           Includes the platform kernel in the resulting kernel file.
+# @flag --no-link-platform                        Includes the platform kernel in the resulting kernel file.
+# @flag --embed-sources                           Embed source files in the generated kernel component.
+# @flag --no-embed-sources                        Embed source files in the generated kernel component.
 # @option -D --define <key=value>                 Define an environment declaration.
-# @arg dart-entry-point <file:.dart>
+# @option --depfile <path>                        Path to output Ninja depfile
 compile::kernel() {
     :;
 }
 # }}} dart compile kernel
+
+# {{{ dart compile wasm
+# @cmd Compile Dart to a WebAssembly/WasmGC module.
+# @flag -h --help                    Print this usage information.
+# @option -o --output <file>         Write the output to <file name>.
+# @flag -v --verbose                 Print debug output during compilation
+# @flag --enable-asserts             Enable assert statements.
+# @option -D --define <key=value>    Define an environment declaration.
+# @arg dart-entry-point <file:.dart>
+compile::wasm() {
+    :;
+}
+# }}} dart compile wasm
 # }} dart compile
 
 # {{ dart create
@@ -119,6 +140,7 @@ create() {
 # @flag -v --verbose                        Output more informational messages.
 # @option --host <host>                     Hostname to serve DevTools on (defaults to localhost).
 # @option --port <port>                     Port to serve DevTools on; specify 0 to automatically use any available port.
+# @option --dtd-uri <uri>                   A URI pointing to a Dart Tooling Daemon that DevTools should interface with.
 # @flag --launch-browser                    Launches DevTools in a browser immediately at start.
 # @flag --no-launch-browser                 Launches DevTools in a browser immediately at start.
 # @flag --machine                           Sets output format to JSON for consumption in tools.
@@ -259,6 +281,7 @@ pub::deps() {
 # @flag --no-offline              Use cached packages instead of accessing the network.
 # @flag -n --dry-run              Report what dependencies would change but don't change any.
 # @option -C --directory <dir>    Run this in the directory <dir>.
+# @flag --tighten                 Updates lower bounds in pubspec.yaml to match the resolved version.
 # @arg dependencies*[`_choice_package`]
 pub::downgrade() {
     :;
@@ -434,6 +457,19 @@ pub::token::remove() {
 # }}}} dart pub token remove
 # }}} dart pub token
 
+# {{{ dart pub unpack
+# @cmd Downloads a package and unpacks it in place.
+# @flag -h --help      Print this usage information.
+# @flag -f             Overwrite the target directory if it already exists.
+# @flag --force        Overwrite the target directory if it already exists.
+# @flag --no-force     Overwrite the target directory if it already exists.
+# @flag -o --output    Download and extract the package in the specified directory.
+# @arg package-name-descriptor <package-name[:descriptor]>
+pub::unpack() {
+    :;
+}
+# }}} dart pub unpack
+
 # {{{ dart pub upgrade
 # @cmd Upgrade the current package's dependencies to latest versions.
 # @flag -h --help                 Print this usage information.
@@ -455,25 +491,10 @@ pub::upgrade() {
 # {{ dart run
 # @cmd Run a Dart program.
 # @flag -h --help                                 Print this usage information.
-# @flag -r --resident                             Enable faster startup times with the resident frontend compiler.
 # @option --observe <<port>[/<bind-address>]>     The observe flag is a convenience flag used to run a program with a set of common options useful for debugging.
-# @option --enable-vm-service <<port>[/<bind-address>]>  Enables the VM service and listens on the specified port for connections (default port number is 8181, default bind address is localhost).
-# @flag --serve-devtools                          Serves an instance of the Dart DevTools debugger and profiler via the VM service at <vm-service-uri>/devtools.
-# @flag --no-serve-devtools                       Serves an instance of the Dart DevTools debugger and profiler via the VM service at <vm-service-uri>/devtools.
-# @flag --pause-isolates-on-exit                  Pause isolates on exit when running with --enable-vm-service.
-# @flag --no-pause-isolates-on-exit               Pause isolates on exit when running with --enable-vm-service.
-# @flag --pause-isolates-on-unhandled-exceptions  Pause isolates when an unhandled exception is encountered when running with --enable-vm-service.
-# @flag --no-pause-isolates-on-unhandled-exceptions  Pause isolates when an unhandled exception is encountered when running with --enable-vm-service.
-# @flag --warn-on-pause-with-no-debugger          Print a warning when an isolate pauses with no attached debugger when running with --enable-vm-service.
-# @flag --no-warn-on-pause-with-no-debugger       Print a warning when an isolate pauses with no attached debugger when running with --enable-vm-service.
-# @option --timeline-streams*[all|API|Compiler|CompilerVerbose|Dart|Debugger|Embedder|GC|Isolate|VM] <str1 str2>  Enables recording for specific timeline streams.
-# @flag --pause-isolates-on-start                 Pause isolates on start when running with --enable-vm-service.
-# @flag --no-pause-isolates-on-start              Pause isolates on start when running with --enable-vm-service.
 # @flag --enable-asserts                          Enable assert statements.
 # @flag --no-enable-asserts                       Enable assert statements.
-# @option --timeline-recorder[none|ring|endless|startup|systrace|file|callback|perfettofile] <recorder>  Selects the timeline recorder to use.
 # @option --verbosity[`_choice_log_verbosity`]    Sets the verbosity level of the compilation.
-# @option -D --define <key=value>                 Define an environment declaration.
 # @arg dart-file-package-target! <dart-file|package-target>
 # @arg args*
 run() {

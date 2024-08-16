@@ -4,6 +4,7 @@
 # @flag -c --commit              open current commit
 # @flag -i --issue               open issues page
 # @option -s --suffix <value>    append this suffix
+# @flag -f --file*               append this file
 # @flag -p --print               just print the url
 # @arg remote[`_choice_remote`]
 # @arg branch[`_choice_local_branch`]

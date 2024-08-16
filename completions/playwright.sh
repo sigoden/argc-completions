@@ -34,7 +34,7 @@ open() {
 # {{ playwright codegen
 # @cmd open page and generate code for user actions
 # @option -o --output <file name>                saves the generated script to a file
-# @option --target <language>                    language to generate, one of javascript, playwright-test, python, python-async, python-pytest, csharp, csharp-mstest, csharp-nunit, java (default: "playwright-test")
+# @option --target <language>                    language to generate, one of javascript, playwright-test, python, python-async, python-pytest, csharp, csharp-mstest, csharp-nunit, java, java-junit (default: "playwright-test")
 # @option --save-trace <filename>                record a trace for the session and save it to a file
 # @option --test-id-attribute <attributeName>    use the specified attribute to generate data test ID selectors
 # @option -b --browser <browserType>             browser to use, one of cr, chromium, ff, firefox, wk, webkit (default: "chromium")
@@ -253,6 +253,7 @@ show-trace() {
 # @option --browser <browser>           Browser to use for tests, one of "all", "chromium", "firefox" or "webkit" (default: "chromium")
 # @option -c --config <file>            Configuration file, or a test directory with optional "playwright.config.{m,c}?{js,ts}"
 # @flag --debug                         Run tests with Playwright Inspector.
+# @flag --fail-on-flaky-tests           Fail if any test is flagged as flaky (default: false)
 # @flag --forbid-only                   Fail if test.only is called (default: false)
 # @flag --fully-parallel                Run all tests in parallel (default: false)
 # @option -g --grep <grep>              Only run tests matching this regular expression (default: ".*")
@@ -262,19 +263,21 @@ show-trace() {
 # @flag --headed                        Run tests in headed browsers (default: headless)
 # @flag --ignore-snapshots              Ignore screenshot and snapshot expectations
 # @option -j --workers <workers>        Number of concurrent workers or percentage of logical CPU cores, use 1 to run in a single worker (default: 50%)
+# @flag --last-failed                   Only re-run the failures
 # @flag --list                          Collect all the tests and report them, but do not run
 # @option --max-failures <N>            Stop after the first N failures
 # @flag --no-deps                       Do not run project dependencies
+# @option --only-changed <ref>          Only run test files that have been changed between 'HEAD' and 'ref'.
 # @option --output <dir>                Folder for output artifacts (default: "test-results")
 # @flag --pass-with-no-tests            Makes test run succeed even if no tests were found
-# @option --project* <project-name>     Only run tests from the specified list of projects (default: run all projects)
+# @option --project* <project-name>     Only run tests from the specified list of projects, supports '*' wildcard (default: run all projects)
 # @flag --quiet                         Suppress stdio
 # @option --repeat-each <N>             Run each test N times (default: 1)
 # @option --reporter <reporter>         Reporter to use, comma-separated, can be "list", "line", "dot", "json", "junit", "null", "github", "html", "blob", "markdown" (default: "list")
 # @option --retries <retries>           Maximum retry count for flaky tests, zero for no retries (default: no retries)
 # @option --shard <shard>               Shard tests and execute only the selected shard, specify in the form "current/all", 1-based, for example "3/5"
 # @option --timeout <timeout>           Specify test timeout threshold in milliseconds, zero for unlimited (default: 30000)
-# @option --trace <mode>                Force tracing mode, can be "on", "off", "on-first-retry", "on-all-retries", "retain-on-failure"
+# @option --trace <mode>                Force tracing mode, can be "on", "off", "on-first-retry", "on-all-retries", "retain-on-failure", "retain-on-first-failure"
 # @flag -u --update-snapshots           Update snapshots with actual results (default: only create missing snapshots)
 # @flag --ui                            Run tests in interactive UI mode
 # @option --ui-host <host>              Host to serve UI on; specifying this option opens UI in a browser tab
