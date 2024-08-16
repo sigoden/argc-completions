@@ -159,7 +159,7 @@ depends() {
 # {{ scoop download
 # @cmd Download apps in the cache folder and verify hashes
 # @flag -f --force                        Force download (overwrite cache)
-# @flag -h --no-hash-check                Skip hash verification (use with caution!)
+# @flag -s --skip-hash-check              Skip hash verification (use with caution!)
 # @flag -u --no-update-scoop              Don't update Scoop before downloading if it's outdated
 # @option -a --arch[32bit|64bit|arm64]    Use the specified architecture, if the app supports it
 # @arg app![`_choice_package_or_path`]
@@ -203,6 +203,7 @@ import() {
 
 # {{ scoop info
 # @cmd Display information about an app
+# @flag -v --verbose    Show full paths and URLs
 # @arg app![`_choice_package`]
 info() {
     :;
@@ -214,8 +215,8 @@ info() {
 # @flag -g --global                       Install the app globally
 # @flag -i --independent                  Don't install dependencies automatically
 # @flag -k --no-cache                     Don't use the download cache
+# @flag -s --skip-hash-check              Skip hash validation (use with caution!)
 # @flag -u --no-update-scoop              Don't update Scoop before installing if it's outdated
-# @flag -s --skip                         Skip hash validation (use with caution!)
 # @option -a --arch[32bit|64bit|arm64]    Use the specified architecture, if the app supports it
 # @arg app![`_choice_package_or_path`]
 install() {
@@ -295,13 +296,13 @@ uninstall() {
 
 # {{ scoop update
 # @cmd Update apps, or Scoop itself
-# @flag -f --force          Force update even when there isn't a newer version
-# @flag -g --global         Update a globally installed app
-# @flag -i --independent    Don't install dependencies automatically
-# @flag -k --no-cache       Don't use the download cache
-# @flag -s --skip           Skip hash validation (use with caution!)
-# @flag -q --quiet          Hide extraneous messages
-# @flag -a --all            Update all apps (alternative to '*')
+# @flag -f --force              Force update even when there isn't a newer version
+# @flag -g --global             Update a globally installed app
+# @flag -i --independent        Don't install dependencies automatically
+# @flag -k --no-cache           Don't use the download cache
+# @flag -s --skip-hash-check    Skip hash validation (use with caution!)
+# @flag -q --quiet              Hide extraneous messages
+# @flag -a --all                Update all apps (alternative to '*')
 # @arg app![`_choice_installed_package`]
 update() {
     :;
