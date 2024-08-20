@@ -12,28 +12,34 @@ export ARGC_COMPLETIONS_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/n
 # @arg cmd![?`_choice_command`]
 # @arg subcmd
 generate() {
-    err=$(_helper_can_generate $argc_cmd)
+    err=$(_helper_can_generate "$argc_cmd")
     if [[ -n "$err" ]]; then
         echo "$err"
         exit 1
     fi
     generate_sh_args=" -o ${argc_output:-"completions"}"
-    if [[ "$argc_verbose" ]]; then
+    if [[ "$argc_cmd" == */* ]]; then
+        category="${argc_cmd%%/*}"
+        cmd="${argc_cmd##*/}"
+        generate_sh_args="$generate_sh_args -c $category"
+    else
+        cmd="$argc_cmd"
+    fi
+    if [[ -n "$argc_verbose" ]]; then
         generate_sh_args="$generate_sh_args -v"
     fi
-    if [[ -n $argc_subcmd ]]; then
+    if [[ -n "$argc_subcmd" ]]; then
         echo Generate $argc_cmd $argc_subcmd
-        ./scripts/generate.sh $generate_sh_args $argc_cmd $argc_subcmd
+        ./scripts/generate.sh $generate_sh_args $cmd $argc_subcmd
     else
         echo Generate $argc_cmd
-        ./scripts/generate.sh $generate_sh_args $argc_cmd
-        if [[ "$argc_with_plugins" -eq 1 ]] && [[ -d completions/$argc_cmd ]]; then
-            if [[ -d completions/$argc_cmd ]]; then
-                local child
-                for child in completions/$argc_cmd/*.sh; do
+        ./scripts/generate.sh $generate_sh_args $cmd
+        if [[ "$argc_with_plugins" -eq 1 ]] && [[ -d completions/$cmd ]]; then
+            if [[ -d completions/$cmd ]]; then
+                for child in completions/$cmd/*.sh; do
                     child="$(basename "$child" .sh)"
-                    echo Generate $argc_cmd $child
-                    ./scripts/generate.sh $generate_sh_args $argc_cmd $child
+                    echo Generate $cmd $child
+                    ./scripts/generate.sh $generate_sh_args $cmd $child
                 done
             fi
         fi
@@ -51,10 +57,10 @@ generate:multi() {
 
 # @cmd Generate completion scripts for commands whose files have changed
 generate:changed() {
-    mapfile -t symlink_cmds <<<"$(find src -type l | sed -n 's|src/\([^/]\+\).sh|\1|p')"
+    mapfile -t symlink_cmds < <(find src -type l | sed -n 's|src/\(.*\)\.sh$|\1|p')
     declare -A symlink_map
     for symlink_cmd in ${symlink_cmds[@]}; do
-        cmd=$(basename $(realpath src/$symlink_cmd.sh) .sh)
+        cmd="$(realpath src/$symlink_cmd.sh | sed 's|'$PWD'/src/\(.*\)\.sh$|\1|')"
         symlink_map[$cmd]="${symlink_map[$cmd]} $symlink_cmd"
     done
     mapfile -t cmds <<<"$(_helper_list_changed)"
@@ -73,38 +79,27 @@ generate:changed() {
     done
 }
 
-# @cmd Generate completion scripts for macOS-only commands
-generate:mac() {
-    mapfile -t cmds < <(cat MANIFEST.md | grep '(macOS)' | sed -n 's/^- \[\(\S\+\)\].*/\1/p')
-    for cmd in ${cmds[@]}; do
-        if [[ -z "$(_helper_can_generate $cmd)" ]]; then
-            argc generate $cmd -P
-        fi
-    done
-}
 
 # @cmd Generate completion scripts for all commands
-# @option -s --start-after-cmd[`_choice_completion`] Start generate after the command
+# @option -s --start[`_choice_completion`] Start generate from the command
 generate:all() {
     local need_gen=0
-    if [[ -z "$argc_start_after_cmd" ]]; then
+    if [[ -z "$argc_start" ]]; then
         need_gen=1
     fi
-    for f in completions/*; do
-        if [ -f $f ]; then
-            cmd="$(basename $f .sh)"
-
-            if [[ "$need_gen" -eq 0 ]]; then
-                if [[ "$argc_start_after_cmd" == "$cmd" ]]; then
-                    need_gen=1
-                fi
+    mapfile -t cmds < <(_choice_completion)
+    for cmd in "${cmds[@]}"; do
+        if [[ "$need_gen" -eq 0 ]]; then
+            if [[ "$argc_start" == "$cmd" ]]; then
+                need_gen=1
+            else
                 continue
             fi
-            if [[ " $SKIPS " != *" $cmd "* ]] && [[ -z "$(_helper_can_generate $cmd)" ]]; then
-                argc generate $cmd -P
-            else
-                echo Skip $cmd
-            fi
+        fi
+        if [[ -z "$(_helper_can_generate $cmd)" ]]; then
+            argc generate $cmd -P
+        else
+            echo Skip $cmd
         fi
     done
 }
@@ -122,17 +117,16 @@ choice-fn() {
     argc_cwd="${argc_cwd:-`pwd`}"
     script_file="$(realpath "$argc_script_file")"
     if grep -q 'argc --argc-eval' "$script_file"; then
-        if [[ "$OS" == "Windows_NT" ]]; then
+        os="$(detect_os)"
+        case "$os" in
+        windows)
             script_file="$(cygpath -w "$script_file")"
-            os="windows"
             sep="\\"
-        elif [[ "$(uname)" == "Darwin" ]]; then
-            os="macos"
+            ;;
+        *)
             sep="/"
-        else
-            os="linux"
-            sep="/"
-        fi
+            ;;
+        esac
         if [[ "${#argc_args[@]}" -gt 0 ]]; then
             last_arg="${argc_args[-1]}"
         fi
@@ -201,11 +195,11 @@ format:changed() {
 
 # @cmd Format all source files
 format:all() {
-    mapfile -t cmds < <(find src  -name "*.sh" -type f | sort | sed -n 's|src/\([[:alnum:]_-]\+\)\.sh|\1|p')
+    mapfile -t cmds < <(find src  -name "*.sh" -type f | sort | sed -n 's|src/\(.*\)\.sh$|\1|p')
     argc format "${cmds[@]}"
 }
 
-# @cmd Check the completion script
+# @cmd Check the src & completion script
 # @arg cmd[`_choice_completion`]
 check() {
     cmd="$1"
@@ -213,32 +207,38 @@ check() {
     if [[ -f src/${cmd}.sh && ! -L src/${cmd}.sh ]]; then
         ./scripts/format.sh -c $cmd
     fi
-    _helper_validate_script ./completions/$cmd.sh
+    if [[ "$cmd" == */* ]]; then
+        comp_file="completions/${cmd%%/*}/${cmd##*/}.sh"
+    else
+        comp_file="completions/$cmd.sh"
+    fi
+    _helper_validate_script $comp_file
     _helper_check_manifest $cmd
     if [[ -d completions/$cmd ]]; then
         for subcmd_file in completions/$cmd/*; do
             subcmd="$(basename ${subcmd_file##*/} .sh)"
             echo "check $cmd $subcmd"
             _helper_validate_script $subcmd_file
-            _helper_check_manifest $cmd-$subcmd
+            _helper_check_manifest $cmd/$subcmd
         done
     fi
 }
 
-# @cmd Check all completion scripts
-# @option -s --start-after-cmd[`_choice_completion`] Start generate after the command
+# @cmd Check all src & completion scripts
+# @option -s --start[`_choice_completion`] Start check from the command
 check:all() {
     local need_check=0
-    if [[ -z "$argc_start_after_cmd" ]]; then
+    if [[ -z "$argc_start" ]]; then
         need_check=1
     fi
     mapfile -t cmds < <(_choice_completion)
     for cmd in "${cmds[@]}"; do
         if [[ "$need_check" -eq 0 ]]; then
-            if [[ "$argc_start_after_cmd" == "$cmd" ]]; then
+            if [[ "$argc_start" == "$cmd" ]]; then
                 need_check=1
+            else
+                continue
             fi
-            continue
         fi
         check "$cmd"
     done
@@ -276,16 +276,33 @@ version() {
     uname -a
 }
 
+detect_os() {
+    if [[ "$OS" == "Windows_NT" ]]; then
+        echo "windows"
+    elif [[ "$(uname)" == "Darwin" ]]; then
+        echo "macos"
+    else
+        echo "linux"
+    fi
+}
+
 _choice_command() {
-    if [[ "$ARGC_OS" != "windows" ]]; then
+    os="$(detect_os)"
+    if [[ "$os" != "windows" ]]; then
         compgen -c
+        ls -p -1 "completions/$os" | sed -n 's|^\(.*\)\.sh$|'$os'/\1|p'
     else
         _choice_completion
     fi
 }
 
 _choice_completion() {
-    ls -p -1 completions | sed -n 's/^\([[:alnum:]_-]\+\)\.sh$/\1/p'
+    ls -p -1 completions | sed -n 's/^\(.*\)\.sh$/\1/p'
+    for os in linux macos windows; do
+        if [[ -d "completions/$os" ]]; then
+            ls -p -1 "completions/$os" | sed -n 's|^\(.*\)\.sh$|'$os'/\1|p'
+        fi
+    done
 }
 
 _choice_fn_name() {
@@ -369,6 +386,13 @@ _helper_print_script() {
 
 _helper_can_generate() {
     local cmd="$1" src_file="src/$1.sh"
+    if [[ "$cmd" == */* ]]; then
+        cmd="${cmd##*/}"
+        if [[ "${1%%/*}" != "$(detect_os)" ]]; then
+            echo error: $1 not match OS
+            return
+        fi
+    fi
     if ! command -v $cmd > /dev/null; then
         echo error: $cmd not found
         return
@@ -376,7 +400,7 @@ _helper_can_generate() {
     if [[ -f "$src_file" ]]; then
         if grep -q _patch_help_run_man "$src_file"; then
             if ! man -w $cmd > /dev/null 2>&1; then
-                echo error: $cmd manpage not found
+                echo error: $cmd no man page
                 return
             fi
         fi
@@ -411,13 +435,25 @@ _helper_test_fn() {
 }
 
 _helper_list_changed() {
+    os="$(detect_os)"
     git status | \
-    gawk '/(src|completions)\// {
+    gawk -v os=$os '/(src|completions)\// {
         if (match($0, /^\s+(deleted|renamed):\s+/)) {
             next
         }
         split($NF, p, "/");
-        print gensub(/^([a-zA-Z0-9_+-]+).*$/, "\\1", 1, p[2])
+        if (length(p) == 3) {
+            if (p[3] == "") {
+                next
+            }
+            if (match(p[2], /windows|macos|linux/)) {
+                print p[2] "/" gensub(/.sh$/, "", 1, p[3])
+            } else {
+                print p[2]
+            }
+        } else {
+            print gensub(/.sh$/, "", 1, p[2])
+        }
     }' | \
     sort | uniq
 }
@@ -434,7 +470,7 @@ _helper_validate_script() {
 }
 
 _helper_check_manifest() {
-    if ! grep -q "^- \[$1\]" MANIFEST.md; then
+    if ! grep -q "$1.sh" MANIFEST.md; then
         echo "$1 is not found in MANIFEST.md"
         exit 1
     fi

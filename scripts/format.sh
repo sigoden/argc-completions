@@ -9,18 +9,24 @@ set -e
 
 main() {
     ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )"
+    cd $ROOT_DIR
 
-    cmd_file="${argc_cmd}.sh"
-    src_file="$ROOT_DIR/src/$cmd_file"
-    comp_file="$ROOT_DIR/completions/$cmd_file"
+    if [[ "$argc_cmd" == */* ]]; then
+        cmd="${argc_cmd##*/}"
+    else
+        cmd="$argc_cmd"
+    fi
+
+    src_file="src/$argc_cmd.sh"
+    comp_file="completions/$argc_cmd.sh"
 
     if [[ ! -f "$src_file" ]]; then
-        echo "Not found src/$cmd_file"
+        echo "Not found $src_file"
         exit 1
     fi
 
     if [[ ! -f "$comp_file" ]]; then
-        echo "Not found completions/$cmd_file"
+        echo "Not found $comp_file"
         exit 1
     fi
 
@@ -29,13 +35,13 @@ main() {
     fi
 
     json="$(argc --argc-export "$comp_file")"
-    commands="$(echo "$json" | cmd="$argc_cmd" yq '
+    commands="$(echo "$json" | cmd="$cmd" yq '
         .path = env(cmd) |
         .. | select(has("subcommands")) | 
         .path = (parent | parent | .path) + " " + .name | 
         .path'
     )"
-    options="$(echo "$json" | cmd="$argc_cmd" yq '
+    options="$(echo "$json" | cmd="$cmd" yq '
         .path = env(cmd) |
         .. | select(has("subcommands")) | 
         .path = (parent | parent | .path) + " " + .name | 
