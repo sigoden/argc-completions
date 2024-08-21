@@ -19,12 +19,15 @@ _patch_table() {
         '--verbose;[`_module_nix_verbose`]' \
     | \
     _patch_table_edit_arguments \
-        'user-machine;[`_module_ssh_host`]' \
+        'user-machine-port(user-machine);[`_module_ssh_host`]' \
         'paths;[`_choice_remote_path`]' \
 
 }
 
 _choice_remote_path() {
+    if [[ -z "$argc_user_machine" ]]; then
+        return;
+    fi
     ssh -o 'Batchmode yes' "$argc_user_machine" command ls -a1dp "$ARGC_CWORD*" 2>/dev/null | \
     _argc_util_comp_parts /
 }

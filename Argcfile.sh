@@ -12,7 +12,7 @@ export ARGC_COMPLETIONS_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/n
 # @arg cmd![?`_choice_command`]
 # @arg subcmd
 generate() {
-    err=$(_helper_can_generate "$argc_cmd")
+    err="$(_helper_can_generate $argc_cmd)"
     if [[ -n "$err" ]]; then
         echo "$err"
         exit 1
@@ -154,15 +154,29 @@ choice-fn() {
 # @cmd Print help/table/script, used for debugging _patch_help and _patch_table
 # @option -k --kind[=table|help|script]     Intermediate file types
 # @flag -P --no-patch                       Do not apply `_patch_*` fn
-# @arg cmd_or_help_file![?`_choice_print_target`]
+# @arg cmd[?`_choice_completion`]
 # @arg subcmds*
 print() {
+    if [[ "$argc_cmd" == */* ]]; then
+        cmd="${argc_cmd##*/}" 
+    else
+        cmd="$argc_cmd"
+    fi
+    cmds=("$cmd" "${argc_subcmds[@]}")
+    . utils/_patch_utils/index.sh
+    if [[ -n "${cmds[1]}" ]] && [[ -f "src/${cmds[0]}/${cmds[1]}.sh" ]]; then
+        . "src/${cmds[0]}/${cmds[1]}.sh" 
+    elif [[ -f "src/${argc_cmd}.sh" ]]; then
+        . "src/${argc_cmd}.sh"
+    elif [[ "$1" == "__test"* ]]; then
+        . tests/src/$1.sh
+    fi
     if [[ "$argc_kind" == "table" ]]; then
-        _helper_print_table $@
+        _helper_print_table "${cmds[@]}"
     elif [[ "$argc_kind" == "help" ]]; then
-        echo "$(_helper_print_help $@)"
+        _helper_print_help "${cmds[@]}"
     elif [[ "$argc_kind" == "script" ]]; then
-        _helper_print_script $@
+        _helper_print_script "${cmds[@]}"
     fi
 }
 
@@ -258,9 +272,9 @@ update() {
     ./scripts/download-tools.sh 
 }
 
-# @cmd Shell setup to use argc-completions
-# @arg shell[bash|elvish|fish|nushell|powershell|xonsh|zsh|tcsh] Shell type
-shell:setup() {
+# @cmd Setup shell to use argc-completions
+# @arg shell[bash|elvish|fish|nushell|powershell|xonsh|zsh|tcsh] Shell kind
+setup-shell() {
     ./scripts/setup-shell.sh $1
 }
 
@@ -316,11 +330,6 @@ _choice_src_name() {
     ls -1 src | sed -n 's/^\([[:alnum:]_-]\+\)\.sh$/\1/p'
 }
 
-_choice_print_target() {
-    echo __argc_value=file
-    _choice_completion
-}
-
 _choice_color() {
     echo -e "type-flag\0\t/color:cyan"
     echo -e "type-option\0\t/color:cyan,bold"
@@ -351,7 +360,6 @@ _choice_color() {
 }
 
 _helper_print_help() {
-    _helper_source_script $@
     if [[ -x "$1" ]]; then
         $1 --help
     elif [[ -f "$1" ]]; then
@@ -366,8 +374,7 @@ _helper_print_help() {
 }
 
 _helper_print_table() {
-    _helper_source_script $@
-    table_text=$(_helper_print_help $@ | gawk -v "CMDS=$*" -f scripts/parse-table.awk)
+    table_text="$(_helper_print_help $@ | gawk -v "CMDS=$*" -f scripts/parse-table.awk)"
     if _helper_test_fn table; then
         echo "$table_text" | _patch_table $@
     else
@@ -376,8 +383,7 @@ _helper_print_table() {
 }
 
 _helper_print_script() {
-    _helper_source_script $@
-    script_text=$(_helper_print_table $@ | gawk -v "CMDS=$*" -f scripts/parse-script.awk)
+    script_text="$(_helper_print_table $@ | gawk -v "CMDS=$*" -f scripts/parse-script.awk)"
     if _helper_test_fn script; then
         echo "$script_text" | _patch_script $@
     else
@@ -407,21 +413,6 @@ _helper_can_generate() {
         fi
     fi
     return
-}
-
-_helper_source_script() {
-    if [[ $source_src -eq 1 ]]; then
-        return
-    fi
-    . utils/_patch_utils/index.sh
-    if [[ -n $2 ]] && [[ -f src/$1/$2.sh ]]; then
-        . src/$1/$2.sh
-    elif [[ -f src/$1.sh ]]; then
-        . src/$1.sh
-    elif [[ "$1" == "__test"* ]]; then
-        . tests/src/$1.sh
-    fi
-    source_src=1
 }
 
 _helper_test_fn() {

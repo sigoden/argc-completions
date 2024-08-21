@@ -858,7 +858,9 @@
 
 ## MacOS
 - [afplay](completions/macos/afplay.sh): Audio File Play. [🔗](https://ss64.com/osx/afplay.html)
+- [arp](completions/macos/arp.sh): address resolution display and control [🔗](https://keith.github.io/xcode-man-pages/arp.8.html)
 - [asr](completions/macos/asr.sh): Apple Software Restore; copy volumes [🔗](https://ss64.com/osx/asr.html)
+- [brctl](completions/macos/brctl.sh): Manage the CloudDocs daemon [🔗](https://keith.github.io/xcode-man-pages/brctl.1.html)
 - [caffeinate](completions/macos/caffeinate.sh): Prevent the system from sleeping on behalf of a utility. [🔗](https://ss64.com/osx/caffeinate.html)
 - [codesign](completions/macos/codesign.sh): create and manipulate code signatures. [🔗](https://ss64.com/osx/codesign.html)
 - [defaults](completions/macos/defaults.sh): Set preferences, the macOS user defaults system works with both the OS and with individual applications. [🔗](https://ss64.com/osx/defaults.html)
@@ -880,6 +882,7 @@
 - [osascript](completions/macos/osascript.sh): Execute AppleScripts and other OSA language scripts. [🔗](https://ss64.com/osx/osascript.html)
 - [otool](completions/macos/otool.sh): the otool-compatible command line parser for llvm-objdump [🔗](https://keith.github.io/xcode-man-pages/llvm-otool.1.html)
 - [pbcopy](completions/macos/pbcopy.sh): Copy data from STDIN to the clipboard. [🔗](https://ss64.com/osx/pbcopy.html)
+- [ping](completions/macos/ping.sh): send ICMP ECHO_REQUEST packets to network hosts. [🔗](https://keith.github.io/xcode-man-pages/ping.8.html)
 - [pkgutil](completions/macos/pkgutil.sh): Query and manipulate MacOS Installer packages and receipts. [🔗](https://ss64.com/osx/pkgutil.html)
 - [pmset](completions/macos/pmset.sh): Power management settings. [🔗](https://ss64.com/osx/pmset.html)
 - [port](completions/macos/port.sh): Install and upgrade open source software on macOS. [🔗](https://github.com/macports/macports-ports)
@@ -1013,7 +1016,6 @@ sigo
 - [mkswap](completions/linux/mkswap.sh): set up a Linux swap area [🔗](https://github.com/util-linux/util-linux)
 - [modinfo](completions/linux/modinfo.sh): Show information about a Linux Kernel module [🔗](https://github.com/kmod-project/kmod)
 - [modprobe](completions/linux/modprobe.sh): Add and remove modules from the Linux Kernel [🔗](https://github.com/kmod-project/kmod)
-- [more](completions/linux/more.sh): file perusal filter for crt viewing [🔗](https://github.com/util-linux/util-linux)
 - [mount](completions/linux/mount.sh): mount a filesystem [🔗](https://github.com/util-linux/util-linux)
 - [mpstat](completions/linux/mpstat.sh): Report processors related statistics. [🔗](https://github.com/sysstat/sysstat)
 - [namei](completions/linux/namei.sh): follow a pathname until a terminal point is found [🔗](https://github.com/util-linux/util-linux)
@@ -1061,7 +1063,6 @@ sigo
 - [useradd](completions/linux/useradd.sh): create a new user or update default new user information [🔗](https://github.com/shadow-maint/shadow)
 - [userdel](completions/linux/userdel.sh): delete a user account and related files [🔗](https://github.com/shadow-maint/shadow)
 - [usermod](completions/linux/usermod.sh): modify a user account [🔗](https://github.com/shadow-maint/shadow)
-- [whereis](completions/linux/whereis.sh): locate the binary, source, and manual page files for a command [🔗](https://github.com/util-linux/util-linux)
 - [wipefs](completions/linux/wipefs.sh): wipe a signature from a device [🔗](https://github.com/util-linux/util-linux)
 - [wodim](completions/linux/wodim.sh): write data to optical disk media [🔗](https://sourceforge.net/projects/wodim)
 - [wpa_cli](completions/linux/wpa_cli.sh): WPA command line client [🔗](https://w1.fi/wpa_supplicant)
