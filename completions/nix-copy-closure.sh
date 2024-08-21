@@ -26,12 +26,15 @@
 # @option -I --include <path>        Add an entry to the list of search paths used to resolve lookup paths.
 # @option --option <name> <value>    Set the Nix configuration option name to value.
 # @flag --repair                     Fix corrupted or missing store paths by redownloading or rebuilding them.
-# @arg user-machine-port <[user@]machine[:port]>
+# @arg user-machine[`_module_ssh_host`]
 # @arg paths*[`_choice_remote_path`]
 
 . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 
 _choice_remote_path() {
+    if [[ -z "$argc_user_machine" ]]; then
+        return;
+    fi
     ssh -o 'Batchmode yes' "$argc_user_machine" command ls -a1dp "$ARGC_CWORD*" 2>/dev/null | \
     _argc_util_comp_parts /
 }
@@ -274,6 +277,10 @@ _module_nix_resolve_url() {
     if [[ -e "$link" ]]; then
         echo "$cache/$(basename $(readlink $link))-unpacked"
     fi
+}
+
+_module_ssh_host() {
+    cat ~/.ssh/config | sed -n 's/^\s*Host\s\+\(\S.*\?\)\s*$/\1/Ip'
 }
 
 command eval "$(argc --argc-eval "$0" "$@")"

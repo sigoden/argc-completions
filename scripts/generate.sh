@@ -4,12 +4,35 @@ set -e
 
 # @describe Automaticlly generate completion script for commands
 
-# @option -o --output <path>        Specify output dir or file. If omitted, output to stdout
-# @flag -v --verbose                Show log
-# @arg cmd!                         Specify the command, must be able to run locally
-# @arg subcmd                       Optional subcommand
+# @option -o --output <path>                    Specify output dir or file. If omitted, output to stdout
+# @option -c --category[`_choice_category`]     Specify the category
+# @flag -v --verbose                            Show log
+# @arg cmd!                                     Specify the command, must be able to run locally
+# @arg subcmd                                   Optional subcommand
 
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )"
+
+main() {
+    if [[ -n "$argc_category" && -n "$argc_subcmd" ]]; then
+        log_error "category and subcmd can't be used together"
+        exit 1
+    fi
+
+    set_globals
+
+    main_content="$(handle_cmd "${cmds[@]}")"
+    src_content="$(embed_src_script "$main_content")"
+
+    output_content="$(print_head; echo "$main_content$src_content" ; print_tail)"
+
+    if [[ -n "$output_file" ]]; then
+        mkdir -p "$(dirname "$output_file")"
+        printf "%s" "$output_content" > "$output_file"
+        validate_script
+    else
+        printf "%s\n" "$output_content"
+    fi
+}
 
 handle_cmd() {
     local output table level nest_fn_prefix command_lines command_output line cmd_paths
@@ -347,21 +370,32 @@ set_globals() {
     fi
 
     cmds_level=1
-    if [[ -n $argc_subcmd ]]; then
-        if command -v $argc_cmd-$argc_subcmd >/dev/null; then
-            cmds_level=2
-            src_file="$src_dir/$argc_cmd/$argc_subcmd.sh"
-        fi
+
+    if [[ -n "$argc_category" ]]; then
+        src_file="$src_dir/$argc_category/$argc_cmd.sh"
+    else
+        src_file="$src_dir/$argc_cmd.sh"
     fi
 
-    if [[ ! -f "$src_file" ]]; then
-        src_file="$src_dir/$argc_cmd.sh"
+    if [[ -n $argc_subcmd ]]; then
+        if command -v $join_cmds >/dev/null; then
+            cmds_level=2
+            subcmd_src_file="$src_dir/$argc_cmd/$argc_subcmd.sh"
+            if [[ -f "$subcmd_src_file" ]]; then
+                src_file="$subcmd_src_file"
+            fi
+        fi
     fi
 
     if [[ -f "$argc_output" ]]; then
         output_file="$argc_output"
     elif [[ -d "$argc_output" ]]; then
-        output_file="$argc_output/$(echo "${cmds[@]}" | sed 's| |/|g').sh"
+        join_paths="$(echo "${cmds[@]}" | sed 's| |/|g').sh"
+        if [[ -n "$argc_category" ]]; then
+            output_file="$argc_output/$argc_category/$join_paths"
+        else
+            output_file="$argc_output/$join_paths"
+        fi
     fi
 
     if [[ -d "$help_dir" ]]; then
@@ -416,7 +450,6 @@ get_hash() {
     fi
 }
 
-
 log_info() {
     if [[ "$argc_verbose" -eq 1 ]]; then
         echo "[info] $@" >&2
@@ -427,19 +460,8 @@ log_error() {
     echo "[error] $@" >&2
 }
 
+_choice_category() {
+    printf "%s\n" "linux" "macos" "windows"
+}
+
 eval "$(argc --argc-eval "$0" "$@")"
-
-set_globals
-
-main_content="$(handle_cmd "${cmds[@]}")"
-src_content="$(embed_src_script "$main_content")"
-
-output_content="$(print_head; echo "$main_content$src_content" ; print_tail)"
-
-if [[ -n "$output_file" ]]; then
-    mkdir -p "$(dirname "$output_file")"
-    printf "%s" "$output_content" > "$output_file"
-    validate_script
-else
-    printf "%s\n" "$output_content"
-fi
