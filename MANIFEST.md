@@ -1031,6 +1031,7 @@ sigo
 - [plocate](completions/linux/plocate.sh): find files by name, quickly [🔗](https://plocate.sesse.net)
 - [poweroff](completions/linux/poweroff.sh): Halt, power-off or reboot the machine [🔗](https://github.com/systemd/systemd)
 - [reboot](completions/linux/reboot.sh): Halt, power-off or reboot the machine [🔗](https://github.com/systemd/systemd)
+- [renice](completions/linux/renice.sh): alter priority of running processes [🔗](https://github.com/util-linux/util-linux)
 - [resolvectl](completions/linux/resolvectl.sh): Resolve domain names, IPV4 and IPv6 addresses, DNS resource records, and services [🔗](https://github.com/systemd/systemd)
 - [rfkill](completions/linux/rfkill.sh): tool for enabling and disabling wireless devices [🔗](https://github.com/util-linux/util-linux)
 - [rmmod](completions/linux/rmmod.sh): Simple program to remove a module from the Linux Kernel [🔗](https://github.com/kmod-project/kmod)

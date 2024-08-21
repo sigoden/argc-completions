@@ -79,15 +79,19 @@ generate:changed() {
     done
 }
 
-
 # @cmd Generate completion scripts for all commands
 # @option -s --start[`_choice_completion`] Start generate from the command
+# @flag --os Generate current OS only commands
 generate:all() {
     local need_gen=0
     if [[ -z "$argc_start" ]]; then
         need_gen=1
     fi
-    mapfile -t cmds < <(_choice_completion)
+    if [[ -n "$argc_os" ]]; then
+        mapfile -t cmds < <(_helper_list_os_cmds "$(detect_os)")
+    else
+        mapfile -t cmds < <(_choice_completion)
+    fi
     for cmd in "${cmds[@]}"; do
         if [[ "$need_gen" -eq 0 ]]; then
             if [[ "$argc_start" == "$cmd" ]]; then
@@ -289,8 +293,7 @@ detect_os() {
 _choice_command() {
     os="$(detect_os)"
     if [[ "$os" != "windows" ]]; then
-        compgen -c
-        ls -p -1 "completions/$os" | sed -n 's|^\(.*\)\.sh$|'$os'/\1|p'
+        compgen -c | sed 's|^\(.*\)$|\1\n'$os'/\1|'
     else
         _choice_completion
     fi
@@ -298,10 +301,8 @@ _choice_command() {
 
 _choice_completion() {
     ls -p -1 completions | sed -n 's/^\(.*\)\.sh$/\1/p'
-    for os in linux macos windows; do
-        if [[ -d "completions/$os" ]]; then
-            ls -p -1 "completions/$os" | sed -n 's|^\(.*\)\.sh$|'$os'/\1|p'
-        fi
+    for os in windows macos linux; do
+        _helper_list_os_cmds $os
     done
 }
 
@@ -456,6 +457,13 @@ _helper_list_changed() {
         }
     }' | \
     sort | uniq
+}
+
+_helper_list_os_cmds() {
+    local os="$1"
+    if [[ -d completions/$os ]]; then
+        ls -p -1 completions/$os | sed -n 's|^\(.*\)\.sh$|'$os'/\1|p'
+    fi
 }
 
 _helper_validate_script() {
