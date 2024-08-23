@@ -403,7 +403,7 @@ set_globals() {
         rm -rf "$help_output_file"
     fi
 
-    source "$utils_dir/_patch_utils/index.sh"
+    source "$utils_dir/_patch_utils.sh"
     if [[ -f "$src_file" ]]; then
         source "$src_file"
     fi
