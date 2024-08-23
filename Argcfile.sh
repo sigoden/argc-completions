@@ -163,7 +163,7 @@ print() {
         cmd="$argc_cmd"
     fi
     cmds=("$cmd" "${argc_subcmds[@]}")
-    . utils/_patch_utils/index.sh
+    . utils/_patch_utils.sh
     if [[ -n "${cmds[1]}" ]] && [[ -f "src/${cmds[0]}/${cmds[1]}.sh" ]]; then
         . "src/${cmds[0]}/${cmds[1]}.sh" 
     elif [[ -f "src/${argc_cmd}.sh" ]]; then
