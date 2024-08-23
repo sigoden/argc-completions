@@ -36,8 +36,6 @@ Options:
   -s, --session [<SESSION>]  Create or reuse a session
   -H, --no-highlight         Disable syntax highlighting
   -S, --no-stream            No stream output
-  -w, --wrap <WRAP>          Specify the text-wrapping mode (no, auto, <max-width>)
-      --light-theme          Use light theme
       --dry-run              Run in dry run mode
       --info                 Print related information
       --list-models          List all available models
@@ -55,8 +53,6 @@ option # -r, --role <ROLE> # Choose a role
 option # -s, --session [<SESSION>] # Create or reuse a session
 option # -H, --no-highlight # Disable syntax highlighting
 option # -S, --no-stream # No stream output
-option # -w, --wrap <WRAP> # Specify the text-wrapping mode (no, auto, <max-width>)
-option # --light-theme # Use light theme
 option # --dry-run # Run in dry run mode
 option # --info # Print related information
 option # --list-models # List all available models
@@ -75,8 +71,6 @@ argument # [TEXT]... # Input text #
 # @option -s --session       Create or reuse a session
 # @flag -H --no-highlight    Disable syntax highlighting
 # @flag -S --no-stream       No stream output
-# @option -w --wrap          Specify the text-wrapping mode (no, auto, <max-width>)
-# @flag --light-theme        Use light theme
 # @flag --dry-run            Run in dry run mode
 # @flag --info               Print related information
 # @flag --list-models        List all available models
@@ -131,7 +125,7 @@ This affects the final generated argc script.
 + # @option -r --role[`_choice_role`]      Choose a role
 ```
 
-## `_choice*` function
+## `_choice_*` function
 
 `_choice_fn` will generate dynamic completion candidates.
 
@@ -139,9 +133,9 @@ Let's also take `aichat` as an example.
 
 Suppose you are typing `aichat --role <tab>`, when `<tab>` is pressed, `_choice_role` bound to `--role` will run and provide completion data.
 
-In `_choice*` function, you can use `argc_*` variables to easily access option/positional value. see [argc-variables](./argc-variables.md) for more details.
+In `_choice_*` function, you can use `argc_*` variables to easily access option/positional value. see [argc-variables](./argc-variables.md) for more details.
 
-We also privode some [utility functions](https://github.com/sigoden/argc-completions/blob/main/utils/_argc_utils.sh) to make it easier to write `_choice*` function.
+We also privode some [utility functions](https://github.com/sigoden/argc-completions/blob/main/utils/_argc_utils.sh) to make it easier to write `_choice_*` function.
 
 ```sh
 _choice_fn() {
@@ -152,22 +146,21 @@ _choice_fn() {
 }
 ```
 
-## argc command
+## run Argcfile.sh
 
 `Argcfile.sh` provide a number of commands that can help with the development of the completion script.
 
-- print: Print help/table/script, used for debugging _patch_help and _patch_table
+- print: Print help/table/script, used for debugging `_patch_help` and `_patch_table`
 - generate: Generate the completion script.
 - choice-fn: Run a choice fn directly
 
 ```sh
-argc print aichat                # Run: _patch_help | awk -f ./scripts/parse-table.awk | _patch_table
-argc print aichat -P             # Run: _patch_help | awk -f ./scripts/parse-table.awk
 argc print aichat -k help        # Run: _patch_help
-argc print aichat -k help -P     # Run: aichat --help
+argc print aichat -k table       # Run: _patch_help | awk -f ./scripts/parse-table.awk | _patch_table
 argc print aichat -k script      # Run: _patch_help | awk -f ./scripts/parse-table.awk | _patch_table | awk -f ./scripts/parse-script.awk 
 
 argc generate aichat             # Run: ./scripts/generate.sh -o completions/aichat.sh aichat
+argc format aichat               # Run: ./scripts/format.sh src/aichat.sh
 
 argc choice-fn src/aichat.sh _choice_model            # Run _choice_model in src/aichat.sh
 argc choice-fn completions/aichat.sh _choice_model    # Run _choice_model in completions/aichat.sh

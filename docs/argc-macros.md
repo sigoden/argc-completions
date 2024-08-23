@@ -12,7 +12,7 @@ echo "__argc_filter=$ARGC_CWORD"
 
 ## __argc_prefix=
 
-Add prefix to completeion
+Add prefix to completion
 
 ```sh
 echo "__argc_prefix=--foo="
@@ -20,7 +20,7 @@ echo "__argc_prefix=--foo="
 
 ## __argc_suffix=
 
-Add suffix to completeion
+Add suffix to completion
 
 ```sh
 echo -e "__argc_prefix=:\0"
@@ -32,14 +32,14 @@ Complete a path
 
 ```sh
 echo __argc_value=path
-echo __argc_value=path:.json,jsonc    # Accpet only json/jsonc file
+echo __argc_value=path:.json,jsonc    # Accept only json/jsonc file
 ```
 
 If the path is obviously a file, use `__argc_value=file` in preference.
 
 ```sh
 echo __argc_value=file 
-echo __argc_value=file:.json,jsonc    # Accpet only json/jsonc file
+echo __argc_value=file:.json,jsonc    # Accept only json/jsonc file
 ```
 
 ## __argc_value=dir

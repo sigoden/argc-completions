@@ -2,7 +2,7 @@
 
 ## File/path/directory
 
-1. Use argc sematic
+1. Use argc semantic
 
 ```sh
 # @option --output <file>
