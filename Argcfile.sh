@@ -48,7 +48,7 @@ generate() {
 }
 
 # @cmd Generate completion scripts for multiple commands
-# @arg cmds*[?`_choice_completion`]
+# @arg cmds+[?`_choice_completion`]
 generate:multi() {
     for cmd in ${argc_cmds[@]}; do
         argc generate $cmd -P
@@ -154,7 +154,7 @@ choice-fn() {
 # @cmd Print help/table/script, used for debugging _patch_help and _patch_table
 # @option -k --kind[=table|help|script]     Intermediate file types
 # @flag -P --no-patch                       Do not apply `_patch_*` fn
-# @arg cmd[?`_choice_completion`]
+# @arg cmd![?`_choice_completion`]
 # @arg subcmds*
 print() {
     if [[ "$argc_cmd" == */* ]]; then
@@ -192,7 +192,7 @@ xtest() {
 
 # @cmd Format the source file of a command
 # @alias fmt
-# @arg names*[?`_choice_src_name`]
+# @arg names+[?`_choice_src_name`]
 format() {
     for name in ${argc_names[@]}; do
         srcfile="src/$name.sh"
@@ -218,7 +218,7 @@ format:all() {
 }
 
 # @cmd Check the src & completion script
-# @arg cmd[`_choice_completion`]
+# @arg cmd![`_choice_completion`]
 check() {
     cmd="$1"
     echo "check $cmd"
@@ -273,7 +273,7 @@ update() {
 }
 
 # @cmd Setup shell to use argc-completions
-# @arg shell[bash|elvish|fish|nushell|powershell|xonsh|zsh|tcsh] Shell kind
+# @arg shell![bash|elvish|fish|nushell|powershell|xonsh|zsh|tcsh] Shell kind
 setup-shell() {
     ./scripts/setup-shell.sh $1
 }
