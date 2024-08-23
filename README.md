@@ -8,8 +8,8 @@
 
 - Autocomplete for 1000+ commands ([full list](./MANIFEST.md)).
 - Automatically generate completion scripts from the help text or man pages.
-- Autocomplete on demand, fewer loading scripts and faster terminal startup.
-- Easily Upgrade completion scripts as command are upgraded.
+- Dynamic completion leads to fewer scripts loading and faster terminal startup.
+- Easily upgrade completion scripts as command are upgraded.
 - Cross shells: bash/zsh/powershell/fish/nushell/elvish/xonsh/tcsh.
 - Cross platforms: linux, macOS, and Windows.
 
