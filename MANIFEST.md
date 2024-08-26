@@ -703,7 +703,7 @@
 - [tail](http://gnu.org/software/coreutils): output the last part of files [src](src/tail.sh) [cmpl](completions/tail.sh)
 - [tailspin](https://github.com/bensadeh/tailspin): A log file highlighter [cmpl](completions/tailspin.sh)
 - [tar](https://www.gnu.org/software/tar): an archiving utility [src](src/tar.sh) [cmpl](completions/tar.sh)
-- [task](https://github.com/go-task/task): A task runner / simpler Make alternative written in Go [src](src/task.sh) [cmpl](completions/task.sh)
+- [task](https://github.com/GothenburgBitFactory/taskwarrior): Command line Task Management [src](src/task.sh) [cmpl](completions/task.sh)
 - [tcpdump](https://github.com/the-tcpdump-group/tcpdump): dump traffic on a network [src](src/tcpdump.sh) [cmpl](completions/tcpdump.sh)
 - [tcsh](https://github.com/tcsh-org/tcsh): C shell with file name completion and command line editing [src](src/tcsh.sh) [cmpl](completions/tcsh.sh)
 - [tee](http://gnu.org/software/coreutils): read from standard input and write to standard output and files [src](src/tee.sh) [cmpl](completions/tee.sh)
