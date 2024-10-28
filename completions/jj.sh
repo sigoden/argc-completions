@@ -16,6 +16,7 @@
 # {{ jj abandon
 # @cmd Abandon a revision
 # @flag -s --summary              Do not print every abandoned commit on a separate line
+# @flag --restore-descendants     Do not modify the content of the children of the abandoned commits
 # @flag -h --help                 Print help (see a summary with '-h')
 # @option -R --repository         Path to repository to operate on
 # @flag --ignore-working-copy     Don't snapshot the working copy, and don't update it
@@ -51,8 +52,8 @@ backout() {
 }
 # }} jj backout
 
-# {{ jj branch
-# @cmd Manage branches
+# {{ jj bookmark
+# @cmd Manage bookmarks
 # @flag -h --help                 Print help (see a summary with '-h')
 # @option -R --repository         Path to repository to operate on
 # @flag --ignore-working-copy     Don't snapshot the working copy, and don't update it
@@ -63,13 +64,111 @@ backout() {
 # @flag --quiet                   Silence non-primary command output
 # @flag --no-pager                Disable the pager
 # @option --config-toml <TOML>    Additional configuration options (can be repeated)
-branch() {
+bookmark() {
     :;
 }
 
-# {{{ jj branch create
-# @cmd Create a new branch [aliases: c]
-# @option -r --revision            The branch's target revision
+# {{{ jj bookmark create
+# @cmd Create a new bookmark [aliases: c]
+# @option -r --revision              The bookmark's target revision
+# @flag -h --help                    Print help (see a summary with '-h')
+# @option -R --repository            Path to repository to operate on
+# @flag --ignore-working-copy        Don't snapshot the working copy, and don't update it
+# @flag --ignore-immutable           Allow rewriting immutable commits
+# @option --at-operation[`_choice_operation`] <AT_OPERATION>  Operation to load the repo at
+# @flag --debug                      Enable debug logging
+# @option --color[always|never|debug|auto] <WHEN>  When to colorize output
+# @flag --quiet                      Silence non-primary command output
+# @flag --no-pager                   Disable the pager
+# @option --config-toml <TOML>       Additional configuration options (can be repeated)
+# @arg names+[`_choice_bookmark`]    The bookmarks to create
+bookmark::create() {
+    :;
+}
+# }}} jj bookmark create
+
+# {{{ jj bookmark delete
+# @cmd Delete an existing bookmark and propagate the deletion to remotes on the next push [aliases: d]
+# @flag -h --help                    Print help (see a summary with '-h')
+# @option -R --repository            Path to repository to operate on
+# @flag --ignore-working-copy        Don't snapshot the working copy, and don't update it
+# @flag --ignore-immutable           Allow rewriting immutable commits
+# @option --at-operation[`_choice_operation`] <AT_OPERATION>  Operation to load the repo at
+# @flag --debug                      Enable debug logging
+# @option --color[always|never|debug|auto] <WHEN>  When to colorize output
+# @flag --quiet                      Silence non-primary command output
+# @flag --no-pager                   Disable the pager
+# @option --config-toml <TOML>       Additional configuration options (can be repeated)
+# @arg names+[`_choice_bookmark`]    The bookmarks to delete
+bookmark::delete() {
+    :;
+}
+# }}} jj bookmark delete
+
+# {{{ jj bookmark forget
+# @cmd Forget everything about a bookmark, including its local and remote targets [aliases: f]
+# @flag -h --help                    Print help (see a summary with '-h')
+# @option -R --repository            Path to repository to operate on
+# @flag --ignore-working-copy        Don't snapshot the working copy, and don't update it
+# @flag --ignore-immutable           Allow rewriting immutable commits
+# @option --at-operation[`_choice_operation`] <AT_OPERATION>  Operation to load the repo at
+# @flag --debug                      Enable debug logging
+# @option --color[always|never|debug|auto] <WHEN>  When to colorize output
+# @flag --quiet                      Silence non-primary command output
+# @flag --no-pager                   Disable the pager
+# @option --config-toml <TOML>       Additional configuration options (can be repeated)
+# @arg names+[`_choice_bookmark`]    The bookmarks to forget
+bookmark::forget() {
+    :;
+}
+# }}} jj bookmark forget
+
+# {{{ jj bookmark list
+# @cmd List bookmarks and their targets [aliases: l]
+# @flag -a --all-remotes             Show all tracking and non-tracking remote bookmarks including the ones whose targets are synchronized with the local bookmarks
+# @flag -t --tracked                 Show remote tracked bookmarks only.
+# @flag -c --conflicted              Show conflicted bookmarks only
+# @option -r --revisions             Show bookmarks whose local targets are in the given revisions
+# @option -T --template              Render each bookmark using the given template
+# @flag -h --help                    Print help (see a summary with '-h')
+# @option -R --repository            Path to repository to operate on
+# @flag --ignore-working-copy        Don't snapshot the working copy, and don't update it
+# @flag --ignore-immutable           Allow rewriting immutable commits
+# @option --at-operation[`_choice_operation`] <AT_OPERATION>  Operation to load the repo at
+# @flag --debug                      Enable debug logging
+# @option --color[always|never|debug|auto] <WHEN>  When to colorize output
+# @flag --quiet                      Silence non-primary command output
+# @flag --no-pager                   Disable the pager
+# @option --config-toml <TOML>       Additional configuration options (can be repeated)
+# @arg names*[`_choice_bookmark`]    Show bookmarks whose local name matches
+bookmark::list() {
+    :;
+}
+# }}} jj bookmark list
+
+# {{{ jj bookmark move
+# @cmd Move existing bookmarks to target revision [aliases: m]
+# @option --from <REVISIONS>         Move bookmarks from the given revisions
+# @option --to <REVISION>            Move bookmarks to this revision
+# @flag -B --allow-backwards         Allow moving bookmarks backwards or sideways
+# @flag -h --help                    Print help (see a summary with '-h')
+# @option -R --repository            Path to repository to operate on
+# @flag --ignore-working-copy        Don't snapshot the working copy, and don't update it
+# @flag --ignore-immutable           Allow rewriting immutable commits
+# @option --at-operation[`_choice_operation`] <AT_OPERATION>  Operation to load the repo at
+# @flag --debug                      Enable debug logging
+# @option --color[always|never|debug|auto] <WHEN>  When to colorize output
+# @flag --quiet                      Silence non-primary command output
+# @flag --no-pager                   Disable the pager
+# @option --config-toml <TOML>       Additional configuration options (can be repeated)
+# @arg names*[`_choice_bookmark`]    Move bookmarks matching the given name patterns
+bookmark::move() {
+    :;
+}
+# }}} jj bookmark move
+
+# {{{ jj bookmark rename
+# @cmd Rename `old` bookmark name to `new` bookmark name [aliases: r]
 # @flag -h --help                  Print help (see a summary with '-h')
 # @option -R --repository          Path to repository to operate on
 # @flag --ignore-working-copy      Don't snapshot the working copy, and don't update it
@@ -80,94 +179,35 @@ branch() {
 # @flag --quiet                    Silence non-primary command output
 # @flag --no-pager                 Disable the pager
 # @option --config-toml <TOML>     Additional configuration options (can be repeated)
-# @arg names+[`_choice_branch`]    The branches to create
-branch::create() {
+# @arg old![`_choice_bookmark`]    The old name of the bookmark
+# @arg new!                        The new name of the bookmark
+bookmark::rename() {
     :;
 }
-# }}} jj branch create
+# }}} jj bookmark rename
 
-# {{{ jj branch delete
-# @cmd Delete an existing branch and propagate the deletion to remotes on the next push [aliases: d]
-# @flag -h --help                  Print help (see a summary with '-h')
-# @option -R --repository          Path to repository to operate on
-# @flag --ignore-working-copy      Don't snapshot the working copy, and don't update it
-# @flag --ignore-immutable         Allow rewriting immutable commits
+# {{{ jj bookmark set
+# @cmd Create or update a bookmark to point to a certain commit [aliases: s]
+# @option -r --revision              The bookmark's target revision
+# @flag -B --allow-backwards         Allow moving the bookmark backwards or sideways
+# @flag -h --help                    Print help (see a summary with '-h')
+# @option -R --repository            Path to repository to operate on
+# @flag --ignore-working-copy        Don't snapshot the working copy, and don't update it
+# @flag --ignore-immutable           Allow rewriting immutable commits
 # @option --at-operation[`_choice_operation`] <AT_OPERATION>  Operation to load the repo at
-# @flag --debug                    Enable debug logging
+# @flag --debug                      Enable debug logging
 # @option --color[always|never|debug|auto] <WHEN>  When to colorize output
-# @flag --quiet                    Silence non-primary command output
-# @flag --no-pager                 Disable the pager
-# @option --config-toml <TOML>     Additional configuration options (can be repeated)
-# @arg names+[`_choice_branch`]    The branches to delete
-branch::delete() {
+# @flag --quiet                      Silence non-primary command output
+# @flag --no-pager                   Disable the pager
+# @option --config-toml <TOML>       Additional configuration options (can be repeated)
+# @arg names+[`_choice_bookmark`]    The bookmarks to update
+bookmark::set() {
     :;
 }
-# }}} jj branch delete
+# }}} jj bookmark set
 
-# {{{ jj branch forget
-# @cmd Forget everything about a branch, including its local and remote targets [aliases: f]
-# @flag -h --help                  Print help (see a summary with '-h')
-# @option -R --repository          Path to repository to operate on
-# @flag --ignore-working-copy      Don't snapshot the working copy, and don't update it
-# @flag --ignore-immutable         Allow rewriting immutable commits
-# @option --at-operation[`_choice_operation`] <AT_OPERATION>  Operation to load the repo at
-# @flag --debug                    Enable debug logging
-# @option --color[always|never|debug|auto] <WHEN>  When to colorize output
-# @flag --quiet                    Silence non-primary command output
-# @flag --no-pager                 Disable the pager
-# @option --config-toml <TOML>     Additional configuration options (can be repeated)
-# @arg names+[`_choice_branch`]    The branches to forget
-branch::forget() {
-    :;
-}
-# }}} jj branch forget
-
-# {{{ jj branch list
-# @cmd List branches and their targets [aliases: l]
-# @flag -a --all-remotes           Show all tracking and non-tracking remote branches including the ones whose targets are synchronized with the local branches
-# @flag -t --tracked               Show remote tracked branches only.
-# @flag -c --conflicted            Show conflicted branches only
-# @option -r --revisions           Show branches whose local targets are in the given revisions
-# @option -T --template            Render each branch using the given template
-# @flag -h --help                  Print help (see a summary with '-h')
-# @option -R --repository          Path to repository to operate on
-# @flag --ignore-working-copy      Don't snapshot the working copy, and don't update it
-# @flag --ignore-immutable         Allow rewriting immutable commits
-# @option --at-operation[`_choice_operation`] <AT_OPERATION>  Operation to load the repo at
-# @flag --debug                    Enable debug logging
-# @option --color[always|never|debug|auto] <WHEN>  When to colorize output
-# @flag --quiet                    Silence non-primary command output
-# @flag --no-pager                 Disable the pager
-# @option --config-toml <TOML>     Additional configuration options (can be repeated)
-# @arg names*[`_choice_branch`]    Show branches whose local name matches
-branch::list() {
-    :;
-}
-# }}} jj branch list
-
-# {{{ jj branch move
-# @cmd Move existing branches to target revision [aliases: m]
-# @option --from <REVISIONS>       Move branches from the given revisions
-# @option --to <REVISION>          Move branches to this revision
-# @flag -B --allow-backwards       Allow moving branches backwards or sideways
-# @flag -h --help                  Print help (see a summary with '-h')
-# @option -R --repository          Path to repository to operate on
-# @flag --ignore-working-copy      Don't snapshot the working copy, and don't update it
-# @flag --ignore-immutable         Allow rewriting immutable commits
-# @option --at-operation[`_choice_operation`] <AT_OPERATION>  Operation to load the repo at
-# @flag --debug                    Enable debug logging
-# @option --color[always|never|debug|auto] <WHEN>  When to colorize output
-# @flag --quiet                    Silence non-primary command output
-# @flag --no-pager                 Disable the pager
-# @option --config-toml <TOML>     Additional configuration options (can be repeated)
-# @arg names*[`_choice_branch`]    Move branches matching the given name patterns
-branch::move() {
-    :;
-}
-# }}} jj branch move
-
-# {{{ jj branch rename
-# @cmd Rename `old` branch name to `new` branch name [aliases: r]
+# {{{ jj bookmark track
+# @cmd Start tracking given remote bookmarks [aliases: t]
 # @flag -h --help                 Print help (see a summary with '-h')
 # @option -R --repository         Path to repository to operate on
 # @flag --ignore-working-copy     Don't snapshot the working copy, and don't update it
@@ -178,35 +218,14 @@ branch::move() {
 # @flag --quiet                   Silence non-primary command output
 # @flag --no-pager                Disable the pager
 # @option --config-toml <TOML>    Additional configuration options (can be repeated)
-# @arg old![`_choice_branch`]     The old name of the branch
-# @arg new!                       The new name of the branch
-branch::rename() {
+# @arg bookmark-remote+[`_choice_bookmark_remote`] <BOOKMARK@REMOTE>  Remote bookmarks to track
+bookmark::track() {
     :;
 }
-# }}} jj branch rename
+# }}} jj bookmark track
 
-# {{{ jj branch set
-# @cmd Create or update a branch to point to a certain commit [aliases: s]
-# @option -r --revision            The branch's target revision
-# @flag -B --allow-backwards       Allow moving the branch backwards or sideways
-# @flag -h --help                  Print help (see a summary with '-h')
-# @option -R --repository          Path to repository to operate on
-# @flag --ignore-working-copy      Don't snapshot the working copy, and don't update it
-# @flag --ignore-immutable         Allow rewriting immutable commits
-# @option --at-operation[`_choice_operation`] <AT_OPERATION>  Operation to load the repo at
-# @flag --debug                    Enable debug logging
-# @option --color[always|never|debug|auto] <WHEN>  When to colorize output
-# @flag --quiet                    Silence non-primary command output
-# @flag --no-pager                 Disable the pager
-# @option --config-toml <TOML>     Additional configuration options (can be repeated)
-# @arg names+[`_choice_branch`]    The branches to update
-branch::set() {
-    :;
-}
-# }}} jj branch set
-
-# {{{ jj branch track
-# @cmd Start tracking given remote branches [aliases: t]
+# {{{ jj bookmark untrack
+# @cmd Stop tracking given remote bookmarks
 # @flag -h --help                 Print help (see a summary with '-h')
 # @option -R --repository         Path to repository to operate on
 # @flag --ignore-working-copy     Don't snapshot the working copy, and don't update it
@@ -217,30 +236,12 @@ branch::set() {
 # @flag --quiet                   Silence non-primary command output
 # @flag --no-pager                Disable the pager
 # @option --config-toml <TOML>    Additional configuration options (can be repeated)
-# @arg branch-remote+[`_choice_branch_remote`] <BRANCH@REMOTE>  Remote branches to track
-branch::track() {
+# @arg bookmark-remote+[`_choice_bookmark_remote`] <BOOKMARK@REMOTE>  Remote bookmarks to untrack
+bookmark::untrack() {
     :;
 }
-# }}} jj branch track
-
-# {{{ jj branch untrack
-# @cmd Stop tracking given remote branches
-# @flag -h --help                 Print help (see a summary with '-h')
-# @option -R --repository         Path to repository to operate on
-# @flag --ignore-working-copy     Don't snapshot the working copy, and don't update it
-# @flag --ignore-immutable        Allow rewriting immutable commits
-# @option --at-operation[`_choice_operation`] <AT_OPERATION>  Operation to load the repo at
-# @flag --debug                   Enable debug logging
-# @option --color[always|never|debug|auto] <WHEN>  When to colorize output
-# @flag --quiet                   Silence non-primary command output
-# @flag --no-pager                Disable the pager
-# @option --config-toml <TOML>    Additional configuration options (can be repeated)
-# @arg branch-remote+[`_choice_branch_remote`] <BRANCH@REMOTE>  Remote branches to untrack
-branch::untrack() {
-    :;
-}
-# }}} jj branch untrack
-# }} jj branch
+# }}} jj bookmark untrack
+# }} jj bookmark
 
 # {{ jj commit
 # @cmd Update the description and create a new change on top [aliases: ci]
@@ -248,6 +249,7 @@ branch::untrack() {
 # @option --tool <NAME>           Specify diff editor to be used (implies --interactive)
 # @option -m --message            The change description to use (don't open editor)
 # @flag --reset-author            Reset the author to the configured user
+# @option --author                Set author to the provided string
 # @flag -h --help                 Print help (see a summary with '-h')
 # @option -R --repository         Path to repository to operate on
 # @flag --ignore-working-copy     Don't snapshot the working copy, and don't update it
@@ -387,6 +389,7 @@ config::set() {
 # @flag --stdin                   Read the change description from stdin
 # @flag --no-edit                 Don't open an editor
 # @flag --reset-author            Reset the author to the configured user
+# @option --author                Set author to the provided string
 # @flag -h --help                 Print help (see a summary with '-h')
 # @option -R --repository         Path to repository to operate on
 # @flag --ignore-working-copy     Don't snapshot the working copy, and don't update it
@@ -434,10 +437,11 @@ diff() {
 
 # {{ jj diffedit
 # @cmd Touch up the content changes in a revision with a diff editor
-# @option -r --revision           The revision to touch up.
-# @option --from                  Show changes from this revision.
-# @option --to                    Edit changes in this revision.
+# @option -r --revision           The revision to touch up
+# @option --from                  Show changes from this revision
+# @option --to                    Edit changes in this revision
 # @option --tool <NAME>           Specify diff editor to be used
+# @flag --restore-descendants     Preserve the content (not the diff) when rebasing descendants
 # @flag -h --help                 Print help (see a summary with '-h')
 # @option -R --repository         Path to repository to operate on
 # @flag --ignore-working-copy     Don't snapshot the working copy, and don't update it
@@ -488,6 +492,36 @@ edit() {
     :;
 }
 # }} jj edit
+
+# {{ jj evolog
+# @cmd Show how a change has evolved over time [aliases: evolution-log]
+# @option -r --revision           [default: @]
+# @option -n --limit              Limit number of revisions to show
+# @flag --no-graph                Don't show the graph, show a flat list of revisions
+# @option -T --template           Render each revision using the given template
+# @flag -p --patch                Show patch compared to the previous version of this change
+# @flag -h --help                 Print help (see a summary with '-h')
+# @flag -s --summary              For each path, show only whether it was modified, added, or deleted
+# @flag --stat                    Show a histogram of the changes
+# @flag --types                   For each path, show only its type before and after
+# @flag --name-only               For each path, show only its path
+# @flag --git                     Show a Git-format diff
+# @flag --color-words             Show a word-level diff with changes indicated only by color
+# @option --tool                  Generate diff by external command
+# @option --context               Number of lines of context to show
+# @option -R --repository         Path to repository to operate on
+# @flag --ignore-working-copy     Don't snapshot the working copy, and don't update it
+# @flag --ignore-immutable        Allow rewriting immutable commits
+# @option --at-operation[`_choice_operation`] <AT_OPERATION>  Operation to load the repo at
+# @flag --debug                   Enable debug logging
+# @option --color[always|never|debug|auto] <WHEN>  When to colorize output
+# @flag --quiet                   Silence non-primary command output
+# @flag --no-pager                Disable the pager
+# @option --config-toml <TOML>    Additional configuration options (can be repeated)
+evolog() {
+    :;
+}
+# }} jj evolog
 
 # {{ jj file
 # @cmd File operations
@@ -562,11 +596,9 @@ file::show() {
     :;
 }
 # }}} jj file show
-# }} jj file
 
-# {{ jj fix
-# @cmd Update files with formatting fixes or other changes
-# @option -s --source             Fix files in the specified revision(s) and their descendants.
+# {{{ jj file track
+# @cmd Start tracking specified paths in the working copy
 # @flag -h --help                 Print help (see a summary with '-h')
 # @option -R --repository         Path to repository to operate on
 # @flag --ignore-working-copy     Don't snapshot the working copy, and don't update it
@@ -577,7 +609,46 @@ file::show() {
 # @flag --quiet                   Silence non-primary command output
 # @flag --no-pager                Disable the pager
 # @option --config-toml <TOML>    Additional configuration options (can be repeated)
-# @arg paths*[`_choice_path`]     Fix only these paths
+# @arg paths+[`_choice_path`]     Paths to track
+file::track() {
+    :;
+}
+# }}} jj file track
+
+# {{{ jj file untrack
+# @cmd Stop tracking specified paths in the working copy
+# @flag -h --help                 Print help (see a summary with '-h')
+# @option -R --repository         Path to repository to operate on
+# @flag --ignore-working-copy     Don't snapshot the working copy, and don't update it
+# @flag --ignore-immutable        Allow rewriting immutable commits
+# @option --at-operation[`_choice_operation`] <AT_OPERATION>  Operation to load the repo at
+# @flag --debug                   Enable debug logging
+# @option --color[always|never|debug|auto] <WHEN>  When to colorize output
+# @flag --quiet                   Silence non-primary command output
+# @flag --no-pager                Disable the pager
+# @option --config-toml <TOML>    Additional configuration options (can be repeated)
+# @arg paths+[`_choice_path`]     Paths to untrack.
+file::untrack() {
+    :;
+}
+# }}} jj file untrack
+# }} jj file
+
+# {{ jj fix
+# @cmd Update files with formatting fixes or other changes
+# @option -s --source                Fix files in the specified revision(s) and their descendants.
+# @flag --include-unchanged-files    Fix unchanged files in addition to changed ones.
+# @flag -h --help                    Print help (see a summary with '-h')
+# @option -R --repository            Path to repository to operate on
+# @flag --ignore-working-copy        Don't snapshot the working copy, and don't update it
+# @flag --ignore-immutable           Allow rewriting immutable commits
+# @option --at-operation[`_choice_operation`] <AT_OPERATION>  Operation to load the repo at
+# @flag --debug                      Enable debug logging
+# @option --color[always|never|debug|auto] <WHEN>  When to colorize output
+# @flag --quiet                      Silence non-primary command output
+# @flag --no-pager                   Disable the pager
+# @option --config-toml <TOML>       Additional configuration options (can be repeated)
+# @arg paths*[`_choice_path`]        Fix only these paths
 fix() {
     :;
 }
@@ -601,19 +672,20 @@ git() {
 
 # {{{ jj git clone
 # @cmd Create a new repo backed by a clone of a Git repo
-# @flag --colocate                Whether or not to colocate the Jujutsu repo with the git repo
-# @flag -h --help                 Print help (see a summary with '-h')
-# @option -R --repository         Path to repository to operate on
-# @flag --ignore-working-copy     Don't snapshot the working copy, and don't update it
-# @flag --ignore-immutable        Allow rewriting immutable commits
+# @option --remote <REMOTE_NAME>    Name of the newly created remote
+# @flag --colocate                  Whether or not to colocate the Jujutsu repo with the git repo
+# @flag -h --help                   Print help (see a summary with '-h')
+# @option -R --repository           Path to repository to operate on
+# @flag --ignore-working-copy       Don't snapshot the working copy, and don't update it
+# @flag --ignore-immutable          Allow rewriting immutable commits
 # @option --at-operation[`_choice_operation`] <AT_OPERATION>  Operation to load the repo at
-# @flag --debug                   Enable debug logging
+# @flag --debug                     Enable debug logging
 # @option --color[always|never|debug|auto] <WHEN>  When to colorize output
-# @flag --quiet                   Silence non-primary command output
-# @flag --no-pager                Disable the pager
-# @option --config-toml <TOML>    Additional configuration options (can be repeated)
-# @arg source!                    URL or path of the Git repo to clone
-# @arg destination                Specifies the target directory for the Jujutsu repository clone.
+# @flag --quiet                     Silence non-primary command output
+# @flag --no-pager                  Disable the pager
+# @option --config-toml <TOML>      Additional configuration options (can be repeated)
+# @arg source!                      URL or path of the Git repo to clone
+# @arg destination                  Specifies the target directory for the Jujutsu repository clone.
 git::clone() {
     :;
 }
@@ -696,14 +768,14 @@ git::init() {
 # {{{ jj git push
 # @cmd Push to a Git remote
 # @option --remote                   The remote to push to (only named remotes are supported)
-# @option -b --branch                Push only this branch, or branches matching a pattern (can be repeated)
-# @flag --all                        Push all branches (including deleted branches)
-# @flag --tracked                    Push all tracked branches (including deleted branches)
-# @flag --deleted                    Push all deleted branches
+# @option -b --bookmark              Push only this bookmark, or bookmarks matching a pattern (can be repeated)
+# @flag --all                        Push all bookmarks (including deleted bookmarks)
+# @flag --tracked                    Push all tracked bookmarks (including deleted bookmarks)
+# @flag --deleted                    Push all deleted bookmarks
 # @flag --allow-empty-description    Allow pushing commits with empty descriptions
 # @flag --allow-private              Allow pushing commits that are private
-# @option -r --revisions             Push branches pointing to these commits (can be repeated)
-# @option -c --change                Push this commit by creating a branch based on its change ID (can be repeated)
+# @option -r --revisions             Push bookmarks pointing to these commits (can be repeated)
+# @option -c --change                Push this commit by creating a bookmark based on its change ID (can be repeated)
 # @flag --dry-run                    Only display what will change on the remote
 # @flag -h --help                    Print help (see a summary with '-h')
 # @option -R --repository            Path to repository to operate on
@@ -773,7 +845,7 @@ git::remote::list() {
 # }}}} jj git remote list
 
 # {{{{ jj git remote remove
-# @cmd Remove a Git remote and forget its branches
+# @cmd Remove a Git remote and forget its bookmarks
 # @flag -h --help                 Print help (see a summary with '-h')
 # @option -R --repository         Path to repository to operate on
 # @flag --ignore-working-copy     Don't snapshot the working copy, and don't update it
@@ -878,7 +950,7 @@ interdiff() {
 
 # {{ jj log
 # @cmd Show revision history
-# @option -r --revisions          Which revisions to show.
+# @option -r --revisions          Which revisions to show
 # @flag --reversed                Show revisions in the opposite order (older revisions first)
 # @option -n --limit              Limit number of revisions to show
 # @flag --no-graph                Don't show the graph, show a flat list of revisions
@@ -933,6 +1005,7 @@ new() {
 # {{ jj next
 # @cmd Move the working-copy commit to the child revision
 # @flag -e --edit                 Instead of creating a new working-copy commit on top of the target commit (like `jj new`), edit the target commit directly (like `jj edit`)
+# @flag -n --no-edit              The inverse of `--edit`
 # @flag --conflict                Jump to the next conflicted descendant
 # @flag -h --help                 Print help (see a summary with '-h')
 # @option -R --repository         Path to repository to operate on
@@ -949,36 +1022,6 @@ next() {
     :;
 }
 # }} jj next
-
-# {{ jj obslog
-# @cmd Show how a change has evolved over time
-# @option -r --revision           [default: @]
-# @option -n --limit              Limit number of revisions to show
-# @flag --no-graph                Don't show the graph, show a flat list of revisions
-# @option -T --template           Render each revision using the given template
-# @flag -p --patch                Show patch compared to the previous version of this change
-# @flag -h --help                 Print help (see a summary with '-h')
-# @flag -s --summary              For each path, show only whether it was modified, added, or deleted
-# @flag --stat                    Show a histogram of the changes
-# @flag --types                   For each path, show only its type before and after
-# @flag --name-only               For each path, show only its path
-# @flag --git                     Show a Git-format diff
-# @flag --color-words             Show a word-level diff with changes indicated only by color
-# @option --tool                  Generate diff by external command
-# @option --context               Number of lines of context to show
-# @option -R --repository         Path to repository to operate on
-# @flag --ignore-working-copy     Don't snapshot the working copy, and don't update it
-# @flag --ignore-immutable        Allow rewriting immutable commits
-# @option --at-operation[`_choice_operation`] <AT_OPERATION>  Operation to load the repo at
-# @flag --debug                   Enable debug logging
-# @option --color[always|never|debug|auto] <WHEN>  When to colorize output
-# @flag --quiet                   Silence non-primary command output
-# @flag --no-pager                Disable the pager
-# @option --config-toml <TOML>    Additional configuration options (can be repeated)
-obslog() {
-    :;
-}
-# }} jj obslog
 
 # {{ jj operation
 # @cmd Commands for working with the operation log [aliases: op]
@@ -1049,7 +1092,17 @@ operation::diff() {
 # @option -n --limit              Limit number of operations to show
 # @flag --no-graph                Don't show the graph, show a flat list of operations
 # @option -T --template           Render each operation using the given template
+# @flag --op-diff                 Show changes to the repository at each operation
+# @flag -p --patch                Show patch of modifications to changes (implies --op-diff)
 # @flag -h --help                 Print help (see a summary with '-h')
+# @flag -s --summary              For each path, show only whether it was modified, added, or deleted
+# @flag --stat                    Show a histogram of the changes
+# @flag --types                   For each path, show only its type before and after
+# @flag --name-only               For each path, show only its path
+# @flag --git                     Show a Git-format diff
+# @flag --color-words             Show a word-level diff with changes indicated only by color
+# @option --tool                  Generate diff by external command
+# @option --context               Number of lines of context to show
 # @option -R --repository         Path to repository to operate on
 # @flag --ignore-working-copy     Don't snapshot the working copy, and don't update it
 # @flag --ignore-immutable        Allow rewriting immutable commits
@@ -1152,6 +1205,7 @@ parallelize() {
 # {{ jj prev
 # @cmd Change the working copy revision relative to the parent revision
 # @flag -e --edit                 Edit the parent directly, instead of moving the working-copy commit
+# @flag -n --no-edit              The inverse of `--edit`
 # @flag --conflict                Jump to the previous conflicted ancestor
 # @flag -h --help                 Print help (see a summary with '-h')
 # @option -R --repository         Path to repository to operate on
@@ -1226,6 +1280,7 @@ resolve() {
 # @option --from                        Revision to restore from (source)
 # @option --to                          Revision to restore into (destination)
 # @option -c --changes-in <REVISION>    Undo the changes in a revision as compared to the merge of its parents.
+# @flag --restore-descendants           Preserve the content (not the diff) when rebasing descendants
 # @flag -h --help                       Print help (see a summary with '-h')
 # @option -R --repository               Path to repository to operate on
 # @flag --ignore-working-copy           Don't snapshot the working copy, and don't update it
@@ -1405,7 +1460,7 @@ split() {
 # @flag -u --use-destination-message    Use the description of the destination revision and discard the description(s) of the source revision(s)
 # @flag -i --interactive                Interactively choose which parts to squash
 # @option --tool <NAME>                 Specify diff editor to be used (implies --interactive)
-# @flag --keep-emptied                  The source revision will not be abandoned
+# @flag -k --keep-emptied               The source revision will not be abandoned
 # @flag -h --help                       Print help (see a summary with '-h')
 # @option -R --repository               Path to repository to operate on
 # @flag --ignore-working-copy           Don't snapshot the working copy, and don't update it
@@ -1582,44 +1637,6 @@ undo() {
 }
 # }} jj undo
 
-# {{ jj unsquash
-# @cmd Move changes from a revision's parent into the revision
-# @option -r --revision           [default: @]
-# @flag -i --interactive          Interactively choose which parts to unsquash
-# @option --tool <NAME>           Specify diff editor to be used (implies --interactive)
-# @flag -h --help                 Print help (see a summary with '-h')
-# @option -R --repository         Path to repository to operate on
-# @flag --ignore-working-copy     Don't snapshot the working copy, and don't update it
-# @flag --ignore-immutable        Allow rewriting immutable commits
-# @option --at-operation[`_choice_operation`] <AT_OPERATION>  Operation to load the repo at
-# @flag --debug                   Enable debug logging
-# @option --color[always|never|debug|auto] <WHEN>  When to colorize output
-# @flag --quiet                   Silence non-primary command output
-# @flag --no-pager                Disable the pager
-# @option --config-toml <TOML>    Additional configuration options (can be repeated)
-unsquash() {
-    :;
-}
-# }} jj unsquash
-
-# {{ jj untrack
-# @cmd Stop tracking specified paths in the working copy
-# @flag -h --help                 Print help (see a summary with '-h')
-# @option -R --repository         Path to repository to operate on
-# @flag --ignore-working-copy     Don't snapshot the working copy, and don't update it
-# @flag --ignore-immutable        Allow rewriting immutable commits
-# @option --at-operation[`_choice_operation`] <AT_OPERATION>  Operation to load the repo at
-# @flag --debug                   Enable debug logging
-# @option --color[always|never|debug|auto] <WHEN>  When to colorize output
-# @flag --quiet                   Silence non-primary command output
-# @flag --no-pager                Disable the pager
-# @option --config-toml <TOML>    Additional configuration options (can be repeated)
-# @arg paths+[`_choice_path`]     Paths to untrack.
-untrack() {
-    :;
-}
-# }} jj untrack
-
 # {{ jj version
 # @cmd Display version information
 # @flag -h --help                 Print help (see a summary with '-h')
@@ -1655,19 +1672,20 @@ workspace() {
 
 # {{{ jj workspace add
 # @cmd Add a workspace
-# @option --name                  A name for the workspace
-# @option -r --revision           A list of parent revisions for the working-copy commit of the newly created workspace.
-# @flag -h --help                 Print help (see a summary with '-h')
-# @option -R --repository         Path to repository to operate on
-# @flag --ignore-working-copy     Don't snapshot the working copy, and don't update it
-# @flag --ignore-immutable        Allow rewriting immutable commits
+# @option --name                                 A name for the workspace
+# @option -r --revision                          A list of parent revisions for the working-copy commit of the newly created workspace.
+# @option --sparse-patterns <SPARSE_PATTERNS>    How to handle sparse patterns when creating a new workspace
+# @flag -h --help                                Print help (see a summary with '-h')
+# @option -R --repository                        Path to repository to operate on
+# @flag --ignore-working-copy                    Don't snapshot the working copy, and don't update it
+# @flag --ignore-immutable                       Allow rewriting immutable commits
 # @option --at-operation[`_choice_operation`] <AT_OPERATION>  Operation to load the repo at
-# @flag --debug                   Enable debug logging
+# @flag --debug                                  Enable debug logging
 # @option --color[always|never|debug|auto] <WHEN>  When to colorize output
-# @flag --quiet                   Silence non-primary command output
-# @flag --no-pager                Disable the pager
-# @option --config-toml <TOML>    Additional configuration options (can be repeated)
-# @arg destination!               Where to create the new workspace
+# @flag --quiet                                  Silence non-primary command output
+# @flag --no-pager                               Disable the pager
+# @option --config-toml <TOML>                   Additional configuration options (can be repeated)
+# @arg destination!                              Where to create the new workspace
 workspace::add() {
     :;
 }
@@ -1707,6 +1725,24 @@ workspace::list() {
     :;
 }
 # }}} jj workspace list
+
+# {{{ jj workspace rename
+# @cmd Renames the current workspace
+# @flag -h --help                 Print help (see a summary with '-h')
+# @option -R --repository         Path to repository to operate on
+# @flag --ignore-working-copy     Don't snapshot the working copy, and don't update it
+# @flag --ignore-immutable        Allow rewriting immutable commits
+# @option --at-operation[`_choice_operation`] <AT_OPERATION>  Operation to load the repo at
+# @flag --debug                   Enable debug logging
+# @option --color[always|never|debug|auto] <WHEN>  When to colorize output
+# @flag --quiet                   Silence non-primary command output
+# @flag --no-pager                Disable the pager
+# @option --config-toml <TOML>    Additional configuration options (can be repeated)
+# @arg new_workspace_name!        The name of the workspace to update to
+workspace::rename() {
+    :;
+}
+# }}} jj workspace rename
 
 # {{{ jj workspace root
 # @cmd Show the current workspace root directory
@@ -1750,16 +1786,16 @@ _choice_operation() {
     sed -n 's/^\(\S\)\s\+\(\S\+\)\s\+/\2\t/p'
 }
 
-_choice_branch() {
-    jj branch list | sed 's/: /\t/'
+_choice_bookmark() {
+    jj bookmark list | sed 's/: /\t/'
 }
 
-_choice_branch_remote() {
-    jj branch list --all | gawk '{
+_choice_bookmark_remote() {
+    jj bookmark list --all | gawk '{
         if (match($0, /^([^@:]+): /, arr)) {
-            branch=arr[1]
+            bookmark=arr[1]
         } else if (match($0, /^\s+(@\S+): (.*)/, arr)) {
-            print branch arr[1] "\t" arr[2]
+            print bookmark arr[1] "\t" arr[2]
         } else if (match($0, /^(\S+): (.*)/, arr)) {
             print arr[1] "\t" arr[2]
         }
