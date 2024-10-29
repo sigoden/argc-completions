@@ -8,12 +8,12 @@ _patch_table() {
             'workspaces;[`_choice_workspace`]' \
             'operation;[`_choice_operation`]' \
     )"
-    if [[ "$*" == "jj branch"* ]]; then
+    if [[ "$*" == "jj bookmark"* ]]; then
         echo "$table" | \
         _patch_table_edit_arguments \
-            'names;[`_choice_branch`]' \
-            'branch-remote;[`_choice_branch_remote`]' \
-            'old;[`_choice_branch`]' \
+            'names;[`_choice_bookmark`]' \
+            'bookmark-remote;[`_choice_bookmark_remote`]' \
+            'old;[`_choice_bookmark`]' \
 
     elif [[ "$*" == "jj config"* ]]; then
         echo "$table" | \
@@ -39,16 +39,16 @@ _choice_operation() {
     sed -n 's/^\(\S\)\s\+\(\S\+\)\s\+/\2\t/p'
 }
 
-_choice_branch() {
-    jj branch list | sed 's/: /\t/'
+_choice_bookmark() {
+    jj bookmark list | sed 's/: /\t/'
 }
 
-_choice_branch_remote() {
-    jj branch list --all | gawk '{
+_choice_bookmark_remote() {
+    jj bookmark list --all | gawk '{
         if (match($0, /^([^@:]+): /, arr)) {
-            branch=arr[1]
+            bookmark=arr[1]
         } else if (match($0, /^\s+(@\S+): (.*)/, arr)) {
-            print branch arr[1] "\t" arr[2]
+            print bookmark arr[1] "\t" arr[2]
         } else if (match($0, /^(\S+): (.*)/, arr)) {
             print arr[1] "\t" arr[2]
         }
