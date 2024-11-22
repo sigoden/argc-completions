@@ -157,7 +157,7 @@ EOF
 \$env:ARGC_COMPLETIONS_PATH = (\$env:ARGC_COMPLETIONS_ROOT + '${sep}completions${sep}${os}${sep2}' + \$env:ARGC_COMPLETIONS_ROOT + '${sep}completions')    
 \$env:PATH = \$env:ARGC_COMPLETIONS_ROOT + '${sep}bin' + [IO.Path]::PathSeparator + \$env:PATH
 # To add completions for only the specified command, modify next line e.g. \$argc_scripts = @("cargo", "git")
-\$argc_scripts = ((Get-ChildItem -File -Path (\$env:ARGC_COMPLETIONS_ROOT + '${sep}completions${sep}${os}'),(\$env:ARGC_COMPLETIONS_ROOT + '${sep}completions')) | ForEach-Object { \$_.Name -replace '\.sh$' })
+\$argc_scripts = ((Get-ChildItem -File -Path (\$env:ARGC_COMPLETIONS_ROOT + '${sep}completions${sep}${os}'),(\$env:ARGC_COMPLETIONS_ROOT + '${sep}completions')) | ForEach-Object { \$_.BaseName })
 argc --argc-completions powershell \$argc_scripts | Out-String | Invoke-Expression
 EOF
         ;;
