@@ -87,6 +87,10 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_commands 'index(index, make)'
 
+    elif [[ "$*" == "opam config "* ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments 'var;*[`_choice_var`]'
+
     elif [[ "$*" == "opam exec" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments \
@@ -117,6 +121,10 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_arguments 'packages;*[`_choice_installed_package`]'
 
+    elif [[ "$*" == "opam repository "* ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments 'name;*[`_choice_repository`]'
+
     elif [[ "$*" == "opam switch create" ]] \
       || [[ "$*" == "opam switch install" ]] \
     ; then
@@ -130,14 +138,6 @@ _patch_table() {
     elif [[ "$*" == "opam var" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments 'var-value;*[`_choice_var`]'
-
-    elif [[ "$*" == "opam config "* ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments 'var;*[`_choice_var`]'
-
-    elif [[ "$*" == "opam repository "* ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments 'name;*[`_choice_repository`]'
 
     else
         echo "$table"

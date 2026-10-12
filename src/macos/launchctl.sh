@@ -1,9 +1,9 @@
 _patch_help() {
     if [[ "$*" == "launchctl" ]]; then
         $@ --help 2>&1
-    elif [[ "$*" == "launchctl kickstart" ]] \
-      || [[ "$*" == "launchctl attach" ]] \
+    elif [[ "$*" == "launchctl attach" ]] \
       || [[ "$*" == "launchctl debug" ]] \
+      || [[ "$*" == "launchctl kickstart" ]] \
       || [[ "$*" == "launchctl list" ]] \
       || [[ "$*" == "launchctl submit" ]] \
     ; then

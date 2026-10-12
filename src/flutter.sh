@@ -55,17 +55,7 @@ _patch_table() {
             '--web-renderer;[auto|canvaskit|html]' \
     )"
 
-    if [[ "$*" == "flutter channel" ]]; then
-        echo "$table" | _patch_table_edit_arguments 'channel-name;[`_choice_channel`]'
-
-    elif [[ "$*" == "flutter config" ]]; then
-        echo "$table" | \
-        _patch_table_edit_options \
-            '--android-sdk(<dir>)' \
-            '--android-studio-dir(<dir>)' \
-            '--build-dir(<dir>)' \
-
-    elif [[ "$*" == "flutter assemble" ]]; then
+    if [[ "$*" == "flutter assemble" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
             '--asset-dir(<dir>)' \
@@ -76,6 +66,14 @@ _patch_table() {
             '--input(<key=value>)' \
             '--output(<dir>)' \
             '--resource-pool-size(<n>)' \
+
+    elif [[ "$*" == "flutter attach" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--app-id(<url>)' \
+            '--debug-url(<url>)' \
+            '--pid-file(<file>)' \
+
 
     elif [[ "$*" == "flutter build"* ]]; then
         table="$( \
@@ -122,10 +120,20 @@ _patch_table() {
             echo "$table"
         fi
 
+    elif [[ "$*" == "flutter channel" ]]; then
+        echo "$table" | _patch_table_edit_arguments 'channel-name;[`_choice_channel`]'
+
     elif [[ "$*" == "flutter clean" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
             '--scheme(<value>)' \
+
+    elif [[ "$*" == "flutter config" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--android-sdk(<dir>)' \
+            '--android-studio-dir(<dir>)' \
+            '--build-dir(<dir>)' \
 
     elif [[ "$*" == "flutter create" ]]; then
         echo "$table" | \
@@ -150,6 +158,12 @@ _patch_table() {
             '--test-arguments(<value>)' \
             '--use-application-binary(<file:.apk>)' \
             '--web-launch-url(<url>)' \
+
+    elif [[ "$*" == "flutter emulators" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--launch;[`_choice_emulator`]' \
+            '--name(<value>)' \
 
     elif [[ "$*" == "flutter gen-l10n" ]]; then
         echo "$table" | \
@@ -190,31 +204,6 @@ _patch_table() {
             '--use-application-binary(<path>)' \
             '--web-launch-url(<url>)' \
 
-    elif [[ "$*" == "flutter test" ]]; then
-        echo "$table" | \
-        _patch_table_edit_options \
-            '--exclude-tags(<tag...>)' \
-            '--reporter;[`_choice_test_reporter`]' \
-            '--shard-index(<n>)' \
-            '--tags(<tag...>)' \
-            '--test-randomize-ordering-seed(<value>)' \
-            '--timeout(<value>)' \
-            '--total-shards(<n>)' \
-
-    elif [[ "$*" == "flutter attach" ]]; then
-        echo "$table" | \
-        _patch_table_edit_options \
-            '--app-id(<url>)' \
-            '--debug-url(<url>)' \
-            '--pid-file(<file>)' \
-
-
-    elif [[ "$*" == "flutter emulators" ]]; then
-        echo "$table" | \
-        _patch_table_edit_options \
-            '--launch;[`_choice_emulator`]' \
-            '--name(<value>)' \
-
     elif [[ "$*" == "flutter screenshot" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
@@ -226,6 +215,17 @@ _patch_table() {
             '--debug-info(<file>)' \
             '--input(<path>)' \
             '--output(<path>)' \
+
+    elif [[ "$*" == "flutter test" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--exclude-tags(<tag...>)' \
+            '--reporter;[`_choice_test_reporter`]' \
+            '--shard-index(<n>)' \
+            '--tags(<tag...>)' \
+            '--test-randomize-ordering-seed(<value>)' \
+            '--timeout(<value>)' \
+            '--total-shards(<n>)' \
 
     else
         echo "$table"

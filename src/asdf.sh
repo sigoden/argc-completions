@@ -33,7 +33,40 @@ EOF
 
 _patch_table() {
 
-    if [[ "$*" == "asdf plugin add" ]]; then
+    if [[ "$*" == "asdf current" ]] \
+    || [[ "$*" == "asdf global" ]] \
+    || [[ "$*" == "asdf help" ]] \
+    || [[ "$*" == "asdf list" ]] \
+    || [[ "$*" == "asdf local" ]] \
+    || [[ "$*" == "asdf reshim" ]] \
+    || [[ "$*" == "asdf shell" ]] \
+    || [[ "$*" == "asdf uninstall" ]] \
+    || [[ "$*" == "asdf where" ]] \
+    ; then
+        _patch_table_edit_arguments \
+            'name;[`_choice_installed_plugin`]' \
+            'version;[`_choice_installed_version`]' \
+
+    elif [[ "$*" == "asdf env" ]] \
+      || [[ "$*" == "asdf shim-versions" ]] \
+      || [[ "$*" == "asdf which" ]] \
+    ; then
+        _patch_table_edit_arguments \
+            'command;[`_choice_shim`]' \
+
+    elif [[ "$*" == "asdf exec" ]]; then
+        _patch_table_edit_arguments \
+            'command;[`_choice_shim`]' \
+            'args;~[`_module_os_command_args`]' \
+
+    elif [[ "$*" == "asdf install" ]] \
+      || [[ "$*" == "asdf latest" ]] \
+    ; then
+        _patch_table_edit_arguments \
+            'name;[`_choice_installed_plugin`]' \
+            'version;[`_choice_version`]' \
+
+    elif [[ "$*" == "asdf plugin add" ]]; then
         _patch_table_edit_arguments \
             'name;[`_choice_plugin_cached`]' \
 
@@ -46,39 +79,6 @@ _patch_table() {
     ; then
         _patch_table_edit_arguments \
             'name;[`_choice_installed_plugin`]' \
-
-    elif [[ "$*" == "asdf current" ]] \
-      || [[ "$*" == "asdf global" ]] \
-      || [[ "$*" == "asdf list" ]] \
-      || [[ "$*" == "asdf local" ]] \
-      || [[ "$*" == "asdf shell" ]] \
-      || [[ "$*" == "asdf uninstall" ]] \
-      || [[ "$*" == "asdf where" ]] \
-      || [[ "$*" == "asdf reshim" ]] \
-      || [[ "$*" == "asdf help" ]] \
-    ; then
-        _patch_table_edit_arguments \
-            'name;[`_choice_installed_plugin`]' \
-            'version;[`_choice_installed_version`]' \
-
-    elif [[ "$*" == "asdf install" ]] \
-      || [[ "$*" == "asdf latest" ]] \
-    ; then
-        _patch_table_edit_arguments \
-            'name;[`_choice_installed_plugin`]' \
-            'version;[`_choice_version`]' \
-
-    elif [[ "$*" == "asdf which" ]] \
-      || [[ "$*" == "asdf env" ]] \
-      || [[ "$*" == "asdf shim-versions" ]] \
-    ; then
-        _patch_table_edit_arguments \
-            'command;[`_choice_shim`]' \
-
-    elif [[ "$*" == "asdf exec" ]]; then
-        _patch_table_edit_arguments \
-            'command;[`_choice_shim`]' \
-            'args;~[`_module_os_command_args`]' \
 
     else
         cat

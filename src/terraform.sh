@@ -3,13 +3,13 @@ _patch_help() {
 }
 
 _patch_table() {
-    if [[ "$*" == "terraform plan" ]]; then
+    if [[ "$*" == "terraform destroy" ]]; then
+        _patch_table_copy_options terraform apply
+
+    elif [[ "$*" == "terraform plan" ]]; then
         _patch_table_edit_options \
             '-replace;[`_choice_resource_parts`]' \
             '-target;[`_choice_resource_parts`]' \
-
-    elif [[ "$*" == "terraform destroy" ]]; then
-        _patch_table_copy_options terraform apply
 
     elif [[ "$*" == "terraform refresh" ]]; then
         _patch_table_edit_options \

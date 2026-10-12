@@ -8,8 +8,8 @@ _patch_table() {
     if [[ "$*" == "tfenv install" ]]; then
         _patch_table_edit_arguments ';;' 'version;[`_choice_version`]'
 
-    elif [[ "$*" == "tfenv use" ]] \
-      || [[ "$*" == "tfenv uninstall" ]] \
+    elif [[ "$*" == "tfenv uninstall" ]] \
+      || [[ "$*" == "tfenv use" ]] \
     ; then
         _patch_table_edit_arguments ';;' 'version;[`_choice_installed_version`]'
 

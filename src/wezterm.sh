@@ -10,17 +10,17 @@ _patch_table() {
             'prog;~[`_module_os_exec`]' \
     )"
 
-    if [[ "$*" == "wezterm ssh" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments 'user_at_host_and_port;[`_module_ssh_host`]'
-
-    elif [[ "$*" == "wezterm set-working-directory" ]]; then
+    if [[ "$*" == "wezterm set-working-directory" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments 'cwd(<DIR>)'
 
     elif [[ "$*" == "wezterm shell-completion" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments 'shell;[bash|elvish|fish|power-shell|zsh|fig]'
+
+    elif [[ "$*" == "wezterm ssh" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments 'user_at_host_and_port;[`_module_ssh_host`]'
 
     else
         echo "$table"

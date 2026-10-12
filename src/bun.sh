@@ -11,9 +11,6 @@ _patch_help() {
             -e '/ (bun \w\+)$/ s/  \(\w\+\)\(.*\)(bun \(\w\+\))$/  \1, \3\2/' \
         | _common_edit
 
-    elif [[ "$*" == "bun x" ]]; then
-        :;
-
     elif [[ "$*" == "bun pm" ]]; then
         echo "Commands:"
         $@ --help |
@@ -27,6 +24,9 @@ _patch_help() {
 # ls
     --all
 EOF
+
+    elif [[ "$*" == "bun x" ]]; then
+        :;
 
     else
         $@ --help | _common_edit
@@ -67,20 +67,20 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_arguments ';;' '[args]...;[`_choice_script_or_bin`]'
 
-    elif [[ "$*" == "bun run" ]]; then
-        echo "$table" | _patch_table_edit_arguments ';;' 'script_or_bin;[`_choice_script_or_bin`]' 'args...'
+    elif [[ "$*" == "bun build" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments ';;' 'files...'
 
-    elif [[ "$*" == "bun remove" ]] \
-      || [[ "$*" == "bun link" ]] \
+    elif [[ "$*" == "bun link" ]] \
+      || [[ "$*" == "bun remove" ]] \
     ; then
         echo "$table" | _patch_table_edit_arguments ';;' 'package;[`_choice_dependency`]'
 
     elif [[ "$*" == "bun patch" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'name;[`_choice_patch`]'
 
-    elif [[ "$*" == "bun build" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments ';;' 'files...'
+    elif [[ "$*" == "bun run" ]]; then
+        echo "$table" | _patch_table_edit_arguments ';;' 'script_or_bin;[`_choice_script_or_bin`]' 'args...'
 
     else
         echo "$table"

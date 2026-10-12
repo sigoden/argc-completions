@@ -111,25 +111,6 @@ Options:
     -vendor      exclude tests of dependencies
 EOF
 
-    elif [[ "$*" == "go work edit" ]]; then
-        cat <<-'EOF'
-Options:
-    -dropreplace <value>...      drop a replacement
-    -dropuse <value>...          drop a use directive
-    -fmt                         reformat the go.work file without making other changes
-    -go <value>                  set the expected Go language version
-    -json                        print the final go.work in JSON format
-    -print                       print the final go.work in its text format
-    -replace <value>...          add a replacement
-    -use <file>...               add a use directive
-EOF
-
-    elif [[ "$*" == "go work use" ]]; then
-        cat <<-'EOF'
-Options:
-    -r                           recursively for modules in the argument directories
-EOF
-
     elif [[ "$*" == "go run" ]]; then
         cat <<-'EOF'
 Options:
@@ -176,6 +157,25 @@ Options:
     -x      print commands as they are executed
 EOF
 
+
+    elif [[ "$*" == "go work edit" ]]; then
+        cat <<-'EOF'
+Options:
+    -dropreplace <value>...      drop a replacement
+    -dropuse <value>...          drop a use directive
+    -fmt                         reformat the go.work file without making other changes
+    -go <value>                  set the expected Go language version
+    -json                        print the final go.work in JSON format
+    -print                       print the final go.work in its text format
+    -replace <value>...          add a replacement
+    -use <file>...               add a use directive
+EOF
+
+    elif [[ "$*" == "go work use" ]]; then
+        cat <<-'EOF'
+Options:
+    -r                           recursively for modules in the argument directories
+EOF
 
     else
         _patch_help_run_help_subcmd $@
@@ -237,15 +237,6 @@ _patch_table() {
     elif [[ "$*" == "go mod why" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'packages;*[`_choice_mod_why`]'
 
-    elif [[ "$*" == "go work edit" ]]; then
-        echo "$table" \ |
-        _patch_table_edit_options \
-            '-dropreplace;*|[`_choice_work_dropreplace`]' \
-            '-dropuse;*|[`_choice_work_dropuse`]' \
-            '-replace;*|[`_choice_work_replace`]' \
-        | \
-        _patch_table_edit_arguments ';;' 'workfile <file:go.work>'
-
     elif [[ "$*" == "go run" ]]; then
         echo "$table" | \
         _patch_table_copy_options go build
@@ -258,6 +249,15 @@ _patch_table() {
 
     elif [[ "$*" == "go tool" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;' 'name;[`_choice_tool`]' 'args...'
+
+    elif [[ "$*" == "go work edit" ]]; then
+        echo "$table" \ |
+        _patch_table_edit_options \
+            '-dropreplace;*|[`_choice_work_dropreplace`]' \
+            '-dropuse;*|[`_choice_work_dropuse`]' \
+            '-replace;*|[`_choice_work_replace`]' \
+        | \
+        _patch_table_edit_arguments ';;' 'workfile <file:go.work>'
 
     else
         echo "$table"

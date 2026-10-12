@@ -110,13 +110,19 @@ _patch_table() {
             'snapshot-filesystem;[`_choice_snapshot_filesystem`]' \
             'volume;[`_choice_volume`]' \
     )"
-    if [[ "$*" == "zfs list" ]]; then
+    if [[ "$*" == "zfs allow" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '-S;[`_choice_property_key`]' \
-            '-o;*,[`_choice_property_key`]' \
-            '-s;[`_choice_property_key`]' \
-            '-t;*,[`_choice_dataset_type`]' \
+            '-g;*,[`_module_os_group`]' \
+            '-u;*,[`_module_os_user`]' \
+
+    elif [[ "$*" == "zfs change-key" ]] \
+      || [[ "$*" == "zfs clone" ]] \
+      || [[ "$*" == "zfs snapshot" ]] \
+    ; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '-o;*[`_choice_property`]' \
 
     elif [[ "$*" == "zfs create" ]]; then
         echo "$table" | \
@@ -124,21 +130,6 @@ _patch_table() {
             '-o;*[`_choice_property`]' \
         | \
         _patch_table_edit_arguments ';;' 'filesystem-volume;[`_choice_filesystem_volume`]'
-
-    elif [[ "$*" == "zfs snapshot" ]] \
-      || [[ "$*" == "zfs clone" ]] \
-      || [[ "$*" == "zfs change-key" ]] \
-    ; then
-        echo "$table" | \
-        _patch_table_edit_options \
-            '-o;*[`_choice_property`]' \
-
-    elif [[ "$*" == "zfs send" ]]; then
-        echo "$table" | \
-        _patch_table_edit_options \
-            '-I;[`_choice_snapshot`]' \
-            '-i;[`_choice_snapshot`]' \
-
 
     elif [[ "$*" == "zfs get" ]]; then
         echo "$table" | \
@@ -152,9 +143,32 @@ _patch_table() {
             'property;[`_choice_get_property`]' \
             'dataset;[`_choice_dataset`]'
 
+    elif [[ "$*" == "zfs list" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '-S;[`_choice_property_key`]' \
+            '-o;*,[`_choice_property_key`]' \
+            '-s;[`_choice_property_key`]' \
+            '-t;*,[`_choice_dataset_type`]' \
+
+    elif [[ "$*" == "zfs program" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments 'pool;[`_choice_pool`]'
+
+    elif [[ "$*" == "zfs send" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '-I;[`_choice_snapshot`]' \
+            '-i;[`_choice_snapshot`]' \
+
+
     elif [[ "$*" == "zfs set" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments ';;' 'property;*[`_choice_property`]'
+
+    elif [[ "$*" == "zfs unallow" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments ';;' 'filesystem-volume;[`_choice_filesystem_volume`]'
 
     elif [[ "$*" == "zfs userspace" ]]; then
         echo "$table" | \
@@ -165,20 +179,6 @@ _patch_table() {
             '-t;*,[`_choice_userspace_type`]' \
         | \
         _patch_table_edit_arguments ';;' 'filesystem-snapshot-path;[`_choice_filesystem_snapshot_path`]'
-
-    elif [[ "$*" == "zfs allow" ]]; then
-        echo "$table" | \
-        _patch_table_edit_options \
-            '-g;*,[`_module_os_group`]' \
-            '-u;*,[`_module_os_user`]' \
-
-    elif [[ "$*" == "zfs unallow" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments ';;' 'filesystem-volume;[`_choice_filesystem_volume`]'
-
-    elif [[ "$*" == "zfs program" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments 'pool;[`_choice_pool`]'
 
     else
         echo "$table"

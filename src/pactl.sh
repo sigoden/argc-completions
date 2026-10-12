@@ -30,20 +30,9 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_arguments 'short;[`_choice_short`]' 'type;[`_chocie_type`]'
 
-    elif [[ "$*" == "pactl upload-sample" ]] \
-      || [[ "$*" == "pactl play-sample" ]] \
-      || [[ "$*" == "pactl remove-sample" ]] \
-    ; then
-        echo "$table" | \
-        _patch_table_edit_arguments 'name;[`_choice_sample`]'
-
     elif [[ "$*" == "pactl load-module" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments 'name;[`_choice_module_name`]'
-
-    elif [[ "$*" == "pactl unload-module" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments 'id-name;[`_choice_module`]'
 
     elif [[ "$*" == "pactl move-sink-input" ]]; then
         echo "$table" | \
@@ -52,6 +41,17 @@ _patch_table() {
     elif [[ "$*" == "pactl move-source-output" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments 'id;[`_choice_source_output`]'
+
+    elif [[ "$*" == "pactl play-sample" ]] \
+      || [[ "$*" == "pactl remove-sample" ]] \
+      || [[ "$*" == "pactl upload-sample" ]] \
+    ; then
+        echo "$table" | \
+        _patch_table_edit_arguments 'name;[`_choice_sample`]'
+
+    elif [[ "$*" == "pactl unload-module" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments 'id-name;[`_choice_module`]'
 
     else
         echo "$table"

@@ -8,26 +8,31 @@ _patch_table() {
     if [[ "$*" == "aptitude" ]]; then
         _patch_table_add_metadata inherit-flag-options
 
-    elif [[ "$*" == "aptitude install" ]] \
-      || [[ "$*" == "aptitude safe-upgrade" ]] \
-      || [[ "$*" == "aptitude full-upgrade" ]] \
-      || [[ "$*" == "aptitude build-dep" ]] \
-      || [[ "$*" == "aptitude show" ]] \
-      || [[ "$*" == "aptitude showsrc" ]] \
-      || [[ "$*" == "aptitude versions" ]] \
+    elif [[ "$*" == "aptitude add-user-tag" ]] \
+      || [[ "$*" == "aptitude remove-user-tag" ]] \
+    ; then
+        _patch_table_edit_arguments ';;' 'tag' 'pkg;*[`_choice_installed_package`]'
+
+    elif [[ "$*" == "aptitude build-dep" ]] \
       || [[ "$*" == "aptitude changelog" ]] \
       || [[ "$*" == "aptitude download" ]] \
+      || [[ "$*" == "aptitude full-upgrade" ]] \
+      || [[ "$*" == "aptitude install" ]] \
+      || [[ "$*" == "aptitude safe-upgrade" ]] \
+      || [[ "$*" == "aptitude show" ]] \
+      || [[ "$*" == "aptitude showsrc" ]] \
       || [[ "$*" == "aptitude source" ]] \
+      || [[ "$*" == "aptitude versions" ]] \
     ; then
         _patch_table_edit_arguments ';;' 'pkg;*[`_choice_package`]'
 
-    elif [[ "$*" == "aptitude remove" ]] \
-      || [[ "$*" == "aptitude purge" ]] \
+    elif [[ "$*" == "aptitude forbid-version" ]] \
       || [[ "$*" == "aptitude hold" ]] \
-      || [[ "$*" == "aptitude unhold" ]] \
-      || [[ "$*" == "aptitude forbid-version" ]] \
-      || [[ "$*" == "aptitude reinstall" ]] \
       || [[ "$*" == "aptitude makeauto" ]] \
+      || [[ "$*" == "aptitude purge" ]] \
+      || [[ "$*" == "aptitude reinstall" ]] \
+      || [[ "$*" == "aptitude remove" ]] \
+      || [[ "$*" == "aptitude unhold" ]] \
       || [[ "$*" == "aptitude unmakeauto" ]] \
     ; then
         _patch_table_edit_arguments ';;' 'pkg;*[`_choice_installed_package`]'
@@ -39,11 +44,6 @@ _patch_table() {
       || [[ "$*" == "aptitude why-not" ]] \
     ; then
         _patch_table_edit_arguments ';;' 'pkg;[`_choice_installed_package`]'
-
-    elif [[ "$*" == "aptitude add-user-tag" ]] \
-      || [[ "$*" == "aptitude remove-user-tag" ]] \
-    ; then
-        _patch_table_edit_arguments ';;' 'tag' 'pkg;*[`_choice_installed_package`]'
 
     else
         cat

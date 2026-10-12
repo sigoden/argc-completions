@@ -79,6 +79,37 @@ _patch_table() {
             '--get-values;[`_choice_field`]' \
             '--mode;[tabular|multiline]' \
 
+    elif [[ "$*" == "nmcli connection"* ]]; then
+        _patch_table_edit_arguments 'id;[`_choice_connection_id`]'
+
+    elif [[ "$*" == "nmcli device"* ]]; then
+        table="$(_patch_table_edit_arguments 'ifname;[`_choice_device_ifname`]')"
+
+        if [[ "$*" == "nmcli device lldp" ]]; then
+            echo "$table" | _patch_table_edit_arguments ';;' 'const1;[list]' 'const2;[ifname]' 'ifname;[`_choice_device_ifname`]'
+
+        elif [[ "$*" == "nmcli device set" ]]; then
+            echo "$table" | _patch_table_edit_arguments 'value;*[`_choice_device_set_values`]'
+
+        elif [[ "$*" == "nmcli device wifi connect" ]]; then
+            echo "$table" | _patch_table_edit_arguments ';;' 'ssid;[`_choice_wifi_ssid`]'
+
+        elif [[ "$*" == "nmcli device wifi hotspot" ]]; then
+            echo "$table" | _patch_table_edit_arguments ';;' 'args;*[`_choice_device_wifi_hotspot_args`]'
+
+        elif [[ "$*" == "nmcli device wifi list" ]]; then
+            echo "$table" | _patch_table_edit_arguments ';;' 'args;*[`_choice_device_wifi_list_args`]'
+
+        elif [[ "$*" == "nmcli device wifi rescan" ]]; then
+            echo "$table" | _patch_table_edit_arguments ';;' 'args;*[`_choice_device_wifi_rescan_args`]'
+
+        elif [[ "$*" == "nmcli device wifi show-password" ]]; then
+            echo "$table" | _patch_table_edit_arguments ';;' 'const;[ifname]' 'ifname;[`_choice_wifi_ifname`]'
+
+        else
+            echo "$table"
+        fi
+
     elif [[ "$*" == "nmcli general logging" ]]; then
         _patch_table_edit_arguments ';;'  'args;*[`_choice_general_logging_args`]'
 
@@ -87,37 +118,6 @@ _patch_table() {
 
     elif [[ "$*" == "nmcli networking connectivity" ]]; then
         _patch_table_edit_arguments ';;' 'check;*[`_choice_connectivity_check`]'
-
-    elif [[ "$*" == "nmcli connection"* ]]; then
-        _patch_table_edit_arguments 'id;[`_choice_connection_id`]'
-
-    elif [[ "$*" == "nmcli device"* ]]; then
-        table="$(_patch_table_edit_arguments 'ifname;[`_choice_device_ifname`]')"
-
-        if [[ "$*" == "nmcli device set" ]]; then
-            echo "$table" | _patch_table_edit_arguments 'value;*[`_choice_device_set_values`]'
-
-        elif [[ "$*" == "nmcli device wifi list" ]]; then
-            echo "$table" | _patch_table_edit_arguments ';;' 'args;*[`_choice_device_wifi_list_args`]'
-
-        elif [[ "$*" == "nmcli device wifi connect" ]]; then
-            echo "$table" | _patch_table_edit_arguments ';;' 'ssid;[`_choice_wifi_ssid`]'
-
-        elif [[ "$*" == "nmcli device wifi hotspot" ]]; then
-            echo "$table" | _patch_table_edit_arguments ';;' 'args;*[`_choice_device_wifi_hotspot_args`]'
-
-        elif [[ "$*" == "nmcli device wifi rescan" ]]; then
-            echo "$table" | _patch_table_edit_arguments ';;' 'args;*[`_choice_device_wifi_rescan_args`]'
-
-        elif [[ "$*" == "nmcli device wifi show-password" ]]; then
-            echo "$table" | _patch_table_edit_arguments ';;' 'const;[ifname]' 'ifname;[`_choice_wifi_ifname`]'
-
-        elif [[ "$*" == "nmcli device lldp" ]]; then
-            echo "$table" | _patch_table_edit_arguments ';;' 'const1;[list]' 'const2;[ifname]' 'ifname;[`_choice_device_ifname`]'
-
-        else
-            echo "$table"
-        fi
 
     else
         cat

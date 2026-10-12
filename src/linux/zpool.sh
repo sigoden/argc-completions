@@ -114,24 +114,24 @@ _patch_table() {
             'pool;[`_choice_pool`]' \
     )"
 
-    if [[ "$*" == "zpool create" ]]; then
+    if [[ "$*" == "zpool add" ]]; then
         echo "$table" | \
-        _patch_table_dedup_options \
-            '-o' \
+        _patch_table_edit_arguments 'vdev;[`_choice_pool_udev`]'
 
     elif [[ "$*" == "zpool attach" ]] \
+      || [[ "$*" == "zpool clear" ]] \
+      || [[ "$*" == "zpool offline" ]] \
       || [[ "$*" == "zpool replace" ]] \
       || [[ "$*" == "zpool split" ]] \
       || [[ "$*" == "zpool trim" ]] \
-      || [[ "$*" == "zpool offline" ]] \
-      || [[ "$*" == "zpool clear" ]] \
     ; then
         echo "$table" | \
         _patch_table_edit_arguments 'device;[`_choice_pool_udev`]'
 
-    elif [[ "$*" == "zpool add" ]]; then
+    elif [[ "$*" == "zpool create" ]]; then
         echo "$table" | \
-        _patch_table_edit_arguments 'vdev;[`_choice_pool_udev`]'
+        _patch_table_dedup_options \
+            '-o' \
 
     elif [[ "$*" == "zpool get" ]]; then
         echo "$table" | \

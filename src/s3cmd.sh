@@ -28,24 +28,11 @@ _patch_table() {
             '--acl-grant(PERMISSION:<EMAIL or USER_CANONICAL_ID>);[`_choice_acl`]' \
             '--acl-revoke;[`_choice_acl`]' \
 
-    elif [[ "$*" == "s3cmd sync" ]]; then
+    elif [[ "$*" == "s3cmd cfinval" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments \
             ';;' \
-            'src;[`_choice_s3_path_or_path`]' \
-            'dest;[`_choice_s3_path_or_path`]' \
-
-    elif [[ "$*" == "s3cmd setversioning" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            ';;' \
-            'state;[enabled|disabled]' \
-
-    elif [[ "$*" == "s3cmd setownership" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            ';;' \
-            'ownership;[BucketOwnerPreferred|BucketOwnerEnforced|ObjectWriter]' \
+            's3-bucket-object;*[`_choice_s3_path`]' \
 
     elif [[ "$*" == "s3cmd setblockpublicaccess" ]]; then
         echo "$table" | \
@@ -53,11 +40,24 @@ _patch_table() {
             ';;' \
             'access;[BlockPublicAcls|IgnorePublicAcls|BlockPublicPolicy|RestrictPublicBuckets]' \
 
-    elif [[ "$*" == "s3cmd cfinval" ]]; then
+    elif [[ "$*" == "s3cmd setownership" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments \
             ';;' \
-            's3-bucket-object;*[`_choice_s3_path`]' \
+            'ownership;[BucketOwnerPreferred|BucketOwnerEnforced|ObjectWriter]' \
+
+    elif [[ "$*" == "s3cmd setversioning" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            ';;' \
+            'state;[enabled|disabled]' \
+
+    elif [[ "$*" == "s3cmd sync" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            ';;' \
+            'src;[`_choice_s3_path_or_path`]' \
+            'dest;[`_choice_s3_path_or_path`]' \
 
     else
         echo "$table"

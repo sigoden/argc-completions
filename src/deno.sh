@@ -1,14 +1,14 @@
 _patch_table() {
-    if [[ "$*" == "deno uninstall" ]]; then
-        _patch_table_edit_arguments 'name;[`_choice_install_bin`]'
-
-    elif [[ "$*" == "deno lint" ]]; then
+    if [[ "$*" == "deno lint" ]]; then
         _patch_table_edit_options \
             '--rules-exclude;[`_choice_lint_rule`]' \
             '--rules-include;[`_choice_lint_rule`]' \
 
     elif [[ "$*" == "deno task" ]]; then
         _patch_table_edit_arguments 'task;[`_choice_task`]'
+
+    elif [[ "$*" == "deno uninstall" ]]; then
+        _patch_table_edit_arguments 'name;[`_choice_install_bin`]'
 
     else
         cat

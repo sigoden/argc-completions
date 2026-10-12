@@ -1,14 +1,14 @@
 _patch_table() {
-    if [[ "$*" == "vfox info" ]] \
-    || [[ "$*" == "vfox available" ]] \
-    || [[ "$*" == "vfox update" ]] \
-    || [[ "$*" == "vfox list" ]] \
-    || [[ "$*" == "vfox search" ]] \
+    if [[ "$*" == "vfox add" ]]; then
+        _patch_table_edit_arguments ';;' 'plugin;[`_choice_plugin_cached`]'
+
+    elif [[ "$*" == "vfox available" ]] \
+      || [[ "$*" == "vfox info" ]] \
+      || [[ "$*" == "vfox list" ]] \
+      || [[ "$*" == "vfox search" ]] \
+      || [[ "$*" == "vfox update" ]] \
     ; then
         _patch_table_edit_arguments ';;' 'plugin;[`_choice_installed_plugin`]'
-
-    elif [[ "$*" == "vfox add" ]]; then
-        _patch_table_edit_arguments ';;' 'plugin;[`_choice_plugin_cached`]'
 
     else
         _patch_table_edit_arguments ';;' 'sdk;[`_choice_sdk`]'

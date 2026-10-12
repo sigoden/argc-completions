@@ -14,21 +14,21 @@ _patch_table() {
         _patch_table_add_metadata combine-shorts inherit-flag-options | \
         _patch_table_edit_arguments ';;'
 
-    elif [[ "$*" == "apt-get update" ]] \
-      || [[ "$*" == "apt-get reinstall" ]] \
-      || [[ "$*" == "apt-get remove" ]] \
-      || [[ "$*" == "apt-get purge" ]] \
-      || [[ "$*" == "apt-get check" ]] \
-    ; then
-        _patch_table_edit_arguments ';;' 'pkg;*[`_choice_installed_package`]'
-
-    elif [[ "$*" == "apt-get install" ]] \
-      || [[ "$*" == "apt-get source" ]] \
-      || [[ "$*" == "apt-get build-dep" ]] \
-      || [[ "$*" == "apt-get download" ]] \
+    elif [[ "$*" == "apt-get build-dep" ]] \
       || [[ "$*" == "apt-get changelog" ]] \
+      || [[ "$*" == "apt-get download" ]] \
+      || [[ "$*" == "apt-get install" ]] \
+      || [[ "$*" == "apt-get source" ]] \
     ; then
         _patch_table_edit_arguments ';;' 'pkg;*[`_choice_package`]'
+
+    elif [[ "$*" == "apt-get check" ]] \
+      || [[ "$*" == "apt-get purge" ]] \
+      || [[ "$*" == "apt-get reinstall" ]] \
+      || [[ "$*" == "apt-get remove" ]] \
+      || [[ "$*" == "apt-get update" ]] \
+    ; then
+        _patch_table_edit_arguments ';;' 'pkg;*[`_choice_installed_package`]'
 
     else
         cat

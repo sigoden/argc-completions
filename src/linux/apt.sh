@@ -69,10 +69,10 @@ _patch_table() {
       || [[ "$*" == "apt install" ]] \
       || [[ "$*" == "apt policy" ]] \
       || [[ "$*" == "apt rdepends" ]] \
+      || [[ "$*" == "apt recommands" ]] \
       || [[ "$*" == "apt show" ]] \
       || [[ "$*" == "apt showsrc" ]] \
       || [[ "$*" == "apt source" ]] \
-      || [[ "$*" == "apt recommands" ]] \
     ; then
         _patch_table_edit_arguments 'pkg;[`_choice_package`]'
 

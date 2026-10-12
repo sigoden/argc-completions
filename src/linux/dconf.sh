@@ -19,18 +19,18 @@ EOF
 }
 
 _patch_table() {
-    if [[ "$*" == "dconf read" ]] \
-    || [[ "$*" == "dconf write" ]] \
-    || [[ "$*" == "dconf reset" ]] \
-    || [[ "$*" == "dconf watch" ]] \
-    ; then
-        _patch_table_edit_arguments ';;' 'key;[`_choice_key`]'
-
-    elif [[ "$*" == "dconf list" ]] \
-      || [[ "$*" == "dconf dump" ]] \
-      || [[ "$*" == "dconf load" ]] \
+    if [[ "$*" == "dconf dump" ]] \
+    || [[ "$*" == "dconf list" ]] \
+    || [[ "$*" == "dconf load" ]] \
     ; then
         _patch_table_edit_arguments ';;' 'key;[`_choice_group`]'
+
+    elif [[ "$*" == "dconf read" ]] \
+      || [[ "$*" == "dconf reset" ]] \
+      || [[ "$*" == "dconf watch" ]] \
+      || [[ "$*" == "dconf write" ]] \
+    ; then
+        _patch_table_edit_arguments ';;' 'key;[`_choice_key`]'
 
     else
         cat

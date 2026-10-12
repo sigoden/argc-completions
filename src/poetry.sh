@@ -51,10 +51,10 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_arguments 'key;[`_choice_config_key`]'
     
-    elif [[ "$*" == "poetry remove" ]] \
+    elif [[ "$*" == "poetry debug resolve" ]] \
+      || [[ "$*" == "poetry remove" ]] \
       || [[ "$*" == "poetry show" ]] \
       || [[ "$*" == "poetry update" ]] \
-      || [[ "$*" == "poetry debug resolve" ]] \
     ; then
         echo "$table" | \
         _patch_table_edit_arguments \

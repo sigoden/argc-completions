@@ -20,20 +20,20 @@ _patch_table() {
         _patch_table_edit_commands \
             'unsetrequested(unsetrequested, setunrequested)' \
 
-    elif [[ "$*" == "port dependents" ]] \
-      || [[ "$*" == "port rdependents" ]] \
-      || [[ "$*" == "port uninstall" ]] \
-      || [[ "$*" == "port activate" ]] \
-      || [[ "$*" == "port deactivate" ]] \
-      || [[ "$*" == "port installed" ]] \
-      || [[ "$*" == "port location" ]] \
-      || [[ "$*" == "port contents" ]] \
+    elif [[ "$*" == "port activate" ]] \
       || [[ "$*" == "port clean" ]] \
+      || [[ "$*" == "port contents" ]] \
+      || [[ "$*" == "port deactivate" ]] \
+      || [[ "$*" == "port dependents" ]] \
+      || [[ "$*" == "port installed" ]] \
+      || [[ "$*" == "port load" ]] \
+      || [[ "$*" == "port location" ]] \
       || [[ "$*" == "port log" ]] \
       || [[ "$*" == "port logfile" ]] \
-      || [[ "$*" == "port load" ]] \
-      || [[ "$*" == "port unload" ]] \
+      || [[ "$*" == "port rdependents" ]] \
       || [[ "$*" == "port reload" ]] \
+      || [[ "$*" == "port uninstall" ]] \
+      || [[ "$*" == "port unload" ]] \
     ; then
         _patch_table_edit_arguments ';;' 'package;*[`_choice_installed_package`]'
 
