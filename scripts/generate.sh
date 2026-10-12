@@ -26,7 +26,11 @@ main() {
     output_content="$(print_head; echo "$main_content$src_content" ; print_tail)"
 
     if [[ -n "$output_file" ]]; then
-        mkdir -p "$(dirname "$output_file")"
+        local output_dir="$(dirname "$output_file")"
+        if [[ ! -d "$output_dir" ]]; then
+            log_error "$output_file: no such directory"
+            exit 1
+        fi
         printf "%s" "$output_content" > "$output_file"
         validate_script
     else
@@ -387,14 +391,18 @@ set_globals() {
         fi
     fi
 
-    if [[ -f "$argc_output" ]]; then
-        output_file="$argc_output"
-    elif [[ -d "$argc_output" ]]; then
-        join_paths="$(echo "${cmds[@]}" | sed 's| |/|g').sh"
-        if [[ -n "$argc_category" ]]; then
-            output_file="$argc_output/$argc_category/$join_paths"
+    if [[ -n "$argc_output" ]]; then
+        if [[ -d "$argc_output" || "$argc_output" == */ ]]; then
+            output_dir="${argc_output%/}"
+            join_paths="$(echo "${cmds[@]}" | sed 's| |/|g').sh"
+            if [[ -n "$argc_category" ]]; then
+                output_file="$output_dir/$argc_category/$join_paths"
+            else
+                output_file="$output_dir/$join_paths"
+            fi
+            mkdir -p "$(dirname "$output_file")"
         else
-            output_file="$argc_output/$join_paths"
+            output_file="$argc_output"
         fi
     fi
 
