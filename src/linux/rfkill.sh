@@ -10,10 +10,10 @@ _patch_table() {
         _patch_table_edit_options \
             '--output;*,[`_choice_column`]' \
     
-    elif [[ "$*" == "rfkill list" ]] \
-      || [[ "$*" == "rfkill block" ]] \
-      || [[ "$*" == "rfkill unblock" ]] \
+    elif [[ "$*" == "rfkill block" ]] \
+      || [[ "$*" == "rfkill list" ]] \
       || [[ "$*" == "rfkill toggle" ]] \
+      || [[ "$*" == "rfkill unblock" ]] \
     ; then
         _patch_table_edit_arguments ';;' 'identifier;*[`_choice_identifier`]'
 

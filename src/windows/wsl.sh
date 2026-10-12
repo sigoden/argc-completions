@@ -29,10 +29,6 @@ _patch_table() {
             '--import;Imports the specified tar file as a new distribution.' \
             '--list(--list, -l);Lists distributions.' \
 
-    elif [[ "$*" == "wsl --install" ]]; then
-        _patch_table_edit_options \
-            '--distribution;[`_choice_distro`]' \
-
     elif [[ "$*" == "wsl --import" ]]; then
         _patch_table_edit_options \
             '--version;[`_choice_version`]' \
@@ -42,6 +38,10 @@ _patch_table() {
             'distro;[`_choice_distro`]' \
             'installLocation' \
             'filename' \
+
+    elif [[ "$*" == "wsl --install" ]]; then
+        _patch_table_edit_options \
+            '--distribution;[`_choice_distro`]' \
 
     else
         cat

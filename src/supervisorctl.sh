@@ -38,24 +38,24 @@ _patch_table() {
     ; then
         _patch_table_edit_arguments 'name;[`_choice_name`]'
 
-    elif [[ "$*" == "supervisorctl restart" ]] \
-      || [[ "$*" == "supervisorctl start" ]] \
+    elif [[ "$*" == "supervisorctl clear" ]] \
       || [[ "$*" == "supervisorctl pid" ]] \
+      || [[ "$*" == "supervisorctl restart" ]] \
+      || [[ "$*" == "supervisorctl start" ]] \
       || [[ "$*" == "supervisorctl status" ]] \
-      || [[ "$*" == "supervisorctl update" ]] \
-      || [[ "$*" == "supervisorctl clear" ]] \
       || [[ "$*" == "supervisorctl stop" ]] \
+      || [[ "$*" == "supervisorctl update" ]] \
     ; then
         _patch_table_edit_arguments 'name;[`_choice_name_all`]'
-
-    elif [[ "$*" == "supervisorctl tail" ]]; then
-        _patch_table_edit_arguments ';;' 'name;[`_choice_name`]' 'kind;[stdout|stderr]'
 
     elif [[ "$*" == "supervisorctl fg" ]]; then
         _patch_table_edit_arguments 'process;[`_choice_name`]'
 
     elif [[ "$*" == "supervisorctl signal" ]]; then
         _patch_table_edit_arguments 'signal-name;[`_choice_signal`]' 'name;[`_choice_name_all`]'
+
+    elif [[ "$*" == "supervisorctl tail" ]]; then
+        _patch_table_edit_arguments ';;' 'name;[`_choice_name`]' 'kind;[stdout|stderr]'
 
     else
         cat

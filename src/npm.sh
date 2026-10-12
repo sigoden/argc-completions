@@ -477,14 +477,14 @@ EOF
 
 _patch_table() {
     table="$(_patch_table_edit_options '--workspace;[`_choice_workspace`]')"
-    if [[ "$*" == "npm run-script" ]]; then
+    if [[ "$*" == "npm config "* ]]; then
+        echo "$table" | _patch_table_edit_arguments 'key;[`_choice_config_key`]' 'key-value;[`_choice_config_key`]'
+    elif [[ "$*" == "npm run-script" ]]; then
         echo "$table" | _patch_table_edit_arguments 'cmd;[`_choice_script`]'
     elif [[ "$*" == "npm uninstall" ]]; then
         echo "$table" | _patch_table_edit_arguments 'pkg;[`_choice_dependency`]'
     elif [[ "$*" == "npm update" ]]; then
         echo "$table" | _patch_table_edit_arguments 'pkg;[`_choice_dependency`]'
-    elif [[ "$*" == "npm config "* ]]; then
-        echo "$table" | _patch_table_edit_arguments 'key;[`_choice_config_key`]' 'key-value;[`_choice_config_key`]'
     else
         echo "$table"
     fi

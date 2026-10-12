@@ -28,17 +28,13 @@ _patch_table() {
         _patch_table_edit_commands \
             'integrate;Integrate vcpkg with shells and buildsystems.'
     
-    elif [[ "$*" == "vcpkg export" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments 'port-names;*[`_choice_installed_package`]'
-
-    elif [[ "$*" == "vcpkg search" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments 'pattern;[`_choice_package_cached`]'
-
     elif [[ "$*" == "vcpkg env" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments ';;' '[name]'
+
+    elif [[ "$*" == "vcpkg export" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments 'port-names;*[`_choice_installed_package`]'
 
     elif [[ "$*" == "vcpkg fetch" ]]; then
         echo "$table" | \
@@ -49,6 +45,10 @@ _patch_table() {
         _patch_table_edit_arguments ';;' 'action;[`_choice_integrate_action`]' \
         | \
         _patch_table_edit_commands ';;'
+
+    elif [[ "$*" == "vcpkg search" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments 'pattern;[`_choice_package_cached`]'
 
     else
         echo "$table"

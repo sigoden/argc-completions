@@ -13,16 +13,13 @@ _patch_table() {
     if [[ "$*" == "rustup" ]]; then
         echo "$table" | _patch_table_edit_arguments ';;'
 
-    elif [[ "$*" == "rustup update" ]]; then
-        echo "$table" | _patch_table_edit_arguments 'toolchain;[`_choice_channel`]'
-
-    elif [[ "$*" == "rustup toolchain install" ]]; then
-        echo "$table" | \
-            _patch_table_edit_options '--component;*,[`_choice_available_component`]' | \
-            _patch_table_edit_arguments 'toolchain;[`_choice_channel`]'
-
     elif [[ "$*" == "rustup component remove" ]]; then
         echo "$table" | _patch_table_edit_arguments 'component;[`_choice_installed_component`]'
+
+    elif [[ "$*" == "rustup man" ]] \
+      || [[ "$*" == "rustup which" ]] \
+    ; then
+        echo "$table" | _patch_table_edit_arguments 'command;[`_choice_toolchain_command`]'
 
     elif [[ "$*" == "rustup override unset" ]]; then
         echo "$table" | _patch_table_edit_options '--path;[`_choice_override`]'
@@ -30,10 +27,13 @@ _patch_table() {
     elif [[ "$*" == "rustup run" ]]; then
         echo "$table" | _patch_table_edit_arguments 'command;[`_choice_toolchain_command`]'
 
-    elif [[ "$*" == "rustup which" ]] \
-      || [[ "$*" == "rustup man" ]] \
-    ; then
-        echo "$table" | _patch_table_edit_arguments 'command;[`_choice_toolchain_command`]'
+    elif [[ "$*" == "rustup toolchain install" ]]; then
+        echo "$table" | \
+            _patch_table_edit_options '--component;*,[`_choice_available_component`]' | \
+            _patch_table_edit_arguments 'toolchain;[`_choice_channel`]'
+
+    elif [[ "$*" == "rustup update" ]]; then
+        echo "$table" | _patch_table_edit_arguments 'toolchain;[`_choice_channel`]'
 
     else
         echo "$table"

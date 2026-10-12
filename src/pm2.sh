@@ -23,68 +23,31 @@ _patch_table() {
             'config(config, conf)' \
             'describe(describe, desc)' \
             'info(info, show)' \
-            'list(list, ls, l, ps, status)' \
             'l' \
+            'list(list, ls, l, ps, status)' \
             'ps' \
             'status' \
 
-    elif [[ "$*" == "pm2 start" ]]; then
-        _patch_table_copy_options pm2 | \
-        _patch_table_dedup_options \
-            '--help' \
-            '--watch' \
-        | \
-        _patch_table_edit_arguments ';;' 'target;[`_choice_start`]'
-
-    elif [[ "$*" == "pm2 trigger" ]]; then
-        _patch_table_edit_arguments ';;' 'target;[`_choice_reload`]' 'action_name' 'param'
-
-    elif [[ "$*" == "pm2 startOrRestart" ]] \
-      || [[ "$*" == "pm2 startOrReload" ]] \
-      || [[ "$*" == "pm2 startOrGracefulReload" ]] \
+    elif [[ "$*" == "pm2 attach" ]] \
+      || [[ "$*" == "pm2 send" ]] \
     ; then
-        _patch_table_edit_arguments 'json(file:.json)'
+        _patch_table_edit_arguments 'pm_id;[`_choice_pm_id`]'
 
-    elif [[ "$*" == "pm2 pid" ]] \
-      || [[ "$*" == "pm2 scale" ]] \
-    ; then
-        _patch_table_edit_arguments \
-            'app_name;[`_choice_name`]'\
-
-    elif [[ "$*" == "pm2 stop" ]] \
-      || [[ "$*" == "pm2 restart" ]] \
-      || [[ "$*" == "pm2 delete" ]] \
-    ; then
-        _patch_table_edit_arguments ';;' 'target;[`_choice_stop`]'
-
-    elif [[ "$*" == "pm2 reload" ]]; then
-        _patch_table_edit_arguments ';;' 'target;[`_choice_reload`]'
-
-    elif [[ "$*" == "pm2 id" ]] \
+    elif [[ "$*" == "pm2 backward" ]] \
+      || [[ "$*" == "pm2 forward" ]] \
+      || [[ "$*" == "pm2 id" ]] \
       || [[ "$*" == "pm2 inspect" ]] \
       || [[ "$*" == "pm2 monitor" ]] \
       || [[ "$*" == "pm2 unmonitor" ]] \
-      || [[ "$*" == "pm2 forward" ]] \
-      || [[ "$*" == "pm2 backward" ]] \
     ; then
         _patch_table_edit_arguments \
             'name;[`_choice_name`]'\
 
-    elif [[ "$*" == "pm2 sendSignal" ]]; then
-        _patch_table_edit_arguments \
-            'pm2_id-name;[`_choice_id_name`]' \
-
-    elif [[ "$*" == "pm2 publish" ]]; then
-        _patch_table_edit_arguments 'folder(<dir>)'
-
-    elif [[ "$*" == "pm2 send" ]] \
-      || [[ "$*" == "pm2 attach" ]] \
+    elif [[ "$*" == "pm2 delete" ]] \
+      || [[ "$*" == "pm2 restart" ]] \
+      || [[ "$*" == "pm2 stop" ]] \
     ; then
-        _patch_table_edit_arguments 'pm_id;[`_choice_pm_id`]'
-
-    elif [[ "$*" == "pm2 reset" ]]; then
-        _patch_table_edit_arguments ';;' 'target;[`_choice_reset`]'
-
+        _patch_table_edit_arguments ';;' 'target;[`_choice_stop`]'
 
     elif [[ "$*" == "pm2 describe" ]] \
       || [[ "$*" == "pm2 info" ]] \
@@ -96,6 +59,43 @@ _patch_table() {
 
     elif [[ "$*" == "pm2 logs" ]]; then
         _patch_table_edit_arguments ';;' 'target;[`_choice_log`]'
+
+    elif [[ "$*" == "pm2 pid" ]] \
+      || [[ "$*" == "pm2 scale" ]] \
+    ; then
+        _patch_table_edit_arguments \
+            'app_name;[`_choice_name`]'\
+
+    elif [[ "$*" == "pm2 publish" ]]; then
+        _patch_table_edit_arguments 'folder(<dir>)'
+
+    elif [[ "$*" == "pm2 reload" ]]; then
+        _patch_table_edit_arguments ';;' 'target;[`_choice_reload`]'
+
+    elif [[ "$*" == "pm2 reset" ]]; then
+        _patch_table_edit_arguments ';;' 'target;[`_choice_reset`]'
+
+
+    elif [[ "$*" == "pm2 sendSignal" ]]; then
+        _patch_table_edit_arguments \
+            'pm2_id-name;[`_choice_id_name`]' \
+
+    elif [[ "$*" == "pm2 start" ]]; then
+        _patch_table_copy_options pm2 | \
+        _patch_table_dedup_options \
+            '--help' \
+            '--watch' \
+        | \
+        _patch_table_edit_arguments ';;' 'target;[`_choice_start`]'
+
+    elif [[ "$*" == "pm2 startOrGracefulReload" ]] \
+      || [[ "$*" == "pm2 startOrReload" ]] \
+      || [[ "$*" == "pm2 startOrRestart" ]] \
+    ; then
+        _patch_table_edit_arguments 'json(file:.json)'
+
+    elif [[ "$*" == "pm2 trigger" ]]; then
+        _patch_table_edit_arguments ';;' 'target;[`_choice_reload`]' 'action_name' 'param'
 
     else
         cat

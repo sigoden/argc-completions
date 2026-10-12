@@ -2,24 +2,28 @@ _patch_table() {
     if [[ "$*" == "stack" ]]; then
         _patch_table_edit_commands \
             'ghci(ghci, repl)' \
-            'runghc(runghc, runhaskell)' \
             'repl' \
+            'runghc(runghc, runhaskell)' \
             'runhaskell' \
 
-    elif [[ "$*" == "stack build" ]] \
-      || [[ "$*" == "stack test" ]] \
-      || [[ "$*" == "stack bench" ]] \
-      || [[ "$*" == "stack haddock" ]] \
+    elif [[ "$*" == "stack bench" ]] \
+      || [[ "$*" == "stack build" ]] \
       || [[ "$*" == "stack dot" ]] \
+      || [[ "$*" == "stack haddock" ]] \
+      || [[ "$*" == "stack test" ]] \
     ; then
         _patch_table_edit_arguments 'target;[`_choice_target`]'
 
 
-    elif [[ "$*" == "stack unpack" ]] \
-      || [[ "$*" == "stack list" ]] \
+    elif [[ "$*" == "stack config" ]] \
+      || [[ "$*" == "stack docker" ]] \
+      || [[ "$*" == "stack hpc" ]] \
+      || [[ "$*" == "stack ide" ]] \
     ; then
-        _patch_table_edit_arguments 'package;[`_choice_dependency`]'
-
+        _patch_table_dedup_options \
+            '--setup-info-yaml' \
+            '--snapshot-location-base' \
+        
     elif [[ "$*" == "stack exec" ]]; then
         _patch_table_edit_arguments \
             ';;' \
@@ -29,15 +33,11 @@ _patch_table() {
     elif [[ "$*" == "stack ghci" ]]; then
         _patch_table_edit_arguments 'target-file;[`_choice_target_or_file`]'
 
-    elif [[ "$*" == "stack ide" ]] \
-      || [[ "$*" == "stack docker" ]] \
-      || [[ "$*" == "stack config" ]] \
-      || [[ "$*" == "stack hpc" ]] \
+    elif [[ "$*" == "stack list" ]] \
+      || [[ "$*" == "stack unpack" ]] \
     ; then
-        _patch_table_dedup_options \
-            '--setup-info-yaml' \
-            '--snapshot-location-base' \
-        
+        _patch_table_edit_arguments 'package;[`_choice_dependency`]'
+
     else
         cat
     fi

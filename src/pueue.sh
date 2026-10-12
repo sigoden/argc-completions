@@ -11,16 +11,16 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_arguments 'command;~[`_module_os_command_args`]'
 
+    elif [[ "$*" == "pueue restart" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options  \
+            '--failed-in-group;[`_choice_group`]' \
+
     elif [[ "$*" == "pueue switch" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments \
             'task_id_1;[`_choice_task_id`]' \
             'task_id_2;[`_choice_task_id`]' \
-
-    elif [[ "$*" == "pueue restart" ]]; then
-        echo "$table" | \
-        _patch_table_edit_options  \
-            '--failed-in-group;[`_choice_group`]' \
 
     else
         echo "$table"

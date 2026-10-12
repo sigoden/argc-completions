@@ -201,14 +201,14 @@ _patch_table() {
     elif [[ "$*" == "m appearance highlightcolor" ]]; then
         _patch_table_edit_arguments 'color;[`_choice_highlightcolor`]'
     
-    elif [[ "$*" == "m group info" ]]; then
-        _patch_table_edit_arguments 'group;[`_module_os_group`]'
-
     elif [[ "$*" == "m group adduser" ]] \
-      || [[ "$*" == "m group removeuser" ]] \
       || [[ "$*" == "m group ismember" ]] \
+      || [[ "$*" == "m group removeuser" ]] \
     ; then
         _patch_table_edit_arguments 'user;[`_module_os_user`]' 'group;[`_module_os_group`]'
+
+    elif [[ "$*" == "m group info" ]]; then
+        _patch_table_edit_arguments 'group;[`_module_os_group`]'
 
     elif [[ "$*" == "m group user delete" ]] \
       || [[ "$*" == "m group user info" ]] \

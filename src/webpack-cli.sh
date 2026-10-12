@@ -28,11 +28,11 @@ _patch_table() {
         _patch_table_edit_commands \
             'build(build, bundle, b)' \
             'configtest(configtest, t)' \
+            'help(help, h)' \
             'info(info, i)' \
             'serve(serve, server, s)' \
             'version(version, v)' \
             'watch(watch, w)' \
-            'help(help, h)' \
 
     else
         echo "$table"

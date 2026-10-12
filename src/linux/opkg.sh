@@ -22,19 +22,35 @@ _patch_table() {
             '--verbosity;[`_choice_verbosity_level`]' \
             '-V;[`_choice_verbosity_level`]' \
 
-    elif [[ "$*" == "opkg upgrade" ]] \
-      || [[ "$*" == "opkg configure" ]] \
-      || [[ "$*" == "opkg remove" ]] \
+    elif [[ "$*" == "opkg configure" ]] \
       || [[ "$*" == "opkg files" ]] \
+      || [[ "$*" == "opkg remove" ]] \
+      || [[ "$*" == "opkg upgrade" ]] \
     ; then
         _patch_table_edit_arguments \
             'pkgs;[`_choice_installed_package`]' \
             'pkgs-regexp;[`_choice_installed_package`]' \
             'pkg;[`_choice_installed_package`]' \
 
-    elif [[ "$*" == "opkg install" ]]; then
+    elif [[ "$*" == "opkg depends" ]] \
+      || [[ "$*" == "opkg whatconflicts" ]] \
+      || [[ "$*" == "opkg whatdepends" ]] \
+      || [[ "$*" == "opkg whatdependsrec" ]] \
+      || [[ "$*" == "opkg whatprovides" ]] \
+      || [[ "$*" == "opkg whatrecommends" ]] \
+      || [[ "$*" == "opkg whatreplaces" ]] \
+      || [[ "$*" == "opkg whatsuggests" ]] \
+    ; then
         _patch_table_edit_arguments \
-            'pkgs;[`_choice_package`]' \
+            'pkgname-pat;[`_choice_package`]' \
+
+    elif [[ "$*" == "opkg download" ]] \
+      || [[ "$*" == "opkg info" ]] \
+      || [[ "$*" == "opkg status" ]] \
+    ; then
+        _patch_table_edit_arguments \
+            'pkg-regexp;[`_choice_package`]' \
+            'pkg;[`_choice_package`]' \
 
     elif [[ "$*" == "opkg flag" ]]; then
         _patch_table_edit_arguments \
@@ -42,25 +58,9 @@ _patch_table() {
             'flag;[hold|noprune|user|ok|installed|unpacked]' \
             'pkgs;[`_choice_package`]' \
 
-    elif [[ "$*" == "opkg info" ]] \
-      || [[ "$*" == "opkg status" ]] \
-      || [[ "$*" == "opkg download" ]] \
-    ; then
+    elif [[ "$*" == "opkg install" ]]; then
         _patch_table_edit_arguments \
-            'pkg-regexp;[`_choice_package`]' \
-            'pkg;[`_choice_package`]' \
-
-    elif [[ "$*" == "opkg depends" ]] \
-      || [[ "$*" == "opkg whatdepends" ]] \
-      || [[ "$*" == "opkg whatdependsrec" ]] \
-      || [[ "$*" == "opkg whatrecommends" ]] \
-      || [[ "$*" == "opkg whatsuggests" ]] \
-      || [[ "$*" == "opkg whatprovides" ]] \
-      || [[ "$*" == "opkg whatconflicts" ]] \
-      || [[ "$*" == "opkg whatreplaces" ]] \
-    ; then
-        _patch_table_edit_arguments \
-            'pkgname-pat;[`_choice_package`]' \
+            'pkgs;[`_choice_package`]' \
 
     else
         cat

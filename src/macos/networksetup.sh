@@ -27,19 +27,25 @@ _patch_table() {
             'hardwareport;[`_choice_hardwareport`]' \
     )"
 
-    if [[ "$*" == "networksetup -setadditionalroutes" ]]; then
+    if [[ "$*" == "networksetup -createBond" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            ';;' \
+            'name' \
+            'device;*[`_choice_device`]' \
+
+    elif [[ "$*" == "networksetup -ordernetworkservices" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            ';;' \
+            'service;*[`_choice_service`]' \
+
+    elif [[ "$*" == "networksetup -setadditionalroutes" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments \
             ';;' \
             'networkservice;[`_choice_service`]' \
             'dest-mask-gate(<dest mask gate>...)' \
-
-    elif [[ "$*" == "networksetup -setv6additionalroutes" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            ';;' \
-            'networkservice;[`_choice_service`]' \
-            'dest-prefixlength-gate(<dest prefixlength gate>...)' \
 
     elif [[ "$*" == "networksetup -setdnsservers" ]]; then
         echo "$table" | \
@@ -55,18 +61,12 @@ _patch_table() {
             'networkservice;[`_choice_service`]' \
             '<domain>...' \
 
-    elif [[ "$*" == "networksetup -ordernetworkservices" ]]; then
+    elif [[ "$*" == "networksetup -setv6additionalroutes" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments \
             ';;' \
-            'service;*[`_choice_service`]' \
-
-    elif [[ "$*" == "networksetup -createBond" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            ';;' \
-            'name' \
-            'device;*[`_choice_device`]' \
+            'networkservice;[`_choice_service`]' \
+            'dest-prefixlength-gate(<dest prefixlength gate>...)' \
 
     else
         echo "$table"

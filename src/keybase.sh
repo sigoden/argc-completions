@@ -80,6 +80,16 @@ _patch_table() {
         _patch_table_edit_options \
             '--pgp-uid(<value>)' \
 
+    elif [[ "$*" == "keybase service" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--auto-forked(<value>)' \
+            '--chdir(<dir>)' \
+            '--label(<value>)' \
+            '--oneshot-paperkey(<value>)' \
+            '--oneshot-username(<value>)' \
+            '--watchdog-forked(<value>)' \
+
     elif [[ "$*" == "keybase signup" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
@@ -115,16 +125,6 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_options \
             '--format(<value>)' \
-
-    elif [[ "$*" == "keybase service" ]]; then
-        echo "$table" | \
-        _patch_table_edit_options \
-            '--auto-forked(<value>)' \
-            '--chdir(<dir>)' \
-            '--label(<value>)' \
-            '--oneshot-paperkey(<value>)' \
-            '--oneshot-username(<value>)' \
-            '--watchdog-forked(<value>)' \
 
     else
         echo "$table"

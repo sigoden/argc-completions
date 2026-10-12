@@ -16,21 +16,21 @@ _patch_table() {
             '--card;[`_choice_card`]' \
         | \
         _patch_table_edit_commands \
-            'sset(sset, set)' \
             'sget(sget, get)' \
+            'sset(sset, set)' \
         
-    elif [[ "$*" == "amixer sset" ]]; then
-        _patch_table_edit_arguments ';;' 'sID;[`_choice_control`]' 'P'
+    elif [[ "$*" == "amixer cget" ]]; then
+        _patch_table_edit_arguments ';;' 'cID;[`_choice_content`]'
 
-    elif [[ "$*" == "amixer sget" ]]; then
-        _patch_table_edit_arguments ';;' 'sID;[`_choice_control`]'
 
     elif [[ "$*" == "amixer cset" ]]; then
         _patch_table_edit_arguments ';;' 'cID;[`_choice_content`]' 'P'
 
-    elif [[ "$*" == "amixer cget" ]]; then
-        _patch_table_edit_arguments ';;' 'cID;[`_choice_content`]'
+    elif [[ "$*" == "amixer sget" ]]; then
+        _patch_table_edit_arguments ';;' 'sID;[`_choice_control`]'
 
+    elif [[ "$*" == "amixer sset" ]]; then
+        _patch_table_edit_arguments ';;' 'sID;[`_choice_control`]' 'P'
 
     else
         cat

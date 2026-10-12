@@ -35,14 +35,22 @@ _patch_table() {
             '--profile;[`_module_nix_profile`]' \
             '--verbose;[`_module_nix_verbose`]' \
     )"
-    if [[ "$*" == "nix-env --install" ]]; then
+    if [[ "$*" == "nix-env --delete-generations" ]] \
+    || [[ "$*" == "nix-env --switch-generation" ]] \
+    ; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'generations;[`_choice_generation`]' \
+            'generation;[`_choice_generation`]' \
+
+    elif [[ "$*" == "nix-env --install" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments \
             'args;[`_choice_package`]'  \
 
-    elif [[ "$*" == "nix-env --upgrade" ]] \
+    elif [[ "$*" == "nix-env --set" ]] \
       || [[ "$*" == "nix-env --uninstall" ]] \
-      || [[ "$*" == "nix-env --set" ]] \
+      || [[ "$*" == "nix-env --upgrade" ]] \
     ; then
         echo "$table" | \
         _patch_table_edit_arguments \
@@ -61,14 +69,6 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_arguments \
             'path;[`_module_nix_profile`]' \
-
-    elif [[ "$*" == "nix-env --delete-generations" ]] \
-      || [[ "$*" == "nix-env --switch-generation" ]] \
-    ; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            'generations;[`_choice_generation`]' \
-            'generation;[`_choice_generation`]' \
 
     else
         echo "$table"

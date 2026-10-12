@@ -31,7 +31,12 @@ _patch_table() {
             '--repo-owner;[`_choice_owner`]' \
     )"
 
-    if [[ "$*" == "gh auth"* ]]; then
+    if [[ "$*" == "gh alias"* ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'alias;[`_choice_alias`]' \
+
+    elif [[ "$*" == "gh auth"* ]]; then
         table="$( \
             echo "$table" | \
             _patch_table_edit_options \
@@ -56,6 +61,17 @@ _patch_table() {
         else
             echo "$table"
         fi
+
+    elif [[ "$*" == "gh completion" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'shell;[bash|zsh|fish|powershell]' \
+
+    elif [[ "$*" == "gh config"* ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'key;[`_choice_config_key`]' \
+
 
     elif [[ "$*" == "gh gist"* ]]; then
         table="$(
@@ -86,6 +102,12 @@ _patch_table() {
         else
             echo "$table"
         fi
+
+    elif [[ "$*" == "gh gpg-key"* ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'key-id;[`_choice_gpg_key`]' \
+
 
     elif [[ "$*" == "gh issue"* ]]; then
         table="$(
@@ -161,6 +183,12 @@ _patch_table() {
         else
             echo "$table"
         fi
+
+    elif [[ "$*" == "gh label"* ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'name;[`_choice_label`]' \
+            'source-repository;[`_choice_search_repo`]' \
 
     elif [[ "$*" == "gh project"* ]]; then
         echo "$table" | \
@@ -266,11 +294,6 @@ _patch_table() {
                 '--gitignore;[`_choice_gitignore`]' \
                 '--license;[`_choice_license`]' \
 
-        elif [[ "$*" == "gh repo list"* ]]; then
-            echo "$table" | \
-            _patch_table_edit_arguments \
-                'owner;[`_choice_owner`]' \
-
         elif [[ "$*" == "gh repo deploy-key delete"* ]]; then
             echo "$table" | \
             _patch_table_edit_arguments \
@@ -282,6 +305,11 @@ _patch_table() {
                 '--add-topic;*,[`_choice_search_topic`]' \
                 '--remove-topic;*,[`_choice_repo_topic`]' \
 
+        elif [[ "$*" == "gh repo list"* ]]; then
+            echo "$table" | \
+            _patch_table_edit_arguments \
+                'owner;[`_choice_owner`]' \
+
         elif [[ "$*" == "gh repo sync"* ]]; then
             echo "$table" | \
             _patch_table_edit_options \
@@ -292,6 +320,22 @@ _patch_table() {
 
         else
             echo "$table"
+        fi
+
+    elif [[ "$*" == "gh ruleset"* ]]; then
+        if [[ "$*" == "gh ruleset check" ]]; then
+            echo "$table" | \
+            _patch_table_edit_arguments \
+                'branch;[`_choice_branch`]' \
+
+        elif [[ "$*" == "gh ruleset view" ]]; then
+            echo "$table" | \
+            _patch_table_edit_arguments \
+                'ruleset-id;[`_choice_ruleset`]' \
+
+        else
+            echo "$table"
+
         fi
 
     elif [[ "$*" == "gh run"* ]]; then
@@ -341,56 +385,6 @@ _patch_table() {
 
         else
             echo "$table"
-        fi
-
-    elif [[ "$*" == "gh workflow"* ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            'workflow-id-workflow-name(workflow);[`_choice_workflow`]' \
-            'workflow-id-workflow-name-filename(workflow);[`_choice_workflow_or_file`]' \
-
-    elif [[ "$*" == "gh alias"* ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            'alias;[`_choice_alias`]' \
-
-    elif [[ "$*" == "gh completion" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            'shell;[bash|zsh|fish|powershell]' \
-
-    elif [[ "$*" == "gh config"* ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            'key;[`_choice_config_key`]' \
-
-
-    elif [[ "$*" == "gh gpg-key"* ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            'key-id;[`_choice_gpg_key`]' \
-
-
-    elif [[ "$*" == "gh label"* ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            'name;[`_choice_label`]' \
-            'source-repository;[`_choice_search_repo`]' \
-
-    elif [[ "$*" == "gh ruleset"* ]]; then
-        if [[ "$*" == "gh ruleset check" ]]; then
-            echo "$table" | \
-            _patch_table_edit_arguments \
-                'branch;[`_choice_branch`]' \
-
-        elif [[ "$*" == "gh ruleset view" ]]; then
-            echo "$table" | \
-            _patch_table_edit_arguments \
-                'ruleset-id;[`_choice_ruleset`]' \
-
-        else
-            echo "$table"
-
         fi
 
     elif [[ "$*" == "gh search"* ]]; then
@@ -456,6 +450,12 @@ _patch_table() {
         else
             echo "$table"
         fi
+
+    elif [[ "$*" == "gh workflow"* ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'workflow-id-workflow-name(workflow);[`_choice_workflow`]' \
+            'workflow-id-workflow-name-filename(workflow);[`_choice_workflow_or_file`]' \
 
     else
         echo "$table"

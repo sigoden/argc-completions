@@ -39,19 +39,19 @@ EOF
 }
 
 _patch_table() { 
-    if [[ "$*" == "pass init" ]]; then
-        _patch_table_edit_arguments 'gpg-id;[`_choice_gpg_id`]'
-
-    elif [[ "$*" == "pass ls" ]]; then
-        _patch_table_edit_arguments 'subdir;[`_choice_pass_dir`]'
-
-    elif [[ "$*" == "pass mv" ]] \
-      || [[ "$*" == "pass cp" ]] \
+    if [[ "$*" == "pass cp" ]] \
+    || [[ "$*" == "pass mv" ]] \
     ; then
         _patch_table_edit_arguments 'old-path;[`_choice_pass_name`]' 'new-path;[`_choice_pass_name`]'
 
     elif [[ "$*" == "pass git" ]]; then
         _patch_table_edit_arguments 'args;~[`_choice_git`]'
+
+    elif [[ "$*" == "pass init" ]]; then
+        _patch_table_edit_arguments 'gpg-id;[`_choice_gpg_id`]'
+
+    elif [[ "$*" == "pass ls" ]]; then
+        _patch_table_edit_arguments 'subdir;[`_choice_pass_dir`]'
 
     else
         _patch_table_edit_arguments 'pass-name;[`_choice_pass_name`]'

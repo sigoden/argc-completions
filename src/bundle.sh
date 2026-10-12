@@ -67,9 +67,6 @@ _patch_table() {
             'pack' \
             'package' \
 
-    elif [[ "$*" == "bundle update" ]]; then
-        _patch_table_edit_arguments ';;' 'gem;*[`_choice_dependency`]'
-
     elif [[ "$*" == "bundle add" ]]; then
         _patch_table_edit_options \
             '--branch(<value>)' \
@@ -95,11 +92,11 @@ _patch_table() {
             '--gemfile(<file>)' \
             '--path(<path>)' \
 
-    elif [[ "$*" == "bundle outdated" ]]; then
+    elif [[ "$*" == "bundle init" ]]; then
         _patch_table_edit_options \
-            '--source(<value>)' \
-        | \
-        _patch_table_edit_arguments ';;' 'gem;*[`_choice_dependency`]'
+            '--gemfile(<file>)' \
+            '--gemspec(<file:.gemspec>)' \
+
 
     elif [[ "$*" == "bundle open" ]]; then
         _patch_table_edit_options \
@@ -107,23 +104,26 @@ _patch_table() {
         | \
         _patch_table_edit_arguments ';;' 'gem;*[`_choice_dependency`]'
 
+    elif [[ "$*" == "bundle outdated" ]]; then
+        _patch_table_edit_options \
+            '--source(<value>)' \
+        | \
+        _patch_table_edit_arguments ';;' 'gem;*[`_choice_dependency`]'
+
+    elif [[ "$*" == "bundle plugin uninstall" ]]; then
+        _patch_table_edit_arguments ';;' 'plugin;*[`_choice_plugin`]'
+
+    elif [[ "$*" == "bundle remove" ]]; then
+        _patch_table_edit_arguments ';;' 'gem;*[`_choice_dependency`]'
+
+    elif [[ "$*" == "bundle update" ]]; then
+        _patch_table_edit_arguments ';;' 'gem;*[`_choice_dependency`]'
+
     elif [[ "$*" == "bundle viz" ]]; then
         _patch_table_edit_options \
             '--file(<value>)' \
             '--format(<value>)' \
             '--without(<value...>)' \
-
-    elif [[ "$*" == "bundle init" ]]; then
-        _patch_table_edit_options \
-            '--gemfile(<file>)' \
-            '--gemspec(<file:.gemspec>)' \
-
-
-    elif [[ "$*" == "bundle remove" ]]; then
-        _patch_table_edit_arguments ';;' 'gem;*[`_choice_dependency`]'
-
-    elif [[ "$*" == "bundle plugin uninstall" ]]; then
-        _patch_table_edit_arguments ';;' 'plugin;*[`_choice_plugin`]'
 
     else
         cat

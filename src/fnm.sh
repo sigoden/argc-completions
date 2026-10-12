@@ -1,16 +1,16 @@
 _patch_table() {
-    if [[ "$*" == "fnm install" ]]; then
-        _patch_table_edit_arguments 'version;[`_choice_available_version_cached`]'
-
-    elif [[ "$*" == "fnm use" ]] \
-      || [[ "$*" == "fnm default" ]] \
+    if [[ "$*" == "fnm alias" ]]; then
+        _patch_table_edit_arguments 'to_version;[`_choice_version`]'
+    
+    elif [[ "$*" == "fnm default" ]] \
       || [[ "$*" == "fnm uninstall" ]] \
+      || [[ "$*" == "fnm use" ]] \
     ; then
         _patch_table_edit_arguments 'version;[`_choice_version`]'
 
-    elif [[ "$*" == "fnm alias" ]]; then
-        _patch_table_edit_arguments 'to_version;[`_choice_version`]'
-    
+    elif [[ "$*" == "fnm install" ]]; then
+        _patch_table_edit_arguments 'version;[`_choice_available_version_cached`]'
+
     else
         cat
     fi

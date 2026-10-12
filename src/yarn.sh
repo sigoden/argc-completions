@@ -126,6 +126,9 @@ _patch_table() {
     elif [[ "$*" == "yarn autoclean" ]]; then
         _patch_table_dedup_options --force
 
+    elif [[ "$*" == "yarn config "* ]]; then
+        _patch_table_edit_arguments 'key;[`_choice_config_key`]'
+
     elif [[ "$*" == "yarn generate-lock-entry" ]]; then
         _patch_table_dedup_options --registry
 
@@ -153,9 +156,6 @@ _patch_table() {
 
     elif [[ "$*" == "yarn workspaces run" ]]; then
         _patch_table_edit_arguments 'cmd;~[`_choice_workspaces_cmd`]'
-
-    elif [[ "$*" == "yarn config "* ]]; then
-        _patch_table_edit_arguments 'key;[`_choice_config_key`]'
 
     else
         cat

@@ -24,19 +24,19 @@ _patch_table() {
             'candidate;[`_choice_candidate`]' \
     )"
 
-    if [[ "$*" == "sdk install" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            'version;[`_choice_version`]' \
-
-    elif [[ "$*" == "sdk uninstall" ]] \
-      || [[ "$*" == "sdk use" ]] \
-      || [[ "$*" == "sdk default" ]] \
-      || [[ "$*" == "sdk home" ]] \
+    if [[ "$*" == "sdk default" ]] \
+    || [[ "$*" == "sdk home" ]] \
+    || [[ "$*" == "sdk uninstall" ]] \
+    || [[ "$*" == "sdk use" ]] \
     ; then
         echo "$table" | \
         _patch_table_edit_arguments \
             'version;[`_choice_installed_version`]' \
+
+    elif [[ "$*" == "sdk install" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'version;[`_choice_version`]' \
 
     elif [[ "$*" == "sdk selfupdate" ]]; then
         echo "$table" | \

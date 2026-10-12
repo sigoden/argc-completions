@@ -12,29 +12,29 @@ _patch_help() {
 _patch_table() {
     if [[ "$*" == "nest" ]]; then
         _patch_table_edit_commands \
-            'new(new, n)' \
-            'info(info, i)' \
             'generate(generate, g)' \
+            'info(info, i)' \
+            'new(new, n)' \
 
-    elif [[ "$*" == "nest new" ]]; then
+    elif [[ "$*" == "nest add" ]]; then
         _patch_table_edit_options \
-            '--language;[TypeScript|Javascript]' \
-            '--package-manager;[npm|yarn|pnpm]' \
+            '--project;[`_choice_project`]' \
 
     elif [[ "$*" == "nest build" ]] \
       || [[ "$*" == "nest start" ]] \
     ; then
         _patch_table_edit_arguments 'app;[`_choice_project`]'
 
-    elif [[ "$*" == "nest add" ]]; then
-        _patch_table_edit_options \
-            '--project;[`_choice_project`]' \
-
     elif [[ "$*" == "nest generate" ]]; then
         _patch_table_edit_options \
             '--project;[`_choice_project`]' \
         | \
         _patch_table_edit_arguments 'schematic;[`_choice_schematic`]'
+
+    elif [[ "$*" == "nest new" ]]; then
+        _patch_table_edit_options \
+            '--language;[TypeScript|Javascript]' \
+            '--package-manager;[npm|yarn|pnpm]' \
 
     else
         cat

@@ -14,11 +14,7 @@ EOF
 }
 
 _patch_table() {
-    if [[ "$*" == "xdg-mime query" ]]; then
-        _patch_table_edit_arguments \
-            'value;[`_choice_query`]' \
-
-    elif [[ "$*" == "xdg-mime default" ]]; then
+    if [[ "$*" == "xdg-mime default" ]]; then
         _patch_table_edit_arguments \
             'application;[`_choice_application`]' \
             'mimetype;[`_choice_mimetype`]' \
@@ -28,6 +24,10 @@ _patch_table() {
     ; then
         _patch_table_edit_arguments \
             'mimetypes-file;[`_choice_application`]' \
+
+    elif [[ "$*" == "xdg-mime query" ]]; then
+        _patch_table_edit_arguments \
+            'value;[`_choice_query`]' \
 
     else
         cat

@@ -39,18 +39,18 @@ _patch_table() {
             '-mcmodel(<kind>);[default|tiny|small|kernel|medium|large];Limit range of code and data virtual addresses' \
             '-ofmt;[`_choice_ofmt`]' \
     )"
-    if [[ "$*" == "zig build" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            'steps;[`_choice_steps`]' \
-
-    elif [[ "$*" == "zig ar" ]]; then
+    if [[ "$*" == "zig ar" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
             '--format;[default|gnu|darwin|bsd|bigarchive]' \
             '--rsp-quoting;[posix|windows]' \
         | \
         _patch_table_edit_arguments ';;' 'words;~[`_argc_ar`]'
+
+    elif [[ "$*" == "zig build" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'steps;[`_choice_steps`]' \
 
     elif [[ "$*" == "zig cc" ]]; then
         echo "$table" | \

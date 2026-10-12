@@ -10,9 +10,10 @@ _patch_table() {
             '--stack;[`_choice_stack`]' \
     )"
 
-    if [[ "$*" == "pulumi new" ]]; then
+    if [[ "$*" == "pulumi cancel" ]]; then
         echo "$table" | \
-        _patch_table_edit_arguments 'template-url;[`_choice_template`]'
+        _patch_table_edit_arguments \
+            'stack-name;[`_choice_inprogress_stack`]' \
 
     elif [[ "$*" == "pulumi config"* ]]; then
         table="$( \
@@ -32,16 +33,48 @@ _patch_table() {
             echo "$table"
         fi
 
-    elif [[ "$*" == "pulumi stack init" ]]; then
+    elif [[ "$*" == "pulumi destroy" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
-            '--copy-config-from;[`_choice_all_stack`]' \
+            '--target;[`_choice_urn_cached`]' \
 
     elif [[ "$*" == "pulumi import" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
             '--parent;[`_choice_name_urn`]' \
             '--provider;[`_choice_name_urn`]' \
+
+    elif [[ "$*" == "pulumi logs" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--resource;[`_choice_urn_cached`]' \
+
+    elif [[ "$*" == "pulumi new" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments 'template-url;[`_choice_template`]'
+
+    elif [[ "$*" == "pulumi plugin install" ]] \
+      || [[ "$*" == "pulumi plugin rm" ]] \
+    ; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            ';;' \
+            'kind;[`_choice_plugin_kind`]' \
+            'name;[`_choice_plugin_name`]' \
+            'version;[`_choice_plugin_version`]' \
+
+
+    elif [[ "$*" == "pulumi preview" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--replace;[`_choice_urn_cached`]' \
+            '--target;[`_choice_urn_cached`]' \
+            '--target-replace;[`_choice_urn_cached`]' \
+
+    elif [[ "$*" == "pulumi stack init" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--copy-config-from;[`_choice_all_stack`]' \
 
     elif [[ "$*" == "pulumi state delete" ]] \
       || [[ "$*" == "pulumi state unprotect" ]] \
@@ -67,39 +100,6 @@ _patch_table() {
             '--target-replace;[`_choice_urn_cached`]' \
         | \
         _patch_table_edit_arguments 'template-url;[`_choice_template`]'
-
-    elif [[ "$*" == "pulumi destroy" ]]; then
-        echo "$table" | \
-        _patch_table_edit_options \
-            '--target;[`_choice_urn_cached`]' \
-
-    elif [[ "$*" == "pulumi preview" ]]; then
-        echo "$table" | \
-        _patch_table_edit_options \
-            '--replace;[`_choice_urn_cached`]' \
-            '--target;[`_choice_urn_cached`]' \
-            '--target-replace;[`_choice_urn_cached`]' \
-
-    elif [[ "$*" == "pulumi cancel" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            'stack-name;[`_choice_inprogress_stack`]' \
-
-    elif [[ "$*" == "pulumi plugin install" ]] \
-      || [[ "$*" == "pulumi plugin rm" ]] \
-    ; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            ';;' \
-            'kind;[`_choice_plugin_kind`]' \
-            'name;[`_choice_plugin_name`]' \
-            'version;[`_choice_plugin_version`]' \
-
-
-    elif [[ "$*" == "pulumi logs" ]]; then
-        echo "$table" | \
-        _patch_table_edit_options \
-            '--resource;[`_choice_urn_cached`]' \
 
     else
         echo "$table"

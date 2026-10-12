@@ -3,7 +3,13 @@ _patch_help() {
 }
 
 _patch_table() {
-    if [[ "$*" == "meson install" ]]; then
+    if [[ "$*" == "meson compile" ]]; then
+        _patch_table_edit_arguments 'target;[`_choice_target`]'
+
+    elif [[ "$*" == "meson format" ]]; then
+        _patch_table_edit_arguments 'sources(files...)'
+
+    elif [[ "$*" == "meson install" ]]; then
         _patch_table_edit_options \
             '--skip-subprojects;*[`_choice_subproject`]' \
 
@@ -13,12 +19,6 @@ _patch_table() {
             '--suite;[`_choice_test_suit`]' \
         | \
         _patch_table_edit_arguments 'args;*[`_choice_test`]'
-
-    elif [[ "$*" == "meson compile" ]]; then
-        _patch_table_edit_arguments 'target;[`_choice_target`]'
-
-    elif [[ "$*" == "meson format" ]]; then
-        _patch_table_edit_arguments 'sources(files...)'
 
     else
         cat

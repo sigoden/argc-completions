@@ -57,9 +57,22 @@ _patch_table() {
             '--lts;[`_choice_lts_name`]' \
     )"
 
-    if [[ "$*" == "nvm install" ]] \
-    || [[ "$*" == "nvm ls-remote" ]] \
-    || [[ "$*" == "nvm version-remote" ]] \
+    if [[ "$*" == "nvm alias" ]] \
+    || [[ "$*" == "nvm exec" ]] \
+    || [[ "$*" == "nvm ls" ]] \
+    || [[ "$*" == "nvm reinstall-packages" ]] \
+    || [[ "$*" == "nvm run" ]] \
+    || [[ "$*" == "nvm uninstall" ]] \
+    || [[ "$*" == "nvm use" ]] \
+    || [[ "$*" == "nvm version" ]] \
+    ; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'version;[`_choice_installed_version`]' \
+
+    elif [[ "$*" == "nvm install" ]] \
+      || [[ "$*" == "nvm ls-remote" ]] \
+      || [[ "$*" == "nvm version-remote" ]] \
     ; then
         echo "$table" | \
         _patch_table_edit_options \
@@ -67,19 +80,6 @@ _patch_table() {
         | \
         _patch_table_edit_arguments \
             'version;[`_choice_version`]' \
-
-    elif [[ "$*" == "nvm uninstall" ]] \
-      || [[ "$*" == "nvm use" ]] \
-      || [[ "$*" == "nvm exec" ]] \
-      || [[ "$*" == "nvm run" ]] \
-      || [[ "$*" == "nvm ls" ]] \
-      || [[ "$*" == "nvm version" ]] \
-      || [[ "$*" == "nvm alias" ]] \
-      || [[ "$*" == "nvm reinstall-packages" ]] \
-    ; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            'version;[`_choice_installed_version`]' \
 
     elif [[ "$*" == "nvm which" ]]; then
         echo "$table" | \

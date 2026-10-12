@@ -190,8 +190,8 @@ _patch_table() {
     elif [[ "$*" == "ip address delete" ]]; then
         _patch_table_edit_arguments ';;' 'action;*[`_choice_address_delete`]'
 
-    elif [[ "$*" == "ip address show" ]] \
-      || [[ "$*" == "ip address save" ]] \
+    elif [[ "$*" == "ip address save" ]] \
+      || [[ "$*" == "ip address show" ]] \
     ; then
         _patch_table_edit_arguments ';;' 'action;*[`_choice_address_save`]'
 
@@ -200,24 +200,27 @@ _patch_table() {
     ; then
         _patch_table_edit_arguments ';;' 'action;*[`_choice_addrlabel_add`]'
 
-    elif [[ "$*" == "ip l2tp add tunnel" ]]; then
-        _patch_table_edit_arguments ';;' 'action;*[`_choice_l2tp_add_tunnel`]'
-
     elif [[ "$*" == "ip l2tp add session" ]]; then
         _patch_table_edit_arguments ';;' 'action;*[`_choice_l2tp_add_session`]'
 
-    elif [[ "$*" == "ip l2tp delete tunnel" ]] \
-      || [[ "$*" == "ip l2tp show tunnel" ]] \
-    ; then
-        _patch_table_edit_arguments ';;' 'action;*[`_choice_l2tp_delete_tunnel`]'
+    elif [[ "$*" == "ip l2tp add tunnel" ]]; then
+        _patch_table_edit_arguments ';;' 'action;*[`_choice_l2tp_add_tunnel`]'
 
     elif [[ "$*" == "ip l2tp delete session" ]] \
       || [[ "$*" == "ip l2tp show session" ]] \
     ; then
         _patch_table_edit_arguments ';;' 'action;*[`_choice_l2tp_delete_session`]'
 
+    elif [[ "$*" == "ip l2tp delete tunnel" ]] \
+      || [[ "$*" == "ip l2tp show tunnel" ]] \
+    ; then
+        _patch_table_edit_arguments ';;' 'action;*[`_choice_l2tp_delete_tunnel`]'
+
     elif [[ "$*" == "ip link add" ]]; then
         _patch_table_edit_arguments ';;' 'action;*[`_choice_link_add`]'
+
+    elif [[ "$*" == "ip link afstats" ]]; then
+        _patch_table_edit_arguments ';;' 'action;*[`_choice_dev_only`]'
 
     elif [[ "$*" == "ip link delete" ]]; then
         _patch_table_edit_arguments ';;' 'action;*[`_choice_link_delete`]'
@@ -231,28 +234,25 @@ _patch_table() {
     elif [[ "$*" == "ip link xstats" ]]; then
         _patch_table_edit_arguments ';;' 'action;*[`_choice_link_xstats`]'
         
-    elif [[ "$*" == "ip link afstats" ]]; then
-        _patch_table_edit_arguments ';;' 'action;*[`_choice_dev_only`]'
-
-    elif [[ "$*" == "ip maddress show" ]]; then
-        _patch_table_edit_arguments ';;' 'action;*[`_choice_dev_only`]'
-
     elif [[ "$*" == "ip maddress delete" ]]; then
         _patch_table_edit_arguments ';;' 'action;*[`_choice_maddress_delete`]'
 
+
+    elif [[ "$*" == "ip maddress show" ]]; then
+        _patch_table_edit_arguments ';;' 'action;*[`_choice_dev_only`]'
 
     elif [[ "$*" == "ip mroute show" ]]; then
         _patch_table_edit_arguments ';;' 'action;*[`_choice_mroute_show`]'
 
     elif [[ "$*" == "ip neighbour add" ]] \
       || [[ "$*" == "ip neighbour change" ]] \
-      || [[ "$*" == "ip neighbour replace" ]] \
       || [[ "$*" == "ip neighbour delete" ]] \
+      || [[ "$*" == "ip neighbour replace" ]] \
     ; then
         _patch_table_edit_arguments ';;' 'action;*[`_choice_neighbour_add`]'
 
-    elif [[ "$*" == "ip neighbour show" ]] \
-      || [[ "$*" == "ip neighbour flush" ]] \
+    elif [[ "$*" == "ip neighbour flush" ]] \
+      || [[ "$*" == "ip neighbour show" ]] \
     ; then
         _patch_table_edit_arguments ';;' 'action;*[`_choice_neighbour_show`]'
 
@@ -262,23 +262,23 @@ _patch_table() {
     elif [[ "$*" == "ip netns"* ]]; then
         _patch_table_edit_arguments 'name;[`_choice_netns_name`]'
 
-    elif [[ "$*" == "ip ntable show" ]]; then
-        _patch_table_edit_arguments ';;' 'action;*[`_choice_ntable_show`]'
-
     elif [[ "$*" == "ip ntable change" ]]; then
         _patch_table_edit_arguments ';;' 'action;*[`_choice_ntable_change`]'
 
+    elif [[ "$*" == "ip ntable show" ]]; then
+        _patch_table_edit_arguments ';;' 'action;*[`_choice_ntable_show`]'
+
     elif [[ "$*" == "ip route add" ]] \
       || [[ "$*" == "ip route change" ]] \
-      || [[ "$*" == "ip route replace" ]] \
       || [[ "$*" == "ip route delete" ]] \
+      || [[ "$*" == "ip route replace" ]] \
     ; then
         _patch_table_edit_arguments ';;' 'action;*[`_choice_route_add`]'
 
-    elif [[ "$*" == "ip route show" ]] \
-      || [[ "$*" == "ip route flush" ]] \
-      || [[ "$*" == "ip route save" ]] \
+    elif [[ "$*" == "ip route flush" ]] \
       || [[ "$*" == "ip route restore" ]] \
+      || [[ "$*" == "ip route save" ]] \
+      || [[ "$*" == "ip route show" ]] \
     ; then
         _patch_table_edit_arguments ';;' 'action;*[`_choice_route_show`]'
 
@@ -291,21 +291,21 @@ _patch_table() {
         _patch_table_edit_arguments ';;' 'action;*[`_choice_rule_add`]'
 
     elif [[ "$*" == "ip rule flush" ]] \
-      || [[ "$*" == "ip rule save" ]] \
       || [[ "$*" == "ip rule restore" ]] \
+      || [[ "$*" == "ip rule save" ]] \
     ; then
         _patch_table_edit_arguments ';;' 'action;*[`_choice_rule_save`]'
 
-    elif [[ "$*" == "ip tcp_metrics show" ]] \
-      || [[ "$*" == "ip tcp_metrics delete" ]] \
+    elif [[ "$*" == "ip tcp_metrics delete" ]] \
+      || [[ "$*" == "ip tcp_metrics show" ]] \
     ; then
         _patch_table_edit_arguments ';;' 'action;*[`_choice_address_only`]'
 
-    elif [[ "$*" == "ip token set" ]]; then
-        _patch_table_edit_arguments ';;' 'action;*[`_choice_token_set`]'
-
     elif [[ "$*" == "ip token del" ]]; then
         _patch_table_edit_arguments ';;' 'action;*[`_choice_dev_only`]'
+
+    elif [[ "$*" == "ip token set" ]]; then
+        _patch_table_edit_arguments ';;' 'action;*[`_choice_token_set`]'
 
     elif [[ "$*" == "ip tunnel add" ]] \
       || [[ "$*" == "ip tunnel change" ]] \

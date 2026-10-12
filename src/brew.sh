@@ -105,14 +105,20 @@ _patch_table() {
             '--cellar;*[`_choice_suggest_formula`]' \
         | \
         _patch_table_edit_commands \
-            'uninstall(uninstall, remove, rm)' \
-            'list(list, ls)' \
             'doctor(doctor, dr)' \
             'home(home, homepage)' \
             'info(info, abv)' \
             'link(link, ls)' \
+            'list(list, ls)' \
             'livecheck(livecheck, lc)' \
             'typecheck(typecheck, tc)' \
+            'uninstall(uninstall, remove, rm)' \
+
+    elif [[ "$*" == "brew alias" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            ';;' \
+            'alias;*[`_choice_alias`]' \
 
     elif [[ "$*" == "brew analytics" ]] \
       || [[ "$*" == "brew developer" ]] \
@@ -120,31 +126,6 @@ _patch_table() {
         echo "$table" | \
         _patch_table_edit_arguments \
             'subcommand;[state|on|off]' \
-
-    elif [[ "$*" == "brew completions" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            'subcommand;[state|link|unlink]' \
-
-    elif [[ "$*" == "brew doctor" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            'diagnostic_check;[`_choice_suggest_diagnostic_check`]' \
-
-    elif [[ "$*" == "brew fetch" ]]; then
-        echo "$table" | \
-        _patch_table_edit_options \
-            '--bottle-tag(<value>)' \
-
-    elif [[ "$*" == "brew outdated" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            'formula-cask;[`_choice_outdated_formula_cask`]' \
-
-    elif [[ "$*" == "brew upgrade" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            'outdated_formula-outdated_cask;[`_choice_outdated_formula_cask`]' \
 
     elif [[ "$*" == "brew bottle" ]]; then
         echo "$table" | \
@@ -185,6 +166,11 @@ _patch_table() {
         _patch_table_edit_arguments \
             'cask-tap;[`_choice_cask_tap`]' \
 
+    elif [[ "$*" == "brew completions" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'subcommand;[state|link|unlink]' \
+
     elif [[ "$*" == "brew contributions" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
@@ -210,11 +196,26 @@ _patch_table() {
             '--timeout(<value>)' \
             '--workflow(<value>)' \
 
+    elif [[ "$*" == "brew doctor" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'diagnostic_check;[`_choice_suggest_diagnostic_check`]' \
+
+    elif [[ "$*" == "brew fetch" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--bottle-tag(<value>)' \
+
     elif [[ "$*" == "brew install-bundler-gems" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
             '--add-groups(<value>)' \
             '--groups(<value>)' \
+
+    elif [[ "$*" == "brew outdated" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'formula-cask;[`_choice_outdated_formula_cask`]' \
 
     elif [[ "$*" == "brew pr-automerge" ]]; then
         echo "$table" | \
@@ -256,6 +257,11 @@ _patch_table() {
         _patch_table_edit_arguments \
             'command;~[`_choice_prof_command`]' \
 
+    elif [[ "$*" == "brew services"* ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'formula;[`_choice_suggest_service`]' \
+
     elif [[ "$*" == "brew style" ]]; then
         echo "$table" | \
         _patch_table_edit_options \
@@ -264,6 +270,13 @@ _patch_table() {
         | \
         _patch_table_edit_arguments \
             ';;' 'file-tap-formula-cask;*[`_choice_file_tap_formula_cask`]' \
+
+    elif [[ "$*" == "brew test-bot" ]]; then
+        echo "$table" | \
+        _patch_table_edit_options \
+            '--git-email(<value>)' \
+            '--git-name(<value>)' \
+            '--root-url(<value>)' \
 
     elif [[ "$*" == "brew update-python-resources" ]]; then
         echo "$table" | \
@@ -279,23 +292,10 @@ _patch_table() {
             '--before(<value>)' \
             '--commit(<value>)' \
 
-    elif [[ "$*" == "brew alias" ]]; then
+    elif [[ "$*" == "brew upgrade" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments \
-            ';;' \
-            'alias;*[`_choice_alias`]' \
-
-    elif [[ "$*" == "brew services"* ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            'formula;[`_choice_suggest_service`]' \
-
-    elif [[ "$*" == "brew test-bot" ]]; then
-        echo "$table" | \
-        _patch_table_edit_options \
-            '--git-email(<value>)' \
-            '--git-name(<value>)' \
-            '--root-url(<value>)' \
+            'outdated_formula-outdated_cask;[`_choice_outdated_formula_cask`]' \
 
     elif [[ "$*" == "brew which-formula" ]]; then
         echo "$table" | \

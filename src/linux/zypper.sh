@@ -18,11 +18,11 @@ _patch_table() {
         _patch_table_edit_options \
             '--repo; '
 
-    elif [[ "$*" == "zypper removerepo" ]] \
-      || [[ "$*" == "zypper renamerepo" ]] \
+    elif [[ "$*" == "zypper clean" ]] \
       || [[ "$*" == "zypper modifyrepo" ]] \
       || [[ "$*" == "zypper refresh" ]] \
-      || [[ "$*" == "zypper clean" ]] \
+      || [[ "$*" == "zypper removerepo" ]] \
+      || [[ "$*" == "zypper renamerepo" ]] \
     ; then
         echo "$table" | \
         _patch_table_edit_arguments 'alias-uri;[`_choice_repo`]'
@@ -32,14 +32,6 @@ _patch_table() {
     ; then
         echo "$table" | \
         _patch_table_edit_arguments 'alias-uri;[`_choice_service`]'
-
-    elif [[ "$*" == "zypper remove" ]] \
-      || [[ "$*" == "zypper update" ]] \
-    ; then
-        echo "$table" | \
-        _patch_table_edit_arguments \
-            'capability;[`_choice_installed_package`]' \
-            'packagename;[`_choice_installed_package`]' \
 
     elif [[ "$*" == "zypper patch-info" ]]; then
         echo "$table" | \
@@ -52,6 +44,14 @@ _patch_table() {
     elif [[ "$*" == "zypper product-info" ]]; then
         echo "$table" | \
         _patch_table_edit_arguments 'product_name;[`_choice_product`]'
+
+    elif [[ "$*" == "zypper remove" ]] \
+      || [[ "$*" == "zypper update" ]] \
+    ; then
+        echo "$table" | \
+        _patch_table_edit_arguments \
+            'capability;[`_choice_installed_package`]' \
+            'packagename;[`_choice_installed_package`]' \
 
     elif [[ "$*" == "zypper removelock" ]]; then
         echo "$table" | \

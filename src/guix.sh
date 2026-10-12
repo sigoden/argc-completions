@@ -17,23 +17,8 @@ _patch_table() {
             'package-or-derivation;[`_choice_package`]' \
     )"
 
-    if [[ "$*" == "guix remove" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments 'packages;[`_choice_installed_package`]'
-
-    elif [[ "$*" == "guix system" ]]; then
-        echo "$table" | \
-        _patch_table_dedup_options \
-            '--target' \
-        | \
-        _patch_table_edit_arguments ';;'
-
-    elif [[ "$*" == "guix time-machine" ]]; then
-        echo "$table" | \
-        _patch_table_edit_arguments ';;' 'command;~[`_choice_time_machine_command`]'
-
-    elif [[ "$*" == "guix container" ]] \
-      || [[ "$*" == "guix import" ]] \
+    if [[ "$*" == "guix container" ]] \
+    || [[ "$*" == "guix import" ]] \
     ; then
         echo "$table" | \
         _patch_table_edit_arguments ';;'
@@ -50,6 +35,21 @@ _patch_table() {
         _patch_table_edit_arguments \
             'package;*[`_choice_installed_package`]' \
             'command' \
+
+    elif [[ "$*" == "guix remove" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments 'packages;[`_choice_installed_package`]'
+
+    elif [[ "$*" == "guix system" ]]; then
+        echo "$table" | \
+        _patch_table_dedup_options \
+            '--target' \
+        | \
+        _patch_table_edit_arguments ';;'
+
+    elif [[ "$*" == "guix time-machine" ]]; then
+        echo "$table" | \
+        _patch_table_edit_arguments ';;' 'command;~[`_choice_time_machine_command`]'
 
     else
         echo "$table"
