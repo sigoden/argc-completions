@@ -273,7 +273,7 @@ update() {
 }
 
 # @cmd Setup shell to use argc-completions
-# @arg shell![bash|elvish|fish|nushell|powershell|xonsh|zsh|tcsh] Shell kind
+# @arg shell![bash|fish|nushell|powershell|zsh] Shell kind
 setup-shell() {
     ./scripts/setup-shell.sh $1
 }

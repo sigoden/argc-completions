@@ -10,7 +10,7 @@
 - Automatically generate completion scripts from the help text or man pages.
 - Dynamic completion leads to fewer scripts loading and faster terminal startup.
 - Easily upgrade completion scripts as command are upgraded.
-- Cross shells: bash/zsh/powershell/fish/nushell/elvish/xonsh/tcsh.
+- Cross shells: bash/zsh/powershell/fish/nushell.
 - Cross platforms: linux, macOS, and Windows.
 
 #### Amazing features that native completion lacks or is difficult to implement
@@ -68,7 +68,7 @@
 git clone https://github.com/sigoden/argc-completions.git
 cd argc-completions
 ./scripts/download-tools.sh
-./scripts/setup-shell.sh bash  # bash/zsh/powershell/fish/nushell/elvish/xonsh/tcsh
+./scripts/setup-shell.sh bash  # bash/zsh/powershell/fish/nushell
 ```
 
 > For Windows, please run the above code in Git Bash.

@@ -7,8 +7,8 @@ set -e
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )"
 
 main() {
-    if [[ "$1" != @(bash|zsh|powershell|fish|nushell|elvish|xonsh|tcsh) ]]; then
-        echo "Usage: script-shell.sh <bash|zsh|powershell|fish|nushell|elvish|xonsh|tcsh> [--install]"
+    if [[ "$1" != @(bash|zsh|powershell|fish|nushell) ]]; then
+        echo "Usage: setup-shell.sh <bash|zsh|powershell|fish|nushell> [--install]"
         exit 1
     fi
     file="$(_config_file $1)"
@@ -51,13 +51,6 @@ main() {
 _config_file() {
     case $1 in
     bash) echo "$HOME/.bashrc" ;;
-    elvish)
-        if [[ -n "$APPDATA" ]]; then
-            echo "$APPDATA\\elvish\\rc.elv"
-        else
-            echo "$HOME/.config/elvish/rc.elv"
-        fi
-        ;;
     fish) echo "$HOME/.config/fish/config.fish" ;;
     nushell) 
         if [[ -n "$APPDATA" ]]; then
@@ -75,22 +68,14 @@ _config_file() {
             powershell -Command 'echo $PROFILE'
         fi
         ;;
-    xonsh)
-        if [[ -n "$ALLUSERSPROFILE" ]]; then
-            echo "$ALLUSERSPROFILE\\xonsh\\xonshrc"
-        else
-            echo "$HOME/.config/xonsh/rc.xsh"
-        fi
-        ;;
     zsh) echo "$HOME/.zshrc" ;;
-    tcsh) echo "$HOME/.tcshrc"
     esac
 }
 
 _setup_script() {
     local argc_completions_root="$ROOT_DIR" argc_completions_path
     local  os="$(_detect_os)" sep="/" sep2=':'
-    if [[ "$1" =~ ^(bash|fish|zsh|tcsh)$ ]]; then
+    if [[ "$1" =~ ^(bash|fish|zsh)$ ]]; then
         if [[ "$os" == "windows" ]]; then
             argc_completions_path="$(cygpath -w "$argc_completions_root/completions" | sed 's/\\/\\\\/g')"
             argc_completions_path="$argc_completions_path\\\\$os;$argc_completions_path"
@@ -113,16 +98,6 @@ export PATH="\$ARGC_COMPLETIONS_ROOT/bin:\$PATH"
 # To add completions for only the specified command, modify next line e.g. argc_scripts=( cargo git )
 argc_scripts=( \$(ls -p -1 "\$ARGC_COMPLETIONS_ROOT/completions/$os" "\$ARGC_COMPLETIONS_ROOT/completions" | sed -n 's/\.sh$//p') )
 source <(argc --argc-completions bash "\${argc_scripts[@]}")
-EOF
-        ;;
-    elvish)
-        cat <<EOF
-set E:ARGC_COMPLETIONS_ROOT = '$argc_completions_root'
-set E:ARGC_COMPLETIONS_PATH = \$E:ARGC_COMPLETIONS_ROOT'${sep}completions${sep}${os}${sep2}'\$E:ARGC_COMPLETIONS_ROOT'${sep}completions'
-set paths = [(echo \$E:ARGC_COMPLETIONS_ROOT'${sep}bin') \$@paths]
-# To add completions for only the specified command, modify next line e.g. var argc_scripts = ["cargo" "git"]
-var argc_scripts = [(ls -p -1 \$E:ARGC_COMPLETIONS_ROOT'${sep}completions${sep}${os}' \$E:ARGC_COMPLETIONS_ROOT'${sep}completions' | sed -n 's/\.sh$//p')]
-eval (argc --argc-completions elvish (all \$argc_scripts) | slurp)
 EOF
         ;;
     fish)
@@ -161,21 +136,6 @@ EOF
 argc --argc-completions powershell \$argc_scripts | Out-String | Invoke-Expression
 EOF
         ;;
-    xonsh)
-        if [[ "$OS" == "Windows_NT" ]]; then
-            argc_completions_root="$(echo "$argc_completions_root" | sed 's/\\/\\\\/g')"
-            sep="$sep$sep"
-        fi
-        cat <<EOF
-\$ARGC_COMPLETIONS_ROOT = '$argc_completions_root'
-\$ARGC_COMPLETIONS_PATH = \$ARGC_COMPLETIONS_ROOT + '${sep}completions${sep}${os}${sep2}' + \$ARGC_COMPLETIONS_ROOT + '${sep}completions'
-\$PATH.insert(0, \$ARGC_COMPLETIONS_ROOT + '${sep}bin')
-import os
-# To add completions for only the specified command, modify next line e.g. argc_scripts = ["cargo", "git"]
-argc_scripts = list(map(lambda v: v.removesuffix('.sh'), filter(lambda v: v.endswith('.sh'), os.listdir(\$ARGC_COMPLETIONS_ROOT + '${sep}completions${sep}${os}') + os.listdir(\$ARGC_COMPLETIONS_ROOT + '${sep}completions'))))
-exec(\$(argc --argc-completions xonsh @(argc_scripts)))
-EOF
-        ;;
     zsh)
         cat <<EOF
 export ARGC_COMPLETIONS_ROOT="$argc_completions_root"
@@ -184,17 +144,6 @@ export PATH="\$ARGC_COMPLETIONS_ROOT/bin:\$PATH"
 # To add completions for only the specified command, modify next line e.g. argc_scripts=( cargo git )
 argc_scripts=( \$(ls -p -1 "\$ARGC_COMPLETIONS_ROOT/completions/$os" "\$ARGC_COMPLETIONS_ROOT/completions" | sed -n 's/\.sh$//p') )
 source <(argc --argc-completions zsh \$argc_scripts)
-EOF
-        ;;
-    tcsh)
-        cat <<EOF
-setenv ARGC_COMPLETIONS_ROOT "$argc_completions_root"
-setenv ARGC_COMPLETIONS_PATH "$argc_completions_path"
-setenv PATH "\$ARGC_COMPLETIONS_ROOT/bin:\$PATH"
-set autolist
-# To add completions for only the specified command, modify next line e.g. set argc_scripts=(cargo git)
-set argc_scripts=\`ls -p -1 \$ARGC_COMPLETIONS_ROOT/completions/$os \$ARGC_COMPLETIONS_ROOT/completions | sed -n 's/\.sh$//p'\`
-eval \`argc --argc-completions tcsh \$argc_scripts\`
 EOF
         ;;
     esac
