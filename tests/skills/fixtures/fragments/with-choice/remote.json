@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "path": [
+    "demo",
+    "remote"
+  ],
+  "description": "Manage remotes",
+  "aliases": [],
+  "meta": [],
+  "items": [
+    {
+      "kind": "option",
+      "names": [
+        "--foo"
+      ],
+      "notations": [
+        "<VALUE>"
+      ],
+      "choices": [],
+      "choice_fn": "_choice_foo",
+      "repeatable": false,
+      "description": "Foo value"
+    },
+    {
+      "kind": "arg",
+      "name": "v1",
+      "repeatable": false,
+      "required": false,
+      "notation": "<V1>",
+      "choices": [],
+      "choice_fn": null,
+      "description": "First value"
+    }
+  ],
+  "subcommands": [
+    {
+      "name": "add",
+      "aliases": [],
+      "description": "Add a remote",
+      "status": "succeeded"
+    }
+  ],
+  "source": {
+    "kind": "help",
+    "command": "demo remote --help"
+  },
+  "notes": ""
+}
