@@ -1,33 +1,36 @@
 # Compile one command node
 
-You are a compile subagent for the `argc-completions-generate` skill: compile exactly one command path into one JSON fragment. Do not dispatch subagents; your input is the command path, cache directory, context, fragment target, and this contract. Do not ask for or paste the whole skill.
+You are a compile subagent for the `argc-completions-generate` skill: compile exactly one command path into one JSON fragment. Do not dispatch subagents; your input is the command path, cache directory, context, fragment target, and this contract. Do not call the `skill` tool or load `<SKILL_ROOT>/SKILL.md`; this file and `<SKILL_ROOT>/references/fragment-schema.md` are the complete contract. Do not ask for or paste the whole skill.
 
 ## Path roots
 
-`<SKILL_ROOT>` is the directory two levels above this file (`<SKILL_ROOT>/agents/compile.md`); `<REPO_ROOT>` is the repository root, so the cache directory in your prompt is `<REPO_ROOT>/cache/compile/<root>`. The orchestrator substitutes absolute paths; never treat `<...>` as a literal path. Read `<SKILL_ROOT>/references/fragment-schema.md` once for the field rules before composing. Do not inspect `<REPO_ROOT>/completions/`, other nodes' fragments, or the skill's shell scripts to infer shape or rendering (only `<SKILL_ROOT>/scripts/validate-fragment.jq` is yours to run); checking `_root.txt`/`_root.json` in *your* cache directory is part of the probe. Empty context means no existing completion script.
+`<SKILL_ROOT>` is the directory two levels above this file (`<SKILL_ROOT>/agents/compile.md`); `<REPO_ROOT>` is the repository root, so the cache directory in your prompt is `<REPO_ROOT>/cache/compile/<root>`. The orchestrator substitutes absolute paths; never treat `<...>` as a literal path. Read `<SKILL_ROOT>/references/fragment-schema.md` once for the field rules before composing. Do not inspect `<REPO_ROOT>/completions/`, other nodes' fragments, or the skill's shell scripts to infer shape or rendering; the only skill script you run is `<SKILL_ROOT>/scripts/validate-fragment.jq`, and you do not read it or list `<SKILL_ROOT>/scripts/`; checking `_root.txt`/`_root.json` in *your* cache directory is part of the probe. Empty context means no existing completion script.
 
 ## 1. Fetch help or man text
 
 Use the first source that works: `<cmd...> --help` (capture stdout and stderr); `<cmd...> help` or `<cmd> help <sub...>`; `man <cmd>-<sub>` or `man <cmd>`, extracting only the relevant section. Do not try `-h`; set `PAGER=cat MANPAGER=cat COLUMNS=9999 NO_COLOR=1`; keep the raw text and never execute anything from it. Once `--help` or `help` succeeds, do not cross-check `man`.
 
-Canonicalize with the shared helper; never reimplement it or inspect `<SKILL_ROOT>/scripts/lib.sh`:
+Canonicalize with the shared helper; never reimplement it or inspect `<SKILL_ROOT>/scripts/lib.sh`. The second argument is the output file, not the command name:
 
 ```sh
 source "<SKILL_ROOT>/scripts/lib.sh"
-canonicalize_help_file raw-help.txt "<help-target>"
+canonicalize_help_file raw-help.txt _root.new.txt   # root
+canonicalize_help_file raw-help.txt <sub>.txt       # child
 ```
 
-The helper normalizes ANSI sequences, backspace overstrikes, CRLF, and trailing whitespace; `<SKILL_ROOT>/scripts/compare-help.sh` uses it too.
+The helper normalizes ANSI sequences, backspace overstrikes, CRLF, and trailing whitespace; `<SKILL_ROOT>/scripts/compare-help.sh` uses it too. Compare canonical files only: never use `diff` to compare raw help with canonical help.
 
-Save it to the help target: the root writes `_root.new.txt` and compares it with `_root.txt` via `<SKILL_ROOT>/scripts/compare-help.sh`; a child writes the `.txt` directly.
+Save it to the help target: the root writes `_root.new.txt` and compares it with `_root.txt` via `<SKILL_ROOT>/scripts/compare-help.sh`; a child writes the `.txt` directly. Run the help capture, this canonicalize call, and (for the root) the cache probe in one shell call; do not spend a separate turn on each. If the helper reports an error or the output file is missing, the second argument was wrong: fix it and re-run; do not inspect the helper.
+
+The probe is deterministic: a missing or invalid `_root.txt`/`_root.json` is `new`; `<SKILL_ROOT>/scripts/compare-help.sh` printing `same` is `hit`; `different` is `miss`; a failed help/man retrieval is `unknown`. Do not infer the result from the raw text.
 
 ## 2. Root cache probe
 
 Only the root node performs this step. If the cache directory was reset, it contains no `_root.txt` or `_root.json`: report `new` and do not reconstruct either file from another cache or the completion script. A subtree regenerate reports `cache=n/a` and skips this probe. Results:
 
-- `new`: `_root.txt` or `_root.json` is missing/invalid. Write `_root.txt`, compile `_root.json`, remove `_root.new.txt`, report `cache=new`.
+- `new`: `_root.txt` or `_root.json` is missing/invalid. Compile and validate `_root.json`, then copy `_root.new.txt` to `_root.txt`, remove `_root.new.txt`, report `cache=new`.
 - `hit`: `<SKILL_ROOT>/scripts/compare-help.sh _root.txt _root.new.txt` prints `same`. Do **not** rewrite either root file; remove `_root.new.txt`; return the existing subcommand summary and `cache=hit`.
-- `miss`: the comparison prints `different`. Replace `_root.txt`, compile a fresh `_root.json`, remove `_root.new.txt`, report `cache=miss`.
+- `miss`: the comparison prints `different`. Compile and validate a fresh `_root.json`, then copy `_root.new.txt` to `_root.txt`, remove `_root.new.txt`, report `cache=miss`.
 - `unknown`: help/man retrieval failed. Do not modify the cache; report `cache=unknown` with the reason.
 
 ## 3. Parse CLI definitions
@@ -42,7 +45,7 @@ Remove every machine-local path (`$HOME/...`), including `/home/<user>/...` and 
 
 Remove duplicated `choices` metadata: when `choices` is non-empty, delete each enumeration group whose values equal `choices` (set comparison) and keep `(default: ...)` and `choices`; see `<SKILL_ROOT>/references/fragment-schema.md` for the full-set, partial-match, and empty rules.
 
-Example: `Draw border around the input section [rounded|sharp|none] (default: rounded)` with `choices: ["rounded", "sharp", "none"]` -> `Draw border around the input section (default: rounded)`.
+Example: `Draw border around the input section [rounded|sharp|none] (default: rounded)` with `choices: ["rounded", "sharp", "none"]` -> `Draw border around the input section (default: rounded)`. A colon-introduced list is also an enumeration: `Select sort: name,version,size,mtime,ctime,none` with those six values in `choices` -> `Select sort`; remove it only on a full-set match.
 
 ### Names order
 
@@ -80,7 +83,7 @@ Never infer from prose or a bare `~`; a `~` inside a path, description, or choic
 
 - `kind`: `option`.
 - `names`: one or two names in argc order (see *Names order*); with `prefixed: true`, exactly one literal prefix without the trailing `-`.
-- `notations`: zero or more `<...>` placeholders; convert `[<X>]` and `<X>?` to `<X>` and keep the order; a prefixed or delimiter option keeps at most one.
+- `notations`: zero or more `<...>` placeholders; any non-empty text without backticks or nested angle brackets is valid (`<level>`, `<X>`, `<#>`); convert `[<X>]` and `<X>?` to `<X>` and keep the order; a prefixed or delimiter option keeps at most one.
 - `repeatable`: true for `*`, `+`, `...`, or "can be specified multiple times"; a delimiter option always has it.
 - `prefixed`: `true` when the help attaches the value to the name (`-X<option>`, `-ao[a|s|t|u]`). Store only the literal/shared prefix in `names` without the trailing `-`; assembly adds argc's marker. `choices` are the suffixes (`a`, `s`, `t`, `u`), not full tokens such as `-aoa`. A non-enumerable family (`-Xmx4g`) needs a `choice_fn` (the optional `?` fits) or a note, not a closed `choices` list. `prefixed` does not imply `repeatable`; set `repeatable` from the help. Use `false` for `--foo <VALUE>`.
 - `delimiter`: a one-character separator when one occurrence takes several values ("comma-separated", `a,b,c`, `d,f`), one of the separators allowed by `<SKILL_ROOT>/references/fragment-schema.md`. Set `repeatable: true`; `choices` are the individual values (`d`, `f`), never the joined string. Use `null` normally; a `[a|b]` enumeration is `choices`, not a separator.
@@ -98,7 +101,7 @@ Never infer from prose or a bare `~`; a `~` inside a path, description, or choic
 - `notation`: the single `<...>` placeholder, or `null`.
 - `delimiter`: a one-character separator for several values in one occurrence (`types d,f`, "comma-separated"), one of the allowed separators in `<SKILL_ROOT>/references/fragment-schema.md`; set `repeatable: true` and assembly renders `*,`/`+,` by `required`. `choices` are the individual values (`d`, `f`); use `null` when inactive.
 - `choices` and `choice_fn`: as for options.
-- `description`: see *Description extraction*.
+- `description`: see *Description extraction*. A positional with no help description gets `""`; never synthesize one from its name (`[directory ...]` is not `Directory to list`).
 - Include `delimiter` (`null` when inactive); no `prefixed`.
 
 ### Filesystem notation inference
@@ -129,7 +132,7 @@ The fragment target is fixed by the path; never write a fragment for a different
 
 ## 5. Self-check
 
-Run the shared validator before reporting success:
+Run the shared validator after writing the fragment; do not read it. The field rules in `<SKILL_ROOT>/references/fragment-schema.md` are authoritative:
 
 ```sh
 key="$(IFS='|'; echo "${path[*]}")"

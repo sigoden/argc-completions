@@ -152,6 +152,15 @@ canonicalize_help() {
 
 canonicalize_help_file() {
     local input="$1" output="$2"
+    # The compile contract writes .txt help targets; reject a mistaken command
+    # name such as `tree` before it creates a stray file.
+    case "$output" in
+        *.txt) ;;
+        *)
+            log_error "canonicalize_help_file: output must be a .txt file (got '$output')"
+            return 2
+            ;;
+    esac
     canonicalize_help <"$input" >"$output"
 }
 

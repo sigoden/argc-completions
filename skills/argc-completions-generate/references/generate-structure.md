@@ -117,7 +117,7 @@ The full contract is `<SKILL_ROOT>/agents/compile.md`; use one subagent per pend
 
 ```text
 You are compiling one command node for the argc-completions-generate skill.
-Read <SKILL_ROOT>/agents/compile.md and follow it exactly.
+Read <SKILL_ROOT>/agents/compile.md and <SKILL_ROOT>/references/fragment-schema.md in one batch, then follow it exactly. These two files are the contract; do not load <SKILL_ROOT>/SKILL.md or inspect other skill scripts.
 
 Command path: demo remote add
 Cache directory: <REPO_ROOT>/cache/compile/demo
@@ -126,11 +126,11 @@ Context:
 <context text, or "(empty)" for a new command>
 ```
 
-Replace `<SKILL_ROOT>` and `<REPO_ROOT>` with absolute paths before dispatch; never send angle-bracket placeholders. Use `Context: (empty)` or omit the block when empty. Without fork, keep only those fields; the child reads `<SKILL_ROOT>/agents/compile.md` itself.
+Replace `<SKILL_ROOT>` and `<REPO_ROOT>` with absolute paths before dispatch; never send angle-bracket placeholders. Use `Context: (empty)` or omit the block when empty. Without fork, keep only those fields; the child reads both files itself.
 
 The child writes the fragment and `.txt`, returns the summary JSON, and handles exactly one node; it does not update the parent. Consume only `cache`, `status`, `warnings`, and `subcommands[]`. If subagents are unavailable, follow `<SKILL_ROOT>/agents/compile.md` inline.
 
-For workflow `all`, dispatch the root child in the background and read `<SKILL_ROOT>/references/add-choice-fns.md` and `<SKILL_ROOT>/references/compgen.md` while it runs; they do not depend on the fragment. Keep its `warnings`: `<SKILL_ROOT>/references/add-choice-fns.md` §2 explains the mixed-enumeration case.
+For workflow `all`, dispatch the root child in the background and read `<SKILL_ROOT>/references/add-choice-fns.md` and `<SKILL_ROOT>/references/compgen.md` while it runs; they do not depend on the fragment. Keep its `warnings`: `<SKILL_ROOT>/references/add-choice-fns.md` §2 explains the mixed-enumeration case. Do not poll a compile child with repeated `sleep`; the runtime delivers its closing message and a completion notice. Do the independent reads, then handle the notice; if you must check, use one `list_agents` call.
 
 ## 6. Update status and handle node failures
 

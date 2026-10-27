@@ -61,18 +61,15 @@ When one option is split across items (one name each), set `choice_fn` on **ever
 
 **Command-valued binding.** When the item's name or notation is a command-family token (`COMMAND`, `CMD`, `PROGRAM`, `PROG`, `EXEC`, `SCRIPT`, case-insensitive), or its description says it executes a command, and the completion needs the command plus its arguments, use the recipe in `<SKILL_ROOT>/references/compgen.md` §7 *Command-valued option*: `_choice_command` for the executable and `_choice_command_args` to copy the option array with a nameref and delegate with `_argc_util_comp_subcommand 0`. Set `terminated: true` on the same item when compile did not mark it and its `repeatable`, `prefixed`, and `delimiter` fields allow it; stop and report instead of overriding them. Then assemble and verify. Never fake the behavior with `repeatable` or a `delimiter`.
 
+Update the fragment with the tested helper. It matches every name passed, rejects flags and missing items, empties `choices`, optionally sets `terminated`, and writes only after validation:
+
 ```sh
 fragment="<REPO_ROOT>/cache/compile/<root>/<...>.json"
-tmp="$(mktemp)"
-jq --arg name '--foo' --arg fn '_choice_foo' '
-  .items |= map(
-    if ((.kind == "flag" or .kind == "option")
-        and ((.names // []) | index($name)))
-       or (.kind == "arg" and .name == $name)
-    then .choice_fn = $fn | .choices = []
-    else . end
-  )
-' "$fragment" >"$tmp" && mv "$tmp" "$fragment"
+bash <SKILL_ROOT>/scripts/set-choice-fn.sh "$fragment" _choice_foo --foo
+# Split option: pass every name.
+bash <SKILL_ROOT>/scripts/set-choice-fn.sh "$fragment" _choice_value --eval-command -ex
+# Command-valued binding:
+bash <SKILL_ROOT>/scripts/set-choice-fn.sh --terminated "$fragment" _choice_command_args --command
 ```
 
 ## 4. Function placement and naming

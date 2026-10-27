@@ -145,7 +145,7 @@ path_prefix_lint() {
     /\.\/(scripts|references|agents|cache|completions|utils|tests|bin|skills|install\.sh)/ { report("dot-relative path") }
     /(^|[^>\/$A-Za-z0-9_.-])(scripts|references|agents|cache|completions|utils|tests|bin|skills)\// { report("bare path prefix") }
     /(^|[^>\/$A-Za-z0-9_.-])install\.sh/ { report("bare install.sh") }
-    /(^|[^>\/$A-Za-z0-9_.-])(preflight|assemble|verify-completion|format-choice-fns|compare-help|extract-cmd-context|reset-cache|lib)\.sh/ { report("bare skill script") }
+    /(^|[^>\/$A-Za-z0-9_.-])(preflight|assemble|verify-completion|format-choice-fns|set-choice-fn|compare-help|extract-cmd-context|reset-cache|lib)\.sh/ { report("bare skill script") }
     /(^|[^>\/$A-Za-z0-9_.-])(validate-fragment|inspect-fragment-items|inspect-script-params)\.jq/ { report("bare skill jq") }
     /(^|[^>\/$A-Za-z0-9_.-])(generate-structure|add-choice-fns|compgen|verify|fragment-schema)\.md/ { report("bare reference filename") }
     /(^|[^>\/$A-Za-z0-9_.-])compile\.md/ { report("bare compile.md") }
@@ -192,6 +192,8 @@ check "compile agent contract" test -f "$SKILL_DIR/agents/compile.md"
 check "reset-cache script" test -x "$SCRIPTS/reset-cache.sh"
 check "format-choice-fns script" test -x "$SCRIPTS/format-choice-fns.sh"
 check "format-choice-fns syntax" bash -n "$SCRIPTS/format-choice-fns.sh"
+check "set-choice-fn script" test -x "$SCRIPTS/set-choice-fn.sh"
+check "set-choice-fn syntax" bash -n "$SCRIPTS/set-choice-fn.sh"
 for script in inspect-fragment-items.jq inspect-script-params.jq; do
     check "inspection script $script" test -f "$SCRIPTS/$script"
 done
@@ -205,6 +207,16 @@ assert_contains "compile contract canonicalizer" "$SKILL_DIR/agents/compile.md" 
 assert_contains "compile contract duplicate choices" "$SKILL_DIR/agents/compile.md" "Remove duplicated"
 assert_contains "compile contract placeholder case" "$SKILL_DIR/agents/compile.md" "Preserve each placeholder's text and case"
 assert_contains "compile contract help flag" "$SKILL_DIR/agents/compile.md" "Include \`--help\` and \`--version\` only when the help lists them"
+assert_contains "compile contract canonicalizer output" "$SKILL_DIR/agents/compile.md" "canonicalize_help_file raw-help.txt _root.new.txt"
+assert_not_contains "compile contract no ambiguous help target" "$SKILL_DIR/agents/compile.md" '"<help-target>"'
+assert_contains "compile contract no validator read" "$SKILL_DIR/agents/compile.md" "and you do not read it"
+assert_contains "compile contract no synthetic arg description" "$SKILL_DIR/agents/compile.md" "never synthesize one from its name"
+assert_contains "compile contract no skill load" "$SKILL_DIR/agents/compile.md" "Do not call the \`skill\` tool"
+assert_contains "compile contract canonical comparison" "$SKILL_DIR/agents/compile.md" 'never use `diff` to compare raw help with canonical help'
+assert_contains "compile contract probe determinism" "$SKILL_DIR/agents/compile.md" "The probe is deterministic"
+assert_contains "schema colon enumeration" "$SKILL_DIR/references/fragment-schema.md" "colon-introduced comma list"
+assert_contains "structure batch compile reads" "$SKILL_DIR/references/generate-structure.md" "fragment-schema.md in one batch"
+assert_contains "structure no sleep poll" "$SKILL_DIR/references/generate-structure.md" "Do not poll a compile child"
 assert_contains "choice docs generic compgen" "$SKILL_DIR/references/add-choice-fns.md" "--argc-compgen generic"
 # The workflow and the specification keep separate homes.
 assert_contains "compgen workflow pointer" "$SKILL_DIR/references/compgen.md" "<SKILL_ROOT>/references/add-choice-fns.md"
@@ -248,6 +260,10 @@ assert_not_contains "fragment items no value_type" "$SCRIPTS/inspect-fragment-it
 # Export probing rules and the choice-fn binding contract.
 assert_contains "choice docs export schema" "$SKILL_DIR/references/add-choice-fns.md" "no top-level \`.options\` array"
 assert_contains "choice docs split binding" "$SKILL_DIR/references/add-choice-fns.md" "set \`choice_fn\` on **every** item"
+assert_contains "choice docs binding script" "$SKILL_DIR/references/add-choice-fns.md" "set-choice-fn.sh"
+assert_contains "choice docs multi-name binding" "$SKILL_DIR/references/add-choice-fns.md" "--eval-command -ex"
+assert_contains "choice docs terminated binding" "$SKILL_DIR/references/add-choice-fns.md" '--terminated "$fragment"'
+assert_not_contains "choice docs no inline binding jq" "$SKILL_DIR/references/add-choice-fns.md" ".items |= map("
 assert_contains "choice docs single-item query" "$SKILL_DIR/references/add-choice-fns.md" ".flag_options[] | select(.id =="
 assert_contains "compgen __argc_value notation" "$SKILL_DIR/references/compgen.md" "__argc_value=<NOTATION>"
 assert_contains "skill merged stream ban" "$SKILL_DIR/SKILL.md" "2>&1 | jq"
@@ -296,6 +312,22 @@ expect_failure "compare-help different" \
     bash "$SCRIPTS/compare-help.sh" "$TMP_DIR/help-old.txt" "$TMP_DIR/help-diff.txt"
 expect_failure "compare-help missing file" \
     bash "$SCRIPTS/compare-help.sh" "$TMP_DIR/no-such-help.txt" "$TMP_DIR/help-new.txt"
+
+# canonicalize_help_file must reject a non-.txt output name (compile contract).
+guard_in="$TMP_DIR/help-guard-in.txt"
+printf 'demo --help\n' >"$guard_in"
+if ( source "$SCRIPTS/lib.sh"; canonicalize_help_file "$guard_in" "$TMP_DIR/help-guard-out" ) >/dev/null 2>&1; then
+    fail "canonicalize rejects non-txt output (unexpected success)"
+else
+    pass "canonicalize rejects non-txt output"
+fi
+check "canonicalize guard leaves non-txt output absent" test ! -e "$TMP_DIR/help-guard-out"
+if ( source "$SCRIPTS/lib.sh"; canonicalize_help_file "$guard_in" "$TMP_DIR/help-guard-out.txt" ) >/dev/null 2>&1; then
+    pass "canonicalize accepts txt output"
+else
+    fail "canonicalize accepts txt output"
+fi
+check "canonicalize guard writes txt output" test -s "$TMP_DIR/help-guard-out.txt"
 
 # Root-help cache probe semantics.
 cache_test="$TMP_DIR/cache-probe"
@@ -589,6 +621,71 @@ else
 fi
 assert_contains "script params unknown path message" "$TMP_DIR/script-params-error.txt" "unknown command path"
 assert_contains "script params unknown path children" "$TMP_DIR/script-params-error.txt" "available: add"
+
+# ---------------------------------------------------------------------------
+# set-choice-fn.sh
+# ---------------------------------------------------------------------------
+scf_script="$SCRIPTS/set-choice-fn.sh"
+check "set-choice-fn script" test -x "$scf_script"
+check "set-choice-fn syntax" bash -n "$scf_script"
+
+scf_dir="$TMP_DIR/fragments-set-choice"
+mkdir -p "$scf_dir"
+cp -R "$FIXTURES/fragments/with-choice/." "$scf_dir/"
+
+scf_out="$TMP_DIR/set-choice-option.txt"
+check_to "$scf_out" "set-choice-fn option" bash "$scf_script" "$scf_dir/_root.json" _choice_out --output
+assert_contains "set-choice-fn reports match" "$scf_out" "matched=1"
+check "set-choice-fn option binding" test "$(jq -r '.items[] | select(.names | index("--output")) | .choice_fn' "$scf_dir/_root.json")" = _choice_out
+check "set-choice-fn option choices" test "$(jq -r '.items[] | select(.names | index("--output")) | .choices | length' "$scf_dir/_root.json")" = 0
+
+check "set-choice-fn arg" bash "$scf_script" "$scf_dir/remote/add.json" _choice_name name
+check "set-choice-fn arg binding" test "$(jq -r '.items[] | select(.name == "name") | .choice_fn' "$scf_dir/remote/add.json")" = _choice_name
+
+scf_split="$scf_dir/split.json"
+jq -n '{schemaVersion:1,path:["demo","remote","add"],description:"",aliases:[],meta:[],items:[
+  {kind:"option",names:["--eval-command"],notations:["<COMMAND>"],choices:[],choice_fn:null,repeatable:false,prefixed:false,delimiter:null,description:"Eval"},
+  {kind:"option",names:["-ex"],notations:["<COMMAND>"],choices:[],choice_fn:null,repeatable:false,prefixed:false,delimiter:null,description:"Eval"}
+],subcommands:[],source:{kind:"none"},notes:""}' >"$scf_split"
+check "set-choice-fn split option" bash "$scf_script" "$scf_split" _choice_value --eval-command -ex
+check "set-choice-fn split first" test "$(jq -r '.items[] | select(.names | index("--eval-command")) | .choice_fn' "$scf_split")" = _choice_value
+check "set-choice-fn split second" test "$(jq -r '.items[] | select(.names | index("-ex")) | .choice_fn' "$scf_split")" = _choice_value
+
+cp "$scf_dir/_root.json" "$TMP_DIR/set-choice-before.json"
+expect_failure "set-choice-fn rejects flag" bash "$scf_script" "$scf_dir/_root.json" _choice_v -v
+check "set-choice-fn flag leaves fragment unchanged" cmp -s "$scf_dir/_root.json" "$TMP_DIR/set-choice-before.json"
+
+cp "$scf_dir/_root.json" "$TMP_DIR/set-choice-before.json"
+expect_failure "set-choice-fn rejects missing item" bash "$scf_script" "$scf_dir/_root.json" _choice_missing --no-such-option
+check "set-choice-fn missing item leaves fragment unchanged" cmp -s "$scf_dir/_root.json" "$TMP_DIR/set-choice-before.json"
+
+expect_failure "set-choice-fn rejects invalid function" bash "$scf_script" "$scf_dir/_root.json" 'invalid fn' --output
+
+scf_term="$scf_dir/terminated.json"
+jq -n '{schemaVersion:1,path:["demo"],description:"",aliases:[],meta:[],items:[
+  {kind:"option",names:["--command"],notations:["<COMMAND>"],choices:[],choice_fn:null,repeatable:false,prefixed:false,delimiter:null,description:"Command"}
+],subcommands:[],source:{kind:"none"},notes:""}' >"$scf_term"
+check "set-choice-fn terminated" bash "$scf_script" --terminated "$scf_term" _choice_command_args --command
+check "set-choice-fn terminated field" test "$(jq -r '.items[0].terminated' "$scf_term")" = true
+
+scf_term_bad="$scf_dir/terminated-bad.json"
+jq -n '{schemaVersion:1,path:["demo"],description:"",aliases:[],meta:[],items:[
+  {kind:"option",names:["--command"],notations:["<COMMAND>"],choices:[],choice_fn:null,repeatable:true,prefixed:false,delimiter:null,description:"Command"}
+],subcommands:[],source:{kind:"none"},notes:""}' >"$scf_term_bad"
+cp "$scf_term_bad" "$TMP_DIR/set-choice-before.json"
+expect_failure "set-choice-fn rejects terminated conflict" bash "$scf_script" --terminated "$scf_term_bad" _choice_command_args --command
+check "set-choice-fn terminated conflict leaves fragment unchanged" cmp -s "$scf_term_bad" "$TMP_DIR/set-choice-before.json"
+
+scf_invalid="$scf_dir/invalid.json"
+jq -n '{schemaVersion:1,path:["demo"],description:"",aliases:[],meta:[],items:[
+  {kind:"option",names:["--output"],notations:["<FILE>"],choices:[],choice_fn:null,repeatable:false,prefixed:false,delimiter:null,description:"Out",value_type:"file"}
+],subcommands:[],source:{kind:"none"},notes:""}' >"$scf_invalid"
+cp "$scf_invalid" "$TMP_DIR/set-choice-before.json"
+expect_failure "set-choice-fn validates before write" bash "$scf_script" "$scf_invalid" _choice_out --output
+check "set-choice-fn validation leaves fragment unchanged" cmp -s "$scf_invalid" "$TMP_DIR/set-choice-before.json"
+
+check "set-choice-fn optional hint" bash "$scf_script" "$scf_dir/remote.json" '?_choice_foo' --foo
+check "set-choice-fn optional hint field" test "$(jq -r '.items[] | select(.names | index("--foo")) | .choice_fn' "$scf_dir/remote.json")" = '?_choice_foo'
 
 # Function-only harness documented in compgen.md §8.
 harness_out="$(bash -c '
@@ -1143,7 +1240,7 @@ gawk '/^# <<< choice-fns$/ && !done {
         done = 1
     }
     { print }' "$TMP_DIR/dynamic.sh" >"$TMP_DIR/dynamic.tmp" && mv "$TMP_DIR/dynamic.tmp" "$TMP_DIR/dynamic.sh"
-jq '(.items[] | select(.names | index("--output")) | .choice_fn) = "_choice_out"' "$TMP_DIR/fragments-dynamic/_root.json" >"$TMP_DIR/dyn.tmp" && mv "$TMP_DIR/dyn.tmp" "$TMP_DIR/fragments-dynamic/_root.json"
+check "dynamic set-choice-fn" bash "$SCRIPTS/set-choice-fn.sh" "$TMP_DIR/fragments-dynamic/_root.json" _choice_out --output
 quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-dynamic" --output "$TMP_DIR/dynamic.sh" --force
 assert_contains "dynamic binding rendered" "$TMP_DIR/dynamic.sh" '--output[`_choice_out`]'
 assert_contains "dynamic function preserved" "$TMP_DIR/dynamic.sh" '_choice_out() {'
