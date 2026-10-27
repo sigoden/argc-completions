@@ -1,6 +1,6 @@
 # Fragment schema
 
-Read this file only when validating a fragment, writing a minimal `failed` fragment, or repairing a schema error. Normal generation validates with `<SKILL_ROOT>/scripts/validate-fragment.jq` and does not need the field table, but compile subagents read this file for the JSON example and field rules. This file is the authority for fragment layout and field rules; other skill files link here.
+Authority for fragment layout and field rules; other skill files link here. Read it when validating, writing a minimal `failed` fragment, or repairing a schema error; compile subagents read it for the example and field rules.
 
 One command node = one fragment:
 
@@ -18,39 +18,9 @@ One command node = one fragment:
   "aliases": [],
   "meta": [{"key": "inherit-flag-options", "value": ""}],
   "items": [
-    {
-      "kind": "option",
-      "names": ["--foo"],
-      "notations": ["<VALUE>"],
-      "choices": [],
-      "choice_fn": "_choice_foo",
-      "repeatable": false,
-      "prefixed": false,
-      "delimiter": null,
-      "description": "Foo value"
-    },
-    {
-      "kind": "option",
-      "names": ["--bar"],
-      "notations": ["<VALUE>"],
-      "choices": ["a", "b"],
-      "choice_fn": null,
-      "repeatable": false,
-      "prefixed": false,
-      "delimiter": null,
-      "description": "Bar value"
-    },
-    {
-      "kind": "arg",
-      "name": "name",
-      "repeatable": false,
-      "required": true,
-      "notation": "<NAME>",
-      "choices": [],
-      "choice_fn": null,
-      "delimiter": null,
-      "description": "Remote name"
-    }
+    {"kind": "option", "names": ["--foo"], "notations": ["<VALUE>"], "choices": [], "choice_fn": "_choice_foo", "repeatable": false, "prefixed": false, "delimiter": null, "description": "Foo value"},
+    {"kind": "option", "names": ["--bar"], "notations": ["<VALUE>"], "choices": ["a", "b"], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Bar value"},
+    {"kind": "arg", "name": "name", "repeatable": false, "required": true, "notation": "<NAME>", "choices": [], "choice_fn": null, "delimiter": null, "description": "Remote name"}
   ],
   "subcommands": [
     {"name": "add", "aliases": [], "description": "Add a remote", "status": "todo"}
@@ -60,18 +30,6 @@ One command node = one fragment:
 }
 ```
 
-Examples for the fields (inactive values are shown where the field applies):
-
-```json
-{"kind": "option", "names": ["-ao"], "notations": [], "choices": ["a", "s", "t", "u"], "choice_fn": null, "repeatable": true, "prefixed": true, "delimiter": null, "description": "Set overwrite mode"}
-{"kind": "option", "names": ["--type"], "notations": ["<TYPE>"], "choices": ["d", "f"], "choice_fn": null, "repeatable": true, "prefixed": false, "delimiter": ",", "description": "Filter by entry type"}
-{"kind": "arg", "name": "types", "repeatable": true, "required": false, "notation": "<TYPE>", "choices": ["d", "f"], "choice_fn": null, "delimiter": ",", "description": "Entry types"}
-{"kind": "option", "names": ["--eval-command"], "notations": ["<COMMAND>"], "choices": [], "choice_fn": "_choice_gdb_command", "repeatable": true, "prefixed": false, "delimiter": null, "description": "Execute a single GDB command"}
-{"kind": "option", "names": ["-ex"], "notations": ["<COMMAND>"], "choices": [], "choice_fn": "_choice_gdb_command", "repeatable": true, "prefixed": false, "delimiter": null, "description": "Execute a single GDB command"}
-```
-
-The last two items are one split option: `--eval-command, -ex` cannot be a single item, so every field is copied and each item keeps one name.
-
 | Field | Rule |
 |---|---|
 | `schemaVersion` | Always `1`. |
@@ -80,39 +38,30 @@ The last two items are one split option: `--eval-command, -ex` cannot be a singl
 | `aliases` | Subcommand aliases; no collision with sibling names/aliases. |
 | `meta` | `{key, value}` string array. Copy from context; do not invent keys. |
 | `items[].kind` | `flag`, `option`, or `arg`. |
-| `names` | 1-2 names for a flag/option; exactly one when the option is prefixed. The two-name order and the split rule are below. |
-| `repeatable` | Flag/option can occur multiple times; an arg accepts multiple values. For an option or arg, a delimiter requires `repeatable: true`. |
-| `prefixed` | Option only, optional boolean (default `false`). `true` marks a prefix option whose value is attached to the name, such as `-Xfoo` or `-aos`. `names` must hold exactly one literal prefix without the trailing `-`; assembly adds the `-` that argc expects. `prefixed` does not imply `repeatable`. |
-| `delimiter` | Option/arg only, optional one-character string or `null` (default `null`). Splits multiple values in one occurrence, such as `--type d,f` or `types d,f`. Allowed characters: `,` `:` `;` `@` `|` `/`. Requires `repeatable: true`; an option renders `*` plus this character, and an arg renders `*`/`+` plus this character. |
-| `notations` | 0-n `<...>` placeholders for an option. |
-| `notation` | One `<...>` placeholder for an arg. |
-| `terminated` | Option/arg only, optional boolean (default `false`). `true` renders `~` after the name and makes the option capture every following argument as its value, as in `@option -exec~ <COMMAND>`. Cannot combine with `repeatable`, `prefixed`, or `delimiter`. |
-| `required` | Arg only: boolean, present for every arg; `true` for a required positional, `false` for an optional one. Flags/options must omit it. |
-| `choices` | Literal candidate values only. Never put a placeholder from a mixed enumeration (for example `SEED` in `--shuffle[=SEED|random|reverse|none]`) here; leave `choices` empty and record the literals in `notes` plus a warning. |
-| `choice_fn` | String or `null`; an optional leading `?` is an advisory hint that the function may not list every valid value. Completion does not validate, so the marker has no runtime effect and is omitted by default. A dynamic binding wins over static `choices`. |
+| `names` | 1-2 names for a flag/option; exactly one for a prefixed option. Order and split rule are in Rules. |
+| `repeatable` | Flag/option can occur multiple times; an arg accepts multiple values. A delimiter requires `true`. |
+| `prefixed` | Option only, default `false`. `true` means the value is attached to the name (`-Xfoo`, `-aos`): exactly one literal prefix without the trailing `-` (assembly adds it); it does not imply `repeatable`. |
+| `delimiter` | Option/arg only, one character or `null` (default). Splits values in one occurrence (`--type d,f`); allowed `,` `:` `;` `@` `|` `/`. Requires `repeatable: true`; renders `*` plus the character (an arg also uses `+`). |
+| `notations` / `notation` | Option: 0-n `<...>` placeholders; arg: one `<...>`. |
+| `terminated` | Option/arg only, default `false`. `true` renders `~` after the name and captures every following argument as its value (`@option -exec~ <COMMAND>`); incompatible with `repeatable`, `prefixed`, and `delimiter`. |
+| `required` | Arg only, present for every arg: `true` for required, `false` for optional. Flags/options must omit it. |
+| `choices` | Literal values only. Never put a placeholder from a mixed enumeration (for example `SEED` in `--shuffle[=SEED|random|reverse|none]`) here; leave `choices` empty, record the literals in `notes`, and warn. |
+| `choice_fn` | String or `null`; a leading `?` is an advisory hint that the function may not list every valid value. Completion does not validate, so the marker has no runtime effect and is omitted by default; a binding wins over static `choices`. |
 | `subcommands[].status` | `todo`, `succeeded`, or `failed`. |
-| `source` | Optional origin information. |
-| `notes` | Optional note. |
+| `source`, `notes` | Optional origin information and note. |
 
 Rules:
 
-- All descriptions (fragment, `subcommands[]`, and item descriptions) keep only the first sentence of the source help/man text. Flatten first (collapse CR/LF/TAB runs into one space, then trim), then truncate at `.` `!` `?` `。` `！` `？` followed by whitespace or end of text. A terminator inside a token (`3.5`, `v1.2`, `foo.txt`) is not a boundary. Exempt abbreviations `e.g.`, `i.e.`, `etc.`, `vs.`, `cf.`, `approx.`, and a single letter before the period (`a.`, `J.`); keep scanning past them. If no boundary exists, keep the whole text. Drop the terminator that ends the kept sentence (`Manage remotes.` -> `Manage remotes`). Strip backticks; never rephrase text to fit the limit.
-- Descriptions must not contain a machine-local path, usually an expanded `$HOME` value: a path under the current home (`$HOME/...`) or any user's home (`/home/<user>/...`, `/Users/<user>/...`, `C:\Users\<user>\...`). Delete the token; when it is one alternative of an `or`/`and` list, delete the connector with it. Collapse the remaining whitespace and trim; if nothing remains, use an empty string. Keep system paths such as `/etc/foo.conf` and portable `~/.config/foo`; never substitute a placeholder. Example: `use /home/you/.local/bin/browser.sh or BROWSER` -> `use BROWSER`.
-- An item description must not repeat data that is already stored in `choices`. When `choices` is non-empty, delete every enumeration in the description — a group wrapped in `[...]`, `(...)`, or `{...}` — whose values, split on `|` or `,`, trimmed, with one pair of optional surrounding quotes, are the same set as `choices` (order does not matter); an optional leading `=` on the first value is allowed. Delete only on a full-set match; keep partial matches, prose groups, non-enumeration groups, and all `(default: ...)` text. When `choices` is empty, keep every group. Keep the values in `choices`; never empty `choices` to silence this rule. If the description is only the matching enumeration, set it to an empty string; otherwise collapse the whitespace left by the deletion and trim. `<SKILL_ROOT>/scripts/validate-fragment.jq` rejects a fragment that still contains a matching group.
-- `prefixed` is option-only. A flag or arg fragment that contains it is invalid.
-- `terminated` is option/arg only. A flag fragment that contains it is invalid, and a terminated option or arg must not be `repeatable`, `prefixed`, or carry a `delimiter`.
-- `delimiter` is allowed on options and args. A flag fragment that contains it is invalid.
-- A `prefixed` option has exactly one name. Store the literal prefix without the trailing `-` (`["-X"]`, `["-ao"]`); a name ending in `-` is invalid. Its `choices` are the suffixes after the prefix (`a`, `s`, `t`, `u` for `-ao-*[a|s|t|u]`), not full tokens such as `-aoa`.
-- A `delimiter` option or arg has `repeatable: true`. Its `choices` are the individual split values (`d`, `f` for `--type*,[d|f]` or `types*,[d|f]`), not the joined string. A static `[a|b]` enumeration is not a delimiter.
-- A `prefixed` or `delimiter` option may have at most one notation; argc does not allow them to combine with multiple notations. A delimiter arg keeps its normal single notation.
-- A non-prefixed flag or option name must not end in `-`; argc would otherwise read it as a prefix flag/option. Use `prefixed: true` for that behavior.
-- `names` order is an argc requirement, not a style rule. With two names the first must be a one-character short name and the second may be another one-character short, a `--long` name, or a multi-character single-dash alias. When the source help pairs two names that do not fit (for example `--eval-command, -ex`, or `--long, -x` in help order), emit one item per name with the same `kind`, `notations`/`notation`, `choices`, `choice_fn`, `repeatable`, `prefixed`, `delimiter`, and `description`, and record the pairing in `notes`. A single-name item may use any name, including a multi-character single-dash alias such as `-ex`. <SKILL_ROOT>/scripts/validate-fragment.jq rejects the lossy shapes, so assembly fails instead of dropping the binding. A short name that argc cannot represent (`-"`, `-#`, or a name containing a quote or comment character) cannot be emitted; keep the long name only and record a warning instead of splitting it into its own item.
-- Every subcommand has its own fragment. `todo` nodes are not assembled. A `succeeded` node must have a fragment. A `failed` node must have a minimal fragment and is reported as a warning.
-- The set of fragments must equal the set declared by parents. An undeclared fragment is stale and fails assembly.
-- `choice_fn` is copied only from `<SKILL_ROOT>/scripts/extract-cmd-context.sh` in generate-structure. Never infer it. The add-choice-fns workflow is the only place that may set a new binding.
-- Filesystem notation: use `<dir>`, `<file>`, or `<path>` when the name, position, and description make the semantics clear. Do not bind a `choice_fn` to those values; argc generates path candidates.
-- Structural fields must not contain backticks. Put function names in `choice_fn`, not in `` `...` `` form.
-- Arg suffixes are derived from the two booleans: `repeatable` + `required` -> `+`, `repeatable` only -> `*`, `required` only -> `!`, neither -> no suffix. A delimiter is appended to the suffix: `files*,` or `files+,`.
-- The old `modifier` field is removed. A fragment that still contains it is invalid and must be regenerated.
-
-Assembly validates every fragment with `<SKILL_ROOT>/scripts/validate-fragment.jq`. The key is the fragment `path` joined by `|`: `["gdb"]` -> `gdb`, `["gdb", "add"]` -> `gdb|add`. A `path mismatch` error usually means the root name was repeated (`gdb|gdb`) or the wrong root was used.
+- Descriptions: every fragment, subcommand, flag, option, and arg keeps only the first sentence of the source help/man text. Flatten (collapse CR/LF/TAB runs into one space, trim), then truncate at `.` `!` `?` `。` `！` `？` followed by whitespace or end of text; a terminator inside a token (`3.5`, `foo.txt`) is not a boundary. Skip `e.g.`, `i.e.`, `etc.`, `vs.`, `cf.`, `approx.`, and a single letter before the period (`a.`, `J.`). If no boundary exists, keep the whole text. Drop the terminator that ends the kept sentence (`Manage remotes.` -> `Manage remotes`), strip backticks, and never rephrase.
+- Machine-local paths: never keep one in a description, usually an expanded `$HOME`: a path under the current home (`$HOME/...`) or any user's home (`/home/<user>/...`, `/Users/<user>/...`, `C:\Users\<user>\...`). Delete the token (and the `or`/`and` connector when it is one alternative); collapse whitespace and trim, or use an empty string. Keep system paths such as `/etc/foo.conf` and portable `~/.config/foo`; never substitute a placeholder. Example: `use /home/you/.local/bin/browser.sh or BROWSER` -> `use BROWSER`.
+- An item description must not repeat `choices`. When non-empty, delete every enumeration in the description — a `[...]`, `(...)`, or `{...}` group — whose values (split on `|` or `,`, trimmed, optional surrounding quotes) are the same set as `choices` (order does not matter; an optional leading `=` on the first value is allowed). Delete only on a full-set match; keep partial matches, prose groups, non-enumeration groups, and all `(default: ...)` text. With empty `choices`, keep every group. Never empty `choices` to silence this rule. If the description is only the matching enumeration, set it to an empty string; otherwise collapse and trim. `<SKILL_ROOT>/scripts/validate-fragment.jq` rejects a still-matching group.
+- Field interactions: `prefixed` is option-only (a flag or arg containing it is invalid); `terminated` and `delimiter` are option/arg only (a flag containing them is invalid). A terminated option/arg is not `repeatable`, not `prefixed`, and has no `delimiter`. A prefixed option has exactly one name, the literal prefix without the trailing `-` (`["-X"]`, `["-ao"]`). A non-prefixed flag or option name must not end in `-`; use `prefixed: true`. A prefixed or delimiter option has at most one notation; a delimiter arg keeps its single notation.
+- Values in `choices` for these fields are suffixes or parts, never full tokens: `a`, `s`, `t`, `u` for `-ao-*[a|s|t|u]` (not `-aoa`), and individual split values (`d`, `f` for `--type*,[d|f]`, not the joined string). A static `[a|b]` enumeration is not a delimiter.
+- `names` order is an argc requirement. With two names the first must be a one-character short name; the second may be another one-character short, a `--long` name, or a multi-character single-dash alias. When the help pairs names that do not fit (`--eval-command, -ex`), emit one item per name with every other field copied and record the pairing in `notes`; a single-name item may use any name (`-ex`). `<SKILL_ROOT>/scripts/validate-fragment.jq` rejects lossy shapes, so assembly fails instead of dropping the binding. A short name argc cannot represent (`-"`, `-#`, or one containing a quote or comment character) cannot be emitted: keep the long name only and record a warning.
+- Subcommand lifecycle: every subcommand has its own fragment. A `todo` node is not assembled; a `succeeded` node must have a fragment; a `failed` node must have a minimal fragment and is reported as a warning. The set of fragments must equal the set declared by parents; an undeclared fragment is stale and fails assembly.
+- `choice_fn` is copied only from `<SKILL_ROOT>/scripts/extract-cmd-context.sh` in generate-structure; never infer it. Only add-choice-fns may set a new binding.
+- Filesystem notation: use `<dir>`, `<file>`, or `<path>` when the name, position, and description make the semantics clear; never bind a `choice_fn` to those values because argc generates path candidates.
+- Structural fields (`names`, `notations`/`notation`, `choices`, `aliases`, `path`) must not contain backticks or newlines; `choices` values must not contain `|` or tabs because they are rendered with `|`. Put function names in `choice_fn`, not in `` `...` `` form.
+- Arg suffixes derive from the two booleans: `repeatable` + `required` -> `+`, `repeatable` only -> `*`, `required` only -> `!`, neither -> no suffix. A delimiter appends to the suffix: `files*,` or `files+,`.
+- The old `modifier` field is removed; a fragment containing it is invalid and must be regenerated.
+- Assembly validates every fragment with `<SKILL_ROOT>/scripts/validate-fragment.jq`; the key is the fragment `path` joined by `|` (`["gdb"]` -> `gdb`, `["gdb", "add"]` -> `gdb|add`). A `path mismatch` usually means a repeated root (`gdb|gdb`) or the wrong root.
