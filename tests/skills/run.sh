@@ -905,6 +905,59 @@ check "fragment items combined" gawk -F '\t' '$1 == "option" && $2 == "-Z" && $6
 check "fragment items legacy defaults" gawk -F '\t' '$1 == "flag" && $2 == "-v,--verbose" && $6 == "false" && $7 == "" { found = 1 } END { exit !found }' "$TMP_DIR/prefix-delimiter-items.txt"
 
 # ---------------------------------------------------------------------------
+# Terminated values
+# ---------------------------------------------------------------------------
+inject_root_items "$TMP_DIR/fragments-terminated" '[
+  {"kind": "option", "names": ["--command"], "notations": ["<COMMAND>"], "choices": [], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Command", "terminated": true},
+  {"kind": "arg", "name": "args", "repeatable": false, "required": false, "notation": "<ARG>", "choices": [], "choice_fn": null, "delimiter": null, "description": "Args", "terminated": true}
+]'
+terminated_script="$TMP_DIR/terminated.sh"
+quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-terminated" --stdout >"$terminated_script"
+assert_contains "assemble terminated option" "$terminated_script" '# @option --command~ <COMMAND>'
+assert_contains "assemble terminated arg" "$terminated_script" '# @arg args~ <ARG>'
+check "export terminated fields" bash -c "argc --argc-export '$terminated_script' >'$TMP_DIR/terminated-export.json'"
+check "export terminated option" jq -e '.flag_options[] | select(.long_name == "--command") | .terminated == true and .multiple_values == true and .multiple_occurs == false' "$TMP_DIR/terminated-export.json"
+check "export terminated arg" jq -e '.positionals[] | select(.id == "args") | .terminated == true and .multiple == true' "$TMP_DIR/terminated-export.json"
+check "verify terminated" bash "$SCRIPTS/verify-completion.sh" "$terminated_script" --cmd demo --cache-dir "$TMP_DIR/fragments-terminated" --skip-compgen
+
+jq -r -f "$SCRIPTS/inspect-fragment-items.jq" "$TMP_DIR/fragments-terminated/_root.json" >"$TMP_DIR/terminated-items.txt"
+check "fragment items terminated option" gawk -F '\t' '$1 == "option" && $2 == "--command" && $8 == "true" { found = 1 } END { exit !found }' "$TMP_DIR/terminated-items.txt"
+check "fragment items terminated arg" gawk -F '\t' '$1 == "arg" && $2 == "args" && $8 == "true" { found = 1 } END { exit !found }' "$TMP_DIR/terminated-items.txt"
+
+inject_root_items "$TMP_DIR/fragments-terminated-literal" '[{"kind": "option", "names": ["-~", "--value"], "notations": ["<VALUE>"], "choices": [], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Literal"}]'
+literal_script="$TMP_DIR/terminated-literal.sh"
+quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-terminated-literal" --stdout >"$literal_script"
+assert_contains "assemble literal tilde name" "$literal_script" '# @option -~ --value <VALUE>'
+check "verify literal tilde name" bash "$SCRIPTS/verify-completion.sh" "$literal_script" --cmd demo --cache-dir "$TMP_DIR/fragments-terminated-literal" --skip-compgen
+
+inject_root_items "$TMP_DIR/fragments-bad-terminated-repeatable" '[{"kind": "option", "names": ["--command"], "notations": ["<COMMAND>"], "choices": [], "choice_fn": null, "repeatable": true, "prefixed": false, "delimiter": null, "description": "Bad", "terminated": true}]'
+expect_failure "assemble rejects terminated repeatable" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-bad-terminated-repeatable" --stdout
+inject_root_items "$TMP_DIR/fragments-bad-terminated-flag" '[{"kind": "flag", "names": ["--command"], "repeatable": false, "description": "Bad", "terminated": true}]'
+expect_failure "assemble rejects terminated flag" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-bad-terminated-flag" --stdout
+inject_root_items "$TMP_DIR/fragments-bad-terminated-name" '[{"kind": "option", "names": ["--command~"], "notations": ["<COMMAND>"], "choices": [], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Bad"}]'
+expect_failure "assemble rejects name ending in tilde" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-bad-terminated-name" --stdout
+
+mkdir -p "$TMP_DIR/fragments-terminated-mismatch"
+cp -R "$TMP_DIR/fragments-terminated/." "$TMP_DIR/fragments-terminated-mismatch/"
+jq '(.items[] | select(.names == ["--command"]) | .terminated) = false' "$TMP_DIR/fragments-terminated-mismatch/_root.json" >"$TMP_DIR/terminated-mismatch.tmp" && mv "$TMP_DIR/terminated-mismatch.tmp" "$TMP_DIR/fragments-terminated-mismatch/_root.json"
+mismatch_log="$(new_log)"
+if run_quiet "$mismatch_log" bash "$SCRIPTS/verify-completion.sh" "$terminated_script" --cmd demo --cache-dir "$TMP_DIR/fragments-terminated-mismatch" --skip-compgen; then
+    fail "verify terminated mismatch (unexpected success)"
+else
+    pass "verify terminated mismatch"
+fi
+assert_contains "verify terminated mismatch message" "$mismatch_log" "terminated mismatch"
+
+sed 's/--command~ /--command /; s/args~ /args /' "$terminated_script" >"$TMP_DIR/terminated-no-marker.sh"
+reverse_log="$(new_log)"
+if run_quiet "$reverse_log" bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/terminated-no-marker.sh" --cmd demo --cache-dir "$TMP_DIR/fragments-terminated" --skip-compgen; then
+    fail "verify terminated reverse mismatch (unexpected success)"
+else
+    pass "verify terminated reverse mismatch"
+fi
+assert_contains "verify terminated reverse message" "$reverse_log" "terminated mismatch"
+
+# ---------------------------------------------------------------------------
 # Removed value_type field
 # ---------------------------------------------------------------------------
 inject_root_items "$TMP_DIR/fragments-value-type-field" '[

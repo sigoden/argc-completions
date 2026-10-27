@@ -108,7 +108,8 @@ A compile child handles exactly one command node, writes its fragment and `.txt`
 
 - Direct edits are limited to `<REPO_ROOT>/cache/compile/` and the `choice-fns` block. Other cache subdirectories belong to other workflows; `llm-generate` is written only by `<SKILL_ROOT>/scripts/assemble.sh`.
 - generate-structure and regenerate may change only `llm-generate` and cache fragments; they must not edit `llm-prompt` or existing `choice-fns` (except the one-time legacy migration).
-- add-choice-fns may change only `choice-fns`, `choice_fn`, and `choices` (emptied when a binding replaces a static list), then run `<SKILL_ROOT>/scripts/assemble.sh`; never hand-edit `llm-generate`.
+- add-choice-fns may change only `choice-fns`, `choice_fn`, and `choices` (emptied when a binding replaces a static list), and may set `terminated: true` on the item it binds when that binding is command-valued; then run `<SKILL_ROOT>/scripts/assemble.sh`; never hand-edit `llm-generate`.
+- `terminated` (`~`) is structural: compile takes it from a context tag or from a command-family parameter followed by optional or multiple args, and add-choice-fns may set it with a command-valued binding. Never invent it from prose, and never combine it with `repeatable`, `prefixed`, or `delimiter`.
 - `choice-fns` functions are `_choice_*`/`_helper_*`, ASCII-sorted; run `<SKILL_ROOT>/scripts/format-choice-fns.sh` after edits.
 - verify is read-only.
 - Do not inspect `<REPO_ROOT>/completions/` with `ls`/`grep`/`sed`/`find`: preflight reports `existing`/`completion_file`/`blocks`, and `command -v` answers tool availability.
@@ -125,7 +126,7 @@ A compile child handles exactly one command node, writes its fragment and `.txt`
 
 ## Reporting
 
-Report workflow, root command, output path, cache directory, counts, `failed` nodes, verify result, and the next step. Report `next=add-choice-fns` when an exported value has no static or dynamic choice and an enumerable source; otherwise `next=complete`.
+Report workflow, root command, output path, cache directory, counts, `failed` nodes, verify result, and the next step. Report `next=add-choice-fns` when an exported value has no static or dynamic choice and an enumerable source (a terminated command line counts); otherwise `next=complete`.
 
 ```text
 workflow=all root=make commands=1 fragments=1 items=35 choice_fns=2 failed=0 verify=PASS next=complete

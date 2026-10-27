@@ -109,7 +109,7 @@ A missing script prints empty output. The format is fixed:
 # <<< choice-fns
 ```
 
-`meta` is the command block's `@meta` lines; `llm-prompt` is the comment text after `# %%<path>`; `choice-fns` contains only tags whose **signature** (before two or more spaces) has a backtick. Empty sections still print their markers; pass the output unchanged.
+`meta` is the command block's `@meta` lines; `llm-prompt` is the comment text after `# %%<path>`; `choice-fns` contains only tags whose **signature** (before two or more spaces) has a backtick. Empty sections still print their markers; pass the output unchanged. A signature may also carry a `~` after the names; it is structural, and the child must keep `terminated: true` on that item.
 
 ## 5. Dispatch compile subagents
 
@@ -194,7 +194,7 @@ For a brand-new script with no dynamic bindings yet, also pass `--require-no-cho
 
 After a PASS, review fragments and exported parameters for `next=`; the review never changes the script. Use `argc --argc-export` with `<SKILL_ROOT>/scripts/inspect-script-params.jq` and `<SKILL_ROOT>/scripts/inspect-fragment-items.jq` (see `<SKILL_ROOT>/SKILL.md` §Inspection) for value-taking options and positionals; pipe `.subcommands[]` for nested commands and repeat for deeper nesting.
 
-A value-taking parameter with no static or dynamic `choice` and an enumerable source (git refs, container images, ...) reports `next=add-choice-fns`; free text, path notation, and values with no source report `next=complete`. Do not add bindings here. `next=add-choice-fns` is a handoff, not an automatic continuation: a standalone run stops here; `all` proceeds.
+A value-taking parameter with no static or dynamic `choice` and an enumerable source (git refs, container images, a terminated command line, ...) reports `next=add-choice-fns`; free text, path notation, and values with no source report `next=complete`. Do not add bindings here. `next=add-choice-fns` is a handoff, not an automatic continuation: a standalone run stops here; `all` proceeds.
 
 ## 9. Failure handling
 

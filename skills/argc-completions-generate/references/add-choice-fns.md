@@ -4,7 +4,7 @@ Add dynamic completion candidates to an existing generated script: ownership, pr
 
 ## Ownership
 
-Edit only the `choice-fns` block and the matching fragment item's `choice_fn` (empty `choices` when a binding replaces a static list). The block contract and write limits are in `<SKILL_ROOT>/SKILL.md` §Pipeline contract and §Hard rules; never change command names, flags, options, args, aliases, or descriptions.
+Edit only the `choice-fns` block and the matching fragment item's `choice_fn` (empty `choices` when a binding replaces a static list). When the binding is command-valued, also set `terminated: true` on that item when its `repeatable`, `prefixed`, and `delimiter` fields allow it; never clear an existing `terminated`. The block contract and write limits are in `<SKILL_ROOT>/SKILL.md` §Pipeline contract and §Hard rules; never change command names, flags, options, args, aliases, notations, or descriptions.
 
 ## 1. Preconditions
 
@@ -21,9 +21,9 @@ jq -r -f <SKILL_ROOT>/scripts/inspect-script-params.jq /tmp/<root>.export.json
 jq -r -f <SKILL_ROOT>/scripts/inspect-script-params.jq --arg cmd '<root> <sub>' /tmp/<root>.export.json
 ```
 
-It prints `# command <path>`, then value-taking options and positionals (flags skipped); without `--arg cmd` it lists the root. Option rows end with `prefixed` and `delimiter`; positional rows include `required`, `multiple`, and `delimiter`; both show the existing `choice`.
+It prints `# command <path>`, then value-taking options and positionals (flags skipped); without `--arg cmd` it lists the root. Option rows end with `prefixed`, `delimiter`, and `terminated`; positional rows include `required`, `multiple`, `delimiter`, and `terminated`; both show the existing `choice`.
 
-The export holds one object per command: `name`, `flag_options`, `positionals`, `subcommands`. A `flag_options` entry has `id`, `short_name`, `long_name`, `notations`, `choice`, `describe`, `flag`, `prefixed`, `assigned`, `delimiter`; a `positionals` entry has `id`, `notation`, `required`, `multiple`, `choice`, `delimiter`. There is no top-level `.options` array and no `.name` field on an entry; `flag_options` is an array, so iterate `.flag_options[]` (`.flag_options[0][0]` indexes an entry; `to_entries` yields rows). Names live in `short_name`/`long_name`; `id` suffixes `$argc_<id>`. Read one entry:
+The export holds one object per command: `name`, `flag_options`, `positionals`, `subcommands`. A `flag_options` entry has `id`, `short_name`, `long_name`, `notations`, `choice`, `describe`, `flag`, `prefixed`, `assigned`, `delimiter`, `terminated`; a `positionals` entry has `id`, `notation`, `required`, `multiple`, `choice`, `delimiter`, `terminated`. There is no top-level `.options` array and no `.name` field on an entry; `flag_options` is an array, so iterate `.flag_options[]` (`.flag_options[0][0]` indexes an entry; `to_entries` yields rows). Names live in `short_name`/`long_name`; `id` suffixes `$argc_<id>`. Read one entry:
 
 ```sh
 jq -c '.flag_options[] | select(.id == "<id>")' /tmp/<root>.export.json
@@ -37,7 +37,7 @@ Never merge streams; write stdout to a file and read stderr separately (`<SKILL_
 jq -r -f <SKILL_ROOT>/scripts/inspect-fragment-items.jq <REPO_ROOT>/cache/compile/<root>/<fragment>.json
 ```
 
-Skip flags; values with a non-null `choice`; complete static enumerations; path notation (`<path>`, `<file>`, `<dir>`, `<folder>`); and free text (message, name, url, regex, number, plain description).
+Skip flags; values with a non-null `choice`; complete static enumerations; path notation (`<path>`, `<file>`, `<dir>`, `<folder>`); and free text (message, name, url, regex, number, plain description). A terminated value is not free text: its array holds a command line and has an enumerable source.
 
 An option marked `prefixed` receives `ARGC_CWORD` after the prefix, and a `delimiter` option/arg is already split by argc; do not re-split either word (`<SKILL_ROOT>/references/compgen.md` §5), and emit candidates for the current part only.
 
@@ -58,6 +58,8 @@ Binding marker (`?`): the default is `choice_fn = "_choice_foo"`. Completion nev
 Fragment lookup: one fragment per node under `<REPO_ROOT>/cache/compile/<root>/` (`<SKILL_ROOT>/references/fragment-schema.md`). Set the item for exactly one parameter; stop and report if no item matches and never add or rename items.
 
 When one option is split across items (one name each), set `choice_fn` on **every** item of that option. The ids differ, so a function reading `$argc_<id>` must switch to `argc__option` (`<SKILL_ROOT>/references/compgen.md` §2) or use an id-independent source.
+
+**Command-valued binding.** When the item's name or notation is a command-family token (`COMMAND`, `CMD`, `PROGRAM`, `PROG`, `EXEC`, `SCRIPT`, case-insensitive), or its description says it executes a command, and the completion needs the command plus its arguments, use the recipe in `<SKILL_ROOT>/references/compgen.md` §7 *Command-valued option*: `_choice_command` for the executable and `_choice_command_args` to copy the option array with a nameref and delegate with `_argc_util_comp_subcommand 0`. Set `terminated: true` on the same item when compile did not mark it and its `repeatable`, `prefixed`, and `delimiter` fields allow it; stop and report instead of overriding them. Then assemble and verify. Never fake the behavior with `repeatable` or a `delimiter`.
 
 ```sh
 fragment="<REPO_ROOT>/cache/compile/<root>/<...>.json"

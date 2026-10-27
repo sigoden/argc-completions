@@ -411,7 +411,7 @@ if [[ -n "$fragments" && -s "$export_json" ]]; then
         if ! jq -r '
             def fn_flag: if (((.choice // {}) | .type // "") == "Fn") then "fn" else "-" end;
             def row($p; $kind; $id; $short; $long):
-              [$p, $kind, $id, $short, $long, fn_flag] | join("\u001f");
+              [$p, $kind, $id, $short, $long, fn_flag, ((.terminated // false) | tostring)] | join("\u001f");
             def rows($p):
               ((.flag_options[]? | row($p; "opt"; (.id // ""); (.short_name // ""); (.long_name // "")))),
               ((.positionals[]? | row($p; "arg"; (.id // ""); ""; ""))),
@@ -422,12 +422,14 @@ if [[ -n "$fragments" && -s "$export_json" ]]; then
             fail "fragment bindings: cannot read the export tree"
         else
             declare -A export_name=() export_name_fn=() export_arg=() export_arg_fn=() export_path=()
-            while IFS=$'\x1f' read -r row_path row_kind row_id row_short row_long row_fn; do
+            declare -A export_name_term=() export_arg_term=()
+            while IFS=$'\x1f' read -r row_path row_kind row_id row_short row_long row_fn row_term; do
                 [[ -n "$row_path" ]] || continue
                 export_path["$row_path"]=1
                 if [[ "$row_kind" == "arg" ]]; then
                     if [[ -n "$row_id" ]]; then
                         export_arg["$row_path"$'\x1f'"$row_id"]=1
+                        export_arg_term["$row_path"$'\x1f'"$row_id"]="$row_term"
                         if [[ "$row_fn" == "fn" ]]; then
                             export_arg_fn["$row_path"$'\x1f'"$row_id"]=1
                         fi
@@ -436,6 +438,7 @@ if [[ -n "$fragments" && -s "$export_json" ]]; then
                     for row_name in "$row_short" "$row_long"; do
                         if [[ -n "$row_name" ]]; then
                             export_name["$row_path"$'\x1f'"$row_name"]=1
+                            export_name_term["$row_path"$'\x1f'"$row_name"]="$row_term"
                             if [[ "$row_fn" == "fn" ]]; then
                                 export_name_fn["$row_path"$'\x1f'"$row_name"]=1
                             fi
@@ -445,6 +448,7 @@ if [[ -n "$fragments" && -s "$export_json" ]]; then
             done <"$export_rows"
 
             binding_errors=()
+            terminated_errors=()
             : >"$fragment_rows"
             while IFS= read -r frag_file; do
                 rel="${frag_file#"$fragments_dir"/}"
@@ -475,17 +479,17 @@ if [[ -n "$fragments" && -s "$export_json" ]]; then
                 if ! jq -r --arg scope "$export_scope" --arg display "$display" '
                     .items[]?
                     | if .kind == "arg" then
-                        ["arg", $scope, $display, (.name // ""), (.choice_fn // "")] | join("\u001f")
+                        ["arg", $scope, $display, (.name // ""), (.choice_fn // ""), ((.terminated // false) | tostring)] | join("\u001f")
                       elif (.kind == "flag" or .kind == "option") then
                         ((.names // [])[]) as $name
-                        | ["name", $scope, $display, $name, (.choice_fn // "")] | join("\u001f")
+                        | ["name", $scope, $display, $name, (.choice_fn // ""), ((.terminated // false) | tostring)] | join("\u001f")
                       else empty end
                 ' "$frag_file" >>"$fragment_rows"; then
                     binding_errors+=("cannot read fragment: $display")
                 fi
             done < <(find "$fragments_dir" -type f -name '*.json' | LC_ALL=C sort)
 
-            while IFS=$'\x1f' read -r row_kind row_scope row_display row_payload row_fn; do
+            while IFS=$'\x1f' read -r row_kind row_scope row_display row_payload row_fn row_term; do
                 [[ -n "$row_kind" ]] || continue
                 if [[ -z "${export_path["$row_scope"]:-}" ]]; then
                     printf 'NOTE  fragment not in export, skipped: %s\n' "$row_display"
@@ -496,8 +500,13 @@ if [[ -n "$fragments" && -s "$export_json" ]]; then
                         lookup="$row_scope"$'\x1f'"$row_payload"
                         if [[ -z "${export_arg["$lookup"]:-}" ]]; then
                             binding_errors+=("dropped positional: $row_display $row_payload")
-                        elif [[ -n "$row_fn" && -z "${export_arg_fn["$lookup"]:-}" ]]; then
-                            binding_errors+=("dropped choice_fn: $row_display $row_payload (positional) -> $row_fn")
+                        else
+                            if [[ -n "$row_fn" && -z "${export_arg_fn["$lookup"]:-}" ]]; then
+                                binding_errors+=("dropped choice_fn: $row_display $row_payload (positional) -> $row_fn")
+                            fi
+                            if [[ "${export_arg_term["$lookup"]:-false}" != "$row_term" ]]; then
+                                terminated_errors+=("terminated mismatch: $row_display $row_payload (fragment=$row_term export=${export_arg_term["$lookup"]:-false})")
+                            fi
                         fi
                         ;;
                     name)
@@ -508,8 +517,13 @@ if [[ -n "$fragments" && -s "$export_json" ]]; then
                             lookup="$row_scope"$'\x1f'"$item_name"
                             if [[ -z "${export_name["$lookup"]:-}" ]]; then
                                 binding_errors+=("dropped name: $row_display $item_name")
-                            elif [[ -n "$row_fn" && -z "${export_name_fn["$lookup"]:-}" ]]; then
-                                binding_errors+=("dropped choice_fn: $row_display $item_name -> $row_fn")
+                            else
+                                if [[ -n "$row_fn" && -z "${export_name_fn["$lookup"]:-}" ]]; then
+                                    binding_errors+=("dropped choice_fn: $row_display $item_name -> $row_fn")
+                                fi
+                                if [[ "${export_name_term["$lookup"]:-false}" != "$row_term" ]]; then
+                                    terminated_errors+=("terminated mismatch: $row_display $item_name (fragment=$row_term export=${export_name_term["$lookup"]:-false})")
+                                fi
                             fi
                         fi
                         ;;
@@ -528,6 +542,20 @@ if [[ -n "$fragments" && -s "$export_json" ]]; then
                     printf 'NOTE  binding: %s\n' "$binding_error"
                 done
                 fail "fragment bindings: ${#binding_errors[@]} item(s) dropped by argc (first: ${binding_errors[0]})"
+            fi
+
+            if [[ ${#terminated_errors[@]} -eq 0 ]]; then
+                pass "fragment terminated matches export"
+            else
+                shown=0
+                for terminated_error in "${terminated_errors[@]}"; do
+                    shown=$((shown + 1))
+                    if [[ "$shown" -gt 10 ]]; then
+                        break
+                    fi
+                    printf 'NOTE  terminated: %s\n' "$terminated_error"
+                done
+                fail "fragment terminated: ${#terminated_errors[@]} mismatch(es) (first: ${terminated_errors[0]})"
             fi
         fi
     fi

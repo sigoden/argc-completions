@@ -102,6 +102,16 @@ def flag_option_names_ok:
       all(.names[]; (endswith("-") | not))
     end
   else false end;
+# argc reads a trailing "~" as the terminated marker, so a name may end in "~"
+# only when it is the literal "-~"/"+~" first name of a two-name item.
+def tilde_names_ok:
+  ((.names // []) | map(select((type == "string") and endswith("~")))) as $tilde
+  | if ($tilde | length) == 0 then true
+    else
+      ((.names | length) == 2)
+      and ((.names[0] == "-~") or (.names[0] == "+~"))
+      and (((.names[1] // "") | endswith("~")) | not)
+    end;
 def option_prefixed_ok:
   if (has("prefixed") | not) then true
   elif (.prefixed | type) == "boolean" then
@@ -141,6 +151,7 @@ def item_ok($i):
       (($it | has("required")) | not) and
       (($it.notation // null) == null) and
       ($it | flag_option_names_ok) and
+      ($it | tilde_names_ok) and
       (($it | has("prefixed")) | not) and
       (($it | has("delimiter")) | not) and
       (($it | has("terminated")) | not)
@@ -152,6 +163,7 @@ def item_ok($i):
       (($it | has("required")) | not) and
       (($it.notation // null) == null) and
       ($it | flag_option_names_ok) and
+      ($it | tilde_names_ok) and
       ($it | option_prefixed_ok) and
       ($it | option_delimiter_ok) and
       ($it | terminated_ok)

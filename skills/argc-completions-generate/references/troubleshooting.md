@@ -23,6 +23,8 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | `invalid fragment` | Schema/type error | Read the jq error and fix the fragment |
 | `invalid fragment ... description repeats choices: (a, b)` | Description repeats a static enumeration | Remove the matching `[...]`/`(...)`/`{...}` group; keep `(default: ...)` and `choices`, then re-run the validator (`<SKILL_ROOT>/references/fragment-schema.md`) |
 | `invalid items` after adding prefix/delimiter | Invariant not met | Apply the `prefixed`/`delimiter` rules (`<SKILL_ROOT>/references/fragment-schema.md`) |
+| `invalid items` after adding `terminated` | Combined with `repeatable`/`prefixed`/`delimiter`, used on a flag, or a name ends in `~` | Keep `repeatable: false`, `prefixed: false`, `delimiter: null`; only the first name `-~`/`+~` of a two-name item may end in `~` (`<SKILL_ROOT>/references/fragment-schema.md`) |
+| `~` missing after regenerate | Compile dropped the terminated flag | Set `"terminated": true` on the fragment item (or re-run the node with context), assemble, verify |
 | `items[N]: with two names the first must be a one-character short name` | Pair in help order or a multi-character single-dash name first | Reorder to `-x`/`+x`, or split into one item per name, then re-run the validator (`<SKILL_ROOT>/references/fragment-schema.md`) |
 | `missing choice function definitions` | Stale `choice_fn` or context not passed | Add the wrapper to `choice-fns` or clear `choice_fn` |
 | `argc --argc-export` error with a line | Malformed tag or function | Fix the fragment and re-assemble |
@@ -64,6 +66,8 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | `command block nesting mismatch` | Wrong parent path or depth | Fix the fragment path or re-assemble |
 | `choice functions defined after final eval` | Appended after the eval | `tail -n 40 file`; move it before the eval |
 | `fragment bindings: N item(s) dropped by argc` | A `names` pair argc cannot parse, or a binding missed the export | Read the `NOTE  binding:` lines; fix `names`/split, re-assemble |
+| `terminated mismatch` | Fragment says `terminated: true` but the export does not (or the reverse) | Fix the fragment/context, re-assemble, verify |
+| Compgen after a terminator inside a terminated value completes the command's own args | argc `~` consumes to end of line and does not stop at the terminator | Expected: the rest of the line belongs to the option; keep terminator handling out of the fragment |
 | `cache-dir requires a script with ... blocks` | Legacy script plus `--cache-dir` | Check `grep '^# >>>' file`; run assembly once, then verify with the cache |
 | compgen `command not found` | An auxiliary tool is missing | Guard it with `command -v` and return 0, or use `--skip-compgen` |
 | `exported name differs` (NOTE) | Plugin/OS script name differs from the path | Compare the `argc --argc-export` name; informational unless compgen uses the wrong name |

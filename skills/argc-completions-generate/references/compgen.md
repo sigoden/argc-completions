@@ -506,12 +506,12 @@ Use for `namespace:path`: a container, pod, host, or archive plus an inner path.
 ### Command-valued option
 
 ```sh
-# @option -exec~[`_choice_exec`] <command>
+# @option --command~[`_choice_command_args`] <COMMAND>
 
-_choice_exec() {
+_choice_command_args() {
     if [[ -n "${argc__option:-}" ]]; then
-        local -n exec_values="$argc__option"
-        argc__positionals=("${exec_values[@]}")
+        local -n values="$argc__option"
+        argc__positionals=("${values[@]}")
     fi
     if [[ "${#argc__positionals[@]}" -lt 2 ]]; then
         compgen -c
@@ -521,7 +521,7 @@ _choice_exec() {
 }
 ```
 
-A repeatable option can store a whole command line (`find -exec`). Copy its values into `argc__positionals`, complete the executable while there are fewer than two words, then delegate with `_argc_util_comp_subcommand 0`. `argc__option` is the generated variable name (`"${!argc__option}"`); filter `compgen -c` when commands are narrower.
+A terminated option stores a whole command line. Copy its values into `argc__positionals`, complete the executable while there are fewer than two words, then delegate with `_argc_util_comp_subcommand 0`. `argc__option` holds the generated variable name (`argc_command`), not the array: copy it with a nameref, because `"${!argc__option}"` yields only the first element. Prefer the `_choice_command` helper in §6 so path-looking words complete as paths; otherwise use `compgen -c` and filter it when commands are narrower.
 
 ### Context-dependent candidates
 
