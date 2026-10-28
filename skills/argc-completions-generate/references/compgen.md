@@ -35,6 +35,7 @@ echo -e "value\0\tdescription"        # description, no trailing space
 - Colors: `black`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, `white`, `default`, optionally `regular` or `bold`; only zsh/PowerShell render them.
 - Return 0 with no output when there is nothing to offer; send diagnostics to stderr. Do not pre-filter by prefix: argc filters, so emit the full current-part candidate.
 - Guard an auxiliary tool with `command -v <tool> >/dev/null || return 0`; a missing tool must not fail completion. Never guard the completion's own root command (it always exists); guard a different tool, including a fallback name.
+- A candidate query must be read-only and bounded: prefer a local or cached source, cap the result count, and wrap network or slow calls in a timeout.
 - A candidate whose first field starts with `__argc_` is a control line; never emit ordinary values with that prefix or the internal `__argc_fn=`/`__argc_multi=` lines (argc generates them).
 
 ## 2. Context variables

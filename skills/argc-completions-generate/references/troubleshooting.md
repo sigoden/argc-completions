@@ -43,7 +43,7 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | `cannot rename ... used as a shell variable` | Function name is also a variable | Rename the function or variable, re-run the formatter |
 | `... is referenced outside choice-fns` | A `choice_fn` in `llm-generate` still uses the old name | Update the fragment, re-assemble, then format |
 | Function prints nothing | Guard returned early, wrong cwd, or missing tool | Use the isolation flow in `<SKILL_ROOT>/references/compgen.md` §8 |
-| Redundant `command -v <root>` guard | A completion runs only while its root exists | Remove it; guard only another tool (`<SKILL_ROOT>/SKILL.md` §Hard rules) |
+| Redundant `command -v <root>` guard | A completion runs only while its root exists | Remove it; guard only another tool (`<SKILL_ROOT>/references/compgen.md` §1) |
 | Compgen times out | Network/slow query per keystroke | Re-run under a short timeout; add caching, a cap, or drop the binding |
 | Compgen passes but candidates are wrong | Shifted word position or no candidate-level check | Test the option word (`--foo ''`); assert values with the §8 `generic` pipeline |
 | Candidates look missing or different in a shell mode | Shell modes exercise the integration and post-process the candidate list | Check `generic` with the §8 pipeline; do not edit `choice-fns` from a shell-mode result |

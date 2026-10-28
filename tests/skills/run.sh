@@ -219,7 +219,7 @@ assert_contains "structure batch compile reads" "$SKILL_DIR/references/generate-
 assert_contains "structure no sleep poll" "$SKILL_DIR/references/generate-structure.md" "Do not poll a compile child"
 assert_contains "choice docs generic compgen" "$SKILL_DIR/references/add-choice-fns.md" "--argc-compgen generic"
 assert_contains "compgen candidate checks" "$SKILL_DIR/references/compgen.md" "Candidate checks"
-assert_contains "skill generic assertions" "$SKILL_DIR/SKILL.md" "--argc-compgen generic"
+assert_contains "compgen generic assertions" "$SKILL_DIR/references/compgen.md" "--argc-compgen generic"
 assert_not_contains "compgen no shell candidate lore" "$SKILL_DIR/references/compgen.md" "COMP_WORDBREAKS"
 # The workflow and the specification keep separate homes.
 assert_contains "compgen workflow pointer" "$SKILL_DIR/references/compgen.md" "<SKILL_ROOT>/references/add-choice-fns.md"
@@ -280,8 +280,25 @@ assert_not_contains "choice docs no inline binding jq" "$SKILL_DIR/references/ad
 assert_contains "choice docs single-item query" "$SKILL_DIR/references/add-choice-fns.md" ".flag_options[] | select(.id =="
 assert_contains "compgen __argc_value notation" "$SKILL_DIR/references/compgen.md" "__argc_value=<NOTATION>"
 assert_contains "skill merged stream ban" "$SKILL_DIR/SKILL.md" "2>&1 | jq"
-assert_contains "skill choice helper naming" "$SKILL_DIR/SKILL.md" "_helper_*"
-assert_contains "skill format script" "$SKILL_DIR/SKILL.md" "format-choice-fns.sh"
+# Doc authorship (maintainers): workflow-local rules live only in their owner
+# file (SKILL.md §Rule ownership); SKILL.md keeps cross-cutting invariants and
+# links out. The guards below reject distinctive phrases from rules that moved
+# out, so a copy cannot drift back into the router.
+assert_contains "skill rule ownership" "$SKILL_DIR/SKILL.md" "## Rule ownership"
+assert_not_contains "skill no bounded-query rule" "$SKILL_DIR/SKILL.md" "bound slow queries"
+assert_not_contains "skill no root-guard rule" "$SKILL_DIR/SKILL.md" "Never guard the completion's own root command"
+assert_not_contains "skill no yq policy rule" "$SKILL_DIR/SKILL.md" "allowed only inside functions"
+assert_not_contains "skill no git-status rule" "$SKILL_DIR/SKILL.md" 'Do not use `git status` to confirm output'
+assert_not_contains "skill no format rule" "$SKILL_DIR/SKILL.md" "format-choice-fns.sh"
+assert_not_contains "skill no generic-assertion rule" "$SKILL_DIR/SKILL.md" "Candidate assertions use"
+assert_not_contains "skill no completions-inspection rule" "$SKILL_DIR/SKILL.md" 'Do not inspect `<REPO_ROOT>/completions/`'
+assert_not_contains "skill no sort rule" "$SKILL_DIR/SKILL.md" "LC_ALL=C"
+assert_contains "compgen bounded queries" "$SKILL_DIR/references/compgen.md" "A candidate query must be read-only and bounded"
+assert_contains "setup yq policy" "$SKILL_DIR/references/setup.md" "allowed only inside functions"
+assert_contains "setup git status ban" "$SKILL_DIR/references/setup.md" 'never `git status`'
+assert_contains "structure no completions inspect" "$SKILL_DIR/references/generate-structure.md" 'Do not inspect `<REPO_ROOT>/completions/`'
+assert_contains "compile help scope" "$SKILL_DIR/agents/compile.md" "Sibling and child help are off limits"
+assert_contains "choice docs helper naming" "$SKILL_DIR/references/add-choice-fns.md" "_helper_*"
 assert_contains "choice docs ascii order" "$SKILL_DIR/references/add-choice-fns.md" "LC_ALL=C"
 assert_contains "choice docs format script" "$SKILL_DIR/references/add-choice-fns.md" "format-choice-fns.sh"
 assert_contains "verify docs format script" "$SKILL_DIR/references/verify.md" "format-choice-fns.sh"

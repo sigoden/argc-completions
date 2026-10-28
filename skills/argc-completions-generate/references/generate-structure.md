@@ -1,6 +1,6 @@
 # Generate-structure and regenerate workflow
 
-Generate-structure turns help/man text into JSON fragments and rebuilds only the `llm-generate` block via `<SKILL_ROOT>/scripts/assemble.sh`; regenerate is the same with a cache reset. Neither mode edits `llm-prompt` or existing `choice-fns`, and neither adds queries or `choice_fn` bindings. Regenerate preserves `choice-fns` byte-for-byte and does not run the formatter otherwise; run it only when add-choice-fns edits the block. Assembly may migrate a legacy tail once, after which run `<SKILL_ROOT>/scripts/format-choice-fns.sh <completion.sh>` before verify. §8 selects add-choice-fns for a standalone run when an exported value has no static choice and an enumerable source; `all` continues into it.
+Generate-structure turns help/man text into JSON fragments and rebuilds only the `llm-generate` block via `<SKILL_ROOT>/scripts/assemble.sh`; regenerate is the same with a cache reset. Write scope is in §2, assembly in §7, and handoff in §8.
 
 ## 1. Preflight
 
@@ -12,6 +12,7 @@ It prints absolute `key=value` lines; the values used below are `existing`, `blo
 
 - It does not create `<REPO_ROOT>/cache/compile/<root>`.
 - It already runs `require_pipeline_tools` (argc, jq, gawk, sed, grep, find) and checks `command -v <root>`; do not repeat either check, and do not fetch `--help`/`--version` (the compile child owns help).
+- Do not inspect `<REPO_ROOT>/completions/` with `ls`/`grep`/`sed`/`find`: `preflight` reports `existing`/`completion_file`/`blocks`, and `command -v` answers tool availability.
 - `existing=0` and `blocks=missing` mean no script yet: skip context extraction and pass empty context. `blocks=legacy` means no block markers; assemble can migrate once.
 - Prefer `<REPO_ROOT>/completions/<os>/<root>.sh` when it already exists, otherwise the common path.
 
@@ -34,7 +35,7 @@ Fragments and canonical help text live under `<REPO_ROOT>/cache/compile/<root>/`
 <REPO_ROOT>/cache/compile/<root>/<sub>/<nested>.json  nested fragment
 ```
 
-Each command node has one fragment. A parent lists its children in `subcommands`, each with a `status` of `todo`, `succeeded`, or `failed`; `todo` blocks assembly, `failed` needs a minimal fragment and warns. This is the only supported fragment directory.
+Each command node has one fragment. A parent lists its children in `subcommands`, each with a `status` of `todo`, `succeeded`, or `failed`; `todo` blocks assembly, `failed` needs a minimal fragment and warns. This is the only supported fragment directory: only `<REPO_ROOT>/cache/compile/<root>/` is writable, and other cache subdirectories belong to other workflows. Neither mode edits `llm-prompt` or existing `choice-fns`; assembly may migrate a legacy tail once, after which run `<SKILL_ROOT>/scripts/format-choice-fns.sh <completion.sh>` before verify. Neither mode adds candidate queries or `choice_fn` bindings; §8 selects add-choice-fns for a standalone handoff, and `all` continues into it.
 
 ### Reset (regenerate only)
 
@@ -194,7 +195,7 @@ For a brand-new script with no dynamic bindings yet, also pass `--require-no-cho
 
 After a PASS, review fragments and exported parameters for `next=`; the review never changes the script. Use `argc --argc-export` with `<SKILL_ROOT>/scripts/inspect-script-params.jq` and `<SKILL_ROOT>/scripts/inspect-fragment-items.jq` (see `<SKILL_ROOT>/SKILL.md` §Inspection) for value-taking options and positionals; pipe `.subcommands[]` for nested commands and repeat for deeper nesting.
 
-A value-taking parameter with no static or dynamic `choice` and an enumerable source (git refs, container images, a terminated command line, ...) reports `next=add-choice-fns`; free text, path notation, and values with no source report `next=complete`. Do not add bindings here. `next=add-choice-fns` is a handoff, not an automatic continuation: a standalone run stops here; `all` proceeds.
+Apply the `next=` criterion in `<SKILL_ROOT>/SKILL.md` §Reporting: a value-taking parameter with no static or dynamic `choice` and an enumerable source (git refs, container images, a terminated command line, ...) is `next=add-choice-fns`; free text, path notation, and values with no source are `next=complete`. Do not add bindings here. `next=add-choice-fns` is a handoff, not an automatic continuation: a standalone run stops here; `all` proceeds.
 
 ## 9. Failure handling
 

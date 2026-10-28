@@ -4,7 +4,7 @@ Add dynamic completion candidates to an existing generated script: ownership, pr
 
 ## Ownership
 
-Edit only the `choice-fns` block and the matching fragment item's `choice_fn` (empty `choices` when a binding replaces a static list). When the binding is command-valued, also set `terminated: true` on that item when its `repeatable`, `prefixed`, and `delimiter` fields allow it; never clear an existing `terminated`. The block contract and write limits are in `<SKILL_ROOT>/SKILL.md` §Pipeline contract and §Hard rules; never change command names, flags, options, args, aliases, notations, or descriptions.
+Edit only the `choice-fns` block and the matching fragment item's `choice_fn` (empty `choices` when a binding replaces a static list). When the binding is command-valued, also set `terminated: true` on that item when its `repeatable`, `prefixed`, and `delimiter` fields allow it; never clear an existing `terminated`. The block contract is in `<SKILL_ROOT>/SKILL.md` §Pipeline contract; these write limits are authoritative. Run `<SKILL_ROOT>/scripts/assemble.sh` after edits, never hand-edit `llm-generate`, and never change command names, flags, options, args, aliases, notations, or descriptions.
 
 ## 1. Preconditions
 
@@ -14,28 +14,19 @@ A regenerate resets cache entries but keeps the dynamic layer: preserve every ex
 
 ## 2. Inventory
 
-```sh
-argc --argc-export <completion.sh> >/tmp/<root>.export.json
-jq -r -f <SKILL_ROOT>/scripts/inspect-script-params.jq /tmp/<root>.export.json
-# One subtree: the root name is optional and aliases work
-jq -r -f <SKILL_ROOT>/scripts/inspect-script-params.jq --arg cmd '<root> <sub>' /tmp/<root>.export.json
-```
+Run the export, the parameter summary, and the fragment summary from `<SKILL_ROOT>/SKILL.md` §Inspection; the export writes `/tmp/export.json`, and the parameter summary also accepts one subtree. Write stdout to a file and read stderr separately.
 
-It prints `# command <path>`, then value-taking options and positionals (flags skipped); without `--arg cmd` it lists the root. Option rows end with `prefixed`, `delimiter`, and `terminated`; positional rows include `required`, `multiple`, `delimiter`, and `terminated`; both show the existing `choice`.
+The summary prints `# command <path>`, then value-taking options and positionals (flags skipped); without `--arg cmd` it lists the root. Option rows end with `prefixed`, `delimiter`, and `terminated`; positional rows include `required`, `multiple`, `delimiter`, and `terminated`; both show the existing `choice`.
 
 The export holds one object per command: `name`, `flag_options`, `positionals`, `subcommands`. A `flag_options` entry has `id`, `short_name`, `long_name`, `notations`, `choice`, `describe`, `flag`, `prefixed`, `assigned`, `delimiter`, `terminated`; a `positionals` entry has `id`, `notation`, `required`, `multiple`, `choice`, `delimiter`, `terminated`. There is no top-level `.options` array and no `.name` field on an entry; `flag_options` is an array, so iterate `.flag_options[]` (`.flag_options[0][0]` indexes an entry; `to_entries` yields rows). Names live in `short_name`/`long_name`; `id` suffixes `$argc_<id>`. Read one entry:
 
 ```sh
-jq -c '.flag_options[] | select(.id == "<id>")' /tmp/<root>.export.json
+jq -c '.flag_options[] | select(.id == "<id>")' /tmp/export.json
 ```
 
-The command tree: `jq -r '.. | objects | select(has("subcommands")) | .name' /tmp/<root>.export.json`.
+The command tree: `jq -r '.. | objects | select(has("subcommands")) | .name' /tmp/export.json`.
 
-Never merge streams; write stdout to a file and read stderr separately (`<SKILL_ROOT>/SKILL.md` §Inspection). The fragment summary shows the existing `choice_fn`/`choices`:
-
-```sh
-jq -r -f <SKILL_ROOT>/scripts/inspect-fragment-items.jq <REPO_ROOT>/cache/compile/<root>/<fragment>.json
-```
+The fragment summary shows the existing `choice_fn`/`choices` (command: `<SKILL_ROOT>/SKILL.md` §Inspection).
 
 Skip flags; values with a non-null `choice`; complete static enumerations; path notation (`<path>`, `<file>`, `<dir>`, `<folder>`); and free text (message, name, url, regex, number, plain description). A terminated value is not free text: its array holds a command line and has an enumerable source.
 
