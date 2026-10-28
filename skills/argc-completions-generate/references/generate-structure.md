@@ -130,7 +130,7 @@ Replace `<SKILL_ROOT>` and `<REPO_ROOT>` with absolute paths before dispatch; ne
 
 The child writes the fragment and `.txt`, returns the summary JSON, and handles exactly one node; it does not update the parent. Consume only `cache`, `status`, `warnings`, and `subcommands[]`. If subagents are unavailable, follow `<SKILL_ROOT>/agents/compile.md` inline.
 
-For workflow `all`, dispatch the root child in the background and read `<SKILL_ROOT>/references/add-choice-fns.md` and `<SKILL_ROOT>/references/compgen.md` while it runs; they do not depend on the fragment. Keep its `warnings`: `<SKILL_ROOT>/references/add-choice-fns.md` §2 explains the mixed-enumeration case. Do not poll a compile child with repeated `sleep`; the runtime delivers its closing message and a completion notice. Do the independent reads, then handle the notice; if you must check, use one `list_agents` call.
+For workflow `all`, dispatch the root child in the background and read `<SKILL_ROOT>/references/add-choice-fns.md` and `<SKILL_ROOT>/references/compgen.md` while it runs; they do not depend on the fragment. Keep its `warnings`: `<SKILL_ROOT>/references/add-choice-fns.md` §2 explains the mixed-enumeration case. Do not poll a compile child with `sleep`, `ls`, or `test -f` on the cache; the runtime delivers its closing message and a completion notice. Do the independent reads, then handle the notice; if you must check, use one `list_agents` call.
 
 ## 6. Update status and handle node failures
 

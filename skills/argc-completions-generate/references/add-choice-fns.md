@@ -92,18 +92,18 @@ bash <SKILL_ROOT>/scripts/set-choice-fn.sh --terminated "$fragment" _choice_comm
    bash <SKILL_ROOT>/scripts/verify-completion.sh <completion.sh> --cache-dir <REPO_ROOT>/cache/compile/<root>
    ```
 
-   The exact `llm-generate` comparison in verify must pass.
+   The exact `llm-generate` comparison in verify must pass. Formatting and assembly rewrite the whole script; after either, re-read it before another edit (editors that guard against stale reads reject the old snapshot), or batch every `choice-fns` edit before the first format.
 
 2. Compgen the option's own word (not a value followed by an empty positional):
 
    ```sh
-   argc --argc-compgen bash <completion.sh> <root> --foo ''
-   argc --argc-compgen bash <completion.sh> <root> sub --foo ''
+   argc --argc-compgen generic <completion.sh> <root> --foo ''
+   argc --argc-compgen generic <completion.sh> <root> <sub> --foo ''
    ```
 
-   Use `argc --argc-compgen generic` for nospace or control lines (`<SKILL_ROOT>/references/compgen.md` §8).
+   A value followed by an empty positional (`--foo value ''`) completes the next word, not `--foo`; with a terminated command or positional that next word is the command or positional, so command candidates there are expected. Assert values with the `argc --argc-compgen generic` pipeline in `<SKILL_ROOT>/references/compgen.md` §8; shell-specific modes are integration smoke, not a candidate oracle.
 
-3. Candidate-level checks: give each source a unique target name so a wrong source is visible; do not test two sources with identical content; create the directory and default file for a `-C` option; define at least one variable for `VAR=`; assert one known candidate and a no-candidate case for a wrapper (do not only assert exit status); cover an empty directory and a prefix filter, both exiting 0.
+3. Candidate-level checks: use the §8 pipeline for each assertion; give each source a unique target name so a wrong source is visible; do not test two sources with identical content; create the directory and default file for a `-C` option; define at least one variable for `VAR=`; assert one known candidate and a no-candidate case for a wrapper (do not only assert exit status); cover an empty directory and a prefix filter, both exiting 0.
 
 4. Use the direct-call harness in `<SKILL_ROOT>/references/compgen.md` §8 when needed, and a timeout around network or external services.
 

@@ -218,6 +218,9 @@ assert_contains "schema colon enumeration" "$SKILL_DIR/references/fragment-schem
 assert_contains "structure batch compile reads" "$SKILL_DIR/references/generate-structure.md" "fragment-schema.md in one batch"
 assert_contains "structure no sleep poll" "$SKILL_DIR/references/generate-structure.md" "Do not poll a compile child"
 assert_contains "choice docs generic compgen" "$SKILL_DIR/references/add-choice-fns.md" "--argc-compgen generic"
+assert_contains "compgen candidate checks" "$SKILL_DIR/references/compgen.md" "Candidate checks"
+assert_contains "skill generic assertions" "$SKILL_DIR/SKILL.md" "--argc-compgen generic"
+assert_not_contains "compgen no shell candidate lore" "$SKILL_DIR/references/compgen.md" "COMP_WORDBREAKS"
 # The workflow and the specification keep separate homes.
 assert_contains "compgen workflow pointer" "$SKILL_DIR/references/compgen.md" "<SKILL_ROOT>/references/add-choice-fns.md"
 assert_contains "compgen section map" "$SKILL_DIR/references/compgen.md" "## Section map"

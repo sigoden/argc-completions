@@ -13,7 +13,7 @@ Dynamic-completion spec for the `choice-fns` block: protocol, context, split mod
 | §5 Control lines and the split model | `__argc_*`, delimiters, prefixed words. |
 | §6 Repository helpers | `_argc_util_*` signatures and notes. |
 | §7 Recipes | Composed functions for common value shapes. |
-| §8 Debugging | Raw candidates, direct call, no-candidate flow. |
+| §8 Debugging | Candidate checks, direct call, no-candidate flow. |
 
 ## 1. Candidate protocol
 
@@ -60,7 +60,7 @@ Argc-generated variables work as usual: `$argc_<param>`, arrays for multi-value 
 | `argc__option` | Generated variable name of the option currently being completed. |
 | `argc__dash` | Number of positionals before `--`, when present. |
 
-Use `argc__option` when one function serves several options; §7 has an example.
+One function can serve several options through `argc__option` (§7 *Shared function across options*).
 
 ## 3. Path completion
 
@@ -88,7 +88,7 @@ A function can request paths at runtime with `__argc_value` and `__argc_cd`; `_a
 
 ## 4. Structured config files
 
-For YAML, TOML, XML, or INI values, use mikefarah/yq inside `_choice_*`; it is optional, so guard it and emit no candidates when absent.
+Parse YAML, TOML, XML, or INI values with mikefarah/yq inside `_choice_*`; it is optional, so emit nothing when absent (§1 guard).
 
 ```sh
 command -v yq >/dev/null 2>&1 || return 0
@@ -148,7 +148,7 @@ The candidate is `main.rs`, not `src/main.rs`; argc inserts the prefix.
 All 18 helpers live in `<REPO_ROOT>/utils/_argc_utils.sh` (authoritative); read one only when this index is not enough (`grep -n '^_argc_util_' <REPO_ROOT>/utils/_argc_utils.sh`). Examples assume the guard; an undefined `_choice_*` is a data source.
 
 - `comp_*` splits the word and emits its candidates (or a path request); `mode_*` splits only and leaves candidates to the caller.
-- argc filters candidates; do not pre-filter to the typed prefix.
+- argc filters candidates; never pre-filter to the typed prefix (§1).
 - Do not split a word the fragment declares `prefixed` or `delimiter` (§5).
 
 Keep one guard near the top of `choice-fns`:
@@ -179,7 +179,7 @@ _choice_mount()  { _argc_util_comp_path suffix=:; }
 _choice_cert()   { _argc_util_comp_path prefix=@ filter="${ARGC_CWORD:1}"; }
 ```
 
-Notes: only `dir`, `exts=`, `prefix=`, `filter=`, `suffix=`, and `cd=` are recognized; `isdir`, `ext=`, and `exts:.json` are ignored. `suffix` is not applied to directories.
+Notes: only `dir`, `exts=`, `prefix=`, `filter=`, `suffix=`, and `cd=` are read; `isdir`, `ext=`, and `exts:.json` are ignored, and `suffix` skips directories.
 
 #### `_argc_util_comp_parts <sep> [filter] [prefix]`
 
@@ -191,7 +191,7 @@ _choice_path() {
 }
 ```
 
-Notes: sets `argc__parts_prefix/filter/values/len`. Pass `[filter]`/`[prefix]` to continue an outer split such as `rev:path`. A single line prints whole when it misses the prefix; use `mode_parts` when each segment needs its own query.
+Notes: sets `argc__parts_prefix/filter/values/len`; `[filter]`/`[prefix]` continue an outer split (`rev:path`). A single line prints whole when it misses the prefix; use `mode_parts` when each segment needs its own query.
 
 #### `_argc_util_comp_multi <sep> [filter] [prefix]`
 
@@ -207,7 +207,7 @@ EOF
 }
 ```
 
-Notes: descriptions survive; argc already splits a `delimiter`+`repeatable` word (§5), so pass `[filter]`/`[prefix]` only to continue a split the caller made.
+Notes: descriptions survive; argc already splits a `delimiter`+`repeatable` word (§5), so pass `[filter]`/`[prefix]` only to continue a caller-made split.
 
 #### `_argc_util_comp_kv <sep> [filter] [prefix]`
 
@@ -224,7 +224,7 @@ EOF
 }
 ```
 
-Notes: `*=...` is the unknown-key fallback (without it nothing prints). Pass `"$argc__kv_filter" "$argc__kv_prefix"` to continue an outer split.
+Notes: `*=...` is the unknown-key fallback; without it nothing prints. Pass `"$argc__kv_filter" "$argc__kv_prefix"` to continue an outer split.
 
 #### `_argc_util_comp_tv`
 
@@ -240,7 +240,7 @@ EOF
 }
 ```
 
-Notes: takes no arguments; the separator is always `=`. `tag=cmd1;cmd2` gives one value per following token; `tag=` leaves the value free. A consumed tag hides unless it is the word being typed.
+Notes: takes no arguments; the separator is always `=`. `tag=cmd1;cmd2` gives one value per following token, `tag=` leaves it free, and a consumed tag hides unless it is the word being typed.
 
 #### `_argc_util_comp_subcommand <index> [prepend...]`
 
@@ -255,7 +255,7 @@ _choice_workspace_args() {
 }
 ```
 
-Notes: `0` = command is the first positional; `1` = one fixed positional precedes it. Delegation uses the target's installed completion; without it there are no candidates. Prepend the real CLI when the wrapper renames it; wrap in `(cd ... && ...)` to run elsewhere.
+Notes: `0` = the command is the first positional, `1` = one fixed positional precedes it. Delegation uses the target's installed completion (absent: no candidates). Prepend the real CLI when the wrapper renames it; wrap in `(cd ... && ...)` to run elsewhere.
 
 #### `_argc_util_mode_kv <sep> [filter]`
 
@@ -274,7 +274,7 @@ _choice_path() {                 # scp host:path
 }
 ```
 
-Notes: before the separator `argc__kv_key`/`argc__kv_prefix` are empty and `argc__kv_filter` is the word; after it the word is split. Use `comp_kv` for fixed keys.
+Notes: before the separator `argc__kv_key`/`argc__kv_prefix` are empty and `argc__kv_filter` is the word; after it the word is split. Fixed keys mean `comp_kv`.
 
 #### `_argc_util_mode_parts <sep> [filter] [prefix]`
 
@@ -297,7 +297,7 @@ _choice_acl() {
 }
 ```
 
-Notes: `argc__parts_values` holds the split parts including the current partial one; `argc__parts_len` is their count (≥1); prefix and filter are already printed. No data list is consumed; each branch picks its own source.
+Notes: `argc__parts_values` holds the split parts including the current partial one, `argc__parts_len` their count (≥1); prefix and filter are already printed. No list is consumed; each branch picks its own source.
 
 ### Candidate shaping
 
@@ -311,7 +311,7 @@ env | _argc_util_transform format== | _argc_util_comp_multi ,
 docker exec "$argc__kv_key" ls -1p "$dir" | _argc_util_transform nospaceIfEnd=/
 ```
 
-Notes: `format=` first, re-splitting raw `value<sep>description`. `prefix`/`suffix` edit the value; `color` renders only in zsh/PowerShell. `nospace`/`space` set/clear `\0`; `nospaceIfEnd` adds it only when the value ends with that text.
+Notes: `format=` first, re-splitting raw `value<sep>description`; `prefix`/`suffix` edit the value; `color` renders only in zsh/PowerShell; `nospace`/`space` set/clear `\0`; `nospaceIfEnd` adds it only when the value ends with that text.
 
 #### `_argc_util_transform_table <cols> [joins]`
 
@@ -324,7 +324,7 @@ _choice_ruleset() {
 }
 ```
 
-Notes: every name must occur in the same header line, which supplies the widths. A selected column that is last in the source table is cut at its header width; prefer a column followed by another, or parse with `gawk`.
+Notes: every name must occur in the same header line, which supplies the widths. A selected column that is last in the source table is cut at its header width; prefer a column followed by another, or `gawk`.
 
 #### `_argc_util_filter [-i] <words> [sep]`
 
@@ -352,7 +352,7 @@ Notes: a stdin filter; keep it before `sed` or `gawk`.
 
 #### `_argc_util_has_path_prefix [word]`
 
-Use to choose between path completion and a name or command source. It returns 0 for `.`, `/`, `~`, and a Windows drive prefix; the default word is `ARGC_CWORD`.
+Use to choose between path completion and a name or command source; it returns 0 for `.`, `/`, `~`, and a Windows drive prefix, and the default word is `ARGC_CWORD`.
 
 ```sh
 _choice_command() {
@@ -363,8 +363,6 @@ _choice_command() {
     compgen -c
 }
 ```
-
-Notes: a bare relative `dir/file` does not count; test the word yourself if that form must be accepted. Pair it with `_argc_util_comp_path`.
 
 ### Context and external sources
 
@@ -378,7 +376,7 @@ manifest="$(_argc_util_path_resolve -p "$workspace_root" Cargo.toml)"
 bin_dir="$(_argc_util_path_resolve -u "$(npm root)" .bin)"
 ```
 
-Notes: sentinels expand per `ARGC_OS`; any other first part is ordinary. `-p`/`-u` convert only on Windows; `..` resolves, and too many leading `..` exits non-zero.
+Notes: sentinels expand per `ARGC_OS`, any other first part is ordinary; `-p`/`-u` convert only on Windows; `..` resolves, and too many leading `..` exits non-zero.
 
 #### `_argc_util_path_search_parent [-p] <file...>`
 
@@ -401,7 +399,7 @@ _choice_task() {
 }
 ```
 
-Notes: key everything that changes the result. A `name:payload` key hashes the payload with `openssl sha1`; a plain `name` avoids that. Empty output is not reused; guard auxiliary tools inside the uncached function.
+Notes: key everything that changes the result: a `name:payload` key hashes the payload with `openssl sha1`, a plain `name` avoids that. Empty output is not reused; guard auxiliary tools inside the uncached function.
 
 #### `_argc_util_parallel <fn> [args] ::: <fn> [args] ...`
 
@@ -413,7 +411,7 @@ _choice_ref() {
 }
 ```
 
-Notes: use it only in a script argc evaluates; it resolves `$0`. Output order is not a contract. Each branch must be self-contained.
+Notes: use only in a script argc evaluates (it resolves `$0`); output order is not a contract, and each branch must be self-contained.
 
 #### `_argc_util_param_select_options <option...>`
 
@@ -429,13 +427,13 @@ _kubectl() {
 }
 ```
 
-Notes: `-C` gives `$argc_C`, `--git-dir` gives `$argc_git_dir`; pass the spelling that generated the variable. Only options at the wrapper level are available, and forwarded values must be space-free because the caller re-splits them.
+Notes: `-C` gives `$argc_C`, `--git-dir` gives `$argc_git_dir`; pass the spelling that generated the variable. Only wrapper-level options are available, and forwarded values must be space-free (the caller re-splits them).
 
 Tool-specific values have no helper; write the query inline (§7): `git for-each-ref`/`branch`/`tag`/`remote`; `docker`/`podman image ls`; `_argc_util_comp_kv`/`_argc_util_comp_multi` tables for HTTP/ssh-style enumerations; `ssh -Q cipher`/`hostkeyalgorithms`.
 
 ## 7. Recipes
 
-Each recipe maps a value shape to the smallest function. Helpers are in §6, protocol in §1–§5; do not re-split `prefixed`/`delimiter` words.
+Each recipe maps a value shape to the smallest function (§6 helpers, §1–§5 protocol).
 
 Helper-backed shapes keep their code in §6:
 
@@ -447,7 +445,7 @@ Helper-backed shapes keep their code in §6:
 | Delegating to another command | `_argc_util_comp_subcommand` |
 | Aligned table with a header | `_argc_util_transform_table` |
 
-Reserve `_argc_util_comp_multi` for lists not declared on the parameter: when the fragment marks the option or arg `delimiter` and `repeatable`, argc already splits the word (§5).
+Use `_argc_util_comp_multi` only for lists the parameter does not declare `delimiter`+`repeatable` (§5).
 
 The recipes below compose helpers or add parsing.
 
@@ -501,7 +499,7 @@ _choice_cp() {
 }
 ```
 
-Use for `namespace:path`: a container, pod, host, or archive plus an inner path. The left side offers names with `suffix=:`; the right switches to `mode_parts /`. Keep the local path fallback, quote the remote path, guard the remote command, and cache slow lists.
+Use for `namespace:path` (a container, pod, host, or archive plus an inner path): the left side offers names with `suffix=:`, the right switches to `mode_parts /`. Keep the local path fallback, quote the remote path, guard the remote command, and cache slow lists.
 
 ### Command-valued option
 
@@ -514,14 +512,14 @@ _choice_command_args() {
         argc__positionals=("${values[@]}")
     fi
     if [[ "${#argc__positionals[@]}" -lt 2 ]]; then
-        compgen -c
+        _choice_command
     else
         _argc_util_comp_subcommand 0
     fi
 }
 ```
 
-A terminated option stores a whole command line. Copy its values into `argc__positionals`, complete the executable while there are fewer than two words, then delegate with `_argc_util_comp_subcommand 0`. `argc__option` holds the generated variable name (`argc_command`), not the array: copy it with a nameref, because `"${!argc__option}"` yields only the first element. Prefer the `_choice_command` helper in §6 so path-looking words complete as paths; otherwise use `compgen -c` and filter it when commands are narrower.
+A terminated option stores a whole command line: copy its values into `argc__positionals` with a nameref, complete the executable while there are fewer than two words, then delegate with `_argc_util_comp_subcommand 0`. `argc__option` holds the generated variable name (`argc_command`), not the array, and `"${!argc__option}"` yields only the first element. Call `_choice_command` (§6) for the executable: another process runs it, so it needs the executable list, not `compgen -c`. A terminated positional calls the same function without the nameref branch.
 
 ### Context-dependent candidates
 
@@ -537,7 +535,7 @@ _choice_files() {
 }
 ```
 
-Use when a sibling option or an earlier positional changes the value space. Read `$argc_<id>`; use `argc__positionals` for earlier words and `argc__dash` when `--` changes the meaning. For a mode flag, test for a non-empty value, not `1`.
+Use when a sibling option or an earlier positional changes the value space: read `$argc_<id>`, `argc__positionals` for earlier words, and `argc__dash` when `--` changes the meaning. For a mode flag, test for a non-empty value, not `1`.
 
 ### Project context and targets
 
@@ -551,7 +549,7 @@ _choice_script() {
 }
 ```
 
-Use when candidates come from the nearest project file: find the marker upward, then parse only; never execute build tools. For a Makefile, read the files a plain invocation would read (the `-f` file, `MAKEFILES`, or `GNUmakefile`/`makefile`/`Makefile`); collect names and descriptions in source order, skip `%`, `$`, and special targets, then print from `END`. Do not execute recipes.
+Use when candidates come from the nearest project file: find the marker upward, then parse only; never execute build tools. For a Makefile, read the files a plain invocation would read (the `-f` file, `MAKEFILES`, or `GNUmakefile`/`makefile`/`Makefile`); collect names and descriptions in source order, skip `%`, `$`, and special targets, then print from `END`; never execute recipes.
 
 ### Aggregated and cached sources
 
@@ -589,7 +587,7 @@ _choice_appendable_file() {
 }
 ```
 
-Use when the prefix is part of the word: a prefixed option (`-Xfoo`), a symbol (`+toolchain`), or a path introduced by `@`/`+`. `ARGC_CWORD` is the text after the prefix; `ARGC_LAST_ARG` is the whole word. For a path, pair `prefix=` with `filter=`. A prefixed option is `prefixed: true` with `names: ["-X"]`; a symbol uses `@meta symbol +name[...]`.
+Use when the prefix is part of the word: a prefixed option (`-Xfoo`), a symbol (`+toolchain`), or a path introduced by `@`/`+`. `ARGC_CWORD` is the text after the prefix, `ARGC_LAST_ARG` the whole word; for a path, pair `prefix=` with `filter=`. A prefixed option is `prefixed: true` with `names: ["-X"]`; a symbol uses `@meta symbol +name[...]`.
 
 ### Shared function across options
 
@@ -606,15 +604,23 @@ Use when several options share a source or one option is split across items. `ar
 
 ## 8. Debugging
 
-### Raw candidates
+### Candidate checks
 
-`generic` keeps control lines, the trailing `\0`, and does not expand paths; `bash`/`zsh` post-process candidates and hide the NUL, so use `generic` to verify nospace or control lines:
+`generic` is the raw candidate view: one line per candidate, control lines included, with the optional `\0`, color, and description fields. It is the candidate oracle; the shell-specific modes exercise the shell integration and post-process the list, so they cannot assert candidate values.
+
+Build the value list before comparing:
 
 ```sh
-argc --argc-compgen generic <completion.sh> <root> --foo ''
-argc --argc-compgen bash <completion.sh> <root> --foo ''
-argc --argc-compgen zsh <completion.sh> <root> ''
+argc --argc-compgen generic <completion.sh> <root> <args> \
+    | tr -d '\000' \
+    | cut -f1 \
+    | grep -v '^__argc_'
 ```
+
+- `cut -f1` keeps the value; `tr -d '\000'` must come before `grep` (a NUL makes grep read the stream as binary, so `grep -x value` does not match).
+- Filter `__argc_*` control lines for value assertions; keep them when checking a control line (`__argc_prefix`, `__argc_filter`, ...).
+- For nospace (`\0`), control-line, or prefix/filter checks, read the raw stream without `tr`/`cut` (for example `... | sed -n '1,5p' | od -c`).
+- No candidates means the filtered list is empty. A shell that displays nothing is not evidence; check `generic`.
 
 The final word is the word being completed; `''` lists all, `--` lists long options. Keep `--foo value` as two words and `--foo=value` as one (`--foo= ''` is not the equals form). A root-option label ends at the option name; extra tokens shift the test word.
 
@@ -624,7 +630,7 @@ There is no `argc choice-fn` subcommand in argc 1.24. Use the completion engine,
 
 ```sh
 # End-to-end
-argc --argc-compgen bash <completion.sh> <root> <args> ''
+argc --argc-compgen generic <completion.sh> <root> <args> ''
 
 # Function only: source the choice-fns block, then call it
 bash -c '
@@ -643,6 +649,7 @@ Use a scratch script and avoid the two traps that hide results:
 
 - Define every `_choice_*` the probe references (a stub such as `_choice_probe() { :; }`); a helper call needs `_argc_utils.sh` sourced, or use a static `[a|b]`. A missing bound function makes `argc --argc-export` exit 1 with `_choice_x(line N) is missing` on stderr and a partly useful export.
 - Never merge streams: write stdout to a file and read stderr separately (`<SKILL_ROOT>/SKILL.md` §Inspection).
+- After rewriting a scratch script with another command (`sed`, `cat`, ...), re-read it before using an edit or write tool; otherwise a stale-read guard may reject the change.
 
 ```sh
 argc --argc-export /tmp/probe.sh >/tmp/probe.export.json
@@ -656,7 +663,7 @@ Validate a probe's shape with `<SKILL_ROOT>/scripts/validate-fragment.jq` before
 Isolate in four steps:
 
 1. Tag rendered? `grep -nE '@arg|@option' <completion.sh>`
-2. Engine calls it? `argc --argc-compgen bash <completion.sh> <root> <args> ''`
+2. Engine calls it? `argc --argc-compgen generic <completion.sh> <root> <args> ''`
 3. Function works? Use the direct-call harness above.
 4. Helper works? Call the parser/query directly against a fixture file.
 

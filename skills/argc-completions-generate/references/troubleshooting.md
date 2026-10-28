@@ -29,6 +29,7 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | `missing choice function definitions` | Stale `choice_fn` or context not passed | Add the wrapper to `choice-fns` or clear `choice_fn` |
 | `argc --argc-export` error with a line | Malformed tag or function | Fix the fragment and re-assemble |
 | `argc --argc-export` reports a jq parse error | stderr merged into jq (`2>&1 \| jq`) | Write stdout to a file and read stderr separately (`<SKILL_ROOT>/SKILL.md` §Inspection) |
+| A file editor rejects the script as changed since it was read | Formatting or assembly rewrote the whole script | Re-read before editing, or batch `choice-fns` edits before the first assemble |
 
 ## Choice functions
 
@@ -44,7 +45,9 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | Function prints nothing | Guard returned early, wrong cwd, or missing tool | Use the isolation flow in `<SKILL_ROOT>/references/compgen.md` §8 |
 | Redundant `command -v <root>` guard | A completion runs only while its root exists | Remove it; guard only another tool (`<SKILL_ROOT>/SKILL.md` §Hard rules) |
 | Compgen times out | Network/slow query per keystroke | Re-run under a short timeout; add caching, a cap, or drop the binding |
-| Compgen passes but candidates are wrong | Shifted word position or no candidate-level check | Test the option word (`--foo ''`); use `--argc-compgen generic` for NUL/control lines |
+| Compgen passes but candidates are wrong | Shifted word position or no candidate-level check | Test the option word (`--foo ''`); assert values with the §8 `generic` pipeline |
+| Candidates look missing or different in a shell mode | Shell modes exercise the integration and post-process the candidate list | Check `generic` with the §8 pipeline; do not edit `choice-fns` from a shell-mode result |
+| `grep -x` finds no candidate | Candidate lines carry a NUL, color, and description fields | Use the §8 pipeline (`tr -d '\000'`, `cut -f1`) |
 | Static choices disappeared | A binding replaced them | Restore `choices`, or keep the dynamic source |
 | `choice_fn` rejected | Not string/null, or contains backticks | Use a local function name such as `_choice_name`, not the tag form |
 | `compgen` prints `__argc_value=<NOTATION>` or nothing for a value with `choice_fn` | Bad `names` order or a multi-character single-dash name first | Fix `names`, split per name, confirm `.choice.type == "Fn"` |
@@ -68,6 +71,7 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | `fragment bindings: N item(s) dropped by argc` | A `names` pair argc cannot parse, or a binding missed the export | Read the `NOTE  binding:` lines; fix `names`/split, re-assemble |
 | `terminated mismatch` | Fragment says `terminated: true` but the export does not (or the reverse) | Fix the fragment/context, re-assemble, verify |
 | Compgen after a terminator inside a terminated value completes the command's own args | argc `~` consumes to end of line and does not stop at the terminator | Expected: the rest of the line belongs to the option; keep terminator handling out of the fragment |
+| `cmd -<TAB>` lists nothing while `cmd --<TAB>` lists long options | A terminated parameter makes a lone `-` a value | Expected argc behavior; keep `terminated` and report the limitation |
 | `cache-dir requires a script with ... blocks` | Legacy script plus `--cache-dir` | Check `grep '^# >>>' file`; run assembly once, then verify with the cache |
 | compgen `command not found` | An auxiliary tool is missing | Guard it with `command -v` and return 0, or use `--skip-compgen` |
 | `exported name differs` (NOTE) | Plugin/OS script name differs from the path | Compare the `argc --argc-export` name; informational unless compgen uses the wrong name |
