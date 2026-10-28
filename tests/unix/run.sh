@@ -5,6 +5,10 @@
 # POSIX is the shared reference, not an upper bound: non-POSIX options are
 # allowed when both implementations accept them (for example sed -E/-r/-u,
 # grep -r/--line-buffered, and find -maxdepth/-mindepth/-print0).
+#
+# A line that deliberately uses a tool-specific option (for example a GNU-only
+# branch guarded at runtime) may opt out with a trailing
+# `# lint: allow-unportable` comment.
 
 set -euo pipefail
 
@@ -52,7 +56,9 @@ failures=0
 lint() {
     local label="$1" pattern="$2" file matches
     for file in "${files[@]}"; do
-        matches="$(grep -nE "$pattern" "$file" 2>/dev/null | grep -vE '^[0-9]+:[[:space:]]*#' || true)"
+        matches="$(grep -nE "$pattern" "$file" 2>/dev/null \
+            | grep -vE '^[0-9]+:[[:space:]]*#' \
+            | grep -vE 'lint:[[:space:]]*allow-unportable' || true)"
         if [ -n "$matches" ]; then
             printf '%s in %s\n  pattern: %s\n%s\n' "$label" "$file" "$pattern" "$matches" >&2
             failures=$((failures + 1))
