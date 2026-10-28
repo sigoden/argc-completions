@@ -382,20 +382,6 @@ assert_stdout "comp_multi filters with a backslash in the word" \
 assert_stderr_empty "comp_multi backslash filter produces no gawk warning" \
     utils_run_in "$MULTI" '_argc_util_comp_multi , "C:\\Us"'
 
-# ---------------------------------------------------------------------------
-# _argc_util_comp_subcommand
-# ---------------------------------------------------------------------------
-assert_stdout "comp_subcommand handles empty positionals" '' \
-    utils_run 'argc__positionals=(); ARGC_LAST_ARG=""; _argc_util_comp_subcommand 0'
-check "comp_subcommand empty positionals succeeds" \
-    utils_run 'argc__positionals=(); ARGC_LAST_ARG=""; _argc_util_comp_subcommand 0'
-assert_stderr_empty "comp_subcommand empty positionals is quiet" \
-    utils_run 'argc__positionals=(); ARGC_LAST_ARG=""; _argc_util_comp_subcommand 0'
-
-capture "$TMP_DIR/subcommand-unknown.txt" utils_run 'argc__positionals=(no-such-command-xyz ""); ARGC_LAST_ARG=""; _argc_util_comp_subcommand 0'
-check "comp_subcommand survives an unknown command" \
-    utils_run 'argc__positionals=(no-such-command-xyz ""); ARGC_LAST_ARG=""; _argc_util_comp_subcommand 0'
-assert_contains "comp_subcommand falls back to a generic value" "$TMP_DIR/subcommand-unknown.txt" '__argc_value=path'
 
 # ---------------------------------------------------------------------------
 # _argc_util_mode_kv / _argc_util_mode_parts
@@ -760,6 +746,99 @@ assert_stdout "strip_ansi keeps plain text" 'plain' \
     utils_run_in "$TMP_DIR/ansi-plain" '_argc_util_strip_ansi'
 assert_stderr_empty "strip_ansi is quiet on plain text" \
     utils_run_in "$TMP_DIR/ansi-plain" '_argc_util_strip_ansi'
+
+# ---------------------------------------------------------------------------
+# _argc_util_comp_command
+# ---------------------------------------------------------------------------
+COMMAND_BIN1="$TMP_DIR/command-bin1"
+COMMAND_BIN2="$TMP_DIR/command-bin2"
+mkdir -p "$COMMAND_BIN1/folder" "$COMMAND_BIN2"
+for name in alpha beta; do
+    printf '#!/bin/sh\n' >"$COMMAND_BIN1/$name"
+    chmod +x "$COMMAND_BIN1/$name"
+done
+printf 'not executable\n' >"$COMMAND_BIN1/not-exec"
+chmod 644 "$COMMAND_BIN1/not-exec"
+for name in alpha gamma delta.dll; do
+    printf '#!/bin/sh\n' >"$COMMAND_BIN2/$name"
+    chmod +x "$COMMAND_BIN2/$name"
+done
+
+comp_command() {
+    local path_value="$1" os="${2-linux}"
+    ( set +eu; source "$UTILS"; ARGC_OS="$os" PATH="$path_value" _argc_util_comp_command ) |
+        LC_ALL=C sort
+}
+
+assert_stdout "comp_command lists PATH executables once" \
+    "$(lines alpha beta delta.dll gamma)" \
+    comp_command "$COMMAND_BIN1:$COMMAND_BIN2:$TMP_DIR/command-missing"
+assert_stdout "comp_command deduplicates a repeated PATH dir" \
+    "$(lines alpha beta)" \
+    comp_command "$COMMAND_BIN1:$COMMAND_BIN1"
+assert_stdout "comp_command handles an empty PATH" '' \
+    comp_command ""
+check "comp_command empty PATH succeeds" comp_command ""
+assert_stderr_empty "comp_command empty PATH is quiet" comp_command ""
+
+COMMAND_SPACE="$TMP_DIR/command space"
+mkdir -p "$COMMAND_SPACE"
+printf '#!/bin/sh\n' >"$COMMAND_SPACE/space-tool"
+chmod +x "$COMMAND_SPACE/space-tool"
+assert_stdout "comp_command handles a PATH entry with spaces" 'space-tool' \
+    comp_command "$COMMAND_SPACE"
+
+COMMAND_WIN="$TMP_DIR/command-win"
+mkdir -p "$COMMAND_WIN/folder"
+for name in alpha.exe plain plain.exe delta.dll thing.com script.bat run.cmd; do
+    printf '#!/bin/sh\n' >"$COMMAND_WIN/$name"
+    chmod +x "$COMMAND_WIN/$name"
+done
+printf 'not executable\n' >"$COMMAND_WIN/notes.txt"
+chmod 644 "$COMMAND_WIN/notes.txt"
+
+assert_stdout "comp_command strips windows executable extensions" \
+    "$(lines alpha plain run script thing)" \
+    comp_command "$COMMAND_WIN" windows
+assert_stdout "comp_command accepts semicolon PATH separators" \
+    "$(lines alpha plain run script thing)" \
+    comp_command "$COMMAND_WIN;$COMMAND_WIN" windows
+
+COMMAND_DRIVE="$TMP_DIR/C:/tools"
+mkdir -p "$COMMAND_DRIVE"
+printf '#!/bin/sh\n' >"$COMMAND_DRIVE/car.exe"
+chmod +x "$COMMAND_DRIVE/car.exe"
+comp_command_from() {
+    local dir="$1" path_value="$2"
+    ( set +eu; cd "$dir"; source "$UTILS"; ARGC_OS=windows PATH="$path_value" _argc_util_comp_command ) |
+        LC_ALL=C sort
+}
+assert_stdout "comp_command restores a windows drive prefix" 'car' \
+    comp_command_from "$TMP_DIR" 'C:/tools'
+
+# ---------------------------------------------------------------------------
+# _argc_util_comp_command_args
+# ---------------------------------------------------------------------------
+assert_stdout "comp_command_args handles empty positionals" '' \
+    utils_run 'argc__positionals=(); ARGC_LAST_ARG=""; _argc_util_comp_command_args 0'
+check "comp_command_args empty positionals succeeds" \
+    utils_run 'argc__positionals=(); ARGC_LAST_ARG=""; _argc_util_comp_command_args 0'
+assert_stderr_empty "comp_command_args empty positionals is quiet" \
+    utils_run 'argc__positionals=(); ARGC_LAST_ARG=""; _argc_util_comp_command_args 0'
+
+capture "$TMP_DIR/command-args-unknown.txt" utils_run 'argc__positionals=(no-such-command-xyz ""); ARGC_LAST_ARG=""; _argc_util_comp_command_args 0'
+check "comp_command_args survives an unknown command" \
+    utils_run 'argc__positionals=(no-such-command-xyz ""); ARGC_LAST_ARG=""; _argc_util_comp_command_args 0'
+assert_contains "comp_command_args falls back to a generic value" "$TMP_DIR/command-args-unknown.txt" '__argc_value=path'
+
+assert_stdout "comp_command_args slices, prepends and replaces the last word" \
+    "$(lines '<--argc-compgen>' '<generic>' '<>' '<--pre>' '<env>' '<FOO=1>' '<env>')" \
+    utils_run '
+argc() { printf "<%s>\n" "$@"; }
+argc__positionals=(sudo env FOO=1 e)
+ARGC_LAST_ARG=env
+_argc_util_comp_command_args 1 --pre
+'
 
 # ---------------------------------------------------------------------------
 # Summary

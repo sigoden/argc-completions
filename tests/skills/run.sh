@@ -236,6 +236,13 @@ check "skill no shared completer helpers" bash -c "! grep -RqE '_value_types|sha
 assert_not_contains "assemble no value types library" "$SCRIPTS/assemble.sh" "_value_types"
 assert_not_contains "verify no value types library" "$SCRIPTS/verify-completion.sh" "_value_types"
 assert_contains "compgen helper guard" "$SKILL_DIR/references/compgen.md" 'utils/_argc_utils.sh'
+assert_contains "compgen executable helper" "$SKILL_DIR/references/compgen.md" '#### `_argc_util_comp_command`'
+assert_contains "compgen command args helper" "$SKILL_DIR/references/compgen.md" '#### `_argc_util_comp_command_args <index> [prepend...]`'
+assert_contains "choice docs command args helper" "$SKILL_DIR/references/add-choice-fns.md" '_argc_util_comp_command_args 0'
+assert_not_contains "compgen no stale command helper" "$SKILL_DIR/references/compgen.md" '_argc_util_comp_subcommand'
+assert_not_contains "choice docs no stale command helper" "$SKILL_DIR/references/add-choice-fns.md" '_argc_util_comp_subcommand'
+check "skill docs no stale command helper" bash -c "! grep -RF '_argc_util_comp_subcommand' '$SKILL_DIR'"
+assert_not_contains "compgen no shell command source" "$SKILL_DIR/references/compgen.md" 'compgen -c'
 # The leading `?` on a rendered dynamic candidate source is an assembly detail;
 # no document explains it.
 assert_not_contains "choice docs no marker hint" "$SKILL_DIR/references/add-choice-fns.md" "advisory hint"

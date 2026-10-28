@@ -145,9 +145,9 @@ The candidate is `main.rs`, not `src/main.rs`; argc inserts the prefix.
 
 ## 6. Repository helpers
 
-All 18 helpers live in `<REPO_ROOT>/utils/_argc_utils.sh` (authoritative); read one only when this index is not enough (`grep -n '^_argc_util_' <REPO_ROOT>/utils/_argc_utils.sh`). Examples assume the guard; an undefined `_choice_*` is a data source.
+All 19 helpers live in `<REPO_ROOT>/utils/_argc_utils.sh` (authoritative); read one only when this index is not enough (`grep -n '^_argc_util_' <REPO_ROOT>/utils/_argc_utils.sh`). Examples assume the guard; an undefined `_choice_*` is a data source.
 
-- `comp_*` splits the word and emits its candidates (or a path request); `mode_*` splits only and leaves candidates to the caller.
+- `comp_*` helpers resolve a word to candidates: `comp_path`, `comp_parts`, `comp_multi`, `comp_kv`, and `comp_tv` split it first, `comp_command` lists `PATH` executables, and `comp_command_args` delegates a command line. `mode_*` splits only and leaves candidates to the caller.
 - argc filters candidates; never pre-filter to the typed prefix (§1).
 - Do not split a word the fragment declares `prefixed` or `delimiter` (§5).
 
@@ -159,9 +159,9 @@ if [[ -n "$ARGC_COMPLETIONS_ROOT" && -f "$ARGC_COMPLETIONS_ROOT/utils/_argc_util
 fi
 ```
 
-The close pairs are `comp_parts`/`mode_parts` (project a known list vs query each part), `comp_kv`/`mode_kv` (fixed keys vs runtime keys), and `comp_path`/`has_path_prefix` (path only vs path-or-name switch).
+The close pairs are `comp_parts`/`mode_parts` (project a known list vs query each part), `comp_kv`/`mode_kv` (fixed keys vs runtime keys), and `comp_path`/`has_path_prefix` (path only vs path-or-name switch). A command-or-path word adds `comp_command` on the name side.
 
-### Word splitting
+### Word splitting and command values
 
 #### `_argc_util_comp_path [dir] [prefix=] [filter=] [suffix=] [exts=] [cd=]`
 
@@ -241,21 +241,6 @@ EOF
 ```
 
 Notes: takes no arguments; the separator is always `=`. `tag=cmd1;cmd2` gives one value per following token, `tag=` leaves it free, and a consumed tag hides unless it is the word being typed.
-
-#### `_argc_util_comp_subcommand <index> [prepend...]`
-
-Use when the value is another command plus its arguments. Slices `argc__positionals` from `index`, prepends the extra words, replaces the last word with `ARGC_LAST_ARG`, and asks argc for the target's completion.
-
-```sh
-_choice_args()  { _argc_util_comp_subcommand 0; }        # sudo CMD ...
-_choice_exec()  { _argc_util_comp_subcommand 1; }        # docker exec NAME CMD ...
-_choice_git()   { _argc_util_comp_subcommand 0 git; }    # tig ...
-_choice_workspace_args() {
-    (cd "$location" && _argc_util_comp_subcommand 1 yarn) # yarn workspace NAME ...
-}
-```
-
-Notes: `0` = the command is the first positional, `1` = one fixed positional precedes it. Delegation uses the target's installed completion (absent: no candidates). Prepend the real CLI when the wrapper renames it; wrap in `(cd ... && ...)` to run elsewhere.
 
 #### `_argc_util_mode_kv <sep> [filter]`
 
@@ -360,9 +345,43 @@ _choice_command() {
         _argc_util_comp_path
         return
     fi
-    compgen -c
+    _argc_util_comp_command
 }
 ```
+
+Notes: the path branch preserves a typed path; the name branch can be any domain source, with `_argc_util_comp_command` for executables (§6).
+
+#### `_argc_util_comp_command`
+
+Use for executable command names. It scans `PATH` and emits real executables only: directories and non-executable files are skipped, and a name found in several `PATH` dirs appears once. On Windows it drops `.dll` and strips `.exe`, `.com`, `.bat`, and `.cmd`.
+
+```sh
+_choice_command() {
+    if _argc_util_has_path_prefix; then
+        _argc_util_comp_path
+        return 0
+    fi
+    _argc_util_comp_command
+}
+```
+
+Notes: builtins, keywords, aliases, and functions are not candidates; only `PATH` executables are. This helper does not complete path-looking words, so pair it with `_argc_util_has_path_prefix` and `_argc_util_comp_path` (§7 *Command-valued option*). The order follows `PATH`; sort when stable order matters.
+
+#### `_argc_util_comp_command_args <index> [prepend...]`
+
+Use when the value is another command plus its arguments. Slices `argc__positionals` from `index`, prepends the extra words, replaces the last word with `ARGC_LAST_ARG`, and asks argc for the target's completion.
+
+```sh
+_choice_args()  { _argc_util_comp_command_args 0; }        # sudo CMD ...
+_choice_exec()  { _argc_util_comp_command_args 1; }        # docker exec NAME CMD ...
+_choice_git()   { _argc_util_comp_command_args 0 git; }    # tig ...
+_choice_workspace_args() {
+    (cd "$location" && _argc_util_comp_command_args 1 yarn) # yarn workspace NAME ...
+}
+```
+
+Notes: `0` = the command is the first positional, `1` = one fixed positional precedes it. Delegation uses the target's installed completion (absent: no candidates). Prepend the real CLI when the wrapper renames it; wrap in `(cd ... && ...)` to run elsewhere.
+
 
 ### Context and external sources
 
@@ -442,7 +461,8 @@ Helper-backed shapes keep their code in §6:
 | Fixed key=value table with a varying value source | `_argc_util_comp_kv` |
 | Positional tag-value sequence | `_argc_util_comp_tv` |
 | One occurrence holding `a,b,c` | `_argc_util_comp_multi` |
-| Delegating to another command | `_argc_util_comp_subcommand` |
+| Executable command names | `_argc_util_comp_command` |
+| Delegating to another command | `_argc_util_comp_command_args` |
 | Aligned table with a header | `_argc_util_transform_table` |
 
 Use `_argc_util_comp_multi` only for lists the parameter does not declare `delimiter`+`repeatable` (§5).
@@ -506,6 +526,14 @@ Use for `namespace:path` (a container, pod, host, or archive plus an inner path)
 ```sh
 # @option --command~[`_choice_command_args`] <COMMAND>
 
+_choice_command() {
+    if _argc_util_has_path_prefix; then
+        _argc_util_comp_path
+        return 0
+    fi
+    _argc_util_comp_command
+}
+
 _choice_command_args() {
     if [[ -n "${argc__option:-}" ]]; then
         local -n values="$argc__option"
@@ -514,12 +542,12 @@ _choice_command_args() {
     if [[ "${#argc__positionals[@]}" -lt 2 ]]; then
         _choice_command
     else
-        _argc_util_comp_subcommand 0
+        _argc_util_comp_command_args 0
     fi
 }
 ```
 
-A terminated option stores a whole command line: copy its values into `argc__positionals` with a nameref, complete the executable while there are fewer than two words, then delegate with `_argc_util_comp_subcommand 0`. `argc__option` holds the generated variable name (`argc_command`), not the array, and `"${!argc__option}"` yields only the first element. Call `_choice_command` (§6) for the executable: another process runs it, so it needs the executable list, not `compgen -c`. A terminated positional calls the same function without the nameref branch.
+A terminated option stores a whole command line: copy its values into `argc__positionals` with a nameref, complete the executable while there are fewer than two words, then delegate with `_argc_util_comp_command_args 0`. `argc__option` holds the generated variable name (`argc_command`), not the array, and `"${!argc__option}"` yields only the first element. Call `_choice_command` (§6) for the executable: the wrapper executes it in another process, so only real `PATH` executables are valid, not shell builtins or aliases. A terminated positional calls the same function without the nameref branch.
 
 ### Context-dependent candidates
 

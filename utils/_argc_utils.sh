@@ -367,28 +367,6 @@ BEGIN {
 '
 }
 
-# Complete subcommand for something like `sudo`/`npx`.
-# Args:
-#   INDEX: Slice from positional args
-#   PREPENDARGS*: Args to prepend to sliced positional args array
-#
-# ```sh
-# @ description A sudo cli
-# # @arg cmd
-# # @arg args~[`_choice_args`]
-# _choice_args() {
-#     _argc_util_comp_subcommand 0 
-# }
-# ```
-_argc_util_comp_subcommand() {
-    local args=( "${@:2}" "${argc__positionals[@]:$1}" )
-    if [[ ${#args[@]} -eq 0 ]]; then
-        args=( "" )
-    fi
-    args[-1]="$ARGC_LAST_ARG"
-    argc --argc-compgen generic "" "${args[@]}"
-}
-
 # Enetr kv complete mode
 # Args:
 #   SEP: key value seperator
@@ -902,4 +880,111 @@ _argc_util_strip_ansi() {
     gsub(/.\x08/, "")
     print
 }'
+}
+
+# Complete executable command names found in PATH
+#
+# Only real executables are candidates: builtins, keywords, aliases, shell
+# functions, directories and non-executable files are skipped, and a name found
+# in several PATH dirs is printed once. A path-like word is completed as a path.
+# On Windows, `.dll` files (marked executable by MSYS/Cygwin) are skipped to
+# reduce noise.
+#
+# ```sh
+# _choice_command() {
+#    if _argc_util_has_path_prefix; then
+#        _argc_util_comp_path
+#        return 0
+#    fi
+#    _argc_util_comp_command
+# }
+# ```
+_argc_util_comp_command() {
+    local path_list="${PATH:-}" strip_exe=""
+    if [[ "${ARGC_OS:-}" == windows ]]; then
+        # Windows PATH uses `;`, and its `C:/foo` entries would be cut in two by `IFS=:`.
+        path_list="${path_list//;/:}"
+        strip_exe=1
+    fi
+    local rest="$path_list" dir dir_key next file name seen_dir
+    local -A seen=() seen_dirs=()
+    local -a seen_dir_paths=()
+    local is_seen_dir
+    while [[ -n "$rest" ]]; do
+        dir="${rest%%:*}"
+        if [[ "$rest" == *:* ]]; then rest="${rest#*:}"; else rest=""; fi
+        # A `C:/foo` entry lost its drive letter to the split; put it back.
+        if [[ "$dir" == [A-Za-z] && "$rest" == [/\\]* ]]; then
+            next="${rest%%:*}"
+            if [[ "$rest" == *:* ]]; then rest="${rest#*:}"; else rest=""; fi
+            dir="$dir:$next"
+        fi
+        # Normalize the entry for exact-directory dedup.
+        dir_key="${dir//\\//}"
+        dir_key="${dir_key%/}"
+        [[ -n "$dir" && -d "$dir" ]] || continue
+        # Do not scan the same directory twice. `-ef` also catches aliases
+        # such as `/bin` and `/usr/bin` on MSYS/Cygwin.
+        if [[ -n "${seen_dirs[$dir_key]+x}" ]]; then
+            continue
+        fi
+        is_seen_dir=0
+        for seen_dir in "${seen_dir_paths[@]}"; do
+            # Compare inodes only for same-named dirs; avoids one stat per pair.
+            if [[ "${seen_dir##*/}" == "${dir##*/}" && "$dir" -ef "$seen_dir" ]]; then
+                is_seen_dir=1
+                break
+            fi
+        done
+        if [[ "$is_seen_dir" -eq 1 ]]; then
+            continue
+        fi
+        seen_dirs[$dir_key]=1
+        seen_dir_paths+=("$dir")
+        for file in "$dir"/*; do
+            name="${file##*/}"
+            # Check `.dll` before stat-ing the file: Windows dirs can contain
+            # hundreds of DLLs that MSYS/Cygwin report as executable.
+            if [[ -n "$strip_exe" ]]; then
+                case "${name,,}" in
+                *.dll) continue ;;
+                esac
+            fi
+            [[ -f "$file" && -x "$file" ]] || continue
+            if [[ -n "$strip_exe" ]]; then
+                case "${name,,}" in
+                *.exe | *.com | *.bat | *.cmd) name="${name%.*}" ;;
+                esac
+            fi
+            if [[ -n "${seen[$name]+x}" ]]; then
+                continue
+            fi
+            seen[$name]=1
+            printf '%s\n' "$name"
+        done
+    done
+    return 0
+}
+
+
+# Complete command arguments for something like `sudo`/`npx`.
+# Args:
+#   INDEX: Slice from positional args
+#   PREPENDARGS*: Args to prepend to sliced positional args array
+#
+# ```sh
+# @ description A sudo cli
+# # @arg cmd
+# # @arg args~[`_choice_args`]
+# _choice_args() {
+#     _argc_util_comp_command_args 0 
+# }
+# ```
+_argc_util_comp_command_args() {
+    local args=( "${@:2}" "${argc__positionals[@]:$1}" )
+    if [[ ${#args[@]} -eq 0 ]]; then
+        args=( "" )
+    fi
+    args[-1]="$ARGC_LAST_ARG"
+    argc --argc-compgen generic "" "${args[@]}"
 }
