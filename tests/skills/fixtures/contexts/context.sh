@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# >>> llm-generate
+# >>> SPEC
 # @meta combine-shorts
 # @option --root-choice[`_choice_root`] <V>
 # {{ demo remote
@@ -12,16 +12,16 @@ remote() {
     :;
 }
 # }} demo remote
-# <<< llm-generate
+# <<< SPEC
 
-# >>> llm-prompt
+# >>> HINTS
 # %%demo
 # - prompt for demo
 # %%demo remote
 # - prompt for demo remote
-# <<< llm-prompt
+# <<< HINTS
 
-# >>> choice-fns
+# >>> CHOICES
 if [[ -n "$ARGC_COMPLETIONS_ROOT" && -f "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh" ]]; then
     . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 fi
@@ -38,6 +38,6 @@ _choice_val() {
     echo value
 }
 
-# <<< choice-fns
+# <<< CHOICES
 
 command eval "$(argc --argc-eval "$0" "$@")"

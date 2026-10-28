@@ -126,10 +126,10 @@ blocks="missing"
 prompt_region=0
 if [[ -f "$completion_file" ]]; then
     blocks="legacy"
-    if grep -q '^# >>> llm-generate$' "$completion_file"; then
+    if grep -q '^# >>> SPEC$' "$completion_file"; then
         blocks="new"
     fi
-    if grep -q '^# >>> llm-prompt$' "$completion_file"; then
+    if grep -q '^# >>> HINTS$' "$completion_file"; then
         prompt_region=1
     fi
 fi

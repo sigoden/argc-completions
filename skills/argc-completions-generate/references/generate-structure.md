@@ -1,6 +1,6 @@
 # Generate-structure and regenerate workflow
 
-Generate-structure turns help/man text into JSON fragments and rebuilds only the `llm-generate` block via `<SKILL_ROOT>/scripts/assemble.sh`; regenerate is the same with a cache reset. Write scope is in §2, assembly in §7, and handoff in §8.
+Generate-structure turns help/man text into JSON fragments and rebuilds only the `SPEC` block via `<SKILL_ROOT>/scripts/assemble.sh`; regenerate is the same with a cache reset. Write scope is in §2, assembly in §7, and handoff in §8.
 
 ## 1. Preflight
 
@@ -36,7 +36,7 @@ Fragments and canonical help text live under `<REPO_ROOT>/cache/compile/<root>/`
 <REPO_ROOT>/cache/compile/<root>/<sub>/<nested>.json  nested fragment
 ```
 
-Each command node has one fragment. A parent lists its children in `subcommands`, each with a `status` of `todo`, `succeeded`, or `failed`; `todo` blocks assembly, `failed` needs a minimal fragment and warns. This is the only supported fragment directory: only `<REPO_ROOT>/cache/compile/<root>/` is writable, and other cache subdirectories belong to other workflows. Neither mode edits `llm-prompt` or existing `choice-fns`; assembly may migrate a legacy tail once, after which run `<SKILL_ROOT>/scripts/format-choice-fns.sh <completion.sh>` before verify. Neither mode adds candidate queries or `choice_fn` bindings; §8 selects add-choice-fns for a standalone handoff, and `all` continues into it.
+Each command node has one fragment. A parent lists its children in `subcommands`, each with a `status` of `todo`, `succeeded`, or `failed`; `todo` blocks assembly, `failed` needs a minimal fragment and warns. This is the only supported fragment directory: only `<REPO_ROOT>/cache/compile/<root>/` is writable, and other cache subdirectories belong to other workflows. Neither mode edits `HINTS` or existing `CHOICES`; assembly may migrate a legacy tail once, after which run `<SKILL_ROOT>/scripts/format-choices.sh <completion.sh>` before verify. Neither mode adds candidate queries or `choice_fn` bindings; §8 selects add-choice-fns for a standalone handoff, and `all` continues into it.
 
 ### Reset (regenerate only)
 
@@ -51,7 +51,7 @@ A subtree reset deletes the target and its descendants and sets the parent entry
 
 A subtree reset accepts canonical names only; an alias fails with the canonical name in the error, so re-run with it. Use a full reset when parent metadata (`description`, `aliases`) or the subcommand set changes.
 
-The completion script is not deleted: `llm-prompt` and `choice-fns` are preserved and existing `choice_fn` bindings are inherited from it.
+The completion script is not deleted: `HINTS` and `CHOICES` are preserved and existing `choice_fn` bindings are inherited from it.
 
 ### Probe and orchestrator actions
 
@@ -101,17 +101,17 @@ A missing script prints empty output. The format is fixed:
 # @meta inherit-flag-options
 # <<< meta
 
-# >>> llm-prompt
+# >>> HINTS
 # - prompt for demo remote
-# <<< llm-prompt
+# <<< HINTS
 
-# >>> choice-fns
+# >>> CHOICES
 # @option --foo[`_choice_foo`] <VALUE>  Foo description with `backticks`
 # @arg v1[`_choice_val`]
-# <<< choice-fns
+# <<< CHOICES
 ```
 
-`meta` is the command block's `@meta` lines; `llm-prompt` is the comment text after `# %%<path>`; `choice-fns` contains only tags whose **signature** (before two or more spaces) has a backtick. Empty sections still print their markers; pass the output unchanged. A signature may also carry a `~` after the names; it is structural, and the child must keep `terminated: true` on that item.
+`meta` is the command block's `@meta` lines; `HINTS` is the comment text after `# %%<path>`; `CHOICES` contains only tags whose **signature** (before two or more spaces) has a backtick. Empty sections still print their markers; pass the output unchanged. A signature may also carry a `~` after the names; it is structural, and the child must keep `terminated: true` on that item.
 
 ## 5. Dispatch compile subagents
 
@@ -179,12 +179,12 @@ Options:
     --check                   compare, do not write
     --stdout                  print the full script
     --force                   overwrite an existing output
-    --dump-llm-generate       print only the generated block
+    --dump-spec               print only the generated SPEC block
 ```
 
-Assembly validates fragments, statuses, paths, stale fragments, duplicate sibling names/aliases, `choice_fn` types, and descriptions that repeat `choices`; renders `llm-generate`; keeps `llm-prompt` and `choice-fns` from the source; migrates a legacy tail once; writes a standard header and final eval for a new file; refuses to overwrite without `--force`; checks that every function referenced by a `choice_fn` or meta tag is defined locally; and runs `bash -n` plus `argc --argc-export`.
+Assembly validates fragments, statuses, paths, stale fragments, duplicate sibling names/aliases, `choice_fn` types, and descriptions that repeat `choices`; renders `SPEC`; keeps `HINTS` and `CHOICES` from the source; migrates a legacy tail once; writes a standard header and final eval for a new file; refuses to overwrite without `--force`; checks that every function referenced by a `choice_fn` or meta tag is defined locally; and runs `bash -n` plus `argc --argc-export`.
 
-`llm-generate` must contain no `_choice_*` definitions; a new script also has no completion references and empty `llm-prompt`/`choice-fns` blocks.
+`SPEC` must contain no `_choice_*` definitions; a new script also has no completion references and empty `HINTS`/`CHOICES` blocks.
 
 ## 8. Verify and hand off
 

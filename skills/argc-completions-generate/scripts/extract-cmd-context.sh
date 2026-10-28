@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Extract choice-fn bindings, meta tags, and llm-prompt text for one command path
+# Extract choice-fn bindings, meta tags, and HINTS text for one command path
 # from an existing argc completion script.
 #
 # Usage: extract-cmd-context.sh <command path...> [--completion <file>]
@@ -69,10 +69,10 @@ tmp_dir="$(mktemp -d)"
 trap 'rm -rf "$tmp_dir"' EXIT
 
 structural_file="$tmp_dir/structural.txt"
-if grep -q '^# >>> llm-generate$' "$completion_file"; then
+if grep -q '^# >>> SPEC$' "$completion_file"; then
     gawk '
-        /^# >>> llm-generate$/ { inblock = 1; next }
-        /^# <<< llm-generate$/ { if (inblock) exit }
+        /^# >>> SPEC$/ { inblock = 1; next }
+        /^# <<< SPEC$/ { if (inblock) exit }
         inblock { print }
     ' "$completion_file" >"$structural_file"
 else
@@ -200,8 +200,8 @@ gawk '
 prompt_file="$tmp_dir/prompt.txt"
 : >"$prompt_file"
 gawk -v path="$path_string" '
-    /^# >>> llm-prompt$/ { inblock = 1; next }
-    /^# <<< llm-prompt$/ { if (inblock) exit }
+    /^# >>> HINTS$/ { inblock = 1; next }
+    /^# <<< HINTS$/ { if (inblock) exit }
     inblock {
         if ($0 == "# %%" path) { found = 1; next }
         if (found && $0 ~ /^# %%/) exit
@@ -213,10 +213,10 @@ printf '# >>> meta\n'
 cat "$meta_file"
 printf '# <<< meta\n'
 printf '\n'
-printf '# >>> llm-prompt\n'
+printf '# >>> HINTS\n'
 cat "$prompt_file"
-printf '# <<< llm-prompt\n'
+printf '# <<< HINTS\n'
 printf '\n'
-printf '# >>> choice-fns\n'
+printf '# >>> CHOICES\n'
 cat "$choices_file"
-printf '# <<< choice-fns\n'
+printf '# <<< CHOICES\n'

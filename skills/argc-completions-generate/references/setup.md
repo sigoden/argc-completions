@@ -1,6 +1,6 @@
 # Setup and shell portability
 
-Read when installing tools, when a tool check fails, or before writing shell snippets in `choice-fns`. The Environment rules apply to every shell you write; the Install and Shell portability sections are not needed for normal generation.
+Read when installing tools, when a tool check fails, or before writing shell snippets in `CHOICES`. The Environment rules apply to every shell you write; the Install and Shell portability sections are not needed for normal generation.
 
 ## Install
 
@@ -12,7 +12,7 @@ Read when installing tools, when a tool check fails, or before writing shell sni
 
 - `<REPO_ROOT>/cache/` and `<REPO_ROOT>/completions/` are gitignored work directories; do not commit them. Confirm output with `test -s <file>` and verify, never `git status`.
 - Pipeline tool requirements are in `<SKILL_ROOT>/SKILL.md` §Prerequisites; the shell must also run with the Prerequisites tools only: no `python`, `node`, or other runtimes.
-- `yq` is optional and allowed only inside functions in `choice-fns`; never in `llm-generate`, `llm-prompt`, assembly, verification, or preflight.
+- `yq` is optional and allowed only inside functions in `CHOICES`; never in `SPEC`, `HINTS`, assembly, verification, or preflight.
 
 ## Shell portability
 

@@ -1,6 +1,6 @@
 # Shared helpers for argc completion scripts.
 #
-# Source once from the `choice-fns` block. Functions print candidates on stdout
+# Source once from the `CHOICES` block. Functions print candidates on stdout
 # (one per line, optional `\t<description>` and a `\0` nospace marker) and may
 # print `__argc_*` control lines. argc filters candidates; never pre-filter.
 

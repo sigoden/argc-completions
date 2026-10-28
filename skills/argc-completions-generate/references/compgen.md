@@ -1,6 +1,6 @@
 # Compgen protocol and choice-function reference
 
-Dynamic-completion spec for the `choice-fns` block: protocol, context, split model, helpers, recipes, debugging. Read by section; workflow lives in `<SKILL_ROOT>/references/add-choice-fns.md` (no workflow steps here). Shell snippets follow `<SKILL_ROOT>/references/setup.md`.
+Dynamic-completion spec for the `CHOICES` block: protocol, context, split model, helpers, recipes, debugging. Read by section; workflow lives in `<SKILL_ROOT>/references/add-choice-fns.md` (no workflow steps here). Shell snippets follow `<SKILL_ROOT>/references/setup.md`.
 
 ## Section map
 
@@ -142,7 +142,7 @@ The candidate is `main.rs`, not `src/main.rs`; argc inserts the prefix.
 
 All 19 helpers live in `<REPO_ROOT>/utils/_argc_utils.sh` (authoritative); the index picks one, and its `####` entry has the details (`grep -n '^#### ._argc_util_comp_path' <SKILL_ROOT>/references/compgen.md`). Examples assume the guard; an undefined `_choice_*` is a data source.
 
-Keep one guard near the top of `choice-fns`:
+Keep one guard near the top of `CHOICES`:
 
 ```sh
 if [[ -n "$ARGC_COMPLETIONS_ROOT" && -f "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh" ]]; then
@@ -613,10 +613,10 @@ There is no `argc choice-fn` subcommand in argc 1.24. Use the completion engine,
 # End-to-end
 argc --argc-compgen generic <completion.sh> <root> <args> ''
 
-# Function only: source the choice-fns block, then call it
+# Function only: source the CHOICES block, then call it
 bash -c '
     script=$1; shift
-    eval "$(sed -n "/^# >>> choice-fns/,/^# <<< choice-fns/p" "$script" | sed "1d;\$d")"
+    eval "$(sed -n "/^# >>> CHOICES/,/^# <<< CHOICES/p" "$script" | sed "1d;\$d")"
     run() { "$@"; }
     run "$@"
 ' _ <completion.sh> _choice_foo

@@ -145,7 +145,7 @@ path_prefix_lint() {
     /\.\/(scripts|references|agents|cache|completions|utils|tests|bin|skills|install\.sh)/ { report("dot-relative path") }
     /(^|[^>\/$A-Za-z0-9_.-])(scripts|references|agents|cache|completions|utils|tests|bin|skills)\// { report("bare path prefix") }
     /(^|[^>\/$A-Za-z0-9_.-])install\.sh/ { report("bare install.sh") }
-    /(^|[^>\/$A-Za-z0-9_.-])(preflight|assemble|verify-completion|format-choice-fns|set-choice-fn|compare-help|extract-cmd-context|reset-cache|lib)\.sh/ { report("bare skill script") }
+    /(^|[^>\/$A-Za-z0-9_.-])(preflight|assemble|verify-completion|format-choices|set-choice-fn|compare-help|extract-cmd-context|reset-cache|lib)\.sh/ { report("bare skill script") }
     /(^|[^>\/$A-Za-z0-9_.-])(validate-fragment|inspect-fragment-items|inspect-script-params)\.jq/ { report("bare skill jq") }
     /(^|[^>\/$A-Za-z0-9_.-])(generate-structure|add-choice-fns|compgen|verify|fragment-schema)\.md/ { report("bare reference filename") }
     /(^|[^>\/$A-Za-z0-9_.-])compile\.md/ { report("bare compile.md") }
@@ -230,8 +230,8 @@ check "compgen section map rows" bash -c '
 assert_contains "compgen helper index" "$compgen_md" "### Helper index"
 check "compile agent contract" test -f "$SKILL_DIR/agents/compile.md"
 check "reset-cache script" test -x "$SCRIPTS/reset-cache.sh"
-check "format-choice-fns script" test -x "$SCRIPTS/format-choice-fns.sh"
-check "format-choice-fns syntax" bash -n "$SCRIPTS/format-choice-fns.sh"
+check "format-choices script" test -x "$SCRIPTS/format-choices.sh"
+check "format-choices syntax" bash -n "$SCRIPTS/format-choices.sh"
 check "set-choice-fn script" test -x "$SCRIPTS/set-choice-fn.sh"
 check "set-choice-fn syntax" bash -n "$SCRIPTS/set-choice-fn.sh"
 for script in inspect-fragment-items.jq inspect-script-params.jq; do
@@ -329,7 +329,7 @@ assert_not_contains "skill no bounded-query rule" "$SKILL_DIR/SKILL.md" "bound s
 assert_not_contains "skill no root-guard rule" "$SKILL_DIR/SKILL.md" "Never guard the completion's own root command"
 assert_not_contains "skill no yq policy rule" "$SKILL_DIR/SKILL.md" "allowed only inside functions"
 assert_not_contains "skill no git-status rule" "$SKILL_DIR/SKILL.md" 'Do not use `git status` to confirm output'
-assert_not_contains "skill no format rule" "$SKILL_DIR/SKILL.md" "format-choice-fns.sh"
+assert_not_contains "skill no format rule" "$SKILL_DIR/SKILL.md" "format-choices.sh"
 assert_not_contains "skill no generic-assertion rule" "$SKILL_DIR/SKILL.md" "Candidate assertions use"
 assert_not_contains "skill no completions-inspection rule" "$SKILL_DIR/SKILL.md" 'Do not inspect `<REPO_ROOT>/completions/`'
 assert_not_contains "skill no sort rule" "$SKILL_DIR/SKILL.md" "LC_ALL=C"
@@ -340,8 +340,8 @@ assert_contains "structure no completions inspect" "$SKILL_DIR/references/genera
 assert_contains "compile help scope" "$SKILL_DIR/agents/compile.md" "Sibling and child help are off limits"
 assert_contains "choice docs helper naming" "$SKILL_DIR/references/add-choice-fns.md" "_helper_*"
 assert_contains "choice docs ascii order" "$SKILL_DIR/references/add-choice-fns.md" "LC_ALL=C"
-assert_contains "choice docs format script" "$SKILL_DIR/references/add-choice-fns.md" "format-choice-fns.sh"
-assert_contains "verify docs format script" "$SKILL_DIR/references/verify.md" "format-choice-fns.sh"
+assert_contains "choice docs format script" "$SKILL_DIR/references/add-choice-fns.md" "format-choices.sh"
+assert_contains "verify docs format script" "$SKILL_DIR/references/verify.md" "format-choices.sh"
 
 # Troubleshooting and setup are optional reads reached from every workflow.
 check "references link troubleshooting" test -z "$(grep -L troubleshooting.md "$SKILL_DIR/references/generate-structure.md" "$SKILL_DIR/references/add-choice-fns.md" "$SKILL_DIR/references/verify.md" "$SKILL_DIR/references/compgen.md")"
@@ -604,14 +604,14 @@ cat >"$TMP_DIR/context-expected.txt" <<'EXPECTED'
 # @meta inherit-flag-options
 # <<< meta
 
-# >>> llm-prompt
+# >>> HINTS
 # - prompt for demo remote
-# <<< llm-prompt
+# <<< HINTS
 
-# >>> choice-fns
+# >>> CHOICES
 # @option --foo[`_choice_foo`] <VALUE>  Foo description with `backticks`
 # @arg v1[`_choice_val`]
-# <<< choice-fns
+# <<< CHOICES
 EXPECTED
 quiet bash "$SCRIPTS/extract-cmd-context.sh" demo remote --completion "$FIXTURES/contexts/context.sh" >"$TMP_DIR/context-actual.txt"
 check "extract new-layout context order" diff -u "$TMP_DIR/context-expected.txt" "$TMP_DIR/context-actual.txt"
@@ -621,8 +621,8 @@ check "extract missing script empty" test ! -s "$TMP_DIR/empty-context.txt"
 quiet bash "$SCRIPTS/extract-cmd-context.sh" demo --completion "$FIXTURES/contexts/context.sh" >"$TMP_DIR/root-context.txt"
 assert_contains "extract root prompt" "$TMP_DIR/root-context.txt" '# - prompt for demo'
 assert_contains "extract root choice" "$TMP_DIR/root-context.txt" '# @option --root-choice[`_choice_root`] <V>'
-choice_line="$(grep -n '^# >>> choice-fns$' "$TMP_DIR/root-context.txt" | cut -d: -f1)"
-prompt_line="$(grep -n '^# >>> llm-prompt$' "$TMP_DIR/root-context.txt" | cut -d: -f1)"
+choice_line="$(grep -n '^# >>> CHOICES$' "$TMP_DIR/root-context.txt" | cut -d: -f1)"
+prompt_line="$(grep -n '^# >>> HINTS$' "$TMP_DIR/root-context.txt" | cut -d: -f1)"
 meta_line="$(grep -n '^# >>> meta$' "$TMP_DIR/root-context.txt" | cut -d: -f1)"
 check "extract section order" test "$meta_line" -lt "$prompt_line" -a "$prompt_line" -lt "$choice_line"
 
@@ -633,7 +633,7 @@ new_script="$TMP_DIR/new.sh"
 quiet bash "$SCRIPTS/assemble.sh" demo -c "$FIXTURES/fragments/no-choice" --stdout >"$new_script"
 check "assemble new bash syntax" bash -n "$new_script"
 check "assemble new argc export" bash -c "argc --argc-export '$new_script' >/dev/null"
-check "assemble new block markers" bash -c "grep -Fq '# >>> llm-generate' '$new_script' && grep -Fq '# >>> llm-prompt' '$new_script' && grep -Fq '# >>> choice-fns' '$new_script'"
+check "assemble new block markers" bash -c "grep -Fq '# >>> SPEC' '$new_script' && grep -Fq '# >>> HINTS' '$new_script' && grep -Fq '# >>> CHOICES' '$new_script'"
 assert_contains "assemble new static choices" "$new_script" '--format[text|json]'
 assert_contains "assemble new nested command" "$new_script" 'remote::add() {'
 assert_contains "assemble new subcommand alias" "$new_script" '# @alias r'
@@ -654,7 +654,7 @@ quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-align" --
 check "assemble long tag keeps two spaces" \
     gawk 'index($0, "# @option --tiebreak[length|chunk|pathname|begin|end|index] <CRI>  Comma-separated list") == 1 { found = 1 } END { exit !found }' "$align_script"
 assert_not_contains "assemble new no choice fn" "$new_script" '_choice_'
-check "assemble new empty prompt block" bash -c "grep -A1 '^# >>> llm-prompt$' '$new_script' | grep -q '^# <<< llm-prompt$'"
+check "assemble new empty prompt block" bash -c "grep -A1 '^# >>> HINTS$' '$new_script' | grep -q '^# <<< HINTS$'"
 check "verify new no-choice" bash "$SCRIPTS/verify-completion.sh" "$new_script" --cmd demo --cache-dir "$FIXTURES/fragments/no-choice" --skip-compgen --require-no-choice-fns
 
 # ---------------------------------------------------------------------------
@@ -766,7 +766,7 @@ check "set-choice-fn marker rejection leaves fragment unchanged" cmp -s "$scf_di
 # Function-only harness documented in compgen.md §8.
 harness_out="$(bash -c '
     script=$1; shift
-    eval "$(sed -n "/^# >>> choice-fns/,/^# <<< choice-fns/p" "$script" | sed "1d;\$d")"
+    eval "$(sed -n "/^# >>> CHOICES/,/^# <<< CHOICES/p" "$script" | sed "1d;\$d")"
     run() { "$@"; }
     run "$@"
 ' _ "$with_script" _choice_foo)"
@@ -788,10 +788,10 @@ check "verify with context and fragments" bash "$SCRIPTS/verify-completion.sh" "
 expect_failure "verify require-no-choice on bound script" bash "$SCRIPTS/verify-completion.sh" "$with_script" --cmd demo --skip-compgen --require-no-choice-fns --cache-dir "$FIXTURES/fragments/with-choice"
 
 # ---------------------------------------------------------------------------
-# choice-fns formatting
+# CHOICES formatting
 # ---------------------------------------------------------------------------
 unformatted="$TMP_DIR/choice-unformatted.sh"
-gawk '/^# <<< choice-fns$/ && !done {
+gawk '/^# <<< CHOICES$/ && !done {
         print "if [[ -n \"$ARGC_COMPLETIONS_ROOT\" && -f \"$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh\" ]]; then"
         print "    . \"$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh\""
         print "fi"
@@ -819,12 +819,12 @@ gawk '/^# <<< choice-fns$/ && !done {
     }
     { print }' "$TMP_DIR/new.sh" >"$unformatted"
 cp "$unformatted" "$TMP_DIR/choice-unformatted.before"
-expect_failure "verify rejects unformatted choice-fns" bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/choice-unformatted.before" --cmd demo --skip-compgen
-expect_failure "format --check detects unformatted" bash "$SCRIPTS/format-choice-fns.sh" --check "$unformatted"
+expect_failure "verify rejects unformatted CHOICES" bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/choice-unformatted.before" --cmd demo --skip-compgen
+expect_failure "format --check detects unformatted" bash "$SCRIPTS/format-choices.sh" --check "$unformatted"
 check "format --check does not write" cmp -s "$unformatted" "$TMP_DIR/choice-unformatted.before"
-check "format rewrites choice-fns" bash "$SCRIPTS/format-choice-fns.sh" "$unformatted"
+check "format rewrites CHOICES" bash "$SCRIPTS/format-choices.sh" "$unformatted"
 cat >"$TMP_DIR/choice-expected.txt" <<'EOF'
-# >>> choice-fns
+# >>> CHOICES
 if [[ -n "$ARGC_COMPLETIONS_ROOT" && -f "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh" ]]; then
     . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 fi
@@ -848,20 +848,19 @@ _helper_alpha() {
 _helper_beta() {
     _helper_alpha
 }
-
-# <<< choice-fns
+# <<< CHOICES
 EOF
-sed -n '/^# >>> choice-fns$/,/^# <<< choice-fns$/p' "$unformatted" >"$TMP_DIR/choice-actual.txt"
-check "format choice-fns output" diff -u "$TMP_DIR/choice-expected.txt" "$TMP_DIR/choice-actual.txt"
+sed -n '/^# >>> CHOICES$/,/^# <<< CHOICES$/p' "$unformatted" >"$TMP_DIR/choice-actual.txt"
+check "format CHOICES output" diff -u "$TMP_DIR/choice-expected.txt" "$TMP_DIR/choice-actual.txt"
 check "format bash syntax" bash -n "$unformatted"
-check "format --check passes" bash "$SCRIPTS/format-choice-fns.sh" --check "$unformatted"
+check "format --check passes" bash "$SCRIPTS/format-choices.sh" --check "$unformatted"
 cp "$unformatted" "$TMP_DIR/choice-formatted.txt"
-quiet bash "$SCRIPTS/format-choice-fns.sh" "$unformatted"
+quiet bash "$SCRIPTS/format-choices.sh" "$unformatted"
 check "format idempotent" cmp -s "$unformatted" "$TMP_DIR/choice-formatted.txt"
-check "verify formatted choice-fns" bash "$SCRIPTS/verify-completion.sh" "$unformatted" --cmd demo --skip-compgen
+check "verify formatted CHOICES" bash "$SCRIPTS/verify-completion.sh" "$unformatted" --cmd demo --skip-compgen
 
 collision="$TMP_DIR/choice-collision.sh"
-gawk '/^# <<< choice-fns$/ && !done {
+gawk '/^# <<< CHOICES$/ && !done {
         print "_choice_a() {"
         print "    foo"
         print "}"
@@ -873,11 +872,11 @@ gawk '/^# <<< choice-fns$/ && !done {
     }
     { print }' "$TMP_DIR/new.sh" >"$collision"
 cp "$collision" "$TMP_DIR/choice-collision.before"
-expect_failure "format rejects rename collision" bash "$SCRIPTS/format-choice-fns.sh" "$collision"
+expect_failure "format rejects rename collision" bash "$SCRIPTS/format-choices.sh" "$collision"
 check "format collision leaves file unchanged" cmp -s "$collision" "$TMP_DIR/choice-collision.before"
 
 variable="$TMP_DIR/choice-variable.sh"
-gawk '/^# <<< choice-fns$/ && !done {
+gawk '/^# <<< CHOICES$/ && !done {
         print "_choice_a() {"
         print "    local foo=1"
         print "    foo"
@@ -888,62 +887,62 @@ gawk '/^# <<< choice-fns$/ && !done {
     }
     { print }' "$TMP_DIR/new.sh" >"$variable"
 cp "$variable" "$TMP_DIR/choice-variable.before"
-expect_failure "format rejects variable collision" bash "$SCRIPTS/format-choice-fns.sh" "$variable"
+expect_failure "format rejects variable collision" bash "$SCRIPTS/format-choices.sh" "$variable"
 check "format variable collision leaves file unchanged" cmp -s "$variable" "$TMP_DIR/choice-variable.before"
 
 outside="$TMP_DIR/choice-outside.sh"
-gawk '/^# <<< llm-generate$/ && !done { print "# @flag --outside[`foo`]"; done = 1 } { print }' "$TMP_DIR/new.sh" \
-    | gawk '/^# <<< choice-fns$/ && !done { print "foo() { :; }"; done = 1 } { print }' >"$outside"
+gawk '/^# <<< SPEC$/ && !done { print "# @flag --outside[`foo`]"; done = 1 } { print }' "$TMP_DIR/new.sh" \
+    | gawk '/^# <<< CHOICES$/ && !done { print "foo() { :; }"; done = 1 } { print }' >"$outside"
 cp "$outside" "$TMP_DIR/choice-outside.before"
-expect_failure "format rejects outside binding" bash "$SCRIPTS/format-choice-fns.sh" "$outside"
+expect_failure "format rejects outside binding" bash "$SCRIPTS/format-choices.sh" "$outside"
 check "format outside binding leaves file unchanged" cmp -s "$outside" "$TMP_DIR/choice-outside.before"
 
 junk="$TMP_DIR/choice-junk.sh"
-gawk '/^# <<< choice-fns$/ && !done {
+gawk '/^# <<< CHOICES$/ && !done {
         print "foo() { :; }"
         print "echo nope"
         done = 1
     }
     { print }' "$TMP_DIR/new.sh" >"$junk"
 cp "$junk" "$TMP_DIR/choice-junk.before"
-expect_failure "format rejects top-level content" bash "$SCRIPTS/format-choice-fns.sh" "$junk"
+expect_failure "format rejects top-level content" bash "$SCRIPTS/format-choices.sh" "$junk"
 check "format top-level content leaves file unchanged" cmp -s "$junk" "$TMP_DIR/choice-junk.before"
 
 noblock="$TMP_DIR/choice-noblock.sh"
 printf '#!/usr/bin/env bash\n' >"$noblock"
-expect_failure "format rejects missing block" bash "$SCRIPTS/format-choice-fns.sh" "$noblock"
+expect_failure "format rejects missing block" bash "$SCRIPTS/format-choices.sh" "$noblock"
 
 missing="$TMP_DIR/choice-missing.sh"
-sed '/^# <<< choice-fns$/d' "$TMP_DIR/new.sh" >"$missing"
+sed '/^# <<< CHOICES$/d' "$TMP_DIR/new.sh" >"$missing"
 cp "$missing" "$TMP_DIR/choice-missing.before"
-expect_failure "format rejects missing marker" bash "$SCRIPTS/format-choice-fns.sh" "$missing"
+expect_failure "format rejects missing marker" bash "$SCRIPTS/format-choices.sh" "$missing"
 check "format missing marker leaves file unchanged" cmp -s "$missing" "$TMP_DIR/choice-missing.before"
 
 argcutil="$TMP_DIR/choice-argcutil.sh"
-gawk '/^# <<< choice-fns$/ && !done { print "_argc_util_foo() { :; }"; done = 1 } { print }' "$TMP_DIR/new.sh" >"$argcutil"
-expect_failure "format rejects copied argc util" bash "$SCRIPTS/format-choice-fns.sh" "$argcutil"
+gawk '/^# <<< CHOICES$/ && !done { print "_argc_util_foo() { :; }"; done = 1 } { print }' "$TMP_DIR/new.sh" >"$argcutil"
+expect_failure "format rejects copied argc util" bash "$SCRIPTS/format-choices.sh" "$argcutil"
 
-# Exact llm-generate dump
-quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$FIXTURES/fragments/with-choice" --dump-llm-generate >"$TMP_DIR/dump.txt"
-gawk '/^# >>> llm-generate$/ { inside = 1; next } /^# <<< llm-generate$/ { inside = 0 } inside { print }' "$with_script" >"$TMP_DIR/actual-block.txt"
-check "dump llm-generate matches block" diff -u "$TMP_DIR/dump.txt" "$TMP_DIR/actual-block.txt"
+# Exact SPEC dump
+quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$FIXTURES/fragments/with-choice" --dump-spec >"$TMP_DIR/dump.txt"
+gawk '/^# >>> SPEC$/ { inside = 1; next } /^# <<< SPEC$/ { inside = 0 } inside { print }' "$with_script" >"$TMP_DIR/actual-block.txt"
+check "dump SPEC matches block" diff -u "$TMP_DIR/dump.txt" "$TMP_DIR/actual-block.txt"
 
-# Regeneration preserves prompt/choice-fns and updates llm-generate.
+# Regeneration preserves prompt/CHOICES and updates SPEC.
 mkdir -p "$TMP_DIR/fragments-regen"
 cp -R "$FIXTURES/fragments/with-choice/." "$TMP_DIR/fragments-regen/"
 cp "$with_script" "$TMP_DIR/regen.sh"
-sed -n '/^# >>> llm-prompt$/,/^# <<< llm-prompt$/p' "$with_script" >"$TMP_DIR/prompt-before.txt"
-sed -n '/^# >>> choice-fns$/,/^# <<< choice-fns$/p' "$with_script" >"$TMP_DIR/choice-before.txt"
+sed -n '/^# >>> HINTS$/,/^# <<< HINTS$/p' "$with_script" >"$TMP_DIR/prompt-before.txt"
+sed -n '/^# >>> CHOICES$/,/^# <<< CHOICES$/p' "$with_script" >"$TMP_DIR/choice-before.txt"
 jq '.items += [{"kind": "flag", "names": ["--new"], "repeatable": false, "description": "New flag"}]' \
     "$TMP_DIR/fragments-regen/_root.json" >"$TMP_DIR/regen-root.json" && \
     mv "$TMP_DIR/regen-root.json" "$TMP_DIR/fragments-regen/_root.json"
 expect_failure "assemble refuses overwrite" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-regen" --output "$TMP_DIR/regen.sh"
 quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-regen" --output "$TMP_DIR/regen.sh" --force
 assert_contains "regenerate new flag" "$TMP_DIR/regen.sh" '--new'
-sed -n '/^# >>> llm-prompt$/,/^# <<< llm-prompt$/p' "$TMP_DIR/regen.sh" >"$TMP_DIR/prompt-after.txt"
-sed -n '/^# >>> choice-fns$/,/^# <<< choice-fns$/p' "$TMP_DIR/regen.sh" >"$TMP_DIR/choice-after.txt"
+sed -n '/^# >>> HINTS$/,/^# <<< HINTS$/p' "$TMP_DIR/regen.sh" >"$TMP_DIR/prompt-after.txt"
+sed -n '/^# >>> CHOICES$/,/^# <<< CHOICES$/p' "$TMP_DIR/regen.sh" >"$TMP_DIR/choice-after.txt"
 check "regenerate preserves prompt" diff -u "$TMP_DIR/prompt-before.txt" "$TMP_DIR/prompt-after.txt"
-check "regenerate preserves choice-fns" diff -u "$TMP_DIR/choice-before.txt" "$TMP_DIR/choice-after.txt"
+check "regenerate preserves CHOICES" diff -u "$TMP_DIR/choice-before.txt" "$TMP_DIR/choice-after.txt"
 check "regenerate verify" bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/regen.sh" --cmd demo --cache-dir "$TMP_DIR/fragments-regen" --skip-compgen
 check "assemble --check unchanged" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-regen" --output "$TMP_DIR/regen.sh" --check
 
@@ -1285,15 +1284,15 @@ cp "$TMP_DIR/new.sh" "$TMP_DIR/undefined.sh"
 sed 's/^# @flag -v --verbose  /# @flag -v --verbose[`_choice_missing`]  /' "$TMP_DIR/undefined.sh" >"$TMP_DIR/undefined.tmp" && mv "$TMP_DIR/undefined.tmp" "$TMP_DIR/undefined.sh"
 expect_failure "verify undefined choice fn" bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/undefined.sh" --cmd demo --skip-compgen
 
-gawk '/^# <<< choice-fns$/ && !done { print "_choice_probe() { :; }"; done = 1 } { print }' \
+gawk '/^# <<< CHOICES$/ && !done { print "_choice_probe() { :; }"; done = 1 } { print }' \
     "$TMP_DIR/new.sh" >"$TMP_DIR/choice-no-choice.sh"
 expect_failure "verify require-no-choice rejects choice definitions" bash "$SCRIPTS/verify-completion.sh" \
     "$TMP_DIR/choice-no-choice.sh" --cmd demo --skip-compgen --require-no-choice-fns
 
 cp "$TMP_DIR/regen.sh" "$TMP_DIR/manual-edit.sh"
-gawk '/^# <<< llm-generate$/ { print "# @flag --manual" } { print }' \
+gawk '/^# <<< SPEC$/ { print "# @flag --manual" } { print }' \
     "$TMP_DIR/manual-edit.sh" >"$TMP_DIR/manual-edit.tmp" && mv "$TMP_DIR/manual-edit.tmp" "$TMP_DIR/manual-edit.sh"
-expect_failure "verify detects manual llm-generate edit" bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/manual-edit.sh" --cmd demo --cache-dir "$TMP_DIR/fragments-regen" --skip-compgen
+expect_failure "verify detects manual SPEC edit" bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/manual-edit.sh" --cmd demo --cache-dir "$TMP_DIR/fragments-regen" --skip-compgen
 
 # A tag that loses its binding is the failure the compgen smoke cannot see.
 sed 's/--foo\[?`_choice_foo`\]/--foo -foo[?`_choice_foo`]/' "$with_script" >"$TMP_DIR/dropped-binding.sh"
@@ -1318,7 +1317,7 @@ check "verify --no-strict allows warnings" bash "$SCRIPTS/verify-completion.sh" 
 mkdir -p "$TMP_DIR/fragments-dynamic"
 cp -R "$FIXTURES/fragments/no-choice/." "$TMP_DIR/fragments-dynamic/"
 quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-dynamic" --output "$TMP_DIR/dynamic.sh" --force
-gawk '/^# <<< choice-fns$/ && !done {
+gawk '/^# <<< CHOICES$/ && !done {
         print ""
         print "_choice_out() {"
         print "    echo out.txt"

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Canonicalize a completion script's choice-fns block.
+# Canonicalize a completion script's CHOICES block.
 #
 # The block may contain only top-level _choice_* and _helper_* functions.
 # Other function names are renamed to _helper_<name>; definitions are sorted
@@ -16,7 +16,7 @@ export LC_ALL=C
 
 usage() {
     cat <<'USAGE'
-Usage: format-choice-fns.sh [options] <completion.sh>...
+Usage: format-choices.sh [options] <completion.sh>...
 
 Options:
   --check   Do not write files; exit 1 when a file would change
@@ -65,7 +65,7 @@ marker_count() {
 err() {
     local file="$1"
     shift
-    printf 'format-choice-fns: %s: %s\n' "$file" "$*" >&2
+    printf 'format-choices: %s: %s\n' "$file" "$*" >&2
 }
 
 trim_blank_edges() {
@@ -88,7 +88,7 @@ parse_block() {
     local block="$1" dir="$2" file="$3"
     gawk -v dir="$dir" -v file="$file" '
     function fail(msg) {
-        printf "format-choice-fns: %s: %s\n", file, msg > "/dev/stderr"
+        printf "format-choices: %s: %s\n", file, msg > "/dev/stderr"
         failed = 1
         exit 1
     }
@@ -296,7 +296,7 @@ check_outside_references() {
     {
         for (i = 1; i <= count; i++) {
             if (index($0, "`" old[i] "`")) {
-                printf "format-choice-fns: %s: %s is referenced outside choice-fns\n", file, old[i] > "/dev/stderr"
+                printf "format-choices: %s: %s is referenced outside CHOICES\n", file, old[i] > "/dev/stderr"
                 failed = 1
             }
         }
@@ -310,7 +310,7 @@ check_variable_collisions() {
     local target="$1" map="$2" file="$3"
     gawk -v mapfile="$map" -v file="$file" '
     function fail(msg) {
-        printf "format-choice-fns: %s: %s\n", file, msg > "/dev/stderr"
+        printf "format-choices: %s: %s\n", file, msg > "/dev/stderr"
         failed = 1
         exit 1
     }
@@ -465,11 +465,11 @@ replace_words() {
 format_one() {
     local file="$1"
     local work="$tmp_root/work"
-    local start_marker='# >>> choice-fns'
-    local end_marker='# <<< choice-fns'
+    local start_marker='# >>> CHOICES'
+    local end_marker='# <<< CHOICES'
     local start end starts ends
-    local gen_marker_start='# >>> llm-generate'
-    local gen_marker_end='# <<< llm-generate'
+    local gen_marker_start='# >>> SPEC'
+    local gen_marker_end='# <<< SPEC'
     local gen_start gen_end
 
     [[ -f "$file" ]] || { err "$file" "file not found"; return 1; }
@@ -477,17 +477,17 @@ format_one() {
     starts="$(marker_count "$file" "$start_marker")"
     ends="$(marker_count "$file" "$end_marker")"
     if [[ "$starts" -eq 0 && "$ends" -eq 0 ]]; then
-        err "$file" "choice-fns block not found (run assemble.sh first for legacy scripts)"
+        err "$file" "CHOICES block not found (run assemble.sh first for legacy scripts)"
         return 1
     fi
     if [[ "$starts" -ne 1 || "$ends" -ne 1 ]]; then
-        err "$file" "choice-fns block markers must appear exactly once"
+        err "$file" "CHOICES block markers must appear exactly once"
         return 1
     fi
     start="$(marker_line "$file" "$start_marker")"
     end="$(marker_line "$file" "$end_marker")"
     if [[ -z "$start" || -z "$end" || "$start" -ge "$end" ]]; then
-        err "$file" "invalid choice-fns block layout"
+        err "$file" "invalid CHOICES block layout"
         return 1
     fi
 
@@ -507,12 +507,12 @@ format_one() {
     gen_start="$(marker_line "$file" "$gen_marker_start")"
     gen_end="$(marker_line "$file" "$gen_marker_end")"
     if [[ -n "$gen_start" && -n "$gen_end" && "$gen_start" -lt "$gen_end" ]]; then
-        gawk -v s="$gen_start" -v e="$gen_end" 'NR > s && NR < e { print }' "$file" >"$work/llm-generate.txt"
+        gawk -v s="$gen_start" -v e="$gen_end" 'NR > s && NR < e { print }' "$file" >"$work/SPEC.txt"
     else
-        : >"$work/llm-generate.txt"
+        : >"$work/SPEC.txt"
     fi
 
-    if ! check_outside_references "$work/llm-generate.txt" "$work/map.tsv" "$file"; then
+    if ! check_outside_references "$work/SPEC.txt" "$work/map.tsv" "$file"; then
         return 1
     fi
 
@@ -579,7 +579,6 @@ format_one() {
     printf '%s\n' "$start_marker" >>"$output"
     if [[ -s "$content" ]]; then
         cat "$content" >>"$output"
-        printf '\n' >>"$output"
     fi
     printf '%s\n' "$end_marker" >>"$output"
     tail -n +$((end + 1)) "$file" >>"$output"

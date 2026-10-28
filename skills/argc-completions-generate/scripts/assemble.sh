@@ -2,9 +2,9 @@
 # Assemble a structural argc completion script from JSON fragments.
 #
 # The generated file is organized into three blocks:
-#   llm-generate  - command definitions generated from fragments (replaced on every run)
-#   llm-prompt    - prompt text used as context by parser subagents (preserved)
-#   choice-fns    - dynamic completion functions (preserved)
+#   SPEC     - command definitions generated from fragments (replaced on every run)
+#   HINTS    - prompt text used as context by parser subagents (preserved)
+#   CHOICES  - dynamic completion functions (preserved)
 
 set -euo pipefail
 
@@ -28,7 +28,7 @@ Options:
       --check             Compare with the existing output, do not write
       --stdout            Print the complete script to stdout
       --force             Overwrite an existing output file
-      --dump-llm-generate Print only the generated llm-generate block
+      --dump-spec         Print only the generated SPEC block
   -v, --verbose
   -h, --help
 USAGE
@@ -75,7 +75,7 @@ while [[ $# -gt 0 ]]; do
         --check) check_mode=1; shift ;;
         --stdout) stdout_mode=1; shift ;;
         --force) force=1; shift ;;
-        --dump-llm-generate) dump_mode=1; shift ;;
+        --dump-spec) dump_mode=1; shift ;;
         -v|--verbose) VERBOSE=1; shift ;;
         -*)
             die "unknown option: $1"
@@ -262,9 +262,9 @@ if [[ ${#FAILED_PATHS[@]} -gt 0 ]]; then
     printf '  - %s\n' "${FAILED_PATHS[@]}" >&2
 fi
 
-gen_block="$tmp_dir/llm-generate.block"
-prompt_content="$tmp_dir/llm-prompt.content"
-choice_content="$tmp_dir/choice-fns.content"
+gen_block="$tmp_dir/SPEC.block"
+prompt_content="$tmp_dir/HINTS.content"
+choice_content="$tmp_dir/CHOICES.content"
 pre_content="$tmp_dir/pre.content"
 post_content="$tmp_dir/post.content"
 : >"$gen_block"
@@ -566,10 +566,10 @@ elif [[ -f "$output_file" ]]; then
 fi
 
 if [[ -n "$source_file" && -f "$source_file" ]]; then
-    if ! extract_named_block "$source_file" 'llm-prompt' "$prompt_content"; then
+    if ! extract_named_block "$source_file" 'HINTS' "$prompt_content"; then
         : >"$prompt_content"
     fi
-    if ! extract_named_block "$source_file" 'choice-fns' "$choice_content"; then
+    if ! extract_named_block "$source_file" 'CHOICES' "$choice_content"; then
         if ! extract_named_block "$source_file" 'argc-completions-dynamic' "$choice_content"; then
             extract_legacy_choice "$source_file" "$choice_content"
         fi
@@ -580,14 +580,14 @@ if [[ -n "$source_file" && -f "$source_file" ]]; then
 fi
 
 if [[ -f "$output_file" ]]; then
-    if grep -q '^# >>> llm-generate$' "$output_file"; then
-        output_gen_starts="$(count_marker "$output_file" '>>>' 'llm-generate')"
-        output_gen_ends="$(count_marker "$output_file" '<<<' 'llm-generate')"
+    if grep -q '^# >>> SPEC$' "$output_file"; then
+        output_gen_starts="$(count_marker "$output_file" '>>>' 'SPEC')"
+        output_gen_ends="$(count_marker "$output_file" '<<<' 'SPEC')"
         if [[ "$output_gen_starts" -ne 1 || "$output_gen_ends" -ne 1 ]]; then
-            die "llm-generate block must appear exactly once in $output_file"
+            die "SPEC block must appear exactly once in $output_file"
         fi
-        first_start="$(gawk '/^# >>> (llm-generate|llm-prompt|choice-fns)$/ { print NR; exit }' "$output_file")"
-        last_end="$(gawk '/^# <<< (llm-generate|llm-prompt|choice-fns)$/ { last = NR } END { print last + 0 }' "$output_file")"
+        first_start="$(gawk '/^# >>> (SPEC|HINTS|CHOICES)$/ { print NR; exit }' "$output_file")"
+        last_end="$(gawk '/^# <<< (SPEC|HINTS|CHOICES)$/ { last = NR } END { print last + 0 }' "$output_file")"
         if [[ -z "$first_start" || "$last_end" -eq 0 || "$first_start" -ge "$last_end" ]]; then
             die "invalid block layout: $output_file"
         fi
@@ -616,9 +616,12 @@ emit_block() {
     printf '# >>> %s\n' "$name"
     if [[ -s "$content" ]]; then
         cat "$content"
-        # argc treats the closing marker as a description continuation when it
-        # immediately follows a tag line, so separate non-empty blocks.
-        printf '\n'
+        # argc reads the closing marker as a description continuation when it
+        # immediately follows a tag line, so only the tag-terminated
+        # SPEC block keeps a separating blank line.
+        if [[ "$name" == SPEC ]]; then
+            printf '\n'
+        fi
     fi
     printf '# <<< %s\n' "$name"
 }
@@ -627,18 +630,18 @@ full_output="$tmp_dir/completion.sh"
 {
     cat "$pre_content"
     printf '\n'
-    emit_block llm-generate "$gen_block"
+    emit_block SPEC "$gen_block"
     printf '\n'
-    emit_block llm-prompt "$prompt_content"
+    emit_block HINTS "$prompt_content"
     printf '\n'
-    emit_block choice-fns "$choice_content"
+    emit_block CHOICES "$choice_content"
     printf '\n'
     cat "$post_content"
 } >"$full_output"
 
 # The generated block must not define completion functions.
 if grep -Eq '^[[:space:]]*_choice_[A-Za-z0-9_]*\(\)[[:space:]]*\{' "$gen_block"; then
-    die "generated llm-generate block defines a completion function"
+    die "generated SPEC block defines a completion function"
 fi
 
 # Every choice_fn/meta reference must have a function definition in the output.
@@ -682,16 +685,16 @@ if [[ -z "$source_file" || ! -f "$source_file" ]]; then
 fi
 
 # Validate block counts and order in the final output.
-for block_name in llm-generate llm-prompt choice-fns; do
+for block_name in SPEC HINTS CHOICES; do
     starts="$(count_marker "$full_output" '>>>' "$block_name")"
     ends="$(count_marker "$full_output" '<<<' "$block_name")"
     if [[ "$starts" -ne 1 || "$ends" -ne 1 ]]; then
         die "final script has an invalid '$block_name' block"
     fi
 done
-gen_start="$(block_line "$full_output" '>>>' 'llm-generate')"
-prompt_start="$(block_line "$full_output" '>>>' 'llm-prompt')"
-choice_start="$(block_line "$full_output" '>>>' 'choice-fns')"
+gen_start="$(block_line "$full_output" '>>>' 'SPEC')"
+prompt_start="$(block_line "$full_output" '>>>' 'HINTS')"
+choice_start="$(block_line "$full_output" '>>>' 'CHOICES')"
 if ! [[ "$gen_start" -lt "$prompt_start" && "$prompt_start" -lt "$choice_start" ]]; then
     die "final script block order is invalid"
 fi

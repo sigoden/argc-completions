@@ -15,7 +15,7 @@ usage() {
 Usage: verify-completion.sh <completion.sh> [options]
 
 Options:
-  -c, --cache-dir <dir>        Compare llm-generate exactly with cache fragments
+  -c, --cache-dir <dir>        Compare SPEC exactly with cache fragments
       --cmd <name>             Override the command name derived from the file path
       --require-no-choice-fns  Fail if the script contains completion functions / Fn choices
       --skip-compgen           Do not run argc --argc-compgen
@@ -150,85 +150,85 @@ extract_block() {
     return 0
 }
 
-gen_count="$(count_marker "$file" '>>>' 'llm-generate')"
-prompt_count="$(count_marker "$file" '>>>' 'llm-prompt')"
-choice_count="$(count_marker "$file" '>>>' 'choice-fns')"
-gen_end_count="$(count_marker "$file" '<<<' 'llm-generate')"
-prompt_end_count="$(count_marker "$file" '<<<' 'llm-prompt')"
-choice_end_count="$(count_marker "$file" '<<<' 'choice-fns')"
+gen_count="$(count_marker "$file" '>>>' 'SPEC')"
+prompt_count="$(count_marker "$file" '>>>' 'HINTS')"
+choice_count="$(count_marker "$file" '>>>' 'CHOICES')"
+gen_end_count="$(count_marker "$file" '<<<' 'SPEC')"
+prompt_end_count="$(count_marker "$file" '<<<' 'HINTS')"
+choice_end_count="$(count_marker "$file" '<<<' 'CHOICES')"
 
 layout="legacy"
 if [[ "$gen_count" -gt 0 || "$prompt_count" -gt 0 || "$choice_count" -gt 0 ]]; then
     layout="new"
 fi
 
-gen_region="$tmp_dir/llm-generate.txt"
+gen_region="$tmp_dir/SPEC.txt"
 : >"$gen_region"
 region_file="$file"
 
 if [[ "$layout" == "new" ]]; then
     if [[ "$gen_count" -ne 1 || "$gen_end_count" -ne 1 || "$prompt_count" -ne 1 || "$prompt_end_count" -ne 1 || "$choice_count" -ne 1 || "$choice_end_count" -ne 1 ]]; then
-        fail "block markers must appear exactly once for llm-generate/llm-prompt/choice-fns"
+        fail "block markers must appear exactly once for SPEC/HINTS/CHOICES"
     else
-        gen_start="$(block_line "$file" '>>>' 'llm-generate')"
-        prompt_start="$(block_line "$file" '>>>' 'llm-prompt')"
-        choice_start="$(block_line "$file" '>>>' 'choice-fns')"
+        gen_start="$(block_line "$file" '>>>' 'SPEC')"
+        prompt_start="$(block_line "$file" '>>>' 'HINTS')"
+        choice_start="$(block_line "$file" '>>>' 'CHOICES')"
         if [[ "$gen_start" -lt "$prompt_start" && "$prompt_start" -lt "$choice_start" ]]; then
             pass "block order"
         else
-            fail "block order must be llm-generate -> llm-prompt -> choice-fns"
+            fail "block order must be SPEC -> HINTS -> CHOICES"
         fi
-        if extract_block "$file" 'llm-generate' "$gen_region"; then
+        if extract_block "$file" 'SPEC' "$gen_region"; then
             :
         else
-            fail "cannot extract llm-generate block"
+            fail "cannot extract SPEC block"
         fi
-        prompt_region="$tmp_dir/llm-prompt.txt"
-        choice_region="$tmp_dir/choice-fns.txt"
-        if extract_block "$file" 'llm-prompt' "$prompt_region"; then
+        prompt_region="$tmp_dir/HINTS.txt"
+        choice_region="$tmp_dir/CHOICES.txt"
+        if extract_block "$file" 'HINTS' "$prompt_region"; then
             if gawk '!/^#/ && !/^[[:space:]]*$/ { exit 1 }' "$prompt_region"; then
-                pass "llm-prompt is comments only"
+                pass "HINTS is comments only"
             else
-                fail "llm-prompt contains non-comment lines"
+                fail "HINTS contains non-comment lines"
             fi
         else
-            fail "cannot extract llm-prompt block"
+            fail "cannot extract HINTS block"
         fi
-        if extract_block "$file" 'choice-fns' "$choice_region"; then
+        if extract_block "$file" 'CHOICES' "$choice_region"; then
             if grep -Eq '^# @(describe|cmd|alias|option|flag|arg|env|meta)' "$choice_region"; then
-                fail "choice-fns must not contain structural tags"
+                fail "CHOICES must not contain structural tags"
             else
-                pass "choice-fns has no structural tags"
+                pass "CHOICES has no structural tags"
             fi
-            if [[ -f "$SCRIPT_DIR/format-choice-fns.sh" ]]; then
-                if bash "$SCRIPT_DIR/format-choice-fns.sh" --check "$file" >"$tmp_dir/format.out" 2>"$tmp_dir/format.err"; then
-                    pass "choice-fns format"
+            if [[ -f "$SCRIPT_DIR/format-choices.sh" ]]; then
+                if bash "$SCRIPT_DIR/format-choices.sh" --check "$file" >"$tmp_dir/format.out" 2>"$tmp_dir/format.err"; then
+                    pass "CHOICES format"
                 else
                     format_detail="$(head -n 1 "$tmp_dir/format.err" 2>/dev/null || true)"
                     if [[ -z "$format_detail" ]]; then
                         format_detail="$(head -n 1 "$tmp_dir/format.out" 2>/dev/null || true)"
                     fi
-                    fail "choice-fns format: ${format_detail:-not canonical}; run $SCRIPT_DIR/format-choice-fns.sh $file"
+                    fail "CHOICES format: ${format_detail:-not canonical}; run $SCRIPT_DIR/format-choices.sh $file"
                 fi
             else
-                fail "choice-fns format: missing $SCRIPT_DIR/format-choice-fns.sh"
+                fail "CHOICES format: missing $SCRIPT_DIR/format-choices.sh"
             fi
         else
-            fail "cannot extract choice-fns block"
+            fail "cannot extract CHOICES block"
         fi
         if grep -Eq '^[[:space:]]*_choice_[A-Za-z0-9_]*\(\)[[:space:]]*\{' "$gen_region"; then
-            fail "llm-generate must not define completion functions"
+            fail "SPEC must not define completion functions"
         else
-            pass "llm-generate has no completion definitions"
+            pass "SPEC has no completion definitions"
         fi
         region_file="$gen_region"
     fi
 else
     # Legacy scripts are still valid as long as no cache comparison is requested.
     if [[ -n "$fragments" ]]; then
-        fail "cache-dir requires a script with llm-generate/llm-prompt/choice-fns blocks"
+        fail "cache-dir requires a script with SPEC/HINTS/CHOICES blocks"
     else
-        printf 'NOTE  legacy layout: no llm-generate/llm-prompt/choice-fns blocks\n'
+        printf 'NOTE  legacy layout: no SPEC/HINTS/CHOICES blocks\n'
     fi
 fi
 
@@ -560,22 +560,22 @@ if [[ -n "$fragments" && -s "$export_json" ]]; then
     fi
 fi
 
-# Exact llm-generate block comparison.
+# Exact SPEC block comparison.
 if [[ -n "$fragments" ]]; then
     if [[ "$layout" != "new" ]]; then
-        fail "cache-dir requires a script with llm-generate blocks"
+        fail "cache-dir requires a script with SPEC blocks"
     else
-        expected_gen="$tmp_dir/expected.llm-generate"
+        expected_gen="$tmp_dir/expected.SPEC"
         assemble_err="$tmp_dir/assemble.err"
-        if bash "$SCRIPT_DIR/assemble.sh" "$root_cmd" --cache-dir "$fragments" --dump-llm-generate >"$expected_gen" 2>"$assemble_err"; then
+        if bash "$SCRIPT_DIR/assemble.sh" "$root_cmd" --cache-dir "$fragments" --dump-spec >"$expected_gen" 2>"$assemble_err"; then
             if cmp -s "$gen_region" "$expected_gen"; then
-                pass "llm-generate matches fragments"
+                pass "SPEC matches fragments"
             else
-                fail "llm-generate differs from fragments"
+                fail "SPEC differs from fragments"
                 diff -u "$gen_region" "$expected_gen" | head -n 40 || true
             fi
         else
-            fail "assemble --dump-llm-generate failed: $(head -n 1 "$assemble_err")"
+            fail "assemble --dump-spec failed: $(head -n 1 "$assemble_err")"
         fi
     fi
 fi

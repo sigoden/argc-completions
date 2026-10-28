@@ -150,7 +150,7 @@ Also check that the path matches the file location and every child in `subcomman
 - If help/man cannot be obtained after one retry, write a minimal fragment with `items: []`, `subcommands: []`, `source: {"kind": "none"}`, and report `status: failed` with the reason.
 - For a shell builtin with no `--help`, try `help <cmd>` and the man page; never fabricate definitions.
 - Fix a rejected field and re-run the validator; never weaken it.
-- Never modify `llm-prompt`, `choice-fns`, or another node's fragment.
+- Never modify `HINTS`, `CHOICES`, or another node's fragment.
 
 ## 7. Return summary
 

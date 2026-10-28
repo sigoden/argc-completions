@@ -4,13 +4,13 @@ Add dynamic completion candidates to an existing generated script: ownership, pr
 
 ## Ownership
 
-Edit only the `choice-fns` block and the matching fragment item's `choice_fn` (empty `choices` when a binding replaces a static list). When the binding is command-valued, also set `terminated: true` on that item when its `repeatable`, `prefixed`, and `delimiter` fields allow it; never clear an existing `terminated`. The block contract is in `<SKILL_ROOT>/SKILL.md` §Pipeline contract; these write limits are authoritative. Run `<SKILL_ROOT>/scripts/assemble.sh` after edits, never hand-edit `llm-generate`, and never change command names, flags, options, args, aliases, notations, or descriptions.
+Edit only the `CHOICES` block and the matching fragment item's `choice_fn` (empty `choices` when a binding replaces a static list). When the binding is command-valued, also set `terminated: true` on that item when its `repeatable`, `prefixed`, and `delimiter` fields allow it; never clear an existing `terminated`. The block contract is in `<SKILL_ROOT>/SKILL.md` §Pipeline contract; these write limits are authoritative. Run `<SKILL_ROOT>/scripts/assemble.sh` after edits, never hand-edit `SPEC`, and never change command names, flags, options, args, aliases, notations, or descriptions.
 
 ## 1. Preconditions
 
-`<SKILL_ROOT>/scripts/verify-completion.sh <completion.sh> --cache-dir <REPO_ROOT>/cache/compile/<root>` must PASS. Run `all` if the script has no blocks, or finish generate-structure if the cache is incomplete or has `todo` nodes. A run reporting `next=add-choice-fns` (`<SKILL_ROOT>/references/generate-structure.md` §8) is the normal entry point; a new command reaches this workflow through `all`. If verify fails only on `choice-fns format`, run `<SKILL_ROOT>/scripts/format-choice-fns.sh <completion.sh>` and re-run.
+`<SKILL_ROOT>/scripts/verify-completion.sh <completion.sh> --cache-dir <REPO_ROOT>/cache/compile/<root>` must PASS. Run `all` if the script has no blocks, or finish generate-structure if the cache is incomplete or has `todo` nodes. A run reporting `next=add-choice-fns` (`<SKILL_ROOT>/references/generate-structure.md` §8) is the normal entry point; a new command reaches this workflow through `all`. If verify fails only on `CHOICES format`, run `<SKILL_ROOT>/scripts/format-choices.sh <completion.sh>` and re-run.
 
-A regenerate resets cache entries but keeps the dynamic layer: preserve every existing `choice-fns` function, source line, and `choice_fn` binding, and add only missing bindings (`<SKILL_ROOT>/references/generate-structure.md` §2).
+A regenerate resets cache entries but keeps the dynamic layer: preserve every existing `CHOICES` function, source line, and `choice_fn` binding, and add only missing bindings (`<SKILL_ROOT>/references/generate-structure.md` §2).
 
 ## 2. Inventory
 
@@ -34,13 +34,13 @@ An option marked `prefixed` receives `ARGC_CWORD` after the prefix, and a `delim
 
 ### Helpers
 
-Use the `_argc_util_*` helpers in `<REPO_ROOT>/utils/_argc_utils.sh` for splitting, paths, transforms, and delegation; source them from `choice-fns` with the guard (`<SKILL_ROOT>/references/compgen.md` §6). Read option values from `$argc_<id>` (§2); path notation and free text need no binding; tool-specific values (git refs, container images, HTTP methods/headers, ssh options) use a query.
+Use the `_argc_util_*` helpers in `<REPO_ROOT>/utils/_argc_utils.sh` for splitting, paths, transforms, and delegation; source them from `CHOICES` with the guard (`<SKILL_ROOT>/references/compgen.md` §6). Read option values from `$argc_<id>` (§2); path notation and free text need no binding; tool-specific values (git refs, container images, HTTP methods/headers, ssh options) use a query.
 
 Read generate-structure's warnings first and match them by tag: `mixed-enumeration` means the fragment intentionally has `choices: []` — bind a `_choice_*` that prints the literals instead of restoring `choices`; `no-args-binding` means a command-valued item may still need `terminated` (§3 *Command-valued binding*).
 
 ## 3. Choose a binding
 
-1. Add or update the function in `choice-fns` before the final eval: `_choice_*` for a tag-bound entry point, `_helper_*` for an internal helper. If it calls `_argc_util_*`, add the single `<REPO_ROOT>/utils/_argc_utils.sh` source guard.
+1. Add or update the function in `CHOICES` before the final eval: `_choice_*` for a tag-bound entry point, `_helper_*` for an internal helper. If it calls `_argc_util_*`, add the single `<REPO_ROOT>/utils/_argc_utils.sh` source guard.
 2. Set the matching fragment item's `choice_fn` to the plain function name (no backticks). If the binding replaces a static list, set `choices` to `[]`.
 3. Queue it: finish every edit of the batch, then run the single gate in §5.
 
@@ -63,11 +63,11 @@ bash <SKILL_ROOT>/scripts/set-choice-fn.sh --terminated "$fragment" _choice_comm
 
 ## 4. Function placement and naming
 
-- Put functions between `# >>> choice-fns` and `# <<< choice-fns`, before the final eval, with the single library source guard at the top of the block.
+- Put functions between `# >>> CHOICES` and `# <<< CHOICES`, before the final eval, with the single library source guard at the top of the block.
 - Only top-level `_choice_*`/`_helper_*` may appear there; the formatter renames every other name to `_helper_<name>` (leading underscores stripped). Sort by final name with `LC_ALL=C` (`_choice_*` first); doc comments immediately above a function move with it, block-level comments are separated by a blank line, and top-level declarations precede the first function.
-- Run `bash <SKILL_ROOT>/scripts/format-choice-fns.sh <completion.sh>` once per batch inside the §5 gate; verify runs the same formatter in `--check` mode and fails a non-canonical block.
-- The formatter aborts without writing on a rename collision, when the old name is also a shell variable, or when `llm-generate` still binds the old name by backticks; fix the binding or rename manually and re-run.
-- Never define `_choice_*` in `llm-generate`. Name new functions `_choice_<param>`, or `_choice_<subcmd>_<param>` when the same param has different data or sources per subcommand. Reuse an existing function; duplicate definitions fail verify.
+- Run `bash <SKILL_ROOT>/scripts/format-choices.sh <completion.sh>` once per batch inside the §5 gate; verify runs the same formatter in `--check` mode and fails a non-canonical block.
+- The formatter aborts without writing on a rename collision, when the old name is also a shell variable, or when `SPEC` still binds the old name by backticks; fix the binding or rename manually and re-run.
+- Never define `_choice_*` in `SPEC`. Name new functions `_choice_<param>`, or `_choice_<subcmd>_<param>` when the same param has different data or sources per subcommand. Reuse an existing function; duplicate definitions fail verify.
 - When a wrapper calls `_argc_util_*`, source `<REPO_ROOT>/utils/_argc_utils.sh` with the guard and bind a local `_choice_<param>` wrapper; never copy a helper into the script. Put guards, caching, and context handling in the wrapper.
 - Function bodies follow `<SKILL_ROOT>/references/compgen.md` §1–2 for output, context, and tool guards; use §5 for a custom split and §6 for helper mechanics.
 - A choice function must be callable from the script's top level; do not rely on a command function having run.
@@ -76,8 +76,8 @@ bash <SKILL_ROOT>/scripts/set-choice-fn.sh --terminated "$fragment" _choice_comm
 
 Formatting, assembly, and verification each rewrite or re-read the whole script, so an edit made between two gate runs is wasted work. Do every edit for the batch first, then pass the gate once.
 
-1. Edit phase — no `<SKILL_ROOT>/scripts/format-choice-fns.sh` and no `<SKILL_ROOT>/scripts/assemble.sh` between edits:
-   - add or update every `choice-fns` function the batch needs;
+1. Edit phase — no `<SKILL_ROOT>/scripts/format-choices.sh` and no `<SKILL_ROOT>/scripts/assemble.sh` between edits:
+   - add or update every `CHOICES` function the batch needs;
    - run `<SKILL_ROOT>/scripts/set-choice-fn.sh` once per fragment/binding (it validates that fragment).
 
    All functions go in before the gate: a fragment `choice_fn` whose function is still missing fails assembly. Keep a batch to one node, or about ten bindings, so a gate failure is easy to localize.
@@ -85,13 +85,13 @@ Formatting, assembly, and verification each rewrite or re-read the whole script,
 2. Gate — once per batch:
 
    ```sh
-   bash <SKILL_ROOT>/scripts/format-choice-fns.sh <completion.sh>
+   bash <SKILL_ROOT>/scripts/format-choices.sh <completion.sh>
    bash <SKILL_ROOT>/scripts/assemble.sh <root> --cache-dir <REPO_ROOT>/cache/compile/<root> \
      --output <completion.sh> --force
    bash <SKILL_ROOT>/scripts/verify-completion.sh <completion.sh> --cache-dir <REPO_ROOT>/cache/compile/<root>
    ```
 
-   The exact `llm-generate` comparison in verify must pass. The gate is cheap and idempotent: after fixing a failure, re-run all three instead of bisecting the batch. It rewrites the script, so re-read it before the next edit (editors that guard against stale reads reject the old snapshot).
+   The exact `SPEC` comparison in verify must pass. The gate is cheap and idempotent: after fixing a failure, re-run all three instead of bisecting the batch. It rewrites the script, so re-read it before the next edit (editors that guard against stale reads reject the old snapshot).
 
    Exception: when one binding's candidate protocol is still uncertain (a new helper, an unknown split, an external service), gate that binding alone first and add the rest to the batch afterwards.
 
@@ -110,4 +110,4 @@ Formatting, assembly, and verification each rewrite or re-read the whole script,
 
 ## 6. Failure handling
 
-Read `<SKILL_ROOT>/references/troubleshooting.md` §Choice functions, fix the `choice-fns` block or the fragment `choice_fn`, then re-run the §5 gate.
+Read `<SKILL_ROOT>/references/troubleshooting.md` §Choice functions, fix the `CHOICES` block or the fragment `choice_fn`, then re-run the §5 gate.

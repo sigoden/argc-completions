@@ -7,7 +7,7 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | Symptom | Section |
 |---|---|
 | Missing fragment, `todo` node, stale fragment, schema/export error | Generate and assemble |
-| `llm-generate` differs, missing/duplicate function, wrong candidates | Choice functions |
+| `SPEC` differs, missing/duplicate function, wrong candidates | Choice functions |
 | Block, tag, help, or compgen failure after assembly | Verify |
 | No candidates from a choice function | `<SKILL_ROOT>/references/compgen.md` §8 |
 | Reset, cache probe, or parent metadata problem | Cache and regenerate |
@@ -26,27 +26,27 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | `invalid items` after adding `terminated` | Combined with `repeatable`/`prefixed`/`delimiter`, used on a flag, or a name ends in `~` | Keep `repeatable: false`, `prefixed: false`, `delimiter: null`; only the first name `-~`/`+~` of a two-name item may end in `~` (`<SKILL_ROOT>/references/fragment-schema.md`) |
 | `~` missing after regenerate | Compile dropped the terminated flag | Set `"terminated": true` on the fragment item (or re-run the node with context), assemble, verify |
 | `items[N]: with two names the first must be a one-character short name` | Pair in help order or a multi-character single-dash name first | Reorder to `-x`/`+x`, or split into one item per name, then re-run the validator (`<SKILL_ROOT>/references/fragment-schema.md`) |
-| `missing choice function definitions` | Stale `choice_fn` or context not passed | Add the wrapper to `choice-fns` or clear `choice_fn` |
+| `missing choice function definitions` | Stale `choice_fn` or context not passed | Add the wrapper to `CHOICES` or clear `choice_fn` |
 | `argc --argc-export` error with a line | Malformed tag or function | Fix the fragment and re-assemble |
 | `argc --argc-export` reports a jq parse error | stderr merged into jq (`2>&1 \| jq`) | Write stdout to a file and read stderr separately (`<SKILL_ROOT>/SKILL.md` §Inspection) |
-| A file editor rejects the script as changed since it was read | Formatting or assembly rewrote the whole script | Re-read before editing, or batch `choice-fns` edits before the first assemble |
+| A file editor rejects the script as changed since it was read | Formatting or assembly rewrote the whole script | Re-read before editing, or batch `CHOICES` edits before the first assemble |
 
 ## Choice functions
 
 | Symptom | Cause | Fix |
 |---|---|---|
-| `llm-generate differs from fragments` | Hand edit, stale assemble, or fragment edited without assembling | Update the fragment and run `<SKILL_ROOT>/scripts/assemble.sh`; never patch the block |
-| `undefined choice functions` | Missing or outside `choice-fns` | Add it before the final eval, or set `choice_fn` to null |
+| `SPEC differs from fragments` | Hand edit, stale assemble, or fragment edited without assembling | Update the fragment and run `<SKILL_ROOT>/scripts/assemble.sh`; never patch the block |
+| `undefined choice functions` | Missing or outside `CHOICES` | Add it before the final eval, or set `choice_fn` to null |
 | `duplicate choice function definitions` | Appended twice | Keep one definition |
-| `choice-fns format: would format` | Unsorted, or a name outside `_choice_*`/`_helper_*` | Run `<SKILL_ROOT>/scripts/format-choice-fns.sh <completion.sh>`, re-assemble, verify |
+| `CHOICES format: would format` | Unsorted, or a name outside `_choice_*`/`_helper_*` | Run `<SKILL_ROOT>/scripts/format-choices.sh <completion.sh>`, re-assemble, verify |
 | `cannot rename ... both map to` | Two names normalize to one `_helper_*` | Rename one manually, re-run the formatter |
 | `cannot rename ... used as a shell variable` | Function name is also a variable | Rename the function or variable, re-run the formatter |
-| `... is referenced outside choice-fns` | A `choice_fn` in `llm-generate` still uses the old name | Update the fragment, re-assemble, then format |
+| `... is referenced outside CHOICES` | A `choice_fn` in `SPEC` still uses the old name | Update the fragment, re-assemble, then format |
 | Function prints nothing | Guard returned early, wrong cwd, or missing tool | Use the isolation flow in `<SKILL_ROOT>/references/compgen.md` §8 |
 | Redundant `command -v <root>` guard | A completion runs only while its root exists | Remove it; guard only another tool (`<SKILL_ROOT>/references/compgen.md` §1) |
 | Compgen times out | Network/slow query per keystroke | Re-run under a short timeout; add caching, a cap, or drop the binding |
 | Compgen passes but candidates are wrong | Shifted word position or no candidate-level check | Test the option word (`--foo ''`); assert values with the §8 `generic` pipeline |
-| Candidates look missing or different in a shell mode | Shell modes exercise the integration and post-process the candidate list | Check `generic` with the §8 pipeline; do not edit `choice-fns` from a shell-mode result |
+| Candidates look missing or different in a shell mode | Shell modes exercise the integration and post-process the candidate list | Check `generic` with the §8 pipeline; do not edit `CHOICES` from a shell-mode result |
 | `grep -x` finds no candidate | Candidate lines carry a NUL, color, and description fields | Use the §8 pipeline (`tr -d '\000'`, `cut -f1`) |
 | Static choices disappeared | A binding replaced them | Restore `choices`, or keep the dynamic source |
 | `choice_fn` rejected | Not string/null, or contains backticks | Use a local function name such as `_choice_name`, not the tag form |
@@ -60,10 +60,10 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | `help output failed` | Syntax/tag error or missing function | Run `bash file --help` and fix the reported line |
 | `help output is empty` | Missing eval or early exit | Inspect the tail; restore the eval |
 | `block markers must appear exactly once` | Partial/duplicated markers | `grep -n '^# [<>]\{3\} ' file`; remove extras or regenerate |
-| `block order must be ...` | Blocks reordered | Order `llm-generate` -> `llm-prompt` -> `choice-fns` |
-| `llm-prompt contains non-comment lines` | Shell code in the prompt | Prefix prompt lines with `#` |
-| `choice-fns must not contain structural tags` | Tags pasted into the dynamic block | Move tags to fragments and re-assemble |
-| `llm-generate must not define completion functions` | `_choice_*` pasted into the generated block | Compare with `<SKILL_ROOT>/scripts/assemble.sh --dump-llm-generate`; move it to `choice-fns` |
+| `block order must be ...` | Blocks reordered | Order `SPEC` -> `HINTS` -> `CHOICES` |
+| `HINTS contains non-comment lines` | Shell code in the prompt | Prefix prompt lines with `#` |
+| `CHOICES must not contain structural tags` | Tags pasted into the dynamic block | Move tags to fragments and re-assemble |
+| `SPEC must not define completion functions` | `_choice_*` pasted into the generated block | Compare with `<SKILL_ROOT>/scripts/assemble.sh --dump-spec`; move it to `CHOICES` |
 | `unknown comment tags` | Typo or unsupported tag | Fix or remove the tag |
 | `command block marker count mismatch` | Unclosed `# {{`/`# }}` | Close the block and re-assemble |
 | `command block nesting mismatch` | Wrong parent path or depth | Fix the fragment path or re-assemble |
@@ -87,4 +87,4 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | Subtree reset rejects a path | Not declared by the parent | Use a declared canonical path |
 | Sibling fragments disappeared after a subtree reset | Wrong target or an accidental full reset | Recompile the subtree with the canonical path |
 | Parent metadata stale after a subtree reset | A subtree reset does not refetch the parent | Run a full `regenerate <root>` when names, aliases, or the subcommand set change |
-| `llm-prompt`/`choice-fns` disappeared after regenerate | The script was deleted or replaced | Restore it; regenerate must preserve both blocks and bindings |
+| `HINTS`/`CHOICES` disappeared after regenerate | The script was deleted or replaced | Restore it; regenerate must preserve both blocks and bindings |
