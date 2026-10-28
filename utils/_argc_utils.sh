@@ -1,14 +1,29 @@
+# Shared helpers for argc completion scripts.
+#
+# Source once from the `choice-fns` block. Functions print candidates on stdout
+# (one per line, optional `\t<description>` and a `\0` nospace marker) and may
+# print `__argc_*` control lines. argc filters candidates; never pre-filter.
+
 [[ -n "${_argc_utils_loaded:-}" ]] && return 0
 _argc_utils_loaded=1
 
-# Complete path
+# Complete a path, a directory, or files with allowed extensions.
 # Args:
-#   `dir`: Complete path is dir
-#   `prefix=`: Set __argc_prefix
-#   `filter=`: Set __argc_filter
-#   `cd=`: Set __argc_path_cd
-#   `suffix=`: Set __argc_suffix
-#   `exts=`: Set file's allowed exts. e.g. `exts=.json,jsonc`
+#   `dir`: complete directories only
+#   `prefix=`: text kept before the candidate
+#   `filter=`: text a candidate must start with
+#   `suffix=`: text appended after the candidate, without a trailing space
+#   `exts=`: allowed file extensions, e.g. `exts=.json,jsonc`
+#   `cd=`: base directory for relative paths
+#
+# ```sh
+# _choice_config() { _argc_util_comp_path exts=.json,jsonc; }
+# _choice_mount() { _argc_util_comp_path suffix=:; }
+# _choice_file() { _argc_util_comp_path "cd=$argc_root"; }
+# ```
+#
+# Notes: only the keys above are read; `isdir`, `ext=`, and `exts:.json` are
+# ignored. Prefer `<file>`/`<dir>` notation when the tag can carry it.
 _argc_util_comp_path() {
     local isdir suffix filter exts chdir prefix with_filter with_prefix arg
     for arg in "${@}"; do
@@ -54,26 +69,29 @@ _argc_util_comp_path() {
     fi
 }
 
-
-# Complete key value pairs
+# Complete the value of a `key<sep>value` word from a table.
 # Args:
-#   SEP: seperator
-#   FILTER: default value is ARGC_CWORD
-#   PREFIX: additional prefix
+#   SEP: key/value separator, usually `=`
+#   FILTER: word to split (default: `$ARGC_CWORD`)
+#   PREFIX: text to keep before the key (default: empty)
 #
 # ```sh
-# _choice_fn() {
+# _choice_option() {
 #     cat <<-'EOF' | _argc_util_comp_kv =
-# foo=yes,no;;desc foo
-# bar=v1,v2,v3;;desc bar
-# baz=__argc_value=file;;desc baz
-# qux=`_choice_fn`;;desc qux
-# quux;;as flag, no value
-# quxs=`_choice_fn`,*;;comma seperated list
-# *=`_choice_fn`;;when nothing else matches
+# AddKeysToAgent=yes,ask,confirm,no;;agent forwarding
+# CertificateFile=__argc_value=file;;certificate file
+# HostKeyAlgorithms=`_choice_hostkeyalgorithms`;;algorithms
+# Port=;;free text
+# quux;;flag, no value
+# *=`_choice_default`;;unknown key fallback
 # EOF
 # }
 # ```
+#
+# Notes: a value is a comma list, a backtick command, `__argc_value=...`, or
+# empty (free text); `;;` adds a description; a bare `key` is a flag; without
+# the `*=` line an unknown key prints nothing. Pass FILTER/PREFIX to continue
+# an outer split.
 _argc_util_comp_kv() {
     local sep="$1"
     local filter="${2-$ARGC_CWORD}"
@@ -153,21 +171,23 @@ _argc_util_comp_kv() {
     fi
 }
 
-
-# Complete tag-value pairs.
+# Complete the value of the tag that precedes the current word, as in
+# `ip ... dev <TAB>` or `ifconfig eth0 mtu <TAB>`.
 #
 # ```sh
-# _choice_fn() {
-#     cat <<-'EOF' | _argc_util_comp_tv =
-# foo=yes,no;;desc foo
-# bar=v1,v2,v3;;desc bar
-# baz=__argc_value=file;;desc baz
-# qux=`_choice_fn`;;desc qux
-# quux;;desc qux
-# abc=`_choice_arg1`;`_choice_arg2`;;support two arguments
+# _choice_address_add() {
+#     cat <<-'EOF' | _argc_util_comp_tv
+# dev=`_choice_ip_device`;;device name
+# scope=`_choice_ip_scope`;;address scope
+# local=;;free text
 # EOF
 # }
 # ```
+#
+# Notes: takes no arguments; the separator is always `=`. `tag=cmd1;cmd2`
+# gives one value per following token, `tag=` leaves the value free, a bare
+# `tag` is a flag, and a consumed tag is hidden unless it is the word being
+# typed.
 _argc_util_comp_tv() {
     local line desc key key_value value lines value_parts args_len parts_len i idx part_value positional tag_key
     local last=""
@@ -229,16 +249,22 @@ _argc_util_comp_tv() {
     printf "%s\n" "${lines[@]}"
 }
 
-
-# Complete multiple parts of words separated by a char
+# Complete one segment of a `SEP`-separated value, e.g. `rev:path` or a
+# repository path.
 # Args:
-#   SEP: seperator
-#   FILTER: default value is ARGC_CWORD
-#   PREFIX: additional prefix
+#   SEP: part separator, such as `/` or `:`
+#   FILTER: word to split (default: `$ARGC_CWORD`)
+#   PREFIX: text to keep before the split word (default: empty)
 #
 # ```sh
-# git ls-files | _argc_util_comp_parts /
+# _choice_path() { jj file list | _argc_util_comp_parts /; }
 # ```
+#
+# Notes: stdin holds complete values; the split is printed as prefix/filter, a
+# segment ending at SEP is marked with `\0`, and `argc__parts_prefix`,
+# `argc__parts_filter`, `argc__parts_values`, and `argc__parts_len` are set. A
+# single stdin line is printed whole even when it misses the prefix; use
+# `_argc_util_mode_parts` when each segment needs its own query.
 _argc_util_comp_parts() {
     local sep="$1"
     local filter="${2-$ARGC_CWORD}"
@@ -308,11 +334,22 @@ END {
 }'
 }
 
-# Complete multi values seperated by SEP
+# Complete a `SEP`-separated list, dropping values the word already holds.
 # Args:
-#   SEP: seperator, can be empty string
-#   FILTER: filter value, defualt is $ARGC_CWORD
-#   PREFIX: The additional prefix
+#   SEP: separator between values; may be an empty string
+#   FILTER: word to split (default: `$ARGC_CWORD`)
+#   PREFIX: text to keep before the split word (default: empty)
+#
+# ```sh
+# _choice_type() {
+#     printf 'b\tblock special\nc\tcharacter special\n' | _argc_util_comp_multi ,
+# }
+# ```
+#
+# Notes: earlier values are removed, descriptions survive, and every candidate
+# is marked with `\0` so typing continues. argc splits a `delimiter` plus
+# `repeatable` word itself, so pass FILTER/PREFIX only to continue an outer
+# split.
 _argc_util_comp_multi() {
     local sep="$1"
     local filter="${2-$ARGC_CWORD}" 
@@ -367,21 +404,26 @@ BEGIN {
 '
 }
 
-# Enetr kv complete mode
+# Split a `key<sep>value` word and let each branch print its own candidates.
 # Args:
-#   SEP: key value seperator
-#   FILTER: filter value, defualt is $ARGC_CWORD
+#   SEP: key/value separator
+#   FILTER: word to split (default: `$ARGC_CWORD`)
 #
-# Explain:
-# Suppose we add `_argc_util_mode_kv :` to choice fn.
-# If the word is `local:w/argc`, we will get variabels:
-#   argc__kv_key: local
-#   argc__kv_prefix: local:
-#   argc__kv_filter: w/argc
-# If the word is `local`, we will get variabels:
-#   argc__kv_key: local
-#   argc__kv_prefix:
-#   argc__kv_filter: local
+# ```sh
+# _choice_path() {                 # scp host:path
+#     _argc_util_mode_kv :
+#     if [[ -z "$argc__kv_prefix" ]]; then
+#         compgen -A hostname | _argc_util_transform suffix=: nospace
+#     else
+#         ssh -o 'Batchmode yes' "$argc__kv_key" command ls -a1dp "$argc__kv_filter*" 2>/dev/null |
+#             _argc_util_comp_parts / "$argc__kv_filter" "$argc__kv_prefix"
+#     fi
+# }
+# ```
+#
+# Notes: before SEP `argc__kv_key` and `argc__kv_prefix` are empty and
+# `argc__kv_filter` is the whole word; after it the word is split into the three
+# variables. Fixed keys mean `_argc_util_comp_kv`.
 _argc_util_mode_kv() {
     local sep="$1"
     local filter="${2-$ARGC_CWORD}"
@@ -400,12 +442,27 @@ _argc_util_mode_kv() {
     fi
 }
 
-
-# Enetr parts complete mode
+# Split a word with N parts so each position can print its own candidates,
+# e.g. `u:name:rwx` or `container:/path`.
 # Args:
-#   SEP: key value seperator
-#   FILTER: filter value, defualt is $ARGC_CWORD
-#   PREFIX: The additional prefix
+#   SEP: part separator
+#   FILTER: word to split (default: `$ARGC_CWORD`)
+#   PREFIX: text to keep before the split word (default: empty)
+#
+# ```sh
+# _choice_acl() {                   # u:name:rwx
+#     _argc_util_mode_parts :
+#     case "$argc__parts_len" in
+#     1) printf '%s:\0\n' u g m o ;;
+#     2) compgen -u | _argc_util_transform suffix=: nospace ;;
+#     *) printf '%s\n' r w x rw rx wx rwx ;;
+#     esac
+# }
+# ```
+#
+# Notes: prefix and filter are already printed; `argc__parts_values` holds the
+# split parts including the current partial one, `argc__parts_len` their count
+# (at least 1). No stdin is consumed, so each branch picks its own source.
 _argc_util_mode_parts() {
     local sep="$1"
     local filter="${2-$ARGC_CWORD}" 
@@ -430,15 +487,18 @@ _argc_util_mode_parts() {
     argc__parts_len="${#argc__parts_values[@]}"
 }
 
-# Checks if given string has a path prefix.
+# Check whether a word looks like a path.
+# Args:
+#   WORD: word to check (default: `$ARGC_CWORD`)
 #
 # ```sh
-# _argc_util_has_path_prefix ./      # yes
-# _argc_util_has_path_prefix /       # yes
-# _argc_util_has_path_prefix ~       # yes
-# _argc_util_has_path_prefix C:\\    # yes
-# _argc_util_has_path_prefix README  # no
+# if _argc_util_has_path_prefix; then
+#     _argc_util_comp_path
+#     return
+# fi
 # ```
+#
+# Returns 0 for `.`, `/`, `~`, and a drive prefix such as `C:` or `C:/`.
 _argc_util_has_path_prefix() {
     local filter="${1-$ARGC_CWORD}"
     if [[ "$filter" == '.'* ]] \
@@ -452,26 +512,34 @@ _argc_util_has_path_prefix() {
     fi
 }
 
-# Run functions in parallel
+# Run several candidate functions concurrently and merge their output.
+# Args:
+#   FN [ARGS] ::: FN [ARGS] ...: functions with their arguments
 #
 # ```sh
-# _argc_util_parallel _choice_branch ::: _choice_tag ::: _choice_head
+# _choice_ref() {
+#     _argc_util_parallel _choice_branch ::: _choice_tag ::: _choice_head
+# }
 # ```
+#
+# Notes: only works inside a script argc evaluates (it resolves `$0`); each
+# function runs in its own process and output order is not a contract.
 _argc_util_parallel() {
     argc --argc-parallel "$(_argc_util_path_resolve "$0")" "$@"
 }
 
-
-# Select global options from command line
+# Forward wrapper-level options to the command a completion delegates to.
+# Args:
+#   OPTION...: options to forward, e.g. `-C` or `--namespace`
 #
 # ```sh
-# _git() {
-#     git $(_argc_util_param_select_options -C --git-dir --work-tree) "$@"
-# }
-# _docker() {
-#     docker $(_argc_util_param_select_options --host --config --context) "$@"
-# }
+# _git() { git $(_argc_util_param_select_options -C --git-dir --work-tree) "$@"; }
 # ```
+#
+# Notes: `-C` reads `$argc_C` and `--git-dir` reads `$argc_git_dir`, so pass the
+# spelling that generated the variable. A flag prints alone, a valued option as
+# `OPTION VALUE` (space-free, the caller re-splits it). Only wrapper options are
+# available.
 _argc_util_param_select_options() {
     local option option_name option_var option_val declar_val item
     for option in "$@"; do
@@ -504,24 +572,21 @@ _argc_util_param_select_options() {
     done
 }
 
-
-# Resolve paths, including converting paths to specific formats, concatenating paths, cleaning paths.
+# Join and clean path parts, or address a platform directory.
 # Args:
-#   [flag]: A control flag
-#     -p: Convert paths to windows format on windows and to unix format on unix.
-#     -u: Convert path to unix format.
+#   `-p`: convert to the platform separator (Windows only)
+#   `-u`: convert to the Unix separator (Windows only)
+#   PARTS...: path parts to join; with no parts the path is read from stdin
 #
 # ```sh
-# _argc_util_path_resolve /home/alice gh/argc                 # /home/alice/gh/argc
-# _argc_util_path_resolve C:\\Users\\alice gh\\argc           # C:\Users\alice\gh\argc
-# _argc_util_path_resolve -u C:\\Users\\alice gh\\argc        # /c/Users/alice/gh/argc
-# _argc_util_path_resolve -p /home/alice gh/argc              # C:\Users\alice\gh\argc (windows); /home/alice/gh/argc (non-windows)
-# _argc_util_path_resolve argc/src ../tests                   # understand ..
-# _argc_util_path_resolve argc/src .//tests/                  # cleaning extra / 
-# _argc_util_path_resolve CONFIG_DIR app/config.yaml         # platform $config_dir/app/config.yaml
-# _argc_util_path_resolve CACHE_DIR app/config.yaml          # platform $cache_dir/app/config.yaml
-# pwd | _argc_util_path_resolve -p                            # accept pipe
+# _argc_util_path_resolve CONFIG_DIR gh/hosts.yml
+# _argc_util_path_resolve -p "$workdir" Cargo.toml
+# _argc_util_path_resolve argc/src ../tests
+# pwd | _argc_util_path_resolve -u
 # ```
+#
+# Notes: `CONFIG_DIR` and `CACHE_DIR` expand per `ARGC_OS`; `..` is resolved and
+# too many leading `..` exits 1.
 _argc_util_path_resolve() {
     local format=0 value="" arg rest part sep="/" is_win=0 i parts_len=0
     local -a args=() parts=()
@@ -592,16 +657,18 @@ _argc_util_path_resolve() {
     fi
 }
 
-
-# Search for a file by traversing the directory tree upwards starting from the current directory.
+# Find the first of the given files in the current directory or a parent.
 # Args:
-#   -p: Return the parent directory, not the file itself.
+#   `-p`: print the containing directory instead of the file
+#   FILE...: file names to look for, in priority order
 #
 # ```sh
-#   _argc_util_path_search_parent package.json
-#   _argc_util_path_search_parent deno.json deno.jsonc
-#   _argc_util_path_search_parent -p package.json  # search folder contains package.json
+# pkg="$(_argc_util_path_search_parent package.json)"
+# root="$(_argc_util_path_search_parent -p go.mod)"
 # ```
+#
+# Notes: only regular files match, the working directory is restored, and a miss
+# prints nothing with status 0, so test the value.
 _argc_util_path_search_parent() {
     local pwd_="$PWD"
     local parent
@@ -622,51 +689,26 @@ _argc_util_path_search_parent() {
     cd "$pwd_" || return 1
 }
 
-
-# Tools to modify the completion list
+# Rewrite candidates: the value, the description, or the nospace marker.
+# Args:
+#   SPEC...: one or more specs, applied in order
+#     `format=<sep>`: split raw `value<sep>description` input; must come first
+#     `prefix=<text>`: prepend to the value
+#     `suffix=<text>`: append to the value
+#     `nospace`: suppress the space after the value
+#     `space`: clear the nospace marker
+#     `nospaceIfEnd=<text>`: set nospace only when the value ends with it
+#     `color=<name>[,<style>]`: render in zsh/PowerShell, e.g. `color=green,bold`
 #
-##`nospace`: add nospace marker
 # ```sh
-# _choice_fn | _argc_util_transform nospace
+# _choice_perm | _argc_util_transform nospace
+# env | _argc_util_transform format== | _argc_util_comp_multi ,
+# docker exec "$container" ls -1p "$dir" | _argc_util_transform nospaceIfEnd=/
 # ```
 #
-##`nospaceIfEnd=<v>`: add nospace marker only if value endsWith <v>
-# ```sh
-# _choice_fn | _argc_util_transform nospaceIfEnd=/
-# ```
-# 
-##`space`: remove nospace marker
-# ```sh
-# _choice_fn | _argc_util_transform space
-# ```
-# 
-##`format=<sep>`: format the raw value-description text as completion list.
-# ```sh
-# cat <<-'EOF' | _argc_util_transform format=:
-# value1:desc1
-# value2:desc2
-# EOF
-# ```
-# 
-## `prefix=<value>`: append prefix to values
-# ```sh
-# _choice_fn | _argc_util_transform prefix=/
-# ```
-# 
-## `suffix=<value>`: append suffix to values
-# ```sh
-# _choice_fn | _argc_util_transform suffix==
-# ```
-
-## `color=<value>`: append suffix to values
-# ```
-# _choice_fn | _argc_util_transform color=green,bold
-# ```
-# 
-# Note: The transformer can be combined:
-# ```sh
-# _choice_fn | _argc_util_transform suffix== nospace
-# ```
+# Notes: specs combine, so `suffix== nospace` appends `=` and keeps the cursor in
+# place; `nospaceIfEnd=` must see a value that no `prefix=`/`suffix=` in the same
+# call has rewritten yet.
 _argc_util_transform() {
     local args
     # printf -v avoids the subshell that "$(printf ...)" would create.
@@ -723,14 +765,19 @@ _argc_util_transform() {
 }'
 }
 
-# Select columns from table
+# Select named columns from an aligned table whose header names them.
 # Args:
-#   cols: Select columns
-#   joins: Symols used to join cols
+#   COLS: `;`-separated header names, in output order
+#   JOINS: `;`-separated separators between the selected columns
 #
+# ```sh
+# docker images | _argc_util_transform_table 'REPOSITORY;TAG' ':'
+# gh ruleset list | _argc_util_transform_table 'ID;NAME' '\t'
 # ```
-# docker images | _argc_util_transform_table 'IMAGE ID;REPOSITORY;TAG' '\t;:'
-# ```
+#
+# Notes: every name must appear on the same header line, which supplies the
+# widths; a selected column that is last in the source is cut at its header
+# width, so prefer a column followed by another.
 _argc_util_transform_table() {
     gawk -v RAW_COLS="$1" -v RAW_JOINS="$2" 'BEGIN {
         split(RAW_COLS, COLS, ";")
@@ -775,15 +822,19 @@ _argc_util_transform_table() {
     }'
 }
 
-# Use Filter
+# Drop candidates whose value already appears in a word list.
 # Args:
-#   `-i`: optional, if set, only include words
-#   words: words to filter
-#   sep: chars teo seperate words
+#   `-i`: keep only the matching candidates instead of dropping them
+#   WORDS: values already present, split on SEP
+#   SEP: separator for WORDS; an empty SEP splits into characters
 #
+# ```sh
+# _choice_perm | _argc_util_filter "$ARGC_CWORD" | _argc_util_transform nospace
+# _choice_ref | _argc_util_filter ':main:dev' :
 # ```
-# _choice_fn | _argc_util_filter "$argc__parts_prefix" :
-# ```
+#
+# Notes: matches the whole value, not a prefix; descriptions and the `\0` marker
+# survive.
 _argc_util_filter() {
     local include=0
     if [[ "$1" == "-i" ]]; then
@@ -814,15 +865,20 @@ BEGIN {
 '
 }
 
-# Use Cache 
+# Cache the output of a slow candidate function on disk.
 # Args:
-#   timeout_secs: Timeout in seconds
-#   choice_fn: Cache data from choice fn
-#   key: optional cache key
+#   SECONDS: entry lifetime
+#   FN: function to run on a cache miss; it takes no arguments
+#   KEY: optional key; `name:payload` hashes the payload, a plain `name` is used
+#        as is; without KEY the key is the command path plus FN
 #
+# ```sh
+# _choice_task() { _argc_util_cache 3600 _choice_task_uncached "gradle__tasks:$PWD"; }
 # ```
-# _argc_util_cache 86400 _choice_fn
-# ```
+#
+# Notes: entries live in `$ARGC_COMPLETIONS_ROOT/cache/argc-util-cache`, empty
+# output is not reused, the key is sanitized into a file name, and auxiliary
+# tools must be guarded inside FN.
 _argc_util_cache() {
     local cache_dir cache_key cache_file mod_time now_time key
     cache_dir="$ARGC_COMPLETIONS_ROOT"/cache/argc-util-cache
@@ -865,10 +921,10 @@ _argc_util_cache() {
     "$2" 2>/dev/null | command tee "$cache_file"
 }
 
-# Strip ansi color/code
+# Strip ANSI escape sequences and backspace overstrikes from stdin.
 #
-# ```
-# cat | _argc_util_strip_ansi
+# ```sh
+# vfox list | _argc_util_strip_ansi | sed -n 's/^.. //p'
 # ```
 _argc_util_strip_ansi() {
     gawk '{
@@ -882,21 +938,20 @@ _argc_util_strip_ansi() {
 }'
 }
 
-# Complete executable command names found in PATH
+# Complete executable command names found in `PATH`.
 #
 # Only real executables are candidates: builtins, keywords, aliases, shell
 # functions, directories and non-executable files are skipped, and a name found
-# in several PATH dirs is printed once. A path-like word is completed as a path.
-# On Windows, `.dll` files (marked executable by MSYS/Cygwin) are skipped to
-# reduce noise.
+# in several PATH dirs is printed once. On Windows, `.dll` files (marked
+# executable by MSYS/Cygwin) are skipped to reduce noise.
 #
 # ```sh
 # _choice_command() {
-#    if _argc_util_has_path_prefix; then
-#        _argc_util_comp_path
-#        return 0
-#    fi
-#    _argc_util_comp_command
+#     if _argc_util_has_path_prefix; then
+#         _argc_util_comp_path
+#         return 0
+#     fi
+#     _argc_util_comp_command
 # }
 # ```
 _argc_util_comp_command() {
@@ -966,25 +1021,23 @@ _argc_util_comp_command() {
     return 0
 }
 
-
-# Complete command arguments for something like `sudo`/`npx`.
+# Complete the command line a wrapper executes, such as `sudo CMD` or `npx CMD`.
 # Args:
-#   INDEX: Slice from positional args
-#   PREPENDARGS*: Args to prepend to sliced positional args array
+#   INDEX: positional index where the delegated command line starts
+#   PREPEND...: words to prepend to the delegated command line
 #
 # ```sh
-# @ description A sudo cli
 # # @arg cmd
 # # @arg args~[`_choice_args`]
-# _choice_args() {
-#     _argc_util_comp_command_args 0 
-# }
+# _choice_args() { _argc_util_comp_subcommand 0; }        # sudo CMD ...
+# _choice_tig()  { _argc_util_comp_subcommand 0 git; }    # tig CMD ...
 # ```
-_argc_util_comp_command_args() {
+#
+# Notes: the last positional is replaced by `$ARGC_LAST_ARG`; delegation uses the
+# target's installed completion, so it prints nothing when that is missing.
+_argc_util_comp_subcommand() {
     local args=( "${@:2}" "${argc__positionals[@]:$1}" )
-    if [[ ${#args[@]} -eq 0 ]]; then
-        args=( "" )
-    fi
+    [[ ${#args[@]} -gt 0 ]] || args=( "" )
     args[-1]="$ARGC_LAST_ARG"
     argc --argc-compgen generic "" "${args[@]}"
 }

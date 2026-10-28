@@ -817,27 +817,27 @@ assert_stdout "comp_command restores a windows drive prefix" 'car' \
     comp_command_from "$TMP_DIR" 'C:/tools'
 
 # ---------------------------------------------------------------------------
-# _argc_util_comp_command_args
+# _argc_util_comp_subcommand
 # ---------------------------------------------------------------------------
-assert_stdout "comp_command_args handles empty positionals" '' \
-    utils_run 'argc__positionals=(); ARGC_LAST_ARG=""; _argc_util_comp_command_args 0'
-check "comp_command_args empty positionals succeeds" \
-    utils_run 'argc__positionals=(); ARGC_LAST_ARG=""; _argc_util_comp_command_args 0'
-assert_stderr_empty "comp_command_args empty positionals is quiet" \
-    utils_run 'argc__positionals=(); ARGC_LAST_ARG=""; _argc_util_comp_command_args 0'
+assert_stdout "comp_subcommand handles empty positionals" '' \
+    utils_run 'argc__positionals=(); ARGC_LAST_ARG=""; _argc_util_comp_subcommand 0'
+check "comp_subcommand empty positionals succeeds" \
+    utils_run 'argc__positionals=(); ARGC_LAST_ARG=""; _argc_util_comp_subcommand 0'
+assert_stderr_empty "comp_subcommand empty positionals is quiet" \
+    utils_run 'argc__positionals=(); ARGC_LAST_ARG=""; _argc_util_comp_subcommand 0'
 
-capture "$TMP_DIR/command-args-unknown.txt" utils_run 'argc__positionals=(no-such-command-xyz ""); ARGC_LAST_ARG=""; _argc_util_comp_command_args 0'
-check "comp_command_args survives an unknown command" \
-    utils_run 'argc__positionals=(no-such-command-xyz ""); ARGC_LAST_ARG=""; _argc_util_comp_command_args 0'
-assert_contains "comp_command_args falls back to a generic value" "$TMP_DIR/command-args-unknown.txt" '__argc_value=path'
+capture "$TMP_DIR/subcommand-unknown.txt" utils_run 'argc__positionals=(no-such-command-xyz ""); ARGC_LAST_ARG=""; _argc_util_comp_subcommand 0'
+check "comp_subcommand survives an unknown command" \
+    utils_run 'argc__positionals=(no-such-command-xyz ""); ARGC_LAST_ARG=""; _argc_util_comp_subcommand 0'
+assert_contains "comp_subcommand falls back to a generic value" "$TMP_DIR/subcommand-unknown.txt" '__argc_value=path'
 
-assert_stdout "comp_command_args slices, prepends and replaces the last word" \
+assert_stdout "comp_subcommand slices, prepends and replaces the last word" \
     "$(lines '<--argc-compgen>' '<generic>' '<>' '<--pre>' '<env>' '<FOO=1>' '<env>')" \
     utils_run '
 argc() { printf "<%s>\n" "$@"; }
 argc__positionals=(sudo env FOO=1 e)
 ARGC_LAST_ARG=env
-_argc_util_comp_command_args 1 --pre
+_argc_util_comp_subcommand 1 --pre
 '
 
 # ---------------------------------------------------------------------------

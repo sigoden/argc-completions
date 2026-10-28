@@ -188,6 +188,46 @@ for ref in "$SKILL_DIR"/references/*.md; do
     check "SKILL.md routes $(basename "$ref")" \
         grep -Fq "$(basename "$ref")" "$SKILL_DIR/SKILL.md"
 done
+
+# References are read by section: keep each one browsable, compgen.md from
+# regrowing after its helper index replaced the per-helper prose, and the index
+# in sync with the helper library.
+compgen_md="$SKILL_DIR/references/compgen.md"
+for ref in "$SKILL_DIR"/references/*.md; do
+    name="$(basename "$ref")"
+    limit=14500
+    [ "$name" = "compgen.md" ] && limit=31000
+    ref_bytes="$(wc -c <"$ref" | tr -d '[:space:]')"
+    check "reference size budget $name" test "$ref_bytes" -le "$limit"
+done
+check "compgen line budget" test "$(wc -l <"$compgen_md" | tr -d '[:space:]')" -le 680
+check "compgen documents every _argc_util_* helper" bash -c '
+    compgen_md="$1"
+    util="$2"
+    missing=0
+    while read -r fn; do
+        grep -Fq "\`$fn" "$compgen_md" || {
+            echo "undocumented helper: $fn" >&2
+            missing=1
+        }
+    done < <(grep -o "^_argc_util_[a-z_]*" "$util" | sort -u)
+    exit "$missing"
+' _ "$compgen_md" "$ROOT_DIR/utils/_argc_utils.sh"
+check "compgen sections 1-8" bash -c '
+    n=1
+    while [ "$n" -le 8 ]; do
+        grep -q "^## $n\. " "$1" || {
+            echo "missing section $n" >&2
+            exit 1
+        }
+        n=$((n + 1))
+    done
+' _ "$compgen_md"
+check "compgen section map rows" bash -c '
+    rows="$(gawk "/^## Section map/ { inside = 1; next } inside && /^## / { exit } inside && /^\| §/ { n++ } END { print n + 0 }" "$1")"
+    test "$rows" = 8
+' _ "$compgen_md"
+assert_contains "compgen helper index" "$compgen_md" "### Helper index"
 check "compile agent contract" test -f "$SKILL_DIR/agents/compile.md"
 check "reset-cache script" test -x "$SCRIPTS/reset-cache.sh"
 check "format-choice-fns script" test -x "$SCRIPTS/format-choice-fns.sh"
@@ -237,11 +277,11 @@ assert_not_contains "assemble no value types library" "$SCRIPTS/assemble.sh" "_v
 assert_not_contains "verify no value types library" "$SCRIPTS/verify-completion.sh" "_value_types"
 assert_contains "compgen helper guard" "$SKILL_DIR/references/compgen.md" 'utils/_argc_utils.sh'
 assert_contains "compgen executable helper" "$SKILL_DIR/references/compgen.md" '#### `_argc_util_comp_command`'
-assert_contains "compgen command args helper" "$SKILL_DIR/references/compgen.md" '#### `_argc_util_comp_command_args <index> [prepend...]`'
-assert_contains "choice docs command args helper" "$SKILL_DIR/references/add-choice-fns.md" '_argc_util_comp_command_args 0'
-assert_not_contains "compgen no stale command helper" "$SKILL_DIR/references/compgen.md" '_argc_util_comp_subcommand'
-assert_not_contains "choice docs no stale command helper" "$SKILL_DIR/references/add-choice-fns.md" '_argc_util_comp_subcommand'
-check "skill docs no stale command helper" bash -c "! grep -RF '_argc_util_comp_subcommand' '$SKILL_DIR'"
+assert_contains "compgen subcommand helper" "$SKILL_DIR/references/compgen.md" '#### `_argc_util_comp_subcommand <index> [prepend...]`'
+assert_contains "choice docs subcommand helper" "$SKILL_DIR/references/add-choice-fns.md" '_argc_util_comp_subcommand 0'
+assert_not_contains "compgen no stale command args helper" "$SKILL_DIR/references/compgen.md" '_argc_util_comp_command_args'
+assert_not_contains "choice docs no stale command args helper" "$SKILL_DIR/references/add-choice-fns.md" '_argc_util_comp_command_args'
+check "skill docs no stale command args helper" bash -c "! grep -RF '_argc_util_comp_command_args' '$SKILL_DIR'"
 assert_not_contains "compgen no shell command source" "$SKILL_DIR/references/compgen.md" 'compgen -c'
 # The leading `?` on a rendered dynamic candidate source is an assembly detail;
 # no document explains it.
