@@ -295,7 +295,7 @@ check_outside_references() {
     }
     {
         for (i = 1; i <= count; i++) {
-            if (index($0, "`" old[i] "`") || index($0, "`?" old[i] "`")) {
+            if (index($0, "`" old[i] "`")) {
                 printf "format-choice-fns: %s: %s is referenced outside choice-fns\n", file, old[i] > "/dev/stderr"
                 failed = 1
             }

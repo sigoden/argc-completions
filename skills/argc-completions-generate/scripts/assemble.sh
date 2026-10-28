@@ -376,7 +376,7 @@ render_items() {
     if ! rendered="$(jq -r '
         def choice_expr:
           if (.choice_fn // null) != null then
-            (if (.choice_fn | startswith("?")) then "[?`" + (.choice_fn[1:]) + "`]" else "[`" + .choice_fn + "`]" end)
+            "[?`" + .choice_fn + "`]"
           elif ((.choices // []) | length) > 0 then
             "[" + ((.choices // []) | join("|")) + "]"
           else "" end;
@@ -651,7 +651,6 @@ done
 missing_refs=()
 while IFS= read -r ref; do
     [[ -n "$ref" ]] || continue
-    ref="${ref#\?}"
     if ! grep -Eq "^[[:space:]]*${ref}\(\)[[:space:]]*\{" "$full_output"; then
         missing_refs+=("$ref")
     fi

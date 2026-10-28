@@ -46,7 +46,7 @@ One command node = one fragment:
 | `terminated` | Option/arg only, default `false`. `true` renders `~` after the name and captures every following argument as its value (`@option <name>~ <VALUE>`); incompatible with `repeatable`, `prefixed`, and `delimiter`. An option keeps 0-n notations and an arg one; a name must not end in `~` (except `-~`/`+~` as the first of two names). |
 | `required` | Arg only, present for every arg: `true` for required, `false` for optional. Flags/options must omit it. |
 | `choices` | Literal values only. Never put a placeholder from a mixed enumeration (for example `SEED` in `--shuffle[=SEED|random|reverse|none]`) here; leave `choices` empty, record the literals in `notes`, and warn. |
-| `choice_fn` | String or `null`; a leading `?` is an advisory hint that the function may not list every valid value. Completion does not validate, so the marker has no runtime effect and is omitted by default; a binding wins over static `choices`. |
+| `choice_fn` | String or `null`; a local `_choice_*` function name without backticks. A binding wins over static `choices`. |
 | `subcommands[].status` | `todo`, `succeeded`, or `failed`. |
 | `source`, `notes` | Optional origin information and note. |
 

@@ -46,7 +46,7 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | Compgen times out | Network/slow query per keystroke | Re-run under a short timeout; add caching, a cap, or drop the binding |
 | Compgen passes but candidates are wrong | Shifted word position or no candidate-level check | Test the option word (`--foo ''`); use `--argc-compgen generic` for NUL/control lines |
 | Static choices disappeared | A binding replaced them | Restore `choices`, or keep the dynamic source |
-| `choice_fn` rejected | Not string/null, or contains backticks | Use a local function name such as `_choice_name` (`?` is an optional hint), not the tag form |
+| `choice_fn` rejected | Not string/null, or contains backticks | Use a local function name such as `_choice_name`, not the tag form |
 | `compgen` prints `__argc_value=<NOTATION>` or nothing for a value with `choice_fn` | Bad `names` order or a multi-character single-dash name first | Fix `names`, split per name, confirm `.choice.type == "Fn"` |
 
 ## Verify

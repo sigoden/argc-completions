@@ -322,7 +322,6 @@ late_refs=()
 duplicate_refs=()
 while IFS= read -r ref; do
     [[ -n "$ref" ]] || continue
-    ref="${ref#\?}"
     # Completion helpers are named _choice_* or _argc_util_*.
     # Ignore literal backtick text that may appear in a meta value.
     [[ "$ref" == _* ]] || continue

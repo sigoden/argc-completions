@@ -14,7 +14,7 @@ def short_name: test("^[-+][^-]$");
 def extra_name: test("^[-+][^-]$") or test("^--.") or test("^-[^-].+$");
 def arg_name: no_nl and no_tick and test("^[A-Za-z0-9_][A-Za-z0-9_.-]*$");
 def meta_key: no_nl and no_tick and test("^[A-Za-z0-9_][A-Za-z0-9_.:-]*$");
-def choice_fn_ok: . == null or (no_nl and no_tick and test("^\\??[A-Za-z_][A-Za-z0-9_]*$"));
+def choice_fn_ok: . == null or (no_nl and no_tick and test("^[A-Za-z_][A-Za-z0-9_]*$"));
 def notation_ok: no_nl and no_tick and test("^<[^<>`]+>$");
 def choices_ok: is_arr and all(.[]; no_nl and no_tick and no_tab and (test("\\|") | not));
 def description_ok: no_nl and no_tick;

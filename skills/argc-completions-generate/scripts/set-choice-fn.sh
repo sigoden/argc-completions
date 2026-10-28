@@ -21,7 +21,7 @@ Usage: set-choice-fn.sh [--terminated] <fragment> <fn> <name...>
 Bind one or more fragment items to a dynamic choice function.
 
   <fragment>   JSON fragment file to update
-  <fn>         Function name, optionally prefixed with "?" as an advisory hint
+  <fn>         Function name to bind
   <name...>    Option names (for example --foo or -f) or one positional arg
                name. Pass every name of an option that is split across items.
 
@@ -78,8 +78,7 @@ names=("${args[@]:2}")
 
 [[ -f "$fragment" ]] || die "fragment not found: $fragment"
 
-plain_fn="${fn#\?}"
-if [[ ! "$plain_fn" =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]]; then
+if [[ ! "$fn" =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]]; then
     die "invalid choice function name: $fn"
 fi
 

@@ -121,7 +121,6 @@ A compile child handles exactly one command node, writes its fragment and `.txt`
 - Compile records CLI definitions and context-derived bindings only; it does not infer candidate sources. add-choice-fns owns every new `choice_fn`.
 - When a choice function calls an `_argc_util_*` helper, source `<REPO_ROOT>/utils/_argc_utils.sh` from `choice-fns` with the guard; never copy an `_argc_util_*` helper into the script.
 - Never leave a `todo` node or a fragment whose `choice_fn` has no function definition in the script.
-- A leading `?` in `choice_fn` is an optional hint for an incomplete candidate set; keep an existing marker as-is and do not audit it.
 - Use the Prerequisites tools plus basic shell utilities; no `python`, `node`, or other runtimes.
 
 ## Reporting

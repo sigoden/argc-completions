@@ -233,9 +233,12 @@ check "skill no shared completer helpers" bash -c "! grep -RqE '_value_types|sha
 assert_not_contains "assemble no value types library" "$SCRIPTS/assemble.sh" "_value_types"
 assert_not_contains "verify no value types library" "$SCRIPTS/verify-completion.sh" "_value_types"
 assert_contains "compgen helper guard" "$SKILL_DIR/references/compgen.md" 'utils/_argc_utils.sh'
-# `?` is an optional hint, not a validation rule.
-assert_contains "choice docs ? optional" "$SKILL_DIR/references/add-choice-fns.md" "optional hint for readers"
-assert_contains "verify ignores ? hint" "$SKILL_DIR/references/verify.md" "verify does not check the marker"
+# The leading `?` on a rendered dynamic candidate source is an assembly detail;
+# no document explains it.
+assert_not_contains "choice docs no marker hint" "$SKILL_DIR/references/add-choice-fns.md" "advisory hint"
+assert_not_contains "schema docs no marker hint" "$SKILL_DIR/references/fragment-schema.md" "advisory hint"
+assert_not_contains "verify docs no marker hint" "$SKILL_DIR/references/verify.md" "verify does not check the marker"
+check "no doc explains the choice marker" bash -c "! grep -RqE 'advisory hint|optional hint' '$SKILL_DIR'"
 assert_contains "skill regenerate routing" "$SKILL_DIR/SKILL.md" "| \`regenerate\` |"
 assert_contains "skill regenerate trigger" "$SKILL_DIR/SKILL.md" "Explicit regenerate intent overrides the cache state"
 assert_contains "skill reset-cache step" "$SKILL_DIR/SKILL.md" "reset-cache.sh"
@@ -684,8 +687,9 @@ cp "$scf_invalid" "$TMP_DIR/set-choice-before.json"
 expect_failure "set-choice-fn validates before write" bash "$scf_script" "$scf_invalid" _choice_out --output
 check "set-choice-fn validation leaves fragment unchanged" cmp -s "$scf_invalid" "$TMP_DIR/set-choice-before.json"
 
-check "set-choice-fn optional hint" bash "$scf_script" "$scf_dir/remote.json" '?_choice_foo' --foo
-check "set-choice-fn optional hint field" test "$(jq -r '.items[] | select(.names | index("--foo")) | .choice_fn' "$scf_dir/remote.json")" = '?_choice_foo'
+cp "$scf_dir/remote.json" "$TMP_DIR/set-choice-before.json"
+expect_failure "set-choice-fn rejects a leading marker" bash "$scf_script" "$scf_dir/remote.json" '?_choice_foo' --foo
+check "set-choice-fn marker rejection leaves fragment unchanged" cmp -s "$scf_dir/remote.json" "$TMP_DIR/set-choice-before.json"
 
 # Function-only harness documented in compgen.md §8.
 harness_out="$(bash -c '
@@ -696,8 +700,18 @@ harness_out="$(bash -c '
 ' _ "$with_script" _choice_foo)"
 check "function harness" test "$harness_out" = "foo"
 assert_contains "assemble with context prompt" "$with_script" '# - prompt for demo remote'
-assert_contains "assemble with context choice fn" "$with_script" '--foo[`_choice_foo`]'
+assert_contains "assemble with context choice fn" "$with_script" '--foo[?`_choice_foo`]'
 assert_contains "assemble with context function" "$with_script" '_choice_foo() {'
+
+# A fragment may store only the bare function name; the rendered marker is
+# assembly output.
+marker_dir="$TMP_DIR/fragments-marker"
+mkdir -p "$marker_dir"
+cp -R "$FIXTURES/fragments/with-choice/." "$marker_dir/"
+jq '(.items[] | select(.names | index("--foo")) | .choice_fn) = "?_choice_foo"' \
+    "$marker_dir/remote.json" >"$marker_dir/remote.tmp" && mv "$marker_dir/remote.tmp" "$marker_dir/remote.json"
+expect_failure "assemble rejects a prefixed choice_fn" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$marker_dir" \
+    --context "$FIXTURES/contexts/context.sh" --stdout
 check "verify with context and fragments" bash "$SCRIPTS/verify-completion.sh" "$with_script" --cmd demo --cache-dir "$FIXTURES/fragments/with-choice"
 expect_failure "verify require-no-choice on bound script" bash "$SCRIPTS/verify-completion.sh" "$with_script" --cmd demo --skip-compgen --require-no-choice-fns --cache-dir "$FIXTURES/fragments/with-choice"
 
@@ -1130,8 +1144,8 @@ jq '.items += [
 ]' "$TMP_DIR/fragments-split/_root.json" >"$TMP_DIR/split.tmp" && mv "$TMP_DIR/split.tmp" "$TMP_DIR/fragments-split/_root.json"
 split_script="$TMP_DIR/split.sh"
 quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-split" --context "$FIXTURES/contexts/context.sh" --stdout >"$split_script"
-assert_contains "assemble split long name" "$split_script" '# @option --eval-command*[`_choice_root`] <COMMAND>'
-assert_contains "assemble split alias" "$split_script" '# @option -ex*[`_choice_root`] <COMMAND>'
+assert_contains "assemble split long name" "$split_script" '# @option --eval-command*[?`_choice_root`] <COMMAND>'
+assert_contains "assemble split alias" "$split_script" '# @option -ex*[?`_choice_root`] <COMMAND>'
 check "verify split option bindings" bash "$SCRIPTS/verify-completion.sh" "$split_script" --cmd demo --cache-dir "$TMP_DIR/fragments-split" --skip-compgen
 
 inject_root_items "$TMP_DIR/fragments-bad-prefix-notations" '[{"kind": "option", "names": ["-X"], "notations": ["<A>", "<B>"], "choices": [], "choice_fn": null, "repeatable": true, "prefixed": true, "delimiter": null, "description": "Bad"}]'
@@ -1210,7 +1224,7 @@ gawk '/^# <<< llm-generate$/ { print "# @flag --manual" } { print }' \
 expect_failure "verify detects manual llm-generate edit" bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/manual-edit.sh" --cmd demo --cache-dir "$TMP_DIR/fragments-regen" --skip-compgen
 
 # A tag that loses its binding is the failure the compgen smoke cannot see.
-sed 's/--foo\[`_choice_foo`\]/--foo -foo[`_choice_foo`]/' "$with_script" >"$TMP_DIR/dropped-binding.sh"
+sed 's/--foo\[?`_choice_foo`\]/--foo -foo[?`_choice_foo`]/' "$with_script" >"$TMP_DIR/dropped-binding.sh"
 dropped_binding_log="$(new_log)"
 if run_quiet "$dropped_binding_log" bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/dropped-binding.sh" --cmd demo --cache-dir "$FIXTURES/fragments/with-choice" --skip-compgen; then
     fail "verify detects dropped choice binding (unexpected success)"
@@ -1242,7 +1256,7 @@ gawk '/^# <<< choice-fns$/ && !done {
     { print }' "$TMP_DIR/dynamic.sh" >"$TMP_DIR/dynamic.tmp" && mv "$TMP_DIR/dynamic.tmp" "$TMP_DIR/dynamic.sh"
 check "dynamic set-choice-fn" bash "$SCRIPTS/set-choice-fn.sh" "$TMP_DIR/fragments-dynamic/_root.json" _choice_out --output
 quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-dynamic" --output "$TMP_DIR/dynamic.sh" --force
-assert_contains "dynamic binding rendered" "$TMP_DIR/dynamic.sh" '--output[`_choice_out`]'
+assert_contains "dynamic binding rendered" "$TMP_DIR/dynamic.sh" '--output[?`_choice_out`]'
 assert_contains "dynamic function preserved" "$TMP_DIR/dynamic.sh" '_choice_out() {'
 
 # Root option choice smoke must complete the option word, not shift the TSV

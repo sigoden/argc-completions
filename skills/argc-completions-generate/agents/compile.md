@@ -85,10 +85,10 @@ Never infer from prose or a bare `~`; a `~` inside a path, description, or choic
 - `names`: one or two names in argc order (see *Names order*); with `prefixed: true`, exactly one literal prefix without the trailing `-`.
 - `notations`: zero or more `<...>` placeholders; any non-empty text without backticks or nested angle brackets is valid (`<level>`, `<X>`, `<#>`); convert `[<X>]` and `<X>?` to `<X>` and keep the order; a prefixed or delimiter option keeps at most one.
 - `repeatable`: true for `*`, `+`, `...`, or "can be specified multiple times"; a delimiter option always has it.
-- `prefixed`: `true` when the help attaches the value to the name (`-X<option>`, `-ao[a|s|t|u]`). Store only the literal/shared prefix in `names` without the trailing `-`; assembly adds argc's marker. `choices` are the suffixes (`a`, `s`, `t`, `u`), not full tokens such as `-aoa`. A non-enumerable family (`-Xmx4g`) needs a `choice_fn` (the optional `?` fits) or a note, not a closed `choices` list. `prefixed` does not imply `repeatable`; set `repeatable` from the help. Use `false` for `--foo <VALUE>`.
+- `prefixed`: `true` when the help attaches the value to the name (`-X<option>`, `-ao[a|s|t|u]`). Store only the literal/shared prefix in `names` without the trailing `-`; assembly adds argc's marker. `choices` are the suffixes (`a`, `s`, `t`, `u`), not full tokens such as `-aoa`. A non-enumerable family (`-Xmx4g`) needs a `choice_fn` or a note, not a closed `choices` list. `prefixed` does not imply `repeatable`; set `repeatable` from the help. Use `false` for `--foo <VALUE>`.
 - `delimiter`: a one-character separator when one occurrence takes several values ("comma-separated", `a,b,c`, `d,f`), one of the separators allowed by `<SKILL_ROOT>/references/fragment-schema.md`. Set `repeatable: true`; `choices` are the individual values (`d`, `f`), never the joined string. Use `null` normally; a `[a|b]` enumeration is `choices`, not a separator.
 - `terminated`: only from *Terminated values (`~`)*; set `"terminated": true` and warn. Its multiple values are not `repeatable`.
-- `choices`: literal values of an explicit static enumeration, split on `|` or `,`; otherwise `[]`. For a mixed enumeration (`--shuffle[=SEED|random|reverse|none]`), leave `choices` as `[]`, record the literals in `notes`, and warn that a free-form value is accepted and add-choice-fns should bind a `_choice_*` for the literals (the optional `?` fits); never emit a placeholder (`SEED`).
+- `choices`: literal values of an explicit static enumeration, split on `|` or `,`; otherwise `[]`. For a mixed enumeration (`--shuffle[=SEED|random|reverse|none]`), leave `choices` as `[]`, record the literals in `notes`, and warn that a free-form value is accepted and add-choice-fns should bind a `_choice_*` for the literals; never emit a placeholder (`SEED`).
 - `choice_fn`: copy a function name only from the context signature; otherwise `null`.
 - `description`: see *Description extraction*.
 - Always include `prefixed` (`false` when inactive) and `delimiter` (`null` when inactive); no `required`.
@@ -118,7 +118,7 @@ Write the result to `notations` for an option and `notation` for an arg. Do **no
 
 ### Context-only fields
 
-`<SKILL_ROOT>/scripts/extract-cmd-context.sh` reports the command's `@meta` lines, prompt text, and tags whose signature contains a backtick. For each such tag: copy the function name into the matching item's `choice_fn`, keeping a leading `?` if present; keep static `choices` only if the context has no dynamic binding; copy `@meta` keys/values exactly. Do not infer a `choice_fn` from a description such as "see `foo`": a backtick in a description is not a binding. A `~` after the names is structural; see *Terminated values (`~`)*.
+`<SKILL_ROOT>/scripts/extract-cmd-context.sh` reports the command's `@meta` lines, prompt text, and tags whose signature contains a backtick. For each such tag: copy the function name into the matching item's `choice_fn`; keep static `choices` only if the context has no dynamic binding; copy `@meta` keys/values exactly. Do not infer a `choice_fn` from a description such as "see `foo`": a backtick in a description is not a binding. A `~` after the names is structural; see *Terminated values (`~`)*.
 
 ### Escaping and shape
 

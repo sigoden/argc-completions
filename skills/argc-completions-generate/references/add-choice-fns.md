@@ -10,7 +10,7 @@ Edit only the `choice-fns` block and the matching fragment item's `choice_fn` (e
 
 `<SKILL_ROOT>/scripts/verify-completion.sh <completion.sh> --cache-dir <REPO_ROOT>/cache/compile/<root>` must PASS. Run `all` if the script has no blocks, or finish generate-structure if the cache is incomplete or has `todo` nodes. A run reporting `next=add-choice-fns` (`<SKILL_ROOT>/references/generate-structure.md` §8) is the normal entry point; a new command reaches this workflow through `all`. If verify fails only on `choice-fns format`, run `<SKILL_ROOT>/scripts/format-choice-fns.sh <completion.sh>` and re-run.
 
-A regenerate resets cache entries but keeps the dynamic layer: preserve every existing `choice-fns` function, source line, and `choice_fn` binding (including a leading `?`), and add only missing bindings (`<SKILL_ROOT>/references/generate-structure.md` §2).
+A regenerate resets cache entries but keeps the dynamic layer: preserve every existing `choice-fns` function, source line, and `choice_fn` binding, and add only missing bindings (`<SKILL_ROOT>/references/generate-structure.md` §2).
 
 ## 2. Inventory
 
@@ -45,15 +45,13 @@ An option marked `prefixed` receives `ARGC_CWORD` after the prefix, and a `delim
 
 Use the `_argc_util_*` helpers in `<REPO_ROOT>/utils/_argc_utils.sh` for splitting, paths, transforms, and delegation; source them from `choice-fns` with the guard (`<SKILL_ROOT>/references/compgen.md` §6). Read option values from `$argc_<id>` (§2); path notation and free text need no binding; tool-specific values (git refs, container images, HTTP methods/headers, ssh options) use a query.
 
-Read generate-structure's warnings first: a mixed-enumeration or free-form warning means the fragment intentionally has `choices: []`; bind a `_choice_*` that prints the literals instead of restoring `choices`. The free-form value cannot be enumerated, so the optional `?` fits.
+Read generate-structure's warnings first: a mixed-enumeration or free-form warning means the fragment intentionally has `choices: []`; bind a `_choice_*` that prints the literals instead of restoring `choices`.
 
 ## 3. Choose a binding
 
 1. Add or update the function in `choice-fns` before the final eval: `_choice_*` for a tag-bound entry point, `_helper_*` for an internal helper. If it calls `_argc_util_*`, add the single `<REPO_ROOT>/utils/_argc_utils.sh` source guard.
-2. Set the matching fragment item's `choice_fn` to the name (no backticks; add `?` only as below). If the binding replaces a static list, set `choices` to `[]`.
+2. Set the matching fragment item's `choice_fn` to the plain function name (no backticks). If the binding replaces a static list, set `choices` to `[]`.
 3. Assemble and test (§5).
-
-Binding marker (`?`): the default is `choice_fn = "_choice_foo"`. Completion never validates the word, so `?` has no runtime effect; omit it when the function can list every valid value. Add it only when it cannot (remote refs, package names, hostnames, mixed literal/free-form enumerations): it is an optional hint for readers that a value outside the list may still be valid. Never audit or synchronize it; a missing or extra `?` is not a defect.
 
 Fragment lookup: one fragment per node under `<REPO_ROOT>/cache/compile/<root>/` (`<SKILL_ROOT>/references/fragment-schema.md`). Set the item for exactly one parameter; stop and report if no item matches and never add or rename items.
 
