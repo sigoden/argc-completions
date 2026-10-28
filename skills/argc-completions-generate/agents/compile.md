@@ -62,7 +62,7 @@ Example: `Draw border around the input section [rounded|sharp|none] (default: ro
 
 Keep `repeatable: false` (a `...` here is the terminated value, not repeatability), `prefixed: false`, and `delimiter: null`; options keep 0-n notations. A terminator token (`;`, `{}`, `+`) is not an item, positional, or notation. Emit the field only when true and warn: `terminated <name> swallows following words; verify with <cmd> ...`. argc reports multiple values (`multiple_values` for options, `multiple` for args), not `repeatable`.
 
-Never infer from prose or a bare `~`; a `~` inside a path, description, or choice is text; a bare `...`/`*`/`+` is `repeatable`. If a command-valued parameter has no separate args parameter, leave it false and warn that add-choice-fns may set it.
+Never infer from prose or a bare `~`; a `~` inside a path, description, or choice is text; a bare `...`/`*`/`+` is `repeatable`. If a command-valued parameter has no separate args parameter, leave it false and warn: `no-args-binding <name>: command value without its own args parameter`.
 
 ### Root and command metadata
 
@@ -90,7 +90,7 @@ Never infer from prose or a bare `~`; a `~` inside a path, description, or choic
 - `prefixed`: `true` when the help attaches the value to the name (`-X<option>`, `-ao[a|s|t|u]`). Store only the literal/shared prefix in `names` without the trailing `-`; assembly adds argc's marker. `choices` are the suffixes (`a`, `s`, `t`, `u`), not full tokens such as `-aoa`. A non-enumerable family (`-Xmx4g`) needs a `choice_fn` or a note, not a closed `choices` list. `prefixed` does not imply `repeatable`; set `repeatable` from the help. Use `false` for `--foo <VALUE>`.
 - `delimiter`: a one-character separator when one occurrence takes several values ("comma-separated", `a,b,c`, `d,f`), one of the separators allowed by `<SKILL_ROOT>/references/fragment-schema.md`. Set `repeatable: true`; `choices` are the individual values (`d`, `f`), never the joined string. Use `null` normally; a `[a|b]` enumeration is `choices`, not a separator.
 - `terminated`: only from *Terminated values (`~`)*; set `"terminated": true` and warn. Its multiple values are not `repeatable`.
-- `choices`: literal values of an explicit static enumeration, split on `|` or `,`; otherwise `[]`. For a mixed enumeration (`--shuffle[=SEED|random|reverse|none]`), leave `choices` as `[]`, record the literals in `notes`, and warn that a free-form value is accepted and add-choice-fns should bind a `_choice_*` for the literals; never emit a placeholder (`SEED`).
+- `choices`: literal values of an explicit static enumeration, split on `|` or `,`; otherwise `[]`. For a mixed enumeration (`--shuffle[=SEED|random|reverse|none]`), leave `choices` as `[]`, record the literals in `notes`, and warn: `mixed-enumeration <name>: free-form value accepted, literals in notes`; never emit a placeholder (`SEED`).
 - `choice_fn`: copy a function name only from the context signature; otherwise `null`.
 - `description`: see *Description extraction*.
 - Always include `prefixed` (`false` when inactive) and `delimiter` (`null` when inactive); no `required`.
@@ -154,4 +154,4 @@ Also check that the path matches the file location and every child in `subcomman
 
 ## 7. Return summary
 
-Return exactly one compact JSON object as the final message; no prose, headings, fragment body, or help text. Fields: `path` (array), `fragment` and `help` (absolute paths), `cache` (`hit`, `miss`, `new`, `unknown`, or `n/a` for a child), `status` (`succeeded`/`failed`), `source` (`help`/`man`/`none`), `subcommands` (array of `{name, aliases, description, status}`), and `warnings` (short and actionable).
+Return exactly one compact JSON object as the final message; no prose, headings, fragment body, or help text. Fields: `path` (array), `fragment` and `help` (absolute paths), `cache` (`hit`, `miss`, `new`, `unknown`, or `n/a` for a child), `status` (`succeeded`/`failed`), `source` (`help`/`man`/`none`), `subcommands` (array of `{name, aliases, description, status}`), and `warnings` (short and actionable; keep the fixed tags `terminated`, `no-args-binding`, `mixed-enumeration` verbatim so the orchestrator can match them).

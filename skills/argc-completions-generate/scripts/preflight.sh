@@ -16,6 +16,9 @@ Options:
   --output <file>       Override the completion output path
   --completion <file>   Override the existing completion script
   -h, --help            Show this help
+
+Without <root>, only the two roots are printed (mode=paths). Run with
+<root> for the full workflow report.
 USAGE
 }
 
@@ -58,7 +61,21 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-[[ -n "$root" ]] || { usage >&2; exit 2; }
+skill_root="$(dirname "$SCRIPT_DIR")"
+
+# No root means path discovery only: keep this mode free of tool and command
+# checks so a bare call (for example to learn the roots) never fails.
+if [[ -z "$root" ]]; then
+    [[ -z "$output_override" && -z "$completion_override" ]] || {
+        usage >&2
+        die "<root> is required with --output/--completion"
+    }
+    printf 'skill_root=%s\n' "$skill_root"
+    printf 'repo_root=%s\n' "$REPO_ROOT"
+    printf 'mode=paths\n'
+    exit 0
+fi
+
 [[ "$root" =~ ^[A-Za-z0-9_.+@-]+$ ]] || die "invalid root command name: $root"
 
 require_pipeline_tools
@@ -117,7 +134,6 @@ if [[ -f "$completion_file" ]]; then
     fi
 fi
 
-skill_root="$(dirname "$SCRIPT_DIR")"
 printf 'skill_root=%s\n' "$skill_root"
 printf 'repo_root=%s\n' "$REPO_ROOT"
 printf 'root=%s\n' "$root"

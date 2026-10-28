@@ -14,7 +14,7 @@ This file is the router: conventions, prerequisites, the block contract, workflo
 - `<SKILL_ROOT>`: this skill's directory (containing this file).
 - `<REPO_ROOT>`: the repository root, same as `ARGC_COMPLETIONS_ROOT`.
 
-Replace both placeholders with absolute paths before running a command or dispatching a subagent; in shell snippets use `$ARGC_COMPLETIONS_ROOT`. Skill files use the `<SKILL_ROOT>/scripts`, `<SKILL_ROOT>/references`, and `<SKILL_ROOT>/agents` subdirectories; repository files use `<REPO_ROOT>` paths (cache, completions, utils, bin, and `<REPO_ROOT>/install.sh`). Basenames inside a rooted directory (for example `_root.json`) may stay bare. Command-argument placeholders such as `<root>`, `<completion.sh>`, `<fragment>`, and `<path...>` are separate. `<SKILL_ROOT>/scripts/preflight.sh` prints both roots.
+Replace both placeholders with absolute paths before running a command or dispatching a subagent; in shell snippets use `$ARGC_COMPLETIONS_ROOT`. Skill files use the `<SKILL_ROOT>/scripts`, `<SKILL_ROOT>/references`, and `<SKILL_ROOT>/agents` subdirectories; repository files use `<REPO_ROOT>` paths (cache, completions, utils, bin, and `<REPO_ROOT>/install.sh`). Basenames inside a rooted directory (for example `_root.json`) may stay bare. Command-argument placeholders such as `<root>`, `<completion.sh>`, `<fragment>`, and `<path...>` are separate. `<SKILL_ROOT>/scripts/preflight.sh <root>` prints both roots plus the per-command report; without `<root>` it prints only `skill_root`/`repo_root` with `mode=paths`, which is path discovery, not the workflow preflight.
 
 ## Prerequisites
 
@@ -53,13 +53,15 @@ Explicit regenerate intent overrides the cache state: regenerate, rebuild, re-cr
 
 Read only what the current step needs; the `Read` column names the minimum. Use `grep -n '^##' <file>` plus `read` offset/limit; do not load a reference "just in case".
 
+The first action of `generate-structure`, `all`, and `regenerate` is `<SKILL_ROOT>/scripts/preflight.sh <root>` with the root requested by the user. Never call it bare for a workflow: bare mode only prints the two roots, so the following steps would lack `existing`, `blocks`, and the cache paths.
+
 | Workflow | Use when | Read | Sequence |
 |---|---|---|---|
-| `generate-structure` | Existing structural updates, new subcommands, or a new command when only structure is wanted | `<SKILL_ROOT>/references/generate-structure.md` §1–3, §5–8 (§4 if `existing=1`) | preflight -> cache probe -> recursive compile -> assemble -> verify |
-| `add-choice-fns` | Add dynamic candidates to option/arg values | `<SKILL_ROOT>/references/add-choice-fns.md` §1–5; `<SKILL_ROOT>/references/compgen.md` §1–2, §5–6, §8; `<SKILL_ROOT>/references/setup.md` before writing shell | inventory -> edit `choice-fns` + fragment `choice_fn` -> format -> assemble -> verify |
+| `generate-structure` | Existing structural updates, new subcommands, or a new command when only structure is wanted | `<SKILL_ROOT>/references/generate-structure.md` §1–3, §5–8 (§4 if `existing=1`) | `preflight <root>` -> cache probe -> recursive compile -> assemble -> verify |
+| `add-choice-fns` | Add dynamic candidates to option/arg values | `<SKILL_ROOT>/references/add-choice-fns.md` §1–5; `<SKILL_ROOT>/references/compgen.md` §1–2, §5–6, §8; `<SKILL_ROOT>/references/setup.md` before writing shell | inventory -> batch edits (`choice-fns` + fragment `choice_fn`) -> one format/assemble/verify gate -> compgen tests |
 | `verify` | Validate or diagnose an existing script | `<SKILL_ROOT>/references/verify.md` §Checks | `<SKILL_ROOT>/scripts/verify-completion.sh` -> diagnose -> fix -> re-run |
-| `all` | Brand-new command (`existing=0`), end to end | `generate-structure` now; `add-choice-fns` + `compgen` after its verify | generate-structure -> add-choice-fns -> verify |
-| `regenerate` | Explicitly regenerate/rebuild/re-crawl `<root>` or a subtree (`regenerate git add`) | same as `generate-structure` | preflight -> `<SKILL_ROOT>/scripts/reset-cache.sh` (full or subtree) -> compile -> assemble -> verify |
+| `all` | Brand-new command (`existing=0`), end to end | `generate-structure` now; `add-choice-fns` + `compgen` after its verify | generate-structure -> one batched add-choice-fns pass -> verify |
+| `regenerate` | Explicitly regenerate/rebuild/re-crawl `<root>` or a subtree (`regenerate git add`) | same as `generate-structure` | `preflight <root>` -> `<SKILL_ROOT>/scripts/reset-cache.sh` (full or subtree) -> compile -> assemble -> verify |
 | `repair` | Verification failed after an edit | `<SKILL_ROOT>/references/verify.md` §Checks; `<SKILL_ROOT>/references/troubleshooting.md` | diagnose -> fix fragments or `choice-fns` -> assemble -> verify |
 
 Defer reading:

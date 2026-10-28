@@ -10,6 +10,7 @@ bash <SKILL_ROOT>/scripts/preflight.sh <root> [--output <file>] [--completion <f
 
 It prints absolute `key=value` lines; the values used below are `existing`, `blocks`, `cache_dir`, `completion_file`, `os`, and `root_help_exists`.
 
+- `<root>` is required here. With no `<root>`, `<SKILL_ROOT>/scripts/preflight.sh` prints only `skill_root`/`repo_root` with `mode=paths`; that is path discovery, not this preflight, and lacks every value below.
 - It does not create `<REPO_ROOT>/cache/compile/<root>`.
 - It already runs `require_pipeline_tools` (argc, jq, gawk, sed, grep, find) and checks `command -v <root>`; do not repeat either check, and do not fetch `--help`/`--version` (the compile child owns help).
 - Do not inspect `<REPO_ROOT>/completions/` with `ls`/`grep`/`sed`/`find`: `preflight` reports `existing`/`completion_file`/`blocks`, and `command -v` answers tool availability.
@@ -131,7 +132,7 @@ Replace `<SKILL_ROOT>` and `<REPO_ROOT>` with absolute paths before dispatch; ne
 
 The child writes the fragment and `.txt`, returns the summary JSON, and handles exactly one node; it does not update the parent. Consume only `cache`, `status`, `warnings`, and `subcommands[]`. If subagents are unavailable, follow `<SKILL_ROOT>/agents/compile.md` inline.
 
-For workflow `all`, dispatch the root child in the background and read `<SKILL_ROOT>/references/add-choice-fns.md` and `<SKILL_ROOT>/references/compgen.md` while it runs; they do not depend on the fragment. Keep its `warnings`: `<SKILL_ROOT>/references/add-choice-fns.md` §2 explains the mixed-enumeration case. Do not poll a compile child with `sleep`, `ls`, or `test -f` on the cache; the runtime delivers its closing message and a completion notice. Do the independent reads, then handle the notice; if you must check, use one `list_agents` call.
+For workflow `all`, dispatch the root child in the background and read `<SKILL_ROOT>/references/add-choice-fns.md` and `<SKILL_ROOT>/references/compgen.md` while it runs; they do not depend on the fragment. Keep its `warnings` verbatim and collect them across every node — `<SKILL_ROOT>/references/add-choice-fns.md` §2 matches them by tag — so the binding pass runs once after the final assembly, never per node. Do not poll a compile child with `sleep`, `ls`, or `test -f` on the cache; the runtime delivers its closing message and a completion notice. Do the independent reads, then handle the notice; if you must check, use one `list_agents` call.
 
 ## 6. Update status and handle node failures
 
