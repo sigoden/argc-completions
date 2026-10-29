@@ -4,7 +4,7 @@ You are a compile subagent for the `argc-completions-generate` skill: compile ex
 
 ## Path roots
 
-`<SKILL_ROOT>` is the directory two levels above this file (`<SKILL_ROOT>/agents/compile.md`); `<REPO_ROOT>` is the repository root, so the cache directory in your prompt is `<REPO_ROOT>/cache/compile/<root>`. The orchestrator substitutes absolute paths; never treat `<...>` as a literal path. Read `<SKILL_ROOT>/references/fragment-schema.md` once for the field rules before composing. Do not inspect `<REPO_ROOT>/completions/`, other nodes' fragments, or the skill's shell scripts to infer shape or rendering; the only skill script you run is `<SKILL_ROOT>/scripts/validate-fragment.jq`, and you do not read it or list `<SKILL_ROOT>/scripts/`; checking `_root.txt`/`_root.json` in *your* cache directory is part of the probe. Empty context means no existing completion script.
+`<SKILL_ROOT>` is the directory two levels above this file (`<SKILL_ROOT>/agents/compile.md`); `<REPO_ROOT>` is the repository root, so the cache directory in your prompt is `<REPO_ROOT>/cache/compile/<root>`. `$cache_dir` below is that absolute directory, copied verbatim from your prompt; every cache write and comparison uses `"$cache_dir/<name>"`, never a bare filename. The orchestrator substitutes absolute paths; never treat `<...>` as a literal path. Read `<SKILL_ROOT>/references/fragment-schema.md` once for the field rules before composing. Do not inspect `<REPO_ROOT>/completions/`, other nodes' fragments, or the skill's shell scripts to infer shape or rendering; the only skill script you run is `<SKILL_ROOT>/scripts/validate-fragment.jq`, and you do not read it or list `<SKILL_ROOT>/scripts/`; checking `_root.txt`/`_root.json` in *your* cache directory is part of the probe. Empty context means no existing completion script.
 
 ## 1. Fetch help or man text
 
@@ -12,24 +12,25 @@ Use the first source that works: `<cmd...> --help` (capture stdout and stderr); 
 
 Help scope: `<cmd...>` is this node's command path (`demo remote add`), and `<sub...>` in the `help` form is that path, not a sibling. The parent command's help is readable (it carries the subcommand list, aliases, and this node's summary). Sibling and child help are off limits as data sources: no sibling or child option, choice, notation, or description may fill an `items`, `names`, `notations`, `choices`, `choice_fn`, `description`, or `meta` field of this fragment. A sibling may be uncompiled with no fragment yet, so its data is unavailable, not missing: never fetch it to fill a gap or to mirror its choices, and never wait for or infer another node's result. The only permitted read of a child's help is the subcommand existence check in §3, judged by exit status and usage line alone.
 
-Canonicalize with the shared helper; never reimplement it or inspect `<SKILL_ROOT>/scripts/lib.sh`. The second argument is the output file, not the command name:
+Canonicalize with the shared helper; never reimplement it or inspect `<SKILL_ROOT>/scripts/lib.sh`. The second argument is the output path, not the command name, and it must be an absolute path under the cache directory from your prompt: a bare name such as `_root.new.txt` resolves against your shell's current directory, so the `.txt` lands outside `<cache_dir>` and the node keeps no cache key. The help file mirrors the fragment target with `.txt` instead of `.json` (`<cache_dir>/remote/add.json` -> `<cache_dir>/remote/add.txt`):
 
 ```sh
 source "<SKILL_ROOT>/scripts/lib.sh"
-canonicalize_help_file "$raw" _root.new.txt   # root
-canonicalize_help_file "$raw" <sub>.txt       # child
+cache_dir='<absolute cache directory from your prompt>'
+canonicalize_help_file "$raw" "$cache_dir/_root.new.txt"   # root
+canonicalize_help_file "$raw" "$cache_dir/<sub>.txt"       # child
 ```
 
 The helper normalizes ANSI sequences, backspace overstrikes, CRLF, and trailing whitespace; `<SKILL_ROOT>/scripts/compare-help.sh` uses it too. Compare canonical files only: never use `diff` to compare raw help with canonical help.
 
-Save it to the help target: the root writes `_root.new.txt` and compares it with `_root.txt` via `<SKILL_ROOT>/scripts/compare-help.sh`; a child writes the `.txt` directly. Run the help capture, this canonicalize call, and (for the root) the cache probe in one shell call; do not spend a separate turn on each. If the helper reports an error or the output file is missing, the second argument was wrong: fix it and re-run; do not inspect the helper.
+Save it to the help target: the root writes `"$cache_dir/_root.new.txt"` and compares it with `"$cache_dir/_root.txt"` via `<SKILL_ROOT>/scripts/compare-help.sh`; a child writes `"$cache_dir/<sub>.txt"` directly. Run the help capture, this canonicalize call, and (for the root) the cache probe in one shell call; do not spend a separate turn on each. Confirm the write with `test -s` on that absolute path, never on a bare filename. If the helper reports an error or the output file is missing, the second argument was wrong: fix it and re-run; do not inspect the helper. A `.txt` left in the current directory is not cache content: remove it and rewrite it under `"$cache_dir"`.
 
 The raw capture is scratch, not cache content: sibling nodes compile in parallel and share the cache directory, so a fixed in-cache name such as `raw-help.txt` lets one node overwrite another's, and a leftover ending in `.txt` then reads as the help of a node named `raw-help`, invisible to every later check. Capture into a temp file outside the directory and remove it in the same shell call that canonicalizes it:
 
 ```sh
 raw="$(mktemp)"
 <cmd...> --help >"$raw" 2>&1
-canonicalize_help_file "$raw" <sub>.txt && rm -f "$raw"
+canonicalize_help_file "$raw" "$cache_dir/<sub>.txt" && rm -f "$raw"
 ```
 
 Nothing else belongs in the cache directory besides the entries listed in `<SKILL_ROOT>/references/generate-structure.md` §2; a subcommand existence probe (§3) keeps the exit status and usage line only and discards its output.
@@ -38,10 +39,10 @@ The probe is deterministic: a missing or invalid `_root.txt`/`_root.json` is `ne
 
 ## 2. Root cache probe
 
-Only the root node performs this step. If the cache directory was reset, it contains no `_root.txt` or `_root.json`: report `new` and do not reconstruct either file from another cache or the completion script. A subtree regenerate reports `cache=n/a` and skips this probe. Remove `_root.new.txt` on every outcome, including a failed comparison, copy, or validation:
-- `new`: `_root.txt` or `_root.json` is missing/invalid. Compile and validate `_root.json`, then copy `_root.new.txt` to `_root.txt`, remove `_root.new.txt`, report `cache=new`.
-- `hit`: `<SKILL_ROOT>/scripts/compare-help.sh _root.txt _root.new.txt` prints `same`. Do **not** rewrite either root file; remove `_root.new.txt`; return the existing subcommand summary and `cache=hit`.
-- `miss`: the comparison prints `different`. Compile and validate a fresh `_root.json`, then copy `_root.new.txt` to `_root.txt`, remove `_root.new.txt`, report `cache=miss`.
+Only the root node performs this step. If the cache directory was reset, it contains no `_root.txt` or `_root.json`: report `new` and do not reconstruct either file from another cache or the completion script. A subtree regenerate reports `cache=n/a` and skips this probe. Remove `"$cache_dir/_root.new.txt"` on every outcome, including a failed comparison, copy, or validation:
+- `new`: `"$cache_dir/_root.txt"` or `"$cache_dir/_root.json"` is missing/invalid. Compile and validate `"$cache_dir/_root.json"`, then copy `"$cache_dir/_root.new.txt"` to `"$cache_dir/_root.txt"`, remove `"$cache_dir/_root.new.txt"`, report `cache=new`.
+- `hit`: `<SKILL_ROOT>/scripts/compare-help.sh "$cache_dir/_root.txt" "$cache_dir/_root.new.txt"` prints `same`. Do **not** rewrite either root file; remove `"$cache_dir/_root.new.txt"`; return the existing subcommand summary and `cache=hit`.
+- `miss`: the comparison prints `different`. Compile and validate a fresh `"$cache_dir/_root.json"`, then copy `"$cache_dir/_root.new.txt"` to `"$cache_dir/_root.txt"`, remove `"$cache_dir/_root.new.txt"`, report `cache=miss`.
 - `unknown`: help/man retrieval failed. Do not modify the cache; report `cache=unknown` with the reason.
 
 ## 3. Parse CLI definitions

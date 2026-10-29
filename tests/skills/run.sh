@@ -249,7 +249,11 @@ assert_contains "compile contract canonicalizer" "$SKILL_DIR/agents/compile.md" 
 assert_contains "compile contract duplicate choices" "$SKILL_DIR/agents/compile.md" "Remove duplicated"
 assert_contains "compile contract placeholder case" "$SKILL_DIR/agents/compile.md" "Preserve each placeholder's text and case"
 assert_contains "compile contract help flag" "$SKILL_DIR/agents/compile.md" "Include \`--help\` and \`--version\` only when the help lists them"
-assert_contains "compile contract canonicalizer output" "$SKILL_DIR/agents/compile.md" "canonicalize_help_file \"\$raw\" _root.new.txt"
+assert_contains "compile contract canonicalizer output" "$SKILL_DIR/agents/compile.md" 'canonicalize_help_file "$raw" "$cache_dir/_root.new.txt"'
+assert_contains "compile contract absolute help target" "$SKILL_DIR/agents/compile.md" 'must be an absolute path under the cache directory'
+assert_contains "compile contract root compare absolute" "$SKILL_DIR/agents/compile.md" 'compare-help.sh "$cache_dir/_root.txt" "$cache_dir/_root.new.txt"'
+assert_not_contains "compile contract no relative help target" "$SKILL_DIR/agents/compile.md" 'canonicalize_help_file "$raw" _root.new.txt'
+assert_not_contains "compile contract no relative root compare" "$SKILL_DIR/agents/compile.md" 'compare-help.sh _root.txt _root.new.txt'
 assert_not_contains "compile contract no ambiguous help target" "$SKILL_DIR/agents/compile.md" '"<help-target>"'
 assert_contains "compile contract no validator read" "$SKILL_DIR/agents/compile.md" "and you do not read it"
 assert_contains "compile contract no synthetic arg description" "$SKILL_DIR/agents/compile.md" "never synthesize one from its name"
