@@ -36,6 +36,8 @@ Fragments and canonical help text live under `<REPO_ROOT>/cache/compile/<root>/`
 <REPO_ROOT>/cache/compile/<root>/<sub>/<nested>.json  nested fragment
 ```
 
+That list is exhaustive: a capture or probe dump lives outside the directory, and `_root.new.txt` exists only while a root probe runs (`<SKILL_ROOT>/agents/compile.md` §1–§2).
+
 Each command node has one fragment. A parent lists its children in `subcommands`, each with a `status` of `todo`, `succeeded`, or `failed`; `todo` blocks assembly, `failed` needs a minimal fragment and warns. This is the only supported fragment directory: only `<REPO_ROOT>/cache/compile/<root>/` is writable, and other cache subdirectories belong to other workflows. Neither mode edits `HINTS` or existing `CHOICES`; assembly may migrate a legacy tail once, after which run `<SKILL_ROOT>/scripts/format-choices.sh <completion.sh>` before verify. Neither mode adds candidate queries or `choice_fn` bindings; §8 selects add-choice-fns for a standalone handoff, and `all` continues into it.
 
 ### Reset (regenerate only)

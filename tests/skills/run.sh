@@ -247,7 +247,7 @@ assert_contains "compile contract canonicalizer" "$SKILL_DIR/agents/compile.md" 
 assert_contains "compile contract duplicate choices" "$SKILL_DIR/agents/compile.md" "Remove duplicated"
 assert_contains "compile contract placeholder case" "$SKILL_DIR/agents/compile.md" "Preserve each placeholder's text and case"
 assert_contains "compile contract help flag" "$SKILL_DIR/agents/compile.md" "Include \`--help\` and \`--version\` only when the help lists them"
-assert_contains "compile contract canonicalizer output" "$SKILL_DIR/agents/compile.md" "canonicalize_help_file raw-help.txt _root.new.txt"
+assert_contains "compile contract canonicalizer output" "$SKILL_DIR/agents/compile.md" "canonicalize_help_file \"\$raw\" _root.new.txt"
 assert_not_contains "compile contract no ambiguous help target" "$SKILL_DIR/agents/compile.md" '"<help-target>"'
 assert_contains "compile contract no validator read" "$SKILL_DIR/agents/compile.md" "and you do not read it"
 assert_contains "compile contract no synthetic arg description" "$SKILL_DIR/agents/compile.md" "never synthesize one from its name"
@@ -1310,6 +1310,27 @@ expect_failure "verify empty help output" bash "$SCRIPTS/verify-completion.sh" "
 sed '1d' "$TMP_DIR/new.sh" >"$TMP_DIR/no-shebang.sh"
 expect_failure "verify strict treats warnings as failures" bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/no-shebang.sh" --cmd demo --skip-compgen
 check "verify --no-strict allows warnings" bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/no-shebang.sh" --cmd demo --skip-compgen --no-strict
+
+# Cache hygiene: scratch left in the fragment directory, or a fragment without
+# its cached help key, must fail instead of passing silently (`raw-help.txt`
+# reads as the help file of a node named `raw-help`).
+hygiene_dir="$TMP_DIR/fragments-hygiene"
+cp -R "$FIXTURES/fragments/no-choice" "$hygiene_dir"
+check "verify cache hygiene clean" bash "$SCRIPTS/verify-completion.sh" "$new_script" --cmd demo --cache-dir "$hygiene_dir" --skip-compgen --require-no-choice-fns
+printf 'raw help\n' >"$hygiene_dir/raw-help.txt"
+if run_quiet "$TMP_DIR/hygiene-stray.log" bash "$SCRIPTS/verify-completion.sh" "$new_script" --cmd demo --cache-dir "$hygiene_dir" --skip-compgen; then
+    fail "verify cache hygiene stray capture (unexpected success)"
+else
+    pass "verify cache hygiene stray capture"
+fi
+assert_contains "verify cache hygiene stray message" "$TMP_DIR/hygiene-stray.log" "cache hygiene: raw-help.txt has no matching .json"
+rm -f "$hygiene_dir/raw-help.txt" "$hygiene_dir/remote/add.txt"
+if run_quiet "$TMP_DIR/hygiene-missing.log" bash "$SCRIPTS/verify-completion.sh" "$new_script" --cmd demo --cache-dir "$hygiene_dir" --skip-compgen; then
+    fail "verify cache hygiene missing help (unexpected success)"
+else
+    pass "verify cache hygiene missing help"
+fi
+assert_contains "verify cache hygiene missing help message" "$TMP_DIR/hygiene-missing.log" "cache hygiene: remote/add.json has no remote/add.txt"
 
 # ---------------------------------------------------------------------------
 # Dynamic workflow simulation

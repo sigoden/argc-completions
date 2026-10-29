@@ -16,20 +16,29 @@ Canonicalize with the shared helper; never reimplement it or inspect `<SKILL_ROO
 
 ```sh
 source "<SKILL_ROOT>/scripts/lib.sh"
-canonicalize_help_file raw-help.txt _root.new.txt   # root
-canonicalize_help_file raw-help.txt <sub>.txt       # child
+canonicalize_help_file "$raw" _root.new.txt   # root
+canonicalize_help_file "$raw" <sub>.txt       # child
 ```
 
 The helper normalizes ANSI sequences, backspace overstrikes, CRLF, and trailing whitespace; `<SKILL_ROOT>/scripts/compare-help.sh` uses it too. Compare canonical files only: never use `diff` to compare raw help with canonical help.
 
 Save it to the help target: the root writes `_root.new.txt` and compares it with `_root.txt` via `<SKILL_ROOT>/scripts/compare-help.sh`; a child writes the `.txt` directly. Run the help capture, this canonicalize call, and (for the root) the cache probe in one shell call; do not spend a separate turn on each. If the helper reports an error or the output file is missing, the second argument was wrong: fix it and re-run; do not inspect the helper.
 
+The raw capture is scratch, not cache content: sibling nodes compile in parallel and share the cache directory, so a fixed in-cache name such as `raw-help.txt` lets one node overwrite another's, and a leftover ending in `.txt` then reads as the help of a node named `raw-help`, invisible to every later check. Capture into a temp file outside the directory and remove it in the same shell call that canonicalizes it:
+
+```sh
+raw="$(mktemp)"
+<cmd...> --help >"$raw" 2>&1
+canonicalize_help_file "$raw" <sub>.txt && rm -f "$raw"
+```
+
+Nothing else belongs in the cache directory besides the entries listed in `<SKILL_ROOT>/references/generate-structure.md` §2; a subcommand existence probe (§3) keeps the exit status and usage line only and discards its output.
+
 The probe is deterministic: a missing or invalid `_root.txt`/`_root.json` is `new`; `<SKILL_ROOT>/scripts/compare-help.sh` printing `same` is `hit`; `different` is `miss`; a failed help/man retrieval is `unknown`. Do not infer the result from the raw text.
 
 ## 2. Root cache probe
 
-Only the root node performs this step. If the cache directory was reset, it contains no `_root.txt` or `_root.json`: report `new` and do not reconstruct either file from another cache or the completion script. A subtree regenerate reports `cache=n/a` and skips this probe. Results:
-
+Only the root node performs this step. If the cache directory was reset, it contains no `_root.txt` or `_root.json`: report `new` and do not reconstruct either file from another cache or the completion script. A subtree regenerate reports `cache=n/a` and skips this probe. Remove `_root.new.txt` on every outcome, including a failed comparison, copy, or validation:
 - `new`: `_root.txt` or `_root.json` is missing/invalid. Compile and validate `_root.json`, then copy `_root.new.txt` to `_root.txt`, remove `_root.new.txt`, report `cache=new`.
 - `hit`: `<SKILL_ROOT>/scripts/compare-help.sh _root.txt _root.new.txt` prints `same`. Do **not** rewrite either root file; remove `_root.new.txt`; return the existing subcommand summary and `cache=hit`.
 - `miss`: the comparison prints `different`. Compile and validate a fresh `_root.json`, then copy `_root.new.txt` to `_root.txt`, remove `_root.new.txt`, report `cache=miss`.

@@ -29,9 +29,10 @@ The command name comes from the path: `<REPO_ROOT>/completions/git.sh` -> `git`,
 6. **Export**: `argc --argc-export` succeeds and returns an object with `name`, `flag_options`, `positionals`, and `subcommands`.
 7. **Fragment bindings** (with `--cache-dir`): every fragment item must survive tag parsing. Each `names[]` appears in the export entry's `short_name`/`long_name`; an arg's `name` appears as a positional `id`; an item with `choice_fn` exports `.choice.type == "Fn"`; an item with `terminated: true` exports `.terminated == true` (a `terminated mismatch` fails). A fragment path absent from the export (a `failed` node) prints a `NOTE` and is skipped. This is the check that catches a `names` pair argc silently reduced to one name.
 8. **Block fidelity** (with `--cache-dir`): `<SKILL_ROOT>/scripts/assemble.sh <root> --cache-dir <dir> --dump-spec` must match the script's `SPEC` byte-for-byte, proving the block derives from fragments only.
-9. **No-choice mode** (`--require-no-choice-fns`): reject choice references, `_choice_*` definitions, and exported `Fn` choices; use it for a fresh script with no dynamic bindings.
-10. **Compgen smoke**: run `argc --argc-compgen` for root options, root positionals, and each first-level subcommand (up to 100); for options with `Fn` choices, complete the value (up to 30, 5s timeout); skip `assigned`/`prefixed` options (they need the equals/attached form). It asserts exit status and stderr only, not candidate content.
-11. **Summary**: print `PASS`/`FAIL` per check and `RESULT: PASS`/`RESULT: FAIL`; any failure exits 1, and warnings fail by default.
+9. **Cache hygiene** (with `--cache-dir`): every file is a fragment (`.json`) or its same-named help (`.txt`). A `.txt` without the matching `.json` is a stray (a raw capture reads as a node help file), `_root.new.txt` is a probe leftover, and a `.json` whose `source.kind` is not `none` must have its `.txt`.
+10. **No-choice mode** (`--require-no-choice-fns`): reject choice references, `_choice_*` definitions, and exported `Fn` choices; use it for a fresh script with no dynamic bindings.
+11. **Compgen smoke**: run `argc --argc-compgen` for root options, root positionals, and each first-level subcommand (up to 100); for options with `Fn` choices, complete the value (up to 30, 5s timeout); skip `assigned`/`prefixed` options (they need the equals/attached form). It asserts exit status and stderr only, not candidate content.
+12. **Summary**: print `PASS`/`FAIL` per check and `RESULT: PASS`/`RESULT: FAIL`; any failure exits 1, and warnings fail by default.
 
 Examples:
 

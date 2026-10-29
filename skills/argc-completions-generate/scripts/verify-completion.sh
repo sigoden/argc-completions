@@ -599,6 +599,45 @@ if [[ -n "$fragments" && "$layout" == "new" ]] && prov_dir="$(cd -P "$fragments"
     [[ "$prov_bad" -eq 1 ]] || pass "fragment provenance"
 fi
 
+# Cache hygiene: the fragment directory holds one `.json` and one `.txt` per
+# node and nothing else. A raw capture (`raw-help.txt`) or an interrupted
+# `_root.new.txt` reads as a node's help file, and a fragment that lost its
+# `.txt` loses the cache key; every other check passes either case silently.
+if [[ -n "$fragments" && "$layout" == "new" ]] && hyg_dir="$(cd -P "$fragments" 2>/dev/null && pwd -P)"; then
+    hyg_bad=0
+    while IFS= read -r hyg_file; do
+        hyg_rel="${hyg_file#"$hyg_dir"/}"
+        case "$hyg_rel" in
+            _root.json|_root.txt) continue ;;
+            _root.new.txt)
+                hyg_bad=1
+                fail "cache hygiene: $hyg_rel is a probe leftover; remove it"
+                continue
+                ;;
+            *.json)
+                hyg_help="${hyg_file%.json}.txt"
+                if [[ ! -f "$hyg_help" ]] && [[ "$(jq -r '.source.kind // "none"' "$hyg_file" 2>/dev/null)" != "none" ]]; then
+                    hyg_bad=1
+                    fail "cache hygiene: $hyg_rel has no ${hyg_rel%.json}.txt; recompile the node"
+                fi
+                continue
+                ;;
+            *.txt)
+                if [[ ! -f "${hyg_file%.txt}.json" ]]; then
+                    hyg_bad=1
+                    fail "cache hygiene: $hyg_rel has no matching .json; delete the stray"
+                fi
+                continue
+                ;;
+            *)
+                hyg_bad=1
+                fail "cache hygiene: unexpected file $hyg_rel; delete it"
+                ;;
+        esac
+    done < <(find "$hyg_dir" -type f | LC_ALL=C sort)
+    [[ "$hyg_bad" -eq 1 ]] || pass "cache hygiene"
+fi
+
 # Compgen smoke.
 run_with_timeout() {
     local out="$1" err="$2"
