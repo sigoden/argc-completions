@@ -180,7 +180,7 @@ bash -c '
 Use a scratch script and avoid the two traps that hide results:
 
 - Define every `_choice_*` the probe references (a stub such as `_choice_probe() { :; }`); a helper call needs `_argc_utils.sh` sourced, or use a static `[a|b]`. A missing bound function makes `argc --argc-export` exit 1 with `_choice_x(line N) is missing` on stderr and a partly useful export.
-- Never merge streams: write stdout to a file and read stderr separately (`<SKILL_ROOT>/SKILL.md` §Inspection). After rewriting a scratch script (`sed`, `cat`, ...), re-read it before an edit or write tool, or a stale-read guard rejects the change.
+- Keep streams apart: write stdout to a file and read stderr separately (`<SKILL_ROOT>/SKILL.md` §Inspection). After rewriting a scratch script (`sed`, `cat`, ...), re-read it before an edit or write tool, or a stale-read guard rejects the change.
 
 ```sh
 argc --argc-export /tmp/probe.sh >/tmp/probe.export.json
