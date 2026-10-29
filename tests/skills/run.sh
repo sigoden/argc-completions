@@ -191,16 +191,18 @@ done
 
 # References are read by section: keep each one browsable, compgen.md from
 # regrowing after its helper index replaced the per-helper prose, and the index
-# in sync with the helper library.
+# in sync with the helper library. compgen.md §6 carries formatter-canonical
+# `_choice_*`/`_helper_*` samples, so its byte and line budgets sit slightly
+# higher.
 compgen_md="$SKILL_DIR/references/compgen.md"
 for ref in "$SKILL_DIR"/references/*.md; do
     name="$(basename "$ref")"
     limit=14500
-    [ "$name" = "compgen.md" ] && limit=31000
+    [ "$name" = "compgen.md" ] && limit=31500
     ref_bytes="$(wc -c <"$ref" | tr -d '[:space:]')"
     check "reference size budget $name" test "$ref_bytes" -le "$limit"
 done
-check "compgen line budget" test "$(wc -l <"$compgen_md" | tr -d '[:space:]')" -le 680
+check "compgen line budget" test "$(wc -l <"$compgen_md" | tr -d '[:space:]')" -le 700
 check "compgen documents every _argc_util_* helper" bash -c '
     compgen_md="$1"
     util="$2"
