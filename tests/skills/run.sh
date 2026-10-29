@@ -320,6 +320,18 @@ assert_not_contains "choice docs no inline binding jq" "$SKILL_DIR/references/ad
 assert_contains "choice docs single-item query" "$SKILL_DIR/references/add-choice-fns.md" ".flag_options[] | select(.id =="
 assert_contains "compgen __argc_value notation" "$SKILL_DIR/references/compgen.md" "__argc_value=<NOTATION>"
 assert_contains "skill merged stream ban" "$SKILL_DIR/SKILL.md" "2>&1 | jq"
+assert_contains "skill static block contract" "$SKILL_DIR/SKILL.md" '# >>> STATIC'
+assert_contains "schema choices objects" "$SKILL_DIR/references/fragment-schema.md" '{"value": "a", "description": "First"}'
+assert_contains "schema choices object rejection" "$SKILL_DIR/references/fragment-schema.md" "choices entries must be objects {value, description}"
+assert_contains "schema choices static rendering" "$SKILL_DIR/references/fragment-schema.md" "_static_"
+assert_contains "structure dump-static" "$SKILL_DIR/references/generate-structure.md" "--dump-static"
+assert_contains "structure static function naming" "$SKILL_DIR/references/generate-structure.md" "_static_<fragment path without the root>"
+assert_contains "verify static block check" "$SKILL_DIR/references/verify.md" "STATIC"
+assert_contains "verify static reserved prefix" "$SKILL_DIR/references/verify.md" "reserved prefix"
+assert_contains "choice docs reserved prefix" "$SKILL_DIR/references/add-choice-fns.md" "_static_"
+assert_contains "compgen static choices note" "$SKILL_DIR/references/compgen.md" "_static_*"
+assert_contains "compile choice descriptions" "$SKILL_DIR/agents/compile.md" 'Pair each `choices` value with the description'
+assert_contains "compile choices objects" "$SKILL_DIR/agents/compile.md" 'objects `{"value": "...", "description": "..."}`'
 # Doc authorship (maintainers): workflow-local rules live only in their owner
 # file (SKILL.md §Rule ownership); SKILL.md keeps cross-cutting invariants and
 # links out. The guards below reject distinctive phrases from rules that moved
@@ -600,18 +612,18 @@ rm -rf "$ROOT_DIR/cache/compile/demo"
 # extract-cmd-context.sh
 # ---------------------------------------------------------------------------
 cat >"$TMP_DIR/context-expected.txt" <<'EXPECTED'
-# >>> meta
+# >>> META
 # @meta inherit-flag-options
-# <<< meta
+# <<< META
 
 # >>> HINTS
 # - prompt for demo remote
 # <<< HINTS
 
-# >>> CHOICES
+# >>> BINDINGS
 # @option --foo[`_choice_foo`] <VALUE>  Foo description with `backticks`
 # @arg v1[`_choice_val`]
-# <<< CHOICES
+# <<< BINDINGS
 EXPECTED
 quiet bash "$SCRIPTS/extract-cmd-context.sh" demo remote --completion "$FIXTURES/contexts/context.sh" >"$TMP_DIR/context-actual.txt"
 check "extract new-layout context order" diff -u "$TMP_DIR/context-expected.txt" "$TMP_DIR/context-actual.txt"
@@ -621,9 +633,9 @@ check "extract missing script empty" test ! -s "$TMP_DIR/empty-context.txt"
 quiet bash "$SCRIPTS/extract-cmd-context.sh" demo --completion "$FIXTURES/contexts/context.sh" >"$TMP_DIR/root-context.txt"
 assert_contains "extract root prompt" "$TMP_DIR/root-context.txt" '# - prompt for demo'
 assert_contains "extract root choice" "$TMP_DIR/root-context.txt" '# @option --root-choice[`_choice_root`] <V>'
-choice_line="$(grep -n '^# >>> CHOICES$' "$TMP_DIR/root-context.txt" | cut -d: -f1)"
+choice_line="$(grep -n '^# >>> BINDINGS$' "$TMP_DIR/root-context.txt" | cut -d: -f1)"
 prompt_line="$(grep -n '^# >>> HINTS$' "$TMP_DIR/root-context.txt" | cut -d: -f1)"
-meta_line="$(grep -n '^# >>> meta$' "$TMP_DIR/root-context.txt" | cut -d: -f1)"
+meta_line="$(grep -n '^# >>> META$' "$TMP_DIR/root-context.txt" | cut -d: -f1)"
 check "extract section order" test "$meta_line" -lt "$prompt_line" -a "$prompt_line" -lt "$choice_line"
 
 # ---------------------------------------------------------------------------
@@ -633,7 +645,7 @@ new_script="$TMP_DIR/new.sh"
 quiet bash "$SCRIPTS/assemble.sh" demo -c "$FIXTURES/fragments/no-choice" --stdout >"$new_script"
 check "assemble new bash syntax" bash -n "$new_script"
 check "assemble new argc export" bash -c "argc --argc-export '$new_script' >/dev/null"
-check "assemble new block markers" bash -c "grep -Fq '# >>> SPEC' '$new_script' && grep -Fq '# >>> HINTS' '$new_script' && grep -Fq '# >>> CHOICES' '$new_script'"
+check "assemble new block markers" bash -c "grep -Fq '# >>> SPEC' '$new_script' && grep -Fq '# >>> STATIC' '$new_script' && grep -Fq '# >>> HINTS' '$new_script' && grep -Fq '# >>> CHOICES' '$new_script'"
 assert_contains "assemble new static choices" "$new_script" '--format[text|json]'
 assert_contains "assemble new nested command" "$new_script" 'remote::add() {'
 assert_contains "assemble new subcommand alias" "$new_script" '# @alias r'
@@ -646,7 +658,7 @@ check "assemble aligns flag description at column 49" \
 # Long tags fall back to a plain two-space separator instead of being padded.
 mkdir -p "$TMP_DIR/fragments-align"
 cp -R "$FIXTURES/fragments/no-choice/." "$TMP_DIR/fragments-align/"
-jq '.items += [{"kind": "option", "names": ["--tiebreak"], "notations": ["<CRI>"], "choices": ["length", "chunk", "pathname", "begin", "end", "index"], "repeatable": false, "description": "Comma-separated list of sort criteria"}]' \
+jq '.items += [{"kind": "option", "names": ["--tiebreak"], "notations": ["<CRI>"], "choices": [{"value": "length", "description": ""}, {"value": "chunk", "description": ""}, {"value": "pathname", "description": ""}, {"value": "begin", "description": ""}, {"value": "end", "description": ""}, {"value": "index", "description": ""}], "repeatable": false, "description": "Comma-separated list of sort criteria"}]' \
     "$TMP_DIR/fragments-align/_root.json" >"$TMP_DIR/align-root.json" && \
     mv "$TMP_DIR/align-root.json" "$TMP_DIR/fragments-align/_root.json"
 align_script="$TMP_DIR/align.sh"
@@ -655,6 +667,7 @@ check "assemble long tag keeps two spaces" \
     gawk 'index($0, "# @option --tiebreak[length|chunk|pathname|begin|end|index] <CRI>  Comma-separated list") == 1 { found = 1 } END { exit !found }' "$align_script"
 assert_not_contains "assemble new no choice fn" "$new_script" '_choice_'
 check "assemble new empty prompt block" bash -c "grep -A1 '^# >>> HINTS$' '$new_script' | grep -q '^# <<< HINTS$'"
+check "assemble new empty static block" bash -c "grep -A1 '^# >>> STATIC$' '$new_script' | grep -q '^# <<< STATIC$'"
 check "verify new no-choice" bash "$SCRIPTS/verify-completion.sh" "$new_script" --cmd demo --cache-dir "$FIXTURES/fragments/no-choice" --skip-compgen --require-no-choice-fns
 
 # ---------------------------------------------------------------------------
@@ -1047,11 +1060,11 @@ inject_root_items() {
 }
 
 inject_root_items "$TMP_DIR/fragments-prefix-delimiter" '[
-  {"kind": "option", "names": ["-ao"], "notations": [], "choices": ["a", "s", "t", "u"], "choice_fn": null, "repeatable": true, "prefixed": true, "delimiter": null, "description": "Overwrite mode"},
-  {"kind": "option", "names": ["--type"], "notations": ["<TYPE>"], "choices": ["d", "f"], "choice_fn": null, "repeatable": true, "prefixed": false, "delimiter": ",", "description": "Filter by entry type"},
-  {"kind": "option", "names": ["-Q"], "notations": [], "choices": ["X"], "choice_fn": null, "repeatable": false, "prefixed": true, "delimiter": null, "description": "Prefix without repeat"},
-  {"kind": "option", "names": ["-Z"], "notations": [], "choices": ["a", "b"], "choice_fn": null, "repeatable": true, "prefixed": true, "delimiter": ",", "description": "Prefix with delimiter"},
-  {"kind": "arg", "name": "types", "repeatable": true, "required": false, "notation": "<TYPE>", "choices": ["d", "f"], "choice_fn": null, "delimiter": ",", "description": "Entry types"}
+  {"kind": "option", "names": ["-ao"], "notations": [], "choices": [{"value": "a", "description": ""}, {"value": "s", "description": ""}, {"value": "t", "description": ""}, {"value": "u", "description": ""}], "choice_fn": null, "repeatable": true, "prefixed": true, "delimiter": null, "description": "Overwrite mode"},
+  {"kind": "option", "names": ["--type"], "notations": ["<TYPE>"], "choices": [{"value": "d", "description": ""}, {"value": "f", "description": ""}], "choice_fn": null, "repeatable": true, "prefixed": false, "delimiter": ",", "description": "Filter by entry type"},
+  {"kind": "option", "names": ["-Q"], "notations": [], "choices": [{"value": "X", "description": ""}], "choice_fn": null, "repeatable": false, "prefixed": true, "delimiter": null, "description": "Prefix without repeat"},
+  {"kind": "option", "names": ["-Z"], "notations": [], "choices": [{"value": "a", "description": ""}, {"value": "b", "description": ""}], "choice_fn": null, "repeatable": true, "prefixed": true, "delimiter": ",", "description": "Prefix with delimiter"},
+  {"kind": "arg", "name": "types", "repeatable": true, "required": false, "notation": "<TYPE>", "choices": [{"value": "d", "description": ""}, {"value": "f", "description": ""}], "choice_fn": null, "delimiter": ",", "description": "Entry types"}
 ]'
 prefix_script="$TMP_DIR/prefix-delimiter.sh"
 quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-prefix-delimiter" --stdout >"$prefix_script"
@@ -1247,27 +1260,27 @@ choice_echo_reject() {
 
 choice_echo_reject "assemble rejects parenthesized choice echo" \
     "$TMP_DIR/fragments-choice-echo-paren" \
-    '{"kind": "option", "names": ["--transport"], "notations": ["<value>"], "choices": ["auto", "relay", "tailcat"], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "guest transport (auto, tailcat, relay) (default: \"auto\")"}' \
+    '{"kind": "option", "names": ["--transport"], "notations": ["<value>"], "choices": [{"value": "auto", "description": ""}, {"value": "relay", "description": ""}, {"value": "tailcat", "description": ""}], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "guest transport (auto, tailcat, relay) (default: \"auto\")"}' \
     "description repeats choices: auto, tailcat, relay"
 choice_echo_reject "assemble rejects bracketed choice echo" \
     "$TMP_DIR/fragments-choice-echo-bracket" \
-    '{"kind": "option", "names": ["--mode"], "notations": ["<MODE>"], "choices": ["a", "b"], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Mode [a|b] (default: a)"}' \
+    '{"kind": "option", "names": ["--mode"], "notations": ["<MODE>"], "choices": [{"value": "a", "description": ""}, {"value": "b", "description": ""}], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Mode [a|b] (default: a)"}' \
     "description repeats choices: a|b"
 choice_echo_reject "assemble rejects braced choice echo" \
     "$TMP_DIR/fragments-choice-echo-brace" \
-    '{"kind": "option", "names": ["--mode"], "notations": ["<MODE>"], "choices": ["a", "b"], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Mode {a, b}"}' \
+    '{"kind": "option", "names": ["--mode"], "notations": ["<MODE>"], "choices": [{"value": "a", "description": ""}, {"value": "b", "description": ""}], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Mode {a, b}"}' \
     "description repeats choices: a, b"
 choice_echo_reject "assemble rejects quoted choice echo" \
     "$TMP_DIR/fragments-choice-echo-quoted" \
-    '{"kind": "option", "names": ["--mode"], "notations": ["<MODE>"], "choices": ["a", "b"], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Mode (\"a\", \"b\")"}' \
+    '{"kind": "option", "names": ["--mode"], "notations": ["<MODE>"], "choices": [{"value": "a", "description": ""}, {"value": "b", "description": ""}], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Mode (\"a\", \"b\")"}' \
     'description repeats choices: "a", "b"'
 
 choice_ok_dir="$TMP_DIR/fragments-choice-ok"
 inject_root_items "$choice_ok_dir" '[
-  {"kind": "option", "names": ["--transport"], "notations": ["<value>"], "choices": ["auto", "tailcat", "relay"], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "guest transport (default: \"auto\")"},
-  {"kind": "option", "names": ["--partial"], "notations": ["<VALUE>"], "choices": ["auto", "tailcat", "relay"], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "guest transport (auto, relay)"},
-  {"kind": "option", "names": ["--prose"], "notations": ["<MODE>"], "choices": ["fast", "slow"], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Mode (see fast docs)"},
-  {"kind": "option", "names": ["--empty"], "notations": ["<MODE>"], "choices": ["a", "b"], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": ""}
+  {"kind": "option", "names": ["--transport"], "notations": ["<value>"], "choices": [{"value": "auto", "description": ""}, {"value": "tailcat", "description": ""}, {"value": "relay", "description": ""}], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "guest transport (default: \"auto\")"},
+  {"kind": "option", "names": ["--partial"], "notations": ["<VALUE>"], "choices": [{"value": "auto", "description": ""}, {"value": "tailcat", "description": ""}, {"value": "relay", "description": ""}], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "guest transport (auto, relay)"},
+  {"kind": "option", "names": ["--prose"], "notations": ["<MODE>"], "choices": [{"value": "fast", "description": ""}, {"value": "slow", "description": ""}], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Mode (see fast docs)"},
+  {"kind": "option", "names": ["--empty"], "notations": ["<MODE>"], "choices": [{"value": "a", "description": ""}, {"value": "b", "description": ""}], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": ""}
 ]'
 choice_ok_script="$TMP_DIR/choice-ok.sh"
 quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$choice_ok_dir" --stdout >"$choice_ok_script"
@@ -1276,6 +1289,149 @@ assert_contains "assemble keeps partial choice list" "$choice_ok_script" 'guest 
 assert_contains "assemble keeps prose group" "$choice_ok_script" 'Mode (see fast docs)'
 check "assemble renders empty description without padding" grep -Fxq '# @option --empty[a|b] <MODE>' "$choice_ok_script"
 check "verify cleaned choice descriptions" bash "$SCRIPTS/verify-completion.sh" "$choice_ok_script" --cmd demo --cache-dir "$choice_ok_dir" --skip-compgen
+
+# ---------------------------------------------------------------------------
+# choices objects and generated STATIC functions
+# ---------------------------------------------------------------------------
+inject_root_items "$TMP_DIR/fragments-choices-desc" '[
+  {"kind": "option", "names": ["--sort"], "notations": ["<SORTER>"], "choices": [{"value": "none", "description": "Do not sort"}, {"value": "path", "description": "Sort by file path"}], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Sort results"},
+  {"kind": "option", "names": ["--plain"], "notations": ["<MODE>"], "choices": [{"value": "a", "description": ""}, {"value": "b", "description": ""}], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Plain mode"}
+]'
+choices_desc_script="$TMP_DIR/choices-desc.sh"
+quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-choices-desc" --stdout >"$choices_desc_script"
+assert_contains "assemble described choices tag" "$choices_desc_script" '# @option --sort[?`_static_sort`] <SORTER>'
+assert_contains "assemble undescribed choices stay static" "$choices_desc_script" '# @option --plain[a|b] <MODE>'
+assert_contains "assemble static block" "$choices_desc_script" '# >>> STATIC'
+assert_contains "assemble static function" "$choices_desc_script" '_static_sort() {'
+check "assemble static function body" gawk '/^\tnone\tDo not sort$/ { found = 1 } END { exit !found }' "$choices_desc_script"
+check "assemble static block order" gawk '
+    /^# >>> (SPEC|STATIC|HINTS|CHOICES)$/ { block[++n] = $0 }
+    END {
+        exit !(n == 4 && block[1] == "# >>> SPEC" && block[2] == "# >>> HINTS" \
+            && block[3] == "# >>> STATIC" && block[4] == "# >>> CHOICES")
+    }
+' "$choices_desc_script"
+check "verify described choices" bash "$SCRIPTS/verify-completion.sh" "$choices_desc_script" --cmd demo --cache-dir "$TMP_DIR/fragments-choices-desc" --skip-compgen
+check "verify described choices require-no-choice" bash "$SCRIPTS/verify-completion.sh" "$choices_desc_script" --cmd demo --cache-dir "$TMP_DIR/fragments-choices-desc" --skip-compgen --require-no-choice-fns
+check "compgen described choices" bash -c "argc --argc-compgen bash '$choices_desc_script' demo --sort '' | grep -Fq 'none (Do not sort)'"
+quiet argc --argc-export "$choices_desc_script" >"$TMP_DIR/choices-desc-export.json"
+check "export described choices" jq -e '.flag_options[] | select(.id == "sort") | .choice.type == "Fn" and .choice.data[0] == "_static_sort"' "$TMP_DIR/choices-desc-export.json"
+check "export plain choices" jq -e '.flag_options[] | select(.id == "plain") | .choice.type == "Values" and .choice.data == ["a", "b"]' "$TMP_DIR/choices-desc-export.json"
+check "dump-static matches block" bash -c "
+    sed -n '/^# >>> STATIC\$/,/^# <<< STATIC\$/p' '$choices_desc_script' | sed '1d;\$d' >'$TMP_DIR/static-actual.txt'
+    bash '$SCRIPTS/assemble.sh' demo --cache-dir '$TMP_DIR/fragments-choices-desc' --dump-static >'$TMP_DIR/static-dump.txt'
+    cmp -s '$TMP_DIR/static-actual.txt' '$TMP_DIR/static-dump.txt'
+"
+
+# STATIC is regenerated; HINTS and CHOICES are preserved.
+cp -R "$TMP_DIR/fragments-choices-desc" "$TMP_DIR/fragments-choices-regen"
+cat >"$TMP_DIR/static-context.sh" <<'CTX'
+# >>> HINTS
+# keep this hint
+# <<< HINTS
+
+# >>> CHOICES
+_choice_keep() { :; }
+# <<< CHOICES
+CTX
+quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-choices-regen" --context "$TMP_DIR/static-context.sh" --stdout >"$TMP_DIR/static-before.sh"
+jq '(.items[] | select(.names | index("--sort")) | .choices[0].description) = "Do not sort at all"' \
+    "$TMP_DIR/fragments-choices-regen/_root.json" >"$TMP_DIR/static-root.tmp"
+mv "$TMP_DIR/static-root.tmp" "$TMP_DIR/fragments-choices-regen/_root.json"
+quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-choices-regen" --context "$TMP_DIR/static-before.sh" --stdout >"$TMP_DIR/static-after.sh"
+assert_contains "static regeneration updates description" "$TMP_DIR/static-after.sh" 'Do not sort at all'
+assert_contains "static regeneration keeps CHOICES" "$TMP_DIR/static-after.sh" '_choice_keep() { :; }'
+assert_contains "static regeneration keeps HINTS" "$TMP_DIR/static-after.sh" '# keep this hint'
+check "static regeneration idempotent" bash -c "bash '$SCRIPTS/assemble.sh' demo --cache-dir '$TMP_DIR/fragments-choices-regen' --context '$TMP_DIR/static-after.sh' --stdout | cmp -s - '$TMP_DIR/static-after.sh'"
+
+# A hand-edited STATIC block fails the exact comparison.
+cp "$choices_desc_script" "$TMP_DIR/static-edit.sh"
+gawk '/^\tnone\tDo not sort$/ { print "\tnone\tTampered"; next } { print }' \
+    "$TMP_DIR/static-edit.sh" >"$TMP_DIR/static-edit.tmp"
+mv "$TMP_DIR/static-edit.tmp" "$TMP_DIR/static-edit.sh"
+static_edit_log="$(new_log)"
+if run_quiet "$static_edit_log" bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/static-edit.sh" --cmd demo --cache-dir "$TMP_DIR/fragments-choices-desc" --skip-compgen; then
+    fail "verify detects hand-edited STATIC (unexpected success)"
+else
+    pass "verify detects hand-edited STATIC"
+fi
+assert_contains "verify names STATIC mismatch" "$static_edit_log" "STATIC differs from fragments"
+
+gawk '/^# <<< CHOICES$/ && !done { print "_static_probe() { :; }"; done = 1 } { print }' \
+    "$choices_desc_script" >"$TMP_DIR/static-reserved.sh"
+expect_failure "verify rejects reserved static prefix" bash "$SCRIPTS/verify-completion.sh" \
+    "$TMP_DIR/static-reserved.sh" --cmd demo --cache-dir "$TMP_DIR/fragments-choices-desc" --skip-compgen
+expect_failure "format rejects reserved static prefix" bash "$SCRIPTS/format-choices.sh" "$TMP_DIR/static-reserved.sh"
+
+inject_root_items "$TMP_DIR/fragments-choices-collide" '[
+  {"kind": "option", "names": ["--foo.bar"], "notations": ["<V>"], "choices": [{"value": "a", "description": "A"}], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Dotted"},
+  {"kind": "option", "names": ["--foo-bar"], "notations": ["<V>"], "choices": [{"value": "a", "description": "A"}], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Dashed"}
+]'
+collide_log="$(new_log)"
+if run_quiet "$collide_log" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-choices-collide" --stdout; then
+    fail "assemble rejects static name collision (unexpected success)"
+else
+    pass "assemble rejects static name collision"
+fi
+assert_contains "assemble static name collision message" "$collide_log" "static choice function name collision"
+
+gawk '/^# <<< CHOICES$/ && !done { print "_static_sort() { :; }"; done = 1 } { print }' \
+    "$TMP_DIR/static-context.sh" >"$TMP_DIR/static-preserved.sh"
+preserved_log="$(new_log)"
+if run_quiet "$preserved_log" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-choices-desc" --context "$TMP_DIR/static-preserved.sh" --stdout; then
+    fail "assemble rejects static collision with CHOICES (unexpected success)"
+else
+    pass "assemble rejects static collision with CHOICES"
+fi
+assert_contains "assemble preserved collision message" "$preserved_log" "already defined outside STATIC"
+
+inject_root_items "$TMP_DIR/fragments-choices-binding" '[
+  {"kind": "option", "names": ["--mode"], "notations": ["<MODE>"], "choices": [{"value": "a", "description": "A"}], "choice_fn": "_choice_root", "repeatable": false, "prefixed": false, "delimiter": null, "description": "Mode"}
+]'
+quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-choices-binding" --context "$FIXTURES/contexts/context.sh" --stdout >"$TMP_DIR/choices-binding.sh"
+assert_contains "binding wins over described choices" "$TMP_DIR/choices-binding.sh" '# @option --mode[?`_choice_root`] <MODE>'
+assert_not_contains "binding suppresses static function" "$TMP_DIR/choices-binding.sh" '_static_mode'
+
+choice_schema_reject() {
+    local label="$1" item="$2" needle="$3" dir err
+    dir="$TMP_DIR/fragments-schema-$(printf '%s' "$label" | tr -c 'A-Za-z0-9' '-')"
+    inject_root_items "$dir" "[$item]"
+    err="$(new_log)"
+    if run_quiet "$err" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$dir" --stdout; then
+        fail "$label (unexpected success)"
+    else
+        pass "$label"
+        if [[ -n "$needle" ]]; then
+            if grep -Fq -- "$needle" "$err"; then
+                pass "$label error"
+            else
+                fail "$label error (missing: $needle)"
+            fi
+        fi
+    fi
+}
+
+choice_schema_reject "assemble rejects string choices" \
+    '{"kind": "option", "names": ["--bad"], "notations": ["<V>"], "choices": ["a"], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Bad"}' \
+    "choices entries must be objects {value, description}"
+choice_schema_reject "assemble rejects choices extra key" \
+    '{"kind": "option", "names": ["--bad"], "notations": ["<V>"], "choices": [{"value": "a", "description": "", "extra": 1}], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Bad"}' \
+    "may only contain value and description"
+choice_schema_reject "assemble rejects choices missing description" \
+    '{"kind": "option", "names": ["--bad"], "notations": ["<V>"], "choices": [{"value": "a"}], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Bad"}' \
+    "invalid choices"
+choice_schema_reject "assemble rejects duplicate choice value" \
+    '{"kind": "option", "names": ["--bad"], "notations": ["<V>"], "choices": [{"value": "a", "description": ""}, {"value": "a", "description": ""}], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Bad"}' \
+    "distinct non-empty value"
+choice_schema_reject "assemble rejects empty choice value" \
+    '{"kind": "option", "names": ["--bad"], "notations": ["<V>"], "choices": [{"value": "", "description": ""}], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Bad"}' \
+    "invalid choices"
+choice_schema_reject "assemble rejects bracketed choice value" \
+    '{"kind": "option", "names": ["--bad"], "notations": ["<V>"], "choices": [{"value": "a]b", "description": ""}], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Bad"}' \
+    "invalid choices"
+choice_schema_reject "assemble rejects tab in choice description" \
+    '{"kind": "option", "names": ["--bad"], "notations": ["<V>"], "choices": [{"value": "a", "description": "x\ty"}], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Bad"}' \
+    "invalid choices"
 
 # ---------------------------------------------------------------------------
 # Verify failures

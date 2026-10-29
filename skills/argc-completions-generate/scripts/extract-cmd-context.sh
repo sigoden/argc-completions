@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Extract choice-fn bindings, meta tags, and HINTS text for one command path
+# Extract choice-fn bindings, META tags, and HINTS text for one command path
 # from an existing argc completion script.
 #
 # Usage: extract-cmd-context.sh <command path...> [--completion <file>]
@@ -209,14 +209,14 @@ gawk -v path="$path_string" '
     }
 ' "$completion_file" >"$prompt_file"
 
-printf '# >>> meta\n'
+printf '# >>> META\n'
 cat "$meta_file"
-printf '# <<< meta\n'
+printf '# <<< META\n'
 printf '\n'
 printf '# >>> HINTS\n'
 cat "$prompt_file"
 printf '# <<< HINTS\n'
 printf '\n'
-printf '# >>> CHOICES\n'
+printf '# >>> BINDINGS\n'
 cat "$choices_file"
-printf '# <<< CHOICES\n'
+printf '# <<< BINDINGS\n'

@@ -22,7 +22,7 @@ Work in the repository (or pass absolute paths). `argc`, `jq`, `bash >= 5`, `gaw
 
 ## Pipeline contract
 
-Every script uses three comment-delimited blocks in this order:
+Every script uses four comment-delimited blocks in this order:
 
 ```sh
 # >>> SPEC
@@ -33,6 +33,10 @@ Every script uses three comment-delimited blocks in this order:
 # ... prompt comments ...
 # <<< HINTS
 
+# >>> STATIC
+# ... generated _static_* functions ...
+# <<< STATIC
+
 # >>> CHOICES
 # ... _choice_* and _helper_* functions, ASCII-sorted ...
 # <<< CHOICES
@@ -42,6 +46,7 @@ command eval "$(argc --argc-eval "$0" "$@")"
 
 - `SPEC` is owned by generate-structure and regenerate; `<SKILL_ROOT>/scripts/assemble.sh` replaces it in full from the cache fragments. Never hand-edit it.
 - `HINTS` is maintainer-owned; assemble preserves it verbatim and `<SKILL_ROOT>/scripts/extract-cmd-context.sh` reads it as parser context.
+- `STATIC` is assembly-generated: one `_static_*` function per item whose `choices` carry a non-empty `description`; it is rewritten every run and may be empty. Never hand-edit it or write that prefix in `CHOICES`.
 - `CHOICES` is owned by add-choice-fns: `_choice_*`/`_helper_*` functions, ASCII-sorted, plus the `<REPO_ROOT>/utils/_argc_utils.sh` source guard. Assemble preserves it.
 - The final eval stays outside the blocks.
 - No block markers means a legacy script; assemble migrates it once and verify accepts it read-only.
@@ -134,7 +139,7 @@ Read the authority file before working in its area; the rule is defined there.
 
 ## Reporting
 
-Report workflow, root command, output path, cache directory, counts, `failed` nodes, verify result, and the next step. Report `next=add-choice-fns` when an exported value has no static or dynamic choice and an enumerable source (a terminated command line counts); otherwise `next=complete`. The handoff mechanics are in `<SKILL_ROOT>/references/generate-structure.md` §8.
+Report workflow, root command, output path, cache directory, counts, `failed` nodes, verify result, and the next step. Report `next=add-choice-fns` when an exported value has no static or dynamic choice and an enumerable source (a terminated command line counts); a static `choices` list counts whether or not its entries carry descriptions. Otherwise `next=complete`. The handoff mechanics are in `<SKILL_ROOT>/references/generate-structure.md` §8.
 
 ```text
 workflow=all root=make commands=1 fragments=1 items=35 choice_fns=2 failed=0 verify=PASS next=complete

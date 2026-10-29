@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 # Assemble a structural argc completion script from JSON fragments.
 #
-# The generated file is organized into three blocks:
+# The generated file is organized into four blocks:
 #   SPEC     - command definitions generated from fragments (replaced on every run)
 #   HINTS    - prompt text used as context by parser subagents (preserved)
+#   STATIC   - generated static-choice functions (replaced on every run)
 #   CHOICES  - dynamic completion functions (preserved)
 
 set -euo pipefail
@@ -29,6 +30,7 @@ Options:
       --stdout            Print the complete script to stdout
       --force             Overwrite an existing output file
       --dump-spec         Print only the generated SPEC block
+      --dump-static       Print only the generated STATIC block
   -v, --verbose
   -h, --help
 USAGE
@@ -50,6 +52,7 @@ check_mode=0
 stdout_mode=0
 force=0
 dump_mode=0
+dump_static_mode=0
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -76,6 +79,7 @@ while [[ $# -gt 0 ]]; do
         --stdout) stdout_mode=1; shift ;;
         --force) force=1; shift ;;
         --dump-spec) dump_mode=1; shift ;;
+        --dump-static) dump_static_mode=1; shift ;;
         -v|--verbose) VERBOSE=1; shift ;;
         -*)
             die "unknown option: $1"
@@ -114,7 +118,7 @@ if [[ "$check_mode" -eq 1 && ! -f "$output_file" ]]; then
     die "--check requires an existing output file: $output_file"
 fi
 
-if [[ "$check_mode" -eq 0 && "$stdout_mode" -eq 0 && "$dump_mode" -eq 0 && -f "$output_file" && "$force" -eq 0 ]]; then
+if [[ "$check_mode" -eq 0 && "$stdout_mode" -eq 0 && "$dump_mode" -eq 0 && "$dump_static_mode" -eq 0 && -f "$output_file" && "$force" -eq 0 ]]; then
     die "output exists: $output_file (use --force to overwrite)"
 fi
 
@@ -131,6 +135,8 @@ declare -A DECLARED=()
 declare -A CHILD_STATUS=()
 declare -A DECLARED_ALIASES=()
 declare -A SIBLING_SEEN=()
+# Generated static-choice functions: name -> "<command path>" (collision check).
+declare -A STATIC_FN_SOURCE=()
 
 root_fragment="$fragments_dir/_root.json"
 [[ -f "$root_fragment" ]] || die "root fragment not found: $root_fragment"
@@ -263,11 +269,13 @@ if [[ ${#FAILED_PATHS[@]} -gt 0 ]]; then
 fi
 
 gen_block="$tmp_dir/SPEC.block"
+static_block="$tmp_dir/STATIC.block"
 prompt_content="$tmp_dir/HINTS.content"
 choice_content="$tmp_dir/CHOICES.content"
 pre_content="$tmp_dir/pre.content"
 post_content="$tmp_dir/post.content"
 : >"$gen_block"
+: >"$static_block"
 : >"$prompt_content"
 : >"$choice_content"
 : >"$pre_content"
@@ -372,13 +380,30 @@ emit_item_line() {
 }
 
 render_items() {
-    local items_json="$1" rendered tag desc
-    if ! rendered="$(jq -r '
-        def choice_expr:
+    local key="$1" items_json="$2" rendered tag desc static_fn body
+    if ! rendered="$(jq -r --arg key "$key" '
+        def sanitize: gsub("[^A-Za-z0-9_]"; "_");
+        def param_label:
+          if .kind == "arg" then (.name // "item")
+          else ((.names // []) | .[-1] // "item") | sub("^[-]+"; "") | sub("^\\++"; "")
+            | if length == 0 then "item" else . end
+          end;
+        def described:
+          ((.choice_fn // null) == null)
+          and any((.choices // [])[]?; (.description // "") != "");
+        def static_path: ($key | split("|") | .[1:] | join("_")) | sanitize;
+        def static_fn:
+          (static_path) as $p
+          | "_static_" + (if $p == "" then "" else $p + "_" end) + (param_label | sanitize);
+        def body:
+          ((.choices // []) | map(.value + "\t" + (.description // "")) | join("\u001e"));
+        def choice_expr($fn):
           if (.choice_fn // null) != null then
             "[?`" + .choice_fn + "`]"
+          elif described then
+            "[?`" + $fn + "`]"
           elif ((.choices // []) | length) > 0 then
-            "[" + ((.choices // []) | join("|")) + "]"
+            "[" + ((.choices // []) | map(.value) | join("|")) + "]"
           else "" end;
         def names: (.names // []) | join(" ");
         def option_names:
@@ -404,24 +429,56 @@ render_items() {
           else
             (if (.required // false) then "!" else "" end)
           end;
-        def tag:
+        def tag($fn):
           if .kind == "flag" then
-            "@flag " + names + (if (.repeatable // false) then "*" else "" end) + choice_expr
+            "@flag " + names + (if (.repeatable // false) then "*" else "" end) + choice_expr($fn)
           elif .kind == "option" then
-            "@option " + option_names + option_modifier + terminated_marker + choice_expr
+            "@option " + option_names + option_modifier + terminated_marker + choice_expr($fn)
             + (if ((.notations // []) | length) > 0 then " " + notations else "" end)
           else
-            "@arg " + (.name // "") + arg_modifier + terminated_marker + choice_expr
+            "@arg " + (.name // "") + arg_modifier + terminated_marker + choice_expr($fn)
             + (if ((.notation // "") | length) > 0 then " " + .notation else "" end)
           end;
-        .[] | tag + "\u001f" + desc
+        .[] as $item
+        | ($item | static_fn) as $fn
+        | ($item | if described then $fn else "" end) as $static_fn
+        | (($item | tag($static_fn)) + "\u001f" + ($item | desc) + "\u001f"
+           + $static_fn + "\u001f"
+           + ($item | if described then body else "" end))
     ' <<<"$items_json")"; then
         die "failed to render items"
     fi
-    while IFS=$'\x1f' read -r tag desc; do
+    while IFS=$'\x1f' read -r tag desc static_fn body; do
         [[ -n "$tag" ]] || continue
         emit_item_line "$tag" "$desc"
+        [[ -n "$static_fn" ]] || continue
+        register_static_fn "$key" "$static_fn"
+        emit_static_fn "$static_fn" "$body"
     done <<<"$rendered"
+}
+
+register_static_fn() {
+    local key="$1" fn="$2"
+    if [[ -n "${STATIC_FN_SOURCE[$fn]:-}" ]]; then
+        die "static choice function name collision: $fn (${STATIC_FN_SOURCE[$fn]} and ${key//|/ }); bind choice_fn instead"
+    fi
+    STATIC_FN_SOURCE[$fn]="${key//|/ }"
+}
+
+# Every line keeps a TAB between value and description, so a body line can
+# never equal the heredoc delimiter (also keeps empty descriptions explicit).
+emit_static_fn() {
+    local fn="$1" body="$2"
+    if [[ -s "$static_block" ]]; then
+        printf '\n' >>"$static_block"
+    fi
+    printf '%s() {\n' "$fn" >>"$static_block"
+    # The tab-indented heredoc keeps every body line off column 0, so a value
+    # like "#" plus an "@..." description can never read as an argc tag.
+    printf "    cat <<-'ARGCEOF'\n" >>"$static_block"
+    body=$'\t'"${body//$'\x1e'/$'\n\t'}"
+    printf '%s\n' "$body" >>"$static_block"
+    printf 'ARGCEOF\n}\n' >>"$static_block"
 }
 
 render_children() {
@@ -455,7 +512,7 @@ render_child() {
         printf '# @alias %s\n' "$aliases" >>"$gen_block"
     fi
     render_meta "${NODE_META[$key]}"
-    render_items "${NODE_ITEMS[$key]}"
+    render_items "$key" "${NODE_ITEMS[$key]}"
     fn="$(node_function_name "$key")"
     printf '%s() {\n' "$fn" >>"$gen_block"
     printf '    :;\n' >>"$gen_block"
@@ -468,11 +525,18 @@ if [[ -n "${NODE_DESC[$root]}" ]]; then
     printf '# @describe %s\n' "${NODE_DESC[$root]}" >>"$gen_block"
 fi
 render_meta "${NODE_META[$root]}"
-render_items "${NODE_ITEMS[$root]}"
+render_items "$root" "${NODE_ITEMS[$root]}"
 render_children "$root"
 
 if [[ ${#FAILED_PATHS[@]} -gt 0 ]]; then
     :
+fi
+
+if [[ "$dump_static_mode" -eq 1 ]]; then
+    if [[ -s "$static_block" ]]; then
+        cat "$static_block"
+    fi
+    exit 0
 fi
 
 if [[ "$dump_mode" -eq 1 ]]; then
@@ -586,8 +650,8 @@ if [[ -f "$output_file" ]]; then
         if [[ "$output_gen_starts" -ne 1 || "$output_gen_ends" -ne 1 ]]; then
             die "SPEC block must appear exactly once in $output_file"
         fi
-        first_start="$(gawk '/^# >>> (SPEC|HINTS|CHOICES)$/ { print NR; exit }' "$output_file")"
-        last_end="$(gawk '/^# <<< (SPEC|HINTS|CHOICES)$/ { last = NR } END { print last + 0 }' "$output_file")"
+        first_start="$(gawk '/^# >>> (SPEC|STATIC|HINTS|CHOICES)$/ { print NR; exit }' "$output_file")"
+        last_end="$(gawk '/^# <<< (SPEC|STATIC|HINTS|CHOICES)$/ { last = NR } END { print last + 0 }' "$output_file")"
         if [[ -z "$first_start" || "$last_end" -eq 0 || "$first_start" -ge "$last_end" ]]; then
             die "invalid block layout: $output_file"
         fi
@@ -611,6 +675,14 @@ if [[ ! -s "$post_content" ]]; then
     cp "$standard_post" "$post_content"
 fi
 
+# A generated static-choice function must not shadow a preserved definition.
+for static_fn in "${!STATIC_FN_SOURCE[@]}"; do
+    if grep -Eq "^[[:space:]]*(function[[:space:]]+)?${static_fn}(\(\))?[[:space:]]*\{" \
+        "$prompt_content" "$choice_content" "$pre_content" "$post_content"; then
+        die "static choice function name collision: $static_fn (${STATIC_FN_SOURCE[$static_fn]}) is already defined outside STATIC; bind choice_fn instead"
+    fi
+done
+
 emit_block() {
     local name="$1" content="$2"
     printf '# >>> %s\n' "$name"
@@ -633,6 +705,8 @@ full_output="$tmp_dir/completion.sh"
     emit_block SPEC "$gen_block"
     printf '\n'
     emit_block HINTS "$prompt_content"
+    printf '\n'
+    emit_block STATIC "$static_block"
     printf '\n'
     emit_block CHOICES "$choice_content"
     printf '\n'
@@ -669,23 +743,40 @@ if ! bash -n "$full_output"; then
 fi
 
 export_err="$tmp_dir/export.err"
-if ! argc --argc-export "$full_output" >/dev/null 2>"$export_err"; then
+if ! argc --argc-export "$full_output" >"$tmp_dir/export.json" 2>"$export_err"; then
     log_error "argc --argc-export failed for generated script:"
     cat "$export_err" >&2
     exit 1
 fi
 
 if [[ -z "$source_file" || ! -f "$source_file" ]]; then
-    if grep -Eq '^[[:space:]]*_choice_[A-Za-z0-9_]*\(\)[[:space:]]*\{' "$full_output"; then
-        die "new completion script unexpectedly contains completion functions"
+    undeclared_fn=""
+    while IFS= read -r header_line; do
+        header_fn="${header_line%%(*}"
+        header_fn="${header_fn#"${header_fn%%[![:space:]]*}"}"
+        if [[ -z "${STATIC_FN_SOURCE[$header_fn]:-}" ]]; then
+            undeclared_fn="$header_fn"
+            break
+        fi
+    done < <(grep -E '^[[:space:]]*_choice_[A-Za-z0-9_]*\(\)[[:space:]]*\{' "$full_output" || true)
+    if [[ -n "$undeclared_fn" ]]; then
+        die "new completion script unexpectedly contains completion function: $undeclared_fn"
     fi
-    if ! argc --argc-export "$full_output" 2>/dev/null | jq -e '[.. | objects | select(has("choice")) | .choice | select(. != null and .type == "Fn")] | length == 0' >/dev/null; then
+    static_names_json="[]"
+    if [[ ${#STATIC_FN_SOURCE[@]} -gt 0 ]]; then
+        static_names_json="$(printf '%s\n' "${!STATIC_FN_SOURCE[@]}" | jq -R . | jq -s .)"
+    fi
+    if ! jq -e --argjson names "$static_names_json" '
+        [.. | objects | select(has("choice")) | .choice
+         | select(. != null and .type == "Fn") | .data[0]
+         | select((($names // []) | index(.)) == null)] | length == 0
+    ' "$tmp_dir/export.json" >/dev/null; then
         die "new completion script unexpectedly contains Fn choices"
     fi
 fi
 
 # Validate block counts and order in the final output.
-for block_name in SPEC HINTS CHOICES; do
+for block_name in SPEC STATIC HINTS CHOICES; do
     starts="$(count_marker "$full_output" '>>>' "$block_name")"
     ends="$(count_marker "$full_output" '<<<' "$block_name")"
     if [[ "$starts" -ne 1 || "$ends" -ne 1 ]]; then
@@ -693,9 +784,10 @@ for block_name in SPEC HINTS CHOICES; do
     fi
 done
 gen_start="$(block_line "$full_output" '>>>' 'SPEC')"
+static_start="$(block_line "$full_output" '>>>' 'STATIC')"
 prompt_start="$(block_line "$full_output" '>>>' 'HINTS')"
 choice_start="$(block_line "$full_output" '>>>' 'CHOICES')"
-if ! [[ "$gen_start" -lt "$prompt_start" && "$prompt_start" -lt "$choice_start" ]]; then
+if ! [[ "$gen_start" -lt "$prompt_start" && "$prompt_start" -lt "$static_start" && "$static_start" -lt "$choice_start" ]]; then
     die "final script block order is invalid"
 fi
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Validate an argc completion script and its three generated blocks.
+# Validate an argc completion script and its four generated blocks.
 #
 # Exit status: 0 when all checks pass, 1 when a failure is found.
 
@@ -15,9 +15,9 @@ usage() {
 Usage: verify-completion.sh <completion.sh> [options]
 
 Options:
-  -c, --cache-dir <dir>        Compare SPEC exactly with cache fragments
+  -c, --cache-dir <dir>        Compare SPEC and STATIC exactly with cache fragments
       --cmd <name>             Override the command name derived from the file path
-      --require-no-choice-fns  Fail if the script contains completion functions / Fn choices
+      --require-no-choice-fns  Fail if the script contains non-generated completion functions / Fn choices
       --skip-compgen           Do not run argc --argc-compgen
       --no-strict              Do not treat warnings as failures
   -v, --verbose
@@ -151,29 +151,57 @@ extract_block() {
 }
 
 gen_count="$(count_marker "$file" '>>>' 'SPEC')"
+static_count="$(count_marker "$file" '>>>' 'STATIC')"
 prompt_count="$(count_marker "$file" '>>>' 'HINTS')"
 choice_count="$(count_marker "$file" '>>>' 'CHOICES')"
 gen_end_count="$(count_marker "$file" '<<<' 'SPEC')"
+static_end_count="$(count_marker "$file" '<<<' 'STATIC')"
 prompt_end_count="$(count_marker "$file" '<<<' 'HINTS')"
 choice_end_count="$(count_marker "$file" '<<<' 'CHOICES')"
 
 layout="legacy"
-if [[ "$gen_count" -gt 0 || "$prompt_count" -gt 0 || "$choice_count" -gt 0 ]]; then
+if [[ "$gen_count" -gt 0 || "$static_count" -gt 0 || "$prompt_count" -gt 0 || "$choice_count" -gt 0 ]]; then
     layout="new"
 fi
 
 gen_region="$tmp_dir/SPEC.txt"
+static_region="$tmp_dir/STATIC.txt"
 : >"$gen_region"
+: >"$static_region"
+declare -A STATIC_SET=()
+static_start=""
+static_end=""
 region_file="$file"
 
 if [[ "$layout" == "new" ]]; then
+    block_bad=0
     if [[ "$gen_count" -ne 1 || "$gen_end_count" -ne 1 || "$prompt_count" -ne 1 || "$prompt_end_count" -ne 1 || "$choice_count" -ne 1 || "$choice_end_count" -ne 1 ]]; then
-        fail "block markers must appear exactly once for SPEC/HINTS/CHOICES"
+        block_bad=1
+    fi
+    if [[ "$static_count" -gt 1 || "$static_end_count" -gt 1 ]]; then
+        block_bad=1
+    fi
+    if [[ "$static_count" -eq 1 && "$static_end_count" -ne 1 ]]; then
+        block_bad=1
+    fi
+    if [[ "$static_count" -eq 0 && "$static_end_count" -ne 0 ]]; then
+        block_bad=1
+    fi
+    if [[ "$block_bad" -eq 1 ]]; then
+        fail "block markers must appear exactly once for SPEC/HINTS/CHOICES and at most once for STATIC"
     else
         gen_start="$(block_line "$file" '>>>' 'SPEC')"
         prompt_start="$(block_line "$file" '>>>' 'HINTS')"
         choice_start="$(block_line "$file" '>>>' 'CHOICES')"
-        if [[ "$gen_start" -lt "$prompt_start" && "$prompt_start" -lt "$choice_start" ]]; then
+        if [[ "$static_count" -eq 1 ]]; then
+            static_start="$(block_line "$file" '>>>' 'STATIC')"
+            static_end="$(block_line "$file" '<<<' 'STATIC')"
+            if [[ "$gen_start" -lt "$prompt_start" && "$prompt_start" -lt "$static_start" && "$static_start" -lt "$choice_start" ]]; then
+                pass "block order"
+            else
+                fail "block order must be SPEC -> HINTS -> STATIC -> CHOICES"
+            fi
+        elif [[ "$gen_start" -lt "$prompt_start" && "$prompt_start" -lt "$choice_start" ]]; then
             pass "block order"
         else
             fail "block order must be SPEC -> HINTS -> CHOICES"
@@ -215,6 +243,35 @@ if [[ "$layout" == "new" ]]; then
             fi
         else
             fail "cannot extract CHOICES block"
+        fi
+        if [[ "$static_count" -eq 1 ]]; then
+            if extract_block "$file" 'STATIC' "$static_region"; then
+                if grep -Eq '^# @(describe|cmd|alias|option|flag|arg|env|meta)' "$static_region"; then
+                    fail "STATIC must not contain structural tags"
+                else
+                    pass "STATIC has no structural tags"
+                fi
+            else
+                fail "cannot extract STATIC block"
+            fi
+        fi
+        while IFS= read -r static_fn; do
+            [[ -n "$static_fn" ]] || continue
+            STATIC_SET["$static_fn"]=1
+        done < <(grep -oE '^_static_[A-Za-z0-9_]*' "$static_region" || true)
+        reserved_outside=""
+        if [[ -n "$static_start" && -n "$static_end" ]]; then
+            reserved_outside="$(gawk -v s="$static_start" -v e="$static_end" '
+                /^[[:space:]]*_static_[A-Za-z0-9_]*\(\)[[:space:]]*\{/ {
+                    if (NR < s || NR > e) print FILENAME ":" NR ": " $0
+                }' "$file")"
+        else
+            reserved_outside="$(grep -nE '^[[:space:]]*_static_[A-Za-z0-9_]*\(\)[[:space:]]*\{' "$file" || true)"
+        fi
+        if [[ -n "$reserved_outside" ]]; then
+            fail "reserved _static_ function defined outside STATIC: $reserved_outside"
+        else
+            pass "STATIC owns generated choice functions"
         fi
         if grep -Eq '^[[:space:]]*_choice_[A-Za-z0-9_]*\(\)[[:space:]]*\{' "$gen_region"; then
             fail "SPEC must not define completion functions"
@@ -363,10 +420,24 @@ if [[ ${#missing_refs[@]} -eq 0 && ${#duplicate_refs[@]} -eq 0 && ${#late_refs[@
 fi
 
 if [[ "$require_no_choice" -eq 1 ]]; then
-    if [[ -s "$tmp_dir/refs.txt" ]]; then
-        fail "--require-no-choice-fns: choice references found"
-    elif grep -Eq '^[[:space:]]*_choice_[A-Za-z0-9_]*\(\)[[:space:]]*\{' "$file"; then
-        fail "--require-no-choice-fns: completion function definitions found"
+    other_refs=""
+    while IFS= read -r ref; do
+        [[ -n "$ref" ]] || continue
+        [[ -n "${STATIC_SET[$ref]:-}" ]] && continue
+        other_refs+="$ref "
+    done <"$tmp_dir/refs.txt"
+    other_defs=""
+    while IFS= read -r header_line; do
+        [[ -n "$header_line" ]] || continue
+        header_fn="${header_line%%(*}"
+        header_fn="${header_fn#"${header_fn%%[![:space:]]*}"}"
+        [[ -n "${STATIC_SET[$header_fn]:-}" ]] && continue
+        other_defs+="$header_fn "
+    done < <(grep -E '^[[:space:]]*_choice_[A-Za-z0-9_]*\(\)[[:space:]]*\{' "$file" || true)
+    if [[ -n "$other_refs" ]]; then
+        fail "--require-no-choice-fns: choice references found: $other_refs"
+    elif [[ -n "$other_defs" ]]; then
+        fail "--require-no-choice-fns: completion function definitions found: $other_defs"
     else
         pass "--require-no-choice-fns"
     fi
@@ -390,7 +461,15 @@ else
 fi
 
 if [[ "$require_no_choice" -eq 1 && -s "$export_json" ]]; then
-    if jq -e '[.. | objects | select(has("choice")) | .choice | select(. != null and .type == "Fn")] | length == 0' "$export_json" >/dev/null; then
+    static_names_json="[]"
+    if [[ ${#STATIC_SET[@]} -gt 0 ]]; then
+        static_names_json="$(printf '%s\n' "${!STATIC_SET[@]}" | jq -R . | jq -s .)"
+    fi
+    if jq -e --argjson names "$static_names_json" '
+        [.. | objects | select(has("choice")) | .choice
+         | select(. != null and .type == "Fn") | .data[0]
+         | select((($names // []) | index(.)) == null)] | length == 0
+    ' "$export_json" >/dev/null; then
         pass "no Fn choices in export"
     else
         fail "export contains Fn choices"
@@ -476,19 +555,23 @@ if [[ -n "$fragments" && -s "$export_json" ]]; then
                     display="$root_cmd $sub_path"
                 fi
                 if ! jq -r --arg scope "$export_scope" --arg display "$display" '
+                    def described_choices:
+                      ((.choices // []) | length) > 0
+                      and any((.choices // [])[]?; (.description // "") != "");
+                    def described_flag: if described_choices then "1" else "0" end;
                     .items[]?
                     | if .kind == "arg" then
-                        ["arg", $scope, $display, (.name // ""), (.choice_fn // ""), ((.terminated // false) | tostring)] | join("\u001f")
+                        ["arg", $scope, $display, (.name // ""), (.choice_fn // ""), ((.terminated // false) | tostring), described_flag] | join("\u001f")
                       elif (.kind == "flag" or .kind == "option") then
                         ((.names // [])[]) as $name
-                        | ["name", $scope, $display, $name, (.choice_fn // ""), ((.terminated // false) | tostring)] | join("\u001f")
+                        | ["name", $scope, $display, $name, (.choice_fn // ""), ((.terminated // false) | tostring), described_flag] | join("\u001f")
                       else empty end
                 ' "$frag_file" >>"$fragment_rows"; then
                     binding_errors+=("cannot read fragment: $display")
                 fi
             done < <(find "$fragments_dir" -type f -name '*.json' | LC_ALL=C sort)
 
-            while IFS=$'\x1f' read -r row_kind row_scope row_display row_payload row_fn row_term; do
+            while IFS=$'\x1f' read -r row_kind row_scope row_display row_payload row_fn row_term row_described; do
                 [[ -n "$row_kind" ]] || continue
                 if [[ -z "${export_path["$row_scope"]:-}" ]]; then
                     printf 'NOTE  fragment not in export, skipped: %s\n' "$row_display"
@@ -502,6 +585,9 @@ if [[ -n "$fragments" && -s "$export_json" ]]; then
                         else
                             if [[ -n "$row_fn" && -z "${export_arg_fn["$lookup"]:-}" ]]; then
                                 binding_errors+=("dropped choice_fn: $row_display $row_payload (positional) -> $row_fn")
+                            fi
+                            if [[ "$row_described" == "1" && -z "${export_arg_fn["$lookup"]:-}" ]]; then
+                                binding_errors+=("dropped static choices: $row_display $row_payload (positional)")
                             fi
                             if [[ "${export_arg_term["$lookup"]:-false}" != "$row_term" ]]; then
                                 terminated_errors+=("terminated mismatch: $row_display $row_payload (fragment=$row_term export=${export_arg_term["$lookup"]:-false})")
@@ -519,6 +605,9 @@ if [[ -n "$fragments" && -s "$export_json" ]]; then
                             else
                                 if [[ -n "$row_fn" && -z "${export_name_fn["$lookup"]:-}" ]]; then
                                     binding_errors+=("dropped choice_fn: $row_display $item_name -> $row_fn")
+                                fi
+                                if [[ "$row_described" == "1" && -z "${export_name_fn["$lookup"]:-}" ]]; then
+                                    binding_errors+=("dropped static choices: $row_display $item_name")
                                 fi
                                 if [[ "${export_name_term["$lookup"]:-false}" != "$row_term" ]]; then
                                     terminated_errors+=("terminated mismatch: $row_display $item_name (fragment=$row_term export=${export_name_term["$lookup"]:-false})")
@@ -560,7 +649,7 @@ if [[ -n "$fragments" && -s "$export_json" ]]; then
     fi
 fi
 
-# Exact SPEC block comparison.
+# Exact SPEC and STATIC block comparison.
 if [[ -n "$fragments" ]]; then
     if [[ "$layout" != "new" ]]; then
         fail "cache-dir requires a script with SPEC blocks"
@@ -576,6 +665,18 @@ if [[ -n "$fragments" ]]; then
             fi
         else
             fail "assemble --dump-spec failed: $(head -n 1 "$assemble_err")"
+        fi
+        expected_static="$tmp_dir/expected.STATIC"
+        static_err="$tmp_dir/assemble-static.err"
+        if bash "$SCRIPT_DIR/assemble.sh" "$root_cmd" --cache-dir "$fragments" --dump-static >"$expected_static" 2>"$static_err"; then
+            if cmp -s "$static_region" "$expected_static"; then
+                pass "STATIC matches fragments"
+            else
+                fail "STATIC differs from fragments; re-run assemble"
+                diff -u "$static_region" "$expected_static" | head -n 40 || true
+            fi
+        else
+            fail "assemble --dump-static failed: $(head -n 1 "$static_err")"
         fi
     fi
 fi

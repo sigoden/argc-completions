@@ -99,21 +99,21 @@ bash <SKILL_ROOT>/scripts/extract-cmd-context.sh <path...> --completion <complet
 A missing script prints empty output. The format is fixed:
 
 ```text
-# >>> meta
+# >>> META
 # @meta inherit-flag-options
-# <<< meta
+# <<< META
 
 # >>> HINTS
 # - prompt for demo remote
 # <<< HINTS
 
-# >>> CHOICES
+# >>> BINDINGS
 # @option --foo[`_choice_foo`] <VALUE>  Foo description with `backticks`
 # @arg v1[`_choice_val`]
-# <<< CHOICES
+# <<< BINDINGS
 ```
 
-`meta` is the command block's `@meta` lines; `HINTS` is the comment text after `# %%<path>`; `CHOICES` contains only tags whose **signature** (before two or more spaces) has a backtick. Empty sections still print their markers; pass the output unchanged. A signature may also carry a `~` after the names; it is structural, and the child must keep `terminated: true` on that item.
+`META` is the command block's `@meta` lines; `HINTS` is the comment text after `# %%<path>`; `BINDINGS` contains only tags whose **signature** (before two or more spaces) has a backtick. Empty sections still print their markers; pass the output unchanged. A signature may also carry a `~` after the names; it is structural, and the child must keep `terminated: true` on that item.
 
 ## 5. Dispatch compile subagents
 
@@ -182,11 +182,14 @@ Options:
     --stdout                  print the full script
     --force                   overwrite an existing output
     --dump-spec               print only the generated SPEC block
+    --dump-static             print only the generated STATIC block
 ```
 
-Assembly validates fragments, statuses, paths, stale fragments, duplicate sibling names/aliases, `choice_fn` types, and descriptions that repeat `choices`; renders `SPEC`; keeps `HINTS` and `CHOICES` from the source; migrates a legacy tail once; writes a standard header and final eval for a new file; refuses to overwrite without `--force`; checks that every function referenced by a `choice_fn` or meta tag is defined locally; and runs `bash -n` plus `argc --argc-export`.
+Assembly validates fragments, statuses, paths, stale fragments, duplicate sibling names/aliases, `choice_fn` types, the `choices` object schema, and descriptions that repeat `choices`; renders `SPEC`; generates one `_static_*` function per item whose `choices` carry a non-empty description and writes them to `STATIC`; keeps `HINTS` and `CHOICES` from the source; migrates a legacy tail once; writes a standard header and final eval for a new file; refuses to overwrite without `--force`; checks that every function referenced by a `choice_fn`, a generated static choice, or a meta tag is defined locally; and runs `bash -n` plus `argc --argc-export`.
 
-`SPEC` must contain no `_choice_*` definitions; a new script also has no completion references and empty `HINTS`/`CHOICES` blocks.
+A described `choices` item renders `[?`_static_*`]` (completion-only, like a `choice_fn`); all-empty descriptions keep `[a|b]`. The generated name is `_static_<fragment path without the root>_<long option or arg name>`, sanitized to `[A-Za-z0-9_]`; a root-level item has no path segment. A collision between two items, or with a function already defined outside `STATIC`, fails assembly and asks for a `choice_fn` binding.
+
+`SPEC` must contain no `_choice_*` definitions; a new script also has no non-generated completion references and empty `HINTS`/`CHOICES` blocks.
 
 ## 8. Verify and hand off
 
@@ -194,11 +197,11 @@ Assembly validates fragments, statuses, paths, stale fragments, duplicate siblin
 bash <SKILL_ROOT>/scripts/verify-completion.sh <REPO_ROOT>/completions/<root>.sh --cache-dir <REPO_ROOT>/cache/compile/<root>
 ```
 
-For a brand-new script with no dynamic bindings yet, also pass `--require-no-choice-fns` (or confirm no `_choice_*` references or functions exist).
+For a brand-new script with no dynamic bindings yet, also pass `--require-no-choice-fns` (or confirm no non-generated `_choice_*` references or functions exist); generated `_static_*` functions are exempt.
 
 After a PASS, review fragments and exported parameters for `next=`; the review never changes the script. Use `argc --argc-export` with `<SKILL_ROOT>/scripts/inspect-script-params.jq` and `<SKILL_ROOT>/scripts/inspect-fragment-items.jq` (see `<SKILL_ROOT>/SKILL.md` §Inspection) for value-taking options and positionals; pipe `.subcommands[]` for nested commands and repeat for deeper nesting.
 
-Apply the `next=` criterion in `<SKILL_ROOT>/SKILL.md` §Reporting: a value-taking parameter with no static or dynamic `choice` and an enumerable source (git refs, container images, a terminated command line, ...) is `next=add-choice-fns`; free text, path notation, and values with no source are `next=complete`. Do not add bindings here. `next=add-choice-fns` is a handoff, not an automatic continuation: a standalone run stops here; `all` proceeds.
+Apply the `next=` criterion in `<SKILL_ROOT>/SKILL.md` §Reporting: a value-taking parameter with no static or dynamic `choice` and an enumerable source (git refs, container images, a terminated command line, ...) is `next=add-choice-fns`; free text, path notation, values with no source, and any `choices` list (with or without descriptions) are `next=complete`. Do not add bindings here. `next=add-choice-fns` is a handoff, not an automatic continuation: a standalone run stops here; `all` proceeds.
 
 ## 9. Failure handling
 

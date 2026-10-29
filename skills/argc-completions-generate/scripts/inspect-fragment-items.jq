@@ -10,6 +10,6 @@ def item_notation: (.notation // ((.notations // []) | join(" ")) // "");
 
 "items=\(.items | length) subcommands=\(.subcommands | length) choice_fns=\([.items[] | select(.choice_fn != null)] | length)",
 (.items[]
- | [.kind, item_names, item_notation, (.choice_fn // ""), ((.choices // []) | join("|")),
+ | [.kind, item_names, item_notation, (.choice_fn // ""), ((.choices // []) | map(.value) | join("|")),
     ((.prefixed // false) | tostring), (.delimiter // ""), ((.terminated // false) | tostring)]
  | @tsv)

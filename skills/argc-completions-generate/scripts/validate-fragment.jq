@@ -16,7 +16,25 @@ def arg_name: no_nl and no_tick and test("^[A-Za-z0-9_][A-Za-z0-9_.-]*$");
 def meta_key: no_nl and no_tick and test("^[A-Za-z0-9_][A-Za-z0-9_.:-]*$");
 def choice_fn_ok: . == null or (no_nl and no_tick and test("^[A-Za-z_][A-Za-z0-9_]*$"));
 def notation_ok: no_nl and no_tick and test("^<[^<>`]+>$");
-def choices_ok: is_arr and all(.[]; no_nl and no_tick and no_tab and (test("\\|") | not));
+def choice_text_ok: is_str and no_nl and no_tick and no_tab and (test("[[:cntrl:]]") | not);
+def choice_value_ok:
+  choice_text_ok and (test("\\|") | not) and (test("\\]") | not)
+  and (test("^[[:space:]]|[[:space:]]$") | not) and (length > 0);
+def choice_obj_ok:
+  is_obj and ((keys_unsorted - ["value", "description"]) | length == 0)
+  and ((.value // null) | choice_value_ok)
+  and ((.description // null) | choice_text_ok);
+def choices_valid:
+  if (is_arr and all(.[]; choice_obj_ok)) then
+    (map(.value) | (length == (unique | length)))
+  else false end;
+def choices_shape($i):
+  if type != "array" then fail("items[\($i)]: choices must be an array")
+  elif any(.[]; type != "object") then
+    fail("items[\($i)]: choices entries must be objects {value, description}")
+  elif any(.[]; (keys_unsorted - ["value", "description"]) | length > 0) then
+    fail("items[\($i)]: choices entries may only contain value and description")
+  else . end;
 def description_ok: no_nl and no_tick;
 def trim_space: gsub("^[[:space:]]+|[[:space:]]+$"; "");
 def unquote_choice:
@@ -36,7 +54,7 @@ def grouped_texts:
 def choice_echoes:
   if ((.choices // []) | length) == 0 then []
   else
-    ((.choices // []) | map(choice_value) | sort) as $want
+    ((.choices // []) | map(.value) | map(choice_value) | sort) as $want
     | [ (.description | grouped_texts)[] | select(choice_values == $want) ]
   end;
 def only($allowed; $where):
@@ -78,12 +96,15 @@ def names_order($i):
 def item_base($i):
   only(["kind", "names", "repeatable", "notations", "choices", "choice_fn", "description", "name", "required", "notation", "prefixed", "delimiter", "terminated"]; "items[\($i)]") as $it
   | ($it | names_order($i)) as $names_ok
+  | ($it | (.choices // []) | choices_shape($i)) as $choices_shape
+  | (if ($it | (.choices // []) | choices_valid) then true
+     else fail("items[\($i)]: invalid choices: each entry must be {value, description} with a distinct non-empty value and no |, ], tab, newline, backtick, or control characters")
+     end) as $choices_ok
   | ((($it.description // "") | is_str and description_ok)
-     and (($it.choices // []) | choices_ok)
      and (($it.choice_fn // null) | choice_fn_ok)
      and $names_ok) as $ok
   | if ($ok | not) then
-      fail("items[\($i)]: invalid description, choices, or choice_fn")
+      fail("items[\($i)]: invalid description or choice_fn")
     else
       ($it | choice_echoes) as $echoes
       | if ($echoes | length) > 0 then

@@ -21,6 +21,9 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | `missing fragments for subcommands` | Parent `succeeded`, file absent | Compile the child or mark `failed` with a minimal fragment |
 | `fragments are not declared by their parent` | Stale file | Remove it or restore the parent entry |
 | `invalid fragment` | Schema/type error | Read the jq error and fix the fragment |
+| `choices entries must be objects {value, description}` | Legacy string choices | Convert each entry to `{"value": ..., "description": ...}` (`<SKILL_ROOT>/references/fragment-schema.md`) |
+| `invalid choices: each entry must be ...` | Empty or duplicate `value`, or a `value`/`description` with `|`, `]`, TAB, newline, backtick, or a control character | Fix the entry so `value` is unique, non-empty, and trimmed; keep descriptions single-line (`<SKILL_ROOT>/references/fragment-schema.md`) |
+| `static choice function name collision` | Two items sanitize to one `_static_*` name, or the name is already defined outside `STATIC` | Bind a `choice_fn` for one item (or rename the colliding function); never hand-edit `STATIC` |
 | `invalid fragment ... description repeats choices: (a, b)` | Description repeats a static enumeration | Remove the matching `[...]`/`(...)`/`{...}` group; keep `(default: ...)` and `choices`, then re-run the validator (`<SKILL_ROOT>/references/fragment-schema.md`) |
 | `invalid items` after adding prefix/delimiter | Invariant not met | Apply the `prefixed`/`delimiter` rules (`<SKILL_ROOT>/references/fragment-schema.md`) |
 | `invalid items` after adding `terminated` | Combined with `repeatable`/`prefixed`/`delimiter`, used on a flag, or a name ends in `~` | Keep `repeatable: false`, `prefixed: false`, `delimiter: null`; only the first name `-~`/`+~` of a two-name item may end in `~` (`<SKILL_ROOT>/references/fragment-schema.md`) |
@@ -60,7 +63,7 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | `help output failed` | Syntax/tag error or missing function | Run `bash file --help` and fix the reported line |
 | `help output is empty` | Missing eval or early exit | Inspect the tail; restore the eval |
 | `block markers must appear exactly once` | Partial/duplicated markers | `grep -n '^# [<>]\{3\} ' file`; remove extras or regenerate |
-| `block order must be ...` | Blocks reordered | Order `SPEC` -> `HINTS` -> `CHOICES` |
+| `block order must be ...` | Blocks reordered | Order `SPEC` -> `HINTS` -> `STATIC` -> `CHOICES` (`STATIC` may be absent) |
 | `HINTS contains non-comment lines` | Shell code in the prompt | Prefix prompt lines with `#` |
 | `CHOICES must not contain structural tags` | Tags pasted into the dynamic block | Move tags to fragments and re-assemble |
 | `SPEC must not define completion functions` | `_choice_*` pasted into the generated block | Compare with `<SKILL_ROOT>/scripts/assemble.sh --dump-spec`; move it to `CHOICES` |
@@ -73,6 +76,9 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | Compgen after a terminator inside a terminated value completes the command's own args | argc `~` consumes to end of line and does not stop at the terminator | Expected: the rest of the line belongs to the option; keep terminator handling out of the fragment |
 | `cmd -<TAB>` lists nothing while `cmd --<TAB>` lists long options | A terminated parameter makes a lone `-` a value | Expected argc behavior; keep `terminated` and report the limitation |
 | `cache-dir requires a script with ... blocks` | Legacy script plus `--cache-dir` | Check `grep '^# >>>' file`; run assembly once, then verify with the cache |
+| `STATIC differs from fragments` | Hand-edited `STATIC`, stale assemble, or a described `choices` edit without assembling | Re-run `<SKILL_ROOT>/scripts/assemble.sh`; `STATIC` is generated, never patch it |
+| `reserved _static_ function defined outside STATIC` | A `_static_*` function was written in `CHOICES` or elsewhere | Move the logic to a `_choice_<param>` function and bind `choice_fn`; the prefix is reserved for assembly |
+| `dropped static choices` | A described `choices` item lost its generated function in the export | Re-assemble; if it persists, check the item's `names` shape |
 | compgen `command not found` | An auxiliary tool is missing | Guard it with `command -v` and return 0, or use `--skip-compgen` |
 | `exported name differs` (NOTE) | Plugin/OS script name differs from the path | Compare the `argc --argc-export` name; informational unless compgen uses the wrong name |
 | Shell has no completion but verify passes | Shell/path/OS mismatch | Check `ARGC_COMPLETIONS_ROOT`, `ARGC_COMPLETIONS_PATH`, `argc_scripts`, the OS directory, and a reload; re-run `<REPO_ROOT>/scripts/init-shell.sh <shell>` |

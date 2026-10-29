@@ -54,9 +54,11 @@ Apply the schema rules to **every** `description` field (fragment, subcommand, f
 
 Remove every machine-local path (`$HOME/...`), including `/home/<user>/...` and the other user-home forms; the schema rule covers connector removal, system paths, and the empty-result case.
 
-Remove duplicated `choices` metadata: when `choices` is non-empty, delete each enumeration group whose values equal `choices` (set comparison) and keep `(default: ...)` and `choices`; see `<SKILL_ROOT>/references/fragment-schema.md` for the full-set, partial-match, and empty rules.
+Remove duplicated `choices` metadata: when `choices` is non-empty, delete each enumeration group whose **values** equal the `choices` values (set comparison) and keep `(default: ...)` and `choices`; see `<SKILL_ROOT>/references/fragment-schema.md` for the full-set, partial-match, and empty rules.
 
-Example: `Draw border around the input section [rounded|sharp|none] (default: rounded)` with `choices: ["rounded", "sharp", "none"]` -> `Draw border around the input section (default: rounded)`. A colon-introduced list is also an enumeration: `Select sort: name,version,size,mtime,ctime,none` with those six values in `choices` -> `Select sort`; remove it only on a full-set match.
+Example: `Draw border around the input section [rounded|sharp|none] (default: rounded)` with `choices` `rounded`, `sharp`, `none` -> `Draw border around the input section (default: rounded)`. A colon-introduced list is also an enumeration: `Select sort: name,version,size,mtime,ctime,none` with those six values -> `Select sort`; remove it only on a full-set match.
+
+Pair each `choices` value with the description the help gives, when it gives one: a `value<TAB>text` table, `value - text`, `value: text`, or a `value: ...` paragraph under "possible values". Take the first sentence of that text (same flattening, backtick, machine-path, and no-rephrasing rules as other descriptions), strip the value prefix, and leave `""` when the help has no per-value text. Never invent, merge, or borrow a description from another option. A value repeated with conflicting text keeps the first text. Record a mixed enumeration's literals and descriptions in `notes` instead of `choices`.
 
 ### Names order
 
@@ -99,7 +101,7 @@ Never infer from prose or a bare `~`; a `~` inside a path, description, or choic
 - `prefixed`: `true` when the help attaches the value to the name (`-X<option>`, `-ao[a|s|t|u]`). Store only the literal/shared prefix in `names` without the trailing `-`; assembly adds argc's marker. `choices` are the suffixes (`a`, `s`, `t`, `u`), not full tokens such as `-aoa`. A non-enumerable family (`-Xmx4g`) needs a `choice_fn` or a note, not a closed `choices` list. `prefixed` does not imply `repeatable`; set `repeatable` from the help. Use `false` for `--foo <VALUE>`.
 - `delimiter`: a one-character separator when one occurrence takes several values ("comma-separated", `a,b,c`, `d,f`), one of the separators allowed by `<SKILL_ROOT>/references/fragment-schema.md`. Set `repeatable: true`; `choices` are the individual values (`d`, `f`), never the joined string. Use `null` normally; a `[a|b]` enumeration is `choices`, not a separator.
 - `terminated`: only from *Terminated values (`~`)*; set `"terminated": true` and warn. Its multiple values are not `repeatable`.
-- `choices`: literal values of an explicit static enumeration, split on `|` or `,`; otherwise `[]`. For a mixed enumeration (`--shuffle[=SEED|random|reverse|none]`), leave `choices` as `[]`, record the literals in `notes`, and warn: `mixed-enumeration <name>: free-form value accepted, literals in notes`; never emit a placeholder (`SEED`).
+- `choices`: objects `{"value": "...", "description": "..."}` for an explicit static enumeration, in help order; both keys are required and `description` may be `""`. Split values on `|` or `,`; pair each with its help text by the *Description extraction* rules and never emit strings. Otherwise `[]`. For a mixed enumeration (`--shuffle[=SEED|random|reverse|none]`), leave `choices` as `[]`, record the literals (and their descriptions) in `notes`, and warn: `mixed-enumeration <name>: free-form value accepted, literals in notes`; never emit a placeholder (`SEED`).
 - `choice_fn`: copy a function name only from the context signature; otherwise `null`.
 - `description`: see *Description extraction*.
 - Always include `prefixed` (`false` when inactive) and `delimiter` (`null` when inactive); no `required`.
@@ -133,7 +135,7 @@ Write the result to `notations` for an option and `notation` for an arg. Do **no
 
 ### Escaping and shape
 
-- Structural strings (`names`, `notation(s)`, `choices`, `aliases`, `path`) must not contain backticks or newlines; `choices` values must not contain `|` or tabs, because they are rendered with `|`.
+- Structural strings (`names`, `notation(s)`, `choices`, `aliases`, `path`) must not contain backticks or newlines; a choice `value` must not contain `|` or `]`, and no choice field may contain TAB because assembly renders or splits on them.
 - Use two-space JSON indentation and the exact field set from `<SKILL_ROOT>/references/fragment-schema.md`.
 - `source` examples: `{"kind":"help","command":"demo --help"}` or `{"kind":"none"}`; `notes` may be an empty string.
 
