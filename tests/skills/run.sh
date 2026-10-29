@@ -1313,7 +1313,7 @@ check "assemble static block order" gawk '
 ' "$choices_desc_script"
 check "verify described choices" bash "$SCRIPTS/verify-completion.sh" "$choices_desc_script" --cmd demo --cache-dir "$TMP_DIR/fragments-choices-desc" --skip-compgen
 check "verify described choices require-no-choice" bash "$SCRIPTS/verify-completion.sh" "$choices_desc_script" --cmd demo --cache-dir "$TMP_DIR/fragments-choices-desc" --skip-compgen --require-no-choice-fns
-check "compgen described choices" bash -c "argc --argc-compgen bash '$choices_desc_script' demo --sort '' | grep -Fq 'none (Do not sort)'"
+check "compgen described choices" bash -c "argc --argc-compgen generic '$choices_desc_script' demo --sort '' | tr -d '\000' | gawk -F'\t' '\$1 == \"none\" && \$3 == \"Do not sort\" { found = 1 } END { exit !found }'"
 quiet argc --argc-export "$choices_desc_script" >"$TMP_DIR/choices-desc-export.json"
 check "export described choices" jq -e '.flag_options[] | select(.id == "sort") | .choice.type == "Fn" and .choice.data[0] == "_static_sort"' "$TMP_DIR/choices-desc-export.json"
 check "export plain choices" jq -e '.flag_options[] | select(.id == "plain") | .choice.type == "Values" and .choice.data == ["a", "b"]' "$TMP_DIR/choices-desc-export.json"
@@ -1519,7 +1519,7 @@ else
 fi
 assert_contains "verify runs compgen for --output" "$dynamic_verify_log" "PASS  compgen choice --output"
 assert_not_contains "compgen choice label not shifted" "$dynamic_verify_log" "compgen choice --output -o"
-check "dynamic compgen output" bash -c "argc --argc-compgen bash '$TMP_DIR/dynamic.sh' demo --output '' | grep -q '^out.txt'"
+check "dynamic compgen output" bash -c "argc --argc-compgen generic '$TMP_DIR/dynamic.sh' demo --output '' | tr -d '\000' | cut -f1 | grep -qx 'out.txt'"
 
 if [[ "$failures" -gt 0 ]]; then
     printf '\nfailed checks:\n' >&3

@@ -758,6 +758,8 @@ run_with_timeout() {
     return "$rc"
 }
 
+# generic is argc's raw candidate mode: no shell post-processing and no
+# path expansion. This smoke asserts exit status and stderr, not candidates.
 check_compgen() {
     local label="$1"
     shift
@@ -766,8 +768,8 @@ check_compgen() {
     for arg in "$file" "$cmd" "$@"; do
         quoted+="$(printf '%q' "$arg") "
     done
-    log_info "compgen $label: argc --argc-compgen bash $quoted"
-    if run_with_timeout "$out" "$err" argc --argc-compgen bash "$file" "$cmd" "$@"; then
+    log_info "compgen $label: argc --argc-compgen generic $quoted"
+    if run_with_timeout "$out" "$err" argc --argc-compgen generic "$file" "$cmd" "$@"; then
         if grep -qiE 'error:|panic|command not found' "$err"; then
             fail "compgen $label stderr: $(head -n 1 "$err")"
         else

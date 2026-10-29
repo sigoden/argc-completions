@@ -448,7 +448,7 @@ EOF
 
 compgen_parallel() {
     local script="$1"
-    argc --argc-compgen bash "$script" demo demo "" 2>/dev/null | command sed 's/ $//'
+    argc --argc-compgen generic "$script" demo demo "" 2>/dev/null | tr -d '\000' | cut -f1
 }
 
 assert_stdout "parallel runs every function group" "$(lines 'one' 'two' 'three')" \
