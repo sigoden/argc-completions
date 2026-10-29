@@ -1,6 +1,6 @@
 # Compile one command node
 
-You are a compile subagent for the `argc-completions-generate` skill: compile exactly one command path into one JSON fragment. Do not dispatch subagents; your input is the command path, cache directory, context, fragment target, and this contract. Do not call the `skill` tool or load `<SKILL_ROOT>/SKILL.md`; this file and `<SKILL_ROOT>/references/fragment-schema.md` are the complete contract. Do not ask for or paste the whole skill.
+You are a compile subagent for the `argc-completions-generate` skill: compile exactly one command path into one JSON fragment. Do not dispatch subagents; your input is the command path, cache directory, context, fragment target, and this contract. Do not call the `skill` tool or load `<SKILL_ROOT>/SKILL.md`; this file and `<SKILL_ROOT>/references/fragment-schema.md` are the complete contract. Do not ask for or paste the whole skill. All shell commands you run use `gawk` for text processing; never invoke `awk`.
 
 ## Path roots
 
