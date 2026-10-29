@@ -145,7 +145,7 @@ path_prefix_lint() {
     /\.\/(scripts|references|agents|cache|completions|utils|tests|bin|skills|install\.sh)/ { report("dot-relative path") }
     /(^|[^>\/$A-Za-z0-9_.-])(scripts|references|agents|cache|completions|utils|tests|bin|skills)\// { report("bare path prefix") }
     /(^|[^>\/$A-Za-z0-9_.-])install\.sh/ { report("bare install.sh") }
-    /(^|[^>\/$A-Za-z0-9_.-])(preflight|assemble|verify-completion|format-choices|set-choice-fn|compare-help|extract-cmd-context|reset-cache|lib)\.sh/ { report("bare skill script") }
+    /(^|[^>\/$A-Za-z0-9_.-])(preflight|assemble|verify-completion|format-choices|set-choice-fn|compare-help|extract-cmd-context|reset-cache|update-subcommand-status|lib)\.sh/ { report("bare skill script") }
     /(^|[^>\/$A-Za-z0-9_.-])(validate-fragment|inspect-fragment-items|inspect-script-params)\.jq/ { report("bare skill jq") }
     /(^|[^>\/$A-Za-z0-9_.-])(generate-structure|add-choice-fns|compgen|verify|fragment-schema)\.md/ { report("bare reference filename") }
     /(^|[^>\/$A-Za-z0-9_.-])compile\.md/ { report("bare compile.md") }
@@ -236,6 +236,8 @@ check "format-choices script" test -x "$SCRIPTS/format-choices.sh"
 check "format-choices syntax" bash -n "$SCRIPTS/format-choices.sh"
 check "set-choice-fn script" test -x "$SCRIPTS/set-choice-fn.sh"
 check "set-choice-fn syntax" bash -n "$SCRIPTS/set-choice-fn.sh"
+check "update-subcommand-status script" test -x "$SCRIPTS/update-subcommand-status.sh"
+check "update-subcommand-status syntax" bash -n "$SCRIPTS/update-subcommand-status.sh"
 for script in inspect-fragment-items.jq inspect-script-params.jq; do
     check "inspection script $script" test -f "$SCRIPTS/$script"
 done
@@ -306,6 +308,7 @@ assert_contains "skill regenerate routing" "$SKILL_DIR/SKILL.md" "| \`regenerate
 assert_contains "skill regenerate trigger" "$SKILL_DIR/SKILL.md" "Explicit regenerate intent overrides the cache state"
 assert_contains "skill reset-cache step" "$SKILL_DIR/SKILL.md" "reset-cache.sh"
 assert_contains "generate-structure subtree usage" "$SKILL_DIR/references/generate-structure.md" "reset-cache.sh <root> <sub...>"
+assert_contains "structure status update script" "$SKILL_DIR/references/generate-structure.md" 'update-subcommand-status.sh "$parent" <name> <status>'
 assert_contains "compile reset cache probe" "$SKILL_DIR/agents/compile.md" "If the cache directory was reset"
 assert_contains "compile subtree cache result" "$SKILL_DIR/agents/compile.md" "cache=n/a"
 
@@ -620,6 +623,74 @@ quiet bash "$SCRIPTS/preflight.sh" demo --completion "$TMP_DIR/existing.sh" >"$T
 check "preflight sees no root help after reset" grep -q '^root_help_exists=0$' "$TMP_DIR/preflight-after-reset.txt"
 check "reset removes cached root help" test ! -f "$ROOT_DIR/cache/compile/demo/_root.txt"
 rm -rf "$ROOT_DIR/cache/compile/demo"
+
+# ---------------------------------------------------------------------------
+# update-subcommand-status.sh
+# ---------------------------------------------------------------------------
+status_dir="$TMP_DIR/fragments-status"
+mkdir -p "$status_dir"
+cp -R "$FIXTURES/fragments/no-choice/." "$status_dir/"
+jq '.subcommands += [range(0; 24) as $i | {"name": ("c" + ($i | tostring)), "aliases": [], "description": "", "status": "todo"}]' \
+    "$status_dir/_root.json" >"$status_dir/root.tmp" && mv "$status_dir/root.tmp" "$status_dir/_root.json"
+status_parent="$status_dir/_root.json"
+
+status_out="$TMP_DIR/status-single.txt"
+check_to "$status_out" "status update single runs" \
+    bash "$SCRIPTS/update-subcommand-status.sh" "$status_parent" remote todo
+assert_contains "status update reports parent" "$status_out" "parent=$status_parent"
+assert_contains "status update reports pair" "$status_out" "name=remote status=todo"
+check "status update single applied" \
+    test "$(jq -r '.subcommands[] | select(.name == "remote") | .status' "$status_parent")" = todo
+
+check_to "$TMP_DIR/status-batch.txt" "status update batch runs" \
+    bash "$SCRIPTS/update-subcommand-status.sh" "$status_parent" c1 succeeded c2 failed remote succeeded
+check "status update batch succeeded" \
+    jq -e '[.subcommands[] | select(.name == "c1" and .status == "succeeded")] | length == 1' "$status_parent"
+check "status update batch failed" \
+    jq -e '[.subcommands[] | select(.name == "c2" and .status == "failed")] | length == 1' "$status_parent"
+check "status update batch keeps order and fields" \
+    jq -e '.subcommands | length == 26 and .[0].name == "remote" and .[0].aliases == ["r"]' "$status_parent"
+
+cp "$status_parent" "$TMP_DIR/status-parent-before.json"
+if bash "$SCRIPTS/update-subcommand-status.sh" "$status_parent" missing succeeded 2>"$TMP_DIR/status-missing.txt"; then
+    fail "status update rejects undeclared name (unexpected success)"
+else
+    pass "status update rejects undeclared name"
+fi
+assert_contains "status update undeclared hint" "$TMP_DIR/status-missing.txt" "subcommand not declared: missing"
+check "status update undeclared writes nothing" cmp -s "$TMP_DIR/status-parent-before.json" "$status_parent"
+
+if bash "$SCRIPTS/update-subcommand-status.sh" "$status_parent" r succeeded 2>"$TMP_DIR/status-alias.txt"; then
+    fail "status update rejects alias (unexpected success)"
+else
+    pass "status update rejects alias"
+fi
+assert_contains "status update alias hint" "$TMP_DIR/status-alias.txt" "canonical name: remote"
+check "status update alias writes nothing" cmp -s "$TMP_DIR/status-parent-before.json" "$status_parent"
+expect_failure "status update rejects unknown status" \
+    bash "$SCRIPTS/update-subcommand-status.sh" "$status_parent" c3 running
+expect_failure "status update rejects odd arguments" \
+    bash "$SCRIPTS/update-subcommand-status.sh" "$status_parent" c3
+expect_failure "status update rejects missing parent" \
+    bash "$SCRIPTS/update-subcommand-status.sh" "$TMP_DIR/no-such-parent.json" c3 todo
+
+# Concurrent children finish at once; every status must survive the shared
+# read-modify-write.
+status_pids=()
+status_ok=1
+for ((i = 0; i < 24; i++)); do
+    bash "$SCRIPTS/update-subcommand-status.sh" "$status_parent" "c$i" succeeded >/dev/null &
+    status_pids+=("$!")
+done
+for pid in "${status_pids[@]}"; do
+    wait "$pid" || status_ok=0
+done
+check "status update concurrent runs" test "$status_ok" -eq 1
+check "status update concurrent applied" \
+    test "$(jq -r '[.subcommands[] | select(.status == "succeeded")] | length' "$status_parent")" = 25
+check "status update leaves no scratch" \
+    test -z "$(find "$status_dir" -type f ! -name '*.json' ! -name '*.txt')"
+check "status update keeps parent valid" jq -e '.subcommands | length == 26' "$status_parent"
 
 # ---------------------------------------------------------------------------
 # extract-cmd-context.sh

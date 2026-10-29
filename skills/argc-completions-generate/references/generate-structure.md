@@ -141,11 +141,10 @@ For workflow `all`, dispatch the root child in the background and read `<SKILL_R
 After each child result, validate the fragment, then update the parent:
 
 ```sh
-tmp="$(mktemp)"
-jq --arg name "$name" --arg status "$status" \
-  '(.subcommands[] | select(.name == $name) | .status) = $status' \
-  "$parent" >"$tmp" && mv "$tmp" "$parent"
+bash <SKILL_ROOT>/scripts/update-subcommand-status.sh "$parent" <name> <status> [<name> <status>...]
 ```
+
+Pass every finished node as `<name> <status>` pairs. The read, the write, and the rename happen under one lock, so concurrent updates cannot drop a status and a batch is atomic. An undeclared name (an alias is not a name) or an unknown status writes nothing and exits non-zero.
 
 The same update applies to a subtree reset: `parent` is the target's parent fragment (for example `<REPO_ROOT>/cache/compile/<root>/remote.json` for `git remote add`).
 
