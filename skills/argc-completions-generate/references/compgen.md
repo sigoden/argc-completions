@@ -621,18 +621,14 @@ Use when several options share a source or one is split across items; switch on 
 
 `generic` is the raw candidate view, control lines included; it is the candidate oracle, while shell-specific modes post-process the list and cannot assert values.
 
-Build the value list before comparing:
+Assert values with the helper: it runs `argc --argc-compgen generic`, strips NULs, keeps the value column, and drops `__argc_*` control lines, so a NUL cannot silently fail a match:
 
 ```sh
-argc --argc-compgen generic <completion.sh> <root> <args> \
-    | tr -d '\000' \
-    | cut -f1 \
-    | grep -v '^__argc_'
+bash <SKILL_ROOT>/scripts/test-compgen.sh -x out.txt <completion.sh> <root> --output ''
+bash <SKILL_ROOT>/scripts/test-compgen.sh -e '^out\.' -a '^tmp' <completion.sh> <root> <sub> --foo ''
 ```
 
-- `cut -f1` keeps the value; `tr -d '\000'` must come before `grep` (a NUL makes grep read the stream as binary, so `grep -x value` does not match). For nospace, control-line, or prefix/filter checks, read the raw stream without `tr`/`cut` (`... | sed -n '1,5p' | od -c`).
-- Filter `__argc_*` control lines for value assertions; keep them when checking a control line (`__argc_prefix`, `__argc_filter`, ...).
-- No candidates means the filtered list is empty; a shell that displays nothing is not evidence. Check `generic`.
+It fails on a non-zero exit, a timeout (`-t`, default 5s), or an error line on stderr, and lists candidates when an assertion fails; `--list` writes values to stdout, the rest to stderr. Read the raw stream only for nospace (`\0`), a control line (`__argc_prefix`, ...), or prefix/suffix behavior (`... | sed -n '1,5p' | od -c`); an empty filtered list is not evidence that nothing was offered.
 
 The final word is the word being completed; `''` lists all, `--` lists long options. Keep `--foo value` as two words and `--foo=value` as one (`--foo= ''` is not the equals form). A root-option label ends at the option name; extra tokens shift the test word.
 

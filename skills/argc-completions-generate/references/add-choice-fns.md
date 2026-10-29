@@ -102,9 +102,9 @@ Formatting, assembly, and verification each rewrite or re-read the whole script,
    argc --argc-compgen generic <completion.sh> <root> <sub> --foo ''
    ```
 
-   A value followed by an empty positional (`--foo value ''`) completes the next word, not `--foo`; with a terminated command or positional that next word is the command or positional, so command candidates there are expected. Assert values with the `argc --argc-compgen generic` pipeline in `<SKILL_ROOT>/references/compgen.md` §8; shell-specific modes are integration smoke, not a candidate oracle.
+   A value followed by an empty positional (`--foo value ''`) completes the next word, not `--foo`; with a terminated command or positional that next word is the command or positional, so command candidates there are expected. Assert values with `<SKILL_ROOT>/scripts/test-compgen.sh` (`-x` exact, `-e` regex, `-a` absent regex, `-c` count, `-l` list) rather than a hand-written `tr`/`cut`/`grep` pipeline; shell-specific modes are integration smoke, not a candidate oracle.
 
-4. Candidate-level checks: use the §8 pipeline for each assertion; give each source a unique target name so a wrong source is visible; do not test two sources with identical content; create the directory and default file for a `-C` option; define at least one variable for `VAR=`; assert one known candidate and a no-candidate case for a wrapper (do not only assert exit status); cover an empty directory and a prefix filter, both exiting 0.
+4. Candidate-level checks: use `<SKILL_ROOT>/scripts/test-compgen.sh` for each assertion (details in `<SKILL_ROOT>/references/compgen.md` §8); give each source a unique target name so a wrong source is visible; do not test two sources with identical content; create the directory and default file for a `-C` option; define at least one variable for `VAR=`; assert one known candidate and a no-candidate case for a wrapper (do not only assert exit status); cover an empty directory and a prefix filter, both exiting 0.
 
 5. Use the direct-call harness in `<SKILL_ROOT>/references/compgen.md` §8 when needed, and a timeout around network or external services.
 

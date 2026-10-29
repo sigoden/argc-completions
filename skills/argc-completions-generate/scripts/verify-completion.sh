@@ -760,26 +760,9 @@ if [[ -n "$fragments" && "$layout" == "new" ]] && hyg_dir="$(cd -P "$fragments" 
 fi
 
 # Compgen smoke.
-run_with_timeout() {
-    local out="$1" err="$2"
-    shift 2
-    if command -v timeout >/dev/null 2>&1; then
-        timeout 5 "$@" >"$out" 2>"$err"
-        return $?
-    fi
-    "$@" >"$out" 2>"$err" &
-    local pid=$!
-    ( sleep 5; kill -TERM "$pid" 2>/dev/null ) &
-    local watcher=$!
-    local rc=0
-    wait "$pid" || rc=$?
-    kill "$watcher" 2>/dev/null || true
-    wait "$watcher" 2>/dev/null || true
-    return "$rc"
-}
-
 # generic is argc's raw candidate mode: no shell post-processing and no
-# path expansion. This smoke asserts exit status and stderr, not candidates.
+# path expansion. This smoke asserts exit status and stderr, not candidates;
+# candidate assertions belong to test-compgen.sh.
 check_compgen() {
     local label="$1"
     shift
@@ -789,7 +772,7 @@ check_compgen() {
         quoted+="$(printf '%q' "$arg") "
     done
     log_info "compgen $label: argc --argc-compgen generic $quoted"
-    if run_with_timeout "$out" "$err" argc --argc-compgen generic "$file" "$cmd" "$@"; then
+    if run_with_timeout "$out" "$err" 5 argc --argc-compgen generic "$file" "$cmd" "$@"; then
         if grep -qiE 'error:|panic|command not found' "$err"; then
             fail "compgen $label stderr: $(head -n 1 "$err")"
         else

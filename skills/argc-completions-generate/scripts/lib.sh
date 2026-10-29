@@ -30,14 +30,73 @@ if [ "${BASH_VERSINFO[0]:-0}" -lt 5 ]; then
     die "bash >= 5 required (current: ${BASH_VERSION:-unknown})"
 fi
 
+# Detect the host OS from uname first: a Windows environment often exports
+# OS=Windows_NT, and WSL inherits it while running a real Linux userspace.
+# Only fall back to OS when uname reports an unknown kernel.
 detect_os() {
-    if [[ "${OS:-}" == "Windows_NT" ]]; then
-        echo windows
-    elif [[ "$(uname)" == "Darwin" ]]; then
-        echo macos
-    else
-        echo linux
+    case "$(uname -s 2>/dev/null || true)" in
+        Darwin) echo macos ;;
+        Linux) echo linux ;;
+        CYGWIN* | MINGW* | MSYS* | Windows_NT) echo windows ;;
+        *)
+            if [[ "${OS:-}" == "Windows_NT" ]]; then
+                echo windows
+            else
+                echo linux
+            fi
+            ;;
+    esac
+}
+
+# Run a command with stdout/stderr captured to files and a hard timeout.
+# Usage: run_with_timeout <stdout-file> <stderr-file> <seconds> <cmd...>
+# Pass '-' as the stderr file to merge stderr into stdout.
+# Returns the command status; a timeout yields the wrapper's status (124 with
+# GNU timeout/gtimeout, 143 from the background fallback). Use it in `if`/`||`
+# because lib.sh runs under `set -e`.
+run_with_timeout() {
+    local out="$1" err="$2" seconds="$3"
+    shift 3
+    local -a timeout_cmd=()
+    local rc=0 pid watcher
+    if command -v timeout >/dev/null 2>&1; then
+        timeout_cmd=(timeout "$seconds")
+    elif command -v gtimeout >/dev/null 2>&1; then
+        timeout_cmd=(gtimeout "$seconds")
     fi
+    if [[ ${#timeout_cmd[@]} -gt 0 ]]; then
+        if [[ "$err" == "-" ]]; then
+            "${timeout_cmd[@]}" "$@" >"$out" 2>&1
+        else
+            "${timeout_cmd[@]}" "$@" >"$out" 2>"$err"
+        fi
+        return $?
+    fi
+    # Portable fallback for hosts without GNU coreutils (macOS).
+    if [[ "$err" == "-" ]]; then
+        "$@" >"$out" 2>&1 &
+    else
+        "$@" >"$out" 2>"$err" &
+    fi
+    pid=$!
+    ( sleep "$seconds"; kill -TERM "$pid" 2>/dev/null ) >/dev/null 2>&1 &
+    watcher=$!
+    wait "$pid" || rc=$?
+    kill "$watcher" 2>/dev/null || true
+    wait "$watcher" 2>/dev/null || true
+    return "$rc"
+}
+
+# Run a help command with stdin closed and a timeout so a pager or an
+# interactive prompt cannot hang the caller. Stdout and stderr share one file.
+# Usage: capture_help <output-file> <timeout-seconds> <cmd...>
+# Returns the command status; use it in `if`/`||` because lib.sh runs under
+# `set -e`.
+capture_help() {
+    local output="$1" seconds="$2"
+    shift 2
+    run_with_timeout "$output" "-" "$seconds" \
+        env PAGER=cat MANPAGER=cat COLUMNS=9999 NO_COLOR=1 "$@" </dev/null
 }
 
 require_cmd() {

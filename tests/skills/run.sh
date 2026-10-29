@@ -145,7 +145,7 @@ path_prefix_lint() {
     /\.\/(scripts|references|agents|cache|completions|utils|tests|bin|skills|install\.sh)/ { report("dot-relative path") }
     /(^|[^>\/$A-Za-z0-9_.-])(scripts|references|agents|cache|completions|utils|tests|bin|skills)\// { report("bare path prefix") }
     /(^|[^>\/$A-Za-z0-9_.-])install\.sh/ { report("bare install.sh") }
-    /(^|[^>\/$A-Za-z0-9_.-])(preflight|assemble|verify-completion|format-choices|set-choice-fn|compare-help|extract-cmd-context|reset-cache|update-subcommand-status|lib)\.sh/ { report("bare skill script") }
+    /(^|[^>\/$A-Za-z0-9_.-])(preflight|assemble|verify-completion|test-compgen|format-choices|set-choice-fn|compare-help|extract-cmd-context|reset-cache|update-subcommand-status|lib)\.sh/ { report("bare skill script") }
     /(^|[^>\/$A-Za-z0-9_.-])(validate-fragment|inspect-fragment-items|inspect-script-params)\.jq/ { report("bare skill jq") }
     /(^|[^>\/$A-Za-z0-9_.-])(generate-structure|add-choice-fns|compgen|verify|fragment-schema)\.md/ { report("bare reference filename") }
     /(^|[^>\/$A-Za-z0-9_.-])compile\.md/ { report("bare compile.md") }
@@ -234,6 +234,8 @@ check "compile agent contract" test -f "$SKILL_DIR/agents/compile.md"
 check "reset-cache script" test -x "$SCRIPTS/reset-cache.sh"
 check "format-choices script" test -x "$SCRIPTS/format-choices.sh"
 check "format-choices syntax" bash -n "$SCRIPTS/format-choices.sh"
+check "test-compgen script" test -x "$SCRIPTS/test-compgen.sh"
+check "test-compgen syntax" bash -n "$SCRIPTS/test-compgen.sh"
 check "set-choice-fn script" test -x "$SCRIPTS/set-choice-fn.sh"
 check "set-choice-fn syntax" bash -n "$SCRIPTS/set-choice-fn.sh"
 check "update-subcommand-status script" test -x "$SCRIPTS/update-subcommand-status.sh"
@@ -362,6 +364,8 @@ assert_not_contains "skill no generic-assertion rule" "$SKILL_DIR/SKILL.md" "Can
 assert_not_contains "skill no completions-inspection rule" "$SKILL_DIR/SKILL.md" 'Do not inspect `<REPO_ROOT>/completions/`'
 assert_not_contains "skill no sort rule" "$SKILL_DIR/SKILL.md" "LC_ALL=C"
 assert_contains "compgen bounded queries" "$SKILL_DIR/references/compgen.md" "A candidate query must be read-only and bounded"
+assert_contains "compgen assertion helper" "$SKILL_DIR/references/compgen.md" "test-compgen.sh"
+assert_contains "choice docs assertion helper" "$SKILL_DIR/references/add-choice-fns.md" "test-compgen.sh"
 assert_contains "setup yq policy" "$SKILL_DIR/references/setup.md" "allowed only inside functions"
 assert_contains "setup git status ban" "$SKILL_DIR/references/setup.md" 'never `git status`'
 assert_contains "structure no completions inspect" "$SKILL_DIR/references/generate-structure.md" 'Do not inspect `<REPO_ROOT>/completions/`'
@@ -1685,6 +1689,44 @@ fi
 assert_contains "verify runs compgen for --output" "$dynamic_verify_log" "PASS  compgen choice --output"
 assert_not_contains "compgen choice label not shifted" "$dynamic_verify_log" "compgen choice --output -o"
 check "dynamic compgen output" bash -c "argc --argc-compgen generic '$TMP_DIR/dynamic.sh' demo --output '' | tr -d '\000' | cut -f1 | grep -qx 'out.txt'"
+
+# ---------------------------------------------------------------------------
+# test-compgen.sh: candidate assertions on the dynamic script
+# ---------------------------------------------------------------------------
+tc="$SCRIPTS/test-compgen.sh"
+check "test-compgen exact" bash "$tc" -x out.txt "$TMP_DIR/dynamic.sh" demo --output ''
+check "test-compgen regex and count" bash "$tc" -e '^out\.txt$' -c 1 "$TMP_DIR/dynamic.sh" demo --output ''
+check_to "$TMP_DIR/test-compgen-list.txt" "test-compgen list" bash "$tc" -l "$TMP_DIR/dynamic.sh" demo --output ''
+check "test-compgen list values" grep -Fxq -- out.txt "$TMP_DIR/test-compgen-list.txt"
+expect_failure "test-compgen missing exact" bash "$tc" -x missing.txt "$TMP_DIR/dynamic.sh" demo --output ''
+expect_failure "test-compgen absent hit" bash "$tc" -a '^out' "$TMP_DIR/dynamic.sh" demo --output ''
+expect_failure "test-compgen wrong count" bash "$tc" -c 2 "$TMP_DIR/dynamic.sh" demo --output ''
+tc_log="$(new_log)"
+if run_quiet "$tc_log" bash "$tc" -x missing.txt "$TMP_DIR/dynamic.sh" demo --output ''; then
+    fail "test-compgen failure shows candidates (unexpected success)"
+else
+    pass "test-compgen failure shows candidates"
+    assert_contains "test-compgen diagnostic lists candidate" "$tc_log" "out.txt"
+fi
+
+# The helper drops __argc_* control lines but argc still receives them.
+gawk '/^_choice_out\(\) \{/ { print; print "    echo \"__argc_prefix=pre\""; next } { print }' \
+    "$TMP_DIR/dynamic.sh" >"$TMP_DIR/test-compgen-control.sh"
+check "test-compgen filters control lines" bash "$tc" -a '^__argc_' -x out.txt "$TMP_DIR/test-compgen-control.sh" demo --output ''
+
+# A slow choice function must not hang the suite.
+gawk '/^_choice_out\(\) \{/ { print; print "    sleep 30"; next } { print }' \
+    "$TMP_DIR/dynamic.sh" >"$TMP_DIR/test-compgen-slow.sh"
+tc_timeout_log="$(new_log)"
+if run_quiet "$tc_timeout_log" bash "$tc" -t 1 "$TMP_DIR/test-compgen-slow.sh" demo --output ''; then
+    fail "test-compgen timeout (unexpected success)"
+else
+    pass "test-compgen timeout"
+    assert_contains "test-compgen timeout message" "$tc_timeout_log" "timed out"
+fi
+
+check "test-compgen usage error" bash -c "! bash '$tc' >/dev/null 2>&1"
+check "test-compgen requires the final word" bash -c "! bash '$tc' '$TMP_DIR/dynamic.sh' demo >/dev/null 2>&1"
 
 if [[ "$failures" -gt 0 ]]; then
     printf '\nfailed checks:\n' >&3
