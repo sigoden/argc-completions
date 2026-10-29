@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 # Assemble a structural argc completion script from JSON fragments.
 #
-# The generated file is organized into four blocks:
+# The generated file is organized into these blocks:
 #   SPEC     - command definitions generated from fragments (replaced on every run)
 #   HINTS    - prompt text used as context by parser subagents (preserved)
 #   STATIC   - generated static-choice functions (replaced on every run)
 #   CHOICES  - dynamic completion functions (preserved)
+# SPEC and HINTS always appear; STATIC and CHOICES are omitted entirely when
+# they have no content, so the output never carries an empty marker pair.
 
 set -euo pipefail
 
@@ -635,7 +637,13 @@ if [[ -n "$source_file" && -f "$source_file" ]]; then
     fi
     if ! extract_named_block "$source_file" 'CHOICES' "$choice_content"; then
         if ! extract_named_block "$source_file" 'argc-completions-dynamic' "$choice_content"; then
-            extract_legacy_choice "$source_file" "$choice_content"
+            if grep -q '^# >>> SPEC$' "$source_file"; then
+                # New layout without a CHOICES block: no dynamic functions.
+                # Scanning the tail would capture content that is not a block.
+                : >"$choice_content"
+            else
+                extract_legacy_choice "$source_file" "$choice_content"
+            fi
         fi
     fi
     # emit_block adds the separating blank line itself; keep re-assembly idempotent.
@@ -683,21 +691,26 @@ for static_fn in "${!STATIC_FN_SOURCE[@]}"; do
     fi
 done
 
+has_content() {
+    local file="$1"
+    [[ -f "$file" ]] && grep -q '[^[:space:]]' "$file"
+}
+
 emit_block() {
     local name="$1" content="$2"
     printf '# >>> %s\n' "$name"
-    if [[ -s "$content" ]]; then
-        cat "$content"
-        # argc reads the closing marker as a description continuation when it
-        # immediately follows a tag line, so only the tag-terminated
-        # SPEC block keeps a separating blank line.
-        if [[ "$name" == SPEC ]]; then
-            printf '\n'
-        fi
+    cat "$content"
+    # argc reads the closing marker as a description continuation when it
+    # immediately follows a tag line, so only the tag-terminated
+    # SPEC block keeps a separating blank line.
+    if [[ "$name" == SPEC ]]; then
+        printf '\n'
     fi
     printf '# <<< %s\n' "$name"
 }
 
+# SPEC and HINTS always appear (HINTS may be empty); STATIC and CHOICES exist
+# only while they have content.
 full_output="$tmp_dir/completion.sh"
 {
     cat "$pre_content"
@@ -705,10 +718,14 @@ full_output="$tmp_dir/completion.sh"
     emit_block SPEC "$gen_block"
     printf '\n'
     emit_block HINTS "$prompt_content"
-    printf '\n'
-    emit_block STATIC "$static_block"
-    printf '\n'
-    emit_block CHOICES "$choice_content"
+    if has_content "$static_block"; then
+        printf '\n'
+        emit_block STATIC "$static_block"
+    fi
+    if has_content "$choice_content"; then
+        printf '\n'
+        emit_block CHOICES "$choice_content"
+    fi
     printf '\n'
     cat "$post_content"
 } >"$full_output"
@@ -775,20 +792,44 @@ if [[ -z "$source_file" || ! -f "$source_file" ]]; then
     fi
 fi
 
-# Validate block counts and order in the final output.
-for block_name in SPEC STATIC HINTS CHOICES; do
+# Validate block counts and order in the final output. SPEC and HINTS are
+# mandatory; STATIC and CHOICES may be absent but must then be absent as a pair.
+for block_name in SPEC HINTS; do
     starts="$(count_marker "$full_output" '>>>' "$block_name")"
     ends="$(count_marker "$full_output" '<<<' "$block_name")"
     if [[ "$starts" -ne 1 || "$ends" -ne 1 ]]; then
         die "final script has an invalid '$block_name' block"
     fi
 done
+for block_name in STATIC CHOICES; do
+    starts="$(count_marker "$full_output" '>>>' "$block_name")"
+    ends="$(count_marker "$full_output" '<<<' "$block_name")"
+    if [[ "$starts" -ne "$ends" || "$starts" -gt 1 ]]; then
+        die "final script has an invalid '$block_name' block"
+    fi
+done
 gen_start="$(block_line "$full_output" '>>>' 'SPEC')"
-static_start="$(block_line "$full_output" '>>>' 'STATIC')"
 prompt_start="$(block_line "$full_output" '>>>' 'HINTS')"
-choice_start="$(block_line "$full_output" '>>>' 'CHOICES')"
-if ! [[ "$gen_start" -lt "$prompt_start" && "$prompt_start" -lt "$static_start" && "$static_start" -lt "$choice_start" ]]; then
+static_start=""
+choice_start=""
+if [[ "$(count_marker "$full_output" '>>>' 'STATIC')" -eq 1 ]]; then
+    static_start="$(block_line "$full_output" '>>>' 'STATIC')"
+fi
+if [[ "$(count_marker "$full_output" '>>>' 'CHOICES')" -eq 1 ]]; then
+    choice_start="$(block_line "$full_output" '>>>' 'CHOICES')"
+fi
+if ! [[ "$gen_start" -lt "$prompt_start" ]]; then
     die "final script block order is invalid"
+fi
+if [[ -n "$static_start" ]] && ! [[ "$prompt_start" -lt "$static_start" ]]; then
+    die "final script block order is invalid"
+fi
+if [[ -n "$choice_start" ]]; then
+    last_start="$prompt_start"
+    [[ -z "$static_start" ]] || last_start="$static_start"
+    if ! [[ "$last_start" -lt "$choice_start" ]]; then
+        die "final script block order is invalid"
+    fi
 fi
 
 if [[ "$stdout_mode" -eq 1 ]]; then

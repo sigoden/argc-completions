@@ -22,7 +22,7 @@ Work in the repository (or pass absolute paths). `argc`, `jq`, `bash >= 5`, `gaw
 
 ## Pipeline contract
 
-Every script uses four comment-delimited blocks in this order:
+Every script uses these comment-delimited blocks in this order; `STATIC` and `CHOICES` are omitted when they have no content:
 
 ```sh
 # >>> SPEC
@@ -44,10 +44,12 @@ Every script uses four comment-delimited blocks in this order:
 command eval "$(argc --argc-eval "$0" "$@")"
 ```
 
+A block with no content is omitted entirely: never emit a bare `# >>> X` / `# <<< X` pair. `SPEC` and `HINTS` always appear (`HINTS` may be empty); `STATIC` and `CHOICES` appear only when non-empty.
+
 - `SPEC` is owned by generate-structure and regenerate; `<SKILL_ROOT>/scripts/assemble.sh` replaces it in full from the cache fragments. Never hand-edit it.
 - `HINTS` is maintainer-owned; assemble preserves it verbatim and `<SKILL_ROOT>/scripts/extract-cmd-context.sh` reads it as parser context.
-- `STATIC` is assembly-generated: one `_static_*` function per item whose `choices` carry a non-empty `description`; it is rewritten every run and may be empty. Never hand-edit it or write that prefix in `CHOICES`.
-- `CHOICES` is owned by add-choice-fns: `_choice_*`/`_helper_*` functions, ASCII-sorted, plus the `<REPO_ROOT>/utils/_argc_utils.sh` source guard. Assemble preserves it.
+- `STATIC` is assembly-generated: one `_static_*` function per item whose `choices` carry a non-empty `description`; it is rewritten every run and omitted when no item has a described `choices` list. Never hand-edit it or write that prefix in `CHOICES`.
+- `CHOICES` is owned by add-choice-fns: `_choice_*`/`_helper_*` functions, ASCII-sorted, plus the `<REPO_ROOT>/utils/_argc_utils.sh` source guard. Assemble preserves it and omits the block when it is empty; when adding the first `_choice_*` to a script without the block, insert the markers before the final eval.
 - The final eval stays outside the blocks.
 - No block markers means a legacy script; assemble migrates it once and verify accepts it read-only.
 - Fragments are the source of truth: regenerate only through this pipeline, never by hand or with external tools.

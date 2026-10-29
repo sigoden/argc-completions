@@ -481,8 +481,18 @@ format_one() {
     starts="$(marker_count "$file" "$start_marker")"
     ends="$(marker_count "$file" "$end_marker")"
     if [[ "$starts" -eq 0 && "$ends" -eq 0 ]]; then
-        err "$file" "CHOICES block not found (run assemble.sh first for legacy scripts)"
-        return 1
+        if ! grep -q '^# >>> SPEC$' "$file"; then
+            err "$file" "CHOICES block not found (run assemble.sh first for legacy scripts)"
+            return 1
+        fi
+        # New layout: an absent block means no dynamic functions. Keep the
+        # omission, but reject functions that were written without a block.
+        if grep -Eq '^[[:space:]]*(function[[:space:]]+)?(_choice_|_helper_)[A-Za-z0-9_]*\(\)[[:space:]]*\{' "$file"; then
+            err "$file" 'CHOICES block not found; add "# >>> CHOICES" and "# <<< CHOICES" before the final eval'
+            return 1
+        fi
+        log_info "no CHOICES block: $file"
+        return 0
     fi
     if [[ "$starts" -ne 1 || "$ends" -ne 1 ]]; then
         err "$file" "CHOICES block markers must appear exactly once"

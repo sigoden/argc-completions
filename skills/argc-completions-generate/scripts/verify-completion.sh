@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Validate an argc completion script and its four generated blocks.
+# Validate an argc completion script and its generated blocks.
 #
 # Exit status: 0 when all checks pass, 1 when a failure is found.
 
@@ -175,36 +175,45 @@ region_file="$file"
 
 if [[ "$layout" == "new" ]]; then
     block_bad=0
-    if [[ "$gen_count" -ne 1 || "$gen_end_count" -ne 1 || "$prompt_count" -ne 1 || "$prompt_end_count" -ne 1 || "$choice_count" -ne 1 || "$choice_end_count" -ne 1 ]]; then
+    if [[ "$gen_count" -ne 1 || "$gen_end_count" -ne 1 || "$prompt_count" -ne 1 || "$prompt_end_count" -ne 1 ]]; then
         block_bad=1
     fi
-    if [[ "$static_count" -gt 1 || "$static_end_count" -gt 1 ]]; then
+    # STATIC and CHOICES are optional, but a present block must be closed once.
+    if [[ "$static_count" -ne "$static_end_count" || "$static_count" -gt 1 ]]; then
         block_bad=1
     fi
-    if [[ "$static_count" -eq 1 && "$static_end_count" -ne 1 ]]; then
-        block_bad=1
-    fi
-    if [[ "$static_count" -eq 0 && "$static_end_count" -ne 0 ]]; then
+    if [[ "$choice_count" -ne "$choice_end_count" || "$choice_count" -gt 1 ]]; then
         block_bad=1
     fi
     if [[ "$block_bad" -eq 1 ]]; then
-        fail "block markers must appear exactly once for SPEC/HINTS/CHOICES and at most once for STATIC"
+        fail "block markers must appear exactly once for SPEC/HINTS and at most once for STATIC/CHOICES"
     else
         gen_start="$(block_line "$file" '>>>' 'SPEC')"
         prompt_start="$(block_line "$file" '>>>' 'HINTS')"
-        choice_start="$(block_line "$file" '>>>' 'CHOICES')"
+        choice_start=""
         if [[ "$static_count" -eq 1 ]]; then
             static_start="$(block_line "$file" '>>>' 'STATIC')"
             static_end="$(block_line "$file" '<<<' 'STATIC')"
-            if [[ "$gen_start" -lt "$prompt_start" && "$prompt_start" -lt "$static_start" && "$static_start" -lt "$choice_start" ]]; then
-                pass "block order"
-            else
-                fail "block order must be SPEC -> HINTS -> STATIC -> CHOICES"
+        fi
+        if [[ "$choice_count" -eq 1 ]]; then
+            choice_start="$(block_line "$file" '>>>' 'CHOICES')"
+        fi
+        order_bad=0
+        if ! [[ "$gen_start" -lt "$prompt_start" ]]; then
+            order_bad=1
+        elif [[ -n "$static_start" ]] && ! [[ "$prompt_start" -lt "$static_start" ]]; then
+            order_bad=1
+        elif [[ -n "$choice_start" ]]; then
+            order_prev="$prompt_start"
+            [[ -z "$static_start" ]] || order_prev="$static_start"
+            if ! [[ "$order_prev" -lt "$choice_start" ]]; then
+                order_bad=1
             fi
-        elif [[ "$gen_start" -lt "$prompt_start" && "$prompt_start" -lt "$choice_start" ]]; then
+        fi
+        if [[ "$order_bad" -eq 0 ]]; then
             pass "block order"
         else
-            fail "block order must be SPEC -> HINTS -> CHOICES"
+            fail "block order must be SPEC -> HINTS -> [STATIC] -> [CHOICES]"
         fi
         if extract_block "$file" 'SPEC' "$gen_region"; then
             :
@@ -213,6 +222,7 @@ if [[ "$layout" == "new" ]]; then
         fi
         prompt_region="$tmp_dir/HINTS.txt"
         choice_region="$tmp_dir/CHOICES.txt"
+        : >"$choice_region"
         if extract_block "$file" 'HINTS' "$prompt_region"; then
             if gawk '!/^#/ && !/^[[:space:]]*$/ { exit 1 }' "$prompt_region"; then
                 pass "HINTS is comments only"
@@ -222,34 +232,44 @@ if [[ "$layout" == "new" ]]; then
         else
             fail "cannot extract HINTS block"
         fi
-        if extract_block "$file" 'CHOICES' "$choice_region"; then
-            if grep -Eq '^# @(describe|cmd|alias|option|flag|arg|env|meta)' "$choice_region"; then
-                fail "CHOICES must not contain structural tags"
-            else
-                pass "CHOICES has no structural tags"
-            fi
-            if [[ -f "$SCRIPT_DIR/format-choices.sh" ]]; then
-                if bash "$SCRIPT_DIR/format-choices.sh" --check "$file" >"$tmp_dir/format.out" 2>"$tmp_dir/format.err"; then
-                    pass "CHOICES format"
-                else
-                    format_detail="$(head -n 1 "$tmp_dir/format.err" 2>/dev/null || true)"
-                    if [[ -z "$format_detail" ]]; then
-                        format_detail="$(head -n 1 "$tmp_dir/format.out" 2>/dev/null || true)"
+        if [[ "$choice_count" -eq 1 ]]; then
+            if extract_block "$file" 'CHOICES' "$choice_region"; then
+                if grep -q '[^[:space:]]' "$choice_region"; then
+                    if grep -Eq '^# @(describe|cmd|alias|option|flag|arg|env|meta)' "$choice_region"; then
+                        fail "CHOICES must not contain structural tags"
+                    else
+                        pass "CHOICES has no structural tags"
                     fi
-                    fail "CHOICES format: ${format_detail:-not canonical}; run $SCRIPT_DIR/format-choices.sh $file"
+                else
+                    fail "empty CHOICES block: re-run assemble.sh to drop it"
                 fi
             else
-                fail "CHOICES format: missing $SCRIPT_DIR/format-choices.sh"
+                fail "cannot extract CHOICES block"
+            fi
+        fi
+        if [[ -f "$SCRIPT_DIR/format-choices.sh" ]]; then
+            if bash "$SCRIPT_DIR/format-choices.sh" --check "$file" >"$tmp_dir/format.out" 2>"$tmp_dir/format.err"; then
+                pass "CHOICES format"
+            else
+                format_detail="$(head -n 1 "$tmp_dir/format.err" 2>/dev/null || true)"
+                if [[ -z "$format_detail" ]]; then
+                    format_detail="$(head -n 1 "$tmp_dir/format.out" 2>/dev/null || true)"
+                fi
+                fail "CHOICES format: ${format_detail:-not canonical}; run $SCRIPT_DIR/format-choices.sh $file"
             fi
         else
-            fail "cannot extract CHOICES block"
+            fail "CHOICES format: missing $SCRIPT_DIR/format-choices.sh"
         fi
         if [[ "$static_count" -eq 1 ]]; then
             if extract_block "$file" 'STATIC' "$static_region"; then
-                if grep -Eq '^# @(describe|cmd|alias|option|flag|arg|env|meta)' "$static_region"; then
-                    fail "STATIC must not contain structural tags"
+                if grep -q '[^[:space:]]' "$static_region"; then
+                    if grep -Eq '^# @(describe|cmd|alias|option|flag|arg|env|meta)' "$static_region"; then
+                        fail "STATIC must not contain structural tags"
+                    else
+                        pass "STATIC has no structural tags"
+                    fi
                 else
-                    pass "STATIC has no structural tags"
+                    fail "empty STATIC block: re-run assemble.sh to drop it"
                 fi
             else
                 fail "cannot extract STATIC block"

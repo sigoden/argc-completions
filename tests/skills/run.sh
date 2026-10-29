@@ -647,7 +647,7 @@ new_script="$TMP_DIR/new.sh"
 quiet bash "$SCRIPTS/assemble.sh" demo -c "$FIXTURES/fragments/no-choice" --stdout >"$new_script"
 check "assemble new bash syntax" bash -n "$new_script"
 check "assemble new argc export" bash -c "argc --argc-export '$new_script' >/dev/null"
-check "assemble new block markers" bash -c "grep -Fq '# >>> SPEC' '$new_script' && grep -Fq '# >>> STATIC' '$new_script' && grep -Fq '# >>> HINTS' '$new_script' && grep -Fq '# >>> CHOICES' '$new_script'"
+check "assemble new block markers" bash -c "grep -Fq '# >>> SPEC' '$new_script' && grep -Fq '# >>> HINTS' '$new_script'"
 assert_contains "assemble new static choices" "$new_script" '--format[text|json]'
 assert_contains "assemble new nested command" "$new_script" 'remote::add() {'
 assert_contains "assemble new subcommand alias" "$new_script" '# @alias r'
@@ -669,8 +669,48 @@ check "assemble long tag keeps two spaces" \
     gawk 'index($0, "# @option --tiebreak[length|chunk|pathname|begin|end|index] <CRI>  Comma-separated list") == 1 { found = 1 } END { exit !found }' "$align_script"
 assert_not_contains "assemble new no choice fn" "$new_script" '_choice_'
 check "assemble new empty prompt block" bash -c "grep -A1 '^# >>> HINTS$' '$new_script' | grep -q '^# <<< HINTS$'"
-check "assemble new empty static block" bash -c "grep -A1 '^# >>> STATIC$' '$new_script' | grep -q '^# <<< STATIC$'"
+check "assemble new omits empty optional blocks" bash -c "! grep -Eq '^# >>> (STATIC|CHOICES)$' '$new_script'"
 check "verify new no-choice" bash "$SCRIPTS/verify-completion.sh" "$new_script" --cmd demo --cache-dir "$FIXTURES/fragments/no-choice" --skip-compgen --require-no-choice-fns
+
+# Re-assembly is byte-stable, and empty optional blocks left by older runs are
+# dropped instead of being re-emitted.
+quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$FIXTURES/fragments/no-choice" --context "$new_script" --stdout >"$TMP_DIR/new-again.sh"
+check "assemble new idempotent" cmp -s "$new_script" "$TMP_DIR/new-again.sh"
+empty_blocks="$TMP_DIR/empty-blocks.sh"
+gawk '/^command eval / && !done {
+        print "# >>> STATIC"
+        print "# <<< STATIC"
+        print ""
+        print "# >>> CHOICES"
+        print "# <<< CHOICES"
+        print ""
+        done = 1
+    }
+    { print }' "$new_script" >"$empty_blocks"
+empty_blocks_log="$(new_log)"
+if run_quiet "$empty_blocks_log" bash "$SCRIPTS/verify-completion.sh" "$empty_blocks" --cmd demo --skip-compgen; then
+    fail "verify rejects empty optional blocks (unexpected success)"
+else
+    pass "verify rejects empty optional blocks"
+fi
+assert_contains "verify names empty STATIC block" "$empty_blocks_log" "empty STATIC block"
+assert_contains "verify names empty CHOICES block" "$empty_blocks_log" "empty CHOICES block"
+quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$FIXTURES/fragments/no-choice" --context "$empty_blocks" --stdout >"$TMP_DIR/empty-blocks-again.sh"
+check "assemble drops empty optional blocks" cmp -s "$new_script" "$TMP_DIR/empty-blocks-again.sh"
+check "format --check accepts absent CHOICES" bash "$SCRIPTS/format-choices.sh" --check "$new_script"
+stray_choice="$TMP_DIR/choice-stray.sh"
+gawk '/^command eval / && !done { print "_choice_stray() { :; }"; print ""; done = 1 } { print }' "$new_script" >"$stray_choice"
+expect_failure "format rejects functions without a CHOICES block" bash "$SCRIPTS/format-choices.sh" "$stray_choice"
+
+# Base script with an empty CHOICES block for the formatter tests below.
+choices_base="$TMP_DIR/choice-base.sh"
+gawk '/^command eval / && !done {
+        print "# >>> CHOICES"
+        print "# <<< CHOICES"
+        print ""
+        done = 1
+    }
+    { print }' "$new_script" >"$choices_base"
 
 # ---------------------------------------------------------------------------
 # assemble.sh: context preservation and exact block
@@ -832,7 +872,7 @@ gawk '/^# <<< CHOICES$/ && !done {
         print "_choice_probe() { :; }"
         done = 1
     }
-    { print }' "$TMP_DIR/new.sh" >"$unformatted"
+    { print }' "$choices_base" >"$unformatted"
 cp "$unformatted" "$TMP_DIR/choice-unformatted.before"
 expect_failure "verify rejects unformatted CHOICES" bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/choice-unformatted.before" --cmd demo --skip-compgen
 expect_failure "format --check detects unformatted" bash "$SCRIPTS/format-choices.sh" --check "$unformatted"
@@ -885,7 +925,7 @@ gawk '/^# <<< CHOICES$/ && !done {
         print "_foo() { :; }"
         done = 1
     }
-    { print }' "$TMP_DIR/new.sh" >"$collision"
+    { print }' "$choices_base" >"$collision"
 cp "$collision" "$TMP_DIR/choice-collision.before"
 expect_failure "format rejects rename collision" bash "$SCRIPTS/format-choices.sh" "$collision"
 check "format collision leaves file unchanged" cmp -s "$collision" "$TMP_DIR/choice-collision.before"
@@ -900,13 +940,13 @@ gawk '/^# <<< CHOICES$/ && !done {
         print "foo() { :; }"
         done = 1
     }
-    { print }' "$TMP_DIR/new.sh" >"$variable"
+    { print }' "$choices_base" >"$variable"
 cp "$variable" "$TMP_DIR/choice-variable.before"
 expect_failure "format rejects variable collision" bash "$SCRIPTS/format-choices.sh" "$variable"
 check "format variable collision leaves file unchanged" cmp -s "$variable" "$TMP_DIR/choice-variable.before"
 
 outside="$TMP_DIR/choice-outside.sh"
-gawk '/^# <<< SPEC$/ && !done { print "# @flag --outside[`foo`]"; done = 1 } { print }' "$TMP_DIR/new.sh" \
+gawk '/^# <<< SPEC$/ && !done { print "# @flag --outside[`foo`]"; done = 1 } { print }' "$choices_base" \
     | gawk '/^# <<< CHOICES$/ && !done { print "foo() { :; }"; done = 1 } { print }' >"$outside"
 cp "$outside" "$TMP_DIR/choice-outside.before"
 expect_failure "format rejects outside binding" bash "$SCRIPTS/format-choices.sh" "$outside"
@@ -918,7 +958,7 @@ gawk '/^# <<< CHOICES$/ && !done {
         print "echo nope"
         done = 1
     }
-    { print }' "$TMP_DIR/new.sh" >"$junk"
+    { print }' "$choices_base" >"$junk"
 cp "$junk" "$TMP_DIR/choice-junk.before"
 expect_failure "format rejects top-level content" bash "$SCRIPTS/format-choices.sh" "$junk"
 check "format top-level content leaves file unchanged" cmp -s "$junk" "$TMP_DIR/choice-junk.before"
@@ -928,13 +968,13 @@ printf '#!/usr/bin/env bash\n' >"$noblock"
 expect_failure "format rejects missing block" bash "$SCRIPTS/format-choices.sh" "$noblock"
 
 missing="$TMP_DIR/choice-missing.sh"
-sed '/^# <<< CHOICES$/d' "$TMP_DIR/new.sh" >"$missing"
+sed '/^# <<< CHOICES$/d' "$choices_base" >"$missing"
 cp "$missing" "$TMP_DIR/choice-missing.before"
 expect_failure "format rejects missing marker" bash "$SCRIPTS/format-choices.sh" "$missing"
 check "format missing marker leaves file unchanged" cmp -s "$missing" "$TMP_DIR/choice-missing.before"
 
 argcutil="$TMP_DIR/choice-argcutil.sh"
-gawk '/^# <<< CHOICES$/ && !done { print "_argc_util_foo() { :; }"; done = 1 } { print }' "$TMP_DIR/new.sh" >"$argcutil"
+gawk '/^# <<< CHOICES$/ && !done { print "_argc_util_foo() { :; }"; done = 1 } { print }' "$choices_base" >"$argcutil"
 expect_failure "format rejects copied argc util" bash "$SCRIPTS/format-choices.sh" "$argcutil"
 
 # Exact SPEC dump
@@ -1305,12 +1345,13 @@ assert_contains "assemble described choices tag" "$choices_desc_script" '# @opti
 assert_contains "assemble undescribed choices stay static" "$choices_desc_script" '# @option --plain[a|b] <MODE>'
 assert_contains "assemble static block" "$choices_desc_script" '# >>> STATIC'
 assert_contains "assemble static function" "$choices_desc_script" '_static_sort() {'
+check "assemble described choices omit empty CHOICES" bash -c "! grep -q '^# >>> CHOICES$' '$choices_desc_script'"
 check "assemble static function body" gawk '/^\tnone\tDo not sort$/ { found = 1 } END { exit !found }' "$choices_desc_script"
 check "assemble static block order" gawk '
     /^# >>> (SPEC|STATIC|HINTS|CHOICES)$/ { block[++n] = $0 }
     END {
-        exit !(n == 4 && block[1] == "# >>> SPEC" && block[2] == "# >>> HINTS" \
-            && block[3] == "# >>> STATIC" && block[4] == "# >>> CHOICES")
+        exit !(n == 3 && block[1] == "# >>> SPEC" && block[2] == "# >>> HINTS" \
+            && block[3] == "# >>> STATIC")
     }
 ' "$choices_desc_script"
 check "verify described choices" bash "$SCRIPTS/verify-completion.sh" "$choices_desc_script" --cmd demo --cache-dir "$TMP_DIR/fragments-choices-desc" --skip-compgen
@@ -1360,7 +1401,7 @@ fi
 assert_contains "verify names STATIC mismatch" "$static_edit_log" "STATIC differs from fragments"
 
 gawk '/^# <<< CHOICES$/ && !done { print "_static_probe() { :; }"; done = 1 } { print }' \
-    "$choices_desc_script" >"$TMP_DIR/static-reserved.sh"
+    "$TMP_DIR/static-before.sh" >"$TMP_DIR/static-reserved.sh"
 expect_failure "verify rejects reserved static prefix" bash "$SCRIPTS/verify-completion.sh" \
     "$TMP_DIR/static-reserved.sh" --cmd demo --cache-dir "$TMP_DIR/fragments-choices-desc" --skip-compgen
 expect_failure "format rejects reserved static prefix" bash "$SCRIPTS/format-choices.sh" "$TMP_DIR/static-reserved.sh"
@@ -1443,7 +1484,7 @@ sed 's/^# @flag -v --verbose  /# @flag -v --verbose[`_choice_missing`]  /' "$TMP
 expect_failure "verify undefined choice fn" bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/undefined.sh" --cmd demo --skip-compgen
 
 gawk '/^# <<< CHOICES$/ && !done { print "_choice_probe() { :; }"; done = 1 } { print }' \
-    "$TMP_DIR/new.sh" >"$TMP_DIR/choice-no-choice.sh"
+    "$choices_base" >"$TMP_DIR/choice-no-choice.sh"
 expect_failure "verify require-no-choice rejects choice definitions" bash "$SCRIPTS/verify-completion.sh" \
     "$TMP_DIR/choice-no-choice.sh" --cmd demo --skip-compgen --require-no-choice-fns
 
@@ -1496,11 +1537,13 @@ assert_contains "verify cache hygiene missing help message" "$TMP_DIR/hygiene-mi
 mkdir -p "$TMP_DIR/fragments-dynamic"
 cp -R "$FIXTURES/fragments/no-choice/." "$TMP_DIR/fragments-dynamic/"
 quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-dynamic" --output "$TMP_DIR/dynamic.sh" --force
-gawk '/^# <<< CHOICES$/ && !done {
-        print ""
+gawk '/^command eval / && !done {
+        print "# >>> CHOICES"
         print "_choice_out() {"
         print "    echo out.txt"
         print "}"
+        print "# <<< CHOICES"
+        print ""
         done = 1
     }
     { print }' "$TMP_DIR/dynamic.sh" >"$TMP_DIR/dynamic.tmp" && mv "$TMP_DIR/dynamic.tmp" "$TMP_DIR/dynamic.sh"

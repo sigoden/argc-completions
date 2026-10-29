@@ -41,6 +41,7 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | `SPEC differs from fragments` | Hand edit, stale assemble, or fragment edited without assembling | Update the fragment and run `<SKILL_ROOT>/scripts/assemble.sh`; never patch the block |
 | `undefined choice functions` | Missing or outside `CHOICES` | Add it before the final eval, or set `choice_fn` to null |
 | `duplicate choice function definitions` | Appended twice | Keep one definition |
+| `CHOICES format: CHOICES block not found ...` | Completion functions were written without a block | Insert `# >>> CHOICES` / `# <<< CHOICES` before the final eval, or re-assemble a legacy script |
 | `CHOICES format: would format` | Unsorted, or a name outside `_choice_*`/`_helper_*` | Run `<SKILL_ROOT>/scripts/format-choices.sh <completion.sh>`, re-assemble, verify |
 | `cannot rename ... both map to` | Two names normalize to one `_helper_*` | Rename one manually, re-run the formatter |
 | `cannot rename ... used as a shell variable` | Function name is also a variable | Rename the function or variable, re-run the formatter |
@@ -62,8 +63,9 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | `missing final argc eval` | Eval removed/moved | Check with `grep -n 'argc --argc-eval' file`; restore `command eval "$(argc --argc-eval "$0" "$@")"` after the blocks |
 | `help output failed` | Syntax/tag error or missing function | Run `bash file --help` and fix the reported line |
 | `help output is empty` | Missing eval or early exit | Inspect the tail; restore the eval |
-| `block markers must appear exactly once` | Partial/duplicated markers | `grep -n '^# [<>]\{3\} ' file`; remove extras or regenerate |
-| `block order must be ...` | Blocks reordered | Order `SPEC` -> `HINTS` -> `STATIC` -> `CHOICES` (`STATIC` may be absent) |
+| `block markers must appear exactly once for SPEC/HINTS and at most once for STATIC/CHOICES` | Partial/duplicated markers | `grep -n '^# [<>]\{3\} ' file`; remove extras or regenerate |
+| `empty STATIC block` / `empty CHOICES block` | An empty marker pair left by an older assemble | Re-run `<SKILL_ROOT>/scripts/assemble.sh <root> --force`; empty optional blocks are omitted |
+| `block order must be ...` | Blocks reordered | Order `SPEC` -> `HINTS` -> [`STATIC`] -> [`CHOICES`]; `STATIC` and `CHOICES` are optional but keep that order |
 | `HINTS contains non-comment lines` | Shell code in the prompt | Prefix prompt lines with `#` |
 | `CHOICES must not contain structural tags` | Tags pasted into the dynamic block | Move tags to fragments and re-assemble |
 | `SPEC must not define completion functions` | `_choice_*` pasted into the generated block | Compare with `<SKILL_ROOT>/scripts/assemble.sh --dump-spec`; move it to `CHOICES` |
