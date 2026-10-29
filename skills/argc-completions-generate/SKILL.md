@@ -65,7 +65,7 @@ The first action of `generate-structure`, `all`, and `regenerate` is `<SKILL_ROO
 | Workflow | Use when | Read | Sequence |
 |---|---|---|---|
 | `generate-structure` | Existing structural updates, new subcommands, or a new command when only structure is wanted | `<SKILL_ROOT>/references/generate-structure.md` §1–3, §5–8 (§4 if `existing=1`) | `preflight <root>` -> cache probe -> recursive compile -> assemble -> verify |
-| `add-choice-fns` | Add dynamic candidates to option/arg values | `<SKILL_ROOT>/references/add-choice-fns.md` §1–5; `<SKILL_ROOT>/references/compgen.md` §1–2, §5–6, §8; `<SKILL_ROOT>/references/setup.md` before writing shell | inventory -> batch edits (`CHOICES` + fragment `choice_fn`) -> one format/assemble/verify gate -> compgen tests |
+| `add-choice-fns` | Add dynamic candidates to option/arg values | `<SKILL_ROOT>/references/add-choice-fns.md` §1–5; `<SKILL_ROOT>/references/compgen.md` §1–2, §5–6; `<SKILL_ROOT>/references/compgen-helpers.md` §1; `<SKILL_ROOT>/references/compgen-recipes.md` for a matching value shape; `<SKILL_ROOT>/references/setup.md` before writing shell | inventory -> batch edits (`CHOICES` + fragment `choice_fn`) -> one format/assemble/verify gate -> compgen tests |
 | `verify` | Validate or diagnose an existing script | `<SKILL_ROOT>/references/verify.md` §Checks | `<SKILL_ROOT>/scripts/verify-completion.sh` -> diagnose -> fix -> re-run |
 | `all` | Brand-new command (`existing=0`), end to end | `generate-structure` now; `add-choice-fns` + `compgen` after its verify | generate-structure -> one batched add-choice-fns pass -> verify |
 | `regenerate` | Explicitly regenerate/rebuild/re-crawl `<root>` or a subtree (`regenerate git add`) | same as `generate-structure` | `preflight <root>` -> `<SKILL_ROOT>/scripts/reset-cache.sh` (full or subtree) -> compile -> assemble -> verify |
@@ -74,11 +74,12 @@ The first action of `generate-structure`, `all`, and `regenerate` is `<SKILL_ROO
 Defer reading:
 
 - `<SKILL_ROOT>/references/fragment-schema.md`: only when validating or repairing a fragment.
-- `<SKILL_ROOT>/references/compgen.md`: read by section; its §Section map routes protocol, context, helpers, recipes, and debugging.
+- `<SKILL_ROOT>/references/compgen.md`: read by section; its §Section map routes protocol, context, paths, config parsing, the split model, and debugging.
+- `<SKILL_ROOT>/references/compgen-helpers.md` and `<SKILL_ROOT>/references/compgen-recipes.md`: only when a `_choice_*` body needs a helper or a common value shape.
 - `<SKILL_ROOT>/references/setup.md`: only before writing shell or when install/tool checks fail.
 - `<SKILL_ROOT>/references/troubleshooting.md`: only after a failure.
 - `<SKILL_ROOT>/agents/compile.md`: read only for the inline fallback in `<SKILL_ROOT>/references/generate-structure.md` §5.
-- `<REPO_ROOT>/utils/_argc_utils.sh`: never read in full; `<SKILL_ROOT>/references/compgen.md` §6 indexes the helpers.
+- `<REPO_ROOT>/utils/_argc_utils.sh`: never read in full; `<SKILL_ROOT>/references/compgen-helpers.md` §1 indexes the helpers.
 
 ## Inspection
 
@@ -134,7 +135,7 @@ Read the authority file before working in its area; the rule is defined there.
 | Compile child behavior: help scope, one node, no dispatch, when compile may set `terminated` | `<SKILL_ROOT>/agents/compile.md` §1, §3 |
 | Cache layout and write scope, fragment lifecycle, failure and retry | `<SKILL_ROOT>/references/generate-structure.md` §2, §3, §6, §7, §9 |
 | Choice bindings (including command-valued and `terminated`), naming, sorting, assemble/test loop | `<SKILL_ROOT>/references/add-choice-fns.md` §Ownership, §3–§5 |
-| Candidate protocol, context variables, helpers, split model, assertions | `<SKILL_ROOT>/references/compgen.md` |
+| Candidate protocol, context variables, split model, debugging (`<SKILL_ROOT>/references/compgen.md`); helper signatures (`<SKILL_ROOT>/references/compgen-helpers.md`); composed recipes (`<SKILL_ROOT>/references/compgen-recipes.md`) |
 | Verification checks | `<SKILL_ROOT>/references/verify.md` |
 | Tools, shell portability, optional `yq`, runtime restrictions | `<SKILL_ROOT>/references/setup.md` |
 | Workflow routing, inspection, reporting format (including `next=`), block layout | this file |

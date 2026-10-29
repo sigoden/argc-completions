@@ -51,4 +51,4 @@ bash <SKILL_ROOT>/scripts/verify-completion.sh <REPO_ROOT>/completions/foo.sh \
 - `--skip-compgen` fits choices that call external services or an uninstalled command; other checks still run.
 - Assemble before `--cache-dir` verification; assembly refuses `todo` nodes.
 - A block-fidelity or fragment-bindings failure means fragments and script disagree: fix the fragment and re-assemble.
-- Compgen smoke only proves the engine ran; keep a candidate-level check per new function (`<SKILL_ROOT>/references/add-choice-fns.md` §5). Use `-v` and `<SKILL_ROOT>/references/compgen.md` §8 for word forms.
+- Compgen smoke only proves the engine ran; keep a candidate-level check per new function (`<SKILL_ROOT>/references/add-choice-fns.md` §5). Use `-v` and `<SKILL_ROOT>/references/compgen.md` §6 for word forms.

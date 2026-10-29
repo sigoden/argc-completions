@@ -1,6 +1,6 @@
 # Add-choice-fns workflow
 
-Add dynamic completion candidates to an existing generated script: ownership, preconditions, inventory, binding decisions, placement, and the assemble/test loop. The protocol, context variables, helpers, recipes, and debugging are in `<SKILL_ROOT>/references/compgen.md`; tool policy and portability are in `<SKILL_ROOT>/references/setup.md`. Read §1–4 before editing and §5 when assembling; failures go to `<SKILL_ROOT>/references/troubleshooting.md`.
+Add dynamic completion candidates to an existing generated script: ownership, preconditions, inventory, binding decisions, placement, and the assemble/test loop. The candidate protocol, context variables, split model, and debugging are in `<SKILL_ROOT>/references/compgen.md`; helper signatures are in `<SKILL_ROOT>/references/compgen-helpers.md`; composed recipes are in `<SKILL_ROOT>/references/compgen-recipes.md`; tool policy and portability are in `<SKILL_ROOT>/references/setup.md`. Read this file's §1–4 before editing and §5 when assembling; failures go to `<SKILL_ROOT>/references/troubleshooting.md`.
 
 ## Ownership
 
@@ -34,7 +34,7 @@ An option marked `prefixed` receives `ARGC_CWORD` after the prefix, and a `delim
 
 ### Helpers
 
-Use the `_argc_util_*` helpers in `<REPO_ROOT>/utils/_argc_utils.sh` for splitting, paths, transforms, and delegation; source them from `CHOICES` with the guard (`<SKILL_ROOT>/references/compgen.md` §6). Read option values from `$argc_<id>` (§2); path notation and free text need no binding; tool-specific values (git refs, container images, HTTP methods/headers, ssh options) use a query.
+Use the `_argc_util_*` helpers in `<REPO_ROOT>/utils/_argc_utils.sh` for splitting, paths, transforms, and delegation; source them from `CHOICES` with the guard (`<SKILL_ROOT>/references/compgen-helpers.md` §1). Read option values from `$argc_<id>` (`<SKILL_ROOT>/references/compgen.md` §2); path notation and free text need no binding; tool-specific values (git refs, container images, HTTP methods/headers, ssh options) use a query.
 
 Read generate-structure's warnings first and match them by tag: `mixed-enumeration` means the fragment intentionally has `choices: []` — bind a `_choice_*` that prints the literals instead of restoring `choices`; `no-args-binding` means a command-valued item may still need `terminated` (§3 *Command-valued binding*).
 
@@ -48,7 +48,7 @@ Fragment lookup: one fragment per node under `<REPO_ROOT>/cache/compile/<root>/`
 
 When one option is split across items (one name each), set `choice_fn` on **every** item of that option. The ids differ, so a function reading `$argc_<id>` must switch to `argc__option` (`<SKILL_ROOT>/references/compgen.md` §2) or use an id-independent source.
 
-**Command-valued binding.** When the item's name or notation is a command-family token (`COMMAND`, `CMD`, `PROGRAM`, `PROG`, `EXEC`, `SCRIPT`, case-insensitive), or its description says it executes a command, and the completion needs the command plus its arguments, use the recipe in `<SKILL_ROOT>/references/compgen.md` §7 *Command-valued option*: `_choice_command` (backed by `_argc_util_comp_command`) for the executable and `_choice_command_args` to copy the option array with a nameref and delegate with `_argc_util_comp_subcommand 0`. Set `terminated: true` on the same item when compile did not mark it and its `repeatable`, `prefixed`, and `delimiter` fields allow it; stop and report instead of overriding them. Then queue it for the §5 gate. Never fake the behavior with `repeatable` or a `delimiter`.
+**Command-valued binding.** When the item's name or notation is a command-family token (`COMMAND`, `CMD`, `PROGRAM`, `PROG`, `EXEC`, `SCRIPT`, case-insensitive), or its description says it executes a command, and the completion needs the command plus its arguments, use the recipe in `<SKILL_ROOT>/references/compgen-recipes.md` §*Command-valued option*: `_choice_command` (backed by `_argc_util_comp_command`) for the executable and `_choice_command_args` to copy the option array with a nameref and delegate with `_argc_util_comp_subcommand 0`. Set `terminated: true` on the same item when compile did not mark it and its `repeatable`, `prefixed`, and `delimiter` fields allow it; stop and report instead of overriding them. Then queue it for the §5 gate. Never fake the behavior with `repeatable` or a `delimiter`.
 
 Update the fragment with the tested helper. It matches every name passed, rejects flags and missing items, empties `choices`, optionally sets `terminated`, and writes only after validation:
 
@@ -69,7 +69,7 @@ bash <SKILL_ROOT>/scripts/set-choice-fn.sh --terminated "$fragment" _choice_comm
 - The formatter aborts without writing on a rename collision, when the old name is also a shell variable, or when `SPEC` still binds the old name by backticks; fix the binding or rename manually and re-run.
 - Never define `_choice_*` in `SPEC` and never use the `_static_` prefix, which belongs to the `STATIC` block generated by assembly. Name new functions `_choice_<param>`, or `_choice_<subcmd>_<param>` when the same param has different data or sources per subcommand. Reuse an existing function; duplicate definitions fail verify.
 - When a wrapper calls `_argc_util_*`, source `<REPO_ROOT>/utils/_argc_utils.sh` with the guard and bind a local `_choice_<param>` wrapper; never copy a helper into the script. Put guards, caching, and context handling in the wrapper.
-- Function bodies follow `<SKILL_ROOT>/references/compgen.md` §1–2 for output, context, and tool guards; use §5 for a custom split and §6 for helper mechanics.
+- Function bodies follow `<SKILL_ROOT>/references/compgen.md` §1–2 for output, context, and tool guards; use `<SKILL_ROOT>/references/compgen.md` §5 for a custom split and `<SKILL_ROOT>/references/compgen-helpers.md` for helper mechanics.
 - A choice function must be callable from the script's top level; do not rely on a command function having run.
 
 ## 5. Batch, assemble, test
@@ -104,9 +104,9 @@ Formatting, assembly, and verification each rewrite or re-read the whole script,
 
    A value followed by an empty positional (`--foo value ''`) completes the next word, not `--foo`; with a terminated command or positional that next word is the command or positional, so command candidates there are expected. Assert values with `<SKILL_ROOT>/scripts/test-compgen.sh` (`-x` exact, `-e` regex, `-a` absent regex, `-c` count, `-l` list) rather than a hand-written `tr`/`cut`/`grep` pipeline; shell-specific modes are integration smoke, not a candidate oracle.
 
-4. Candidate-level checks: use `<SKILL_ROOT>/scripts/test-compgen.sh` for each assertion (details in `<SKILL_ROOT>/references/compgen.md` §8); give each source a unique target name so a wrong source is visible; do not test two sources with identical content; create the directory and default file for a `-C` option; define at least one variable for `VAR=`; assert one known candidate and a no-candidate case for a wrapper (do not only assert exit status); cover an empty directory and a prefix filter, both exiting 0.
+4. Candidate-level checks: use `<SKILL_ROOT>/scripts/test-compgen.sh` for each assertion (details in `<SKILL_ROOT>/references/compgen.md` §6); give each source a unique target name so a wrong source is visible; do not test two sources with identical content; create the directory and default file for a `-C` option; define at least one variable for `VAR=`; assert one known candidate and a no-candidate case for a wrapper (do not only assert exit status); cover an empty directory and a prefix filter, both exiting 0.
 
-5. Use the direct-call harness in `<SKILL_ROOT>/references/compgen.md` §8 when needed, and a timeout around network or external services.
+5. Use the direct-call harness in `<SKILL_ROOT>/references/compgen.md` §6 when needed, and a timeout around network or external services.
 
 ## 6. Failure handling
 

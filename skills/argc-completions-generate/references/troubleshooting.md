@@ -1,6 +1,6 @@
 # Troubleshooting
 
-Read after a check fails; procedures are in the workflow references, and the choice-function isolation flow is in `<SKILL_ROOT>/references/compgen.md` §8.
+Read after a check fails; procedures are in the workflow references, and the choice-function isolation flow is in `<SKILL_ROOT>/references/compgen.md` §6.
 
 ## Symptom index
 
@@ -9,7 +9,7 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | Missing fragment, `todo` node, stale fragment, schema/export error | Generate and assemble |
 | `SPEC` differs, missing/duplicate function, wrong candidates | Choice functions |
 | Block, tag, help, or compgen failure after assembly | Verify |
-| No candidates from a choice function | `<SKILL_ROOT>/references/compgen.md` §8 |
+| No candidates from a choice function | `<SKILL_ROOT>/references/compgen.md` §6 |
 | Reset, cache probe, or parent metadata problem | Cache and regenerate |
 
 ## Generate and assemble
@@ -51,12 +51,12 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | `cannot rename ... both map to` | Two names normalize to one `_helper_*` | Rename one manually, re-run the formatter |
 | `cannot rename ... used as a shell variable` | Function name is also a variable | Rename the function or variable, re-run the formatter |
 | `... is referenced outside CHOICES` | A `choice_fn` in `SPEC` still uses the old name | Update the fragment, re-assemble, then format |
-| Function prints nothing | Guard returned early, wrong cwd, or missing tool | Use the isolation flow in `<SKILL_ROOT>/references/compgen.md` §8 |
+| Function prints nothing | Guard returned early, wrong cwd, or missing tool | Use the isolation flow in `<SKILL_ROOT>/references/compgen.md` §6 |
 | Redundant `command -v <root>` guard | A completion runs only while its root exists | Remove it; guard only another tool (`<SKILL_ROOT>/references/compgen.md` §1) |
 | Compgen times out | Network/slow query per keystroke | Re-run under a short timeout; add caching, a cap, or drop the binding |
-| Compgen passes but candidates are wrong | Shifted word position or no candidate-level check | Test the option word (`--foo ''`); assert values with the §8 `generic` pipeline |
-| Candidates look missing or different in a shell mode | Shell modes exercise the integration and post-process the candidate list | Check `generic` with the §8 pipeline; do not edit `CHOICES` from a shell-mode result |
-| `grep -x` finds no candidate | Candidate lines carry a NUL, color, and description fields | Use the §8 pipeline (`tr -d '\000'`, `cut -f1`) |
+| Compgen passes but candidates are wrong | Shifted word position or no candidate-level check | Test the option word (`--foo ''`); assert values with the `<SKILL_ROOT>/references/compgen.md` §6 `generic` pipeline |
+| Candidates look missing or different in a shell mode | Shell modes exercise the integration and post-process the candidate list | Check `generic` with the `<SKILL_ROOT>/references/compgen.md` §6 pipeline; do not edit `CHOICES` from a shell-mode result |
+| `grep -x` finds no candidate | Candidate lines carry a NUL, color, and description fields | Use the `<SKILL_ROOT>/references/compgen.md` §6 pipeline (`tr -d '\000'`, `cut -f1`) |
 | Static choices disappeared | A binding replaced them | Restore `choices`, or keep the dynamic source |
 | `choice_fn` rejected | Not string/null, or contains backticks | Use a local function name such as `_choice_name`, not the tag form |
 | `compgen` prints `__argc_value=<NOTATION>` or nothing for a value with `choice_fn` | Bad `names` order or a multi-character single-dash name first | Fix `names`, split per name, confirm `.choice.type == "Fn"` |

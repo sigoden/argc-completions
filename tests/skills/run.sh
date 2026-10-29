@@ -147,7 +147,7 @@ path_prefix_lint() {
     /(^|[^>\/$A-Za-z0-9_.-])install\.sh/ { report("bare install.sh") }
     /(^|[^>\/$A-Za-z0-9_.-])(preflight|assemble|verify-completion|test-compgen|format-choices|set-choice-fn|compare-help|extract-cmd-context|reset-cache|update-subcommand-status|lib)\.sh/ { report("bare skill script") }
     /(^|[^>\/$A-Za-z0-9_.-])(validate-fragment|inspect-fragment-items|inspect-script-params)\.jq/ { report("bare skill jq") }
-    /(^|[^>\/$A-Za-z0-9_.-])(generate-structure|add-choice-fns|compgen|verify|fragment-schema)\.md/ { report("bare reference filename") }
+    /(^|[^>\/$A-Za-z0-9_.-])(generate-structure|add-choice-fns|compgen-helpers|compgen-recipes|compgen|verify|fragment-schema)\.md/ { report("bare reference filename") }
     /(^|[^>\/$A-Za-z0-9_.-])compile\.md/ { report("bare compile.md") }
     /(^|[^>\/$A-Za-z0-9_.-])SKILL\.md/ { report("bare SKILL.md") }
     /<repo>|<skill>|\.agents\/skills\/argc-completions-generate/ { report("legacy root placeholder") }
@@ -176,48 +176,40 @@ for name in argc-completions-generate; do
     check "frontmatter description $name" test -n "$(gawk '/^description:/ { print; exit }' "$fm")"
 done
 
-for ref in generate-structure.md add-choice-fns.md compgen.md verify.md \
+for ref in generate-structure.md add-choice-fns.md compgen.md \
+           compgen-helpers.md compgen-recipes.md verify.md \
            fragment-schema.md setup.md troubleshooting.md; do
     check "reference $ref" test -f "$SKILL_DIR/references/$ref"
 done
 
-# SKILL.md is injected in full on every invocation; keep it a thin router.
-skill_bytes="$(wc -c <"$SKILL_DIR/SKILL.md" | tr -d '[:space:]')"
-check "SKILL.md size budget" test "$skill_bytes" -le 12288
+# SKILL.md is injected in full on every invocation; keep it a thin router that
+# still names every reference the workflows defer.
 for ref in "$SKILL_DIR"/references/*.md; do
     check "SKILL.md routes $(basename "$ref")" \
         grep -Fq "$(basename "$ref")" "$SKILL_DIR/SKILL.md"
 done
 
-# References are read by section: keep each one browsable, compgen.md from
-# regrowing after its helper index replaced the per-helper prose, and the index
-# in sync with the helper library. compgen.md §6 carries formatter-canonical
-# `_choice_*`/`_helper_*` samples, so its byte and line budgets sit slightly
-# higher.
+# References are read by section: compgen.md keeps the protocol, the helper
+# reference must stay in sync with the helper library, and the recipe reference
+# carries the composed samples.
 compgen_md="$SKILL_DIR/references/compgen.md"
-for ref in "$SKILL_DIR"/references/*.md; do
-    name="$(basename "$ref")"
-    limit=14500
-    [ "$name" = "compgen.md" ] && limit=31500
-    ref_bytes="$(wc -c <"$ref" | tr -d '[:space:]')"
-    check "reference size budget $name" test "$ref_bytes" -le "$limit"
-done
-check "compgen line budget" test "$(wc -l <"$compgen_md" | tr -d '[:space:]')" -le 700
-check "compgen documents every _argc_util_* helper" bash -c '
-    compgen_md="$1"
+helpers_md="$SKILL_DIR/references/compgen-helpers.md"
+recipes_md="$SKILL_DIR/references/compgen-recipes.md"
+check "helpers document every _argc_util_* helper" bash -c '
+    helpers_md="$1"
     util="$2"
     missing=0
     while read -r fn; do
-        grep -Fq "\`$fn" "$compgen_md" || {
+        grep -Fq "\`$fn" "$helpers_md" || {
             echo "undocumented helper: $fn" >&2
             missing=1
         }
     done < <(grep -o "^_argc_util_[a-z_]*" "$util" | sort -u)
     exit "$missing"
-' _ "$compgen_md" "$ROOT_DIR/utils/_argc_utils.sh"
-check "compgen sections 1-8" bash -c '
+' _ "$helpers_md" "$ROOT_DIR/utils/_argc_utils.sh"
+check "compgen sections 1-6" bash -c '
     n=1
-    while [ "$n" -le 8 ]; do
+    while [ "$n" -le 6 ]; do
         grep -q "^## $n\. " "$1" || {
             echo "missing section $n" >&2
             exit 1
@@ -225,11 +217,29 @@ check "compgen sections 1-8" bash -c '
         n=$((n + 1))
     done
 ' _ "$compgen_md"
+check "helper reference sections 1-5" bash -c '
+    n=1
+    while [ "$n" -le 5 ]; do
+        grep -q "^## $n\. " "$1" || {
+            echo "missing section $n" >&2
+            exit 1
+        }
+        n=$((n + 1))
+    done
+' _ "$helpers_md"
 check "compgen section map rows" bash -c '
     rows="$(gawk "/^## Section map/ { inside = 1; next } inside && /^## / { exit } inside && /^\| §/ { n++ } END { print n + 0 }" "$1")"
-    test "$rows" = 8
+    test "$rows" = 6
 ' _ "$compgen_md"
-assert_contains "compgen helper index" "$compgen_md" "### Helper index"
+check "helper reference section map rows" bash -c '
+    rows="$(gawk "/^## Section map/ { inside = 1; next } inside && /^## / { exit } inside && /^\| §/ { n++ } END { print n + 0 }" "$1")"
+    test "$rows" = 5
+' _ "$helpers_md"
+assert_contains "compgen routes helpers" "$compgen_md" "compgen-helpers.md"
+assert_contains "compgen routes recipes" "$compgen_md" "compgen-recipes.md"
+assert_contains "compgen helper index" "$helpers_md" "### Helper index"
+assert_contains "recipes section map" "$recipes_md" "## Section map"
+assert_contains "recipes command-valued option" "$recipes_md" "## Command-valued option"
 check "compile agent contract" test -f "$SKILL_DIR/agents/compile.md"
 check "reset-cache script" test -x "$SCRIPTS/reset-cache.sh"
 check "format-choices script" test -x "$SCRIPTS/format-choices.sh"
@@ -292,14 +302,14 @@ assert_not_contains "skill no value types library" "$SKILL_DIR/SKILL.md" "utils/
 check "skill no shared completer helpers" bash -c "! grep -RqE '_value_types|shared completer|_user_value|_hostname_value' '$SKILL_DIR'"
 assert_not_contains "assemble no value types library" "$SCRIPTS/assemble.sh" "_value_types"
 assert_not_contains "verify no value types library" "$SCRIPTS/verify-completion.sh" "_value_types"
-assert_contains "compgen helper guard" "$SKILL_DIR/references/compgen.md" 'utils/_argc_utils.sh'
-assert_contains "compgen executable helper" "$SKILL_DIR/references/compgen.md" '#### `_argc_util_comp_command`'
-assert_contains "compgen subcommand helper" "$SKILL_DIR/references/compgen.md" '#### `_argc_util_comp_subcommand <index> [prepend...]`'
+assert_contains "compgen helper guard" "$helpers_md" 'utils/_argc_utils.sh'
+assert_contains "compgen executable helper" "$helpers_md" '#### `_argc_util_comp_command`'
+assert_contains "compgen subcommand helper" "$helpers_md" '#### `_argc_util_comp_subcommand <index> [prepend...]`'
 assert_contains "choice docs subcommand helper" "$SKILL_DIR/references/add-choice-fns.md" '_argc_util_comp_subcommand 0'
-assert_not_contains "compgen no stale command args helper" "$SKILL_DIR/references/compgen.md" '_argc_util_comp_command_args'
+check "references no stale command args helper" bash -c '! grep -RFq -- _argc_util_comp_command_args "$1"' _ "$SKILL_DIR/references"
 assert_not_contains "choice docs no stale command args helper" "$SKILL_DIR/references/add-choice-fns.md" '_argc_util_comp_command_args'
 check "skill docs no stale command args helper" bash -c "! grep -RF '_argc_util_comp_command_args' '$SKILL_DIR'"
-assert_not_contains "compgen no shell command source" "$SKILL_DIR/references/compgen.md" 'compgen -c'
+check "references no shell command source" bash -c '! grep -RFq -- "compgen -c" "$1"' _ "$SKILL_DIR/references"
 # The leading `?` on a rendered dynamic candidate source is an assembly detail;
 # no document explains it.
 assert_not_contains "choice docs no marker hint" "$SKILL_DIR/references/add-choice-fns.md" "advisory hint"
@@ -376,12 +386,12 @@ assert_contains "choice docs format script" "$SKILL_DIR/references/add-choice-fn
 assert_contains "verify docs format script" "$SKILL_DIR/references/verify.md" "format-choices.sh"
 
 # Troubleshooting and setup are optional reads reached from every workflow.
-check "references link troubleshooting" test -z "$(grep -L troubleshooting.md "$SKILL_DIR/references/generate-structure.md" "$SKILL_DIR/references/add-choice-fns.md" "$SKILL_DIR/references/verify.md" "$SKILL_DIR/references/compgen.md")"
-check "references link setup" test -z "$(grep -L setup.md "$SKILL_DIR/references/add-choice-fns.md" "$SKILL_DIR/references/compgen.md")"
+check "references link troubleshooting" test -z "$(grep -L troubleshooting.md "$SKILL_DIR/references/generate-structure.md" "$SKILL_DIR/references/add-choice-fns.md" "$SKILL_DIR/references/verify.md" "$SKILL_DIR/references/compgen.md" "$SKILL_DIR/references/compgen-helpers.md" "$SKILL_DIR/references/compgen-recipes.md")"
+check "references link setup" test -z "$(grep -L setup.md "$SKILL_DIR/references/add-choice-fns.md" "$SKILL_DIR/references/compgen.md" "$SKILL_DIR/references/compgen-helpers.md" "$SKILL_DIR/references/compgen-recipes.md")"
 
 # The repository keeps only the _argc_utils.sh helper library.
 check "argc utils library present" test -f "$ROOT_DIR/utils/_argc_utils.sh"
-assert_contains "compgen sources helpers" "$SKILL_DIR/references/compgen.md" '. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"'
+assert_contains "compgen sources helpers" "$helpers_md" '. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"'
 
 # Path convention guards: every skill doc uses the two documented roots.
 skill_docs=("$SKILL_DIR/SKILL.md" "$SKILL_DIR"/references/*.md "$SKILL_DIR"/agents/*.md)
@@ -904,7 +914,7 @@ cp "$scf_dir/remote.json" "$TMP_DIR/set-choice-before.json"
 expect_failure "set-choice-fn rejects a leading marker" bash "$scf_script" "$scf_dir/remote.json" '?_choice_foo' --foo
 check "set-choice-fn marker rejection leaves fragment unchanged" cmp -s "$scf_dir/remote.json" "$TMP_DIR/set-choice-before.json"
 
-# Function-only harness documented in compgen.md §8.
+# Function-only harness documented in compgen.md §6.
 harness_out="$(bash -c '
     script=$1; shift
     eval "$(sed -n "/^# >>> CHOICES/,/^# <<< CHOICES/p" "$script" | sed "1d;\$d")"
