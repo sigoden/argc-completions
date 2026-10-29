@@ -260,6 +260,13 @@ assert_contains "compile contract no synthetic arg description" "$SKILL_DIR/agen
 assert_contains "compile contract no skill load" "$SKILL_DIR/agents/compile.md" "Do not call the \`skill\` tool"
 assert_contains "compile contract canonical comparison" "$SKILL_DIR/agents/compile.md" 'never use `diff` to compare raw help with canonical help'
 assert_contains "compile contract probe determinism" "$SKILL_DIR/agents/compile.md" "The probe is deterministic"
+assert_contains "compile contract notation modifiers" "$SKILL_DIR/agents/compile.md" "### Notation modifiers"
+assert_contains "compile contract final notation modifier" "$SKILL_DIR/agents/compile.md" "Only the final notation may carry one modifier"
+assert_contains "compile contract notation vs repeatable" "$SKILL_DIR/agents/compile.md" "never use it for a multi-value notation"
+assert_contains "compile contract args notation kept" "$SKILL_DIR/agents/compile.md" '"notations": ["<script>", "<args*>"]'
+assert_contains "compile contract arg notation bare" "$SKILL_DIR/agents/compile.md" 'never put a notation modifier (`*`, `+`, `?`) inside it'
+assert_contains "schema notation modifiers" "$SKILL_DIR/references/fragment-schema.md" "Notation modifiers: only an option may use them"
+assert_contains "schema arg notation no modifier" "$SKILL_DIR/references/fragment-schema.md" 'arg `notation` never carries one'
 assert_contains "schema colon enumeration" "$SKILL_DIR/references/fragment-schema.md" "colon-introduced comma list"
 assert_contains "structure batch compile reads" "$SKILL_DIR/references/generate-structure.md" "fragment-schema.md in one batch"
 assert_contains "structure no sleep poll" "$SKILL_DIR/references/generate-structure.md" "Do not poll a compile child"
@@ -1197,6 +1204,44 @@ else
     pass "verify terminated reverse mismatch"
 fi
 assert_contains "verify terminated reverse message" "$reverse_log" "terminated mismatch"
+
+# ---------------------------------------------------------------------------
+# Notation modifiers
+# ---------------------------------------------------------------------------
+inject_root_items "$TMP_DIR/fragments-notation-modifiers" '[
+  {"kind": "option", "names": ["--files"], "notations": ["<FILE+>"], "choices": [], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Input files"},
+  {"kind": "option", "names": ["--maybe"], "notations": ["<VALUE?>"], "choices": [], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Optional value"},
+  {"kind": "option", "names": ["-l"], "notations": ["<script>", "<args*>"], "choices": [], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Execute script", "terminated": true}
+]'
+notation_script="$TMP_DIR/notation-modifiers.sh"
+quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-notation-modifiers" --stdout >"$notation_script"
+assert_contains "assemble notation plus" "$notation_script" '# @option --files <FILE+>'
+assert_contains "assemble notation optional" "$notation_script" '# @option --maybe <VALUE?>'
+assert_contains "assemble notation terminated args" "$notation_script" '# @option -l~ <script> <args*>'
+check "export notation modifiers" bash -c "argc --argc-export '$notation_script' >'$TMP_DIR/notation-modifiers-export.json'"
+check "export notation plus" jq -e '.flag_options[] | select(.long_name == "--files") | .notations == ["FILE+"] and .num_args[0] == 1 and .num_args[1] > 1 and .multiple_occurs == false' "$TMP_DIR/notation-modifiers-export.json"
+check "export notation optional" jq -e '.flag_options[] | select(.long_name == "--maybe") | .notations == ["VALUE?"] and .num_args == [0, 1]' "$TMP_DIR/notation-modifiers-export.json"
+check "export notation terminated args" jq -e '.flag_options[] | select(.long_name == "-l") | .notations == ["SCRIPT", "ARGS*~"] and .terminated == true' "$TMP_DIR/notation-modifiers-export.json"
+check "verify notation modifiers" bash "$SCRIPTS/verify-completion.sh" "$notation_script" --cmd demo --cache-dir "$TMP_DIR/fragments-notation-modifiers" --skip-compgen
+
+inject_root_items "$TMP_DIR/fragments-bad-nonfinal-notation" '[{"kind": "option", "names": ["--pair"], "notations": ["<LEFT*>", "<RIGHT>"], "choices": [], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Bad"}]'
+nonfinal_log="$(new_log)"
+if run_quiet "$nonfinal_log" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-bad-nonfinal-notation" --stdout; then
+    fail "assemble rejects non-final notation modifier (unexpected success)"
+else
+    pass "assemble rejects non-final notation modifier"
+fi
+assert_contains "non-final notation modifier message" "$nonfinal_log" "only the final option notation"
+inject_root_items "$TMP_DIR/fragments-bad-arg-notation" '[{"kind": "arg", "name": "files", "repeatable": true, "required": false, "notation": "<FILE*>", "choices": [], "choice_fn": null, "delimiter": null, "description": "Bad"}]'
+argmod_log="$(new_log)"
+if run_quiet "$argmod_log" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-bad-arg-notation" --stdout; then
+    fail "assemble rejects arg notation modifier (unexpected success)"
+else
+    pass "assemble rejects arg notation modifier"
+fi
+assert_contains "arg notation modifier message" "$argmod_log" "arg notation must not carry"
+inject_root_items "$TMP_DIR/fragments-bad-empty-notation" '[{"kind": "option", "names": ["--empty"], "notations": ["<*>"], "choices": [], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Bad"}]'
+expect_failure "assemble rejects empty notation name" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-bad-empty-notation" --stdout
 
 # ---------------------------------------------------------------------------
 # Removed value_type field

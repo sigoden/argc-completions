@@ -70,11 +70,13 @@ Pair each `choices` value with the description the help gives, when it gives one
 `terminated` (option/arg only) captures every following argument. Set it only in these cases:
 
 - a context tag has `~` after the names; the tag is authoritative, and its `choice_fn` is kept;
-- in one value sequence (an option's `notations` or the positional list), a parameter whose name or notation is a command-family token (`COMMAND`, `CMD`, `PROGRAM`, `PROG`, `EXEC`, `SCRIPT`, case-insensitive) is followed by optional (`[...]`) or variadic (`...`, `args`/`arguments`/`ARGS`, or a "multiple" note) args. Mark the args parameter (the option item or the args positional); when the help merges command and args in one parameter, mark that parameter.
+- in one value sequence (an option's `notations` or the positional list), a parameter whose name or notation is a command-family token (`COMMAND`, `CMD`, `PROGRAM`, `PROG`, `EXEC`, `SCRIPT`, case-insensitive) is followed by optional (`[...]`) or variadic (`...`, `args`/`arguments`/`ARGS`, or a "multiple" note) args. Mark the parameter that owns the args:
+  - when the args belong to the same option (`-l script [args]`, `--exec <cmd> [args...]`), set `terminated: true` on that option and keep the args as the final notation with its modifier: `"notations": ["<script>", "<args*>"]`. Never reduce the item to a single notation.
+  - when the args are a separate positional after a command-valued parameter, set `terminated: true` on the args positional and keep its bare notation; its multiple values come from `terminated`, not `repeatable`.
 
-Keep `repeatable: false` (a `...` here is the terminated value, not repeatability), `prefixed: false`, and `delimiter: null`; options keep 0-n notations. A terminator token (`;`, `{}`, `+`) is not an item, positional, or notation. Emit the field only when true and warn: `terminated <name> swallows following words; verify with <cmd> ...`. argc reports multiple values (`multiple_values` for options, `multiple` for args), not `repeatable`.
+Keep `repeatable: false` (a `...` here is the terminated value, not repeatability), `prefixed: false`, and `delimiter: null`; options keep every notation, including the final modified one. A terminator token (`;`, `{}`, `+`) is not an item, positional, or notation. Emit the field only when true and warn: `terminated <name> swallows following words; verify with <cmd> ...`. argc reports multiple values (`multiple_values` for options, `multiple` for args), not `repeatable`.
 
-Never infer from prose or a bare `~`; a `~` inside a path, description, or choice is text; a bare `...`/`*`/`+` is `repeatable`. If a command-valued parameter has no separate args parameter, leave it false and warn: `no-args-binding <name>: command value without its own args parameter`.
+Never infer from prose or a bare `~`; a `~` inside a path, description, or choice is text. A bare `...`/`*`/`+` after the option name is `repeatable`; inside the final value placeholder it is a notation modifier (*Notation modifiers*). If a command-valued parameter has no separate args parameter, leave it false and warn: `no-args-binding <name>: command value without its own args parameter`.
 
 ### Root and command metadata
 
@@ -97,8 +99,8 @@ Never infer from prose or a bare `~`; a `~` inside a path, description, or choic
 
 - `kind`: `option`.
 - `names`: one or two names in argc order (see *Names order*); with `prefixed: true`, exactly one literal prefix without the trailing `-`.
-- `notations`: zero or more `<...>` placeholders; any non-empty text without backticks or nested angle brackets is valid (`<level>`, `<X>`, `<#>`); convert `[<X>]` and `<X>?` to `<X>` and keep the order; a prefixed or delimiter option keeps at most one.
-- `repeatable`: true for `*`, `+`, `...`, or "can be specified multiple times"; a delimiter option always has it.
+- `notations`: one entry per value the option consumes, in the order the help lists them, whatever spelling the help uses: an angle-bracket placeholder, a bare metavar (`FILE`, `file`, `N`), a bracketed value (`[X]`, `[X...]`), a variadic value (`X...`), or an attached form (`--opt=X`, `-oX`). Normalize each value to `<...>`, keep the order, never drop a value because it looks optional or bracketed, and never merge two values into one notation. Preserve a modifier already present inside the final placeholder (`<ARGS+>` stays `<ARGS+>`). Map the final value with *Notation modifiers* below. Use `[]` only when the help gives no value placeholder after the names, or the value is a closed enumeration rendered as `choices`. The prefixed/delimiter one-notation cap in `<SKILL_ROOT>/references/fragment-schema.md` still applies.
+- `repeatable`: true when the option itself may occur multiple times (`--tag*`, `--tag ...`, "can be specified multiple times"); never use it for a multi-value notation such as `<VALUE+>`. A delimiter option always has it.
 - `prefixed`: `true` when the help attaches the value to the name (`-X<option>`, `-ao[a|s|t|u]`). Store only the literal/shared prefix in `names` without the trailing `-`; assembly adds argc's marker. `choices` are the suffixes (`a`, `s`, `t`, `u`), not full tokens such as `-aoa`. A non-enumerable family (`-Xmx4g`) needs a `choice_fn` or a note, not a closed `choices` list. `prefixed` does not imply `repeatable`; set `repeatable` from the help. Use `false` for `--foo <VALUE>`.
 - `delimiter`: a one-character separator when one occurrence takes several values ("comma-separated", `a,b,c`, `d,f`), one of the separators allowed by `<SKILL_ROOT>/references/fragment-schema.md`. Set `repeatable: true`; `choices` are the individual values (`d`, `f`), never the joined string. Use `null` normally; a `[a|b]` enumeration is `choices`, not a separator.
 - `terminated`: only from *Terminated values (`~`)*; set `"terminated": true` and warn. Its multiple values are not `repeatable`.
@@ -107,12 +109,28 @@ Never infer from prose or a bare `~`; a `~` inside a path, description, or choic
 - `description`: see *Description extraction*.
 - Always include `prefixed` (`false` when inactive) and `delimiter` (`null` when inactive); no `required`.
 
+### Notation modifiers
+
+Only `@option` supports notation modifiers. Write the modifier inside the final placeholder: `<VALUE*>`, `<VALUE+>`, `<VALUE?>`.
+
+| Modifier | Meaning | Typical help form |
+|---|---|---|
+| `*` | zero or more values | `[X...]`, `[args]`, `<X*>` |
+| `+` | one or more values | `X...`, `<X+>` |
+| `?` | zero or one value | `[X]`, `<X?>` |
+
+- Only the final notation may carry one modifier; every earlier notation stays bare. A non-final optional or variadic value cannot be represented: keep that notation bare and record the limitation in `notes`.
+- The modifier belongs to the value placeholder, not to the option name. Do not express `<VALUE+>` as `repeatable: true`; `repeatable` means the option itself may occur several times.
+- Keep a modifier already present in the help; do not normalize `<ARGS+>` to `<ARGS>`.
+- `@arg` does not support notation modifiers. Use `required`/`repeatable` for positionals and keep `notation` bare.
+- A command-valued option keeps its trailing args notation: `-l script [args]` -> `"notations": ["<script>", "<args*>"]` plus `terminated: true` (*Terminated values (`~`)*).
+
 ### Positional arguments
 
 - `kind`: `arg`; `name`: snake-case identifier derived from the help name, matching `^[A-Za-z0-9_][A-Za-z0-9_.-]*$`.
 - `repeatable`: true for `*`, `+`, `...`, or "can be passed multiple values"; `~` is a terminated value instead (*Terminated values (`~`)*).
 - `required`: true for `!`, `<ARG>` without brackets, or an explicit "required" note; false for `?`, `[ARG]`, "optional"; always include it.
-- `notation`: the single `<...>` placeholder, or `null`.
+- `notation`: the single `<...>` placeholder, or `null`; never put a notation modifier (`*`, `+`, `?`) inside it because argc limits modifiers to options. Use `repeatable`/`required` instead.
 - `delimiter`: a one-character separator for several values in one occurrence (`types d,f`, "comma-separated"), one of the allowed separators in `<SKILL_ROOT>/references/fragment-schema.md`; set `repeatable: true` and assembly renders `*,`/`+,` by `required`. `choices` are the individual values (`d`, `f`); use `null` when inactive.
 - `choices` and `choice_fn`: as for options.
 - `description`: see *Description extraction*. A positional with no help description gets `""`; never synthesize one from its name (`[directory ...]` is not `Directory to list`).
@@ -155,7 +173,7 @@ jq -e -f "<SKILL_ROOT>/scripts/validate-fragment.jq" --arg key "$key" "<fragment
 
 The key is the fragment `path` joined by `|` (`["gdb"]` -> `gdb`, `["gdb", "add"]` -> `gdb|add`); a root key is the root name alone, never `gdb|gdb` (a `path mismatch`). A two-name item whose first name is not a one-character short name is rejected here: split it into one item per name (see *Names order*) and re-run. A non-zero exit means the fragment is invalid; fix it.
 
-Also check that the path matches the file location and every child in `subcommands` gets its own fragment. Confirm that no description keeps an internal sentence boundary (abbreviations and decimal points excepted), repeats its own `choices` (`description repeats choices`), or contains a machine-local path; an empty description after path removal is valid.
+Also check that the path matches the file location and every child in `subcommands` gets its own fragment. Confirm that no description keeps an internal sentence boundary (abbreviations and decimal points excepted), repeats its own `choices` (`description repeats choices`), or contains a machine-local path; an empty description after path removal is valid. Check that only the final option notation carries a `*`, `+`, or `?`, that an arg notation never does, and that a command-valued option keeps its trailing args notation.
 
 ## 6. Failure handling
 

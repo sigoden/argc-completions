@@ -16,6 +16,16 @@ def arg_name: no_nl and no_tick and test("^[A-Za-z0-9_][A-Za-z0-9_.-]*$");
 def meta_key: no_nl and no_tick and test("^[A-Za-z0-9_][A-Za-z0-9_.:-]*$");
 def choice_fn_ok: . == null or (no_nl and no_tick and test("^[A-Za-z_][A-Za-z0-9_]*$"));
 def notation_ok: no_nl and no_tick and test("^<[^<>`]+>$");
+def notation_modifier:
+  if notation_ok then
+    (.[1:-1]) as $inner
+    | if ($inner | endswith("*")) or ($inner | endswith("+")) or ($inner | endswith("?"))
+      then $inner[-1:] else "" end
+  else "" end;
+def notation_has_modifier: (notation_modifier | length) > 0;
+def notation_base_ok:
+  notation_ok
+  and ((.[1:-1] | if endswith("*") or endswith("+") or endswith("?") then .[0:-1] else . end | length) > 0);
 def choice_text_ok: is_str and no_nl and no_tick and no_tab and (test("[[:cntrl:]]") | not);
 def choice_value_ok:
   choice_text_ok and (test("\\|") | not) and (test("\\]") | not)
@@ -159,6 +169,26 @@ def terminated_ok:
     (.kind != "flag") and (.repeatable != true) and
     ((.prefixed // false) != true) and ((.delimiter // null) == null)
   else true end;
+# argc allows a notation modifier (* + ?) only on @option, and only on the
+# final notation; @arg expresses optional/variadic values with
+# required/repeatable instead.
+def option_notation_modifiers_ok($i):
+  if ((.notations // []) | type) != "array" then true
+  else
+    (.notations // []) as $n
+    | ($n | length) as $len
+    | if $len == 0 then true
+      elif any($n[0:($len - 1)][]; notation_has_modifier) then
+        fail("items[\($i)]: only the final option notation may carry a * + ? modifier")
+      elif (($n[$len - 1]) | notation_has_modifier) and ((($n[$len - 1]) | notation_base_ok) | not) then
+        fail("items[\($i)]: notation modifier requires a value name")
+      else true end
+  end;
+def arg_notation_modifier_ok($i):
+  if ((.notation // null) | type) != "string" then true
+  elif (.notation | notation_has_modifier) then
+    fail("items[\($i)]: arg notation must not carry a * + ? modifier; use repeatable/required")
+  else true end;
 def item_ok($i):
   item_base($i) as $it
   | ($it.kind) as $k
@@ -180,6 +210,7 @@ def item_ok($i):
       (($it.names // null) | is_arr and length >= 1 and length <= 2 and all(.[]; opt_name)) and
       (($it.repeatable // false) | type == "boolean") and
       (($it.notations // []) | is_arr and all(.[]; notation_ok)) and
+      ($it | option_notation_modifiers_ok($i)) and
       (($it.name // null) == null) and
       (($it | has("required")) | not) and
       (($it.notation // null) == null) and
@@ -193,6 +224,7 @@ def item_ok($i):
       (($it.repeatable // false) | type == "boolean") and
       (($it | has("required")) and (($it.required) | type == "boolean")) and
       (($it.notation // null) | . == null or notation_ok) and
+      ($it | arg_notation_modifier_ok($i)) and
       (($it.names // null) == null) and
       (($it.notations // []) | length == 0) and
       (($it | has("prefixed")) | not) and
