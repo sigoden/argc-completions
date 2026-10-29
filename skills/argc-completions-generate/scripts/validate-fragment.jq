@@ -8,6 +8,37 @@ def is_obj: type == "object";
 def no_nl: is_str and (test("[\\r\\n]") | not);
 def no_tick: is_str and (test("`") | not);
 def no_tab: is_str and (test("\\t") | not);
+# Machine-local paths: $HOME/..., /home/<user>/..., /Users/<user>/...,
+# C:\Users\<user>\..., and the current home directory. Mirrors
+# scripts/normalize-description.sh.
+def home_path_ok:
+  (env.HOME // "") as $home
+  | (test("(^|[[:space:](\"'])(\\$HOME(/|$)|/home/[^/[:space:]]+/|/Users/[^/[:space:]]+/|C:\\\\Users\\\\)") | not)
+    and (($home == "") or (contains($home + "/") | not));
+def sentence_abbreviations: ["e.g", "i.e", "etc", "vs", "cf", "approx"];
+# Codepoint offset of the first sentence boundary, or null. A boundary is a
+# terminator after a word character or closing bracket, followed by a space or
+# the end; CJK terminators need no space. Abbreviations and single letters
+# before a period do not count. Mirrors scripts/normalize-description.sh.
+def sentence_boundary:
+  . as $s
+  | [ match("(\\.|!|\\?)( |$)|。|！|？"; "g")
+      | . as $m
+      | ($m.string[0:1]) as $t
+      | if ($t == "。" or $t == "！" or $t == "？") then $m.offset
+        elif $m.offset == 0 then empty
+        elif ($s[($m.offset - 1):$m.offset] | test("[[:space:].\\/(\\[{-]")) then empty
+        else
+          ($s[0:$m.offset] | split(" ") | map(select(length > 0)) | last // ""
+           | sub("^[(\"'\\[{]+"; "")) as $word
+          | if (($word | ascii_downcase) as $l | sentence_abbreviations | any(. == $l)) then empty
+            elif (($word | length) == 1 and ($word | test("^[A-Za-z]$"))) then empty
+            else $m.offset
+            end
+        end
+    ]
+  | .[0];
+def single_sentence: sentence_boundary == null;
 def cmd_name: no_nl and test("^[-A-Za-z0-9_][A-Za-z0-9_.:+@-]*$");
 def opt_name: no_nl and no_tick and test("^[-+][^[:space:]`|]+$");
 def short_name: test("^[-+][^-]$");
@@ -26,7 +57,7 @@ def notation_has_modifier: (notation_modifier | length) > 0;
 def notation_base_ok:
   notation_ok
   and ((.[1:-1] | if endswith("*") or endswith("+") or endswith("?") then .[0:-1] else . end | length) > 0);
-def choice_text_ok: is_str and no_nl and no_tick and no_tab and (test("[[:cntrl:]]") | not);
+def choice_text_ok: is_str and no_nl and no_tick and no_tab and (test("[[:cntrl:]]") | not) and home_path_ok and single_sentence;
 def choice_value_ok:
   choice_text_ok and (test("\\|") | not) and (test("\\]") | not)
   and (test("^[[:space:]]|[[:space:]]$") | not) and (length > 0);
@@ -45,7 +76,7 @@ def choices_shape($i):
   elif any(.[]; (keys_unsorted - ["value", "description"]) | length > 0) then
     fail("items[\($i)]: choices entries may only contain value and description")
   else . end;
-def description_ok: no_nl and no_tick;
+def description_ok: no_nl and no_tick and home_path_ok and single_sentence;
 def trim_space: gsub("^[[:space:]]+|[[:space:]]+$"; "");
 def unquote_choice:
   if length > 1 and ((startswith("\"") and endswith("\"")) or (startswith("'") and endswith("'")))
@@ -66,6 +97,15 @@ def choice_echoes:
   else
     ((.choices // []) | map(.value) | map(choice_value) | sort) as $want
     | [ (.description | grouped_texts)[] | select(choice_values == $want) ]
+  end;
+# A trailing ":list" whose values equal the choice set, such as
+# "Select sort: name,version"; the lead-in is kept by normalize-description.sh.
+def colon_echo:
+  if ((.choices // []) | length) == 0 then false
+  else
+    ((.choices // []) | map(.value) | map(choice_value) | sort) as $want
+    | [ (.description // "") | match(":([^:]*)$") | .captures[0].string ] as $tails
+    | ($tails | length > 0) and ($tails[0] | test("[,|]")) and (($tails[0] | choice_values) == $want)
   end;
 def only($allowed; $where):
   if type != "object" then fail("\($where): expected object")
@@ -114,11 +154,13 @@ def item_base($i):
      and (($it.choice_fn // null) | choice_fn_ok)
      and $names_ok) as $ok
   | if ($ok | not) then
-      fail("items[\($i)]: invalid description or choice_fn")
+      fail("items[\($i)]: invalid description or choice_fn (description: one line, one sentence, no backticks, no machine-local path; see scripts/normalize-description.sh)")
     else
       ($it | choice_echoes) as $echoes
       | if ($echoes | length) > 0 then
           fail("items[\($i)]: description repeats choices: \($echoes | join(", "))")
+        elif ($it | colon_echo) then
+          fail("items[\($i)]: description repeats choices in a colon list; keep only the lead-in")
         else $it
         end
     end;
@@ -238,7 +280,7 @@ def item_ok($i):
 | if (.path | is_arr and length > 0) then . else fail("path must be a non-empty array") end
 | if (.path | all(.[]; cmd_name and . != "_root")) then . else fail("invalid path") end
 | if ((.path | join("|")) == $key) then . else fail("path mismatch: expected \($key), got \(.path | join("|"))") end
-| if ((.description // "") | is_str and description_ok) then . else fail("description must be a single-line string") end
+| if ((.description // "") | is_str and description_ok) then . else fail("description must be one line, one sentence, no backticks, no machine-local path") end
 | if ((.aliases // []) | is_arr and all(.[]; cmd_name)) then . else fail("invalid aliases") end
 | if ((.meta // []) | meta_ok) then . else fail("invalid meta") end
 | if ((.items // []) | is_arr) then . else fail("items must be an array") end

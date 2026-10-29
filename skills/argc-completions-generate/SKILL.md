@@ -132,6 +132,7 @@ Read the authority file before working in its area; the rule is defined there.
 | Topic | Authority |
 |---|---|
 | Field semantics: `names` order, `terminated`/`delimiter`/`choices` interactions, `choice_fn` precedence | `<SKILL_ROOT>/references/fragment-schema.md` |
+| Description text: first sentence, machine-local paths, duplicated `choices` (mechanical; implemented by `<SKILL_ROOT>/scripts/normalize-description.sh`) | `<SKILL_ROOT>/references/fragment-schema.md` §Rules |
 | Compile child behavior: help scope, one node, no dispatch, when compile may set `terminated` | `<SKILL_ROOT>/agents/compile.md` §1, §3 |
 | Cache layout and write scope, fragment lifecycle, failure and retry | `<SKILL_ROOT>/references/generate-structure.md` §2, §3, §6, §7, §9 |
 | Choice bindings (including command-valued and `terminated`), naming, sorting, assemble/test loop | `<SKILL_ROOT>/references/add-choice-fns.md` §Ownership, §3–§5 |
@@ -142,7 +143,7 @@ Read the authority file before working in its area; the rule is defined there.
 
 ## Reporting
 
-Report workflow, root command, output path, cache directory, counts, `failed` nodes, verify result, and the next step. Report `next=add-choice-fns` when an exported value has no static or dynamic choice and an enumerable source (a terminated command line counts); a static `choices` list counts whether or not its entries carry descriptions. Otherwise `next=complete`. The handoff mechanics are in `<SKILL_ROOT>/references/generate-structure.md` §8.
+Report workflow, root command, output path, cache directory, counts, `failed` nodes, verify result, and the next step. Report `next=add-choice-fns` when an exported value has neither a static nor a dynamic choice and has an enumerable source (a terminated command line qualifies). A static `choices` list, with or without descriptions, already is a choice, so that value does not trigger the handoff; every other case reports `next=complete`. The handoff mechanics are in `<SKILL_ROOT>/references/generate-structure.md` §8.
 
 ```text
 workflow=all root=make commands=1 fragments=1 items=35 choice_fns=2 failed=0 verify=PASS next=complete

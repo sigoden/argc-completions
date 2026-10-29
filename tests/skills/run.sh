@@ -145,7 +145,7 @@ path_prefix_lint() {
     /\.\/(scripts|references|agents|cache|completions|utils|tests|bin|skills|install\.sh)/ { report("dot-relative path") }
     /(^|[^>\/$A-Za-z0-9_.-])(scripts|references|agents|cache|completions|utils|tests|bin|skills)\// { report("bare path prefix") }
     /(^|[^>\/$A-Za-z0-9_.-])install\.sh/ { report("bare install.sh") }
-    /(^|[^>\/$A-Za-z0-9_.-])(preflight|assemble|verify-completion|test-compgen|format-choices|set-choice-fns|compare-help|extract-cmd-context|reset-cache|update-subcommand-status|lib)\.sh/ { report("bare skill script") }
+    /(^|[^>\/$A-Za-z0-9_.-])(preflight|assemble|verify-completion|test-compgen|format-choices|set-choice-fns|compare-help|extract-cmd-context|reset-cache|update-subcommand-status|lib|normalize-description)\.sh/ { report("bare skill script") }
     /(^|[^>\/$A-Za-z0-9_.-])(validate-fragment|inspect-fragment-items|inspect-script-params)\.jq/ { report("bare skill jq") }
     /(^|[^>\/$A-Za-z0-9_.-])(generate-structure|add-choice-fns|compgen-helpers|compgen-recipes|compgen|verify|fragment-schema)\.md/ { report("bare reference filename") }
     /(^|[^>\/$A-Za-z0-9_.-])compile\.md/ { report("bare compile.md") }
@@ -255,12 +255,12 @@ for script in inspect-fragment-items.jq inspect-script-params.jq; do
 done
 
 # Unique doc contracts with no executable counterpart: canonicalization, the
-# machine-local path rule, and choice de-duplication.
+# description normalization (normalize-description.sh), machine-local path rule, and choice de-duplication.
 assert_contains "compile contract schema pointer" "$SKILL_DIR/agents/compile.md" "<SKILL_ROOT>/references/fragment-schema.md"
-assert_contains "compile contract home path rule" "$SKILL_DIR/agents/compile.md" '(`$HOME/...`)'
+assert_contains "compile contract normalizer call" "$SKILL_DIR/agents/compile.md" "scripts/normalize-description.sh --choice"
 assert_contains "compile contract machine-local path" "$SKILL_DIR/agents/compile.md" "machine-local path"
 assert_contains "compile contract canonicalizer" "$SKILL_DIR/agents/compile.md" "canonicalize_help_file"
-assert_contains "compile contract duplicate choices" "$SKILL_DIR/agents/compile.md" "Remove duplicated"
+assert_contains "compile contract validator rejects" "$SKILL_DIR/agents/compile.md" "validate-fragment.jq\` rejects a description"
 assert_contains "compile contract placeholder case" "$SKILL_DIR/agents/compile.md" "Preserve each placeholder's text and case"
 assert_contains "compile contract help flag" "$SKILL_DIR/agents/compile.md" "Include \`--help\` and \`--version\` only when the help lists them"
 assert_contains "compile contract canonicalizer output" "$SKILL_DIR/agents/compile.md" 'canonicalize_help_file "$raw" "$cache_dir/_root.new.txt"'
@@ -269,7 +269,7 @@ assert_contains "compile contract root compare absolute" "$SKILL_DIR/agents/comp
 assert_not_contains "compile contract no relative help target" "$SKILL_DIR/agents/compile.md" 'canonicalize_help_file "$raw" _root.new.txt'
 assert_not_contains "compile contract no relative root compare" "$SKILL_DIR/agents/compile.md" 'compare-help.sh _root.txt _root.new.txt'
 assert_not_contains "compile contract no ambiguous help target" "$SKILL_DIR/agents/compile.md" '"<help-target>"'
-assert_contains "compile contract no validator read" "$SKILL_DIR/agents/compile.md" "and you do not read it"
+assert_contains "compile contract no validator read" "$SKILL_DIR/agents/compile.md" "you read none of them"
 assert_contains "compile contract no synthetic arg description" "$SKILL_DIR/agents/compile.md" "never synthesize one from its name"
 assert_contains "compile contract no skill load" "$SKILL_DIR/agents/compile.md" "Do not call the \`skill\` tool"
 assert_contains "compile contract canonical comparison" "$SKILL_DIR/agents/compile.md" 'never use `diff` to compare raw help with canonical help'
@@ -1498,6 +1498,68 @@ assert_contains "assemble keeps partial choice list" "$choice_ok_script" 'guest 
 assert_contains "assemble keeps prose group" "$choice_ok_script" 'Mode (see fast docs)'
 check "assemble renders empty description without padding" grep -Fxq '# @option --empty[a|b] <MODE>' "$choice_ok_script"
 check "verify cleaned choice descriptions" bash "$SCRIPTS/verify-completion.sh" "$choice_ok_script" --cmd demo --cache-dir "$choice_ok_dir" --skip-compgen
+
+# ---------------------------------------------------------------------------
+# Description normalization (normalize-description.sh) and the matching
+# validate-fragment.jq rules. Golden cases come from the description rules in
+# references/fragment-schema.md; the first group is the real cache corpus shape.
+# ---------------------------------------------------------------------------
+normalize_case() {
+    local label="$1" expected="$2" raw="$3"
+    shift 3
+    local args=() c
+    for c in "$@"; do args+=(--choice "$c"); done
+    local got
+    got="$(printf '%s' "$raw" | bash "$SCRIPTS/normalize-description.sh" "${args[@]}")"
+    if [[ "$got" == "$expected" ]]; then
+        pass "$label"
+    else
+        fail "$label (got: $got, want: $expected)"
+    fi
+}
+normalize_case "normalize keeps abbreviation sentence" 'Print human readable file sizes (e.g. 1K 234M 56G)' 'Print human readable file sizes (e.g. 1K 234M 56G)'
+normalize_case "normalize cuts at first sentence" 'Manage remotes' 'Manage remotes. More detail.'
+normalize_case "normalize drops echoed bracket group" 'Mode (default: a)' 'Mode [a|b] (default: a). More.' a b
+normalize_case "normalize drops colon list echo" 'Select sort' 'Select sort: name,version,none.' name version none
+normalize_case "normalize drops home path and connector" 'use BROWSER' 'use /home/you/.local/bin/browser.sh or BROWSER'
+normalize_case "normalize drops home-only text" '' '$HOME/.config/x'
+normalize_case "normalize flattens and strips backticks" 'Set foo wrapped line' $'Set `foo`\n    wrapped\tline.'
+normalize_case "normalize keeps standalone question mark" 'both ? (single-char wildcard) and * do not' 'both ? (single-char wildcard) and * do not'
+normalize_case "normalize keeps dotted tail" 'save files to PREFIX/..' 'save files to PREFIX/..'
+normalize_case "normalize keeps dash question mark" 'print this help message and exit (also -? or --help)' 'print this help message and exit (also -? or --help)'
+normalize_case "normalize keeps single letter initial" 'J. Smith' 'J. Smith'
+normalize_case "normalize cuts CJK sentence" '清理缓存' '清理缓存。更多说明'
+normalize_case "normalize keeps trailing etc" 'Foo, bar, etc.' 'Foo, bar, etc.'
+
+fragment_description_check() {
+    # usage: fragment_description_check <label> <ok|reject> <description> [needle]
+    local label="$1" want="$2" desc="$3" needle="${4:-}" frag err
+    frag="$TMP_DIR/desc-$(printf '%s' "$label" | cksum | cut -d' ' -f1).json"
+    err="$frag.err"
+    jq -n --arg d "$desc" '{schemaVersion: 1, path: ["demo"], description: $d, aliases: [], meta: [], items: [], subcommands: [], source: {kind: "none"}, notes: ""}' >"$frag"
+    if jq -e -f "$SCRIPTS/validate-fragment.jq" --arg key demo "$frag" >/dev/null 2>"$err"; then
+        if [[ "$want" == ok ]]; then pass "$label"; else fail "$label (unexpected accept)"; fi
+    elif [[ "$want" == reject ]] && { [[ -z "$needle" ]] || grep -Fq -- "$needle" "$err"; }; then
+        pass "$label"
+    else
+        fail "$label (want $want: $(head -1 "$err"))"
+    fi
+}
+fragment_description_check "validator accepts one sentence" ok 'Manage remotes'
+fragment_description_check "validator accepts abbreviation" ok 'Use e.g. foo'
+fragment_description_check "validator accepts dotted tail" ok 'save files to PREFIX/..'
+fragment_description_check "validator rejects trailing terminator" reject 'Manage remotes.' 'description must be one line'
+fragment_description_check "validator rejects second sentence" reject 'First. Second' 'description must be one line'
+fragment_description_check "validator rejects home path" reject 'Use /home/you/bin/x' 'description must be one line'
+fragment_description_check "validator rejects HOME path" reject 'Set $HOME/.config' 'description must be one line'
+fragment_description_check "validator rejects backtick" reject 'a `b`' 'description must be one line'
+fragment_description_check "validator accepts CJK single sentence" ok '清理缓存'
+fragment_description_check "validator rejects CJK second sentence" reject '清理。更多' 'description must be one line'
+
+choice_echo_reject "assemble rejects colon-list choice echo" \
+    "$TMP_DIR/fragments-choice-echo-colon" \
+    '{"kind": "option", "names": ["--sort"], "notations": ["<KEY>"], "choices": [{"value": "name", "description": ""}, {"value": "version", "description": ""}, {"value": "none", "description": ""}], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Select sort: name,version,none"}' \
+    "description repeats choices in a colon list"
 
 # ---------------------------------------------------------------------------
 # choices objects and generated STATIC functions

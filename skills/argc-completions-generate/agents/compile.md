@@ -4,7 +4,7 @@ You are a compile subagent for the `argc-completions-generate` skill: compile ex
 
 ## Path roots
 
-`<SKILL_ROOT>` is the directory two levels above this file (`<SKILL_ROOT>/agents/compile.md`); `<REPO_ROOT>` is the repository root, so the cache directory in your prompt is `<REPO_ROOT>/cache/compile/<root>`. `$cache_dir` below is that absolute directory, copied verbatim from your prompt; every cache write and comparison uses `"$cache_dir/<name>"`, never a bare filename. The orchestrator substitutes absolute paths; never treat `<...>` as a literal path. Read `<SKILL_ROOT>/references/fragment-schema.md` once for the field rules before composing. Do not inspect `<REPO_ROOT>/completions/`, other nodes' fragments, or the skill's shell scripts to infer shape or rendering; the only skill script you run is `<SKILL_ROOT>/scripts/validate-fragment.jq`, and you do not read it or list `<SKILL_ROOT>/scripts/`; checking `_root.txt`/`_root.json` in *your* cache directory is part of the probe. Empty context means no existing completion script.
+`<SKILL_ROOT>` is the directory two levels above this file (`<SKILL_ROOT>/agents/compile.md`); `<REPO_ROOT>` is the repository root, so the cache directory in your prompt is `<REPO_ROOT>/cache/compile/<root>`. `$cache_dir` below is that absolute directory, copied verbatim from your prompt; every cache write and comparison uses `"$cache_dir/<name>"`, never a bare filename. The orchestrator substitutes absolute paths; never treat `<...>` as a literal path. Read `<SKILL_ROOT>/references/fragment-schema.md` once for the field rules before composing. Do not inspect `<REPO_ROOT>/completions/`, other nodes' fragments, or the skill's shell scripts to infer shape or rendering; the skill scripts you run are `<SKILL_ROOT>/scripts/lib.sh` (sourced, never read), `<SKILL_ROOT>/scripts/compare-help.sh` (root probe), `<SKILL_ROOT>/scripts/normalize-description.sh` (descriptions), and `<SKILL_ROOT>/scripts/validate-fragment.jq` (self-check); you read none of them and do not list `<SKILL_ROOT>/scripts/`; checking `_root.txt`/`_root.json` in *your* cache directory is part of the probe. Empty context means no existing completion script.
 
 ## 1. Fetch help or man text
 
@@ -55,15 +55,17 @@ Extract only what is explicitly present in the help/man text. When a section is 
 
 ### Description extraction
 
-Apply the schema rules to **every** `description` field (fragment, subcommand, flag, option, arg): flatten to one line, keep the first sentence only, strip backticks, and never merge, rephrase, translate, or fill in missing content.
+Every `description` field (fragment, subcommand, flag, option, arg, and each `choices` entry) is produced by the normalizer, never composed by hand:
 
-Remove every machine-local path (`$HOME/...`), including `/home/<user>/...` and the other user-home forms; the schema rule covers connector removal, system paths, and the empty-result case.
+```sh
+printf '%s\n' "$raw_text" | bash <SKILL_ROOT>/scripts/normalize-description.sh --choice '<value>' ...
+```
 
-Remove duplicated `choices` metadata: when `choices` is non-empty, delete each enumeration group whose **values** equal the `choices` values (set comparison) and keep `(default: ...)` and `choices`; see `<SKILL_ROOT>/references/fragment-schema.md` for the full-set, partial-match, and empty rules.
+Pass one `--choice` per static `choices` value of that item (none when the item has no `choices`). Use its output verbatim; empty output is valid. Feed the raw text through a quoted variable or here-doc so backticks and `$` are not expanded, and never retype, rephrase, or translate it. The rules (flatten, backticks, machine-local paths, duplicated choices, first sentence) are in `<SKILL_ROOT>/references/fragment-schema.md`; the self-check in §5 rejects a description that still breaks them.
 
-Example: `Draw border around the input section [rounded|sharp|none] (default: rounded)` with `choices` `rounded`, `sharp`, `none` -> `Draw border around the input section (default: rounded)`. A colon-introduced list is also an enumeration: `Select sort: name,version,size,mtime,ctime,none` with those six values -> `Select sort`; remove it only on a full-set match.
+Example: `Draw border around the input section [rounded|sharp|none] (default: rounded)` with `--choice rounded --choice sharp --choice none` -> `Draw border around the input section (default: rounded)`.
 
-Pair each `choices` value with the description the help gives, when it gives one: a `value<TAB>text` table, `value - text`, `value: text`, or a `value: ...` paragraph under "possible values". Take the first sentence of that text (same flattening, backtick, machine-path, and no-rephrasing rules as other descriptions), strip the value prefix, and leave `""` when the help has no per-value text. Never invent, merge, or borrow a description from another option. A value repeated with conflicting text keeps the first text. Record a mixed enumeration's literals and descriptions in `notes` instead of `choices`.
+Pair each `choices` value with the description the help gives, when it gives one: a `value<TAB>text` table, `value - text`, `value: text`, or a `value: ...` paragraph under "possible values". Run that text through the normalizer (see *Description extraction*), strip the value prefix first, and leave `""` when the help has no per-value text. Never invent, merge, or borrow a description from another option. A value repeated with conflicting text keeps the first text. Record a mixed enumeration's literals and descriptions in `notes` instead of `choices`.
 
 ### Names order
 
@@ -177,7 +179,7 @@ jq -e -f "<SKILL_ROOT>/scripts/validate-fragment.jq" --arg key "$key" "<fragment
 
 The key is the fragment `path` joined by `|` (`["gdb"]` -> `gdb`, `["gdb", "add"]` -> `gdb|add`); a root key is the root name alone, never `gdb|gdb` (a `path mismatch`). A two-name item whose first name is not a one-character short name is rejected here: split it into one item per name (see *Names order*) and re-run. A non-zero exit means the fragment is invalid; fix it.
 
-Also check that the path matches the file location and every child in `subcommands` gets its own fragment. Confirm that no description keeps an internal sentence boundary (abbreviations and decimal points excepted), repeats its own `choices` (`description repeats choices`), or contains a machine-local path; an empty description after path removal is valid. Check that only the final option notation carries a `*`, `+`, or `?`, that an arg notation never does, and that a command-valued option keeps its trailing args notation.
+Also check that the path matches the file location and every child in `subcommands` gets its own fragment. `<SKILL_ROOT>/scripts/validate-fragment.jq` rejects a description with a sentence boundary, a machine-local path, a backtick, or a repeated `choices` enumeration (`description repeats choices`); on rejection, re-run the normalizer on the raw text rather than editing the output by hand. Check that only the final option notation carries a `*`, `+`, or `?`, that an arg notation never does, and that a command-valued option keeps its trailing args notation.
 
 ## 6. Failure handling
 

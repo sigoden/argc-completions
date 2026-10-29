@@ -117,7 +117,7 @@ A missing script prints empty output. The format is fixed:
 
 ## 5. Dispatch compile subagents
 
-The full contract is `<SKILL_ROOT>/agents/compile.md`; use one subagent per pending path with this prompt (fork mode):
+The full contract is `<SKILL_ROOT>/agents/compile.md`; use one subagent per pending path with this prompt:
 
 ```text
 You are compiling one command node for the argc-completions-generate skill.
@@ -130,11 +130,11 @@ Context:
 <context text, or "(empty)" for a new command>
 ```
 
-Replace `<SKILL_ROOT>` and `<REPO_ROOT>` with absolute paths before dispatch; never send angle-bracket placeholders. Use `Context: (empty)` or omit the block when empty. Without fork, keep only those fields; the child reads both files itself.
+Replace `<SKILL_ROOT>` and `<REPO_ROOT>` with absolute paths before dispatch; never send angle-bracket placeholders. Use `Context: (empty)` or omit the block when empty. Send only those fields; the child reads both contract files itself.
 
 The child writes the fragment and `.txt`, returns the summary JSON, and handles exactly one node; it does not update the parent. Consume only `cache`, `status`, `warnings`, and `subcommands[]`. If subagents are unavailable, follow `<SKILL_ROOT>/agents/compile.md` inline.
 
-For workflow `all`, dispatch the root child in the background and read `<SKILL_ROOT>/references/add-choice-fns.md`, `<SKILL_ROOT>/references/compgen.md`, `<SKILL_ROOT>/references/compgen-helpers.md`, and `<SKILL_ROOT>/references/compgen-recipes.md` while it runs; they do not depend on the fragment. Keep its `warnings` verbatim and collect them across every node — `<SKILL_ROOT>/references/add-choice-fns.md` §2 matches them by tag — so the binding pass runs once after the final assembly, never per node. Do not poll a compile child with `sleep`, `ls`, or `test -f` on the cache; the runtime delivers its closing message and a completion notice. Do the independent reads, then handle the notice; if you must check, use one `list_agents` call.
+For workflow `all`, dispatch the root child in the background. Do not pre-read the binding references (`<SKILL_ROOT>/references/add-choice-fns.md` and the `<SKILL_ROOT>/references/compgen*.md` files) while it runs: they are needed only when §8 reports `next=add-choice-fns`, and `all` reads them at that point. Keep every node's `warnings` verbatim and collect them across nodes; `<SKILL_ROOT>/references/add-choice-fns.md` §2 matches them by tag, so the binding pass runs once after the final assembly, never per node. Do not poll a compile child with `sleep`, `ls`, or `test -f` on the cache; the runtime delivers its closing message and a completion notice, and until it arrives, do nothing that depends on the fragment.
 
 ## 6. Update status and handle node failures
 
