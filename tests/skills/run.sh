@@ -145,7 +145,7 @@ path_prefix_lint() {
     /\.\/(scripts|references|agents|cache|completions|utils|tests|bin|skills|install\.sh)/ { report("dot-relative path") }
     /(^|[^>\/$A-Za-z0-9_.-])(scripts|references|agents|cache|completions|utils|tests|bin|skills)\// { report("bare path prefix") }
     /(^|[^>\/$A-Za-z0-9_.-])install\.sh/ { report("bare install.sh") }
-    /(^|[^>\/$A-Za-z0-9_.-])(preflight|assemble|verify-completion|test-compgen|format-choices|set-choice-fn|compare-help|extract-cmd-context|reset-cache|update-subcommand-status|lib)\.sh/ { report("bare skill script") }
+    /(^|[^>\/$A-Za-z0-9_.-])(preflight|assemble|verify-completion|test-compgen|format-choices|set-choice-fns|compare-help|extract-cmd-context|reset-cache|update-subcommand-status|lib)\.sh/ { report("bare skill script") }
     /(^|[^>\/$A-Za-z0-9_.-])(validate-fragment|inspect-fragment-items|inspect-script-params)\.jq/ { report("bare skill jq") }
     /(^|[^>\/$A-Za-z0-9_.-])(generate-structure|add-choice-fns|compgen-helpers|compgen-recipes|compgen|verify|fragment-schema)\.md/ { report("bare reference filename") }
     /(^|[^>\/$A-Za-z0-9_.-])compile\.md/ { report("bare compile.md") }
@@ -246,8 +246,8 @@ check "format-choices script" test -x "$SCRIPTS/format-choices.sh"
 check "format-choices syntax" bash -n "$SCRIPTS/format-choices.sh"
 check "test-compgen script" test -x "$SCRIPTS/test-compgen.sh"
 check "test-compgen syntax" bash -n "$SCRIPTS/test-compgen.sh"
-check "set-choice-fn script" test -x "$SCRIPTS/set-choice-fn.sh"
-check "set-choice-fn syntax" bash -n "$SCRIPTS/set-choice-fn.sh"
+check "set-choice-fns script" test -x "$SCRIPTS/set-choice-fns.sh"
+check "set-choice-fns syntax" bash -n "$SCRIPTS/set-choice-fns.sh"
 check "update-subcommand-status script" test -x "$SCRIPTS/update-subcommand-status.sh"
 check "update-subcommand-status syntax" bash -n "$SCRIPTS/update-subcommand-status.sh"
 for script in inspect-fragment-items.jq inspect-script-params.jq; do
@@ -341,9 +341,9 @@ assert_not_contains "fragment items no value_type" "$SCRIPTS/inspect-fragment-it
 # Export probing rules and the choice-fn binding contract.
 assert_contains "choice docs export schema" "$SKILL_DIR/references/add-choice-fns.md" "no top-level \`.options\` array"
 assert_contains "choice docs split binding" "$SKILL_DIR/references/add-choice-fns.md" "set \`choice_fn\` on **every** item"
-assert_contains "choice docs binding script" "$SKILL_DIR/references/add-choice-fns.md" "set-choice-fn.sh"
-assert_contains "choice docs multi-name binding" "$SKILL_DIR/references/add-choice-fns.md" "--eval-command -ex"
-assert_contains "choice docs terminated binding" "$SKILL_DIR/references/add-choice-fns.md" '--terminated "$fragment"'
+assert_contains "choice docs binding script" "$SKILL_DIR/references/add-choice-fns.md" "set-choice-fns.sh"
+assert_contains "choice docs multi-name binding" "$SKILL_DIR/references/add-choice-fns.md" '--eval-command[`_choice_value`]'
+assert_contains "choice docs terminated binding" "$SKILL_DIR/references/add-choice-fns.md" '--command~[`_choice_command_args`]'
 assert_not_contains "choice docs no inline binding jq" "$SKILL_DIR/references/add-choice-fns.md" ".items |= map("
 assert_contains "choice docs single-item query" "$SKILL_DIR/references/add-choice-fns.md" ".flag_options[] | select(.id =="
 assert_contains "compgen __argc_value notation" "$SKILL_DIR/references/compgen.md" "__argc_value=<NOTATION>"
@@ -849,70 +849,103 @@ assert_contains "script params unknown path message" "$TMP_DIR/script-params-err
 assert_contains "script params unknown path children" "$TMP_DIR/script-params-error.txt" "available: add"
 
 # ---------------------------------------------------------------------------
-# set-choice-fn.sh
+# set-choice-fns.sh
 # ---------------------------------------------------------------------------
-scf_script="$SCRIPTS/set-choice-fn.sh"
-check "set-choice-fn script" test -x "$scf_script"
-check "set-choice-fn syntax" bash -n "$scf_script"
+scf_script="$SCRIPTS/set-choice-fns.sh"
+check "set-choice-fns script" test -x "$scf_script"
+check "set-choice-fns syntax" bash -n "$scf_script"
 
 scf_dir="$TMP_DIR/fragments-set-choice"
 mkdir -p "$scf_dir"
 cp -R "$FIXTURES/fragments/with-choice/." "$scf_dir/"
 
 scf_out="$TMP_DIR/set-choice-option.txt"
-check_to "$scf_out" "set-choice-fn option" bash "$scf_script" "$scf_dir/_root.json" _choice_out --output
-assert_contains "set-choice-fn reports match" "$scf_out" "matched=1"
-check "set-choice-fn option binding" test "$(jq -r '.items[] | select(.names | index("--output")) | .choice_fn' "$scf_dir/_root.json")" = _choice_out
-check "set-choice-fn option choices" test "$(jq -r '.items[] | select(.names | index("--output")) | .choices | length' "$scf_dir/_root.json")" = 0
+check_to "$scf_out" "set-choice-fns option" bash "$scf_script" "$scf_dir/_root.json" '--output[`_choice_out`]'
+assert_contains "set-choice-fns reports match" "$scf_out" "matched=1"
+assert_contains "set-choice-fns reports binding" "$scf_out" "binding=--output fn=_choice_out terminated=false"
+check "set-choice-fns option binding" test "$(jq -r '.items[] | select(.names | index("--output")) | .choice_fn' "$scf_dir/_root.json")" = _choice_out
+check "set-choice-fns option choices" test "$(jq -r '.items[] | select(.names | index("--output")) | .choices | length' "$scf_dir/_root.json")" = 0
 
-check "set-choice-fn arg" bash "$scf_script" "$scf_dir/remote/add.json" _choice_name name
-check "set-choice-fn arg binding" test "$(jq -r '.items[] | select(.name == "name") | .choice_fn' "$scf_dir/remote/add.json")" = _choice_name
+# One call applies every binding of the batch and empties each static list.
+scf_batch="$scf_dir/batch.json"
+cp "$FIXTURES/fragments/with-choice/_root.json" "$scf_batch"
+scf_batch_out="$TMP_DIR/set-choice-batch.txt"
+check_to "$scf_batch_out" "set-choice-fns batch" bash "$scf_script" "$scf_batch" \
+    '--output[`_choice_out`]' '--format[`_choice_format`]'
+assert_contains "set-choice-fns batch count" "$scf_batch_out" "bindings=2"
+check "set-choice-fns batch first" test "$(jq -r '.items[] | select(.names | index("--output")) | .choice_fn' "$scf_batch")" = _choice_out
+check "set-choice-fns batch second" test "$(jq -r '.items[] | select(.names | index("--format")) | .choice_fn' "$scf_batch")" = _choice_format
+check "set-choice-fns batch second choices" test "$(jq -r '.items[] | select(.names | index("--format")) | .choices | length' "$scf_batch")" = 0
+
+check "set-choice-fns arg" bash "$scf_script" "$scf_dir/remote/add.json" 'name[_choice_name]'
+check "set-choice-fns arg binding" test "$(jq -r '.items[] | select(.name == "name") | .choice_fn' "$scf_dir/remote/add.json")" = _choice_name
 
 scf_split="$scf_dir/split.json"
 jq -n '{schemaVersion:1,path:["demo","remote","add"],description:"",aliases:[],meta:[],items:[
   {kind:"option",names:["--eval-command"],notations:["<COMMAND>"],choices:[],choice_fn:null,repeatable:false,prefixed:false,delimiter:null,description:"Eval"},
   {kind:"option",names:["-ex"],notations:["<COMMAND>"],choices:[],choice_fn:null,repeatable:false,prefixed:false,delimiter:null,description:"Eval"}
 ],subcommands:[],source:{kind:"none"},notes:""}' >"$scf_split"
-check "set-choice-fn split option" bash "$scf_script" "$scf_split" _choice_value --eval-command -ex
-check "set-choice-fn split first" test "$(jq -r '.items[] | select(.names | index("--eval-command")) | .choice_fn' "$scf_split")" = _choice_value
-check "set-choice-fn split second" test "$(jq -r '.items[] | select(.names | index("-ex")) | .choice_fn' "$scf_split")" = _choice_value
+check "set-choice-fns split option" bash "$scf_script" "$scf_split" \
+    '--eval-command[`_choice_value`]' '-ex[`_choice_value`]'
+check "set-choice-fns split first" test "$(jq -r '.items[] | select(.names | index("--eval-command")) | .choice_fn' "$scf_split")" = _choice_value
+check "set-choice-fns split second" test "$(jq -r '.items[] | select(.names | index("-ex")) | .choice_fn' "$scf_split")" = _choice_value
 
 cp "$scf_dir/_root.json" "$TMP_DIR/set-choice-before.json"
-expect_failure "set-choice-fn rejects flag" bash "$scf_script" "$scf_dir/_root.json" _choice_v -v
-check "set-choice-fn flag leaves fragment unchanged" cmp -s "$scf_dir/_root.json" "$TMP_DIR/set-choice-before.json"
+expect_failure "set-choice-fns rejects flag" bash "$scf_script" "$scf_dir/_root.json" '-v[`_choice_v`]'
+check "set-choice-fns flag leaves fragment unchanged" cmp -s "$scf_dir/_root.json" "$TMP_DIR/set-choice-before.json"
 
 cp "$scf_dir/_root.json" "$TMP_DIR/set-choice-before.json"
-expect_failure "set-choice-fn rejects missing item" bash "$scf_script" "$scf_dir/_root.json" _choice_missing --no-such-option
-check "set-choice-fn missing item leaves fragment unchanged" cmp -s "$scf_dir/_root.json" "$TMP_DIR/set-choice-before.json"
+expect_failure "set-choice-fns rejects missing item" bash "$scf_script" "$scf_dir/_root.json" '--no-such-option[`_choice_missing`]'
+check "set-choice-fns missing item leaves fragment unchanged" cmp -s "$scf_dir/_root.json" "$TMP_DIR/set-choice-before.json"
 
-expect_failure "set-choice-fn rejects invalid function" bash "$scf_script" "$scf_dir/_root.json" 'invalid fn' --output
+cp "$scf_dir/_root.json" "$TMP_DIR/set-choice-before.json"
+expect_failure "set-choice-fns rejects duplicate binding" bash "$scf_script" "$scf_dir/_root.json" \
+    '--output[`_choice_a`]' '--output[`_choice_b`]'
+check "set-choice-fns duplicate leaves fragment unchanged" cmp -s "$scf_dir/_root.json" "$TMP_DIR/set-choice-before.json"
+
+cp "$scf_dir/_root.json" "$TMP_DIR/set-choice-before.json"
+expect_failure "set-choice-fns rejects malformed binding" bash "$scf_script" "$scf_dir/_root.json" '--output'
+check "set-choice-fns malformed leaves fragment unchanged" cmp -s "$scf_dir/_root.json" "$TMP_DIR/set-choice-before.json"
+
+cp "$scf_dir/_root.json" "$TMP_DIR/set-choice-before.json"
+expect_failure "set-choice-fns rejects overlapping bindings" bash "$scf_script" "$scf_dir/_root.json" \
+    '-o[`_choice_a`]' '--output[`_choice_b`]'
+check "set-choice-fns overlap leaves fragment unchanged" cmp -s "$scf_dir/_root.json" "$TMP_DIR/set-choice-before.json"
+
+expect_failure "set-choice-fns rejects invalid function" bash "$scf_script" "$scf_dir/_root.json" '--output[invalid fn]'
+
+# A batch is atomic: one bad binding keeps every binding unapplied.
+cp "$scf_dir/_root.json" "$TMP_DIR/set-choice-before.json"
+expect_failure "set-choice-fns atomic batch" bash "$scf_script" "$scf_dir/_root.json" \
+    '--format[`_choice_format`]' '-v[`_choice_v`]'
+check "set-choice-fns atomic batch leaves fragment unchanged" cmp -s "$scf_dir/_root.json" "$TMP_DIR/set-choice-before.json"
 
 scf_term="$scf_dir/terminated.json"
 jq -n '{schemaVersion:1,path:["demo"],description:"",aliases:[],meta:[],items:[
   {kind:"option",names:["--command"],notations:["<COMMAND>"],choices:[],choice_fn:null,repeatable:false,prefixed:false,delimiter:null,description:"Command"}
 ],subcommands:[],source:{kind:"none"},notes:""}' >"$scf_term"
-check "set-choice-fn terminated" bash "$scf_script" --terminated "$scf_term" _choice_command_args --command
-check "set-choice-fn terminated field" test "$(jq -r '.items[0].terminated' "$scf_term")" = true
+check "set-choice-fns terminated" bash "$scf_script" "$scf_term" '--command~[`_choice_command_args`]'
+check "set-choice-fns terminated field" test "$(jq -r '.items[0].terminated' "$scf_term")" = true
 
 scf_term_bad="$scf_dir/terminated-bad.json"
 jq -n '{schemaVersion:1,path:["demo"],description:"",aliases:[],meta:[],items:[
   {kind:"option",names:["--command"],notations:["<COMMAND>"],choices:[],choice_fn:null,repeatable:true,prefixed:false,delimiter:null,description:"Command"}
 ],subcommands:[],source:{kind:"none"},notes:""}' >"$scf_term_bad"
 cp "$scf_term_bad" "$TMP_DIR/set-choice-before.json"
-expect_failure "set-choice-fn rejects terminated conflict" bash "$scf_script" --terminated "$scf_term_bad" _choice_command_args --command
-check "set-choice-fn terminated conflict leaves fragment unchanged" cmp -s "$scf_term_bad" "$TMP_DIR/set-choice-before.json"
+expect_failure "set-choice-fns rejects terminated conflict" bash "$scf_script" "$scf_term_bad" '--command~[`_choice_command_args`]'
+check "set-choice-fns terminated conflict leaves fragment unchanged" cmp -s "$scf_term_bad" "$TMP_DIR/set-choice-before.json"
 
 scf_invalid="$scf_dir/invalid.json"
 jq -n '{schemaVersion:1,path:["demo"],description:"",aliases:[],meta:[],items:[
   {kind:"option",names:["--output"],notations:["<FILE>"],choices:[],choice_fn:null,repeatable:false,prefixed:false,delimiter:null,description:"Out",value_type:"file"}
 ],subcommands:[],source:{kind:"none"},notes:""}' >"$scf_invalid"
 cp "$scf_invalid" "$TMP_DIR/set-choice-before.json"
-expect_failure "set-choice-fn validates before write" bash "$scf_script" "$scf_invalid" _choice_out --output
-check "set-choice-fn validation leaves fragment unchanged" cmp -s "$scf_invalid" "$TMP_DIR/set-choice-before.json"
+expect_failure "set-choice-fns validates before write" bash "$scf_script" "$scf_invalid" '--output[`_choice_out`]'
+check "set-choice-fns validation leaves fragment unchanged" cmp -s "$scf_invalid" "$TMP_DIR/set-choice-before.json"
 
 cp "$scf_dir/remote.json" "$TMP_DIR/set-choice-before.json"
-expect_failure "set-choice-fn rejects a leading marker" bash "$scf_script" "$scf_dir/remote.json" '?_choice_foo' --foo
-check "set-choice-fn marker rejection leaves fragment unchanged" cmp -s "$scf_dir/remote.json" "$TMP_DIR/set-choice-before.json"
+expect_failure "set-choice-fns rejects a leading marker" bash "$scf_script" "$scf_dir/remote.json" '--foo[`?_choice_foo`]'
+check "set-choice-fns marker rejection leaves fragment unchanged" cmp -s "$scf_dir/remote.json" "$TMP_DIR/set-choice-before.json"
 
 # Function-only harness documented in compgen.md §6.
 harness_out="$(bash -c '
@@ -1681,7 +1714,7 @@ gawk '/^command eval / && !done {
         done = 1
     }
     { print }' "$TMP_DIR/dynamic.sh" >"$TMP_DIR/dynamic.tmp" && mv "$TMP_DIR/dynamic.tmp" "$TMP_DIR/dynamic.sh"
-check "dynamic set-choice-fn" bash "$SCRIPTS/set-choice-fn.sh" "$TMP_DIR/fragments-dynamic/_root.json" _choice_out --output
+check "dynamic set-choice-fns" bash "$SCRIPTS/set-choice-fns.sh" "$TMP_DIR/fragments-dynamic/_root.json" '--output[`_choice_out`]'
 quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-dynamic" --output "$TMP_DIR/dynamic.sh" --force
 assert_contains "dynamic binding rendered" "$TMP_DIR/dynamic.sh" '--output[?`_choice_out`]'
 assert_contains "dynamic function preserved" "$TMP_DIR/dynamic.sh" '_choice_out() {'

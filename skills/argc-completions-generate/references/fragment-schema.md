@@ -65,7 +65,7 @@ Rules:
 - `choice_fn` is copied only from `<SKILL_ROOT>/scripts/extract-cmd-context.sh` in generate-structure; never infer it. A new binding belongs to the later binding step, not to compile.
 - Filesystem notation: use `<dir>`, `<file>`, or `<path>` when the name, position, and description make the semantics clear; never bind a `choice_fn` to those values because argc generates path candidates.
 - Structural fields (`names`, `notations`/`notation`, `choices`, `aliases`, `path`) must not contain backticks or newlines; `choices` values must not contain `|` or `]` and no choice field may contain TAB because assembly renders or splits on them. Put function names in `choice_fn`, not in `` `...` `` form.
-- A non-null `choice_fn` wins over `choices`: the binding is rendered and no static function is generated. `<SKILL_ROOT>/scripts/set-choice-fn.sh` empties `choices` when it binds an item.
+- A non-null `choice_fn` wins over `choices`: the binding is rendered and no static function is generated. `<SKILL_ROOT>/scripts/set-choice-fns.sh` empties `choices` when it binds an item.
 - Arg suffixes derive from the two booleans: `repeatable` + `required` -> `+`, `repeatable` only -> `*`, `required` only -> `!`, neither -> no suffix. A delimiter appends to the suffix: `files*,` or `files+,`.
 - The old `modifier` field is removed; a fragment containing it is invalid and must be regenerated.
 - Assembly validates every fragment with `<SKILL_ROOT>/scripts/validate-fragment.jq`; the key is the fragment `path` joined by `|` (`["gdb"]` -> `gdb`, `["gdb", "add"]` -> `gdb|add`). A `path mismatch` usually means a repeated root (`gdb|gdb`) or the wrong root.

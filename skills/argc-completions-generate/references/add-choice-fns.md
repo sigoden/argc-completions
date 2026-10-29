@@ -41,7 +41,7 @@ Read generate-structure's warnings first and match them by tag: `mixed-enumerati
 ## 3. Choose a binding
 
 1. Add or update the function in `CHOICES` before the final eval: `_choice_*` for a tag-bound entry point, `_helper_*` for an internal helper. When the block is absent, insert `# >>> CHOICES` / `# <<< CHOICES` around the new functions first. If it calls `_argc_util_*`, add the single `<REPO_ROOT>/utils/_argc_utils.sh` source guard.
-2. Set the matching fragment item's `choice_fn` to the plain function name (no backticks). If the binding replaces a static list, set `choices` to `[]`; `<SKILL_ROOT>/scripts/set-choice-fn.sh` does this, including for a described list that `STATIC` currently renders as `[?`_static_*`]`.
+2. Set the matching fragment item's `choice_fn` to the plain function name (no backticks). If the binding replaces a static list, set `choices` to `[]`; `<SKILL_ROOT>/scripts/set-choice-fns.sh` does this, including for a described list that `STATIC` currently renders as `[?`_static_*`]`.
 3. Queue it: finish every edit of the batch, then run the single gate in §5.
 
 Fragment lookup: one fragment per node under `<REPO_ROOT>/cache/compile/<root>/` (`<SKILL_ROOT>/references/fragment-schema.md`). Set the item for exactly one parameter; stop and report if no item matches and never add or rename items.
@@ -50,16 +50,22 @@ When one option is split across items (one name each), set `choice_fn` on **ever
 
 **Command-valued binding.** When the item's name or notation is a command-family token (`COMMAND`, `CMD`, `PROGRAM`, `PROG`, `EXEC`, `SCRIPT`, case-insensitive), or its description says it executes a command, and the completion needs the command plus its arguments, use the recipe in `<SKILL_ROOT>/references/compgen-recipes.md` §*Command-valued option*: `_choice_command` (backed by `_argc_util_comp_command`) for the executable and `_choice_command_args` to copy the option array with a nameref and delegate with `_argc_util_comp_subcommand 0`. Set `terminated: true` on the same item when compile did not mark it and its `repeatable`, `prefixed`, and `delimiter` fields allow it; stop and report instead of overriding them. Then queue it for the §5 gate. Never fake the behavior with `repeatable` or a `delimiter`.
 
-Update the fragment with the tested helper. It matches every name passed, rejects flags and missing items, empties `choices`, optionally sets `terminated`, and writes only after validation:
+Update the fragment with the tested helper. One call carries every binding for that fragment; the trailing `~` before the bracket sets `terminated: true`. It rejects flags, missing items, duplicate or overlapping bindings, and terminated conflicts, empties `choices`, and writes only after the whole batch validates:
 
 ```sh
 fragment="<REPO_ROOT>/cache/compile/<root>/<...>.json"
-bash <SKILL_ROOT>/scripts/set-choice-fn.sh "$fragment" _choice_foo --foo
-# Split option: pass every name.
-bash <SKILL_ROOT>/scripts/set-choice-fn.sh "$fragment" _choice_value --eval-command -ex
+bash <SKILL_ROOT>/scripts/set-choice-fns.sh "$fragment" '--foo[`_choice_foo`]'
+# Split option: one binding per item.
+bash <SKILL_ROOT>/scripts/set-choice-fns.sh "$fragment" \
+  '--eval-command[`_choice_value`]' '-ex[`_choice_value`]'
 # Command-valued binding:
-bash <SKILL_ROOT>/scripts/set-choice-fn.sh --terminated "$fragment" _choice_command_args --command
+bash <SKILL_ROOT>/scripts/set-choice-fns.sh "$fragment" '--command~[`_choice_command_args`]'
+# Whole batch in one call:
+bash <SKILL_ROOT>/scripts/set-choice-fns.sh "$fragment" \
+  '--output[`_choice_output`]' '--format[`_choice_format`]' '--command~[`_choice_command_args`]'
 ```
+
+Quote each binding with single quotes: inside double quotes the backticks run command substitution, and the bare function name without backticks is also accepted. A fragment is rewritten atomically, so one bad binding leaves every binding unapplied. A name that ends in `~` (only the `-~`/`+~` first name of a two-name item) cannot be written as a binding, because its trailing `~` reads as the terminated marker; bind that item by its other name.
 
 ## 4. Function placement and naming
 
@@ -78,7 +84,7 @@ Formatting, assembly, and verification each rewrite or re-read the whole script,
 
 1. Edit phase — no `<SKILL_ROOT>/scripts/format-choices.sh` and no `<SKILL_ROOT>/scripts/assemble.sh` between edits:
    - add or update every `CHOICES` function the batch needs;
-   - run `<SKILL_ROOT>/scripts/set-choice-fn.sh` once per fragment/binding (it validates that fragment).
+   - run `<SKILL_ROOT>/scripts/set-choice-fns.sh` once per fragment with every binding in that fragment (it applies the batch atomically and validates that fragment).
 
    All functions go in before the gate: a fragment `choice_fn` whose function is still missing fails assembly. Keep a batch to one node, or about ten bindings, so a gate failure is easy to localize.
 
