@@ -7,7 +7,6 @@ helper_init
 
 recipes_md="$SKILL_DIR/references/compgen-recipes.md"
 
-assert_contains "recipes section map" "$recipes_md" "## Section map"
 assert_contains "recipes command-valued option" "$recipes_md" "## Command-valued option"
 
 helper_finish

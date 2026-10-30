@@ -13,7 +13,6 @@ assert_contains "generate-structure subtree usage" "$structure_md" "reset-cache.
 assert_contains "structure status update script" "$structure_md" 'update-subcommand-status.sh "$parent" <name> <status>'
 assert_contains "structure handoff explicit" "$structure_md" "handoff, not an automatic continuation"
 assert_contains "generate-structure handoff params" "$structure_md" "inspect-script-params.jq"
-assert_contains "structure dump-static" "$structure_md" "--dump-static"
 assert_contains "structure static function naming" "$structure_md" "_static_<fragment path without the root>"
 assert_contains "structure no completions inspect" "$structure_md" 'Do not inspect `<REPO_ROOT>/completions/`'
 

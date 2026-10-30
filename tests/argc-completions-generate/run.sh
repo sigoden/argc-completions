@@ -1,16 +1,26 @@
 #!/usr/bin/env bash
-# Tests for the project agent skills and the completion assembly scripts.
+# Tests for the argc-completions-generate skill itself.
+#
+# Scope: these tests exercise the skill's documents, scripts and contracts —
+# SKILL.md wording, references/*.md and agents/*.md requirements, the
+# scripts/*.sh interfaces, and the fragment/context fixture formats.
+#
+# Out of scope: they do NOT test the completions the skill produces. No command
+# is crawled, no fragment is compiled by an agent, and no completions/<cmd>.sh is
+# generated or executed. Verifying generated completions is a separate concern.
 #
 # Layout:
-#   helper.sh       shared harness: paths, reporting, assertions, fixture builders
-#   cases/reference-*  one file per references/*.md document
-#   cases/agent-*      one file per agents/*.md document
-#   cases/script-*     one file per skill script or contract artifact
-#   cases/skill-*      package-level rules (SKILL.md, layout, cross-doc)
+#   helper.sh                   shared harness: paths, reporting, assertions, fixture builders
+#   cases/reference-*           one file per references/*.md document
+#   cases/agent-*               one file per agents/*.md document
+#   cases/script-*              one file per skill script or contract artifact
+#   cases/skill-md.sh           SKILL.md checks
+#   cases/skill-layout.sh       layout checks
+#   cases/skill-cross-docs.sh   cross-document checks
 #
 # This file only runs every case file in name order and aggregates the results.
 # A single case file is standalone for focused work:
-#   bash tests/skills/cases/script-assemble.sh
+#   bash tests/argc-completions-generate/cases/script-assemble.sh
 #
 # Environment:
 #   VERBOSE=1  stream each command's output as it runs

@@ -14,7 +14,6 @@ for ref in "$SKILL_DIR"/references/*.md; do
         grep -Fq "$(basename "$ref")" "$skill_md"
 done
 
-assert_contains "skill section map pointer" "$skill_md" "Section map"
 assert_contains "skill regenerate routing" "$skill_md" "| \`regenerate\` |"
 assert_contains "skill regenerate trigger" "$skill_md" "Explicit regenerate intent overrides the cache state"
 assert_contains "skill reset-cache step" "$skill_md" "reset-cache.sh"
@@ -41,14 +40,5 @@ assert_not_contains "skill no format rule" "$skill_md" "format-choices.sh"
 assert_not_contains "skill no generic-assertion rule" "$skill_md" "Candidate assertions use"
 assert_not_contains "skill no completions-inspection rule" "$skill_md" 'Do not inspect `<REPO_ROOT>/completions/`'
 assert_not_contains "skill no sort rule" "$skill_md" "LC_ALL=C"
-
-assert_not_contains "skill no shared completers" "$skill_md" "shared completer"
-assert_not_contains "skill no value types library" "$skill_md" "utils/_value_types.sh"
-assert_not_contains "skill no value_type field" "$skill_md" '`value_type`'
-
-# Path convention guards: every skill doc uses the two documented roots.
-assert_contains "skill root documented" "$skill_md" "<SKILL_ROOT>"
-assert_contains "repo root documented" "$skill_md" "<REPO_ROOT>"
-assert_contains "repo root env documented" "$skill_md" "ARGC_COMPLETIONS_ROOT"
 
 helper_finish

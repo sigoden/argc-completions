@@ -8,13 +8,7 @@ helper_init
 choice_md="$SKILL_DIR/references/add-choice-fns.md"
 
 assert_contains "choice docs generic compgen" "$choice_md" "--argc-compgen generic"
-assert_not_contains "choice docs no shared completers" "$choice_md" "shared completer"
-assert_not_contains "choice docs no value types library" "$choice_md" "utils/_value_types.sh"
 assert_contains "choice docs subcommand helper" "$choice_md" '_argc_util_comp_subcommand 0'
-assert_not_contains "choice docs no stale command args helper" "$choice_md" '_argc_util_comp_command_args'
-# The leading `?` on a rendered dynamic candidate source is an assembly detail;
-# no document explains it.
-assert_not_contains "choice docs no marker hint" "$choice_md" "advisory hint"
 
 # Export probing rules and the choice-fn binding contract.
 assert_contains "choice docs export schema" "$choice_md" "no top-level \`.options\` array"

@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
-# Shared harness for tests/skills/cases/*.sh.
+# Shared harness for tests/argc-completions-generate/cases/*.sh.
+#
+# These tests cover the skill's own documents, scripts and contracts, not the
+# completions the skill generates (see run.sh for the full scope note).
 #
 # Layers:
 #   run.sh      orchestration: lists the case files, aggregates counts, exit code
@@ -8,7 +11,7 @@
 #
 # A case file is a standalone script and runs on its own:
 #
-#   bash tests/skills/cases/script-assemble.sh
+#   bash tests/argc-completions-generate/cases/script-assemble.sh
 #
 #   set -euo pipefail
 #   . "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/helper.sh"

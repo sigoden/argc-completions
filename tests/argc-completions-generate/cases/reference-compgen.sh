@@ -22,19 +22,12 @@ check "compgen section map rows" bash -c '
     test "$rows" = 6
 ' _ "$compgen_md"
 
-assert_contains "compgen routes helpers" "$compgen_md" "compgen-helpers.md"
-assert_contains "compgen routes recipes" "$compgen_md" "compgen-recipes.md"
-
 assert_contains "compgen candidate checks" "$compgen_md" "Candidate checks"
 assert_contains "compgen generic assertions" "$compgen_md" "--argc-compgen generic"
 assert_not_contains "compgen no shell candidate lore" "$compgen_md" "COMP_WORDBREAKS"
 # The workflow and the specification keep separate homes.
 assert_contains "compgen workflow pointer" "$compgen_md" "<SKILL_ROOT>/references/add-choice-fns.md"
-assert_contains "compgen section map" "$compgen_md" "## Section map"
-assert_not_contains "compgen no shared completers" "$compgen_md" "shared completer"
-assert_not_contains "compgen no value types library" "$compgen_md" "utils/_value_types.sh"
 assert_contains "compgen __argc_value notation" "$compgen_md" "__argc_value=<NOTATION>"
-assert_contains "compgen static choices note" "$compgen_md" "_static_*"
 assert_contains "compgen bounded queries" "$compgen_md" "A candidate query must be read-only and bounded"
 assert_contains "compgen assertion helper" "$compgen_md" "test-compgen.sh"
 

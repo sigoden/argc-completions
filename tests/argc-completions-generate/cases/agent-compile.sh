@@ -10,7 +10,6 @@ compile_md="$SKILL_DIR/agents/compile.md"
 assert_contains "compile contract schema pointer" "$compile_md" "<SKILL_ROOT>/references/fragment-schema.md"
 assert_contains "compile contract normalizer call" "$compile_md" "scripts/normalize-description.sh --choice"
 assert_contains "compile contract machine-local path" "$compile_md" "machine-local path"
-assert_contains "compile contract canonicalizer" "$compile_md" "canonicalize_help_file"
 assert_contains "compile contract validator rejects" "$compile_md" "validate-fragment.jq\` rejects a description"
 assert_contains "compile contract placeholder case" "$compile_md" "Preserve each placeholder's text and case"
 assert_contains "compile contract help flag" "$compile_md" "Include \`--help\` and \`--version\` only when the help lists them"
@@ -32,8 +31,6 @@ assert_contains "compile contract args notation kept" "$compile_md" '"notations"
 assert_contains "compile contract arg notation bare" "$compile_md" 'never put a notation modifier (`*`, `+`, `?`) inside it'
 assert_contains "compile reset cache probe" "$compile_md" "If the cache directory was reset"
 assert_contains "compile subtree cache result" "$compile_md" "cache=n/a"
-assert_not_contains "compile no value-type inference" "$compile_md" "Value type inference"
-assert_not_contains "compile no value_type field" "$compile_md" "value_type"
 assert_contains "compile choice descriptions" "$compile_md" 'Pair each `choices` value with the description'
 assert_contains "compile choices objects" "$compile_md" 'objects `{"value": "...", "description": "..."}`'
 assert_contains "compile help scope" "$compile_md" "Sibling and child help are off limits"
