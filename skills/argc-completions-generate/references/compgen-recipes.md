@@ -29,8 +29,6 @@ _choice_env() {
 }
 ```
 
-Use when the key is runtime data and the value query depends on it.
-
 ## Multi-part value
 
 ```sh
@@ -66,7 +64,7 @@ _choice_cp() {
 }
 ```
 
-Use for `namespace:path` (a container, pod, host, or archive plus an inner path): the left side offers names with `suffix=:`, the right switches to `mode_parts /`. Keep the local path fallback, quote the remote path, guard the remote command, and cache slow lists.
+The left side offers names with `suffix=:`, the right switches to `mode_parts /`. Keep the local path fallback, quote the remote path, guard the remote command, and cache slow lists.
 
 ## Command-valued option
 
@@ -110,7 +108,7 @@ _choice_files() {
 }
 ```
 
-Use when a sibling option or an earlier positional changes the value space: read `$argc_<id>`, `argc__positionals` for earlier words, and `argc__dash` when `--` changes the meaning. For a mode flag, test for a non-empty value, not `1`.
+Read `$argc_<id>`, `argc__positionals` for earlier words, and `argc__dash` when `--` changes the meaning. For a mode flag, test for a non-empty value, not `1`.
 
 ## Project context and targets
 
@@ -124,7 +122,7 @@ _choice_script() {
 }
 ```
 
-Use when candidates come from the nearest project file: find the marker upward, then parse only; never execute build tools. For a Makefile, read the files a plain invocation would read (the `-f` file, `MAKEFILES`, or `GNUmakefile`/`makefile`/`Makefile`); collect names and descriptions in source order, skip `%`, `$`, and special targets, then print from `END`; never execute recipes.
+Find the marker upward, then parse only; never execute build tools. For a Makefile, read the files a plain invocation would read (the `-f` file, `MAKEFILES`, or `GNUmakefile`/`makefile`/`Makefile`); collect names and descriptions in source order, skip `%`, `$`, and special targets, then print from `END`; never execute recipes.
 
 ## Aggregated and cached sources
 
@@ -134,7 +132,7 @@ _choice_image() {
 }
 ```
 
-Use when one value has several independent sources or a slow query: combine sources with `_argc_util_parallel` (`<SKILL_ROOT>/references/compgen-helpers.md` §5) and cache with a key that includes the directory, file, stack, or host. Guard external tools inside the uncached function.
+Combine sources with `_argc_util_parallel` (`<SKILL_ROOT>/references/compgen-helpers.md` §5) and cache with a key that includes the directory, file, stack, or host. Guard external tools inside the uncached function.
 
 ## Prefixed and path-valued words
 
@@ -162,7 +160,7 @@ _choice_appendable_file() {
 }
 ```
 
-Use when the prefix is part of the word: a prefixed option (`-Xfoo`), a symbol (`+toolchain`), or a path introduced by `@`/`+`. `ARGC_CWORD` is the text after the prefix, `ARGC_LAST_ARG` the whole word; for a path, pair `prefix=` with `filter=`. A prefixed option is `prefixed: true` with `names: ["-X"]`; a symbol uses `@meta symbol +name[...]`.
+A prefixed option (`-Xfoo`), a symbol (`+toolchain`), or a path introduced by `@`/`+`. For a path, pair `prefix=` with `filter=`. A prefixed option is `prefixed: true` with `names: ["-X"]`; a symbol uses `@meta symbol +name[...]`.
 
 ## Shared function across options
 

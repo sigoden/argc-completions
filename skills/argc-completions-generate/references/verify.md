@@ -32,7 +32,7 @@ The command name comes from the path: `<REPO_ROOT>/completions/git.sh` -> `git`,
 8. **Block fidelity** (with `--cache-dir`): `<SKILL_ROOT>/scripts/assemble.sh <root> --cache-dir <dir> --dump-spec` and `--dump-static` must match the script's `SPEC` and `STATIC` blocks byte-for-byte (an absent `STATIC` block compares as empty), proving both derive from fragments only; a hand edit fails here.
 9. **Cache hygiene** (with `--cache-dir`): every file is a fragment (`.json`) or its same-named help (`.txt`). A `.txt` without the matching `.json` is a stray (a raw capture reads as a node help file), `_root.new.txt` is a probe leftover, and a `.json` whose `source.kind` is not `none` must have its `.txt`.
 10. **No-choice mode** (`--require-no-choice-fns`): reject choice references, `_choice_*` definitions, and exported `Fn` choices that are not generated `STATIC` functions; use it for a fresh script with no dynamic bindings.
-11. **Compgen smoke**: run `argc --argc-compgen generic` for root options, root positionals, and each first-level subcommand (up to 100); for options with `Fn` choices, complete the value (up to 30, 5s timeout); skip `assigned`/`prefixed` options (they need the equals/attached form). It asserts exit status and stderr only, not candidate content; `generic` skips shell post-processing and path expansion, so shell-side formatting is out of scope.
+11. **Compgen smoke**: run `argc --argc-compgen generic` for root options, root positionals, and each first-level subcommand (up to 100); for options with `Fn` choices, complete the value (up to 30, 5s timeout); skip `assigned`/`prefixed` options (they need the equals/attached form). It asserts exit status and stderr only, not candidate content; `generic` skips shell post-processing and path expansion, so shell-side formatting is out of scope. Use `--skip-compgen` when a choice calls an external service or an uninstalled command; the other checks still run.
 12. **Summary**: print `PASS`/`FAIL` per check and `RESULT: PASS`/`RESULT: FAIL`; any failure exits 1, and warnings fail by default.
 
 Examples:
@@ -45,10 +45,3 @@ bash <SKILL_ROOT>/scripts/verify-completion.sh <REPO_ROOT>/completions/foo.sh --
 bash <SKILL_ROOT>/scripts/verify-completion.sh <REPO_ROOT>/completions/foo.sh \
   --cache-dir <REPO_ROOT>/cache/compile/foo --require-no-choice-fns
 ```
-
-## Notes
-
-- `--skip-compgen` fits choices that call external services or an uninstalled command; other checks still run.
-- Assemble before `--cache-dir` verification; assembly refuses `todo` nodes.
-- A block-fidelity or fragment-bindings failure means fragments and script disagree: fix the fragment and re-assemble.
-- Compgen smoke only proves the engine ran; keep a candidate-level check per new function (`<SKILL_ROOT>/references/add-choice-fns.md` §5). Use `-v` and `<SKILL_ROOT>/references/compgen.md` §6 for word forms.

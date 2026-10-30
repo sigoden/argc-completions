@@ -37,7 +37,7 @@ echo -e "value\0\tdescription"        # description, no trailing space
 - Guard an auxiliary tool with `command -v <tool> >/dev/null || return 0`; a missing tool must not fail completion. Never guard the completion's own root command (it always exists); guard a different tool, including a fallback name.
 - A candidate query must be read-only and bounded: prefer a local or cached source, cap the result count, and wrap network or slow calls in a timeout.
 - A candidate whose first field starts with `__argc_` is a control line; never emit ordinary values with that prefix or the internal `__argc_fn=`/`__argc_multi=` lines (argc generates them).
-- A fragment `choices` list whose entries carry descriptions is rendered by assembly as a generated `_static_*` function in `STATIC`, so those values follow the same protocol; an all-empty-description list stays a plain `[a|b]` argc choice.
+- A fragment `choices` list whose entries carry descriptions is rendered by assembly as a generated `_static_*` function in `STATIC`, so those values follow the same protocol.
 
 ## 2. Context variables
 
@@ -90,7 +90,7 @@ A function can request paths at runtime with `__argc_value` and `__argc_cd`; `_a
 
 ## 4. Structured config files
 
-Parse YAML, TOML, XML, or INI values with mikefarah/yq inside `_choice_*`; it is optional, so emit nothing when absent (§1 guard).
+Parse YAML, TOML, XML, or INI values with mikefarah/yq inside `_choice_*`.
 
 ```sh
 yq -r '.profiles[].name' config.yaml
@@ -180,7 +180,7 @@ bash -c '
 Use a scratch script and avoid the two traps that hide results:
 
 - Define every `_choice_*` the probe references (a stub such as `_choice_probe() { :; }`); a helper call needs `_argc_utils.sh` sourced, or use a static `[a|b]`. A missing bound function makes `argc --argc-export` exit 1 with `_choice_x(line N) is missing` on stderr and a partly useful export.
-- Keep streams apart: write stdout to a file and read stderr separately (`<SKILL_ROOT>/SKILL.md` §Inspection). After rewriting a scratch script (`sed`, `cat`, ...), re-read it before an edit or write tool, or a stale-read guard rejects the change.
+- After rewriting a scratch script (`sed`, `cat`, ...), re-read it before an edit or write tool, or a stale-read guard rejects the change.
 
 ```sh
 argc --argc-export /tmp/probe.sh >/tmp/probe.export.json

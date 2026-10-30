@@ -16,7 +16,7 @@ You are a compile subagent for the `argc-completions-generate` skill: compile ex
 
 ## 1. Fetch help or man text
 
-Use the first source that works: `<cmd...> --help` (capture stdout and stderr); `<cmd...> help` or `<cmd> help <sub...>`; `man <cmd>-<sub>` or `man <cmd>`, extracting only the relevant section. The list is exhaustive (`-h` is not a source); set `PAGER=cat MANPAGER=cat COLUMNS=9999 NO_COLOR=1` (the shared capture helper below does this) and keep the raw text as data. Once `--help` or `help` succeeds, skip `man`.
+Use the first source that works: `<cmd...> --help` (capture stdout and stderr); `<cmd...> help` or `<cmd> help <sub...>`; `man <cmd>-<sub>` or `man <cmd>`, extracting only the relevant section. The list is exhaustive (`-h` is not a source); set `PAGER=cat MANPAGER=cat COLUMNS=9999 NO_COLOR=1` and keep the raw text as data. Once `--help` or `help` succeeds, skip `man`.
 
 Help scope: `<cmd...>` is this node's command path (`demo remote add`), and `<sub...>` in the `help` form is that path, not a sibling. The parent command's help is readable (it carries the subcommand list, aliases, and this node's summary). Sibling and child help are off limits as data sources: no sibling or child option, choice, notation, or description may fill an `items`, `names`, `notations`, `choices`, `choice_fn`, `description`, or `meta` field of this fragment. A sibling may be uncompiled with no fragment yet, so its data is unavailable, not missing: fetch no sibling to fill a gap or mirror its choices, and take no result from another node. The only permitted read of a child's help is the subcommand existence check in §3, judged by exit status and usage line alone.
 
@@ -45,16 +45,16 @@ else
 fi
 ```
 
-Nothing else belongs in the cache directory besides the entries listed in `<SKILL_ROOT>/references/generate-structure.md` §2; a subcommand existence probe (§3) keeps the exit status and usage line only and discards its output.
+Nothing else belongs in the cache directory besides the fragment target and its `.txt`, plus `_root.new.txt` during the root probe (§2); a capture or probe dump belongs outside it. A subcommand existence probe (§3) keeps the exit status and usage line only and discards its output.
 
 The probe is deterministic: a missing or invalid `_root.txt`/`_root.json` is `new`; `<SKILL_ROOT>/scripts/compare-help.sh` printing `same` is `hit`; `different` is `miss`; a failed help/man retrieval is `unknown`. The result comes from these checks alone.
 
 ## 2. Root cache probe
 
 Only the root node performs this step. If the cache directory was reset, it contains no `_root.txt` or `_root.json`: report `new` and do not reconstruct either file from another cache or the completion script. A subtree regenerate reports `cache=n/a` and skips this probe. Remove `"$cache_dir/_root.new.txt"` on every outcome, including a failed comparison, copy, or validation:
-- `new`: `"$cache_dir/_root.txt"` or `"$cache_dir/_root.json"` is missing/invalid. Compile and validate `"$cache_dir/_root.json"`, then copy `"$cache_dir/_root.new.txt"` to `"$cache_dir/_root.txt"`, remove `"$cache_dir/_root.new.txt"`, report `cache=new`.
-- `hit`: `<SKILL_ROOT>/scripts/compare-help.sh "$cache_dir/_root.txt" "$cache_dir/_root.new.txt"` prints `same`. Do **not** rewrite either root file; remove `"$cache_dir/_root.new.txt"`; return the existing subcommand summary and `cache=hit`.
-- `miss`: the comparison prints `different`. Compile and validate a fresh `"$cache_dir/_root.json"`, then copy `"$cache_dir/_root.new.txt"` to `"$cache_dir/_root.txt"`, remove `"$cache_dir/_root.new.txt"`, report `cache=miss`.
+- `new`: `"$cache_dir/_root.txt"` or `"$cache_dir/_root.json"` is missing/invalid. Compile and validate `"$cache_dir/_root.json"`, then copy `"$cache_dir/_root.new.txt"` to `"$cache_dir/_root.txt"`, report `cache=new`.
+- `hit`: `<SKILL_ROOT>/scripts/compare-help.sh "$cache_dir/_root.txt" "$cache_dir/_root.new.txt"` prints `same`. Do **not** rewrite either root file; return the existing subcommand summary and `cache=hit`.
+- `miss`: the comparison prints `different`. Compile and validate a fresh `"$cache_dir/_root.json"`, then copy `"$cache_dir/_root.new.txt"` to `"$cache_dir/_root.txt"`, report `cache=miss`.
 - `unknown`: help/man retrieval failed. Leave the cache unchanged; report `cache=unknown` with the reason.
 
 ## 3. Parse CLI definitions
@@ -96,7 +96,7 @@ Set `~` only from a context tag or the command-family rule; a `~` inside a path,
 
 - `description`: the root description or the subcommand summary (see *Description extraction*).
 - `aliases`: explicit subcommand aliases only; names containing `_` get a hyphenated alias automatically.
-- `meta`: copy `@meta` lines verbatim to `{"key": ..., "value": ...}`. `combine-shorts` is the only inferable key, and an existing context line always wins: add `{"key": "combine-shorts", "value": ""}` only on the root fragment, because argc reads `combine-shorts` and `inherit-flag-options` from the script root alone, and a child fragment never carries either. Infer it only from a probe: the root help lists two or more POSIX/GNU getopt-style single-letter shorts (`-a`, `-v`) and `<root> -XY` built from two single-letter shorts of the root help either succeeds or fails with a diagnostic naming one letter (`invalid option -- 'x'`, `Unknown option: -Z`); leave the key off when the diagnostic names the whole token (`bad option: -pv`) or the probe is inconclusive. Skip a tool with single-dash long names (`-jar`, `-Xmx`).
+- `meta`: copy `@meta` lines verbatim to `{"key": ..., "value": ...}`. `combine-shorts` is the only inferable key, and an existing context line always wins: add `{"key": "combine-shorts", "value": ""}` only on the root fragment. Infer it only from a probe: the root help lists two or more POSIX/GNU getopt-style single-letter shorts (`-a`, `-v`) and `<root> -XY` built from two single-letter shorts of the root help either succeeds or fails with a diagnostic naming one letter (`invalid option -- 'x'`, `Unknown option: -Z`); leave the key off when the diagnostic names the whole token (`bad option: -pv`) or the probe is inconclusive. Skip a tool with single-dash long names (`-jar`, `-Xmx`).
 - `subcommands`: names, aliases, and descriptions from the explicit command-list section (`Commands:`, `Subcommands:`); every new child gets `"status": "todo"`; omit the `help` pseudo-command. A `Usage:` alternation (`[a|b|c]`) is one positional arg with `choices`, never subcommands. Take names, aliases, and descriptions from the list; when the list is ambiguous about one name, run `<cmd> <name> --help` once and decide from its exit status and usage line only (see *Help scope* in §1). An explicit list needs no probe. `Aliases:` names the current node. With no list, emit `subcommands: []` and note it.
 - Items never repeat the command's own name.
 - Preserve each placeholder's text and case from the help (`<level>`, `<pattern>`).
@@ -181,15 +181,14 @@ key="$(IFS='|'; echo "${path[*]}")"
 jq -e -f "<SKILL_ROOT>/scripts/validate-fragment.jq" --arg key "$key" "<fragment>"
 ```
 
-The key is the fragment `path` joined by `|` (`["gdb"]` -> `gdb`, `["gdb", "add"]` -> `gdb|add`); a root key is the root name alone, never `gdb|gdb` (a `path mismatch`). A two-name item whose first name is not a one-character short name is rejected here: split it into one item per name (see *Names order*) and re-run. A non-zero exit means the fragment is invalid; fix it.
+The key is the fragment `path` joined by `|` (`["gdb"]` -> `gdb`, `["gdb", "add"]` -> `gdb|add`); a root key is the root name alone, never `gdb|gdb` (a `path mismatch`). A non-zero exit means the fragment is invalid; fix it and re-run the validator.
 
-Also check that the path matches the file location and every child in `subcommands` gets its own fragment. `<SKILL_ROOT>/scripts/validate-fragment.jq` rejects a description with a sentence boundary, a machine-local path, a backtick, or a repeated `choices` enumeration (`description repeats choices`); on rejection, re-run the normalizer on the raw text. Check that only the final option notation carries a `*`, `+`, or `?`, that an arg notation never does, and that a command-valued option keeps its trailing args notation.
+`<SKILL_ROOT>/scripts/validate-fragment.jq` rejects a description with a sentence boundary, a machine-local path, a backtick, or a repeated `choices` enumeration (`description repeats choices`); on rejection, re-run the normalizer on the raw text.
 
 ## 6. Failure handling
 
 - If help/man cannot be obtained after one retry, write a minimal fragment with `items: []`, `subcommands: []`, `source: {"kind": "none"}`, and report `status: failed` with the reason.
 - For a shell builtin with no `--help`, try `help <cmd>` and the man page; take definitions only from output those sources give.
-- Fix a rejected field and re-run the validator unchanged.
 
 ## 7. Return summary
 

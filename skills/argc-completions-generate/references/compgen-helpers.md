@@ -48,13 +48,13 @@ fi
 | `_argc_util_parallel` | Merge several independent candidate sources. |
 | `_argc_util_param_select_options` | Forward wrapper-level options to the delegated command. |
 
-Rules: argc filters candidates, so never pre-filter (`<SKILL_ROOT>/references/compgen.md` §1), and never split a `prefixed`/`delimiter` word yourself (`<SKILL_ROOT>/references/compgen.md` §5). Close pairs: `comp_parts`/`mode_parts` (project a known list vs query each part), `comp_kv`/`mode_kv` (fixed vs runtime keys), `comp_path`/`has_path_prefix` (path only vs path-or-command switch).
+Close pairs: `comp_parts`/`mode_parts` (project a known list vs query each part), `comp_kv`/`mode_kv` (fixed vs runtime keys), `comp_path`/`has_path_prefix` (path only vs path-or-command switch).
 
 ## 2. Splitting and value shapes
 
 #### `_argc_util_comp_path [dir] [prefix=] [filter=] [suffix=] [exts=] [cd=]`
 
-Complete paths, directories only, or files with allowed extensions. Emits `__argc_value=path[:exts]` or `dir` plus the split controls; prefer the notation in `<SKILL_ROOT>/references/compgen.md` §3 when the tag can carry it.
+Complete paths, directories only, or files with allowed extensions. Emits `__argc_value=path[:exts]` or `dir` plus the split controls.
 
 ```sh
 # exts= keeps --config to JSON; suffix=: leaves the word open; cd= rebases the paths.
@@ -96,7 +96,7 @@ EOF
 }
 ```
 
-Notes: removes earlier values, keeps descriptions, and marks every candidate with `\0` so typing continues; argc already splits a `delimiter`+`repeatable` word (`<SKILL_ROOT>/references/compgen.md` §5), so pass `[filter]`/`[prefix]` only for a caller-made split.
+Notes: removes earlier values, keeps descriptions, and marks every candidate with `\0` so typing continues; pass `[filter]`/`[prefix]` only for a caller-made split.
 
 #### `_argc_util_comp_kv <sep> [filter] [prefix]`
 
@@ -240,7 +240,7 @@ Notes: the path branch preserves a typed path, the name branch is any domain sou
 
 Use for executable command names, as the non-path branch of `_choice_command` above. It emits real `PATH` executables only: builtins, keywords, aliases, functions, directories, and non-executable files are skipped, a name found in several `PATH` dirs appears once, and Windows drops `.dll` while stripping `.exe`/`.com`/`.bat`/`.cmd`. Order follows `PATH`; sort when stable order matters.
 
-Notes: it does not complete path-looking words, so always pair it with `_argc_util_has_path_prefix` and `_argc_util_comp_path` (`<SKILL_ROOT>/references/compgen-recipes.md` §*Command-valued option*).
+Notes: it does not complete path-looking words.
 
 #### `_argc_util_comp_subcommand <index> [prepend...]`
 
@@ -319,7 +319,7 @@ _choice_git_tag() { _helper_git tag --sort=-creatordate | head -n 50; }
 _helper_git() { git $(_argc_util_param_select_options -C --git-dir --work-tree) "$@"; }
 ```
 
-Notes: the wrapper is `_helper_*`: `CHOICES` accepts only `_choice_*` and `_helper_*`. `-C` gives `$argc_C` and `--git-dir` gives `$argc_git_dir`, so pass the spelling that generated the variable; a flag prints alone, and a forwarded value must be space-free because the caller re-splits it.
+Notes: `-C` gives `$argc_C` and `--git-dir` gives `$argc_git_dir`, so pass the spelling that generated the variable; a flag prints alone, and a forwarded value must be space-free because the caller re-splits it.
 
 Tool-specific values have no helper; write the query inline (`<SKILL_ROOT>/references/compgen-recipes.md`): `git for-each-ref`/`branch`/`tag`/`remote`, `docker`/`podman image ls`, `ssh -Q cipher`/`hostkeyalgorithms`, or a `comp_kv`/`comp_multi` table for HTTP/ssh-style enumerations.
 

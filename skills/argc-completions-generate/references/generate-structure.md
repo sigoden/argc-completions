@@ -10,9 +10,9 @@ bash <SKILL_ROOT>/scripts/preflight.sh <root> [--output <file>] [--completion <f
 
 It prints absolute `key=value` lines; the values used below are `existing`, `blocks`, `cache_dir`, `completion_file`, `os`, and `root_help_exists`.
 
-- `<root>` is required here. With no `<root>`, `<SKILL_ROOT>/scripts/preflight.sh` prints only `skill_root`/`repo_root` with `mode=paths`; that is path discovery, not this preflight, and lacks every value below.
+- `<root>` is required here.
 - It does not create `<REPO_ROOT>/cache/compile/<root>`.
-- It already runs `require_pipeline_tools` (argc, jq, gawk, sed, grep, find) and checks `command -v <root>`; both checks are already done, and the compile child alone fetches `--help`/`--version`.
+- It already runs `require_pipeline_tools` and checks `command -v <root>`; both checks are already done, and the compile child alone fetches `--help`/`--version`.
 - Do not inspect `<REPO_ROOT>/completions/` with `ls`/`grep`/`sed`/`find`: `preflight` reports `existing`/`completion_file`/`blocks`, and `command -v` answers tool availability.
 - `existing=0` and `blocks=missing` mean no script yet: skip context extraction and pass empty context. `blocks=legacy` means no block markers; assemble can migrate once.
 - Prefer `<REPO_ROOT>/completions/<os>/<root>.sh` when it already exists, otherwise the common path.
@@ -38,7 +38,7 @@ Fragments and canonical help text live under `<REPO_ROOT>/cache/compile/<root>/`
 
 That list is exhaustive: a capture or probe dump lives outside the directory, and `_root.new.txt` exists only while a root probe runs (`<SKILL_ROOT>/agents/compile.md` §1–§2).
 
-Each command node has one fragment. A parent lists its children in `subcommands`, each with a `status` of `todo`, `succeeded`, or `failed`; `todo` blocks assembly, `failed` needs a minimal fragment and warns. This is the only supported fragment directory: only `<REPO_ROOT>/cache/compile/<root>/` is writable, and other cache subdirectories belong to other workflows. Neither mode edits `HINTS` or existing `CHOICES`; assembly may migrate a legacy tail once, after which run `<SKILL_ROOT>/scripts/format-choices.sh <completion.sh>` before verify. Neither mode adds candidate queries or `choice_fn` bindings; §8 selects add-choice-fns for a standalone handoff, and `all` continues into it.
+Each command node has one fragment. A parent lists its children in `subcommands`, each with a `status` of `todo`, `succeeded`, or `failed`; `todo` blocks assembly, `failed` needs a minimal fragment and warns. This is the only supported fragment directory: only `<REPO_ROOT>/cache/compile/<root>/` is writable, and other cache subdirectories belong to other workflows. Assembly may migrate a legacy tail once, after which run `<SKILL_ROOT>/scripts/format-choices.sh <completion.sh>` before verify.
 
 ### Reset (regenerate only)
 
@@ -57,7 +57,7 @@ The completion script is not deleted: `HINTS` and `CHOICES` are preserved and ex
 
 ### Probe and orchestrator actions
 
-A full `regenerate` starts empty and the root child reports `cache=new`; `hit`/`miss` means the reset failed: stop and re-run `<SKILL_ROOT>/scripts/reset-cache.sh` before assembling. Recompile every node: no `succeeded` fragment is reused, and assembly follows only after every node compiles from fresh help. On `cache=unknown`, stop and report: the script is unchanged and the cache must be rebuilt.
+A full `regenerate` starts empty and the root child reports `cache=new`; `hit`/`miss` means the reset failed: stop and re-run `<SKILL_ROOT>/scripts/reset-cache.sh` before assembling. Recompile every node: no `succeeded` fragment is reused, and assembly follows only after every node compiles from fresh help.
 
 A subtree `regenerate` skips the root probe: the target is dispatched directly with `cache=n/a`; siblings keep their status and fragments. Extract context only when `existing=1`, dispatch one child, validate it, set the parent entry to `succeeded`, then process the target's `subcommands` breadth-first with the normal queue, retry, and depth limits.
 
@@ -79,14 +79,14 @@ Orchestrator actions:
 
 ## 3. Validate fragments
 
-Read `<SKILL_ROOT>/references/fragment-schema.md` only when validating, repairing, writing a minimal `failed` fragment, or when an item summary looks surprising. Validate every fragment:
+Validate every fragment:
 
 ```sh
 jq -e -f <SKILL_ROOT>/scripts/validate-fragment.jq --arg key '<root>' <REPO_ROOT>/cache/compile/<root>/_root.json
 jq -e -f <SKILL_ROOT>/scripts/validate-fragment.jq --arg key '<root>|<sub>' <REPO_ROOT>/cache/compile/<root>/<sub>.json
 ```
 
-Build the key from the fragment `path` (`<SKILL_ROOT>/references/fragment-schema.md`). A rejection mentioning `one-character short name` means two names argc cannot accept: split into one item per name. The validator rejects unknown item fields, so an older-schema fragment must be recompiled. `<SKILL_ROOT>/scripts/inspect-fragment-items.jq` (see `<SKILL_ROOT>/SKILL.md` §Inspection) is the compact view.
+Build the key from the fragment `path` (`<SKILL_ROOT>/references/fragment-schema.md`). A rejection mentioning `one-character short name` means two names argc cannot accept: split into one item per name. The validator rejects unknown item fields, so an older-schema fragment must be recompiled.
 
 ## 4. Extract context for a node
 
@@ -200,7 +200,7 @@ For a brand-new script with no dynamic bindings yet, also pass `--require-no-cho
 
 After a PASS, review fragments and exported parameters for `next=`; the review leaves the script unchanged. Use `argc --argc-export` with `<SKILL_ROOT>/scripts/inspect-script-params.jq` and `<SKILL_ROOT>/scripts/inspect-fragment-items.jq` (see `<SKILL_ROOT>/SKILL.md` §Inspection) for value-taking options and positionals; pipe `.subcommands[]` for nested commands and repeat for deeper nesting.
 
-Apply the `next=` criterion in `<SKILL_ROOT>/SKILL.md` §Reporting: a value-taking parameter with no static or dynamic `choice` and an enumerable source (git refs, container images, a terminated command line, ...) is `next=add-choice-fns`; free text, path notation, values with no source, and any `choices` list (with or without descriptions) are `next=complete`. Add no bindings here. `next=add-choice-fns` is a handoff, not an automatic continuation: a standalone run stops here; `all` proceeds.
+Apply the `next=` criterion in `<SKILL_ROOT>/SKILL.md` §Reporting. Add no bindings here. `next=add-choice-fns` is a handoff, not an automatic continuation: a standalone run stops here; `all` proceeds.
 
 ## 9. Failure handling
 
