@@ -333,6 +333,44 @@ else
     pass "comment tags"
 fi
 
+# Tag order inside one command block: describe/cmd -> alias -> meta -> [env]
+# -> flag/option -> arg. Assembly emits this order; a hand edit or an older
+# render can regress it, so verify fails instead of tolerating it.
+tag_order_offset=0
+if [[ "$layout" == "new" ]]; then
+    tag_order_offset="$(block_line "$file" '>>>' 'SPEC')"
+    tag_order_offset="${tag_order_offset:-0}"
+fi
+tag_order_violations="$(gawk -v origin="$file" -v offset="$tag_order_offset" '
+    BEGIN {
+        rank["describe"] = 1; rank["cmd"] = 1
+        rank["alias"] = 2
+        rank["meta"] = 3
+        rank["env"] = 4
+        rank["flag"] = 5; rank["option"] = 5
+        rank["arg"] = 6
+    }
+    /^# \{+ / { prev = 0; prev_tag = ""; next }
+    /^# \}+ / { prev = 0; prev_tag = ""; next }
+    /^# @[A-Za-z-]+/ {
+        line = $0
+        sub(/^# @/, "", line)
+        split(line, parts, /[^A-Za-z-]/)
+        tag = parts[1]
+        if (!(tag in rank)) next
+        if (prev > 0 && rank[tag] < prev) {
+            printf "%s:%d: @%s after @%s\n", origin, NR + offset, tag, prev_tag
+        }
+        prev = rank[tag]
+        prev_tag = tag
+    }
+' "$region_file" 2>/dev/null || true)"
+if [[ -n "$tag_order_violations" ]]; then
+    fail "tag order must be describe/cmd -> alias -> meta -> [env] -> flag/option -> arg: $tag_order_violations"
+else
+    pass "tag order"
+fi
+
 # Root-only meta keys belong to the root command block.
 root_only_meta_violations="$(gawk '
     /^# \{\{/ { in_child = 1 }

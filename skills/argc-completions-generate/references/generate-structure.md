@@ -188,6 +188,8 @@ Assembly validates fragments, statuses, paths, stale fragments, duplicate siblin
 
 A described `choices` item renders `[?`_static_*`]` (completion-only, like a `choice_fn`); all-empty descriptions keep `[a|b]`. The generated name is `_static_<fragment path without the root>_<long option or arg name>`, sanitized to `[A-Za-z0-9_]`; a root-level item has no path segment. A collision between two items, or with a function already defined outside `STATIC`, fails assembly and asks for a `choice_fn` binding.
 
+Within each command block the tag order is `@describe`/`@cmd` -> `@alias` -> `@meta` -> `@flag`/`@option` -> `@arg`. Assembly owns the output order: a fragment keeps the help order, assembly renders every flag/option first (in that order) and every arg after them (also in that order), so a fragment that lists an arg among the options still renders the canonical order, and a `_static_*` function moves with its item.
+
 `SPEC` must contain no `_choice_*` definitions; a new script also has no non-generated completion references, an empty `HINTS` block, and no `STATIC`/`CHOICES` block at all.
 
 ## 8. Verify and hand off

@@ -441,7 +441,10 @@ render_items() {
             "@arg " + (.name // "") + arg_modifier + terminated_marker + choice_expr($fn)
             + (if ((.notation // "") | length) > 0 then " " + .notation else "" end)
           end;
-        .[] as $item
+        # Tag order: flags/options first, then args; each group keeps fragment
+        # order (stable partition, no sorting).
+        (map(select(.kind != "arg")) + map(select(.kind == "arg")))
+        | .[] as $item
         | ($item | static_fn) as $fn
         | ($item | if described then $fn else "" end) as $static_fn
         | (($item | tag($static_fn)) + "\u001f" + ($item | desc) + "\u001f"

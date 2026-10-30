@@ -77,6 +77,7 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | `CHOICES must not contain structural tags` | Tags pasted into the dynamic block | Move tags to fragments and re-assemble |
 | `SPEC must not define completion functions` | `_choice_*` pasted into the generated block | Compare with `<SKILL_ROOT>/scripts/assemble.sh --dump-spec`; move it to `CHOICES` |
 | `unknown comment tags` | Typo or unsupported tag | Fix or remove the tag |
+| `tag order must be ...` | A block regressed to `@arg` before `@flag`/`@option`, or `@meta`/`@alias` out of place (hand edit or an older render) | Re-run `<SKILL_ROOT>/scripts/assemble.sh <root> --force`; never hand-sort tag lines |
 | `command block marker count mismatch` | Unclosed `# {{`/`# }}` | Close the block and re-assemble |
 | `command block nesting mismatch` | Wrong parent path or depth | Fix the fragment path or re-assemble |
 | `choice functions defined after final eval` | Appended after the eval | `tail -n 40 file`; move it before the eval |

@@ -22,6 +22,35 @@ assert_contains "assemble arg required" "$new_script" '# @arg name! <NAME>'
 check "assemble aligns flag description at column 49" \
     gawk '/^# @flag -v --verbose / { found = index($0, "Verbose output") == 49 } END { exit !found }' "$new_script"
 
+# Tag order inside a command block is owned by assembly: a fragment that lists
+# an arg among the options still renders flag/option tags first, then args, and
+# each group keeps the fragment order.
+mkdir -p "$TMP_DIR/fragments-item-order"
+cp -R "$FIXTURES/fragments/no-choice/." "$TMP_DIR/fragments-item-order/"
+jq '.items = ([
+  {"kind": "arg", "name": "first", "repeatable": false, "required": false, "notation": "<FIRST>", "choices": [{"value": "x", "description": "Ex"}, {"value": "y", "description": "Why"}], "choice_fn": null, "description": "First value"},
+  {"kind": "option", "names": ["--late"], "notations": ["<MODE>"], "choices": [{"value": "a", "description": "Mode A"}, {"value": "b", "description": "Mode B"}], "choice_fn": null, "repeatable": false, "description": "Late option"},
+  {"kind": "arg", "name": "second", "repeatable": false, "required": true, "notation": "<SECOND>", "choices": [], "choice_fn": null, "description": "Second value"}
+] + .items)' \
+    "$TMP_DIR/fragments-item-order/_root.json" >"$TMP_DIR/item-order.tmp" && \
+    mv "$TMP_DIR/item-order.tmp" "$TMP_DIR/fragments-item-order/_root.json"
+order_script="$TMP_DIR/item-order.sh"
+quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-item-order" --stdout >"$order_script"
+gawk '/^# \{+ / { exit } /^# @(flag|option|arg) / { print $2 }' "$order_script" >"$TMP_DIR/item-order-tags.txt"
+printf '%s\n' "@option" "@flag" "@option" "@option" "@arg" "@arg" >"$TMP_DIR/item-order-expected.txt"
+check "assemble renders flag/option tags before arg tags" cmp -s "$TMP_DIR/item-order-tags.txt" "$TMP_DIR/item-order-expected.txt"
+check "assemble keeps positional order" bash -c "
+    argc --argc-export '$order_script' | jq -e '.positionals | map(.id) == [\"first\", \"second\"]' >/dev/null
+"
+check "assemble moves static functions with their items" gawk '
+    /^_static_late\(\)/ { late = NR }
+    /^_static_first\(\)/ { first = NR }
+    END { exit !(late && first && late < first) }
+' "$order_script"
+quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-item-order" --context "$order_script" --stdout >"$TMP_DIR/item-order-again.sh"
+check "assemble item order idempotent" cmp -s "$order_script" "$TMP_DIR/item-order-again.sh"
+check "verify item order script" bash "$SCRIPTS/verify-completion.sh" "$order_script" --cmd demo --cache-dir "$TMP_DIR/fragments-item-order" --skip-compgen
+
 # Long tags fall back to a plain two-space separator instead of being padded.
 mkdir -p "$TMP_DIR/fragments-align"
 cp -R "$FIXTURES/fragments/no-choice/." "$TMP_DIR/fragments-align/"

@@ -80,6 +80,68 @@ gawk '/^# <<< CHOICES$/ && !done { print "_static_probe() { :; }"; done = 1 } { 
     "$TMP_DIR/static-before.sh" >"$TMP_DIR/static-reserved.sh"
 expect_failure "verify rejects reserved static prefix" bash "$SCRIPTS/verify-completion.sh" \
     "$TMP_DIR/static-reserved.sh" --cmd demo --cache-dir "$TMP_DIR/fragments-choices-desc" --skip-compgen
+
+# ---------------------------------------------------------------------------
+# Tag order inside a command block
+# ---------------------------------------------------------------------------
+order_log="$(new_log)"
+if run_quiet "$order_log" bash "$SCRIPTS/verify-completion.sh" "$new_script" --cmd demo --skip-compgen; then
+    pass "verify accepts canonical tag order"
+    assert_contains "verify passes tag order" "$order_log" "PASS  tag order"
+else
+    fail "verify accepts canonical tag order"
+    show_captured "$order_log"
+fi
+
+# arg before flag/option in the remote block
+gawk '
+    /^# @option --foo / { foo = $0; next }
+    /^# @arg v1 / { print; if (foo != "") { print foo; foo = "" } next }
+    { print }
+' "$new_script" >"$TMP_DIR/tag-order-arg.sh"
+order_arg_log="$(new_log)"
+if run_quiet "$order_arg_log" bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/tag-order-arg.sh" --cmd demo --skip-compgen; then
+    fail "verify rejects arg before flag/option (unexpected success)"
+else
+    pass "verify rejects arg before flag/option"
+fi
+assert_contains "verify names arg order violation" "$order_arg_log" "tag order"
+assert_contains "verify reports arg order line" "$order_arg_log" "@option after @arg"
+
+# meta after the root items
+gawk '
+    /^# @meta / { meta = $0; next }
+    /^# \{\{ demo remote$/ { print meta; meta = "" }
+    { print }
+' "$new_script" >"$TMP_DIR/tag-order-meta.sh"
+order_meta_log="$(new_log)"
+if run_quiet "$order_meta_log" bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/tag-order-meta.sh" --cmd demo --skip-compgen; then
+    fail "verify rejects meta after flag/option (unexpected success)"
+else
+    pass "verify rejects meta after flag/option"
+fi
+assert_contains "verify reports meta order line" "$order_meta_log" "@meta after @option"
+
+# @env is allowed between @meta and the items even though assembly never emits it.
+gawk '/^# @meta / { print; print "# @env DEMO_HOME"; next } { print }' \
+    "$new_script" >"$TMP_DIR/tag-order-env.sh"
+check "verify accepts env after meta" bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/tag-order-env.sh" --cmd demo --skip-compgen
+
+# Legacy layout (no block markers) is checked the same way.
+cat >"$TMP_DIR/tag-order-legacy.sh" <<'LEGACY'
+#!/usr/bin/env bash
+# @cmd Demo
+# @arg x <X>
+# @flag -v --verbose  Verbose
+legacy_order() {
+    :;
+}
+command eval "$(argc --argc-eval "$0" "$@")"
+LEGACY
+expect_failure "verify checks legacy layout tag order" bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/tag-order-legacy.sh" --skip-compgen
+tag_order_legacy_log="$(new_log)"
+run_quiet "$tag_order_legacy_log" bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/tag-order-legacy.sh" --skip-compgen || true
+assert_contains "verify reports legacy order line" "$tag_order_legacy_log" "@flag after @arg"
 # ---------------------------------------------------------------------------
 # Verify failures
 # ---------------------------------------------------------------------------
