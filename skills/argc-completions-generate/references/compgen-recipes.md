@@ -1,76 +1,33 @@
 # Compgen recipe reference
 
-Composed choice functions for common value shapes. Each recipe combines the helpers in `<SKILL_ROOT>/references/compgen-helpers.md` with the protocol in `<SKILL_ROOT>/references/compgen.md`; bindings and the test loop are in `<SKILL_ROOT>/references/add-choice-fns.md`, shell portability is in `<SKILL_ROOT>/references/setup.md`, and failures go to `<SKILL_ROOT>/references/troubleshooting.md`. Pick a helper from the `<SKILL_ROOT>/references/compgen-helpers.md` §*Section map*; use `_argc_util_comp_multi` only for lists the parameter does not declare `delimiter`+`repeatable` (`<SKILL_ROOT>/references/compgen.md` §5). The §*Section map* below is mandatory before writing a `_choice_*`/`_helper_*` body: scan every recipe, then read the one matching the value shape; the recipes add parsing or a cross-word dependency.
+Composed choice functions for value shapes that a single helper does not cover. Helper signatures are in `<SKILL_ROOT>/references/compgen-helpers.md`, the candidate protocol is in `<SKILL_ROOT>/references/compgen.md`, binding and the test loop are in `<SKILL_ROOT>/references/add-choice-fns.md`, shell portability is in `<SKILL_ROOT>/references/setup.md`, and failures go to `<SKILL_ROOT>/references/troubleshooting.md`. Read the §*Section map* before writing a `_choice_*`/`_helper_*` body, then the matching recipe. The samples are adapted from `<REPO_ROOT>/completions/`; long functions are excerpted where noted.
 
 ## Section map
 
-| Recipe | Use for |
-|---|---|
-| *Dynamic key split* | The key is runtime data and its value source depends on it. |
-| *Multi-part value* | Project a parsed list onto `rev:path`-style segments. |
-| *Nested namespace* | `namespace:path`: a container, pod, host, or archive plus an inner path. |
-| *Command-valued option* | The option stores a whole command line. |
-| *Context-dependent candidates* | A sibling option or an earlier positional changes the value space. |
-| *Project context and targets* | Candidates come from the nearest project file. |
-| *Aggregated and cached sources* | Several sources or one slow query fill a value. |
-| *Prefixed and path-valued words* | The prefix is part of the word (`-Xfoo`, `+toolchain`, `@path`). |
-| *Shared function across options* | Several options share one source. |
+| Recipe | Use when | Example |
+|---|---|---|
+| *Command plus terminated args* | The command is a separate positional and its arguments are a terminated positional. | `nohup CMD ARG...` |
+| *Command in a terminated option* | The option holds an executable plus its arguments. | `find . -exec ARGS...` |
+| *Command in a terminated positional* | One positional holds the command and its arguments. | `xargs ARGS...` |
+| *Key-Value Mode* | One word is split into a key and a value, each with its own candidate source. | `scp host:path` |
+| *Multi-Parts Mode* | One word is split into positions, each with its own candidate source. | `rg --colors path:fg:red` |
+| *Candidates gated by another word* | An earlier positional or a sibling option decides which candidates apply. | `unzip app.zip FILE` |
+| *Values from the nearest project file* | Candidates come from the first project file found above `PWD`. | `node --run RECIPE` |
+| *Word with a literal prefix* | The word starts with `@`, `!`, or `+` before the completable part. | `curl -H @file` |
+| *Shared function across options* | Several options share one function, and the option selects the query. | `aichat -m/-s/-a` |
 
-## Dynamic key split
+## Command plus terminated args
+
+**Use when:** The command is a separate positional and its arguments are a terminated positional.
+
+**Example:** `nohup CMD ARG...`
 
 ```sh
-_choice_env() {
-    _argc_util_mode_kv =
-    if [[ -z "$argc__kv_prefix" ]]; then
-        compgen -e | _argc_util_transform suffix== nospace
-    else
-        compgen -v
-    fi
-}
+# @arg command[`_choice_command`] <COMMAND>
+# @arg args~[`_choice_command_args`] <ARG>
 ```
 
-## Multi-part value
-
 ```sh
-_choice_unstaged_file() {
-    _git status --porcelain | gawk '{
-        if (substr($0, 2, 1) != " ") print substr($0, 4)
-    }' | _argc_util_comp_parts /
-}
-```
-
-Parse the source into complete values, then project them with `_argc_util_comp_parts` (`<SKILL_ROOT>/references/compgen-helpers.md` §*`_argc_util_comp_parts`*); use `mode_parts` when each segment needs its own query.
-
-## Nested namespace
-
-```sh
-_choice_cp() {
-    _argc_util_mode_kv :
-    if [[ -z "$argc__kv_prefix" ]]; then
-        if _argc_util_has_path_prefix; then
-            printf '__argc_value=path\n'
-            return
-        fi
-        _choice_container | _argc_util_transform suffix=: nospace
-    else
-        _argc_util_mode_parts / "$argc__kv_filter" "$argc__kv_prefix"
-        if [[ -z "$argc__kv_filter" ]]; then
-            printf '/\0\n'
-            return
-        fi
-        docker exec "$argc__kv_key" ls -1p "$argc__parts_local_prefix" |
-            _argc_util_transform nospaceIfEnd=/
-    fi
-}
-```
-
-The left side offers names with `suffix=:`, the right switches to `mode_parts /`. Keep the local path fallback, quote the remote path, guard the remote command, and cache slow lists.
-
-## Command-valued option
-
-```sh
-# @option --command~[`_choice_command_args`] <COMMAND>
-
 _choice_command() {
     if _argc_util_has_path_prefix; then
         _argc_util_comp_path
@@ -80,9 +37,33 @@ _choice_command() {
 }
 
 _choice_command_args() {
-    if [[ -n "${argc__option:-}" ]]; then
-        local -n values="$argc__option"
-        argc__positionals=("${values[@]}")
+    if [[ "${#argc__positionals[@]}" -lt 2 ]]; then
+        _choice_command
+    else
+        _argc_util_comp_subcommand 0
+    fi
+}
+```
+
+`nohup.sh` binds this shape. The command arg uses `_choice_command` from the previous section; `args` reads `argc__positionals` directly.
+
+
+## Command in a terminated option
+
+**Use when:** The option holds an executable plus its arguments.
+
+**Example:** `find . -exec ARGS...`
+
+```sh
+# @option --exec~[`_choice_exec`] <COMMAND>
+```
+
+```sh
+_choice_exec() {
+    if [[ -n "$argc__option" ]]; then
+        local -n ref="$argc__option"
+        argc__positionals=( "${ref[@]}" )
+        unset -n ref
     fi
     if [[ "${#argc__positionals[@]}" -lt 2 ]]; then
         _choice_command
@@ -92,86 +73,165 @@ _choice_command_args() {
 }
 ```
 
-A terminated option stores a whole command line: copy its values into `argc__positionals` with a nameref, complete the executable while there are fewer than two words, then delegate with `_argc_util_comp_subcommand 0`. `argc__option` holds the generated variable name (`argc_command`), not the array, and `"${!argc__option}"` yields only the first element. `_choice_command` uses `_argc_util_comp_command` (`<SKILL_ROOT>/references/compgen-helpers.md` §*`_argc_util_comp_command`*): the wrapper executes it in another process, so only real `PATH` executables are valid, not shell builtins or aliases. A terminated positional calls the same function without the nameref branch.
+`find.sh` and `fd.sh` bind this shape. The option stores an array: `argc__option` names it, so copy it into `argc__positionals` before delegating; `_choice_command` completes the executable.
 
-## Context-dependent candidates
+## Command in a terminated positional
+
+**Use when:** One positional holds the command and its arguments.
+
+**Example:** `xargs ARGS...`
 
 ```sh
-_choice_files() {
-    if [[ -n $argc_delete || -n $argc_list || -n $argc_x ]]; then
-        if [[ -n "$argc_file" ]]; then
-            _argc_util_cache 3600 _choice_ls_tar_file "tar:$argc_file" | _argc_util_comp_parts /
-            return
-        fi
+# @arg args~[`_choice_command_args`] <COMMAND>
+```
+
+`xargs.sh` binds this shape. It uses the same `_choice_command_args` body; only the binding differs.
+
+## Key-Value Mode
+
+**Use when:** One word is split into a key and a value, each with its own candidate source.
+
+**Example:** `scp host:path`
+
+```sh
+# @arg source+[`_choice_scp_path`] <path>
+
+_choice_scp_path() {
+    # An scp:// URI is left as free text; splitting on ':' would treat the scheme as a host.
+    if [[ "$ARGC_CWORD" == *://* ]]; then
+        return 0
     fi
-    _argc_util_comp_path
-}
-```
-
-Read `$argc_<id>`, `argc__positionals` for earlier words, and `argc__dash` when `--` changes the meaning. For a mode flag, test for a non-empty value, not `1`.
-
-## Project context and targets
-
-```sh
-_choice_script() {
-    local pkg
-    pkg="$(_argc_util_path_search_parent package.json)"
-    [[ -n $pkg ]] || return 0
-    command -v yq >/dev/null 2>&1 || return 0
-    yq '(.scripts // {}) | keys | .[]' "$pkg"
-}
-```
-
-Find the marker upward, then parse only; never execute build tools. For a Makefile, read the files a plain invocation would read (the `-f` file, `MAKEFILES`, or `GNUmakefile`/`makefile`/`Makefile`); collect names and descriptions in source order, skip `%`, `$`, and special targets, then print from `END`; never execute recipes.
-
-## Aggregated and cached sources
-
-```sh
-_choice_image() {
-    _argc_util_cache 60 _choice_image_uncached "docker__images:$argc_host"
-}
-```
-
-Combine sources with `_argc_util_parallel` (`<SKILL_ROOT>/references/compgen-helpers.md` §*`_argc_util_parallel`*) and cache with a key that includes the directory, file, stack, or host. Guard external tools inside the uncached function.
-
-## Prefixed and path-valued words
-
-```sh
-# @option -X-*[`_choice_jvm_option`]
-_choice_jvm_option() {
-    printf 'batch\tDisable background compilation\n'
-    printf 'bootclasspath=\0\tSet the boot class path\n'
-}
-```
-
-```sh
-# @meta symbol +toolchain[`_choice_toolchain`]
-_choice_toolchain() {
-    printf '%s\n' stable beta nightly
-}
-
-# path prefixed with +
-_choice_appendable_file() {
-    if [[ "$ARGC_CWORD" == +* ]]; then
-        _argc_util_comp_path prefix=+ filter="${ARGC_CWORD:1}"
-    else
+    _argc_util_mode_kv :
+    if [[ -z "$argc__kv_prefix" ]]; then
         _argc_util_comp_path
+        _choice_scp_host | _argc_util_transform suffix=: nospace
+    else
+        local target="$argc__kv_key"
+        local filter="$argc__kv_filter"
+        ssh -o BatchMode=yes -o ConnectTimeout=3 "$target" command ls -a1dp "$filter*" 2>/dev/null \
+            | _argc_util_comp_parts / "$filter" "$argc__kv_prefix"
     fi
 }
 ```
 
-A prefixed option (`-Xfoo`), a symbol (`+toolchain`), or a path introduced by `@`/`+`. For a path, pair `prefix=` with `filter=`. A prefixed option is `prefixed: true` with `names: ["-X"]`; a symbol uses `@meta symbol +name[...]`.
+Keep the local-path branch and the URI guard. The host list comes from ssh config, `known_hosts`, and `/etc/hosts`, merged and cached by config path (`scp.sh:48`).
 
-## Shared function across options
+## Multi-Parts Mode
+
+**Use when:** One word is split into positions, each with its own candidate source.
+
+**Example:** `rg --colors path:fg:red`
 
 ```sh
-_choice_value() {
-    case "$argc__option" in
-        argc_color) echo red green blue ;;
-        argc_size)  echo small medium large ;;
+# @option --colors*[`_choice_color_spec`] <COLOR_SPEC>
+
+_choice_color_spec() {
+    _argc_util_mode_parts :
+    case "$argc__parts_len" in
+        1) printf '%s\n' path line column match highlight ;;
+        2) printf '%s\n' fg bg style none ;;
+        *)
+            case "${argc__parts_values[1]}" in
+                fg|bg) printf '%s\n' black red green yellow blue magenta cyan white ;;
+                style) printf '%s\n' bold nobold intense nointense underline nounderline italic noitalic ;;
+            esac
+            ;;
     esac
 }
 ```
 
-Use when several options share a source or one is split across items; switch on `argc__option`, or read `"${!argc__option}"` for a repeatable option (`<SKILL_ROOT>/references/compgen.md` §2).
+The first position selects the third: `fg` and `bg` take colors, `style` takes styles.
 
+## Candidates gated by another word
+
+**Use when:** An earlier positional or a sibling option decides which candidates apply.
+
+**Example:** `unzip app.zip FILE`
+
+```sh
+# @arg list*[`_choice_archive_member`] <pattern>
+
+_choice_archive_member() {
+    local archive=${argc_archive:-}
+    [[ -n $archive ]] || return 0
+    [[ $archive == -* ]] && archive=./$archive
+    if [[ ! -f $archive ]]; then
+        if [[ -f $archive.zip ]]; then
+            archive=$archive.zip
+        else
+            return 0
+        fi
+    fi
+    unzip -Z1 "$archive" 2>/dev/null | _argc_util_comp_parts /
+}
+```
+
+The archive comes from the `archive` positional; resolve a leading `-` and a missing `.zip` before listing. For a source that switches on an earlier positional, see `7z.sh:102`.
+
+## Values from the nearest project file
+
+**Use when:** Candidates come from the first project file found above `PWD`.
+
+**Example:** `node --run RECIPE`
+
+```sh
+# @option --run[`_choice_run`] <VALUE>
+
+_choice_run() {
+    local pkg
+    pkg="$(_argc_util_path_search_parent package.json)"
+    [[ -n $pkg ]] || return 0
+    command -v jq >/dev/null 2>&1 || return 0
+    jq -r '(.scripts // {}) | keys[]' "$pkg" 2>/dev/null
+}
+```
+
+Parse only; never execute the project's tools. `node.sh` and `tsx.sh` query the same scripts, and `make.sh:193` parses the makefiles a plain invocation would read instead of executing them.
+
+## Word with a literal prefix
+
+**Use when:** The word starts with `@`, `!`, or `+` before the completable part.
+
+**Example:** `curl -H @file`
+
+```sh
+# @option -H --header[`_choice_header`] <header/@file>
+
+_choice_header() {
+    if [[ "$ARGC_CWORD" == @* ]]; then
+        _argc_util_comp_path prefix=@ filter="${ARGC_CWORD:1}"
+        return
+    fi
+    # ... static header list ...
+}
+```
+
+Excerpt: the rest of `_choice_header` is a static header table. Pair `prefix=` with `filter=` so the `@` is reinserted; `fd.sh` uses the same split for `!user`. A symbol such as `+toolchain` is declared in SPEC with `@meta symbol`, not split here.
+
+## Shared function across options
+
+**Use when:** Several options share one function, and the option selects the query.
+
+**Example:** `aichat -m/-s/-a`
+
+```sh
+# @option -m --model[`_choice_aichat_list`] <MODEL>
+# @option -r --role[`_choice_aichat_list`] <ROLE>
+
+_choice_aichat_list() {
+    local list_arg
+    case "${argc__option:-}" in
+    argc_model) list_arg=--list-models ;;
+    argc_role) list_arg=--list-roles ;;
+    argc_session) list_arg=--list-sessions ;;
+    argc_agent) list_arg=--list-agents ;;
+    argc_rag) list_arg=--list-rags ;;
+    argc_macro) list_arg=--list-macros ;;
+    *) return 0 ;;
+    esac
+    command -v aichat >/dev/null || return 0
+    aichat "$list_arg" 2>/dev/null | sed -e 's/^%\(.*\)%$/\1/'
+}
+```
+
+`argc__option` names the option being completed; map it to the matching query. Return 0 for anything else, and guard the tool.

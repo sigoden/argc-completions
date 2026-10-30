@@ -7,6 +7,8 @@ helper_init
 
 recipes_md="$SKILL_DIR/references/compgen-recipes.md"
 
-assert_contains "recipes command-valued option" "$recipes_md" "## Command-valued option"
+assert_contains "recipes command plus terminated args" "$recipes_md" "## Command plus terminated args"
+assert_contains "recipes command in a terminated option" "$recipes_md" "## Command in a terminated option"
+assert_contains "recipes command in a terminated positional" "$recipes_md" "## Command in a terminated positional"
 
 helper_finish

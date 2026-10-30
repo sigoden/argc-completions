@@ -173,7 +173,7 @@ _choice_command() {
 }
 ```
 
-Notes: the path branch preserves a typed path, the name branch is any domain source. The full switch is `<SKILL_ROOT>/references/compgen-recipes.md` §*Command-valued option*.
+Notes: the path branch preserves a typed path, the name branch is any domain source. The full switch is `<SKILL_ROOT>/references/compgen-recipes.md` §*Command in a terminated option*.
 
 ## `_argc_util_parallel <fn> [args] ::: <fn> [args] ...`
 
