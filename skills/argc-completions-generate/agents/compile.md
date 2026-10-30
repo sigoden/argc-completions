@@ -18,7 +18,7 @@ You are a compile subagent for the `argc-completions-generate` skill: compile ex
 
 Use the first source that works: `<cmd...> --help` (capture stdout and stderr); `<cmd...> help` or `<cmd> help <sub...>`; `man <cmd>-<sub>` or `man <cmd>`, extracting only the relevant section. The list is exhaustive (`-h` is not a source); set `PAGER=cat MANPAGER=cat COLUMNS=9999 NO_COLOR=1` and keep the raw text as data. Once `--help` or `help` succeeds, skip `man`.
 
-Help scope: `<cmd...>` is this node's command path (`demo remote add`), and `<sub...>` in the `help` form is that path, not a sibling. The parent command's help is readable (it carries the subcommand list, aliases, and this node's summary). Sibling and child help are off limits as data sources: no sibling or child option, choice, notation, or description may fill an `items`, `names`, `notations`, `choices`, `choice_fn`, `description`, or `meta` field of this fragment. A sibling may be uncompiled with no fragment yet, so its data is unavailable, not missing: fetch no sibling to fill a gap or mirror its choices, and take no result from another node. The only permitted read of a child's help is the subcommand existence check in §3, judged by exit status and usage line alone.
+Help scope: `<cmd...>` is this node's command path (`demo remote add`), and `<sub...>` in the `help` form is that path, not a sibling. The parent command's help is readable (it carries the subcommand list, aliases, and this node's summary). Sibling and child help are off limits as data sources: no sibling or child option, choice, notation, or description may fill an `items`, `names`, `notations`, `choices`, `choice_fn`, `description`, or `meta` field of this fragment. A sibling may be uncompiled with no fragment yet, so its data is unavailable, not missing: fetch no sibling to fill a gap or mirror its choices, and take no result from another node. The only permitted read of a child's help is the subcommand existence check in §3.1, judged by exit status and usage line alone.
 
 Canonicalize with the shared helper; never reimplement it or read `<SKILL_ROOT>/scripts/lib.sh`. The second argument must be an absolute path under the cache directory from your prompt; a bare name such as `_root.new.txt` resolves against the shell's working directory, and the node loses its cache key. The help file mirrors the fragment target with `.txt` (`<cache_dir>/remote/add.json` -> `<cache_dir>/remote/add.txt`):
 
@@ -45,7 +45,7 @@ else
 fi
 ```
 
-Nothing else belongs in the cache directory besides the fragment target and its `.txt`, plus `_root.new.txt` during the root probe (§2); a capture or probe dump belongs outside it. A subcommand existence probe (§3) keeps the exit status and usage line only and discards its output.
+Nothing else belongs in the cache directory besides the fragment target and its `.txt`, plus `_root.new.txt` during the root probe (§2); a capture or probe dump belongs outside it. A subcommand existence probe (§3.1) keeps the exit status and usage line only and discards its output.
 
 The probe is deterministic: a missing or invalid `_root.txt`/`_root.json` is `new`; `<SKILL_ROOT>/scripts/compare-help.sh` printing `same` is `hit`; `different` is `miss`; a failed help/man retrieval is `unknown`. The result comes from these checks alone.
 
@@ -61,7 +61,16 @@ Only the root node performs this step. If the cache directory was reset, it cont
 
 Extract only what is explicitly present in the help/man text. When a section is ambiguous, keep the raw description and omit the uncertain field.
 
-### Description extraction
+Sections §3.1–§3.6 are field rules shared by every node; §3.7–§3.9 are the per-kind checklists, which cite those rules instead of restating them; §3.10–§3.12 cover the special mechanisms and the fragment shape.
+
+### 3.1 Node fields (`description`, `aliases`, `meta`, `subcommands`)
+
+- `description`: the root description or the subcommand summary (§3.2).
+- `aliases`: explicit subcommand aliases only; names containing `_` get a hyphenated alias automatically.
+- `meta`: copy `@meta` lines verbatim to `{"key": ..., "value": ...}`. `combine-shorts` is the only inferable key, and an existing context line always wins: add `{"key": "combine-shorts", "value": ""}` only on the root fragment. Root only: infer it from a probe — the root help lists two or more POSIX/GNU getopt-style single-letter shorts (`-a`, `-v`) and `<root> -XY` built from two single-letter shorts of the root help either succeeds or fails with a diagnostic naming one letter (`invalid option -- 'x'`, `Unknown option: -Z`); leave the key off when the diagnostic names the whole token (`bad option: -pv`) or the probe is inconclusive. Skip a tool with single-dash long names (`-jar`, `-Xmx`).
+- `subcommands`: names, aliases, and descriptions from the explicit command-list section (`Commands:`, `Subcommands:`); every new child gets `"status": "todo"`; omit the `help` pseudo-command. A `Usage:` alternation (`[a|b|c]`) is one positional arg with `choices`, never subcommands. Take names, aliases, and descriptions from the list; when the list is ambiguous about one name, run `<cmd> <name> --help` once and decide from its exit status and usage line only (see *Help scope* in §1). An explicit list needs no probe. `Aliases:` names the current node. With no list, emit `subcommands: []` and note it.
+
+### 3.2 Descriptions
 
 Every `description` field (fragment, subcommand, flag, option, arg, and each `choices` entry) is produced by the normalizer:
 
@@ -73,57 +82,30 @@ Pass one `--choice` per static `choices` value of that item (none when the item 
 
 Example: `Draw border around the input section [rounded|sharp|none] (default: rounded)` with `--choice rounded --choice sharp --choice none` -> `Draw border around the input section (default: rounded)`.
 
-Pair each `choices` value with the description the help gives, when it gives one: a `value<TAB>text` table, `value - text`, `value: text`, or a `value: ...` paragraph under "possible values". Run that text through the normalizer (see *Description extraction*), strip the value prefix first, and leave `""` when the help has no per-value text. Never invent, merge, or borrow a description from another option. A value repeated with conflicting text keeps the first text. Record a mixed enumeration's literals and descriptions in `notes` instead of `choices`.
+### 3.3 Names
 
-### Names order
+- One or two names per flag or option, in argc order. The field rule (order, one-character short name first, `~` names) is in `<SKILL_ROOT>/references/fragment-schema.md`. Parse decision: when the help pairs names argc cannot take in that order, emit one item per name with the other fields copied and record the pairing in `notes`. A short name argc cannot represent: keep the long name and warn.
+- With `prefixed: true`, `names` holds exactly one literal prefix without the trailing `-` (§3.6).
+- An item never repeats the command's own name.
 
-The field rule (order, one-character short name first, `~` names) is in `<SKILL_ROOT>/references/fragment-schema.md`. Parse decision: when the help pairs names argc cannot take in that order, emit one item per name with the other fields copied and record the pairing in `notes`. A short name argc cannot represent: keep the long name and warn.
+### 3.4 Values and notations
 
-### Terminated values (`~`)
+Six independent fields describe a value; take each one from its own signal, not from the others:
 
-`terminated` (option/arg only) captures every following argument. Set it only in these cases:
+| Mechanism | Field | Answers | Help signal | Detail |
+|---|---|---|---|---|
+| value slot | `notations` / `notation` | which values the item consumes | `<X>`, `FILE`, `[X]`, `--opt=X` | this section |
+| arity modifier | `*` `+` `?` inside the final notation | how many values one slot takes | `[X...]`, `X...`, `[X]`, `<X*>` | below (**Notation modifiers**) |
+| repetition | `repeatable` | how often the item itself may occur | `--tag*`, `--tag ...`, "multiple times" | §3.6, §3.7, §3.9 |
+| attachment | `prefixed` | whether the value is glued to the name | `-X<option>`, `-aos` | §3.6 |
+| splitting | `delimiter` | whether one occurrence yields several values | "comma-separated", `d,f` | §3.6 |
+| capture rest | `terminated` | whether the item swallows every following word | a context-tag `~`, a command-family token with args | §3.10 |
 
-- a context tag has `~` after the names; the tag is authoritative, and its `choice_fn` is kept;
-- in one value sequence (an option's `notations` or the positional list), a parameter whose name or notation is a command-family token (`COMMAND`, `CMD`, `PROGRAM`, `PROG`, `EXEC`, `SCRIPT`, case-insensitive) is followed by optional (`[...]`) or variadic (`...`, `args`/`arguments`/`ARGS`, or a "multiple" note) args. Mark the parameter that owns the args:
-  - when the args belong to the same option (`-l script [args]`, `--exec <cmd> [args...]`), set `terminated: true` on that option and keep the args as the final notation with its modifier: `"notations": ["<script>", "<args*>"]`. Keep every notation of the item.
-  - when the args are a separate positional after a command-valued parameter, set `terminated: true` on the args positional and keep its bare notation; its multiple values come from `terminated`, not `repeatable`.
-
-A terminated item keeps `repeatable`, `prefixed`, and `delimiter` off (a `...` here is the terminated value, not repeatability); options keep every notation, including the final modified one. A terminator token (`;`, `{}`, `+`) is not an item, positional, or notation. Emit the field only when true and warn: `terminated <name> swallows following words; verify with <cmd> ...`. argc reports multiple values (`multiple_values` for options, `multiple` for args), not `repeatable`.
-
-Set `~` only from a context tag or the command-family rule; a `~` inside a path, description, or choice is text. A bare `...`/`*`/`+` after the option name is `repeatable`; inside the final value placeholder it is a notation modifier (*Notation modifiers*). If a command-valued parameter has no separate args parameter, leave it false and warn: `no-args-binding <name>: command value without its own args parameter`.
-
-### Root and command metadata
-
-- `description`: the root description or the subcommand summary (see *Description extraction*).
-- `aliases`: explicit subcommand aliases only; names containing `_` get a hyphenated alias automatically.
-- `meta`: copy `@meta` lines verbatim to `{"key": ..., "value": ...}`. `combine-shorts` is the only inferable key, and an existing context line always wins: add `{"key": "combine-shorts", "value": ""}` only on the root fragment. Infer it only from a probe: the root help lists two or more POSIX/GNU getopt-style single-letter shorts (`-a`, `-v`) and `<root> -XY` built from two single-letter shorts of the root help either succeeds or fails with a diagnostic naming one letter (`invalid option -- 'x'`, `Unknown option: -Z`); leave the key off when the diagnostic names the whole token (`bad option: -pv`) or the probe is inconclusive. Skip a tool with single-dash long names (`-jar`, `-Xmx`).
-- `subcommands`: names, aliases, and descriptions from the explicit command-list section (`Commands:`, `Subcommands:`); every new child gets `"status": "todo"`; omit the `help` pseudo-command. A `Usage:` alternation (`[a|b|c]`) is one positional arg with `choices`, never subcommands. Take names, aliases, and descriptions from the list; when the list is ambiguous about one name, run `<cmd> <name> --help` once and decide from its exit status and usage line only (see *Help scope* in §1). An explicit list needs no probe. `Aliases:` names the current node. With no list, emit `subcommands: []` and note it.
-- Items never repeat the command's own name.
+- `notations` (option): one entry per value the option consumes, in the order the help lists them, whatever spelling the help uses: an angle-bracket placeholder, a bare metavar (`FILE`, `file`, `N`), a bracketed value (`[X]`, `[X...]`), a variadic value (`X...`), or an attached form (`--opt=X`, `-oX`). Normalize each value to `<...>`, keep the order, keep every value, including optional or bracketed ones, one notation each. Preserve a modifier already present inside the final placeholder (`<ARGS+>` stays `<ARGS+>`). Use `[]` only when the help gives no value placeholder after the names, or the value is a closed enumeration rendered as `choices` (§3.5).
+- `notation` (arg): the single `<...>` placeholder, or `null`; never put a notation modifier (`*`, `+`, `?`) inside it because argc limits modifiers to options. Use `repeatable`/`required` instead (§3.9).
 - Preserve each placeholder's text and case from the help (`<level>`, `<pattern>`).
 
-### Flags
-
-- `kind`: `flag`; `names`: one or two names in argc order (see *Names order*).
-- `repeatable`: true when the help marks a repeatable flag (`*`, `...`, "repeatable").
-- `description`: see *Description extraction*.
-- Include `--help` and `--version` only when the help lists them; add only built-ins the help lists, and keep every listed one.
-- No `notations`, `choices`, `choice_fn`, `required` or `delimiter` for a flag.
-
-### Options
-
-- `kind`: `option`.
-- `names`: see *Names order*; with `prefixed: true`, exactly one literal prefix without the trailing `-`.
-- `notations`: one entry per value the option consumes, in the order the help lists them, whatever spelling the help uses: an angle-bracket placeholder, a bare metavar (`FILE`, `file`, `N`), a bracketed value (`[X]`, `[X...]`), a variadic value (`X...`), or an attached form (`--opt=X`, `-oX`). Normalize each value to `<...>`, keep the order, keep every value, including optional or bracketed ones, one notation each. Preserve a modifier already present inside the final placeholder (`<ARGS+>` stays `<ARGS+>`). Map the final value with *Notation modifiers* below. Use `[]` only when the help gives no value placeholder after the names, or the value is a closed enumeration rendered as `choices`.
-- `repeatable`: true when the option itself may occur multiple times (`--tag*`, `--tag ...`, "can be specified multiple times"); never use it for a multi-value notation such as `<VALUE+>`. A delimiter option always has it.
-- `prefixed`: `true` when the help attaches the value to the name (`-X<option>`, `-ao[a|s|t|u]`); `names` holds the literal prefix without the trailing `-`, and `choices` hold the suffixes (`a`, `s`, `t`, `u`), never full tokens such as `-aoa`. A non-enumerable family (`-Xmx4g`) needs a `choice_fn` or a note, not a closed `choices` list. Use `false` for `--foo <VALUE>`.
-- `delimiter`: a one-character separator when one occurrence takes several values ("comma-separated", `a,b,c`, `d,f`), one of the separators allowed by `<SKILL_ROOT>/references/fragment-schema.md`. Set `repeatable: true`; `choices` are the individual values (`d`, `f`), not the joined string. Use `null` normally; a `[a|b]` enumeration is `choices`, not a separator.
-- `terminated`: only from *Terminated values (`~`)*; set `"terminated": true` and warn. Its multiple values are not `repeatable`.
-- `choices`: objects `{"value": "...", "description": "..."}` for an explicit static enumeration, in help order; both keys are required and `description` may be `""`. Split values on `|` or `,`; pair each with its help text by the *Description extraction* rules; emit objects only. Otherwise `[]`. For a mixed enumeration (`--shuffle[=SEED|random|reverse|none]`), leave `choices` as `[]`, record the literals (and their descriptions) in `notes`, and warn: `mixed-enumeration <name>: free-form value accepted, literals in notes`; emit no placeholder such as `SEED`.
-- `choice_fn`: copy a function name only from the context signature; otherwise `null`.
-- `description`: see *Description extraction*.
-- Always include `prefixed` (`false` when inactive) and `delimiter` (`null` when inactive); no `required`.
-
-### Notation modifiers
+**Notation modifiers**
 
 Only `@option` supports notation modifiers. Write the modifier inside the final placeholder: `<VALUE*>`, `<VALUE+>`, `<VALUE?>`.
 
@@ -134,20 +116,9 @@ Only `@option` supports notation modifiers. Write the modifier inside the final 
 | `?` | zero or one value | `[X]`, `<X?>` |
 
 - Only the final notation may carry one modifier; every earlier notation stays bare. A non-final optional or variadic value cannot be represented: keep that notation bare and record the limitation in `notes`.
-- Keep a modifier already present in the help (`<ARGS+>` stays `<ARGS+>`). Args take none (see *Positional arguments*); a command-valued option's args notation is covered in *Terminated values (`~`)*.
+- Keep a modifier already present in the help (`<ARGS+>` stays `<ARGS+>`). Args take none (§3.9); a command-valued option's args notation is covered in §3.10.
 
-### Positional arguments
-
-- `kind`: `arg`; `name`: snake-case identifier derived from the help name, matching `^[A-Za-z0-9_][A-Za-z0-9_.-]*$`.
-- `repeatable`: true for `*`, `+`, `...`, or "can be passed multiple values"; `~` is a terminated value instead (*Terminated values (`~`)*).
-- `required`: true for `!`, `<ARG>` without brackets, or an explicit "required" note; false for `?`, `[ARG]`, "optional"; always include it.
-- `notation`: the single `<...>` placeholder, or `null`; never put a notation modifier (`*`, `+`, `?`) inside it because argc limits modifiers to options. Use `repeatable`/`required` instead.
-- `delimiter`: a one-character separator for several values in one occurrence (`types d,f`, "comma-separated"); set `repeatable: true`. `choices` are the individual values (`d`, `f`); `null` when inactive.
-- `choices` and `choice_fn`: as for options.
-- `description`: see *Description extraction*. A positional with no help description gets `""`; never synthesize one from its name (`[directory ...]` is not `Directory to list`).
-- Include `delimiter` (`null` when inactive); no `prefixed`.
-
-### Filesystem notation inference
+**Filesystem notation**
 
 Infer a semantic notation from the parameter name, position, and description:
 
@@ -159,11 +130,63 @@ Infer a semantic notation from the parameter name, position, and description:
 
 Write the result to `notations` for an option and `notation` for an arg. Do **not** bind a `choice_fn` for `<path>`, `<file>`, or `<dir>`; argc produces path candidates. If unclear, keep the help notation.
 
-### Context-only fields
+### 3.5 Enumerations
 
-`<SKILL_ROOT>/scripts/extract-cmd-context.sh` reports the command's `@meta` lines, prompt text, and tags whose signature contains a backtick. For each such tag: copy the function name into the matching item's `choice_fn`; keep static `choices` only if the context has no dynamic binding; copy `@meta` keys/values exactly. A backtick in a description is text, not a binding; `choice_fn` comes only from the tag signature. A `~` after the names is structural; see *Terminated values (`~`)*.
+- `choices`: objects `{"value": "...", "description": "..."}` for an explicit static enumeration, in help order; both keys are required and `description` may be `""`. Split values on `|` or `,`; emit objects only, never bare strings; otherwise `[]`.
+- Pair each `choices` value with the description the help gives, when it gives one: a `value<TAB>text` table, `value - text`, `value: text`, or a `value: ...` paragraph under "possible values". Run that text through the normalizer (§3.2), strip the value prefix first, and leave `""` when the help has no per-value text. Never invent, merge, or borrow a description from another option. A value repeated with conflicting text keeps the first text.
+- Mixed enumeration (`--shuffle[=SEED|random|reverse|none]`): leave `choices` as `[]`, record the literals and their descriptions in `notes`, and warn: `mixed-enumeration <name>: free-form value accepted, literals in notes`; emit no placeholder such as `SEED`.
+- `choice_fn`: only from the context signature (§3.11); otherwise `null`.
 
-### Escaping and shape
+### 3.6 Repeats, prefixes, delimiters
+
+- `repeatable`: true when the item itself may repeat (§3.7, §3.9); never use it for a multi-value notation such as `<VALUE+>` (§3.4), a delimiter item always has it, and a terminated item never does (§3.10).
+- `prefixed`: true when the help attaches the value to the name (`-X<option>`, `-ao[a|s|t|u]`). `names` then holds the literal prefix without the trailing `-` (§3.3), and `choices` hold the suffixes (`a`, `s`, `t`, `u`), never full tokens such as `-aoa`. A non-enumerable family (`-Xmx4g`) needs a `choice_fn` or a note, not a closed `choices` list. Use `false` for `--foo <VALUE>`.
+- `delimiter`: a one-character separator when one occurrence takes several values ("comma-separated", `a,b,c`, an arg like `types d,f`), one of the separators allowed by `<SKILL_ROOT>/references/fragment-schema.md`. Set `repeatable: true`; `choices` are the individual values (`d`, `f`), not the joined string. Use `null` normally; a `[a|b]` enumeration is `choices` (§3.5), not a separator.
+
+### 3.7 Flags
+
+- `kind`: `flag`; `names`: one or two names in argc order (§3.3).
+- `repeatable`: true when the help marks a repeatable flag (`*`, `...`, "repeatable").
+- `description`: §3.2.
+- Include `--help` and `--version` only when the help lists them; add only built-ins the help lists, and keep every listed one.
+- No `notations`, `choices`, `choice_fn`, `required` or `delimiter` for a flag.
+
+### 3.8 Options
+
+- `kind`: `option`; `names` per §3.3.
+- `notations` per §3.4, including the modifier on the final notation; `choices` per §3.5; `choice_fn` per §3.11.
+- `repeatable`, `prefixed`, `delimiter` per §3.6.
+- `terminated`: only per §3.10; set `"terminated": true` and warn. Its multiple values are not `repeatable`.
+- `description`: §3.2.
+- Always include `prefixed` (`false` when inactive) and `delimiter` (`null` when inactive); no `required`.
+
+### 3.9 Positional arguments
+
+- `kind`: `arg`; `name`: snake-case identifier derived from the help name, matching `^[A-Za-z0-9_][A-Za-z0-9_.-]*$`.
+- `notation` per §3.4; `choices` per §3.5; `choice_fn` per §3.11.
+- `repeatable`: true for `*`, `+`, `...`, or "can be passed multiple values"; `~` is a terminated value instead (§3.10).
+- `required`: true for `!`, `<ARG>` without brackets, or an explicit "required" note; false for `?`, `[ARG]`, "optional"; always include it.
+- `delimiter` per §3.6; include it (`null` when inactive). No `prefixed`.
+- `description`: §3.2. A positional with no help description gets `""`; never synthesize one from its name (`[directory ...]` is not `Directory to list`).
+
+### 3.10 Terminated values (`~`)
+
+`terminated` (option/arg only) captures every following argument. Set it only in these cases:
+
+- a context tag has `~` after the names; the tag is authoritative, and its `choice_fn` is kept;
+- in one value sequence (an option's `notations` or the positional list), a parameter whose name or notation is a command-family token (`COMMAND`, `CMD`, `PROGRAM`, `PROG`, `EXEC`, `SCRIPT`, case-insensitive) is followed by optional (`[...]`) or variadic (`...`, `args`/`arguments`/`ARGS`, or a "multiple" note) args. Mark the parameter that owns the args:
+  - when the args belong to the same option (`-l script [args]`, `--exec <cmd> [args...]`), set `terminated: true` on that option and keep the args as the final notation with its modifier: `"notations": ["<script>", "<args*>"]`. Keep every notation of the item.
+  - when the args are a separate positional after a command-valued parameter, set `terminated: true` on the args positional and keep its bare notation; its multiple values come from `terminated`, not `repeatable`.
+
+A terminated item keeps `repeatable`, `prefixed`, and `delimiter` off (a `...` here is the terminated value, not repeatability); options keep every notation, including the final modified one. A terminator token (`;`, `{}`, `+`) is not an item, positional, or notation. Emit the field only when true and warn: `terminated <name> swallows following words; verify with <cmd> ...`. argc reports multiple values (`multiple_values` for options, `multiple` for args), not `repeatable`.
+
+Set `~` only from a context tag or the command-family rule; a `~` inside a path, description, or choice is text. A bare `...`/`*`/`+` after the option name is `repeatable`; inside the final value placeholder it is a notation modifier (§3.4). If a command-valued parameter has no separate args parameter, leave it false and warn: `no-args-binding <name>: command value without its own args parameter`.
+
+### 3.11 Context bindings
+
+`<SKILL_ROOT>/scripts/extract-cmd-context.sh` reports the command's `@meta` lines, prompt text, and tags whose signature contains a backtick. For each such tag: copy the function name into the matching item's `choice_fn`; keep static `choices` only if the context has no dynamic binding; copy `@meta` keys/values exactly (§3.1). A backtick in a description is text, not a binding; `choice_fn` comes only from the tag signature. A `~` after the names is structural; see §3.10.
+
+### 3.12 Fragment shape and escaping
 
 - Two-space JSON indentation; the exact field set and the structural-string rules are in `<SKILL_ROOT>/references/fragment-schema.md`.
 - `source` examples: `{"kind":"help","command":"demo --help"}` or `{"kind":"none"}`; `notes` may be an empty string.

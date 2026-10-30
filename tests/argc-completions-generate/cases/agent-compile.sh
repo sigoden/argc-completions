@@ -24,9 +24,12 @@ assert_contains "compile contract no synthetic arg description" "$compile_md" "n
 assert_contains "compile contract no skill load" "$compile_md" "Do not call the \`skill\` tool"
 assert_contains "compile contract canonical comparison" "$compile_md" 'never use `diff` to compare raw help with canonical help'
 assert_contains "compile contract probe determinism" "$compile_md" "The probe is deterministic"
-assert_contains "compile contract notation modifiers" "$compile_md" "### Notation modifiers"
+assert_contains "compile contract notation modifiers" "$compile_md" "**Notation modifiers**"
 assert_contains "compile contract final notation modifier" "$compile_md" "Only the final notation may carry one modifier"
 assert_contains "compile contract notation vs repeatable" "$compile_md" "never use it for a multi-value notation"
+for heading in "3.1 Node fields" "3.2 Descriptions" "3.3 Names" "3.4 Values and notations" "3.5 Enumerations" "3.6 Repeats, prefixes, delimiters" "3.7 Flags" "3.8 Options" "3.9 Positional arguments" "3.10 Terminated values" "3.11 Context bindings" "3.12 Fragment shape and escaping"; do
+    assert_contains "compile section $heading" "$compile_md" "### $heading"
+done
 assert_contains "compile contract args notation kept" "$compile_md" '"notations": ["<script>", "<args*>"]'
 assert_contains "compile contract arg notation bare" "$compile_md" 'never put a notation modifier (`*`, `+`, `?`) inside it'
 assert_contains "compile reset cache probe" "$compile_md" "If the cache directory was reset"

@@ -36,7 +36,7 @@ One command node = one fragment:
 | `path` | Matches the fragment location; each segment is a valid command name. |
 | `description` | Single line, first sentence only. Root renders as `@describe`; a child renders as `@cmd`. |
 | `aliases` | Subcommand aliases; no collision with sibling names/aliases. |
-| `meta` | `{key, value}` string array. Copy from context; do not invent keys, except the probed root-only `combine-shorts` in `<SKILL_ROOT>/agents/compile.md` §Root and command metadata. `combine-shorts` and `inherit-flag-options` are rendered on the root fragment only. |
+| `meta` | `{key, value}` string array. Copy from context; do not invent keys, except the probed root-only `combine-shorts` in `<SKILL_ROOT>/agents/compile.md` §3.1 Node fields. `combine-shorts` and `inherit-flag-options` are rendered on the root fragment only. |
 | `items[].kind` | `flag`, `option`, or `arg`. |
 | `names` | 1-2 names for a flag/option; exactly one for a prefixed option. Order and split rule are in Rules. |
 | `name` | Arg only: snake-case identifier matching `^[A-Za-z0-9_][A-Za-z0-9_.-]*$`. Flags and options use `names` and must omit `name`. |
