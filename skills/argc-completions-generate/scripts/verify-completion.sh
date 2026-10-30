@@ -333,6 +333,17 @@ else
     pass "comment tags"
 fi
 
+# Root-only meta keys belong to the root command block.
+root_only_meta_violations="$(gawk '
+    /^# \{\{/ { in_child = 1 }
+    in_child && /^# @meta (combine-shorts|inherit-flag-options)([[:space:]]|$)/ { print FILENAME ":" NR ": " $0 }
+' "$file" 2>/dev/null || true)"
+if [[ -n "$root_only_meta_violations" ]]; then
+    fail "root-only meta on a subcommand (argc reads it from the root only): $root_only_meta_violations"
+else
+    pass "root-only meta placement"
+fi
+
 # Command block markers, if present.
 marker_starts="$(grep -c '^# {' "$region_file" 2>/dev/null || true)"
 marker_ends="$(grep -c '^# }' "$region_file" 2>/dev/null || true)"
