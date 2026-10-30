@@ -2,7 +2,7 @@
 
 Dynamic-completion spec for the `CHOICES` block: protocol, context, paths, config parsing, split model, and debugging. Read by section; workflow lives in `<SKILL_ROOT>/references/add-choice-fns.md` (no workflow steps here). Shell snippets follow `<SKILL_ROOT>/references/setup.md`.
 
-Companion references: `<SKILL_ROOT>/references/compgen-helpers.md` for the `_argc_util_*` helper index and signatures, `<SKILL_ROOT>/references/compgen-recipes.md` for composed functions covering common value shapes.
+Companion references: `<SKILL_ROOT>/references/compgen-helpers.md` for the `_argc_util_*` §*Section map* and one section per helper (signature, sample, notes), `<SKILL_ROOT>/references/compgen-recipes.md` for composed functions covering common value shapes. Both section maps are mandatory reading before writing a `_choice_*`/`_helper_*` body (`<SKILL_ROOT>/references/add-choice-fns.md` §2 *Helpers*).
 
 ## Section map
 
@@ -81,7 +81,7 @@ Prefer notation over a function:
 # @option --config <FILE:.json,jsonc>
 ```
 
-A function can request paths at runtime with `__argc_value` and `__argc_cd`; `_argc_util_comp_path` wraps the common cases (`<SKILL_ROOT>/references/compgen-helpers.md` §2).
+A function can request paths at runtime with `__argc_value` and `__argc_cd`; `_argc_util_comp_path` wraps the common cases (`<SKILL_ROOT>/references/compgen-helpers.md` §*`_argc_util_comp_path`*).
 
 - `path` and `file` both add file and directory candidates; `file` documents intent only.
 - `dir` adds directories only; extension filters do not apply.
@@ -106,7 +106,7 @@ word     = prefix + filter
 inserted = prefix + candidate + suffix
 ```
 
-argc infers common splits (`--define=`, `-X`, `+`, comma/pipe-separated values). `-X` and the separator are the fragment's `prefixed`/`delimiter`; `delimiter` applies to options and args. Do not reimplement them. A function can move the split with:
+argc infers common splits (`--define=`, `-X`, `+`, comma/pipe-separated values). `-X` and the separator are the fragment's `prefixed`/`delimiter`; `delimiter` applies to options and args. Do not reimplement them. Do not assemble the control lines by hand either: pick a helper in `<SKILL_ROOT>/references/compgen-helpers.md` §*Section map* or a recipe in `<SKILL_ROOT>/references/compgen-recipes.md` §*Section map* first, and write the split through it. This section is the protocol for reading and debugging output; a shape neither reference covers is the only case for hand-written control lines, and it must be reported (`<SKILL_ROOT>/references/add-choice-fns.md` §2 *Helpers*). A function can move the split with:
 
 | Line | Effect |
 |---|---|

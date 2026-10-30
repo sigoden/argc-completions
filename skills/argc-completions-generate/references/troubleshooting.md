@@ -8,6 +8,7 @@ Read after a check fails; procedures are in the workflow references, and the cho
 |---|---|
 | Missing fragment, `todo` node, stale fragment, schema/export error | Generate and assemble |
 | `SPEC` differs, missing/duplicate function, wrong candidates | Choice functions |
+| Hand-assembled `__argc_*` control lines or manual splitting | Choice functions |
 | Block, tag, help, or compgen failure after assembly | Verify |
 | No candidates from a choice function | `<SKILL_ROOT>/references/compgen.md` §6 |
 | Reset, cache probe, or parent metadata problem | Cache and regenerate |
@@ -52,6 +53,7 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | `cannot rename ... used as a shell variable` | Function name is also a variable | Rename the function or variable, re-run the formatter |
 | `... is referenced outside CHOICES` | A `choice_fn` in `SPEC` still uses the old name | Update the fragment, re-assemble, then format |
 | Function prints nothing | Guard returned early, wrong cwd, or missing tool | Use the isolation flow in `<SKILL_ROOT>/references/compgen.md` §6 |
+| Hand-assembled `__argc_*` control lines or manual splitting | The mandatory helper/recipe lookup was skipped | Rebuild the body from the matching helper (`<SKILL_ROOT>/references/compgen-helpers.md` §*Section map*) or recipe (`<SKILL_ROOT>/references/compgen-recipes.md` §*Section map*), then re-run the gate (`<SKILL_ROOT>/references/add-choice-fns.md` §2 *Helpers*, §5) |
 | Redundant `command -v <root>` guard | A completion runs only while its root exists | Remove it; guard only another tool (`<SKILL_ROOT>/references/compgen.md` §1) |
 | Compgen times out | Network/slow query per keystroke | Re-run under a short timeout; add caching, a cap, or drop the binding |
 | Compgen passes but candidates are wrong | Shifted word position or no candidate-level check | Test the option word (`--foo ''`); assert values with the `<SKILL_ROOT>/references/compgen.md` §6 `generic` pipeline |

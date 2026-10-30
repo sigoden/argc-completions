@@ -1,6 +1,6 @@
 # Compgen recipe reference
 
-Composed choice functions for common value shapes. Each recipe combines the helpers in `<SKILL_ROOT>/references/compgen-helpers.md` with the protocol in `<SKILL_ROOT>/references/compgen.md`; bindings and the test loop are in `<SKILL_ROOT>/references/add-choice-fns.md`, shell portability is in `<SKILL_ROOT>/references/setup.md`, and failures go to `<SKILL_ROOT>/references/troubleshooting.md`. Pick a helper from the `<SKILL_ROOT>/references/compgen-helpers.md` §1 *Helper index*; use `_argc_util_comp_multi` only for lists the parameter does not declare `delimiter`+`repeatable` (`<SKILL_ROOT>/references/compgen.md` §5). The recipes below add parsing or a cross-word dependency.
+Composed choice functions for common value shapes. Each recipe combines the helpers in `<SKILL_ROOT>/references/compgen-helpers.md` with the protocol in `<SKILL_ROOT>/references/compgen.md`; bindings and the test loop are in `<SKILL_ROOT>/references/add-choice-fns.md`, shell portability is in `<SKILL_ROOT>/references/setup.md`, and failures go to `<SKILL_ROOT>/references/troubleshooting.md`. Pick a helper from the `<SKILL_ROOT>/references/compgen-helpers.md` §*Section map*; use `_argc_util_comp_multi` only for lists the parameter does not declare `delimiter`+`repeatable` (`<SKILL_ROOT>/references/compgen.md` §5). The §*Section map* below is mandatory before writing a `_choice_*`/`_helper_*` body: scan every recipe, then read the one matching the value shape; the recipes add parsing or a cross-word dependency.
 
 ## Section map
 
@@ -39,7 +39,7 @@ _choice_unstaged_file() {
 }
 ```
 
-Parse the source into complete values, then project them with `_argc_util_comp_parts` (`<SKILL_ROOT>/references/compgen-helpers.md` §2); use `mode_parts` when each segment needs its own query.
+Parse the source into complete values, then project them with `_argc_util_comp_parts` (`<SKILL_ROOT>/references/compgen-helpers.md` §*`_argc_util_comp_parts`*); use `mode_parts` when each segment needs its own query.
 
 ## Nested namespace
 
@@ -92,7 +92,7 @@ _choice_command_args() {
 }
 ```
 
-A terminated option stores a whole command line: copy its values into `argc__positionals` with a nameref, complete the executable while there are fewer than two words, then delegate with `_argc_util_comp_subcommand 0`. `argc__option` holds the generated variable name (`argc_command`), not the array, and `"${!argc__option}"` yields only the first element. `_choice_command` uses `_argc_util_comp_command` (`<SKILL_ROOT>/references/compgen-helpers.md` §4): the wrapper executes it in another process, so only real `PATH` executables are valid, not shell builtins or aliases. A terminated positional calls the same function without the nameref branch.
+A terminated option stores a whole command line: copy its values into `argc__positionals` with a nameref, complete the executable while there are fewer than two words, then delegate with `_argc_util_comp_subcommand 0`. `argc__option` holds the generated variable name (`argc_command`), not the array, and `"${!argc__option}"` yields only the first element. `_choice_command` uses `_argc_util_comp_command` (`<SKILL_ROOT>/references/compgen-helpers.md` §*`_argc_util_comp_command`*): the wrapper executes it in another process, so only real `PATH` executables are valid, not shell builtins or aliases. A terminated positional calls the same function without the nameref branch.
 
 ## Context-dependent candidates
 
@@ -132,7 +132,7 @@ _choice_image() {
 }
 ```
 
-Combine sources with `_argc_util_parallel` (`<SKILL_ROOT>/references/compgen-helpers.md` §5) and cache with a key that includes the directory, file, stack, or host. Guard external tools inside the uncached function.
+Combine sources with `_argc_util_parallel` (`<SKILL_ROOT>/references/compgen-helpers.md` §*`_argc_util_parallel`*) and cache with a key that includes the directory, file, stack, or host. Guard external tools inside the uncached function.
 
 ## Prefixed and path-valued words
 

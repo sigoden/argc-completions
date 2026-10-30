@@ -30,6 +30,9 @@ assert_contains "compgen workflow pointer" "$compgen_md" "<SKILL_ROOT>/reference
 assert_contains "compgen __argc_value notation" "$compgen_md" "__argc_value=<NOTATION>"
 assert_contains "compgen bounded queries" "$compgen_md" "A candidate query must be read-only and bounded"
 assert_contains "compgen assertion helper" "$compgen_md" "test-compgen.sh"
+# §5 documents the raw control lines; it is not a licence to hand-assemble them.
+assert_contains "compgen no hand-assembled control lines" "$compgen_md" "Do not assemble the control lines by hand"
+assert_contains "compgen mandatory helper lookup" "$compgen_md" "mandatory reading before writing"
 
 # Function-only harness documented in compgen.md §6.
 build_with_script

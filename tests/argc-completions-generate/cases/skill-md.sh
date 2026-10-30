@@ -27,6 +27,11 @@ assert_contains "skill next step" "$skill_md" "next=add-choice-fns"
 assert_contains "skill merged stream ban" "$skill_md" "2>&1 | jq"
 assert_contains "skill static block contract" "$skill_md" '# >>> STATIC'
 
+# Writing a function body is gated on both reference section maps: SKILL.md
+# carries the invariant instead of deferring the lookup.
+assert_contains "skill mandatory helper lookup" "$skill_md" "both section maps"
+assert_not_contains "skill no deferred helper lookup" "$skill_md" 'only when a `_choice_*` body needs'
+
 # Doc authorship (maintainers): workflow-local rules live only in their owner
 # file (SKILL.md §Rule ownership); SKILL.md keeps cross-cutting invariants and
 # links out. The guards below reject distinctive phrases from rules that moved

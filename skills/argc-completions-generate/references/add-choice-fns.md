@@ -1,6 +1,6 @@
 # Add-choice-fns workflow
 
-Add dynamic completion candidates to an existing generated script: ownership, preconditions, inventory, binding decisions, placement, and the assemble/test loop. The candidate protocol, context variables, split model, and debugging are in `<SKILL_ROOT>/references/compgen.md`; helper signatures are in `<SKILL_ROOT>/references/compgen-helpers.md`; composed recipes are in `<SKILL_ROOT>/references/compgen-recipes.md`; tool policy and portability are in `<SKILL_ROOT>/references/setup.md`. Read this file's §1–4 before editing and §5 when assembling; failures go to `<SKILL_ROOT>/references/troubleshooting.md`.
+Add dynamic completion candidates to an existing generated script: ownership, preconditions, inventory, binding decisions, placement, and the assemble/test loop. The candidate protocol, context variables, split model, and debugging are in `<SKILL_ROOT>/references/compgen.md`; helper signatures are in `<SKILL_ROOT>/references/compgen-helpers.md`; composed recipes are in `<SKILL_ROOT>/references/compgen-recipes.md`; tool policy and portability are in `<SKILL_ROOT>/references/setup.md`. Read this file's §1–4 before editing and §5 when assembling; §2 *Helpers* is mandatory before the first function body; failures go to `<SKILL_ROOT>/references/troubleshooting.md`.
 
 ## Ownership
 
@@ -30,13 +30,20 @@ Skip flags; values with a non-null `choice`; complete static enumerations (with 
 
 ### Helpers
 
-Use the `_argc_util_*` helpers in `<REPO_ROOT>/utils/_argc_utils.sh` for splitting, paths, transforms, and delegation; source them from `CHOICES` with the guard (`<SKILL_ROOT>/references/compgen-helpers.md` §1). Read option values from `$argc_<id>` (`<SKILL_ROOT>/references/compgen.md` §2); path notation and free text need no binding; tool-specific values (git refs, container images, HTTP methods/headers, ssh options) use a query.
+Writing a `_choice_*`/`_helper_*` body has a mandatory lookup; it is not deferred, and it does not depend on whether you think you already know a helper:
+
+1. Read both section maps in full: `<SKILL_ROOT>/references/compgen-helpers.md` §*Section map* (every `_argc_util_*` helper) and `<SKILL_ROOT>/references/compgen-recipes.md` §*Section map* (every recipe).
+2. Read the section of each helper you call and of the recipe matching the value shape; the sections carry the signature, the sample, and the constraints.
+3. Write the body from those samples. Do not assemble `__argc_prefix`, `__argc_filter`, `__argc_suffix`, `__argc_value`, or `__argc_cd` by hand, and do not hand-split a `prefixed`/`delimiter` word; `<SKILL_ROOT>/references/compgen.md` §5 describes those lines for reading and debugging output, not as a construction kit.
+4. If neither reference covers the shape, compose helpers in a local wrapper first. Hand-assembled control lines are the last resort: report the uncovered shape and the lines used, so it can become a helper or recipe.
+
+Use the `_argc_util_*` helpers in `<REPO_ROOT>/utils/_argc_utils.sh` for splitting, paths, transforms, and delegation; source them from `CHOICES` with the guard (`<SKILL_ROOT>/references/compgen-helpers.md` §*Source guard*). Read option values from `$argc_<id>` (`<SKILL_ROOT>/references/compgen.md` §2); path notation and free text need no binding; tool-specific values (git refs, container images, HTTP methods/headers, ssh options) use a query.
 
 Read generate-structure's warnings first and match them by tag: `mixed-enumeration` means the fragment intentionally has `choices: []` — bind a `_choice_*` that prints the literals instead of restoring `choices`; `no-args-binding` means a command-valued item may still need `terminated` (§3 *Command-valued binding*).
 
 ## 3. Choose a binding
 
-1. Add or update the function in `CHOICES` before the final eval: `_choice_*` for a tag-bound entry point, `_helper_*` for an internal helper. If it calls `_argc_util_*`, add the single `<REPO_ROOT>/utils/_argc_utils.sh` source guard.
+1. Add or update the function in `CHOICES` before the final eval: `_choice_*` for a tag-bound entry point, `_helper_*` for an internal helper. Build its body from the helper or recipe selected under §2 *Helpers*; if it calls `_argc_util_*`, add the single `<REPO_ROOT>/utils/_argc_utils.sh` source guard.
 2. Set the matching fragment item's `choice_fn` to the plain function name (no backticks). If the binding replaces a static list, set `choices` to `[]`; `<SKILL_ROOT>/scripts/set-choice-fns.sh` does this, including for a described list that `STATIC` currently renders as `[?`_static_*`]`.
 
 Fragment lookup: one fragment per node under `<REPO_ROOT>/cache/compile/<root>/` (`<SKILL_ROOT>/references/fragment-schema.md`). Set the item for exactly one parameter; stop and report if no item matches; add or rename no items.
@@ -68,7 +75,7 @@ Quote each binding with single quotes: inside double quotes the backticks run co
 - Only top-level `_choice_*`/`_helper_*` may appear there; the formatter renames every other name to `_helper_<name>` (leading underscores stripped). Sort by final name with `LC_ALL=C` (`_choice_*` first); doc comments immediately above a function move with it, block-level comments are separated by a blank line, and top-level declarations precede the first function.
 - Define `_choice_*` only in `CHOICES`; the `_static_` prefix belongs to the `STATIC` block that assembly generates. Name new functions `_choice_<param>`, or `_choice_<subcmd>_<param>` when the same param has different data or sources per subcommand. Reuse an existing function; duplicate definitions fail verify.
 - Bind a local `_choice_<param>` wrapper instead of copying a helper into the script; put guards, caching, and context handling in the wrapper.
-- Function bodies follow `<SKILL_ROOT>/references/compgen.md` §1–2 for output, context, and tool guards; use `<SKILL_ROOT>/references/compgen.md` §5 for a custom split and `<SKILL_ROOT>/references/compgen-helpers.md` for helper mechanics.
+- Function bodies follow `<SKILL_ROOT>/references/compgen.md` §1–2 for output, context, and tool guards; the helper and recipe lookups in §2 *Helpers* are mandatory before writing one, `<SKILL_ROOT>/references/compgen.md` §5 is for reading a custom split, and `<SKILL_ROOT>/references/compgen-helpers.md` carries the helper mechanics.
 - A choice function must be callable from the script's top level; do not rely on a command function having run.
 
 ## 5. Batch, assemble, test
@@ -76,8 +83,10 @@ Quote each binding with single quotes: inside double quotes the backticks run co
 Formatting, assembly, and verification each rewrite or re-read the whole script, so an edit made between two gate runs is wasted work. Do every edit for the batch first, then pass the gate once.
 
 1. Edit phase — no `<SKILL_ROOT>/scripts/format-choices.sh` and no `<SKILL_ROOT>/scripts/assemble.sh` between edits:
-   - add or update every `CHOICES` function the batch needs;
+   - add or update every `CHOICES` function the batch needs, each built from a helper or recipe read under §2 *Helpers*;
    - run `<SKILL_ROOT>/scripts/set-choice-fns.sh` once per fragment with every binding in that fragment (it applies the batch atomically and validates that fragment).
+
+   Before leaving the edit phase, re-check each new body against §2 *Helpers*: a documented helper or recipe was used, and every hand-assembled control line is reported.
 
    Keep a batch to one node, or about ten bindings, so a gate failure is easy to localize.
 
