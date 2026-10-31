@@ -182,7 +182,7 @@ _choice_run() {
     pkg="$(_argc_util_path_search_parent package.json)"
     [[ -n $pkg ]] || return 0
     command -v jq >/dev/null 2>&1 || return 0
-    jq -r '(.scripts // {}) | keys[]' "$pkg" 2>/dev/null
+    jq -b -r '(.scripts // {}) | keys[]' "$pkg" 2>/dev/null
 }
 ```
 

@@ -29,6 +29,12 @@ assert_not_contains "compgen no shell candidate lore" "$compgen_md" "COMP_WORDBR
 assert_contains "compgen workflow pointer" "$compgen_md" "<SKILL_ROOT>/references/add-choice-fns.md"
 assert_contains "compgen __argc_value notation" "$compgen_md" "__argc_value=<NOTATION>"
 assert_contains "compgen bounded queries" "$compgen_md" "A candidate query must be read-only and bounded"
+assert_contains "compgen slow query cache" "$compgen_md" "_argc_util_cache"
+# Candidate pipelines stay plain: argc dedupes and orders, jq stays LF-only on
+# Windows, and timeouts belong to argc and the shell.
+assert_contains "compgen no candidate sort" "$compgen_md" "Do not sort or dedupe candidates"
+assert_contains "compgen jq binary" "$compgen_md" "jq -b -r"
+assert_contains "compgen no timeout wrapper" "$compgen_md" 'Never wrap a query in `timeout` command'
 assert_contains "compgen assertion helper" "$compgen_md" "test-compgen.sh"
 # §5 documents the raw control lines; it is not a licence to hand-assemble them.
 assert_contains "compgen no hand-assembled control lines" "$compgen_md" "Do not assemble the control lines by hand"

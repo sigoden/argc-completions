@@ -286,7 +286,7 @@ Notes: a stdin filter; keep it before `sed` or `gawk`.
 
 ## `_argc_util_comp_command`
 
-Use for executable command names, as the non-path branch of `_choice_command` above. It emits real `PATH` executables only: builtins, keywords, aliases, functions, directories, and non-executable files are skipped, a name found in several `PATH` dirs appears once, and Windows drops `.dll` while stripping `.exe`/`.com`/`.bat`/`.cmd`. Order follows `PATH`; sort when stable order matters.
+Use for executable command names, as the non-path branch of `_choice_command` above. It emits real `PATH` executables only: builtins, keywords, aliases, functions, directories, and non-executable files are skipped, a name found in several `PATH` dirs appears once, and Windows drops `.dll` while stripping `.exe`/`.com`/`.bat`/`.cmd`. Order follows `PATH`.
 
 ```sh
 # --exec: only PATH executables, no script paths

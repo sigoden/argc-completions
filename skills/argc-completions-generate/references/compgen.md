@@ -35,7 +35,10 @@ echo -e "value\0\tdescription"        # description, no trailing space
 - Colors: `black`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, `white`, `default`, optionally `regular` or `bold`; only zsh/PowerShell render them.
 - Return 0 with no output when there is nothing to offer; send diagnostics to stderr. Do not pre-filter by prefix: argc filters, so emit the full current-part candidate.
 - Guard an auxiliary tool with `command -v <tool> >/dev/null || return 0`; a missing tool must not fail completion. Never guard the completion's own root command (it always exists); guard a different tool, including a fallback name.
-- A candidate query must be read-only and bounded: prefer a local or cached source, cap the result count, and wrap network or slow calls in a timeout.
+- A candidate query must be read-only and bounded: prefer a local or cached source and cap the result count; a slow or remote query belongs in `_argc_util_cache` (`<SKILL_ROOT>/references/compgen-helpers.md` §*`_argc_util_cache`*).
+- Do not sort or dedupe candidates: argc deduplicates by value and shows them in emission order, so there is no need to use commands like `sort`, `sort -u`, or `uniq`.
+- Pass `-b` to `jq`: `jq -b -r ...`. Without `-b`, jq writes `\r\n` on Windows and every candidate keeps a trailing `\r`.
+- Never wrap a query in `timeout` command: argc and the shell own timeouts, and the wrapper hides the exit status and assumes coreutils.
 - A candidate whose first field starts with `__argc_` is a control line; never emit ordinary values with that prefix or the internal `__argc_fn=`/`__argc_multi=` lines (argc generates them).
 - A fragment `choices` list whose entries carry descriptions is rendered by assembly as a generated `_static_*` function in `STATIC`, so those values follow the same protocol.
 

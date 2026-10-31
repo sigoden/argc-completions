@@ -55,7 +55,7 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | Function prints nothing | Guard returned early, wrong cwd, or missing tool | Use the isolation flow in `<SKILL_ROOT>/references/compgen.md` §6 |
 | Hand-assembled `__argc_*` control lines or manual splitting | The mandatory helper/recipe lookup was skipped | Rebuild the body from the matching helper (`<SKILL_ROOT>/references/compgen-helpers.md` §*Section map*) or recipe (`<SKILL_ROOT>/references/compgen-recipes.md` §*Section map*), then re-run the gate (`<SKILL_ROOT>/references/add-choice-fns.md` §2 *Helpers*, §5) |
 | Redundant `command -v <root>` guard | A completion runs only while its root exists | Remove it; guard only another tool (`<SKILL_ROOT>/references/compgen.md` §1) |
-| Compgen times out | Network/slow query per keystroke | Re-run under a short timeout; add caching, a cap, or drop the binding |
+| Compgen times out | Network/slow query per keystroke | Reproduce with `<SKILL_ROOT>/scripts/test-compgen.sh -t`; fix by caching the query (`_argc_util_cache`), capping it, or dropping the binding |
 | Compgen passes but candidates are wrong | Shifted word position or no candidate-level check | Test the option word (`--foo ''`); assert values with the `<SKILL_ROOT>/references/compgen.md` §6 `generic` pipeline |
 | Candidates look missing or different in a shell mode | Shell modes exercise the integration and post-process the candidate list | Check `generic` with the `<SKILL_ROOT>/references/compgen.md` §6 pipeline; do not edit `CHOICES` from a shell-mode result |
 | `grep -x` finds no candidate | Candidate lines carry a NUL, color, and description fields | Use the `<SKILL_ROOT>/references/compgen.md` §6 pipeline (`tr -d '\000'`, `cut -f1`) |

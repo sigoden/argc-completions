@@ -32,4 +32,8 @@ assert_contains "choice docs recipe section map" "$choice_md" 'compgen-recipes.m
 assert_contains "choice docs no hand-assembled lines" "$choice_md" 'Do not assemble `__argc_prefix`'
 assert_contains "choice docs hand-assembled report" "$choice_md" "report the uncovered shape"
 
+# Timeouts belong to argc and the shell, never to a `timeout` wrapper.
+assert_contains "choice docs no timeout wrapper" "$choice_md" "do not wrap an external service in"
+assert_not_contains "choice docs no timeout advice" "$choice_md" "a timeout around network or external services"
+
 helper_finish

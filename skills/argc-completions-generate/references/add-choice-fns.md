@@ -114,7 +114,7 @@ Formatting, assembly, and verification each rewrite or re-read the whole script,
 
 4. Candidate-level checks: use `<SKILL_ROOT>/scripts/test-compgen.sh` for each assertion (details in `<SKILL_ROOT>/references/compgen.md` §6); give each source a unique target name so a wrong source is visible; give each source distinct content; create the directory and default file for a `-C` option; define at least one variable for `VAR=`; assert one known candidate and a no-candidate case for a wrapper (do not only assert exit status); cover an empty directory and a prefix filter, both exiting 0.
 
-5. Use the direct-call harness in `<SKILL_ROOT>/references/compgen.md` §6 when needed, and a timeout around network or external services.
+5. Use the direct-call harness in `<SKILL_ROOT>/references/compgen.md` §6 when needed; do not wrap an external service in `timeout` (`<SKILL_ROOT>/references/compgen.md` §1).
 
 ## 6. Failure handling
 
