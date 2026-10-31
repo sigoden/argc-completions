@@ -23,6 +23,7 @@ assert_contains "choice docs assertion helper" "$choice_md" "test-compgen.sh"
 assert_contains "choice docs helper naming" "$choice_md" "_helper_*"
 assert_contains "choice docs ascii order" "$choice_md" "LC_ALL=C"
 assert_contains "choice docs format script" "$choice_md" "format-choices.sh"
+assert_contains "choice docs tool probes" "$choice_md" "tool probes"
 
 # A function body starts from both reference section maps; a hand-assembled
 # control line is a reported last resort.

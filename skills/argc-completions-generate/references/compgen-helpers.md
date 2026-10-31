@@ -272,7 +272,7 @@ Use for a slow or remote query. Entries live in `<REPO_ROOT>/cache/argc-util-cac
 _choice_task() { _argc_util_cache 3600 _choice_task_uncached "gradle__tasks:$PWD"; }
 ```
 
-Notes: the key is the command path plus the function name unless given; a `name:payload` key hashes the payload with `openssl sha1`, a plain `name` avoids that. Empty output is not reused, so guard auxiliary tools inside the uncached function.
+Notes: the key is the command path plus the function name unless given; a `name:payload` key hashes the payload with `openssl sha1`, a plain `name` avoids that. Empty output is not reused, so keep the `command -v` probe for a tool that may be absent inside the uncached function.
 
 ## `_argc_util_strip_ansi`
 

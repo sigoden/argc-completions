@@ -36,6 +36,11 @@ assert_contains "compgen no candidate sort" "$compgen_md" "Do not sort or dedupe
 assert_contains "compgen jq binary" "$compgen_md" "jq -b -r"
 assert_contains "compgen no timeout wrapper" "$compgen_md" 'Never wrap a query in `timeout` command'
 assert_contains "compgen assertion helper" "$compgen_md" "test-compgen.sh"
+# Tool probes: the root and the prerequisites are called directly; `command -v`
+# survives only for a tool that may be absent, including command-specific branches.
+assert_contains "compgen direct root and prerequisite calls" "$compgen_md" "own root command and any prerequisite tool directly"
+assert_contains "compgen command-specific branches" "$compgen_md" "command-specific implementations"
+assert_contains "compgen yq probe" "$compgen_md" 'command -v yq'
 # §5 documents the raw control lines; it is not a licence to hand-assemble them.
 assert_contains "compgen no hand-assembled control lines" "$compgen_md" "Do not assemble the control lines by hand"
 assert_contains "compgen mandatory helper lookup" "$compgen_md" "mandatory reading before writing"

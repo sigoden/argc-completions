@@ -181,7 +181,6 @@ _choice_run() {
     local pkg
     pkg="$(_argc_util_path_search_parent package.json)"
     [[ -n $pkg ]] || return 0
-    command -v jq >/dev/null 2>&1 || return 0
     jq -b -r '(.scripts // {}) | keys[]' "$pkg" 2>/dev/null
 }
 ```
@@ -229,9 +228,8 @@ _choice_aichat_list() {
     argc_macro) list_arg=--list-macros ;;
     *) return 0 ;;
     esac
-    command -v aichat >/dev/null || return 0
     aichat "$list_arg" 2>/dev/null | sed -e 's/^%\(.*\)%$/\1/'
 }
 ```
 
-`argc__option` names the option being completed; map it to the matching query. Return 0 for anything else, and guard the tool.
+`argc__option` names the option being completed; map it to the matching query. Return 0 for anything else; the root command needs no `command -v` probe (`<SKILL_ROOT>/references/compgen.md` §1).

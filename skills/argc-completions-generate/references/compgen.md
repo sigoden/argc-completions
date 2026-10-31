@@ -8,7 +8,7 @@ Companion references: `<SKILL_ROOT>/references/compgen-helpers.md` for the `_arg
 
 | Section | Use for |
 |---|---|
-| §1 Candidate protocol | Output format, descriptions, colors, guards. |
+| §1 Candidate protocol | Output format, descriptions, colors, tool probes. |
 | §2 Context variables | `ARGC_*`, `argc__*`, generated `$argc_<id>` values. |
 | §3 Path completion | Notation and runtime path requests. |
 | §4 Structured config files | YAML, TOML, XML, INI via optional `yq`. |
@@ -34,7 +34,8 @@ echo -e "value\0\tdescription"        # description, no trailing space
 - Descriptions are on by default (`ARGC_COMPGEN_DESCRIPTION=1` forces them; any other value disables them; `ARGC_COMPGEN_DESCRIPTION_MAX_WIDTH` defaults to 80).
 - Colors: `black`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, `white`, `default`, optionally `regular` or `bold`; only zsh/PowerShell render them.
 - Return 0 with no output when there is nothing to offer; send diagnostics to stderr. Do not pre-filter by prefix: argc filters, so emit the full current-part candidate.
-- Guard an auxiliary tool with `command -v <tool> >/dev/null || return 0`; a missing tool must not fail completion. Never guard the completion's own root command (it always exists); guard a different tool, including a fallback name.
+- Call the completion's own root command and any prerequisite tool directly: the root exists while its completion runs, and `argc`, `jq`, `bash`, `gawk`, `sed`, `grep`, and `find` are always installed (`<SKILL_ROOT>/SKILL.md` §Prerequisites). No `command -v` probe for either.
+- Probe only a tool that may be absent, and use the probe to pick the answer when one value has command-specific implementations (`ip` vs `ifconfig`, `wl-copy` vs `xclip`, `timeout` vs `gtimeout`): `if command -v ip >/dev/null 2>&1; then ...; elif command -v ifconfig >/dev/null 2>&1; then ...; fi`. A tool the candidates can simply skip keeps `command -v <tool> >/dev/null || return 0`.
 - A candidate query must be read-only and bounded: prefer a local or cached source and cap the result count; a slow or remote query belongs in `_argc_util_cache` (`<SKILL_ROOT>/references/compgen-helpers.md` §*`_argc_util_cache`*).
 - Do not sort or dedupe candidates: argc deduplicates by value and shows them in emission order, so there is no need to use commands like `sort`, `sort -u`, or `uniq`.
 - Pass `-b` to `jq`: `jq -b -r ...`. Without `-b`, jq writes `\r\n` on Windows and every candidate keeps a trailing `\r`.
@@ -99,6 +100,8 @@ Parse YAML, TOML, XML, or INI values with mikefarah/yq inside `_choice_*`.
 yq -r '.profiles[].name' config.yaml
 yq -p toml -o yaml -r '.profiles.names[]' config.toml    # -p toml|xml|ini: format or stdin
 ```
+
+`yq` is optional (`<SKILL_ROOT>/references/setup.md` §Environment), so probe it before use: `command -v yq >/dev/null || return 0`.
 
 ## 5. Control lines and the split model
 
@@ -201,7 +204,7 @@ Isolate in four steps:
 3. Function works? Use the direct-call harness above.
 4. Helper works? Call the parser/query directly against a fixture file.
 
-Common causes: output protocol mismatch (helper prints `_TARGET`, reader matches `T`); `local`/`declare` at the harness top level; empty `argc_directory`/`argc_file` from a guessed id; a missing tool without a `command -v` guard.
+Common causes: output protocol mismatch (helper prints `_TARGET`, reader matches `T`); `local`/`declare` at the harness top level; empty `argc_directory`/`argc_file` from a guessed id; a tool that may be absent called without a `command -v` guard.
 
 Inspect context when needed:
 
@@ -209,7 +212,7 @@ Inspect context when needed:
 declare -p ARGC_CWORD ARGC_LAST_ARG argc__positionals argc__option >&2
 ```
 
-If still unclear, use the symptom index in `<SKILL_ROOT>/references/troubleshooting.md`. A compgen failure (non-zero exit, printed error, or timeout) usually means a missing `command -v` guard; a missing root command can only occur in the direct-call harness.
+If still unclear, use the symptom index in `<SKILL_ROOT>/references/troubleshooting.md`. A compgen failure (non-zero exit, printed error, or timeout) usually means a tool that may be absent is called without a `command -v` guard; a missing root command can only occur in the direct-call harness.
 
 ## Sources
 

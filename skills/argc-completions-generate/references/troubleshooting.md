@@ -52,9 +52,10 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | `cannot rename ... both map to` | Two names normalize to one `_helper_*` | Rename one manually, re-run the formatter |
 | `cannot rename ... used as a shell variable` | Function name is also a variable | Rename the function or variable, re-run the formatter |
 | `... is referenced outside CHOICES` | A `choice_fn` in `SPEC` still uses the old name | Update the fragment, re-assemble, then format |
-| Function prints nothing | Guard returned early, wrong cwd, or missing tool | Use the isolation flow in `<SKILL_ROOT>/references/compgen.md` §6 |
+| Function prints nothing | An early return, wrong cwd, or a missing tool | Use the isolation flow in `<SKILL_ROOT>/references/compgen.md` §6 |
 | Hand-assembled `__argc_*` control lines or manual splitting | The mandatory helper/recipe lookup was skipped | Rebuild the body from the matching helper (`<SKILL_ROOT>/references/compgen-helpers.md` §*Section map*) or recipe (`<SKILL_ROOT>/references/compgen-recipes.md` §*Section map*), then re-run the gate (`<SKILL_ROOT>/references/add-choice-fns.md` §2 *Helpers*, §5) |
-| Redundant `command -v <root>` guard | A completion runs only while its root exists | Remove it; guard only another tool (`<SKILL_ROOT>/references/compgen.md` §1) |
+| Redundant `command -v` probe on the root or a prerequisite | The root exists while its completion runs, and the prerequisites are always installed | Remove the probe and call the command directly (`<SKILL_ROOT>/references/compgen.md` §1) |
+| One value has command-specific answers but only one branch is implemented (`ip` vs `ifconfig`, `wl-copy` vs `xclip`) | A platform assumption baked into a single branch | Select the branch with `command -v` (`<SKILL_ROOT>/references/compgen.md` §1) |
 | Compgen times out | Network/slow query per keystroke | Reproduce with `<SKILL_ROOT>/scripts/test-compgen.sh -t`; fix by caching the query (`_argc_util_cache`), capping it, or dropping the binding |
 | Compgen passes but candidates are wrong | Shifted word position or no candidate-level check | Test the option word (`--foo ''`); assert values with the `<SKILL_ROOT>/references/compgen.md` §6 `generic` pipeline |
 | Candidates look missing or different in a shell mode | Shell modes exercise the integration and post-process the candidate list | Check `generic` with the `<SKILL_ROOT>/references/compgen.md` §6 pipeline; do not edit `CHOICES` from a shell-mode result |
@@ -89,7 +90,7 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | `STATIC differs from fragments` | Hand-edited `STATIC`, stale assemble, or a described `choices` edit without assembling | Re-run `<SKILL_ROOT>/scripts/assemble.sh`; `STATIC` is generated, never patch it |
 | `reserved _static_ function defined outside STATIC` | A `_static_*` function was written in `CHOICES` or elsewhere | Move the logic to a `_choice_<param>` function and bind `choice_fn`; the prefix is reserved for assembly |
 | `dropped static choices` | A described `choices` item lost its generated function in the export | Re-assemble; if it persists, check the item's `names` shape |
-| compgen `command not found` | An auxiliary tool is missing | Guard it with `command -v` and return 0, or use `--skip-compgen` |
+| compgen `command not found` | A tool that may be absent is called without a probe | Add `command -v` and return 0, or use `--skip-compgen`; a probe on the root or a prerequisite is the bug, not the fix |
 | `exported name differs` (NOTE) | Plugin/OS script name differs from the path | Compare the `argc --argc-export` name; informational unless compgen uses the wrong name |
 | Shell has no completion but verify passes | Shell/path/OS mismatch | Check `ARGC_COMPLETIONS_ROOT`, `ARGC_COMPLETIONS_PATH`, `argc_scripts`, the OS directory, and a reload; re-run `<REPO_ROOT>/scripts/init-shell.sh <shell>` |
 

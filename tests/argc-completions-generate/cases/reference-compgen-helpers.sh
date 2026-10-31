@@ -51,5 +51,6 @@ assert_contains "compgen helper guard" "$helpers_md" 'utils/_argc_utils.sh'
 assert_contains "compgen executable helper" "$helpers_md" '## `_argc_util_comp_command`'
 assert_contains "compgen subcommand helper" "$helpers_md" '## `_argc_util_comp_subcommand <index> [prepend...]`'
 assert_contains "compgen sources helpers" "$helpers_md" '. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"'
+assert_contains "helpers cache probe note" "$helpers_md" "probe for a tool that may be absent inside the uncached function"
 
 helper_finish
