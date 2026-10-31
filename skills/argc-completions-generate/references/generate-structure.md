@@ -13,7 +13,7 @@ It prints absolute `key=value` lines; the values used below are `existing`, `blo
 - `<root>` is required here.
 - It does not create `<REPO_ROOT>/cache/compile/<root>`.
 - It already runs `require_pipeline_tools` and checks `command -v <root>`; both checks are already done, and the compile child alone fetches `--help`/`--version`.
-- Do not inspect `<REPO_ROOT>/completions/` with `ls`/`grep`/`sed`/`find`: `preflight` reports `existing`/`completion_file`/`blocks`, and `command -v` answers tool availability.
+- Do not inspect `<REPO_ROOT>/completions/` or `<REPO_ROOT>/cache/compile/` with `ls`/`tree`: both directories grow without bound, and `preflight` reports `existing`/`completion_file`/`blocks`/`cache_dir`/`root_fragment`/`root_help`, and `command -v` answers tool availability.
 - `existing=0` and `blocks=missing` mean no script yet: skip context extraction and pass empty context. `blocks=legacy` means no block markers; assemble can migrate once.
 - Prefer `<REPO_ROOT>/completions/<os>/<root>.sh` when it already exists, otherwise the common path.
 

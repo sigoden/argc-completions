@@ -8,7 +8,7 @@ Edit only the `CHOICES` block and the matching fragment item's `choice_fn` (empt
 
 ## 1. Preconditions
 
-`<SKILL_ROOT>/scripts/verify-completion.sh <completion.sh> --cache-dir <REPO_ROOT>/cache/compile/<root>` must PASS. Run `all` if the script has no blocks, or finish generate-structure if the cache is incomplete or has `todo` nodes.
+Resolve `<completion.sh>` and the cache directory from `<SKILL_ROOT>/scripts/preflight.sh <root>` (`completion_file` and `cache_dir`); never find them by listing `<REPO_ROOT>/completions/` or `<REPO_ROOT>/cache/compile/`. `<SKILL_ROOT>/scripts/verify-completion.sh <completion.sh> --cache-dir <REPO_ROOT>/cache/compile/<root>` must PASS. Run `all` if the script has no blocks, or finish generate-structure if the cache is incomplete or has `todo` nodes.
 
 ## 2. Inventory
 
