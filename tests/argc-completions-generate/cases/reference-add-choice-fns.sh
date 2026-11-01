@@ -16,6 +16,7 @@ assert_contains "choice docs split binding" "$choice_md" "set \`choice_fn\` on *
 assert_contains "choice docs binding script" "$choice_md" "set-choice-fns.sh"
 assert_contains "choice docs multi-name binding" "$choice_md" '--eval-command[`_choice_value`]'
 assert_contains "choice docs terminated binding" "$choice_md" '--command~[`_choice_command_args`]'
+assert_contains "choice docs terminated keeps required" "$choice_md" 'a terminated arg renders `~` alone'
 assert_not_contains "choice docs no inline binding jq" "$choice_md" ".items |= map("
 assert_contains "choice docs single-item query" "$choice_md" ".flag_options[] | select(.id =="
 assert_contains "choice docs reserved prefix" "$choice_md" "_static_"

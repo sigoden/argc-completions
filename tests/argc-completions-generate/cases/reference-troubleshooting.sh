@@ -12,5 +12,6 @@ check "references link troubleshooting" test -z "$(grep -L troubleshooting.md "$
 # The command-v rows point at the rule owner (compgen.md §1).
 assert_contains "troubleshooting root probe row" "$troubleshoot_md" 'Redundant `command -v` probe on the root'
 assert_contains "troubleshooting command-specific row" "$troubleshoot_md" "command-specific answers"
+assert_contains "troubleshooting combined terminated suffix" "$troubleshoot_md" 'argc takes `~` as the whole arg suffix'
 
 helper_finish

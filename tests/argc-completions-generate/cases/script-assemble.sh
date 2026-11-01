@@ -265,6 +265,19 @@ check "export terminated option" jq -e '.flag_options[] | select(.long_name == "
 check "export terminated arg" jq -e '.positionals[] | select(.id == "args") | .terminated == true and .multiple == true' "$TMP_DIR/terminated-export.json"
 check "verify terminated" bash "$SCRIPTS/verify-completion.sh" "$terminated_script" --cmd demo --cache-dir "$TMP_DIR/fragments-terminated" --skip-compgen
 
+# A required terminated arg renders "~" alone: argc rejects name!~, so assembly
+# drops the requiredness and keeps it in the fragment as provenance only.
+inject_root_items "$TMP_DIR/fragments-terminated-required" '[
+  {"kind": "arg", "name": "args", "repeatable": false, "required": true, "notation": "<ARG>", "choices": [], "choice_fn": null, "delimiter": null, "description": "Args", "terminated": true}
+]'
+terminated_required_script="$TMP_DIR/terminated-required.sh"
+quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-terminated-required" --stdout >"$terminated_required_script"
+assert_contains "assemble required terminated arg" "$terminated_required_script" '# @arg args~ <ARG>'
+assert_not_contains "assemble required terminated arg drops bang" "$terminated_required_script" '# @arg args!~'
+check "export required terminated arg" bash -c "argc --argc-export '$terminated_required_script' >'$TMP_DIR/terminated-required-export.json'"
+check "export required terminated arg fields" jq -e '.positionals[] | select(.id == "args") | .terminated == true and .multiple == true and .required == false' "$TMP_DIR/terminated-required-export.json"
+check "verify required terminated arg" bash "$SCRIPTS/verify-completion.sh" "$terminated_required_script" --cmd demo --cache-dir "$TMP_DIR/fragments-terminated-required" --skip-compgen
+
 inject_root_items "$TMP_DIR/fragments-terminated-literal" '[{"kind": "option", "names": ["-~", "--value"], "notations": ["<VALUE>"], "choices": [], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Literal"}]'
 literal_script="$TMP_DIR/terminated-literal.sh"
 quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-terminated-literal" --stdout >"$literal_script"

@@ -14,5 +14,7 @@ assert_contains "schema choices objects" "$schema_md" '{"value": "a", "descripti
 assert_contains "schema choices object rejection" "$schema_md" "choices entries must be objects {value, description}"
 assert_contains "schema choices static rendering" "$schema_md" "_static_"
 assert_contains "schema shared help source section" "$schema_md" '"section": "<name>"'
+assert_contains "schema terminated ignores required" "$schema_md" 'A terminated arg renders as `<name>~` alone'
+assert_contains "schema terminated suffix" "$schema_md" 'A terminated arg skips all of them'
 
 helper_finish

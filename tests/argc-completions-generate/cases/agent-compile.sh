@@ -27,6 +27,7 @@ assert_contains "compile contract probe determinism" "$compile_md" "The probe is
 assert_contains "compile contract notation modifiers" "$compile_md" "**Notation modifiers**"
 assert_contains "compile contract final notation modifier" "$compile_md" "Only the final notation may carry one modifier"
 assert_contains "compile contract notation vs repeatable" "$compile_md" "never use it for a multi-value notation"
+assert_contains "compile contract terminated ignores required" "$compile_md" '`required` is not rendered on a terminated item'
 for heading in "3.1 Node fields" "3.2 Descriptions" "3.3 Names" "3.4 Values and notations" "3.5 Enumerations" "3.6 Repeats, prefixes, delimiters" "3.7 Flags" "3.8 Options" "3.9 Positional arguments" "3.10 Terminated values" "3.11 Context bindings" "3.12 Fragment shape and escaping" "3.13 Shared help (subcommands without their own help)"; do
     assert_contains "compile section $heading" "$compile_md" "### $heading"
 done

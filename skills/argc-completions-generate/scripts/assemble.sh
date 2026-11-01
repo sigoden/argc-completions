@@ -425,8 +425,12 @@ render_items() {
         def desc: ((.description // "") | gsub("[\\r\\n\\t]+"; " ") | gsub("^ +| +$"; ""));
         def terminated_marker:
           if (.terminated // false) then "~" else "" end;
+        # A terminated arg renders "~" alone: argc rejects a combined suffix
+        # ("name!~"), so requiredness never reaches the tag.
         def arg_modifier:
-          if (.repeatable // false) then
+          if (.terminated // false) then
+            ""
+          elif (.repeatable // false) then
             (if (.required // false) then "+" else "*" end) + (.delimiter // "")
           else
             (if (.required // false) then "!" else "" end)
