@@ -15,5 +15,6 @@ assert_contains "structure handoff explicit" "$structure_md" "handoff, not an au
 assert_contains "generate-structure handoff params" "$structure_md" "inspect-script-params.jq"
 assert_contains "structure static function naming" "$structure_md" "_static_<fragment path without the root>"
 assert_contains "structure no completions inspect" "$structure_md" 'Do not inspect `<REPO_ROOT>/completions/`'
+assert_contains "structure shared help missing is success" "$structure_md" "shared-help-missing"
 
 helper_finish

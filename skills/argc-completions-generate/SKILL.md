@@ -133,7 +133,7 @@ Read the authority file before working in its area; the rule is defined there.
 |---|---|
 | Field semantics: `names` order, `terminated`/`delimiter`/`choices` interactions, `choice_fn` precedence | `<SKILL_ROOT>/references/fragment-schema.md` |
 | Description text: first sentence, machine-local paths, duplicated `choices` (mechanical; implemented by `<SKILL_ROOT>/scripts/normalize-description.sh`) | `<SKILL_ROOT>/references/fragment-schema.md` §Rules |
-| Compile child behavior: help scope, one node, no dispatch, when compile may set `terminated` | `<SKILL_ROOT>/agents/compile.md` §1, §3.10 |
+| Compile child behavior: help scope, one node, no dispatch, when compile may set `terminated`, shared-help sections | `<SKILL_ROOT>/agents/compile.md` §1, §3.10, §3.13 |
 | Cache layout and write scope, fragment lifecycle, failure and retry | `<SKILL_ROOT>/references/generate-structure.md` §2, §3, §6, §7, §9 |
 | Choice bindings (including command-valued and `terminated`), naming, sorting, assemble/test loop | `<SKILL_ROOT>/references/add-choice-fns.md` §Ownership, §3–§5 |
 | Candidate protocol, context variables, split model, debugging (`<SKILL_ROOT>/references/compgen.md`); helper signatures (`<SKILL_ROOT>/references/compgen-helpers.md`); composed recipes (`<SKILL_ROOT>/references/compgen-recipes.md`) |

@@ -18,7 +18,7 @@ You are a compile subagent for the `argc-completions-generate` skill: compile ex
 
 Use the first source that works: `<cmd...> --help` (capture stdout and stderr); `<cmd...> help` or `<cmd> help <sub...>`; `man <cmd>-<sub>` or `man <cmd>`, extracting only the relevant section. The list is exhaustive (`-h` is not a source); set `PAGER=cat MANPAGER=cat COLUMNS=9999 NO_COLOR=1` and keep the raw text as data. Once `--help` or `help` succeeds, skip `man`.
 
-Help scope: `<cmd...>` is this node's command path (`demo remote add`), and `<sub...>` in the `help` form is that path, not a sibling. The parent command's help is readable (it carries the subcommand list, aliases, and this node's summary). Sibling and child help are off limits as data sources: no sibling or child option, choice, notation, or description may fill an `items`, `names`, `notations`, `choices`, `choice_fn`, `description`, or `meta` field of this fragment. A sibling may be uncompiled with no fragment yet, so its data is unavailable, not missing: fetch no sibling to fill a gap or mirror its choices, and take no result from another node. The only permitted read of a child's help is the subcommand existence check in §3.1, judged by exit status and usage line alone.
+Help scope: `<cmd...>` is this node's command path (`demo remote add`), and `<sub...>` in the `help` form is that path, not a sibling. The parent command's help is readable (it carries the subcommand list, aliases, and this node's summary). Sibling and child help are off limits as data sources: no sibling or child option, choice, notation, or description may fill an `items`, `names`, `notations`, `choices`, `choice_fn`, `description`, or `meta` field of this fragment. A sibling may be uncompiled with no fragment yet, so its data is unavailable, not missing: fetch no sibling to fill a gap or mirror its choices, and take no result from another node. The only permitted read of a child's help is the subcommand existence check in §3.1, judged by exit status and usage line alone. One more parent read is permitted: the parent page's entry for *this* node and its usage line, used only in shared-help mode (§3.13); never read a sibling entry while doing it.
 
 Canonicalize with the shared helper; never reimplement it or read `<SKILL_ROOT>/scripts/lib.sh`. The second argument must be an absolute path under the cache directory from your prompt; a bare name such as `_root.new.txt` resolves against the shell's working directory, and the node loses its cache key. The help file mirrors the fragment target with `.txt` (`<cache_dir>/remote/add.json` -> `<cache_dir>/remote/add.txt`):
 
@@ -61,14 +61,18 @@ Only the root node performs this step. If the cache directory was reset, it cont
 
 Extract only what is explicitly present in the help/man text. When a section is ambiguous, keep the raw description and omit the uncertain field.
 
-Sections §3.1–§3.6 are field rules shared by every node; §3.7–§3.9 are the per-kind checklists, which cite those rules instead of restating them; §3.10–§3.12 cover the special mechanisms and the fragment shape.
+Sections §3.1–§3.6 are field rules shared by every node; §3.7–§3.9 are the per-kind checklists, which cite those rules instead of restating them; §3.10–§3.13 cover the special mechanisms and the fragment shape.
 
 ### 3.1 Node fields (`description`, `aliases`, `meta`, `subcommands`)
 
 - `description`: the root description or the subcommand summary (§3.2).
 - `aliases`: explicit subcommand aliases only; names containing `_` get a hyphenated alias automatically.
 - `meta`: copy `@meta` lines verbatim to `{"key": ..., "value": ...}`. `combine-shorts` is the only inferable key, and an existing context line always wins: add `{"key": "combine-shorts", "value": ""}` only on the root fragment. Root only: infer it from a probe — the root help lists two or more POSIX/GNU getopt-style single-letter shorts (`-a`, `-v`) and `<root> -XY` built from two single-letter shorts of the root help either succeeds or fails with a diagnostic naming one letter (`invalid option -- 'x'`, `Unknown option: -Z`); leave the key off when the diagnostic names the whole token (`bad option: -pv`) or the probe is inconclusive. Skip a tool with single-dash long names (`-jar`, `-Xmx`).
-- `subcommands`: names, aliases, and descriptions from the explicit command-list section (`Commands:`, `Subcommands:`); every new child gets `"status": "todo"`; omit the `help` pseudo-command. A `Usage:` alternation (`[a|b|c]`) is one positional arg with `choices`, never subcommands. Take names, aliases, and descriptions from the list; when the list is ambiguous about one name, run `<cmd> <name> --help` once and decide from its exit status and usage line only (see *Help scope* in §1). An explicit list needs no probe. `Aliases:` names the current node. With no list, emit `subcommands: []` and note it.
+- `subcommands`: built from the candidate classification below, never from a bare guess; every new child gets `"status": "todo"` and the `help` pseudo-command is always omitted.
+- Candidate tokens have two sources: a command-list section (`COMMANDS`, `SUB-COMMANDS`, `SUBCOMMANDS`, case-insensitive, the first such heading at column 0), and the command slot of a usage line (`SYNOPSIS`, `USAGE`, `Usage:`, or the leading usage block) — the first token after the root path that is not `<...>`, `[...]`, or an all-caps metavar. A placeholder, `[options]`/`[OPTIONS]`, and an all-caps metavar are never command tokens.
+- **Values of one positional** (emit one positional arg with `choices`, no children) only when all three hold: the whole group sits in one usage-slot alternation (`[a|b|c]`, `{a,b}`, `a|b`) or in an explicit value list such as `SHELL  one of bash, zsh, fish, powershell`; no member defines an option or flag of its own in this help page (no per-member `OPTIONS` block, no option listed only under that member); and their parameter signatures match — same positional count and requiredness and the same option-name set after dropping `[options]`/`[OPTIONS]` and this command's own options. Keep help order, take descriptions from the command list or value list, parse the rest per §3.9, and never infer `repeatable` from a plural name (§3.6). `Usage: prog [start|stop]` with no per-member definition is one arg; `Usage: prog completions [bash|zsh|fish|powershell]` keeps `completions` as a subcommand and makes the shells its own arg.
+- **Real subcommands** are every other candidate: it appears only in a command list (however thin — its own help may be richer, so never downgrade it to `choices`); or it defines options of its own; or its usage remainder carries operands or options; or its signature differs from its group's. A group with mixed evidence is all subcommands. Never turn alternation values into subcommands, never emit a command list as a `choices` arg, and never keep a group as `choices` when any member carries an independent option or a different signature. A child's options, args, and choices are never hoisted into this node's `items`: this node keeps only the definitions outside the candidate entries and outside the child usage lines.
+- Take names, aliases, and descriptions from the list; when the list is ambiguous about one name, run `<cmd> <name> --help` once and decide from its exit status and usage line only (see *Help scope* in §1). An explicit list needs no probe. `Aliases:` names the current node. With no list and no command slot, emit `subcommands: []` and note it.
 
 ### 3.2 Descriptions
 
@@ -189,7 +193,31 @@ Set `~` only from a context tag or the command-family rule; a `~` inside a path,
 ### 3.12 Fragment shape and escaping
 
 - Two-space JSON indentation; the exact field set and the structural-string rules are in `<SKILL_ROOT>/references/fragment-schema.md`.
-- `source` examples: `{"kind":"help","command":"demo --help"}` or `{"kind":"none"}`; `notes` may be an empty string.
+- `source` examples: `{"kind":"help","command":"demo --help"}` or `{"kind":"none"}`; `notes` may be an empty string. A shared-help node (§3.13) adds `"section"` to `source`.
+
+### 3.13 Shared help (subcommands without their own help)
+
+Some tools ship no per-subcommand help: `<cmd> <sub> --help` prints the parent page, which holds every child's definition in its own section (the `BUNDLE-PLUGIN(1)` man page keeps all `install` and `uninstall` options under `SUB-COMMANDS`). A child node then reads *its own* entry from the parent page; never read a sibling entry.
+
+Enter this mode when this node is not the root and either check holds:
+
+- `<SKILL_ROOT>/scripts/compare-help.sh "<parent>.txt" "<node>.txt"` prints `same`. `<parent>.txt` is this node's `.txt` with its last path segment dropped (`<cache_dir>/plugin/install.txt` -> `<cache_dir>/plugin.txt`). Run it in `if`: exit 1 means different, exit 2 means a missing file. The parent compiles before its children, so its `.txt` exists whenever this mode is possible.
+- The node's own text yields no item and no subcommand, and the parent page has a matching entry.
+
+Extract only these two slices from that page:
+
+1. The command-list entry: the first entry in the command-list section whose header's first token equals this node's name (also try the `-`/`_` variant and its aliases). The entry body runs from that header to the next non-blank line indented at most as far as the header, so a deeper `OPTIONS` heading stays inside it. Fallback form: a heading whose trimmed text is `<name> OPTIONS` or `OPTIONS FOR <name>`, taken to the next heading of the same or shallower level.
+2. The node's usage lines: lines in `SYNOPSIS`/`USAGE`/`Usage:` (or the leading usage block) whose leading whitespace-split tokens equal this node's full command path, aliases accepted. Drop that prefix and classify plus parse the remainder per §3.1, §3.4, and §3.9; `[options]`/`[OPTIONS]` is a placeholder, not a positional, and an option alternation such as `[--branch=BRANCH|--ref=REF]` is two options, not a `choices` enumeration.
+
+Merge the two slices by name: one item per name, the entry body gives the description, the usage line gives notations, order, and requiredness. Keep any child commands and value sets found inside the entry, and still omit the `help` pseudo-command. The page's `DESCRIPTION`, top-level `OPTIONS`, every other entry, and `SEE ALSO` belong to the parent or a sibling and never fill this fragment.
+
+`source` records the slice: `{"kind":"help","command":"<parent path> --help","section":"<name>"}`, or `{"kind":"man","command":"man <root>-<parent>","section":"<name>"}` when the page came from a parent man page. Warn `shared-help <path>: definitions from the parent section '<name>'; verify with <parent path> help`.
+
+- The entry says `No options.`: emit `items: []` with no warning.
+- The entry exists but gives no definition: `items: []`, still succeeded, no `shared-help-missing`.
+- Neither the entry nor a matching usage line exists: `items: []`, `subcommands: []`, `status: succeeded`, warn `shared-help-missing <path>: parent help has no section for '<name>'`. Never report `failed` for this case — assembly needs a fragment, not definitions — and never invent a flag, value, or positional.
+
+Example: the `man bundle-plugin` entry `install` plus the usage line `bundle plugin install PLUGINS [--source=SOURCE] ...` yields one arg `plugins` and the options `--source` through `--path`; `--all` from the sibling `uninstall` entry never appears under `install`.
 
 ## 4. Fragment files
 
@@ -211,8 +239,9 @@ The key is the fragment `path` joined by `|` (`["gdb"]` -> `gdb`, `["gdb", "add"
 ## 6. Failure handling
 
 - If help/man cannot be obtained after one retry, write a minimal fragment with `items: []`, `subcommands: []`, `source: {"kind": "none"}`, and report `status: failed` with the reason.
+- A shared-help node that finds no section (§3.13) is `succeeded` with `items: []` and the `shared-help-missing` warning: do not retry it, and do not report `failed`.
 - For a shell builtin with no `--help`, try `help <cmd>` and the man page; take definitions only from output those sources give.
 
 ## 7. Return summary
 
-Return exactly one compact JSON object as the final message; no prose, headings, fragment body, or help text. Fields: `path` (array), `fragment` and `help` (absolute paths), `cache` (`hit`, `miss`, `new`, `unknown`, or `n/a` for a child), `status` (`succeeded`/`failed`), `source` (`help`/`man`/`none`), `subcommands` (array of `{name, aliases, description, status}`), and `warnings` (short and actionable; keep the fixed tags `terminated`, `no-args-binding`, `mixed-enumeration` verbatim so the orchestrator can match them).
+Return exactly one compact JSON object as the final message; no prose, headings, fragment body, or help text. Fields: `path` (array), `fragment` and `help` (absolute paths), `cache` (`hit`, `miss`, `new`, `unknown`, or `n/a` for a child), `status` (`succeeded`/`failed`), `source` (`help`/`man`/`none`), `subcommands` (array of `{name, aliases, description, status}`), and `warnings` (short and actionable; keep the fixed tags `terminated`, `no-args-binding`, `mixed-enumeration`, `shared-help`, `shared-help-missing` verbatim so the orchestrator can match them). The `source.section` key stays inside the fragment; this summary reports only the `source` kind.

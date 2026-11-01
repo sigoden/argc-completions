@@ -13,5 +13,6 @@ assert_contains "schema colon enumeration" "$schema_md" "colon-introduced comma 
 assert_contains "schema choices objects" "$schema_md" '{"value": "a", "description": "First"}'
 assert_contains "schema choices object rejection" "$schema_md" "choices entries must be objects {value, description}"
 assert_contains "schema choices static rendering" "$schema_md" "_static_"
+assert_contains "schema shared help source section" "$schema_md" '"section": "<name>"'
 
 helper_finish

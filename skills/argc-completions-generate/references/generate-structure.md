@@ -38,7 +38,7 @@ Fragments and canonical help text live under `<REPO_ROOT>/cache/compile/<root>/`
 
 That list is exhaustive: a capture or probe dump lives outside the directory, and `_root.new.txt` exists only while a root probe runs (`<SKILL_ROOT>/agents/compile.md` §1–§2).
 
-Each command node has one fragment. A parent lists its children in `subcommands`, each with a `status` of `todo`, `succeeded`, or `failed`; `todo` blocks assembly, `failed` needs a minimal fragment and warns. This is the only supported fragment directory: only `<REPO_ROOT>/cache/compile/<root>/` is writable, and other cache subdirectories belong to other workflows. Assembly may migrate a legacy tail once, after which run `<SKILL_ROOT>/scripts/format-choices.sh <completion.sh>` before verify.
+Each command node has one fragment. A parent lists its children in `subcommands`, each with a `status` of `todo`, `succeeded`, or `failed`; `todo` blocks assembly, `failed` needs a minimal fragment and warns. A child's `.txt` is normally its own help, but a shared-help node may write the parent page verbatim (`<SKILL_ROOT>/agents/compile.md` §3.13): an identical parent and child `.txt` is expected there, not a corrupt cache key. This is the only supported fragment directory: only `<REPO_ROOT>/cache/compile/<root>/` is writable, and other cache subdirectories belong to other workflows. Assembly may migrate a legacy tail once, after which run `<SKILL_ROOT>/scripts/format-choices.sh <completion.sh>` before verify.
 
 ### Reset (regenerate only)
 
@@ -149,6 +149,7 @@ Pass every finished node as `<name> <status>` pairs. The read, the write, and th
 The same update applies to a subtree reset: `parent` is the target's parent fragment (for example `<REPO_ROOT>/cache/compile/<root>/remote.json` for `git remote add`).
 
 - Retry a failed node once with the error text appended to the prompt.
+- A node that warns `shared-help-missing` is `succeeded` with `items: []`: keep it, do not retry, and never set the parent status to `failed` (`<SKILL_ROOT>/agents/compile.md` §3.13). Its `shared-help` warning is informational and needs no action.
 - If it still fails and leaves no fragment, write the minimal failed fragment and set the parent status to `failed`:
 
   ```json

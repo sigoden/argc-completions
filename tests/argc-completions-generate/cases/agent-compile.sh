@@ -27,9 +27,16 @@ assert_contains "compile contract probe determinism" "$compile_md" "The probe is
 assert_contains "compile contract notation modifiers" "$compile_md" "**Notation modifiers**"
 assert_contains "compile contract final notation modifier" "$compile_md" "Only the final notation may carry one modifier"
 assert_contains "compile contract notation vs repeatable" "$compile_md" "never use it for a multi-value notation"
-for heading in "3.1 Node fields" "3.2 Descriptions" "3.3 Names" "3.4 Values and notations" "3.5 Enumerations" "3.6 Repeats, prefixes, delimiters" "3.7 Flags" "3.8 Options" "3.9 Positional arguments" "3.10 Terminated values" "3.11 Context bindings" "3.12 Fragment shape and escaping"; do
+for heading in "3.1 Node fields" "3.2 Descriptions" "3.3 Names" "3.4 Values and notations" "3.5 Enumerations" "3.6 Repeats, prefixes, delimiters" "3.7 Flags" "3.8 Options" "3.9 Positional arguments" "3.10 Terminated values" "3.11 Context bindings" "3.12 Fragment shape and escaping" "3.13 Shared help (subcommands without their own help)"; do
     assert_contains "compile section $heading" "$compile_md" "### $heading"
 done
+assert_contains "compile shared help parent compare" "$compile_md" '<SKILL_ROOT>/scripts/compare-help.sh "<parent>.txt" "<node>.txt"'
+assert_contains "compile shared help no sibling read" "$compile_md" "never read a sibling entry"
+assert_contains "compile shared help missing tag" "$compile_md" "shared-help-missing"
+assert_contains "compile shared help missing not failed" "$compile_md" 'Never report `failed`'
+assert_contains "compile child options not hoisted" "$compile_md" 'never hoisted into this node'"'"'s `items`'
+assert_contains "compile value set signature check" "$compile_md" "parameter signatures match"
+assert_contains "compile value set not subcommands" "$compile_md" "Never turn alternation values into subcommands"
 assert_contains "compile contract args notation kept" "$compile_md" '"notations": ["<script>", "<args*>"]'
 assert_contains "compile contract arg notation bare" "$compile_md" 'never put a notation modifier (`*`, `+`, `?`) inside it'
 assert_contains "compile reset cache probe" "$compile_md" "If the cache directory was reset"

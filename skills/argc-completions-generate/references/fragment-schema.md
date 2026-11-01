@@ -49,7 +49,7 @@ One command node = one fragment:
 | `choices` | Array of `{"value": "...", "description": "..."}` objects (both keys required, `description` may be empty). Literal values only. Put no placeholder from a mixed enumeration (for example `SEED` in `--shuffle[=SEED|random|reverse|none]`) here; leave `choices` empty, record the literals in `notes`, and emit the `mixed-enumeration` warning. |
 | `choice_fn` | String or `null`; a local `_choice_*` function name without backticks. A binding wins over static `choices`. |
 | `subcommands[].status` | `todo`, `succeeded`, or `failed`. |
-| `source`, `notes` | Optional origin information and note. |
+| `source`, `notes` | Optional origin information and note. A shared-help fragment adds `"section": "<name>"` to `source` (`{"kind":"help","command":"bundle plugin --help","section":"install"}`); the validator only requires `source` to be an object, so this key is free-form provenance. |
 
 Rules:
 

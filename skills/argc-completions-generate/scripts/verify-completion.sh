@@ -758,6 +758,9 @@ if [[ -n "$fragments" && "$layout" == "new" ]] && prov_dir="$(cd -P "$fragments"
         base="${frag#"$prov_dir"/}"
         base="${base%.json}"
         [[ "$base" != "_root" ]] || continue
+        # A shared-help node intentionally reuses its parent page; source.section
+        # marks it, so identical help is expected rather than a bad subcommand.
+        [[ -z "$(jq -r '.source.section // empty' "$frag" 2>/dev/null)" ]] || continue
         parent="$prov_dir/_root.txt"
         [[ "$(dirname "$base")" == "." ]] || parent="$prov_dir/$(dirname "$base").txt"
         child="$prov_dir/$base.txt"
