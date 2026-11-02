@@ -30,7 +30,11 @@ Work in the repository (or pass absolute paths). `argc`, `jq`, `bash >= 5`, `gaw
 # <<< SPEC
 
 # >>> HINTS
-# ... prompt comments ...
+# ... prompt comments common to every command in this root ...
+# %%<root>
+# ... prompt comments only for <root> ...
+# %%<root> <sub>
+# ... prompt comments only for <root> <sub> ...
 # <<< HINTS
 
 # >>> STATIC
@@ -45,7 +49,7 @@ command eval "$(argc --argc-eval "$0" "$@")"
 ```
 
 - `SPEC` and `STATIC` are assembly output: change fragments and re-run `<SKILL_ROOT>/scripts/assemble.sh`; never hand-edit either block.
-- `HINTS` is maintainer-owned and preserved verbatim by assembly. `CHOICES` is owned by add-choice-fns and preserved by assembly; it holds `_choice_*`/`_helper_*` and the `<REPO_ROOT>/utils/_argc_utils.sh` source guard.
+- `HINTS` is maintainer-owned and preserved verbatim by assembly. Lines before the first `# %%` marker are common to every command in the root; a `# %%<path>` section is visible only for that exact path, with no inheritance, and a marker without a path matches nothing. Compile prompts are the resolved lines (common + this path's section). `CHOICES` is owned by add-choice-fns and preserved by assembly; it holds `_choice_*`/`_helper_*` and the `<REPO_ROOT>/utils/_argc_utils.sh` source guard.
 - The final eval stays outside the blocks. Only the block layout is supported: assembly preserves nothing outside the blocks, so add missing markers by hand or delete the script for a first generation.
 - Fragments are the source of truth: rebuild only through this pipeline.
 

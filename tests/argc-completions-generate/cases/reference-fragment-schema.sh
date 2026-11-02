@@ -27,6 +27,7 @@ assert_contains "schema cache version bump" "$schema_md" "SKILL_CACHE_VERSION"
 assert_contains "schema hash helper" "$schema_md" "fragment-hash.sh"
 assert_contains "schema hash behavior context" "$schema_md" "context that can change completion behavior"
 assert_contains "schema hash exclusions" "$schema_md" '`meta`, descriptions, aliases, and paths are excluded'
+assert_contains "schema hash resolved hints" "$schema_md" 'The `HINTS` half is the text resolved for that path'
 assert_not_contains "schema no hash framing" "$schema_md" "NUL SKILL_CACHE_VERSION"
 assert_not_contains "schema no hash diff mechanics" "$schema_md" "reach the hash only through"
 assert_contains "schema choice_fn from diff" "$schema_md" 'copied only from the `<SKILL_ROOT>/scripts/extract-cmd-context.sh` `DIFF`'

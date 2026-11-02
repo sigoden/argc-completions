@@ -77,6 +77,10 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | `empty STATIC block` / `empty CHOICES block` | An empty marker pair left by an older assemble | Re-run `<SKILL_ROOT>/scripts/assemble.sh <root> --force`; empty optional blocks are omitted |
 | `block order must be ...` | Blocks reordered | Order `SPEC` -> `HINTS` -> [`STATIC`] -> [`CHOICES`]; `STATIC` and `CHOICES` are optional but keep that order |
 | `HINTS contains non-comment lines` | Shell code in the prompt | Prefix prompt lines with `#` |
+| `HINTS marker path is not a command block` | The `# %%<path>` path is a typo, an alias, or belongs to a command that was removed | Use the canonical path (`# {{ ...` or the root name), or drop the marker and keep the text as a common line |
+| `HINTS marker without a command path` | A bare `# %%` line | Remove the line or add the meant path; the lines after it reach no node |
+| `HINTS marker duplicated` | The same `# %%<path>` appears twice | Keep one section; extraction would concatenate them in file order |
+| A hint never reaches the compile child | The section marker does not match the path (wrong depth, alias, or extra word) | Check the marker against `grep -n '^# {{ ' file`; `<SKILL_ROOT>/scripts/extract-cmd-context.sh <path...>` prints exactly what the child receives |
 | `CHOICES must not contain structural tags` | Tags pasted into the dynamic block | Move tags to fragments and re-assemble |
 | `SPEC must not define completion functions` | `_choice_*` pasted into the generated block | Compare with `<SKILL_ROOT>/scripts/assemble.sh --dump-spec`; move it to `CHOICES` |
 | `unknown comment tags` | Typo or unsupported tag | Fix or remove the tag |
@@ -101,6 +105,8 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | Symptom | Cause | Fix |
 |---|---|---|
 | `status=invalid reason=hash-mismatch` | The HINTS body, the notation/`choice_fn`/`terminated` context `DIFF`, or canonical help changed | Let the queue dispatch that node; do not edit the hash by hand |
+| A common HINTS line makes every node in the root `hash-mismatch` | Common lines are part of every node's hash body | Expected: the whole subtree recompiles once; a `# %%<path>` section changes only that node |
+| A marker-less HINTS block starts applying to every node | All text before the first `# %%` marker is common | Expected after the section syntax landed; add `# %%<root>` when the text is root-only |
 | `status=invalid reason=schema` (missing `hash`/`source.command`, unsafe command, non-empty hash on `none`) | Old or hand-edited fragment | Recompile the node under the current schema; there is no migration |
 | `status=unverified reason=help-unavailable` | The source command failed, timed out, or printed nothing | Reuse the fragment, keep the warning, and do not dispatch automatically; recompile only after confirming the command works |
 | `status=failed hash=` on a `source.kind: none` fragment | Help was unavailable when the node was last compiled | Reuse and warn; only a confirmed `<SKILL_ROOT>/scripts/delete-cache.sh <root>` plus a full run retries it |

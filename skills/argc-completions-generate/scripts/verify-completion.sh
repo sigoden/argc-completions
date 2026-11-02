@@ -193,6 +193,7 @@ if [[ "$layout" == "new" ]]; then
         fi
         prompt_region="$tmp_dir/HINTS.txt"
         choice_region="$tmp_dir/CHOICES.txt"
+        : >"$prompt_region"
         : >"$choice_region"
         if extract_block "$file" 'HINTS' "$prompt_region"; then
             if gawk '!/^#/ && !/^[[:space:]]*$/ { exit 1 }' "$prompt_region"; then
@@ -202,6 +203,48 @@ if [[ "$layout" == "new" ]]; then
             fi
         else
             fail "cannot extract HINTS block"
+        fi
+        # HINTS markers scope prompt text: common lines before the first
+        # marker, then one exact-path section per `# %%<path>` marker.
+        declare -A hints_paths=()
+        declare -A hints_seen=()
+        hints_paths["$root_cmd"]=1
+        while IFS= read -r spec_path; do
+            [[ -z "$spec_path" ]] || hints_paths["$spec_path"]=1
+        done < <(gawk '
+            /^# \{\{+ / {
+                path = $0
+                sub(/^# /, "", path)
+                gsub(/[{}]/, "", path)
+                sub(/^ +/, "", path)
+                sub(/ +$/, "", path)
+                gsub(/[[:blank:]]+/, " ", path)
+                if (path != "") print path
+            }
+        ' "$gen_region")
+        hints_marker_count=0
+        hints_marker_bad=0
+        while IFS= read -r hints_marker; do
+            hints_marker_count=$((hints_marker_count + 1))
+            hints_line=$((prompt_start + ${hints_marker%%:*}))
+            hints_path="$(hints_marker_path "${hints_marker#*:}")"
+            if [[ -z "$hints_path" ]]; then
+                fail "HINTS marker without a command path at line $hints_line"
+                hints_marker_bad=1
+                continue
+            fi
+            if [[ -z "${hints_paths[$hints_path]:-}" ]]; then
+                fail "HINTS marker path is not a command block: $hints_path (line $hints_line)"
+                hints_marker_bad=1
+            fi
+            if [[ -n "${hints_seen[$hints_path]:-}" ]]; then
+                fail "HINTS marker duplicated: $hints_path (line $hints_line)"
+                hints_marker_bad=1
+            fi
+            hints_seen["$hints_path"]=1
+        done < <(grep -n '^# %%' "$prompt_region" || true)
+        if [[ "$hints_marker_count" -gt 0 && "$hints_marker_bad" -eq 0 ]]; then
+            pass "HINTS markers"
         fi
         if [[ "$choice_count" -eq 1 ]]; then
             if extract_block "$file" 'CHOICES' "$choice_region"; then

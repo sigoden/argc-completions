@@ -15,6 +15,7 @@ remote() {
 # <<< SPEC
 
 # >>> HINTS
+# - prompt common to every demo command
 # %%demo
 # - prompt for demo
 # %%demo remote

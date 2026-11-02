@@ -376,6 +376,49 @@ extract_block() {
     return 0
 }
 
+# --- HINTS sections ---------------------------------------------------------
+# The HINTS block holds prompt text for the compile subagents. Lines before the
+# first `# %%` marker are common to every command path; a `# %%<path>` section
+# is visible only for that exact path (no inheritance). Compare paths with
+# collapsed whitespace so an extra space or a trailing blank still matches.
+
+# Collapse whitespace runs in a space-separated command path and trim both edges.
+normalize_path_spaces() {
+    local path="$1"
+    path="$(printf '%s' "$path" | tr -s '[:blank:]' ' ')"
+    path="${path# }"
+    path="${path% }"
+    printf '%s\n' "$path"
+}
+
+# Print the normalized command path of a `# %%<path>` marker line. Returns 1
+# when the line is not a marker; a marker without a path prints an empty line.
+hints_marker_path() {
+    local line="$1"
+    [[ "$line" == '# %%'* ]] || return 1
+    normalize_path_spaces "${line#'# %%'}"
+}
+
+# Print the HINTS lines visible to one command path.
+# Usage: hints_select <hints_body> <path>
+# Common lines lead, the exact-path section follows, and both keep their file
+# order and whitespace. A marker without a path never matches a real path.
+hints_select() {
+    local body="$1" want line section="" in_section=0
+    want="$(normalize_path_spaces "$2")"
+    while IFS= read -r line || [[ -n "$line" ]]; do
+        if [[ "$line" == '# %%'* ]]; then
+            in_section=1
+            section="$(hints_marker_path "$line")"
+            [[ -n "$section" ]] || section=$'\001'
+            continue
+        fi
+        if [[ "$in_section" -eq 0 || "$section" == "$want" ]]; then
+            printf '%s\n' "$line"
+        fi
+    done <"$body"
+}
+
 # --- File helpers -----------------------------------------------------------
 
 # Copy <input> to <output>, dropping blank lines at both edges.

@@ -56,7 +56,7 @@ One command node = one fragment:
 Rules:
 
 - `source.command` is a space-separated safe token string: only `[A-Za-z0-9_.+:@/-]`, no pipes, redirects, quotes, `;`, `$`, backticks, globs, or newlines; `help <builtin>` is the only builtin form and must have exactly one argument. It records the actual successful source (the full `man` page, or the parent command for a shared-help node), never a fallback or an extraction pipeline. Capture and canonicalization rules are in `<SKILL_ROOT>/agents/compile.md` §1.
-- Cache hash: `<SKILL_ROOT>/scripts/fragment-hash.sh` computes `hash` from the canonical help and the context that can change completion behavior (`HINTS` + `DIFF`); `meta`, descriptions, aliases, and paths are excluded. Never hand-compute or hand-edit it. `SKILL_CACHE_VERSION` in `<SKILL_ROOT>/scripts/lib.sh` invalidates every cache entry when the schema, hash framing, or canonicalization changes.
+- Cache hash: `<SKILL_ROOT>/scripts/fragment-hash.sh` computes `hash` from the canonical help and the context that can change completion behavior (`HINTS` + `DIFF`). The `HINTS` half is the text resolved for that path: the common lines before the first `# %%` marker plus its `# %%<path>` section, so a common-line edit changes every node's hash in that root and a section edit changes only that node's. `meta`, descriptions, aliases, and paths are excluded. Never hand-compute or hand-edit it. `SKILL_CACHE_VERSION` in `<SKILL_ROOT>/scripts/lib.sh` invalidates every cache entry when the schema, hash framing, or canonicalization changes.
 - Minimal failed fragment (help unavailable; reuse it and warn instead of retrying automatically):
 
   ```json

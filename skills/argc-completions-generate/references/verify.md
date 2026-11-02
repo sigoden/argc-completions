@@ -12,7 +12,7 @@ The command name comes from the path: `<REPO_ROOT>/completions/git.sh` -> `git`,
 
 The script prints `PASS`/`FAIL` per check and names the failing rule; use this table to choose the fix.
 
-Acceptance details: `HINTS` is comment/blank lines only and `SPEC` contains no `_choice_*` definitions; only the tag signature (before two or more spaces) counts for backticks, and description backticks are ignored; root-only keys (`combine-shorts`, `inherit-flag-options`) must sit in the root block, before the first `# {{` marker; a `choice_fn` must name a function defined in the script, so bind a local `_choice_*` wrapper rather than a tag or bare helper; `_argc_util_*` is allowed when the script sources `<REPO_ROOT>/utils/_argc_utils.sh`.
+Acceptance details: `HINTS` is comment/blank lines only and `SPEC` contains no `_choice_*` definitions; a `# %%<path>` marker must name a command path (the root name or a `# {{ ...` block path, no aliases) and appear once, and a marker without a path is a failure; only the tag signature (before two or more spaces) counts for backticks, and description backticks are ignored; root-only keys (`combine-shorts`, `inherit-flag-options`) must sit in the root block, before the first `# {{` marker; a `choice_fn` must name a function defined in the script, so bind a local `_choice_*` wrapper rather than a tag or bare helper; `_argc_util_*` is allowed when the script sources `<REPO_ROOT>/utils/_argc_utils.sh`.
 
 | Check | Fix |
 |---|---|
@@ -20,6 +20,7 @@ Acceptance details: `HINTS` is comment/blank lines only and `SPEC` contains no `
 | Help output | Make `bash <completion.sh> --help` exit 0 and print output. |
 | Blocks | Add missing markers by hand, re-run assembly, or drop an empty `STATIC`/`CHOICES` pair. |
 | Block content | Re-run assembly for `SPEC`/`STATIC`; fix `HINTS` by hand or `CHOICES` with `<SKILL_ROOT>/scripts/format-choices.sh`. The `_static_` prefix is reserved for `STATIC` functions. |
+| `HINTS markers` | A `# %%<path>` section must use the canonical path from `SPEC` (`# {{ ...` or the root name), appear only once, and keep `# %%` from appearing without a path; fix the marker or add the missing command block. |
 | Comment tags | Re-assemble; never hand-sort tags. |
 | Completion functions | Define every referenced function in `CHOICES`; no duplicates or definitions after the final eval. |
 | Export | Fix tags until `argc --argc-export` returns `name`, `flag_options`, `positionals`, and `subcommands`. |

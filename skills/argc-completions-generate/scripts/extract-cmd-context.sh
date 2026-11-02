@@ -193,16 +193,15 @@ gawk '
     /^# @meta( |$)/ { print rtrim($0) }
 ' "$region_file" >"$meta_file"
 
-# HINTS body for this exact path, with the `# %%<path>` marker skipped.
-gawk -v path="$path_string" '
+# HINTS body for this path: the common lines before the first `# %%` marker
+# plus the section whose `# %%<path>` marker matches this exact path.
+hints_body="$tmp_dir/hints.body"
+gawk '
     /^# >>> HINTS$/ { inblock = 1; next }
     /^# <<< HINTS$/ { if (inblock) exit }
-    inblock {
-        if ($0 == "# %%" path) { found = 1; next }
-        if (found && $0 ~ /^# %%/) exit
-        if (found) print
-    }
-' "$completion_file" >"$hints_file"
+    inblock { print }
+' "$completion_file" >"$hints_body"
+hints_select "$hints_body" "$path_string" >"$hints_file"
 
 # Normalize the script's @option/@arg tags to:
 #   kind \x1f display \x1f notation \x1f choice_fn \x1f terminated

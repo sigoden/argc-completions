@@ -20,6 +20,7 @@ cat >"$TMP_DIR/context-expected.txt" <<'EXPECTED'
 # <<< META
 
 # >>> HINTS
+# - prompt common to every demo command
 # - prompt for demo remote
 # <<< HINTS
 
@@ -40,6 +41,7 @@ cat >"$TMP_DIR/context-empty-expected.txt" <<'EXPECTED'
 # <<< META
 
 # >>> HINTS
+# - prompt common to every demo command
 # - prompt for demo remote
 # <<< HINTS
 
@@ -58,6 +60,7 @@ check "extract empty baseline recovers script values" diff -u "$TMP_DIR/context-
 # --no-meta is the hash body: HINTS and DIFF only.
 cat >"$TMP_DIR/context-no-meta-expected.txt" <<'EXPECTED'
 # >>> HINTS
+# - prompt common to every demo command
 # - prompt for demo remote
 # <<< HINTS
 
@@ -119,16 +122,20 @@ check "extract section order" test "$meta_line" -lt "$prompt_line" -a "$prompt_l
 # ---------------------------------------------------------------------------
 check_to "$TMP_DIR/hints-root.txt" "extract hints root body" bash -c \
     "bash '$SCRIPTS/extract-cmd-context.sh' demo --completion '$context' | gawk '/^# >>> HINTS\$/ {b=1;next} /^# <<< HINTS\$/ {b=0} b' >'$TMP_DIR/hints-root.body'"
-printf '%s\n' '# - prompt for demo' >"$TMP_DIR/hints-root.expected"
+printf '%s\n' '# - prompt common to every demo command' '# - prompt for demo' >"$TMP_DIR/hints-root.expected"
 check "extract hints root content" cmp -s "$TMP_DIR/hints-root.expected" "$TMP_DIR/hints-root.body"
 
+# The exact comparison proves the root section is not inherited by the child.
 check_to "$TMP_DIR/hints-sub.txt" "extract hints subcommand body" bash -c \
     "bash '$SCRIPTS/extract-cmd-context.sh' demo remote --completion '$context' | gawk '/^# >>> HINTS\$/ {b=1;next} /^# <<< HINTS\$/ {b=0} b' >'$TMP_DIR/hints-sub.body'"
-printf '%s\n' '# - prompt for demo remote' >"$TMP_DIR/hints-sub.expected"
+printf '%s\n' '# - prompt common to every demo command' '# - prompt for demo remote' >"$TMP_DIR/hints-sub.expected"
 check "extract hints subcommand content" cmp -s "$TMP_DIR/hints-sub.expected" "$TMP_DIR/hints-sub.body"
 
+# Common lines reach a path that has no section of its own.
 quiet bash "$SCRIPTS/extract-cmd-context.sh" demo missing --completion "$context" >"$TMP_DIR/hints-none.txt"
-assert_not_contains "extract hints missing path empty" "$TMP_DIR/hints-none.txt" '# - prompt'
+assert_contains "extract hints common lines reach every path" "$TMP_DIR/hints-none.txt" '# - prompt common to every demo command'
+check "extract hints missing path has no section" bash -c \
+    "! grep -Fqx -- '# - prompt for demo' '$TMP_DIR/hints-none.txt' && ! grep -Fqx -- '# - prompt for demo remote' '$TMP_DIR/hints-none.txt'"
 
 quiet bash "$SCRIPTS/extract-cmd-context.sh" demo --completion "$TMP_DIR/no-such-completion.sh" >"$TMP_DIR/hints-no-completion.txt"
 check "extract hints missing completion empty" test ! -s "$TMP_DIR/hints-no-completion.txt"
@@ -153,6 +160,38 @@ cat >"$TMP_DIR/wrong-block.sh" <<'SCRIPT'
 SCRIPT
 quiet bash "$SCRIPTS/extract-cmd-context.sh" demo --completion "$TMP_DIR/wrong-block.sh" >"$TMP_DIR/hints-wrong-block.txt"
 assert_not_contains "extract hints only HINTS block" "$TMP_DIR/hints-wrong-block.txt" '# - other hint'
+
+# Marker paths compare with collapsed whitespace.
+cat >"$TMP_DIR/hints-spacing.sh" <<'SCRIPT'
+# >>> SPEC
+# @flag -x  X
+# <<< SPEC
+# >>> HINTS
+# - common hint
+# %%demo   remote
+# - spaced marker hint
+# %%demo
+# - root marker hint
+# <<< HINTS
+SCRIPT
+quiet bash "$SCRIPTS/extract-cmd-context.sh" demo remote --completion "$TMP_DIR/hints-spacing.sh" >"$TMP_DIR/hints-spacing.txt"
+assert_contains "extract hints marker whitespace insensitive" "$TMP_DIR/hints-spacing.txt" '# - spaced marker hint'
+assert_not_contains "extract hints marker stays scoped" "$TMP_DIR/hints-spacing.txt" '# - root marker hint'
+
+# A marker without a path matches no command.
+cat >"$TMP_DIR/hints-empty-marker.sh" <<'SCRIPT'
+# >>> SPEC
+# @flag -x  X
+# <<< SPEC
+# >>> HINTS
+# - common hint
+# %%
+# - unattached hint
+# <<< HINTS
+SCRIPT
+quiet bash "$SCRIPTS/extract-cmd-context.sh" demo --completion "$TMP_DIR/hints-empty-marker.sh" >"$TMP_DIR/hints-empty-marker.txt"
+assert_contains "extract hints empty marker keeps common lines" "$TMP_DIR/hints-empty-marker.txt" '# - common hint'
+assert_not_contains "extract hints empty marker matches nothing" "$TMP_DIR/hints-empty-marker.txt" '# - unattached hint'
 
 # ---------------------------------------------------------------------------
 # Prefixed names, terminated markers, two names, and generated _static_ names.

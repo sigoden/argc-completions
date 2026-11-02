@@ -17,5 +17,8 @@ assert_contains "troubleshooting hash section" "$troubleshoot_md" "## Cache and 
 assert_contains "troubleshooting hash mismatch row" "$troubleshoot_md" "reason=hash-mismatch"
 assert_contains "troubleshooting unverified row" "$troubleshoot_md" "reason=help-unavailable"
 assert_contains "troubleshooting stale fragment row" "$troubleshoot_md" "finalize-cache.sh"
+assert_contains "troubleshooting unknown hints path row" "$troubleshoot_md" "HINTS marker path is not a command block"
+assert_contains "troubleshooting bare hints marker row" "$troubleshoot_md" "HINTS marker without a command path"
+assert_contains "troubleshooting hints common hash row" "$troubleshoot_md" "A common HINTS line makes every node in the root"
 
 helper_finish

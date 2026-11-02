@@ -32,6 +32,8 @@ assert_contains "skill all routing" "$skill_md" '| `all` | Brand-new command (`e
 assert_contains "skill next step" "$skill_md" "next=add-choice-fns"
 assert_contains "skill merged stream ban" "$skill_md" "2>&1 | jq"
 assert_contains "skill static block contract" "$skill_md" '# >>> STATIC'
+assert_contains "skill hints common lines" "$skill_md" 'Lines before the first `# %%` marker are common to every command in the root'
+assert_contains "skill hints section syntax" "$skill_md" '# %%<root> <sub>'
 
 # Writing a function body is gated on both reference section maps: SKILL.md
 # carries the invariant instead of deferring the lookup.

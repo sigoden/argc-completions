@@ -27,6 +27,9 @@ assert_contains "structure prompt parent command" "$structure_md" "Parent help c
 assert_contains "structure context diff section" "$structure_md" "# >>> DIFF"
 assert_contains "structure context only three fields" "$structure_md" 'only notation, `choice_fn`, and terminated changes'
 assert_contains "structure context no-meta hash" "$structure_md" "Pass \`--no-meta\` to emit only \`HINTS\` and \`DIFF\`"
+assert_contains "structure hints common lines" "$structure_md" 'Lines before the first `# %%` marker are common to every command in the root'
+assert_contains "structure hints no inheritance" "$structure_md" 'with no inheritance'
+assert_contains "structure hints common recompile" "$structure_md" 'editing a common line invalidates every node'
 assert_contains "structure failed fragment hash" "$structure_md" '"hash": ""'
 assert_contains "structure status derived by finalize" "$structure_md" 'only `<SKILL_ROOT>/scripts/finalize-cache.sh` writes it'
 assert_contains "structure manual spec hash mismatch" "$structure_md" 'manual `SPEC` edit to notation'

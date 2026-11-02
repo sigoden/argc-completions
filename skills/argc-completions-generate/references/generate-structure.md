@@ -99,6 +99,10 @@ A missing script prints empty output. The format is fixed:
 # <<< META
 
 # >>> HINTS
+# - prompt common to every demo command
+# %%demo
+# - prompt for demo
+# %%demo remote
 # - prompt for demo remote
 # <<< HINTS
 
@@ -111,9 +115,9 @@ A missing script prints empty output. The format is fixed:
 # <<< DIFF
 ```
 
-`META` is the command block's `@meta` lines; `HINTS` is the comment text after `# %%<path>`; `DIFF` compares the command block's `@option`/`@arg` tags with the baseline fragment and reports only notation, `choice_fn`, and terminated changes. The left side is the fragment, the right side is the current script, and the right side is what the child applies to the new fragment. When a baseline fragment exists, items added, removed, or renamed by the new help produce no row: their structure comes from the new help. A missing baseline lists every script item instead, and the child applies a row only when the new help still produces that key. `[?`_static_*`]` is assembly-generated and is not a `choice_fn` change; static `[a|b]` choices are not diffed.
+`META` is the command block's `@meta` lines; `HINTS` is the prompt text visible to that path, and `DIFF` compares the command block's `@option`/`@arg` tags with the baseline fragment and reports only notation, `choice_fn`, and terminated changes. Lines before the first `# %%` marker are common to every command in the root; a `# %%<path>` section is visible only for that exact path, with no inheritance. Paths compare with collapsed whitespace, a marker without a path matches nothing, and only the resolved lines (common + this path's section) reach the child, so a typo'd marker is caught by verify rather than silently dropped. The left side is the fragment, the right side is the current script, and the right side is what the child applies to the new fragment. When a baseline fragment exists, items added, removed, or renamed by the new help produce no row: their structure comes from the new help. A missing baseline lists every script item instead, and the child applies a row only when the new help still produces that key. `[?`_static_*`]` is assembly-generated and is not a `choice_fn` change; static `[a|b]` choices are not diffed.
 
-`<SKILL_ROOT>/scripts/extract-cmd-context.sh` reads the baseline fragment from `--fragment` when given, otherwise from `--cache-dir`. A missing fragment is an empty baseline, so a full regenerate recovers every notation/`choice_fn`/terminated preference from `SPEC` as `(none) => ...`. Pass `--no-meta` to emit only `HINTS` and `DIFF`; that output is the cache hash body. Empty sections still print their markers; pass the output unchanged. A `~` in a tag is structural and reaches `DIFF` as a `terminated` row. For these three fields the script is the desired state: after editing a fragment directly, run assembly before the next generate-structure, otherwise the `DIFF` sends the fragment back to the script's values. A bare `<SKILL_ROOT>/scripts/assemble.sh` run does not read this context, so a direct `SPEC` edit is captured only through generate-structure (or `all`).
+`<SKILL_ROOT>/scripts/extract-cmd-context.sh` reads the baseline fragment from `--fragment` when given, otherwise from `--cache-dir`. A missing fragment is an empty baseline, so a full regenerate recovers every notation/`choice_fn`/terminated preference from `SPEC` as `(none) => ...`. Pass `--no-meta` to emit only `HINTS` and `DIFF`; that output is the cache hash body. Because the resolved `HINTS` text is part of it, editing a common line invalidates every node in that root, while editing one `# %%<path>` section invalidates only that node. Empty sections still print their markers; pass the output unchanged. A `~` in a tag is structural and reaches `DIFF` as a `terminated` row. For these three fields the script is the desired state: after editing a fragment directly, run assembly before the next generate-structure, otherwise the `DIFF` sends the fragment back to the script's values. A bare `<SKILL_ROOT>/scripts/assemble.sh` run does not read this context, so a direct `SPEC` edit is captured only through generate-structure (or `all`).
 
 ## 5. Dispatch compile subagents
 

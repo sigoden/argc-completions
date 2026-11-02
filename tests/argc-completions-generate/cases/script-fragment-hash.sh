@@ -153,6 +153,27 @@ SCRIPT
 hash_hints="$(hash_run)"
 check "fragment-hash tracks hints" test "$hash1" != "$hash_hints"
 
+# Common HINTS lines reach every node, so they are part of its hash; a section
+# for another path is not.
+cat >"$TMP_DIR/hints-common.sh" <<'SCRIPT'
+#!/usr/bin/env bash
+# >>> SPEC
+# @flag -v --verbose  Verbose output
+# <<< SPEC
+
+# >>> HINTS
+# - common hint
+# %%hash-demo
+# - hint one
+# <<< HINTS
+SCRIPT
+gawk '/^# %%hash-demo$/ { print "# %%hash-other"; print "# - other hint" } { print }' \
+    "$TMP_DIR/hints-common.sh" >"$TMP_DIR/hints-other.sh"
+hash_common="$(bash "$SCRIPTS/fragment-hash.sh" hash-demo --cache-dir "$hash_cache" --completion "$TMP_DIR/hints-common.sh")"
+hash_other="$(bash "$SCRIPTS/fragment-hash.sh" hash-demo --cache-dir "$hash_cache" --completion "$TMP_DIR/hints-other.sh")"
+check "fragment-hash common hints change the hash" test "$hash1" != "$hash_common"
+check "fragment-hash ignores another path's section" test "$hash_common" = "$hash_other"
+
 # An unsafe source.command is rejected before execution.
 expect_failure "fragment-hash rejects unsafe command" bash "$SCRIPTS/fragment-hash.sh" hash-demo \
     --cache-dir "$hash_cache" --command 'hash-demo --help; rm -rf /'
