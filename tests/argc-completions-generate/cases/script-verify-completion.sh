@@ -127,21 +127,23 @@ gawk '/^# @meta / { print; print "# @env DEMO_HOME"; next } { print }' \
     "$new_script" >"$TMP_DIR/tag-order-env.sh"
 check "verify accepts env after meta" bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/tag-order-env.sh" --cmd demo --skip-compgen
 
-# Legacy layout (no block markers) is checked the same way.
-cat >"$TMP_DIR/tag-order-legacy.sh" <<'LEGACY'
+# An unmarked script fails: only the block layout is supported. Its tags are
+# still scanned, so the ordering failure is reported too.
+cat >"$TMP_DIR/unmarked-order.sh" <<'UNMARKED'
 #!/usr/bin/env bash
 # @cmd Demo
 # @arg x <X>
 # @flag -v --verbose  Verbose
-legacy_order() {
+unmarked_order() {
     :;
 }
 command eval "$(argc --argc-eval "$0" "$@")"
-LEGACY
-expect_failure "verify checks legacy layout tag order" bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/tag-order-legacy.sh" --skip-compgen
-tag_order_legacy_log="$(new_log)"
-run_quiet "$tag_order_legacy_log" bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/tag-order-legacy.sh" --skip-compgen || true
-assert_contains "verify reports legacy order line" "$tag_order_legacy_log" "@flag after @arg"
+UNMARKED
+expect_failure "verify rejects unmarked layout" bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/unmarked-order.sh" --skip-compgen
+unmarked_log="$(new_log)"
+run_quiet "$unmarked_log" bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/unmarked-order.sh" --skip-compgen || true
+assert_contains "verify reports no block markers" "$unmarked_log" "no block markers"
+assert_contains "verify reports unmarked order line" "$unmarked_log" "@flag after @arg"
 # ---------------------------------------------------------------------------
 # Verify failures
 # ---------------------------------------------------------------------------

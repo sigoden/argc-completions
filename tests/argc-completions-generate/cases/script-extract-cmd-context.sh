@@ -134,8 +134,11 @@ quiet bash "$SCRIPTS/extract-cmd-context.sh" demo --completion "$TMP_DIR/no-such
 check "extract hints missing completion empty" test ! -s "$TMP_DIR/hints-no-completion.txt"
 
 printf '#!/usr/bin/env bash\n# nothing here\n' >"$TMP_DIR/no-hints.sh"
-quiet bash "$SCRIPTS/extract-cmd-context.sh" demo --completion "$TMP_DIR/no-hints.sh" >"$TMP_DIR/hints-no-block.txt"
-assert_not_contains "extract hints no block empty" "$TMP_DIR/hints-no-block.txt" '# - '
+expect_failure "extract rejects unmarked script" bash "$SCRIPTS/extract-cmd-context.sh" demo --completion "$TMP_DIR/no-hints.sh"
+no_block_log="$TMP_DIR/hints-no-block.err"
+bash "$SCRIPTS/extract-cmd-context.sh" demo --completion "$TMP_DIR/no-hints.sh" >"$TMP_DIR/hints-no-block.txt" 2>"$no_block_log" || true
+check "extract unmarked script prints no context" test ! -s "$TMP_DIR/hints-no-block.txt"
+assert_contains "extract reports no block markers" "$no_block_log" "no block markers"
 
 # A path marker in another block must not be read.
 cat >"$TMP_DIR/wrong-block.sh" <<'SCRIPT'

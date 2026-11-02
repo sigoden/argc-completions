@@ -235,7 +235,7 @@ Some tools ship no per-subcommand help: `<cmd> <sub> --help` prints the parent p
 
 Enter this mode when this node is not the root and either check holds:
 
-- The node's own canonical help is identical to the parent page. Use the prompt's `Parent help command` to capture and canonicalize the parent page into a temporary file, then run `<SKILL_ROOT>/scripts/compare-help.sh "<parent-temp>.txt" "<node-temp>.txt"` in `if`: `same` means shared help, `different` continues. When the prompt gives no parent help command (the root, a parent with `source.kind: none`, or an older cache), try the parent path's `--help`/`man` fallback once; if that also fails, skip this check.
+- The node's own canonical help is identical to the parent page. Use the prompt's `Parent help command` to capture and canonicalize the parent page into a temporary file, then compare the two canonical files with `help_files_equal` from `<SKILL_ROOT>/scripts/lib.sh` (already sourced): `if help_files_equal "$parent_txt" "$help_txt"; then` means shared help, and a non-zero status continues. When the prompt gives no parent help command (the root, a parent with `source.kind: none`, or an older cache), try the parent path's `--help`/`man` fallback once; if that also fails, skip this check.
 - The node's own text yields no item and no subcommand, and the parent page has a matching entry.
 
 Both the parent page and the node page live in the temporary directory, never in `$cache_dir`.
@@ -265,10 +265,10 @@ Run the shared validator after writing the fragment, without reading it. The fie
 
 ```sh
 key="$(IFS='|'; echo "${path[*]}")"
-jq -e -f "<SKILL_ROOT>/scripts/validate-fragment.jq" --arg key "$key" "<fragment>"
+jq -L "<SKILL_ROOT>/scripts" -e -f "<SKILL_ROOT>/scripts/validate-fragment.jq" --arg key "$key" "<fragment>"
 ```
 
-The key is the fragment `path` joined by `|` (`["gdb"]` -> `gdb`, `["gdb", "add"]` -> `gdb|add`); a root key is the root name alone, never `gdb|gdb` (a `path mismatch`). A non-zero exit means the fragment is invalid; fix it and re-run the validator.
+The key is the fragment `path` joined by `|` (`["gdb"]` -> `gdb`, `["gdb", "add"]` -> `gdb|add`); a root key is the root name alone, never `gdb|gdb` (a `path mismatch`). A non-zero exit means the fragment is invalid; fix it and re-run the validator. `-L` puts the shared `description-rules` module on jq's search path; without it the validator fails with `module not found`.
 
 `<SKILL_ROOT>/scripts/validate-fragment.jq` rejects a description with a sentence boundary, a machine-local path, a backtick, or a repeated `choices` enumeration (`description repeats choices`), and it rejects a missing/invalid `hash` or an unsafe `source.command`; on rejection, re-run the normalizer or the hash helper on the raw text.
 

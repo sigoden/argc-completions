@@ -1,44 +1,14 @@
 # Validate one argc JSON fragment. Returns true on success, raises an error
 # otherwise. The caller passes --arg key "<path segments joined by |>" so the
 # fragment path can be checked against its location in the cache directory.
+#
+# Run it with `jq -L <this directory>` (scripts/lib.sh provides jq_skill) so the
+# shared description rules resolve.
+include "description-rules";
+
 def fail($m): error($m);
-def is_str: type == "string";
 def is_arr: type == "array";
 def is_obj: type == "object";
-def no_nl: is_str and (test("[\\r\\n]") | not);
-def no_tick: is_str and (test("`") | not);
-def no_tab: is_str and (test("\\t") | not);
-# Machine-local paths: $HOME/..., /home/<user>/..., /Users/<user>/...,
-# C:\Users\<user>\..., and the current home directory. Mirrors
-# scripts/normalize-description.sh.
-def home_path_ok:
-  (env.HOME // "") as $home
-  | (test("(^|[[:space:](\"'])(\\$HOME(/|$)|/home/[^/[:space:]]+/|/Users/[^/[:space:]]+/|C:\\\\Users\\\\)") | not)
-    and (($home == "") or (contains($home + "/") | not));
-def sentence_abbreviations: ["e.g", "i.e", "etc", "vs", "cf", "approx"];
-# Codepoint offset of the first sentence boundary, or null. A boundary is a
-# terminator after a word character or closing bracket, followed by a space or
-# the end; CJK terminators need no space. Abbreviations and single letters
-# before a period do not count. Mirrors scripts/normalize-description.sh.
-def sentence_boundary:
-  . as $s
-  | [ match("(\\.|!|\\?)( |$)|。|！|？"; "g")
-      | . as $m
-      | ($m.string[0:1]) as $t
-      | if ($t == "。" or $t == "！" or $t == "？") then $m.offset
-        elif $m.offset == 0 then empty
-        elif ($s[($m.offset - 1):$m.offset] | test("[[:space:].\\/(\\[{-]")) then empty
-        else
-          ($s[0:$m.offset] | split(" ") | map(select(length > 0)) | last // ""
-           | sub("^[(\"'\\[{]+"; "")) as $word
-          | if (($word | ascii_downcase) as $l | sentence_abbreviations | any(. == $l)) then empty
-            elif (($word | length) == 1 and ($word | test("^[A-Za-z]$"))) then empty
-            else $m.offset
-            end
-        end
-    ]
-  | .[0];
-def single_sentence: sentence_boundary == null;
 def cmd_name: no_nl and test("^[-A-Za-z0-9_][A-Za-z0-9_.:+@-]*$");
 def hex64: test("^[0-9a-f]{64}$");
 def source_command_ok:
@@ -63,7 +33,6 @@ def notation_has_modifier: (notation_modifier | length) > 0;
 def notation_base_ok:
   notation_ok
   and ((.[1:-1] | if endswith("*") or endswith("+") or endswith("?") then .[0:-1] else . end | length) > 0);
-def choice_text_ok: is_str and no_nl and no_tick and no_tab and (test("[[:cntrl:]]") | not) and home_path_ok and single_sentence;
 def choice_value_ok:
   choice_text_ok and (test("\\|") | not) and (test("\\]") | not)
   and (test("^[[:space:]]|[[:space:]]$") | not) and (length > 0);
@@ -82,37 +51,6 @@ def choices_shape($i):
   elif any(.[]; (keys_unsorted - ["value", "description"]) | length > 0) then
     fail("items[\($i)]: choices entries may only contain value and description")
   else . end;
-def description_ok: no_nl and no_tick and home_path_ok and single_sentence;
-def trim_space: gsub("^[[:space:]]+|[[:space:]]+$"; "");
-def unquote_choice:
-  if length > 1 and ((startswith("\"") and endswith("\"")) or (startswith("'") and endswith("'")))
-  then .[1:-1] else . end;
-def choice_value:
-  trim_space
-  | if startswith("=") then .[1:] else . end
-  | trim_space
-  | unquote_choice;
-def choice_values:
-  [ splits("[|,]") | choice_value | select(length > 0) ] | sort;
-def grouped_texts:
-  [ (. // "") | match("\\(([^()]*)\\)"; "g") | .captures[0].string ]
-  + [ (. // "") | match("\\[([^\\[\\]]*)\\]"; "g") | .captures[0].string ]
-  + [ (. // "") | match("\\{([^{}]*)\\}"; "g") | .captures[0].string ];
-def choice_echoes:
-  if ((.choices // []) | length) == 0 then []
-  else
-    ((.choices // []) | map(.value) | map(choice_value) | sort) as $want
-    | [ (.description | grouped_texts)[] | select(choice_values == $want) ]
-  end;
-# A trailing ":list" whose values equal the choice set, such as
-# "Select sort: name,version"; the lead-in is kept by normalize-description.sh.
-def colon_echo:
-  if ((.choices // []) | length) == 0 then false
-  else
-    ((.choices // []) | map(.value) | map(choice_value) | sort) as $want
-    | [ (.description // "") | match(":([^:]*)$") | .captures[0].string ] as $tails
-    | ($tails | length > 0) and ($tails[0] | test("[,|]")) and (($tails[0] | choice_values) == $want)
-  end;
 def only($allowed; $where):
   if type != "object" then fail("\($where): expected object")
   else

@@ -139,6 +139,9 @@ check "fragment-hash --fragment changes diff" test "$hash1" != "$hash_override"
 # A changed HINTS body changes the hash.
 cat >"$hash_completion" <<'SCRIPT'
 #!/usr/bin/env bash
+# >>> SPEC
+# <<< SPEC
+
 # >>> HINTS
 # %%hash-demo
 # - hint two

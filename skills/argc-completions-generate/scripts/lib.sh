@@ -314,3 +314,94 @@ fragment_file_path() {
     done
     printf '%s.json\n' "$result"
 }
+
+# Run a jq filter or program with this directory on the module search path, so
+# a program can `include "description-rules"` (validate-fragment.jq and
+# the description normalizer share one rule set).
+# Usage: jq_skill [jq-options...] <filter|--file>
+jq_skill() {
+    jq -L "$LIB_DIR" "$@"
+}
+
+# --- Block markers ----------------------------------------------------------
+# The pipeline-block contract (# >>> NAME / # <<< NAME) is shared by assemble,
+# verify, and format-choices, so the marker parsing lives here and nowhere else.
+
+# Count the opening (direction '>>>') or closing (direction '<<<') marker lines
+# for one block name. A missing file counts as zero.
+count_marker() {
+    local file="$1" direction="$2" name="$3" count
+    count="$(grep -c "^# $direction $name$" "$file" 2>/dev/null || true)"
+    printf '%s\n' "${count:-0}"
+}
+
+# Print the 1-based line number of the first marker of that kind, if any.
+block_line() {
+    local file="$1" direction="$2" name="$3"
+    grep -n "^# $direction $name$" "$file" 2>/dev/null | head -n 1 | cut -d: -f1 || true
+}
+
+# Extract the body between one block's markers into <dest>.
+# Usage: extract_block <file> <name> <dest>
+# Returns 0 when extracted, 1 when both markers are absent (no such block),
+# 2 when the markers are duplicated or out of order. The caller owns the
+# message, because assemble treats 2 as fatal and verify as a check failure.
+extract_block() {
+    local file="$1" name="$2" dest="$3" starts ends start_line end_line
+    starts="$(count_marker "$file" '>>>' "$name")"
+    ends="$(count_marker "$file" '<<<' "$name")"
+    if [[ "$starts" -eq 0 && "$ends" -eq 0 ]]; then
+        return 1
+    fi
+    [[ "$starts" -eq 1 && "$ends" -eq 1 ]] || return 2
+    start_line="$(block_line "$file" '>>>' "$name")"
+    end_line="$(block_line "$file" '<<<' "$name")"
+    [[ -n "$start_line" && -n "$end_line" && "$start_line" -lt "$end_line" ]] || return 2
+    gawk -v start="$start_line" -v end="$end_line" 'NR > start && NR < end { print }' "$file" >"$dest"
+    return 0
+}
+
+# --- File helpers -----------------------------------------------------------
+
+# Copy <input> to <output>, dropping blank lines at both edges.
+trim_blank_edges() {
+    local input="$1" output="$2"
+    gawk '
+    { lines[NR] = $0 }
+    END {
+        first = 1
+        last = NR
+        while (first <= last && lines[first] ~ /^[[:space:]]*$/) first++
+        while (last >= first && lines[last] ~ /^[[:space:]]*$/) last--
+        for (i = first; i <= last; i++) print lines[i]
+    }
+    ' "$input" >"$output"
+}
+
+# In-place variant; the temporary file stays in the same directory so the
+# rename never crosses a filesystem.
+trim_blank_edges_inplace() {
+    local file="$1" tmp="$1.trim.$$"
+    trim_blank_edges "$file" "$tmp" && mv "$tmp" "$file"
+}
+
+# Move a finished temporary file over <target>, keeping the target's mode when
+# it already exists (mktemp creates 0600, a converted fragment should not
+# silently lose 0644).
+install_atomic() {
+    local source="$1" target="$2" mode
+    if mode="$(stat -c '%a' "$target" 2>/dev/null)" || mode="$(stat -f '%Lp' "$target" 2>/dev/null)"; then
+        chmod "$mode" "$source"
+    fi
+    mv -f "$source" "$target"
+}
+
+# Write <content> (plus a trailing newline) to <target> atomically.
+# Usage: write_file_atomic <target> <content>
+write_file_atomic() {
+    local target="$1" content="$2" dir tmp
+    dir="$(dirname "$target")"
+    tmp="$(mktemp "$dir/.$(basename "$target").XXXXXX")" || return 1
+    printf '%s\n' "$content" >"$tmp" || { rm -f "$tmp"; return 1; }
+    install_atomic "$tmp" "$target"
+}

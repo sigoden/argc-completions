@@ -18,9 +18,7 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | Symptom | Cause | Fix |
 |---|---|---|
 | `root fragment not found` | Cache missing or root compile failed | Re-run the root node |
-| `unprocessed subcommands (status=todo)` | Queue unfinished | Finish pending paths |
-| `subcommand not declared` on a status update | The name is an alias, or the parent was recompiled | Re-run against the current parent with canonical names (`<SKILL_ROOT>/references/generate-structure.md` §6) |
-| `timed out waiting for lock` | A crashed writer left its lock file | Remove the lock file named in the error; locks live under `$TMPDIR`, never in the cache (`<SKILL_ROOT>/references/generate-structure.md` §6) |
+| `unprocessed subcommands (status=todo)` | A declared child has no fragment, or the cache was assembled before `<SKILL_ROOT>/scripts/finalize-cache.sh` | Compile the child or write its minimal `failed` fragment, then re-run `<SKILL_ROOT>/scripts/finalize-cache.sh` and assemble |
 | `missing fragments for subcommands` | Parent `succeeded`, file absent | Compile the child or mark `failed` with a minimal fragment |
 | `fragments are not declared by their parent` | Stale file | Remove it or restore the parent entry |
 | `invalid fragment` | Schema/type error | Read the jq error and fix the fragment |
@@ -50,7 +48,8 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | `SPEC differs from fragments` | Hand edit, stale assemble, or fragment edited without assembling | Update the fragment and run `<SKILL_ROOT>/scripts/assemble.sh`; never patch the block |
 | `undefined choice functions` | Missing or outside `CHOICES` | Add it before the final eval, or set `choice_fn` to null |
 | `duplicate choice function definitions` | Appended twice | Keep one definition |
-| `CHOICES format: CHOICES block not found ...` | Completion functions were written without a block | Insert `# >>> CHOICES` / `# <<< CHOICES` before the final eval, or re-assemble a legacy script |
+| `CHOICES format: no block markers ...` | The script has no block layout | Add `# >>> SPEC`/`# <<< SPEC`, `# >>> HINTS`/`# <<< HINTS`, and `# >>> CHOICES`/`# <<< CHOICES`, or delete the script and regenerate |
+| `no block markers` (assemble, verify, extract) | A script predates or skipped the block layout | Add the blocks by hand (nothing outside them is preserved), or delete the script and run a first generation |
 | `CHOICES format: would format` | Unsorted, or a name outside `_choice_*`/`_helper_*` | Run `<SKILL_ROOT>/scripts/format-choices.sh <completion.sh>`, re-assemble, verify |
 | `cannot rename ... both map to` | Two names normalize to one `_helper_*` | Rename one manually, re-run the formatter |
 | `cannot rename ... used as a shell variable` | Function name is also a variable | Rename the function or variable, re-run the formatter |

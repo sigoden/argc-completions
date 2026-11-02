@@ -25,7 +25,9 @@ extract_frontmatter() {
 # contract for validate-fragment.jq and unused by the inspections.
 jq_program_parses() {
     local file="$1" rc=0
-    jq -n --arg key '' -f "$file" >/dev/null 2>"$TMP_DIR/jq-error" || rc=$?
+    # -L lets a program `include "description-rules"`, as scripts/lib.sh's
+    # jq_skill does at run time.
+    jq -L "$SCRIPTS" -n --arg key '' -f "$file" >/dev/null 2>"$TMP_DIR/jq-error" || rc=$?
     if [[ "$rc" -eq 3 ]]; then
         cat "$TMP_DIR/jq-error" >&2
         return 1
@@ -90,7 +92,13 @@ assert_silent "package holds only documented artifacts" stray_paths
 refs=("$SKILL_DIR"/references/*.md)
 docs=("$SKILL_DIR"/agents/*.md)
 shell_scripts=("$SCRIPTS"/*.sh)
-jq_programs=("$SCRIPTS"/*.jq)
+# A *-rules.jq file is a jq module (definitions only) included by the programs
+# that share it; every other .jq file is a standalone program.
+jq_modules=("$SCRIPTS"/*-rules.jq)
+jq_programs=()
+for program in "$SCRIPTS"/*.jq; do
+    [[ "$(basename "$program")" == *-rules.jq ]] || jq_programs+=("$program")
+done
 
 check "references present" test "${#refs[@]}" -gt 0
 check "agent contracts present" test "${#docs[@]}" -gt 0
@@ -120,6 +128,15 @@ for program in "${jq_programs[@]}"; do
     base="$(basename "$program")"
     check "jq $base parses" jq_program_parses "$program"
     check "jq $base case" test -f "$CASES_DIR/script-${base%.jq}.sh"
+done
+
+# A module is compiled through `include`, and at least one jq program or script
+# (an inline filter such as normalize-description.sh) must use it.
+for module in "${jq_modules[@]}"; do
+    stem="$(basename "$module" .jq)"
+    check "jq module $stem parses" jq -L "$SCRIPTS" -n "include \"$stem\"; empty"
+    check "jq module $stem included" bash -c "grep -lqx 'include \"$stem\";' \"\$1\"/*.jq \"\$1\"/*.sh" _ "$SCRIPTS"
+    check "jq module $stem case" test -f "$CASES_DIR/script-$stem.sh"
 done
 
 # --- cases: every case still names a live artifact and a known owner

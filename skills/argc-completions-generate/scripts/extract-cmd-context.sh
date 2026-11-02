@@ -114,15 +114,14 @@ tmp_dir="$(mktemp -d)"
 trap 'rm -rf "$tmp_dir"' EXIT
 
 structural_file="$tmp_dir/structural.txt"
-if grep -q '^# >>> SPEC$' "$completion_file"; then
-    gawk '
-        /^# >>> SPEC$/ { inblock = 1; next }
-        /^# <<< SPEC$/ { if (inblock) exit }
-        inblock { print }
-    ' "$completion_file" >"$structural_file"
-else
-    cp "$completion_file" "$structural_file"
+if ! grep -q '^# >>> SPEC$' "$completion_file"; then
+    die "no block markers in $completion_file: add '# >>> SPEC'/'# <<< SPEC' and '# >>> HINTS'/'# <<< HINTS' (only block-layout scripts are supported)"
 fi
+gawk '
+    /^# >>> SPEC$/ { inblock = 1; next }
+    /^# <<< SPEC$/ { if (inblock) exit }
+    inblock { print }
+' "$completion_file" >"$structural_file"
 
 region_file="$tmp_dir/region.txt"
 : >"$region_file"
@@ -174,48 +173,6 @@ else
                 if (inblock) print
             }
         ' "$structural_file" >"$region_file"
-    else
-        # Legacy/hand-written fallback: locate the command function and its tags.
-        base_path="${words[*]:1}"
-        fn_base="${base_path// /::}"
-        fn_candidates=("$fn_base")
-        last="${words[${#words[@]}-1]}"
-        case "$last" in
-            "case"|"coproc"|"do"|"done"|"elif"|"else"|"esac"|"fi"|"for"|"function"|"if"|"in"|"select"|"then"|"time"|"until"|"while"|"command"|"echo"|"cat"|"tail"|"head"|"eval"|"exec"|"exit"|"return"|"set"|"shift"|"source"|"test")
-                fn_candidates+=("${fn_base}_")
-                ;;
-        esac
-        fn_line=0
-        for fn in "${fn_candidates[@]}"; do
-            fn_line="$(gawk -v fn="$fn" '
-                {
-                    line = $0
-                    sub(/[[:space:]]*\{.*/, "", line)
-                    if (line == fn "()") { print NR; exit }
-                }
-            ' "$structural_file")"
-            if [[ -n "$fn_line" ]]; then
-                break
-            fi
-        done
-        if [[ -n "$fn_line" ]]; then
-            gawk -v fnline="$fn_line" '
-                { lines[NR] = $0 }
-                END {
-                    start = 0
-                    for (i = fnline - 1; i >= 1; i--) {
-                        if (lines[i] ~ /^# @/) { start = i; continue }
-                        if (lines[i] ~ /^#/ || lines[i] ~ /^[[:space:]]*$/) {
-                            if (start > 0) break
-                            continue
-                        }
-                        break
-                    }
-                    if (start == 0) exit
-                    for (i = start; i < fnline; i++) print lines[i]
-                }
-            ' "$structural_file" >"$region_file"
-        fi
     fi
 fi
 

@@ -164,10 +164,10 @@ if ! jq --argjson bindings "$bindings_json" '
     exit 1
 fi
 
-jq -e -f "$SCRIPT_DIR/validate-fragment.jq" --arg key "$key" "$tmp" >/dev/null \
+jq_skill -e -f "$SCRIPT_DIR/validate-fragment.jq" --arg key "$key" "$tmp" >/dev/null \
     || die "updated fragment failed validation: $fragment"
 
-mv "$tmp" "$fragment"
+install_atomic "$tmp" "$fragment"
 trap - EXIT
 
 printf 'fragment=%s\n' "$fragment"

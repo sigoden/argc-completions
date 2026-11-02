@@ -14,7 +14,7 @@ It prints absolute `key=value` lines; the values used below are `existing`, `blo
 - It does not create `<REPO_ROOT>/cache/compile/<root>`; create it after preflight with `mkdir -p "$cache_dir"`.
 - It already runs `require_pipeline_tools` and checks `command -v <root>`; both checks are already done, and the compile child alone fetches `--help`/`--version`.
 - Do not inspect `<REPO_ROOT>/completions/` or `<REPO_ROOT>/cache/compile/` with `ls`/`tree`: both directories grow without bound, and `preflight` reports `existing`/`completion_file`/`blocks`/`cache_dir`/`root_fragment`/`cache_exists`/`root_fragment_exists`/`cache_version`, and `command -v` answers tool availability.
-- `existing=0` and `blocks=missing` mean no script yet: skip context extraction and pass empty context. `blocks=legacy` means no block markers; assemble can migrate once.
+- `existing=0` and `blocks=missing` mean no script yet: skip context extraction and pass empty context. `blocks=unmarked` means the existing script has no block markers: only the block layout is supported, so stop and tell the user the script needs the markers added by hand (or deleted for a first generation), because assembly preserves `HINTS`/`CHOICES` only inside their blocks.
 - Prefer `<REPO_ROOT>/completions/<os>/<root>.sh` when it already exists, otherwise the common path.
 - `root_fragment_exists=0` means this is a first generation, including `cache_exists=0` and an empty cache recreated by `<SKILL_ROOT>/scripts/delete-cache.sh`. In that case skip §3 entirely and compile the root plus every returned child without calling `<SKILL_ROOT>/scripts/check-fragment.sh`; there is no fragment to check and `missing` would be the answer for every node. `root_fragment_exists=1` with `cache_version=1` means the root fragment exists and the per-node check applies. A fragment without `hash` is invalid under the current schema and is recompiled, not migrated.
 
@@ -84,8 +84,7 @@ path=bar status=unverified reason=help-unavailable
 | `invalid` | Dispatch a compile child. `reason=hash-mismatch` is a proven cache miss; `reason=schema` means the fragment must be recompiled under the new schema. |
 | `missing` | Dispatch a compile child. |
 
-- For a reused fragment (`hit`, `unverified`, or `failed`), update its parent entry with `<SKILL_ROOT>/scripts/update-subcommand-status.sh` (`succeeded` for `help`/`man`, `failed` for `none`) before enqueueing its declared children. `<SKILL_ROOT>/scripts/finalize-cache.sh` repeats this mechanically after the queue, so a missed update is repaired rather than silently shipped.
-- Queue deduplication uses the canonical path; an alias is never a queue entry.
+- Queue deduplication uses the canonical path; an alias is never a queue entry. Statuses are not a queue signal, so a stale `todo` never causes a recompile and a stale `succeeded` never skips a check; `<SKILL_ROOT>/scripts/finalize-cache.sh` recomputes every status from the fragments on disk.
 - Every child is checked independently. There is no cross-node help-output cache; a shared page such as `man tmux` may be executed once per node that needs it.
 - The only invalidation signal is the hash comparison. The hash body includes the context `DIFF`, so a manual `SPEC` edit to notation, `choice_fn`, or `terminated` is an ordinary `hash-mismatch`; it is not a separate invalidation signal. Failure to obtain help is `unverified`, not a reason to recompile.
 - Never migrate an old fragment: a missing `hash`, a missing `source.command`, or a non-empty hash on `source.kind: none` is `invalid` and is recompiled from scratch.
@@ -150,13 +149,7 @@ For workflow `all`, dispatch the root child in the background. Read the binding 
 
 Start by enqueueing the root path. Process the queue breadth-first with 4-6 concurrent compile subagents, depth 6, and a 200-node limit; these defaults are unchanged.
 
-After each child result, validate the fragment, then update the parent:
-
-```sh
-bash <SKILL_ROOT>/scripts/update-subcommand-status.sh "$parent" <name> <status> [<name> <status>...]
-```
-
-Pass every finished node as `<name> <status>` pairs. The read, the write, and the rename happen under one lock, so concurrent updates cannot drop a status and a batch is atomic. An undeclared name (an alias is not a name) or an unknown status writes nothing and exits non-zero.
+After each child result, validate the fragment and enqueue its declared children. Parent `subcommands[].status` is derived data: only `<SKILL_ROOT>/scripts/finalize-cache.sh` writes it, from each child fragment's `source.kind`, and a run interrupted before finalize simply carries stale statuses that the next finalize recomputes. Never edit a status by hand.
 
 After the fragment is validated, enqueue **every** path in its `subcommands`, not only the ones whose status is `todo`. On a first generation (`root_fragment_exists=0`), dispatch every enqueued child directly, with no `<SKILL_ROOT>/scripts/check-fragment.sh` call. For an existing cache, each child gets its own check:
 
@@ -168,13 +161,15 @@ After the fragment is validated, enqueue **every** path in its `subcommands`, no
 Failure handling:
 
 - Retry a failed node once with the error text appended to the prompt.
-- A node that warns `shared-help-missing` is `succeeded` with `items: []`: keep it, do not retry, and never set the parent status to `failed` (`<SKILL_ROOT>/agents/compile.md` §3.13). Its `shared-help` warning is informational and needs no action.
-- If it still fails and leaves no fragment, write the minimal failed fragment with an empty hash and set the parent status to `failed`:
+- A node that warns `shared-help-missing` is `succeeded` with `items: []`: keep it, do not retry, and report it as `succeeded`, never as `failed` (`<SKILL_ROOT>/agents/compile.md` §3.13). Its `shared-help` warning is informational and needs no action.
+- If it still fails and leaves no fragment, write the minimal failed fragment with an empty hash:
 
   ```json
   {"schemaVersion": 1, "path": ["demo", "remote", "add"], "description": "", "aliases": [], "meta": [], "items": [], "subcommands": [], "source": {"kind": "none"}, "hash": "", "notes": "help unavailable"}
   ```
-- If a fragment exists but its parent status is `todo`, validate it and mark it `succeeded`.
+
+  Its `source.kind: none` makes `<SKILL_ROOT>/scripts/finalize-cache.sh` derive the parent status `failed`; do not write the status yourself.
+- If a fragment exists but its parent entry still says `todo`, validate the fragment and continue; `<SKILL_ROOT>/scripts/finalize-cache.sh` recomputes the status from `source.kind` at the end of the run.
 - A `source.kind: none` fragment is reported as `failed` and is not retried automatically; only a confirmed full-root cache deletion (or removing that fragment) recompiles it.
 
 ## 7. Finalize and prune
@@ -205,7 +200,7 @@ bash <SKILL_ROOT>/scripts/assemble.sh <root> \
   --force
 ```
 
-`--force` is required when the output exists (including a legacy script); omit it only for a new file.
+`--force` is required when the output exists; omit it only for a new file. An existing output without block markers is rejected: assembly preserves nothing outside the blocks, so add the markers (or delete the script) first.
 
 Options:
 

@@ -288,6 +288,9 @@ build_static_fixture() {
     quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$STATIC_FRAGMENTS" --stdout >"$STATIC_SCRIPT"
     STATIC_CONTEXT="$TMP_DIR/static-context.sh"
     cat >"$STATIC_CONTEXT" <<'CTX'
+# >>> SPEC
+# <<< SPEC
+
 # >>> HINTS
 # keep this hint
 # <<< HINTS

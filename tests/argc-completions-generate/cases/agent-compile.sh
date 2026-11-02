@@ -11,6 +11,7 @@ assert_contains "compile contract schema pointer" "$compile_md" "<SKILL_ROOT>/re
 assert_contains "compile contract normalizer call" "$compile_md" "scripts/normalize-description.sh --choice"
 assert_contains "compile contract machine-local path" "$compile_md" "machine-local path"
 assert_contains "compile contract validator rejects" "$compile_md" "validate-fragment.jq\` rejects a description"
+assert_contains "compile contract validator module path" "$compile_md" 'jq -L "<SKILL_ROOT>/scripts" -e -f "<SKILL_ROOT>/scripts/validate-fragment.jq"'
 assert_contains "compile contract placeholder case" "$compile_md" "Preserve each placeholder's text and case"
 assert_contains "compile contract help flag" "$compile_md" "Include \`--help\` and \`--version\` only when the help lists them"
 assert_contains "compile contract temp help" "$compile_md" 'temporary directory outside `$cache_dir`'
@@ -32,7 +33,7 @@ assert_contains "compile contract terminated ignores required" "$compile_md" '`r
 for heading in "3.1 Node fields" "3.2 Descriptions" "3.3 Names" "3.4 Values and notations" "3.5 Enumerations" "3.6 Repeats, prefixes, delimiters" "3.7 Flags" "3.8 Options" "3.9 Positional arguments" "3.10 Terminated values" "3.11 Context diff" "3.12 Fragment shape and escaping" "3.13 Shared help (subcommands without their own help)"; do
     assert_contains "compile section $heading" "$compile_md" "### $heading"
 done
-assert_contains "compile shared help parent compare" "$compile_md" '<SKILL_ROOT>/scripts/compare-help.sh "<parent-temp>.txt" "<node-temp>.txt"'
+assert_contains "compile shared help parent compare" "$compile_md" 'help_files_equal "$parent_txt" "$help_txt"'
 assert_contains "compile shared help parent command" "$compile_md" "Parent help command"
 assert_contains "compile shared help no sibling read" "$compile_md" "never read a sibling entry"
 assert_contains "compile shared help missing tag" "$compile_md" "shared-help-missing"

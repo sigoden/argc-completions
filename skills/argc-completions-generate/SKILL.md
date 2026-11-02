@@ -51,7 +51,7 @@ Omit a block with no content entirely, markers included. `SPEC` and `HINTS` alwa
 - `STATIC` is assembly-generated: one `_static_*` function per item whose `choices` carry a non-empty `description`; it is rewritten every run and omitted when no item has a described `choices` list. It changes only through assembly, and `CHOICES` keeps the `_static_` prefix free.
 - `CHOICES` is owned by add-choice-fns: `_choice_*`/`_helper_*` functions, ASCII-sorted, plus the `<REPO_ROOT>/utils/_argc_utils.sh` source guard. Assemble preserves it and omits the block when it is empty.
 - The final eval stays outside the blocks.
-- No block markers means a legacy script; assemble migrates it once and verify accepts it read-only.
+- Only the block layout is supported: a script without the markers is rejected by `<SKILL_ROOT>/scripts/assemble.sh` (nothing outside the blocks is preserved) and failed by `<SKILL_ROOT>/scripts/verify-completion.sh`. Add the blocks by hand or delete the script and run a first generation.
 - Fragments are the source of truth: rebuild only through this pipeline.
 
 ## Choose a workflow
@@ -134,7 +134,7 @@ Read the authority file before working in its area; the rule is defined there.
 | Topic | Authority |
 |---|---|
 | Field semantics: `names` order, `terminated`/`delimiter`/`choices` interactions, `choice_fn` precedence | `<SKILL_ROOT>/references/fragment-schema.md` |
-| Description text: first sentence, machine-local paths, duplicated `choices` (mechanical; implemented by `<SKILL_ROOT>/scripts/normalize-description.sh`) | `<SKILL_ROOT>/references/fragment-schema.md` §Rules |
+| Description text: first sentence, machine-local paths, duplicated `choices` (mechanical; one rule set in `<SKILL_ROOT>/scripts/description-rules.jq`, used by the validator and by `<SKILL_ROOT>/scripts/normalize-description.sh`) | `<SKILL_ROOT>/references/fragment-schema.md` §Rules |
 | Compile child behavior: help scope, one node, no dispatch, when compile may set `terminated`, shared-help sections | `<SKILL_ROOT>/agents/compile.md` §1, §3.10, §3.13 |
 | Cache layout and write scope, fragment lifecycle, hash checks, failure and retry, finalize/prune | `<SKILL_ROOT>/references/generate-structure.md` §2, §3, §6, §7, §9 |
 | Fragment schema, `source.command`, `hash` format, cache version bump | `<SKILL_ROOT>/references/fragment-schema.md` |
@@ -143,6 +143,7 @@ Read the authority file before working in its area; the rule is defined there.
 | Candidate protocol, context variables, split model, debugging (`<SKILL_ROOT>/references/compgen.md`); helper signatures (`<SKILL_ROOT>/references/compgen-helpers.md`); composed recipes (`<SKILL_ROOT>/references/compgen-recipes.md`) |
 | Verification checks | `<SKILL_ROOT>/references/verify.md` |
 | Tools, shell portability, optional `yq`, runtime restrictions | `<SKILL_ROOT>/references/setup.md` |
+| Block marker parsing, blank-edge trimming, atomic fragment writes (one implementation, shared by assemble, verify, finalize, and format-choices) | `<SKILL_ROOT>/scripts/lib.sh` |
 | Workflow routing, inspection, reporting format (including `next=`), block layout | this file |
 
 ## Reporting

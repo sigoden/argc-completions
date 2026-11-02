@@ -52,34 +52,10 @@ require_cmd sort
 tmp_root="$(mktemp -d)"
 trap 'rm -rf "$tmp_root"' EXIT
 
-marker_line() {
-    local file="$1" marker="$2"
-    gawk -v m="$marker" '$0 == m { print NR; exit }' "$file"
-}
-
-marker_count() {
-    local file="$1" marker="$2"
-    gawk -v m="$marker" '$0 == m { n++ } END { print n + 0 }' "$file"
-}
-
 err() {
     local file="$1"
     shift
     printf 'format-choices: %s: %s\n' "$file" "$*" >&2
-}
-
-trim_blank_edges() {
-    local input="$1" output="$2"
-    gawk '
-    { line[NR] = $0 }
-    END {
-        first = 1
-        last = NR
-        while (first <= last && line[first] ~ /^[ \t]*$/) first++
-        while (last >= first && line[last] ~ /^[ \t]*$/) last--
-        for (i = first; i <= last; i++) print line[i]
-    }
-    ' "$input" >"$output"
 }
 
 # Split the block into a preamble, one file per function (including its doc
@@ -472,17 +448,15 @@ format_one() {
     local start_marker='# >>> CHOICES'
     local end_marker='# <<< CHOICES'
     local start end starts ends
-    local gen_marker_start='# >>> SPEC'
-    local gen_marker_end='# <<< SPEC'
     local gen_start gen_end
 
     [[ -f "$file" ]] || { err "$file" "file not found"; return 1; }
 
-    starts="$(marker_count "$file" "$start_marker")"
-    ends="$(marker_count "$file" "$end_marker")"
+    starts="$(count_marker "$file" '>>>' 'CHOICES')"
+    ends="$(count_marker "$file" '<<<' 'CHOICES')"
     if [[ "$starts" -eq 0 && "$ends" -eq 0 ]]; then
         if ! grep -q '^# >>> SPEC$' "$file"; then
-            err "$file" "CHOICES block not found (run assemble.sh first for legacy scripts)"
+            err "$file" "no block markers: only the block layout is supported; use assemble.sh to rebuild"
             return 1
         fi
         # New layout: an absent block means no dynamic functions. Keep the
@@ -498,8 +472,8 @@ format_one() {
         err "$file" "CHOICES block markers must appear exactly once"
         return 1
     fi
-    start="$(marker_line "$file" "$start_marker")"
-    end="$(marker_line "$file" "$end_marker")"
+    start="$(block_line "$file" '>>>' 'CHOICES')"
+    end="$(block_line "$file" '<<<' 'CHOICES')"
     if [[ -z "$start" || -z "$end" || "$start" -ge "$end" ]]; then
         err "$file" "invalid CHOICES block layout"
         return 1
@@ -518,8 +492,8 @@ format_one() {
         return 1
     fi
 
-    gen_start="$(marker_line "$file" "$gen_marker_start")"
-    gen_end="$(marker_line "$file" "$gen_marker_end")"
+    gen_start="$(block_line "$file" '>>>' 'SPEC')"
+    gen_end="$(block_line "$file" '<<<' 'SPEC')"
     if [[ -n "$gen_start" && -n "$gen_end" && "$gen_start" -lt "$gen_end" ]]; then
         gawk -v s="$gen_start" -v e="$gen_end" 'NR > s && NR < e { print }' "$file" >"$work/SPEC.txt"
     else

@@ -26,7 +26,8 @@ assert_contains "structure context diff section" "$structure_md" "# >>> DIFF"
 assert_contains "structure context only three fields" "$structure_md" 'only notation, `choice_fn`, and terminated changes'
 assert_contains "structure context no-meta hash" "$structure_md" "Pass \`--no-meta\` to emit only \`HINTS\` and \`DIFF\`"
 assert_contains "structure failed fragment hash" "$structure_md" '"hash": ""'
-assert_contains "structure status update script" "$structure_md" 'update-subcommand-status.sh "$parent" <name> <status>'
+assert_contains "structure status derived by finalize" "$structure_md" 'only `<SKILL_ROOT>/scripts/finalize-cache.sh` writes it'
+assert_not_contains "structure no status update script" "$structure_md" "update-subcommand-status.sh"
 assert_contains "structure handoff explicit" "$structure_md" "handoff, not an automatic continuation"
 assert_contains "generate-structure handoff params" "$structure_md" "inspect-script-params.jq"
 assert_contains "structure static function naming" "$structure_md" "_static_<fragment path without the root>"

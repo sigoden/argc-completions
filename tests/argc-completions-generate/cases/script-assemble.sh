@@ -508,6 +508,9 @@ check "dump-static matches block" bash -c "
 # STATIC is regenerated; HINTS and CHOICES are preserved.
 cp -R "$TMP_DIR/fragments-choices-desc" "$TMP_DIR/fragments-choices-regen"
 cat >"$TMP_DIR/static-context.sh" <<'CTX'
+# >>> SPEC
+# <<< SPEC
+
 # >>> HINTS
 # keep this hint
 # <<< HINTS

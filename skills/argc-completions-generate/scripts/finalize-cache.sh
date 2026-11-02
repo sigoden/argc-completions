@@ -86,7 +86,7 @@ while [[ ${#queue[@]} -gt 0 ]]; do
     keys=("${keys[@]:1}")
 
     declared["$parent"]=1
-    if ! jq -e -f "$SCRIPT_DIR/validate-fragment.jq" --arg key "$parent_key" "$parent" >/dev/null 2>&1; then
+    if ! jq_skill -e -f "$SCRIPT_DIR/validate-fragment.jq" --arg key "$parent_key" "$parent" >/dev/null 2>&1; then
         die "invalid fragment: $parent"
     fi
 
@@ -105,16 +105,6 @@ while [[ ${#queue[@]} -gt 0 ]]; do
         fi
     done < <(jq -r '.subcommands[]?.name' "$parent")
 done
-
-write_atomic() {
-    local file="$1" content="$2" mode tmp
-    tmp="$(mktemp "$(dirname "$file")/.finalize-cache.XXXXXX")" || return 1
-    printf '%s\n' "$content" >"$tmp"
-    if mode="$(stat -c '%a' "$file" 2>/dev/null)" || mode="$(stat -f '%Lp' "$file" 2>/dev/null)"; then
-        chmod "$mode" "$tmp"
-    fi
-    mv -f "$tmp" "$file"
-}
 
 # Pass 2: sync derived metadata and statuses.
 synced=0
@@ -143,7 +133,7 @@ while [[ ${#queue[@]} -gt 0 ]]; do
             if [[ "$entry_description" != "$child_description" || "$entry_aliases" != "$child_aliases" ]]; then
                 updated="$(jq --arg description "$entry_description" --argjson aliases "$entry_aliases" \
                     '.description = $description | .aliases = $aliases' "$child")"
-                write_atomic "$child" "$updated"
+                write_file_atomic "$child" "$updated"
                 synced=$((synced + 1))
             fi
             kind="$(jq -r '.source.kind' "$child")"
@@ -162,7 +152,7 @@ while [[ ${#queue[@]} -gt 0 ]]; do
     updated_parent="$(jq --argjson updates "$updates" \
         '.subcommands = ((.subcommands // []) | map(.status = ($updates[.name] // .status)))' "$parent")"
     if [[ "$updated_parent" != "$(cat "$parent")" ]]; then
-        write_atomic "$parent" "$updated_parent"
+        write_file_atomic "$parent" "$updated_parent"
     fi
 done
 

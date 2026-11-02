@@ -134,7 +134,7 @@ fi
 blocks="missing"
 prompt_region=0
 if [[ -f "$completion_file" ]]; then
-    blocks="legacy"
+    blocks="unmarked"
     if grep -q '^# >>> SPEC$' "$completion_file"; then
         blocks="new"
     fi

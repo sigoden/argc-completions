@@ -169,7 +169,7 @@ load_fragments() {
         if [[ -n "${FRAG_FILE[$key]:-}" ]]; then
             die "duplicate fragment for path: ${key//|/ }"
         fi
-        if ! validation_error="$(jq -e -f "$SCRIPT_DIR/validate-fragment.jq" --arg key "$key" "$file" 2>&1 >/dev/null)"; then
+        if ! validation_error="$(jq_skill -e -f "$SCRIPT_DIR/validate-fragment.jq" --arg key "$key" "$file" 2>&1 >/dev/null)"; then
             log_error "invalid fragment: $file"
             printf '%s\n' "$validation_error" >&2
             exit 1
@@ -282,21 +282,6 @@ post_content="$tmp_dir/post.content"
 : >"$choice_content"
 : >"$pre_content"
 : >"$post_content"
-
-trim_blank_edges() {
-    local file="$1" tmp="$1.trim.$$"
-    gawk '
-        { lines[NR] = $0 }
-        END {
-            start = 1
-            end = NR
-            while (start <= end && lines[start] ~ /^[[:space:]]*$/) start++
-            while (end >= start && lines[end] ~ /^[[:space:]]*$/) end--
-            for (i = start; i <= end; i++) print lines[i]
-        }
-    ' "$file" >"$tmp"
-    mv "$tmp" "$file"
-}
 
 trim_trailing_blank_edges() {
     local file="$1" tmp="$1.trim.$$"
@@ -568,65 +553,14 @@ cat >"$standard_post" <<'POST'
 command eval "$(argc --argc-eval "$0" "$@")"
 POST
 
-count_marker() {
-    local file="$1" direction="$2" name="$3"
-    grep -c "^# $direction $name$" "$file" 2>/dev/null || true
-}
-
-block_line() {
-    local file="$1" direction="$2" name="$3"
-    grep -n "^# $direction $name$" "$file" | head -n 1 | cut -d: -f1
-}
-
 extract_named_block() {
-    local file="$1" name="$2" dest="$3" starts ends start_line end_line
-    starts="$(count_marker "$file" '>>>' "$name")"
-    ends="$(count_marker "$file" '<<<' "$name")"
-    if [[ "$starts" -eq 0 && "$ends" -eq 0 ]]; then
-        return 1
-    fi
-    if [[ "$starts" -ne 1 || "$ends" -ne 1 ]]; then
-        die "block '$name' must appear exactly once in $file"
-    fi
-    start_line="$(block_line "$file" '>>>' "$name")"
-    end_line="$(block_line "$file" '<<<' "$name")"
-    [[ -n "$start_line" && -n "$end_line" && "$start_line" -lt "$end_line" ]] || die "invalid block '$name' in $file"
-    gawk -v start="$start_line" -v end="$end_line" 'NR > start && NR < end { print }' "$file" >"$dest"
-    return 0
-}
-
-extract_legacy_choice() {
-    local file="$1" dest="$2" start_line end_line
-    start_line="$(gawk '
-        /^# \{+ / { last = NR }
-        /^# @(describe|cmd|alias|meta|option|flag|arg|env)( |$)/ { last = NR }
-        END { print last + 0 }
-    ' "$file")"
-    if [[ "$start_line" -eq 0 ]]; then
-        if head -n 1 "$file" | grep -q '^#!'; then
-            start_line=2
-        else
-            start_line=1
-        fi
-    else
-        start_line=$((start_line + 1))
-    fi
-    end_line="$(gawk '
-        /^command eval / { if (end == 0) end = NR }
-        /^eval "\$\(argc --argc-eval/ { if (end == 0) end = NR }
-        END { print end ? end : NR + 1 }
-    ' "$file")"
-    if [[ "$start_line" -ge "$end_line" ]]; then
-        : >"$dest"
-        return 0
-    fi
-    gawk -v start="$start_line" -v end="$end_line" '
-        NR >= start && NR < end {
-            if ($0 ~ /^# >>> argc-completions-dynamic$/ || $0 ~ /^# <<< argc-completions-dynamic$/) next
-            print
-        }
-    ' "$file" >"$dest"
-    trim_blank_edges "$dest"
+    local file="$1" name="$2" dest="$3" rc=0
+    extract_block "$file" "$name" "$dest" || rc=$?
+    case "$rc" in
+        0) return 0 ;;
+        1) return 1 ;;
+        *) die "block '$name' must appear exactly once and in order in $file" ;;
+    esac
 }
 
 # Determine which source script provides prompt/choice content. An explicit
@@ -639,45 +573,40 @@ elif [[ -f "$output_file" ]]; then
 fi
 
 if [[ -n "$source_file" && -f "$source_file" ]]; then
+    if ! grep -q '^# >>> SPEC$' "$source_file"; then
+        die "no block markers in $source_file: add '# >>> SPEC'/'# <<< SPEC', '# >>> HINTS'/'# <<< HINTS', and '# >>> CHOICES'/'# <<< CHOICES' before rebuilding"
+    fi
+    # HINTS and CHOICES are preserved verbatim from their blocks; an absent
+    # block means that section is empty.
     if ! extract_named_block "$source_file" 'HINTS' "$prompt_content"; then
         : >"$prompt_content"
     fi
     if ! extract_named_block "$source_file" 'CHOICES' "$choice_content"; then
-        if ! extract_named_block "$source_file" 'argc-completions-dynamic' "$choice_content"; then
-            if grep -q '^# >>> SPEC$' "$source_file"; then
-                # New layout without a CHOICES block: no dynamic functions.
-                # Scanning the tail would capture content that is not a block.
-                : >"$choice_content"
-            else
-                extract_legacy_choice "$source_file" "$choice_content"
-            fi
-        fi
+        : >"$choice_content"
     fi
     # emit_block adds the separating blank line itself; keep re-assembly idempotent.
-    trim_blank_edges "$prompt_content"
-    trim_blank_edges "$choice_content"
+    trim_blank_edges_inplace "$prompt_content"
+    trim_blank_edges_inplace "$choice_content"
 fi
 
 if [[ -f "$output_file" ]]; then
-    if grep -q '^# >>> SPEC$' "$output_file"; then
-        output_gen_starts="$(count_marker "$output_file" '>>>' 'SPEC')"
-        output_gen_ends="$(count_marker "$output_file" '<<<' 'SPEC')"
-        if [[ "$output_gen_starts" -ne 1 || "$output_gen_ends" -ne 1 ]]; then
-            die "SPEC block must appear exactly once in $output_file"
-        fi
-        first_start="$(gawk '/^# >>> (SPEC|STATIC|HINTS|CHOICES)$/ { print NR; exit }' "$output_file")"
-        last_end="$(gawk '/^# <<< (SPEC|STATIC|HINTS|CHOICES)$/ { last = NR } END { print last + 0 }' "$output_file")"
-        if [[ -z "$first_start" || "$last_end" -eq 0 || "$first_start" -ge "$last_end" ]]; then
-            die "invalid block layout: $output_file"
-        fi
-        head -n $((first_start - 1)) "$output_file" >"$pre_content"
-        tail -n +$((last_end + 1)) "$output_file" >"$post_content"
-        trim_trailing_blank_edges "$pre_content"
-        trim_leading_blank_edges "$post_content"
-    else
-        cp "$standard_header" "$pre_content"
-        cp "$standard_post" "$post_content"
+    if ! grep -q '^# >>> SPEC$' "$output_file"; then
+        die "no block markers in $output_file: add '# >>> SPEC'/'# <<< SPEC' and '# >>> HINTS'/'# <<< HINTS' before rebuilding; assembly preserves nothing outside those blocks"
     fi
+    output_gen_starts="$(count_marker "$output_file" '>>>' 'SPEC')"
+    output_gen_ends="$(count_marker "$output_file" '<<<' 'SPEC')"
+    if [[ "$output_gen_starts" -ne 1 || "$output_gen_ends" -ne 1 ]]; then
+        die "SPEC block must appear exactly once in $output_file"
+    fi
+    first_start="$(gawk '/^# >>> (SPEC|STATIC|HINTS|CHOICES)$/ { print NR; exit }' "$output_file")"
+    last_end="$(gawk '/^# <<< (SPEC|STATIC|HINTS|CHOICES)$/ { last = NR } END { print last + 0 }' "$output_file")"
+    if [[ -z "$first_start" || "$last_end" -eq 0 || "$first_start" -ge "$last_end" ]]; then
+        die "invalid block layout: $output_file"
+    fi
+    head -n $((first_start - 1)) "$output_file" >"$pre_content"
+    tail -n +$((last_end + 1)) "$output_file" >"$post_content"
+    trim_trailing_blank_edges "$pre_content"
+    trim_leading_blank_edges "$post_content"
 else
     cp "$standard_header" "$pre_content"
     cp "$standard_post" "$post_content"

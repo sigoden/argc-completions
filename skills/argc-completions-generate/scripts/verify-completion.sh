@@ -121,35 +121,6 @@ else
     fail "bash $(basename "$file") --help failed: $(head -n 1 "$tmp_dir/help.err")"
 fi
 
-count_marker() {
-    local f="$1" direction="$2" name="$3"
-    grep -c "^# $direction $name$" "$f" 2>/dev/null || true
-}
-
-block_line() {
-    local f="$1" direction="$2" name="$3"
-    grep -n "^# $direction $name$" "$f" | head -n 1 | cut -d: -f1
-}
-
-extract_block() {
-    local f="$1" name="$2" dest="$3" starts ends start_line end_line
-    starts="$(count_marker "$f" '>>>' "$name")"
-    ends="$(count_marker "$f" '<<<' "$name")"
-    if [[ "$starts" -eq 0 && "$ends" -eq 0 ]]; then
-        return 1
-    fi
-    if [[ "$starts" -ne 1 || "$ends" -ne 1 ]]; then
-        return 2
-    fi
-    start_line="$(block_line "$f" '>>>' "$name")"
-    end_line="$(block_line "$f" '<<<' "$name")"
-    if [[ -z "$start_line" || -z "$end_line" || "$start_line" -ge "$end_line" ]]; then
-        return 2
-    fi
-    gawk -v s="$start_line" -v e="$end_line" 'NR > s && NR < e { print }' "$f" >"$dest"
-    return 0
-}
-
 gen_count="$(count_marker "$file" '>>>' 'SPEC')"
 static_count="$(count_marker "$file" '>>>' 'STATIC')"
 prompt_count="$(count_marker "$file" '>>>' 'HINTS')"
@@ -159,7 +130,7 @@ static_end_count="$(count_marker "$file" '<<<' 'STATIC')"
 prompt_end_count="$(count_marker "$file" '<<<' 'HINTS')"
 choice_end_count="$(count_marker "$file" '<<<' 'CHOICES')"
 
-layout="legacy"
+layout="unmarked"
 if [[ "$gen_count" -gt 0 || "$static_count" -gt 0 || "$prompt_count" -gt 0 || "$choice_count" -gt 0 ]]; then
     layout="new"
 fi
@@ -301,12 +272,9 @@ if [[ "$layout" == "new" ]]; then
         region_file="$gen_region"
     fi
 else
-    # Legacy scripts are still valid as long as no cache comparison is requested.
-    if [[ -n "$fragments" ]]; then
-        fail "cache-dir requires a script with SPEC/HINTS/CHOICES blocks"
-    else
-        printf 'NOTE  legacy layout: no SPEC/HINTS/CHOICES blocks\n'
-    fi
+    # Only the block layout is supported; an unmarked script cannot be verified
+    # against fragments, and assembly would silently drop its HINTS/CHOICES.
+    fail "no block markers: add '# >>> SPEC'/'# <<< SPEC' and '# >>> HINTS'/'# <<< HINTS' (only the block layout is supported)"
 fi
 
 # Tags in the structural region.
