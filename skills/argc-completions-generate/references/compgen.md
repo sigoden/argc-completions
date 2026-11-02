@@ -2,7 +2,7 @@
 
 Dynamic-completion spec for the `CHOICES` block: protocol, context, paths, config parsing, split model, and debugging. Read by section; workflow lives in `<SKILL_ROOT>/references/add-choice-fns.md` (no workflow steps here). Shell snippets follow `<SKILL_ROOT>/references/setup.md`.
 
-Companion references: `<SKILL_ROOT>/references/compgen-helpers.md` for the `_argc_util_*` §*Section map* and one section per helper (signature, sample, notes), `<SKILL_ROOT>/references/compgen-recipes.md` for composed functions covering common value shapes. Both section maps are mandatory reading before writing a `_choice_*`/`_helper_*` body (`<SKILL_ROOT>/references/add-choice-fns.md` §2 *Helpers*).
+Companion references: `<REPO_ROOT>/utils/_argc_utils.sh` for the `_argc_util_*` §*Section map* and one section per helper (signature, sample, notes), `<SKILL_ROOT>/references/compgen-recipes.md` for composed functions covering common value shapes. Both section maps are mandatory reading before writing a `_choice_*`/`_helper_*` body (`<SKILL_ROOT>/references/add-choice-fns.md` §2 *Helpers*).
 
 ## Section map
 
@@ -36,7 +36,7 @@ echo -e "value\0\tdescription"        # description, no trailing space
 - Return 0 with no output when there is nothing to offer; send diagnostics to stderr. Do not pre-filter by prefix: argc filters, so emit the full current-part candidate.
 - Call the completion's own root command and any prerequisite tool directly: the root exists while its completion runs, and `argc`, `jq`, `bash`, `gawk`, `sed`, `grep`, and `find` are always installed (`<SKILL_ROOT>/SKILL.md` §Prerequisites). No `command -v` probe for either.
 - Probe only a tool that may be absent, and use the probe to pick the answer when one value has command-specific implementations (`ip` vs `ifconfig`, `wl-copy` vs `xclip`, `timeout` vs `gtimeout`): `if command -v ip >/dev/null 2>&1; then ...; elif command -v ifconfig >/dev/null 2>&1; then ...; fi`. A tool the candidates can simply skip keeps `command -v <tool> >/dev/null || return 0`.
-- A candidate query must be read-only and bounded: prefer a local or cached source and cap the result count; a slow or remote query belongs in `_argc_util_cache` (`<SKILL_ROOT>/references/compgen-helpers.md` §*`_argc_util_cache`*).
+- A candidate query must be read-only and bounded: prefer a local or cached source and cap the result count; a slow or remote query belongs in `_argc_util_cache`.
 - Do not sort or dedupe candidates: argc deduplicates by value and shows them in emission order, so there is no need to use commands like `sort`, `sort -u`, or `uniq`.
 - Pass `-b` to `jq`: `jq -b -r ...`. Without `-b`, jq writes `\r\n` on Windows and every candidate keeps a trailing `\r`.
 - Never wrap a query in `timeout` command: argc and the shell own timeouts, and the wrapper hides the exit status and assumes coreutils.
@@ -85,7 +85,7 @@ Prefer notation over a function:
 # @option --config <FILE:.json,jsonc>
 ```
 
-A function can request paths at runtime with `__argc_value` and `__argc_cd`; `_argc_util_comp_path` wraps the common cases (`<SKILL_ROOT>/references/compgen-helpers.md` §*`_argc_util_comp_path`*).
+A function can request paths at runtime with `__argc_value` and `__argc_cd`; `_argc_util_comp_path` wraps the common cases (`<REPO_ROOT>/utils/_argc_utils.sh` §*`_argc_util_comp_path`*).
 
 - `path` and `file` both add file and directory candidates; `file` documents intent only.
 - `dir` adds directories only; extension filters do not apply.
@@ -112,7 +112,7 @@ word     = prefix + filter
 inserted = prefix + candidate + suffix
 ```
 
-argc infers common splits (`--define=`, `-X`, `+`, comma/pipe-separated values). `-X` and the separator are the fragment's `prefixed`/`delimiter`; `delimiter` applies to options and args. Do not reimplement them. Do not assemble the control lines by hand either: pick a helper in `<SKILL_ROOT>/references/compgen-helpers.md` §*Section map* or a recipe in `<SKILL_ROOT>/references/compgen-recipes.md` §*Section map* first, and write the split through it. This section is the protocol for reading and debugging output; a shape neither reference covers is the only case for hand-written control lines, and it must be reported (`<SKILL_ROOT>/references/add-choice-fns.md` §2 *Helpers*). A function can move the split with:
+argc infers common splits (`--define=`, `-X`, `+`, comma/pipe-separated values). `-X` and the separator are the fragment's `prefixed`/`delimiter`; `delimiter` applies to options and args. Do not reimplement them. Do not assemble the control lines by hand either: pick a helper in `<REPO_ROOT>/utils/_argc_utils.sh` §*Section map* or a recipe in `<SKILL_ROOT>/references/compgen-recipes.md` §*Section map* first, and write the split through it. This section is the protocol for reading and debugging output; a shape neither reference covers is the only case for hand-written control lines, and it must be reported (`<SKILL_ROOT>/references/add-choice-fns.md` §2 *Helpers*). A function can move the split with:
 
 | Line | Effect |
 |---|---|

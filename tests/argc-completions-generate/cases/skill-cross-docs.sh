@@ -115,6 +115,22 @@ check "skill docs no stale command args helper" bash -c "! grep -RF '_argc_util_
 check "references no shell command source" bash -c '! grep -RFq -- "compgen -c" "$1"' _ "$SKILL_DIR/references"
 check "no doc explains the choice marker" bash -c "! grep -RqE 'advisory hint|optional hint' '$SKILL_DIR'"
 check "docs no value_type field" bash -c "! grep -RqE 'value_type' '$SKILL_DIR'"
+check "skill no stale compgen-helper reference" bash -c '! grep -RFq "compgen-helpers" "$1"' _ "$SKILL_DIR"
 check "skill no shared completer helpers" bash -c "! grep -RqE '_user_value|_hostname_value|shared completer' '$SKILL_DIR'"
+
+# The helper reference lives in the library now, so the docs must point at the
+# live file and the file must keep the indexed sections the workflow reads.
+check "helper docs point at the library" bash -c '
+    for doc in "$@"; do
+        grep -Fq "utils/_argc_utils.sh" "$doc" || { echo "$doc"; exit 1; }
+    done
+' _ "$SKILL_DIR/SKILL.md" \
+    "$SKILL_DIR/references/add-choice-fns.md" \
+    "$SKILL_DIR/references/compgen.md" \
+    "$SKILL_DIR/references/compgen-recipes.md" \
+    "$SKILL_DIR/references/troubleshooting.md"
+check "helper library keeps its index" bash -c '
+    grep -Fq "# ## Section map" "$1" && grep -Fq "# ## Source guard" "$1"
+' _ "$ROOT_DIR/utils/_argc_utils.sh"
 
 helper_finish

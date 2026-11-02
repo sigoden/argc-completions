@@ -841,6 +841,64 @@ _argc_util_comp_subcommand 1 --pre
 '
 
 # ---------------------------------------------------------------------------
+# Documentation contract
+# ---------------------------------------------------------------------------
+# utils/_argc_utils.sh doubles as the helper reference: every top-level helper
+# has one greppable section, and the section map indexes all of them.
+DOC_SECTIONS="$TMP_DIR/doc-sections.txt"
+DOC_HELPERS="$TMP_DIR/doc-helpers.txt"
+DOC_MAP="$TMP_DIR/doc-map.txt"
+grep -oE '^# ## _argc_util_[a-z0-9_]+' "$UTILS" | sed 's/^# ## //' >"$DOC_SECTIONS"
+grep -oE '^_argc_util_[a-z0-9_]+\(\)' "$UTILS" | sed 's/()$//' | awk '!seen[$0]++' >"$DOC_HELPERS"
+grep -oE '^# [|] *_argc_util_[a-z0-9_]+' "$UTILS" | sed 's/^# [|] *//' >"$DOC_MAP"
+
+check "helper sections follow library order" diff -u "$DOC_HELPERS" "$DOC_SECTIONS"
+check "helper section map lists every helper in order" diff -u "$DOC_HELPERS" "$DOC_MAP"
+
+doc_sections_complete() {
+    gawk '
+    /^# ## _argc_util_[a-z0-9_]+/ {
+        if (in_section && (!fence || !notes)) {
+            printf "%s: missing sample or notes\n", name
+            bad = 1
+        }
+        in_section = 1
+        name = $0
+        fence = 0
+        notes = 0
+        next
+    }
+    in_section && /^# ```sh/ { fence = 1 }
+    in_section && /^# Notes:/ { notes = 1 }
+    END {
+        if (in_section && (!fence || !notes)) {
+            printf "%s: missing sample or notes\n", name
+            bad = 1
+        }
+        exit bad
+    }
+    ' "$1"
+}
+check "every helper section has a sample and notes" doc_sections_complete "$UTILS"
+
+doc_samples_parse() {
+    gawk '
+    /^# ```sh/ { in_fence = 1; next }
+    in_fence && /^# ```/ { in_fence = 0; next }
+    in_fence { sub(/^# ?/, ""); print }
+    ' "$1" | bash -n
+}
+check "helper samples parse as shell" doc_samples_parse "$UTILS"
+check "helper reference is flat" bash -c '! grep -qE "^# ## [0-9]" "$1" && ! grep -qE "^# #### " "$1"' _ "$UTILS"
+assert_contains "helper reference section map" "$UTILS" '# ## Section map'
+assert_contains "helper reference source guard" "$UTILS" '# ## Source guard'
+assert_contains "helper reference tool-specific values" "$UTILS" '# ## Tool-specific values'
+assert_contains "helper reference source guard snippet" "$UTILS" '. "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"'
+assert_contains "helper reference comp_command section" "$UTILS" '# ## _argc_util_comp_command'
+assert_contains "helper reference comp_subcommand signature" "$UTILS" '# ## _argc_util_comp_subcommand <index> [prepend...]'
+assert_contains "helper reference cache probe note" "$UTILS" 'tool that may be absent inside the uncached function'
+
+# ---------------------------------------------------------------------------
 # Summary
 # ---------------------------------------------------------------------------
 printf '\n%d checks passed, %d failed, %d skipped\n' "$passes" "$failures" "$skips"

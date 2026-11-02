@@ -30,7 +30,7 @@ assert_contains "choice docs tool probes" "$choice_md" "tool probes"
 # A function body starts from both reference section maps; a hand-assembled
 # control line is a reported last resort.
 assert_contains "choice docs mandatory lookup" "$choice_md" "mandatory lookup"
-assert_contains "choice docs helper section map" "$choice_md" 'compgen-helpers.md` §*Section map*'
+assert_contains "choice docs helper section map" "$choice_md" '_argc_utils.sh` §*Section map*'
 assert_contains "choice docs recipe section map" "$choice_md" 'compgen-recipes.md` §*Section map*'
 assert_contains "choice docs no hand-assembled lines" "$choice_md" 'Do not assemble `__argc_prefix`'
 assert_contains "choice docs hand-assembled report" "$choice_md" "report the uncovered shape"

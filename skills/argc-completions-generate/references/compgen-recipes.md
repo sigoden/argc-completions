@@ -1,6 +1,6 @@
 # Compgen recipe reference
 
-Composed choice functions for value shapes that a single helper does not cover. Helper signatures are in `<SKILL_ROOT>/references/compgen-helpers.md`, the candidate protocol is in `<SKILL_ROOT>/references/compgen.md`, binding and the test loop are in `<SKILL_ROOT>/references/add-choice-fns.md`, shell portability is in `<SKILL_ROOT>/references/setup.md`, and failures go to `<SKILL_ROOT>/references/troubleshooting.md`. Read the §*Section map* before writing a `_choice_*`/`_helper_*` body, then the matching recipe. The samples are adapted from `<REPO_ROOT>/completions/`; long functions are excerpted where noted.
+Composed choice functions for value shapes that a single helper does not cover. Helper signatures and notes are in `<REPO_ROOT>/utils/_argc_utils.sh`, the candidate protocol is in `<SKILL_ROOT>/references/compgen.md`, binding and the test loop are in `<SKILL_ROOT>/references/add-choice-fns.md`, shell portability is in `<SKILL_ROOT>/references/setup.md`, and failures go to `<SKILL_ROOT>/references/troubleshooting.md`. Read both §*Section map*s before writing a `_choice_*`/`_helper_*` body, then the matching helper section and recipe. The samples are adapted from `<REPO_ROOT>/completions/`; long functions are excerpted where noted.
 
 ## Section map
 
