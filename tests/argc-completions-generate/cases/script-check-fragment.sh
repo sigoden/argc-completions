@@ -89,6 +89,29 @@ check_to "$TMP_DIR/check-missing.txt" "check-fragment missing" \
     bash "$SCRIPTS/check-fragment.sh" check-demo missing --cache-dir "$check_cache" --completion "$completion"
 assert_contains "check-fragment missing status" "$TMP_DIR/check-missing.txt" "path=check-demo missing status=missing"
 
+# A colon subcommand segment (pm2 profile:mem) is a valid path component.
+colon_fragment="$check_cache/profile:mem.json"
+jq -n '{
+    schemaVersion: 1, path: ["check-demo", "profile:mem"], description: "Sample PM2 heap memory",
+    aliases: [], meta: [], items: [], subcommands: [],
+    source: {kind: "help", command: "check-demo profile:mem --help"}, hash: "", notes: ""
+}' >"$colon_fragment"
+colon_hash="$(bash "$SCRIPTS/fragment-hash.sh" check-demo 'profile:mem' --cache-dir "$check_cache" \
+    --completion "$completion")"
+jq --arg hash "$colon_hash" '.hash = $hash' "$colon_fragment" >"$TMP_DIR/colon.json" && mv "$TMP_DIR/colon.json" "$colon_fragment"
+check_to "$TMP_DIR/check-colon.txt" "check-fragment colon path" \
+    bash "$SCRIPTS/check-fragment.sh" check-demo 'profile:mem' --cache-dir "$check_cache" --completion "$completion"
+assert_contains "check-fragment colon hit" "$TMP_DIR/check-colon.txt" "path=check-demo profile:mem status=hit"
+rm -f "$colon_fragment"
+
+# Widening that segment does not weaken the rest of the character set.
+if bash "$SCRIPTS/check-fragment.sh" check-demo 'a b' --cache-dir "$check_cache" --completion "$completion" >"$TMP_DIR/check-bad-part.txt" 2>&1; then
+    fail "check-fragment rejects an unsafe path component"
+else
+    pass "check-fragment rejects an unsafe path component"
+fi
+assert_contains "check-fragment unsafe component message" "$TMP_DIR/check-bad-part.txt" "invalid command path component: a b"
+
 # kind none -> failed, reusing the minimal fragment.
 write_fragment "$check_cache/_root.json" none '' ''
 check_to "$TMP_DIR/check-failed.txt" "check-fragment failed" \

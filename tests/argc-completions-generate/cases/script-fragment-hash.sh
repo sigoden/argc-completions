@@ -160,6 +160,15 @@ expect_failure "fragment-hash rejects help with two args" bash "$SCRIPTS/fragmen
     --cache-dir "$hash_cache" --command 'help cd extra'
 expect_failure "fragment-hash rejects path escape" bash "$SCRIPTS/fragment-hash.sh" .. \
     --cache-dir "$hash_cache" --command 'hash-demo --help'
+expect_failure "fragment-hash rejects an unsafe path component" bash "$SCRIPTS/fragment-hash.sh" hash-demo 'a;b' \
+    --cache-dir "$hash_cache" --command 'hash-demo --help'
+expect_failure "fragment-hash rejects a colon in the root" bash "$SCRIPTS/fragment-hash.sh" 'hash:demo' \
+    --cache-dir "$hash_cache" --command 'hash-demo --help'
+
+# A colon subcommand segment (pm2 profile:mem) is hashed like any other path.
+colon_hash="$(bash "$SCRIPTS/fragment-hash.sh" hash-demo 'profile:mem' --cache-dir "$hash_cache" \
+    --completion "$hash_completion" --command 'hash-demo profile:mem --help')"
+check "fragment-hash accepts a colon path component" grep -Eq '^[0-9a-f]{64}$' <<<"$colon_hash"
 
 : >"$TMP_DIR/empty-help.txt"
 expect_failure "fragment-hash rejects empty help file" bash "$SCRIPTS/fragment-hash.sh" hash-demo \

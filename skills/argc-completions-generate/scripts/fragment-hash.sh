@@ -100,10 +100,10 @@ done
 
 [[ -n "$root" ]] || { usage >&2; exit 2; }
 
-for part in "$root" "${subs[@]}"; do
+root_name_ok "$root" || { log_error "invalid command path component: $root"; exit 2; }
+for part in "${subs[@]}"; do
     [[ -n "$part" ]] || { log_error "empty command path component"; exit 2; }
-    [[ "$part" =~ ^[A-Za-z0-9_.+@-]+$ ]] || { log_error "invalid command path component: $part"; exit 2; }
-    [[ "$part" != "." && "$part" != ".." ]] || { log_error "invalid command path component: $part"; exit 2; }
+    sub_name_ok "$part" || { log_error "invalid command path component: $part"; exit 2; }
 done
 
 cache_dir="${cache_override:-$REPO_ROOT/cache/compile/$root}"

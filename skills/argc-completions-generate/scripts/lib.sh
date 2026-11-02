@@ -297,6 +297,21 @@ help_files_equal() {
     return "$rc"
 }
 
+# A root command name is limited to the characters a completion file and its
+# cache directory can safely carry. ":" stays out: nothing names a root after a
+# subcommand, and delete-cache.sh moves a whole root directory by this name.
+root_name_ok() {
+    [[ "$1" != "." && "$1" != ".." ]] && [[ "$1" =~ ^[A-Za-z0-9_.+@-]+$ ]]
+}
+
+# A subcommand path segment accepts ":" on top of the root set, because argc
+# subcommands such as `pm2 profile:mem` and `pm2 module:update` keep the colon.
+# validate-fragment.jq's cmd_name allows it too; the leading "-" it also allows
+# stays out, because the callers' option parser would consume it as a flag.
+sub_name_ok() {
+    [[ "$1" != "." && "$1" != ".." ]] && [[ "$1" =~ ^[A-Za-z0-9_.+:@-]+$ ]]
+}
+
 # Print the fragment file path for a command path.
 # Usage: fragment_file_path <fragment-dir> <root> [subcommand...]
 fragment_file_path() {

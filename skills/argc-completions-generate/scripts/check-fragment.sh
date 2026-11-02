@@ -77,10 +77,10 @@ done
 
 parts=("$root" "${subs[@]}")
 path_string="${parts[*]}"
-for part in "${parts[@]}"; do
+root_name_ok "$root" || die "invalid command path component: $root"
+for part in "${subs[@]}"; do
     [[ -n "$part" ]] || die "empty command path component"
-    [[ "$part" =~ ^[A-Za-z0-9_.+@-]+$ ]] || die "invalid command path component: $part"
-    [[ "$part" != "." && "$part" != ".." ]] || die "invalid command path component: $part"
+    sub_name_ok "$part" || die "invalid command path component: $part"
 done
 
 cache_dir="${cache_override:-$REPO_ROOT/cache/compile/$root}"
