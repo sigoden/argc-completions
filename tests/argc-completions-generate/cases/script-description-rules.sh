@@ -54,6 +54,34 @@ agreement_case() {
 
 agreement_case "agreement plain sentence" 'Manage remotes. More detail.'
 agreement_case "agreement echoed bracket group" 'Mode [a|b] (default: a). More.' a b
+agreement_case "agreement labeled bracket group" 'Level [possible values: low, high]' low high
+agreement_case "agreement labeled paren group" 'Sort (one of: name, version)' name version
+agreement_case "agreement labeled colon list" 'Sort: possible values: name, version' name version
+
+# A labeled enumeration echoes the choice set: it is deleted, and default text
+# is never a label.
+strip_case() {
+    # usage: strip_case <label> <raw> <expected> [choice...]
+    local label="$1" raw="$2" expected="$3"
+    shift 3
+    local args=() c got
+    for c in "$@"; do args+=(--choice "$c"); done
+    got="$(printf '%s' "$raw" | bash "$normalizer" "${args[@]}")"
+    if [[ "$got" == "$expected" ]]; then
+        pass "$label"
+    else
+        fail "$label (got '$got', want '$expected')"
+    fi
+}
+
+strip_case "label possible values dropped" \
+    'Set zip compress level [default: low] [possible values: none, low, medium, high]' \
+    'Set zip compress level [default: low]' none low medium high
+strip_case "label one of dropped" 'Sort (one of: name, version)' 'Sort' name version
+strip_case "label with single value dropped" 'Mode [possible values: fast]' 'Mode' fast
+strip_case "default label kept" 'Keep default [default: low]' 'Keep default [default: low]' low
+strip_case "partial labeled group kept" 'Level [possible values: low, high]' \
+    'Level [possible values: low, high]' low
 agreement_case "agreement echoed colon list" 'Select sort: name,version,none.' name version none
 agreement_case "agreement home path connector" 'use /home/you/.local/bin/browser.sh or BROWSER'
 agreement_case "agreement home-only text" '$HOME/.config/x'
@@ -73,5 +101,18 @@ expect_failure "agreement validator rejects two sentences" \
 fragment_from_description 'Use /home/you/bin' "$TMP_DIR/reject-home.json"
 expect_failure "agreement validator rejects home path" \
     jq -L "$SCRIPTS" -e -f "$SCRIPTS/validate-fragment.jq" --arg key demo "$TMP_DIR/reject-home.json"
+
+# A labeled colon list still echoes the choices: the label is ignored when the
+# tail is compared, so the validator rejects the unnormalized form.
+jq -n --arg d 'Sort: possible values: name, version' --args '
+  {schemaVersion: 1, path: ["demo"], description: "", aliases: [], meta: [],
+   items: [{kind: "option", names: ["--sort"], notations: ["<VALUE>"],
+            choices: ($ARGS.positional | map({value: ., description: ""})),
+            choice_fn: null, repeatable: false, prefixed: false, delimiter: null,
+            description: $d}],
+   subcommands: [], source: {kind: "none"}, hash: "", notes: ""}' name version \
+    >"$TMP_DIR/reject-labeled-colon.json"
+expect_failure "agreement validator rejects labeled colon echo" \
+    jq -L "$SCRIPTS" -e -f "$SCRIPTS/validate-fragment.jq" --arg key demo "$TMP_DIR/reject-labeled-colon.json"
 
 helper_finish

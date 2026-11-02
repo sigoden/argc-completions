@@ -10,7 +10,7 @@ VERBOSE="${VERBOSE:-0}"
 
 usage() {
     cat <<'USAGE'
-Usage: preflight.sh <root> [options]
+Usage: preflight.sh [<root>] [options]
 
 Options:
   --output <file>       Override the completion output path

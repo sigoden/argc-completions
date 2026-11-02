@@ -5,6 +5,9 @@ set -euo pipefail
 . "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/helper.sh"
 helper_init
 
+quiet bash "$SCRIPTS/fragment-hash.sh" --help >"$TMP_DIR/fragment-hash-help.txt" 2>&1
+check "fragment-hash usage stdout" grep -Fq 'Prints the 64-character hash to stdout' "$TMP_DIR/fragment-hash-help.txt"
+
 mkdir -p "$TMP_DIR/bin"
 hash_cache="$TMP_DIR/cache-hash"
 mkdir -p "$hash_cache"

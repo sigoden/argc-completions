@@ -23,6 +23,15 @@ def choice_value:
   | unquote_choice;
 def choice_values:
   [ splits("[|,]") | choice_value | select(length > 0) ] | sort;
+# Optional label that introduces an enumeration, such as "possible values:" or
+# "one of:". A "default:" label never matches, so default text is kept.
+def enumeration_label:
+  "(?i)^(possible values?|values?|choices?|one of)[[:space:]]*:[[:space:]]*";
+# Values of a candidate enumeration group or tail, with its label removed when
+# one is present, so a labeled echo still compares equal to the choice set.
+def echo_values:
+  (if test(enumeration_label) then sub(enumeration_label; "") else . end)
+  | choice_values;
 
 # Machine-local paths: $HOME/..., /home/<user>/..., /Users/<user>/..., and
 # C:\Users\<user>\..., plus the current home directory.
@@ -69,7 +78,7 @@ def choice_echoes:
   if ((.choices // []) | length) == 0 then []
   else
     ((.choices // []) | map(.value) | map(choice_value) | sort) as $want
-    | [ (.description | grouped_texts)[] | select(choice_values == $want) ]
+    | [ (.description | grouped_texts)[] | select(echo_values == $want) ]
   end;
 # A trailing ":list" whose values equal the choice set, such as
 # "Select sort: name,version"; the lead-in is what normalization keeps.
@@ -78,7 +87,7 @@ def colon_echo:
   else
     ((.choices // []) | map(.value) | map(choice_value) | sort) as $want
     | [ (.description // "") | match(":([^:]*)$") | .captures[0].string ] as $tails
-    | ($tails | length > 0) and ($tails[0] | test("[,|]")) and (($tails[0] | choice_values) == $want)
+    | ($tails | length > 0) and ($tails[0] | test("[,|]")) and (($tails[0] | echo_values) == $want)
   end;
 
 # --- Production -------------------------------------------------------------
@@ -132,7 +141,7 @@ def d_strip_echo_groups($want):
               else
                 ($found[0]) as $j
                 | ($s[(.i + 1):(.i + 1 + $j)]) as $inner
-                | if (($inner | test("[([{]")) | not) and (($inner | choice_values) == $want)
+                | if (($inner | test("[([{]")) | not) and (($inner | echo_values) == $want)
                   then
                     .out = (.out | sub(" +$"; ""))
                     | .i = (.i + 1 + $j + 1)
@@ -160,7 +169,7 @@ def d_strip_colon_list($want):
     | if ($ms | length) == 0 then $s
       else ($ms[0]) as $m
         | ($s[($m.offset + 1):]) as $tail
-        | if (($tail | test("[,|]")) and (($tail | choice_values) == $want))
+        | if (($tail | test("[,|]")) and (($tail | echo_values) == $want))
           then ($s[0:$m.offset] | trim_space)
           else $s end
       end

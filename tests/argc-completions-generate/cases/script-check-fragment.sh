@@ -5,6 +5,9 @@ set -euo pipefail
 . "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/helper.sh"
 helper_init
 
+quiet bash "$SCRIPTS/check-fragment.sh" --help >"$TMP_DIR/check-fragment-help.txt" 2>&1
+check "check-fragment usage exit status" grep -Fq 'Exit status is 0 for every reported status' "$TMP_DIR/check-fragment-help.txt"
+
 mkdir -p "$TMP_DIR/bin"
 cat >"$TMP_DIR/bin/check-demo" <<'DEMO'
 #!/usr/bin/env bash

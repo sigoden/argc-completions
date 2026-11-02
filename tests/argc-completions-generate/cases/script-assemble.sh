@@ -5,6 +5,9 @@ set -euo pipefail
 . "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/helper.sh"
 helper_init
 
+quiet bash "$SCRIPTS/assemble.sh" --help >"$TMP_DIR/assemble-help.txt" 2>&1
+check "assemble usage default output" grep -Fq 'default: existing completion' "$TMP_DIR/assemble-help.txt"
+
 # ---------------------------------------------------------------------------
 # assemble.sh: new script, no context
 # ---------------------------------------------------------------------------

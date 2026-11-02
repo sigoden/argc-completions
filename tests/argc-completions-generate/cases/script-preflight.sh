@@ -5,6 +5,9 @@ set -euo pipefail
 . "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/helper.sh"
 helper_init
 
+quiet bash "$SCRIPTS/preflight.sh" --help >"$TMP_DIR/preflight-help.txt" 2>&1
+check "preflight usage optional root" grep -Fq 'Usage: preflight.sh [<root>]' "$TMP_DIR/preflight-help.txt"
+
 # ---------------------------------------------------------------------------
 # preflight.sh
 # ---------------------------------------------------------------------------

@@ -33,6 +33,8 @@ Options:
 
 Prints `path=<path> status=<hit|invalid|missing|unverified|failed>`. A status
 of invalid also prints reason=<schema|hash-mismatch>.
+Exit status is 0 for every reported status; non-zero is reserved for usage
+and dependency errors.
 USAGE
 }
 

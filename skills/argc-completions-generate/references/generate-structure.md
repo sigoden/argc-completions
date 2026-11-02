@@ -5,12 +5,12 @@ Generate-structure turns help/man text into JSON fragments and rebuilds only the
 ## 1. Preflight
 
 ```sh
-bash <SKILL_ROOT>/scripts/preflight.sh <root> [--output <file>] [--completion <file>]
+bash <SKILL_ROOT>/scripts/preflight.sh [<root>] [--output <file>] [--completion <file>]
 ```
 
 It prints absolute `key=value` lines; the values used below are `existing`, `blocks`, `cache_dir`, `completion_file`, `os`, `cache_exists`, `root_fragment_exists`, and `cache_version`.
 
-- `<root>` is required here.
+- Pass `<root>` for workflow preflight; without it, only the two roots are printed.
 - It does not create `<REPO_ROOT>/cache/compile/<root>`; create it after preflight with `mkdir -p "$cache_dir"`.
 - It already runs `require_pipeline_tools` and checks `command -v <root>`; both checks are already done, and the compile child alone fetches `--help`/`--version`.
 - Do not inspect `<REPO_ROOT>/completions/` or `<REPO_ROOT>/cache/compile/` with `ls`/`tree`: both directories grow without bound, and `preflight` reports `existing`/`completion_file`/`blocks`/`cache_dir`/`root_fragment`/`cache_exists`/`root_fragment_exists`/`cache_version`, and `command -v` answers tool availability.
@@ -30,18 +30,11 @@ Fragments live under `<REPO_ROOT>/cache/compile/<root>/` and nothing else belong
 
 That list is exhaustive. Help text, canonical text, and parent-page comparison files live in a temporary directory outside the cache and are deleted after use; `_root.new.txt` and every other `.txt` are no longer written. The compile child writes only its fragment, and a `.txt` left in the cache is a hygiene failure in verify.
 
-Every fragment carries a top-level `hash`:
-
-- `source.kind` is `help` or `man`: `source.command` records the exact command that produced the canonical help text, and `hash` is its 64-character lowercase SHA-256.
-- `source.kind` is `none`: `hash` is `""`, and `source.command` is absent.
-- The hash input is `"argc-completions-generate" NUL SKILL_CACHE_VERSION NUL context_body NUL canonical_help_bytes`. `context_body` is `<SKILL_ROOT>/scripts/extract-cmd-context.sh --no-meta` output for the path: the `HINTS` body plus the `DIFF` section, without `META`; `canonical_help_bytes` is the full canonical help of `source.command`.
-- `SKILL_CACHE_VERSION` lives in `<SKILL_ROOT>/scripts/lib.sh`; bump it when the fragment schema, compile semantics, hash framing, or help canonicalization changes. It is the only global invalidation mechanism.
-- The hash does not include `meta`, `choice_fn`, `description`, `aliases`, the node path, or `source.section` as standalone fields. A `choice_fn`, notation, or terminated value reaches it only through the `DIFF` section, so a manual `SPEC` edit invalidates the node while an in-sync script does not.
-- The schema rules, including the safe-token contract for `source.command`, are in `<SKILL_ROOT>/references/fragment-schema.md`.
+Every fragment carries a top-level `hash`, defined in `<SKILL_ROOT>/references/fragment-schema.md`: `help`/`man` store a 64-character lowercase SHA-256, `none` stores `""`. `<SKILL_ROOT>/scripts/fragment-hash.sh` is the only writer; `SKILL_CACHE_VERSION` in `<SKILL_ROOT>/scripts/lib.sh` is the global invalidation switch, bumped when the schema, hash framing, or help canonicalization changes.
 
 ### Cache-first rule
 
-Never dispatch a compile subagent for a node that `<SKILL_ROOT>/scripts/check-fragment.sh` reports as `hit`, `unverified`, or `failed`. Only a successfully recomputed hash that differs, an invalid new-schema fragment, or a missing fragment proves cache invalidation. A help command that fails or times out leaves the old fragment in place as `unverified`.
+Never dispatch a compile subagent for a node that `<SKILL_ROOT>/scripts/check-fragment.sh` reports as `hit`, `unverified`, or `failed`; the §3 table is the action mapping. A help command that fails or times out leaves the old fragment in place as `unverified`.
 
 ### Regenerate intent
 
@@ -86,7 +79,7 @@ path=bar status=unverified reason=help-unavailable
 
 - Queue deduplication uses the canonical path; an alias is never a queue entry. Statuses are not a queue signal, so a stale `todo` never causes a recompile and a stale `succeeded` never skips a check; `<SKILL_ROOT>/scripts/finalize-cache.sh` recomputes every status from the fragments on disk.
 - Every child is checked independently. There is no cross-node help-output cache; a shared page such as `man tmux` may be executed once per node that needs it.
-- The only invalidation signal is the hash comparison. The hash body includes the context `DIFF`, so a manual `SPEC` edit to notation, `choice_fn`, or `terminated` is an ordinary `hash-mismatch`; it is not a separate invalidation signal. Failure to obtain help is `unverified`, not a reason to recompile.
+- The hash comparison is the only invalidation signal: because `DIFF` is part of the hash, a manual `SPEC` edit to notation, `choice_fn`, or `terminated` is an ordinary `hash-mismatch`, not a separate signal; failure to obtain help is `unverified`, not a reason to recompile.
 - Never migrate an old fragment: a missing `hash`, a missing `source.command`, or a non-empty hash on `source.kind: none` is `invalid` and is recompiled from scratch.
 
 ## 4. Extract context for a node
@@ -180,14 +173,7 @@ After the queue is empty and before assembly, run:
 bash <SKILL_ROOT>/scripts/finalize-cache.sh <root> --cache-dir "$cache_dir"
 ```
 
-It validates every declared fragment first, refusing to change anything if a declared fragment is invalid. Then it:
-
-- copies each child's `description` and `aliases` from the parent `subcommands[]` entry (these fields are not part of the hash);
-- sets the parent entry status from the child fragment: `source.kind: none` -> `failed`, `help`/`man` -> `succeeded`, missing fragment -> `todo`;
-- deletes `.json` fragments that the current tree no longer declares, plus directories left empty;
-- leaves old `.txt` files untouched (migration is out of scope; verify will reject them).
-
-It prints `synced=<n> removed=<n>`. Assembly continues only when no node is `todo`.
+It validates every declared fragment first, refusing to change anything if one is invalid. It then syncs each child's `description`/`aliases` from its parent entry, recomputes the parent status from `source.kind`, and prunes undeclared fragments and empty directories. It prints `synced=<n> removed=<n>`; assembly continues only when no node is `todo`. Old `.txt` files are not migrated and are rejected by verify.
 
 ## 8. Assemble
 
@@ -200,22 +186,9 @@ bash <SKILL_ROOT>/scripts/assemble.sh <root> \
   --force
 ```
 
-`--force` is required when the output exists; omit it only for a new file. An existing output without block markers is rejected: assembly preserves nothing outside the blocks, so add the markers (or delete the script) first.
+Usage: `<SKILL_ROOT>/scripts/assemble.sh <root> [-c <dir>] [-o <file>] [--force] [--check|--stdout|--dump-spec|--dump-static] [--context <file>]`. `--force` is required when the output exists; omit it only for a new file. An existing output without block markers is rejected: assembly preserves nothing outside the blocks, so add the markers (or delete the script) first. Run `--help` for defaults.
 
-Options:
-
-```text
--c, --cache-dir <dir>         default <REPO_ROOT>/cache/compile/<root>
--o, --output <file>           default existing completion, else <REPO_ROOT>/completions/<root>.sh
-    --context <file>          source script; defaults to the existing output
-    --check                   compare, do not write
-    --stdout                  print the full script
-    --force                   overwrite an existing output
-    --dump-spec               print only the generated SPEC block
-    --dump-static             print only the generated STATIC block
-```
-
-Assembly validates fragments, statuses, paths, stale fragments, duplicate sibling names/aliases, `choice_fn` types, the `choices` object schema, descriptions that repeat `choices`, and root-only meta keys (`combine-shorts`, `inherit-flag-options`) placed on a subcommand fragment; renders `SPEC`; generates one `_static_*` function per item whose `choices` carry a non-empty description and writes them to `STATIC`; keeps `HINTS` and `CHOICES` from the source; omits the `STATIC` and `CHOICES` blocks when they have no content and always writes `HINTS`; migrates a legacy tail once; writes a standard header and final eval for a new file; refuses to overwrite without `--force`; checks that every function referenced by a `choice_fn`, a generated static choice, or a meta tag is defined locally; and runs `bash -n` plus `argc --argc-export`.
+Assembly validates fragments, statuses, paths, duplicates, `choice_fn`/`choices`, descriptions, and root-only meta with actionable errors. It renders `SPEC`, generates `STATIC`, preserves `HINTS`/`CHOICES`, writes a standard header and final eval for a new file, refuses to overwrite without `--force`, checks every referenced function is defined locally, and runs `bash -n` plus `argc --argc-export`.
 
 A described `choices` item renders `[?`_static_*`]` (completion-only, like a `choice_fn`); all-empty descriptions keep `[a|b]`. The generated name is `_static_<fragment path without the root>_<long option or arg name>`, sanitized to `[A-Za-z0-9_]`; a root-level item has no path segment. A collision between two items, or with a function already defined outside `STATIC`, fails assembly and asks for a `choice_fn` binding.
 

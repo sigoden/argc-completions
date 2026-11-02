@@ -8,6 +8,8 @@ helper_init
 structure_md="$SKILL_DIR/references/generate-structure.md"
 
 assert_contains "structure batch compile reads" "$structure_md" "fragment-schema.md in one batch"
+assert_contains "structure preflight usage" "$structure_md" 'preflight.sh [<root>]'
+assert_contains "structure assemble usage" "$structure_md" 'assemble.sh <root> [-c <dir>]'
 assert_contains "structure no sleep poll" "$structure_md" "Do not poll a compile child"
 assert_contains "structure delete-cache full root" "$structure_md" "delete-cache.sh <root>"
 assert_contains "structure delete confirmation" "$structure_md" "Ask for confirmation"
@@ -27,6 +29,7 @@ assert_contains "structure context only three fields" "$structure_md" 'only nota
 assert_contains "structure context no-meta hash" "$structure_md" "Pass \`--no-meta\` to emit only \`HINTS\` and \`DIFF\`"
 assert_contains "structure failed fragment hash" "$structure_md" '"hash": ""'
 assert_contains "structure status derived by finalize" "$structure_md" 'only `<SKILL_ROOT>/scripts/finalize-cache.sh` writes it'
+assert_contains "structure manual spec hash mismatch" "$structure_md" 'manual `SPEC` edit to notation'
 assert_not_contains "structure no status update script" "$structure_md" "update-subcommand-status.sh"
 assert_contains "structure handoff explicit" "$structure_md" "handoff, not an automatic continuation"
 assert_contains "generate-structure handoff params" "$structure_md" "inspect-script-params.jq"
@@ -36,5 +39,8 @@ assert_contains "structure shared help missing is success" "$structure_md" "shar
 assert_not_contains "structure no reset-cache" "$structure_md" "reset-cache.sh"
 assert_not_contains "structure no subtree reset" "$structure_md" "subtree reset"
 assert_not_contains "structure no root txt" "$structure_md" "_root.txt"
+assert_not_contains "structure no hash framing" "$structure_md" "The hash input is"
+assert_not_contains "structure no hash body" "$structure_md" "The hash body includes"
+assert_not_contains "structure no validation list" "$structure_md" "stale fragments, duplicate sibling names"
 
 helper_finish

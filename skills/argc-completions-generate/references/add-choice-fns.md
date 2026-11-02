@@ -52,7 +52,7 @@ When one option is split across items (one name each), set `choice_fn` on **ever
 
 **Command-valued binding.** When the item's name or notation is a command-family token (`COMMAND`, `CMD`, `PROGRAM`, `PROG`, `EXEC`, `SCRIPT`, case-insensitive), or its description says it executes a command, and the completion needs the command plus its arguments, use the command recipes in `<SKILL_ROOT>/references/compgen-recipes.md`: §*Command in a terminated option* for an option (it copies the option array with a nameref), §*Command plus terminated args* when the command has a separate args parameter, and §*Command in a terminated positional* when one positional holds both. `_choice_command` completes the executable and `_choice_command_args` delegates with `_argc_util_comp_subcommand 0`. Set `terminated: true` on the same item when compile did not mark it and its `repeatable`, `prefixed`, and `delimiter` fields allow it; stop and report instead of overriding them. Leave `required` alone: a terminated arg renders `~` alone, so a required command positional stays `required: true` and needs no downgrade (`<SKILL_ROOT>/references/fragment-schema.md`). Then queue it for the §5 gate. Never fake the behavior with `repeatable` or a `delimiter`.
 
-Update the fragment with the tested helper. One call carries every binding for that fragment; the trailing `~` before the bracket sets `terminated: true`. It rejects flags, missing items, duplicate or overlapping bindings, and terminated conflicts, empties `choices`, and writes only after the whole batch validates:
+Update the fragment with the tested helper. One call carries every binding for that fragment; the trailing `~` before the bracket sets `terminated: true`. The script resolves and validates the whole batch atomically, writes only when every binding succeeds, and empties `choices` for bound items:
 
 ```sh
 fragment="<REPO_ROOT>/cache/compile/<root>/<...>.json"
@@ -72,10 +72,10 @@ Quote each binding with single quotes: inside double quotes the backticks run co
 ## 4. Function placement and naming
 
 - Put functions between `# >>> CHOICES` and `# <<< CHOICES`, before the final eval, with the single library source guard at the top of the block. An absent block means no dynamic functions: add the markers before writing the first function, because a definition outside the block fails `<SKILL_ROOT>/scripts/format-choices.sh`.
-- Only top-level `_choice_*`/`_helper_*` may appear there; the formatter renames every other name to `_helper_<name>` (leading underscores stripped). Sort by final name with `LC_ALL=C` (`_choice_*` first); doc comments immediately above a function move with it, block-level comments are separated by a blank line, and top-level declarations precede the first function.
-- Define `_choice_*` only in `CHOICES`; the `_static_` prefix belongs to the `STATIC` block that assembly generates. Name new functions `_choice_<param>`, or `_choice_<subcmd>_<param>` when the same param has different data or sources per subcommand. Reuse an existing function; duplicate definitions fail verify.
+- Only top-level `_choice_*`/`_helper_*` may appear there; the formatter renames every other name to `_helper_<name>` and sorts the block. Define `_choice_*` only in `CHOICES`; the `_static_` prefix belongs to the `STATIC` block that assembly generates.
+- Name new functions `_choice_<param>`, or `_choice_<subcmd>_<param>` when the same param has different data or sources per subcommand. Reuse an existing function; duplicate definitions fail verify.
 - Bind a local `_choice_<param>` wrapper instead of copying a helper into the script; put early returns, caching, and context handling in the wrapper.
-- Function bodies follow `<SKILL_ROOT>/references/compgen.md` §1–2 for output, context, and tool probes; the helper and recipe lookups in §2 *Helpers* are mandatory before writing one, `<SKILL_ROOT>/references/compgen.md` §5 is for reading a custom split, and `<SKILL_ROOT>/references/compgen-helpers.md` carries the helper mechanics.
+- Function bodies follow `<SKILL_ROOT>/references/compgen.md` §1–2 for output, context, and tool probes; the helper and recipe lookups in §2 *Helpers* are mandatory before writing one, and `<SKILL_ROOT>/references/compgen.md` §5 is for reading a custom split.
 - A choice function must be callable from the script's top level; do not rely on a command function having run.
 
 ## 5. Batch, assemble, test

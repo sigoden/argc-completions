@@ -7,11 +7,20 @@ helper_init
 
 verify_md="$SKILL_DIR/references/verify.md"
 
-assert_contains "verify static reserved prefix" "$verify_md" "reserved prefix"
+assert_contains "verify static reserved prefix" "$verify_md" 'reserved for `STATIC`'
 assert_contains "verify docs format script" "$verify_md" "format-choices.sh"
-assert_contains "verify cache hygiene json only" "$verify_md" 'every file must be a fragment (`.json`)'
-assert_contains "verify cache hygiene rejects txt" "$verify_md" 'Any `.txt`'
-assert_contains "verify hash rule" "$verify_md" "64 lowercase hex"
+assert_contains "verify usage cmd override" "$verify_md" "--cmd <name>"
+assert_contains "verify usage no-strict" "$verify_md" "--no-strict"
+assert_contains "verify cache hygiene json only" "$verify_md" 'non-`.json` files'
+assert_contains "verify cache hygiene rejects txt" "$verify_md" '`.txt`'
+assert_contains "verify hash rule" "$verify_md" 'invalid `hash` or `source.command`'
 assert_contains "verify provenance source command" "$verify_md" 'source.command` equals its parent'
+assert_contains "verify hints comments only" "$verify_md" '`HINTS` is comment/blank lines only'
+assert_contains "verify spec no choice defs" "$verify_md" '`SPEC` contains no `_choice_*` definitions'
+assert_contains "verify tag signature backticks" "$verify_md" 'only the tag signature (before two or more spaces) counts for backticks'
+assert_contains "verify root-only meta placement" "$verify_md" 'before the first `# {{` marker'
+assert_contains "verify choice fn defined" "$verify_md" 'must name a function defined in the script'
+assert_contains "verify util source guard" "$verify_md" '`_argc_util_*` is allowed when the script sources'
+assert_not_contains "verify no compgen limits" "$verify_md" "up to 30, 5s timeout"
 
 helper_finish

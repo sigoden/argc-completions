@@ -40,7 +40,8 @@ Options:
   --help-file <file>   Reuse a captured help file instead of running the command
   -h, --help           Show this help
 
-Exit 2 on an invalid source.command, 3 when help is unavailable.
+Prints the 64-character hash to stdout. Exit 2 on an invalid source.command,
+3 when help is unavailable.
 USAGE
 }
 

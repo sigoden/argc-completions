@@ -26,7 +26,8 @@ Usage: assemble.sh <root> [options]
 
 Options:
   -c, --cache-dir <dir>   Fragment/cache directory (default: <REPO_ROOT>/cache/compile/<root>)
-  -o, --output <file>     Output completion script
+  -o, --output <file>     Output completion script (default: existing completion,
+                          else <REPO_ROOT>/completions/<root>.sh)
       --context <file>    Source completion script (default: output when it exists)
       --check             Compare with the existing output, do not write
       --stdout            Print the complete script to stdout
