@@ -7,6 +7,10 @@ LIB_DIR="$(cd -P "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 REPO_ROOT="$(cd -P "$LIB_DIR/../../.." && pwd -P)"
 export PATH="$REPO_ROOT/bin:$PATH"
 
+# Bump when the fragment schema, compile semantics, hash framing, or help
+# canonicalization changes; every cache hash includes this value.
+SKILL_CACHE_VERSION="v2"
+
 log_info() {
     if [[ "${VERBOSE:-0}" -eq 1 ]]; then
         printf '[info] %s\n' "$*" >&2
@@ -110,6 +114,61 @@ require_cmd() {
     fi
 }
 
+# A source.command is a space-separated token string; it is executed through
+# an argv array, never through eval or a shell. The `help` builtin needs a fixed
+# wrapper and exactly one argument.
+source_command_ok() {
+    local command="$1"
+    local -a argv=()
+    [[ "$command" =~ ^[A-Za-z0-9_.+:@/-]+( [A-Za-z0-9_.+:@/-]+)*$ ]] || return 1
+    read -r -a argv <<<"$command"
+    [[ ${#argv[@]} -gt 0 ]] || return 1
+    if [[ "${argv[0]}" == "help" ]]; then
+        [[ ${#argv[@]} -eq 2 ]] || return 1
+    fi
+    return 0
+}
+
+# Run source.command with the fixed help environment and a timeout.
+# Usage: capture_source_command <output-file> <timeout-seconds> <command>
+# Returns 2 for an unsafe/malformed command; otherwise the command status.
+capture_source_command() {
+    local output="$1" seconds="$2" command="$3"
+    local -a argv=()
+    source_command_ok "$command" || return 2
+    read -r -a argv <<<"$command"
+    if [[ "${argv[0]}" == "help" ]]; then
+        capture_help "$output" "$seconds" bash -c 'help "$1"' _ "${argv[1]}"
+    else
+        capture_help "$output" "$seconds" "${argv[@]}"
+    fi
+}
+
+require_sha256() {
+    if command -v sha256sum >/dev/null 2>&1 \
+        || command -v shasum >/dev/null 2>&1 \
+        || command -v openssl >/dev/null 2>&1; then
+        return 0
+    fi
+    die "missing dependency: sha256sum, shasum, or openssl"
+}
+
+# Print the lowercase hex SHA-256 of stdin.
+sha256_hex() {
+    local output
+    require_sha256
+    if command -v sha256sum >/dev/null 2>&1; then
+        output="$(sha256sum)"
+    elif command -v shasum >/dev/null 2>&1; then
+        output="$(shasum -a 256)"
+    else
+        output="$(openssl dgst -sha256)"
+    fi
+    output="$(printf '%s\n' "$output" | grep -oE '[0-9a-f]{64}' | head -n 1 || true)"
+    [[ -n "$output" ]] || die "failed to parse sha256 output"
+    printf '%s\n' "$output"
+}
+
 require_pipeline_tools() {
     require_cmd argc "run $REPO_ROOT/install.sh"
     require_cmd jq "run $REPO_ROOT/install.sh"
@@ -211,8 +270,8 @@ canonicalize_help() {
 
 canonicalize_help_file() {
     local input="$1" output="$2"
-    # The compile contract writes .txt help targets; reject a mistaken command
-    # name such as `tree` before it creates a stray file.
+    # Help files live in a temporary directory and keep the .txt suffix; reject
+    # a mistaken command name such as `tree` before it creates a stray file.
     case "$output" in
         *.txt) ;;
         *)

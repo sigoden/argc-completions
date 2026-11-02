@@ -10,7 +10,7 @@ fragment_description_check() {
     local label="$1" want="$2" desc="$3" needle="${4:-}" frag err
     frag="$TMP_DIR/desc-$(printf '%s' "$label" | cksum | cut -d' ' -f1).json"
     err="$frag.err"
-    jq -n --arg d "$desc" '{schemaVersion: 1, path: ["demo"], description: $d, aliases: [], meta: [], items: [], subcommands: [], source: {kind: "none"}, notes: ""}' >"$frag"
+    jq -n --arg d "$desc" '{schemaVersion: 1, path: ["demo"], description: $d, aliases: [], meta: [], items: [], subcommands: [], source: {kind: "none"}, hash: "", notes: ""}' >"$frag"
     if jq -e -f "$SCRIPTS/validate-fragment.jq" --arg key demo "$frag" >/dev/null 2>"$err"; then
         if [[ "$want" == ok ]]; then pass "$label"; else fail "$label (unexpected accept)"; fi
     elif [[ "$want" == reject ]] && { [[ -z "$needle" ]] || grep -Fq -- "$needle" "$err"; }; then

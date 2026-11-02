@@ -1,6 +1,6 @@
-# Generate-structure and regenerate workflow
+# Generate-structure workflow
 
-Generate-structure turns help/man text into JSON fragments and rebuilds only the `SPEC` block via `<SKILL_ROOT>/scripts/assemble.sh`; regenerate is the same with a cache reset. Write scope is in §2, assembly in §7, and handoff in §8.
+Generate-structure turns help/man text into JSON fragments and rebuilds only the `SPEC` block via `<SKILL_ROOT>/scripts/assemble.sh`. It reuses the existing compile queue: before each node is dispatched, one `<SKILL_ROOT>/scripts/check-fragment.sh` call decides whether the fragment is still valid. Write scope is in §2, dispatch detection in §3, assembly in §8, and handoff in §9.
 
 ## 1. Preflight
 
@@ -8,92 +8,95 @@ Generate-structure turns help/man text into JSON fragments and rebuilds only the
 bash <SKILL_ROOT>/scripts/preflight.sh <root> [--output <file>] [--completion <file>]
 ```
 
-It prints absolute `key=value` lines; the values used below are `existing`, `blocks`, `cache_dir`, `completion_file`, `os`, and `root_help_exists`.
+It prints absolute `key=value` lines; the values used below are `existing`, `blocks`, `cache_dir`, `completion_file`, `os`, `cache_exists`, `root_fragment_exists`, and `cache_version`.
 
 - `<root>` is required here.
-- It does not create `<REPO_ROOT>/cache/compile/<root>`.
+- It does not create `<REPO_ROOT>/cache/compile/<root>`; create it after preflight with `mkdir -p "$cache_dir"`.
 - It already runs `require_pipeline_tools` and checks `command -v <root>`; both checks are already done, and the compile child alone fetches `--help`/`--version`.
-- Do not inspect `<REPO_ROOT>/completions/` or `<REPO_ROOT>/cache/compile/` with `ls`/`tree`: both directories grow without bound, and `preflight` reports `existing`/`completion_file`/`blocks`/`cache_dir`/`root_fragment`/`root_help`, and `command -v` answers tool availability.
+- Do not inspect `<REPO_ROOT>/completions/` or `<REPO_ROOT>/cache/compile/` with `ls`/`tree`: both directories grow without bound, and `preflight` reports `existing`/`completion_file`/`blocks`/`cache_dir`/`root_fragment`/`cache_exists`/`root_fragment_exists`/`cache_version`, and `command -v` answers tool availability.
 - `existing=0` and `blocks=missing` mean no script yet: skip context extraction and pass empty context. `blocks=legacy` means no block markers; assemble can migrate once.
 - Prefer `<REPO_ROOT>/completions/<os>/<root>.sh` when it already exists, otherwise the common path.
+- `root_fragment_exists=0` means this is a first generation, including `cache_exists=0` and an empty cache recreated by `<SKILL_ROOT>/scripts/delete-cache.sh`. In that case skip §3 entirely and compile the root plus every returned child without calling `<SKILL_ROOT>/scripts/check-fragment.sh`; there is no fragment to check and `missing` would be the answer for every node. `root_fragment_exists=1` with `cache_version=1` means the root fragment exists and the per-node check applies. A fragment without `hash` is invalid under the current schema and is recompiled, not migrated.
 
-Create the cache directory after preflight (regenerate creates it in §2):
+## 2. Cache layout, hashes, and regeneration
 
-```sh
-mkdir -p "$cache_dir"
-```
-
-## 2. Cache, reset, and the root help probe
-
-Fragments and canonical help text live under `<REPO_ROOT>/cache/compile/<root>/`:
+Fragments live under `<REPO_ROOT>/cache/compile/<root>/` and nothing else belongs there:
 
 ```text
 <REPO_ROOT>/cache/compile/<root>/_root.json           root fragment
-<REPO_ROOT>/cache/compile/<root>/_root.txt            canonical root help (cache key)
-<REPO_ROOT>/cache/compile/<root>/_root.new.txt        fresh root help during the probe (removed after)
 <REPO_ROOT>/cache/compile/<root>/<sub>.json           first-level fragment
-<REPO_ROOT>/cache/compile/<root>/<sub>.txt            its canonical help
 <REPO_ROOT>/cache/compile/<root>/<sub>/<nested>.json  nested fragment
 ```
 
-That list is exhaustive: a capture or probe dump lives outside the directory, and `_root.new.txt` exists only while a root probe runs (`<SKILL_ROOT>/agents/compile.md` §1–§2).
+That list is exhaustive. Help text, canonical text, and parent-page comparison files live in a temporary directory outside the cache and are deleted after use; `_root.new.txt` and every other `.txt` are no longer written. The compile child writes only its fragment, and a `.txt` left in the cache is a hygiene failure in verify.
 
-Each command node has one fragment. A parent lists its children in `subcommands`, each with a `status` of `todo`, `succeeded`, or `failed`; `todo` blocks assembly, `failed` needs a minimal fragment and warns. A child's `.txt` is normally its own help, but a shared-help node may write the parent page verbatim (`<SKILL_ROOT>/agents/compile.md` §3.13): an identical parent and child `.txt` is expected there, not a corrupt cache key. This is the only supported fragment directory: only `<REPO_ROOT>/cache/compile/<root>/` is writable, and other cache subdirectories belong to other workflows. Assembly may migrate a legacy tail once, after which run `<SKILL_ROOT>/scripts/format-choices.sh <completion.sh>` before verify.
+Every fragment carries a top-level `hash`:
 
-### Reset (regenerate only)
+- `source.kind` is `help` or `man`: `source.command` records the exact command that produced the canonical help text, and `hash` is its 64-character lowercase SHA-256.
+- `source.kind` is `none`: `hash` is `""`, and `source.command` is absent.
+- The hash input is `"argc-completions-generate" NUL SKILL_CACHE_VERSION NUL context_body NUL canonical_help_bytes`. `context_body` is `<SKILL_ROOT>/scripts/extract-cmd-context.sh --no-meta` output for the path: the `HINTS` body plus the `DIFF` section, without `META`; `canonical_help_bytes` is the full canonical help of `source.command`.
+- `SKILL_CACHE_VERSION` lives in `<SKILL_ROOT>/scripts/lib.sh`; bump it when the fragment schema, compile semantics, hash framing, or help canonicalization changes. It is the only global invalidation mechanism.
+- The hash does not include `meta`, `choice_fn`, `description`, `aliases`, the node path, or `source.section` as standalone fields. A `choice_fn`, notation, or terminated value reaches it only through the `DIFF` section, so a manual `SPEC` edit invalidates the node while an in-sync script does not.
+- The schema rules, including the safe-token contract for `source.command`, are in `<SKILL_ROOT>/references/fragment-schema.md`.
 
-Run it after preflight, before any compile child. It prints `key=value` lines; parse `mode`, `path`, `cache_dir`, `fragment`, `help`, and `parent_fragment`.
+### Cache-first rule
 
-```sh
-bash <SKILL_ROOT>/scripts/reset-cache.sh <root>              # full reset
-bash <SKILL_ROOT>/scripts/reset-cache.sh <root> <sub...>     # subtree reset
-```
+Never dispatch a compile subagent for a node that `<SKILL_ROOT>/scripts/check-fragment.sh` reports as `hit`, `unverified`, or `failed`. Only a successfully recomputed hash that differs, an invalid new-schema fragment, or a missing fragment proves cache invalidation. A help command that fails or times out leaves the old fragment in place as `unverified`.
 
-A subtree reset deletes the target and its descendants and sets the parent entry to `todo`; a full reset clears the root cache. Ignore a pre-reset `root_help_exists=1`; remove cache entries only through the script. A reset is cache-only, with no backup.
+### Regenerate intent
 
-A subtree reset accepts canonical names only; an alias fails with the canonical name in the error, so re-run with it. Use a full reset when parent metadata (`description`, `aliases`) or the subcommand set changes.
+There is no regenerate workflow and no root probe. When the user asks to regenerate, rebuild, re-crawl, refresh, or start from scratch:
 
-The completion script is not deleted: `HINTS` and `CHOICES` are preserved and existing `choice_fn` bindings are inherited from it.
-
-### Probe and orchestrator actions
-
-A full `regenerate` starts empty and the root child reports `cache=new`; `hit`/`miss` means the reset failed: stop and re-run `<SKILL_ROOT>/scripts/reset-cache.sh` before assembling. Recompile every node: no `succeeded` fragment is reused, and assembly follows only after every node compiles from fresh help.
-
-A subtree `regenerate` skips the root probe: the target is dispatched directly with `cache=n/a`; siblings keep their status and fragments. Extract context only when `existing=1`, dispatch one child, validate it, set the parent entry to `succeeded`, then process the target's `subcommands` breadth-first with the normal queue, retry, and depth limits.
-
-The root child probes per `<SKILL_ROOT>/agents/compile.md` §2 and reports `cache` plus the subcommand summary. `<REPO_ROOT>/cache/compile/<root>/_root.txt` is the cache key: `<SKILL_ROOT>/scripts/compare-help.sh` canonicalizes both files; everything else must match byte-for-byte. Keep `_root.txt` unchanged on a hit.
-
-Orchestrator actions:
-
-- `hit`: reuse every valid `succeeded` fragment, enqueue `todo` nodes only, and report `failed` warnings. A hit does not migrate fragments after a schema change; run `regenerate`.
-- `miss`: the fresh `_root.json` and `_root.txt` are the root input. Delete every other entry:
-
-  ```sh
-  find "$cache_dir" -mindepth 1 -maxdepth 1 \
-    ! -name '_root.json' ! -name '_root.txt' ! -name '_root.new.txt' -exec rm -rf {} +
-  ```
-
-  Then enqueue every subcommand from the new root fragment.
-- `new`: compile the whole tree.
-- `unknown`: stop and report without assembling.
-
-## 3. Validate fragments
-
-Validate every fragment:
+1. Warn that the whole `<root>` cache will be deleted, that every node will be recompiled (time and tokens), that manual fragment corrections are lost, and that `<REPO_ROOT>/completions/<root>.sh` survives with its `HINTS`/`CHOICES` and the existing notation, `choice_fn`, and terminated preferences recovered from `SPEC`.
+2. Ask for confirmation. If the user declines, stop without changing anything.
+3. On confirmation, run:
 
 ```sh
-jq -e -f <SKILL_ROOT>/scripts/validate-fragment.jq --arg key '<root>' <REPO_ROOT>/cache/compile/<root>/_root.json
-jq -e -f <SKILL_ROOT>/scripts/validate-fragment.jq --arg key '<root>|<sub>' <REPO_ROOT>/cache/compile/<root>/<sub>.json
+bash <SKILL_ROOT>/scripts/delete-cache.sh <root>
 ```
 
-Build the key from the fragment `path` (`<SKILL_ROOT>/references/fragment-schema.md`). A rejection mentioning `one-character short name` means two names argc cannot accept: split into one item per name. The validator rejects unknown item fields, so an older-schema fragment must be recompiled.
+`<SKILL_ROOT>/scripts/delete-cache.sh` accepts only a full root, never a subpath or `..`, and recreates the cache directory empty. A named subpath (`regenerate git add`) still deletes the entire `git` cache; subtree-only deletion is not supported and the user must be told so. After deletion, re-run preflight if the completion path is unclear, then continue with the first-generation flow from §3 onward.
+
+## 3. Check each node before dispatch
+
+Skip this entire section for a first generation (`root_fragment_exists=0`): there is no cache to check, so dispatch every node directly from §5. For an existing cache, the queue is the recursion mechanism; there is no separate tree scanner. For each pending canonical path, run:
+
+```sh
+bash <SKILL_ROOT>/scripts/check-fragment.sh "$root" "${subs[@]}" \
+  --cache-dir "$cache_dir" [--completion "$completion_file"]
+```
+
+It prints one line such as:
+
+```text
+path=git add status=hit hash=<64-hex>
+path=git remote status=invalid reason=hash-mismatch
+path=foo status=missing
+path=demo status=failed hash=
+path=bar status=unverified reason=help-unavailable
+```
+
+| Status | Action |
+|---|---|
+| `hit` | Do not dispatch. Read the existing fragment's `subcommands` and enqueue all of them. |
+| `unverified` | Do not dispatch. Reuse the fragment, keep a warning, and enqueue all declared subcommands. |
+| `failed` | Do not dispatch. Reuse the minimal `source.kind: none` fragment, keep a warning, and enqueue its declared subcommands. |
+| `invalid` | Dispatch a compile child. `reason=hash-mismatch` is a proven cache miss; `reason=schema` means the fragment must be recompiled under the new schema. |
+| `missing` | Dispatch a compile child. |
+
+- For a reused fragment (`hit`, `unverified`, or `failed`), update its parent entry with `<SKILL_ROOT>/scripts/update-subcommand-status.sh` (`succeeded` for `help`/`man`, `failed` for `none`) before enqueueing its declared children. `<SKILL_ROOT>/scripts/finalize-cache.sh` repeats this mechanically after the queue, so a missed update is repaired rather than silently shipped.
+- Queue deduplication uses the canonical path; an alias is never a queue entry.
+- Every child is checked independently. There is no cross-node help-output cache; a shared page such as `man tmux` may be executed once per node that needs it.
+- The only invalidation signal is the hash comparison. The hash body includes the context `DIFF`, so a manual `SPEC` edit to notation, `choice_fn`, or `terminated` is an ordinary `hash-mismatch`; it is not a separate invalidation signal. Failure to obtain help is `unverified`, not a reason to recompile.
+- Never migrate an old fragment: a missing `hash`, a missing `source.command`, or a non-empty hash on `source.kind: none` is `invalid` and is recompiled from scratch.
 
 ## 4. Extract context for a node
 
 Run only when preflight reported `existing=1`; with `existing=0` skip the call and pass empty context. For each command path:
 
 ```sh
-bash <SKILL_ROOT>/scripts/extract-cmd-context.sh <path...> --completion <completion_file>
+bash <SKILL_ROOT>/scripts/extract-cmd-context.sh <path...> \
+  --completion <completion_file> --cache-dir <cache_dir>
 ```
 
 A missing script prints empty output. The format is fixed:
@@ -107,13 +110,18 @@ A missing script prints empty output. The format is fixed:
 # - prompt for demo remote
 # <<< HINTS
 
-# >>> BINDINGS
-# @option --foo[`_choice_foo`] <VALUE>  Foo description with `backticks`
-# @arg v1[`_choice_val`]
-# <<< BINDINGS
+# >>> DIFF
+# @option --foo
+#   notation: <VALUE> => <LEVEL>
+#   choice_fn: _choice_old => _choice_new
+# @arg v1
+#   choice_fn: (none) => _choice_val
+# <<< DIFF
 ```
 
-`META` is the command block's `@meta` lines; `HINTS` is the comment text after `# %%<path>`; `BINDINGS` contains only tags whose **signature** (before two or more spaces) has a backtick. Empty sections still print their markers; pass the output unchanged. A signature may also carry a `~` after the names; it is structural, and the child must keep `terminated: true` on that item.
+`META` is the command block's `@meta` lines; `HINTS` is the comment text after `# %%<path>`; `DIFF` compares the command block's `@option`/`@arg` tags with the baseline fragment and reports only notation, `choice_fn`, and terminated changes. The left side is the fragment, the right side is the current script, and the right side is what the child applies to the new fragment. When a baseline fragment exists, items added, removed, or renamed by the new help produce no row: their structure comes from the new help. A missing baseline lists every script item instead, and the child applies a row only when the new help still produces that key. `[?`_static_*`]` is assembly-generated and is not a `choice_fn` change; static `[a|b]` choices are not diffed.
+
+`<SKILL_ROOT>/scripts/extract-cmd-context.sh` reads the baseline fragment from `--fragment` when given, otherwise from `--cache-dir`. A missing fragment is an empty baseline, so a full regenerate recovers every notation/`choice_fn`/terminated preference from `SPEC` as `(none) => ...`. Pass `--no-meta` to emit only `HINTS` and `DIFF`; that output is the cache hash body. Empty sections still print their markers; pass the output unchanged. A `~` in a tag is structural and reaches `DIFF` as a `terminated` row. For these three fields the script is the desired state: after editing a fragment directly, run assembly before the next generate-structure, otherwise the `DIFF` sends the fragment back to the script's values. A bare `<SKILL_ROOT>/scripts/assemble.sh` run does not read this context, so a direct `SPEC` edit is captured only through generate-structure (or `all`).
 
 ## 5. Dispatch compile subagents
 
@@ -126,17 +134,21 @@ Read <SKILL_ROOT>/agents/compile.md and <SKILL_ROOT>/references/fragment-schema.
 Command path: demo remote add
 Cache directory: <REPO_ROOT>/cache/compile/demo
 Fragment target: <REPO_ROOT>/cache/compile/demo/remote/add.json
+Completion script: <REPO_ROOT>/completions/demo.sh
+Parent help command: demo remote --help
 Context:
 <context text, or "(empty)" for a new command>
 ```
 
-Replace `<SKILL_ROOT>` and `<REPO_ROOT>` with absolute paths before dispatch, so no angle-bracket placeholder reaches the child. Use `Context: (empty)` or omit the block when empty. Send only those fields; the child reads both contract files itself.
+Replace `<SKILL_ROOT>` and `<REPO_ROOT>` with absolute paths before dispatch, so no angle-bracket placeholder reaches the child. Use `Completion script: (none)` when preflight reports `existing=0`, and `Parent help command: (none)` for the root or when the parent fragment has no `source.command`. Use `Context: (empty)` or omit the block when empty. Send only those fields; the child reads both contract files itself.
 
-The child writes the fragment and `.txt`, returns the summary JSON, and handles exactly one node; it does not update the parent. Consume only `cache`, `status`, `warnings`, and `subcommands[]`. If subagents are unavailable, follow `<SKILL_ROOT>/agents/compile.md` inline.
+The child writes the fragment, returns the summary JSON, and handles exactly one node; it does not update the parent and does not write `.txt`. Consume only `status`, `warnings`, `source`, and `subcommands[]`. If subagents are unavailable, follow `<SKILL_ROOT>/agents/compile.md` inline.
 
-For workflow `all`, dispatch the root child in the background. Read the binding references (`<SKILL_ROOT>/references/add-choice-fns.md` and the `<SKILL_ROOT>/references/compgen*.md` files) only once §8 reports `next=add-choice-fns`, not while the child runs. Keep every node's `warnings` verbatim and collect them across nodes; `<SKILL_ROOT>/references/add-choice-fns.md` §2 matches them by tag, so the binding pass runs once after the final assembly, never per node. Do not poll a compile child with `sleep`, `ls`, or `test -f` on the cache; the runtime delivers its closing message and a completion notice, and until it arrives, do nothing that depends on the fragment.
+For workflow `all`, dispatch the root child in the background. Read the binding references (`<SKILL_ROOT>/references/add-choice-fns.md` and the `<SKILL_ROOT>/references/compgen*.md` files) only once §9 reports `next=add-choice-fns`, not while the child runs. Keep every node's `warnings` verbatim and collect them across nodes; `<SKILL_ROOT>/references/add-choice-fns.md` §2 matches them by tag, so the binding pass runs once after the final assembly, never per node. Do not poll a compile child with `sleep`, `ls`, or `test -f` on the cache; the runtime delivers its closing message and a completion notice, and until it arrives, do nothing that depends on the fragment.
 
-## 6. Update status and handle node failures
+## 6. Queue, recursion, and node failures
+
+Start by enqueueing the root path. Process the queue breadth-first with 4-6 concurrent compile subagents, depth 6, and a 200-node limit; these defaults are unchanged.
 
 After each child result, validate the fragment, then update the parent:
 
@@ -146,20 +158,43 @@ bash <SKILL_ROOT>/scripts/update-subcommand-status.sh "$parent" <name> <status> 
 
 Pass every finished node as `<name> <status>` pairs. The read, the write, and the rename happen under one lock, so concurrent updates cannot drop a status and a batch is atomic. An undeclared name (an alias is not a name) or an unknown status writes nothing and exits non-zero.
 
-The same update applies to a subtree reset: `parent` is the target's parent fragment (for example `<REPO_ROOT>/cache/compile/<root>/remote.json` for `git remote add`).
+After the fragment is validated, enqueue **every** path in its `subcommands`, not only the ones whose status is `todo`. On a first generation (`root_fragment_exists=0`), dispatch every enqueued child directly, with no `<SKILL_ROOT>/scripts/check-fragment.sh` call. For an existing cache, each child gets its own check:
+
+- A hit or unverified parent enqueues every declared child as well, so an unchanged tree is still checked node by node.
+- A recompiled parent enqueues the children from the new fragment. Children that already exist and whose hash matches are reused; new children are checked; an undeclared old fragment is not enqueued and is removed by finalize.
+- A removed child is not enqueued, and finalize prunes its fragment. Adding the same child back later compiles it again unless its fragment was preserved outside finalize.
+- Deduplicate by canonical path; aliases are not queue entries.
+
+Failure handling:
 
 - Retry a failed node once with the error text appended to the prompt.
 - A node that warns `shared-help-missing` is `succeeded` with `items: []`: keep it, do not retry, and never set the parent status to `failed` (`<SKILL_ROOT>/agents/compile.md` §3.13). Its `shared-help` warning is informational and needs no action.
-- If it still fails and leaves no fragment, write the minimal failed fragment and set the parent status to `failed`:
+- If it still fails and leaves no fragment, write the minimal failed fragment with an empty hash and set the parent status to `failed`:
 
   ```json
-  {"schemaVersion": 1, "path": ["demo", "remote", "add"], "description": "", "aliases": [], "meta": [], "items": [], "subcommands": [], "source": {"kind": "none"}, "notes": "help unavailable"}
+  {"schemaVersion": 1, "path": ["demo", "remote", "add"], "description": "", "aliases": [], "meta": [], "items": [], "subcommands": [], "source": {"kind": "none"}, "hash": "", "notes": "help unavailable"}
   ```
 - If a fragment exists but its parent status is `todo`, validate it and mark it `succeeded`.
-- Deduplicate by canonical path; aliases are not queue entries.
-- Defaults: 4-6 concurrent compile subagents, depth 6, 200 nodes.
+- A `source.kind: none` fragment is reported as `failed` and is not retried automatically; only a confirmed full-root cache deletion (or removing that fragment) recompiles it.
 
-## 7. Assemble
+## 7. Finalize and prune
+
+After the queue is empty and before assembly, run:
+
+```sh
+bash <SKILL_ROOT>/scripts/finalize-cache.sh <root> --cache-dir "$cache_dir"
+```
+
+It validates every declared fragment first, refusing to change anything if a declared fragment is invalid. Then it:
+
+- copies each child's `description` and `aliases` from the parent `subcommands[]` entry (these fields are not part of the hash);
+- sets the parent entry status from the child fragment: `source.kind: none` -> `failed`, `help`/`man` -> `succeeded`, missing fragment -> `todo`;
+- deletes `.json` fragments that the current tree no longer declares, plus directories left empty;
+- leaves old `.txt` files untouched (migration is out of scope; verify will reject them).
+
+It prints `synced=<n> removed=<n>`. Assembly continues only when no node is `todo`.
+
+## 8. Assemble
 
 Run assembly only when no node is `todo`:
 
@@ -191,9 +226,9 @@ A described `choices` item renders `[?`_static_*`]` (completion-only, like a `ch
 
 Within each command block the tag order is `@describe`/`@cmd` -> `@alias` -> `@meta` -> `@flag`/`@option` -> `@arg`. Assembly owns the output order: a fragment keeps the help order, assembly renders every flag/option first (in that order) and every arg after them (also in that order), so a fragment that lists an arg among the options still renders the canonical order, and a `_static_*` function moves with its item.
 
-`SPEC` must contain no `_choice_*` definitions; a new script also has no non-generated completion references, an empty `HINTS` block, and no `STATIC`/`CHOICES` block at all.
+`SPEC` must contain no `_choice_*` definitions; a new script also has no non-generated completion references, an empty `HINTS` block, and no `STATIC`/`CHOICES` block at all. The fragment `hash` is ignored by assembly.
 
-## 8. Verify and hand off
+## 9. Verify and hand off
 
 ```sh
 bash <SKILL_ROOT>/scripts/verify-completion.sh <REPO_ROOT>/completions/<root>.sh --cache-dir <REPO_ROOT>/cache/compile/<root>
@@ -205,6 +240,6 @@ After a PASS, review fragments and exported parameters for `next=`; the review l
 
 Apply the `next=` criterion in `<SKILL_ROOT>/SKILL.md` §Reporting. Add no bindings here. `next=add-choice-fns` is a handoff, not an automatic continuation: a standalone run stops here; `all` proceeds.
 
-## 9. Failure handling
+## 10. Failure handling
 
-On failure, read `<SKILL_ROOT>/references/troubleshooting.md`; fix the symptom in §Generate and assemble or §Cache and regenerate, then re-run assembly and verification.
+On failure, read `<SKILL_ROOT>/references/troubleshooting.md`; fix the symptom in §Generate and assemble or §Cache and hash validation, then re-run finalize, assembly, and verification.

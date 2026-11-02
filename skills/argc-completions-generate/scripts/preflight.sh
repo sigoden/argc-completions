@@ -115,11 +115,20 @@ fi
 
 cache_dir="$REPO_ROOT/cache/compile/$root"
 root_fragment="$cache_dir/_root.json"
-root_help="$cache_dir/_root.txt"
 
-root_help_exists=0
-if [[ -f "$root_help" ]]; then
-    root_help_exists=1
+cache_exists=0
+if [[ -d "$cache_dir" ]]; then
+    cache_exists=1
+fi
+
+root_fragment_exists=0
+if [[ -f "$root_fragment" ]]; then
+    root_fragment_exists=1
+fi
+
+cache_version=""
+if [[ "$root_fragment_exists" -eq 1 ]]; then
+    cache_version="$(jq -r '.schemaVersion // empty' "$root_fragment" 2>/dev/null || true)"
 fi
 
 blocks="missing"
@@ -145,7 +154,8 @@ printf 'other_completion_file=%s\n' "$other_completion_file"
 printf 'output_file=%s\n' "$output_file"
 printf 'cache_dir=%s\n' "$cache_dir"
 printf 'root_fragment=%s\n' "$root_fragment"
-printf 'root_help=%s\n' "$root_help"
-printf 'root_help_exists=%s\n' "$root_help_exists"
+printf 'cache_exists=%s\n' "$cache_exists"
+printf 'root_fragment_exists=%s\n' "$root_fragment_exists"
+printf 'cache_version=%s\n' "$cache_version"
 printf 'blocks=%s\n' "$blocks"
 printf 'prompt_region=%s\n' "$prompt_region"

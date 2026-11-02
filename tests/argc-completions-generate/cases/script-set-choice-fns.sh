@@ -41,7 +41,7 @@ scf_split="$scf_dir/split.json"
 jq -n '{schemaVersion:1,path:["demo","remote","add"],description:"",aliases:[],meta:[],items:[
   {kind:"option",names:["--eval-command"],notations:["<COMMAND>"],choices:[],choice_fn:null,repeatable:false,prefixed:false,delimiter:null,description:"Eval"},
   {kind:"option",names:["-ex"],notations:["<COMMAND>"],choices:[],choice_fn:null,repeatable:false,prefixed:false,delimiter:null,description:"Eval"}
-],subcommands:[],source:{kind:"none"},notes:""}' >"$scf_split"
+],subcommands:[],source:{kind:"none"},hash:"",notes:""}' >"$scf_split"
 check "set-choice-fns split option" bash "$scf_script" "$scf_split" \
     '--eval-command[`_choice_value`]' '-ex[`_choice_value`]'
 check "set-choice-fns split first" test "$(jq -r '.items[] | select(.names | index("--eval-command")) | .choice_fn' "$scf_split")" = _choice_value
@@ -80,14 +80,14 @@ check "set-choice-fns atomic batch leaves fragment unchanged" cmp -s "$scf_dir/_
 scf_term="$scf_dir/terminated.json"
 jq -n '{schemaVersion:1,path:["demo"],description:"",aliases:[],meta:[],items:[
   {kind:"option",names:["--command"],notations:["<COMMAND>"],choices:[],choice_fn:null,repeatable:false,prefixed:false,delimiter:null,description:"Command"}
-],subcommands:[],source:{kind:"none"},notes:""}' >"$scf_term"
+],subcommands:[],source:{kind:"none"},hash:"",notes:""}' >"$scf_term"
 check "set-choice-fns terminated" bash "$scf_script" "$scf_term" '--command~[`_choice_command_args`]'
 check "set-choice-fns terminated field" test "$(jq -r '.items[0].terminated' "$scf_term")" = true
 
 scf_term_bad="$scf_dir/terminated-bad.json"
 jq -n '{schemaVersion:1,path:["demo"],description:"",aliases:[],meta:[],items:[
   {kind:"option",names:["--command"],notations:["<COMMAND>"],choices:[],choice_fn:null,repeatable:true,prefixed:false,delimiter:null,description:"Command"}
-],subcommands:[],source:{kind:"none"},notes:""}' >"$scf_term_bad"
+],subcommands:[],source:{kind:"none"},hash:"",notes:""}' >"$scf_term_bad"
 cp "$scf_term_bad" "$TMP_DIR/set-choice-before.json"
 expect_failure "set-choice-fns rejects terminated conflict" bash "$scf_script" "$scf_term_bad" '--command~[`_choice_command_args`]'
 check "set-choice-fns terminated conflict leaves fragment unchanged" cmp -s "$scf_term_bad" "$TMP_DIR/set-choice-before.json"
@@ -95,7 +95,7 @@ check "set-choice-fns terminated conflict leaves fragment unchanged" cmp -s "$sc
 scf_invalid="$scf_dir/invalid.json"
 jq -n '{schemaVersion:1,path:["demo"],description:"",aliases:[],meta:[],items:[
   {kind:"option",names:["--output"],notations:["<FILE>"],choices:[],choice_fn:null,repeatable:false,prefixed:false,delimiter:null,description:"Out",value_type:"file"}
-],subcommands:[],source:{kind:"none"},notes:""}' >"$scf_invalid"
+],subcommands:[],source:{kind:"none"},hash:"",notes:""}' >"$scf_invalid"
 cp "$scf_invalid" "$TMP_DIR/set-choice-before.json"
 expect_failure "set-choice-fns validates before write" bash "$scf_script" "$scf_invalid" '--output[`_choice_out`]'
 check "set-choice-fns validation leaves fragment unchanged" cmp -s "$scf_invalid" "$TMP_DIR/set-choice-before.json"

@@ -751,55 +751,69 @@ if [[ -n "$fragments" ]]; then
 fi
 
 # A positional enumeration modeled as subcommands (Usage `cmd [a|b|c]`) yields a
-# child whose cached help equals the parent's, because that name is not a command.
+# child whose provenance is the parent page, because that name is not a command.
+# A shared-help node may legitimately record the parent command; source.section
+# marks it, so equal commands are expected there.
 if [[ -n "$fragments" && "$layout" == "new" ]] && prov_dir="$(cd -P "$fragments" 2>/dev/null && pwd -P)"; then
     prov_bad=0
     while IFS= read -r frag; do
         base="${frag#"$prov_dir"/}"
         base="${base%.json}"
         [[ "$base" != "_root" ]] || continue
-        # A shared-help node intentionally reuses its parent page; source.section
-        # marks it, so identical help is expected rather than a bad subcommand.
+        child_command="$(jq -r 'if (.source.kind == "help" or .source.kind == "man") then (.source.command // "") else "" end' "$frag" 2>/dev/null)"
+        [[ -n "$child_command" ]] || continue
         [[ -z "$(jq -r '.source.section // empty' "$frag" 2>/dev/null)" ]] || continue
-        parent="$prov_dir/_root.txt"
-        [[ "$(dirname "$base")" == "." ]] || parent="$prov_dir/$(dirname "$base").txt"
-        child="$prov_dir/$base.txt"
-        if [[ -f "$child" && -f "$parent" ]] && cmp -s "$child" "$parent"; then
+        if [[ "$(dirname "$base")" == "." ]]; then
+            parent="$prov_dir/_root.json"
+        else
+            parent="$prov_dir/$(dirname "$base").json"
+        fi
+        [[ -f "$parent" ]] || continue
+        parent_command="$(jq -r 'if (.source.kind == "help" or .source.kind == "man") then (.source.command // "") else "" end' "$parent" 2>/dev/null)"
+        if [[ "$child_command" == "$parent_command" ]]; then
             prov_bad=1
-            fail "provenance: ${base//\// } help is identical to its parent; it is a positional choice, not a subcommand"
+            fail "provenance: ${base//\// } source.command is identical to its parent; it is a positional choice, not a subcommand"
         fi
     done < <(find "$prov_dir" -type f -name '*.json' | LC_ALL=C sort)
     [[ "$prov_bad" -eq 1 ]] || pass "fragment provenance"
 fi
 
-# Cache hygiene: the fragment directory holds one `.json` and one `.txt` per
-# node and nothing else. A raw capture (`raw-help.txt`) or an interrupted
-# `_root.new.txt` reads as a node's help file, and a fragment that lost its
-# `.txt` loses the cache key; every other check passes either case silently.
+# Cache hygiene: the fragment directory holds .json fragments and nothing else.
+# Every .txt help file is now illegal (help lives in a temporary directory), and
+# a fragment must carry a valid hash/source.command pair.
 if [[ -n "$fragments" && "$layout" == "new" ]] && hyg_dir="$(cd -P "$fragments" 2>/dev/null && pwd -P)"; then
     hyg_bad=0
     while IFS= read -r hyg_file; do
         hyg_rel="${hyg_file#"$hyg_dir"/}"
         case "$hyg_rel" in
-            _root.json|_root.txt) continue ;;
+            *.json)
+                if ! jq -e '
+                    ((.source // null) | type == "object") and
+                    (.hash | type == "string") and
+                    (if .source.kind == "none" then
+                        (.hash == "") and (((.source | has("command")) | not))
+                     elif (.source.kind == "help" or .source.kind == "man") then
+                        (.hash | test("^[0-9a-f]{64}$")) and
+                        (((.source.command // "") | test("^[A-Za-z0-9_.+:@/-]+( [A-Za-z0-9_.+:@/-]+)*$")) and
+                         (.source.command != "help") and
+                         (if ((.source.command // "") | startswith("help ")) then
+                            (((.source.command | split(" ")) | length) == 2)
+                          else true end))
+                     else false end)
+                ' "$hyg_file" >/dev/null 2>&1; then
+                    hyg_bad=1
+                    fail "cache hygiene: $hyg_rel has an invalid hash or source.command; recompile the node"
+                fi
+                continue
+                ;;
             _root.new.txt)
                 hyg_bad=1
                 fail "cache hygiene: $hyg_rel is a probe leftover; remove it"
                 continue
                 ;;
-            *.json)
-                hyg_help="${hyg_file%.json}.txt"
-                if [[ ! -f "$hyg_help" ]] && [[ "$(jq -r '.source.kind // "none"' "$hyg_file" 2>/dev/null)" != "none" ]]; then
-                    hyg_bad=1
-                    fail "cache hygiene: $hyg_rel has no ${hyg_rel%.json}.txt; recompile the node"
-                fi
-                continue
-                ;;
             *.txt)
-                if [[ ! -f "${hyg_file%.txt}.json" ]]; then
-                    hyg_bad=1
-                    fail "cache hygiene: $hyg_rel has no matching .json; delete the stray"
-                fi
+                hyg_bad=1
+                fail "cache hygiene: $hyg_rel is a .txt help file; only .json fragments are allowed"
                 continue
                 ;;
             *)

@@ -1,18 +1,84 @@
 {
   "schemaVersion": 1,
-  "path": ["demo"],
+  "path": [
+    "demo"
+  ],
   "description": "Demo CLI",
   "aliases": [],
-  "meta": [{"key": "combine-shorts", "value": ""}],
+  "meta": [
+    {
+      "key": "combine-shorts",
+      "value": ""
+    }
+  ],
   "items": [
-    {"kind": "flag", "names": ["-v", "--verbose"], "repeatable": false, "description": "Verbose output"},
-    {"kind": "option", "names": ["-o", "--output"], "notations": ["<FILE>"], "choices": [], "choice_fn": null, "repeatable": false, "description": "Output file"},
-    {"kind": "option", "names": ["-f", "--format"], "notations": ["<FORMAT>"], "choices": [{"value": "text", "description": ""}, {"value": "json", "description": ""}], "choice_fn": null, "repeatable": false, "description": "Output format"}
+    {
+      "kind": "flag",
+      "names": [
+        "-v",
+        "--verbose"
+      ],
+      "repeatable": false,
+      "description": "Verbose output"
+    },
+    {
+      "kind": "option",
+      "names": [
+        "-o",
+        "--output"
+      ],
+      "notations": [
+        "<FILE>"
+      ],
+      "choices": [],
+      "choice_fn": null,
+      "repeatable": false,
+      "description": "Output file"
+    },
+    {
+      "kind": "option",
+      "names": [
+        "-f",
+        "--format"
+      ],
+      "notations": [
+        "<FORMAT>"
+      ],
+      "choices": [
+        {
+          "value": "text",
+          "description": ""
+        },
+        {
+          "value": "json",
+          "description": ""
+        }
+      ],
+      "choice_fn": null,
+      "repeatable": false,
+      "description": "Output format"
+    }
   ],
   "subcommands": [
-    {"name": "remote", "aliases": ["r"], "description": "Manage remotes", "status": "succeeded"},
-    {"name": "cat", "aliases": [], "description": "Concatenate", "status": "failed"}
+    {
+      "name": "remote",
+      "aliases": [
+        "r"
+      ],
+      "description": "Manage remotes",
+      "status": "succeeded"
+    },
+    {
+      "name": "cat",
+      "aliases": [],
+      "description": "Concatenate",
+      "status": "failed"
+    }
   ],
-  "source": {"kind": "help", "command": "demo --help"},
-  "notes": ""
+  "source": {
+    "kind": "help",
+    "command": "demo --help"
+  },
+  "notes": "",
+  "hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 }

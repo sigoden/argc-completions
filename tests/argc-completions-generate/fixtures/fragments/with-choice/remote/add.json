@@ -1,13 +1,30 @@
 {
   "schemaVersion": 1,
-  "path": ["demo", "remote", "add"],
+  "path": [
+    "demo",
+    "remote",
+    "add"
+  ],
   "description": "Add a remote",
   "aliases": [],
   "meta": [],
   "items": [
-    {"kind": "arg", "name": "name", "repeatable": false, "required": true, "notation": "<NAME>", "choices": [], "choice_fn": null, "description": "Remote name"}
+    {
+      "kind": "arg",
+      "name": "name",
+      "repeatable": false,
+      "required": true,
+      "notation": "<NAME>",
+      "choices": [],
+      "choice_fn": null,
+      "description": "Remote name"
+    }
   ],
   "subcommands": [],
-  "source": {"kind": "help", "command": "demo remote add --help"},
-  "notes": ""
+  "source": {
+    "kind": "help",
+    "command": "demo remote add --help"
+  },
+  "notes": "",
+  "hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 }

@@ -1,11 +1,17 @@
 {
   "schemaVersion": 1,
-  "path": ["demo", "cat"],
+  "path": [
+    "demo",
+    "cat"
+  ],
   "description": "Concatenate",
   "aliases": [],
   "meta": [],
   "items": [],
   "subcommands": [],
-  "source": {"kind": "none"},
-  "notes": "minimal failed fragment"
+  "source": {
+    "kind": "none"
+  },
+  "notes": "minimal failed fragment",
+  "hash": ""
 }

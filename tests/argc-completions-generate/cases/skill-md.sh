@@ -14,9 +14,14 @@ for ref in "$SKILL_DIR"/references/*.md; do
         grep -Fq "$(basename "$ref")" "$skill_md"
 done
 
-assert_contains "skill regenerate routing" "$skill_md" "| \`regenerate\` |"
-assert_contains "skill regenerate trigger" "$skill_md" "Explicit regenerate intent overrides the cache state"
-assert_contains "skill reset-cache step" "$skill_md" "reset-cache.sh"
+assert_not_contains "skill no regenerate workflow row" "$skill_md" "| \`regenerate\` |"
+assert_contains "skill regenerate confirmation" "$skill_md" "ask for confirmation"
+assert_contains "skill delete-cache step" "$skill_md" "delete-cache.sh"
+assert_contains "skill cache-first invariant" "$skill_md" "Cache-first: never dispatch"
+assert_contains "skill first generation flag" "$skill_md" "root_fragment_exists=0"
+assert_contains "skill first generation skips check" "$skill_md" 'skip `<SKILL_ROOT>/scripts/check-fragment.sh` entirely'
+assert_contains "skill check-fragment step" "$skill_md" "check-fragment.sh"
+assert_contains "skill finalize step" "$skill_md" "finalize-cache"
 
 # The structure workflow hands off to add-choice-fns on a semantic reading of
 # the exported values; there is no keyword gate script.

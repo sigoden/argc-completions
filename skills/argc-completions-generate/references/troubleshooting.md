@@ -11,7 +11,7 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | Hand-assembled `__argc_*` control lines or manual splitting | Choice functions |
 | Block, tag, help, or compgen failure after assembly | Verify |
 | No candidates from a choice function | `<SKILL_ROOT>/references/compgen.md` §6 |
-| Reset, cache probe, or parent metadata problem | Cache and regenerate |
+| Hash mismatch, unverified cache, stale fragment, or parent metadata problem | Cache and hash validation |
 
 ## Generate and assemble
 
@@ -31,6 +31,8 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | `invalid items` after adding prefix/delimiter | Invariant not met | Apply the `prefixed`/`delimiter` rules (`<SKILL_ROOT>/references/fragment-schema.md`) |
 | `invalid items` after adding `terminated` | Combined with `repeatable`/`prefixed`/`delimiter`, used on a flag, or a name ends in `~` | Keep `repeatable: false`, `prefixed: false`, `delimiter: null`; only the first name `-~`/`+~` of a two-name item may end in `~` (`<SKILL_ROOT>/references/fragment-schema.md`) |
 | `~` missing after regenerate | Compile dropped the terminated flag | Set `"terminated": true` on the fragment item (or re-run the node with context), assemble, verify |
+| `context-item-missing <key>` | A `DIFF` row targets an item the new help no longer produces | The row is skipped; the new help decides what exists, so remove the stale `SPEC` tag if it is still present |
+| `context-terminated-conflict <key>` | The `DIFF` asks for `~` but the new help item is `prefixed` | Keep the prefixed shape; clear `repeatable`/`delimiter` in the fragment if `~` still applies, or drop the `~` from `SPEC` and re-assemble |
 | `argc` parse error on `@arg name!~`, `name+~`, or `name*~` | A hand-edited `SPEC` or a stale assembled line combined `required`/`repeatable` with `terminated` | argc takes `~` as the whole arg suffix; keep `required` in the fragment and let assembly render `<name>~` alone, then re-run `<SKILL_ROOT>/scripts/assemble.sh` instead of editing `SPEC` (`<SKILL_ROOT>/references/fragment-schema.md`) |
 | Notation modifier missing after regenerate | Compile collapsed a multi-value tail into one notation | Keep the final notation with `*`/`+`/`?`; a command-valued option keeps `["<script>", "<args*>"]` (`<SKILL_ROOT>/agents/compile.md` §3.4 Values and notations) |
 | `invalid items` after a notation modifier | Modifier on a non-final option notation, on an arg, or an empty `<*>` | Use `*`/`+`/`?` inside the final option notation only; args use `required`/`repeatable` (`<SKILL_ROOT>/references/fragment-schema.md`) |
@@ -95,14 +97,18 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | `exported name differs` (NOTE) | Plugin/OS script name differs from the path | Compare the `argc --argc-export` name; informational unless compgen uses the wrong name |
 | Shell has no completion but verify passes | Shell/path/OS mismatch | Check `ARGC_COMPLETIONS_ROOT`, `ARGC_COMPLETIONS_PATH`, `argc_scripts`, the OS directory, and a reload; re-run `<REPO_ROOT>/scripts/init-shell.sh <shell>` |
 
-## Cache and regenerate
+## Cache and hash validation
 
 | Symptom | Cause | Fix |
 |---|---|---|
-| Full reset still reports `cache=hit`/`miss` | Reset did not take effect | Stop; re-run `<SKILL_ROOT>/scripts/reset-cache.sh <root>`; do not assemble |
-| `cache=unknown` after a reset | Help retrieval failed | Stop and report; the script is unchanged and the cache must be rebuilt |
-| Subtree reset rejects an alias | Canonical names only | Re-run with the canonical name from the error, or do a full reset |
-| Subtree reset rejects a path | Not declared by the parent | Use a declared canonical path |
-| Sibling fragments disappeared after a subtree reset | Wrong target or an accidental full reset | Recompile the subtree with the canonical path |
-| Parent metadata stale after a subtree reset | A subtree reset does not refetch the parent | Run a full `regenerate <root>` when names, aliases, or the subcommand set change |
-| `HINTS`/`CHOICES` disappeared after regenerate | The script was deleted or replaced | Restore it; regenerate must preserve both blocks and bindings |
+| `status=invalid reason=hash-mismatch` | The HINTS body, the notation/`choice_fn`/`terminated` context `DIFF`, or canonical help changed | Let the queue dispatch that node; do not edit the hash by hand |
+| `status=invalid reason=schema` (missing `hash`/`source.command`, unsafe command, non-empty hash on `none`) | Old or hand-edited fragment | Recompile the node under the current schema; there is no migration |
+| `status=unverified reason=help-unavailable` | The source command failed, timed out, or printed nothing | Reuse the fragment, keep the warning, and do not dispatch automatically; recompile only after confirming the command works |
+| `status=failed hash=` on a `source.kind: none` fragment | Help was unavailable when the node was last compiled | Reuse and warn; only a confirmed `<SKILL_ROOT>/scripts/delete-cache.sh <root>` plus a full run retries it |
+| Hash changed after a version bump | `SKILL_CACHE_VERSION` changed in `<SKILL_ROOT>/scripts/lib.sh` | Expected: every cache entry is invalid and recompiles once |
+| `source.command` is not reproducible | It records a fallback, a section pipeline, or a command different from the one that produced the help | Recompile the node and record the actual successful command (a full man page for section reads) |
+| Stale fragment remains after a subcommand was removed | The tree shrank but finalize has not run | Run `<SKILL_ROOT>/scripts/finalize-cache.sh <root> --cache-dir <dir>` before assembly |
+| Parent description/aliases are stale | Child metadata was not synced from the parent entry | Run finalize; those fields are not part of the hash |
+| Cache directory contains `.txt` | An old cache or a raw capture | Delete it (verify rejects every `.txt`); do not migrate it into a fragment |
+| Regenerate deleted the cache before confirmation | The warning/confirmation step was skipped | Stop; the cache can only be rebuilt by a full compile |
+| `HINTS`/`CHOICES` disappeared after delete-cache | The completion script was deleted or replaced | Restore it; `<SKILL_ROOT>/scripts/delete-cache.sh` never touches `<REPO_ROOT>/completions/<root>.sh` |
