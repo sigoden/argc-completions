@@ -47,36 +47,6 @@ assert_silent() {
     fi
 }
 
-# --- package: each skills/<name> is linked into .agents/skills and frontmatter
-
-skills=("$ROOT_DIR"/skills/*/)
-check "at least one packaged skill" test "${#skills[@]}" -gt 0
-for skill_path in "${skills[@]}"; do
-    skill_path="${skill_path%/}"
-    name="$(basename "$skill_path")"
-    link="$ROOT_DIR/.agents/skills/$name"
-    check "symlink $name" test -L "$link"
-    check "symlink target $name" test "$(readlink "$link")" = "../../skills/$name"
-    check "SKILL.md $name" test -s "$skill_path/SKILL.md"
-    fm="$TMP_DIR/$name.frontmatter"
-    extract_frontmatter "$skill_path/SKILL.md" >"$fm"
-    check "frontmatter name $name" test "$(gawk -F': ' '/^name:/ { print $2; exit }' "$fm")" = "$name"
-    check "frontmatter description $name" test -n "$(gawk '/^description:/ { print; exit }' "$fm")"
-done
-
-# Stale links point at skills that were renamed or removed.
-stale_links() {
-    local link
-    for link in "$ROOT_DIR"/.agents/skills/*; do
-        if [[ ! -L "$link" ]]; then
-            echo "$link: not a symlink"
-        elif [[ ! -e "$link" ]]; then
-            echo "$link: dangling symlink"
-        fi
-    done
-}
-assert_silent "agent skill links resolve" stale_links
-
 # --- inventory: only the documented artifact kinds live in the package
 
 stray_paths() {

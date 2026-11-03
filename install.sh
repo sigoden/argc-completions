@@ -60,8 +60,9 @@ Platform notes:
   macOS: missing gawk and bash >= 5 are installed with Homebrew; yq falls back to Homebrew.
   Linux: install missing gawk with your system package manager; yq is downloaded from GitHub.
   Windows: run this script in Git Bash; gawk is included with Git for Windows; yq is downloaded.
-  System-installed tools are used when they meet the version requirements;
-  only downloaded tools are placed in bin/, without creating symlinks.
+  System-installed tools are used when they meet the version requirements.
+  Downloaded argc/jq/yq are placed in bin/. On macOS, when the system bash is
+  older than 5, Homebrew's bash is linked there as bin/bash.
 EOF
 }
 
@@ -411,7 +412,20 @@ ensure_gawk() {
 }
 
 ensure_bash() {
-    local bash_bin version brew_bash
+    local bin bash_bin version brew_bash
+    bin="$(bin_path bash)"
+
+    # A bin/bash link created by a previous run takes precedence, so re-running
+    # install.sh on macOS does not prompt for Homebrew again.
+    if [ -x "$bin" ]; then
+        version="$("$bin" -c 'printf "%s.%s" "${BASH_VERSINFO[0]}" "${BASH_VERSINFO[1]}"')"
+        if version_ge "$version" "$MIN_BASH_VERSION"; then
+            BASH_BIN="$bin"
+            log_info "bash: $version ($bin)"
+            return
+        fi
+    fi
+
     bash_bin="$(system_tool bash || true)"
     [ -n "$bash_bin" ] || die "bash is required"
 
@@ -431,8 +445,15 @@ ensure_bash() {
         [ -n "$brew_bash" ] && [ -x "$brew_bash" ] || die "bash not found after Homebrew install"
         version="$("$brew_bash" -c 'printf "%s.%s" "${BASH_VERSINFO[0]}" "${BASH_VERSINFO[1]}"')"
         version_ge "$version" "$MIN_BASH_VERSION" || die "Homebrew bash is too old: $version"
-        BASH_BIN="$brew_bash"
-        log_info "bash: $version ($brew_bash)"
+
+        # Link it into bin/ so shells that prepend bin/ to PATH get bash >= 5.
+        mkdir -p "$BIN_DIR"
+        rm -f "$bin"
+        ln -s "$brew_bash" "$bin" || die "cannot link: $bin -> $brew_bash"
+        log_info "linked: $bin -> $brew_bash"
+
+        BASH_BIN="$bin"
+        log_info "bash: $version ($bin)"
         ;;
     windows)
         die "bash >= $MIN_BASH_VERSION is required (found $version); upgrade Git for Windows"
@@ -614,7 +635,9 @@ report_warn() {
 
 remove_managed_links() {
     local name bin
-    for name in argc bash gawk jq yq; do
+    # Legacy links from older installers. bin/bash is managed on purpose by
+    # ensure_bash on macOS, so it is not removed here.
+    for name in argc gawk jq yq; do
         bin="$(bin_path "$name")"
         if [ -L "$bin" ]; then
             rm -f "$bin"
@@ -627,16 +650,21 @@ check_all() {
     local missing=0 version arg_bin bash_bin jq_version gawk_bin yq_bin candidate
 
     bash_bin="$(system_tool bash || true)"
+    version=""
     if [ -n "$bash_bin" ]; then
         version="$("$bash_bin" -c 'printf "%s.%s" "${BASH_VERSINFO[0]}" "${BASH_VERSINFO[1]}"')"
-        if version_ge "$version" "$MIN_BASH_VERSION"; then
-            report_ok bash "$version"
-        else
-            report_missing bash ">= $MIN_BASH_VERSION (found $version; run ./install.sh)"
-            missing=1
+    fi
+    if [ -z "$version" ] || ! version_ge "$version" "$MIN_BASH_VERSION"; then
+        candidate="$(bin_path bash)"
+        if [ -x "$candidate" ]; then
+            bash_bin="$candidate"
+            version="$("$candidate" -c 'printf "%s.%s" "${BASH_VERSINFO[0]}" "${BASH_VERSINFO[1]}"')"
         fi
+    fi
+    if [ -n "$version" ] && version_ge "$version" "$MIN_BASH_VERSION"; then
+        report_ok bash "$version"
     else
-        report_missing bash "required"
+        report_missing bash ">= $MIN_BASH_VERSION (found ${version:-none}; run ./install.sh)"
         missing=1
     fi
 

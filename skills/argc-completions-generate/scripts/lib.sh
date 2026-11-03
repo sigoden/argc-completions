@@ -55,44 +55,83 @@ detect_os() {
 # Run a command with stdout/stderr captured to files and a hard timeout.
 # Usage: run_with_timeout <stdout-file> <stderr-file> <seconds> <cmd...>
 # Pass '-' as the stderr file to merge stderr into stdout.
-# Returns the command status; a timeout yields the wrapper's status (124 with
-# GNU timeout/gtimeout, 143 from the background fallback). Use it in `if`/`||`
-# because lib.sh runs under `set -e`.
+# Returns the command status; a timeout yields 124, or 137 for a child that
+# needed the SIGKILL.
+#
+# Pure-Perl inline implementation (no external timeout/setsid needed).
+# The child is put in a new session via POSIX::setsid(), so it cannot read
+# the caller's controlling terminal (same intent as `setsid --wait`).
 run_with_timeout() {
     local out="$1" err="$2" seconds="$3"
     shift 3
-    local -a timeout_cmd=()
-    local rc=0 pid watcher
-    if command -v timeout >/dev/null 2>&1; then
-        timeout_cmd=(timeout "$seconds")
-    elif command -v gtimeout >/dev/null 2>&1; then
-        timeout_cmd=(gtimeout "$seconds")
-    fi
-    if [[ ${#timeout_cmd[@]} -gt 0 ]]; then
-        if [[ "$err" == "-" ]]; then
-            "${timeout_cmd[@]}" "$@" >"$out" 2>&1
-        else
-            "${timeout_cmd[@]}" "$@" >"$out" 2>"$err"
-        fi
-        return $?
-    fi
-    # Portable fallback for hosts without GNU coreutils (macOS).
-    if [[ "$err" == "-" ]]; then
-        "$@" >"$out" 2>&1 &
-    else
-        "$@" >"$out" 2>"$err" &
-    fi
-    pid=$!
-    ( sleep "$seconds"; kill -TERM "$pid" 2>/dev/null ) >/dev/null 2>&1 &
-    watcher=$!
-    wait "$pid" || rc=$?
-    kill "$watcher" 2>/dev/null || true
-    wait "$watcher" 2>/dev/null || true
-    return "$rc"
+    perl -e '
+        use strict;
+        use warnings;
+        use POSIX qw(:sys_wait_h setsid);
+        use Time::HiRes qw(time sleep);
+
+        my ($out, $err, $secs, @cmd) = @ARGV;
+        die "usage: run_with_timeout <out> <err> <secs> <cmd...>\n" unless @cmd;
+
+        my $KILL_AFTER = 2;
+
+        # Open the output files ("-" means merge/inherit).
+        my ($out_fh, $err_fh);
+        if ($out eq "-") { open $out_fh, ">&", \*STDOUT or die "dup stdout: $!" }
+        else             { open $out_fh, ">", $out    or die "open $out: $!" }
+        if ($err eq "-") { open $err_fh, ">&", $out_fh or die "dup err: $!" }
+        else             { open $err_fh, ">", $err    or die "open $err: $!" }
+
+        my $pid = fork();
+        die "fork: $!" unless defined $pid;
+
+        if ($pid == 0) {
+            # Child: new session (detach from controlling terminal),
+            # redirect, then exec.
+            setsid();
+            open STDOUT, ">&", $out_fh or die "dup2 stdout: $!";
+            open STDERR, ">&", $err_fh or die "dup2 stderr: $!";
+            exec @cmd;
+            exit 127;
+        }
+
+        # Parent: wait with timeout and kill-after logic.
+        my $deadline     = time + $secs;
+        my $term_sent_at;
+        my $killed       = 0;
+
+        while (1) {
+            my $r = waitpid($pid, WNOHANG);
+            if ($r == $pid) {
+                my $st  = $?;
+                my $sig = $st & 127;
+                if ($killed && $sig == 9) {
+                    exit 137;              # only SIGKILL could end it
+                }
+                if (defined $term_sent_at) {
+                    exit 124;              # we sent TERM -> timed out
+                }
+                exit($sig ? 128 + $sig : $st >> 8);  # normal exit: propagate
+            }
+
+            my $now = time;
+            if (!defined $term_sent_at && $now >= $deadline) {
+                kill "TERM", $pid;
+                $term_sent_at = $now;
+            }
+            if (defined $term_sent_at && !$killed
+                && $now >= $term_sent_at + $KILL_AFTER) {
+                kill "KILL", $pid;
+                $killed = 1;
+            }
+            sleep 0.05;
+        }
+    ' -- "$out" "$err" "$seconds" "$@"
 }
 
-# Run a help command with stdin closed and a timeout so a pager or an
-# interactive prompt cannot hang the caller. Stdout and stderr share one file.
+# Run a help command with stdin closed and a timeout so a pager, an
+# interactive prompt, or a terminal probe cannot hang the caller. Stdout and
+# stderr share one file.
 # Usage: capture_help <output-file> <timeout-seconds> <cmd...>
 # Returns the command status; use it in `if`/`||` because lib.sh runs under
 # `set -e`.
@@ -144,31 +183,14 @@ capture_source_command() {
     fi
 }
 
-require_sha256() {
-    if command -v sha256sum >/dev/null 2>&1 \
-        || command -v shasum >/dev/null 2>&1 \
-        || command -v openssl >/dev/null 2>&1; then
-        return 0
-    fi
-    die "missing dependency: sha256sum, shasum, or openssl"
-}
-
 # Print the lowercase hex SHA-256 of stdin.
 sha256_hex() {
-    local output
-    require_sha256
-    if command -v sha256sum >/dev/null 2>&1; then
-        output="$(sha256sum)"
-    elif command -v shasum >/dev/null 2>&1; then
-        output="$(shasum -a 256)"
-    else
-        output="$(openssl dgst -sha256)"
-    fi
-    output="$(printf '%s\n' "$output" | grep -oE '[0-9a-f]{64}' | head -n 1 || true)"
-    [[ -n "$output" ]] || die "failed to parse sha256 output"
-    printf '%s\n' "$output"
+    perl -MDigest::SHA -e 'binmode STDIN; my $d = Digest::SHA->new(256); $d->addfile(*STDIN); print $d->hexdigest, "\n"'
 }
 
+# Entry points that run the whole pipeline call this once; a script that needs
+# one tool calls require_cmd for exactly that tool instead of pulling the whole
+# prerequisite set in. references/setup.md §Environment documents the same set.
 require_pipeline_tools() {
     require_cmd argc "run $REPO_ROOT/install.sh"
     require_cmd jq "run $REPO_ROOT/install.sh"
@@ -404,19 +426,21 @@ hints_marker_path() {
 # Common lines lead, the exact-path section follows, and both keep their file
 # order and whitespace. A marker without a path never matches a real path.
 hints_select() {
-    local body="$1" want line section="" in_section=0
-    want="$(normalize_path_spaces "$2")"
-    while IFS= read -r line || [[ -n "$line" ]]; do
-        if [[ "$line" == '# %%'* ]]; then
-            in_section=1
-            section="$(hints_marker_path "$line")"
-            [[ -n "$section" ]] || section=$'\001'
-            continue
-        fi
-        if [[ "$in_section" -eq 0 || "$section" == "$want" ]]; then
-            printf '%s\n' "$line"
-        fi
-    done <"$body"
+    gawk -v want="$(normalize_path_spaces "$2")" '
+    function norm(s) {
+        gsub(/[ \t]+/, " ", s)
+        sub(/^ /, "", s)
+        sub(/ $/, "", s)
+        return s
+    }
+    /^# %%/ {
+        in_section = 1
+        section = norm(substr($0, 5))
+        if (section == "") section = "\001"
+        next
+    }
+    !in_section || section == want { print }
+    ' "$1"
 }
 
 # --- File helpers -----------------------------------------------------------

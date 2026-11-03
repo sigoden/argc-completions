@@ -6,7 +6,7 @@ Read when installing tools, when a tool check fails, or before writing shell sni
 
 - Run `<REPO_ROOT>/install.sh` once; it downloads missing tools into `<REPO_ROOT>/bin/`.
 - On macOS it uses system tools where possible and installs missing `gawk`/`bash >= 5` with Homebrew; on Linux and Windows (Git Bash) it uses the system `gawk`/`bash`. Git for Windows includes `gawk`; on Linux install it with the package manager. Missing `argc`/`jq` are downloaded on every platform.
-- `<REPO_ROOT>/bin/` holds only tools downloaded by `<REPO_ROOT>/install.sh`; the shell integration adds it to `PATH` only when it exists and is non-empty.
+- `<REPO_ROOT>/bin/` holds only tools provided by `<REPO_ROOT>/install.sh` (downloaded `argc`/`jq`/`yq`, plus a `bash` link to Homebrew bash on macOS when the system bash is older than 5); the shell integration adds it to `PATH` only when it exists and is non-empty.
 
 ## Environment
 

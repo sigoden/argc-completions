@@ -26,7 +26,6 @@ SCRIPT_DIR="$(cd -P "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 # shellcheck source=lib.sh
 source "$SCRIPT_DIR/lib.sh"
 require_cmd jq "run $REPO_ROOT/install.sh"
-require_sha256
 
 usage() {
     cat <<'USAGE'

@@ -521,8 +521,11 @@ expect_failure "path_resolve fails when .. escapes the root" \
 # _argc_util_path_search_parent
 # ---------------------------------------------------------------------------
 SP_SEARCH="$TMP_DIR/sp/a b/c d"
+mkdir -p "$SP_SEARCH/e"
+# The helper prints realpath output, and macOS reaches its temp dir through
+# /var -> /private/var, so compare against the physical path.
+SP_SEARCH="$(cd "$SP_SEARCH" && pwd -P)"
 SP_WORK="$SP_SEARCH/e"
-mkdir -p "$SP_WORK"
 printf '{}\n' >"$SP_SEARCH/package.json"
 
 assert_stdout "search_parent finds the file" "$SP_SEARCH/package.json" \
@@ -722,7 +725,8 @@ if command -v openssl >/dev/null 2>&1; then
 
     counter_reset
     reset_cache_dir
-    long_key="$(printf 'a%.0s' $(seq 1 150))"
+    # Bash brace expansion keeps this free of GNU-only seq(1).
+    long_key="$(printf 'a%.0s' {1..150})"
     assert_stdout "cache handles a very long key" $'a\nb' cache_call 60 "$long_key"
     check "cache truncates and hashes a long key" cache_long_key_name
 else

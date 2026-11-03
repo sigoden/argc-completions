@@ -32,6 +32,110 @@ expect_failure "help_files_equal different" \
     bash -c 'source "$1"; help_files_equal "$2" "$3"' _ \
     "$SCRIPTS/lib.sh" "$TMP_DIR/help-old.txt" "$TMP_DIR/help-diff.txt"
 
+# run_with_timeout must return even when the command stops itself or ignores
+# SIGTERM. A help program that reads the terminal (/dev/tty) under a background
+# process group takes SIGTTIN and stops; a stopped child cannot handle the
+# SIGTERM that timeout sends, so a wrapper without --kill-after (or an
+# escalation to SIGKILL) waits forever and the caller's terminal looks frozen.
+mkdir -p "$TMP_DIR/bin"
+cat >"$TMP_DIR/bin/stop-self" <<'STOP'
+#!/usr/bin/env bash
+printf '%s\n' "$$" >"$1"
+kill -STOP $$
+sleep 30
+STOP
+cat >"$TMP_DIR/bin/ignore-term" <<'IGNORE'
+#!/usr/bin/env bash
+printf '%s\n' "$$" >"$1"
+trap '' TERM
+sleep 30
+IGNORE
+chmod +x "$TMP_DIR/bin/stop-self" "$TMP_DIR/bin/ignore-term"
+
+# Exercise the wrapper with a PATH that hides timeout/gtimeout (macOS without
+# coreutils): the fallback must still escalate to SIGKILL. The wrapper needs
+# perl, and the fixtures start with `#!/usr/bin/env bash`, so both stay
+# reachable; only the timeout binaries are missing.
+mkdir -p "$TMP_DIR/lonely-bin"
+for tool in bash dirname perl sleep; do
+    ln -sf "$(command -v "$tool")" "$TMP_DIR/lonely-bin/$tool"
+done
+
+assert_timeout_returns() {
+    local label="$1" script="$2" minimal_path="$3"
+    # One pid file per run: the minimal-PATH run must not pass because the
+    # previous run left a pid behind.
+    local pid_file="$TMP_DIR/${script}-${minimal_path}-pid.txt" rc=0 start=$SECONDS
+    rm -f "$pid_file"
+    # An outer guard keeps a regression from hanging the suite; gtimeout is the
+    # brew coreutils name on macOS.
+    local -a guard=()
+    if command -v timeout >/dev/null 2>&1; then
+        guard=(timeout 30)
+    elif command -v gtimeout >/dev/null 2>&1; then
+        guard=(gtimeout 30)
+    fi
+    if [[ "$minimal_path" == 1 ]]; then
+        "${guard[@]}" env PATH="$TMP_DIR/lonely-bin" "$BASH" -c \
+            'source "$1"; run_with_timeout "$2" - 1 "$3" "$4"' _ \
+            "$SCRIPTS/lib.sh" "$TMP_DIR/${script}-out.txt" "$TMP_DIR/bin/$script" "$pid_file" \
+            >/dev/null 2>&1 || rc=$?
+    else
+        "${guard[@]}" bash -c 'source "$1"; run_with_timeout "$2" - 1 "$3" "$4"' _ \
+            "$SCRIPTS/lib.sh" "$TMP_DIR/${script}-out.txt" "$TMP_DIR/bin/$script" "$pid_file" \
+            >/dev/null 2>&1 || rc=$?
+    fi
+    check "$label returns" test "$((SECONDS - start))" -lt 10
+    check "$label fails" test "$rc" -ne 0
+    check "$label leaves no process behind" \
+        bash -c 'test -s "$1" && ! kill -0 "$(cat "$1")" 2>/dev/null' _ "$pid_file"
+}
+
+assert_timeout_returns "run_with_timeout returns for a stopped child" stop-self 0
+assert_timeout_returns "run_with_timeout returns for a TERM-ignoring child" ignore-term 0
+assert_timeout_returns "run_with_timeout fallback returns for a stopped child" stop-self 1
+assert_timeout_returns "run_with_timeout fallback returns for a TERM-ignoring child" ignore-term 1
+
+# A help program that probes /dev/tty (broot reads the terminal size there)
+# must not see the caller's terminal: otherwise the capture depends on the
+# terminal width and a fragment hash changes with the shell that runs it.
+#
+# script(1) takes the command as trailing operands on macOS/BSD and through -c
+# on util-linux, so probe both forms and keep the one this host accepts.
+script_pty_form=""
+if command -v script >/dev/null 2>&1; then
+    if script -q /dev/null true >/dev/null 2>&1; then
+        script_pty_form=bsd
+    elif script -qec true /dev/null >/dev/null 2>&1; then
+        script_pty_form=gnu
+    fi
+fi
+
+# Run one shell snippet under a pseudo-terminal, discarding the typescript.
+script_pty() {
+    if [[ "$script_pty_form" == "bsd" ]]; then
+        script -q /dev/null bash -c "$1"
+    else
+        script -qec "$1" /dev/null
+    fi
+}
+
+if [[ -n "$script_pty_form" ]]; then
+    cat >"$TMP_DIR/bin/tty-probe" <<'PROBE'
+#!/usr/bin/env bash
+if ( : </dev/tty ) 2>/dev/null; then printf 'tty=yes\n'; else printf 'tty=no\n'; fi
+PROBE
+    chmod +x "$TMP_DIR/bin/tty-probe"
+    cat >"$TMP_DIR/pty-capture.sh" <<PTY
+#!/usr/bin/env bash
+source "$SCRIPTS/lib.sh"
+capture_help "$TMP_DIR/pty-probe.txt" 5 tty-probe
+PTY
+    ( export PATH="$TMP_DIR/bin:$PATH"; quiet script_pty "bash '$TMP_DIR/pty-capture.sh'" )
+    check "capture_help hides the caller's terminal" \
+        test "$(cat "$TMP_DIR/pty-probe.txt" 2>/dev/null)" = tty=no
+fi
+
 # Block marker helpers are the single source of the # >>> / # <<< contract.
 blocks_file="$TMP_DIR/blocks.sh"
 printf '# >>> SPEC\nbody\n# <<< SPEC\n# >>> HINTS\n# <<< HINTS\n# >>> SPEC\n# <<< SPEC\n' >"$blocks_file"
