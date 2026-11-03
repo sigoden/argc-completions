@@ -112,7 +112,7 @@ word     = prefix + filter
 inserted = prefix + candidate + suffix
 ```
 
-argc infers common splits (`--define=`, `-X`, `+`, comma/pipe-separated values). `-X` and the separator are the fragment's `prefixed`/`delimiter`; `delimiter` applies to options and args. Do not reimplement them. Do not assemble the control lines by hand either: pick a helper in `<REPO_ROOT>/utils/_argc_utils.sh` §*Section map* or a recipe in `<SKILL_ROOT>/references/compgen-recipes.md` §*Section map* first, and write the split through it. This section is the protocol for reading and debugging output; a shape neither reference covers is the only case for hand-written control lines, and it must be reported (`<SKILL_ROOT>/references/add-choice-fns.md` §2 *Helpers*). A function can move the split with:
+argc infers common splits (`--define=`, `-X`, `+`, comma/pipe-separated values). `-X` and the separator are the fragment's `prefixed`/`delimiter`; `delimiter` applies to options and args. Do not reimplement them, and never write the control lines by hand: construction goes through `<SKILL_ROOT>/references/add-choice-fns.md` §2 *Helpers*. This section is the protocol for reading and debugging the emitted lines:
 
 | Line | Effect |
 |---|---|

@@ -42,7 +42,7 @@ assert_contains "compgen direct root and prerequisite calls" "$compgen_md" "own 
 assert_contains "compgen command-specific branches" "$compgen_md" "command-specific implementations"
 assert_contains "compgen yq probe" "$compgen_md" 'command -v yq'
 # §5 documents the raw control lines; it is not a licence to hand-assemble them.
-assert_contains "compgen no hand-assembled control lines" "$compgen_md" "Do not assemble the control lines by hand"
+assert_contains "compgen no hand-assembled control lines" "$compgen_md" "never write the control lines by hand"
 assert_contains "compgen mandatory helper lookup" "$compgen_md" "mandatory reading before writing"
 
 # Function-only harness documented in compgen.md §6.

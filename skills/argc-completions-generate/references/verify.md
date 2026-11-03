@@ -1,6 +1,6 @@
 # Verify workflow
 
-`<SKILL_ROOT>/scripts/verify-completion.sh` validates an existing completion script and never edits it. Run it with `--help` for all options; on failure read `<SKILL_ROOT>/references/troubleshooting.md` §Verify.
+`<SKILL_ROOT>/scripts/verify-completion.sh` validates an existing completion script and never edits it. Each check prints `PASS`/`FAIL` and names the failing rule; the script exits 0 only when every check passes. Run it with `--help` for all options; on failure read `<SKILL_ROOT>/references/troubleshooting.md` §Verify.
 
 ```sh
 bash <SKILL_ROOT>/scripts/verify-completion.sh <completion.sh> [--cache-dir <dir>] [--cmd <name>] [--require-no-choice-fns] [--skip-compgen] [--no-strict] [-v]
@@ -10,35 +10,24 @@ The command name comes from the path: `<REPO_ROOT>/completions/git.sh` -> `git`,
 
 ## Checks
 
-The script prints `PASS`/`FAIL` per check and names the failing rule; use this table to choose the fix.
+The table maps each check to its action or to the section that owns the rule; it does not restate the rule.
 
-Acceptance details: `HINTS` is comment/blank lines only and `SPEC` contains no `_choice_*` definitions; a `# %%<path>` marker must name a command path (the root name or a `# {{ ...` block path, no aliases) and appear once, and a marker without a path is a failure; only the tag signature (before two or more spaces) counts for backticks, and description backticks are ignored; root-only keys (`combine-shorts`, `inherit-flag-options`) must sit in the root block, before the first `# {{` marker; a `choice_fn` must name a function defined in the script, so bind a local `_choice_*` wrapper rather than a tag or bare helper; `_argc_util_*` is allowed when the script sources `<REPO_ROOT>/utils/_argc_utils.sh`.
+Acceptance details: `HINTS` holds comment/blank lines only; `SPEC` defines no `_choice_*` functions; backticks count in the tag signature only (before two or more spaces), never in a description; a `# %%<path>` marker must name a canonical command path (the root name or a `# {{ ...` block path, no aliases) and appear exactly once, while a marker without a path fails; `_argc_util_*` is allowed when the script sources `<REPO_ROOT>/utils/_argc_utils.sh`.
 
-| Check | Fix |
+| Check | Action or authority |
 |---|---|
 | File and syntax | Fix the shebang or the `bash -n` failure. |
 | Help output | Make `bash <completion.sh> --help` exit 0 and print output. |
 | Blocks | Add missing markers by hand, re-run assembly, or drop an empty `STATIC`/`CHOICES` pair. |
 | Block content | Re-run assembly for `SPEC`/`STATIC`; fix `HINTS` by hand or `CHOICES` with `<SKILL_ROOT>/scripts/format-choices.sh`. The `_static_` prefix is reserved for `STATIC` functions. |
-| `HINTS markers` | A `# %%<path>` section must use the canonical path from `SPEC` (`# {{ ...` or the root name), appear only once, and keep `# %%` from appearing without a path; fix the marker or add the missing command block. |
-| Comment tags | Re-assemble; never hand-sort tags. |
-| Completion functions | Define every referenced function in `CHOICES`; no duplicates or definitions after the final eval. |
+| `HINTS markers` | `<SKILL_ROOT>/references/troubleshooting.md` §Verify; the marker syntax is `<SKILL_ROOT>/SKILL.md` §Pipeline contract. |
+| Comment tags | Root-only `@meta` keys (`combine-shorts`, `inherit-flag-options`) stay in the root block, before the first `# {{` marker; re-assemble, never hand-sort tags. |
+| Completion functions | `<SKILL_ROOT>/references/add-choice-fns.md` §4; every referenced function must be defined in `CHOICES`, once. |
 | Export | Fix tags until `argc --argc-export` returns `name`, `flag_options`, `positionals`, and `subcommands`. |
-| Fragment bindings | Fix a dropped `names[]`, `choice_fn`, or `terminated` in the fragment. |
+| Fragment bindings | `<SKILL_ROOT>/references/fragment-schema.md`; fix a dropped `names[]`, `choice_fn`, or `terminated` there, then re-assemble. |
 | Block fidelity | Re-run assembly; a hand edit to `SPEC` or `STATIC` fails. |
-| Cache hygiene | Remove `.txt` or other non-`.json` files; recompile a fragment with an invalid `hash` or `source.command`. |
+| Cache hygiene | `<SKILL_ROOT>/references/generate-structure.md` §2; remove `.txt` or other non-`.json` files, recompile a fragment with an invalid `hash` or `source.command`. |
 | No-choice mode | Remove non-generated choice references and definitions. |
-| Compgen smoke | Fix the function, or use `--skip-compgen` for external services. |
-| Provenance | Model a positional enumeration as items; a child whose `source.command` equals its parent's needs a shared-help `source.section`. |
+| Compgen smoke | `<SKILL_ROOT>/references/compgen.md` §6; fix the function, or use `--skip-compgen` for external services. |
+| Provenance | `<SKILL_ROOT>/references/fragment-schema.md`; model a positional enumeration as items, and give a child whose `source.command` equals its parent's a shared-help `source.section`. |
 | Summary | Fix the first failure and re-run; warnings fail unless `--no-strict`. |
-
-Examples:
-
-```sh
-# Script with fragments and dynamic bindings
-bash <SKILL_ROOT>/scripts/verify-completion.sh <REPO_ROOT>/completions/foo.sh --cache-dir <REPO_ROOT>/cache/compile/foo
-
-# Fresh script with no dynamic bindings
-bash <SKILL_ROOT>/scripts/verify-completion.sh <REPO_ROOT>/completions/foo.sh \
-  --cache-dir <REPO_ROOT>/cache/compile/foo --require-no-choice-fns
-```

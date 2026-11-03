@@ -4,15 +4,15 @@ Add dynamic completion candidates to an existing generated script: ownership, pr
 
 ## Ownership
 
-Edit only the `CHOICES` block and the matching fragment item's `choice_fn` (empty `choices` when a binding replaces a static list, including a described list that `STATIC` renders). When the binding is command-valued, also set `terminated: true` on that item when its `repeatable`, `prefixed`, and `delimiter` fields allow it; never clear an existing `terminated`. A script with no dynamic functions has no `CHOICES` block, and a missing block is valid: create `# >>> CHOICES` / `# <<< CHOICES` before the final eval when you add the first function. The block contract is in `<SKILL_ROOT>/SKILL.md` §Pipeline contract; these write limits are authoritative. Run `<SKILL_ROOT>/scripts/assemble.sh` after edits; `SPEC` and `STATIC` change only through assembly, and command names, flags, options, args, aliases, notations, and descriptions stay as they are.
+Edit only the `CHOICES` block and the matching fragment item's `choice_fn` (empty `choices` when a binding replaces a static list, including a described list that `STATIC` renders). A script with no dynamic functions has no `CHOICES` block, and a missing block is valid: create `# >>> CHOICES` / `# <<< CHOICES` before the final eval when you add the first function. The block contract is in `<SKILL_ROOT>/SKILL.md` §Pipeline contract; these write limits are authoritative. Run `<SKILL_ROOT>/scripts/assemble.sh` after edits; `SPEC` and `STATIC` change only through assembly, and command names, flags, options, args, aliases, notations, and descriptions stay as they are.
 
 ## 1. Preconditions
 
-Resolve `<completion.sh>` and the cache directory from `<SKILL_ROOT>/scripts/preflight.sh <root>` (`completion_file` and `cache_dir`); never find them by listing `<REPO_ROOT>/completions/` or `<REPO_ROOT>/cache/compile/`. `<SKILL_ROOT>/scripts/verify-completion.sh <completion.sh> --cache-dir <REPO_ROOT>/cache/compile/<root>` must PASS. Run `all` if the script has no blocks, or finish generate-structure if the cache is incomplete or has `todo` nodes.
+Resolve `<completion.sh>` and the cache directory from `<SKILL_ROOT>/scripts/preflight.sh <root>` (`completion_file` and `cache_dir`), never by listing the two growing directories (`<SKILL_ROOT>/SKILL.md` §Invariants). `<SKILL_ROOT>/scripts/verify-completion.sh <completion.sh> --cache-dir <REPO_ROOT>/cache/compile/<root>` must PASS. Run `all` if the script has no blocks, or finish generate-structure if the cache is incomplete or has `todo` nodes.
 
 ## 2. Inventory
 
-Run the export, the parameter summary, and the fragment summary from `<SKILL_ROOT>/SKILL.md` §Inspection; the export writes `/tmp/export.json`, and the parameter summary also accepts one subtree.
+Run the three `<SKILL_ROOT>/SKILL.md` §Inspection commands; the export lands in `/tmp/export.json`.
 
 The summary prints `# command <path>`, then value-taking options and positionals (flags skipped); without `--arg cmd` it lists the root. Option rows end with `prefixed`, `delimiter`, and `terminated`; positional rows include `required`, `multiple`, `delimiter`, and `terminated`; both show the existing `choice`.
 
@@ -65,15 +65,14 @@ Update the fragment with the tested helper. One call carries every binding for t
 
 ```sh
 fragment="<REPO_ROOT>/cache/compile/<root>/<...>.json"
+# Single binding.
 bash <SKILL_ROOT>/scripts/set-choice-fns.sh "$fragment" '--foo[`_choice_foo`]'
-# Split option: one binding per item.
-bash <SKILL_ROOT>/scripts/set-choice-fns.sh "$fragment" \
-  '--eval-command[`_choice_value`]' '-ex[`_choice_value`]'
-# Command-valued binding:
+# Command-valued binding: the trailing ~ sets terminated.
 bash <SKILL_ROOT>/scripts/set-choice-fns.sh "$fragment" '--command~[`_choice_command_args`]'
-# Whole batch in one call:
+# Whole batch in one call; a split option takes one binding per item.
 bash <SKILL_ROOT>/scripts/set-choice-fns.sh "$fragment" \
-  '--output[`_choice_output`]' '--format[`_choice_format`]' '--command~[`_choice_command_args`]'
+  '--output[`_choice_output`]' '--format[`_choice_format`]' \
+  '--eval-command[`_choice_value`]' '-ex[`_choice_value`]' '--command~[`_choice_command_args`]'
 ```
 
 Quote each binding with single quotes: inside double quotes the backticks run command substitution, and the bare function name without backticks is also accepted. A name that ends in `~` (only the `-~`/`+~` first name of a two-name item) cannot be written as a binding, because its trailing `~` reads as the terminated marker; bind that item by its other name.

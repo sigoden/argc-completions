@@ -16,8 +16,11 @@ assert_contains "compile contract placeholder case" "$compile_md" "Preserve each
 assert_contains "compile contract help flag" "$compile_md" "Include \`--help\` and \`--version\` only when the help lists them"
 assert_contains "compile contract temp help" "$compile_md" 'temporary directory outside `$cache_dir`'
 assert_contains "compile contract temp canonicalizer" "$compile_md" 'canonicalize_help_file "$raw" "$help_txt"'
-assert_contains "compile contract no cache txt" "$compile_md" "never write \`.txt\`"
-assert_contains "compile contract no root probe" "$compile_md" "There is no root cache probe"
+assert_contains "compile contract no cache txt" "$compile_md" 'Never write a `.txt` help file'
+assert_contains "compile contract no root probe" "$compile_md" "Never probe or list the cache"
+assert_contains "compile contract nested directory" "$compile_md" 'mkdir -p "$(dirname "$fragment")"'
+assert_contains "compile contract no internal retry" "$compile_md" "Do not retry: the orchestrator owns the single retry"
+assert_contains "compile contract parent result" "$compile_md" "send the same object to the parent agent id"
 assert_contains "compile contract hash helper" "$compile_md" "fragment-hash.sh"
 assert_contains "compile contract help file reuse" "$compile_md" "--help-file"
 assert_contains "compile contract completion hints" "$compile_md" "--completion"

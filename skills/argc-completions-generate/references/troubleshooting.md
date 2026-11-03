@@ -23,7 +23,7 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | `fragments are not declared by their parent` | Stale file | Remove it or restore the parent entry |
 | `invalid fragment` | Schema/type error | Read the jq error and fix the fragment |
 | `choices entries must be objects {value, description}` | Legacy string choices | Convert each entry to `{"value": ..., "description": ...}` (`<SKILL_ROOT>/references/fragment-schema.md`) |
-| `invalid choices: each entry must be ...` | Empty or duplicate `value`, or a `value`/`description` with `|`, `]`, TAB, newline, backtick, or a control character | Fix the entry so `value` is unique, non-empty, and trimmed; keep descriptions single-line (`<SKILL_ROOT>/references/fragment-schema.md`) |
+| `invalid choices: each entry must be ...` | Empty or duplicate `value`, or a `value`/`description` with `\|`, `]`, TAB, newline, backtick, or a control character | Fix the entry so `value` is unique, non-empty, and trimmed; keep descriptions single-line (`<SKILL_ROOT>/references/fragment-schema.md`) |
 | `static choice function name collision` | Two items sanitize to one `_static_*` name, or the name is already defined outside `STATIC` | Bind a `choice_fn` for one item (or rename the colliding function); never hand-edit `STATIC` |
 | `invalid fragment ... description repeats choices: (a, b)` | Description repeats a static enumeration | Remove the matching `[...]`/`(...)`/`{...}` group; keep `(default: ...)` and `choices`, then re-run the validator (`<SKILL_ROOT>/references/fragment-schema.md`) |
 | `invalid items` after adding prefix/delimiter | Invariant not met | Apply the `prefixed`/`delimiter` rules (`<SKILL_ROOT>/references/fragment-schema.md`) |
@@ -48,19 +48,17 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | `SPEC differs from fragments` | Hand edit, stale assemble, or fragment edited without assembling | Update the fragment and run `<SKILL_ROOT>/scripts/assemble.sh`; never patch the block |
 | `undefined choice functions` | Missing or outside `CHOICES` | Add it before the final eval, or set `choice_fn` to null |
 | `duplicate choice function definitions` | Appended twice | Keep one definition |
-| `CHOICES format: no block markers ...` | The script has no block layout | Add `# >>> SPEC`/`# <<< SPEC`, `# >>> HINTS`/`# <<< HINTS`, and `# >>> CHOICES`/`# <<< CHOICES`, or delete the script and regenerate |
-| `no block markers` (assemble, verify, extract) | A script predates or skipped the block layout | Add the blocks by hand (nothing outside them is preserved), or delete the script and run a first generation |
+| `no block markers` (assemble, verify, format, extract) | The script has no block layout, or a marker pair is missing | Add `# >>> SPEC`/`# <<< SPEC`, `# >>> HINTS`/`# <<< HINTS`, and `# >>> CHOICES`/`# <<< CHOICES` by hand (nothing outside the blocks is preserved), or delete the script and run a first generation |
 | `CHOICES format: would format` | Unsorted, or a name outside `_choice_*`/`_helper_*` | Run `<SKILL_ROOT>/scripts/format-choices.sh <completion.sh>`, re-assemble, verify |
 | `cannot rename ... both map to` | Two names normalize to one `_helper_*` | Rename one manually, re-run the formatter |
 | `cannot rename ... used as a shell variable` | Function name is also a variable | Rename the function or variable, re-run the formatter |
 | `... is referenced outside CHOICES` | A `choice_fn` in `SPEC` still uses the old name | Update the fragment, re-assemble, then format |
 | Function prints nothing | An early return, wrong cwd, or a missing tool | Use the isolation flow in `<SKILL_ROOT>/references/compgen.md` §6 |
-| Hand-assembled `__argc_*` control lines or manual splitting | The mandatory helper/recipe lookup was skipped | Rebuild the body from the matching helper (`<REPO_ROOT>/utils/_argc_utils.sh` §*Section map*) or recipe (`<SKILL_ROOT>/references/compgen-recipes.md` §*Section map*), then re-run the gate (`<SKILL_ROOT>/references/add-choice-fns.md` §2 *Helpers*, §5) |
+| Hand-assembled `__argc_*` control lines or manual splitting | The mandatory helper/recipe lookup was skipped | Rebuild the body from the matching helper (`<REPO_ROOT>/utils/_argc_utils.sh` §*Section map*) or recipe, then re-run the gate (`<SKILL_ROOT>/references/add-choice-fns.md` §2 *Helpers*, §5) |
 | Redundant `command -v` probe on the root or a prerequisite | The root exists while its completion runs, and the prerequisites are always installed | Remove the probe and call the command directly (`<SKILL_ROOT>/references/compgen.md` §1) |
 | One value has command-specific answers but only one branch is implemented (`ip` vs `ifconfig`, `wl-copy` vs `xclip`) | A platform assumption baked into a single branch | Select the branch with `command -v` (`<SKILL_ROOT>/references/compgen.md` §1) |
 | Compgen times out | Network/slow query per keystroke | Reproduce with `<SKILL_ROOT>/scripts/test-compgen.sh -t`; fix by caching the query (`_argc_util_cache`), capping it, or dropping the binding |
-| Compgen passes but candidates are wrong | Shifted word position or no candidate-level check | Test the option word (`--foo ''`); assert values with the `<SKILL_ROOT>/references/compgen.md` §6 `generic` pipeline |
-| Candidates look missing or different in a shell mode | Shell modes exercise the integration and post-process the candidate list | Check `generic` with the `<SKILL_ROOT>/references/compgen.md` §6 pipeline; do not edit `CHOICES` from a shell-mode result |
+| Compgen passes but candidates are wrong, or differ in a shell mode | Shifted word position, no candidate-level check, or a shell-mode result that post-processes the list | Test the option word (`--foo ''`); assert values and inspect `generic` with `<SKILL_ROOT>/references/compgen.md` §6; never edit `CHOICES` from a shell-mode result |
 | `grep -x` finds no candidate | Candidate lines carry a NUL, color, and description fields | Use the `<SKILL_ROOT>/references/compgen.md` §6 pipeline (`tr -d '\000'`, `cut -f1`) |
 | Static choices disappeared | A binding replaced them | Restore `choices`, or keep the dynamic source |
 | `choice_fn` rejected | Not string/null, or contains backticks | Use a local function name such as `_choice_name`, not the tag form |
@@ -105,8 +103,7 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | Symptom | Cause | Fix |
 |---|---|---|
 | `status=invalid reason=hash-mismatch` | The HINTS body, the notation/`choice_fn`/`terminated` context `DIFF`, or canonical help changed | Let the queue dispatch that node; do not edit the hash by hand |
-| A common HINTS line makes every node in the root `hash-mismatch` | Common lines are part of every node's hash body | Expected: the whole subtree recompiles once; a `# %%<path>` section changes only that node |
-| A marker-less HINTS block starts applying to every node | All text before the first `# %%` marker is common | Expected after the section syntax landed; add `# %%<root>` when the text is root-only |
+| A common HINTS line makes every node in the root `hash-mismatch` | Common lines precede the first `# %%` marker and are part of every node's hash body | Expected: the whole subtree recompiles once; a `# %%<path>` section changes only that node, so put root-only text under `# %%<root>` |
 | `status=invalid reason=schema` (missing `hash`/`source.command`, unsafe command, non-empty hash on `none`) | Old or hand-edited fragment | Recompile the node under the current schema; there is no migration |
 | `status=unverified reason=help-unavailable` | The source command failed, timed out, or printed nothing | Reuse the fragment, keep the warning, and do not dispatch automatically; recompile only after confirming the command works |
 | `status=failed hash=` on a `source.kind: none` fragment | Help was unavailable when the node was last compiled | Reuse and warn; only a confirmed `<SKILL_ROOT>/scripts/delete-cache.sh <root>` plus a full run retries it |
@@ -116,4 +113,4 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | Parent description/aliases are stale | Child metadata was not synced from the parent entry | Run finalize; those fields are not part of the hash |
 | Cache directory contains `.txt` | An old cache or a raw capture | Delete it (verify rejects every `.txt`); do not migrate it into a fragment |
 | Regenerate deleted the cache before confirmation | The warning/confirmation step was skipped | Stop; the cache can only be rebuilt by a full compile |
-| `HINTS`/`CHOICES` disappeared after delete-cache | The completion script was deleted or replaced | Restore it; `<SKILL_ROOT>/scripts/delete-cache.sh` never touches `<REPO_ROOT>/completions/<root>.sh` |
+| `HINTS`/`CHOICES` disappeared after delete-cache | The completion script was deleted or replaced | Restore it; `<SKILL_ROOT>/scripts/delete-cache.sh` never touches the completion script (`output_file`) |

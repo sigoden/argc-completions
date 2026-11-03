@@ -19,7 +19,6 @@ assert_contains "skill regenerate confirmation" "$skill_md" "ask for confirmatio
 assert_contains "skill delete-cache step" "$skill_md" "delete-cache.sh"
 assert_contains "skill cache-first invariant" "$skill_md" "Cache-first: never dispatch"
 assert_contains "skill first generation flag" "$skill_md" "root_fragment_exists=0"
-assert_contains "skill first generation skips check" "$skill_md" "A first generation skips the check"
 assert_contains "skill check-fragment step" "$skill_md" "check-fragment.sh"
 assert_contains "skill finalize step" "$skill_md" "finalize-cache"
 assert_contains "skill assemble gate" "$skill_md" 'Assemble only when no node is `todo`'
@@ -33,7 +32,16 @@ assert_contains "skill next step" "$skill_md" "next=add-choice-fns"
 assert_contains "skill merged stream ban" "$skill_md" "2>&1 | jq"
 assert_contains "skill static block contract" "$skill_md" '# >>> STATIC'
 assert_contains "skill hints common lines" "$skill_md" 'Lines before the first `# %%` marker are common to every command in the root'
+assert_contains "skill hints no inheritance" "$skill_md" 'with no inheritance'
+assert_contains "skill hints collapsed whitespace" "$skill_md" "Paths compare with collapsed whitespace"
 assert_contains "skill hints section syntax" "$skill_md" '# %%<root> <sub>'
+
+# The counts line is the reporting contract, so every field is defined here
+# instead of being inferred from the examples.
+assert_contains "skill report counters" "$skill_md" "counts line uses fixed fields"
+assert_contains "skill report commands definition" "$skill_md" '`commands` is the number of command blocks in `SPEC`'
+assert_contains "skill report fragments definition" "$skill_md" '`fragments` is the number of `.json` files under the cache directory'
+assert_contains "skill report pruned source" "$skill_md" '`pruned` is the `removed` count'
 
 # Writing a function body is gated on both reference section maps: SKILL.md
 # carries the invariant instead of deferring the lookup.
@@ -52,6 +60,7 @@ assert_not_contains "skill no git-status rule" "$skill_md" 'Do not use `git stat
 assert_not_contains "skill no format rule" "$skill_md" "format-choices.sh"
 assert_not_contains "skill no generic-assertion rule" "$skill_md" "Candidate assertions use"
 assert_not_contains "skill no completions-inspection rule" "$skill_md" 'Do not inspect `<REPO_ROOT>/completions/`'
+assert_not_contains "skill no first-generation restatement" "$skill_md" "A first generation skips the check"
 assert_not_contains "skill no sort rule" "$skill_md" "LC_ALL=C"
 assert_not_contains "skill no cache hash framing" "$skill_md" "NUL SKILL_CACHE_VERSION"
 assert_not_contains "skill no cache hash body" "$skill_md" "The hash body includes"

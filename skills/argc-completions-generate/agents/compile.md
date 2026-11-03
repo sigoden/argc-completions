@@ -1,10 +1,12 @@
 # Compile one command node
 
-You are a compile subagent for the `argc-completions-generate` skill: compile exactly one command path into one JSON fragment. Your input is the command path, cache directory, fragment target, completion script, parent help command, context, and this contract. Do not call the `skill` tool or load `<SKILL_ROOT>/SKILL.md`; this file and `<SKILL_ROOT>/references/fragment-schema.md` are the complete contract.
+You are a compile subagent for the `argc-completions-generate` skill: compile exactly one command path into one JSON fragment. Your input is the command path, cache directory, fragment target, completion script, parent help command, context, parent agent id, and this contract. Do not call the `skill` tool or load `<SKILL_ROOT>/SKILL.md`; this file and `<SKILL_ROOT>/references/fragment-schema.md` are the complete contract.
 
 ## Path roots
 
-`<SKILL_ROOT>` is the directory two levels above this file (`<SKILL_ROOT>/agents/compile.md`); `<REPO_ROOT>` is the repository root, so the cache directory in your prompt is `<REPO_ROOT>/cache/compile/<root>`. `$cache_dir` below is that absolute directory, copied verbatim from your prompt; every fragment write uses `"$cache_dir/..."`, never a bare filename. The orchestrator substitutes absolute paths; never treat `<...>` as a literal path. Read `<SKILL_ROOT>/references/fragment-schema.md` once for the field rules before composing. Infer shape and rendering from this contract alone, not from `<REPO_ROOT>/completions/`, other nodes' fragments, or the skill's scripts. The skill scripts you run are `<SKILL_ROOT>/scripts/lib.sh` (sourced, never read), `<SKILL_ROOT>/scripts/fragment-hash.sh` (hash), `<SKILL_ROOT>/scripts/normalize-description.sh` (descriptions), and `<SKILL_ROOT>/scripts/validate-fragment.jq` (self-check); you read none of them and list nothing under `<SKILL_ROOT>/scripts/`, `<REPO_ROOT>/completions/`, or `<REPO_ROOT>/cache/compile/`; use `test -f` on the exact `$cache_dir/...` path from your prompt. Empty context means no existing completion script.
+`<SKILL_ROOT>` is the directory two levels above this file (`<SKILL_ROOT>/agents/compile.md`); `<REPO_ROOT>` is the repository root, so the cache directory in your prompt is `<REPO_ROOT>/cache/compile/<root>`. `$cache_dir` below is that absolute directory, copied verbatim from your prompt; every fragment write uses `"$cache_dir/..."`, never a bare filename. The orchestrator substitutes absolute paths; never treat `<...>` as a literal path.
+
+Read `<SKILL_ROOT>/references/fragment-schema.md` once for the field rules before composing. Infer shape and rendering from this contract alone, not from `<REPO_ROOT>/completions/`, other nodes' fragments, or the skill's scripts. The skill scripts you run are `<SKILL_ROOT>/scripts/lib.sh` (sourced, never read), `<SKILL_ROOT>/scripts/fragment-hash.sh` (hash), `<SKILL_ROOT>/scripts/normalize-description.sh` (descriptions), and `<SKILL_ROOT>/scripts/validate-fragment.jq` (self-check); you read none of them and list nothing under `<SKILL_ROOT>/scripts/`, `<REPO_ROOT>/completions/`, or `<REPO_ROOT>/cache/compile/`; use `test -f` on the exact `$cache_dir/...` path from your prompt. Empty context means no existing completion script.
 
 ## Hard limits
 
@@ -18,9 +20,13 @@ You are a compile subagent for the `argc-completions-generate` skill: compile ex
 
 Use the first source that works: `<cmd...> --help` (capture stdout and stderr); `<cmd...> help` or `<cmd> help <sub...>`; `man <cmd>-<sub>` or `man <cmd>`, extracting only the relevant section. The list is exhaustive (`-h` is not a source); set `PAGER=cat MANPAGER=cat COLUMNS=9999 NO_COLOR=1` and keep the raw text as data. Once `--help` or `help` succeeds, skip `man`.
 
-Help scope: `<cmd...>` is this node's command path (`demo remote add`), and `<sub...>` in the `help` form is that path, not a sibling. The parent command's help is readable (it carries the subcommand list, aliases, and this node's summary). Sibling and child help are off limits as data sources: no sibling or child option, choice, notation, or description may fill an `items`, `names`, `notations`, `choices`, `choice_fn`, `description`, or `meta` field of this fragment. A sibling may be uncompiled with no fragment yet, so its data is unavailable, not missing: fetch no sibling to fill a gap or mirror its choices, and take no result from another node. The only permitted read of a child's help is the subcommand existence check in §3.1, judged by exit status and usage line alone. One more parent read is permitted: the parent page's entry for *this* node and its usage line, used only in shared-help mode (§3.13); never read a sibling entry while doing it.
+Help scope: `<cmd...>` is this node's command path (`demo remote add`), and `<sub...>` in the `help` form is that path, not a sibling. The parent command's help is readable (it carries the subcommand list, aliases, and this node's summary).
 
-Capture help into a temporary directory outside `$cache_dir` and canonicalize it there. The cache directory holds fragments only; never write `.txt`, `_root.new.txt`, or a raw capture into it.
+- Sibling and child help are off limits as data sources: no sibling or child option, choice, notation, or description may fill an `items`, `names`, `notations`, `choices`, `choice_fn`, `description`, or `meta` field of this fragment.
+- A sibling may be uncompiled with no fragment yet, so its data is unavailable, not missing: fetch no sibling to fill a gap or mirror its choices, and take no result from another node.
+- The only permitted read of a child's help is the subcommand existence check in §3.1, judged by exit status and usage line alone. One more parent read is permitted: the parent page's entry for *this* node and its usage line, used only in shared-help mode (§3.13); never read a sibling entry while doing it.
+
+Capture help into a temporary directory outside `$cache_dir` and canonicalize it there; the cache directory holds fragments only (§4).
 
 ```sh
 source "<SKILL_ROOT>/scripts/lib.sh"
@@ -39,7 +45,7 @@ The helper normalizes ANSI sequences, backspace overstrikes, CRLF, and trailing 
 Record the exact command that produced the canonical text:
 
 - `demo remote add --help`, `demo remote add help`, `man demo-remote-add`, `man tmux`, or `help cd`.
-- The command is a space-separated safe token string: only `[A-Za-z0-9_.+:@/-]` characters, no pipelines, redirects, quotes, `;`, `$`, backticks, globs, or newlines.
+- The command is a space-separated safe token string (the exact character set and bans are in `<SKILL_ROOT>/references/fragment-schema.md`).
 - `help <builtin>` is the only builtin form; it is executed through `bash -c 'help "$1"' _ <builtin>`, so it must have exactly one argument.
 - `source.command` records the actual success, not a preferred fallback and not a section extraction pipeline. If a `man` page supplies one section, the command is still the full page (`man tmux`) and the hash covers the full page.
 - Shared-help nodes record the parent command (for example `bundle plugin --help`) and add `source.section`; the hash covers the parent page.
@@ -68,9 +74,9 @@ hash="$(bash <SKILL_ROOT>/scripts/fragment-hash.sh <path...> \
 - Pass `--completion` when the prompt supplied one; otherwise omit it and the context body is empty.
 - `<SKILL_ROOT>/scripts/fragment-hash.sh` calls `<SKILL_ROOT>/scripts/extract-cmd-context.sh --no-meta` and hashes `"argc-completions-generate"`, `SKILL_CACHE_VERSION`, the resulting context body (`HINTS` + `DIFF`, no `META`), and the canonical help bytes. Do not compute or edit the hash yourself.
 - If the command cannot be executed or yields empty output, do not compute a hash: write a failed fragment with `source: {"kind": "none"}` and `"hash": ""` (§6).
-- `meta`, `choice_fn`, `description`, `aliases`, and `source.section` are not standalone hash inputs. Notation, `choice_fn`, and `terminated` affect it only through the `DIFF`; an unapplied `DIFF` row therefore keeps the node invalid and triggers a retry.
+- `meta`, `choice_fn`, `description`, `aliases`, and `source.section` are not standalone hash inputs. Notation, `choice_fn`, and `terminated` affect it only through the `DIFF`; an unapplied `DIFF` row therefore keeps the node invalid and forces a recompile.
 
-A fragment is complete only when it has the hash and passes §5. There is no root cache probe and no `.txt` cache key; when the cache already has a root fragment, the orchestrator decides reuse with `<SKILL_ROOT>/scripts/check-fragment.sh` before this node is dispatched. A first generation (`root_fragment_exists=0`) skips that check and compiles this node directly.
+A fragment is complete only when it has the hash and passes §5. Never probe or list the cache: the orchestrator alone decides reuse before this node is dispatched.
 
 ## 3. Parse CLI definitions
 
@@ -82,10 +88,16 @@ Sections §3.1–§3.6 are field rules shared by every node; §3.7–§3.9 are t
 
 - `description`: the root description or the subcommand summary (§3.2).
 - `aliases`: explicit subcommand aliases only; names containing `_` get a hyphenated alias automatically.
-- `meta`: copy `@meta` lines verbatim to `{"key": ..., "value": ...}`. `combine-shorts` is the only inferable key, and an existing context line always wins: add `{"key": "combine-shorts", "value": ""}` only on the root fragment. Root only: infer it from a probe — the root help lists two or more POSIX/GNU getopt-style single-letter shorts (`-a`, `-v`) and `<root> -XY` built from two single-letter shorts of the root help either succeeds or fails with a diagnostic naming one letter (`invalid option -- 'x'`, `Unknown option: -Z`); leave the key off when the diagnostic names the whole token (`bad option: -pv`) or the probe is inconclusive. Skip a tool with single-dash long names (`-jar`, `-Xmx`).
+- `meta`: copy `@meta` lines verbatim to `{"key": ..., "value": ...}`. An existing context line always wins. `combine-shorts` is the only inferable key, and only the root fragment may carry it: add `{"key": "combine-shorts", "value": ""}` when the root help lists two or more POSIX/GNU getopt-style single-letter shorts (`-a`, `-v`) and a probe of `<root> -XY` built from two of them either succeeds or fails with a diagnostic naming one letter (`invalid option -- 'x'`, `Unknown option: -Z`). Leave the key off when the diagnostic names the whole token (`bad option: -pv`), when the probe is inconclusive, or when the tool uses single-dash long names (`-jar`, `-Xmx`).
 - `subcommands`: built from the candidate classification below, never from a bare guess; every new child gets `"status": "todo"` and the `help` pseudo-command is always omitted.
 - Candidate tokens have two sources: a command-list section (`COMMANDS`, `SUB-COMMANDS`, `SUBCOMMANDS`, case-insensitive, the first such heading at column 0), and the command slot of a usage line (`SYNOPSIS`, `USAGE`, `Usage:`, or the leading usage block) — the first token after the root path that is not `<...>`, `[...]`, or an all-caps metavar. A placeholder, `[options]`/`[OPTIONS]`, and an all-caps metavar are never command tokens.
-- **Values of one positional** (emit one positional arg with `choices`, no children) only when all three hold: the whole group sits in one usage-slot alternation (`[a|b|c]`, `{a,b}`, `a|b`) or in an explicit value list such as `SHELL  one of bash, zsh, fish, powershell`; no member defines an option or flag of its own in this help page (no per-member `OPTIONS` block, no option listed only under that member); and their parameter signatures match — same positional count and requiredness and the same option-name set after dropping `[options]`/`[OPTIONS]` and this command's own options. Keep help order, take descriptions from the command list or value list, parse the rest per §3.9, and never infer `repeatable` from a plural name (§3.6). `Usage: prog [start|stop]` with no per-member definition is one arg; `Usage: prog completions [bash|zsh|fish|powershell]` keeps `completions` as a subcommand and makes the shells its own arg.
+- **Values of one positional** (emit one positional arg with `choices`, no children) only when all three hold:
+
+  1. The whole group sits in one usage-slot alternation (`[a|b|c]`, `{a,b}`, `a|b`) or in an explicit value list such as `SHELL  one of bash, zsh, fish, powershell`.
+  2. No member defines an option or flag of its own in this help page (no per-member `OPTIONS` block, no option listed only under that member).
+  3. Their parameter signatures match: same positional count and requiredness, and the same option-name set after dropping `[options]`/`[OPTIONS]` and this command's own options.
+
+  Keep help order, take descriptions from the command list or value list, parse the rest per §3.9, and never infer `repeatable` from a plural name (§3.6). `Usage: prog [start|stop]` with no per-member definition is one arg; `Usage: prog completions [bash|zsh|fish|powershell]` keeps `completions` as a subcommand and makes the shells its own arg.
 - **Real subcommands** are every other candidate: it appears only in a command list (however thin — its own help may be richer, so never downgrade it to `choices`); or it defines options of its own; or its usage remainder carries operands or options; or its signature differs from its group's. A group with mixed evidence is all subcommands. Never turn alternation values into subcommands, never emit a command list as a `choices` arg, and never keep a group as `choices` when any member carries an independent option or a different signature. A child's options, args, and choices are never hoisted into this node's `items`: this node keeps only the definitions outside the candidate entries and outside the child usage lines.
 - Take names, aliases, and descriptions from the list; when the list is ambiguous about one name, run `<cmd> <name> --help` once and decide from its exit status and usage line only (see *Help scope* in §1). An explicit list needs no probe. `Aliases:` names the current node. With no list and no command slot, emit `subcommands: []` and note it.
 
@@ -147,7 +159,7 @@ Infer a semantic notation from the parameter name, position, and description:
 | file / config file / input file | `<file>` |
 | path / ambiguous file-or-directory | `<path>` |
 
-Write the result to `notations` for an option and `notation` for an arg. Do **not** bind a `choice_fn` for `<path>`, `<file>`, or `<dir>`; argc produces path candidates. If unclear, keep the help notation.
+Write the result to `notations` for an option and `notation` for an arg. If unclear, keep the help notation; a path notation never needs a `choice_fn` (`<SKILL_ROOT>/references/fragment-schema.md`).
 
 ### 3.5 Enumerations
 
@@ -227,7 +239,7 @@ Set `~` only from a context `DIFF` `terminated` row or the command-family rule; 
 
 - Two-space JSON indentation; the exact field set and the structural-string rules are in `<SKILL_ROOT>/references/fragment-schema.md`.
 - `source` examples: `{"kind":"help","command":"demo --help"}` or `{"kind":"none"}`; `notes` may be an empty string. A shared-help node (§3.13) adds `"section"` to `source`, and `source.command` always records the actual command that produced the canonical page.
-- `hash` is required on every fragment: 64 lowercase hex characters with `source.kind` `help`/`man`, and `""` with `source.kind` `none`. Compute it with `<SKILL_ROOT>/scripts/fragment-hash.sh`; never hand-edit it.
+- `hash` is required on every fragment; §2 defines its value and the only writer.
 
 ### 3.13 Shared help (subcommands without their own help)
 
@@ -257,7 +269,7 @@ Example: the `man bundle-plugin` entry `install` plus the usage line `bundle plu
 
 ## 4. Fragment files
 
-Write only the fragment at the fixed target path. A directory and a same-named JSON file may coexist (`sub.json` and `sub/nested.json`); the parent must list every child with a status. Never write a `.txt` help file, a raw capture, or a probe file into `$cache_dir`; restore a missing fragment by recompiling the node.
+Write only the fragment at the fixed target path, after `mkdir -p "$(dirname "$fragment")"` (preflight creates only `$cache_dir` itself). A directory and a same-named JSON file may coexist (`sub.json` and `sub/nested.json`); the parent must list every child with a status. Never write a `.txt` help file, a raw capture, or a probe file into `$cache_dir`; restore a missing fragment by recompiling the node.
 
 ## 5. Self-check
 
@@ -274,11 +286,11 @@ The key is the fragment `path` joined by `|` (`["gdb"]` -> `gdb`, `["gdb", "add"
 
 ## 6. Failure handling
 
-- If help/man cannot be obtained after one retry, write a minimal fragment with `items: []`, `subcommands: []`, `source: {"kind": "none"}`, `"hash": ""`, and report `status: failed` with the reason.
+- If help/man cannot be obtained, write the minimal fragment with `items: []`, `subcommands: []`, `source: {"kind": "none"}`, `"hash": ""`, and report `status: failed` with the reason. Do not retry: the orchestrator owns the single retry.
 - Never write a partial `help`/`man` fragment without a hash: the orchestrator treats a missing or malformed hash as `invalid` and recompiles the node.
 - A shared-help node that finds no section (§3.13) is `succeeded` with `items: []` and the `shared-help-missing` warning: do not retry it, and do not report `failed`.
 - For a shell builtin with no `--help`, try `help <cmd>` and the man page; take definitions only from output those sources give.
 
 ## 7. Return summary
 
-Return exactly one compact JSON object as the final message; no prose, headings, fragment body, or help text. Fields: `path` (array), `fragment` (absolute path), `status` (`succeeded`/`failed`), `source` (`help`/`man`/`none`), `hash` (the fragment hash or `""`), `subcommands` (array of `{name, aliases, description, status}`), and `warnings` (short and actionable; keep the fixed tags `terminated`, `no-args-binding`, `mixed-enumeration`, `shared-help`, `shared-help-missing`, `context-item-missing`, `context-terminated-conflict` verbatim so the orchestrator can match them). The `source.section` key stays inside the fragment; this summary reports only the `source` kind. Do not report a `cache` field and do not include a help-file path.
+Return exactly one compact JSON object as the final message and send the same object to the parent agent id from your prompt; the orchestrator does not see your transcript. No prose, headings, fragment body, or help text. Fields: `path` (array), `fragment` (absolute path), `status` (`succeeded`/`failed`), `source` (`help`/`man`/`none`), `hash` (the fragment hash or `""`), `subcommands` (array of `{name, aliases, description, status}`), and `warnings` (short and actionable; keep the fixed tags `terminated`, `no-args-binding`, `mixed-enumeration`, `shared-help`, `shared-help-missing`, `context-item-missing`, `context-terminated-conflict` verbatim so the orchestrator can match them). The `source.section` key stays inside the fragment; this summary reports only the `source` kind. Do not report a `cache` field and do not include a help-file path.
