@@ -7,7 +7,7 @@ helper_init
 
 build_dynamic_fixture
 
-check "dynamic compgen output" bash -c "argc --argc-compgen generic '$TMP_DIR/dynamic.sh' demo --output '' | tr -d '\000' | cut -f1 | grep -qx 'out.txt'"
+check "dynamic compgen output" bash -c "argc --argc-compgen generic '$(native_path "$TMP_DIR/dynamic.sh")' demo --output '' | tr -d '\000' | cut -f1 | grep -qx 'out.txt'"
 # ---------------------------------------------------------------------------
 # test-compgen.sh: candidate assertions on the dynamic script
 # ---------------------------------------------------------------------------

@@ -98,7 +98,7 @@ assert_contains "extract default keeps markers" "$TMP_DIR/context-empty-full.txt
 # <<< DIFF'
 
 # An explicit --fragment overrides the cache lookup.
-jq '.items[0].notations = ["<OVERRIDE>"]' "$cache/remote.json" >"$TMP_DIR/context-override.json"
+jq '.items[0].notations = ["<OVERRIDE>"]' "$(native_path "$cache/remote.json")" >"$TMP_DIR/context-override.json"
 assert_contains "extract --fragment baseline" <(
     bash "$SCRIPTS/extract-cmd-context.sh" demo remote --completion "$context" \
         --cache-dir "$cache" --fragment "$TMP_DIR/context-override.json"

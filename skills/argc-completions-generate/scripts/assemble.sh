@@ -39,14 +39,6 @@ Options:
 USAGE
 }
 
-absolute_path() {
-    local path="$1"
-    case "$path" in
-        /*) printf '%s\n' "$path" ;;
-        *) printf '%s/%s\n' "$PWD" "$path" ;;
-    esac
-}
-
 root=""
 fragments_dir=""
 output_file=""
@@ -162,6 +154,7 @@ load_fragments() {
             expected_key="$root"
             for part in "${parts[@]}"; do
                 [[ -n "$part" ]] || die "invalid fragment path: $file"
+                part="$(fragment_name_decode "$part")"
                 [[ "$part" != "_root" ]] || die "nested _root.json is not supported: $file"
                 expected_key="$expected_key|$part"
             done
@@ -170,17 +163,17 @@ load_fragments() {
         if [[ -n "${FRAG_FILE[$key]:-}" ]]; then
             die "duplicate fragment for path: ${key//|/ }"
         fi
-        if ! validation_error="$(jq_skill -e -f "$SCRIPT_DIR/validate-fragment.jq" --arg key "$key" "$file" 2>&1 >/dev/null)"; then
+        if ! validation_error="$(jq_skill -e -f "$(native_path "$SCRIPT_DIR/validate-fragment.jq")" --arg key "$key" "$(native_path "$file")" 2>&1 >/dev/null)"; then
             log_error "invalid fragment: $file"
             printf '%s\n' "$validation_error" >&2
             exit 1
         fi
         FRAG_FILE[$key]="$file"
-        NODE_DESC[$key]="$(jq -r '(.description // "") | gsub("[\\r\\n\\t]+"; " ") | gsub("^ +| +$"; "")' "$file")"
-        NODE_ALIASES[$key]="$(jq -r '(.aliases // []) | join(",")' "$file")"
-        NODE_META[$key]="$(jq -c '.meta // []' "$file")"
-        NODE_ITEMS[$key]="$(jq -c '.items // []' "$file")"
-        NODE_SUBS[$key]="$(jq -c '.subcommands // []' "$file")"
+        NODE_DESC[$key]="$(jq -r '(.description // "") | gsub("[\\r\\n\\t]+"; " ") | gsub("^ +| +$"; "")' "$(native_path "$file")")"
+        NODE_ALIASES[$key]="$(jq -r '(.aliases // []) | join(",")' "$(native_path "$file")")"
+        NODE_META[$key]="$(jq -c '.meta // []' "$(native_path "$file")")"
+        NODE_ITEMS[$key]="$(jq -c '.items // []' "$(native_path "$file")")"
+        NODE_SUBS[$key]="$(jq -c '.subcommands // []' "$(native_path "$file")")"
     done < <(find "$fragments_dir" -type f -name '*.json' | LC_ALL=C sort)
 }
 
@@ -194,7 +187,7 @@ MISSING_PATHS=()
 FAILED_PATHS=()
 STALE_PATHS=()
 for key in "${!FRAG_FILE[@]}"; do
-    if ! siblings="$(jq -r '.[] | .name, (.aliases[]?)' <<<"${NODE_SUBS[$key]}")"; then
+    if ! siblings="$(jq -b -r '.[] | .name, (.aliases[]?)' <<<"${NODE_SUBS[$key]}")"; then
         die "failed to read subcommands: ${FRAG_FILE[$key]}"
     fi
     while IFS= read -r sibling; do
@@ -205,7 +198,7 @@ for key in "${!FRAG_FILE[@]}"; do
         SIBLING_SEEN["$key|$sibling"]=1
     done <<<"$siblings"
 
-    if ! declarations="$(jq -r '.[] | .name + "\u001f" + (.status // "todo") + "\u001f" + ((.aliases // []) | join(","))' <<<"${NODE_SUBS[$key]}")"; then
+    if ! declarations="$(jq -b -r '.[] | .name + "\u001f" + (.status // "todo") + "\u001f" + ((.aliases // []) | join(","))' <<<"${NODE_SUBS[$key]}")"; then
         die "failed to read subcommands: ${FRAG_FILE[$key]}"
     fi
     while IFS=$'\x1f' read -r child_name status child_aliases; do
@@ -342,7 +335,7 @@ node_function_name() {
 
 render_meta() {
     local meta_json="$1" rendered key value
-    if ! rendered="$(jq -r '.[] | .key + "\u001f" + (.value // "")' <<<"$meta_json")"; then
+    if ! rendered="$(jq -b -r '.[] | .key + "\u001f" + (.value // "")' <<<"$meta_json")"; then
         die "failed to render meta"
     fi
     while IFS=$'\x1f' read -r key value; do
@@ -369,7 +362,7 @@ emit_item_line() {
 
 render_items() {
     local key="$1" items_json="$2" rendered tag desc static_fn body
-    if ! rendered="$(jq -r --arg key "$key" '
+    if ! rendered="$(jq -b -r --arg key "$key" '
         def sanitize: gsub("[^A-Za-z0-9_]"; "_");
         def param_label:
           if .kind == "arg" then (.name // "item")
@@ -478,7 +471,7 @@ emit_static_fn() {
 
 render_children() {
     local key="$1" names name child_key
-    if ! names="$(jq -r '.[] | .name' <<<"${NODE_SUBS[$key]}")"; then
+    if ! names="$(jq -b -r '.[] | .name' <<<"${NODE_SUBS[$key]}")"; then
         die "failed to read subcommands: ${key//|/ }"
     fi
     while IFS= read -r name; do
@@ -676,8 +669,8 @@ fi
 refs_file="$tmp_dir/refs.txt"
 : >"$refs_file"
 for file in "${FRAG_FILE[@]}"; do
-    jq -r '.items[]? | .choice_fn // empty' "$file" >>"$refs_file"
-    jq -r '.meta[]? | .value // empty' "$file" 2>/dev/null | grep -o '`[^`]*`' | tr -d '`' >>"$refs_file" || true
+    jq -b -r '.items[]? | .choice_fn // empty' "$(native_path "$file")" >>"$refs_file"
+    jq -b -r '.meta[]? | .value // empty' "$(native_path "$file")" 2>/dev/null | grep -o '`[^`]*`' | tr -d '`' >>"$refs_file" || true
 done
 missing_refs=()
 while IFS= read -r ref; do
@@ -697,7 +690,7 @@ if ! bash -n "$full_output"; then
 fi
 
 export_err="$tmp_dir/export.err"
-if ! argc --argc-export "$full_output" >"$tmp_dir/export.json" 2>"$export_err"; then
+if ! argc --argc-export "$(native_path "$full_output")" >"$tmp_dir/export.json" 2>"$export_err"; then
     log_error "argc --argc-export failed for generated script:"
     cat "$export_err" >&2
     exit 1
@@ -724,7 +717,7 @@ if [[ -z "$source_file" || ! -f "$source_file" ]]; then
         [.. | objects | select(has("choice")) | .choice
          | select(. != null and .type == "Fn") | .data[0]
          | select((($names // []) | index(.)) == null)] | length == 0
-    ' "$tmp_dir/export.json" >/dev/null; then
+    ' "$(native_path "$tmp_dir/export.json")" >/dev/null; then
         die "new completion script unexpectedly contains Fn choices"
     fi
 fi

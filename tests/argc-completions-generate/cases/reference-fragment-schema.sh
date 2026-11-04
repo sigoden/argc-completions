@@ -7,6 +7,9 @@ helper_init
 
 schema_md="$SKILL_DIR/references/fragment-schema.md"
 
+assert_contains "schema layout path mapping" "$schema_md" '<sub>/<nested>.json  path = [root, sub, nested]'
+assert_contains "schema windows encoding" "$schema_md" 'profile%3Amem.json'
+assert_contains "schema minimal failed fragment" "$schema_md" '"notes": "help unavailable"'
 assert_contains "schema notation modifiers" "$schema_md" "Notation modifiers: only an option may use them"
 assert_contains "schema arg notation no modifier" "$schema_md" 'arg `notation` never carries one'
 assert_contains "schema colon enumeration" "$schema_md" "colon-introduced comma list"

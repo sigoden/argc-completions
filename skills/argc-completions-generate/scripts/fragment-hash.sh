@@ -115,7 +115,7 @@ fi
 command="$command_override"
 if [[ -z "$command" ]]; then
     [[ -f "$fragment" ]] || { log_error "fragment not found: $fragment"; exit 2; }
-    kind="$(jq -r '.source.kind // empty' "$fragment" 2>/dev/null)" || {
+    kind="$(jq -r '.source.kind // empty' "$(native_path "$fragment")" 2>/dev/null)" || {
         log_error "cannot read fragment: $fragment"
         exit 2
     }
@@ -126,7 +126,7 @@ if [[ -z "$command" ]]; then
             exit 2
             ;;
     esac
-    command="$(jq -r '.source.command // empty' "$fragment")"
+    command="$(jq -r '.source.command // empty' "$(native_path "$fragment")")"
     [[ -n "$command" ]] || { log_error "fragment has no source.command: $fragment"; exit 2; }
 fi
 

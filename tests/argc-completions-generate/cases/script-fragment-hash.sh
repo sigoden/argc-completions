@@ -134,7 +134,7 @@ hash_same_fragment="$(bash "$SCRIPTS/fragment-hash.sh" hash-demo --cache-dir "$h
     --completion "$hash_completion" --fragment "$TMP_DIR/hash-fragment.json")"
 check "fragment-hash --fragment baseline match" test "$hash1" = "$hash_same_fragment"
 jq '(.items[] | select(.names | index("--foo")) | .notations) = ["<OVERRIDE>"]' \
-    "$TMP_DIR/hash-fragment.json" >"$TMP_DIR/hash-fragment-override.json"
+    "$(native_path "$TMP_DIR/hash-fragment.json")" >"$TMP_DIR/hash-fragment-override.json"
 hash_override="$(bash "$SCRIPTS/fragment-hash.sh" hash-demo --cache-dir "$hash_cache" \
     --completion "$hash_completion" --fragment "$TMP_DIR/hash-fragment-override.json")"
 check "fragment-hash --fragment changes diff" test "$hash1" != "$hash_override"

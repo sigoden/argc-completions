@@ -111,7 +111,7 @@ else
 fi
 
 # argparse prints its help to stderr in some argc versions; accept either stream.
-if (cd "$REPO_ROOT" && ARGC_COMPLETIONS_ROOT="$REPO_ROOT" bash "$file" --help) >"$tmp_dir/help.out" 2>"$tmp_dir/help.err"; then
+if (cd "$REPO_ROOT" && ARGC_COMPLETIONS_ROOT="$REPO_ROOT" bash "$(native_path "$file")" --help) >"$tmp_dir/help.out" 2>"$tmp_dir/help.err"; then
     if [[ -s "$tmp_dir/help.out" || -s "$tmp_dir/help.err" ]]; then
         pass "help output"
     else
@@ -526,13 +526,13 @@ fi
 # argc --argc-export
 export_json="$tmp_dir/export.json"
 export_err="$tmp_dir/export.err"
-if argc --argc-export "$file" >"$export_json" 2>"$export_err"; then
-    if jq -e 'type == "object" and (.name | type == "string") and (.flag_options | type == "array") and (.positionals | type == "array") and (.subcommands | type == "array")' "$export_json" >/dev/null; then
+if argc --argc-export "$(native_path "$file")" >"$export_json" 2>"$export_err"; then
+    if jq -e 'type == "object" and (.name | type == "string") and (.flag_options | type == "array") and (.positionals | type == "array") and (.subcommands | type == "array")' "$(native_path "$export_json")" >/dev/null; then
         pass "argc --argc-export"
     else
         fail "argc --argc-export returned an unexpected JSON shape"
     fi
-    exported_name="$(jq -r '.name // ""' "$export_json")"
+    exported_name="$(jq -r '.name // ""' "$(native_path "$export_json")")"
     if [[ "$exported_name" != "${cmd##* }" ]]; then
         printf 'NOTE  exported name %s differs from derived command %s\n' "$exported_name" "$cmd"
     fi
@@ -549,7 +549,7 @@ if [[ "$require_no_choice" -eq 1 && -s "$export_json" ]]; then
         [.. | objects | select(has("choice")) | .choice
          | select(. != null and .type == "Fn") | .data[0]
          | select((($names // []) | index(.)) == null)] | length == 0
-    ' "$export_json" >/dev/null; then
+    ' "$(native_path "$export_json")" >/dev/null; then
         pass "no Fn choices in export"
     else
         fail "export contains Fn choices"
@@ -566,7 +566,7 @@ if [[ -n "$fragments" && -s "$export_json" ]]; then
     else
         export_rows="$tmp_dir/export-rows.tsv"
         fragment_rows="$tmp_dir/fragment-rows.tsv"
-        if ! jq -r '
+        if ! jq -b -r '
             def fn_flag: if (((.choice // {}) | .type // "") == "Fn") then "fn" else "-" end;
             def row($p; $kind; $id; $short; $long):
               [$p, $kind, $id, $short, $long, fn_flag, ((.terminated // false) | tostring)] | join("\u001f");
@@ -576,7 +576,7 @@ if [[ -n "$fragments" && -s "$export_json" ]]; then
               (((.subcommands // [])[]?) as $s
                 | ($s | rows(if $p == "." then $s.name else "\($p) \($s.name)" end)));
             rows(".")
-        ' "$export_json" >"$export_rows"; then
+        ' "$(native_path "$export_json")" >"$export_rows"; then
             fail "fragment bindings: cannot read the export tree"
         else
             declare -A export_name=() export_name_fn=() export_arg=() export_arg_fn=() export_path=()
@@ -621,6 +621,7 @@ if [[ -n "$fragments" && -s "$export_json" ]]; then
                     IFS='/' read -r -a frag_parts <<<"${rel%.json}"
                     frag_key="$root_cmd"
                     for frag_part in "${frag_parts[@]}"; do
+                        frag_part="$(fragment_name_decode "$frag_part")"
                         frag_key="$frag_key|$frag_part"
                     done
                 fi
@@ -634,7 +635,7 @@ if [[ -n "$fragments" && -s "$export_json" ]]; then
                     export_scope="$sub_path"
                     display="$root_cmd $sub_path"
                 fi
-                if ! jq -r --arg scope "$export_scope" --arg display "$display" '
+                if ! jq -b -r --arg scope "$export_scope" --arg display "$display" '
                     def described_choices:
                       ((.choices // []) | length) > 0
                       and any((.choices // [])[]?; (.description // "") != "");
@@ -646,7 +647,7 @@ if [[ -n "$fragments" && -s "$export_json" ]]; then
                         ((.names // [])[]) as $name
                         | ["name", $scope, $display, $name, (.choice_fn // ""), ((.terminated // false) | tostring), described_flag] | join("\u001f")
                       else empty end
-                ' "$frag_file" >>"$fragment_rows"; then
+                ' "$(native_path "$frag_file")" >>"$fragment_rows"; then
                     binding_errors+=("cannot read fragment: $display")
                 fi
             done < <(find "$fragments_dir" -type f -name '*.json' | LC_ALL=C sort)
@@ -771,16 +772,16 @@ if [[ -n "$fragments" && "$layout" == "new" ]] && prov_dir="$(cd -P "$fragments"
         base="${frag#"$prov_dir"/}"
         base="${base%.json}"
         [[ "$base" != "_root" ]] || continue
-        child_command="$(jq -r 'if (.source.kind == "help" or .source.kind == "man") then (.source.command // "") else "" end' "$frag" 2>/dev/null)"
+        child_command="$(jq -r 'if (.source.kind == "help" or .source.kind == "man") then (.source.command // "") else "" end' "$(native_path "$frag")" 2>/dev/null)"
         [[ -n "$child_command" ]] || continue
-        [[ -z "$(jq -r '.source.section // empty' "$frag" 2>/dev/null)" ]] || continue
+        [[ -z "$(jq -r '.source.section // empty' "$(native_path "$frag")" 2>/dev/null)" ]] || continue
         if [[ "$(dirname "$base")" == "." ]]; then
             parent="$prov_dir/_root.json"
         else
             parent="$prov_dir/$(dirname "$base").json"
         fi
         [[ -f "$parent" ]] || continue
-        parent_command="$(jq -r 'if (.source.kind == "help" or .source.kind == "man") then (.source.command // "") else "" end' "$parent" 2>/dev/null)"
+        parent_command="$(jq -r 'if (.source.kind == "help" or .source.kind == "man") then (.source.command // "") else "" end' "$(native_path "$parent")" 2>/dev/null)"
         if [[ "$child_command" == "$parent_command" ]]; then
             prov_bad=1
             fail "provenance: ${base//\// } source.command is identical to its parent; it is a positional choice, not a subcommand"
@@ -811,7 +812,7 @@ if [[ -n "$fragments" && "$layout" == "new" ]] && hyg_dir="$(cd -P "$fragments" 
                             (((.source.command | split(" ")) | length) == 2)
                           else true end))
                      else false end)
-                ' "$hyg_file" >/dev/null 2>&1; then
+                ' "$(native_path "$hyg_file")" >/dev/null 2>&1; then
                     hyg_bad=1
                     fail "cache hygiene: $hyg_rel has an invalid hash or source.command; recompile the node"
                 fi
@@ -849,7 +850,7 @@ check_compgen() {
         quoted+="$(printf '%q' "$arg") "
     done
     log_info "compgen $label: argc --argc-compgen generic $quoted"
-    if run_with_timeout "$out" "$err" 5 argc --argc-compgen generic "$file" "$cmd" "$@"; then
+    if run_with_timeout "$out" "$err" 5 argc --argc-compgen generic "$(native_path "$file")" "$cmd" "$@"; then
         if grep -qiE 'error:|panic|command not found' "$err"; then
             fail "compgen $label stderr: $(head -n 1 "$err")"
         else
@@ -867,7 +868,7 @@ else
     check_compgen "root positionals" ''
 
     subcommands_file="$tmp_dir/subcommands.txt"
-    jq -r '.subcommands[]?.name' "$export_json" 2>/dev/null >"$subcommands_file" || true
+    jq -b -r '.subcommands[]?.name' "$(native_path "$export_json")" 2>/dev/null >"$subcommands_file" || true
     subcommand_count="$(grep -c . "$subcommands_file" || true)"
     if [[ "$subcommand_count" -gt 100 ]]; then
         printf 'NOTE  only the first 100 subcommands are compgen-tested\n' 
@@ -884,8 +885,8 @@ else
     # IFS whitespace and would drop an empty subcommand field, shifting the row.
     fn_options_file="$tmp_dir/fn-options.txt"
     : >"$fn_options_file"
-    jq -r '.flag_options[]? | select(.choice != null and .choice.type == "Fn") | [".", (.long_name // ""), (.short_name // ""), (.assigned|tostring), (.prefixed|tostring)] | @tsv' "$export_json" 2>/dev/null >>"$fn_options_file" || true
-    jq -r '.subcommands[]? as $s | $s.flag_options[]? | select(.choice != null and .choice.type == "Fn") | [$s.name, (.long_name // ""), (.short_name // ""), (.assigned|tostring), (.prefixed|tostring)] | @tsv' "$export_json" 2>/dev/null >>"$fn_options_file" || true
+    jq -b -r '.flag_options[]? | select(.choice != null and .choice.type == "Fn") | [".", (.long_name // ""), (.short_name // ""), (.assigned|tostring), (.prefixed|tostring)] | @tsv' "$(native_path "$export_json")" 2>/dev/null >>"$fn_options_file" || true
+    jq -b -r '.subcommands[]? as $s | $s.flag_options[]? | select(.choice != null and .choice.type == "Fn") | [$s.name, (.long_name // ""), (.short_name // ""), (.assigned|tostring), (.prefixed|tostring)] | @tsv' "$(native_path "$export_json")" 2>/dev/null >>"$fn_options_file" || true
     fn_count=0
     while IFS=$'\t' read -r sub long short assigned prefixed; do
         if [[ "$sub" == "." ]]; then

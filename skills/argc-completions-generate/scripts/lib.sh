@@ -52,6 +52,40 @@ detect_os() {
     esac
 }
 
+# Resolve a user-supplied path. Git Bash accepts drive-prefixed paths, but
+# prefixing them with PWD would point at a different file; cygpath normalizes
+# them to the POSIX form the rest of the scripts use.
+absolute_path() {
+    local path="$1"
+    case "$path" in
+        /*) printf '%s\n' "$path" ;;
+        [A-Za-z]:[\\/]*)
+            if command -v cygpath >/dev/null 2>&1; then
+                cygpath -u "$path"
+            else
+                printf '%s\n' "$path"
+            fi
+            ;;
+        *) printf '%s/%s\n' "$PWD" "$path" ;;
+    esac
+}
+
+# Translate a POSIX file path to the form a native Windows binary can open.
+# Git Bash runs jq/argc as .exe files, which cannot resolve /c/... or /tmp/...
+# when MSYS path conversion is disabled. cygpath -m yields C:/..., which both
+# native and MSYS tools accept and which avoids backslash escaping in shell
+# code. Non-Windows hosts, relative paths, and Windows paths pass through.
+native_path() {
+    local path="$1"
+    if [[ "$path" == /* ]] &&
+        [[ "${OSTYPE:-}" == msys* || "${OSTYPE:-}" == cygwin* ]] &&
+        command -v cygpath >/dev/null 2>&1; then
+        cygpath -m "$path"
+    else
+        printf '%s\n' "$path"
+    fi
+}
+
 # Run a command with stdout/stderr captured to files and a hard timeout.
 # Usage: run_with_timeout <stdout-file> <stderr-file> <seconds> <cmd...>
 # Pass '-' as the stderr file to merge stderr into stdout.
@@ -59,21 +93,27 @@ detect_os() {
 # needed the SIGKILL.
 #
 # Pure-Perl inline implementation (no external timeout/setsid needed).
-# The child is put in a new session via POSIX::setsid(), so it cannot read
-# the caller's controlling terminal (same intent as `setsid --wait`).
+# On POSIX the child runs in a new session via POSIX::setsid(), so it cannot
+# read the caller's controlling terminal (same intent as `setsid --wait`).
+# MSYS2/Cygwin can lose the wait status of a native .exe that is a session
+# leader, leaving a zombie the parent never reaps. There the child gets its
+# own process group instead, and stdin is redirected from the null device.
 run_with_timeout() {
     local out="$1" err="$2" seconds="$3"
     shift 3
     perl -e '
         use strict;
         use warnings;
-        use POSIX qw(:sys_wait_h setsid);
+        use POSIX qw(:sys_wait_h setsid setpgid);
         use Time::HiRes qw(time sleep);
 
         my ($out, $err, $secs, @cmd) = @ARGV;
         die "usage: run_with_timeout <out> <err> <secs> <cmd...>\n" unless @cmd;
 
         my $KILL_AFTER = 2;
+        my $KILL_GRACE = 1;
+        my $WINDOWSISH = ($^O =~ /^(?:msys|cygwin|MSWin32)$/i) ? 1 : 0;
+        my $devnull    = ($^O eq "MSWin32") ? "nul" : "/dev/null";
 
         # Open the output files ("-" means merge/inherit).
         my ($out_fh, $err_fh);
@@ -86,19 +126,83 @@ run_with_timeout() {
         die "fork: $!" unless defined $pid;
 
         if ($pid == 0) {
-            # Child: new session (detach from controlling terminal),
-            # redirect, then exec.
-            setsid();
+            # Child: contain descendants in their own group and close stdin,
+            # then redirect and exec.
+            if ($WINDOWSISH) {
+                # setsid() makes the child a session leader; MSYS2 can then
+                # miss its termination when it is a native .exe, so use a
+                # process group instead. Closing stdin keeps a pager from
+                # reading the terminal of the caller.
+                setpgid(0, 0);
+                open STDIN, "<", $devnull or die "open stdin: $!";
+            } else {
+                setsid();
+            }
             open STDOUT, ">&", $out_fh or die "dup2 stdout: $!";
             open STDERR, ">&", $err_fh or die "dup2 stderr: $!";
             exec @cmd;
             exit 127;
         }
 
+        # Mirror the group setup from the parent so the group exists even if
+        # the timeout fires before the child runs. A child that has already
+        # execd rejects this harmlessly.
+        setpgid($pid, $pid) if $WINDOWSISH;
+
+        sub signal_child {
+            my ($sig, $target) = @_;
+            # Signal the whole group first so a choice function that spawned
+            # bash/sleep does not outlive the timeout.
+            my $sent = kill $sig, -$target;
+            $sent = kill $sig, $target unless $sent;
+            return $sent;
+        }
+
+        sub child_is_zombie {
+            my ($target) = @_;
+            open my $fh, "<", "/proc/$target/stat" or return 0;
+            my $line = <$fh>;
+            close $fh;
+            return 0 unless defined $line;
+            my $close = rindex($line, ")");
+            return 0 if $close < 0;
+            my $state = substr($line, $close + 1);
+            $state =~ s/^\s+//;
+            $state = substr($state, 0, 1);
+            return $state eq "Z";
+        }
+
+        sub taskkill_tree {
+            my ($target) = @_;
+            # argc runs a completion function in a detached shell that is not
+            # in the process group of argc, so the group signal cannot reach
+            # it. taskkill /T walks the Windows parent chain and ends it.
+            return unless $WINDOWSISH;
+            my $winpid = 0;
+            if (open my $fh, "<", "/proc/$target/winpid") {
+                my $line = <$fh>;
+                close $fh;
+                $winpid = $1 if defined $line && $line =~ /(\d+)/;
+            }
+            return unless $winpid > 0;
+            my $root = $ENV{SystemRoot} || $ENV{SYSTEMROOT};
+            my $taskkill = "taskkill";
+            if ($root) {
+                $taskkill = "$root/System32/taskkill.exe";
+                $taskkill =~ s{\\}{/}g;
+            }
+            my $cmd = qq{"$taskkill" /F /T /PID $winpid >$devnull 2>&1};
+            # Git Bash rewrites native arguments that look like paths, which
+            # turns /F into a drive path. Exempt this one command.
+            local $ENV{MSYS2_ARG_CONV_EXCL} = "*";
+            system($cmd);
+        }
+
         # Parent: wait with timeout and kill-after logic.
         my $deadline     = time + $secs;
         my $term_sent_at;
         my $killed       = 0;
+        my $kill_sent_at;
 
         while (1) {
             my $r = waitpid($pid, WNOHANG);
@@ -116,13 +220,28 @@ run_with_timeout() {
 
             my $now = time;
             if (!defined $term_sent_at && $now >= $deadline) {
-                kill "TERM", $pid;
+                # On Windows, end the tree while argc is still alive: once
+                # argc exits, taskkill can no longer find the detached shell
+                # that runs the completion function.
+                taskkill_tree($pid) if $WINDOWSISH;
+                signal_child("TERM", $pid);
                 $term_sent_at = $now;
             }
             if (defined $term_sent_at && !$killed
                 && $now >= $term_sent_at + $KILL_AFTER) {
-                kill "KILL", $pid;
+                taskkill_tree($pid);
+                signal_child("KILL", $pid);
                 $killed = 1;
+                $kill_sent_at = $now;
+            }
+            # A child whose wait status the runtime never reports must not
+            # spin the wrapper forever. The timeout already fired, so report
+            # the documented timeout status.
+            if (defined $kill_sent_at && $now >= $kill_sent_at + $KILL_GRACE) {
+                exit 137;
+            }
+            if (defined $term_sent_at && child_is_zombie($pid)) {
+                exit($killed ? 137 : 124);
             }
             sleep 0.05;
         }
@@ -334,6 +453,26 @@ sub_name_ok() {
     [[ "$1" != "." && "$1" != ".." ]] && [[ "$1" =~ ^[A-Za-z0-9_.+:@-]+$ ]]
 }
 
+# Windows cannot store ":" in a file name, but argc command paths such as
+# `pm2 profile:mem` keep it. On Windows only, encode that character; "%" is not
+# a valid path character, so the mapping is unambiguous. Other platforms keep
+# the existing colon names.
+fragment_name_encode() {
+    if [[ "$(detect_os)" == windows ]]; then
+        printf '%s\n' "${1//:/%3A}"
+    else
+        printf '%s\n' "$1"
+    fi
+}
+
+fragment_name_decode() {
+    if [[ "$(detect_os)" == windows ]]; then
+        printf '%s\n' "${1//%3A/:}"
+    else
+        printf '%s\n' "$1"
+    fi
+}
+
 # Print the fragment file path for a command path.
 # Usage: fragment_file_path <fragment-dir> <root> [subcommand...]
 fragment_file_path() {
@@ -343,11 +482,11 @@ fragment_file_path() {
         printf '%s\n' "$fragments/_root.json"
         return 0
     fi
-    result="$fragments/$1"
+    result="$fragments/$(fragment_name_encode "$1")"
     shift
     local part
     for part in "$@"; do
-        result="$result/$part"
+        result="$result/$(fragment_name_encode "$part")"
     done
     printf '%s.json\n' "$result"
 }
@@ -357,7 +496,7 @@ fragment_file_path() {
 # the description normalizer share one rule set).
 # Usage: jq_skill [jq-options...] <filter|--file>
 jq_skill() {
-    jq -L "$LIB_DIR" "$@"
+    jq -L "$(native_path "$LIB_DIR")" "$@"
 }
 
 # --- Block markers ----------------------------------------------------------

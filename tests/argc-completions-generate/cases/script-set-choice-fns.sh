@@ -20,8 +20,8 @@ scf_out="$TMP_DIR/set-choice-option.txt"
 check_to "$scf_out" "set-choice-fns option" bash "$scf_script" "$scf_dir/_root.json" '--output[`_choice_out`]'
 assert_contains "set-choice-fns reports match" "$scf_out" "matched=1"
 assert_contains "set-choice-fns reports binding" "$scf_out" "binding=--output fn=_choice_out terminated=false"
-check "set-choice-fns option binding" test "$(jq -r '.items[] | select(.names | index("--output")) | .choice_fn' "$scf_dir/_root.json")" = _choice_out
-check "set-choice-fns option choices" test "$(jq -r '.items[] | select(.names | index("--output")) | .choices | length' "$scf_dir/_root.json")" = 0
+check "set-choice-fns option binding" test "$(jq -r '.items[] | select(.names | index("--output")) | .choice_fn' "$(native_path "$scf_dir/_root.json")")" = _choice_out
+check "set-choice-fns option choices" test "$(jq -r '.items[] | select(.names | index("--output")) | .choices | length' "$(native_path "$scf_dir/_root.json")")" = 0
 
 # One call applies every binding of the batch and empties each static list.
 scf_batch="$scf_dir/batch.json"
@@ -30,12 +30,12 @@ scf_batch_out="$TMP_DIR/set-choice-batch.txt"
 check_to "$scf_batch_out" "set-choice-fns batch" bash "$scf_script" "$scf_batch" \
     '--output[`_choice_out`]' '--format[`_choice_format`]'
 assert_contains "set-choice-fns batch count" "$scf_batch_out" "bindings=2"
-check "set-choice-fns batch first" test "$(jq -r '.items[] | select(.names | index("--output")) | .choice_fn' "$scf_batch")" = _choice_out
-check "set-choice-fns batch second" test "$(jq -r '.items[] | select(.names | index("--format")) | .choice_fn' "$scf_batch")" = _choice_format
-check "set-choice-fns batch second choices" test "$(jq -r '.items[] | select(.names | index("--format")) | .choices | length' "$scf_batch")" = 0
+check "set-choice-fns batch first" test "$(jq -r '.items[] | select(.names | index("--output")) | .choice_fn' "$(native_path "$scf_batch")")" = _choice_out
+check "set-choice-fns batch second" test "$(jq -r '.items[] | select(.names | index("--format")) | .choice_fn' "$(native_path "$scf_batch")")" = _choice_format
+check "set-choice-fns batch second choices" test "$(jq -r '.items[] | select(.names | index("--format")) | .choices | length' "$(native_path "$scf_batch")")" = 0
 
 check "set-choice-fns arg" bash "$scf_script" "$scf_dir/remote/add.json" 'name[_choice_name]'
-check "set-choice-fns arg binding" test "$(jq -r '.items[] | select(.name == "name") | .choice_fn' "$scf_dir/remote/add.json")" = _choice_name
+check "set-choice-fns arg binding" test "$(jq -r '.items[] | select(.name == "name") | .choice_fn' "$(native_path "$scf_dir/remote/add.json")")" = _choice_name
 
 scf_split="$scf_dir/split.json"
 jq -n '{schemaVersion:1,path:["demo","remote","add"],description:"",aliases:[],meta:[],items:[
@@ -44,8 +44,8 @@ jq -n '{schemaVersion:1,path:["demo","remote","add"],description:"",aliases:[],m
 ],subcommands:[],source:{kind:"none"},hash:"",notes:""}' >"$scf_split"
 check "set-choice-fns split option" bash "$scf_script" "$scf_split" \
     '--eval-command[`_choice_value`]' '-ex[`_choice_value`]'
-check "set-choice-fns split first" test "$(jq -r '.items[] | select(.names | index("--eval-command")) | .choice_fn' "$scf_split")" = _choice_value
-check "set-choice-fns split second" test "$(jq -r '.items[] | select(.names | index("-ex")) | .choice_fn' "$scf_split")" = _choice_value
+check "set-choice-fns split first" test "$(jq -r '.items[] | select(.names | index("--eval-command")) | .choice_fn' "$(native_path "$scf_split")")" = _choice_value
+check "set-choice-fns split second" test "$(jq -r '.items[] | select(.names | index("-ex")) | .choice_fn' "$(native_path "$scf_split")")" = _choice_value
 
 cp "$scf_dir/_root.json" "$TMP_DIR/set-choice-before.json"
 expect_failure "set-choice-fns rejects flag" bash "$scf_script" "$scf_dir/_root.json" '-v[`_choice_v`]'
@@ -82,7 +82,7 @@ jq -n '{schemaVersion:1,path:["demo"],description:"",aliases:[],meta:[],items:[
   {kind:"option",names:["--command"],notations:["<COMMAND>"],choices:[],choice_fn:null,repeatable:false,prefixed:false,delimiter:null,description:"Command"}
 ],subcommands:[],source:{kind:"none"},hash:"",notes:""}' >"$scf_term"
 check "set-choice-fns terminated" bash "$scf_script" "$scf_term" '--command~[`_choice_command_args`]'
-check "set-choice-fns terminated field" test "$(jq -r '.items[0].terminated' "$scf_term")" = true
+check "set-choice-fns terminated field" test "$(jq -r '.items[0].terminated' "$(native_path "$scf_term")")" = true
 
 scf_term_bad="$scf_dir/terminated-bad.json"
 jq -n '{schemaVersion:1,path:["demo"],description:"",aliases:[],meta:[],items:[

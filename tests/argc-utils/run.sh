@@ -18,6 +18,21 @@ TEST_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$TEST_DIR/../.." && pwd)"
 export PATH="$ROOT_DIR/bin:$PATH"
 
+# Translate a POSIX file path to the form a native Windows binary can open.
+# argc is a .exe under Git Bash, so a POSIX /tmp/... path is not resolvable
+# when MSYS path conversion is disabled. cygpath -m yields C:/..., which both
+# native and MSYS tools accept. Non-Windows hosts pass paths through.
+native_path() {
+    local path="$1"
+    if [[ "$path" == /* ]] &&
+        [[ "${OSTYPE:-}" == msys* || "${OSTYPE:-}" == cygwin* ]] &&
+        command -v cygpath >/dev/null 2>&1; then
+        cygpath -m "$path"
+    else
+        printf '%s\n' "$path"
+    fi
+}
+
 if [ "${BASH_VERSINFO[0]:-0}" -lt 5 ]; then
     if [ -x "$ROOT_DIR/bin/bash" ] && [ "${ARGC_BASH_REEXEC:-0}" != "1" ]; then
         ARGC_BASH_REEXEC=1 exec "$ROOT_DIR/bin/bash" "$0" "$@"
@@ -448,7 +463,7 @@ EOF
 
 compgen_parallel() {
     local script="$1"
-    argc --argc-compgen generic "$script" demo demo "" 2>/dev/null | tr -d '\000' | cut -f1
+    argc --argc-compgen generic "$(native_path "$script")" demo demo "" 2>/dev/null | tr -d '\000' | cut -f1
 }
 
 assert_stdout "parallel runs every function group" "$(lines 'one' 'two' 'three')" \
@@ -808,7 +823,19 @@ assert_stdout "comp_command accepts semicolon PATH separators" \
     "$(lines alpha plain run script thing)" \
     comp_command "$COMMAND_WIN;$COMMAND_WIN" windows
 
-COMMAND_DRIVE="$TMP_DIR/C:/tools"
+# On Windows, `C:/tools` is an absolute path on the C: drive, not a directory
+# under TMP_DIR; use the fixture's real drive-qualified path there so the check
+# exercises the drive-prefix split instead of looking at C:\tools.
+case "$(uname -s 2>/dev/null || true)" in
+    CYGWIN* | MINGW* | MSYS*)
+        COMMAND_DRIVE="$TMP_DIR/command-drive"
+        COMMAND_DRIVE_PATH="$(cygpath -m "$COMMAND_DRIVE")"
+        ;;
+    *)
+        COMMAND_DRIVE="$TMP_DIR/C:/tools"
+        COMMAND_DRIVE_PATH='C:/tools'
+        ;;
+esac
 mkdir -p "$COMMAND_DRIVE"
 printf '#!/bin/sh\n' >"$COMMAND_DRIVE/car.exe"
 chmod +x "$COMMAND_DRIVE/car.exe"
@@ -818,7 +845,7 @@ comp_command_from() {
         LC_ALL=C sort
 }
 assert_stdout "comp_command restores a windows drive prefix" 'car' \
-    comp_command_from "$TMP_DIR" 'C:/tools'
+    comp_command_from "$TMP_DIR" "$COMMAND_DRIVE_PATH"
 
 # ---------------------------------------------------------------------------
 # _argc_util_comp_subcommand

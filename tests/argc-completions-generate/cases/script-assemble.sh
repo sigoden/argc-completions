@@ -14,7 +14,7 @@ check "assemble usage default output" grep -Fq 'default: existing completion' "$
 new_script="$TMP_DIR/new.sh"
 quiet bash "$SCRIPTS/assemble.sh" demo -c "$FIXTURES/fragments/no-choice" --stdout >"$new_script"
 check "assemble new bash syntax" bash -n "$new_script"
-check "assemble new argc export" bash -c "argc --argc-export '$new_script' >/dev/null"
+check "assemble new argc export" bash -c "argc --argc-export '$(native_path "$new_script")' >/dev/null"
 check "assemble new block markers" bash -c "grep -Fq '# >>> SPEC' '$new_script' && grep -Fq '# >>> HINTS' '$new_script'"
 assert_contains "assemble new static choices" "$new_script" '--format[text|json]'
 assert_contains "assemble new nested command" "$new_script" 'remote::add() {'
@@ -35,7 +35,7 @@ jq '.items = ([
   {"kind": "option", "names": ["--late"], "notations": ["<MODE>"], "choices": [{"value": "a", "description": "Mode A"}, {"value": "b", "description": "Mode B"}], "choice_fn": null, "repeatable": false, "description": "Late option"},
   {"kind": "arg", "name": "second", "repeatable": false, "required": true, "notation": "<SECOND>", "choices": [], "choice_fn": null, "description": "Second value"}
 ] + .items)' \
-    "$TMP_DIR/fragments-item-order/_root.json" >"$TMP_DIR/item-order.tmp" && \
+    "$(native_path "$TMP_DIR/fragments-item-order/_root.json")" >"$TMP_DIR/item-order.tmp" && \
     mv "$TMP_DIR/item-order.tmp" "$TMP_DIR/fragments-item-order/_root.json"
 order_script="$TMP_DIR/item-order.sh"
 quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-item-order" --stdout >"$order_script"
@@ -43,7 +43,7 @@ gawk '/^# \{+ / { exit } /^# @(flag|option|arg) / { print $2 }' "$order_script" 
 printf '%s\n' "@option" "@flag" "@option" "@option" "@arg" "@arg" >"$TMP_DIR/item-order-expected.txt"
 check "assemble renders flag/option tags before arg tags" cmp -s "$TMP_DIR/item-order-tags.txt" "$TMP_DIR/item-order-expected.txt"
 check "assemble keeps positional order" bash -c "
-    argc --argc-export '$order_script' | jq -e '.positionals | map(.id) == [\"first\", \"second\"]' >/dev/null
+    argc --argc-export '$(native_path "$order_script")' | jq -e '.positionals | map(.id) == [\"first\", \"second\"]' >/dev/null
 "
 check "assemble moves static functions with their items" gawk '
     /^_static_late\(\)/ { late = NR }
@@ -58,7 +58,7 @@ check "verify item order script" bash "$SCRIPTS/verify-completion.sh" "$order_sc
 mkdir -p "$TMP_DIR/fragments-align"
 cp -R "$FIXTURES/fragments/no-choice/." "$TMP_DIR/fragments-align/"
 jq '.items += [{"kind": "option", "names": ["--tiebreak"], "notations": ["<CRI>"], "choices": [{"value": "length", "description": ""}, {"value": "chunk", "description": ""}, {"value": "pathname", "description": ""}, {"value": "begin", "description": ""}, {"value": "end", "description": ""}, {"value": "index", "description": ""}], "repeatable": false, "description": "Comma-separated list of sort criteria"}]' \
-    "$TMP_DIR/fragments-align/_root.json" >"$TMP_DIR/align-root.json" && \
+    "$(native_path "$TMP_DIR/fragments-align/_root.json")" >"$TMP_DIR/align-root.json" && \
     mv "$TMP_DIR/align-root.json" "$TMP_DIR/fragments-align/_root.json"
 align_script="$TMP_DIR/align.sh"
 quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-align" --stdout >"$align_script"
@@ -102,7 +102,7 @@ marker_dir="$TMP_DIR/fragments-marker"
 mkdir -p "$marker_dir"
 cp -R "$FIXTURES/fragments/with-choice/." "$marker_dir/"
 jq '(.items[] | select(.names | index("--foo")) | .choice_fn) = "?_choice_foo"' \
-    "$marker_dir/remote.json" >"$marker_dir/remote.tmp" && mv "$marker_dir/remote.tmp" "$marker_dir/remote.json"
+    "$(native_path "$marker_dir/remote.json")" >"$marker_dir/remote.tmp" && mv "$marker_dir/remote.tmp" "$marker_dir/remote.json"
 expect_failure "assemble rejects a prefixed choice_fn" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$marker_dir" \
     --context "$FIXTURES/contexts/context.sh" --stdout
 check "verify with context and fragments" bash "$SCRIPTS/verify-completion.sh" "$with_script" --cmd demo --cache-dir "$FIXTURES/fragments/with-choice"
@@ -118,7 +118,7 @@ cp "$with_script" "$TMP_DIR/regen.sh"
 sed -n '/^# >>> HINTS$/,/^# <<< HINTS$/p' "$with_script" >"$TMP_DIR/prompt-before.txt"
 sed -n '/^# >>> CHOICES$/,/^# <<< CHOICES$/p' "$with_script" >"$TMP_DIR/choice-before.txt"
 jq '.items += [{"kind": "flag", "names": ["--new"], "repeatable": false, "description": "New flag"}]' \
-    "$TMP_DIR/fragments-regen/_root.json" >"$TMP_DIR/regen-root.json" && \
+    "$(native_path "$TMP_DIR/fragments-regen/_root.json")" >"$TMP_DIR/regen-root.json" && \
     mv "$TMP_DIR/regen-root.json" "$TMP_DIR/fragments-regen/_root.json"
 expect_failure "assemble refuses overwrite" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-regen" --output "$TMP_DIR/regen.sh"
 quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-regen" --output "$TMP_DIR/regen.sh" --force
@@ -132,7 +132,7 @@ check "assemble --check unchanged" bash "$SCRIPTS/assemble.sh" demo --cache-dir 
 
 # Change a fragment and ensure --check detects it.
 jq '.items += [{"kind": "flag", "names": ["--another"], "repeatable": false, "description": "Another"}]' \
-    "$TMP_DIR/fragments-regen/_root.json" >"$TMP_DIR/regen-root.json" && \
+    "$(native_path "$TMP_DIR/fragments-regen/_root.json")" >"$TMP_DIR/regen-root.json" && \
     mv "$TMP_DIR/regen-root.json" "$TMP_DIR/fragments-regen/_root.json"
 expect_failure "assemble --check detects change" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-regen" --output "$TMP_DIR/regen.sh" --check
 # ---------------------------------------------------------------------------
@@ -140,7 +140,7 @@ expect_failure "assemble --check detects change" bash "$SCRIPTS/assemble.sh" dem
 # ---------------------------------------------------------------------------
 mkdir -p "$TMP_DIR/fragments-todo"
 cp -R "$FIXTURES/fragments/no-choice/." "$TMP_DIR/fragments-todo/"
-jq '(.subcommands[] | select(.name == "remote") | .status) = "todo"' "$TMP_DIR/fragments-todo/_root.json" >"$TMP_DIR/todo.tmp" && mv "$TMP_DIR/todo.tmp" "$TMP_DIR/fragments-todo/_root.json"
+jq '(.subcommands[] | select(.name == "remote") | .status) = "todo"' "$(native_path "$TMP_DIR/fragments-todo/_root.json")" >"$TMP_DIR/todo.tmp" && mv "$TMP_DIR/todo.tmp" "$TMP_DIR/fragments-todo/_root.json"
 expect_failure "assemble rejects todo" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-todo" --stdout
 
 mkdir -p "$TMP_DIR/fragments-missing"
@@ -151,22 +151,22 @@ expect_failure "assemble rejects missing fragment" bash "$SCRIPTS/assemble.sh" d
 mkdir -p "$TMP_DIR/fragments-stale"
 cp -R "$FIXTURES/fragments/no-choice/." "$TMP_DIR/fragments-stale/"
 cp "$TMP_DIR/fragments-stale/remote/add.json" "$TMP_DIR/fragments-stale/extra.json"
-jq '.path = ["demo", "extra"] | .subcommands = []' "$TMP_DIR/fragments-stale/extra.json" >"$TMP_DIR/extra.tmp" && mv "$TMP_DIR/extra.tmp" "$TMP_DIR/fragments-stale/extra.json"
+jq '.path = ["demo", "extra"] | .subcommands = []' "$(native_path "$TMP_DIR/fragments-stale/extra.json")" >"$TMP_DIR/extra.tmp" && mv "$TMP_DIR/extra.tmp" "$TMP_DIR/fragments-stale/extra.json"
 expect_failure "assemble rejects stale fragment" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-stale" --stdout
 
 mkdir -p "$TMP_DIR/fragments-path-mismatch"
 cp -R "$FIXTURES/fragments/no-choice/." "$TMP_DIR/fragments-path-mismatch/"
-jq '.path = ["demo", "wrong"]' "$TMP_DIR/fragments-path-mismatch/remote.json" >"$TMP_DIR/mismatch.tmp" && mv "$TMP_DIR/mismatch.tmp" "$TMP_DIR/fragments-path-mismatch/remote.json"
+jq '.path = ["demo", "wrong"]' "$(native_path "$TMP_DIR/fragments-path-mismatch/remote.json")" >"$TMP_DIR/mismatch.tmp" && mv "$TMP_DIR/mismatch.tmp" "$TMP_DIR/fragments-path-mismatch/remote.json"
 expect_failure "assemble rejects path mismatch" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-path-mismatch" --stdout
 
 mkdir -p "$TMP_DIR/fragments-bad-status"
 cp -R "$FIXTURES/fragments/no-choice/." "$TMP_DIR/fragments-bad-status/"
-jq '(.subcommands[] | select(.name == "remote") | .status) = "unknown"' "$TMP_DIR/fragments-bad-status/_root.json" >"$TMP_DIR/bad-status.tmp" && mv "$TMP_DIR/bad-status.tmp" "$TMP_DIR/fragments-bad-status/_root.json"
+jq '(.subcommands[] | select(.name == "remote") | .status) = "unknown"' "$(native_path "$TMP_DIR/fragments-bad-status/_root.json")" >"$TMP_DIR/bad-status.tmp" && mv "$TMP_DIR/bad-status.tmp" "$TMP_DIR/fragments-bad-status/_root.json"
 expect_failure "assemble rejects invalid status" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-bad-status" --stdout
 
 mkdir -p "$TMP_DIR/fragments-bad-choice"
 cp -R "$FIXTURES/fragments/with-choice/." "$TMP_DIR/fragments-bad-choice/"
-jq '(.items[] | select(.names | index("--foo")) | .choice_fn) = ["_choice_foo"]' "$TMP_DIR/fragments-bad-choice/remote.json" >"$TMP_DIR/bad.tmp" && mv "$TMP_DIR/bad.tmp" "$TMP_DIR/fragments-bad-choice/remote.json"
+jq '(.items[] | select(.names | index("--foo")) | .choice_fn) = ["_choice_foo"]' "$(native_path "$TMP_DIR/fragments-bad-choice/remote.json")" >"$TMP_DIR/bad.tmp" && mv "$TMP_DIR/bad.tmp" "$TMP_DIR/fragments-bad-choice/remote.json"
 expect_failure "assemble rejects non-string choice_fn" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-bad-choice" --context "$FIXTURES/contexts/context.sh" --stdout
 
 mkdir -p "$TMP_DIR/fragments-missing-fn"
@@ -180,7 +180,7 @@ jq '.items += [
       {"kind": "option", "names": ["--config"], "notations": ["<path>"], "choices": [], "choice_fn": null, "repeatable": false, "description": "Config path"},
       {"kind": "option", "names": ["--file"], "notations": ["<file>"], "choices": [], "choice_fn": null, "repeatable": false, "description": "Input file"},
       {"kind": "option", "names": ["--dir"], "notations": ["<dir>"], "choices": [], "choice_fn": null, "repeatable": false, "description": "Output dir"}
-    ]' "$TMP_DIR/fragments-path/_root.json" >"$TMP_DIR/path.tmp" && mv "$TMP_DIR/path.tmp" "$TMP_DIR/fragments-path/_root.json"
+    ]' "$(native_path "$TMP_DIR/fragments-path/_root.json")" >"$TMP_DIR/path.tmp" && mv "$TMP_DIR/path.tmp" "$TMP_DIR/fragments-path/_root.json"
 quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-path" --stdout >"$TMP_DIR/path-notation.sh"
 assert_contains "assemble path notation" "$TMP_DIR/path-notation.sh" '--config <path>'
 assert_contains "assemble file notation" "$TMP_DIR/path-notation.sh" '--file <file>'
@@ -193,7 +193,7 @@ check "verify path notation" bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/path
 mkdir -p "$TMP_DIR/fragments-arg-required-repeatable"
 cp -R "$FIXTURES/fragments/no-choice/." "$TMP_DIR/fragments-arg-required-repeatable/"
 jq '.items += [{"kind": "arg", "name": "files", "repeatable": true, "required": true, "notation": "<FILE>", "choices": [], "choice_fn": null, "description": "Files"}]' \
-    "$TMP_DIR/fragments-arg-required-repeatable/remote/add.json" >"$TMP_DIR/arg-req.tmp" && \
+    "$(native_path "$TMP_DIR/fragments-arg-required-repeatable/remote/add.json")" >"$TMP_DIR/arg-req.tmp" && \
     mv "$TMP_DIR/arg-req.tmp" "$TMP_DIR/fragments-arg-required-repeatable/remote/add.json"
 quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-arg-required-repeatable" --stdout >"$TMP_DIR/arg-required-repeatable.sh"
 assert_contains "assemble arg repeatable required" "$TMP_DIR/arg-required-repeatable.sh" '# @arg files+ <FILE>'
@@ -201,20 +201,20 @@ assert_contains "assemble arg repeatable required" "$TMP_DIR/arg-required-repeat
 mkdir -p "$TMP_DIR/fragments-arg-optional-repeatable"
 cp -R "$FIXTURES/fragments/no-choice/." "$TMP_DIR/fragments-arg-optional-repeatable/"
 jq '.items += [{"kind": "arg", "name": "rest", "repeatable": true, "required": false, "notation": "<ARG>", "choices": [], "choice_fn": null, "description": "Rest"}]' \
-    "$TMP_DIR/fragments-arg-optional-repeatable/remote.json" >"$TMP_DIR/arg-opt.tmp" && \
+    "$(native_path "$TMP_DIR/fragments-arg-optional-repeatable/remote.json")" >"$TMP_DIR/arg-opt.tmp" && \
     mv "$TMP_DIR/arg-opt.tmp" "$TMP_DIR/fragments-arg-optional-repeatable/remote.json"
 quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-arg-optional-repeatable" --stdout >"$TMP_DIR/arg-optional-repeatable.sh"
 assert_contains "assemble arg repeatable optional" "$TMP_DIR/arg-optional-repeatable.sh" '# @arg rest* <ARG>'
 
 mkdir -p "$TMP_DIR/fragments-modifier"
 cp -R "$FIXTURES/fragments/no-choice/." "$TMP_DIR/fragments-modifier/"
-jq '.items[0].modifier = "!"' "$TMP_DIR/fragments-modifier/remote/add.json" >"$TMP_DIR/modifier.tmp" && \
+jq '.items[0].modifier = "!"' "$(native_path "$TMP_DIR/fragments-modifier/remote/add.json")" >"$TMP_DIR/modifier.tmp" && \
     mv "$TMP_DIR/modifier.tmp" "$TMP_DIR/fragments-modifier/remote/add.json"
 expect_failure "assemble rejects modifier field" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-modifier" --stdout
 
 mkdir -p "$TMP_DIR/fragments-missing-required"
 cp -R "$FIXTURES/fragments/no-choice/." "$TMP_DIR/fragments-missing-required/"
-jq 'del(.items[0].required)' "$TMP_DIR/fragments-missing-required/remote/add.json" >"$TMP_DIR/missing-required.tmp" && \
+jq 'del(.items[0].required)' "$(native_path "$TMP_DIR/fragments-missing-required/remote/add.json")" >"$TMP_DIR/missing-required.tmp" && \
     mv "$TMP_DIR/missing-required.tmp" "$TMP_DIR/fragments-missing-required/remote/add.json"
 expect_failure "assemble rejects arg without required" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-missing-required" --stdout
 
@@ -236,20 +236,20 @@ assert_contains "assemble delimiter option" "$prefix_script" '# @option --type*,
 assert_contains "assemble delimiter arg" "$prefix_script" '# @arg types*,[d|f] <TYPE>'
 assert_contains "assemble combined prefix delimiter" "$prefix_script" '# @option -Z-*,[a|b]'
 check "assemble prefixed/delimiter syntax" bash -n "$prefix_script"
-check "export prefixed/delimiter" bash -c "argc --argc-export '$prefix_script' >'$TMP_DIR/prefix-delimiter-export.json'"
-check "export prefixed option" jq -e '.flag_options[] | select(.long_name == "-ao") | .prefixed == true and .multiple_occurs == true and .choice.data == ["a", "s", "t", "u"]' "$TMP_DIR/prefix-delimiter-export.json"
-check "export prefixed non-repeatable" jq -e '.flag_options[] | select(.long_name == "-Q") | .prefixed == true and .multiple_occurs == false and .choice.data == ["X"]' "$TMP_DIR/prefix-delimiter-export.json"
-check "export delimiter option" jq -e '.flag_options[] | select(.long_name == "--type") | .delimiter == "," and .multiple_occurs == true and .choice.data == ["d", "f"]' "$TMP_DIR/prefix-delimiter-export.json"
-check "export delimiter arg" jq -e '.positionals[] | select(.id == "types") | .delimiter == "," and .multiple == true and .required == false and .choice.data == ["d", "f"]' "$TMP_DIR/prefix-delimiter-export.json"
-check "export combined prefix delimiter" jq -e '.flag_options[] | select(.long_name == "-Z") | .prefixed == true and .delimiter == "," and .multiple_occurs == true and .choice.data == ["a", "b"]' "$TMP_DIR/prefix-delimiter-export.json"
+check "export prefixed/delimiter" bash -c "argc --argc-export '$(native_path "$prefix_script")' >'$TMP_DIR/prefix-delimiter-export.json'"
+check "export prefixed option" jq -e '.flag_options[] | select(.long_name == "-ao") | .prefixed == true and .multiple_occurs == true and .choice.data == ["a", "s", "t", "u"]' "$(native_path "$TMP_DIR/prefix-delimiter-export.json")"
+check "export prefixed non-repeatable" jq -e '.flag_options[] | select(.long_name == "-Q") | .prefixed == true and .multiple_occurs == false and .choice.data == ["X"]' "$(native_path "$TMP_DIR/prefix-delimiter-export.json")"
+check "export delimiter option" jq -e '.flag_options[] | select(.long_name == "--type") | .delimiter == "," and .multiple_occurs == true and .choice.data == ["d", "f"]' "$(native_path "$TMP_DIR/prefix-delimiter-export.json")"
+check "export delimiter arg" jq -e '.positionals[] | select(.id == "types") | .delimiter == "," and .multiple == true and .required == false and .choice.data == ["d", "f"]' "$(native_path "$TMP_DIR/prefix-delimiter-export.json")"
+check "export combined prefix delimiter" jq -e '.flag_options[] | select(.long_name == "-Z") | .prefixed == true and .delimiter == "," and .multiple_occurs == true and .choice.data == ["a", "b"]' "$(native_path "$TMP_DIR/prefix-delimiter-export.json")"
 check "verify prefixed/delimiter" bash "$SCRIPTS/verify-completion.sh" "$prefix_script" --cmd demo --cache-dir "$TMP_DIR/fragments-prefix-delimiter" --skip-compgen
 
 inject_root_items "$TMP_DIR/fragments-arg-delimiter-required" '[{"kind": "arg", "name": "files", "repeatable": true, "required": true, "notation": "<FILE>", "choices": [], "choice_fn": null, "delimiter": ",", "description": "Files"}]'
 required_arg_script="$TMP_DIR/required-arg-delimiter.sh"
 quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-arg-delimiter-required" --stdout >"$required_arg_script"
 assert_contains "assemble required delimiter arg" "$required_arg_script" '# @arg files+, <FILE>'
-check "export required delimiter arg" bash -c "argc --argc-export '$required_arg_script' >'$TMP_DIR/required-arg-delimiter-export.json'"
-check "export required delimiter arg fields" jq -e '.positionals[] | select(.id == "files") | .delimiter == "," and .multiple == true and .required == true' "$TMP_DIR/required-arg-delimiter-export.json"
+check "export required delimiter arg" bash -c "argc --argc-export '$(native_path "$required_arg_script")' >'$TMP_DIR/required-arg-delimiter-export.json'"
+check "export required delimiter arg fields" jq -e '.positionals[] | select(.id == "files") | .delimiter == "," and .multiple == true and .required == true' "$(native_path "$TMP_DIR/required-arg-delimiter-export.json")"
 
 
 # ---------------------------------------------------------------------------
@@ -263,9 +263,9 @@ terminated_script="$TMP_DIR/terminated.sh"
 quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-terminated" --stdout >"$terminated_script"
 assert_contains "assemble terminated option" "$terminated_script" '# @option --command~ <COMMAND>'
 assert_contains "assemble terminated arg" "$terminated_script" '# @arg args~ <ARG>'
-check "export terminated fields" bash -c "argc --argc-export '$terminated_script' >'$TMP_DIR/terminated-export.json'"
-check "export terminated option" jq -e '.flag_options[] | select(.long_name == "--command") | .terminated == true and .multiple_values == true and .multiple_occurs == false' "$TMP_DIR/terminated-export.json"
-check "export terminated arg" jq -e '.positionals[] | select(.id == "args") | .terminated == true and .multiple == true' "$TMP_DIR/terminated-export.json"
+check "export terminated fields" bash -c "argc --argc-export '$(native_path "$terminated_script")' >'$TMP_DIR/terminated-export.json'"
+check "export terminated option" jq -e '.flag_options[] | select(.long_name == "--command") | .terminated == true and .multiple_values == true and .multiple_occurs == false' "$(native_path "$TMP_DIR/terminated-export.json")"
+check "export terminated arg" jq -e '.positionals[] | select(.id == "args") | .terminated == true and .multiple == true' "$(native_path "$TMP_DIR/terminated-export.json")"
 check "verify terminated" bash "$SCRIPTS/verify-completion.sh" "$terminated_script" --cmd demo --cache-dir "$TMP_DIR/fragments-terminated" --skip-compgen
 
 # A required terminated arg renders "~" alone: argc rejects name!~, so assembly
@@ -277,8 +277,8 @@ terminated_required_script="$TMP_DIR/terminated-required.sh"
 quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-terminated-required" --stdout >"$terminated_required_script"
 assert_contains "assemble required terminated arg" "$terminated_required_script" '# @arg args~ <ARG>'
 assert_not_contains "assemble required terminated arg drops bang" "$terminated_required_script" '# @arg args!~'
-check "export required terminated arg" bash -c "argc --argc-export '$terminated_required_script' >'$TMP_DIR/terminated-required-export.json'"
-check "export required terminated arg fields" jq -e '.positionals[] | select(.id == "args") | .terminated == true and .multiple == true and .required == false' "$TMP_DIR/terminated-required-export.json"
+check "export required terminated arg" bash -c "argc --argc-export '$(native_path "$terminated_required_script")' >'$TMP_DIR/terminated-required-export.json'"
+check "export required terminated arg fields" jq -e '.positionals[] | select(.id == "args") | .terminated == true and .multiple == true and .required == false' "$(native_path "$TMP_DIR/terminated-required-export.json")"
 check "verify required terminated arg" bash "$SCRIPTS/verify-completion.sh" "$terminated_required_script" --cmd demo --cache-dir "$TMP_DIR/fragments-terminated-required" --skip-compgen
 
 inject_root_items "$TMP_DIR/fragments-terminated-literal" '[{"kind": "option", "names": ["-~", "--value"], "notations": ["<VALUE>"], "choices": [], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Literal"}]'
@@ -307,10 +307,10 @@ quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-notation-
 assert_contains "assemble notation plus" "$notation_script" '# @option --files <FILE+>'
 assert_contains "assemble notation optional" "$notation_script" '# @option --maybe <VALUE?>'
 assert_contains "assemble notation terminated args" "$notation_script" '# @option -l~ <script> <args*>'
-check "export notation modifiers" bash -c "argc --argc-export '$notation_script' >'$TMP_DIR/notation-modifiers-export.json'"
-check "export notation plus" jq -e '.flag_options[] | select(.long_name == "--files") | .notations == ["FILE+"] and .num_args[0] == 1 and .num_args[1] > 1 and .multiple_occurs == false' "$TMP_DIR/notation-modifiers-export.json"
-check "export notation optional" jq -e '.flag_options[] | select(.long_name == "--maybe") | .notations == ["VALUE?"] and .num_args == [0, 1]' "$TMP_DIR/notation-modifiers-export.json"
-check "export notation terminated args" jq -e '.flag_options[] | select(.long_name == "-l") | .notations == ["SCRIPT", "ARGS*~"] and .terminated == true' "$TMP_DIR/notation-modifiers-export.json"
+check "export notation modifiers" bash -c "argc --argc-export '$(native_path "$notation_script")' >'$TMP_DIR/notation-modifiers-export.json'"
+check "export notation plus" jq -e '.flag_options[] | select(.long_name == "--files") | .notations == ["FILE+"] and .num_args[0] == 1 and .num_args[1] > 1 and .multiple_occurs == false' "$(native_path "$TMP_DIR/notation-modifiers-export.json")"
+check "export notation optional" jq -e '.flag_options[] | select(.long_name == "--maybe") | .notations == ["VALUE?"] and .num_args == [0, 1]' "$(native_path "$TMP_DIR/notation-modifiers-export.json")"
+check "export notation terminated args" jq -e '.flag_options[] | select(.long_name == "-l") | .notations == ["SCRIPT", "ARGS*~"] and .terminated == true' "$(native_path "$TMP_DIR/notation-modifiers-export.json")"
 check "verify notation modifiers" bash "$SCRIPTS/verify-completion.sh" "$notation_script" --cmd demo --cache-dir "$TMP_DIR/fragments-notation-modifiers" --skip-compgen
 
 inject_root_items "$TMP_DIR/fragments-bad-nonfinal-notation" '[{"kind": "option", "names": ["--pair"], "notations": ["<LEFT*>", "<RIGHT>"], "choices": [], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Bad"}]'
@@ -405,7 +405,7 @@ cp -R "$FIXTURES/fragments/no-choice/." "$TMP_DIR/fragments-split/"
 jq '.items += [
   {"kind": "option", "names": ["--eval-command"], "notations": ["<COMMAND>"], "choices": [], "choice_fn": "_choice_root", "repeatable": true, "prefixed": false, "delimiter": null, "description": "Execute a single command"},
   {"kind": "option", "names": ["-ex"], "notations": ["<COMMAND>"], "choices": [], "choice_fn": "_choice_root", "repeatable": true, "prefixed": false, "delimiter": null, "description": "Execute a single command"}
-]' "$TMP_DIR/fragments-split/_root.json" >"$TMP_DIR/split.tmp" && mv "$TMP_DIR/split.tmp" "$TMP_DIR/fragments-split/_root.json"
+]' "$(native_path "$TMP_DIR/fragments-split/_root.json")" >"$TMP_DIR/split.tmp" && mv "$TMP_DIR/split.tmp" "$TMP_DIR/fragments-split/_root.json"
 split_script="$TMP_DIR/split.sh"
 quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-split" --context "$FIXTURES/contexts/context.sh" --stdout >"$split_script"
 assert_contains "assemble split long name" "$split_script" '# @option --eval-command*[?`_choice_root`] <COMMAND>'
@@ -498,10 +498,10 @@ check "assemble static block order" gawk '
 ' "$choices_desc_script"
 check "verify described choices" bash "$SCRIPTS/verify-completion.sh" "$choices_desc_script" --cmd demo --cache-dir "$TMP_DIR/fragments-choices-desc" --skip-compgen
 check "verify described choices require-no-choice" bash "$SCRIPTS/verify-completion.sh" "$choices_desc_script" --cmd demo --cache-dir "$TMP_DIR/fragments-choices-desc" --skip-compgen --require-no-choice-fns
-check "compgen described choices" bash -c "argc --argc-compgen generic '$choices_desc_script' demo --sort '' | tr -d '\000' | gawk -F'\t' '\$1 == \"none\" && \$3 == \"Do not sort\" { found = 1 } END { exit !found }'"
-quiet argc --argc-export "$choices_desc_script" >"$TMP_DIR/choices-desc-export.json"
-check "export described choices" jq -e '.flag_options[] | select(.id == "sort") | .choice.type == "Fn" and .choice.data[0] == "_static_sort"' "$TMP_DIR/choices-desc-export.json"
-check "export plain choices" jq -e '.flag_options[] | select(.id == "plain") | .choice.type == "Values" and .choice.data == ["a", "b"]' "$TMP_DIR/choices-desc-export.json"
+check "compgen described choices" bash -c "argc --argc-compgen generic '$(native_path "$choices_desc_script")' demo --sort '' | tr -d '\000' | gawk -F'\t' '\$1 == \"none\" && \$3 == \"Do not sort\" { found = 1 } END { exit !found }'"
+quiet argc --argc-export "$(native_path "$choices_desc_script")" >"$TMP_DIR/choices-desc-export.json"
+check "export described choices" jq -e '.flag_options[] | select(.id == "sort") | .choice.type == "Fn" and .choice.data[0] == "_static_sort"' "$(native_path "$TMP_DIR/choices-desc-export.json")"
+check "export plain choices" jq -e '.flag_options[] | select(.id == "plain") | .choice.type == "Values" and .choice.data == ["a", "b"]' "$(native_path "$TMP_DIR/choices-desc-export.json")"
 check "dump-static matches block" bash -c "
     sed -n '/^# >>> STATIC\$/,/^# <<< STATIC\$/p' '$choices_desc_script' | sed '1d;\$d' >'$TMP_DIR/static-actual.txt'
     bash '$SCRIPTS/assemble.sh' demo --cache-dir '$TMP_DIR/fragments-choices-desc' --dump-static >'$TMP_DIR/static-dump.txt'
@@ -524,7 +524,7 @@ _choice_keep() { :; }
 CTX
 quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-choices-regen" --context "$TMP_DIR/static-context.sh" --stdout >"$TMP_DIR/static-before.sh"
 jq '(.items[] | select(.names | index("--sort")) | .choices[0].description) = "Do not sort at all"' \
-    "$TMP_DIR/fragments-choices-regen/_root.json" >"$TMP_DIR/static-root.tmp"
+    "$(native_path "$TMP_DIR/fragments-choices-regen/_root.json")" >"$TMP_DIR/static-root.tmp"
 mv "$TMP_DIR/static-root.tmp" "$TMP_DIR/fragments-choices-regen/_root.json"
 quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-choices-regen" --context "$TMP_DIR/static-before.sh" --stdout >"$TMP_DIR/static-after.sh"
 assert_contains "static regeneration updates description" "$TMP_DIR/static-after.sh" 'Do not sort at all'

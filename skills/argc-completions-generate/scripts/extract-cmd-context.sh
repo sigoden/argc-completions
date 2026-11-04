@@ -273,7 +273,7 @@ gawk '
 ' "$region_file" >"$script_items_file"
 
 if [[ "$baseline_exists" -eq 1 ]]; then
-    if ! jq -r '
+    if ! jq -b -r '
         .items[]?
         | select(.kind == "option" or .kind == "arg")
         | [ .kind,
@@ -286,7 +286,7 @@ if [[ "$baseline_exists" -eq 1 ]]; then
           ]
         | map(tostring)
         | join("\u001f")
-    ' "$fragment_file" >"$fragment_items_file"; then
+    ' "$(native_path "$fragment_file")" >"$fragment_items_file"; then
         log_warn "cannot read fragment baseline: $fragment_file"
         baseline_exists=0
         : >"$fragment_items_file"

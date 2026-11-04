@@ -5,6 +5,20 @@ set -euo pipefail
 . "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/helper.sh"
 helper_init
 
+# A colon subcommand maps to a Windows-safe cache name on Windows and keeps its
+# existing name elsewhere.
+case "$(uname -s 2>/dev/null || true)" in
+    CYGWIN* | MINGW* | MSYS*) expected_fragment_name='profile%3Amem' ;;
+    *) expected_fragment_name='profile:mem' ;;
+esac
+check "fragment path handles a colon" \
+    test "$(bash -c 'source "$1"; fragment_file_path /cache demo "profile:mem"' _ "$SCRIPTS/lib.sh")" = \
+    "/cache/$expected_fragment_name.json"
+if command -v cygpath >/dev/null 2>&1; then
+    check "absolute_path normalizes a drive path" \
+        test "$(bash -c 'source "$1"; absolute_path "C:/x"' _ "$SCRIPTS/lib.sh")" = '/c/x'
+fi
+
 # canonicalize_help_file must reject a non-.txt output name (compile contract).
 guard_in="$TMP_DIR/help-guard-in.txt"
 printf 'demo --help\n' >"$guard_in"
@@ -50,15 +64,26 @@ printf '%s\n' "$$" >"$1"
 trap '' TERM
 sleep 30
 IGNORE
-chmod +x "$TMP_DIR/bin/stop-self" "$TMP_DIR/bin/ignore-term"
+cat >"$TMP_DIR/bin/spawn-child" <<'SPAWN'
+#!/usr/bin/env bash
+printf '%s\n' "$$" >"$1"
+sleep 30 &
+printf '%s\n' "$!" >"$1.descendant"
+wait
+SPAWN
+chmod +x "$TMP_DIR/bin/stop-self" "$TMP_DIR/bin/ignore-term" "$TMP_DIR/bin/spawn-child"
 
 # Exercise the wrapper with a PATH that hides timeout/gtimeout (macOS without
 # coreutils): the fallback must still escalate to SIGKILL. The wrapper needs
 # perl, and the fixtures start with `#!/usr/bin/env bash`, so both stay
-# reachable; only the timeout binaries are missing.
+# reachable; only the timeout binaries are missing. Git Bash turns `ln -s` into
+# a copy by default, and a copied MSYS binary cannot find its runtime DLLs, so
+# use absolute-path wrappers instead of symlinks.
 mkdir -p "$TMP_DIR/lonely-bin"
 for tool in bash dirname perl sleep; do
-    ln -sf "$(command -v "$tool")" "$TMP_DIR/lonely-bin/$tool"
+    tool_path="$(command -v "$tool")"
+    printf '#!%s\nexec %q "$@"\n' "$BASH" "$tool_path" >"$TMP_DIR/lonely-bin/$tool"
+    chmod +x "$TMP_DIR/lonely-bin/$tool"
 done
 
 assert_timeout_returns() {
@@ -70,9 +95,11 @@ assert_timeout_returns() {
     # An outer guard keeps a regression from hanging the suite; gtimeout is the
     # brew coreutils name on macOS.
     local -a guard=()
-    if command -v timeout >/dev/null 2>&1; then
+    # A Windows `timeout.exe` is a delay command, not GNU timeout: probe the
+    # implementation before using it as the outer hang guard.
+    if command -v timeout >/dev/null 2>&1 && timeout --version >/dev/null 2>&1; then
         guard=(timeout 30)
-    elif command -v gtimeout >/dev/null 2>&1; then
+    elif command -v gtimeout >/dev/null 2>&1 && gtimeout --version >/dev/null 2>&1; then
         guard=(gtimeout 30)
     fi
     if [[ "$minimal_path" == 1 ]]; then
@@ -95,6 +122,14 @@ assert_timeout_returns "run_with_timeout returns for a stopped child" stop-self 
 assert_timeout_returns "run_with_timeout returns for a TERM-ignoring child" ignore-term 0
 assert_timeout_returns "run_with_timeout fallback returns for a stopped child" stop-self 1
 assert_timeout_returns "run_with_timeout fallback returns for a TERM-ignoring child" ignore-term 1
+
+# The timeout must kill descendants too, not only the direct child: a choice
+# function can leave bash/sleep behind. The fixture records both pids.
+descendant_file="$TMP_DIR/spawn-child-0-pid.txt.descendant"
+rm -f "$descendant_file"
+assert_timeout_returns "run_with_timeout kills descendants" spawn-child 0
+check "run_with_timeout leaves no descendant behind" \
+    bash -c 'test -s "$1" && ! kill -0 "$(cat "$1")" 2>/dev/null' _ "$descendant_file"
 
 # A help program that probes /dev/tty (broot reads the terminal size there)
 # must not see the caller's terminal: otherwise the capture depends on the

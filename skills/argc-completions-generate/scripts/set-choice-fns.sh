@@ -90,7 +90,7 @@ bindings_json="$(printf '%s\n' "${records[@]}" | jq -R -s -c '
     | map(select(length > 0) | split("\t") | {names: [.[0]], fn: .[1], terminated: (.[2] == "1")})
 ')" || die "failed to encode bindings"
 
-key="$(jq -r '.path | join("|")' "$fragment")" \
+key="$(jq -r '.path | join("|")' "$(native_path "$fragment")")" \
     || die "failed to read fragment path: $fragment"
 [[ -n "$key" && "$key" != "null" ]] || die "fragment has no usable path: $fragment"
 
@@ -132,7 +132,7 @@ if ! matches_json="$(jq -c --argjson bindings "$bindings_json" '
             {label: ($b.names | join(",")), fn: $b.fn, terminated: $b.terminated, matched: $matched}
           end
       ]
-' "$fragment")"; then
+' "$(native_path "$fragment")")"; then
     exit 1
 fi
 
@@ -160,11 +160,11 @@ if ! jq --argjson bindings "$bindings_json" '
             else . end
         end
     )
-' "$fragment" >"$tmp"; then
+' "$(native_path "$fragment")" >"$tmp"; then
     exit 1
 fi
 
-jq_skill -e -f "$SCRIPT_DIR/validate-fragment.jq" --arg key "$key" "$tmp" >/dev/null \
+jq_skill -e -f "$(native_path "$SCRIPT_DIR/validate-fragment.jq")" --arg key "$key" "$(native_path "$tmp")" >/dev/null \
     || die "updated fragment failed validation: $fragment"
 
 install_atomic "$tmp" "$fragment"

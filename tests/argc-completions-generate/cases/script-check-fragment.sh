@@ -89,8 +89,12 @@ check_to "$TMP_DIR/check-missing.txt" "check-fragment missing" \
     bash "$SCRIPTS/check-fragment.sh" check-demo missing --cache-dir "$check_cache" --completion "$completion"
 assert_contains "check-fragment missing status" "$TMP_DIR/check-missing.txt" "path=check-demo missing status=missing"
 
-# A colon subcommand segment (pm2 profile:mem) is a valid path component.
-colon_fragment="$check_cache/profile:mem.json"
+# A colon subcommand segment (pm2 profile:mem) is a valid path component; on
+# Windows its cache file name encodes the colon so the file can be stored.
+case "$(uname -s 2>/dev/null || true)" in
+    CYGWIN* | MINGW* | MSYS*) colon_fragment="$check_cache/profile%3Amem.json" ;;
+    *) colon_fragment="$check_cache/profile:mem.json" ;;
+esac
 jq -n '{
     schemaVersion: 1, path: ["check-demo", "profile:mem"], description: "Sample PM2 heap memory",
     aliases: [], meta: [], items: [], subcommands: [],
@@ -98,7 +102,7 @@ jq -n '{
 }' >"$colon_fragment"
 colon_hash="$(bash "$SCRIPTS/fragment-hash.sh" check-demo 'profile:mem' --cache-dir "$check_cache" \
     --completion "$completion")"
-jq --arg hash "$colon_hash" '.hash = $hash' "$colon_fragment" >"$TMP_DIR/colon.json" && mv "$TMP_DIR/colon.json" "$colon_fragment"
+jq --arg hash "$colon_hash" '.hash = $hash' "$(native_path "$colon_fragment")" >"$TMP_DIR/colon.json" && mv "$TMP_DIR/colon.json" "$colon_fragment"
 check_to "$TMP_DIR/check-colon.txt" "check-fragment colon path" \
     bash "$SCRIPTS/check-fragment.sh" check-demo 'profile:mem' --cache-dir "$check_cache" --completion "$completion"
 assert_contains "check-fragment colon hit" "$TMP_DIR/check-colon.txt" "path=check-demo profile:mem status=hit"
@@ -126,7 +130,7 @@ assert_contains "check-fragment unverified status" "$TMP_DIR/check-unverified.tx
 
 # Schema failures are invalid and are never migrated.
 write_fragment "$check_cache/_root.json" help 'check-demo --help' "$root_hash"
-jq 'del(.hash)' "$check_cache/_root.json" >"$TMP_DIR/no-hash.json" && mv "$TMP_DIR/no-hash.json" "$check_cache/_root.json"
+jq 'del(.hash)' "$(native_path "$check_cache/_root.json")" >"$TMP_DIR/no-hash.json" && mv "$TMP_DIR/no-hash.json" "$check_cache/_root.json"
 check_to "$TMP_DIR/check-no-hash.txt" "check-fragment missing hash" \
     bash "$SCRIPTS/check-fragment.sh" check-demo --cache-dir "$check_cache" --completion "$completion"
 assert_contains "check-fragment missing hash invalid" "$TMP_DIR/check-no-hash.txt" "status=invalid reason=schema"

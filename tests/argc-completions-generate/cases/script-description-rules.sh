@@ -12,10 +12,10 @@ normalizer="$SCRIPTS/normalize-description.sh"
 
 # The module is a library, not a program: it compiles only as an `include`.
 check_to "$TMP_DIR/rules-empty.txt" "description rules compile as a module" \
-    jq -L "$SCRIPTS" -n 'include "description-rules"; empty'
+    jq -L "$(native_path "$SCRIPTS")" -n 'include "description-rules"; empty'
 check "description rules module has no output" test ! -s "$TMP_DIR/rules-empty.txt"
 # A module file has definitions only, so it is not a runnable program.
-if jq -L "$SCRIPTS" -n -f "$rules" >/dev/null 2>&1; then
+if jq -L "$(native_path "$SCRIPTS")" -n -f "$(native_path "$rules")" >/dev/null 2>&1; then
     fail "description rules excluded from runnable programs (unexpected success)"
 else
     pass "description rules excluded from runnable programs"
@@ -45,7 +45,7 @@ agreement_case() {
     normalized="$(printf '%s' "$raw" | bash "$normalizer" "${args[@]}")"
     frag="$TMP_DIR/agree-$(printf '%s' "$label" | cksum | cut -d' ' -f1).json"
     fragment_from_description "$normalized" "$frag"
-    if jq -L "$SCRIPTS" -e -f "$SCRIPTS/validate-fragment.jq" --arg key demo "$frag" >/dev/null 2>"$frag.err"; then
+    if jq -L "$(native_path "$SCRIPTS")" -e -f "$(native_path "$SCRIPTS/validate-fragment.jq")" --arg key demo "$(native_path "$frag")" >/dev/null 2>"$frag.err"; then
         pass "$label"
     else
         fail "$label (normalized '$normalized' rejected: $(head -n 1 "$frag.err"))"
@@ -97,10 +97,10 @@ agreement_case "agreement empty description" ''
 # The validator still rejects what production would not emit.
 fragment_from_description 'First. Second' "$TMP_DIR/reject-two.json"
 expect_failure "agreement validator rejects two sentences" \
-    jq -L "$SCRIPTS" -e -f "$SCRIPTS/validate-fragment.jq" --arg key demo "$TMP_DIR/reject-two.json"
+    jq -L "$(native_path "$SCRIPTS")" -e -f "$(native_path "$SCRIPTS/validate-fragment.jq")" --arg key demo "$(native_path "$TMP_DIR/reject-two.json")"
 fragment_from_description 'Use /home/you/bin' "$TMP_DIR/reject-home.json"
 expect_failure "agreement validator rejects home path" \
-    jq -L "$SCRIPTS" -e -f "$SCRIPTS/validate-fragment.jq" --arg key demo "$TMP_DIR/reject-home.json"
+    jq -L "$(native_path "$SCRIPTS")" -e -f "$(native_path "$SCRIPTS/validate-fragment.jq")" --arg key demo "$(native_path "$TMP_DIR/reject-home.json")"
 
 # A labeled colon list still echoes the choices: the label is ignored when the
 # tail is compared, so the validator rejects the unnormalized form.
@@ -113,6 +113,6 @@ jq -n --arg d 'Sort: possible values: name, version' --args '
    subcommands: [], source: {kind: "none"}, hash: "", notes: ""}' name version \
     >"$TMP_DIR/reject-labeled-colon.json"
 expect_failure "agreement validator rejects labeled colon echo" \
-    jq -L "$SCRIPTS" -e -f "$SCRIPTS/validate-fragment.jq" --arg key demo "$TMP_DIR/reject-labeled-colon.json"
+    jq -L "$(native_path "$SCRIPTS")" -e -f "$(native_path "$SCRIPTS/validate-fragment.jq")" --arg key demo "$(native_path "$TMP_DIR/reject-labeled-colon.json")"
 
 helper_finish

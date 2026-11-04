@@ -86,7 +86,7 @@ while [[ ${#queue[@]} -gt 0 ]]; do
     keys=("${keys[@]:1}")
 
     declared["$parent"]=1
-    if ! jq_skill -e -f "$SCRIPT_DIR/validate-fragment.jq" --arg key "$parent_key" "$parent" >/dev/null 2>&1; then
+    if ! jq_skill -e -f "$(native_path "$SCRIPT_DIR/validate-fragment.jq")" --arg key "$parent_key" "$(native_path "$parent")" >/dev/null 2>&1; then
         die "invalid fragment: $parent"
     fi
 
@@ -97,13 +97,13 @@ while [[ ${#queue[@]} -gt 0 ]]; do
     fi
     while IFS= read -r name; do
         [[ -n "$name" ]] || continue
-        child="$child_dir/$name.json"
+        child="$child_dir/$(fragment_name_encode "$name").json"
         declared["$child"]=1
         if [[ -f "$child" ]]; then
             queue+=("$child")
             keys+=("$parent_key|$name")
         fi
-    done < <(jq -r '.subcommands[]?.name' "$parent")
+    done < <(jq -b -r '.subcommands[]?.name' "$(native_path "$parent")")
 done
 
 # Pass 2: sync derived metadata and statuses.
@@ -122,21 +122,21 @@ while [[ ${#queue[@]} -gt 0 ]]; do
     updates='{}'
     while IFS= read -r name; do
         [[ -n "$name" ]] || continue
-        child="$child_dir/$name.json"
+        child="$child_dir/$(fragment_name_encode "$name").json"
         if [[ -f "$child" ]]; then
             queue+=("$child")
-            entry="$(jq -c --arg name "$name" '.subcommands[] | select(.name == $name)' "$parent")"
+            entry="$(jq -c --arg name "$name" '.subcommands[] | select(.name == $name)' "$(native_path "$parent")")"
             entry_description="$(jq -r '.description // ""' <<<"$entry")"
             entry_aliases="$(jq -c '.aliases // []' <<<"$entry")"
-            child_description="$(jq -r '.description // ""' "$child")"
-            child_aliases="$(jq -c '.aliases // []' "$child")"
+            child_description="$(jq -r '.description // ""' "$(native_path "$child")")"
+            child_aliases="$(jq -c '.aliases // []' "$(native_path "$child")")"
             if [[ "$entry_description" != "$child_description" || "$entry_aliases" != "$child_aliases" ]]; then
                 updated="$(jq --arg description "$entry_description" --argjson aliases "$entry_aliases" \
-                    '.description = $description | .aliases = $aliases' "$child")"
+                    '.description = $description | .aliases = $aliases' "$(native_path "$child")")"
                 write_file_atomic "$child" "$updated"
                 synced=$((synced + 1))
             fi
-            kind="$(jq -r '.source.kind' "$child")"
+            kind="$(jq -r '.source.kind' "$(native_path "$child")")"
             if [[ "$kind" == "none" ]]; then
                 status="failed"
             else
@@ -147,10 +147,10 @@ while [[ ${#queue[@]} -gt 0 ]]; do
         fi
         updates="$(jq -n --argjson prev "$updates" --arg name "$name" --arg status "$status" \
             '$prev + {($name): $status}')"
-    done < <(jq -r '.subcommands[]?.name' "$parent")
+    done < <(jq -b -r '.subcommands[]?.name' "$(native_path "$parent")")
 
     updated_parent="$(jq --argjson updates "$updates" \
-        '.subcommands = ((.subcommands // []) | map(.status = ($updates[.name] // .status)))' "$parent")"
+        '.subcommands = ((.subcommands // []) | map(.status = ($updates[.name] // .status)))' "$(native_path "$parent")")"
     if [[ "$updated_parent" != "$(cat "$parent")" ]]; then
         write_file_atomic "$parent" "$updated_parent"
     fi

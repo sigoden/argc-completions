@@ -32,6 +32,22 @@ SKILL_DIR="$ROOT_DIR/skills/argc-completions-generate"
 SCRIPTS="$SKILL_DIR/scripts"
 FIXTURES="$TEST_DIR/fixtures"
 
+# Translate a POSIX file path to the form a native Windows binary can open.
+# Git Bash runs jq/argc as .exe files, which cannot resolve /c/... or /tmp/...
+# when MSYS path conversion is disabled. cygpath -m yields C:/..., which both
+# native and MSYS tools accept and which avoids backslash escaping in shell
+# code. Non-Windows hosts, relative paths, and Windows paths pass through.
+native_path() {
+    local path="$1"
+    if [[ "$path" == /* ]] &&
+        [[ "${OSTYPE:-}" == msys* || "${OSTYPE:-}" == cygwin* ]] &&
+        command -v cygpath >/dev/null 2>&1; then
+        cygpath -m "$path"
+    else
+        printf '%s\n' "$path"
+    fi
+}
+
 helper_require_bash5() {
     if [ "${BASH_VERSINFO[0]:-0}" -lt 5 ]; then
         if [ -x "$ROOT_DIR/bin/bash" ] && [ "${ARGC_BASH_REEXEC:-0}" != "1" ]; then
@@ -204,7 +220,7 @@ inject_root_items() {
     local dir="$1" items="$2"
     mkdir -p "$dir"
     cp -R "$FIXTURES/fragments/no-choice/." "$dir/"
-    jq --argjson items "$items" '.items += $items' "$dir/_root.json" >"$dir/root.tmp"
+    jq --argjson items "$items" '.items += $items' "$(native_path "$dir/_root.json")" >"$dir/root.tmp"
     mv "$dir/root.tmp" "$dir/_root.json"
 }
 

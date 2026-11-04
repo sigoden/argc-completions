@@ -105,8 +105,8 @@ done
 log_info "compgen: argc --argc-compgen generic $quoted"
 
 rc=0
-run_with_timeout "$raw" "$err" "$timeout" argc --argc-compgen generic "$file" "$@" || rc=$?
-if [[ "$rc" -eq 124 || "$rc" -eq 143 ]]; then
+run_with_timeout "$raw" "$err" "$timeout" argc --argc-compgen generic "$(native_path "$file")" "$@" || rc=$?
+if [[ "$rc" -eq 124 || "$rc" -eq 137 || "$rc" -eq 143 ]]; then
     die "compgen timed out after ${timeout}s: $quoted"
 elif [[ "$rc" -ne 0 ]]; then
     die "compgen exited $rc: $(head -n 1 "$err")"

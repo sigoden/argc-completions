@@ -29,7 +29,11 @@ assert_contains "structure context only three fields" "$structure_md" 'only nota
 assert_contains "structure context no-meta hash" "$structure_md" "Pass \`--no-meta\` to emit only \`HINTS\` and \`DIFF\`"
 assert_contains "structure hints resolved by router" "$structure_md" 'resolved per `<SKILL_ROOT>/SKILL.md` §Pipeline contract'
 assert_contains "structure hints common recompile" "$structure_md" 'invalidates every node in that root'
-assert_contains "structure failed fragment hash" "$structure_md" '"hash": ""'
+assert_contains "structure failed fragment links schema" "$structure_md" "minimal failed fragment defined in"
+assert_not_contains "structure no failed fragment json" "$structure_md" '"source": {"kind": "none"}'
+# Fragment layout and file-name encoding are owned by fragment-schema.md.
+assert_contains "structure layout links schema" "$structure_md" "one-fragment-per-node layout"
+assert_not_contains "structure no layout tree" "$structure_md" '<sub>/<nested>.json'
 assert_contains "structure status derived by finalize" "$structure_md" 'only `<SKILL_ROOT>/scripts/finalize-cache.sh` writes it'
 assert_contains "structure manual spec hash mismatch" "$structure_md" 'manual `SPEC` edit to notation'
 assert_not_contains "structure no status update script" "$structure_md" "update-subcommand-status.sh"

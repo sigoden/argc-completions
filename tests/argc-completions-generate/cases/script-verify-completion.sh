@@ -82,7 +82,7 @@ done
 
 mkdir -p "$TMP_DIR/fragments-terminated-mismatch"
 cp -R "$TMP_DIR/fragments-terminated/." "$TMP_DIR/fragments-terminated-mismatch/"
-jq '(.items[] | select(.names == ["--command"]) | .terminated) = false' "$TMP_DIR/fragments-terminated-mismatch/_root.json" >"$TMP_DIR/terminated-mismatch.tmp" && mv "$TMP_DIR/terminated-mismatch.tmp" "$TMP_DIR/fragments-terminated-mismatch/_root.json"
+jq '(.items[] | select(.names == ["--command"]) | .terminated) = false' "$(native_path "$TMP_DIR/fragments-terminated-mismatch/_root.json")" >"$TMP_DIR/terminated-mismatch.tmp" && mv "$TMP_DIR/terminated-mismatch.tmp" "$TMP_DIR/fragments-terminated-mismatch/_root.json"
 mismatch_log="$(new_log)"
 if run_quiet "$mismatch_log" bash "$SCRIPTS/verify-completion.sh" "$terminated_script" --cmd demo --cache-dir "$TMP_DIR/fragments-terminated-mismatch" --skip-compgen; then
     fail "verify terminated mismatch (unexpected success)"
@@ -242,15 +242,15 @@ rm -f "$hygiene_dir/_root.new.txt"
 
 hygiene_hash="$TMP_DIR/fragments-hygiene-hash"
 cp -R "$FIXTURES/fragments/no-choice" "$hygiene_hash"
-jq '.hash = "not-a-hash"' "$hygiene_hash/_root.json" >"$TMP_DIR/hygiene-hash.tmp" && mv "$TMP_DIR/hygiene-hash.tmp" "$hygiene_hash/_root.json"
+jq '.hash = "not-a-hash"' "$(native_path "$hygiene_hash/_root.json")" >"$TMP_DIR/hygiene-hash.tmp" && mv "$TMP_DIR/hygiene-hash.tmp" "$hygiene_hash/_root.json"
 if run_quiet "$TMP_DIR/hygiene-hash.log" bash "$SCRIPTS/verify-completion.sh" "$new_script" --cmd demo --cache-dir "$hygiene_hash" --skip-compgen; then
     fail "verify cache hygiene invalid hash (unexpected success)"
 else
     pass "verify cache hygiene invalid hash"
 fi
 assert_contains "verify cache hygiene hash message" "$TMP_DIR/hygiene-hash.log" "invalid hash or source.command"
-jq '.source.command = "demo --help | cat"' "$hygiene_hash/_root.json" >"$TMP_DIR/hygiene-hash.tmp" && mv "$TMP_DIR/hygiene-hash.tmp" "$hygiene_hash/_root.json"
-jq '.hash = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"' "$hygiene_hash/_root.json" >"$TMP_DIR/hygiene-hash.tmp" && mv "$TMP_DIR/hygiene-hash.tmp" "$hygiene_hash/_root.json"
+jq '.source.command = "demo --help | cat"' "$(native_path "$hygiene_hash/_root.json")" >"$TMP_DIR/hygiene-hash.tmp" && mv "$TMP_DIR/hygiene-hash.tmp" "$hygiene_hash/_root.json"
+jq '.hash = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"' "$(native_path "$hygiene_hash/_root.json")" >"$TMP_DIR/hygiene-hash.tmp" && mv "$TMP_DIR/hygiene-hash.tmp" "$hygiene_hash/_root.json"
 if run_quiet "$TMP_DIR/hygiene-command.log" bash "$SCRIPTS/verify-completion.sh" "$new_script" --cmd demo --cache-dir "$hygiene_hash" --skip-compgen; then
     fail "verify cache hygiene unsafe command (unexpected success)"
 else
@@ -263,14 +263,14 @@ assert_contains "verify cache hygiene command message" "$TMP_DIR/hygiene-command
 # shared-help node.
 provenance_dir="$TMP_DIR/fragments-provenance"
 cp -R "$FIXTURES/fragments/no-choice" "$provenance_dir"
-jq '.source.command = "demo --help"' "$provenance_dir/remote.json" >"$TMP_DIR/provenance.tmp" && mv "$TMP_DIR/provenance.tmp" "$provenance_dir/remote.json"
+jq '.source.command = "demo --help"' "$(native_path "$provenance_dir/remote.json")" >"$TMP_DIR/provenance.tmp" && mv "$TMP_DIR/provenance.tmp" "$provenance_dir/remote.json"
 if run_quiet "$TMP_DIR/provenance.log" bash "$SCRIPTS/verify-completion.sh" "$new_script" --cmd demo --cache-dir "$provenance_dir" --skip-compgen; then
     fail "verify provenance parent command (unexpected success)"
 else
     pass "verify provenance parent command"
 fi
 assert_contains "verify provenance message" "$TMP_DIR/provenance.log" "source.command is identical to its parent"
-jq '.source.section = "remote"' "$provenance_dir/remote.json" >"$TMP_DIR/provenance.tmp" && mv "$TMP_DIR/provenance.tmp" "$provenance_dir/remote.json"
+jq '.source.section = "remote"' "$(native_path "$provenance_dir/remote.json")" >"$TMP_DIR/provenance.tmp" && mv "$TMP_DIR/provenance.tmp" "$provenance_dir/remote.json"
 check "verify provenance accepts shared help section" bash "$SCRIPTS/verify-completion.sh" "$new_script" --cmd demo --cache-dir "$provenance_dir" --skip-compgen
 
 dynamic_verify_log="$TMP_DIR/dynamic-verify.log"

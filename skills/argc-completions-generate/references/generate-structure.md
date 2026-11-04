@@ -27,17 +27,11 @@ Rules:
 - `blocks=unmarked` means the existing script has no block markers: stop and tell the user the markers must be added by hand, or the script deleted for a first generation.
 - `root_fragment_exists=0` means this is a first generation, including `cache_exists=0` and an empty cache recreated by `<SKILL_ROOT>/scripts/delete-cache.sh`; then §3 does not apply.
 
-## 2. Cache layout, hashes, and regeneration
+## 2. Cache contents, hashes, and regeneration
 
-Fragments live under `<REPO_ROOT>/cache/compile/<root>/` and nothing else belongs there:
+Fragments live under `<REPO_ROOT>/cache/compile/<root>/`, and nothing else belongs there. The one-fragment-per-node layout and the Windows `%3A` file-name encoding are defined in `<SKILL_ROOT>/references/fragment-schema.md`; use the skill's path resolution rather than constructing the file name by hand.
 
-```text
-<REPO_ROOT>/cache/compile/<root>/_root.json           root fragment
-<REPO_ROOT>/cache/compile/<root>/<sub>.json           first-level fragment
-<REPO_ROOT>/cache/compile/<root>/<sub>/<nested>.json  nested fragment
-```
-
-That list is exhaustive. Help text, canonical text, and parent-page comparison files live in a temporary directory outside the cache and are deleted after use. The compile child writes only its fragment, and a `.txt` left in the cache is a hygiene failure in verify.
+The cache contains fragments only. Help text, canonical text, and parent-page comparison files live in a temporary directory outside the cache and are deleted after use. The compile child writes only its fragment, and a `.txt` left in the cache is a hygiene failure in verify.
 
 Every fragment carries a top-level `hash`, defined in `<SKILL_ROOT>/references/fragment-schema.md`: `help`/`man` store a 64-character lowercase SHA-256, `none` stores `""`. `<SKILL_ROOT>/scripts/fragment-hash.sh` is the only writer; `SKILL_CACHE_VERSION` in `<SKILL_ROOT>/scripts/lib.sh` is the global invalidation switch, bumped when the schema, hash framing, or help canonicalization changes. The dispatch decision that consumes these hashes is §3.
 
@@ -177,13 +171,7 @@ Failure handling:
 
 - Retry a failed node once, with the error text appended to the prompt. This is the only retry: a compile child never retries internally.
 - A node that warns `shared-help-missing` is `succeeded` with `items: []`: keep it, do not retry, and report it as `succeeded`, never as `failed` (`<SKILL_ROOT>/agents/compile.md` §3.13). Its `shared-help` warning is informational and needs no action.
-- If the retry still leaves no fragment, write the minimal failed fragment with an empty hash. A child normally writes its own failed fragment, so never overwrite one that exists:
-
-  ```json
-  {"schemaVersion": 1, "path": ["demo", "remote", "add"], "description": "", "aliases": [], "meta": [], "items": [], "subcommands": [], "source": {"kind": "none"}, "hash": "", "notes": "help unavailable"}
-  ```
-
-  Its `source.kind: none` makes `<SKILL_ROOT>/scripts/finalize-cache.sh` derive the parent status `failed`; do not write the status yourself.
+- If the retry still leaves no fragment, write the minimal failed fragment defined in `<SKILL_ROOT>/references/fragment-schema.md` (empty hash). A child normally writes its own failed fragment, so never overwrite one that exists. Its `source.kind: none` makes `<SKILL_ROOT>/scripts/finalize-cache.sh` derive the parent status `failed`; do not write the status yourself.
 - If a fragment exists but its parent entry still says `todo`, validate the fragment and continue; `<SKILL_ROOT>/scripts/finalize-cache.sh` recomputes the status from `source.kind` at the end of the run.
 
 ## 7. Finalize and prune

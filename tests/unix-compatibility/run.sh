@@ -24,7 +24,7 @@ if [ "${BASH_VERSINFO[0]:-0}" -lt 5 ]; then
     exit 1
 fi
 
-for cmd in sed grep find; do
+for cmd in sed grep find xargs awk; do
     command -v "$cmd" >/dev/null || { echo "$cmd is required" >&2; exit 1; }
 done
 

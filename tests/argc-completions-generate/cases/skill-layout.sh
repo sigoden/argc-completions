@@ -27,7 +27,7 @@ jq_program_parses() {
     local file="$1" rc=0
     # -L lets a program `include "description-rules"`, as scripts/lib.sh's
     # jq_skill does at run time.
-    jq -L "$SCRIPTS" -n --arg key '' -f "$file" >/dev/null 2>"$TMP_DIR/jq-error" || rc=$?
+    jq -L "$(native_path "$SCRIPTS")" -n --arg key '' -f "$(native_path "$file")" >/dev/null 2>"$TMP_DIR/jq-error" || rc=$?
     if [[ "$rc" -eq 3 ]]; then
         cat "$TMP_DIR/jq-error" >&2
         return 1
@@ -104,7 +104,7 @@ done
 # (an inline filter such as normalize-description.sh) must use it.
 for module in "${jq_modules[@]}"; do
     stem="$(basename "$module" .jq)"
-    check "jq module $stem parses" jq -L "$SCRIPTS" -n "include \"$stem\"; empty"
+    check "jq module $stem parses" jq -L "$(native_path "$SCRIPTS")" -n "include \"$stem\"; empty"
     check "jq module $stem included" bash -c "grep -lqx 'include \"$stem\";' \"\$1\"/*.jq \"\$1\"/*.sh" _ "$SCRIPTS"
     check "jq module $stem case" test -f "$CASES_DIR/script-$stem.sh"
 done

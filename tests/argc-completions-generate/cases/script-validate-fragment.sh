@@ -11,7 +11,7 @@ fragment_description_check() {
     frag="$TMP_DIR/desc-$(printf '%s' "$label" | cksum | cut -d' ' -f1).json"
     err="$frag.err"
     jq -n --arg d "$desc" '{schemaVersion: 1, path: ["demo"], description: $d, aliases: [], meta: [], items: [], subcommands: [], source: {kind: "none"}, hash: "", notes: ""}' >"$frag"
-    if jq -L "$SCRIPTS" -e -f "$SCRIPTS/validate-fragment.jq" --arg key demo "$frag" >/dev/null 2>"$err"; then
+    if jq -L "$(native_path "$SCRIPTS")" -e -f "$(native_path "$SCRIPTS/validate-fragment.jq")" --arg key demo "$(native_path "$frag")" >/dev/null 2>"$err"; then
         if [[ "$want" == ok ]]; then pass "$label"; else fail "$label (unexpected accept)"; fi
     elif [[ "$want" == reject ]] && { [[ -z "$needle" ]] || grep -Fq -- "$needle" "$err"; }; then
         pass "$label"

@@ -22,14 +22,6 @@ Without <root>, only the two roots are printed (mode=paths). Run with
 USAGE
 }
 
-absolute_path() {
-    local path="$1"
-    case "$path" in
-        /*) printf '%s\n' "$path" ;;
-        *) printf '%s/%s\n' "$PWD" "$path" ;;
-    esac
-}
-
 root=""
 output_override=""
 completion_override=""
@@ -128,7 +120,7 @@ fi
 
 cache_version=""
 if [[ "$root_fragment_exists" -eq 1 ]]; then
-    cache_version="$(jq -r '.schemaVersion // empty' "$root_fragment" 2>/dev/null || true)"
+    cache_version="$(jq -r '.schemaVersion // empty' "$(native_path "$root_fragment")" 2>/dev/null || true)"
 fi
 
 blocks="missing"

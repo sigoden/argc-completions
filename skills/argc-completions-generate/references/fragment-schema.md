@@ -10,6 +10,11 @@ One command node = one fragment:
 <REPO_ROOT>/cache/compile/<root>/<sub>/<nested>.json  path = [root, sub, nested]
 ```
 
+On Windows, a subcommand segment that contains `:` is encoded as `%3A` in the
+file name because Windows cannot store a colon (`profile:mem` ->
+`profile%3Amem.json`); other platforms keep the colon. The JSON `path` keeps
+the original colon on every platform.
+
 ```json
 {
   "schemaVersion": 1,

@@ -52,14 +52,14 @@ finalize_out="$TMP_DIR/finalize.txt"
 check_to "$finalize_out" "finalize-cache runs" \
     bash "$SCRIPTS/finalize-cache.sh" "$finalize_root" --cache-dir "$finalize_cache"
 assert_contains "finalize-cache synced count" "$finalize_out" "synced=1 removed=2"
-check "finalize-cache syncs description" test "$(jq -r '.description' "$finalize_cache/child.json")" = "Canonical child"
-check "finalize-cache syncs aliases" test "$(jq -c '.aliases' "$finalize_cache/child.json")" = '["c"]'
-check "finalize-cache keeps items" test "$(jq -c '.items' "$finalize_cache/child.json")" = '[]'
-check "finalize-cache keeps child source" test "$(jq -r '.source.command' "$finalize_cache/child.json")" = "finalize-demo child --help"
-check "finalize-cache keeps child hash" test "$(jq -r '.hash' "$finalize_cache/child.json")" = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
-check "finalize-cache marks child succeeded" test "$(jq -r '.subcommands[] | select(.name == "child") | .status' "$finalize_cache/_root.json")" = succeeded
-check "finalize-cache marks failed" test "$(jq -r '.subcommands[] | select(.name == "broken") | .status' "$finalize_cache/_root.json")" = failed
-check "finalize-cache marks missing todo" test "$(jq -r '.subcommands[] | select(.name == "gone") | .status' "$finalize_cache/_root.json")" = todo
+check "finalize-cache syncs description" test "$(jq -r '.description' "$(native_path "$finalize_cache/child.json")")" = "Canonical child"
+check "finalize-cache syncs aliases" test "$(jq -c '.aliases' "$(native_path "$finalize_cache/child.json")")" = '["c"]'
+check "finalize-cache keeps items" test "$(jq -c '.items' "$(native_path "$finalize_cache/child.json")")" = '[]'
+check "finalize-cache keeps child source" test "$(jq -r '.source.command' "$(native_path "$finalize_cache/child.json")")" = "finalize-demo child --help"
+check "finalize-cache keeps child hash" test "$(jq -r '.hash' "$(native_path "$finalize_cache/child.json")")" = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+check "finalize-cache marks child succeeded" test "$(jq -r '.subcommands[] | select(.name == "child") | .status' "$(native_path "$finalize_cache/_root.json")")" = succeeded
+check "finalize-cache marks failed" test "$(jq -r '.subcommands[] | select(.name == "broken") | .status' "$(native_path "$finalize_cache/_root.json")")" = failed
+check "finalize-cache marks missing todo" test "$(jq -r '.subcommands[] | select(.name == "gone") | .status' "$(native_path "$finalize_cache/_root.json")")" = todo
 check "finalize-cache removes stale json" test ! -e "$finalize_cache/stale.json"
 check "finalize-cache removes nested stale" test ! -e "$finalize_cache/old/nested.json"
 check "finalize-cache removes empty dir" test ! -d "$finalize_cache/old"
@@ -95,25 +95,25 @@ JSON
 check_to "$TMP_DIR/finalize-nosubs.txt" "finalize-cache accepts missing subcommands" \
     bash "$SCRIPTS/finalize-cache.sh" "$nosubs_root" --cache-dir "$nosubs_cache"
 check "finalize-cache missing subcommands keeps root" test -f "$nosubs_cache/_root.json"
-check "finalize-cache missing subcommands normalizes field" test "$(jq -c '.subcommands' "$nosubs_cache/_root.json")" = '[]'
+check "finalize-cache missing subcommands normalizes field" test "$(jq -c '.subcommands' "$(native_path "$nosubs_cache/_root.json")")" = '[]'
 
-jq '.subcommands = null' "$nosubs_cache/_root.json" >"$TMP_DIR/finalize-nosubs.tmp" \
+jq '.subcommands = null' "$(native_path "$nosubs_cache/_root.json")" >"$TMP_DIR/finalize-nosubs.tmp" \
     && mv "$TMP_DIR/finalize-nosubs.tmp" "$nosubs_cache/_root.json"
 check_to "$TMP_DIR/finalize-null-subs.txt" "finalize-cache accepts null subcommands" \
     bash "$SCRIPTS/finalize-cache.sh" "$nosubs_root" --cache-dir "$nosubs_cache"
-check "finalize-cache null subcommands normalizes field" test "$(jq -c '.subcommands' "$nosubs_cache/_root.json")" = '[]'
+check "finalize-cache null subcommands normalizes field" test "$(jq -c '.subcommands' "$(native_path "$nosubs_cache/_root.json")")" = '[]'
 
 # An invalid declared child refuses before any sync or prune.
 mkdir -p "$finalize_cache/old"
 printf '{"schemaVersion":1,"path":["%s","broken"],"description":"Broken","aliases":[],"meta":[],"items":[],"subcommands":[],"source":{"kind":"none"},"hash":"","notes":"help unavailable"}\n' "$finalize_root" >"$finalize_cache/broken.json"
 printf '{"schemaVersion":1,"path":["%s","stale"],"description":"Stale","aliases":[],"meta":[],"items":[],"subcommands":[],"source":{"kind":"none"},"hash":"","notes":""}\n' "$finalize_root" >"$finalize_cache/stale.json"
-jq 'del(.hash)' "$finalize_cache/child.json" >"$TMP_DIR/bad-child.json" && mv "$TMP_DIR/bad-child.json" "$finalize_cache/child.json"
+jq 'del(.hash)' "$(native_path "$finalize_cache/child.json")" >"$TMP_DIR/bad-child.json" && mv "$TMP_DIR/bad-child.json" "$finalize_cache/child.json"
 expect_failure "finalize-cache rejects invalid child" bash "$SCRIPTS/finalize-cache.sh" "$finalize_root" --cache-dir "$finalize_cache"
 check "finalize-cache invalid child does not prune" test -f "$finalize_cache/stale.json"
 
 # Restore the child and remove the root hash: cleanup must still be refused.
-jq '.hash = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"' "$finalize_cache/child.json" >"$TMP_DIR/good-child.json" && mv "$TMP_DIR/good-child.json" "$finalize_cache/child.json"
-jq 'del(.hash)' "$finalize_cache/_root.json" >"$TMP_DIR/bad-root.json" && mv "$TMP_DIR/bad-root.json" "$finalize_cache/_root.json"
+jq '.hash = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"' "$(native_path "$finalize_cache/child.json")" >"$TMP_DIR/good-child.json" && mv "$TMP_DIR/good-child.json" "$finalize_cache/child.json"
+jq 'del(.hash)' "$(native_path "$finalize_cache/_root.json")" >"$TMP_DIR/bad-root.json" && mv "$TMP_DIR/bad-root.json" "$finalize_cache/_root.json"
 expect_failure "finalize-cache rejects invalid root" bash "$SCRIPTS/finalize-cache.sh" "$finalize_root" --cache-dir "$finalize_cache"
 check "finalize-cache invalid root does not prune" test -f "$finalize_cache/stale.json"
 
