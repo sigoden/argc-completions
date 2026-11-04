@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Skill package layout: symlink, frontmatter, complete file inventory, script
-# hygiene, and one test case per skill artifact.
+# hygiene, and one test case (or shard set) per skill artifact.
 #
 # The inventory is read from the directory, never from a hand-kept list: adding
 # a skill file without a case, or renaming an artifact without renaming its
@@ -87,11 +87,22 @@ for doc in "${docs[@]}"; do
     check "agent $stem.md case" test -f "$CASES_DIR/agent-$stem.sh"
 done
 
+# A script is covered by one exact case file or by shards named
+# script-<stem>-<shard>.sh (the scalar scripts are split for parallel runs).
+script_has_case() {
+    local stem="$1" file
+    [[ -f "$CASES_DIR/script-$stem.sh" ]] && return 0
+    for file in "$CASES_DIR"/script-"$stem"-*.sh; do
+        [[ -f "$file" ]] && return 0
+    done
+    return 1
+}
+
 for script in "${shell_scripts[@]}"; do
     base="$(basename "$script")"
     check "script $base executable" test -x "$script"
     check "script $base syntax" bash -n "$script"
-    check "script $base case" test -f "$CASES_DIR/script-${base%.sh}.sh"
+    check "script $base case" script_has_case "${base%.sh}"
 done
 
 for program in "${jq_programs[@]}"; do
@@ -127,6 +138,15 @@ orphan_cases() {
                 ;;
             script-*)
                 stem="${base#script-}"
+                if [[ ! -e "$SCRIPTS/$stem.sh" && ! -e "$SCRIPTS/$stem.jq" ]]; then
+                    # A script may be split into shards: script-<stem>-<shard>.sh.
+                    while [[ "$stem" == *-* ]]; do
+                        stem="${stem%-*}"
+                        if [[ -e "$SCRIPTS/$stem.sh" || -e "$SCRIPTS/$stem.jq" ]]; then
+                            break
+                        fi
+                    done
+                fi
                 if [[ ! -e "$SCRIPTS/$stem.sh" && ! -e "$SCRIPTS/$stem.jq" ]]; then
                     echo "$base: no scripts/$stem.sh or scripts/$stem.jq"
                 fi

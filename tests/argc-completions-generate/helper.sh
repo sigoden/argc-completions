@@ -7,11 +7,12 @@
 # Layers:
 #   run.sh      orchestration: lists the case files, aggregates counts, exit code
 #   helper.sh   this file: paths, bootstrap, reporting, assertions, shared fixtures
-#   cases/*.sh  one file per skill document (reference-*, agent-*, skill-*) or per skill script (script-*)
+#   cases/*.sh  one file per skill document (reference-*, agent-*, skill-*) or per skill
+#               script shard (script-<script>-<shard>.sh; a single file is script-<script>.sh)
 #
 # A case file is a standalone script and runs on its own:
 #
-#   bash tests/argc-completions-generate/cases/script-assemble.sh
+#   bash tests/argc-completions-generate/cases/script-assemble-basic.sh
 #
 #   set -euo pipefail
 #   . "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/helper.sh"
@@ -341,4 +342,82 @@ build_dynamic_fixture() {
         { print }' "$DYNAMIC_SCRIPT" >"$TMP_DIR/dynamic.tmp" && mv "$TMP_DIR/dynamic.tmp" "$DYNAMIC_SCRIPT"
     quiet bash "$SCRIPTS/set-choice-fns.sh" "$DYNAMIC_FRAGMENTS/_root.json" '--output[`_choice_out`]' >/dev/null
     quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$DYNAMIC_FRAGMENTS" --output "$DYNAMIC_SCRIPT" --force
+}
+
+# Timeout fixtures: commands that stop themselves, ignore SIGTERM, or leave a
+# descendant behind. The two script-lib-timeout shards share them so the suite
+# can overlap their multi-second kill-after waits.
+build_timeout_fixtures() {
+    [[ -n "${TIMEOUT_FIXTURES_READY:-}" ]] && return 0
+    TIMEOUT_FIXTURES_READY=1
+    mkdir -p "$TMP_DIR/bin"
+    cat >"$TMP_DIR/bin/stop-self" <<'STOP'
+#!/usr/bin/env bash
+printf '%s\n' "$$" >"$1"
+kill -STOP $$
+sleep 30
+STOP
+    cat >"$TMP_DIR/bin/ignore-term" <<'IGNORE'
+#!/usr/bin/env bash
+printf '%s\n' "$$" >"$1"
+trap '' TERM
+sleep 30
+IGNORE
+    cat >"$TMP_DIR/bin/spawn-child" <<'SPAWN'
+#!/usr/bin/env bash
+printf '%s\n' "$$" >"$1"
+sleep 30 &
+printf '%s\n' "$!" >"$1.descendant"
+wait
+SPAWN
+    chmod +x "$TMP_DIR/bin/stop-self" "$TMP_DIR/bin/ignore-term" "$TMP_DIR/bin/spawn-child"
+
+    # Exercise the wrapper with a PATH that hides timeout/gtimeout (macOS
+    # without coreutils): the fallback must still escalate to SIGKILL. The
+    # wrapper needs perl, and the fixtures start with `#!/usr/bin/env bash`, so
+    # both stay reachable; only the timeout binaries are missing. Git Bash turns
+    # `ln -s` into a copy by default, and a copied MSYS binary cannot find its
+    # runtime DLLs, so use absolute-path wrappers instead of symlinks.
+    mkdir -p "$TMP_DIR/lonely-bin"
+    local tool tool_path
+    for tool in bash dirname perl sleep; do
+        tool_path="$(command -v "$tool")"
+        printf '#!%s\nexec %q "$@"\n' "$BASH" "$tool_path" >"$TMP_DIR/lonely-bin/$tool"
+        chmod +x "$TMP_DIR/lonely-bin/$tool"
+    done
+}
+
+# assert_timeout_returns <label> <fixture> <minimal-path>: the wrapper must
+# return, fail, and leave no process behind. <minimal-path>=1 hides
+# timeout/gtimeout so the wrapper's own escalation path runs.
+assert_timeout_returns() {
+    local label="$1" script="$2" minimal_path="$3"
+    # One pid file per run: the minimal-PATH run must not pass because the
+    # previous run left a pid behind.
+    local pid_file="$TMP_DIR/${script}-${minimal_path}-pid.txt" rc=0 start=$SECONDS
+    rm -f "$pid_file"
+    # An outer guard keeps a regression from hanging the suite; gtimeout is the
+    # brew coreutils name on macOS.
+    local -a guard=()
+    # A Windows `timeout.exe` is a delay command, not GNU timeout: probe the
+    # implementation before using it as the outer hang guard.
+    if command -v timeout >/dev/null 2>&1 && timeout --version >/dev/null 2>&1; then
+        guard=(timeout 30)
+    elif command -v gtimeout >/dev/null 2>&1 && gtimeout --version >/dev/null 2>&1; then
+        guard=(gtimeout 30)
+    fi
+    if [[ "$minimal_path" == 1 ]]; then
+        "${guard[@]}" env PATH="$TMP_DIR/lonely-bin" "$BASH" -c \
+            'source "$1"; run_with_timeout "$2" - 1 "$3" "$4"' _ \
+            "$SCRIPTS/lib.sh" "$TMP_DIR/${script}-out.txt" "$TMP_DIR/bin/$script" "$pid_file" \
+            >/dev/null 2>&1 || rc=$?
+    else
+        "${guard[@]}" bash -c 'source "$1"; run_with_timeout "$2" - 1 "$3" "$4"' _ \
+            "$SCRIPTS/lib.sh" "$TMP_DIR/${script}-out.txt" "$TMP_DIR/bin/$script" "$pid_file" \
+            >/dev/null 2>&1 || rc=$?
+    fi
+    check "$label returns" test "$((SECONDS - start))" -lt 10
+    check "$label fails" test "$rc" -ne 0
+    check "$label leaves no process behind" \
+        bash -c 'test -s "$1" && ! kill -0 "$(cat "$1")" 2>/dev/null' _ "$pid_file"
 }

@@ -13,22 +13,65 @@
 #   helper.sh                   shared harness: paths, reporting, assertions, fixture builders
 #   cases/reference-*           one file per references/*.md document
 #   cases/agent-*               one file per agents/*.md document
-#   cases/script-*              one file per skill script or contract artifact
+#   cases/script-*              one file per skill script or contract artifact;
+#                               a script split across shards uses the suffix
+#                               script-<script>-<shard>.sh
 #   cases/skill-md.sh           SKILL.md checks
 #   cases/skill-layout.sh       layout checks
 #   cases/skill-cross-docs.sh   cross-document checks
 #
-# This file only runs every case file in name order and aggregates the results.
-# A single case file is standalone for focused work:
-#   bash tests/argc-completions-generate/cases/script-assemble.sh
+# This file runs every case file and aggregates the results. Case files are
+# independent — each owns a mktemp directory — so they run concurrently by
+# default. A single case file is standalone for focused work:
+#   bash tests/argc-completions-generate/cases/script-assemble-basic.sh
 #
 # Environment:
-#   VERBOSE=1  stream each command's output as it runs
+#   JOBS=N     run N case files concurrently (default: CPUs, capped at 16)
+#   -j N       same as JOBS=N (overrides the environment)
+#   VERBOSE=1  stream each command's output as it runs (forces JOBS=1)
 #   QUIET=1    print only failures and the summary
+#
+# Cases that write inside the repository use a unique root name (PIDs) or a
+# private mktemp directory; keep that invariant when adding a case.
 
 set -euo pipefail
 . "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/helper.sh"
 helper_require_bash5
+
+jobs=""
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -j)
+            [[ $# -ge 2 ]] || { echo "-j requires a value" >&2; exit 2; }
+            jobs="$2"
+            shift 2
+            ;;
+        -j*)
+            jobs="${1#-j}"
+            shift
+            ;;
+        -h | --help)
+            printf 'usage: %s [-j N]\n' "$(basename "$0")"
+            exit 0
+            ;;
+        *)
+            echo "unknown option: $1" >&2
+            exit 2
+            ;;
+    esac
+done
+
+if [[ -z "$jobs" ]]; then
+    jobs="${JOBS:-}"
+fi
+if [[ -z "$jobs" ]]; then
+    cpus="$(getconf _NPROCESSORS_ONLN 2>/dev/null || true)"
+    [[ "$cpus" =~ ^[1-9][0-9]*$ ]] || cpus=4
+    jobs="$cpus"
+    ((jobs > 16)) && jobs=16
+fi
+[[ "$jobs" =~ ^[1-9][0-9]*$ ]] || { echo "invalid JOBS: $jobs" >&2; exit 2; }
+[[ "${VERBOSE:-0}" == "1" ]] && jobs=1
 
 RESULTS_DIR="$(mktemp -d)"
 trap 'rm -rf "$RESULTS_DIR"' EXIT
@@ -43,17 +86,19 @@ shopt -s nullglob
 cases=("$TEST_DIR"/cases/*.sh)
 shopt -u nullglob
 [[ "${#cases[@]}" -gt 0 ]] || { echo "no case files under $TEST_DIR/cases" >&2; exit 1; }
+((jobs > ${#cases[@]})) && jobs="${#cases[@]}"
 
-for case_file in "${cases[@]}"; do
+# record_result <case-file> <rc>: aggregate one case's .result file. Called
+# after the case's output has been replayed, so report order stays stable.
+record_result() {
+    local case_file="$1" rc="$2" case_name result file_passes file_failures line
     case_name="$(basename "$case_file")"
-    rc=0
-    bash "$case_file" || rc=$?
     result="$RESULTS_DIR/$case_name.result"
     if [[ ! -f "$result" ]]; then
         failures=$((failures + 1))
         failed_labels+=("case $case_name aborted (rc=$rc)")
         printf 'FAIL case %s aborted (rc=%d)\n' "$case_name" "$rc" >&3
-        continue
+        return 0
     fi
     file_passes="$(sed -n 's/^passes=//p' "$result" | head -n 1)"
     file_failures="$(sed -n 's/^failures=//p' "$result" | head -n 1)"
@@ -62,7 +107,42 @@ for case_file in "${cases[@]}"; do
     while IFS= read -r line; do
         failed_labels+=("${line#fail=} ($case_name)")
     done < <(sed -n 's/^fail=//p' "$result")
-done
+}
+
+# Worker body used by the parallel scheduler: write the case's combined output
+# and exit status next to the .result file. The body is passed inline to
+# `bash -c` rather than an exported function so it works on Git Bash too, where
+# exported bash functions cross the environment poorly.
+run_case_file_body='
+    case_file="$1"
+    case_name="${case_file##*/}"
+    rc=0
+    bash "$case_file" >"$RESULTS_DIR/$case_name.log" 2>&1 || rc=$?
+    printf "%s\n" "$rc" >"$RESULTS_DIR/$case_name.rc"
+'
+
+if [[ "$jobs" -le 1 ]]; then
+    # Serial mode keeps the old behavior: output streams as the case runs, which
+    # is what VERBOSE=1 needs.
+    for case_file in "${cases[@]}"; do
+        rc=0
+        bash "$case_file" || rc=$?
+        record_result "$case_file" "$rc"
+    done
+else
+    export RESULTS_DIR
+    # A case that fails makes xargs exit 123; the per-case .rc file is the
+    # source of truth, so ignore xargs' status.
+    printf '%s\0' "${cases[@]}" |
+        xargs -0 -P "$jobs" -n 1 bash -c "$run_case_file_body" _ || true
+    for case_file in "${cases[@]}"; do
+        case_name="$(basename "$case_file")"
+        rc=0
+        [[ -f "$RESULTS_DIR/$case_name.rc" ]] && rc="$(cat "$RESULTS_DIR/$case_name.rc")"
+        [[ -f "$RESULTS_DIR/$case_name.log" ]] && cat "$RESULTS_DIR/$case_name.log" >&3
+        record_result "$case_file" "$rc"
+    done
+fi
 
 if [[ "$failures" -gt 0 ]]; then
     printf '\nfailed checks:\n' >&3
