@@ -1,10 +1,24 @@
-# Validate one argc JSON fragment. Returns true on success, raises an error
-# otherwise. The caller passes --arg key "<path segments joined by |>" so the
-# fragment path can be checked against its location in the cache directory.
+# Read one argc JSON fragment: validate its schema, and (in the records modes)
+# render every derived field it contributes to a completion script.
+#
+# Modes, selected with `--arg mode`:
+#   (absent) / validate  the schema verdict the compile subagent runs: true on
+#                        success, an error otherwise
+#   records              validate and print the record stream in one invocation,
+#                        which is what assembly, finalize-cache and
+#                        check-fragment consume
+#   extract              print the record stream without the verdict, for a
+#                        caller that checks individual fields itself
+#
+# The caller passes --arg key "<path segments joined by |>" so the fragment path
+# can be checked against its location in the cache directory; the key also names
+# the generated static-choice functions. The record format lives in
+# fragment-records-rules.jq, and the rules themselves stay in this program.
 #
 # Run it with `jq -L <this directory>` (scripts/lib.sh provides jq_skill) so the
 # shared description rules resolve.
 include "description-rules";
+include "fragment-records-rules";
 
 def fail($m): error($m);
 def is_arr: type == "array";
@@ -218,28 +232,46 @@ def item_ok($i):
       ($it | terminated_ok)
     else false end;
 
-. as $frag
-| only(["schemaVersion", "path", "description", "aliases", "meta", "items", "subcommands", "source", "hash", "notes"]; "fragment")
-| if .schemaVersion != 1 then fail("schemaVersion must be 1") else . end
-| if (.path | is_arr and length > 0) then . else fail("path must be a non-empty array") end
-| if (.path | all(.[]; cmd_name and . != "_root")) then . else fail("invalid path") end
-| if ((.path | join("|")) == $key) then . else fail("path mismatch: expected \($key), got \(.path | join("|"))") end
-| if ((.description // "") | is_str and description_ok) then . else fail("description must be one line, one sentence, no backticks, no machine-local path") end
-| if ((.aliases // []) | is_arr and all(.[]; cmd_name)) then . else fail("invalid aliases") end
-| if ((.meta // []) | meta_ok) then . else fail("invalid meta") end
-| if (((.path | length) > 1) and ((.meta // []) | map(select(.key == "combine-shorts" or .key == "inherit-flag-options")) | length > 0)) then fail("root-only meta on a subcommand fragment: combine-shorts/inherit-flag-options belong to the root fragment") else . end
-| if ((.items // []) | is_arr) then . else fail("items must be an array") end
-| if ((.subcommands // []) | subcommands_ok) then . else fail("invalid subcommands") end
-| if ((.source // null) | is_obj) then . else fail("source must be an object") end
-| if ((.source.kind // null) | . == "help" or . == "man" or . == "none") then .
-  else fail("source.kind must be help, man, or none") end
-| if (.hash | is_str) then . else fail("hash must be a string") end
-| if .source.kind == "none" then
-    (if .hash == "" then . else fail("source.kind none requires an empty hash") end)
-    | if (.source | has("command")) then fail("source.kind none must not have source.command") else . end
-  else
-    (if (.hash | hex64) then . else fail("hash must be 64 lowercase hex characters") end)
-    | if (.source.command | source_command_ok) then . else fail("source.command must be a safe token string") end
-  end
-| if ((.notes // "") | is_str and no_nl) then . else fail("notes must be a single-line string") end
-| if ((.items // []) | all(to_entries[]; .key as $i | .value | item_ok($i))) then true else fail("invalid items") end
+# No `. as $x` binding here: a dead binding turns the rest of the program into a
+# closure, and jq 1.8.2 then spends ~15ms compiling it on every invocation. Do
+# not reintroduce it without re-measuring.
+def validate($key):
+  .
+  | only(["schemaVersion", "path", "description", "aliases", "meta", "items", "subcommands", "source", "hash", "notes"]; "fragment")
+  | if .schemaVersion != 1 then fail("schemaVersion must be 1") else . end
+  | if (.path | is_arr and length > 0) then . else fail("path must be a non-empty array") end
+  | if (.path | all(.[]; cmd_name and . != "_root")) then . else fail("invalid path") end
+  | if ((.path | join("|")) == $key) then . else fail("path mismatch: expected \($key), got \(.path | join("|"))") end
+  | if ((.description // "") | is_str and description_ok) then . else fail("description must be one line, one sentence, no backticks, no machine-local path") end
+  | if ((.aliases // []) | is_arr and all(.[]; cmd_name)) then . else fail("invalid aliases") end
+  | if ((.meta // []) | meta_ok) then . else fail("invalid meta") end
+  | if (((.path | length) > 1) and ((.meta // []) | map(select(.key == "combine-shorts" or .key == "inherit-flag-options")) | length > 0)) then fail("root-only meta on a subcommand fragment: combine-shorts/inherit-flag-options belong to the root fragment") else . end
+  | if ((.items // []) | is_arr) then . else fail("items must be an array") end
+  | if ((.subcommands // []) | subcommands_ok) then . else fail("invalid subcommands") end
+  | if ((.source // null) | is_obj) then . else fail("source must be an object") end
+  | if ((.source.kind // null) | . == "help" or . == "man" or . == "none") then .
+    else fail("source.kind must be help, man, or none") end
+  | if (.hash | is_str) then . else fail("hash must be a string") end
+  | if .source.kind == "none" then
+      (if .hash == "" then . else fail("source.kind none requires an empty hash") end)
+      | if (.source | has("command")) then fail("source.kind none must not have source.command") else . end
+    else
+      (if (.hash | hex64) then . else fail("hash must be 64 lowercase hex characters") end)
+      | if (.source.command | source_command_ok) then . else fail("source.command must be a safe token string") end
+    end
+  | if ((.notes // "") | is_str and no_nl) then . else fail("notes must be a single-line string") end
+  | if ((.items // []) | all(to_entries[]; .key as $i | .value | item_ok($i))) then true else fail("invalid items") end
+;
+
+# records renders only after the verdict, so both modes reject exactly the same
+# fragments with exactly the same message.
+if ($ARGS.named.mode // "validate") == "records" then
+    validate($key) as $verdict
+    | if $verdict == true then fragment_records($key) else $verdict end
+elif $ARGS.named.mode == "extract" then
+    # Records without the schema verdict, for a caller that runs its own checks
+    # over individual fields (verify-completion's provenance and cache hygiene).
+    fragment_records($key)
+else
+    validate($key)
+end

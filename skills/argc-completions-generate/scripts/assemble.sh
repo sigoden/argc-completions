@@ -121,11 +121,20 @@ tmp_dir="$(mktemp -d)"
 trap 'rm -rf "$tmp_dir"' EXIT
 
 declare -A FRAG_FILE=()
+# Records of one fragment, as produced by validate-fragment.jq --arg mode
+# records (format: scripts/fragment-records-rules.jq) and split
+# into newline-separated lines per kind. Keeping them here means the assembly
+# below never re-reads a fragment and never spawns jq per node.
 declare -A NODE_DESC=()
 declare -A NODE_ALIASES=()
+# Each line is "key<US>value".
 declare -A NODE_META=()
+# Each line is "tag<US>desc<US>static_fn<US>terminated<US>described<US>body".
 declare -A NODE_ITEMS=()
+# Each line is "name<US>status<US>aliases-csv<US>description".
 declare -A NODE_SUBS=()
+# One line per item choice_fn reference.
+declare -A NODE_REFS=()
 declare -A DECLARED=()
 declare -A CHILD_STATUS=()
 declare -A DECLARED_ALIASES=()
@@ -136,8 +145,35 @@ declare -A STATIC_FN_SOURCE=()
 root_fragment="$fragments_dir/_root.json"
 [[ -f "$root_fragment" ]] || die "root fragment not found: $root_fragment"
 
+# Split one record stream into the per-kind lines the renderers consume.
+# Fields may contain US only in the last position, which `read` absorbs, so the
+# rejoin below is lossless for every field this script prints.
+store_fragment_records() {
+    local key="$1" records="$2" kind f1 f2 f3 f4 f5 f6
+    local desc="" aliases="" meta="" items="" subs="" refs=""
+    while IFS=$'\x1f' read -r kind f1 f2 f3 f4 f5 f6; do
+        case "$kind" in
+            D) desc="$f1" ;;
+            A) aliases="$f1" ;;
+            X) ;;
+            M) meta+="$f1"$'\x1f'"$f2"$'\n' ;;
+            I) items+="$f1"$'\x1f'"$f2"$'\x1f'"$f3"$'\x1f'"$f4"$'\x1f'"$f5"$'\x1f'"$f6"$'\n' ;;
+            R) refs+="$f1"$'\n' ;;
+            S) subs+="$f1"$'\x1f'"$f2"$'\x1f'"$f3"$'\x1f'"$f4"$'\n' ;;
+            '') ;;
+            *) die "unexpected fragment record '$kind' in ${FRAG_FILE[$key]}" ;;
+        esac
+    done <<<"$records"
+    NODE_DESC[$key]="$desc"
+    NODE_ALIASES[$key]="$aliases"
+    NODE_META[$key]="$meta"
+    NODE_ITEMS[$key]="$items"
+    NODE_SUBS[$key]="$subs"
+    NODE_REFS[$key]="$refs"
+}
+
 load_fragments() {
-    local file rel rel_noext key validation_error parts part expected_key
+    local file rel rel_noext key records parts part expected_key
     while IFS= read -r file; do
         rel="${file#"$fragments_dir"/}"
         [[ "$rel" != "$file" ]] || continue
@@ -163,17 +199,15 @@ load_fragments() {
         if [[ -n "${FRAG_FILE[$key]:-}" ]]; then
             die "duplicate fragment for path: ${key//|/ }"
         fi
-        if ! validation_error="$(jq_skill -e -f "$(native_path "$SCRIPT_DIR/validate-fragment.jq")" --arg key "$key" "$(native_path "$file")" 2>&1 >/dev/null)"; then
+        FRAG_FILE[$key]="$file"
+        # One jq invocation per fragment: validation and every derived field.
+        # stderr is captured so the diagnostic still follows the file name.
+        if ! records="$(read_fragment_records "$key" "$file" 2>"$tmp_dir/records.err")"; then
             log_error "invalid fragment: $file"
-            printf '%s\n' "$validation_error" >&2
+            cat "$tmp_dir/records.err" >&2
             exit 1
         fi
-        FRAG_FILE[$key]="$file"
-        NODE_DESC[$key]="$(jq -r '(.description // "") | gsub("[\\r\\n\\t]+"; " ") | gsub("^ +| +$"; "")' "$(native_path "$file")")"
-        NODE_ALIASES[$key]="$(jq -r '(.aliases // []) | join(",")' "$(native_path "$file")")"
-        NODE_META[$key]="$(jq -c '.meta // []' "$(native_path "$file")")"
-        NODE_ITEMS[$key]="$(jq -c '.items // []' "$(native_path "$file")")"
-        NODE_SUBS[$key]="$(jq -c '.subcommands // []' "$(native_path "$file")")"
+        store_fragment_records "$key" "$records"
     done < <(find "$fragments_dir" -type f -name '*.json' | LC_ALL=C sort)
 }
 
@@ -187,22 +221,21 @@ MISSING_PATHS=()
 FAILED_PATHS=()
 STALE_PATHS=()
 for key in "${!FRAG_FILE[@]}"; do
-    if ! siblings="$(jq -b -r '.[] | .name, (.aliases[]?)' <<<"${NODE_SUBS[$key]}")"; then
-        die "failed to read subcommands: ${FRAG_FILE[$key]}"
-    fi
-    while IFS= read -r sibling; do
-        [[ -n "$sibling" ]] || continue
-        if [[ -n "${SIBLING_SEEN["$key|$sibling"]:-}" ]]; then
-            die "duplicate subcommand name/alias under ${key//|/ }: $sibling"
-        fi
-        SIBLING_SEEN["$key|$sibling"]=1
-    done <<<"$siblings"
-
-    if ! declarations="$(jq -b -r '.[] | .name + "\u001f" + (.status // "todo") + "\u001f" + ((.aliases // []) | join(","))' <<<"${NODE_SUBS[$key]}")"; then
-        die "failed to read subcommands: ${FRAG_FILE[$key]}"
-    fi
-    while IFS=$'\x1f' read -r child_name status child_aliases; do
+    # NODE_SUBS holds one "name<US>status<US>aliases-csv<US>description" line per
+    # declared subcommand; both the sibling check and the declaration check read
+    # it, so neither needs a jq invocation.
+    while IFS=$'\x1f' read -r child_name status child_aliases _; do
         [[ -n "$child_name" ]] || continue
+
+        sibling_list=()
+        IFS=',' read -r -a sibling_list <<<"$child_name,$child_aliases"
+        for sibling in "${sibling_list[@]}"; do
+            if [[ -n "${SIBLING_SEEN["$key|$sibling"]:-}" ]]; then
+                die "duplicate subcommand name/alias under ${key//|/ }: $sibling"
+            fi
+            SIBLING_SEEN["$key|$sibling"]=1
+        done
+
         child_key="$key|$child_name"
         if [[ -n "${DECLARED[$child_key]:-}" ]]; then
             die "subcommand declared more than once: ${child_key//|/ }"
@@ -210,7 +243,7 @@ for key in "${!FRAG_FILE[@]}"; do
         DECLARED[$child_key]=1
         CHILD_STATUS[$child_key]="$status"
         DECLARED_ALIASES[$child_key]="$child_aliases"
-    done <<<"$declarations"
+    done <<<"${NODE_SUBS[$key]}"
 done
 
 for child_key in "${!DECLARED[@]}"; do
@@ -334,10 +367,7 @@ node_function_name() {
 }
 
 render_meta() {
-    local meta_json="$1" rendered key value
-    if ! rendered="$(jq -b -r '.[] | .key + "\u001f" + (.value // "")' <<<"$meta_json")"; then
-        die "failed to render meta"
-    fi
+    local meta="$1" key value
     while IFS=$'\x1f' read -r key value; do
         [[ -n "$key" ]] || continue
         if [[ -n "$value" ]]; then
@@ -345,7 +375,7 @@ render_meta() {
         else
             printf '# @meta %s\n' "$key" >>"$gen_block"
         fi
-    done <<<"$rendered"
+    done <<<"$meta"
 }
 
 # Emit one flag/option/arg tag line with its description aligned.
@@ -360,89 +390,19 @@ emit_item_line() {
     fi
 }
 
+# Items arrive pre-rendered by validate-fragment.jq in records mode (tag,
+# description, static
+# function name, terminated/described flags, static body), so assembly only
+# aligns the tag column and routes the static body to the STATIC block.
 render_items() {
-    local key="$1" items_json="$2" rendered tag desc static_fn body
-    if ! rendered="$(jq -b -r --arg key "$key" '
-        def sanitize: gsub("[^A-Za-z0-9_]"; "_");
-        def param_label:
-          if .kind == "arg" then (.name // "item")
-          else ((.names // []) | .[-1] // "item") | sub("^[-]+"; "") | sub("^\\++"; "")
-            | if length == 0 then "item" else . end
-          end;
-        def described:
-          ((.choice_fn // null) == null)
-          and any((.choices // [])[]?; (.description // "") != "");
-        def static_path: ($key | split("|") | .[1:] | join("_")) | sanitize;
-        def static_fn:
-          (static_path) as $p
-          | "_static_" + (if $p == "" then "" else $p + "_" end) + (param_label | sanitize);
-        def body:
-          ((.choices // []) | map(.value + "\t" + (.description // "")) | join("\u001e"));
-        def choice_expr($fn):
-          if (.choice_fn // null) != null then
-            "[?`" + .choice_fn + "`]"
-          elif described then
-            "[?`" + $fn + "`]"
-          elif ((.choices // []) | length) > 0 then
-            "[" + ((.choices // []) | map(.value) | join("|")) + "]"
-          else "" end;
-        def names: (.names // []) | join(" ");
-        def option_names:
-          (.names // []) as $names
-          | if (.prefixed // false) then
-              (($names[0] // "") + "-")
-            else
-              ($names | join(" "))
-            end;
-        def option_modifier:
-          if (.repeatable // false) then
-            "*" + (.delimiter // "")
-          else
-            ""
-          end;
-        def notations: (.notations // []) | join(" ");
-        def desc: ((.description // "") | gsub("[\\r\\n\\t]+"; " ") | gsub("^ +| +$"; ""));
-        def terminated_marker:
-          if (.terminated // false) then "~" else "" end;
-        # A terminated arg renders "~" alone: argc rejects a combined suffix
-        # ("name!~"), so requiredness never reaches the tag.
-        def arg_modifier:
-          if (.terminated // false) then
-            ""
-          elif (.repeatable // false) then
-            (if (.required // false) then "+" else "*" end) + (.delimiter // "")
-          else
-            (if (.required // false) then "!" else "" end)
-          end;
-        def tag($fn):
-          if .kind == "flag" then
-            "@flag " + names + (if (.repeatable // false) then "*" else "" end) + choice_expr($fn)
-          elif .kind == "option" then
-            "@option " + option_names + option_modifier + terminated_marker + choice_expr($fn)
-            + (if ((.notations // []) | length) > 0 then " " + notations else "" end)
-          else
-            "@arg " + (.name // "") + arg_modifier + terminated_marker + choice_expr($fn)
-            + (if ((.notation // "") | length) > 0 then " " + .notation else "" end)
-          end;
-        # Tag order: flags/options first, then args; each group keeps fragment
-        # order (stable partition, no sorting).
-        (map(select(.kind != "arg")) + map(select(.kind == "arg")))
-        | .[] as $item
-        | ($item | static_fn) as $fn
-        | ($item | if described then $fn else "" end) as $static_fn
-        | (($item | tag($static_fn)) + "\u001f" + ($item | desc) + "\u001f"
-           + $static_fn + "\u001f"
-           + ($item | if described then body else "" end))
-    ' <<<"$items_json")"; then
-        die "failed to render items"
-    fi
-    while IFS=$'\x1f' read -r tag desc static_fn body; do
+    local key="$1" items="$2" tag desc static_fn _terminated _described body
+    while IFS=$'\x1f' read -r tag desc static_fn _terminated _described body; do
         [[ -n "$tag" ]] || continue
         emit_item_line "$tag" "$desc"
         [[ -n "$static_fn" ]] || continue
         register_static_fn "$key" "$static_fn"
         emit_static_fn "$static_fn" "$body"
-    done <<<"$rendered"
+    done <<<"$items"
 }
 
 register_static_fn() {
@@ -470,25 +430,29 @@ emit_static_fn() {
 }
 
 render_children() {
-    local key="$1" names name child_key
-    if ! names="$(jq -b -r '.[] | .name' <<<"${NODE_SUBS[$key]}")"; then
-        die "failed to read subcommands: ${key//|/ }"
-    fi
-    while IFS= read -r name; do
+    local key="$1" name child_key _
+    while IFS=$'\x1f' read -r name _ _ _; do
         [[ -n "$name" ]] || continue
         child_key="$key|$name"
         if [[ -s "$gen_block" ]]; then
             printf '\n' >>"$gen_block"
         fi
         render_child "$child_key"
-    done <<<"$names"
+    done <<<"${NODE_SUBS[$key]}"
+}
+
+# Build "<char repeated depth times>" without forking printf|tr once per node.
+nest_marker() {
+    local depth="$1" char="$2" pad
+    printf -v pad '%*s' "$depth" ''
+    printf '%s\n' "${pad// /$char}"
 }
 
 render_child() {
     local key="$1" depth path marker fn aliases
     depth="$(node_depth "$key")"
     path="${key//|/ }"
-    marker="$(printf '%*s' "$depth" '' | tr ' ' '{')"
+    marker="$(nest_marker "$depth" '{')"
     printf '# %s %s\n' "$marker" "$path" >>"$gen_block"
     if [[ -n "${NODE_DESC[$key]}" ]]; then
         printf '# @cmd %s\n' "${NODE_DESC[$key]}" >>"$gen_block"
@@ -505,7 +469,7 @@ render_child() {
     printf '%s() {\n' "$fn" >>"$gen_block"
     printf '    :;\n' >>"$gen_block"
     printf '}\n' >>"$gen_block"
-    printf '# %s %s\n' "$(printf '%*s' "$depth" '' | tr ' ' '}')" "$path" >>"$gen_block"
+    printf '# %s %s\n' "$(nest_marker "$depth" '}')" "$path" >>"$gen_block"
     render_children "$key"
 }
 
@@ -614,12 +578,21 @@ if [[ ! -s "$post_content" ]]; then
 fi
 
 # A generated static-choice function must not shadow a preserved definition.
-for static_fn in "${!STATIC_FN_SOURCE[@]}"; do
-    if grep -Eq "^[[:space:]]*(function[[:space:]]+)?${static_fn}(\(\))?[[:space:]]*\{" \
-        "$prompt_content" "$choice_content" "$pre_content" "$post_content"; then
-        die "static choice function name collision: $static_fn (${STATIC_FN_SOURCE[$static_fn]}) is already defined outside STATIC; bind choice_fn instead"
+# One grep over all preserved text instead of one grep per generated function.
+if [[ ${#STATIC_FN_SOURCE[@]} -gt 0 ]]; then
+    shadow_pattern=""
+    for static_fn in "${!STATIC_FN_SOURCE[@]}"; do
+        shadow_pattern+="${shadow_pattern:+|}^[[:space:]]*(function[[:space:]]+)?${static_fn}(\(\))?[[:space:]]*\\{"
+    done
+    shadow_line="$(grep -Eh -m 1 "$shadow_pattern" \
+        "$prompt_content" "$choice_content" "$pre_content" "$post_content" || true)"
+    if [[ -n "$shadow_line" ]]; then
+        shadow_fn="$(printf '%s\n' "$shadow_line" | gawk '
+            { sub(/^[[:space:]]*/, ""); sub(/^function[[:space:]]+/, ""); sub(/\(\).*/, ""); sub(/[[:space:]{].*/, ""); print; exit }
+        ')"
+        die "static choice function name collision: $shadow_fn (${STATIC_FN_SOURCE[$shadow_fn]:-unknown}) is already defined outside STATIC; bind choice_fn instead"
     fi
-done
+fi
 
 has_content() {
     local file="$1"
@@ -666,18 +639,31 @@ if grep -Eq '^[[:space:]]*_choice_[A-Za-z0-9_]*\(\)[[:space:]]*\{' "$gen_block";
 fi
 
 # Every choice_fn/meta reference must have a function definition in the output.
+# References come from the records already in memory, and the definitions are
+# collected with one pass over the output: no jq or grep per fragment/ref.
 refs_file="$tmp_dir/refs.txt"
 : >"$refs_file"
-for file in "${FRAG_FILE[@]}"; do
-    jq -b -r '.items[]? | .choice_fn // empty' "$(native_path "$file")" >>"$refs_file"
-    jq -b -r '.meta[]? | .value // empty' "$(native_path "$file")" 2>/dev/null | grep -o '`[^`]*`' | tr -d '`' >>"$refs_file" || true
+for key in "${!FRAG_FILE[@]}"; do
+    printf '%s' "${NODE_REFS[$key]}" >>"$refs_file"
+    while IFS=$'\x1f' read -r _meta_key _meta_value; do
+        [[ -n "$_meta_value" ]] || continue
+        while [[ "$_meta_value" == *\`*\`* ]]; do
+            _meta_value="${_meta_value#*\`}"
+            printf '%s\n' "${_meta_value%%\`*}" >>"$refs_file"
+            _meta_value="${_meta_value#*\`}"
+        done
+    done <<<"${NODE_META[$key]}"
 done
+declare -A DEFINED_FN=()
+while IFS= read -r defined; do
+    [[ -n "$defined" ]] || continue
+    DEFINED_FN["$defined"]=1
+done < <(grep -Eo '^[[:space:]]*[A-Za-z_][A-Za-z0-9_]*\(\)[[:space:]]*\{' "$full_output" |
+    gawk '{ sub(/^[[:space:]]*/, ""); sub(/\(.*/, ""); print }')
 missing_refs=()
 while IFS= read -r ref; do
     [[ -n "$ref" ]] || continue
-    if ! grep -Eq "^[[:space:]]*${ref}\(\)[[:space:]]*\{" "$full_output"; then
-        missing_refs+=("$ref")
-    fi
+    [[ -n "${DEFINED_FN[$ref]:-}" ]] || missing_refs+=("$ref")
 done < <(LC_ALL=C sort -u "$refs_file")
 if [[ ${#missing_refs[@]} -gt 0 ]]; then
     log_error "missing choice function definitions:"

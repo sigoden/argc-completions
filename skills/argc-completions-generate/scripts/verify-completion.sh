@@ -762,6 +762,47 @@ if [[ -n "$fragments" ]]; then
     fi
 fi
 
+# Per-fragment facts from one records invocation per file (validate-fragment.jq
+# in extract mode): the provenance and cache-hygiene checks below both read the
+# same four fields, so they share one jq run per fragment instead of one each.
+declare -A FRAG_LOADED=() FRAG_FAILED=() FRAG_KIND=() FRAG_HASH=() FRAG_COMMAND=() FRAG_SECTION=()
+frag_facts() {
+    local frag="$1" records kind f1 f2 f3 f4
+    [[ -z "${FRAG_LOADED[$frag]:-}" ]] || return 0
+    FRAG_LOADED[$frag]=1
+    if ! records="$(extract_fragment_records "" "$frag" 2>/dev/null)"; then
+        FRAG_FAILED[$frag]=1
+        return 0
+    fi
+    while IFS=$'\x1f' read -r kind f1 f2 f3 f4; do
+        [[ "$kind" == X ]] || continue
+        FRAG_KIND[$frag]="$f1"
+        FRAG_HASH[$frag]="$f2"
+        FRAG_COMMAND[$frag]="$f3"
+        FRAG_SECTION[$frag]="$f4"
+    done <<<"$records"
+}
+
+# Cache-hygiene rule for one fragment's hash/source.command pair: `none` needs an
+# empty hash, help/man need a 64-hex hash and a safe token command.
+frag_hash_ok() {
+    local frag="$1" kind="${FRAG_KIND[$1]:-}" hash="${FRAG_HASH[$1]:-}" command="${FRAG_COMMAND[$1]:-}"
+    case "$kind" in
+        none) [[ -z "$hash" ]] ;;
+        help | man)
+            [[ "$hash" =~ ^[0-9a-f]{64}$ ]] || return 1
+            [[ "$command" =~ ^[A-Za-z0-9_.+:@/-]+(\ [A-Za-z0-9_.+:@/-]+)*$ ]] || return 1
+            [[ "$command" != "help" ]] || return 1
+            if [[ "$command" == "help "* ]]; then
+                # `help` takes exactly one argument: no second space.
+                [[ "${command#help }" != *" "* ]] || return 1
+            fi
+            return 0
+            ;;
+        *) return 1 ;;
+    esac
+}
+
 # A positional enumeration modeled as subcommands (Usage `cmd [a|b|c]`) yields a
 # child whose provenance is the parent page, because that name is not a command.
 # A shared-help node may legitimately record the parent command; source.section
@@ -772,16 +813,24 @@ if [[ -n "$fragments" && "$layout" == "new" ]] && prov_dir="$(cd -P "$fragments"
         base="${frag#"$prov_dir"/}"
         base="${base%.json}"
         [[ "$base" != "_root" ]] || continue
-        child_command="$(jq -r 'if (.source.kind == "help" or .source.kind == "man") then (.source.command // "") else "" end' "$(native_path "$frag")" 2>/dev/null)"
+        frag_facts "$frag"
+        child_command=""
+        if [[ "${FRAG_KIND[$frag]:-}" == "help" || "${FRAG_KIND[$frag]:-}" == "man" ]]; then
+            child_command="${FRAG_COMMAND[$frag]:-}"
+        fi
         [[ -n "$child_command" ]] || continue
-        [[ -z "$(jq -r '.source.section // empty' "$(native_path "$frag")" 2>/dev/null)" ]] || continue
+        [[ -z "${FRAG_SECTION[$frag]:-}" ]] || continue
         if [[ "$(dirname "$base")" == "." ]]; then
             parent="$prov_dir/_root.json"
         else
             parent="$prov_dir/$(dirname "$base").json"
         fi
         [[ -f "$parent" ]] || continue
-        parent_command="$(jq -r 'if (.source.kind == "help" or .source.kind == "man") then (.source.command // "") else "" end' "$(native_path "$parent")" 2>/dev/null)"
+        frag_facts "$parent"
+        parent_command=""
+        if [[ "${FRAG_KIND[$parent]:-}" == "help" || "${FRAG_KIND[$parent]:-}" == "man" ]]; then
+            parent_command="${FRAG_COMMAND[$parent]:-}"
+        fi
         if [[ "$child_command" == "$parent_command" ]]; then
             prov_bad=1
             fail "provenance: ${base//\// } source.command is identical to its parent; it is a positional choice, not a subcommand"
@@ -799,20 +848,11 @@ if [[ -n "$fragments" && "$layout" == "new" ]] && hyg_dir="$(cd -P "$fragments" 
         hyg_rel="${hyg_file#"$hyg_dir"/}"
         case "$hyg_rel" in
             *.json)
-                if ! jq -e '
-                    ((.source // null) | type == "object") and
-                    (.hash | type == "string") and
-                    (if .source.kind == "none" then
-                        (.hash == "") and (((.source | has("command")) | not))
-                     elif (.source.kind == "help" or .source.kind == "man") then
-                        (.hash | test("^[0-9a-f]{64}$")) and
-                        (((.source.command // "") | test("^[A-Za-z0-9_.+:@/-]+( [A-Za-z0-9_.+:@/-]+)*$")) and
-                         (.source.command != "help") and
-                         (if ((.source.command // "") | startswith("help ")) then
-                            (((.source.command | split(" ")) | length) == 2)
-                          else true end))
-                     else false end)
-                ' "$(native_path "$hyg_file")" >/dev/null 2>&1; then
+                # Same field rules the old per-file jq filter applied, read from
+                # the shared records pass. A fragment jq cannot even render (for
+                # example a non-string hash) counts as invalid here too.
+                frag_facts "$hyg_file"
+                if [[ -n "${FRAG_FAILED[$hyg_file]:-}" ]] || ! frag_hash_ok "$hyg_file"; then
                     hyg_bad=1
                     fail "cache hygiene: $hyg_rel has an invalid hash or source.command; recompile the node"
                 fi

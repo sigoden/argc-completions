@@ -52,6 +52,29 @@ detect_os() {
     esac
 }
 
+# detect_os forks uname, and fragment_name_encode/decode run once per path
+# segment on every cache walk. Resolve it once when lib.sh is sourced instead;
+# every caller reads this instead of the function.
+ARGCLIB_OS="$(detect_os)"
+
+# has_command <name>: command -v with a per-process cache. Every script sources
+# lib.sh once and probes the same few tools (cygpath, argc, jq, ...); PATH is
+# fixed for the lifetime of the process, so the answer is stable.
+declare -A ARGCLIB_CMDS=()
+has_command() {
+    local name="$1"
+    if [[ -n "${ARGCLIB_CMDS[$name]+set}" ]]; then
+        [[ "${ARGCLIB_CMDS[$name]}" == 1 ]]
+        return
+    fi
+    if command -v "$name" >/dev/null 2>&1; then
+        ARGCLIB_CMDS[$name]=1
+        return 0
+    fi
+    ARGCLIB_CMDS[$name]=0
+    return 1
+}
+
 # Resolve a user-supplied path. Git Bash accepts drive-prefixed paths, but
 # prefixing them with PWD would point at a different file; cygpath normalizes
 # them to the POSIX form the rest of the scripts use.
@@ -60,7 +83,7 @@ absolute_path() {
     case "$path" in
         /*) printf '%s\n' "$path" ;;
         [A-Za-z]:[\\/]*)
-            if command -v cygpath >/dev/null 2>&1; then
+            if has_command cygpath; then
                 cygpath -u "$path"
             else
                 printf '%s\n' "$path"
@@ -75,11 +98,18 @@ absolute_path() {
 # when MSYS path conversion is disabled. cygpath -m yields C:/..., which both
 # native and MSYS tools accept and which avoids backslash escaping in shell
 # code. Non-Windows hosts, relative paths, and Windows paths pass through.
+#
+# The host check (OSTYPE plus a cached cygpath probe) is resolved once here so a
+# call costs nothing beyond the conversion itself; paths are not cached, so a
+# caller always gets what cygpath reports for the path it passed.
+ARGCLIB_MSYS=0
+if [[ "${OSTYPE:-}" == msys* || "${OSTYPE:-}" == cygwin* ]] && has_command cygpath; then
+    ARGCLIB_MSYS=1
+fi
+
 native_path() {
     local path="$1"
-    if [[ "$path" == /* ]] &&
-        [[ "${OSTYPE:-}" == msys* || "${OSTYPE:-}" == cygwin* ]] &&
-        command -v cygpath >/dev/null 2>&1; then
+    if [[ "$ARGCLIB_MSYS" == 1 && "$path" == /* ]]; then
         cygpath -m "$path"
     else
         printf '%s\n' "$path"
@@ -263,7 +293,7 @@ capture_help() {
 
 require_cmd() {
     local cmd="$1" hint="${2:-}"
-    if ! command -v "$cmd" >/dev/null 2>&1; then
+    if ! has_command "$cmd"; then
         if [[ -n "$hint" ]]; then
             die "missing dependency: $cmd ($hint)"
         else
@@ -458,7 +488,7 @@ sub_name_ok() {
 # a valid path character, so the mapping is unambiguous. Other platforms keep
 # the existing colon names.
 fragment_name_encode() {
-    if [[ "$(detect_os)" == windows ]]; then
+    if [[ "$ARGCLIB_OS" == windows ]]; then
         printf '%s\n' "${1//:/%3A}"
     else
         printf '%s\n' "$1"
@@ -466,7 +496,7 @@ fragment_name_encode() {
 }
 
 fragment_name_decode() {
-    if [[ "$(detect_os)" == windows ]]; then
+    if [[ "$ARGCLIB_OS" == windows ]]; then
         printf '%s\n' "${1//%3A/:}"
     else
         printf '%s\n' "$1"
@@ -496,7 +526,30 @@ fragment_file_path() {
 # the description normalizer share one rule set).
 # Usage: jq_skill [jq-options...] <filter|--file>
 jq_skill() {
-    jq -L "$(native_path "$LIB_DIR")" "$@"
+    jq -L "$JQ_SKILL_DIR" "$@"
+}
+
+# The jq module search path, resolved once: every jq_skill call would otherwise
+# re-run native_path (a cygpath fork on Windows).
+JQ_SKILL_DIR="$(native_path "$LIB_DIR")"
+
+# Print the record stream for one fragment (validate-fragment.jq in records
+# mode): one derived-field record per line instead of one jq invocation per
+# field. The fragment is validated first, so this fails with the same message
+# validate-fragment.jq itself prints and emits nothing.
+# Usage: read_fragment_records <key> <fragment-file>
+read_fragment_records() {
+    jq_skill -b -r -f "$JQ_SKILL_DIR/validate-fragment.jq" \
+        --arg key "$1" --arg mode records "$(native_path "$2")"
+}
+
+# Same records without the schema verdict, for a caller that checks individual
+# fields itself (verify-completion's provenance and cache hygiene, and the hash
+# helper, which reads source.kind/source.command before the fragment is known
+# to be valid). <key> only names the generated static-choice functions.
+extract_fragment_records() {
+    jq_skill -b -r -f "$JQ_SKILL_DIR/validate-fragment.jq" \
+        --arg key "${1:-}" --arg mode extract "$(native_path "$2")"
 }
 
 # --- Block markers ----------------------------------------------------------

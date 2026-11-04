@@ -93,13 +93,19 @@ fi
 
 key="${parts[*]}"
 key="${key// /|}"
-if ! jq_skill -e -f "$(native_path "$SCRIPT_DIR/validate-fragment.jq")" --arg key "$key" "$(native_path "$fragment")" >/dev/null 2>&1; then
+# One records read validates the fragment and yields its hash/source.kind: a
+# failing read means the schema verdict was a rejection.
+if ! records="$(read_fragment_records "$key" "$fragment" 2>/dev/null)"; then
     printf 'path=%s status=invalid reason=schema\n' "$path_string"
     exit 0
 fi
-
-kind="$(jq -r '.source.kind' "$(native_path "$fragment")")"
-recorded_hash="$(jq -r '.hash' "$(native_path "$fragment")")"
+kind=""
+recorded_hash=""
+while IFS=$'\x1f' read -r record_kind f1 f2 _f3 _f4; do
+    case "$record_kind" in
+        X) kind="$f1"; recorded_hash="$f2" ;;
+    esac
+done <<<"$records"
 if [[ "$kind" == "none" ]]; then
     printf 'path=%s status=failed hash=\n' "$path_string"
     exit 0

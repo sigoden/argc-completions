@@ -115,10 +115,17 @@ fi
 command="$command_override"
 if [[ -z "$command" ]]; then
     [[ -f "$fragment" ]] || { log_error "fragment not found: $fragment"; exit 2; }
-    kind="$(jq -r '.source.kind // empty' "$(native_path "$fragment")" 2>/dev/null)" || {
+    # One records read yields source.kind and source.command together.
+    if ! records="$(extract_fragment_records "" "$fragment" 2>/dev/null)"; then
         log_error "cannot read fragment: $fragment"
         exit 2
-    }
+    fi
+    kind=""
+    while IFS=$'\x1f' read -r record_kind f1 _f2 f3 _f4; do
+        case "$record_kind" in
+            X) kind="$f1"; command="$f3" ;;
+        esac
+    done <<<"$records"
     case "$kind" in
         help|man) ;;
         *)
@@ -126,7 +133,6 @@ if [[ -z "$command" ]]; then
             exit 2
             ;;
     esac
-    command="$(jq -r '.source.command // empty' "$(native_path "$fragment")")"
     [[ -n "$command" ]] || { log_error "fragment has no source.command: $fragment"; exit 2; }
 fi
 

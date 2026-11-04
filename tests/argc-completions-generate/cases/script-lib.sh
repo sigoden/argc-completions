@@ -14,7 +14,7 @@ esac
 check "fragment path handles a colon" \
     test "$(bash -c 'source "$1"; fragment_file_path /cache demo "profile:mem"' _ "$SCRIPTS/lib.sh")" = \
     "/cache/$expected_fragment_name.json"
-if command -v cygpath >/dev/null 2>&1; then
+if has_command cygpath; then
     check "absolute_path normalizes a drive path" \
         test "$(bash -c 'source "$1"; absolute_path "C:/x"' _ "$SCRIPTS/lib.sh")" = '/c/x'
 fi
@@ -53,7 +53,7 @@ expect_failure "help_files_equal different" \
 # script(1) takes the command as trailing operands on macOS/BSD and through -c
 # on util-linux, so probe both forms and keep the one this host accepts.
 script_pty_form=""
-if command -v script >/dev/null 2>&1; then
+if has_command script; then
     if script -q /dev/null true >/dev/null 2>&1; then
         script_pty_form=bsd
     elif script -qec true /dev/null >/dev/null 2>&1; then

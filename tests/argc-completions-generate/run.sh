@@ -26,7 +26,8 @@
 #   bash tests/argc-completions-generate/cases/script-assemble-basic.sh
 #
 # Environment:
-#   JOBS=N     run N case files concurrently (default: CPUs, capped at 16)
+#   JOBS=N     run N case files concurrently (default: 2 on Windows/MSYS,
+#              otherwise CPUs capped at 16)
 #   -j N       same as JOBS=N (overrides the environment)
 #   VERBOSE=1  stream each command's output as it runs (forces JOBS=1)
 #   QUIET=1    print only failures and the summary
@@ -67,14 +68,50 @@ fi
 if [[ -z "$jobs" ]]; then
     cpus="$(getconf _NPROCESSORS_ONLN 2>/dev/null || true)"
     [[ "$cpus" =~ ^[1-9][0-9]*$ ]] || cpus=4
-    jobs="$cpus"
-    ((jobs > 16)) && jobs=16
+    if [[ "${OSTYPE:-}" == msys* || "${OSTYPE:-}" == cygwin* ]]; then
+        # Git Bash/MSYS2 serializes process creation, and these cases are
+        # dominated by short-lived bash/jq/argc/grep processes. More workers
+        # only add contention, so the logical-CPU count overstates the useful
+        # parallelism; two workers is the measured sweet spot.
+        jobs=2
+        ((jobs > cpus)) && jobs="$cpus"
+    else
+        jobs="$cpus"
+        ((jobs > 16)) && jobs=16
+    fi
 fi
 [[ "$jobs" =~ ^[1-9][0-9]*$ ]] || { echo "invalid JOBS: $jobs" >&2; exit 2; }
 [[ "${VERBOSE:-0}" == "1" ]] && jobs=1
 
 RESULTS_DIR="$(mktemp -d)"
-trap 'rm -rf "$RESULTS_DIR"' EXIT
+worker_pid=""
+
+# Clean up on every exit path. The parallel scheduler runs xargs in its own
+# process group (see below), so one signal reaches every worker and grandchild;
+# without this an interrupted run leaves case scripts churning in the
+# background and the next run looks far slower than it is.
+cleanup() {
+    local status=$? i
+    trap - EXIT
+    if [[ -n "$worker_pid" ]]; then
+        kill -TERM -- "-$worker_pid" 2>/dev/null ||
+            kill -TERM "$worker_pid" 2>/dev/null || true
+        for i in 1 2 3 4 5 6 7 8 9 10; do
+            kill -0 -- "-$worker_pid" 2>/dev/null || break
+            sleep 0.1
+        done
+        kill -KILL -- "-$worker_pid" 2>/dev/null ||
+            kill -KILL "$worker_pid" 2>/dev/null || true
+        wait "$worker_pid" 2>/dev/null || true
+        worker_pid=""
+    fi
+    rm -rf "$RESULTS_DIR"
+    exit "$status"
+}
+trap cleanup EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
+trap 'exit 129' HUP
 export ARGC_SKILLS_RESULTS_DIR="$RESULTS_DIR"
 
 exec 3>&1
@@ -91,8 +128,8 @@ shopt -u nullglob
 # record_result <case-file> <rc>: aggregate one case's .result file. Called
 # after the case's output has been replayed, so report order stays stable.
 record_result() {
-    local case_file="$1" rc="$2" case_name result file_passes file_failures line
-    case_name="$(basename "$case_file")"
+    local case_file="$1" rc="$2" case_name result file_passes file_failures row
+    case_name="${case_file##*/}"
     result="$RESULTS_DIR/$case_name.result"
     if [[ ! -f "$result" ]]; then
         failures=$((failures + 1))
@@ -100,13 +137,21 @@ record_result() {
         printf 'FAIL case %s aborted (rc=%d)\n' "$case_name" "$rc" >&3
         return 0
     fi
-    file_passes="$(sed -n 's/^passes=//p' "$result" | head -n 1)"
-    file_failures="$(sed -n 's/^failures=//p' "$result" | head -n 1)"
+    # One builtin read instead of two sed runs plus a process substitution: the
+    # result file is tiny and this runs twice per case.
+    local -a rows=()
+    mapfile -t rows <"$result" || true
+    file_passes=0
+    file_failures=0
+    for row in "${rows[@]}"; do
+        case "$row" in
+            passes=*) file_passes="${row#passes=}" ;;
+            failures=*) file_failures="${row#failures=}" ;;
+            fail=*) failed_labels+=("${row#fail=} ($case_name)") ;;
+        esac
+    done
     passes=$((passes + ${file_passes:-0}))
     failures=$((failures + ${file_failures:-0}))
-    while IFS= read -r line; do
-        failed_labels+=("${line#fail=} ($case_name)")
-    done < <(sed -n 's/^fail=//p' "$result")
 }
 
 # Worker body used by the parallel scheduler: write the case's combined output
@@ -123,23 +168,47 @@ run_case_file_body='
 
 if [[ "$jobs" -le 1 ]]; then
     # Serial mode keeps the old behavior: output streams as the case runs, which
-    # is what VERBOSE=1 needs.
+    # is what VERBOSE=1 needs. The case still runs under job control so it owns
+    # a process group and the cleanup trap can stop it (and its descendants) on
+    # a signal that only reaches this script.
     for case_file in "${cases[@]}"; do
+        set -m
+        bash "$case_file" &
+        worker_pid=$!
+        set +m
         rc=0
-        bash "$case_file" || rc=$?
+        wait "$worker_pid" || rc=$?
+        worker_pid=""
         record_result "$case_file" "$rc"
     done
 else
     export RESULTS_DIR
+    # Feed xargs from a file instead of a pipe: with job control enabled the
+    # background command becomes its own process group whose ID is $!, so the
+    # EXIT/INT/TERM trap can signal every worker (and everything it forked) at
+    # once. A pipeline would put xargs and the producer in different groups.
+    case_list="$RESULTS_DIR/cases.list"
+    printf '%s\0' "${cases[@]}" >"$case_list"
+    set -m
+    xargs -0 -P "$jobs" -n 1 bash -c "$run_case_file_body" _ <"$case_list" &
+    worker_pid=$!
+    set +m
     # A case that fails makes xargs exit 123; the per-case .rc file is the
     # source of truth, so ignore xargs' status.
-    printf '%s\0' "${cases[@]}" |
-        xargs -0 -P "$jobs" -n 1 bash -c "$run_case_file_body" _ || true
+    wait "$worker_pid" || true
+    worker_pid=""
     for case_file in "${cases[@]}"; do
-        case_name="$(basename "$case_file")"
+        case_name="${case_file##*/}"
         rc=0
-        [[ -f "$RESULTS_DIR/$case_name.rc" ]] && rc="$(cat "$RESULTS_DIR/$case_name.rc")"
-        [[ -f "$RESULTS_DIR/$case_name.log" ]] && cat "$RESULTS_DIR/$case_name.log" >&3
+        case_rc_file="$RESULTS_DIR/$case_name.rc"
+        if [[ -f "$case_rc_file" ]]; then
+            read -r rc <"$case_rc_file" || true
+        fi
+        if [[ -f "$RESULTS_DIR/$case_name.log" ]]; then
+            while IFS= read -r line; do
+                printf '%s\n' "$line" >&3
+            done <"$RESULTS_DIR/$case_name.log"
+        fi
         record_result "$case_file" "$rc"
     done
 fi

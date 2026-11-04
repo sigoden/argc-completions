@@ -25,6 +25,12 @@
 #   VERBOSE=1               stream each command's output as it runs
 #   QUIET=1                 print only failures and the summary
 #   ARGC_SKILLS_RESULTS_DIR set by run.sh; each case writes a .result file there
+#
+# Performance contract: the helpers below run once per check (hundreds of times
+# per suite run), so a helper that is reached from check/quiet/assert_* must not
+# create a process. On Windows/MSYS every process creation is serialized, so a
+# stray fork per assertion dominates the run time. PATH and OSTYPE are assumed
+# stable for the lifetime of a case file; the caches below depend on that.
 
 HELPER_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TEST_DIR="$HELPER_DIR"
@@ -33,20 +39,77 @@ SKILL_DIR="$ROOT_DIR/skills/argc-completions-generate"
 SCRIPTS="$SKILL_DIR/scripts"
 FIXTURES="$TEST_DIR/fixtures"
 
+# has_command <name>: command -v with a per-process cache. Presence probes are
+# stable because PATH does not change inside a case file.
+declare -A HELPER_CMDS=()
+has_command() {
+    local name="$1"
+    if [[ -n "${HELPER_CMDS[$name]+set}" ]]; then
+        [[ "${HELPER_CMDS[$name]}" == 1 ]]
+        return
+    fi
+    if command -v "$name" >/dev/null 2>&1; then
+        HELPER_CMDS[$name]=1
+        return 0
+    fi
+    HELPER_CMDS[$name]=0
+    return 1
+}
+
+# A non-MSYS host never converts paths; decide that once, when this file is
+# sourced, instead of on every native_path call.
+HELPER_MSYS=0
+if [[ "${OSTYPE:-}" == msys* || "${OSTYPE:-}" == cygwin* ]] && has_command cygpath; then
+    HELPER_MSYS=1
+fi
+
+# HELPER_NATIVE_ROOTS holds "<posix>|<native>" prefixes for the directories test
+# paths live under (built by helper_build_native_roots). The table must live in
+# globals: `$(native_path ...)` is a subshell, so a cache written inside the
+# function is discarded, while a prefix built in the parent is inherited.
+HELPER_NATIVE_ROOTS=()
+declare -A HELPER_NATIVE_CACHE=()
+
+# helper_build_native_roots: convert each test root once so native_path stays
+# fork-free for the rest of the case file.
+helper_build_native_roots() {
+    HELPER_NATIVE_ROOTS=()
+    HELPER_NATIVE_CACHE=()
+    [[ "$HELPER_MSYS" == 1 ]] || return 0
+    local dir
+    for dir in "${TMP_DIR:-}" "$ROOT_DIR"; do
+        [[ -n "$dir" && "$dir" == /* ]] || continue
+        HELPER_NATIVE_ROOTS+=("$dir|$(cygpath -m "$dir")")
+    done
+}
+
 # Translate a POSIX file path to the form a native Windows binary can open.
 # Git Bash runs jq/argc as .exe files, which cannot resolve /c/... or /tmp/...
 # when MSYS path conversion is disabled. cygpath -m yields C:/..., which both
 # native and MSYS tools accept and which avoids backslash escaping in shell
 # code. Non-Windows hosts, relative paths, and Windows paths pass through.
+# A path under a known root is rewritten from the prefix table (a pure string
+# operation); anything else converts once through cygpath and is memoized.
 native_path() {
-    local path="$1"
-    if [[ "$path" == /* ]] &&
-        [[ "${OSTYPE:-}" == msys* || "${OSTYPE:-}" == cygwin* ]] &&
-        command -v cygpath >/dev/null 2>&1; then
-        cygpath -m "$path"
-    else
+    local path="$1" entry prefix converted
+    if [[ "$HELPER_MSYS" != 1 || "$path" != /* ]]; then
         printf '%s\n' "$path"
+        return 0
     fi
+    for entry in "${HELPER_NATIVE_ROOTS[@]}"; do
+        prefix="${entry%%|*}"
+        if [[ "$path" == "$prefix" || "$path" == "$prefix"/* ]]; then
+            printf '%s%s\n' "${entry#*|}" "${path#"$prefix"}"
+            return 0
+        fi
+    done
+    if [[ -n "${HELPER_NATIVE_CACHE[$path]+set}" ]]; then
+        printf '%s\n' "${HELPER_NATIVE_CACHE[$path]}"
+        return 0
+    fi
+    converted="$(cygpath -m "$path")"
+    HELPER_NATIVE_CACHE[$path]="$converted"
+    printf '%s\n' "$converted"
 }
 
 helper_require_bash5() {
@@ -67,6 +130,7 @@ helper_init() {
     TMP_DIR="$(mktemp -d)"
     export TMP_DIR
     trap 'rm -rf "$TMP_DIR"' EXIT
+    helper_build_native_roots
     exec 3>&1
     LOG_DIR="$TMP_DIR/logs"
     mkdir -p "$LOG_DIR"
@@ -74,9 +138,9 @@ helper_init() {
     passes=0
     failures=0
     failed_labels=()
-    command -v argc >/dev/null || { echo "argc is required (run ./install.sh)" >&2; exit 1; }
-    command -v jq >/dev/null || { echo "jq is required (run ./install.sh)" >&2; exit 1; }
-    command -v gawk >/dev/null || { echo "gawk is required (run ./install.sh)" >&2; exit 1; }
+    has_command argc || { echo "argc is required (run ./install.sh)" >&2; exit 1; }
+    has_command jq || { echo "jq is required (run ./install.sh)" >&2; exit 1; }
+    has_command gawk || { echo "gawk is required (run ./install.sh)" >&2; exit 1; }
 }
 
 # helper_finish reports this case file's result. Under run.sh the counts go to
@@ -84,7 +148,7 @@ helper_init() {
 # file prints its own summary. The exit status is non-zero when a check failed.
 helper_finish() {
     if [[ -n "${ARGC_SKILLS_RESULTS_DIR:-}" ]]; then
-        local result="$ARGC_SKILLS_RESULTS_DIR/$(basename "$0").result" label
+        local result="$ARGC_SKILLS_RESULTS_DIR/${0##*/}.result" label
         {
             printf 'passes=%d\n' "$passes"
             printf 'failures=%d\n' "$failures"
@@ -123,9 +187,17 @@ fail() {
     printf 'FAIL %s\n' "$*" >&3
 }
 
-new_log() {
+# new_log_var <varname>: fork-free path for the next log file. check/quiet run
+# once per assertion, so `log="$(new_log)"` (a subshell each) was pure overhead.
+new_log_var() {
     LOG_SEQ=$((LOG_SEQ + 1))
-    printf '%s/%03d.log\n' "$LOG_DIR" "$LOG_SEQ"
+    printf -v "$1" '%s/%03d.log' "$LOG_DIR" "$LOG_SEQ"
+}
+
+new_log() {
+    local path
+    new_log_var path
+    printf '%s\n' "$path"
 }
 
 show_captured() {
@@ -165,14 +237,14 @@ check_to() {
 check() {
     local label="$1" log
     shift
-    log="$(new_log)"
+    new_log_var log
     check_to "$log" "$label" "$@"
 }
 
 expect_failure() {
     local label="$1" log
     shift
-    log="$(new_log)"
+    new_log_var log
     if run_quiet "$log" "$@"; then
         fail "$label (unexpected success)"
         show_captured "$log"
@@ -186,7 +258,7 @@ expect_failure() {
 # step fails.
 quiet() {
     local log rc=0
-    log="$(new_log)"
+    new_log_var log
     if [[ "${VERBOSE:-0}" == "1" ]]; then
         "$@"
         return
@@ -199,13 +271,27 @@ quiet() {
     return "$rc"
 }
 
+# helper_file_text <varname> <file>: load a file into a variable with builtins
+# only (mapfile and printf -v create no process). A missing or unreadable file
+# yields an empty string, which is what the assertions relied on grep for.
+helper_file_text() {
+    local -a lines=()
+    mapfile -t lines <"$2" || true
+    printf -v "$1" '%s\n' "${lines[@]}"
+}
+
+# Fixed-string substring tests. grep -Fq was one fork per assertion (363 per
+# suite run); a quoted needle keeps *, [, | and \ literal inside [[ == ]], so
+# the semantics match grep -F.
 assert_contains() {
-    local label="$1" file="$2" needle="$3"
-    if grep -Fq -- "$needle" "$file"; then pass "$label"; else fail "$label (missing: $needle)"; fi
+    local label="$1" file="$2" needle="$3" haystack
+    helper_file_text haystack "$file"
+    if [[ "$haystack" == *"$needle"* ]]; then pass "$label"; else fail "$label (missing: $needle)"; fi
 }
 assert_not_contains() {
-    local label="$1" file="$2" needle="$3"
-    if grep -Fq -- "$needle" "$file"; then fail "$label (unexpected: $needle)"; else pass "$label"; fi
+    local label="$1" file="$2" needle="$3" haystack
+    helper_file_text haystack "$file"
+    if [[ "$haystack" == *"$needle"* ]]; then fail "$label (unexpected: $needle)"; else pass "$label"; fi
 }
 
 # ---------------------------------------------------------------------------
@@ -387,6 +473,25 @@ SPAWN
     done
 }
 
+# helper_timeout_guard: resolve the outer hang guard once per process. Probing
+# twice per call plus a --version run was the last fork left in this helper.
+HELPER_TIMEOUT_GUARD=()
+HELPER_TIMEOUT_GUARD_READY=0
+helper_timeout_guard() {
+    if [[ "$HELPER_TIMEOUT_GUARD_READY" == 1 ]]; then
+        return 0
+    fi
+    HELPER_TIMEOUT_GUARD_READY=1
+    # A Windows `timeout.exe` is a delay command, not GNU timeout: probe the
+    # implementation before using it as the outer hang guard. gtimeout is the
+    # brew coreutils name on macOS.
+    if has_command timeout && timeout --version >/dev/null 2>&1; then
+        HELPER_TIMEOUT_GUARD=(timeout 30)
+    elif has_command gtimeout && gtimeout --version >/dev/null 2>&1; then
+        HELPER_TIMEOUT_GUARD=(gtimeout 30)
+    fi
+}
+
 # assert_timeout_returns <label> <fixture> <minimal-path>: the wrapper must
 # return, fail, and leave no process behind. <minimal-path>=1 hides
 # timeout/gtimeout so the wrapper's own escalation path runs.
@@ -396,23 +501,16 @@ assert_timeout_returns() {
     # previous run left a pid behind.
     local pid_file="$TMP_DIR/${script}-${minimal_path}-pid.txt" rc=0 start=$SECONDS
     rm -f "$pid_file"
-    # An outer guard keeps a regression from hanging the suite; gtimeout is the
-    # brew coreutils name on macOS.
-    local -a guard=()
-    # A Windows `timeout.exe` is a delay command, not GNU timeout: probe the
-    # implementation before using it as the outer hang guard.
-    if command -v timeout >/dev/null 2>&1 && timeout --version >/dev/null 2>&1; then
-        guard=(timeout 30)
-    elif command -v gtimeout >/dev/null 2>&1 && gtimeout --version >/dev/null 2>&1; then
-        guard=(gtimeout 30)
-    fi
+    # An outer guard keeps a regression from hanging the suite; the guard
+    # command is resolved once per process (see helper_timeout_guard).
+    helper_timeout_guard
     if [[ "$minimal_path" == 1 ]]; then
-        "${guard[@]}" env PATH="$TMP_DIR/lonely-bin" "$BASH" -c \
+        "${HELPER_TIMEOUT_GUARD[@]}" env PATH="$TMP_DIR/lonely-bin" "$BASH" -c \
             'source "$1"; run_with_timeout "$2" - 1 "$3" "$4"' _ \
             "$SCRIPTS/lib.sh" "$TMP_DIR/${script}-out.txt" "$TMP_DIR/bin/$script" "$pid_file" \
             >/dev/null 2>&1 || rc=$?
     else
-        "${guard[@]}" bash -c 'source "$1"; run_with_timeout "$2" - 1 "$3" "$4"' _ \
+        "${HELPER_TIMEOUT_GUARD[@]}" bash -c 'source "$1"; run_with_timeout "$2" - 1 "$3" "$4"' _ \
             "$SCRIPTS/lib.sh" "$TMP_DIR/${script}-out.txt" "$TMP_DIR/bin/$script" "$pid_file" \
             >/dev/null 2>&1 || rc=$?
     fi
