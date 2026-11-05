@@ -22,6 +22,37 @@ Without <root>, only the two roots are printed (mode=paths). Run with
 USAGE
 }
 
+# completion_has_external_subcommands <file>: the script declares the root-level
+# `@meta external-subcommands` before its first `# {{` command block. An
+# unmarked script has no command blocks, so every @meta line is root-level.
+completion_has_external_subcommands() {
+    local file="$1"
+    gawk '
+        /^# \{\{/ { exit }
+        /^# @meta external-subcommands([[:space:]]|$)/ { found = 1; exit }
+        END { exit (found ? 0 : 1) }
+    ' "$file"
+}
+
+# resolve_invoke <root>: the words that actually run the root command. A
+# hyphenated binary is an external subcommand when its host's completion
+# script declares the root-level external-subcommands meta:
+# `cargo-audit` -> `cargo audit`, `cargo-llvm-cov` -> `cargo llvm-cov`.
+# Artifact paths keep <root>; only help and command execution use this form.
+resolve_invoke() {
+    local root="$1" host host_completion
+    if [[ "$root" != *-* ]]; then
+        return 1
+    fi
+    host="${root%%-*}"
+    if [[ -z "$host" || "$host" == "$root" ]]; then
+        return 1
+    fi
+    host_completion="$(resolve_completion_file "$host")" || return 1
+    completion_has_external_subcommands "$host_completion" || return 1
+    printf '%s %s\n' "$host" "${root#"$host"-}"
+}
+
 root=""
 output_override=""
 completion_override=""
@@ -138,8 +169,18 @@ fi
 
 printf 'skill_root=%s\n' "$skill_root"
 printf 'repo_root=%s\n' "$REPO_ROOT"
+invoke="$(resolve_invoke "$root")" || invoke=""
+if [[ -n "$invoke" ]]; then
+    invoke_source="external-subcommands"
+else
+    invoke="$root"
+    invoke_source="root"
+fi
+
 printf 'root=%s\n' "$root"
 printf 'command=%s\n' "$(command -v "$root")"
+printf 'invoke=%s\n' "$invoke"
+printf 'invoke_source=%s\n' "$invoke_source"
 printf 'os=%s\n' "$(detect_os)"
 printf 'existing=%s\n' "$existing"
 printf 'completion_file=%s\n' "$completion_file"

@@ -15,17 +15,34 @@ It prints absolute `key=value` lines. The workflow uses these keys:
 - `output_file`: where assembly writes; it is `completion_file` when that exists, otherwise the common path.
 - `cache_dir`, `cache_exists`, `root_fragment_exists`: the cache directory and its state.
 - `cache_version`: the root fragment's `schemaVersion`. A value other than `1` is a schema-invalid cache, so every node recompiles with `reason=schema`.
+- `invoke` and `invoke_source`: the words that actually run the root and how they were resolved. `invoke_source=external-subcommands` means the root is an external subcommand (`cargo-audit` -> `cargo audit`); `invoke_source=root` means `invoke` is `<root>`.
 - `prompt_region`: `1` when the script has a `HINTS` block; diagnostic only.
 
 Rules:
 
 - Pass `<root>` for workflow preflight; without it, only the two roots are printed.
 - It does not create `<REPO_ROOT>/cache/compile/<root>`; create it after preflight with `mkdir -p "$cache_dir"`.
-- It already runs `require_pipeline_tools` and checks `command -v <root>`; the compile child alone fetches `--help`/`--version`.
+- It runs `require_pipeline_tools`, checks `command -v <root>`, and resolves `invoke` from the host completion script; it never runs `--help`. The compile child alone fetches help and records the source.
 - Take paths and state from preflight only, and never enumerate `<REPO_ROOT>/completions/` or `<REPO_ROOT>/cache/compile/` (`<SKILL_ROOT>/SKILL.md` §Invariants).
 - `existing=0` and `blocks=missing` mean no script yet: skip context extraction and pass empty context.
 - `blocks=unmarked` means the existing script has no block markers: stop and tell the user the markers must be added by hand, or the script deleted for a first generation.
 - `root_fragment_exists=0` means this is a first generation, including `cache_exists=0` and an empty cache recreated by `<SKILL_ROOT>/scripts/delete-cache.sh`; then §3 does not apply.
+
+### Invocation form
+
+`<root>` is the executable and file name: it keys the cache directory, the output script, every fragment `path`, and each `SPEC` command block. `invoke` is only how the root is executed, and it changes no path.
+
+Preflight resolves `invoke` without help probes:
+
+1. `<root>` has no `-`: `invoke=<root>`, `invoke_source=root`.
+2. Otherwise `<host>` is the root name before the first `-`: `cargo-llvm-cov` gives host `cargo` and rest `llvm-cov`.
+3. Resolve the host completion with the same OS-first lookup as `completion_file` (`<REPO_ROOT>/completions/<host>.sh`, OS directory first). A missing script keeps the root form.
+4. The host script declares the root-level `# @meta external-subcommands` before its first `# {{` marker (an unmarked script counts every `@meta` as root-level): `invoke=<host> <rest>` and `invoke_source=external-subcommands`, where `<rest>` is the root name after the first `-`; `cargo-audit` -> `cargo audit`, and `cargo-llvm-cov` -> `cargo llvm-cov` because only the first dash marks the host.
+5. Anything else: `invoke=<root>`, `invoke_source=root`.
+
+A meta hit always selects the external form, even when `<root> --help` also works (`git-lfs` -> `git lfs`, `cargo-insta` -> `cargo insta`). Never infer the form from `<root> --help` alone, and never look for the host meta in `<REPO_ROOT>/cache/compile/`.
+
+Existing fragments keep their recorded `source.command`; to switch one to the external form, delete its cache with confirmation (`<SKILL_ROOT>/scripts/delete-cache.sh <root>`) or remove the root fragment, then regenerate.
 
 ## 2. Cache contents, hashes, and regeneration
 
@@ -126,7 +143,7 @@ For these three fields the script is the desired state: after editing a fragment
 
 ## 5. Dispatch compile subagents
 
-The full contract is `<SKILL_ROOT>/agents/compile.md`; the child alone fetches `--help`/`--version` and records the source. Use one subagent per pending path with this prompt:
+The full contract is `<SKILL_ROOT>/agents/compile.md`; the child alone fetches help and records the source. Use one subagent per pending path with this prompt:
 
 ```text
 You are compiling one command node for the argc-completions-generate skill.
@@ -142,7 +159,7 @@ Context:
 Your parent agent id is "<parent-agent-id>". Before you finish, send your result to that agent with send_message({ agent_id: "<parent-agent-id>", message: "<the JSON summary>" }).
 ```
 
-Replace `<SKILL_ROOT>` and `<REPO_ROOT>` with absolute paths before dispatch, so no angle-bracket placeholder reaches the child. Use `Completion script: (none)` when preflight reports `existing=0`, and `Parent help command: (none)` for the root or when the parent fragment has no `source.command`. Use `Context: (empty)` or omit the block when empty. Send these fields plus the parent agent id; the child reads both contract files itself.
+Replace `<SKILL_ROOT>` and `<REPO_ROOT>` with absolute paths before dispatch, so no angle-bracket placeholder reaches the child. Use `Completion script: (none)` when preflight reports `existing=0`, and `Parent help command: (none)` for the root or when the parent fragment has no `source.command`. Use `Context: (empty)` or omit the block when empty. When preflight reports `invoke` different from `<root>`, add `Invoke command: <invoke>` after `Parent help command:` for the root and every child (for example `Invoke command: cargo audit`); omit the line otherwise. Children never derive the form from their path or from `Parent help command`: they use the `invoke` value from their own prompt.
 
 The child writes the fragment, returns the summary JSON, and handles exactly one node; it does not update the parent and does not write `.txt`. Consume only `status`, `warnings`, `source`, and `subcommands[]`. If subagents are unavailable, follow `<SKILL_ROOT>/agents/compile.md` inline.
 

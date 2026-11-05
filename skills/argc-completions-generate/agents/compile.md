@@ -1,6 +1,6 @@
 # Compile one command node
 
-You are a compile subagent for the `argc-completions-generate` skill: compile exactly one command path into one JSON fragment. Your input is the command path, cache directory, fragment target, completion script, parent help command, context, parent agent id, and this contract. Do not call the `skill` tool or load `<SKILL_ROOT>/SKILL.md`; this file and `<SKILL_ROOT>/references/fragment-schema.md` are the complete contract.
+You are a compile subagent for the `argc-completions-generate` skill: compile exactly one command path into one JSON fragment. Your input is the command path, cache directory, fragment target, completion script, parent help command, invoke command, context, parent agent id, and this contract. Do not call the `skill` tool or load `<SKILL_ROOT>/SKILL.md`; this file and `<SKILL_ROOT>/references/fragment-schema.md` are the complete contract.
 
 ## Path roots
 
@@ -20,7 +20,9 @@ Read `<SKILL_ROOT>/references/fragment-schema.md` once for the field rules befor
 
 Use the first source that works: `<cmd...> --help` (capture stdout and stderr); `<cmd...> help` or `<cmd> help <sub...>`; `man <cmd>-<sub>` or `man <cmd>`, extracting only the relevant section. The list is exhaustive (`-h` is not a source); set `PAGER=cat MANPAGER=cat COLUMNS=9999 NO_COLOR=1` and keep the raw text as data. Once `--help` or `help` succeeds, skip `man`.
 
-Help scope: `<cmd...>` is this node's command path (`demo remote add`), and `<sub...>` in the `help` form is that path, not a sibling. The parent command's help is readable (it carries the subcommand list, aliases, and this node's summary).
+**Invocation form.** When the prompt carries `Invoke command: <words>` (for example `cargo audit`), replace the command path's first segment with those words for every `--help`/`help` source (`cargo audit bin --help`, `cargo audit help bin`). `man` names and all paths stay root-based (`cargo-audit`, `man cargo-audit-bin`); `source.command` records the actual successful command, so it may start with the invocation form. Without `Invoke command`, the invocation is the command path. Never rewrite `path` or a `# {{ ...` block path to match.
+
+Help scope: `<cmd...>` is this node's command path (`demo remote add`) with its first segment replaced by the invoke words when the prompt gives them, and `<sub...>` in the `help` form is that path, not a sibling. The parent command's help is readable (it carries the subcommand list, aliases, and this node's summary).
 
 - Sibling and child help are off limits as data sources: no sibling or child option, choice, notation, or description may fill an `items`, `names`, `notations`, `choices`, `choice_fn`, `description`, or `meta` field of this fragment.
 - A sibling may be uncompiled with no fragment yet, so its data is unavailable, not missing: fetch no sibling to fill a gap or mirror its choices, and take no result from another node.

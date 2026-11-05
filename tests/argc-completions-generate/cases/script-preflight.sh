@@ -70,6 +70,89 @@ assert_has_line "preflight root fragment exists" "$TMP_DIR/preflight-cache.txt" 
 assert_has_line "preflight cache version" "$TMP_DIR/preflight-cache.txt" 'cache_version=1'
 rm -rf "$ROOT_DIR/cache/compile/demo"
 
+# --- external subcommands --------------------------------------------------
+# The host completion declares the root-level meta; the root binary and the
+# host completion are unique to this Case so parallel cases never collide.
+ext_host="pfhost$$"
+ext_root="$ext_host-ext"
+multi_root="$ext_host-llvm-cov"
+nohost_root="nohost$$-ext"
+host_completion="$ROOT_DIR/completions/$ext_host.sh"
+cleanup_preflight_fixtures() {
+    rm -rf "$TMP_DIR" \
+        "$ROOT_DIR/completions/$ext_host.sh" \
+        "$ROOT_DIR/cache/compile/$ext_root" \
+        "$ROOT_DIR/cache/compile/$multi_root" \
+        "$ROOT_DIR/cache/compile/$nohost_root"
+}
+trap cleanup_preflight_fixtures EXIT
+
+write_host_completion() {
+    cat >"$host_completion" <<'SCRIPT'
+#!/usr/bin/env bash
+# >>> SPEC
+# @meta external-subcommands
+# @flag -h --help  Print help
+# <<< SPEC
+SCRIPT
+}
+
+for ext_bin in "$ext_root" "$multi_root" "$nohost_root"; do
+    cat >"$TMP_DIR/bin/$ext_bin" <<'DEMO'
+#!/usr/bin/env bash
+# External-subcommand fixture: preflight only checks that it exists.
+exit 0
+DEMO
+    chmod +x "$TMP_DIR/bin/$ext_bin"
+done
+
+# The host meta selects the external form; artifact paths stay root-based.
+write_host_completion
+preflight_run "$TMP_DIR/preflight-ext.txt" "$ext_root"
+assert_has_line "preflight external invoke" "$TMP_DIR/preflight-ext.txt" "invoke=$ext_host ext"
+assert_has_line "preflight external source" "$TMP_DIR/preflight-ext.txt" 'invoke_source=external-subcommands'
+assert_has_line "preflight external cache dir stays rooted" "$TMP_DIR/preflight-ext.txt" "cache_dir=$ROOT_DIR/cache/compile/$ext_root"
+assert_has_line "preflight external output stays rooted" "$TMP_DIR/preflight-ext.txt" "output_file=$ROOT_DIR/completions/$ext_root.sh"
+
+# Only the first dash marks the host: the rest stays hyphenated.
+preflight_run "$TMP_DIR/preflight-multi.txt" "$multi_root"
+assert_has_line "preflight multi-dash invoke" "$TMP_DIR/preflight-multi.txt" "invoke=$ext_host llvm-cov"
+assert_has_line "preflight multi-dash source" "$TMP_DIR/preflight-multi.txt" 'invoke_source=external-subcommands'
+
+# A host completion without the meta keeps the root form.
+cat >"$host_completion" <<'SCRIPT'
+#!/usr/bin/env bash
+# >>> SPEC
+# @flag -h --help  Print help
+# <<< SPEC
+SCRIPT
+preflight_run "$TMP_DIR/preflight-no-meta.txt" "$ext_root"
+assert_has_line "preflight no meta invoke" "$TMP_DIR/preflight-no-meta.txt" "invoke=$ext_root"
+assert_has_line "preflight no meta source" "$TMP_DIR/preflight-no-meta.txt" 'invoke_source=root'
+
+# The meta is root-level only: after the first `# {{` it does not count.
+cat >"$host_completion" <<'SCRIPT'
+#!/usr/bin/env bash
+# >>> SPEC
+# {{ pfhost ext
+# @cmd Child
+# }} pfhost ext
+# @meta external-subcommands
+# <<< SPEC
+SCRIPT
+preflight_run "$TMP_DIR/preflight-child-meta.txt" "$ext_root"
+assert_has_line "preflight child meta is ignored" "$TMP_DIR/preflight-child-meta.txt" "invoke=$ext_root"
+assert_has_line "preflight child meta source" "$TMP_DIR/preflight-child-meta.txt" 'invoke_source=root'
+
+# A missing host completion keeps the root form.
+preflight_run "$TMP_DIR/preflight-no-host.txt" "$nohost_root"
+assert_has_line "preflight no host completion invoke" "$TMP_DIR/preflight-no-host.txt" "invoke=$nohost_root"
+assert_has_line "preflight no host completion source" "$TMP_DIR/preflight-no-host.txt" 'invoke_source=root'
+
+# A root without a dash never enters external mode.
+assert_has_line "preflight plain root invoke" "$preflight_out" 'invoke=demo'
+assert_has_line "preflight plain root source" "$preflight_out" 'invoke_source=root'
+
 expect_failure "preflight missing command" bash "$SCRIPTS/preflight.sh" no-such-command-xyz
 
 helper_finish

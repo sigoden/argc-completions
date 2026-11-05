@@ -14,7 +14,7 @@ This file is the router: conventions, prerequisites, the block contract, workflo
 - `<SKILL_ROOT>`: this skill's directory.
 - `<REPO_ROOT>`: the repository root, same as `ARGC_COMPLETIONS_ROOT`.
 
-Replace both placeholders with absolute paths before running a command or dispatching a subagent; in shell snippets use `$ARGC_COMPLETIONS_ROOT`. Skill files use `<SKILL_ROOT>/...`; repository files use `<REPO_ROOT>/...`; basenames inside a rooted directory may stay bare. Command-argument placeholders such as `<root>`, `<completion.sh>`, `<fragment>`, and `<path...>` are separate. `<SKILL_ROOT>/scripts/preflight.sh <root>` prints both roots plus the per-command report; without `<root>` it prints only `skill_root`/`repo_root` with `mode=paths`, which is path discovery, not workflow preflight.
+Replace both placeholders with absolute paths before running a command or dispatching a subagent; in shell snippets use `$ARGC_COMPLETIONS_ROOT`. Skill files use `<SKILL_ROOT>/...`; repository files use `<REPO_ROOT>/...`; basenames inside a rooted directory may stay bare. Command-argument placeholders such as `<root>`, `<completion.sh>`, `<fragment>`, and `<path...>` are separate. `<SKILL_ROOT>/scripts/preflight.sh <root>` prints both roots plus the per-command report; without `<root>` it prints only `skill_root`/`repo_root` with `mode=paths`, which is path discovery, not workflow preflight. `<root>` keys every artifact path; an external subcommand's `invoke=` form is reported by preflight and owned by `<SKILL_ROOT>/references/generate-structure.md` §1.
 
 ## Prerequisites
 

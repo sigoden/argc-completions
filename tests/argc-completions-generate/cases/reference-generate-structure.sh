@@ -16,6 +16,13 @@ doc_contains "$doc" \
     "delete-cache.sh <root>" \
     "Ask for confirmation"
 
+# External subcommands: preflight resolves invoke without running help.
+doc_contains "$doc" \
+    "invoke_source=external-subcommands" \
+    "without help probes" \
+    "Invoke command: cargo audit" \
+    "external-subcommands"
+
 # Cache-first: never dispatch a node the check already reports.
 doc_contains "$doc" \
     "Never dispatch a compile subagent for a node this check reports" \

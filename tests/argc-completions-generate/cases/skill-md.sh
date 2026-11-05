@@ -31,6 +31,11 @@ doc_contains "$doc" \
     '| `all` | Brand-new command (`existing=0`)' \
     "next=add-choice-fns"
 
+# Root identity vs invocation form for external subcommands.
+doc_contains "$doc" \
+    "keys every artifact path" \
+    "owned by"
+
 # One stream, one jq: a merged stderr breaks the export.
 doc_contains "$doc" "2>&1 | jq"
 

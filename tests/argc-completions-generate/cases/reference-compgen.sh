@@ -49,6 +49,9 @@ doc_contains "$doc" \
 # hand-assemble them.
 doc_contains "$doc" \
     "own root command and any prerequisite tool directly" \
+    "Call the root in its invocation form" \
+    "cargo audit --help" \
+    'never `cargo-audit ...`' \
     "command-specific implementations"
 
 doc_lacks "$doc" "COMP_WORDBREAKS"

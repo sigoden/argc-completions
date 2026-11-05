@@ -28,6 +28,13 @@ doc_contains "$doc" \
     "Never probe or list the cache" \
     'mkdir -p "$(dirname "$fragment")"'
 
+# The invocation form changes help execution only; artifact paths stay rooted.
+doc_contains "$doc" \
+    "Invoke command" \
+    "cargo audit bin --help" \
+    "man cargo-audit-bin" \
+    'Never rewrite `path`'
+
 # The orchestrator owns the retry and the parent handoff.
 doc_contains "$doc" \
     "Do not retry: the orchestrator owns the single retry" \
