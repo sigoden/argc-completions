@@ -5,25 +5,37 @@ set -euo pipefail
 . "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/helper.sh"
 helper_init
 
-verify_md="$SKILL_DIR/references/verify.md"
+doc="$SKILL_DIR/references/verify.md"
 
-assert_contains "verify static reserved prefix" "$verify_md" 'reserved for `STATIC`'
-assert_contains "verify docs format script" "$verify_md" "format-choices.sh"
-assert_contains "verify usage cmd override" "$verify_md" "--cmd <name>"
-assert_contains "verify usage no-strict" "$verify_md" "--no-strict"
-assert_contains "verify cache hygiene json only" "$verify_md" 'non-`.json` files'
-assert_contains "verify cache hygiene rejects txt" "$verify_md" '`.txt`'
-assert_contains "verify hash rule" "$verify_md" 'invalid `hash` or `source.command`'
-assert_contains "verify provenance source command" "$verify_md" 'source.command` equals its parent'
-assert_contains "verify hints comments only" "$verify_md" '`HINTS` holds comment/blank lines only'
-assert_contains "verify hints marker canonical path" "$verify_md" 'must name a canonical command path'
-assert_contains "verify hints marker once" "$verify_md" 'and appear exactly once, while a marker without a path fails'
-assert_contains "verify hints marker fix row" "$verify_md" '| `HINTS markers` |'
-assert_contains "verify spec no choice defs" "$verify_md" '`SPEC` defines no `_choice_*` functions'
-assert_contains "verify tag signature backticks" "$verify_md" 'backticks count in the tag signature only (before two or more spaces)'
-assert_contains "verify root-only meta placement" "$verify_md" 'before the first `# {{` marker'
-assert_contains "verify choice fn defined" "$verify_md" 'every referenced function must be defined in `CHOICES`, once'
-assert_contains "verify util source guard" "$verify_md" '`_argc_util_*` is allowed when the script sources'
-assert_not_contains "verify no compgen limits" "$verify_md" "up to 30, 5s timeout"
+# STATIC owns generated functions; the formatter owns the block layout.
+doc_contains "$doc" \
+    'reserved for `STATIC`' \
+    "format-choices.sh" \
+    "--cmd <name>" \
+    "--no-strict"
+
+# Cache hygiene and provenance.
+doc_contains "$doc" \
+    'non-`.json` files' \
+    '`.txt`' \
+    'invalid `hash` or `source.command`' \
+    'source.command` equals its parent'
+
+# HINTS markers.
+doc_contains "$doc" \
+    '`HINTS` holds comment/blank lines only' \
+    'must name a canonical command path' \
+    'and appear exactly once, while a marker without a path fails' \
+    '| `HINTS markers` |'
+
+# Tag and choice-function contracts.
+doc_contains "$doc" \
+    '`SPEC` defines no `_choice_*` functions' \
+    'backticks count in the tag signature only (before two or more spaces)' \
+    'before the first `# {{` marker' \
+    'every referenced function must be defined in `CHOICES`, once' \
+    '`_argc_util_*` is allowed when the script sources'
+
+doc_lacks "$doc" "up to 30, 5s timeout"
 
 helper_finish

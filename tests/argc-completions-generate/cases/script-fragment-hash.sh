@@ -6,7 +6,7 @@ set -euo pipefail
 helper_init
 
 quiet bash "$SCRIPTS/fragment-hash.sh" --help >"$TMP_DIR/fragment-hash-help.txt" 2>&1
-check "fragment-hash usage stdout" grep -Fq 'Prints the 64-character hash to stdout' "$TMP_DIR/fragment-hash-help.txt"
+assert_contains "fragment-hash usage stdout" "$TMP_DIR/fragment-hash-help.txt" 'Prints the 64-character hash to stdout'
 
 mkdir -p "$TMP_DIR/bin"
 hash_cache="$TMP_DIR/cache-hash"
@@ -56,14 +56,14 @@ cat >"$hash_cache/_root.json" <<JSON
 }
 JSON
 
+# hash_run [<extra args...>]: hash the fixture with the standard arguments.
 hash_run() {
     bash "$SCRIPTS/fragment-hash.sh" hash-demo --cache-dir "$hash_cache" --completion "$hash_completion" "$@"
 }
 
 hash1="$(hash_run)"
-check "fragment-hash prints 64 hex" bash -c "[[ '$hash1' =~ ^[0-9a-f]{64}\$ ]]"
-hash2="$(hash_run)"
-check "fragment-hash stable" test "$hash1" = "$hash2"
+assert_matches "fragment-hash prints 64 hex" "$hash1" '^[0-9a-f]{64}$'
+check "fragment-hash stable" test "$hash1" = "$(hash_run)"
 
 # An empty context body hashes like a missing completion script, so a first
 # generation stays a hit after its script is assembled.
@@ -81,8 +81,7 @@ hash_no_context="$(bash "$SCRIPTS/fragment-hash.sh" hash-demo --cache-dir "$hash
 check "fragment-hash empty context matches no script" test "$hash_empty_context" = "$hash_no_context"
 
 # The fragment's source.command is used when --command is absent.
-hash_default="$(bash "$SCRIPTS/fragment-hash.sh" hash-demo --cache-dir "$hash_cache" --completion "$hash_completion")"
-check "fragment-hash reads source.command" test "$hash1" = "$hash_default"
+check "fragment-hash reads source.command" test "$hash1" = "$(hash_run)"
 
 # --help-file reuses captured text and does not execute source.command.
 printf 'Usage: hash-demo [OPTIONS]\n\nOptions:\n  --foo  Foo value\n' >"$TMP_DIR/reused-help.txt"
@@ -93,7 +92,7 @@ check "fragment-hash --help-file avoids execution" test "$hash1" = "$hash_reused
 # The help builtin is executed through the fixed bash wrapper.
 hash_builtin="$(bash "$SCRIPTS/fragment-hash.sh" hash-demo --cache-dir "$hash_cache" \
     --completion "$hash_completion" --command 'help cd')"
-check "fragment-hash executes help builtin" bash -c "[[ '$hash_builtin' =~ ^[0-9a-f]{64}\$ ]]"
+assert_matches "fragment-hash executes help builtin" "$hash_builtin" '^[0-9a-f]{64}$'
 
 # A changed help body changes the hash.
 cat >"$TMP_DIR/bin/hash-demo" <<'DEMO'
@@ -101,43 +100,32 @@ cat >"$TMP_DIR/bin/hash-demo" <<'DEMO'
 printf 'Usage: hash-demo [OPTIONS]\n\nOptions:\n  --foo  Changed value\n'
 DEMO
 chmod +x "$TMP_DIR/bin/hash-demo"
-hash_help="$(hash_run)"
-check "fragment-hash tracks help" test "$hash1" != "$hash_help"
+check "fragment-hash tracks help" test "$hash1" != "$(hash_run)"
 write_help
 
+# --- what the hash covers -------------------------------------------------
 # A changed choice_fn or notation in SPEC changes the hash (the context DIFF).
 sed 's/_choice_foo/_choice_bar/' "$hash_completion" >"$TMP_DIR/hash-choice.sh"
-hash_choice="$(bash "$SCRIPTS/fragment-hash.sh" hash-demo --cache-dir "$hash_cache" \
-    --completion "$TMP_DIR/hash-choice.sh")"
-check "fragment-hash tracks choice_fn diff" test "$hash1" != "$hash_choice"
-
+check "fragment-hash tracks choice_fn diff" test "$hash1" != "$(bash "$SCRIPTS/fragment-hash.sh" hash-demo \
+    --cache-dir "$hash_cache" --completion "$TMP_DIR/hash-choice.sh")"
 sed 's/<VALUE>/<LEVEL>/' "$hash_completion" >"$TMP_DIR/hash-notation.sh"
-hash_notation="$(bash "$SCRIPTS/fragment-hash.sh" hash-demo --cache-dir "$hash_cache" \
-    --completion "$TMP_DIR/hash-notation.sh")"
-check "fragment-hash tracks notation diff" test "$hash1" != "$hash_notation"
+check "fragment-hash tracks notation diff" test "$hash1" != "$(bash "$SCRIPTS/fragment-hash.sh" hash-demo \
+    --cache-dir "$hash_cache" --completion "$TMP_DIR/hash-notation.sh")"
 
 # META and descriptions are not part of the hash body.
-awk '/^# @arg name/ { print; print "# @meta combine-shorts"; next } { print }' \
+gawk '/^# @arg name/ { print; print "# @meta combine-shorts"; next } { print }' \
     "$hash_completion" >"$TMP_DIR/hash-meta.sh"
-hash_meta="$(bash "$SCRIPTS/fragment-hash.sh" hash-demo --cache-dir "$hash_cache" \
-    --completion "$TMP_DIR/hash-meta.sh")"
-check "fragment-hash ignores meta" test "$hash1" = "$hash_meta"
-
+check "fragment-hash ignores meta" test "$hash1" = "$(bash "$SCRIPTS/fragment-hash.sh" hash-demo \
+    --cache-dir "$hash_cache" --completion "$TMP_DIR/hash-meta.sh")"
 sed 's/Foo value/Changed description/' "$hash_completion" >"$TMP_DIR/hash-desc.sh"
-hash_desc="$(bash "$SCRIPTS/fragment-hash.sh" hash-demo --cache-dir "$hash_cache" \
-    --completion "$TMP_DIR/hash-desc.sh")"
-check "fragment-hash ignores descriptions" test "$hash1" = "$hash_desc"
+check "fragment-hash ignores descriptions" test "$hash1" = "$(bash "$SCRIPTS/fragment-hash.sh" hash-demo \
+    --cache-dir "$hash_cache" --completion "$TMP_DIR/hash-desc.sh")"
 
 # --fragment supplies the DIFF baseline and source.command.
 cp "$hash_cache/_root.json" "$TMP_DIR/hash-fragment.json"
-hash_same_fragment="$(bash "$SCRIPTS/fragment-hash.sh" hash-demo --cache-dir "$hash_cache" \
-    --completion "$hash_completion" --fragment "$TMP_DIR/hash-fragment.json")"
-check "fragment-hash --fragment baseline match" test "$hash1" = "$hash_same_fragment"
-jq '(.items[] | select(.names | index("--foo")) | .notations) = ["<OVERRIDE>"]' \
-    "$(native_path "$TMP_DIR/hash-fragment.json")" >"$TMP_DIR/hash-fragment-override.json"
-hash_override="$(bash "$SCRIPTS/fragment-hash.sh" hash-demo --cache-dir "$hash_cache" \
-    --completion "$hash_completion" --fragment "$TMP_DIR/hash-fragment-override.json")"
-check "fragment-hash --fragment changes diff" test "$hash1" != "$hash_override"
+check "fragment-hash --fragment baseline match" test "$hash1" = "$(hash_run --fragment "$TMP_DIR/hash-fragment.json")"
+fragment_jq "$TMP_DIR/hash-fragment.json" '(.items[] | select(.names | index("--foo")) | .notations) = ["<OVERRIDE>"]'
+check "fragment-hash --fragment changes diff" test "$hash1" != "$(hash_run --fragment "$TMP_DIR/hash-fragment.json")"
 
 # A changed HINTS body changes the hash.
 cat >"$hash_completion" <<'SCRIPT'
@@ -150,8 +138,7 @@ cat >"$hash_completion" <<'SCRIPT'
 # - hint two
 # <<< HINTS
 SCRIPT
-hash_hints="$(hash_run)"
-check "fragment-hash tracks hints" test "$hash1" != "$hash_hints"
+check "fragment-hash tracks hints" test "$hash1" != "$(hash_run)"
 
 # Common HINTS lines reach every node, so they are part of its hash; a section
 # for another path is not.
@@ -174,6 +161,7 @@ hash_other="$(bash "$SCRIPTS/fragment-hash.sh" hash-demo --cache-dir "$hash_cach
 check "fragment-hash common hints change the hash" test "$hash1" != "$hash_common"
 check "fragment-hash ignores another path's section" test "$hash_common" = "$hash_other"
 
+# --- guards ---------------------------------------------------------------
 # An unsafe source.command is rejected before execution.
 expect_failure "fragment-hash rejects unsafe command" bash "$SCRIPTS/fragment-hash.sh" hash-demo \
     --cache-dir "$hash_cache" --command 'hash-demo --help; rm -rf /'
@@ -189,7 +177,7 @@ expect_failure "fragment-hash rejects a colon in the root" bash "$SCRIPTS/fragme
 # A colon subcommand segment (pm2 profile:mem) is hashed like any other path.
 colon_hash="$(bash "$SCRIPTS/fragment-hash.sh" hash-demo 'profile:mem' --cache-dir "$hash_cache" \
     --completion "$hash_completion" --command 'hash-demo profile:mem --help')"
-check "fragment-hash accepts a colon path component" grep -Eq '^[0-9a-f]{64}$' <<<"$colon_hash"
+assert_matches "fragment-hash accepts a colon path component" "$colon_hash" '^[0-9a-f]{64}$'
 
 : >"$TMP_DIR/empty-help.txt"
 expect_failure "fragment-hash rejects empty help file" bash "$SCRIPTS/fragment-hash.sh" hash-demo \

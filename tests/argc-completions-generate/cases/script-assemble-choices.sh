@@ -5,21 +5,16 @@ set -euo pipefail
 . "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/helper.sh"
 helper_init
 
-# ---------------------------------------------------------------------------
-# choices objects and generated STATIC functions
-# ---------------------------------------------------------------------------
-inject_root_items "$TMP_DIR/fragments-choices-desc" '[
-  {"kind": "option", "names": ["--sort"], "notations": ["<SORTER>"], "choices": [{"value": "none", "description": "Do not sort"}, {"value": "path", "description": "Sort by file path"}], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Sort results"},
-  {"kind": "option", "names": ["--plain"], "notations": ["<MODE>"], "choices": [{"value": "a", "description": ""}, {"value": "b", "description": ""}], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Plain mode"}
-]'
-choices_desc_script="$TMP_DIR/choices-desc.sh"
-quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-choices-desc" --stdout >"$choices_desc_script"
+# --- choices objects and generated STATIC functions ------------------------
+build_static_fixture
+choices_desc_script="$STATIC_SCRIPT"
 assert_contains "assemble described choices tag" "$choices_desc_script" '# @option --sort[?`_static_sort`] <SORTER>'
 assert_contains "assemble undescribed choices stay static" "$choices_desc_script" '# @option --plain[a|b] <MODE>'
 assert_contains "assemble static block" "$choices_desc_script" '# >>> STATIC'
 assert_contains "assemble static function" "$choices_desc_script" '_static_sort() {'
-check "assemble described choices omit empty CHOICES" bash -c "! grep -q '^# >>> CHOICES$' '$choices_desc_script'"
-check "assemble static function body" gawk '/^\tnone\tDo not sort$/ { found = 1 } END { exit !found }' "$choices_desc_script"
+assert_not_contains "assemble described choices omit empty CHOICES" "$choices_desc_script" '# >>> CHOICES'
+check "assemble static function body" \
+    gawk '/^\tnone\tDo not sort$/ { found = 1 } END { exit !found }' "$choices_desc_script"
 check "assemble static block order" gawk '
     /^# >>> (SPEC|STATIC|HINTS|CHOICES)$/ { block[++n] = $0 }
     END {
@@ -27,87 +22,68 @@ check "assemble static block order" gawk '
             && block[3] == "# >>> STATIC")
     }
 ' "$choices_desc_script"
-check "verify described choices" bash "$SCRIPTS/verify-completion.sh" "$choices_desc_script" --cmd demo --cache-dir "$TMP_DIR/fragments-choices-desc" --skip-compgen
-check "verify described choices require-no-choice" bash "$SCRIPTS/verify-completion.sh" "$choices_desc_script" --cmd demo --cache-dir "$TMP_DIR/fragments-choices-desc" --skip-compgen --require-no-choice-fns
-check "compgen described choices" bash -c "argc --argc-compgen generic '$(native_path "$choices_desc_script")' demo --sort '' | tr -d '\000' | gawk -F'\t' '\$1 == \"none\" && \$3 == \"Do not sort\" { found = 1 } END { exit !found }'"
-quiet argc --argc-export "$(native_path "$choices_desc_script")" >"$TMP_DIR/choices-desc-export.json"
-check "export described choices" jq -e '.flag_options[] | select(.id == "sort") | .choice.type == "Fn" and .choice.data[0] == "_static_sort"' "$(native_path "$TMP_DIR/choices-desc-export.json")"
-check "export plain choices" jq -e '.flag_options[] | select(.id == "plain") | .choice.type == "Values" and .choice.data == ["a", "b"]' "$(native_path "$TMP_DIR/choices-desc-export.json")"
-check "dump-static matches block" bash -c "
-    sed -n '/^# >>> STATIC\$/,/^# <<< STATIC\$/p' '$choices_desc_script' | sed '1d;\$d' >'$TMP_DIR/static-actual.txt'
-    bash '$SCRIPTS/assemble.sh' demo --cache-dir '$TMP_DIR/fragments-choices-desc' --dump-static >'$TMP_DIR/static-dump.txt'
-    cmp -s '$TMP_DIR/static-actual.txt' '$TMP_DIR/static-dump.txt'
-"
+verify_check "verify described choices" "$choices_desc_script" --cache-dir "$STATIC_FRAGMENTS"
+verify_check "verify described choices require-no-choice" "$choices_desc_script" \
+    --cache-dir "$STATIC_FRAGMENTS" --require-no-choice-fns
+quiet compgen_candidates "$choices_desc_script" demo --sort '' >"$TMP_DIR/compgen-sort.txt"
+assert_tsv "compgen described choices" "$TMP_DIR/compgen-sort.txt" 1=none 3='Do not sort'
+quiet argc_export "$choices_desc_script" "$TMP_DIR/choices-desc-export.json"
+assert_jq "export described choices" \
+    '.flag_options[] | select(.id == "sort") | .choice.type == "Fn" and .choice.data[0] == "_static_sort"' \
+    "$TMP_DIR/choices-desc-export.json"
+assert_jq "export plain choices" \
+    '.flag_options[] | select(.id == "plain") | .choice.type == "Values" and .choice.data == ["a", "b"]' \
+    "$TMP_DIR/choices-desc-export.json"
+assemble_to "$TMP_DIR/static-dump.txt" demo --cache-dir "$STATIC_FRAGMENTS" --dump-static
+block_body "$choices_desc_script" STATIC >"$TMP_DIR/static-actual.txt"
+assert_same "dump-static matches block" "$TMP_DIR/static-actual.txt" "$TMP_DIR/static-dump.txt"
 
 # STATIC is regenerated; HINTS and CHOICES are preserved.
-cp -R "$TMP_DIR/fragments-choices-desc" "$TMP_DIR/fragments-choices-regen"
-cat >"$TMP_DIR/static-context.sh" <<'CTX'
-# >>> SPEC
-# <<< SPEC
-
-# >>> HINTS
-# keep this hint
-# <<< HINTS
-
-# >>> CHOICES
-_choice_keep() { :; }
-# <<< CHOICES
-CTX
-quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-choices-regen" --context "$TMP_DIR/static-context.sh" --stdout >"$TMP_DIR/static-before.sh"
-jq '(.items[] | select(.names | index("--sort")) | .choices[0].description) = "Do not sort at all"' \
-    "$(native_path "$TMP_DIR/fragments-choices-regen/_root.json")" >"$TMP_DIR/static-root.tmp"
-mv "$TMP_DIR/static-root.tmp" "$TMP_DIR/fragments-choices-regen/_root.json"
-quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-choices-regen" --context "$TMP_DIR/static-before.sh" --stdout >"$TMP_DIR/static-after.sh"
+regen_fragments="$TMP_DIR/fragments-choices-regen"
+cp -R "$STATIC_FRAGMENTS" "$regen_fragments"
+assemble_to "$TMP_DIR/static-before.sh" demo --cache-dir "$regen_fragments" \
+    --context "$STATIC_CONTEXT" --stdout
+fragment_jq "$regen_fragments/_root.json" '(.items[] | select(.names | index("--sort")) | .choices[0].description) = "Do not sort at all"'
+assemble_to "$TMP_DIR/static-after.sh" demo --cache-dir "$regen_fragments" \
+    --context "$TMP_DIR/static-before.sh" --stdout
 assert_contains "static regeneration updates description" "$TMP_DIR/static-after.sh" 'Do not sort at all'
 assert_contains "static regeneration keeps CHOICES" "$TMP_DIR/static-after.sh" '_choice_keep() { :; }'
 assert_contains "static regeneration keeps HINTS" "$TMP_DIR/static-after.sh" '# keep this hint'
-check "static regeneration idempotent" bash -c "bash '$SCRIPTS/assemble.sh' demo --cache-dir '$TMP_DIR/fragments-choices-regen' --context '$TMP_DIR/static-after.sh' --stdout | cmp -s - '$TMP_DIR/static-after.sh'"
-inject_root_items "$TMP_DIR/fragments-choices-collide" '[
+assemble_to "$TMP_DIR/static-after-again.sh" demo --cache-dir "$regen_fragments" \
+    --context "$TMP_DIR/static-after.sh" --stdout
+assert_same "static regeneration idempotent" "$TMP_DIR/static-after.sh" "$TMP_DIR/static-after-again.sh"
+
+# Two items whose static names would collide are rejected, and so is a name the
+# preserved CHOICES block already defines.
+collide_fragments="$TMP_DIR/fragments-choices-collide"
+fragment_with_items "$collide_fragments" '[
   {"kind": "option", "names": ["--foo.bar"], "notations": ["<V>"], "choices": [{"value": "a", "description": "A"}], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Dotted"},
   {"kind": "option", "names": ["--foo-bar"], "notations": ["<V>"], "choices": [{"value": "a", "description": "A"}], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Dashed"}
 ]'
-collide_log="$(new_log)"
-if run_quiet "$collide_log" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-choices-collide" --stdout; then
-    fail "assemble rejects static name collision (unexpected success)"
-else
-    pass "assemble rejects static name collision"
-fi
-assert_contains "assemble static name collision message" "$collide_log" "static choice function name collision"
+check_rejects "assemble rejects static name collision" "static choice function name collision" \
+    bash "$SCRIPTS/assemble.sh" demo --cache-dir "$collide_fragments" --stdout
+block_append "$STATIC_CONTEXT" "$TMP_DIR/static-preserved.sh" CHOICES '_static_sort() { :; }'
+check_rejects "assemble rejects static collision with CHOICES" "already defined outside STATIC" \
+    bash "$SCRIPTS/assemble.sh" demo --cache-dir "$STATIC_FRAGMENTS" \
+    --context "$TMP_DIR/static-preserved.sh" --stdout
 
-gawk '/^# <<< CHOICES$/ && !done { print "_static_sort() { :; }"; done = 1 } { print }' \
-    "$TMP_DIR/static-context.sh" >"$TMP_DIR/static-preserved.sh"
-preserved_log="$(new_log)"
-if run_quiet "$preserved_log" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-choices-desc" --context "$TMP_DIR/static-preserved.sh" --stdout; then
-    fail "assemble rejects static collision with CHOICES (unexpected success)"
-else
-    pass "assemble rejects static collision with CHOICES"
-fi
-assert_contains "assemble preserved collision message" "$preserved_log" "already defined outside STATIC"
-
-inject_root_items "$TMP_DIR/fragments-choices-binding" '[
+# A bound choice_fn wins over described choices and suppresses the static
+# function the descriptions would have generated.
+binding_fragments="$TMP_DIR/fragments-choices-binding"
+fragment_with_items "$binding_fragments" '[
   {"kind": "option", "names": ["--mode"], "notations": ["<MODE>"], "choices": [{"value": "a", "description": "A"}], "choice_fn": "_choice_root", "repeatable": false, "prefixed": false, "delimiter": null, "description": "Mode"}
 ]'
-quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-choices-binding" --context "$FIXTURES/contexts/context.sh" --stdout >"$TMP_DIR/choices-binding.sh"
+assemble_to "$TMP_DIR/choices-binding.sh" demo --cache-dir "$binding_fragments" \
+    --context "$FIXTURES/contexts/context.sh" --stdout
 assert_contains "binding wins over described choices" "$TMP_DIR/choices-binding.sh" '# @option --mode[?`_choice_root`] <MODE>'
 assert_not_contains "binding suppresses static function" "$TMP_DIR/choices-binding.sh" '_static_mode'
 
+# --- choices schema rejections --------------------------------------------
 choice_schema_reject() {
-    local label="$1" item="$2" needle="$3" dir err
+    local label="$1" item="$2" needle="$3" dir
     dir="$TMP_DIR/fragments-schema-$(printf '%s' "$label" | tr -c 'A-Za-z0-9' '-')"
-    inject_root_items "$dir" "[$item]"
-    err="$(new_log)"
-    if run_quiet "$err" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$dir" --stdout; then
-        fail "$label (unexpected success)"
-    else
-        pass "$label"
-        if [[ -n "$needle" ]]; then
-            if grep -Fq -- "$needle" "$err"; then
-                pass "$label error"
-            else
-                fail "$label error (missing: $needle)"
-            fi
-        fi
-    fi
+    fragment_with_items "$dir" "[$item]"
+    check_rejects "$label" "$needle" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$dir" --stdout
 }
 
 choice_schema_reject "assemble rejects string choices" \
@@ -132,9 +108,10 @@ choice_schema_reject "assemble rejects tab in choice description" \
     '{"kind": "option", "names": ["--bad"], "notations": ["<V>"], "choices": [{"value": "a", "description": "x\ty"}], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Bad"}' \
     "invalid choices"
 
+# --- dynamic binding ------------------------------------------------------
 build_dynamic_fixture
-assert_contains "dynamic binding rendered" "$TMP_DIR/dynamic.sh" '--output[?`_choice_out`]'
-assert_contains "dynamic function preserved" "$TMP_DIR/dynamic.sh" '_choice_out() {'
+assert_contains "dynamic binding rendered" "$DYNAMIC_SCRIPT" '--output[?`_choice_out`]'
+assert_contains "dynamic function preserved" "$DYNAMIC_SCRIPT" '_choice_out() {'
 
 assert_not_contains "assemble no value types library" "$SCRIPTS/assemble.sh" "_value_types"
 assert_contains "assemble usage repo root" "$SCRIPTS/assemble.sh" "<REPO_ROOT>/cache/compile/<root>"

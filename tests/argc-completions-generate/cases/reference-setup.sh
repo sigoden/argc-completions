@@ -5,12 +5,16 @@ set -euo pipefail
 . "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/helper.sh"
 helper_init
 
-setup_md="$SKILL_DIR/references/setup.md"
+doc="$SKILL_DIR/references/setup.md"
 
-assert_contains "setup yq policy" "$setup_md" "allowed only inside functions"
-assert_contains "setup git status ban" "$setup_md" 'never `git status`'
+doc_contains "$doc" \
+    "allowed only inside functions" \
+    'never `git status`'
 
 # Troubleshooting and setup are optional reads reached from every workflow.
-check "references link setup" test -z "$(grep -L setup.md "$SKILL_DIR/references/add-choice-fns.md" "$SKILL_DIR/references/compgen.md" "$SKILL_DIR/references/compgen-recipes.md")"
+for workflow in add-choice-fns compgen compgen-recipes; do
+    assert_contains "references link setup from $workflow.md" \
+        "$SKILL_DIR/references/$workflow.md" "setup.md"
+done
 
 helper_finish

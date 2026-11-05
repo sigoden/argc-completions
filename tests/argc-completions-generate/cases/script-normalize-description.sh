@@ -11,12 +11,9 @@ helper_init
 # references/fragment-schema.md; the first group is the real cache corpus shape.
 # ---------------------------------------------------------------------------
 normalize_case() {
-    local label="$1" expected="$2" raw="$3"
+    local label="$1" expected="$2" raw="$3" got
     shift 3
-    local args=() c
-    for c in "$@"; do args+=(--choice "$c"); done
-    local got
-    got="$(printf '%s' "$raw" | bash "$SCRIPTS/normalize-description.sh" "${args[@]}")"
+    got="$(normalize_description "$raw" "$@")"
     if [[ "$got" == "$expected" ]]; then
         pass "$label"
     else

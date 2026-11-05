@@ -111,26 +111,27 @@ for path in "$SCRIPTS"/*.jq; do
         path_prefix_lint "$TMP_DIR/bare-jq-$name.md"
 done
 
-check "skill docs no stale command args helper" bash -c "! grep -RF '_argc_util_comp_command_args' '$SKILL_DIR'"
-check "references no shell command source" bash -c '! grep -RFq -- "compgen -c" "$1"' _ "$SKILL_DIR/references"
-check "no doc explains the choice marker" bash -c "! grep -RqE 'advisory hint|optional hint' '$SKILL_DIR'"
-check "docs no value_type field" bash -c "! grep -RqE 'value_type' '$SKILL_DIR'"
-check "skill no stale compgen-helper reference" bash -c '! grep -RFq "compgen-helpers" "$1"' _ "$SKILL_DIR"
-check "skill no shared completer helpers" bash -c "! grep -RqE '_user_value|_hostname_value|shared completer' '$SKILL_DIR'"
+# Rules that moved into a script or the library must not survive as prose.
+assert_docs_lack "skill docs no stale command args helper" '_argc_util_comp_command_args' "$SKILL_DIR"
+assert_docs_lack "references no shell command source" 'compgen -c' "$SKILL_DIR/references"
+assert_docs_lack "no doc explains the choice marker" 'advisory hint' "$SKILL_DIR"
+assert_docs_lack "no doc explains the optional marker" 'optional hint' "$SKILL_DIR"
+assert_docs_lack "docs no value_type field" 'value_type' "$SKILL_DIR"
+assert_docs_lack "skill no stale compgen-helper reference" 'compgen-helpers' "$SKILL_DIR"
+assert_docs_lack "skill no _user_value helper" '_user_value' "$SKILL_DIR"
+assert_docs_lack "skill no _hostname_value helper" '_hostname_value' "$SKILL_DIR"
+assert_docs_lack "skill no shared completer" 'shared completer' "$SKILL_DIR"
 
 # The helper reference lives in the library now, so the docs must point at the
 # live file and the file must keep the indexed sections the workflow reads.
-check "helper docs point at the library" bash -c '
-    for doc in "$@"; do
-        grep -Fq "utils/_argc_utils.sh" "$doc" || { echo "$doc"; exit 1; }
-    done
-' _ "$SKILL_DIR/SKILL.md" \
+for doc in "$SKILL_DIR/SKILL.md" \
     "$SKILL_DIR/references/add-choice-fns.md" \
     "$SKILL_DIR/references/compgen.md" \
     "$SKILL_DIR/references/compgen-recipes.md" \
-    "$SKILL_DIR/references/troubleshooting.md"
-check "helper library keeps its index" bash -c '
-    grep -Fq "# ## Section map" "$1" && grep -Fq "# ## Source guard" "$1"
-' _ "$ROOT_DIR/utils/_argc_utils.sh"
+    "$SKILL_DIR/references/troubleshooting.md"; do
+    assert_contains "helper docs point at the library (${doc##*/})" "$doc" "utils/_argc_utils.sh"
+done
+assert_contains "helper library keeps its section map" "$ROOT_DIR/utils/_argc_utils.sh" "# ## Section map"
+assert_contains "helper library keeps its source guard" "$ROOT_DIR/utils/_argc_utils.sh" "# ## Source guard"
 
 helper_finish

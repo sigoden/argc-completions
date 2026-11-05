@@ -7,38 +7,45 @@ helper_init
 
 build_with_script
 build_prefix_fixture
-with_script="$WITH_SCRIPT"
-argc --argc-export "$(native_path "$with_script")" >"$TMP_DIR/demo-with-export.json"
-argc --argc-export "$(native_path "$PREFIX_SCRIPT")" >"$TMP_DIR/prefix-delimiter-export.json"
-jq -b -r -f "$(native_path "$SCRIPTS/inspect-script-params.jq")" "$(native_path "$TMP_DIR/demo-with-export.json")" >"$TMP_DIR/script-params.txt"
-check "script params command header" bash -c "head -n 1 '$TMP_DIR/script-params.txt' | grep -qx '# command demo-with'"
-check "script params options" bash -c "grep -q '^# options$' '$TMP_DIR/script-params.txt'"
-check "script params positionals" bash -c "grep -q '^# positionals$' '$TMP_DIR/script-params.txt'"
+quiet argc_export "$WITH_SCRIPT" "$TMP_DIR/demo-with-export.json"
+quiet argc_export "$PREFIX_SCRIPT" "$TMP_DIR/prefix-delimiter-export.json"
 
-jq -b -r -f "$(native_path "$SCRIPTS/inspect-script-params.jq")" --arg cmd 'remote add' "$(native_path "$TMP_DIR/demo-with-export.json")" >"$TMP_DIR/script-params-sub.txt"
-check "script params subcommand header" bash -c "head -n 1 '$TMP_DIR/script-params-sub.txt' | grep -qx '# command demo-with remote add'"
-check "script params subcommand row" gawk -F '\t' '$1 == "name" && $2 == "NAME" && $3 == "true" { found = 1 } END { exit !found }' "$TMP_DIR/script-params-sub.txt"
-check "script params subcommand drops parent" bash -c "! grep -q '^output' '$TMP_DIR/script-params-sub.txt'"
+# inspect_params <export-json> <out> [<jq arguments...>]: the parameter table for
+# one exported schema, optionally narrowed to a command path by `--arg cmd`.
+inspect_params() {
+    local json="$1" out="$2"
+    shift 2
+    quiet jq_skill_file "$json" -b -r -f "$NATIVE_SCRIPTS/inspect-script-params.jq" "$@" >"$out"
+}
 
-jq -b -r -f "$(native_path "$SCRIPTS/inspect-script-params.jq")" --arg cmd 'demo-with remote add' "$(native_path "$TMP_DIR/demo-with-export.json")" >"$TMP_DIR/script-params-sub-rooted.txt"
-check "script params optional root name" diff -u "$TMP_DIR/script-params-sub.txt" "$TMP_DIR/script-params-sub-rooted.txt"
-jq -b -r -f "$(native_path "$SCRIPTS/inspect-script-params.jq")" --arg cmd '  remote   add  ' "$(native_path "$TMP_DIR/demo-with-export.json")" >"$TMP_DIR/script-params-sub-spaced.txt"
-check "script params whitespace path" diff -u "$TMP_DIR/script-params-sub.txt" "$TMP_DIR/script-params-sub-spaced.txt"
+inspect_params "$TMP_DIR/demo-with-export.json" "$TMP_DIR/script-params.txt"
+assert_line "script params command header" "$TMP_DIR/script-params.txt" 1 '# command demo-with'
+assert_has_line "script params options" "$TMP_DIR/script-params.txt" '# options'
+assert_has_line "script params positionals" "$TMP_DIR/script-params.txt" '# positionals'
 
-jq '(.subcommands[] | select(.name == "remote") | .aliases) = ["r"]' "$(native_path "$TMP_DIR/demo-with-export.json")" >"$TMP_DIR/demo-with-alias.json"
-jq -b -r -f "$(native_path "$SCRIPTS/inspect-script-params.jq")" --arg cmd 'r add' "$(native_path "$TMP_DIR/demo-with-alias.json")" >"$TMP_DIR/script-params-alias.txt"
-check "script params alias path" diff -u "$TMP_DIR/script-params-sub.txt" "$TMP_DIR/script-params-alias.txt"
+inspect_params "$TMP_DIR/demo-with-export.json" "$TMP_DIR/script-params-sub.txt" --arg cmd 'remote add'
+assert_line "script params subcommand header" "$TMP_DIR/script-params-sub.txt" 1 '# command demo-with remote add'
+assert_tsv "script params subcommand row" "$TMP_DIR/script-params-sub.txt" 1=name 2=NAME 3=true
+check "script params subcommand drops parent" \
+    gawk '/^output/ { found = 1 } END { exit found }' "$TMP_DIR/script-params-sub.txt"
 
-if jq -r -f "$(native_path "$SCRIPTS/inspect-script-params.jq")" --arg cmd 'remote bogus' "$(native_path "$TMP_DIR/demo-with-export.json")" >/dev/null 2>"$TMP_DIR/script-params-error.txt"; then
-    fail "script params unknown path"
-else
-    pass "script params unknown path"
-fi
-assert_contains "script params unknown path message" "$TMP_DIR/script-params-error.txt" "unknown command path"
-assert_contains "script params unknown path children" "$TMP_DIR/script-params-error.txt" "available: add"
+# The root name is optional, and a path with collapsed whitespace is the same
+# command.
+inspect_params "$TMP_DIR/demo-with-export.json" "$TMP_DIR/script-params-sub-rooted.txt" --arg cmd 'demo-with remote add'
+assert_same "script params optional root name" "$TMP_DIR/script-params-sub.txt" "$TMP_DIR/script-params-sub-rooted.txt"
+inspect_params "$TMP_DIR/demo-with-export.json" "$TMP_DIR/script-params-sub-spaced.txt" --arg cmd '  remote   add  '
+assert_same "script params whitespace path" "$TMP_DIR/script-params-sub.txt" "$TMP_DIR/script-params-sub-spaced.txt"
 
-jq -b -r -f "$(native_path "$SCRIPTS/inspect-script-params.jq")" "$(native_path "$TMP_DIR/prefix-delimiter-export.json")" >"$TMP_DIR/prefix-delimiter-params.txt"
-check "script params positional delimiter" gawk -F '\t' '$1 == "types" && $7 == "," { found = 1 } END { exit !found }' "$TMP_DIR/prefix-delimiter-params.txt"
+# A subcommand alias resolves to the same table.
+fragment_jq "$TMP_DIR/demo-with-export.json" '(.subcommands[] | select(.name == "remote") | .aliases) = ["r"]'
+inspect_params "$TMP_DIR/demo-with-export.json" "$TMP_DIR/script-params-alias.txt" --arg cmd 'r add'
+assert_same "script params alias path" "$TMP_DIR/script-params-sub.txt" "$TMP_DIR/script-params-alias.txt"
 
+check_rejects "script params unknown path" "unknown command path" \
+    jq_skill_file "$TMP_DIR/demo-with-export.json" -r -f "$NATIVE_SCRIPTS/inspect-script-params.jq" --arg cmd 'remote bogus'
+assert_contains "script params unknown path children" "$CHECK_LOG" "available: add"
+
+inspect_params "$TMP_DIR/prefix-delimiter-export.json" "$TMP_DIR/prefix-delimiter-params.txt"
+assert_tsv "script params positional delimiter" "$TMP_DIR/prefix-delimiter-params.txt" 1=types 7=,
 
 helper_finish

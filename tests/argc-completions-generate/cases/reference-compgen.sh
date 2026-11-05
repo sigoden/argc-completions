@@ -5,54 +5,62 @@ set -euo pipefail
 . "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/helper.sh"
 helper_init
 
-compgen_md="$SKILL_DIR/references/compgen.md"
+doc="$SKILL_DIR/references/compgen.md"
 
-check "compgen sections 1-6" bash -c '
-    n=1
-    while [ "$n" -le 6 ]; do
-        grep -q "^## $n\. " "$1" || {
-            echo "missing section $n" >&2
-            exit 1
-        }
-        n=$((n + 1))
-    done
-' _ "$compgen_md"
-check "compgen section map rows" bash -c '
-    rows="$(gawk "/^## Section map/ { inside = 1; next } inside && /^## / { exit } inside && /^\| §/ { n++ } END { print n + 0 }" "$1")"
-    test "$rows" = 6
-' _ "$compgen_md"
+# The numbered sections are the workflow's reading order.
+missing_sections=""
+for section in 1 2 3 4 5 6; do
+    grep -q "^## $section\. " "$doc" || missing_sections+=" $section"
+done
+if [[ -z "$missing_sections" ]]; then
+    pass "compgen sections 1-6"
+else
+    fail "compgen sections 1-6 (missing:$missing_sections)"
+fi
+check "compgen section map rows" gawk '
+    /^## Section map/ { inside = 1; next }
+    inside && /^## / { exit }
+    inside && /^\| §/ { n++ }
+    END { exit !(n == 6) }
+' "$doc"
 
-assert_contains "compgen candidate checks" "$compgen_md" "Candidate checks"
-assert_contains "compgen generic assertions" "$compgen_md" "--argc-compgen generic"
-assert_not_contains "compgen no shell candidate lore" "$compgen_md" "COMP_WORDBREAKS"
-# The workflow and the specification keep separate homes.
-assert_contains "compgen workflow pointer" "$compgen_md" "<SKILL_ROOT>/references/add-choice-fns.md"
-assert_contains "compgen __argc_value notation" "$compgen_md" "__argc_value=<NOTATION>"
-assert_contains "compgen bounded queries" "$compgen_md" "A candidate query must be read-only and bounded"
-assert_contains "compgen slow query cache" "$compgen_md" "_argc_util_cache"
+doc_contains "$doc" \
+    "Candidate checks" \
+    "--argc-compgen generic" \
+    "<SKILL_ROOT>/references/add-choice-fns.md" \
+    "__argc_value=<NOTATION>" \
+    "A candidate query must be read-only and bounded" \
+    "_argc_util_cache" \
+    "test-compgen.sh" \
+    'command -v yq' \
+    "never write the control lines by hand" \
+    "mandatory reading before writing"
+
 # Candidate pipelines stay plain: argc dedupes and orders, jq stays LF-only on
 # Windows, and timeouts belong to argc and the shell.
-assert_contains "compgen no candidate sort" "$compgen_md" "Do not sort or dedupe candidates"
-assert_contains "compgen jq binary" "$compgen_md" "jq -b -r"
-assert_contains "compgen no timeout wrapper" "$compgen_md" 'Never wrap a query in `timeout` command'
-assert_contains "compgen assertion helper" "$compgen_md" "test-compgen.sh"
-# Tool probes: the root and the prerequisites are called directly; `command -v`
-# survives only for a tool that may be absent, including command-specific branches.
-assert_contains "compgen direct root and prerequisite calls" "$compgen_md" "own root command and any prerequisite tool directly"
-assert_contains "compgen command-specific branches" "$compgen_md" "command-specific implementations"
-assert_contains "compgen yq probe" "$compgen_md" 'command -v yq'
-# §5 documents the raw control lines; it is not a licence to hand-assemble them.
-assert_contains "compgen no hand-assembled control lines" "$compgen_md" "never write the control lines by hand"
-assert_contains "compgen mandatory helper lookup" "$compgen_md" "mandatory reading before writing"
+doc_contains "$doc" \
+    "Do not sort or dedupe candidates" \
+    "jq -b -r" \
+    'Never wrap a query in `timeout` command'
 
-# Function-only harness documented in compgen.md §6.
+# Tool probes: the root and the prerequisites are called directly; `command -v`
+# survives only for a tool that may be absent, including command-specific
+# branches. §5 documents the raw control lines; it is not a licence to
+# hand-assemble them.
+doc_contains "$doc" \
+    "own root command and any prerequisite tool directly" \
+    "command-specific implementations"
+
+doc_lacks "$doc" "COMP_WORDBREAKS"
+
+# --- function-only harness documented in §6 -------------------------------
+# A CHOICES body plus a choice function must produce candidates without running
+# the generated script.
 build_with_script
-harness_out="$(bash -c '
-    script=$1; shift
-    eval "$(sed -n "/^# >>> CHOICES/,/^# <<< CHOICES/p" "$script" | sed "1d;\$d")"
-    run() { "$@"; }
-    run "$@"
-' _ "$WITH_SCRIPT" _choice_foo)"
+harness_out="$(
+    eval "$(block_body "$WITH_SCRIPT" CHOICES)"
+    _choice_foo
+)"
 check "function harness" test "$harness_out" = "foo"
 
 helper_finish

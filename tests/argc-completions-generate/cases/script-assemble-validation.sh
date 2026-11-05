@@ -5,88 +5,78 @@ set -euo pipefail
 . "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/helper.sh"
 helper_init
 
-# ---------------------------------------------------------------------------
-# Status and validation failures
-# ---------------------------------------------------------------------------
-mkdir -p "$TMP_DIR/fragments-todo"
-cp -R "$FIXTURES/fragments/no-choice/." "$TMP_DIR/fragments-todo/"
-jq '(.subcommands[] | select(.name == "remote") | .status) = "todo"' "$(native_path "$TMP_DIR/fragments-todo/_root.json")" >"$TMP_DIR/todo.tmp" && mv "$TMP_DIR/todo.tmp" "$TMP_DIR/fragments-todo/_root.json"
-expect_failure "assemble rejects todo" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-todo" --stdout
+# --- status and tree validation failures -----------------------------------
+todo_fragments="$TMP_DIR/fragments-todo"
+fragment_dir "$todo_fragments"
+fragment_jq "$todo_fragments/_root.json" '(.subcommands[] | select(.name == "remote") | .status) = "todo"'
+assemble_rejects "assemble rejects todo" "$todo_fragments"
 
-mkdir -p "$TMP_DIR/fragments-missing"
-cp -R "$FIXTURES/fragments/no-choice/." "$TMP_DIR/fragments-missing/"
-rm "$TMP_DIR/fragments-missing/remote/add.json"
-expect_failure "assemble rejects missing fragment" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-missing" --stdout
+missing_fragments="$TMP_DIR/fragments-missing"
+fragment_dir "$missing_fragments"
+rm "$missing_fragments/remote/add.json"
+assemble_rejects "assemble rejects missing fragment" "$missing_fragments"
 
-mkdir -p "$TMP_DIR/fragments-stale"
-cp -R "$FIXTURES/fragments/no-choice/." "$TMP_DIR/fragments-stale/"
-cp "$TMP_DIR/fragments-stale/remote/add.json" "$TMP_DIR/fragments-stale/extra.json"
-jq '.path = ["demo", "extra"] | .subcommands = []' "$(native_path "$TMP_DIR/fragments-stale/extra.json")" >"$TMP_DIR/extra.tmp" && mv "$TMP_DIR/extra.tmp" "$TMP_DIR/fragments-stale/extra.json"
-expect_failure "assemble rejects stale fragment" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-stale" --stdout
+stale_fragments="$TMP_DIR/fragments-stale"
+fragment_dir "$stale_fragments"
+cp "$stale_fragments/remote/add.json" "$stale_fragments/extra.json"
+fragment_jq "$stale_fragments/extra.json" '.path = ["demo", "extra"] | .subcommands = []'
+assemble_rejects "assemble rejects stale fragment" "$stale_fragments"
 
-mkdir -p "$TMP_DIR/fragments-path-mismatch"
-cp -R "$FIXTURES/fragments/no-choice/." "$TMP_DIR/fragments-path-mismatch/"
-jq '.path = ["demo", "wrong"]' "$(native_path "$TMP_DIR/fragments-path-mismatch/remote.json")" >"$TMP_DIR/mismatch.tmp" && mv "$TMP_DIR/mismatch.tmp" "$TMP_DIR/fragments-path-mismatch/remote.json"
-expect_failure "assemble rejects path mismatch" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-path-mismatch" --stdout
+mismatch_fragments="$TMP_DIR/fragments-path-mismatch"
+fragment_dir "$mismatch_fragments"
+fragment_jq "$mismatch_fragments/remote.json" '.path = ["demo", "wrong"]'
+assemble_rejects "assemble rejects path mismatch" "$mismatch_fragments"
 
-mkdir -p "$TMP_DIR/fragments-bad-status"
-cp -R "$FIXTURES/fragments/no-choice/." "$TMP_DIR/fragments-bad-status/"
-jq '(.subcommands[] | select(.name == "remote") | .status) = "unknown"' "$(native_path "$TMP_DIR/fragments-bad-status/_root.json")" >"$TMP_DIR/bad-status.tmp" && mv "$TMP_DIR/bad-status.tmp" "$TMP_DIR/fragments-bad-status/_root.json"
-expect_failure "assemble rejects invalid status" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-bad-status" --stdout
+unknown_status="$TMP_DIR/fragments-bad-status"
+fragment_dir "$unknown_status"
+fragment_jq "$unknown_status/_root.json" '(.subcommands[] | select(.name == "remote") | .status) = "unknown"'
+assemble_rejects "assemble rejects invalid status" "$unknown_status"
 
-mkdir -p "$TMP_DIR/fragments-bad-choice"
-cp -R "$FIXTURES/fragments/with-choice/." "$TMP_DIR/fragments-bad-choice/"
-jq '(.items[] | select(.names | index("--foo")) | .choice_fn) = ["_choice_foo"]' "$(native_path "$TMP_DIR/fragments-bad-choice/remote.json")" >"$TMP_DIR/bad.tmp" && mv "$TMP_DIR/bad.tmp" "$TMP_DIR/fragments-bad-choice/remote.json"
-expect_failure "assemble rejects non-string choice_fn" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-bad-choice" --context "$FIXTURES/contexts/context.sh" --stdout
+bad_choice="$TMP_DIR/fragments-bad-choice"
+fragment_dir "$bad_choice" "$FIXTURES/fragments/with-choice"
+fragment_jq "$bad_choice/remote.json" '(.items[] | select(.names | index("--foo")) | .choice_fn) = ["_choice_foo"]'
+assemble_rejects "assemble rejects non-string choice_fn" "$bad_choice" --context "$FIXTURES/contexts/context.sh"
 
-mkdir -p "$TMP_DIR/fragments-missing-fn"
-cp -R "$FIXTURES/fragments/with-choice/." "$TMP_DIR/fragments-missing-fn/"
+# A fragment may name a function the context does not define.
+missing_fn="$TMP_DIR/fragments-missing-fn"
+fragment_dir "$missing_fn" "$FIXTURES/fragments/with-choice"
 sed '/^_choice_foo() {/,/^}/d' "$FIXTURES/contexts/context.sh" >"$TMP_DIR/context-missing-fn.sh"
-expect_failure "assemble rejects missing choice function" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-missing-fn" --context "$TMP_DIR/context-missing-fn.sh" --stdout
+assemble_rejects "assemble rejects missing choice function" "$missing_fn" --context "$TMP_DIR/context-missing-fn.sh"
 
-mkdir -p "$TMP_DIR/fragments-path"
-cp -R "$FIXTURES/fragments/no-choice/." "$TMP_DIR/fragments-path/"
-jq '.items += [
-      {"kind": "option", "names": ["--config"], "notations": ["<path>"], "choices": [], "choice_fn": null, "repeatable": false, "description": "Config path"},
-      {"kind": "option", "names": ["--file"], "notations": ["<file>"], "choices": [], "choice_fn": null, "repeatable": false, "description": "Input file"},
-      {"kind": "option", "names": ["--dir"], "notations": ["<dir>"], "choices": [], "choice_fn": null, "repeatable": false, "description": "Output dir"}
-    ]' "$(native_path "$TMP_DIR/fragments-path/_root.json")" >"$TMP_DIR/path.tmp" && mv "$TMP_DIR/path.tmp" "$TMP_DIR/fragments-path/_root.json"
-quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-path" --stdout >"$TMP_DIR/path-notation.sh"
-assert_contains "assemble path notation" "$TMP_DIR/path-notation.sh" '--config <path>'
-assert_contains "assemble file notation" "$TMP_DIR/path-notation.sh" '--file <file>'
-assert_contains "assemble dir notation" "$TMP_DIR/path-notation.sh" '--dir <dir>'
-check "verify path notation" bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/path-notation.sh" --cmd demo --cache-dir "$TMP_DIR/fragments-path" --skip-compgen
+# --- path notations -------------------------------------------------------
+# <path>, <file> and <dir> keep their literal text: argc expands them itself.
+path_fragments="$TMP_DIR/fragments-path"
+fragment_with_items "$path_fragments" '[
+  {"kind": "option", "names": ["--config"], "notations": ["<path>"], "choices": [], "choice_fn": null, "repeatable": false, "description": "Config path"},
+  {"kind": "option", "names": ["--file"], "notations": ["<file>"], "choices": [], "choice_fn": null, "repeatable": false, "description": "Input file"},
+  {"kind": "option", "names": ["--dir"], "notations": ["<dir>"], "choices": [], "choice_fn": null, "repeatable": false, "description": "Output dir"}
+]'
+path_script="$TMP_DIR/path-notation.sh"
+assemble_to "$path_script" demo --cache-dir "$path_fragments" --stdout
+assert_contains "assemble path notation" "$path_script" '--config <path>'
+assert_contains "assemble file notation" "$path_script" '--file <file>'
+assert_contains "assemble dir notation" "$path_script" '--dir <dir>'
+verify_check "verify path notation" "$path_script" --cache-dir "$path_fragments"
 
-# ---------------------------------------------------------------------------
-# Arg repeatable/required schema
-# ---------------------------------------------------------------------------
-mkdir -p "$TMP_DIR/fragments-arg-required-repeatable"
-cp -R "$FIXTURES/fragments/no-choice/." "$TMP_DIR/fragments-arg-required-repeatable/"
-jq '.items += [{"kind": "arg", "name": "files", "repeatable": true, "required": true, "notation": "<FILE>", "choices": [], "choice_fn": null, "description": "Files"}]' \
-    "$(native_path "$TMP_DIR/fragments-arg-required-repeatable/remote/add.json")" >"$TMP_DIR/arg-req.tmp" && \
-    mv "$TMP_DIR/arg-req.tmp" "$TMP_DIR/fragments-arg-required-repeatable/remote/add.json"
-quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-arg-required-repeatable" --stdout >"$TMP_DIR/arg-required-repeatable.sh"
+# --- arg repeatable/required schema --------------------------------------
+required_repeatable="$TMP_DIR/fragments-arg-required-repeatable"
+fragment_with_items "$required_repeatable" '[{"kind": "arg", "name": "files", "repeatable": true, "required": true, "notation": "<FILE>", "choices": [], "choice_fn": null, "description": "Files"}]' remote/add.json
+assemble_to "$TMP_DIR/arg-required-repeatable.sh" demo --cache-dir "$required_repeatable" --stdout
 assert_contains "assemble arg repeatable required" "$TMP_DIR/arg-required-repeatable.sh" '# @arg files+ <FILE>'
 
-mkdir -p "$TMP_DIR/fragments-arg-optional-repeatable"
-cp -R "$FIXTURES/fragments/no-choice/." "$TMP_DIR/fragments-arg-optional-repeatable/"
-jq '.items += [{"kind": "arg", "name": "rest", "repeatable": true, "required": false, "notation": "<ARG>", "choices": [], "choice_fn": null, "description": "Rest"}]' \
-    "$(native_path "$TMP_DIR/fragments-arg-optional-repeatable/remote.json")" >"$TMP_DIR/arg-opt.tmp" && \
-    mv "$TMP_DIR/arg-opt.tmp" "$TMP_DIR/fragments-arg-optional-repeatable/remote.json"
-quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-arg-optional-repeatable" --stdout >"$TMP_DIR/arg-optional-repeatable.sh"
+optional_repeatable="$TMP_DIR/fragments-arg-optional-repeatable"
+fragment_with_items "$optional_repeatable" '[{"kind": "arg", "name": "rest", "repeatable": true, "required": false, "notation": "<ARG>", "choices": [], "choice_fn": null, "description": "Rest"}]' remote.json
+assemble_to "$TMP_DIR/arg-optional-repeatable.sh" demo --cache-dir "$optional_repeatable" --stdout
 assert_contains "assemble arg repeatable optional" "$TMP_DIR/arg-optional-repeatable.sh" '# @arg rest* <ARG>'
 
-mkdir -p "$TMP_DIR/fragments-modifier"
-cp -R "$FIXTURES/fragments/no-choice/." "$TMP_DIR/fragments-modifier/"
-jq '.items[0].modifier = "!"' "$(native_path "$TMP_DIR/fragments-modifier/remote/add.json")" >"$TMP_DIR/modifier.tmp" && \
-    mv "$TMP_DIR/modifier.tmp" "$TMP_DIR/fragments-modifier/remote/add.json"
-expect_failure "assemble rejects modifier field" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-modifier" --stdout
+modifier_fragments="$TMP_DIR/fragments-modifier"
+fragment_dir "$modifier_fragments"
+fragment_jq "$modifier_fragments/remote/add.json" '.items[0].modifier = "!"'
+assemble_rejects "assemble rejects modifier field" "$modifier_fragments"
 
-mkdir -p "$TMP_DIR/fragments-missing-required"
-cp -R "$FIXTURES/fragments/no-choice/." "$TMP_DIR/fragments-missing-required/"
-jq 'del(.items[0].required)' "$(native_path "$TMP_DIR/fragments-missing-required/remote/add.json")" >"$TMP_DIR/missing-required.tmp" && \
-    mv "$TMP_DIR/missing-required.tmp" "$TMP_DIR/fragments-missing-required/remote/add.json"
-expect_failure "assemble rejects arg without required" bash "$SCRIPTS/assemble.sh" demo --cache-dir "$TMP_DIR/fragments-missing-required" --stdout
-
+no_required="$TMP_DIR/fragments-missing-required"
+fragment_dir "$no_required"
+fragment_jq "$no_required/remote/add.json" 'del(.items[0].required)'
+assemble_rejects "assemble rejects arg without required" "$no_required"
 
 helper_finish

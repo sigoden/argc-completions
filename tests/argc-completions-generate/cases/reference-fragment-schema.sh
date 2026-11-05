@@ -5,35 +5,55 @@ set -euo pipefail
 . "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/helper.sh"
 helper_init
 
-schema_md="$SKILL_DIR/references/fragment-schema.md"
+doc="$SKILL_DIR/references/fragment-schema.md"
 
-assert_contains "schema layout path mapping" "$schema_md" '<sub>/<nested>.json  path = [root, sub, nested]'
-assert_contains "schema windows encoding" "$schema_md" 'profile%3Amem.json'
-assert_contains "schema minimal failed fragment" "$schema_md" '"notes": "help unavailable"'
-assert_contains "schema notation modifiers" "$schema_md" "Notation modifiers: only an option may use them"
-assert_contains "schema arg notation no modifier" "$schema_md" 'arg `notation` never carries one'
-assert_contains "schema colon enumeration" "$schema_md" "colon-introduced comma list"
-assert_contains "schema description terminator" "$schema_md" 'A terminator (`.` `!` `?`) ends a sentence only when'
-assert_contains "schema description abbreviations" "$schema_md" 'Skip `e.g.`, `i.e.`, `etc.`, `vs.`, `cf.`, `approx.`'
-assert_contains "schema description cjk" "$schema_md" 'CJK terminators (`。` `！` `？`) always end a sentence'
-assert_contains "schema description drops terminator" "$schema_md" 'drop the terminator that ends the kept sentence'
-assert_contains "schema choices objects" "$schema_md" '{"value": "a", "description": "First"}'
-assert_contains "schema choices object rejection" "$schema_md" "choices entries must be objects {value, description}"
-assert_contains "schema choices static rendering" "$schema_md" "_static_"
-assert_contains "schema shared help source section" "$schema_md" '"section": "<name>"'
-assert_contains "schema terminated ignores required" "$schema_md" 'A terminated arg renders as `<name>~` alone'
-assert_contains "schema terminated suffix" "$schema_md" 'A terminated arg skips all of them'
-assert_contains "schema hash field" "$schema_md" '`hash`'
-assert_contains "schema hash empty for none" "$schema_md" '"hash": ""'
-assert_contains "schema source command safety" "$schema_md" "space-separated safe token string"
-assert_contains "schema cache version bump" "$schema_md" "SKILL_CACHE_VERSION"
-assert_contains "schema hash helper" "$schema_md" "fragment-hash.sh"
-assert_contains "schema hash behavior context" "$schema_md" "context that can change completion behavior"
-assert_contains "schema hash exclusions" "$schema_md" '`meta`, descriptions, aliases, and paths are excluded'
-assert_contains "schema hash resolved hints" "$schema_md" 'The `HINTS` half is the text resolved for that path'
-assert_not_contains "schema no hash framing" "$schema_md" "NUL SKILL_CACHE_VERSION"
-assert_not_contains "schema no hash diff mechanics" "$schema_md" "reach the hash only through"
-assert_contains "schema choice_fn from diff" "$schema_md" 'copied only from the `<SKILL_ROOT>/scripts/extract-cmd-context.sh` `DIFF`'
-assert_contains "schema diff overrides notation" "$schema_md" 'The same `DIFF` may override an item'"'"'s `notations`/`notation` and `terminated`'
+# Layout, file-name encoding, and the minimal failed fragment.
+doc_contains "$doc" \
+    '<sub>/<nested>.json  path = [root, sub, nested]' \
+    'profile%3Amem.json' \
+    '"notes": "help unavailable"'
+
+# Notations: modifiers belong to options, and only to the final notation.
+doc_contains "$doc" \
+    "Notation modifiers: only an option may use them" \
+    'arg `notation` never carries one' \
+    "colon-introduced comma list"
+
+# Descriptions: one sentence, kept whole.
+doc_contains "$doc" \
+    'A terminator (`.` `!` `?`) ends a sentence only when' \
+    'Skip `e.g.`, `i.e.`, `etc.`, `vs.`, `cf.`, `approx.`' \
+    'CJK terminators (`。` `！` `？`) always end a sentence' \
+    'drop the terminator that ends the kept sentence'
+
+# Choices are objects and generate STATIC functions.
+doc_contains "$doc" \
+    '{"value": "a", "description": "First"}' \
+    "choices entries must be objects {value, description}" \
+    "_static_"
+
+# Shared help and terminated values.
+doc_contains "$doc" \
+    '"section": "<name>"' \
+    'A terminated arg renders as `<name>~` alone' \
+    'A terminated arg skips all of them' \
+    '`hash`' \
+    '"hash": ""' \
+    "space-separated safe token string" \
+    "SKILL_CACHE_VERSION" \
+    "fragment-hash.sh" \
+    "context that can change completion behavior" \
+    '`meta`, descriptions, aliases, and paths are excluded' \
+    'The `HINTS` half is the text resolved for that path'
+
+# Hash mechanics live in fragment-hash.sh; the schema only states the contract.
+doc_lacks "$doc" \
+    "NUL SKILL_CACHE_VERSION" \
+    "reach the hash only through"
+
+# The DIFF is the only source of a binding or an override.
+doc_contains "$doc" \
+    'copied only from the `<SKILL_ROOT>/scripts/extract-cmd-context.sh` `DIFF`' \
+    'The same `DIFF` may override an item'"'"'s `notations`/`notation` and `terminated`'
 
 helper_finish

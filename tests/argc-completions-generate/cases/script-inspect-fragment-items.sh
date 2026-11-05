@@ -10,19 +10,26 @@ assert_not_contains "fragment items no value_type" "$SCRIPTS/inspect-fragment-it
 build_prefix_fixture
 build_terminated_fixture
 
-# Compact inspection scripts (avoid reading whole fragments/exports).
-jq -b -r -f "$(native_path "$SCRIPTS/inspect-fragment-items.jq")" "$(native_path "$FIXTURES/fragments/with-choice/_root.json")" >"$TMP_DIR/fragment-items.txt"
-check "fragment items header" bash -c "head -n 1 '$TMP_DIR/fragment-items.txt' | grep -q '^items=3 subcommands=2 choice_fns=0$'"
-check "fragment items row" bash -c "grep -q 'text|json' '$TMP_DIR/fragment-items.txt'"
-jq -b -r -f "$(native_path "$SCRIPTS/inspect-fragment-items.jq")" "$(native_path "$TMP_DIR/fragments-prefix-delimiter/_root.json")" >"$TMP_DIR/prefix-delimiter-items.txt"
-check "fragment items prefixed" gawk -F '\t' '$1 == "option" && $2 == "-ao" && $6 == "true" && $7 == "" { found = 1 } END { exit !found }' "$TMP_DIR/prefix-delimiter-items.txt"
-check "fragment items delimiter" gawk -F '\t' '$1 == "option" && $2 == "--type" && $6 == "false" && $7 == "," { found = 1 } END { exit !found }' "$TMP_DIR/prefix-delimiter-items.txt"
-check "fragment items delimiter arg" gawk -F '\t' '$1 == "arg" && $2 == "types" && $6 == "false" && $7 == "," { found = 1 } END { exit !found }' "$TMP_DIR/prefix-delimiter-items.txt"
-check "fragment items combined" gawk -F '\t' '$1 == "option" && $2 == "-Z" && $6 == "true" && $7 == "," { found = 1 } END { exit !found }' "$TMP_DIR/prefix-delimiter-items.txt"
-check "fragment items legacy defaults" gawk -F '\t' '$1 == "flag" && $2 == "-v,--verbose" && $6 == "false" && $7 == "" { found = 1 } END { exit !found }' "$TMP_DIR/prefix-delimiter-items.txt"
+# inspect_items <fragment> <out>: the compact table for one fragment.
+inspect_items() {
+    quiet jq_skill_file "$1" -b -r -f "$NATIVE_SCRIPTS/inspect-fragment-items.jq" >"$2"
+}
 
-jq -b -r -f "$(native_path "$SCRIPTS/inspect-fragment-items.jq")" "$(native_path "$TMP_DIR/fragments-terminated/_root.json")" >"$TMP_DIR/terminated-items.txt"
-check "fragment items terminated option" gawk -F '\t' '$1 == "option" && $2 == "--command" && $8 == "true" { found = 1 } END { exit !found }' "$TMP_DIR/terminated-items.txt"
-check "fragment items terminated arg" gawk -F '\t' '$1 == "arg" && $2 == "args" && $8 == "true" { found = 1 } END { exit !found }' "$TMP_DIR/terminated-items.txt"
+# Compact inspection scripts (avoid reading whole fragments/exports).
+inspect_items "$FIXTURES/fragments/with-choice/_root.json" "$TMP_DIR/fragment-items.txt"
+assert_line "fragment items header" "$TMP_DIR/fragment-items.txt" 1 'items=3 subcommands=2 choice_fns=0'
+assert_contains "fragment items row" "$TMP_DIR/fragment-items.txt" 'text|json'
+
+inspect_items "$PREFIX_FRAGMENTS/_root.json" "$TMP_DIR/prefix-delimiter-items.txt"
+assert_tsv "fragment items prefixed" "$TMP_DIR/prefix-delimiter-items.txt" 1=option 2=-ao 6=true 7=
+assert_tsv "fragment items delimiter" "$TMP_DIR/prefix-delimiter-items.txt" 1=option 2=--type 6=false 7=,
+assert_tsv "fragment items delimiter arg" "$TMP_DIR/prefix-delimiter-items.txt" 1=arg 2=types 6=false 7=,
+assert_tsv "fragment items combined" "$TMP_DIR/prefix-delimiter-items.txt" 1=option 2=-Z 6=true 7=,
+assert_tsv "fragment items legacy defaults" "$TMP_DIR/prefix-delimiter-items.txt" \
+    1=flag 2='-v,--verbose' 6=false 7=
+
+inspect_items "$TERMINATED_FRAGMENTS/_root.json" "$TMP_DIR/terminated-items.txt"
+assert_tsv "fragment items terminated option" "$TMP_DIR/terminated-items.txt" 1=option 2=--command 8=true
+assert_tsv "fragment items terminated arg" "$TMP_DIR/terminated-items.txt" 1=arg 2=args 8=true
 
 helper_finish

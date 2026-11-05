@@ -6,14 +6,18 @@ set -euo pipefail
 helper_init
 
 quiet bash "$SCRIPTS/check-fragment.sh" --help >"$TMP_DIR/check-fragment-help.txt" 2>&1
-check "check-fragment usage exit status" grep -Fq 'Exit status is 0 for every reported status' "$TMP_DIR/check-fragment-help.txt"
+assert_contains "check-fragment usage exit status" "$TMP_DIR/check-fragment-help.txt" 'Exit status is 0 for every reported status'
 
+# The help program the check hashes.
 mkdir -p "$TMP_DIR/bin"
-cat >"$TMP_DIR/bin/check-demo" <<'DEMO'
+write_help() {
+    cat >"$TMP_DIR/bin/check-demo" <<'DEMO'
 #!/usr/bin/env bash
 printf 'Usage: check-demo [OPTIONS]\n\nOptions:\n  --foo  Foo value\n'
 DEMO
-chmod +x "$TMP_DIR/bin/check-demo"
+    chmod +x "$TMP_DIR/bin/check-demo"
+}
+write_help
 PATH="$TMP_DIR/bin:$PATH"
 
 check_cache="$TMP_DIR/cache-check"
@@ -31,6 +35,8 @@ cat >"$completion" <<'SCRIPT'
 # <<< HINTS
 SCRIPT
 
+# write_fragment <file> <kind> <command> <hash>: the fixture in the shape the
+# check expects. kind=none is the minimal failed fragment.
 write_fragment() {
     local file="$1" kind="$2" command="$3" hash="$4"
     if [[ "$kind" == "none" ]]; then
@@ -49,30 +55,34 @@ write_fragment() {
     ' >"$file"
 }
 
+# check_fragment <label> <needle> [<extra args...>]: run the check on the demo
+# cache and assert the reported status line.
+check_fragment() {
+    local label="$1" needle="$2"
+    shift 2
+    check_output "$label" "$needle" bash "$SCRIPTS/check-fragment.sh" check-demo \
+        --cache-dir "$check_cache" --completion "$completion" "$@"
+}
+
 write_fragment "$check_cache/_root.json" help 'check-demo --help' ''
 root_hash="$(bash "$SCRIPTS/fragment-hash.sh" check-demo --cache-dir "$check_cache" \
     --completion "$completion" --command 'check-demo --help' \
     --fragment "$check_cache/_root.json")"
 write_fragment "$check_cache/_root.json" help 'check-demo --help' "$root_hash"
-check_to "$TMP_DIR/check-hit.txt" "check-fragment hit" \
-    bash "$SCRIPTS/check-fragment.sh" check-demo --cache-dir "$check_cache" --completion "$completion"
-assert_contains "check-fragment hit status" "$TMP_DIR/check-hit.txt" "status=hit"
-assert_contains "check-fragment hit hash" "$TMP_DIR/check-hit.txt" "hash=$root_hash"
+check_fragment "check-fragment hit" "status=hit"
+assert_contains "check-fragment hit hash" "$CHECK_LOG" "hash=$root_hash"
 
 # Only the target fragment is consulted: an unrelated invalid file does not
 # affect the root check.
 printf '{}\n' >"$check_cache/other.json"
-check_to "$TMP_DIR/check-hit-other.txt" "check-fragment ignores other nodes" \
-    bash "$SCRIPTS/check-fragment.sh" check-demo --cache-dir "$check_cache" --completion "$completion"
-assert_contains "check-fragment other ignored" "$TMP_DIR/check-hit-other.txt" "status=hit"
+check_fragment "check-fragment ignores other nodes" "status=hit"
 rm -f "$check_cache/other.json"
 
 # A manual SPEC notation/choice_fn edit changes the context DIFF -> mismatch.
 sed 's/_choice_foo/_choice_bar/' "$completion" >"$TMP_DIR/check-completion-edit.sh"
-check_to "$TMP_DIR/check-diff.txt" "check-fragment context diff mismatch" \
+check_output "check-fragment context diff mismatch" "status=invalid reason=hash-mismatch" \
     bash "$SCRIPTS/check-fragment.sh" check-demo --cache-dir "$check_cache" \
     --completion "$TMP_DIR/check-completion-edit.sh"
-assert_contains "check-fragment context diff status" "$TMP_DIR/check-diff.txt" "status=invalid reason=hash-mismatch"
 
 # Changed help -> hash mismatch.
 cat >"$TMP_DIR/bin/check-demo" <<'DEMO'
@@ -80,14 +90,11 @@ cat >"$TMP_DIR/bin/check-demo" <<'DEMO'
 printf 'Usage: check-demo [OPTIONS]\n\nOptions:\n  --foo  Changed value\n'
 DEMO
 chmod +x "$TMP_DIR/bin/check-demo"
-check_to "$TMP_DIR/check-mismatch.txt" "check-fragment hash mismatch" \
-    bash "$SCRIPTS/check-fragment.sh" check-demo --cache-dir "$check_cache" --completion "$completion"
-assert_contains "check-fragment mismatch status" "$TMP_DIR/check-mismatch.txt" "status=invalid reason=hash-mismatch"
+check_fragment "check-fragment hash mismatch" "status=invalid reason=hash-mismatch"
+write_help
 
 # A missing fragment is reported without touching the cache.
-check_to "$TMP_DIR/check-missing.txt" "check-fragment missing" \
-    bash "$SCRIPTS/check-fragment.sh" check-demo missing --cache-dir "$check_cache" --completion "$completion"
-assert_contains "check-fragment missing status" "$TMP_DIR/check-missing.txt" "path=check-demo missing status=missing"
+check_fragment "check-fragment missing" "path=check-demo missing status=missing" missing
 
 # A colon subcommand segment (pm2 profile:mem) is a valid path component; on
 # Windows its cache file name encodes the colon so the file can be stored.
@@ -102,50 +109,36 @@ jq -n '{
 }' >"$colon_fragment"
 colon_hash="$(bash "$SCRIPTS/fragment-hash.sh" check-demo 'profile:mem' --cache-dir "$check_cache" \
     --completion "$completion")"
-jq --arg hash "$colon_hash" '.hash = $hash' "$(native_path "$colon_fragment")" >"$TMP_DIR/colon.json" && mv "$TMP_DIR/colon.json" "$colon_fragment"
-check_to "$TMP_DIR/check-colon.txt" "check-fragment colon path" \
-    bash "$SCRIPTS/check-fragment.sh" check-demo 'profile:mem' --cache-dir "$check_cache" --completion "$completion"
-assert_contains "check-fragment colon hit" "$TMP_DIR/check-colon.txt" "path=check-demo profile:mem status=hit"
+fragment_jq "$colon_fragment" --arg hash "$colon_hash" '.hash = $hash'
+check_fragment "check-fragment colon hit" "path=check-demo profile:mem status=hit" 'profile:mem'
 rm -f "$colon_fragment"
 
 # Widening that segment does not weaken the rest of the character set.
-if bash "$SCRIPTS/check-fragment.sh" check-demo 'a b' --cache-dir "$check_cache" --completion "$completion" >"$TMP_DIR/check-bad-part.txt" 2>&1; then
-    fail "check-fragment rejects an unsafe path component"
-else
-    pass "check-fragment rejects an unsafe path component"
-fi
-assert_contains "check-fragment unsafe component message" "$TMP_DIR/check-bad-part.txt" "invalid command path component: a b"
+check_rejects "check-fragment rejects an unsafe path component" \
+    "invalid command path component: a b" \
+    bash "$SCRIPTS/check-fragment.sh" check-demo 'a b' --cache-dir "$check_cache" --completion "$completion"
 
+# --- statuses -------------------------------------------------------------
 # kind none -> failed, reusing the minimal fragment.
 write_fragment "$check_cache/_root.json" none '' ''
-check_to "$TMP_DIR/check-failed.txt" "check-fragment failed" \
-    bash "$SCRIPTS/check-fragment.sh" check-demo --cache-dir "$check_cache" --completion "$completion"
-assert_contains "check-fragment failed status" "$TMP_DIR/check-failed.txt" "status=failed hash="
+check_fragment "check-fragment failed" "status=failed hash="
 
 # Unavailable help -> unverified, not invalid.
 printf '{"schemaVersion":1,"path":["check-demo"],"description":"Check demo","aliases":[],"meta":[],"items":[],"subcommands":[],"source":{"kind":"help","command":"no-such-check-command --help"},"hash":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","notes":""}\n' >"$check_cache/_root.json"
-check_to "$TMP_DIR/check-unverified.txt" "check-fragment unverified" \
-    bash "$SCRIPTS/check-fragment.sh" check-demo --cache-dir "$check_cache" --completion "$completion"
-assert_contains "check-fragment unverified status" "$TMP_DIR/check-unverified.txt" "status=unverified reason=help-unavailable"
+check_fragment "check-fragment unverified" "status=unverified reason=help-unavailable"
 
 # Schema failures are invalid and are never migrated.
 write_fragment "$check_cache/_root.json" help 'check-demo --help' "$root_hash"
-jq 'del(.hash)' "$(native_path "$check_cache/_root.json")" >"$TMP_DIR/no-hash.json" && mv "$TMP_DIR/no-hash.json" "$check_cache/_root.json"
-check_to "$TMP_DIR/check-no-hash.txt" "check-fragment missing hash" \
-    bash "$SCRIPTS/check-fragment.sh" check-demo --cache-dir "$check_cache" --completion "$completion"
-assert_contains "check-fragment missing hash invalid" "$TMP_DIR/check-no-hash.txt" "status=invalid reason=schema"
+fragment_jq "$check_cache/_root.json" 'del(.hash)'
+check_fragment "check-fragment missing hash invalid" "status=invalid reason=schema"
 
 printf '{"schemaVersion":1,"path":["check-demo"],"description":"Check demo","aliases":[],"meta":[],"items":[],"subcommands":[],"source":{"kind":"none"},"hash":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","notes":""}\n' >"$check_cache/_root.json"
-check_to "$TMP_DIR/check-none-hash.txt" "check-fragment none non-empty hash" \
-    bash "$SCRIPTS/check-fragment.sh" check-demo --cache-dir "$check_cache" --completion "$completion"
-assert_contains "check-fragment none hash invalid" "$TMP_DIR/check-none-hash.txt" "status=invalid reason=schema"
+check_fragment "check-fragment none hash invalid" "status=invalid reason=schema"
 
 printf '{"schemaVersion":1,"path":["check-demo"],"description":"Check demo","aliases":[],"meta":[],"items":[],"subcommands":[],"source":{"kind":"help","command":"check-demo --help; rm -rf /"},"hash":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","notes":""}\n' >"$check_cache/_root.json"
-check_to "$TMP_DIR/check-unsafe.txt" "check-fragment unsafe command" \
-    bash "$SCRIPTS/check-fragment.sh" check-demo --cache-dir "$check_cache" --completion "$completion"
-assert_contains "check-fragment unsafe invalid" "$TMP_DIR/check-unsafe.txt" "status=invalid reason=schema"
+check_fragment "check-fragment unsafe invalid" "status=invalid reason=schema"
 
 # The check writes no help file.
-check "check-fragment writes no txt" bash -c "! find '$check_cache' -name '*.txt' | grep -q ."
+check "check-fragment writes no txt" test -z "$(find "$check_cache" -name '*.txt' -print -quit)"
 
 helper_finish

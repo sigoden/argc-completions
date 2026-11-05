@@ -5,20 +5,20 @@ set -euo pipefail
 . "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/helper.sh"
 helper_init
 
+# fragment_description_check <label> <ok|reject> <description> [<needle>]
 fragment_description_check() {
-    # usage: fragment_description_check <label> <ok|reject> <description> [needle]
-    local label="$1" want="$2" desc="$3" needle="${4:-}" frag err
+    local label="$1" want="$2" desc="$3" needle="${4:-}" frag
     frag="$TMP_DIR/desc-$(printf '%s' "$label" | cksum | cut -d' ' -f1).json"
-    err="$frag.err"
-    jq -n --arg d "$desc" '{schemaVersion: 1, path: ["demo"], description: $d, aliases: [], meta: [], items: [], subcommands: [], source: {kind: "none"}, hash: "", notes: ""}' >"$frag"
-    if jq -L "$(native_path "$SCRIPTS")" -e -f "$(native_path "$SCRIPTS/validate-fragment.jq")" --arg key demo "$(native_path "$frag")" >/dev/null 2>"$err"; then
+    fragment_from_description "$desc" "$frag"
+    if validate_fragment "$frag" >/dev/null 2>"$frag.err"; then
         if [[ "$want" == ok ]]; then pass "$label"; else fail "$label (unexpected accept)"; fi
-    elif [[ "$want" == reject ]] && { [[ -z "$needle" ]] || grep -Fq -- "$needle" "$err"; }; then
+    elif [[ "$want" == reject ]] && { [[ -z "$needle" ]] || file_has_line "$frag.err" "$needle"; }; then
         pass "$label"
     else
-        fail "$label (want $want: $(head -1 "$err"))"
+        fail "$label (want $want: $(head -n 1 "$frag.err"))"
     fi
 }
+
 fragment_description_check "validator accepts one sentence" ok 'Manage remotes'
 fragment_description_check "validator accepts abbreviation" ok 'Use e.g. foo'
 fragment_description_check "validator accepts dotted tail" ok 'save files to PREFIX/..'

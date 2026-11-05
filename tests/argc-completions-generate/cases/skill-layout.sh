@@ -25,25 +25,14 @@ extract_frontmatter() {
 # contract for validate-fragment.jq and unused by the inspections.
 jq_program_parses() {
     local file="$1" rc=0
+    local path
+    native_path_to path "$file"
     # -L lets a program `include "description-rules"`, as scripts/lib.sh's
     # jq_skill does at run time.
-    jq -L "$(native_path "$SCRIPTS")" -n --arg key '' -f "$(native_path "$file")" >/dev/null 2>"$TMP_DIR/jq-error" || rc=$?
+    jq_skill -n --arg key '' -f "$path" >/dev/null 2>"$TMP_DIR/jq-error" || rc=$?
     if [[ "$rc" -eq 3 ]]; then
         cat "$TMP_DIR/jq-error" >&2
         return 1
-    fi
-}
-
-# assert_silent <label> <cmd...>: the command must succeed and print nothing;
-# its output names the offending entries.
-assert_silent() {
-    local label="$1" out
-    shift
-    if out="$("$@")" && [[ -z "$out" ]]; then
-        pass "$label"
-    else
-        fail "$label"
-        [[ -z "$out" ]] || printf '%s\n' "$out" | sed 's/^/     | /' >&3
     fi
 }
 
@@ -115,8 +104,8 @@ done
 # (an inline filter such as normalize-description.sh) must use it.
 for module in "${jq_modules[@]}"; do
     stem="$(basename "$module" .jq)"
-    check "jq module $stem parses" jq -L "$(native_path "$SCRIPTS")" -n "include \"$stem\"; empty"
-    check "jq module $stem included" bash -c "grep -lqx 'include \"$stem\";' \"\$1\"/*.jq \"\$1\"/*.sh" _ "$SCRIPTS"
+    check "jq module $stem parses" jq_skill -n "include \"$stem\"; empty"
+    check "jq module $stem included" grep -qx "include \"$stem\";" "$SCRIPTS"/*.jq "$SCRIPTS"/*.sh
     check "jq module $stem case" test -f "$CASES_DIR/script-$stem.sh"
 done
 

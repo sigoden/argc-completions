@@ -11,40 +11,35 @@ build_with_script
 build_regen_fixture
 new_script="$NEW_SCRIPT"
 with_script="$WITH_SCRIPT"
-choices_base="$CHOICES_BASE"
 
-# ---------------------------------------------------------------------------
-# Verify failures
-# ---------------------------------------------------------------------------
-cp "$TMP_DIR/new.sh" "$TMP_DIR/undefined.sh"
-sed 's/^# @flag -v --verbose  /# @flag -v --verbose[`_choice_missing`]  /' "$TMP_DIR/undefined.sh" >"$TMP_DIR/undefined.tmp" && mv "$TMP_DIR/undefined.tmp" "$TMP_DIR/undefined.sh"
-expect_failure "verify undefined choice fn" bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/undefined.sh" --cmd demo --skip-compgen
+# A tag that names a function nothing defines is the first failure a hand edit
+# introduces.
+cp "$new_script" "$TMP_DIR/undefined.sh"
+sed 's/^# @flag -v --verbose  /# @flag -v --verbose[`_choice_missing`]  /' \
+    "$TMP_DIR/undefined.sh" >"$TMP_DIR/undefined.tmp" && mv "$TMP_DIR/undefined.tmp" "$TMP_DIR/undefined.sh"
+verify_fails "verify undefined choice fn" "$TMP_DIR/undefined.sh"
 
-gawk '/^# <<< CHOICES$/ && !done { print "_choice_probe() { :; }"; done = 1 } { print }' \
-    "$choices_base" >"$TMP_DIR/choice-no-choice.sh"
-expect_failure "verify require-no-choice rejects choice definitions" bash "$SCRIPTS/verify-completion.sh" \
-    "$TMP_DIR/choice-no-choice.sh" --cmd demo --skip-compgen --require-no-choice-fns
+block_append "$CHOICES_BASE" "$TMP_DIR/choice-no-choice.sh" CHOICES '_choice_probe() { :; }'
+verify_fails "verify require-no-choice rejects choice definitions" \
+    "$TMP_DIR/choice-no-choice.sh" --require-no-choice-fns
 
-cp "$TMP_DIR/regen.sh" "$TMP_DIR/manual-edit.sh"
+# A manual SPEC edit is a drift the fragment comparison must catch.
 gawk '/^# <<< SPEC$/ { print "# @flag --manual" } { print }' \
-    "$TMP_DIR/manual-edit.sh" >"$TMP_DIR/manual-edit.tmp" && mv "$TMP_DIR/manual-edit.tmp" "$TMP_DIR/manual-edit.sh"
-expect_failure "verify detects manual SPEC edit" bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/manual-edit.sh" --cmd demo --cache-dir "$TMP_DIR/fragments-regen" --skip-compgen
+    "$REGEN_SCRIPT" >"$TMP_DIR/manual-edit.sh"
+verify_fails "verify detects manual SPEC edit" "$TMP_DIR/manual-edit.sh" --cache-dir "$REGEN_FRAGMENTS"
 
 # A tag that loses its binding is the failure the compgen smoke cannot see.
 sed 's/--foo\[?`_choice_foo`\]/--foo -foo[?`_choice_foo`]/' "$with_script" >"$TMP_DIR/dropped-binding.sh"
-dropped_binding_log="$(new_log)"
-if run_quiet "$dropped_binding_log" bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/dropped-binding.sh" --cmd demo --cache-dir "$FIXTURES/fragments/with-choice" --skip-compgen; then
-    fail "verify detects dropped choice binding (unexpected success)"
-else
-    pass "verify detects dropped choice binding"
-fi
-assert_contains "verify names dropped choice_fn" "$dropped_binding_log" "dropped choice_fn"
+verify_rejects "verify detects dropped choice binding" "dropped choice_fn" \
+    "$TMP_DIR/dropped-binding.sh" --cache-dir "$FIXTURES/fragments/with-choice"
 
 printf '#!/usr/bin/env bash\n# only a shebang\n' >"$TMP_DIR/no-help.sh"
-expect_failure "verify empty help output" bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/no-help.sh" --skip-compgen
+expect_failure "verify empty help output" \
+    bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/no-help.sh" --skip-compgen
 
-sed '1d' "$TMP_DIR/new.sh" >"$TMP_DIR/no-shebang.sh"
-expect_failure "verify strict treats warnings as failures" bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/no-shebang.sh" --cmd demo --skip-compgen
-check "verify --no-strict allows warnings" bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/no-shebang.sh" --cmd demo --skip-compgen --no-strict
+# Strict mode turns a warning (no shebang) into a failure; --no-strict does not.
+sed '1d' "$new_script" >"$TMP_DIR/no-shebang.sh"
+verify_fails "verify strict treats warnings as failures" "$TMP_DIR/no-shebang.sh"
+verify_check "verify --no-strict allows warnings" "$TMP_DIR/no-shebang.sh" --no-strict
 
 helper_finish
