@@ -845,11 +845,16 @@ block_facts() {
 # True when the block layout is the supported one: SPEC and HINTS exactly once,
 # STATIC and CHOICES absent or exactly once, ordered SPEC -> HINTS -> [STATIC]
 # -> [CHOICES], every present block closed after it opens, and at least one
-# marker present.
+# marker present. Both callers already print their own message, so this also
+# reports why it failed.
 # Usage: block_layout_ok <file>
+# Reads BLOCK_LAYOUT_REASON afterwards: unmarked, bounds, duplicate:<NAME>, or
+# order.
+BLOCK_LAYOUT_REASON=""
 block_layout_ok() {
     local file="$1" name f2 f3 f4 f5 layout="" first=0 last=0
     local -A B_OPENS=() B_START=() B_END=() B_CLOSES=()
+    BLOCK_LAYOUT_REASON=""
     while read -r name f2 f3 f4 f5; do
         case "$name" in
             layout=*) layout="${name#layout=}" ;;
@@ -864,27 +869,47 @@ block_layout_ok() {
         esac
     done < <(block_facts "$file")
 
-    [[ "$layout" == "marked" ]] || return 1
-    [[ "$first" -gt 0 && "$last" -gt 0 && "$first" -lt "$last" ]] || return 1
+    if [[ "$layout" != "marked" ]]; then
+        BLOCK_LAYOUT_REASON=unmarked
+        return 1
+    fi
+    if ! [[ "$first" -gt 0 && "$last" -gt 0 && "$first" -lt "$last" ]]; then
+        BLOCK_LAYOUT_REASON=bounds
+        return 1
+    fi
     for name in SPEC HINTS; do
-        [[ "${B_OPENS[$name]}" -eq 1 && "${B_CLOSES[$name]}" -eq 1 ]] || return 1
-    done
-    for name in STATIC CHOICES; do
-        [[ "${B_OPENS[$name]}" -eq "${B_CLOSES[$name]}" ]] || return 1
-        [[ "${B_OPENS[$name]}" -le 1 ]] || return 1
-        if [[ "${B_OPENS[$name]}" -eq 1 ]]; then
-            [[ "${B_START[$name]}" -lt "${B_END[$name]}" ]] || return 1
+        if ! [[ "${B_OPENS[$name]}" -eq 1 && "${B_CLOSES[$name]}" -eq 1 ]]; then
+            BLOCK_LAYOUT_REASON="duplicate:$name"
+            return 1
         fi
     done
-    [[ "${B_START[SPEC]}" -lt "${B_START[HINTS]}" ]] || return 1
-    if [[ "${B_OPENS[STATIC]}" -eq 1 ]]; then
-        [[ "${B_START[HINTS]}" -lt "${B_START[STATIC]}" ]] || return 1
+    for name in STATIC CHOICES; do
+        if ! [[ "${B_OPENS[$name]}" -eq "${B_CLOSES[$name]}" && "${B_OPENS[$name]}" -le 1 ]]; then
+            BLOCK_LAYOUT_REASON="duplicate:$name"
+            return 1
+        fi
+        if [[ "${B_OPENS[$name]}" -eq 1 ]] && ! [[ "${B_START[$name]}" -lt "${B_END[$name]}" ]]; then
+            BLOCK_LAYOUT_REASON=order
+            return 1
+        fi
+    done
+    if ! [[ "${B_START[SPEC]}" -lt "${B_START[HINTS]}" ]]; then
+        BLOCK_LAYOUT_REASON=order
+        return 1
+    fi
+    if [[ "${B_OPENS[STATIC]}" -eq 1 ]] && ! [[ "${B_START[HINTS]}" -lt "${B_START[STATIC]}" ]]; then
+        BLOCK_LAYOUT_REASON=order
+        return 1
     fi
     if [[ "${B_OPENS[CHOICES]}" -eq 1 ]]; then
         if [[ "${B_OPENS[STATIC]}" -eq 1 ]]; then
-            [[ "${B_START[STATIC]}" -lt "${B_START[CHOICES]}" ]] || return 1
-        else
-            [[ "${B_START[HINTS]}" -lt "${B_START[CHOICES]}" ]] || return 1
+            if ! [[ "${B_START[STATIC]}" -lt "${B_START[CHOICES]}" ]]; then
+                BLOCK_LAYOUT_REASON=order
+                return 1
+            fi
+        elif ! [[ "${B_START[HINTS]}" -lt "${B_START[CHOICES]}" ]]; then
+            BLOCK_LAYOUT_REASON=order
+            return 1
         fi
     fi
     return 0
