@@ -5,6 +5,12 @@
 # Other function names are renamed to _helper_<name>; definitions are sorted
 # by their final name in the C locale, and doc comments move with their
 # function.
+#
+# Stages (see main and format_one):
+#   parse_args -> format_one per file
+#   format_one: load_choices_block -> split_functions -> plan_renames
+#               -> check_sources -> rewrite_sections -> compose_output
+#               -> install_output
 
 set -euo pipefail
 
@@ -25,38 +31,61 @@ Options:
 USAGE
 }
 
+# --- state ------------------------------------------------------------------
+
 check_only=0
 files=()
 
-while [[ $# -gt 0 ]]; do
-    case "$1" in
-        -h|--help) usage; exit 0 ;;
-        --check) check_only=1; shift ;;
-        -v|--verbose) VERBOSE=1; shift ;;
-        -*) log_error "unknown option: $1"; exit 2 ;;
-        *)
-            files+=("$1")
-            shift
-            ;;
-    esac
-done
+tmp_root=""
 
-if [[ ${#files[@]} -eq 0 ]]; then
-    usage >&2
-    exit 2
-fi
+# --- inputs -----------------------------------------------------------------
 
-require_cmd gawk
-require_cmd sort
+parse_args() {
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            -h | --help)
+                usage
+                exit 0
+                ;;
+            --check)
+                check_only=1
+                shift
+                ;;
+            -v | --verbose)
+                VERBOSE=1
+                shift
+                ;;
+            -*)
+                log_error "unknown option: $1"
+                exit 2
+                ;;
+            *)
+                files+=("$1")
+                shift
+                ;;
+        esac
+    done
 
-tmp_root="$(mktemp -d)"
-trap 'rm -rf "$tmp_root"' EXIT
+    if [[ ${#files[@]} -eq 0 ]]; then
+        usage >&2
+        exit 2
+    fi
+}
+
+init_state() {
+    require_cmd gawk
+    require_cmd sort
+    tmp_root="$(mktemp -d)"
+    trap 'rm -rf "$tmp_root"' EXIT
+}
 
 err() {
     local file="$1"
     shift
     printf 'format-choices: %s: %s\n' "$file" "$*" >&2
 }
+
+# --- CHOICES body -----------------------------------------------------------
 
 # Split the block into a preamble, one file per function (including its doc
 # comments), and a names.tsv list.
@@ -225,9 +254,54 @@ parse_block() {
     ' "$block"
 }
 
+# Locate the CHOICES block and write its body to <work>/block.txt.
+# Returns 0 when the block is loaded, 2 when the script legitimately has no
+# CHOICES block (nothing to format), 1 on a malformed script.
+load_choices_block() {
+    local file="$1" work="$2" start end starts ends
+    block_facts_load "$file"
+    starts="${BLOCK_OPENS[CHOICES]:-0}"
+    ends="${BLOCK_CLOSES[CHOICES]:-0}"
+    if [[ "$starts" -eq 0 && "$ends" -eq 0 ]]; then
+        if [[ "${BLOCK_OPENS[SPEC]:-0}" -eq 0 ]]; then
+            err "$file" "no block markers: only the block layout is supported; use assemble.sh to rebuild"
+            return 1
+        fi
+        # New layout: an absent block means no dynamic functions. Keep the
+        # omission, but reject functions that were written without a block.
+        if grep -Eq '^[[:space:]]*(function[[:space:]]+)?(_choice_|_helper_)[A-Za-z0-9_]*\(\)[[:space:]]*\{' "$file"; then
+            err "$file" 'CHOICES block not found; add "# >>> CHOICES" and "# <<< CHOICES" before the final eval'
+            return 1
+        fi
+        log_info "no CHOICES block: $file"
+        return 2
+    fi
+    if [[ "$starts" -ne 1 || "$ends" -ne 1 ]]; then
+        err "$file" "CHOICES block markers must appear exactly once"
+        return 1
+    fi
+    start="${BLOCK_START[CHOICES]}"
+    end="${BLOCK_END[CHOICES]}"
+    if [[ -z "$start" || -z "$end" || "$start" -ge "$end" ]]; then
+        err "$file" "invalid CHOICES block layout"
+        return 1
+    fi
+
+    rm -rf "$work"
+    mkdir -p "$work"
+    gawk -v s="$start" -v e="$end" 'NR > s && NR < e { print }' "$file" >"$work/block.txt"
+    return 0
+}
+
+split_functions() {
+    local work="$1" file="$2"
+    parse_block "$work/block.txt" "$work" "$file"
+}
+
 # Build old<TAB>new. Abort on collisions or on copied shared helpers.
-build_rename_map() {
-    local names="$1" map="$2" file="$3"
+plan_renames() {
+    local work="$1" file="$2"
+    local names="$work/names.tsv" map="$work/map.tsv"
     local -A final_owner=()
     local old new stripped existing
     : >"$map"
@@ -442,104 +516,48 @@ replace_words() {
     ' "$input" >"$output"
 }
 
-format_one() {
-    local file="$1"
-    local work="$tmp_root/work"
-    local start_marker='# >>> CHOICES'
-    local end_marker='# <<< CHOICES'
-    local start end starts ends
-    local gen_start gen_end
+# Reject a rename whose name is referenced outside CHOICES, or used as a shell
+# variable anywhere the rename touches (preamble, SPEC, every function body).
+check_sources() {
+    local work="$1" file="$2" map="$work/map.tsv" idx body
 
-    [[ -f "$file" ]] || { err "$file" "file not found"; return 1; }
+    gawk -v s="${BLOCK_START[SPEC]:-0}" -v e="${BLOCK_END[SPEC]:-0}" '
+        s > 0 && e > s && NR > s && NR < e { print }
+    ' "$file" >"$work/SPEC.txt"
 
-    starts="$(count_marker "$file" '>>>' 'CHOICES')"
-    ends="$(count_marker "$file" '<<<' 'CHOICES')"
-    if [[ "$starts" -eq 0 && "$ends" -eq 0 ]]; then
-        if ! grep -q '^# >>> SPEC$' "$file"; then
-            err "$file" "no block markers: only the block layout is supported; use assemble.sh to rebuild"
-            return 1
-        fi
-        # New layout: an absent block means no dynamic functions. Keep the
-        # omission, but reject functions that were written without a block.
-        if grep -Eq '^[[:space:]]*(function[[:space:]]+)?(_choice_|_helper_)[A-Za-z0-9_]*\(\)[[:space:]]*\{' "$file"; then
-            err "$file" 'CHOICES block not found; add "# >>> CHOICES" and "# <<< CHOICES" before the final eval'
-            return 1
-        fi
-        log_info "no CHOICES block: $file"
-        return 0
-    fi
-    if [[ "$starts" -ne 1 || "$ends" -ne 1 ]]; then
-        err "$file" "CHOICES block markers must appear exactly once"
-        return 1
-    fi
-    start="$(block_line "$file" '>>>' 'CHOICES')"
-    end="$(block_line "$file" '<<<' 'CHOICES')"
-    if [[ -z "$start" || -z "$end" || "$start" -ge "$end" ]]; then
-        err "$file" "invalid CHOICES block layout"
-        return 1
-    fi
-
-    rm -rf "$work"
-    mkdir -p "$work"
-
-    gawk -v s="$start" -v e="$end" 'NR > s && NR < e { print }' "$file" >"$work/block.txt"
-
-    if ! parse_block "$work/block.txt" "$work" "$file"; then
-        return 1
-    fi
-
-    if ! build_rename_map "$work/names.tsv" "$work/map.tsv" "$file"; then
-        return 1
-    fi
-
-    gen_start="$(block_line "$file" '>>>' 'SPEC')"
-    gen_end="$(block_line "$file" '<<<' 'SPEC')"
-    if [[ -n "$gen_start" && -n "$gen_end" && "$gen_start" -lt "$gen_end" ]]; then
-        gawk -v s="$gen_start" -v e="$gen_end" 'NR > s && NR < e { print }' "$file" >"$work/SPEC.txt"
-    else
-        : >"$work/SPEC.txt"
-    fi
-
-    if ! check_outside_references "$work/SPEC.txt" "$work/map.tsv" "$file"; then
-        return 1
-    fi
-
-    if ! check_variable_collisions "$work/preamble.txt" "$work/map.tsv" "$file"; then
-        return 1
-    fi
-
-    local idx body
+    check_outside_references "$work/SPEC.txt" "$map" "$file" || return 1
+    check_variable_collisions "$work/preamble.txt" "$map" "$file" || return 1
     while IFS=$'\t' read -r _ idx; do
         [[ -n "$idx" ]] || continue
         body="$work/body.$idx.txt"
-        if ! check_variable_collisions "$body" "$work/map.tsv" "$file"; then
-            return 1
-        fi
+        check_variable_collisions "$body" "$map" "$file" || return 1
     done <"$work/names.tsv"
+}
+
+# Apply the renames and sort the functions by their final name.
+rewrite_sections() {
+    local work="$1" file="$2" old new idx body
+    local map="$work/map.tsv"
+    local names="$work/names.tsv"
+    local content="$work/content.txt"
 
     trim_blank_edges "$work/preamble.txt" "$work/preamble.trim"
-    if ! replace_words "$work/preamble.trim" "$work/preamble.renamed" "$work/map.tsv"; then
-        return 1
-    fi
+    replace_words "$work/preamble.trim" "$work/preamble.renamed" "$map" || return 1
 
-    local old new
     : >"$work/sort.tsv"
     while IFS=$'\t' read -r old new; do
         [[ -n "$old" ]] || continue
-        printf '%s\t%s\n' "$new" "$(gawk -v n="$old" '$1 == n { print $2; exit }' "$work/names.tsv")" >>"$work/sort.tsv"
-    done <"$work/map.tsv"
+        printf '%s\t%s\n' "$new" "$(gawk -v n="$old" '$1 == n { print $2; exit }' "$names")" >>"$work/sort.tsv"
+    done <"$map"
 
     while IFS=$'\t' read -r _ idx; do
         [[ -n "$idx" ]] || continue
         body="$work/body.$idx.txt"
-        if ! replace_words "$body" "$work/body.$idx.renamed" "$work/map.tsv"; then
-            return 1
-        fi
-    done <"$work/names.tsv"
+        replace_words "$body" "$work/body.$idx.renamed" "$map" || return 1
+    done <"$names"
 
     LC_ALL=C sort "$work/sort.tsv" >"$work/sort.sorted"
 
-    local content="$work/content.txt"
     : >"$content"
     if [[ -s "$work/preamble.renamed" ]]; then
         cat "$work/preamble.renamed" >>"$content"
@@ -561,15 +579,28 @@ format_one() {
         cat "$work/body.$idx.renamed" >>"$content"
         first=0
     done <"$work/sort.sorted"
+}
 
-    local output="$work/out.sh"
+# Rebuild the script around the rewritten block.
+compose_output() {
+    local file="$1" work="$2" start end output
+    start="${BLOCK_START[CHOICES]}"
+    end="${BLOCK_END[CHOICES]}"
+    output="$work/out.sh"
     head -n $((start - 1)) "$file" >"$output"
-    printf '%s\n' "$start_marker" >>"$output"
-    if [[ -s "$content" ]]; then
-        cat "$content" >>"$output"
+    printf '%s\n' '# >>> CHOICES' >>"$output"
+    if [[ -s "$work/content.txt" ]]; then
+        cat "$work/content.txt" >>"$output"
     fi
-    printf '%s\n' "$end_marker" >>"$output"
+    printf '%s\n' '# <<< CHOICES' >>"$output"
     tail -n +$((end + 1)) "$file" >>"$output"
+    printf '%s\n' "$output"
+}
+
+# Write the result, or report that --check would change the file.
+install_output() {
+    local file="$1" work="$2" output
+    output="$(compose_output "$file" "$work")" || return 1
 
     if ! bash -n "$output"; then
         err "$file" "formatted output has a syntax error; file left unchanged"
@@ -591,22 +622,50 @@ format_one() {
     return 0
 }
 
-errors=0
-changed=0
-for file in "${files[@]}"; do
-    rc=0
-    format_one "$file" || rc=$?
-    if [[ "$rc" -eq 3 ]]; then
-        changed=1
-    elif [[ "$rc" -ne 0 ]]; then
-        errors=1
-    fi
-done
+format_one() {
+    local file="$1" work="$tmp_root/work" rc=0
+    [[ -f "$file" ]] || {
+        err "$file" "file not found"
+        return 1
+    }
 
-if [[ "$errors" -ne 0 ]]; then
-    exit 2
-fi
-if [[ "$changed" -ne 0 ]]; then
-    exit 1
-fi
-exit 0
+    load_choices_block "$file" "$work" || rc=$?
+    case "$rc" in
+        0) ;;
+        2) return 0 ;; # no CHOICES block: nothing to format
+        *) return 1 ;;
+    esac
+
+    split_functions "$work" "$file" || return 1
+    plan_renames "$work" "$file" || return 1
+    check_sources "$work" "$file" || return 1
+    rewrite_sections "$work" "$file" || return 1
+    install_output "$file" "$work" || return $?
+    return 0
+}
+
+main() {
+    parse_args "$@"
+    init_state
+
+    local file rc=0 errors=0 changed=0
+    for file in "${files[@]}"; do
+        rc=0
+        format_one "$file" || rc=$?
+        if [[ "$rc" -eq 3 ]]; then
+            changed=1
+        elif [[ "$rc" -ne 0 ]]; then
+            errors=1
+        fi
+    done
+
+    if [[ "$errors" -ne 0 ]]; then
+        exit 2
+    fi
+    if [[ "$changed" -ne 0 ]]; then
+        exit 1
+    fi
+    exit 0
+}
+
+main "$@"
