@@ -18,6 +18,7 @@ export PATH="$REPO_ROOT/bin:$PATH"
 
 # Bump when the fragment schema, compile semantics, hash framing, or help
 # canonicalization changes; every cache hash includes this value.
+# shellcheck disable=SC2034 # read by fragment-hash.sh
 SKILL_CACHE_VERSION="v2"
 
 # --- logging ----------------------------------------------------------------
@@ -598,29 +599,6 @@ fragment_child_file() {
     printf '%s.json\n' "$dir"
 }
 
-# Print the fragment key ("<root>|<sub>|...") of a cache-relative fragment path.
-# Usage: fragment_key_for_rel <root> <relative-path>
-# Decoding only: a caller that rejects an empty segment or a nested _root.json
-# keeps its own message.
-fragment_key_for_rel() {
-    local root="$1" rel="$2" key="$1" part decoded
-    local -a parts
-    rel="${rel%.json}"
-    if [[ "$rel" == "_root" ]]; then
-        printf '%s\n' "$root"
-        return 0
-    fi
-    IFS='/' read -r -a parts <<<"$rel"
-    for part in "${parts[@]}"; do
-        decoded="$part"
-        if [[ "$ARGCLIB_OS" == windows ]]; then
-            decoded="${decoded//%3A/:}"
-        fi
-        key="$key|$decoded"
-    done
-    printf '%s\n' "$key"
-}
-
 # Walk every fragment in a cache directory in a stable order.
 # Usage: fragment_walk <cache-dir> <root>
 # Prints one "<key>\t<relative-path>\t<absolute-path>" line per fragment.
@@ -700,10 +678,10 @@ extract_fragment_records() {
 # Returns 1 when the stream has no X record.
 # Usage: records_provenance "<records>"
 records_provenance() {
-    local records="$1" line kind f1 f2 f3 f4
+    local records="$1" line f1 f2 f3 f4
     while IFS= read -r line; do
         [[ "$line" == X$'\x1f'* ]] || continue
-        IFS=$'\x1f' read -r kind f1 f2 f3 f4 <<<"$line"
+        IFS=$'\x1f' read -r _ f1 f2 f3 f4 <<<"$line"
         printf '%s\x1f%s\x1f%s\x1f%s\n' "$f1" "$f2" "$f3" "$f4"
         return 0
     done <<<"$records"
@@ -884,52 +862,58 @@ block_facts_load() {
 # Usage: block_layout_ok <file>
 # Reads BLOCK_LAYOUT_REASON afterwards: unmarked, bounds, duplicate:<NAME>, or
 # order.
+# Set the reason the last block_layout_ok call failed. One assignment site, so
+# the "global is written but never read here" note stays in one place.
+# shellcheck disable=SC2034 # read by the callers that print the verdict
+_block_layout_reason() { BLOCK_LAYOUT_REASON="$1"; }
+
+# shellcheck disable=SC2034 # read by the callers that print the verdict
 BLOCK_LAYOUT_REASON=""
 block_layout_ok() {
     local name
-    BLOCK_LAYOUT_REASON=""
+    _block_layout_reason ""
     block_facts_load "$1"
 
     if [[ "$BLOCK_FACTS_LAYOUT" != "marked" ]]; then
-        BLOCK_LAYOUT_REASON=unmarked
+        _block_layout_reason unmarked
         return 1
     fi
     if ! [[ "$BLOCK_FACTS_FIRST" -gt 0 && "$BLOCK_FACTS_LAST" -gt 0 && "$BLOCK_FACTS_FIRST" -lt "$BLOCK_FACTS_LAST" ]]; then
-        BLOCK_LAYOUT_REASON=bounds
+        _block_layout_reason bounds
         return 1
     fi
     for name in SPEC HINTS; do
         if ! [[ "${BLOCK_OPENS[$name]}" -eq 1 && "${BLOCK_CLOSES[$name]}" -eq 1 ]]; then
-            BLOCK_LAYOUT_REASON="duplicate:$name"
+            _block_layout_reason "duplicate:$name"
             return 1
         fi
     done
     for name in STATIC CHOICES; do
         if ! [[ "${BLOCK_OPENS[$name]}" -eq "${BLOCK_CLOSES[$name]}" && "${BLOCK_OPENS[$name]}" -le 1 ]]; then
-            BLOCK_LAYOUT_REASON="duplicate:$name"
+            _block_layout_reason "duplicate:$name"
             return 1
         fi
         if [[ "${BLOCK_OPENS[$name]}" -eq 1 ]] && ! [[ "${BLOCK_START[$name]}" -lt "${BLOCK_END[$name]}" ]]; then
-            BLOCK_LAYOUT_REASON=order
+            _block_layout_reason order
             return 1
         fi
     done
     if ! [[ "${BLOCK_START[SPEC]}" -lt "${BLOCK_START[HINTS]}" ]]; then
-        BLOCK_LAYOUT_REASON=order
+        _block_layout_reason order
         return 1
     fi
     if [[ "${BLOCK_OPENS[STATIC]}" -eq 1 ]] && ! [[ "${BLOCK_START[HINTS]}" -lt "${BLOCK_START[STATIC]}" ]]; then
-        BLOCK_LAYOUT_REASON=order
+        _block_layout_reason order
         return 1
     fi
     if [[ "${BLOCK_OPENS[CHOICES]}" -eq 1 ]]; then
         if [[ "${BLOCK_OPENS[STATIC]}" -eq 1 ]]; then
             if ! [[ "${BLOCK_START[STATIC]}" -lt "${BLOCK_START[CHOICES]}" ]]; then
-                BLOCK_LAYOUT_REASON=order
+                _block_layout_reason order
                 return 1
             fi
         elif ! [[ "${BLOCK_START[HINTS]}" -lt "${BLOCK_START[CHOICES]}" ]]; then
-            BLOCK_LAYOUT_REASON=order
+            _block_layout_reason order
             return 1
         fi
     fi

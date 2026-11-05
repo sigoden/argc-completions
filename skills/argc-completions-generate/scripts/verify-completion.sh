@@ -706,7 +706,7 @@ check_bindings() {
     done <"$export_rows"
 
     : >"$fragment_rows"
-    while IFS=$'\t' read -r frag_key rel frag_file; do
+    while IFS=$'\t' read -r frag_key _rel frag_file; do
         sub_path="${frag_key#"$root_cmd"}"
         sub_path="${sub_path#|}"
         sub_path="${sub_path//|/ }"

@@ -742,7 +742,7 @@ check_spec_definitions() {
 # References come from the records already in memory, and the definitions are
 # collected with one pass over the output: no jq or grep per fragment/ref.
 check_references() {
-    local key ref missing_refs=()
+    local key ref defined missing_refs=()
     local -A DEFINED_FN=()
     local refs_file="$tmp_dir/refs.txt"
     : >"$refs_file"

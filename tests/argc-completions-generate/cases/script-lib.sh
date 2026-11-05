@@ -185,10 +185,6 @@ check "fragment_walk decodes nested paths" grep -qx 'demo|remote|add' "$TMP_DIR/
 check "fragment_walk keeps relative paths" \
     bash -c 'source "$1"; fragment_walk "$2" demo | cut -f2 | grep -qx remote/add' _ \
     "$SCRIPTS/lib.sh" "$walk_fixtures"
-check "fragment_key_for_rel decodes a path" \
-    test "$(bash -c 'source "$1"; fragment_key_for_rel demo remote/add' _ "$SCRIPTS/lib.sh")" = 'demo|remote|add'
-check "fragment_key_for_rel maps the root fragment" \
-    test "$(bash -c 'source "$1"; fragment_key_for_rel demo _root.json' _ "$SCRIPTS/lib.sh")" = 'demo'
 check "fragment_child_file resolves a root child" \
     test "$(bash -c 'source "$1"; fragment_child_file /cache /cache/_root.json remote' _ "$SCRIPTS/lib.sh")" = '/cache/remote.json'
 check "fragment_child_file resolves a nested child" \

@@ -519,7 +519,8 @@ replace_words() {
 # Reject a rename whose name is referenced outside CHOICES, or used as a shell
 # variable anywhere the rename touches (preamble, SPEC, every function body).
 check_sources() {
-    local work="$1" file="$2" map="$work/map.tsv" idx body
+    local work="$1" file="$2" idx body
+    local map="$work/map.tsv"
 
     gawk -v s="${BLOCK_START[SPEC]:-0}" -v e="${BLOCK_END[SPEC]:-0}" '
         s > 0 && e > s && NR > s && NR < e { print }
