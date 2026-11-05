@@ -34,6 +34,7 @@ Options:
       --force             Overwrite an existing output file
       --dump-spec         Print only the generated SPEC block
       --dump-static       Print only the generated STATIC block
+      --dump-dir <dir>    Write SPEC and STATIC to <dir> in one render
   -v, --verbose
   -h, --help
 USAGE
@@ -48,6 +49,7 @@ stdout_mode=0
 force=0
 dump_mode=0
 dump_static_mode=0
+dump_dir=""
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -75,6 +77,11 @@ while [[ $# -gt 0 ]]; do
         --force) force=1; shift ;;
         --dump-spec) dump_mode=1; shift ;;
         --dump-static) dump_static_mode=1; shift ;;
+        --dump-dir)
+            [[ $# -ge 2 ]] || die "--dump-dir requires a value"
+            dump_dir="$(absolute_path "$2")"
+            shift 2
+            ;;
         -v|--verbose) VERBOSE=1; shift ;;
         -*)
             die "unknown option: $1"
@@ -113,7 +120,7 @@ if [[ "$check_mode" -eq 1 && ! -f "$output_file" ]]; then
     die "--check requires an existing output file: $output_file"
 fi
 
-if [[ "$check_mode" -eq 0 && "$stdout_mode" -eq 0 && "$dump_mode" -eq 0 && "$dump_static_mode" -eq 0 && -f "$output_file" && "$force" -eq 0 ]]; then
+if [[ "$check_mode" -eq 0 && "$stdout_mode" -eq 0 && "$dump_mode" -eq 0 && "$dump_static_mode" -eq 0 && -z "$dump_dir" && -f "$output_file" && "$force" -eq 0 ]]; then
     die "output exists: $output_file (use --force to overwrite)"
 fi
 
@@ -482,6 +489,23 @@ render_children "$root"
 
 if [[ ${#FAILED_PATHS[@]} -gt 0 ]]; then
     :
+fi
+
+# One render can emit both compared blocks, so a caller that needs SPEC and
+# STATIC (verify-completion.sh) loads and validates every fragment only once.
+if [[ -n "$dump_dir" ]]; then
+    mkdir -p "$dump_dir"
+    cat "$gen_block" >"$dump_dir/SPEC"
+    # Match the separating newline emitted before the closing block marker.
+    if [[ -s "$gen_block" ]]; then
+        printf '\n' >>"$dump_dir/SPEC"
+    fi
+    if [[ -s "$static_block" ]]; then
+        cat "$static_block" >"$dump_dir/STATIC"
+    else
+        : >"$dump_dir/STATIC"
+    fi
+    exit 0
 fi
 
 if [[ "$dump_static_mode" -eq 1 ]]; then

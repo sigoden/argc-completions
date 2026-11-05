@@ -72,8 +72,9 @@ if [[ -z "$jobs" ]]; then
         # Git Bash/MSYS2 serializes process creation, and these cases are
         # dominated by short-lived bash/jq/argc/grep processes. More workers
         # only add contention, so the logical-CPU count overstates the useful
-        # parallelism; two workers is the measured sweet spot.
-        jobs=2
+        # parallelism; four workers is the measured sweet spot on a 4-core
+        # Windows host (two workers took 13m36s, four took 8m24s).
+        jobs=4
         ((jobs > cpus)) && jobs="$cpus"
     else
         jobs="$cpus"

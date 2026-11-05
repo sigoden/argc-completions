@@ -735,21 +735,19 @@ if [[ -n "$fragments" ]]; then
     if [[ "$layout" != "new" ]]; then
         fail "cache-dir requires a script with SPEC blocks"
     else
-        expected_gen="$tmp_dir/expected.SPEC"
+        expected_dir="$tmp_dir/expected-blocks"
+        expected_gen="$expected_dir/SPEC"
+        expected_static="$expected_dir/STATIC"
         assemble_err="$tmp_dir/assemble.err"
-        if bash "$SCRIPT_DIR/assemble.sh" "$root_cmd" --cache-dir "$fragments" --dump-spec >"$expected_gen" 2>"$assemble_err"; then
+        # One assemble run writes both blocks: a second run would reload,
+        # validate, and re-derive every fragment for no extra coverage.
+        if bash "$SCRIPT_DIR/assemble.sh" "$root_cmd" --cache-dir "$fragments" --dump-dir "$expected_dir" 2>"$assemble_err"; then
             if cmp -s "$gen_region" "$expected_gen"; then
                 pass "SPEC matches fragments"
             else
                 fail "SPEC differs from fragments"
                 diff -u "$gen_region" "$expected_gen" | head -n 40 || true
             fi
-        else
-            fail "assemble --dump-spec failed: $(head -n 1 "$assemble_err")"
-        fi
-        expected_static="$tmp_dir/expected.STATIC"
-        static_err="$tmp_dir/assemble-static.err"
-        if bash "$SCRIPT_DIR/assemble.sh" "$root_cmd" --cache-dir "$fragments" --dump-static >"$expected_static" 2>"$static_err"; then
             if cmp -s "$static_region" "$expected_static"; then
                 pass "STATIC matches fragments"
             else
@@ -757,7 +755,7 @@ if [[ -n "$fragments" ]]; then
                 diff -u "$static_region" "$expected_static" | head -n 40 || true
             fi
         else
-            fail "assemble --dump-static failed: $(head -n 1 "$static_err")"
+            fail "assemble --dump-dir failed: $(head -n 1 "$assemble_err")"
         fi
     fi
 fi
