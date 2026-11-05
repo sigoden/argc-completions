@@ -245,7 +245,7 @@ def validate($key):
   | if ((.description // "") | is_str and description_ok) then . else fail("description must be one line, one sentence, no backticks, no machine-local path") end
   | if ((.aliases // []) | is_arr and all(.[]; cmd_name)) then . else fail("invalid aliases") end
   | if ((.meta // []) | meta_ok) then . else fail("invalid meta") end
-  | if (((.path | length) > 1) and ((.meta // []) | map(select(.key == "combine-shorts" or .key == "inherit-flag-options")) | length > 0)) then fail("root-only meta on a subcommand fragment: combine-shorts/inherit-flag-options belong to the root fragment") else . end
+  | if (((.path | length) > 1) and ((.meta // []) | length > 0)) then fail("meta is root-only: a subcommand fragment must use meta: []") else . end
   | if ((.items // []) | is_arr) then . else fail("items must be an array") end
   | if ((.subcommands // []) | subcommands_ok) then . else fail("invalid subcommands") end
   | if ((.source // null) | is_obj) then . else fail("source must be an object") end

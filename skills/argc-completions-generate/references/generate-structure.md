@@ -197,7 +197,7 @@ bash <SKILL_ROOT>/scripts/assemble.sh <root> \
 
 Usage: `<SKILL_ROOT>/scripts/assemble.sh <root> [-c <dir>] [-o <file>] [--force] [--check|--stdout|--dump-spec|--dump-static] [--context <file>]`. `--output` takes preflight's `output_file`, which is the existing script path when one exists, so an OS-specific script is updated in place instead of gaining a second copy. `--force` is required when the output exists; omit it only for a new file. An existing output without block markers is rejected: add the markers (or delete the script) first. Run `--help` for defaults.
 
-Assembly validates fragments, statuses, paths, duplicates, `choice_fn`/`choices`, descriptions, and root-only meta with actionable errors. It renders `SPEC`, generates `STATIC`, preserves `HINTS`/`CHOICES`, writes a standard header and final eval for a new file, refuses to overwrite without `--force`, and checks every referenced function is defined locally.
+Assembly validates fragments, statuses, paths, duplicates, `choice_fn`/`choices`, descriptions, and meta placement with actionable errors. It renders `SPEC`, generates `STATIC`, preserves `HINTS`/`CHOICES`, writes a standard header and final eval for a new file, refuses to overwrite without `--force`, and checks every referenced function is defined locally.
 
 Assembly names a generated static function `_static_<fragment path without the root>_<long option or arg name>`, sanitized to `[A-Za-z0-9_]`; a root-level item has no path segment. A collision between two items, or with a function already defined outside `STATIC`, fails assembly and asks for a `choice_fn` binding. When a `choices` list turns into a generated function is in `<SKILL_ROOT>/references/fragment-schema.md`.
 

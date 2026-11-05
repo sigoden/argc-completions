@@ -30,4 +30,20 @@ fragment_description_check "validator rejects backtick" reject 'a `b`' 'descript
 fragment_description_check "validator accepts CJK single sentence" ok '清理缓存'
 fragment_description_check "validator rejects CJK second sentence" reject '清理。更多' 'description must be one line'
 
+# Meta belongs to the root fragment only.
+fragment_from_description 'Root meta' "$TMP_DIR/meta-root.json"
+fragment_jq "$TMP_DIR/meta-root.json" '.meta = [{key: "external-subcommands", value: ""}]'
+check "validator accepts meta on the root" validate_fragment "$TMP_DIR/meta-root.json"
+
+fragment_jq "$TMP_DIR/meta-root.json" '.path = ["demo", "remote"]'
+check_rejects "validator rejects meta on a subcommand" \
+    "meta is root-only" \
+    jq_skill_file "$TMP_DIR/meta-root.json" -e -f "$NATIVE_SCRIPTS/validate-fragment.jq" --arg key 'demo|remote'
+
+# argc allows some keys on subcommands; this skill does not.
+fragment_jq "$TMP_DIR/meta-root.json" '.meta = [{key: "version", value: "1.0.0"}]'
+check_rejects "validator rejects any meta on a subcommand" \
+    "meta is root-only" \
+    jq_skill_file "$TMP_DIR/meta-root.json" -e -f "$NATIVE_SCRIPTS/validate-fragment.jq" --arg key 'demo|remote'
+
 helper_finish

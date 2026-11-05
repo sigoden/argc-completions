@@ -30,6 +30,13 @@ gawk '
 check_rejects "verify rejects meta after flag/option" "@meta after @option" \
     bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/tag-order-meta.sh" --cmd demo --skip-compgen
 
+# --- meta inside a child block -------------------------------------------
+insert_after "$new_script" "$TMP_DIR/meta-in-child.sh" '# @cmd Manage remotes' \
+    '# @meta external-subcommands'
+check_rejects "verify rejects meta in a child block" \
+    "meta is root-only" \
+    bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/meta-in-child.sh" --cmd demo --skip-compgen
+
 # @env is allowed between @meta and the items even though assembly never emits it.
 gawk '/^# @meta / { print; print "# @env DEMO_HOME"; next } { print }' \
     "$new_script" >"$TMP_DIR/tag-order-env.sh"

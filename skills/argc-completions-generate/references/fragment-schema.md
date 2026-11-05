@@ -21,7 +21,7 @@ the original colon on every platform.
   "path": ["demo", "remote"],
   "description": "Manage remotes",
   "aliases": [],
-  "meta": [{"key": "inherit-flag-options", "value": ""}],
+  "meta": [],
   "items": [
     {"kind": "option", "names": ["--foo"], "notations": ["<VALUE>"], "choices": [], "choice_fn": "_choice_foo", "repeatable": false, "prefixed": false, "delimiter": null, "description": "Foo value"},
     {"kind": "option", "names": ["--bar"], "notations": ["<VALUE>"], "choices": [{"value": "a", "description": "First"}, {"value": "b", "description": ""}], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Bar value"},
@@ -42,7 +42,7 @@ the original colon on every platform.
 | `path` | Matches the fragment location; each segment is a valid command name. |
 | `description` | Single line, first sentence only. Root renders as `@describe`; a child renders as `@cmd`. |
 | `aliases` | Subcommand aliases; no collision with sibling names/aliases. |
-| `meta` | `{key, value}` string array. Copy from context; do not invent keys, except the probed root-only `combine-shorts` in `<SKILL_ROOT>/agents/compile.md` §3.1 Node fields. `combine-shorts` and `inherit-flag-options` are rendered on the root fragment only. |
+| `meta` | `{key, value}` string array. Root fragment only; a child fragment uses `[]`. Copy root `@meta` lines verbatim; the keys with a rule are in Meta keys. |
 | `items[].kind` | `flag`, `option`, or `arg`. |
 | `names` | 1-2 names for a flag/option; exactly one for a prefixed option. Order and split rule are in Rules. |
 | `name` | Arg only: snake-case identifier matching `^[A-Za-z0-9_][A-Za-z0-9_.-]*$`. Flags and options use `names` and must omit `name`. |
@@ -94,3 +94,14 @@ Rules:
 - A non-null `choice_fn` wins over `choices`: the binding is rendered and no static function is generated. `<SKILL_ROOT>/scripts/set-choice-fns.sh` empties `choices` when it binds an item.
 - Arg suffixes derive from the two booleans: `repeatable` + `required` -> `+`, `repeatable` only -> `*`, `required` only -> `!`, neither -> no suffix. A delimiter appends to the suffix: `files*,` or `files+,`. A terminated arg skips all of them and renders `<name>~` alone, because argc takes `~` as the whole suffix: `required` is kept for provenance and never rendered, so `!~`, `+~`, and `*~` cannot come out of a fragment.
 - Assembly validates every fragment with `<SKILL_ROOT>/scripts/validate-fragment.jq`; the key is the fragment `path` joined by `|` (`["gdb"]` -> `gdb`, `["gdb", "add"]` -> `gdb|add`).
+
+## Meta keys
+
+All `meta` belongs to the root fragment. A child fragment carries `meta: []`; this skill does not emit or support subcommand meta, and `<SKILL_ROOT>/scripts/validate-fragment.jq` and `<SKILL_ROOT>/scripts/verify-completion.sh` reject any `@meta` in a child. Copy every root `@meta` line verbatim; do not invent keys. These are the keys this skill has a rule for:
+
+| key | Rule | value |
+|---|---|---|
+| `combine-shorts` | Help-probed: add when the root help lists two or more POSIX/GNU single-letter shorts (`-a`, `-v`) and a probe of `<root> -XY` built from two of them either succeeds or fails with a diagnostic naming one letter (`invalid option -- 'x'`, `Unknown option: -Z`). Omit it when the diagnostic names the whole token (`bad option: -pv`), the probe is inconclusive, or the tool uses single-dash long names (`-jar`, `-Xmx`). | `""` |
+| `external-subcommands` | HINTS-gated: add only when this node's HINTS instructs it. Never infer it from help text, plugin/extension wording, or sibling scripts; keep the context entry instead of adding a duplicate. | `""` |
+| `inherit-flag-options` | Context only: never add it; it arrives with the copied root `@meta` lines. | `""` |
+| `symbol` | Context only: never add it; it arrives with the copied root `@meta` lines. | `<param>` (for example `+toolchain`; a `[?`_choice_*`]` binding is kept as-is) |

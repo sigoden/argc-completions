@@ -21,7 +21,7 @@ Acceptance details: `HINTS` holds comment/blank lines only; `SPEC` defines no `_
 | Blocks | Add missing markers by hand, re-run assembly, or drop an empty `STATIC`/`CHOICES` pair. |
 | Block content | Re-run assembly for `SPEC`/`STATIC`; fix `HINTS` by hand or `CHOICES` with `<SKILL_ROOT>/scripts/format-choices.sh`. The `_static_` prefix is reserved for `STATIC` functions. |
 | `HINTS markers` | `<SKILL_ROOT>/references/troubleshooting.md` §Verify; the marker syntax is `<SKILL_ROOT>/SKILL.md` §Pipeline contract. |
-| Comment tags | Root-only `@meta` keys (`combine-shorts`, `inherit-flag-options`) stay in the root block, before the first `# {{` marker; re-assemble, never hand-sort tags. |
+| Comment tags | `@meta` belongs to the root block, before the first `# {{` marker; a child block must not carry it. Re-assemble, never hand-sort tags. |
 | Completion functions | `<SKILL_ROOT>/references/add-choice-fns.md` §4; every referenced function must be defined in `CHOICES`, once. |
 | Export | Fix tags until `argc --argc-export` returns `name`, `flag_options`, `positionals`, and `subcommands`. |
 | Fragment bindings | `<SKILL_ROOT>/references/fragment-schema.md`; fix a dropped `names[]`, `choice_fn`, or `terminated` there, then re-assemble. |

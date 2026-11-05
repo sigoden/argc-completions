@@ -460,17 +460,17 @@ check_tag_order() {
     fi
 }
 
-# Root-only meta keys belong to the root command block.
+# All meta belongs to the root command block.
 check_root_only_meta() {
     local violations
     violations="$(gawk '
         /^# \{\{/ { in_child = 1 }
-        in_child && /^# @meta (combine-shorts|inherit-flag-options)([[:space:]]|$)/ { print FILENAME ":" NR ": " $0 }
+        in_child && /^# @meta([[:space:]]|$)/ { print FILENAME ":" NR ": " $0 }
     ' "$file" 2>/dev/null || true)"
     if [[ -n "$violations" ]]; then
-        fail "root-only meta on a subcommand (argc reads it from the root only): $violations"
+        fail "meta is root-only; remove it from the subcommand block: $violations"
     else
-        pass "root-only meta placement"
+        pass "meta placement"
     fi
 }
 
