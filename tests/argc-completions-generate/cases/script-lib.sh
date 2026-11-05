@@ -148,4 +148,91 @@ check "install_atomic replaces target" \
     bash -c 'source "$1"; install_atomic "$2" "$3" && test "$(cat "$3")" = new && test ! -e "$2"' _ \
     "$SCRIPTS/lib.sh" "$install_src" "$auto_target"
 
+# --- shared helpers: block facts, fragment walk, record accessors --------------
+
+blocks_facts="$TMP_DIR/blocks-facts.sh"
+printf '#!/usr/bin/env bash\n# >>> SPEC\n# @cmd demo\n# <<< SPEC\n\n# >>> HINTS\n# %%%%demo\n# <<< HINTS\n\n# >>> STATIC\n_static_x() { :; }\n# <<< STATIC\n\n# >>> CHOICES\n_choice_x() { :; }\n# <<< CHOICES\ncommand eval "$(argc --argc-eval "$0" "$@")"\n' \
+    >"$blocks_facts"
+check "block_facts reports layout" \
+    bash -c 'source "$1"; block_facts "$2" >"$3"' _ "$SCRIPTS/lib.sh" "$blocks_facts" "$TMP_DIR/facts.txt"
+assert_contains "block_facts marks the layout" "$TMP_DIR/facts.txt" 'layout=marked'
+assert_contains "block_facts SPEC region" "$TMP_DIR/facts.txt" 'SPEC 1 2 4 1'
+assert_contains "block_facts HINTS region" "$TMP_DIR/facts.txt" 'HINTS 1 6 8 1'
+assert_contains "block_facts STATIC region" "$TMP_DIR/facts.txt" 'STATIC 1 10 12 1'
+assert_contains "block_facts CHOICES region" "$TMP_DIR/facts.txt" 'CHOICES 1 14 16 1'
+assert_contains "block_facts first line" "$TMP_DIR/facts.txt" 'first=2'
+assert_contains "block_facts last line" "$TMP_DIR/facts.txt" 'last=16'
+check "block_facts treats a missing file as unmarked" \
+    bash -c 'source "$1"; block_facts "$2" | head -n 1 | grep -qx layout=unmarked' _ \
+    "$SCRIPTS/lib.sh" "$TMP_DIR/no-such-blocks-facts.sh"
+check "block_layout_ok accepts the supported layout" \
+    bash -c 'source "$1"; block_layout_ok "$2"' _ "$SCRIPTS/lib.sh" "$blocks_facts"
+printf '#!/usr/bin/env bash\n# >>> HINTS\n# <<< HINTS\n# >>> SPEC\n# <<< SPEC\n' >"$TMP_DIR/blocks-order.sh"
+expect_failure "block_layout_ok rejects out-of-order blocks" \
+    bash -c 'source "$1"; block_layout_ok "$2"' _ "$SCRIPTS/lib.sh" "$TMP_DIR/blocks-order.sh"
+printf '#!/usr/bin/env bash\n# >>> SPEC\n# <<< SPEC\n# >>> SPEC\n# <<< SPEC\n# >>> HINTS\n# <<< HINTS\n' >"$TMP_DIR/blocks-dup.sh"
+expect_failure "block_layout_ok rejects a duplicated block" \
+    bash -c 'source "$1"; block_layout_ok "$2"' _ "$SCRIPTS/lib.sh" "$TMP_DIR/blocks-dup.sh"
+expect_failure "block_layout_ok rejects an unmarked script" \
+    bash -c 'source "$1"; block_layout_ok "$2"' _ "$SCRIPTS/lib.sh" "$TMP_DIR/no-such-blocks-facts.sh"
+
+walk_fixtures="$FIXTURES/fragments/with-choice"
+check "fragment_walk lists every fragment" \
+    bash -c 'source "$1"; fragment_walk "$2" demo | cut -f1 >"$3"' _ \
+    "$SCRIPTS/lib.sh" "$walk_fixtures" "$TMP_DIR/walk.txt"
+check "fragment_walk keys the root fragment" grep -qx 'demo' "$TMP_DIR/walk.txt"
+check "fragment_walk decodes nested paths" grep -qx 'demo|remote|add' "$TMP_DIR/walk.txt"
+check "fragment_walk keeps relative paths" \
+    bash -c 'source "$1"; fragment_walk "$2" demo | cut -f2 | grep -qx remote/add' _ \
+    "$SCRIPTS/lib.sh" "$walk_fixtures"
+check "fragment_key_for_rel decodes a path" \
+    test "$(bash -c 'source "$1"; fragment_key_for_rel demo remote/add' _ "$SCRIPTS/lib.sh")" = 'demo|remote|add'
+check "fragment_key_for_rel maps the root fragment" \
+    test "$(bash -c 'source "$1"; fragment_key_for_rel demo _root.json' _ "$SCRIPTS/lib.sh")" = 'demo'
+check "fragment_child_file resolves a root child" \
+    test "$(bash -c 'source "$1"; fragment_child_file /cache /cache/_root.json remote' _ "$SCRIPTS/lib.sh")" = '/cache/remote.json'
+check "fragment_child_file resolves a nested child" \
+    test "$(bash -c 'source "$1"; fragment_child_file /cache /cache/remote.json add' _ "$SCRIPTS/lib.sh")" = '/cache/remote/add.json'
+
+records="$(bash -c 'source "$1"; extract_fragment_records demo "$2"' _ "$SCRIPTS/lib.sh" "$walk_fixtures/_root.json")"
+check "records_provenance reads the X record" \
+    test "$(bash -c 'source "$1"; records_provenance "$2"' _ "$SCRIPTS/lib.sh" "$records")" = \
+    $'help\taaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\tdemo --help\t'
+check "records_provenance fails without an X record" \
+    bash -c 'source "$1"; ! records_provenance "D$(printf "\x1f")desc"' _ "$SCRIPTS/lib.sh"
+check "records_declared_subcommands keeps S records" \
+    test "$(bash -c 'source "$1"; records_declared_subcommands "$2" | wc -l' _ "$SCRIPTS/lib.sh" "$records")" = 2
+
+json_probe="$TMP_DIR/json-probe.sh"
+cat >"$json_probe" <<'PROBE'
+source "$1"
+json_string_array a 'b"c' 'd\e'
+PROBE
+check "json_string_array escapes values" \
+    test "$(bash "$json_probe" "$SCRIPTS/lib.sh")" = '["a","b\"c","d\\e"]'
+check "json_string_array renders an empty array" \
+    test "$(bash -c 'source "$1"; json_string_array' _ "$SCRIPTS/lib.sh")" = '[]'
+
+check "trim_leading_blank_edges keeps trailing blanks" \
+    bash -c 'source "$1"; printf "\n \nx\n\n" >"$2"; trim_leading_blank_edges "$2" "$3"; test "$(od -An -c "$3" | tr -s " ")" = " x \\n \\n"' _ \
+    "$SCRIPTS/lib.sh" "$TMP_DIR/trim-lead-in.txt" "$TMP_DIR/trim-lead-out.txt"
+check "trim_trailing_blank_edges keeps leading blanks" \
+    bash -c 'source "$1"; printf "\n \nx\n\n" >"$2"; trim_trailing_blank_edges "$2" "$3"; test "$(od -An -c "$3" | tr -s " ")" = " \\n \\n x \\n"' _ \
+    "$SCRIPTS/lib.sh" "$TMP_DIR/trim-trail-in.txt" "$TMP_DIR/trim-trail-out.txt"
+
+check "path_args_valid accepts a root and subcommand" \
+    bash -c 'source "$1"; path_args_valid demo remote' _ "$SCRIPTS/lib.sh"
+expect_failure "path_args_valid rejects dot-dot" \
+    bash -c 'source "$1"; path_args_valid demo ..' _ "$SCRIPTS/lib.sh"
+expect_failure "path_args_valid rejects an empty component" \
+    bash -c 'source "$1"; path_args_valid demo ""' _ "$SCRIPTS/lib.sh"
+check "fragment_cache_dir defaults to the repo cache" \
+    test "$(bash -c 'source "$1"; fragment_cache_dir demo' _ "$SCRIPTS/lib.sh")" = "$ROOT_DIR/cache/compile/demo"
+check "fragment_cache_dir honours an override" \
+    test "$(bash -c 'source "$1"; fragment_cache_dir demo /tmp/cache' _ "$SCRIPTS/lib.sh")" = '/tmp/cache'
+expect_failure "cli_require_value rejects a missing value" \
+    bash -c 'source "$1"; cli_require_value --output 1' _ "$SCRIPTS/lib.sh"
+check "cli_require_value accepts a value" \
+    bash -c 'source "$1"; cli_require_value --output 2' _ "$SCRIPTS/lib.sh"
+
 helper_finish

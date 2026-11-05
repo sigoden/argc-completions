@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
 # Shared helpers for the argc-completions-generate skill scripts.
+#
+# Sections, in source order:
+#   bootstrap, logging, prerequisites, host platform, process control,
+#   tools and help sources, cli helpers, completion paths, help canonicalization,
+#   command paths and fragment naming, fragment records, export checks,
+#   block markers and layout, HINTS sections, file helpers.
+# Every script sources this file; agents/compile.md sources it too.
+
+# --- bootstrap ---------------------------------------------------------------
 
 set -euo pipefail
 
@@ -10,6 +19,8 @@ export PATH="$REPO_ROOT/bin:$PATH"
 # Bump when the fragment schema, compile semantics, hash framing, or help
 # canonicalization changes; every cache hash includes this value.
 SKILL_CACHE_VERSION="v2"
+
+# --- logging ----------------------------------------------------------------
 
 log_info() {
     if [[ "${VERBOSE:-0}" -eq 1 ]]; then
@@ -30,9 +41,13 @@ die() {
     exit 1
 }
 
+# --- prerequisites ----------------------------------------------------------
+
 if [ "${BASH_VERSINFO[0]:-0}" -lt 5 ]; then
     die "bash >= 5 required (current: ${BASH_VERSION:-unknown})"
 fi
+
+# --- host platform ----------------------------------------------------------
 
 # Detect the host OS from uname first: a Windows environment often exports
 # OS=Windows_NT, and WSL inherits it while running a real Linux userspace.
@@ -115,6 +130,8 @@ native_path() {
         printf '%s\n' "$path"
     fi
 }
+
+# --- process control --------------------------------------------------------
 
 # Run a command with stdout/stderr captured to files and a hard timeout.
 # Usage: run_with_timeout <stdout-file> <stderr-file> <seconds> <cmd...>
@@ -291,6 +308,8 @@ capture_help() {
         env PAGER=cat MANPAGER=cat COLUMNS=9999 NO_COLOR=1 "$@" </dev/null
 }
 
+# --- tools and help sources -------------------------------------------------
+
 require_cmd() {
     local cmd="$1" hint="${2:-}"
     if ! has_command "$cmd"; then
@@ -349,6 +368,42 @@ require_pipeline_tools() {
     require_cmd find
 }
 
+# --- cli helpers ------------------------------------------------------------
+
+# cli_require_value <flag> <remaining-argc>: die with the documented message
+# when an option that takes a value is missing it, so every script keeps the
+# same wording and exit status.
+cli_require_value() {
+    [[ "$2" -ge 2 ]] || die "$1 requires a value"
+}
+
+# path_args_valid <root> [<sub>...]: a root/subcommand path made only of the
+# characters a completion file and its cache directory can carry. The caller
+# owns the message; a script that reports one component at a time calls
+# root_name_ok/sub_name_ok directly.
+path_args_valid() {
+    local root="$1" part
+    shift
+    root_name_ok "$root" || return 1
+    for part in "$@"; do
+        [[ -n "$part" ]] || return 1
+        sub_name_ok "$part" || return 1
+    done
+    return 0
+}
+
+# fragment_cache_dir <root> [<override>]: the fragment cache directory.
+fragment_cache_dir() {
+    local root="$1" override="${2:-}"
+    if [[ -n "$override" ]]; then
+        printf '%s\n' "$override"
+    else
+        printf '%s\n' "$REPO_ROOT/cache/compile/$root"
+    fi
+}
+
+# --- completion paths -------------------------------------------------------
+
 resolve_completion_file() {
     local root="$1" override="${2:-}" os candidate
     if [[ -n "$override" ]]; then
@@ -376,6 +431,8 @@ resolve_other_completion_file() {
     done
     return 1
 }
+
+# --- help canonicalization --------------------------------------------------
 
 canonicalize_help() {
     gawk '
@@ -468,6 +525,8 @@ help_files_equal() {
     return "$rc"
 }
 
+# --- command paths and fragment naming --------------------------------------
+
 # A root command name is limited to the characters a completion file and its
 # cache directory can safely carry. ":" stays out: nothing names a root after a
 # subcommand, and delete-cache.sh moves a whole root directory by this name.
@@ -521,6 +580,82 @@ fragment_file_path() {
     printf '%s.json\n' "$result"
 }
 
+# Print the fragment file of a child declared by <parent-fragment>.
+# Usage: fragment_child_file <cache-dir> <parent-fragment> <child-name>...
+# A parent beside the root fragment puts its children in the cache directory;
+# a deeper parent puts them in its own directory.
+fragment_child_file() {
+    local cache_dir="$1" parent="$2" name dir
+    shift 2
+    if [[ "$parent" == "$cache_dir/_root.json" ]]; then
+        dir="$cache_dir"
+    else
+        dir="${parent%.json}"
+    fi
+    for name in "$@"; do
+        dir="$dir/$(fragment_name_encode "$name")"
+    done
+    printf '%s.json\n' "$dir"
+}
+
+# Print the fragment key ("<root>|<sub>|...") of a cache-relative fragment path.
+# Usage: fragment_key_for_rel <root> <relative-path>
+# Decoding only: a caller that rejects an empty segment or a nested _root.json
+# keeps its own message.
+fragment_key_for_rel() {
+    local root="$1" rel="$2" key="$1" part decoded
+    local -a parts
+    rel="${rel%.json}"
+    if [[ "$rel" == "_root" ]]; then
+        printf '%s\n' "$root"
+        return 0
+    fi
+    IFS='/' read -r -a parts <<<"$rel"
+    for part in "${parts[@]}"; do
+        decoded="$part"
+        if [[ "$ARGCLIB_OS" == windows ]]; then
+            decoded="${decoded//%3A/:}"
+        fi
+        key="$key|$decoded"
+    done
+    printf '%s\n' "$key"
+}
+
+# Walk every fragment in a cache directory in a stable order.
+# Usage: fragment_walk <cache-dir> <root>
+# Prints one "<key>\t<relative-path>\t<absolute-path>" line per fragment.
+# The Windows colon decoding is inlined so the walk does not fork once per path
+# segment: this runs for every fragment of every root.
+fragment_walk() {
+    local cache_dir="$1" root="$2" file rel key part decoded
+    local -a parts
+    while IFS= read -r file; do
+        rel="${file#"$cache_dir"/}"
+        [[ "$rel" != "$file" ]] || continue
+        case "$rel" in
+            *.json) ;;
+            *) continue ;;
+        esac
+        rel="${rel%.json}"
+        if [[ "$rel" == "_root" ]]; then
+            key="$root"
+        else
+            key="$root"
+            IFS='/' read -r -a parts <<<"$rel"
+            for part in "${parts[@]}"; do
+                decoded="$part"
+                if [[ "$ARGCLIB_OS" == windows ]]; then
+                    decoded="${decoded//%3A/:}"
+                fi
+                key="$key|$decoded"
+            done
+        fi
+        printf '%s\t%s\t%s\n' "$key" "$rel" "$file"
+    done < <(find "$cache_dir" -type f -name '*.json' | LC_ALL=C sort)
+}
+
+# --- fragment records -------------------------------------------------------
+
 # Run a jq filter or program with this directory on the module search path, so
 # a program can `include "description-rules"` (validate-fragment.jq and
 # the description normalizer share one rule set).
@@ -552,9 +687,72 @@ extract_fragment_records() {
         --arg key "${1:-}" --arg mode extract "$(native_path "$2")"
 }
 
-# --- Block markers ----------------------------------------------------------
-# The pipeline-block contract (# >>> NAME / # <<< NAME) is shared by assemble,
-# verify, and format-choices, so the marker parsing lives here and nowhere else.
+extract_fragment_records() {
+    jq_skill -b -r -f "$JQ_SKILL_DIR/validate-fragment.jq" \
+        --arg key "${1:-}" --arg mode extract "$(native_path "$2")"
+}
+
+# Turn a record stream into one provenance line:
+# "kind<TAB>hash<TAB>source.command<TAB>source.section" (the X record fields).
+# Pure bash, because the caller already holds the stream; this replaces the
+# per-field `case` loops that check-fragment, fragment-hash, and verify each
+# carried. Returns 1 when the stream has no X record.
+# Usage: records_provenance "<records>"
+records_provenance() {
+    local records="$1" line kind f1 f2 f3 f4
+    while IFS= read -r line; do
+        [[ "$line" == X$'\x1f'* ]] || continue
+        IFS=$'\x1f' read -r kind f1 f2 f3 f4 <<<"$line"
+        printf '%s\t%s\t%s\t%s\n' "$f1" "$f2" "$f3" "$f4"
+        return 0
+    done <<<"$records"
+    return 1
+}
+
+# Print the S records (declared subcommands) of a record stream unchanged:
+# "S<US>name<US>status<US>aliases-csv<US>description", one per line.
+# Usage: records_declared_subcommands "<records>"
+records_declared_subcommands() {
+    local records="$1" line
+    while IFS= read -r line; do
+        if [[ "$line" == S$'\x1f'* ]]; then
+            printf '%s\n' "$line"
+        fi
+    done <<<"$records"
+}
+
+# Print a JSON array of strings: json_string_array a b -> ["a","b"].
+json_string_array() {
+    local out="" value
+    for value in "$@"; do
+        value="${value//\\/\\\\}"
+        value="${value//\"/\\\"}"
+        out+="${out:+,}\"$value\""
+    done
+    printf '[%s]\n' "$out"
+}
+
+# --- export checks ----------------------------------------------------------
+
+# True when an argc export binds a choice function this run did not generate
+# (no allowed _static_* name), i.e. a completion function leaked into a script
+# that must not define one. One jq program, shared by assemble and verify.
+# Usage: export_has_foreign_fn_choice <export-json> [<allowed-static-name>...]
+# Returns 0 when no foreign Fn choice exists.
+export_has_foreign_fn_choice() {
+    local export_json="$1" names_json="[]"
+    shift
+    if [[ $# -gt 0 ]]; then
+        names_json="$(printf '%s\n' "$@" | jq -R . | jq -s .)"
+    fi
+    jq -e --argjson names "$names_json" '
+        [.. | objects | select(has("choice")) | .choice
+         | select(. != null and .type == "Fn") | .data[0]
+         | select((($names // []) | index(.)) == null)] | length == 0
+    ' "$(native_path "$export_json")" >/dev/null
+}
+
+# --- block markers and layout -----------------------------------------------
 
 # Count the opening (direction '>>>') or closing (direction '<<<') marker lines
 # for one block name. A missing file counts as zero.
@@ -587,6 +785,108 @@ extract_block() {
     end_line="$(block_line "$file" '<<<' "$name")"
     [[ -n "$start_line" && -n "$end_line" && "$start_line" -lt "$end_line" ]] || return 2
     gawk -v start="$start_line" -v end="$end_line" 'NR > start && NR < end { print }' "$file" >"$dest"
+    return 0
+}
+
+# Summarize one script's pipeline blocks in a single pass.
+# Usage: block_facts <file>
+# Prints, in order:
+#   layout=marked|unmarked      any block marker present
+#   first=<n>|0                 first opening marker line
+#   last=<n>|0                  last closing marker line
+#   SPEC <opens> <start> <end> <closes>
+#   HINTS ... / STATIC ... / CHOICES ...
+# Every block count, order, and region boundary comes from this, so assemble and
+# verify share one parser instead of a dozen greps and heads.
+block_facts() {
+    local file="$1"
+    if [[ ! -f "$file" ]]; then
+        printf 'layout=unmarked\nfirst=0\nlast=0\n'
+        printf '%s 0 0 0 0\n' SPEC HINTS STATIC CHOICES
+        return 0
+    fi
+    gawk '
+    BEGIN {
+        split("SPEC HINTS STATIC CHOICES", order, " ")
+        for (i = 1; i <= 4; i++) {
+            opens[order[i]] = 0
+            closes[order[i]] = 0
+            start[order[i]] = 0
+            end[order[i]] = 0
+        }
+        first = 0
+        last = 0
+    }
+    /^# >>> (SPEC|HINTS|STATIC|CHOICES)$/ {
+        name = substr($0, 7)
+        opens[name]++
+        if (start[name] == 0) start[name] = NR
+        if (first == 0 || NR < first) first = NR
+        next
+    }
+    /^# <<< (SPEC|HINTS|STATIC|CHOICES)$/ {
+        name = substr($0, 7)
+        closes[name]++
+        if (end[name] == 0) end[name] = NR
+        if (NR > last) last = NR
+    }
+    END {
+        print (first > 0 ? "layout=marked" : "layout=unmarked")
+        print "first=" first
+        print "last=" last
+        for (i = 1; i <= 4; i++) {
+            name = order[i]
+            print name, opens[name], start[name], end[name], closes[name]
+        }
+    }
+    ' "$file"
+}
+
+# True when the block layout is the supported one: SPEC and HINTS exactly once,
+# STATIC and CHOICES absent or exactly once, ordered SPEC -> HINTS -> [STATIC]
+# -> [CHOICES], every present block closed after it opens, and at least one
+# marker present.
+# Usage: block_layout_ok <file>
+block_layout_ok() {
+    local file="$1" name f2 f3 f4 f5 layout="" first=0 last=0
+    local -A B_OPENS=() B_START=() B_END=() B_CLOSES=()
+    while read -r name f2 f3 f4 f5; do
+        case "$name" in
+            layout=*) layout="${name#layout=}" ;;
+            first=*) first="${name#first=}" ;;
+            last=*) last="${name#last=}" ;;
+            SPEC | HINTS | STATIC | CHOICES)
+                B_OPENS[$name]="$f2"
+                B_START[$name]="$f3"
+                B_END[$name]="$f4"
+                B_CLOSES[$name]="$f5"
+                ;;
+        esac
+    done < <(block_facts "$file")
+
+    [[ "$layout" == "marked" ]] || return 1
+    [[ "$first" -gt 0 && "$last" -gt 0 && "$first" -lt "$last" ]] || return 1
+    for name in SPEC HINTS; do
+        [[ "${B_OPENS[$name]}" -eq 1 && "${B_CLOSES[$name]}" -eq 1 ]] || return 1
+    done
+    for name in STATIC CHOICES; do
+        [[ "${B_OPENS[$name]}" -eq "${B_CLOSES[$name]}" ]] || return 1
+        [[ "${B_OPENS[$name]}" -le 1 ]] || return 1
+        if [[ "${B_OPENS[$name]}" -eq 1 ]]; then
+            [[ "${B_START[$name]}" -lt "${B_END[$name]}" ]] || return 1
+        fi
+    done
+    [[ "${B_START[SPEC]}" -lt "${B_START[HINTS]}" ]] || return 1
+    if [[ "${B_OPENS[STATIC]}" -eq 1 ]]; then
+        [[ "${B_START[HINTS]}" -lt "${B_START[STATIC]}" ]] || return 1
+    fi
+    if [[ "${B_OPENS[CHOICES]}" -eq 1 ]]; then
+        if [[ "${B_OPENS[STATIC]}" -eq 1 ]]; then
+            [[ "${B_START[STATIC]}" -lt "${B_START[CHOICES]}" ]] || return 1
+        else
+            [[ "${B_START[HINTS]}" -lt "${B_START[CHOICES]}" ]] || return 1
+        fi
+    fi
     return 0
 }
 
@@ -635,7 +935,33 @@ hints_select() {
     ' "$1"
 }
 
-# --- File helpers -----------------------------------------------------------
+# --- file helpers -----------------------------------------------------------
+
+# Copy <input> to <output>, dropping the leading blank lines.
+trim_leading_blank_edges() {
+    local input="$1" output="$2"
+    gawk '
+    { lines[NR] = $0 }
+    END {
+        start = 1
+        while (start <= NR && lines[start] ~ /^[[:space:]]*$/) start++
+        for (i = start; i <= NR; i++) print lines[i]
+    }
+    ' "$input" >"$output"
+}
+
+# Copy <input> to <output>, dropping the trailing blank lines.
+trim_trailing_blank_edges() {
+    local input="$1" output="$2"
+    gawk '
+    { lines[NR] = $0 }
+    END {
+        end = NR
+        while (end >= 1 && lines[end] ~ /^[[:space:]]*$/) end--
+        for (i = 1; i <= end; i++) print lines[i]
+    }
+    ' "$input" >"$output"
+}
 
 # Copy <input> to <output>, dropping blank lines at both edges.
 trim_blank_edges() {
