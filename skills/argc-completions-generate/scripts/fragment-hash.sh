@@ -59,27 +59,27 @@ while [[ $# -gt 0 ]]; do
             exit 0
             ;;
         --cache-dir)
-            [[ $# -ge 2 ]] || die "--cache-dir requires a value"
+            cli_require_value "$1" "$#"
             cache_override="$2"
             shift 2
             ;;
         --completion)
-            [[ $# -ge 2 ]] || die "--completion requires a value"
+            cli_require_value "$1" "$#"
             completion_file="$2"
             shift 2
             ;;
         --fragment)
-            [[ $# -ge 2 ]] || die "--fragment requires a value"
+            cli_require_value "$1" "$#"
             fragment_override="$2"
             shift 2
             ;;
         --command)
-            [[ $# -ge 2 ]] || die "--command requires a value"
+            cli_require_value "$1" "$#"
             command_override="$2"
             shift 2
             ;;
         --help-file)
-            [[ $# -ge 2 ]] || die "--help-file requires a value"
+            cli_require_value "$1" "$#"
             help_file="$2"
             shift 2
             ;;
@@ -105,7 +105,7 @@ for part in "${subs[@]}"; do
     sub_name_ok "$part" || { log_error "invalid command path component: $part"; exit 2; }
 done
 
-cache_dir="${cache_override:-$REPO_ROOT/cache/compile/$root}"
+cache_dir="$(fragment_cache_dir "$root" "$cache_override")"
 fragment="$(fragment_file_path "$cache_dir" "$root" "${subs[@]}")"
 if [[ -n "$fragment_override" ]]; then
     [[ -f "$fragment_override" ]] || { log_error "fragment not found: $fragment_override"; exit 2; }
@@ -121,11 +121,9 @@ if [[ -z "$command" ]]; then
         exit 2
     fi
     kind=""
-    while IFS=$'\x1f' read -r record_kind f1 _f2 f3 _f4; do
-        case "$record_kind" in
-            X) kind="$f1"; command="$f3" ;;
-        esac
-    done <<<"$records"
+    if provenance="$(records_provenance "$records")"; then
+        IFS=$'\x1f' read -r kind _ command _ <<<"$provenance"
+    fi
     case "$kind" in
         help|man) ;;
         *)

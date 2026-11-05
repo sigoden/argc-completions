@@ -197,7 +197,11 @@ check "fragment_child_file resolves a nested child" \
 records="$(bash -c 'source "$1"; extract_fragment_records demo "$2"' _ "$SCRIPTS/lib.sh" "$walk_fixtures/_root.json")"
 check "records_provenance reads the X record" \
     test "$(bash -c 'source "$1"; records_provenance "$2"' _ "$SCRIPTS/lib.sh" "$records")" = \
-    $'help\taaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\tdemo --help\t'
+    $'help\x1faaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\x1fdemo --help\x1f'
+empty_hash_records="X"$'\x1f'"help"$'\x1f'""$'\x1f'"demo --help"$'\x1f'"section"
+check "records_provenance keeps an empty hash field" \
+    test "$(bash -c 'source "$1"; records_provenance "$2"' _ "$SCRIPTS/lib.sh" "$empty_hash_records")" = \
+    $'help\x1f\x1fdemo --help\x1fsection'
 check "records_provenance fails without an X record" \
     bash -c 'source "$1"; ! records_provenance "D$(printf "\x1f")desc"' _ "$SCRIPTS/lib.sh"
 check "records_declared_subcommands keeps S records" \

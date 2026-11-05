@@ -33,12 +33,12 @@ while [[ $# -gt 0 ]]; do
             exit 0
             ;;
         --output)
-            [[ $# -ge 2 ]] || die "--output requires a value"
+            cli_require_value "$1" "$#"
             output_override="$2"
             shift 2
             ;;
         --completion)
-            [[ $# -ge 2 ]] || die "--completion requires a value"
+            cli_require_value "$1" "$#"
             completion_override="$2"
             shift 2
             ;;
@@ -68,7 +68,7 @@ if [[ -z "$root" ]]; then
     exit 0
 fi
 
-[[ "$root" =~ ^[A-Za-z0-9_.+@-]+$ ]] || die "invalid root command name: $root"
+root_name_ok "$root" || die "invalid root command name: $root"
 
 require_pipeline_tools
 
@@ -105,7 +105,7 @@ else
     output_file="$REPO_ROOT/completions/$root.sh"
 fi
 
-cache_dir="$REPO_ROOT/cache/compile/$root"
+cache_dir="$(fragment_cache_dir "$root")"
 root_fragment="$cache_dir/_root.json"
 
 cache_exists=0
@@ -127,10 +127,11 @@ blocks="missing"
 prompt_region=0
 if [[ -f "$completion_file" ]]; then
     blocks="unmarked"
-    if grep -q '^# >>> SPEC$' "$completion_file"; then
+    block_facts_load "$completion_file"
+    if [[ "${BLOCK_OPENS[SPEC]:-0}" -gt 0 ]]; then
         blocks="new"
     fi
-    if grep -q '^# >>> HINTS$' "$completion_file"; then
+    if [[ "${BLOCK_OPENS[HINTS]:-0}" -gt 0 ]]; then
         prompt_region=1
     fi
 fi

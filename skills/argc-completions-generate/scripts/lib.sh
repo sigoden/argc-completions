@@ -692,18 +692,19 @@ extract_fragment_records() {
         --arg key "${1:-}" --arg mode extract "$(native_path "$2")"
 }
 
-# Turn a record stream into one provenance line:
-# "kind<TAB>hash<TAB>source.command<TAB>source.section" (the X record fields).
-# Pure bash, because the caller already holds the stream; this replaces the
-# per-field `case` loops that check-fragment, fragment-hash, and verify each
-# carried. Returns 1 when the stream has no X record.
+# Turn a record stream into one provenance line, keeping the record's own US
+# separator: "kind<US>hash<US>source.command<US>source.section" (the X record
+# fields). US is not IFS whitespace, so an empty hash or section survives the
+# caller's `read`; a tab would collapse the fields. Pure bash, because the
+# caller already holds the stream.
+# Returns 1 when the stream has no X record.
 # Usage: records_provenance "<records>"
 records_provenance() {
     local records="$1" line kind f1 f2 f3 f4
     while IFS= read -r line; do
         [[ "$line" == X$'\x1f'* ]] || continue
         IFS=$'\x1f' read -r kind f1 f2 f3 f4 <<<"$line"
-        printf '%s\t%s\t%s\t%s\n' "$f1" "$f2" "$f3" "$f4"
+        printf '%s\x1f%s\x1f%s\x1f%s\n' "$f1" "$f2" "$f3" "$f4"
         return 0
     done <<<"$records"
     return 1

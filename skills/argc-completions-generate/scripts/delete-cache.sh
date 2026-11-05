@@ -46,8 +46,7 @@ done
 
 root="${args[0]}"
 [[ -n "$root" ]] || die "empty root command name"
-[[ "$root" =~ ^[A-Za-z0-9_.+@-]+$ ]] || die "invalid root command name: $root"
-[[ "$root" != "." && "$root" != ".." ]] || die "invalid root command name: $root"
+root_name_ok "$root" || die "invalid root command name: $root"
 
 cache_root="$REPO_ROOT/cache/compile"
 cache_dir="$cache_root/$root"

@@ -112,6 +112,7 @@ parse_args() {
 
     root="${words[0]}"
     path_string="${words[*]}"
+    path_args_valid "${words[@]}" || die "invalid command path component in: $path_string"
     cache_dir="$(fragment_cache_dir "$root" "$cache_override")"
 }
 

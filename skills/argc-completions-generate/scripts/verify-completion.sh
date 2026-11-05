@@ -856,7 +856,7 @@ frag_facts() {
         return 0
     fi
     provenance="$(records_provenance "$records")" || return 0
-    IFS=$'\t' read -r kind hash command section <<<"$provenance"
+    IFS=$'\x1f' read -r kind hash command section <<<"$provenance"
     FRAG_KIND[$frag]="$kind"
     FRAG_HASH[$frag]="$hash"
     FRAG_COMMAND[$frag]="$command"

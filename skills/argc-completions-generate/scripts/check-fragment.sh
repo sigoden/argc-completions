@@ -50,12 +50,12 @@ while [[ $# -gt 0 ]]; do
             exit 0
             ;;
         --cache-dir)
-            [[ $# -ge 2 ]] || die "--cache-dir requires a value"
+            cli_require_value "$1" "$#"
             cache_override="$2"
             shift 2
             ;;
         --completion)
-            [[ $# -ge 2 ]] || die "--completion requires a value"
+            cli_require_value "$1" "$#"
             completion_file="$2"
             shift 2
             ;;
@@ -83,7 +83,7 @@ for part in "${subs[@]}"; do
     sub_name_ok "$part" || die "invalid command path component: $part"
 done
 
-cache_dir="${cache_override:-$REPO_ROOT/cache/compile/$root}"
+cache_dir="$(fragment_cache_dir "$root" "$cache_override")"
 fragment="$(fragment_file_path "$cache_dir" "$root" "${subs[@]}")"
 
 if [[ ! -f "$fragment" ]]; then
@@ -101,11 +101,9 @@ if ! records="$(read_fragment_records "$key" "$fragment" 2>/dev/null)"; then
 fi
 kind=""
 recorded_hash=""
-while IFS=$'\x1f' read -r record_kind f1 f2 _f3 _f4; do
-    case "$record_kind" in
-        X) kind="$f1"; recorded_hash="$f2" ;;
-    esac
-done <<<"$records"
+if provenance="$(records_provenance "$records")"; then
+    IFS=$'\x1f' read -r kind recorded_hash _ _ <<<"$provenance"
+fi
 if [[ "$kind" == "none" ]]; then
     printf 'path=%s status=failed hash=\n' "$path_string"
     exit 0
