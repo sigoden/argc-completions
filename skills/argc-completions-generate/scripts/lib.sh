@@ -842,6 +842,39 @@ block_facts() {
     ' "$file"
 }
 
+# Facts of the last block_facts_load call.
+BLOCK_FACTS_LAYOUT=""
+BLOCK_FACTS_FIRST=0
+BLOCK_FACTS_LAST=0
+declare -A BLOCK_OPENS=() BLOCK_START=() BLOCK_END=() BLOCK_CLOSES=()
+
+# Parse block_facts for one file into the BLOCK_* globals above, so a caller
+# gets every count and boundary it reports from one pass and one process.
+# Usage: block_facts_load <file>
+block_facts_load() {
+    local file="$1" name f2 f3 f4 f5
+    BLOCK_FACTS_LAYOUT=""
+    BLOCK_FACTS_FIRST=0
+    BLOCK_FACTS_LAST=0
+    BLOCK_OPENS=()
+    BLOCK_START=()
+    BLOCK_END=()
+    BLOCK_CLOSES=()
+    while read -r name f2 f3 f4 f5; do
+        case "$name" in
+            layout=*) BLOCK_FACTS_LAYOUT="${name#layout=}" ;;
+            first=*) BLOCK_FACTS_FIRST="${name#first=}" ;;
+            last=*) BLOCK_FACTS_LAST="${name#last=}" ;;
+            SPEC | HINTS | STATIC | CHOICES)
+                BLOCK_OPENS[$name]="$f2"
+                BLOCK_START[$name]="$f3"
+                BLOCK_END[$name]="$f4"
+                BLOCK_CLOSES[$name]="$f5"
+                ;;
+        esac
+    done < <(block_facts "$file")
+}
+
 # True when the block layout is the supported one: SPEC and HINTS exactly once,
 # STATIC and CHOICES absent or exactly once, ordered SPEC -> HINTS -> [STATIC]
 # -> [CHOICES], every present block closed after it opens, and at least one
@@ -852,62 +885,49 @@ block_facts() {
 # order.
 BLOCK_LAYOUT_REASON=""
 block_layout_ok() {
-    local file="$1" name f2 f3 f4 f5 layout="" first=0 last=0
-    local -A B_OPENS=() B_START=() B_END=() B_CLOSES=()
+    local name
     BLOCK_LAYOUT_REASON=""
-    while read -r name f2 f3 f4 f5; do
-        case "$name" in
-            layout=*) layout="${name#layout=}" ;;
-            first=*) first="${name#first=}" ;;
-            last=*) last="${name#last=}" ;;
-            SPEC | HINTS | STATIC | CHOICES)
-                B_OPENS[$name]="$f2"
-                B_START[$name]="$f3"
-                B_END[$name]="$f4"
-                B_CLOSES[$name]="$f5"
-                ;;
-        esac
-    done < <(block_facts "$file")
+    block_facts_load "$1"
 
-    if [[ "$layout" != "marked" ]]; then
+    if [[ "$BLOCK_FACTS_LAYOUT" != "marked" ]]; then
         BLOCK_LAYOUT_REASON=unmarked
         return 1
     fi
-    if ! [[ "$first" -gt 0 && "$last" -gt 0 && "$first" -lt "$last" ]]; then
+    if ! [[ "$BLOCK_FACTS_FIRST" -gt 0 && "$BLOCK_FACTS_LAST" -gt 0 && "$BLOCK_FACTS_FIRST" -lt "$BLOCK_FACTS_LAST" ]]; then
         BLOCK_LAYOUT_REASON=bounds
         return 1
     fi
     for name in SPEC HINTS; do
-        if ! [[ "${B_OPENS[$name]}" -eq 1 && "${B_CLOSES[$name]}" -eq 1 ]]; then
+        if ! [[ "${BLOCK_OPENS[$name]}" -eq 1 && "${BLOCK_CLOSES[$name]}" -eq 1 ]]; then
             BLOCK_LAYOUT_REASON="duplicate:$name"
             return 1
         fi
     done
     for name in STATIC CHOICES; do
-        if ! [[ "${B_OPENS[$name]}" -eq "${B_CLOSES[$name]}" && "${B_OPENS[$name]}" -le 1 ]]; then
+        if ! [[ "${BLOCK_OPENS[$name]}" -eq "${BLOCK_CLOSES[$name]}" && "${BLOCK_OPENS[$name]}" -le 1 ]]; then
             BLOCK_LAYOUT_REASON="duplicate:$name"
             return 1
         fi
-        if [[ "${B_OPENS[$name]}" -eq 1 ]] && ! [[ "${B_START[$name]}" -lt "${B_END[$name]}" ]]; then
+        if [[ "${BLOCK_OPENS[$name]}" -eq 1 ]] && ! [[ "${BLOCK_START[$name]}" -lt "${BLOCK_END[$name]}" ]]; then
             BLOCK_LAYOUT_REASON=order
             return 1
         fi
     done
-    if ! [[ "${B_START[SPEC]}" -lt "${B_START[HINTS]}" ]]; then
+    if ! [[ "${BLOCK_START[SPEC]}" -lt "${BLOCK_START[HINTS]}" ]]; then
         BLOCK_LAYOUT_REASON=order
         return 1
     fi
-    if [[ "${B_OPENS[STATIC]}" -eq 1 ]] && ! [[ "${B_START[HINTS]}" -lt "${B_START[STATIC]}" ]]; then
+    if [[ "${BLOCK_OPENS[STATIC]}" -eq 1 ]] && ! [[ "${BLOCK_START[HINTS]}" -lt "${BLOCK_START[STATIC]}" ]]; then
         BLOCK_LAYOUT_REASON=order
         return 1
     fi
-    if [[ "${B_OPENS[CHOICES]}" -eq 1 ]]; then
-        if [[ "${B_OPENS[STATIC]}" -eq 1 ]]; then
-            if ! [[ "${B_START[STATIC]}" -lt "${B_START[CHOICES]}" ]]; then
+    if [[ "${BLOCK_OPENS[CHOICES]}" -eq 1 ]]; then
+        if [[ "${BLOCK_OPENS[STATIC]}" -eq 1 ]]; then
+            if ! [[ "${BLOCK_START[STATIC]}" -lt "${BLOCK_START[CHOICES]}" ]]; then
                 BLOCK_LAYOUT_REASON=order
                 return 1
             fi
-        elif ! [[ "${B_START[HINTS]}" -lt "${B_START[CHOICES]}" ]]; then
+        elif ! [[ "${BLOCK_START[HINTS]}" -lt "${BLOCK_START[CHOICES]}" ]]; then
             BLOCK_LAYOUT_REASON=order
             return 1
         fi

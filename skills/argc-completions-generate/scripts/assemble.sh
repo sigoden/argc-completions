@@ -100,11 +100,6 @@ post_content=""   # everything after the last block
 full_output=""
 source_file=""
 
-# Block facts of the script read by read_block_facts (see lib.sh block_facts).
-FACTS_FIRST=0
-FACTS_LAST=0
-declare -A BLOCK_OPENS=() BLOCK_START=() BLOCK_END=() BLOCK_CLOSES=()
-
 # --- inputs -----------------------------------------------------------------
 
 parse_args() {
@@ -627,45 +622,21 @@ load_preserved_blocks() {
     trim_blank_edges_inplace "$choice_content"
 }
 
-# Parse block_facts once for one script into the FACTS_*/BLOCK_* globals.
-# Every block count and boundary this script needs comes from that single pass.
-read_block_facts() {
-    local file="$1" name f2 f3 f4 f5
-    FACTS_FIRST=0
-    FACTS_LAST=0
-    BLOCK_OPENS=()
-    BLOCK_START=()
-    BLOCK_END=()
-    BLOCK_CLOSES=()
-    while read -r name f2 f3 f4 f5; do
-        case "$name" in
-            first=*) FACTS_FIRST="${name#first=}" ;;
-            last=*) FACTS_LAST="${name#last=}" ;;
-            SPEC | HINTS | STATIC | CHOICES)
-                BLOCK_OPENS[$name]="$f2"
-                BLOCK_START[$name]="$f3"
-                BLOCK_END[$name]="$f4"
-                BLOCK_CLOSES[$name]="$f5"
-                ;;
-        esac
-    done < <(block_facts "$file")
-}
-
 # Everything outside the blocks is preserved; only the block layout is
 # supported, because assembly preserves nothing else.
 load_surrounding_content() {
-    read_block_facts "$output_file"
+    block_facts_load "$output_file"
     if [[ "${BLOCK_OPENS[SPEC]:-0}" -eq 0 ]]; then
         die "no block markers in $output_file: add '# >>> SPEC'/'# <<< SPEC' and '# >>> HINTS'/'# <<< HINTS' before rebuilding; assembly preserves nothing outside those blocks"
     fi
     if [[ "${BLOCK_OPENS[SPEC]}" -ne 1 || "${BLOCK_CLOSES[SPEC]}" -ne 1 ]]; then
         die "SPEC block must appear exactly once in $output_file"
     fi
-    if [[ "$FACTS_FIRST" -ge "$FACTS_LAST" ]]; then
+    if [[ "$BLOCK_FACTS_FIRST" -ge "$BLOCK_FACTS_LAST" ]]; then
         die "invalid block layout: $output_file"
     fi
-    head -n $((FACTS_FIRST - 1)) "$output_file" >"$pre_content"
-    tail -n +$((FACTS_LAST + 1)) "$output_file" >"$post_content"
+    head -n $((BLOCK_FACTS_FIRST - 1)) "$output_file" >"$pre_content"
+    tail -n +$((BLOCK_FACTS_LAST + 1)) "$output_file" >"$post_content"
     trim_trailing_blank_edges "$pre_content" "$pre_content.trim"
     mv "$pre_content.trim" "$pre_content"
     trim_leading_blank_edges "$post_content" "$post_content.trim"
@@ -675,7 +646,7 @@ load_surrounding_content() {
 resolve_surroundings() {
     resolve_source_file
     if [[ -n "$source_file" && -f "$source_file" ]]; then
-        read_block_facts "$source_file"
+        block_facts_load "$source_file"
         if [[ "${BLOCK_OPENS[SPEC]:-0}" -eq 0 ]]; then
             die "no block markers in $source_file: add '# >>> SPEC'/'# <<< SPEC', '# >>> HINTS'/'# <<< HINTS', and '# >>> CHOICES'/'# <<< CHOICES' before rebuilding"
         fi
