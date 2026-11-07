@@ -35,7 +35,8 @@ Options:
   --cache-dir <dir>    Fragment cache directory
   --completion <file>  Completion script that supplies the context body
   --fragment <file>    Fragment baseline for source.command and the context diff
-  --command <cmd>      Override the fragment source.command
+  --command <cmd>      Override the fragment source.command (a command or a
+                       shell expression)
   --help-file <file>   Reuse a captured help file instead of running the command
   -h, --help           Show this help
 
@@ -50,6 +51,7 @@ cache_override=""
 completion_file=""
 fragment_override=""
 command_override=""
+command_override_set=0
 help_file=""
 
 while [[ $# -gt 0 ]]; do
@@ -76,6 +78,7 @@ while [[ $# -gt 0 ]]; do
         --command)
             cli_require_value "$1" "$#"
             command_override="$2"
+            command_override_set=1
             shift 2
             ;;
         --help-file)
@@ -113,11 +116,11 @@ if [[ -n "$fragment_override" ]]; then
 fi
 
 command="$command_override"
-if [[ -z "$command" ]]; then
+if [[ "$command_override_set" -eq 0 ]]; then
     [[ -f "$fragment" ]] || { log_error "fragment not found: $fragment"; exit 2; }
     # One records read yields source.kind and source.command together.
     if ! records="$(extract_fragment_records "" "$fragment" 2>/dev/null)"; then
-        log_error "cannot read fragment: $fragment"
+        log_error "cannot read fragment: $fragment (invalid JSON or source.command)"
         exit 2
     fi
     kind=""
@@ -135,7 +138,7 @@ if [[ -z "$command" ]]; then
 fi
 
 if ! source_command_ok "$command"; then
-    log_error "unsafe source.command: $command"
+    log_error "invalid source.command: $command"
     exit 2
 fi
 

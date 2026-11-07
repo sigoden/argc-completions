@@ -34,7 +34,9 @@ verify_rejects "verify cache hygiene invalid hash" "invalid hash or source.comma
     "$new_script" --cache-dir "$hygiene_hash"
 fragment_jq "$hygiene_hash/_root.json" '.source.command = "demo --help | cat"'
 fragment_jq "$hygiene_hash/_root.json" '.hash = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"'
-verify_rejects "verify cache hygiene unsafe command" "invalid hash or source.command" \
+verify_check "verify cache hygiene accepts a shell expression" "$new_script" --cache-dir "$hygiene_hash" --require-no-choice-fns
+fragment_jq "$hygiene_hash/_root.json" --arg cmd $'demo --help\ncat' '.source.command = $cmd'
+verify_rejects "verify cache hygiene rejects a control character" "invalid hash or source.command" \
     "$new_script" --cache-dir "$hygiene_hash"
 
 # --- provenance -----------------------------------------------------------

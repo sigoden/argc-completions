@@ -6,7 +6,7 @@
 #
 # Prints one line of key=value pairs. Status values:
 #   hit         the recomputed hash matches the fragment
-#   invalid     schema error, unsafe source.command, or hash mismatch
+#   invalid     schema error, invalid source.command, or hash mismatch
 #   missing     no fragment for this path
 #   unverified  the help command failed, timed out, or produced no output
 #   failed      source.kind is none (reuse the minimal failed fragment)

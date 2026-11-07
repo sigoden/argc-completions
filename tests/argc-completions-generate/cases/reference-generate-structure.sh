@@ -39,6 +39,8 @@ doc_contains "$doc" \
 doc_contains "$doc" \
     "Completion script:" \
     "Parent help command:" \
+    "may be a shell expression" \
+    "backward-compatible widening" \
     "# >>> DIFF" \
     'only notation, `choice_fn`, and terminated changes' \
     "Pass \`--no-meta\` to emit only \`HINTS\` and \`DIFF\`" \

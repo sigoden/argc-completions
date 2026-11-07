@@ -61,6 +61,13 @@ hash_run() {
     bash "$SCRIPTS/fragment-hash.sh" hash-demo --cache-dir "$hash_cache" --completion "$hash_completion" "$@"
 }
 
+# hash_status [<extra args...>]: the fragment-hash exit status, printed.
+hash_status() {
+    local rc=0
+    hash_run "$@" >/dev/null 2>&1 || rc=$?
+    printf '%s\n' "$rc"
+}
+
 hash1="$(hash_run)"
 assert_matches "fragment-hash prints 64 hex" "$hash1" '^[0-9a-f]{64}$'
 check "fragment-hash stable" test "$hash1" = "$(hash_run)"
@@ -89,10 +96,31 @@ hash_reused="$(bash "$SCRIPTS/fragment-hash.sh" hash-demo --cache-dir "$hash_cac
     --command 'no-such-hash-command --help' --help-file "$TMP_DIR/reused-help.txt")"
 check "fragment-hash --help-file avoids execution" test "$hash1" = "$hash_reused"
 
-# The help builtin is executed through the fixed bash wrapper.
+# The help builtin is executed through the shell path.
 hash_builtin="$(bash "$SCRIPTS/fragment-hash.sh" hash-demo --cache-dir "$hash_cache" \
     --completion "$hash_completion" --command 'help cd')"
 assert_matches "fragment-hash executes help builtin" "$hash_builtin" '^[0-9a-f]{64}$'
+
+# Shell expressions: pipes, semicolons, quotes, redirects, and builtins. A
+# pipeline that leaves the canonical text unchanged keeps the hash; one that
+# filters or truncates it changes the hash.
+hash_pipe="$(hash_run --command 'hash-demo --help | cat')"
+check "fragment-hash pipe unchanged" test "$hash1" = "$hash_pipe"
+hash_semicolon="$(hash_run --command 'false; hash-demo --help')"
+check "fragment-hash semicolon uses the last status" test "$hash1" = "$hash_semicolon"
+hash_or="$(hash_run --command 'false || hash-demo --help')"
+check "fragment-hash || fallback" test "$hash1" = "$hash_or"
+hash_redirect="$(hash_run --command 'hash-demo --help 2>/dev/null')"
+check "fragment-hash redirect" test "$hash1" = "$hash_redirect"
+hash_head="$(hash_run --command 'hash-demo --help | head -n 100')"
+check "fragment-hash head within the text" test "$hash1" = "$hash_head"
+hash_sed="$(hash_run --command "hash-demo --help | sed 's/^/x/'")"
+check "fragment-hash filtered text changes the hash" test "$hash1" != "$hash_sed"
+hash_head1="$(hash_run --command 'hash-demo --help | head -n 1')"
+check "fragment-hash truncated text changes the hash" test "$hash1" != "$hash_head1"
+hash_help_pipe="$(hash_run --command 'help cd | head -n 1')"
+assert_matches "fragment-hash pipes the help builtin" "$hash_help_pipe" '^[0-9a-f]{64}$'
+check "fragment-hash rejects a failing last command" test "$(hash_status --command 'hash-demo --help | false')" = 3
 
 # A changed help body changes the hash.
 cat >"$TMP_DIR/bin/hash-demo" <<'DEMO'
@@ -162,11 +190,36 @@ check "fragment-hash common hints change the hash" test "$hash1" != "$hash_commo
 check "fragment-hash ignores another path's section" test "$hash_common" = "$hash_other"
 
 # --- guards ---------------------------------------------------------------
-# An unsafe source.command is rejected before execution.
-expect_failure "fragment-hash rejects unsafe command" bash "$SCRIPTS/fragment-hash.sh" hash-demo \
-    --cache-dir "$hash_cache" --command 'hash-demo --help; rm -rf /'
-expect_failure "fragment-hash rejects help with two args" bash "$SCRIPTS/fragment-hash.sh" hash-demo \
-    --cache-dir "$hash_cache" --command 'help cd extra'
+# A control character is rejected before execution; the second line must not
+# run. A sentinel proves the command was not executed.
+sentinel="$TMP_DIR/hash-sentinel"
+: >"$sentinel"
+bad_command=$'hash-demo --help\nrm -f '"$sentinel"
+expect_failure "fragment-hash rejects a control character" bash "$SCRIPTS/fragment-hash.sh" hash-demo \
+    --cache-dir "$hash_cache" --command "$bad_command"
+check "fragment-hash did not execute the second line" test -f "$sentinel"
+expect_failure "fragment-hash rejects an empty command" bash "$SCRIPTS/fragment-hash.sh" hash-demo \
+    --cache-dir "$hash_cache" --command ''
+check "fragment-hash reports unknown help as unavailable" test "$(hash_status --command 'help no-such-builtin')" = 3
+
+# A pipeline source.command stored in a fragment is read and executed. The
+# completion script changed earlier in this case, so recompute the expected
+# hash with the current context instead of reusing hash_pipe.
+cp "$hash_cache/_root.json" "$TMP_DIR/hash-fragment-pipe.json"
+fragment_jq "$TMP_DIR/hash-fragment-pipe.json" '.source.command = "hash-demo --help | cat"'
+pipe_hash_now="$(hash_run --command 'hash-demo --help | cat')"
+check "fragment-hash reads a shell expression from a fragment" test "$pipe_hash_now" = \
+    "$(bash "$SCRIPTS/fragment-hash.sh" hash-demo --cache-dir "$hash_cache" \
+        --completion "$hash_completion" --fragment "$TMP_DIR/hash-fragment-pipe.json")"
+
+# A fragment with a control character in source.command is rejected before its
+# command can run.
+cp "$hash_cache/_root.json" "$TMP_DIR/hash-fragment-ctrl.json"
+fragment_jq "$TMP_DIR/hash-fragment-ctrl.json" --arg cmd "$bad_command" '.source.command = $cmd'
+expect_failure "fragment-hash rejects a fragment with a control character" bash "$SCRIPTS/fragment-hash.sh" hash-demo \
+    --cache-dir "$hash_cache" --completion "$hash_completion" --fragment "$TMP_DIR/hash-fragment-ctrl.json"
+check "fragment-hash did not execute the fragment's second line" test -f "$sentinel"
+
 expect_failure "fragment-hash rejects path escape" bash "$SCRIPTS/fragment-hash.sh" .. \
     --cache-dir "$hash_cache" --command 'hash-demo --help'
 expect_failure "fragment-hash rejects an unsafe path component" bash "$SCRIPTS/fragment-hash.sh" hash-demo 'a;b' \

@@ -50,6 +50,8 @@ doc_contains "$doc" \
 doc_contains "$doc" \
     "own root command and any prerequisite tool directly" \
     "Call the root in its invocation form" \
+    "first command" \
+    "later pipeline" \
     "cargo audit --help" \
     'never `cargo-audit ...`' \
     "command-specific implementations"

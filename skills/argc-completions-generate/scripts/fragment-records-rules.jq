@@ -14,7 +14,8 @@
 #   A  aliases-csv                      .aliases | join(",")
 #   X  kind, hash, source.command, source.section
 #                                       provenance fields shared by
-#                                       check-fragment/fragment-hash/verify
+#                                       check-fragment/fragment-hash/verify;
+#                                       source.command is a shell expression
 #   M  key, value                       one record per .meta[] entry
 #   I  tag, desc, static_fn, terminated, described, body
 #                                       one record per item, in the order

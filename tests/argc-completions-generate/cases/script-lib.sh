@@ -90,6 +90,66 @@ PTY
     check "capture_help hides the caller's terminal" test "$pty_probe" = tty=no
 fi
 
+# --- source.command validation and execution ------------------------------
+# A simple token string keeps the argv path; anything else is a shell
+# expression. Control characters are rejected before execution.
+source_ok() {
+    skill_fn source_command_ok "$1"
+}
+
+for expr in 'foo --help' 'foo --help | head' 'foo; bar' 'help cd' \
+    'foo --help 2>/dev/null' 'foo --help && bar' 'foo --help || man foo' \
+    "foo --help | sed 's/^/x/'" 'LANG=C foo --help'; do
+    check "source_command_ok accepts: $expr" source_ok "$expr"
+done
+for expr in '' '   ' $'a\tb' $'a\nb' $'a\rb' $'a\x1fb'; do
+    expect_failure "source_command_ok rejects: $(printf %q "$expr")" source_ok "$expr"
+done
+check "source_command_simple accepts a token string" skill_fn source_command_simple 'foo --help'
+expect_failure "source_command_simple rejects a pipe" skill_fn source_command_simple 'foo --help | cat'
+expect_failure "source_command_simple rejects a quote" skill_fn source_command_simple "foo 'bar'"
+
+# A fixture command lets the argv and shell paths share one observable target.
+mkdir -p "$TMP_DIR/bin"
+cat >"$TMP_DIR/bin/capture-demo" <<'DEMO'
+#!/usr/bin/env bash
+printf 'Usage: capture-demo [OPTIONS]\n'
+DEMO
+chmod +x "$TMP_DIR/bin/capture-demo"
+
+capture_run() {
+    local out="$1" expr="$2" rc=0
+    ( export PATH="$TMP_DIR/bin:$PATH"; skill_fn capture_source_command "$out" 5 "$expr" ) || rc=$?
+    printf '%s\n' "$rc"
+}
+
+capture_out="$TMP_DIR/capture-simple.txt"
+check "capture_source_command simple status" test "$(capture_run "$capture_out" 'capture-demo --help')" = 0
+check "capture_source_command simple output" test "$(<"$capture_out")" = 'Usage: capture-demo [OPTIONS]'
+capture_out="$TMP_DIR/capture-pipe.txt"
+check "capture_source_command pipe status" test "$(capture_run "$capture_out" 'capture-demo --help | sed s/^/x/')" = 0
+check "capture_source_command pipe output" test "$(<"$capture_out")" = 'xUsage: capture-demo [OPTIONS]'
+capture_out="$TMP_DIR/capture-semi.txt"
+check "capture_source_command semicolon status" test "$(capture_run "$capture_out" 'false; capture-demo --help')" = 0
+check "capture_source_command semicolon output" test "$(<"$capture_out")" = 'Usage: capture-demo [OPTIONS]'
+capture_out="$TMP_DIR/capture-help.txt"
+check "capture_source_command help builtin status" test "$(capture_run "$capture_out" 'help cd')" = 0
+check "capture_source_command help builtin output" grep -q 'cd:' "$capture_out"
+capture_out="$TMP_DIR/capture-invalid.txt"
+check "capture_source_command invalid status" test "$(capture_run "$capture_out" $'capture-demo --help\n')" = 2
+check "capture_source_command invalid writes no output" test ! -s "$capture_out"
+capture_out="$TMP_DIR/capture-fail.txt"
+check "capture_source_command failure status" test "$(capture_run "$capture_out" 'false')" = 1
+capture_out="$TMP_DIR/capture-head.txt"
+check "capture_source_command head status" test "$(capture_run "$capture_out" 'capture-demo --help | head -n 100')" = 0
+
+# BASH_ENV is cleared for shell expressions, so a user startup file cannot
+# inject output into the capture.
+printf "printf 'poison\\n'\n" >"$TMP_DIR/bash-env.sh"
+capture_out="$TMP_DIR/capture-bashenv.txt"
+( export BASH_ENV="$TMP_DIR/bash-env.sh"; export PATH="$TMP_DIR/bin:$PATH"; skill_fn capture_source_command "$capture_out" 5 "printf 'ok'" )
+check "capture_source_command ignores BASH_ENV" test "$(<"$capture_out")" = ok
+
 # --- block markers --------------------------------------------------------
 # The helpers are the single source of the # >>> / # <<< contract.
 blocks_file="$TMP_DIR/blocks.sh"

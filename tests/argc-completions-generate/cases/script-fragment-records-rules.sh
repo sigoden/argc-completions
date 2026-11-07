@@ -86,4 +86,25 @@ assert_has_line "extract mode keeps the other records" "$extract_records" $'D\x1
 printf 'not json\n' >"$TMP_DIR/broken.json"
 expect_failure "extract mode still fails on unparseable JSON" run_records "$TMP_DIR/broken.json" demo extract
 
+# A shell expression round-trips through the X record; a control character
+# would break the line-based stream, so extract mode rejects it before
+# rendering anything.
+expr_fragment="$TMP_DIR/expr.json"
+cp "$FIXTURE/_root.json" "$expr_fragment"
+fragment_jq "$expr_fragment" '.source.command = "demo --help | sed s/^/x/"'
+records_expr="$TMP_DIR/expr.records"
+quiet run_records "$expr_fragment" demo records >"$records_expr"
+assert_has_line "records: X carries a shell expression" "$records_expr" \
+    $'X\x1fhelp\x1faaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\x1fdemo --help | sed s/^/x/\x1f'
+extract_expr="$TMP_DIR/expr-extract.records"
+quiet run_records "$expr_fragment" demo extract >"$extract_expr"
+assert_has_line "extract mode carries a shell expression" "$extract_expr" \
+    $'X\x1fhelp\x1faaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\x1fdemo --help | sed s/^/x/\x1f'
+
+ctrl_fragment="$TMP_DIR/ctrl.json"
+cp "$FIXTURE/_root.json" "$ctrl_fragment"
+fragment_jq "$ctrl_fragment" '.source.command = "demo --help\ncat"'
+expect_failure "extract mode rejects a control character in source.command" \
+    run_records "$ctrl_fragment" demo extract
+
 helper_finish

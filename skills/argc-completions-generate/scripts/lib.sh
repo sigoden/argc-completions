@@ -16,8 +16,10 @@ LIB_DIR="$(cd -P "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 REPO_ROOT="$(cd -P "$LIB_DIR/../../.." && pwd -P)"
 export PATH="$REPO_ROOT/bin:$PATH"
 
-# Bump when the fragment schema, compile semantics, hash framing, or help
-# canonicalization changes; every cache hash includes this value.
+# Bump when a change alters an existing fragment's canonical help or hash body,
+# or when the compile contract requires every node to be rebuilt. A
+# backward-compatible widening of source.command leaves existing hashes valid
+# and does not bump it.
 # shellcheck disable=SC2034 # read by fragment-hash.sh
 SKILL_CACHE_VERSION="v2"
 
@@ -322,34 +324,41 @@ require_cmd() {
     fi
 }
 
-# A source.command is a space-separated token string; it is executed through
-# an argv array, never through eval or a shell. The `help` builtin needs a fixed
-# wrapper and exactly one argument.
+# A source.command is a single-line shell expression. It must be non-empty and
+# free of control characters: the fragment record stream is line-based, so a
+# newline would truncate the command before it is executed.
 source_command_ok() {
     local command="$1"
-    local -a argv=()
-    [[ "$command" =~ ^[A-Za-z0-9_.+:@/-]+( [A-Za-z0-9_.+:@/-]+)*$ ]] || return 1
-    read -r -a argv <<<"$command"
-    [[ ${#argv[@]} -gt 0 ]] || return 1
-    if [[ "${argv[0]}" == "help" ]]; then
-        [[ ${#argv[@]} -eq 2 ]] || return 1
-    fi
-    return 0
+    [[ -n "$command" ]] || return 1
+    [[ "$command" =~ [^[:space:]] ]] || return 1
+    [[ ! "$command" =~ [[:cntrl:]] ]]
+}
+
+# The old safe-token form. It keeps the argv fast path, so existing fragments
+# run exactly as before and their hashes stay valid; any other expression goes
+# through `bash -c`.
+source_command_simple() {
+    [[ "$1" =~ ^[A-Za-z0-9_.+:@/-]+( [A-Za-z0-9_.+:@/-]+)*$ ]]
 }
 
 # Run source.command with the fixed help environment and a timeout.
 # Usage: capture_source_command <output-file> <timeout-seconds> <command>
-# Returns 2 for an unsafe/malformed command; otherwise the command status.
+# Returns 2 for an invalid command; otherwise the command status. A simple
+# token command runs as an argv array; a shell expression runs through
+# `bash -c` with BASH_ENV/ENV cleared so a user startup file cannot pollute the
+# capture. The `help` builtin is a bash builtin, so it takes the shell path too.
 capture_source_command() {
     local output="$1" seconds="$2" command="$3"
     local -a argv=()
     source_command_ok "$command" || return 2
-    read -r -a argv <<<"$command"
-    if [[ "${argv[0]}" == "help" ]]; then
-        capture_help "$output" "$seconds" bash -c 'help "$1"' _ "${argv[1]}"
-    else
-        capture_help "$output" "$seconds" "${argv[@]}"
+    if source_command_simple "$command"; then
+        read -r -a argv <<<"$command"
+        if [[ "${argv[0]}" != "help" ]]; then
+            capture_help "$output" "$seconds" "${argv[@]}"
+            return
+        fi
     fi
+    capture_help "$output" "$seconds" env BASH_ENV= ENV= bash -c "$command"
 }
 
 # Print the lowercase hex SHA-256 of stdin.

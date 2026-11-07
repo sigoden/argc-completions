@@ -50,7 +50,7 @@ Fragments live under `<REPO_ROOT>/cache/compile/<root>/`, and nothing else belon
 
 The cache contains fragments only. Help text, canonical text, and parent-page comparison files live in a temporary directory outside the cache and are deleted after use. The compile child writes only its fragment, and a `.txt` left in the cache is a hygiene failure in verify.
 
-Every fragment carries a top-level `hash`, defined in `<SKILL_ROOT>/references/fragment-schema.md`: `help`/`man` store a 64-character lowercase SHA-256, `none` stores `""`. `<SKILL_ROOT>/scripts/fragment-hash.sh` is the only writer; `SKILL_CACHE_VERSION` in `<SKILL_ROOT>/scripts/lib.sh` is the global invalidation switch, bumped when the schema, hash framing, or help canonicalization changes. The dispatch decision that consumes these hashes is §3.
+Every fragment carries a top-level `hash`, defined in `<SKILL_ROOT>/references/fragment-schema.md`: `help`/`man` store a 64-character lowercase SHA-256, `none` stores `""`. `<SKILL_ROOT>/scripts/fragment-hash.sh` is the only writer; `SKILL_CACHE_VERSION` in `<SKILL_ROOT>/scripts/lib.sh` is the global invalidation switch, bumped when the schema, hash framing, or help canonicalization changes. A backward-compatible widening of `source.command` leaves an existing fragment's canonical help and hash body unchanged, so it does not bump the version. The dispatch decision that consumes these hashes is §3.
 
 ### Regenerate intent
 
@@ -159,7 +159,7 @@ Context:
 Your parent agent id is "<parent-agent-id>". Before you finish, send your result to that agent with send_message({ agent_id: "<parent-agent-id>", message: "<the JSON summary>" }).
 ```
 
-Replace `<SKILL_ROOT>` and `<REPO_ROOT>` with absolute paths before dispatch, so no angle-bracket placeholder reaches the child. Use `Completion script: (none)` when preflight reports `existing=0`, and `Parent help command: (none)` for the root or when the parent fragment has no `source.command`. Use `Context: (empty)` or omit the block when empty. When preflight reports `invoke` different from `<root>`, add `Invoke command: <invoke>` after `Parent help command:` for the root and every child (for example `Invoke command: cargo audit`); omit the line otherwise. Children never derive the form from their path or from `Parent help command`: they use the `invoke` value from their own prompt.
+Replace `<SKILL_ROOT>` and `<REPO_ROOT>` with absolute paths before dispatch, so no angle-bracket placeholder reaches the child. Use `Completion script: (none)` when preflight reports `existing=0`, and `Parent help command: (none)` for the root or when the parent fragment has no `source.command`. The parent help command is the parent's `source.command` and may be a shell expression; pass it verbatim as one string. Use `Context: (empty)` or omit the block when empty. When preflight reports `invoke` different from `<root>`, add `Invoke command: <invoke>` after `Parent help command:` for the root and every child (for example `Invoke command: cargo audit`); omit the line otherwise. Children never derive the form from their path or from `Parent help command`: they use the `invoke` value from their own prompt.
 
 The child writes the fragment, returns the summary JSON, and handles exactly one node; it does not update the parent and does not write `.txt`. Consume only `status`, `warnings`, `source`, and `subcommands[]`. If subagents are unavailable, follow `<SKILL_ROOT>/agents/compile.md` inline.
 

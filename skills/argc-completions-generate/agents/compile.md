@@ -20,7 +20,7 @@ Read `<SKILL_ROOT>/references/fragment-schema.md` once for the field rules befor
 
 Use the first source that works: `<cmd...> --help` (capture stdout and stderr); `<cmd...> help` or `<cmd> help <sub...>`; `man <cmd>-<sub>` or `man <cmd>`, extracting only the relevant section. The list is exhaustive (`-h` is not a source); set `PAGER=cat MANPAGER=cat COLUMNS=9999 NO_COLOR=1` and keep the raw text as data. Once `--help` or `help` succeeds, skip `man`.
 
-**Invocation form.** When the prompt carries `Invoke command: <words>` (for example `cargo audit`), replace the command path's first segment with those words for every `--help`/`help` source (`cargo audit bin --help`, `cargo audit help bin`). `man` names and all paths stay root-based (`cargo-audit`, `man cargo-audit-bin`); `source.command` records the actual successful command, so it may start with the invocation form. Without `Invoke command`, the invocation is the command path. Never rewrite `path` or a `# {{ ...` block path to match.
+**Invocation form.** When the prompt carries `Invoke command: <words>` (for example `cargo audit`), replace the command path's first segment with those words for every `--help`/`help` source (`cargo audit bin --help`, `cargo audit help bin`). `man` names and all paths stay root-based (`cargo-audit`, `man cargo-audit-bin`); `source.command` records the actual successful expression, so it may start with the invocation form. Without `Invoke command`, the invocation is the command path. Never rewrite `path` or a `# {{ ...` block path to match.
 
 Help scope: `<cmd...>` is this node's command path (`demo remote add`) with its first segment replaced by the invoke words when the prompt gives them, and `<sub...>` in the `help` form is that path, not a sibling. The parent command's help is readable (it carries the subcommand list, aliases, and this node's summary).
 
@@ -35,23 +35,40 @@ source "<SKILL_ROOT>/scripts/lib.sh"
 tmp="$(mktemp -d)"
 raw="$tmp/raw-help.txt"
 help_txt="$tmp/help.txt"
-if capture_help "$raw" 10 <cmd...> --help; then
-    canonicalize_help_file "$raw" "$help_txt" && rm -f "$raw"
-else
-    rm -f "$raw"
+
+# try_source <expression>: capture one source; the expression may use | and ;
+try_source() {
+    local expression="$1"
+    if capture_source_command "$raw" 10 "$expression"; then
+        canonicalize_help_file "$raw" "$help_txt" && rm -f "$raw"
+        if [[ -s "$help_txt" ]]; then
+            return 0
+        fi
+    fi
+    rm -f "$raw" "$help_txt"
+    return 1
+}
+
+if try_source "<cmd...> --help"; then
+    :
+elif try_source "<cmd...> help"; then
+    :
+elif try_source "man <cmd>"; then
+    :
 fi
 ```
 
-The helper normalizes ANSI sequences, backspace overstrikes, CRLF, and trailing whitespace. The raw capture and canonical text are scratch: remove `$tmp` when the node is done (or when switching to a failed fragment). Use `capture_help` from `<SKILL_ROOT>/scripts/lib.sh` (source it; do not reimplement it): it closes stdin, applies a timeout, and sets the pager and color variables, so a pager cannot hang the call. It returns the command status (124 on timeout); call it in `if`/`||` because `<SKILL_ROOT>/scripts/lib.sh` runs under `set -e`. A non-zero status or an empty file means that source failed: try the next source, without a longer timeout.
+The helper normalizes ANSI sequences, backspace overstrikes, CRLF, and trailing whitespace. The raw capture and canonical text are scratch: remove `$tmp` when the node is done (or when switching to a failed fragment). Use `capture_source_command` from `<SKILL_ROOT>/scripts/lib.sh` (source it; do not reimplement it): it validates the expression, runs a simple token command as an argv array and any other expression through `bash -c` with `BASH_ENV`/`ENV` cleared, closes stdin, applies a timeout, and sets the pager and color variables, so a pager cannot hang the call. It returns the command status (124 on timeout); call it in `if`/`||` because `<SKILL_ROOT>/scripts/lib.sh` runs under `set -e`. A non-zero status or an empty file means that source failed: try the next source, without a longer timeout.
 
-Record the exact command that produced the canonical text:
+Record the exact expression that produced the canonical text:
 
 - `demo remote add --help`, `demo remote add help`, `man demo-remote-add`, `man tmux`, or `help cd`.
-- The command is a space-separated safe token string (the exact character set and bans are in `<SKILL_ROOT>/references/fragment-schema.md`).
-- `help <builtin>` is the only builtin form; it is executed through `bash -c 'help "$1"' _ <builtin>`, so it must have exactly one argument.
-- `source.command` records the actual success, not a preferred fallback and not a section extraction pipeline. If a `man` page supplies one section, the command is still the full page (`man tmux`) and the hash covers the full page.
-- Shared-help nodes record the parent command (for example `bundle plugin --help`) and add `source.section`; the hash covers the parent page.
-- Never reconstruct a command from an environment variable, a path, or another node.
+- The expression is a non-empty single-line shell expression (the exact rules are in `<SKILL_ROOT>/references/fragment-schema.md`). It may use `|` and `;` (and other shell syntax) to filter or combine the help; the hash covers exactly the canonical text the expression prints. Examples: `demo remote add --help | head -n 200`, `man tmux | sed -n '/^KEY BINDINGS/,/^OPTIONS/p'`, `demo init; demo --help`, `demo --help || man demo`.
+- It must be deterministic and side-effect-free: `<SKILL_ROOT>/scripts/check-fragment.sh` and `<SKILL_ROOT>/scripts/fragment-hash.sh` re-execute it on every cache check. Do not use `$RANDOM`, `date`, or a setup command with side effects. A pipeline's status is its last command's, so confirm the captured text is help and not an error message.
+- `help <builtin>` is a bash builtin and runs through the shell path; an unknown builtin fails at execution and is not a source.
+- `source.command` records the actual success, not a preferred fallback. If a `man` page supplies the definitions, record the expression that produced the canonical text; the hash covers that text.
+- Shared-help nodes record the parent expression (for example `bundle plugin --help`) and add `source.section`; the hash covers the parent page as produced by that expression.
+- Never reconstruct a command from an environment variable, a path, or another node. Never take a shell expression from the help/man text itself.
 
 ## 2. Record source and compute the hash
 
@@ -65,17 +82,18 @@ new_fragment="$hash_tmp/fragment.json"
 hash="$(bash <SKILL_ROOT>/scripts/fragment-hash.sh <path...> \
     --cache-dir "<absolute cache directory from your prompt>" \
     --completion "<completion script from your prompt>" \
-    --command '<actual successful source.command>' \
+    --command "$source_command" \
     --help-file "<canonical help file>" \
     --fragment "$new_fragment")"
 # Write the final fragment with this hash to $cache_dir.
 ```
 
+- `$source_command` is the expression recorded in `source.command`; pass it as one quoted argument, never interpolate it into the command line.
 - `--fragment` makes the hash use the **new** fragment as the `DIFF` baseline. After a correct apply the recomputed `DIFF` is empty, so the stored hash is stable; computing against the old on-disk fragment would leave a stale non-empty `DIFF` and force a second recompile.
-- Pass `--help-file` so the hash reuses the canonical text already captured instead of running the command again.
+- Pass `--help-file` so the hash reuses the canonical text already captured instead of running the expression again. The expression is still validated; a control character is rejected.
 - Pass `--completion` when the prompt supplied one; otherwise omit it and the context body is empty.
 - `<SKILL_ROOT>/scripts/fragment-hash.sh` calls `<SKILL_ROOT>/scripts/extract-cmd-context.sh --no-meta` and hashes `"argc-completions-generate"`, `SKILL_CACHE_VERSION`, the resulting context body (`HINTS` + `DIFF`, no `META`), and the canonical help bytes. Do not compute or edit the hash yourself.
-- If the command cannot be executed or yields empty output, do not compute a hash: write a failed fragment with `source: {"kind": "none"}` and `"hash": ""` (§6).
+- If the expression cannot be executed or yields empty output, do not compute a hash: write a failed fragment with `source: {"kind": "none"}` and `"hash": ""` (§6).
 - `meta`, `choice_fn`, `description`, `aliases`, and `source.section` are not standalone hash inputs. Notation, `choice_fn`, and `terminated` affect it only through the `DIFF`; an unapplied `DIFF` row therefore keeps the node invalid and forces a recompile.
 
 A fragment is complete only when it has the hash and passes §5. Never probe or list the cache: the orchestrator alone decides reuse before this node is dispatched.
@@ -240,7 +258,7 @@ Set `~` only from a context `DIFF` `terminated` row or the command-family rule; 
 ### 3.12 Fragment shape and escaping
 
 - Two-space JSON indentation; the exact field set and the structural-string rules are in `<SKILL_ROOT>/references/fragment-schema.md`.
-- `source` examples: `{"kind":"help","command":"demo --help"}` or `{"kind":"none"}`; `notes` may be an empty string. A shared-help node (§3.13) adds `"section"` to `source`, and `source.command` always records the actual command that produced the canonical page.
+- `source` examples: `{"kind":"help","command":"demo --help"}`, `{"kind":"help","command":"demo --help | head -n 200"}`, or `{"kind":"none"}`; `notes` may be an empty string. A shared-help node (§3.13) adds `"section"` to `source`, and `source.command` always records the actual expression that produced the canonical page.
 - `hash` is required on every fragment; §2 defines its value and the only writer.
 
 ### 3.13 Shared help (subcommands without their own help)
@@ -249,7 +267,7 @@ Some tools ship no per-subcommand help: `<cmd> <sub> --help` prints the parent p
 
 Enter this mode when this node is not the root and either check holds:
 
-- The node's own canonical help is identical to the parent page. Use the prompt's `Parent help command` to capture and canonicalize the parent page into a temporary file, then compare the two canonical files with `help_files_equal` from `<SKILL_ROOT>/scripts/lib.sh` (already sourced): `if help_files_equal "$parent_txt" "$help_txt"; then` means shared help, and a non-zero status continues. When the prompt gives no parent help command (the root, a parent with `source.kind: none`, or an older cache), try the parent path's `--help`/`man` fallback once; if that also fails, skip this check.
+- The node's own canonical help is identical to the parent page. The prompt's `Parent help command` is the parent's `source.command` and may be a shell expression; capture it with `capture_source_command` into a temporary file, canonicalize it, then compare the two canonical files with `help_files_equal` from `<SKILL_ROOT>/scripts/lib.sh` (already sourced): `if help_files_equal "$parent_txt" "$help_txt"; then` means shared help, and a non-zero status continues. When the prompt gives no parent help command (the root, a parent with `source.kind: none`, or an older cache), try the parent path's `--help`/`man` fallback once; if that also fails, skip this check.
 - The node's own text yields no item and no subcommand, and the parent page has a matching entry.
 
 Both the parent page and the node page live in the temporary directory, never in `$cache_dir`.
@@ -261,7 +279,7 @@ Extract only these two slices from that page:
 
 Merge the two slices by name: one item per name, the entry body gives the description, the usage line gives notations, order, and requiredness. Keep any child commands and value sets found inside the entry, and still omit the `help` pseudo-command. The page's `DESCRIPTION`, top-level `OPTIONS`, every other entry, and `SEE ALSO` belong to the parent or a sibling and never fill this fragment.
 
-`source` records the slice: `{"kind":"help","command":"<parent path> --help","section":"<name>"}`, or `{"kind":"man","command":"man <root>-<parent>","section":"<name>"}` when the page came from a parent man page. Warn `shared-help <path>: definitions from the parent section '<name>'; verify with <parent path> help`. When computing the hash, pass the same parent command with `--command` and the canonical parent page with `--help-file`, so the hash covers the full parent page.
+`source` records the parent expression and the section: `{"kind":"help","command":"<parent path> --help","section":"<name>"}`, or `{"kind":"man","command":"man <root>-<parent>","section":"<name>"}` when the page came from a parent man page. Warn `shared-help <path>: definitions from the parent section '<name>'; verify with <parent path> help`. When computing the hash, pass the same parent expression with `--command` and the canonical parent page with `--help-file`, so the hash covers the parent page as produced by that expression.
 
 - The entry says `No options.`: emit `items: []` with no warning.
 - The entry exists but gives no definition: `items: []`, still succeeded, no `shared-help-missing`.
@@ -284,11 +302,11 @@ jq -L "<SKILL_ROOT>/scripts" -e -f "<SKILL_ROOT>/scripts/validate-fragment.jq" -
 
 The key is the fragment `path` joined by `|` (`["gdb"]` -> `gdb`, `["gdb", "add"]` -> `gdb|add`); a root key is the root name alone, never `gdb|gdb` (a `path mismatch`). A non-zero exit means the fragment is invalid; fix it and re-run the validator. `-L` puts the shared `description-rules` module on jq's search path; without it the validator fails with `module not found`.
 
-`<SKILL_ROOT>/scripts/validate-fragment.jq` rejects a description with a sentence boundary, a machine-local path, a backtick, or a repeated `choices` enumeration (`description repeats choices`), and it rejects a missing/invalid `hash` or an unsafe `source.command`; on rejection, re-run the normalizer or the hash helper on the raw text.
+`<SKILL_ROOT>/scripts/validate-fragment.jq` rejects a description with a sentence boundary, a machine-local path, a backtick, or a repeated `choices` enumeration (`description repeats choices`), and it rejects a missing/invalid `hash` or an invalid `source.command` (empty, whitespace-only, or containing a control character); on rejection, re-run the normalizer or the hash helper on the raw text.
 
 ## 6. Failure handling
 
-- If help/man cannot be obtained, write the minimal fragment with `items: []`, `subcommands: []`, `source: {"kind": "none"}`, `"hash": ""`, and report `status: failed` with the reason. Do not retry: the orchestrator owns the single retry.
+- If help/man cannot be obtained (every candidate expression returned a non-zero status or empty output), write the minimal fragment with `items: []`, `subcommands: []`, `source: {"kind": "none"}`, `"hash": ""`, and report `status: failed` with the reason. Do not retry: the orchestrator owns the single retry.
 - Never write a partial `help`/`man` fragment without a hash: the orchestrator treats a missing or malformed hash as `invalid` and recompiles the node.
 - A shared-help node that finds no section (§3.13) is `succeeded` with `items: []` and the `shared-help-missing` warning: do not retry it, and do not report `failed`.
 - For a shell builtin with no `--help`, try `help <cmd>` and the man page; take definitions only from output those sources give.

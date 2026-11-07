@@ -39,7 +39,10 @@ doc_contains "$doc" \
 doc_contains "$doc" \
     "Do not retry: the orchestrator owns the single retry" \
     "send the same object to the parent agent id" \
-    "space-separated safe token string" \
+    "single-line shell expression" \
+    "capture_source_command" \
+    "deterministic" \
+    "side-effect-free" \
     "records the actual success"
 
 # The agent never re-reads what it was given, and never invents a description.

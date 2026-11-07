@@ -864,7 +864,7 @@ frag_facts() {
 }
 
 # Cache-hygiene rule for one fragment's hash/source.command pair: `none` needs an
-# empty hash, help/man need a 64-hex hash and a safe token command.
+# empty hash, help/man need a 64-hex hash and a valid single-line command.
 frag_hash_ok() {
     local kind="${FRAG_KIND[$1]:-}" hash="${FRAG_HASH[$1]:-}" command="${FRAG_COMMAND[$1]:-}"
     case "$kind" in

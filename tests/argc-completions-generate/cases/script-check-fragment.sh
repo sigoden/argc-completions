@@ -113,6 +113,15 @@ fragment_jq "$colon_fragment" --arg hash "$colon_hash" '.hash = $hash'
 check_fragment "check-fragment colon hit" "path=check-demo profile:mem status=hit" 'profile:mem'
 rm -f "$colon_fragment"
 
+# A shell-expression source.command is re-executed and compared.
+write_fragment "$check_cache/_root.json" help 'check-demo --help | sed s/^/x/' ''
+pipe_hash="$(bash "$SCRIPTS/fragment-hash.sh" check-demo --cache-dir "$check_cache" \
+    --completion "$completion" --command 'check-demo --help | sed s/^/x/' \
+    --fragment "$check_cache/_root.json")"
+write_fragment "$check_cache/_root.json" help 'check-demo --help | sed s/^/x/' "$pipe_hash"
+check_fragment "check-fragment shell expression hit" "status=hit"
+assert_contains "check-fragment shell expression hash" "$CHECK_LOG" "hash=$pipe_hash"
+
 # Widening that segment does not weaken the rest of the character set.
 check_rejects "check-fragment rejects an unsafe path component" \
     "invalid command path component: a b" \
@@ -135,8 +144,18 @@ check_fragment "check-fragment missing hash invalid" "status=invalid reason=sche
 printf '{"schemaVersion":1,"path":["check-demo"],"description":"Check demo","aliases":[],"meta":[],"items":[],"subcommands":[],"source":{"kind":"none"},"hash":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","notes":""}\n' >"$check_cache/_root.json"
 check_fragment "check-fragment none hash invalid" "status=invalid reason=schema"
 
-printf '{"schemaVersion":1,"path":["check-demo"],"description":"Check demo","aliases":[],"meta":[],"items":[],"subcommands":[],"source":{"kind":"help","command":"check-demo --help; rm -rf /"},"hash":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","notes":""}\n' >"$check_cache/_root.json"
-check_fragment "check-fragment unsafe invalid" "status=invalid reason=schema"
+# A control character is rejected before execution; the second line must not
+# run.
+sentinel="$TMP_DIR/check-sentinel"
+: >"$sentinel"
+bad_command=$'check-demo --help\nrm -f '"$sentinel"
+jq -n --arg cmd "$bad_command" '{
+    schemaVersion: 1, path: ["check-demo"], description: "Check demo", aliases: [], meta: [],
+    items: [], subcommands: [], source: {kind: "help", command: $cmd},
+    hash: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", notes: ""
+}' >"$check_cache/_root.json"
+check_fragment "check-fragment control character invalid" "status=invalid reason=schema"
+check "check-fragment did not execute the second line" test -f "$sentinel"
 
 # The check writes no help file.
 check "check-fragment writes no txt" test -z "$(find "$check_cache" -name '*.txt' -print -quit)"

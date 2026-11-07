@@ -46,4 +46,28 @@ check_rejects "validator rejects any meta on a subcommand" \
     "meta is root-only" \
     jq_skill_file "$TMP_DIR/meta-root.json" -e -f "$NATIVE_SCRIPTS/validate-fragment.jq" --arg key 'demo|remote'
 
+# source.command is a single-line shell expression; kind/section keep their
+# current semantics.
+source_frag="$TMP_DIR/source-command.json"
+cp "$FIXTURES/fragments/with-choice/_root.json" "$source_frag"
+for cmd in 'demo --help | cat' 'demo --help; demo remote --help' \
+    "demo --help | sed 's/^/x/'" 'demo --help 2>/dev/null' \
+    'demo --help && demo remote --help' 'demo --help || man demo' \
+    'LANG=C demo --help' 'help cd'; do
+    fragment_jq "$source_frag" --arg cmd "$cmd" '.source.command = $cmd'
+    check "validator accepts source.command: $cmd" validate_fragment "$source_frag"
+done
+fragment_jq "$source_frag" '.source.command = ""'
+check_rejects "validator rejects empty source.command" \
+    "source.command must be a non-empty single-line shell expression" validate_fragment "$source_frag"
+fragment_jq "$source_frag" '.source.command = "   "'
+check_rejects "validator rejects whitespace source.command" \
+    "source.command must be a non-empty single-line shell expression" validate_fragment "$source_frag"
+fragment_jq "$source_frag" '.source.command = "demo --help\ncat"'
+check_rejects "validator rejects newline source.command" \
+    "source.command must be a non-empty single-line shell expression" validate_fragment "$source_frag"
+fragment_jq "$source_frag" '.source.command = "demo --help\tcat"'
+check_rejects "validator rejects tab source.command" \
+    "source.command must be a non-empty single-line shell expression" validate_fragment "$source_frag"
+
 helper_finish

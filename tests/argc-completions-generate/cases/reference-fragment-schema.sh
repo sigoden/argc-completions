@@ -32,14 +32,19 @@ doc_contains "$doc" \
     "choices entries must be objects {value, description}" \
     "_static_"
 
-# Shared help and terminated values.
+# Shared help, shell expressions, and terminated values.
 doc_contains "$doc" \
     '"section": "<name>"' \
     'A terminated arg renders as `<name>~` alone' \
     'A terminated arg skips all of them' \
     '`hash`' \
     '"hash": ""' \
-    "space-separated safe token string" \
+    "single-line shell expression" \
+    "bash -c" \
+    "deterministic" \
+    "side-effect-free" \
+    "the hash covers exactly the canonical text" \
+    "a backward-compatible widening" \
     "SKILL_CACHE_VERSION" \
     "fragment-hash.sh" \
     "context that can change completion behavior" \

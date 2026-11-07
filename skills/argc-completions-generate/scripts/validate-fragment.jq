@@ -27,9 +27,9 @@ def cmd_name: no_nl and test("^[-A-Za-z0-9_][A-Za-z0-9_.:+@-]*$");
 def hex64: test("^[0-9a-f]{64}$");
 def source_command_ok:
   is_str
-  and test("^[A-Za-z0-9_.+:@/-]+( [A-Za-z0-9_.+:@/-]+)*$")
-  and . != "help"
-  and (if startswith("help ") then (split(" ") | length == 2) else true end);
+  and length > 0
+  and test("\\S")
+  and (test("[[:cntrl:]]") | not);
 def opt_name: no_nl and no_tick and test("^[-+][^[:space:]`|]+$");
 def short_name: test("^[-+][^-]$");
 def extra_name: test("^[-+][^-]$") or test("^--.") or test("^-[^-].+$");
@@ -257,7 +257,7 @@ def validate($key):
       | if (.source | has("command")) then fail("source.kind none must not have source.command") else . end
     else
       (if (.hash | hex64) then . else fail("hash must be 64 lowercase hex characters") end)
-      | if (.source.command | source_command_ok) then . else fail("source.command must be a safe token string") end
+      | if (.source.command | source_command_ok) then . else fail("source.command must be a non-empty single-line shell expression") end
     end
   | if ((.notes // "") | is_str and no_nl) then . else fail("notes must be a single-line string") end
   | if ((.items // []) | all(to_entries[]; .key as $i | .value | item_ok($i))) then true else fail("invalid items") end
@@ -271,7 +271,19 @@ if ($ARGS.named.mode // "validate") == "records" then
 elif $ARGS.named.mode == "extract" then
     # Records without the schema verdict, for a caller that runs its own checks
     # over individual fields (verify-completion's provenance and cache hygiene).
-    fragment_records($key)
+    # The record stream is line-based and US-separated, so a control character
+    # in source.command would corrupt every later record and could make a
+    # truncated command look valid; reject it before rendering anything. A
+    # `none` fragment must not carry a command at all.
+    (if ((.source | type) == "object") then
+         (if ((.source.kind // "") == "none") then
+              (if (.source | has("command")) then
+                   fail("source.kind none must not have source.command")
+               else . end)
+          elif ((.source.command // null) | source_command_ok) then .
+          else fail("source.command must be a non-empty single-line shell expression") end)
+     else . end)
+    | fragment_records($key)
 else
     validate($key)
 end
