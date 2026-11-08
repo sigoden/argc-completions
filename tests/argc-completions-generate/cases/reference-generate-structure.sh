@@ -76,6 +76,11 @@ doc_contains "$doc" \
     '--output "$output_file"' \
     '"$output_file" --cache-dir'
 
+# A detected bridge is a pre-workflow shortcut owned by SKILL.md.
+doc_contains "$doc" \
+    '`bridge`' \
+    'bridge shortcut in `<SKILL_ROOT>/SKILL.md` §Choose a workflow'
+
 # The orchestrator owns the single retry and the fallback fragment.
 doc_contains "$doc" \
     "This is the only retry" \

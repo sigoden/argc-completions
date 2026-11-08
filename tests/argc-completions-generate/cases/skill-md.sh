@@ -31,6 +31,13 @@ doc_contains "$doc" \
     '| `all` | Brand-new command (`existing=0`)' \
     "next=add-choice-fns"
 
+# A detected bridge is a shortcut that replaces generation with a template copy.
+doc_contains "$doc" \
+    'bridge=<name>' \
+    '<REPO_ROOT>/bridges/<bridge>.sh' \
+    'Bridge shortcut' \
+    'output_file'
+
 # Root identity vs invocation form for external subcommands.
 doc_contains "$doc" \
     "keys every artifact path" \

@@ -28,6 +28,10 @@ preflight_run() {
     quiet bash "$SCRIPTS/preflight.sh" "$@" >"$out"
 }
 
+# Keep bridge detection deterministic: the positive case seeds this directory
+# instead of relying on the host's installed completions.
+export BASH_COMPLETION_USER_DIR="$TMP_DIR/bc-empty"
+
 # --- no cache yet ---------------------------------------------------------
 rm -rf "$ROOT_DIR/cache/compile/demo"
 cp "$FIXTURES/contexts/context.sh" "$TMP_DIR/existing.sh"
@@ -39,6 +43,7 @@ assert_has_line "preflight cache dir" "$preflight_out" "cache_dir=$ROOT_DIR/cach
 assert_has_line "preflight cache exists flag" "$preflight_out" 'cache_exists=0'
 assert_has_line "preflight root fragment flag" "$preflight_out" 'root_fragment_exists=0'
 assert_has_line "preflight empty cache version" "$preflight_out" 'cache_version='
+assert_has_line "preflight bridge empty" "$preflight_out" 'bridge='
 
 preflight_run "$TMP_DIR/preflight-paths.txt"
 assert_has_line "preflight paths skill root" "$TMP_DIR/preflight-paths.txt" "skill_root=$SKILL_DIR"
@@ -152,6 +157,24 @@ assert_has_line "preflight no host completion source" "$TMP_DIR/preflight-no-hos
 # A root without a dash never enters external mode.
 assert_has_line "preflight plain root invoke" "$preflight_out" 'invoke=demo'
 assert_has_line "preflight plain root source" "$preflight_out" 'invoke_source=root'
+
+# --- bridge detection ------------------------------------------------------
+# A seeded cobra completion makes preflight report the bridge it detects.
+pf_bridge_root="pfbridge$$"
+cat >"$TMP_DIR/bin/$pf_bridge_root" <<'DEMO'
+#!/usr/bin/env bash
+# Bridge fixture: preflight only checks that it exists.
+exit 0
+DEMO
+chmod +x "$TMP_DIR/bin/$pf_bridge_root"
+mkdir -p "$TMP_DIR/bc/completions"
+cat >"$TMP_DIR/bc/completions/$pf_bridge_root" <<'COMPLETION'
+__complete
+shellCompDirectiveNoFileComp
+COMPLETION
+quiet env BASH_COMPLETION_USER_DIR="$TMP_DIR/bc" \
+    bash "$SCRIPTS/preflight.sh" "$pf_bridge_root" >"$TMP_DIR/preflight-bridge.txt"
+assert_has_line "preflight bridge detected" "$TMP_DIR/preflight-bridge.txt" 'bridge=cobra'
 
 expect_failure "preflight missing command" bash "$SCRIPTS/preflight.sh" no-such-command-xyz
 
