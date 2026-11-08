@@ -442,6 +442,19 @@ resolve_other_completion_file() {
     return 1
 }
 
+# completion_bridge_name <file>: print the bridge name when <file> is a copy of
+# bridges/<name>.sh, or nothing otherwise. A bridge completion binds
+# `_choice_bridge_<name>` in a SPEC @arg/@option/@flag line; matching only those
+# lines keeps an unrelated CHOICES function from counting as a bridge.
+completion_bridge_name() {
+    local ref
+    ref="$(grep -E '^# @(arg|option|flag) ' "$1" |
+        grep -oE '`_choice_bridge_[A-Za-z0-9_]+`' |
+        head -n 1 | tr -d '`' || true)"
+    [[ -n "$ref" ]] || return 0
+    printf '%s\n' "${ref#_choice_bridge_}"
+}
+
 # --- help canonicalization --------------------------------------------------
 
 canonicalize_help() {

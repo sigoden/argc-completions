@@ -16,7 +16,8 @@ It prints absolute `key=value` lines. The workflow uses these keys:
 - `cache_dir`, `cache_exists`, `root_fragment_exists`: the cache directory and its state.
 - `cache_version`: the root fragment's `schemaVersion`. A value other than `1` is a schema-invalid cache, so every node recompiles with `reason=schema`.
 - `invoke` and `invoke_source`: the words that actually run the root and how they were resolved. `invoke_source=external-subcommands` means the root is an external subcommand (`cargo-audit` -> `cargo audit`); `invoke_source=root` means `invoke` is `<root>`.
-- `bridge`: the known bridge that generated `<root>`'s installed bash completion (`click`, `typer`, `cobra`, `argcomplete`, `clap`, `urfave`, or `yargs`), or empty when none matches. A non-empty value selects the bridge shortcut in `<SKILL_ROOT>/SKILL.md` §Choose a workflow before this workflow starts.
+- `bridge`: the known bridge that generated `<root>`'s installed bash completion (`click`, `typer`, `cobra`, `argcomplete`, `clap`, `urfave`, or `yargs`), or empty when none matches. A non-empty value selects the bridge shortcut in `<SKILL_ROOT>/SKILL.md` §Bridge shortcut before this workflow starts.
+- `completion_is_bridge`: `1` when `completion_file` already binds `_choice_bridge_<name>` in `SPEC`, meaning it is a copy of `<REPO_ROOT>/bridges/<name>.sh`; `0` when no completion exists or it was generated from fragments. The shortcut rules are in `<SKILL_ROOT>/SKILL.md` §Bridge shortcut.
 - `prompt_region`: `1` when the script has a `HINTS` block; diagnostic only.
 
 Rules:

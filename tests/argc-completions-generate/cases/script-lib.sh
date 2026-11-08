@@ -28,6 +28,13 @@ if has_command cygpath; then
         test "$(skill_fn absolute_path "C:/x")" = '/c/x'
 fi
 
+# --- completion bridge detection -------------------------------------------
+check "bridge name from a copied template" \
+    test "$(skill_fn completion_bridge_name "$ROOT_DIR/bridges/cobra.sh")" = cobra
+printf '#!/usr/bin/env bash\n# @arg words\n_choice_bridge_fake() { :; }\n' >"$TMP_DIR/plain.sh"
+check "no bridge name without a SPEC binding" \
+    test -z "$(skill_fn completion_bridge_name "$TMP_DIR/plain.sh")"
+
 # --- help canonicalization ------------------------------------------------
 # canonicalize_help_file must reject a non-.txt output name (compile contract).
 guard_in="$TMP_DIR/help-guard-in.txt"

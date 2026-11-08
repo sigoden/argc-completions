@@ -32,11 +32,14 @@ doc_contains "$doc" \
     "next=add-choice-fns"
 
 # A detected bridge is a shortcut that replaces generation with a template copy.
+# An existing bridge is refreshed without asking; only a new one prompts.
 doc_contains "$doc" \
     'bridge=<name>' \
-    '<REPO_ROOT>/bridges/<bridge>.sh' \
+    'completion_is_bridge=0|1' \
     'Bridge shortcut' \
-    'output_file'
+    '<REPO_ROOT>/bridges/<bridge>.sh' \
+    'output_file' \
+    'Copy the detected bridge without asking and stop'
 
 # Root identity vs invocation form for external subcommands.
 doc_contains "$doc" \

@@ -95,14 +95,7 @@ derive_cmd() {
 # A bridge completion hands its words to `_choice_bridge_<name>`, a copy of
 # bridges/<name>.sh. It only forwards to the framework hook, so it has no
 # argparse model to answer --help and never generates cache fragments.
-detect_bridge() {
-    local ref
-    ref="$(grep -E '^# @(arg|option|flag) ' "$1" |
-        grep -oE '`_choice_bridge_[A-Za-z0-9_]+`' |
-        head -n 1 | tr -d '`' || true)"
-    [[ -n "$ref" ]] || return 0
-    printf '%s\n' "${ref#_choice_bridge_}"
-}
+# completion_bridge_name in lib.sh owns the detection.
 
 parse_args() {
     while [[ $# -gt 0 ]]; do
@@ -150,7 +143,7 @@ setup() {
     # The root command is the first word; it names the cache directory and the
     # command block, and it is also the fragment key root.
     root_cmd="${cmd%% *}"
-    bridge="$(detect_bridge "$file")"
+    bridge="$(completion_bridge_name "$file")"
 
     require_cmd argc
     require_cmd jq
