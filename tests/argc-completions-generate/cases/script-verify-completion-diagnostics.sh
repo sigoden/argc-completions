@@ -37,6 +37,16 @@ printf '#!/usr/bin/env bash\n# only a shebang\n' >"$TMP_DIR/no-help.sh"
 expect_failure "verify empty help output" \
     bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/no-help.sh" --skip-compgen
 
+# A bridge copy forwards every word to the framework hook, so it has no
+# argparse --help model and no fragments; verify recognizes the binding and
+# only notes that --cache-dir does not apply.
+cp "$ROOT_DIR/bridges/cobra.sh" "$TMP_DIR/bridge-demo.sh"
+verify_check "verify accepts a bridge completion" "$TMP_DIR/bridge-demo.sh"
+check_output "verify ignores cache-dir for a bridge completion" \
+    "NOTE  bridge completion has no fragments" \
+    bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/bridge-demo.sh" --cmd demo --skip-compgen \
+    --cache-dir "$TMP_DIR/absent-cache"
+
 # Strict mode turns a warning (no shebang) into a failure; --no-strict does not.
 sed '1d' "$new_script" >"$TMP_DIR/no-shebang.sh"
 verify_fails "verify strict treats warnings as failures" "$TMP_DIR/no-shebang.sh"

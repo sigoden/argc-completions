@@ -2,7 +2,7 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # >>> SPEC
-# @arg words~[`_bridge_argcomplete`]
+# @arg words~[`_choice_bridge_argcomplete`]
 # <<< SPEC
 
 # >>> HINTS
@@ -14,7 +14,7 @@ if [[ -n "$ARGC_COMPLETIONS_ROOT" && -f "$ARGC_COMPLETIONS_ROOT/utils/_argc_util
     . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 fi
 
-_bridge_argcomplete() {
+_choice_bridge_argcomplete() {
     local line="" word output
     for word in "${argc__args[@]}"; do
         line+="${line:+ }$(_helper_argcomplete_quote "$word")"

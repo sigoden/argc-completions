@@ -2,7 +2,7 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # >>> SPEC
-# @arg words~[`_bridge_urfave`]
+# @arg words~[`_choice_bridge_urfave`]
 # <<< SPEC
 
 # >>> HINTS
@@ -14,7 +14,7 @@ if [[ -n "$ARGC_COMPLETIONS_ROOT" && -f "$ARGC_COMPLETIONS_ROOT/utils/_argc_util
     . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 fi
 
-_bridge_urfave() {
+_choice_bridge_urfave() {
     local current="${argc__args[${#argc__args[@]}-1]}"
     local output candidate value description
     local -a argv=("${argc__args[@]:0:${#argc__args[@]}-1}")

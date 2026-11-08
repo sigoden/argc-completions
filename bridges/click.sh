@@ -2,7 +2,7 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # >>> SPEC
-# @arg words~[`_bridge_click`]
+# @arg words~[`_choice_bridge_click`]
 # <<< SPEC
 
 # >>> HINTS
@@ -14,7 +14,7 @@ if [[ -n "$ARGC_COMPLETIONS_ROOT" && -f "$ARGC_COMPLETIONS_ROOT/utils/_argc_util
     . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 fi
 
-_bridge_click() {
+_choice_bridge_click() {
     local prog="${argc__args[0]##*/}"
     local complete_var="_${prog^^}_COMPLETE"
     complete_var="${complete_var//-/_}"

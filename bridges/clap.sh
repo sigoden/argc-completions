@@ -2,7 +2,7 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # >>> SPEC
-# @arg words~[`_bridge_clap`]
+# @arg words~[`_choice_bridge_clap`]
 # <<< SPEC
 
 # >>> HINTS
@@ -14,7 +14,7 @@ if [[ -n "$ARGC_COMPLETIONS_ROOT" && -f "$ARGC_COMPLETIONS_ROOT/utils/_argc_util
     . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 fi
 
-_bridge_clap() {
+_choice_bridge_clap() {
     local output
     output="$(
         _CLAP_IFS=$'\n' \

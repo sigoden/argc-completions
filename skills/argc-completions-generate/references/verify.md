@@ -8,6 +8,8 @@ bash <SKILL_ROOT>/scripts/verify-completion.sh <completion.sh> [--cache-dir <dir
 
 The command name comes from the path: `<REPO_ROOT>/completions/git.sh` -> `git`, `<REPO_ROOT>/completions/cargo/audit.sh` -> `cargo audit`, `<REPO_ROOT>/completions/linux/foo.sh` -> `foo`, and an arbitrary temp path -> its basename without `.sh`. Use `--cmd` only for unusual layouts.
 
+A bridge completion is recognized by a structural tag that binds `_choice_bridge_<name>` (a copy of `<REPO_ROOT>/bridges/<name>.sh`). It only forwards words to the framework hook, so the help probe is skipped; an explicit `--cache-dir` is reported and ignored because a bridge copy never generates fragments.
+
 ## Checks
 
 The table maps each check to its action or to the section that owns the rule; it does not restate the rule.
@@ -17,7 +19,7 @@ Acceptance details: `HINTS` holds comment/blank lines only; `SPEC` defines no `_
 | Check | Action or authority |
 |---|---|
 | File and syntax | Fix the shebang or the `bash -n` failure. |
-| Help output | Make `bash <completion.sh> --help` exit 0 and print output. |
+| Help output | Make `bash <completion.sh> --help` exit 0 and print output; a bridge completion is exempt. |
 | Blocks | Add missing markers by hand, re-run assembly, or drop an empty `STATIC`/`CHOICES` pair. |
 | Block content | Re-run assembly for `SPEC`/`STATIC`; fix `HINTS` by hand or `CHOICES` with `<SKILL_ROOT>/scripts/format-choices.sh`. The `_static_` prefix is reserved for `STATIC` functions. |
 | `HINTS markers` | `<SKILL_ROOT>/references/troubleshooting.md` §Verify; the marker syntax is `<SKILL_ROOT>/SKILL.md` §Pipeline contract. |

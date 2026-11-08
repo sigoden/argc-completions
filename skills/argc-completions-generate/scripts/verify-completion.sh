@@ -39,6 +39,7 @@ skip_compgen=0
 strict=1
 
 root_cmd=""
+bridge=""
 tmp_dir=""
 failures=0
 warnings=0
@@ -91,6 +92,18 @@ derive_cmd() {
     printf '%s\n' "${rel//\// }"
 }
 
+# A bridge completion hands its words to `_choice_bridge_<name>`, a copy of
+# bridges/<name>.sh. It only forwards to the framework hook, so it has no
+# argparse model to answer --help and never generates cache fragments.
+detect_bridge() {
+    local ref
+    ref="$(grep -E '^# @(arg|option|flag) ' "$1" |
+        grep -oE '`_choice_bridge_[A-Za-z0-9_]+`' |
+        head -n 1 | tr -d '`' || true)"
+    [[ -n "$ref" ]] || return 0
+    printf '%s\n' "${ref#_choice_bridge_}"
+}
+
 parse_args() {
     while [[ $# -gt 0 ]]; do
         case "$1" in
@@ -137,6 +150,7 @@ setup() {
     # The root command is the first word; it names the cache directory and the
     # command block, and it is also the fragment key root.
     root_cmd="${cmd%% *}"
+    bridge="$(detect_bridge "$file")"
 
     require_cmd argc
     require_cmd jq
@@ -157,7 +171,14 @@ setup() {
     : >"$static_region"
     region_file="$file"
 
-    echo "verify: $file (cmd=$cmd)"
+    if [[ -n "$bridge" ]]; then
+        echo "verify: $file (cmd=$cmd, bridge=$bridge)"
+        if [[ -n "$fragments" ]]; then
+            printf 'NOTE  bridge completion has no fragments; --cache-dir ignored\n'
+        fi
+    else
+        echo "verify: $file (cmd=$cmd)"
+    fi
 }
 
 # --- file -------------------------------------------------------------------
@@ -179,6 +200,10 @@ check_syntax() {
 }
 
 check_help_output() {
+    if [[ -n "$bridge" ]]; then
+        pass "help output (bridge completion)"
+        return 0
+    fi
     # argparse prints its help to stderr in some argc versions; accept either stream.
     if (cd "$REPO_ROOT" && ARGC_COMPLETIONS_ROOT="$REPO_ROOT" bash "$(native_path "$file")" --help) >"$tmp_dir/help.out" 2>"$tmp_dir/help.err"; then
         if [[ -s "$tmp_dir/help.out" || -s "$tmp_dir/help.err" ]]; then
@@ -657,7 +682,7 @@ check_bindings() {
     local -A export_name=() export_name_fn=() export_arg=() export_arg_fn=() export_path=()
     local -A export_name_term=() export_arg_term=()
 
-    [[ -n "$fragments" && -s "$export_json" ]] || return 0
+    [[ -n "$fragments" && -s "$export_json" && -z "$bridge" ]] || return 0
 
     if ! fragments_dir="$(cd -P "$fragments" 2>/dev/null && pwd -P)" || [[ -z "$fragments_dir" ]]; then
         fail "fragment bindings: cannot read cache dir $fragments"
@@ -813,7 +838,7 @@ check_bindings() {
 # Exact SPEC and STATIC block comparison.
 check_block_fidelity() {
     local expected_dir expected_gen expected_static assemble_err
-    [[ -n "$fragments" ]] || return 0
+    [[ -n "$fragments" && -z "$bridge" ]] || return 0
     if [[ "$layout" != "new" ]]; then
         fail "cache-dir requires a script with SPEC blocks"
         return 0
@@ -883,7 +908,7 @@ frag_hash_ok() {
 # marks it, so equal commands are expected there.
 check_provenance() {
     local prov_dir frag base child_command parent parent_command prov_bad=0
-    [[ -n "$fragments" && "$layout" == "new" ]] || return 0
+    [[ -n "$fragments" && "$layout" == "new" && -z "$bridge" ]] || return 0
     prov_dir="$(cd -P "$fragments" 2>/dev/null && pwd -P)" || return 0
     while IFS= read -r frag; do
         base="${frag#"$prov_dir"/}"
@@ -920,7 +945,7 @@ check_provenance() {
 # a fragment must carry a valid hash/source.command pair.
 check_cache_hygiene() {
     local hyg_dir hyg_file hyg_rel hyg_bad=0
-    [[ -n "$fragments" && "$layout" == "new" ]] || return 0
+    [[ -n "$fragments" && "$layout" == "new" && -z "$bridge" ]] || return 0
     hyg_dir="$(cd -P "$fragments" 2>/dev/null && pwd -P)" || return 0
     while IFS= read -r hyg_file; do
         hyg_rel="${hyg_file#"$hyg_dir"/}"

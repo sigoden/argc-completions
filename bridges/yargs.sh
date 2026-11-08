@@ -2,7 +2,7 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # >>> SPEC
-# @arg words~[`_bridge_yargs`]
+# @arg words~[`_choice_bridge_yargs`]
 # <<< SPEC
 
 # >>> HINTS
@@ -14,7 +14,7 @@ if [[ -n "$ARGC_COMPLETIONS_ROOT" && -f "$ARGC_COMPLETIONS_ROOT/utils/_argc_util
     . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 fi
 
-_bridge_yargs() {
+_choice_bridge_yargs() {
     local output candidate value description
     output="$(
         SHELL=/bin/zsh \

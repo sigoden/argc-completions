@@ -2,7 +2,7 @@
 # Automatic generated, DON'T MODIFY IT.
 
 # >>> SPEC
-# @arg words~[`_bridge_cobra`]
+# @arg words~[`_choice_bridge_cobra`]
 # <<< SPEC
 
 # >>> HINTS
@@ -14,7 +14,7 @@ if [[ -n "$ARGC_COMPLETIONS_ROOT" && -f "$ARGC_COMPLETIONS_ROOT/utils/_argc_util
     . "$ARGC_COMPLETIONS_ROOT/utils/_argc_utils.sh"
 fi
 
-_bridge_cobra() {
+_choice_bridge_cobra() {
     local -a lines=() values=() filtered=()
     local line flag exts
     mapfile -t lines < <("${argc__args[0]}" __complete "${argc__args[@]:1}" 2>/dev/null)
