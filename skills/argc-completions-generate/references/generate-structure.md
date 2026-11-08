@@ -114,7 +114,7 @@ A missing script prints empty output. The format is fixed:
 
 ```text
 # >>> META
-# @meta inherit-flag-options
+# @meta combine-shorts
 # <<< META
 
 # >>> HINTS
