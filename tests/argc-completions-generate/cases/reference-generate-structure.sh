@@ -79,7 +79,7 @@ doc_contains "$doc" \
 # A detected bridge is a pre-workflow shortcut owned by SKILL.md.
 doc_contains "$doc" \
     '`bridge`' \
-    '`completion_is_bridge`' \
+    '`completion_bridge`' \
     'bridge shortcut in `<SKILL_ROOT>/SKILL.md` §Bridge shortcut'
 
 # The orchestrator owns the single retry and the fallback fragment.

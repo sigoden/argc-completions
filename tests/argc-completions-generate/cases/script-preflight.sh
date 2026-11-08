@@ -44,7 +44,7 @@ assert_has_line "preflight cache exists flag" "$preflight_out" 'cache_exists=0'
 assert_has_line "preflight root fragment flag" "$preflight_out" 'root_fragment_exists=0'
 assert_has_line "preflight empty cache version" "$preflight_out" 'cache_version='
 assert_has_line "preflight bridge empty" "$preflight_out" 'bridge='
-assert_has_line "preflight generated completion is not a bridge" "$preflight_out" 'completion_is_bridge=0'
+assert_has_line "preflight generated completion is not a bridge" "$preflight_out" 'completion_bridge='
 
 preflight_run "$TMP_DIR/preflight-paths.txt"
 assert_has_line "preflight paths skill root" "$TMP_DIR/preflight-paths.txt" "skill_root=$SKILL_DIR"
@@ -61,7 +61,7 @@ assert_has_line "preflight prompt region" "$TMP_DIR/preflight-new.txt" 'prompt_r
 preflight_run "$TMP_DIR/preflight-missing.txt" demo --output "$TMP_DIR/new-out.sh"
 assert_has_line "preflight missing completion" "$TMP_DIR/preflight-missing.txt" 'existing=0'
 assert_has_line "preflight missing blocks" "$TMP_DIR/preflight-missing.txt" 'blocks=missing'
-assert_has_line "preflight missing is not a bridge" "$TMP_DIR/preflight-missing.txt" 'completion_is_bridge=0'
+assert_has_line "preflight missing is not a bridge" "$TMP_DIR/preflight-missing.txt" 'completion_bridge='
 
 printf '#!/usr/bin/env bash\n# @cmd Demo\ndemo() { :; }\n' >"$TMP_DIR/unmarked.sh"
 preflight_run "$TMP_DIR/preflight-unmarked.txt" demo --completion "$TMP_DIR/unmarked.sh"
@@ -178,17 +178,18 @@ quiet env BASH_COMPLETION_USER_DIR="$TMP_DIR/bc" \
     bash "$SCRIPTS/preflight.sh" "$pf_bridge_root" >"$TMP_DIR/preflight-bridge.txt"
 assert_has_line "preflight bridge detected" "$TMP_DIR/preflight-bridge.txt" 'bridge=cobra'
 
-# A local completion copied from bridges/ is already a bridge, so preflight
-# reports it even though the generated script has no fragments.
+# A completion copied from bridges/ is already a bridge, so preflight reports
+# the recorded name even when no system completion exists to detect.
 cp "$ROOT_DIR/bridges/cobra.sh" "$TMP_DIR/local-bridge.sh"
 preflight_run "$TMP_DIR/preflight-local-bridge.txt" demo --completion "$TMP_DIR/local-bridge.sh"
-assert_has_line "preflight local bridge" "$TMP_DIR/preflight-local-bridge.txt" 'completion_is_bridge=1'
+assert_has_line "preflight local bridge" "$TMP_DIR/preflight-local-bridge.txt" 'completion_bridge=cobra'
+assert_has_line "preflight local bridge needs no detection" "$TMP_DIR/preflight-local-bridge.txt" 'bridge='
 
 # Only a SPEC binding counts: a same-named function without a binding is not a
 # bridge completion.
 printf '#!/usr/bin/env bash\n# @arg words\n_choice_bridge_fake() { :; }\n' >"$TMP_DIR/fake-bridge.sh"
 preflight_run "$TMP_DIR/preflight-fake-bridge.txt" demo --completion "$TMP_DIR/fake-bridge.sh"
-assert_has_line "preflight fake bridge reference" "$TMP_DIR/preflight-fake-bridge.txt" 'completion_is_bridge=0'
+assert_has_line "preflight fake bridge reference" "$TMP_DIR/preflight-fake-bridge.txt" 'completion_bridge='
 
 expect_failure "preflight missing command" bash "$SCRIPTS/preflight.sh" no-such-command-xyz
 

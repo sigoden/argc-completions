@@ -182,11 +182,12 @@ fi
 # generating fragments. detect-bridge.sh exits 1 when nothing matches.
 bridge="$(bash "$SCRIPT_DIR/detect-bridge.sh" "$root" 2>/dev/null || true)"
 
-# completion_is_bridge=1 means the resolved completion is already a copy of a
-# bridge template, so the bridge shortcut can refresh it without asking.
-completion_is_bridge=0
-if [[ -n "$completion_file" ]] && [[ -n "$(completion_bridge_name "$completion_file")" ]]; then
-    completion_is_bridge=1
+# completion_bridge=<name> is the bridge a local completion was copied from,
+# detected by the `_choice_bridge_<name>` binding in its SPEC. Empty when the
+# completion is generated from fragments or does not exist.
+completion_bridge=""
+if [[ -n "$completion_file" ]]; then
+    completion_bridge="$(completion_bridge_name "$completion_file")"
 fi
 
 printf 'root=%s\n' "$root"
@@ -194,7 +195,7 @@ printf 'command=%s\n' "$(command -v "$root")"
 printf 'invoke=%s\n' "$invoke"
 printf 'invoke_source=%s\n' "$invoke_source"
 printf 'bridge=%s\n' "$bridge"
-printf 'completion_is_bridge=%s\n' "$completion_is_bridge"
+printf 'completion_bridge=%s\n' "$completion_bridge"
 printf 'os=%s\n' "$(detect_os)"
 printf 'existing=%s\n' "$existing"
 printf 'completion_file=%s\n' "$completion_file"

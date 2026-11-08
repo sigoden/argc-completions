@@ -35,7 +35,7 @@ doc_contains "$doc" \
 # An existing bridge is refreshed without asking; only a new one prompts.
 doc_contains "$doc" \
     'bridge=<name>' \
-    'completion_is_bridge=0|1' \
+    'completion_bridge=<name>' \
     'Bridge shortcut' \
     '<REPO_ROOT>/bridges/<bridge>.sh' \
     'output_file' \
