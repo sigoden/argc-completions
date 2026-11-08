@@ -51,7 +51,8 @@ check_rejects "validator rejects any meta on a subcommand" \
 source_frag="$TMP_DIR/source-command.json"
 cp "$FIXTURES/fragments/with-choice/_root.json" "$source_frag"
 for cmd in 'demo --help | cat' 'demo --help; demo remote --help' \
-    "demo --help | sed 's/^/x/'" 'demo --help 2>/dev/null' \
+    "demo --help | sed 's/^/x/'" \
+    'demo --help 2>/dev/null' \
     'demo --help && demo remote --help' 'demo --help || man demo' \
     'LANG=C demo --help' 'help cd'; do
     fragment_jq "$source_frag" --arg cmd "$cmd" '.source.command = $cmd'

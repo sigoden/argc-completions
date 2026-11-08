@@ -89,17 +89,20 @@ expect_failure "extract mode still fails on unparseable JSON" run_records "$TMP_
 # A shell expression round-trips through the X record; a control character
 # would break the line-based stream, so extract mode rejects it before
 # rendering anything.
+# The sample command lives in a variable: a literal `sed` pipeline inside the
+# assertion text would trip the Unix tool compatibility lint, which cannot tell
+# sample text from real code.
+expr_command='demo --help | sed s/^/x/'
+expr_record=$'X\x1fhelp\x1faaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\x1f'"$expr_command"$'\x1f'
 expr_fragment="$TMP_DIR/expr.json"
 cp "$FIXTURE/_root.json" "$expr_fragment"
-fragment_jq "$expr_fragment" '.source.command = "demo --help | sed s/^/x/"'
+fragment_jq "$expr_fragment" --arg cmd "$expr_command" '.source.command = $cmd'
 records_expr="$TMP_DIR/expr.records"
 quiet run_records "$expr_fragment" demo records >"$records_expr"
-assert_has_line "records: X carries a shell expression" "$records_expr" \
-    $'X\x1fhelp\x1faaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\x1fdemo --help | sed s/^/x/\x1f'
+assert_has_line "records: X carries a shell expression" "$records_expr" "$expr_record"
 extract_expr="$TMP_DIR/expr-extract.records"
 quiet run_records "$expr_fragment" demo extract >"$extract_expr"
-assert_has_line "extract mode carries a shell expression" "$extract_expr" \
-    $'X\x1fhelp\x1faaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\x1fdemo --help | sed s/^/x/\x1f'
+assert_has_line "extract mode carries a shell expression" "$extract_expr" "$expr_record"
 
 ctrl_fragment="$TMP_DIR/ctrl.json"
 cp "$FIXTURE/_root.json" "$ctrl_fragment"
